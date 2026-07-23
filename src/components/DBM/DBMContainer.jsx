@@ -17,6 +17,8 @@ import { useDBMHistory } from './hooks/useDBMHistory';
 import { useFirestoreSync } from './hooks/useFirestoreSync';
 import { fetchGeminiContent } from '../../services/bastionService';
 
+const EMPTY_CONFIG = {};
+
 export const DBMContainer = () => {
   const [devMode, setDevMode] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -50,7 +52,7 @@ export const DBMContainer = () => {
   const parentConfig = categoryConfig[activeCategory];
   const currentConfig = (activeSubcategory && parentConfig?.subcategories?.[activeSubcategory])
     || categoryConfig[currentKey]
-    || {};
+    || EMPTY_CONFIG;
 
   const { dbData, saveEntry, deleteEntry, importJSON } = useFirestoreSync(currentKey);
   const currentItems = dbData[currentKey] || [];

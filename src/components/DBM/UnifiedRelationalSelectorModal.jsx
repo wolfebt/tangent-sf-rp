@@ -3,6 +3,12 @@ import { db } from '../../firebase';
 import { collection, getDocs, setDoc, doc } from 'firebase/firestore';
 import { categoryConfig } from './categoryConfig';
 
+const EMPTY_CONFIG = {};
+const DEFAULT_SCHEMA_FIELDS = {
+  name: { type: 'text', required: true },
+  description: { type: 'textarea' }
+};
+
 const getCollectionConfig = (colKey) => {
   if (!colKey) return null;
   if (categoryConfig[colKey]) return categoryConfig[colKey];
@@ -53,11 +59,8 @@ export const UnifiedRelationalSelectorModal = ({
 
   const selectorFetchedRef = useRef({});
 
-  const colConfig = getCollectionConfig(sourceCollection) || {};
-  const schemaFields = colConfig.fields || {
-    name: { type: 'text', required: true },
-    description: { type: 'textarea' }
-  };
+  const colConfig = getCollectionConfig(sourceCollection) || EMPTY_CONFIG;
+  const schemaFields = colConfig.fields || DEFAULT_SCHEMA_FIELDS;
 
   // Reset modal state on open or sourceCollection change
   useEffect(() => {
@@ -161,7 +164,7 @@ export const UnifiedRelationalSelectorModal = ({
     onClose();
   };
 
-  const handleSaveNewItem = (e) => {
+  const handleSaveNewItem = async (e) => {
     if (e) {
       e.preventDefault();
       e.stopPropagation();
@@ -174,57 +177,63 @@ export const UnifiedRelationalSelectorModal = ({
     }
 
     setSavingNew(true);
-    const newId = `${sourceCollection}_${Date.now()}`;
-    const payload = {
-      id: newId,
-      ...newFormData,
-      name: itemName,
-      description: (newFormData.description || '').trim(),
-      createdAt: new Date().toISOString()
-    };
+    try {
+      const newId = `${sourceCollection}_${Date.now()}`;
+      const payload = {
+        id: newId,
+        ...newFormData,
+        name: itemName,
+        description: (newFormData.description || '').trim(),
+        createdAt: new Date().toISOString()
+      };
 
-    // 1. Update local items list
-    setItems(prev => [...prev, payload]);
+      // 1. Update local items list
+      setItems(prev => [...prev, payload]);
 
-    // 2. Update global dbData state & local storage
-    if (saveEntry) {
-      saveEntry(payload, sourceCollection);
-    }
-
-    // 3. Notify parent DBMItemModal
-    if (onItemCreated) {
-      onItemCreated(sourceCollection, payload);
-    }
-
-    // 4. Update selection array & confirm to parent form
-    const selectVal = payload.name || payload.id;
-    let updatedSelected = [...currentSelected];
-    if (isMulti) {
-      if (!updatedSelected.includes(selectVal)) {
-        updatedSelected.push(selectVal);
+      // 2. Update global dbData state & local storage
+      if (saveEntry) {
+        await saveEntry(payload, sourceCollection);
       }
-    } else {
-      updatedSelected = [selectVal];
+
+      // 3. Notify parent DBMItemModal
+      if (onItemCreated) {
+        onItemCreated(sourceCollection, payload);
+      }
+
+      // 4. Update selection array & confirm to parent form
+      const selectVal = payload.name || payload.id;
+      let updatedSelected = [...currentSelected];
+      if (isMulti) {
+        if (!updatedSelected.includes(selectVal)) {
+          updatedSelected.push(selectVal);
+        }
+      } else {
+        updatedSelected = [selectVal];
+      }
+
+      setCurrentSelected(updatedSelected);
+
+      if (isMulti) {
+        onSelect(updatedSelected);
+      } else {
+        onSelect(updatedSelected[0] || '');
+      }
+
+      // 5. Reset internal form state and close modal immediately (0ms delay)
+      setNewFormData({ name: '', description: '' });
+      setIsCreatingNew(false);
+      onClose();
+
+      // 6. Non-blocking background Firestore sync
+      setDoc(doc(db, sourceCollection, newId), payload).catch(err => {
+        console.warn("Background cloud sync note:", err.message);
+      });
+    } catch (err) {
+      console.error("Error saving new relational item:", err);
+      alert("Failed to save item: " + err.message);
+    } finally {
+      setSavingNew(false);
     }
-
-    setCurrentSelected(updatedSelected);
-
-    if (isMulti) {
-      onSelect(updatedSelected);
-    } else {
-      onSelect(updatedSelected[0] || '');
-    }
-
-    // 5. Reset internal form state and close modal immediately (0ms delay)
-    setNewFormData({ name: '', description: '' });
-    setIsCreatingNew(false);
-    setSavingNew(false);
-    onClose();
-
-    // 6. Non-blocking background Firestore sync
-    setDoc(doc(db, sourceCollection, newId), payload).catch(err => {
-      console.warn("Background cloud sync note:", err.message);
-    });
   };
 
   return (

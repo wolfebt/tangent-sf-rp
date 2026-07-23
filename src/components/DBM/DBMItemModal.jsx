@@ -3,6 +3,11 @@ import { db } from '../../firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import { UnifiedRelationalSelectorModal } from './UnifiedRelationalSelectorModal';
 
+const DEFAULT_FIELDS = {
+  name: { type: 'text', required: true },
+  description: { type: 'textarea' }
+};
+
 export const DBMItemModal = ({
   isOpen,
   onClose,
@@ -54,11 +59,12 @@ export const DBMItemModal = ({
     }
     
     const fetchRelations = async () => {
-      const newRelData = { ...relationalData };
+      const fields = currentConfig.fields || DEFAULT_FIELDS;
       let updated = false;
+      const newRelData = {};
 
-      const promises = Object.keys(currentConfig.fields || {}).map(async (fieldKey) => {
-        const fieldDef = currentConfig.fields[fieldKey];
+      const promises = Object.keys(fields).map(async (fieldKey) => {
+        const fieldDef = fields[fieldKey];
         if (fieldDef.source && !fetchedRef.current[fieldDef.source]) {
           fetchedRef.current[fieldDef.source] = true;
           try {
@@ -78,7 +84,7 @@ export const DBMItemModal = ({
 
       await Promise.all(promises);
       if (updated) {
-        setRelationalData(newRelData);
+        setRelationalData(prev => ({ ...prev, ...newRelData }));
       }
     };
     fetchRelations();
@@ -86,24 +92,25 @@ export const DBMItemModal = ({
 
   // Normalize editFormData so all multiselect / manageable fields default to arrays
   useEffect(() => {
-    if (!isOpen || !currentConfig.fields) return;
+    const fields = currentConfig?.fields || DEFAULT_FIELDS;
+    if (!isOpen || !fields) return;
 
-    let needsUpdate = false;
-    const normalized = { ...editFormData };
+    setEditFormData(prev => {
+      let needsUpdate = false;
+      const normalized = { ...prev };
 
-    Object.keys(currentConfig.fields).forEach(fKey => {
-      const fDef = currentConfig.fields[fKey];
-      if (fDef.type === 'multiselect' || fDef.manageable) {
-        if (!Array.isArray(normalized[fKey])) {
-          normalized[fKey] = normalized[fKey] ? [normalized[fKey]] : [];
-          needsUpdate = true;
+      Object.keys(fields).forEach(fKey => {
+        const fDef = fields[fKey];
+        if (fDef.type === 'multiselect' || fDef.manageable) {
+          if (!Array.isArray(normalized[fKey])) {
+            normalized[fKey] = normalized[fKey] ? [normalized[fKey]] : [];
+            needsUpdate = true;
+          }
         }
-      }
-    });
+      });
 
-    if (needsUpdate) {
-      setEditFormData(normalized);
-    }
+      return needsUpdate ? normalized : prev;
+    });
   }, [isOpen, currentConfig]);
 
   // Recalculate Design DC whenever relevant form fields change
@@ -129,7 +136,7 @@ export const DBMItemModal = ({
         setEditFormData(prev => ({ ...prev, design_dc: dc }));
       }
     }
-  }, [editFormData.tl, editFormData.ml, editFormData.area, editFormData.effect, editFormData.range, editFormData.target, editFormData.component, editFormData.modes, isEditMode, currentKey, relationalData]);
+  }, [editFormData.tl, editFormData.ml, editFormData.area, editFormData.effect, editFormData.range, editFormData.target, editFormData.component, editFormData.modes, editFormData.design_dc, isEditMode, currentKey, relationalData]);
 
   if (!isOpen) return null;
 
@@ -423,14 +430,14 @@ export const DBMItemModal = ({
       </div>
 
       {/* Unified Relational Selector Sub-Modal */}
-      {activeSelectorField && currentConfig.fields[activeSelectorField] && (
+      {activeSelectorField && (
         <UnifiedRelationalSelectorModal
           isOpen={Boolean(activeSelectorField)}
           onClose={() => setActiveSelectorField(null)}
-          sourceCollection={currentConfig.fields[activeSelectorField].source}
-          isMulti={currentConfig.fields[activeSelectorField].type === 'multiselect' || currentConfig.fields[activeSelectorField].manageable}
+          sourceCollection={currentConfig.fields?.[activeSelectorField]?.source || activeSelectorField}
+          isMulti={currentConfig.fields?.[activeSelectorField]?.type === 'multiselect' || currentConfig.fields?.[activeSelectorField]?.manageable}
           selectedValues={Array.isArray(editFormData[activeSelectorField]) ? editFormData[activeSelectorField] : (editFormData[activeSelectorField] ? [editFormData[activeSelectorField]] : [])}
-          fieldLabel={currentConfig.fields[activeSelectorField].label || activeSelectorField.replace(/_/g, ' ').toUpperCase()}
+          fieldLabel={currentConfig.fields?.[activeSelectorField]?.label || activeSelectorField.replace(/_/g, ' ').toUpperCase()}
           onSelect={(newValues) => {
             setEditFormData(prev => ({ ...prev, [activeSelectorField]: newValues }));
           }}
