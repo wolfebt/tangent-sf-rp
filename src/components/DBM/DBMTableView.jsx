@@ -66,12 +66,14 @@ export const DBMTableView = ({
             Export JSON
           </button>
 
-          <button
-            onClick={handleCreateNew}
-            className="px-4 py-1.5 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-bold uppercase tracking-wider shadow-md transition-colors"
-          >
-            + ADD NEW ENTRY
-          </button>
+          {devMode && (
+            <button
+              onClick={handleCreateNew}
+              className="px-4 py-1.5 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-bold uppercase tracking-wider shadow-md transition-colors"
+            >
+              + ADD NEW ENTRY
+            </button>
+          )}
         </div>
       </div>
 

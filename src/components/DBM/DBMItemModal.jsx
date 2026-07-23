@@ -21,7 +21,8 @@ export const DBMItemModal = ({
   onSave,
   onDelete,
   dbData = {},
-  saveEntry
+  saveEntry,
+  devMode = false
 }) => {
   const [relationalData, setRelationalData] = useState({});
   const [activeSelectorField, setActiveSelectorField] = useState(null);
@@ -222,13 +223,15 @@ export const DBMItemModal = ({
                       <label className="block text-xs font-bold text-slate-400 uppercase">
                         {label} {fieldDef.required && '*'}
                       </label>
-                      <button
-                        type="button"
-                        onClick={() => toggleCustomInputMode(fieldKey)}
-                        className="text-[10px] text-amber-400 hover:text-amber-300 font-mono underline cursor-pointer"
-                      >
-                        {isCustomActive ? '✕ Cancel Custom' : '✍️ Custom Entry'}
-                      </button>
+                      {devMode && (
+                        <button
+                          type="button"
+                          onClick={() => toggleCustomInputMode(fieldKey)}
+                          className="text-[10px] text-amber-400 hover:text-amber-300 font-mono underline cursor-pointer"
+                        >
+                          {isCustomActive ? '✕ Cancel Custom' : '✍️ Custom Entry'}
+                        </button>
+                      )}
                     </div>
 
                     {/* INLINE CUSTOM ENTRY MODE FOR ALL FIELDS */}
@@ -431,6 +434,7 @@ export const DBMItemModal = ({
           }}
           dbData={dbData}
           saveEntry={saveEntry}
+          devMode={devMode}
         />
       )}
     </div>

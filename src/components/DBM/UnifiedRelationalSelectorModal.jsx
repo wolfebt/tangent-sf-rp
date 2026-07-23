@@ -44,7 +44,8 @@ export const UnifiedRelationalSelectorModal = ({
   fieldLabel = 'Items',
   onItemCreated,
   dbData = {},
-  saveEntry
+  saveEntry,
+  devMode = false
 }) => {
   const [items, setItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -248,17 +249,19 @@ export const UnifiedRelationalSelectorModal = ({
             <span className="text-xs text-slate-400 font-mono">Collection: {colConfig.label || sourceCollection}</span>
           </div>
           <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setIsCreatingNew(!isCreatingNew);
-              }}
-              className="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-bold uppercase transition-colors shadow flex items-center gap-1 cursor-pointer z-10"
-            >
-              {isCreatingNew ? '✕ Cancel New' : '✨ + Create New'}
-            </button>
+            {devMode && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setIsCreatingNew(!isCreatingNew);
+                }}
+                className="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-bold uppercase transition-colors shadow flex items-center gap-1 cursor-pointer z-10"
+              >
+                {isCreatingNew ? '✕ Cancel New' : '✨ + Create New'}
+              </button>
+            )}
             <button
               type="button"
               onClick={onClose}
@@ -447,17 +450,19 @@ export const UnifiedRelationalSelectorModal = ({
                   <p className="text-[11px] text-slate-400 max-w-sm mx-auto">
                     This database collection in Omnicortex is currently empty. You can create the very first record right now.
                   </p>
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      setIsCreatingNew(true);
-                    }}
-                    className="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs uppercase rounded shadow transition-all inline-flex items-center gap-1.5 mt-1 cursor-pointer"
-                  >
-                    <span>✨</span> Create First {colConfig.label || sourceCollection} Record
-                  </button>
+                  {devMode && (
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setIsCreatingNew(true);
+                      }}
+                      className="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs uppercase rounded shadow transition-all inline-flex items-center gap-1.5 mt-1 cursor-pointer"
+                    >
+                      <span>✨</span> Create First {colConfig.label || sourceCollection} Record
+                    </button>
+                  )}
                 </div>
               ) : (
                 filteredItems.map(item => {

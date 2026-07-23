@@ -403,6 +403,7 @@ export const DBMContainer = () => {
         onDelete={handleDeleteEntry}
         dbData={dbData}
         saveEntry={saveEntry}
+        devMode={devMode}
       />
 
       <BastionChatModal
