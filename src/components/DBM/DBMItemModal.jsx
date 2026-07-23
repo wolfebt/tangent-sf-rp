@@ -282,23 +282,13 @@ export const DBMItemModal = ({
                             <span className="text-xs text-slate-600 italic">No {label.toLowerCase()} selected</span>
                           )}
                         </div>
-                        <div className="flex gap-1.5">
-                          <button
-                            type="button"
-                            onClick={() => toggleCustomInputMode(fieldKey)}
-                            className="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-amber-300 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer border border-amber-500/30"
-                            title="Add Custom Item"
-                          >
-                            ✍️ Custom
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => setActiveSelectorField(fieldKey)}
-                            className="px-3 py-1.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer"
-                          >
-                            📋 Select {label}
-                          </button>
-                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setActiveSelectorField(fieldKey)}
+                          className="px-3 py-1.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer"
+                        >
+                          📋 Select {label}
+                        </button>
                       </div>
                     ) : fieldDef.type === 'textarea' ? (
                       <textarea
@@ -325,14 +315,6 @@ export const DBMItemModal = ({
                             return <option key={val} value={val}>{val}</option>;
                           })}
                         </select>
-                        <button
-                          type="button"
-                          onClick={() => toggleCustomInputMode(fieldKey)}
-                          className="px-2.5 py-2 bg-slate-800 hover:bg-slate-700 border border-amber-500/40 text-amber-300 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer"
-                          title="Type Custom Value"
-                        >
-                          ✍️ Custom
-                        </button>
                         {fieldDef.source && (
                           <button
                             type="button"
