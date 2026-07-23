@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { db } from '../../../firebase';
 import { collection, getDocs } from 'firebase/firestore';
 
@@ -53,10 +53,9 @@ const FALLBACK_DATA = {
     { id: 'dis_debt', name: 'Syndicate Debt', cp: 3, description: 'Owes substantial capital to dangerous underworld lenders (-3 CP refund).' },
     { id: 'dis_infamy', name: 'Wanted / Infamous', cp: 3, description: 'Targeted by galactic law enforcement or bounty hunters (-3 CP refund).' }
   ],
-  augmentations: [],
-  discipline: [],
-  invocations: [],
-  equipment: []
+  equipment: [],
+  prerequisites: [],
+  modifiers: []
 };
 
 const CustomSelectorModal = ({ isOpen, onClose, modalConfig, onSelectItem }) => {
@@ -65,32 +64,48 @@ const CustomSelectorModal = ({ isOpen, onClose, modalConfig, onSelectItem }) => 
   const [loading, setLoading] = useState(false);
   const [manualInput, setManualInput] = useState('');
 
-  const { title, browsePath, filterCategory, filterCategoryExclude } = modalConfig || {};
+  const selectorFetchedRef = useRef({});
 
+  const { title = 'Entry', browsePath, filterCategory, filterCategoryExclude } = modalConfig || {};
+
+  // Initialize with fallback items immediately (0ms delay)
+  useEffect(() => {
+    if (!isOpen || !browsePath) {
+      selectorFetchedRef.current = {};
+      return;
+    }
+
+    const fallback = FALLBACK_DATA[browsePath] || [];
+    setDbItems(fallback);
+  }, [isOpen, browsePath]);
+
+  // Non-blocking background Firestore fetch with 1.2s timeout
   useEffect(() => {
     if (!isOpen || !browsePath) return;
+    if (selectorFetchedRef.current[browsePath]) return;
+    selectorFetchedRef.current[browsePath] = true;
 
     let isMounted = true;
     setLoading(true);
 
     const fetchCollection = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, browsePath));
+        const colRef = collection(db, browsePath);
+        const fetchPromise = getDocs(colRef);
+        const timeoutPromise = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Firestore timeout')), 1200)
+        );
+
+        const querySnapshot = await Promise.race([fetchPromise, timeoutPromise]);
         if (!querySnapshot.empty) {
           const items = [];
           querySnapshot.forEach((doc) => {
             items.push({ id: doc.id, ...doc.data() });
           });
           if (isMounted) setDbItems(items);
-        } else {
-          // Fallback if empty in Firestore
-          const fallback = FALLBACK_DATA[browsePath] || [];
-          if (isMounted) setDbItems(fallback);
         }
       } catch (err) {
-        console.warn(`Firestore browse collection '${browsePath}' unavailable, using local fallback dataset:`, err);
-        const fallback = FALLBACK_DATA[browsePath] || [];
-        if (isMounted) setDbItems(fallback);
+        // Silently preserve local fallback data
       } finally {
         if (isMounted) setLoading(false);
       }
@@ -103,10 +118,31 @@ const CustomSelectorModal = ({ isOpen, onClose, modalConfig, onSelectItem }) => 
     };
   }, [isOpen, browsePath]);
 
+  const handleExplicitCloudSearch = async () => {
+    if (!browsePath) return;
+    setLoading(true);
+    try {
+      const querySnapshot = await getDocs(collection(db, browsePath));
+      if (!querySnapshot.empty) {
+        const items = [];
+        querySnapshot.forEach((doc) => {
+          items.push({ id: doc.id, ...doc.data() });
+        });
+        setDbItems(items);
+      }
+    } catch (err) {
+      console.warn(`Cloud search warning for ${browsePath}:`, err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (!isOpen || !modalConfig) return null;
 
+  const allItems = dbItems.length > 0 ? dbItems : (FALLBACK_DATA[browsePath] || []);
+
   // Filter items
-  const filteredItems = dbItems.filter((item) => {
+  const filteredItems = allItems.filter((item) => {
     const name = item.name || item.title || item.id || '';
     const desc = item.description || '';
     const cat = item.category || '';
@@ -127,7 +163,7 @@ const CustomSelectorModal = ({ isOpen, onClose, modalConfig, onSelectItem }) => 
   };
 
   const handleManualSubmit = (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     if (!manualInput.trim()) return;
     onSelectItem(modalConfig.key, manualInput.trim());
     setManualInput('');
@@ -145,29 +181,45 @@ const CustomSelectorModal = ({ isOpen, onClose, modalConfig, onSelectItem }) => 
           </h3>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-white text-xl font-bold leading-none"
+            className="text-slate-400 hover:text-white text-xl font-bold leading-none cursor-pointer"
           >
             &times;
           </button>
         </div>
 
-        {/* Search Bar */}
-        <div className="flex gap-2">
+        {/* Search Bar with Explicit Search DB Button */}
+        <div className="flex gap-2 items-center">
           <input
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                handleExplicitCloudSearch();
+              }
+            }}
             placeholder={`Search ${title.toLowerCase()} database...`}
             className="flex-1 bg-slate-950 border border-slate-700 focus:border-cyan-400 rounded px-3 py-2 text-xs text-slate-100 outline-none"
           />
+          <button
+            type="button"
+            onClick={handleExplicitCloudSearch}
+            className="px-3 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-cyan-300 rounded text-xs font-bold uppercase transition-colors shrink-0 flex items-center gap-1 cursor-pointer"
+            title="Search Cloud Database"
+          >
+            <span>🔍</span> Search DB
+          </button>
+          {loading && <span className="text-[10px] text-cyan-400 font-mono animate-pulse">Syncing...</span>}
         </div>
 
         {/* Database Items List */}
         <div className="bg-slate-950/80 border border-slate-800 rounded max-h-64 overflow-y-auto divide-y divide-slate-800/60 p-1">
-          {loading ? (
-            <div className="p-4 text-center text-xs text-cyan-400 animate-pulse">Loading database entries...</div>
-          ) : filteredItems.length === 0 ? (
-            <div className="p-4 text-center text-xs text-slate-500 italic">No matching database entries found.</div>
+          {filteredItems.length === 0 ? (
+            <div className="p-6 text-center space-y-2">
+              <div className="text-xs text-slate-400 italic">No matching database entries found.</div>
+              <div className="text-[11px] text-cyan-400">Use the custom entry box below to add any custom {title.toLowerCase()} directly!</div>
+            </div>
           ) : (
             filteredItems.map((item, idx) => (
               <div
@@ -196,20 +248,20 @@ const CustomSelectorModal = ({ isOpen, onClose, modalConfig, onSelectItem }) => 
           )}
         </div>
 
-        {/* Manual Input Fallback */}
+        {/* Manual Custom Input Option */}
         <form onSubmit={handleManualSubmit} className="pt-2 border-t border-slate-800 flex items-center gap-2">
           <input
             type="text"
             value={manualInput}
             onChange={(e) => setManualInput(e.target.value)}
-            placeholder={`Or enter custom ${title.toLowerCase()} name...`}
+            placeholder={`✍️ Enter custom ${title.toLowerCase()} name...`}
             className="flex-1 bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded px-3 py-1.5 text-xs text-slate-100 outline-none"
           />
           <button
             type="submit"
-            className="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 rounded text-xs font-bold uppercase tracking-wider"
+            className="px-4 py-1.5 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-bold uppercase tracking-wider cursor-pointer"
           >
-            Add Custom
+            + Add Custom
           </button>
         </form>
 

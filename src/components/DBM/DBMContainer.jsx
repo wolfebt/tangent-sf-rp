@@ -82,18 +82,33 @@ export const DBMContainer = () => {
 
   const handleCreateNew = () => {
     setSelectedItem(null);
-    setEditFormData({ name: '', description: '' });
+    const initialData = { name: '', description: '' };
+    if (currentConfig?.fields) {
+      Object.keys(currentConfig.fields).forEach(fKey => {
+        const fDef = currentConfig.fields[fKey];
+        if (fDef.default !== undefined) {
+          initialData[fKey] = fDef.default;
+        } else if (fDef.type === 'number') {
+          initialData[fKey] = 0;
+        } else if (fDef.type === 'boolean') {
+          initialData[fKey] = false;
+        } else if (fDef.type === 'multiselect' || fDef.type === 'json_list') {
+          initialData[fKey] = [];
+        }
+      });
+    }
+    setEditFormData(initialData);
     setIsEditMode(true);
     setIsEntryModalOpen(true);
   };
 
   const handleSaveEntry = async () => {
-    if (!editFormData.name) {
+    if (!editFormData.name || !editFormData.name.trim()) {
       alert('Entry name is required!');
       return;
     }
     const docId = selectedItem?.id || editFormData.id || `entry_${Date.now()}`;
-    const payload = { ...editFormData, id: docId, updatedAt: new Date().toISOString() };
+    const payload = { ...editFormData, name: editFormData.name.trim(), id: docId, updatedAt: new Date().toISOString() };
     
     await saveEntry(payload, currentKey);
     setIsEntryModalOpen(false);
@@ -385,6 +400,7 @@ export const DBMContainer = () => {
         onSave={handleSaveEntry}
         onDelete={handleDeleteEntry}
         dbData={dbData}
+        saveEntry={saveEntry}
       />
 
       <BastionChatModal

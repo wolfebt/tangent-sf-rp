@@ -87,14 +87,12 @@ export const DBMWikiView = ({
         <div className="p-3 border-b border-slate-800 space-y-2">
           <div className="flex justify-between items-center">
             <span className="text-xs font-bold text-amber-500 uppercase tracking-wider">Rules Codex</span>
-            {devMode && (
-              <button
-                onClick={handleCreateNew}
-                className="px-2.5 py-1 bg-amber-600 hover:bg-amber-500 text-white font-bold text-[11px] uppercase rounded shadow transition-colors"
-              >
-                + New Article
-              </button>
-            )}
+            <button
+              onClick={handleCreateNew}
+              className="px-2.5 py-1 bg-amber-600 hover:bg-amber-500 text-white font-bold text-[11px] uppercase rounded shadow transition-colors"
+            >
+              + New Article
+            </button>
           </div>
           <input
             type="text"
