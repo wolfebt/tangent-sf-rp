@@ -25,6 +25,8 @@ const FolioContainer = () => {
   // Modal States
   const [isEconomyOpen, setIsEconomyOpen] = useState(false);
   const [isAddSkillOpen, setIsAddSkillOpen] = useState(false);
+  const [addSkillModalMode, setAddSkillModalMode] = useState('skill');
+  const [availableSkillsForModal, setAvailableSkillsForModal] = useState([]);
   const [isSelectorOpen, setIsSelectorOpen] = useState(false);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
@@ -39,6 +41,7 @@ const FolioContainer = () => {
     updateField,
     handleAddItem,
     handleAddSkill,
+    handleAddSpecialization,
     handleNewCharacter,
     handleSaveLocal,
     handleLoadLocal,
@@ -47,6 +50,12 @@ const FolioContainer = () => {
     computeSpentCP,
     economyBreakdown
   } = useFolio();
+
+  const handleOpenAddSkillModal = useCallback((mode = 'skill', skillsList = []) => {
+    setAddSkillModalMode(mode);
+    setAvailableSkillsForModal(skillsList);
+    setIsAddSkillOpen(true);
+  }, []);
 
   // Open Selector Modal helper
   const handleOpenSelectorModal = useCallback((key, title, browsePath, filterCategory = null, filterCategoryExclude = null) => {
@@ -253,7 +262,7 @@ const FolioContainer = () => {
           )}
           {activeTab === 'skills' && (
             <SkillsTab
-              onOpenAddSkillModal={() => setIsAddSkillOpen(true)}
+              onOpenAddSkillModal={handleOpenAddSkillModal}
             />
           )}
           {activeTab === 'abilities' && (
@@ -284,6 +293,9 @@ const FolioContainer = () => {
         isOpen={isAddSkillOpen}
         onClose={() => setIsAddSkillOpen(false)}
         onAddSkill={handleAddSkill}
+        onAddSpecialization={handleAddSpecialization}
+        availableSkills={availableSkillsForModal}
+        initialMode={addSkillModalMode}
       />
       <CustomSelectorModal
         isOpen={isSelectorOpen}

@@ -48,6 +48,18 @@ export const noteItemSchema = z.union([
   z.string()
 ]);
 
+export const specializationItemSchema = z.union([
+  z.object({
+    id: z.string().optional(),
+    name: z.string().optional().default('Unnamed Specialization'),
+    baseSkillId: z.string().optional().default(''),
+    rank: z.union([z.number(), z.string()]).transform(val => Math.min(10, Math.max(0, typeof val === 'string' ? parseInt(val, 10) || 0 : val))).optional().default(0),
+    mod: z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseInt(val, 10) || 0 : val).optional().default(0),
+    category: z.string().optional()
+  }).passthrough(),
+  z.string()
+]);
+
 export const characterSchema = z.object({
   'character-doc-id': z.string().optional(),
   'char-name': z.string().optional().default(''),
@@ -83,6 +95,7 @@ export const characterSchema = z.object({
   armoring: z.array(inventoryItemSchema).optional().default([]),
   mecha: z.array(inventoryItemSchema).optional().default([]),
   other: z.array(inventoryItemSchema).optional().default([]),
+  specializations: z.array(specializationItemSchema).optional().default([]),
   notes: z.array(noteItemSchema).optional().default([{ text: '' }])
 }).catchall(z.any()); // Pass through any dynamically added keys (like skill-*-rank)
 

@@ -46,6 +46,7 @@ const DEFAULT_CHARACTER = {
   armoring: [],
   mecha: [],
   other: [],
+  specializations: [],
   notes: [{ text: '' }]
 };
 
@@ -75,6 +76,15 @@ export const FolioProvider = ({ children }) => {
 
   // Field updater
   const updateField = useCallback((key, value) => {
+    // If updating a skill rank, clamp max to 20
+    if (typeof key === 'string' && key.startsWith('skill-') && key.endsWith('-rank')) {
+      const clampedVal = Math.min(20, Math.max(0, parseInt(value, 10) || 0));
+      setCharacterData((prev) => ({
+        ...prev,
+        [key]: clampedVal
+      }));
+      return;
+    }
     setCharacterData((prev) => ({
       ...prev,
       [key]: value
@@ -92,13 +102,85 @@ export const FolioProvider = ({ children }) => {
     });
   }, []);
 
-  // Add Custom Skill Handler
+  // Add Custom Skill Handler (max level 20)
   const handleAddSkill = useCallback((skill) => {
+    const rankVal = Math.min(20, Math.max(0, parseInt(skill.rank ?? 1, 10)));
     setCharacterData((prev) => ({
       ...prev,
-      [`skill-${skill.id}-rank`]: 1,
-      [`skill-${skill.id}-base`]: skill.baseAttr
+      [`skill-${skill.id}-name`]: skill.name,
+      [`skill-${skill.id}-rank`]: rankVal,
+      [`skill-${skill.id}-base`]: skill.baseAttr,
+      [`skill-${skill.id}-group`]: skill.group,
+      [`skill-${skill.id}-subcategory`]: skill.subcategory || 'General'
     }));
+  }, []);
+
+  // Delete Custom Skill Handler
+  const handleDeleteSkill = useCallback((skillId) => {
+    setCharacterData((prev) => {
+      const next = { ...prev };
+      delete next[`skill-${skillId}-rank`];
+      delete next[`skill-${skillId}-base`];
+      delete next[`skill-${skillId}-mod`];
+      delete next[`skill-${skillId}-name`];
+      delete next[`skill-${skillId}-group`];
+      delete next[`skill-${skillId}-subcategory`];
+      if (Array.isArray(next.specializations)) {
+        next.specializations = next.specializations.filter(s => s.baseSkillId !== skillId);
+      }
+      return next;
+    });
+  }, []);
+
+  // Specialization Handlers (max level 10)
+  const handleAddSpecialization = useCallback((spec) => {
+    const rankVal = Math.min(10, Math.max(0, parseInt(spec.rank ?? 1, 10)));
+    const newSpec = {
+      id: spec.id || `spec_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+      name: spec.name || 'New Specialization',
+      baseSkillId: spec.baseSkillId || '',
+      rank: rankVal,
+      mod: parseInt(spec.mod || 0, 10),
+      category: spec.category || ''
+    };
+    setCharacterData((prev) => {
+      const current = Array.isArray(prev.specializations) ? prev.specializations : [];
+      return {
+        ...prev,
+        specializations: [...current, newSpec]
+      };
+    });
+  }, []);
+
+  const handleUpdateSpecialization = useCallback((specId, field, value) => {
+    setCharacterData((prev) => {
+      const current = Array.isArray(prev.specializations) ? prev.specializations : [];
+      return {
+        ...prev,
+        specializations: current.map((s) => {
+          if (s.id === specId) {
+            let updatedVal = value;
+            if (field === 'rank') {
+              updatedVal = Math.min(10, Math.max(0, parseInt(value, 10) || 0));
+            } else if (field === 'mod') {
+              updatedVal = parseInt(value, 10) || 0;
+            }
+            return { ...s, [field]: updatedVal };
+          }
+          return s;
+        })
+      };
+    });
+  }, []);
+
+  const handleDeleteSpecialization = useCallback((specId) => {
+    setCharacterData((prev) => {
+      const current = Array.isArray(prev.specializations) ? prev.specializations : [];
+      return {
+        ...prev,
+        specializations: current.filter((s) => s.id !== specId)
+      };
+    });
   }, []);
 
   // Reset / New Character
@@ -269,13 +351,16 @@ export const FolioProvider = ({ children }) => {
       itemizedList.push({ category: 'Awakened Discipline', item: name, val: 'Magic Domain', cost: `${cost} CP` });
     });
 
-    // 6. Skills Total CP
+    // 6. Skills & Specializations Total CP
     let skillRanksCost = 0;
     Object.keys(characterData).forEach((key) => {
       if (key.startsWith('skill-') && key.endsWith('-rank')) {
-        const rank = parseInt(characterData[key] || 0, 10);
+        const rawRank = parseInt(characterData[key] || 0, 10);
+        const rank = Math.min(20, Math.max(0, rawRank)); // Max level 20 cap
         if (rank > 0) {
-          const skillName = key.replace('skill-', '').replace('-rank', '').replace(/-/g, ' ');
+          const skillId = key.replace('skill-', '').replace('-rank', '');
+          const storedName = characterData[`skill-${skillId}-name`];
+          const skillName = storedName || skillId.replace(/-/g, ' ');
           const cost = rank * 1; // 1 CP per rank default
           skillRanksCost += cost;
           itemizedList.push({ category: 'Skill Rank', item: skillName, val: `${rank} Ranks`, cost: `${cost} CP` });
@@ -283,12 +368,25 @@ export const FolioProvider = ({ children }) => {
       }
     });
 
-    const spentCP = primaryAttrCost + subAttrCost + featuresCost + specialAbilitiesCost + awakenedCost + skillRanksCost - disadvantageRefund;
+    let specializationRanksCost = 0;
+    const specializations = Array.isArray(characterData.specializations) ? characterData.specializations : [];
+    specializations.forEach((spec) => {
+      const rawRank = typeof spec === 'object' ? parseInt(spec.rank || 0, 10) : 0;
+      const rank = Math.min(10, Math.max(0, rawRank)); // Max level 10 cap
+      if (rank > 0) {
+        const specName = typeof spec === 'object' ? (spec.name || 'Unnamed Spec') : 'Unnamed Spec';
+        const cost = rank * 1; // 1 CP per level default
+        specializationRanksCost += cost;
+        itemizedList.push({ category: 'Specialization', item: specName, val: `${rank} Levels`, cost: `${cost} CP` });
+      }
+    });
+
+    const spentCP = primaryAttrCost + subAttrCost + featuresCost + specialAbilitiesCost + awakenedCost + skillRanksCost + specializationRanksCost - disadvantageRefund;
     const remainingCP = startingCP - spentCP;
 
     // Standard SP & FP Pool Data
     const spPools = {
-      any: { total: 10, used: Math.min(10, Math.floor(skillRanksCost / 2)) },
+      any: { total: 10, used: Math.min(10, Math.floor((skillRanksCost + specializationRanksCost) / 2)) },
       physical: { total: 0, used: 0 },
       mental: { total: 0, used: 0 },
       social: { total: 0, used: 0 },
@@ -321,6 +419,7 @@ export const FolioProvider = ({ children }) => {
       primaryAttrCost,
       subAttrCost,
       skillRanksCost,
+      specializationRanksCost,
       featuresCost,
       disadvantageRefund,
       specialAbilitiesCost,
@@ -344,6 +443,10 @@ export const FolioProvider = ({ children }) => {
         updateField,
         handleAddItem,
         handleAddSkill,
+        handleDeleteSkill,
+        handleAddSpecialization,
+        handleUpdateSpecialization,
+        handleDeleteSpecialization,
         handleNewCharacter,
         handleSaveLocal,
         handleLoadLocal,
