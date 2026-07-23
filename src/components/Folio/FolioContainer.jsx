@@ -15,6 +15,7 @@ import CustomSelectorModal from './modals/CustomSelectorModal';
 import ConfirmationModal from './modals/ConfirmationModal';
 import PreviewModal from './modals/PreviewModal';
 import BastionDrawer from './BastionDrawer';
+import PrintFolio from './print/PrintFolio';
 
 const FolioContainer = () => {
   const navigate = useNavigate();
@@ -319,6 +320,11 @@ const FolioContainer = () => {
         isOpen={isBastionOpen}
         onClose={() => setIsBastionOpen(false)}
       />
+
+      {/* Print-only Folio Output */}
+      <div className="hidden print:block">
+        <PrintFolio characterData={characterData} />
+      </div>
     </div>
   );
 };

@@ -269,7 +269,54 @@ export const FolioProvider = ({ children }) => {
     const startingCP = parseInt(characterData['starting-cp'] || 150, 10);
     const itemizedList = [];
 
-    // 1. Primary Attributes (5 CP per point)
+    // Helper for safe CP extraction
+    const getItemCP = (item, defaultCost = 0) => {
+      if (typeof item === 'object' && item !== null) {
+        if (item.cp !== undefined && item.cp !== null && item.cp !== '') {
+          return parseInt(item.cp, 10) || 0;
+        }
+        if (item.cost !== undefined && item.cost !== null && item.cost !== '') {
+          return parseInt(item.cost, 10) || 0;
+        }
+        if (item.cost_cp !== undefined && item.cost_cp !== null && item.cost_cp !== '') {
+          return parseInt(item.cost_cp, 10) || 0;
+        }
+      }
+      if (typeof item === 'number') return item;
+      return defaultCost;
+    };
+
+    // 1. Identity Selections (Species, Occupation, Origin, Faction)
+    const identityEntries = [
+      { key: 'char-species', label: 'Species' },
+      { key: 'char-occu', label: 'Occupation' },
+      { key: 'char-origin', label: 'Origin' },
+      { key: 'char-faction', label: 'Faction' }
+    ];
+
+    let identityCost = 0;
+    identityEntries.forEach(({ key, label }) => {
+      const val = characterData[key];
+      if (val) {
+        const name = typeof val === 'object' ? (val.name || val.title || '') : val;
+        if (name && name.trim()) {
+          const cost = getItemCP(val, 0);
+          const hasExplicitCP = typeof val === 'object' && (val.cp !== undefined || val.cost !== undefined || val.cost_cp !== undefined);
+          if (cost !== 0 || hasExplicitCP) {
+            identityCost += cost;
+            itemizedList.push({
+              category: label,
+              item: name,
+              val: 'Identity Selection',
+              costVal: cost,
+              cost: `${cost} CP`
+            });
+          }
+        }
+      }
+    });
+
+    // 2. Primary Attributes (5 CP per point allocated above 0)
     let primaryAttrCost = 0;
     const primaryAttrs = [
       { name: 'Strength', id: 'attr-strength' },
@@ -285,11 +332,17 @@ export const FolioProvider = ({ children }) => {
       if (val > 0) {
         const cost = val * 5;
         primaryAttrCost += cost;
-        itemizedList.push({ category: 'Primary Attr', item: name, val: `${val} Base`, cost: `${cost} CP` });
+        itemizedList.push({
+          category: 'Primary Attr',
+          item: name,
+          val: `${val} Base`,
+          costVal: cost,
+          cost: `${cost} CP`
+        });
       }
     });
 
-    // 2. Sub-Attributes (Base = Primary * 2 + 2; 2 CP per purchased point above base)
+    // 3. Sub-Attributes (Base = Primary * 2 + 2; 2 CP per purchased point above/below base)
     let subAttrCost = 0;
     const subAttrs = [
       { name: 'Might', id: 'attr-might', primaryId: 'attr-strength' },
@@ -301,57 +354,152 @@ export const FolioProvider = ({ children }) => {
     ];
 
     subAttrs.forEach(({ name, id, primaryId }) => {
-      const val = parseInt(characterData[id] || 0, 10);
       const pVal = parseInt(characterData[primaryId] || 0, 10);
       const calculatedBase = (pVal * 2) + 2;
-      if (val > calculatedBase) {
-        const extra = val - calculatedBase;
+
+      const hasExplicitVal = characterData[id] !== undefined && characterData[id] !== null && characterData[id] !== '';
+      const rawVal = parseInt(characterData[id], 10);
+
+      // If unset or 0 when calculatedBase > 0, sub-attribute defaults to calculatedBase
+      const val = (hasExplicitVal && rawVal !== 0) ? rawVal : calculatedBase;
+      const extra = val - calculatedBase;
+
+      if (extra !== 0) {
         const cost = extra * 2;
         subAttrCost += cost;
-        itemizedList.push({ category: 'Sub-Attr', item: name, val: `+${extra} above Base (${calculatedBase})`, cost: `${cost} CP` });
+        itemizedList.push({
+          category: 'Sub-Attr',
+          item: name,
+          val: `${extra >= 0 ? '+' : ''}${extra} rel. Base (${calculatedBase})`,
+          costVal: cost,
+          cost: `${cost} CP`
+        });
       }
     });
 
-    // 3. Disadvantages (Yields CP Refunds)
+    // 4. Disadvantages (Yields CP Refunds)
     let disadvantageRefund = 0;
     const disadvantages = Array.isArray(characterData.disadvantages) ? characterData.disadvantages : [];
     disadvantages.forEach((dis) => {
-      const name = typeof dis === 'object' ? dis.name : dis;
-      const val = typeof dis === 'object' && dis.cp ? parseInt(dis.cp, 10) : 3; // Default refund 3 CP per flaw
-      disadvantageRefund += val;
-      itemizedList.push({ category: 'Disadvantage', item: name, val: 'Flaw Refund', cost: `-${val} CP` });
+      const name = typeof dis === 'object' ? (dis.name || 'Unnamed Flaw') : dis;
+      const cpVal = getItemCP(dis, 3); // Default refund 3 CP per flaw if unspecified
+      disadvantageRefund += cpVal;
+      itemizedList.push({
+        category: 'Disadvantage',
+        item: name,
+        val: 'Flaw Refund',
+        costVal: -cpVal,
+        cost: `-${cpVal} CP`
+      });
     });
 
-    // 4. Features & Abilities
+    // 5. Features & Perks
     let featuresCost = 0;
     const features = Array.isArray(characterData.features) ? characterData.features : [];
     features.forEach((feat) => {
-      const name = typeof feat === 'object' ? feat.name : feat;
-      const cost = typeof feat === 'object' && feat.cp ? parseInt(feat.cp, 10) : 3;
+      const name = typeof feat === 'object' ? (feat.name || 'Unnamed Feature') : feat;
+      const cost = getItemCP(feat, 3); // Default 3 CP per perk if unspecified
       featuresCost += cost;
-      itemizedList.push({ category: 'Feature', item: name, val: 'Perk', cost: `${cost} CP` });
+      itemizedList.push({
+        category: 'Feature',
+        item: name,
+        val: (typeof feat === 'object' && feat.type) ? feat.type : 'Perk',
+        costVal: cost,
+        cost: `${cost} CP`
+      });
     });
 
-    // 5. Special Abilities & Disciplines
+    // 6. Special Abilities
     let specialAbilitiesCost = 0;
     const specAbilities = Array.isArray(characterData.special_abilities) ? characterData.special_abilities : [];
     specAbilities.forEach((sa) => {
-      const name = typeof sa === 'object' ? sa.name : sa;
-      const cost = 5; // Default 5 CP per special ability
+      const name = typeof sa === 'object' ? (sa.name || 'Unnamed Ability') : sa;
+      const cost = getItemCP(sa, 5); // Default 5 CP per special ability if unspecified
       specialAbilitiesCost += cost;
-      itemizedList.push({ category: 'Special Ability', item: name, val: 'Innate Power', cost: `${cost} CP` });
+      itemizedList.push({
+        category: 'Special Ability',
+        item: name,
+        val: 'Innate Power',
+        costVal: cost,
+        cost: `${cost} CP`
+      });
     });
 
+    // 7. Awakened Disciplines
     let awakenedCost = 0;
     const awakenedList = Array.isArray(characterData.awakened) ? characterData.awakened : [];
-    awakenedList.forEach((dis) => {
-      const name = typeof dis === 'object' ? dis.name : dis;
-      const cost = 5;
+    awakenedList.forEach((awk) => {
+      const name = typeof awk === 'object' ? (awk.name || 'Unnamed Discipline') : awk;
+      const cost = getItemCP(awk, 5);
       awakenedCost += cost;
-      itemizedList.push({ category: 'Awakened Discipline', item: name, val: 'Magic Domain', cost: `${cost} CP` });
+      itemizedList.push({
+        category: 'Awakened Discipline',
+        item: name,
+        val: 'Magic Domain',
+        costVal: cost,
+        cost: `${cost} CP`
+      });
     });
 
-    // 6. Skills & Specializations Total CP
+    // 8. Invocations
+    let invocationsCost = 0;
+    const invocationsList = Array.isArray(characterData.invocations) ? characterData.invocations : [];
+    invocationsList.forEach((inv) => {
+      const name = typeof inv === 'object' ? (inv.name || 'Unnamed Invocation') : inv;
+      const cost = getItemCP(inv, 0);
+      invocationsCost += cost;
+      itemizedList.push({
+        category: 'Invocation',
+        item: name,
+        val: 'Spell / Ritual',
+        costVal: cost,
+        cost: `${cost} CP`
+      });
+    });
+
+    // 9. Augmentations
+    let augmentationsCost = 0;
+    const augmentationsList = Array.isArray(characterData.augmentations) ? characterData.augmentations : [];
+    augmentationsList.forEach((aug) => {
+      const name = typeof aug === 'object' ? (aug.name || 'Unnamed Augmentation') : aug;
+      const cost = getItemCP(aug, 0);
+      augmentationsCost += cost;
+      itemizedList.push({
+        category: 'Augmentation',
+        item: name,
+        val: (typeof aug === 'object' && aug.type) ? aug.type : 'Cyberware',
+        costVal: cost,
+        cost: `${cost} CP`
+      });
+    });
+
+    // 10. Personal Property / Gear / Weapons / Armor / Mecha / Other
+    let equipmentCost = 0;
+    const equipCategories = [
+      { key: 'gear', category: 'Gear' },
+      { key: 'weapons', category: 'Weaponry' },
+      { key: 'armor', category: 'Armoring' },
+      { key: 'mecha', category: 'Mecha' },
+      { key: 'other', category: 'Other Property' }
+    ];
+
+    equipCategories.forEach(({ key, category }) => {
+      const list = Array.isArray(characterData[key]) ? characterData[key] : [];
+      list.forEach((item) => {
+        const name = typeof item === 'object' ? (item.name || 'Unnamed Item') : item;
+        const cost = getItemCP(item, 0);
+        equipmentCost += cost;
+        itemizedList.push({
+          category,
+          item: name,
+          val: 'Item Purchase',
+          costVal: cost,
+          cost: `${cost} CP`
+        });
+      });
+    });
+
+    // 11. Skills & Specializations Ranks CP
     let skillRanksCost = 0;
     Object.keys(characterData).forEach((key) => {
       if (key.startsWith('skill-') && key.endsWith('-rank')) {
@@ -363,7 +511,13 @@ export const FolioProvider = ({ children }) => {
           const skillName = storedName || skillId.replace(/-/g, ' ');
           const cost = rank * 1; // 1 CP per rank default
           skillRanksCost += cost;
-          itemizedList.push({ category: 'Skill Rank', item: skillName, val: `${rank} Ranks`, cost: `${cost} CP` });
+          itemizedList.push({
+            category: 'Skill Rank',
+            item: skillName,
+            val: `${rank} Ranks`,
+            costVal: cost,
+            cost: `${cost} CP`
+          });
         }
       }
     });
@@ -375,41 +529,81 @@ export const FolioProvider = ({ children }) => {
       const rank = Math.min(10, Math.max(0, rawRank)); // Max level 10 cap
       if (rank > 0) {
         const specName = typeof spec === 'object' ? (spec.name || 'Unnamed Spec') : 'Unnamed Spec';
-        const cost = rank * 1; // 1 CP per level default
+        const cost = typeof spec === 'object' && spec.cp !== undefined ? parseInt(spec.cp, 10) : rank * 1;
         specializationRanksCost += cost;
-        itemizedList.push({ category: 'Specialization', item: specName, val: `${rank} Levels`, cost: `${cost} CP` });
+        itemizedList.push({
+          category: 'Specialization',
+          item: specName,
+          val: `${rank} Levels`,
+          costVal: cost,
+          cost: `${cost} CP`
+        });
       }
     });
 
-    const spentCP = primaryAttrCost + subAttrCost + featuresCost + specialAbilitiesCost + awakenedCost + skillRanksCost + specializationRanksCost - disadvantageRefund;
+    // Calculate Total Spent CP
+    const spentCP = (
+      identityCost +
+      primaryAttrCost +
+      subAttrCost +
+      featuresCost +
+      specialAbilitiesCost +
+      awakenedCost +
+      invocationsCost +
+      augmentationsCost +
+      equipmentCost +
+      skillRanksCost +
+      specializationRanksCost -
+      disadvantageRefund
+    );
+
     const remainingCP = startingCP - spentCP;
 
-    // Standard SP & FP Pool Data
-    const spPools = {
-      any: { total: 10, used: Math.min(10, Math.floor((skillRanksCost + specializationRanksCost) / 2)) },
-      physical: { total: 0, used: 0 },
-      mental: { total: 0, used: 0 },
-      social: { total: 0, used: 0 },
-      combat: { total: 5, used: 0 },
-      meta: { total: 0, used: 0 }
+    // Helper to extract point pools for identity selections
+    const extractPoolsFromIdentity = (identityVal, typeKey) => {
+      const pools = [];
+      if (!identityVal) return pools;
+
+      const itemObj = typeof identityVal === 'object' ? identityVal : null;
+      if (itemObj) {
+        if (itemObj.bonus_skill_points) pools.push({ name: 'Bonus Skill Points', awarded: itemObj.bonus_skill_points, type: 'SP' });
+        if (itemObj.bonus_feature_points) pools.push({ name: 'Bonus Feature Points', awarded: itemObj.bonus_feature_points, type: 'FP' });
+        if (itemObj.bonus_skill_choices) pools.push({ name: 'Bonus Skill Choices', awarded: itemObj.bonus_skill_choices, type: 'Choice' });
+        if (itemObj.bonus_feature_choices) pools.push({ name: 'Bonus Feature Choices', awarded: itemObj.bonus_feature_choices, type: 'Choice' });
+        if (Array.isArray(itemObj.pools)) {
+          itemObj.pools.forEach(p => pools.push(p));
+        }
+      }
+
+      const customPoolKey = `char-${typeKey}-pools`;
+      if (Array.isArray(characterData[customPoolKey])) {
+        characterData[customPoolKey].forEach(p => pools.push(p));
+      }
+
+      return pools;
     };
 
-    const fpPools = {
-      any: { total: 3, used: Math.min(3, features.length) },
-      ability: { total: 0, used: 0 },
-      combat: { total: 0, used: 0 },
-      meta: { total: 0, used: 0 },
-      general: { total: 0, used: 0 },
-      karma: { total: 0, used: 0 },
-      skill: { total: 0, used: 0 },
-      exotic: { total: 0, used: 0 }
-    };
-
-    const bonusCounters = {
-      skillChoices: 2,
-      featureChoices: 1,
-      disciplines: { current: awakenedList.length, max: 3 },
-      specialAbilities: { current: specAbilities.length, max: 5 }
+    const identityPools = {
+      occupation: {
+        title: 'Occupation',
+        name: typeof characterData['char-occu'] === 'object' ? (characterData['char-occu'].name || 'Selected') : (characterData['char-occu'] || 'Not Selected'),
+        pools: extractPoolsFromIdentity(characterData['char-occu'], 'occu')
+      },
+      origin: {
+        title: 'Origin',
+        name: typeof characterData['char-origin'] === 'object' ? (characterData['char-origin'].name || 'Selected') : (characterData['char-origin'] || 'Not Selected'),
+        pools: extractPoolsFromIdentity(characterData['char-origin'], 'origin')
+      },
+      faction: {
+        title: 'Faction',
+        name: typeof characterData['char-faction'] === 'object' ? (characterData['char-faction'].name || 'Selected') : (characterData['char-faction'] || 'Not Selected'),
+        pools: extractPoolsFromIdentity(characterData['char-faction'], 'faction')
+      },
+      species: {
+        title: 'Species',
+        name: typeof characterData['char-species'] === 'object' ? (characterData['char-species'].name || 'Selected') : (characterData['char-species'] || 'Not Selected'),
+        pools: extractPoolsFromIdentity(characterData['char-species'], 'species')
+      }
     };
 
     return {
@@ -424,9 +618,7 @@ export const FolioProvider = ({ children }) => {
       disadvantageRefund,
       specialAbilitiesCost,
       awakenedCost,
-      spPools,
-      fpPools,
-      bonusCounters,
+      identityPools,
       itemizedList
     };
   }, [characterData]);

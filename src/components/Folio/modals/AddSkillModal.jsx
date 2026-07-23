@@ -6,10 +6,10 @@ const AddSkillModal = ({
   onAddSkill,
   onAddSpecialization,
   availableSkills = [],
-  initialMode = 'skill'
+  initialMode = 'custom'
 }) => {
-  const [mode, setMode] = useState(initialMode); // 'skill' | 'specialization'
-  
+  const [mode, setMode] = useState('custom'); // 'custom' | 'specialization'
+
   // Custom Skill Form State
   const [skillName, setSkillName] = useState('');
   const [selectedCategoryKey, setSelectedCategoryKey] = useState('physical|General');
@@ -23,11 +23,13 @@ const AddSkillModal = ({
 
   useEffect(() => {
     if (isOpen) {
-      setMode(initialMode);
+      setMode(initialMode === 'specialization' ? 'specialization' : 'custom');
+
       setSkillName('');
       setSelectedCategoryKey('physical|General');
       setBaseAttr('attr-strength');
       setSkillRank(1);
+
       setSpecName('');
       setSpecRank(1);
       if (availableSkills.length > 0) {
@@ -42,7 +44,8 @@ const AddSkillModal = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (mode === 'skill') {
+
+    if (mode === 'custom') {
       if (!skillName.trim()) return;
       const cleanName = skillName.trim();
       const [skillGroup, subcategory] = selectedCategoryKey.split('|');
@@ -58,9 +61,9 @@ const AddSkillModal = ({
     } else {
       if (!specName.trim() || !baseSkillId) return;
       const cleanName = specName.trim();
-      const selectedSkill = availableSkills.find(s => s.id === baseSkillId);
+      const selectedSkill = availableSkills.find((s) => s.id === baseSkillId);
       const category = selectedSkill ? selectedSkill.group : 'general';
-      
+
       onAddSpecialization({
         name: cleanName,
         baseSkillId,
@@ -78,7 +81,7 @@ const AddSkillModal = ({
         {/* Header */}
         <div className="flex justify-between items-center border-b border-cyan-900/60 pb-2">
           <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-400">
-            {mode === 'skill' ? 'Add Custom Skill' : 'Add Skill Specialization'}
+            {mode === 'custom' ? 'Add Custom Skill' : 'Add Specialization / Evocation'}
           </h3>
           <button onClick={onClose} className="text-slate-400 hover:text-white text-xl font-bold leading-none">
             &times;
@@ -86,38 +89,38 @@ const AddSkillModal = ({
         </div>
 
         {/* Mode Selector Tabs */}
-        <div className="flex border-b border-slate-800 pb-1 gap-2">
+        <div className="flex border-b border-slate-800 pb-1 gap-1.5">
           <button
             type="button"
-            onClick={() => setMode('skill')}
-            className={`flex-1 py-1.5 text-xs font-bold uppercase tracking-wider rounded transition-all ${
-              mode === 'skill'
+            onClick={() => setMode('custom')}
+            className={`flex-1 py-1.5 text-[11px] font-bold uppercase tracking-wider rounded transition-all ${
+              mode === 'custom'
                 ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60'
                 : 'bg-slate-900/60 text-slate-400 hover:text-slate-200 border border-slate-800'
             }`}
           >
-            Custom Skill (Max 20)
+            Custom Skill
           </button>
           <button
             type="button"
             onClick={() => setMode('specialization')}
-            className={`flex-1 py-1.5 text-xs font-bold uppercase tracking-wider rounded transition-all ${
+            className={`flex-1 py-1.5 text-[11px] font-bold uppercase tracking-wider rounded transition-all ${
               mode === 'specialization'
                 ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60'
                 : 'bg-slate-900/60 text-slate-400 hover:text-slate-200 border border-slate-800'
             }`}
           >
-            Specialization (Max 10)
+            Specialization
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {mode === 'skill' ? (
+          {mode === 'custom' ? (
             <>
               {/* Custom Skill Fields */}
               <div className="flex flex-col">
                 <label className="text-xs font-bold uppercase text-slate-300 mb-1">
-                  Skill Name
+                  Custom Skill Name
                 </label>
                 <input
                   type="text"
@@ -132,7 +135,7 @@ const AddSkillModal = ({
               <div className="grid grid-cols-2 gap-3">
                 <div className="flex flex-col">
                   <label className="text-xs font-bold uppercase text-slate-300 mb-1">
-                    Category / Group
+                    Category / Subcategory
                   </label>
                   <select
                     value={selectedCategoryKey}
@@ -156,14 +159,8 @@ const AddSkillModal = ({
                       <option value="combat|Modern">Combat - Modern</option>
                       <option value="combat|Advanced">Combat - Advanced</option>
                     </optgroup>
-                    <optgroup label="Metafocus / Invocations">
-                      <option value="meta|Special Abilities">Meta - Special Abilities</option>
-                      <option value="meta|Dimension">Meta - Dimension</option>
-                      <option value="meta|Energy">Meta - Energy</option>
-                      <option value="meta|Entropy">Meta - Entropy</option>
-                      <option value="meta|Illusion">Meta - Illusion</option>
-                      <option value="meta|Matter">Meta - Matter</option>
-                      <option value="meta|Mental">Meta - Mental</option>
+                    <optgroup label="Metafocus">
+                      <option value="meta|Disciplines">Meta - Disciplines</option>
                     </optgroup>
                   </select>
                 </div>
@@ -223,7 +220,7 @@ const AddSkillModal = ({
               </div>
 
               {/* Metafocus Evocation Notice if linked to Meta skill */}
-              {availableSkills.find(s => s.id === baseSkillId)?.group === 'meta' && (
+              {availableSkills.find((s) => s.id === baseSkillId)?.group === 'meta' && (
                 <div className="px-3 py-1.5 bg-cyan-950/70 border border-cyan-500/40 rounded text-[11px] text-cyan-300 font-mono">
                   ✨ <span className="font-bold">Metafocus Evocation:</span> Specializations linked to a Meta discipline are classified as Evocations.
                 </div>
@@ -231,14 +228,14 @@ const AddSkillModal = ({
 
               <div className="flex flex-col">
                 <label className="text-xs font-bold uppercase text-slate-300 mb-1">
-                  {availableSkills.find(s => s.id === baseSkillId)?.group === 'meta' ? 'Evocation Name' : 'Specialization Name'}
+                  {availableSkills.find((s) => s.id === baseSkillId)?.group === 'meta' ? 'Evocation Name' : 'Specialization Name'}
                 </label>
                 <input
                   type="text"
                   required
                   value={specName}
                   onChange={(e) => setSpecName(e.target.value)}
-                  placeholder={availableSkills.find(s => s.id === baseSkillId)?.group === 'meta' ? "e.g. Telekinesis, Fireball, Mind Reading" : "e.g. Parkour, Dogfighting, Sniper Rifles"}
+                  placeholder={availableSkills.find((s) => s.id === baseSkillId)?.group === 'meta' ? "e.g. Telekinesis, Fireball, Mind Reading" : "e.g. Parkour, Dogfighting, Sniper Rifles"}
                   className="bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded px-3 py-2 text-sm text-slate-100 outline-none"
                 />
               </div>
@@ -252,7 +249,7 @@ const AddSkillModal = ({
                   min="0"
                   max="10"
                   value={specRank}
-                  onChange={(e) => setSpecRank(Math.min(10, Math.max(0, parseInt(e.target.value, 10) || 0)))}
+                  onChange={(e) => setSpecRank(Math.min(10, Math.max(0, parseInt(specRank, 10) || 0)))}
                   className="bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded px-3 py-2 text-sm text-slate-100 outline-none"
                 />
               </div>
@@ -272,7 +269,7 @@ const AddSkillModal = ({
               type="submit"
               className="px-5 py-1.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded text-xs font-bold uppercase tracking-wider shadow-[0_0_10px_rgba(34,211,238,0.2)]"
             >
-              {mode === 'skill' ? 'Add Custom Skill' : 'Add Specialization'}
+              {mode === 'custom' ? 'Add Custom Skill' : 'Add Specialization'}
             </button>
           </div>
         </form>

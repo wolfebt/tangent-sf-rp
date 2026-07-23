@@ -316,22 +316,82 @@ const SkillsTab = ({ onOpenAddSkillModal }) => {
     return map;
   }, [characterData.specializations]);
 
+  // Set of unlocked Metafocus discipline names (lowercase) from purchased features/awakened items
+  const unlockedDisciplines = useMemo(() => {
+    const unlocked = new Set();
+    const featuresList = Array.isArray(characterData.features) ? characterData.features : [];
+    const awakenedList = Array.isArray(characterData.awakened) ? characterData.awakened : [];
+    const allFeats = [...featuresList, ...awakenedList];
+
+    allFeats.forEach((feat) => {
+      const featName = (typeof feat === 'object' ? (feat.name || feat.title || '') : String(feat)).toLowerCase();
+      const featType = (typeof feat === 'object' ? (feat.type || feat.category || '') : '').toLowerCase();
+      const featId = (typeof feat === 'object' ? (feat.id || '') : '').toLowerCase();
+
+      const isAwakened = featType.includes('awakened') || featName.includes('awakened') || featId.includes('awakened') || (Array.isArray(characterData.awakened) && characterData.awakened.includes(feat));
+
+      if (isAwakened) {
+        if (featName.includes('dimension') || featId.endsWith('_dim') || featId.endsWith('-dim') || featId === 'dimension') {
+          unlocked.add('dimension');
+        }
+        if (featName.includes('energy') || featId.endsWith('_ene') || featId.endsWith('-ene') || featId === 'energy') {
+          unlocked.add('energy');
+        }
+        if (featName.includes('entropy') || featId.endsWith('_ent') || featId.endsWith('-ent') || featId === 'entropy') {
+          unlocked.add('entropy');
+        }
+        if (featName.includes('illusion') || featId.endsWith('_ill') || featId.endsWith('-ill') || featId === 'illusion') {
+          unlocked.add('illusion');
+        }
+        if (featName.includes('matter') || featId.endsWith('_mat') || featId.endsWith('-mat') || featId === 'matter') {
+          unlocked.add('matter');
+        }
+        if (featName.includes('mental') || featId.endsWith('_men') || featId.endsWith('-men') || featId === 'mental') {
+          unlocked.add('mental');
+        }
+      }
+    });
+
+    return unlocked;
+  }, [characterData.features, characterData.awakened]);
+
   const renderSkillRow = (skill) => {
     const isCustom = !defaultSkillIds.has(skill.id);
-    const rank = Math.min(20, Math.max(0, getNum(`skill-${skill.id}-rank`)));
+    const isDisciplineSkill = (skill.group === 'meta' || skill.id.startsWith('meta-')) && skill.id !== 'meta-attune';
+    const discKey = skill.name.toLowerCase();
+    const isLocked = isDisciplineSkill && !unlockedDisciplines.has(discKey) && !unlockedDisciplines.has(skill.id.replace('meta-', ''));
+
+    const rank = isLocked ? 0 : Math.min(20, Math.max(0, getNum(`skill-${skill.id}-rank`)));
     const mod = getNum(`skill-${skill.id}-mod`);
     const baseAttr = characterData[`skill-${skill.id}-base`] || '';
-    const baseSkillTotal = getSkillTotal(skill.id);
+    const baseSkillTotal = isLocked ? 0 : getSkillTotal(skill.id);
     const linkedSpecs = specializationsByBaseSkill[skill.id] || [];
 
     return (
       <div key={skill.id} className="space-y-1.5">
-        <div className="grid grid-cols-12 items-center gap-2 py-1 px-2 bg-slate-900/50 hover:bg-slate-800/60 rounded transition-colors text-xs border border-slate-800/40">
+        <div
+          className={`grid grid-cols-12 items-center gap-2 py-1 px-2 rounded transition-colors text-xs border ${
+            isLocked
+              ? 'bg-slate-950/40 opacity-50 border-slate-800/60'
+              : 'bg-slate-900/50 hover:bg-slate-800/60 border-slate-800/40'
+          }`}
+          title={isLocked ? `Requires purchasing 'Awakened: ${skill.name}' feature in Features tab` : undefined}
+        >
           <div className="col-span-4 flex items-center justify-between pr-1 overflow-hidden">
-            <span className="font-medium text-slate-200 truncate" title={skill.name}>
-              {skill.name}
-            </span>
-            {isCustom && (
+            <div className="flex items-center gap-1.5 truncate">
+              <span className={`font-medium ${isLocked ? 'text-slate-500' : 'text-slate-200'} truncate`} title={skill.name}>
+                {skill.name}
+              </span>
+              {isLocked && (
+                <span
+                  className="text-[9px] font-mono font-bold text-amber-400/90 bg-amber-950/70 border border-amber-900/60 px-1.5 py-0.2 rounded shrink-0"
+                  title={`Purchased Awakened feature required to unlock ${skill.name}`}
+                >
+                  🔒 Locked
+                </span>
+              )}
+            </div>
+            {isCustom && !isLocked && (
               <button
                 type="button"
                 onClick={() => handleDeleteSkill(skill.id)}
@@ -348,16 +408,18 @@ const SkillsTab = ({ onOpenAddSkillModal }) => {
             type="number"
             min="0"
             max="20"
+            disabled={isLocked}
             value={rank}
-            onChange={(e) => updateField(`skill-${skill.id}-rank`, Math.min(20, Math.max(0, parseInt(e.target.value, 10) || 0)))}
-            className="col-span-2 text-center bg-slate-950 border border-slate-700 focus:border-cyan-400 rounded py-0.5 text-slate-100 outline-none text-xs"
+            onChange={(e) => !isLocked && updateField(`skill-${skill.id}-rank`, Math.min(20, Math.max(0, parseInt(e.target.value, 10) || 0)))}
+            className={`col-span-2 text-center bg-slate-950 border ${isLocked ? 'border-slate-800 text-slate-600 cursor-not-allowed' : 'border-slate-700 focus:border-cyan-400 text-slate-100'} rounded py-0.5 outline-none text-xs`}
           />
 
           {/* Base Attr Select */}
           <select
             value={baseAttr}
-            onChange={(e) => updateField(`skill-${skill.id}-base`, e.target.value)}
-            className="col-span-3 bg-slate-950 border border-slate-700 focus:border-cyan-400 rounded py-0.5 text-slate-300 text-center outline-none text-xs"
+            disabled={isLocked}
+            onChange={(e) => !isLocked && updateField(`skill-${skill.id}-base`, e.target.value)}
+            className={`col-span-3 bg-slate-950 border ${isLocked ? 'border-slate-800 text-slate-600 cursor-not-allowed' : 'border-slate-700 focus:border-cyan-400 text-slate-300'} rounded py-0.5 text-center outline-none text-xs`}
           >
             <option value="">--</option>
             {ATTRIBUTE_OPTIONS.map((opt) => (
@@ -368,12 +430,12 @@ const SkillsTab = ({ onOpenAddSkillModal }) => {
           </select>
 
           {/* Mod */}
-          <span className="col-span-1 text-center font-mono text-slate-400">
+          <span className={`col-span-1 text-center font-mono ${isLocked ? 'text-slate-600' : 'text-slate-400'}`}>
             {mod}
           </span>
 
           {/* Total Base Skill Score */}
-          <span className="col-span-2 text-center font-mono font-bold text-cyan-300">
+          <span className={`col-span-2 text-center font-mono font-bold ${isLocked ? 'text-slate-600' : 'text-cyan-300'}`}>
             {baseSkillTotal}
           </span>
         </div>

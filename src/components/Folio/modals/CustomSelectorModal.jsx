@@ -30,8 +30,29 @@ const FALLBACK_DATA = {
     { name: 'Free Traders', description: 'Independent merchant fleet.' },
     { name: 'Meta Enclave', description: 'Order of Awakened scholars and guardians.' }
   ],
-  features: [],
-  disadvantages: [],
+  features: [
+    { id: 'feat_awakened_dim', name: 'Awakened: Dimension', cp: 3, type: 'Awakened', description: 'Metafocus discipline: Spatial manipulation, warping, and teleportation.' },
+    { id: 'feat_awakened_ene', name: 'Awakened: Energy', cp: 3, type: 'Awakened', description: 'Metafocus discipline: Thermal, electrical, kinetic, and radiant energy control.' },
+    { id: 'feat_awakened_ent', name: 'Awakened: Entropy', cp: 3, type: 'Awakened', description: 'Metafocus discipline: Probability manipulation, decay, and chaos resonance.' },
+    { id: 'feat_awakened_ill', name: 'Awakened: Illusion', cp: 3, type: 'Awakened', description: 'Metafocus discipline: Sensory phantasms, holographic weaves, and mental trickery.' },
+    { id: 'feat_awakened_mat', name: 'Awakened: Matter', cp: 3, type: 'Awakened', description: 'Metafocus discipline: Molecular alteration, density shifting, and material synthesis.' },
+    { id: 'feat_awakened_men', name: 'Awakened: Mental', cp: 3, type: 'Awakened', description: 'Metafocus discipline: Telepathy, psionic force, and neural influence.' },
+    { id: 'aug_ocular', name: 'Ocular Cyber-Implants', cp: 1, type: 'Augmentation', description: 'Enhanced spectrum vision and target tracking overlay (1 CP).' },
+    { id: 'aug_audio', name: 'Audio Synthesizer Array', cp: 1, type: 'Augmentation', description: 'Sub-audible frequency receiver and acoustic dampener (1 CP).' },
+    { id: 'aug_subdermal_jack', name: 'Subdermal Interface Jack', cp: 1, type: 'Augmentation', description: 'Direct neural link port for machinery and networks (1 CP).' },
+    { id: 'aug_subdermal_weave', name: 'Subdermal Armor Weave', cp: 2, type: 'Augmentation', description: 'Under-skin ballistic weave providing permanent kinetic resistance (2 CP).' },
+    { id: 'aug_prosthetic_limb', name: 'Cybernetic Limb', cp: 2, type: 'Augmentation', description: 'Reinforced artificial limb with integrated servo-motors (2 CP).' },
+    { id: 'aug_bioware', name: 'Bioware Gland Synthesizer', cp: 2, type: 'Augmentation', description: 'Biological stim-injector for metabolic recovery (2 CP).' },
+    { id: 'aug_accelerator', name: 'Neural Accelerator Unit', cp: 3, type: 'Augmentation', description: 'Synaptic speed booster granting heightened reaction speed (3 CP).' },
+    { id: 'aug_reflex_booster', name: 'Reflex Booster Array', cp: 3, type: 'Augmentation', description: 'Full-body neuromuscular booster for twitch dodge capabilities (3 CP).' },
+    { id: 'aug_dermal_plating', name: 'Dermal Plating Matrix', cp: 3, type: 'Augmentation', description: 'Heavy subdermal composite plating for maximum physical protection (3 CP).' }
+  ],
+  disadvantages: [
+    { id: 'dis_cyber_rejection', name: 'Cybernetic Rejection', cp: 3, description: 'Body reacts poorly to cybernetic neural sync (-3 CP refund).' },
+    { id: 'dis_phobia', name: 'Severe Phobia', cp: 3, description: 'Debilitating fear of specific triggers (-3 CP refund).' },
+    { id: 'dis_debt', name: 'Syndicate Debt', cp: 3, description: 'Owes substantial capital to dangerous underworld lenders (-3 CP refund).' },
+    { id: 'dis_infamy', name: 'Wanted / Infamous', cp: 3, description: 'Targeted by galactic law enforcement or bounty hunters (-3 CP refund).' }
+  ],
   augmentations: [],
   discipline: [],
   invocations: [],
