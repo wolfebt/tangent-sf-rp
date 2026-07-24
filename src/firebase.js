@@ -3,7 +3,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyBA1CC4SXXtWM9UpU1XkAiBFr0RIgrPwGk",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "tangent-rpg-dbm.firebaseapp.com",
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "tangent-rpg-dbm",
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "tangent-rpg-dbm.appspot.com",
