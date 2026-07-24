@@ -171,6 +171,7 @@ const MapPane = ({ mapExportPngRef }) => {
     setActiveMapId,
     addMap,
     updateMap,
+    deleteMap,
     addCustomTerrain,
     updateCustomTerrain,
     deleteCustomTerrain,
@@ -180,10 +181,11 @@ const MapPane = ({ mapExportPngRef }) => {
   } = useCampaign();
   const [selectedId, setSelectedId] = useState(null);
 
-  // Map Creation Modal, Landmass Generator Modal & Asset Manager Modal State
+  // Map Creation Modal, Landmass Generator Modal, Asset Manager Modal & Shortcuts Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLandmassModalOpen, setIsLandmassModalOpen] = useState(false);
   const [isAssetManagerOpen, setIsAssetManagerOpen] = useState(false);
+  const [isShortcutsModalOpen, setIsShortcutsModalOpen] = useState(false);
   const [newMapType, setNewMapType] = useState('Planetary');
   const [newMapTitle, setNewMapTitle] = useState('');
   const [newLayerNameInput, setNewLayerNameInput] = useState('');
@@ -196,6 +198,41 @@ const MapPane = ({ mapExportPngRef }) => {
   const texts = currentMap?.texts || [];
   const fog = currentMap?.fog || [];
   const mapLayers = currentMap?.layers || DEFAULT_LAYERS;
+
+  // Keyboard Shortcuts Hotkeys Manager Listener Element
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      const tag = e.target.tagName ? e.target.tagName.toLowerCase() : '';
+      if (tag === 'input' || tag === 'textarea' || e.target.isContentEditable) {
+        return;
+      }
+
+      if (e.key === 'g' || e.key === 'G') {
+        const nextGrid = !currentMap?.gridMode || currentMap.gridMode === 'off' ? 'square' : (currentMap.gridMode === 'square' ? 'hex' : 'off');
+        if (activeMapId) updateMap(activeMapId, { gridMode: nextGrid });
+      } else if (e.key === 'f' || e.key === 'F') {
+        setActiveTool(prev => prev === 'fog' ? 'select' : 'fog');
+      } else if (e.key === 'v' || e.key === 'V') {
+        setActiveTool('select');
+      } else if (e.key === 'h' || e.key === 'H') {
+        setActiveTool('pan');
+      } else if (e.key === '?' || (e.shiftKey && e.key === '/')) {
+        setIsShortcutsModalOpen(prev => !prev);
+      } else if ((e.key === 'Delete' || e.key === 'Backspace') && selectedId) {
+        recordHistory();
+        updateMap(activeMapId, {
+          objects: objects.filter(o => o.id !== selectedId),
+          terrains: terrains.filter(t => t.id !== selectedId),
+          tokens: tokens.filter(tk => tk.id !== selectedId),
+          texts: texts.filter(txt => txt.id !== selectedId)
+        });
+        setSelectedId(null);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activeMapId, currentMap?.gridMode, selectedId, objects, terrains, tokens, texts]);
 
   const handleCommitLandmass = ({ terrains: generatedTerrains, objects: generatedObjects, replaceExisting }) => {
     let targetId = activeMapId;
@@ -447,6 +484,128 @@ const MapPane = ({ mapExportPngRef }) => {
 
   return (
     <div className="h-full w-full bg-gray-950 flex flex-col" ref={containerRef}>
+      {/* Multi-Map Campaign Tab Switcher element & Hotkeys Bar */}
+      <div className="bg-slate-950 border-b border-slate-800 px-3 py-1.5 flex items-center justify-between gap-2 overflow-x-auto shrink-0 z-30">
+        <div className="flex items-center gap-1.5 overflow-x-auto">
+          <span className="text-[10px] font-bold text-amber-500 uppercase tracking-widest mr-1 shrink-0">
+            🗺️ Campaign Maps:
+          </span>
+          {(universeState.maps || []).map(m => {
+            const isActive = m.id === activeMapId;
+            return (
+              <div
+                key={m.id}
+                className={`flex items-center gap-1.5 px-3 py-1 rounded text-xs font-bold uppercase transition-all shrink-0 border ${
+                  isActive
+                    ? 'bg-cyan-950 border-cyan-500 text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
+                    : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800'
+                }`}
+              >
+                <button
+                  onClick={() => setActiveMapId(m.id)}
+                  className="truncate max-w-[120px] text-left"
+                  title={m.title || 'Untitled Map'}
+                >
+                  {m.title || 'Untitled Map'}
+                </button>
+                {universeState.maps.length > 1 && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (window.confirm(`Delete map element "${m.title || 'Untitled'}"?`)) {
+                        deleteMap(m.id);
+                      }
+                    }}
+                    className="text-slate-500 hover:text-red-400 font-bold ml-1"
+                    title="Delete map element"
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+            );
+          })}
+          <button
+            onClick={() => {
+              const newId = uuidv4();
+              const mapCount = (universeState.maps || []).length + 1;
+              const newMapObj = {
+                id: newId,
+                title: `Map Sector ${mapCount}`,
+                type: 'Standard',
+                lines: [], tokens: [], terrains: [], objects: [], texts: [], fog: [], layers: DEFAULT_LAYERS
+              };
+              addMap(newMapObj);
+            }}
+            className="px-2.5 py-1 bg-amber-600/30 hover:bg-amber-600/60 border border-amber-500/50 text-amber-300 rounded text-xs font-bold uppercase shrink-0 transition-colors"
+            title="Add new map element to campaign"
+          >
+            + New Map Tab
+          </button>
+        </div>
+
+        <div className="flex items-center gap-2 shrink-0">
+          <button
+            onClick={() => setIsShortcutsModalOpen(true)}
+            className="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 text-cyan-300 border border-slate-700 rounded text-xs font-bold uppercase tracking-wider flex items-center gap-1"
+            title="View Canvas Keyboard Shortcuts Legend element"
+          >
+            <span>⌨️</span> Hotkeys
+          </button>
+        </div>
+      </div>
+
+      {/* Canvas Keyboard Shortcuts Manager Legend Modal Element */}
+      {isShortcutsModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
+          <div className="bg-slate-900 border border-cyan-500/50 rounded-xl w-full max-w-md p-5 text-slate-100 shadow-2xl">
+            <div className="flex justify-between items-center pb-3 border-b border-slate-800 mb-4">
+              <h3 className="text-base font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-2">
+                <span>⌨️</span> Canvas Hotkeys & Keyboard Shortcuts
+              </h3>
+              <button onClick={() => setIsShortcutsModalOpen(false)} className="text-slate-400 hover:text-white font-bold">
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-2 text-xs">
+              <div className="flex justify-between items-center bg-slate-950 p-2 rounded border border-slate-800">
+                <span className="text-slate-300 font-medium">Toggle Grid Mode (Square / Hex / Off)</span>
+                <kbd className="px-2 py-0.5 bg-slate-800 text-amber-400 font-mono font-bold rounded border border-slate-700">G</kbd>
+              </div>
+              <div className="flex justify-between items-center bg-slate-950 p-2 rounded border border-slate-800">
+                <span className="text-slate-300 font-medium">Toggle Fog of War Tool</span>
+                <kbd className="px-2 py-0.5 bg-slate-800 text-amber-400 font-mono font-bold rounded border border-slate-700">F</kbd>
+              </div>
+              <div className="flex justify-between items-center bg-slate-950 p-2 rounded border border-slate-800">
+                <span className="text-slate-300 font-medium">Select Tool Mode</span>
+                <kbd className="px-2 py-0.5 bg-slate-800 text-amber-400 font-mono font-bold rounded border border-slate-700">V</kbd>
+              </div>
+              <div className="flex justify-between items-center bg-slate-950 p-2 rounded border border-slate-800">
+                <span className="text-slate-300 font-medium">Pan Tool Mode</span>
+                <kbd className="px-2 py-0.5 bg-slate-800 text-amber-400 font-mono font-bold rounded border border-slate-700">H</kbd>
+              </div>
+              <div className="flex justify-between items-center bg-slate-950 p-2 rounded border border-slate-800">
+                <span className="text-slate-300 font-medium">Delete Selected Canvas Node</span>
+                <kbd className="px-2 py-0.5 bg-slate-800 text-red-400 font-mono font-bold rounded border border-slate-700">Del / Backspace</kbd>
+              </div>
+              <div className="flex justify-between items-center bg-slate-950 p-2 rounded border border-slate-800">
+                <span className="text-slate-300 font-medium">Toggle Hotkeys Legend</span>
+                <kbd className="px-2 py-0.5 bg-slate-800 text-amber-400 font-mono font-bold rounded border border-slate-700">?</kbd>
+              </div>
+            </div>
+
+            <div className="mt-5 text-right">
+              <button
+                onClick={() => setIsShortcutsModalOpen(false)}
+                className="px-4 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded text-xs uppercase"
+              >
+                Got it
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {isModalOpen && (
         <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">

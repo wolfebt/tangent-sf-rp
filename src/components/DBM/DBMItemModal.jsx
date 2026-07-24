@@ -169,6 +169,23 @@ export const DBMItemModal = ({
     return true;
   };
 
+  const [activeModalTab, setActiveModalTab] = useState('general');
+
+  const fieldsObj = currentConfig.fields || DEFAULT_FIELDS;
+  const fieldKeys = Object.keys(fieldsObj);
+  const isDenseForm = fieldKeys.length > 8;
+
+  const getFieldTabGroup = (fKey) => {
+    const k = fKey.toLowerCase();
+    if (['name', 'description', 'type', 'tl', 'ml', 'availability', 'rarity', 'category', 'price', 'cost_credits', 'tech_level', 'magic_level'].includes(k)) {
+      return 'general';
+    }
+    if (k.includes('attr') || k.includes('skill') || k.includes('bonus') || k.includes('dc') || k.includes('damage') || k.includes('range') || k.includes('defense') || k.includes('armor') || k.includes('points') || k.includes('cost') || k.includes('cp') || k.includes('health') || k.includes('vitality') || k.includes('karma')) {
+      return 'mechanics';
+    }
+    return 'features';
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
       <div className="bg-slate-900 border border-slate-700 rounded-xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
@@ -205,12 +222,65 @@ export const DBMItemModal = ({
           </div>
         </div>
 
+        {/* Dense Form Category Sub-Tab Navigation Bar */}
+        {isDenseForm && (
+          <div className="bg-slate-950 px-6 py-2 border-b border-slate-800 flex gap-2 overflow-x-auto shrink-0">
+            <button
+              type="button"
+              onClick={() => setActiveModalTab('general')}
+              className={`px-3 py-1 rounded text-xs font-bold uppercase tracking-wider border transition-colors ${
+                activeModalTab === 'general'
+                  ? 'bg-cyan-950 border-cyan-500 text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
+                  : 'bg-slate-900 border-slate-700 text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              📋 General Info
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveModalTab('mechanics')}
+              className={`px-3 py-1 rounded text-xs font-bold uppercase tracking-wider border transition-colors ${
+                activeModalTab === 'mechanics'
+                  ? 'bg-cyan-950 border-cyan-500 text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
+                  : 'bg-slate-900 border-slate-700 text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              ⚡ Attributes & Mechanics
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveModalTab('features')}
+              className={`px-3 py-1 rounded text-xs font-bold uppercase tracking-wider border transition-colors ${
+                activeModalTab === 'features'
+                  ? 'bg-cyan-950 border-cyan-500 text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
+                  : 'bg-slate-900 border-slate-700 text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              🧬 Features & Relational
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveModalTab('all')}
+              className={`px-3 py-1 rounded text-xs font-bold uppercase tracking-wider border transition-colors ${
+                activeModalTab === 'all'
+                  ? 'bg-cyan-950 border-cyan-500 text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
+                  : 'bg-slate-900 border-slate-700 text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              🔍 View All Fields ({fieldKeys.length})
+            </button>
+          </div>
+        )}
+
         {/* Modal Body Fields */}
         <div className="flex-1 overflow-y-auto p-6 space-y-4">
           {isEditMode ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {Object.keys(currentConfig.fields || { name: {}, description: {} }).map(fieldKey => {
+              {fieldKeys.map(fieldKey => {
                 if (!isFieldVisible(fieldKey)) return null;
+                if (isDenseForm && activeModalTab !== 'all' && getFieldTabGroup(fieldKey) !== activeModalTab) {
+                  return null;
+                }
 
                 const fieldDef = currentConfig.fields[fieldKey];
                 const label = fieldDef.label || fieldKey.replace(/_/g, ' ').toUpperCase();

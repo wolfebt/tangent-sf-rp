@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Group, Circle, RegularPolygon, Rect, Star, Line, Text, Transformer, Image as KonvaImage } from 'react-konva';
+import { getLoadedImage } from './MapTextures';
 
 export const CONDITION_COLORS = {
   Stunned: '#ef4444',   // Red
@@ -25,10 +26,12 @@ export const MapObjectNode = ({
 
   useEffect(() => {
     if (shapeProps.imageUrl) {
-      const img = new window.Image();
-      img.src = shapeProps.imageUrl;
-      img.onload = () => setImageObj(img);
-      img.onerror = () => setImageObj(null);
+      const img = getLoadedImage(shapeProps.imageUrl, (loadedImg) => {
+        setImageObj(loadedImg);
+      });
+      if (img && img.complete) {
+        setImageObj(img);
+      }
     } else {
       setImageObj(null);
     }

@@ -278,16 +278,24 @@ export const PRESET_OBJECT_SPRITES = {
  */
 const imageCache = new Map();
 
-export const getLoadedImage = (src) => {
+export const getLoadedImage = (src, onLoadCallback) => {
   if (!src) return null;
   if (imageCache.has(src)) {
-    return imageCache.get(src);
+    const cached = imageCache.get(src);
+    if (cached.complete && typeof onLoadCallback === 'function') {
+      onLoadCallback(cached);
+    }
+    return cached;
   }
 
   const img = new window.Image();
+  imageCache.set(src, img);
   img.src = src;
+
   img.onload = () => {
-    imageCache.set(src, img);
+    if (typeof onLoadCallback === 'function') {
+      onLoadCallback(img);
+    }
   };
   return img;
 };

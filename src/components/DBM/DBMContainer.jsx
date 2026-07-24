@@ -47,6 +47,10 @@ export const DBMContainer = () => {
   const [bastionInput, setBastionInput] = useState('');
   const [apiKey, setApiKey] = useState(localStorage.getItem('geminiApiKey') || '');
 
+  const [filterTL, setFilterTL] = useState('ALL');
+  const [filterML, setFilterML] = useState('ALL');
+  const [filterType, setFilterType] = useState('ALL');
+
   // Currently active configuration
   const currentKey = activeSubcategory || activeCategory;
   const parentConfig = categoryConfig[activeCategory];
@@ -59,12 +63,17 @@ export const DBMContainer = () => {
 
   // Filter & Sort Items
   const filteredItems = currentItems.filter(item => {
+    if (filterTL !== 'ALL' && Number(item.tl) !== Number(filterTL)) return false;
+    if (filterML !== 'ALL' && Number(item.ml) !== Number(filterML)) return false;
+    if (filterType !== 'ALL' && item.type !== filterType && item.category !== filterType) return false;
+
     if (!searchTerm) return true;
     const term = searchTerm.toLowerCase();
     return (
       (item.name && item.name.toLowerCase().includes(term)) ||
       (item.description && item.description.toLowerCase().includes(term)) ||
-      (item.type && item.type.toLowerCase().includes(term))
+      (item.type && item.type.toLowerCase().includes(term)) ||
+      (item.category && item.category.toLowerCase().includes(term))
     );
   }).sort((a, b) => {
     const valA = (a[sortField] || '').toString().toLowerCase();
@@ -383,6 +392,13 @@ export const DBMContainer = () => {
               setSortAsc={setSortAsc}
               filteredItems={filteredItems}
               handleOpenItem={handleOpenItem}
+              filterTL={filterTL}
+              setFilterTL={setFilterTL}
+              filterML={filterML}
+              setFilterML={setFilterML}
+              filterType={filterType}
+              setFilterType={setFilterType}
+              currentItems={currentItems}
             />
           )}
         </main>

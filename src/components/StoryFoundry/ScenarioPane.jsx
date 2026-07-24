@@ -18,9 +18,9 @@ const getBreadcrumbPath = (nodes, targetId, currentPath = []) => {
   return null;
 };
 
-const TreeNode = ({ node, activeId, onSelect, onDelete, onMove, onReorder, onAddChild, onExport, onExportMD, onExportPDF, depth = 0 }) => {
+const TreeNode = ({ node, activeId, onSelect, onDelete, onMove, onReorderRelative, onAddChild, onExport, onExportMD, onExportPDF, depth = 0 }) => {
   const [isExpanded, setIsExpanded] = useState(true);
-  const [isDragOver, setIsDragOver] = useState(false);
+  const [dropPosition, setDropPosition] = useState(null); // 'above' | 'inside' | 'below' | null
   const hasChildren = node.children && node.children.length > 0;
   
   const handleDragStart = (e) => {
@@ -33,35 +33,50 @@ const TreeNode = ({ node, activeId, onSelect, onDelete, onMove, onReorder, onAdd
     e.preventDefault();
     e.stopPropagation();
     e.dataTransfer.dropEffect = 'move';
-    setIsDragOver(true);
+    const rect = e.currentTarget.getBoundingClientRect();
+    const offsetY = e.clientY - rect.top;
+    const ratio = offsetY / rect.height;
+
+    if (ratio < 0.25) {
+      setDropPosition('above');
+    } else if (ratio > 0.75) {
+      setDropPosition('below');
+    } else {
+      setDropPosition('inside');
+    }
   };
 
   const handleDragLeave = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsDragOver(false);
+    setDropPosition(null);
   };
 
   const handleDrop = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsDragOver(false);
+    const pos = dropPosition;
+    setDropPosition(null);
     const draggedId = e.dataTransfer.getData('text/plain');
     if (draggedId && draggedId !== node.id) {
-      onMove(draggedId, node.id);
+      if (onReorderRelative && (pos === 'above' || pos === 'below')) {
+        onReorderRelative(draggedId, node.id, pos);
+      } else if (onMove) {
+        onMove(draggedId, node.id);
+      }
     }
   };
 
   return (
-    <div className="flex flex-col min-w-max group select-none">
+    <div className="flex flex-col min-w-max group select-none relative">
       <div 
         draggable
         onDragStart={handleDragStart}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
-        className={`flex items-center py-1.5 px-2 cursor-pointer transition-all justify-between rounded-sm ${
-          isDragOver 
+        className={`flex items-center py-1.5 px-2 cursor-pointer transition-all justify-between rounded-sm relative ${
+          dropPosition === 'inside'
             ? 'bg-cyan-950/90 border-2 border-cyan-400 text-cyan-200 shadow-[0_0_12px_rgba(34,211,238,0.5)]' 
             : activeId === node.id 
             ? 'bg-amber-600/30 border-l-2 border-amber-500 text-white font-semibold' 
@@ -70,6 +85,15 @@ const TreeNode = ({ node, activeId, onSelect, onDelete, onMove, onReorder, onAdd
         style={{ paddingLeft: `${depth * 0.85 + 0.5}rem` }}
         onClick={() => onSelect(node.id)}
       >
+        {/* Top Drop Indicator Line Element */}
+        {dropPosition === 'above' && (
+          <div className="absolute top-0 left-0 right-0 h-1 bg-cyan-400 shadow-[0_0_8px_#22d3ee] z-10" />
+        )}
+        {/* Bottom Drop Indicator Line Element */}
+        {dropPosition === 'below' && (
+          <div className="absolute bottom-0 left-0 right-0 h-1 bg-cyan-400 shadow-[0_0_8px_#22d3ee] z-10" />
+        )}
+
         <div className="flex items-center gap-1 min-w-0 pr-2">
           <span 
             className={`w-4 text-center text-xs text-slate-400 shrink-0 ${hasChildren ? 'hover:text-white' : 'opacity-0'}`}
@@ -77,7 +101,7 @@ const TreeNode = ({ node, activeId, onSelect, onDelete, onMove, onReorder, onAdd
           >
             {isExpanded ? '▼' : '▶'}
           </span>
-          <span className="text-slate-500 hover:text-cyan-400 text-[10px] cursor-grab active:cursor-grabbing shrink-0" title="Drag & drop to nest inside another element">
+          <span className="text-slate-500 hover:text-cyan-400 text-[10px] cursor-grab active:cursor-grabbing shrink-0" title="Drag to reorder sibling or drop in middle to nest inside">
             ⣿
           </span>
           <div className="flex flex-col min-w-0">
@@ -95,6 +119,7 @@ const TreeNode = ({ node, activeId, onSelect, onDelete, onMove, onReorder, onAdd
               activeId={activeId} 
               onSelect={onSelect} 
               onMove={onMove}
+              onReorderRelative={onReorderRelative}
               depth={depth + 1} 
             />
           ))}
@@ -370,7 +395,7 @@ const ElementImageUploader = ({ activeNode, updateStory }) => {
 };
 
 const ScenarioPane = ({ onOpenBastion, onSwitchTab }) => {
-  const { universeState, activeScenarioId, setActiveScenarioId, addStory, updateStory, deleteStory, moveStory, reorderStory, handleSaveStory, handleLoadStory, addMap, setActiveMapId, updateProjectName } = useStory();
+  const { universeState, activeScenarioId, setActiveScenarioId, addStory, updateStory, deleteStory, moveStory, reorderStory, reorderRelativeScenario, handleSaveStory, handleLoadStory, addMap, setActiveMapId, updateProjectName } = useStory();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalParentId, setModalParentId] = useState(null);
   const [localContent, setLocalContent] = useState('');
@@ -868,6 +893,7 @@ const ScenarioPane = ({ onOpenBastion, onSwitchTab }) => {
                     onDelete={handleDeleteElement}
                     onMove={moveStory}
                     onReorder={reorderStory}
+                    onReorderRelative={reorderRelativeScenario}
                     onAddChild={handleOpenAddModal}
                     onExport={handleExportElement}
                     onExportMD={handleExportMarkdown}

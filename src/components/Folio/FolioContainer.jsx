@@ -14,6 +14,7 @@ import AddSkillModal from './modals/AddSkillModal';
 import CustomSelectorModal from './modals/CustomSelectorModal';
 import ConfirmationModal from './modals/ConfirmationModal';
 import PreviewModal from './modals/PreviewModal';
+import RosterModal from './modals/RosterModal';
 import BastionDrawer from './BastionDrawer';
 import PrintFolio from './print/PrintFolio';
 
@@ -25,6 +26,7 @@ const FolioContainer = () => {
 
   // Modal States
   const [isEconomyOpen, setIsEconomyOpen] = useState(false);
+  const [isRosterOpen, setIsRosterOpen] = useState(false);
   const [isAddSkillOpen, setIsAddSkillOpen] = useState(false);
   const [addSkillModalMode, setAddSkillModalMode] = useState('skill');
   const [availableSkillsForModal, setAvailableSkillsForModal] = useState([]);
@@ -49,7 +51,13 @@ const FolioContainer = () => {
     handleSaveCloud,
     handleLoadCloud,
     computeSpentCP,
-    economyBreakdown
+    economyBreakdown,
+    derivedStats,
+    personaRoster,
+    saveCurrentToRoster,
+    switchRosterCharacter,
+    deleteRosterCharacter,
+    duplicateRosterCharacter
   } = useFolio();
 
   const handleOpenAddSkillModal = useCallback((mode = 'skill', skillsList = []) => {
@@ -145,19 +153,57 @@ const FolioContainer = () => {
               <h2 id="actor-display-header" className="text-sm sm:text-base font-bold font-mono text-amber-400 uppercase tracking-wider drop-shadow-[0_0_8px_rgba(245,158,11,0.3)] truncate max-w-[150px] sm:max-w-xs">
                 {charNameUpper}
               </h2>
+              <div className="flex items-center gap-2 text-[10px] text-slate-400 font-mono">
+                <span>HP: <strong className="text-emerald-400">{derivedStats.health}</strong></span>
+                <span>VIT: <strong className="text-cyan-400">{derivedStats.vitality}</strong></span>
+                <span>KARMA: <strong className="text-amber-400">{derivedStats.karma}</strong></span>
+              </div>
             </div>
           </div>
 
           {/* Center / Actions Bar */}
           <div className="flex items-center gap-2 sm:gap-3">
-            {/* Economy Button */}
+            {/* Real-time CP Budget Bar */}
+            {(() => {
+              const startingCP = parseInt(characterData['starting-cp'] || 150, 10);
+              const spentCP = computeSpentCP();
+              const remainingCP = startingCP - spentCP;
+              const percent = Math.min(100, Math.max(0, (spentCP / startingCP) * 100));
+              const isOver = spentCP > startingCP;
+
+              return (
+                <div
+                  onClick={() => setIsEconomyOpen(true)}
+                  className="cursor-pointer bg-slate-950 border border-cyan-500/60 rounded px-3 py-1 flex flex-col min-w-[170px] hover:border-cyan-400 transition-all shadow-[0_0_10px_rgba(34,211,238,0.15)]"
+                  title="Click to view detailed CP Economy & Point Pools breakdown"
+                >
+                  <div className="flex justify-between items-center text-[10px] font-bold uppercase font-mono">
+                    <span className="text-slate-400">CP BUDGET:</span>
+                    <span className={isOver ? 'text-red-400 font-bold' : 'text-amber-400'}>
+                      {spentCP} / {startingCP} CP
+                    </span>
+                  </div>
+                  <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden mt-1">
+                    <div
+                      className={`h-full transition-all duration-300 ${isOver ? 'bg-red-500' : 'bg-gradient-to-r from-cyan-500 to-amber-400'}`}
+                      style={{ width: `${percent}%` }}
+                    />
+                  </div>
+                  <span className={`text-[9px] text-right font-mono font-bold mt-0.5 ${isOver ? 'text-red-400' : 'text-slate-400'}`}>
+                    {isOver ? `OVER BUDGET (-${Math.abs(remainingCP)} CP)` : `${remainingCP} CP REMAINING`}
+                  </span>
+                </div>
+              );
+            })()}
+
+            {/* Character Roster Button */}
             <button
               type="button"
-              id="economy-btn"
-              onClick={() => setIsEconomyOpen(true)}
-              className="px-3 py-1.5 bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/60 rounded text-xs font-bold uppercase tracking-wider text-cyan-300 transition-all shadow-[0_0_10px_rgba(34,211,238,0.2)]"
+              onClick={() => setIsRosterOpen(true)}
+              className="px-3 py-1.5 bg-amber-600/30 hover:bg-amber-600/50 text-amber-300 border border-amber-500/60 rounded text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_10px_rgba(245,158,11,0.2)]"
             >
-              Spent CP: <span className="font-mono text-amber-400 font-bold ml-1">{computeSpentCP()}</span>
+              <span>📇</span>
+              <span className="hidden sm:inline">Roster</span>
             </button>
 
             {/* Hidden File Input */}
@@ -182,9 +228,16 @@ const FolioContainer = () => {
 
               {isFileMenuOpen && (
                 <div
-                  className="absolute right-0 mt-1 w-44 bg-slate-900 border border-cyan-500/60 rounded-lg shadow-xl py-1 z-50 text-xs"
+                  className="absolute right-0 mt-1 w-48 bg-slate-900 border border-cyan-500/60 rounded-lg shadow-xl py-1 z-50 text-xs"
                   onClick={() => setIsFileMenuOpen(false)}
                 >
+                  <button
+                    onClick={() => setIsRosterOpen(true)}
+                    className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-amber-300 uppercase font-bold flex items-center gap-2"
+                  >
+                    <span>📇</span> Character Portfolio Roster
+                  </button>
+                  <div className="border-t border-slate-800 my-1" />
                   <button
                     onClick={() => setIsConfirmOpen(true)}
                     className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-slate-200 uppercase font-bold"
@@ -283,6 +336,17 @@ const FolioContainer = () => {
       </div>
 
       {/* Modals & Drawers */}
+      <RosterModal
+        isOpen={isRosterOpen}
+        onClose={() => setIsRosterOpen(false)}
+        personaRoster={personaRoster}
+        activeDocId={characterData['character-doc-id']}
+        onSelectCharacter={switchRosterCharacter}
+        onSaveCurrent={saveCurrentToRoster}
+        onNewCharacter={handleNewCharacter}
+        onDuplicateCharacter={duplicateRosterCharacter}
+        onDeleteCharacter={deleteRosterCharacter}
+      />
       <EconomyModal
         isOpen={isEconomyOpen}
         onClose={() => setIsEconomyOpen(false)}

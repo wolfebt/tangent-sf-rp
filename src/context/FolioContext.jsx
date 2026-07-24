@@ -64,6 +64,112 @@ export const FolioProvider = ({ children }) => {
     return DEFAULT_CHARACTER;
   });
 
+  // Character Roster State
+  const [personaRoster, setPersonaRoster] = useState(() => {
+    try {
+      const saved = localStorage.getItem('personaRoster');
+      if (saved) return JSON.parse(saved);
+    } catch (e) {
+      console.warn('Failed to load character roster:', e);
+    }
+    return [];
+  });
+
+  // Sync roster to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem('personaRoster', JSON.stringify(personaRoster));
+    } catch (e) {
+      console.error('Failed to save character roster:', e);
+    }
+  }, [personaRoster]);
+
+  // Derived Stats Auto-Calculation
+  const derivedStats = useMemo(() => {
+    const stamina = parseInt(characterData['attr-stamina'] || 0, 10);
+    const fortitude = parseInt(characterData['attr-fortitude'] || (stamina * 2 + 2), 10);
+    const wisdom = parseInt(characterData['attr-wisdom'] || 0, 10);
+    const will = parseInt(characterData['attr-will'] || (wisdom * 2 + 2), 10);
+    const magicLevel = parseInt(characterData['magic-level'] || 1, 10);
+
+    const calculatedHealth = 30 + (fortitude > 2 ? (fortitude - 2) * 2 : 0);
+    const calculatedVitality = 30 + (will > 2 ? (will - 2) * 2 : 0);
+    const calculatedKarma = 3 + (magicLevel > 1 ? magicLevel - 1 : 0);
+
+    return {
+      health: calculatedHealth,
+      vitality: calculatedVitality,
+      karma: calculatedKarma
+    };
+  }, [
+    characterData['attr-stamina'],
+    characterData['attr-fortitude'],
+    characterData['attr-wisdom'],
+    characterData['attr-will'],
+    characterData['magic-level']
+  ]);
+
+  // Automatically keep health/vitality/karma synchronized if unmodified
+  useEffect(() => {
+    setCharacterData(prev => {
+      if (
+        prev.health !== derivedStats.health ||
+        prev.vitality !== derivedStats.vitality ||
+        prev.karma !== derivedStats.karma
+      ) {
+        return {
+          ...prev,
+          health: derivedStats.health,
+          vitality: derivedStats.vitality,
+          karma: derivedStats.karma
+        };
+      }
+      return prev;
+    });
+  }, [derivedStats]);
+
+  // Roster Management Actions
+  const saveCurrentToRoster = useCallback(() => {
+    const name = characterData['char-name'] || 'Unnamed Operative';
+    const docId = characterData['character-doc-id'] || `char_${Date.now()}`;
+    const updatedData = { ...characterData, 'character-doc-id': docId, updatedAt: new Date().toISOString() };
+    
+    setPersonaRoster(prev => {
+      const idx = prev.findIndex(c => c['character-doc-id'] === docId);
+      if (idx >= 0) {
+        const next = [...prev];
+        next[idx] = updatedData;
+        return next;
+      }
+      return [...prev, updatedData];
+    });
+  }, [characterData]);
+
+  const switchRosterCharacter = useCallback((docId) => {
+    const found = personaRoster.find(c => c['character-doc-id'] === docId);
+    if (found) {
+      setCharacterData(found);
+    }
+  }, [personaRoster]);
+
+  const deleteRosterCharacter = useCallback((docId) => {
+    setPersonaRoster(prev => prev.filter(c => c['character-doc-id'] !== docId));
+  }, []);
+
+  const duplicateRosterCharacter = useCallback((docId) => {
+    const found = personaRoster.find(c => c['character-doc-id'] === docId);
+    if (found) {
+      const newDocId = `char_${Date.now()}`;
+      const clone = {
+        ...found,
+        'character-doc-id': newDocId,
+        'char-name': `${found['char-name'] || 'Unnamed'} (Copy)`,
+        updatedAt: new Date().toISOString()
+      };
+      setPersonaRoster(prev => [...prev, clone]);
+    }
+  }, [personaRoster]);
+
   // Sync to localStorage and sessionStorage on state change
   useEffect(() => {
     try {
@@ -645,7 +751,13 @@ export const FolioProvider = ({ children }) => {
         handleSaveCloud,
         handleLoadCloud,
         computeSpentCP,
-        economyBreakdown
+        economyBreakdown,
+        derivedStats,
+        personaRoster,
+        saveCurrentToRoster,
+        switchRosterCharacter,
+        deleteRosterCharacter,
+        duplicateRosterCharacter
       }}
     >
       {children}

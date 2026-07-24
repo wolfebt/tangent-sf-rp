@@ -20,16 +20,57 @@ export const useFirestoreSync = (currentKey) => {
     }
     if (!config || config.isParent || config.viewType === 'guide') return;
 
+    const unsubs = [];
+
     try {
+      // 1. Primary real-time listener for current active category
       const colRef = collection(db, currentKey);
-      const unsub = onSnapshot(colRef, (snapshot) => {
+      const unsubCurrent = onSnapshot(colRef, (snapshot) => {
         const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         setDbData(prev => ({ ...prev, [currentKey]: items }));
       }, (err) => {
         console.warn(`Firestore listener error for ${currentKey}:`, err.message);
-        // Graceful fallback for offline / unauthenticated Firestore read limits
       });
-      return () => unsub();
+      unsubs.push(unsubCurrent);
+
+      // 2. Pre-fetch reference collections in background for relational selector parity
+      const allCatKeys = [];
+      Object.keys(categoryConfig).forEach(parentK => {
+        const parent = categoryConfig[parentK];
+        if (parent.isParent && parent.subcategories) {
+          Object.keys(parent.subcategories).forEach(subK => {
+            if (!parent.subcategories[subK].isParent && parent.subcategories[subK].viewType !== 'guide') {
+              allCatKeys.push(subK);
+            }
+          });
+        } else if (!parent.isParent && parent.viewType !== 'guide') {
+          allCatKeys.push(parentK);
+        }
+      });
+
+      // Background subscribe to non-active reference collections if unpopulated
+      allCatKeys.forEach(catK => {
+        if (catK !== currentKey) {
+          try {
+            const refCol = collection(db, catK);
+            const unsubRef = onSnapshot(refCol, (snapshot) => {
+              const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+              setDbData(prev => ({ ...prev, [catK]: items }));
+            }, (err) => {
+              // Silent fallback for permission or limit restrictions
+            });
+            unsubs.push(unsubRef);
+          } catch (e) {
+            // Ignore background init errors
+          }
+        }
+      });
+
+      return () => {
+        unsubs.forEach(unsub => {
+          if (typeof unsub === 'function') unsub();
+        });
+      };
     } catch (e) {
       console.warn(`Firestore listener init error for ${currentKey}:`, e);
     }

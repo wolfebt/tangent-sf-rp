@@ -168,7 +168,13 @@ const BastionDrawer = ({ isOpen, onClose, initialTab = 'chat' }) => {
       selectedFields: fieldsToGen,
       currentValues,
       userPrompt: genPrompt,
-      elementType: activeNode.type || 'Element'
+      elementType: activeNode.type || 'Element',
+      campaignContext: {
+        projectName: universeState.projectName || 'Tangent Universe',
+        activeNodeTitle: activeNode.title || '',
+        techLevel: activeNode.fields?.tl || 3,
+        metaLevel: activeNode.fields?.ml || 1
+      }
     });
 
     setIsGenerating(false);

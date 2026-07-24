@@ -165,7 +165,14 @@ export const sendBastionChatMessage = async ({ prompt, history = [] }) => {
  * @param {string} params.userPrompt - Generation instruction/theme
  * @param {string} params.elementType - Active element type (e.g. NPC, Encounter, Story Arc)
  */
-export const generateSelectiveFields = async ({ selectedFields = [], currentValues = {}, userPrompt = '', elementType = 'Element', componentType = 'Element' }) => {
+export const generateSelectiveFields = async ({
+  selectedFields = [],
+  currentValues = {},
+  userPrompt = '',
+  elementType = 'Element',
+  componentType = 'Element',
+  campaignContext = {}
+}) => {
   const activeElementType = elementType || componentType || 'Element';
   if (selectedFields.length === 0) {
     return { success: false, error: 'No fields were selected for BASTION generation.' };
@@ -177,6 +184,12 @@ export const generateSelectiveFields = async ({ selectedFields = [], currentValu
 
   const apiKey = getGeminiApiKey();
 
+  // Extract surrounding campaign parameters if provided
+  const tl = campaignContext.techLevel ?? currentValues.tl ?? 3;
+  const ml = campaignContext.metaLevel ?? currentValues.ml ?? 1;
+  const project = campaignContext.projectName || 'Tangent Universe';
+  const parentNode = campaignContext.activeNodeTitle || '';
+
   // If no API Key, return structured simulation fallback for selected fields ONLY
   if (!apiKey) {
     const fallbackResults = {};
@@ -187,8 +200,8 @@ export const generateSelectiveFields = async ({ selectedFields = [], currentValu
       'Encounter': `Ambush at ${userPrompt || 'Perimeter Gamma'}`,
       'Faction': `The ${userPrompt || 'Obsidian Syndicate'}`,
       'Species': `The ${userPrompt || 'Kaelen'} Species`,
-      'Equipment': `TL-4 ${userPrompt || 'Tactical Scanner'}`,
-      'Weaponry': `TL-4 ${userPrompt || 'Plasma Rifle'}`
+      'Equipment': `TL-${tl} ${userPrompt || 'Tactical Scanner'}`,
+      'Weaponry': `TL-${tl} ${userPrompt || 'Plasma Rifle'}`
     };
 
     selectedFields.forEach(field => {
@@ -197,15 +210,15 @@ export const generateSelectiveFields = async ({ selectedFields = [], currentValu
       } else if (['type', 'category'].includes(field)) {
         fallbackResults[field] = activeElementType || 'Standard';
       } else if (['content', 'description'].includes(field)) {
-        fallbackResults[field] = `[BASTION TACTICAL BRIEFING - TANGENT SFF RPG]\nOverview: Entry generated for "${userPrompt || 'Standard Concept'}". Grounded in Tech Level (TL-3/4) protocols, Meta Level (ML-2) attunements, and Tangent universe mechanics.`;
+        fallbackResults[field] = `[BASTION TACTICAL BRIEFING - ${project.toUpperCase()}]\nOverview: Entry generated for "${userPrompt || 'Standard Concept'}" under Tech Level ${tl} protocols and Meta Level ${ml} attunements${parentNode ? ` within parent node "${parentNode}"` : ''}. Grounded in Tangent SFF RPG mechanics.`;
       } else if (['notes', 'char-motive', 'char-concept', 'char-style'].includes(field)) {
-        fallbackResults[field] = `Operative profile details generated based on prompt "${userPrompt || 'Tactical Operative'}". High adaptability in space exploration and tactical combat environments.`;
+        fallbackResults[field] = `Operative profile details generated based on prompt "${userPrompt || 'Tactical Operative'}". Grounded in campaign context (${project}, TL-${tl}).`;
       } else if (['char-species', 'species', 'char-occu', 'occupation', 'char-origin', 'origin', 'char-faction', 'faction'].includes(field)) {
         fallbackResults[field] = userPrompt ? userPrompt.split(' ')[0] : 'Standard';
       } else if (['tl'].includes(field)) {
-        fallbackResults[field] = 4;
+        fallbackResults[field] = Number(tl);
       } else if (['ml'].includes(field)) {
-        fallbackResults[field] = 2;
+        fallbackResults[field] = Number(ml);
       } else {
         fallbackResults[field] = `Generated ${field} for ${userPrompt || 'Standard'}`;
       }
@@ -218,6 +231,12 @@ export const generateSelectiveFields = async ({ selectedFields = [], currentValu
     const promptInstructions = `
 You are BASTION, tactical AI content generator for the Tangent Science Fantasy Roleplaying Game (SFF RPG).
 Strictly follow Tangent SFF RPG system guidelines and lore conventions.
+
+Campaign & Scenario Context:
+- Project / Universe Name: "${project}"
+- Tech Level (TL): ${tl}
+- Meta Level / Psi (ML): ${ml}
+${parentNode ? `- Surrounding Scenario Element Node: "${parentNode}"` : ''}
 
 The user is editing a story module element of type "${activeElementType}".
 User Prompt / Instruction: "${userPrompt || 'Generate detailed content appropriate for this element'}"
