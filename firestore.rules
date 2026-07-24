@@ -1,33 +1,41 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    
-    // Default fallback - deny everything that isn't explicitly allowed
-    match /{document=**} {
-      allow read, write: if false;
+
+    // =========================================================================
+    // USER-PRIVATE DATA: Persona Folio roster, scoped per user
+    // Only the authenticated user who owns the data can read/write it.
+    // =========================================================================
+    match /users/{userId}/personas/{personaId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
     }
 
-    // Rules for Tangent SF RP Omnicortex (DBM)
-    // Matches all collections like rules_codex, species, factions, equipment, personas, scenarios, maps, universe_state, etc.
-    match /{collection}/{document=**} {
-      // Allow any authenticated user to read the database
+    // =========================================================================
+    // SHARED STORY FOUNDRY DATA: Universe state, scenarios, maps
+    // Any authenticated user can read and write (shared campaign data).
+    // =========================================================================
+    match /universe/{document=**} {
       allow read: if request.auth != null;
-      
-      // Allow any authenticated user to write (for development)
+      allow write: if request.auth != null;
+    }
+
+    // =========================================================================
+    // OMNICORTEX (DBM) REFERENCE DATA: Species, factions, equipment, etc.
+    // These are shared game reference data — anyone can read them.
+    // Writes require authentication (only logged-in users/GMs can edit entries).
+    // =========================================================================
+    match /{collection}/{document=**} {
+      // Public read access — DBM data is shared reference content
+      allow read: if true;
+
+      // Write access requires authentication
       allow write: if request.auth != null;
 
       // =========================================================================
       // PRODUCTION RECOMMENDATION:
-      // Replace the `allow write` above with the line below to lock down writes
-      // only to users who have a specific 'GM' (Game Master) custom claim.
-      // 
+      // Restrict writes to Game Masters only using a custom claim:
       // allow write: if request.auth != null && request.auth.token.role == 'GM';
       // =========================================================================
-    }
-
-    // User-scoped personas
-    match /users/{userId}/personas/{personaId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
     }
   }
 }

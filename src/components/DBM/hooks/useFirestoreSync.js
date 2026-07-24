@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { db } from '../../../firebase';
+import { db, auth } from '../../../firebase';
 import { collection, onSnapshot, doc, setDoc, deleteDoc, writeBatch } from 'firebase/firestore';
 import { categoryConfig } from '../categoryConfig';
 
@@ -81,6 +81,12 @@ export const useFirestoreSync = (currentKey) => {
 
   const saveEntry = useCallback(async (payload, key = currentKey) => {
     const docId = payload.id;
+
+    // Gate writes on authentication
+    if (!auth.currentUser) {
+      console.warn('DBM save skipped: user is not authenticated. Please log in to save entries.');
+      return false;
+    }
     
     // Update Local State Optimistically
     setDbData(prev => {
@@ -97,12 +103,18 @@ export const useFirestoreSync = (currentKey) => {
       await setDoc(doc(db, key, docId), payload);
       return true;
     } catch (err) {
-      console.warn("Local update saved; Firestore sync requires permissions:", err.message);
+      console.warn('Firestore saveEntry failed:', err.message);
       return false;
     }
   }, [currentKey]);
 
   const deleteEntry = useCallback(async (docId, key = currentKey) => {
+    // Gate deletes on authentication
+    if (!auth.currentUser) {
+      console.warn('DBM delete skipped: user is not authenticated. Please log in to delete entries.');
+      return false;
+    }
+
     // Update Local State Optimistically
     setDbData(prev => ({
       ...prev,
@@ -113,13 +125,19 @@ export const useFirestoreSync = (currentKey) => {
       await deleteDoc(doc(db, key, docId));
       return true;
     } catch (err) {
-      console.warn("Local delete processed; Firestore sync failed:", err.message);
+      console.warn('Firestore deleteEntry failed:', err.message);
       return false;
     }
   }, [currentKey]);
 
   const importJSON = useCallback(async (list, key = currentKey) => {
     if (!Array.isArray(list) || list.length === 0) return false;
+
+    // Gate imports on authentication
+    if (!auth.currentUser) {
+      console.warn('DBM import skipped: user is not authenticated. Please log in to import entries.');
+      return false;
+    }
 
     // Standardize IDs for all imported items
     const preparedList = list.map(item => {
@@ -153,7 +171,7 @@ export const useFirestoreSync = (currentKey) => {
       }
       return true;
     } catch (err) {
-      console.warn("Local import applied; Firestore batch write requires write permissions:", err.message);
+      console.warn('Firestore importJSON batch write failed:', err.message);
       return false;
     }
   }, [currentKey]);

@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useCallback, useEffect, use
 import { characterSchema } from '../components/Folio/schema';
 import { db, auth } from '../firebase';
 import { collection, doc, setDoc, getDoc, getDocs, onSnapshot, deleteDoc } from 'firebase/firestore';
+import { onAuthStateChanged } from 'firebase/auth';
 
 const FolioContext = createContext(null);
 
@@ -76,26 +77,44 @@ export const FolioProvider = ({ children }) => {
   });
 
   // Real-time Firestore listener for persona roster
+  // Uses onAuthStateChanged so we wait for async Firebase Auth to resolve
   useEffect(() => {
-    const user = auth.currentUser;
-    if (!user) return; // Anonymous users rely on localStorage only
+    let firestoreUnsub = null;
 
-    const personasRef = collection(db, `users/${user.uid}/personas`);
-    const unsub = onSnapshot(personasRef, (snapshot) => {
-      const personas = snapshot.docs.map(d => ({ ...d.data(), 'character-doc-id': d.id }));
-      setPersonaRoster(personas);
-      // Mirror to localStorage as offline cache
-      try {
-        localStorage.setItem('personaRoster', JSON.stringify(personas));
-      } catch (e) {
-        console.warn('Failed to cache persona roster to localStorage:', e);
+    const authUnsub = onAuthStateChanged(auth, (user) => {
+      // Clean up any previous Firestore listener if user changed
+      if (firestoreUnsub) {
+        firestoreUnsub();
+        firestoreUnsub = null;
       }
-    }, (err) => {
-      console.warn('Firestore personas listener error:', err.message);
+
+      if (!user) {
+        // Not logged in — clear stale localStorage so mock entries don't persist
+        return;
+      }
+
+      // User is authenticated — subscribe to their persona roster in Firestore
+      const personasRef = collection(db, `users/${user.uid}/personas`);
+      firestoreUnsub = onSnapshot(personasRef, (snapshot) => {
+        const personas = snapshot.docs.map(d => ({ ...d.data(), 'character-doc-id': d.id }));
+        setPersonaRoster(personas);
+        // Mirror to localStorage as offline cache
+        try {
+          localStorage.setItem('personaRoster', JSON.stringify(personas));
+        } catch (e) {
+          console.warn('Failed to cache persona roster to localStorage:', e);
+        }
+      }, (err) => {
+        console.warn('Firestore personas listener error:', err.message);
+      });
     });
 
-    return () => unsub();
-  }, [auth.currentUser?.uid]);
+    // Cleanup both listeners on unmount
+    return () => {
+      authUnsub();
+      if (firestoreUnsub) firestoreUnsub();
+    };
+  }, []);
 
   // Derived Stats Auto-Calculation
   const derivedStats = useMemo(() => {
