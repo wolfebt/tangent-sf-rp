@@ -34,17 +34,20 @@ export const useFirestoreSync = (currentKey) => {
       unsubs.push(unsubCurrent);
 
       // 2. Pre-fetch reference collections in background for relational selector parity
-      const allCatKeys = [];
+      const allCatKeys = new Set();
       Object.keys(categoryConfig).forEach(parentK => {
         const parent = categoryConfig[parentK];
-        if (parent.isParent && parent.subcategories) {
+        // Always include top-level non-guide collections
+        if (parent.viewType !== 'guide') {
+          allCatKeys.add(parentK);
+        }
+        // Also include all subcategory collections (species_type, species_size, etc.)
+        if (parent.subcategories) {
           Object.keys(parent.subcategories).forEach(subK => {
-            if (!parent.subcategories[subK].isParent && parent.subcategories[subK].viewType !== 'guide') {
-              allCatKeys.push(subK);
+            if (parent.subcategories[subK].viewType !== 'guide') {
+              allCatKeys.add(subK);
             }
           });
-        } else if (!parent.isParent && parent.viewType !== 'guide') {
-          allCatKeys.push(parentK);
         }
       });
 

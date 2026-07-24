@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useCallback, useEffect, useMemo } from 'react';
 import { characterSchema } from '../components/Folio/schema';
 import { db, auth } from '../firebase';
-import { collection, doc, setDoc, getDoc, getDocs } from 'firebase/firestore';
+import { collection, doc, setDoc, getDoc, getDocs, onSnapshot, deleteDoc } from 'firebase/firestore';
 
 const FolioContext = createContext(null);
 
@@ -64,25 +64,38 @@ export const FolioProvider = ({ children }) => {
     return DEFAULT_CHARACTER;
   });
 
-  // Character Roster State
+  // Character Roster State — primary source is Firestore; localStorage is secondary offline cache
   const [personaRoster, setPersonaRoster] = useState(() => {
     try {
       const saved = localStorage.getItem('personaRoster');
       if (saved) return JSON.parse(saved);
     } catch (e) {
-      console.warn('Failed to load character roster:', e);
+      console.warn('Failed to load character roster from localStorage cache:', e);
     }
     return [];
   });
 
-  // Sync roster to localStorage
+  // Real-time Firestore listener for persona roster
   useEffect(() => {
-    try {
-      localStorage.setItem('personaRoster', JSON.stringify(personaRoster));
-    } catch (e) {
-      console.error('Failed to save character roster:', e);
-    }
-  }, [personaRoster]);
+    const user = auth.currentUser;
+    if (!user) return; // Anonymous users rely on localStorage only
+
+    const personasRef = collection(db, `users/${user.uid}/personas`);
+    const unsub = onSnapshot(personasRef, (snapshot) => {
+      const personas = snapshot.docs.map(d => ({ ...d.data(), 'character-doc-id': d.id }));
+      setPersonaRoster(personas);
+      // Mirror to localStorage as offline cache
+      try {
+        localStorage.setItem('personaRoster', JSON.stringify(personas));
+      } catch (e) {
+        console.warn('Failed to cache persona roster to localStorage:', e);
+      }
+    }, (err) => {
+      console.warn('Firestore personas listener error:', err.message);
+    });
+
+    return () => unsub();
+  }, [auth.currentUser?.uid]);
 
   // Derived Stats Auto-Calculation
   const derivedStats = useMemo(() => {
@@ -129,11 +142,12 @@ export const FolioProvider = ({ children }) => {
   }, [derivedStats]);
 
   // Roster Management Actions
-  const saveCurrentToRoster = useCallback(() => {
+  const saveCurrentToRoster = useCallback(async () => {
     const name = characterData['char-name'] || 'Unnamed Operative';
     const docId = characterData['character-doc-id'] || `char_${Date.now()}`;
     const updatedData = { ...characterData, 'character-doc-id': docId, updatedAt: new Date().toISOString() };
-    
+
+    // Optimistic local update
     setPersonaRoster(prev => {
       const idx = prev.findIndex(c => c['character-doc-id'] === docId);
       if (idx >= 0) {
@@ -143,6 +157,18 @@ export const FolioProvider = ({ children }) => {
       }
       return [...prev, updatedData];
     });
+    updateField('character-doc-id', docId);
+
+    // Persist to Firestore
+    const user = auth.currentUser;
+    if (user) {
+      try {
+        const docRef = doc(db, `users/${user.uid}/personas`, docId);
+        await setDoc(docRef, updatedData);
+      } catch (err) {
+        console.warn('Firestore roster save failed (local update applied):', err.message);
+      }
+    }
   }, [characterData]);
 
   const switchRosterCharacter = useCallback((docId) => {
@@ -152,11 +178,23 @@ export const FolioProvider = ({ children }) => {
     }
   }, [personaRoster]);
 
-  const deleteRosterCharacter = useCallback((docId) => {
+  const deleteRosterCharacter = useCallback(async (docId) => {
+    // Optimistic local removal
     setPersonaRoster(prev => prev.filter(c => c['character-doc-id'] !== docId));
+
+    // Delete from Firestore
+    const user = auth.currentUser;
+    if (user) {
+      try {
+        const docRef = doc(db, `users/${user.uid}/personas`, docId);
+        await deleteDoc(docRef);
+      } catch (err) {
+        console.warn('Firestore delete failed (local removal applied):', err.message);
+      }
+    }
   }, []);
 
-  const duplicateRosterCharacter = useCallback((docId) => {
+  const duplicateRosterCharacter = useCallback(async (docId) => {
     const found = personaRoster.find(c => c['character-doc-id'] === docId);
     if (found) {
       const newDocId = `char_${Date.now()}`;
@@ -166,7 +204,19 @@ export const FolioProvider = ({ children }) => {
         'char-name': `${found['char-name'] || 'Unnamed'} (Copy)`,
         updatedAt: new Date().toISOString()
       };
+      // Optimistic local add
       setPersonaRoster(prev => [...prev, clone]);
+
+      // Persist duplicate to Firestore
+      const user = auth.currentUser;
+      if (user) {
+        try {
+          const docRef = doc(db, `users/${user.uid}/personas`, newDocId);
+          await setDoc(docRef, clone);
+        } catch (err) {
+          console.warn('Firestore duplicate save failed (local add applied):', err.message);
+        }
+      }
     }
   }, [personaRoster]);
 

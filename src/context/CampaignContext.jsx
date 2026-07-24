@@ -1,4 +1,6 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { db, auth } from '../firebase';
+import { doc, setDoc, onSnapshot, collection, getDocs, deleteDoc, writeBatch } from 'firebase/firestore';
 
 const StoryContext = createContext();
 
@@ -28,7 +30,7 @@ const DEFAULT_UNIVERSE_STATE = {
 };
 
 export const StoryProvider = ({ children }) => {
-  // Global Universe State with localStorage persistence
+  // Global Universe State — primary source is Firestore; localStorage is secondary offline cache
   const [universeState, setUniverseState] = useState(() => {
     try {
       const saved = localStorage.getItem('tangent_universe_state');
@@ -44,20 +46,64 @@ export const StoryProvider = ({ children }) => {
   const [activeScenarioId, setActiveScenarioId] = useState(null);
   const [activeMapId, setActiveMapId] = useState(null);
 
-  // Auto-persist universe state to localStorage
-  React.useEffect(() => {
+  // Firestore universe doc reference (shared single-document universe state)
+  const UNIVERSE_DOC_ID = 'main';
+  // Ref to prevent write-back loop when universe state is set FROM Firestore
+  const isSyncingFromFirestore = React.useRef(false);
+
+  // Real-time Firestore listener for shared universe document
+  useEffect(() => {
+    const docRef = doc(db, 'universe', UNIVERSE_DOC_ID);
+    const unsub = onSnapshot(docRef, (snap) => {
+      if (snap.exists()) {
+        const firestoreData = snap.data();
+        isSyncingFromFirestore.current = true;
+        setUniverseState(firestoreData);
+        // Mirror to localStorage as offline cache
+        try {
+          localStorage.setItem('tangent_universe_state', JSON.stringify(firestoreData));
+        } catch (e) {
+          console.warn('Failed to cache universe state to localStorage:', e);
+        }
+      }
+    }, (err) => {
+      console.warn('Firestore universe listener error (using localStorage fallback):', err.message);
+    });
+    return () => unsub();
+  }, []);
+
+  // Auto-persist universe state to Firestore and localStorage on every local mutation
+  useEffect(() => {
+    // Skip if this state update came FROM Firestore (prevent write-back loop)
+    if (isSyncingFromFirestore.current) {
+      isSyncingFromFirestore.current = false;
+      return;
+    }
+    // Mirror to localStorage cache
     try {
       localStorage.setItem('tangent_universe_state', JSON.stringify(universeState));
     } catch (e) {
-      console.error('Failed to save universe state to localStorage:', e);
+      console.warn('Failed to cache universe state to localStorage:', e);
     }
+    // Write to Firestore
+    const docRef = doc(db, 'universe', UNIVERSE_DOC_ID);
+    setDoc(docRef, universeState).catch(err => {
+      console.warn('Firestore universe write failed (localStorage cache applied):', err.message);
+    });
   }, [universeState]);
 
-  const handleClearUniverse = () => {
+  const handleClearUniverse = async () => {
     localStorage.removeItem('tangent_universe_state');
     setUniverseState(DEFAULT_UNIVERSE_STATE);
     setActiveScenarioId(null);
     setActiveMapId(null);
+    // Clear Firestore universe document
+    try {
+      const docRef = doc(db, 'universe', UNIVERSE_DOC_ID);
+      await setDoc(docRef, DEFAULT_UNIVERSE_STATE);
+    } catch (err) {
+      console.warn('Firestore universe clear failed:', err.message);
+    }
   };
 
   // Master Unified Save/Load logic
