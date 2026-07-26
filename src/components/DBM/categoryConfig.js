@@ -144,6 +144,8 @@ export const categoryConfig = {
         label: 'ORIGINS',
         viewType: 'table',
         hideSubcategoryNav: true,
+        hideFilters: true,
+        hideActions: true,
         directory_columns: ['name', 'description'],
         fields: {
             name: { type:'text', required: true},
@@ -392,6 +394,8 @@ export const categoryConfig = {
         label: 'AUGMENTATIONS',
         viewType: 'table',
         hideSubcategoryNav: true,
+        hideFilters: true,
+        hideActions: true,
         directory_columns: ['name', 'type', 'description', 'design_dc'],
         fields: {
             name: { type:'text', required: true},
