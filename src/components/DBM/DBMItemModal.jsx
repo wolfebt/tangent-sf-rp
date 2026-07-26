@@ -22,7 +22,7 @@ export const DBMItemModal = ({
   onDelete,
   dbData = {},
   saveEntry,
-  devMode = false
+  devMode = true
 }) => {
   const [relationalData, setRelationalData] = useState({});
   const [activeSelectorField, setActiveSelectorField] = useState(null);
@@ -31,6 +31,9 @@ export const DBMItemModal = ({
   // Custom freeform entry state per field
   const [customInputModes, setCustomInputModes] = useState({});
   const [customInputValues, setCustomInputValues] = useState({});
+
+  // Tab state must be declared before any early returns (Rules of Hooks)
+  const [activeModalTab, setActiveModalTab] = useState('general');
 
   const toggleCustomInputMode = (fieldKey) => {
     setCustomInputModes(prev => ({ ...prev, [fieldKey]: !prev[fieldKey] }));
@@ -169,7 +172,6 @@ export const DBMItemModal = ({
     return true;
   };
 
-  const [activeModalTab, setActiveModalTab] = useState('general');
 
   const fieldsObj = currentConfig.fields || DEFAULT_FIELDS;
   const fieldKeys = Object.keys(fieldsObj);
@@ -293,7 +295,6 @@ export const DBMItemModal = ({
                       <label className="block text-xs font-bold text-slate-400 uppercase">
                         {label} {fieldDef.required && '*'}
                       </label>
-                      {devMode && (
                         <button
                           type="button"
                           onClick={() => toggleCustomInputMode(fieldKey)}
@@ -301,7 +302,6 @@ export const DBMItemModal = ({
                         >
                           {isCustomActive ? '✕ Cancel Custom' : '✍️ Custom Entry'}
                         </button>
-                      )}
                     </div>
 
                     {/* INLINE CUSTOM ENTRY MODE FOR ALL FIELDS */}
@@ -504,7 +504,7 @@ export const DBMItemModal = ({
           }}
           dbData={dbData}
           saveEntry={saveEntry}
-          devMode={devMode}
+          devMode={true}
         />
       )}
     </div>

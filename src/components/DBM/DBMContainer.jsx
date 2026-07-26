@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { categoryConfig } from './categoryConfig';
 import { db } from '../../firebase';
 import { collection, getDocs } from 'firebase/firestore';
+import { useAuth } from '../../context/AuthContext';
 
 // Extracted Components
 import { DBMHeader } from './DBMHeader';
@@ -20,7 +21,7 @@ import { fetchGeminiContent } from '../../services/bastionService';
 const EMPTY_CONFIG = {};
 
 export const DBMContainer = () => {
-  const [devMode, setDevMode] = useState(false);
+  const { currentUser, loginWithGoogle } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
 
   const {
@@ -58,7 +59,7 @@ export const DBMContainer = () => {
     || categoryConfig[currentKey]
     || EMPTY_CONFIG;
 
-  const { dbData, saveEntry, deleteEntry, importJSON } = useFirestoreSync(currentKey);
+  const { dbData, saveEntry, deleteEntry, importJSON } = useFirestoreSync(currentKey, currentUser);
   const currentItems = dbData[currentKey] || [];
 
   // Filter & Sort Items
@@ -114,23 +115,39 @@ export const DBMContainer = () => {
   };
 
   const handleSaveEntry = async () => {
+    if (!currentUser) {
+      alert('You must be logged in to save entries. Please sign in using the Login button in the header.');
+      return;
+    }
     if (!editFormData.name || !editFormData.name.trim()) {
       alert('Entry name is required!');
       return;
     }
     const docId = selectedItem?.id || editFormData.id || `entry_${Date.now()}`;
     const payload = { ...editFormData, name: editFormData.name.trim(), id: docId, updatedAt: new Date().toISOString() };
-    
-    await saveEntry(payload, currentKey);
-    setIsEntryModalOpen(false);
+
+    const success = await saveEntry(payload, currentKey);
+    if (success) {
+      setIsEntryModalOpen(false);
+    } else {
+      alert('Save failed. You may not be logged in, or a permissions error occurred. Check the browser console for details.');
+    }
   };
 
   const handleDeleteEntry = async () => {
     if (!selectedItem) return;
+    if (!currentUser) {
+      alert('You must be logged in to delete entries. Please sign in using the Login button in the header.');
+      return;
+    }
     if (!window.confirm(`Are you sure you want to delete "${selectedItem.name}"?`)) return;
 
-    await deleteEntry(selectedItem.id, currentKey);
-    setIsEntryModalOpen(false);
+    const success = await deleteEntry(selectedItem.id, currentKey);
+    if (success) {
+      setIsEntryModalOpen(false);
+    } else {
+      alert('Delete failed. You may not have permission or a network error occurred. Check the browser console for details.');
+    }
   };
 
   // Local JSON Import / Export
@@ -288,6 +305,37 @@ export const DBMContainer = () => {
     key => categoryConfig[key].hideFromMenu
   );
 
+  // Auth gate — show login screen if user is not authenticated
+  if (!currentUser) {
+    return (
+      <div className="flex flex-col h-screen w-screen bg-[#0d1117] text-slate-100 font-sans items-center justify-center">
+        <div className="text-center max-w-md px-8 py-10 bg-slate-900 border border-cyan-900/60 rounded-2xl shadow-2xl">
+          {/* Logo */}
+          <div className="flex flex-col uppercase text-[#22d3ee] tangent-title-pulse mb-6">
+            <span className="text-[2rem] font-bold leading-none">TANGENT</span>
+            <span className="text-[1rem] leading-none">SCIENCE FANTASY ROLEPLAY</span>
+            <span className="text-[1.5rem] font-bold leading-none">OMNICORTEX</span>
+          </div>
+          <p className="text-slate-400 text-sm mb-2">
+            The OmniCortex Database Manager requires authentication.
+          </p>
+          <p className="text-slate-500 text-xs mb-8">
+            Sign in to create, edit, and save RPG database entries to the shared universe.
+          </p>
+          <button
+            onClick={loginWithGoogle}
+            className="w-full px-6 py-3 bg-cyan-700 hover:bg-cyan-600 text-white font-bold rounded-lg text-sm uppercase tracking-wider transition-colors shadow-lg shadow-cyan-900/40"
+          >
+            🔐 Sign In with Google
+          </button>
+          <p className="text-slate-600 text-[11px] mt-4">
+            Read access is public. Write access requires authentication.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col h-screen w-screen bg-[#0d1117] text-slate-100 font-sans overflow-hidden">
       {/* Top Header */}
@@ -296,8 +344,6 @@ export const DBMContainer = () => {
         historyLength={history.length}
         handleBack={handleBack}
         handleForward={handleForward}
-        devMode={devMode}
-        setDevMode={setDevMode}
         setIsBastionOpen={setIsBastionOpen}
         handleExportMasterJSON={handleExportMasterJSON}
         handleImportMasterJSON={handleImportMasterJSON}
@@ -309,7 +355,6 @@ export const DBMContainer = () => {
         <DBMSidebar
           mainCategories={mainCategories}
           devCategories={devCategories}
-          devMode={devMode}
           activeCategory={activeCategory}
           currentKey={currentKey}
           navigateToCategory={navigateToCategory}
@@ -319,7 +364,7 @@ export const DBMContainer = () => {
         {/* Right Main Content Panel */}
         <main className="flex-1 bg-[#0d1117] flex flex-col overflow-hidden relative p-6">
           {/* Subcategory Pills Bar (if available and not parent landing) */}
-          {categoryConfig[activeCategory]?.subcategories && (
+          {categoryConfig[activeCategory]?.subcategories && !categoryConfig[activeCategory]?.hideSubcategoryNav && (
             <div className="flex gap-2 mb-4 border-b border-slate-800 pb-3">
               <button
                 onClick={() => setActiveSubcategory(null)}
@@ -363,7 +408,6 @@ export const DBMContainer = () => {
           {!currentConfig.isParent && currentConfig.viewType === 'wiki' && (
             <DBMWikiView
               currentConfig={currentConfig}
-              devMode={devMode}
               handleCreateNew={handleCreateNew}
               currentItems={currentItems}
               handleOpenItem={handleOpenItem}
@@ -385,7 +429,6 @@ export const DBMContainer = () => {
               handleImportJSON={handleImportJSON}
               handleExportJSON={handleExportJSON}
               handleCreateNew={handleCreateNew}
-              devMode={devMode}
               sortField={sortField}
               setSortField={setSortField}
               sortAsc={sortAsc}
@@ -419,7 +462,7 @@ export const DBMContainer = () => {
         onDelete={handleDeleteEntry}
         dbData={dbData}
         saveEntry={saveEntry}
-        devMode={devMode}
+        devMode={true}
       />
 
       <BastionChatModal

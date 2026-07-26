@@ -15,6 +15,9 @@ export const categoryConfig = {
     species: {
         label: 'SPECIES',
         viewType: 'table',
+        hideSubcategoryNav: true,
+        hideFilters: true,
+        hideActions: true,
         directory_columns: ['name', 'description', 'type'],
         fields: {
             name: { type: 'text', required: true },
@@ -140,6 +143,7 @@ export const categoryConfig = {
     origins: {
         label: 'ORIGINS',
         viewType: 'table',
+        hideSubcategoryNav: true,
         directory_columns: ['name', 'description'],
         fields: {
             name: { type:'text', required: true},
@@ -267,6 +271,45 @@ export const categoryConfig = {
             staged: { type: 'boolean', label: 'Staged' }
         }
     },
+    values: {
+        label: 'PRIMARY VALUES',
+        hideFromMenu: true,
+        viewType: 'table',
+        directory_columns: ['name', 'description', 'cp'],
+        fields: {
+            name: { type: 'text', required: true },
+            description: { type: 'textarea', aiEnabled: true },
+            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
+            mechanic: { type: 'textarea' },
+            cp: { type: 'number', label: 'CP Cost' }
+        }
+    },
+    secondary_values: {
+        label: 'SECONDARY VALUES',
+        hideFromMenu: true,
+        viewType: 'table',
+        directory_columns: ['name', 'description', 'cp'],
+        fields: {
+            name: { type: 'text', required: true },
+            description: { type: 'textarea', aiEnabled: true },
+            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
+            mechanic: { type: 'textarea' },
+            cp: { type: 'number', label: 'CP Cost' }
+        }
+    },
+    tertiary_values: {
+        label: 'TERTIARY VALUES',
+        hideFromMenu: true,
+        viewType: 'table',
+        directory_columns: ['name', 'description', 'cp'],
+        fields: {
+            name: { type: 'text', required: true },
+            description: { type: 'textarea', aiEnabled: true },
+            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
+            mechanic: { type: 'textarea' },
+            cp: { type: 'number', label: 'CP Cost' }
+        }
+    },
     disciplines: {
         label: 'DISCIPLINES',
         hideFromMenu: true,
@@ -348,6 +391,7 @@ export const categoryConfig = {
     augmentations: {
         label: 'AUGMENTATIONS',
         viewType: 'table',
+        hideSubcategoryNav: true,
         directory_columns: ['name', 'type', 'description', 'design_dc'],
         fields: {
             name: { type:'text', required: true},
@@ -665,42 +709,6 @@ export const categoryConfig = {
             mechanic: { type: 'textarea' },
             note: { type: 'textarea' },
             cp: { type: 'number' }
-        }
-    },
-    values: {
-        label: 'PRIMARY VALUES',
-        viewType: 'table',
-        directory_columns: ['name', 'description', 'cp'],
-        fields: {
-            name: { type: 'text', required: true },
-            description: { type: 'textarea', aiEnabled: true },
-            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
-            mechanic: { type: 'textarea' },
-            cp: { type: 'number', label: 'CP Cost' }
-        }
-    },
-    secondary_values: {
-        label: 'SECONDARY VALUES',
-        viewType: 'table',
-        directory_columns: ['name', 'description', 'cp'],
-        fields: {
-            name: { type: 'text', required: true },
-            description: { type: 'textarea', aiEnabled: true },
-            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
-            mechanic: { type: 'textarea' },
-            cp: { type: 'number', label: 'CP Cost' }
-        }
-    },
-    tertiary_values: {
-        label: 'TERTIARY VALUES',
-        viewType: 'table',
-        directory_columns: ['name', 'description', 'cp'],
-        fields: {
-            name: { type: 'text', required: true },
-            description: { type: 'textarea', aiEnabled: true },
-            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
-            mechanic: { type: 'textarea' },
-            cp: { type: 'number', label: 'CP Cost' }
         }
     },
     area: {

@@ -8,7 +8,6 @@ export const DBMTableView = ({
   handleImportJSON,
   handleExportJSON,
   handleCreateNew,
-  devMode,
   sortField,
   setSortField,
   sortAsc,
@@ -78,85 +77,15 @@ export const DBMTableView = ({
             Export JSON
           </button>
 
-          {devMode && (
-            <button
-              onClick={handleCreateNew}
-              className="px-4 py-1.5 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-bold uppercase tracking-wider shadow-md transition-colors"
-            >
-              + ADD NEW ENTRY
-            </button>
-          )}
-        </div>
-      </div>
-
-      {/* Multi-Attribute Filter Chips & Controls Bar */}
-      <div className="flex flex-wrap items-center gap-3 mb-4 p-2.5 bg-slate-950/80 border border-slate-800 rounded-md text-xs">
-        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1">
-          🔍 Filters:
-        </span>
-
-        {/* Tech Level Filter */}
-        <div className="flex items-center gap-1">
-          <span className="text-[10px] text-cyan-400 font-mono">Tech Level:</span>
-          <select
-            value={filterTL}
-            onChange={e => setFilterTL(e.target.value)}
-            className="bg-slate-900 border border-slate-700 text-cyan-300 px-2 py-1 rounded text-xs outline-none focus:border-cyan-500 font-mono"
-          >
-            <option value="ALL">All (TL 0-5)</option>
-            <option value="0">TL 0 (Primitive)</option>
-            <option value="1">TL 1 (Industrial)</option>
-            <option value="2">TL 2 (Digital)</option>
-            <option value="3">TL 3 (Interstellar)</option>
-            <option value="4">TL 4 (Quantum)</option>
-            <option value="5">TL 5 (Cosmic)</option>
-          </select>
-        </div>
-
-        {/* Meta Level Filter */}
-        <div className="flex items-center gap-1">
-          <span className="text-[10px] text-amber-400 font-mono">Meta Level:</span>
-          <select
-            value={filterML}
-            onChange={e => setFilterML(e.target.value)}
-            className="bg-slate-900 border border-slate-700 text-amber-300 px-2 py-1 rounded text-xs outline-none focus:border-amber-500 font-mono"
-          >
-            <option value="ALL">All (ML 0-5)</option>
-            <option value="0">ML 0 (Mundane)</option>
-            <option value="1">ML 1 (Latent)</option>
-            <option value="2">ML 2 (Awakened)</option>
-            <option value="3">ML 3 (Adept)</option>
-            <option value="4">ML 4 (Master)</option>
-            <option value="5">ML 5 (Ascended)</option>
-          </select>
-        </div>
-
-        {/* Subtype Filter */}
-        {availableTypes.length > 0 && (
-          <div className="flex items-center gap-1">
-            <span className="text-[10px] text-emerald-400 font-mono">Subtype:</span>
-            <select
-              value={filterType}
-              onChange={e => setFilterType(e.target.value)}
-              className="bg-slate-900 border border-slate-700 text-emerald-300 px-2 py-1 rounded text-xs outline-none focus:border-emerald-500"
-            >
-              <option value="ALL">All Subtypes</option>
-              {availableTypes.map(t => (
-                <option key={t} value={t}>{t}</option>
-              ))}
-            </select>
-          </div>
-        )}
-
-        {(filterTL !== 'ALL' || filterML !== 'ALL' || filterType !== 'ALL') && (
           <button
-            onClick={() => { setFilterTL('ALL'); setFilterML('ALL'); setFilterType('ALL'); }}
-            className="px-2 py-0.5 bg-red-950 hover:bg-red-900 border border-red-500/50 text-red-300 rounded text-[10px] font-bold uppercase transition-colors"
+            onClick={handleCreateNew}
+            className="px-4 py-1.5 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-bold uppercase tracking-wider shadow-md transition-colors"
           >
-            ✕ Reset Filters
+            + ADD NEW ENTRY
           </button>
-        )}
+        </div>
       </div>
+
 
       {/* Data Table */}
       <div className="flex-1 overflow-auto rounded border border-slate-800 bg-slate-950">
@@ -180,7 +109,7 @@ export const DBMTableView = ({
                   </th>
                 )
               ))}
-              <th className="p-3 text-right">Actions</th>
+              {!currentConfig.hideActions && <th className="p-3 text-right">Actions</th>}
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-800/60">
@@ -194,7 +123,7 @@ export const DBMTableView = ({
               filteredItems.map(item => (
                 <tr
                   key={item.id}
-                  onClick={() => handleOpenItem(item, devMode)}
+                  onClick={() => handleOpenItem(item, true)}
                   className="hover:bg-slate-800/50 cursor-pointer transition-colors"
                 >
                   <td className="p-3 font-bold text-white">{item.name}</td>
@@ -205,14 +134,16 @@ export const DBMTableView = ({
                       </td>
                     )
                   ))}
-                  <td className="p-3 text-right">
-                    <button
-                      onClick={(e) => { e.stopPropagation(); handleOpenItem(item, devMode); }}
-                      className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded text-[11px] font-bold uppercase"
-                    >
-                      View
-                    </button>
-                  </td>
+                  {!currentConfig.hideActions && (
+                    <td className="p-3 text-right">
+                      <button
+                        onClick={(e) => { e.stopPropagation(); handleOpenItem(item, true); }}
+                        className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded text-[11px] font-bold uppercase"
+                      >
+                        View
+                      </button>
+                    </td>
+                  )}
                 </tr>
               ))
             )}

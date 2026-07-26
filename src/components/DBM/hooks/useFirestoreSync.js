@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { db, auth } from '../../../firebase';
-import { collection, onSnapshot, doc, setDoc, deleteDoc, writeBatch } from 'firebase/firestore';
+import { collection, onSnapshot, doc, setDoc, deleteDoc, writeBatch, getDoc } from 'firebase/firestore';
 import { categoryConfig } from '../categoryConfig';
 
-export const useFirestoreSync = (currentKey) => {
+export const useFirestoreSync = (currentKey, currentUser = auth.currentUser) => {
   const [dbData, setDbData] = useState({});
 
   useEffect(() => {
@@ -81,13 +81,14 @@ export const useFirestoreSync = (currentKey) => {
 
   const saveEntry = useCallback(async (payload, key = currentKey) => {
     const docId = payload.id;
-
-    // Gate writes on authentication
-    if (!auth.currentUser) {
-      console.warn('DBM save skipped: user is not authenticated. Please log in to save entries.');
+    if (!currentUser) {
+      console.error('Save failed: No authenticated user session found.');
       return false;
     }
     
+    // Backup current state for rollback
+    const previousState = { ...dbData };
+
     // Update Local State Optimistically
     setDbData(prev => {
       const existing = prev[key] || [];
@@ -103,17 +104,19 @@ export const useFirestoreSync = (currentKey) => {
       await setDoc(doc(db, key, docId), payload);
       return true;
     } catch (err) {
-      console.warn('Firestore saveEntry failed:', err.message);
+      console.error(`Firestore saveEntry failed for document ${docId}:`, err.message);
+      setDbData(previousState);
       return false;
     }
-  }, [currentKey]);
+  }, [currentKey, currentUser, dbData]);
 
   const deleteEntry = useCallback(async (docId, key = currentKey) => {
-    // Gate deletes on authentication
-    if (!auth.currentUser) {
-      console.warn('DBM delete skipped: user is not authenticated. Please log in to delete entries.');
+    if (!currentUser) {
+      console.error('Delete failed: No authenticated user session found.');
       return false;
     }
+
+    const previousState = { ...dbData };
 
     // Update Local State Optimistically
     setDbData(prev => ({
@@ -125,27 +128,24 @@ export const useFirestoreSync = (currentKey) => {
       await deleteDoc(doc(db, key, docId));
       return true;
     } catch (err) {
-      console.warn('Firestore deleteEntry failed:', err.message);
+      console.error(`Firestore deleteEntry failed for document ${docId}:`, err.message);
+      setDbData(previousState);
       return false;
     }
-  }, [currentKey]);
+  }, [currentKey, currentUser, dbData]);
 
   const importJSON = useCallback(async (list, key = currentKey) => {
     if (!Array.isArray(list) || list.length === 0) return false;
-
-    // Gate imports on authentication
-    if (!auth.currentUser) {
-      console.warn('DBM import skipped: user is not authenticated. Please log in to import entries.');
+    if (!currentUser) {
+      console.error('Import failed: No authenticated user session found.');
       return false;
     }
 
-    // Standardize IDs for all imported items
     const preparedList = list.map(item => {
       const docId = item.id || `entry_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
       return { ...item, id: docId, updatedAt: new Date().toISOString() };
     });
 
-    // Optimistically update local React state
     setDbData(prev => {
       const existing = prev[key] || [];
       const existingIds = new Set(existing.map(i => i.id));
@@ -157,7 +157,6 @@ export const useFirestoreSync = (currentKey) => {
       return { ...prev, [key]: [...updatedExisting, ...newItems] };
     });
 
-    // Batch-write items to Firestore in chunks of up to 500 (Firestore limit)
     try {
       const CHUNK_SIZE = 450;
       for (let i = 0; i < preparedList.length; i += CHUNK_SIZE) {
@@ -171,10 +170,10 @@ export const useFirestoreSync = (currentKey) => {
       }
       return true;
     } catch (err) {
-      console.warn('Firestore importJSON batch write failed:', err.message);
+      console.error('Firestore importJSON batch write failed:', err.message);
       return false;
     }
-  }, [currentKey]);
+  }, [currentKey, currentUser]);
 
   return {
     dbData,
@@ -183,4 +182,3 @@ export const useFirestoreSync = (currentKey) => {
     importJSON
   };
 };
-

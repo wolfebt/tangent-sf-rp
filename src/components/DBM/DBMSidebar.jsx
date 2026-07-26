@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { categoryConfig } from './categoryConfig';
 
 export const DBMSidebar = ({
   mainCategories,
   devCategories,
-  devMode,
   activeCategory,
   currentKey,
   navigateToCategory,
   onOpenBastion
 }) => {
+  const [devExpanded, setDevExpanded] = useState(false);
+
   return (
     <aside className="w-64 bg-[#090d16] border-r border-[#0D5C63]/40 flex flex-col overflow-y-auto shrink-0 p-2 gap-1">
       <div className="text-[10px] font-bold text-cyan-400/80 uppercase tracking-widest px-3 py-1 mb-1 border-b border-slate-800">
@@ -63,30 +64,32 @@ export const DBMSidebar = ({
         })}
 
         {/* Dev Mode Section */}
-        {devMode && (
-          <div className="mt-4 pt-2 border-t border-slate-800 flex flex-col gap-1">
-            <div className="text-[10px] font-bold text-amber-500/90 uppercase tracking-widest px-3 py-1 mb-1">
-              OTHER (DEV MODE)
-            </div>
-            {devCategories.map(devKey => {
-              const config = categoryConfig[devKey];
-              const isActive = currentKey === devKey;
-              return (
-                <button
-                  key={devKey}
-                  onClick={() => navigateToCategory(devKey)}
-                  className={`w-full text-left px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider transition-all ${
-                    isActive
-                      ? 'bg-amber-950/80 text-amber-300 border border-amber-500/50'
-                      : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
-                  }`}
-                >
-                  {config.label}
-                </button>
-              );
-            })}
-          </div>
-        )}
+        <div className="mt-4 pt-2 border-t border-slate-800 flex flex-col gap-1">
+          <button
+            onClick={() => setDevExpanded(prev => !prev)}
+            className="w-full flex items-center justify-between px-3 py-1 mb-1 text-[10px] font-bold text-amber-500/90 uppercase tracking-widest hover:text-amber-400 transition-colors"
+          >
+            <span>DEVELOPMENT</span>
+            <span className="text-[10px] transition-transform duration-200" style={{ display: 'inline-block', transform: devExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}>▲</span>
+          </button>
+          {devExpanded && devCategories.map(devKey => {
+            const config = categoryConfig[devKey];
+            const isActive = currentKey === devKey;
+            return (
+              <button
+                key={devKey}
+                onClick={() => navigateToCategory(devKey)}
+                className={`w-full text-left px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider transition-all ${
+                  isActive
+                    ? 'bg-amber-950/80 text-amber-300 border border-amber-500/50'
+                    : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+                }`}
+              >
+                {config.label}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* Bastion AI Toggle Button */}

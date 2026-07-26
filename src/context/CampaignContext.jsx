@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { db, auth } from '../firebase';
 import { doc, setDoc, onSnapshot, collection, getDocs, deleteDoc, writeBatch } from 'firebase/firestore';
+import { onAuthStateChanged } from 'firebase/auth';
 
 const StoryContext = createContext();
 
@@ -50,9 +51,17 @@ export const StoryProvider = ({ children }) => {
   const UNIVERSE_DOC_ID = 'main';
   // Ref to prevent write-back loop when universe state is set FROM Firestore
   const isSyncingFromFirestore = React.useRef(false);
+  // Track auth state so Firestore is only accessed when the user is signed in
+  const [currentUser, setCurrentUser] = useState(null);
 
-  // Real-time Firestore listener for shared universe document
   useEffect(() => {
+    const unsub = onAuthStateChanged(auth, (user) => setCurrentUser(user));
+    return () => unsub();
+  }, []);
+
+  // Real-time Firestore listener for shared universe document — only when signed in
+  useEffect(() => {
+    if (!currentUser) return; // unauthenticated: use localStorage only, no Firestore calls
     const docRef = doc(db, 'universe', UNIVERSE_DOC_ID);
     const unsub = onSnapshot(docRef, (snap) => {
       if (snap.exists()) {
@@ -70,7 +79,7 @@ export const StoryProvider = ({ children }) => {
       console.warn('Firestore universe listener error (using localStorage fallback):', err.message);
     });
     return () => unsub();
-  }, []);
+  }, [currentUser]);
 
   // Auto-persist universe state to Firestore and localStorage on every local mutation
   useEffect(() => {
@@ -79,18 +88,19 @@ export const StoryProvider = ({ children }) => {
       isSyncingFromFirestore.current = false;
       return;
     }
-    // Mirror to localStorage cache
+    // Always mirror to localStorage cache
     try {
       localStorage.setItem('tangent_universe_state', JSON.stringify(universeState));
     } catch (e) {
       console.warn('Failed to cache universe state to localStorage:', e);
     }
-    // Write to Firestore
+    // Only write to Firestore when authenticated
+    if (!currentUser) return;
     const docRef = doc(db, 'universe', UNIVERSE_DOC_ID);
     setDoc(docRef, universeState).catch(err => {
       console.warn('Firestore universe write failed (localStorage cache applied):', err.message);
     });
-  }, [universeState]);
+  }, [universeState, currentUser]);
 
   const handleClearUniverse = async () => {
     localStorage.removeItem('tangent_universe_state');
@@ -443,6 +453,46 @@ export const StoryProvider = ({ children }) => {
     });
   };
 
+  const reorderRelativeScenario = (draggedId, targetId, pos) => {
+    setUniverseState(prev => {
+      // Remove the dragged node from wherever it lives and collect it
+      let draggedNode = null;
+      const removeNode = (nodes) => {
+        const idx = nodes.findIndex(n => n.id === draggedId);
+        if (idx !== -1) {
+          draggedNode = nodes[idx];
+          const result = [...nodes];
+          result.splice(idx, 1);
+          return result;
+        }
+        return nodes.map(n => ({
+          ...n,
+          children: n.children ? removeNode(n.children) : n.children
+        }));
+      };
+
+      // Insert the dragged node above or below the target node
+      const insertNode = (nodes) => {
+        const idx = nodes.findIndex(n => n.id === targetId);
+        if (idx !== -1) {
+          const insertAt = pos === 'above' ? idx : idx + 1;
+          const result = [...nodes];
+          result.splice(insertAt, 0, draggedNode);
+          return result;
+        }
+        return nodes.map(n => ({
+          ...n,
+          children: n.children ? insertNode(n.children) : n.children
+        }));
+      };
+
+      const withoutDragged = removeNode(prev.scenarios);
+      if (!draggedNode) return prev;
+      const reordered = insertNode(withoutDragged);
+      return { ...prev, scenarios: reordered };
+    });
+  };
+
   // Helpers for Maps
   const addMap = (newMap) => {
     setUniverseState(prev => ({
@@ -457,6 +507,14 @@ export const StoryProvider = ({ children }) => {
       ...prev,
       maps: prev.maps.map(m => m.id === id ? { ...m, ...updates } : m)
     }));
+  };
+
+  const deleteMap = (id) => {
+    setUniverseState(prev => ({
+      ...prev,
+      maps: prev.maps.filter(m => m.id !== id)
+    }));
+    setActiveMapId(prev => (prev === id ? null : prev));
   };
 
   const addCustomTerrain = (terrain) => {

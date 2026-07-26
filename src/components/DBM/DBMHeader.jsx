@@ -7,8 +7,6 @@ export const DBMHeader = ({
   historyLength,
   handleBack,
   handleForward,
-  devMode,
-  setDevMode,
   setIsBastionOpen,
   handleExportMasterJSON,
   handleImportMasterJSON
@@ -64,72 +62,64 @@ export const DBMHeader = ({
       </div>
 
       <div className="flex items-center gap-3">
-        {/* Master Database Actions & Clear Cache - visible only in Dev Mode */}
-        {devMode && (
-          <>
+        {/* Master Database Actions & Clear Cache */}
+        <>
+          <button
+            onClick={handleClearCache}
+            className="px-2.5 py-1 bg-red-950/60 hover:bg-red-900/80 border border-red-500/40 text-red-300 rounded text-[11px] font-bold uppercase transition-colors"
+            title="Clear temporary database cache"
+          >
+            🗑️ Clear Cache
+          </button>
+          <div className="flex items-center gap-1.5 bg-[#161b22] p-1 px-2 rounded-md border border-cyan-500/30">
             <button
-              onClick={handleClearCache}
-              className="px-2.5 py-1 bg-red-950/60 hover:bg-red-900/80 border border-red-500/40 text-red-300 rounded text-[11px] font-bold uppercase transition-colors"
-              title="Clear temporary database cache"
+              onClick={handleExportMasterJSON}
+              className="px-2.5 py-1 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 rounded text-[11px] font-bold uppercase transition-colors flex items-center gap-1"
+              title="Export Master Database Backup"
             >
-              🗑️ Clear Cache
+              <span>💾</span> Master Export
             </button>
-            <div className="flex items-center gap-1.5 bg-[#161b22] p-1 px-2 rounded-md border border-cyan-500/30">
-              <button
-                onClick={handleExportMasterJSON}
-                className="px-2.5 py-1 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 rounded text-[11px] font-bold uppercase transition-colors flex items-center gap-1"
-                title="Export Master Database Backup"
-              >
-                <span>💾</span> Master Export
-              </button>
-              <button
-                onClick={triggerImport}
-                className="px-2.5 py-1 bg-amber-950 hover:bg-amber-900 border border-amber-500/50 text-amber-300 rounded text-[11px] font-bold uppercase transition-colors flex items-center gap-1"
-                title="Import Master Database Backup"
-              >
-                <span>📂</span> Master Import
-              </button>
-              <input
-                type="file"
-                ref={fileInputRef}
-                onChange={handleImportMasterJSON}
-                accept=".json"
-                className="hidden"
-              />
-            </div>
-          </>
-        )}
-
-        {/* Game Mode / Dev Mode Toggle */}
-        <div className="flex items-center gap-2 bg-[#161b22] px-3 py-1 rounded-full border border-cyan-500/40">
-          <span className={`text-[10px] font-bold uppercase tracking-wider ${!devMode ? 'text-cyan-400' : 'text-slate-500'}`}>
-            GAME MODE
-          </span>
-          <label className="relative inline-flex items-center cursor-pointer">
+            <button
+              onClick={triggerImport}
+              className="px-2.5 py-1 bg-amber-950 hover:bg-amber-900 border border-amber-500/50 text-amber-300 rounded text-[11px] font-bold uppercase transition-colors flex items-center gap-1"
+              title="Import Master Database Backup"
+            >
+              <span>📂</span> Master Import
+            </button>
             <input
-              type="checkbox"
-              checked={devMode}
-              onChange={e => setDevMode(e.target.checked)}
-              className="sr-only peer"
+              type="file"
+              ref={fileInputRef}
+              onChange={handleImportMasterJSON}
+              accept=".json"
+              className="hidden"
             />
-            <div className="w-9 h-5 bg-slate-700 rounded-full peer-checked:bg-cyan-600 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-4"></div>
-          </label>
-          <span className={`text-[10px] font-bold uppercase tracking-wider ${devMode ? 'text-amber-400' : 'text-slate-500'}`}>
-            DEV MODE
-          </span>
-        </div>
+          </div>
+        </>
 
         {/* User Auth Indicator / ID Tag */}
         <div className="flex items-center gap-2">
           {currentUser ? (
-            <div className="flex items-center bg-slate-800/80 px-3 py-1 rounded border border-slate-700">
-              <span className="text-xs text-cyan-300 font-mono font-bold" title={currentUser.email || ''}>
+            <div className="flex items-center gap-2 bg-slate-800/80 px-3 py-1 rounded border border-emerald-700/50">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" title="Authenticated" />
+              <span className="text-xs text-emerald-300 font-mono font-bold" title={currentUser.email || ''}>
                 {userHandle ? `@${userHandle}` : (currentUser.displayName || currentUser.email)}
               </span>
+              <button
+                onClick={() => confirmLogout()}
+                className="ml-1 text-[10px] text-slate-500 hover:text-red-400 font-bold uppercase tracking-wider transition-colors"
+                title="Sign out"
+              >
+                ⏻
+              </button>
             </div>
           ) : (
-            <button onClick={loginWithGoogle} className="px-3 py-1 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded text-xs font-bold uppercase tracking-wider transition-colors">
-              Login with Google
+            <button
+              onClick={loginWithGoogle}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-red-950/60 hover:bg-red-900/80 border border-red-500/50 text-red-300 rounded text-xs font-bold uppercase tracking-wider transition-colors"
+              title="Sign in to enable saving"
+            >
+              <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse shrink-0" />
+              Sign In to Save
             </button>
           )}
         </div>
