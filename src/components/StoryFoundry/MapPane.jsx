@@ -48,6 +48,7 @@ const TerrainImageNode = ({ t, isEraser, isLocked, onErase }) => {
 };
 
 const TexturedTerrainNode = ({ t, isLocked, isEraser, onErase }) => {
+  const shapeRef = useRef(null);
   const [patternImg, setPatternImg] = useState(null);
   const [strokePattern, setStrokePattern] = useState(null);
 
@@ -80,9 +81,22 @@ const TexturedTerrainNode = ({ t, isLocked, isEraser, onErase }) => {
     }
   }, [textureUrl]);
 
+  // Caching effect: Pre-renders shape to offscreen canvas once pattern/texture is available
+  useEffect(() => {
+    if (shapeRef.current) {
+      try {
+        shapeRef.current.clearCache();
+        shapeRef.current.cache({ pixelRatio: 2 });
+      } catch (e) {
+        // Fallback gracefully if node bounds cannot be computed immediately
+      }
+    }
+  }, [patternImg, strokePattern, t.points, t.x, t.y, t.radius, t.color]);
+
   if (t.renderType === 'hexTile') {
     return (
       <RegularPolygon
+        ref={shapeRef}
         x={t.x}
         y={t.y}
         sides={6}
@@ -100,6 +114,7 @@ const TexturedTerrainNode = ({ t, isLocked, isEraser, onErase }) => {
   if (t.closed || t.renderType === 'polygon') {
     return (
       <Line
+        ref={shapeRef}
         points={t.points}
         fill={t.color}
         fillPatternImage={patternImg}
@@ -117,6 +132,7 @@ const TexturedTerrainNode = ({ t, isLocked, isEraser, onErase }) => {
 
   return (
     <Line
+      ref={shapeRef}
       points={t.points}
       fill={t.color}
       fillPatternImage={patternImg}
@@ -125,7 +141,7 @@ const TexturedTerrainNode = ({ t, isLocked, isEraser, onErase }) => {
       strokeWidth={t.strokeWidth || 30}
       tension={t.tension || 0.2}
       lineCap={t.lineCap || "round"}
-      lineJoin={t.lineJoin || "round"}
+      lineJoin="round"
       onClick={() => !isLocked && isEraser && onErase(t.id)}
     />
   );

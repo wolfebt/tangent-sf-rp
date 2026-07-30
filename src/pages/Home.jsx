@@ -73,58 +73,73 @@ const Home = () => {
           <p className="text-gray-400 text-sm mt-4">UI Version: React 2.0</p>
         </div>
 
-        <div className="w-full max-w-md flex flex-col items-center gap-6">
+        <div className="w-full max-w-lg flex flex-col items-center gap-6">
           {currentUser ? (
             <nav className="w-full grid grid-cols-1 gap-4">
               <button 
                 onClick={() => navigate('/dbm')}
-                className="w-full py-4 rounded-lg text-2xl font-bold uppercase transition-all duration-300 backdrop-blur-sm bg-transparent text-[#f5f5f5] hover:bg-[rgba(0,0,0,0.6)] hover:-translate-y-1"
+                className="w-full py-4 px-6 rounded-lg text-center transition-all duration-300 backdrop-blur-sm bg-[rgba(20,20,20,0.5)] hover:bg-[rgba(0,0,0,0.75)] text-[#f5f5f5] hover:-translate-y-1 group"
                 style={{ 
                   boxShadow: "0 0 0 1px black, 0 0 0 2px white", 
                   textShadow: "2px 2px 4px #000"
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = "0 0 0 1px black, 0 0 0 2px white, 0 0 25px rgba(0, 0, 0, 0.9)";
+                  e.currentTarget.style.boxShadow = "0 0 0 1px black, 0 0 0 2px white, 0 0 25px rgba(0, 229, 255, 0.4)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.boxShadow = "0 0 0 1px black, 0 0 0 2px white";
                 }}
               >
-                OMNICORTEX
+                <div className="text-2xl font-bold uppercase tracking-wider group-hover:text-cyan-300 transition-colors">
+                  OMNICORTEX
+                </div>
+                <div className="text-xs text-gray-300 font-normal normal-case mt-1 tracking-normal opacity-90 group-hover:text-white transition-opacity">
+                  Rulebook & Database Manager — Explore species, equipment, and core mechanics
+                </div>
               </button>
 
               <button 
                 onClick={() => navigate('/story-foundry')}
-                className="w-full py-4 rounded-lg text-2xl font-bold uppercase transition-all duration-300 backdrop-blur-sm bg-transparent text-[#f5f5f5] hover:bg-[rgba(0,0,0,0.6)] hover:-translate-y-1"
+                className="w-full py-4 px-6 rounded-lg text-center transition-all duration-300 backdrop-blur-sm bg-[rgba(20,20,20,0.5)] hover:bg-[rgba(0,0,0,0.75)] text-[#f5f5f5] hover:-translate-y-1 group"
                 style={{ 
                   boxShadow: "0 0 0 1px black, 0 0 0 2px white", 
                   textShadow: "2px 2px 4px #000"
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = "0 0 0 1px black, 0 0 0 2px white, 0 0 25px rgba(0, 0, 0, 0.9)";
+                  e.currentTarget.style.boxShadow = "0 0 0 1px black, 0 0 0 2px white, 0 0 25px rgba(0, 229, 255, 0.4)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.boxShadow = "0 0 0 1px black, 0 0 0 2px white";
                 }}
               >
-                Story Foundry
+                <div className="text-2xl font-bold uppercase tracking-wider group-hover:text-cyan-300 transition-colors">
+                  Story Foundry
+                </div>
+                <div className="text-xs text-gray-300 font-normal normal-case mt-1 tracking-normal opacity-90 group-hover:text-white transition-opacity">
+                  Campaign Workspace & Map Builder — Craft maps, story outlines, and elements
+                </div>
               </button>
 
               <button 
                 onClick={() => navigate('/folio')}
-                className="w-full py-4 rounded-lg text-2xl font-bold uppercase transition-all duration-300 backdrop-blur-sm bg-transparent text-[#f5f5f5] hover:bg-[rgba(0,0,0,0.6)] hover:-translate-y-1"
+                className="w-full py-4 px-6 rounded-lg text-center transition-all duration-300 backdrop-blur-sm bg-[rgba(20,20,20,0.5)] hover:bg-[rgba(0,0,0,0.75)] text-[#f5f5f5] hover:-translate-y-1 group"
                 style={{ 
                   boxShadow: "0 0 0 1px black, 0 0 0 2px white", 
                   textShadow: "2px 2px 4px #000"
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = "0 0 0 1px black, 0 0 0 2px white, 0 0 25px rgba(0, 0, 0, 0.9)";
+                  e.currentTarget.style.boxShadow = "0 0 0 1px black, 0 0 0 2px white, 0 0 25px rgba(0, 229, 255, 0.4)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.boxShadow = "0 0 0 1px black, 0 0 0 2px white";
                 }}
               >
-                Persona Folio
+                <div className="text-2xl font-bold uppercase tracking-wider group-hover:text-cyan-300 transition-colors">
+                  Persona Folio
+                </div>
+                <div className="text-xs text-gray-300 font-normal normal-case mt-1 tracking-normal opacity-90 group-hover:text-white transition-opacity">
+                  Character Sheet & Hero Creator — Build characters, manage stats, and track CP budgets
+                </div>
               </button>
             </nav>
           ) : (

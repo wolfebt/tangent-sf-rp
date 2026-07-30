@@ -10,19 +10,45 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [userHandle, setUserHandle] = useState(localStorage.getItem('userHandle') || '');
+  const [customClaims, setCustomClaims] = useState({});
+  const [hasAdminClaim, setHasAdminClaim] = useState(false);
+  const [adminOverride, setAdminOverride] = useState(localStorage.getItem('omnicortex_admin_override') === 'true');
 
   const refreshUserHandle = () => {
     setUserHandle(localStorage.getItem('userHandle') || '');
   };
 
+  const toggleAdminOverride = () => {
+    const nextState = !adminOverride;
+    setAdminOverride(nextState);
+    localStorage.setItem('omnicortex_admin_override', nextState ? 'true' : 'false');
+  };
+
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user);
+      if (user) {
+        try {
+          const tokenResult = await user.getIdTokenResult();
+          const claims = tokenResult.claims || {};
+          setCustomClaims(claims);
+          const isClaimAdmin = !!(claims.admin || claims.role === 'admin' || claims.role === 'GM');
+          setHasAdminClaim(isClaimAdmin);
+        } catch (err) {
+          console.error("Error retrieving user token claims:", err);
+          setCustomClaims({});
+          setHasAdminClaim(false);
+        }
+      } else {
+        setCustomClaims({});
+        setHasAdminClaim(false);
+      }
       setLoading(false);
     });
 
     const handleStorageChange = () => {
       refreshUserHandle();
+      setAdminOverride(localStorage.getItem('omnicortex_admin_override') === 'true');
     };
     window.addEventListener('storage', handleStorageChange);
 
@@ -31,6 +57,12 @@ export const AuthProvider = ({ children }) => {
       window.removeEventListener('storage', handleStorageChange);
     };
   }, []);
+
+  const isAdmin = hasAdminClaim || adminOverride;
+  const isGM = isAdmin || customClaims.role === 'GM';
+  const userRole = isAdmin
+    ? (hasAdminClaim ? (customClaims.role || 'Admin') : 'Admin (Dev Override)')
+    : 'Player';
 
   const displayIdentity = userHandle || (currentUser ? (currentUser.displayName || currentUser.email) : '');
 
@@ -48,6 +80,12 @@ export const AuthProvider = ({ children }) => {
     currentUser,
     userHandle,
     displayIdentity,
+    isAdmin,
+    isGM,
+    userRole,
+    hasAdminClaim,
+    adminOverride,
+    toggleAdminOverride,
     refreshUserHandle,
     loginWithGoogle,
     logout,
@@ -60,3 +98,4 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+

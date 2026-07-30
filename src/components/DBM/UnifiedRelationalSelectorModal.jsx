@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { db } from '../../firebase';
 import { collection, getDocs, setDoc, doc } from 'firebase/firestore';
 import { categoryConfig } from './categoryConfig';
+import { VirtualizedList } from './VirtualizedList';
 
 const EMPTY_CONFIG = {};
 const DEFAULT_SCHEMA_FIELDS = {
@@ -440,8 +441,8 @@ export const UnifiedRelationalSelectorModal = ({
             </div>
 
             {/* Items List */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-2 bg-slate-950/40">
-              {filteredItems.length === 0 ? (
+            {filteredItems.length === 0 ? (
+              <div className="flex-1 overflow-y-auto p-4 space-y-2 bg-slate-950/40">
                 <div className="p-8 text-center bg-slate-900/60 border border-slate-800/80 rounded-xl my-4 space-y-3">
                   <div className="text-2xl">📂</div>
                   <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider">
@@ -464,42 +465,51 @@ export const UnifiedRelationalSelectorModal = ({
                     </button>
                   )}
                 </div>
-              ) : (
-                filteredItems.map(item => {
+              </div>
+            ) : (
+              <VirtualizedList
+                items={filteredItems}
+                itemHeight={72}
+                resetScrollDeps={[searchTerm, sourceCollection, items.length]}
+                getKey={(item, index) => item.id || item.name || index}
+                containerClassName="flex-1 overflow-y-auto p-4 bg-slate-950/40"
+                renderItem={(item) => {
                   const val = item.name || item.id;
                   const itemKey = item.id || item.name;
                   const isChecked = currentSelected.includes(val) || currentSelected.includes(item.id);
 
                   return (
-                    <div
-                      key={itemKey}
-                      onClick={() => toggleItem(val)}
-                      className={`p-3 rounded-lg border cursor-pointer transition-all flex items-start gap-3 ${
-                        isChecked
-                          ? 'bg-cyan-950/70 border-cyan-500/80 text-white shadow-[0_0_10px_rgba(34,211,238,0.15)]'
-                          : 'bg-slate-900/90 border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-slate-800/80'
-                      }`}
-                    >
-                      <input
-                        type={isMulti ? 'checkbox' : 'radio'}
-                        checked={isChecked}
-                        onChange={() => {}}
-                        className="mt-0.5 accent-cyan-500 w-4 h-4"
-                      />
-                      <div className="flex-1 min-w-0">
-                        <div className="text-xs font-bold text-slate-100 flex items-center justify-between">
-                          <span>{item.name || item.id}</span>
-                          {item.type && <span className="text-[10px] bg-slate-800 text-cyan-300 px-2 py-0.5 rounded font-mono">{item.type}</span>}
+                    <div className="pb-2 box-border">
+                      <div
+                        key={itemKey}
+                        onClick={() => toggleItem(val)}
+                        className={`p-3 rounded-lg border cursor-pointer transition-all flex items-start gap-3 h-[64px] box-border ${
+                          isChecked
+                            ? 'bg-cyan-950/70 border-cyan-500/80 text-white shadow-[0_0_10px_rgba(34,211,238,0.15)]'
+                            : 'bg-slate-900/90 border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-slate-800/80'
+                        }`}
+                      >
+                        <input
+                          type={isMulti ? 'checkbox' : 'radio'}
+                          checked={isChecked}
+                          onChange={() => {}}
+                          className="mt-0.5 accent-cyan-500 w-4 h-4"
+                        />
+                        <div className="flex-1 min-w-0">
+                          <div className="text-xs font-bold text-slate-100 flex items-center justify-between">
+                            <span className="truncate pr-2">{item.name || item.id}</span>
+                            {item.type && <span className="text-[10px] bg-slate-800 text-cyan-300 px-2 py-0.5 rounded font-mono shrink-0">{item.type}</span>}
+                          </div>
+                          {item.description && (
+                            <p className="text-[11px] text-slate-400 line-clamp-1 mt-0.5">{item.description}</p>
+                          )}
                         </div>
-                        {item.description && (
-                          <p className="text-[11px] text-slate-400 line-clamp-2 mt-1">{item.description}</p>
-                        )}
                       </div>
                     </div>
                   );
-                })
-              )}
-            </div>
+                }}
+              />
+            )}
 
             {/* Footer Actions */}
             <div className="bg-slate-950 p-4 border-t border-slate-800 flex justify-between items-center shrink-0">

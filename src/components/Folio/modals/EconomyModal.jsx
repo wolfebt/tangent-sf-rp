@@ -21,9 +21,11 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
     { key: 'species', label: 'Species', data: identityPools.species }
   ];
 
+  const isOver = spentCP > startingCP;
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-md p-4 overflow-y-auto">
-      <div className="bg-[#121824] border border-cyan-500/60 rounded-xl max-w-2xl w-full p-6 shadow-[0_0_30px_rgba(34,211,238,0.2)] text-slate-100 space-y-6 my-6 flex flex-col max-h-[90vh]">
+      <div className={`bg-[#121824] border rounded-xl max-w-2xl w-full p-6 shadow-[0_0_30px_rgba(34,211,238,0.2)] text-slate-100 space-y-6 my-6 flex flex-col max-h-[90vh] ${isOver ? 'border-red-500/80 ring-2 ring-red-500/60' : 'border-cyan-500/60'}`}>
         
         {/* Header */}
         <div className="flex justify-between items-center border-b border-cyan-900/60 pb-3">
@@ -31,6 +33,11 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
             <h3 className="text-base font-bold uppercase tracking-wider text-cyan-400">
               Character Point Economy Breakdown
             </h3>
+            {isOver && (
+              <span className="px-2 py-0.5 bg-red-950 text-red-300 border border-red-500/80 rounded text-[10px] font-mono font-bold uppercase tracking-wider animate-pulse">
+                Over Budget
+              </span>
+            )}
           </div>
           <button
             type="button"
@@ -41,8 +48,28 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
           </button>
         </div>
 
+        {/* Over-Budget Alert Banner */}
+        {isOver && (
+          <div className="bg-red-950/90 border border-red-500/80 rounded-lg p-3 flex items-center justify-between text-red-200 shadow-[0_0_15px_rgba(239,68,68,0.4)] animate-pulse">
+            <div className="flex items-center gap-2.5">
+              <span className="text-xl">⚠️</span>
+              <div className="flex flex-col">
+                <span className="text-xs font-bold font-mono uppercase tracking-wider text-red-300">
+                  OVER BUDGET ALERT (-{Math.abs(remainingCP)} CP DEFICIT)
+                </span>
+                <span className="text-[11px] text-red-200/90">
+                  Character point expenditure ({spentCP} CP) exceeds starting budget ({startingCP} CP). This character sheet is illegal for standard play.
+                </span>
+              </div>
+            </div>
+            <span className="px-2 py-1 bg-red-900/90 border border-red-400 text-red-100 rounded text-[10px] font-mono font-bold uppercase tracking-wider shrink-0">
+              Illegal Sheet
+            </span>
+          </div>
+        )}
+
         {/* CP Overview Summary Cards (Counters) */}
-        <div className="grid grid-cols-3 gap-4 text-center bg-slate-900/90 p-4 rounded-lg border border-slate-800">
+        <div className={`grid grid-cols-3 gap-4 text-center bg-slate-900/90 p-4 rounded-lg border ${isOver ? 'border-red-500/70 ring-1 ring-red-500/40 shadow-[0_0_10px_rgba(239,68,68,0.2)]' : 'border-slate-800'}`}>
           <div className="flex flex-col">
             <label className="text-[10px] uppercase font-bold text-slate-400 mb-1">
               Starting CP
@@ -60,7 +87,7 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
             <span className="text-[10px] uppercase font-bold text-slate-400 mb-1">
               Spent CP
             </span>
-            <span className="text-lg font-bold font-mono text-amber-400 py-0.5">
+            <span className={`text-lg font-bold font-mono py-0.5 ${isOver ? 'text-red-400' : 'text-amber-400'}`}>
               {spentCP} CP
             </span>
           </div>
@@ -69,7 +96,7 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
             <span className="text-[10px] uppercase font-bold text-slate-400 mb-1">
               Remaining CP
             </span>
-            <span className={`text-lg font-bold font-mono py-0.5 ${remainingCP >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+            <span className={`text-lg font-bold font-mono py-0.5 ${remainingCP >= 0 ? 'text-emerald-400' : 'text-red-400 animate-pulse'}`}>
               {remainingCP} CP
             </span>
           </div>

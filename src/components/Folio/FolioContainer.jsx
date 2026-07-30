@@ -214,7 +214,11 @@ const FolioContainer = () => {
               return (
                 <div
                   onClick={() => setIsEconomyOpen(true)}
-                  className="cursor-pointer bg-slate-950 border border-cyan-500/60 rounded px-3 py-1 flex flex-col min-w-[170px] hover:border-cyan-400 transition-all shadow-[0_0_10px_rgba(34,211,238,0.15)]"
+                  className={`cursor-pointer bg-slate-950 border rounded px-3 py-1 flex flex-col min-w-[170px] hover:border-cyan-400 transition-all ${
+                    isOver
+                      ? 'border-red-500 ring-2 ring-red-500/80 shadow-[0_0_20px_rgba(239,68,68,0.5)] animate-pulse'
+                      : 'border-cyan-500/60 shadow-[0_0_10px_rgba(34,211,238,0.15)]'
+                  }`}
                   title="Click to view detailed CP Economy & Point Pools breakdown"
                 >
                   <div className="flex justify-between items-center text-[10px] font-bold uppercase font-mono">
@@ -341,8 +345,45 @@ const FolioContainer = () => {
               )}
             </div>
           </div>
-
         </header>
+
+        {/* Over-Budget Alert Banner */}
+        {(() => {
+          const startingCP = parseInt(characterData['starting-cp'] || 150, 10);
+          const spentCP = computeSpentCP();
+          const remainingCP = startingCP - spentCP;
+          const isOver = spentCP > startingCP;
+
+          if (!isOver) return null;
+
+          return (
+            <div className="sticky top-0 z-30 bg-red-950/95 border-b border-red-500/80 px-4 py-2.5 flex items-center justify-between backdrop-blur-md text-red-200 shadow-[0_4px_20px_rgba(239,68,68,0.35)] ring-1 ring-red-500/50">
+              <div className="flex items-center gap-3">
+                <span className="text-xl animate-pulse">⚠️</span>
+                <div className="flex flex-col">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold font-mono uppercase tracking-wider text-red-300">
+                      CP OVER BUDGET ALERT: -{Math.abs(remainingCP)} CP DEFICIT
+                    </span>
+                    <span className="px-1.5 py-0.5 text-[9px] bg-red-900 border border-red-400 text-red-100 rounded font-mono font-bold uppercase tracking-wider">
+                      Sheet Illegal
+                    </span>
+                  </div>
+                  <span className="text-[11px] text-red-200/90">
+                    Character point expenditure ({spentCP} CP) exceeds the starting budget of {startingCP} CP.
+                  </span>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsEconomyOpen(true)}
+                className="px-3 py-1 bg-red-900/80 hover:bg-red-800 border border-red-400 text-xs font-bold text-red-100 uppercase tracking-wider transition-colors shadow-sm shrink-0 rounded"
+              >
+                Inspect Budget
+              </button>
+            </div>
+          );
+        })()}
 
         {/* Tab Content Display */}
         <div className="flex-1 overflow-y-auto relative p-2">

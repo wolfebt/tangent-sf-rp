@@ -12,10 +12,14 @@ export const DBMHeader = ({
   handleImportMasterJSON
 }) => {
   const navigate = useNavigate();
-  const { currentUser, userHandle, confirmLogout, loginWithGoogle } = useAuth();
+  const { currentUser, userHandle, confirmLogout, loginWithGoogle, isAdmin, userRole, adminOverride, toggleAdminOverride } = useAuth();
   const fileInputRef = useRef(null);
 
   const triggerImport = () => {
+    if (!isAdmin) {
+      alert('Administrator or GM access required to import Master Database backups.');
+      return;
+    }
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
@@ -62,6 +66,36 @@ export const DBMHeader = ({
       </div>
 
       <div className="flex items-center gap-3">
+        {/* RBAC Role Indicator Badge */}
+        {currentUser && (
+          <div className="flex items-center gap-1.5">
+            <div 
+              className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-bold border uppercase tracking-wide ${
+                isAdmin 
+                  ? 'bg-amber-950/80 border-amber-500/50 text-amber-300 shadow-sm' 
+                  : 'bg-slate-800/80 border-slate-600 text-slate-400'
+              }`}
+              title={isAdmin ? "Full write privileges active" : "Read-only access mode"}
+            >
+              <span>{isAdmin ? '🛡️' : '👁️'}</span>
+              <span>{userRole || (isAdmin ? 'GM / Admin' : 'Player')}</span>
+            </div>
+
+            {/* Local Dev Override Toggle Button */}
+            <button
+              onClick={toggleAdminOverride}
+              className={`px-2 py-1 text-[10px] font-bold uppercase rounded border transition-colors ${
+                adminOverride
+                  ? 'bg-purple-950/80 border-purple-500/50 text-purple-300 hover:bg-purple-900'
+                  : 'bg-slate-800 border-slate-700 text-slate-400 hover:text-slate-200'
+              }`}
+              title="Toggle Dev Admin Override mode for testing RBAC"
+            >
+              {adminOverride ? 'Dev Mode: ON' : 'Dev Mode: OFF'}
+            </button>
+          </div>
+        )}
+
         {/* Master Database Actions & Clear Cache */}
         <>
           <button
@@ -81,8 +115,13 @@ export const DBMHeader = ({
             </button>
             <button
               onClick={triggerImport}
-              className="px-2.5 py-1 bg-amber-950 hover:bg-amber-900 border border-amber-500/50 text-amber-300 rounded text-[11px] font-bold uppercase transition-colors flex items-center gap-1"
-              title="Import Master Database Backup"
+              disabled={!isAdmin}
+              className={`px-2.5 py-1 rounded text-[11px] font-bold uppercase transition-colors flex items-center gap-1 border ${
+                isAdmin 
+                  ? 'bg-amber-950 hover:bg-amber-900 border-amber-500/50 text-amber-300' 
+                  : 'bg-slate-800/40 border-slate-700/50 text-slate-500 cursor-not-allowed opacity-50'
+              }`}
+              title={isAdmin ? "Import Master Database Backup" : "Requires GM/Admin access to import data"}
             >
               <span>📂</span> Master Import
             </button>
@@ -116,10 +155,10 @@ export const DBMHeader = ({
             <button
               onClick={loginWithGoogle}
               className="flex items-center gap-1.5 px-3 py-1.5 bg-red-950/60 hover:bg-red-900/80 border border-red-500/50 text-red-300 rounded text-xs font-bold uppercase tracking-wider transition-colors"
-              title="Sign in to enable saving"
+              title="Sign in to access Omnicortex"
             >
               <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse shrink-0" />
-              Sign In to Save
+              Sign In
             </button>
           )}
         </div>
@@ -127,4 +166,5 @@ export const DBMHeader = ({
     </header>
   );
 };
+
 

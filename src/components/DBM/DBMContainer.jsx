@@ -21,7 +21,7 @@ import { fetchGeminiContent } from '../../services/bastionService';
 const EMPTY_CONFIG = {};
 
 export const DBMContainer = () => {
-  const { currentUser, loginWithGoogle } = useAuth();
+  const { currentUser, loginWithGoogle, isAdmin } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
 
   const {
@@ -88,11 +88,16 @@ export const DBMContainer = () => {
   const handleOpenItem = (item, edit = false) => {
     setSelectedItem(item);
     setEditFormData(item ? { ...item } : { name: '', description: '' });
-    setIsEditMode(edit);
+    // Non-admins can only view (read-only mode)
+    setIsEditMode(isAdmin ? edit : false);
     setIsEntryModalOpen(true);
   };
 
   const handleCreateNew = () => {
+    if (!isAdmin) {
+      alert('Administrator or GM privileges are required to create new database entries.');
+      return;
+    }
     setSelectedItem(null);
     const initialData = { name: '', description: '' };
     if (currentConfig?.fields) {
@@ -119,6 +124,10 @@ export const DBMContainer = () => {
       alert('You must be logged in to save entries. Please sign in using the Login button in the header.');
       return;
     }
+    if (!isAdmin) {
+      alert('Administrator or GM privileges are required to save database entries.');
+      return;
+    }
     if (!editFormData.name || !editFormData.name.trim()) {
       alert('Entry name is required!');
       return;
@@ -130,7 +139,7 @@ export const DBMContainer = () => {
     if (success) {
       setIsEntryModalOpen(false);
     } else {
-      alert('Save failed. You may not be logged in, or a permissions error occurred. Check the browser console for details.');
+      alert('Save failed. You may not have administrative privileges, or a network error occurred. Check browser console for details.');
     }
   };
 
@@ -138,6 +147,10 @@ export const DBMContainer = () => {
     if (!selectedItem) return;
     if (!currentUser) {
       alert('You must be logged in to delete entries. Please sign in using the Login button in the header.');
+      return;
+    }
+    if (!isAdmin) {
+      alert('Administrator or GM privileges are required to delete database entries.');
       return;
     }
     if (!window.confirm(`Are you sure you want to delete "${selectedItem.name}"?`)) return;
@@ -163,6 +176,10 @@ export const DBMContainer = () => {
   };
 
   const handleImportJSON = (e) => {
+    if (!isAdmin) {
+      alert('Administrator or GM privileges are required to import entries.');
+      return;
+    }
     const file = e.target.files[0];
     if (!file) return;
     const reader = new FileReader();
@@ -178,6 +195,7 @@ export const DBMContainer = () => {
     };
     reader.readAsText(file);
   };
+
 
   // Master Database Backup Export & Restore Import
   const handleExportMasterJSON = async () => {
@@ -411,6 +429,7 @@ export const DBMContainer = () => {
               handleCreateNew={handleCreateNew}
               currentItems={currentItems}
               handleOpenItem={handleOpenItem}
+              isAdmin={isAdmin}
             />
           )}
 
@@ -442,6 +461,7 @@ export const DBMContainer = () => {
               filterType={filterType}
               setFilterType={setFilterType}
               currentItems={currentItems}
+              isAdmin={isAdmin}
             />
           )}
         </main>
@@ -463,7 +483,9 @@ export const DBMContainer = () => {
         dbData={dbData}
         saveEntry={saveEntry}
         devMode={true}
+        isAdmin={isAdmin}
       />
+
 
       <BastionChatModal
         isOpen={isBastionOpen}

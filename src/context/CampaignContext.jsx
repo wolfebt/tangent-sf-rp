@@ -1,12 +1,14 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { db, auth } from '../firebase';
-import { doc, setDoc, onSnapshot, collection, getDocs, deleteDoc, writeBatch } from 'firebase/firestore';
+import { doc, setDoc, onSnapshot, collection, getDocs, getDoc, deleteDoc, writeBatch } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 
 const StoryContext = createContext();
 
 export const useStory = () => useContext(StoryContext);
 export const useCampaign = useStory;
+
+const UNIVERSE_DOC_ID = 'main';
 
 // Helper to format filenames as {name}-{type}.{ext}
 export const formatExportFilename = (name, type, ext) => {
@@ -99,11 +101,13 @@ export const StoryProvider = ({ children }) => {
     return true;
   }, [isDirty, universeState.projectName]);
 
-  // Track auth & Cloud DB connection state
+  // Track auth & Cloud DB connection state & sync conflict handling
   const isSyncingFromFirestore = React.useRef(false);
+  const lastSyncedCloudUpdatedAtRef = React.useRef(null);
   const [currentUser, setCurrentUser] = useState(null);
-  const [cloudSyncStatus, setCloudSyncStatus] = useState('offline'); // 'synced' | 'syncing' | 'offline' | 'error'
+  const [cloudSyncStatus, setCloudSyncStatus] = useState('offline'); // 'synced' | 'syncing' | 'conflict' | 'offline' | 'error'
   const [lastCloudSavedAt, setLastCloudSavedAt] = useState(null);
+  const [syncConflict, setSyncConflict] = useState(null); // { type, cloudData, localData, cloudUpdatedAt, localUpdatedAt }
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
@@ -223,11 +227,34 @@ export const StoryProvider = ({ children }) => {
       }
     }).catch(e => console.warn('Failed to load elements catalog from cloud:', e));
 
-    const mainDocRef = doc(db, 'universe', 'main');
+    const mainDocRef = doc(db, 'universe', UNIVERSE_DOC_ID);
     const unsub = onSnapshot(mainDocRef, (snap) => {
       if (snap.exists()) {
         const firestoreData = snap.data();
+        
+        // Echo check: if timestamp matches our last synced cloud write, acknowledge sync
+        if (lastSyncedCloudUpdatedAtRef.current && firestoreData.updatedAt === lastSyncedCloudUpdatedAtRef.current) {
+          setCloudSyncStatus('synced');
+          return;
+        }
+
+        // If local state has unsaved modifications (isDirty is true), flag a conflict instead of overwriting
+        if (isDirty) {
+          console.warn('Remote cloud doc updated while local edits exist.');
+          setCloudSyncStatus('conflict');
+          setSyncConflict({
+            type: 'remote_update',
+            cloudData: firestoreData,
+            localData: universeState,
+            cloudUpdatedAt: firestoreData.updatedAt || 'Unknown',
+            localUpdatedAt: universeState.updatedAt || 'Unknown'
+          });
+          return;
+        }
+
+        // Standard clean sync from Firestore
         isSyncingFromFirestore.current = true;
+        lastSyncedCloudUpdatedAtRef.current = firestoreData.updatedAt || new Date().toISOString();
         setUniverseState(firestoreData);
         setCloudSyncStatus('synced');
         setLastCloudSavedAt(new Date().toLocaleTimeString());
@@ -239,12 +266,17 @@ export const StoryProvider = ({ children }) => {
       setCloudSyncStatus('error');
     });
     return () => unsub();
-  }, [currentUser]);
+  }, [currentUser, isDirty, universeState]);
 
   // Auto-persist active universe state to Firestore & Local Storage on mutation
   useEffect(() => {
     if (isSyncingFromFirestore.current) {
       isSyncingFromFirestore.current = false;
+      return;
+    }
+
+    // Pause auto-save writes if a conflict is currently active
+    if (syncConflict) {
       return;
     }
 
@@ -283,22 +315,24 @@ export const StoryProvider = ({ children }) => {
 
     setCloudSyncStatus('syncing');
     const userStoryDoc = doc(db, 'user_stories', currentProjectId);
-    const mainDoc = doc(db, 'universe', 'main');
+    const mainDoc = doc(db, 'universe', UNIVERSE_DOC_ID);
+    const payloadWithOwner = { ...updatedState, ownerId: currentUser.uid };
 
     Promise.all([
-      setDoc(userStoryDoc, updatedState),
-      setDoc(mainDoc, updatedState)
+      setDoc(userStoryDoc, payloadWithOwner),
+      setDoc(mainDoc, payloadWithOwner)
     ]).then(() => {
+      lastSyncedCloudUpdatedAtRef.current = updatedState.updatedAt;
       setCloudSyncStatus('synced');
       setLastCloudSavedAt(new Date().toLocaleTimeString());
     }).catch(err => {
       console.warn('Firestore auto-save failed:', err.message);
       setCloudSyncStatus('error');
     });
-  }, [universeState, currentUser, saveAllElementsIndependently]);
+  }, [universeState, currentUser, saveAllElementsIndependently, syncConflict]);
 
-  // Manual Push to Cloud DB
-  const pushUniverseToCloud = async () => {
+  // Manual Push to Cloud DB (Recommendation #5: Conflict handling before cloud push)
+  const pushUniverseToCloud = async (options = {}) => {
     if (!currentUser) {
       alert("Please login to push data to Cloud DB.");
       return false;
@@ -306,9 +340,58 @@ export const StoryProvider = ({ children }) => {
     try {
       setCloudSyncStatus('syncing');
       const docRef = doc(db, 'universe', UNIVERSE_DOC_ID);
-      await setDoc(docRef, universeState);
+
+      // Pre-push conflict check: Fetch current cloud document's updatedAt timestamp
+      if (!options.force) {
+        const snap = await getDoc(docRef);
+        if (snap.exists()) {
+          const cloudData = snap.data();
+          const cloudUpdatedAt = cloudData.updatedAt;
+
+          // If cloud document is newer than local base timestamp, trigger conflict resolution
+          if (cloudUpdatedAt && lastSyncedCloudUpdatedAtRef.current) {
+            const cloudTime = new Date(cloudUpdatedAt).getTime();
+            const localBaseTime = new Date(lastSyncedCloudUpdatedAtRef.current).getTime();
+
+            if (cloudTime > localBaseTime) {
+              const conflictInfo = {
+                type: 'push_conflict',
+                cloudData,
+                localData: universeState,
+                cloudUpdatedAt,
+                localUpdatedAt: universeState.updatedAt || new Date().toISOString()
+              };
+              setSyncConflict(conflictInfo);
+              setCloudSyncStatus('conflict');
+              return false;
+            }
+          }
+        }
+      }
+
+      const updatedTime = new Date().toISOString();
+      const updatedState = {
+        ...universeState,
+        updatedAt: updatedTime
+      };
+      const payloadWithOwner = { ...updatedState, ownerId: currentUser.uid };
+
+      const currentProjectId = universeState.id || 'proj_default_universe';
+      const userStoryDoc = doc(db, 'user_stories', currentProjectId);
+
+      await Promise.all([
+        setDoc(userStoryDoc, payloadWithOwner),
+        setDoc(docRef, payloadWithOwner)
+      ]);
+
+      lastSyncedCloudUpdatedAtRef.current = updatedTime;
+      setSyncConflict(null);
       setCloudSyncStatus('synced');
-      alert("Universe state successfully pushed to Cloud DB!");
+      setIsDirty(false);
+      setLastCloudSavedAt(new Date().toLocaleTimeString());
+      if (options.showSuccessAlert !== false) {
+        alert("Universe state successfully pushed to Cloud DB!");
+      }
       return true;
     } catch (err) {
       console.error("Failed to push to Cloud DB:", err);
@@ -327,13 +410,16 @@ export const StoryProvider = ({ children }) => {
     try {
       setCloudSyncStatus('syncing');
       const docRef = doc(db, 'universe', UNIVERSE_DOC_ID);
-      const snap = await getDocs(collection(db, 'universe'));
-      const mainDoc = snap.docs.find(d => d.id === UNIVERSE_DOC_ID);
-      if (mainDoc && mainDoc.exists()) {
-        const firestoreData = mainDoc.data();
+      const snap = await getDoc(docRef);
+      if (snap.exists()) {
+        const firestoreData = snap.data();
         isSyncingFromFirestore.current = true;
+        lastSyncedCloudUpdatedAtRef.current = firestoreData.updatedAt || new Date().toISOString();
         setUniverseState(firestoreData);
+        setSyncConflict(null);
+        setIsDirty(false);
         setCloudSyncStatus('synced');
+        setLastCloudSavedAt(new Date().toLocaleTimeString());
         alert("Universe state successfully pulled from Cloud DB!");
         return true;
       } else {
@@ -347,6 +433,20 @@ export const StoryProvider = ({ children }) => {
       alert(`Cloud DB Pull failed: ${err.message}`);
       return false;
     }
+  };
+
+  // Conflict Resolution Handlers
+  const resolveConflictOverwrite = async () => {
+    return await pushUniverseToCloud({ force: true, showSuccessAlert: true });
+  };
+
+  const resolveConflictPull = async () => {
+    return await pullUniverseFromCloud();
+  };
+
+  const resolveConflictCancel = () => {
+    setSyncConflict(null);
+    setCloudSyncStatus('offline');
   };
 
   // Save individual Story Element to Cloud DB collection ('story_elements')
@@ -404,11 +504,14 @@ export const StoryProvider = ({ children }) => {
     setActiveMapId(null);
     setIsDirty(false);
     // Clear Firestore universe document
-    try {
-      const docRef = doc(db, 'universe', UNIVERSE_DOC_ID);
-      await setDoc(docRef, DEFAULT_UNIVERSE_STATE);
-    } catch (err) {
-      console.warn('Firestore universe clear failed:', err.message);
+    if (currentUser) {
+      try {
+        const docRef = doc(db, 'universe', UNIVERSE_DOC_ID);
+        const payloadWithOwner = { ...DEFAULT_UNIVERSE_STATE, ownerId: currentUser.uid };
+        await setDoc(docRef, payloadWithOwner);
+      } catch (err) {
+        console.warn('Firestore universe clear failed:', err.message);
+      }
     }
   };
 
@@ -1027,6 +1130,11 @@ export const StoryProvider = ({ children }) => {
     updateProjectName,
     handleClearUniverse,
     cloudSyncStatus,
+    syncConflict,
+    setSyncConflict,
+    resolveConflictOverwrite,
+    resolveConflictPull,
+    resolveConflictCancel,
     pushUniverseToCloud,
     pullUniverseFromCloud,
     saveElementToCloud,

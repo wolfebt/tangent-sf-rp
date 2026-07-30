@@ -4,6 +4,7 @@ import ScenarioPane from '../components/StoryFoundry/ScenarioPane';
 import MapPane from '../components/StoryFoundry/MapPane';
 import BastionDrawer from '../components/StoryFoundry/BastionDrawer';
 import FoundryLauncherModal from '../components/StoryFoundry/FoundryLauncherModal';
+import SyncConflictModal from '../components/StoryFoundry/SyncConflictModal';
 import { useStory, useCampaign } from '../context/CampaignContext';
 import { useAuth } from '../context/AuthContext';
 import { exportElementJSON, exportElementMarkdown, exportElementPDF, deleteElementConfirm } from '../components/StoryFoundry/exportUtils';
@@ -22,6 +23,10 @@ const StoryFoundry = () => {
     updateStory, 
     handleClearUniverse,
     cloudSyncStatus,
+    syncConflict,
+    resolveConflictOverwrite,
+    resolveConflictPull,
+    resolveConflictCancel,
     lastCloudSavedAt,
     pushUniverseToCloud,
     pullUniverseFromCloud,
@@ -255,15 +260,17 @@ const StoryFoundry = () => {
         {/* User Auth Indicator & Cloud DB Status Badge */}
         <div className="flex items-center gap-2">
           <div 
-            className="flex items-center gap-1.5 px-2.5 py-1 rounded border text-xs font-mono font-bold uppercase tracking-wider transition-all"
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded border text-xs font-mono font-bold uppercase tracking-wider transition-all ${
+              cloudSyncStatus === 'conflict' ? 'animate-pulse cursor-pointer' : ''
+            }`}
             style={{
-              borderColor: cloudSyncStatus === 'synced' ? 'rgba(34, 211, 238, 0.6)' : cloudSyncStatus === 'syncing' ? 'rgba(245, 158, 11, 0.6)' : cloudSyncStatus === 'error' ? 'rgba(239, 68, 68, 0.6)' : 'rgba(100, 116, 139, 0.5)',
-              backgroundColor: cloudSyncStatus === 'synced' ? 'rgba(8, 145, 178, 0.2)' : cloudSyncStatus === 'syncing' ? 'rgba(217, 119, 6, 0.2)' : cloudSyncStatus === 'error' ? 'rgba(220, 38, 38, 0.2)' : 'rgba(30, 41, 59, 0.6)',
-              color: cloudSyncStatus === 'synced' ? '#22d3ee' : cloudSyncStatus === 'syncing' ? '#fbbf24' : cloudSyncStatus === 'error' ? '#f87171' : '#94a3b8'
+              borderColor: cloudSyncStatus === 'synced' ? 'rgba(34, 211, 238, 0.6)' : cloudSyncStatus === 'syncing' ? 'rgba(245, 158, 11, 0.6)' : cloudSyncStatus === 'error' ? 'rgba(239, 68, 68, 0.6)' : cloudSyncStatus === 'conflict' ? 'rgba(239, 68, 68, 0.9)' : 'rgba(100, 116, 139, 0.5)',
+              backgroundColor: cloudSyncStatus === 'synced' ? 'rgba(8, 145, 178, 0.2)' : cloudSyncStatus === 'syncing' ? 'rgba(217, 119, 6, 0.2)' : cloudSyncStatus === 'error' ? 'rgba(220, 38, 38, 0.2)' : cloudSyncStatus === 'conflict' ? 'rgba(153, 27, 27, 0.5)' : 'rgba(30, 41, 59, 0.6)',
+              color: cloudSyncStatus === 'synced' ? '#22d3ee' : cloudSyncStatus === 'syncing' ? '#fbbf24' : cloudSyncStatus === 'error' ? '#f87171' : cloudSyncStatus === 'conflict' ? '#fca5a5' : '#94a3b8'
             }}
-            title={`Cloud DB Connection State: ${cloudSyncStatus}${lastCloudSavedAt ? ` (Last Backup: ${lastCloudSavedAt})` : ''}`}
+            title={syncConflict ? "Sync conflict detected! Click to resolve." : `Cloud DB Connection State: ${cloudSyncStatus}${lastCloudSavedAt ? ` (Last Backup: ${lastCloudSavedAt})` : ''}`}
           >
-            <span>{cloudSyncStatus === 'synced' ? `☁️ Saved ${lastCloudSavedAt || ''}` : cloudSyncStatus === 'syncing' ? '🔄 Syncing' : cloudSyncStatus === 'error' ? '⚠️ DB Error' : '📡 Local Mode'}</span>
+            <span>{cloudSyncStatus === 'synced' ? `☁️ Saved ${lastCloudSavedAt || ''}` : cloudSyncStatus === 'syncing' ? '🔄 Syncing' : cloudSyncStatus === 'error' ? '⚠️ DB Error' : cloudSyncStatus === 'conflict' ? '⚡ Conflict Detected' : '📡 Local Mode'}</span>
           </div>
 
           {currentUser ? (
@@ -715,6 +722,15 @@ const StoryFoundry = () => {
           isOpen={isLauncherOpen}
           onClose={() => setIsLauncherOpen(false)}
           initialTab={launcherInitialTab}
+        />
+
+        {/* Cloud Sync Conflict Resolution Modal */}
+        <SyncConflictModal
+          isOpen={!!syncConflict}
+          conflictData={syncConflict}
+          onOverwrite={resolveConflictOverwrite}
+          onPull={resolveConflictPull}
+          onCancel={resolveConflictCancel}
         />
       </div>
     </div>

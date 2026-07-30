@@ -22,7 +22,8 @@ export const DBMItemModal = ({
   onDelete,
   dbData = {},
   saveEntry,
-  devMode = true
+  devMode = true,
+  isAdmin = true
 }) => {
   const [relationalData, setRelationalData] = useState({});
   const [activeSelectorField, setActiveSelectorField] = useState(null);
@@ -50,49 +51,52 @@ export const DBMItemModal = ({
       }
     } else {
       setEditFormData(prev => ({ ...prev, [fieldKey]: rawVal }));
+      setCustomInputModes(prev => ({ ...prev, [fieldKey]: false }));
     }
 
     setCustomInputValues(prev => ({ ...prev, [fieldKey]: '' }));
-    setCustomInputModes(prev => ({ ...prev, [fieldKey]: false }));
   };
 
-  useEffect(() => {
-    if (!isOpen || !isEditMode) {
-      fetchedRef.current = {};
-      return;
-    }
-    
-    const fetchRelations = async () => {
-      const fields = currentConfig.fields || DEFAULT_FIELDS;
-      let updated = false;
-      const newRelData = {};
+  const handleRemoveCustomValue = (fieldKey, valToRemove) => {
+    const currentArr = Array.isArray(editFormData[fieldKey]) ? editFormData[fieldKey] : [];
+    setEditFormData(prev => ({ ...prev, [fieldKey]: currentArr.filter(v => v !== valToRemove) }));
+  };
 
-      const promises = Object.keys(fields).map(async (fieldKey) => {
-        const fieldDef = fields[fieldKey];
-        if (fieldDef.source && !fetchedRef.current[fieldDef.source]) {
-          fetchedRef.current[fieldDef.source] = true;
-          try {
-             const colRef = collection(db, fieldDef.source);
-             const snapshot = await getDocs(colRef);
-             newRelData[fieldDef.source] = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-             updated = true;
-          } catch (err) {
-             console.warn(`Failed to fetch relational data for ${fieldDef.source}:`, err);
-             if (dbData[fieldDef.source]) {
-               newRelData[fieldDef.source] = dbData[fieldDef.source];
-               updated = true;
-             }
+  // Fetch relational data when modal opens
+  useEffect(() => {
+    const fields = currentConfig?.fields || DEFAULT_FIELDS;
+    if (!isOpen || !fields) return;
+
+    const fetchRelations = async () => {
+      const newRelData = {};
+      let updated = false;
+
+      for (const [fKey, fDef] of Object.entries(fields)) {
+        if (fDef.type === 'multiselect' || fDef.type === 'select' || fDef.manageable) {
+          const src = fDef.source || fKey;
+          if (dbData[src] && dbData[src].length > 0) {
+            newRelData[src] = dbData[src];
+            updated = true;
+          } else if (!fetchedRef.current[src]) {
+            try {
+              const snap = await getDocs(collection(db, src));
+              const items = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+              newRelData[src] = items;
+              fetchedRef.current[src] = true;
+              updated = true;
+            } catch (err) {
+              console.warn(`Failed to prefetch relational data for ${src}:`, err);
+            }
           }
         }
-      });
+      }
 
-      await Promise.all(promises);
       if (updated) {
         setRelationalData(prev => ({ ...prev, ...newRelData }));
       }
     };
     fetchRelations();
-  }, [isOpen, isEditMode, currentConfig]);
+  }, [isOpen, currentConfig, dbData]);
 
   // Normalize editFormData so all multiselect / manageable fields default to arrays
   useEffect(() => {
@@ -119,7 +123,7 @@ export const DBMItemModal = ({
 
   // Recalculate Design DC whenever relevant form fields change
   useEffect(() => {
-    if (!isEditMode) return;
+    if (!isEditMode || !isAdmin) return;
     if (['invocations', 'special_abilities', 'augmentations', 'weaponry', 'armoring', 'mecha'].includes(currentKey)) {
       let dc = 0;
       dc += (Number(editFormData.tl) || 0) * 2;
@@ -140,7 +144,7 @@ export const DBMItemModal = ({
         setEditFormData(prev => ({ ...prev, design_dc: dc }));
       }
     }
-  }, [editFormData.tl, editFormData.ml, editFormData.area, editFormData.effect, editFormData.range, editFormData.target, editFormData.component, editFormData.modes, editFormData.design_dc, isEditMode, currentKey, relationalData]);
+  }, [editFormData.tl, editFormData.ml, editFormData.area, editFormData.effect, editFormData.range, editFormData.target, editFormData.component, editFormData.modes, editFormData.design_dc, isEditMode, currentKey, relationalData, isAdmin]);
 
   if (!isOpen) return null;
 
@@ -194,15 +198,22 @@ export const DBMItemModal = ({
         {/* Header */}
         <div className="bg-slate-950 px-6 py-4 border-b border-slate-800 flex justify-between items-center shrink-0">
           <div>
-            <h2 className="text-lg font-bold text-cyan-400 uppercase tracking-wider">
-              {isEditMode ? `MANAGE ${currentConfig.label}` : `VIEW ${currentConfig.label}`}
-            </h2>
+            <div className="flex items-center gap-2">
+              <h2 className="text-lg font-bold text-cyan-400 uppercase tracking-wider">
+                {isEditMode && isAdmin ? `MANAGE ${currentConfig.label}` : `VIEW ${currentConfig.label}`}
+              </h2>
+              {!isAdmin && (
+                <span className="text-[10px] text-amber-400 bg-amber-950/80 border border-amber-500/40 px-2 py-0.5 rounded font-bold uppercase">
+                  🔒 Read-Only
+                </span>
+              )}
+            </div>
             <span className="text-xs text-slate-400 font-mono">
               ID: {selectedItem?.id || editFormData.id || 'NEW_ENTRY'}
             </span>
           </div>
           <div className="flex items-center gap-2">
-            {!isEditMode && (
+            {!isEditMode && isAdmin && (
               <button
                 onClick={() => setIsEditMode(true)}
                 className="px-3 py-1 bg-amber-600/30 hover:bg-amber-600/50 text-amber-300 border border-amber-500/50 rounded text-xs font-bold uppercase"
@@ -210,7 +221,7 @@ export const DBMItemModal = ({
                 Edit
               </button>
             )}
-            {selectedItem && (
+            {selectedItem && isAdmin && (
               <button
                 onClick={() => onDelete(selectedItem.id)}
                 className="px-3 py-1 bg-red-600/30 hover:bg-red-600/50 text-red-300 border border-red-500/50 rounded text-xs font-bold uppercase"
@@ -473,7 +484,7 @@ export const DBMItemModal = ({
           >
             Close
           </button>
-          {isEditMode && (
+          {isEditMode && isAdmin && (
             <button
               onClick={onSave}
               className="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded text-xs uppercase shadow-md"
