@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import ScenarioPane from '../components/StoryFoundry/ScenarioPane';
 import MapPane from '../components/StoryFoundry/MapPane';
 import BastionDrawer from '../components/StoryFoundry/BastionDrawer';
+import FoundryLauncherModal from '../components/StoryFoundry/FoundryLauncherModal';
 import { useStory, useCampaign } from '../context/CampaignContext';
 import { useAuth } from '../context/AuthContext';
 import { exportElementJSON, exportElementMarkdown, exportElementPDF, deleteElementConfirm } from '../components/StoryFoundry/exportUtils';
@@ -21,11 +22,13 @@ const StoryFoundry = () => {
     updateStory, 
     handleClearUniverse,
     cloudSyncStatus,
+    lastCloudSavedAt,
     pushUniverseToCloud,
     pullUniverseFromCloud,
     saveElementToCloud,
     loadElementsFromCloud,
-    addStory
+    addStory,
+    closeStory
   } = useStory();
   const { activeMapId, handleLoadMap, handleSaveActiveMap, updateMap } = useCampaign();
   
@@ -35,6 +38,10 @@ const StoryFoundry = () => {
   
   const [isFileMenuOpen, setIsFileMenuOpen] = useState(false);
   const fileMenuRef = useRef(null);
+
+  // Tabbed Launcher & Catalog Modal State — defaults to true on initial load
+  const [isLauncherOpen, setIsLauncherOpen] = useState(true);
+  const [launcherInitialTab, setLauncherInitialTab] = useState('stories');
 
   // Cloud Elements Library Modal State
   const [isCloudLibraryOpen, setIsCloudLibraryOpen] = useState(false);
@@ -197,7 +204,32 @@ const StoryFoundry = () => {
         </div>
 
         <div className="flex-1"></div>
-        
+        {/* Story Launcher & Close Story Actions */}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => {
+              setLauncherInitialTab('stories');
+              setIsLauncherOpen(true);
+            }}
+            className="px-3 py-1.5 bg-gradient-to-r from-cyan-950 to-amber-950 hover:from-cyan-900 hover:to-amber-900 border border-cyan-500/60 text-cyan-300 rounded-md text-xs font-bold uppercase tracking-wider transition-all shadow-[0_0_10px_rgba(34,211,238,0.25)] flex items-center gap-1.5"
+            title="Open Story & Element Catalogs Launcher"
+          >
+            <span>📚 Catalog & Launcher</span>
+          </button>
+
+          <button
+            onClick={() => {
+              closeStory();
+              setLauncherInitialTab('stories');
+              setIsLauncherOpen(true);
+            }}
+            className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700 hover:border-amber-500/60 text-slate-300 hover:text-amber-300 rounded-md text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5"
+            title="Save and Close working story project, returning to catalog"
+          >
+            <span>❌ Close Story</span>
+          </button>
+        </div>
+
         {/* User Auth Indicator & Cloud DB Status Badge */}
         <div className="flex items-center gap-2">
           <div 
@@ -207,9 +239,9 @@ const StoryFoundry = () => {
               backgroundColor: cloudSyncStatus === 'synced' ? 'rgba(8, 145, 178, 0.2)' : cloudSyncStatus === 'syncing' ? 'rgba(217, 119, 6, 0.2)' : cloudSyncStatus === 'error' ? 'rgba(220, 38, 38, 0.2)' : 'rgba(30, 41, 59, 0.6)',
               color: cloudSyncStatus === 'synced' ? '#22d3ee' : cloudSyncStatus === 'syncing' ? '#fbbf24' : cloudSyncStatus === 'error' ? '#f87171' : '#94a3b8'
             }}
-            title={`Cloud DB Connection State: ${cloudSyncStatus}`}
+            title={`Cloud DB Connection State: ${cloudSyncStatus}${lastCloudSavedAt ? ` (Last Backup: ${lastCloudSavedAt})` : ''}`}
           >
-            <span>{cloudSyncStatus === 'synced' ? '☁️ Cloud DB' : cloudSyncStatus === 'syncing' ? '🔄 Syncing' : cloudSyncStatus === 'error' ? '⚠️ DB Error' : '📡 Local Mode'}</span>
+            <span>{cloudSyncStatus === 'synced' ? `☁️ Saved ${lastCloudSavedAt || ''}` : cloudSyncStatus === 'syncing' ? '🔄 Syncing' : cloudSyncStatus === 'error' ? '⚠️ DB Error' : '📡 Local Mode'}</span>
           </div>
 
           {currentUser ? (
@@ -237,6 +269,42 @@ const StoryFoundry = () => {
 
           {isFileMenuOpen && (
             <div className="absolute right-0 mt-1.5 w-60 bg-[#161b22] border border-[#0D5C63] rounded-lg shadow-2xl py-1.5 z-50 backdrop-blur-xl max-h-[85vh] overflow-y-auto">
+              <div className="px-3 py-1 text-[9px] uppercase font-bold text-cyan-400 tracking-wider">
+                Story Launcher & Catalogs
+              </div>
+              <button 
+                className="w-full px-3 py-1.5 text-xs text-left text-[#22d3ee] hover:bg-cyan-950/80 font-bold flex items-center gap-2 transition-colors uppercase tracking-wider"
+                onClick={() => {
+                  setLauncherInitialTab('stories');
+                  setIsLauncherOpen(true);
+                  setIsFileMenuOpen(false);
+                }}
+              >
+                <span>📖</span> Story Files Catalog
+              </button>
+              <button 
+                className="w-full px-3 py-1.5 text-xs text-left text-amber-300 hover:bg-amber-950/80 font-bold flex items-center gap-2 transition-colors uppercase tracking-wider"
+                onClick={() => {
+                  setLauncherInitialTab('elements');
+                  setIsLauncherOpen(true);
+                  setIsFileMenuOpen(false);
+                }}
+              >
+                <span>🏛️</span> Saved Elements Catalog
+              </button>
+              <button 
+                className="w-full px-3 py-1.5 text-xs text-left text-slate-300 hover:bg-slate-800 font-bold flex items-center gap-2 transition-colors uppercase tracking-wider"
+                onClick={() => {
+                  closeStory();
+                  setLauncherInitialTab('stories');
+                  setIsLauncherOpen(true);
+                  setIsFileMenuOpen(false);
+                }}
+              >
+                <span>❌</span> Close Working Story
+              </button>
+
+              <div className="border-t border-[#0D5C63]/50 my-1"></div>
               <div className="px-3 py-1 text-[9px] uppercase font-bold text-slate-400 tracking-wider">
                 Local Project File Operations
               </div>
@@ -530,6 +598,13 @@ const StoryFoundry = () => {
             </div>
           </div>
         )}
+
+        {/* Story Foundry Launcher & Catalogs Tabbed Modal */}
+        <FoundryLauncherModal
+          isOpen={isLauncherOpen}
+          onClose={() => setIsLauncherOpen(false)}
+          initialTab={launcherInitialTab}
+        />
       </div>
     </div>
   );

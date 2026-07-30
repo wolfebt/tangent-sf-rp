@@ -24,10 +24,21 @@ export const formatExportFilename = (name, type, ext) => {
 };
 
 const DEFAULT_UNIVERSE_STATE = {
+  id: 'proj_default_universe',
   projectName: 'Tangent Universe',
-  scenarios: [],
+  description: 'Default Story Project',
+  scenarios: [
+    {
+      id: 'elem_default_overview',
+      title: 'Universe Overview',
+      type: 'Scenario',
+      content: '<p>Welcome to Tangent Story Foundry. Build your world using interactive elements.</p>',
+      children: []
+    }
+  ],
   maps: [],
-  customAssets: { terrains: [], objects: [] }
+  customAssets: { terrains: [], objects: [] },
+  updatedAt: new Date().toISOString()
 };
 
 export const StoryProvider = ({ children }) => {
@@ -36,7 +47,9 @@ export const StoryProvider = ({ children }) => {
     try {
       const saved = localStorage.getItem('tangent_universe_state');
       if (saved) {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        if (!parsed.id) parsed.id = 'proj_default_universe';
+        return parsed;
       }
     } catch (e) {
       console.warn('Failed to parse saved universe state from localStorage:', e);
@@ -44,14 +57,36 @@ export const StoryProvider = ({ children }) => {
     return DEFAULT_UNIVERSE_STATE;
   });
 
+  // Story Catalog List State
+  const [storyCatalog, setStoryCatalog] = useState(() => {
+    try {
+      const saved = localStorage.getItem('tangent_story_catalog');
+      if (saved) return JSON.parse(saved);
+    } catch (e) {
+      console.warn('Failed to parse story catalog from localStorage:', e);
+    }
+    return [DEFAULT_UNIVERSE_STATE];
+  });
+
+  // Independent Elements Library Catalog State
+  const [elementsCatalog, setElementsCatalog] = useState(() => {
+    try {
+      const saved = localStorage.getItem('tangent_elements_catalog');
+      if (saved) return JSON.parse(saved);
+    } catch (e) {
+      console.warn('Failed to parse elements catalog from localStorage:', e);
+    }
+    return [];
+  });
+
   const [activeScenarioId, setActiveScenarioId] = useState(null);
   const [activeMapId, setActiveMapId] = useState(null);
 
   // Track auth & Cloud DB connection state
-  const UNIVERSE_DOC_ID = 'main';
   const isSyncingFromFirestore = React.useRef(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [cloudSyncStatus, setCloudSyncStatus] = useState('offline'); // 'synced' | 'syncing' | 'offline' | 'error'
+  const [lastCloudSavedAt, setLastCloudSavedAt] = useState(null);
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
@@ -61,63 +96,189 @@ export const StoryProvider = ({ children }) => {
     return () => unsub();
   }, []);
 
-  // Real-time Firestore listener for shared universe document — only when signed in
+  // Helper to ensure all elements in a tree have valid names/titles
+  const enforceElementNames = useCallback((nodes) => {
+    if (!Array.isArray(nodes)) return [];
+    return nodes.map(node => {
+      const cleanTitle = (node.title && node.title.trim()) 
+        ? node.title.trim() 
+        : `Untitled ${node.type || 'Element'}`;
+      return {
+        ...node,
+        title: cleanTitle,
+        children: node.children ? enforceElementNames(node.children) : []
+      };
+    });
+  }, []);
+
+  // Recursively extract and save all elements independently into the elements catalog & Firestore
+  const saveAllElementsIndependently = useCallback(async (scenariosTree, user) => {
+    if (!Array.isArray(scenariosTree) || scenariosTree.length === 0) return;
+
+    const extractedElements = [];
+    const flattenNodes = (nodes, parentPath = '') => {
+      nodes.forEach(node => {
+        const cleanTitle = (node.title && node.title.trim()) ? node.title.trim() : `Untitled ${node.type || 'Element'}`;
+        const elemCopy = {
+          ...node,
+          title: cleanTitle,
+          updatedAt: new Date().toISOString(),
+          authorEmail: user?.email || 'Local User',
+          authorUid: user?.uid || 'local',
+          parentPath: parentPath
+        };
+        extractedElements.push(elemCopy);
+        if (node.children && node.children.length > 0) {
+          flattenNodes(node.children, parentPath ? `${parentPath} ❯ ${cleanTitle}` : cleanTitle);
+        }
+      });
+    };
+
+    flattenNodes(scenariosTree);
+
+    // Update local elements catalog state (merging/upserting by ID)
+    setElementsCatalog(prev => {
+      const map = new Map(prev.map(item => [item.id, item]));
+      extractedElements.forEach(item => map.set(item.id, item));
+      const updatedList = Array.from(map.values());
+      try {
+        localStorage.setItem('tangent_elements_catalog', JSON.stringify(updatedList));
+      } catch (e) {
+        console.warn('Failed to cache elements catalog to localStorage:', e);
+      }
+      return updatedList;
+    });
+
+    // Write individual elements to Firestore 'story_elements' collection if authenticated
+    if (user && db) {
+      try {
+        const batch = writeBatch(db);
+        extractedElements.forEach(elem => {
+          const docRef = doc(db, 'story_elements', elem.id);
+          batch.set(docRef, elem, { merge: true });
+        });
+        await batch.commit();
+      } catch (err) {
+        console.warn('Batch independent element write to Firestore failed:', err.message);
+      }
+    }
+  }, []);
+
+  // Fetch all Cloud DB Story Projects & Elements Catalog on Auth
   useEffect(() => {
     if (!currentUser) {
       setCloudSyncStatus('offline');
       return;
     }
     setCloudSyncStatus('syncing');
-    const docRef = doc(db, 'universe', UNIVERSE_DOC_ID);
-    const unsub = onSnapshot(docRef, (snap) => {
+
+    // Fetch user stories from Cloud DB
+    const storiesCol = collection(db, 'user_stories');
+    getDocs(storiesCol).then((snap) => {
+      const stories = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      if (stories.length > 0) {
+        setStoryCatalog(prev => {
+          const map = new Map(prev.map(s => [s.id, s]));
+          stories.forEach(s => map.set(s.id, s));
+          const merged = Array.from(map.values());
+          try {
+            localStorage.setItem('tangent_story_catalog', JSON.stringify(merged));
+          } catch (e) {}
+          return merged;
+        });
+      }
+    }).catch(e => console.warn('Failed to load user stories from cloud:', e));
+
+    // Fetch elements library from Cloud DB
+    const elementsCol = collection(db, 'story_elements');
+    getDocs(elementsCol).then((snap) => {
+      const elems = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      if (elems.length > 0) {
+        setElementsCatalog(prev => {
+          const map = new Map(prev.map(e => [e.id, e]));
+          elems.forEach(e => map.set(e.id, e));
+          const merged = Array.from(map.values());
+          try {
+            localStorage.setItem('tangent_elements_catalog', JSON.stringify(merged));
+          } catch (e) {}
+          return merged;
+        });
+      }
+    }).catch(e => console.warn('Failed to load elements catalog from cloud:', e));
+
+    const mainDocRef = doc(db, 'universe', 'main');
+    const unsub = onSnapshot(mainDocRef, (snap) => {
       if (snap.exists()) {
         const firestoreData = snap.data();
         isSyncingFromFirestore.current = true;
         setUniverseState(firestoreData);
         setCloudSyncStatus('synced');
-        // Mirror to localStorage as offline cache
-        try {
-          localStorage.setItem('tangent_universe_state', JSON.stringify(firestoreData));
-        } catch (e) {
-          console.warn('Failed to cache universe state to localStorage:', e);
-        }
+        setLastCloudSavedAt(new Date().toLocaleTimeString());
       } else {
         setCloudSyncStatus('synced');
       }
     }, (err) => {
-      console.warn('Firestore universe listener error (using localStorage fallback):', err.message);
+      console.warn('Firestore universe listener error:', err.message);
       setCloudSyncStatus('error');
     });
     return () => unsub();
   }, [currentUser]);
 
-  // Auto-persist universe state to Firestore and localStorage on every local mutation
+  // Auto-persist active universe state to Firestore & Local Storage on mutation
   useEffect(() => {
-    // Skip if this state update came FROM Firestore (prevent write-back loop)
     if (isSyncingFromFirestore.current) {
       isSyncingFromFirestore.current = false;
       return;
     }
-    // Always mirror to localStorage cache
+
+    const currentProjectId = universeState.id || 'proj_default_universe';
+    const updatedState = {
+      ...universeState,
+      id: currentProjectId,
+      updatedAt: new Date().toISOString()
+    };
+
+    // Mirror to localStorage cache
     try {
-      localStorage.setItem('tangent_universe_state', JSON.stringify(universeState));
-    } catch (e) {
-      console.warn('Failed to cache universe state to localStorage:', e);
-    }
+      localStorage.setItem('tangent_universe_state', JSON.stringify(updatedState));
+    } catch (e) {}
+
+    // Update story catalog entry
+    setStoryCatalog(prev => {
+      const exists = prev.some(s => s.id === currentProjectId);
+      const updatedCatalog = exists
+        ? prev.map(s => s.id === currentProjectId ? updatedState : s)
+        : [...prev, updatedState];
+      try {
+        localStorage.setItem('tangent_story_catalog', JSON.stringify(updatedCatalog));
+      } catch (e) {}
+      return updatedCatalog;
+    });
+
+    // Save all story elements independently automatically
+    saveAllElementsIndependently(universeState.scenarios, currentUser);
+
     // Only write to Firestore when authenticated
     if (!currentUser) {
       setCloudSyncStatus('offline');
       return;
     }
+
     setCloudSyncStatus('syncing');
-    const docRef = doc(db, 'universe', UNIVERSE_DOC_ID);
-    setDoc(docRef, universeState)
-      .then(() => setCloudSyncStatus('synced'))
-      .catch(err => {
-        console.warn('Firestore universe write failed (localStorage cache applied):', err.message);
-        setCloudSyncStatus('error');
-      });
-  }, [universeState, currentUser]);
+    const userStoryDoc = doc(db, 'user_stories', currentProjectId);
+    const mainDoc = doc(db, 'universe', 'main');
+
+    Promise.all([
+      setDoc(userStoryDoc, updatedState),
+      setDoc(mainDoc, updatedState)
+    ]).then(() => {
+      setCloudSyncStatus('synced');
+      setLastCloudSavedAt(new Date().toLocaleTimeString());
+    }).catch(err => {
+      console.warn('Firestore auto-save failed:', err.message);
+      setCloudSyncStatus('error');
+    });
+  }, [universeState, currentUser, saveAllElementsIndependently]);
 
   // Manual Push to Cloud DB
   const pushUniverseToCloud = async () => {
@@ -719,9 +880,121 @@ export const StoryProvider = ({ children }) => {
     }));
   };
 
+  // Story Project Catalog Lifecycle Helpers
+  const createNewStory = (name, description = '') => {
+    const newId = `proj_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+    const newStory = {
+      id: newId,
+      projectName: name || 'Untitled Story Project',
+      description: description || '',
+      scenarios: [
+        {
+          id: `elem_${Date.now()}_1`,
+          title: `${name || 'Story'} Overview`,
+          type: 'Scenario',
+          content: '<p>Welcome to your new story project. Add elements to build your narrative universe.</p>',
+          children: []
+        }
+      ],
+      maps: [],
+      customAssets: { terrains: [], objects: [] },
+      updatedAt: new Date().toISOString()
+    };
+
+    setUniverseState(newStory);
+    setActiveScenarioId(`elem_${Date.now()}_1`);
+    setActiveMapId(null);
+
+    setStoryCatalog(prev => {
+      const updated = [newStory, ...prev.filter(s => s.id !== newId)];
+      try {
+        localStorage.setItem('tangent_story_catalog', JSON.stringify(updated));
+      } catch (e) {}
+      return updated;
+    });
+
+    if (currentUser) {
+      setDoc(doc(db, 'user_stories', newId), newStory).catch(e => console.warn(e));
+    }
+    return newStory;
+  };
+
+  const openStory = (storyId) => {
+    const target = storyCatalog.find(s => s.id === storyId);
+    if (target) {
+      setUniverseState(target);
+      if (target.scenarios?.length > 0) {
+        setActiveScenarioId(target.scenarios[0].id);
+      } else {
+        setActiveScenarioId(null);
+      }
+      if (target.maps?.length > 0) {
+        setActiveMapId(target.maps[0].id);
+      } else {
+        setActiveMapId(null);
+      }
+      return true;
+    }
+    return false;
+  };
+
+  const closeStory = () => {
+    // Perform final backup save of current working story
+    if (universeState && universeState.scenarios) {
+      saveAllElementsIndependently(universeState.scenarios, currentUser);
+    }
+    return true;
+  };
+
+  const deleteStoryProject = async (storyId) => {
+    setStoryCatalog(prev => {
+      const updated = prev.filter(s => s.id !== storyId);
+      try {
+        localStorage.setItem('tangent_story_catalog', JSON.stringify(updated));
+      } catch (e) {}
+      return updated;
+    });
+
+    if (currentUser) {
+      try {
+        await deleteDoc(doc(db, 'user_stories', storyId));
+      } catch (e) {
+        console.warn('Failed to delete story doc from Firestore:', e);
+      }
+    }
+  };
+
+  const deleteSavedElement = async (elementId) => {
+    setElementsCatalog(prev => {
+      const updated = prev.filter(e => e.id !== elementId);
+      try {
+        localStorage.setItem('tangent_elements_catalog', JSON.stringify(updated));
+      } catch (e) {}
+      return updated;
+    });
+
+    if (currentUser) {
+      try {
+        await deleteDoc(doc(db, 'story_elements', elementId));
+      } catch (e) {
+        console.warn('Failed to delete element from Firestore:', e);
+      }
+    }
+  };
+
   const value = {
     universeState,
     setUniverseState,
+    storyCatalog,
+    elementsCatalog,
+    lastCloudSavedAt,
+    createNewStory,
+    openStory,
+    closeStory,
+    deleteStoryProject,
+    deleteSavedElement,
+    enforceElementNames,
+    saveAllElementsIndependently,
     updateProjectName,
     handleClearUniverse,
     cloudSyncStatus,
