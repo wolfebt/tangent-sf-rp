@@ -394,7 +394,11 @@ const SkillsTab = ({ onOpenAddSkillModal }) => {
             {isCustom && !isLocked && (
               <button
                 type="button"
-                onClick={() => handleDeleteSkill(skill.id)}
+                onClick={() => {
+                  if (window.confirm(`Are you sure you want to delete custom skill "${skill.name}"?`)) {
+                    handleDeleteSkill(skill.id);
+                  }
+                }}
                 className="text-red-400/60 hover:text-red-400 font-bold px-1 text-xs shrink-0"
                 title="Delete Custom Skill"
               >
@@ -499,7 +503,11 @@ const SkillsTab = ({ onOpenAddSkillModal }) => {
                 </span>
                 <button
                   type="button"
-                  onClick={() => handleDeleteSpecialization(spec.id)}
+                  onClick={() => {
+                    if (window.confirm(`Are you sure you want to delete "${spec.name}"?`)) {
+                      handleDeleteSpecialization(spec.id);
+                    }
+                  }}
                   className="text-red-400/60 hover:text-red-400 font-bold px-1 text-xs shrink-0"
                   title={isMetaSkill ? "Delete Evocation" : "Delete Specialization"}
                 >

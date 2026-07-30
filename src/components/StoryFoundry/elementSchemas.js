@@ -5,14 +5,16 @@
 
 export const ELEMENT_TYPES = [
   'Story Arc', 'Adventure', 'Character', 'Location', 'Faction', 
-  'Encounter', 'Item', 'Clue', 'Map', 'Handout'
+  'Encounter', 'Item', 'Clue', 'Map', 'Handout', 'Custom'
 ];
 
 export const ELEMENT_SCHEMAS = {
+  'Custom': [],
   'Story Arc': [
     { key: 'summary', label: 'Summary', type: 'textarea', placeholder: 'Brief overview of the arc...' },
     { key: 'goal', label: 'Goal', type: 'text', placeholder: 'Ultimate objective of this story arc...' },
     { key: 'antagonist', label: 'Key Antagonist', type: 'text', placeholder: 'Main opposing force or entity...' },
+    { key: 'linkedFaction', label: 'Linked Faction (Cloud DB)', type: 'relational', dbSource: 'factions', placeholder: 'Select Cloud DBM Faction...' },
     { key: 'resolution', label: 'Resolution', type: 'textarea', placeholder: 'How the arc concludes...' },
     { key: 'description', label: 'Description', type: 'textarea', placeholder: 'Detailed events and narrative breakdown...' },
     { key: 'notes', label: 'Notes', type: 'textarea', placeholder: 'General ideas or GM reminders...' },
@@ -29,6 +31,9 @@ export const ELEMENT_SCHEMAS = {
   ],
   'Character': [
     { key: 'role', label: 'Role', type: 'text', placeholder: 'Role (e.g. Quest Giver, Rival, Fixer, Contact)...' },
+    { key: 'speciesRef', label: 'Species (Cloud DB)', type: 'relational', dbSource: 'species', placeholder: 'Link Cloud DBM Species...' },
+    { key: 'occupationRef', label: 'Occupation (Cloud DB)', type: 'relational', dbSource: 'occupations', placeholder: 'Link Cloud DBM Occupation...' },
+    { key: 'originRef', label: 'Origin (Cloud DB)', type: 'relational', dbSource: 'origins', placeholder: 'Link Cloud DBM Origin...' },
     { key: 'appearance', label: 'Appearance', type: 'textarea', placeholder: 'Physical appearance, cybernetics, clothing...' },
     { key: 'motivation', label: 'Motivation', type: 'textarea', placeholder: 'What drives this character...' },
     { key: 'secrets', label: 'Secrets', type: 'textarea', placeholder: 'What they know that others don\'t...' },
@@ -50,6 +55,7 @@ export const ELEMENT_SCHEMAS = {
     { key: 'tags', label: 'Tags', type: 'text', placeholder: 'Location tags (e.g. TL-4, High-Danger, Subterranean)...' }
   ],
   'Faction': [
+    { key: 'dbmFactionRef', label: 'Faction Record (Cloud DB)', type: 'relational', dbSource: 'factions', placeholder: 'Link Cloud DBM Faction...' },
     { key: 'goals', label: 'Goals', type: 'textarea', placeholder: 'What the faction wants to achieve...' },
     { key: 'ideology', label: 'Ideology', type: 'textarea', placeholder: 'Core beliefs and code of operation...' },
     { key: 'keyMembers', label: 'Key Members', type: 'textarea', placeholder: 'Important figures and leaders...' },
@@ -68,6 +74,10 @@ export const ELEMENT_SCHEMAS = {
     { key: 'tags', label: 'Tags', type: 'text', placeholder: 'Encounter tags (e.g. Lethal, Tactical, Boss)...' }
   ],
   'Item': [
+    { key: 'itemCategory', label: 'Cloud DB Category', type: 'text', placeholder: 'Weaponry / Armoring / Gear / Augmentations...' },
+    { key: 'weaponRef', label: 'Weapon Record (Cloud DB)', type: 'relational', dbSource: 'weaponry', placeholder: 'Link Cloud DBM Weapon...' },
+    { key: 'armoringRef', label: 'Armor Record (Cloud DB)', type: 'relational', dbSource: 'armoring', placeholder: 'Link Cloud DBM Armor...' },
+    { key: 'gearRef', label: 'Gear Record (Cloud DB)', type: 'relational', dbSource: 'gear', placeholder: 'Link Cloud DBM Gear...' },
     { key: 'rarity', label: 'Rarity', type: 'text', placeholder: 'Rarity (e.g. Common, Prototype, Artifact)...' },
     { key: 'attunement', label: 'Attunement', type: 'text', placeholder: 'Attunement requirement (e.g. Cyberware ML-2)...' },
     { key: 'properties', label: 'Properties', type: 'textarea', placeholder: 'Passive abilities and bonuses...' },
@@ -78,6 +88,7 @@ export const ELEMENT_SCHEMAS = {
     { key: 'tags', label: 'Tags', type: 'text', placeholder: 'Item tags (e.g. Tech, Weapon, Psionic)...' }
   ],
   'Clue': [
+    { key: 'rulesRef', label: 'Rules Codex (Cloud DB)', type: 'relational', dbSource: 'rules_codex', placeholder: 'Link Cloud DBM Rules Codex...' },
     { key: 'information', label: 'Information Revealed', type: 'textarea', placeholder: 'What this clue reveals...' },
     { key: 'locationFound', label: 'Location Found', type: 'text', placeholder: 'Where or how it is discovered...' },
     { key: 'conclusion', label: 'Player Conclusion', type: 'textarea', placeholder: 'What players should realize...' },

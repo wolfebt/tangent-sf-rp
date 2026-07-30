@@ -65,6 +65,10 @@ export const FolioProvider = ({ children }) => {
     return DEFAULT_CHARACTER;
   });
 
+  // Cloud Save Status state: 'saved' | 'saving' | 'offline' | 'error'
+  const [cloudSaveStatus, setCloudSaveStatus] = useState('saved');
+  const [lastSavedTime, setLastSavedTime] = useState(null);
+
   // Character Roster State — primary source is Firestore; localStorage is secondary offline cache
   const [personaRoster, setPersonaRoster] = useState(() => {
     try {
@@ -89,7 +93,7 @@ export const FolioProvider = ({ children }) => {
       }
 
       if (!user) {
-        // Not logged in — clear stale localStorage so mock entries don't persist
+        setCloudSaveStatus('offline');
         return;
       }
 
@@ -115,6 +119,49 @@ export const FolioProvider = ({ children }) => {
       if (firestoreUnsub) firestoreUnsub();
     };
   }, []);
+
+  // AUTOMATIC CLOUD SAVE EFFECT (Debounced 1500ms)
+  const isFirstRender = React.useRef(true);
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
+    const user = auth.currentUser;
+    if (!user) {
+      setCloudSaveStatus('offline');
+      return;
+    }
+
+    setCloudSaveStatus('saving');
+
+    const timer = setTimeout(async () => {
+      try {
+        const docId = characterData['character-doc-id'] || `char_${Date.now()}`;
+        const updatedData = {
+          ...characterData,
+          'character-doc-id': docId,
+          updatedAt: new Date().toISOString()
+        };
+
+        if (!characterData['character-doc-id']) {
+          setCharacterData(prev => ({ ...prev, 'character-doc-id': docId }));
+        }
+
+        const docRef = doc(db, `users/${user.uid}/personas`, docId);
+        await setDoc(docRef, updatedData);
+
+        setCloudSaveStatus('saved');
+        setLastSavedTime(new Date());
+      } catch (err) {
+        console.error('Auto cloud save failed:', err);
+        setCloudSaveStatus('error');
+      }
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, [characterData]);
 
   // Derived Stats Auto-Calculation
   const derivedStats = useMemo(() => {
@@ -798,6 +845,34 @@ export const FolioProvider = ({ children }) => {
     };
   }, [characterData]);
 
+  const updateRosterCharacterNote = useCallback(async (docId, noteText) => {
+    const updatedNotes = [{ text: noteText }];
+    setPersonaRoster(prev => prev.map(c => {
+      if (c['character-doc-id'] === docId) {
+        return { ...c, notes: updatedNotes, updatedAt: new Date().toISOString() };
+      }
+      return c;
+    }));
+
+    if (characterData['character-doc-id'] === docId) {
+      setCharacterData(prev => ({ ...prev, notes: updatedNotes }));
+    }
+
+    const user = auth.currentUser;
+    if (user) {
+      try {
+        const docRef = doc(db, `users/${user.uid}/personas`, docId);
+        const snapshot = await getDoc(docRef);
+        if (snapshot.exists()) {
+          const existingData = snapshot.data();
+          await setDoc(docRef, { ...existingData, notes: updatedNotes, updatedAt: new Date().toISOString() });
+        }
+      } catch (err) {
+        console.warn('Failed to update character note in Firestore:', err.message);
+      }
+    }
+  }, [characterData]);
+
   // Top level computed spent CP
   const computeSpentCP = useCallback(() => {
     return economyBreakdown.spentCP;
@@ -826,7 +901,10 @@ export const FolioProvider = ({ children }) => {
         saveCurrentToRoster,
         switchRosterCharacter,
         deleteRosterCharacter,
-        duplicateRosterCharacter
+        duplicateRosterCharacter,
+        cloudSaveStatus,
+        lastSavedTime,
+        updateRosterCharacterNote
       }}
     >
       {children}

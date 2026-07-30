@@ -57,7 +57,10 @@ const FolioContainer = () => {
     saveCurrentToRoster,
     switchRosterCharacter,
     deleteRosterCharacter,
-    duplicateRosterCharacter
+    duplicateRosterCharacter,
+    cloudSaveStatus,
+    lastSavedTime,
+    updateRosterCharacterNote
   } = useFolio();
 
   const handleOpenAddSkillModal = useCallback((mode = 'skill', skillsList = []) => {
@@ -150,9 +153,46 @@ const FolioContainer = () => {
             </button>
 
             <div className="flex flex-col">
-              <h2 id="actor-display-header" className="text-sm sm:text-base font-bold font-mono text-amber-400 uppercase tracking-wider drop-shadow-[0_0_8px_rgba(245,158,11,0.3)] truncate max-w-[150px] sm:max-w-xs">
-                {charNameUpper}
-              </h2>
+              <div className="flex items-center gap-2">
+                <h2 id="actor-display-header" className="text-sm sm:text-base font-bold font-mono text-amber-400 uppercase tracking-wider drop-shadow-[0_0_8px_rgba(245,158,11,0.3)] truncate max-w-[150px] sm:max-w-xs">
+                  {charNameUpper}
+                </h2>
+
+                {/* Dynamic Cloud Save Indicator Badge */}
+                {cloudSaveStatus === 'saving' && (
+                  <span className="px-2 py-0.5 text-[9px] bg-amber-950/60 text-amber-300 border border-amber-500/40 rounded flex items-center gap-1 font-mono uppercase tracking-wider animate-pulse">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping" />
+                    Saving...
+                  </span>
+                )}
+                {cloudSaveStatus === 'saved' && (
+                  <span 
+                    className="px-2 py-0.5 text-[9px] bg-emerald-950/60 text-emerald-300 border border-emerald-500/40 rounded flex items-center gap-1 font-mono uppercase tracking-wider" 
+                    title={lastSavedTime ? `Cloud Saved at ${lastSavedTime.toLocaleTimeString()}` : 'Cloud Saved'}
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                    Cloud Saved
+                  </span>
+                )}
+                {cloudSaveStatus === 'offline' && (
+                  <span 
+                    className="px-2 py-0.5 text-[9px] bg-slate-900 text-slate-400 border border-slate-700 rounded flex items-center gap-1 font-mono uppercase tracking-wider" 
+                    title="Not logged in — changes saved locally in browser"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-slate-500" />
+                    Local Mode
+                  </span>
+                )}
+                {cloudSaveStatus === 'error' && (
+                  <span 
+                    className="px-2 py-0.5 text-[9px] bg-red-950/60 text-red-300 border border-red-500/40 rounded flex items-center gap-1 font-mono uppercase tracking-wider" 
+                    title="Cloud Save Failed"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
+                    Save Error
+                  </span>
+                )}
+              </div>
               <div className="flex items-center gap-2 text-[10px] text-slate-400 font-mono">
                 <span>HP: <strong className="text-emerald-400">{derivedStats.health}</strong></span>
                 <span>VIT: <strong className="text-cyan-400">{derivedStats.vitality}</strong></span>
@@ -346,6 +386,7 @@ const FolioContainer = () => {
         onNewCharacter={handleNewCharacter}
         onDuplicateCharacter={duplicateRosterCharacter}
         onDeleteCharacter={deleteRosterCharacter}
+        onUpdateNote={updateRosterCharacterNote}
       />
       <EconomyModal
         isOpen={isEconomyOpen}

@@ -47,36 +47,46 @@ export const StoryProvider = ({ children }) => {
   const [activeScenarioId, setActiveScenarioId] = useState(null);
   const [activeMapId, setActiveMapId] = useState(null);
 
-  // Firestore universe doc reference (shared single-document universe state)
+  // Track auth & Cloud DB connection state
   const UNIVERSE_DOC_ID = 'main';
-  // Ref to prevent write-back loop when universe state is set FROM Firestore
   const isSyncingFromFirestore = React.useRef(false);
-  // Track auth state so Firestore is only accessed when the user is signed in
   const [currentUser, setCurrentUser] = useState(null);
+  const [cloudSyncStatus, setCloudSyncStatus] = useState('offline'); // 'synced' | 'syncing' | 'offline' | 'error'
 
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (user) => setCurrentUser(user));
+    const unsub = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+      if (!user) setCloudSyncStatus('offline');
+    });
     return () => unsub();
   }, []);
 
   // Real-time Firestore listener for shared universe document — only when signed in
   useEffect(() => {
-    if (!currentUser) return; // unauthenticated: use localStorage only, no Firestore calls
+    if (!currentUser) {
+      setCloudSyncStatus('offline');
+      return;
+    }
+    setCloudSyncStatus('syncing');
     const docRef = doc(db, 'universe', UNIVERSE_DOC_ID);
     const unsub = onSnapshot(docRef, (snap) => {
       if (snap.exists()) {
         const firestoreData = snap.data();
         isSyncingFromFirestore.current = true;
         setUniverseState(firestoreData);
+        setCloudSyncStatus('synced');
         // Mirror to localStorage as offline cache
         try {
           localStorage.setItem('tangent_universe_state', JSON.stringify(firestoreData));
         } catch (e) {
           console.warn('Failed to cache universe state to localStorage:', e);
         }
+      } else {
+        setCloudSyncStatus('synced');
       }
     }, (err) => {
       console.warn('Firestore universe listener error (using localStorage fallback):', err.message);
+      setCloudSyncStatus('error');
     });
     return () => unsub();
   }, [currentUser]);
@@ -95,12 +105,119 @@ export const StoryProvider = ({ children }) => {
       console.warn('Failed to cache universe state to localStorage:', e);
     }
     // Only write to Firestore when authenticated
-    if (!currentUser) return;
+    if (!currentUser) {
+      setCloudSyncStatus('offline');
+      return;
+    }
+    setCloudSyncStatus('syncing');
     const docRef = doc(db, 'universe', UNIVERSE_DOC_ID);
-    setDoc(docRef, universeState).catch(err => {
-      console.warn('Firestore universe write failed (localStorage cache applied):', err.message);
-    });
+    setDoc(docRef, universeState)
+      .then(() => setCloudSyncStatus('synced'))
+      .catch(err => {
+        console.warn('Firestore universe write failed (localStorage cache applied):', err.message);
+        setCloudSyncStatus('error');
+      });
   }, [universeState, currentUser]);
+
+  // Manual Push to Cloud DB
+  const pushUniverseToCloud = async () => {
+    if (!currentUser) {
+      alert("Please login to push data to Cloud DB.");
+      return false;
+    }
+    try {
+      setCloudSyncStatus('syncing');
+      const docRef = doc(db, 'universe', UNIVERSE_DOC_ID);
+      await setDoc(docRef, universeState);
+      setCloudSyncStatus('synced');
+      alert("Universe state successfully pushed to Cloud DB!");
+      return true;
+    } catch (err) {
+      console.error("Failed to push to Cloud DB:", err);
+      setCloudSyncStatus('error');
+      alert(`Cloud DB Push failed: ${err.message}`);
+      return false;
+    }
+  };
+
+  // Manual Pull from Cloud DB
+  const pullUniverseFromCloud = async () => {
+    if (!currentUser) {
+      alert("Please login to pull data from Cloud DB.");
+      return false;
+    }
+    try {
+      setCloudSyncStatus('syncing');
+      const docRef = doc(db, 'universe', UNIVERSE_DOC_ID);
+      const snap = await getDocs(collection(db, 'universe'));
+      const mainDoc = snap.docs.find(d => d.id === UNIVERSE_DOC_ID);
+      if (mainDoc && mainDoc.exists()) {
+        const firestoreData = mainDoc.data();
+        isSyncingFromFirestore.current = true;
+        setUniverseState(firestoreData);
+        setCloudSyncStatus('synced');
+        alert("Universe state successfully pulled from Cloud DB!");
+        return true;
+      } else {
+        alert("No Cloud DB universe document found.");
+        setCloudSyncStatus('synced');
+        return false;
+      }
+    } catch (err) {
+      console.error("Failed to pull from Cloud DB:", err);
+      setCloudSyncStatus('error');
+      alert(`Cloud DB Pull failed: ${err.message}`);
+      return false;
+    }
+  };
+
+  // Save individual Story Element to Cloud DB collection ('story_elements')
+  const saveElementToCloud = async (elementNode) => {
+    if (!currentUser) {
+      alert("Please login to save elements to Cloud DB.");
+      return false;
+    }
+    if (!elementNode || !elementNode.id) return false;
+    try {
+      setCloudSyncStatus('syncing');
+      const payload = {
+        ...elementNode,
+        updatedAt: new Date().toISOString(),
+        authorEmail: currentUser.email || 'Anonymous',
+        authorUid: currentUser.uid
+      };
+      await setDoc(doc(db, 'story_elements', elementNode.id), payload);
+      setCloudSyncStatus('synced');
+      alert(`Story Element "${elementNode.title || 'Untitled'}" saved to Cloud DB collection!`);
+      return true;
+    } catch (err) {
+      console.error("Save element to Cloud DB failed:", err);
+      setCloudSyncStatus('error');
+      alert(`Failed to save element to Cloud DB: ${err.message}`);
+      return false;
+    }
+  };
+
+  // Fetch all Cloud DB Story Elements from collection ('story_elements')
+  const loadElementsFromCloud = async () => {
+    if (!currentUser) {
+      alert("Please login to access Cloud DB elements library.");
+      return [];
+    }
+    try {
+      setCloudSyncStatus('syncing');
+      const colRef = collection(db, 'story_elements');
+      const snap = await getDocs(colRef);
+      const elements = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      setCloudSyncStatus('synced');
+      return elements;
+    } catch (err) {
+      console.error("Failed to load elements from Cloud DB:", err);
+      setCloudSyncStatus('error');
+      alert(`Failed to fetch Cloud DB elements: ${err.message}`);
+      return [];
+    }
+  };
 
   const handleClearUniverse = async () => {
     localStorage.removeItem('tangent_universe_state');
@@ -607,6 +724,11 @@ export const StoryProvider = ({ children }) => {
     setUniverseState,
     updateProjectName,
     handleClearUniverse,
+    cloudSyncStatus,
+    pushUniverseToCloud,
+    pullUniverseFromCloud,
+    saveElementToCloud,
+    loadElementsFromCloud,
     activeScenarioId,
     setActiveScenarioId,
     activeMapId,

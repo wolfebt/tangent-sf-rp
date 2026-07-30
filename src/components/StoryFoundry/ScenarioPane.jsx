@@ -4,6 +4,7 @@ import Split from 'react-split';
 import { v4 as uuidv4 } from 'uuid';
 import { ELEMENT_TYPES, ELEMENT_SCHEMAS } from './elementSchemas';
 import { isHalfPageElement } from './exportUtils';
+import { UnifiedRelationalSelectorModal } from '../DBM/UnifiedRelationalSelectorModal';
 
 // Helper to get breadcrumb location path for an element
 const getBreadcrumbPath = (nodes, targetId, currentPath = []) => {
@@ -109,6 +110,36 @@ const TreeNode = ({ node, activeId, onSelect, onDelete, onMove, onReorderRelativ
             <span className="text-xs font-medium whitespace-nowrap truncate">{node.title || 'Untitled'}</span>
           </div>
         </div>
+
+        {/* Tree Node Action Buttons */}
+        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity ml-2 shrink-0">
+          {onAddChild && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onAddChild(node.id);
+              }}
+              title="Add Sub-Element inside this element"
+              className="px-1.5 py-0.5 text-[10px] bg-amber-950/80 hover:bg-amber-700 border border-amber-500/50 text-amber-300 rounded leading-none transition-colors font-bold"
+            >
+              +
+            </button>
+          )}
+          {onDelete && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete(node.id, node.title);
+              }}
+              title="Delete this element"
+              className="px-1.5 py-0.5 text-[10px] bg-red-950/80 hover:bg-red-800 border border-red-500/60 text-red-300 hover:text-red-200 rounded leading-none transition-colors font-bold"
+            >
+              🗑️
+            </button>
+          )}
+        </div>
       </div>
       {isExpanded && hasChildren && (
         <div className="flex flex-col">
@@ -118,8 +149,13 @@ const TreeNode = ({ node, activeId, onSelect, onDelete, onMove, onReorderRelativ
               node={child} 
               activeId={activeId} 
               onSelect={onSelect} 
+              onDelete={onDelete}
               onMove={onMove}
               onReorderRelative={onReorderRelative}
+              onAddChild={onAddChild}
+              onExport={onExport}
+              onExportMD={onExportMD}
+              onExportPDF={onExportPDF}
               depth={depth + 1} 
             />
           ))}
@@ -132,21 +168,48 @@ const TreeNode = ({ node, activeId, onSelect, onDelete, onMove, onReorderRelativ
 const AddElementModal = ({ isOpen, onClose, onAdd, defaultParentId = null }) => {
   const [type, setType] = useState('Story Arc');
   const [title, setTitle] = useState('');
+  const [customFields, setCustomFields] = useState([{ id: uuidv4(), label: '', value: '' }]);
 
   if (!isOpen) return null;
 
+  const handleCustomFieldChange = (id, key, val) => {
+    setCustomFields(prev => prev.map(f => f.id === id ? { ...f, [key]: val } : f));
+  };
+
+  const handleAddCustomFieldRow = () => {
+    setCustomFields(prev => [...prev, { id: uuidv4(), label: '', value: '' }]);
+  };
+
+  const handleRemoveCustomFieldRow = (id) => {
+    setCustomFields(prev => prev.filter(f => f.id !== id));
+  };
+
+  const lastField = customFields[customFields.length - 1];
+  const canAddField = lastField && (lastField.label.trim() !== '' || lastField.value.trim() !== '');
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    onAdd({ type, title, parentId: defaultParentId || null });
+    const validCustomFields = customFields
+      .filter(f => f.label.trim() !== '')
+      .map(f => ({ id: f.id || uuidv4(), label: f.label.trim(), value: f.value }));
+
+    onAdd({ 
+      type, 
+      title, 
+      parentId: defaultParentId || null,
+      customFields: validCustomFields
+    });
     setTitle('');
+    setCustomFields([{ id: uuidv4(), label: '', value: '' }]);
+    setType('Story Arc');
     onClose();
   };
 
   return (
     <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-      <div className="bg-slate-800 border border-slate-600 rounded-lg p-6 w-96 shadow-xl">
+      <div className="bg-slate-800 border border-slate-600 rounded-lg p-6 w-[26rem] max-h-[85vh] flex flex-col shadow-xl overflow-hidden">
         <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider">Add Story Element</h3>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4 overflow-y-auto pr-1">
           <div>
             <label className="block text-xs text-slate-400 uppercase mb-1 font-semibold">Element Type</label>
             <select 
@@ -158,7 +221,7 @@ const AddElementModal = ({ isOpen, onClose, onAdd, defaultParentId = null }) => 
             </select>
           </div>
           <div>
-            <label className="block text-xs text-slate-400 uppercase mb-1 font-semibold">Title</label>
+            <label className="block text-xs text-slate-400 uppercase mb-1 font-semibold font-mono">Title</label>
             <input 
               type="text" 
               value={title} 
@@ -169,7 +232,59 @@ const AddElementModal = ({ isOpen, onClose, onAdd, defaultParentId = null }) => 
               required
             />
           </div>
-          <div className="flex justify-end gap-2 mt-4">
+
+          {/* Dynamic Custom Fields Setup for Custom Element */}
+          {type === 'Custom' && (
+            <div className="border-t border-slate-700 pt-3 mt-1 flex flex-col gap-3">
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-bold text-cyan-400 uppercase tracking-wider">Custom Fields & Labels</label>
+                <span className="text-[10px] text-slate-400 italic">User-set labels & fields</span>
+              </div>
+              
+              {customFields.map((cf, idx) => (
+                <div key={cf.id} className="flex flex-col gap-1.5 p-2 bg-slate-900/80 border border-slate-700 rounded-md">
+                  <div className="flex items-center justify-between gap-2">
+                    <input
+                      type="text"
+                      value={cf.label}
+                      onChange={(e) => handleCustomFieldChange(cf.id, 'label', e.target.value)}
+                      placeholder={`Field Label ${idx + 1} (e.g. Threat Class)`}
+                      className="w-full bg-slate-800 border border-slate-600 text-cyan-300 p-1.5 rounded text-xs outline-none focus:border-cyan-400"
+                    />
+                    {customFields.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveCustomFieldRow(cf.id)}
+                        className="text-slate-400 hover:text-red-400 text-xs px-1.5 py-0.5 rounded font-bold"
+                        title="Remove Field"
+                      >
+                        ✕
+                      </button>
+                    )}
+                  </div>
+                  <textarea
+                    rows={2}
+                    value={cf.value}
+                    onChange={(e) => handleCustomFieldChange(cf.id, 'value', e.target.value)}
+                    placeholder="Field value / description..."
+                    className="w-full bg-slate-800 border border-slate-600 text-white p-1.5 rounded text-xs outline-none focus:border-cyan-400 resize-none"
+                  />
+                </div>
+              ))}
+
+              {canAddField && (
+                <button
+                  type="button"
+                  onClick={handleAddCustomFieldRow}
+                  className="self-start px-2.5 py-1 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-xs font-bold rounded uppercase tracking-wider transition-all flex items-center gap-1 shadow-sm"
+                >
+                  <span>➕</span> Add Field
+                </button>
+              )}
+            </div>
+          )}
+
+          <div className="flex justify-end gap-2 mt-4 shrink-0">
             <button 
               type="button" 
               onClick={onClose}
@@ -216,8 +331,11 @@ const AutoResizingTextarea = ({ value, onChange, placeholder, className }) => {
 const ElementFieldsEditor = ({ activeNode, updateStory }) => {
   const schema = ELEMENT_SCHEMAS[activeNode.type] || [];
   const fields = activeNode.fields || {};
+  const customFields = activeNode.customFields || [];
 
-  if (!schema.length) return null;
+  const [selectorState, setSelectorState] = useState(null); // { key, label, dbSource }
+  const [newLabel, setNewLabel] = useState('');
+  const [newValue, setNewValue] = useState('');
 
   const handleChange = (key, value) => {
     updateStory(activeNode.id, {
@@ -228,25 +346,91 @@ const ElementFieldsEditor = ({ activeNode, updateStory }) => {
     });
   };
 
+  const handleCustomFieldChange = (id, val) => {
+    const updated = customFields.map(f => f.id === id ? { ...f, value: val } : f);
+    updateStory(activeNode.id, { customFields: updated });
+  };
+
+  const handleCustomLabelChange = (id, newLabelStr) => {
+    const updated = customFields.map(f => f.id === id ? { ...f, label: newLabelStr } : f);
+    updateStory(activeNode.id, { customFields: updated });
+  };
+
+  const handleDeleteCustomField = (id) => {
+    const updated = customFields.filter(f => f.id !== id);
+    updateStory(activeNode.id, { customFields: updated });
+  };
+
+  const handleAddCustomField = () => {
+    if (!newLabel.trim()) return;
+    const newField = {
+      id: uuidv4(),
+      label: newLabel.trim(),
+      value: newValue
+    };
+    const updated = [...customFields, newField];
+    updateStory(activeNode.id, { customFields: updated });
+    setNewLabel('');
+    setNewValue('');
+  };
+
+  const handleOpenSelector = (fieldDef) => {
+    setSelectorState({
+      key: fieldDef.key,
+      label: fieldDef.label,
+      dbSource: fieldDef.dbSource || 'species'
+    });
+  };
+
+  const canAddEditorField = newLabel.trim() !== '';
+
   return (
     <div className="flex-1 overflow-y-auto p-4 bg-slate-900 font-sans space-y-4">
       <div className="flex items-center justify-between border-b border-slate-800 pb-2">
         <span className="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-2">
-          <span>📋</span> {activeNode.type} Focused Fields
+          <span>📋</span> {activeNode.type} Focused Fields & Custom Labels
         </span>
         <span className="text-[10px] text-slate-400 italic">
-          Fields start as 1 line & auto-expand as you type
+          Link Cloud DBM items or type custom content & user-set fields
         </span>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Standard Schema Fields */}
         {schema.map(f => {
           const val = fields[f.key] || (f.key === 'description' || f.key === 'content' ? (activeNode.content || '') : '');
+          const isRelational = f.type === 'relational' || f.dbSource;
+
           return (
             <div key={f.key} className="md:col-span-2">
-              <label className="block text-xs font-bold text-cyan-300 uppercase mb-1.5 tracking-wider">
-                {f.label}
-              </label>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="block text-xs font-bold text-cyan-300 uppercase tracking-wider">
+                  {f.label}
+                </label>
+                {f.dbSource && (
+                  <button
+                    onClick={() => handleOpenSelector(f)}
+                    className="px-2 py-0.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 rounded text-[10px] font-bold uppercase tracking-wider transition-colors flex items-center gap-1 shadow-sm"
+                  >
+                    <span>☁️</span> {val ? 'Change Cloud DB Link' : 'Select Cloud DB Item'}
+                  </button>
+                )}
+              </div>
+
+              {isRelational && val && (
+                <div className="mb-2 flex items-center gap-2 bg-cyan-950/60 border border-cyan-500/40 px-2.5 py-1.5 rounded-md text-xs">
+                  <span className="text-cyan-400 font-bold uppercase text-[10px]">☁️ Linked Cloud Record:</span>
+                  <span className="text-white font-semibold flex-1 truncate">{val}</span>
+                  <button
+                    onClick={() => handleChange(f.key, '')}
+                    className="text-slate-400 hover:text-red-400 font-bold px-1"
+                    title="Unlink Cloud Record"
+                  >
+                    &times;
+                  </button>
+                </div>
+              )}
+
               <AutoResizingTextarea
                 value={val}
                 onChange={e => {
@@ -261,7 +445,88 @@ const ElementFieldsEditor = ({ activeNode, updateStory }) => {
             </div>
           );
         })}
+
+        {/* Dynamic Custom Fields */}
+        {customFields.map(cf => (
+          <div key={cf.id} className="md:col-span-2 bg-slate-950/70 border border-cyan-900/50 p-3 rounded-lg space-y-2">
+            <div className="flex items-center justify-between gap-2">
+              <input
+                type="text"
+                value={cf.label}
+                onChange={(e) => handleCustomLabelChange(cf.id, e.target.value)}
+                className="bg-transparent text-xs font-bold text-cyan-300 uppercase tracking-wider outline-none border-b border-dashed border-cyan-800/60 focus:border-cyan-400 px-1 py-0.5"
+                placeholder="Custom Field Label..."
+                title="Click to rename field label"
+              />
+              <button
+                type="button"
+                onClick={() => handleDeleteCustomField(cf.id)}
+                className="text-slate-500 hover:text-red-400 text-xs font-bold px-2 py-0.5 rounded hover:bg-red-950/40"
+                title="Delete custom field"
+              >
+                Delete Field ✕
+              </button>
+            </div>
+            <AutoResizingTextarea
+              value={cf.value || ''}
+              onChange={e => handleCustomFieldChange(cf.id, e.target.value)}
+              placeholder={`Enter content for ${cf.label || 'custom field'}...`}
+              className="w-full bg-slate-900 border border-slate-800 focus:border-cyan-400 text-slate-100 p-2.5 rounded-lg text-xs outline-none transition-all leading-relaxed shadow-inner"
+            />
+          </div>
+        ))}
       </div>
+
+      {/* Add Additional Custom Field Section */}
+      <div className="mt-4 p-3 bg-slate-950/90 border border-slate-800 rounded-lg space-y-3">
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
+            <span>➕</span> Add Additional Custom Field
+          </span>
+          <span className="text-[10px] text-slate-500 italic">Define user label and field content</span>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <input
+            type="text"
+            value={newLabel}
+            onChange={(e) => setNewLabel(e.target.value)}
+            placeholder="Field Label (e.g. Codename, Threat Rating)"
+            className="bg-slate-900 border border-slate-700 text-cyan-300 p-2 rounded text-xs outline-none focus:border-cyan-400"
+          />
+          <input
+            type="text"
+            value={newValue}
+            onChange={(e) => setNewValue(e.target.value)}
+            placeholder="Field Value / Description"
+            className="bg-slate-900 border border-slate-700 text-slate-200 p-2 rounded text-xs outline-none focus:border-cyan-400"
+          />
+        </div>
+        {canAddEditorField && (
+          <button
+            type="button"
+            onClick={handleAddCustomField}
+            className="px-3 py-1.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-xs font-bold rounded uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_8px_rgba(34,211,238,0.2)]"
+          >
+            <span>➕</span> Add Field
+          </button>
+        )}
+      </div>
+
+      {selectorState && (
+        <UnifiedRelationalSelectorModal
+          isOpen={Boolean(selectorState)}
+          onClose={() => setSelectorState(null)}
+          sourceCollection={selectorState.dbSource}
+          fieldLabel={selectorState.label}
+          isMulti={false}
+          selectedValues={fields[selectorState.key] ? [fields[selectorState.key]] : []}
+          onSelect={(selectedArr) => {
+            const chosen = Array.isArray(selectedArr) ? selectedArr[0] : selectedArr;
+            handleChange(selectorState.key, chosen || '');
+            setSelectorState(null);
+          }}
+        />
+      )}
     </div>
   );
 };
@@ -449,21 +714,40 @@ const ScenarioPane = ({ onOpenBastion, onSwitchTab }) => {
     setIsModalOpen(true);
   };
 
-  const handleAddElement = ({ type, title, parentId }) => {
+  const handleAddElement = ({ type, title, parentId, customFields }) => {
     const newNode = {
       id: uuidv4(),
       type,
       title,
       content: '',
       fields: {},
+      customFields: customFields || [],
       children: []
     };
     addStory(newNode, parentId);
   };
 
   const handleDeleteElement = (id, title) => {
+    let nodeToDelete = null;
+    const findNodeById = (nodes) => {
+      for (let n of nodes) {
+        if (n.id === id) return n;
+        if (n.children && n.children.length > 0) {
+          const found = findNodeById(n.children);
+          if (found) return found;
+        }
+      }
+      return null;
+    };
+    nodeToDelete = findNodeById(universeState.scenarios);
+
     const name = title ? `"${title}"` : 'this element';
-    if (window.confirm(`Are you sure you want to delete ${name}? This action cannot be undone.`)) {
+    const childCount = nodeToDelete && nodeToDelete.children ? nodeToDelete.children.length : 0;
+    const childWarning = childCount > 0
+      ? ` and its ${childCount} sub-element(s)`
+      : '';
+
+    if (window.confirm(`Are you sure you want to delete ${name}${childWarning}? This action cannot be undone.`)) {
       deleteStory(id);
     }
   };
@@ -934,17 +1218,37 @@ const ScenarioPane = ({ onOpenBastion, onSwitchTab }) => {
           ) : (
             <>
               {/* Header Title Bar */}
-              <div className="p-3 border-b border-slate-800 bg-slate-950 flex items-center gap-3 flex-wrap">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-amber-400 bg-amber-950/60 border border-amber-800/60 px-2 py-0.5 rounded">
-                  {activeNode.type}
-                </span>
-                <input 
-                  type="text" 
-                  value={activeNode.title}
-                  onChange={handleTitleChange}
-                  className="flex-1 text-base font-bold bg-transparent border-none outline-none text-white placeholder-slate-500 min-w-[180px]"
-                  placeholder="Element Title..."
-                />
+              <div className="p-3 border-b border-slate-800 bg-slate-950 flex items-center justify-between gap-3 flex-wrap">
+                <div className="flex items-center gap-3 flex-1 min-w-[220px]">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-amber-400 bg-amber-950/60 border border-amber-800/60 px-2 py-0.5 rounded shrink-0">
+                    {activeNode.type}
+                  </span>
+                  <input 
+                    type="text" 
+                    value={activeNode.title}
+                    onChange={handleTitleChange}
+                    className="flex-1 text-base font-bold bg-transparent border-none outline-none text-white placeholder-slate-500 min-w-[150px]"
+                    placeholder="Element Title..."
+                  />
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => handleOpenAddModal(activeNode.id)}
+                    title="Add Sub-Element inside this element"
+                    className="px-2.5 py-1 bg-amber-600/30 hover:bg-amber-600/50 border border-amber-500/50 text-amber-300 text-xs font-bold rounded uppercase tracking-wider transition-colors flex items-center gap-1"
+                  >
+                    <span>➕</span> Sub-Element
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteElement(activeNode.id, activeNode.title)}
+                    title="Delete this element"
+                    className="px-2.5 py-1 bg-red-950/70 hover:bg-red-900 border border-red-700/70 text-red-300 hover:text-red-200 text-xs font-bold rounded uppercase tracking-wider transition-colors flex items-center gap-1 shadow-sm"
+                  >
+                    <span>🗑️</span> Delete Element
+                  </button>
+                </div>
               </div>
 
               {/* Location Path Bar */}

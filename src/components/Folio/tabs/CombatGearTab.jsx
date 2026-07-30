@@ -29,6 +29,8 @@ const CombatGearTab = ({ onOpenSelectorModal }) => {
     updateField('attacks', updated);
   };
   const removeAttack = (index) => {
+    const atkName = attacks[index]?.name || 'Attack';
+    if (!window.confirm(`Are you sure you want to delete attack "${atkName}"?`)) return;
     updateField('attacks', attacks.filter((_, i) => i !== index));
   };
 
@@ -45,6 +47,8 @@ const CombatGearTab = ({ onOpenSelectorModal }) => {
     updateField('armor', updated);
   };
   const removeArmor = (index) => {
+    const armorName = armors[index]?.name || 'Armor';
+    if (!window.confirm(`Are you sure you want to delete armor entry "${armorName}"?`)) return;
     updateField('armor', armors.filter((_, i) => i !== index));
   };
 
@@ -52,6 +56,9 @@ const CombatGearTab = ({ onOpenSelectorModal }) => {
   const renderPropertyList = (title, key, category) => {
     const list = getArray(key);
     const removeItem = (index) => {
+      const item = list[index];
+      const itemName = typeof item === 'object' ? (item.name || item.title || 'Item') : String(item);
+      if (!window.confirm(`Are you sure you want to remove item "${itemName}"?`)) return;
       updateField(key, list.filter((_, i) => i !== index));
     };
 

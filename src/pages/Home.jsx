@@ -77,6 +77,23 @@ const Home = () => {
           {currentUser ? (
             <nav className="w-full grid grid-cols-1 gap-4">
               <button 
+                onClick={() => navigate('/dbm')}
+                className="w-full py-4 rounded-lg text-2xl font-bold uppercase transition-all duration-300 backdrop-blur-sm bg-transparent text-[#f5f5f5] hover:bg-[rgba(0,0,0,0.6)] hover:-translate-y-1"
+                style={{ 
+                  boxShadow: "0 0 0 1px black, 0 0 0 2px white", 
+                  textShadow: "2px 2px 4px #000"
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = "0 0 0 1px black, 0 0 0 2px white, 0 0 25px rgba(0, 0, 0, 0.9)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = "0 0 0 1px black, 0 0 0 2px white";
+                }}
+              >
+                OMNICORTEX
+              </button>
+
+              <button 
                 onClick={() => navigate('/story-foundry')}
                 className="w-full py-4 rounded-lg text-2xl font-bold uppercase transition-all duration-300 backdrop-blur-sm bg-transparent text-[#f5f5f5] hover:bg-[rgba(0,0,0,0.6)] hover:-translate-y-1"
                 style={{ 
@@ -108,23 +125,6 @@ const Home = () => {
                 }}
               >
                 Persona Folio
-              </button>
-
-              <button 
-                onClick={() => navigate('/dbm')}
-                className="w-full py-4 rounded-lg text-2xl font-bold uppercase transition-all duration-300 backdrop-blur-sm bg-transparent text-[#f5f5f5] hover:bg-[rgba(0,0,0,0.6)] hover:-translate-y-1"
-                style={{ 
-                  boxShadow: "0 0 0 1px black, 0 0 0 2px white", 
-                  textShadow: "2px 2px 4px #000"
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = "0 0 0 1px black, 0 0 0 2px white, 0 0 25px rgba(0, 0, 0, 0.9)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = "0 0 0 1px black, 0 0 0 2px white";
-                }}
-              >
-                OMNICORTEX
               </button>
             </nav>
           ) : (

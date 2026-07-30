@@ -81,6 +81,10 @@ const AbilitiesTab = ({ onOpenSelectorModal }) => {
 
   // Remove Feature Item
   const handleRemoveFeature = (index) => {
+    const targetItem = allFeatures[index];
+    const itemName = typeof targetItem === 'object' ? (targetItem.name || targetItem.title || 'Feature') : String(targetItem);
+    if (!window.confirm(`Are you sure you want to remove feature "${itemName}"?`)) return;
+
     const mainFeatures = getItemList('features');
     if (index < mainFeatures.length) {
       const updated = mainFeatures.filter((_, i) => i !== index);
@@ -103,6 +107,10 @@ const AbilitiesTab = ({ onOpenSelectorModal }) => {
 
   // Remove Disadvantage Item
   const handleRemoveDisadvantage = (index) => {
+    const targetItem = disadvantagesList[index];
+    const itemName = typeof targetItem === 'object' ? (targetItem.name || targetItem.title || 'Disadvantage') : String(targetItem);
+    if (!window.confirm(`Are you sure you want to remove flaw "${itemName}"?`)) return;
+
     const list = getItemList('disadvantages');
     const updated = list.filter((_, i) => i !== index);
     updateField('disadvantages', updated);

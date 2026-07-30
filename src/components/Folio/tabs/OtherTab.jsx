@@ -30,6 +30,7 @@ const OtherTab = () => {
   };
 
   const removeNote = (index) => {
+    if (!window.confirm(`Are you sure you want to delete note entry #${index + 1}?`)) return;
     const updated = notes.filter((_, i) => i !== index);
     updateField('notes', updated.length > 0 ? updated : [{ text: '' }]);
   };

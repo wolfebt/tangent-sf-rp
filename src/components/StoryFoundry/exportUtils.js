@@ -72,14 +72,23 @@ export const exportElementMarkdown = (targetNode, universeState) => {
     }
 
     const schema = ELEMENT_SCHEMAS[node.type];
-    if (schema && node.fields) {
+    if ((schema && node.fields) || (node.customFields && node.customFields.length > 0)) {
       let fieldsMd = '';
-      schema.forEach(fieldDef => {
-        const val = node.fields[fieldDef.key];
-        if (val && val.trim()) {
-          fieldsMd += `- **${fieldDef.label}:** ${val.trim()}\n`;
-        }
-      });
+      if (schema && node.fields) {
+        schema.forEach(fieldDef => {
+          const val = node.fields[fieldDef.key];
+          if (val && val.trim()) {
+            fieldsMd += `- **${fieldDef.label}:** ${val.trim()}\n`;
+          }
+        });
+      }
+      if (node.customFields && Array.isArray(node.customFields)) {
+        node.customFields.forEach(cf => {
+          if (cf.label && cf.value && cf.value.trim()) {
+            fieldsMd += `- **${cf.label}:** ${cf.value.trim()}\n`;
+          }
+        });
+      }
       if (fieldsMd) {
         md += `${fieldsMd}\n`;
       }
@@ -135,18 +144,30 @@ export const exportElementPDF = (targetNode, universeState) => {
     }
 
     const schema = ELEMENT_SCHEMAS[node.type];
-    if (schema && node.fields) {
+    if ((schema && node.fields) || (node.customFields && node.customFields.length > 0)) {
       let fieldsHTML = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; margin-bottom: 12px; font-size: 12px;">';
       let hasFields = false;
-      schema.forEach(fieldDef => {
-        const val = node.fields[fieldDef.key];
-        if (val && val.trim()) {
-          hasFields = true;
-          fieldsHTML += `<div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 6px 10px; border-radius: 4px;">`;
-          fieldsHTML += `<strong style="color: #0369a1; display: block; font-size: 10px; text-transform: uppercase;">${fieldDef.label}</strong>`;
-          fieldsHTML += `<span style="color: #0f172a;">${val.trim()}</span></div>`;
-        }
-      });
+      if (schema && node.fields) {
+        schema.forEach(fieldDef => {
+          const val = node.fields[fieldDef.key];
+          if (val && val.trim()) {
+            hasFields = true;
+            fieldsHTML += `<div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 6px 10px; border-radius: 4px;">`;
+            fieldsHTML += `<strong style="color: #0369a1; display: block; font-size: 10px; text-transform: uppercase;">${fieldDef.label}</strong>`;
+            fieldsHTML += `<span style="color: #0f172a;">${val.trim()}</span></div>`;
+          }
+        });
+      }
+      if (node.customFields && Array.isArray(node.customFields)) {
+        node.customFields.forEach(cf => {
+          if (cf.label && cf.value && cf.value.trim()) {
+            hasFields = true;
+            fieldsHTML += `<div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 6px 10px; border-radius: 4px;">`;
+            fieldsHTML += `<strong style="color: #0369a1; display: block; font-size: 10px; text-transform: uppercase;">${cf.label}</strong>`;
+            fieldsHTML += `<span style="color: #0f172a;">${cf.value.trim()}</span></div>`;
+          }
+        });
+      }
       fieldsHTML += '</div>';
       if (hasFields) html += fieldsHTML;
     }

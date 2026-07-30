@@ -11,7 +11,22 @@ import './StoryFoundry.css';
 const StoryFoundry = () => {
   const navigate = useNavigate();
   const { currentUser, userHandle, confirmLogout, loginWithGoogle } = useAuth();
-  const { universeState, activeScenarioId, deleteStory, handleSaveLocal, handleLoadLocal, updateProjectName, updateStory, handleClearUniverse } = useStory();
+  const { 
+    universeState, 
+    activeScenarioId, 
+    deleteStory, 
+    handleSaveLocal, 
+    handleLoadLocal, 
+    updateProjectName, 
+    updateStory, 
+    handleClearUniverse,
+    cloudSyncStatus,
+    pushUniverseToCloud,
+    pullUniverseFromCloud,
+    saveElementToCloud,
+    loadElementsFromCloud,
+    addStory
+  } = useStory();
   const { activeMapId, handleLoadMap, handleSaveActiveMap, updateMap } = useCampaign();
   
   const fileInputRef = useRef(null);
@@ -20,6 +35,11 @@ const StoryFoundry = () => {
   
   const [isFileMenuOpen, setIsFileMenuOpen] = useState(false);
   const fileMenuRef = useRef(null);
+
+  // Cloud Elements Library Modal State
+  const [isCloudLibraryOpen, setIsCloudLibraryOpen] = useState(false);
+  const [cloudLibraryElements, setCloudLibraryElements] = useState([]);
+  const [isLoadingCloudLibrary, setIsLoadingCloudLibrary] = useState(false);
 
   // Tab State: 'story' | 'map'
   const [activeTab, setActiveTab] = useState('story');
@@ -44,6 +64,26 @@ const StoryFoundry = () => {
   if (activeScenarioId && universeState?.scenarios) {
     findNode(universeState.scenarios);
   }
+
+  const handleOpenCloudLibrary = async () => {
+    setIsCloudLibraryOpen(true);
+    setIsLoadingCloudLibrary(true);
+    const elements = await loadElementsFromCloud();
+    setCloudLibraryElements(elements);
+    setIsLoadingCloudLibrary(false);
+  };
+
+  const handleImportCloudElement = (cloudElem) => {
+    if (!cloudElem) return;
+    const importedNode = {
+      ...cloudElem,
+      id: `elem_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+      children: cloudElem.children || []
+    };
+    addStory(importedNode);
+    setIsCloudLibraryOpen(false);
+    alert(`Imported "${cloudElem.title || 'Untitled'}" from Cloud DB!`);
+  };
 
   const handleOpenBastion = (mode = 'chat') => {
     setBastionMode(mode);
@@ -158,8 +198,20 @@ const StoryFoundry = () => {
 
         <div className="flex-1"></div>
         
-        {/* User Auth Indicator / ID Tag */}
+        {/* User Auth Indicator & Cloud DB Status Badge */}
         <div className="flex items-center gap-2">
+          <div 
+            className="flex items-center gap-1.5 px-2.5 py-1 rounded border text-xs font-mono font-bold uppercase tracking-wider transition-all"
+            style={{
+              borderColor: cloudSyncStatus === 'synced' ? 'rgba(34, 211, 238, 0.6)' : cloudSyncStatus === 'syncing' ? 'rgba(245, 158, 11, 0.6)' : cloudSyncStatus === 'error' ? 'rgba(239, 68, 68, 0.6)' : 'rgba(100, 116, 139, 0.5)',
+              backgroundColor: cloudSyncStatus === 'synced' ? 'rgba(8, 145, 178, 0.2)' : cloudSyncStatus === 'syncing' ? 'rgba(217, 119, 6, 0.2)' : cloudSyncStatus === 'error' ? 'rgba(220, 38, 38, 0.2)' : 'rgba(30, 41, 59, 0.6)',
+              color: cloudSyncStatus === 'synced' ? '#22d3ee' : cloudSyncStatus === 'syncing' ? '#fbbf24' : cloudSyncStatus === 'error' ? '#f87171' : '#94a3b8'
+            }}
+            title={`Cloud DB Connection State: ${cloudSyncStatus}`}
+          >
+            <span>{cloudSyncStatus === 'synced' ? '☁️ Cloud DB' : cloudSyncStatus === 'syncing' ? '🔄 Syncing' : cloudSyncStatus === 'error' ? '⚠️ DB Error' : '📡 Local Mode'}</span>
+          </div>
+
           {currentUser ? (
             <div className="flex items-center bg-slate-800/80 px-3 py-1 rounded border border-slate-700">
               <span className="text-xs text-cyan-300 font-mono font-bold" title={currentUser.email || ''}>
@@ -184,7 +236,10 @@ const StoryFoundry = () => {
           </button>
 
           {isFileMenuOpen && (
-            <div className="absolute right-0 mt-1.5 w-56 bg-[#161b22] border border-[#0D5C63] rounded-lg shadow-2xl py-1.5 z-50 backdrop-blur-xl max-h-[85vh] overflow-y-auto">
+            <div className="absolute right-0 mt-1.5 w-60 bg-[#161b22] border border-[#0D5C63] rounded-lg shadow-2xl py-1.5 z-50 backdrop-blur-xl max-h-[85vh] overflow-y-auto">
+              <div className="px-3 py-1 text-[9px] uppercase font-bold text-slate-400 tracking-wider">
+                Local Project File Operations
+              </div>
               <button 
                 className="w-full px-3 py-1.5 text-xs text-left text-slate-200 hover:bg-cyan-950/80 hover:text-[#22d3ee] font-medium flex items-center gap-2 transition-colors uppercase tracking-wider font-bold"
                 onClick={() => {
@@ -203,6 +258,43 @@ const StoryFoundry = () => {
               >
                 <span>💾</span> Save Story Module
               </button>
+
+              <div className="border-t border-[#0D5C63]/50 my-1"></div>
+              <div className="px-3 py-1 text-[9px] uppercase font-bold text-cyan-400 tracking-wider">
+                Cloud DB Sync & Operations
+              </div>
+
+              <button 
+                className="w-full px-3 py-1.5 text-xs text-left text-cyan-200 hover:bg-cyan-950/80 hover:text-cyan-300 font-medium flex items-center gap-2 transition-colors uppercase tracking-wider font-bold"
+                onClick={() => {
+                  pushUniverseToCloud();
+                  setIsFileMenuOpen(false);
+                }}
+              >
+                <span>☁️</span> Push to Cloud DB
+              </button>
+
+              <button 
+                className="w-full px-3 py-1.5 text-xs text-left text-cyan-200 hover:bg-cyan-950/80 hover:text-cyan-300 font-medium flex items-center gap-2 transition-colors uppercase tracking-wider font-bold"
+                onClick={() => {
+                  pullUniverseFromCloud();
+                  setIsFileMenuOpen(false);
+                }}
+              >
+                <span>☁️</span> Pull from Cloud DB
+              </button>
+
+              <button 
+                className="w-full px-3 py-1.5 text-xs text-left text-amber-200 hover:bg-amber-950/80 hover:text-amber-300 font-medium flex items-center gap-2 transition-colors uppercase tracking-wider font-bold"
+                onClick={() => {
+                  handleOpenCloudLibrary();
+                  setIsFileMenuOpen(false);
+                }}
+              >
+                <span>🏛️</span> Cloud Elements Library
+              </button>
+
+              <div className="border-t border-[#0D5C63]/50 my-1"></div>
 
               <button 
                 className="w-full px-3 py-1.5 text-xs text-left text-red-300 hover:bg-red-950/80 font-medium flex items-center gap-2 transition-colors uppercase tracking-wider font-bold"
@@ -223,6 +315,16 @@ const StoryFoundry = () => {
                   <div className="px-3 py-1 text-[9px] uppercase font-bold text-amber-400 tracking-wider truncate">
                     Element: {activeNode.title || 'Untitled'}
                   </div>
+
+                  <button 
+                    className="w-full px-3 py-1.5 text-xs text-left text-cyan-200 hover:bg-cyan-950/80 hover:text-cyan-300 font-medium flex items-center gap-2 transition-colors uppercase tracking-wider font-bold"
+                    onClick={() => {
+                      saveElementToCloud(activeNode);
+                      setIsFileMenuOpen(false);
+                    }}
+                  >
+                    <span>☁️</span> Save Element to Cloud DB
+                  </button>
 
                   <button 
                     className="w-full px-3 py-1.5 text-xs text-left text-slate-200 hover:bg-amber-950/80 hover:text-amber-300 font-medium flex items-center gap-2 transition-colors uppercase tracking-wider font-bold"
@@ -349,6 +451,85 @@ const StoryFoundry = () => {
           onClose={() => setIsBastionOpen(false)} 
           initialTab={bastionMode}
         />
+
+        {/* Cloud Elements Library Modal */}
+        {isCloudLibraryOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 font-sans">
+            <div className="bg-[#161b22] border border-[#0D5C63] rounded-xl w-full max-w-2xl max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
+              <div className="p-4 bg-slate-950 border-b border-cyan-900/60 flex justify-between items-center">
+                <div className="flex items-center gap-2">
+                  <span className="text-lg">🏛️</span>
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-300">
+                    Cloud DB Story Elements Library
+                  </h3>
+                </div>
+                <button
+                  onClick={() => setIsCloudLibraryOpen(false)}
+                  className="text-slate-400 hover:text-white text-xl font-bold px-2"
+                >
+                  &times;
+                </button>
+              </div>
+
+              <div className="flex-1 p-4 overflow-y-auto space-y-3">
+                {isLoadingCloudLibrary ? (
+                  <div className="py-12 flex flex-col items-center justify-center gap-3 text-cyan-400">
+                    <div className="w-8 h-8 border-4 border-cyan-400 border-t-transparent rounded-full animate-spin" />
+                    <span className="text-xs font-mono font-bold uppercase tracking-wider">Fetching Cloud DB Elements...</span>
+                  </div>
+                ) : cloudLibraryElements.length === 0 ? (
+                  <div className="py-12 text-center text-slate-400 text-xs italic">
+                    No elements found in Cloud DB library. Select an element and use <span className="text-cyan-300 font-bold">"Save Element to Cloud DB"</span> from the FILE menu to publish to the cloud.
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {cloudLibraryElements.map((elem) => (
+                      <div 
+                        key={elem.id} 
+                        className="bg-slate-900/90 border border-slate-700/80 hover:border-cyan-500/80 rounded-lg p-3 flex flex-col justify-between transition-all shadow-md group"
+                      >
+                        <div>
+                          <div className="flex items-center justify-between gap-2 mb-1.5">
+                            <span className="text-[9px] font-bold uppercase text-amber-400 bg-amber-950/80 border border-amber-800/60 px-2 py-0.5 rounded">
+                              {elem.type || 'Element'}
+                            </span>
+                            <span className="text-[9px] text-slate-500 font-mono truncate" title={elem.authorEmail}>
+                              {elem.authorEmail ? `@${elem.authorEmail.split('@')[0]}` : 'Cloud'}
+                            </span>
+                          </div>
+                          <h4 className="text-xs font-bold text-white group-hover:text-cyan-300 truncate mb-1">
+                            {elem.title || 'Untitled Element'}
+                          </h4>
+                          {elem.content && (
+                            <p className="text-[11px] text-slate-400 line-clamp-2 leading-relaxed">
+                              {elem.content.replace(/<[^>]+>/g, '')}
+                            </p>
+                          )}
+                        </div>
+
+                        <button
+                          onClick={() => handleImportCloudElement(elem)}
+                          className="mt-3 w-full py-1.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-[10px] font-bold uppercase tracking-wider rounded transition-colors shadow-sm"
+                        >
+                          📥 Import to Story
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="p-3 bg-slate-950 border-t border-slate-800 flex justify-end">
+                <button
+                  onClick={() => setIsCloudLibraryOpen(false)}
+                  className="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold uppercase tracking-wider rounded"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

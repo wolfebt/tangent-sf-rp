@@ -13,7 +13,7 @@ const PRESETS = [
 
 const ELEMENT_TYPES = [
   'Story Arc', 'Adventure', 'Character', 'Location', 'Faction', 
-  'Encounter', 'Item', 'Clue', 'Map', 'Handout'
+  'Encounter', 'Item', 'Clue', 'Map', 'Handout', 'Custom'
 ];
 
 const BastionDrawer = ({ isOpen, onClose, initialTab = 'chat' }) => {
