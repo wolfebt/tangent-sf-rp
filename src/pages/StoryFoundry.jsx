@@ -28,7 +28,10 @@ const StoryFoundry = () => {
     saveElementToCloud,
     loadElementsFromCloud,
     addStory,
-    closeStory
+    closeStory,
+    createNewStory,
+    confirmIfDirty,
+    isDirty
   } = useStory();
   const { activeMapId, handleLoadMap, handleSaveActiveMap, updateMap } = useCampaign();
   
@@ -38,6 +41,17 @@ const StoryFoundry = () => {
   
   const [isFileMenuOpen, setIsFileMenuOpen] = useState(false);
   const fileMenuRef = useRef(null);
+
+  // New Story Modal State
+  const [isNewStoryModalOpen, setIsNewStoryModalOpen] = useState(false);
+  const [newStoryTitleInput, setNewStoryTitleInput] = useState('');
+  const [newStoryDescInput, setNewStoryDescInput] = useState('');
+
+  const handleInitiateNewStory = () => {
+    confirmIfDirty(() => {
+      setIsNewStoryModalOpen(true);
+    });
+  };
 
   // Tabbed Launcher & Catalog Modal State — defaults to true on initial load
   const [isLauncherOpen, setIsLauncherOpen] = useState(true);
@@ -207,6 +221,14 @@ const StoryFoundry = () => {
         {/* Story Launcher & Close Story Actions */}
         <div className="flex items-center gap-2">
           <button
+            onClick={handleInitiateNewStory}
+            className="px-3 py-1.5 bg-gradient-to-r from-cyan-900 to-amber-900 hover:from-cyan-800 hover:to-amber-800 border border-cyan-400/80 text-cyan-200 rounded-md text-xs font-bold uppercase tracking-wider transition-all shadow-[0_0_10px_rgba(34,211,238,0.3)] flex items-center gap-1.5"
+            title="Start a new story project (clears active workspace)"
+          >
+            <span>✨ New Story</span>
+          </button>
+
+          <button
             onClick={() => {
               setLauncherInitialTab('stories');
               setIsLauncherOpen(true);
@@ -272,6 +294,15 @@ const StoryFoundry = () => {
               <div className="px-3 py-1 text-[9px] uppercase font-bold text-cyan-400 tracking-wider">
                 Story Launcher & Catalogs
               </div>
+              <button 
+                className="w-full px-3 py-1.5 text-xs text-left text-cyan-300 hover:bg-cyan-950/80 font-bold flex items-center gap-2 transition-colors uppercase tracking-wider"
+                onClick={() => {
+                  setIsFileMenuOpen(false);
+                  handleInitiateNewStory();
+                }}
+              >
+                <span>✨</span> New Story Project
+              </button>
               <button 
                 className="w-full px-3 py-1.5 text-xs text-left text-[#22d3ee] hover:bg-cyan-950/80 font-bold flex items-center gap-2 transition-colors uppercase tracking-wider"
                 onClick={() => {
@@ -595,6 +626,86 @@ const StoryFoundry = () => {
                   Close
                 </button>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* New Story Creation Modal */}
+        {isNewStoryModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 font-sans">
+            <div className="bg-[#161b22] border border-[#0D5C63] rounded-2xl p-6 w-full max-w-md flex flex-col shadow-2xl">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-600 to-amber-600 flex items-center justify-center text-lg shadow-[0_0_12px_rgba(34,211,238,0.3)]">
+                  ✨
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-cyan-300 uppercase tracking-wider">
+                    Create New Story Project
+                  </h3>
+                  <p className="text-[11px] text-slate-400 font-mono">
+                    Clear active workspace & start a fresh story
+                  </p>
+                </div>
+              </div>
+
+              <form 
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (!newStoryTitleInput.trim()) {
+                    alert("Please enter a valid story title.");
+                    return;
+                  }
+                  createNewStory(newStoryTitleInput.trim(), newStoryDescInput.trim());
+                  setNewStoryTitleInput('');
+                  setNewStoryDescInput('');
+                  setIsNewStoryModalOpen(false);
+                }} 
+                className="space-y-4 mt-2"
+              >
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1 font-mono">
+                    Story Title
+                  </label>
+                  <input 
+                    type="text"
+                    value={newStoryTitleInput}
+                    onChange={(e) => setNewStoryTitleInput(e.target.value)}
+                    placeholder="E.g., Derelict Sector Operation..."
+                    className="w-full bg-slate-950 border border-slate-700 text-slate-100 p-2.5 rounded-lg text-xs outline-none focus:border-cyan-400 font-semibold"
+                    autoFocus
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1 font-mono">
+                    Description (Optional)
+                  </label>
+                  <textarea 
+                    rows={3}
+                    value={newStoryDescInput}
+                    onChange={(e) => setNewStoryDescInput(e.target.value)}
+                    placeholder="Brief premise, campaign notes, or background..."
+                    className="w-full bg-slate-950 border border-slate-700 text-slate-100 p-2.5 rounded-lg text-xs outline-none focus:border-cyan-400 resize-none"
+                  />
+                </div>
+
+                <div className="flex justify-end gap-2 pt-2 border-t border-slate-800">
+                  <button
+                    type="button"
+                    onClick={() => setIsNewStoryModalOpen(false)}
+                    className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold uppercase rounded-lg transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/70 text-cyan-300 text-xs font-bold uppercase rounded-lg transition-all shadow-[0_0_10px_rgba(34,211,238,0.25)]"
+                  >
+                    ✨ Create Story
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         )}

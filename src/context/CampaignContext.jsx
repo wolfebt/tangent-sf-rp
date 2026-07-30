@@ -82,6 +82,23 @@ export const StoryProvider = ({ children }) => {
   const [activeScenarioId, setActiveScenarioId] = useState(null);
   const [activeMapId, setActiveMapId] = useState(null);
 
+  // Unsaved / Dirty Fields tracking
+  const [isDirty, setIsDirty] = useState(false);
+
+  // Helper to confirm action when active workspace has unsaved / dirty changes
+  const confirmIfDirty = useCallback((actionCallback, customMsg) => {
+    if (isDirty) {
+      const msg = customMsg || `Warning: You have unsaved or modified fields in your current story project ("${universeState.projectName || 'Untitled'}"). Creating or opening a new story will clear out the current active workspace.\n\nDo you want to proceed?`;
+      if (!window.confirm(msg)) {
+        return false;
+      }
+    }
+    if (typeof actionCallback === 'function') {
+      actionCallback();
+    }
+    return true;
+  }, [isDirty, universeState.projectName]);
+
   // Track auth & Cloud DB connection state
   const isSyncingFromFirestore = React.useRef(false);
   const [currentUser, setCurrentUser] = useState(null);
@@ -385,6 +402,7 @@ export const StoryProvider = ({ children }) => {
     setUniverseState(DEFAULT_UNIVERSE_STATE);
     setActiveScenarioId(null);
     setActiveMapId(null);
+    setIsDirty(false);
     // Clear Firestore universe document
     try {
       const docRef = doc(db, 'universe', UNIVERSE_DOC_ID);
@@ -410,6 +428,7 @@ export const StoryProvider = ({ children }) => {
     a.download = formatExportFilename(universeState.projectName, 'universe', 'json');
     a.click();
     URL.revokeObjectURL(url);
+    setIsDirty(false);
   };
 
   const handleLoadLocal = (file) => {
@@ -429,6 +448,7 @@ export const StoryProvider = ({ children }) => {
           });
           if (loadedData.maps?.length > 0) setActiveMapId(loadedData.maps[0].id);
           if (loadedStories.length > 0) setActiveScenarioId(loadedStories[0].id);
+          setIsDirty(false);
         } else {
           alert("Invalid project file format.");
         }
@@ -548,6 +568,7 @@ export const StoryProvider = ({ children }) => {
 
   // Helpers for Scenarios
   const addScenario = (newScenario, parentId = null) => {
+    setIsDirty(true);
     setUniverseState(prev => {
       if (!parentId) {
         return {
@@ -581,6 +602,7 @@ export const StoryProvider = ({ children }) => {
   };
 
   const updateScenario = (id, updates) => {
+    setIsDirty(true);
     setUniverseState(prev => {
       const updateRecursive = (nodes) => {
         return nodes.map(node => {
@@ -604,6 +626,7 @@ export const StoryProvider = ({ children }) => {
   };
 
   const deleteScenario = (id) => {
+    setIsDirty(true);
     setUniverseState(prev => {
       const deleteRecursive = (nodes) => {
         return nodes
@@ -874,6 +897,7 @@ export const StoryProvider = ({ children }) => {
   };
 
   const updateProjectName = (name) => {
+    setIsDirty(true);
     setUniverseState(prev => ({
       ...prev,
       projectName: name
@@ -904,6 +928,7 @@ export const StoryProvider = ({ children }) => {
     setUniverseState(newStory);
     setActiveScenarioId(`elem_${Date.now()}_1`);
     setActiveMapId(null);
+    setIsDirty(false);
 
     setStoryCatalog(prev => {
       const updated = [newStory, ...prev.filter(s => s.id !== newId)];
@@ -923,6 +948,7 @@ export const StoryProvider = ({ children }) => {
     const target = storyCatalog.find(s => s.id === storyId);
     if (target) {
       setUniverseState(target);
+      setIsDirty(false);
       if (target.scenarios?.length > 0) {
         setActiveScenarioId(target.scenarios[0].id);
       } else {
@@ -988,6 +1014,9 @@ export const StoryProvider = ({ children }) => {
     storyCatalog,
     elementsCatalog,
     lastCloudSavedAt,
+    isDirty,
+    setIsDirty,
+    confirmIfDirty,
     createNewStory,
     openStory,
     closeStory,

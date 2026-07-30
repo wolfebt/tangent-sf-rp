@@ -12,7 +12,8 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
     deleteSavedElement,
     addStory,
     universeState,
-    handleSaveLocal
+    handleSaveLocal,
+    confirmIfDirty
   } = useStory();
 
   const [activeTab, setActiveTab] = useState(initialTab); // 'stories' | 'elements'
@@ -264,13 +265,17 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
               {/* Actions */}
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => setIsCreatingStory(true)}
+                  onClick={() => {
+                    confirmIfDirty(() => setIsCreatingStory(true));
+                  }}
                   className="px-4 py-2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/70 text-cyan-300 text-xs font-bold uppercase tracking-wider rounded-lg transition-all shadow-[0_0_10px_rgba(34,211,238,0.2)] flex items-center gap-2"
                 >
                   <span>✨</span> + New Story Project
                 </button>
                 <button
-                  onClick={() => fileInputRef.current?.click()}
+                  onClick={() => {
+                    confirmIfDirty(() => fileInputRef.current?.click());
+                  }}
                   className="px-4 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 text-xs font-bold uppercase tracking-wider rounded-lg transition-colors flex items-center gap-2"
                 >
                   <span>📥</span> Import Story File
@@ -295,7 +300,9 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
                     {storySearch ? 'No projects match your current search query.' : 'Create a new story project or import a story file to get started.'}
                   </p>
                   <button
-                    onClick={() => setIsCreatingStory(true)}
+                    onClick={() => {
+                      confirmIfDirty(() => setIsCreatingStory(true));
+                    }}
                     className="mt-4 px-4 py-2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-xs font-bold uppercase rounded-lg"
                   >
                     + Create First Story Project
@@ -353,8 +360,14 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
                         <div className="flex items-center gap-2 pt-2 border-t border-slate-800">
                           <button
                             onClick={() => {
-                              openStory(story.id);
-                              onClose();
+                              if (isActive) {
+                                onClose();
+                              } else {
+                                confirmIfDirty(() => {
+                                  openStory(story.id);
+                                  onClose();
+                                });
+                              }
                             }}
                             className="flex-1 py-1.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-xs font-bold uppercase tracking-wider rounded-lg transition-colors shadow-sm"
                           >
