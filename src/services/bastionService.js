@@ -5,7 +5,11 @@
  */
 
 export const getGeminiApiKey = () => {
-  return localStorage.getItem('geminiApiKey') || import.meta.env.VITE_GEMINI_API_KEY || '';
+  const key = (localStorage.getItem('geminiApiKey') || import.meta.env.VITE_GEMINI_API_KEY || '').trim();
+  if (!key || key === 'your_gemini_api_key_here' || key === 'your_firebase_api_key_here') {
+    return '';
+  }
+  return key;
 };
 
 const BASTION_SYSTEM_PROMPT = `You are BASTION, the Tactical AI Assistant for the Tangent Science Fantasy Roleplaying Game (SFF RPG).
@@ -49,6 +53,9 @@ export const parseRollCommand = (command) => {
 };
 
 const GEMINI_FLASH_MODELS = [
+  'gemini-2.5-flash',
+  'gemini-2.0-flash',
+  'gemini-1.5-flash',
   'gemini-3.6-flash',
   'gemini-3.5-flash',
   'gemini-flash-latest'

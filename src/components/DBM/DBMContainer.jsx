@@ -16,7 +16,7 @@ import { DBMItemModal } from './DBMItemModal';
 
 import { useDBMHistory } from './hooks/useDBMHistory';
 import { useFirestoreSync } from './hooks/useFirestoreSync';
-import { fetchGeminiContent } from '../../services/bastionService';
+import { fetchGeminiContent, getGeminiApiKey } from '../../services/bastionService';
 
 const EMPTY_CONFIG = {};
 
@@ -276,7 +276,7 @@ export const DBMContainer = () => {
     setBastionMessages(prev => [...prev, userMsg]);
     setBastionInput('');
 
-    const key = apiKey || localStorage.getItem('geminiApiKey') || import.meta.env.VITE_GEMINI_API_KEY;
+    const key = apiKey || getGeminiApiKey();
 
     if (!key) {
       setTimeout(() => {
