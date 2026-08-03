@@ -1,58 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { db } from '../../../firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, onSnapshot } from 'firebase/firestore';
 
-// Fallback offline database entries
+// Clean fallback schema defaults
 const FALLBACK_DATA = {
-  species: [
-    { name: 'Human', description: 'Versatile and adaptable inhabitants of the cosmos. +2 Free Skill Choices.' },
-    { name: 'Android', description: 'Synthetic sentient beings. +2 Logic, Integrated Cybernetics.' },
-    { name: 'Vraxian', description: 'Reptilian warrior species. +2 Might, Natural Scaled Armor.' },
-    { name: 'Aetherial', description: 'Energy-attuned nomadic beings. +2 Focus, Meta-Resonance.' },
-    { name: 'Cyber-Orc', description: 'Augmented shock troopers. +2 Fortitude, Subdermal Plating.' }
-  ],
-  occupations: [
-    { name: 'Mercenary', description: 'Combat veteran for hire. +1 Heavy Weapons, +1 Tactics.' },
-    { name: 'Tech Specialist', description: 'Master of machinery and software. +2 Technology, +1 Engineering.' },
-    { name: 'Bounty Hunter', description: 'Relentless tracker. +1 Precision Rifle, +1 Tracking.' },
-    { name: 'Meta Scholar', description: 'Practitioner of meta-energetics. +2 Focus, +1 Attune.' },
-    { name: 'Smuggler', description: 'Cunning pilot and trader. +1 Pilot, +1 Deception.' }
-  ],
-  origins: [
-    { name: 'Core Worlds', description: 'High-tech urban metropolis background.' },
-    { name: 'Outer Rim', description: 'Rugged frontier colony background.' },
-    { name: 'Deep Space Station', description: 'Zero-g void station life.' },
-    { name: 'Ancient Shrine World', description: 'Mystical sanctuary background.' }
-  ],
-  factions: [
-    { name: 'The Syndicate', description: 'Shadowy underworld criminal alliance.' },
-    { name: 'Alliance Guild', description: 'Official galactic trade and exploration union.' },
-    { name: 'Free Traders', description: 'Independent merchant fleet.' },
-    { name: 'Meta Enclave', description: 'Order of Awakened scholars and guardians.' }
-  ],
-  features: [
-    { id: 'feat_awakened_dim', name: 'Awakened: Dimension', cp: 3, type: 'Awakened', description: 'Metafocus discipline: Spatial manipulation, warping, and teleportation.' },
-    { id: 'feat_awakened_ene', name: 'Awakened: Energy', cp: 3, type: 'Awakened', description: 'Metafocus discipline: Thermal, electrical, kinetic, and radiant energy control.' },
-    { id: 'feat_awakened_ent', name: 'Awakened: Entropy', cp: 3, type: 'Awakened', description: 'Metafocus discipline: Probability manipulation, decay, and chaos resonance.' },
-    { id: 'feat_awakened_ill', name: 'Awakened: Illusion', cp: 3, type: 'Awakened', description: 'Metafocus discipline: Sensory phantasms, holographic weaves, and mental trickery.' },
-    { id: 'feat_awakened_mat', name: 'Awakened: Matter', cp: 3, type: 'Awakened', description: 'Metafocus discipline: Molecular alteration, density shifting, and material synthesis.' },
-    { id: 'feat_awakened_men', name: 'Awakened: Mental', cp: 3, type: 'Awakened', description: 'Metafocus discipline: Telepathy, psionic force, and neural influence.' },
-    { id: 'aug_ocular', name: 'Ocular Cyber-Implants', cp: 1, type: 'Augmentation', description: 'Enhanced spectrum vision and target tracking overlay (1 CP).' },
-    { id: 'aug_audio', name: 'Audio Synthesizer Array', cp: 1, type: 'Augmentation', description: 'Sub-audible frequency receiver and acoustic dampener (1 CP).' },
-    { id: 'aug_subdermal_jack', name: 'Subdermal Interface Jack', cp: 1, type: 'Augmentation', description: 'Direct neural link port for machinery and networks (1 CP).' },
-    { id: 'aug_subdermal_weave', name: 'Subdermal Armor Weave', cp: 2, type: 'Augmentation', description: 'Under-skin ballistic weave providing permanent kinetic resistance (2 CP).' },
-    { id: 'aug_prosthetic_limb', name: 'Cybernetic Limb', cp: 2, type: 'Augmentation', description: 'Reinforced artificial limb with integrated servo-motors (2 CP).' },
-    { id: 'aug_bioware', name: 'Bioware Gland Synthesizer', cp: 2, type: 'Augmentation', description: 'Biological stim-injector for metabolic recovery (2 CP).' },
-    { id: 'aug_accelerator', name: 'Neural Accelerator Unit', cp: 3, type: 'Augmentation', description: 'Synaptic speed booster granting heightened reaction speed (3 CP).' },
-    { id: 'aug_reflex_booster', name: 'Reflex Booster Array', cp: 3, type: 'Augmentation', description: 'Full-body neuromuscular booster for twitch dodge capabilities (3 CP).' },
-    { id: 'aug_dermal_plating', name: 'Dermal Plating Matrix', cp: 3, type: 'Augmentation', description: 'Heavy subdermal composite plating for maximum physical protection (3 CP).' }
-  ],
-  disadvantages: [
-    { id: 'dis_cyber_rejection', name: 'Cybernetic Rejection', cp: 3, description: 'Body reacts poorly to cybernetic neural sync (-3 CP refund).' },
-    { id: 'dis_phobia', name: 'Severe Phobia', cp: 3, description: 'Debilitating fear of specific triggers (-3 CP refund).' },
-    { id: 'dis_debt', name: 'Syndicate Debt', cp: 3, description: 'Owes substantial capital to dangerous underworld lenders (-3 CP refund).' },
-    { id: 'dis_infamy', name: 'Wanted / Infamous', cp: 3, description: 'Targeted by galactic law enforcement or bounty hunters (-3 CP refund).' }
-  ],
+  species: [],
+  occupations: [],
+  origins: [],
+  factions: [],
+  features: [],
+  disadvantages: [],
   equipment: [],
   prerequisites: [],
   modifiers: []
@@ -64,57 +21,44 @@ const CustomSelectorModal = ({ isOpen, onClose, modalConfig, onSelectItem }) => 
   const [loading, setLoading] = useState(false);
   const [manualInput, setManualInput] = useState('');
 
-  const selectorFetchedRef = useRef({});
-
   const { title = 'Entry', browsePath, filterCategory, filterCategoryExclude } = modalConfig || {};
 
-  // Initialize with fallback items immediately (0ms delay)
+  // Real-time Firestore fetch while modal is open
   useEffect(() => {
     if (!isOpen || !browsePath) {
-      selectorFetchedRef.current = {};
+      setDbItems([]);
       return;
     }
-
-    const fallback = FALLBACK_DATA[browsePath] || [];
-    setDbItems(fallback);
-  }, [isOpen, browsePath]);
-
-  // Non-blocking background Firestore fetch with 1.2s timeout
-  useEffect(() => {
-    if (!isOpen || !browsePath) return;
-    if (selectorFetchedRef.current[browsePath]) return;
-    selectorFetchedRef.current[browsePath] = true;
 
     let isMounted = true;
     setLoading(true);
 
-    const fetchCollection = async () => {
-      try {
-        const colRef = collection(db, browsePath);
-        const fetchPromise = getDocs(colRef);
-        const timeoutPromise = new Promise((_, reject) => 
-          setTimeout(() => reject(new Error('Firestore timeout')), 1200)
-        );
-
-        const querySnapshot = await Promise.race([fetchPromise, timeoutPromise]);
+    let unsub = () => {};
+    try {
+      const colRef = collection(db, browsePath);
+      unsub = onSnapshot(colRef, (querySnapshot) => {
         if (!querySnapshot.empty) {
           const items = [];
           querySnapshot.forEach((doc) => {
             items.push({ id: doc.id, ...doc.data() });
           });
           if (isMounted) setDbItems(items);
+        } else {
+          if (isMounted) setDbItems([]);
         }
-      } catch (err) {
-        // Silently preserve local fallback data
-      } finally {
         if (isMounted) setLoading(false);
-      }
-    };
-
-    fetchCollection();
+      }, (err) => {
+        console.warn(`Firestore listener error for ${browsePath}:`, err);
+        if (isMounted) setLoading(false);
+      });
+    } catch (err) {
+      console.warn(`Failed to subscribe to ${browsePath}`, err);
+      if (isMounted) setLoading(false);
+    }
 
     return () => {
       isMounted = false;
+      unsub();
     };
   }, [isOpen, browsePath]);
 

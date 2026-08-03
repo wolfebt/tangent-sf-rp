@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import FolioInput from '../shared/FolioInput';
 import { useFolio } from '../../../context/FolioContext';
 import { db } from '../../../firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, onSnapshot } from 'firebase/firestore';
 
 const IdentityTab = ({ onOpenSelectorModal }) => {
   const { characterData, updateField } = useFolio();
@@ -11,22 +11,28 @@ const IdentityTab = ({ onOpenSelectorModal }) => {
   const [manualMode, setManualMode] = useState({});
 
   useEffect(() => {
-    const fetchOptions = async () => {
-      const paths = ['species', 'occupations', 'origins', 'factions'];
-      const results = {};
-      for (const path of paths) {
-        try {
-          const colRef = collection(db, path);
-          const snap = await getDocs(colRef);
-          results[path] = snap.docs.map(doc => ({ id: doc.id, name: doc.data().name || doc.id }));
-        } catch (e) {
+    const paths = ['species', 'occupations', 'origins', 'factions'];
+    const unsubs = paths.map(path => {
+      try {
+        const colRef = collection(db, path);
+        return onSnapshot(colRef, (snap) => {
+          const items = snap.docs.map(doc => ({ id: doc.id, name: doc.data().name || doc.id, ...doc.data() }));
+          setDbOptions(prev => ({ ...prev, [path]: items }));
+        }, (e) => {
           console.warn(`Failed to load ${path} options`, e);
-          results[path] = [];
-        }
+          setDbOptions(prev => ({ ...prev, [path]: [] }));
+        });
+      } catch (err) {
+        console.warn(`Failed to subscribe to ${path}`, err);
+        return () => {};
       }
-      setDbOptions(results);
+    });
+
+    return () => {
+      unsubs.forEach(unsub => {
+        if (typeof unsub === 'function') unsub();
+      });
     };
-    fetchOptions();
   }, []);
 
   useEffect(() => {
@@ -126,7 +132,7 @@ const IdentityTab = ({ onOpenSelectorModal }) => {
             label="Character Name"
             value={characterData['char-name'] || ''}
             onChange={updateField}
-            placeholder="e.g. Valen Vance"
+            placeholder="Enter Character Name..."
           />
 
           <FolioInput
@@ -134,13 +140,13 @@ const IdentityTab = ({ onOpenSelectorModal }) => {
             label="Concept"
             value={characterData['char-concept'] || ''}
             onChange={updateField}
-            placeholder="e.g. Cybernetic Bounty Hunter"
+            placeholder="Enter Character Concept..."
           />
 
-          {renderPickerField('char-species', 'Species', 'e.g. Human, Android, Vraxian', 'species')}
-          {renderPickerField('char-occu', 'Occupation', 'e.g. Mercenary, Tech Specialist', 'occupations')}
-          {renderPickerField('char-origin', 'Origin', 'e.g. Core Worlds, Outer Rim', 'origins')}
-          {renderPickerField('char-faction', 'Faction', 'e.g. Syndicate, Alliance Guild', 'factions')}
+          {renderPickerField('char-species', 'Species', 'Enter Species Name...', 'species')}
+          {renderPickerField('char-occu', 'Occupation', 'Enter Occupation Name...', 'occupations')}
+          {renderPickerField('char-origin', 'Origin', 'Enter Origin Name...', 'origins')}
+          {renderPickerField('char-faction', 'Faction', 'Enter Faction Name...', 'factions')}
         </div>
 
         {/* Right Column */}
