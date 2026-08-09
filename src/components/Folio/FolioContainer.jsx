@@ -62,7 +62,6 @@ const FolioContainer = () => {
     handleLoadCloud,
     computeSpentCP,
     economyBreakdown,
-    derivedStats,
     personaRoster,
     saveCurrentToRoster,
     switchRosterCharacter,
@@ -228,57 +227,8 @@ const FolioContainer = () => {
                 <h2 id="actor-display-header" className="text-sm sm:text-base font-bold font-mono text-amber-400 uppercase tracking-wider drop-shadow-[0_0_8px_rgba(245,158,11,0.3)] truncate max-w-[150px] sm:max-w-xs">
                   {charNameUpper}
                 </h2>
-
-                {/* Dynamic Cloud Save Indicator Badge */}
-                {cloudSaveStatus === 'saving' && (
-                  <span className="px-2 py-0.5 text-[9px] bg-amber-950/60 text-amber-300 border border-amber-500/40 rounded flex items-center gap-1 font-mono uppercase tracking-wider animate-pulse">
-                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping" />
-                    Saving...
-                  </span>
-                )}
-                {cloudSaveStatus === 'saved' && (
-                  <span 
-                    className="px-2 py-0.5 text-[9px] bg-emerald-950/60 text-emerald-300 border border-emerald-500/40 rounded flex items-center gap-1 font-mono uppercase tracking-wider" 
-                    title={lastSavedTime ? `Cloud Saved at ${lastSavedTime.toLocaleTimeString()}` : 'Cloud Saved'}
-                  >
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                    Cloud Saved
-                  </span>
-                )}
-                {cloudSaveStatus === 'offline' && (
-                  <span 
-                    className="px-2 py-0.5 text-[9px] bg-slate-900 text-slate-400 border border-slate-700 rounded flex items-center gap-1 font-mono uppercase tracking-wider" 
-                    title="Not logged in — changes saved locally in browser"
-                  >
-                    <span className="w-1.5 h-1.5 rounded-full bg-slate-500" />
-                    Local Mode
-                  </span>
-                )}
-                {cloudSaveStatus === 'error' && (
-                  <span 
-                    className="px-2 py-0.5 text-[9px] bg-red-950/60 text-red-300 border border-red-500/40 rounded flex items-center gap-1 font-mono uppercase tracking-wider" 
-                    title="Cloud Save Failed"
-                  >
-                    <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
-                    Save Error
-                  </span>
-                )}
-              </div>
-              <div className="flex items-center gap-2 text-[10px] text-slate-400 font-mono">
-                <span>HP: <strong className="text-emerald-400">{derivedStats.health}</strong></span>
-                <span>VIT: <strong className="text-cyan-400">{derivedStats.vitality}</strong></span>
-                <span>KARMA: <strong className="text-amber-400">{derivedStats.karma}</strong></span>
               </div>
             </div>
-            {/* User Guide Book Icon */}
-            <button
-              type="button"
-              onClick={() => setIsGuideOpen(true)}
-              className="p-1.5 px-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-amber-300 rounded text-xs font-bold transition-colors border border-slate-700 hover:border-amber-500/50 shrink-0"
-              title="User Guide & System Documentation"
-            >
-              📖
-            </button>
           </div>
 
           {/* Center / Actions Bar */}
@@ -320,16 +270,6 @@ const FolioContainer = () => {
               );
             })()}
 
-            {/* Character Roster Button */}
-            <button
-              type="button"
-              onClick={() => setIsRosterOpen(true)}
-              className="px-3 py-1.5 bg-amber-600/30 hover:bg-amber-600/50 text-amber-300 border border-amber-500/60 rounded text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_10px_rgba(245,158,11,0.2)]"
-            >
-              <span>📇</span>
-              <span className="hidden sm:inline">Roster</span>
-            </button>
-
             {/* Hidden File Input */}
             <input
               type="file"
@@ -360,6 +300,12 @@ const FolioContainer = () => {
                     className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-amber-300 uppercase font-bold flex items-center gap-2"
                   >
                     <span>📇</span> Character Portfolio Roster
+                  </button>
+                  <button
+                    onClick={() => setIsGuideOpen(true)}
+                    className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-slate-200 uppercase font-bold flex items-center gap-2"
+                  >
+                    <span>📖</span> User Guide & Manual
                   </button>
                   <div className="border-t border-slate-800 my-1" />
                   <button
@@ -414,6 +360,26 @@ const FolioContainer = () => {
             <div className="flex items-center gap-2">
               {currentUser ? (
                 <div className="flex items-center gap-2 bg-slate-800/80 px-3 py-1 rounded border border-slate-700">
+                  <span
+                    className={`w-2 h-2 rounded-full shrink-0 ${
+                      cloudSaveStatus === 'saving'
+                        ? 'bg-amber-400 animate-ping'
+                        : cloudSaveStatus === 'saved'
+                        ? 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]'
+                        : cloudSaveStatus === 'error'
+                        ? 'bg-red-500 shadow-[0_0_6px_rgba(239,68,68,0.8)] animate-pulse'
+                        : 'bg-slate-500'
+                    }`}
+                    title={
+                      cloudSaveStatus === 'saving'
+                        ? 'Saving to Cloud...'
+                        : cloudSaveStatus === 'saved'
+                        ? lastSavedTime ? `Cloud Synced at ${lastSavedTime.toLocaleTimeString()}` : 'Cloud Synced'
+                        : cloudSaveStatus === 'error'
+                        ? 'Cloud Sync Failed'
+                        : 'Local Mode (Offline)'
+                    }
+                  />
                   <span className="text-xs text-cyan-300 font-mono font-bold" title={currentUser.email || ''}>
                     {userHandle ? `@${userHandle}` : (currentUser.displayName || currentUser.email)}
                   </span>
@@ -426,9 +392,17 @@ const FolioContainer = () => {
                   </button>
                 </div>
               ) : (
-                <button onClick={loginWithGoogle} className="px-3 py-1 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded text-xs font-bold uppercase tracking-wider transition-colors">
-                  Login with Google
-                </button>
+                <div className="flex items-center gap-2 bg-slate-800/80 px-3 py-1 rounded border border-slate-700">
+                  <span
+                    className={`w-2 h-2 rounded-full shrink-0 ${
+                      cloudSaveStatus === 'error' ? 'bg-red-500 shadow-[0_0_6px_rgba(239,68,68,0.8)]' : 'bg-slate-500'
+                    }`}
+                    title="Local Mode — Login with Google to enable cloud sync"
+                  />
+                  <button onClick={loginWithGoogle} className="text-xs text-slate-200 hover:text-cyan-300 font-bold uppercase tracking-wider transition-colors">
+                    Login with Google
+                  </button>
+                </div>
               )}
             </div>
           </div>

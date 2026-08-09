@@ -24,6 +24,9 @@ const AbilitiesTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
   const [augName, setAugName] = useState('');
   const [augCp, setAugCp] = useState(1);
   const [augDesc, setAugDesc] = useState('');
+  const [dbAugmentations, setDbAugmentations] = useState([]);
+  const [augmentationsLoading, setAugmentationsLoading] = useState(false);
+  const [selectedDbAugId, setSelectedDbAugId] = useState('');
 
   // Disciplines — merged core + any extras from Firestore
   const [dbDisciplines, setDbDisciplines] = useState([]);
@@ -212,6 +215,38 @@ const AbilitiesTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     setActiveModal(null);
   };
 
+  // Fetch augmentations from Firestore when Augmentation modal opens
+  useEffect(() => {
+    if (activeModal !== 'augmentation') return;
+    let isMounted = true;
+    setAugmentationsLoading(true);
+    const unsub = onSnapshot(collection(db, 'augmentations'), (snap) => {
+      if (isMounted) {
+        setDbAugmentations(snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+        setAugmentationsLoading(false);
+      }
+    }, (err) => {
+      console.warn('Failed to load augmentations from DB:', err);
+      if (isMounted) setAugmentationsLoading(false);
+    });
+    return () => { isMounted = false; unsub(); };
+  }, [activeModal]);
+
+  // Populate Augmentation fields when preset is selected
+  const handleSelectDbAugmentation = (augId) => {
+    setSelectedDbAugId(augId);
+    if (!augId) return;
+    const selected = dbAugmentations.find(a => a.id === augId);
+    if (selected) {
+      setAugName(selected.name || selected.title || '');
+      const rawCp = selected.cp !== undefined ? selected.cp : (selected.cost !== undefined ? selected.cost : 2);
+      const parsedCp = parseInt(rawCp, 10);
+      const validCp = isNaN(parsedCp) ? 2 : Math.min(3, Math.max(1, parsedCp));
+      setAugCp(validCp);
+      setAugDesc(selected.description || selected.mechanic || selected.note || '');
+    }
+  };
+
   // Submit Augmentation
   const handleAddAugmentation = (e) => {
     e.preventDefault();
@@ -228,6 +263,7 @@ const AbilitiesTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     setAugName('');
     setAugCp(1);
     setAugDesc('');
+    setSelectedDbAugId('');
     setActiveModal(null);
   };
 
@@ -616,35 +652,123 @@ const AbilitiesTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
 
       {/* 2. Augmentation Feature Builder Modal */}
       {activeModal === 'augmentation' && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-          <div className="bg-[#121824] border border-amber-500/60 rounded-xl max-w-lg w-full p-5 text-slate-100 space-y-4 shadow-[0_0_30px_rgba(245,158,11,0.2)]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 overflow-y-auto">
+          <div className="bg-[#121824] border border-amber-500/60 rounded-xl max-w-xl w-full p-5 text-slate-100 space-y-4 shadow-[0_0_30px_rgba(245,158,11,0.2)] my-8">
+            {/* Header */}
             <div className="flex justify-between items-center border-b border-amber-900/60 pb-3">
               <h3 className="text-sm font-bold uppercase tracking-wider text-amber-300 flex items-center gap-2">
-                🦾 Add Augmentation Feature (1 to 3 CP)
+                <span>🦾</span> Add Augmentation Feature (1 to 3 CP)
               </h3>
-              <button onClick={() => setActiveModal(null)} className="text-slate-400 hover:text-white text-xl font-bold">&times;</button>
+              <div className="flex items-center gap-2">
+                {onOpenAssetModal && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setActiveModal(null);
+                      onOpenAssetModal('augmentations', 'Augmentation', 'create', null, { category: 'augmentations' });
+                    }}
+                    className="px-3 py-1 bg-amber-950/90 hover:bg-amber-900 border border-amber-500/60 text-amber-300 rounded text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-1.5 cursor-pointer"
+                    title="Open Augmentation Manage Modal to build and save a new entry in OmniCortex"
+                  >
+                    <span>⚙️</span> Build Augmentation
+                  </button>
+                )}
+                <button
+                  onClick={() => setActiveModal(null)}
+                  className="text-slate-400 hover:text-white text-xl font-bold leading-none cursor-pointer"
+                >
+                  &times;
+                </button>
+              </div>
             </div>
 
             <form onSubmit={handleAddAugmentation} className="space-y-4 text-xs">
-              <div className="flex items-center justify-between bg-amber-950/40 border border-amber-800/60 p-3 rounded-lg">
-                <div>
-                  <span className="text-amber-200 font-bold block">Browse OmniCortex Database</span>
-                  <span className="text-slate-400 text-[11px]">Select existing augmentations from cloud assets</span>
+              {/* OmniCortex DB Selection & Actions Banner */}
+              <div className="bg-slate-950/90 border border-amber-800/60 p-3 rounded-lg space-y-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <div>
+                    <span className="text-amber-200 font-bold block uppercase tracking-wider text-[11px]">
+                      OmniCortex Augmentation Database
+                    </span>
+                    <span className="text-slate-400 text-[11px]">
+                      Select a preset augmentation from cloud assets or manage entries directly.
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    {onOpenSelectorModal && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setActiveModal(null);
+                          onOpenSelectorModal('augmentations', 'Augmentations Database', 'augmentations');
+                        }}
+                        className="px-2.5 py-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-cyan-300 rounded text-[11px] font-bold uppercase tracking-wider flex items-center gap-1 transition-colors cursor-pointer"
+                        title="Browse full Augmentations database catalog"
+                      >
+                        <span>🔍</span> Browse DB
+                      </button>
+                    )}
+                    {onOpenAssetModal && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setActiveModal(null);
+                          onOpenAssetModal('augmentations', 'Augmentation', 'create', null, { category: 'augmentations' });
+                        }}
+                        className="px-2.5 py-1.5 bg-amber-950 hover:bg-amber-900 border border-amber-600/80 text-amber-200 rounded text-[11px] font-bold uppercase tracking-wider flex items-center gap-1 transition-colors cursor-pointer"
+                        title="Open Augmentation Manage Modal to build a new item"
+                      >
+                        <span>⚙️</span> Build Entry
+                      </button>
+                    )}
+                  </div>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveModal(null);
-                    if (onOpenSelectorModal) {
-                      onOpenSelectorModal('augmentations', 'Augmentations Database', 'augmentations');
-                    }
-                  }}
-                  className="px-3 py-1.5 bg-amber-900 hover:bg-amber-800 border border-amber-600 text-amber-200 rounded text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-colors shrink-0"
-                >
-                  <span>🔍</span> Browse Database
-                </button>
+
+                {/* Preset Augmentation Select Dropdown */}
+                <div>
+                  <label className="block font-bold uppercase text-amber-300 text-[10px] mb-1 flex justify-between items-center">
+                    <span>Preset Augmentations ({dbAugmentations.length})</span>
+                    {augmentationsLoading && <span className="text-amber-400 font-mono animate-pulse">Syncing DB...</span>}
+                  </label>
+                  <select
+                    value={selectedDbAugId}
+                    onChange={(e) => handleSelectDbAugmentation(e.target.value)}
+                    className="w-full bg-slate-900 border border-amber-900/80 focus:border-amber-400 rounded px-3 py-2 text-xs text-amber-100 outline-none font-semibold"
+                  >
+                    <option value="">-- Select Preset from OmniCortex DB (Optional) --</option>
+                    {dbAugmentations.map((aug) => (
+                      <option key={aug.id} value={aug.id}>
+                        {aug.name || aug.title} {aug.cp ? `(${aug.cp} CP)` : (aug.type ? `[${aug.type}]` : '')}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Selected Preset Details Preview */}
+                {(() => {
+                  const selectedAug = dbAugmentations.find(a => a.id === selectedDbAugId);
+                  if (!selectedAug) return null;
+                  return (
+                    <div className="bg-amber-950/30 border border-amber-800/40 p-2.5 rounded text-[11px] text-amber-200/90 leading-relaxed space-y-1">
+                      <div className="flex items-center justify-between font-bold text-amber-300">
+                        <span>{selectedAug.name || selectedAug.title}</span>
+                        <div className="flex items-center gap-1 font-mono text-[10px]">
+                          {selectedAug.type && <span className="px-1.5 py-0.5 bg-slate-900 rounded border border-amber-800">{selectedAug.type}</span>}
+                          {selectedAug.cp && <span className="px-1.5 py-0.5 bg-amber-900 text-amber-200 rounded">{selectedAug.cp} CP</span>}
+                        </div>
+                      </div>
+                      {(selectedAug.description || selectedAug.mechanic) && (
+                        <p className="text-slate-300 line-clamp-3">
+                          {selectedAug.description || selectedAug.mechanic}
+                        </p>
+                      )}
+                    </div>
+                  );
+                })()}
               </div>
 
+              {/* Form Input Fields */}
               <div className="grid grid-cols-3 gap-3">
                 <div className="col-span-2">
                   <label className="block font-bold uppercase text-slate-300 mb-1">
@@ -689,17 +813,18 @@ const AbilitiesTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                 />
               </div>
 
+              {/* Modal Footer */}
               <div className="flex justify-end gap-2 pt-2 border-t border-slate-800">
                 <button
                   type="button"
                   onClick={() => setActiveModal(null)}
-                  className="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-xs uppercase font-bold"
+                  className="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-xs uppercase font-bold cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 bg-amber-900 hover:bg-amber-800 border border-amber-600 text-amber-200 rounded text-xs font-bold uppercase tracking-wider"
+                  className="px-4 py-1.5 bg-amber-900 hover:bg-amber-800 border border-amber-600 text-amber-200 rounded text-xs font-bold uppercase tracking-wider cursor-pointer"
                 >
                   Add Augmentation
                 </button>
