@@ -72,7 +72,8 @@ export const DBMHeader = ({
           <span className="text-[1.5rem] font-bold leading-none">OMNICORTEX</span>
         </div>
 
-        <div className="flex items-center gap-1 ml-4 bg-[#161b22] p-1 rounded-md border border-[#0D5C63]/40">
+        {/* Desktop Undo/Redo Controls */}
+        <div className="hidden md:flex items-center gap-1 ml-4 bg-[#161b22] p-1 rounded-md border border-[#0D5C63]/40">
           <button
             onClick={handleBack}
             disabled={historyIndex === 0}
@@ -93,21 +94,44 @@ export const DBMHeader = ({
       </div>
 
       {/* Right section */}
-      <div className="flex items-center gap-3">
-        {/* RBAC Role Indicator Badge */}
-        {currentUser && (
-          <div 
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-bold border uppercase tracking-wide ${
-              isAdmin 
-                ? 'bg-amber-950/80 border-amber-500/50 text-amber-300 shadow-sm' 
-                : 'bg-slate-800/80 border-slate-600 text-slate-400'
-            }`}
-            title={isAdmin ? "Full write privileges active" : "Read-only access mode"}
-          >
-            <span>{isAdmin ? '🛡️' : '👁️'}</span>
-            <span>{userRole || (isAdmin ? 'GM / Admin' : 'Player')}</span>
+      <div className="flex items-center gap-2 sm:gap-3">
+        {/* Role Indicator Flag & Narrow-screen Undo/Redo Stack */}
+        <div className="flex flex-col items-end gap-1">
+          {/* RBAC Role Indicator Badge */}
+          {currentUser && (
+            <div 
+              className={`flex items-center gap-1.5 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded text-[11px] sm:text-xs font-bold border uppercase tracking-wide ${
+                isAdmin 
+                  ? 'bg-amber-950/80 border-amber-500/50 text-amber-300 shadow-sm' 
+                  : 'bg-slate-800/80 border-slate-600 text-slate-400'
+              }`}
+              title={isAdmin ? "Full write privileges active" : "Read-only access mode"}
+            >
+              <span>{isAdmin ? '🛡️' : '👁️'}</span>
+              <span>{userRole || (isAdmin ? 'Architect' : 'Operator')}</span>
+            </div>
+          )}
+
+          {/* Narrow Screen Undo/Redo (slides under the flag) */}
+          <div className="flex md:hidden items-center gap-1 bg-[#161b22] p-0.5 rounded border border-[#0D5C63]/40">
+            <button
+              onClick={handleBack}
+              disabled={historyIndex === 0}
+              className="p-0.5 px-2 bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed rounded text-[10px] font-bold text-slate-300 transition-colors"
+              title="Back"
+            >
+              ◄
+            </button>
+            <button
+              onClick={handleForward}
+              disabled={historyIndex >= historyLength - 1}
+              className="p-0.5 px-2 bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed rounded text-[10px] font-bold text-slate-300 transition-colors"
+              title="Forward"
+            >
+              ►
+            </button>
           </div>
-        )}
+        </div>
 
         {/* System Actions Dropdown Menu */}
         <div className="relative" ref={menuRef}>
@@ -152,7 +176,7 @@ export const DBMHeader = ({
                       ? 'bg-purple-950/80 border-purple-500/50 text-purple-300 hover:bg-purple-900'
                       : 'bg-slate-800/80 border-slate-700 text-slate-300 hover:bg-slate-700'
                   }`}
-                  title="Toggle Dev Admin Override mode for testing RBAC"
+                  title="Toggle Architect mode override for testing RBAC"
                 >
                   <span className="flex items-center gap-1.5">
                     <span>🛠️</span>

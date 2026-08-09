@@ -91,8 +91,8 @@ export const AuthProvider = ({ children }) => {
   const isAdmin = hasAdminClaim || adminOverride;
   const isGM = isAdmin || customClaims.role === 'GM';
   const userRole = isAdmin
-    ? (hasAdminClaim ? (customClaims.role || 'Admin') : 'Admin (Dev Override)')
-    : 'Player';
+    ? (hasAdminClaim ? (customClaims.role || 'Architect') : 'Architect')
+    : 'Operator';
 
   const displayIdentity = userHandle || (currentUser ? (currentUser.displayName || currentUser.email) : '');
 
