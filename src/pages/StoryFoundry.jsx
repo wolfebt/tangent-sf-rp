@@ -19,6 +19,7 @@ const StoryFoundry = () => {
     universeState, 
     activeScenarioId, 
     deleteStory, 
+    deleteStoryProject,
     handleSaveLocal, 
     handleLoadLocal, 
     updateProjectName, 
@@ -377,7 +378,7 @@ const StoryFoundry = () => {
                   setIsFileMenuOpen(false);
                 }}
               >
-                <span>📥</span> Load Story Module
+                <span>📥</span> Load Story Module (.json)
               </button>
               <button 
                 className="w-full px-3 py-1.5 text-xs text-left text-slate-200 hover:bg-cyan-950/80 hover:text-[#22d3ee] font-medium flex items-center gap-2 transition-colors uppercase tracking-wider font-bold"
@@ -386,7 +387,21 @@ const StoryFoundry = () => {
                   setIsFileMenuOpen(false);
                 }}
               >
-                <span>💾</span> Save Story Module
+                <span>📤</span> Export Story JSON (.json)
+              </button>
+              <button 
+                className="w-full px-3 py-1.5 text-xs text-left text-red-400 hover:bg-red-950/80 font-medium flex items-center gap-2 transition-colors uppercase tracking-wider font-bold"
+                onClick={() => {
+                  setIsFileMenuOpen(false);
+                  if (window.confirm(`Delete active story project "${universeState.projectName || 'Untitled Story'}"? This action cannot be undone.`)) {
+                    deleteStoryProject(universeState.id || 'proj_default_universe');
+                    handleClearUniverse();
+                    setLauncherInitialTab('stories');
+                    setIsLauncherOpen(true);
+                  }
+                }}
+              >
+                <span>🗑️</span> Delete Working Story Project
               </button>
 
               <div className="border-t border-[#0D5C63]/50 my-1"></div>
