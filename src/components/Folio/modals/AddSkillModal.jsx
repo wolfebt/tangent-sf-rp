@@ -221,7 +221,7 @@ const AddSkillModal = ({
 
               {/* Metafocus Evocation Notice if linked to Meta skill */}
               {availableSkills.find((s) => s.id === baseSkillId)?.group === 'meta' && (
-                <div className="px-3 py-1.5 bg-cyan-950/70 border border-cyan-500/40 rounded text-[11px] text-cyan-300 font-mono">
+                <div className="px-3 py-1.5 bg-purple-950/70 border border-purple-500/40 rounded text-[11px] text-purple-300 font-mono">
                   ✨ <span className="font-bold">Metafocus Evocation:</span> Specializations linked to a Meta discipline are classified as Evocations.
                 </div>
               )}

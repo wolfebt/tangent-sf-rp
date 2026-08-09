@@ -187,9 +187,9 @@ const RIGHT_COLUMN_CONFIG = [
   {
     key: 'social',
     title: 'Social Skills',
-    color: 'text-purple-400',
-    border: 'border-purple-900/50',
-    accentBorder: 'border-purple-500/60'
+    color: 'text-cyan-400',
+    border: 'border-cyan-900/50',
+    accentBorder: 'border-cyan-500/60'
   },
   {
     key: 'combat',
@@ -201,9 +201,9 @@ const RIGHT_COLUMN_CONFIG = [
   {
     key: 'meta',
     title: 'Metafocus Skills',
-    color: 'text-cyan-400',
-    border: 'border-cyan-900/50',
-    accentBorder: 'border-cyan-500/60'
+    color: 'text-purple-400',
+    border: 'border-purple-900/50',
+    accentBorder: 'border-purple-500/60'
   }
 ];
 
@@ -233,9 +233,9 @@ const TABS_CONFIG = [
   {
     key: 'social',
     title: 'Social',
-    color: 'text-purple-400',
-    activeBg: 'bg-purple-950/40',
-    activeBorder: 'border-purple-500'
+    color: 'text-cyan-400',
+    activeBg: 'bg-cyan-950/40',
+    activeBorder: 'border-cyan-500'
   },
   {
     key: 'combat',
@@ -247,16 +247,16 @@ const TABS_CONFIG = [
   {
     key: 'meta',
     title: 'Metafocus',
-    color: 'text-cyan-400',
-    activeBg: 'bg-cyan-950/40',
-    activeBorder: 'border-cyan-500'
+    color: 'text-purple-400',
+    activeBg: 'bg-purple-950/40',
+    activeBorder: 'border-purple-500'
   },
   {
     key: 'all',
     title: 'All Skills',
-    color: 'text-cyan-400',
-    activeBg: 'bg-cyan-950/40',
-    activeBorder: 'border-cyan-500'
+    color: 'text-white',
+    activeBg: 'bg-slate-900/50',
+    activeBorder: 'border-white'
   }
 ];
 
@@ -565,15 +565,15 @@ const SkillsTab = ({ onOpenAddSkillModal }) => {
           return (
             <div
               key={spec.id}
-              className={`ml-6 pl-2.5 border-l-2 ${isMetaSkill ? 'border-cyan-500/60 bg-cyan-950/20 hover:bg-cyan-900/30 border-cyan-900/30' : 'border-amber-500/60 bg-amber-950/20 hover:bg-amber-900/30 border-amber-900/30'} grid grid-cols-12 items-center gap-2 py-1 px-2 rounded transition-colors text-xs border`}
+              className={`ml-6 pl-2.5 border-l-2 ${isMetaSkill ? 'border-purple-500/60 bg-purple-950/20 hover:bg-purple-900/30 border-purple-900/30' : 'border-amber-500/60 bg-amber-950/20 hover:bg-amber-900/30 border-amber-900/30'} grid grid-cols-12 items-center gap-2 py-1 px-2 rounded transition-colors text-xs border`}
             >
               {/* Specialization Name & Base Skill Ref */}
               <div className="col-span-4 flex flex-col justify-center overflow-hidden">
                 <div className="flex items-center gap-1 truncate">
-                  <span className={`text-[9px] font-bold uppercase tracking-wider ${isMetaSkill ? 'text-cyan-400 font-mono' : 'text-amber-400/90'} shrink-0`}>
+                  <span className={`text-[9px] font-bold uppercase tracking-wider ${isMetaSkill ? 'text-purple-400 font-mono' : 'text-amber-400/90'} shrink-0`}>
                     {isMetaSkill ? 'EVOCATION:' : 'SPEC:'}
                   </span>
-                  <span className={`font-semibold ${isMetaSkill ? 'text-cyan-200' : 'text-amber-200'} truncate`} title={spec.name}>
+                  <span className={`font-semibold ${isMetaSkill ? 'text-purple-200' : 'text-amber-200'} truncate`} title={spec.name}>
                     {spec.name}
                   </span>
                 </div>
@@ -590,12 +590,12 @@ const SkillsTab = ({ onOpenAddSkillModal }) => {
                   max="10"
                   value={specRank}
                   onChange={(e) => handleUpdateSpecialization(spec.id, 'rank', e.target.value)}
-                  className={`w-full text-center bg-slate-950 border ${isMetaSkill ? 'border-cyan-800/60 focus:border-cyan-400 text-cyan-200' : 'border-amber-800/60 focus:border-amber-400 text-amber-200'} rounded py-0.5 outline-none text-xs font-bold`}
+                  className={`w-full text-center bg-slate-950 border ${isMetaSkill ? 'border-purple-800/60 focus:border-purple-400 text-purple-200' : 'border-amber-800/60 focus:border-amber-400 text-amber-200'} rounded py-0.5 outline-none text-xs font-bold`}
                 />
               </div>
 
               {/* Linked Label / Indicator */}
-              <span className={`col-span-3 text-center text-[10px] font-mono ${isMetaSkill ? 'text-cyan-400/80' : 'text-amber-400/80'} truncate`}>
+              <span className={`col-span-3 text-center text-[10px] font-mono ${isMetaSkill ? 'text-purple-400/80' : 'text-amber-400/80'} truncate`}>
                 +{specRank} to Base
               </span>
 
@@ -604,12 +604,12 @@ const SkillsTab = ({ onOpenAddSkillModal }) => {
                 type="number"
                 value={specMod}
                 onChange={(e) => handleUpdateSpecialization(spec.id, 'mod', e.target.value)}
-                className={`col-span-1 text-center bg-slate-950 border ${isMetaSkill ? 'border-cyan-900/40 focus:border-cyan-400' : 'border-amber-900/40 focus:border-amber-400'} rounded py-0.5 text-slate-300 outline-none text-xs font-mono`}
+                className={`col-span-1 text-center bg-slate-950 border ${isMetaSkill ? 'border-purple-900/40 focus:border-purple-400' : 'border-amber-900/40 focus:border-amber-400'} rounded py-0.5 text-slate-300 outline-none text-xs font-mono`}
               />
 
               {/* Specialization Total Score */}
               <div className="col-span-2 flex items-center justify-between pl-1">
-                <span className={`font-mono font-bold ${isMetaSkill ? 'text-cyan-300' : 'text-amber-300'} text-center w-full`}>
+                <span className={`font-mono font-bold ${isMetaSkill ? 'text-purple-300' : 'text-amber-300'} text-center w-full`}>
                   {specTotal}
                 </span>
                 <button

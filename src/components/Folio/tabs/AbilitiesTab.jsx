@@ -20,13 +20,7 @@ const AbilitiesTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
   // Active Modals ('awakened' | 'augmentation' | null)
   const [activeModal, setActiveModal] = useState(null);
 
-  // Augmentation Builder State
-  const [augName, setAugName] = useState('');
-  const [augCp, setAugCp] = useState(1);
-  const [augDesc, setAugDesc] = useState('');
-  const [dbAugmentations, setDbAugmentations] = useState([]);
-  const [augmentationsLoading, setAugmentationsLoading] = useState(false);
-  const [selectedDbAugId, setSelectedDbAugId] = useState('');
+
 
   // Disciplines — merged core + any extras from Firestore
   const [dbDisciplines, setDbDisciplines] = useState([]);
@@ -215,57 +209,7 @@ const AbilitiesTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     setActiveModal(null);
   };
 
-  // Fetch augmentations from Firestore when Augmentation modal opens
-  useEffect(() => {
-    if (activeModal !== 'augmentation') return;
-    let isMounted = true;
-    setAugmentationsLoading(true);
-    const unsub = onSnapshot(collection(db, 'augmentations'), (snap) => {
-      if (isMounted) {
-        setDbAugmentations(snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-        setAugmentationsLoading(false);
-      }
-    }, (err) => {
-      console.warn('Failed to load augmentations from DB:', err);
-      if (isMounted) setAugmentationsLoading(false);
-    });
-    return () => { isMounted = false; unsub(); };
-  }, [activeModal]);
 
-  // Populate Augmentation fields when preset is selected
-  const handleSelectDbAugmentation = (augId) => {
-    setSelectedDbAugId(augId);
-    if (!augId) return;
-    const selected = dbAugmentations.find(a => a.id === augId);
-    if (selected) {
-      setAugName(selected.name || selected.title || '');
-      const rawCp = selected.cp !== undefined ? selected.cp : (selected.cost !== undefined ? selected.cost : 2);
-      const parsedCp = parseInt(rawCp, 10);
-      const validCp = isNaN(parsedCp) ? 2 : Math.min(3, Math.max(1, parsedCp));
-      setAugCp(validCp);
-      setAugDesc(selected.description || selected.mechanic || selected.note || '');
-    }
-  };
-
-  // Submit Augmentation
-  const handleAddAugmentation = (e) => {
-    e.preventDefault();
-    const nameToUse = augName.trim() || 'Cybernetic Augmentation';
-    const item = {
-      id: `aug_${Date.now()}`,
-      name: nameToUse,
-      cp: Math.min(3, Math.max(1, parseInt(augCp, 10) || 1)),
-      type: 'Augmentation',
-      category: 'Augmentation',
-      description: augDesc.trim()
-    };
-    addFeatureItem(item);
-    setAugName('');
-    setAugCp(1);
-    setAugDesc('');
-    setSelectedDbAugId('');
-    setActiveModal(null);
-  };
 
   // Total Features CP calculation
   const totalFeaturesCP = useMemo(() => {
@@ -650,16 +594,58 @@ const AbilitiesTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
       )}
 
 
-      {/* 2. Augmentation Feature Builder Modal */}
+      {/* 2. Augmentation Feature Modal */}
       {activeModal === 'augmentation' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 overflow-y-auto">
-          <div className="bg-[#121824] border border-amber-500/60 rounded-xl max-w-xl w-full p-5 text-slate-100 space-y-4 shadow-[0_0_30px_rgba(245,158,11,0.2)] my-8">
+          <div className="bg-[#121824] border border-amber-500/60 rounded-xl max-w-md w-full p-5 text-slate-100 space-y-4 shadow-[0_0_30px_rgba(245,158,11,0.2)] my-8">
             {/* Header */}
             <div className="flex justify-between items-center border-b border-amber-900/60 pb-3">
-              <h3 className="text-sm font-bold uppercase tracking-wider text-amber-300 flex items-center gap-2">
-                <span>🦾</span> Add Augmentation Feature (1 to 3 CP)
-              </h3>
-              <div className="flex items-center gap-2">
+              <div>
+                <h3 className="text-sm font-bold uppercase tracking-wider text-amber-300 flex items-center gap-2">
+                  <span>🦾</span> Add Augmentation Feature
+                </h3>
+                <p className="text-[11px] text-slate-400 mt-0.5">
+                  OmniCortex Augmentation Database
+                </p>
+              </div>
+              <button
+                onClick={() => setActiveModal(null)}
+                className="text-slate-400 hover:text-white text-xl font-bold leading-none cursor-pointer"
+              >
+                &times;
+              </button>
+            </div>
+
+            {/* Content & Action Buttons */}
+            <div className="space-y-3">
+              <p className="text-xs text-slate-300">
+                Select an option to add cybernetic or biological augmentations to your persona:
+              </p>
+
+              <div className="grid grid-cols-1 gap-3 pt-1">
+                {onOpenSelectorModal && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setActiveModal(null);
+                      onOpenSelectorModal('augmentations', 'Augmentations Database', 'augmentations');
+                    }}
+                    className="p-4 bg-slate-950/90 hover:bg-slate-900 border border-slate-800 hover:border-cyan-500/60 rounded-lg text-left transition-all group flex items-start gap-3.5 shadow-sm cursor-pointer"
+                  >
+                    <span className="text-2xl p-2 bg-slate-900 group-hover:bg-cyan-950 border border-slate-700 group-hover:border-cyan-600/60 rounded-lg shrink-0 transition-colors">
+                      🔍
+                    </span>
+                    <div>
+                      <h4 className="text-xs font-bold uppercase tracking-wider text-cyan-400 group-hover:text-cyan-300 mb-0.5">
+                        Browse Augmentations DB
+                      </h4>
+                      <p className="text-[11px] text-slate-400 group-hover:text-slate-300 leading-snug">
+                        Search and select preset cybernetic & biological augmentations from the OmniCortex database.
+                      </p>
+                    </div>
+                  </button>
+                )}
+
                 {onOpenAssetModal && (
                   <button
                     type="button"
@@ -667,169 +653,34 @@ const AbilitiesTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       setActiveModal(null);
                       onOpenAssetModal('augmentations', 'Augmentation', 'create', null, { category: 'augmentations' });
                     }}
-                    className="px-3 py-1 bg-amber-950/90 hover:bg-amber-900 border border-amber-500/60 text-amber-300 rounded text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-1.5 cursor-pointer"
-                    title="Open Augmentation Manage Modal to build and save a new entry in OmniCortex"
+                    className="p-4 bg-slate-950/90 hover:bg-slate-900 border border-slate-800 hover:border-amber-500/60 rounded-lg text-left transition-all group flex items-start gap-3.5 shadow-sm cursor-pointer"
                   >
-                    <span>⚙️</span> Build Augmentation
+                    <span className="text-2xl p-2 bg-slate-900 group-hover:bg-amber-950 border border-slate-700 group-hover:border-amber-600/60 rounded-lg shrink-0 transition-colors">
+                      ⚙️
+                    </span>
+                    <div>
+                      <h4 className="text-xs font-bold uppercase tracking-wider text-amber-400 group-hover:text-amber-300 mb-0.5">
+                        Build Augmentation Entry
+                      </h4>
+                      <p className="text-[11px] text-slate-400 group-hover:text-slate-300 leading-snug">
+                        Build and save a new custom augmentation entry with CP cost and effects in the OmniCortex DB.
+                      </p>
+                    </div>
                   </button>
                 )}
-                <button
-                  onClick={() => setActiveModal(null)}
-                  className="text-slate-400 hover:text-white text-xl font-bold leading-none cursor-pointer"
-                >
-                  &times;
-                </button>
               </div>
             </div>
 
-            <form onSubmit={handleAddAugmentation} className="space-y-4 text-xs">
-              {/* OmniCortex DB Selection & Actions Banner */}
-              <div className="bg-slate-950/90 border border-amber-800/60 p-3 rounded-lg space-y-3">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                  <div>
-                    <span className="text-amber-200 font-bold block uppercase tracking-wider text-[11px]">
-                      OmniCortex Augmentation Database
-                    </span>
-                    <span className="text-slate-400 text-[11px]">
-                      Select a preset augmentation from cloud assets or manage entries directly.
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-1.5 shrink-0">
-                    {onOpenSelectorModal && (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setActiveModal(null);
-                          onOpenSelectorModal('augmentations', 'Augmentations Database', 'augmentations');
-                        }}
-                        className="px-2.5 py-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-cyan-300 rounded text-[11px] font-bold uppercase tracking-wider flex items-center gap-1 transition-colors cursor-pointer"
-                        title="Browse full Augmentations database catalog"
-                      >
-                        <span>🔍</span> Browse DB
-                      </button>
-                    )}
-                    {onOpenAssetModal && (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setActiveModal(null);
-                          onOpenAssetModal('augmentations', 'Augmentation', 'create', null, { category: 'augmentations' });
-                        }}
-                        className="px-2.5 py-1.5 bg-amber-950 hover:bg-amber-900 border border-amber-600/80 text-amber-200 rounded text-[11px] font-bold uppercase tracking-wider flex items-center gap-1 transition-colors cursor-pointer"
-                        title="Open Augmentation Manage Modal to build a new item"
-                      >
-                        <span>⚙️</span> Build Entry
-                      </button>
-                    )}
-                  </div>
-                </div>
-
-                {/* Preset Augmentation Select Dropdown */}
-                <div>
-                  <label className="block font-bold uppercase text-amber-300 text-[10px] mb-1 flex justify-between items-center">
-                    <span>Preset Augmentations ({dbAugmentations.length})</span>
-                    {augmentationsLoading && <span className="text-amber-400 font-mono animate-pulse">Syncing DB...</span>}
-                  </label>
-                  <select
-                    value={selectedDbAugId}
-                    onChange={(e) => handleSelectDbAugmentation(e.target.value)}
-                    className="w-full bg-slate-900 border border-amber-900/80 focus:border-amber-400 rounded px-3 py-2 text-xs text-amber-100 outline-none font-semibold"
-                  >
-                    <option value="">-- Select Preset from OmniCortex DB (Optional) --</option>
-                    {dbAugmentations.map((aug) => (
-                      <option key={aug.id} value={aug.id}>
-                        {aug.name || aug.title} {aug.cp ? `(${aug.cp} CP)` : (aug.type ? `[${aug.type}]` : '')}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Selected Preset Details Preview */}
-                {(() => {
-                  const selectedAug = dbAugmentations.find(a => a.id === selectedDbAugId);
-                  if (!selectedAug) return null;
-                  return (
-                    <div className="bg-amber-950/30 border border-amber-800/40 p-2.5 rounded text-[11px] text-amber-200/90 leading-relaxed space-y-1">
-                      <div className="flex items-center justify-between font-bold text-amber-300">
-                        <span>{selectedAug.name || selectedAug.title}</span>
-                        <div className="flex items-center gap-1 font-mono text-[10px]">
-                          {selectedAug.type && <span className="px-1.5 py-0.5 bg-slate-900 rounded border border-amber-800">{selectedAug.type}</span>}
-                          {selectedAug.cp && <span className="px-1.5 py-0.5 bg-amber-900 text-amber-200 rounded">{selectedAug.cp} CP</span>}
-                        </div>
-                      </div>
-                      {(selectedAug.description || selectedAug.mechanic) && (
-                        <p className="text-slate-300 line-clamp-3">
-                          {selectedAug.description || selectedAug.mechanic}
-                        </p>
-                      )}
-                    </div>
-                  );
-                })()}
-              </div>
-
-              {/* Form Input Fields */}
-              <div className="grid grid-cols-3 gap-3">
-                <div className="col-span-2">
-                  <label className="block font-bold uppercase text-slate-300 mb-1">
-                    Augmentation Name
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={augName}
-                    onChange={(e) => setAugName(e.target.value)}
-                    placeholder="e.g. Subdermal Armor Weave"
-                    className="w-full bg-slate-950 border border-slate-700 rounded px-3 py-2 text-slate-100 outline-none focus:border-amber-400"
-                  />
-                </div>
-
-                <div>
-                  <label className="block font-bold uppercase text-amber-300 mb-1">
-                    CP Cost (1-3)
-                  </label>
-                  <select
-                    value={augCp}
-                    onChange={(e) => setAugCp(parseInt(e.target.value, 10))}
-                    className="w-full bg-slate-950 border border-amber-700 rounded px-3 py-2 text-amber-300 font-mono font-bold outline-none focus:border-amber-400"
-                  >
-                    <option value={1}>1 CP (Minor)</option>
-                    <option value={2}>2 CP (Moderate)</option>
-                    <option value={3}>3 CP (Major)</option>
-                  </select>
-                </div>
-              </div>
-
-              <div>
-                <label className="block font-bold uppercase text-slate-300 mb-1">
-                  Description / Effect
-                </label>
-                <textarea
-                  rows={3}
-                  value={augDesc}
-                  onChange={(e) => setAugDesc(e.target.value)}
-                  placeholder="Describe permanent cybernetic or biological enhancement..."
-                  className="w-full bg-slate-950 border border-slate-700 rounded px-3 py-2 text-slate-100 outline-none focus:border-amber-400"
-                />
-              </div>
-
-              {/* Modal Footer */}
-              <div className="flex justify-end gap-2 pt-2 border-t border-slate-800">
-                <button
-                  type="button"
-                  onClick={() => setActiveModal(null)}
-                  className="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-xs uppercase font-bold cursor-pointer"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-1.5 bg-amber-900 hover:bg-amber-800 border border-amber-600 text-amber-200 rounded text-xs font-bold uppercase tracking-wider cursor-pointer"
-                >
-                  Add Augmentation
-                </button>
-              </div>
-            </form>
+            {/* Modal Footer */}
+            <div className="flex justify-end pt-3 border-t border-slate-800/80">
+              <button
+                type="button"
+                onClick={() => setActiveModal(null)}
+                className="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-xs uppercase font-bold tracking-wider cursor-pointer"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       )}
