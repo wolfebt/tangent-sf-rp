@@ -1,43 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useFolio } from '../../../context/FolioContext';
-import { db, auth } from '../../../firebase';
-import { collection, onSnapshot } from 'firebase/firestore';
-import { attachCreatorTag } from '../../../utils/creatorUtils';
+
+const PROPERTY_TABS = [
+  { id: 'gear', label: 'Gear', title: 'Gear', key: 'gear', dbPath: 'gear' },
+  { id: 'weapons', label: 'Weapons', title: 'Weapons', key: 'weapons', dbPath: 'weaponry' },
+  { id: 'armor', label: 'Armor', title: 'Armor', key: 'armoring', dbPath: 'armoring' },
+  { id: 'mecha', label: 'Mecha', title: 'Mecha', key: 'mecha', dbPath: 'mecha' },
+  { id: 'other', label: 'Other', title: 'Other', key: 'other', dbPath: 'other' }
+];
 
 const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
-  const { characterData, updateField, userHandle, currentUser } = useFolio();
+  const { characterData, updateField } = useFolio();
 
-  // Real-time Firestore database items for inventory & equipment preset selections
-  const [dbInventory, setDbInventory] = useState({
-    gear: [],
-    weaponry: [],
-    armoring: [],
-    mecha: [],
-    other: []
-  });
-
-  useEffect(() => {
-    let unsubscribes = [];
-    const collectionsToFetch = ['gear', 'weaponry', 'armoring', 'mecha', 'other'];
-
-    collectionsToFetch.forEach((colName) => {
-      try {
-        const colRef = collection(db, colName);
-        const unsub = onSnapshot(colRef, (snapshot) => {
-          const list = [];
-          snapshot.forEach((doc) => list.push({ id: doc.id, ...doc.data() }));
-          setDbInventory((prev) => ({ ...prev, [colName]: list }));
-        }, (err) => {
-          console.warn(`Failed to fetch ${colName} DB items:`, err);
-        });
-        unsubscribes.push(unsub);
-      } catch (err) {
-        console.warn(`Error subscribing to ${colName}:`, err);
-      }
-    });
-
-    return () => unsubscribes.forEach((u) => u());
-  }, []);
+  const [combatTab, setCombatTab] = useState('offensive'); // 'offensive' | 'defensive'
+  const [propertyTab, setPropertyTab] = useState('gear'); // 'gear' | 'weapons' | 'armor' | 'mecha' | 'other'
 
   const getArray = (key) => {
     const val = characterData[key];
@@ -93,7 +69,6 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
   // Generic Property / Inventory List rendering with Database Integration & Build Modals
   const renderPropertyList = (title, key, dbPath) => {
     const list = getArray(key);
-    const dbItems = dbInventory[dbPath] || [];
 
     const removeItem = (index) => {
       const item = list[index];
@@ -102,50 +77,24 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
       updateField(key, list.filter((_, i) => i !== index));
     };
 
-    const handleSelectPreset = (e) => {
-      const selectedId = e.target.value;
-      if (!selectedId) return;
-      const found = dbItems.find(i => i.id === selectedId);
-      if (found) {
-        const itemObj = attachCreatorTag(found, userHandle, currentUser);
-        updateField(key, [...list, itemObj]);
-      }
-    };
-
     return (
       <div className="bg-slate-900/60 border border-cyan-900/50 rounded-lg p-4 space-y-3 flex flex-col justify-between">
         <div>
           <div className="flex justify-between items-center border-b border-slate-800 pb-2 mb-2.5">
             <h5 className="text-xs font-bold uppercase tracking-widest text-cyan-400">
-              {title}
+              {title} Inventory
             </h5>
             <span className="text-[10px] text-slate-400 font-mono font-bold">
-              {list.length}
+              {list.length} {list.length === 1 ? 'item' : 'items'}
             </span>
           </div>
 
-          {/* OmniCortex DB Preset Selector Dropdown */}
-          <div className="mb-3">
-            <select
-              value=""
-              onChange={handleSelectPreset}
-              className="w-full bg-slate-950 border border-slate-700/80 focus:border-cyan-400 rounded px-2 py-1 text-[11px] text-slate-200 outline-none truncate font-medium cursor-pointer"
-            >
-              <option value="">+ Add {title} from DB ({dbItems.length})</option>
-              {dbItems.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.name || item.title} {item.cost ? `(${item.cost} Cr)` : item.cp ? `(${item.cp} CP)` : ''}
-                </option>
-              ))}
-            </select>
-          </div>
-
           {list.length === 0 ? (
-            <div className="text-xs text-slate-500 italic py-2 text-center">
-              No items
+            <div className="text-xs text-slate-500 italic py-4 text-center">
+              No {title.toLowerCase()} items added
             </div>
           ) : (
-            <div className="space-y-1.5 max-h-44 overflow-y-auto pr-1">
+            <div className="space-y-1.5 max-h-64 overflow-y-auto pr-1">
               {list.map((item, idx) => {
                 const isObj = typeof item === 'object' && item !== null;
                 const name = isObj ? (item.name || item.title || 'Item') : String(item);
@@ -187,7 +136,7 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
           )}
         </div>
 
-        <div className="mt-2 flex gap-1.5">
+        <div className="mt-3 flex gap-2 pt-2 border-t border-slate-800/80">
           {onOpenAssetModal && (
             <button
               type="button"
@@ -195,17 +144,17 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               className="flex-1 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-cyan-300 rounded text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-1 cursor-pointer"
               title={`Open Manage Modal to build and save a new ${title} entry in OmniCortex DB`}
             >
-              <span>⚙️</span> Build
+              <span>⚙️</span> Build {title}
             </button>
           )}
           {onOpenSelectorModal && (
             <button
               type="button"
               onClick={() => onOpenSelectorModal(key, title, dbPath)}
-              className="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-400 hover:text-cyan-300 rounded text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-1 cursor-pointer"
+              className="flex-1 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-400 hover:text-cyan-300 rounded text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-1 cursor-pointer"
               title={`Browse ${title} Database`}
             >
-              <span>🔍</span> Browse DB
+              <span>🔍</span> Browse {title} DB
             </button>
           )}
         </div>
@@ -217,12 +166,38 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     <div className="tab-panel active p-4 space-y-6">
       {/* Combat Section */}
       <div className="space-y-4">
-        <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-400 border-b border-cyan-900/60 pb-2">
-          Combat & Tactical Systems
-        </h3>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-cyan-900/60 pb-2">
+          <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-400">
+            Combat & Tactical Systems
+          </h3>
+          <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800 shrink-0">
+            <button
+              type="button"
+              onClick={() => setCombatTab('offensive')}
+              className={`px-3 py-1 text-xs font-bold uppercase tracking-wider rounded transition-colors cursor-pointer ${
+                combatTab === 'offensive'
+                  ? 'bg-amber-950/80 text-amber-400 border border-amber-600/60 shadow-sm'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              Offensive ({attacks.length})
+            </button>
+            <button
+              type="button"
+              onClick={() => setCombatTab('defensive')}
+              className={`px-3 py-1 text-xs font-bold uppercase tracking-wider rounded transition-colors cursor-pointer ${
+                combatTab === 'defensive'
+                  ? 'bg-emerald-950/80 text-emerald-400 border border-emerald-600/60 shadow-sm'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              Defensive ({armors.length})
+            </button>
+          </div>
+        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Attacks Grid */}
+        {combatTab === 'offensive' ? (
+          /* Attacks Grid */
           <div className="bg-slate-900/60 border border-cyan-900/50 rounded-lg p-4 space-y-3">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-2">
               <h4 className="text-xs font-bold uppercase tracking-widest text-amber-400">
@@ -259,7 +234,7 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </div>
             </div>
 
-            <div className="space-y-2 max-h-56 overflow-y-auto pr-1">
+            <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
               {attacks.length === 0 ? (
                 <div className="text-xs text-slate-500 italic py-2 text-center">No attack entries</div>
               ) : (
@@ -324,8 +299,8 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               )}
             </div>
           </div>
-
-          {/* Armor / Defense Grid */}
+        ) : (
+          /* Armor / Defense Grid */
           <div className="bg-slate-900/60 border border-cyan-900/50 rounded-lg p-4 space-y-3">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-2">
               <h4 className="text-xs font-bold uppercase tracking-widest text-emerald-400">
@@ -362,7 +337,7 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </div>
             </div>
 
-            <div className="space-y-2 max-h-56 overflow-y-auto pr-1">
+            <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
               {armors.length === 0 ? (
                 <div className="text-xs text-slate-500 italic py-2 text-center">No defense entries</div>
               ) : (
@@ -420,22 +395,44 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               )}
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Personal Property Section */}
       <div className="space-y-4">
-        <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-400 border-b border-cyan-900/60 pb-2">
-          Personal Property & Equipment Inventory
-        </h3>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-          {renderPropertyList('Gear', 'gear', 'gear')}
-          {renderPropertyList('Weapons', 'weapons', 'weaponry')}
-          {renderPropertyList('Armor', 'armoring', 'armoring')}
-          {renderPropertyList('Mecha', 'mecha', 'mecha')}
-          {renderPropertyList('Other', 'other', 'other')}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-cyan-900/60 pb-2">
+          <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-400">
+            Personal Property & Equipment Inventory
+          </h3>
+          <div className="flex flex-wrap items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800 shrink-0">
+            {PROPERTY_TABS.map((tab) => {
+              const count = getArray(tab.key).length;
+              const isActive = propertyTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => setPropertyTab(tab.id)}
+                  className={`px-3 py-1 text-xs font-bold uppercase tracking-wider rounded transition-colors cursor-pointer flex items-center gap-1.5 ${
+                    isActive
+                      ? 'bg-cyan-950/80 text-cyan-300 border border-cyan-700/60 shadow-sm'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  <span>{tab.label}</span>
+                  <span className="text-[10px] font-mono px-1 rounded bg-slate-900 text-slate-300">
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
+
+        {(() => {
+          const currentTab = PROPERTY_TABS.find((t) => t.id === propertyTab) || PROPERTY_TABS[0];
+          return renderPropertyList(currentTab.title, currentTab.key, currentTab.dbPath);
+        })()}
       </div>
     </div>
   );
