@@ -59,6 +59,22 @@ export default function CreativePane() {
   const [selectedText, setSelectedText] = useState('');
   const [selectionRange, setSelectionRange] = useState(null);
   const [customAiPrompt, setCustomAiPrompt] = useState('');
+  const [contextMenuPos, setContextMenuPos] = useState(null);
+
+  useEffect(() => {
+    const handleClickOutside = () => {
+      if (contextMenuPos) setContextMenuPos(null);
+    };
+    window.addEventListener('click', handleClickOutside);
+    return () => window.removeEventListener('click', handleClickOutside);
+  }, [contextMenuPos]);
+
+  const handleContextMenu = (e) => {
+    e.preventDefault();
+    if (selectedText) {
+      setContextMenuPos({ x: e.clientX, y: e.clientY });
+    }
+  };
 
   const handleQuillChangeSelection = (range, source, editor) => {
     if (range && range.length > 0) {
@@ -622,33 +638,40 @@ Formatting: Use markdown headings, bullet points, sensory details, and psycholog
                       Continue Writing
                     </button>
                   </div>
-                  {selectedText && (
-                    <div className="bg-slate-800 p-2 mb-2 rounded border border-amber-900 flex flex-wrap gap-2 items-center">
-                      <span className="text-xs text-amber-500 font-bold uppercase tracking-wider mr-2">AI Assist:</span>
-                      <button onClick={() => handleInlineEdit('rewrite')} disabled={isGenerating} className="bg-slate-700 hover:bg-slate-600 px-2 py-1 rounded text-xs font-bold">Rewrite</button>
-                      <button onClick={() => handleInlineEdit('expand')} disabled={isGenerating} className="bg-slate-700 hover:bg-slate-600 px-2 py-1 rounded text-xs font-bold">Expand</button>
-                      <button onClick={() => handleInlineEdit('summarize')} disabled={isGenerating} className="bg-slate-700 hover:bg-slate-600 px-2 py-1 rounded text-xs font-bold">Summarize</button>
-                      
-                      <div className="flex gap-1 flex-1 min-w-[200px]">
+                  {contextMenuPos && selectedText && (
+                    <div 
+                      className="fixed z-50 bg-slate-800 p-3 rounded-lg border border-amber-900 shadow-2xl flex flex-col gap-2 min-w-[280px]"
+                      style={{ top: contextMenuPos.y, left: contextMenuPos.x }}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <span className="text-xs text-amber-500 font-bold uppercase tracking-wider mb-1 border-b border-slate-700 pb-1">AI Pair Authoring</span>
+                      <div className="flex gap-2">
+                        <button onClick={() => { handleInlineEdit('rewrite'); setContextMenuPos(null); }} disabled={isGenerating} className="bg-slate-700 hover:bg-slate-600 px-2 py-1.5 rounded text-xs font-bold flex-1">Rewrite</button>
+                        <button onClick={() => { handleInlineEdit('expand'); setContextMenuPos(null); }} disabled={isGenerating} className="bg-slate-700 hover:bg-slate-600 px-2 py-1.5 rounded text-xs font-bold flex-1">Expand</button>
+                        <button onClick={() => { handleInlineEdit('summarize'); setContextMenuPos(null); }} disabled={isGenerating} className="bg-slate-700 hover:bg-slate-600 px-2 py-1.5 rounded text-xs font-bold flex-1">Summarize</button>
+                      </div>
+                      <div className="flex gap-1 mt-1">
                         <input 
                           type="text" 
                           value={customAiPrompt}
                           onChange={(e) => setCustomAiPrompt(e.target.value)}
                           placeholder="Custom instruction..."
-                          className="flex-1 bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs text-white"
+                          className="flex-1 bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-xs text-white"
                         />
-                        <button onClick={() => handleInlineEdit('custom')} disabled={isGenerating || !customAiPrompt} className="bg-amber-700 hover:bg-amber-600 px-2 py-1 rounded text-xs font-bold disabled:opacity-50">Apply</button>
+                        <button onClick={() => { handleInlineEdit('custom'); setContextMenuPos(null); }} disabled={isGenerating || !customAiPrompt} className="bg-amber-700 hover:bg-amber-600 px-3 py-1.5 rounded text-xs font-bold disabled:opacity-50">Apply</button>
                       </div>
                     </div>
                   )}
-                  <ReactQuill 
-                    ref={quillRef}
-                    theme="snow"
-                    value={creativeState.storyDraft}
-                    onChange={updateDraft}
-                    onChangeSelection={handleQuillChangeSelection}
-                    className="flex-1 bg-slate-900 border border-slate-700 rounded overflow-hidden quill-editor prose-editor"
-                  />
+                  <div className="flex-1 overflow-hidden flex flex-col" onContextMenu={handleContextMenu}>
+                    <ReactQuill 
+                      ref={quillRef}
+                      theme="snow"
+                      value={creativeState.storyDraft}
+                      onChange={updateDraft}
+                      onChangeSelection={handleQuillChangeSelection}
+                      className="flex-1 bg-slate-900 border border-slate-700 rounded overflow-hidden quill-editor prose-editor flex flex-col"
+                    />
+                  </div>
                 </div>
               )}
             </div>
