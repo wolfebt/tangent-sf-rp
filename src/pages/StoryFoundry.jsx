@@ -616,15 +616,15 @@ const StoryFoundry = () => {
                     No elements found in Cloud DB library. Select an element and use <span className="text-cyan-300 font-bold">"Save Element to Cloud DB"</span> from the FILE menu to publish to the cloud.
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                     {cloudLibraryElements.map((elem) => (
                       <div 
                         key={elem.id} 
-                        className="bg-slate-900/90 border border-slate-700/80 hover:border-cyan-500/80 rounded-lg p-3 flex flex-col justify-between transition-all shadow-md group"
+                        className="bg-slate-900/90 border border-slate-700/80 hover:border-cyan-500/80 rounded-lg p-2.5 flex flex-col justify-between transition-all shadow-md group"
                       >
                         <div>
-                          <div className="flex items-center justify-between gap-2 mb-1.5">
-                            <span className="text-[9px] font-bold uppercase text-amber-400 bg-amber-950/80 border border-amber-800/60 px-2 py-0.5 rounded">
+                          <div className="flex items-center justify-between gap-1.5 mb-1">
+                            <span className="text-[9px] font-bold uppercase text-amber-400 bg-amber-950/80 border border-amber-800/60 px-1.5 py-0.5 rounded">
                               {elem.type || 'Element'}
                             </span>
                             <span className="text-[9px] text-slate-500 font-mono truncate" title={elem.authorEmail}>
@@ -635,7 +635,7 @@ const StoryFoundry = () => {
                             {elem.title || 'Untitled Element'}
                           </h4>
                           {elem.content && (
-                            <p className="text-[11px] text-slate-400 line-clamp-2 leading-relaxed">
+                            <p className="text-[11px] text-slate-400 line-clamp-2 leading-tight">
                               {elem.content.replace(/<[^>]+>/g, '')}
                             </p>
                           )}
@@ -643,9 +643,9 @@ const StoryFoundry = () => {
 
                         <button
                           onClick={() => handleImportCloudElement(elem)}
-                          className="mt-3 w-full py-1.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-[10px] font-bold uppercase tracking-wider rounded transition-colors shadow-sm"
+                          className="mt-2 w-full py-1 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-[10px] font-bold uppercase tracking-wider rounded transition-colors shadow-sm"
                         >
-                          📥 Import to Story
+                          📥 Import
                         </button>
                       </div>
                     ))}
