@@ -45,6 +45,7 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
   const [elementSearch, setElementSearch] = useState('');
   const [elementTypeFilter, setElementTypeFilter] = useState('All');
   const [elementSortBy, setElementSortBy] = useState('recent'); // 'recent' | 'title_asc' | 'title_desc' | 'type' | 'author'
+  const [openElementMenuId, setOpenElementMenuId] = useState(null);
 
   const fileInputRef = useRef(null);
 
@@ -672,91 +673,117 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
                   {processedElements.map(elem => (
                     <div
                       key={elem.id}
-                      className="bg-slate-900/90 hover:bg-slate-900 rounded-xl p-3 border border-slate-800 hover:border-amber-500/60 transition-all shadow-md flex flex-col justify-between group"
+                      className="bg-slate-900/90 hover:bg-slate-900 rounded-lg p-2.5 border border-slate-800 hover:border-amber-500/50 flex items-center justify-between gap-2.5 transition-all shadow-md group relative"
                     >
-                      <div>
-                        <div className="flex items-center justify-between gap-1.5 mb-1.5">
-                          <span className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-amber-950/80 border border-amber-800 text-amber-400">
-                            {elem.type || 'Element'}
-                          </span>
-                          <span className="text-[9px] text-slate-500 font-mono truncate" title={elem.authorEmail}>
-                            {elem.authorEmail ? `@${elem.authorEmail.split('@')[0]}` : 'Catalog'}
-                          </span>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between gap-1 mb-1">
+                          <div className="flex items-center gap-1.5 min-w-0">
+                            <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-amber-950/80 border border-amber-800 text-amber-400 shrink-0">
+                              {elem.type || 'Element'}
+                            </span>
+                            <span className="text-[9px] text-slate-500 font-mono truncate" title={elem.authorEmail}>
+                              {elem.authorEmail ? `@${elem.authorEmail.split('@')[0]}` : 'Catalog'}
+                            </span>
+                          </div>
+
+                          {/* Menu Dropdown Trigger */}
+                          <div className="relative">
+                            <button
+                              onClick={() => setOpenElementMenuId(openElementMenuId === elem.id ? null : elem.id)}
+                              className="w-6 h-6 rounded flex items-center justify-center text-slate-400 hover:text-amber-300 hover:bg-slate-800 transition-colors text-xs font-bold"
+                              title="Element Actions Menu"
+                            >
+                              ⋮
+                            </button>
+
+                            {openElementMenuId === elem.id && (
+                              <>
+                                <div
+                                  className="fixed inset-0 z-20"
+                                  onClick={() => setOpenElementMenuId(null)}
+                                />
+                                <div className="absolute right-0 top-full mt-1 z-30 bg-[#0d1117] border border-slate-700 rounded-lg shadow-2xl py-1 min-w-[160px] text-[11px] font-semibold text-slate-200">
+                                  <button
+                                    onClick={() => {
+                                      setOpenElementMenuId(null);
+                                      handleImportElementToWorkingStory(elem);
+                                    }}
+                                    className="w-full text-left px-3 py-1.5 hover:bg-amber-950/60 hover:text-amber-300 flex items-center gap-2 transition-colors"
+                                  >
+                                    <span>📥</span> Import to Story
+                                  </button>
+                                  <button
+                                    onClick={() => {
+                                      setOpenElementMenuId(null);
+                                      exportElementJSON(elem, universeState);
+                                    }}
+                                    className="w-full text-left px-3 py-1.5 hover:bg-slate-800 hover:text-cyan-300 flex items-center gap-2 transition-colors"
+                                  >
+                                    <span>📤</span> Export JSON
+                                  </button>
+                                  <button
+                                    onClick={() => {
+                                      setOpenElementMenuId(null);
+                                      exportElementMarkdown(elem, universeState);
+                                    }}
+                                    className="w-full text-left px-3 py-1.5 hover:bg-slate-800 hover:text-cyan-300 flex items-center gap-2 transition-colors"
+                                  >
+                                    <span>📄</span> Export Markdown (.md)
+                                  </button>
+                                  <button
+                                    onClick={() => {
+                                      setOpenElementMenuId(null);
+                                      exportElementPDF(elem, universeState);
+                                    }}
+                                    className="w-full text-left px-3 py-1.5 hover:bg-slate-800 hover:text-cyan-300 flex items-center gap-2 transition-colors"
+                                  >
+                                    <span>🖨️</span> Export PDF
+                                  </button>
+                                  <div className="border-t border-slate-800/80 my-1" />
+                                  <button
+                                    onClick={() => {
+                                      setOpenElementMenuId(null);
+                                      if (window.confirm(`Delete element "${elem.title}" from catalog?`)) {
+                                        deleteSavedElement(elem.id);
+                                      }
+                                    }}
+                                    className="w-full text-left px-3 py-1.5 hover:bg-red-950/60 text-red-400 hover:text-red-300 flex items-center gap-2 transition-colors"
+                                  >
+                                    <span>🗑️</span> Delete Element
+                                  </button>
+                                </div>
+                              </>
+                            )}
+                          </div>
                         </div>
 
-                        <h3 className="text-xs font-bold text-slate-100 group-hover:text-amber-300 truncate mb-1">
+                        <h3 className="text-xs font-bold text-slate-100 group-hover:text-amber-300 truncate mb-0.5" title={elem.title}>
                           {elem.title || `Untitled ${elem.type || 'Element'}`}
                         </h3>
 
-                        {elem.parentPath && (
-                          <div className="text-[9px] font-mono text-cyan-400 truncate mb-1.5">
+                        {elem.parentPath ? (
+                          <div className="text-[9px] font-mono text-cyan-400 truncate">
                             📂 {elem.parentPath}
                           </div>
-                        )}
-
-                        {elem.content && (
-                          <p className="text-[11px] text-slate-400 line-clamp-2 leading-tight mb-2">
+                        ) : elem.content ? (
+                          <p className="text-[11px] text-slate-400 line-clamp-1 leading-tight">
                             {elem.content.replace(/<[^>]+>/g, '')}
                           </p>
-                        )}
+                        ) : null}
                       </div>
 
-                      {/* Card Actions */}
-                      <div className="flex items-center gap-1.5 pt-1.5 border-t border-slate-800/80">
-                        <button
-                          onClick={() => handleImportElementToWorkingStory(elem)}
-                          className="flex-1 py-1 bg-amber-950 hover:bg-amber-900 border border-amber-500/60 text-amber-300 text-[10px] font-bold uppercase tracking-wider rounded transition-colors shadow-sm"
-                        >
-                          📥 Import
-                        </button>
-                        
-                        <button
-                          onClick={() => {
-                            setEditingElement(elem);
-                            setIsEditModalOpen(true);
-                          }}
-                          className="p-1 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded text-xs font-bold leading-none"
-                          title="Edit Element Fields & Content"
-                        >
-                          ✏️
-                        </button>
-
-                        <button
-                          onClick={() => exportElementJSON(elem, universeState)}
-                          className="p-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-xs font-bold leading-none"
-                          title="Export Element JSON"
-                        >
-                          📤
-                        </button>
-
-                        <button
-                          onClick={() => exportElementMarkdown(elem, universeState)}
-                          className="p-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-xs font-bold leading-none"
-                          title="Export Markdown (.md)"
-                        >
-                          📄
-                        </button>
-
-                        <button
-                          onClick={() => exportElementPDF(elem, universeState)}
-                          className="p-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-xs font-bold leading-none"
-                          title="Export Printable PDF"
-                        >
-                          🖨️
-                        </button>
-
-                        <button
-                          onClick={() => {
-                            if (window.confirm(`Delete element "${elem.title}" from catalog?`)) {
-                              deleteSavedElement(elem.id);
-                            }
-                          }}
-                          className="p-1 bg-red-950/60 hover:bg-red-900 border border-red-800/60 text-red-300 rounded text-xs font-bold leading-none"
-                          title="Delete Saved Element"
-                        >
-                          🗑️
-                        </button>
-                      </div>
+                      {/* Small Square Edit Button on Right Side */}
+                      <button
+                        onClick={() => {
+                          setEditingElement(elem);
+                          setIsEditModalOpen(true);
+                        }}
+                        className="w-10 h-10 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded-lg text-xs font-bold shrink-0 transition-colors shadow-sm flex flex-col items-center justify-center gap-0.5 cursor-pointer"
+                        title="Edit Element Fields & Content"
+                      >
+                        <span className="text-xs leading-none">✏️</span>
+                        <span className="text-[8px] font-bold uppercase tracking-tighter leading-none">EDIT</span>
+                      </button>
                     </div>
                   ))}
                 </div>
