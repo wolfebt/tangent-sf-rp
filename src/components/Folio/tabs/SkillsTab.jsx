@@ -217,13 +217,6 @@ const CATEGORY_CONFIG_MAP = {
 
 const TABS_CONFIG = [
   {
-    key: 'all',
-    title: 'All Skills',
-    color: 'text-cyan-400',
-    activeBg: 'bg-cyan-950/40',
-    activeBorder: 'border-cyan-500'
-  },
-  {
     key: 'physical',
     title: 'Physical',
     color: 'text-emerald-400',
@@ -254,6 +247,13 @@ const TABS_CONFIG = [
   {
     key: 'meta',
     title: 'Metafocus',
+    color: 'text-cyan-400',
+    activeBg: 'bg-cyan-950/40',
+    activeBorder: 'border-cyan-500'
+  },
+  {
+    key: 'all',
+    title: 'All Skills',
     color: 'text-cyan-400',
     activeBg: 'bg-cyan-950/40',
     activeBorder: 'border-cyan-500'
