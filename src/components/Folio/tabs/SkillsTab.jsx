@@ -814,7 +814,7 @@ const SkillsTab = ({ onOpenAddSkillModal }) => {
       </div>
 
       {/* Category Sub-Tabs Navigation */}
-      <div className="flex items-center gap-1.5 border-b border-cyan-900/50 pb-1 overflow-x-auto scrollbar-thin">
+      <div className="flex items-center gap-1.5 border-b border-cyan-900/50 pb-1 overflow-x-auto no-scrollbar">
         {TABS_CONFIG.map((tab) => {
           const isActive = activeCategoryTab === tab.key;
           const count = categoryCounts[tab.key] || 0;

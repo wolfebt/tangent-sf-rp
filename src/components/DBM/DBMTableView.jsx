@@ -109,7 +109,7 @@ export const DBMTableView = ({
 
       {/* Dynamic Type/Category Filter Tabs */}
       {availableTypes.length > 0 && (
-        <div className="flex flex-wrap items-center gap-1.5 mb-3 pb-2 border-b border-slate-800/80 overflow-x-auto shrink-0">
+        <div className="flex flex-wrap items-center gap-1.5 mb-3 pb-2 border-b border-slate-800/80 overflow-x-auto shrink-0 no-scrollbar">
           <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mr-2">Filter Type:</span>
           <button
             onClick={() => setFilterType('ALL')}

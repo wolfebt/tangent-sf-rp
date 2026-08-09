@@ -102,7 +102,7 @@ const NarrativeTab = () => {
 
   return (
     <div className="flex flex-col max-w-4xl mx-auto h-full overflow-hidden">
-      <div className="flex border-b border-cyan-900/50 overflow-x-auto mb-4 pb-1">
+      <div className="flex border-b border-cyan-900/50 overflow-x-auto no-scrollbar mb-4 pb-1">
         {sections.map((section, idx) => (
           <button 
             key={idx}

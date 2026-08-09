@@ -461,7 +461,7 @@ const ElementFieldsEditor = ({ activeNode, updateStory }) => {
         </span>
       </div>
 
-      <div className="flex border-b border-slate-700 overflow-x-auto mb-4">
+      <div className="flex border-b border-slate-700 overflow-x-auto no-scrollbar mb-4">
         {allTabs.map((tab, idx) => (
           <button 
             key={idx}

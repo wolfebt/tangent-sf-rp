@@ -103,7 +103,7 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex border-b border-slate-800">
+        <div className="flex border-b border-slate-800 overflow-x-auto no-scrollbar">
           <button
             type="button"
             onClick={() => setActiveTab('pools')}

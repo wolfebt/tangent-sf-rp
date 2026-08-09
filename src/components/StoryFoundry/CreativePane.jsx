@@ -449,7 +449,7 @@ Formatting: Use markdown headings, bullet points, sensory details, and psycholog
 
               {forgeViewMode === 'form' ? (
                 <div className="flex-1 flex flex-col">
-                  <div className="flex border-b border-slate-700 mb-4 overflow-x-auto">
+                  <div className="flex border-b border-slate-700 mb-4 overflow-x-auto no-scrollbar">
                     {Array.from(new Set((ELEMENT_SCHEMAS[selectedForgeType] || []).map(f => f.tab || 'General'))).map((tab, idx) => (
                       <button 
                         key={idx}
