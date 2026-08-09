@@ -45,6 +45,7 @@ const DEFAULT_UNIVERSE_STATE = {
     gems: [],
     storyCards: [],
     storyOutline: '',
+    sceneBeats: '',
     storyDraft: '',
     linkedElements: []
   },
@@ -1136,7 +1137,7 @@ export const StoryProvider = ({ children }) => {
     setUniverseState(prev => ({
       ...prev,
       creativeState: {
-        ...(prev.creativeState || { gems: [], storyCards: [], storyOutline: '', storyDraft: '', linkedElements: [] }),
+        ...(prev.creativeState || { gems: [], storyCards: [], storyOutline: '', sceneBeats: '', storyDraft: '', linkedElements: [] }),
         ...updates
       }
     }));
@@ -1145,6 +1146,7 @@ export const StoryProvider = ({ children }) => {
   const updateGems = (gems) => updateCreativeState({ gems });
   const updateStoryCards = (storyCards) => updateCreativeState({ storyCards });
   const updateOutline = (storyOutline) => updateCreativeState({ storyOutline });
+  const updateSceneBeats = (sceneBeats) => updateCreativeState({ sceneBeats });
   const updateDraft = (storyDraft) => updateCreativeState({ storyDraft });
   const updateLinkedElements = (linkedElements) => updateCreativeState({ linkedElements });
   const getActiveGemsText = () => {
@@ -1357,6 +1359,7 @@ export const StoryProvider = ({ children }) => {
     updateGems,
     updateStoryCards,
     updateOutline,
+    updateSceneBeats,
     updateDraft,
     getActiveGemsText,
     cloudSyncStatus,

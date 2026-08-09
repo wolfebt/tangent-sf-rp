@@ -8,34 +8,29 @@ import 'react-quill-new/dist/quill.snow.css';
 import { ELEMENT_SCHEMAS } from './elementSchemas';
 
 export const GUIDANCE_GEMS = {
-  "Common: Genre": ["Action", "Adventure", "Comedy", "Drama", "Fantasy", "Sci-Fi", "Horror", "Mystery", "Romance", "Thriller"],
-  "Common: Tone": ["Serious", "Humorous", "Formal", "Informal", "Optimistic", "Pessimistic", "Joyful", "Sad", "Hopeful", "Cynical"],
-  "Common: Pacing": ["Fast-paced", "Slow-burn", "Steady", "Urgent", "Relaxed", "Meditative", "Action-Packed"],
-  "Common: POV": ["First Person", "Third Person Limited", "Third Person Omniscient", "Second Person", "Alternating POV"],
-  "Common: Themes": ["Redemption", "Betrayal", "Discovery", "Survival", "Love", "Hate", "Power", "Corruption", "Nature vs. Nurture"],
-  "Persona": ["Heroic & Grand", "Villainous & Menacing", "Tragic & Sympathetic", "Comedic & Light", "Morally Ambiguous", "Eloquent & Articulate", "Laconic & Terse", "Emotionally Reserved"],
-  "Species": ["Natural Evolution", "Magical Creation", "Genetic Engineering", "Apex Predator", "Hive-Mind/Collective", "Technologically Advanced", "Primitive Tool-Users", "Aggressive & Territorial"],
-  "Scene": ["Tense & Suspenseful", "Lighthearted & Comedic", "Intimate & Romantic", "Somber & Melancholy", "Urgent & Fast-Paced", "Formal & Eloquent", "Heavily Subtextual"],
-  "Faction": ["Mega-corporation", "Rebel Alliance", "Religious Order", "Rigid Hierarchy", "Decentralized Cells", "Benevolent & Philanthropic", "Militant & Aggressive"],
-  "Universe": ["Hard Magic (Rules-based)", "Soft Magic (Mysterious)", "Psionics", "Grimdark", "Hopeful & Optimistic", "Single Galaxy", "Multiverse", "Futuristic"],
-  "World": ["Volcanic & Harsh", "Arctic & Frozen", "Feudal Kingdoms", "Imperial Empire", "Republic/Democracy", "Widespread War", "Political Intrigue", "Nomadic & Tribal"],
-  "Philosophy": ["Strict Hierarchy", "Monastic Orders", "Fringe Belief System", "Dogmatic & Rigid", "Pragmatic & Secular", "Ascetic & Disciplined"],
-  "Technology": ["Sleek & Minimalist", "Steampunk & Ornate", "Brutalist & Industrial", "Magitech & Arcane", "Flawless & Dependable", "Experimental & Unpredictable"]
+  "Genre": ["Action", "Adventure", "Comedy", "Drama", "Fantasy", "Sci-Fi", "Horror", "Mystery", "Romance", "Thriller"],
+  "Tone": ["Serious", "Humorous", "Formal", "Informal", "Optimistic", "Pessimistic", "Joyful", "Sad", "Hopeful", "Cynical"],
+  "Pacing": ["Fast-paced", "Slow-burn", "Steady", "Urgent", "Relaxed", "Meditative", "Action-Packed"],
+  "POV": ["First Person", "Third Person Limited", "Third Person Omniscient", "Second Person", "Alternating POV"],
+  "Theme": ["Redemption", "Betrayal", "Discovery", "Survival", "Love", "Hate", "Power", "Corruption", "Nature vs. Nurture"]
 };
 
 export default function CreativePane() {
   const { 
     universeState, 
     updateGems, 
+    updateCreativeState,
     updateStoryCards, 
     updateOutline, 
+    updateSceneBeats,
     updateDraft, 
     getActiveGemsText,
     addStory,
     updateLinkedElements 
   } = useStory();
 
-  const creativeState = universeState.creativeState || { gems: [], storyCards: [], storyOutline: '', storyDraft: '', linkedElements: [] };
+  const creativeState = universeState.creativeState || { gems: [], storyCards: [], storyOutline: '', sceneBeats: '', storyDraft: '', linkedElements: [], customGems: {} };
+  const customGems = creativeState.customGems || {};
 
   const getAllElements = (nodes) => {
     let all = [];
@@ -50,14 +45,30 @@ export default function CreativePane() {
 
   const [activeTab, setActiveTab] = useState('weaver'); // 'weaver' or 'forge'
 
-  // Gems state
-  const [gemInput, setGemInput] = useState('');
+  // Gems state for custom inputs per category
+  const [customInputs, setCustomInputs] = useState({});
 
   // Story Weaver State
   const [stage, setStage] = useState(1);
   const [brainstormPrompt, setBrainstormPrompt] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSuggestingBeat, setIsSuggestingBeat] = useState(false);
+
+  // AI Pair Authoring State
+  const quillRef = useRef(null);
+  const [selectedText, setSelectedText] = useState('');
+  const [selectionRange, setSelectionRange] = useState(null);
+  const [customAiPrompt, setCustomAiPrompt] = useState('');
+
+  const handleQuillChangeSelection = (range, source, editor) => {
+    if (range && range.length > 0) {
+      setSelectionRange(range);
+      setSelectedText(editor.getText(range.index, range.length));
+    } else {
+      setSelectionRange(null);
+      setSelectedText('');
+    }
+  };
 
   // Element Forge State
   const [selectedForgeType, setSelectedForgeType] = useState('Persona');
@@ -67,15 +78,57 @@ export default function CreativePane() {
   const [forgeGeneratedOutput, setForgeGeneratedOutput] = useState('');
   const [forgeViewMode, setForgeViewMode] = useState('form');
 
-  const handleAddGem = () => {
-    if (gemInput.trim() && !creativeState.gems.includes(gemInput.trim())) {
-      updateGems([...creativeState.gems, gemInput.trim()]);
-      setGemInput('');
+  const handleToggleGem = (gem) => {
+    const currentGems = creativeState.gems || [];
+    if (currentGems.includes(gem)) {
+      updateGems(currentGems.filter(g => g !== gem));
+    } else {
+      updateGems([...currentGems, gem]);
     }
   };
 
-  const handleRemoveGem = (gem) => {
-    updateGems(creativeState.gems.filter(g => g !== gem));
+  const handleAddCustomGem = (category) => {
+    const val = (customInputs[category] || '').trim();
+    if (!val) return;
+
+    const currentCustomGems = creativeState.customGems || {};
+    const categoryCustomGems = currentCustomGems[category] || [];
+
+    let newCategoryCustomGems = categoryCustomGems;
+    if (!categoryCustomGems.includes(val)) {
+      newCategoryCustomGems = [...categoryCustomGems, val];
+      updateCreativeState({
+        customGems: {
+          ...currentCustomGems,
+          [category]: newCategoryCustomGems
+        }
+      });
+    }
+
+    const currentGems = creativeState.gems || [];
+    if (!currentGems.includes(val)) {
+      updateGems([...currentGems, val]);
+    }
+
+    setCustomInputs(prev => ({ ...prev, [category]: '' }));
+  };
+
+  const handleRemoveCustomGem = (category, gemToRemove) => {
+    const currentCustomGems = creativeState.customGems || {};
+    const categoryCustomGems = currentCustomGems[category] || [];
+    const updatedCategoryCustomGems = categoryCustomGems.filter(g => g !== gemToRemove);
+
+    updateCreativeState({
+      customGems: {
+        ...currentCustomGems,
+        [category]: updatedCategoryCustomGems
+      }
+    });
+
+    const currentGems = creativeState.gems || [];
+    if (currentGems.includes(gemToRemove)) {
+      updateGems(currentGems.filter(g => g !== gemToRemove));
+    }
   };
 
   // Weaver Actions
@@ -149,13 +202,37 @@ Format: Return a bullet point to append to the outline.`;
     }
   };
 
-  const handleGenerateDraft = async () => {
+  const handleDevelopSceneBeats = async () => {
+    setIsGenerating(true);
     setStage(3);
+    const prompt = `Develop detailed scene-by-scene beats for the following story outline:
+Outline:
+${creativeState.storyOutline}
+
+Guidance Gems: ${getActiveGemsText() || 'None'}
+
+Formatting: Provide a markdown list of detailed scene beats, focusing on character actions, emotional shifts, and sensory details.`;
+
+    try {
+      const beatsText = await generateContent({ prompt });
+      updateSceneBeats(beatsText);
+    } catch (err) {
+      alert(`Scene beats generation failed: ${err.message}`);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const handleGenerateDraft = async () => {
+    setStage(4);
     setIsGenerating(true);
     updateDraft('# Story Draft\n\n');
 
-    const prompt = `Write a full prose narrative draft based on the following plot outline and universe lore:
-Outline:
+    const prompt = `Write a prose narrative draft based on the following scene beats and universe lore:
+Scene Beats:
+${creativeState.sceneBeats}
+
+Outline Context:
 ${creativeState.storyOutline}
 
 Guidance Gems: ${getActiveGemsText() || 'None'}
@@ -173,6 +250,99 @@ Style Instructions: Immersive, vivid sensory details, sharp character dialogue, 
       });
     } catch (err) {
       alert(`Draft generation failed: ${err.message}`);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const handleGenerateNextScene = async () => {
+    setIsGenerating(true);
+    const prompt = `Write the NEXT scene in prose for the following draft, guided by the scene beats.
+Current Draft:
+${creativeState.storyDraft}
+
+Scene Beats Context:
+${creativeState.sceneBeats}
+
+Guidance Gems: ${getActiveGemsText() || 'None'}
+
+Style Instructions: Immersive, vivid sensory details, sharp character dialogue, and dramatic pacing. Use Markdown format. Respond ONLY with the new scene's text to append to the draft.`;
+
+    try {
+      let draftText = creativeState.storyDraft + '\n\n';
+      await streamContent({
+        prompt: prompt,
+        onChunk: (chunk) => {
+          draftText += chunk;
+          updateDraft(draftText);
+        }
+      });
+    } catch (err) {
+      alert(`Generation failed: ${err.message}`);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const handleContinueWriting = async () => {
+    setIsGenerating(true);
+    const prompt = `Continue writing the prose for the following draft from where it left off.
+Current Draft:
+${creativeState.storyDraft}
+
+Guidance Gems: ${getActiveGemsText() || 'None'}
+
+Style Instructions: Match the tone, immersive, vivid sensory details, sharp character dialogue. Use Markdown format. Respond ONLY with the continuation text to append.`;
+
+    try {
+      let draftText = creativeState.storyDraft + ' ';
+      await streamContent({
+        prompt: prompt,
+        onChunk: (chunk) => {
+          draftText += chunk;
+          updateDraft(draftText);
+        }
+      });
+    } catch (err) {
+      alert(`Generation failed: ${err.message}`);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const handleInlineEdit = async (actionType) => {
+    if (!selectionRange || !selectedText) return;
+    setIsGenerating(true);
+
+    let instruction = "";
+    if (actionType === 'rewrite') instruction = "Rewrite the following text to improve prose, flow, and align with the Guidance Gems.";
+    else if (actionType === 'expand') instruction = "Expand the following text with more sensory details, character interiority, and descriptive depth.";
+    else if (actionType === 'summarize') instruction = "Summarize the following text concisely.";
+    else if (actionType === 'custom') instruction = customAiPrompt;
+
+    const prompt = `${instruction}
+Selected Text:
+"${selectedText}"
+
+Guidance Gems: ${getActiveGemsText() || 'None'}
+Context Outline: ${creativeState.storyOutline.substring(0, 500)}...
+
+Format Instructions: Respond ONLY with the revised or generated text. Do not include introductory phrases like "Here is the rewrite". Use Markdown if applicable.`;
+
+    try {
+      const result = await generateContent({ prompt });
+      const quill = quillRef.current.getEditor();
+      
+      quill.deleteText(selectionRange.index, selectionRange.length);
+      quill.insertText(selectionRange.index, result.trim());
+      
+      updateDraft(quill.root.innerHTML);
+      
+      setSelectionRange(null);
+      setSelectedText('');
+      setCustomAiPrompt('');
+    } catch (err) {
+      alert(`AI Assist failed: ${err.message}`);
     } finally {
       setIsGenerating(false);
     }
@@ -255,53 +425,72 @@ Formatting: Use markdown headings, bullet points, sensory details, and psycholog
       <Split className="flex-1 flex overflow-hidden split-horizontal" sizes={[25, 75]} minSize={250} gutterSize={6}>
         {/* Left Sidebar: Guidance Gems */}
         <div className="p-4 overflow-y-auto bg-[#161b22]/50 border-r border-[#0D5C63]/30">
-          <h3 className="text-sm font-bold text-amber-400 uppercase tracking-wider mb-2">Guidance Gems</h3>
-          <p className="text-xs text-slate-400 mb-4">Gems act as global modifiers that influence AIME's creative generation.</p>
+          <h3 className="text-sm font-bold text-amber-400 uppercase tracking-wider mb-1">Guidance Gems</h3>
+          <p className="text-xs text-slate-400 mb-4">Select or add custom modifiers to shape AIME's creative output.</p>
           
-          <div className="flex flex-wrap gap-2 mb-4">
-            {creativeState.gems.map(gem => (
-              <span key={gem} className="bg-amber-900/40 border border-amber-500/50 text-amber-200 text-xs px-2 py-1 rounded-full flex items-center gap-1">
-                {gem}
-                <button onClick={() => handleRemoveGem(gem)} className="text-amber-400 hover:text-white ml-1">×</button>
-              </span>
-            ))}
-          </div>
-
-          <div className="flex gap-2 mb-4">
-            <input 
-              type="text" 
-              value={gemInput}
-              onChange={(e) => setGemInput(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleAddGem()}
-              placeholder="e.g. Hard Sci-Fi"
-              className="flex-1 bg-slate-900 border border-slate-700 text-sm px-2 py-1 rounded"
-            />
-            <button onClick={handleAddGem} className="bg-cyan-700 hover:bg-cyan-600 text-white px-2 rounded text-sm">+</button>
-          </div>
-
-          <div className="space-y-3 mb-6">
-            {Object.entries(GUIDANCE_GEMS).map(([category, gems]) => {
-              const isCommon = category.startsWith("Common");
-              const isSelectedElement = category === selectedForgeType;
-              if (!isCommon && !isSelectedElement && activeTab === 'forge') return null;
+          <div className="space-y-4 mb-6">
+            {Object.entries(GUIDANCE_GEMS).map(([category, presetGems]) => {
+              const categoryCustomGems = customGems[category] || [];
+              const allCategoryGems = [...presetGems, ...categoryCustomGems];
+              const categoryInputVal = customInputs[category] || '';
 
               return (
-                <div key={category} className="bg-slate-900/50 p-2 rounded border border-slate-800">
-                  <h4 className="text-[10px] uppercase font-bold text-slate-500 mb-2">{category}</h4>
+                <div key={category} className="bg-slate-900/60 p-3 rounded-lg border border-slate-800 flex flex-col gap-2">
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-xs uppercase font-bold text-amber-400/90 tracking-wide">{category}</h4>
+                  </div>
                   <div className="flex flex-wrap gap-1.5">
-                    {gems.map(gem => (
-                      <button 
-                        key={gem} 
-                        onClick={() => { 
-                          if (!(creativeState.gems || []).includes(gem)) {
-                            updateGems([...(creativeState.gems || []), gem]);
-                          }
-                        }}
-                        className="text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-400 px-1.5 py-0.5 rounded border border-slate-700/50 transition-colors"
-                      >
-                        {gem}
-                      </button>
-                    ))}
+                    {allCategoryGems.map(gem => {
+                      const isSelected = (creativeState.gems || []).includes(gem);
+                      const isCustom = categoryCustomGems.includes(gem);
+
+                      return (
+                        <div key={gem} className="inline-flex items-center">
+                          <button 
+                            onClick={() => handleToggleGem(gem)}
+                            className={`text-xs px-2 py-1 rounded border transition-all flex items-center gap-1 font-medium ${
+                              isSelected
+                                ? 'bg-amber-900/60 text-amber-300 border-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.25)] font-semibold'
+                                : 'bg-slate-800/80 hover:bg-slate-700 text-slate-400 border-slate-700/60'
+                            }`}
+                          >
+                            {isSelected && <span className="text-[10px] text-amber-400 font-bold">✓</span>}
+                            <span>{gem}</span>
+                          </button>
+                          {isCustom && (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleRemoveCustomGem(category, gem);
+                              }}
+                              className="text-slate-500 hover:text-red-400 ml-1 text-xs px-1"
+                              title={`Remove custom ${category} gem "${gem}"`}
+                            >
+                              ×
+                            </button>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* Add Custom User Gem for this category */}
+                  <div className="flex gap-1.5 mt-1">
+                    <input 
+                      type="text" 
+                      value={categoryInputVal}
+                      onChange={(e) => setCustomInputs(prev => ({ ...prev, [category]: e.target.value }))}
+                      onKeyDown={(e) => e.key === 'Enter' && handleAddCustomGem(category)}
+                      placeholder={`+ Custom ${category}...`}
+                      className="flex-1 bg-slate-950 border border-slate-800 focus:border-amber-500/60 text-xs px-2 py-1 rounded text-slate-200 placeholder-slate-600 outline-none"
+                    />
+                    <button 
+                      onClick={() => handleAddCustomGem(category)}
+                      className="bg-amber-800/50 hover:bg-amber-700 text-amber-200 px-2 rounded text-xs font-bold border border-amber-600/40 transition-colors"
+                      title={`Add custom ${category}`}
+                    >
+                      +
+                    </button>
                   </div>
                 </div>
               );
@@ -345,7 +534,8 @@ Formatting: Use markdown headings, bullet points, sensory details, and psycholog
               <div className="flex gap-2 mb-4">
                 <button onClick={() => setStage(1)} className={`px-3 py-1 text-sm font-bold rounded ${stage === 1 ? 'bg-cyan-700 text-white' : 'bg-slate-800 text-slate-400'}`}>1. Brainstorm</button>
                 <button onClick={() => setStage(2)} className={`px-3 py-1 text-sm font-bold rounded ${stage === 2 ? 'bg-cyan-700 text-white' : 'bg-slate-800 text-slate-400'}`}>2. Outline</button>
-                <button onClick={() => setStage(3)} className={`px-3 py-1 text-sm font-bold rounded ${stage === 3 ? 'bg-cyan-700 text-white' : 'bg-slate-800 text-slate-400'}`}>3. Prose Draft</button>
+                <button onClick={() => setStage(3)} className={`px-3 py-1 text-sm font-bold rounded ${stage === 3 ? 'bg-cyan-700 text-white' : 'bg-slate-800 text-slate-400'}`}>3. Scene Beats</button>
+                <button onClick={() => setStage(4)} className={`px-3 py-1 text-sm font-bold rounded ${stage === 4 ? 'bg-cyan-700 text-white' : 'bg-slate-800 text-slate-400'}`}>4. Prose Draft</button>
               </div>
 
               {stage === 1 && (
@@ -388,8 +578,8 @@ Formatting: Use markdown headings, bullet points, sensory details, and psycholog
                         <button onClick={handleSuggestBeat} disabled={isSuggestingBeat} className="bg-amber-700 hover:bg-amber-600 px-3 py-1 rounded text-xs font-bold disabled:opacity-50">
                           {isSuggestingBeat ? 'Suggesting...' : 'Suggest Next Beat'}
                         </button>
-                        <button onClick={handleGenerateDraft} className="bg-cyan-600 hover:bg-cyan-500 px-3 py-1 rounded text-xs font-bold">
-                          Generate Draft ➔
+                        <button onClick={handleDevelopSceneBeats} className="bg-cyan-600 hover:bg-cyan-500 px-3 py-1 rounded text-xs font-bold">
+                          Generate Scene Beats ➔
                         </button>
                       </div>
                     </div>
@@ -403,11 +593,60 @@ Formatting: Use markdown headings, bullet points, sensory details, and psycholog
               )}
 
               {stage === 3 && (
+                <div className="flex flex-col h-full gap-4 max-w-4xl">
+                  <div className="bg-[#161b22] p-4 rounded-lg border border-slate-700 flex-1 flex flex-col">
+                    <div className="flex justify-between items-center mb-2">
+                      <h3 className="font-bold text-slate-300">Scene Beats</h3>
+                      <div className="flex gap-2">
+                        <button onClick={handleGenerateDraft} className="bg-cyan-600 hover:bg-cyan-500 px-3 py-1 rounded text-xs font-bold">
+                          Generate Draft ➔
+                        </button>
+                      </div>
+                    </div>
+                    <textarea 
+                      className="w-full flex-1 bg-slate-900 border border-slate-700 rounded p-2 text-sm"
+                      value={creativeState.sceneBeats}
+                      onChange={(e) => updateSceneBeats(e.target.value)}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {stage === 4 && (
                 <div className="flex flex-col h-full max-w-5xl">
+                  <div className="flex justify-end gap-2 mb-2">
+                    <button onClick={handleGenerateNextScene} disabled={isGenerating} className="bg-amber-600 hover:bg-amber-500 px-3 py-1 rounded text-xs font-bold disabled:opacity-50">
+                      Generate Next Scene
+                    </button>
+                    <button onClick={handleContinueWriting} disabled={isGenerating} className="bg-cyan-600 hover:bg-cyan-500 px-3 py-1 rounded text-xs font-bold disabled:opacity-50">
+                      Continue Writing
+                    </button>
+                  </div>
+                  {selectedText && (
+                    <div className="bg-slate-800 p-2 mb-2 rounded border border-amber-900 flex flex-wrap gap-2 items-center">
+                      <span className="text-xs text-amber-500 font-bold uppercase tracking-wider mr-2">AI Assist:</span>
+                      <button onClick={() => handleInlineEdit('rewrite')} disabled={isGenerating} className="bg-slate-700 hover:bg-slate-600 px-2 py-1 rounded text-xs font-bold">Rewrite</button>
+                      <button onClick={() => handleInlineEdit('expand')} disabled={isGenerating} className="bg-slate-700 hover:bg-slate-600 px-2 py-1 rounded text-xs font-bold">Expand</button>
+                      <button onClick={() => handleInlineEdit('summarize')} disabled={isGenerating} className="bg-slate-700 hover:bg-slate-600 px-2 py-1 rounded text-xs font-bold">Summarize</button>
+                      
+                      <div className="flex gap-1 flex-1 min-w-[200px]">
+                        <input 
+                          type="text" 
+                          value={customAiPrompt}
+                          onChange={(e) => setCustomAiPrompt(e.target.value)}
+                          placeholder="Custom instruction..."
+                          className="flex-1 bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs text-white"
+                        />
+                        <button onClick={() => handleInlineEdit('custom')} disabled={isGenerating || !customAiPrompt} className="bg-amber-700 hover:bg-amber-600 px-2 py-1 rounded text-xs font-bold disabled:opacity-50">Apply</button>
+                      </div>
+                    </div>
+                  )}
                   <ReactQuill 
+                    ref={quillRef}
                     theme="snow"
                     value={creativeState.storyDraft}
                     onChange={updateDraft}
+                    onChangeSelection={handleQuillChangeSelection}
                     className="flex-1 bg-slate-900 border border-slate-700 rounded overflow-hidden quill-editor prose-editor"
                   />
                 </div>
