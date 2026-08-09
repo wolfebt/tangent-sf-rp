@@ -50,6 +50,7 @@ export const DBMHeader = ({
 
   return (
     <header className="bg-[#0d1117] border-b border-[#0D5C63]/50 px-4 sm:px-6 py-2.5 flex items-center justify-between backdrop-blur-md shrink-0">
+      {/* Left section */}
       <div className="flex items-center gap-3 sm:gap-4">
         {/* Mobile 3bar Menu Toggle Button */}
         <button
@@ -89,6 +90,25 @@ export const DBMHeader = ({
             ►
           </button>
         </div>
+      </div>
+
+      {/* Right section */}
+      <div className="flex items-center gap-3">
+        {/* RBAC Role Indicator Badge */}
+        {currentUser && (
+          <div 
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-bold border uppercase tracking-wide ${
+              isAdmin 
+                ? 'bg-amber-950/80 border-amber-500/50 text-amber-300 shadow-sm' 
+                : 'bg-slate-800/80 border-slate-600 text-slate-400'
+            }`}
+            title={isAdmin ? "Full write privileges active" : "Read-only access mode"}
+          >
+            <span>{isAdmin ? '🛡️' : '👁️'}</span>
+            <span>{userRole || (isAdmin ? 'GM / Admin' : 'Player')}</span>
+          </div>
+        )}
+
         {/* System Actions Dropdown Menu */}
         <div className="relative" ref={menuRef}>
           <button
@@ -237,6 +257,3 @@ export const DBMHeader = ({
     </header>
   );
 };
-
-
-
