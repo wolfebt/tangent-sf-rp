@@ -1,8 +1,9 @@
 import React, { createContext, useContext, useState, useCallback, useEffect, useMemo } from 'react';
 import { characterSchema } from '../components/Folio/schema';
 import { db, auth } from '../firebase';
-import { collection, doc, setDoc, getDoc, getDocs, onSnapshot, deleteDoc } from 'firebase/firestore';
+import { collection, doc, setDoc, getDoc, getDocs, onSnapshot, deleteDoc, collectionGroup, query, where } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
+import { attachCreatorTag } from '../utils/creatorUtils';
 
 const FolioContext = createContext(null);
 
@@ -16,6 +17,9 @@ export const useFolio = () => {
 
 const DEFAULT_CHARACTER = {
   'character-doc-id': '',
+  isPublic: false,
+  authorHandle: '',
+  ownerUid: '',
   'char-name': '',
   'char-concept': '',
   'char-species': '',
@@ -68,6 +72,8 @@ export const FolioProvider = ({ children }) => {
   // Cloud Save Status state: 'saved' | 'saving' | 'offline' | 'error'
   const [cloudSaveStatus, setCloudSaveStatus] = useState('saved');
   const [lastSavedTime, setLastSavedTime] = useState(null);
+  const [isReadOnly, setIsReadOnly] = useState(false);
+  const [publicCatalog, setPublicCatalog] = useState([]);
 
   // Character Roster State — primary source is Firestore; localStorage is secondary offline cache
   const [personaRoster, setPersonaRoster] = useState(() => {
@@ -79,6 +85,34 @@ export const FolioProvider = ({ children }) => {
     }
     return [];
   });
+
+  // Check URL query parameters for direct public persona view (?user=UID&id=PERSONAID)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const targetUid = params.get('user');
+    const targetDocId = params.get('id');
+
+    if (targetUid && targetDocId) {
+      const docRef = doc(db, `users/${targetUid}/personas`, targetDocId);
+      getDoc(docRef).then((snap) => {
+        if (snap.exists()) {
+          const data = snap.data();
+          const isOwner = auth.currentUser && auth.currentUser.uid === targetUid;
+          if (data.isPublic || isOwner) {
+            const parsed = characterSchema.parse(data);
+            setCharacterData(parsed);
+            setIsReadOnly(!isOwner);
+          } else {
+            alert('This persona is private and cannot be viewed.');
+          }
+        } else {
+          alert('Requested persona document was not found.');
+        }
+      }).catch((err) => {
+        console.warn('Failed to fetch public persona:', err);
+      });
+    }
+  }, []);
 
   // Real-time Firestore listener for persona roster
   // Uses onAuthStateChanged so we wait for async Firebase Auth to resolve
@@ -100,7 +134,7 @@ export const FolioProvider = ({ children }) => {
       // User is authenticated — subscribe to their persona roster in Firestore
       const personasRef = collection(db, `users/${user.uid}/personas`);
       firestoreUnsub = onSnapshot(personasRef, (snapshot) => {
-        const personas = snapshot.docs.map(d => ({ ...d.data(), 'character-doc-id': d.id }));
+        const personas = snapshot.docs.map(d => ({ ...d.data(), 'character-doc-id': d.id, ownerUid: user.uid }));
         setPersonaRoster(personas);
         // Mirror to localStorage as offline cache
         try {
@@ -128,6 +162,8 @@ export const FolioProvider = ({ children }) => {
       return;
     }
 
+    if (isReadOnly) return; // Read-only mode prevents overwriting public sheets
+
     const user = auth.currentUser;
     if (!user) {
       setCloudSaveStatus('offline');
@@ -139,11 +175,12 @@ export const FolioProvider = ({ children }) => {
     const timer = setTimeout(async () => {
       try {
         const docId = characterData['character-doc-id'] || `char_${Date.now()}`;
-        const updatedData = {
+        const rawData = {
           ...characterData,
           'character-doc-id': docId,
           updatedAt: new Date().toISOString()
         };
+        const updatedData = attachCreatorTag(rawData, localStorage.getItem('userHandle'), user);
 
         if (!characterData['character-doc-id']) {
           setCharacterData(prev => ({ ...prev, 'character-doc-id': docId }));
@@ -209,9 +246,16 @@ export const FolioProvider = ({ children }) => {
 
   // Roster Management Actions
   const saveCurrentToRoster = useCallback(async () => {
+    const user = auth.currentUser;
     const name = characterData['char-name'] || 'Unnamed Operative';
     const docId = characterData['character-doc-id'] || `char_${Date.now()}`;
-    const updatedData = { ...characterData, 'character-doc-id': docId, updatedAt: new Date().toISOString() };
+    const rawData = {
+      ...characterData,
+      'character-doc-id': docId,
+      ownerUid: user ? user.uid : 'local',
+      updatedAt: new Date().toISOString()
+    };
+    const updatedData = attachCreatorTag(rawData, localStorage.getItem('userHandle'), user);
 
     // Optimistic local update
     setPersonaRoster(prev => {
@@ -223,10 +267,17 @@ export const FolioProvider = ({ children }) => {
       }
       return [...prev, updatedData];
     });
+
+    if (updatedData.isPublic) {
+      setPublicCatalog(prev => {
+        const filtered = prev.filter(c => c['character-doc-id'] !== docId);
+        return [updatedData, ...filtered];
+      });
+    }
+
     updateField('character-doc-id', docId);
 
     // Persist to Firestore
-    const user = auth.currentUser;
     if (user) {
       try {
         const docRef = doc(db, `users/${user.uid}/personas`, docId);
@@ -241,7 +292,111 @@ export const FolioProvider = ({ children }) => {
     const found = personaRoster.find(c => c['character-doc-id'] === docId);
     if (found) {
       setCharacterData(found);
+      setIsReadOnly(false);
     }
+  }, [personaRoster]);
+
+  const togglePersonaVisibility = useCallback(async (docId, targetIsPublic) => {
+    const user = auth.currentUser;
+    const currentDocId = characterData['character-doc-id'];
+
+    const foundInRoster = personaRoster.find(c => c['character-doc-id'] === docId);
+    const baseObj = (currentDocId === docId || !currentDocId) ? characterData : (foundInRoster || {});
+
+    const updated = attachCreatorTag({
+      ...baseObj,
+      'character-doc-id': docId,
+      isPublic: targetIsPublic,
+      ownerUid: user ? user.uid : 'local',
+      updatedAt: new Date().toISOString()
+    }, localStorage.getItem('userHandle'), user);
+    
+    if (currentDocId === docId || !currentDocId) {
+      setCharacterData(updated);
+    }
+
+    setPersonaRoster(prev => prev.map(c => {
+      if (c['character-doc-id'] === docId) {
+        return updated;
+      }
+      return c;
+    }));
+
+    setPublicCatalog(prev => {
+      const filtered = prev.filter(c => c['character-doc-id'] !== docId);
+      if (targetIsPublic) {
+        return [updated, ...filtered];
+      }
+      return filtered;
+    });
+
+    if (user) {
+      try {
+        const docRef = doc(db, `users/${user.uid}/personas`, docId);
+        await setDoc(docRef, updated);
+      } catch (err) {
+        console.warn('Failed to update persona visibility in cloud:', err);
+      }
+    }
+  }, [characterData, personaRoster]);
+
+  const clonePublicPersona = useCallback(() => {
+    const user = auth.currentUser;
+    const name = characterData['char-name'] || 'Cloned Operative';
+    const newDocId = `char_${Date.now()}`;
+    const rawCloned = {
+      ...characterData,
+      'character-doc-id': newDocId,
+      'char-name': `${name} (Copy)`,
+      isPublic: false,
+      ownerUid: user ? user.uid : 'local',
+      updatedAt: new Date().toISOString()
+    };
+    const cloned = attachCreatorTag(rawCloned, localStorage.getItem('userHandle'), user);
+
+    setCharacterData(cloned);
+    setIsReadOnly(false);
+
+    if (window.history.replaceState) {
+      const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+      window.history.replaceState({ path: cleanUrl }, '', cleanUrl);
+    }
+
+    // Save cloned character to local roster & cloud
+    saveCurrentToRoster();
+    alert(`Successfully cloned "${name}" to your local operative roster!`);
+  }, [characterData, saveCurrentToRoster]);
+
+  const loadPublicPersonas = useCallback(async () => {
+    let cloudPublicItems = [];
+    try {
+      const q = query(collectionGroup(db, 'personas'), where('isPublic', '==', true));
+      const snap = await getDocs(q);
+      cloudPublicItems = snap.docs.map(d => {
+        const data = d.data();
+        const pathSegments = d.ref.path.split('/');
+        const ownerUid = pathSegments[1] || data.ownerUid || '';
+        return {
+          ...data,
+          'character-doc-id': d.id,
+          ownerUid
+        };
+      });
+    } catch (err) {
+      console.warn('Failed to load public personas via collectionGroup query:', err);
+    }
+
+    const localPublic = personaRoster.filter(c => c.isPublic === true);
+    const map = new Map(cloudPublicItems.map(item => [item['character-doc-id'], item]));
+    localPublic.forEach(item => {
+      if (!map.has(item['character-doc-id'])) {
+        map.set(item['character-doc-id'], item);
+      }
+    });
+
+    const merged = Array.from(map.values());
+    setPublicCatalog(merged);
+    return merged;
   }, [personaRoster]);
 
   const deleteRosterCharacter = useCallback(async (docId) => {
@@ -320,6 +475,22 @@ export const FolioProvider = ({ children }) => {
       return {
         ...prev,
         [key]: [...currentList, item]
+      };
+    });
+  }, []);
+
+  // Update Item Handler (by index)
+  const handleUpdateItem = useCallback((key, index, item) => {
+    setCharacterData((prev) => {
+      const currentList = Array.isArray(prev[key]) ? [...prev[key]] : [];
+      if (index >= 0 && index < currentList.length) {
+        currentList[index] = item;
+      } else {
+        currentList.push(item);
+      }
+      return {
+        ...prev,
+        [key]: currentList
       };
     });
   }, []);
@@ -884,6 +1055,7 @@ export const FolioProvider = ({ children }) => {
         characterData,
         updateField,
         handleAddItem,
+        handleUpdateItem,
         handleAddSkill,
         handleDeleteSkill,
         handleAddSpecialization,
@@ -904,7 +1076,12 @@ export const FolioProvider = ({ children }) => {
         duplicateRosterCharacter,
         cloudSaveStatus,
         lastSavedTime,
-        updateRosterCharacterNote
+        updateRosterCharacterNote,
+        isReadOnly,
+        publicCatalog,
+        togglePersonaVisibility,
+        clonePublicPersona,
+        loadPublicPersonas
       }}
     >
       {children}

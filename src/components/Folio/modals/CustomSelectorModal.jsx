@@ -10,16 +10,16 @@ const FALLBACK_DATA = {
   factions: [],
   features: [],
   disadvantages: [],
+  augmentations: [],
   equipment: [],
   prerequisites: [],
   modifiers: []
 };
 
-const CustomSelectorModal = ({ isOpen, onClose, modalConfig, onSelectItem }) => {
+const CustomSelectorModal = ({ isOpen, onClose, modalConfig, onSelectItem, onOpenAssetModal }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [dbItems, setDbItems] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [manualInput, setManualInput] = useState('');
 
   const { title = 'Entry', browsePath, filterCategory, filterCategoryExclude } = modalConfig || {};
 
@@ -106,12 +106,11 @@ const CustomSelectorModal = ({ isOpen, onClose, modalConfig, onSelectItem }) => 
     onClose();
   };
 
-  const handleManualSubmit = (e) => {
-    if (e) e.preventDefault();
-    if (!manualInput.trim()) return;
-    onSelectItem(modalConfig.key, manualInput.trim());
-    setManualInput('');
+  const handleBuildDbAsset = () => {
     onClose();
+    if (onOpenAssetModal) {
+      onOpenAssetModal(modalConfig.key, title, 'create', null, { category: browsePath });
+    }
   };
 
   return (
@@ -120,15 +119,33 @@ const CustomSelectorModal = ({ isOpen, onClose, modalConfig, onSelectItem }) => 
         
         {/* Header */}
         <div className="flex justify-between items-center border-b border-cyan-900/60 pb-3">
-          <h3 className="text-base font-bold uppercase tracking-wider text-cyan-400">
-            Database Browser: {title}
-          </h3>
-          <button
-            onClick={onClose}
-            className="text-slate-400 hover:text-white text-xl font-bold leading-none cursor-pointer"
-          >
-            &times;
-          </button>
+          <div>
+            <h3 className="text-base font-bold uppercase tracking-wider text-cyan-400">
+              Database Browser: {title}
+            </h3>
+            <p className="text-[11px] text-slate-400">
+              Search global database entries or build a new entry directly.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2">
+            {onOpenAssetModal && (
+              <button
+                type="button"
+                onClick={handleBuildDbAsset}
+                className="px-3 py-1.5 bg-amber-950/80 hover:bg-amber-900 border border-amber-500/60 text-amber-300 rounded text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-1 cursor-pointer"
+                title={`Build and save a new ${title} entry to the global database`}
+              >
+                <span>⚙️</span> Build DB Entry
+              </button>
+            )}
+            <button
+              onClick={onClose}
+              className="text-slate-400 hover:text-white text-xl font-bold leading-none cursor-pointer ml-1"
+            >
+              &times;
+            </button>
+          </div>
         </div>
 
         {/* Search Bar with Explicit Search DB Button */}
@@ -160,9 +177,17 @@ const CustomSelectorModal = ({ isOpen, onClose, modalConfig, onSelectItem }) => 
         {/* Database Items List */}
         <div className="bg-slate-950/80 border border-slate-800 rounded max-h-64 overflow-y-auto divide-y divide-slate-800/60 p-1">
           {filteredItems.length === 0 ? (
-            <div className="p-6 text-center space-y-2">
-              <div className="text-xs text-slate-400 italic">No matching database entries found.</div>
-              <div className="text-[11px] text-cyan-400">Use the custom entry box below to add any custom {title.toLowerCase()} directly!</div>
+            <div className="p-6 text-center space-y-3">
+              <div className="text-xs text-slate-400 italic">No matching database entries found for "{searchTerm || title}".</div>
+              {onOpenAssetModal && (
+                <button
+                  type="button"
+                  onClick={handleBuildDbAsset}
+                  className="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded text-xs uppercase tracking-wider cursor-pointer inline-flex items-center gap-1.5 shadow-md"
+                >
+                  <span>⚙️</span> Build New {title} DB Entry
+                </button>
+              )}
             </div>
           ) : (
             filteredItems.map((item, idx) => (
@@ -192,22 +217,19 @@ const CustomSelectorModal = ({ isOpen, onClose, modalConfig, onSelectItem }) => 
           )}
         </div>
 
-        {/* Manual Custom Input Option */}
-        <form onSubmit={handleManualSubmit} className="pt-2 border-t border-slate-800 flex items-center gap-2">
-          <input
-            type="text"
-            value={manualInput}
-            onChange={(e) => setManualInput(e.target.value)}
-            placeholder={`✍️ Enter custom ${title.toLowerCase()} name...`}
-            className="flex-1 bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded px-3 py-1.5 text-xs text-slate-100 outline-none"
-          />
+        {/* Modal Footer */}
+        <div className="pt-2 border-t border-slate-800 flex justify-between items-center text-xs">
+          <span className="text-[11px] text-slate-500">
+            Found {filteredItems.length} {filteredItems.length === 1 ? 'entry' : 'entries'} in <span className="font-mono text-cyan-400">{browsePath}</span>
+          </span>
           <button
-            type="submit"
-            className="px-4 py-1.5 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-bold uppercase tracking-wider cursor-pointer"
+            type="button"
+            onClick={onClose}
+            className="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-xs font-bold uppercase tracking-wider cursor-pointer"
           >
-            + Add Custom
+            Close
           </button>
-        </form>
+        </div>
 
       </div>
     </div>

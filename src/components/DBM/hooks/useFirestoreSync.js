@@ -3,6 +3,8 @@ import { db, auth } from '../../../firebase';
 import { collection, onSnapshot, doc, setDoc, deleteDoc, writeBatch, getDoc } from 'firebase/firestore';
 import { categoryConfig } from '../categoryConfig';
 
+import { attachCreatorTag } from '../../../utils/creatorUtils';
+
 export const useFirestoreSync = (currentKey, currentUser = auth.currentUser) => {
   const [dbData, setDbData] = useState({});
 
@@ -79,12 +81,13 @@ export const useFirestoreSync = (currentKey, currentUser = auth.currentUser) => 
     }
   }, [currentKey]);
 
-  const saveEntry = useCallback(async (payload, key = currentKey) => {
-    const docId = payload.id;
+  const saveEntry = useCallback(async (rawPayload, key = currentKey) => {
     if (!currentUser) {
       console.error('Save failed: No authenticated user session found.');
       return false;
     }
+    const payload = attachCreatorTag(rawPayload, null, currentUser);
+    const docId = payload.id;
     
     // Backup current state for rollback
     const previousState = { ...dbData };
@@ -143,7 +146,8 @@ export const useFirestoreSync = (currentKey, currentUser = auth.currentUser) => 
 
     const preparedList = list.map(item => {
       const docId = item.id || `entry_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
-      return { ...item, id: docId, updatedAt: new Date().toISOString() };
+      const tagged = attachCreatorTag(item, null, currentUser);
+      return { ...tagged, id: docId, updatedAt: new Date().toISOString() };
     });
 
     setDbData(prev => {

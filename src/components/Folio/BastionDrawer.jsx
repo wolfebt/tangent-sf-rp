@@ -11,7 +11,12 @@ const CHARACTER_FIELDS = [
   { key: 'char-faction', label: 'Faction Allegiance' },
   { key: 'char-motive', label: 'Motivation & Goals' },
   { key: 'char-style', label: 'Aesthetic / Style' },
-  { key: 'notes', label: 'Backstory & Tactical Notes' }
+  { key: 'notes', label: 'Tactical Notes' },
+  { key: 'narrative-backstory', label: 'Backstory & Origins' },
+  { key: 'narrative-psychology', label: 'Psychology & Personality' },
+  { key: 'narrative-arcs', label: 'Character Arcs & Goals' },
+  { key: 'narrative-relationships', label: 'Relationships & Bonds' },
+  { key: 'narrative-secrets', label: 'Secrets & Flaws' }
 ];
 
 const PRESETS = [
@@ -86,7 +91,11 @@ const BastionDrawer = ({ isOpen, onClose }) => {
     }
 
     setIsChatLoading(true);
-    const response = await sendBastionChatMessage({ prompt: userText, history: messages });
+    const response = await sendBastionChatMessage({ 
+      prompt: userText, 
+      history: messages,
+      contextData: { activeCharacter: characterData } 
+    });
     setIsChatLoading(false);
 
     setMessages(prev => [...prev, { sender: 'bastion', text: response.text }]);

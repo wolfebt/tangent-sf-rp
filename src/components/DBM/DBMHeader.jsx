@@ -9,7 +9,8 @@ export const DBMHeader = ({
   handleForward,
   setIsBastionOpen,
   handleExportMasterJSON,
-  handleImportMasterJSON
+  handleImportMasterJSON,
+  navigateToCategory
 }) => {
   const navigate = useNavigate();
   const { currentUser, userHandle, confirmLogout, loginWithGoogle, isAdmin, userRole, adminOverride, toggleAdminOverride } = useAuth();
@@ -63,6 +64,14 @@ export const DBMHeader = ({
             ►
           </button>
         </div>
+        {/* User Guide Book Icon */}
+        <button
+          onClick={() => navigateToCategory && navigateToCategory('user_guide')}
+          className="p-1.5 px-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-amber-300 rounded text-xs font-bold transition-colors border border-slate-700 hover:border-amber-500/50"
+          title="User Guide & System Documentation"
+        >
+          📖
+        </button>
       </div>
 
       <div className="flex items-center gap-3">

@@ -120,7 +120,15 @@ const BastionDrawer = ({ isOpen, onClose, initialTab = 'chat' }) => {
     }
 
     setIsChatLoading(true);
-    const response = await sendBastionChatMessage({ prompt: userText, history: chatMessages });
+    const response = await sendBastionChatMessage({ 
+      prompt: userText, 
+      history: chatMessages,
+      contextData: {
+        activeScenarioId,
+        activeNode: activeNode ? { title: activeNode.title, type: activeNode.type, content: activeNode.content, fields: activeNode.fields } : null,
+        campaign: { projectName: universeState.projectName }
+      }
+    });
     setIsChatLoading(false);
 
     setChatMessages(prev => [...prev, { sender: 'bastion', text: response.text }]);

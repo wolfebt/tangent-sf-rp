@@ -2,12 +2,14 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ScenarioPane from '../components/StoryFoundry/ScenarioPane';
 import MapPane from '../components/StoryFoundry/MapPane';
+import CreativePane from '../components/StoryFoundry/CreativePane';
 import BastionDrawer from '../components/StoryFoundry/BastionDrawer';
 import FoundryLauncherModal from '../components/StoryFoundry/FoundryLauncherModal';
 import SyncConflictModal from '../components/StoryFoundry/SyncConflictModal';
 import { useStory, useCampaign } from '../context/CampaignContext';
 import { useAuth } from '../context/AuthContext';
 import { exportElementJSON, exportElementMarkdown, exportElementPDF, deleteElementConfirm } from '../components/StoryFoundry/exportUtils';
+import { StoryFoundryGuideModal } from '../components/StoryFoundry/StoryFoundryGuideModal';
 import './StoryFoundry.css';
 
 const StoryFoundry = () => {
@@ -69,6 +71,9 @@ const StoryFoundry = () => {
 
   // Tab State: 'story' | 'map'
   const [activeTab, setActiveTab] = useState('story');
+
+  // Guide Modal State
+  const [isGuideOpen, setIsGuideOpen] = useState(false);
 
   // BASTION AI State
   const [isBastionOpen, setIsBastionOpen] = useState(false);
@@ -146,6 +151,15 @@ const StoryFoundry = () => {
           <span className="text-[0.85rem] leading-none">SCIENCE FANTASY ROLEPLAY</span>
           <span className="text-[1.25rem] font-bold leading-none">STORY FOUNDRY</span>
         </div>
+
+        {/* User Guide Book Icon */}
+        <button
+          onClick={() => setIsGuideOpen(true)}
+          className="p-1.5 px-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-amber-300 rounded text-xs font-bold transition-colors border border-slate-700 hover:border-amber-500/50 shrink-0"
+          title="User Guide & System Documentation"
+        >
+          📖
+        </button>
         
         {/* Navigation Tabs */}
         <div className="flex bg-[#161b22]/80 rounded-lg p-1 border border-[#0D5C63]/60 shadow-inner">
@@ -168,6 +182,16 @@ const StoryFoundry = () => {
             onClick={() => setActiveTab('map')}
           >
             Map Maker
+          </button>
+          <button 
+            className={`px-4 py-1.5 text-xs font-bold uppercase tracking-wider rounded-md transition-all ${
+              activeTab === 'creative' 
+                ? 'bg-amber-900/60 text-amber-300 border border-amber-500/60 shadow-[0_0_10px_rgba(251,191,36,0.3)]' 
+                : 'text-slate-400 hover:text-white hover:bg-slate-900'
+            }`}
+            onClick={() => setActiveTab('creative')}
+          >
+            AIME
           </button>
         </div>
 
@@ -536,7 +560,7 @@ const StoryFoundry = () => {
           <div className="h-full w-full">
             <ScenarioPane onOpenBastion={handleOpenBastion} onSwitchTab={setActiveTab} />
           </div>
-        ) : (
+        ) : activeTab === 'map' ? (
           <div className="h-full w-full relative">
             <MapPane mapExportPngRef={mapExportPngRef} />
             {/* Bottom-left Bastion toggle button in Map Maker view */}
@@ -549,7 +573,11 @@ const StoryFoundry = () => {
               </button>
             </div>
           </div>
-        )}
+        ) : activeTab === 'creative' ? (
+          <div className="h-full w-full relative">
+            <CreativePane />
+          </div>
+        ) : null}
 
         {/* BASTION AI Drawer */}
         <BastionDrawer 
@@ -731,6 +759,12 @@ const StoryFoundry = () => {
           onOverwrite={resolveConflictOverwrite}
           onPull={resolveConflictPull}
           onCancel={resolveConflictCancel}
+        />
+
+        {/* Story Foundry User Guide Modal */}
+        <StoryFoundryGuideModal
+          isOpen={isGuideOpen}
+          onClose={() => setIsGuideOpen(false)}
         />
       </div>
     </div>

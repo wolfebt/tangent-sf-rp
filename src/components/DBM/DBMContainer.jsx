@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { categoryConfig } from './categoryConfig';
 import { db } from '../../firebase';
 import { collection, getDocs } from 'firebase/firestore';
@@ -16,13 +17,15 @@ import { DBMItemModal } from './DBMItemModal';
 
 import { useDBMHistory } from './hooks/useDBMHistory';
 import { useFirestoreSync } from './hooks/useFirestoreSync';
-import { fetchGeminiContent, getGeminiApiKey } from '../../services/bastionService';
+import { fetchGeminiContent, getGeminiApiKey, sendBastionChatMessage } from '../../services/bastionService';
+import { attachCreatorTag } from '../../utils/creatorUtils';
 
 const EMPTY_CONFIG = {};
 
 export const DBMContainer = () => {
-  const { currentUser, loginWithGoogle, isAdmin } = useAuth();
+  const { currentUser, userHandle, loginWithGoogle, isAdmin } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
+  const [searchParams] = useSearchParams();
 
   const {
     activeCategory, setActiveCategory,
@@ -30,6 +33,13 @@ export const DBMContainer = () => {
     history, historyIndex,
     navigateToCategory, handleBack, handleForward
   } = useDBMHistory('rules_codex', () => setSearchTerm(''));
+
+  // Auto-navigate to user guide if ?guide=1 is in URL
+  useEffect(() => {
+    if (searchParams.get('guide') === '1') {
+      navigateToCategory('user_guide');
+    }
+  }, [searchParams]);
 
   const [sortField, setSortField] = useState('name');
   const [sortAsc, setSortAsc] = useState(true);
@@ -54,6 +64,14 @@ export const DBMContainer = () => {
 
   // Currently active configuration
   const currentKey = activeSubcategory || activeCategory;
+
+  // Reset filters when switching active category or subcategory
+  useEffect(() => {
+    setFilterTL('ALL');
+    setFilterML('ALL');
+    setFilterType('ALL');
+  }, [currentKey]);
+
   const parentConfig = categoryConfig[activeCategory];
   const currentConfig = (activeSubcategory && parentConfig?.subcategories?.[activeSubcategory])
     || categoryConfig[currentKey]
@@ -74,7 +92,9 @@ export const DBMContainer = () => {
       (item.name && item.name.toLowerCase().includes(term)) ||
       (item.description && item.description.toLowerCase().includes(term)) ||
       (item.type && item.type.toLowerCase().includes(term)) ||
-      (item.category && item.category.toLowerCase().includes(term))
+      (item.category && item.category.toLowerCase().includes(term)) ||
+      (Array.isArray(item.tags) && item.tags.some(t => typeof t === 'string' && t.toLowerCase().includes(term))) ||
+      (typeof item.tags === 'string' && item.tags.toLowerCase().includes(term))
     );
   }).sort((a, b) => {
     const valA = (a[sortField] || '').toString().toLowerCase();
@@ -133,7 +153,8 @@ export const DBMContainer = () => {
       return;
     }
     const docId = selectedItem?.id || editFormData.id || `entry_${Date.now()}`;
-    const payload = { ...editFormData, name: editFormData.name.trim(), id: docId, updatedAt: new Date().toISOString() };
+    const taggedData = attachCreatorTag(editFormData, userHandle, currentUser);
+    const payload = { ...taggedData, name: taggedData.name.trim(), id: docId, updatedAt: new Date().toISOString() };
 
     const success = await saveEntry(payload, currentKey);
     if (success) {
@@ -292,23 +313,21 @@ export const DBMContainer = () => {
     }
 
     try {
-      const data = await fetchGeminiContent(key, {
-        contents: [
-          {
-            role: 'user',
-            parts: [{ text: `You are Bastion, a tactical AI assistant for the Tangent Science Fantasy Roleplaying Game (SFF RPG). Always address the user as "ARCHITECT" (the Game Master / referee / universe creator). Answer concisely, in character, with clear game mechanics and database management guidance based on the following user prompt: ${userPrompt}` }]
-          }
-        ]
+      const response = await sendBastionChatMessage({
+        prompt: userPrompt,
+        history: bastionMessages,
+        contextData: { 
+          activeDatabaseCategory: currentKey,
+          selectedEntryData: editFormData
+        }
       });
-
-      const replyText = data?.candidates?.[0]?.content?.parts?.[0]?.text || "Unable to parse response from Bastion AI.";
 
       setBastionMessages(prev => [
         ...prev,
-        { role: 'model', text: replyText }
+        { role: 'model', text: response.text }
       ]);
     } catch (err) {
-      console.warn("Bastion Gemini API error:", err);
+      console.warn("Bastion API error:", err);
       setBastionMessages(prev => [
         ...prev,
         { role: 'model', text: `🤖 **Bastion Connection Error**: ${err.message}` }
@@ -320,7 +339,7 @@ export const DBMContainer = () => {
     key => !categoryConfig[key].hideFromMenu && !categoryConfig[key].parent
   );
   const devCategories = Object.keys(categoryConfig).filter(
-    key => categoryConfig[key].hideFromMenu
+    key => categoryConfig[key].hideFromMenu && !categoryConfig[key].hideFromDevMenu
   );
 
   // Auth gate — show login screen if user is not authenticated
@@ -365,6 +384,7 @@ export const DBMContainer = () => {
         setIsBastionOpen={setIsBastionOpen}
         handleExportMasterJSON={handleExportMasterJSON}
         handleImportMasterJSON={handleImportMasterJSON}
+        navigateToCategory={navigateToCategory}
       />
 
       {/* Main App Layout */}
@@ -382,37 +402,45 @@ export const DBMContainer = () => {
         {/* Right Main Content Panel */}
         <main className="flex-1 bg-[#0d1117] flex flex-col overflow-hidden relative p-6">
           {/* Subcategory Pills Bar (if available and not parent landing) */}
-          {categoryConfig[activeCategory]?.subcategories && !categoryConfig[activeCategory]?.hideSubcategoryNav && (
-            <div className="flex gap-2 mb-4 border-b border-slate-800 pb-3">
-              <button
-                onClick={() => setActiveSubcategory(null)}
-                className={`px-4 py-1.5 text-xs font-bold uppercase tracking-wider rounded transition-all ${
-                  !activeSubcategory
-                    ? 'bg-amber-600 text-white shadow-md'
-                    : 'bg-slate-800 text-slate-400 hover:text-white'
-                }`}
-              >
-                Overview
-              </button>
-              {Object.keys(categoryConfig[activeCategory].subcategories).map(subKey => {
-                const subConfig = categoryConfig[activeCategory].subcategories[subKey];
-                const isSubActive = activeSubcategory === subKey;
-                return (
-                  <button
-                    key={subKey}
-                    onClick={() => setActiveSubcategory(subKey)}
-                    className={`px-4 py-1.5 text-xs font-bold uppercase tracking-wider rounded transition-all ${
-                      isSubActive
-                        ? 'bg-amber-600 text-white shadow-md'
-                        : 'bg-slate-800 text-slate-400 hover:text-white'
-                    }`}
-                  >
-                    {subConfig.label}
-                  </button>
-                );
-              })}
-            </div>
-          )}
+          {(() => {
+            const catForPills = categoryConfig[activeCategory]?.subcategories ? categoryConfig[activeCategory] : (categoryConfig[currentKey]?.subcategories ? categoryConfig[currentKey] : null);
+            if (!catForPills?.subcategories || catForPills.hideSubcategoryNav) return null;
+            // Hide tabs for Property sub-items (Gear, Weaponry, Armoring, Mecha, Other)
+            if (catForPills.parent === 'personal_property') return null;
+            const parentKeyForNav = catForPills === categoryConfig[activeCategory] ? activeCategory : currentKey;
+
+            return (
+              <div className="flex gap-2 mb-4 border-b border-slate-800 pb-3 overflow-x-auto shrink-0">
+                <button
+                  onClick={() => navigateToCategory(parentKeyForNav, null)}
+                  className={`px-4 py-1.5 text-xs font-bold uppercase tracking-wider rounded transition-all shrink-0 ${
+                    !activeSubcategory || activeSubcategory === parentKeyForNav
+                      ? 'bg-amber-600 text-white shadow-md'
+                      : 'bg-slate-800 text-slate-400 hover:text-white'
+                  }`}
+                >
+                  Overview
+                </button>
+                {Object.keys(catForPills.subcategories).map(subKey => {
+                  const subConfig = catForPills.subcategories[subKey];
+                  const isSubActive = activeSubcategory === subKey;
+                  return (
+                    <button
+                      key={subKey}
+                      onClick={() => navigateToCategory(parentKeyForNav, subKey)}
+                      className={`px-4 py-1.5 text-xs font-bold uppercase tracking-wider rounded transition-all shrink-0 ${
+                        isSubActive
+                          ? 'bg-amber-600 text-white shadow-md'
+                          : 'bg-slate-800 text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      {subConfig.label}
+                    </button>
+                  );
+                })}
+              </div>
+            );
+          })()}
 
           {/* VIEW TYPE: PARENT LANDING PAGE */}
           {(currentConfig.isParent || currentConfig.viewType === 'landing') && (

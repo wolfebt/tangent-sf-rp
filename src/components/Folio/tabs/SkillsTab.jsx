@@ -207,6 +207,59 @@ const RIGHT_COLUMN_CONFIG = [
   }
 ];
 
+const CATEGORY_CONFIG_MAP = {
+  physical: LEFT_COLUMN_CONFIG[0],
+  mental: LEFT_COLUMN_CONFIG[1],
+  social: RIGHT_COLUMN_CONFIG[0],
+  combat: RIGHT_COLUMN_CONFIG[1],
+  meta: RIGHT_COLUMN_CONFIG[2]
+};
+
+const TABS_CONFIG = [
+  {
+    key: 'all',
+    title: 'All Skills',
+    color: 'text-cyan-400',
+    activeBg: 'bg-cyan-950/40',
+    activeBorder: 'border-cyan-500'
+  },
+  {
+    key: 'physical',
+    title: 'Physical',
+    color: 'text-emerald-400',
+    activeBg: 'bg-emerald-950/40',
+    activeBorder: 'border-emerald-500'
+  },
+  {
+    key: 'mental',
+    title: 'Mental',
+    color: 'text-blue-400',
+    activeBg: 'bg-blue-950/40',
+    activeBorder: 'border-blue-500'
+  },
+  {
+    key: 'social',
+    title: 'Social',
+    color: 'text-purple-400',
+    activeBg: 'bg-purple-950/40',
+    activeBorder: 'border-purple-500'
+  },
+  {
+    key: 'combat',
+    title: 'Combat',
+    color: 'text-amber-400',
+    activeBg: 'bg-amber-950/40',
+    activeBorder: 'border-amber-500'
+  },
+  {
+    key: 'meta',
+    title: 'Metafocus',
+    color: 'text-cyan-400',
+    activeBg: 'bg-cyan-950/40',
+    activeBorder: 'border-cyan-500'
+  }
+];
+
 const SkillsTab = ({ onOpenAddSkillModal }) => {
   const {
     characterData,
@@ -216,6 +269,7 @@ const SkillsTab = ({ onOpenAddSkillModal }) => {
     handleDeleteSpecialization
   } = useFolio();
   const [searchQuery, setSearchQuery] = useState('');
+  const [activeCategoryTab, setActiveCategoryTab] = useState('all');
 
   const getNum = useCallback((id) => parseInt(characterData[id] || 0, 10), [characterData]);
 
@@ -315,6 +369,63 @@ const SkillsTab = ({ onOpenAddSkillModal }) => {
     });
     return map;
   }, [characterData.specializations]);
+
+  // Dynamic Skill Counts per category tab
+  const categoryCounts = useMemo(() => {
+    const counts = { all: 0, physical: 0, mental: 0, social: 0, combat: 0, meta: 0 };
+    const q = searchQuery.trim().toLowerCase();
+
+    ['physical', 'mental', 'social', 'combat', 'meta'].forEach((catKey) => {
+      const groupList = DEFAULT_SKILLS[catKey] || [];
+      const standardSubcategoryTitles = new Set(groupList.map(g => g.title || 'General'));
+      if (catKey === 'meta') {
+        ['Disciplines', 'Dimension', 'Energy', 'Entropy', 'Illusion', 'Matter', 'Mental'].forEach(t => standardSubcategoryTitles.add(t));
+      }
+
+      let count = 0;
+      groupList.forEach((g) => {
+        const subTitle = g.title || 'General';
+        let customSubSkills = [];
+        if (catKey === 'meta' && subTitle === 'Disciplines') {
+          const metaDisciplineKeys = ['Disciplines', 'Dimension', 'Energy', 'Entropy', 'Illusion', 'Matter', 'Mental'];
+          metaDisciplineKeys.forEach(dk => {
+            const skillsList = customSkillsBySubcategory[`meta|${dk}`] || [];
+            customSubSkills.push(...skillsList);
+          });
+        } else {
+          const mapKey = `${catKey}|${subTitle}`;
+          customSubSkills = customSkillsBySubcategory[mapKey] || [];
+        }
+        const combinedSkills = [...g.skills, ...customSubSkills];
+        combinedSkills.forEach((s) => {
+          if (!q) {
+            count++;
+          } else {
+            const specMatches = (specializationsByBaseSkill[s.id] || []).some(spec => spec.name.toLowerCase().includes(q));
+            if (s.name.toLowerCase().includes(q) || (g.title && g.title.toLowerCase().includes(q)) || specMatches) {
+              count++;
+            }
+          }
+        });
+      });
+
+      Object.keys(customSkillsBySubcategory).forEach((mapKey) => {
+        const [grp, sub] = mapKey.split('|');
+        if (grp === catKey && !standardSubcategoryTitles.has(sub)) {
+          customSkillsBySubcategory[mapKey].forEach((s) => {
+            if (!q || s.name.toLowerCase().includes(q)) {
+              count++;
+            }
+          });
+        }
+      });
+
+      counts[catKey] = count;
+      counts.all += count;
+    });
+
+    return counts;
+  }, [searchQuery, customSkillsBySubcategory, specializationsByBaseSkill]);
 
   // Set of unlocked Metafocus discipline names (lowercase) from purchased features/awakened items
   const unlockedDisciplines = useMemo(() => {
@@ -602,9 +713,10 @@ const SkillsTab = ({ onOpenAddSkillModal }) => {
 
     const totalSkillCount = filteredGroups.reduce((acc, g) => acc + g.skills.length, 0) + unmappedCustomSkills.length;
 
-    if (q && totalSkillCount === 0) return null;
+    if (totalSkillCount === 0) return null;
 
     const unmappedBlockTitle = cat.key === 'meta' ? 'Special Abilities' : `Custom ${cat.title}`;
+    const isSingleTabMode = activeCategoryTab !== 'all';
 
     return (
       <div key={cat.key} className="space-y-3">
@@ -619,20 +731,45 @@ const SkillsTab = ({ onOpenAddSkillModal }) => {
         </div>
 
         {/* Subcategory Blocks */}
-        <div className="space-y-4">
-          {filteredGroups.map((group, idx) =>
-            renderSubcategoryBlock(group.title, group.skills, cat.color, cat.border, `${cat.key}-${idx}`)
-          )}
-          {unmappedCustomSkills.length > 0 &&
-            renderSubcategoryBlock(unmappedBlockTitle, unmappedCustomSkills, 'text-amber-400', 'border-amber-900/50', `${cat.key}-custom`)
-          }
-        </div>
+        {isSingleTabMode && cat.key === 'mental' ? (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start">
+            {/* Left Column: General & Knowledges */}
+            <div className="space-y-4">
+              {filteredGroups
+                .filter((g) => (g.title || 'General') === 'General' || (g.title || '') === 'Knowledges')
+                .map((group, idx) =>
+                  renderSubcategoryBlock(group.title, group.skills, cat.color, cat.border, `${cat.key}-left-${idx}`)
+                )}
+            </div>
+
+            {/* Right Column: Vocations & Custom */}
+            <div className="space-y-4">
+              {filteredGroups
+                .filter((g) => (g.title || '') !== 'General' && (g.title || '') !== 'Knowledges')
+                .map((group, idx) =>
+                  renderSubcategoryBlock(group.title, group.skills, cat.color, cat.border, `${cat.key}-right-${idx}`)
+                )}
+              {unmappedCustomSkills.length > 0 &&
+                renderSubcategoryBlock(unmappedBlockTitle, unmappedCustomSkills, 'text-amber-400', 'border-amber-900/50', `${cat.key}-custom`)
+              }
+            </div>
+          </div>
+        ) : (
+          <div className={isSingleTabMode && (filteredGroups.length > 1 || unmappedCustomSkills.length > 0) ? "grid grid-cols-1 lg:grid-cols-2 gap-4 items-start" : "space-y-4"}>
+            {filteredGroups.map((group, idx) =>
+              renderSubcategoryBlock(group.title, group.skills, cat.color, cat.border, `${cat.key}-${idx}`)
+            )}
+            {unmappedCustomSkills.length > 0 &&
+              renderSubcategoryBlock(unmappedBlockTitle, unmappedCustomSkills, 'text-amber-400', 'border-amber-900/50', `${cat.key}-custom`)
+            }
+          </div>
+        )}
       </div>
     );
   };
 
   return (
-    <div className="tab-panel active p-4 space-y-6">
+    <div className="tab-panel active p-4 space-y-4">
       {/* Header Toolbar & Search Filter */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-cyan-900/60 pb-3 gap-3">
         <div>
@@ -676,21 +813,79 @@ const SkillsTab = ({ onOpenAddSkillModal }) => {
         </div>
       </div>
 
-      {/* 2-Column Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
-        {/* Left Column: Physical, Mental */}
-        <div className="space-y-6">
-          {LEFT_COLUMN_CONFIG.map(renderCategorySection)}
-        </div>
+      {/* Category Sub-Tabs Navigation */}
+      <div className="flex items-center gap-1.5 border-b border-cyan-900/50 pb-1 overflow-x-auto scrollbar-thin">
+        {TABS_CONFIG.map((tab) => {
+          const isActive = activeCategoryTab === tab.key;
+          const count = categoryCounts[tab.key] || 0;
 
-        {/* Right Column: Social, Combat, Metafocus */}
-        <div className="space-y-6">
-          {RIGHT_COLUMN_CONFIG.map(renderCategorySection)}
-        </div>
+          return (
+            <button
+              key={tab.key}
+              type="button"
+              onClick={() => setActiveCategoryTab(tab.key)}
+              className={`px-3.5 py-1.5 text-xs font-bold rounded-t-md transition-all flex items-center gap-2 whitespace-nowrap border-t-2 ${
+                isActive
+                  ? `${tab.activeBg} ${tab.activeBorder} ${tab.color} border-b-2 border-b-transparent shadow-[0_-2px_10px_rgba(0,0,0,0.3)]`
+                  : 'bg-slate-950/60 border-t-transparent border-b border-slate-800 text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
+              }`}
+            >
+              <span>{tab.title}</span>
+              <span
+                className={`text-[10px] font-mono px-1.5 py-0.2 rounded font-bold ${
+                  isActive ? 'bg-slate-900/90 border border-slate-700/80' : 'bg-slate-900 text-slate-500'
+                }`}
+              >
+                {count}
+              </span>
+            </button>
+          );
+        })}
       </div>
+
+      {/* Main Skills Content Display */}
+      {activeCategoryTab === 'all' ? (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+          {/* Left Column: Physical, Mental */}
+          <div className="space-y-6">
+            {LEFT_COLUMN_CONFIG.map(renderCategorySection)}
+          </div>
+
+          {/* Right Column: Social, Combat, Metafocus */}
+          <div className="space-y-6">
+            {RIGHT_COLUMN_CONFIG.map(renderCategorySection)}
+          </div>
+        </div>
+      ) : (
+        <div className="space-y-6">
+          {CATEGORY_CONFIG_MAP[activeCategoryTab] && renderCategorySection(CATEGORY_CONFIG_MAP[activeCategoryTab])}
+        </div>
+      )}
+
+      {/* Empty Search State */}
+      {searchQuery && categoryCounts[activeCategoryTab] === 0 && (
+        <div className="p-8 text-center bg-slate-900/40 border border-slate-800 rounded-lg space-y-2">
+          <p className="text-sm font-semibold text-slate-400">
+            No skills matching <span className="text-cyan-300">"{searchQuery}"</span> found in{' '}
+            <span className="text-amber-300">
+              {activeCategoryTab === 'all' ? 'All Skills' : CATEGORY_CONFIG_MAP[activeCategoryTab]?.title || activeCategoryTab}
+            </span>.
+          </p>
+          {activeCategoryTab !== 'all' && categoryCounts.all > 0 && (
+            <button
+              type="button"
+              onClick={() => setActiveCategoryTab('all')}
+              className="text-xs text-cyan-400 hover:text-cyan-300 underline font-bold"
+            >
+              View results in All Skills ({categoryCounts.all} matches)
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 };
 
 export default React.memo(SkillsTab);
+
 

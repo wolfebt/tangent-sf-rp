@@ -15,9 +15,6 @@ export const categoryConfig = {
     species: {
         label: 'SPECIES',
         viewType: 'table',
-        hideSubcategoryNav: true,
-        hideFilters: true,
-        hideActions: true,
         directory_columns: ['name', 'description', 'type'],
         fields: {
             name: { type: 'text', required: true },
@@ -52,51 +49,6 @@ export const categoryConfig = {
             recommended_features: { type: 'multiselect', source: 'features', label: 'Recommended Features', manageable: true },
             note: { type: 'textarea' },
             cp: { type: 'readonlytext', label: 'CP' }
-        },
-        subcategories: {
-            species_type: {
-                label: 'TYPES',
-                directory_columns: ['name', 'description', 'modifier'],
-                fields: {
-                    name: { type:'text', required: true},
-                    prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
-                    modifier: { type: 'multiselect', source: 'modifier', manageable: true },
-                    description: { type:'textarea', aiEnabled: true},
-                    mechanic: { type: 'textarea' },
-                    note: { type: 'textarea' },
-                    cp: { type: 'readonlytext', label: 'TOTAL CP'}
-                }
-            },
-            species_size: {
-                label: 'SIZES',
-                directory_columns: ['name', 'description', 'modifier'],
-                fields: {
-                    name: { type:'text', required: true},
-                    modifier: { type: 'multiselect', source: 'modifier', manageable: true },
-                    description: { type:'textarea', aiEnabled: true},
-                    scaling: { type: 'number', label: 'Scaling' },
-                    height_length_range: { type: 'text', label: 'Height/Length Range' },
-                    weight_range: { type: 'text', label: 'Weight Range' },
-                    reach: { type: 'text', label: 'Reach' },
-                    mechanic: { type: 'textarea' },
-                    note: { type: 'textarea' },
-                    dc: { type: 'number', label: 'DC' },
-                    cp: { type: 'readonlytext', label: 'TOTAL CP'}
-                }
-            },
-            species_movement: {
-                label: 'MOVEMENTS',
-                directory_columns: ['name', 'description', 'cp'],
-                fields: {
-                    name: { type:'text', required: true},
-                    prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
-                    modifier: { type: 'multiselect', source: 'modifier', manageable: true },
-                    description: { type:'textarea', aiEnabled: true},
-                    mechanic: { type: 'textarea' },
-                    note: { type: 'textarea' },
-                    cp: { type: 'readonlytext', label: 'TOTAL CP' }
-                }
-            },
         }
     },
     factions: {
@@ -143,9 +95,6 @@ export const categoryConfig = {
     origins: {
         label: 'ORIGINS',
         viewType: 'table',
-        hideSubcategoryNav: true,
-        hideFilters: true,
-        hideActions: true,
         directory_columns: ['name', 'description'],
         fields: {
             name: { type:'text', required: true},
@@ -178,23 +127,6 @@ export const categoryConfig = {
             trait: { type: 'multiselect', source: 'trait', manageable: true },
             mechanic: { type: 'textarea' },
             note: { type: 'textarea' }
-        },
-        subcategories: {
-            trait: {
-                label: 'TRAITS',
-                directory_columns: ['name', 'description', 'cp'],
-                fields: {
-                    name: { type:'text', required: true},
-                    prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
-                    tech_level: { type: 'select', label: 'Tech Level', options: [0, 1, 2, 3, 4, 5] },
-                    meta_level: { type: 'select', label: 'Meta Level', options: [0, 1, 2, 3, 4, 5] },
-                    modifier: { type: 'multiselect', source: 'modifier', manageable: true },
-                    description: { type:'textarea', aiEnabled: true},
-                    mechanic: { type: 'textarea' },
-                    note: { type: 'textarea' },
-                    cp: { type: 'readonlytext', label: 'TOTAL CP' }
-                }
-            },
         }
     },
     occupations: {
@@ -271,6 +203,96 @@ export const categoryConfig = {
             note: { type: 'textarea' },
             multi: { type: 'boolean', label: 'Multi' },
             staged: { type: 'boolean', label: 'Staged' }
+        }
+    },
+    species_type: {
+        label: 'TYPES',
+        hideFromMenu: true,
+        hideFromDevMenu: true,
+        directory_columns: ['name', 'description', 'modifier'],
+        fields: {
+            name: { type:'text', required: true},
+            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
+            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
+            description: { type:'textarea', aiEnabled: true},
+            mechanic: { type: 'textarea' },
+            note: { type: 'textarea' },
+            cp: { type: 'readonlytext', label: 'TOTAL CP'}
+        }
+    },
+    species_size: {
+        label: 'SIZES',
+        hideFromMenu: true,
+        hideFromDevMenu: true,
+        directory_columns: ['name', 'description', 'modifier'],
+        fields: {
+            name: { type:'text', required: true},
+            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
+            description: { type:'textarea', aiEnabled: true},
+            scaling: { type: 'number', label: 'Scaling' },
+            height_length_range: { type: 'text', label: 'Height/Length Range' },
+            weight_range: { type: 'text', label: 'Weight Range' },
+            reach: { type: 'text', label: 'Reach' },
+            mechanic: { type: 'textarea' },
+            note: { type: 'textarea' },
+            dc: { type: 'number', label: 'DC' },
+            cp: { type: 'readonlytext', label: 'TOTAL CP'}
+        }
+    },
+    species_movement: {
+        label: 'MOVEMENTS',
+        hideFromMenu: true,
+        hideFromDevMenu: true,
+        directory_columns: ['name', 'description', 'cp'],
+        fields: {
+            name: { type:'text', required: true},
+            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
+            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
+            description: { type:'textarea', aiEnabled: true},
+            mechanic: { type: 'textarea' },
+            note: { type: 'textarea' },
+            cp: { type: 'readonlytext', label: 'TOTAL CP' }
+        }
+    },
+    trait: {
+        label: 'TRAITS',
+        hideFromMenu: true,
+        hideFromDevMenu: true,
+        directory_columns: ['name', 'description', 'cp'],
+        fields: {
+            name: { type:'text', required: true},
+            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
+            tech_level: { type: 'select', label: 'Tech Level', options: [0, 1, 2, 3, 4, 5] },
+            meta_level: { type: 'select', label: 'Meta Level', options: [0, 1, 2, 3, 4, 5] },
+            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
+            description: { type:'textarea', aiEnabled: true},
+            mechanic: { type: 'textarea' },
+            note: { type: 'textarea' },
+            cp: { type: 'readonlytext', label: 'TOTAL CP' }
+        }
+    },
+    augmentation_type: {
+        label: 'AUGMENTATION TYPES',
+        hideFromMenu: true,
+        hideFromDevMenu: true,
+        directory_columns: ['name', 'description'],
+        fields: {
+            name: { type: 'text', required: true },
+            description: { type: 'textarea' },
+            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
+            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
+            mechanic: { type: 'textarea' },
+            note: { type: 'textarea' }
+        }
+    },
+    body_location: {
+        label: 'BODY LOCATIONS',
+        hideFromMenu: true,
+        hideFromDevMenu: true,
+        directory_columns: ['name', 'description'],
+        fields: {
+            name: { type: 'text', required: true },
+            description: { type: 'textarea' }
         }
     },
     values: {
@@ -393,9 +415,6 @@ export const categoryConfig = {
     augmentations: {
         label: 'AUGMENTATIONS',
         viewType: 'table',
-        hideSubcategoryNav: true,
-        hideFilters: true,
-        hideActions: true,
         directory_columns: ['name', 'type', 'description', 'design_dc'],
         fields: {
             name: { type:'text', required: true},
@@ -420,32 +439,10 @@ export const categoryConfig = {
             cp: { type: 'number' },
             mechanic: { type: 'textarea' },
             note: { type: 'textarea' }
-        },
-        subcategories: {
-            augmentation_type: {
-                label: 'AUGMENTATION TYPES',
-                directory_columns: ['name', 'description'],
-                fields: {
-                    name: { type: 'text', required: true },
-                    description: { type: 'textarea' },
-                    prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
-                    modifier: { type: 'multiselect', source: 'modifier', manageable: true },
-                    mechanic: { type: 'textarea' },
-                    note: { type: 'textarea' }
-                }
-            },
-            body_location: {
-                label: 'BODY LOCATIONS',
-                directory_columns: ['name', 'description'],
-                fields: {
-                    name: { type: 'text', required: true },
-                    description: { type: 'textarea' }
-                }
-            }
         }
     },
     personal_property: {
-        label: 'PERSONAL PROPERTY',
+        label: 'PROPERTY',
         isParent: true,
         viewType: 'landing',
         subItems: ['gear', 'weaponry', 'armoring', 'mecha', 'other'],
@@ -629,7 +626,9 @@ export const categoryConfig = {
     },
     user_guide: {
         label: 'USER GUIDE',
-        viewType: 'guide'
+        viewType: 'guide',
+        hideFromMenu: true,
+        hideFromDevMenu: true
     },
     societies: {
         label: 'SOCIETIES',
@@ -803,6 +802,59 @@ export const categoryConfig = {
         fields: {
             name: { type: 'text', required: true },
             description: { type: 'textarea' }
+        }
+    },
+    // --- AIME Narrative Categories ---
+    universe: {
+        label: 'UNIVERSES',
+        viewType: 'table',
+        directory_columns: ['name', 'description', 'scale'],
+        fields: {
+            name: { type: 'text', required: true, label: 'Universe Name' },
+            description: { type: 'textarea', aiEnabled: true, label: 'Cosmology & Origins' },
+            scale: { type: 'select', options: ['Multiverse', 'Galaxy', 'Solar System', 'Single Planet', 'Microcosm'] },
+            laws_of_physics: { type: 'textarea', label: 'Physical Laws & Magic Systems' },
+            history: { type: 'textarea', label: 'Cosmic History' },
+            note: { type: 'textarea' }
+        }
+    },
+    world: {
+        label: 'WORLDS',
+        viewType: 'table',
+        directory_columns: ['name', 'universe', 'description'],
+        fields: {
+            name: { type: 'text', required: true, label: 'World Name' },
+            universe: { type: 'select', source: 'universe', manageable: true },
+            description: { type: 'textarea', aiEnabled: true },
+            geography: { type: 'textarea', label: 'Geography & Climate' },
+            biosphere: { type: 'textarea', label: 'Flora & Fauna' },
+            culture: { type: 'textarea', label: 'Dominant Cultures' },
+            note: { type: 'textarea' }
+        }
+    },
+    setting: {
+        label: 'SETTINGS',
+        viewType: 'table',
+        directory_columns: ['name', 'world', 'description'],
+        fields: {
+            name: { type: 'text', required: true, label: 'Setting/Location Name' },
+            world: { type: 'select', source: 'world', manageable: true },
+            description: { type: 'textarea', aiEnabled: true, label: 'Atmosphere & Vibe' },
+            points_of_interest: { type: 'textarea', label: 'Points of Interest' },
+            inhabitants: { type: 'textarea', label: 'Notable Inhabitants' },
+            note: { type: 'textarea' }
+        }
+    },
+    philosophy: {
+        label: 'PHILOSOPHIES',
+        viewType: 'table',
+        directory_columns: ['name', 'description'],
+        fields: {
+            name: { type: 'text', required: true, label: 'Belief/Philosophy Name' },
+            description: { type: 'textarea', aiEnabled: true, label: 'Core Tenets' },
+            origin: { type: 'textarea', label: 'Origin & Founders' },
+            practices: { type: 'textarea', label: 'Practices & Rituals' },
+            note: { type: 'textarea' }
         }
     }
 };

@@ -7,6 +7,7 @@ const TABS = [
   { id: 'skills', label: 'Skills' },
   { id: 'abilities', label: 'Abilities' },
   { id: 'combat-gear', label: 'Combat & Gear' },
+  { id: 'narrative', label: 'Narrative' },
   { id: 'other', label: 'Other' }
 ];
 

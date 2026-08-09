@@ -4,7 +4,7 @@ import { useFolio } from '../../../context/FolioContext';
 import { db } from '../../../firebase';
 import { collection, onSnapshot } from 'firebase/firestore';
 
-const IdentityTab = ({ onOpenSelectorModal }) => {
+const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
   const { characterData, updateField } = useFolio();
 
   const [dbOptions, setDbOptions] = useState({});
@@ -67,6 +67,7 @@ const IdentityTab = ({ onOpenSelectorModal }) => {
   const renderPickerField = (id, label, placeholder, browsePath) => {
     const isManual = manualMode[id] || false;
     const val = characterData[id] || '';
+    const selectedObj = (dbOptions[browsePath] || []).find(o => o.name === val) || { name: val };
 
     return (
       <div className="flex flex-col">
@@ -79,21 +80,33 @@ const IdentityTab = ({ onOpenSelectorModal }) => {
                 className="w-3 h-3 cursor-pointer"
                 checked={isManual}
                 onClick={() => setManualMode(prev => ({ ...prev, [id]: !prev[id] }))}
-                onChange={() => {}} // dummy onChange to suppress React warning since we use onClick for toggle behavior
+                onChange={() => {}} // dummy onChange to suppress React warning
                 title="Toggle manual entry"
               />
               <span className="text-[10px] text-slate-400 cursor-pointer" onClick={() => setManualMode(prev => ({ ...prev, [id]: !prev[id] }))}>Manual</span>
             </div>
           </label>
-          {onOpenSelectorModal && (
-            <button
-              type="button"
-              onClick={() => onOpenSelectorModal(id, label, browsePath)}
-              className="text-[10px] font-bold uppercase text-cyan-300 hover:text-cyan-200 bg-slate-900 border border-cyan-500/50 hover:bg-slate-800 px-2 py-0.5 rounded transition-colors"
-            >
-              Browse DB
-            </button>
-          )}
+          <div className="flex items-center gap-1">
+            {onOpenSelectorModal && (
+              <button
+                type="button"
+                onClick={() => onOpenSelectorModal(id, label, browsePath)}
+                className="text-[10px] font-bold uppercase text-cyan-300 hover:text-cyan-200 bg-slate-900 border border-cyan-500/50 hover:bg-slate-800 px-2 py-0.5 rounded transition-colors"
+              >
+                Browse DB
+              </button>
+            )}
+            {onOpenAssetModal && val && (
+              <button
+                type="button"
+                onClick={() => onOpenAssetModal(id, label, 'edit', null, selectedObj)}
+                className="text-[10px] font-bold uppercase text-cyan-300 hover:text-cyan-200 bg-slate-900 border border-cyan-500/50 hover:bg-slate-800 px-1.5 py-0.5 rounded transition-colors"
+                title={`Edit ${label} properties & DB record`}
+              >
+                ✏️
+              </button>
+            )}
+          </div>
         </div>
 
         {isManual ? (
@@ -204,6 +217,25 @@ const IdentityTab = ({ onOpenSelectorModal }) => {
             onChange={updateField}
             placeholder="Personal goals, flaws, motivations, quirks..."
           />
+
+          <div className="space-y-1">
+            <FolioInput
+              id="tags"
+              label="Tags & Creator Handle Tag"
+              value={Array.isArray(characterData['tags']) ? characterData['tags'].join(', ') : (characterData['tags'] || '')}
+              onChange={updateField}
+              placeholder="e.g. @Operator_Zero, Fixed-Contractor, Sector-9"
+            />
+            {((Array.isArray(characterData['tags']) && characterData['tags'].length > 0) || (typeof characterData['tags'] === 'string' && characterData['tags'].trim())) && (
+              <div className="flex flex-wrap gap-1.5 mt-1.5">
+                {(Array.isArray(characterData['tags']) ? characterData['tags'] : characterData['tags'].split(',').map(t => t.trim())).filter(Boolean).map((tag, idx) => (
+                  <span key={idx} className="px-2.5 py-0.5 bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 rounded-full text-xs font-mono font-bold flex items-center gap-1 shadow-sm">
+                    <span>🏷️</span> {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </section>
     </div>

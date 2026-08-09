@@ -5,6 +5,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { ELEMENT_TYPES, ELEMENT_SCHEMAS } from './elementSchemas';
 import { isHalfPageElement } from './exportUtils';
 import { UnifiedRelationalSelectorModal } from '../DBM/UnifiedRelationalSelectorModal';
+import ReactQuill from 'react-quill-new';
+import 'react-quill-new/dist/quill.snow.css';
 
 // Helper to get breadcrumb location path for an element
 const getBreadcrumbPath = (nodes, targetId, currentPath = []) => {
@@ -166,11 +168,30 @@ const TreeNode = ({ node, activeId, onSelect, onDelete, onMove, onReorderRelativ
 };
 
 const AddElementModal = ({ isOpen, onClose, onAdd, defaultParentId = null }) => {
+  const { elementsCatalog } = useStory();
+  const [selectedSavedId, setSelectedSavedId] = useState('');
   const [type, setType] = useState('Story Arc');
   const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
   const [customFields, setCustomFields] = useState([{ id: uuidv4(), label: '', value: '' }]);
 
   if (!isOpen) return null;
+
+  const handleSelectSaved = (e) => {
+    const val = e.target.value;
+    setSelectedSavedId(val);
+    if (!val) return;
+
+    const savedElem = elementsCatalog.find(item => item.id === val);
+    if (savedElem) {
+      setType(savedElem.type || 'Custom');
+      setTitle(savedElem.title || '');
+      setContent(savedElem.content || '');
+      if (Array.isArray(savedElem.customFields) && savedElem.customFields.length > 0) {
+        setCustomFields(savedElem.customFields);
+      }
+    }
+  };
 
   const handleCustomFieldChange = (id, key, val) => {
     setCustomFields(prev => prev.map(f => f.id === id ? { ...f, [key]: val } : f));
@@ -193,13 +214,28 @@ const AddElementModal = ({ isOpen, onClose, onAdd, defaultParentId = null }) => 
       .filter(f => f.label.trim() !== '')
       .map(f => ({ id: f.id || uuidv4(), label: f.label.trim(), value: f.value }));
 
+    let baseFields = {};
+    let imageUrl = '';
+    if (selectedSavedId) {
+      const savedElem = elementsCatalog.find(item => item.id === selectedSavedId);
+      if (savedElem) {
+        baseFields = { ...(savedElem.fields || {}) };
+        imageUrl = savedElem.imageUrl || '';
+      }
+    }
+
     onAdd({ 
       type, 
       title, 
+      content,
+      imageUrl,
+      fields: baseFields,
       parentId: defaultParentId || null,
       customFields: validCustomFields
     });
     setTitle('');
+    setContent('');
+    setSelectedSavedId('');
     setCustomFields([{ id: uuidv4(), label: '', value: '' }]);
     setType('Story Arc');
     onClose();
@@ -210,6 +246,27 @@ const AddElementModal = ({ isOpen, onClose, onAdd, defaultParentId = null }) => 
       <div className="bg-slate-800 border border-slate-600 rounded-lg p-6 w-[26rem] max-h-[85vh] flex flex-col shadow-xl overflow-hidden">
         <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider">Add Story Element</h3>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 overflow-y-auto pr-1">
+          
+          {elementsCatalog && elementsCatalog.length > 0 && (
+            <div className="bg-slate-900/90 p-2.5 rounded-lg border border-cyan-500/40">
+              <label className="block text-[11px] font-bold text-amber-400 uppercase tracking-wider mb-1">
+                Pull-down List of Our Elements
+              </label>
+              <select 
+                value={selectedSavedId} 
+                onChange={handleSelectSaved}
+                className="w-full bg-slate-950 border border-slate-700 text-cyan-300 p-2 rounded focus:border-cyan-400 outline-none text-xs font-semibold cursor-pointer"
+              >
+                <option value="">-- Select Saved Element Template --</option>
+                {elementsCatalog.map(e => (
+                  <option key={e.id} value={e.id}>
+                    {e.title || 'Untitled'} ({e.type || 'Element'})
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
           <div>
             <label className="block text-xs text-slate-400 uppercase mb-1 font-semibold">Element Type</label>
             <select 
@@ -336,6 +393,11 @@ const ElementFieldsEditor = ({ activeNode, updateStory }) => {
   const [selectorState, setSelectorState] = useState(null); // { key, label, dbSource }
   const [newLabel, setNewLabel] = useState('');
   const [newValue, setNewValue] = useState('');
+  const [activeTabIdx, setActiveTabIdx] = useState(0);
+
+  useEffect(() => {
+    setActiveTabIdx(0);
+  }, [activeNode.type, activeNode.id]);
 
   const handleChange = (key, value) => {
     updateStory(activeNode.id, {
@@ -384,131 +446,157 @@ const ElementFieldsEditor = ({ activeNode, updateStory }) => {
 
   const canAddEditorField = newLabel.trim() !== '';
 
+  const schemaTabs = Array.from(new Set(schema.map(f => f.tab || 'General')));
+  const allTabs = [...schemaTabs, 'Custom Fields'];
+  const currentTab = allTabs[activeTabIdx] || allTabs[0];
+
   return (
     <div className="flex-1 overflow-y-auto p-4 bg-slate-900 font-sans space-y-4">
       <div className="flex items-center justify-between border-b border-slate-800 pb-2">
         <span className="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-2">
-          <span>📋</span> {activeNode.type} Focused Fields & Custom Labels
+          <span>📋</span> {activeNode.type} Focused Fields
         </span>
         <span className="text-[10px] text-slate-400 italic">
-          Link Cloud DBM items or type custom content & user-set fields
+          Link Cloud DBM items or type custom content
         </span>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Standard Schema Fields */}
-        {schema.map(f => {
-          const val = fields[f.key] || (f.key === 'description' || f.key === 'content' ? (activeNode.content || '') : '');
-          const isRelational = f.type === 'relational' || f.dbSource;
-
-          return (
-            <div key={f.key} className="md:col-span-2">
-              <div className="flex items-center justify-between mb-1.5">
-                <label className="block text-xs font-bold text-cyan-300 uppercase tracking-wider">
-                  {f.label}
-                </label>
-                {f.dbSource && (
-                  <button
-                    onClick={() => handleOpenSelector(f)}
-                    className="px-2 py-0.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 rounded text-[10px] font-bold uppercase tracking-wider transition-colors flex items-center gap-1 shadow-sm"
-                  >
-                    <span>☁️</span> {val ? 'Change Cloud DB Link' : 'Select Cloud DB Item'}
-                  </button>
-                )}
-              </div>
-
-              {isRelational && val && (
-                <div className="mb-2 flex items-center gap-2 bg-cyan-950/60 border border-cyan-500/40 px-2.5 py-1.5 rounded-md text-xs">
-                  <span className="text-cyan-400 font-bold uppercase text-[10px]">☁️ Linked Cloud Record:</span>
-                  <span className="text-white font-semibold flex-1 truncate">{val}</span>
-                  <button
-                    onClick={() => handleChange(f.key, '')}
-                    className="text-slate-400 hover:text-red-400 font-bold px-1"
-                    title="Unlink Cloud Record"
-                  >
-                    &times;
-                  </button>
-                </div>
-              )}
-
-              <AutoResizingTextarea
-                value={val}
-                onChange={e => {
-                  handleChange(f.key, e.target.value);
-                  if (f.key === 'description' || f.key === 'content') {
-                    updateStory(activeNode.id, { content: e.target.value });
-                  }
-                }}
-                placeholder={f.placeholder}
-                className="w-full bg-slate-950 border border-slate-700 focus:border-cyan-400 text-slate-100 p-2.5 rounded-lg text-xs outline-none transition-all leading-relaxed shadow-inner"
-              />
-            </div>
-          );
-        })}
-
-        {/* Dynamic Custom Fields */}
-        {customFields.map(cf => (
-          <div key={cf.id} className="md:col-span-2 bg-slate-950/70 border border-cyan-900/50 p-3 rounded-lg space-y-2">
-            <div className="flex items-center justify-between gap-2">
-              <input
-                type="text"
-                value={cf.label}
-                onChange={(e) => handleCustomLabelChange(cf.id, e.target.value)}
-                className="bg-transparent text-xs font-bold text-cyan-300 uppercase tracking-wider outline-none border-b border-dashed border-cyan-800/60 focus:border-cyan-400 px-1 py-0.5"
-                placeholder="Custom Field Label..."
-                title="Click to rename field label"
-              />
-              <button
-                type="button"
-                onClick={() => handleDeleteCustomField(cf.id)}
-                className="text-slate-500 hover:text-red-400 text-xs font-bold px-2 py-0.5 rounded hover:bg-red-950/40"
-                title="Delete custom field"
-              >
-                Delete Field ✕
-              </button>
-            </div>
-            <AutoResizingTextarea
-              value={cf.value || ''}
-              onChange={e => handleCustomFieldChange(cf.id, e.target.value)}
-              placeholder={`Enter content for ${cf.label || 'custom field'}...`}
-              className="w-full bg-slate-900 border border-slate-800 focus:border-cyan-400 text-slate-100 p-2.5 rounded-lg text-xs outline-none transition-all leading-relaxed shadow-inner"
-            />
-          </div>
+      <div className="flex border-b border-slate-700 overflow-x-auto mb-4">
+        {allTabs.map((tab, idx) => (
+          <button 
+            key={idx}
+            onClick={() => setActiveTabIdx(idx)}
+            className={`px-4 py-2 text-sm font-bold whitespace-nowrap ${activeTabIdx === idx ? 'border-b-2 border-cyan-500 text-cyan-400' : 'text-slate-400 hover:text-white'}`}
+          >
+            {tab}
+          </button>
         ))}
       </div>
 
-      {/* Add Additional Custom Field Section */}
-      <div className="mt-4 p-3 bg-slate-950/90 border border-slate-800 rounded-lg space-y-3">
-        <div className="flex items-center justify-between">
-          <span className="text-xs font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
-            <span>➕</span> Add Additional Custom Field
-          </span>
-          <span className="text-[10px] text-slate-500 italic">Define user label and field content</span>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          <input
-            type="text"
-            value={newLabel}
-            onChange={(e) => setNewLabel(e.target.value)}
-            placeholder="Field Label (e.g. Codename, Threat Rating)"
-            className="bg-slate-900 border border-slate-700 text-cyan-300 p-2 rounded text-xs outline-none focus:border-cyan-400"
-          />
-          <input
-            type="text"
-            value={newValue}
-            onChange={(e) => setNewValue(e.target.value)}
-            placeholder="Field Value / Description"
-            className="bg-slate-900 border border-slate-700 text-slate-200 p-2 rounded text-xs outline-none focus:border-cyan-400"
-          />
-        </div>
-        {canAddEditorField && (
-          <button
-            type="button"
-            onClick={handleAddCustomField}
-            className="px-3 py-1.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-xs font-bold rounded uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_8px_rgba(34,211,238,0.2)]"
-          >
-            <span>➕</span> Add Field
-          </button>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Standard Schema Fields for Current Tab */}
+        {schemaTabs.includes(currentTab) && (
+          <div className="md:col-span-2 mb-2 bg-slate-800/30 p-3 rounded border border-slate-800">
+            <h4 className="text-cyan-500 text-xs font-bold border-b border-cyan-900/50 pb-1.5 mb-3 uppercase tracking-wider flex items-center gap-2">
+              <span className="text-[10px] text-cyan-700">▶</span> {currentTab}
+            </h4>
+            <div className="grid grid-cols-1 gap-4">
+              {schema.filter(f => (f.tab || 'General') === currentTab).map(f => {
+                const val = fields[f.key] || '';
+                const isRelational = f.type === 'relational' || f.dbSource;
+
+                return (
+                  <div key={f.key}>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label className="block text-xs font-bold text-cyan-300 uppercase tracking-wider">
+                        {f.label}
+                      </label>
+                      {f.dbSource && (
+                        <button
+                          onClick={() => handleOpenSelector(f)}
+                          className="px-2 py-0.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 rounded text-[10px] font-bold uppercase tracking-wider transition-colors flex items-center gap-1 shadow-sm"
+                        >
+                          <span>☁️</span> {val ? 'Change Cloud DB Link' : 'Select Cloud DB Item'}
+                        </button>
+                      )}
+                    </div>
+
+                    {isRelational && val && (
+                      <div className="mb-2 flex items-center gap-2 bg-cyan-950/60 border border-cyan-500/40 px-2.5 py-1.5 rounded-md text-xs">
+                        <span className="text-cyan-400 font-bold uppercase text-[10px]">☁️ Linked Cloud Record:</span>
+                        <span className="text-white font-semibold flex-1 truncate">{val}</span>
+                        <button
+                          onClick={() => handleChange(f.key, '')}
+                          className="text-slate-400 hover:text-red-400 font-bold px-1"
+                          title="Unlink Cloud Record"
+                        >
+                          &times;
+                        </button>
+                      </div>
+                    )}
+
+                    <AutoResizingTextarea
+                      value={val}
+                      onChange={e => {
+                        handleChange(f.key, e.target.value);
+                      }}
+                      placeholder={f.placeholder}
+                      className="w-full bg-slate-950 border border-slate-700 focus:border-cyan-400 text-slate-100 p-2.5 rounded-lg text-xs outline-none transition-all leading-relaxed shadow-inner"
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Dynamic Custom Fields */}
+        {currentTab === 'Custom Fields' && (
+          <>
+            {customFields.map(cf => (
+              <div key={cf.id} className="md:col-span-2 bg-slate-950/70 border border-cyan-900/50 p-3 rounded-lg space-y-2">
+                <div className="flex items-center justify-between gap-2">
+                  <input
+                    type="text"
+                    value={cf.label}
+                    onChange={(e) => handleCustomLabelChange(cf.id, e.target.value)}
+                    className="bg-transparent text-xs font-bold text-cyan-300 uppercase tracking-wider outline-none border-b border-dashed border-cyan-800/60 focus:border-cyan-400 px-1 py-0.5"
+                    placeholder="Custom Field Label..."
+                    title="Click to rename field label"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteCustomField(cf.id)}
+                    className="text-slate-500 hover:text-red-400 text-xs font-bold px-2 py-0.5 rounded hover:bg-red-950/40"
+                    title="Delete custom field"
+                  >
+                    Delete Field ✕
+                  </button>
+                </div>
+                <AutoResizingTextarea
+                  value={cf.value || ''}
+                  onChange={e => handleCustomFieldChange(cf.id, e.target.value)}
+                  placeholder={`Enter content for ${cf.label || 'custom field'}...`}
+                  className="w-full bg-slate-900 border border-slate-800 focus:border-cyan-400 text-slate-100 p-2.5 rounded-lg text-xs outline-none transition-all leading-relaxed shadow-inner"
+                />
+              </div>
+            ))}
+
+            {/* Add Additional Custom Field Section */}
+            <div className="mt-4 p-3 bg-slate-950/90 border border-slate-800 rounded-lg space-y-3 md:col-span-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
+                  <span>➕</span> Add Additional Custom Field
+                </span>
+                <span className="text-[10px] text-slate-500 italic">Define user label and field content</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <input
+                  type="text"
+                  value={newLabel}
+                  onChange={(e) => setNewLabel(e.target.value)}
+                  placeholder="Field Label (e.g. Codename, Threat Rating)"
+                  className="bg-slate-900 border border-slate-700 text-cyan-300 p-2 rounded text-xs outline-none focus:border-cyan-400"
+                />
+                <input
+                  type="text"
+                  value={newValue}
+                  onChange={(e) => setNewValue(e.target.value)}
+                  placeholder="Field Value / Description"
+                  className="bg-slate-900 border border-slate-700 text-slate-200 p-2 rounded text-xs outline-none focus:border-cyan-400"
+                />
+              </div>
+              {canAddEditorField && (
+                <button
+                  type="button"
+                  onClick={handleAddCustomField}
+                  className="px-3 py-1.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-xs font-bold rounded uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_8px_rgba(34,211,238,0.2)]"
+                >
+                  <span>➕</span> Add Field
+                </button>
+              )}
+            </div>
+          </>
         )}
       </div>
 
@@ -660,7 +748,7 @@ const ElementImageUploader = ({ activeNode, updateStory }) => {
 };
 
 const ScenarioPane = ({ onOpenBastion, onSwitchTab }) => {
-  const { universeState, activeScenarioId, setActiveScenarioId, addStory, updateStory, deleteStory, moveStory, reorderStory, reorderRelativeScenario, handleSaveStory, handleLoadStory, addMap, setActiveMapId, updateProjectName } = useStory();
+  const { universeState, activeScenarioId, setActiveScenarioId, addStory, updateStory, deleteStory, moveStory, reorderStory, reorderRelativeScenario, handleSaveStory, handleLoadStory, addMap, setActiveMapId, updateProjectName, isStoryReadOnly, clonePublicStory } = useStory();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalParentId, setModalParentId] = useState(null);
   const [localContent, setLocalContent] = useState('');
@@ -789,6 +877,9 @@ const ScenarioPane = ({ onOpenBastion, onSwitchTab }) => {
       .replace(/<b>(.*?)<\/b>/gi, '**$1**')
       .replace(/<em>(.*?)<\/em>/gi, '*$1*')
       .replace(/<i>(.*?)<\/i>/gi, '*$1*')
+      .replace(/<s>(.*?)<\/s>/gi, '~~$1~~')
+      .replace(/<strike>(.*?)<\/strike>/gi, '~~$1~~')
+      .replace(/<u>(.*?)<\/u>/gi, '__$1__')
       .replace(/<br\s*\/?>/gi, '\n')
       .replace(/<[^>]+>/g, '')
       .replace(/\n{3,}/g, '\n\n')
@@ -1105,6 +1196,25 @@ const ScenarioPane = ({ onOpenBastion, onSwitchTab }) => {
         }
       `}</style>
 
+      {isStoryReadOnly && (
+        <div className="bg-amber-950/90 border-b border-amber-500/50 px-4 py-2 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-amber-200 shrink-0 shadow-lg z-20">
+          <div className="flex items-center gap-2">
+            <span className="text-base animate-pulse">🌐</span>
+            <span>
+              <strong>PUBLIC READ-ONLY STORY:</strong> "{universeState.projectName || 'Untitled'}" by <strong className="text-amber-400">{universeState.authorEmail || universeState.authorHandle || 'Community Creator'}</strong>.
+            </span>
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              onClick={() => clonePublicStory(universeState)}
+              className="px-3 py-1 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded uppercase shadow text-[11px] transition-colors flex items-center gap-1"
+            >
+              <span>➕</span> Clone to My Foundry
+            </button>
+          </div>
+        </div>
+      )}
+
       <AddElementModal 
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)} 
@@ -1269,6 +1379,20 @@ const ScenarioPane = ({ onOpenBastion, onSwitchTab }) => {
 
               {/* Type-Specific Structured Input Fields Editor */}
               <ElementFieldsEditor activeNode={activeNode} updateStory={updateStory} />
+
+              {/* Prose Drafting Canvas (ReactQuill) - Only for Scenario (folder/story root) types */}
+              {activeNode.type === 'Scenario' && (
+                <div className="flex-1 flex flex-col min-h-0 bg-[#090d16] border-y border-slate-800 relative z-10">
+                  <ReactQuill 
+                    theme="snow"
+                    value={activeNode.content || ''}
+                    onChange={(val) => updateStory(activeNode.id, { content: val })}
+                    modules={modules}
+                    className="h-full flex flex-col"
+                    placeholder="Draft your story prose, scene description, or element details here..."
+                  />
+                </div>
+              )}
 
               {/* Connected Map Asset Integration Box for Map Elements */}
               {activeNode.type === 'Map' && (

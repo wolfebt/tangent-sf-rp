@@ -1,6 +1,9 @@
 import React, { useState, useMemo, useRef } from 'react';
 import { useStory } from '../../context/CampaignContext';
 import { exportElementJSON, exportElementMarkdown, exportElementPDF } from './exportUtils';
+import EditElementModal from './EditElementModal';
+import { ELEMENT_TYPES } from './elementSchemas';
+import { attachCreatorTag } from '../../utils/creatorUtils';
 
 const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
   const {
@@ -10,14 +13,25 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
     createNewStory,
     deleteStoryProject,
     deleteSavedElement,
+    updateSavedElement,
     addStory,
     universeState,
     handleSaveLocal,
-    confirmIfDirty
+    confirmIfDirty,
+    toggleStoryVisibility,
+    loadPublicStories,
+    publicStoryCatalog,
+    clonePublicStory
   } = useStory();
 
   const [activeTab, setActiveTab] = useState(initialTab); // 'stories' | 'elements'
+  const [storySourceTab, setStorySourceTab] = useState('my_stories'); // 'my_stories' | 'public_community'
   
+  // Element Editing State
+  const [selectedCatalogElementId, setSelectedCatalogElementId] = useState('');
+  const [editingElement, setEditingElement] = useState(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
   // Create Story Modal state
   const [isCreatingStory, setIsCreatingStory] = useState(false);
   const [newStoryTitle, setNewStoryTitle] = useState('');
@@ -34,6 +48,48 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
 
   const fileInputRef = useRef(null);
 
+  const handleStorySourceSwitch = (tab) => {
+    setStorySourceTab(tab);
+    if (tab === 'public_community' && loadPublicStories) {
+      loadPublicStories();
+    }
+  };
+
+  const handleCopyShareLink = (storyId) => {
+    const url = `${window.location.origin}/story-foundry?storyId=${storyId}`;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(() => {
+        alert(`Public Story Link copied to clipboard:\n\n${url}`);
+      }).catch(() => {
+        prompt("Copy this public story link:", url);
+      });
+    } else {
+      prompt("Copy this public story link:", url);
+    }
+  };
+
+  const handleCreateNewElement = (typeStr = 'Scenario') => {
+    const rawElem = {
+      id: `elem_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+      title: `New ${typeStr}`,
+      type: typeStr,
+      content: `<p>New ${typeStr} element notes...</p>`,
+      fields: {},
+      customFields: [],
+      updatedAt: new Date().toISOString()
+    };
+    const newElem = attachCreatorTag(rawElem, localStorage.getItem('userHandle'));
+    setEditingElement(newElem);
+    setIsEditModalOpen(true);
+  };
+
+  const handleSaveEditElement = async (updatedElem) => {
+    const tagged = attachCreatorTag(updatedElem, localStorage.getItem('userHandle'));
+    await updateSavedElement(tagged.id, tagged);
+    setIsEditModalOpen(false);
+    setEditingElement(null);
+  };
+
   // Helper to count total elements recursively in a story project
   const countElements = (nodes) => {
     if (!Array.isArray(nodes)) return 0;
@@ -46,14 +102,16 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
 
   // Filtered & Sorted Story Projects
   const processedStories = useMemo(() => {
-    let list = [...storyCatalog];
+    const activeList = storySourceTab === 'my_stories' ? storyCatalog : publicStoryCatalog;
+    let list = [...activeList];
 
     // Search filter
     if (storySearch.trim()) {
       const q = storySearch.toLowerCase().trim();
       list = list.filter(story => 
         (story.projectName && story.projectName.toLowerCase().includes(q)) ||
-        (story.description && story.description.toLowerCase().includes(q))
+        (story.description && story.description.toLowerCase().includes(q)) ||
+        (story.authorEmail && story.authorEmail.toLowerCase().includes(q))
       );
     }
 
@@ -78,7 +136,7 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
     });
 
     return list;
-  }, [storyCatalog, storySearch, storySortBy]);
+  }, [storyCatalog, publicStoryCatalog, storySourceTab, storySearch, storySortBy]);
 
   // Filtered & Sorted Elements
   const processedElements = useMemo(() => {
@@ -231,6 +289,30 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
         {activeTab === 'stories' && (
           <div className="flex-1 flex flex-col overflow-hidden p-6 space-y-4">
             
+            {/* Sub-tabs: My Stories vs Public Community Stories */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => handleStorySourceSwitch('my_stories')}
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 ${
+                  storySourceTab === 'my_stories'
+                    ? 'bg-cyan-950 text-cyan-300 border border-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.2)]'
+                    : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                }`}
+              >
+                <span>📖</span> My Stories ({storyCatalog.length})
+              </button>
+              <button
+                onClick={() => handleStorySourceSwitch('public_community')}
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 ${
+                  storySourceTab === 'public_community'
+                    ? 'bg-amber-950 text-amber-300 border border-amber-400 shadow-[0_0_10px_rgba(245,158,11,0.2)]'
+                    : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                }`}
+              >
+                <span>🌐</span> Public Community Stories ({publicStoryCatalog.length})
+              </button>
+            </div>
+
             {/* Search, Sort & Action Bar */}
             <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-900/80 p-3 rounded-xl border border-slate-800">
               
@@ -241,7 +323,7 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
                   type="text"
                   value={storySearch}
                   onChange={(e) => setStorySearch(e.target.value)}
-                  placeholder="Search story files by name or content..."
+                  placeholder={storySourceTab === 'my_stories' ? "Search my story projects..." : "Search public community stories by name, author..."}
                   className="w-full pl-9 pr-3 py-2 bg-slate-950 border border-slate-700/80 rounded-lg text-xs font-semibold text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-colors"
                 />
               </div>
@@ -263,7 +345,87 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
               </div>
 
               {/* Actions */}
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
+                {/* Pull-down List of Elements */}
+                <div className="flex items-center gap-1.5 bg-slate-950/90 p-1.5 rounded-lg border border-amber-500/40">
+                  <span className="text-[10px] font-bold text-amber-400 uppercase tracking-wider pl-1">
+                    Element:
+                  </span>
+                  <select
+                    value={selectedCatalogElementId}
+                    onChange={(e) => setSelectedCatalogElementId(e.target.value)}
+                    className="bg-slate-900 border border-slate-700 text-xs font-bold text-[#22d3ee] rounded px-2 py-1 focus:outline-none focus:border-cyan-400 cursor-pointer max-w-[190px] truncate"
+                  >
+                    <option value="">-- Select Element --</option>
+                    {elementsCatalog.length > 0 && (
+                      <optgroup label="📚 Saved Elements Library">
+                        {elementsCatalog.map(e => (
+                          <option key={e.id} value={`saved:${e.id}`}>
+                            {e.title || 'Untitled'} ({e.type || 'Element'})
+                          </option>
+                        ))}
+                      </optgroup>
+                    )}
+                    <optgroup label="✨ Blank Element Types">
+                      {ELEMENT_TYPES.map(t => (
+                        <option key={t} value={`blank:${t}`}>
+                          New Blank {t}
+                        </option>
+                      ))}
+                    </optgroup>
+                  </select>
+
+                  <button
+                    onClick={() => {
+                      if (!selectedCatalogElementId) {
+                        handleCreateNewElement('Scenario');
+                        return;
+                      }
+                      if (selectedCatalogElementId.startsWith('saved:')) {
+                        const id = selectedCatalogElementId.replace('saved:', '');
+                        const found = elementsCatalog.find(e => e.id === id);
+                        if (found) {
+                          setEditingElement(found);
+                          setIsEditModalOpen(true);
+                        }
+                      } else if (selectedCatalogElementId.startsWith('blank:')) {
+                        const typeStr = selectedCatalogElementId.replace('blank:', '');
+                        handleCreateNewElement(typeStr);
+                      }
+                    }}
+                    className="px-2.5 py-1 bg-amber-950 hover:bg-amber-900 border border-amber-500/70 text-amber-300 text-xs font-bold uppercase tracking-wider rounded transition-all flex items-center gap-1 shadow-sm"
+                    title="Edit selected element or create new blank element"
+                  >
+                    <span>✏️</span> {selectedCatalogElementId ? 'Edit' : '+ New Element'}
+                  </button>
+
+                  {selectedCatalogElementId && (
+                    <button
+                      onClick={() => {
+                        if (selectedCatalogElementId.startsWith('saved:')) {
+                          const id = selectedCatalogElementId.replace('saved:', '');
+                          const found = elementsCatalog.find(e => e.id === id);
+                          if (found) handleImportElementToWorkingStory(found);
+                        } else if (selectedCatalogElementId.startsWith('blank:')) {
+                          const typeStr = selectedCatalogElementId.replace('blank:', '');
+                          const newBlank = {
+                            id: `elem_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+                            title: `New ${typeStr}`,
+                            type: typeStr,
+                            children: []
+                          };
+                          addStory(newBlank);
+                          alert(`Imported blank "${newBlank.title}" into active story workspace!`);
+                        }
+                      }}
+                      className="px-2.5 py-1 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/70 text-cyan-300 text-xs font-bold uppercase tracking-wider rounded transition-all flex items-center gap-1 shadow-sm"
+                      title="Import selected element into active story workspace"
+                    >
+                      <span>📥</span> Import
+                    </button>
+                  )}
+                </div>
+
                 <button
                   onClick={() => {
                     confirmIfDirty(() => setIsCreatingStory(true));
@@ -297,16 +459,18 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
                   <span className="text-4xl mb-3">📖</span>
                   <p className="text-sm font-bold uppercase text-slate-300 tracking-wider">No Story Projects Found</p>
                   <p className="text-xs text-slate-500 mt-1 max-w-sm">
-                    {storySearch ? 'No projects match your current search query.' : 'Create a new story project or import a story file to get started.'}
+                    {storySearch ? 'No projects match your current search query.' : (storySourceTab === 'my_stories' ? 'Create a new story project or import a story file to get started.' : 'No public community stories have been shared yet.')}
                   </p>
-                  <button
-                    onClick={() => {
-                      confirmIfDirty(() => setIsCreatingStory(true));
-                    }}
-                    className="mt-4 px-4 py-2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-xs font-bold uppercase rounded-lg"
-                  >
-                    + Create First Story Project
-                  </button>
+                  {storySourceTab === 'my_stories' && (
+                    <button
+                      onClick={() => {
+                        confirmIfDirty(() => setIsCreatingStory(true));
+                      }}
+                      className="mt-4 px-4 py-2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-xs font-bold uppercase rounded-lg"
+                    >
+                      + Create First Story Project
+                    </button>
+                  )}
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -325,13 +489,38 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
                         }`}
                       >
                         <div>
-                          <div className="flex items-center justify-between gap-2 mb-2">
+                          <div className="flex items-center justify-between gap-2 mb-2 flex-wrap">
                             <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-cyan-950 border border-cyan-800 text-cyan-300">
                               {isActive ? 'Current Working Story' : 'Story File'}
                             </span>
-                            <span className="text-[10px] font-mono text-slate-500">
-                              {story.updatedAt ? new Date(story.updatedAt).toLocaleDateString() : 'Recent'}
-                            </span>
+                            {storySourceTab === 'my_stories' ? (
+                              <div className="flex items-center gap-1.5">
+                                <button
+                                  onClick={() => toggleStoryVisibility && toggleStoryVisibility(story.id, !story.isPublic)}
+                                  className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider border transition-colors ${
+                                    story.isPublic
+                                      ? 'bg-cyan-950 text-cyan-300 border-cyan-500/60 hover:bg-cyan-900'
+                                      : 'bg-slate-900 text-slate-400 border-slate-700 hover:text-slate-200'
+                                  }`}
+                                  title="Toggle Public Story Visibility"
+                                >
+                                  {story.isPublic ? '🌐 Public' : '🔒 Private'}
+                                </button>
+                                {story.isPublic && (
+                                  <button
+                                    onClick={() => handleCopyShareLink(story.id)}
+                                    className="px-2 py-0.5 bg-cyan-900/60 hover:bg-cyan-800 text-cyan-200 border border-cyan-500/40 rounded text-[9px] font-mono font-bold uppercase"
+                                    title="Copy Public Link"
+                                  >
+                                    🔗 Share
+                                  </button>
+                                )}
+                              </div>
+                            ) : (
+                              <span className="px-2 py-0.5 bg-amber-950/80 text-amber-300 border border-amber-600/50 rounded text-[9px] font-mono font-bold">
+                                ✍️ {story.authorEmail || story.authorHandle || story.creatorHandle || 'Community Creator'}
+                              </span>
+                            )}
                           </div>
 
                           <h3 className="text-sm font-bold text-slate-100 group-hover:text-cyan-300 truncate mb-1">
@@ -358,45 +547,79 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
 
                         {/* Card Actions */}
                         <div className="flex items-center gap-2 pt-2 border-t border-slate-800">
-                          <button
-                            onClick={() => {
-                              if (isActive) {
-                                onClose();
-                              } else {
-                                confirmIfDirty(() => {
+                          {storySourceTab === 'my_stories' ? (
+                            <>
+                              <button
+                                onClick={() => {
+                                  if (isActive) {
+                                    onClose();
+                                  } else {
+                                    confirmIfDirty(() => {
+                                      openStory(story.id);
+                                      onClose();
+                                    });
+                                  }
+                                }}
+                                className="flex-1 py-1.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-xs font-bold uppercase tracking-wider rounded-lg transition-colors shadow-sm"
+                              >
+                                {isActive ? 'Continue Working' : 'Open Story'}
+                              </button>
+                              
+                              <button
+                                onClick={() => {
                                   openStory(story.id);
-                                  onClose();
-                                });
-                              }
-                            }}
-                            className="flex-1 py-1.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-xs font-bold uppercase tracking-wider rounded-lg transition-colors shadow-sm"
-                          >
-                            {isActive ? 'Continue Working' : 'Open Story'}
-                          </button>
-                          
-                          <button
-                            onClick={() => {
-                              openStory(story.id);
-                              handleSaveLocal();
-                            }}
-                            className="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-bold"
-                            title="Export Story JSON File"
-                          >
-                            💾
-                          </button>
+                                  handleSaveLocal();
+                                }}
+                                className="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-bold"
+                                title="Export Story JSON File"
+                              >
+                                💾
+                              </button>
 
-                          {storyCatalog.length > 1 && (
-                            <button
-                              onClick={() => {
-                                if (window.confirm(`Delete story project "${story.projectName}"?`)) {
-                                  deleteStoryProject(story.id);
-                                }
-                              }}
-                              className="p-1.5 bg-red-950/60 hover:bg-red-900 border border-red-800/60 text-red-300 rounded-lg text-xs font-bold"
-                              title="Delete Story Project"
-                            >
-                              🗑️
-                            </button>
+                              {storyCatalog.length > 1 && (
+                                <button
+                                  onClick={() => {
+                                    if (window.confirm(`Delete story project "${story.projectName}"?`)) {
+                                      deleteStoryProject(story.id);
+                                    }
+                                  }}
+                                  className="p-1.5 bg-red-950/60 hover:bg-red-900 border border-red-800/60 text-red-300 rounded-lg text-xs font-bold"
+                                  title="Delete Story Project"
+                                >
+                                  🗑️
+                                </button>
+                              )}
+                            </>
+                          ) : (
+                            <div className="flex items-center justify-between w-full gap-2">
+                              <button
+                                onClick={() => handleCopyShareLink(story.id)}
+                                className="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-bold"
+                                title="Copy Share Link"
+                              >
+                                🔗 Share
+                              </button>
+                              <div className="flex items-center gap-2">
+                                <button
+                                  onClick={() => {
+                                    openStory(story.id);
+                                    onClose();
+                                  }}
+                                  className="px-3 py-1.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-xs font-bold uppercase tracking-wider rounded-lg"
+                                >
+                                  👁️ View Story
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    clonePublicStory(story);
+                                    onClose();
+                                  }}
+                                  className="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold uppercase tracking-wider rounded-lg shadow"
+                                >
+                                  📋 Clone
+                                </button>
+                              </div>
+                            </div>
                           )}
                         </div>
                       </div>
@@ -520,6 +743,17 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
                         </button>
                         
                         <button
+                          onClick={() => {
+                            setEditingElement(elem);
+                            setIsEditModalOpen(true);
+                          }}
+                          className="p-1.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded-lg text-xs font-bold"
+                          title="Edit Element Fields & Content"
+                        >
+                          ✏️
+                        </button>
+
+                        <button
                           onClick={() => exportElementJSON(elem, universeState)}
                           className="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-bold"
                           title="Export Element JSON"
@@ -622,6 +856,16 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
             </div>
           </div>
         )}
+        {/* Edit Individual Element Modal */}
+        <EditElementModal
+          isOpen={isEditModalOpen}
+          onClose={() => {
+            setIsEditModalOpen(false);
+            setEditingElement(null);
+          }}
+          element={editingElement}
+          onSave={handleSaveEditElement}
+        />
       </div>
     </div>
   );

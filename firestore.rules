@@ -3,11 +3,28 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     // =========================================================================
-    // USER-PRIVATE DATA: Persona Folio roster, scoped per user
-    // Only the authenticated user who owns the data can read/write it.
+    // PERSONA FOLIO DATA: Scoped per user, with public read access if isPublic is true
     // =========================================================================
+    match /{path=**}/personas/{personaId} {
+      allow read: if resource.data.isPublic == true || (request.auth != null && request.auth.uid == resource.data.ownerUid);
+      allow write: if request.auth != null && request.auth.uid == resource.data.ownerUid;
+    }
+
     match /users/{userId}/personas/{personaId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read: if (request.auth != null && request.auth.uid == userId)
+                  || resource.data.isPublic == true;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // =========================================================================
+    // STORY FOUNDRY PROJECTS: Scoped per user, with public read access if isPublic is true
+    // =========================================================================
+    match /user_stories/{storyId} {
+      allow read: if resource.data.isPublic == true 
+                  || (request.auth != null && resource.data.ownerId == request.auth.uid);
+      allow write: if request.auth != null 
+                   && request.resource.data.ownerId == request.auth.uid
+                   && (resource == null || resource.data.ownerId == request.auth.uid);
     }
 
     // =========================================================================

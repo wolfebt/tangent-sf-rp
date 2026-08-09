@@ -124,7 +124,7 @@ export const fetchGeminiContent = async (apiKey, requestBody) => {
 /**
  * Sends a chat prompt to BASTION (Gemini API or Tactical Fallback)
  */
-export const sendBastionChatMessage = async ({ prompt, history = [] }) => {
+export const sendBastionChatMessage = async ({ prompt, history = [], contextData = null }) => {
   const apiKey = getGeminiApiKey();
 
   if (!apiKey) {
@@ -139,11 +139,16 @@ export const sendBastionChatMessage = async ({ prompt, history = [] }) => {
       parts: [{ text: m.text }]
     }));
 
+    let systemPromptContent = BASTION_SYSTEM_PROMPT;
+    if (contextData) {
+      systemPromptContent += `\n\nCURRENT CONTEXT:\n${JSON.stringify(contextData, null, 2)}`;
+    }
+
     const contents = [
       ...formattedHistory,
       {
         role: 'user',
-        parts: [{ text: `${BASTION_SYSTEM_PROMPT}\n\nUser Query: ${prompt}` }]
+        parts: [{ text: `${systemPromptContent}\n\nUser Query: ${prompt}` }]
       }
     ];
 
@@ -226,6 +231,8 @@ export const generateSelectiveFields = async ({
         fallbackResults[field] = Number(tl);
       } else if (['ml'].includes(field)) {
         fallbackResults[field] = Number(ml);
+      } else if (['laws_of_physics', 'history', 'geography', 'biosphere', 'culture', 'points_of_interest', 'inhabitants', 'origin', 'practices', 'narrative-backstory', 'narrative-psychology', 'narrative-arcs', 'narrative-relationships', 'narrative-secrets'].includes(field)) {
+        fallbackResults[field] = `Narrative details generated for "${userPrompt || 'this element'}". Grounded in campaign context (${project}, TL-${tl}, ML-${ml}).`;
       } else {
         fallbackResults[field] = `Generated ${field} for ${userPrompt || 'Standard'}`;
       }

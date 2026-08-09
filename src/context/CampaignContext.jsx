@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import { db, auth } from '../firebase';
 import { doc, setDoc, onSnapshot, collection, getDocs, getDoc, deleteDoc, writeBatch } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
+import { attachCreatorTag } from '../utils/creatorUtils';
 
 const StoryContext = createContext();
 
@@ -40,6 +41,13 @@ const DEFAULT_UNIVERSE_STATE = {
   ],
   maps: [],
   customAssets: { terrains: [], objects: [] },
+  creativeState: {
+    gems: [],
+    storyCards: [],
+    storyOutline: '',
+    storyDraft: '',
+    linkedElements: []
+  },
   updatedAt: new Date().toISOString()
 };
 
@@ -86,6 +94,8 @@ export const StoryProvider = ({ children }) => {
 
   // Unsaved / Dirty Fields tracking
   const [isDirty, setIsDirty] = useState(false);
+  const [isStoryReadOnly, setIsStoryReadOnly] = useState(false);
+  const [publicStoryCatalog, setPublicStoryCatalog] = useState([]);
 
   // Helper to confirm action when active workspace has unsaved / dirty changes
   const confirmIfDirty = useCallback((actionCallback, customMsg) => {
@@ -108,6 +118,13 @@ export const StoryProvider = ({ children }) => {
   const [cloudSyncStatus, setCloudSyncStatus] = useState('offline'); // 'synced' | 'syncing' | 'conflict' | 'offline' | 'error'
   const [lastCloudSavedAt, setLastCloudSavedAt] = useState(null);
   const [syncConflict, setSyncConflict] = useState(null); // { type, cloudData, localData, cloudUpdatedAt, localUpdatedAt }
+
+  const isDirtyRef = React.useRef(isDirty);
+  const universeStateRef = React.useRef(universeState);
+  useEffect(() => {
+    isDirtyRef.current = isDirty;
+    universeStateRef.current = universeState;
+  }, [isDirty, universeState]);
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
@@ -239,15 +256,15 @@ export const StoryProvider = ({ children }) => {
         }
 
         // If local state has unsaved modifications (isDirty is true), flag a conflict instead of overwriting
-        if (isDirty) {
+        if (isDirtyRef.current) {
           console.warn('Remote cloud doc updated while local edits exist.');
           setCloudSyncStatus('conflict');
           setSyncConflict({
             type: 'remote_update',
             cloudData: firestoreData,
-            localData: universeState,
+            localData: universeStateRef.current,
             cloudUpdatedAt: firestoreData.updatedAt || 'Unknown',
-            localUpdatedAt: universeState.updatedAt || 'Unknown'
+            localUpdatedAt: universeStateRef.current.updatedAt || 'Unknown'
           });
           return;
         }
@@ -266,10 +283,117 @@ export const StoryProvider = ({ children }) => {
       setCloudSyncStatus('error');
     });
     return () => unsub();
-  }, [currentUser, isDirty, universeState]);
+  }, [currentUser]);
+
+  // Check URL query parameters for direct story view (?storyId=STORY_ID)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const targetStoryId = params.get('storyId');
+
+    if (targetStoryId) {
+      const docRef = doc(db, 'user_stories', targetStoryId);
+      getDoc(docRef).then((snap) => {
+        if (snap.exists()) {
+          const storyData = snap.data();
+          const isOwner = currentUser && storyData.ownerId === currentUser.uid;
+          if (storyData.isPublic || isOwner) {
+            setUniverseState(storyData);
+            setIsDirty(false);
+            setIsStoryReadOnly(!isOwner);
+            if (storyData.scenarios?.length > 0) {
+              setActiveScenarioId(storyData.scenarios[0].id);
+            }
+          } else {
+            alert('This story project is private.');
+          }
+        } else {
+          alert('Requested story project was not found.');
+        }
+      }).catch((err) => {
+        console.warn('Failed to load public story project:', err);
+      });
+    }
+  }, [currentUser]);
+
+  const toggleStoryVisibility = useCallback(async (storyId, targetIsPublic) => {
+    setStoryCatalog(prev => {
+      const updated = prev.map(s => s.id === storyId ? { ...s, isPublic: targetIsPublic } : s);
+      try {
+        localStorage.setItem('tangent_story_catalog', JSON.stringify(updated));
+      } catch (e) {}
+      return updated;
+    });
+
+    if (universeState.id === storyId) {
+      setUniverseState(prev => ({ ...prev, isPublic: targetIsPublic }));
+    }
+
+    if (currentUser) {
+      try {
+        const userStoryDoc = doc(db, 'user_stories', storyId);
+        await setDoc(userStoryDoc, { isPublic: targetIsPublic, ownerId: currentUser.uid }, { merge: true });
+      } catch (err) {
+        console.warn('Failed to update story visibility in cloud:', err);
+      }
+    }
+  }, [currentUser, universeState.id]);
+
+  const loadPublicStories = useCallback(async () => {
+    try {
+      const storiesCol = collection(db, 'user_stories');
+      const snap = await getDocs(storiesCol);
+      const publicStories = snap.docs
+        .map(d => ({ id: d.id, ...d.data() }))
+        .filter(s => s.isPublic === true);
+      setPublicStoryCatalog(publicStories);
+      return publicStories;
+    } catch (err) {
+      console.warn('Failed to fetch public community stories:', err);
+      return [];
+    }
+  }, []);
+
+  const clonePublicStory = useCallback((storyToClone) => {
+    const source = storyToClone || universeState;
+    const newId = `proj_${Date.now()}`;
+    const rawStory = {
+      ...source,
+      id: newId,
+      projectName: `${source.projectName || 'Untitled Story'} (Copy)`,
+      isPublic: false,
+      ownerId: currentUser ? currentUser.uid : 'local',
+      updatedAt: new Date().toISOString()
+    };
+    const newStory = attachCreatorTag(rawStory, localStorage.getItem('userHandle'), currentUser);
+
+    setUniverseState(newStory);
+    setIsStoryReadOnly(false);
+    setIsDirty(false);
+
+    setStoryCatalog(prev => {
+      const updated = [newStory, ...prev.filter(s => s.id !== newId)];
+      try {
+        localStorage.setItem('tangent_story_catalog', JSON.stringify(updated));
+      } catch (e) {}
+      return updated;
+    });
+
+    if (currentUser) {
+      setDoc(doc(db, 'user_stories', newId), newStory).catch(e => console.warn(e));
+    }
+
+    if (window.history.replaceState) {
+      const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+      window.history.replaceState({ path: cleanUrl }, '', cleanUrl);
+    }
+
+    alert(`Successfully cloned "${source.projectName}" to your Story Foundry catalog!`);
+  }, [universeState, currentUser]);
 
   // Auto-persist active universe state to Firestore & Local Storage on mutation
   useEffect(() => {
+    if (isStoryReadOnly) return; // Prevent auto-save when viewing a read-only public story
+
     if (isSyncingFromFirestore.current) {
       isSyncingFromFirestore.current = false;
       return;
@@ -286,6 +410,9 @@ export const StoryProvider = ({ children }) => {
       id: currentProjectId,
       updatedAt: new Date().toISOString()
     };
+
+    // Synchronously set the ref so the onSnapshot echo check passes when this timestamp broadcasts
+    lastSyncedCloudUpdatedAtRef.current = updatedState.updatedAt;
 
     // Mirror to localStorage cache
     try {
@@ -458,8 +585,9 @@ export const StoryProvider = ({ children }) => {
     if (!elementNode || !elementNode.id) return false;
     try {
       setCloudSyncStatus('syncing');
+      const taggedNode = attachCreatorTag(elementNode, localStorage.getItem('userHandle'), currentUser);
       const payload = {
-        ...elementNode,
+        ...taggedNode,
         updatedAt: new Date().toISOString(),
         authorEmail: currentUser.email || 'Anonymous',
         authorUid: currentUser.uid
@@ -670,7 +798,8 @@ export const StoryProvider = ({ children }) => {
   };
 
   // Helpers for Scenarios
-  const addScenario = (newScenario, parentId = null) => {
+  const addScenario = (rawScenario, parentId = null) => {
+    const newScenario = attachCreatorTag(rawScenario, localStorage.getItem('userHandle'), currentUser);
     setIsDirty(true);
     setUniverseState(prev => {
       if (!parentId) {
@@ -898,7 +1027,8 @@ export const StoryProvider = ({ children }) => {
   };
 
   // Helpers for Maps
-  const addMap = (newMap) => {
+  const addMap = (rawMap) => {
+    const newMap = attachCreatorTag(rawMap, localStorage.getItem('userHandle'), currentUser);
     setUniverseState(prev => ({
       ...prev,
       maps: [...prev.maps, newMap]
@@ -922,13 +1052,14 @@ export const StoryProvider = ({ children }) => {
   };
 
   const addCustomTerrain = (terrain) => {
+    const taggedTerrain = attachCreatorTag(terrain, localStorage.getItem('userHandle'), currentUser);
     setUniverseState(prev => {
       const custom = prev.customAssets || { terrains: [], objects: [] };
       return {
         ...prev,
         customAssets: {
           ...custom,
-          terrains: [...custom.terrains, { ...terrain, isCustom: true }]
+          terrains: [...custom.terrains, { ...taggedTerrain, isCustom: true }]
         }
       };
     });
@@ -961,13 +1092,14 @@ export const StoryProvider = ({ children }) => {
   };
 
   const addCustomObject = (obj) => {
+    const taggedObj = attachCreatorTag(obj, localStorage.getItem('userHandle'), currentUser);
     setUniverseState(prev => {
       const custom = prev.customAssets || { terrains: [], objects: [] };
       return {
         ...prev,
         customAssets: {
           ...custom,
-          objects: [...custom.objects, { ...obj, isCustom: true }]
+          objects: [...custom.objects, { ...taggedObj, isCustom: true }]
         }
       };
     });
@@ -999,6 +1131,26 @@ export const StoryProvider = ({ children }) => {
     });
   };
 
+  const updateCreativeState = (updates) => {
+    setIsDirty(true);
+    setUniverseState(prev => ({
+      ...prev,
+      creativeState: {
+        ...(prev.creativeState || { gems: [], storyCards: [], storyOutline: '', storyDraft: '', linkedElements: [] }),
+        ...updates
+      }
+    }));
+  };
+
+  const updateGems = (gems) => updateCreativeState({ gems });
+  const updateStoryCards = (storyCards) => updateCreativeState({ storyCards });
+  const updateOutline = (storyOutline) => updateCreativeState({ storyOutline });
+  const updateDraft = (storyDraft) => updateCreativeState({ storyDraft });
+  const updateLinkedElements = (linkedElements) => updateCreativeState({ linkedElements });
+  const getActiveGemsText = () => {
+    return universeState?.creativeState?.gems?.join(', ') || '';
+  };
+
   const updateProjectName = (name) => {
     setIsDirty(true);
     setUniverseState(prev => ({
@@ -1010,23 +1162,24 @@ export const StoryProvider = ({ children }) => {
   // Story Project Catalog Lifecycle Helpers
   const createNewStory = (name, description = '') => {
     const newId = `proj_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
-    const newStory = {
+    const overviewElem = attachCreatorTag({
+      id: `elem_${Date.now()}_1`,
+      title: `${name || 'Story'} Overview`,
+      type: 'Scenario',
+      content: '<p>Welcome to your new story project. Add elements to build your narrative universe.</p>',
+      children: []
+    }, localStorage.getItem('userHandle'), currentUser);
+
+    const rawStory = {
       id: newId,
       projectName: name || 'Untitled Story Project',
       description: description || '',
-      scenarios: [
-        {
-          id: `elem_${Date.now()}_1`,
-          title: `${name || 'Story'} Overview`,
-          type: 'Scenario',
-          content: '<p>Welcome to your new story project. Add elements to build your narrative universe.</p>',
-          children: []
-        }
-      ],
+      scenarios: [overviewElem],
       maps: [],
       customAssets: { terrains: [], objects: [] },
       updatedAt: new Date().toISOString()
     };
+    const newStory = attachCreatorTag(rawStory, localStorage.getItem('userHandle'), currentUser);
 
     setUniverseState(newStory);
     setActiveScenarioId(`elem_${Date.now()}_1`);
@@ -1048,10 +1201,12 @@ export const StoryProvider = ({ children }) => {
   };
 
   const openStory = (storyId) => {
-    const target = storyCatalog.find(s => s.id === storyId);
+    const target = storyCatalog.find(s => s.id === storyId) || publicStoryCatalog.find(s => s.id === storyId);
     if (target) {
+      const isOwner = !currentUser || target.ownerId === currentUser.uid;
       setUniverseState(target);
       setIsDirty(false);
+      setIsStoryReadOnly(!isOwner);
       if (target.scenarios?.length > 0) {
         setActiveScenarioId(target.scenarios[0].id);
       } else {
@@ -1111,6 +1266,74 @@ export const StoryProvider = ({ children }) => {
     }
   };
 
+  const updateSavedElement = async (elementId, updates) => {
+    let updatedElem = null;
+    const taggedUpdates = attachCreatorTag(updates, localStorage.getItem('userHandle'), currentUser);
+    setElementsCatalog(prev => {
+      const updated = prev.map(e => {
+        if (e.id === elementId) {
+          updatedElem = attachCreatorTag({
+            ...e,
+            ...taggedUpdates,
+            updatedAt: new Date().toISOString()
+          }, localStorage.getItem('userHandle'), currentUser);
+          return updatedElem;
+        }
+        return e;
+      });
+      if (!updatedElem) {
+        updatedElem = attachCreatorTag({
+          id: elementId,
+          ...taggedUpdates,
+          updatedAt: new Date().toISOString(),
+          authorEmail: currentUser?.email || 'Local User',
+          authorUid: currentUser?.uid || 'local'
+        }, localStorage.getItem('userHandle'), currentUser);
+        updated.unshift(updatedElem);
+      }
+      try {
+        localStorage.setItem('tangent_elements_catalog', JSON.stringify(updated));
+      } catch (e) {}
+      return updated;
+    });
+
+    // If element exists in current working story, sync updates there too
+    setUniverseState(prev => {
+      const updateTree = (nodes) => {
+        return nodes.map(node => {
+          if (node.id === elementId) {
+            return { ...node, ...updates };
+          }
+          if (node.children && node.children.length > 0) {
+            return { ...node, children: updateTree(node.children) };
+          }
+          return node;
+        });
+      };
+      const containsId = (nodes) => {
+        for (let n of nodes) {
+          if (n.id === elementId) return true;
+          if (n.children && containsId(n.children)) return true;
+        }
+        return false;
+      };
+      if (prev.scenarios && containsId(prev.scenarios)) {
+        setIsDirty(true);
+        return { ...prev, scenarios: updateTree(prev.scenarios) };
+      }
+      return prev;
+    });
+
+    if (currentUser && updatedElem) {
+      try {
+        await setDoc(doc(db, 'story_elements', elementId), updatedElem, { merge: true });
+      } catch (e) {
+        console.warn('Failed to update element in Firestore:', e);
+      }
+    }
+    return updatedElem;
+  };
+
   const value = {
     universeState,
     setUniverseState,
@@ -1125,10 +1348,17 @@ export const StoryProvider = ({ children }) => {
     closeStory,
     deleteStoryProject,
     deleteSavedElement,
+    updateSavedElement,
     enforceElementNames,
     saveAllElementsIndependently,
     updateProjectName,
     handleClearUniverse,
+    updateCreativeState,
+    updateGems,
+    updateStoryCards,
+    updateOutline,
+    updateDraft,
+    getActiveGemsText,
     cloudSyncStatus,
     syncConflict,
     setSyncConflict,
@@ -1170,7 +1400,12 @@ export const StoryProvider = ({ children }) => {
     deleteCustomTerrain,
     addCustomObject,
     updateCustomObject,
-    deleteCustomObject
+    deleteCustomObject,
+    isStoryReadOnly,
+    publicStoryCatalog,
+    toggleStoryVisibility,
+    loadPublicStories,
+    clonePublicStory
   };
 
   return (

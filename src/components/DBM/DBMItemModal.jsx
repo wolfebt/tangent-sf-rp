@@ -62,6 +62,13 @@ export const DBMItemModal = ({
     setEditFormData(prev => ({ ...prev, [fieldKey]: currentArr.filter(v => v !== valToRemove) }));
   };
 
+  // Reset activeModalTab when modal opens or selected item changes
+  useEffect(() => {
+    if (isOpen) {
+      setActiveModalTab('general');
+    }
+  }, [isOpen, selectedItem]);
+
   // Fetch relational data when modal opens
   useEffect(() => {
     const fields = currentConfig?.fields || DEFAULT_FIELDS;
@@ -189,6 +196,9 @@ export const DBMItemModal = ({
     if (k.includes('attr') || k.includes('skill') || k.includes('bonus') || k.includes('dc') || k.includes('damage') || k.includes('range') || k.includes('defense') || k.includes('armor') || k.includes('points') || k.includes('cost') || k.includes('cp') || k.includes('health') || k.includes('vitality') || k.includes('karma')) {
       return 'mechanics';
     }
+    if (['laws_of_physics', 'history', 'geography', 'biosphere', 'culture', 'points_of_interest', 'inhabitants', 'origin', 'practices', 'attitude', 'goals', 'social_strengths', 'social_weaknesses'].includes(k)) {
+      return 'narrative';
+    }
     return 'features';
   };
 
@@ -270,6 +280,17 @@ export const DBMItemModal = ({
               }`}
             >
               🧬 Features & Relational
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveModalTab('narrative')}
+              className={`px-3 py-1 rounded text-xs font-bold uppercase tracking-wider border transition-colors ${
+                activeModalTab === 'narrative'
+                  ? 'bg-cyan-950 border-cyan-500 text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
+                  : 'bg-slate-900 border-slate-700 text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              📖 Narrative Details
             </button>
             <button
               type="button"
@@ -448,15 +469,49 @@ export const DBMItemModal = ({
                   </div>
                 );
               })}
+
+              {!currentConfig.fields?.tags && (
+                <div className="space-y-1 pt-2 border-t border-slate-800/80">
+                  <label className="block text-[11px] font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1">
+                    <span>🏷️</span> Tags & Creator Handle Tag
+                  </label>
+                  <input
+                    type="text"
+                    value={Array.isArray(editFormData.tags) ? editFormData.tags.join(', ') : (editFormData.tags || '')}
+                    onChange={e => {
+                      const val = e.target.value;
+                      const tagArr = val.split(',').map(t => t.trim()).filter(Boolean);
+                      setEditFormData({ ...editFormData, tags: tagArr });
+                    }}
+                    placeholder="e.g. @Operator_Zero, Fire, Weaponry"
+                    className="w-full bg-slate-950 border border-slate-700 text-white p-2 rounded text-xs outline-none focus:border-amber-500 font-mono"
+                  />
+                  <p className="text-[10px] text-slate-500 italic">
+                    Comma-separated tags. Automatically tagged with your creator handle on save.
+                  </p>
+                </div>
+              )}
             </div>
           ) : (
             <div className="space-y-4">
               <h3 className="text-xl font-bold text-white mb-2">{selectedItem?.name}</h3>
+              {((Array.isArray(selectedItem?.tags) && selectedItem.tags.length > 0) || (typeof selectedItem?.tags === 'string' && selectedItem.tags.trim())) && (
+                <div className="flex flex-wrap gap-1.5 mb-2">
+                  {(Array.isArray(selectedItem.tags) ? selectedItem.tags : selectedItem.tags.split(',').map(t => t.trim())).filter(Boolean).map((tag, idx) => (
+                    <span key={idx} className="px-2.5 py-0.5 bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 rounded-full text-xs font-mono font-bold flex items-center gap-1 shadow-sm">
+                      <span>🏷️</span> {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
               <p className="text-sm text-slate-300 whitespace-pre-line">{selectedItem?.description || 'No description available.'}</p>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-slate-800">
                 {Object.keys(currentConfig.fields || {}).map(fKey => {
                   if (fKey === 'name' || fKey === 'description') return null;
+                  if (isDenseForm && activeModalTab !== 'all' && getFieldTabGroup(fKey) !== activeModalTab) {
+                    return null;
+                  }
                   const val = selectedItem?.[fKey];
                   if (val === undefined || val === null || val === '') return null;
                   const fDef = currentConfig.fields[fKey];

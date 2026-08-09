@@ -8,15 +8,19 @@ import CoreStatsTab from './tabs/CoreStatsTab';
 import SkillsTab from './tabs/SkillsTab';
 import AbilitiesTab from './tabs/AbilitiesTab';
 import CombatGearTab from './tabs/CombatGearTab';
+import NarrativeTab from './tabs/NarrativeTab';
 import OtherTab from './tabs/OtherTab';
 import EconomyModal from './modals/EconomyModal';
 import AddSkillModal from './modals/AddSkillModal';
 import CustomSelectorModal from './modals/CustomSelectorModal';
+import AssetModal from './modals/AssetModal';
 import ConfirmationModal from './modals/ConfirmationModal';
 import PreviewModal from './modals/PreviewModal';
 import RosterModal from './modals/RosterModal';
 import BastionDrawer from './BastionDrawer';
 import PrintFolio from './print/PrintFolio';
+import { attachCreatorTag } from '../../utils/creatorUtils';
+import { FolioGuideModal } from './FolioGuideModal';
 
 const FolioContainer = () => {
   const navigate = useNavigate();
@@ -31,10 +35,13 @@ const FolioContainer = () => {
   const [addSkillModalMode, setAddSkillModalMode] = useState('skill');
   const [availableSkillsForModal, setAvailableSkillsForModal] = useState([]);
   const [isSelectorOpen, setIsSelectorOpen] = useState(false);
+  const [isAssetModalOpen, setIsAssetModalOpen] = useState(false);
+  const [assetModalConfig, setAssetModalConfig] = useState(null);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [isBastionOpen, setIsBastionOpen] = useState(false);
   const [isFileMenuOpen, setIsFileMenuOpen] = useState(false);
+  const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [selectorConfig, setSelectorConfig] = useState(null);
 
   const fileInputRef = useRef(null);
@@ -43,6 +50,7 @@ const FolioContainer = () => {
     characterData,
     updateField,
     handleAddItem,
+    handleUpdateItem,
     handleAddSkill,
     handleAddSpecialization,
     handleNewCharacter,
@@ -60,7 +68,12 @@ const FolioContainer = () => {
     duplicateRosterCharacter,
     cloudSaveStatus,
     lastSavedTime,
-    updateRosterCharacterNote
+    updateRosterCharacterNote,
+    isReadOnly,
+    clonePublicPersona,
+    togglePersonaVisibility,
+    loadPublicPersonas,
+    publicCatalog
   } = useFolio();
 
   const handleOpenAddSkillModal = useCallback((mode = 'skill', skillsList = []) => {
@@ -68,6 +81,41 @@ const FolioContainer = () => {
     setAvailableSkillsForModal(skillsList);
     setIsAddSkillOpen(true);
   }, []);
+
+  // Open Asset Modal helper
+  const handleOpenAssetModal = useCallback((key, title, mode = 'create', itemIndex = null, initialData = null) => {
+    setAssetModalConfig({ key, title, mode, itemIndex, initialData });
+    setIsAssetModalOpen(true);
+  }, []);
+
+  const handleSaveAssetItem = useCallback((key, assetData, index = null) => {
+    const taggedData = typeof assetData === 'object' ? attachCreatorTag(assetData, userHandle, currentUser) : assetData;
+    if (key.startsWith('char-')) {
+      const name = typeof taggedData === 'object' ? (taggedData.name || taggedData.title || '') : taggedData;
+      updateField(key, name);
+
+      // Auto-apply species bonus features if present
+      if (key === 'char-species' && typeof taggedData === 'object') {
+        const bonusFeatures = taggedData.bonus_features || [];
+        if (Array.isArray(bonusFeatures) && bonusFeatures.length > 0) {
+          const featListStr = bonusFeatures.map(f => typeof f === 'object' ? f.name : f).join(', ');
+          const autoApply = window.confirm(`Selected Species "${name}" includes bonus features (${featListStr}). Would you like to add these bonus traits to your character sheet?`);
+          if (autoApply) {
+            bonusFeatures.forEach(feat => {
+              const featObj = typeof feat === 'object' 
+                ? attachCreatorTag(feat, userHandle, currentUser)
+                : attachCreatorTag({ id: `feat_${Date.now()}_${Math.random().toString(36).substring(2,6)}`, name: feat, cp: 0, category: 'Species Bonus' }, userHandle, currentUser);
+              handleAddItem('features', featObj);
+            });
+          }
+        }
+      }
+    } else if (index !== null && index !== undefined && index >= 0) {
+      handleUpdateItem(key, index, taggedData);
+    } else {
+      handleAddItem(key, taggedData);
+    }
+  }, [updateField, handleAddItem, handleUpdateItem, userHandle, currentUser]);
 
   // Open Selector Modal helper
   const handleOpenSelectorModal = useCallback((key, title, browsePath, filterCategory = null, filterCategoryExclude = null) => {
@@ -89,20 +137,21 @@ const FolioContainer = () => {
           if (autoApply) {
             bonusFeatures.forEach(feat => {
               const featObj = typeof feat === 'object' 
-                ? feat 
-                : { id: `feat_${Date.now()}_${Math.random().toString(36).substring(2,6)}`, name: feat, cp: 0, category: 'Species Bonus' };
+                ? attachCreatorTag(feat, userHandle, currentUser)
+                : attachCreatorTag({ id: `feat_${Date.now()}_${Math.random().toString(36).substring(2,6)}`, name: feat, cp: 0, category: 'Species Bonus' }, userHandle, currentUser);
               handleAddItem('features', featObj);
             });
           }
         }
       }
     } else {
-      const itemObj = typeof value === 'object' 
-        ? { id: value.id || `item_${Date.now()}`, name: value.name || value.title, description: value.description || '', cp: value.cp || 0, category: value.category || '' } 
+      const rawObj = typeof value === 'object' 
+        ? { id: value.id || `item_${Date.now()}`, ...value, name: value.name || value.title, description: value.description || '', cp: value.cp || 0, category: value.category || '' } 
         : { id: `item_${Date.now()}`, name: value, description: '', cp: 0 };
+      const itemObj = attachCreatorTag(rawObj, userHandle, currentUser);
       handleAddItem(key, itemObj);
     }
-  }, [updateField, handleAddItem]);
+  }, [updateField, handleAddItem, userHandle, currentUser]);
 
   const onFileChange = (e) => {
     const file = e.target.files[0];
@@ -138,6 +187,26 @@ const FolioContainer = () => {
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#0d1117]">
+        {/* Public Read-Only Banner */}
+        {isReadOnly && (
+          <div className="bg-amber-950/90 border-b border-amber-500/50 px-4 py-2 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-amber-200 shrink-0 shadow-lg">
+            <div className="flex items-center gap-2">
+              <span className="text-base animate-pulse">🌐</span>
+              <span>
+                <strong>PUBLIC READ-ONLY VIEW:</strong> Operative Sheet by <strong className="text-amber-400">{characterData.authorHandle || characterData['char-name'] || 'Community Creator'}</strong>.
+              </span>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                onClick={clonePublicPersona}
+                className="px-3 py-1 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded uppercase shadow text-[11px] transition-colors flex items-center gap-1"
+              >
+                <span>➕</span> Clone to My Roster
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Top Header & Actions Bar */}
         <header className="bg-[#0d1117] border-b border-[#0D5C63]/50 p-3 px-4 sm:px-6 flex items-center justify-between backdrop-blur-md gap-3 relative z-40">
           
@@ -199,6 +268,15 @@ const FolioContainer = () => {
                 <span>KARMA: <strong className="text-amber-400">{derivedStats.karma}</strong></span>
               </div>
             </div>
+            {/* User Guide Book Icon */}
+            <button
+              type="button"
+              onClick={() => setIsGuideOpen(true)}
+              className="p-1.5 px-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-amber-300 rounded text-xs font-bold transition-colors border border-slate-700 hover:border-amber-500/50 shrink-0"
+              title="User Guide & System Documentation"
+            >
+              📖
+            </button>
           </div>
 
           {/* Center / Actions Bar */}
@@ -390,6 +468,7 @@ const FolioContainer = () => {
           {activeTab === 'identity' && (
             <IdentityTab
               onOpenSelectorModal={handleOpenSelectorModal}
+              onOpenAssetModal={handleOpenAssetModal}
             />
           )}
           {activeTab === 'core-stats' && (
@@ -403,12 +482,17 @@ const FolioContainer = () => {
           {activeTab === 'abilities' && (
             <AbilitiesTab
               onOpenSelectorModal={handleOpenSelectorModal}
+              onOpenAssetModal={handleOpenAssetModal}
             />
           )}
           {activeTab === 'combat-gear' && (
             <CombatGearTab
               onOpenSelectorModal={handleOpenSelectorModal}
+              onOpenAssetModal={handleOpenAssetModal}
             />
+          )}
+          {activeTab === 'narrative' && (
+            <NarrativeTab />
           )}
           {activeTab === 'other' && (
             <OtherTab />
@@ -428,6 +512,14 @@ const FolioContainer = () => {
         onDuplicateCharacter={duplicateRosterCharacter}
         onDeleteCharacter={deleteRosterCharacter}
         onUpdateNote={updateRosterCharacterNote}
+        onToggleVisibility={togglePersonaVisibility}
+        onLoadPublicGallery={loadPublicPersonas}
+        publicCatalog={publicCatalog}
+        onSelectPublicPersona={(userUid, docId) => {
+          window.history.pushState({}, '', `${window.location.pathname}?user=${userUid}&id=${docId}`);
+          window.location.reload();
+        }}
+        onClonePublicPersona={clonePublicPersona}
       />
       <EconomyModal
         isOpen={isEconomyOpen}
@@ -449,6 +541,13 @@ const FolioContainer = () => {
         onClose={() => setIsSelectorOpen(false)}
         modalConfig={selectorConfig}
         onSelectItem={handleSelectItem}
+        onOpenAssetModal={handleOpenAssetModal}
+      />
+      <AssetModal
+        isOpen={isAssetModalOpen}
+        onClose={() => setIsAssetModalOpen(false)}
+        modalConfig={assetModalConfig}
+        onSaveAsset={handleSaveAssetItem}
       />
       <ConfirmationModal
         isOpen={isConfirmOpen}
@@ -466,7 +565,10 @@ const FolioContainer = () => {
         isOpen={isBastionOpen}
         onClose={() => setIsBastionOpen(false)}
       />
-
+      <FolioGuideModal
+        isOpen={isGuideOpen}
+        onClose={() => setIsGuideOpen(false)}
+      />
       {/* Print-only Folio Output */}
       <div className="hidden print:block">
         <PrintFolio characterData={characterData} />

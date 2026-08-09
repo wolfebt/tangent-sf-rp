@@ -107,7 +107,39 @@ export const DBMTableView = ({
         </div>
       </div>
 
-
+      {/* Dynamic Type/Category Filter Tabs */}
+      {availableTypes.length > 0 && (
+        <div className="flex flex-wrap items-center gap-1.5 mb-3 pb-2 border-b border-slate-800/80 overflow-x-auto shrink-0">
+          <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mr-2">Filter Type:</span>
+          <button
+            onClick={() => setFilterType('ALL')}
+            className={`px-3 py-1 text-xs font-bold uppercase rounded tracking-wider transition-all ${
+              filterType === 'ALL'
+                ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-[0_0_8px_rgba(34,211,238,0.2)]'
+                : 'bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-800'
+            }`}
+          >
+            All ({currentItems.length})
+          </button>
+          {availableTypes.map(t => {
+            const count = currentItems.filter(i => i.type === t || i.category === t).length;
+            const isActiveType = filterType === t;
+            return (
+              <button
+                key={t}
+                onClick={() => setFilterType(t)}
+                className={`px-3 py-1 text-xs font-bold uppercase rounded tracking-wider transition-all ${
+                  isActiveType
+                    ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-[0_0_8px_rgba(34,211,238,0.2)]'
+                    : 'bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-800'
+                }`}
+              >
+                {t} ({count})
+              </button>
+            );
+          })}
+        </div>
+      )}
 
       {/* Data Table */}
       <div className="flex-1 overflow-hidden rounded border border-slate-800 bg-slate-950 flex flex-col">
@@ -148,43 +180,68 @@ export const DBMTableView = ({
               resetScrollDeps={[searchTerm, sortField, sortAsc, currentKey]}
               getKey={(item, index) => item.id || item.name || index}
               containerClassName="h-full overflow-y-auto bg-slate-950"
-              renderItem={(item) => (
-                <div
-                  key={item.id || item.name}
-                  onClick={() => handleOpenItem(item, true)}
-                  className="hover:bg-slate-800/50 cursor-pointer transition-colors border-b border-slate-800/60 flex items-center px-3 text-xs text-slate-300 h-[44px] box-border"
-                >
-                  <div className="w-1/4 font-bold text-white truncate pr-2">{item.name}</div>
-                  {(currentConfig.directory_columns || ['description']).map(col => (
-                    col !== 'name' && (
-                      <div key={col} className="flex-1 text-slate-400 truncate pr-2">
-                        {Array.isArray(item[col]) ? item[col].join(', ') : (item[col] || '-')}
-                      </div>
-                    )
-                  ))}
-                  {!currentConfig.hideActions && (
-                    <div className="w-24 text-right shrink-0">
-                      <button
-                        onClick={(e) => { e.stopPropagation(); handleOpenItem(item, true); }}
-                        className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded text-[11px] font-bold uppercase cursor-pointer"
-                      >
-                        View
-                      </button>
+              renderItem={(item) => {
+                const creatorTag = Array.isArray(item.tags) 
+                  ? item.tags.find(t => typeof t === 'string' && t.startsWith('@'))
+                  : (typeof item.tags === 'string' && item.tags.split(',').map(t=>t.trim()).find(t => t.startsWith('@')));
+                return (
+                  <div
+                    key={item.id || item.name}
+                    onClick={() => handleOpenItem(item, true)}
+                    className="hover:bg-slate-800/50 cursor-pointer transition-colors border-b border-slate-800/60 flex items-center px-3 text-xs text-slate-300 h-[44px] box-border"
+                  >
+                    <div className="w-1/4 font-bold text-white truncate pr-2 flex items-center gap-1.5">
+                      <span className="truncate">{item.name}</span>
+                      {creatorTag && (
+                        <span className="px-1.5 py-0.5 bg-cyan-950/90 text-cyan-300 border border-cyan-500/40 rounded text-[9px] font-mono shrink-0">
+                          {creatorTag}
+                        </span>
+                      )}
                     </div>
-                  )}
-                </div>
-              )}
+                    {(currentConfig.directory_columns || ['description']).map(col => (
+                      col !== 'name' && (
+                        <div key={col} className="flex-1 text-slate-400 truncate pr-2">
+                          {Array.isArray(item[col]) ? item[col].join(', ') : (item[col] || '-')}
+                        </div>
+                      )
+                    ))}
+                    {!currentConfig.hideActions && (
+                      <div className="w-24 text-right shrink-0">
+                        <button
+                          onClick={(e) => { e.stopPropagation(); handleOpenItem(item, true); }}
+                          className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded text-[11px] font-bold uppercase cursor-pointer"
+                        >
+                          View
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                );
+              }}
             />
           ) : (
             <table className="w-full text-left text-xs text-slate-300 table-fixed">
               <tbody className="divide-y divide-slate-800/60">
-                {filteredItems.map(item => (
-                  <tr
-                    key={item.id || item.name}
-                    onClick={() => handleOpenItem(item, true)}
-                    className="hover:bg-slate-800/50 cursor-pointer transition-colors h-[44px]"
-                  >
-                    <td className="p-3 font-bold text-white w-1/4 truncate">{item.name}</td>
+                {filteredItems.map(item => {
+                  const creatorTag = Array.isArray(item.tags) 
+                    ? item.tags.find(t => typeof t === 'string' && t.startsWith('@'))
+                    : (typeof item.tags === 'string' && item.tags.split(',').map(t=>t.trim()).find(t => t.startsWith('@')));
+                  return (
+                    <tr
+                      key={item.id || item.name}
+                      onClick={() => handleOpenItem(item, true)}
+                      className="hover:bg-slate-800/50 cursor-pointer transition-colors h-[44px]"
+                    >
+                      <td className="p-3 font-bold text-white w-1/4 truncate">
+                        <div className="flex items-center gap-1.5 truncate">
+                          <span className="truncate">{item.name}</span>
+                          {creatorTag && (
+                            <span className="px-1.5 py-0.5 bg-cyan-950/90 text-cyan-300 border border-cyan-500/40 rounded text-[9px] font-mono shrink-0">
+                              {creatorTag}
+                            </span>
+                          )}
+                        </div>
+                      </td>
                     {(currentConfig.directory_columns || ['description']).map(col => (
                       col !== 'name' && (
                         <td key={col} className="p-3 text-slate-400 truncate">
@@ -203,7 +260,8 @@ export const DBMTableView = ({
                       </td>
                     )}
                   </tr>
-                ))}
+                );
+              })}
               </tbody>
             </table>
           )}

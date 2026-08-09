@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { db } from '../../firebase';
+import { db, auth } from '../../firebase';
 import { collection, getDocs, setDoc, doc } from 'firebase/firestore';
 import { categoryConfig } from './categoryConfig';
 import { VirtualizedList } from './VirtualizedList';
+import { attachCreatorTag } from '../../utils/creatorUtils';
 
 const EMPTY_CONFIG = {};
 const DEFAULT_SCHEMA_FIELDS = {
@@ -181,13 +182,13 @@ export const UnifiedRelationalSelectorModal = ({
     setSavingNew(true);
     try {
       const newId = `${sourceCollection}_${Date.now()}`;
-      const payload = {
+      const payload = attachCreatorTag({
         id: newId,
         ...newFormData,
         name: itemName,
         description: (newFormData.description || '').trim(),
         createdAt: new Date().toISOString()
-      };
+      }, localStorage.getItem('userHandle'), auth.currentUser);
 
       // 1. Update local items list
       setItems(prev => [...prev, payload]);
