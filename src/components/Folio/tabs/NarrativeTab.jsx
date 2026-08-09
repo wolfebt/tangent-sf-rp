@@ -102,12 +102,12 @@ const NarrativeTab = () => {
 
   return (
     <div className="flex flex-col max-w-4xl mx-auto h-full overflow-hidden">
-      <div className="flex border-b border-cyan-900/50 overflow-x-auto no-scrollbar mb-4 pb-1">
+      <div className="flex flex-wrap border-b border-cyan-900/50 mb-4 pb-1 gap-1">
         {sections.map((section, idx) => (
           <button 
             key={idx}
             onClick={() => setActiveTabIdx(idx)}
-            className={`px-4 py-2 text-sm font-bold whitespace-nowrap transition-colors ${
+            className={`px-3 py-1.5 text-xs font-bold whitespace-nowrap transition-colors flex-1 sm:flex-none text-center ${
               activeTabIdx === idx 
                 ? 'border-b-2 border-cyan-500 text-cyan-400 bg-cyan-950/20' 
                 : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'

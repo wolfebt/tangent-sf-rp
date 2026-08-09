@@ -247,11 +247,11 @@ export const DBMItemModal = ({
 
         {/* Dense Form Category Sub-Tab Navigation Bar */}
         {isDenseForm && (
-          <div className="bg-slate-950 px-2 sm:px-4 py-1.5 border-b border-slate-800 flex gap-1 sm:gap-1.5 overflow-x-auto shrink-0 no-scrollbar">
+          <div className="bg-slate-950 px-2 sm:px-4 py-1.5 border-b border-slate-800 flex flex-wrap items-center gap-1 sm:gap-1.5 shrink-0">
             <button
               type="button"
               onClick={() => setActiveModalTab('general')}
-              className={`px-1.5 sm:px-2 py-0.5 sm:py-1 rounded text-[10px] sm:text-xs font-bold uppercase tracking-tight sm:tracking-wider border transition-colors shrink-0 whitespace-nowrap ${
+              className={`px-2 py-1 rounded text-[10px] sm:text-xs font-bold uppercase tracking-tight sm:tracking-wider border transition-colors flex-1 sm:flex-none text-center whitespace-nowrap ${
                 activeModalTab === 'general'
                   ? 'bg-cyan-950 border-cyan-500 text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
                   : 'bg-slate-900 border-slate-700 text-slate-400 hover:text-slate-200'
@@ -262,7 +262,7 @@ export const DBMItemModal = ({
             <button
               type="button"
               onClick={() => setActiveModalTab('mechanics')}
-              className={`px-1.5 sm:px-2 py-0.5 sm:py-1 rounded text-[10px] sm:text-xs font-bold uppercase tracking-tight sm:tracking-wider border transition-colors shrink-0 whitespace-nowrap ${
+              className={`px-2 py-1 rounded text-[10px] sm:text-xs font-bold uppercase tracking-tight sm:tracking-wider border transition-colors flex-1 sm:flex-none text-center whitespace-nowrap ${
                 activeModalTab === 'mechanics'
                   ? 'bg-cyan-950 border-cyan-500 text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
                   : 'bg-slate-900 border-slate-700 text-slate-400 hover:text-slate-200'
@@ -273,7 +273,7 @@ export const DBMItemModal = ({
             <button
               type="button"
               onClick={() => setActiveModalTab('features')}
-              className={`px-1.5 sm:px-2 py-0.5 sm:py-1 rounded text-[10px] sm:text-xs font-bold uppercase tracking-tight sm:tracking-wider border transition-colors shrink-0 whitespace-nowrap ${
+              className={`px-2 py-1 rounded text-[10px] sm:text-xs font-bold uppercase tracking-tight sm:tracking-wider border transition-colors flex-1 sm:flex-none text-center whitespace-nowrap ${
                 activeModalTab === 'features'
                   ? 'bg-cyan-950 border-cyan-500 text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
                   : 'bg-slate-900 border-slate-700 text-slate-400 hover:text-slate-200'
@@ -284,7 +284,7 @@ export const DBMItemModal = ({
             <button
               type="button"
               onClick={() => setActiveModalTab('narrative')}
-              className={`px-1.5 sm:px-2 py-0.5 sm:py-1 rounded text-[10px] sm:text-xs font-bold uppercase tracking-tight sm:tracking-wider border transition-colors shrink-0 whitespace-nowrap ${
+              className={`px-2 py-1 rounded text-[10px] sm:text-xs font-bold uppercase tracking-tight sm:tracking-wider border transition-colors flex-1 sm:flex-none text-center whitespace-nowrap ${
                 activeModalTab === 'narrative'
                   ? 'bg-cyan-950 border-cyan-500 text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
                   : 'bg-slate-900 border-slate-700 text-slate-400 hover:text-slate-200'
@@ -295,7 +295,7 @@ export const DBMItemModal = ({
             <button
               type="button"
               onClick={() => setActiveModalTab('all')}
-              className={`px-1.5 sm:px-2 py-0.5 sm:py-1 rounded text-[10px] sm:text-xs font-bold uppercase tracking-tight sm:tracking-wider border transition-colors shrink-0 whitespace-nowrap ${
+              className={`px-2 py-1 rounded text-[10px] sm:text-xs font-bold uppercase tracking-tight sm:tracking-wider border transition-colors flex-1 sm:flex-none text-center whitespace-nowrap ${
                 activeModalTab === 'all'
                   ? 'bg-cyan-950 border-cyan-500 text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
                   : 'bg-slate-900 border-slate-700 text-slate-400 hover:text-slate-200'

@@ -323,7 +323,7 @@ export default function MapAssetManagerModal({
         <div className="px-6 py-2.5 bg-[#161b22] border-b border-[#0D5C63]/40 flex flex-wrap items-center justify-between gap-3">
           
           {/* Main Category Tabs */}
-          <div className="flex items-center gap-1 sm:gap-2 bg-[#0d1117] p-1 rounded-lg border border-[#0D5C63]/40 overflow-x-auto shrink-0 no-scrollbar">
+          <div className="flex flex-wrap items-center gap-1 sm:gap-2 bg-[#0d1117] p-1 rounded-lg border border-[#0D5C63]/40 shrink-0">
             <button
               onClick={() => {
                 setActiveTab('terrains');

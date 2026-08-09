@@ -431,7 +431,7 @@ export const DBMContainer = () => {
             const parentKeyForNav = catForPills === categoryConfig[activeCategory] ? activeCategory : currentKey;
 
             return (
-              <div className="flex gap-1 sm:gap-2 mb-3 border-b border-slate-800 pb-2 overflow-x-auto shrink-0 no-scrollbar">
+              <div className="flex flex-wrap items-center gap-1 sm:gap-2 mb-3 border-b border-slate-800 pb-2 shrink-0">
                 <button
                   onClick={() => navigateToCategory(parentKeyForNav, null)}
                   className={`px-2.5 sm:px-4 py-1 sm:py-1.5 text-[10px] sm:text-xs font-bold uppercase tracking-tight sm:tracking-wider rounded transition-all shrink-0 whitespace-nowrap ${

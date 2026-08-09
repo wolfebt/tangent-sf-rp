@@ -449,12 +449,12 @@ Formatting: Use markdown headings, bullet points, sensory details, and psycholog
 
               {forgeViewMode === 'form' ? (
                 <div className="flex-1 flex flex-col">
-                  <div className="flex border-b border-slate-700 mb-4 overflow-x-auto no-scrollbar">
+                  <div className="flex flex-wrap border-b border-slate-700 mb-4 gap-1">
                     {Array.from(new Set((ELEMENT_SCHEMAS[selectedForgeType] || []).map(f => f.tab || 'General'))).map((tab, idx) => (
                       <button 
                         key={idx}
                         onClick={() => setActiveFormTab(idx)}
-                        className={`px-4 py-2 text-sm font-bold whitespace-nowrap ${activeFormTab === idx ? 'border-b-2 border-cyan-500 text-cyan-400' : 'text-slate-400 hover:text-white'}`}
+                        className={`px-3 py-1.5 text-xs font-bold whitespace-nowrap flex-1 sm:flex-none text-center ${activeFormTab === idx ? 'border-b-2 border-cyan-500 text-cyan-400 bg-cyan-950/20' : 'text-slate-400 hover:text-white'}`}
                       >
                         {tab}
                       </button>
