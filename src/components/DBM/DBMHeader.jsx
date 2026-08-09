@@ -49,7 +49,7 @@ export const DBMHeader = ({
   };
 
   return (
-    <header className="bg-[#0d1117] border-b border-[#0D5C63]/50 px-4 sm:px-6 py-2.5 flex items-center justify-between backdrop-blur-md shrink-0">
+    <header className="bg-[#0d1117] border-b border-[#0D5C63]/50 px-4 sm:px-6 py-2.5 flex items-center justify-between backdrop-blur-md shrink-0 relative z-50">
       {/* Left section */}
       <div className="flex items-center gap-3 sm:gap-4">
         {/* Mobile 3bar Menu Toggle Button */}
