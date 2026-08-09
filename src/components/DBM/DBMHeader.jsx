@@ -10,7 +10,10 @@ export const DBMHeader = ({
   setIsBastionOpen,
   handleExportMasterJSON,
   handleImportMasterJSON,
-  navigateToCategory
+  navigateToCategory,
+  isSidebarOpen,
+  setIsSidebarOpen,
+  setIsSettingsOpen
 }) => {
   const navigate = useNavigate();
   const { currentUser, userHandle, confirmLogout, loginWithGoogle, isAdmin, userRole, adminOverride, toggleAdminOverride } = useAuth();
@@ -34,8 +37,18 @@ export const DBMHeader = ({
   };
 
   return (
-    <header className="bg-[#0d1117] border-b border-[#0D5C63]/50 px-6 py-2.5 flex items-center justify-between backdrop-blur-md shrink-0">
-      <div className="flex items-center gap-4">
+    <header className="bg-[#0d1117] border-b border-[#0D5C63]/50 px-4 sm:px-6 py-2.5 flex items-center justify-between backdrop-blur-md shrink-0">
+      <div className="flex items-center gap-3 sm:gap-4">
+        {/* Mobile 3bar Menu Toggle Button */}
+        <button
+          type="button"
+          id="dbm-mobile-menu-btn"
+          onClick={() => setIsSidebarOpen && setIsSidebarOpen(!isSidebarOpen)}
+          className="md:hidden px-2.5 py-1.5 bg-slate-900 border border-cyan-900/60 rounded text-cyan-400 text-sm font-bold"
+          title="Toggle Navigation Menu"
+        >
+          &#9776;
+        </button>
         <div 
           onClick={() => navigate('/')}
           className="flex flex-col uppercase text-[#22d3ee] tangent-title-pulse cursor-pointer hover:opacity-80 transition-opacity"
@@ -152,6 +165,13 @@ export const DBMHeader = ({
               <span className="text-xs text-emerald-300 font-mono font-bold" title={currentUser.email || ''}>
                 {userHandle ? `@${userHandle}` : (currentUser.displayName || currentUser.email)}
               </span>
+              <button
+                onClick={() => setIsSettingsOpen && setIsSettingsOpen(true)}
+                className="ml-1 text-xs text-slate-400 hover:text-cyan-300 transition-colors"
+                title="User Settings & Identity"
+              >
+                ⚙️
+              </button>
               <button
                 onClick={() => confirmLogout()}
                 className="ml-1 text-[10px] text-slate-500 hover:text-red-400 font-bold uppercase tracking-wider transition-colors"

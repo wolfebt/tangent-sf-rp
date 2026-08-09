@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
+import { db } from '../firebase';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 const AI_PLATFORMS = [
   { id: 'gemini', name: 'Google Gemini (System Default)' },
@@ -8,6 +11,7 @@ const AI_PLATFORMS = [
 ];
 
 export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
+  const { currentUser, refreshUserHandle } = useAuth();
   const [handle, setHandle] = useState('');
   const [contactInfo, setContactInfo] = useState('');
   const [geminiApiKey, setGeminiApiKey] = useState('');
@@ -23,21 +27,73 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
       setAiPlatform(localStorage.getItem('aiPlatform') || 'gemini');
       setOtherAiApiKey(localStorage.getItem('otherAiApiKey') || '');
       setSaveMessage('');
+
+      if (currentUser) {
+        getDoc(doc(db, 'users', currentUser.uid)).then((docSnap) => {
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            if (data.userHandle !== undefined) {
+              setHandle(data.userHandle);
+              localStorage.setItem('userHandle', data.userHandle);
+            }
+            if (data.userContactInfo !== undefined) {
+              setContactInfo(data.userContactInfo);
+              localStorage.setItem('userContactInfo', data.userContactInfo);
+            }
+            if (data.geminiApiKey !== undefined) {
+              setGeminiApiKey(data.geminiApiKey);
+              localStorage.setItem('geminiApiKey', data.geminiApiKey);
+            }
+            if (data.aiPlatform !== undefined) {
+              setAiPlatform(data.aiPlatform);
+              localStorage.setItem('aiPlatform', data.aiPlatform);
+            }
+            if (data.otherAiApiKey !== undefined) {
+              setOtherAiApiKey(data.otherAiApiKey);
+              localStorage.setItem('otherAiApiKey', data.otherAiApiKey);
+            }
+          }
+        }).catch(err => console.warn("Failed to fetch user cloud settings:", err));
+      }
     }
-  }, [isOpen]);
+  }, [isOpen, currentUser]);
 
   if (!isOpen) return null;
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
 
-    localStorage.setItem('userHandle', handle.trim());
-    localStorage.setItem('userContactInfo', contactInfo.trim());
-    localStorage.setItem('geminiApiKey', geminiApiKey.trim());
+    const trimmedHandle = handle.trim();
+    const trimmedContactInfo = contactInfo.trim();
+    const trimmedGeminiKey = geminiApiKey.trim();
+    const trimmedOtherKey = otherAiApiKey.trim();
+
+    localStorage.setItem('userHandle', trimmedHandle);
+    localStorage.setItem('userContactInfo', trimmedContactInfo);
+    localStorage.setItem('geminiApiKey', trimmedGeminiKey);
     localStorage.setItem('aiPlatform', aiPlatform);
-    localStorage.setItem('otherAiApiKey', otherAiApiKey.trim());
+    localStorage.setItem('otherAiApiKey', trimmedOtherKey);
+
+    if (currentUser) {
+      try {
+        await setDoc(doc(db, 'users', currentUser.uid), {
+          userHandle: trimmedHandle,
+          userContactInfo: trimmedContactInfo,
+          geminiApiKey: trimmedGeminiKey,
+          aiPlatform: aiPlatform,
+          otherAiApiKey: trimmedOtherKey,
+          updatedAt: new Date().toISOString()
+        }, { merge: true });
+      } catch (err) {
+        console.warn("Failed to sync settings to Firestore:", err);
+      }
+    }
 
     setSaveMessage('Settings saved successfully!');
+
+    if (refreshUserHandle) {
+      refreshUserHandle();
+    }
 
     if (onSaveSuccess) {
       onSaveSuccess();

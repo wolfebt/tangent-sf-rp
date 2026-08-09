@@ -21,12 +21,14 @@ import BastionDrawer from './BastionDrawer';
 import PrintFolio from './print/PrintFolio';
 import { attachCreatorTag } from '../../utils/creatorUtils';
 import { FolioGuideModal } from './FolioGuideModal';
+import { UserSettingsModal } from '../UserSettingsModal';
 
 const FolioContainer = () => {
   const navigate = useNavigate();
   const { currentUser, userHandle, confirmLogout, loginWithGoogle } = useAuth();
   const [activeTab, setActiveTab] = useState('identity');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   // Modal States
   const [isEconomyOpen, setIsEconomyOpen] = useState(false);
@@ -411,10 +413,17 @@ const FolioContainer = () => {
             {/* User Auth Indicator / ID Tag */}
             <div className="flex items-center gap-2">
               {currentUser ? (
-                <div className="flex items-center bg-slate-800/80 px-3 py-1 rounded border border-slate-700">
+                <div className="flex items-center gap-2 bg-slate-800/80 px-3 py-1 rounded border border-slate-700">
                   <span className="text-xs text-cyan-300 font-mono font-bold" title={currentUser.email || ''}>
                     {userHandle ? `@${userHandle}` : (currentUser.displayName || currentUser.email)}
                   </span>
+                  <button
+                    onClick={() => setIsSettingsOpen(true)}
+                    className="text-xs text-slate-400 hover:text-cyan-300 transition-colors"
+                    title="User Settings & Identity"
+                  >
+                    ⚙️
+                  </button>
                 </div>
               ) : (
                 <button onClick={loginWithGoogle} className="px-3 py-1 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded text-xs font-bold uppercase tracking-wider transition-colors">
@@ -568,6 +577,10 @@ const FolioContainer = () => {
       <FolioGuideModal
         isOpen={isGuideOpen}
         onClose={() => setIsGuideOpen(false)}
+      />
+      <UserSettingsModal
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
       />
       {/* Print-only Folio Output */}
       <div className="hidden print:block">

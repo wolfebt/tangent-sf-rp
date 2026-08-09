@@ -14,6 +14,7 @@ import { DBMTableView } from './DBMTableView';
 import { DBMLandingView } from './DBMLandingView';
 import { BastionChatModal } from './BastionChatModal';
 import { DBMItemModal } from './DBMItemModal';
+import { UserSettingsModal } from '../UserSettingsModal';
 
 import { useDBMHistory } from './hooks/useDBMHistory';
 import { useFirestoreSync } from './hooks/useFirestoreSync';
@@ -26,6 +27,9 @@ export const DBMContainer = () => {
   const { currentUser, userHandle, loginWithGoogle, isAdmin } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
   const [searchParams] = useSearchParams();
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const {
     activeCategory, setActiveCategory,
@@ -385,19 +389,36 @@ export const DBMContainer = () => {
         handleExportMasterJSON={handleExportMasterJSON}
         handleImportMasterJSON={handleImportMasterJSON}
         navigateToCategory={navigateToCategory}
+        isSidebarOpen={isSidebarOpen}
+        setIsSidebarOpen={setIsSidebarOpen}
+        setIsSettingsOpen={setIsSettingsOpen}
+      />
+
+      {/* Mobile Sidebar Overlay Toggle */}
+      <div 
+        className={`fixed inset-0 z-40 bg-black/60 md:hidden ${isSidebarOpen ? 'block' : 'hidden'}`} 
+        onClick={() => setIsSidebarOpen(false)} 
       />
 
       {/* Main App Layout */}
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex overflow-hidden relative">
         {/* Left Sidebar Navigation */}
-        <DBMSidebar
-          mainCategories={mainCategories}
-          devCategories={devCategories}
-          activeCategory={activeCategory}
-          currentKey={currentKey}
-          navigateToCategory={navigateToCategory}
-          onOpenBastion={() => setIsBastionOpen(true)}
-        />
+        <div className={`fixed md:relative z-40 h-full transition-transform md:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+          <DBMSidebar
+            mainCategories={mainCategories}
+            devCategories={devCategories}
+            activeCategory={activeCategory}
+            currentKey={currentKey}
+            navigateToCategory={(catKey, subKey) => {
+              navigateToCategory(catKey, subKey);
+              setIsSidebarOpen(false);
+            }}
+            onOpenBastion={() => {
+              setIsBastionOpen(true);
+              setIsSidebarOpen(false);
+            }}
+          />
+        </div>
 
         {/* Right Main Content Panel */}
         <main className="flex-1 bg-[#0d1117] flex flex-col overflow-hidden relative p-6">
@@ -529,6 +550,11 @@ export const DBMContainer = () => {
         editFormData={editFormData}
         setEditFormData={setEditFormData}
         handleCreateNew={handleCreateNew}
+      />
+
+      <UserSettingsModal
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
       />
     </div>
   );

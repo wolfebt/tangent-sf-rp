@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth, loginWithGoogle, logout } from '../firebase';
+import { doc, onSnapshot } from 'firebase/firestore';
+import { auth, db, loginWithGoogle, logout } from '../firebase';
 
 const AuthContext = createContext();
 
@@ -25,8 +26,15 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    let userUnsub = null;
+
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user);
+      if (userUnsub) {
+        userUnsub();
+        userUnsub = null;
+      }
+
       if (user) {
         try {
           const tokenResult = await user.getIdTokenResult();
@@ -38,6 +46,27 @@ export const AuthProvider = ({ children }) => {
           console.error("Error retrieving user token claims:", err);
           setCustomClaims({});
           setHasAdminClaim(false);
+        }
+
+        try {
+          const userDocRef = doc(db, 'users', user.uid);
+          userUnsub = onSnapshot(userDocRef, (docSnap) => {
+            if (docSnap.exists()) {
+              const data = docSnap.data();
+              if (data.userHandle) {
+                localStorage.setItem('userHandle', data.userHandle);
+                setUserHandle(data.userHandle);
+              }
+              if (data.userContactInfo !== undefined) localStorage.setItem('userContactInfo', data.userContactInfo);
+              if (data.geminiApiKey !== undefined) localStorage.setItem('geminiApiKey', data.geminiApiKey);
+              if (data.aiPlatform !== undefined) localStorage.setItem('aiPlatform', data.aiPlatform);
+              if (data.otherAiApiKey !== undefined) localStorage.setItem('otherAiApiKey', data.otherAiApiKey);
+            }
+          }, (err) => {
+            console.warn("Error fetching user profile settings from Firestore:", err);
+          });
+        } catch (err) {
+          console.warn("Failed to attach Firestore user settings listener:", err);
         }
       } else {
         setCustomClaims({});
@@ -54,6 +83,7 @@ export const AuthProvider = ({ children }) => {
 
     return () => {
       unsubscribe();
+      if (userUnsub) userUnsub();
       window.removeEventListener('storage', handleStorageChange);
     };
   }, []);
