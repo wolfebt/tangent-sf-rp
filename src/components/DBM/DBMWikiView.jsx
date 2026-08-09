@@ -81,9 +81,101 @@ export const DBMWikiView = ({
   };
 
   return (
-    <div className="flex-1 flex bg-slate-900 border border-slate-800 rounded-lg overflow-hidden h-full">
+    <div className="flex-1 flex bg-slate-900 border border-slate-800 rounded-lg overflow-hidden h-full relative">
+      {/* Mobile / Narrow View Full Article Modal Overlay */}
+      {selectedArticleId && activeArticle && (
+        <div className="fixed inset-0 z-50 bg-[#0d1117]/95 backdrop-blur-md flex flex-col overflow-hidden font-sans p-3 sm:p-6 md:hidden">
+          <div className="bg-[#0d1117] border border-cyan-500/50 rounded-xl w-full h-full shadow-[0_0_30px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col">
+            {/* Header */}
+            <div className="p-4 bg-slate-950 border-b border-cyan-900/60 flex justify-between items-center shrink-0">
+              <div className="min-w-0 flex-1 pr-2">
+                {activeArticle.parent && (
+                  <span className="text-[10px] text-cyan-400/80 uppercase font-mono tracking-wider block">
+                    Codex / {activeArticle.parent}
+                  </span>
+                )}
+                <h2 className="text-sm sm:text-base font-bold text-cyan-300 uppercase tracking-wide truncate">
+                  {activeArticle.name}
+                </h2>
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                {isAdmin ? (
+                  <button
+                    onClick={() => handleOpenItem(activeArticle, true)}
+                    className="px-3 py-1 bg-amber-600/30 hover:bg-amber-600/50 text-amber-300 border border-amber-500/50 rounded text-xs font-bold uppercase transition-colors"
+                  >
+                    ✏️ Edit
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => handleOpenItem(activeArticle, false)}
+                    className="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-cyan-500/40 rounded text-xs font-bold uppercase transition-colors"
+                  >
+                    👁️ Details
+                  </button>
+                )}
+                <button
+                  onClick={() => setSelectedArticleId(null)}
+                  className="text-slate-400 hover:text-white text-xl font-bold leading-none px-2 transition-colors"
+                  title="Close Article"
+                >
+                  &times;
+                </button>
+              </div>
+            </div>
+
+            {/* Main Content Body */}
+            <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-slate-900 space-y-4 text-xs sm:text-sm text-slate-200">
+              <div className="bg-slate-950 border border-slate-800 p-4 sm:p-5 rounded-lg space-y-3">
+                <h3 className="text-xs font-bold text-cyan-400 uppercase tracking-widest border-b border-slate-800 pb-2">
+                  Article Description
+                </h3>
+                <div className="whitespace-pre-line text-slate-300 font-sans">
+                  {renderWikiContent(activeArticle.description) || <em className="text-slate-500">No article text available.</em>}
+                </div>
+              </div>
+
+              {activeArticle.mechanic && (
+                <div className="bg-slate-950 border border-amber-500/40 p-4 sm:p-5 rounded-lg text-xs space-y-2">
+                  <h4 className="font-bold text-amber-400 uppercase tracking-wider flex items-center gap-2">
+                    <span>⚙️</span> Game Mechanics Rules
+                  </h4>
+                  <div className="text-amber-200 font-mono whitespace-pre-line bg-slate-900 p-3 rounded border border-slate-800">
+                    {renderWikiContent(activeArticle.mechanic)}
+                  </div>
+                </div>
+              )}
+
+              {activeArticle.guide && (
+                <div className="bg-slate-950 border border-cyan-500/40 p-4 sm:p-5 rounded-lg text-xs space-y-2">
+                  <h4 className="font-bold text-cyan-400 uppercase tracking-wider">📖 Gameplay Instructions</h4>
+                  <div className="text-cyan-200 whitespace-pre-line">{renderWikiContent(activeArticle.guide)}</div>
+                </div>
+              )}
+
+              {activeArticle.note && (
+                <div className="bg-slate-950 border border-slate-800 p-4 rounded-lg text-xs italic text-slate-400">
+                  <span className="font-bold text-slate-300 not-italic uppercase block mb-1">Designer Notes:</span>
+                  {renderWikiContent(activeArticle.note)}
+                </div>
+              )}
+            </div>
+
+            {/* Compact Close Bar Fixed at Bottom under Content */}
+            <div className="sticky bottom-0 bg-slate-950 border-t border-cyan-900/60 p-2.5 flex items-center justify-center shrink-0 shadow-lg">
+              <button
+                onClick={() => setSelectedArticleId(null)}
+                className="w-full max-w-xs py-2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-xs font-bold uppercase tracking-wider rounded-lg shadow-[0_0_12px_rgba(34,211,238,0.3)] transition-all flex items-center justify-center gap-2"
+              >
+                <span>✕</span> Close Article
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* LEFT PANEL: Directory Tree Navigation */}
-      <aside className="w-80 bg-slate-950 border-r border-slate-800 flex flex-col shrink-0">
+      <aside className="w-full md:w-80 bg-slate-950 border-r border-slate-800 flex flex-col shrink-0">
         <div className="p-3 border-b border-slate-800 space-y-2">
           <div className="flex justify-between items-center">
             <span className="text-xs font-bold text-amber-500 uppercase tracking-wider">Rules Codex</span>
@@ -161,8 +253,8 @@ export const DBMWikiView = ({
         </div>
       </aside>
 
-      {/* RIGHT PANEL: Article Viewer / Content Display */}
-      <main className="flex-1 flex flex-col overflow-y-auto p-8 bg-slate-900">
+      {/* RIGHT PANEL: Article Viewer / Content Display (Desktop Side-by-Side) */}
+      <main className="hidden md:flex flex-1 flex-col overflow-y-auto p-8 bg-slate-900">
         {activeArticle ? (
           <div className="max-w-4xl w-full mx-auto space-y-6">
             {/* Header & Controls */}
@@ -192,7 +284,6 @@ export const DBMWikiView = ({
                 </button>
               )}
             </div>
-
 
             {/* Main Content Body */}
             <div className="bg-slate-950 border border-slate-800 p-6 rounded-lg text-slate-200 text-sm leading-relaxed space-y-4 shadow-inner">
