@@ -18,7 +18,9 @@ const AssetModal = ({
   if (['weapons', 'attacks', 'weaponry'].includes(key)) targetKey = 'weaponry';
   else if (['armor', 'armoring'].includes(key)) targetKey = 'armoring';
   else if (key === 'mecha') targetKey = 'mecha';
-  else if (['gear', 'other', 'equipment'].includes(key)) targetKey = 'equipment';
+  else if (key === 'gear') targetKey = 'gear';
+  else if (key === 'other') targetKey = 'other';
+  else if (['equipment'].includes(key)) targetKey = 'gear';
   else if (key === 'features') targetKey = 'features';
   else if (key === 'disadvantages') targetKey = 'disadvantages';
   else if (key === 'augmentations') targetKey = 'augmentations';
