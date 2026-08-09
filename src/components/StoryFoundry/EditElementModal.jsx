@@ -229,13 +229,13 @@ const EditElementModal = ({ isOpen, onClose, element, onSave }) => {
           )}
 
           {/* Dynamic Tabs Header */}
-          <div className="flex border-b border-slate-800 bg-[#0d1117] px-4 overflow-x-auto">
+          <div className="flex border-b border-slate-800 bg-[#0d1117] px-2 sm:px-4 py-1 overflow-x-auto gap-1 shrink-0 no-scrollbar">
             {allTabs.map((tab, idx) => (
               <button
                 key={idx}
                 type="button"
                 onClick={() => setActiveTabIdx(idx)}
-                className={`px-4 py-2.5 text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-colors border-b-2 ${
+                className={`px-2 sm:px-4 py-1 sm:py-2 text-[10px] sm:text-xs font-bold uppercase tracking-tight sm:tracking-wider whitespace-nowrap transition-colors border-b-2 shrink-0 ${
                   activeTabIdx === idx
                     ? 'border-cyan-400 text-cyan-300 bg-cyan-950/30'
                     : 'border-transparent text-slate-400 hover:text-white'

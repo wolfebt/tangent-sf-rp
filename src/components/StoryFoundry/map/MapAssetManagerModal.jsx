@@ -323,32 +323,32 @@ export default function MapAssetManagerModal({
         <div className="px-6 py-2.5 bg-[#161b22] border-b border-[#0D5C63]/40 flex flex-wrap items-center justify-between gap-3">
           
           {/* Main Category Tabs */}
-          <div className="flex items-center gap-2 bg-[#0d1117] p-1 rounded-lg border border-[#0D5C63]/40">
+          <div className="flex items-center gap-1 sm:gap-2 bg-[#0d1117] p-1 rounded-lg border border-[#0D5C63]/40 overflow-x-auto shrink-0 no-scrollbar">
             <button
               onClick={() => {
                 setActiveTab('terrains');
                 resetToNewForm('terrains');
               }}
-              className={`px-4 py-1.5 rounded-md text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2 ${
+              className={`px-2 sm:px-4 py-1 sm:py-1.5 rounded-md text-[10px] sm:text-xs font-bold uppercase tracking-tight sm:tracking-wider transition-all flex items-center gap-1 sm:gap-2 shrink-0 whitespace-nowrap ${
                 activeTab === 'terrains'
                   ? 'bg-cyan-950 text-[#22d3ee] border border-[#22d3ee]/60 shadow-[0_0_10px_rgba(34,211,238,0.3)]'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
-              <span>🎨</span> Terrain Textures ({customAssets.terrains?.length || 0} Custom)
+              <span>🎨</span> Terrains ({customAssets.terrains?.length || 0})
             </button>
             <button
               onClick={() => {
                 setActiveTab('objects');
                 resetToNewForm('objects');
               }}
-              className={`px-4 py-1.5 rounded-md text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2 ${
+              className={`px-2 sm:px-4 py-1 sm:py-1.5 rounded-md text-[10px] sm:text-xs font-bold uppercase tracking-tight sm:tracking-wider transition-all flex items-center gap-1 sm:gap-2 shrink-0 whitespace-nowrap ${
                 activeTab === 'objects'
                   ? 'bg-cyan-950 text-[#22d3ee] border border-[#22d3ee]/60 shadow-[0_0_10px_rgba(34,211,238,0.3)]'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
-              <span>📦</span> Placeable Objects ({customAssets.objects?.length || 0} Custom)
+              <span>📦</span> Objects ({customAssets.objects?.length || 0})
             </button>
           </div>
 

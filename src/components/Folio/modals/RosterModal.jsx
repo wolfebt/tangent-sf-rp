@@ -152,11 +152,11 @@ export const RosterModal = ({
         </div>
 
         {/* Tab Switcher & Filter Bar */}
-        <div className="bg-slate-950/90 px-6 py-2 border-b border-slate-800 flex flex-wrap items-center justify-between gap-3 shrink-0">
-          <div className="flex items-center gap-2">
+        <div className="bg-slate-950/90 px-3 sm:px-6 py-1.5 sm:py-2 border-b border-slate-800 flex flex-wrap items-center justify-between gap-2 sm:gap-3 shrink-0">
+          <div className="flex items-center gap-1 sm:gap-2">
             <button
               onClick={() => handleTabSwitch('my-roster')}
-              className={`px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 ${
+              className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded text-[10px] sm:text-xs font-bold uppercase tracking-tight sm:tracking-wider transition-all flex items-center gap-1 sm:gap-1.5 whitespace-nowrap ${
                 catalogTab === 'my-roster'
                   ? 'bg-cyan-950 text-cyan-300 border border-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.2)]'
                   : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
@@ -166,7 +166,7 @@ export const RosterModal = ({
             </button>
             <button
               onClick={() => handleTabSwitch('public-gallery')}
-              className={`px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 ${
+              className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded text-[10px] sm:text-xs font-bold uppercase tracking-tight sm:tracking-wider transition-all flex items-center gap-1 sm:gap-1.5 whitespace-nowrap ${
                 catalogTab === 'public-gallery'
                   ? 'bg-amber-950 text-amber-300 border border-amber-400 shadow-[0_0_10px_rgba(245,158,11,0.2)]'
                   : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'

@@ -431,10 +431,10 @@ export const DBMContainer = () => {
             const parentKeyForNav = catForPills === categoryConfig[activeCategory] ? activeCategory : currentKey;
 
             return (
-              <div className="flex gap-2 mb-4 border-b border-slate-800 pb-3 overflow-x-auto shrink-0">
+              <div className="flex gap-1 sm:gap-2 mb-3 border-b border-slate-800 pb-2 overflow-x-auto shrink-0 no-scrollbar">
                 <button
                   onClick={() => navigateToCategory(parentKeyForNav, null)}
-                  className={`px-4 py-1.5 text-xs font-bold uppercase tracking-wider rounded transition-all shrink-0 ${
+                  className={`px-2.5 sm:px-4 py-1 sm:py-1.5 text-[10px] sm:text-xs font-bold uppercase tracking-tight sm:tracking-wider rounded transition-all shrink-0 whitespace-nowrap ${
                     !activeSubcategory || activeSubcategory === parentKeyForNav
                       ? 'bg-amber-600 text-white shadow-md'
                       : 'bg-slate-800 text-slate-400 hover:text-white'
@@ -449,7 +449,7 @@ export const DBMContainer = () => {
                     <button
                       key={subKey}
                       onClick={() => navigateToCategory(parentKeyForNav, subKey)}
-                      className={`px-4 py-1.5 text-xs font-bold uppercase tracking-wider rounded transition-all shrink-0 ${
+                      className={`px-2.5 sm:px-4 py-1 sm:py-1.5 text-[10px] sm:text-xs font-bold uppercase tracking-tight sm:tracking-wider rounded transition-all shrink-0 whitespace-nowrap ${
                         isSubActive
                           ? 'bg-amber-600 text-white shadow-md'
                           : 'bg-slate-800 text-slate-400 hover:text-white'
