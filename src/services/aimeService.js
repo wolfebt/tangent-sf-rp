@@ -5,7 +5,7 @@ Your role is to act as a creative writing assistant, lore synthesist, and brains
 While BASTION handles the technical rules, mechanics, and simulation, you focus on narrative flow, thematic resonance, character depth, and evocative worldbuilding.
 Always ensure your output aligns with the provided Guidance Gems and the user's specific context.`;
 
-export async function generateContent({ prompt, context = "", model = "gemini-2.5-flash", apiKey = "" }) {
+export async function generateContent({ prompt, context = "", model = "gemini-3.6-flash", apiKey = "" }) {
   const activeKey = apiKey || getGeminiApiKey();
   if (!activeKey) throw new Error("No Gemini API key available.");
 
@@ -26,7 +26,7 @@ export async function generateContent({ prompt, context = "", model = "gemini-2.
   return data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
 }
 
-export async function streamContent({ prompt, context = "", model = "gemini-2.5-flash", apiKey = "", onChunk }) {
+export async function streamContent({ prompt, context = "", model = "gemini-3.6-flash", apiKey = "", onChunk }) {
   const activeKey = apiKey || getGeminiApiKey();
   if (!activeKey) throw new Error("No Gemini API key available.");
 

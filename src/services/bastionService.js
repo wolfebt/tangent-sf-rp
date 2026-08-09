@@ -53,20 +53,19 @@ export const parseRollCommand = (command) => {
 };
 
 const GEMINI_FLASH_MODELS = [
-  'gemini-2.5-flash',
-  'gemini-2.0-flash',
-  'gemini-1.5-flash',
   'gemini-3.6-flash',
   'gemini-3.5-flash',
-  'gemini-flash-latest'
+  'gemini-flash-latest',
+  'gemini-2.0-flash',
+  'gemini-flash-lite-latest'
 ];
 
 /**
  * Attempts to fetch content from Google Generative AI API with automatic model fallbacks (FLASH models only)
  */
 export const fetchGeminiContent = async (apiKey, requestBody) => {
-  if (apiKey && !apiKey.startsWith('AIza')) {
-    throw new Error('Invalid Gemini API Key format. Google Gemini API keys start with "AIzaSy...". Please check your key in Settings or obtain one from https://aistudio.google.com/app/apikey');
+  if (!apiKey) {
+    throw new Error('No Gemini API key available. Please check your key in Settings or obtain one from https://aistudio.google.com/app/apikey');
   }
 
   let lastError = null;
