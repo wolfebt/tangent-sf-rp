@@ -56,6 +56,8 @@ export default function CreativePane() {
 
   // AI Pair Authoring State
   const quillRef = useRef(null);
+  const outlineQuillRef = useRef(null);
+  const beatsQuillRef = useRef(null);
   const [selectedText, setSelectedText] = useState('');
   const [selectionRange, setSelectionRange] = useState(null);
   const [customAiPrompt, setCustomAiPrompt] = useState('');
@@ -70,8 +72,13 @@ export default function CreativePane() {
   }, [contextMenuPos]);
 
   const handleContextMenu = (e) => {
-    e.preventDefault();
-    if (selectedText) {
+    const windowSel = window.getSelection()?.toString().trim();
+    if (windowSel && windowSel.length > 0) {
+      setSelectedText(windowSel);
+      e.preventDefault();
+      setContextMenuPos({ x: e.clientX, y: e.clientY });
+    } else if (selectedText) {
+      e.preventDefault();
       setContextMenuPos({ x: e.clientX, y: e.clientY });
     }
   };
@@ -93,6 +100,161 @@ export default function CreativePane() {
   const [forgeFields, setForgeFields] = useState({});
   const [forgeGeneratedOutput, setForgeGeneratedOutput] = useState('');
   const [forgeViewMode, setForgeViewMode] = useState('form');
+
+  // Canvas Export/Import & Local Save/Load State & Handlers
+  const [toastMsg, setToastMsg] = useState(null);
+  const fileInputRef = useRef(null);
+  const activeCanvasKeyRef = useRef(null);
+
+  const showToast = (msg) => {
+    setToastMsg(msg);
+    setTimeout(() => setToastMsg(null), 3000);
+  };
+
+  const triggerImport = (canvasKey) => {
+    activeCanvasKeyRef.current = canvasKey;
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+      fileInputRef.current.click();
+    }
+  };
+
+  const downloadFile = (content, filename, contentType = 'application/json') => {
+    const blob = new Blob([content], { type: contentType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleSaveLocal = (canvasKey) => {
+    try {
+      if (canvasKey === 'brainstorm') {
+        localStorage.setItem('aime_canvas_brainstorm', JSON.stringify({ prompt: brainstormPrompt, storyCards: creativeState.storyCards || [], timestamp: Date.now() }));
+        showToast('Brainstorm canvas saved locally!');
+      } else if (canvasKey === 'outline') {
+        localStorage.setItem('aime_canvas_outline', JSON.stringify({ outline: creativeState.storyOutline || '', timestamp: Date.now() }));
+        showToast('Outline canvas saved locally!');
+      } else if (canvasKey === 'beats') {
+        localStorage.setItem('aime_canvas_scene_beats', JSON.stringify({ sceneBeats: creativeState.sceneBeats || '', timestamp: Date.now() }));
+        showToast('Scene Beats canvas saved locally!');
+      } else if (canvasKey === 'draft') {
+        localStorage.setItem('aime_canvas_prose_draft', JSON.stringify({ storyDraft: creativeState.storyDraft || '', timestamp: Date.now() }));
+        showToast('Prose Draft canvas saved locally!');
+      } else if (canvasKey === 'forge') {
+        localStorage.setItem('aime_canvas_element_forge', JSON.stringify({ selectedForgeType, forgeTitle, forgeFields, forgeGeneratedOutput, timestamp: Date.now() }));
+        showToast('Element Forge canvas saved locally!');
+      }
+    } catch (e) {
+      alert(`Save failed: ${e.message}`);
+    }
+  };
+
+  const handleLoadLocal = (canvasKey) => {
+    try {
+      const raw = localStorage.getItem(`aime_canvas_${canvasKey === 'beats' ? 'scene_beats' : canvasKey === 'draft' ? 'prose_draft' : canvasKey === 'forge' ? 'element_forge' : canvasKey}`);
+      if (!raw) return alert(`No local save found for ${canvasKey} canvas.`);
+      const parsed = JSON.parse(raw);
+      if (canvasKey === 'brainstorm') {
+        if (parsed.prompt !== undefined) setBrainstormPrompt(parsed.prompt);
+        if (parsed.storyCards) updateStoryCards(parsed.storyCards);
+        showToast('Brainstorm canvas loaded from local storage!');
+      } else if (canvasKey === 'outline') {
+        if (parsed.outline !== undefined) updateOutline(parsed.outline);
+        showToast('Outline canvas loaded from local storage!');
+      } else if (canvasKey === 'beats') {
+        if (parsed.sceneBeats !== undefined) updateSceneBeats(parsed.sceneBeats);
+        showToast('Scene Beats canvas loaded from local storage!');
+      } else if (canvasKey === 'draft') {
+        if (parsed.storyDraft !== undefined) updateDraft(parsed.storyDraft);
+        showToast('Prose Draft canvas loaded from local storage!');
+      } else if (canvasKey === 'forge') {
+        if (parsed.selectedForgeType) setSelectedForgeType(parsed.selectedForgeType);
+        if (parsed.forgeTitle !== undefined) setForgeTitle(parsed.forgeTitle);
+        if (parsed.forgeFields) setForgeFields(parsed.forgeFields);
+        if (parsed.forgeGeneratedOutput !== undefined) setForgeGeneratedOutput(parsed.forgeGeneratedOutput);
+        showToast('Element Forge canvas loaded from local storage!');
+      }
+    } catch (e) {
+      alert(`Load failed: ${e.message}`);
+    }
+  };
+
+  const handleExportCanvas = (canvasKey) => {
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    if (canvasKey === 'brainstorm') {
+      const payload = JSON.stringify({ type: 'AIME_BRAINSTORM', prompt: brainstormPrompt, storyCards: creativeState.storyCards || [], exportedAt: new Date().toISOString() }, null, 2);
+      downloadFile(payload, `aime_brainstorm_${timestamp}.json`, 'application/json');
+    } else if (canvasKey === 'outline') {
+      downloadFile(creativeState.storyOutline || '', `aime_outline_${timestamp}.md`, 'text/markdown;charset=utf-8');
+    } else if (canvasKey === 'beats') {
+      downloadFile(creativeState.sceneBeats || '', `aime_scene_beats_${timestamp}.md`, 'text/markdown;charset=utf-8');
+    } else if (canvasKey === 'draft') {
+      downloadFile(creativeState.storyDraft || '', `aime_prose_draft_${timestamp}.md`, 'text/markdown;charset=utf-8');
+    } else if (canvasKey === 'forge') {
+      const payload = JSON.stringify({ type: 'AIME_ELEMENT_FORGE', selectedForgeType, forgeTitle, forgeFields, forgeGeneratedOutput, exportedAt: new Date().toISOString() }, null, 2);
+      downloadFile(payload, `aime_element_forge_${selectedForgeType}_${timestamp}.json`, 'application/json');
+    }
+  };
+
+  const handleFileImport = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const text = event.target.result;
+      const key = activeCanvasKeyRef.current;
+      try {
+        if (key === 'brainstorm') {
+          let parsed;
+          try { parsed = JSON.parse(text); } catch {}
+          if (parsed && typeof parsed === 'object') {
+            if (parsed.prompt !== undefined) setBrainstormPrompt(parsed.prompt);
+            if (Array.isArray(parsed.cards)) updateStoryCards(parsed.cards);
+            else if (Array.isArray(parsed.storyCards)) updateStoryCards(parsed.storyCards);
+          } else {
+            setBrainstormPrompt(text);
+          }
+          showToast('Imported Brainstorm content!');
+        } else if (key === 'outline') {
+          let parsed;
+          try { parsed = JSON.parse(text); } catch {}
+          if (parsed && parsed.outline !== undefined) updateOutline(parsed.outline);
+          else updateOutline(text);
+          showToast('Imported Outline content!');
+        } else if (key === 'beats') {
+          let parsed;
+          try { parsed = JSON.parse(text); } catch {}
+          if (parsed && (parsed.beats !== undefined || parsed.sceneBeats !== undefined)) updateSceneBeats(parsed.beats || parsed.sceneBeats);
+          else updateSceneBeats(text);
+          showToast('Imported Scene Beats content!');
+        } else if (key === 'draft') {
+          let parsed;
+          try { parsed = JSON.parse(text); } catch {}
+          if (parsed && (parsed.draft !== undefined || parsed.storyDraft !== undefined)) updateDraft(parsed.draft || parsed.storyDraft);
+          else updateDraft(text);
+          showToast('Imported Prose Draft content!');
+        } else if (key === 'forge') {
+          let parsed;
+          try { parsed = JSON.parse(text); } catch {}
+          if (parsed && typeof parsed === 'object') {
+            if (parsed.selectedForgeType || parsed.forgeType) setSelectedForgeType(parsed.selectedForgeType || parsed.forgeType);
+            if (parsed.forgeTitle !== undefined || parsed.title !== undefined) setForgeTitle(parsed.forgeTitle ?? parsed.title);
+            if (parsed.forgeFields || parsed.fields) setForgeFields(parsed.forgeFields || parsed.fields);
+            if (parsed.forgeGeneratedOutput !== undefined || parsed.content !== undefined) setForgeGeneratedOutput(parsed.forgeGeneratedOutput ?? parsed.content);
+          } else {
+            setForgeGeneratedOutput(text);
+          }
+          showToast('Imported Element Forge content!');
+        }
+      } catch (err) {
+        alert(`Import failed: ${err.message}`);
+      }
+    };
+    reader.readAsText(file);
+  };
 
   const handleToggleGem = (gem) => {
     const currentGems = creativeState.gems || [];
@@ -327,7 +489,7 @@ Style Instructions: Match the tone, immersive, vivid sensory details, sharp char
   };
 
   const handleInlineEdit = async (actionType) => {
-    if (!selectionRange || !selectedText) return;
+    if (!selectedText) return;
     setIsGenerating(true);
 
     let instruction = "";
@@ -341,18 +503,39 @@ Selected Text:
 "${selectedText}"
 
 Guidance Gems: ${getActiveGemsText() || 'None'}
-Context Outline: ${creativeState.storyOutline.substring(0, 500)}...
+Context Outline: ${creativeState.storyOutline ? creativeState.storyOutline.substring(0, 500) : ''}...
 
 Format Instructions: Respond ONLY with the revised or generated text. Do not include introductory phrases like "Here is the rewrite". Use Markdown if applicable.`;
 
     try {
       const result = await generateContent({ prompt });
-      const quill = quillRef.current.getEditor();
-      
-      quill.deleteText(selectionRange.index, selectionRange.length);
-      quill.insertText(selectionRange.index, result.trim());
-      
-      updateDraft(quill.root.innerHTML);
+      const cleanResult = result.trim();
+
+      let activeQuill = null;
+      if (stage === 2 && outlineQuillRef.current) activeQuill = outlineQuillRef.current.getEditor();
+      else if (stage === 3 && beatsQuillRef.current) activeQuill = beatsQuillRef.current.getEditor();
+      else if (stage === 4 && quillRef.current) activeQuill = quillRef.current.getEditor();
+
+      if (activeQuill && selectionRange) {
+        activeQuill.deleteText(selectionRange.index, selectionRange.length);
+        activeQuill.insertText(selectionRange.index, cleanResult);
+        
+        if (stage === 2) updateOutline(activeQuill.root.innerHTML);
+        else if (stage === 3) updateSceneBeats(activeQuill.root.innerHTML);
+        else if (stage === 4) updateDraft(activeQuill.root.innerHTML);
+      } else {
+        if (stage === 1) {
+          if (brainstormPrompt.includes(selectedText)) {
+            setBrainstormPrompt(prev => prev.replace(selectedText, cleanResult));
+          }
+        } else if (stage === 2) {
+          updateOutline((creativeState.storyOutline || '').replace(selectedText, cleanResult));
+        } else if (stage === 3) {
+          updateSceneBeats((creativeState.sceneBeats || '').replace(selectedText, cleanResult));
+        } else if (stage === 4) {
+          updateDraft((creativeState.storyDraft || '').replace(selectedText, cleanResult));
+        }
+      }
       
       setSelectionRange(null);
       setSelectedText('');
@@ -437,6 +620,22 @@ Formatting: Use markdown headings, bullet points, sensory details, and psycholog
           </button>
         </div>
       </div>
+
+      {/* In-Process Notification Banner */}
+      {(isGenerating || isSuggestingBeat) && (
+        <div className="bg-cyan-950/90 border-b border-cyan-500/50 px-4 py-2.5 flex items-center justify-between text-cyan-300 text-xs font-semibold animate-pulse shadow-[0_0_15px_rgba(6,182,212,0.2)]">
+          <div className="flex items-center gap-3">
+            <div className="w-4 h-4 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin shrink-0" />
+            <span className="font-bold text-cyan-200 text-sm">Thinking...</span>
+            <span className="text-cyan-400/90 text-xs">
+              {isSuggestingBeat ? 'AIME is suggesting the next narrative beat...' : 'AIME is generating creative content...'}
+            </span>
+          </div>
+          <span className="text-[10px] uppercase font-bold tracking-wider text-cyan-300 bg-cyan-900/60 px-2.5 py-1 rounded border border-cyan-500/40">
+            AIME In-Process
+          </span>
+        </div>
+      )}
 
       <Split className="flex-1 flex overflow-hidden split-horizontal" sizes={[25, 75]} minSize={250} gutterSize={6}>
         {/* Left Sidebar: Guidance Gems */}
@@ -547,15 +746,51 @@ Formatting: Use markdown headings, bullet points, sensory details, and psycholog
         <div className="flex-1 p-4 overflow-y-auto">
           {activeTab === 'weaver' && (
             <div className="flex flex-col h-full">
-              <div className="flex gap-2 mb-4">
-                <button onClick={() => setStage(1)} className={`px-3 py-1 text-sm font-bold rounded ${stage === 1 ? 'bg-cyan-700 text-white' : 'bg-slate-800 text-slate-400'}`}>1. Brainstorm</button>
-                <button onClick={() => setStage(2)} className={`px-3 py-1 text-sm font-bold rounded ${stage === 2 ? 'bg-cyan-700 text-white' : 'bg-slate-800 text-slate-400'}`}>2. Outline</button>
-                <button onClick={() => setStage(3)} className={`px-3 py-1 text-sm font-bold rounded ${stage === 3 ? 'bg-cyan-700 text-white' : 'bg-slate-800 text-slate-400'}`}>3. Scene Beats</button>
-                <button onClick={() => setStage(4)} className={`px-3 py-1 text-sm font-bold rounded ${stage === 4 ? 'bg-cyan-700 text-white' : 'bg-slate-800 text-slate-400'}`}>4. Prose Draft</button>
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
+                <div className="flex gap-2">
+                  <button onClick={() => setStage(1)} className={`px-3 py-1 text-sm font-bold rounded ${stage === 1 ? 'bg-cyan-700 text-white' : 'bg-slate-800 text-slate-400'}`}>1. Brainstorm</button>
+                  <button onClick={() => setStage(2)} className={`px-3 py-1 text-sm font-bold rounded ${stage === 2 ? 'bg-cyan-700 text-white' : 'bg-slate-800 text-slate-400'}`}>2. Outline</button>
+                  <button onClick={() => setStage(3)} className={`px-3 py-1 text-sm font-bold rounded ${stage === 3 ? 'bg-cyan-700 text-white' : 'bg-slate-800 text-slate-400'}`}>3. Scene Beats</button>
+                  <button onClick={() => setStage(4)} className={`px-3 py-1 text-sm font-bold rounded ${stage === 4 ? 'bg-cyan-700 text-white' : 'bg-slate-800 text-slate-400'}`}>4. Prose Draft</button>
+                </div>
+                <CanvasToolbar 
+                  canvasName={stage === 1 ? 'Brainstorm' : stage === 2 ? 'Outline' : stage === 3 ? 'Scene Beats' : 'Prose Draft'}
+                  canvasKey={stage === 1 ? 'brainstorm' : stage === 2 ? 'outline' : stage === 3 ? 'beats' : 'draft'}
+                  onSaveLocal={handleSaveLocal}
+                  onLoadLocal={handleLoadLocal}
+                  onExport={handleExportCanvas}
+                  onImport={triggerImport}
+                />
               </div>
 
+              {/* Floating AI Pair Authoring Context Menu */}
+              {contextMenuPos && selectedText && (
+                <div 
+                  className="fixed z-50 bg-slate-800 p-3 rounded-lg border border-amber-900 shadow-2xl flex flex-col gap-2 min-w-[280px]"
+                  style={{ top: contextMenuPos.y, left: contextMenuPos.x }}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <span className="text-xs text-amber-500 font-bold uppercase tracking-wider mb-1 border-b border-slate-700 pb-1">AI Pair Authoring</span>
+                  <div className="flex gap-2">
+                    <button onClick={() => { handleInlineEdit('rewrite'); setContextMenuPos(null); }} disabled={isGenerating} className="bg-slate-700 hover:bg-slate-600 px-2 py-1.5 rounded text-xs font-bold flex-1">Rewrite</button>
+                    <button onClick={() => { handleInlineEdit('expand'); setContextMenuPos(null); }} disabled={isGenerating} className="bg-slate-700 hover:bg-slate-600 px-2 py-1.5 rounded text-xs font-bold flex-1">Expand</button>
+                    <button onClick={() => { handleInlineEdit('summarize'); setContextMenuPos(null); }} disabled={isGenerating} className="bg-slate-700 hover:bg-slate-600 px-2 py-1.5 rounded text-xs font-bold flex-1">Summarize</button>
+                  </div>
+                  <div className="flex gap-1 mt-1">
+                    <input 
+                      type="text" 
+                      value={customAiPrompt}
+                      onChange={(e) => setCustomAiPrompt(e.target.value)}
+                      placeholder="Custom instruction..."
+                      className="flex-1 bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-xs text-white"
+                    />
+                    <button onClick={() => { handleInlineEdit('custom'); setContextMenuPos(null); }} disabled={isGenerating || !customAiPrompt} className="bg-amber-700 hover:bg-amber-600 px-3 py-1.5 rounded text-xs font-bold disabled:opacity-50">Apply</button>
+                  </div>
+                </div>
+              )}
+
               {stage === 1 && (
-                <div className="flex flex-col gap-4 max-w-4xl">
+                <div className="flex flex-col gap-4 max-w-4xl" onContextMenu={handleContextMenu}>
                   <div className="bg-[#161b22] p-4 rounded-lg border border-slate-700">
                     <label className="block text-sm font-bold text-slate-400 mb-2">Seed Prompt / Story Idea</label>
                     <textarea 
@@ -564,8 +799,15 @@ Formatting: Use markdown headings, bullet points, sensory details, and psycholog
                       value={brainstormPrompt}
                       onChange={(e) => setBrainstormPrompt(e.target.value)}
                     />
-                    <button onClick={handleGenerateConcepts} disabled={isGenerating} className="bg-cyan-600 hover:bg-cyan-500 text-white px-4 py-2 rounded font-bold disabled:opacity-50">
-                      {isGenerating ? 'Generating...' : 'Generate Concept Cards'}
+                    <button onClick={handleGenerateConcepts} disabled={isGenerating} className="bg-cyan-600 hover:bg-cyan-500 text-white px-4 py-2 rounded font-bold disabled:opacity-50 flex items-center gap-2">
+                      {isGenerating ? (
+                        <>
+                          <div className="w-4 h-4 border-2 border-cyan-200 border-t-transparent rounded-full animate-spin shrink-0" />
+                          <span>Thinking...</span>
+                        </>
+                      ) : (
+                        'Generate Concept Cards'
+                      )}
                     </button>
                   </div>
 
@@ -577,7 +819,16 @@ Formatting: Use markdown headings, bullet points, sensory details, and psycholog
                           <p className="text-sm font-semibold text-amber-300 italic mb-2">"{card.hook}"</p>
                           <p className="text-sm text-slate-300 mb-4 flex-1">{card.premise}</p>
                           <div className="text-xs text-slate-400 mb-4"><strong>Themes:</strong> {card.themes}</div>
-                          <button onClick={() => handleDevelopOutline(card)} className="bg-slate-700 hover:bg-slate-600 text-white w-full py-2 rounded font-bold">Develop Outline</button>
+                          <button onClick={() => handleDevelopOutline(card)} disabled={isGenerating} className="bg-slate-700 hover:bg-slate-600 text-white w-full py-2 rounded font-bold flex items-center justify-center gap-2 disabled:opacity-50">
+                            {isGenerating ? (
+                              <>
+                                <div className="w-3.5 h-3.5 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin shrink-0" />
+                                <span>Thinking...</span>
+                              </>
+                            ) : (
+                              'Develop Outline'
+                            )}
+                          </button>
                         </div>
                       ))}
                     </div>
@@ -586,44 +837,75 @@ Formatting: Use markdown headings, bullet points, sensory details, and psycholog
               )}
 
               {stage === 2 && (
-                <div className="flex flex-col h-full gap-4 max-w-4xl">
+                <div className="flex flex-col h-full gap-4 max-w-4xl" onContextMenu={handleContextMenu}>
                   <div className="bg-[#161b22] p-4 rounded-lg border border-slate-700 flex-1 flex flex-col">
                     <div className="flex justify-between items-center mb-2">
                       <h3 className="font-bold text-slate-300">Story Outline</h3>
                       <div className="flex gap-2">
-                        <button onClick={handleSuggestBeat} disabled={isSuggestingBeat} className="bg-amber-700 hover:bg-amber-600 px-3 py-1 rounded text-xs font-bold disabled:opacity-50">
-                          {isSuggestingBeat ? 'Suggesting...' : 'Suggest Next Beat'}
+                        <button onClick={handleSuggestBeat} disabled={isSuggestingBeat} className="bg-amber-700 hover:bg-amber-600 px-3 py-1 rounded text-xs font-bold disabled:opacity-50 flex items-center gap-1.5">
+                          {isSuggestingBeat ? (
+                            <>
+                              <div className="w-3.5 h-3.5 border-2 border-cyan-300 border-t-transparent rounded-full animate-spin shrink-0" />
+                              <span>Thinking...</span>
+                            </>
+                          ) : (
+                            'Suggest Next Beat'
+                          )}
                         </button>
-                        <button onClick={handleDevelopSceneBeats} className="bg-cyan-600 hover:bg-cyan-500 px-3 py-1 rounded text-xs font-bold">
-                          Generate Scene Beats ➔
+                        <button onClick={handleDevelopSceneBeats} disabled={isGenerating} className="bg-cyan-600 hover:bg-cyan-500 px-3 py-1 rounded text-xs font-bold flex items-center gap-1.5 disabled:opacity-50">
+                          {isGenerating ? (
+                            <>
+                              <div className="w-3.5 h-3.5 border-2 border-cyan-200 border-t-transparent rounded-full animate-spin shrink-0" />
+                              <span>Thinking...</span>
+                            </>
+                          ) : (
+                            'Generate Scene Beats ➔'
+                          )}
                         </button>
                       </div>
                     </div>
-                    <textarea 
-                      className="w-full flex-1 bg-slate-900 border border-slate-700 rounded p-2 text-sm"
-                      value={creativeState.storyOutline}
-                      onChange={(e) => updateOutline(e.target.value)}
-                    />
+                    <div className="flex-1 overflow-hidden flex flex-col min-h-[300px]">
+                      <ReactQuill 
+                        ref={outlineQuillRef}
+                        theme="snow"
+                        value={creativeState.storyOutline}
+                        onChange={updateOutline}
+                        onChangeSelection={handleQuillChangeSelection}
+                        className="flex-1 bg-slate-900 border border-slate-700 rounded overflow-hidden quill-editor prose-editor flex flex-col"
+                      />
+                    </div>
                   </div>
                 </div>
               )}
 
               {stage === 3 && (
-                <div className="flex flex-col h-full gap-4 max-w-4xl">
+                <div className="flex flex-col h-full gap-4 max-w-4xl" onContextMenu={handleContextMenu}>
                   <div className="bg-[#161b22] p-4 rounded-lg border border-slate-700 flex-1 flex flex-col">
                     <div className="flex justify-between items-center mb-2">
                       <h3 className="font-bold text-slate-300">Scene Beats</h3>
                       <div className="flex gap-2">
-                        <button onClick={handleGenerateDraft} className="bg-cyan-600 hover:bg-cyan-500 px-3 py-1 rounded text-xs font-bold">
-                          Generate Draft ➔
+                        <button onClick={handleGenerateDraft} disabled={isGenerating} className="bg-cyan-600 hover:bg-cyan-500 px-3 py-1 rounded text-xs font-bold flex items-center gap-1.5 disabled:opacity-50">
+                          {isGenerating ? (
+                            <>
+                              <div className="w-3.5 h-3.5 border-2 border-cyan-200 border-t-transparent rounded-full animate-spin shrink-0" />
+                              <span>Thinking...</span>
+                            </>
+                          ) : (
+                            'Generate Draft ➔'
+                          )}
                         </button>
                       </div>
                     </div>
-                    <textarea 
-                      className="w-full flex-1 bg-slate-900 border border-slate-700 rounded p-2 text-sm"
-                      value={creativeState.sceneBeats}
-                      onChange={(e) => updateSceneBeats(e.target.value)}
-                    />
+                    <div className="flex-1 overflow-hidden flex flex-col min-h-[300px]">
+                      <ReactQuill 
+                        ref={beatsQuillRef}
+                        theme="snow"
+                        value={creativeState.sceneBeats}
+                        onChange={updateSceneBeats}
+                        onChangeSelection={handleQuillChangeSelection}
+                        className="flex-1 bg-slate-900 border border-slate-700 rounded overflow-hidden quill-editor prose-editor flex flex-col"
+                      />
+                    </div>
                   </div>
                 </div>
               )}
@@ -631,37 +913,27 @@ Formatting: Use markdown headings, bullet points, sensory details, and psycholog
               {stage === 4 && (
                 <div className="flex flex-col h-full max-w-5xl">
                   <div className="flex justify-end gap-2 mb-2">
-                    <button onClick={handleGenerateNextScene} disabled={isGenerating} className="bg-amber-600 hover:bg-amber-500 px-3 py-1 rounded text-xs font-bold disabled:opacity-50">
-                      Generate Next Scene
+                    <button onClick={handleGenerateNextScene} disabled={isGenerating} className="bg-amber-600 hover:bg-amber-500 px-3 py-1 rounded text-xs font-bold disabled:opacity-50 flex items-center gap-1.5">
+                      {isGenerating ? (
+                        <>
+                          <div className="w-3.5 h-3.5 border-2 border-cyan-300 border-t-transparent rounded-full animate-spin shrink-0" />
+                          <span>Thinking...</span>
+                        </>
+                      ) : (
+                        'Generate Next Scene'
+                      )}
                     </button>
-                    <button onClick={handleContinueWriting} disabled={isGenerating} className="bg-cyan-600 hover:bg-cyan-500 px-3 py-1 rounded text-xs font-bold disabled:opacity-50">
-                      Continue Writing
+                    <button onClick={handleContinueWriting} disabled={isGenerating} className="bg-cyan-600 hover:bg-cyan-500 px-3 py-1 rounded text-xs font-bold disabled:opacity-50 flex items-center gap-1.5">
+                      {isGenerating ? (
+                        <>
+                          <div className="w-3.5 h-3.5 border-2 border-cyan-200 border-t-transparent rounded-full animate-spin shrink-0" />
+                          <span>Thinking...</span>
+                        </>
+                      ) : (
+                        'Continue Writing'
+                      )}
                     </button>
                   </div>
-                  {contextMenuPos && selectedText && (
-                    <div 
-                      className="fixed z-50 bg-slate-800 p-3 rounded-lg border border-amber-900 shadow-2xl flex flex-col gap-2 min-w-[280px]"
-                      style={{ top: contextMenuPos.y, left: contextMenuPos.x }}
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <span className="text-xs text-amber-500 font-bold uppercase tracking-wider mb-1 border-b border-slate-700 pb-1">AI Pair Authoring</span>
-                      <div className="flex gap-2">
-                        <button onClick={() => { handleInlineEdit('rewrite'); setContextMenuPos(null); }} disabled={isGenerating} className="bg-slate-700 hover:bg-slate-600 px-2 py-1.5 rounded text-xs font-bold flex-1">Rewrite</button>
-                        <button onClick={() => { handleInlineEdit('expand'); setContextMenuPos(null); }} disabled={isGenerating} className="bg-slate-700 hover:bg-slate-600 px-2 py-1.5 rounded text-xs font-bold flex-1">Expand</button>
-                        <button onClick={() => { handleInlineEdit('summarize'); setContextMenuPos(null); }} disabled={isGenerating} className="bg-slate-700 hover:bg-slate-600 px-2 py-1.5 rounded text-xs font-bold flex-1">Summarize</button>
-                      </div>
-                      <div className="flex gap-1 mt-1">
-                        <input 
-                          type="text" 
-                          value={customAiPrompt}
-                          onChange={(e) => setCustomAiPrompt(e.target.value)}
-                          placeholder="Custom instruction..."
-                          className="flex-1 bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-xs text-white"
-                        />
-                        <button onClick={() => { handleInlineEdit('custom'); setContextMenuPos(null); }} disabled={isGenerating || !customAiPrompt} className="bg-amber-700 hover:bg-amber-600 px-3 py-1.5 rounded text-xs font-bold disabled:opacity-50">Apply</button>
-                      </div>
-                    </div>
-                  )}
                   <div className="flex-1 overflow-hidden flex flex-col" onContextMenu={handleContextMenu}>
                     <ReactQuill 
                       ref={quillRef}
@@ -679,7 +951,7 @@ Formatting: Use markdown headings, bullet points, sensory details, and psycholog
 
           {activeTab === 'forge' && (
             <div className="flex flex-col h-full max-w-5xl">
-              <div className="flex justify-between items-center mb-4">
+              <div className="flex justify-between items-center mb-4 flex-wrap gap-2">
                 <div className="flex gap-2 flex-wrap">
                   {Object.entries(ELEMENT_SCHEMAS).map(([key, schema]) => (
                     <button 
@@ -691,7 +963,15 @@ Formatting: Use markdown headings, bullet points, sensory details, and psycholog
                     </button>
                   ))}
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-2 items-center flex-wrap">
+                  <CanvasToolbar 
+                    canvasName="Element Forge"
+                    canvasKey="forge"
+                    onSaveLocal={handleSaveLocal}
+                    onLoadLocal={handleLoadLocal}
+                    onExport={handleExportCanvas}
+                    onImport={triggerImport}
+                  />
                   <button onClick={() => setForgeViewMode(forgeViewMode === 'form' ? 'preview' : 'form')} className="bg-slate-700 hover:bg-slate-600 px-3 py-1 rounded text-sm font-bold">
                     {forgeViewMode === 'form' ? 'Preview Output' : 'Edit Inputs'}
                   </button>
@@ -740,8 +1020,15 @@ Formatting: Use markdown headings, bullet points, sensory details, and psycholog
                   </div>
 
                   <div className="mt-4 pt-4 border-t border-slate-700 flex justify-end">
-                    <button onClick={handleForgeGenerate} disabled={isGenerating} className="bg-amber-600 hover:bg-amber-500 px-6 py-2 rounded font-bold disabled:opacity-50 text-white">
-                      {isGenerating ? 'Synthesizing...' : 'Synthesize Lore Document'}
+                    <button onClick={handleForgeGenerate} disabled={isGenerating} className="bg-amber-600 hover:bg-amber-500 px-6 py-2 rounded font-bold disabled:opacity-50 text-white flex items-center gap-2">
+                      {isGenerating ? (
+                        <>
+                          <div className="w-4 h-4 border-2 border-cyan-200 border-t-transparent rounded-full animate-spin shrink-0" />
+                          <span>Thinking...</span>
+                        </>
+                      ) : (
+                        'Synthesize Lore Document'
+                      )}
                     </button>
                   </div>
                 </div>
@@ -763,6 +1050,57 @@ Formatting: Use markdown headings, bullet points, sensory details, and psycholog
           )}
         </div>
       </Split>
+
+      {/* Hidden File Input for Canvas Import */}
+      <input 
+        type="file" 
+        ref={fileInputRef} 
+        onChange={handleFileImport} 
+        accept=".json,.md,.txt" 
+        className="hidden" 
+      />
+
+      {/* Canvas Action Toast Banner */}
+      {toastMsg && (
+        <div className="fixed bottom-5 right-5 z-50 bg-cyan-900/90 border border-cyan-400/80 text-cyan-200 px-4 py-2 rounded-lg shadow-2xl text-xs font-bold flex items-center gap-2 backdrop-blur-md animate-bounce">
+          <span className="text-amber-400">✨</span>
+          <span>{toastMsg}</span>
+        </div>
+      )}
     </div>
   );
 }
+
+const CanvasToolbar = ({ canvasName, canvasKey, onSaveLocal, onLoadLocal, onExport, onImport }) => (
+  <div className="flex items-center gap-1.5 bg-[#0d1117]/80 p-1 px-2 rounded-lg border border-slate-700/80 text-xs font-semibold shadow-sm flex-wrap shrink-0">
+    <span className="text-cyan-400 font-bold uppercase tracking-wider text-[10px] mr-1 hidden sm:inline">{canvasName}:</span>
+    <button
+      onClick={() => onSaveLocal(canvasKey)}
+      className="bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-cyan-300 px-2 py-0.5 rounded border border-slate-700 hover:border-cyan-500/50 flex items-center gap-1 transition-all text-[11px]"
+      title="Save snapshot to local browser storage"
+    >
+      💾 Save Local
+    </button>
+    <button
+      onClick={() => onLoadLocal(canvasKey)}
+      className="bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-cyan-300 px-2 py-0.5 rounded border border-slate-700 hover:border-cyan-500/50 flex items-center gap-1 transition-all text-[11px]"
+      title="Load snapshot from local browser storage"
+    >
+      📂 Load Local
+    </button>
+    <button
+      onClick={() => onImport(canvasKey)}
+      className="bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-amber-300 px-2 py-0.5 rounded border border-slate-700 hover:border-amber-500/50 flex items-center gap-1 transition-all text-[11px]"
+      title="Import content from file on disk (.json, .md, .txt)"
+    >
+      📥 Import
+    </button>
+    <button
+      onClick={() => onExport(canvasKey)}
+      className="bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-amber-300 px-2 py-0.5 rounded border border-slate-700 hover:border-amber-500/50 flex items-center gap-1 transition-all text-[11px]"
+      title="Export canvas content to file (.json or .md)"
+    >
+      📤 Export
+    </button>
+  </div>
+);
