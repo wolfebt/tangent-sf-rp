@@ -130,13 +130,19 @@ export const DBMSidebar = ({
       </div>
 
       {/* Bastion AI Toggle Button */}
-      <div className="mt-auto pt-2 pb-1 border-t border-slate-800 shrink-0">
+      <div className="mt-auto pt-3 pb-2 border-t border-slate-800 shrink-0">
         <button
+          type="button"
           onClick={onOpenBastion}
-          className="w-full py-2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded-lg text-xs font-bold uppercase tracking-wider shadow-[0_0_10px_rgba(34,211,238,0.25)] transition-all flex items-center justify-center gap-2"
+          className="w-full py-2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 rounded-lg text-xs font-bold uppercase tracking-wider text-cyan-300 shadow-[0_0_10px_rgba(34,211,238,0.25)] transition-all flex items-center justify-center gap-2"
         >
           <span>🤖</span> BASTION AI
         </button>
+      </div>
+
+      {/* Footer Branding */}
+      <div className="pt-2 text-[10px] text-slate-500 font-mono text-center shrink-0">
+        WOLFE.BT@TANGENTLLC
       </div>
     </aside>
   );

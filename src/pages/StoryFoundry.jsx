@@ -579,13 +579,18 @@ const StoryFoundry = () => {
           <div className="h-full w-full relative">
             <MapPane mapExportPngRef={mapExportPngRef} />
             {/* Bottom-left Bastion toggle button in Map Maker view */}
-            <div className="fixed bottom-4 left-4 z-40">
+            <div className="fixed bottom-4 left-4 z-40 flex flex-col items-center gap-1.5 p-2 bg-[#0d1117]/90 border border-slate-800 rounded-lg shadow-xl backdrop-blur-md">
+              <div className="w-full border-t border-slate-800" />
               <button
+                type="button"
                 onClick={() => handleOpenBastion('chat')}
-                className="px-3.5 py-2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded-lg text-xs font-bold uppercase tracking-wider transition-all shadow-[0_0_12px_rgba(34,211,238,0.3)] flex items-center gap-2"
+                className="w-full px-3.5 py-2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded-lg text-xs font-bold uppercase tracking-wider transition-all shadow-[0_0_10px_rgba(34,211,238,0.25)] flex items-center justify-center gap-2"
               >
                 <span>🤖</span> BASTION AI
               </button>
+              <div className="text-[10px] text-slate-500 font-mono text-center pt-0.5">
+                WOLFE.BT@TANGENTLLC
+              </div>
             </div>
           </div>
         ) : activeTab === 'creative' ? (

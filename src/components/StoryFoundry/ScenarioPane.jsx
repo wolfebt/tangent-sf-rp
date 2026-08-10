@@ -1309,13 +1309,17 @@ const ScenarioPane = ({ onOpenBastion, onSwitchTab }) => {
             )}
           </div>
           {/* Bastion AI Button at bottom of Left Sidebar */}
-          <div className="p-2 border-t border-slate-800 bg-slate-950/80 shrink-0">
+          <div className="mt-auto pt-3 pb-2 px-3 border-t border-slate-800 bg-slate-950/80 shrink-0">
             <button
+              type="button"
               onClick={() => onOpenBastion('chat')}
-              className="w-full py-2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded text-xs font-bold uppercase tracking-wider transition-all shadow-[0_0_10px_rgba(34,211,238,0.25)] flex items-center justify-center gap-2"
+              className="w-full py-2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 rounded-lg text-xs font-bold uppercase tracking-wider text-cyan-300 shadow-[0_0_10px_rgba(34,211,238,0.25)] transition-all flex items-center justify-center gap-2"
             >
               <span>🤖</span> BASTION AI
             </button>
+            <div className="pt-2 text-[10px] text-slate-500 font-mono text-center">
+              WOLFE.BT@TANGENTLLC
+            </div>
           </div>
         </div>
 
