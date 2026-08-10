@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { categoryConfig } from './categoryConfig';
 
 export const DBMSidebar = ({
@@ -9,6 +9,8 @@ export const DBMSidebar = ({
   navigateToCategory,
   onOpenBastion
 }) => {
+  const [isDevExpanded, setIsDevExpanded] = useState(false);
+
   return (
     <aside className="w-64 bg-[#090d16] border-r border-[#0D5C63]/40 flex flex-col overflow-y-auto shrink-0 p-2 gap-1">
       <div className="text-[10px] font-bold text-cyan-400/80 uppercase tracking-widest px-3 py-1 mb-1 border-b border-slate-800">
@@ -97,12 +99,17 @@ export const DBMSidebar = ({
           );
         })}
 
-        {/* Development Categories — always visible (DEV mode active) */}
+        {/* Development Categories — accordion (collapsed by default) */}
         <div className="mt-4 pt-2 border-t border-slate-800 flex flex-col gap-1">
-          <div className="px-3 py-1 mb-1 text-[10px] font-bold text-amber-500/90 uppercase tracking-widest">
-            Development
-          </div>
-          {devCategories.map(devKey => {
+          <button
+            onClick={() => setIsDevExpanded(!isDevExpanded)}
+            className="w-full flex items-center justify-between px-3 py-1 mb-1 text-[10px] font-bold text-amber-500/90 uppercase tracking-widest hover:text-amber-400 transition-colors"
+          >
+            <span>Development</span>
+            <span>{isDevExpanded ? '▲' : '▼'}</span>
+          </button>
+          
+          {isDevExpanded && devCategories.map(devKey => {
             const config = categoryConfig[devKey];
             const isActive = currentKey === devKey;
             return (
@@ -134,3 +141,4 @@ export const DBMSidebar = ({
     </aside>
   );
 };
+
