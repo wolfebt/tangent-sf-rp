@@ -422,16 +422,6 @@ export const DBMContainer = () => {
 
         {/* Right Main Content Panel */}
         <main className="flex-1 bg-[#0d1117] flex flex-col overflow-hidden relative p-6">
-          {/* Bastion AI Floating Toggle */}
-          <div className="absolute bottom-4 left-4 z-40">
-            <button
-              onClick={() => setIsBastionOpen(true)}
-              className="bg-slate-800/90 hover:bg-slate-700 text-cyan-400 p-3 rounded-full shadow-[0_0_15px_rgba(34,211,238,0.2)] border border-cyan-900/50 backdrop-blur transition-all flex items-center justify-center gap-2 font-mono font-bold text-sm"
-              title="Open BASTION AI"
-            >
-              <span>🤖</span> BASTION AI
-            </button>
-          </div>
 
           {/* Subcategory Pills Bar (if available and not parent landing) */}
           {(() => {
