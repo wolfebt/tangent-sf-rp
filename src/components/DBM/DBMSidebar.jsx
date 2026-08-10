@@ -12,12 +12,12 @@ export const DBMSidebar = ({
   const [isDevExpanded, setIsDevExpanded] = useState(false);
 
   return (
-    <aside className="w-64 bg-[#090d16] border-r border-[#0D5C63]/40 flex flex-col overflow-y-auto shrink-0 p-2 gap-1">
-      <div className="text-[10px] font-bold text-cyan-400/80 uppercase tracking-widest px-3 py-1 mb-1 border-b border-slate-800">
+    <aside className="w-64 h-full bg-[#090d16] border-r border-[#0D5C63]/40 flex flex-col shrink-0 p-2 gap-1 overflow-hidden">
+      <div className="text-[10px] font-bold text-cyan-400/80 uppercase tracking-widest px-3 py-1 mb-1 border-b border-slate-800 shrink-0">
         Categories
       </div>
 
-      <div className="flex-1 flex flex-col gap-1 overflow-y-auto">
+      <div className="flex-1 min-h-0 flex flex-col gap-1 overflow-y-auto pr-1">
         {mainCategories.map(catKey => {
           const config = categoryConfig[catKey];
           const isActive = activeCategory === catKey || categoryConfig[activeCategory]?.parent === catKey;
