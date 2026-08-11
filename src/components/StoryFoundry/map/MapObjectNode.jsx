@@ -509,7 +509,9 @@ export const TokenNode = React.memo(({ shapeProps, isSelected, isActiveTurn, onS
         />
       )}
     </React.Fragment>
+  );
 });
+
 export const TextLabelNode = React.memo(({ shapeProps, isSelected, onSelect, onChange, isEraser, onErase, isLocked }) => {
   const shapeRef = useRef();
   const trRef = useRef();
