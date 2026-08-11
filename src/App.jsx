@@ -1,9 +1,11 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ErrorBoundary } from './components/UI/ErrorBoundary';
+import { DBMProvider } from './context/DBMContext';
 
 const Home = lazy(() => import('./pages/Home'));
 const Folio = lazy(() => import('./pages/Folio'));
-const StoryFoundry = lazy(() => import('./pages/StoryFoundry'));
+const FoundryApp = lazy(() => import('./pages/Foundry/FoundryApp'));
 const DBM = lazy(() => import('./pages/DBM'));
 
 const PageLoader = () => (
@@ -18,20 +20,25 @@ const PageLoader = () => (
 function App() {
   return (
     <Router>
-      <div className="h-screen w-screen bg-[#0d1117] flex flex-col font-[#f5f5f5] font-sans overflow-hidden">
-        {/* Routes */}
-        <div className="flex-1 flex flex-col h-full w-full overflow-hidden">
-          <Suspense fallback={<PageLoader />}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/dbm" element={<DBM />} />
-              <Route path="/folio" element={<Folio />} />
-              <Route path="/story-foundry" element={<StoryFoundry />} />
-              <Route path="/campaign-builder" element={<StoryFoundry />} />
-            </Routes>
-          </Suspense>
+      <DBMProvider>
+        <div className="h-screen w-screen bg-[#0d1117] flex flex-col font-[#f5f5f5] font-sans overflow-hidden">
+          {/* Routes */}
+          <div className="flex-1 flex flex-col h-full w-full overflow-hidden">
+            <ErrorBoundary>
+              <Suspense fallback={<PageLoader />}>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/dbm" element={<DBM />} />
+                  <Route path="/folio" element={<Folio />} />
+                  <Route path="/foundry/*" element={<FoundryApp />} />
+                  <Route path="/story-foundry" element={<FoundryApp />} />
+                  <Route path="/campaign-builder" element={<FoundryApp />} />
+                </Routes>
+              </Suspense>
+            </ErrorBoundary>
+          </div>
         </div>
-      </div>
+      </DBMProvider>
     </Router>
   );
 }

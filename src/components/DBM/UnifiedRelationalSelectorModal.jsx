@@ -4,6 +4,7 @@ import { collection, getDocs, setDoc, doc } from 'firebase/firestore';
 import { categoryConfig } from './categoryConfig';
 import { VirtualizedList } from './VirtualizedList';
 import { attachCreatorTag } from '../../utils/creatorUtils';
+import { useDBM } from '../../context/DBMContext';
 
 const EMPTY_CONFIG = {};
 const DEFAULT_SCHEMA_FIELDS = {
@@ -49,6 +50,10 @@ export const UnifiedRelationalSelectorModal = ({
   saveEntry,
   devMode = false
 }) => {
+  const dbContext = useDBM() || {};
+  const activeDbData = Object.keys(activeDbData).length > 0 ? activeDbData : (dbContext.activeDbData || {});
+  const activeSaveEntry = activeSaveEntry || dbContext.activeSaveEntry;
+
   const [items, setItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(false);
@@ -133,7 +138,7 @@ export const UnifiedRelationalSelectorModal = ({
   if (!isOpen) return null;
 
   // Use local fallback if cloud snapshot is empty
-  const localFallback = dbData[sourceCollection] || [];
+  const localFallback = activeDbData[sourceCollection] || [];
   const allAvailableItems = items.length > 0 ? items : localFallback;
 
   const filteredItems = allAvailableItems.filter(item => {
@@ -193,9 +198,9 @@ export const UnifiedRelationalSelectorModal = ({
       // 1. Update local items list
       setItems(prev => [...prev, payload]);
 
-      // 2. Update global dbData state & local storage
-      if (saveEntry) {
-        await saveEntry(payload, sourceCollection);
+      // 2. Update global activeDbData state & local storage
+      if (activeSaveEntry) {
+        await activeSaveEntry(payload, sourceCollection);
       }
 
       // 3. Notify parent DBMItemModal
@@ -332,7 +337,7 @@ export const UnifiedRelationalSelectorModal = ({
 
                     let selectOptions = fDef.options || [];
                     if (fKey === 'aspect_subtype' && newFormData.aspect) {
-                      selectOptions = getAspectSubtypeOptions(newFormData.aspect, dbData);
+                      selectOptions = getAspectSubtypeOptions(newFormData.aspect, activeDbData);
                     }
 
                     return (

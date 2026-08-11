@@ -162,14 +162,14 @@ export const FolioProvider = ({ children }) => {
 
   const saveTimeoutRef = React.useRef(null);
   
-  const triggerSave = useCallback(() => {
+  const triggerSave = useCallback((immediate = false) => {
     if (isReadOnly) return; // Read-only mode prevents overwriting public sheets
 
     if (saveTimeoutRef.current) {
       clearTimeout(saveTimeoutRef.current);
     }
 
-    saveTimeoutRef.current = setTimeout(async () => {
+    const executeSave = async () => {
       const user = auth.currentUser;
       if (!user) {
         setCloudSaveStatus('offline');
@@ -201,8 +201,34 @@ export const FolioProvider = ({ children }) => {
         console.error('Cloud save failed:', err);
         setCloudSaveStatus('error');
       }
-    }, 1000); // 1-second debounce
+    };
+
+    if (immediate) {
+      executeSave();
+    } else {
+      saveTimeoutRef.current = setTimeout(executeSave, 1000); // 1-second debounce
+    }
   }, [isReadOnly]);
+
+  // Page Visibility & Focus auto-save
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        triggerSave(true); // immediate save when tab is hidden or page closed
+      }
+    };
+    const handleBlur = () => {
+      triggerSave(true);
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('blur', handleBlur);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('blur', handleBlur);
+    };
+  }, [triggerSave]);
 
   // Derived Stats Auto-Calculation
   const derivedStats = useMemo(() => {
@@ -212,41 +238,73 @@ export const FolioProvider = ({ children }) => {
     const will = parseInt(characterData['attr-will'] || (wisdom * 2 + 2), 10);
     const magicLevel = parseInt(characterData['magic-level'] || 1, 10);
 
-    const calculatedHealth = 30 + (fortitude > 2 ? (fortitude - 2) * 2 : 0);
-    const calculatedVitality = 30 + (will > 2 ? (will - 2) * 2 : 0);
-    const calculatedKarma = 3 + (magicLevel > 1 ? magicLevel - 1 : 0);
+    const baseHealth = 30 + (fortitude > 2 ? (fortitude - 2) * 2 : 0);
+    const baseVitality = 30 + (will > 2 ? (will - 2) * 2 : 0);
+    const baseKarma = 3 + (magicLevel > 1 ? magicLevel - 1 : 0);
+
+    const maxAllowed = 60 + (5 * stamina);
+    
+    const currentHealth = parseInt(characterData['health'], 10);
+    const currentVitality = parseInt(characterData['vitality'], 10);
+
+    let purchasedHealth = 0;
+    if (!isNaN(currentHealth) && currentHealth > baseHealth) {
+      purchasedHealth = currentHealth - baseHealth;
+    }
+
+    let purchasedVitality = 0;
+    if (!isNaN(currentVitality) && currentVitality > baseVitality) {
+      purchasedVitality = currentVitality - baseVitality;
+    }
 
     return {
-      health: calculatedHealth,
-      vitality: calculatedVitality,
-      karma: calculatedKarma
+      health: baseHealth,
+      vitality: baseVitality,
+      karma: baseKarma,
+      maxAllowed,
+      purchasedHealth,
+      purchasedVitality
     };
   }, [
     characterData['attr-stamina'],
     characterData['attr-fortitude'],
     characterData['attr-wisdom'],
     characterData['attr-will'],
-    characterData['magic-level']
+    characterData['magic-level'],
+    characterData['health'],
+    characterData['vitality']
   ]);
 
-  // Automatically keep health/vitality/karma synchronized if unmodified
+  // Automatically keep health/vitality/karma synchronized if unmodified (or below base)
   useEffect(() => {
     setCharacterData(prev => {
-      if (
-        prev.health !== derivedStats.health ||
-        prev.vitality !== derivedStats.vitality ||
-        prev.karma !== derivedStats.karma
-      ) {
-        return {
-          ...prev,
-          health: derivedStats.health,
-          vitality: derivedStats.vitality,
-          karma: derivedStats.karma
-        };
+      let needsUpdate = false;
+      const updates = {};
+      
+      const currentHealth = parseInt(prev.health, 10);
+      if (isNaN(currentHealth) || currentHealth < derivedStats.health) {
+        updates.health = derivedStats.health;
+        needsUpdate = true;
+      }
+      
+      const currentVitality = parseInt(prev.vitality, 10);
+      if (isNaN(currentVitality) || currentVitality < derivedStats.vitality) {
+        updates.vitality = derivedStats.vitality;
+        needsUpdate = true;
+      }
+      
+      const currentKarma = parseInt(prev.karma, 10);
+      if (isNaN(currentKarma) || currentKarma !== derivedStats.karma) {
+        updates.karma = derivedStats.karma;
+        needsUpdate = true;
+      }
+      
+      if (needsUpdate) {
+        return { ...prev, ...updates };
       }
       return prev;
     });
-  }, [derivedStats]);
+  }, [derivedStats.health, derivedStats.vitality, derivedStats.karma]);
 
   // Roster Management Actions
   const saveCurrentToRoster = useCallback(async () => {
@@ -928,6 +986,32 @@ export const FolioProvider = ({ children }) => {
       }
     });
 
+    // 12. Purchased Stats Cost (Health & Vitality)
+    let purchasedStatsCost = 0;
+    if (derivedStats.purchasedHealth > 0) {
+      const cost = Math.ceil(derivedStats.purchasedHealth / 5);
+      purchasedStatsCost += cost;
+      itemizedList.push({
+        category: 'Purchased Stat',
+        item: 'Bonus Health',
+        val: `+${derivedStats.purchasedHealth} HP`,
+        costVal: cost,
+        cost: `${cost} CP`
+      });
+    }
+
+    if (derivedStats.purchasedVitality > 0) {
+      const cost = Math.ceil(derivedStats.purchasedVitality / 5);
+      purchasedStatsCost += cost;
+      itemizedList.push({
+        category: 'Purchased Stat',
+        item: 'Bonus Vitality',
+        val: `+${derivedStats.purchasedVitality} VP`,
+        costVal: cost,
+        cost: `${cost} CP`
+      });
+    }
+
     // Calculate Total Spent CP
     const spentCP = (
       identityCost +
@@ -940,7 +1024,8 @@ export const FolioProvider = ({ children }) => {
       augmentationsCost +
       equipmentCost +
       skillRanksCost +
-      specializationRanksCost -
+      specializationRanksCost +
+      purchasedStatsCost -
       disadvantageRefund
     );
 
@@ -1008,7 +1093,7 @@ export const FolioProvider = ({ children }) => {
       identityPools,
       itemizedList
     };
-  }, [characterData]);
+  }, [characterData, derivedStats]);
 
   const updateRosterCharacterNote = useCallback(async (docId, noteText) => {
     const updatedNotes = [{ text: noteText }];

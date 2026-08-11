@@ -18,7 +18,7 @@ const ATTRIBUTES = [
 ];
 
 const CoreStatsTab = () => {
-  const { characterData, updateField } = useFolio();
+  const { characterData, updateField, derivedStats } = useFolio();
   // Helper to safely get numeric field value
   const getNum = (id, defaultVal = 0) => parseInt(characterData[id] || defaultVal, 10);
 
@@ -99,6 +99,14 @@ const CoreStatsTab = () => {
         updateField(subAttr.id, defaultSubVal);
       }
     }
+  };
+
+  const handleStatChange = (id, val) => {
+    let newVal = parseInt(val, 10) || 0;
+    if (newVal > derivedStats.maxAllowed) {
+      newVal = derivedStats.maxAllowed;
+    }
+    updateField(id, newVal);
   };
 
   return (
@@ -185,25 +193,39 @@ const CoreStatsTab = () => {
                 </div>
               </div>
 
-              <FolioInput
-                id="health"
-                label="Health"
-                type="number"
-                value={getNum('health', 30)}
-                onChange={updateField}
-                labelColor="text-slate-300"
-                inputClassName="bg-slate-900 border border-slate-700 px-3 py-1.5 text-sm font-mono"
-              />
+              <div className="flex flex-col relative group">
+                <FolioInput
+                  id="health"
+                  label="Health"
+                  type="number"
+                  value={getNum('health', 30)}
+                  onChange={handleStatChange}
+                  labelColor="text-slate-300"
+                  inputClassName={`px-3 py-1.5 text-sm font-mono border ${derivedStats.purchasedHealth > 0 ? 'bg-indigo-950 border-indigo-500/50' : 'bg-slate-900 border-slate-700'}`}
+                />
+                {derivedStats.purchasedHealth > 0 && (
+                  <div className="absolute top-0 right-0 text-[9px] font-bold text-indigo-300 bg-indigo-900/80 px-1 py-0.5 rounded-bl">
+                    +{derivedStats.purchasedHealth} (Purchased)
+                  </div>
+                )}
+              </div>
 
-              <FolioInput
-                id="vitality"
-                label="Vitality"
-                type="number"
-                value={getNum('vitality', 30)}
-                onChange={updateField}
-                labelColor="text-slate-300"
-                inputClassName="bg-slate-900 border border-slate-700 px-3 py-1.5 text-sm font-mono"
-              />
+              <div className="flex flex-col relative group">
+                <FolioInput
+                  id="vitality"
+                  label="Vitality"
+                  type="number"
+                  value={getNum('vitality', 30)}
+                  onChange={handleStatChange}
+                  labelColor="text-slate-300"
+                  inputClassName={`px-3 py-1.5 text-sm font-mono border ${derivedStats.purchasedVitality > 0 ? 'bg-indigo-950 border-indigo-500/50' : 'bg-slate-900 border-slate-700'}`}
+                />
+                {derivedStats.purchasedVitality > 0 && (
+                  <div className="absolute top-0 right-0 text-[9px] font-bold text-indigo-300 bg-indigo-900/80 px-1 py-0.5 rounded-bl">
+                    +{derivedStats.purchasedVitality} (Purchased)
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Row 2: Tech Level, Meta Level, Essence */}

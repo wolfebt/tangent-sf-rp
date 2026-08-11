@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Stage, Layer, Rect, Line, RegularPolygon, Image as KonvaImage } from 'react-konva';
-import { useCampaign, formatExportFilename } from '../../context/CampaignContext';
+import { useCampaign, formatExportFilename } from '../../../context/CampaignContext';
 import { v4 as uuidv4 } from 'uuid';
 import { produce } from 'immer';
 
@@ -18,17 +18,17 @@ import MapAssetManagerModal from './map/MapAssetManagerModal';
 
 import { useMapHistory } from './hooks/useMapHistory';
 import { useMapCanvasEvents } from './hooks/useMapCanvasEvents';
+import { UnifiedRelationalSelectorModal } from '../../../components/DBM/UnifiedRelationalSelectorModal';
 
 import { getBiomeTextureUrl } from './map/landmassGenerator';
 import { getTextureUrlFromColor } from './map/MapTextures';
 
-const TerrainImageNode = React.memo(({ t, isEraser, isLocked, onErase }) => {
+const TerrainImageNode = ({ t, isEraser, isLocked, onErase }) => {
   const [imageObj, setImageObj] = useState(null);
 
   useEffect(() => {
     if (t.imageUrl) {
       const img = new window.Image();
-      img.crossOrigin = 'Anonymous';
       img.src = t.imageUrl;
       img.onload = () => setImageObj(img);
     }
@@ -46,9 +46,9 @@ const TerrainImageNode = React.memo(({ t, isEraser, isLocked, onErase }) => {
       onClick={() => !isLocked && isEraser && onErase(t.id)}
     />
   );
-});
+};
 
-const TexturedTerrainNode = React.memo(({ t, isLocked, isEraser, onErase }) => {
+const TexturedTerrainNode = ({ t, isLocked, isEraser, onErase }) => {
   const shapeRef = useRef(null);
   const [patternImg, setPatternImg] = useState(null);
   const [strokePattern, setStrokePattern] = useState(null);
@@ -58,7 +58,6 @@ const TexturedTerrainNode = React.memo(({ t, isLocked, isEraser, onErase }) => {
   useEffect(() => {
     if (textureUrl) {
       const img = new window.Image();
-      img.crossOrigin = 'Anonymous';
       img.src = textureUrl;
       img.onload = () => {
         setPatternImg(img);
@@ -147,7 +146,7 @@ const TexturedTerrainNode = React.memo(({ t, isLocked, isEraser, onErase }) => {
       onClick={() => !isLocked && isEraser && onErase(t.id)}
     />
   );
-});
+};
 
 const MapPane = ({ mapExportPngRef }) => {
   const containerRef = useRef(null);
@@ -178,6 +177,8 @@ const MapPane = ({ mapExportPngRef }) => {
   const [pencilWidth, setPencilWidth] = useState(PENCIL_WIDTHS[1]);
   const [tokenType, setTokenType] = useState('standard');
   const [tokenLabelInput, setTokenLabelInput] = useState('Unit');
+  const [tokenOmnicortexData, setTokenOmnicortexData] = useState(null);
+  const [isTokenSelectorOpen, setIsTokenSelectorOpen] = useState(false);
   const [textLabelInput, setTextLabelInput] = useState('Sector Alpha');
   const [textColor, setTextColor] = useState(TEXT_COLORS[0]);
   const [textSize, setTextSize] = useState(24);
@@ -216,6 +217,20 @@ const MapPane = ({ mapExportPngRef }) => {
   const texts = currentMap?.texts || [];
   const fog = currentMap?.fog || [];
   const mapLayers = currentMap?.layers || DEFAULT_LAYERS;
+  const { undoStack, redoStack, recordHistory, handleUndo, handleRedo } = useMapHistory({
+    currentMap, lines, tokens, terrains, objects, texts, fog, mapLayers, updateMap, activeMapId
+  });
+
+  const {
+    scale, setScale, position, setPosition,
+    handleWheel, handleMouseDown, handleMouseMove, handleMouseUp,
+    zoomBy, panBy
+  } = useMapCanvasEvents({
+    currentMap, activeMapId, updateMap, recordHistory,
+    activeTool, lines, terrains, fog, objects, tokens, texts,
+    pencilColor, pencilWidth, selectedTerrain, terrainWidth, selectedObjectType,
+    tokenType, tokenLabelInput, tokenOmnicortexData, textLabelInput, textColor, textSize
+  });
 
   // Keyboard Shortcuts Hotkeys Manager Listener Element
   useEffect(() => {
@@ -234,6 +249,22 @@ const MapPane = ({ mapExportPngRef }) => {
         setActiveTool('select');
       } else if (e.key === 'h' || e.key === 'H') {
         setActiveTool('pan');
+      } else if (e.key === 'w' || e.key === 'W') {
+        panBy(0, 50);
+      } else if (e.key === 's' || e.key === 'S') {
+        panBy(0, -50);
+      } else if (e.key === 'a' || e.key === 'A') {
+        panBy(50, 0);
+      } else if (e.key === 'd' || e.key === 'D') {
+        panBy(-50, 0);
+      } else if (e.key === '+' || e.key === '=') {
+        zoomBy(1.1);
+      } else if (e.key === '-' || e.key === '_') {
+        zoomBy(1/1.1);
+      } else if (e.key === ' ' && !e.repeat && activeTool !== 'pan') {
+        e.preventDefault();
+        window.__prevMapTool = activeTool;
+        setActiveTool('pan');
       } else if (e.key === '?' || (e.shiftKey && e.key === '/')) {
         setIsShortcutsModalOpen(prev => !prev);
       } else if ((e.key === 'Delete' || e.key === 'Backspace') && selectedId) {
@@ -248,9 +279,23 @@ const MapPane = ({ mapExportPngRef }) => {
       }
     };
 
+    const handleKeyUp = (e) => {
+      const tag = e.target.tagName ? e.target.tagName.toLowerCase() : '';
+      if (tag === 'input' || tag === 'textarea' || e.target.isContentEditable) return;
+      if (e.key === ' ' && window.__prevMapTool) {
+        e.preventDefault();
+        setActiveTool(window.__prevMapTool);
+        window.__prevMapTool = null;
+      }
+    };
+
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [activeMapId, currentMap?.gridMode, selectedId, objects, terrains, tokens, texts]);
+    window.addEventListener('keyup', handleKeyUp);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+    };
+  }, [activeMapId, currentMap?.gridMode, selectedId, objects, terrains, tokens, texts, activeTool, zoomBy, panBy, recordHistory, updateMap]);
 
   const handleCommitLandmass = ({ terrains: generatedTerrains, objects: generatedObjects, replaceExisting }) => {
     let targetId = activeMapId;
@@ -271,19 +316,6 @@ const MapPane = ({ mapExportPngRef }) => {
     updateMap(targetId, { terrains: nextTerrains, objects: nextObjects });
   };
 
-  const { undoStack, redoStack, recordHistory, handleUndo, handleRedo } = useMapHistory({
-    currentMap, lines, tokens, terrains, objects, texts, fog, mapLayers, updateMap, activeMapId
-  });
-
-  const {
-    scale, setScale, position, setPosition,
-    handleWheel, handleMouseDown, handleMouseMove, handleMouseUp
-  } = useMapCanvasEvents({
-    currentMap, activeMapId, updateMap, recordHistory,
-    activeTool, lines, terrains, fog, objects, tokens, texts,
-    pencilColor, pencilWidth, selectedTerrain, terrainWidth, selectedObjectType,
-    tokenType, tokenLabelInput, textLabelInput, textColor, textSize
-  });
 
   // Layer Helpers
   const toggleLayerVisibility = (layerId) => {
@@ -876,26 +908,6 @@ const MapPane = ({ mapExportPngRef }) => {
       {/* Canvas + Floating Toolboxes Container */}
       <div className="flex-1 overflow-hidden relative">
 
-        {/* HUD Map Title & Tactical Overlay */}
-        <div className="absolute top-3 left-14 z-30 pointer-events-auto bg-[#0d1117]/85 backdrop-blur-md px-3 py-1.5 rounded-lg border border-[#0D5C63]/70 shadow-[0_0_12px_rgba(0,0,0,0.6)] flex items-center gap-2">
-          <span className="text-sm">🗺️</span>
-          <div className="flex flex-col">
-            <input
-              type="text"
-              value={currentMap?.title || ''}
-              onChange={(e) => updateMap(activeMapId, { title: e.target.value })}
-              className="bg-transparent border-b border-transparent hover:border-cyan-500/50 focus:border-cyan-400 text-xs font-bold uppercase tracking-wider text-[#22d3ee] outline-none w-44 sm:w-56 truncate transition-colors"
-              placeholder="Map Title..."
-              title="Click to rename Map"
-            />
-            <div className="flex items-center gap-2 text-[9px] font-mono text-slate-400">
-              <span className="text-amber-400 font-bold uppercase">SCALE: {currentMap?.type || 'Sector'}</span>
-              <span>•</span>
-              <span className="text-cyan-400 font-bold uppercase">GRID: {gridMode}</span>
-            </div>
-          </div>
-        </div>
-
         <MapToolsPanel
           showToolsPanel={showToolsPanel} setShowToolsPanel={setShowToolsPanel}
           showSettingsPanel={showSettingsPanel} setShowSettingsPanel={setShowSettingsPanel}
@@ -907,6 +919,8 @@ const MapPane = ({ mapExportPngRef }) => {
           pencilWidth={pencilWidth} setPencilWidth={setPencilWidth}
           tokenType={tokenType} setTokenType={setTokenType}
           tokenLabelInput={tokenLabelInput} setTokenLabelInput={setTokenLabelInput}
+          tokenOmnicortexData={tokenOmnicortexData}
+          onOpenOmnicortexLink={() => setIsTokenSelectorOpen(true)}
           textLabelInput={textLabelInput} setTextLabelInput={setTextLabelInput}
           textColor={textColor} setTextColor={setTextColor}
           textSize={textSize} setTextSize={setTextSize}
@@ -1139,6 +1153,24 @@ const MapPane = ({ mapExportPngRef }) => {
           )}
         </div>
       </div>
+
+      <UnifiedRelationalSelectorModal
+        isOpen={isTokenSelectorOpen}
+        onClose={() => setIsTokenSelectorOpen(false)}
+        sourceCollection="Bestiary"
+        isMulti={false}
+        selectedValues={[]}
+        onChange={(selection) => {
+          if (selection && selection.length > 0) {
+            const item = selection[0];
+            setTokenLabelInput(item.name || item.title || 'Unit');
+            const health = parseInt(item.health) || parseInt(item.vitality) || parseInt(item.hp) || 30;
+            setTokenOmnicortexData({ hp: health, entityId: item.id });
+          }
+          setIsTokenSelectorOpen(false);
+        }}
+        fieldLabel="Import Stats"
+      />
     </div>
   );
 };

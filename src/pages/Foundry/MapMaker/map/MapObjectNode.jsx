@@ -10,7 +10,7 @@ export const CONDITION_COLORS = {
   Poisoned: '#84cc16'   // Lime
 };
 
-export const MapObjectNode = React.memo(({
+export const MapObjectNode = ({
   shapeProps,
   isSelected,
   onSelect,
@@ -314,9 +314,9 @@ export const MapObjectNode = React.memo(({
       )}
     </React.Fragment>
   );
-});
+};
 
-export const TokenNode = React.memo(({ shapeProps, isSelected, isActiveTurn, onSelect, onChange, onDoubleClick, isEraser, onErase, isLocked }) => {
+export const TokenNode = ({ shapeProps, isSelected, isActiveTurn, onSelect, onChange, onDoubleClick, isEraser, onErase, isLocked }) => {
   const shapeRef = useRef();
   const trRef = useRef();
   const [tokenImgObj, setTokenImgObj] = useState(null);
@@ -509,8 +509,10 @@ export const TokenNode = React.memo(({ shapeProps, isSelected, isActiveTurn, onS
         />
       )}
     </React.Fragment>
-});
-export const TextLabelNode = React.memo(({ shapeProps, isSelected, onSelect, onChange, isEraser, onErase, isLocked }) => {
+  );
+};
+
+export const TextLabelNode = ({ shapeProps, isSelected, onSelect, onChange, isEraser, onErase, isLocked }) => {
   const shapeRef = useRef();
   const trRef = useRef();
 
@@ -566,4 +568,4 @@ export const TextLabelNode = React.memo(({ shapeProps, isSelected, onSelect, onC
       )}
     </React.Fragment>
   );
-});
+};

@@ -5,6 +5,9 @@ import './index.css'
 import './css/dbm-style.css'
 import { AuthProvider } from './context/AuthContext.jsx'
 import { CampaignProvider } from './context/CampaignContext.jsx'
+import { registerSW } from 'virtual:pwa-register'
+
+registerSW({ immediate: true })
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

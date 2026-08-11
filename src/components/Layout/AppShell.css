@@ -1,0 +1,204 @@
+.app-shell {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.sidebar {
+  width: 260px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 16px;
+  border-right: 1px solid var(--glass-border);
+  border-radius: 0;
+  z-index: 40;
+  position: absolute; /* Default to absolute for sliding */
+  left: 0;
+  top: 0;
+  background: var(--bg-secondary);
+  transition: transform var(--transition-normal);
+}
+
+.sidebar.closed {
+  transform: translateX(-100%);
+}
+
+.sidebar.open {
+  transform: translateX(0);
+}
+
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 30;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-fast);
+}
+
+.sidebar-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+  padding: 0 8px;
+}
+
+.mobile-close-btn {
+  display: none;
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: white;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+.brand-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.nav-divider {
+  margin: 16px 0 8px;
+  padding: 0 12px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  font-weight: 500;
+  background: transparent;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.nav-item:hover {
+  background: var(--border-subtle);
+  color: var(--text-primary);
+}
+
+.nav-item.active {
+  background: rgba(99, 102, 241, 0.15);
+  color: var(--accent-primary);
+  box-shadow: inset 3px 0 0 var(--accent-primary);
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-light);
+}
+
+.main-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: margin-left var(--transition-normal);
+  /* The margin matches sidebar width on wide screens if we want it static, 
+     but since it's slidable we can just overlay or push.
+     For a 3-column wide view pushing effect: */
+  margin-left: 260px; /* Default wide state with sidebar open */
+}
+
+/* When sidebar is closed on desktop, main content expands */
+.sidebar.closed ~ .main-wrapper {
+  margin-left: 0;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  padding: 16px 24px;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-subtle);
+  z-index: 10;
+}
+
+.menu-toggle-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+}
+
+.menu-toggle-btn:hover {
+  background: var(--border-subtle);
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.08), transparent 50%),
+              radial-gradient(circle at bottom left, rgba(139, 92, 246, 0.05), transparent 50%);
+}
+
+/* Responsive Narrow View */
+@media (max-width: 1024px) {
+  .main-wrapper {
+    margin-left: 0 !important; /* Sidebar always overlays on mobile */
+  }
+  
+  .sidebar {
+    background: var(--bg-secondary);
+    border-right: 1px solid var(--border-light);
+    box-shadow: 4px 0 24px rgba(0,0,0,0.5);
+  }
+  
+  .mobile-close-btn {
+    display: block;
+  }
+}

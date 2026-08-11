@@ -289,7 +289,6 @@ export const getLoadedImage = (src, onLoadCallback) => {
   }
 
   const img = new window.Image();
-  img.crossOrigin = 'Anonymous';
   imageCache.set(src, img);
   img.src = src;
 

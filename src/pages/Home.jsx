@@ -99,7 +99,7 @@ const Home = () => {
               </button>
 
               <button 
-                onClick={() => navigate('/story-foundry')}
+                onClick={() => navigate('/foundry')}
                 className="w-full py-4 px-6 rounded-lg text-center transition-all duration-300 backdrop-blur-sm bg-[rgba(20,20,20,0.5)] hover:bg-[rgba(0,0,0,0.75)] text-[#f5f5f5] hover:-translate-y-1 group"
                 style={{ 
                   boxShadow: "0 0 0 1px black, 0 0 0 2px white", 
@@ -113,7 +113,7 @@ const Home = () => {
                 }}
               >
                 <div className="text-2xl font-bold uppercase tracking-wider group-hover:text-cyan-300 transition-colors">
-                  Story Foundry
+                  FOUNDRY
                 </div>
                 <div className="text-xs text-gray-300 font-normal normal-case mt-1 tracking-normal opacity-90 group-hover:text-white transition-opacity">
                   Campaign Workspace & Map Builder — Craft maps, story outlines, and elements
@@ -135,7 +135,7 @@ const Home = () => {
                 }}
               >
                 <div className="text-2xl font-bold uppercase tracking-wider group-hover:text-cyan-300 transition-colors">
-                  Persona Folio
+                  FOLIO
                 </div>
                 <div className="text-xs text-gray-300 font-normal normal-case mt-1 tracking-normal opacity-90 group-hover:text-white transition-opacity">
                   Character Sheet & Hero Creator — Build characters, manage stats, and track CP budgets
