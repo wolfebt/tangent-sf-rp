@@ -301,6 +301,18 @@ const MapToolbar = ({
       {selectedId && (
         <button className="px-3 py-1 bg-red-800 hover:bg-red-700 text-white text-xs font-bold uppercase rounded tracking-wider h-8 ml-2" onClick={() => eraseElement(selectedId)}>Delete Selected</button>
       )}
+      
+      <button 
+        className="px-3 py-1 bg-slate-800 hover:bg-red-950 text-red-400 border border-slate-700 hover:border-red-500 text-xs font-bold uppercase rounded tracking-wider h-8 ml-2 flex items-center gap-1 transition-colors" 
+        onClick={() => {
+          if (window.confirm("Are you sure you want to clear the entire map? This cannot be undone.")) {
+            onClearMap();
+          }
+        }}
+        title="Clear entire map canvas"
+      >
+        <span>🗑️</span> Clear
+      </button>
     </div>
   );
 };

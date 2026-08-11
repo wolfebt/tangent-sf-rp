@@ -58,7 +58,7 @@ const FolioContainer = () => {
     handleNewCharacter,
     handleSaveLocal,
     handleLoadLocal,
-    handleSaveCloud,
+    triggerSave,
     handleLoadCloud,
     computeSpentCP,
     economyBreakdown,
@@ -178,6 +178,7 @@ const FolioContainer = () => {
         <FolioSidebar
           activeTab={activeTab}
           setActiveTab={(tab) => {
+            triggerSave();
             setActiveTab(tab);
             setIsSidebarOpen(false);
           }}
@@ -326,13 +327,7 @@ const FolioContainer = () => {
                   >
                     Preview Sheet
                   </button>
-                  <div className="border-t border-slate-800 my-1" />
-                  <button
-                    onClick={handleSaveCloud}
-                    className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-cyan-300 uppercase font-bold"
-                  >
-                    Save to Cloud
-                  </button>
+
                   <button
                     onClick={handleCloudLoadPrompt}
                     className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-cyan-300 uppercase font-bold"
@@ -447,7 +442,7 @@ const FolioContainer = () => {
         })()}
 
         {/* Tab Content Display */}
-        <div className="flex-1 overflow-y-auto relative p-2">
+        <div className="flex-1 overflow-y-auto relative p-2" onBlur={triggerSave}>
           {activeTab === 'identity' && (
             <IdentityTab
               onOpenSelectorModal={handleOpenSelectorModal}

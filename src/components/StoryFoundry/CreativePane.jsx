@@ -26,7 +26,8 @@ export default function CreativePane() {
     updateDraft, 
     getActiveGemsText,
     addStory,
-    updateLinkedElements 
+    updateLinkedElements,
+    triggerStorySave 
   } = useStory();
 
   const creativeState = universeState.creativeState || { gems: [], storyCards: [], storyOutline: '', sceneBeats: '', storyDraft: '', linkedElements: [], customGems: {} };
@@ -198,6 +199,30 @@ export default function CreativePane() {
       downloadFile(payload, `aime_element_forge_${selectedForgeType}_${timestamp}.json`, 'application/json');
     }
   };
+
+  const handleClearCanvas = (canvasKey) => {
+    if (!window.confirm("Are you sure you want to clear this canvas? This action cannot be undone unless you have a local save.")) return;
+    if (canvasKey === 'brainstorm') {
+      setBrainstormPrompt('');
+      updateStoryCards([]);
+      showToast('Brainstorm canvas cleared!');
+    } else if (canvasKey === 'outline') {
+      updateOutline('');
+      showToast('Outline canvas cleared!');
+    } else if (canvasKey === 'beats') {
+      updateSceneBeats('');
+      showToast('Scene Beats canvas cleared!');
+    } else if (canvasKey === 'draft') {
+      updateDraft('');
+      showToast('Prose Draft canvas cleared!');
+    } else if (canvasKey === 'forge') {
+      setForgeTitle('');
+      setForgeFields({});
+      setForgeGeneratedOutput('');
+      showToast('Element Forge canvas cleared!');
+    }
+  };
+
 
   const handleFileImport = (e) => {
     const file = e.target.files?.[0];
@@ -598,7 +623,7 @@ Formatting: Use markdown headings, bullet points, sensory details, and psycholog
   };
 
   return (
-    <div className="flex h-full w-full flex-col bg-[#0d1117] text-slate-300">
+    <div className="flex h-full w-full flex-col bg-[#0d1117] text-slate-300" onBlur={triggerStorySave}>
       {/* Top Banner */}
       <div className="flex items-center justify-between p-4 border-b border-[#0D5C63]/50 bg-[#161b22]">
         <div>
@@ -760,6 +785,7 @@ Formatting: Use markdown headings, bullet points, sensory details, and psycholog
                   onLoadLocal={handleLoadLocal}
                   onExport={handleExportCanvas}
                   onImport={triggerImport}
+                  onClear={handleClearCanvas}
                 />
               </div>
 
@@ -971,6 +997,7 @@ Formatting: Use markdown headings, bullet points, sensory details, and psycholog
                     onLoadLocal={handleLoadLocal}
                     onExport={handleExportCanvas}
                     onImport={triggerImport}
+                    onClear={handleClearCanvas}
                   />
                   <button onClick={() => setForgeViewMode(forgeViewMode === 'form' ? 'preview' : 'form')} className="bg-slate-700 hover:bg-slate-600 px-3 py-1 rounded text-sm font-bold">
                     {forgeViewMode === 'form' ? 'Preview Output' : 'Edit Inputs'}
@@ -1071,7 +1098,7 @@ Formatting: Use markdown headings, bullet points, sensory details, and psycholog
   );
 }
 
-const CanvasToolbar = ({ canvasName, canvasKey, onSaveLocal, onLoadLocal, onExport, onImport }) => (
+const CanvasToolbar = ({ canvasName, canvasKey, onSaveLocal, onLoadLocal, onExport, onImport, onClear }) => (
   <div className="flex items-center gap-1.5 bg-[#0d1117]/80 p-1 px-2 rounded-lg border border-slate-700/80 text-xs font-semibold shadow-sm flex-wrap shrink-0">
     <span className="text-cyan-400 font-bold uppercase tracking-wider text-[10px] mr-1 hidden sm:inline">{canvasName}:</span>
     <button
@@ -1101,6 +1128,13 @@ const CanvasToolbar = ({ canvasName, canvasKey, onSaveLocal, onLoadLocal, onExpo
       title="Export canvas content to file (.json or .md)"
     >
       📤 Export
+    </button>
+    <button
+      onClick={() => onClear(canvasKey)}
+      className="bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-red-400 px-2 py-0.5 rounded border border-slate-700 hover:border-red-500/50 flex items-center gap-1 transition-all text-[11px] ml-2"
+      title="Clear canvas content"
+    >
+      🗑️ Clear
     </button>
   </div>
 );

@@ -21,10 +21,13 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
     toggleStoryVisibility,
     loadPublicStories,
     publicStoryCatalog,
-    clonePublicStory
+    clonePublicStory,
+    mapsCatalog,
+    deleteSavedMap,
+    addMap
   } = useStory();
 
-  const [activeTab, setActiveTab] = useState(initialTab); // 'stories' | 'elements'
+  const [activeTab, setActiveTab] = useState(initialTab); // 'stories' | 'elements' | 'maps'
   const [storySourceTab, setStorySourceTab] = useState('my_stories'); // 'my_stories' | 'public_community'
   
   // Element Editing State
@@ -46,6 +49,11 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
   const [elementTypeFilter, setElementTypeFilter] = useState('All');
   const [elementSortBy, setElementSortBy] = useState('recent'); // 'recent' | 'title_asc' | 'title_desc' | 'type' | 'author'
   const [openElementMenuId, setOpenElementMenuId] = useState(null);
+
+  // Tab 3: Maps Catalog Search & Sort State
+  const [mapSearch, setMapSearch] = useState('');
+  const [mapSortBy, setMapSortBy] = useState('recent'); // 'recent' | 'title_asc' | 'title_desc' | 'type'
+  const [openMapMenuId, setOpenMapMenuId] = useState(null);
 
   const fileInputRef = useRef(null);
 
@@ -182,6 +190,38 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
     return list;
   }, [elementsCatalog, elementTypeFilter, elementSearch, elementSortBy]);
 
+  // Filtered & Sorted Maps
+  const processedMaps = useMemo(() => {
+    let list = [...(mapsCatalog || [])];
+
+    if (mapSearch.trim()) {
+      const q = mapSearch.toLowerCase().trim();
+      list = list.filter(m => 
+        (m.title && m.title.toLowerCase().includes(q)) ||
+        (m.type && m.type.toLowerCase().includes(q)) ||
+        (m.authorEmail && m.authorEmail.toLowerCase().includes(q))
+      );
+    }
+
+    list.sort((a, b) => {
+      if (mapSortBy === 'recent') {
+        return new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0);
+      }
+      if (mapSortBy === 'title_asc') {
+        return (a.title || '').localeCompare(b.title || '');
+      }
+      if (mapSortBy === 'title_desc') {
+        return (b.title || '').localeCompare(a.title || '');
+      }
+      if (mapSortBy === 'type') {
+        return (a.type || '').localeCompare(b.type || '');
+      }
+      return 0;
+    });
+
+    return list;
+  }, [mapsCatalog, mapSearch, mapSortBy]);
+
   if (!isOpen) return null;
 
   const handleCreateSubmit = (e) => {
@@ -207,6 +247,17 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
     };
     addStory(importedNode);
     alert(`Imported element "${importedNode.title}" into active story workspace!`);
+  };
+
+  const handleImportMapToWorkingStory = (mapElem) => {
+    if (!mapElem) return;
+    const importedNode = {
+      ...mapElem,
+      id: `map_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+      title: mapElem.title || `Untitled Map`
+    };
+    addMap(importedNode);
+    alert(`Imported map "${importedNode.title}" into active story workspace!`);
   };
 
   const handleFileUpload = (e) => {
@@ -274,6 +325,16 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
               onClick={() => setActiveTab('elements')}
             >
               🏛️ Elements Catalog ({elementsCatalog.length})
+            </button>
+            <button
+              className={`px-4 py-1.5 text-xs font-bold uppercase tracking-wider rounded-lg transition-all ${
+                activeTab === 'maps'
+                  ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/60 shadow-[0_0_12px_rgba(16,185,129,0.3)]'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-900'
+              }`}
+              onClick={() => setActiveTab('maps')}
+            >
+              🗺️ Maps Catalog ({(mapsCatalog || []).length})
             </button>
           </div>
 
@@ -784,6 +845,127 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
                         <span className="text-xs leading-none">✏️</span>
                         <span className="text-[8px] font-bold uppercase tracking-tighter leading-none">EDIT</span>
                       </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Tab 3: All Saved Maps Catalog */}
+        {activeTab === 'maps' && (
+          <div className="flex-1 flex flex-col overflow-hidden p-3 sm:p-4 space-y-3">
+            
+            {/* Search & Sort Controls */}
+            <div className="flex flex-wrap items-center justify-between gap-2.5 bg-slate-900/80 p-2.5 rounded-xl border border-slate-800 shrink-0">
+              
+              {/* Search */}
+              <div className="flex-1 min-w-[180px] relative">
+                <span className="absolute left-2.5 top-2 text-xs text-slate-500">🔍</span>
+                <input
+                  type="text"
+                  value={mapSearch}
+                  onChange={(e) => setMapSearch(e.target.value)}
+                  placeholder="Search saved maps by title or author..."
+                  className="w-full pl-8 pr-3 py-1.5 bg-slate-950 border border-slate-700/80 rounded-lg text-xs font-semibold text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition-colors"
+                />
+              </div>
+
+              {/* Sort Selector */}
+              <div className="flex items-center gap-1.5">
+                <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Sort:</span>
+                <select
+                  value={mapSortBy}
+                  onChange={(e) => setMapSortBy(e.target.value)}
+                  className="bg-slate-950 border border-slate-700 text-xs font-bold text-emerald-300 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-emerald-500 cursor-pointer"
+                >
+                  <option value="recent">Recently Saved</option>
+                  <option value="title_asc">Title (A ➔ Z)</option>
+                  <option value="title_desc">Title (Z ➔ A)</option>
+                  <option value="type">Map Type</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Maps Catalog Grid */}
+            <div className="flex-1 overflow-y-auto pr-1">
+              {processedMaps.length === 0 ? (
+                <div className="h-full flex flex-col items-center justify-center p-12 text-center text-slate-400 border-2 border-dashed border-slate-800 rounded-2xl">
+                  <span className="text-4xl mb-3">🗺️</span>
+                  <p className="text-sm font-bold uppercase text-slate-300 tracking-wider">No Saved Maps Found</p>
+                  <p className="text-xs text-slate-500 mt-1 max-w-sm">
+                    {mapSearch 
+                      ? 'No maps match your active search.' 
+                      : 'Saving story projects automatically archives all contained maps independently here!'}
+                  </p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3">
+                  {processedMaps.map(mapElem => (
+                    <div
+                      key={mapElem.id}
+                      className="bg-slate-900/90 hover:bg-slate-900 rounded-lg p-2.5 border border-slate-800 hover:border-emerald-500/50 flex items-center justify-between gap-2.5 transition-all shadow-md group relative"
+                    >
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between gap-1 mb-1">
+                          <div className="flex items-center gap-1.5 min-w-0">
+                            <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-emerald-950/80 border border-emerald-800 text-emerald-400 shrink-0">
+                              {mapElem.type || 'Sector'}
+                            </span>
+                            <span className="text-[9px] text-slate-500 font-mono truncate" title={mapElem.authorEmail}>
+                              {mapElem.authorEmail ? `@${mapElem.authorEmail.split('@')[0]}` : 'Catalog'}
+                            </span>
+                          </div>
+
+                          {/* Menu Dropdown Trigger */}
+                          <div className="relative">
+                            <button
+                              onClick={() => setOpenMapMenuId(openMapMenuId === mapElem.id ? null : mapElem.id)}
+                              className="w-6 h-6 rounded flex items-center justify-center text-slate-400 hover:text-emerald-300 hover:bg-slate-800 transition-colors text-xs font-bold"
+                              title="Map Actions Menu"
+                            >
+                              ⋮
+                            </button>
+
+                            {openMapMenuId === mapElem.id && (
+                              <>
+                                <div
+                                  className="fixed inset-0 z-20"
+                                  onClick={() => setOpenMapMenuId(null)}
+                                />
+                                <div className="absolute right-0 top-full mt-1 z-30 bg-[#0d1117] border border-slate-700 rounded-lg shadow-2xl py-1 min-w-[160px] text-[11px] font-semibold text-slate-200">
+                                  <button
+                                    onClick={() => {
+                                      setOpenMapMenuId(null);
+                                      handleImportMapToWorkingStory(mapElem);
+                                    }}
+                                    className="w-full text-left px-3 py-1.5 hover:bg-emerald-950/60 hover:text-emerald-300 flex items-center gap-2 transition-colors"
+                                  >
+                                    <span>📥</span> Import to Story
+                                  </button>
+                                  <div className="border-t border-slate-800/80 my-1" />
+                                  <button
+                                    onClick={() => {
+                                      setOpenMapMenuId(null);
+                                      if (window.confirm(`Delete map "${mapElem.title}" from catalog?`)) {
+                                        deleteSavedMap(mapElem.id);
+                                      }
+                                    }}
+                                    className="w-full text-left px-3 py-1.5 hover:bg-red-950/60 text-red-400 hover:text-red-300 flex items-center gap-2 transition-colors"
+                                  >
+                                    <span>🗑️</span> Delete Map
+                                  </button>
+                                </div>
+                              </>
+                            )}
+                          </div>
+                        </div>
+
+                        <h3 className="text-xs font-bold text-slate-100 group-hover:text-emerald-300 truncate mb-0.5" title={mapElem.title}>
+                          {mapElem.title || 'Untitled Map'}
+                        </h3>
+                      </div>
                     </div>
                   ))}
                 </div>

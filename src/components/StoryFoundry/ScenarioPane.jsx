@@ -748,7 +748,7 @@ const ElementImageUploader = ({ activeNode, updateStory }) => {
 };
 
 const ScenarioPane = ({ onOpenBastion, onSwitchTab }) => {
-  const { universeState, activeScenarioId, setActiveScenarioId, addStory, updateStory, deleteStory, moveStory, reorderStory, reorderRelativeScenario, handleSaveStory, handleLoadStory, addMap, setActiveMapId, updateProjectName, isStoryReadOnly, clonePublicStory } = useStory();
+  const { universeState, activeScenarioId, setActiveScenarioId, addStory, updateStory, deleteStory, moveStory, reorderStory, reorderRelativeScenario, triggerStorySave, handleSaveStory, handleLoadStory, addMap, setActiveMapId, updateProjectName, isStoryReadOnly, clonePublicStory } = useStory();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalParentId, setModalParentId] = useState(null);
   const [localContent, setLocalContent] = useState('');
@@ -1147,7 +1147,7 @@ const ScenarioPane = ({ onOpenBastion, onSwitchTab }) => {
   };
 
   return (
-    <div className="h-full bg-slate-900 flex flex-col relative overflow-hidden">
+    <div className="h-full bg-slate-900 flex flex-col relative overflow-hidden" onBlur={triggerStorySave}>
       <style>{`
         .quill-dark-wrapper .ql-toolbar.ql-snow {
           position: relative;

@@ -117,13 +117,17 @@ export const DBMContainer = () => {
     setIsEntryModalOpen(true);
   };
 
-  const handleCreateNew = () => {
+  const handleCreateNew = async () => {
     if (!isAdmin) {
       alert('Administrator or GM privileges are required to create new database entries.');
       return;
     }
+
+    const newName = window.prompt(`Enter a name for the new ${currentConfig?.label || 'Asset'}:`, 'New Asset');
+    if (!newName) return;
+
     setSelectedItem(null);
-    const initialData = { name: '', description: '' };
+    const initialData = { name: newName.trim(), description: '' };
     if (currentConfig?.fields) {
       Object.keys(currentConfig.fields).forEach(fKey => {
         const fDef = currentConfig.fields[fKey];
@@ -138,12 +142,23 @@ export const DBMContainer = () => {
         }
       });
     }
-    setEditFormData(initialData);
-    setIsEditMode(true);
-    setIsEntryModalOpen(true);
+
+    const docId = `entry_${Date.now()}`;
+    const taggedData = attachCreatorTag(initialData, userHandle, currentUser);
+    const payload = { ...taggedData, name: newName.trim(), id: docId, updatedAt: new Date().toISOString() };
+
+    const success = await saveEntry(payload, currentKey);
+    if (success) {
+      setSelectedItem(payload);
+      setEditFormData(payload);
+      setIsEditMode(true);
+      setIsEntryModalOpen(true);
+    } else {
+      alert('Failed to create new entry. Check console or network.');
+    }
   };
 
-  const handleSaveEntry = async () => {
+  const handleSaveEntry = async (closeOnSuccess = false) => {
     if (!currentUser) {
       alert('You must be logged in to save entries. Please sign in using the Login button in the header.');
       return;
@@ -162,7 +177,9 @@ export const DBMContainer = () => {
 
     const success = await saveEntry(payload, currentKey);
     if (success) {
-      setIsEntryModalOpen(false);
+      if (closeOnSuccess === true) {
+        setIsEntryModalOpen(false);
+      }
     } else {
       alert('Save failed. You may not have administrative privileges, or a network error occurred. Check browser console for details.');
     }

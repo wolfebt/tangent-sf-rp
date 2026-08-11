@@ -40,6 +40,15 @@ export const DBMItemModal = ({
     setCustomInputModes(prev => ({ ...prev, [fieldKey]: !prev[fieldKey] }));
   };
 
+  const saveTimeoutRef = useRef(null);
+  const triggerAutoSave = React.useCallback(() => {
+    if (!isEditMode || !isAdmin) return;
+    if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
+    saveTimeoutRef.current = setTimeout(() => {
+      onSave(false); // pass false to closeOnSuccess so it saves silently
+    }, 1000);
+  }, [isEditMode, isAdmin, onSave]);
+
   const handleAddCustomValue = (fieldKey, isMulti = false) => {
     const rawVal = (customInputValues[fieldKey] || '').trim();
     if (!rawVal) return;
@@ -203,7 +212,7 @@ export const DBMItemModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4" onBlur={triggerAutoSave}>
       <div className="bg-slate-900 border border-slate-700 rounded-xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
         {/* Header */}
         <div className="bg-slate-950 px-6 py-4 border-b border-slate-800 flex justify-between items-center shrink-0">
@@ -539,14 +548,6 @@ export const DBMItemModal = ({
           >
             Close
           </button>
-          {isEditMode && isAdmin && (
-            <button
-              onClick={onSave}
-              className="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded text-xs uppercase shadow-md"
-            >
-              Save Entry
-            </button>
-          )}
         </div>
       </div>
 

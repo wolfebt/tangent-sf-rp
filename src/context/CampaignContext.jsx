@@ -79,6 +79,17 @@ export const StoryProvider = ({ children }) => {
     return [DEFAULT_UNIVERSE_STATE];
   });
 
+  // Independent Maps Library Catalog State
+  const [mapsCatalog, setMapsCatalog] = useState(() => {
+    try {
+      const saved = localStorage.getItem('tangent_maps_catalog');
+      if (saved) return JSON.parse(saved);
+    } catch (e) {
+      console.warn('Failed to parse maps catalog from localStorage:', e);
+    }
+    return [];
+  });
+
   // Independent Elements Library Catalog State
   const [elementsCatalog, setElementsCatalog] = useState(() => {
     try {
@@ -203,6 +214,43 @@ export const StoryProvider = ({ children }) => {
     }
   }, []);
 
+  // Recursively extract and save all maps independently into the maps catalog & Firestore
+  const saveAllMapsIndependently = useCallback(async (maps, user) => {
+    if (!Array.isArray(maps) || maps.length === 0) return;
+
+    const extractedMaps = maps.map(m => ({
+      ...m,
+      updatedAt: new Date().toISOString(),
+      authorEmail: user?.email || 'Local User',
+      authorUid: user?.uid || 'local'
+    }));
+
+    setMapsCatalog(prev => {
+      const map = new Map(prev.map(item => [item.id, item]));
+      extractedMaps.forEach(item => map.set(item.id, item));
+      const updatedList = Array.from(map.values());
+      try {
+        localStorage.setItem('tangent_maps_catalog', JSON.stringify(updatedList));
+      } catch (e) {
+        console.warn('Failed to cache maps catalog to localStorage:', e);
+      }
+      return updatedList;
+    });
+
+    if (user && db) {
+      try {
+        const batch = writeBatch(db);
+        extractedMaps.forEach(elem => {
+          const docRef = doc(db, 'story_maps', elem.id);
+          batch.set(docRef, elem, { merge: true });
+        });
+        await batch.commit();
+      } catch (err) {
+        console.warn('Batch independent map write to Firestore failed:', err.message);
+      }
+    }
+  }, []);
+
   // Fetch all Cloud DB Story Projects & Elements Catalog on Auth
   useEffect(() => {
     if (!currentUser) {
@@ -244,6 +292,23 @@ export const StoryProvider = ({ children }) => {
         });
       }
     }).catch(e => console.warn('Failed to load elements catalog from cloud:', e));
+
+    // Fetch maps library from Cloud DB
+    const mapsCol = collection(db, 'story_maps');
+    getDocs(mapsCol).then((snap) => {
+      const maps = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      if (maps.length > 0) {
+        setMapsCatalog(prev => {
+          const map = new Map(prev.map(e => [e.id, e]));
+          maps.forEach(e => map.set(e.id, e));
+          const merged = Array.from(map.values());
+          try {
+            localStorage.setItem('tangent_maps_catalog', JSON.stringify(merged));
+          } catch (e) {}
+          return merged;
+        });
+      }
+    }).catch(e => console.warn('Failed to load maps catalog from cloud:', e));
 
     const mainDocRef = doc(db, 'universe', UNIVERSE_DOC_ID);
     const unsub = onSnapshot(mainDocRef, (snap) => {
@@ -434,6 +499,7 @@ export const StoryProvider = ({ children }) => {
 
     // Save all story elements independently automatically
     saveAllElementsIndependently(universeState.scenarios, currentUser);
+    saveAllMapsIndependently(universeState.maps, currentUser);
 
     // Only write to Firestore when authenticated
     if (!currentUser) {
@@ -457,12 +523,20 @@ export const StoryProvider = ({ children }) => {
       console.warn('Firestore auto-save failed:', err.message);
       setCloudSyncStatus('error');
     });
-  }, [universeState, currentUser, saveAllElementsIndependently, syncConflict]);
+  }, [universeState, currentUser, saveAllElementsIndependently, saveAllMapsIndependently, syncConflict]);
+
+  const saveTimeoutRef = React.useRef(null);
+  const triggerStorySave = useCallback(() => {
+    if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
+    saveTimeoutRef.current = setTimeout(() => {
+      pushUniverseToCloud({ showSuccessAlert: false, force: true }); // Use force:true to avoid conflict modal blocking auto-save silently
+    }, 1000);
+  }, []);
 
   // Manual Push to Cloud DB (Recommendation #5: Conflict handling before cloud push)
   const pushUniverseToCloud = async (options = {}) => {
     if (!currentUser) {
-      alert("Please login to push data to Cloud DB.");
+      if (options.showSuccessAlert !== false) alert("Please login to push data to Cloud DB.");
       return false;
     }
     try {
@@ -485,9 +559,9 @@ export const StoryProvider = ({ children }) => {
               const conflictInfo = {
                 type: 'push_conflict',
                 cloudData,
-                localData: universeState,
+                localData: universeStateRef.current,
                 cloudUpdatedAt,
-                localUpdatedAt: universeState.updatedAt || new Date().toISOString()
+                localUpdatedAt: universeStateRef.current.updatedAt || new Date().toISOString()
               };
               setSyncConflict(conflictInfo);
               setCloudSyncStatus('conflict');
@@ -498,13 +572,14 @@ export const StoryProvider = ({ children }) => {
       }
 
       const updatedTime = new Date().toISOString();
+      const currentState = universeStateRef.current;
       const updatedState = {
-        ...universeState,
+        ...currentState,
         updatedAt: updatedTime
       };
       const payloadWithOwner = { ...updatedState, ownerId: currentUser.uid };
 
-      const currentProjectId = universeState.id || 'proj_default_universe';
+      const currentProjectId = currentState.id || 'proj_default_universe';
       const userStoryDoc = doc(db, 'user_stories', currentProjectId);
 
       await Promise.all([
@@ -1228,6 +1303,7 @@ export const StoryProvider = ({ children }) => {
     // Perform final backup save of current working story
     if (universeState && universeState.scenarios) {
       saveAllElementsIndependently(universeState.scenarios, currentUser);
+      saveAllMapsIndependently(universeState.maps, currentUser);
     }
     return true;
   };
@@ -1250,7 +1326,25 @@ export const StoryProvider = ({ children }) => {
     }
   };
 
-  const deleteSavedElement = async (elementId) => {
+  const deleteSavedMap = useCallback(async (mapId) => {
+    setMapsCatalog(prev => {
+      const updated = prev.filter(m => m.id !== mapId);
+      try {
+        localStorage.setItem('tangent_maps_catalog', JSON.stringify(updated));
+      } catch (e) {}
+      return updated;
+    });
+
+    if (currentUser && db) {
+      try {
+        await deleteDoc(doc(db, 'story_maps', mapId));
+      } catch (e) {
+        console.warn('Failed to delete map from cloud:', e);
+      }
+    }
+  }, [currentUser]);
+
+  const deleteSavedElement = useCallback(async (elementId) => {
     setElementsCatalog(prev => {
       const updated = prev.filter(e => e.id !== elementId);
       try {
@@ -1341,6 +1435,7 @@ export const StoryProvider = ({ children }) => {
     setUniverseState,
     storyCatalog,
     elementsCatalog,
+    mapsCatalog,
     lastCloudSavedAt,
     isDirty,
     setIsDirty,
@@ -1353,6 +1448,8 @@ export const StoryProvider = ({ children }) => {
     updateSavedElement,
     enforceElementNames,
     saveAllElementsIndependently,
+    saveAllMapsIndependently,
+    deleteSavedMap,
     updateProjectName,
     handleClearUniverse,
     updateCreativeState,
@@ -1378,6 +1475,7 @@ export const StoryProvider = ({ children }) => {
     setActiveMapId,
     handleSaveLocal,
     handleLoadLocal,
+    triggerStorySave,
     handleSaveStory,
     handleLoadStory,
     handleSaveScenario: handleSaveStory,

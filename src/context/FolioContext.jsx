@@ -154,35 +154,41 @@ export const FolioProvider = ({ children }) => {
     };
   }, []);
 
-  // AUTOMATIC CLOUD SAVE EFFECT (Debounced 1500ms)
-  const isFirstRender = React.useRef(true);
+  // EVENT-DRIVEN CLOUD SAVE
+  const characterDataRef = React.useRef(characterData);
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
+    characterDataRef.current = characterData;
+  }, [characterData]);
 
+  const saveTimeoutRef = React.useRef(null);
+  
+  const triggerSave = useCallback(() => {
     if (isReadOnly) return; // Read-only mode prevents overwriting public sheets
 
-    const user = auth.currentUser;
-    if (!user) {
-      setCloudSaveStatus('offline');
-      return;
+    if (saveTimeoutRef.current) {
+      clearTimeout(saveTimeoutRef.current);
     }
 
-    setCloudSaveStatus('saving');
+    saveTimeoutRef.current = setTimeout(async () => {
+      const user = auth.currentUser;
+      if (!user) {
+        setCloudSaveStatus('offline');
+        return;
+      }
 
-    const timer = setTimeout(async () => {
+      setCloudSaveStatus('saving');
+
       try {
-        const docId = characterData['character-doc-id'] || `char_${Date.now()}`;
+        const currentData = characterDataRef.current;
+        const docId = currentData['character-doc-id'] || `char_${Date.now()}`;
         const rawData = {
-          ...characterData,
+          ...currentData,
           'character-doc-id': docId,
           updatedAt: new Date().toISOString()
         };
         const updatedData = attachCreatorTag(rawData, localStorage.getItem('userHandle'), user);
 
-        if (!characterData['character-doc-id']) {
+        if (!currentData['character-doc-id']) {
           setCharacterData(prev => ({ ...prev, 'character-doc-id': docId }));
         }
 
@@ -192,13 +198,11 @@ export const FolioProvider = ({ children }) => {
         setCloudSaveStatus('saved');
         setLastSavedTime(new Date());
       } catch (err) {
-        console.error('Auto cloud save failed:', err);
+        console.error('Cloud save failed:', err);
         setCloudSaveStatus('error');
       }
-    }, 1500);
-
-    return () => clearTimeout(timer);
-  }, [characterData]);
+    }, 1000); // 1-second debounce
+  }, [isReadOnly]);
 
   // Derived Stats Auto-Calculation
   const derivedStats = useMemo(() => {
@@ -578,7 +582,14 @@ export const FolioProvider = ({ children }) => {
 
   // Reset / New Character
   const handleNewCharacter = useCallback(() => {
-    setCharacterData(DEFAULT_CHARACTER);
+    const newName = window.prompt("Enter character name:", "Unnamed Operative");
+    if (newName === null) return;
+    
+    setCharacterData({
+      ...DEFAULT_CHARACTER,
+      'char-name': newName || 'Unnamed Operative',
+      'character-doc-id': `char_${Date.now()}`
+    });
     localStorage.removeItem('personaFolioData');
     sessionStorage.removeItem('personaFolioData');
   }, []);
@@ -618,24 +629,7 @@ export const FolioProvider = ({ children }) => {
     reader.readAsText(file);
   };
 
-  // Firestore Save Persona to Cloud
-  const handleSaveCloud = async () => {
-    const user = auth.currentUser;
-    const userId = user ? user.uid : 'anonymous';
-    const name = characterData['char-name'] || 'UNNAMED';
-    const docId = characterData['character-doc-id'] || `${name.replace(/\s+/g, '_').toLowerCase()}_${Date.now()}`;
 
-    try {
-      const updatedData = { ...characterData, 'character-doc-id': docId };
-      const docRef = doc(db, `users/${userId}/personas`, docId);
-      await setDoc(docRef, updatedData);
-      updateField('character-doc-id', docId);
-      alert(`Persona "${name}" saved to cloud successfully!`);
-    } catch (err) {
-      console.error('Error saving persona to cloud:', err);
-      alert(`Cloud Save failed: ${err.message}`);
-    }
-  };
 
   // Firestore Load Persona from Cloud
   const handleLoadCloud = async (docId) => {
@@ -1064,7 +1058,7 @@ export const FolioProvider = ({ children }) => {
         handleNewCharacter,
         handleSaveLocal,
         handleLoadLocal,
-        handleSaveCloud,
+        triggerSave,
         handleLoadCloud,
         computeSpentCP,
         economyBreakdown,
