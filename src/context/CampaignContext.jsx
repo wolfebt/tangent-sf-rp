@@ -1360,7 +1360,7 @@ export const StoryProvider = ({ children }) => {
         console.warn('Failed to delete element from Firestore:', e);
       }
     }
-  };
+  }, [currentUser]);
 
   const updateSavedElement = async (elementId, updates) => {
     let updatedElem = null;
