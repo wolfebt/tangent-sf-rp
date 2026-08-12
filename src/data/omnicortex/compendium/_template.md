@@ -2,13 +2,19 @@
 id: "compendium_template"
 name: "Compendium Template"
 category: "compendium"
+entry_type: "Core Rule"
 parent: ""
 order: 0
-note: ""
+note: "Designer notes go here."
 ---
 # Compendium Template
 
-This is a template for lore, locations, history, and general game universe information meant for the operator and architect. 
+This is a unified Compendium entry. You can include general description lore, as well as specific mechanic rules and gameplay instructions.
 
-## Section 1
-Detailed description goes here. You can use standard Markdown.
+## Mechanics (BASTION Rules)
+```
+Mechanic details for BASTION parsing go here.
+```
+
+## Gameplay Instructions
+Step-by-step instructions for operators or architects.

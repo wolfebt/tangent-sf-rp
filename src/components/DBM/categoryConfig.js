@@ -1,31 +1,21 @@
 export const categoryConfig = {
-    rules_codex: {
-        label: 'RULES CODEX',
-        viewType: 'wiki',
-        parent: 'compendium',
-        fields: {
-            name: { type: 'text', required: true },
-            description: { type: 'textarea', aiEnabled: true },
-            mechanic: { type: 'textarea' },
-            note: { type: 'textarea' },
-            guide: { type: 'textarea' },
-            parent: { type: 'select', source: 'rules_codex', label: 'Parent Entry', manageable: false },
-            order: { type: 'number', label: 'Order', default: 0 },
-        }
-    },
     compendium: {
         label: 'COMPENDIUM',
-        isParent: true,
         viewType: 'wiki',
-        subItems: ['rules_codex'],
         fields: {
             name: { type: 'text', required: true },
-            description: { type: 'textarea', aiEnabled: true },
-            mechanic: { type: 'textarea' },
-            note: { type: 'textarea' },
-            guide: { type: 'textarea' },
-            parent: { type: 'select', source: 'compendium', label: 'Parent Entry', manageable: false },
-            order: { type: 'number', label: 'Order', default: 0 },
+            entry_type: { 
+                type: 'select', 
+                label: 'Entry Type', 
+                options: ['General Lore', 'Core Rule', 'Game Mechanic', 'System Guide', 'Worldbuilding'], 
+                default: 'General Lore' 
+            },
+            description: { type: 'textarea', aiEnabled: true, label: 'Description / Overview' },
+            mechanic: { type: 'textarea', label: 'Mechanics (BASTION Rules)' },
+            guide: { type: 'textarea', label: 'Gameplay Instructions' },
+            note: { type: 'textarea', label: 'Designer / Architect Notes' },
+            parent: { type: 'select', source: 'compendium', label: 'Parent Article', manageable: false },
+            order: { type: 'number', label: 'Display Order', default: 0 },
         }
     },
     species: {
