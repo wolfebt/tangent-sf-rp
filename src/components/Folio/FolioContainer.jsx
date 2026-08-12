@@ -84,12 +84,9 @@ const FolioContainer = () => {
 
   const handleDeleteCurrentCharacter = useCallback(() => {
     const activeDocId = characterData['character-doc-id'];
-    if (activeDocId) {
-      deleteRosterCharacter(activeDocId);
-    }
-    handleNewCharacter();
+    deleteRosterCharacter(activeDocId);
     setIsDeleteConfirmOpen(false);
-  }, [characterData, deleteRosterCharacter, handleNewCharacter]);
+  }, [characterData, deleteRosterCharacter]);
 
   const handleOpenAddSkillModal = useCallback((mode = 'skill', skillsList = []) => {
     setAddSkillModalMode(mode);
@@ -499,7 +496,6 @@ const FolioContainer = () => {
         personaRoster={personaRoster}
         activeDocId={characterData['character-doc-id']}
         onSelectCharacter={switchRosterCharacter}
-        onSaveCurrent={saveCurrentToRoster}
         onNewCharacter={handleNewCharacter}
         onDuplicateCharacter={duplicateRosterCharacter}
         onDeleteCharacter={deleteRosterCharacter}

@@ -6,7 +6,6 @@ export const RosterModal = ({
   personaRoster = [],
   activeDocId = '',
   onSelectCharacter,
-  onSaveCurrent,
   onNewCharacter,
   onDuplicateCharacter,
   onDeleteCharacter,
@@ -129,15 +128,6 @@ export const RosterModal = ({
           <div className="flex items-center gap-2 flex-wrap">
             <button
               onClick={() => {
-                onSaveCurrent();
-                alert("Active Persona saved to catalog roster!");
-              }}
-              className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded text-xs font-bold uppercase shadow transition-colors flex items-center gap-1"
-            >
-              <span>+</span> Save Active
-            </button>
-            <button
-              onClick={() => {
                 onNewCharacter();
                 onClose();
               }}
@@ -158,21 +148,21 @@ export const RosterModal = ({
               onClick={() => handleTabSwitch('my-roster')}
               className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded text-[10px] sm:text-xs font-bold uppercase tracking-tight sm:tracking-wider transition-all flex items-center gap-1 sm:gap-1.5 whitespace-nowrap ${
                 catalogTab === 'my-roster'
-                  ? 'bg-cyan-950 text-cyan-300 border border-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.2)]'
-                  : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                  ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-[0_0_10px_rgba(34,211,238,0.2)]'
+                  : 'bg-slate-900 text-slate-400 border border-slate-800 hover:text-slate-200'
               }`}
             >
-              My Roster ({personaRoster.length})
+              <span>👥</span> My Roster ({personaRoster.length})
             </button>
             <button
               onClick={() => handleTabSwitch('public-gallery')}
               className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded text-[10px] sm:text-xs font-bold uppercase tracking-tight sm:tracking-wider transition-all flex items-center gap-1 sm:gap-1.5 whitespace-nowrap ${
                 catalogTab === 'public-gallery'
-                  ? 'bg-amber-950 text-amber-300 border border-amber-400 shadow-[0_0_10px_rgba(245,158,11,0.2)]'
-                  : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                  ? 'bg-amber-950 text-amber-300 border border-amber-500/60 shadow-[0_0_10px_rgba(245,158,11,0.2)]'
+                  : 'bg-slate-900 text-slate-400 border border-slate-800 hover:text-slate-200'
               }`}
             >
-              Public Gallery ({publicCatalog.length})
+              <span>🌐</span> Public Gallery ({publicCatalog.length})
             </button>
           </div>
 
@@ -229,13 +219,16 @@ export const RosterModal = ({
             <div className="text-center py-12 border-2 border-dashed border-slate-800 rounded-lg">
               <h3 className="text-base font-bold text-slate-300 uppercase">No Saved Operatives in Catalog</h3>
               <p className="text-xs text-slate-500 max-w-sm mx-auto mt-1 mb-4">
-                Save your active character folio to your catalog to easily manage your party or switch between characters.
+                Your character sheets automatically save as you work. Create a new sheet or switch tabs to explore community personas.
               </p>
               <button
-                onClick={onSaveCurrent}
-                className="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded text-xs uppercase shadow"
+                onClick={() => {
+                  onNewCharacter();
+                  onClose();
+                }}
+                className="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded text-xs uppercase shadow flex items-center gap-1 mx-auto"
               >
-                Save Current Active Persona
+                <span>+</span> Create New Sheet
               </button>
             </div>
           ) : filteredRoster.length === 0 ? (
@@ -402,9 +395,20 @@ export const RosterModal = ({
                             >
                               Clone
                             </button>
+                            <button
+                              onClick={() => promptDeleteConfirmation(docId, name)}
+                              className="px-2 py-1 bg-red-950/60 hover:bg-red-900 text-red-300 border border-red-700/60 rounded text-[10px] font-bold uppercase transition-colors flex items-center gap-1"
+                              title="Delete operative persona"
+                            >
+                              <span>🗑️</span>
+                              <span>Delete</span>
+                            </button>
                           </div>
 
-                          {!isActive ? (
+                          <div className="flex items-center gap-2">
+                            {isActive && (
+                              <span className="text-[11px] text-amber-400 font-bold uppercase tracking-wider px-1">Currently Active</span>
+                            )}
                             <button
                               onClick={() => {
                                 onSelectCharacter(docId);
@@ -414,9 +418,7 @@ export const RosterModal = ({
                             >
                               Select Persona
                             </button>
-                          ) : (
-                            <span className="text-xs text-amber-400 font-bold uppercase tracking-wider px-2">Currently Active</span>
-                          )}
+                          </div>
                         </>
                       ) : (
                         <div className="flex items-center justify-between w-full gap-2">
@@ -530,17 +532,22 @@ export const RosterModal = ({
                               >
                                 Clone
                               </button>
-                              {!isActive && (
-                                <button
-                                  onClick={() => {
-                                    onSelectCharacter(docId);
-                                    onClose();
-                                  }}
-                                  className="px-2.5 py-0.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded text-[10px] uppercase font-bold shadow"
-                                >
-                                  Select
-                                </button>
-                              )}
+                              <button
+                                onClick={() => promptDeleteConfirmation(docId, name)}
+                                className="px-2 py-0.5 bg-red-950/60 hover:bg-red-900 text-red-300 border border-red-700/60 rounded text-[10px] uppercase font-bold"
+                                title="Delete Operative"
+                              >
+                                Delete
+                              </button>
+                              <button
+                                onClick={() => {
+                                  onSelectCharacter(docId);
+                                  onClose();
+                                }}
+                                className="px-2.5 py-0.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded text-[10px] uppercase font-bold shadow"
+                              >
+                                Select
+                              </button>
                             </div>
                           ) : (
                             <div className="flex items-center justify-end gap-1.5">

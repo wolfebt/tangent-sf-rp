@@ -462,20 +462,57 @@ export const FolioProvider = ({ children }) => {
   }, [personaRoster]);
 
   const deleteRosterCharacter = useCallback(async (docId) => {
-    // Optimistic local removal
-    setPersonaRoster(prev => prev.filter(c => c['character-doc-id'] !== docId));
+    const targetId = docId || characterData['character-doc-id'];
+    
+    if (!targetId) {
+      setCharacterData({
+        ...DEFAULT_CHARACTER,
+        'character-doc-id': `char_${Date.now()}`
+      });
+      localStorage.removeItem('personaFolioData');
+      sessionStorage.removeItem('personaFolioData');
+      setIsReadOnly(false);
+      return;
+    }
 
-    // Delete from Firestore
+    // 1. Filter out from personaRoster state & localStorage cache
+    const updatedRoster = personaRoster.filter(c => c['character-doc-id'] !== targetId);
+    setPersonaRoster(updatedRoster);
+    try {
+      localStorage.setItem('personaRoster', JSON.stringify(updatedRoster));
+    } catch (e) {
+      console.warn('Failed to update personaRoster in localStorage cache:', e);
+    }
+
+    // 2. Filter out from publicCatalog state
+    setPublicCatalog(prev => prev.filter(c => c['character-doc-id'] !== targetId));
+
+    // 3. Reset or switch characterData if the active character is being deleted
+    if (characterData['character-doc-id'] === targetId) {
+      if (updatedRoster.length > 0) {
+        setCharacterData(updatedRoster[0]);
+      } else {
+        setCharacterData({
+          ...DEFAULT_CHARACTER,
+          'character-doc-id': `char_${Date.now()}`
+        });
+      }
+      localStorage.removeItem('personaFolioData');
+      sessionStorage.removeItem('personaFolioData');
+      setIsReadOnly(false);
+    }
+
+    // 4. Delete document from Firestore
     const user = auth.currentUser;
     if (user) {
       try {
-        const docRef = doc(db, `users/${user.uid}/personas`, docId);
+        const docRef = doc(db, `users/${user.uid}/personas`, targetId);
         await deleteDoc(docRef);
       } catch (err) {
         console.warn('Firestore delete failed (local removal applied):', err.message);
       }
     }
-  }, []);
+  }, [characterData, personaRoster]);
 
   const duplicateRosterCharacter = useCallback(async (docId) => {
     const found = personaRoster.find(c => c['character-doc-id'] === docId);
