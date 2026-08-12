@@ -1,16 +1,7 @@
-@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
 
-@layer utilities {
-  .no-scrollbar::-webkit-scrollbar {
-    display: none !important;
-  }
-  .no-scrollbar {
-    -ms-overflow-style: none !important;
-    scrollbar-width: none !important;
-  }
-}
-
+/* Hide scrollbars utility (Tailwind v4 @utility pattern) */
 @utility no-scrollbar {
   &::-webkit-scrollbar {
     display: none !important;
@@ -19,18 +10,7 @@
   scrollbar-width: none !important;
 }
 
-.no-scrollbar::-webkit-scrollbar {
-  display: none !important;
-}
-
-.no-scrollbar {
-  -ms-overflow-style: none !important;
-  scrollbar-width: none !important;
-}
-
-
 /* Story Foundry Styles */
-
 
 
 

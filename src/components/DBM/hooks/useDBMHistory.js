@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 
-export const useDBMHistory = (initialCategory = 'rules_codex', onNavigate) => {
+export const useDBMHistory = (initialCategory = 'compendium', onNavigate) => {
   const [activeCategory, setActiveCategory] = useState(initialCategory);
   const [activeSubcategory, setActiveSubcategory] = useState(null);
   const [history, setHistory] = useState([initialCategory]);

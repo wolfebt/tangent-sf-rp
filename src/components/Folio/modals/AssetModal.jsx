@@ -97,7 +97,8 @@ const AssetModal = ({
 
   const handleDelete = async () => {
     if (!selectedItem?.id) return;
-    if (!window.confirm(`Are you sure you want to delete "${selectedItem.name || 'this item'}" from the database?`)) return;
+    const itemName = selectedItem.name || selectedItem.label || 'this item';
+    if (!confirmTypedDeletion(itemName, 'item')) return;
 
     try {
       await deleteDoc(doc(db, targetKey, selectedItem.id));

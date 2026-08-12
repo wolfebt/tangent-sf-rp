@@ -163,12 +163,6 @@ export const ElementForge = () => {
                     <span className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">
                       {el.authorUid === 'local' ? 'Local Draft' : 'Cloud Synced'}
                     </span>
-                    <button 
-                      onClick={(e) => { e.stopPropagation(); deleteSavedElement(el.id); }}
-                      className="text-slate-500 hover:text-red-400 text-xs uppercase font-bold px-2 py-1 transition-colors opacity-0 group-hover:opacity-100"
-                    >
-                      Delete
-                    </button>
                   </div>
                 </div>
               ))}
@@ -184,6 +178,7 @@ export const ElementForge = () => {
           onClose={() => setIsEditModalOpen(false)}
           element={selectedElement}
           onSave={handleSave}
+          onDelete={deleteSavedElement}
         />
       )}
     </div>

@@ -30,6 +30,7 @@ function App() {
                   <Route path="/" element={<Home />} />
                   <Route path="/dbm" element={<DBM />} />
                   <Route path="/folio" element={<Folio />} />
+                  <Route path="/roster" element={<Folio />} />
                   <Route path="/foundry/*" element={<FoundryApp />} />
                   <Route path="/story-foundry" element={<FoundryApp />} />
                   <Route path="/campaign-builder" element={<FoundryApp />} />

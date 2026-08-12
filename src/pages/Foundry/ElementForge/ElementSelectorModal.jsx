@@ -17,7 +17,8 @@ export const ElementSelectorModal = ({ isOpen, onClose, sourceType, fieldLabel, 
     'weaponry': 'Item',
     'armoring': 'Item',
     'gear': 'Item',
-    'rules_codex': 'Custom'
+    'rules_codex': 'Custom',
+    'compendium': 'Custom'
   };
 
   const targetType = typeMap[sourceType] || 'Custom';

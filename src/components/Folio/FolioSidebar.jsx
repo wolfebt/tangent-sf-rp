@@ -11,13 +11,13 @@ const TABS = [
   { id: 'other', label: 'Other' }
 ];
 
-const FolioSidebar = ({ activeTab, setActiveTab, charName, onOpenBastion }) => {
+const FolioSidebar = ({ activeTab, setActiveTab, charName, onOpenRoster, onOpenBastion }) => {
   const navigate = useNavigate();
 
   return (
     <div className="w-64 bg-[#0d1117] border-r border-[#0D5C63]/50 p-4 flex flex-col h-full flex-shrink-0">
       {/* Title Header */}
-      <div className="mb-6 border-b border-[#0D5C63]/40 pb-4">
+      <div className="mb-4 border-b border-[#0D5C63]/40 pb-4">
         <div 
           onClick={() => navigate('/')}
           className="flex flex-col uppercase text-[#22d3ee] tangent-title-pulse cursor-pointer hover:opacity-80 transition-opacity"

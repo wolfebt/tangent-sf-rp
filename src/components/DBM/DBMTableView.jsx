@@ -1,5 +1,82 @@
 import React, { useRef } from 'react';
 import { VirtualizedList } from './VirtualizedList';
+import { useItemInteractions } from '../../utils/interactionUtils';
+
+const CatalogVirtualRow = ({ item, currentConfig, handleOpenItem, isAdmin }) => {
+  const interactions = useItemInteractions({
+    onSelect: () => handleOpenItem(item, false),
+    onOpenEdit: () => isAdmin && handleOpenItem(item, true),
+    delay: 1500
+  });
+
+  const creatorTag = Array.isArray(item.tags) 
+    ? item.tags.find(t => typeof t === 'string' && t.startsWith('@'))
+    : (typeof item.tags === 'string' && item.tags.split(',').map(t=>t.trim()).find(t => t.startsWith('@')));
+
+  return (
+    <div
+      key={item.id || item.name}
+      {...interactions}
+      className="hover:bg-slate-800/50 cursor-pointer transition-colors border-b border-slate-800/60 flex items-center px-3 text-xs text-slate-300 h-[44px] box-border select-none"
+      title="Single click to view. Double-click (or long press 1.5s+ on mobile) to edit."
+    >
+      <div className="w-1/3 font-bold text-white truncate pr-2 flex items-center gap-1.5">
+        <span className="truncate">{item.name}</span>
+        {creatorTag && (
+          <span className="px-1.5 py-0.5 bg-cyan-950/90 text-cyan-300 border border-cyan-500/40 rounded text-[9px] font-mono shrink-0">
+            {creatorTag}
+          </span>
+        )}
+      </div>
+      {(currentConfig.directory_columns || ['description']).map(col => (
+        col !== 'name' && (
+          <div key={col} className="flex-1 text-slate-400 truncate pr-2">
+            {Array.isArray(item[col]) ? item[col].join(', ') : (item[col] || '-')}
+          </div>
+        )
+      ))}
+    </div>
+  );
+};
+
+const CatalogTableRow = ({ item, currentConfig, handleOpenItem, isAdmin }) => {
+  const interactions = useItemInteractions({
+    onSelect: () => handleOpenItem(item, false),
+    onOpenEdit: () => isAdmin && handleOpenItem(item, true),
+    delay: 1500
+  });
+
+  const creatorTag = Array.isArray(item.tags) 
+    ? item.tags.find(t => typeof t === 'string' && t.startsWith('@'))
+    : (typeof item.tags === 'string' && item.tags.split(',').map(t=>t.trim()).find(t => t.startsWith('@')));
+
+  return (
+    <tr
+      key={item.id || item.name}
+      {...interactions}
+      className="hover:bg-slate-800/50 cursor-pointer transition-colors h-[44px] select-none"
+      title="Single click to view. Double-click (or long press 1.5s+ on mobile) to edit."
+    >
+      <td className="p-3 font-bold text-white w-1/3 truncate">
+        <div className="flex items-center gap-1.5 truncate">
+          <span className="truncate">{item.name}</span>
+          {creatorTag && (
+            <span className="px-1.5 py-0.5 bg-cyan-950/90 text-cyan-300 border border-cyan-500/40 rounded text-[9px] font-mono shrink-0">
+              {creatorTag}
+            </span>
+          )}
+        </div>
+      </td>
+      {(currentConfig.directory_columns || ['description']).map(col => (
+        col !== 'name' && (
+          <td key={col} className="p-3 text-slate-400 truncate">
+            {Array.isArray(item[col]) ? item[col].join(', ') : (item[col] || '-')}
+          </td>
+        )
+      ))}
+    </tr>
+  );
+};
 
 export const DBMTableView = ({
   currentConfig,
@@ -22,7 +99,8 @@ export const DBMTableView = ({
   filterType = 'ALL',
   setFilterType = () => {},
   currentItems = [],
-  isAdmin = true
+  isAdmin = true,
+  handleDeleteEntry
 }) => {
   const fileInputRef = useRef(null);
 
@@ -50,6 +128,9 @@ export const DBMTableView = ({
                 👁️ Player View
               </span>
             )}
+            <span className="text-[10px] text-slate-400 italic">
+              (Double-click or long-press 1.5s+ to edit)
+            </span>
           </div>
           <h2 className="text-2xl font-bold text-white uppercase tracking-wider">
             {currentConfig.label || currentKey}
@@ -148,7 +229,7 @@ export const DBMTableView = ({
             <tr>
               <th
                 onClick={() => { setSortField('name'); setSortAsc(!sortAsc); }}
-                className="p-3 cursor-pointer hover:text-white w-1/4"
+                className="p-3 cursor-pointer hover:text-white w-1/3"
               >
                 Name {sortField === 'name' ? (sortAsc ? '▲' : '▼') : ''}
               </th>
@@ -163,7 +244,6 @@ export const DBMTableView = ({
                   </th>
                 )
               ))}
-              {!currentConfig.hideActions && <th className="p-3 text-right w-24">Actions</th>}
             </tr>
           </thead>
         </table>
@@ -180,88 +260,28 @@ export const DBMTableView = ({
               resetScrollDeps={[searchTerm, sortField, sortAsc, currentKey]}
               getKey={(item, index) => item.id || item.name || index}
               containerClassName="h-full overflow-y-auto bg-slate-950"
-              renderItem={(item) => {
-                const creatorTag = Array.isArray(item.tags) 
-                  ? item.tags.find(t => typeof t === 'string' && t.startsWith('@'))
-                  : (typeof item.tags === 'string' && item.tags.split(',').map(t=>t.trim()).find(t => t.startsWith('@')));
-                return (
-                  <div
-                    key={item.id || item.name}
-                    onClick={() => handleOpenItem(item, true)}
-                    className="hover:bg-slate-800/50 cursor-pointer transition-colors border-b border-slate-800/60 flex items-center px-3 text-xs text-slate-300 h-[44px] box-border"
-                  >
-                    <div className="w-1/4 font-bold text-white truncate pr-2 flex items-center gap-1.5">
-                      <span className="truncate">{item.name}</span>
-                      {creatorTag && (
-                        <span className="px-1.5 py-0.5 bg-cyan-950/90 text-cyan-300 border border-cyan-500/40 rounded text-[9px] font-mono shrink-0">
-                          {creatorTag}
-                        </span>
-                      )}
-                    </div>
-                    {(currentConfig.directory_columns || ['description']).map(col => (
-                      col !== 'name' && (
-                        <div key={col} className="flex-1 text-slate-400 truncate pr-2">
-                          {Array.isArray(item[col]) ? item[col].join(', ') : (item[col] || '-')}
-                        </div>
-                      )
-                    ))}
-                    {!currentConfig.hideActions && (
-                      <div className="w-24 text-right shrink-0">
-                        <button
-                          onClick={(e) => { e.stopPropagation(); handleOpenItem(item, true); }}
-                          className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded text-[11px] font-bold uppercase cursor-pointer"
-                        >
-                          View
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                );
-              }}
+              renderItem={(item) => (
+                <CatalogVirtualRow
+                  key={item.id || item.name}
+                  item={item}
+                  currentConfig={currentConfig}
+                  handleOpenItem={handleOpenItem}
+                  isAdmin={isAdmin}
+                />
+              )}
             />
           ) : (
             <table className="w-full text-left text-xs text-slate-300 table-fixed">
               <tbody className="divide-y divide-slate-800/60">
-                {filteredItems.map(item => {
-                  const creatorTag = Array.isArray(item.tags) 
-                    ? item.tags.find(t => typeof t === 'string' && t.startsWith('@'))
-                    : (typeof item.tags === 'string' && item.tags.split(',').map(t=>t.trim()).find(t => t.startsWith('@')));
-                  return (
-                    <tr
-                      key={item.id || item.name}
-                      onClick={() => handleOpenItem(item, true)}
-                      className="hover:bg-slate-800/50 cursor-pointer transition-colors h-[44px]"
-                    >
-                      <td className="p-3 font-bold text-white w-1/4 truncate">
-                        <div className="flex items-center gap-1.5 truncate">
-                          <span className="truncate">{item.name}</span>
-                          {creatorTag && (
-                            <span className="px-1.5 py-0.5 bg-cyan-950/90 text-cyan-300 border border-cyan-500/40 rounded text-[9px] font-mono shrink-0">
-                              {creatorTag}
-                            </span>
-                          )}
-                        </div>
-                      </td>
-                    {(currentConfig.directory_columns || ['description']).map(col => (
-                      col !== 'name' && (
-                        <td key={col} className="p-3 text-slate-400 truncate">
-                          {Array.isArray(item[col]) ? item[col].join(', ') : (item[col] || '-')}
-                        </td>
-                      )
-                    ))}
-                    {!currentConfig.hideActions && (
-                      <td className="p-3 text-right w-24">
-                        <button
-                          onClick={(e) => { e.stopPropagation(); handleOpenItem(item, true); }}
-                          className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded text-[11px] font-bold uppercase cursor-pointer"
-                        >
-                          View
-                        </button>
-                      </td>
-                    )}
-                  </tr>
-                );
-              })}
+                {filteredItems.map(item => (
+                  <CatalogTableRow
+                    key={item.id || item.name}
+                    item={item}
+                    currentConfig={currentConfig}
+                    handleOpenItem={handleOpenItem}
+                    isAdmin={isAdmin}
+                  />
+                ))}
               </tbody>
             </table>
           )}

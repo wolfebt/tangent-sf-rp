@@ -20,6 +20,7 @@ import { useDBMHistory } from './hooks/useDBMHistory';
 import { useFirestoreSync } from './hooks/useFirestoreSync';
 import { fetchGeminiContent, getGeminiApiKey, sendBastionChatMessage } from '../../services/bastionService';
 import { attachCreatorTag } from '../../utils/creatorUtils';
+import { confirmTypedDeletion } from '../../utils/confirmationUtils';
 
 const EMPTY_CONFIG = {};
 
@@ -36,7 +37,7 @@ export const DBMContainer = () => {
     activeSubcategory, setActiveSubcategory,
     history, historyIndex,
     navigateToCategory, handleBack, handleForward
-  } = useDBMHistory('rules_codex', () => setSearchTerm(''));
+  } = useDBMHistory('compendium', () => setSearchTerm(''));
 
   // Auto-navigate to user guide if ?guide=1 is in URL
   useEffect(() => {
@@ -123,8 +124,8 @@ export const DBMContainer = () => {
       return;
     }
 
-    const newName = window.prompt(`Enter a name for the new ${currentConfig?.label || 'Asset'}:`, 'New Asset');
-    if (!newName) return;
+    const newName = window.prompt(`Enter a name for the new ${currentConfig?.label || 'Entry'}:`, '');
+    if (!newName || !newName.trim()) return;
 
     setSelectedItem(null);
     const initialData = { name: newName.trim(), description: '' };
@@ -185,23 +186,23 @@ export const DBMContainer = () => {
     }
   };
 
-  const handleDeleteEntry = async () => {
-    if (!selectedItem) return;
-    if (!currentUser) {
-      alert('You must be logged in to delete entries. Please sign in using the Login button in the header.');
-      return;
-    }
+  const handleDeleteEntry = async (itemToDelete = selectedItem) => {
+    const target = itemToDelete || selectedItem;
+    if (!target) return;
     if (!isAdmin) {
       alert('Administrator or GM privileges are required to delete database entries.');
       return;
     }
-    if (!window.confirm(`Are you sure you want to delete "${selectedItem.name}"?`)) return;
+    const entryName = target.name || target.title || 'this entry';
+    if (!confirmTypedDeletion(entryName, currentConfig?.label || 'database entry')) return;
 
-    const success = await deleteEntry(selectedItem.id, currentKey);
-    if (success) {
-      setIsEntryModalOpen(false);
-    } else {
-      alert('Delete failed. You may not have permission or a network error occurred. Check the browser console for details.');
+    // Close modal & clear selection immediately to prevent any auto-saves
+    setIsEntryModalOpen(false);
+    setSelectedItem(null);
+
+    const success = await deleteEntry(target.id, currentKey);
+    if (!success) {
+      alert('Delete failed. Check the browser console for details.');
     }
   };
 
@@ -253,7 +254,7 @@ export const DBMContainer = () => {
         } else {
           try {
             const snap = await getDocs(collection(db, colKey));
-            masterCollections[colKey] = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+            masterCollections[colKey] = snap.docs.map(d => ({ ...d.data(), id: d.id }));
           } catch (e) {
             masterCollections[colKey] = [];
           }
@@ -497,6 +498,7 @@ export const DBMContainer = () => {
               currentItems={currentItems}
               handleOpenItem={handleOpenItem}
               isAdmin={isAdmin}
+              handleDeleteEntry={handleDeleteEntry}
             />
           )}
 
@@ -529,6 +531,7 @@ export const DBMContainer = () => {
               setFilterType={setFilterType}
               currentItems={currentItems}
               isAdmin={isAdmin}
+              handleDeleteEntry={handleDeleteEntry}
             />
           )}
         </main>

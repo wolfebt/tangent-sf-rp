@@ -270,7 +270,7 @@ export default function MapAssetManagerModal({
   const handleDeleteSelected = () => {
     if (!editingAsset || !editingAsset.isCustom) return;
 
-    if (confirm(`Delete custom asset "${editingAsset.label}"?`)) {
+    if (window.confirm(`Are you sure you want to delete custom asset "${editingAsset.label}"? This action cannot be undone.`)) {
       if (activeTab === 'terrains') {
         onDeleteCustomTerrain?.(editingAsset.id);
       } else {

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useFolio } from '../../../context/FolioContext';
+import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 
 const PROPERTY_TABS = [
   { id: 'gear', label: 'Gear', title: 'Gear', key: 'gear', dbPath: 'gear' },
@@ -43,7 +44,7 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
 
   const removeAttack = (index) => {
     const atkName = attacks[index]?.name || 'Attack';
-    if (!window.confirm(`Are you sure you want to delete attack "${atkName}"?`)) return;
+    if (!confirmTypedDeletion(atkName, 'attack')) return;
     updateField('attacks', attacks.filter((_, i) => i !== index));
   };
 
@@ -62,7 +63,7 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
 
   const removeArmor = (index) => {
     const armorName = armors[index]?.name || 'Armor';
-    if (!window.confirm(`Are you sure you want to delete armor entry "${armorName}"?`)) return;
+    if (!confirmTypedDeletion(armorName, 'armor entry')) return;
     updateField('armor', armors.filter((_, i) => i !== index));
   };
 
@@ -73,7 +74,7 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     const removeItem = (index) => {
       const item = list[index];
       const itemName = typeof item === 'object' ? (item.name || item.title || 'Item') : String(item);
-      if (!window.confirm(`Are you sure you want to remove item "${itemName}"?`)) return;
+      if (!confirmTypedDeletion(itemName, 'inventory item')) return;
       updateField(key, list.filter((_, i) => i !== index));
     };
 

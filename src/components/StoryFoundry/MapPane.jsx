@@ -530,7 +530,7 @@ const MapPane = ({ mapExportPngRef }) => {
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      if (window.confirm(`Delete map element "${m.title || 'Untitled'}"?`)) {
+                      if (window.confirm(`Are you sure you want to delete map element "${m.title || 'Untitled Map'}"? This action cannot be undone.`)) {
                         deleteMap(m.id);
                       }
                     }}

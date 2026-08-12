@@ -77,6 +77,28 @@ const Home = () => {
           {currentUser ? (
             <nav className="w-full grid grid-cols-1 gap-4">
               <button 
+                onClick={() => navigate('/folio')}
+                className="w-full py-4 px-6 rounded-lg text-center transition-all duration-300 backdrop-blur-sm bg-[rgba(20,20,20,0.5)] hover:bg-[rgba(0,0,0,0.75)] text-[#f5f5f5] hover:-translate-y-1 group"
+                style={{ 
+                  boxShadow: "0 0 0 1px black, 0 0 0 2px white", 
+                  textShadow: "2px 2px 4px #000"
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = "0 0 0 1px black, 0 0 0 2px white, 0 0 25px rgba(0, 229, 255, 0.4)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = "0 0 0 1px black, 0 0 0 2px white";
+                }}
+              >
+                <div className="text-2xl font-bold uppercase tracking-wider group-hover:text-cyan-300 transition-colors">
+                  FOLIO
+                </div>
+                <div className="text-xs text-gray-300 font-normal normal-case mt-1 tracking-normal opacity-90 group-hover:text-white transition-opacity">
+                  Character Sheet & Hero Creator — Access Character Roster, build characters, manage stats, and track CP budgets
+                </div>
+              </button>
+
+              <button 
                 onClick={() => navigate('/dbm')}
                 className="w-full py-4 px-6 rounded-lg text-center transition-all duration-300 backdrop-blur-sm bg-[rgba(20,20,20,0.5)] hover:bg-[rgba(0,0,0,0.75)] text-[#f5f5f5] hover:-translate-y-1 group"
                 style={{ 
@@ -117,28 +139,6 @@ const Home = () => {
                 </div>
                 <div className="text-xs text-gray-300 font-normal normal-case mt-1 tracking-normal opacity-90 group-hover:text-white transition-opacity">
                   Campaign Workspace & Map Builder — Craft maps, story outlines, and elements
-                </div>
-              </button>
-
-              <button 
-                onClick={() => navigate('/folio')}
-                className="w-full py-4 px-6 rounded-lg text-center transition-all duration-300 backdrop-blur-sm bg-[rgba(20,20,20,0.5)] hover:bg-[rgba(0,0,0,0.75)] text-[#f5f5f5] hover:-translate-y-1 group"
-                style={{ 
-                  boxShadow: "0 0 0 1px black, 0 0 0 2px white", 
-                  textShadow: "2px 2px 4px #000"
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = "0 0 0 1px black, 0 0 0 2px white, 0 0 25px rgba(0, 229, 255, 0.4)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = "0 0 0 1px black, 0 0 0 2px white";
-                }}
-              >
-                <div className="text-2xl font-bold uppercase tracking-wider group-hover:text-cyan-300 transition-colors">
-                  FOLIO
-                </div>
-                <div className="text-xs text-gray-300 font-normal normal-case mt-1 tracking-normal opacity-90 group-hover:text-white transition-opacity">
-                  Character Sheet & Hero Creator — Build characters, manage stats, and track CP budgets
                 </div>
               </button>
             </nav>

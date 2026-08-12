@@ -16,7 +16,7 @@ export const BastionChatModal = ({
   input,
   setInput,
   onSend,
-  currentKey = 'rules_codex',
+  currentKey = 'compendium',
   currentConfig = {},
   selectedItem = null,
   isEntryModalOpen = false,

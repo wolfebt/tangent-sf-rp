@@ -4,8 +4,11 @@ import { ELEMENT_TYPES, ELEMENT_SCHEMAS } from './elementSchemas';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import { attachCreatorTag } from '../../../utils/creatorUtils';
+import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
+import { useStory } from '../../../context/CampaignContext';
 
-const EditElementModal = ({ isOpen, onClose, element, onSave }) => {
+const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
+  const { deleteSavedElement } = useStory();
   const [type, setType] = useState('Scenario');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -412,20 +415,44 @@ const EditElementModal = ({ isOpen, onClose, element, onSave }) => {
           </div>
 
           {/* Footer Actions */}
-          <div className="p-4 bg-[#0d1117] border-t border-[#0D5C63]/60 flex items-center justify-end gap-3">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold uppercase rounded-lg transition-colors"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="px-5 py-2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/70 text-cyan-300 text-xs font-bold uppercase tracking-wider rounded-lg transition-all shadow-[0_0_12px_rgba(34,211,238,0.25)]"
-            >
-              💾 Save Element Changes
-            </button>
+          <div className="p-4 bg-[#0d1117] border-t border-[#0D5C63]/60 flex items-center justify-between gap-3">
+            <div>
+              {element && (element.id || element.title) && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    const targetName = title || element.title || 'Untitled Element';
+                    const itemDescriptor = type ? type.toLowerCase() : 'element';
+                    if (confirmTypedDeletion(targetName, itemDescriptor)) {
+                      if (onDelete) {
+                        onDelete(element.id);
+                      } else if (deleteSavedElement) {
+                        deleteSavedElement(element.id);
+                      }
+                      onClose();
+                    }
+                  }}
+                  className="px-4 py-2 bg-rose-950/80 hover:bg-rose-900 border border-rose-500/50 text-rose-300 rounded-lg text-xs font-bold uppercase transition-all shadow-sm flex items-center gap-1.5 cursor-pointer"
+                >
+                  <span>🗑️</span> Delete Entry
+                </button>
+              )}
+            </div>
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold uppercase rounded-lg transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="px-5 py-2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/70 text-cyan-300 text-xs font-bold uppercase tracking-wider rounded-lg transition-all shadow-[0_0_12px_rgba(34,211,238,0.25)]"
+              >
+                💾 Save Element Changes
+              </button>
+            </div>
           </div>
         </form>
       </div>

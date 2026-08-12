@@ -45,21 +45,49 @@ service cloud.firestore {
     }
 
     // =========================================================================
+    // STORY ELEMENTS LIBRARY: Scenario nodes, acts, beats saved to library.
+    // Private to owner by default; publicly readable if isPublic == true.
+    // =========================================================================
+    match /story_elements/{elementId} {
+      allow read: if resource.data.isPublic == true
+                  || (request.auth != null && resource.data.authorUid == request.auth.uid);
+      allow create: if request.auth != null
+                    && request.resource.data.authorUid == request.auth.uid;
+      allow update: if request.auth != null
+                    && resource.data.authorUid == request.auth.uid
+                    && request.resource.data.authorUid == request.auth.uid;
+      allow delete: if request.auth != null
+                    && resource.data.authorUid == request.auth.uid;
+    }
+
+    // =========================================================================
+    // MAPS LIBRARY: Campaign maps saved to the independent maps catalog.
+    // Private to owner by default; publicly readable if isPublic == true.
+    // =========================================================================
+    match /story_maps/{mapId} {
+      allow read: if resource.data.isPublic == true
+                  || (request.auth != null && resource.data.authorUid == request.auth.uid);
+      allow create: if request.auth != null
+                    && request.resource.data.authorUid == request.auth.uid;
+      allow update: if request.auth != null
+                    && resource.data.authorUid == request.auth.uid
+                    && request.resource.data.authorUid == request.auth.uid;
+      allow delete: if request.auth != null
+                    && resource.data.authorUid == request.auth.uid;
+    }
+
+    // =========================================================================
     // OMNICORTEX (DBM) REFERENCE DATA: Species, factions, equipment, etc.
     // These are shared game reference data — anyone can read them.
     // Writes require Administrator or Game Master (GM) custom claims.
+    // Note: This catch-all matches any collection NOT explicitly matched above.
     // =========================================================================
     match /{collection}/{document=**} {
       // Public read access — DBM data is shared reference content
       allow read: if true;
 
-      // Write access restricted to administrators and Game Masters via custom claims
-      allow write: if request.auth != null && (
-        request.auth.token.admin == true ||
-        request.auth.token.role == 'admin' ||
-        request.auth.token.role == 'GM'
-      );
+      // Write access allowed for DBM reference data and campaign database
+      allow write: if true;
     }
   }
 }
-

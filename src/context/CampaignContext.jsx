@@ -262,7 +262,7 @@ export const StoryProvider = ({ children }) => {
     // Fetch user stories from Cloud DB
     const storiesCol = collection(db, 'user_stories');
     getDocs(storiesCol).then((snap) => {
-      const stories = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      const stories = snap.docs.map(d => ({ ...d.data(), id: d.id }));
       if (stories.length > 0) {
         setStoryCatalog(prev => {
           const map = new Map(prev.map(s => [s.id, s]));
@@ -279,7 +279,7 @@ export const StoryProvider = ({ children }) => {
     // Fetch elements library from Cloud DB
     const elementsCol = collection(db, 'story_elements');
     getDocs(elementsCol).then((snap) => {
-      const elems = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      const elems = snap.docs.map(d => ({ ...d.data(), id: d.id }));
       if (elems.length > 0) {
         setElementsCatalog(prev => {
           const map = new Map(prev.map(e => [e.id, e]));
@@ -296,7 +296,7 @@ export const StoryProvider = ({ children }) => {
     // Fetch maps library from Cloud DB
     const mapsCol = collection(db, 'story_maps');
     getDocs(mapsCol).then((snap) => {
-      const maps = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      const maps = snap.docs.map(d => ({ ...d.data(), id: d.id }));
       if (maps.length > 0) {
         setMapsCatalog(prev => {
           const map = new Map(prev.map(e => [e.id, e]));
@@ -526,15 +526,9 @@ export const StoryProvider = ({ children }) => {
   }, [universeState, currentUser, saveAllElementsIndependently, saveAllMapsIndependently, syncConflict]);
 
   const saveTimeoutRef = React.useRef(null);
-  const triggerStorySave = useCallback(() => {
-    if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
-    saveTimeoutRef.current = setTimeout(() => {
-      pushUniverseToCloud({ showSuccessAlert: false, force: true }); // Use force:true to avoid conflict modal blocking auto-save silently
-    }, 1000);
-  }, []);
 
-  // Manual Push to Cloud DB (Recommendation #5: Conflict handling before cloud push)
-  const pushUniverseToCloud = async (options = {}) => {
+  // Manual Push to Cloud DB — declared before triggerStorySave to avoid stale closure
+  const pushUniverseToCloud = useCallback(async (options = {}) => {
     if (!currentUser) {
       if (options.showSuccessAlert !== false) alert("Please login to push data to Cloud DB.");
       return false;
@@ -602,7 +596,14 @@ export const StoryProvider = ({ children }) => {
       alert(`Cloud DB Push failed: ${err.message}`);
       return false;
     }
-  };
+  }, [currentUser, setSyncConflict, setCloudSyncStatus, setIsDirty, setLastCloudSavedAt]);
+
+  const triggerStorySave = useCallback(() => {
+    if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
+    saveTimeoutRef.current = setTimeout(() => {
+      pushUniverseToCloud({ showSuccessAlert: false, force: true }); // Use force:true to avoid conflict modal blocking auto-save silently
+    }, 1000);
+  }, [pushUniverseToCloud]);
 
   // Manual Pull from Cloud DB
   const pullUniverseFromCloud = async () => {
@@ -690,7 +691,7 @@ export const StoryProvider = ({ children }) => {
       setCloudSyncStatus('syncing');
       const colRef = collection(db, 'story_elements');
       const snap = await getDocs(colRef);
-      const elements = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      const elements = snap.docs.map(d => ({ ...d.data(), id: d.id }));
       setCloudSyncStatus('synced');
       return elements;
     } catch (err) {
@@ -875,6 +876,7 @@ export const StoryProvider = ({ children }) => {
 
   // Helpers for Scenarios
   const addScenario = (rawScenario, parentId = null) => {
+    if (isStoryReadOnly) return; // Guard: prevent mutation of read-only stories
     const newScenario = attachCreatorTag(rawScenario, localStorage.getItem('userHandle'), currentUser);
     setIsDirty(true);
     setUniverseState(prev => {
@@ -910,6 +912,7 @@ export const StoryProvider = ({ children }) => {
   };
 
   const updateScenario = (id, updates) => {
+    if (isStoryReadOnly) return; // Guard: prevent mutation of read-only stories
     setIsDirty(true);
     setUniverseState(prev => {
       const updateRecursive = (nodes) => {
@@ -934,6 +937,7 @@ export const StoryProvider = ({ children }) => {
   };
 
   const deleteScenario = (id) => {
+    if (isStoryReadOnly) return; // Guard: prevent mutation of read-only stories
     setIsDirty(true);
     setUniverseState(prev => {
       const deleteRecursive = (nodes) => {
@@ -956,6 +960,7 @@ export const StoryProvider = ({ children }) => {
 
   // Move scenario node to a new parent (or root if targetParentId is null)
   const moveScenario = (nodeId, targetParentId) => {
+    if (isStoryReadOnly) return; // Guard: prevent mutation of read-only stories
     if (nodeId === targetParentId) return;
 
     setUniverseState(prev => {
@@ -1033,6 +1038,7 @@ export const StoryProvider = ({ children }) => {
 
   // Reorder scenario node up or down among its siblings
   const reorderScenario = (nodeId, direction) => {
+    if (isStoryReadOnly) return; // Guard: prevent mutation of read-only stories
     setUniverseState(prev => {
       const reorderInArray = (nodes) => {
         const idx = nodes.findIndex(n => n.id === nodeId);
@@ -1063,6 +1069,7 @@ export const StoryProvider = ({ children }) => {
   };
 
   const reorderRelativeScenario = (draggedId, targetId, pos) => {
+    if (isStoryReadOnly) return; // Guard: prevent mutation of read-only stories
     setUniverseState(prev => {
       // Remove the dragged node from wherever it lives and collect it
       let draggedNode = null;
@@ -1104,6 +1111,7 @@ export const StoryProvider = ({ children }) => {
 
   // Helpers for Maps
   const addMap = (rawMap) => {
+    if (isStoryReadOnly) return; // Guard: prevent mutation of read-only stories
     const newMap = attachCreatorTag(rawMap, localStorage.getItem('userHandle'), currentUser);
     setUniverseState(prev => ({
       ...prev,
@@ -1113,6 +1121,7 @@ export const StoryProvider = ({ children }) => {
   };
 
   const updateMap = (id, updates) => {
+    if (isStoryReadOnly) return; // Guard: prevent mutation of read-only stories
     setUniverseState(prev => ({
       ...prev,
       maps: prev.maps.map(m => m.id === id ? { ...m, ...updates } : m)
@@ -1120,6 +1129,7 @@ export const StoryProvider = ({ children }) => {
   };
 
   const deleteMap = (id) => {
+    if (isStoryReadOnly) return; // Guard: prevent mutation of read-only stories
     setUniverseState(prev => ({
       ...prev,
       maps: prev.maps.filter(m => m.id !== id)

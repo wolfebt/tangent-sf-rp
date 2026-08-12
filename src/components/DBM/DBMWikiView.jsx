@@ -1,13 +1,38 @@
 import React, { useState, useMemo } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { useItemInteractions } from '../../utils/interactionUtils';
+
+const TreeArticleItem = ({ item, isSelected, childrenCount, onSelect, onOpenEdit, className, prefix = '📜 ' }) => {
+  const interactions = useItemInteractions({
+    onSelect,
+    onOpenEdit,
+    delay: 1500
+  });
+
+  return (
+    <button
+      {...interactions}
+      className={className}
+      title="Single-click to view article. Double-click (or long press 1.5s+ on mobile) to edit."
+    >
+      <span className="truncate pr-1">{prefix}{item.name}</span>
+      {childrenCount > 0 && (
+        <span className="text-[10px] bg-slate-800 px-1.5 py-0.5 rounded text-cyan-400 font-mono shrink-0">
+          {childrenCount}
+        </span>
+      )}
+    </button>
+  );
+};
 
 export const DBMWikiView = ({
   currentConfig,
   handleCreateNew,
   currentItems,
   handleOpenItem,
-  isAdmin = true
+  isAdmin = true,
+  handleDeleteEntry
 }) => {
   const [selectedArticleId, setSelectedArticleId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -257,21 +282,18 @@ export const DBMWikiView = ({
 
               return (
                 <div key={item.id} className="flex flex-col">
-                  <button
-                    onClick={() => setSelectedArticleId(item.id)}
-                    className={`w-full text-left px-3 py-2 rounded text-xs font-bold uppercase transition-all flex items-center justify-between ${
+                  <TreeArticleItem
+                    item={item}
+                    isSelected={isSelected}
+                    childrenCount={children.length}
+                    onSelect={() => setSelectedArticleId(item.id)}
+                    onOpenEdit={() => isAdmin && handleOpenItem(item, true)}
+                    className={`w-full text-left px-3 py-2 rounded text-xs font-bold uppercase transition-all flex items-center justify-between cursor-pointer ${
                       isSelected
                         ? 'bg-cyan-950 border border-cyan-500/60 text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.2)]'
                         : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
                     }`}
-                  >
-                    <span>📜 {item.name}</span>
-                    {children.length > 0 && (
-                      <span className="text-[10px] bg-slate-800 px-1.5 py-0.5 rounded text-cyan-400 font-mono">
-                        {children.length}
-                      </span>
-                    )}
-                  </button>
+                  />
 
                   {/* Render Child Sub-Tree */}
                   {children.length > 0 && (
@@ -279,17 +301,20 @@ export const DBMWikiView = ({
                       {children.map(child => {
                         const isChildSelected = activeArticle?.id === child.id;
                         return (
-                          <button
+                          <TreeArticleItem
                             key={child.id}
-                            onClick={() => setSelectedArticleId(child.id)}
-                            className={`w-full text-left px-2.5 py-1.5 rounded text-[11px] font-semibold transition-colors ${
+                            item={child}
+                            isSelected={isChildSelected}
+                            childrenCount={0}
+                            prefix="↳ "
+                            onSelect={() => setSelectedArticleId(child.id)}
+                            onOpenEdit={() => isAdmin && handleOpenItem(child, true)}
+                            className={`w-full text-left px-2.5 py-1.5 rounded text-[11px] font-semibold transition-colors cursor-pointer ${
                               isChildSelected
                                 ? 'text-cyan-300 font-bold bg-cyan-900/40 border border-cyan-500/40'
                                 : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/40'
                             }`}
-                          >
-                            ↳ {child.name}
-                          </button>
+                          />
                         );
                       })}
                     </div>

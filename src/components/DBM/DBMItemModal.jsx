@@ -41,11 +41,23 @@ export const DBMItemModal = ({
   };
 
   const saveTimeoutRef = useRef(null);
+  const isDeletingRef = useRef(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      isDeletingRef.current = false;
+    } else {
+      if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
+    }
+  }, [isOpen]);
+
   const triggerAutoSave = React.useCallback(() => {
-    if (!isEditMode || !isAdmin) return;
+    if (!isEditMode || !isAdmin || isDeletingRef.current) return;
     if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
     saveTimeoutRef.current = setTimeout(() => {
-      onSave(false); // pass false to closeOnSuccess so it saves silently
+      if (!isDeletingRef.current) {
+        onSave(false); // pass false to closeOnSuccess so it saves silently
+      }
     }, 1000);
   }, [isEditMode, isAdmin, onSave]);
 
@@ -96,7 +108,7 @@ export const DBMItemModal = ({
           } else if (!fetchedRef.current[src]) {
             try {
               const snap = await getDocs(collection(db, src));
-              const items = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+              const items = snap.docs.map(d => ({ ...d.data(), id: d.id }));
               newRelData[src] = items;
               fetchedRef.current[src] = true;
               updated = true;
@@ -212,7 +224,7 @@ export const DBMItemModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4" onBlur={triggerAutoSave}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
       <div className="bg-slate-900 border border-slate-700 rounded-xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
         {/* Header */}
         <div className="bg-slate-950 px-6 py-4 border-b border-slate-800 flex justify-between items-center shrink-0">
@@ -238,14 +250,6 @@ export const DBMItemModal = ({
                 className="px-3 py-1 bg-amber-600/30 hover:bg-amber-600/50 text-amber-300 border border-amber-500/50 rounded text-xs font-bold uppercase"
               >
                 Edit
-              </button>
-            )}
-            {selectedItem && isAdmin && (
-              <button
-                onClick={() => onDelete(selectedItem.id)}
-                className="px-3 py-1 bg-red-600/30 hover:bg-red-600/50 text-red-300 border border-red-500/50 rounded text-xs font-bold uppercase"
-              >
-                Delete
               </button>
             )}
             <button onClick={onClose} className="text-slate-400 hover:text-white font-bold ml-2">
@@ -541,13 +545,40 @@ export const DBMItemModal = ({
         </div>
 
         {/* Footer Actions */}
-        <div className="bg-slate-950 p-4 border-t border-slate-800 flex justify-end gap-3 shrink-0">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-xs font-bold uppercase"
-          >
-            Close
-          </button>
+        <div className="bg-slate-950 p-4 border-t border-slate-800 flex justify-between items-center shrink-0">
+          <div>
+            {isEditMode && selectedItem && isAdmin && (
+              <button
+                type="button"
+                onClick={() => {
+                  isDeletingRef.current = true;
+                  if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
+                  onDelete(selectedItem);
+                }}
+                className="px-3 py-2 bg-red-950/80 hover:bg-red-900 text-red-300 border border-red-500/40 rounded text-xs font-bold uppercase tracking-wider transition-colors"
+              >
+                🗑️ Delete Entry
+              </button>
+            )}
+          </div>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-xs font-bold uppercase tracking-wider transition-colors"
+            >
+              {isEditMode ? 'Cancel' : 'Close'}
+            </button>
+            {isEditMode && isAdmin && (
+              <button
+                type="button"
+                onClick={() => onSave(true)}
+                className="px-5 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-bold uppercase tracking-wider shadow-lg transition-colors"
+              >
+                💾 Save Entry
+              </button>
+            )}
+          </div>
         </div>
       </div>
 

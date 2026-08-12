@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { useFolio } from '../../../context/FolioContext';
+import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 
 const DEFAULT_SKILLS = {
   physical: [
@@ -506,7 +507,7 @@ const SkillsTab = ({ onOpenAddSkillModal }) => {
               <button
                 type="button"
                 onClick={() => {
-                  if (window.confirm(`Are you sure you want to delete custom skill "${skill.name}"?`)) {
+                  if (confirmTypedDeletion(skill.name, 'custom skill')) {
                     handleDeleteSkill(skill.id);
                   }
                 }}
@@ -615,7 +616,7 @@ const SkillsTab = ({ onOpenAddSkillModal }) => {
                 <button
                   type="button"
                   onClick={() => {
-                    if (window.confirm(`Are you sure you want to delete "${spec.name}"?`)) {
+                    if (confirmTypedDeletion(spec.name, 'specialization')) {
                       handleDeleteSpecialization(spec.id);
                     }
                   }}

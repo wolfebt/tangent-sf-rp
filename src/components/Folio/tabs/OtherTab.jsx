@@ -1,5 +1,6 @@
 import React from 'react';
 import { useFolio } from '../../../context/FolioContext';
+import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 
 const OtherTab = () => {
   const { characterData, updateField } = useFolio();
@@ -30,7 +31,9 @@ const OtherTab = () => {
   };
 
   const removeNote = (index) => {
-    if (!window.confirm(`Are you sure you want to delete note entry #${index + 1}?`)) return;
+    const targetNote = notes[index];
+    const noteLabel = targetNote?.text ? targetNote.text.substring(0, 20) : `Note #${index + 1}`;
+    if (!confirmTypedDeletion(noteLabel, 'note entry')) return;
     const updated = notes.filter((_, i) => i !== index);
     updateField('notes', updated.length > 0 ? updated : [{ text: '' }]);
   };

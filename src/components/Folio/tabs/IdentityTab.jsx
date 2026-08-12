@@ -16,7 +16,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
       try {
         const colRef = collection(db, path);
         return onSnapshot(colRef, (snap) => {
-          const items = snap.docs.map(doc => ({ id: doc.id, name: doc.data().name || doc.id, ...doc.data() }));
+          const items = snap.docs.map(doc => ({ name: doc.data().name || doc.id, ...doc.data(), id: doc.id }));
           setDbOptions(prev => ({ ...prev, [path]: items }));
         }, (e) => {
           console.warn(`Failed to load ${path} options`, e);

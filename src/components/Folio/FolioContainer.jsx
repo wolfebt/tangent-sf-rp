@@ -32,7 +32,11 @@ const FolioContainer = () => {
 
   // Modal States
   const [isEconomyOpen, setIsEconomyOpen] = useState(false);
-  const [isRosterOpen, setIsRosterOpen] = useState(false);
+  const [isRosterOpen, setIsRosterOpen] = useState(() => {
+    const search = window.location.search;
+    const params = new URLSearchParams(search);
+    return !params.get('user') && !params.get('id');
+  });
   const [isAddSkillOpen, setIsAddSkillOpen] = useState(false);
   const [addSkillModalMode, setAddSkillModalMode] = useState('skill');
   const [availableSkillsForModal, setAvailableSkillsForModal] = useState([]);
@@ -41,6 +45,7 @@ const FolioContainer = () => {
   const [assetModalConfig, setAssetModalConfig] = useState(null);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
   const [isBastionOpen, setIsBastionOpen] = useState(false);
   const [isFileMenuOpen, setIsFileMenuOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
@@ -76,6 +81,15 @@ const FolioContainer = () => {
     loadPublicPersonas,
     publicCatalog
   } = useFolio();
+
+  const handleDeleteCurrentCharacter = useCallback(() => {
+    const activeDocId = characterData['character-doc-id'];
+    if (activeDocId) {
+      deleteRosterCharacter(activeDocId);
+    }
+    handleNewCharacter();
+    setIsDeleteConfirmOpen(false);
+  }, [characterData, deleteRosterCharacter, handleNewCharacter]);
 
   const handleOpenAddSkillModal = useCallback((mode = 'skill', skillsList = []) => {
     setAddSkillModalMode(mode);
@@ -183,6 +197,7 @@ const FolioContainer = () => {
             setIsSidebarOpen(false);
           }}
           charName={characterData['char-name']}
+          onOpenRoster={() => setIsRosterOpen(true)}
           onOpenBastion={() => setIsBastionOpen(true)}
         />
       </div>
@@ -298,15 +313,15 @@ const FolioContainer = () => {
                 >
                   <button
                     onClick={() => setIsRosterOpen(true)}
-                    className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-amber-300 uppercase font-bold flex items-center gap-2"
+                    className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-amber-300 uppercase font-bold"
                   >
-                    <span>📇</span> Character Portfolio Roster
+                    Character Roster
                   </button>
                   <button
                     onClick={() => setIsGuideOpen(true)}
-                    className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-slate-200 uppercase font-bold flex items-center gap-2"
+                    className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-slate-200 uppercase font-bold"
                   >
-                    <span>📖</span> User Guide & Manual
+                    User Guide & Manual
                   </button>
                   <div className="border-t border-slate-800 my-1" />
                   <button
@@ -316,23 +331,22 @@ const FolioContainer = () => {
                     New Character
                   </button>
                   <button
-                    onClick={() => setIsConfirmOpen(true)}
-                    className="w-full text-left px-4 py-2 hover:bg-red-950/80 text-red-300 uppercase font-bold"
+                    onClick={() => setIsDeleteConfirmOpen(true)}
+                    className="w-full text-left px-4 py-2 hover:bg-red-950/80 text-red-400 uppercase font-bold"
                   >
-                    🗑️ CLEAR Sheet Data
+                    Delete Character
+                  </button>
+                  <button
+                    onClick={() => setIsConfirmOpen(true)}
+                    className="w-full text-left px-4 py-2 hover:bg-slate-800 text-slate-400 uppercase font-bold"
+                  >
+                    Clear Sheet Data
                   </button>
                   <button
                     onClick={() => setIsPreviewOpen(true)}
                     className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-slate-200 uppercase font-bold"
                   >
                     Preview Sheet
-                  </button>
-
-                  <button
-                    onClick={handleCloudLoadPrompt}
-                    className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-cyan-300 uppercase font-bold"
-                  >
-                    Load from Cloud
                   </button>
                   <div className="border-t border-slate-800 my-1" />
                   <button
@@ -533,6 +547,13 @@ const FolioContainer = () => {
         onConfirm={handleNewCharacter}
         title="Reset Persona Sheet"
         message="Are you sure you want to start a new character? Unsaved changes will be cleared."
+      />
+      <ConfirmationModal
+        isOpen={isDeleteConfirmOpen}
+        onClose={() => setIsDeleteConfirmOpen(false)}
+        onConfirm={handleDeleteCurrentCharacter}
+        title="Delete Operative Persona"
+        message={`Are you sure you want to permanently delete character "${characterData['char-name'] || 'Unnamed Operative'}" from your roster and clear this sheet?`}
       />
       <PreviewModal
         isOpen={isPreviewOpen}

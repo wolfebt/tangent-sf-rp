@@ -101,7 +101,7 @@ export const UnifiedRelationalSelectorModal = ({
         );
         
         const snapshot = await Promise.race([fetchPromise, timeoutPromise]);
-        const fetched = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+        const fetched = snapshot.docs.map(d => ({ ...d.data(), id: d.id }));
         if (isMounted && fetched.length > 0) {
           setItems(fetched);
         }
@@ -126,7 +126,7 @@ export const UnifiedRelationalSelectorModal = ({
     try {
       const colRef = collection(db, sourceCollection);
       const snapshot = await getDocs(colRef);
-      const fetched = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+      const fetched = snapshot.docs.map(d => ({ ...d.data(), id: d.id }));
       setItems(fetched);
     } catch (err) {
       console.warn("Explicit cloud search query warning:", err.message);

@@ -122,7 +122,7 @@ export const RosterModal = ({
               </span>
             </div>
             <h2 className="text-xl font-bold text-amber-400 uppercase tracking-wider mt-0.5">
-              Character Catalog & Roster
+              Character Roster
             </h2>
           </div>
 
@@ -162,7 +162,7 @@ export const RosterModal = ({
                   : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
               }`}
             >
-              <span>📇</span> My Roster ({personaRoster.length})
+              My Roster ({personaRoster.length})
             </button>
             <button
               onClick={() => handleTabSwitch('public-gallery')}
@@ -172,7 +172,7 @@ export const RosterModal = ({
                   : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
               }`}
             >
-              <span>🌐</span> Public Gallery ({publicCatalog.length})
+              Public Gallery ({publicCatalog.length})
             </button>
           </div>
 
@@ -186,7 +186,7 @@ export const RosterModal = ({
                   : 'bg-slate-800 text-slate-400 border border-slate-700'
               }`}
             >
-              🎴 Cards
+              Cards
             </button>
             <button
               onClick={() => setViewMode('table')}
@@ -196,7 +196,7 @@ export const RosterModal = ({
                   : 'bg-slate-800 text-slate-400 border border-slate-700'
               }`}
             >
-              📑 List
+              List
             </button>
           </div>
         </div>
@@ -227,7 +227,6 @@ export const RosterModal = ({
         <div className="flex-1 overflow-y-auto p-6">
           {personaRoster.length === 0 ? (
             <div className="text-center py-12 border-2 border-dashed border-slate-800 rounded-lg">
-              <span className="text-4xl mb-3 block">📇</span>
               <h3 className="text-base font-bold text-slate-300 uppercase">No Saved Operatives in Catalog</h3>
               <p className="text-xs text-slate-500 max-w-sm mx-auto mt-1 mb-4">
                 Save your active character folio to your catalog to easily manage your party or switch between characters.
@@ -256,7 +255,6 @@ export const RosterModal = ({
                 const faction = getFieldValue(char['char-faction']);
                 const origin = getFieldValue(char['char-origin']);
                 const occupation = getFieldValue(char['char-occu']);
-                const startingCP = char['starting-cp'] || 150;
 
                 const noteContent = (char.notes && Array.isArray(char.notes) && char.notes[0]?.text) ? char.notes[0].text : '';
                 const isEditingThisNote = editingNoteDocId === docId;
@@ -293,7 +291,7 @@ export const RosterModal = ({
                                 }`}
                                 title="Toggle whether this character is publicly viewable by other players via link"
                               >
-                                <span>{char.isPublic ? '🌐 Public' : '🔒 Private'}</span>
+                                <span>{char.isPublic ? 'Public' : 'Private'}</span>
                               </button>
                             )}
                             {catalogTab === 'my-roster' && char.isPublic && (
@@ -302,49 +300,45 @@ export const RosterModal = ({
                                 className="px-2 py-0.5 bg-cyan-900/60 hover:bg-cyan-800 text-cyan-200 border border-cyan-500/40 rounded text-[9px] font-mono font-bold uppercase transition-colors"
                                 title="Copy public share link to clipboard"
                               >
-                                🔗 Share Link
+                                Share Link
                               </button>
                             )}
                             {catalogTab === 'public-gallery' && (
                               <span className="px-2 py-0.5 bg-amber-950/80 text-amber-300 border border-amber-600/50 rounded text-[9px] font-mono font-bold">
-                                ✍️ By {char.authorHandle || char.creatorHandle || 'Community Creator'}
+                                By {char.authorHandle || char.creatorHandle || 'Community Creator'}
                               </span>
                             )}
                             {((Array.isArray(char.tags) && char.tags.find(t => typeof t === 'string' && t.startsWith('@'))) || (typeof char.tags === 'string' && char.tags.includes('@'))) && (
                               <span className="px-2 py-0.5 bg-cyan-950/90 text-cyan-300 border border-cyan-500/40 rounded text-[9px] font-mono font-bold">
-                                🏷️ {Array.isArray(char.tags) ? char.tags.find(t => typeof t === 'string' && t.startsWith('@')) : char.tags.split(',').map(t=>t.trim()).find(t => t.startsWith('@'))}
+                                {Array.isArray(char.tags) ? char.tags.find(t => typeof t === 'string' && t.startsWith('@')) : char.tags.split(',').map(t=>t.trim()).find(t => t.startsWith('@'))}
                               </span>
                             )}
                           </div>
-                          <span className="text-[10px] text-cyan-400 font-mono block mt-0.5">
-                            ID: {docId}
-                          </span>
                         </div>
                       </div>
 
                       {/* Character Attributes Grid */}
                       <div className="grid grid-cols-2 gap-2 text-xs font-mono my-2 p-2.5 bg-slate-900/90 rounded-lg border border-slate-800">
                         <div className="flex flex-col">
-                          <span className="text-[9px] text-slate-500 uppercase tracking-wider font-semibold">🧬 Species</span>
+                          <span className="text-[9px] text-slate-500 uppercase tracking-wider font-semibold">Species</span>
                           <span className="text-slate-200 font-bold truncate" title={species}>{species}</span>
                         </div>
                         <div className="flex flex-col">
-                          <span className="text-[9px] text-slate-500 uppercase tracking-wider font-semibold">💼 Occupation</span>
+                          <span className="text-[9px] text-slate-500 uppercase tracking-wider font-semibold">Occupation</span>
                           <span className="text-slate-200 font-bold truncate" title={occupation}>{occupation}</span>
                         </div>
                         <div className="flex flex-col mt-1">
-                          <span className="text-[9px] text-slate-500 uppercase tracking-wider font-semibold">⚡ Faction</span>
+                          <span className="text-[9px] text-slate-500 uppercase tracking-wider font-semibold">Faction</span>
                           <span className="text-amber-300 font-bold truncate" title={faction}>{faction}</span>
                         </div>
                         <div className="flex flex-col mt-1">
-                          <span className="text-[9px] text-slate-500 uppercase tracking-wider font-semibold">🌌 Origin</span>
+                          <span className="text-[9px] text-slate-500 uppercase tracking-wider font-semibold">Origin</span>
                           <span className="text-cyan-300 font-bold truncate" title={origin}>{origin}</span>
                         </div>
                       </div>
 
-                      {/* CP & Tech/Magic Bar */}
-                      <div className="flex justify-between items-center text-[10px] font-mono text-slate-400 px-1 my-2">
-                        <span>CP BUDGET: <strong className="text-white">{startingCP} CP</strong></span>
+                      {/* Tech/Magic Level Bar */}
+                      <div className="flex justify-end items-center text-[10px] font-mono text-slate-400 px-1 my-2">
                         <span>TL-{char['tech-level'] || 3} / ML-{char['magic-level'] || 1}</span>
                       </div>
 
@@ -352,7 +346,7 @@ export const RosterModal = ({
                       <div className="mt-3 p-2.5 bg-slate-900/60 border border-slate-800/80 rounded-lg">
                         <div className="flex justify-between items-center mb-1">
                           <span className="text-[9px] text-cyan-400 font-bold uppercase tracking-wider flex items-center gap-1">
-                            📝 Note Block
+                            Note Block
                           </span>
                           {!isEditingThisNote && catalogTab === 'my-roster' && (
                             <button
@@ -406,14 +400,7 @@ export const RosterModal = ({
                               className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded text-[10px] font-bold uppercase transition-colors"
                               title="Duplicate operative persona"
                             >
-                              📋 Clone
-                            </button>
-                            <button
-                              onClick={() => promptDeleteConfirmation(docId, name)}
-                              className="px-2.5 py-1 bg-red-950/60 hover:bg-red-900 text-red-300 border border-red-500/40 rounded text-[10px] font-bold uppercase transition-colors"
-                              title="Delete operative persona"
-                            >
-                              🗑️ Delete
+                              Clone
                             </button>
                           </div>
 
@@ -438,7 +425,7 @@ export const RosterModal = ({
                             className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded text-[10px] font-bold uppercase transition-colors"
                             title="Copy link to clipboard"
                           >
-                            🔗 Share Link
+                            Share Link
                           </button>
                           <div className="flex items-center gap-2">
                             <button
@@ -448,7 +435,7 @@ export const RosterModal = ({
                               }}
                               className="px-3 py-1 bg-cyan-700 hover:bg-cyan-600 text-white rounded text-xs font-bold uppercase shadow transition-colors flex items-center gap-1"
                             >
-                              <span>👁️</span> View Sheet
+                              View Sheet
                             </button>
                           </div>
                         </div>
@@ -518,7 +505,7 @@ export const RosterModal = ({
                                 }`}
                                 title="Toggle Public Visibility"
                               >
-                                {char.isPublic ? '🌐 Public' : '🔒 Private'}
+                                {char.isPublic ? 'Public' : 'Private'}
                               </button>
                               {char.isPublic && (
                                 <button
@@ -526,7 +513,7 @@ export const RosterModal = ({
                                   className="px-2 py-0.5 bg-cyan-900/60 hover:bg-cyan-800 text-cyan-200 border border-cyan-500/40 rounded text-[9px] font-mono font-bold uppercase"
                                   title="Copy Share Link"
                                 >
-                                  🔗
+                                  Share
                                 </button>
                               )}
                               <button
@@ -534,21 +521,14 @@ export const RosterModal = ({
                                 className="px-2 py-0.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-[10px] uppercase font-bold"
                                 title="Edit Note"
                               >
-                                📝
+                                Note
                               </button>
                               <button
                                 onClick={() => onDuplicateCharacter(docId)}
                                 className="px-2 py-0.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-[10px] uppercase font-bold"
                                 title="Clone"
                               >
-                                📋
-                              </button>
-                              <button
-                                onClick={() => promptDeleteConfirmation(docId, name)}
-                                className="px-2 py-0.5 bg-red-950/80 hover:bg-red-900 text-red-300 rounded text-[10px] uppercase font-bold border border-red-500/40"
-                                title="Delete"
-                              >
-                                🗑️
+                                Clone
                               </button>
                               {!isActive && (
                                 <button
@@ -569,7 +549,7 @@ export const RosterModal = ({
                                 className="px-2 py-0.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-[10px] uppercase font-bold"
                                 title="Copy Share Link"
                               >
-                                🔗
+                                Share
                               </button>
                               <button
                                 onClick={() => {
@@ -578,7 +558,7 @@ export const RosterModal = ({
                                 }}
                                 className="px-2.5 py-0.5 bg-cyan-700 hover:bg-cyan-600 text-white rounded text-[10px] uppercase font-bold shadow"
                               >
-                                👁️ View
+                                View
                               </button>
                             </div>
                           )}

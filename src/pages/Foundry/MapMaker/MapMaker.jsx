@@ -3,6 +3,7 @@ import { Stage, Layer, Rect, Line, RegularPolygon, Image as KonvaImage } from 'r
 import { useCampaign, formatExportFilename } from '../../../context/CampaignContext';
 import { v4 as uuidv4 } from 'uuid';
 import { produce } from 'immer';
+import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 
 import { MAP_TYPES, DEFAULT_LAYERS, MASTER_TERRAINS, MASTER_OBJECTS, PENCIL_COLORS, PENCIL_WIDTHS, TEXT_COLORS } from './map/MapConstants';
 import { MapObjectNode, TokenNode, TextLabelNode } from './map/MapObjectNode';
@@ -352,6 +353,9 @@ const MapPane = ({ mapExportPngRef }) => {
 
   const deleteCustomLayer = (layerId) => {
     if (mapLayers.length <= 1) return alert("Must have at least one layer!");
+    const targetLayer = mapLayers.find(l => l.id === layerId);
+    const layerName = targetLayer?.name || 'this layer';
+    if (!confirmTypedDeletion(layerName, 'map layer')) return;
     recordHistory();
     updateMap(activeMapId, { layers: mapLayers.filter(l => l.id !== layerId) });
   };
@@ -562,7 +566,7 @@ const MapPane = ({ mapExportPngRef }) => {
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      if (window.confirm(`Delete map element "${m.title || 'Untitled'}"?`)) {
+                      if (confirmTypedDeletion(m.title || 'Untitled Map', 'map element')) {
                         deleteMap(m.id);
                       }
                     }}

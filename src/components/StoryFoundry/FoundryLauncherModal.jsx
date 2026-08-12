@@ -4,6 +4,7 @@ import { exportElementJSON, exportElementMarkdown, exportElementPDF } from './ex
 import EditElementModal from './EditElementModal';
 import { ELEMENT_TYPES } from './elementSchemas';
 import { attachCreatorTag } from '../../utils/creatorUtils';
+import { confirmTypedDeletion } from '../../utils/confirmationUtils';
 
 const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
   const {
@@ -43,6 +44,7 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
   // Tab 1: Story Catalog Search & Sort State
   const [storySearch, setStorySearch] = useState('');
   const [storySortBy, setStorySortBy] = useState('recent'); // 'recent' | 'name_asc' | 'name_desc' | 'elements' | 'maps'
+  const [storyViewMode, setStoryViewMode] = useState('card'); // 'card' | 'table'
 
   // Tab 2: Elements Catalog Search, Filter & Sort State
   const [elementSearch, setElementSearch] = useState('');
@@ -351,28 +353,54 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
         {activeTab === 'stories' && (
           <div className="flex-1 flex flex-col overflow-hidden p-3 sm:p-4 space-y-3">
             
-            {/* Sub-tabs: My Stories vs Public Community Stories */}
-            <div className="flex items-center gap-2 shrink-0">
-              <button
-                onClick={() => handleStorySourceSwitch('my_stories')}
-                className={`px-3 py-1 rounded-lg text-[11px] font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 ${
-                  storySourceTab === 'my_stories'
-                    ? 'bg-cyan-950 text-cyan-300 border border-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.2)]'
-                    : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
-                }`}
-              >
-                <span>📖</span> My Stories ({storyCatalog.length})
-              </button>
-              <button
-                onClick={() => handleStorySourceSwitch('public_community')}
-                className={`px-3 py-1 rounded-lg text-[11px] font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 ${
-                  storySourceTab === 'public_community'
-                    ? 'bg-amber-950 text-amber-300 border border-amber-400 shadow-[0_0_10px_rgba(245,158,11,0.2)]'
-                    : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
-                }`}
-              >
-                <span>🌐</span> Public Community Stories ({publicStoryCatalog.length})
-              </button>
+            {/* Sub-tabs: My Stories vs Public Community Stories & View Layout Switcher */}
+            <div className="flex items-center justify-between gap-2 shrink-0">
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => handleStorySourceSwitch('my_stories')}
+                  className={`px-3 py-1.5 rounded-lg text-[11px] font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
+                    storySourceTab === 'my_stories'
+                      ? 'bg-cyan-950 text-cyan-300 border border-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.2)]'
+                      : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                  }`}
+                >
+                  <span>📖</span> My Stories ({storyCatalog.length})
+                </button>
+                <button
+                  onClick={() => handleStorySourceSwitch('public_community')}
+                  className={`px-3 py-1.5 rounded-lg text-[11px] font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
+                    storySourceTab === 'public_community'
+                      ? 'bg-amber-950 text-amber-300 border border-amber-400 shadow-[0_0_10px_rgba(245,158,11,0.2)]'
+                      : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                  }`}
+                >
+                  <span>🌐</span> Public Community Stories ({publicStoryCatalog.length})
+                </button>
+              </div>
+
+              <div className="flex items-center gap-1 text-xs">
+                <span className="text-[10px] text-slate-400 uppercase font-mono mr-1">Layout:</span>
+                <button
+                  onClick={() => setStoryViewMode('card')}
+                  className={`px-2.5 py-1 rounded font-bold uppercase text-[10px] transition-colors cursor-pointer ${
+                    storyViewMode === 'card'
+                      ? 'bg-cyan-600 text-white border border-cyan-400'
+                      : 'bg-slate-900 text-slate-400 border border-slate-800 hover:text-slate-200'
+                  }`}
+                >
+                  Cards
+                </button>
+                <button
+                  onClick={() => setStoryViewMode('table')}
+                  className={`px-2.5 py-1 rounded font-bold uppercase text-[10px] transition-colors cursor-pointer ${
+                    storyViewMode === 'table'
+                      ? 'bg-cyan-600 text-white border border-cyan-400'
+                      : 'bg-slate-900 text-slate-400 border border-slate-800 hover:text-slate-200'
+                  }`}
+                >
+                  List
+                </button>
+              </div>
             </div>
 
             {/* Search, Sort & Action Bar */}
@@ -455,7 +483,7 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
                         handleCreateNewElement(typeStr);
                       }
                     }}
-                    className="px-2 py-0.5 bg-amber-950 hover:bg-amber-900 border border-amber-500/70 text-amber-300 text-[11px] font-bold uppercase tracking-wider rounded transition-all flex items-center gap-1 shadow-sm"
+                    className="px-2 py-0.5 bg-amber-950 hover:bg-amber-900 border border-amber-500/70 text-amber-300 text-[11px] font-bold uppercase tracking-wider rounded transition-all flex items-center gap-1 shadow-sm cursor-pointer"
                     title="Edit selected element or create new blank element"
                   >
                     <span>✏️</span> {selectedCatalogElementId ? 'Edit' : '+ New'}
@@ -480,7 +508,7 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
                           alert(`Imported blank "${newBlank.title}" into active story workspace!`);
                         }
                       }}
-                      className="px-2 py-0.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/70 text-cyan-300 text-[11px] font-bold uppercase tracking-wider rounded transition-all flex items-center gap-1 shadow-sm"
+                      className="px-2 py-0.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/70 text-cyan-300 text-[11px] font-bold uppercase tracking-wider rounded transition-all flex items-center gap-1 shadow-sm cursor-pointer"
                       title="Import selected element into active story workspace"
                     >
                       <span>📥</span> Import
@@ -492,7 +520,7 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
                   onClick={() => {
                     confirmIfDirty(() => setIsCreatingStory(true));
                   }}
-                  className="px-3 py-1.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/70 text-cyan-300 text-[11px] font-bold uppercase tracking-wider rounded-lg transition-all shadow-[0_0_10px_rgba(34,211,238,0.2)] flex items-center gap-1.5"
+                  className="px-3 py-1.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/70 text-cyan-300 text-[11px] font-bold uppercase tracking-wider rounded-lg transition-all shadow-[0_0_10px_rgba(34,211,238,0.2)] flex items-center gap-1.5 cursor-pointer"
                 >
                   <span>✨</span> + New Project
                 </button>
@@ -500,7 +528,7 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
                   onClick={() => {
                     confirmIfDirty(() => fileInputRef.current?.click());
                   }}
-                  className="px-3 py-1.5 bg-[#161b22] hover:bg-slate-800 border border-slate-700 text-slate-200 text-[11px] font-bold uppercase tracking-wider rounded-lg transition-colors flex items-center gap-1.5"
+                  className="px-3 py-1.5 bg-[#161b22] hover:bg-slate-800 border border-slate-700 text-slate-200 text-[11px] font-bold uppercase tracking-wider rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer"
                 >
                   <span>📥</span> Import File
                 </button>
@@ -514,7 +542,7 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
               </div>
             </div>
 
-            {/* Story Catalog Grid — Scrolls to see all compact cards */}
+            {/* Story Catalog Grid / List */}
             <div className="flex-1 overflow-y-auto pr-1">
               {processedStories.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center p-12 text-center text-slate-400 border-2 border-dashed border-slate-800 rounded-2xl">
@@ -528,13 +556,13 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
                       onClick={() => {
                         confirmIfDirty(() => setIsCreatingStory(true));
                       }}
-                      className="mt-4 px-4 py-2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-xs font-bold uppercase rounded-lg"
+                      className="mt-4 px-4 py-2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-xs font-bold uppercase rounded-lg cursor-pointer"
                     >
                       + Create First Story Project
                     </button>
                   )}
                 </div>
-              ) : (
+              ) : storyViewMode === 'card' ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3">
                   {processedStories.map(story => {
                     const isActive = universeState.id === story.id;
@@ -544,22 +572,26 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
                     return (
                       <div
                         key={story.id}
-                        className={`bg-slate-900/90 hover:bg-slate-900 rounded-lg p-2.5 border flex items-center justify-between gap-2.5 transition-all shadow-md hover:shadow-cyan-950/30 group ${
+                        className={`bg-slate-900/90 hover:bg-slate-900 rounded-xl p-3 border flex flex-col justify-between transition-all shadow-md hover:shadow-cyan-950/40 group relative ${
                           isActive 
-                            ? 'border-cyan-400/90 shadow-[0_0_10px_rgba(34,211,238,0.2)] ring-1 ring-cyan-500/50' 
+                            ? 'border-cyan-400/90 shadow-[0_0_15px_rgba(34,211,238,0.25)] bg-gradient-to-b from-cyan-950/40 to-slate-950' 
                             : 'border-slate-800 hover:border-cyan-500/50'
                         }`}
                       >
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center justify-between gap-1.5 mb-1 flex-wrap">
-                            <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-cyan-950 border border-cyan-800 text-cyan-300">
-                              {isActive ? 'Active' : 'Story'}
-                            </span>
-                            {storySourceTab === 'my_stories' ? (
-                              <div className="flex items-center gap-1">
+                        <div>
+                          <div className="flex items-center justify-between gap-1.5 mb-2 flex-wrap">
+                            <div className="flex items-center gap-1.5">
+                              <span className={`text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
+                                isActive
+                                  ? 'bg-amber-500/20 text-amber-300 border border-amber-500/50'
+                                  : 'bg-cyan-950 text-cyan-300 border border-cyan-800'
+                              }`}>
+                                {isActive ? 'Active Story' : 'Story'}
+                              </span>
+                              {storySourceTab === 'my_stories' ? (
                                 <button
                                   onClick={() => toggleStoryVisibility && toggleStoryVisibility(story.id, !story.isPublic)}
-                                  className={`px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider border transition-colors ${
+                                  className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider border transition-colors cursor-pointer ${
                                     story.isPublic
                                       ? 'bg-cyan-950 text-cyan-300 border-cyan-500/60 hover:bg-cyan-900'
                                       : 'bg-slate-900 text-slate-400 border-slate-700 hover:text-slate-200'
@@ -568,93 +600,184 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
                                 >
                                   {story.isPublic ? '🌐 Public' : '🔒 Private'}
                                 </button>
-                                {story.isPublic && (
-                                  <button
-                                    onClick={() => handleCopyShareLink(story.id)}
-                                    className="px-1.5 py-0.5 bg-cyan-900/60 hover:bg-cyan-800 text-cyan-200 border border-cyan-500/40 rounded text-[9px] font-mono font-bold uppercase"
-                                    title="Copy Public Link"
-                                  >
-                                    🔗 Share
-                                  </button>
-                                )}
-                              </div>
-                            ) : (
-                              <span className="px-1.5 py-0.5 bg-amber-950/80 text-amber-300 border border-amber-600/50 rounded text-[9px] font-mono font-bold truncate max-w-[120px]">
-                                ✍️ {story.authorEmail ? `@${story.authorEmail.split('@')[0]}` : (story.authorHandle || story.creatorHandle || 'Community')}
-                              </span>
+                              ) : (
+                                <span className="px-2 py-0.5 bg-amber-950/80 text-amber-300 border border-amber-600/50 rounded text-[9px] font-mono font-bold truncate max-w-[130px]">
+                                  ✍️ {story.authorEmail ? `@${story.authorEmail.split('@')[0]}` : (story.authorHandle || story.creatorHandle || 'Community')}
+                                </span>
+                              )}
+                            </div>
+
+                            {storySourceTab === 'my_stories' && story.isPublic && (
+                              <button
+                                onClick={() => handleCopyShareLink(story.id)}
+                                className="px-2 py-0.5 bg-cyan-900/60 hover:bg-cyan-800 text-cyan-200 border border-cyan-500/40 rounded text-[9px] font-mono font-bold uppercase transition-colors cursor-pointer"
+                                title="Copy Public Link"
+                              >
+                                🔗 Share
+                              </button>
                             )}
                           </div>
 
-                          <h3 className="text-xs font-bold text-slate-100 group-hover:text-cyan-300 truncate mb-0.5" title={story.projectName}>
+                          <h3 className="text-sm font-bold text-slate-100 group-hover:text-cyan-300 truncate mb-1" title={story.projectName}>
                             {story.projectName || 'Untitled Story'}
                           </h3>
                           
-                          <p className="text-[11px] text-slate-400 line-clamp-1 leading-tight mb-1">
+                          <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed mb-3 min-h-[2rem]">
                             {story.description || 'No description provided.'}
                           </p>
 
-                          {/* Stats Badges */}
-                          <div className="flex items-center gap-2 text-[10px] font-mono font-semibold text-slate-400">
+                          <div className="flex items-center gap-2 text-[11px] font-mono font-semibold text-slate-400 p-2 bg-slate-950/80 rounded-lg border border-slate-800/80 mb-3">
                             <div className="flex items-center gap-1">
                               <span>🧩</span>
                               <span className="text-amber-400 font-bold">{elemCount}</span>
-                              <span className="text-slate-500">elems</span>
+                              <span className="text-slate-500 text-[10px]">elems</span>
                             </div>
                             <span className="text-slate-700">•</span>
                             <div className="flex items-center gap-1">
                               <span>🗺️</span>
                               <span className="text-cyan-400 font-bold">{mapCount}</span>
-                              <span className="text-slate-500">maps</span>
+                              <span className="text-slate-500 text-[10px]">maps</span>
                             </div>
+                            {story.updatedAt && (
+                              <>
+                                <span className="text-slate-700">•</span>
+                                <span className="text-[10px] text-slate-500 ml-auto">
+                                  {new Date(story.updatedAt).toLocaleDateString()}
+                                </span>
+                              </>
+                            )}
                           </div>
                         </div>
 
-                        {/* Small Square Action Button on Right Side */}
-                        {storySourceTab === 'my_stories' ? (
-                          <button
-                            onClick={() => {
-                              if (isActive) {
-                                onClose();
-                              } else {
-                                confirmIfDirty(() => {
-                                  openStory(story.id);
+                        <div className="flex items-center justify-between gap-2 pt-2 border-t border-slate-800">
+                          <div className="flex items-center gap-1">
+                            <button
+                              onClick={() => clonePublicStory(story)}
+                              className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded text-[10px] font-bold uppercase transition-colors cursor-pointer"
+                              title="Duplicate / Clone story project"
+                            >
+                              Clone
+                            </button>
+                          </div>
+
+                          {storySourceTab === 'my_stories' ? (
+                            <button
+                              onClick={() => {
+                                if (isActive) {
                                   onClose();
-                                });
-                              }
-                            }}
-                            className="w-10 h-10 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded-lg text-xs font-bold shrink-0 transition-colors shadow-sm flex flex-col items-center justify-center gap-0.5 cursor-pointer"
-                            title={isActive ? 'Continue Active Story' : 'Open Story Project'}
-                          >
-                            <span className="text-xs leading-none">{isActive ? '▶️' : '📂'}</span>
-                            <span className="text-[8px] font-bold uppercase tracking-tighter leading-none">{isActive ? 'CONT' : 'OPEN'}</span>
-                          </button>
-                        ) : (
-                          <div className="flex flex-col gap-1 shrink-0">
+                                } else {
+                                  confirmIfDirty(() => {
+                                    openStory(story.id);
+                                    onClose();
+                                  });
+                                }
+                              }}
+                              className={`px-3 py-1 rounded text-xs font-bold uppercase tracking-wider shadow transition-colors flex items-center gap-1 cursor-pointer ${
+                                isActive
+                                  ? 'bg-amber-600 hover:bg-amber-500 text-white'
+                                  : 'bg-cyan-600 hover:bg-cyan-500 text-white'
+                              }`}
+                            >
+                              {isActive ? '▶️ Active' : '📂 Open'}
+                            </button>
+                          ) : (
                             <button
                               onClick={() => {
                                 openStory(story.id);
                                 onClose();
                               }}
-                              className="w-8 h-7 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded text-[10px] font-bold uppercase shrink-0 transition-colors flex items-center justify-center"
-                              title="View Public Story"
+                              className="px-3 py-1 bg-cyan-600 hover:bg-cyan-500 text-white rounded text-xs font-bold uppercase shadow transition-colors flex items-center gap-1 cursor-pointer"
                             >
-                              👁️
+                              👁️ View Story
                             </button>
-                            <button
-                              onClick={() => {
-                                clonePublicStory(story);
-                                onClose();
-                              }}
-                              className="w-8 h-7 bg-amber-600 hover:bg-amber-500 text-white rounded text-[10px] font-bold uppercase shrink-0 transition-colors flex items-center justify-center shadow"
-                              title="Clone Story to My Catalog"
-                            >
-                              📋
-                            </button>
-                          </div>
-                        )}
+                          )}
+                        </div>
                       </div>
                     );
                   })}
+                </div>
+              ) : (
+                <div className="overflow-x-auto border border-slate-800 rounded-xl bg-slate-950/80">
+                  <table className="w-full text-left text-xs font-sans border-collapse">
+                    <thead>
+                      <tr className="bg-slate-900 border-b border-slate-800 text-[10px] font-mono font-bold uppercase text-slate-400">
+                        <th className="py-2.5 px-3">Status</th>
+                        <th className="py-2.5 px-3">Project Title & Description</th>
+                        <th className="py-2.5 px-3">Author</th>
+                        <th className="py-2.5 px-3">Contents</th>
+                        <th className="py-2.5 px-3 text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-800/80">
+                      {processedStories.map(story => {
+                        const isActive = universeState.id === story.id;
+                        const elemCount = countElements(story.scenarios);
+                        const mapCount = story.maps?.length || 0;
+
+                        return (
+                          <tr key={story.id} className="hover:bg-slate-900/60 transition-colors">
+                            <td className="py-2.5 px-3 whitespace-nowrap">
+                              <div className="flex items-center gap-1.5">
+                                <span className={`text-[9px] font-bold uppercase px-1.5 py-0.5 rounded ${
+                                  isActive
+                                    ? 'bg-amber-500/20 text-amber-300 border border-amber-500/50'
+                                    : 'bg-cyan-950 text-cyan-300 border border-cyan-800'
+                                }`}>
+                                  {isActive ? 'Active' : 'Story'}
+                                </span>
+                                {storySourceTab === 'my_stories' && (
+                                  <button
+                                    onClick={() => toggleStoryVisibility && toggleStoryVisibility(story.id, !story.isPublic)}
+                                    className={`px-1.5 py-0.5 rounded text-[9px] font-bold uppercase border transition-colors cursor-pointer ${
+                                      story.isPublic
+                                        ? 'bg-cyan-950 text-cyan-300 border-cyan-500/60'
+                                        : 'bg-slate-900 text-slate-400 border-slate-700'
+                                    }`}
+                                  >
+                                    {story.isPublic ? '🌐 Public' : '🔒 Private'}
+                                  </button>
+                                )}
+                              </div>
+                            </td>
+                            <td className="py-2.5 px-3">
+                              <div className="font-bold text-slate-100 hover:text-cyan-300 truncate max-w-xs" title={story.projectName}>
+                                {story.projectName || 'Untitled Story'}
+                              </div>
+                              <div className="text-[11px] text-slate-400 line-clamp-1 max-w-md">
+                                {story.description || 'No description provided.'}
+                              </div>
+                            </td>
+                            <td className="py-2.5 px-3 whitespace-nowrap font-mono text-xs text-slate-300">
+                              {story.authorEmail ? `@${story.authorEmail.split('@')[0]}` : (story.authorHandle || story.creatorHandle || 'Community')}
+                            </td>
+                            <td className="py-2.5 px-3 whitespace-nowrap font-mono text-xs text-slate-400">
+                              <span className="text-amber-400 font-bold">{elemCount}</span> elems • <span className="text-cyan-400 font-bold">{mapCount}</span> maps
+                            </td>
+                            <td className="py-2.5 px-3 whitespace-nowrap text-right">
+                              <div className="flex items-center justify-end gap-1.5">
+                                <button
+                                  onClick={() => clonePublicStory(story)}
+                                  className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-[10px] font-bold uppercase cursor-pointer"
+                                  title="Clone story project"
+                                >
+                                  Clone
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    openStory(story.id);
+                                    onClose();
+                                  }}
+                                  className="px-2.5 py-1 bg-cyan-600 hover:bg-cyan-500 text-white rounded text-xs font-bold uppercase cursor-pointer"
+                                >
+                                  {isActive ? 'Active' : 'Open'}
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
                 </div>
               )}
             </div>
@@ -800,18 +923,6 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
                                   >
                                     <span>🖨️</span> Export PDF
                                   </button>
-                                  <div className="border-t border-slate-800/80 my-1" />
-                                  <button
-                                    onClick={() => {
-                                      setOpenElementMenuId(null);
-                                      if (window.confirm(`Delete element "${elem.title}" from catalog?`)) {
-                                        deleteSavedElement(elem.id);
-                                      }
-                                    }}
-                                    className="w-full text-left px-3 py-1.5 hover:bg-red-950/60 text-red-400 hover:text-red-300 flex items-center gap-2 transition-colors"
-                                  >
-                                    <span>🗑️</span> Delete Element
-                                  </button>
                                 </div>
                               </>
                             )}
@@ -944,18 +1055,6 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
                                   >
                                     <span>📥</span> Import to Story
                                   </button>
-                                  <div className="border-t border-slate-800/80 my-1" />
-                                  <button
-                                    onClick={() => {
-                                      setOpenMapMenuId(null);
-                                      if (window.confirm(`Delete map "${mapElem.title}" from catalog?`)) {
-                                        deleteSavedMap(mapElem.id);
-                                      }
-                                    }}
-                                    className="w-full text-left px-3 py-1.5 hover:bg-red-950/60 text-red-400 hover:text-red-300 flex items-center gap-2 transition-colors"
-                                  >
-                                    <span>🗑️</span> Delete Map
-                                  </button>
                                 </div>
                               </>
                             )}
@@ -1042,6 +1141,7 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
           }}
           element={editingElement}
           onSave={handleSaveEditElement}
+          onDelete={deleteSavedElement}
         />
       </div>
     </div>

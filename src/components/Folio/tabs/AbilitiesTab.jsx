@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { useFolio } from '../../../context/FolioContext';
 import { db } from '../../../firebase';
 import { collection, onSnapshot } from 'firebase/firestore';
+import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 
 // Core system disciplines — always present regardless of database state.
 // These are inherent to the Awakening mechanic and unlock the base meta-skills.
@@ -151,7 +152,7 @@ const AbilitiesTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
   // Remove Feature Item
   const handleRemoveFeature = (item) => {
     const itemName = typeof item === 'object' ? (item.name || item.title || 'Feature') : String(item);
-    if (!window.confirm(`Are you sure you want to remove feature "${itemName}"?`)) return;
+    if (!confirmTypedDeletion(itemName, 'feature')) return;
 
     const listKey = item.sourceList || 'features';
     const currentList = getItemList(listKey);
@@ -162,7 +163,7 @@ const AbilitiesTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
   // Remove Disadvantage Item
   const handleRemoveDisadvantage = (item) => {
     const itemName = typeof item === 'object' ? (item.name || item.title || 'Disadvantage') : String(item);
-    if (!window.confirm(`Are you sure you want to remove flaw "${itemName}"?`)) return;
+    if (!confirmTypedDeletion(itemName, 'flaw')) return;
 
     const currentList = getItemList('disadvantages');
     const updated = currentList.filter((_, i) => i !== item.originalIndex);
@@ -182,7 +183,7 @@ const AbilitiesTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     setDisciplinesLoading(true);
     const unsub = onSnapshot(collection(db, 'disciplines'), (snap) => {
       if (isMounted) {
-        setDbDisciplines(snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+        setDbDisciplines(snap.docs.map(doc => ({ ...doc.data(), id: doc.id })));
         setDisciplinesLoading(false);
       }
     }, (err) => {

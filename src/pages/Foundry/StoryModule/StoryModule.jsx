@@ -1,23 +1,44 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import ScenarioPane from './ScenarioPane';
+import FoundryLauncherModal from '../../../components/StoryFoundry/FoundryLauncherModal';
+import { useStory } from '../../../context/CampaignContext';
 
 export default function StoryModule() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const storyIdParam = searchParams.get('storyId');
+  const { openStory } = useStory();
+
+  // Open story project catalog dashboard by default when landing on Story Module, unless a specific storyId query param is provided
+  const [isCatalogOpen, setIsCatalogOpen] = useState(() => !storyIdParam);
+
+  useEffect(() => {
+    if (storyIdParam) {
+      openStory(storyIdParam);
+      setIsCatalogOpen(false);
+    }
+  }, [storyIdParam, openStory]);
 
   return (
-    <div className="flex flex-col h-full w-full bg-[#0d1117] text-slate-100 overflow-hidden font-sans">
-      {/* Header */}
-      <div className="flex justify-between items-center px-6 py-3 bg-[#090d16] border-b border-slate-800 shrink-0">
-        <h1 className="text-xl font-bold text-cyan-400 uppercase tracking-widest">Story Module</h1>
+    <div className="flex flex-col h-full w-full bg-[#0d1117] text-slate-100 overflow-hidden font-sans relative">
+      {/* Main Workspace Area */}
+      <div className="flex-1 overflow-hidden relative">
+        <ScenarioPane 
+          onOpenCatalog={() => setIsCatalogOpen(true)}
+          onSwitchTab={(tab) => {
+            if (tab === 'map') navigate('/map-maker');
+          }} 
+        />
       </div>
 
-      {/* Main Content Area */}
-      <div className="flex-1 overflow-hidden relative">
-        <ScenarioPane onSwitchTab={(tab) => {
-          if (tab === 'map') navigate('/map-maker');
-        }} />
-      </div>
+      {/* Story Project Catalog / Dashboard Modal */}
+      <FoundryLauncherModal 
+        isOpen={isCatalogOpen} 
+        onClose={() => setIsCatalogOpen(false)} 
+        initialTab="stories"
+      />
     </div>
   );
 }
+

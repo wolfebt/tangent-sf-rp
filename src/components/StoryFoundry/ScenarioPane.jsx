@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { ELEMENT_TYPES, ELEMENT_SCHEMAS } from './elementSchemas';
 import { isHalfPageElement } from './exportUtils';
 import { UnifiedRelationalSelectorModal } from '../DBM/UnifiedRelationalSelectorModal';
+import { confirmTypedDeletion } from '../../utils/confirmationUtils';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 
@@ -747,7 +748,7 @@ const ElementImageUploader = ({ activeNode, updateStory }) => {
   );
 };
 
-const ScenarioPane = ({ onOpenBastion, onSwitchTab }) => {
+const ScenarioPane = ({ onOpenBastion, onSwitchTab, onOpenCatalog }) => {
   const { universeState, activeScenarioId, setActiveScenarioId, addStory, updateStory, deleteStory, moveStory, reorderStory, reorderRelativeScenario, triggerStorySave, handleSaveStory, handleLoadStory, addMap, setActiveMapId, updateProjectName, isStoryReadOnly, clonePublicStory } = useStory();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalParentId, setModalParentId] = useState(null);
@@ -835,7 +836,8 @@ const ScenarioPane = ({ onOpenBastion, onSwitchTab }) => {
       ? ` and its ${childCount} sub-element(s)`
       : '';
 
-    if (window.confirm(`Are you sure you want to delete ${name}${childWarning}? This action cannot be undone.`)) {
+    const targetTitle = title || (nodeToDelete ? nodeToDelete.title : 'Untitled Element');
+    if (confirmTypedDeletion(targetTitle, 'story element')) {
       deleteStory(id);
     }
   };
@@ -1249,6 +1251,16 @@ const ScenarioPane = ({ onOpenBastion, onSwitchTab }) => {
               />
             </div>
             <div className="flex items-center gap-1.5 flex-wrap justify-end">
+              {onOpenCatalog && (
+                <button
+                  type="button"
+                  onClick={onOpenCatalog}
+                  className="px-2.5 py-1 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-[10px] font-bold rounded uppercase tracking-wider transition-all shadow-[0_0_8px_rgba(34,211,238,0.2)] flex items-center gap-1 cursor-pointer"
+                  title="Open Story Project Catalog & Dashboard"
+                >
+                  <span>📁</span> Story Catalog
+                </button>
+              )}
               <input 
                 type="file" 
                 accept=".json" 

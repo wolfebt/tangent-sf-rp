@@ -7,6 +7,7 @@ import { isHalfPageElement } from './exportUtils';
 import { ElementSelectorModal as UnifiedRelationalSelectorModal } from '../ElementForge/ElementSelectorModal';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
+import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 
 // Helper to get breadcrumb location path for an element
 const getBreadcrumbPath = (nodes, targetId, currentPath = []) => {
@@ -847,7 +848,7 @@ const ElementImageUploader = ({ activeNode, updateStory }) => {
   );
 };
 
-const ScenarioPane = ({ onOpenBastion, onSwitchTab }) => {
+const ScenarioPane = ({ onOpenBastion, onSwitchTab, onOpenCatalog }) => {
   const { universeState, activeScenarioId, setActiveScenarioId, addStory, updateStory, deleteStory, moveStory, reorderStory, reorderRelativeScenario, triggerStorySave, handleSaveStory, handleLoadStory, addMap, setActiveMapId, updateProjectName, isStoryReadOnly, clonePublicStory } = useStory();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalParentId, setModalParentId] = useState(null);
@@ -928,13 +929,9 @@ const ScenarioPane = ({ onOpenBastion, onSwitchTab }) => {
     };
     nodeToDelete = findNodeById(universeState.scenarios);
 
-    const name = title ? `"${title}"` : 'this element';
-    const childCount = nodeToDelete && nodeToDelete.children ? nodeToDelete.children.length : 0;
-    const childWarning = childCount > 0
-      ? ` and its ${childCount} sub-element(s)`
-      : '';
+    const targetTitle = title || (nodeToDelete ? nodeToDelete.title : '') || 'Untitled Element';
 
-    if (window.confirm(`Are you sure you want to delete ${name}${childWarning}? This action cannot be undone.`)) {
+    if (confirmTypedDeletion(targetTitle, 'story element')) {
       deleteStory(id);
     }
   };
@@ -1349,6 +1346,16 @@ const ScenarioPane = ({ onOpenBastion, onSwitchTab }) => {
               />
             </div>
             <div className="flex items-center gap-1.5 flex-wrap justify-end">
+              {onOpenCatalog && (
+                <button
+                  type="button"
+                  onClick={onOpenCatalog}
+                  className="px-2.5 py-1 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-[10px] font-bold rounded uppercase tracking-wider transition-all shadow-[0_0_8px_rgba(34,211,238,0.2)] flex items-center gap-1 cursor-pointer"
+                  title="Open Story Project Catalog & Dashboard"
+                >
+                  <span>📁</span> Story Catalog
+                </button>
+              )}
               <button 
                 onClick={() => handleOpenAddModal(activeScenarioId)}
                 className="px-2 py-0.5 bg-amber-600/30 hover:bg-amber-600/50 border border-amber-500/50 text-amber-400 hover:text-amber-300 text-[10px] font-bold rounded uppercase transition-colors"

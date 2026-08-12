@@ -154,7 +154,7 @@ export const ELEMENT_SCHEMAS = {
     { tab: 'Lore', key: 'tags', label: 'Tags', type: 'text', placeholder: 'Item tags (e.g. Tech, Weapon, Psionic)...' }
   ],
   'Clue': [
-    { tab: 'Overview', key: 'rulesRef', label: 'Rules Codex (Cloud DB)', type: 'relational', dbSource: 'rules_codex', placeholder: 'Link Cloud DBM Rules Codex...' },
+    { tab: 'Overview', key: 'rulesRef', label: 'Compendium / Rules (Cloud DB)', type: 'relational', dbSource: 'compendium', placeholder: 'Link Cloud DBM Compendium...' },
     { tab: 'Overview', key: 'information', label: 'Information Revealed', type: 'textarea', placeholder: 'What this clue reveals...' },
     { tab: 'Overview', key: 'locationFound', label: 'Location Found', type: 'text', placeholder: 'Where or how it is discovered...' },
     { tab: 'Overview', key: 'conclusion', label: 'Player Conclusion', type: 'textarea', placeholder: 'What players should realize...' },

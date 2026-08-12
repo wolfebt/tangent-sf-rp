@@ -40,7 +40,7 @@ const CustomSelectorModal = ({ isOpen, onClose, modalConfig, onSelectItem, onOpe
         if (!querySnapshot.empty) {
           const items = [];
           querySnapshot.forEach((doc) => {
-            items.push({ id: doc.id, ...doc.data() });
+            items.push({ ...doc.data(), id: doc.id });
           });
           if (isMounted) setDbItems(items);
         } else {
@@ -70,7 +70,7 @@ const CustomSelectorModal = ({ isOpen, onClose, modalConfig, onSelectItem, onOpe
       if (!querySnapshot.empty) {
         const items = [];
         querySnapshot.forEach((doc) => {
-          items.push({ id: doc.id, ...doc.data() });
+          items.push({ ...doc.data(), id: doc.id });
         });
         setDbItems(items);
       }
