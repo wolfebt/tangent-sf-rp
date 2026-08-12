@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useStory, formatExportFilename } from '../../context/CampaignContext';
+import { useAuth } from '../../context/AuthContext';
 import Split from 'react-split';
 import { v4 as uuidv4 } from 'uuid';
 import { ELEMENT_TYPES, ELEMENT_SCHEMAS } from './elementSchemas';
@@ -8,6 +9,8 @@ import { UnifiedRelationalSelectorModal } from '../DBM/UnifiedRelationalSelector
 import { confirmTypedDeletion } from '../../utils/confirmationUtils';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
+import { StoryFoundryGuideModal } from './StoryFoundryGuideModal';
+import { UserSettingsModal } from '../UserSettingsModal';
 
 // Helper to get breadcrumb location path for an element
 const getBreadcrumbPath = (nodes, targetId, currentPath = []) => {
@@ -749,13 +752,85 @@ const ElementImageUploader = ({ activeNode, updateStory }) => {
 };
 
 const ScenarioPane = ({ onOpenBastion, onSwitchTab, onOpenCatalog }) => {
-  const { universeState, activeScenarioId, setActiveScenarioId, addStory, updateStory, deleteStory, moveStory, reorderStory, reorderRelativeScenario, triggerStorySave, handleSaveStory, handleLoadStory, addMap, setActiveMapId, updateProjectName, isStoryReadOnly, clonePublicStory } = useStory();
+  const { 
+    universeState, 
+    setUniverseState, 
+    activeScenarioId, 
+    setActiveScenarioId, 
+    addStory, 
+    updateStory, 
+    deleteStory, 
+    moveStory, 
+    reorderStory, 
+    reorderRelativeScenario, 
+    triggerStorySave, 
+    handleSaveStory, 
+    handleLoadStory, 
+    addMap, 
+    setActiveMapId, 
+    updateProjectName, 
+    isStoryReadOnly, 
+    clonePublicStory,
+    createNewStory,
+    deleteStoryProject,
+    pushUniverseToCloud,
+    pullUniverseFromCloud,
+    cloudSyncStatus,
+    lastCloudSavedAt
+  } = useStory();
+
+  const { currentUser, userHandle } = useAuth();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalParentId, setModalParentId] = useState(null);
   const [localContent, setLocalContent] = useState('');
+  const [isFileMenuOpen, setIsFileMenuOpen] = useState(false);
+  const [isGuideOpen, setIsGuideOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
+  const storyFileInputRef = useRef(null);
   const scenarioFileInputRef = useRef(null);
   const mapFileInputRef = useRef(null);
   const elementFileInputRef = useRef(null);
+
+  const onStoryFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      handleLoadStory(file);
+    }
+    e.target.value = '';
+  };
+
+  const handleNewStoryAction = () => {
+    setIsFileMenuOpen(false);
+    const name = prompt("Enter title for new Story Module:", "New Story Module");
+    if (name && name.trim()) {
+      createNewStory(name.trim());
+    }
+  };
+
+  const handleDeleteStoryAction = () => {
+    setIsFileMenuOpen(false);
+    const currentTitle = universeState.projectName || 'Untitled Story';
+    if (confirmTypedDeletion(currentTitle, 'story module project')) {
+      if (universeState.id) {
+        deleteStoryProject(universeState.id);
+      }
+      createNewStory("New Story Module");
+    }
+  };
+
+  const handleClearStoryAction = () => {
+    setIsFileMenuOpen(false);
+    const currentTitle = universeState.projectName || 'Untitled Story';
+    if (confirmTypedDeletion(currentTitle, 'story element content')) {
+      setUniverseState(prev => ({
+        ...prev,
+        scenarios: []
+      }));
+      setActiveScenarioId(null);
+    }
+  };
 
   let activeNode = null;
   const findNode = (nodes) => {
@@ -1198,6 +1273,205 @@ const ScenarioPane = ({ onOpenBastion, onSwitchTab, onOpenCatalog }) => {
         }
       `}</style>
 
+      {/* Top Header & Actions Bar (Matching Folio layout & style) */}
+      <header className="bg-[#0d1117] border-b border-[#0D5C63]/50 p-3 px-4 sm:px-6 flex items-center justify-between backdrop-blur-md gap-3 relative z-40 shrink-0">
+        
+        {/* Title & Header Name Display */}
+        <div className="flex items-center gap-3">
+          <div className="flex flex-col">
+            <div className="flex items-center gap-2">
+              <h2 id="story-module-title-header" className="text-sm sm:text-base font-bold font-mono text-cyan-400 uppercase tracking-wider drop-shadow-[0_0_8px_rgba(34,211,238,0.3)] shrink-0">
+                Story Module
+              </h2>
+              <span className="text-slate-600 font-bold">|</span>
+              <input 
+                type="text" 
+                value={universeState.projectName || ''}
+                onChange={(e) => updateProjectName(e.target.value)}
+                className="bg-transparent text-sm sm:text-base font-bold font-mono text-amber-400 uppercase tracking-wider drop-shadow-[0_0_8px_rgba(245,158,11,0.3)] hover:text-white focus:bg-slate-900 px-1.5 py-0.5 rounded outline-none truncate max-w-[160px] sm:max-w-xs transition-colors border-b border-transparent focus:border-amber-500"
+                placeholder="UNNAMED STORY"
+                title="Click to rename Story Module"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Center / Actions Bar */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Hidden Story File Input */}
+          <input
+            type="file"
+            accept=".json"
+            ref={storyFileInputRef}
+            style={{ display: 'none' }}
+            onChange={onStoryFileChange}
+          />
+
+          {/* File Menu Dropdown */}
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setIsFileMenuOpen(!isFileMenuOpen)}
+              className="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-1 cursor-pointer"
+            >
+              <span>File Menu</span>
+              <span className="text-[10px]">▼</span>
+            </button>
+
+            {isFileMenuOpen && (
+              <div
+                className="absolute right-0 mt-1 w-56 bg-slate-900 border border-cyan-500/60 rounded-lg shadow-xl py-1 z-50 text-xs"
+                onClick={() => setIsFileMenuOpen(false)}
+              >
+                {onOpenCatalog && (
+                  <button
+                    onClick={onOpenCatalog}
+                    className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-amber-300 uppercase font-bold flex items-center gap-2"
+                  >
+                    <span>📁</span> Story Catalog & Roster
+                  </button>
+                )}
+                <button
+                  onClick={() => setIsGuideOpen(true)}
+                  className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-slate-200 uppercase font-bold flex items-center gap-2"
+                >
+                  <span>📖</span> User Guide & Manual
+                </button>
+
+                <div className="border-t border-slate-800 my-1" />
+
+                <button
+                  onClick={handleNewStoryAction}
+                  className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-slate-200 uppercase font-bold flex items-center gap-2"
+                >
+                  <span>➕</span> New Story Module
+                </button>
+                <button
+                  onClick={handleDeleteStoryAction}
+                  className="w-full text-left px-4 py-2 hover:bg-red-950/80 text-red-400 uppercase font-bold flex items-center gap-2"
+                >
+                  <span>🗑️</span> Delete Story Module
+                </button>
+                <button
+                  onClick={handleClearStoryAction}
+                  className="w-full text-left px-4 py-2 hover:bg-slate-800 text-slate-400 uppercase font-bold flex items-center gap-2"
+                >
+                  <span>🧹</span> Clear Story Elements
+                </button>
+
+                <div className="border-t border-slate-800 my-1" />
+
+                <button
+                  onClick={handleSaveStory}
+                  className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-amber-300 uppercase font-bold flex items-center gap-2"
+                >
+                  <span>💾</span> Save Story to File
+                </button>
+                <button
+                  onClick={() => storyFileInputRef.current?.click()}
+                  className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-amber-300 uppercase font-bold flex items-center gap-2"
+                >
+                  <span>📥</span> Load Story from File
+                </button>
+
+                <div className="border-t border-slate-800 my-1" />
+
+                <button
+                  onClick={() => handleExportMarkdown(activeNode || universeState.scenarios[0])}
+                  disabled={universeState.scenarios.length === 0}
+                  className={`w-full text-left px-4 py-2 uppercase font-bold flex items-center gap-2 ${
+                    universeState.scenarios.length === 0 
+                      ? 'opacity-40 cursor-not-allowed text-slate-500' 
+                      : 'hover:bg-cyan-950 text-cyan-300'
+                  }`}
+                >
+                  <span>📝</span> Export Markdown (.md)
+                </button>
+                <button
+                  onClick={() => handleExportPDF(activeNode || universeState.scenarios[0])}
+                  disabled={universeState.scenarios.length === 0}
+                  className={`w-full text-left px-4 py-2 uppercase font-bold flex items-center gap-2 ${
+                    universeState.scenarios.length === 0 
+                      ? 'opacity-40 cursor-not-allowed text-slate-500' 
+                      : 'hover:bg-cyan-950 text-cyan-300'
+                  }`}
+                >
+                  <span>🖨️</span> Export Printable PDF
+                </button>
+
+                {currentUser && (
+                  <>
+                    <div className="border-t border-slate-800 my-1" />
+                    <button
+                      onClick={() => pushUniverseToCloud({ showSuccessAlert: true, force: true })}
+                      className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-cyan-400 uppercase font-bold flex items-center gap-2"
+                    >
+                      <span>☁️</span> Push to Cloud DB
+                    </button>
+                    <button
+                      onClick={() => pullUniverseFromCloud()}
+                      className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-cyan-400 uppercase font-bold flex items-center gap-2"
+                    >
+                      <span>🌐</span> Pull from Cloud DB
+                    </button>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* User Auth Tag / Indicator */}
+          {currentUser ? (
+            <div className="flex items-center gap-2 bg-slate-800/80 px-3 py-1 rounded border border-slate-700">
+              <span
+                className={`w-2 h-2 rounded-full shrink-0 ${
+                  cloudSyncStatus === 'syncing'
+                    ? 'bg-amber-400 animate-ping'
+                    : cloudSyncStatus === 'synced'
+                    ? 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]'
+                    : cloudSyncStatus === 'error'
+                    ? 'bg-red-500 shadow-[0_0_6px_rgba(239,68,68,0.8)] animate-pulse'
+                    : 'bg-slate-500'
+                }`}
+                title={
+                  cloudSyncStatus === 'syncing'
+                    ? 'Syncing Cloud...'
+                    : cloudSyncStatus === 'synced'
+                    ? lastCloudSavedAt ? `Cloud Synced at ${lastCloudSavedAt}` : 'Cloud Synced'
+                    : cloudSyncStatus === 'error'
+                    ? 'Cloud Sync Error'
+                    : 'Local Mode'
+                }
+              />
+              <span className="text-xs text-cyan-300 font-mono font-bold" title={currentUser.email || ''}>
+                {userHandle ? `@${userHandle}` : (currentUser.displayName || currentUser.email)}
+              </span>
+              <button
+                onClick={() => setIsSettingsOpen(true)}
+                className="text-xs text-slate-400 hover:text-cyan-300 transition-colors"
+                title="User Settings & Identity"
+              >
+                ⚙️
+              </button>
+            </div>
+          ) : null}
+        </div>
+      </header>
+
+      {/* Guide Modal */}
+      <StoryFoundryGuideModal 
+        isOpen={isGuideOpen} 
+        onClose={() => setIsGuideOpen(false)} 
+      />
+
+      {/* User Settings Modal */}
+      {isSettingsOpen && (
+        <UserSettingsModal 
+          isOpen={isSettingsOpen} 
+          onClose={() => setIsSettingsOpen(false)} 
+        />
+      )}
+
       {isStoryReadOnly && (
         <div className="bg-amber-950/90 border-b border-amber-500/50 px-4 py-2 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-amber-200 shrink-0 shadow-lg z-20">
           <div className="flex items-center gap-2">
@@ -1239,28 +1513,10 @@ const ScenarioPane = ({ onOpenBastion, onSwitchTab, onOpenCatalog }) => {
         {/* Left Sidebar: Contents Tree */}
         <div className="h-full flex flex-col bg-slate-900 border-r border-slate-800 min-w-0">
           <div className="p-2.5 border-b border-slate-800 flex justify-between items-center bg-slate-950/60 shrink-0 gap-2">
-            <div className="flex flex-col min-w-0">
-              <span className="text-[9px] font-bold text-amber-500 uppercase tracking-widest leading-none mb-0.5">Story Module</span>
-              <input 
-                type="text" 
-                value={universeState.projectName || ''}
-                onChange={(e) => updateProjectName(e.target.value)}
-                className="bg-transparent text-xs font-bold text-slate-200 hover:text-white focus:bg-slate-900 px-1 rounded outline-none truncate w-32 sm:w-36 transition-colors border-b border-transparent focus:border-amber-500"
-                placeholder="Story Module Name..."
-                title="Click to rename Story Module"
-              />
+            <div className="flex items-center gap-2 min-w-0">
+              <span className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest">Story Elements</span>
             </div>
             <div className="flex items-center gap-1.5 flex-wrap justify-end">
-              {onOpenCatalog && (
-                <button
-                  type="button"
-                  onClick={onOpenCatalog}
-                  className="px-2.5 py-1 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-[10px] font-bold rounded uppercase tracking-wider transition-all shadow-[0_0_8px_rgba(34,211,238,0.2)] flex items-center gap-1 cursor-pointer"
-                  title="Open Story Project Catalog & Dashboard"
-                >
-                  <span>📁</span> Story Catalog
-                </button>
-              )}
               <input 
                 type="file" 
                 accept=".json" 
