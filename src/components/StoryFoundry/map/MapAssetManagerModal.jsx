@@ -281,7 +281,7 @@ export default function MapAssetManagerModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 select-none">
+    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/80 backdrop-blur-md p-4 pt-4 sm:pt-6 overflow-y-auto select-none">
       <div className="bg-[#161b22] border border-[#0D5C63] rounded-xl w-full max-w-6xl h-[88vh] flex flex-col shadow-2xl overflow-hidden text-slate-100 font-sans">
         
         {/* Header */}

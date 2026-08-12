@@ -287,7 +287,7 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-4 font-sans">
+    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/80 backdrop-blur-md p-3 pt-3 sm:p-4 sm:pt-4 overflow-y-auto font-sans">
       <div className="bg-[#161b22] border border-[#0D5C63] rounded-2xl w-full max-w-6xl xl:max-w-7xl h-[92vh] max-h-[900px] flex flex-col shadow-2xl overflow-hidden text-slate-200">
         
         {/* Top Header & Tab Switcher */}
@@ -1075,7 +1075,7 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
 
         {/* Create New Story Dialog Overlay */}
         {isCreatingStory && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+          <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/70 backdrop-blur-sm p-4 pt-10 overflow-y-auto">
             <div className="bg-[#161b22] border border-cyan-500/60 rounded-xl max-w-md w-full p-6 shadow-2xl space-y-4">
               <div className="flex items-center gap-2 border-b border-slate-800 pb-3">
                 <span className="text-xl">✨</span>

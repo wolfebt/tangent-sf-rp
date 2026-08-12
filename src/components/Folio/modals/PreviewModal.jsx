@@ -9,7 +9,7 @@ const PreviewModal = ({ isOpen, onClose, characterData }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-2 sm:p-4 overflow-y-auto print:p-0 print:bg-white">
+    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/85 backdrop-blur-md p-2 pt-4 sm:p-4 sm:pt-6 overflow-y-auto print:p-0 print:bg-white">
       <div className="bg-slate-900 border border-cyan-500/60 rounded-xl max-w-5xl w-full p-4 sm:p-6 shadow-2xl text-slate-100 flex flex-col max-h-[95vh] print:max-h-none print:border-none print:shadow-none print:bg-transparent print:p-0">
         
         {/* Header Controls (Hidden on Print) */}

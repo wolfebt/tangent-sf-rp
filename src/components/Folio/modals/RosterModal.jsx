@@ -108,7 +108,7 @@ export const RosterModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6">
+    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/80 backdrop-blur-md p-3 pt-4 sm:p-6 sm:pt-6 overflow-y-auto">
       <div className="bg-slate-900 border border-cyan-500/50 rounded-xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden relative">
         
         {/* Modal Header */}
@@ -594,7 +594,7 @@ export const RosterModal = ({
 
         {/* MANDATORY DELETE CONFIRMATION OVERLAY */}
         {deleteConfirmDocId && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+          <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/80 backdrop-blur-sm p-4 pt-12 overflow-y-auto">
             <div className="bg-slate-900 border border-red-500/70 rounded-xl max-w-md w-full p-6 shadow-[0_0_30px_rgba(239,68,68,0.3)] text-slate-100 space-y-4 animate-in fade-in">
               <div className="flex justify-between items-center border-b border-red-900/60 pb-2">
                 <h3 className="text-sm font-bold uppercase tracking-wider text-red-400 flex items-center gap-2">

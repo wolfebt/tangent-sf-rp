@@ -133,7 +133,7 @@ const LandmassGeneratorModal = ({ isOpen, onClose, onCommitLandmass, defaultRend
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 select-none">
+    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/80 backdrop-blur-md p-4 pt-4 sm:pt-6 overflow-y-auto select-none">
       <div className="bg-[#0f172a] border border-[#0D5C63] rounded-xl shadow-[0_0_35px_rgba(34,211,238,0.25)] w-full max-w-5xl max-h-[92vh] flex flex-col overflow-hidden text-slate-200">
         
         {/* Header */}

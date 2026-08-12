@@ -106,7 +106,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md p-4">
+    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/70 backdrop-blur-md p-4 pt-6 sm:pt-10 overflow-y-auto">
       <div className="bg-[#0d1117] border border-cyan-500/50 rounded-xl w-full max-w-lg shadow-[0_0_30px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col font-sans">
         {/* Header */}
         <div className="p-4 bg-slate-950 border-b border-cyan-900/60 flex justify-between items-center">

@@ -270,7 +270,7 @@ const AddElementModal = ({ isOpen, onClose, onAdd, defaultParentId = null, onImp
   });
 
   return (
-    <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+    <div className="absolute inset-0 z-50 flex items-start justify-center bg-black/60 backdrop-blur-sm p-4 pt-6 sm:pt-10 overflow-y-auto">
       <div className="bg-slate-800 border border-slate-600 rounded-none p-6 w-[26rem] max-h-[85vh] flex flex-col shadow-xl overflow-hidden">
         <div className="flex justify-between items-center mb-4 gap-4">
           <h3 className="text-lg font-bold text-white uppercase tracking-wider">Add Story Element</h3>

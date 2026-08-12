@@ -30,7 +30,7 @@ export const ElementSelectorModal = ({ isOpen, onClose, sourceType, fieldLabel, 
   });
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+    <div className="fixed inset-0 z-[100] flex items-start justify-center bg-black/60 backdrop-blur-sm p-4 pt-6 sm:pt-10 overflow-y-auto">
       <div className="bg-slate-900 border border-slate-700 rounded-lg p-6 w-full max-w-lg flex flex-col shadow-2xl overflow-hidden text-slate-200">
         <h3 className="text-lg font-bold text-cyan-400 mb-4 uppercase tracking-wider border-b border-slate-800 pb-2">
           Select {fieldLabel || targetType}

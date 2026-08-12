@@ -20,7 +20,7 @@ const SyncConflictModal = ({ isOpen, conflictData, onOverwrite, onPull, onCancel
   const cloudMapCount = cloudData?.maps?.length || 0;
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-fadeIn">
+    <div className="fixed inset-0 z-[9999] flex items-start justify-center bg-black/80 backdrop-blur-md p-4 pt-6 sm:pt-10 overflow-y-auto animate-fadeIn">
       <div className="bg-[#121820] border-2 border-red-500/80 rounded-xl max-w-2xl w-full p-6 shadow-[0_0_35px_rgba(239,68,68,0.4)] text-slate-100 flex flex-col gap-5">
         
         {/* Header */}

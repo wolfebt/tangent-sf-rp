@@ -243,7 +243,7 @@ const AddElementModal = ({ isOpen, onClose, onAdd, defaultParentId = null }) => 
   };
 
   return (
-    <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+    <div className="absolute inset-0 z-50 flex items-start justify-center bg-black/60 backdrop-blur-sm p-4 pt-6 sm:pt-10 overflow-y-auto">
       <div className="bg-slate-800 border border-slate-600 rounded-lg p-6 w-[26rem] max-h-[85vh] flex flex-col shadow-xl overflow-hidden">
         <h3 className="text-lg font-bold text-white mb-4 uppercase tracking-wider">Add Story Element</h3>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 overflow-y-auto pr-1">

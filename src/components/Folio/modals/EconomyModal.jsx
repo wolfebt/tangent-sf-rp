@@ -24,7 +24,7 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
   const isOver = spentCP > startingCP;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-md p-4 overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/75 backdrop-blur-md p-4 pt-6 sm:pt-10 overflow-y-auto">
       <div className={`bg-[#121824] border rounded-xl max-w-2xl w-full p-6 shadow-[0_0_30px_rgba(34,211,238,0.2)] text-slate-100 space-y-6 my-6 flex flex-col max-h-[90vh] ${isOver ? 'border-red-500/80 ring-2 ring-red-500/60' : 'border-cyan-500/60'}`}>
         
         {/* Header */}

@@ -107,7 +107,7 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 font-sans text-slate-200">
+    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/80 backdrop-blur-md p-4 pt-4 sm:pt-6 overflow-y-auto font-sans text-slate-200">
       <div className="bg-[#161b22] border border-cyan-500/70 rounded-2xl w-full max-w-4xl h-[88vh] flex flex-col shadow-2xl overflow-hidden">
         
         {/* Header */}

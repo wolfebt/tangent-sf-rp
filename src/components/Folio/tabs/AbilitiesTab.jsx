@@ -511,7 +511,7 @@ const AbilitiesTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
 
       {/* 1. Awakened Discipline Modal */}
       {activeModal === 'awakened' && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+        <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/80 backdrop-blur-sm p-4 pt-6 sm:pt-10 overflow-y-auto">
           <div className="bg-[#121824] border border-purple-500/60 rounded-xl max-w-md w-full p-5 text-slate-100 space-y-4 shadow-[0_0_30px_rgba(168,85,247,0.2)]">
             <div className="flex justify-between items-center border-b border-purple-900/60 pb-3">
               <div>
@@ -597,7 +597,7 @@ const AbilitiesTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
 
       {/* 2. Augmentation Feature Modal */}
       {activeModal === 'augmentation' && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/80 backdrop-blur-sm p-4 pt-6 sm:pt-10 overflow-y-auto">
           <div className="bg-[#121824] border border-amber-500/60 rounded-xl max-w-md w-full p-5 text-slate-100 space-y-4 shadow-[0_0_30px_rgba(245,158,11,0.2)] my-8">
             {/* Header */}
             <div className="flex justify-between items-center border-b border-amber-900/60 pb-3">

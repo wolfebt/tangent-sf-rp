@@ -611,7 +611,7 @@ const MapPane = ({ mapExportPngRef }) => {
 
       {/* Canvas Keyboard Shortcuts Manager Legend Modal Element */}
       {isShortcutsModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
+        <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/80 backdrop-blur-md p-4 pt-6 sm:pt-10 overflow-y-auto">
           <div className="bg-slate-900 border border-cyan-500/50 rounded-xl w-full max-w-md p-5 text-slate-100 shadow-2xl">
             <div className="flex justify-between items-center pb-3 border-b border-slate-800 mb-4">
               <h3 className="text-base font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-2">
@@ -662,7 +662,7 @@ const MapPane = ({ mapExportPngRef }) => {
       )}
 
       {isModalOpen && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+        <div className="absolute inset-0 z-50 flex items-start justify-center bg-black/60 backdrop-blur-sm p-4 pt-6 sm:pt-10 overflow-y-auto">
           <div className="bg-slate-800 border border-slate-600 rounded-lg p-6 w-96 shadow-xl text-white">
             <h3 className="text-lg font-bold mb-4 uppercase tracking-wider">Create New Map</h3>
             <form onSubmit={createNewMap} className="flex flex-col gap-4">
