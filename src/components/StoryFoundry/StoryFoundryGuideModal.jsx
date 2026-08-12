@@ -5,10 +5,10 @@ const SECTIONS = [
   { id: 'launcher', label: '🚀 Launcher & Catalog' },
   { id: 'story-module', label: '📖 Story Module' },
   { id: 'map-maker', label: '🗺️ Map Maker' },
-  { id: 'aime', label: '✨ AIME' },
-  { id: 'elements', label: '🧩 Story Elements' },
-  { id: 'cloud', label: '☁️ Cloud & Saving' },
+  { id: 'aime', label: '✨ AIME Creative Suite' },
+  { id: 'element-forge', label: '🧩 Element Forge' },
   { id: 'bastion', label: '🤖 Bastion AI' },
+  { id: 'cloud', label: '☁️ Cloud & Saving' },
 ];
 
 const CONTENT = {
@@ -16,32 +16,34 @@ const CONTENT = {
     <div className="space-y-4">
       <p className="text-slate-300 leading-relaxed">
         The <strong className="text-cyan-300">Story Foundry</strong> is an integrated tabletop narrative workspace for creating, 
-        running, and archiving stories in the Tangent Science Fantasy Roleplay universe.
+        running, and archiving campaigns in the Tangent Science Fantasy Roleplay universe.
       </p>
       <div className="bg-slate-800/60 border border-cyan-500/20 rounded-lg p-4 space-y-2">
-        <h4 className="text-cyan-400 font-bold uppercase text-xs tracking-wider">Three Core Modules</h4>
-        <div className="grid grid-cols-3 gap-3 mt-2">
+        <h4 className="text-cyan-400 font-bold uppercase text-xs tracking-wider">Five Integrated Modules</h4>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mt-2">
           {[
-            { icon: '📖', label: 'Story Module', desc: 'Write and organize your narrative elements — characters, locations, factions, events, and more.' },
-            { icon: '🗺️', label: 'Map Maker', desc: 'Build interactive campaign maps with layered nodes, pins, and connected regions.' },
-            { icon: '✨', label: 'AIME', desc: 'AI-assisted creative writing suite for generating narrative content powered by Bastion AI.' },
+            { icon: '📖', label: 'Story Module', desc: 'Hierarchical tree editor with header bar, File Menu (Push/Pull, JSON Save/Load), and rich element editing.' },
+            { icon: '🗺️', label: 'Map Maker', desc: 'Interactive pan/zoom visual map builder with nodes, connections, node details, and image export.' },
+            { icon: '✨', label: 'AIME Suite', desc: '3-stage AI-assisted manuscript weaver (Brainstorm, Outline, Draft) with floating toolbar.' },
+            { icon: '🧩', label: 'Element Forge', desc: 'Schema-driven story element architect for defining lore, characters, locations, factions, and items.' },
+            { icon: '🚀', label: 'Launcher & Catalog', desc: 'Story campaign launcher, map picker, and cloud-synced element library catalog.' },
           ].map(m => (
             <div key={m.label} className="bg-slate-900/60 border border-slate-700/50 rounded-lg p-3 text-center">
               <div className="text-2xl mb-1">{m.icon}</div>
               <div className="text-amber-300 font-bold text-xs uppercase mb-1">{m.label}</div>
-              <div className="text-slate-400 text-[11px]">{m.desc}</div>
+              <div className="text-slate-400 text-[11px] leading-snug">{m.desc}</div>
             </div>
           ))}
         </div>
       </div>
       <div className="bg-slate-800/60 border border-amber-500/20 rounded-lg p-4 space-y-2">
-        <h4 className="text-amber-400 font-bold uppercase text-xs tracking-wider">Quick Start</h4>
+        <h4 className="text-amber-400 font-bold uppercase text-xs tracking-wider">Quick Start Workflow</h4>
         <ol className="list-decimal pl-4 space-y-1.5 text-slate-300 text-sm">
-          <li>Click <strong className="text-cyan-300">📚 Catalog &amp; Launcher</strong> to open or create a story project.</li>
-          <li>In the <strong className="text-cyan-300">Story Module</strong>, add narrative elements via the sidebar tree.</li>
-          <li>Switch to <strong className="text-cyan-300">Map Maker</strong> to build your campaign map.</li>
-          <li>Use <strong className="text-cyan-300">AIME</strong> for AI-generated creative content.</li>
-          <li>Save to Cloud using <strong className="text-cyan-300">📁 FILE → Push to Cloud</strong>.</li>
+          <li>Click <strong className="text-cyan-300">📚 Catalog &amp; Launcher</strong> to open an existing campaign or create a new story.</li>
+          <li>In the <strong className="text-cyan-300">Story Module</strong>, add narrative elements via the Scenario sidebar tree.</li>
+          <li>Use <strong className="text-cyan-300">FILE → Push to Cloud</strong> or <strong className="text-cyan-300">Save to File</strong> to persist your universe.</li>
+          <li>Switch to <strong className="text-cyan-300">Map Maker</strong> to place locations and draw travel routes.</li>
+          <li>Engage <strong className="text-cyan-300">Bastion AI</strong> or <strong className="text-cyan-300">AIME</strong> to generate prose, encounter hooks, and NPC lore.</li>
         </ol>
       </div>
     </div>
@@ -49,19 +51,19 @@ const CONTENT = {
   launcher: (
     <div className="space-y-4">
       <p className="text-slate-300 leading-relaxed">
-        The <strong className="text-cyan-300">Launcher &amp; Catalog</strong> is the entry point for all Story Foundry sessions. 
-        It opens automatically on first load and can be re-opened any time.
+        The <strong className="text-cyan-300">Launcher &amp; Catalog</strong> modal is the command center for your story sessions. 
+        It opens on application startup and can be accessed at any time via the <strong className="text-amber-300">Catalog &amp; Launcher</strong> button.
       </p>
       <div className="space-y-3">
         {[
-          { label: 'Stories Tab', desc: 'Lists all saved story projects in your universe. Click any story to load it as the active workspace.' },
-          { label: 'New Story', desc: 'Creates a blank story project with a title and optional description. The previous story is auto-saved before switching.' },
-          { label: 'Element Catalog', desc: 'Browse all story elements saved to the cloud database — characters, locations, lore entries, and more — for import into your active story.' },
-          { label: 'Close Story', desc: 'Saves the current working state and returns you to the Launcher to select a different story.' },
-          { label: 'Maps', desc: 'Saved campaign maps appear in the Launcher under the Maps tab for quick-loading.' },
+          { label: 'Stories Tab', desc: 'Lists all local and cloud story projects. Click any story card to set it as your active workspace. Shows node count and last modified time.' },
+          { label: 'New Story Project', desc: 'Creates a blank campaign with custom title and summary. Your active story state is automatically saved before switching.' },
+          { label: 'Element Catalog', desc: 'Browse the cloud element database. Import pre-built characters, locations, factions, and lore entries directly into your active story tree.' },
+          { label: 'Map Library', desc: 'Quick-load saved tactical and regional campaign maps into the Map Maker workspace.' },
+          { label: 'Close & Save', desc: 'Saves all active changes locally and returns to the project catalog view.' },
         ].map(f => (
           <div key={f.label} className="flex gap-3 bg-slate-800/40 border border-slate-700/40 rounded-lg p-3">
-            <div className="min-w-[140px] text-amber-300 font-bold text-xs uppercase tracking-wide pt-0.5">{f.label}</div>
+            <div className="min-w-[150px] text-amber-300 font-bold text-xs uppercase tracking-wide pt-0.5">{f.label}</div>
             <div className="text-slate-300 text-sm">{f.desc}</div>
           </div>
         ))}
@@ -71,20 +73,43 @@ const CONTENT = {
   'story-module': (
     <div className="space-y-4">
       <p className="text-slate-300 leading-relaxed">
-        The <strong className="text-cyan-300">Story Module</strong> is a hierarchical narrative editor. 
-        Stories are organized as a tree of elements — each element has a type, title, content, and optional child elements.
+        The <strong className="text-cyan-300">Story Module</strong> provides a full-featured hierarchical editor for your campaign.
       </p>
+      
+      <div className="bg-slate-800/70 border border-cyan-500/30 rounded-lg p-4 space-y-3">
+        <h4 className="text-cyan-400 font-bold uppercase text-xs tracking-wider">Top Header &amp; File Menu</h4>
+        <div className="space-y-2 text-xs text-slate-300">
+          <p>
+            The top header displays story title breadcrumbs, active node indicator, cloud sync status, and the main <strong className="text-amber-300">📁 FILE Menu</strong>:
+          </p>
+          <div className="grid grid-cols-2 gap-2 mt-2">
+            {[
+              { cmd: '☁️ Push to Cloud', detail: 'Saves your entire campaign to Firestore under your user account.' },
+              { cmd: '📥 Pull from Cloud', detail: 'Loads the latest remote version from cloud (with overwrite prompt).' },
+              { cmd: '💾 Save to File', detail: 'Exports full story universe as a standalone portable .JSON file.' },
+              { cmd: '📂 Load from File', detail: 'Restores story state from a local .JSON backup file.' },
+              { cmd: '📤 Export Options', detail: 'Export campaign or active sub-tree as Markdown (.md), HTML, or PDF document.' },
+              { cmd: '🔄 Reset Story', detail: 'Clears the active workspace back to a default clean template (requires confirmation).' },
+            ].map(item => (
+              <div key={item.cmd} className="bg-slate-900/70 border border-slate-700/50 rounded p-2">
+                <div className="font-bold text-cyan-300">{item.cmd}</div>
+                <div className="text-slate-400 text-[11px] mt-0.5">{item.detail}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
       <div className="space-y-3">
         {[
-          { label: 'Scenario Pane', desc: 'The left panel shows your story\'s element tree. Click any node to open it in the editor. Drag nodes to reorder.' },
-          { label: 'Adding Elements', desc: 'Use the + button to add child elements. Choose a type from the element schema (Character, Location, Event, Faction, etc.).' },
-          { label: 'Editing Elements', desc: 'Click the ✏️ edit icon on any element to open the full-featured element editor modal.' },
-          { label: 'Rich Content', desc: 'Elements support multi-field structured content — title, description, notes, status, and type-specific fields.' },
-          { label: 'Story Name', desc: 'The active story name is shown in the header breadcrumb bar and can be renamed inline.' },
-          { label: 'Active Element', desc: 'The currently selected element is shown in the header breadcrumb (type badge + title).' },
+          { label: 'Scenario Pane Tree', desc: 'Drag-and-drop nodes to reorder siblings (line above/below) or nest inside a parent element (box highlight). Click ▶ to expand/collapse.' },
+          { label: '+ Add Sub-Element', desc: 'Click + on any node to insert a child element. Select type from Character, Location, Faction, Event, Item, Lore, Session, or Custom.' },
+          { label: 'Rich Text Editor', desc: 'Click any element to edit in the main pane. Supports Quill rich text formatting (bold, headers, lists, code blocks) and type-specific schema fields.' },
+          { label: 'Relational Links', desc: 'Link story elements to one another (e.g. Character to Location or Faction) for instant cross-referencing.' },
+          { label: 'Typed Deletion Safety', desc: 'Deleting nodes requires typing the element title to prevent accidental data loss.' },
         ].map(f => (
           <div key={f.label} className="flex gap-3 bg-slate-800/40 border border-slate-700/40 rounded-lg p-3">
-            <div className="min-w-[140px] text-amber-300 font-bold text-xs uppercase tracking-wide pt-0.5">{f.label}</div>
+            <div className="min-w-[150px] text-amber-300 font-bold text-xs uppercase tracking-wide pt-0.5">{f.label}</div>
             <div className="text-slate-300 text-sm">{f.desc}</div>
           </div>
         ))}
@@ -94,21 +119,19 @@ const CONTENT = {
   'map-maker': (
     <div className="space-y-4">
       <p className="text-slate-300 leading-relaxed">
-        The <strong className="text-cyan-300">Map Maker</strong> is an interactive visual canvas for building campaign maps. 
-        Place nodes, draw connections, and layer geography to create immersive world maps.
+        The <strong className="text-cyan-300">Map Maker</strong> is an interactive visual canvas for spatial world-building.
       </p>
       <div className="space-y-3">
         {[
-          { label: 'Map Canvas', desc: 'A pan-and-zoom canvas. Click-drag empty space to pan; scroll to zoom in/out.' },
-          { label: 'Adding Nodes', desc: 'Double-click the canvas to create a new location node. Name it and assign a type (City, Outpost, Wilderness, etc.).' },
-          { label: 'Connections', desc: 'Drag from one node\'s edge to another to create a directional or bidirectional route line.' },
-          { label: 'Node Details', desc: 'Click any node to view and edit its details — description, status, linked story elements, and more.' },
-          { label: 'Map Name', desc: 'The active map name is shown in the header breadcrumb and can be renamed inline.' },
-          { label: 'Multiple Maps', desc: 'Each story project can have multiple maps (world map, region map, dungeon floor, etc.).' },
-          { label: 'Export Map', desc: 'Export the current map as a PNG image for printing or sharing.' },
+          { label: 'Pan & Zoom Canvas', desc: 'Drag empty canvas space to pan across the world map. Scroll mouse wheel to zoom in and out smoothly.' },
+          { label: 'Creating Nodes', desc: 'Double-click anywhere on the canvas to place a location node. Choose icon, color, and assign node type (City, Outpost, Wilderness, Ruin, Base).' },
+          { label: 'Connecting Nodes', desc: 'Drag vector connectors between node anchors to map out roads, jump routes, or travel paths (directional or bidirectional).' },
+          { label: 'Node Details Panel', desc: 'Click any node to open its sidebar panel. Edit node description, threat level, environmental hazards, and link to Story Elements.' },
+          { label: 'Image Export', desc: 'Export high-resolution map renders directly to PNG image files for printing or virtual tabletop (VTT) use.' },
+          { label: 'Multi-Map Hierarchy', desc: 'Create and switch between multiple maps per story (e.g. World Map, Sector Map, Dungeon Floor).' },
         ].map(f => (
           <div key={f.label} className="flex gap-3 bg-slate-800/40 border border-slate-700/40 rounded-lg p-3">
-            <div className="min-w-[140px] text-amber-300 font-bold text-xs uppercase tracking-wide pt-0.5">{f.label}</div>
+            <div className="min-w-[150px] text-amber-300 font-bold text-xs uppercase tracking-wide pt-0.5">{f.label}</div>
             <div className="text-slate-300 text-sm">{f.desc}</div>
           </div>
         ))}
@@ -118,42 +141,42 @@ const CONTENT = {
   aime: (
     <div className="space-y-4">
       <p className="text-slate-300 leading-relaxed">
-        <strong className="text-cyan-300">AIME</strong> (AI-Integrated Manuscript Engine) is the creative writing module 
-        powered by Bastion AI. Use it to draft narrative prose, generate story content, and expand your world-building.
+        <strong className="text-cyan-300">AIME</strong> (AI-Integrated Manuscript Engine) is a 3-stage narrative prose generator powered by Bastion AI.
       </p>
       <div className="space-y-3">
         {[
-          { label: 'Free Writing', desc: 'An open creative canvas for drafting long-form narrative prose, session recaps, or lore entries.' },
-          { label: 'AI Generation', desc: 'Use Bastion AI to generate character descriptions, location details, plot hooks, or dialogue. Context-aware to your active story.' },
-          { label: 'Templates', desc: 'Pre-built prompts for common narrative tasks — session prep, NPC creation, encounter hooks, world-building.' },
-          { label: 'Export', desc: 'Export AIME content to Markdown or PDF for session use or archiving.' },
+          { label: 'Stage 1: Brainstorm', desc: 'Select active world lore elements & Guidance Gems to generate high-level story concepts and premise outlines.' },
+          { label: 'Stage 2: Outline', desc: 'Structure scene flow, plot beats, and character arcs before drafting. Re-order beats with drag handles.' },
+          { label: 'Stage 3: Draft', desc: 'Generate complete manuscript prose in a rich editor canvas with auto-completion and context injection.' },
+          { label: 'Floating Edit Toolbar', desc: 'Highlight any drafted text snippet to trigger floating tools: Rephrase, Expand, Shorten, Polish, and Transform Tone.' },
+          { label: 'Prose Export', desc: 'Export finished manuscript prose directly to Markdown (.md) or printable PDF files.' },
         ].map(f => (
           <div key={f.label} className="flex gap-3 bg-slate-800/40 border border-slate-700/40 rounded-lg p-3">
-            <div className="min-w-[140px] text-amber-300 font-bold text-xs uppercase tracking-wide pt-0.5">{f.label}</div>
+            <div className="min-w-[150px] text-amber-300 font-bold text-xs uppercase tracking-wide pt-0.5">{f.label}</div>
             <div className="text-slate-300 text-sm">{f.desc}</div>
           </div>
         ))}
       </div>
       <div className="bg-amber-950/40 border border-amber-500/30 rounded-lg p-3 text-xs text-slate-300">
-        ⚡ AIME requires a Gemini API key to activate AI features. Enter your key via <strong className="text-amber-300">Bastion AI → Settings</strong>.
+        ⚡ AIME AI features require a Gemini API key. Configure your key via <strong className="text-amber-300">Bastion AI → Settings</strong>.
       </div>
     </div>
   ),
-  elements: (
+  'element-forge': (
     <div className="space-y-4">
       <p className="text-slate-300 leading-relaxed">
-        <strong className="text-cyan-300">Story Elements</strong> are the core building blocks of your narrative — every significant person, place, group, or event in your universe.
+        <strong className="text-cyan-300">Element Forge</strong> is the schema-driven story element architect for building structured lore bibles.
       </p>
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         {[
-          { type: 'Character', icon: '👤', desc: 'NPCs, PCs, and named individuals with personality, role, and status.' },
-          { type: 'Location', icon: '📍', desc: 'Places — cities, bases, planets, rooms. Linkable to map nodes.' },
-          { type: 'Faction', icon: '⚔️', desc: 'Organizations, gangs, corporations, governments, and religions.' },
-          { type: 'Event', icon: '⚡', desc: 'Significant story moments, battles, revelations, and encounters.' },
-          { type: 'Item', icon: '📦', desc: 'Significant artifacts, weapons, or relics with narrative weight.' },
-          { type: 'Lore', icon: '📜', desc: 'World-building entries — history, cosmology, technology, culture.' },
-          { type: 'Session', icon: '🎲', desc: 'Session notes, prep documents, and post-session recaps.' },
-          { type: 'Custom', icon: '✏️', desc: 'Freeform element type for anything that doesn\'t fit the above.' },
+          { type: 'Character', icon: '👤', desc: 'NPCs, PCs, and key figures with motivations, species, and status.' },
+          { type: 'Location', icon: '📍', desc: 'Planets, cities, bases, and rooms linkable to Map Maker nodes.' },
+          { type: 'Faction', icon: '⚔️', desc: 'Corporations, religions, military forces, and political syndicates.' },
+          { type: 'Event', icon: '⚡', desc: 'Historical turning points, battles, revelations, and campaign scenes.' },
+          { type: 'Item', icon: '📦', desc: 'Key artifacts, relic weapons, cybernetics, and quest objects.' },
+          { type: 'Lore', icon: '📜', desc: 'World-building entries: cosmology, history, technology, and culture.' },
+          { type: 'Session', icon: '🎲', desc: 'Game session prep documents, recaps, and operational logs.' },
+          { type: 'Custom Schema', icon: '✏️', desc: 'User-defined fields for specialized world mechanics.' },
         ].map(e => (
           <div key={e.type} className="bg-slate-800/50 border border-slate-700/50 rounded-lg p-3 flex gap-2 items-start">
             <span className="text-lg shrink-0">{e.icon}</span>
@@ -166,51 +189,44 @@ const CONTENT = {
       </div>
     </div>
   ),
-  cloud: (
+  bastion: (
     <div className="space-y-4">
       <p className="text-slate-300 leading-relaxed">
-        Story Foundry supports <strong className="text-cyan-300">real-time cloud sync</strong> for active story projects. 
-        All changes are stored both locally and in your authenticated cloud account.
+        <strong className="text-cyan-300">Bastion AI</strong> is your context-aware sci-fi narrative intelligence assistant, available across all Foundry and Folio modules.
       </p>
       <div className="space-y-3">
         {[
-          { label: 'Cloud Sync Status', desc: 'The header badge shows real-time sync state: ☁️ Saved, 🔄 Syncing, ⚠️ Error, ⚡ Conflict, 📡 Local Mode.' },
-          { label: 'Push to Cloud', desc: 'FILE → Push to Cloud saves your full universe to Firestore under your account.' },
-          { label: 'Pull from Cloud', desc: 'FILE → Pull from Cloud loads the latest cloud version. Warning: overwrites local changes.' },
-          { label: 'Sync Conflicts', desc: 'If local and cloud differ, a Conflict modal appears. Choose to keep Local or accept Cloud version.' },
-          { label: 'Local File Backup', desc: 'FILE → Save to File exports the full universe as JSON. Restore with FILE → Load from File.' },
-          { label: 'Element Cloud Library', desc: 'Individual elements (characters, locations, etc.) can be saved to a shared cloud library and imported into any story.' },
+          { label: 'Interactive Drawer', desc: 'Open Bastion anytime via the 🤖 BASTION button in the sidebar or header.' },
+          { label: 'Context-Aware Chat', desc: 'Ask Bastion questions about your story, campaign elements, or rules. It reads your active campaign context.' },
+          { label: 'Creative Prompts', desc: 'Generate character backstories, describe sci-fi locations, brainstorm plot twists, or create encounter tables.' },
+          { label: 'Narrative Auto-Fill', desc: 'In Folio, Bastion can directly generate and auto-populate any of the 31 character narrative fields.' },
+          { label: 'API Key Setup', desc: 'Enter your Gemini API key in Bastion settings. Key is stored securely in your browser\'s local storage.' },
         ].map(f => (
           <div key={f.label} className="flex gap-3 bg-slate-800/40 border border-slate-700/40 rounded-lg p-3">
-            <div className="min-w-[160px] text-amber-300 font-bold text-xs uppercase tracking-wide pt-0.5">{f.label}</div>
+            <div className="min-w-[150px] text-amber-300 font-bold text-xs uppercase tracking-wide pt-0.5">{f.label}</div>
             <div className="text-slate-300 text-sm">{f.desc}</div>
           </div>
         ))}
       </div>
     </div>
   ),
-  bastion: (
+  cloud: (
     <div className="space-y-4">
       <p className="text-slate-300 leading-relaxed">
-        <strong className="text-cyan-300">Bastion AI</strong> is your integrated creative intelligence assistant. 
-        Accessible from any module in Story Foundry via the <strong>🤖 BASTION</strong> button in the sidebar.
+        Story Foundry features <strong className="text-cyan-300">real-time cloud synchronization</strong> with offline local fallback.
       </p>
       <div className="space-y-3">
         {[
-          { label: 'Chat Mode', desc: 'Conversational interface. Ask Bastion anything about your story — it\'s context-aware of your active project.' },
-          { label: 'Generate Content', desc: 'Ask Bastion to create characters, describe locations, write encounter hooks, or expand any element.' },
-          { label: 'Story Analysis', desc: 'Bastion can review your story structure, identify plot holes, and suggest narrative directions.' },
-          { label: 'Session Prep', desc: 'Generate session outlines, NPC motivations, encounter tables, and reward schemes.' },
-          { label: 'API Key', desc: 'Bastion uses the Gemini API. Enter your key in the Bastion panel settings. Keys are stored locally in your browser.' },
+          { label: 'Sync Status Badge', desc: 'Header badge indicates state: ☁️ Saved (synced to cloud), 🔄 Syncing, ⚠️ Error, ⚡ Conflict, 📡 Local Mode (unauthenticated).' },
+          { label: 'Push & Pull', desc: 'Use FILE → Push to Cloud to manually overwrite cloud state, or Pull from Cloud to sync down remote changes.' },
+          { label: 'Conflict Modal', desc: 'If local edits and cloud data diverge, a Sync Conflict modal appears allowing you to compare timestamps and select Local or Remote version.' },
+          { label: 'JSON File Backups', desc: 'Use FILE → Save to File to export an offline .JSON snapshot of your entire campaign. Restore anytime via FILE → Load from File.' },
         ].map(f => (
           <div key={f.label} className="flex gap-3 bg-slate-800/40 border border-slate-700/40 rounded-lg p-3">
-            <div className="min-w-[140px] text-amber-300 font-bold text-xs uppercase tracking-wide pt-0.5">{f.label}</div>
+            <div className="min-w-[150px] text-amber-300 font-bold text-xs uppercase tracking-wide pt-0.5">{f.label}</div>
             <div className="text-slate-300 text-sm">{f.desc}</div>
           </div>
         ))}
-      </div>
-      <div className="bg-cyan-950/40 border border-cyan-500/30 rounded-lg p-3 text-xs text-slate-300">
-        🤖 Bastion's responses are suggestions, not rules. Always apply your own creative judgment as GM or player.
       </div>
     </div>
   ),
@@ -285,3 +301,4 @@ export const StoryFoundryGuideModal = ({ isOpen, onClose }) => {
     </div>
   );
 };
+

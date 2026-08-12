@@ -164,41 +164,67 @@ const CONTENT = {
   narrative: (
     <div className="space-y-4">
       <p className="text-slate-300 leading-relaxed">
-        The <strong className="text-cyan-300">Narrative</strong> tab holds the story-facing elements of your operative — written in first person or third person as suits your play style.
+        The <strong className="text-cyan-300">Narrative</strong> system provides a comprehensive 31-field story editor organized across four dedicated sub-tabs. 
+        You can draft content manually or use <strong className="text-amber-300">Bastion AI</strong> to auto-generate or refine any field.
       </p>
+      
       <div className="space-y-3">
         {[
-          { label: 'Backstory', desc: 'Long-form biography. Who were they before the campaign began? Key life events, traumas, triumphs.' },
-          { label: 'Personality', desc: 'Core behavioral traits, speech patterns, philosophies, and moral compass.' },
-          { label: 'Motivations', desc: 'What drives the character? What do they want, fear, or protect?' },
-          { label: 'Connections', desc: 'Allies, rivals, enemies, family, faction ties, and obligations.' },
-          { label: 'Notes', desc: 'GM and player notes, session logs, evolving story threads.' },
-        ].map(f => (
-          <div key={f.label} className="flex gap-3 bg-slate-800/40 border border-slate-700/40 rounded-lg p-3">
-            <div className="min-w-[130px] text-amber-300 font-bold text-xs uppercase tracking-wide pt-0.5">{f.label}</div>
-            <div className="text-slate-300 text-sm">{f.desc}</div>
+          { 
+            tab: '1. Biography & Identity', 
+            icon: '📜',
+            fields: 'Backstory, Origin Story, Turning Points, Physicality, Speech & Demeanor, Public Profile, Hidden Secrets',
+            desc: 'Foundational history, physical presence, social reputation, and classified personal secrets.'
+          },
+          { 
+            tab: '2. Psychology & Persona', 
+            icon: '🧠',
+            fields: 'Core Beliefs, Moral Boundaries, Motivations, Fears & Phobias, Quirks & Habits, Traumas & Scars, Psychological Flaws',
+            desc: 'Internal psyche, moral compass, driving impulses, behavioral quirks, and psychological vulnerabilities.'
+          },
+          { 
+            tab: '3. Factions & Connections', 
+            icon: '👥',
+            fields: 'Faction Affiliations, Key Allies, Rivals & Enemies, Mentors & Protégés, Family & Heritage, Contacts & Informants, Debts & Obligations',
+            desc: 'Social network, faction ties, interpersonal bonds, informants, and financial or moral IOUs.'
+          },
+          { 
+            tab: '4. Logistics & Operations', 
+            icon: '🛰️',
+            fields: 'Operational Assets, Safehouses & Bases, Vehicles & Mounts, Financial Standing, Mission History, Special Directives, GM Notes & Secrets, Milestones, Goals, Artifacts',
+            desc: 'Tactical infrastructure, headquarters, wealth, directives, personal relics, and GM-only secrets.'
+          },
+        ].map(group => (
+          <div key={group.tab} className="bg-slate-800/60 border border-slate-700/60 rounded-lg p-3 space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="text-base">{group.icon}</span>
+              <span className="text-cyan-300 font-bold text-xs uppercase tracking-wide">{group.tab}</span>
+            </div>
+            <div className="text-amber-300/90 text-xs font-mono">{group.fields}</div>
+            <p className="text-slate-300 text-xs">{group.desc}</p>
           </div>
         ))}
       </div>
-      <div className="bg-slate-800/60 border border-cyan-500/20 rounded-lg p-3 text-xs text-slate-400">
-        💡 All narrative fields auto-expand as you type. Single-line by default, they grow to accommodate any length of content.
+
+      <div className="bg-cyan-950/40 border border-cyan-500/30 rounded-lg p-3 text-xs text-slate-300">
+        🤖 <strong>Bastion AI Assistant:</strong> Click the <strong>🤖 BASTION</strong> button in the narrative tab to open the AI drawer. Bastion can generate custom text snippets for any of the 31 fields based on your character\'s core identity and stats.
       </div>
     </div>
   ),
   other: (
     <div className="space-y-4">
       <p className="text-slate-300 leading-relaxed">
-        The <strong className="text-cyan-300">Other</strong> tab is a flexible space for additional character data that doesn't fit neatly into the other tabs.
+        The <strong className="text-cyan-300">Other</strong> tab is a flexible space for additional character data that doesn't fit neatly into the main tabs.
       </p>
       <div className="space-y-3">
         {[
-          { label: 'Property', desc: 'Vehicles, real estate, faction assets, and significant possessions not tracked as combat gear.' },
-          { label: 'Contacts', desc: 'NPCs the operative has relationships with — informants, vendors, mentors, rivals.' },
+          { label: 'Property & Real Estate', desc: 'Vehicles, real estate, starships, faction assets, and significant possessions not tracked as combat gear.' },
+          { label: 'Special Contacts', desc: 'NPCs the operative has active relationships with — informants, vendors, mentors, rivals.' },
           { label: 'Debts & Obligations', desc: 'Mechanical or narrative commitments the character owes to factions or individuals.' },
-          { label: 'Custom Fields', desc: 'Freeform fields for campaign-specific tracking (mission logs, condition tokens, etc.).' },
+          { label: 'Custom Tracking Fields', desc: 'Freeform fields for campaign-specific tracking (mission logs, condition tokens, reputation meters).' },
         ].map(f => (
           <div key={f.label} className="flex gap-3 bg-slate-800/40 border border-slate-700/40 rounded-lg p-3">
-            <div className="min-w-[150px] text-amber-300 font-bold text-xs uppercase tracking-wide pt-0.5">{f.label}</div>
+            <div className="min-w-[160px] text-amber-300 font-bold text-xs uppercase tracking-wide pt-0.5">{f.label}</div>
             <div className="text-slate-300 text-sm">{f.desc}</div>
           </div>
         ))}
@@ -208,19 +234,20 @@ const CONTENT = {
   roster: (
     <div className="space-y-4">
       <p className="text-slate-300 leading-relaxed">
-        The <strong className="text-cyan-300">Roster</strong> allows you to maintain multiple characters and switch between them instantly.
+        The <strong className="text-cyan-300">Roster</strong> allows you to maintain, switch, and back up multiple operatives across your campaign universe.
       </p>
       <div className="space-y-3">
         {[
-          { label: 'Save to Roster', desc: 'Click the 📇 Roster button and use "Save Current to Roster" to snapshot your active character.' },
-          { label: 'Switch Characters', desc: 'Open the Roster and click any character card to load them as the active sheet.' },
-          { label: 'Duplicate', desc: 'Duplicate any roster entry to quickly create variants or backup copies.' },
-          { label: 'Cloud Save', desc: 'File Menu → Save to Cloud persists your character to your authenticated account, accessible from any device.' },
-          { label: 'Public Sharing', desc: 'Mark a persona as Public to share a read-only link. Others can view and clone it to their own roster.' },
-          { label: 'Local File', desc: 'Export to JSON for offline backup. Import JSON to restore. Files are portable between accounts.' },
+          { label: 'Save to Roster', desc: 'Click the 📇 Roster button and use "Save Current to Roster" to store a snapshot of your active character.' },
+          { label: 'Switch Operative', desc: 'Open the Roster modal and click any character card to instantly load their complete sheet.' },
+          { label: 'Duplicate Character', desc: 'Duplicate any existing roster entry to quickly create character variants, clones, or backup snapshots.' },
+          { label: 'Character Deletion', desc: 'Safely remove retired characters from your local roster database with confirmation.' },
+          { label: 'Cloud Save & Sync', desc: 'Use File Menu → Save to Cloud to persist your character to your authenticated Google account for access across devices.' },
+          { label: 'Public Link Sharing', desc: 'Mark a persona as Public to generate a read-only shareable link. Other players can view and clone it to their own roster.' },
+          { label: 'Local JSON File', desc: 'Export character sheets to standalone .JSON files for offline backup and restore.' },
         ].map(f => (
           <div key={f.label} className="flex gap-3 bg-slate-800/40 border border-slate-700/40 rounded-lg p-3">
-            <div className="min-w-[130px] text-amber-300 font-bold text-xs uppercase tracking-wide pt-0.5">{f.label}</div>
+            <div className="min-w-[150px] text-amber-300 font-bold text-xs uppercase tracking-wide pt-0.5">{f.label}</div>
             <div className="text-slate-300 text-sm">{f.desc}</div>
           </div>
         ))}
@@ -230,26 +257,25 @@ const CONTENT = {
   cp: (
     <div className="space-y-4">
       <p className="text-slate-300 leading-relaxed">
-        <strong className="text-cyan-300">Character Points (CP)</strong> are the universal currency for building your operative. Every meaningful choice costs CP drawn from your starting budget.
+        <strong className="text-cyan-300">Character Points (CP)</strong> are the universal currency for building your operative. Every choice costs CP drawn from your starting budget.
       </p>
       <div className="bg-slate-800/60 border border-cyan-500/20 rounded-lg p-4 space-y-2">
-        <h4 className="text-cyan-400 font-bold uppercase text-xs tracking-wider">CP Budget Bar</h4>
+        <h4 className="text-cyan-400 font-bold uppercase text-xs tracking-wider">CP Budget Bar &amp; Over-Budget Alert</h4>
         <p className="text-slate-300 text-sm">
-          The header bar shows your real-time spent vs. available CP. Click it to open the full <strong>Economy Breakdown</strong> modal, 
-          which itemizes every CP expenditure by category.
+          The header bar displays your real-time spent vs. available CP (default 150 CP). If expenditures exceed budget, a red <strong className="text-red-400">ILLEGAL BUILD</strong> banner appears. 
+          Click the CP bar to open the full <strong className="text-amber-300">Economy Breakdown</strong> itemization modal.
         </p>
       </div>
       <div className="space-y-3">
         {[
-          { label: 'Starting CP', desc: 'Default 150 CP. GMs may award additional CP for campaign milestones or story achievements.' },
-          { label: 'Core Stats', desc: 'Each stat point costs a fixed CP amount (scales with value). See the Rules Codex for exact costs.' },
-          { label: 'Skills', desc: 'Skill ranks each cost CP. Specializations cost additional CP on top of the base skill.' },
-          { label: 'Features', desc: 'Each Feature has a listed CP cost in the OmniCortex database.' },
-          { label: 'Flaws', desc: 'Flaws grant CP back (negative cost), allowing you to offset other expenditures.' },
-          { label: 'Augmentations', desc: 'Cybernetic and biological augmentations cost CP based on complexity tier.' },
+          { label: 'Starting CP Budget', desc: 'Default 150 CP. GMs may award additional CP for campaign milestones or story achievements.' },
+          { label: 'Core Stats', desc: 'Each stat point costs a fixed CP amount scaling with value.' },
+          { label: 'Skills & Ranks', desc: 'Skill ranks (Novice → Master → Legend) cost CP. Specializations add targeted bonus bonuses for extra CP.' },
+          { label: 'Features & Flaws', desc: 'Features cost CP. Flaws grant CP back (negative cost), balancing your build.' },
+          { label: 'Augmentations', desc: 'Cybernetic and biological enhancements cost CP based on tier complexity.' },
         ].map(f => (
           <div key={f.label} className="flex gap-3 bg-slate-800/40 border border-slate-700/40 rounded-lg p-3">
-            <div className="min-w-[130px] text-amber-300 font-bold text-xs uppercase tracking-wide pt-0.5">{f.label}</div>
+            <div className="min-w-[150px] text-amber-300 font-bold text-xs uppercase tracking-wide pt-0.5">{f.label}</div>
             <div className="text-slate-300 text-sm">{f.desc}</div>
           </div>
         ))}
