@@ -3,28 +3,61 @@ import { useFolio } from '../../context/FolioContext';
 import { sendBastionChatMessage, parseRollCommand, generateSelectiveFields } from '../../services/bastionService';
 
 const CHARACTER_FIELDS = [
-  { key: 'char-name', label: 'Character Name' },
-  { key: 'char-concept', label: 'Concept / Summary' },
-  { key: 'char-species', label: 'Species' },
-  { key: 'char-occu', label: 'Occupation / Role' },
-  { key: 'char-origin', label: 'Origin / Homeworld' },
-  { key: 'char-faction', label: 'Faction Allegiance' },
-  { key: 'char-motive', label: 'Motivation & Goals' },
-  { key: 'char-style', label: 'Aesthetic / Style' },
-  { key: 'notes', label: 'Tactical Notes' },
-  { key: 'narrative-backstory', label: 'Backstory & Origins' },
-  { key: 'narrative-psychology', label: 'Psychology & Personality' },
-  { key: 'narrative-arcs', label: 'Character Arcs & Goals' },
-  { key: 'narrative-relationships', label: 'Relationships & Bonds' },
-  { key: 'narrative-secrets', label: 'Secrets & Flaws' }
+  // Core Identity
+  { key: 'char-name', label: 'Character Name', category: 'Core Identity' },
+  { key: 'char-species', label: 'Species', category: 'Core Identity' },
+  { key: 'char-occu', label: 'Occupation / Role', category: 'Core Identity' },
+  { key: 'char-origin', label: 'Origin / Homeworld', category: 'Core Identity' },
+  { key: 'char-faction', label: 'Faction Allegiance', category: 'Core Identity' },
+  { key: 'char-style', label: 'Aesthetic / Style', category: 'Core Identity' },
+  { key: 'notes', label: 'Tactical Notes', category: 'Core Identity' },
+
+  // Narrative 1: Profile & Identity (8 fields)
+  { key: 'role', label: 'Role in Story', category: 'Profile & Identity' },
+  { key: 'char-concept', label: 'Character Archetype / Concept', category: 'Profile & Identity' },
+  { key: 'summary', label: 'One-Sentence Summary', category: 'Profile & Identity' },
+  { key: 'char-motive', label: 'Core Motivation', category: 'Profile & Identity' },
+  { key: 'primaryConflict', label: 'Primary Conflict/Goal', category: 'Profile & Identity' },
+  { key: 'nicknames', label: 'Nicknames / Aliases', category: 'Profile & Identity' },
+  { key: 'socialClass', label: 'Social Class & Status', category: 'Profile & Identity' },
+  { key: 'currentResidence', label: 'Current Residence', category: 'Profile & Identity' },
+
+  // Narrative 2: Physicality & Persona (9 fields)
+  { key: 'appearance', label: 'Physical Description', category: 'Physicality & Persona' },
+  { key: 'voice', label: 'Voice & Speech', category: 'Physicality & Persona' },
+  { key: 'clothing', label: 'Typical Clothing Style', category: 'Physicality & Persona' },
+  { key: 'mannerisms', label: 'Mannerisms & Body Language', category: 'Physicality & Persona' },
+  { key: 'positiveTraits', label: 'Positive Traits', category: 'Physicality & Persona' },
+  { key: 'negativeTraits', label: 'Negative Traits / Flaws', category: 'Physicality & Persona' },
+  { key: 'likesDislikes', label: 'Likes & Dislikes', category: 'Physicality & Persona' },
+  { key: 'hobbies', label: 'Hobbies & Skills', category: 'Physicality & Persona' },
+  { key: 'personalityType', label: 'Personality Type', category: 'Physicality & Persona' },
+
+  // Narrative 3: History & Backstory (6 fields)
+  { key: 'backstory', label: 'Detailed Backstory', category: 'History & Backstory' },
+  { key: 'definingTrauma', label: 'Defining Trauma / Wound', category: 'History & Backstory' },
+  { key: 'greatestAccomplishment', label: 'Greatest Accomplishment(s)', category: 'History & Backstory' },
+  { key: 'childhoodEvents', label: 'Childhood & Adolescence Events', category: 'History & Backstory' },
+  { key: 'keyRelationships', label: 'Key Relationships & Dynamics', category: 'History & Backstory' },
+  { key: 'romanticHistory', label: 'Romantic History & Philosophy', category: 'History & Backstory' },
+
+  // Narrative 4: Psychology & Metanarrative (8 fields)
+  { key: 'worldview', label: 'Worldview & Ethics', category: 'Psychology & Metanarrative' },
+  { key: 'theLie', label: 'The Lie They Believe', category: 'Psychology & Metanarrative' },
+  { key: 'theTruth', label: 'The Truth They Must Learn', category: 'Psychology & Metanarrative' },
+  { key: 'deepestFear', label: 'Deepest Fear & Secret', category: 'Psychology & Metanarrative' },
+  { key: 'goals', label: 'External Goal vs Internal Need', category: 'Psychology & Metanarrative' },
+  { key: 'stakes', label: 'Stakes & Character Arc', category: 'Psychology & Metanarrative' },
+  { key: 'plotHooks', label: 'Plot Connection & Motives', category: 'Psychology & Metanarrative' },
+  { key: 'tags', label: 'Tags', category: 'Psychology & Metanarrative' }
 ];
 
-const PRESETS = [
-  { label: 'Cyberpunk Fixer', prompt: 'Cynical urban information broker with cybernetic ocular implants, clandestine faction ties, and debt to an off-world crime syndicate.' },
-  { label: 'Psionic Scholar', prompt: 'Erudite alien historian with attuned psionic perception, seeking ancient precursor monoliths across dead star sectors.' },
-  { label: 'Outlaw Void Marauder', prompt: 'Hardened starship pilot and scavenger who survives by raiding deep space trade routes and salvaging abandoned warships.' },
-  { label: 'Imperial Covert Agent', prompt: 'Operative working for the planetary council to investigate illegal meta-tech experiments and covert faction espionage.' },
-  { label: 'Tech Specialist', prompt: 'Brilliant starship engineer specializing in star-drive overclocks, tactical drone repair, and electronic counter-warfare.' }
+const CATEGORIES = [
+  'Core Identity',
+  'Profile & Identity',
+  'Physicality & Persona',
+  'History & Backstory',
+  'Psychology & Metanarrative'
 ];
 
 const BastionDrawer = ({ isOpen, onClose }) => {
@@ -43,7 +76,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
     'char-name': true,
     'char-concept': true,
     'char-motive': true,
-    'notes': true
+    'backstory': true
   });
   const [genPrompt, setGenPrompt] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
@@ -111,6 +144,26 @@ const BastionDrawer = ({ isOpen, onClose }) => {
     return Boolean(safeCharData[key] && String(safeCharData[key]).trim());
   };
 
+  // Select all fields helper
+  const selectAllFields = () => {
+    const newSelected = {};
+    CHARACTER_FIELDS.forEach(f => {
+      newSelected[f.key] = true;
+    });
+    setSelectedFields(newSelected);
+  };
+
+  // Select narrative fields only helper
+  const selectNarrativeOnly = () => {
+    const newSelected = {};
+    CHARACTER_FIELDS.forEach(f => {
+      if (f.category !== 'Core Identity') {
+        newSelected[f.key] = true;
+      }
+    });
+    setSelectedFields(newSelected);
+  };
+
   // Select all blank fields helper
   const selectBlankOnly = () => {
     const newSelected = {};
@@ -133,7 +186,7 @@ const BastionDrawer = ({ isOpen, onClose }) => {
     }
 
     if (!genPrompt.trim()) {
-      setGenStatus({ error: 'Please enter a prompt or select a quick archetype preset before generating.' });
+      setGenStatus({ error: 'Please enter instructions/prompt before generating.' });
       return;
     }
 
@@ -325,57 +378,60 @@ const BastionDrawer = ({ isOpen, onClose }) => {
 
             {/* Field Selection Controls */}
             <div className="bg-slate-900/90 border border-cyan-900/50 rounded-lg p-3">
-              <div className="flex justify-between items-center mb-2">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1.5 mb-2 pb-2 border-b border-slate-800">
                 <span className="text-[10px] text-cyan-400 uppercase font-bold tracking-wider">
                   Select Character Fields to Generate:
                 </span>
-                <div className="flex gap-2">
-                  <button onClick={selectBlankOnly} className="text-[9px] text-cyan-400 hover:text-cyan-300 underline font-bold uppercase">
-                    + Blank Only
+                <div className="flex flex-wrap gap-1.5 text-[9px] font-bold uppercase">
+                  <button onClick={selectAllFields} className="text-cyan-400 hover:text-cyan-300 underline">
+                    + All
                   </button>
                   <span className="text-slate-600">|</span>
-                  <button onClick={clearAllFields} className="text-[9px] text-slate-400 hover:text-slate-200 underline font-bold uppercase">
+                  <button onClick={selectNarrativeOnly} className="text-cyan-400 hover:text-cyan-300 underline">
+                    + Narrative
+                  </button>
+                  <span className="text-slate-600">|</span>
+                  <button onClick={selectBlankOnly} className="text-cyan-400 hover:text-cyan-300 underline">
+                    + Blank
+                  </button>
+                  <span className="text-slate-600">|</span>
+                  <button onClick={clearAllFields} className="text-slate-400 hover:text-slate-200 underline">
                     Clear
                   </button>
                 </div>
               </div>
-              <div className="grid grid-cols-1 gap-2 max-h-[180px] overflow-y-auto pr-1">
-                {CHARACTER_FIELDS.map(f => (
-                  <label key={f.key} className="flex items-center justify-between cursor-pointer text-slate-200 hover:text-white">
-                    <div className="flex items-center gap-2 min-w-0 pr-2">
-                      <input
-                        type="checkbox"
-                        checked={!!selectedFields[f.key]}
-                        onChange={() => toggleField(f.key)}
-                        className="rounded border-slate-700 bg-slate-950 text-cyan-500 focus:ring-0 shrink-0"
-                      />
-                      <span className="font-semibold text-xs truncate">{f.label}</span>
+              <div className="space-y-3 max-h-[260px] overflow-y-auto pr-1">
+                {CATEGORIES.map(category => {
+                  const catFields = CHARACTER_FIELDS.filter(f => f.category === category);
+                  if (catFields.length === 0) return null;
+                  return (
+                    <div key={category} className="space-y-1">
+                      <div className="text-[10px] font-bold text-cyan-300 uppercase tracking-wider bg-slate-950/80 px-2 py-1 rounded border border-cyan-900/40">
+                        {category}
+                      </div>
+                      <div className="grid grid-cols-1 gap-1.5 pl-1">
+                        {catFields.map(f => (
+                          <label key={f.key} className="flex items-center justify-between cursor-pointer text-slate-200 hover:text-white">
+                            <div className="flex items-center gap-2 min-w-0 pr-2">
+                              <input
+                                type="checkbox"
+                                checked={!!selectedFields[f.key]}
+                                onChange={() => toggleField(f.key)}
+                                className="rounded border-slate-700 bg-slate-950 text-cyan-500 focus:ring-0 shrink-0"
+                              />
+                              <span className="font-semibold text-xs truncate">{f.label}</span>
+                            </div>
+                            {hasFieldContent(f.key) ? (
+                              <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-950/80 text-amber-300 border border-amber-800/60 font-mono shrink-0">Has Content</span>
+                            ) : (
+                              <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-950/80 text-emerald-300 border border-emerald-800/60 font-mono shrink-0">Blank</span>
+                            )}
+                          </label>
+                        ))}
+                      </div>
                     </div>
-                    {hasFieldContent(f.key) ? (
-                      <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-950/80 text-amber-300 border border-amber-800/60 font-mono shrink-0">Has Content</span>
-                    ) : (
-                      <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-950/80 text-emerald-300 border border-emerald-800/60 font-mono shrink-0">Blank</span>
-                    )}
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            {/* Quick Archetype Presets */}
-            <div>
-              <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider block mb-1.5">
-                Quick Archetype Presets:
-              </span>
-              <div className="flex flex-wrap gap-1.5">
-                {PRESETS.map((preset, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setGenPrompt(preset.prompt)}
-                    className="px-2 py-1 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 rounded text-[10px] font-semibold transition-colors"
-                  >
-                    + {preset.label}
-                  </button>
-                ))}
+                  );
+                })}
               </div>
             </div>
 
