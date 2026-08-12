@@ -29,15 +29,21 @@ const MapToolbar = ({
   onResetView,
   onExportPNG,
   onOpenLandmassGenerator,
-  onOpenAssetManager
+  onOpenAssetManager,
+  onSaveMapToFile,
+  onLoadMapFromFile,
+  onDeleteActiveMap,
+  onOpenGuide
 }) => {
   const { universeState, activeMapId, setActiveMapId, updateMap } = useCampaign();
 
   // Dropdown states & refs
+  const [isFileMenuOpen, setIsFileMenuOpen] = useState(false);
   const [isMapMenuOpen, setIsMapMenuOpen] = useState(false);
   const [isGridMenuOpen, setIsGridMenuOpen] = useState(false);
   const [isViewMenuOpen, setIsViewMenuOpen] = useState(false);
 
+  const fileMenuRef = useRef(null);
   const mapMenuRef = useRef(null);
   const gridMenuRef = useRef(null);
   const viewMenuRef = useRef(null);
@@ -45,6 +51,9 @@ const MapToolbar = ({
   // Close dropdowns on outside click
   useEffect(() => {
     const handleClickOutside = (e) => {
+      if (fileMenuRef.current && !fileMenuRef.current.contains(e.target)) {
+        setIsFileMenuOpen(false);
+      }
       if (mapMenuRef.current && !mapMenuRef.current.contains(e.target)) {
         setIsMapMenuOpen(false);
       }
@@ -64,12 +73,102 @@ const MapToolbar = ({
   return (
     <div className="relative z-50 bg-[#161b22]/95 border-b border-[#0D5C63]/60 px-3 py-1.5 flex items-center gap-2 select-none shadow-md backdrop-blur-md flex-wrap">
 
+      {/* FILE Menu Dropdown */}
+      <div className="relative" ref={fileMenuRef}>
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsFileMenuOpen(prev => !prev);
+            setIsMapMenuOpen(false);
+            setIsGridMenuOpen(false);
+            setIsViewMenuOpen(false);
+          }}
+          className="px-3.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 hover:border-[#22d3ee] rounded text-xs uppercase font-bold tracking-wider transition-colors flex items-center gap-1.5 h-8 cursor-pointer shadow-[0_0_8px_rgba(34,211,238,0.15)]"
+        >
+          <span>File Menu</span>
+          <span className="text-[10px] text-slate-400 pointer-events-none">▼</span>
+        </button>
+        {isFileMenuOpen && (
+          <div className="absolute left-0 mt-1.5 w-56 bg-[#161b22] border border-[#0D5C63] rounded-lg shadow-2xl py-1 z-50 backdrop-blur-xl text-xs">
+            {onOpenAssetManager && (
+              <button
+                onClick={() => { onOpenAssetManager(); setIsFileMenuOpen(false); }}
+                className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-amber-300 uppercase font-bold flex items-center gap-2 transition-colors cursor-pointer"
+              >
+                <span>📁</span> Map Catalog & Assets
+              </button>
+            )}
+            {onOpenGuide && (
+              <button
+                onClick={() => { onOpenGuide(); setIsFileMenuOpen(false); }}
+                className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-slate-200 uppercase font-bold flex items-center gap-2 transition-colors cursor-pointer"
+              >
+                <span>📖</span> User Guide & Manual
+              </button>
+            )}
+
+            <div className="border-t border-[#0D5C63]/40 my-1" />
+
+            <button
+              onClick={() => { setIsModalOpen(true); setIsFileMenuOpen(false); }}
+              className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-slate-200 uppercase font-bold flex items-center gap-2 transition-colors cursor-pointer"
+            >
+              <span>➕</span> New Map...
+            </button>
+            {onDeleteActiveMap && (
+              <button
+                onClick={() => { onDeleteActiveMap(); setIsFileMenuOpen(false); }}
+                className="w-full text-left px-4 py-2 hover:bg-red-950/80 text-red-400 uppercase font-bold flex items-center gap-2 transition-colors cursor-pointer"
+              >
+                <span>🗑️</span> Delete Active Map
+              </button>
+            )}
+            <button
+              onClick={() => { onClearMap(); setIsFileMenuOpen(false); }}
+              className="w-full text-left px-4 py-2 hover:bg-slate-800 text-slate-400 uppercase font-bold flex items-center gap-2 transition-colors cursor-pointer"
+            >
+              <span>🧹</span> Clear Map Canvas
+            </button>
+
+            <div className="border-t border-[#0D5C63]/40 my-1" />
+
+            {onSaveMapToFile && (
+              <button
+                onClick={() => { onSaveMapToFile(); setIsFileMenuOpen(false); }}
+                className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-amber-300 uppercase font-bold flex items-center gap-2 transition-colors cursor-pointer"
+              >
+                <span>💾</span> Save Map to File
+              </button>
+            )}
+            {onLoadMapFromFile && (
+              <button
+                onClick={() => { onLoadMapFromFile(); setIsFileMenuOpen(false); }}
+                className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-amber-300 uppercase font-bold flex items-center gap-2 transition-colors cursor-pointer"
+              >
+                <span>📥</span> Load Map from File
+              </button>
+            )}
+
+            <div className="border-t border-[#0D5C63]/40 my-1" />
+
+            <button
+              onClick={() => { onExportPNG(); setIsFileMenuOpen(false); }}
+              className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-cyan-300 uppercase font-bold flex items-center gap-2 transition-colors cursor-pointer"
+            >
+              <span>📸</span> Export Image (PNG)
+            </button>
+          </div>
+        )}
+      </div>
+
       {/* MAP Menu Dropdown */}
       <div className="relative" ref={mapMenuRef}>
         <button
           onClick={(e) => {
             e.stopPropagation();
             setIsMapMenuOpen(prev => !prev);
+            setIsFileMenuOpen(false);
             setIsGridMenuOpen(false);
             setIsViewMenuOpen(false);
           }}

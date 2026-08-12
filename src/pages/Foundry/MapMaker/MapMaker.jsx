@@ -16,6 +16,7 @@ import MapKeyPanel from './map/MapKeyPanel';
 import StatusGemsModal from './map/StatusGemsModal';
 import LandmassGeneratorModal from './map/LandmassGeneratorModal';
 import MapAssetManagerModal from './map/MapAssetManagerModal';
+import { StoryFoundryGuideModal } from '../../../components/StoryFoundry/StoryFoundryGuideModal';
 
 import { useMapHistory } from './hooks/useMapHistory';
 import { useMapCanvasEvents } from './hooks/useMapCanvasEvents';
@@ -206,9 +207,91 @@ const MapPane = ({ mapExportPngRef }) => {
   const [isLandmassModalOpen, setIsLandmassModalOpen] = useState(false);
   const [isAssetManagerOpen, setIsAssetManagerOpen] = useState(false);
   const [isShortcutsModalOpen, setIsShortcutsModalOpen] = useState(false);
+  const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [newMapType, setNewMapType] = useState('Planetary');
   const [newMapTitle, setNewMapTitle] = useState('');
   const [newLayerNameInput, setNewLayerNameInput] = useState('');
+
+  const mapFileInputRef = useRef(null);
+
+  const handleSaveMapToFile = () => {
+    if (!currentMap) return;
+    const exportPayload = {
+      type: "TangentMap",
+      version: "1.0",
+      map: currentMap
+    };
+    const jsonStr = JSON.stringify(exportPayload, null, 2);
+    const blob = new Blob([jsonStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = formatExportFilename(currentMap.title || 'map', 'map', 'json');
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const handleMapFileImport = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.name.endsWith('.json')) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const data = JSON.parse(event.target.result);
+          let mapToLoad = data.type === "TangentMap" && data.map ? data.map : (data.id && data.title ? data : null);
+          if (mapToLoad) {
+            const mapId = uuidv4();
+            const newMap = { ...mapToLoad, id: mapId };
+            addMap(newMap);
+            setActiveMapId(mapId);
+          } else {
+            alert("Invalid map JSON file format.");
+          }
+        } catch (err) {
+          console.error(err);
+          alert("Failed to parse map JSON file.");
+        }
+      };
+      reader.readAsText(file);
+    }
+    e.target.value = '';
+  };
+
+  const handleDeleteActiveMap = () => {
+    if (!currentMap) return;
+    if (universeState.maps.length <= 1) {
+      if (window.confirm(`Are you sure you want to delete and reset "${currentMap.title}"? A new blank map will replace it.`)) {
+        const newBlankId = uuidv4();
+        addMap({
+          id: newBlankId,
+          title: 'New Sector Map',
+          type: 'Sector',
+          gridMode: 'hex',
+          lines: [],
+          tokens: [],
+          terrains: [],
+          objects: [],
+          texts: [],
+          fog: [],
+          layers: DEFAULT_LAYERS
+        });
+        deleteMap(currentMap.id);
+        setActiveMapId(newBlankId);
+      }
+      return;
+    }
+    if (window.confirm(`Are you sure you want to delete map "${currentMap.title}"?`)) {
+      const nextMap = universeState.maps.find(m => m.id !== currentMap.id);
+      deleteMap(currentMap.id);
+      if (nextMap) {
+        setActiveMapId(nextMap.id);
+      }
+    }
+  };
 
   const currentMap = universeState.maps.find(m => m.id === activeMapId);
   const lines = currentMap?.lines || [];
@@ -685,6 +768,15 @@ const MapPane = ({ mapExportPngRef }) => {
         </div>
       )}
 
+      {/* Hidden Map JSON File Input */}
+      <input
+        type="file"
+        accept=".json"
+        ref={mapFileInputRef}
+        style={{ display: 'none' }}
+        onChange={handleMapFileImport}
+      />
+
       <MapToolbar
         setIsModalOpen={setIsModalOpen}
         undoStack={undoStack}
@@ -714,6 +806,10 @@ const MapPane = ({ mapExportPngRef }) => {
         onExportPNG={handleExportPNG}
         onOpenLandmassGenerator={() => setIsLandmassModalOpen(true)}
         onOpenAssetManager={() => setIsAssetManagerOpen(true)}
+        onSaveMapToFile={handleSaveMapToFile}
+        onLoadMapFromFile={() => mapFileInputRef.current?.click()}
+        onDeleteActiveMap={handleDeleteActiveMap}
+        onOpenGuide={() => setIsGuideOpen(true)}
       />
 
       <LandmassGeneratorModal
@@ -721,6 +817,12 @@ const MapPane = ({ mapExportPngRef }) => {
         onClose={() => setIsLandmassModalOpen(false)}
         onCommitLandmass={handleCommitLandmass}
         defaultRenderMode={terrainRenderMode}
+      />
+
+      <StoryFoundryGuideModal
+        isOpen={isGuideOpen}
+        onClose={() => setIsGuideOpen(false)}
+        initialTab="map-maker"
       />
 
 

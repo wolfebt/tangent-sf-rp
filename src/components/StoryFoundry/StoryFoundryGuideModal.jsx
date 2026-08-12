@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const SECTIONS = [
   { id: 'overview', label: '📋 Overview' },
@@ -232,8 +232,14 @@ const CONTENT = {
   ),
 };
 
-export const StoryFoundryGuideModal = ({ isOpen, onClose }) => {
-  const [activeSection, setActiveSection] = useState('overview');
+export const StoryFoundryGuideModal = ({ isOpen, onClose, initialTab = 'overview' }) => {
+  const [activeSection, setActiveSection] = useState(initialTab);
+
+  useEffect(() => {
+    if (isOpen && initialTab) {
+      setActiveSection(initialTab);
+    }
+  }, [isOpen, initialTab]);
 
   if (!isOpen) return null;
 
