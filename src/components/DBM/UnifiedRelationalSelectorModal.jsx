@@ -51,8 +51,8 @@ export const UnifiedRelationalSelectorModal = ({
   devMode = false
 }) => {
   const dbContext = useDBM() || {};
-  const activeDbData = Object.keys(activeDbData).length > 0 ? activeDbData : (dbContext.activeDbData || {});
-  const activeSaveEntry = activeSaveEntry || dbContext.activeSaveEntry;
+  const activeDbData = (dbData && Object.keys(dbData).length > 0) ? dbData : (dbContext.activeDbData || {});
+  const activeSaveEntry = saveEntry || dbContext.activeSaveEntry;
 
   const [items, setItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
