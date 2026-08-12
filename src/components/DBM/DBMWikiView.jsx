@@ -1,4 +1,6 @@
 import React, { useState, useMemo } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 export const DBMWikiView = ({
   currentConfig,
@@ -80,6 +82,48 @@ export const DBMWikiView = ({
     });
   };
 
+  const preProcessWikiText = (text) => {
+    if (!text) return '';
+    // Convert [[Article Name]] to markdown link [Article Name](wiki:Article Name)
+    return text.replace(/\[\[([^\]]+)\]\]/g, '[$1](wiki:$1)');
+  };
+
+  const MarkdownComponents = {
+    a: ({ node, href, children, ...props }) => {
+      if (href && href.startsWith('wiki:')) {
+        const targetName = href.replace('wiki:', '').trim();
+        const targetItem = (currentItems || []).find(item => item.name.toLowerCase() === targetName.toLowerCase());
+        return (
+          <button
+            onClick={() => {
+              if (targetItem) {
+                setSelectedArticleId(targetItem.id);
+              } else {
+                alert(`Wiki article "${targetName}" does not exist yet.`);
+              }
+            }}
+            className="text-cyan-400 hover:text-cyan-200 font-bold underline px-1 py-0.5 bg-cyan-950/40 rounded border border-cyan-500/30 transition-all cursor-pointer inline-block"
+            title={targetItem ? `Jump to article "${targetName}"` : `Article "${targetName}" not found`}
+          >
+            📖 {children}
+          </button>
+        );
+      }
+      return <a href={href} className="text-amber-400 hover:underline" target="_blank" rel="noopener noreferrer" {...props}>{children}</a>;
+    },
+    h1: ({node, ...props}) => <h1 className="text-2xl font-bold text-white mt-6 mb-4 pb-2 border-b border-slate-700" {...props} />,
+    h2: ({node, ...props}) => <h2 className="text-xl font-bold text-cyan-300 mt-5 mb-3" {...props} />,
+    h3: ({node, ...props}) => <h3 className="text-lg font-bold text-amber-300 mt-4 mb-2" {...props} />,
+    ul: ({node, ...props}) => <ul className="list-disc pl-5 my-3 space-y-1" {...props} />,
+    ol: ({node, ...props}) => <ol className="list-decimal pl-5 my-3 space-y-1" {...props} />,
+    li: ({node, ...props}) => <li className="mb-1" {...props} />,
+    p: ({node, ...props}) => <p className="my-3 leading-relaxed" {...props} />,
+    code: ({node, inline, ...props}) => inline 
+      ? <code className="bg-slate-800 text-cyan-200 px-1 py-0.5 rounded font-mono text-sm" {...props} />
+      : <code className="block bg-slate-900 p-3 rounded border border-slate-700 overflow-x-auto text-sm my-3 font-mono text-amber-200" {...props} />,
+    strong: ({node, ...props}) => <strong className="font-bold text-white" {...props} />
+  };
+
   return (
     <div className="flex-1 flex bg-slate-900 border border-slate-800 rounded-lg overflow-hidden h-full relative">
       {/* Mobile / Narrow View Full Article Modal Overlay */}
@@ -91,7 +135,7 @@ export const DBMWikiView = ({
               <div className="min-w-0 flex-1 pr-2">
                 {activeArticle.parent && (
                   <span className="text-[10px] text-cyan-400/80 uppercase font-mono tracking-wider block">
-                    Codex / {activeArticle.parent}
+                    {currentConfig?.label || 'Codex'} / {activeArticle.parent}
                   </span>
                 )}
                 <h2 className="text-sm sm:text-base font-bold text-cyan-300 uppercase tracking-wide truncate">
@@ -130,8 +174,12 @@ export const DBMWikiView = ({
                 <h3 className="text-xs font-bold text-cyan-400 uppercase tracking-widest border-b border-slate-800 pb-2">
                   Article Description
                 </h3>
-                <div className="whitespace-pre-line text-slate-300 font-sans">
-                  {renderWikiContent(activeArticle.description) || <em className="text-slate-500">No article text available.</em>}
+                <div className="text-slate-300 font-sans">
+                  {activeArticle.description ? (
+                    <ReactMarkdown remarkPlugins={[remarkGfm]} components={MarkdownComponents}>
+                      {preProcessWikiText(activeArticle.description)}
+                    </ReactMarkdown>
+                  ) : <em className="text-slate-500">No article text available.</em>}
                 </div>
               </div>
 
@@ -178,7 +226,7 @@ export const DBMWikiView = ({
       <aside className="w-full md:w-80 bg-slate-950 border-r border-slate-800 flex flex-col shrink-0">
         <div className="p-3 border-b border-slate-800 space-y-2">
           <div className="flex justify-between items-center">
-            <span className="text-xs font-bold text-amber-500 uppercase tracking-wider">Rules Codex</span>
+            <span className="text-xs font-bold text-amber-500 uppercase tracking-wider">{currentConfig?.label || 'Rules Codex'}</span>
             {isAdmin && (
               <button
                 onClick={handleCreateNew}
@@ -190,7 +238,7 @@ export const DBMWikiView = ({
           </div>
           <input
             type="text"
-            placeholder="Search codex articles..."
+            placeholder={`Search ${currentConfig?.label?.toLowerCase() || 'codex'} articles...`}
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             className="w-full bg-slate-900 border border-slate-700 text-white px-3 py-1.5 rounded text-xs outline-none focus:border-cyan-500"
@@ -200,7 +248,7 @@ export const DBMWikiView = ({
         <div className="flex-1 overflow-y-auto p-2 space-y-1">
           {(!currentItems || currentItems.length === 0) ? (
             <div className="p-6 text-center text-slate-500 italic text-xs">
-              No rules codex articles found.
+              No {currentConfig?.label?.toLowerCase() || 'rules codex'} articles found.
             </div>
           ) : (
             filteredTopArticles.map(item => {
@@ -262,7 +310,7 @@ export const DBMWikiView = ({
               <div>
                 {activeArticle.parent && (
                   <span className="text-xs text-cyan-400/80 uppercase font-mono tracking-wider block mb-1">
-                    Codex / {activeArticle.parent}
+                    {currentConfig?.label || 'Codex'} / {activeArticle.parent}
                   </span>
                 )}
                 <h1 className="text-3xl font-bold text-white tracking-wide uppercase">{activeArticle.name}</h1>
@@ -290,8 +338,12 @@ export const DBMWikiView = ({
               <h3 className="text-xs font-bold text-cyan-400 uppercase tracking-widest border-b border-slate-800 pb-2">
                 Article Description
               </h3>
-              <div className="whitespace-pre-line text-slate-300 font-sans">
-                {renderWikiContent(activeArticle.description) || <em className="text-slate-500">No article text available.</em>}
+              <div className="text-slate-300 font-sans">
+                {activeArticle.description ? (
+                  <ReactMarkdown remarkPlugins={[remarkGfm]} components={MarkdownComponents}>
+                    {preProcessWikiText(activeArticle.description)}
+                  </ReactMarkdown>
+                ) : <em className="text-slate-500">No article text available.</em>}
               </div>
             </div>
 

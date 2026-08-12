@@ -2,6 +2,7 @@ export const categoryConfig = {
     rules_codex: {
         label: 'RULES CODEX',
         viewType: 'wiki',
+        parent: 'compendium',
         fields: {
             name: { type: 'text', required: true },
             description: { type: 'textarea', aiEnabled: true },
@@ -9,6 +10,21 @@ export const categoryConfig = {
             note: { type: 'textarea' },
             guide: { type: 'textarea' },
             parent: { type: 'select', source: 'rules_codex', label: 'Parent Entry', manageable: false },
+            order: { type: 'number', label: 'Order', default: 0 },
+        }
+    },
+    compendium: {
+        label: 'COMPENDIUM',
+        isParent: true,
+        viewType: 'wiki',
+        subItems: ['rules_codex'],
+        fields: {
+            name: { type: 'text', required: true },
+            description: { type: 'textarea', aiEnabled: true },
+            mechanic: { type: 'textarea' },
+            note: { type: 'textarea' },
+            guide: { type: 'textarea' },
+            parent: { type: 'select', source: 'compendium', label: 'Parent Entry', manageable: false },
             order: { type: 'number', label: 'Order', default: 0 },
         }
     },

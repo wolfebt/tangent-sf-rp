@@ -482,15 +482,15 @@ export const DBMContainer = () => {
           })()}
 
           {/* VIEW TYPE: PARENT LANDING PAGE */}
-          {(currentConfig.isParent || currentConfig.viewType === 'landing') && (
+          {(currentConfig.viewType === 'landing' || (currentConfig.isParent && !currentConfig.viewType)) && (
             <DBMLandingView
               parentKey={activeCategory}
-              onNavigateToSubItem={(subKey) => navigateToCategory(subKey)}
+              onNavigateToSubItem={navigateToCategory}
             />
           )}
 
-          {/* VIEW TYPE: WIKI (Rules Codex) */}
-          {!currentConfig.isParent && currentConfig.viewType === 'wiki' && (
+          {/* VIEW TYPE: WIKI */}
+          {currentConfig.viewType === 'wiki' && (
             <DBMWikiView
               currentConfig={currentConfig}
               handleCreateNew={handleCreateNew}
