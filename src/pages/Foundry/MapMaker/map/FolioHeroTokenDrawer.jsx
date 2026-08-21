@@ -24,10 +24,14 @@ export const FolioHeroTokenDrawer = ({
   });
 
   const handleDragStart = (e, hero) => {
-    const maxHp = parseInt(hero.health || hero.derived_max_hp || 30, 10);
-    const currentHp = hero.current_hp !== undefined && hero.current_hp !== null
-      ? parseInt(hero.current_hp, 10)
-      : maxHp;
+    const maxHealth = parseInt(hero.health || hero.derived_max_hp || 30, 10);
+    const currentHealth = hero.current_health !== undefined && hero.current_health !== null
+      ? parseInt(hero.current_health, 10)
+      : (hero.current_hp !== undefined && hero.current_hp !== null ? parseInt(hero.current_hp, 10) : maxHealth);
+    const maxVitality = parseInt(hero.vitality || hero.derived_max_vitality || 30, 10);
+    const currentVitality = hero.current_vitality !== undefined && hero.current_vitality !== null
+      ? parseInt(hero.current_vitality, 10)
+      : maxVitality;
     const defense = parseInt(hero.derived_defense || (hero['attr-reflex'] ? Math.floor(parseInt(hero['attr-reflex'], 10) / 2) + 10 : 12), 10);
     const actionPoints = parseInt(hero.derived_ap || 3, 10);
     const agility = parseInt(hero['attr-agility'] || hero.attr_agility || 10, 10);
@@ -37,8 +41,15 @@ export const FolioHeroTokenDrawer = ({
       heroId: hero['character-doc-id'] || hero.id,
       name: hero['char-name'] || hero.name || 'Unnamed Hero',
       avatarUrl: hero.avatarUrl || hero.imageUrl || null,
-      maxHp,
-      currentHp,
+      maxHealth,
+      currentHealth,
+      maxVitality,
+      currentVitality,
+      maxHp: maxHealth,
+      currentHp: currentHealth,
+      health: { current: currentHealth, max: maxHealth },
+      vitality: { current: currentVitality, max: maxVitality },
+      hp: { current: currentHealth, max: maxHealth },
       defense,
       actionPoints,
       agility
@@ -50,10 +61,14 @@ export const FolioHeroTokenDrawer = ({
 
   const handleSpawnClick = (hero) => {
     if (onSummonToken) {
-      const maxHp = parseInt(hero.health || hero.derived_max_hp || 30, 10);
-      const currentHp = hero.current_hp !== undefined && hero.current_hp !== null
-        ? parseInt(hero.current_hp, 10)
-        : maxHp;
+      const maxHealth = parseInt(hero.health || hero.derived_max_hp || 30, 10);
+      const currentHealth = hero.current_health !== undefined && hero.current_health !== null
+        ? parseInt(hero.current_health, 10)
+        : (hero.current_hp !== undefined && hero.current_hp !== null ? parseInt(hero.current_hp, 10) : maxHealth);
+      const maxVitality = parseInt(hero.vitality || hero.derived_max_vitality || 30, 10);
+      const currentVitality = hero.current_vitality !== undefined && hero.current_vitality !== null
+        ? parseInt(hero.current_vitality, 10)
+        : maxVitality;
       const defense = parseInt(hero.derived_defense || (hero['attr-reflex'] ? Math.floor(parseInt(hero['attr-reflex'], 10) / 2) + 10 : 12), 10);
       const actionPoints = parseInt(hero.derived_ap || 3, 10);
       const agility = parseInt(hero['attr-agility'] || hero.attr_agility || 10, 10);
@@ -63,8 +78,15 @@ export const FolioHeroTokenDrawer = ({
         heroId: hero['character-doc-id'] || hero.id,
         name: hero['char-name'] || hero.name || 'Unnamed Hero',
         avatarUrl: hero.avatarUrl || hero.imageUrl || null,
-        maxHp,
-        currentHp,
+        maxHealth,
+        currentHealth,
+        maxVitality,
+        currentVitality,
+        maxHp: maxHealth,
+        currentHp: currentHealth,
+        health: { current: currentHealth, max: maxHealth },
+        vitality: { current: currentVitality, max: maxVitality },
+        hp: { current: currentHealth, max: maxHealth },
         defense,
         actionPoints,
         agility
@@ -75,7 +97,7 @@ export const FolioHeroTokenDrawer = ({
   return (
     <DraggablePanel
       id="folio_hero_drawer"
-      className="absolute top-4 right-4 z-30 w-72 bg-[#161b22]/95 backdrop-blur-md border border-[#22d3ee]/60 rounded-lg shadow-[0_0_20px_rgba(34,211,238,0.25)] p-3 flex flex-col gap-2 font-sans select-none"
+      className="absolute top-4 right-4 z-30 w-76 bg-[#161b22]/95 backdrop-blur-md border border-[#22d3ee]/60 rounded-lg shadow-[0_0_20px_rgba(34,211,238,0.25)] p-3 flex flex-col gap-2 font-sans select-none"
     >
       {/* Drawer Header */}
       <div className="drag-handle cursor-grab active:cursor-grabbing flex justify-between items-center pb-1.5 border-b border-[#0D5C63]/60">
@@ -128,10 +150,14 @@ export const FolioHeroTokenDrawer = ({
             const heroId = hero['character-doc-id'] || hero.id;
             const heroName = hero['char-name'] || hero.name || 'Unnamed Hero';
             const concept = hero['char-concept'] || hero.concept || hero['char-species'] || '';
-            const maxHp = parseInt(hero.health || hero.derived_max_hp || 30, 10);
-            const currentHp = hero.current_hp !== undefined && hero.current_hp !== null
-              ? parseInt(hero.current_hp, 10)
-              : maxHp;
+            const maxHealth = parseInt(hero.health || hero.derived_max_hp || 30, 10);
+            const currentHealth = hero.current_health !== undefined && hero.current_health !== null
+              ? parseInt(hero.current_health, 10)
+              : (hero.current_hp !== undefined && hero.current_hp !== null ? parseInt(hero.current_hp, 10) : maxHealth);
+            const maxVitality = parseInt(hero.vitality || hero.derived_max_vitality || 30, 10);
+            const currentVitality = hero.current_vitality !== undefined && hero.current_vitality !== null
+              ? parseInt(hero.current_vitality, 10)
+              : maxVitality;
             const defense = parseInt(hero.derived_defense || (hero['attr-reflex'] ? Math.floor(parseInt(hero['attr-reflex'], 10) / 2) + 10 : 12), 10);
             const avatar = hero.avatarUrl || hero.imageUrl;
 
@@ -157,9 +183,11 @@ export const FolioHeroTokenDrawer = ({
                     <div className="text-xs font-bold text-slate-200 group-hover:text-cyan-300 transition-colors truncate">
                       {heroName}
                     </div>
-                    <div className="text-[10px] text-slate-400 font-mono truncate">
-                      {concept && <span className="text-slate-500 mr-1">{typeof concept === 'object' ? concept.name : concept} •</span>}
-                      <span className="text-emerald-400 font-semibold">HP: {currentHp}/{maxHp}</span> • Def: {defense}
+                    <div className="text-[10px] text-slate-400 font-mono truncate flex items-center gap-1">
+                      {concept && <span className="text-slate-500 mr-0.5">{typeof concept === 'object' ? concept.name : concept} •</span>}
+                      <span className="text-emerald-400 font-semibold">HLTH:{currentHealth}/{maxHealth}</span>
+                      <span className="text-cyan-400 font-semibold">VIT:{currentVitality}/{maxVitality}</span>
+                      <span className="text-slate-500">Def:{defense}</span>
                     </div>
                   </div>
                 </div>

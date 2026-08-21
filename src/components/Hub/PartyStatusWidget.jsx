@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Users, Heart, ChevronRight, UserPlus, Shield } from 'lucide-react';
+import { Users, Heart, Sparkles, ChevronRight, UserPlus, Shield } from 'lucide-react';
 import { useFolio } from '../../context/FolioContext';
 import { AudioService } from '../../services/audioService';
 
@@ -51,7 +51,7 @@ export const PartyStatusWidget = () => {
               <Shield size={28} className="text-slate-600 mb-2" />
               <p className="text-xs text-slate-400 font-mono">NO ACTIVE HERO PERSONAS</p>
               <p className="text-[11px] text-slate-500 mt-1 max-w-[220px]">
-                Create operative sheets in Persona Folio to track party health & combat vitals.
+                Create operative sheets in Persona Folio to track party Health & Vitality.
               </p>
               <button
                 type="button"
@@ -68,21 +68,39 @@ export const PartyStatusWidget = () => {
               const species = hero['char-species'] || hero.species || 'Human';
               const concept = hero['char-concept'] || hero['char-occu'] || hero.occupation || 'Specialist';
 
-              const maxHp = parseInt(hero['health'] || hero.health || hero.derived_max_hp || 30, 10);
-              const curHp = parseInt(hero.current_hp !== undefined ? hero.current_hp : maxHp, 10);
-              const hpPercent = Math.max(0, Math.min(100, Math.round((curHp / Math.max(1, maxHp)) * 100)));
+              // Health calculations (Physical)
+              const maxHealth = parseInt(hero['health'] || hero.health || hero.derived_max_hp || 30, 10);
+              const curHealth = parseInt(hero.current_health !== undefined ? hero.current_health : (hero.current_hp !== undefined ? hero.current_hp : maxHealth), 10);
+              const healthPercent = Math.max(0, Math.min(100, Math.round((curHealth / Math.max(1, maxHealth)) * 100)));
 
-              const hpBarColor = hpPercent <= 25 
+              // Vitality calculations (Mental / Energy)
+              const maxVitality = parseInt(hero['vitality'] || hero.vitality || hero.derived_max_vitality || 30, 10);
+              const curVitality = parseInt(hero.current_vitality !== undefined ? hero.current_vitality : maxVitality, 10);
+              const vitalityPercent = Math.max(0, Math.min(100, Math.round((curVitality / Math.max(1, maxVitality)) * 100)));
+
+              const healthBarColor = healthPercent <= 25 
                 ? 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]' 
-                : hpPercent <= 50 
+                : healthPercent <= 50 
                 ? 'bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.5)]' 
                 : 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]';
 
-              const hpTextColor = hpPercent <= 25 
+              const healthTextColor = healthPercent <= 25 
                 ? 'text-red-400' 
-                : hpPercent <= 50 
+                : healthPercent <= 50 
                 ? 'text-amber-400' 
                 : 'text-emerald-400';
+
+              const vitalityBarColor = vitalityPercent <= 25
+                ? 'bg-purple-600 shadow-[0_0_8px_rgba(147,51,234,0.5)]'
+                : vitalityPercent <= 50
+                ? 'bg-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.5)]'
+                : 'bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.4)]';
+
+              const vitalityTextColor = vitalityPercent <= 25
+                ? 'text-purple-400'
+                : vitalityPercent <= 50
+                ? 'text-cyan-300'
+                : 'text-cyan-400';
 
               const initial = name.trim().charAt(0).toUpperCase() || '?';
 
@@ -108,21 +126,42 @@ export const PartyStatusWidget = () => {
                     </div>
                   </div>
 
-                  {/* HP Bar & Metric */}
-                  <div className="w-28 shrink-0 flex flex-col items-end gap-1">
-                    <div className="flex items-center justify-between w-full text-[10px] font-mono">
-                      <span className="text-slate-400 flex items-center gap-0.5">
-                        <Heart size={10} className={hpTextColor} /> HP
-                      </span>
-                      <span className={`font-bold ${hpTextColor}`}>
-                        {curHp}/{maxHp}
-                      </span>
+                  {/* Dual Vitals: Health & Vitality Gauges */}
+                  <div className="w-40 shrink-0 flex flex-col gap-1.5">
+                    {/* Health Gauge (Physical) */}
+                    <div className="flex flex-col gap-0.5">
+                      <div className="flex items-center justify-between w-full text-[9px] font-mono leading-none">
+                        <span className="text-slate-400 flex items-center gap-0.5 font-bold">
+                          <Heart size={9} className={healthTextColor} /> Health
+                        </span>
+                        <span className={`font-bold ${healthTextColor}`}>
+                          {curHealth}/{maxHealth}
+                        </span>
+                      </div>
+                      <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
+                        <div
+                          className={`h-full ${healthBarColor} transition-all duration-500`}
+                          style={{ width: `${healthPercent}%` }}
+                        ></div>
+                      </div>
                     </div>
-                    <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
-                      <div
-                        className={`h-full ${hpBarColor} transition-all duration-500`}
-                        style={{ width: `${hpPercent}%` }}
-                      ></div>
+
+                    {/* Vitality Gauge (Mental / Energy) */}
+                    <div className="flex flex-col gap-0.5">
+                      <div className="flex items-center justify-between w-full text-[9px] font-mono leading-none">
+                        <span className="text-slate-400 flex items-center gap-0.5 font-bold">
+                          <Sparkles size={9} className={vitalityTextColor} /> Vitality
+                        </span>
+                        <span className={`font-bold ${vitalityTextColor}`}>
+                          {curVitality}/{maxVitality}
+                        </span>
+                      </div>
+                      <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
+                        <div
+                          className={`h-full ${vitalityBarColor} transition-all duration-500`}
+                          style={{ width: `${vitalityPercent}%` }}
+                        ></div>
+                      </div>
                     </div>
                   </div>
                 </div>

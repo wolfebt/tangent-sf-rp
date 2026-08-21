@@ -55,7 +55,9 @@ const MapKeyPanel = ({
         color: isPortal ? '#c026d3' : (t.color || '#eab308'),
         icon: isPortal ? '🌌' : '⚔️',
         badge: isPortal ? 'Portal' : 'Unit',
-        details: isPortal ? (t.targetMapId ? 'Linked' : 'Unlinked') : (t.hp ? `HP ${t.hp.current}/${t.hp.max}` : undefined)
+        details: isPortal 
+          ? (t.targetMapId ? 'Linked' : 'Unlinked') 
+          : (t.health ? `Health ${t.health.current}/${t.health.max}${t.vitality ? ` • Vit ${t.vitality.current}/${t.vitality.max}` : ''}` : (t.hp ? `Health ${t.hp.current}/${t.hp.max}` : undefined))
       };
     })
   ];

@@ -344,18 +344,30 @@ export const TokenNode = ({ shapeProps, isSelected, isActiveTurn, onSelect, onCh
   const isLink = shapeProps.type === 'link';
   const isHero = shapeProps.type === 'hero' || !!shapeProps.linkedHeroId;
   const radius = shapeProps.radius || 35;
-  const hp = shapeProps.hp || null;
+  const health = shapeProps.health || shapeProps.hp || null;
+  const vitality = shapeProps.vitality || null;
   const initiative = shapeProps.initiative !== undefined && shapeProps.initiative !== null ? shapeProps.initiative : null;
   const defense = shapeProps.defense !== undefined && shapeProps.defense !== null ? shapeProps.defense : null;
   const conditions = shapeProps.conditions || [];
 
-  let hpRatio = 1;
-  let hpColor = '#10b981';
-  if (hp && hp.max > 0) {
-    hpRatio = Math.max(0, Math.min(1, hp.current / hp.max));
-    if (hpRatio <= 0.25) hpColor = '#ef4444';
-    else if (hpRatio <= 0.5) hpColor = '#f59e0b';
+  let healthRatio = 1;
+  let healthColor = '#10b981';
+  if (health && health.max > 0) {
+    healthRatio = Math.max(0, Math.min(1, health.current / health.max));
+    if (healthRatio <= 0.25) healthColor = '#ef4444';
+    else if (healthRatio <= 0.5) healthColor = '#f59e0b';
   }
+
+  let vitalityRatio = 1;
+  let vitalityColor = '#22d3ee';
+  if (vitality && vitality.max > 0) {
+    vitalityRatio = Math.max(0, Math.min(1, vitality.current / vitality.max));
+    if (vitalityRatio <= 0.25) vitalityColor = '#a855f7';
+  }
+
+  const hasHealthBar = health && health.max > 0;
+  const hasVitalityBar = vitality && vitality.max > 0;
+  const barOffset = (hasHealthBar && hasVitalityBar) ? 26 : ((hasHealthBar || hasVitalityBar) ? 20 : 14);
 
   const handleClick = (e) => {
     if (isLocked) return;
@@ -455,25 +467,50 @@ export const TokenNode = ({ shapeProps, isSelected, isActiveTurn, onSelect, onCh
           </Group>
         )}
 
-        {hp && hp.max > 0 && (
-          <Group y={-radius - 12}>
+        {/* Health Bar (Physical) */}
+        {hasHealthBar && (
+          <Group y={-radius - (hasVitalityBar ? 16 : 12)}>
             <Rect
               x={-radius}
               y={0}
               width={radius * 2}
-              height={6}
+              height={hasVitalityBar ? 5 : 6}
               fill="rgba(15, 23, 42, 0.85)"
               stroke="#334155"
               strokeWidth={1}
-              cornerRadius={3}
+              cornerRadius={2.5}
             />
             <Rect
               x={-radius}
               y={0}
-              width={radius * 2 * hpRatio}
-              height={6}
-              fill={hpColor}
-              cornerRadius={3}
+              width={radius * 2 * healthRatio}
+              height={hasVitalityBar ? 5 : 6}
+              fill={healthColor}
+              cornerRadius={2.5}
+            />
+          </Group>
+        )}
+
+        {/* Vitality Bar (Mental / Energy) */}
+        {hasVitalityBar && (
+          <Group y={-radius - 9}>
+            <Rect
+              x={-radius}
+              y={0}
+              width={radius * 2}
+              height={4}
+              fill="rgba(15, 23, 42, 0.85)"
+              stroke="#1e293b"
+              strokeWidth={1}
+              cornerRadius={2}
+            />
+            <Rect
+              x={-radius}
+              y={0}
+              width={radius * 2 * vitalityRatio}
+              height={4}
+              fill={vitalityColor}
+              cornerRadius={2}
             />
           </Group>
         )}
@@ -544,7 +581,7 @@ export const TokenNode = ({ shapeProps, isSelected, isActiveTurn, onSelect, onCh
           align="center"
           width={radius * 2 + 40}
           offsetX={radius + 20}
-          offsetY={-radius - (hp ? 22 : 14)}
+          offsetY={-radius - barOffset}
         />
       </Group>
 

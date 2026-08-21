@@ -1633,7 +1633,7 @@ export const FolioProvider = ({ children }) => {
       itemizedList.push({
         category: 'Purchased Stat',
         item: 'Bonus Health',
-        val: `+${derivedStats.purchasedHealth} HP`,
+        val: `+${derivedStats.purchasedHealth} Health`,
         costVal: cost,
         cost: `${cost} CP`
       });
@@ -1645,7 +1645,7 @@ export const FolioProvider = ({ children }) => {
       itemizedList.push({
         category: 'Purchased Stat',
         item: 'Bonus Vitality',
-        val: `+${derivedStats.purchasedVitality} VP`,
+        val: `+${derivedStats.purchasedVitality} Vitality`,
         costVal: cost,
         cost: `${cost} CP`
       });
@@ -1717,16 +1717,17 @@ export const FolioProvider = ({ children }) => {
     }
   }, [characterData]);
 
-  const updateCharacterHp = useCallback(async (heroId, newHp) => {
+  const updateCharacterHealth = useCallback(async (heroId, newHealth) => {
     if (!heroId) return;
-    const clampedHp = Math.max(0, parseInt(newHp, 10) || 0);
+    const clampedHealth = Math.max(0, parseInt(newHealth, 10) || 0);
 
     setPersonaRoster(prev => {
       const updated = prev.map(c => {
         if (c['character-doc-id'] === heroId || c.id === heroId) {
           return {
             ...c,
-            current_hp: clampedHp,
+            current_health: clampedHealth,
+            current_hp: clampedHealth, // backward compatibility
             updatedAt: new Date().toISOString()
           };
         }
@@ -1739,7 +1740,8 @@ export const FolioProvider = ({ children }) => {
     if (characterData['character-doc-id'] === heroId || characterData.id === heroId) {
       setCharacterData(prev => ({
         ...prev,
-        current_hp: clampedHp
+        current_health: clampedHealth,
+        current_hp: clampedHealth
       }));
     }
 
@@ -1750,13 +1752,57 @@ export const FolioProvider = ({ children }) => {
         const snapshot = await getDoc(docRef);
         if (snapshot.exists()) {
           const existingData = snapshot.data();
-          await setDoc(docRef, { ...existingData, current_hp: clampedHp, updatedAt: new Date().toISOString() });
+          await setDoc(docRef, { ...existingData, current_health: clampedHealth, current_hp: clampedHealth, updatedAt: new Date().toISOString() });
         }
       } catch (err) {
-        console.warn('Failed to sync character HP to Firestore:', err.message);
+        console.warn('Failed to sync character Health to Firestore:', err.message);
       }
     }
   }, [characterData]);
+
+  const updateCharacterVitality = useCallback(async (heroId, newVitality) => {
+    if (!heroId) return;
+    const clampedVitality = Math.max(0, parseInt(newVitality, 10) || 0);
+
+    setPersonaRoster(prev => {
+      const updated = prev.map(c => {
+        if (c['character-doc-id'] === heroId || c.id === heroId) {
+          return {
+            ...c,
+            current_vitality: clampedVitality,
+            updatedAt: new Date().toISOString()
+          };
+        }
+        return c;
+      });
+      StorageService.setItem('personaRoster', updated);
+      return updated;
+    });
+
+    if (characterData['character-doc-id'] === heroId || characterData.id === heroId) {
+      setCharacterData(prev => ({
+        ...prev,
+        current_vitality: clampedVitality
+      }));
+    }
+
+    const user = auth.currentUser;
+    if (user) {
+      try {
+        const docRef = doc(db, `users/${user.uid}/personas`, heroId);
+        const snapshot = await getDoc(docRef);
+        if (snapshot.exists()) {
+          const existingData = snapshot.data();
+          await setDoc(docRef, { ...existingData, current_vitality: clampedVitality, updatedAt: new Date().toISOString() });
+        }
+      } catch (err) {
+        console.warn('Failed to sync character Vitality to Firestore:', err.message);
+      }
+    }
+  }, [characterData]);
+
+  // Backward-compatible alias
+  const updateCharacterHp = updateCharacterHealth;
 
   // Top level computed spent CP
   const computeSpentCP = useCallback(() => {
@@ -1815,6 +1861,8 @@ export const FolioProvider = ({ children }) => {
         cloudSaveStatus,
         lastSavedTime,
         updateRosterCharacterNote,
+        updateCharacterHealth,
+        updateCharacterVitality,
         updateCharacterHp,
         isReadOnly,
         publicCatalog,

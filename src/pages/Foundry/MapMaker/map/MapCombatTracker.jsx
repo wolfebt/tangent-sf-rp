@@ -11,13 +11,14 @@ const MapCombatTracker = ({
   showTracker,
   setShowTracker,
   onSelectToken,
+  onUpdateTokenHealth,
+  onUpdateTokenVitality,
   onUpdateTokenHp,
   onTriggerFloatingText,
   scale = 1,
   position = { x: 0, y: 0 }
 }) => {
-  const { updateCharacterHp } = useFolio();
-  const [customAmounts, setCustomAmounts] = useState({});
+  const { updateCharacterHealth, updateCharacterVitality, updateCharacterHp } = useFolio();
 
   if (!showTracker) return null;
 
@@ -30,21 +31,23 @@ const MapCombatTracker = ({
       return initB - initA;
     });
 
-  const handleApplyDamageOrHeal = (token, amount, isDamage = true) => {
-    if (!token || !token.hp) return;
+  const handleApplyHealthChange = (token, amount, isDamage = true) => {
     const numAmount = Math.max(1, parseInt(amount, 10) || 1);
+    const health = token.health || token.hp || { current: 30, max: 30 };
+    const currentHealth = health.current !== undefined ? health.current : 30;
+    const maxHealth = health.max || 30;
     const delta = isDamage ? -numAmount : numAmount;
-    const currentHp = token.hp.current !== undefined ? token.hp.current : (token.hp.max || 30);
-    const maxHp = token.hp.max || 30;
-    const newHp = Math.max(0, Math.min(maxHp, currentHp + delta));
+    const newHealth = Math.max(0, Math.min(maxHealth, currentHealth + delta));
 
-    if (onUpdateTokenHp) {
-      onUpdateTokenHp(token.id, newHp, isDamage, numAmount);
+    if (onUpdateTokenHealth) {
+      onUpdateTokenHealth(token.id, newHealth, isDamage, numAmount);
+    } else if (onUpdateTokenHp) {
+      onUpdateTokenHp(token.id, newHealth, isDamage, numAmount);
     } else {
-      // Direct fallback if not passed as dedicated handler
       AudioService.playCombatHit(numAmount >= 15);
-      if (token.linkedHeroId && updateCharacterHp) {
-        updateCharacterHp(token.linkedHeroId, newHp);
+      if (token.linkedHeroId) {
+        if (updateCharacterHealth) updateCharacterHealth(token.linkedHeroId, newHealth);
+        else if (updateCharacterHp) updateCharacterHp(token.linkedHeroId, newHealth);
       }
     }
 
@@ -54,8 +57,37 @@ const MapCombatTracker = ({
       onTriggerFloatingText(
         screenX,
         screenY,
-        isDamage ? `-${numAmount} HP` : `+${numAmount} HP`,
+        isDamage ? `-${numAmount} HEALTH` : `+${numAmount} HEALTH`,
         isDamage ? 'damage' : 'heal'
+      );
+    }
+  };
+
+  const handleApplyVitalityChange = (token, amount, isDamage = true) => {
+    const numAmount = Math.max(1, parseInt(amount, 10) || 1);
+    const vitality = token.vitality || { current: 30, max: 30 };
+    const currentVitality = vitality.current !== undefined ? vitality.current : 30;
+    const maxVitality = vitality.max || 30;
+    const delta = isDamage ? -numAmount : numAmount;
+    const newVitality = Math.max(0, Math.min(maxVitality, currentVitality + delta));
+
+    if (onUpdateTokenVitality) {
+      onUpdateTokenVitality(token.id, newVitality, isDamage, numAmount);
+    } else {
+      AudioService.playCombatHit(false);
+      if (token.linkedHeroId && updateCharacterVitality) {
+        updateCharacterVitality(token.linkedHeroId, newVitality);
+      }
+    }
+
+    if (onTriggerFloatingText) {
+      const screenX = (token.x || 0) * scale + position.x;
+      const screenY = (token.y || 0) * scale + position.y;
+      onTriggerFloatingText(
+        screenX,
+        screenY,
+        isDamage ? `-${numAmount} VIT` : `+${numAmount} VIT`,
+        isDamage ? 'vitality_damage' : 'vitality_heal'
       );
     }
   };
@@ -63,7 +95,7 @@ const MapCombatTracker = ({
   return (
     <DraggablePanel
       id="combat_tracker"
-      className="absolute bottom-4 left-4 z-30 w-80 bg-[#161b22]/95 backdrop-blur-md border border-amber-500/60 rounded-lg shadow-[0_0_20px_rgba(245,158,11,0.25)] p-3 flex flex-col gap-2 font-sans select-none"
+      className="absolute bottom-4 left-4 z-30 w-84 bg-[#161b22]/95 backdrop-blur-md border border-amber-500/60 rounded-lg shadow-[0_0_20px_rgba(245,158,11,0.25)] p-3 flex flex-col gap-2 font-sans select-none"
     >
       {/* Header */}
       <div className="drag-handle cursor-grab active:cursor-grabbing flex justify-between items-center pb-1.5 border-b border-amber-500/40">
@@ -93,17 +125,23 @@ const MapCombatTracker = ({
       </div>
 
       {/* Turn Order List */}
-      <div className="max-h-60 overflow-y-auto space-y-1.5 pr-0.5">
+      <div className="max-h-68 overflow-y-auto space-y-2 pr-0.5">
         {sortedTokens.length === 0 ? (
           <div className="text-[11px] text-slate-400 italic text-center py-4">
-            No active combat units placed.<br />Drag heroes from Folio or add tokens to track initiative and damage.
+            No active combat units placed.<br />Drag heroes from Folio or add tokens to track initiative, Health & Vitality.
           </div>
         ) : (
           sortedTokens.map((token) => {
             const isActive = token.id === activeTurnTokenId;
-            const hp = token.hp || null;
-            const hpRatio = hp && hp.max > 0 ? Math.max(0, Math.min(1, hp.current / hp.max)) : 1;
-            const hpColor = hpRatio <= 0.25 ? 'bg-red-500' : (hpRatio <= 0.5 ? 'bg-amber-500' : 'bg-emerald-500');
+            const health = token.health || token.hp || null;
+            const vitality = token.vitality || null;
+            
+            const healthRatio = health && health.max > 0 ? Math.max(0, Math.min(1, health.current / health.max)) : 1;
+            const healthColor = healthRatio <= 0.25 ? 'bg-red-500' : (healthRatio <= 0.5 ? 'bg-amber-500' : 'bg-emerald-500');
+
+            const vitalityRatio = vitality && vitality.max > 0 ? Math.max(0, Math.min(1, vitality.current / vitality.max)) : 1;
+            const vitalityColor = vitalityRatio <= 0.25 ? 'bg-purple-600' : 'bg-cyan-400';
+
             const isHero = token.type === 'hero' || !!token.linkedHeroId;
 
             return (
@@ -163,28 +201,28 @@ const MapCombatTracker = ({
                   </div>
                 </div>
 
-                {/* HP Gauge & Quick Actions */}
-                {hp && hp.max > 0 && (
-                  <div className="flex items-center justify-between gap-2 pt-0.5 border-t border-slate-800/80">
-                    <div className="flex items-center gap-1.5 flex-1 min-w-0">
+                {/* Health Gauge & Controls (Physical) */}
+                {health && health.max > 0 && (
+                  <div className="flex items-center justify-between gap-1.5 pt-0.5 border-t border-slate-800/80">
+                    <div className="flex items-center gap-1 flex-1 min-w-0">
+                      <span className="text-[8px] font-mono font-bold text-emerald-400 uppercase w-7">HLTH:</span>
                       <div className="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden border border-slate-700">
-                        <div className={`h-full ${hpColor} transition-all duration-300`} style={{ width: `${hpRatio * 100}%` }} />
+                        <div className={`h-full ${healthColor} transition-all duration-300`} style={{ width: `${healthRatio * 100}%` }} />
                       </div>
-                      <span className="text-[10px] font-mono font-bold text-slate-300 shrink-0">
-                        {hp.current}/{hp.max}
+                      <span className="text-[9px] font-mono font-bold text-slate-300 shrink-0">
+                        {health.current}/{health.max}
                       </span>
                     </div>
 
-                    {/* Quick HP Adjustment Buttons */}
-                    <div className="flex items-center gap-1 shrink-0">
+                    <div className="flex items-center gap-0.5 shrink-0">
                       <button
                         type="button"
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleApplyDamageOrHeal(token, 5, true);
+                          handleApplyHealthChange(token, 5, true);
                         }}
-                        className="px-1.5 py-0.5 bg-red-950/90 hover:bg-red-800 text-red-300 border border-red-700/60 rounded text-[9px] font-bold font-mono transition-colors"
-                        title="Deal 5 Damage"
+                        className="px-1 py-0.5 bg-red-950/90 hover:bg-red-800 text-red-300 border border-red-700/60 rounded text-[8px] font-bold font-mono transition-colors"
+                        title="Deal 5 Physical Damage"
                       >
                         -5
                       </button>
@@ -192,10 +230,10 @@ const MapCombatTracker = ({
                         type="button"
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleApplyDamageOrHeal(token, 1, true);
+                          handleApplyHealthChange(token, 1, true);
                         }}
-                        className="px-1.5 py-0.5 bg-red-950/90 hover:bg-red-800 text-red-300 border border-red-700/60 rounded text-[9px] font-bold font-mono transition-colors"
-                        title="Deal 1 Damage"
+                        className="px-1 py-0.5 bg-red-950/90 hover:bg-red-800 text-red-300 border border-red-700/60 rounded text-[8px] font-bold font-mono transition-colors"
+                        title="Deal 1 Physical Damage"
                       >
                         -1
                       </button>
@@ -203,10 +241,10 @@ const MapCombatTracker = ({
                         type="button"
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleApplyDamageOrHeal(token, 1, false);
+                          handleApplyHealthChange(token, 1, false);
                         }}
-                        className="px-1.5 py-0.5 bg-emerald-950/90 hover:bg-emerald-800 text-emerald-300 border border-emerald-700/60 rounded text-[9px] font-bold font-mono transition-colors"
-                        title="Heal 1 HP"
+                        className="px-1 py-0.5 bg-emerald-950/90 hover:bg-emerald-800 text-emerald-300 border border-emerald-700/60 rounded text-[8px] font-bold font-mono transition-colors"
+                        title="Heal 1 Health"
                       >
                         +1
                       </button>
@@ -214,10 +252,72 @@ const MapCombatTracker = ({
                         type="button"
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleApplyDamageOrHeal(token, 5, false);
+                          handleApplyHealthChange(token, 5, false);
                         }}
-                        className="px-1.5 py-0.5 bg-emerald-950/90 hover:bg-emerald-800 text-emerald-300 border border-emerald-700/60 rounded text-[9px] font-bold font-mono transition-colors"
-                        title="Heal 5 HP"
+                        className="px-1 py-0.5 bg-emerald-950/90 hover:bg-emerald-800 text-emerald-300 border border-emerald-700/60 rounded text-[8px] font-bold font-mono transition-colors"
+                        title="Heal 5 Health"
+                      >
+                        +5
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {/* Vitality Gauge & Controls (Mental / Energy) */}
+                {vitality && vitality.max > 0 && (
+                  <div className="flex items-center justify-between gap-1.5">
+                    <div className="flex items-center gap-1 flex-1 min-w-0">
+                      <span className="text-[8px] font-mono font-bold text-cyan-400 uppercase w-7">VIT:</span>
+                      <div className="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden border border-slate-700">
+                        <div className={`h-full ${vitalityColor} transition-all duration-300`} style={{ width: `${vitalityRatio * 100}%` }} />
+                      </div>
+                      <span className="text-[9px] font-mono font-bold text-cyan-300 shrink-0">
+                        {vitality.current}/{vitality.max}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-0.5 shrink-0">
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleApplyVitalityChange(token, 5, true);
+                        }}
+                        className="px-1 py-0.5 bg-purple-950/90 hover:bg-purple-800 text-purple-300 border border-purple-700/60 rounded text-[8px] font-bold font-mono transition-colors"
+                        title="Drain 5 Vitality"
+                      >
+                        -5
+                      </button>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleApplyVitalityChange(token, 1, true);
+                        }}
+                        className="px-1 py-0.5 bg-purple-950/90 hover:bg-purple-800 text-purple-300 border border-purple-700/60 rounded text-[8px] font-bold font-mono transition-colors"
+                        title="Drain 1 Vitality"
+                      >
+                        -1
+                      </button>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleApplyVitalityChange(token, 1, false);
+                        }}
+                        className="px-1 py-0.5 bg-cyan-950/90 hover:bg-cyan-800 text-cyan-300 border border-cyan-700/60 rounded text-[8px] font-bold font-mono transition-colors"
+                        title="Restore 1 Vitality"
+                      >
+                        +1
+                      </button>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleApplyVitalityChange(token, 5, false);
+                        }}
+                        className="px-1 py-0.5 bg-cyan-950/90 hover:bg-cyan-800 text-cyan-300 border border-cyan-700/60 rounded text-[8px] font-bold font-mono transition-colors"
+                        title="Restore 5 Vitality"
                       >
                         +5
                       </button>

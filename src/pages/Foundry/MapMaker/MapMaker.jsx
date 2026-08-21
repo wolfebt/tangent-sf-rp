@@ -322,7 +322,7 @@ const MapPane = ({ mapExportPngRef }) => {
     tokenType, tokenLabelInput, tokenOmnicortexData, textLabelInput, textColor, textSize
   });
 
-  const { updateCharacterHp } = useFolio();
+  const { updateCharacterHealth, updateCharacterVitality, updateCharacterHp } = useFolio();
 
   const triggerFloatingCombatText = (screenX, screenY, text, type = 'damage') => {
     const newFloat = {
@@ -338,15 +338,17 @@ const MapPane = ({ mapExportPngRef }) => {
     }, 1200);
   };
 
-  const handleUpdateTokenHp = (tokenId, newHp, isDamage = true, deltaAmount = 1) => {
+  const handleUpdateTokenHealth = (tokenId, newHealth, isDamage = true, deltaAmount = 1) => {
     const token = tokens.find(t => t.id === tokenId);
-    if (!token || !token.hp) return;
+    if (!token) return;
 
     recordHistory();
     const nextTokens = produce(tokens, draft => {
       const target = draft.find(t => t.id === tokenId);
-      if (target && target.hp) {
-        target.hp.current = newHp;
+      if (target) {
+        if (!target.health) target.health = { current: 30, max: 30 };
+        target.health.current = newHealth;
+        if (target.hp) target.hp.current = newHealth; // sync legacy field
       }
     });
     updateMap(activeMapId, { tokens: nextTokens });
@@ -360,15 +362,51 @@ const MapPane = ({ mapExportPngRef }) => {
     triggerFloatingCombatText(
       screenX,
       screenY,
-      isDamage ? `-${deltaAmount} HP` : `+${deltaAmount} HP`,
+      isDamage ? `-${deltaAmount} HEALTH` : `+${deltaAmount} HEALTH`,
       isDamage ? 'damage' : 'heal'
     );
 
     // Sync to Folio roster if linked to a character
-    if (token.linkedHeroId && updateCharacterHp) {
-      updateCharacterHp(token.linkedHeroId, newHp);
+    if (token.linkedHeroId) {
+      if (updateCharacterHealth) updateCharacterHealth(token.linkedHeroId, newHealth);
+      else if (updateCharacterHp) updateCharacterHp(token.linkedHeroId, newHealth);
     }
   };
+
+  const handleUpdateTokenVitality = (tokenId, newVitality, isDamage = true, deltaAmount = 1) => {
+    const token = tokens.find(t => t.id === tokenId);
+    if (!token) return;
+
+    recordHistory();
+    const nextTokens = produce(tokens, draft => {
+      const target = draft.find(t => t.id === tokenId);
+      if (target) {
+        if (!target.vitality) target.vitality = { current: 30, max: 30 };
+        target.vitality.current = newVitality;
+      }
+    });
+    updateMap(activeMapId, { tokens: nextTokens });
+
+    // Play tactical combat audio
+    AudioService.playCombatHit(false);
+
+    // Trigger floating combat text at token position
+    const screenX = (token.x || 0) * scale + position.x;
+    const screenY = (token.y || 0) * scale + position.y;
+    triggerFloatingCombatText(
+      screenX,
+      screenY,
+      isDamage ? `-${deltaAmount} VIT` : `+${deltaAmount} VIT`,
+      isDamage ? 'vitality_damage' : 'vitality_heal'
+    );
+
+    // Sync to Folio roster if linked to a character
+    if (token.linkedHeroId && updateCharacterVitality) {
+      updateCharacterVitality(token.linkedHeroId, newVitality);
+    }
+  };
+
+  const handleUpdateTokenHp = handleUpdateTokenHealth;
 
   const handleStageDrop = (e) => {
     e.preventDefault();
@@ -389,6 +427,10 @@ const MapPane = ({ mapExportPngRef }) => {
         const canvasY = (mouseY - position.y) / scale;
 
         const derivedInitiative = data.agility ? Math.floor((data.agility - 10) / 2) : 10;
+        const curHealth = data.currentHealth !== undefined ? data.currentHealth : (data.maxHealth || data.currentHp || 30);
+        const maxHealth = data.maxHealth || data.maxHp || 30;
+        const curVitality = data.currentVitality !== undefined ? data.currentVitality : (data.maxVitality || 30);
+        const maxVitality = data.maxVitality || 30;
 
         const newHeroToken = {
           id: `token_hero_${data.heroId}_${Date.now()}`,
@@ -401,9 +443,17 @@ const MapPane = ({ mapExportPngRef }) => {
           radius: 35,
           fill: '#0284c7',
           layerId: 'layer_tokens',
+          health: {
+            current: curHealth,
+            max: maxHealth
+          },
+          vitality: {
+            current: curVitality,
+            max: maxVitality
+          },
           hp: {
-            current: data.currentHp !== undefined ? data.currentHp : (data.maxHp || 30),
-            max: data.maxHp || 30
+            current: curHealth,
+            max: maxHealth
           },
           defense: data.defense || 12,
           actionPoints: data.actionPoints || 3,
@@ -427,6 +477,10 @@ const MapPane = ({ mapExportPngRef }) => {
     const centerX = (-position.x + stageSize.width / 2) / scale;
     const centerY = (-position.y + stageSize.height / 2) / scale;
     const derivedInitiative = data.agility ? Math.floor((data.agility - 10) / 2) : 10;
+    const curHealth = data.currentHealth !== undefined ? data.currentHealth : (data.maxHealth || data.currentHp || 30);
+    const maxHealth = data.maxHealth || data.maxHp || 30;
+    const curVitality = data.currentVitality !== undefined ? data.currentVitality : (data.maxVitality || 30);
+    const maxVitality = data.maxVitality || 30;
 
     const newHeroToken = {
       id: `token_hero_${data.heroId}_${Date.now()}`,
@@ -439,9 +493,17 @@ const MapPane = ({ mapExportPngRef }) => {
       radius: 35,
       fill: '#0284c7',
       layerId: 'layer_tokens',
+      health: {
+        current: curHealth,
+        max: maxHealth
+      },
+      vitality: {
+        current: curVitality,
+        max: maxVitality
+      },
       hp: {
-        current: data.currentHp !== undefined ? data.currentHp : (data.maxHp || 30),
-        max: data.maxHp || 30
+        current: curHealth,
+        max: maxHealth
       },
       defense: data.defense || 12,
       actionPoints: data.actionPoints || 3,
@@ -997,8 +1059,10 @@ const MapPane = ({ mapExportPngRef }) => {
           }
         };
 
-        const currentHp = item.hp?.current ?? 30;
-        const maxHp = item.hp?.max ?? 30;
+        const currentHealth = item.health?.current ?? (item.hp?.current ?? 30);
+        const maxHealth = item.health?.max ?? (item.hp?.max ?? 30);
+        const currentVitality = item.vitality?.current ?? 30;
+        const maxVitality = item.vitality?.max ?? 30;
         const currentInit = item.initiative !== undefined && item.initiative !== null ? item.initiative : 10;
         const currentConditions = item.conditions || [];
 
@@ -1073,16 +1137,27 @@ const MapPane = ({ mapExportPngRef }) => {
                 </div>
               </div>
 
-              {/* Unit Controls: HP, Initiative & Conditions */}
+              {/* Unit Controls: Health, Vitality, Initiative & Conditions */}
               {isUnit && (
                 <>
+                  {/* Health Controls (Physical) */}
                   <div className="flex items-center gap-1.5 bg-[#0d1117] px-2 py-1 rounded border border-[#0D5C63]/60">
-                    <span className="text-[10px] font-bold text-emerald-400 uppercase">HP:</span>
-                    <button onClick={() => handleUpdateTokenHp(item.id, Math.max(0, currentHp - 5), true, 5)} className="px-1.5 py-0.5 bg-red-950 hover:bg-red-900 border border-red-800 text-red-300 rounded text-[10px] font-bold">-5</button>
-                    <button onClick={() => handleUpdateTokenHp(item.id, Math.max(0, currentHp - 1), true, 1)} className="px-1.5 py-0.5 bg-red-950 hover:bg-red-900 border border-red-800 text-red-300 rounded text-[10px] font-bold">-1</button>
-                    <span className="font-mono text-white font-bold px-1">{currentHp} / {maxHp}</span>
-                    <button onClick={() => handleUpdateTokenHp(item.id, Math.min(maxHp, currentHp + 1), false, 1)} className="px-1.5 py-0.5 bg-emerald-950 hover:bg-emerald-900 border border-emerald-800 text-emerald-300 rounded text-[10px] font-bold">+1</button>
-                    <button onClick={() => handleUpdateTokenHp(item.id, Math.min(maxHp, currentHp + 5), false, 5)} className="px-1.5 py-0.5 bg-emerald-950 hover:bg-emerald-900 border border-emerald-800 text-emerald-300 rounded text-[10px] font-bold">+5</button>
+                    <span className="text-[10px] font-bold text-emerald-400 uppercase">HLTH:</span>
+                    <button onClick={() => handleUpdateTokenHealth(item.id, Math.max(0, currentHealth - 5), true, 5)} className="px-1.5 py-0.5 bg-red-950 hover:bg-red-900 border border-red-800 text-red-300 rounded text-[10px] font-bold">-5</button>
+                    <button onClick={() => handleUpdateTokenHealth(item.id, Math.max(0, currentHealth - 1), true, 1)} className="px-1.5 py-0.5 bg-red-950 hover:bg-red-900 border border-red-800 text-red-300 rounded text-[10px] font-bold">-1</button>
+                    <span className="font-mono text-emerald-300 font-bold px-1">{currentHealth} / {maxHealth}</span>
+                    <button onClick={() => handleUpdateTokenHealth(item.id, Math.min(maxHealth, currentHealth + 1), false, 1)} className="px-1.5 py-0.5 bg-emerald-950 hover:bg-emerald-900 border border-emerald-800 text-emerald-300 rounded text-[10px] font-bold">+1</button>
+                    <button onClick={() => handleUpdateTokenHealth(item.id, Math.min(maxHealth, currentHealth + 5), false, 5)} className="px-1.5 py-0.5 bg-emerald-950 hover:bg-emerald-900 border border-emerald-800 text-emerald-300 rounded text-[10px] font-bold">+5</button>
+                  </div>
+
+                  {/* Vitality Controls (Mental / Energy) */}
+                  <div className="flex items-center gap-1.5 bg-[#0d1117] px-2 py-1 rounded border border-[#0D5C63]/60">
+                    <span className="text-[10px] font-bold text-cyan-400 uppercase">VIT:</span>
+                    <button onClick={() => handleUpdateTokenVitality(item.id, Math.max(0, currentVitality - 5), true, 5)} className="px-1.5 py-0.5 bg-purple-950 hover:bg-purple-900 border border-purple-800 text-purple-300 rounded text-[10px] font-bold">-5</button>
+                    <button onClick={() => handleUpdateTokenVitality(item.id, Math.max(0, currentVitality - 1), true, 1)} className="px-1.5 py-0.5 bg-purple-950 hover:bg-purple-900 border border-purple-800 text-purple-300 rounded text-[10px] font-bold">-1</button>
+                    <span className="font-mono text-cyan-300 font-bold px-1">{currentVitality} / {maxVitality}</span>
+                    <button onClick={() => handleUpdateTokenVitality(item.id, Math.min(maxVitality, currentVitality + 1), false, 1)} className="px-1.5 py-0.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-800 text-cyan-300 rounded text-[10px] font-bold">+1</button>
+                    <button onClick={() => handleUpdateTokenVitality(item.id, Math.min(maxVitality, currentVitality + 5), false, 5)} className="px-1.5 py-0.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-800 text-cyan-300 rounded text-[10px] font-bold">+5</button>
                   </div>
 
                   <div className="flex items-center gap-1.5 bg-[#0d1117] px-2 py-1 rounded border border-[#0D5C63]/60">
@@ -1203,7 +1278,9 @@ const MapPane = ({ mapExportPngRef }) => {
           showTracker={showCombatTracker}
           setShowTracker={setShowCombatTracker}
           onSelectToken={(id) => setSelectedId(id)}
-          onUpdateTokenHp={handleUpdateTokenHp}
+          onUpdateTokenHealth={handleUpdateTokenHealth}
+          onUpdateTokenVitality={handleUpdateTokenVitality}
+          onUpdateTokenHp={handleUpdateTokenHealth}
           onTriggerFloatingText={triggerFloatingCombatText}
           scale={scale}
           position={position}

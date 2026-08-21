@@ -64,16 +64,16 @@ const CONTENT = {
   'core-stats': (
     <div className="space-y-4">
       <p className="text-slate-300 leading-relaxed">
-        <strong className="text-cyan-300">Core Stats</strong> define your operative's fundamental capabilities. Each stat point costs CP.
+        <strong className="text-cyan-300">Core Attributes</strong> define your operative's fundamental capabilities. Each attribute point costs CP.
       </p>
       <div className="grid grid-cols-2 gap-3">
         {[
-          { stat: 'STR', label: 'Strength', desc: 'Physical power, melee damage, carrying capacity.' },
-          { stat: 'DEX', label: 'Dexterity', desc: 'Agility, ranged accuracy, evasion, initiative.' },
-          { stat: 'CON', label: 'Constitution', desc: 'Endurance, HP pool, resistance to toxins.' },
-          { stat: 'INT', label: 'Intelligence', desc: 'Knowledge, tech-use, crafting, hacking.' },
-          { stat: 'WIS', label: 'Wisdom', desc: 'Perception, intuition, meta-psionic resonance.' },
-          { stat: 'CHA', label: 'Charisma', desc: 'Persuasion, leadership, social manipulation.' },
+          { stat: 'STR', label: 'Strength / Might', desc: 'Physical power, melee force, sub-attribute Might.' },
+          { stat: 'AGI', label: 'Agility / Reflex', desc: 'Dexterity, evasion, reaction, sub-attribute Reflex & Initiative.' },
+          { stat: 'STA', label: 'Stamina / Fortitude', desc: 'Physical endurance, toxin resistance, sub-attribute Fortitude & Health pool.' },
+          { stat: 'INT', label: 'Intellect / Logic', desc: 'Knowledge, tech operations, analysis, sub-attribute Logic.' },
+          { stat: 'WIS', label: 'Wisdom / Will', desc: 'Perception, mental focus, psionic attunement, sub-attribute Will & Vitality pool.' },
+          { stat: 'CHA', label: 'Charisma / Etiquette', desc: 'Presence, leadership, negotiation, sub-attribute Etiquette.' },
         ].map(s => (
           <div key={s.stat} className="bg-slate-800/50 border border-slate-700/50 rounded-lg p-3">
             <div className="flex items-center gap-2 mb-1">
@@ -85,12 +85,12 @@ const CONTENT = {
         ))}
       </div>
       <div className="bg-slate-800/60 border border-emerald-500/20 rounded-lg p-4 space-y-1">
-        <h4 className="text-emerald-400 font-bold uppercase text-xs tracking-wider mb-2">Derived Stats</h4>
+        <h4 className="text-emerald-400 font-bold uppercase text-xs tracking-wider mb-2">Derived Vitals & Pools</h4>
         <div className="grid grid-cols-3 gap-2 text-xs">
           {[
-            { label: 'HP', formula: '10 + CON×2 + STR', color: 'text-emerald-400' },
-            { label: 'Vitality', formula: 'CON + WIS', color: 'text-cyan-400' },
-            { label: 'Karma', formula: 'WIS + CHA', color: 'text-amber-400' },
+            { label: 'Health', formula: 'Base 30 + Fortitude Bonus', color: 'text-emerald-400' },
+            { label: 'Vitality', formula: 'Base 30 + Will Bonus', color: 'text-cyan-400' },
+            { label: 'Karma', formula: 'Magic Level / Karma Rank', color: 'text-amber-400' },
           ].map(d => (
             <div key={d.label} className="bg-slate-900/60 rounded p-2">
               <div className={`font-bold ${d.color}`}>{d.label}</div>
