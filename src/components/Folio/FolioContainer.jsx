@@ -63,6 +63,7 @@ const FolioContainer = () => {
     handleNewCharacter,
     handleSaveLocal,
     handleLoadLocal,
+    handleExportAsStoryElement,
     triggerSave,
     handleLoadCloud,
     computeSpentCP,
@@ -380,13 +381,20 @@ const FolioContainer = () => {
                     onClick={handleSaveLocal}
                     className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-amber-300 uppercase font-bold"
                   >
-                    Save to File
+                    Save to File (.json)
                   </button>
                   <button
                     onClick={() => fileInputRef.current?.click()}
                     className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-amber-300 uppercase font-bold"
                   >
-                    Load from File
+                    Load File / Story Element
+                  </button>
+                  <button
+                    onClick={handleExportAsStoryElement}
+                    className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-cyan-300 uppercase font-bold flex items-center justify-between"
+                  >
+                    <span>Export Story Element</span>
+                    <span className="text-[10px] text-cyan-400 font-mono">Foundry</span>
                   </button>
                 </div>
               )}

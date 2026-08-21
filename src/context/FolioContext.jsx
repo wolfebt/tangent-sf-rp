@@ -6,6 +6,11 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { attachCreatorTag } from '../utils/creatorUtils';
 import { useDBM } from './DBMContext';
 import { StorageService } from '../services/storageService';
+import { 
+  isStoryElementData, 
+  convertPersonaElementToFolio, 
+  exportStoryElementJSON 
+} from '../utils/personaBridge';
 
 const ATTR_NAME_TO_ID = {
   strength: 'attr-strength',
@@ -1305,13 +1310,16 @@ export const FolioProvider = ({ children }) => {
     URL.revokeObjectURL(url);
   };
 
-  // Local Load JSON
+  // Local Load JSON (Supports native Folio JSON and Story Foundry Story Elements)
   const handleLoadLocal = (file) => {
     if (!file) return;
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
-        const rawData = JSON.parse(e.target.result);
+        let rawData = JSON.parse(e.target.result);
+        if (isStoryElementData(rawData)) {
+          rawData = convertPersonaElementToFolio(rawData);
+        }
         const validatedData = characterSchema.parse(rawData);
         setCharacterData(validatedData);
       } catch (err) {
@@ -1324,6 +1332,11 @@ export const FolioProvider = ({ children }) => {
       }
     };
     reader.readAsText(file);
+  };
+
+  // Export as Story Foundry Persona Element JSON
+  const handleExportAsStoryElement = () => {
+    exportStoryElementJSON(characterData);
   };
 
 
@@ -1844,6 +1857,7 @@ export const FolioProvider = ({ children }) => {
         handleNewCharacter,
         handleSaveLocal,
         handleLoadLocal,
+        handleExportAsStoryElement,
         triggerSave,
         handleLoadCloud,
         computeSpentCP,
