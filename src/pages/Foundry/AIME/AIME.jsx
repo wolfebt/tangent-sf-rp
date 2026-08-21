@@ -49,14 +49,18 @@ export default function AIME() {
     return all;
   };
 
-  const allElements = getAllElements(universeState.scenarios);
+  const flatElements = universeState?.scenarios ? getAllElements(universeState.scenarios) : [];
 
-  const [activeTab, setActiveTab] = useState('brainstorm');
+  // Gems state for custom inputs per category
+  const [customInputs, setCustomInputs] = useState({});
+
+  // Story Weaver State
+  const [stage, setStage] = useState(1);
   const [brainstormPrompt, setBrainstormPrompt] = useState('');
   const [selectedGemCategory, setSelectedGemCategory] = useState(Object.keys(GUIDANCE_GEMS)[0]);
   const [newGemInput, setNewGemInput] = useState('');
   const [activeViewMode, setActiveViewMode] = useState('both');
-  const [toastMessage, setToastMessage] = useState(null);
+  const [toastMsg, setToastMsg] = useState(null);
 
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSuggestingBeat, setIsSuggestingBeat] = useState(false);
@@ -106,8 +110,8 @@ export default function AIME() {
   const activeCanvasKeyRef = useRef(null);
 
   const showToast = (msg) => {
-    setToastMessage(msg);
-    setTimeout(() => setToastMessage(null), 3000);
+    setToastMsg(msg);
+    setTimeout(() => setToastMsg(null), 3000);
   };
 
   const handleCopyMarkdown = (content) => {
@@ -115,8 +119,8 @@ export default function AIME() {
     showToast('Copied to clipboard!');
   };
 
-  const handleDownloadBlob = (content, filename, type = 'text/plain') => {
-    const blob = new Blob([content], { type });
+  const downloadFile = (content, filename, contentType = 'application/json') => {
+    const blob = new Blob([content], { type: contentType });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -124,6 +128,8 @@ export default function AIME() {
     a.click();
     URL.revokeObjectURL(url);
   };
+
+  const handleDownloadBlob = downloadFile;
 
   const triggerImport = (canvasKey) => {
     activeCanvasKeyRef.current = canvasKey;
