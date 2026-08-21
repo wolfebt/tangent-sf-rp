@@ -21,7 +21,7 @@ export const categoryConfig = {
     species: {
         label: 'SPECIES',
         viewType: 'table',
-        directory_columns: ['name', 'description', 'type'],
+        directory_columns: ['name', 'type', 'trait', 'description'],
         fields: {
             name: { type: 'text', required: true },
             description: { type: 'textarea', aiEnabled: true },
@@ -29,30 +29,19 @@ export const categoryConfig = {
             type: { type: 'multiselect', source: 'species_type', manageable: true },
             size: { type: 'multiselect', source: 'species_size', manageable: true },
             movement: { type: 'multiselect', source: 'species_movement', manageable: true },
-            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
-            bonus_skills: { type: 'json_list', source: 'skills', label: 'Bonus Skills' },
-            bonus_skill_options: { type: 'multiselect', source: 'skills', label: 'Bonus Skill Options', manageable: true },
-            bonus_skill_choices: { type: 'number', label: 'Bonus Skill Choices' },
-            bonus_skill_points: { type: 'number', label: 'Bonus ANY Skill Points' },
-            bonus_skill_points_physical: { type: 'number', label: 'Bonus Physical Skill Points' },
-            bonus_skill_points_mental: { type: 'number', label: 'Bonus Mental Skill Points' },
-            bonus_skill_points_social: { type: 'number', label: 'Bonus Social Skill Points' },
-            bonus_skill_points_combat: { type: 'number', label: 'Bonus Combat Skill Points' },
-            bonus_skill_points_meta: { type: 'number', label: 'Bonus Meta Skill Points' },
+            trait: { type: 'multiselect', source: 'trait', label: 'Traits', manageable: true },
+            inherent_attribute_modifiers: { type: 'attribute_bonus_list', label: 'Inherent Attribute Modifiers (Set Values)' },
+            bonus_attribute_points: { type: 'number', label: 'Bonus ANY Attribute Points' },
+            specific_skill_bonuses: { type: 'skill_bonus_list', source: 'skills', label: 'Specific Skill Bonuses (Set Values)' },
+            bonus_skills: { type: 'number', label: 'Bonus Skills (Allotted Points)' },
+            bonus_skill_choices: { type: 'multiselect', source: 'skills', label: 'Bonus Skill Choices Pool', manageable: true },
+            inherent_features: { type: 'multiselect', source: 'features', label: 'Inherent Features (Pre-Selected)', manageable: true },
+            bonus_features: { type: 'number', label: 'Bonus Features (Allotted Points)' },
+            bonus_feature_choices: { type: 'multiselect', source: 'features', label: 'Bonus Feature Choices Pool', manageable: true },
+            recommended_features: { type: 'multiselect', source: 'features', label: 'Recommended Features', manageable: true },
             bonus_disciplines: { type: 'number', label: 'Bonus Disciplines' },
             bonus_special_abilities: { type: 'number', label: 'Bonus Special Abilities' },
-            bonus_features: { type: 'multiselect', source: 'features', label: 'Bonus Features', manageable: true },
-            bonus_feature_options: { type: 'multiselect', source: 'features', label: 'Bonus Feature Options', manageable: true },
-            bonus_feature_choices: { type: 'number', label: 'Bonus Feature Choices' },
-            bonus_feature_points_ability: { type: 'number', label: 'Bonus Ability Feature Points' },
-            bonus_feature_points_combat: { type: 'number', label: 'Bonus Combat Feature Points' },
-            bonus_feature_points_meta: { type: 'number', label: 'Bonus Meta Feature Points' },
-            bonus_feature_points: { type: 'number', label: 'Bonus ANY Feature Points' },
-            bonus_feature_points_general: { type: 'number', label: 'Bonus General Feature Points' },
-            bonus_feature_points_karma: { type: 'number', label: 'Bonus Karma Feature Points' },
-            bonus_feature_points_skill: { type: 'number', label: 'Bonus Skill Feature Points' },
-            bonus_feature_points_exotic: { type: 'number', label: 'Bonus Exotic Feature Points' },
-            recommended_features: { type: 'multiselect', source: 'features', label: 'Recommended Features', manageable: true },
+            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
             note: { type: 'textarea' },
             cp: { type: 'readonlytext', label: 'CP' }
         }
@@ -66,30 +55,18 @@ export const categoryConfig = {
             description: { type:'textarea', aiEnabled: true },
             society: { type: 'select', source: 'societies', manageable: true },
             prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
-            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
-            bonus_skills: { type: 'json_list', source: 'skills', label: 'Bonus Skills' },
-            bonus_skill_options: { type: 'multiselect', source: 'skills', label: 'Bonus Skill Options', manageable: true },
-            bonus_skill_choices: { type: 'number', label: 'Bonus Skill Choices' },
-            bonus_skill_points: { type: 'number', label: 'Bonus ANY Skill Points' },
-            bonus_skill_points_physical: { type: 'number', label: 'Bonus Physical Skill Points' },
-            bonus_skill_points_mental: { type: 'number', label: 'Bonus Mental Skill Points' },
-            bonus_skill_points_social: { type: 'number', label: 'Bonus Social Skill Points' },
-            bonus_skill_points_combat: { type: 'number', label: 'Bonus Combat Skill Points' },
-            bonus_skill_points_meta: { type: 'number', label: 'Bonus Meta Skill Points' },
+            inherent_attribute_modifiers: { type: 'attribute_bonus_list', label: 'Inherent Attribute Modifiers (Set Values)' },
+            bonus_attribute_points: { type: 'number', label: 'Bonus ANY Attribute Points' },
+            specific_skill_bonuses: { type: 'skill_bonus_list', source: 'skills', label: 'Specific Skill Bonuses (Set Values)' },
+            bonus_skills: { type: 'number', label: 'Bonus Skills (Allotted Points)' },
+            bonus_skill_choices: { type: 'multiselect', source: 'skills', label: 'Bonus Skill Choices Pool', manageable: true },
+            inherent_features: { type: 'multiselect', source: 'features', label: 'Inherent Features (Pre-Selected)', manageable: true },
+            bonus_features: { type: 'number', label: 'Bonus Features (Allotted Points)' },
+            bonus_feature_choices: { type: 'multiselect', source: 'features', label: 'Bonus Feature Choices Pool', manageable: true },
+            recommended_features: { type: 'multiselect', source: 'features', label: 'Recommended Features', manageable: true },
             bonus_disciplines: { type: 'number', label: 'Bonus Disciplines' },
             bonus_special_abilities: { type: 'number', label: 'Bonus Special Abilities' },
-            bonus_features: { type: 'multiselect', source: 'features', label: 'Bonus Features', manageable: true },
-            bonus_feature_options: { type: 'multiselect', source: 'features', label: 'Bonus Feature Options', manageable: true },
-            bonus_feature_choices: { type: 'number', label: 'Bonus Feature Choices' },
-            bonus_feature_points_ability: { type: 'number', label: 'Bonus Ability Feature Points' },
-            bonus_feature_points_combat: { type: 'number', label: 'Bonus Combat Feature Points' },
-            bonus_feature_points_meta: { type: 'number', label: 'Bonus Meta Feature Points' },
-            bonus_feature_points: { type: 'number', label: 'Bonus ANY Feature Points' },
-            bonus_feature_points_general: { type: 'number', label: 'Bonus General Feature Points' },
-            bonus_feature_points_karma: { type: 'number', label: 'Bonus Karma Feature Points' },
-            bonus_feature_points_skill: { type: 'number', label: 'Bonus Skill Feature Points' },
-            bonus_feature_points_exotic: { type: 'number', label: 'Bonus Exotic Feature Points' },
-            recommended_features: { type: 'multiselect', source: 'features', label: 'Recommended Features', manageable: true },
+            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
             attitude: { type: 'textarea' },
             goals: { type: 'textarea' },
             social_strengths: { type: 'textarea' },
@@ -106,31 +83,19 @@ export const categoryConfig = {
             name: { type:'text', required: true},
             description: { type:'textarea', aiEnabled: true},
             prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
-            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
-            bonus_skills: { type: 'json_list', source: 'skills', label: 'Bonus Skills' },
-            bonus_skill_options: { type: 'multiselect', source: 'skills', label: 'Bonus Skill Options', manageable: true },
-            bonus_skill_choices: { type: 'number', label: 'Bonus Skill Choices' },
-            bonus_skill_points: { type: 'number', label: 'Bonus ANY Skill Points' },
-            bonus_skill_points_physical: { type: 'number', label: 'Bonus Physical Skill Points' },
-            bonus_skill_points_mental: { type: 'number', label: 'Bonus Mental Skill Points' },
-            bonus_skill_points_social: { type: 'number', label: 'Bonus Social Skill Points' },
-            bonus_skill_points_combat: { type: 'number', label: 'Bonus Combat Skill Points' },
-            bonus_skill_points_meta: { type: 'number', label: 'Bonus Meta Skill Points' },
+            trait: { type: 'multiselect', source: 'trait', manageable: true },
+            inherent_attribute_modifiers: { type: 'attribute_bonus_list', label: 'Inherent Attribute Modifiers (Set Values)' },
+            bonus_attribute_points: { type: 'number', label: 'Bonus ANY Attribute Points' },
+            specific_skill_bonuses: { type: 'skill_bonus_list', source: 'skills', label: 'Specific Skill Bonuses (Set Values)' },
+            bonus_skills: { type: 'number', label: 'Bonus Skills (Allotted Points)' },
+            bonus_skill_choices: { type: 'multiselect', source: 'skills', label: 'Bonus Skill Choices Pool', manageable: true },
+            inherent_features: { type: 'multiselect', source: 'features', label: 'Inherent Features (Pre-Selected)', manageable: true },
+            bonus_features: { type: 'number', label: 'Bonus Features (Allotted Points)' },
+            bonus_feature_choices: { type: 'multiselect', source: 'features', label: 'Bonus Feature Choices Pool', manageable: true },
+            recommended_features: { type: 'multiselect', source: 'features', label: 'Recommended Features', manageable: true },
             bonus_disciplines: { type: 'number', label: 'Bonus Disciplines' },
             bonus_special_abilities: { type: 'number', label: 'Bonus Special Abilities' },
-            bonus_features: { type: 'multiselect', source: 'features', label: 'Bonus Features', manageable: true },
-            bonus_feature_options: { type: 'multiselect', source: 'features', label: 'Bonus Feature Options', manageable: true },
-            bonus_feature_choices: { type: 'number', label: 'Bonus Feature Choices' },
-            bonus_feature_points_ability: { type: 'number', label: 'Bonus Ability Feature Points' },
-            bonus_feature_points_combat: { type: 'number', label: 'Bonus Combat Feature Points' },
-            bonus_feature_points_meta: { type: 'number', label: 'Bonus Meta Feature Points' },
-            bonus_feature_points: { type: 'number', label: 'Bonus ANY Feature Points' },
-            bonus_feature_points_general: { type: 'number', label: 'Bonus General Feature Points' },
-            bonus_feature_points_karma: { type: 'number', label: 'Bonus Karma Feature Points' },
-            bonus_feature_points_skill: { type: 'number', label: 'Bonus Skill Feature Points' },
-            bonus_feature_points_exotic: { type: 'number', label: 'Bonus Exotic Feature Points' },
-            recommended_features: { type: 'multiselect', source: 'features', label: 'Recommended Features', manageable: true },
-            trait: { type: 'multiselect', source: 'trait', manageable: true },
+            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
             mechanic: { type: 'textarea' },
             note: { type: 'textarea' }
         }
@@ -143,31 +108,19 @@ export const categoryConfig = {
             name: { type:'text', required: true},
             description: { type:'textarea', aiEnabled: true},
             prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
-            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
-            bonus_skills: { type: 'json_list', source: 'skills', label: 'Bonus Skills' },
-            bonus_skill_options: { type: 'multiselect', source: 'skills', label: 'Bonus Skill Options', manageable: true },
-            bonus_skill_choices: { type: 'number', label: 'Bonus Skill Choices' },
-            bonus_skill_points: { type: 'number', label: 'Bonus ANY Skill Points' },
-            bonus_skill_points_physical: { type: 'number', label: 'Bonus Physical Skill Points' },
-            bonus_skill_points_mental: { type: 'number', label: 'Bonus Mental Skill Points' },
-            bonus_skill_points_social: { type: 'number', label: 'Bonus Social Skill Points' },
-            bonus_skill_points_combat: { type: 'number', label: 'Bonus Combat Skill Points' },
-            bonus_skill_points_meta: { type: 'number', label: 'Bonus Meta Skill Points' },
+            trait: { type: 'multiselect', source: 'trait', manageable: true },
+            inherent_attribute_modifiers: { type: 'attribute_bonus_list', label: 'Inherent Attribute Modifiers (Set Values)' },
+            bonus_attribute_points: { type: 'number', label: 'Bonus ANY Attribute Points' },
+            specific_skill_bonuses: { type: 'skill_bonus_list', source: 'skills', label: 'Specific Skill Bonuses (Set Values)' },
+            bonus_skills: { type: 'number', label: 'Bonus Skills (Allotted Points)' },
+            bonus_skill_choices: { type: 'multiselect', source: 'skills', label: 'Bonus Skill Choices Pool', manageable: true },
+            inherent_features: { type: 'multiselect', source: 'features', label: 'Inherent Features (Pre-Selected)', manageable: true },
+            bonus_features: { type: 'number', label: 'Bonus Features (Allotted Points)' },
+            bonus_feature_choices: { type: 'multiselect', source: 'features', label: 'Bonus Feature Choices Pool', manageable: true },
+            recommended_features: { type: 'multiselect', source: 'features', label: 'Recommended Features', manageable: true },
             bonus_disciplines: { type: 'number', label: 'Bonus Disciplines' },
             bonus_special_abilities: { type: 'number', label: 'Bonus Special Abilities' },
-            bonus_features: { type: 'multiselect', source: 'features', label: 'Bonus Features', manageable: true },
-            bonus_feature_options: { type: 'multiselect', source: 'features', label: 'Bonus Feature Options', manageable: true },
-            bonus_feature_choices: { type: 'number', label: 'Bonus Feature Choices' },
-            bonus_feature_points_ability: { type: 'number', label: 'Bonus Ability Feature Points' },
-            bonus_feature_points_combat: { type: 'number', label: 'Bonus Combat Feature Points' },
-            bonus_feature_points_meta: { type: 'number', label: 'Bonus Meta Feature Points' },
-            bonus_feature_points: { type: 'number', label: 'Bonus ANY Feature Points' },
-            bonus_feature_points_general: { type: 'number', label: 'Bonus General Feature Points' },
-            bonus_feature_points_karma: { type: 'number', label: 'Bonus Karma Feature Points' },
-            bonus_feature_points_skill: { type: 'number', label: 'Bonus Skill Feature Points' },
-            bonus_feature_points_exotic: { type: 'number', label: 'Bonus Exotic Feature Points' },
-            recommended_features: { type: 'multiselect', source: 'features', label: 'Recommended Features', manageable: true },
-            trait: { type: 'multiselect', source: 'trait', manageable: true },
+            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
             mechanic: { type: 'textarea' },
             tech_level: { type: 'select', label: 'Tech Level', options: [0, 1, 2, 3, 4, 5] },
             meta_level: { type: 'select', label: 'Meta Level', options: [0, 1, 2, 3, 4, 5] },
@@ -214,7 +167,6 @@ export const categoryConfig = {
     species_type: {
         label: 'TYPES',
         hideFromMenu: true,
-        hideFromDevMenu: true,
         directory_columns: ['name', 'description', 'modifier'],
         fields: {
             name: { type:'text', required: true},
@@ -229,8 +181,7 @@ export const categoryConfig = {
     species_size: {
         label: 'SIZES',
         hideFromMenu: true,
-        hideFromDevMenu: true,
-        directory_columns: ['name', 'description', 'modifier'],
+        directory_columns: ['name', 'scaling', 'height_length_range', 'weight_range', 'modifier'],
         fields: {
             name: { type:'text', required: true},
             modifier: { type: 'multiselect', source: 'modifier', manageable: true },
@@ -248,7 +199,6 @@ export const categoryConfig = {
     species_movement: {
         label: 'MOVEMENTS',
         hideFromMenu: true,
-        hideFromDevMenu: true,
         directory_columns: ['name', 'description', 'cp'],
         fields: {
             name: { type:'text', required: true},
@@ -263,7 +213,6 @@ export const categoryConfig = {
     trait: {
         label: 'TRAITS',
         hideFromMenu: true,
-        hideFromDevMenu: true,
         directory_columns: ['name', 'description', 'cp'],
         fields: {
             name: { type:'text', required: true},
@@ -280,7 +229,6 @@ export const categoryConfig = {
     augmentation_type: {
         label: 'AUGMENTATION TYPES',
         hideFromMenu: true,
-        hideFromDevMenu: true,
         directory_columns: ['name', 'description'],
         fields: {
             name: { type: 'text', required: true },
@@ -294,50 +242,10 @@ export const categoryConfig = {
     body_location: {
         label: 'BODY LOCATIONS',
         hideFromMenu: true,
-        hideFromDevMenu: true,
         directory_columns: ['name', 'description'],
         fields: {
             name: { type: 'text', required: true },
             description: { type: 'textarea' }
-        }
-    },
-    values: {
-        label: 'PRIMARY VALUES',
-        hideFromMenu: true,
-        viewType: 'table',
-        directory_columns: ['name', 'description', 'cp'],
-        fields: {
-            name: { type: 'text', required: true },
-            description: { type: 'textarea', aiEnabled: true },
-            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
-            mechanic: { type: 'textarea' },
-            cp: { type: 'number', label: 'CP Cost' }
-        }
-    },
-    secondary_values: {
-        label: 'SECONDARY VALUES',
-        hideFromMenu: true,
-        viewType: 'table',
-        directory_columns: ['name', 'description', 'cp'],
-        fields: {
-            name: { type: 'text', required: true },
-            description: { type: 'textarea', aiEnabled: true },
-            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
-            mechanic: { type: 'textarea' },
-            cp: { type: 'number', label: 'CP Cost' }
-        }
-    },
-    tertiary_values: {
-        label: 'TERTIARY VALUES',
-        hideFromMenu: true,
-        viewType: 'table',
-        directory_columns: ['name', 'description', 'cp'],
-        fields: {
-            name: { type: 'text', required: true },
-            description: { type: 'textarea', aiEnabled: true },
-            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
-            mechanic: { type: 'textarea' },
-            cp: { type: 'number', label: 'CP Cost' }
         }
     },
     disciplines: {
@@ -378,7 +286,7 @@ export const categoryConfig = {
             name: { type: 'text', required: true },
             description: { type: 'textarea', aiEnabled: true },
             discipline: { type: 'select', source: 'disciplines', manageable: true },
-            meta_skill: { type: 'select', source: 'skills_meta', label: 'Meta Skill' },
+            meta_skill: { type: 'select', source: 'skills', label: 'Meta Skill' },
             area: { type: 'multiselect', source: 'area', manageable: true },
             effect: { type: 'multiselect', source: 'effect', manageable: true },
             range: { type: 'multiselect', source: 'range', manageable: true },
@@ -402,7 +310,7 @@ export const categoryConfig = {
             name: { type: 'text', required: true },
             description: { type: 'textarea', aiEnabled: true },
             discipline: { type: 'select', source: 'disciplines', manageable: true },
-            meta_skill: { type: 'select', source: 'skills_meta', label: 'Meta Skill' },
+            meta_skill: { type: 'select', source: 'skills', label: 'Meta Skill' },
             area: { type: 'multiselect', source: 'area', manageable: true },
             effect: { type: 'multiselect', source: 'effect', manageable: true },
             range: { type: 'multiselect', source: 'range', manageable: true },
@@ -707,9 +615,9 @@ export const categoryConfig = {
             aspect: { type: 'select', options: ['attribute', 'skill', 'combat', 'other', 'feature'] },
             aspect_subtype: { type: 'select' },
             bonus_scope: { type: 'radio', label: 'Bonus Scope', options: ['any', 'specific'], default: 'any' },
-            bonus_feature_categories: { type: 'multiselect', label: 'Bonus Feature Categories', options: ['ability', 'combat', 'meta', 'general', 'karma', 'skill', 'exotic'] },
-            bonus_skill_categories: { type: 'multiselect', label: 'Bonus Skill Categories', options: ['mental', 'physical', 'social', 'combat', 'meta'] },
-            bonus_attribute_options: { type: 'multiselect', label: 'Bonus Attribute Options', options: ['Strength', 'Agility', 'Constitution', 'Intellect', 'Wisdom', 'Charisma', 'Might', 'Reflex', 'Fortitude', 'Logic', 'Will', 'Etiquette'] },
+            bonus_feature_categories: { type: 'multiselect', label: 'Bonus Feature Categories', options: ['any', 'ability', 'combat', 'meta', 'general', 'karma', 'skill', 'exotic'] },
+            bonus_skill_categories: { type: 'multiselect', label: 'Bonus Skill Categories', options: ['any', 'mental', 'physical', 'social', 'combat', 'meta'] },
+            bonus_attribute_options: { type: 'multiselect', label: 'Bonus Attribute Options', options: ['Any Attribute', 'Any Primary Attribute', 'Any Sub-Attribute', 'Strength', 'Might', 'Agility', 'Reflex', 'Stamina', 'Fortitude', 'Constitution', 'Intellect', 'Logic', 'Wisdom', 'Will', 'Charisma', 'Etiquette'] },
             skill_bonus_type: { type: 'radio', label: 'Skill Bonus Type', options: ['adjust', 'grant'], default: 'adjust' },
             granted_skill_id: { type: 'select', source: 'skills', label: 'Granted Skill' },
             value: { type: 'number' },
@@ -862,6 +770,352 @@ export const categoryConfig = {
             practices: { type: 'textarea', label: 'Practices & Rituals' },
             note: { type: 'textarea' }
         }
+    },
+    // --- Auxiliary & Subcategory Reference Collections (Top-Level Mapped) ---
+    gear_category: {
+        label: 'GEAR CATEGORIES',
+        hideFromMenu: true,
+        directory_columns: ['name', 'description'],
+        fields: {
+            name: { type: 'text', required: true },
+            description: { type: 'textarea' }
+        }
+    },
+    availability: {
+        label: 'AVAILABILITY RATINGS',
+        hideFromMenu: true,
+        directory_columns: ['name', 'description'],
+        fields: {
+            name: { type: 'text', required: true },
+            description: { type: 'textarea' }
+        }
+    },
+    special: {
+        label: 'WEAPON SPECIALS',
+        hideFromMenu: true,
+        directory_columns: ['name', 'description'],
+        fields: {
+            name: { type: 'text', required: true },
+            description: { type: 'textarea' }
+        }
+    },
+    mode: {
+        label: 'WEAPON & ARMOR MODES',
+        hideFromMenu: true,
+        directory_columns: ['name', 'description'],
+        fields: {
+            name: { type: 'text', required: true },
+            description: { type: 'textarea' }
+        }
+    },
+    critical_effect: {
+        label: 'CRITICAL EFFECTS',
+        hideFromMenu: true,
+        directory_columns: ['name', 'description'],
+        fields: {
+            name: { type: 'text', required: true },
+            description: { type: 'textarea' }
+        }
+    },
+    material: {
+        label: 'MATERIALS & COMPOSITES',
+        hideFromMenu: true,
+        directory_columns: ['name', 'description'],
+        fields: {
+            name: { type: 'text', required: true },
+            description: { type: 'textarea' }
+        }
+    },
+    resistance: {
+        label: 'RESISTANCES & DEFENSES',
+        hideFromMenu: true,
+        directory_columns: ['name', 'description'],
+        fields: {
+            name: { type: 'text', required: true },
+            description: { type: 'textarea' }
+        }
+    },
+    society_agriculture: {
+        label: 'SOCIETY: AGRICULTURE',
+        hideFromMenu: true,
+        directory_columns: ['name', 'level', 'description'],
+        fields: {
+            name: { type: 'text', required: true },
+            level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] },
+            description: { type: 'textarea' },
+            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
+            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
+            mechanic: { type: 'textarea' },
+            note: { type: 'textarea' }
+        }
+    },
+    society_architecture: {
+        label: 'SOCIETY: ARCHITECTURE',
+        hideFromMenu: true,
+        directory_columns: ['name', 'level', 'description'],
+        fields: {
+            name: { type: 'text', required: true },
+            level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] },
+            description: { type: 'textarea' },
+            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
+            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
+            mechanic: { type: 'textarea' },
+            note: { type: 'textarea' }
+        }
+    },
+    society_biotechnology: {
+        label: 'SOCIETY: BIOTECHNOLOGY',
+        hideFromMenu: true,
+        directory_columns: ['name', 'level', 'description'],
+        fields: {
+            name: { type: 'text', required: true },
+            level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] },
+            description: { type: 'textarea' },
+            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
+            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
+            mechanic: { type: 'textarea' },
+            note: { type: 'textarea' }
+        }
+    },
+    society_commerce: {
+        label: 'SOCIETY: COMMERCE',
+        hideFromMenu: true,
+        directory_columns: ['name', 'level', 'description'],
+        fields: {
+            name: { type: 'text', required: true },
+            level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] },
+            description: { type: 'textarea' },
+            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
+            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
+            mechanic: { type: 'textarea' },
+            note: { type: 'textarea' }
+        }
+    },
+    society_communication: {
+        label: 'SOCIETY: COMMUNICATION',
+        hideFromMenu: true,
+        directory_columns: ['name', 'level', 'description'],
+        fields: {
+            name: { type: 'text', required: true },
+            level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] },
+            description: { type: 'textarea' },
+            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
+            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
+            mechanic: { type: 'textarea' },
+            note: { type: 'textarea' }
+        }
+    },
+    society_devices: {
+        label: 'SOCIETY: DEVICES',
+        hideFromMenu: true,
+        directory_columns: ['name', 'level', 'description'],
+        fields: {
+            name: { type: 'text', required: true },
+            level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] },
+            description: { type: 'textarea' },
+            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
+            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
+            mechanic: { type: 'textarea' },
+            note: { type: 'textarea' }
+        }
+    },
+    society_education: {
+        label: 'SOCIETY: EDUCATION',
+        hideFromMenu: true,
+        directory_columns: ['name', 'level', 'description'],
+        fields: {
+            name: { type: 'text', required: true },
+            level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] },
+            description: { type: 'textarea' },
+            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
+            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
+            mechanic: { type: 'textarea' },
+            note: { type: 'textarea' }
+        }
+    },
+    society_energy: {
+        label: 'SOCIETY: ENERGY',
+        hideFromMenu: true,
+        directory_columns: ['name', 'level', 'description'],
+        fields: {
+            name: { type: 'text', required: true },
+            level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] },
+            description: { type: 'textarea' },
+            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
+            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
+            mechanic: { type: 'textarea' },
+            note: { type: 'textarea' }
+        }
+    },
+    society_manufacturing: {
+        label: 'SOCIETY: MANUFACTURING',
+        hideFromMenu: true,
+        directory_columns: ['name', 'level', 'description'],
+        fields: {
+            name: { type: 'text', required: true },
+            level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] },
+            description: { type: 'textarea' },
+            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
+            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
+            mechanic: { type: 'textarea' },
+            note: { type: 'textarea' }
+        }
+    },
+    society_materials: {
+        label: 'SOCIETY: MATERIALS',
+        hideFromMenu: true,
+        directory_columns: ['name', 'level', 'description'],
+        fields: {
+            name: { type: 'text', required: true },
+            level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] },
+            description: { type: 'textarea' },
+            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
+            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
+            mechanic: { type: 'textarea' },
+            note: { type: 'textarea' }
+        }
+    },
+    society_medicine: {
+        label: 'SOCIETY: MEDICINE',
+        hideFromMenu: true,
+        directory_columns: ['name', 'level', 'description'],
+        fields: {
+            name: { type: 'text', required: true },
+            level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] },
+            description: { type: 'textarea' },
+            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
+            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
+            mechanic: { type: 'textarea' },
+            note: { type: 'textarea' }
+        }
+    },
+    society_society: {
+        label: 'SOCIETY: STRUCTURE',
+        hideFromMenu: true,
+        directory_columns: ['name', 'level', 'description'],
+        fields: {
+            name: { type: 'text', required: true },
+            level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] },
+            description: { type: 'textarea' },
+            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
+            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
+            mechanic: { type: 'textarea' },
+            note: { type: 'textarea' }
+        }
+    },
+    society_synthetics: {
+        label: 'SOCIETY: SYNTHETICS',
+        hideFromMenu: true,
+        directory_columns: ['name', 'level', 'description'],
+        fields: {
+            name: { type: 'text', required: true },
+            level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] },
+            description: { type: 'textarea' },
+            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
+            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
+            mechanic: { type: 'textarea' },
+            note: { type: 'textarea' }
+        }
+    },
+    society_weaponry: {
+        label: 'SOCIETY: WEAPONRY',
+        hideFromMenu: true,
+        directory_columns: ['name', 'level', 'description'],
+        fields: {
+            name: { type: 'text', required: true },
+            level: { type: 'select', label: 'Level', options: [0, 1, 2, 3, 4, 5] },
+            description: { type: 'textarea' },
+            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
+            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
+            mechanic: { type: 'textarea' },
+            note: { type: 'textarea' }
+        }
     }
 };
+
+export const DEVELOPMENT_FIELDS_GROUPS = [
+  {
+    id: 'system',
+    label: 'System & Core Rules',
+    icon: '⚙️',
+    description: 'Foundational prerequisites, math formulas, and modifier logic applied system-wide.'
+  },
+  {
+    id: 'species_anatomy',
+    label: 'Species, Anatomy & Traits',
+    icon: '🧬',
+    description: 'Biological taxonomy, movement profiles, scaling factors, traits, and cybernetic locations.'
+  },
+  {
+    id: 'metaphysics_combat',
+    label: 'Metaphysics & Combat Rules',
+    icon: '🔮',
+    description: 'Spell/discipline patterns, area shapes, ranges, targets, and critical outcome triggers.'
+  },
+  {
+    id: 'equipment_crafting',
+    label: 'Equipment, Crafting & Manufacturing',
+    icon: '🛠️',
+    description: 'Item classifications, manufacturing schematics, components, material resistances, and weapon modes.'
+  },
+  {
+    id: 'societies_spheres',
+    label: 'Societies & Spheres of Development',
+    icon: '🏛️',
+    description: 'Civilization structures and the 14 technological/cultural spheres of societal progression.'
+  }
+];
+
+export const DEVELOPMENT_FIELDS_REGISTRY = [
+  // System & Core Rules
+  { key: 'prerequisite', group: 'system', label: 'Prerequisites', icon: '📋', desc: 'Prerequisite condition gates (attributes, skills, DC thresholds) required for features and items.' },
+  { key: 'modifier', group: 'system', label: 'Modifiers', icon: '⚙️', desc: 'Constant, situational, and bonus modifiers altering character statistics and capabilities.' },
+
+  // Species, Anatomy & Traits
+  { key: 'species_type', group: 'species_anatomy', label: 'Species Types', icon: '🧬', desc: 'Biological and synthetic classifications (Humanoid, Cybernetic, Xenobiological, etc.).' },
+  { key: 'species_size', group: 'species_anatomy', label: 'Species Sizes & Scaling', icon: '📐', desc: 'Size categories, scaling multipliers, height/weight boundaries, and reach modifiers.' },
+  { key: 'species_movement', group: 'species_anatomy', label: 'Species Movements', icon: '🏃', desc: 'Locomotion methods (Bipedal, Flight, Burrowing, Aquatic, Zero-G, etc.).' },
+  { key: 'trait', group: 'species_anatomy', label: 'Traits', icon: '✨', desc: 'Inherent species, origin, and occupational characteristics and biological traits.' },
+  { key: 'augmentation_type', group: 'species_anatomy', label: 'Augmentation Types', icon: '🦾', desc: 'Cybernetic, bioware, nanotech, and esoteric augmentation classifications.' },
+  { key: 'body_location', group: 'species_anatomy', label: 'Body Locations', icon: '🫀', desc: 'Anatomical installation slots for cybernetics, armor plates, and modules.' },
+
+  // Metaphysics & Combat Rules
+  { key: 'disciplines', group: 'metaphysics_combat', label: 'Disciplines', icon: '🔮', desc: 'Metaphysical schools and magical/psionic traditions and skill associations.' },
+  { key: 'area', group: 'metaphysics_combat', label: 'Area Patterns', icon: '🌐', desc: 'Area of effect geometry (Radius, Cone, Line, Wall, Cube, Aura, Chain).' },
+  { key: 'effect', group: 'metaphysics_combat', label: 'Effect Types', icon: '⚡', desc: 'Energy and metaphysical damage profiles (Thermal, Kinetic, Cryo, Psionic, EMP).' },
+  { key: 'range', group: 'metaphysics_combat', label: 'Ranges', icon: '🎯', desc: 'Standard tactical ranges (Touch, Close, Medium, Long, Extreme, Planetary).' },
+  { key: 'target', group: 'metaphysics_combat', label: 'Target Specifications', icon: '🎯', desc: 'Targeting rules and restrictions (Self, Single Creature, Point in Space, Object).' },
+  { key: 'critical_effect', group: 'metaphysics_combat', label: 'Critical Effects', icon: '💥', desc: 'Weapon critical strike outcome tables and lingering conditions.' },
+  { key: 'critical_success_effect', group: 'metaphysics_combat', label: 'Critical Success Effects', icon: '🌟', desc: 'Bonus outcomes on natural/critical successes in spells and weapons.' },
+  { key: 'critical_failure_effect', group: 'metaphysics_combat', label: 'Critical Failure Effects', icon: '⚠️', desc: 'Mishap, backlash, and fumble outcome tables on critical failures.' },
+
+  // Equipment, Crafting & Manufacturing
+  { key: 'gear_category', group: 'equipment_crafting', label: 'Gear Categories', icon: '🎒', desc: 'Categorical grouping for general adventuring supplies, tools, and electronics.' },
+  { key: 'availability', group: 'equipment_crafting', label: 'Availability Ratings', icon: '🏷️', desc: 'Market rarity, legality, and black-market procurement difficulty ratings.' },
+  { key: 'creator', group: 'equipment_crafting', label: 'Creators & Manufacturers', icon: '🏭', desc: 'Corporate megacorps, artisan guilds, alien foundries, and weapon forges.' },
+  { key: 'design', group: 'equipment_crafting', label: 'Designs & Schematics', icon: '📜', desc: 'Chassis archetypes, architectural frameworks, and styling blueprints.' },
+  { key: 'component', group: 'equipment_crafting', label: 'Components & Modules', icon: '🧩', desc: 'Internal hardware parts, modular attachments, sub-assemblies, and mods.' },
+  { key: 'classification', group: 'equipment_crafting', label: 'Classifications', icon: '🗂️', desc: 'Functional role classifications across weapons, armors, and vehicles.' },
+  { key: 'material', group: 'equipment_crafting', label: 'Materials & Composites', icon: '🧱', desc: 'Metals, polymers, carbon weaves, crystal matrices, and alloy compositions.' },
+  { key: 'resistance', group: 'equipment_crafting', label: 'Resistances & Defenses', icon: '🛡️', desc: 'Armor defensive types, kinetic shielding, energy deflection, and immunity ratings.' },
+  { key: 'mode', group: 'equipment_crafting', label: 'Weapon & Armor Modes', icon: '🔄', desc: 'Operational firing modes (Single, Burst, Full-Auto, Charge, Defensive Brace).' },
+  { key: 'special', group: 'equipment_crafting', label: 'Weapon Specials', icon: '⭐', desc: 'Unique weapon mechanics, specialized properties, and handling quirks.' },
+
+  // Societies & Spheres of Development
+  { key: 'societies', group: 'societies_spheres', label: 'Societies Master', icon: '🏛️', desc: 'Complete societal profiles defining culture, tech/meta milestones, and spheres.' },
+  { key: 'society_agriculture', group: 'societies_spheres', label: 'Society: Agriculture', icon: '🌾', desc: 'Food production, farming technologies, hydroponics, and ecosystem synthesis.' },
+  { key: 'society_architecture', group: 'societies_spheres', label: 'Society: Architecture', icon: '🏙️', desc: 'Urban engineering, habitat construction, dome architecture, and megastructures.' },
+  { key: 'society_biotechnology', group: 'societies_spheres', label: 'Society: Biotechnology', icon: '🧬', desc: 'Genetics, cloning, bio-engineering, neural crafting, and organism design.' },
+  { key: 'society_commerce', group: 'societies_spheres', label: 'Society: Commerce', icon: '💰', desc: 'Economic models, banking networks, trade routes, currency, and resource exchange.' },
+  { key: 'society_communication', group: 'societies_spheres', label: 'Society: Communication', icon: '📡', desc: 'Sub-space relays, ansible networks, holonet infrastructure, and telemetry.' },
+  { key: 'society_devices', group: 'societies_spheres', label: 'Society: Devices', icon: '📱', desc: 'Consumer electronics, personal computing, sensors, tools, and apparatus.' },
+  { key: 'society_education', group: 'societies_spheres', label: 'Society: Education', icon: '🎓', desc: 'Knowledge institutions, neural archives, apprenticeships, and academies.' },
+  { key: 'society_energy', group: 'societies_spheres', label: 'Society: Energy', icon: '⚡', desc: 'Power generation, fusion reactors, antimatter taps, and solar arrays.' },
+  { key: 'society_manufacturing', group: 'societies_spheres', label: 'Society: Manufacturing', icon: '🏗️', desc: 'Industrial automated fabrication, nano-forges, mass production, and orbital yards.' },
+  { key: 'society_materials', group: 'societies_spheres', label: 'Society: Materials', icon: '🔬', desc: 'Material science, meta-materials, molecular metallurgy, and high-density plating.' },
+  { key: 'society_medicine', group: 'societies_spheres', label: 'Society: Medicine', icon: '💉', desc: 'Healthcare infrastructure, cellular regeneration, trauma care, and panaceas.' },
+  { key: 'society_society', group: 'societies_spheres', label: 'Society: Structure', icon: '⚖️', desc: 'Government models, legal systems, social stratification, and caste frameworks.' },
+  { key: 'society_synthetics', group: 'societies_spheres', label: 'Society: Synthetics', icon: '🤖', desc: 'Artificial intelligence, android rights, synthetic biology, and cybernetics.' },
+  { key: 'society_weaponry', group: 'societies_spheres', label: 'Society: Weaponry', icon: '⚔️', desc: 'Military doctrines, planetary defense grids, ordinance, and arms advancement.' }
+];
 

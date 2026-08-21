@@ -3,91 +3,184 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     // =========================================================================
-    // PERSONA FOLIO DATA: Scoped per user, with public read access if isPublic is true
+    // HELPER FUNCTIONS
     // =========================================================================
-    match /{path=**}/personas/{personaId} {
-      allow read: if resource.data.isPublic == true || (request.auth != null && request.auth.uid == resource.data.ownerUid);
-      allow write: if request.auth != null && request.auth.uid == resource.data.ownerUid;
+    function isAuthenticated() {
+      return request.auth != null;
     }
 
+    function isAdmin() {
+      return isAuthenticated() && (request.auth.token.admin == true || request.auth.token.role == 'GM');
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // =========================================================================
+    // 1. OMNICORTEX (DBM) REFERENCE COLLECTIONS: Public Read, Admin/GM Write
+    // =========================================================================
+    match /compendium/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /species/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /origins/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /factions/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /equipment/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /cybernetics/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /psionics/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /disciplines/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /skills/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /features/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /traits/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /flaws/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /attributes/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /prerequisite/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /species_type/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /species_size/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /species_movement/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /trait/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /modifier/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /societies/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /gear_category/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /vehicles/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /gear/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // =========================================================================
+    // 2. USER PROFILES & USER SETTINGS
+    // =========================================================================
+    match /users/{userId} {
+      allow read, write: if isOwner(userId) || isAdmin();
+    }
+
+    // =========================================================================
+    // 3. PERSONA FOLIO DATA & CHARACTERS
+    // =========================================================================
     match /users/{userId}/personas/{personaId} {
-      allow read: if (request.auth != null && request.auth.uid == userId)
-                  || resource.data.isPublic == true;
-      allow write: if request.auth != null && request.auth.uid == userId;
+      allow read: if isOwner(userId) || resource.data.isPublic == true || isAdmin();
+      allow write: if isOwner(userId) || isAdmin();
+    }
+
+    match /{path=**}/personas/{personaId} {
+      allow read: if resource.data.isPublic == true 
+                  || (isAuthenticated() && (request.auth.uid == resource.data.ownerUid || isAdmin()));
+      allow write: if isAuthenticated() && (request.auth.uid == resource.data.ownerUid || isAdmin());
+    }
+
+    match /characters/{charId} {
+      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.ownerId == request.auth.uid || resource.data.isPublic == true || isAdmin());
+      allow create: if isAuthenticated() && (request.resource.data.userId == request.auth.uid || request.resource.data.ownerId == request.auth.uid);
+      allow update, delete: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.ownerId == request.auth.uid || isAdmin());
     }
 
     // =========================================================================
-    // STORY FOUNDRY PROJECTS: Scoped per user, with public read access if isPublic is true
+    // 4. STORY FOUNDRY: USER STORIES & CAMPAIGNS
     // =========================================================================
     match /user_stories/{storyId} {
       allow read: if resource.data.isPublic == true 
-                  || (request.auth != null && resource.data.ownerId == request.auth.uid);
-      allow write: if request.auth != null 
-                   && request.resource.data.ownerId == request.auth.uid
-                   && (resource == null || (
-                        resource.data.ownerId == request.auth.uid &&
-                        (!('updatedAt' in resource.data) || request.resource.data.updatedAt > resource.data.updatedAt)
-                      ));
+                  || (isAuthenticated() && (resource.data.ownerId == request.auth.uid || resource.data.creatorId == request.auth.uid || isAdmin()));
+      allow create: if isAuthenticated() && (request.resource.data.ownerId == request.auth.uid || request.resource.data.creatorId == request.auth.uid);
+      allow update, delete: if isAuthenticated() && (resource.data.ownerId == request.auth.uid || resource.data.creatorId == request.auth.uid || isAdmin());
     }
 
     // =========================================================================
-    // SHARED STORY FOUNDRY DATA: Universe state, scenarios, maps
-    // Any authenticated user can read and write (shared campaign data).
-    // =========================================================================
-    match /universe/{document=**} {
-      allow read: if request.auth != null;
-      allow write: if request.auth != null 
-                   && request.resource.data.ownerId == request.auth.uid
-                   && (resource == null || (
-                        resource.data.ownerId == request.auth.uid &&
-                        (!('updatedAt' in resource.data) || request.resource.data.updatedAt > resource.data.updatedAt)
-                      ));
-    }
-
-    // =========================================================================
-    // STORY ELEMENTS LIBRARY: Scenario nodes, acts, beats saved to library.
-    // Private to owner by default; publicly readable if isPublic == true.
+    // 5. STORY FOUNDRY: INDEPENDENT SCENARIO ELEMENTS
     // =========================================================================
     match /story_elements/{elementId} {
-      allow read: if resource.data.isPublic == true
-                  || (request.auth != null && resource.data.authorUid == request.auth.uid);
-      allow create: if request.auth != null
-                    && request.resource.data.authorUid == request.auth.uid;
-      allow update: if request.auth != null
-                    && resource.data.authorUid == request.auth.uid
-                    && request.resource.data.authorUid == request.auth.uid;
-      allow delete: if request.auth != null
-                    && resource.data.authorUid == request.auth.uid;
+      allow read: if resource.data.isPublic == true 
+                  || (isAuthenticated() && (resource.data.authorUid == request.auth.uid || resource.data.creatorId == request.auth.uid || isAdmin()));
+      allow create: if isAuthenticated() && (request.resource.data.authorUid == request.auth.uid || request.resource.data.creatorId == request.auth.uid);
+      allow update, delete: if isAuthenticated() && (resource.data.authorUid == request.auth.uid || resource.data.creatorId == request.auth.uid || isAdmin());
     }
 
     // =========================================================================
-    // MAPS LIBRARY: Campaign maps saved to the independent maps catalog.
-    // Private to owner by default; publicly readable if isPublic == true.
+    // 6. STORY FOUNDRY: TACTICAL MAPS
     // =========================================================================
     match /story_maps/{mapId} {
-      allow read: if resource.data.isPublic == true
-                  || (request.auth != null && resource.data.authorUid == request.auth.uid);
-      allow create: if request.auth != null
-                    && request.resource.data.authorUid == request.auth.uid;
-      allow update: if request.auth != null
-                    && resource.data.authorUid == request.auth.uid
-                    && request.resource.data.authorUid == request.auth.uid;
-      allow delete: if request.auth != null
-                    && resource.data.authorUid == request.auth.uid;
+      allow read: if isAuthenticated() || resource.data.isPublic == true;
+      allow create: if isAuthenticated() && (request.resource.data.authorUid == request.auth.uid || request.resource.data.creatorId == request.auth.uid);
+      allow update, delete: if isAuthenticated() && (resource.data.authorUid == request.auth.uid || resource.data.creatorId == request.auth.uid || isAdmin());
     }
 
     // =========================================================================
-    // OMNICORTEX (DBM) REFERENCE DATA: Species, factions, equipment, etc.
-    // These are shared game reference data — anyone can read them.
-    // Writes require Administrator or Game Master (GM) custom claims.
-    // Note: This catch-all matches any collection NOT explicitly matched above.
+    // 7. STORY FOUNDRY: SHARED UNIVERSE STATE
     // =========================================================================
-    match /{collection}/{document=**} {
-      // Public read access — DBM data is shared reference content
-      allow read: if true;
+    match /universe/{document=**} {
+      allow read, write: if isAuthenticated();
+    }
 
-      // Write access allowed for DBM reference data and campaign database
-      allow write: if true;
+    // =========================================================================
+    // 8. FINAL CATCH-ALL: EXPLICIT DENY
+    // =========================================================================
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }

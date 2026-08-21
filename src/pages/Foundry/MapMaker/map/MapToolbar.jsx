@@ -1,5 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useCampaign } from '../../../../context/CampaignContext';
+import { useAuth } from '../../../../context/AuthContext';
+import { extractCreatorInfo } from '../../../../utils/creatorUtils';
+import { ArtistHubModal } from '../../../../components/StoryFoundry/ArtistHubModal';
+import { Tv, Palette, Copy, Check, ExternalLink, X, Compass, Shield } from 'lucide-react';
 
 const MapToolbar = ({
   setIsModalOpen,
@@ -17,6 +21,8 @@ const MapToolbar = ({
   setShowSettingsPanel,
   showLayersPanel,
   setShowLayersPanel,
+  showHeroDrawer,
+  setShowHeroDrawer,
   showCombatTracker,
   setShowCombatTracker,
   showMetadataPanel,
@@ -42,6 +48,9 @@ const MapToolbar = ({
   const [isMapMenuOpen, setIsMapMenuOpen] = useState(false);
   const [isGridMenuOpen, setIsGridMenuOpen] = useState(false);
   const [isViewMenuOpen, setIsViewMenuOpen] = useState(false);
+  const [isCastModalOpen, setIsCastModalOpen] = useState(false);
+  const [isArtistHubOpen, setIsArtistHubOpen] = useState(false);
+  const [copiedLink, setCopiedLink] = useState(false);
 
   const fileMenuRef = useRef(null);
   const mapMenuRef = useRef(null);
@@ -107,29 +116,6 @@ const MapToolbar = ({
                 <span>📖</span> User Guide & Manual
               </button>
             )}
-
-            <div className="border-t border-[#0D5C63]/40 my-1" />
-
-            <button
-              onClick={() => { setIsModalOpen(true); setIsFileMenuOpen(false); }}
-              className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-slate-200 uppercase font-bold flex items-center gap-2 transition-colors cursor-pointer"
-            >
-              <span>➕</span> New Map...
-            </button>
-            {onDeleteActiveMap && (
-              <button
-                onClick={() => { onDeleteActiveMap(); setIsFileMenuOpen(false); }}
-                className="w-full text-left px-4 py-2 hover:bg-red-950/80 text-red-400 uppercase font-bold flex items-center gap-2 transition-colors cursor-pointer"
-              >
-                <span>🗑️</span> Delete Active Map
-              </button>
-            )}
-            <button
-              onClick={() => { onClearMap(); setIsFileMenuOpen(false); }}
-              className="w-full text-left px-4 py-2 hover:bg-slate-800 text-slate-400 uppercase font-bold flex items-center gap-2 transition-colors cursor-pointer"
-            >
-              <span>🧹</span> Clear Map Canvas
-            </button>
 
             <div className="border-t border-[#0D5C63]/40 my-1" />
 
@@ -243,11 +229,19 @@ const MapToolbar = ({
               >
                 <span>🎯</span> Reset Camera
               </button>
+              {onDeleteActiveMap && (
+                <button
+                  onClick={() => { onDeleteActiveMap(); setIsMapMenuOpen(false); }}
+                  className="w-full px-3 py-1.5 text-xs text-left text-red-400 hover:bg-red-950 font-bold flex items-center gap-2 transition-colors uppercase tracking-wider"
+                >
+                  <span>🗑️</span> Delete Active Map
+                </button>
+              )}
               <button
                 onClick={() => { onClearMap(); setIsMapMenuOpen(false); }}
-                className="w-full px-3 py-1.5 text-xs text-left text-red-400 hover:bg-red-950 font-bold flex items-center gap-2 transition-colors uppercase tracking-wider"
+                className="w-full px-3 py-1.5 text-xs text-left text-slate-400 hover:bg-slate-800 hover:text-white font-bold flex items-center gap-2 transition-colors uppercase tracking-wider"
               >
-                <span>🗑️</span> Clear Canvas
+                <span>🧹</span> Clear Canvas
               </button>
             </div>
           </div>
@@ -321,6 +315,7 @@ const MapToolbar = ({
             {[
               { id: 'tools', label: 'Tools', active: showToolsPanel, toggle: () => setShowToolsPanel(prev => !prev), icon: '🛠️' },
               { id: 'settings', label: 'Settings', active: showSettingsPanel, toggle: () => setShowSettingsPanel(prev => !prev), icon: '⚙️' },
+              { id: 'heroes', label: 'Folio Hero Roster', active: showHeroDrawer, toggle: () => setShowHeroDrawer?.(prev => !prev), icon: '📜' },
               { id: 'layers', label: 'Layers', active: showLayersPanel, toggle: () => setShowLayersPanel(prev => !prev), icon: '🥞' },
               { id: 'key', label: 'Map Key & Directory', active: showKeyPanel, toggle: () => setShowKeyPanel?.(prev => !prev), icon: '🗺️' },
               { id: 'metadata', label: 'Scale Properties', active: showMetadataPanel, toggle: () => setShowMetadataPanel?.(prev => !prev), icon: '🌐' },
@@ -369,6 +364,47 @@ const MapToolbar = ({
         </div>
       )}
 
+      {/* Map Creator & Contributor Badge */}
+      {currentMap && (() => {
+        const creatorInfo = extractCreatorInfo(currentMap);
+        return (
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className="px-2 py-1 bg-[#0d1117]/90 border border-cyan-500/40 text-cyan-300 rounded text-xs font-mono font-bold flex items-center gap-1 shadow-sm" title="Original Creator">
+              <span>🏷️</span>
+              <span>{creatorInfo.creatorTag}</span>
+            </span>
+            {creatorInfo.contributorTags && creatorInfo.contributorTags.length > 0 && (
+              <span className="px-2 py-1 bg-amber-950/80 border border-amber-500/40 text-amber-300 rounded text-[11px] font-mono font-bold" title={`Contributors: ${creatorInfo.contributorTags.join(', ')}`}>
+                Contrib: {creatorInfo.contributorTags.join(', ')}
+              </span>
+            )}
+          </div>
+        );
+      })()}
+
+      {/* Live Spectator / Cast Button */}
+      <button
+        type="button"
+        onClick={() => setIsCastModalOpen(true)}
+        className="px-3 py-1 bg-gradient-to-r from-emerald-950 to-slate-900 hover:from-emerald-900 hover:to-slate-800 border border-emerald-500/60 text-emerald-300 rounded text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1.5 h-8 shadow-[0_0_10px_rgba(16,185,129,0.2)] cursor-pointer"
+        title="Live Player Spectator Screen (TV / Dual Monitor Casting)"
+      >
+        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+        <Tv size={13} />
+        <span className="hidden md:inline">Cast / Spectator</span>
+      </button>
+
+      {/* Artist Hub Button */}
+      <button
+        type="button"
+        onClick={() => setIsArtistHubOpen(true)}
+        className="px-3 py-1 bg-purple-950/80 hover:bg-purple-900 border border-purple-500/60 text-purple-300 rounded text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1.5 h-8 shadow-[0_0_10px_rgba(168,85,247,0.2)] cursor-pointer"
+        title="Artist Hub Visual Prompt Synthesis"
+      >
+        <Palette size={13} />
+        <span className="hidden md:inline">Artist Hub</span>
+      </button>
+
       <div className="flex-1"></div>
 
       {/* Right Side: Undo / Redo Buttons */}
@@ -402,8 +438,101 @@ const MapToolbar = ({
       {selectedId && (
         <button className="px-3 py-1 bg-red-800 hover:bg-red-700 text-white text-xs font-bold uppercase rounded tracking-wider h-8 ml-2" onClick={() => eraseElement(selectedId)}>Delete Selected</button>
       )}
+
+      {/* Cast / Spectator Modal */}
+      {isCastModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="w-full max-w-lg bg-[#0d1117] border border-emerald-500/50 rounded-2xl p-6 shadow-[0_0_35px_rgba(16,185,129,0.25)] flex flex-col gap-4">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-emerald-950 border border-emerald-500/50 flex items-center justify-center text-emerald-300">
+                  <Tv size={18} />
+                </div>
+                <div>
+                  <h2 className="font-bold text-sm font-mono uppercase tracking-wider text-emerald-300">
+                    Live Player Spectator Stream
+                  </h2>
+                  <p className="text-[11px] text-slate-400">
+                    Dual-screen tabletop view for TV screens, projectors, and remote players.
+                  </p>
+                </div>
+              </div>
+              <button onClick={() => setIsCastModalOpen(false)} className="text-slate-400 hover:text-white">
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="space-y-3">
+              <div className="p-3 bg-slate-900/80 border border-slate-800 rounded-xl space-y-2">
+                <span className="text-[11px] font-mono font-bold text-slate-400 uppercase tracking-wider block">
+                  Player View URL:
+                </span>
+                <div className="flex items-center gap-2 bg-slate-950 border border-slate-700 rounded-lg p-2 font-mono text-xs text-emerald-300">
+                  <span className="truncate flex-1">
+                    {window.location.origin}/foundry/view/{activeMapId}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      navigator.clipboard.writeText(`${window.location.origin}/foundry/view/${activeMapId}`);
+                      setCopiedLink(true);
+                      setTimeout(() => setCopiedLink(false), 2500);
+                    }}
+                    className="px-2.5 py-1 bg-emerald-950 hover:bg-emerald-900 border border-emerald-500/50 text-emerald-200 text-xs font-bold rounded flex items-center gap-1 transition-all"
+                  >
+                    {copiedLink ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}
+                    <span>{copiedLink ? 'Copied!' : 'Copy'}</span>
+                  </button>
+                </div>
+              </div>
+
+              <div className="text-xs text-slate-300 space-y-1 bg-slate-950/60 p-3 rounded-xl border border-slate-800/80">
+                <div className="font-bold text-slate-200 flex items-center gap-1.5 text-emerald-400 mb-1">
+                  <Shield size={14} /> Built-in GM Confidentiality:
+                </div>
+                <p className="text-[11px] text-slate-400 leading-relaxed">
+                  • Hidden ambush tokens and DM notes are stripped from this screen.<br/>
+                  • Unrevealed fog of war remains pitch black for players.<br/>
+                  • Moves made in GM mode sync to this display in real time.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setIsCastModalOpen(false)}
+                className="flex-1 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold uppercase rounded-xl transition-all"
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  window.open(`/foundry/view/${activeMapId}`, '_blank', 'width=1280,height=800');
+                  setIsCastModalOpen(false);
+                }}
+                className="flex-2 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-all cursor-pointer"
+              >
+                <ExternalLink size={15} />
+                <span>Open Player Screen in New Window</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Artist Hub Modal */}
+      {isArtistHubOpen && (
+        <ArtistHubModal
+          isOpen={isArtistHubOpen}
+          onClose={() => setIsArtistHubOpen(false)}
+          initialPrompt={currentMap?.title ? `Tactical battlemap for ${currentMap.title}` : 'Tactical battlemap'}
+        />
+      )}
     </div>
   );
 };
 
 export default MapToolbar;
+

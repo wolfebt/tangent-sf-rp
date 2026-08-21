@@ -4,6 +4,24 @@ import { db, auth } from '../firebase';
 import { collection, doc, setDoc, getDoc, getDocs, onSnapshot, deleteDoc, collectionGroup, query, where } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 import { attachCreatorTag } from '../utils/creatorUtils';
+import { useDBM } from './DBMContext';
+import { StorageService } from '../services/storageService';
+
+const ATTR_NAME_TO_ID = {
+  strength: 'attr-strength',
+  might: 'attr-might',
+  agility: 'attr-agility',
+  reflex: 'attr-reflex',
+  stamina: 'attr-stamina',
+  constitution: 'attr-stamina',
+  fortitude: 'attr-fortitude',
+  intellect: 'attr-intellect',
+  logic: 'attr-logic',
+  wisdom: 'attr-wisdom',
+  will: 'attr-will',
+  charisma: 'attr-charisma',
+  etiquette: 'attr-etiquette'
+};
 
 const FolioContext = createContext(null);
 
@@ -66,8 +84,11 @@ export const FolioProvider = ({ children }) => {
     } catch (e) {
       console.warn('Could not parse saved persona data:', e);
     }
-    return DEFAULT_CHARACTER;
+    return attachCreatorTag(DEFAULT_CHARACTER, typeof window !== 'undefined' ? localStorage.getItem('userHandle') : '');
   });
+
+  const dbContext = useDBM() || {};
+  const dbData = dbContext.dbData || {};
 
   // Cloud Save Status state: 'saved' | 'saving' | 'offline' | 'error'
   const [cloudSaveStatus, setCloudSaveStatus] = useState('saved');
@@ -75,7 +96,7 @@ export const FolioProvider = ({ children }) => {
   const [isReadOnly, setIsReadOnly] = useState(false);
   const [publicCatalog, setPublicCatalog] = useState([]);
 
-  // Character Roster State — primary source is Firestore; localStorage is secondary offline cache
+  // Character Roster State — primary source is Firestore; StorageService/IndexedDB is secondary offline cache
   const [personaRoster, setPersonaRoster] = useState(() => {
     try {
       const saved = localStorage.getItem('personaRoster');
@@ -85,6 +106,47 @@ export const FolioProvider = ({ children }) => {
     }
     return [];
   });
+
+  // Asynchronous StorageService hydration on initial mount
+  useEffect(() => {
+    let isMounted = true;
+    async function hydrateCacheFromStorage() {
+      try {
+        const [cachedRoster, cachedCharacter] = await Promise.all([
+          StorageService.getItem('personaRoster'),
+          StorageService.getItem('personaFolioData')
+        ]);
+
+        if (!isMounted) return;
+
+        if (Array.isArray(cachedRoster) && cachedRoster.length > 0) {
+          setPersonaRoster(cachedRoster);
+        }
+
+        if (cachedCharacter && typeof cachedCharacter === 'object') {
+          try {
+            const parsed = characterSchema.parse(cachedCharacter);
+            setCharacterData(prev => {
+              // Only hydrate if active character is currently empty/default
+              if (!prev['char-name'] && !prev['character-doc-id']) {
+                return parsed;
+              }
+              return prev;
+            });
+          } catch (e) {
+            console.warn('[FolioContext] Saved character failed schema parse during hydration:', e);
+          }
+        }
+      } catch (err) {
+        console.warn('[FolioContext] Failed to hydrate cache from StorageService:', err);
+      }
+    }
+
+    hydrateCacheFromStorage();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   // Check URL query parameters for direct public persona view (?user=UID&id=PERSONAID)
   useEffect(() => {
@@ -136,12 +198,8 @@ export const FolioProvider = ({ children }) => {
       firestoreUnsub = onSnapshot(personasRef, (snapshot) => {
         const personas = snapshot.docs.map(d => ({ ...d.data(), 'character-doc-id': d.id, ownerUid: user.uid }));
         setPersonaRoster(personas);
-        // Mirror to localStorage as offline cache
-        try {
-          localStorage.setItem('personaRoster', JSON.stringify(personas));
-        } catch (e) {
-          console.warn('Failed to cache persona roster to localStorage:', e);
-        }
+        // Mirror to StorageService as offline cache
+        StorageService.setItem('personaRoster', personas);
       }, (err) => {
         console.warn('Firestore personas listener error:', err.message);
       });
@@ -230,19 +288,438 @@ export const FolioProvider = ({ children }) => {
     };
   }, [triggerSave]);
 
+  // Comprehensive Identity & Modifier Calculation Engine
+  const computedModifiers = useMemo(() => {
+    const attributeMods = {
+      'attr-strength': 0,
+      'attr-might': 0,
+      'attr-agility': 0,
+      'attr-reflex': 0,
+      'attr-stamina': 0,
+      'attr-fortitude': 0,
+      'attr-intellect': 0,
+      'attr-logic': 0,
+      'attr-wisdom': 0,
+      'attr-will': 0,
+      'attr-charisma': 0,
+      'attr-etiquette': 0
+    };
+
+    const combatMods = {
+      'initiative-mod': 0,
+      'defense-mod': 0,
+      'attack-mod': 0,
+      'move-walk': 0,
+      'move-swim': 0,
+      'move-climb': 0,
+      'move-fly': 0
+    };
+
+    const skillMods = {};
+
+    const resolveItem = (key, colName) => {
+      const val = characterData[key];
+      if (!val) return null;
+      if (typeof val === 'object' && val !== null) return val;
+      const list = dbData[colName] || [];
+      const match = list.find(item => 
+        (item.name && item.name.toLowerCase() === String(val).toLowerCase()) ||
+        item.id === val
+      );
+      return match || { name: String(val) };
+    };
+
+    const processIdentity = (identityItem, identityKey, identityTitle) => {
+      const pools = [];
+      const activeModifiers = [];
+      if (!identityItem) return { title: identityTitle, name: 'Not Selected', pools, activeModifiers };
+
+      const name = typeof identityItem === 'object' ? (identityItem.name || identityItem.title || 'Selected') : String(identityItem);
+
+      if (typeof identityItem === 'object') {
+        // 1. Inherent Attribute Modifiers (Set values per attribute or sub-attribute)
+        const inherentAttrMods = identityItem.inherent_attribute_modifiers || identityItem.specific_attribute_bonuses;
+        if (Array.isArray(inherentAttrMods) && inherentAttrMods.length > 0) {
+          inherentAttrMods.forEach(b => {
+            const aName = typeof b === 'object' ? (b.attribute || b.name || '') : String(b).split(/[:+(]/)[0].trim();
+            const aVal = typeof b === 'object' ? (b.bonus ?? b.value ?? 1) : (parseInt(String(b).replace(/[^0-9-]/g, ''), 10) || 1);
+            if (aName) {
+              const cleanName = aName.toLowerCase().trim();
+              const attrKeyMap = {
+                'strength': 'attr-strength',
+                'might': 'attr-might',
+                'agility': 'attr-agility',
+                'reflex': 'attr-reflex',
+                'stamina': 'attr-stamina',
+                'fortitude': 'attr-fortitude',
+                'constitution': 'attr-fortitude',
+                'intellect': 'attr-intellect',
+                'logic': 'attr-logic',
+                'wisdom': 'attr-wisdom',
+                'will': 'attr-will',
+                'charisma': 'attr-charisma',
+                'etiquette': 'attr-etiquette'
+              };
+              const targetKey = attrKeyMap[cleanName] || (cleanName.startsWith('attr-') ? cleanName : `attr-${cleanName}`);
+              if (attributeMods[targetKey] !== undefined) {
+                attributeMods[targetKey] = (attributeMods[targetKey] || 0) + aVal;
+              }
+              activeModifiers.push({ name: `[${identityTitle}: ${name}] ${aName} ${aVal >= 0 ? '+' : ''}${aVal}`, target: aName.toUpperCase(), value: aVal, type: 'Attribute' });
+              pools.push({ name: `Inherent Attr: ${aName} (${aVal >= 0 ? '+' : ''}${aVal})`, awarded: aVal, type: 'Inherent Attr' });
+            }
+          });
+        }
+
+        // Direct Bonus Attribute Point Pools
+        const bonusAttrPts = parseInt(identityItem.bonus_attribute_points, 10);
+        if (!isNaN(bonusAttrPts) && bonusAttrPts !== 0) {
+          pools.push({ name: 'Bonus Attribute Points (ANY)', awarded: bonusAttrPts, type: 'Attr Points' });
+        }
+        const bonusAttrPhys = parseInt(identityItem.bonus_attribute_points_physical, 10);
+        if (!isNaN(bonusAttrPhys) && bonusAttrPhys !== 0) {
+          pools.push({ name: 'Bonus PHYSICAL Attribute Points (STR, AGI, STA)', awarded: bonusAttrPhys, type: 'Physical Attr' });
+        }
+        const bonusAttrMent = parseInt(identityItem.bonus_attribute_points_mental, 10);
+        if (!isNaN(bonusAttrMent) && bonusAttrMent !== 0) {
+          pools.push({ name: 'Bonus MENTAL Attribute Points (INT, WIS, CHA)', awarded: bonusAttrMent, type: 'Mental Attr' });
+        }
+        const bonusAttrPrim = parseInt(identityItem.bonus_attribute_points_primary, 10);
+        if (!isNaN(bonusAttrPrim) && bonusAttrPrim !== 0) {
+          pools.push({ name: 'Bonus Primary Attribute Points', awarded: bonusAttrPrim, type: 'Primary Attr' });
+        }
+        const bonusAttrSub = parseInt(identityItem.bonus_attribute_points_sub, 10);
+        if (!isNaN(bonusAttrSub) && bonusAttrSub !== 0) {
+          pools.push({ name: 'Bonus Sub-Attribute Points', awarded: bonusAttrSub, type: 'Sub-Attr' });
+        }
+        const bonusAttrChoices = parseInt(identityItem.bonus_attribute_choices, 10);
+        if (!isNaN(bonusAttrChoices) && bonusAttrChoices !== 0) {
+          pools.push({ name: 'Bonus Attribute Choices', awarded: bonusAttrChoices, type: 'Choice' });
+        }
+        if (Array.isArray(identityItem.bonus_attribute_options) && identityItem.bonus_attribute_options.length > 0) {
+          const optNames = identityItem.bonus_attribute_options.map(o => typeof o === 'object' ? (o.name || o.id) : o).join(', ');
+          pools.push({ name: `Bonus Attribute Options Pool (${optNames})`, awarded: bonusAttrChoices || identityItem.bonus_attribute_options.length, type: 'Attr Pool' });
+        }
+
+        // 2. Direct Bonus Skill Fields & Specific Skill Bonuses
+        const rawSkillPts = identityItem.bonus_skills !== undefined && typeof identityItem.bonus_skills !== 'object'
+          ? identityItem.bonus_skills
+          : identityItem.bonus_skill_points;
+        const bonusSkillPts = parseInt(rawSkillPts, 10);
+        if (!isNaN(bonusSkillPts) && bonusSkillPts !== 0) {
+          pools.push({ name: 'Bonus Skill Points', awarded: bonusSkillPts, type: 'Skill Points' });
+        }
+        if (Array.isArray(identityItem.bonus_skill_choices) && identityItem.bonus_skill_choices.length > 0) {
+          const choiceNames = identityItem.bonus_skill_choices.map(s => typeof s === 'object' ? (s.name || s.id) : s).join(', ');
+          pools.push({ name: `Bonus Skill Choices Pool (${choiceNames})`, awarded: bonusSkillPts || identityItem.bonus_skill_choices.length, type: 'Skill Pool' });
+        } else {
+          const bonusSkillChoices = parseInt(identityItem.bonus_skill_choices, 10);
+          if (!isNaN(bonusSkillChoices) && bonusSkillChoices !== 0) {
+            pools.push({ name: 'Bonus Skill Choices', awarded: bonusSkillChoices, type: 'Choice' });
+          }
+        }
+
+        // Specific Skill Bonuses (Set values per skill)
+        if (Array.isArray(identityItem.specific_skill_bonuses) && identityItem.specific_skill_bonuses.length > 0) {
+          identityItem.specific_skill_bonuses.forEach(b => {
+            const sName = typeof b === 'object' ? (b.skill || b.name || '') : String(b).split(/[:+(]/)[0].trim();
+            const sVal = typeof b === 'object' ? (b.bonus ?? b.value ?? 1) : (parseInt(String(b).replace(/[^0-9-]/g, ''), 10) || 1);
+            if (sName) {
+              const targetKey = sName.toLowerCase().trim();
+              skillMods[targetKey] = (skillMods[targetKey] || 0) + sVal;
+              activeModifiers.push({ name: `[${identityTitle}: ${name}] ${sName} +${sVal}`, target: sName.toUpperCase(), value: sVal, type: 'Skill' });
+              pools.push({ name: `Set Skill: ${sName} (+${sVal})`, awarded: sVal, type: 'Set Skill' });
+            }
+          });
+        }
+
+        ['physical', 'mental', 'social', 'combat', 'meta'].forEach(cat => {
+          const catPts = parseInt(identityItem[`bonus_skill_points_${cat}`], 10);
+          if (!isNaN(catPts) && catPts !== 0) {
+            pools.push({ name: `Bonus ${cat.charAt(0).toUpperCase() + cat.slice(1)} Skill Points`, awarded: catPts, type: `${cat.toUpperCase()} SP` });
+          }
+        });
+
+        // 3. Direct Bonus Features, Inherent Features & Disciplines
+        const rawFeatPts = identityItem.bonus_features !== undefined && typeof identityItem.bonus_features !== 'object'
+          ? identityItem.bonus_features
+          : identityItem.bonus_feature_points;
+        const bonusFeatPts = parseInt(rawFeatPts, 10);
+        if (!isNaN(bonusFeatPts) && bonusFeatPts !== 0) {
+          pools.push({ name: 'Bonus Feature Points', awarded: bonusFeatPts, type: 'Feature Points' });
+        }
+        if (Array.isArray(identityItem.bonus_feature_choices) && identityItem.bonus_feature_choices.length > 0) {
+          const featNames = identityItem.bonus_feature_choices.map(f => typeof f === 'object' ? (f.name || f.id) : f).join(', ');
+          pools.push({ name: `Bonus Feature Choices Pool (${featNames})`, awarded: bonusFeatPts || identityItem.bonus_feature_choices.length, type: 'Feature Pool' });
+        } else {
+          const bonusFeatChoices = parseInt(identityItem.bonus_feature_choices, 10);
+          if (!isNaN(bonusFeatChoices) && bonusFeatChoices !== 0) {
+            pools.push({ name: 'Bonus Feature Choices', awarded: bonusFeatChoices, type: 'Choice' });
+          }
+        }
+
+        // Inherent Guaranteed Features
+        if (Array.isArray(identityItem.inherent_features) && identityItem.inherent_features.length > 0) {
+          const inhNames = identityItem.inherent_features.map(f => typeof f === 'object' ? (f.name || f.id) : f).join(', ');
+          pools.push({ name: `Inherent Traits (${inhNames})`, awarded: identityItem.inherent_features.length, type: 'Inherent' });
+        }
+
+        ['ability', 'combat', 'meta', 'general', 'karma', 'skill', 'exotic'].forEach(featCat => {
+          const fPts = parseInt(identityItem[`bonus_feature_points_${featCat}`], 10);
+          if (!isNaN(fPts) && fPts !== 0) {
+            pools.push({ name: `Bonus ${featCat.charAt(0).toUpperCase() + featCat.slice(1)} Feature Points`, awarded: fPts, type: `${featCat.toUpperCase()} FP` });
+          }
+        });
+        const bonusDisc = parseInt(identityItem.bonus_disciplines, 10);
+        if (!isNaN(bonusDisc) && bonusDisc !== 0) {
+          pools.push({ name: 'Bonus Disciplines', awarded: bonusDisc, type: 'Disciplines' });
+        }
+        const bonusSA = parseInt(identityItem.bonus_special_abilities, 10);
+        if (!isNaN(bonusSA) && bonusSA !== 0) {
+          pools.push({ name: 'Bonus Special Abilities', awarded: bonusSA, type: 'Special Abilities' });
+        }
+
+        const allModifiers = dbData.modifier || [];
+
+        // Helper to process a modifier reference (object or string) with optional prefix
+        const applyModifier = (modRef, prefix = '') => {
+          let modObj = null;
+          if (typeof modRef === 'object' && modRef !== null) {
+            modObj = modRef;
+          } else if (typeof modRef === 'string') {
+            modObj = allModifiers.find(m => 
+              (m.name && m.name.toLowerCase() === modRef.toLowerCase()) || 
+              m.id === modRef
+            ) || { name: modRef };
+          }
+
+          if (!modObj) return;
+
+          const aspect = (modObj.aspect || '').toLowerCase();
+          const subtype = (modObj.aspect_subtype || '').toLowerCase().trim();
+          const val = parseInt(modObj.value ?? 1, 10) || 1;
+          const baseModName = modObj.name || `${subtype || aspect || 'Bonus'} Mod`;
+          const modName = prefix ? `${prefix} ${baseModName}` : baseModName;
+
+          if (aspect === 'attribute') {
+            if (subtype === 'any' || subtype === 'any attribute' || modObj.bonus_scope === 'any' || !subtype) {
+              pools.push({ name: `${modName} (ANY)`, awarded: val, type: 'Attr Points' });
+            } else if (subtype === 'any primary attribute') {
+              pools.push({ name: `${modName} (Primary)`, awarded: val, type: 'Primary Attr' });
+            } else if (subtype === 'any sub-attribute') {
+              pools.push({ name: `${modName} (Sub-Attr)`, awarded: val, type: 'Sub-Attr' });
+            } else {
+              const targetAttrId = ATTR_NAME_TO_ID[subtype];
+              if (targetAttrId && attributeMods[targetAttrId] !== undefined) {
+                attributeMods[targetAttrId] += val;
+                activeModifiers.push({ name: modName, target: subtype.toUpperCase(), value: val, type: 'Attribute' });
+              } else {
+                pools.push({ name: modName, awarded: val, type: 'Attribute Mod' });
+              }
+            }
+          } else if (aspect === 'skill') {
+            if (subtype === 'any' || subtype.startsWith('any') || modObj.bonus_scope === 'any' || !subtype) {
+              pools.push({ name: `${modName} (${subtype || 'ANY'})`, awarded: val, type: 'Skill Points' });
+            } else {
+              skillMods[subtype] = (skillMods[subtype] || 0) + val;
+              activeModifiers.push({ name: modName, target: subtype.toUpperCase(), value: val, type: 'Skill' });
+            }
+          } else if (aspect === 'combat') {
+            if (subtype === 'any' || subtype === 'any combat stat' || modObj.bonus_scope === 'any' || !subtype) {
+              pools.push({ name: `${modName} (Combat)`, awarded: val, type: 'Combat Points' });
+            } else {
+              if (subtype.includes('initiative')) combatMods['initiative-mod'] += val;
+              else if (subtype.includes('movement') || subtype.includes('walk')) combatMods['move-walk'] += val;
+              else combatMods['defense-mod'] += val;
+              activeModifiers.push({ name: modName, target: subtype.toUpperCase(), value: val, type: 'Combat' });
+            }
+          } else if (aspect === 'feature') {
+            if (subtype === 'any' || subtype.startsWith('any') || modObj.bonus_scope === 'any' || !subtype) {
+              pools.push({ name: `${modName} (${subtype || 'ANY'})`, awarded: val, type: 'Feature Points' });
+            } else {
+              activeModifiers.push({ name: modName, target: subtype.toUpperCase(), value: val, type: 'Feature' });
+            }
+          } else if (aspect === 'other') {
+            if (subtype === 'any' || !subtype) {
+              pools.push({ name: `${modName} (ANY)`, awarded: val, type: 'Points' });
+            } else {
+              activeModifiers.push({ name: modName, target: subtype.toUpperCase(), value: val, type: 'Other' });
+            }
+          } else {
+            if (val) {
+              pools.push({ name: modName, awarded: val, type: 'Bonus' });
+            }
+          }
+        };
+
+        // 4. Resolve attached direct modifiers
+        const modRefs = Array.isArray(identityItem.modifier) ? identityItem.modifier : (identityItem.modifier ? [identityItem.modifier] : []);
+        modRefs.forEach(modRef => applyModifier(modRef));
+
+        // 5. Resolve attached species traits (multiple selection traits)
+        const rawTraits = identityItem.trait || identityItem.traits || [];
+        const traitList = Array.isArray(rawTraits) ? rawTraits : (rawTraits ? [rawTraits] : []);
+        const allTraits = dbData.trait || [];
+
+        traitList.forEach(tRef => {
+          let tObj = null;
+          if (typeof tRef === 'object' && tRef !== null) {
+            tObj = tRef;
+          } else if (typeof tRef === 'string') {
+            tObj = allTraits.find(t => 
+              (t.name && t.name.toLowerCase() === tRef.toLowerCase()) || 
+              t.id === tRef
+            ) || { name: tRef };
+          }
+          if (!tObj) return;
+
+          const tName = tObj.name || tObj.id || 'Trait';
+
+          // Process modifiers attached to this trait
+          const tModRefs = Array.isArray(tObj.modifier) ? tObj.modifier : (tObj.modifier ? [tObj.modifier] : []);
+          tModRefs.forEach(modRef => applyModifier(modRef, `[Trait: ${tName}]`));
+
+          // Check direct point bonuses on the trait itself
+          const tAttrPts = parseInt(tObj.bonus_attribute_points, 10);
+          if (!isNaN(tAttrPts) && tAttrPts !== 0) {
+            pools.push({ name: `[Trait: ${tName}] Bonus Attribute Points`, awarded: tAttrPts, type: 'Attr Points' });
+          }
+          const tSkillPts = parseInt(tObj.bonus_skill_points, 10);
+          if (!isNaN(tSkillPts) && tSkillPts !== 0) {
+            pools.push({ name: `[Trait: ${tName}] Bonus Skill Points`, awarded: tSkillPts, type: 'Skill Points' });
+          }
+          const tFeatPts = parseInt(tObj.bonus_feature_points, 10);
+          if (!isNaN(tFeatPts) && tFeatPts !== 0) {
+            pools.push({ name: `[Trait: ${tName}] Bonus Feature Points`, awarded: tFeatPts, type: 'Feature Points' });
+          }
+        });
+
+        // 6. Resolve attached species subcategories (types, sizes, movements)
+        const resolveSubComponent = (fieldKey, colKey, labelPrefix) => {
+          const rawItems = identityItem[fieldKey] || [];
+          const items = Array.isArray(rawItems) ? rawItems : (rawItems ? [rawItems] : []);
+          const allCol = dbData[colKey] || [];
+
+          items.forEach(ref => {
+            let itemObj = null;
+            if (typeof ref === 'object' && ref !== null) {
+              itemObj = ref;
+            } else if (typeof ref === 'string') {
+              itemObj = allCol.find(c => 
+                (c.name && c.name.toLowerCase() === ref.toLowerCase()) || 
+                c.id === ref
+              ) || { name: ref };
+            }
+            if (!itemObj) return;
+
+            const iName = itemObj.name || itemObj.id || labelPrefix;
+            const iModRefs = Array.isArray(itemObj.modifier) ? itemObj.modifier : (itemObj.modifier ? [itemObj.modifier] : []);
+            iModRefs.forEach(modRef => applyModifier(modRef, `[${labelPrefix}: ${iName}]`));
+          });
+        };
+
+        resolveSubComponent('type', 'species_type', 'Type');
+        resolveSubComponent('size', 'species_size', 'Size');
+        resolveSubComponent('movement', 'species_movement', 'Movement');
+      }
+
+      // Check for custom pools attached to characterData
+      const customPoolKey = `char-${identityKey}-pools`;
+      if (Array.isArray(characterData[customPoolKey])) {
+        characterData[customPoolKey].forEach(p => pools.push(p));
+      }
+
+      return {
+        title: identityTitle,
+        name,
+        pools,
+        activeModifiers
+      };
+    };
+
+    const speciesObj = resolveItem('char-species', 'species');
+    const occuObj = resolveItem('char-occu', 'occupations');
+    const originObj = resolveItem('char-origin', 'origins');
+    const factionObj = resolveItem('char-faction', 'factions');
+
+    const identityPools = {
+      species: processIdentity(speciesObj, 'species', 'Species'),
+      occupation: processIdentity(occuObj, 'occu', 'Occupation'),
+      origin: processIdentity(originObj, 'origin', 'Origin'),
+      faction: processIdentity(factionObj, 'faction', 'Faction')
+    };
+
+    // Also process features for active modifiers
+    const featsList = Array.isArray(characterData.features) ? characterData.features : [];
+    const allModifiers = dbData.modifier || [];
+    featsList.forEach(feat => {
+      if (typeof feat === 'object' && feat.modifier) {
+        const modRefs = Array.isArray(feat.modifier) ? feat.modifier : [feat.modifier];
+        modRefs.forEach(modRef => {
+          let modObj = typeof modRef === 'object' ? modRef : allModifiers.find(m => m.name === modRef || m.id === modRef);
+          if (modObj && modObj.aspect === 'attribute') {
+            const subtype = (modObj.aspect_subtype || '').toLowerCase().trim();
+            const targetAttrId = ATTR_NAME_TO_ID[subtype];
+            const val = parseInt(modObj.value ?? 1, 10) || 1;
+            if (targetAttrId && attributeMods[targetAttrId] !== undefined) {
+              attributeMods[targetAttrId] += val;
+            }
+          }
+        });
+      }
+    });
+
+    return {
+      attributeMods,
+      combatMods,
+      skillMods,
+      identityPools
+    };
+  }, [
+    characterData['char-species'],
+    characterData['char-occu'],
+    characterData['char-origin'],
+    characterData['char-faction'],
+    characterData.features,
+    dbData
+  ]);
+
+  // Attribute Mod & Total Calculation Helpers
+  const getAttrMod = useCallback((attrId) => {
+    const userMod = parseInt(characterData[`${attrId}-mod`] || 0, 10) || 0;
+    const identityMod = computedModifiers.attributeMods[attrId] || 0;
+    return userMod + identityMod;
+  }, [characterData, computedModifiers.attributeMods]);
+
+  const getAttrTotal = useCallback((attrId) => {
+    const val = parseInt(characterData[attrId] || 0, 10) || 0;
+    return val + getAttrMod(attrId);
+  }, [characterData, getAttrMod]);
+
   // Derived Stats Auto-Calculation
   const derivedStats = useMemo(() => {
-    const stamina = parseInt(characterData['attr-stamina'] || 0, 10);
-    const fortitude = parseInt(characterData['attr-fortitude'] || (stamina * 2 + 2), 10);
-    const wisdom = parseInt(characterData['attr-wisdom'] || 0, 10);
-    const will = parseInt(characterData['attr-will'] || (wisdom * 2 + 2), 10);
+    const staminaBase = parseInt(characterData['attr-stamina'] || 0, 10);
+    const staminaMod = getAttrMod('attr-stamina');
+    const stamina = staminaBase + staminaMod;
+
+    const fortitudeBase = parseInt(characterData['attr-fortitude'] || (staminaBase * 2 + 2), 10);
+    const fortitudeMod = getAttrMod('attr-fortitude');
+    const fortitude = fortitudeBase + fortitudeMod;
+
+    const wisdomBase = parseInt(characterData['attr-wisdom'] || 0, 10);
+    const wisdomMod = getAttrMod('attr-wisdom');
+    const wisdom = wisdomBase + wisdomMod;
+
+    const willBase = parseInt(characterData['attr-will'] || (wisdomBase * 2 + 2), 10);
+    const willMod = getAttrMod('attr-will');
+    const will = willBase + willMod;
+
     const magicLevel = parseInt(characterData['magic-level'] || 1, 10);
 
     const baseHealth = 30 + (fortitude > 2 ? (fortitude - 2) * 2 : 0);
     const baseVitality = 30 + (will > 2 ? (will - 2) * 2 : 0);
     const baseKarma = 3 + (magicLevel > 1 ? magicLevel - 1 : 0);
 
-    const maxAllowed = 60 + (5 * stamina);
+    const maxAllowed = 60 + (5 * Math.max(0, stamina));
     
     const currentHealth = parseInt(characterData['health'], 10);
     const currentVitality = parseInt(characterData['vitality'], 10);
@@ -272,7 +749,8 @@ export const FolioProvider = ({ children }) => {
     characterData['attr-will'],
     characterData['magic-level'],
     characterData['health'],
-    characterData['vitality']
+    characterData['vitality'],
+    getAttrMod
   ]);
 
   // Automatically keep health/vitality/karma synchronized if unmodified (or below base)
@@ -469,20 +947,16 @@ export const FolioProvider = ({ children }) => {
         ...DEFAULT_CHARACTER,
         'character-doc-id': `char_${Date.now()}`
       });
-      localStorage.removeItem('personaFolioData');
+      StorageService.removeItem('personaFolioData');
       sessionStorage.removeItem('personaFolioData');
       setIsReadOnly(false);
       return;
     }
 
-    // 1. Filter out from personaRoster state & localStorage cache
+    // 1. Filter out from personaRoster state & StorageService cache
     const updatedRoster = personaRoster.filter(c => c['character-doc-id'] !== targetId);
     setPersonaRoster(updatedRoster);
-    try {
-      localStorage.setItem('personaRoster', JSON.stringify(updatedRoster));
-    } catch (e) {
-      console.warn('Failed to update personaRoster in localStorage cache:', e);
-    }
+    StorageService.setItem('personaRoster', updatedRoster);
 
     // 2. Filter out from publicCatalog state
     setPublicCatalog(prev => prev.filter(c => c['character-doc-id'] !== targetId));
@@ -497,7 +971,7 @@ export const FolioProvider = ({ children }) => {
           'character-doc-id': `char_${Date.now()}`
         });
       }
-      localStorage.removeItem('personaFolioData');
+      StorageService.removeItem('personaFolioData');
       sessionStorage.removeItem('personaFolioData');
       setIsReadOnly(false);
     }
@@ -525,7 +999,9 @@ export const FolioProvider = ({ children }) => {
         updatedAt: new Date().toISOString()
       };
       // Optimistic local add
-      setPersonaRoster(prev => [...prev, clone]);
+      const updatedRoster = [...personaRoster, clone];
+      setPersonaRoster(updatedRoster);
+      StorageService.setItem('personaRoster', updatedRoster);
 
       // Persist duplicate to Firestore
       const user = auth.currentUser;
@@ -540,14 +1016,12 @@ export const FolioProvider = ({ children }) => {
     }
   }, [personaRoster]);
 
-  // Sync to localStorage and sessionStorage on state change
+  // Sync to StorageService and sessionStorage on state change
   useEffect(() => {
+    StorageService.setItem('personaFolioData', characterData);
     try {
-      localStorage.setItem('personaFolioData', JSON.stringify(characterData));
       sessionStorage.setItem('personaFolioData', JSON.stringify(characterData));
-    } catch (e) {
-      console.error('Failed to save persona folio state to storage', e);
-    }
+    } catch (e) {}
   }, [characterData]);
 
   // Field updater
@@ -568,6 +1042,7 @@ export const FolioProvider = ({ children }) => {
   }, []);
 
   // Add Item Handler
+  // Add Item Handler
   const handleAddItem = useCallback((key, item) => {
     setCharacterData((prev) => {
       const currentList = Array.isArray(prev[key]) ? prev[key] : [];
@@ -577,6 +1052,130 @@ export const FolioProvider = ({ children }) => {
       };
     });
   }, []);
+
+  // Omnicortex DBM Cross-Module Item Importer: Add Item to Inventory
+  const addItemToInventory = useCallback((item) => {
+    if (!item || !item.name) return;
+    const rawCat = (item.category || item.categoryKey || 'gear').toLowerCase();
+    
+    let targetKey = 'gear';
+    if (['weapons', 'weaponry', 'weapon', 'guns', 'melee'].includes(rawCat)) {
+      targetKey = 'weapons';
+    } else if (['armor', 'armoring', 'defenses', 'shields'].includes(rawCat)) {
+      targetKey = 'armoring';
+    } else if (['mecha', 'vehicle', 'vehicles', 'starship'].includes(rawCat)) {
+      targetKey = 'mecha';
+    } else if (['other', 'misc'].includes(rawCat)) {
+      targetKey = 'other';
+    } else {
+      targetKey = 'gear';
+    }
+
+    const cpCost = parseInt(item.cpCost ?? item.cp ?? item.cost_cp ?? 0, 10) || 0;
+    const normalizedItem = {
+      id: item.id || `item_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+      name: item.name,
+      category: targetKey,
+      damage: item.damage || '',
+      score: item.score || item.attack || '',
+      armor: item.armor || item.resistance || 0,
+      resistance: item.resistance || item.armor || '',
+      weight: item.weight || item.wt || 1,
+      techLevel: item.techLevel || item.tl || 1,
+      cp: cpCost,
+      cost: cpCost,
+      description: item.description || item.notes || '',
+      notes: item.notes || item.description || '',
+      ...item
+    };
+
+    setCharacterData(prev => {
+      const currentList = Array.isArray(prev[targetKey]) ? [...prev[targetKey]] : [];
+      currentList.push(normalizedItem);
+
+      const updates = { [targetKey]: currentList };
+
+      // If weapon has damage, also register in attacks list if not already present
+      if (targetKey === 'weapons' || normalizedItem.damage) {
+        const currentAttacks = Array.isArray(prev.attacks) ? [...prev.attacks] : [];
+        const alreadyInAttacks = currentAttacks.some(a => (a.name || '').toLowerCase() === normalizedItem.name.toLowerCase());
+        if (!alreadyInAttacks) {
+          currentAttacks.push({
+            id: `atk_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+            name: normalizedItem.name,
+            score: normalizedItem.score || '+0',
+            damage: normalizedItem.damage || '1d10',
+            type: normalizedItem.type || 'Physical',
+            notes: `TL ${normalizedItem.techLevel || 1}${normalizedItem.notes ? ` • ${normalizedItem.notes}` : ''}`
+          });
+          updates.attacks = currentAttacks;
+        }
+      }
+
+      // If armor has resistance, also register in armor array if not already present
+      if (targetKey === 'armoring' || targetKey === 'armor' || normalizedItem.armor || normalizedItem.resistance) {
+        const currentArmorList = Array.isArray(prev.armor) ? [...prev.armor] : [];
+        const alreadyInArmor = currentArmorList.some(a => (a.name || '').toLowerCase() === normalizedItem.name.toLowerCase());
+        if (!alreadyInArmor) {
+          currentArmorList.push({
+            name: normalizedItem.name,
+            resistance: String(normalizedItem.armor || normalizedItem.resistance || '0'),
+            type: normalizedItem.type || 'Standard',
+            notes: `TL ${normalizedItem.techLevel || 1}`
+          });
+          updates.armor = currentArmorList;
+        }
+      }
+
+      return {
+        ...prev,
+        ...updates
+      };
+    });
+  }, []);
+
+  // Omnicortex DBM Cross-Module Power Importer: Add Ability / Power
+  const addAbility = useCallback((ability) => {
+    if (!ability || !ability.name) return;
+    const rawType = (ability.type || ability.category || ability.categoryKey || 'special_abilities').toLowerCase();
+    
+    let targetKey = 'special_abilities';
+    if (['psionics', 'psionic', 'psi', 'invocations', 'invocation', 'magic', 'spells'].includes(rawType)) {
+      targetKey = 'invocations';
+    } else if (['cybernetics', 'cyberware', 'augmentations', 'augmentation', 'bioware'].includes(rawType)) {
+      targetKey = 'augmentations';
+    } else if (['awakened', 'discipline', 'disciplines'].includes(rawType)) {
+      targetKey = 'awakened';
+    } else if (['features', 'feature', 'perks', 'perk', 'traits', 'trait'].includes(rawType)) {
+      targetKey = 'features';
+    } else {
+      targetKey = 'special_abilities';
+    }
+
+    const cpCost = parseInt(ability.cpCost ?? ability.cp ?? ability.cost_cp ?? 5, 10) || 0;
+    const normalizedAbility = {
+      id: ability.id || `power_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+      name: ability.name,
+      type: targetKey,
+      metaLevel: ability.metaLevel || ability.level || ability.ml || 1,
+      apCost: ability.apCost || ability.ap || 2,
+      damage: ability.damage || '',
+      description: ability.description || ability.notes || '',
+      cp: cpCost,
+      cost: cpCost,
+      ...ability
+    };
+
+    setCharacterData(prev => {
+      const currentList = Array.isArray(prev[targetKey]) ? [...prev[targetKey]] : [];
+      currentList.push(normalizedAbility);
+      return {
+        ...prev,
+        [targetKey]: currentList
+      };
+    });
+  }, []);
+
 
   // Update Item Handler (by index)
   const handleUpdateItem = useCallback((key, index, item) => {
@@ -644,6 +1243,7 @@ export const FolioProvider = ({ children }) => {
     });
   }, []);
 
+  // Specialization Handlers (max level 10)
   const handleUpdateSpecialization = useCallback((specId, field, value) => {
     setCharacterData((prev) => {
       const current = Array.isArray(prev.specializations) ? prev.specializations : [];
@@ -679,13 +1279,15 @@ export const FolioProvider = ({ children }) => {
   const handleNewCharacter = useCallback(() => {
     const newName = window.prompt("Enter character name:", "Unnamed Operative");
     if (newName === null) return;
-    
-    setCharacterData({
+    const user = auth.currentUser;
+    const raw = {
       ...DEFAULT_CHARACTER,
       'char-name': newName || 'Unnamed Operative',
       'character-doc-id': `char_${Date.now()}`
-    });
-    localStorage.removeItem('personaFolioData');
+    };
+    const newChar = attachCreatorTag(raw, localStorage.getItem('userHandle'), user);
+    setCharacterData(newChar);
+    StorageService.removeItem('personaFolioData');
     sessionStorage.removeItem('personaFolioData');
   }, []);
 
@@ -1068,52 +1670,7 @@ export const FolioProvider = ({ children }) => {
 
     const remainingCP = startingCP - spentCP;
 
-    // Helper to extract point pools for identity selections
-    const extractPoolsFromIdentity = (identityVal, typeKey) => {
-      const pools = [];
-      if (!identityVal) return pools;
-
-      const itemObj = typeof identityVal === 'object' ? identityVal : null;
-      if (itemObj) {
-        if (itemObj.bonus_skill_points) pools.push({ name: 'Bonus Skill Points', awarded: itemObj.bonus_skill_points, type: 'SP' });
-        if (itemObj.bonus_feature_points) pools.push({ name: 'Bonus Feature Points', awarded: itemObj.bonus_feature_points, type: 'FP' });
-        if (itemObj.bonus_skill_choices) pools.push({ name: 'Bonus Skill Choices', awarded: itemObj.bonus_skill_choices, type: 'Choice' });
-        if (itemObj.bonus_feature_choices) pools.push({ name: 'Bonus Feature Choices', awarded: itemObj.bonus_feature_choices, type: 'Choice' });
-        if (Array.isArray(itemObj.pools)) {
-          itemObj.pools.forEach(p => pools.push(p));
-        }
-      }
-
-      const customPoolKey = `char-${typeKey}-pools`;
-      if (Array.isArray(characterData[customPoolKey])) {
-        characterData[customPoolKey].forEach(p => pools.push(p));
-      }
-
-      return pools;
-    };
-
-    const identityPools = {
-      occupation: {
-        title: 'Occupation',
-        name: typeof characterData['char-occu'] === 'object' ? (characterData['char-occu'].name || 'Selected') : (characterData['char-occu'] || 'Not Selected'),
-        pools: extractPoolsFromIdentity(characterData['char-occu'], 'occu')
-      },
-      origin: {
-        title: 'Origin',
-        name: typeof characterData['char-origin'] === 'object' ? (characterData['char-origin'].name || 'Selected') : (characterData['char-origin'] || 'Not Selected'),
-        pools: extractPoolsFromIdentity(characterData['char-origin'], 'origin')
-      },
-      faction: {
-        title: 'Faction',
-        name: typeof characterData['char-faction'] === 'object' ? (characterData['char-faction'].name || 'Selected') : (characterData['char-faction'] || 'Not Selected'),
-        pools: extractPoolsFromIdentity(characterData['char-faction'], 'faction')
-      },
-      species: {
-        title: 'Species',
-        name: typeof characterData['char-species'] === 'object' ? (characterData['char-species'].name || 'Selected') : (characterData['char-species'] || 'Not Selected'),
-        pools: extractPoolsFromIdentity(characterData['char-species'], 'species')
-      }
-    };
+    const identityPools = computedModifiers.identityPools;
 
     return {
       startingCP,
@@ -1130,7 +1687,7 @@ export const FolioProvider = ({ children }) => {
       identityPools,
       itemizedList
     };
-  }, [characterData, derivedStats]);
+  }, [characterData, derivedStats, computedModifiers.identityPools]);
 
   const updateRosterCharacterNote = useCallback(async (docId, noteText) => {
     const updatedNotes = [{ text: noteText }];
@@ -1160,17 +1717,78 @@ export const FolioProvider = ({ children }) => {
     }
   }, [characterData]);
 
+  const updateCharacterHp = useCallback(async (heroId, newHp) => {
+    if (!heroId) return;
+    const clampedHp = Math.max(0, parseInt(newHp, 10) || 0);
+
+    setPersonaRoster(prev => {
+      const updated = prev.map(c => {
+        if (c['character-doc-id'] === heroId || c.id === heroId) {
+          return {
+            ...c,
+            current_hp: clampedHp,
+            updatedAt: new Date().toISOString()
+          };
+        }
+        return c;
+      });
+      StorageService.setItem('personaRoster', updated);
+      return updated;
+    });
+
+    if (characterData['character-doc-id'] === heroId || characterData.id === heroId) {
+      setCharacterData(prev => ({
+        ...prev,
+        current_hp: clampedHp
+      }));
+    }
+
+    const user = auth.currentUser;
+    if (user) {
+      try {
+        const docRef = doc(db, `users/${user.uid}/personas`, heroId);
+        const snapshot = await getDoc(docRef);
+        if (snapshot.exists()) {
+          const existingData = snapshot.data();
+          await setDoc(docRef, { ...existingData, current_hp: clampedHp, updatedAt: new Date().toISOString() });
+        }
+      } catch (err) {
+        console.warn('Failed to sync character HP to Firestore:', err.message);
+      }
+    }
+  }, [characterData]);
+
   // Top level computed spent CP
   const computeSpentCP = useCallback(() => {
     return economyBreakdown.spentCP;
   }, [economyBreakdown]);
 
+  // Active character summary alias for cross-module integration
+  const activeCharacter = useMemo(() => ({
+    id: characterData['character-doc-id'] || characterData.id || 'char_active',
+    name: characterData['char-name'] || 'Active Hero',
+    concept: characterData['char-concept'] || '',
+    species: characterData['char-species'] || '',
+    occupation: characterData['char-occu'] || '',
+    health: characterData.health || derivedStats.health,
+    vitality: characterData.vitality || derivedStats.vitality,
+    karma: characterData.karma || derivedStats.karma,
+    remainingCP: economyBreakdown.remainingCP,
+    startingCP: economyBreakdown.startingCP,
+    spentCP: economyBreakdown.spentCP,
+    data: characterData
+  }), [characterData, derivedStats, economyBreakdown]);
+
   return (
     <FolioContext.Provider
       value={{
         characterData,
+        activeCharacter,
+        activeHeroName: activeCharacter.name,
         updateField,
         handleAddItem,
+        addItemToInventory,
+        addAbility,
         handleUpdateItem,
         handleAddSkill,
         handleDeleteSkill,
@@ -1185,7 +1803,11 @@ export const FolioProvider = ({ children }) => {
         computeSpentCP,
         economyBreakdown,
         derivedStats,
+        computedModifiers,
+        getAttrMod,
+        getAttrTotal,
         personaRoster,
+        roster: personaRoster,
         saveCurrentToRoster,
         switchRosterCharacter,
         deleteRosterCharacter,
@@ -1193,6 +1815,7 @@ export const FolioProvider = ({ children }) => {
         cloudSaveStatus,
         lastSavedTime,
         updateRosterCharacterNote,
+        updateCharacterHp,
         isReadOnly,
         publicCatalog,
         togglePersonaVisibility,

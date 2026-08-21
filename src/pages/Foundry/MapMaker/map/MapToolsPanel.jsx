@@ -34,7 +34,8 @@ const MapToolsPanel = ({
   fogEnabled, setFogEnabled,
   currentMapScale = 'Planetary',
   customAssets = { terrains: [], objects: [] },
-  onOpenAssetManager
+  onOpenAssetManager,
+  onOpenHeroDrawer
 }) => {
   const [selectedCatalogScale, setSelectedCatalogScale] = useState(currentMapScale);
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -148,8 +149,19 @@ const MapToolsPanel = ({
                   }`}
                 >
                   <div className="flex items-center gap-2">
-                    <span className="w-3.5 h-3.5 rounded-full border border-white/40 shadow-sm shrink-0" style={{ backgroundColor: t.color }}></span>
+                    {t.textureUrl ? (
+                      <div className="w-4 h-4 rounded overflow-hidden border border-cyan-500/60 shrink-0">
+                        <img src={t.textureUrl} alt={t.label} className="w-full h-full object-cover" />
+                      </div>
+                    ) : (
+                      <span className="w-3.5 h-3.5 rounded-full border border-white/40 shadow-sm shrink-0" style={{ backgroundColor: t.color }}></span>
+                    )}
                     <span className="truncate">{t.label}</span>
+                    {t.isCustom && (
+                      <span className="text-[8px] bg-cyan-950 text-cyan-300 border border-cyan-800 px-1 py-0.2 rounded font-mono uppercase ml-auto">
+                        Custom
+                      </span>
+                    )}
                   </div>
                   {t.desc && (
                     <span className="text-[10px] text-slate-400 font-normal leading-tight line-clamp-2">
@@ -203,7 +215,7 @@ const MapToolsPanel = ({
               <select
                 value={selectedCategory}
                 onChange={e => setSelectedCategory(e.target.value)}
-                className="w-full bg-[#0d1117] border border-[#0D5C63]/60 text-white p-1 rounded text-xs outline-none focus:border-[#22d3ee] relative z-10"
+                className="w-full bg-[#0d1117] border border-[#0D5C63]/60 text-white p-1 rounded text-xs outline-none focus:border-[#22d3ee]"
               >
                 {activeCategories.map(cat => (
                   <option key={cat} value={cat}>{cat}</option>
@@ -237,14 +249,27 @@ const MapToolsPanel = ({
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <span className="w-3.5 h-3.5 rounded border border-white/40 shadow-sm shrink-0" style={{ backgroundColor: o.color }}></span>
+                      {o.imageUrl ? (
+                        <div className="w-4 h-4 rounded overflow-hidden border border-cyan-500/60 p-0.5 shrink-0 bg-[#0d1117]">
+                          <img src={o.imageUrl} alt={o.label} className="w-full h-full object-contain" />
+                        </div>
+                      ) : (
+                        <span className="w-3.5 h-3.5 rounded border border-white/40 shadow-sm shrink-0" style={{ backgroundColor: o.color }}></span>
+                      )}
                       <span className="truncate">{o.label}</span>
                     </div>
-                    {o.scaleTarget && (
-                      <span className="text-[9px] bg-amber-950 text-amber-300 px-1 py-0.2 rounded border border-amber-800 shrink-0">
-                        {o.scaleTarget}
-                      </span>
-                    )}
+                    <div className="flex items-center gap-1">
+                      {o.isCustom && (
+                        <span className="text-[8px] bg-cyan-950 text-cyan-300 border border-cyan-800 px-1 py-0.2 rounded font-mono uppercase">
+                          Custom
+                        </span>
+                      )}
+                      {o.scaleTarget && (
+                        <span className="text-[9px] bg-amber-950 text-amber-300 px-1 py-0.2 rounded border border-amber-800 shrink-0">
+                          {o.scaleTarget}
+                        </span>
+                      )}
+                    </div>
                   </div>
                   {o.desc && (
                     <span className="text-[10px] text-slate-400 font-normal leading-tight line-clamp-2">
@@ -298,6 +323,16 @@ const MapToolsPanel = ({
       case 'token':
         return (
           <div className="flex flex-col gap-2.5">
+            {onOpenHeroDrawer && (
+              <button
+                type="button"
+                onClick={onOpenHeroDrawer}
+                className="w-full py-1.5 px-2 bg-cyan-950/80 hover:bg-cyan-900 text-[#22d3ee] border border-[#22d3ee]/60 rounded text-[11px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shadow-[0_0_8px_rgba(34,211,238,0.25)]"
+              >
+                <span>📜</span> Summon Folio Hero...
+              </button>
+            )}
+
             <span className="text-[10px] uppercase text-[#22d3ee] font-bold tracking-wider drop-shadow-[0_0_4px_rgba(34,211,238,0.3)]">Token Type:</span>
             <div className="grid grid-cols-2 gap-1">
               <button

@@ -1,6 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useStory } from '../../../context/CampaignContext';
+import { useAuth } from '../../../context/AuthContext';
+import { extractCreatorInfo } from '../../../utils/creatorUtils';
 import { generateContent, streamContent } from '../../../services/aimeService';
+import { StorageService } from '../../../services/storageService';
 import Split from 'react-split';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
@@ -16,6 +19,7 @@ export const GUIDANCE_GEMS = {
 };
 
 export default function AIME() {
+  const { currentUser, userHandle } = useAuth();
   const { 
     universeState, 
     updateGems, 
@@ -35,22 +39,25 @@ export default function AIME() {
 
   const getAllElements = (nodes) => {
     let all = [];
-    if (!nodes) return all;
-    nodes.forEach(n => {
-      all.push(n);
-      if (n.children) all = all.concat(getAllElements(n.children));
+    if (!Array.isArray(nodes)) return all;
+    nodes.forEach(node => {
+      all.push(node);
+      if (node.children && node.children.length > 0) {
+        all = all.concat(getAllElements(node.children));
+      }
     });
     return all;
   };
-  const flatElements = universeState?.scenarios ? getAllElements(universeState.scenarios) : [];
 
-  
-  // Gems state for custom inputs per category
-  const [customInputs, setCustomInputs] = useState({});
+  const allElements = getAllElements(universeState.scenarios);
 
-  // Story Weaver State
-  const [stage, setStage] = useState(1);
+  const [activeTab, setActiveTab] = useState('brainstorm');
   const [brainstormPrompt, setBrainstormPrompt] = useState('');
+  const [selectedGemCategory, setSelectedGemCategory] = useState(Object.keys(GUIDANCE_GEMS)[0]);
+  const [newGemInput, setNewGemInput] = useState('');
+  const [activeViewMode, setActiveViewMode] = useState('both');
+  const [toastMessage, setToastMessage] = useState(null);
+
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSuggestingBeat, setIsSuggestingBeat] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -95,13 +102,27 @@ export default function AIME() {
   };
 
   // Canvas Export/Import & Local Save/Load State & Handlers
-  const [toastMsg, setToastMsg] = useState(null);
   const fileInputRef = useRef(null);
   const activeCanvasKeyRef = useRef(null);
 
   const showToast = (msg) => {
-    setToastMsg(msg);
-    setTimeout(() => setToastMsg(null), 3000);
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(null), 3000);
+  };
+
+  const handleCopyMarkdown = (content) => {
+    navigator.clipboard.writeText(content);
+    showToast('Copied to clipboard!');
+  };
+
+  const handleDownloadBlob = (content, filename, type = 'text/plain') => {
+    const blob = new Blob([content], { type });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   const triggerImport = (canvasKey) => {
@@ -112,29 +133,19 @@ export default function AIME() {
     }
   };
 
-  const downloadFile = (content, filename, contentType = 'application/json') => {
-    const blob = new Blob([content], { type: contentType });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    a.click();
-    URL.revokeObjectURL(url);
-  };
-
-  const handleSaveLocal = (canvasKey) => {
+  const handleSaveLocal = async (canvasKey) => {
     try {
       if (canvasKey === 'brainstorm') {
-        localStorage.setItem('aime_canvas_brainstorm', JSON.stringify({ prompt: brainstormPrompt, storyCards: creativeState.storyCards || [], timestamp: Date.now() }));
+        await StorageService.setItem('aime_canvas_brainstorm', { prompt: brainstormPrompt, storyCards: creativeState.storyCards || [], timestamp: Date.now() });
         showToast('Brainstorm canvas saved locally!');
       } else if (canvasKey === 'outline') {
-        localStorage.setItem('aime_canvas_outline', JSON.stringify({ outline: creativeState.storyOutline || '', timestamp: Date.now() }));
+        await StorageService.setItem('aime_canvas_outline', { outline: creativeState.storyOutline || '', timestamp: Date.now() });
         showToast('Outline canvas saved locally!');
       } else if (canvasKey === 'beats') {
-        localStorage.setItem('aime_canvas_scene_beats', JSON.stringify({ sceneBeats: creativeState.sceneBeats || '', timestamp: Date.now() }));
+        await StorageService.setItem('aime_canvas_scene_beats', { sceneBeats: creativeState.sceneBeats || '', timestamp: Date.now() });
         showToast('Scene Beats canvas saved locally!');
       } else if (canvasKey === 'draft') {
-        localStorage.setItem('aime_canvas_prose_draft', JSON.stringify({ storyDraft: creativeState.storyDraft || '', timestamp: Date.now() }));
+        await StorageService.setItem('aime_canvas_prose_draft', { storyDraft: creativeState.storyDraft || '', timestamp: Date.now() });
         showToast('Prose Draft canvas saved locally!');
       }
     } catch (e) {
@@ -142,11 +153,11 @@ export default function AIME() {
     }
   };
 
-  const handleLoadLocal = (canvasKey) => {
+  const handleLoadLocal = async (canvasKey) => {
     try {
-      const raw = localStorage.getItem(`aime_canvas_${canvasKey === 'beats' ? 'scene_beats' : canvasKey === 'draft' ? 'prose_draft' : canvasKey}`);
-      if (!raw) return alert(`No local save found for ${canvasKey} canvas.`);
-      const parsed = JSON.parse(raw);
+      const data = await StorageService.getItem(`aime_canvas_${canvasKey === 'beats' ? 'scene_beats' : canvasKey === 'draft' ? 'prose_draft' : canvasKey}`);
+      if (!data) return alert(`No local save found for ${canvasKey} canvas.`);
+      const parsed = typeof data === 'string' ? JSON.parse(data) : data;
       if (canvasKey === 'brainstorm') {
         if (parsed.prompt !== undefined) setBrainstormPrompt(parsed.prompt);
         if (parsed.storyCards) updateStoryCards(parsed.storyCards);
@@ -168,15 +179,26 @@ export default function AIME() {
 
   const handleExportCanvas = (canvasKey) => {
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const creatorInfo = extractCreatorInfo(universeState, userHandle, currentUser);
+    const headerPrefix = `# TANGENT AIME — ${universeState.projectName || 'Project'}\n> **CREATOR:** ${creatorInfo.creatorTag}${creatorInfo.contributorTags?.length ? ` | **CONTRIBUTORS:** ${creatorInfo.contributorTags.join(', ')}` : ''}\n\n`;
+
     if (canvasKey === 'brainstorm') {
-      const payload = JSON.stringify({ type: 'AIME_BRAINSTORM', prompt: brainstormPrompt, storyCards: creativeState.storyCards || [], exportedAt: new Date().toISOString() }, null, 2);
+      const payload = JSON.stringify({ 
+        type: 'AIME_BRAINSTORM', 
+        projectName: universeState.projectName || 'Project',
+        creatorTag: creatorInfo.creatorTag,
+        contributorTags: creatorInfo.contributorTags || [],
+        prompt: brainstormPrompt, 
+        storyCards: creativeState.storyCards || [], 
+        exportedAt: new Date().toISOString() 
+      }, null, 2);
       downloadFile(payload, `aime_brainstorm_${timestamp}.json`, 'application/json');
     } else if (canvasKey === 'outline') {
-      downloadFile(creativeState.storyOutline || '', `aime_outline_${timestamp}.md`, 'text/markdown;charset=utf-8');
+      downloadFile(headerPrefix + (creativeState.storyOutline || ''), `aime_outline_${timestamp}.md`, 'text/markdown;charset=utf-8');
     } else if (canvasKey === 'beats') {
-      downloadFile(creativeState.sceneBeats || '', `aime_scene_beats_${timestamp}.md`, 'text/markdown;charset=utf-8');
+      downloadFile(headerPrefix + (creativeState.sceneBeats || ''), `aime_scene_beats_${timestamp}.md`, 'text/markdown;charset=utf-8');
     } else if (canvasKey === 'draft') {
-      downloadFile(creativeState.storyDraft || '', `aime_prose_draft_${timestamp}.md`, 'text/markdown;charset=utf-8');
+      downloadFile(headerPrefix + (creativeState.storyDraft || ''), `aime_prose_draft_${timestamp}.md`, 'text/markdown;charset=utf-8');
     }
   };
 
@@ -540,8 +562,26 @@ Format Instructions: Respond ONLY with the revised or generated text. Do not inc
       {/* Top Banner */}
       <div className="flex items-center justify-between p-4 border-b border-[#0D5C63]/50 bg-[#161b22]">
         <div>
-          <h2 className="text-xl font-bold text-cyan-400">AIME</h2>
-          <p className="text-sm text-slate-500">The Artificial Intellect Mythopoic Environ for Narrative Flow, Worldbuilding & Brainstorming</p>
+          <div className="flex items-center gap-3 flex-wrap">
+            <h2 className="text-xl font-bold text-cyan-400">AIME</h2>
+            {(() => {
+              const creatorInfo = extractCreatorInfo(universeState, userHandle, currentUser);
+              return (
+                <div className="flex items-center gap-1.5">
+                  <span className="px-2.5 py-1 bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 rounded text-xs font-mono font-bold flex items-center gap-1 shadow-sm" title="Original Creator">
+                    <span>🏷️</span>
+                    <span>{creatorInfo.creatorTag}</span>
+                  </span>
+                  {creatorInfo.contributorTags && creatorInfo.contributorTags.length > 0 && (
+                    <span className="px-2 py-1 bg-amber-950/80 border border-amber-500/40 text-amber-300 rounded text-[11px] font-mono font-bold" title={`Contributors: ${creatorInfo.contributorTags.join(', ')}`}>
+                      Contrib: {creatorInfo.contributorTags.join(', ')}
+                    </span>
+                  )}
+                </div>
+              );
+            })()}
+          </div>
+          <p className="text-sm text-slate-500">The Artificial Intellect Mythopoic Environ for Narrative Flow, Worldbuilding &amp; Brainstorming</p>
         </div>
         <button 
           onClick={() => setIsChatOpen(prev => !prev)}

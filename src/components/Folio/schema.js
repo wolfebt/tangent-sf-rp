@@ -64,6 +64,7 @@ export const characterSchema = z.object({
   'character-doc-id': z.string().optional(),
   isPublic: z.boolean().optional().default(false),
   authorHandle: z.string().optional().default(''),
+  contributors: z.array(z.string()).optional().default([]),
   ownerUid: z.string().optional().default(''),
   'char-name': z.string().optional().default(''),
   'char-concept': z.string().optional().default(''),
@@ -113,7 +114,7 @@ export const characterSchema = z.object({
   stats: z.string().optional().default(''),
   plotHooks: z.string().optional().default(''),
   romanticHistory: z.string().optional().default(''),
-  tags: z.string().optional().default(''),
+  tags: z.union([z.string(), z.array(z.string())]).optional().default(''),
 
   // Array fields with defaults and sub-schema validation
   features: z.array(traitItemSchema).optional().default([]),

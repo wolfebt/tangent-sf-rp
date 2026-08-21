@@ -1,161 +1,147 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import { useAuth } from '../context/AuthContext';
-import { UserSettingsModal } from '../components/UserSettingsModal';
+import { useStory } from '../context/CampaignContext';
+import { useFolio } from '../context/FolioContext';
+import { useDBM } from '../context/DBMContext';
+import { ActiveCampaignWidget } from '../components/Hub/ActiveCampaignWidget';
+import { PartyStatusWidget } from '../components/Hub/PartyStatusWidget';
+import { TransmissionFeed } from '../components/Hub/TransmissionFeed';
+import { ModuleLauncherCard } from '../components/Hub/ModuleLauncherCard';
+import { Database, Users, Map, ShieldCheck, Key, Terminal } from 'lucide-react';
+import { AudioService } from '../services/audioService';
 
 const Home = () => {
-  const navigate = useNavigate();
-  const { currentUser, userHandle, refreshUserHandle, loginWithGoogle, confirmLogout } = useAuth();
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const { currentUser, userHandle, loginWithGoogle } = useAuth();
+  const { universeState, mapsCatalog } = useStory();
+  const { personaRoster, roster } = useFolio();
+  const dbContext = useDBM() || {};
+  const dbData = dbContext.dbData || {};
 
-  const refreshSettings = () => {
-    refreshUserHandle();
-  };
+  // Calculate live dynamic metrics
+  const heroCount = (personaRoster || roster || []).length;
+  
+  const dbmTotalItems = Object.values(dbData).reduce((sum, categoryItems) => {
+    return sum + (Array.isArray(categoryItems) ? categoryItems.length : 0);
+  }, 0);
 
-  useEffect(() => {
-    refreshSettings();
-  }, []);
+  const scenarioCount = universeState?.scenarios?.length || 0;
+  const mapCount = (mapsCatalog?.length || 0) + (universeState?.maps?.length || 0);
 
-  const displayIdentity = userHandle ? `@${userHandle}` : (currentUser ? (currentUser.displayName || currentUser.email) : '');
+  const operatorDisplay = userHandle ? `@${userHandle}` : (currentUser?.displayName || currentUser?.email || 'OPERATOR');
 
   return (
     <div 
-      className="flex flex-col h-screen relative bg-cover bg-center bg-no-repeat bg-fixed text-[#f5f5f5] font-sans"
+      className="h-full w-full relative bg-cover bg-center bg-no-repeat bg-fixed text-slate-100 font-sans overflow-y-auto"
       style={{ backgroundImage: "url('/assets/images/background.png')" }}
     >
-      {/* Top Left Menu: Settings */}
-      <header className="absolute top-4 left-4 z-50">
-        <button 
-          onClick={() => setIsSettingsOpen(true)}
-          className="bg-[rgba(20,20,20,0.6)] hover:bg-[rgba(40,40,40,0.7)] backdrop-blur-sm px-3.5 py-2 rounded-lg border border-[#9e9e9e] hover:border-[#f5f5f5] text-slate-200 hover:text-white font-bold uppercase text-xs tracking-wider flex items-center gap-2 transition-all shadow-md"
-        >
-          <span>⚙️</span> Settings
-        </button>
-      </header>
-
-      {/* Top Right Header: User Account */}
-      <header className="absolute top-4 right-4 z-50">
-        {currentUser ? (
-          <div className="flex items-center gap-4 bg-[rgba(20,20,20,0.6)] backdrop-blur-sm p-2 rounded-lg border border-[#9e9e9e]">
-            <span className="text-sm text-cyan-300 font-bold">{displayIdentity}</span>
-            <button 
-              onClick={() => confirmLogout(navigate)}
-              className="bg-[rgba(30,30,30,0.7)] hover:bg-[rgba(40,40,40,0.7)] border border-[#888] hover:border-[#f5f5f5] text-[#f5f5f5] px-4 py-2 rounded-md font-bold uppercase transition-all duration-200 backdrop-blur-sm"
-            >
-              Logout
-            </button>
-          </div>
-        ) : (
-          <button 
-            onClick={loginWithGoogle}
-            className="bg-[rgba(30,30,30,0.7)] hover:bg-[rgba(40,40,40,0.7)] border border-[#888] hover:border-[#f5f5f5] text-[#f5f5f5] px-4 py-2 rounded-md font-bold uppercase transition-all duration-200 backdrop-blur-sm"
-          >
-            Login with Google
-          </button>
-        )}
-      </header>
-
-      {/* Main Content Area */}
-      <main className="flex-grow flex flex-col items-center justify-start text-center p-4 pt-20">
-        <div className="mb-8">
-          <h1 
-            className="text-6xl md:text-8xl font-bold tracking-[0.1em]"
-            style={{ textShadow: "-2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 4px 4px 8px rgba(0,0,0,0.7)" }}
-          >
-            TANGENT
-          </h1>
-          <h2 
-            className="text-xl md:text-2xl text-gray-300 mt-2 font-light tracking-wider"
-            style={{ textShadow: "-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 2px 2px 4px rgba(0,0,0,0.5)" }}
-          >
-            Science Fantasy Role Playing
-          </h2>
-          <p className="text-gray-400 text-sm mt-4">UI Version: React 2.0</p>
-        </div>
-
-        <div className="w-full max-w-lg flex flex-col items-center gap-6">
-          {currentUser ? (
-            <nav className="w-full grid grid-cols-1 gap-4">
-              <button 
-                onClick={() => navigate('/folio')}
-                className="w-full py-4 px-6 rounded-lg text-center transition-all duration-300 backdrop-blur-sm bg-[rgba(20,20,20,0.5)] hover:bg-[rgba(0,0,0,0.75)] text-[#f5f5f5] hover:-translate-y-1 group"
-                style={{ 
-                  boxShadow: "0 0 0 1px black, 0 0 0 2px white", 
-                  textShadow: "2px 2px 4px #000"
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = "0 0 0 1px black, 0 0 0 2px white, 0 0 25px rgba(0, 229, 255, 0.4)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = "0 0 0 1px black, 0 0 0 2px white";
-                }}
+      {/* Dark Overlay Gradient */}
+      <div className="min-h-full w-full bg-gradient-to-b from-[#0d1117]/80 via-[#0d1117]/55 to-[#0d1117]/85 backdrop-blur-[1px] p-4 sm:p-6 lg:p-8 flex flex-col justify-between">
+        <div className="max-w-7xl w-full mx-auto space-y-6">
+          
+          {/* Header & Command Hub Banner */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-slate-800">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/30 text-[10px] font-mono text-cyan-400 font-bold uppercase tracking-wider">
+                  <Terminal size={11} /> Command Center
+                </span>
+                <span className="text-slate-500 font-mono text-xs">•</span>
+                <span className="text-slate-400 font-mono text-xs">REACT 2.0 PROTOCOL</span>
+              </div>
+              <h1 
+                className="text-3xl sm:text-4xl md:text-5xl font-black tracking-wider uppercase text-white font-mono select-none"
+                style={{ textShadow: "0 0 20px rgba(34,211,238,0.3), 2px 2px 4px rgba(0,0,0,0.8)" }}
               >
-                <div className="text-2xl font-bold uppercase tracking-wider group-hover:text-cyan-300 transition-colors">
-                  FOLIO
-                </div>
-                <div className="text-xs text-gray-300 font-normal normal-case mt-1 tracking-normal opacity-90 group-hover:text-white transition-opacity">
-                  Character Sheet & Hero Creator — Access Character Roster, build characters, manage stats, and track CP budgets
-                </div>
-              </button>
-
-              <button 
-                onClick={() => navigate('/dbm')}
-                className="w-full py-4 px-6 rounded-lg text-center transition-all duration-300 backdrop-blur-sm bg-[rgba(20,20,20,0.5)] hover:bg-[rgba(0,0,0,0.75)] text-[#f5f5f5] hover:-translate-y-1 group"
-                style={{ 
-                  boxShadow: "0 0 0 1px black, 0 0 0 2px white", 
-                  textShadow: "2px 2px 4px #000"
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = "0 0 0 1px black, 0 0 0 2px white, 0 0 25px rgba(0, 229, 255, 0.4)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = "0 0 0 1px black, 0 0 0 2px white";
-                }}
-              >
-                <div className="text-2xl font-bold uppercase tracking-wider group-hover:text-cyan-300 transition-colors">
-                  OMNICORTEX
-                </div>
-                <div className="text-xs text-gray-300 font-normal normal-case mt-1 tracking-normal opacity-90 group-hover:text-white transition-opacity">
-                  Rulebook & Database Manager — Explore species, equipment, and core mechanics
-                </div>
-              </button>
-
-              <button 
-                onClick={() => navigate('/foundry')}
-                className="w-full py-4 px-6 rounded-lg text-center transition-all duration-300 backdrop-blur-sm bg-[rgba(20,20,20,0.5)] hover:bg-[rgba(0,0,0,0.75)] text-[#f5f5f5] hover:-translate-y-1 group"
-                style={{ 
-                  boxShadow: "0 0 0 1px black, 0 0 0 2px white", 
-                  textShadow: "2px 2px 4px #000"
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = "0 0 0 1px black, 0 0 0 2px white, 0 0 25px rgba(0, 229, 255, 0.4)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = "0 0 0 1px black, 0 0 0 2px white";
-                }}
-              >
-                <div className="text-2xl font-bold uppercase tracking-wider group-hover:text-cyan-300 transition-colors">
-                  FOUNDRY
-                </div>
-                <div className="text-xs text-gray-300 font-normal normal-case mt-1 tracking-normal opacity-90 group-hover:text-white transition-opacity">
-                  Campaign Workspace & Map Builder — Craft maps, story outlines, and elements
-                </div>
-              </button>
-            </nav>
-          ) : (
-            <div className="bg-[rgba(20,20,20,0.6)] backdrop-blur-sm p-8 rounded-lg border border-[#9e9e9e] w-full text-center">
-              <p className="text-lg text-gray-300">Please login to access tools.</p>
+                TANGENT <span className="text-cyan-400">SFF RP</span>
+              </h1>
+              <p className="text-xs sm:text-sm text-slate-300 font-mono tracking-wide mt-1">
+                SCIENCE FANTASY ROLE PLAYING • TACTICAL OPERATIONS HUB
+              </p>
             </div>
-          )}
-        </div>
-      </main>
 
-      {/* User Settings Modal */}
-      <UserSettingsModal 
-        isOpen={isSettingsOpen} 
-        onClose={() => setIsSettingsOpen(false)} 
-        onSaveSuccess={refreshSettings}
-      />
+            {/* Operator Status & Shortcuts Tip */}
+            <div className="flex flex-wrap items-center gap-3">
+              {currentUser ? (
+                <div className="px-3.5 py-2 rounded-xl bg-slate-900/80 border border-slate-700/80 flex items-center gap-2.5 text-xs font-mono">
+                  <ShieldCheck size={16} className="text-emerald-400" />
+                  <div>
+                    <span className="text-slate-500 text-[10px] block leading-none uppercase">Authorized</span>
+                    <span className="text-cyan-300 font-bold leading-none">{operatorDisplay}</span>
+                  </div>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1100, 0.03);
+                    loginWithGoogle();
+                  }}
+                  className="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-[0_0_15px_rgba(34,211,238,0.3)] flex items-center gap-2 font-mono"
+                >
+                  <Key size={14} /> Operator Login
+                </button>
+              )}
+
+              {/* Keyboard Hints Badge */}
+              <div className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-900/60 border border-slate-800 text-[11px] font-mono text-slate-400">
+                <span>Quick Find: <kbd className="px-1 py-0.5 rounded bg-slate-800 border border-slate-700 text-cyan-300">Ctrl+K</kbd></span>
+                <span>•</span>
+                <span>Dice Tray: <kbd className="px-1 py-0.5 rounded bg-slate-800 border border-slate-700 text-amber-300">Alt+D</kbd></span>
+              </div>
+            </div>
+          </div>
+
+          {/* Core Module Launchers Grid (Top Row) */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <ModuleLauncherCard
+              title="OMNICORTEX"
+              subtitle="Rules & DBM"
+              description="Comprehensive database manager for species, cyberware, disciplines, gear, items, and combat mechanics."
+              badge={dbmTotalItems > 0 ? `${dbmTotalItems.toLocaleString()} Entries` : 'Active Codex'}
+              icon={Database}
+              path="/dbm"
+              theme="emerald"
+              frequency={1050}
+            />
+
+            <ModuleLauncherCard
+              title="PERSONA FOLIO"
+              subtitle="Hero Builder"
+              description="Character creation, cybernetic augmentations, karma, CP economy breakdowns, and operative roster management."
+              badge={`${heroCount} ${heroCount === 1 ? 'Operative' : 'Operatives'}`}
+              icon={Users}
+              path="/folio"
+              theme="cyan"
+              frequency={1200}
+            />
+
+            <ModuleLauncherCard
+              title="STORY FOUNDRY"
+              subtitle="VTT & Tactical Maps"
+              description="Interactive campaign authoring, scenario outlines, fog-of-war battlemaps, and AIME narrative generator."
+              badge={`${scenarioCount} Scenarios • ${mapCount} Maps`}
+              icon={Map}
+              path="/foundry"
+              theme="purple"
+              frequency={1350}
+            />
+          </div>
+
+          {/* Operational Roleplay Grid (Active Ops + Party Vitals + Transmission Log - Bottom Row) */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+            <ActiveCampaignWidget />
+            <PartyStatusWidget />
+            <TransmissionFeed />
+          </div>
+
+        </div>
+
+        {/* Footer info */}
+        <footer className="max-w-7xl w-full mx-auto pt-8 pb-2 border-t border-slate-900/60 mt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-slate-500 gap-2">
+          <span>TANGENT SCIENCE FANTASY ROLE PLAYING SYSTEM • HUB V2.0</span>
+          <span>CYBERNETIC INTERFACE INITIALIZED</span>
+        </footer>
+      </div>
     </div>
   );
 };

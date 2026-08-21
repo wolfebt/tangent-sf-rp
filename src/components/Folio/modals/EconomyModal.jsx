@@ -135,32 +135,68 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
               {identityCategories.map(({ key, label, data }) => {
                 const name = data?.name || 'Not Selected';
                 const pools = data?.pools || [];
+                const activeModifiers = data?.activeModifiers || [];
                 const isSelected = name && name !== 'Not Selected';
+                const hasBonuses = pools.length > 0 || activeModifiers.length > 0;
 
                 return (
-                  <div key={key} className="bg-slate-950/70 border border-slate-800 rounded-lg p-3.5 space-y-2 flex flex-col justify-between">
+                  <div key={key} className="bg-slate-950/70 border border-slate-800 rounded-lg p-3.5 space-y-3 flex flex-col justify-between">
                     <div className="flex justify-between items-start border-b border-slate-800/80 pb-2">
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-400">
-                        {label}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-400">
+                          {label}
+                        </span>
+                        {hasBonuses && (
+                          <span className="text-[9px] bg-cyan-950 text-cyan-300 border border-cyan-500/40 px-1.5 py-0.2 rounded font-mono font-bold">
+                            {pools.length > 0 ? `${pools.length} Pool${pools.length > 1 ? 's' : ''}` : ''}
+                            {pools.length > 0 && activeModifiers.length > 0 ? ' • ' : ''}
+                            {activeModifiers.length > 0 ? `${activeModifiers.length} Mod${activeModifiers.length > 1 ? 's' : ''}` : ''}
+                          </span>
+                        )}
+                      </div>
                       <span className={`text-xs font-semibold truncate max-w-[140px] ${isSelected ? 'text-amber-300' : 'text-slate-500 italic'}`}>
                         {name}
                       </span>
                     </div>
 
-                    <div className="space-y-1.5 flex-1 pt-1">
-                      {pools.length > 0 ? (
-                        pools.map((p, idx) => (
-                          <div key={idx} className="flex justify-between items-center bg-slate-900/90 border border-slate-800 px-2.5 py-1 rounded text-xs">
-                            <span className="text-slate-300 font-medium">{p.name || 'Granted Pool'}</span>
-                            <span className="font-mono font-bold text-emerald-400">
-                              +{p.awarded} {p.type || 'Points'}
-                            </span>
-                          </div>
-                        ))
-                      ) : (
+                    <div className="space-y-2 flex-1 pt-1">
+                      {/* Allotted Point Pools for Spend */}
+                      {pools.length > 0 && (
+                        <div className="space-y-1">
+                          <span className="text-[9px] font-bold uppercase tracking-widest text-emerald-400/90 block">
+                            Point Pools to Allocate:
+                          </span>
+                          {pools.map((p, idx) => (
+                            <div key={idx} className="flex justify-between items-center bg-slate-900/90 border border-emerald-900/50 px-2.5 py-1 rounded text-xs">
+                              <span className="text-slate-200 font-medium">{p.name || 'Granted Pool'}</span>
+                              <span className="font-mono font-bold text-emerald-400 shrink-0">
+                                +{p.awarded} {p.type || 'Points'}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Active Constant Modifiers */}
+                      {activeModifiers.length > 0 && (
+                        <div className="space-y-1">
+                          <span className="text-[9px] font-bold uppercase tracking-widest text-cyan-400/90 block">
+                            Active Modifiers:
+                          </span>
+                          {activeModifiers.map((m, idx) => (
+                            <div key={idx} className="flex justify-between items-center bg-slate-900/90 border border-cyan-900/50 px-2.5 py-1 rounded text-xs">
+                              <span className="text-slate-200 font-medium">{m.name || `${m.target} Modifier`}</span>
+                              <span className="font-mono font-bold text-cyan-300 shrink-0">
+                                +{m.value} {m.target}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {!hasBonuses && (
                         <div className="p-2 text-center text-[11px] text-slate-500 italic bg-slate-900/40 rounded border border-slate-800/50">
-                          {isSelected ? 'No custom point pools allotted.' : 'Select an entry to view allotted pools.'}
+                          {isSelected ? 'No custom point pools or modifiers allotted.' : 'Select an entry to view allotted pools.'}
                         </div>
                       )}
                     </div>

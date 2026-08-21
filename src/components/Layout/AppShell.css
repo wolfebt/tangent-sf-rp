@@ -7,18 +7,18 @@
 }
 
 .sidebar {
-  width: 260px;
+  width: var(--sidebar-width, 260px);
   height: 100%;
   display: flex;
   flex-direction: column;
   padding: 24px 16px;
-  border-right: 1px solid var(--glass-border);
+  border-right: 1px solid var(--color-border-subtle);
   border-radius: 0;
   z-index: 40;
-  position: absolute; /* Default to absolute for sliding */
+  position: absolute;
   left: 0;
   top: 0;
-  background: var(--bg-secondary);
+  background: var(--color-bg-surface-elevated);
   transition: transform var(--transition-normal);
 }
 
@@ -33,7 +33,7 @@
 .sidebar-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
   z-index: 30;
   opacity: 0;
@@ -59,28 +59,29 @@
   margin-left: auto;
   background: none;
   border: none;
-  color: var(--text-muted);
+  color: var(--color-text-muted);
   cursor: pointer;
 }
 
 .logo {
   width: 40px;
   height: 40px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--color-accent-cyan), #0D5C63);
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
   font-size: 1.1rem;
   color: white;
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+  box-shadow: 0 4px 12px var(--color-accent-cyan-glow);
 }
 
 .brand-name {
+  font-family: var(--font-title);
   font-size: 1.25rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--color-text-primary);
   margin: 0;
 }
 
@@ -98,7 +99,7 @@
   font-size: 0.75rem;
   text-transform: uppercase;
   font-weight: 600;
-  color: var(--text-muted);
+  color: var(--color-text-muted);
   letter-spacing: 0.05em;
 }
 
@@ -108,7 +109,7 @@
   gap: 12px;
   padding: 12px;
   border-radius: var(--radius-md);
-  color: var(--text-secondary);
+  color: var(--color-text-secondary);
   text-decoration: none;
   transition: all var(--transition-fast);
   font-weight: 500;
@@ -120,20 +121,20 @@
 }
 
 .nav-item:hover {
-  background: var(--border-subtle);
-  color: var(--text-primary);
+  background: var(--color-border-subtle);
+  color: var(--color-text-primary);
 }
 
 .nav-item.active {
-  background: rgba(99, 102, 241, 0.15);
-  color: var(--accent-primary);
-  box-shadow: inset 3px 0 0 var(--accent-primary);
+  background: rgba(34, 211, 238, 0.12);
+  color: var(--color-accent-cyan);
+  box-shadow: inset 3px 0 0 var(--color-accent-cyan);
 }
 
 .sidebar-footer {
   margin-top: auto;
   padding-top: 16px;
-  border-top: 1px solid var(--border-light);
+  border-top: 1px solid var(--color-border-subtle);
 }
 
 .main-wrapper {
@@ -142,10 +143,7 @@
   flex-direction: column;
   height: 100%;
   transition: margin-left var(--transition-normal);
-  /* The margin matches sidebar width on wide screens if we want it static, 
-     but since it's slidable we can just overlay or push.
-     For a 3-column wide view pushing effect: */
-  margin-left: 260px; /* Default wide state with sidebar open */
+  margin-left: var(--sidebar-width, 260px);
 }
 
 /* When sidebar is closed on desktop, main content expands */
@@ -156,16 +154,17 @@
 .top-bar {
   display: flex;
   align-items: center;
-  padding: 16px 24px;
-  background: var(--bg-primary);
-  border-bottom: 1px solid var(--border-subtle);
+  padding: 0 24px;
+  height: var(--hud-height, 56px);
+  background: var(--color-bg-surface);
+  border-bottom: 1px solid var(--color-border-subtle);
   z-index: 10;
 }
 
 .menu-toggle-btn {
   background: transparent;
   border: none;
-  color: var(--text-primary);
+  color: var(--color-text-primary);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -176,25 +175,25 @@
 }
 
 .menu-toggle-btn:hover {
-  background: var(--border-subtle);
+  background: var(--color-border-subtle);
 }
 
 .main-content {
   flex: 1;
   overflow-y: auto;
-  background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.08), transparent 50%),
-              radial-gradient(circle at bottom left, rgba(139, 92, 246, 0.05), transparent 50%);
+  background: radial-gradient(circle at top right, rgba(34, 211, 238, 0.06), transparent 50%),
+              radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.04), transparent 50%);
 }
 
 /* Responsive Narrow View */
 @media (max-width: 1024px) {
   .main-wrapper {
-    margin-left: 0 !important; /* Sidebar always overlays on mobile */
+    margin-left: 0 !important;
   }
   
   .sidebar {
-    background: var(--bg-secondary);
-    border-right: 1px solid var(--border-light);
+    background: var(--color-bg-surface-elevated);
+    border-right: 1px solid var(--color-border-medium);
     box-shadow: 4px 0 24px rgba(0,0,0,0.5);
   }
   

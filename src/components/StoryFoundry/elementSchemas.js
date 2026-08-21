@@ -216,6 +216,10 @@ export const ELEMENT_SCHEMAS = {
   ],
   'Species': [
     { tab: 'Overview', key: 'name', label: 'Species Name', type: 'text', placeholder: 'Name...' },
+    { tab: 'Overview', key: 'dbmSpeciesRef', label: 'Species Record (Cloud DB)', type: 'relational', dbSource: 'species', placeholder: 'Link Cloud DBM Species...' },
+    { tab: 'Overview', key: 'speciesTypeRef', label: 'Species Type (Cloud DB)', type: 'relational', dbSource: 'species_type', placeholder: 'Select Species Type...' },
+    { tab: 'Overview', key: 'speciesSizeRef', label: 'Species Size (Cloud DB)', type: 'relational', dbSource: 'species_size', placeholder: 'Select Species Size...' },
+    { tab: 'Overview', key: 'speciesMovementRef', label: 'Species Movement (Cloud DB)', type: 'relational', dbSource: 'species_movement', placeholder: 'Select Species Movement...' },
     { tab: 'Overview', key: 'homeworld', label: 'Homeworld / Plane of Origin', type: 'text', placeholder: 'Homeworld...' },
     { tab: 'Overview', key: 'sentience', label: 'Sentience Level', type: 'text', placeholder: 'Sentience...' },
     { tab: 'Overview', key: 'description', label: 'General Description', type: 'textarea', placeholder: 'Description...' },
@@ -234,8 +238,10 @@ export const ELEMENT_SCHEMAS = {
     { tab: 'Culture & Society', key: 'laws', label: 'Laws, Ethics & Rank Hierarchy', type: 'textarea', placeholder: 'Laws...' },
     { tab: 'Culture & Society', key: 'language', label: 'Language, Tech Level & Art', type: 'textarea', placeholder: 'Language...' },
     { tab: 'Culture & Society', key: 'religion', label: 'Religion, Rituals & Cuisine', type: 'textarea', placeholder: 'Religion...' },
+    { tab: 'Ecology & Abilities', key: 'traitsRef', label: 'Species Traits (Cloud DB)', type: 'relational', dbSource: 'trait', placeholder: 'Select Cloud DBM Species Traits...' },
     { tab: 'Ecology & Abilities', key: 'ecology', label: 'Homeworld Environment & Niche', type: 'textarea', placeholder: 'Environment...' },
     { tab: 'Ecology & Abilities', key: 'abilities', label: 'Inherent Abilities & Strengths', type: 'textarea', placeholder: 'Abilities...' },
-    { tab: 'Ecology & Abilities', key: 'weaknesses', label: 'Species Weaknesses & Unique Traits', type: 'textarea', placeholder: 'Weaknesses...' }
+    { tab: 'Ecology & Abilities', key: 'weaknesses', label: 'Species Weaknesses & Unique Traits', type: 'textarea', placeholder: 'Weaknesses...' },
+    { tab: 'Ecology & Abilities', key: 'tags', label: 'Tags', type: 'text', placeholder: 'Species tags (e.g. Organic, Cyber-Enhanced, Aquatic)...' }
   ]
 };

@@ -18,26 +18,20 @@ const ATTRIBUTES = [
 ];
 
 const CoreStatsTab = () => {
-  const { characterData, updateField, derivedStats } = useFolio();
+  const { characterData, updateField, derivedStats, getAttrMod, getAttrTotal, computedModifiers } = useFolio();
   // Helper to safely get numeric field value
   const getNum = (id, defaultVal = 0) => parseInt(characterData[id] || defaultVal, 10);
 
-  // Auto-calculated attribute totals
-  const getAttrTotal = (id) => {
-    const val = getNum(id);
-    const mod = getNum(`${id}-mod`);
-    return val + mod;
-  };
-
-  // Initiative Total
+  // Initiative Total with active combat modifiers
   const reflexTotal = getAttrTotal('attr-reflex');
-  const initiativeMod = getNum('initiative-mod');
+  const initiativeIdentityMod = computedModifiers?.combatMods?.['initiative-mod'] || 0;
+  const initiativeMod = getNum('initiative-mod') + initiativeIdentityMod;
   const initiativeTotal = reflexTotal + initiativeMod;
 
   // Perception calculations
   const intellectTotal = getAttrTotal('attr-intellect');
   const wisdomTotal = getAttrTotal('attr-wisdom');
-  const alertnessMod = getNum('skill-mental-alertness-mod');
+  const alertnessMod = getNum('skill-mental-alertness-mod') + (computedModifiers?.skillMods?.['alertness'] || 0);
   const alertnessRank = getNum('skill-mental-alertness-rank');
   const attuneRank = getNum('skill-meta-attune-rank');
   const insightRank = getNum('skill-social-insight-rank');
@@ -109,15 +103,52 @@ const CoreStatsTab = () => {
     updateField(id, newVal);
   };
 
+  // Collect any species/identity bonus attribute point pools or modifiers
+  const identityAttrPools = [];
+  if (computedModifiers?.identityPools) {
+    Object.values(computedModifiers.identityPools).forEach(cat => {
+      if (cat?.pools) {
+        cat.pools.filter(p => p.type?.toLowerCase().includes('attr')).forEach(p => {
+          identityAttrPools.push({ ...p, source: cat.title });
+        });
+      }
+    });
+  }
+
   return (
     <div className="tab-panel active p-4 space-y-6">
+      {/* Identity Attribute Bonus Banner if any pools are granted */}
+      {identityAttrPools.length > 0 && (
+        <div className="bg-cyan-950/70 border border-cyan-500/50 rounded-lg p-3 flex flex-wrap items-center justify-between gap-2 text-xs text-cyan-200">
+          <div className="flex items-center gap-2">
+            <span className="text-base">🧬</span>
+            <span className="font-bold uppercase tracking-wider text-cyan-300">Identity Attribute Points Allotted:</span>
+            <div className="flex flex-wrap gap-1.5">
+              {identityAttrPools.map((pool, idx) => (
+                <span key={idx} className="bg-slate-900/90 border border-cyan-400/40 text-cyan-300 px-2 py-0.5 rounded font-mono font-bold text-[11px]">
+                  +{pool.awarded} {pool.name} ({pool.source})
+                </span>
+              ))}
+            </div>
+          </div>
+          <span className="text-[10px] text-cyan-400/80 italic font-mono">
+            Allocate freely into your base attributes above
+          </span>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
         {/* Column 1: Attributes Table */}
         <div className="bg-slate-900/60 border border-cyan-900/50 rounded-lg p-4 space-y-3">
-          <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-400 border-b border-cyan-900/60 pb-2">
-            Attributes & Sub-Attributes
-          </h3>
+          <div className="flex justify-between items-center border-b border-cyan-900/60 pb-2">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-400">
+              Attributes & Sub-Attributes
+            </h3>
+            <span className="text-[10px] font-mono text-slate-400">
+              Auto-Calculated with Species & Modifiers
+            </span>
+          </div>
 
           <div className="grid grid-cols-12 text-xs font-bold text-slate-400 uppercase tracking-wider px-2 py-1">
             <span className="col-span-5">Attribute</span>
@@ -130,7 +161,9 @@ const CoreStatsTab = () => {
             {ATTRIBUTES.map((attr) => {
               const total = getAttrTotal(attr.id);
               const val = getNum(attr.id);
-              const mod = getNum(`${attr.id}-mod`);
+              const totalMod = getAttrMod(attr.id);
+              const identityBonusMod = computedModifiers?.attributeMods?.[attr.id] || 0;
+              const hasIdentityBonus = identityBonusMod !== 0;
 
               return (
                 <div
@@ -139,10 +172,15 @@ const CoreStatsTab = () => {
                     !attr.sub
                       ? 'bg-slate-800/80 border-l-4 border-cyan-500 font-bold'
                       : 'bg-slate-950/40 border-l border-slate-700 pl-4 text-slate-300'
-                  }`}
+                  } ${hasIdentityBonus ? 'ring-1 ring-cyan-500/30' : ''}`}
                 >
-                  <label htmlFor={attr.id} className="col-span-5 text-xs tracking-wide">
-                    {attr.name}
+                  <label htmlFor={attr.id} className="col-span-5 text-xs tracking-wide flex items-center gap-1.5">
+                    <span>{attr.name}</span>
+                    {hasIdentityBonus && (
+                      <span className="text-[9px] bg-cyan-950 text-cyan-300 border border-cyan-500/50 px-1 rounded font-mono font-bold" title={`+${identityBonusMod} from Species/Identity Modifiers`}>
+                        +{identityBonusMod}
+                      </span>
+                    )}
                   </label>
 
                   <div className="col-span-3 px-1">
@@ -159,11 +197,11 @@ const CoreStatsTab = () => {
                     />
                   </div>
 
-                  <div className="col-span-2 text-center text-xs font-semibold text-slate-400">
-                    {mod > 0 ? `+${mod}` : mod}
+                  <div className="col-span-2 text-center text-xs font-semibold text-slate-400" title={hasIdentityBonus ? `Total Mod: ${totalMod} (Includes +${identityBonusMod} Identity Mod)` : undefined}>
+                    {totalMod > 0 ? `+${totalMod}` : totalMod}
                   </div>
 
-                  <div className="col-span-2 text-center text-xs font-bold text-cyan-300">
+                  <div className="col-span-2 text-center text-xs font-bold text-cyan-300 font-mono">
                     {total}
                   </div>
                 </div>

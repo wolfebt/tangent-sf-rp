@@ -47,7 +47,7 @@ const CONTENT = {
       <div className="space-y-3">
         {[
           { label: 'Character Name', desc: 'Your operative\'s in-world name. Appears throughout the Folio header.' },
-          { label: 'Species', desc: 'Determines baseline biological traits, size, movement, and species-specific bonuses.' },
+          { label: 'Species', desc: 'Determines baseline biological traits, size, movement, and species traits. Multiple selected traits and stat modifiers automatically calculate into your attributes and budget.' },
           { label: 'Origin', desc: 'Your operative\'s background story archetype. Provides CP bonuses and starting skills.' },
           { label: 'Augmentations', desc: 'Cybernetic or biological enhancements installed on the operative. Each costs CP and may grant stat modifiers.' },
           { label: 'Age / Height / Weight', desc: 'Descriptive biography fields for roleplay immersion.' },

@@ -10,7 +10,11 @@ export const DBMLandingView = ({ parentKey, onNavigateToSubItem }) => {
     weaponry: '⚔️',
     gear: '🎒',
     mecha: '🤖',
-    other: '📦'
+    other: '📦',
+    species_type: '🧬',
+    species_size: '📏',
+    species_movement: '🏃',
+    trait: '✨'
   };
 
   return (

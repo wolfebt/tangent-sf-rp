@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useStory, formatExportFilename } from '../../../context/CampaignContext';
 import { useAuth } from '../../../context/AuthContext';
+import { extractCreatorInfo } from '../../../utils/creatorUtils';
 import Split from 'react-split';
 import { v4 as uuidv4 } from 'uuid';
 import { ELEMENT_TYPES, ELEMENT_SCHEMAS, getTypePillStyle } from '../ElementForge/elementSchemas';
@@ -1143,6 +1144,7 @@ const ScenarioPane = ({ onOpenBastion, onSwitchTab, onOpenCatalog }) => {
       return html;
     };
 
+    const creatorInfo = extractCreatorInfo(targetNode || universeState, userHandle, currentUser);
     const fullHTML = `
       <!DOCTYPE html>
       <html>
@@ -1150,10 +1152,11 @@ const ScenarioPane = ({ onOpenBastion, onSwitchTab, onOpenCatalog }) => {
           <title>Tangent SFF RPG - ${targetNode.title}</title>
           <style>
             body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; padding: 40px; color: #0f172a; background: #fff; }
-            .header { border-bottom: 3px solid #0284c7; padding-bottom: 12px; margin-bottom: 24px; }
+            .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 3px solid #0284c7; padding-bottom: 12px; margin-bottom: 24px; gap: 16px; }
             .title { font-size: 26px; font-weight: bold; color: #0369a1; text-transform: uppercase; letter-spacing: 1px; }
             .subtitle { font-size: 12px; color: #64748b; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; }
             .path { font-size: 11px; font-family: monospace; color: #475569; margin-top: 6px; }
+            .creator-box { text-align: right; font-family: monospace; font-size: 11px; font-weight: bold; color: #0369a1; background: #e0f2fe; border: 1px solid #bae6fd; padding: 5px 10px; border-radius: 4px; white-space: nowrap; }
             @media print {
               body { padding: 0; }
             }
@@ -1161,9 +1164,15 @@ const ScenarioPane = ({ onOpenBastion, onSwitchTab, onOpenCatalog }) => {
         </head>
         <body>
           <div class="header">
-            <div class="subtitle">Tangent Science Fantasy Roleplay — Story Module</div>
-            <div class="title">${targetNode.title}</div>
-            <div class="path">Location Path: ${locationPath ? locationPath.join(' ❯ ') : 'Root'}</div>
+            <div>
+              <div class="subtitle">Tangent Science Fantasy Roleplay — Story Module</div>
+              <div class="title">${targetNode.title}</div>
+              <div class="path">Location Path: ${locationPath ? locationPath.join(' ❯ ') : 'Root'}</div>
+            </div>
+            <div class="creator-box">
+              <div>🏷️ CREATOR: ${creatorInfo.creatorTag}</div>
+              ${creatorInfo.contributorTags && creatorInfo.contributorTags.length > 0 ? `<div style="font-size: 9px; color: #475569; margin-top: 3px;">CONTRIB: ${creatorInfo.contributorTags.join(', ')}</div>` : ''}
+            </div>
           </div>
           ${buildNodeHTML(targetNode)}
           <script>
@@ -1373,7 +1382,7 @@ const ScenarioPane = ({ onOpenBastion, onSwitchTab, onOpenCatalog }) => {
         {/* Title & Header Name Display */}
         <div className="flex items-center gap-3">
           <div className="flex flex-col">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <h2 id="story-module-title-header" className="text-sm sm:text-base font-bold font-mono text-cyan-400 uppercase tracking-wider drop-shadow-[0_0_8px_rgba(34,211,238,0.3)] shrink-0">
                 Story Module
               </h2>
@@ -1386,6 +1395,22 @@ const ScenarioPane = ({ onOpenBastion, onSwitchTab, onOpenCatalog }) => {
                 placeholder="UNNAMED STORY"
                 title="Click to rename Story Module"
               />
+              {(() => {
+                const creatorInfo = extractCreatorInfo(universeState, userHandle, currentUser);
+                return (
+                  <div className="flex items-center gap-1.5 ml-1">
+                    <span className="px-2 py-0.5 bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 rounded text-xs font-mono font-bold flex items-center gap-1 shadow-sm" title="Original Creator">
+                      <span>🏷️</span>
+                      <span>{creatorInfo.creatorTag}</span>
+                    </span>
+                    {creatorInfo.contributorTags && creatorInfo.contributorTags.length > 0 && (
+                      <span className="px-2 py-0.5 bg-amber-950/80 border border-amber-500/40 text-amber-300 rounded text-[11px] font-mono font-bold" title={`Contributors: ${creatorInfo.contributorTags.join(', ')}`}>
+                        Contrib: {creatorInfo.contributorTags.join(', ')}
+                      </span>
+                    )}
+                  </div>
+                );
+              })()}
             </div>
           </div>
         </div>

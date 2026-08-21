@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useFolio } from '../../../context/FolioContext';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
+import { rollDice } from '../../../services/diceService';
+import { AudioService } from '../../../services/audioService';
+import { Dices, Sparkles, X } from 'lucide-react';
 
 const PROPERTY_TABS = [
   { id: 'gear', label: 'Gear', title: 'Gear', key: 'gear', dbPath: 'gear' },
@@ -15,6 +18,27 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
 
   const [combatTab, setCombatTab] = useState('offensive'); // 'offensive' | 'defensive'
   const [propertyTab, setPropertyTab] = useState('gear'); // 'gear' | 'weapons' | 'armor' | 'mecha' | 'other'
+  const [latestDamageRoll, setLatestDamageRoll] = useState(null);
+
+  const handleRollDamage = (damageExpr, weaponName) => {
+    if (!damageExpr) return;
+    const rollResult = rollDice(damageExpr, {
+      characterName: characterData['char-name'] || 'Hero',
+      label: `${weaponName || 'Weapon'} Damage`
+    });
+
+    AudioService.playDiceRollSound();
+    if (rollResult.isCritSuccess) {
+      AudioService.playCriticalChime(true);
+    } else if (rollResult.isCritFail) {
+      AudioService.playCriticalChime(false);
+    } else {
+      AudioService.playCombatHit(false);
+    }
+
+    setLatestDamageRoll(rollResult);
+  };
+
 
   const getArray = (key) => {
     const val = characterData[key];
@@ -110,6 +134,16 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                           {cp} CP
                         </span>
                       )}
+                      {isObj && item.damage && (
+                        <button
+                          type="button"
+                          onClick={() => handleRollDamage(item.damage, name)}
+                          className="px-1.5 py-0.5 bg-amber-600 hover:bg-amber-500 text-white rounded text-[10px] font-mono font-bold shrink-0 transition-colors flex items-center gap-0.5 shadow-sm active:scale-95 cursor-pointer"
+                          title={`Roll damage formula (${item.damage}) for ${name}`}
+                        >
+                          <span>🎲</span> {item.damage}
+                        </button>
+                      )}
                     </div>
                     <div className="flex items-center gap-1 shrink-0">
                       {onOpenAssetModal && isObj && (
@@ -125,7 +159,7 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       <button
                         type="button"
                         onClick={() => removeItem(idx)}
-                        className="text-slate-400 hover:text-red-400 text-sm font-bold leading-none px-1 transition-colors"
+                        className="text-slate-400 hover:text-red-400 text-sm font-bold leading-none px-1 transition-colors cursor-pointer"
                       >
                         &times;
                       </button>
@@ -165,6 +199,52 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
 
   return (
     <div className="tab-panel active p-4 space-y-6">
+      {/* Latest Damage Roll Feedback Banner */}
+      {latestDamageRoll && (
+        <div className={`p-3 rounded-lg border flex items-center justify-between transition-all animate-fadeIn select-none ${
+          latestDamageRoll.isCritSuccess 
+            ? 'bg-amber-500/20 border-amber-400 text-amber-200 shadow-[0_0_15px_rgba(245,158,11,0.3)]'
+            : latestDamageRoll.isCritFail
+            ? 'bg-red-500/20 border-red-500 text-red-200 shadow-[0_0_15px_rgba(239,68,68,0.3)]'
+            : 'bg-slate-900/95 border-cyan-500/50 text-slate-100 shadow-lg'
+        }`}>
+          <div className="flex items-center gap-3">
+            <div className="text-2xl font-bold font-mono text-cyan-300 flex items-center gap-1.5">
+              <span>🎲</span> {latestDamageRoll.total}
+            </div>
+            <div>
+              <div className="text-xs font-bold text-slate-200 flex items-center gap-2">
+                <span>{latestDamageRoll.label}</span>
+                <span className="font-mono text-cyan-400 bg-cyan-950/80 px-1.5 py-0.5 rounded border border-cyan-500/30 text-[10px]">
+                  {latestDamageRoll.expression}
+                </span>
+                {latestDamageRoll.isCritSuccess && (
+                  <span className="text-[10px] font-extrabold text-amber-300 uppercase tracking-wider animate-pulse">
+                    ⚡ CRITICAL HIT!
+                  </span>
+                )}
+                {latestDamageRoll.isCritFail && (
+                  <span className="text-[10px] font-extrabold text-rose-400 uppercase tracking-wider">
+                    💀 CRITICAL MISS!
+                  </span>
+                )}
+              </div>
+              <div className="text-[10px] font-mono text-slate-400">
+                Rolls: [{latestDamageRoll.rolls.map(r => r.value).join(', ')}] {latestDamageRoll.modifier !== 0 ? (latestDamageRoll.modifier > 0 ? `+ ${latestDamageRoll.modifier}` : `${latestDamageRoll.modifier}`) : ''}
+              </div>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => setLatestDamageRoll(null)}
+            className="text-slate-400 hover:text-white text-xs px-2 py-1 cursor-pointer"
+            title="Dismiss Roll"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
       {/* Combat Section */}
       <div className="space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-cyan-900/60 pb-2">
@@ -277,6 +357,16 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       className="col-span-1 bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded px-2 py-1 text-slate-100 outline-none"
                     />
                     <div className="col-span-2 flex items-center justify-end gap-1">
+                      {att.damage && (
+                        <button
+                          type="button"
+                          onClick={() => handleRollDamage(att.damage, att.name)}
+                          className="px-1.5 py-1 bg-amber-600 hover:bg-amber-500 text-white rounded text-[10px] font-bold font-mono transition-colors shadow-sm active:scale-95 cursor-pointer"
+                          title={`Roll damage formula (${att.damage})`}
+                        >
+                          🎲
+                        </button>
+                      )}
                       {onOpenAssetModal && (
                         <button
                           type="button"
@@ -290,7 +380,7 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       <button
                         type="button"
                         onClick={() => removeAttack(idx)}
-                        className="text-slate-400 hover:text-red-400 font-bold text-sm"
+                        className="text-slate-400 hover:text-red-400 font-bold text-sm cursor-pointer"
                       >
                         &times;
                       </button>

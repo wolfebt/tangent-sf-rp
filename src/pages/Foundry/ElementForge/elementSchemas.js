@@ -246,6 +246,10 @@ export const ELEMENT_SCHEMAS = {
   ],
   'Species': [
     { tab: 'Overview', key: 'name', label: 'Species Name', type: 'text', placeholder: 'Name...' },
+    { tab: 'Overview', key: 'dbmSpeciesRef', label: 'Species Record (Cloud DB)', type: 'relational', dbSource: 'species', placeholder: 'Link Cloud DBM Species...' },
+    { tab: 'Overview', key: 'speciesTypeRef', label: 'Species Type (Cloud DB)', type: 'relational', dbSource: 'species_type', placeholder: 'Select Species Type...' },
+    { tab: 'Overview', key: 'speciesSizeRef', label: 'Species Size (Cloud DB)', type: 'relational', dbSource: 'species_size', placeholder: 'Select Species Size...' },
+    { tab: 'Overview', key: 'speciesMovementRef', label: 'Species Movement (Cloud DB)', type: 'relational', dbSource: 'species_movement', placeholder: 'Select Species Movement...' },
     { tab: 'Overview', key: 'homeworld', label: 'Homeworld / Plane of Origin', type: 'text', placeholder: 'Homeworld...' },
     { tab: 'Overview', key: 'sentience', label: 'Sentience Level', type: 'text', placeholder: 'Sentience...' },
     { tab: 'Overview', key: 'description', label: 'General Description', type: 'textarea', placeholder: 'Description...' },
@@ -264,8 +268,94 @@ export const ELEMENT_SCHEMAS = {
     { tab: 'Culture & Society', key: 'laws', label: 'Laws, Ethics & Rank Hierarchy', type: 'textarea', placeholder: 'Laws...' },
     { tab: 'Culture & Society', key: 'language', label: 'Language, Tech Level & Art', type: 'textarea', placeholder: 'Language...' },
     { tab: 'Culture & Society', key: 'religion', label: 'Religion, Rituals & Cuisine', type: 'textarea', placeholder: 'Religion...' },
+    { tab: 'Ecology & Abilities', key: 'traitsRef', label: 'Species Traits (Cloud DB)', type: 'relational', dbSource: 'trait', placeholder: 'Select Cloud DBM Species Traits...' },
     { tab: 'Ecology & Abilities', key: 'ecology', label: 'Homeworld Environment & Niche', type: 'textarea', placeholder: 'Environment...' },
     { tab: 'Ecology & Abilities', key: 'abilities', label: 'Inherent Abilities & Strengths', type: 'textarea', placeholder: 'Abilities...' },
-    { tab: 'Ecology & Abilities', key: 'weaknesses', label: 'Species Weaknesses & Unique Traits', type: 'textarea', placeholder: 'Weaknesses...' }
+    { tab: 'Ecology & Abilities', key: 'weaknesses', label: 'Species Weaknesses & Unique Traits', type: 'textarea', placeholder: 'Weaknesses...' },
+    { tab: 'Ecology & Abilities', key: 'tags', label: 'Tags', type: 'text', placeholder: 'Species tags (e.g. Organic, Cyber-Enhanced, Aquatic)...' }
   ]
 };
+
+export const SCENARIO_GUIDE_MODULES = [
+  {
+    id: 'sg_adventure',
+    name: 'Adventure Module',
+    category: 'Narrative',
+    elementType: 'Adventure',
+    icon: '📜',
+    promptTemplate: 'Synthesize a multi-act science fantasy Adventure Module titled "{title}". Include premise, key locations, hazards, NPC cast, combat encounters, and branching outcomes.'
+  },
+  {
+    id: 'sg_encounter',
+    name: 'Combat & Trap Encounter',
+    category: 'Tactical',
+    elementType: 'Encounter',
+    icon: '⚔️',
+    promptTemplate: 'Design a tactical Combat & Trap Encounter titled "{title}". Include terrain features, cover, environmental hazards, enemy statblocks, tactics, and XP/CP rewards.'
+  },
+  {
+    id: 'sg_npc',
+    name: 'NPC Profile',
+    category: 'Entities',
+    elementType: 'Persona',
+    icon: '👤',
+    promptTemplate: 'Generate a detailed NPC Profile for "{title}". Include species, faction allegiance, appearance, cybernetics/psionics, motivations, dialogue hooks, and combat stats.'
+  },
+  {
+    id: 'sg_location',
+    name: 'Dungeon & Location',
+    category: 'World',
+    elementType: 'Scene',
+    icon: '🏛️',
+    promptTemplate: 'Craft a detailed Location & Dungeon Spec for "{title}". Include sensory descriptions, room-by-room breakdown, security systems, loot containers, and atmospheric read-aloud text.'
+  },
+  {
+    id: 'sg_item',
+    name: 'Loot & Relic Spec',
+    category: 'Items',
+    elementType: 'Item',
+    icon: '💎',
+    promptTemplate: 'Generate an ancient relic / tech item specification for "{title}". Include lore origin, Tech Level, mechanical stat bonuses, active abilities, and CP cost.'
+  },
+  {
+    id: 'sg_clue',
+    name: 'Mystery & Clue',
+    category: 'Investigation',
+    elementType: 'Clue',
+    icon: '🔍',
+    promptTemplate: 'Design an investigative Mystery Clue for "{title}". Include physical appearance, analysis DC checks (Perception/Tech), linked secrets, and deduction leads.'
+  },
+  {
+    id: 'sg_storyarc',
+    name: 'Campaign Story Arc',
+    category: 'Narrative',
+    elementType: 'Story Arc',
+    icon: '🌌',
+    promptTemplate: 'Outline a major Campaign Story Arc titled "{title}". Include overarching antagonist faction, rising stakes, 3 pivotal milestones, and universe consequences.'
+  },
+  {
+    id: 'sg_handout',
+    name: 'Player Handout',
+    category: 'Props',
+    elementType: 'Handout',
+    icon: '📄',
+    promptTemplate: 'Write an in-universe Player Handout document for "{title}". Format as an encrypted transmission log, corporate memorandum, or intercepted comm-link transcript.'
+  },
+  {
+    id: 'sg_faction',
+    name: 'Faction & Group Matrix',
+    category: 'Entities',
+    elementType: 'Faction',
+    icon: '🛡️',
+    promptTemplate: 'Generate a Faction Profile for "{title}". Include hierarchy, military assets, tech level, psionic capabilities, rivalries, and GM plot hooks.'
+  },
+  {
+    id: 'sg_mapspec',
+    name: 'Tactical Map Spec',
+    category: 'Tactical',
+    elementType: 'Map',
+    icon: '🗺️',
+    promptTemplate: 'Generate a Tactical Map Layout Specification for "{title}". Include grid dimensions, terrain biomes, elevation levels, cover positions, and dynamic lighting zones.'
+  }
+];
+

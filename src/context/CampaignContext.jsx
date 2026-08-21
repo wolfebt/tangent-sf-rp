@@ -1,8 +1,11 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
 import { db, auth } from '../firebase';
 import { doc, setDoc, onSnapshot, collection, getDocs, getDoc, deleteDoc, writeBatch } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 import { attachCreatorTag } from '../utils/creatorUtils';
+import { createDebouncedSaver } from '../utils/debounceUtils';
+import { commitChunkedBatches } from '../utils/firestoreUtils';
+import { StorageService } from '../services/storageService';
 
 const StoryContext = createContext();
 
@@ -53,7 +56,7 @@ const DEFAULT_UNIVERSE_STATE = {
 };
 
 export const StoryProvider = ({ children }) => {
-  // Global Universe State — primary source is Firestore; localStorage is secondary offline cache
+  // Global Universe State — primary source is Firestore; StorageService/IndexedDB is secondary offline cache
   const [universeState, setUniverseState] = useState(() => {
     try {
       const saved = localStorage.getItem('tangent_universe_state');
@@ -101,6 +104,51 @@ export const StoryProvider = ({ children }) => {
     return [];
   });
 
+  // Asynchronous StorageService hydration on initial mount
+  useEffect(() => {
+    let isMounted = true;
+    async function hydrateCacheFromStorage() {
+      try {
+        const [cachedUniverse, cachedStories, cachedMaps, cachedElements] = await Promise.all([
+          StorageService.getItem('tangent_universe_state'),
+          StorageService.getItem('tangent_story_catalog'),
+          StorageService.getItem('tangent_maps_catalog'),
+          StorageService.getItem('tangent_elements_catalog')
+        ]);
+
+        if (!isMounted) return;
+
+        if (cachedUniverse && cachedUniverse.id) {
+          setUniverseState(prev => {
+            if (!prev || prev.id === 'proj_default_universe' || !prev.scenarios?.length) {
+              return cachedUniverse;
+            }
+            return prev;
+          });
+        }
+
+        if (Array.isArray(cachedStories) && cachedStories.length > 0) {
+          setStoryCatalog(cachedStories);
+        }
+
+        if (Array.isArray(cachedMaps) && cachedMaps.length > 0) {
+          setMapsCatalog(cachedMaps);
+        }
+
+        if (Array.isArray(cachedElements) && cachedElements.length > 0) {
+          setElementsCatalog(cachedElements);
+        }
+      } catch (err) {
+        console.warn('[CampaignContext] Failed to hydrate local cache from StorageService:', err);
+      }
+    }
+
+    hydrateCacheFromStorage();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const [activeScenarioId, setActiveScenarioId] = useState(null);
   const [activeMapId, setActiveMapId] = useState(null);
 
@@ -124,15 +172,18 @@ export const StoryProvider = ({ children }) => {
   }, [isDirty, universeState.projectName]);
 
   // Track auth & Cloud DB connection state & sync conflict handling
-  const isSyncingFromFirestore = React.useRef(false);
-  const lastSyncedCloudUpdatedAtRef = React.useRef(null);
+  const isSyncingFromFirestore = useRef(false);
+  const lastSyncedCloudUpdatedAtRef = useRef(null);
   const [currentUser, setCurrentUser] = useState(null);
   const [cloudSyncStatus, setCloudSyncStatus] = useState('offline'); // 'synced' | 'syncing' | 'conflict' | 'offline' | 'error'
+  const [saveStatus, setSaveStatus] = useState('idle'); // 'idle' | 'unsaved' | 'saving' | 'saved' | 'error' | 'offline'
+  const [lastSavedTimestamp, setLastSavedTimestamp] = useState(null);
+  const [saveError, setSaveError] = useState(null);
   const [lastCloudSavedAt, setLastCloudSavedAt] = useState(null);
   const [syncConflict, setSyncConflict] = useState(null); // { type, cloudData, localData, cloudUpdatedAt, localUpdatedAt }
 
-  const isDirtyRef = React.useRef(isDirty);
-  const universeStateRef = React.useRef(universeState);
+  const isDirtyRef = useRef(isDirty);
+  const universeStateRef = useRef(universeState);
   useEffect(() => {
     isDirtyRef.current = isDirty;
     universeStateRef.current = universeState;
@@ -141,7 +192,10 @@ export const StoryProvider = ({ children }) => {
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
-      if (!user) setCloudSyncStatus('offline');
+      if (!user) {
+        setCloudSyncStatus('offline');
+        setSaveStatus('offline');
+      }
     });
     return () => unsub();
   }, []);
@@ -175,6 +229,8 @@ export const StoryProvider = ({ children }) => {
           updatedAt: new Date().toISOString(),
           authorEmail: user?.email || 'Local User',
           authorUid: user?.uid || 'local',
+          creatorId: user?.uid || 'local',
+          storyId: universeStateRef.current?.id || 'proj_default_universe',
           parentPath: parentPath
         };
         extractedElements.push(elemCopy);
@@ -191,25 +247,21 @@ export const StoryProvider = ({ children }) => {
       const map = new Map(prev.map(item => [item.id, item]));
       extractedElements.forEach(item => map.set(item.id, item));
       const updatedList = Array.from(map.values());
-      try {
-        localStorage.setItem('tangent_elements_catalog', JSON.stringify(updatedList));
-      } catch (e) {
-        console.warn('Failed to cache elements catalog to localStorage:', e);
-      }
+      StorageService.setItem('tangent_elements_catalog', updatedList);
       return updatedList;
     });
 
-    // Write individual elements to Firestore 'story_elements' collection if authenticated
+    // Write individual elements to Firestore 'story_elements' collection in safe chunks if authenticated
     if (user && db) {
       try {
-        const batch = writeBatch(db);
-        extractedElements.forEach(elem => {
-          const docRef = doc(db, 'story_elements', elem.id);
-          batch.set(docRef, elem, { merge: true });
-        });
-        await batch.commit();
+        const operations = extractedElements.map(elem => ({
+          ref: doc(db, 'story_elements', elem.id),
+          data: elem,
+          merge: true
+        }));
+        await commitChunkedBatches(operations, 450);
       } catch (err) {
-        console.warn('Batch independent element write to Firestore failed:', err.message);
+        console.warn('Chunked independent element write to Firestore failed:', err.message);
       }
     }
   }, []);
@@ -222,31 +274,29 @@ export const StoryProvider = ({ children }) => {
       ...m,
       updatedAt: new Date().toISOString(),
       authorEmail: user?.email || 'Local User',
-      authorUid: user?.uid || 'local'
+      authorUid: user?.uid || 'local',
+      creatorId: user?.uid || 'local',
+      storyId: universeStateRef.current?.id || 'proj_default_universe'
     }));
 
     setMapsCatalog(prev => {
       const map = new Map(prev.map(item => [item.id, item]));
       extractedMaps.forEach(item => map.set(item.id, item));
       const updatedList = Array.from(map.values());
-      try {
-        localStorage.setItem('tangent_maps_catalog', JSON.stringify(updatedList));
-      } catch (e) {
-        console.warn('Failed to cache maps catalog to localStorage:', e);
-      }
+      StorageService.setItem('tangent_maps_catalog', updatedList);
       return updatedList;
     });
 
     if (user && db) {
       try {
-        const batch = writeBatch(db);
-        extractedMaps.forEach(elem => {
-          const docRef = doc(db, 'story_maps', elem.id);
-          batch.set(docRef, elem, { merge: true });
-        });
-        await batch.commit();
+        const operations = extractedMaps.map(m => ({
+          ref: doc(db, 'story_maps', m.id),
+          data: m,
+          merge: true
+        }));
+        await commitChunkedBatches(operations, 450);
       } catch (err) {
-        console.warn('Batch independent map write to Firestore failed:', err.message);
+        console.warn('Chunked independent map write to Firestore failed:', err.message);
       }
     }
   }, []);
@@ -268,9 +318,7 @@ export const StoryProvider = ({ children }) => {
           const map = new Map(prev.map(s => [s.id, s]));
           stories.forEach(s => map.set(s.id, s));
           const merged = Array.from(map.values());
-          try {
-            localStorage.setItem('tangent_story_catalog', JSON.stringify(merged));
-          } catch (e) {}
+          StorageService.setItem('tangent_story_catalog', merged);
           return merged;
         });
       }
@@ -285,9 +333,7 @@ export const StoryProvider = ({ children }) => {
           const map = new Map(prev.map(e => [e.id, e]));
           elems.forEach(e => map.set(e.id, e));
           const merged = Array.from(map.values());
-          try {
-            localStorage.setItem('tangent_elements_catalog', JSON.stringify(merged));
-          } catch (e) {}
+          StorageService.setItem('tangent_elements_catalog', merged);
           return merged;
         });
       }
@@ -302,9 +348,7 @@ export const StoryProvider = ({ children }) => {
           const map = new Map(prev.map(e => [e.id, e]));
           maps.forEach(e => map.set(e.id, e));
           const merged = Array.from(map.values());
-          try {
-            localStorage.setItem('tangent_maps_catalog', JSON.stringify(merged));
-          } catch (e) {}
+          StorageService.setItem('tangent_maps_catalog', merged);
           return merged;
         });
       }
@@ -384,9 +428,7 @@ export const StoryProvider = ({ children }) => {
   const toggleStoryVisibility = useCallback(async (storyId, targetIsPublic) => {
     setStoryCatalog(prev => {
       const updated = prev.map(s => s.id === storyId ? { ...s, isPublic: targetIsPublic } : s);
-      try {
-        localStorage.setItem('tangent_story_catalog', JSON.stringify(updated));
-      } catch (e) {}
+      StorageService.setItem('tangent_story_catalog', updated);
       return updated;
     });
 
@@ -438,9 +480,7 @@ export const StoryProvider = ({ children }) => {
 
     setStoryCatalog(prev => {
       const updated = [newStory, ...prev.filter(s => s.id !== newId)];
-      try {
-        localStorage.setItem('tangent_story_catalog', JSON.stringify(updated));
-      } catch (e) {}
+      StorageService.setItem('tangent_story_catalog', updated);
       return updated;
     });
 
@@ -456,7 +496,89 @@ export const StoryProvider = ({ children }) => {
     alert(`Successfully cloned "${source.projectName}" to your Story Foundry catalog!`);
   }, [universeState, currentUser]);
 
-  // Auto-persist active universe state to Firestore & Local Storage on mutation
+  // Actual Cloud Persistence Worker
+  const executeCloudSave = useCallback(async (stateToSave) => {
+    if (!stateToSave?.id) return;
+    if (!currentUser) {
+      setCloudSyncStatus('offline');
+      setSaveStatus('offline');
+      return;
+    }
+
+    setSaveStatus('saving');
+    setCloudSyncStatus('syncing');
+    setSaveError(null);
+
+    try {
+      const currentProjectId = stateToSave.id || 'proj_default_universe';
+      const payload = {
+        ...stateToSave,
+        id: currentProjectId,
+        updatedAt: new Date().toISOString()
+      };
+      const payloadWithOwner = { ...payload, ownerId: currentUser.uid };
+
+      // Synchronously set the ref so the onSnapshot echo check passes when this timestamp broadcasts
+      lastSyncedCloudUpdatedAtRef.current = payload.updatedAt;
+
+      const userStoryDoc = doc(db, 'user_stories', currentProjectId);
+      const mainDoc = doc(db, 'universe', UNIVERSE_DOC_ID);
+
+      await Promise.all([
+        setDoc(userStoryDoc, payloadWithOwner, { merge: true }),
+        setDoc(mainDoc, payloadWithOwner, { merge: true }),
+        saveAllElementsIndependently(stateToSave.scenarios, currentUser),
+        saveAllMapsIndependently(stateToSave.maps, currentUser)
+      ]);
+
+      lastSyncedCloudUpdatedAtRef.current = payload.updatedAt;
+      setSaveStatus('saved');
+      setCloudSyncStatus('synced');
+      const now = Date.now();
+      setLastSavedTimestamp(now);
+      setLastCloudSavedAt(new Date(now).toLocaleTimeString());
+      setIsDirty(false);
+    } catch (err) {
+      console.error('[CampaignContext] Cloud save failure:', err);
+      setSaveStatus('error');
+      setCloudSyncStatus('error');
+      setSaveError(err.message || 'Failed to sync with cloud.');
+      throw err;
+    }
+  }, [currentUser, saveAllElementsIndependently, saveAllMapsIndependently]);
+
+  // Instantiate Debounced Saver Instance (1500ms delay)
+  const debouncedSaveRef = useRef(null);
+  useEffect(() => {
+    debouncedSaveRef.current = createDebouncedSaver(executeCloudSave, 1500);
+    return () => {
+      debouncedSaveRef.current?.cancel();
+    };
+  }, [executeCloudSave]);
+
+  // Trigger Save helper for external components
+  const triggerSave = useCallback((overrideImmediate = false) => {
+    if (!universeStateRef.current?.id) return Promise.resolve();
+    setSaveStatus('unsaved');
+    setIsDirty(true);
+
+    if (overrideImmediate) {
+      return debouncedSaveRef.current?.flush();
+    } else {
+      return debouncedSaveRef.current?.(universeStateRef.current);
+    }
+  }, []);
+
+  // Force Save helper for explicit button clicks
+  const forceSaveNow = useCallback(async () => {
+    if (debouncedSaveRef.current?.isPending()) {
+      return await debouncedSaveRef.current.flush();
+    } else if (universeStateRef.current) {
+      return await executeCloudSave(universeStateRef.current);
+    }
+  }, [executeCloudSave]);
+
+  // Auto-persist active universe state: StorageService immediately, Firestore debounced (1500ms)
   useEffect(() => {
     if (isStoryReadOnly) return; // Prevent auto-save when viewing a read-only public story
 
@@ -477,55 +599,47 @@ export const StoryProvider = ({ children }) => {
       updatedAt: new Date().toISOString()
     };
 
-    // Synchronously set the ref so the onSnapshot echo check passes when this timestamp broadcasts
-    lastSyncedCloudUpdatedAtRef.current = updatedState.updatedAt;
+    // Mirror to StorageService cache immediately
+    StorageService.setItem('tangent_universe_state', updatedState);
 
-    // Mirror to localStorage cache
-    try {
-      localStorage.setItem('tangent_universe_state', JSON.stringify(updatedState));
-    } catch (e) {}
-
-    // Update story catalog entry
+    // Update story catalog entry locally immediately
     setStoryCatalog(prev => {
       const exists = prev.some(s => s.id === currentProjectId);
       const updatedCatalog = exists
         ? prev.map(s => s.id === currentProjectId ? updatedState : s)
         : [...prev, updatedState];
-      try {
-        localStorage.setItem('tangent_story_catalog', JSON.stringify(updatedCatalog));
-      } catch (e) {}
+      StorageService.setItem('tangent_story_catalog', updatedCatalog);
       return updatedCatalog;
     });
 
-    // Save all story elements independently automatically
-    saveAllElementsIndependently(universeState.scenarios, currentUser);
-    saveAllMapsIndependently(universeState.maps, currentUser);
-
-    // Only write to Firestore when authenticated
+    // Only queue debounced write if user is authenticated
     if (!currentUser) {
       setCloudSyncStatus('offline');
+      setSaveStatus('offline');
       return;
     }
 
-    setCloudSyncStatus('syncing');
-    const userStoryDoc = doc(db, 'user_stories', currentProjectId);
-    const mainDoc = doc(db, 'universe', UNIVERSE_DOC_ID);
-    const payloadWithOwner = { ...updatedState, ownerId: currentUser.uid };
+    setSaveStatus('unsaved');
+    setIsDirty(true);
+    debouncedSaveRef.current?.(updatedState);
+  }, [universeState, currentUser, syncConflict, isStoryReadOnly]);
 
-    Promise.all([
-      setDoc(userStoryDoc, payloadWithOwner),
-      setDoc(mainDoc, payloadWithOwner)
-    ]).then(() => {
-      lastSyncedCloudUpdatedAtRef.current = updatedState.updatedAt;
-      setCloudSyncStatus('synced');
-      setLastCloudSavedAt(new Date().toLocaleTimeString());
-    }).catch(err => {
-      console.warn('Firestore auto-save failed:', err.message);
-      setCloudSyncStatus('error');
-    });
-  }, [universeState, currentUser, saveAllElementsIndependently, saveAllMapsIndependently, syncConflict]);
+  // Lifecycle Listener for Window Unload / Route Exit
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (debouncedSaveRef.current?.isPending()) {
+        debouncedSaveRef.current.flush();
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    };
 
-  const saveTimeoutRef = React.useRef(null);
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      debouncedSaveRef.current?.flush();
+    };
+  }, []);
 
   // Manual Push to Cloud DB — declared before triggerStorySave to avoid stale closure
   const pushUniverseToCloud = useCallback(async (options = {}) => {
@@ -535,6 +649,7 @@ export const StoryProvider = ({ children }) => {
     }
     try {
       setCloudSyncStatus('syncing');
+      setSaveStatus('saving');
       const docRef = doc(db, 'universe', UNIVERSE_DOC_ID);
 
       // Pre-push conflict check: Fetch current cloud document's updatedAt timestamp
@@ -559,6 +674,7 @@ export const StoryProvider = ({ children }) => {
               };
               setSyncConflict(conflictInfo);
               setCloudSyncStatus('conflict');
+              setSaveStatus('unsaved');
               return false;
             }
           }
@@ -578,31 +694,39 @@ export const StoryProvider = ({ children }) => {
 
       await Promise.all([
         setDoc(userStoryDoc, payloadWithOwner),
-        setDoc(docRef, payloadWithOwner)
+        setDoc(docRef, payloadWithOwner),
+        saveAllElementsIndependently(currentState.scenarios, currentUser),
+        saveAllMapsIndependently(currentState.maps, currentUser)
       ]);
 
       lastSyncedCloudUpdatedAtRef.current = updatedTime;
       setSyncConflict(null);
+      setSaveStatus('saved');
       setCloudSyncStatus('synced');
       setIsDirty(false);
-      setLastCloudSavedAt(new Date().toLocaleTimeString());
+      const now = Date.now();
+      setLastSavedTimestamp(now);
+      setLastCloudSavedAt(new Date(now).toLocaleTimeString());
       if (options.showSuccessAlert !== false) {
         alert("Universe state successfully pushed to Cloud DB!");
       }
       return true;
     } catch (err) {
       console.error("Failed to push to Cloud DB:", err);
+      setSaveStatus('error');
       setCloudSyncStatus('error');
+      setSaveError(err.message || 'Failed to push to Cloud DB');
       alert(`Cloud DB Push failed: ${err.message}`);
       return false;
     }
-  }, [currentUser, setSyncConflict, setCloudSyncStatus, setIsDirty, setLastCloudSavedAt]);
+  }, [currentUser, saveAllElementsIndependently, saveAllMapsIndependently]);
 
   const triggerStorySave = useCallback(() => {
-    if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
-    saveTimeoutRef.current = setTimeout(() => {
-      pushUniverseToCloud({ showSuccessAlert: false, force: true }); // Use force:true to avoid conflict modal blocking auto-save silently
-    }, 1000);
+    if (debouncedSaveRef.current?.isPending()) {
+      debouncedSaveRef.current.flush();
+    } else {
+      pushUniverseToCloud({ showSuccessAlert: false, force: true });
+    }
   }, [pushUniverseToCloud]);
 
   // Manual Pull from Cloud DB
@@ -703,7 +827,7 @@ export const StoryProvider = ({ children }) => {
   };
 
   const handleClearUniverse = async () => {
-    localStorage.removeItem('tangent_universe_state');
+    await StorageService.removeItem('tangent_universe_state');
     setUniverseState(DEFAULT_UNIVERSE_STATE);
     setActiveScenarioId(null);
     setActiveMapId(null);
@@ -1275,9 +1399,7 @@ export const StoryProvider = ({ children }) => {
 
     setStoryCatalog(prev => {
       const updated = [newStory, ...prev.filter(s => s.id !== newId)];
-      try {
-        localStorage.setItem('tangent_story_catalog', JSON.stringify(updated));
-      } catch (e) {}
+      StorageService.setItem('tangent_story_catalog', updated);
       return updated;
     });
 
@@ -1321,9 +1443,7 @@ export const StoryProvider = ({ children }) => {
   const deleteStoryProject = async (storyId) => {
     setStoryCatalog(prev => {
       const updated = prev.filter(s => s.id !== storyId);
-      try {
-        localStorage.setItem('tangent_story_catalog', JSON.stringify(updated));
-      } catch (e) {}
+      StorageService.setItem('tangent_story_catalog', updated);
       return updated;
     });
 
@@ -1339,9 +1459,7 @@ export const StoryProvider = ({ children }) => {
   const deleteSavedMap = useCallback(async (mapId) => {
     setMapsCatalog(prev => {
       const updated = prev.filter(m => m.id !== mapId);
-      try {
-        localStorage.setItem('tangent_maps_catalog', JSON.stringify(updated));
-      } catch (e) {}
+      StorageService.setItem('tangent_maps_catalog', updated);
       return updated;
     });
 
@@ -1357,9 +1475,7 @@ export const StoryProvider = ({ children }) => {
   const deleteSavedElement = useCallback(async (elementId) => {
     setElementsCatalog(prev => {
       const updated = prev.filter(e => e.id !== elementId);
-      try {
-        localStorage.setItem('tangent_elements_catalog', JSON.stringify(updated));
-      } catch (e) {}
+      StorageService.setItem('tangent_elements_catalog', updated);
       return updated;
     });
 
@@ -1397,9 +1513,7 @@ export const StoryProvider = ({ children }) => {
         }, localStorage.getItem('userHandle'), currentUser);
         updated.unshift(updatedElem);
       }
-      try {
-        localStorage.setItem('tangent_elements_catalog', JSON.stringify(updated));
-      } catch (e) {}
+      StorageService.setItem('tangent_elements_catalog', updated);
       return updated;
     });
 
@@ -1516,7 +1630,13 @@ export const StoryProvider = ({ children }) => {
     publicStoryCatalog,
     toggleStoryVisibility,
     loadPublicStories,
-    clonePublicStory
+    clonePublicStory,
+    saveStatus,
+    setSaveStatus,
+    lastSavedTimestamp,
+    saveError,
+    triggerSave,
+    forceSaveNow
   };
 
   return (

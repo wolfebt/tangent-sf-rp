@@ -1,4 +1,6 @@
 import React from 'react';
+import { extractCreatorInfo } from '../../../utils/creatorUtils';
+import { useFolio } from '../../../context/FolioContext';
 import './printStyles.css';
 
 const DEFAULT_PHYSICAL_SKILLS = ['Acrobatics', 'Athletics', 'Piloting', 'Stealth'];
@@ -47,8 +49,18 @@ const PrintFolio = ({ characterData, isScreenPreview = false }) => {
     return [];
   };
 
+  let folioCtx = null;
+  try {
+    folioCtx = useFolio();
+  } catch {}
+
   // Attribute totals
-  const getAttrTotal = (id) => getNum(id) + getNum(`${id}-mod`);
+  const getAttrTotal = (id) => {
+    if (folioCtx?.getAttrTotal) {
+      return folioCtx.getAttrTotal(id);
+    }
+    return getNum(id) + getNum(`${id}-mod`);
+  };
 
   const strTotal = getAttrTotal('attr-strength');
   const mightTotal = getAttrTotal('attr-might');
@@ -64,7 +76,8 @@ const PrintFolio = ({ characterData, isScreenPreview = false }) => {
   const etiqTotal = getAttrTotal('attr-etiquette');
 
   // Secondary Vitals & Perception
-  const initiative = reflexTotal + getNum('initiative-mod');
+  const combatInitiativeMod = folioCtx?.computedModifiers?.combatMods?.['initiative-mod'] || 0;
+  const initiative = reflexTotal + getNum('initiative-mod') + combatInitiativeMod;
   const health = characterData['health'] ?? 30;
   const vitality = characterData['vitality'] ?? 30;
   const karma = characterData['karma'] ?? 3;
@@ -133,7 +146,20 @@ const PrintFolio = ({ characterData, isScreenPreview = false }) => {
         <div className="flex justify-between items-center border-b-2 border-black pb-1 mb-2">
           <div className="text-xl font-extrabold tracking-widest folio-header-title">TANGENT</div>
           <div className="text-sm font-bold tracking-widest">SCI-FI FANTASY RPG</div>
-          <div className="text-xs font-bold tracking-wider">PERSONA FOLIO 1</div>
+          <div className="text-right flex flex-col items-end">
+            <div className="text-xs font-bold tracking-wider">PERSONA FOLIO 1</div>
+            {(() => {
+              const creatorInfo = extractCreatorInfo(characterData, typeof window !== 'undefined' ? localStorage.getItem('userHandle') : '');
+              return (
+                <div className="text-[9px] font-mono font-bold leading-tight uppercase">
+                  <span>CREATOR: {creatorInfo.creatorTag}</span>
+                  {creatorInfo.contributorTags && creatorInfo.contributorTags.length > 0 && (
+                    <span className="ml-1 text-[8px] text-gray-700">| CONTRIB: {creatorInfo.contributorTags.join(', ')}</span>
+                  )}
+                </div>
+              );
+            })()}
+          </div>
         </div>
 
         {/* Identity Grid */}

@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useCampaign } from '../../../context/CampaignContext';
+import { extractCreatorInfo } from '../../../utils/creatorUtils';
 
 const MapToolbar = ({
   setIsModalOpen,
@@ -107,29 +108,6 @@ const MapToolbar = ({
                 <span>📖</span> User Guide & Manual
               </button>
             )}
-
-            <div className="border-t border-[#0D5C63]/40 my-1" />
-
-            <button
-              onClick={() => { setIsModalOpen(true); setIsFileMenuOpen(false); }}
-              className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-slate-200 uppercase font-bold flex items-center gap-2 transition-colors cursor-pointer"
-            >
-              <span>➕</span> New Map...
-            </button>
-            {onDeleteActiveMap && (
-              <button
-                onClick={() => { onDeleteActiveMap(); setIsFileMenuOpen(false); }}
-                className="w-full text-left px-4 py-2 hover:bg-red-950/80 text-red-400 uppercase font-bold flex items-center gap-2 transition-colors cursor-pointer"
-              >
-                <span>🗑️</span> Delete Active Map
-              </button>
-            )}
-            <button
-              onClick={() => { onClearMap(); setIsFileMenuOpen(false); }}
-              className="w-full text-left px-4 py-2 hover:bg-slate-800 text-slate-400 uppercase font-bold flex items-center gap-2 transition-colors cursor-pointer"
-            >
-              <span>🧹</span> Clear Map Canvas
-            </button>
 
             <div className="border-t border-[#0D5C63]/40 my-1" />
 
@@ -243,11 +221,19 @@ const MapToolbar = ({
               >
                 <span>🎯</span> Reset Camera
               </button>
+              {onDeleteActiveMap && (
+                <button
+                  onClick={() => { onDeleteActiveMap(); setIsMapMenuOpen(false); }}
+                  className="w-full px-3 py-1.5 text-xs text-left text-red-400 hover:bg-red-950 font-bold flex items-center gap-2 transition-colors uppercase tracking-wider"
+                >
+                  <span>🗑️</span> Delete Active Map
+                </button>
+              )}
               <button
                 onClick={() => { onClearMap(); setIsMapMenuOpen(false); }}
-                className="w-full px-3 py-1.5 text-xs text-left text-red-400 hover:bg-red-950 font-bold flex items-center gap-2 transition-colors uppercase tracking-wider"
+                className="w-full px-3 py-1.5 text-xs text-left text-slate-400 hover:bg-slate-800 hover:text-white font-bold flex items-center gap-2 transition-colors uppercase tracking-wider"
               >
-                <span>🗑️</span> Clear Canvas
+                <span>🧹</span> Clear Canvas
               </button>
             </div>
           </div>
@@ -366,6 +352,40 @@ const MapToolbar = ({
           </div>
         )}
       </div>
+
+      {/* Map Name Input Badge */}
+      {currentMap && (
+        <div className="flex items-center gap-1.5 bg-[#0d1117]/90 border border-[#0D5C63]/80 rounded px-2 py-0.5 h-8 shadow-inner">
+          <span className="text-xs">🗺️</span>
+          <span className="text-[10px] font-bold text-cyan-400 uppercase tracking-wider hidden sm:inline">Map Name:</span>
+          <input
+            type="text"
+            value={currentMap.title || ''}
+            onChange={(e) => updateMap(activeMapId, { title: e.target.value })}
+            className="bg-transparent text-xs font-bold text-[#22d3ee] hover:text-white focus:bg-slate-900 px-1 rounded outline-none w-32 sm:w-44 transition-all truncate border-b border-transparent focus:border-cyan-400"
+            placeholder="Untitled Map..."
+            title="Click to rename Map"
+          />
+        </div>
+      )}
+
+      {/* Map Creator & Contributor Badge */}
+      {currentMap && (() => {
+        const creatorInfo = extractCreatorInfo(currentMap);
+        return (
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className="px-2 py-1 bg-[#0d1117]/90 border border-cyan-500/40 text-cyan-300 rounded text-xs font-mono font-bold flex items-center gap-1 shadow-sm" title="Original Creator">
+              <span>🏷️</span>
+              <span>{creatorInfo.creatorTag}</span>
+            </span>
+            {creatorInfo.contributorTags && creatorInfo.contributorTags.length > 0 && (
+              <span className="px-2 py-1 bg-amber-950/80 border border-amber-500/40 text-amber-300 rounded text-[11px] font-mono font-bold" title={`Contributors: ${creatorInfo.contributorTags.join(', ')}`}>
+                Contrib: {creatorInfo.contributorTags.join(', ')}
+              </span>
+            )}
+          </div>
+        );
+      })()}
 
       <div className="flex-1"></div>
 

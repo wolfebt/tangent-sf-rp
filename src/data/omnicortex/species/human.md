@@ -1,16 +1,22 @@
 ---
 id: species-human
+name: "Human"
 title: "Human"
 category: "species"
 type: ["species_type-humanoid"]
 size: ["species_size-medium"]
 movement: ["species_movement-bipedal"]
-prerequisites: []
-modifiers: []
-bonus_skills: []
-bonus_skill_points: 2
-bonus_features: []
-bonus_feature_points: 2
+inherent_attribute_modifiers: []
+bonus_attribute_points: 1
+bonus_attribute_points_physical: 0
+bonus_attribute_points_mental: 0
+bonus_attribute_options: ["Physical Attributes", "Mental Attributes", "Strength", "Agility", "Stamina", "Intellect", "Wisdom", "Charisma"]
+specific_skill_bonuses: [{ skill: "Athletics", bonus: 1 }]
+bonus_skills: 2
+bonus_skill_choices: ["Physical Skills", "Mental Skills", "Persuasion", "Streetwise", "Technology"]
+inherent_features: ["Adaptability"]
+bonus_features: 1
+bonus_feature_choices: ["General Features", "Endurance", "Resourceful", "Fast Learner"]
 recommended_features: ["feature-adaptability", "feature-endurance"]
 cp_cost: 10
 ---

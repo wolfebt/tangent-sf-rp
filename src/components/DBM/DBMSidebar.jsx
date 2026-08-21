@@ -3,14 +3,11 @@ import { categoryConfig } from './categoryConfig';
 
 export const DBMSidebar = ({
   mainCategories,
-  devCategories,
   activeCategory,
   currentKey,
   navigateToCategory,
   onOpenBastion
 }) => {
-  const [isDevExpanded, setIsDevExpanded] = useState(false);
-
   return (
     <aside className="w-64 h-full bg-[#090d16] border-r border-[#0D5C63]/40 flex flex-col shrink-0 p-2 gap-1 overflow-hidden">
       <div className="text-[10px] font-bold text-cyan-400/80 uppercase tracking-widest px-3 py-1 mb-1 border-b border-slate-800 shrink-0">
@@ -62,7 +59,7 @@ export const DBMSidebar = ({
                 </div>
               )}
 
-              {/* Direct inline subcategories rendering (e.g. Species -> Types, Sizes, Movements) */}
+              {/* Direct inline subcategories rendering */}
               {!config.isParent && config.subcategories && isActive && (
                 <div className="pl-4 my-1 flex flex-col gap-0.5 border-l-2 border-cyan-500/40 ml-3">
                   <button
@@ -98,35 +95,6 @@ export const DBMSidebar = ({
             </div>
           );
         })}
-
-        {/* Development Categories — accordion (collapsed by default) */}
-        <div className="mt-4 pt-2 border-t border-slate-800 flex flex-col gap-1">
-          <button
-            onClick={() => setIsDevExpanded(!isDevExpanded)}
-            className="w-full flex items-center justify-between px-3 py-1 mb-1 text-[10px] font-bold text-amber-500/90 uppercase tracking-widest hover:text-amber-400 transition-colors"
-          >
-            <span>Development</span>
-            <span>{isDevExpanded ? '▲' : '▼'}</span>
-          </button>
-          
-          {isDevExpanded && devCategories.map(devKey => {
-            const config = categoryConfig[devKey];
-            const isActive = currentKey === devKey;
-            return (
-              <button
-                key={devKey}
-                onClick={() => navigateToCategory(devKey)}
-                className={`w-full text-left px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider transition-all ${
-                  isActive
-                    ? 'bg-amber-950/80 text-amber-300 border border-amber-500/50'
-                    : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
-                }`}
-              >
-                {config.label}
-              </button>
-            );
-          })}
-        </div>
       </div>
 
       {/* Bastion AI Toggle Button */}

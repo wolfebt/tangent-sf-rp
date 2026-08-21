@@ -1,5 +1,6 @@
 import { formatExportFilename } from '../../../context/CampaignContext';
 import { ELEMENT_SCHEMAS } from '../ElementForge/elementSchemas';
+import { extractCreatorInfo } from '../../../utils/creatorUtils';
 
 // Helper to get breadcrumb location path for an element
 export const getBreadcrumbPath = (nodes, targetId, currentPath = []) => {
@@ -184,6 +185,7 @@ export const exportElementPDF = (targetNode, universeState) => {
     return html;
   };
 
+  const creatorInfo = extractCreatorInfo(targetNode || universeState);
   const fullHTML = `
     <!DOCTYPE html>
     <html>
@@ -191,10 +193,11 @@ export const exportElementPDF = (targetNode, universeState) => {
         <title>Tangent SFF RPG - ${targetNode.title}</title>
         <style>
           body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; padding: 40px; color: #0f172a; background: #fff; }
-          .header { border-bottom: 3px solid #0284c7; padding-bottom: 12px; margin-bottom: 24px; }
+          .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 3px solid #0284c7; padding-bottom: 12px; margin-bottom: 24px; gap: 16px; }
           .title { font-size: 26px; font-weight: bold; color: #0369a1; text-transform: uppercase; letter-spacing: 1px; }
           .subtitle { font-size: 12px; color: #64748b; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; }
           .path { font-size: 11px; font-family: monospace; color: #475569; margin-top: 6px; }
+          .creator-box { text-align: right; font-family: monospace; font-size: 11px; font-weight: bold; color: #0369a1; background: #e0f2fe; border: 1px solid #bae6fd; padding: 5px 10px; border-radius: 4px; white-space: nowrap; }
           @media print {
             body { padding: 0; }
           }
@@ -202,9 +205,15 @@ export const exportElementPDF = (targetNode, universeState) => {
       </head>
       <body>
         <div class="header">
-          <div class="subtitle">Tangent Science Fantasy Roleplay — Story Module</div>
-          <div class="title">${targetNode.title}</div>
-          <div class="path">Location Path: ${locationPath ? locationPath.join(' ❯ ') : 'Root'}</div>
+          <div>
+            <div class="subtitle">Tangent Science Fantasy Roleplay — Story Module</div>
+            <div class="title">${targetNode.title}</div>
+            <div class="path">Location Path: ${locationPath ? locationPath.join(' ❯ ') : 'Root'}</div>
+          </div>
+          <div class="creator-box">
+            <div>🏷️ CREATOR: ${creatorInfo.creatorTag}</div>
+            ${creatorInfo.contributorTags && creatorInfo.contributorTags.length > 0 ? `<div style="font-size: 9px; color: #475569; margin-top: 3px;">CONTRIB: ${creatorInfo.contributorTags.join(', ')}</div>` : ''}
+          </div>
         </div>
         ${buildNodeHTML(targetNode)}
         <script>

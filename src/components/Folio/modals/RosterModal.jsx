@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { extractCreatorInfo } from '../../../utils/creatorUtils';
 
 export const RosterModal = ({
   isOpen,
@@ -296,16 +297,22 @@ export const RosterModal = ({
                                 Share Link
                               </button>
                             )}
-                            {catalogTab === 'public-gallery' && (
-                              <span className="px-2 py-0.5 bg-amber-950/80 text-amber-300 border border-amber-600/50 rounded text-[9px] font-mono font-bold">
-                                By {char.authorHandle || char.creatorHandle || 'Community Creator'}
-                              </span>
-                            )}
-                            {((Array.isArray(char.tags) && char.tags.find(t => typeof t === 'string' && t.startsWith('@'))) || (typeof char.tags === 'string' && char.tags.includes('@'))) && (
-                              <span className="px-2 py-0.5 bg-cyan-950/90 text-cyan-300 border border-cyan-500/40 rounded text-[9px] font-mono font-bold">
-                                {Array.isArray(char.tags) ? char.tags.find(t => typeof t === 'string' && t.startsWith('@')) : char.tags.split(',').map(t=>t.trim()).find(t => t.startsWith('@'))}
-                              </span>
-                            )}
+                            {(() => {
+                              const creatorInfo = extractCreatorInfo(char);
+                              return (
+                                <div className="flex items-center gap-1.5 flex-wrap">
+                                  <span className="px-2 py-0.5 bg-cyan-950/90 text-cyan-300 border border-cyan-500/50 rounded text-[9px] font-mono font-bold flex items-center gap-1 shadow-sm" title="Original Creator">
+                                    <span>🏷️</span>
+                                    <span>{creatorInfo.creatorTag}</span>
+                                  </span>
+                                  {creatorInfo.contributorTags && creatorInfo.contributorTags.length > 0 && (
+                                    <span className="px-2 py-0.5 bg-amber-950/80 text-amber-300 border border-amber-600/40 rounded text-[9px] font-mono font-bold" title={`Contributors: ${creatorInfo.contributorTags.join(', ')}`}>
+                                      Contrib: {creatorInfo.contributorTags.join(', ')}
+                                    </span>
+                                  )}
+                                </div>
+                              );
+                            })()}
                           </div>
                         </div>
                       </div>
@@ -486,7 +493,12 @@ export const RosterModal = ({
                           )}
                         </td>
                         <td className="p-3 font-bold text-white uppercase whitespace-nowrap">
-                          {name}
+                          <div className="flex items-center gap-2">
+                            <span>{name}</span>
+                            <span className="px-1.5 py-0.5 bg-cyan-950/80 text-cyan-300 border border-cyan-500/40 rounded text-[9px] font-mono font-bold">
+                              {extractCreatorInfo(char).creatorTag}
+                            </span>
+                          </div>
                         </td>
                         <td className="p-3 text-slate-300 whitespace-nowrap">{species}</td>
                         <td className="p-3 text-amber-300 whitespace-nowrap">{faction}</td>

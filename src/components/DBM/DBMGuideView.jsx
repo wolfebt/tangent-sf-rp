@@ -50,7 +50,31 @@ export const DBMGuideView = () => {
           </div>
         </section>
 
-        {/* Section 2 */}
+        {/* Section: Species & Traits Architecture */}
+        <section className="bg-slate-900/60 border border-slate-800 rounded-lg p-5">
+          <h3 className="text-base font-bold text-cyan-400 mb-2 uppercase tracking-wide flex items-center gap-2">
+            <span>🧬</span> 2. Species Builder &amp; Multiple Traits System
+          </h3>
+          <p className="text-slate-300 mb-3 text-xs leading-relaxed">
+            The Species system is composed of modular biological layers designed for deep customization and precise stat mechanics:
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div className="bg-slate-800/50 border border-cyan-500/30 rounded p-3">
+              <div className="font-bold text-cyan-300 uppercase mb-1">🧬 Development Sub-Trait Catalogs</div>
+              <p className="text-slate-400">
+                In the Dev menu, architects have direct access to define and balance <strong>Types</strong>, <strong>Sizes</strong>, <strong>Movements</strong>, and <strong>Traits</strong>.
+              </p>
+            </div>
+            <div className="bg-slate-800/50 border border-cyan-500/30 rounded p-3">
+              <div className="font-bold text-cyan-300 uppercase mb-1">✨ Multiple Selection Traits</div>
+              <p className="text-slate-400">
+                Species can select multiple distinct traits (adaptations, resistances, innate abilities) via the relational selector. All trait modifiers automatically propagate into character stats and economy budgets.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Section 3 */}
         <section className="bg-slate-900/60 border border-slate-800 rounded-lg p-5">
           <h3 className="text-base font-bold text-cyan-400 mb-2 uppercase tracking-wide flex items-center gap-2">
             <span>🎮</span> 2. Game Mode vs. Dev Mode

@@ -43,7 +43,8 @@ async function syncDatabaseEntries() {
     // Construct the payload for Firestore
     const payload = {
       ...data,
-      description: content, // Save the markdown body as the description
+      name: data.name || data.title || '',
+      description: content || data.description || '', // Save the markdown body as the description
       updatedAt: new Date().toISOString()
     };
 

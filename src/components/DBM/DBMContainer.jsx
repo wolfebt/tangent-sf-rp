@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { categoryConfig } from './categoryConfig';
 import { db } from '../../firebase';
@@ -14,12 +14,13 @@ import { DBMTableView } from './DBMTableView';
 import { DBMLandingView } from './DBMLandingView';
 import { BastionChatModal } from './BastionChatModal';
 import { DBMItemModal } from './DBMItemModal';
+import { ArchitectDevFieldsModal } from './ArchitectDevFieldsModal';
 import { UserSettingsModal } from '../UserSettingsModal';
+import { Toast } from '../UI/Toast';
 
 import { useDBMHistory } from './hooks/useDBMHistory';
 import { useFirestoreSync } from './hooks/useFirestoreSync';
 import { fetchGeminiContent, getGeminiApiKey, sendBastionChatMessage } from '../../services/bastionService';
-import { attachCreatorTag } from '../../utils/creatorUtils';
 import { confirmTypedDeletion } from '../../utils/confirmationUtils';
 
 const EMPTY_CONFIG = {};
@@ -31,6 +32,7 @@ export const DBMContainer = () => {
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isArchitectModalOpen, setIsArchitectModalOpen] = useState(false);
 
   const {
     activeCategory, setActiveCategory,
@@ -63,18 +65,25 @@ export const DBMContainer = () => {
   const [bastionInput, setBastionInput] = useState('');
   const [apiKey, setApiKey] = useState(localStorage.getItem('geminiApiKey') || '');
 
-  const [filterTL, setFilterTL] = useState('ALL');
-  const [filterML, setFilterML] = useState('ALL');
-  const [filterType, setFilterType] = useState('ALL');
+  // Multi-select & facet filter states
+  const [filterTypes, setFilterTypes] = useState([]);
+  const [filterSubtypes, setFilterSubtypes] = useState([]);
+  const [filterTLs, setFilterTLs] = useState([]);
+  const [filterMLs, setFilterMLs] = useState([]);
+  const [filterTags, setFilterTags] = useState([]);
 
   // Currently active configuration
   const currentKey = activeSubcategory || activeCategory;
 
-  // Reset filters when switching active category or subcategory
+  // Reset filters and sort when switching active category or subcategory
   useEffect(() => {
-    setFilterTL('ALL');
-    setFilterML('ALL');
-    setFilterType('ALL');
+    setFilterTypes([]);
+    setFilterSubtypes([]);
+    setFilterTLs([]);
+    setFilterMLs([]);
+    setFilterTags([]);
+    setSortField('name');
+    setSortAsc(true);
   }, [currentKey]);
 
   const parentConfig = categoryConfig[activeCategory];
@@ -82,32 +91,125 @@ export const DBMContainer = () => {
     || categoryConfig[currentKey]
     || EMPTY_CONFIG;
 
-  const { dbData, saveEntry, deleteEntry, importJSON } = useFirestoreSync(currentKey, currentUser);
+  const { dbData, saveEntry, deleteEntry, importJSON, toastMessage, clearToast, showToast } = useFirestoreSync(currentKey, currentUser);
   const currentItems = dbData[currentKey] || [];
 
-  // Filter & Sort Items
-  const filteredItems = currentItems.filter(item => {
-    if (filterTL !== 'ALL' && Number(item.tl) !== Number(filterTL)) return false;
-    if (filterML !== 'ALL' && Number(item.ml) !== Number(filterML)) return false;
-    if (filterType !== 'ALL' && item.type !== filterType && item.category !== filterType) return false;
+  // Helper for natural sorting value parsing
+  const getSortableValue = (item, field) => {
+    if (!item) return null;
+    const val = item[field];
+    if (val === undefined || val === null || val === '') return null;
+    return val;
+  };
 
-    if (!searchTerm) return true;
-    const term = searchTerm.toLowerCase();
-    return (
-      (item.name && item.name.toLowerCase().includes(term)) ||
-      (item.description && item.description.toLowerCase().includes(term)) ||
-      (item.type && item.type.toLowerCase().includes(term)) ||
-      (item.category && item.category.toLowerCase().includes(term)) ||
-      (Array.isArray(item.tags) && item.tags.some(t => typeof t === 'string' && t.toLowerCase().includes(term))) ||
-      (typeof item.tags === 'string' && item.tags.toLowerCase().includes(term))
-    );
-  }).sort((a, b) => {
-    const valA = (a[sortField] || '').toString().toLowerCase();
-    const valB = (b[sortField] || '').toString().toLowerCase();
-    if (valA < valB) return sortAsc ? -1 : 1;
-    if (valA > valB) return sortAsc ? 1 : -1;
-    return 0;
-  });
+  // Filter & Sort Items
+  const filteredItems = useMemo(() => {
+    return currentItems.filter(item => {
+      // 1. Filter by Types (Multi-select)
+      if (filterTypes.length > 0) {
+        const itemType = item.type;
+        const itemCat = item.category;
+        const types = Array.isArray(itemType) ? itemType : (itemType ? [itemType] : []);
+        if (itemCat && !types.includes(itemCat)) types.push(itemCat);
+        const matchesType = filterTypes.some(t => types.includes(t));
+        if (!matchesType) return false;
+      }
+
+      // 2. Filter by Subtypes / Disciplines / Society / Aspect
+      if (filterSubtypes.length > 0) {
+        const sub = item.subtype || item.discipline || item.society || item.aspect || item.aspect_subtype;
+        const subs = Array.isArray(sub) ? sub : (sub ? [sub] : []);
+        const matchesSub = filterSubtypes.some(s => subs.includes(s));
+        if (!matchesSub) return false;
+      }
+
+      // 3. Filter by Tech Level (TL)
+      if (filterTLs.length > 0) {
+        const itemTL = item.tl !== undefined ? item.tl : item.tech_level;
+        if (itemTL === undefined || itemTL === null) return false;
+        const matchesTL = filterTLs.some(tl => Number(tl) === Number(itemTL) || String(tl) === String(itemTL));
+        if (!matchesTL) return false;
+      }
+
+      // 4. Filter by Meta Level (ML)
+      if (filterMLs.length > 0) {
+        const itemML = item.ml !== undefined ? item.ml : item.meta_level;
+        if (itemML === undefined || itemML === null) return false;
+        const matchesML = filterMLs.some(ml => Number(ml) === Number(itemML) || String(ml) === String(itemML));
+        if (!matchesML) return false;
+      }
+
+      // 5. Filter by Tags / Creator
+      if (filterTags.length > 0) {
+        const tags = Array.isArray(item.tags)
+          ? item.tags
+          : (typeof item.tags === 'string' ? item.tags.split(',').map(t => t.trim()) : []);
+        const matchesTag = filterTags.some(tag => tags.includes(tag));
+        if (!matchesTag) return false;
+      }
+
+      // 6. Search Term (full-text search across multiple fields)
+      if (searchTerm && searchTerm.trim()) {
+        const term = searchTerm.toLowerCase().trim();
+        const matches = (
+          (item.name && item.name.toLowerCase().includes(term)) ||
+          (item.description && item.description.toLowerCase().includes(term)) ||
+          (item.type && (Array.isArray(item.type) ? item.type.some(t => String(t).toLowerCase().includes(term)) : String(item.type).toLowerCase().includes(term))) ||
+          (item.category && String(item.category).toLowerCase().includes(term)) ||
+          (item.subtype && String(item.subtype).toLowerCase().includes(term)) ||
+          (item.discipline && String(item.discipline).toLowerCase().includes(term)) ||
+          (item.society && String(item.society).toLowerCase().includes(term)) ||
+          (item.trait && (Array.isArray(item.trait) ? item.trait.some(t => String(t).toLowerCase().includes(term)) : String(item.trait).toLowerCase().includes(term))) ||
+          (Array.isArray(item.tags) && item.tags.some(t => typeof t === 'string' && t.toLowerCase().includes(term))) ||
+          (typeof item.tags === 'string' && item.tags.toLowerCase().includes(term))
+        );
+        if (!matches) return false;
+      }
+
+      return true;
+    }).sort((a, b) => {
+      let valA = getSortableValue(a, sortField);
+      let valB = getSortableValue(b, sortField);
+
+      // Handle null/empty sorting to bottom
+      if (valA === null && valB === null) return 0;
+      if (valA === null) return 1;
+      if (valB === null) return -1;
+
+      // Handle arrays
+      if (Array.isArray(valA)) {
+        valA = valA.map(v => typeof v === 'object' ? (v.name || v.id || JSON.stringify(v)) : v).join(', ');
+      }
+      if (Array.isArray(valB)) {
+        valB = valB.map(v => typeof v === 'object' ? (v.name || v.id || JSON.stringify(v)) : v).join(', ');
+      }
+
+      // Numeric comparison
+      const cleanNum = (v) => {
+        if (typeof v === 'number') return v;
+        if (typeof v === 'string') {
+          const trimmed = v.trim();
+          if (trimmed !== '' && !isNaN(Number(trimmed))) return Number(trimmed);
+          const stripped = trimmed.replace(/[^0-9.-]+/g, '');
+          if (stripped !== '' && !isNaN(Number(stripped))) return Number(stripped);
+        }
+        return null;
+      };
+
+      const numA = cleanNum(valA);
+      const numB = cleanNum(valB);
+
+      if (numA !== null && numB !== null) {
+        return sortAsc ? numA - numB : numB - numA;
+      }
+
+      // String / Alphanumeric comparison
+      const strA = String(valA);
+      const strB = String(valB);
+      const comparison = strA.localeCompare(strB, undefined, { numeric: true, sensitivity: 'base' });
+      return sortAsc ? comparison : -comparison;
+    });
+  }, [currentItems, filterTypes, filterSubtypes, filterTLs, filterMLs, filterTags, searchTerm, sortField, sortAsc]);
 
   // Entry Management Logic
   const handleOpenItem = (item, edit = false) => {
@@ -145,8 +247,7 @@ export const DBMContainer = () => {
     }
 
     const docId = `entry_${Date.now()}`;
-    const taggedData = attachCreatorTag(initialData, userHandle, currentUser);
-    const payload = { ...taggedData, name: newName.trim(), id: docId, updatedAt: new Date().toISOString() };
+    const payload = { ...initialData, name: newName.trim(), id: docId, updatedAt: new Date().toISOString() };
 
     const success = await saveEntry(payload, currentKey);
     if (success) {
@@ -173,8 +274,7 @@ export const DBMContainer = () => {
       return;
     }
     const docId = selectedItem?.id || editFormData.id || `entry_${Date.now()}`;
-    const taggedData = attachCreatorTag(editFormData, userHandle, currentUser);
-    const payload = { ...taggedData, name: taggedData.name.trim(), id: docId, updatedAt: new Date().toISOString() };
+    const payload = { ...editFormData, name: editFormData.name.trim(), id: docId, updatedAt: new Date().toISOString() };
 
     const success = await saveEntry(payload, currentKey);
     if (success) {
@@ -360,9 +460,6 @@ export const DBMContainer = () => {
   const mainCategories = Object.keys(categoryConfig).filter(
     key => !categoryConfig[key].hideFromMenu && !categoryConfig[key].parent
   );
-  const devCategories = Object.keys(categoryConfig).filter(
-    key => categoryConfig[key].hideFromMenu && !categoryConfig[key].hideFromDevMenu
-  );
 
   // Auth gate — show login screen if user is not authenticated
   if (!currentUser) {
@@ -410,6 +507,7 @@ export const DBMContainer = () => {
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
         setIsSettingsOpen={setIsSettingsOpen}
+        onOpenArchitectModal={() => setIsArchitectModalOpen(true)}
       />
 
       {/* Mobile Sidebar Overlay Toggle */}
@@ -424,7 +522,6 @@ export const DBMContainer = () => {
         <div className={`fixed md:relative z-40 h-full transition-transform md:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
           <DBMSidebar
             mainCategories={mainCategories}
-            devCategories={devCategories}
             activeCategory={activeCategory}
             currentKey={currentKey}
             navigateToCategory={(catKey, subKey) => {
@@ -523,12 +620,16 @@ export const DBMContainer = () => {
               setSortAsc={setSortAsc}
               filteredItems={filteredItems}
               handleOpenItem={handleOpenItem}
-              filterTL={filterTL}
-              setFilterTL={setFilterTL}
-              filterML={filterML}
-              setFilterML={setFilterML}
-              filterType={filterType}
-              setFilterType={setFilterType}
+              filterTypes={filterTypes}
+              setFilterTypes={setFilterTypes}
+              filterSubtypes={filterSubtypes}
+              setFilterSubtypes={setFilterSubtypes}
+              filterTLs={filterTLs}
+              setFilterTLs={setFilterTLs}
+              filterMLs={filterMLs}
+              setFilterMLs={setFilterMLs}
+              filterTags={filterTags}
+              setFilterTags={setFilterTags}
               currentItems={currentItems}
               isAdmin={isAdmin}
               handleDeleteEntry={handleDeleteEntry}
@@ -577,6 +678,19 @@ export const DBMContainer = () => {
         isOpen={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}
       />
+
+      <ArchitectDevFieldsModal
+        isOpen={isArchitectModalOpen}
+        onClose={() => setIsArchitectModalOpen(false)}
+        dbData={dbData}
+        saveEntry={saveEntry}
+        deleteEntry={deleteEntry}
+        currentUser={currentUser}
+        isAdmin={isAdmin}
+      />
+
+      {/* Global DBM Notifications */}
+      <Toast toast={toastMessage} onClose={clearToast} />
     </div>
   );
 };

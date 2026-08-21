@@ -143,8 +143,19 @@ const MapToolsPanel = ({
                   }`}
                 >
                   <div className="flex items-center gap-2">
-                    <span className="w-3.5 h-3.5 rounded-full border border-white/40 shadow-sm shrink-0" style={{ backgroundColor: t.color }}></span>
+                    {t.textureUrl ? (
+                      <div className="w-4 h-4 rounded overflow-hidden border border-cyan-500/60 shrink-0">
+                        <img src={t.textureUrl} alt={t.label} className="w-full h-full object-cover" />
+                      </div>
+                    ) : (
+                      <span className="w-3.5 h-3.5 rounded-full border border-white/40 shadow-sm shrink-0" style={{ backgroundColor: t.color }}></span>
+                    )}
                     <span className="truncate">{t.label}</span>
+                    {t.isCustom && (
+                      <span className="text-[8px] bg-cyan-950 text-cyan-300 border border-cyan-800 px-1 py-0.2 rounded font-mono uppercase ml-auto">
+                        Custom
+                      </span>
+                    )}
                   </div>
                   {t.desc && (
                     <span className="text-[10px] text-slate-400 font-normal leading-tight line-clamp-2">
@@ -184,7 +195,7 @@ const MapToolsPanel = ({
                   setSelectedCatalogScale(e.target.value);
                   setSelectedCategory('All');
                 }}
-                className="w-full bg-[#0d1117] border border-[#0D5C63]/60 text-white p-1 rounded text-xs outline-none focus:border-[#22d3ee] relative z-10"
+                className="w-full bg-[#0d1117] border border-[#0D5C63]/60 text-white p-1 rounded text-xs outline-none focus:border-[#22d3ee]"
               >
                 {MAP_TYPES.map(st => (
                   <option key={st} value={st}>{st} Scale</option>
@@ -198,7 +209,7 @@ const MapToolsPanel = ({
               <select
                 value={selectedCategory}
                 onChange={e => setSelectedCategory(e.target.value)}
-                className="w-full bg-[#0d1117] border border-[#0D5C63]/60 text-white p-1 rounded text-xs outline-none focus:border-[#22d3ee] relative z-10"
+                className="w-full bg-[#0d1117] border border-[#0D5C63]/60 text-white p-1 rounded text-xs outline-none focus:border-[#22d3ee]"
               >
                 {activeCategories.map(cat => (
                   <option key={cat} value={cat}>{cat}</option>
@@ -232,14 +243,27 @@ const MapToolsPanel = ({
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <span className="w-3.5 h-3.5 rounded border border-white/40 shadow-sm shrink-0" style={{ backgroundColor: o.color }}></span>
+                      {o.imageUrl ? (
+                        <div className="w-4 h-4 rounded overflow-hidden border border-cyan-500/60 p-0.5 shrink-0 bg-[#0d1117]">
+                          <img src={o.imageUrl} alt={o.label} className="w-full h-full object-contain" />
+                        </div>
+                      ) : (
+                        <span className="w-3.5 h-3.5 rounded border border-white/40 shadow-sm shrink-0" style={{ backgroundColor: o.color }}></span>
+                      )}
                       <span className="truncate">{o.label}</span>
                     </div>
-                    {o.scaleTarget && (
-                      <span className="text-[9px] bg-amber-950 text-amber-300 px-1 py-0.2 rounded border border-amber-800 shrink-0">
-                        {o.scaleTarget}
-                      </span>
-                    )}
+                    <div className="flex items-center gap-1">
+                      {o.isCustom && (
+                        <span className="text-[8px] bg-cyan-950 text-cyan-300 border border-cyan-800 px-1 py-0.2 rounded font-mono uppercase">
+                          Custom
+                        </span>
+                      )}
+                      {o.scaleTarget && (
+                        <span className="text-[9px] bg-amber-950 text-amber-300 px-1 py-0.2 rounded border border-amber-800 shrink-0">
+                          {o.scaleTarget}
+                        </span>
+                      )}
+                    </div>
                   </div>
                   {o.desc && (
                     <span className="text-[10px] text-slate-400 font-normal leading-tight line-clamp-2">

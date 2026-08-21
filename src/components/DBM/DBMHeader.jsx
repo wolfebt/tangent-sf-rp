@@ -13,7 +13,8 @@ export const DBMHeader = ({
   navigateToCategory,
   isSidebarOpen,
   setIsSidebarOpen,
-  setIsSettingsOpen
+  setIsSettingsOpen,
+  onOpenArchitectModal
 }) => {
   const navigate = useNavigate();
   const { currentUser, userHandle, confirmLogout, loginWithGoogle, isAdmin, userRole, adminOverride, toggleAdminOverride } = useAuth();
@@ -97,19 +98,30 @@ export const DBMHeader = ({
       <div className="flex items-center gap-2 sm:gap-3">
         {/* Role Indicator Flag & Narrow-screen Undo/Redo Stack */}
         <div className="flex flex-col items-end gap-1">
-          {/* RBAC Role Indicator Badge */}
+          {/* RBAC Role Indicator / Architect Dev Fields Modal Trigger Button */}
           {currentUser && (
-            <div 
-              className={`flex items-center gap-1.5 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded text-[11px] sm:text-xs font-bold border uppercase tracking-wide ${
-                isAdmin 
-                  ? 'bg-amber-950/80 border-amber-500/50 text-amber-300 shadow-sm' 
-                  : 'bg-slate-800/80 border-slate-600 text-slate-400'
-              }`}
-              title={isAdmin ? "Full write privileges active" : "Read-only access mode"}
-            >
-              <span>{isAdmin ? '🛡️' : '👁️'}</span>
-              <span>{userRole || (isAdmin ? 'Architect' : 'Operator')}</span>
-            </div>
+            isAdmin ? (
+              <button
+                type="button"
+                onClick={() => onOpenArchitectModal && onOpenArchitectModal()}
+                className="flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] sm:text-xs font-extrabold border uppercase tracking-wider bg-gradient-to-r from-amber-950/90 to-amber-900/80 hover:from-amber-900 hover:to-amber-800 border-amber-500/70 hover:border-amber-400 text-amber-300 hover:text-amber-200 shadow-[0_0_12px_rgba(245,158,11,0.25)] hover:shadow-[0_0_16px_rgba(245,158,11,0.4)] transition-all cursor-pointer group active:scale-95"
+                title="Manage Development & Reference Fields (Dev Mode)"
+              >
+                <span className="group-hover:scale-110 transition-transform">🛡️</span>
+                <span>{userRole || 'Architect'}</span>
+                <span className="text-[9px] bg-amber-950/90 text-amber-200 px-1.5 py-0.2 rounded border border-amber-500/40 font-mono">
+                  FIELDS
+                </span>
+              </button>
+            ) : (
+              <div 
+                className="flex items-center gap-1.5 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded text-[11px] sm:text-xs font-bold border uppercase tracking-wide bg-slate-800/80 border-slate-600 text-slate-400"
+                title="Read-only access mode"
+              >
+                <span>👁️</span>
+                <span>{userRole || 'Operator'}</span>
+              </div>
+            )
           )}
 
           {/* Narrow Screen Undo/Redo (slides under the flag) */}

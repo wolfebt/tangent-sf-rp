@@ -3,8 +3,8 @@ import { db, auth } from '../../firebase';
 import { collection, getDocs, setDoc, doc } from 'firebase/firestore';
 import { categoryConfig } from './categoryConfig';
 import { VirtualizedList } from './VirtualizedList';
-import { attachCreatorTag } from '../../utils/creatorUtils';
 import { useDBM } from '../../context/DBMContext';
+import { ALL_CANONICAL_SKILLS } from '../../data/skillsData';
 
 const EMPTY_CONFIG = {};
 const DEFAULT_SCHEMA_FIELDS = {
@@ -24,17 +24,98 @@ const getCollectionConfig = (colKey) => {
   return null;
 };
 
+export const FEATURE_CATEGORY_ITEMS = [
+  { id: 'cat_any_feature', name: 'Any Feature', type: 'Category Group', description: 'Player may choose any feature from the full feature database.' },
+  { id: 'cat_general_features', name: 'General Features', type: 'Category Group', description: 'Player may choose any feature classified under General features.' },
+  { id: 'cat_combat_features', name: 'Combat Features', type: 'Category Group', description: 'Player may choose any feature classified under Combat features.' },
+  { id: 'cat_ability_features', name: 'Ability Features', type: 'Category Group', description: 'Player may choose any feature classified under Ability features.' },
+  { id: 'cat_meta_features', name: 'Meta Features', type: 'Category Group', description: 'Player may choose any feature classified under Meta features.' },
+  { id: 'cat_karma_features', name: 'Karma Features', type: 'Category Group', description: 'Player may choose any feature classified under Karma features.' },
+  { id: 'cat_skill_features', name: 'Skill Features', type: 'Category Group', description: 'Player may choose any feature classified under Skill features.' },
+  { id: 'cat_exotic_features', name: 'Exotic Features', type: 'Category Group', description: 'Player may choose any feature classified under Exotic features.' },
+  { id: 'cat_special_abilities', name: 'Special Abilities', type: 'Category Group', description: 'Player may choose any feature classified under Special Abilities.' }
+];
+
+export const SKILL_GROUP_ITEMS = [
+  { id: 'grp_any_skill', name: 'Any Skill', type: 'Skill Group', description: 'Player may choose any skill from the full skill database.' },
+  { id: 'grp_physical_skills', name: 'Physical Skills', type: 'Skill Group', description: 'Player may choose any skill belonging to the Physical skill group.' },
+  { id: 'grp_mental_skills', name: 'Mental Skills', type: 'Skill Group', description: 'Player may choose any skill belonging to the Mental skill group.' },
+  { id: 'grp_social_skills', name: 'Social Skills', type: 'Skill Group', description: 'Player may choose any skill belonging to the Social skill group.' },
+  { id: 'grp_combat_skills', name: 'Combat Skills', type: 'Skill Group', description: 'Player may choose any skill belonging to the Combat skill group.' },
+  { id: 'grp_meta_skills', name: 'Meta Skills', type: 'Skill Group', description: 'Player may choose any skill belonging to the Meta skill group.' }
+];
+
 const getAspectSubtypeOptions = (aspect, itemsMap = {}) => {
   if (aspect === 'attribute') {
-    return ['Strength', 'Agility', 'Constitution', 'Intellect', 'Wisdom', 'Charisma', 'Might', 'Reflex', 'Fortitude', 'Logic', 'Will', 'Etiquette'];
+    return [
+      'Any Attribute',
+      'Any Primary Attribute',
+      'Any Sub-Attribute',
+      'Strength',
+      'Might',
+      'Agility',
+      'Reflex',
+      'Stamina',
+      'Fortitude',
+      'Constitution',
+      'Intellect',
+      'Logic',
+      'Wisdom',
+      'Will',
+      'Charisma',
+      'Etiquette'
+    ];
   } else if (aspect === 'skill') {
-    return (itemsMap['skills'] || []).map(s => s.name || s.id);
+    const baseSkillNames = ALL_CANONICAL_SKILLS.map(s => s.name);
+    const dbSkillNames = (itemsMap['skills'] || []).map(s => s.name || s.id);
+    const allUniqueSkillNames = Array.from(new Set([...baseSkillNames, ...dbSkillNames]));
+    return [
+      'Any Skill',
+      'Any Mental Skill',
+      'Any Physical Skill',
+      'Any Social Skill',
+      'Any Combat Skill',
+      'Any Meta Skill',
+      ...allUniqueSkillNames
+    ];
   } else if (aspect === 'combat') {
-    return ['Attack', 'Defense', 'Initiative', 'Movement', 'Range', 'Armor Piercing', 'Critical Score', 'Damage'];
+    return [
+      'Any Combat Stat',
+      'Attack',
+      'Defense',
+      'Initiative',
+      'Movement',
+      'Range',
+      'Armor Piercing',
+      'Critical Score',
+      'Damage'
+    ];
   } else if (aspect === 'feature') {
-    return (itemsMap['features'] || []).map(f => f.name || f.id);
+    const features = (itemsMap['features'] || []).map(f => f.name || f.id);
+    return [
+      'Any Feature',
+      'Any Ability',
+      'Any Combat Feature',
+      'Any Meta Feature',
+      'Any General Feature',
+      'Any Karma Feature',
+      'Any Skill Feature',
+      'Any Exotic Feature',
+      ...features
+    ];
+  } else if (aspect === 'other') {
+    return [
+      'Any',
+      'Health',
+      'Vitality',
+      'Karma',
+      'Plot Points',
+      'Essence',
+      'Tech Level',
+      'Meta Level'
+    ];
   }
-  return [];
+  return ['Any'];
 };
 
 export const UnifiedRelationalSelectorModal = ({
@@ -56,6 +137,7 @@ export const UnifiedRelationalSelectorModal = ({
 
   const [items, setItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('all');
   const [loading, setLoading] = useState(false);
   const [currentSelected, setCurrentSelected] = useState([]);
 
@@ -78,6 +160,7 @@ export const UnifiedRelationalSelectorModal = ({
     }
     setCurrentSelected(Array.isArray(selectedValues) ? selectedValues : (selectedValues ? [selectedValues] : []));
     setSearchTerm('');
+    setCategoryFilter('all');
     setIsCreatingNew(false);
     setIsFullForm(false);
     setNewFormData({ name: '', description: '' });
@@ -139,15 +222,57 @@ export const UnifiedRelationalSelectorModal = ({
 
   // Use local fallback if cloud snapshot is empty
   const localFallback = activeDbData[sourceCollection] || [];
-  const allAvailableItems = items.length > 0 ? items : localFallback;
+  const rawItems = items.length > 0 ? items : localFallback;
+
+  // Prepend Category / Group Options if source is features or skills
+  let categoryOptions = [];
+  if (sourceCollection === 'features') {
+    categoryOptions = FEATURE_CATEGORY_ITEMS;
+  } else if (sourceCollection === 'skills') {
+    categoryOptions = SKILL_GROUP_ITEMS;
+  }
+
+  // Combine category options with database items and canonical base skills, ensuring no duplicates by name
+  const existingNames = new Set(categoryOptions.map(c => c.name.toLowerCase()));
+  const nonDuplicateItems = [];
+
+  // First include database / cloud items
+  for (const item of rawItems) {
+    const key = (item.name || item.id || '').toLowerCase();
+    if (key && !existingNames.has(key)) {
+      existingNames.add(key);
+      nonDuplicateItems.push(item);
+    }
+  }
+
+  // Include canonical skills if source is skills
+  if (sourceCollection === 'skills') {
+    for (const cItem of ALL_CANONICAL_SKILLS) {
+      const key = (cItem.name || cItem.id || '').toLowerCase();
+      if (key && !existingNames.has(key)) {
+        existingNames.add(key);
+        nonDuplicateItems.push(cItem);
+      }
+    }
+  }
+
+  const allAvailableItems = [...categoryOptions, ...nonDuplicateItems];
 
   const filteredItems = allAvailableItems.filter(item => {
+    if (categoryFilter !== 'all') {
+      if (categoryFilter === 'groups') {
+        if (item.type !== 'Category Group' && item.type !== 'Skill Group') return false;
+      } else if (item.group !== categoryFilter) {
+        return false;
+      }
+    }
     if (!searchTerm) return true;
     const term = searchTerm.toLowerCase();
     return (
       (item.name && item.name.toLowerCase().includes(term)) ||
       (item.description && item.description.toLowerCase().includes(term)) ||
-      (item.type && item.type.toLowerCase().includes(term))
+      (item.type && item.type.toLowerCase().includes(term)) ||
+      (item.categoryLabel && item.categoryLabel.toLowerCase().includes(term))
     );
   });
 
@@ -187,13 +312,13 @@ export const UnifiedRelationalSelectorModal = ({
     setSavingNew(true);
     try {
       const newId = `${sourceCollection}_${Date.now()}`;
-      const payload = attachCreatorTag({
+      const payload = {
         id: newId,
         ...newFormData,
         name: itemName,
         description: (newFormData.description || '').trim(),
         createdAt: new Date().toISOString()
-      }, localStorage.getItem('userHandle'), auth.currentUser);
+      };
 
       // 1. Update local items list
       setItems(prev => [...prev, payload]);
@@ -446,6 +571,89 @@ export const UnifiedRelationalSelectorModal = ({
               </span>
             </div>
 
+            {/* Category Sub-Filter Header Bar for Skills */}
+            {sourceCollection === 'skills' && (
+              <div className="px-4 py-2 bg-slate-950/80 border-b border-slate-800 flex items-center gap-1.5 overflow-x-auto shrink-0">
+                <button
+                  type="button"
+                  onClick={() => setCategoryFilter('all')}
+                  className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 ${
+                    categoryFilter === 'all'
+                      ? 'bg-cyan-950 text-cyan-300 border border-cyan-500 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
+                      : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                  }`}
+                >
+                  All ({allAvailableItems.length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCategoryFilter('groups')}
+                  className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 ${
+                    categoryFilter === 'groups'
+                      ? 'bg-amber-950 text-amber-300 border border-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.3)]'
+                      : 'bg-slate-900 text-amber-400/80 hover:text-amber-300 border border-slate-800'
+                  }`}
+                >
+                  📂 Skill Groups (6)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCategoryFilter('physical')}
+                  className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 ${
+                    categoryFilter === 'physical'
+                      ? 'bg-emerald-950 text-emerald-300 border border-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.3)]'
+                      : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                  }`}
+                >
+                  🏃 Physical (5)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCategoryFilter('mental')}
+                  className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 ${
+                    categoryFilter === 'mental'
+                      ? 'bg-blue-950 text-blue-300 border border-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.3)]'
+                      : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                  }`}
+                >
+                  🧠 Mental (49)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCategoryFilter('social')}
+                  className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 ${
+                    categoryFilter === 'social'
+                      ? 'bg-cyan-950 text-cyan-300 border border-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.3)]'
+                      : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                  }`}
+                >
+                  💬 Social (19)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCategoryFilter('combat')}
+                  className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 ${
+                    categoryFilter === 'combat'
+                      ? 'bg-amber-950 text-amber-300 border border-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.3)]'
+                      : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                  }`}
+                >
+                  ⚔️ Combat (8)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCategoryFilter('meta')}
+                  className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 ${
+                    categoryFilter === 'meta'
+                      ? 'bg-purple-950 text-purple-300 border border-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.3)]'
+                      : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                  }`}
+                >
+                  🔮 Metafocus (7)
+                </button>
+              </div>
+            )}
+
             {/* Items List */}
             {filteredItems.length === 0 ? (
               <div className="flex-1 overflow-y-auto p-4 space-y-2 bg-slate-950/40">
@@ -476,13 +684,14 @@ export const UnifiedRelationalSelectorModal = ({
               <VirtualizedList
                 items={filteredItems}
                 itemHeight={72}
-                resetScrollDeps={[searchTerm, sourceCollection, items.length]}
+                resetScrollDeps={[searchTerm, categoryFilter, sourceCollection, items.length]}
                 getKey={(item, index) => item.id || item.name || index}
                 containerClassName="flex-1 overflow-y-auto p-4 bg-slate-950/40"
                 renderItem={(item) => {
                   const val = item.name || item.id;
                   const itemKey = item.id || item.name;
                   const isChecked = currentSelected.includes(val) || currentSelected.includes(item.id);
+                  const isCategoryGroup = item.type === 'Category Group' || item.type === 'Skill Group';
 
                   return (
                     <div className="pb-2 box-border">
@@ -491,7 +700,9 @@ export const UnifiedRelationalSelectorModal = ({
                         onClick={() => toggleItem(val)}
                         className={`p-3 rounded-lg border cursor-pointer transition-all flex items-start gap-3 h-[64px] box-border ${
                           isChecked
-                            ? 'bg-cyan-950/70 border-cyan-500/80 text-white shadow-[0_0_10px_rgba(34,211,238,0.15)]'
+                            ? 'bg-cyan-950/80 border-cyan-400 text-white shadow-[0_0_12px_rgba(34,211,238,0.25)]'
+                            : isCategoryGroup
+                            ? 'bg-amber-950/30 border-amber-500/40 text-amber-200 hover:border-amber-500/70 hover:bg-amber-950/50'
                             : 'bg-slate-900/90 border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-slate-800/80'
                         }`}
                       >
@@ -499,12 +710,33 @@ export const UnifiedRelationalSelectorModal = ({
                           type={isMulti ? 'checkbox' : 'radio'}
                           checked={isChecked}
                           onChange={() => {}}
-                          className="mt-0.5 accent-cyan-500 w-4 h-4"
+                          className="mt-0.5 accent-cyan-500 w-4 h-4 cursor-pointer"
                         />
                         <div className="flex-1 min-w-0">
                           <div className="text-xs font-bold text-slate-100 flex items-center justify-between">
-                            <span className="truncate pr-2">{item.name || item.id}</span>
-                            {item.type && <span className="text-[10px] bg-slate-800 text-cyan-300 px-2 py-0.5 rounded font-mono shrink-0">{item.type}</span>}
+                            <span className={`truncate pr-2 flex items-center gap-1.5 ${isCategoryGroup ? 'text-amber-300 font-semibold' : ''}`}>
+                              {isCategoryGroup && <span>📂</span>}
+                              {item.name || item.id}
+                            </span>
+                            {item.type && (
+                              <span className={`text-[10px] px-2 py-0.5 rounded font-mono shrink-0 ${
+                                isCategoryGroup
+                                  ? 'bg-amber-950/90 text-amber-300 border border-amber-500/50 font-bold'
+                                  : item.group === 'physical'
+                                  ? 'bg-emerald-950/90 text-emerald-300 border border-emerald-500/50 font-bold'
+                                  : item.group === 'mental'
+                                  ? 'bg-blue-950/90 text-blue-300 border border-blue-500/50 font-bold'
+                                  : item.group === 'social'
+                                  ? 'bg-cyan-950/90 text-cyan-300 border border-cyan-500/50 font-bold'
+                                  : item.group === 'combat'
+                                  ? 'bg-amber-950/90 text-amber-300 border border-amber-500/50 font-bold'
+                                  : item.group === 'meta'
+                                  ? 'bg-purple-950/90 text-purple-300 border border-purple-500/50 font-bold'
+                                  : 'bg-slate-800 text-cyan-300'
+                              }`}>
+                                {item.type}
+                              </span>
+                            )}
                           </div>
                           {item.description && (
                             <p className="text-[11px] text-slate-400 line-clamp-1 mt-0.5">{item.description}</p>

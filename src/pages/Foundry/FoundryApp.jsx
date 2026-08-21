@@ -9,6 +9,7 @@ import StoryModule from './StoryModule/StoryModule';
 import ElementForge from './ElementForge/ElementForge';
 import MapMaker from './MapMaker/MapMaker';
 import AIME from './AIME/AIME';
+import PlayerSpectatorView from './MapMaker/PlayerSpectatorView';
 
 const FoundryAppInner = () => {
   const { syncConflict, resolveConflictOverwrite, resolveConflictPull, resolveConflictCancel } = useCampaign();
@@ -22,6 +23,8 @@ const FoundryAppInner = () => {
           <Route path="elements" element={<ElementForge />} />
           <Route path="map-maker" element={<MapMaker />} />
           <Route path="aime" element={<AIME />} />
+          <Route path="view/:mapId" element={<PlayerSpectatorView />} />
+          <Route path="spectator/:mapId" element={<PlayerSpectatorView />} />
         </Routes>
       </AppShell>
       <SyncConflictModal
@@ -36,11 +39,7 @@ const FoundryAppInner = () => {
 };
 
 const FoundryApp = () => {
-  return (
-    <CampaignProvider>
-      <FoundryAppInner />
-    </CampaignProvider>
-  );
+  return <FoundryAppInner />;
 };
 
 export default FoundryApp;

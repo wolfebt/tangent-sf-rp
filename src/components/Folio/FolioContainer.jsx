@@ -106,12 +106,27 @@ const FolioContainer = () => {
       const name = typeof taggedData === 'object' ? (taggedData.name || taggedData.title || '') : taggedData;
       updateField(key, name);
 
-      // Auto-apply species bonus features if present
+      // Auto-apply species inherent traits & bonus features if present
       if (key === 'char-species' && typeof taggedData === 'object') {
-        const bonusFeatures = taggedData.bonus_features || [];
-        if (Array.isArray(bonusFeatures) && bonusFeatures.length > 0) {
-          const featListStr = bonusFeatures.map(f => typeof f === 'object' ? f.name : f).join(', ');
-          const autoApply = window.confirm(`Selected Species "${name}" includes bonus features (${featListStr}). Would you like to add these bonus traits to your character sheet?`);
+        // 1. Inherent Features (guaranteed)
+        if (Array.isArray(taggedData.inherent_features) && taggedData.inherent_features.length > 0) {
+          taggedData.inherent_features.forEach(feat => {
+            const featObj = typeof feat === 'object'
+              ? attachCreatorTag({ ...feat, category: feat.category || 'Species Inherent' }, userHandle, currentUser)
+              : attachCreatorTag({ id: `feat_${Date.now()}_${Math.random().toString(36).substring(2,6)}`, name: feat, cp: 0, category: 'Species Inherent' }, userHandle, currentUser);
+            handleAddItem('features', featObj);
+          });
+        }
+
+        // 2. Bonus Feature Choices
+        const bonusFeatures = Array.isArray(taggedData.bonus_feature_choices) && taggedData.bonus_feature_choices.length > 0
+          ? taggedData.bonus_feature_choices
+          : (Array.isArray(taggedData.bonus_features) ? taggedData.bonus_features : []);
+        if (bonusFeatures.length > 0) {
+          const featListStr = bonusFeatures.map(f => typeof f === 'object' ? (f.name || f.id) : f).join(', ');
+          const pts = parseInt(taggedData.bonus_features ?? taggedData.bonus_feature_points, 10);
+          const ptsText = (!isNaN(pts) && pts > 0) ? ` (Allotted Points: ${pts})` : '';
+          const autoApply = window.confirm(`Selected Species "${name}" includes bonus feature choices${ptsText} (${featListStr}). Would you like to add these bonus traits to your character sheet?`);
           if (autoApply) {
             bonusFeatures.forEach(feat => {
               const featObj = typeof feat === 'object' 
@@ -140,12 +155,27 @@ const FolioContainer = () => {
       const name = typeof value === 'object' ? (value.name || value.title || '') : value;
       updateField(key, name);
 
-      // Auto-apply Omnicortex species bonus traits if present
+      // Auto-apply Omnicortex species inherent traits & bonus features if present
       if (key === 'char-species' && typeof value === 'object') {
-        const bonusFeatures = value.bonus_features || [];
-        if (Array.isArray(bonusFeatures) && bonusFeatures.length > 0) {
-          const featListStr = bonusFeatures.map(f => typeof f === 'object' ? f.name : f).join(', ');
-          const autoApply = window.confirm(`Selected Species "${name}" includes bonus features (${featListStr}). Would you like to add these bonus traits to your character sheet?`);
+        // 1. Inherent Features (guaranteed)
+        if (Array.isArray(value.inherent_features) && value.inherent_features.length > 0) {
+          value.inherent_features.forEach(feat => {
+            const featObj = typeof feat === 'object'
+              ? attachCreatorTag({ ...feat, category: feat.category || 'Species Inherent' }, userHandle, currentUser)
+              : attachCreatorTag({ id: `feat_${Date.now()}_${Math.random().toString(36).substring(2,6)}`, name: feat, cp: 0, category: 'Species Inherent' }, userHandle, currentUser);
+            handleAddItem('features', featObj);
+          });
+        }
+
+        // 2. Bonus Feature Choices
+        const bonusFeatures = Array.isArray(value.bonus_feature_choices) && value.bonus_feature_choices.length > 0
+          ? value.bonus_feature_choices
+          : (Array.isArray(value.bonus_features) ? value.bonus_features : []);
+        if (bonusFeatures.length > 0) {
+          const featListStr = bonusFeatures.map(f => typeof f === 'object' ? (f.name || f.id) : f).join(', ');
+          const pts = parseInt(value.bonus_features ?? value.bonus_feature_points, 10);
+          const ptsText = (!isNaN(pts) && pts > 0) ? ` (Allotted Points: ${pts})` : '';
+          const autoApply = window.confirm(`Selected Species "${name}" includes bonus feature choices${ptsText} (${featListStr}). Would you like to add these bonus traits to your character sheet?`);
           if (autoApply) {
             bonusFeatures.forEach(feat => {
               const featObj = typeof feat === 'object' 

@@ -321,16 +321,18 @@ export const TokenNode = ({ shapeProps, isSelected, isActiveTurn, onSelect, onCh
   const trRef = useRef();
   const [tokenImgObj, setTokenImgObj] = useState(null);
 
+  const imgSource = shapeProps.avatarUrl || shapeProps.imageUrl;
+
   useEffect(() => {
-    if (shapeProps.imageUrl) {
+    if (imgSource) {
       const img = new window.Image();
-      img.src = shapeProps.imageUrl;
+      img.src = imgSource;
       img.onload = () => setTokenImgObj(img);
       img.onerror = () => setTokenImgObj(null);
     } else {
       setTokenImgObj(null);
     }
-  }, [shapeProps.imageUrl]);
+  }, [imgSource]);
 
   useEffect(() => {
     if (isSelected && trRef.current && !isLocked) {
@@ -340,9 +342,11 @@ export const TokenNode = ({ shapeProps, isSelected, isActiveTurn, onSelect, onCh
   }, [isSelected, isLocked]);
 
   const isLink = shapeProps.type === 'link';
+  const isHero = shapeProps.type === 'hero' || !!shapeProps.linkedHeroId;
   const radius = shapeProps.radius || 35;
   const hp = shapeProps.hp || null;
   const initiative = shapeProps.initiative !== undefined && shapeProps.initiative !== null ? shapeProps.initiative : null;
+  const defense = shapeProps.defense !== undefined && shapeProps.defense !== null ? shapeProps.defense : null;
   const conditions = shapeProps.conditions || [];
 
   let hpRatio = 1;
@@ -392,6 +396,17 @@ export const TokenNode = ({ shapeProps, isSelected, isActiveTurn, onSelect, onCh
           />
         )}
 
+        {/* Hero Outer Ring Accent */}
+        {isHero && !isActiveTurn && (
+          <Circle
+            radius={radius + 3}
+            stroke="#22d3ee"
+            strokeWidth={1.5}
+            dash={[4, 4]}
+            opacity={0.75}
+          />
+        )}
+
         {isActiveTurn && (
           <Circle
             radius={radius + 8}
@@ -411,20 +426,33 @@ export const TokenNode = ({ shapeProps, isSelected, isActiveTurn, onSelect, onCh
             height={radius * 2}
             offsetX={radius}
             offsetY={radius}
-            stroke={isSelected ? '#ffffff' : (isLink ? '#f59e0b' : '#000000')}
-            strokeWidth={isLink ? 3 : (isSelected ? 3 : 1)}
+            stroke={isSelected ? '#ffffff' : (isLink ? '#f59e0b' : (isHero ? '#22d3ee' : '#000000'))}
+            strokeWidth={isLink || isHero ? 3 : (isSelected ? 3 : 1)}
           />
         ) : (
-          <Circle
-            ref={shapeRef}
-            radius={radius}
-            fill={shapeProps.fill || '#3b82f6'}
-            stroke={isSelected ? '#ffffff' : (isLink ? '#f59e0b' : 'transparent')}
-            strokeWidth={isLink ? 3 : (isSelected ? 2 : 0)}
-            shadowColor="black"
-            shadowBlur={10}
-            shadowOpacity={0.5}
-          />
+          <Group ref={shapeRef}>
+            <Circle
+              radius={radius}
+              fill={shapeProps.fill || (isHero ? '#0e7490' : '#3b82f6')}
+              stroke={isSelected ? '#ffffff' : (isLink ? '#f59e0b' : (isHero ? '#22d3ee' : 'transparent'))}
+              strokeWidth={isLink || isHero ? 3 : (isSelected ? 2 : 0)}
+              shadowColor="black"
+              shadowBlur={10}
+              shadowOpacity={0.5}
+            />
+            {isHero && (
+              <Text
+                text={shapeProps.label ? shapeProps.label.charAt(0).toUpperCase() : 'H'}
+                fontSize={radius}
+                fontStyle="bold"
+                fill="#e0f2fe"
+                align="center"
+                width={radius * 2}
+                offsetX={radius}
+                offsetY={radius * 0.55}
+              />
+            )}
+          </Group>
         )}
 
         {hp && hp.max > 0 && (
@@ -467,6 +495,27 @@ export const TokenNode = ({ shapeProps, isSelected, isActiveTurn, onSelect, onCh
               width={20}
               offsetX={10}
               offsetY={5}
+            />
+          </Group>
+        )}
+
+        {defense !== null && (
+          <Group x={-radius + 6} y={-radius + 4}>
+            <Circle
+              radius={9}
+              fill="#0f172a"
+              stroke="#0ea5e9"
+              strokeWidth={1.5}
+            />
+            <Text
+              text={String(defense)}
+              fontSize={9}
+              fontStyle="bold"
+              fill="#7dd3fc"
+              align="center"
+              width={18}
+              offsetX={9}
+              offsetY={4.5}
             />
           </Group>
         )}

@@ -3,7 +3,6 @@ import { db, auth } from '../../../firebase';
 import { doc, setDoc, deleteDoc } from 'firebase/firestore';
 import { DBMItemModal } from '../../DBM/DBMItemModal';
 import { categoryConfig } from '../../DBM/categoryConfig';
-import { attachCreatorTag } from '../../../utils/creatorUtils';
 
 const AssetModal = ({
   isOpen,
@@ -75,10 +74,9 @@ const AssetModal = ({
     }
 
     const docId = selectedItem?.id || editFormData.id || `entry_${Date.now()}`;
-    const taggedData = attachCreatorTag(editFormData, localStorage.getItem('userHandle'), auth.currentUser);
     const payload = {
-      ...taggedData,
-      name: taggedData.name.trim(),
+      ...editFormData,
+      name: (editFormData.name || '').trim(),
       id: docId,
       updatedAt: new Date().toISOString()
     };
@@ -110,8 +108,7 @@ const AssetModal = ({
 
   const handleSaveEntryDirect = async (payloadData, colKey) => {
     const docId = payloadData.id || `entry_${Date.now()}`;
-    const taggedData = attachCreatorTag(payloadData, localStorage.getItem('userHandle'), auth.currentUser);
-    const payload = { ...taggedData, id: docId, updatedAt: new Date().toISOString() };
+    const payload = { ...payloadData, id: docId, updatedAt: new Date().toISOString() };
     await setDoc(doc(db, colKey || targetKey, docId), payload, { merge: true });
     return true;
   };

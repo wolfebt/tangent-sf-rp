@@ -6,6 +6,8 @@ import 'react-quill-new/dist/quill.snow.css';
 import { attachCreatorTag } from '../../../utils/creatorUtils';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { useStory } from '../../../context/CampaignContext';
+import { ArtistHubModal } from '../../../components/StoryFoundry/ArtistHubModal';
+
 
 const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
   const { deleteSavedElement } = useStory();
@@ -22,6 +24,7 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
 
   const [showUrlInput, setShowUrlInput] = useState(false);
   const [urlInputValue, setUrlInputValue] = useState('');
+  const [isArtistHubOpen, setIsArtistHubOpen] = useState(false);
   const fileInputRef = useRef(null);
 
   useEffect(() => {
@@ -241,7 +244,7 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
                 onClick={() => fileInputRef.current?.click()}
                 className="px-3 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-lg text-xs font-bold uppercase tracking-wider flex-1 flex items-center justify-center gap-1.5"
               >
-                🖼️ Upload Image
+                🖼️ Upload
               </button>
               <button
                 type="button"
@@ -250,6 +253,14 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
                 title="Paste Image URL"
               >
                 🌐 URL
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsArtistHubOpen(true)}
+                className="px-3 py-2 bg-purple-950 hover:bg-purple-900 border border-purple-500/60 text-purple-300 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1"
+                title="Generate Art Concept with Artist Hub"
+              >
+                🎨 Artist Hub
               </button>
               {imageUrl && (
                 <button
@@ -456,9 +467,23 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
           </div>
         </form>
       </div>
+
+      {isArtistHubOpen && (
+        <ArtistHubModal
+          isOpen={isArtistHubOpen}
+          onClose={() => setIsArtistHubOpen(false)}
+          initialPrompt={title ? `${title} (${type})` : ''}
+          onApplyAsset={(asset) => {
+            if (asset.prompt && !fields.summary) {
+              handleFieldChange('summary', asset.prompt.substring(0, 160));
+            }
+          }}
+        />
+      )}
     </div>
   );
 };
 
 export default EditElementModal;
+
 

@@ -16,7 +16,11 @@ import MapKeyPanel from './map/MapKeyPanel';
 import StatusGemsModal from './map/StatusGemsModal';
 import LandmassGeneratorModal from './map/LandmassGeneratorModal';
 import MapAssetManagerModal from './map/MapAssetManagerModal';
+import FolioHeroTokenDrawer from './map/FolioHeroTokenDrawer';
+import FloatingCombatText from './map/FloatingCombatText';
 import { StoryFoundryGuideModal } from '../../../components/StoryFoundry/StoryFoundryGuideModal';
+import { useFolio } from '../../../context/FolioContext';
+import { AudioService } from '../../../services/audioService';
 
 import { useMapHistory } from './hooks/useMapHistory';
 import { useMapCanvasEvents } from './hooks/useMapCanvasEvents';
@@ -159,11 +163,13 @@ const MapPane = ({ mapExportPngRef }) => {
   const [showToolsPanel, setShowToolsPanel] = useState(true);
   const [showSettingsPanel, setShowSettingsPanel] = useState(true);
   const [showLayersPanel, setShowLayersPanel] = useState(true);
+  const [showHeroDrawer, setShowHeroDrawer] = useState(false);
   const [showCombatTracker, setShowCombatTracker] = useState(false);
   const [showMetadataPanel, setShowMetadataPanel] = useState(false);
   const [showKeyPanel, setShowKeyPanel] = useState(true);
   const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
   const [activeTurnTokenId, setActiveTurnTokenId] = useState(null);
+  const [activeFloats, setActiveFloats] = useState([]);
 
   // Tools & UI State
   const [activeTool, setActiveTool] = useState('select');
@@ -315,6 +321,139 @@ const MapPane = ({ mapExportPngRef }) => {
     pencilColor, pencilWidth, selectedTerrain, terrainWidth, selectedObjectType,
     tokenType, tokenLabelInput, tokenOmnicortexData, textLabelInput, textColor, textSize
   });
+
+  const { updateCharacterHp } = useFolio();
+
+  const triggerFloatingCombatText = (screenX, screenY, text, type = 'damage') => {
+    const newFloat = {
+      id: `float_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+      screenX,
+      screenY,
+      text,
+      type
+    };
+    setActiveFloats(prev => [...prev, newFloat]);
+    setTimeout(() => {
+      setActiveFloats(prev => prev.filter(f => f.id !== newFloat.id));
+    }, 1200);
+  };
+
+  const handleUpdateTokenHp = (tokenId, newHp, isDamage = true, deltaAmount = 1) => {
+    const token = tokens.find(t => t.id === tokenId);
+    if (!token || !token.hp) return;
+
+    recordHistory();
+    const nextTokens = produce(tokens, draft => {
+      const target = draft.find(t => t.id === tokenId);
+      if (target && target.hp) {
+        target.hp.current = newHp;
+      }
+    });
+    updateMap(activeMapId, { tokens: nextTokens });
+
+    // Play tactical combat hit audio
+    AudioService.playCombatHit(deltaAmount >= 15);
+
+    // Trigger floating combat text at token position
+    const screenX = (token.x || 0) * scale + position.x;
+    const screenY = (token.y || 0) * scale + position.y;
+    triggerFloatingCombatText(
+      screenX,
+      screenY,
+      isDamage ? `-${deltaAmount} HP` : `+${deltaAmount} HP`,
+      isDamage ? 'damage' : 'heal'
+    );
+
+    // Sync to Folio roster if linked to a character
+    if (token.linkedHeroId && updateCharacterHp) {
+      updateCharacterHp(token.linkedHeroId, newHp);
+    }
+  };
+
+  const handleStageDrop = (e) => {
+    e.preventDefault();
+    const raw = e.dataTransfer.getData('application/json');
+    if (!raw) return;
+
+    try {
+      const data = JSON.parse(raw);
+      if (data.type === 'folio_hero_token') {
+        if (!currentMap) return;
+
+        const rect = containerRef.current.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+
+        // Transform window/client coordinates to Stage canvas space
+        const canvasX = (mouseX - position.x) / scale;
+        const canvasY = (mouseY - position.y) / scale;
+
+        const derivedInitiative = data.agility ? Math.floor((data.agility - 10) / 2) : 10;
+
+        const newHeroToken = {
+          id: `token_hero_${data.heroId}_${Date.now()}`,
+          type: 'hero',
+          linkedHeroId: data.heroId,
+          label: data.name || 'Hero',
+          avatarUrl: data.avatarUrl || null,
+          x: Math.round(canvasX),
+          y: Math.round(canvasY),
+          radius: 35,
+          fill: '#0284c7',
+          layerId: 'layer_tokens',
+          hp: {
+            current: data.currentHp !== undefined ? data.currentHp : (data.maxHp || 30),
+            max: data.maxHp || 30
+          },
+          defense: data.defense || 12,
+          actionPoints: data.actionPoints || 3,
+          initiative: derivedInitiative,
+          conditions: []
+        };
+
+        recordHistory();
+        updateMap(activeMapId, { tokens: [...tokens, newHeroToken] });
+        AudioService.playTerminalBeep(880, 0.08);
+        triggerFloatingCombatText(mouseX, mouseY, `+ ${data.name}`, 'heal');
+      }
+    } catch (err) {
+      console.warn('Failed to parse dropped hero token:', err);
+    }
+  };
+
+  const handleSummonHeroToken = (data) => {
+    if (!currentMap) return;
+
+    const centerX = (-position.x + stageSize.width / 2) / scale;
+    const centerY = (-position.y + stageSize.height / 2) / scale;
+    const derivedInitiative = data.agility ? Math.floor((data.agility - 10) / 2) : 10;
+
+    const newHeroToken = {
+      id: `token_hero_${data.heroId}_${Date.now()}`,
+      type: 'hero',
+      linkedHeroId: data.heroId,
+      label: data.name || 'Hero',
+      avatarUrl: data.avatarUrl || null,
+      x: Math.round(centerX),
+      y: Math.round(centerY),
+      radius: 35,
+      fill: '#0284c7',
+      layerId: 'layer_tokens',
+      hp: {
+        current: data.currentHp !== undefined ? data.currentHp : (data.maxHp || 30),
+        max: data.maxHp || 30
+      },
+      defense: data.defense || 12,
+      actionPoints: data.actionPoints || 3,
+      initiative: derivedInitiative,
+      conditions: []
+    };
+
+    recordHistory();
+    updateMap(activeMapId, { tokens: [...tokens, newHeroToken] });
+    AudioService.playTerminalBeep(880, 0.08);
+    triggerFloatingCombatText(stageSize.width / 2, stageSize.height / 2, `+ ${data.name}`, 'heal');
+  };
 
   // Keyboard Shortcuts Hotkeys Manager Listener Element
   useEffect(() => {
@@ -793,6 +932,8 @@ const MapPane = ({ mapExportPngRef }) => {
         setShowSettingsPanel={setShowSettingsPanel}
         showLayersPanel={showLayersPanel}
         setShowLayersPanel={setShowLayersPanel}
+        showHeroDrawer={showHeroDrawer}
+        setShowHeroDrawer={setShowHeroDrawer}
         showCombatTracker={showCombatTracker}
         setShowCombatTracker={setShowCombatTracker}
         showMetadataPanel={showMetadataPanel}
@@ -937,11 +1078,11 @@ const MapPane = ({ mapExportPngRef }) => {
                 <>
                   <div className="flex items-center gap-1.5 bg-[#0d1117] px-2 py-1 rounded border border-[#0D5C63]/60">
                     <span className="text-[10px] font-bold text-emerald-400 uppercase">HP:</span>
-                    <button onClick={() => updateItem({ hp: { current: Math.max(0, currentHp - 5), max: maxHp } })} className="px-1.5 py-0.5 bg-red-950 hover:bg-red-900 border border-red-800 text-red-300 rounded text-[10px] font-bold">-5</button>
-                    <button onClick={() => updateItem({ hp: { current: Math.max(0, currentHp - 1), max: maxHp } })} className="px-1.5 py-0.5 bg-red-950 hover:bg-red-900 border border-red-800 text-red-300 rounded text-[10px] font-bold">-1</button>
+                    <button onClick={() => handleUpdateTokenHp(item.id, Math.max(0, currentHp - 5), true, 5)} className="px-1.5 py-0.5 bg-red-950 hover:bg-red-900 border border-red-800 text-red-300 rounded text-[10px] font-bold">-5</button>
+                    <button onClick={() => handleUpdateTokenHp(item.id, Math.max(0, currentHp - 1), true, 1)} className="px-1.5 py-0.5 bg-red-950 hover:bg-red-900 border border-red-800 text-red-300 rounded text-[10px] font-bold">-1</button>
                     <span className="font-mono text-white font-bold px-1">{currentHp} / {maxHp}</span>
-                    <button onClick={() => updateItem({ hp: { current: Math.min(maxHp, currentHp + 1), max: maxHp } })} className="px-1.5 py-0.5 bg-emerald-950 hover:bg-emerald-900 border border-emerald-800 text-emerald-300 rounded text-[10px] font-bold">+1</button>
-                    <button onClick={() => updateItem({ hp: { current: Math.min(maxHp, currentHp + 5), max: maxHp } })} className="px-1.5 py-0.5 bg-emerald-950 hover:bg-emerald-900 border border-emerald-800 text-emerald-300 rounded text-[10px] font-bold">+5</button>
+                    <button onClick={() => handleUpdateTokenHp(item.id, Math.min(maxHp, currentHp + 1), false, 1)} className="px-1.5 py-0.5 bg-emerald-950 hover:bg-emerald-900 border border-emerald-800 text-emerald-300 rounded text-[10px] font-bold">+1</button>
+                    <button onClick={() => handleUpdateTokenHp(item.id, Math.min(maxHp, currentHp + 5), false, 5)} className="px-1.5 py-0.5 bg-emerald-950 hover:bg-emerald-900 border border-emerald-800 text-emerald-300 rounded text-[10px] font-bold">+5</button>
                   </div>
 
                   <div className="flex items-center gap-1.5 bg-[#0d1117] px-2 py-1 rounded border border-[#0D5C63]/60">
@@ -1034,6 +1175,7 @@ const MapPane = ({ mapExportPngRef }) => {
           currentMapScale={currentMap?.type || 'Planetary'}
           customAssets={universeState.customAssets || { terrains: [], objects: [] }}
           onOpenAssetManager={() => setIsAssetManagerOpen(true)}
+          onOpenHeroDrawer={() => setShowHeroDrawer(true)}
         />
 
         <MapLayersPanel
@@ -1047,6 +1189,12 @@ const MapPane = ({ mapExportPngRef }) => {
           addCustomLayer={addCustomLayer}
         />
 
+        <FolioHeroTokenDrawer
+          showDrawer={showHeroDrawer}
+          setShowDrawer={setShowHeroDrawer}
+          onSummonToken={handleSummonHeroToken}
+        />
+
         <MapCombatTracker
           tokens={tokens}
           activeTurnTokenId={activeTurnTokenId}
@@ -1055,6 +1203,10 @@ const MapPane = ({ mapExportPngRef }) => {
           showTracker={showCombatTracker}
           setShowTracker={setShowCombatTracker}
           onSelectToken={(id) => setSelectedId(id)}
+          onUpdateTokenHp={handleUpdateTokenHp}
+          onTriggerFloatingText={triggerFloatingCombatText}
+          scale={scale}
+          position={position}
         />
 
         <MapMetadataPanel
@@ -1111,7 +1263,16 @@ const MapPane = ({ mapExportPngRef }) => {
         />
 
         {/* Canvas Area */}
-        <div className={`w-full h-full relative ${activeTool === 'select' ? 'cursor-grab active:cursor-grabbing' : (activeTool === 'eraser' ? 'cursor-pointer' : 'cursor-crosshair')}`}>
+        <div
+          onDragOver={(e) => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'copy';
+          }}
+          onDrop={handleStageDrop}
+          className={`w-full h-full relative ${activeTool === 'select' ? 'cursor-grab active:cursor-grabbing' : (activeTool === 'eraser' ? 'cursor-pointer' : 'cursor-crosshair')}`}
+        >
+          <FloatingCombatText activeFloats={activeFloats} />
+
           {!currentMap ? (
             <div className="absolute inset-0 flex items-center justify-center text-slate-500 font-bold text-xl italic">
               Please create or select a map.
