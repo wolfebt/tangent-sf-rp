@@ -7,7 +7,7 @@ const SECTIONS = [
   { id: 'map-maker', label: '🗺️ Map Maker' },
   { id: 'aime', label: '✨ AIME Creative Suite' },
   { id: 'element-forge', label: '🧩 Element Forge' },
-  { id: 'bastion', label: '🤖 Bastion AI' },
+  { id: 'aime-copilot', label: '🤖 AIME & BASTION' },
   { id: 'cloud', label: '☁️ Cloud & Saving' },
 ];
 
@@ -43,7 +43,7 @@ const CONTENT = {
           <li>In the <strong className="text-cyan-300">Story Module</strong>, add narrative elements via the Scenario sidebar tree.</li>
           <li>Use <strong className="text-cyan-300">FILE → Push to Cloud</strong> or <strong className="text-cyan-300">Save to File</strong> to persist your universe.</li>
           <li>Switch to <strong className="text-cyan-300">Map Maker</strong> to place locations and draw travel routes.</li>
-          <li>Engage <strong className="text-cyan-300">Bastion AI</strong> or <strong className="text-cyan-300">AIME</strong> to generate prose, encounter hooks, and NPC lore.</li>
+          <li>Click <strong className="text-cyan-300">✨ AIME CO-PILOT</strong> to summon the movable floating AI window to brainstorm lore, expand scenes, or check Omnicortex rules.</li>
         </ol>
       </div>
     </div>
@@ -189,18 +189,18 @@ const CONTENT = {
       </div>
     </div>
   ),
-  bastion: (
+  'aime-copilot': (
     <div className="space-y-4">
       <p className="text-slate-300 leading-relaxed">
-        <strong className="text-cyan-300">Bastion AI</strong> is your context-aware sci-fi narrative intelligence assistant, available across all Foundry and Folio modules.
+        <strong className="text-cyan-300">AIME Co-Pilot</strong> is your context-aware storytelling and worldbuilding assistant in Story Foundry, with direct access to check with <strong className="text-amber-300">BASTION</strong> and the <strong className="text-cyan-300">OMNICORTEX</strong> for game mechanics and rules.
       </p>
       <div className="space-y-3">
         {[
-          { label: 'Interactive Drawer', desc: 'Open Bastion anytime via the 🤖 BASTION button in the sidebar or header.' },
-          { label: 'Context-Aware Chat', desc: 'Ask Bastion questions about your story, campaign elements, or rules. It reads your active campaign context.' },
-          { label: 'Creative Prompts', desc: 'Generate character backstories, describe sci-fi locations, brainstorm plot twists, or create encounter tables.' },
-          { label: 'Narrative Auto-Fill', desc: 'In Folio, Bastion can directly generate and auto-populate any of the 31 character narrative fields.' },
-          { label: 'API Key Setup', desc: 'Enter your Gemini API key in Bastion settings. Key is stored securely in your browser\'s local storage.' },
+          { label: 'Floating Chat Window', desc: 'Summon AIME anytime via the ✨ AIME CO-PILOT button. The window is movable and can be dragged anywhere on your canvas.' },
+          { label: 'Context-Aware Assistance', desc: 'AIME automatically reads your active Story element (type, title, description, custom fields) and universe Guidance Gems.' },
+          { label: 'BASTION Rules Synergy', desc: 'Ask AIME for game mechanics, stats, Tech Levels, or dice check guidelines—it seamlessly checks with BASTION and Omnicortex data.' },
+          { label: 'Interactive Dice Rolling', desc: 'Type /roll [dice] (e.g. /roll 2d10+4) directly into AIME chat to resolve tactical checks without leaving your workspace.' },
+          { label: 'API Key Configuration', desc: 'Enter your Gemini API key in Settings. Keys are securely stored in your browser\'s local storage with offline simulation fallback.' },
         ].map(f => (
           <div key={f.label} className="flex gap-3 bg-slate-800/40 border border-slate-700/40 rounded-lg p-3">
             <div className="min-w-[150px] text-amber-300 font-bold text-xs uppercase tracking-wide pt-0.5">{f.label}</div>

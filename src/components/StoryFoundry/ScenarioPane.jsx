@@ -11,6 +11,8 @@ import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import { StoryFoundryGuideModal } from './StoryFoundryGuideModal';
 import { UserSettingsModal } from '../UserSettingsModal';
+import AIMEChatBox from '../../pages/Foundry/AIME/AIMEChatBox';
+import BastionDrawer from './BastionDrawer';
 
 // Helper to get breadcrumb location path for an element
 const getBreadcrumbPath = (nodes, targetId, currentPath = []) => {
@@ -751,7 +753,7 @@ const ElementImageUploader = ({ activeNode, updateStory }) => {
   );
 };
 
-const ScenarioPane = ({ onOpenBastion, onSwitchTab, onOpenCatalog }) => {
+const ScenarioPane = ({ onSwitchTab, onOpenCatalog }) => {
   const { 
     universeState, 
     setUniverseState, 
@@ -776,10 +778,11 @@ const ScenarioPane = ({ onOpenBastion, onSwitchTab, onOpenCatalog }) => {
     pushUniverseToCloud,
     pullUniverseFromCloud,
     cloudSyncStatus,
-    lastCloudSavedAt
+    lastCloudSavedAt,
+    getActiveGemsText
   } = useStory();
 
-  const { currentUser, userHandle } = useAuth();
+  const { currentUser } = useAuth();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalParentId, setModalParentId] = useState(null);
@@ -787,6 +790,8 @@ const ScenarioPane = ({ onOpenBastion, onSwitchTab, onOpenCatalog }) => {
   const [isFileMenuOpen, setIsFileMenuOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isAimeChatOpen, setIsAimeChatOpen] = useState(false);
+  const [isBastionOpen, setIsBastionOpen] = useState(false);
 
   const storyFileInputRef = useRef(null);
   const scenarioFileInputRef = useRef(null);
@@ -1455,6 +1460,37 @@ const ScenarioPane = ({ onOpenBastion, onSwitchTab, onOpenCatalog }) => {
               </button>
             </div>
           ) : null}
+
+          {/* AI Co-Pilots (AIME & BASTION) Top Bar Access */}
+          <div className="flex items-center gap-1.5 border-l border-slate-700/80 pl-2 sm:pl-3">
+            <button
+              type="button"
+              onClick={() => setIsAimeChatOpen(prev => !prev)}
+              className={`px-2.5 sm:px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
+                isAimeChatOpen
+                  ? 'bg-cyan-900/90 text-cyan-200 border border-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.4)]'
+                  : 'bg-gradient-to-r from-cyan-950 to-indigo-950 hover:from-cyan-900 hover:to-indigo-900 text-cyan-300 border border-cyan-500/50 shadow-sm'
+              }`}
+              title="Toggle AIME Co-Pilot (Story, lore & Omnicortex assistant)"
+            >
+              <span>✨</span>
+              <span className="hidden sm:inline">AIME</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setIsBastionOpen(prev => !prev)}
+              className={`px-2.5 sm:px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
+                isBastionOpen
+                  ? 'bg-cyan-900/90 text-cyan-200 border border-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.4)]'
+                  : 'bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 shadow-sm hover:text-cyan-300'
+              }`}
+              title="Toggle BASTION AI (Tactical rules & generator)"
+            >
+              <span>🤖</span>
+              <span className="hidden sm:inline">BASTION</span>
+            </button>
+          </div>
         </div>
       </header>
 
@@ -1575,19 +1611,6 @@ const ScenarioPane = ({ onOpenBastion, onSwitchTab, onOpenCatalog }) => {
                 </div>
               </>
             )}
-          </div>
-          {/* Bastion AI Button at bottom of Left Sidebar */}
-          <div className="mt-auto pt-3 pb-2 px-3 border-t border-slate-800 bg-slate-950/80 shrink-0">
-            <button
-              type="button"
-              onClick={() => onOpenBastion('chat')}
-              className="w-full py-2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 rounded-lg text-xs font-bold uppercase tracking-wider text-cyan-300 shadow-[0_0_10px_rgba(34,211,238,0.25)] transition-all flex items-center justify-center gap-2"
-            >
-              <span>🤖</span> BASTION AI
-            </button>
-            <div className="pt-2 text-[10px] text-slate-500 font-mono text-center">
-              WOLFE.BT@TANGENTLLC
-            </div>
           </div>
         </div>
 
@@ -1767,6 +1790,37 @@ const ScenarioPane = ({ onOpenBastion, onSwitchTab, onOpenCatalog }) => {
           )}
         </div>
       </Split>
+
+      {/* Floating / Docked Movable AIME Co-Pilot Chat Window */}
+      {isAimeChatOpen && (
+        <AIMEChatBox
+          onClose={() => setIsAimeChatOpen(false)}
+          activeNode={activeNode}
+          contextData={{
+            projectName: universeState.projectName || 'Tangent Universe',
+            activeNode: activeNode ? {
+              id: activeNode.id,
+              title: activeNode.title,
+              type: activeNode.type,
+              content: activeNode.content,
+              fields: activeNode.fields
+            } : null,
+            guidanceGems: typeof getActiveGemsText === 'function' ? getActiveGemsText() : '',
+            outline: universeState.creativeState?.storyOutline || '',
+            sceneBeats: universeState.creativeState?.sceneBeats || '',
+            draft: universeState.creativeState?.storyDraft || ''
+          }}
+        />
+      )}
+
+      {/* Floating / Docked Movable BASTION Tactical Assistant */}
+      {isBastionOpen && (
+        <BastionDrawer
+          isOpen={isBastionOpen}
+          onClose={() => setIsBastionOpen(false)}
+          activeNode={activeNode}
+        />
+      )}
     </div>
   );
 };

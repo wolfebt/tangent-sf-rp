@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import DraggablePanel from '../../pages/Foundry/MapMaker/map/DraggablePanel';
 import { sendBastionChatMessage, parseRollCommand, generateSelectiveFields } from '../../services/bastionService';
-import { useCampaign } from '../../context/CampaignContext';
+import { useStory, useCampaign } from '../../context/CampaignContext';
 import { ELEMENT_SCHEMAS } from './elementSchemas';
 
 const PRESETS = [
@@ -16,13 +17,38 @@ const ELEMENT_TYPES = [
   'Encounter', 'Item', 'Clue', 'Map', 'Handout', 'Custom'
 ];
 
-const BastionDrawer = ({ isOpen, onClose, initialTab = 'chat' }) => {
+const BastionDrawer = ({ isOpen, onClose, initialTab = 'chat', activeNode: propActiveNode }) => {
+  const campaignContext = useCampaign ? useCampaign() : useStory();
+  const universeState = campaignContext?.universeState || {};
+  const activeScenarioId = campaignContext?.activeScenarioId;
+  const updateScenario = campaignContext?.updateScenario || campaignContext?.updateStory;
+
   const [activeTab, setActiveTab] = useState(initialTab); // 'chat' | 'generator'
-  const { universeState, activeScenarioId, updateScenario } = useCampaign();
+  const [isMinimized, setIsMinimized] = useState(false);
+
+  // Dock / Undock state (Persisted in localStorage)
+  const [isDocked, setIsDocked] = useState(() => {
+    try {
+      const saved = localStorage.getItem('bastion_dock_mode');
+      return saved !== null ? JSON.parse(saved) : true;
+    } catch (e) {
+      return true;
+    }
+  });
+
+  const toggleDock = () => {
+    setIsDocked(prev => {
+      const next = !prev;
+      try {
+        localStorage.setItem('bastion_dock_mode', JSON.stringify(next));
+      } catch (e) {}
+      return next;
+    });
+  };
 
   // Chat State
   const [chatMessages, setChatMessages] = useState([
-    { sender: 'bastion', text: 'Greetings, ARCHITECT. BASTION is online. How may I assist your Story Foundry session? Type /roll [dice] to roll (e.g. /roll 2d10+4).' }
+    { sender: 'bastion', text: 'Greetings, ARCHITECT. BASTION Tactical AI is online. How may I assist your session? Type /roll [dice] to roll (e.g. /roll 2d10+4).' }
   ]);
   const [chatInput, setChatInput] = useState('');
   const [isChatLoading, setIsChatLoading] = useState(false);
@@ -35,15 +61,33 @@ const BastionDrawer = ({ isOpen, onClose, initialTab = 'chat' }) => {
   });
   const [genPrompt, setGenPrompt] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
+  const [genStatus, setGenStatus] = useState(null);
   // Overwrite protection mode: false = Fill Blank Only (default safe mode), true = Allow Overwriting
   const [overwriteMode, setOverwriteMode] = useState(false);
+
+  // Find active node in scenario tree
+  let activeNode = propActiveNode;
+  if (!activeNode && activeScenarioId && universeState?.scenarios) {
+    const findNode = (nodes) => {
+      if (!Array.isArray(nodes)) return null;
+      for (const n of nodes) {
+        if (n.id === activeScenarioId) return n;
+        if (n.children) {
+          const found = findNode(n.children);
+          if (found) return found;
+        }
+      }
+      return null;
+    };
+    activeNode = findNode(universeState.scenarios);
+  }
 
   // Helper to check if a field currently has non-empty content
   const hasFieldContent = (key) => {
     if (!activeNode) return false;
     if (key === 'title') return Boolean(activeNode.title && activeNode.title.trim());
     if (key === 'content') return Boolean(activeNode.content && activeNode.content.trim());
-    return Boolean(activeNode.fields?.[key] && activeNode.fields[key].trim());
+    return Boolean(activeNode.fields?.[key] && String(activeNode.fields[key]).trim());
   };
 
   // Select all blank fields helper
@@ -64,19 +108,6 @@ const BastionDrawer = ({ isOpen, onClose, initialTab = 'chat' }) => {
   const clearAllFields = () => {
     setSelectedFields({});
   };
-
-  // Find active node in scenario tree
-  let activeNode = null;
-  const findNode = (nodes) => {
-    for (let n of nodes) {
-      if (n.id === activeScenarioId) {
-        activeNode = n;
-        return;
-      }
-      if (n.children) findNode(n.children);
-    }
-  };
-  if (activeScenarioId) findNode(universeState.scenarios);
 
   if (!isOpen) return null;
 
@@ -107,7 +138,7 @@ const BastionDrawer = ({ isOpen, onClose, initialTab = 'chat' }) => {
           {
             sender: 'bastion',
             isRoll: true,
-            text: `DICE ROLL RESULT [${rollResult.expr}]: Total = ${rollResult.total} (Rolls: [${rollResult.rolls.join(', ')}] ${rollResult.mod !== 0 ? `Mod: ${rollResult.mod}` : ''})`
+            text: `🎲 DICE ROLL RESULT [${rollResult.expr}]: Total = ${rollResult.total} (Rolls: [${rollResult.rolls.join(', ')}] ${rollResult.mod !== 0 ? `Mod: ${rollResult.mod}` : ''})`
           }
         ]);
       } else {
@@ -207,7 +238,9 @@ const BastionDrawer = ({ isOpen, onClose, initialTab = 'chat' }) => {
         };
       }
 
-      updateScenario(activeScenarioId, finalUpdates);
+      if (updateScenario) {
+        updateScenario(activeScenarioId, finalUpdates);
+      }
       setGenStatus({
         success: `BASTION generated content for: [${Object.keys(result.generated).join(', ')}]. Unselected fields remained unchanged.`
       });
@@ -216,286 +249,323 @@ const BastionDrawer = ({ isOpen, onClose, initialTab = 'chat' }) => {
     }
   };
 
-  return (
+  const renderInnerContent = () => (
     <>
-      {/* Backdrop Overlay */}
-      <div 
-        className="fixed inset-0 z-40 bg-black/40 backdrop-blur-[2px]" 
-        onClick={onClose} 
-      />
-      <div className="fixed inset-y-0 left-0 z-50 w-96 sm:w-[440px] bg-[#0d1117] border-r border-cyan-500/50 shadow-[0_0_30px_rgba(0,0,0,0.8)] flex flex-col font-sans backdrop-blur-md">
       {/* Header Bar */}
-      <div className="p-3.5 bg-slate-950 border-b border-cyan-900/60 flex justify-between items-center shrink-0">
+      <div className={`drag-handle flex justify-between items-center px-3.5 py-2.5 bg-slate-950 border-b border-cyan-900/60 select-none shrink-0 ${!isDocked ? 'cursor-move' : ''}`}>
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.8)]" />
-          <h3 className="text-sm font-bold uppercase tracking-widest text-cyan-300 flex items-center gap-1.5">
-            <span>🤖</span> BASTION
+          <div className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
+          <h3 className="text-cyan-300 font-bold text-xs uppercase tracking-widest flex items-center gap-1.5">
+            <span>🤖</span> BASTION TACTICAL
           </h3>
+          <span className="text-[9px] bg-cyan-950/80 text-cyan-400 border border-cyan-800/60 px-1.5 py-0.2 rounded font-mono hidden sm:inline">
+            {isDocked ? 'Docked Right' : 'Floating'}
+          </span>
         </div>
-        <button
-          onClick={onClose}
-          className="text-slate-400 hover:text-red-400 text-xl font-bold leading-none px-2 transition-colors"
-          title="Close BASTION Panel"
-        >
-          &times;
-        </button>
-      </div>
 
-      {/* Mode Selection Tabs */}
-      <div className="flex border-b border-slate-800 bg-slate-900/80 p-1 gap-1 shrink-0">
-        <button
-          className={`flex-1 py-1.5 text-xs font-bold uppercase tracking-wider rounded transition-all ${
-            activeTab === 'chat'
-              ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/50 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
-              : 'text-slate-400 hover:text-white hover:bg-slate-800'
-          }`}
-          onClick={() => setActiveTab('chat')}
-        >
-          💬 Chatbot
-        </button>
-        <button
-          className={`flex-1 py-1.5 text-xs font-bold uppercase tracking-wider rounded transition-all ${
-            activeTab === 'generator'
-              ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/50 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
-              : 'text-slate-400 hover:text-white hover:bg-slate-800'
-          }`}
-          onClick={() => setActiveTab('generator')}
-        >
-          ⚡ Generator
-        </button>
-      </div>
+        <div className="flex items-center gap-1">
+          {/* Dock / Undock Toggle Button */}
+          <button
+            type="button"
+            onClick={toggleDock}
+            className="text-slate-400 hover:text-cyan-300 px-2 py-0.5 text-[11px] font-mono transition-colors rounded hover:bg-slate-800 border border-slate-700/60 flex items-center gap-1"
+            title={isDocked ? "Undock into a movable floating window" : "Dock to right sidebar drawer"}
+          >
+            <span>{isDocked ? '↗ Undock' : '📌 Dock Right'}</span>
+          </button>
 
-      {/* Tab 1: Interactive Chatbot */}
-      {activeTab === 'chat' && (
-        <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
-          <div className="flex-1 p-3.5 overflow-y-auto space-y-3 bg-[#0d1117]/90 text-xs font-mono">
-            {chatMessages.map((msg, idx) => (
-              <div
-                key={idx}
-                className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}
-              >
-                <span className="text-[9px] uppercase font-bold text-slate-500 mb-0.5">
-                  {msg.sender === 'user' ? 'ARCHITECT' : 'BASTION System'}
-                </span>
-                <div
-                  className={`p-3 rounded-lg max-w-[88%] leading-relaxed ${
-                    msg.sender === 'user'
-                      ? 'bg-cyan-950 text-cyan-200 border border-cyan-500/40 rounded-br-none font-sans'
-                      : msg.isRoll
-                      ? 'bg-amber-950/60 text-amber-200 border border-amber-500/60 shadow-[0_0_10px_rgba(245,158,11,0.2)]'
-                      : 'bg-slate-900 text-slate-200 border border-slate-800 rounded-bl-none font-sans'
-                  }`}
-                >
-                  {msg.text}
-                </div>
-              </div>
-            ))}
-            {isChatLoading && (
-              <div className="flex items-center gap-2 text-xs text-cyan-400 italic">
-                <div className="w-3 h-3 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
-                <span>BASTION processing query...</span>
-              </div>
-            )}
-          </div>
-
-          <form onSubmit={handleSendChat} className="p-3 bg-slate-950 border-t border-slate-800 flex gap-2 shrink-0">
-            <input
-              type="text"
-              value={chatInput}
-              onChange={(e) => setChatInput(e.target.value)}
-              placeholder="Ask BASTION or type /roll 2d10+4..."
-              className="flex-1 bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded px-3 py-2 text-xs text-slate-100 outline-none font-mono"
-            />
-            <button
-              type="submit"
-              disabled={isChatLoading}
-              className="px-4 py-2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded text-xs font-bold uppercase tracking-wider transition-colors disabled:opacity-50"
+          {/* Minimize toggle (only available when floating) */}
+          {!isDocked && (
+            <button 
+              type="button"
+              onClick={() => setIsMinimized(prev => !prev)} 
+              className="text-slate-400 hover:text-cyan-300 p-1 text-xs font-mono transition-colors rounded hover:bg-slate-800"
+              title={isMinimized ? "Expand Panel" : "Minimize Panel"}
             >
-              Send
+              {isMinimized ? '◻' : '—'}
             </button>
-          </form>
+          )}
+
+          {/* Close button */}
+          <button
+            type="button"
+            onClick={onClose}
+            className="text-slate-400 hover:text-red-400 p-1 text-sm font-bold transition-colors leading-none rounded hover:bg-slate-800 ml-0.5"
+            title="Close BASTION Panel"
+          >
+            ✕
+          </button>
         </div>
-      )}
+      </div>
 
-      {/* Tab 2: Selective Field Generator */}
-      {activeTab === 'generator' && (
-        <div className="flex-1 flex flex-col p-4 overflow-y-auto space-y-4 text-xs">
-          {/* Active Element Info */}
-          <div className="bg-slate-900/90 border border-slate-800 rounded-lg p-3">
-            <span className="text-[10px] text-cyan-400 uppercase font-bold tracking-wider block mb-1">
-              Target Element
-            </span>
-            {activeNode ? (
-              <div className="flex items-center justify-between">
-                <span className="font-bold text-white text-sm">{activeNode.title || 'Untitled'}</span>
-                <span className="text-[10px] bg-amber-950/80 text-amber-300 border border-amber-800/60 px-2 py-0.5 rounded font-bold uppercase">
-                  {activeNode.type || 'Story Arc'}
-                </span>
-              </div>
-            ) : (
-              <span className="text-slate-400 italic">No element selected in Contents. Please select one to edit.</span>
-            )}
-          </div>
-
-          {/* Overwrite Protection Setting */}
-          <div className="flex items-center justify-between bg-slate-950 p-2.5 rounded-lg border border-slate-800">
-            <div className="flex flex-col">
-              <span className="text-[10px] text-slate-200 font-bold uppercase tracking-wider">
-                Overwrite Protection
-              </span>
-              <span className="text-[9px] text-slate-400">
-                {overwriteMode ? 'Will replace existing field content' : 'Safely fills blank fields only'}
-              </span>
-            </div>
+      {(!isMinimized || isDocked) && (
+        <>
+          {/* Mode Selection Tabs */}
+          <div className="flex border-b border-slate-800 bg-slate-900/80 p-1 gap-1 shrink-0">
             <button
-              onClick={() => setOverwriteMode(!overwriteMode)}
-              className={`px-3 py-1 rounded text-[10px] font-bold uppercase transition-all flex items-center gap-1.5 shrink-0 ${
-                overwriteMode 
-                  ? 'bg-amber-950/90 text-amber-300 border border-amber-500/60 shadow-[0_0_8px_rgba(245,158,11,0.3)]' 
-                  : 'bg-emerald-950/90 text-emerald-300 border border-emerald-500/60 shadow-[0_0_8px_rgba(16,185,129,0.3)]'
+              className={`flex-1 py-1.5 text-xs font-bold uppercase tracking-wider rounded transition-all ${
+                activeTab === 'chat'
+                  ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/50 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
               }`}
+              onClick={() => setActiveTab('chat')}
             >
-              <span>{overwriteMode ? '⚡ Overwrite Allowed' : '🛡️ Fill Blank Only'}</span>
+              💬 Chatbot
+            </button>
+            <button
+              className={`flex-1 py-1.5 text-xs font-bold uppercase tracking-wider rounded transition-all ${
+                activeTab === 'generator'
+                  ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/50 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
+              }`}
+              onClick={() => setActiveTab('generator')}
+            >
+              ⚡ Generator
             </button>
           </div>
 
-          {/* Field Selection Controls */}
-          <div className="bg-slate-900/90 border border-cyan-900/50 rounded-lg p-3">
-            <div className="flex justify-between items-center mb-2">
-              <span className="text-[10px] text-cyan-400 uppercase font-bold tracking-wider">
-                Select Fields to Generate:
-              </span>
-              <div className="flex gap-2">
-                <button onClick={selectBlankOnly} className="text-[9px] text-cyan-400 hover:text-cyan-300 underline font-bold uppercase">
-                  + Blank Only
-                </button>
-                <span className="text-slate-600">|</span>
-                <button onClick={clearAllFields} className="text-[9px] text-slate-400 hover:text-slate-200 underline font-bold uppercase">
-                  Clear
-                </button>
-              </div>
+          {/* Active Target Banner */}
+          <div className="bg-[#161b22] px-3.5 py-1.5 border-b border-slate-800 flex items-center justify-between text-[10px] text-slate-300 shrink-0">
+            <div className="flex items-center gap-1.5 truncate max-w-[85%]">
+              <span className="text-cyan-400 font-bold shrink-0">📍 TARGET:</span>
+              <span className="text-slate-400 font-mono">[{activeNode?.type || 'Campaign'}]</span>
+              <span className="font-semibold text-amber-200 truncate">{activeNode?.title || 'No active element'}</span>
             </div>
-            
-            <div className="flex flex-col gap-2 max-h-[180px] overflow-y-auto pr-1">
-              <label className="flex items-center justify-between cursor-pointer text-slate-200 hover:text-white">
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={!!selectedFields.title}
-                    onChange={() => toggleField('title')}
-                    className="rounded border-slate-700 bg-slate-950 text-cyan-500 focus:ring-0"
-                  />
-                  <span className="font-semibold text-xs">Title / Name</span>
-                </div>
-                {hasFieldContent('title') ? (
-                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-950/80 text-amber-300 border border-amber-800/60 font-mono">Has Content</span>
-                ) : (
-                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-950/80 text-emerald-300 border border-emerald-800/60 font-mono">Blank</span>
-                )}
-              </label>
-
-              <label className="flex items-center justify-between cursor-pointer text-slate-200 hover:text-white">
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={!!selectedFields.content}
-                    onChange={() => toggleField('content')}
-                    className="rounded border-slate-700 bg-slate-950 text-cyan-500 focus:ring-0"
-                  />
-                  <span className="font-semibold text-xs">Description / Detailed Text</span>
-                </div>
-                {hasFieldContent('content') ? (
-                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-950/80 text-amber-300 border border-amber-800/60 font-mono">Has Content</span>
-                ) : (
-                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-950/80 text-emerald-300 border border-emerald-800/60 font-mono">Blank</span>
-                )}
-              </label>
-
-              {activeNode && (ELEMENT_SCHEMAS[activeNode.type] || [])
-                .filter(f => !['order', 'parent', 'parententry', 'parentid', 'id', '_id', 'created_at', 'updated_at'].includes(f.key.toLowerCase()))
-                .map(f => (
-                <label key={f.key} className="flex items-center justify-between cursor-pointer text-slate-300 hover:text-white text-xs">
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      checked={!!selectedFields[f.key]}
-                      onChange={() => toggleField(f.key)}
-                      className="rounded border-slate-700 bg-slate-950 text-amber-500 focus:ring-0"
-                    />
-                    <span>{f.label}</span>
-                  </div>
-                  {hasFieldContent(f.key) ? (
-                    <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-950/80 text-amber-300 border border-amber-800/60 font-mono">Has Content</span>
-                  ) : (
-                    <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-950/80 text-emerald-300 border border-emerald-800/60 font-mono">Blank</span>
-                  )}
-                </label>
-              ))}
-            </div>
-          </div>
-
-          {/* Theme Presets */}
-          <div>
-            <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider block mb-1.5">
-              Quick Theme Presets:
+            <span className="text-[9px] text-cyan-400 font-mono shrink-0">
+              WOLFE.BT
             </span>
-            <div className="flex flex-wrap gap-1.5">
-              {PRESETS.map((preset, idx) => (
+          </div>
+
+          {/* Tab 1: Chatbot */}
+          {activeTab === 'chat' && (
+            <div className="flex-1 flex flex-col min-h-0 bg-[#0d1117]/80">
+              {/* Messages Area */}
+              <div className="flex-1 p-3.5 overflow-y-auto space-y-3 font-sans text-xs">
+                {chatMessages.map((msg, idx) => (
+                  <div 
+                    key={idx} 
+                    className={`flex flex-col max-w-[88%] ${msg.sender === 'user' ? 'self-end items-end ml-auto' : 'self-start items-start mr-auto'}`}
+                  >
+                    <span className="text-[9px] mb-0.5 font-bold uppercase tracking-wider text-slate-500">
+                      {msg.sender === 'user' ? 'ARCHITECT' : 'BASTION System'}
+                    </span>
+                    <div 
+                      className={`p-3 rounded-lg shadow-sm whitespace-pre-wrap leading-relaxed ${
+                        msg.sender === 'user'
+                          ? 'bg-cyan-950 text-cyan-100 border border-cyan-500/50 rounded-tr-none font-sans'
+                          : msg.isRoll
+                          ? 'bg-amber-950/70 text-amber-200 border border-amber-500/60 shadow-[0_0_10px_rgba(245,158,11,0.2)] font-mono'
+                          : 'bg-slate-900/90 text-slate-200 border border-slate-800 rounded-tl-none font-sans'
+                      }`}
+                    >
+                      {msg.text}
+                    </div>
+                  </div>
+                ))}
+                {isChatLoading && (
+                  <div className="self-start flex items-center gap-2 text-cyan-400 text-xs mt-1 font-semibold">
+                    <div className="w-3 h-3 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
+                    <span>BASTION synthesizing tactical cognition...</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Chat Input */}
+              <form onSubmit={handleSendChat} className="p-3 bg-slate-950 border-t border-slate-800 flex gap-2 shrink-0">
+                <input
+                  type="text"
+                  value={chatInput}
+                  onChange={(e) => setChatInput(e.target.value)}
+                  placeholder="Ask BASTION or type /roll [dice]..."
+                  className="flex-1 bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded-lg px-3 py-2 text-xs text-slate-100 placeholder-slate-500 outline-none font-sans"
+                />
                 <button
-                  key={idx}
-                  onClick={() => setGenPrompt(preset.prompt)}
-                  className="px-2 py-1 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 rounded text-[10px] font-semibold transition-colors"
+                  type="submit"
+                  disabled={isChatLoading || !chatInput.trim()}
+                  className="bg-gradient-to-r from-cyan-600 to-cyan-800 hover:from-cyan-500 hover:to-cyan-700 disabled:from-slate-800 disabled:to-slate-800 disabled:text-slate-600 text-white font-bold px-3.5 rounded-lg text-xs uppercase tracking-wider transition-all shadow-md disabled:shadow-none shrink-0"
                 >
-                  + {preset.label}
+                  Send
                 </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Prompt / Instructions */}
-          <div className="flex flex-col gap-1.5">
-            <label className="text-[10px] text-cyan-400 uppercase font-bold tracking-wider">
-              BASTION Generation Prompt:
-            </label>
-            <textarea
-              rows={3}
-              value={genPrompt}
-              onChange={(e) => setGenPrompt(e.target.value)}
-              placeholder="Describe desired theme, Character traits, location details, hazards, or lore..."
-              className="bg-slate-950 border border-slate-700 focus:border-cyan-400 text-slate-100 p-2.5 rounded text-xs outline-none font-sans"
-            />
-          </div>
-
-          {/* Status Message */}
-          {genStatus && (
-            <div className={`p-2.5 rounded border text-xs leading-relaxed ${
-              genStatus.error 
-                ? 'bg-red-950/60 border-red-800 text-red-300' 
-                : 'bg-emerald-950/60 border-emerald-800 text-emerald-300'
-            }`}>
-              {genStatus.error || genStatus.success}
+              </form>
             </div>
           )}
 
-          {/* Action Button */}
-          <button
-            onClick={handleGenerate}
-            disabled={isGenerating || !activeNode}
-            className="w-full py-2.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 font-bold uppercase text-xs rounded tracking-widest transition-all shadow-[0_0_12px_rgba(34,211,238,0.3)] disabled:opacity-50 flex items-center justify-center gap-2"
-          >
-            {isGenerating ? (
-              <>
-                <div className="w-4 h-4 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
-                <span>BASTION Generating Selected Fields...</span>
-              </>
-            ) : (
-              <span>⚡ Generate with BASTION</span>
-            )}
-          </button>
-        </div>
+          {/* Tab 2: Generator */}
+          {activeTab === 'generator' && (
+            <div className="flex-1 p-3.5 overflow-y-auto space-y-4 bg-[#0d1117]/80 text-xs">
+              {/* Field Selectors */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-[10px] text-cyan-400 uppercase font-bold tracking-wider">
+                    Select Fields to Populate:
+                  </span>
+                  <div className="flex gap-2 text-[10px]">
+                    <button onClick={selectBlankOnly} className="text-slate-400 hover:text-cyan-300 transition-colors">
+                      Select Blanks
+                    </button>
+                    <span className="text-slate-600">|</span>
+                    <button onClick={clearAllFields} className="text-slate-400 hover:text-red-400 transition-colors">
+                      Clear
+                    </button>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-1.5 bg-slate-900/60 p-2.5 rounded border border-slate-800">
+                  {/* Core Base Fields */}
+                  <label className="flex items-center gap-2 cursor-pointer text-slate-300 hover:text-white">
+                    <input 
+                      type="checkbox" 
+                      checked={Boolean(selectedFields.title)} 
+                      onChange={() => toggleField('title')}
+                      className="rounded bg-slate-800 border-slate-700 text-cyan-500 focus:ring-0"
+                    />
+                    <span>Title / Name</span>
+                    {hasFieldContent('title') && <span className="text-[9px] text-amber-500 ml-auto">Filled</span>}
+                  </label>
+
+                  <label className="flex items-center gap-2 cursor-pointer text-slate-300 hover:text-white">
+                    <input 
+                      type="checkbox" 
+                      checked={Boolean(selectedFields.content)} 
+                      onChange={() => toggleField('content')}
+                      className="rounded bg-slate-800 border-slate-700 text-cyan-500 focus:ring-0"
+                    />
+                    <span>Overview / Content</span>
+                    {hasFieldContent('content') && <span className="text-[9px] text-amber-500 ml-auto">Filled</span>}
+                  </label>
+
+                  {/* Schema Specific Custom Fields */}
+                  {activeNode && (ELEMENT_SCHEMAS[activeNode.type] || []).map(f => (
+                    <label key={f.key} className="flex items-center gap-2 cursor-pointer text-slate-300 hover:text-white">
+                      <input 
+                        type="checkbox" 
+                        checked={Boolean(selectedFields[f.key])} 
+                        onChange={() => toggleField(f.key)}
+                        className="rounded bg-slate-800 border-slate-700 text-cyan-500 focus:ring-0"
+                      />
+                      <span className="truncate">{f.label}</span>
+                      {hasFieldContent(f.key) && <span className="text-[9px] text-amber-500 ml-auto">Filled</span>}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Overwrite Protection Mode Toggle */}
+              <div className="flex items-center justify-between bg-slate-900/80 p-2.5 rounded border border-slate-800">
+                <div className="flex flex-col">
+                  <span className="text-xs font-bold text-slate-200">Overwrite Mode</span>
+                  <span className="text-[10px] text-slate-400">
+                    {overwriteMode ? 'Will replace existing text in selected fields' : 'Safely fills blank fields only'}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setOverwriteMode(!overwriteMode)}
+                  className={`px-2.5 py-1 text-xs font-bold rounded uppercase tracking-wider transition-colors border ${
+                    overwriteMode 
+                      ? 'bg-amber-950 border-amber-500/80 text-amber-300 shadow-[0_0_8px_rgba(245,158,11,0.3)]' 
+                      : 'bg-slate-800 border-slate-700 text-slate-300'
+                  }`}
+                >
+                  {overwriteMode ? '⚡ Overwrite ON' : '🛡️ Blank Only'}
+                </button>
+              </div>
+
+              {/* Quick Themes Presets */}
+              <div className="space-y-1.5">
+                <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">
+                  Quick Themes / Presets:
+                </span>
+                <div className="flex flex-wrap gap-1.5">
+                  {PRESETS.map((p, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => {
+                        setGenPrompt(p.prompt);
+                        if (activeNode && activeNode.type !== p.type) {
+                          // Update node type preset if applicable
+                        }
+                      }}
+                      className="px-2 py-1 bg-slate-900 hover:bg-cyan-950 hover:text-cyan-300 border border-slate-800 hover:border-cyan-500/50 rounded text-[10px] text-slate-300 transition-colors text-left truncate max-w-full"
+                    >
+                      {p.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Prompt / Instructions */}
+              <div className="flex flex-col gap-1.5">
+                <label className="text-[10px] text-cyan-400 uppercase font-bold tracking-wider">
+                  BASTION Generation Prompt:
+                </label>
+                <textarea
+                  rows={3}
+                  value={genPrompt}
+                  onChange={(e) => setGenPrompt(e.target.value)}
+                  placeholder="Describe desired theme, Character traits, location details, hazards, or lore..."
+                  className="bg-slate-950 border border-slate-700 focus:border-cyan-400 text-slate-100 p-2.5 rounded text-xs outline-none font-sans"
+                />
+              </div>
+
+              {/* Status Message */}
+              {genStatus && (
+                <div className={`p-2.5 rounded border text-xs leading-relaxed ${
+                  genStatus.error 
+                    ? 'bg-red-950/60 border-red-800 text-red-300' 
+                    : 'bg-emerald-950/60 border-emerald-800 text-emerald-300'
+                }`}>
+                  {genStatus.error || genStatus.success}
+                </div>
+              )}
+
+              {/* Action Button */}
+              <button
+                onClick={handleGenerate}
+                disabled={isGenerating || !activeNode}
+                className="w-full py-2.5 bg-gradient-to-r from-cyan-700 to-cyan-900 hover:from-cyan-600 hover:to-cyan-800 border border-cyan-500/60 text-cyan-100 font-bold uppercase text-xs rounded tracking-widest transition-all shadow-[0_0_12px_rgba(34,211,238,0.3)] disabled:opacity-50 flex items-center justify-center gap-2"
+              >
+                {isGenerating ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
+                    <span>BASTION Generating Selected Fields...</span>
+                  </>
+                ) : (
+                  <span>⚡ Generate with BASTION</span>
+                )}
+              </button>
+            </div>
+          )}
+        </>
       )}
-    </div>
     </>
+  );
+
+  if (isDocked) {
+    return (
+      <>
+        {/* Semi-transparent backdrop to easily close drawer on outside click */}
+        <div 
+          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-[2px]" 
+          onClick={onClose} 
+        />
+        <div className="fixed inset-y-0 right-0 z-50 w-96 sm:w-[440px] bg-[#0d1117]/95 border-l border-cyan-500/50 shadow-[-10px_0_30px_rgba(0,0,0,0.8)] backdrop-blur-md flex flex-col font-sans">
+          {renderInnerContent()}
+        </div>
+      </>
+    );
+  }
+
+  return (
+    <DraggablePanel 
+      id="bastion-floating-frame"
+      defaultPosition={{ x: Math.max(10, window.innerWidth - 460), y: 70 }}
+      className={`fixed z-50 flex flex-col bg-[#0d1117]/95 border border-cyan-500/50 rounded-xl shadow-[0_0_25px_rgba(34,211,238,0.25)] backdrop-blur-md overflow-hidden font-sans transition-all duration-150 ${
+        isMinimized ? 'w-[320px] h-[48px]' : 'w-[390px] sm:w-[440px] h-[600px]'
+      }`}
+    >
+      {renderInnerContent()}
+    </DraggablePanel>
   );
 };
 
