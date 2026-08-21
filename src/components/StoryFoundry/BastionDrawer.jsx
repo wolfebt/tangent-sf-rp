@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import DraggablePanel from '../../pages/Foundry/MapMaker/map/DraggablePanel';
 import { sendBastionChatMessage, parseRollCommand, generateSelectiveFields } from '../../services/bastionService';
 import { useStory, useCampaign } from '../../context/CampaignContext';
-import { ELEMENT_SCHEMAS } from './elementSchemas';
+import { ELEMENT_SCHEMAS } from '../../pages/Foundry/ElementForge/elementSchemas';
 
 const PRESETS = [
   { label: 'Derelict Ship Encounter', type: 'Encounter', prompt: 'Derelict starship floating in deep space with environmental hazards, automated defense turrets, and valuable salvaged data core.' },

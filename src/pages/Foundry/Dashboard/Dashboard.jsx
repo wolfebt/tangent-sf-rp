@@ -149,19 +149,7 @@ const Dashboard = () => {
   const aimeItems = getAimeItems();
 
   return (
-    <div className="dashboard-page animate-fade-in">
-      <header className="dashboard-header">
-        <div>
-          <h1 className="animated-gradient-text" style={{ fontSize: '3rem', margin: '0' }}>FOUNDRY</h1>
-          <p className="subtitle sci-fi-glow" style={{ marginTop: '8px' }}>Select a module to begin crafting your universe.</p>
-        </div>
-        <div className="header-actions">
-          <div className="status-badge">
-            <span className="status-dot"></span> System Online
-          </div>
-        </div>
-      </header>
-
+    <div className="dashboard-page animate-fade-in pt-2">
       <div className="dashboard-content">
         {/* Left/Main Column: Cards */}
         <div className="dashboard-modules-block">

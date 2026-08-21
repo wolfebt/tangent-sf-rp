@@ -359,7 +359,7 @@ export const categoryConfig = {
         label: 'PROPERTY',
         isParent: true,
         viewType: 'landing',
-        subItems: ['gear', 'weaponry', 'armoring', 'mecha', 'other'],
+        subItems: ['gear', 'weaponry', 'armoring', 'mecha', 'architecture', 'other'],
     },
     gear: {
         label: 'Gear',
@@ -517,6 +517,43 @@ export const categoryConfig = {
             modifier: { type: 'multiselect', source: 'modifier', manageable: true },
             mechanic: { type: 'textarea' },
             note: { type: 'textarea' }
+        }
+    },
+    architecture: {
+        label: 'Architecture',
+        viewType: 'table',
+        parent: 'personal_property',
+        directory_columns: ['name', 'style', 'scale', 'tl', 'ml', 'cost', 'durability', 'security_level', 'design_dc'],
+        fields: {
+            name: { type: 'text', required: true, label: 'Structure / Blueprint Name' },
+            style: { 
+                type: 'select', 
+                label: 'Architectural Style', 
+                options: ['Cyber-Industrial', 'Brutalist Voidcraft', 'Neo-Gothic High Arcology', 'Bio-Organic Crystalline', 'Nomadic Prefab Modular', 'Ancient Hyper-Structure', 'Subterranean Bunker Complex'] 
+            },
+            scale: { 
+                type: 'select', 
+                label: 'Scale & Footprint', 
+                options: ['Tactical Room / Bunker', 'Single Installation / Facility', 'Multi-Block Complex', 'Orbital Citadel / Starport', 'Planetary Arcology', 'System Megastructure'] 
+            },
+            tl: { type: 'number', label: 'TL', default: 3 },
+            ml: { type: 'number', label: 'ML', default: 0 },
+            cost: { type: 'number', label: 'Credit Cost' },
+            durability: { type: 'number', label: 'Structural Durability / HP' },
+            power_grid: { type: 'text', label: 'Power & Life Support' },
+            security_level: { 
+                type: 'select', 
+                label: 'Security Level', 
+                options: ['Open / Civilian Access', 'Restricted Standard', 'High Security (Tier 3)', 'Black-Site Military Matrix', 'Quantum Encrypted Quarantine'] 
+            },
+            primary_purpose: { type: 'text', label: 'Primary Purpose / Function' },
+            availability: { type: 'select', source: 'availability', manageable: true },
+            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
+            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
+            design_dc: { type: 'readonlytext', label: 'DESIGN DC' },
+            description: { type: 'textarea', aiEnabled: true, label: 'Description / Overview' },
+            mechanic: { type: 'textarea', label: 'Tactical Mechanics & Rules' },
+            note: { type: 'textarea', label: 'Architect Notes' }
         }
     },
     other: {

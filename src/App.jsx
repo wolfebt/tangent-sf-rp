@@ -1,19 +1,21 @@
-import React, { useState, useEffect, lazy, Suspense } from 'react';
+﻿import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ErrorBoundary } from './components/UI/ErrorBoundary';
+import { CampaignProvider } from './context/CampaignContext';
 import { DBMProvider } from './context/DBMContext';
 import { FolioProvider } from './context/FolioContext';
-import { CampaignProvider } from './context/CampaignContext';
 import { GlobalHUD } from './components/Layout/GlobalHUD';
-import { CommandPalette } from './components/UI/CommandPalette';
 import { DiceRollerDock } from './components/UI/DiceRollerDock';
+import { CommandPalette } from './components/UI/CommandPalette';
+import { ErrorBoundary } from './components/UI/ErrorBoundary';
 
+// Lazy Loaded Top-Level Routes for Optimal Bundle Performance
 const Home = lazy(() => import('./pages/Home'));
+const CodexApp = lazy(() => import('./pages/Codex/CodexApp'));
+const DBM = lazy(() => import('./pages/DBM'));
 const Folio = lazy(() => import('./pages/Folio'));
 const FoundryApp = lazy(() => import('./pages/Foundry/FoundryApp'));
-const DBM = lazy(() => import('./pages/DBM'));
+const VttOptionsPage = lazy(() => import('./pages/Foundry/MapMaker/VttOptionsPage'));
 const PlayerSpectatorView = lazy(() => import('./pages/Foundry/MapMaker/PlayerSpectatorView'));
-
 
 const PageLoader = () => (
   <div className="flex-1 flex items-center justify-center bg-[#0d1117] text-cyan-400 font-mono text-sm tracking-wider h-full w-full">
@@ -24,11 +26,11 @@ const PageLoader = () => (
   </div>
 );
 
-function App() {
-  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+export function App() {
   const [isDiceDockOpen, setIsDiceDockOpen] = useState(false);
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
 
-  // Global Keyboard Shortcuts (Ctrl+K for Search, Alt+D for Dice Dock)
+  // Global Keyboard Shortcuts
   useEffect(() => {
     const handleGlobalKeys = (e) => {
       // Alt+D or Option+D for dice dock
@@ -43,8 +45,13 @@ function App() {
       }
     };
 
+    const handleCustomToggleDice = () => setIsDiceDockOpen(prev => !prev);
+    window.addEventListener('toggle-dice-dock', handleCustomToggleDice);
     window.addEventListener('keydown', handleGlobalKeys);
-    return () => window.removeEventListener('keydown', handleGlobalKeys);
+    return () => {
+      window.removeEventListener('keydown', handleGlobalKeys);
+      window.removeEventListener('toggle-dice-dock', handleCustomToggleDice);
+    };
   }, []);
 
   return (
@@ -53,22 +60,26 @@ function App() {
         <DBMProvider>
           <FolioProvider>
             <div className="h-screen w-screen bg-[#0d1117] flex flex-col font-sans overflow-hidden text-slate-100 select-none">
-              {/* Persistent Global HUD (Height: 56px) */}
+              {/* Persistent Global HUD (Height: 52px on sub-routes) */}
               <GlobalHUD
                 onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
                 onToggleDiceDock={() => setIsDiceDockOpen(prev => !prev)}
                 isDiceDockOpen={isDiceDockOpen}
               />
 
-              {/* Main Routed Area (Height: calc(100vh - 56px)) */}
-              <main className="flex-1 w-full h-[calc(100vh-56px)] overflow-hidden relative">
+              {/* Main Routed Area */}
+              <main className="flex-1 w-full overflow-hidden relative">
                 <ErrorBoundary>
                   <Suspense fallback={<PageLoader />}>
                     <Routes>
                       <Route path="/" element={<Home />} />
+                      <Route path="/codex" element={<CodexApp />} />
+                      <Route path="/codex/*" element={<CodexApp />} />
                       <Route path="/dbm" element={<DBM />} />
                       <Route path="/folio" element={<Folio />} />
                       <Route path="/roster" element={<Folio />} />
+                      <Route path="/vtt-ops" element={<VttOptionsPage />} />
+                      <Route path="/foundry/vtt-options" element={<VttOptionsPage />} />
                       <Route path="/foundry/view/:mapId" element={<PlayerSpectatorView />} />
                       <Route path="/foundry/spectator/:mapId" element={<PlayerSpectatorView />} />
                       <Route path="/spectator/:mapId" element={<PlayerSpectatorView />} />
@@ -80,15 +91,15 @@ function App() {
                 </ErrorBoundary>
               </main>
 
-              {/* Global Modals & Dock Drawers */}
-              <CommandPalette
-                isOpen={isCommandPaletteOpen}
-                onClose={() => setIsCommandPaletteOpen(false)}
-              />
-
+              {/* Persistent Overlay Docks & Command Palette */}
               <DiceRollerDock
                 isOpen={isDiceDockOpen}
                 onClose={() => setIsDiceDockOpen(false)}
+              />
+              
+              <CommandPalette
+                isOpen={isCommandPaletteOpen}
+                onClose={() => setIsCommandPaletteOpen(false)}
               />
             </div>
           </FolioProvider>

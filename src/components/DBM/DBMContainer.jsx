@@ -500,6 +500,7 @@ export const DBMContainer = () => {
         historyLength={history.length}
         handleBack={handleBack}
         handleForward={handleForward}
+        isBastionOpen={isBastionOpen}
         setIsBastionOpen={setIsBastionOpen}
         handleExportMasterJSON={handleExportMasterJSON}
         handleImportMasterJSON={handleImportMasterJSON}
@@ -526,10 +527,6 @@ export const DBMContainer = () => {
             currentKey={currentKey}
             navigateToCategory={(catKey, subKey) => {
               navigateToCategory(catKey, subKey);
-              setIsSidebarOpen(false);
-            }}
-            onOpenBastion={() => {
-              setIsBastionOpen(true);
               setIsSidebarOpen(false);
             }}
           />

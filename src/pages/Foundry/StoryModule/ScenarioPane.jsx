@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useStory, formatExportFilename } from '../../../context/CampaignContext';
 import { useAuth } from '../../../context/AuthContext';
 import { extractCreatorInfo } from '../../../utils/creatorUtils';
@@ -13,7 +14,6 @@ import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { StoryFoundryGuideModal } from '../../../components/StoryFoundry/StoryFoundryGuideModal';
 import { UserSettingsModal } from '../../../components/UserSettingsModal';
 import AIMEChatBox from '../AIME/AIMEChatBox';
-import BastionDrawer from '../../../components/StoryFoundry/BastionDrawer';
 
 // Helper to get breadcrumb location path for an element
 const getBreadcrumbPath = (nodes, targetId, currentPath = []) => {
@@ -855,6 +855,7 @@ const ElementImageUploader = ({ activeNode, updateStory }) => {
 };
 
 const ScenarioPane = ({ onSwitchTab, onOpenCatalog }) => {
+  const navigate = useNavigate();
   const { 
     universeState, 
     setUniverseState, 
@@ -892,7 +893,6 @@ const ScenarioPane = ({ onSwitchTab, onOpenCatalog }) => {
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isAimeChatOpen, setIsAimeChatOpen] = useState(false);
-  const [isBastionOpen, setIsBastionOpen] = useState(false);
 
   const storyFileInputRef = useRef(null);
   const scenarioFileInputRef = useRef(null);
@@ -1381,46 +1381,42 @@ const ScenarioPane = ({ onSwitchTab, onOpenCatalog }) => {
         }
       `}</style>
 
-      {/* Top Header & Actions Bar (Matching Folio layout & style) */}
-      <header className="bg-[#0d1117] border-b border-[#0D5C63]/50 p-3 px-4 sm:px-6 flex items-center justify-between backdrop-blur-md gap-3 relative z-40 shrink-0">
-        
-        {/* Title & Header Name Display */}
+      {/* Sub-Header & Actions Bar */}
+      <header className="bg-[#0d1117] border-b border-[#0D5C63]/50 p-2.5 px-4 sm:px-6 flex items-center justify-between backdrop-blur-md gap-3 relative z-40 shrink-0">
+        {/* Left: Story Name & Creator Tag */}
         <div className="flex items-center gap-3">
-          <div className="flex flex-col">
-            <div className="flex items-center gap-2 flex-wrap">
-              <h2 id="story-module-title-header" className="text-sm sm:text-base font-bold font-mono text-cyan-400 uppercase tracking-wider drop-shadow-[0_0_8px_rgba(34,211,238,0.3)] shrink-0">
-                Story Module
-              </h2>
-              <span className="text-slate-600 font-bold">|</span>
-              <input 
-                type="text" 
-                value={universeState.projectName || ''}
-                onChange={(e) => updateProjectName(e.target.value)}
-                className="bg-transparent text-sm sm:text-base font-bold font-mono text-amber-400 uppercase tracking-wider drop-shadow-[0_0_8px_rgba(245,158,11,0.3)] hover:text-white focus:bg-slate-900 px-1.5 py-0.5 rounded outline-none truncate max-w-[160px] sm:max-w-xs transition-colors border-b border-transparent focus:border-amber-500"
-                placeholder="UNNAMED STORY"
-                title="Click to rename Story Module"
-              />
-              {(() => {
-                const creatorInfo = extractCreatorInfo(universeState, userHandle, currentUser);
-                return (
-                  <div className="flex items-center gap-1.5 ml-1">
-                    <span className="px-2 py-0.5 bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 rounded text-xs font-mono font-bold flex items-center gap-1 shadow-sm" title="Original Creator">
-                      <span>🏷️</span>
-                      <span>{creatorInfo.creatorTag}</span>
+          <div className="flex items-center gap-2">
+            <h2 id="story-module-title-header" className="text-xs sm:text-sm font-bold font-mono text-cyan-400 uppercase tracking-wider drop-shadow-[0_0_8px_rgba(34,211,238,0.3)] shrink-0">
+              Story:
+            </h2>
+            <input 
+              type="text" 
+              value={universeState.projectName || ''}
+              onChange={(e) => updateProjectName(e.target.value)}
+              className="bg-slate-900 text-xs font-bold font-mono text-amber-400 uppercase tracking-wider drop-shadow-[0_0_8px_rgba(245,158,11,0.3)] hover:text-white px-2 py-1 rounded outline-none truncate max-w-[160px] sm:max-w-xs transition-colors border border-slate-700 focus:border-amber-500"
+              placeholder="UNNAMED STORY"
+              title="Click to rename Story Module"
+            />
+            {(() => {
+              const creatorInfo = extractCreatorInfo(universeState, userHandle, currentUser);
+              return (
+                <div className="flex items-center gap-1.5 ml-1">
+                  <span className="px-2 py-0.5 bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 rounded text-xs font-mono font-bold flex items-center gap-1 shadow-sm" title="Original Creator">
+                    <span>🏷️</span>
+                    <span>{creatorInfo.creatorTag}</span>
+                  </span>
+                  {creatorInfo.contributorTags && creatorInfo.contributorTags.length > 0 && (
+                    <span className="px-2 py-0.5 bg-amber-950/80 border border-amber-500/40 text-amber-300 rounded text-[11px] font-mono font-bold" title={`Contributors: ${creatorInfo.contributorTags.join(', ')}`}>
+                      Contrib: {creatorInfo.contributorTags.join(', ')}
                     </span>
-                    {creatorInfo.contributorTags && creatorInfo.contributorTags.length > 0 && (
-                      <span className="px-2 py-0.5 bg-amber-950/80 border border-amber-500/40 text-amber-300 rounded text-[11px] font-mono font-bold" title={`Contributors: ${creatorInfo.contributorTags.join(', ')}`}>
-                        Contrib: {creatorInfo.contributorTags.join(', ')}
-                      </span>
-                    )}
-                  </div>
-                );
-              })()}
-            </div>
+                  )}
+                </div>
+              );
+            })()}
           </div>
         </div>
 
-        {/* Center / Actions Bar */}
+        {/* Right / Actions Bar */}
         <div className="flex items-center gap-2 sm:gap-3">
           {/* Hidden Story File Input */}
           <input
@@ -1580,7 +1576,7 @@ const ScenarioPane = ({ onSwitchTab, onOpenCatalog }) => {
             </div>
           ) : null}
 
-          {/* AI Co-Pilots (AIME & BASTION) Top Bar Access */}
+          {/* AI Co-Pilot (AIME) Top Bar Access */}
           <div className="flex items-center gap-1.5 border-l border-slate-700/80 pl-2 sm:pl-3">
             <button
               type="button"
@@ -1590,24 +1586,10 @@ const ScenarioPane = ({ onSwitchTab, onOpenCatalog }) => {
                   ? 'bg-cyan-900/90 text-cyan-200 border border-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.4)]'
                   : 'bg-gradient-to-r from-cyan-950 to-indigo-950 hover:from-cyan-900 hover:to-indigo-900 text-cyan-300 border border-cyan-500/50 shadow-sm'
               }`}
-              title="Toggle AIME Co-Pilot (Story, lore & Omnicortex assistant)"
+              title="Toggle AIME Co-Pilot (Story, lore & creative writing assistant)"
             >
               <span>✨</span>
               <span className="hidden sm:inline">AIME</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setIsBastionOpen(prev => !prev)}
-              className={`px-2.5 sm:px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
-                isBastionOpen
-                  ? 'bg-cyan-900/90 text-cyan-200 border border-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.4)]'
-                  : 'bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 shadow-sm hover:text-cyan-300'
-              }`}
-              title="Toggle BASTION AI (Tactical rules & generator)"
-            >
-              <span>🤖</span>
-              <span className="hidden sm:inline">BASTION</span>
             </button>
           </div>
         </div>
@@ -1916,15 +1898,6 @@ const ScenarioPane = ({ onSwitchTab, onOpenCatalog }) => {
             sceneBeats: universeState.creativeState?.sceneBeats || '',
             draft: universeState.creativeState?.storyDraft || ''
           }}
-        />
-      )}
-
-      {/* Floating / Docked Movable BASTION Tactical Assistant */}
-      {isBastionOpen && (
-        <BastionDrawer
-          isOpen={isBastionOpen}
-          onClose={() => setIsBastionOpen(false)}
-          activeNode={activeNode}
         />
       )}
     </div>

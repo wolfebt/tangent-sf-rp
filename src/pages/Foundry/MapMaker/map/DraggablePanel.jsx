@@ -25,6 +25,11 @@ const DraggablePanel = ({
   }, [position, id]);
 
   const handlePointerDown = (e) => {
+    // Do not start drag if clicked on an interactive element (button, input, textarea, select, link, or data-no-drag element)
+    if (e.target.closest('button, input, textarea, select, a, [data-no-drag]')) {
+      return;
+    }
+
     // Only start dragging if the target is a header or has the drag-handle class
     const isDragHandle = e.target.closest('.drag-handle');
     if (isDragHandle) {

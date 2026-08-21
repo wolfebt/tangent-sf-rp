@@ -1,73 +1,87 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { User, Activity, Award, Sparkles, Shield, BookOpen, Layers } from 'lucide-react';
+import { AudioService } from '../../services/audioService';
 
 const TABS = [
-  { id: 'identity', label: 'Identity' },
-  { id: 'core-stats', label: 'Core Stats' },
-  { id: 'skills', label: 'Skills' },
-  { id: 'abilities', label: 'Abilities' },
-  { id: 'combat-gear', label: 'Combat & Gear' },
-  { id: 'narrative', label: 'Narrative' },
-  { id: 'other', label: 'Other' }
+  { id: 'identity', label: 'Identity', icon: User },
+  { id: 'core-stats', label: 'Core Stats', icon: Activity },
+  { id: 'skills', label: 'Skills', icon: Award },
+  { id: 'abilities', label: 'Abilities', icon: Sparkles },
+  { id: 'combat-gear', label: 'Combat & Gear', icon: Shield },
+  { id: 'narrative', label: 'Narrative', icon: BookOpen },
+  { id: 'other', label: 'Other', icon: Layers }
 ];
 
-const FolioSidebar = ({ activeTab, setActiveTab, charName, onOpenRoster, onOpenBastion }) => {
+const FolioSidebar = ({ activeTab, setActiveTab, charName, onOpenRoster }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="w-64 bg-[#0d1117] border-r border-[#0D5C63]/50 p-4 flex flex-col h-full flex-shrink-0">
-      {/* Title Header */}
-      <div className="mb-4 border-b border-[#0D5C63]/40 pb-4">
-        <div 
-          onClick={() => navigate('/')}
-          className="flex flex-col uppercase text-[#22d3ee] tangent-title-pulse cursor-pointer hover:opacity-80 transition-opacity"
-          title="Return to Home"
-        >
-          <span className="text-[2rem] font-bold leading-none">TANGENT</span>
-          <span className="text-[1rem] leading-none">SCIENCE FANTASY ROLEPLAY</span>
-          <span className="text-[1.5rem] font-bold leading-none">PERSONA FOLIO</span>
+    <aside className="w-64 sm:w-72 bg-[#0a0d14]/90 backdrop-blur-xl border-r border-[#0D5C63]/50 p-3 flex flex-col h-full shrink-0 gap-2 overflow-hidden select-none relative z-20 font-sans shadow-xl">
+      {/* Operative Dossier Header Banner */}
+      <div className="px-1 py-1 border-b border-slate-800/80 shrink-0">
+        <div className="flex items-center justify-between mb-1">
+          <span className="text-[11px] font-mono font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+            <Layers size={13} className="text-amber-400" />
+            FOLIO DOSSIER
+          </span>
+          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-500/10 border border-amber-500/30 text-amber-300 font-bold">
+            {TABS.length} Sections
+          </span>
         </div>
-        <h2 className="text-sm font-bold font-mono text-amber-400 truncate uppercase mt-2 drop-shadow-[0_0_8px_rgba(245,158,11,0.3)]">
-          {charName ? charName.toUpperCase() : 'UNNAMED'}
-        </h2>
+        <div className="text-xs font-bold font-mono text-amber-400 truncate uppercase px-2 py-1 rounded bg-amber-500/10 border border-amber-500/20 drop-shadow-[0_0_8px_rgba(245,158,11,0.3)]">
+          {charName ? charName.toUpperCase() : 'UNNAMED OPERATIVE'}
+        </div>
       </div>
 
       {/* Tabs List */}
-      <nav className="flex flex-col space-y-1.5 flex-1">
-        {TABS.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`w-full text-left px-4 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-between ${
-              activeTab === tab.id
-                ? 'bg-cyan-950/80 text-cyan-300 border border-cyan-400/60 shadow-[0_0_12px_rgba(34,211,238,0.25)]'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60 border border-transparent'
-            }`}
-          >
-            <span>{tab.label}</span>
-            {activeTab === tab.id && (
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_6px_rgba(34,211,238,0.8)]" />
-            )}
-          </button>
-        ))}
+      <nav className="flex flex-col gap-1 flex-1 overflow-y-auto pr-1">
+        {TABS.map((tab) => {
+          const isActive = activeTab === tab.id;
+          const Icon = tab.icon;
+
+          return (
+            <button
+              key={tab.id}
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1100, 0.02);
+                setActiveTab(tab.id);
+              }}
+              className={`w-full text-left px-3 py-2 rounded-xl text-xs font-mono font-bold tracking-wider transition-all duration-200 flex items-center justify-between group border ${
+                isActive
+                  ? 'bg-cyan-950/40 text-cyan-200 border-cyan-500/60 shadow-[0_0_15px_rgba(34,211,238,0.2)] ring-1 ring-cyan-500/30'
+                  : 'bg-slate-900/40 text-slate-400 border-slate-800/80 hover:text-white hover:bg-slate-800/70 hover:border-slate-700'
+              }`}
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div 
+                  className={`w-6 h-6 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
+                    isActive ? 'bg-cyan-500/20 text-cyan-300' : 'bg-slate-800/60 text-slate-400 group-hover:text-cyan-300'
+                  }`}
+                >
+                  <Icon size={14} />
+                </div>
+                <span className="truncate uppercase text-[11px] font-semibold">{tab.label}</span>
+              </div>
+
+              {isActive && (
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_6px_rgba(34,211,238,0.8)]" />
+              )}
+            </button>
+          );
+        })}
       </nav>
 
-      {/* Bastion AI Toggle Button */}
-      <div className="mt-auto pt-3 pb-2 border-t border-slate-800">
-        <button
-          type="button"
-          onClick={onOpenBastion}
-          className="w-full py-2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 rounded-lg text-xs font-bold uppercase tracking-wider text-cyan-300 shadow-[0_0_10px_rgba(34,211,238,0.25)] transition-all flex items-center justify-center gap-2"
-        >
-          <span>🤖</span> BASTION AI
-        </button>
+      {/* Footer System Status */}
+      <div className="pt-2 border-t border-slate-800/80 text-[10px] text-slate-500 font-mono flex items-center justify-between shrink-0">
+        <span className="flex items-center gap-1.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+          FOLIO ENGINE
+        </span>
+        <span className="text-slate-600">v2.0</span>
       </div>
-
-      {/* Footer Branding */}
-      <div className="pt-2 text-[10px] text-slate-500 font-mono text-center">
-        WOLFE.BT@TANGENTLLC
-      </div>
-    </div>
+    </aside>
   );
 };
 

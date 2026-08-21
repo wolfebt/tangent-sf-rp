@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useCampaign } from '../../../context/CampaignContext';
 import { ELEMENT_TYPES, getTypePillStyle, SCENARIO_GUIDE_MODULES } from './elementSchemas';
 import EditElementModal from './EditElementModal';
 import { ArtistHubModal } from '../../../components/StoryFoundry/ArtistHubModal';
 import { generateContent } from '../../../services/aimeService';
-import { Sparkles, Palette, BookOpen, Plus, Search, Wand2, X } from 'lucide-react';
+import { Sparkles, Palette, BookOpen, Plus, Search, Wand2, X, Trash2 } from 'lucide-react';
+import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 
 export const ElementForge = () => {
+  const navigate = useNavigate();
   const { elementsCatalog, updateSavedElement, deleteSavedElement, saveElementToCloud } = useCampaign();
   
   const [activeType, setActiveType] = useState(ELEMENT_TYPES[0]);
@@ -136,14 +139,16 @@ Output Format: Provide structured markdown with rich sections, atmospheric read-
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col h-full overflow-hidden p-8 relative z-10">
         {/* Header Bar */}
-        <div className="flex flex-wrap justify-between items-center mb-6 shrink-0 bg-slate-900/40 backdrop-blur-md p-6 rounded-2xl border border-slate-800/80 shadow-lg gap-4">
-          <div>
-            <h1 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600 tracking-wider uppercase flex items-center gap-3">
-              {activeType} Elements
-            </h1>
-            <p className="text-sm text-slate-400 mt-1">
-              Manage your local and cloud-synced story elements.
-            </p>
+        <div className="flex flex-wrap justify-between items-center mb-6 shrink-0 bg-slate-900/40 backdrop-blur-md p-5 rounded-2xl border border-slate-800/80 shadow-lg gap-4">
+          <div className="flex items-center gap-3">
+            <span className={`text-xs px-3 py-1.5 rounded-full font-bold uppercase tracking-wider ${getTypePillStyle(activeType)}`}>
+              {activeType}
+            </span>
+            <div>
+              <h1 className="text-xl sm:text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600 tracking-wider uppercase">
+                {activeType} Elements
+              </h1>
+            </div>
           </div>
 
           <div className="flex flex-wrap gap-3 items-center">
@@ -242,9 +247,25 @@ Output Format: Provide structured markdown with rich sections, atmospheric read-
                     <span className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold font-mono">
                       {el.authorUid === 'local' ? 'Local Draft' : 'Cloud Synced'}
                     </span>
-                    <span className="text-[10px] text-cyan-400 group-hover:text-amber-300 transition-colors">
-                      Edit ✏️
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          const targetName = el.title || 'Untitled Element';
+                          if (confirmTypedDeletion(targetName, (el.type || 'story element').toLowerCase())) {
+                            deleteSavedElement(el.id);
+                          }
+                        }}
+                        className="p-1 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 transition-colors"
+                        title="Delete Element"
+                      >
+                        <Trash2 size={13} />
+                      </button>
+                      <span className="text-[10px] text-cyan-400 group-hover:text-amber-300 transition-colors">
+                        Edit ✏️
+                      </span>
+                    </div>
                   </div>
                 </div>
               ))}

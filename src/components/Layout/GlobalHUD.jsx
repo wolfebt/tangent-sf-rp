@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { 
   Compass, 
-  Search, 
   Dices, 
   Volume2, 
   VolumeX, 
   Settings, 
   LogOut, 
-  ChevronRight 
+  Key
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { AudioService } from '../../services/audioService';
@@ -22,24 +21,6 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isAudioMuted, setIsAudioMuted] = useState(() => AudioService.muted);
 
-  // Generate dynamic breadcrumb segments
-  const getBreadcrumbs = () => {
-    const path = location.pathname;
-    if (path === '/') return [{ label: 'COMMAND HUB', path: '/' }];
-    
-    const crumbs = [{ label: 'HUB', path: '/' }];
-    if (path.startsWith('/dbm')) crumbs.push({ label: 'OMNICORTEX', path: '/dbm' });
-    if (path.startsWith('/folio') || path.startsWith('/roster')) crumbs.push({ label: 'PERSONA FOLIO', path: '/folio' });
-    if (path.startsWith('/foundry') || path.startsWith('/story-foundry') || path.startsWith('/campaign-builder')) {
-      crumbs.push({ label: 'FOUNDRY', path: '/foundry' });
-      if (path.includes('/story') || path.startsWith('/story-foundry')) crumbs.push({ label: 'STORY WEAVER', path: '/foundry/story' });
-      if (path.includes('/elements')) crumbs.push({ label: 'ELEMENT FORGE', path: '/foundry/elements' });
-      if (path.includes('/map-maker')) crumbs.push({ label: 'TACTICAL MAP', path: '/foundry/map-maker' });
-      if (path.includes('/aime')) crumbs.push({ label: 'AIME SUITE', path: '/foundry/aime' });
-    }
-    return crumbs;
-  };
-
   const toggleAudio = () => {
     const newMuteState = AudioService.toggleMute();
     setIsAudioMuted(newMuteState);
@@ -48,78 +29,58 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
     }
   };
 
-  const breadcrumbs = getBreadcrumbs();
-  const displayIdentity = userHandle ? `@${userHandle}` : (currentUser?.displayName || currentUser?.email || 'Guest');
+  const getActivePageTitle = () => {
+    const path = location.pathname;
+    if (path.startsWith('/folio') || path.startsWith('/roster')) return 'PERSONA FOLIO';
+    if (path.startsWith('/dbm')) return 'OMNICORTEX';
+    if (path.startsWith('/codex')) return 'CODEX';
+    if (path.includes('/story') || path.startsWith('/story-foundry')) return 'STORY WEAVER';
+    if (path.includes('/elements')) return 'ELEMENT FORGE';
+    if (path.includes('/map-maker')) return 'TACTICAL MAPS & VTT';
+    if (path.includes('/aime')) return 'AIME CREATIVE ENGINE';
+    if (path.includes('/vtt-options') || path.startsWith('/vtt-ops')) return 'VTT OPERATIONS';
+    if (path.startsWith('/foundry') || path.startsWith('/campaign-builder')) return 'STORY FOUNDRY';
+    return 'OPERATIONS HUB';
+  };
+
+  const displayIdentity = userHandle ? `@${userHandle}` : (currentUser?.displayName || currentUser?.email || 'OPERATOR');
 
   return (
     <>
-      <header className="h-[56px] w-full bg-[#090d16]/95 backdrop-blur-md border-b border-slate-800 px-4 flex items-center justify-between z-50 select-none shrink-0 font-sans shadow-md">
-        {/* Left Section: Brand & Dynamic Breadcrumbs */}
+      <header className="w-full bg-[#0d1117]/95 backdrop-blur-md border-b border-slate-800 px-4 sm:px-6 py-2.5 grid grid-cols-1 md:grid-cols-3 items-center gap-3 z-50 select-none shrink-0 font-sans shadow-md">
+        {/* Left Section: TANGENT SCIENCE FANTASY ROLEPLAY */}
         <div className="flex items-center gap-3 min-w-0">
           <NavLink 
             to="/" 
-            className="flex items-center gap-2 text-cyan-400 hover:opacity-90 transition-opacity group shrink-0"
-            title="Return to Game Hub"
+            className="flex flex-col uppercase text-[#22d3ee] tangent-title-pulse select-none items-start hover:opacity-90 transition-opacity shrink-0"
+            title="Return to Operations Hub"
           >
-            <Compass className="text-cyan-400 group-hover:rotate-45 transition-transform duration-300" size={22} />
-            <span className="font-bold font-mono tracking-widest text-sm text-slate-100 hidden sm:inline">
-              TANGENT <span className="text-cyan-400">SFF</span>
-            </span>
+            <span className="text-[1.85rem] sm:text-[2.25rem] font-bold leading-none">TANGENT</span>
+            <span className="text-[0.875rem] sm:text-[1rem] lg:text-[1.125rem] leading-none whitespace-nowrap">SCIENCE FANTASY ROLEPLAY</span>
           </NavLink>
-
-          <div className="h-4 w-[1px] bg-slate-700 hidden sm:block mx-1 shrink-0"></div>
-
-          {/* Breadcrumb Navigation */}
-          <nav className="flex items-center gap-1.5 text-xs font-mono truncate">
-            {breadcrumbs.map((crumb, idx) => (
-              <React.Fragment key={crumb.path}>
-                {idx > 0 && <ChevronRight size={12} className="text-slate-600 shrink-0" />}
-                <NavLink
-                  to={crumb.path}
-                  className={({ isActive }) => 
-                    `hover:text-cyan-300 transition-colors uppercase truncate ${
-                      isActive ? 'text-cyan-400 font-bold' : 'text-slate-400'
-                    }`
-                  }
-                >
-                  {crumb.label}
-                </NavLink>
-              </React.Fragment>
-            ))}
-          </nav>
         </div>
 
-        {/* Center Section: Quick Search Trigger */}
-        <button
-          type="button"
-          onClick={() => {
-            AudioService.playTerminalBeep(900, 0.02);
-            if (onOpenCommandPalette) onOpenCommandPalette();
-          }}
-          className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-800/80 border border-slate-700 hover:border-cyan-500/50 text-slate-400 hover:text-slate-200 text-xs transition-all shadow-inner group"
-          title="Open Command Palette (Ctrl+K)"
-        >
-          <Search size={14} className="text-cyan-400 group-hover:scale-110 transition-transform" />
-          <span>Search rules, heroes, maps...</span>
-          <kbd className="px-1.5 py-0.5 rounded bg-slate-800 border border-slate-600 text-[10px] text-slate-300 font-mono">
-            Ctrl+K
-          </kbd>
-        </button>
+        {/* Center Section: Centered Active Page Title */}
+        <div className="flex items-center justify-center uppercase text-[#22d3ee] tangent-title-pulse select-none text-center">
+          <span className="text-[1.35rem] sm:text-[1.5rem] lg:text-[1.65rem] font-bold leading-none tracking-wide whitespace-nowrap">
+            {getActivePageTitle()}
+          </span>
+        </div>
 
         {/* Right Section: Tools, Audio, User Account */}
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center justify-start md:justify-end gap-2 shrink-0">
           {/* Quick Dice Roller Toggle */}
           <button
             type="button"
             onClick={() => {
               AudioService.playTerminalBeep(1200, 0.03);
-              if (onToggleDiceDock) onToggleDiceDock();
+              if (onToggleDiceDock) {
+                onToggleDiceDock();
+              } else {
+                window.dispatchEvent(new CustomEvent('toggle-dice-dock'));
+              }
             }}
-            className={`p-2 rounded-lg border transition-all ${
-              isDiceDockOpen 
-                ? 'bg-amber-500/20 border-amber-500/60 text-amber-300 shadow-[0_0_10px_rgba(245,158,11,0.3)]' 
-                : 'bg-slate-900/60 hover:bg-slate-800 border-slate-700 text-slate-300 hover:text-white'
-            }`}
+            className="p-2 rounded-lg bg-slate-900/60 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white transition-all"
             title="Toggle Dice Roller Tray (Alt+D)"
           >
             <Dices size={17} />
@@ -141,25 +102,25 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
 
           {/* User Account Menu */}
           {currentUser ? (
-            <div className="flex items-center gap-1.5 pl-2 border-l border-slate-800">
+            <div className="flex items-center gap-1.5 pl-1.5 border-l border-slate-800">
               <button
                 type="button"
                 onClick={() => {
                   AudioService.playTerminalBeep(1000, 0.02);
                   setIsSettingsOpen(true);
                 }}
-                className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-slate-900/60 hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs font-mono transition-colors"
+                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs font-mono transition-colors shadow-sm"
                 title="Account & System Settings"
               >
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span className="max-w-[110px] truncate text-cyan-300 font-bold">{displayIdentity}</span>
-                <Settings size={14} className="text-slate-400 ml-1" />
+                <span className="max-w-[120px] truncate text-cyan-300 font-bold">{displayIdentity}</span>
+                <Settings size={14} className="text-slate-400 ml-0.5" />
               </button>
 
               <button
                 type="button"
                 onClick={() => confirmLogout(navigate)}
-                className="p-2 rounded-lg hover:bg-red-500/20 text-slate-400 hover:text-red-400 transition-colors"
+                className="p-1.5 rounded-lg hover:bg-red-500/20 text-slate-400 hover:text-red-400 transition-colors"
                 title="Logout"
               >
                 <LogOut size={16} />
@@ -169,9 +130,9 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
             <button
               type="button"
               onClick={loginWithGoogle}
-              className="px-3 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs rounded-lg uppercase tracking-wider transition-colors shadow"
+              className="px-3.5 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-[0_0_15px_rgba(34,211,238,0.3)] flex items-center gap-1.5 font-mono"
             >
-              Login
+              <Key size={13} /> Login
             </button>
           )}
         </div>

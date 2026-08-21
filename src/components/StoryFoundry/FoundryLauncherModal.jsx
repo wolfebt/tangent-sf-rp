@@ -1,8 +1,8 @@
 import React, { useState, useMemo, useRef } from 'react';
 import { useStory } from '../../context/CampaignContext';
-import { exportElementJSON, exportElementMarkdown, exportElementPDF } from './exportUtils';
-import EditElementModal from './EditElementModal';
-import { ELEMENT_TYPES } from './elementSchemas';
+import { exportElementJSON, exportElementMarkdown, exportElementPDF } from '../../pages/Foundry/StoryModule/exportUtils';
+import EditElementModal from '../../pages/Foundry/ElementForge/EditElementModal';
+import { ELEMENT_TYPES } from '../../pages/Foundry/ElementForge/elementSchemas';
 import { attachCreatorTag } from '../../utils/creatorUtils';
 import { confirmTypedDeletion } from '../../utils/confirmationUtils';
 

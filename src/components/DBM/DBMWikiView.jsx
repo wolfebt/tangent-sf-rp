@@ -342,12 +342,23 @@ export const DBMWikiView = ({
               </div>
 
               {isAdmin ? (
-                <button
-                  onClick={() => handleOpenItem(activeArticle, true)}
-                  className="px-4 py-1.5 bg-amber-600/30 hover:bg-amber-600/50 text-amber-300 border border-amber-500/50 rounded text-xs font-bold uppercase transition-colors"
-                >
-                  ✏️ Edit Article
-                </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => handleOpenItem(activeArticle, true)}
+                    className="px-4 py-1.5 bg-amber-600/30 hover:bg-amber-600/50 text-amber-300 border border-amber-500/50 rounded text-xs font-bold uppercase transition-colors cursor-pointer"
+                  >
+                    ✏️ Edit Article
+                  </button>
+                  {handleDeleteEntry && (
+                    <button
+                      onClick={() => handleDeleteEntry(activeArticle)}
+                      className="px-3 py-1.5 bg-red-950/50 hover:bg-red-900/80 text-red-300 border border-red-500/40 rounded text-xs font-bold uppercase transition-colors cursor-pointer"
+                      title="Delete Article"
+                    >
+                      🗑️ Delete
+                    </button>
+                  )}
+                </div>
               ) : (
                 <button
                   onClick={() => handleOpenItem(activeArticle, false)}

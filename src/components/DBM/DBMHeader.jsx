@@ -7,6 +7,7 @@ export const DBMHeader = ({
   historyLength,
   handleBack,
   handleForward,
+  isBastionOpen,
   setIsBastionOpen,
   handleExportMasterJSON,
   handleImportMasterJSON,
@@ -50,9 +51,9 @@ export const DBMHeader = ({
   };
 
   return (
-    <header className="bg-[#0d1117] border-b border-[#0D5C63]/50 px-4 sm:px-6 py-2.5 flex items-center justify-between backdrop-blur-md shrink-0 relative z-50">
-      {/* Left section */}
-      <div className="flex items-center gap-3 sm:gap-4">
+    <header className="bg-[#0d1117] border-b border-[#0D5C63]/50 px-4 sm:px-6 py-2 flex items-center justify-between backdrop-blur-md shrink-0 relative z-40">
+      {/* Left section: Mobile Menu & Undo/Redo */}
+      <div className="flex items-center gap-3">
         {/* Mobile 3bar Menu Toggle Button */}
         <button
           type="button"
@@ -63,18 +64,9 @@ export const DBMHeader = ({
         >
           &#9776;
         </button>
-        <div 
-          onClick={() => navigate('/')}
-          className="flex flex-col uppercase text-[#22d3ee] tangent-title-pulse cursor-pointer hover:opacity-80 transition-opacity"
-          title="Return to Home"
-        >
-          <span className="text-[2rem] font-bold leading-none">TANGENT</span>
-          <span className="text-[1rem] leading-none">SCIENCE FANTASY ROLEPLAY</span>
-          <span className="text-[1.5rem] font-bold leading-none">OMNICORTEX</span>
-        </div>
 
         {/* Desktop Undo/Redo Controls */}
-        <div className="hidden md:flex items-center gap-1 ml-4 bg-[#161b22] p-1 rounded-md border border-[#0D5C63]/40">
+        <div className="flex items-center gap-1 bg-[#161b22] p-1 rounded-md border border-[#0D5C63]/40">
           <button
             onClick={handleBack}
             disabled={historyIndex === 0}
@@ -94,7 +86,7 @@ export const DBMHeader = ({
         </div>
       </div>
 
-      {/* Right section */}
+      {/* Right section: Roles, Bastion AI, System Tools */}
       <div className="flex items-center gap-2 sm:gap-3">
         {/* Role Indicator Flag & Narrow-screen Undo/Redo Stack */}
         <div className="flex flex-col items-end gap-1">
@@ -123,27 +115,22 @@ export const DBMHeader = ({
               </div>
             )
           )}
-
-          {/* Narrow Screen Undo/Redo (slides under the flag) */}
-          <div className="flex md:hidden items-center gap-1 bg-[#161b22] p-0.5 rounded border border-[#0D5C63]/40">
-            <button
-              onClick={handleBack}
-              disabled={historyIndex === 0}
-              className="p-0.5 px-2 bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed rounded text-[10px] font-bold text-slate-300 transition-colors"
-              title="Back"
-            >
-              ◄
-            </button>
-            <button
-              onClick={handleForward}
-              disabled={historyIndex >= historyLength - 1}
-              className="p-0.5 px-2 bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed rounded text-[10px] font-bold text-slate-300 transition-colors"
-              title="Forward"
-            >
-              ►
-            </button>
-          </div>
         </div>
+
+        {/* Bastion AI Top Bar Access */}
+        <button
+          type="button"
+          onClick={() => setIsBastionOpen && setIsBastionOpen(prev => !prev)}
+          className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
+            isBastionOpen
+              ? 'bg-cyan-900/90 text-cyan-200 border border-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.4)]'
+              : 'bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 shadow-[0_0_8px_rgba(34,211,238,0.2)]'
+          }`}
+          title="Toggle BASTION AI (Rules assistant & entry generator)"
+        >
+          <span>🤖</span>
+          <span className="hidden sm:inline">BASTION</span>
+        </button>
 
         {/* System Actions Dropdown Menu */}
         <div className="relative" ref={menuRef}>
@@ -180,47 +167,42 @@ export const DBMHeader = ({
               {currentUser && (
                 <button
                   onClick={() => {
-                    toggleAdminOverride();
+                    toggleAdminOverride && toggleAdminOverride();
                     setIsMenuOpen(false);
                   }}
-                  className={`w-full text-left px-3 py-2 rounded text-xs font-bold uppercase transition-colors flex items-center justify-between border ${
-                    adminOverride
-                      ? 'bg-purple-950/80 border-purple-500/50 text-purple-300 hover:bg-purple-900'
-                      : 'bg-slate-800/80 border-slate-700 text-slate-300 hover:bg-slate-700'
-                  }`}
-                  title="Toggle Architect mode override for testing RBAC"
+                  className="w-full text-left px-3 py-2 bg-slate-800/60 hover:bg-slate-800 text-cyan-300 rounded text-xs font-bold uppercase transition-colors flex items-center justify-between"
+                  title="Toggle Local Admin / Architect Override"
                 >
-                  <span className="flex items-center gap-1.5">
-                    <span>🛠️</span>
-                    <span>Dev Mode</span>
-                  </span>
-                  <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${adminOverride ? 'bg-purple-900 text-purple-200' : 'bg-slate-900 text-slate-400'}`}>
+                  <div className="flex items-center gap-2">
+                    <span>⚡</span>
+                    <span>Admin Override</span>
+                  </div>
+                  <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${adminOverride ? 'bg-amber-500/20 text-amber-300' : 'bg-slate-700 text-slate-400'}`}>
                     {adminOverride ? 'ON' : 'OFF'}
                   </span>
                 </button>
               )}
 
-              {/* Clear Cache */}
+              {/* Clear Local Cache */}
               <button
-                onClick={() => {
-                  handleClearCache();
-                  setIsMenuOpen(false);
-                }}
-                className="w-full text-left px-3 py-2 bg-red-950/40 hover:bg-red-900/60 border border-red-500/30 text-red-300 rounded text-xs font-bold uppercase transition-colors flex items-center gap-2"
-                title="Clear temporary database cache"
+                onClick={handleClearCache}
+                className="w-full text-left px-3 py-2 bg-slate-800/60 hover:bg-slate-800 text-slate-300 rounded text-xs font-bold uppercase transition-colors flex items-center gap-2"
+                title="Clear local search filter and Omnicortex cache"
               >
-                <span>🗑️</span>
+                <span>🧹</span>
                 <span>Clear Cache</span>
               </button>
+
+              <div className="border-t border-slate-800 my-1"></div>
 
               {/* Master Export */}
               <button
                 onClick={() => {
-                  handleExportMasterJSON();
+                  handleExportMasterJSON && handleExportMasterJSON();
                   setIsMenuOpen(false);
                 }}
-                className="w-full text-left px-3 py-2 bg-cyan-950/40 hover:bg-cyan-900/60 border border-cyan-500/40 text-cyan-300 rounded text-xs font-bold uppercase transition-colors flex items-center gap-2"
-                title="Export Master Database Backup"
+                className="w-full text-left px-3 py-2 bg-emerald-950/40 hover:bg-emerald-900/60 border border-emerald-500/40 text-emerald-300 rounded text-xs font-bold uppercase transition-colors flex items-center gap-2"
+                title="Download full Omnicortex Master Database Backup JSON"
               >
                 <span>💾</span>
                 <span>Master Export</span>
@@ -233,10 +215,10 @@ export const DBMHeader = ({
                   setIsMenuOpen(false);
                 }}
                 disabled={!isAdmin}
-                className={`w-full text-left px-3 py-2 rounded text-xs font-bold uppercase transition-colors flex items-center gap-2 border ${
-                  isAdmin 
-                    ? 'bg-amber-950/40 hover:bg-amber-900/60 border-amber-500/40 text-amber-300' 
-                    : 'bg-slate-800/30 border-slate-800 text-slate-500 cursor-not-allowed opacity-50'
+                className={`w-full text-left px-3 py-2 rounded text-xs font-bold uppercase transition-colors flex items-center gap-2 ${
+                  isAdmin
+                    ? 'bg-cyan-950/40 hover:bg-cyan-900/60 border border-cyan-500/40 text-cyan-300'
+                    : 'bg-slate-800/30 text-slate-600 border border-slate-800 cursor-not-allowed'
                 }`}
                 title={isAdmin ? "Import Master Database Backup" : "Requires GM/Admin access to import data"}
               >
@@ -253,41 +235,6 @@ export const DBMHeader = ({
             accept=".json"
             className="hidden"
           />
-        </div>
-
-        {/* User Auth Indicator / ID Tag */}
-        <div className="flex items-center gap-2">
-          {currentUser ? (
-            <div className="flex items-center gap-2 bg-slate-800/80 px-3 py-1 rounded border border-emerald-700/50">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" title="Authenticated" />
-              <span className="text-xs text-emerald-300 font-mono font-bold" title={currentUser.email || ''}>
-                {userHandle ? `@${userHandle}` : (currentUser.displayName || currentUser.email)}
-              </span>
-              <button
-                onClick={() => setIsSettingsOpen && setIsSettingsOpen(true)}
-                className="ml-1 text-xs text-slate-400 hover:text-cyan-300 transition-colors"
-                title="User Settings & Identity"
-              >
-                ⚙️
-              </button>
-              <button
-                onClick={() => confirmLogout()}
-                className="ml-1 text-[10px] text-slate-500 hover:text-red-400 font-bold uppercase tracking-wider transition-colors"
-                title="Sign out"
-              >
-                ⏻
-              </button>
-            </div>
-          ) : (
-            <button
-              onClick={loginWithGoogle}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-red-950/60 hover:bg-red-900/80 border border-red-500/50 text-red-300 rounded text-xs font-bold uppercase tracking-wider transition-colors"
-              title="Sign in to access Omnicortex"
-            >
-              <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse shrink-0" />
-              Sign In
-            </button>
-          )}
         </div>
       </div>
     </header>

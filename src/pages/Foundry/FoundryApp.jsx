@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React, { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import AppShell from '../../components/Layout/AppShell';
 import { CampaignProvider, useCampaign } from '../../context/CampaignContext';
@@ -10,6 +10,7 @@ import ElementForge from './ElementForge/ElementForge';
 import MapMaker from './MapMaker/MapMaker';
 import AIME from './AIME/AIME';
 import PlayerSpectatorView from './MapMaker/PlayerSpectatorView';
+import VttOptionsPage from './MapMaker/VttOptionsPage';
 
 const FoundryAppInner = () => {
   const { syncConflict, resolveConflictOverwrite, resolveConflictPull, resolveConflictCancel } = useCampaign();
@@ -22,6 +23,7 @@ const FoundryAppInner = () => {
           <Route path="story" element={<StoryModule />} />
           <Route path="elements" element={<ElementForge />} />
           <Route path="map-maker" element={<MapMaker />} />
+          <Route path="vtt-options" element={<VttOptionsPage />} />
           <Route path="aime" element={<AIME />} />
           <Route path="view/:mapId" element={<PlayerSpectatorView />} />
           <Route path="spectator/:mapId" element={<PlayerSpectatorView />} />
@@ -43,4 +45,3 @@ const FoundryApp = () => {
 };
 
 export default FoundryApp;
-

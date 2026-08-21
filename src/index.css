@@ -144,6 +144,22 @@ h1, h2, h3, h4, h5, h6 {
   text-shadow: 0 0 8px rgba(13, 214, 125, 0.6);
 }
 
+@keyframes soft-pulse-edge {
+  0% {
+    text-shadow: 0 0 8px rgba(34, 211, 238, 0.4);
+  }
+  50% {
+    text-shadow: 0 0 16px rgba(34, 211, 238, 0.8), 0 0 4px rgba(34, 211, 238, 0.6);
+  }
+  100% {
+    text-shadow: 0 0 8px rgba(34, 211, 238, 0.4);
+  }
+}
+
+.tangent-title-pulse {
+  animation: soft-pulse-edge 3s infinite ease-in-out;
+}
+
 /* Mobile and Tablet Adaptation (< 768px) */
 @media (max-width: 768px) {
   #app-sidebar {

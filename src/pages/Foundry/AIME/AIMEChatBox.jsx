@@ -198,6 +198,7 @@ export default function AIMEChatBox({ onClose, contextData, activeNode: propActi
           {/* Dock / Undock Toggle Button */}
           <button
             type="button"
+            data-no-drag="true"
             onClick={toggleDock}
             className="text-slate-400 hover:text-cyan-300 px-2 py-0.5 text-[11px] font-mono transition-colors rounded hover:bg-slate-800 border border-slate-700/60 flex items-center gap-1"
             title={isDocked ? "Undock into a movable floating window" : "Dock to right sidebar drawer"}
@@ -209,6 +210,7 @@ export default function AIMEChatBox({ onClose, contextData, activeNode: propActi
           {!isDocked && (
             <button 
               type="button"
+              data-no-drag="true"
               onClick={() => setIsMinimized(prev => !prev)} 
               className="text-slate-400 hover:text-cyan-300 p-1 text-xs font-mono transition-colors rounded hover:bg-slate-800"
               title={isMinimized ? "Expand Chat" : "Minimize Chat"}
@@ -221,6 +223,7 @@ export default function AIMEChatBox({ onClose, contextData, activeNode: propActi
           {(!isMinimized || isDocked) && (
             <button 
               type="button"
+              data-no-drag="true"
               onClick={handleClearHistory} 
               className="text-slate-400 hover:text-amber-400 p-1 text-xs transition-colors rounded hover:bg-slate-800"
               title="Clear Conversation"
@@ -232,6 +235,7 @@ export default function AIMEChatBox({ onClose, contextData, activeNode: propActi
           {/* Close button */}
           <button 
             type="button"
+            data-no-drag="true"
             onClick={onClose} 
             className="text-slate-400 hover:text-red-400 p-1 text-sm font-bold transition-colors leading-none rounded hover:bg-slate-800 ml-0.5"
             title="Close AIME Co-Pilot"

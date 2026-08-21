@@ -20,6 +20,7 @@ import RosterModal from './modals/RosterModal';
 import BastionDrawer from './BastionDrawer';
 import PrintFolio from './print/PrintFolio';
 import { attachCreatorTag } from '../../utils/creatorUtils';
+import { confirmTypedDeletion } from '../../utils/confirmationUtils';
 import { FolioGuideModal } from './FolioGuideModal';
 import { UserSettingsModal } from '../UserSettingsModal';
 
@@ -32,11 +33,7 @@ const FolioContainer = () => {
 
   // Modal States
   const [isEconomyOpen, setIsEconomyOpen] = useState(false);
-  const [isRosterOpen, setIsRosterOpen] = useState(() => {
-    const search = window.location.search;
-    const params = new URLSearchParams(search);
-    return !params.get('user') && !params.get('id');
-  });
+  const [isRosterOpen, setIsRosterOpen] = useState(false);
   const [isAddSkillOpen, setIsAddSkillOpen] = useState(false);
   const [addSkillModalMode, setAddSkillModalMode] = useState('skill');
   const [availableSkillsForModal, setAvailableSkillsForModal] = useState([]);
@@ -84,6 +81,8 @@ const FolioContainer = () => {
   } = useFolio();
 
   const handleDeleteCurrentCharacter = useCallback(() => {
+    const charName = characterData['char-name'] || 'Unnamed Operative';
+    if (!confirmTypedDeletion(charName, 'operative persona sheet')) return;
     const activeDocId = characterData['character-doc-id'];
     deleteRosterCharacter(activeDocId);
     setIsDeleteConfirmOpen(false);
@@ -226,7 +225,6 @@ const FolioContainer = () => {
           }}
           charName={characterData['char-name']}
           onOpenRoster={() => setIsRosterOpen(true)}
-          onOpenBastion={() => setIsBastionOpen(true)}
         />
       </div>
 
@@ -252,10 +250,9 @@ const FolioContainer = () => {
           </div>
         )}
 
-        {/* Top Header & Actions Bar */}
-        <header className="bg-[#0d1117] border-b border-[#0D5C63]/50 p-3 px-4 sm:px-6 flex items-center justify-between backdrop-blur-md gap-3 relative z-40">
-          
-          {/* Mobile Menu Toggle & Header Name Display */}
+        {/* Sub-Header & Actions Bar */}
+        <header className="bg-[#0d1117] border-b border-[#0D5C63]/50 p-2.5 px-4 sm:px-6 flex items-center justify-between backdrop-blur-md gap-3 relative z-40">
+          {/* Left: Mobile Menu & Operative Display */}
           <div className="flex items-center gap-3">
             <button
               type="button"
@@ -266,17 +263,15 @@ const FolioContainer = () => {
               &#9776;
             </button>
 
-            <div className="flex flex-col">
-              <div className="flex items-center gap-2">
-                <h2 id="actor-display-header" className="text-sm sm:text-base font-bold font-mono text-amber-400 uppercase tracking-wider drop-shadow-[0_0_8px_rgba(245,158,11,0.3)] truncate max-w-[150px] sm:max-w-xs">
-                  {charNameUpper}
-                </h2>
-              </div>
+            <div className="flex items-center gap-2">
+              <h2 id="actor-display-header" className="text-sm sm:text-base font-bold font-mono text-amber-400 uppercase tracking-wider drop-shadow-[0_0_8px_rgba(245,158,11,0.3)] truncate max-w-[180px] sm:max-w-xs" title={charNameUpper}>
+                {charNameUpper}
+              </h2>
             </div>
           </div>
 
-          {/* Center / Actions Bar */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          {/* Right / Actions Bar */}
+          <div className="flex items-center justify-start md:justify-end gap-2 sm:gap-3">
             {/* Real-time CP Budget Bar */}
             {(() => {
               const startingCP = parseInt(characterData['starting-cp'] || 150, 10);
@@ -322,6 +317,21 @@ const FolioContainer = () => {
               style={{ display: 'none' }}
               onChange={onFileChange}
             />
+
+            {/* Bastion AI Top Bar Toggle Button */}
+            <button
+              type="button"
+              onClick={() => setIsBastionOpen(prev => !prev)}
+              className={`px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
+                isBastionOpen
+                  ? 'bg-cyan-900/90 text-cyan-200 border border-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.4)]'
+                  : 'bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 shadow-[0_0_8px_rgba(34,211,238,0.2)]'
+              }`}
+              title="Toggle BASTION AI (Rules assistant & character generator)"
+            >
+              <span>🤖</span>
+              <span className="hidden sm:inline">BASTION</span>
+            </button>
 
             {/* File Menu Dropdown */}
             <div className="relative">
@@ -400,55 +410,36 @@ const FolioContainer = () => {
               )}
             </div>
 
-            {/* User Auth Indicator / ID Tag */}
-            <div className="flex items-center gap-2">
-              {currentUser ? (
-                <div className="flex items-center gap-2 bg-slate-800/80 px-3 py-1 rounded border border-slate-700">
-                  <span
-                    className={`w-2 h-2 rounded-full shrink-0 ${
-                      cloudSaveStatus === 'saving'
-                        ? 'bg-amber-400 animate-ping'
-                        : cloudSaveStatus === 'saved'
-                        ? 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]'
-                        : cloudSaveStatus === 'error'
-                        ? 'bg-red-500 shadow-[0_0_6px_rgba(239,68,68,0.8)] animate-pulse'
-                        : 'bg-slate-500'
-                    }`}
-                    title={
-                      cloudSaveStatus === 'saving'
-                        ? 'Saving to Cloud...'
-                        : cloudSaveStatus === 'saved'
-                        ? lastSavedTime ? `Cloud Synced at ${lastSavedTime.toLocaleTimeString()}` : 'Cloud Synced'
-                        : cloudSaveStatus === 'error'
-                        ? 'Cloud Sync Failed'
-                        : 'Local Mode (Offline)'
-                    }
-                  />
-                  <span className="text-xs text-cyan-300 font-mono font-bold" title={currentUser.email || ''}>
-                    {userHandle ? `@${userHandle}` : (currentUser.displayName || currentUser.email)}
-                  </span>
-                  <button
-                    onClick={() => setIsSettingsOpen(true)}
-                    className="text-xs text-slate-400 hover:text-cyan-300 transition-colors"
-                    title="User Settings & Identity"
-                  >
-                    ⚙️
-                  </button>
-                </div>
-              ) : (
-                <div className="flex items-center gap-2 bg-slate-800/80 px-3 py-1 rounded border border-slate-700">
-                  <span
-                    className={`w-2 h-2 rounded-full shrink-0 ${
-                      cloudSaveStatus === 'error' ? 'bg-red-500 shadow-[0_0_6px_rgba(239,68,68,0.8)]' : 'bg-slate-500'
-                    }`}
-                    title="Local Mode — Login with Google to enable cloud sync"
-                  />
-                  <button onClick={loginWithGoogle} className="text-xs text-slate-200 hover:text-cyan-300 font-bold uppercase tracking-wider transition-colors">
-                    Login with Google
-                  </button>
-                </div>
-              )}
-            </div>
+            {/* Cloud Sync Status Indicator */}
+            {cloudSaveStatus && (
+              <div 
+                className="flex items-center gap-1.5 px-2 py-1 bg-slate-900/80 border border-slate-800 rounded text-[11px] font-mono text-slate-400"
+                title={
+                  cloudSaveStatus === 'saving'
+                    ? 'Saving to Cloud...'
+                    : cloudSaveStatus === 'saved'
+                    ? lastSavedTime ? `Cloud Synced at ${lastSavedTime.toLocaleTimeString()}` : 'Cloud Synced'
+                    : cloudSaveStatus === 'error'
+                    ? 'Cloud Sync Failed'
+                    : 'Local Storage Mode'
+                }
+              >
+                <span
+                  className={`w-2 h-2 rounded-full shrink-0 ${
+                    cloudSaveStatus === 'saving'
+                      ? 'bg-amber-400 animate-ping'
+                      : cloudSaveStatus === 'saved'
+                      ? 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]'
+                      : cloudSaveStatus === 'error'
+                      ? 'bg-red-500 shadow-[0_0_6px_rgba(239,68,68,0.8)] animate-pulse'
+                      : 'bg-slate-500'
+                  }`}
+                />
+                <span className="hidden lg:inline text-[10px] uppercase font-bold text-slate-500">
+                  {cloudSaveStatus === 'saving' ? 'Syncing' : cloudSaveStatus === 'saved' ? 'Synced' : cloudSaveStatus === 'error' ? 'Sync Error' : 'Local'}
+                </span>
+              </div>
+            )}
           </div>
         </header>
 

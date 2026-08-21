@@ -10,13 +10,12 @@ export default function StoryModule() {
   const storyIdParam = searchParams.get('storyId');
   const { openStory } = useStory();
 
-  // Open story project catalog dashboard by default when landing on Story Module, unless a specific storyId query param is provided
-  const [isCatalogOpen, setIsCatalogOpen] = useState(() => !storyIdParam);
+  // Story Project catalog modal - closed by default so selected story renders directly
+  const [isCatalogOpen, setIsCatalogOpen] = useState(false);
 
   useEffect(() => {
     if (storyIdParam) {
       openStory(storyIdParam);
-      setIsCatalogOpen(false);
     }
   }, [storyIdParam, openStory]);
 

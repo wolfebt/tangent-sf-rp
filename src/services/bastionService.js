@@ -320,3 +320,92 @@ Do not wrap in markdown backticks if possible, or use standard json formatting.
     return { success: false, error: err.message };
   }
 };
+
+/**
+ * Synthesizes a full Codex Matrix entry with BASTION tactical rules cognition
+ */
+export const synthesizeMatrixWithBastion = async ({
+  matrix,
+  archetype = null,
+  customDirectives = '',
+  targetName = '',
+  targetTechLevel = 3,
+  targetMetaLevel = 0
+}) => {
+  const apiKey = getGeminiApiKey();
+
+  const archetypePrompt = archetype?.prompt || '';
+  const nameDirective = targetName ? `DESIGNATION/NAME: "${targetName}"` : 'GENERATE an evocative, lore-grounded designation.';
+  const fieldNames = matrix.fields.map(f => f.name).join(', ');
+
+  const systemInstructions = `You are BASTION, the Tactical AI & System Rules Architect for the Tangent Science Fantasy Roleplaying Game (SFF RPG) CODEX Rules Builder.
+Always address the user as ARCHITECT.
+Your role in the CODEX is to engineer balanced, rules-accurate, mathematically grounded in-game content that integrates directly with the canonical OMNICORTEX database.
+
+TARGET MATRIX: ${matrix.name} (${matrix.label})
+CATEGORY: ${matrix.category}
+${nameDirective}
+CONCEPT / ARCHETYPE: ${archetypePrompt || 'Tactical science fantasy combat item with precise mechanics.'}
+TECH LEVEL: TL ${targetTechLevel} (0: Archaic, 1: Industrial, 2: Modern, 3: Advanced Cyber/Space, 4: High Psitech/Nano, 5: Exotic Singularity)
+META LEVEL: ML ${targetMetaLevel} (0: None, 1: Latent, 2: Awakened, 3: Adept, 4: Master, 5: Cosmic Flux)
+DIRECTIVES: ${customDirectives || 'Adhere strictly to Tangent SFF RP mechanics, dice expressions, Design DCs, CP economy, and tactical interactions.'}
+
+REQUIRED FIELDS TO POPULATE:
+${fieldNames}
+
+OUTPUT FORMAT:
+Provide ONLY a valid JSON object matching the matrix fields:
+{
+  "name": "Designation",
+  "description": "2-3 paragraphs of precise aesthetic, technological, and tactical overview.",
+  "mechanic": "Concrete system rules, dice expressions (e.g. 2d10+4), ranges, AP, damage types, saves, and tactical conditions.",
+  "note": "Architect notes, GM tactical hooks, and manufacturing/design notes.",
+  "tech_level": ${targetTechLevel},
+  "meta_level": ${targetMetaLevel}
+  ...and all other relevant fields for ${matrix.name}
+}
+
+Return ONLY the raw JSON object.`;
+
+  if (!apiKey) {
+    return {
+      name: targetName || `${matrix.name} Prototype [TL${targetTechLevel}/ML${targetMetaLevel}]`,
+      description: `[BASTION LOCAL PROTOCOL]: Synthesized ${matrix.name} entry based on ${archetype?.name || 'standard tactical specs'}. Configured for TL${targetTechLevel}, ML${targetMetaLevel}.`,
+      mechanic: `Standard tactical mechanics apply under Tangent SFF RP rules. Design DC: ${12 + targetTechLevel * 2}.`,
+      note: 'Generated locally via BASTION tactical offline matrix.',
+      tech_level: targetTechLevel,
+      meta_level: targetMetaLevel,
+      tl: targetTechLevel,
+      ml: targetMetaLevel
+    };
+  }
+
+  const response = await fetchGeminiContent(apiKey, {
+    contents: [{ role: 'user', parts: [{ text: systemInstructions }] }],
+    generationConfig: {
+      responseMimeType: "application/json"
+    }
+  });
+
+  const rawText = response?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  const cleanJsonStr = rawText
+    .replace(/^```json\s*/i, '')
+    .replace(/^```\s*/i, '')
+    .replace(/\s*```$/i, '')
+    .trim();
+
+  const match = cleanJsonStr.match(/\{[\s\S]*\}/);
+  if (!match) {
+    throw new Error('BASTION did not return structured JSON.');
+  }
+
+  const parsed = JSON.parse(match[0]);
+  return {
+    ...matrix.defaultValues,
+    ...parsed,
+    tech_level: parsed.tech_level ?? targetTechLevel,
+    meta_level: parsed.meta_level ?? targetMetaLevel,
+    tl: parsed.tl ?? targetTechLevel,
+    ml: parsed.ml ?? targetMetaLevel
+  };
+};

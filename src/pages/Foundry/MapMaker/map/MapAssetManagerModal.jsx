@@ -4,6 +4,7 @@ import { MAP_TYPES, PENCIL_COLORS } from './MapConstants';
 import { getTerrainsForScale, getObjectsForScale, getCategoriesForScale } from './MapAssetCatalog';
 import { TERRAIN_TEXTURE_PATTERNS, PRESET_OBJECT_SPRITES } from './MapTextures';
 import AssetDrawingStudio from './AssetDrawingStudio';
+import { confirmTypedDeletion } from '../../../../utils/confirmationUtils';
 
 const OBJECT_SHAPES = [
   { id: 'circle', label: 'Circle' },
@@ -274,8 +275,9 @@ export default function MapAssetManagerModal({
 
   const handleDeleteSelected = () => {
     if (!editingAsset || !editingAsset.isCustom) return;
+    const targetLabel = editingAsset.label || editingAsset.name || 'Custom Asset';
 
-    if (window.confirm(`Are you sure you want to delete custom asset "${editingAsset.label}"? This action cannot be undone.`)) {
+    if (confirmTypedDeletion(targetLabel, 'custom map asset')) {
       if (activeTab === 'terrains') {
         onDeleteCustomTerrain?.(editingAsset.id);
       } else {

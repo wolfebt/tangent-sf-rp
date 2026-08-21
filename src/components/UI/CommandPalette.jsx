@@ -16,6 +16,7 @@ import { useFolio } from '../../context/FolioContext';
 import { useStory } from '../../context/CampaignContext';
 import { rollDice } from '../../services/diceService';
 import { AudioService } from '../../services/audioService';
+import { CODEX_MATRICES } from '../../pages/Codex/codexConfig';
 
 export const CommandPalette = ({ isOpen, onClose, onDiceRolled }) => {
   const navigate = useNavigate();
@@ -81,9 +82,10 @@ export const CommandPalette = ({ isOpen, onClose, onDiceRolled }) => {
     // 2. Navigation Actions
     const defaultNav = [
       { id: 'nav_hub', title: 'Go to Command Hub', subtitle: 'Main Dashboard & Operations', icon: <Compass size={16} className="text-cyan-400" />, action: () => { navigate('/'); onClose(); } },
+      { id: 'nav_folio', title: 'Go to Persona Folio', subtitle: 'Hero Roster & Operative Sheets', icon: <User size={16} className="text-cyan-400" />, action: () => { navigate('/folio'); onClose(); } },
+      { id: 'nav_story', title: 'Go to Story Foundry', subtitle: 'Tactical Maps & Scenario Weaver', icon: <Map size={16} className="text-purple-400" />, action: () => { navigate('/foundry'); onClose(); } },
       { id: 'nav_dbm', title: 'Go to Omnicortex (DBM)', subtitle: 'Rules Codex & Game Database', icon: <BookOpen size={16} className="text-emerald-400" />, action: () => { navigate('/dbm'); onClose(); } },
-      { id: 'nav_folio', title: 'Go to Persona Folio', subtitle: 'Hero Roster & Operative Sheets', icon: <User size={16} className="text-amber-400" />, action: () => { navigate('/folio'); onClose(); } },
-      { id: 'nav_story', title: 'Go to Story Weaver', subtitle: 'Scenario Foundry & Encounters', icon: <BookOpen size={16} className="text-cyan-400" />, action: () => { navigate('/foundry/story'); onClose(); } },
+      { id: 'nav_codex', title: 'Go to Codex Matrix Suite', subtitle: 'Guided Development Tools (12 Matrices)', icon: <Sparkles size={16} className="text-amber-400" />, action: () => { navigate('/codex'); onClose(); } },
       { id: 'nav_elements', title: 'Go to Element Forge', subtitle: 'Custom Lore & Species Editor', icon: <Sparkles size={16} className="text-emerald-400" />, action: () => { navigate('/foundry/elements'); onClose(); } },
       { id: 'nav_maps', title: 'Go to Tactical Map Maker', subtitle: 'Virtual Tabletop Grid Canvas', icon: <Map size={16} className="text-cyan-400" />, action: () => { navigate('/foundry/map-maker'); onClose(); } },
       { id: 'nav_aime', title: 'Go to AIME Creative Suite', subtitle: 'Artificial Intellect Master Entity', icon: <Sparkles size={16} className="text-purple-400" />, action: () => { navigate('/foundry/aime'); onClose(); } }
@@ -95,6 +97,28 @@ export const CommandPalette = ({ isOpen, onClose, onDiceRolled }) => {
     defaultNav.forEach(n => {
       if (n.title.toLowerCase().includes(q) || n.subtitle.toLowerCase().includes(q)) {
         results.push(n);
+      }
+    });
+
+    // 2.5 Search Codex Matrix Modules
+    CODEX_MATRICES.forEach(mat => {
+      if (
+        mat.name.toLowerCase().includes(q) ||
+        mat.label.toLowerCase().includes(q) ||
+        mat.category.toLowerCase().includes(q) ||
+        mat.description.toLowerCase().includes(q)
+      ) {
+        const MatIcon = mat.icon;
+        results.push({
+          id: `matrix_${mat.id}`,
+          title: `Codex: ${mat.name} Matrix`,
+          subtitle: `${mat.category} • ${mat.description.slice(0, 60)}...`,
+          icon: <MatIcon size={16} style={{ color: mat.color }} />,
+          action: () => {
+            navigate(`/codex?matrix=${mat.id}`);
+            onClose();
+          }
+        });
       }
     });
 

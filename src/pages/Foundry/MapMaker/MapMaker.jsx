@@ -269,8 +269,9 @@ const MapPane = ({ mapExportPngRef }) => {
 
   const handleDeleteActiveMap = () => {
     if (!currentMap) return;
+    const targetTitle = currentMap.title || 'Untitled Map';
     if (universeState.maps.length <= 1) {
-      if (window.confirm(`Are you sure you want to delete and reset "${currentMap.title}"? A new blank map will replace it.`)) {
+      if (confirmTypedDeletion(targetTitle, 'tactical sector map and reset to blank')) {
         const newBlankId = uuidv4();
         addMap({
           id: newBlankId,
@@ -290,7 +291,7 @@ const MapPane = ({ mapExportPngRef }) => {
       }
       return;
     }
-    if (window.confirm(`Are you sure you want to delete map "${currentMap.title}"?`)) {
+    if (confirmTypedDeletion(targetTitle, 'tactical sector map')) {
       const nextMap = universeState.maps.find(m => m.id !== currentMap.id);
       deleteMap(currentMap.id);
       if (nextMap) {

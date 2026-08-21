@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { extractCreatorInfo } from '../../../utils/creatorUtils';
+import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 
 export const RosterModal = ({
   isOpen,
@@ -96,8 +97,10 @@ export const RosterModal = ({
   };
 
   const promptDeleteConfirmation = (docId, name) => {
-    setDeleteConfirmDocId(docId);
-    setDeleteConfirmName(name || 'Unnamed Operative');
+    const targetName = name || 'Unnamed Operative';
+    if (confirmTypedDeletion(targetName, 'operative persona')) {
+      onDeleteCharacter(docId);
+    }
   };
 
   const handleConfirmDelete = () => {

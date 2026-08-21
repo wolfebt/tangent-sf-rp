@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useStory } from '../../../context/CampaignContext';
 import { useAuth } from '../../../context/AuthContext';
 import { extractCreatorInfo } from '../../../utils/creatorUtils';
@@ -19,6 +20,7 @@ export const GUIDANCE_GEMS = {
 };
 
 export default function AIME() {
+  const navigate = useNavigate();
   const { currentUser, userHandle } = useAuth();
   const { 
     universeState, 
@@ -566,39 +568,42 @@ Format Instructions: Respond ONLY with the revised or generated text. Do not inc
   return (
     <div className="flex h-full w-full flex-col bg-[#0d1117] text-slate-300" onBlur={triggerStorySave}>
       {/* Top Banner */}
-      <div className="flex items-center justify-between p-4 border-b border-[#0D5C63]/50 bg-[#161b22]">
-        <div>
-          <div className="flex items-center gap-3 flex-wrap">
-            <h2 className="text-xl font-bold text-cyan-400">AIME</h2>
-            {(() => {
-              const creatorInfo = extractCreatorInfo(universeState, userHandle, currentUser);
-              return (
-                <div className="flex items-center gap-1.5">
-                  <span className="px-2.5 py-1 bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 rounded text-xs font-mono font-bold flex items-center gap-1 shadow-sm" title="Original Creator">
-                    <span>🏷️</span>
-                    <span>{creatorInfo.creatorTag}</span>
+      <div className="flex items-center justify-between p-3.5 px-4 border-b border-[#0D5C63]/50 bg-[#161b22] gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
+          <p className="text-xs sm:text-sm text-slate-400 font-mono">
+            Narrative Flow, Worldbuilding &amp; Creative Brainstorming
+          </p>
+          {(() => {
+            const creatorInfo = extractCreatorInfo(universeState, userHandle, currentUser);
+            return (
+              <div className="flex items-center gap-1.5">
+                <span className="px-2.5 py-0.5 bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 rounded text-xs font-mono font-bold flex items-center gap-1 shadow-sm" title="Original Creator">
+                  <span>🏷️</span>
+                  <span>{creatorInfo.creatorTag}</span>
+                </span>
+                {creatorInfo.contributorTags && creatorInfo.contributorTags.length > 0 && (
+                  <span className="px-2 py-0.5 bg-amber-950/80 border border-amber-500/40 text-amber-300 rounded text-[11px] font-mono font-bold" title={`Contributors: ${creatorInfo.contributorTags.join(', ')}`}>
+                    Contrib: {creatorInfo.contributorTags.join(', ')}
                   </span>
-                  {creatorInfo.contributorTags && creatorInfo.contributorTags.length > 0 && (
-                    <span className="px-2 py-1 bg-amber-950/80 border border-amber-500/40 text-amber-300 rounded text-[11px] font-mono font-bold" title={`Contributors: ${creatorInfo.contributorTags.join(', ')}`}>
-                      Contrib: {creatorInfo.contributorTags.join(', ')}
-                    </span>
-                  )}
-                </div>
-              );
-            })()}
-          </div>
-          <p className="text-sm text-slate-500">The Artificial Intellect Mythopoic Environ for Narrative Flow, Worldbuilding &amp; Brainstorming</p>
+                )}
+              </div>
+            );
+          })()}
         </div>
-        <button 
-          onClick={() => setIsChatOpen(prev => !prev)}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg font-bold text-sm border transition-colors ${
-            isChatOpen 
-              ? 'bg-cyan-900/60 text-cyan-300 border-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.3)]' 
-              : 'bg-slate-800 text-slate-300 border-slate-700 hover:bg-slate-700 hover:text-cyan-400'
-          }`}
-        >
-          <span>💬</span> Chat with AIME
-        </button>
+
+        {/* Right: Chat with AIME button */}
+        <div className="flex items-center gap-2">
+          <button 
+            onClick={() => setIsChatOpen(prev => !prev)}
+            className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg font-bold text-xs uppercase tracking-wider border transition-colors ${
+              isChatOpen 
+                ? 'bg-cyan-900/60 text-cyan-300 border-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.3)]' 
+                : 'bg-slate-800 text-slate-300 border-slate-700 hover:bg-slate-700 hover:text-cyan-400'
+            }`}
+          >
+            <span>💬</span> Chat with AIME
+          </button>
+        </div>
       </div>
 
       {/* In-Process Notification Banner */}
