@@ -379,7 +379,7 @@ const Home = () => {
               </div>
 
               {/* Right Column (3 cols): Campaign Ops + Game Squads + Comm Center */}
-              <div className="col-span-3 space-y-3.5 flex flex-col" onClick={(e) => e.stopPropagation()}>
+              <div className="col-span-3 space-y-2.5 flex flex-col" onClick={(e) => e.stopPropagation()}>
                 <CampaignOpsWidget onShowOverview={() => handleSelectDrawer('overview')} />
                 <GameSquadsWidget onOpenSquadsDrawer={() => handleSelectDrawer('game-groups')} />
                 <CommCenterWidget 

@@ -81,14 +81,14 @@ export const CommCenterWidget = ({
     <>
       <div 
         onClick={() => handleActivateCenter('comms')}
-        className="bg-slate-900/40 hover:bg-slate-900/80 backdrop-blur-md p-3.5 sm:p-4 rounded-xl border border-slate-800 hover:border-cyan-500/50 h-full flex flex-col justify-between transition-all duration-300 shadow-[0_4px_24px_rgba(0,0,0,0.4)] group cursor-pointer select-none"
+        className="bg-slate-900/40 hover:bg-slate-900/80 backdrop-blur-md p-2.5 sm:p-3 rounded-xl border border-slate-800 hover:border-cyan-500/50 flex flex-col justify-between transition-all duration-300 shadow-[0_4px_24px_rgba(0,0,0,0.4)] group cursor-pointer select-none"
       >
         <div>
           {/* Header */}
-          <div className="flex items-center justify-between pb-2 border-b border-slate-800">
-            <div className="flex items-center gap-2">
-              <Radio className="text-cyan-400 animate-pulse" size={16} />
-              <span className="text-xs font-mono uppercase tracking-widest text-cyan-300 font-bold">
+          <div className="flex items-center justify-between pb-1.5 border-b border-slate-800">
+            <div className="flex items-center gap-1.5">
+              <Radio className="text-cyan-400 animate-pulse" size={14} />
+              <span className="text-[11px] font-mono uppercase tracking-widest text-cyan-300 font-bold">
                 COMM CENTER
               </span>
             </div>
@@ -99,10 +99,10 @@ export const CommCenterWidget = ({
                 <button
                   type="button"
                   onClick={(e) => handleActivateCenter('squads', e)}
-                  className="px-2 py-1 rounded-md bg-slate-800/80 hover:bg-purple-900/40 border border-slate-700 hover:border-purple-500/40 text-slate-300 hover:text-purple-300 text-[10px] font-mono font-bold transition-all flex items-center gap-1"
+                  className="px-1.5 py-0.5 rounded bg-slate-800/80 hover:bg-purple-900/40 border border-slate-700 hover:border-purple-500/40 text-slate-300 hover:text-purple-300 text-[9px] font-mono font-bold transition-all flex items-center gap-1"
                   title="Activate Center Block: Squad Cards"
                 >
-                  <Users size={11} className="text-purple-400" />
+                  <Users size={10} className="text-purple-400" />
                   <span>SQUADS</span>
                 </button>
               )}
@@ -112,10 +112,10 @@ export const CommCenterWidget = ({
                 <button
                   type="button"
                   onClick={(e) => handleActivateCenter('ops', e)}
-                  className="px-2 py-1 rounded-md bg-slate-800/80 hover:bg-cyan-900/40 border border-slate-700 hover:border-cyan-500/40 text-slate-300 hover:text-cyan-300 text-[10px] font-mono font-bold transition-all flex items-center gap-1"
+                  className="px-1.5 py-0.5 rounded bg-slate-800/80 hover:bg-cyan-900/40 border border-slate-700 hover:border-cyan-500/40 text-slate-300 hover:text-cyan-300 text-[9px] font-mono font-bold transition-all flex items-center gap-1"
                   title="Activate Center Block: Campaign Ops"
                 >
-                  <Target size={11} className="text-cyan-400" />
+                  <Target size={10} className="text-cyan-400" />
                   <span>OPS</span>
                 </button>
               )}
@@ -128,16 +128,16 @@ export const CommCenterWidget = ({
                   AudioService.playTerminalBeep(1200, 0.03);
                   navigate('/comms');
                 }}
-                className="p-1.5 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 transition-colors flex items-center gap-1 text-[10px] font-mono font-bold ml-0.5"
+                className="p-1 rounded-md bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 transition-colors flex items-center gap-1 text-[9px] font-mono font-bold ml-0.5"
                 title="Full Screen Matrix View"
               >
-                <Maximize2 size={12} />
+                <Maximize2 size={11} />
               </button>
             </div>
           </div>
 
           {/* Sub-header Controls: Category Filter & Create Custom Channel Button */}
-          <div className="mt-2 flex items-center justify-between gap-1 text-[10px] font-mono">
+          <div className="mt-1.5 flex items-center justify-between gap-1 text-[9px] font-mono">
             <div className="flex items-center gap-1">
               {[
                 { id: 'all', label: 'ALL' },
@@ -152,7 +152,7 @@ export const CommCenterWidget = ({
                     e.stopPropagation();
                     setChannelCategory(cat.id);
                   }}
-                  className={`px-1.5 py-0.5 rounded transition-colors ${
+                  className={`px-1.5 py-0.2 rounded transition-colors ${
                     channelCategory === cat.id 
                       ? 'bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/40' 
                       : 'text-slate-500 hover:text-slate-300'
@@ -171,10 +171,10 @@ export const CommCenterWidget = ({
                 AudioService.playTerminalBeep(1300, 0.03);
                 setIsCreateModalOpen(true);
               }}
-              className="px-2 py-0.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white rounded font-bold flex items-center gap-0.5 transition-all shadow-[0_0_10px_rgba(34,211,238,0.2)]"
+              className="px-1.5 py-0.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white rounded font-bold flex items-center gap-0.5 transition-all shadow-[0_0_10px_rgba(34,211,238,0.2)] text-[8.5px]"
               title="Create Custom Channel / Squad Relay"
             >
-              <Plus size={11} />
+              <Plus size={10} />
               <span>+ CHANNEL</span>
             </button>
           </div>
@@ -182,15 +182,14 @@ export const CommCenterWidget = ({
           {/* Channel Switcher Pills */}
           <div 
             onClick={(e) => e.stopPropagation()}
-            className="mt-1.5 flex items-center gap-1 overflow-x-auto pb-1 no-scrollbar text-[10px] font-mono"
+            className="mt-1 flex items-center gap-1 overflow-x-auto pb-0.5 no-scrollbar text-[9px] font-mono"
           >
             {displayedChannels.length === 0 ? (
-              <span className="text-slate-500 italic py-0.5 px-1">No channels in this category.</span>
+              <span className="text-slate-500 italic py-0.5 px-1 text-[8.5px]">No channels in this category.</span>
             ) : (
               displayedChannels.slice(0, 6).map(ch => {
                 const isSel = activeChannel?.id === ch.id;
                 const unread = unreadCounts[ch.id] || 0;
-                const isCustom = ch.type === 'custom' || (!ch.id.startsWith('public_') && !ch.id.startsWith('dm_') && ch.type !== 'group');
 
                 return (
                   <button
@@ -200,16 +199,16 @@ export const CommCenterWidget = ({
                       e.stopPropagation();
                       selectChannel(ch.id);
                     }}
-                    className={`px-2 py-0.5 rounded-md border shrink-0 transition-all flex items-center gap-1 ${
+                    className={`px-1.5 py-0.5 rounded border shrink-0 transition-all flex items-center gap-1 ${
                       isSel 
                         ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/50 font-bold shadow-[0_0_10px_rgba(34,211,238,0.15)]' 
                         : 'bg-slate-900/60 text-slate-400 border-slate-800 hover:text-slate-200'
                     }`}
                   >
-                    {ch.isPublic === false && <Lock size={9} className="text-amber-400" />}
+                    {ch.isPublic === false && <Lock size={8} className="text-amber-400" />}
                     <span>{ch.displayName || `#${ch.name}`}</span>
                     {unread > 0 && (
-                      <span className="px-1 rounded-full bg-cyan-500 text-black text-[8px] font-bold">
+                      <span className="px-1 rounded-full bg-cyan-500 text-black text-[7.5px] font-bold">
                         {unread}
                       </span>
                     )}
@@ -220,9 +219,9 @@ export const CommCenterWidget = ({
           </div>
 
           {/* Live Messages Stream */}
-          <div className="mt-2 space-y-1.5 max-h-[145px] overflow-y-auto pr-1 no-scrollbar">
+          <div className="mt-1 space-y-1 max-h-[100px] overflow-y-auto pr-1 no-scrollbar">
             {recentMessages.length === 0 ? (
-              <div className="py-6 text-center text-slate-500 text-xs font-mono">
+              <div className="py-2.5 text-center text-slate-500 text-[10px] font-mono">
                 <span>No transmissions on {activeChannel?.displayName || '#frequency'}</span>
               </div>
             ) : (
@@ -233,13 +232,13 @@ export const CommCenterWidget = ({
                 return (
                   <div
                     key={msg.id || i}
-                    className={`p-2 rounded-lg border text-xs transition-colors ${
+                    className={`p-1.5 rounded-md border text-[11px] transition-colors ${
                       isSelf
                         ? 'bg-slate-900/80 border-cyan-500/30'
                         : 'bg-slate-950/60 border-slate-800/80'
                     } ${isIC ? 'border-l-2 border-l-purple-400' : ''}`}
                   >
-                    <div className="flex items-center justify-between text-[10px] font-mono mb-0.5">
+                    <div className="flex items-center justify-between text-[9px] font-mono mb-0.5">
                       <span className={`font-bold ${isIC ? 'text-purple-300' : 'text-cyan-300'}`}>
                         {msg.senderHandle || 'Operator'}
                         {isIC && ' [IC]'}
@@ -250,12 +249,12 @@ export const CommCenterWidget = ({
                     </div>
 
                     {msg.type === 'dice_roll' ? (
-                      <div className="text-amber-300 font-mono text-[11px] flex items-center gap-1">
-                        <Dices size={12} />
+                      <div className="text-amber-300 font-mono text-[10px] flex items-center gap-1">
+                        <Dices size={11} />
                         <span>{msg.text}</span>
                       </div>
                     ) : (
-                      <div className="text-slate-200 text-[11px] leading-snug line-clamp-2">
+                      <div className="text-slate-200 text-[10.5px] leading-snug line-clamp-2">
                         <ChatParser text={msg.text || ''} />
                       </div>
                     )}
@@ -267,8 +266,8 @@ export const CommCenterWidget = ({
         </div>
 
         {/* Quick Input Form & Footer */}
-        <div className="pt-2 border-t border-slate-800/80 mt-2" onClick={(e) => e.stopPropagation()}>
-          <form onSubmit={handleQuickSend} className="flex items-center gap-1.5">
+        <div className="pt-1.5 border-t border-slate-800/80 mt-1.5" onClick={(e) => e.stopPropagation()}>
+          <form onSubmit={handleQuickSend} className="flex items-center gap-1">
             <input
               type="text"
               value={inputVal}
@@ -278,21 +277,21 @@ export const CommCenterWidget = ({
                   ? `Transmit as [${selectedPersona?.name || 'Operative'}]...`
                   : `Quick transmit into ${activeChannel?.displayName || '#comms'}...`
               }
-              className="flex-1 px-2.5 py-1.5 bg-slate-950 border border-slate-800 rounded-lg text-xs font-mono text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-all"
+              className="flex-1 px-2 py-1 bg-slate-950 border border-slate-800 rounded-md text-[10.5px] font-mono text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-all"
             />
             <button
               type="submit"
               disabled={!inputVal.trim()}
-              className="p-1.5 bg-cyan-600 hover:bg-cyan-500 disabled:opacity-30 text-white rounded-lg transition-colors shrink-0"
+              className="p-1 bg-cyan-600 hover:bg-cyan-500 disabled:opacity-30 text-white rounded-md transition-colors shrink-0"
               title="Transmit message"
             >
-              <Send size={13} />
+              <Send size={12} />
             </button>
           </form>
 
-          <div className="pt-1.5 flex items-center justify-between text-[10px] font-mono text-slate-500">
+          <div className="pt-1 flex items-center justify-between text-[8.5px] font-mono text-slate-500">
             <span className="flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span className="w-1 h-1 rounded-full bg-emerald-400 animate-pulse"></span>
               <span>RELAY CONNECTED</span>
             </span>
             <button
@@ -301,7 +300,7 @@ export const CommCenterWidget = ({
               className="text-cyan-400/90 hover:text-cyan-300 flex items-center gap-0.5 font-bold"
             >
               <span>CENTER MATRIX</span>
-              <ChevronRight size={12} />
+              <ChevronRight size={11} />
             </button>
           </div>
         </div>
