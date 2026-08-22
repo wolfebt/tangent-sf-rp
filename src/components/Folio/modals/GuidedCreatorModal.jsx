@@ -20,13 +20,19 @@ const STEPS = [
 const INITIAL_DRAFT = {
   'char-name': '',
   'char-concept': '',
-  'char-age': '',
-  'char-height': '',
-  'char-weight': '',
   'char-species': '',
   'char-origin': '',
   'char-faction': '',
   'char-occu': '',
+  'char-age': '',
+  'char-gender': '',
+  'char-height': '',
+  'char-weight': '',
+  'char-style': '',
+  'char-motive': '',
+  role: '',
+  summary: '',
+  backstory: '',
   strength: 0,
   agility: 0,
   stamina: 0,
@@ -265,13 +271,79 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
 
     const finalFeaturesList = Array.from(combinedFeaturesMap.values());
 
-    // Generate final sheet payload
+    // Generate fully normalized sheet payload for the Persona Folio
     const payload = {
-      ...draft,
+      // Basic Identity Fields
+      'char-name': draft['char-name']?.trim() || 'Unnamed Operative',
+      'char-concept': draft['char-concept']?.trim() || '',
+      'char-species': draft['char-species'] || '',
+      'char-origin': draft['char-origin'] || '',
+      'char-faction': draft['char-faction'] || '',
+      'char-occu': draft['char-occu'] || '',
+      'char-age': draft['char-age'] || '',
+      'char-gender': draft['char-gender'] || '',
+      'char-height': draft['char-height'] || '',
+      'char-weight': draft['char-weight'] || '',
+      'char-style': draft['char-style'] || '',
+      'char-motive': draft['char-motive'] || '',
+      'tech-level': draft.technologyLevel || 3,
+      'starting-cp': 150,
+
+      // Narrative & StoryFoundry Fields
+      role: draft.role || '',
+      summary: draft.summary || draft['char-concept'] || '',
+      appearance: draft['char-style'] || '',
+      goals: draft['char-motive'] || '',
+      backstory: draft.backstory || '',
+
+      // Primary Core Attributes (0 to +4 base)
+      'attr-strength': draft.strength || 0,
+      'attr-might': 0,
+      'attr-agility': draft.agility || 0,
+      'attr-reflex': 0,
+      'attr-stamina': draft.stamina || 0,
+      'attr-fortitude': 0,
+      'attr-intellect': draft.intellect || 0,
+      'attr-logic': 0,
+      'attr-wisdom': draft.wisdom || 0,
+      'attr-will': 0,
+      'attr-charisma': draft.charisma || 0,
+      'attr-etiquette': 0,
+
+      // Structured Arrays
+      features: finalFeaturesList,
+      disadvantages: [],
+      augmentations: [],
+      awakened: [],
+      invocations: [],
+      special_abilities: [],
+      attacks: [],
+      armor: [],
+      gear: [],
+      weapons: [],
+      armoring: [],
+      mecha: [],
+      other: [],
+      specializations: [],
       skills: finalSkillsList,
-      features: finalFeaturesList
+      notes: [{ text: draft.backstory ? `Backstory:\n${draft.backstory}` : '' }]
     };
-    
+
+    // Flat Skill Key Bindings for high-performance reactivity across all Folio tabs
+    Object.entries(combinedSkills).forEach(([sName, sRank]) => {
+      const skObj = dbData.skills.find(s => (s.name || '').toLowerCase() === sName.toLowerCase());
+      const skillId = skObj?.id || `skill-${sName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+      const cleanId = skillId.startsWith('skill-') ? skillId.replace('skill-', '') : skillId;
+      const baseAttr = skObj?.baseAttr || 'attr-intellect';
+
+      payload[`skill-${cleanId}-rank`] = Math.min(20, Math.max(0, parseInt(sRank, 10) || 0));
+      payload[`skill-${cleanId}-base`] = baseAttr;
+      payload[`skill-${cleanId}-mod`] = 0;
+      if (skObj?.group) payload[`skill-${cleanId}-group`] = skObj.group;
+      if (skObj?.subcategory) payload[`skill-${cleanId}-subcategory`] = skObj.subcategory;
+      payload[`skill-${cleanId}-name`] = sName;
+    });
+
     if (applyGuidedCharacter(payload)) {
       onClose();
       setTimeout(() => {
@@ -314,39 +386,74 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
     <div className="space-y-6 max-w-2xl mx-auto">
       <div>
         <h3 className="text-xl font-bold text-cyan-400">Concept & Identity</h3>
-        <p className="text-sm text-slate-400">Establish the baseline identity of your operative.</p>
+        <p className="text-sm text-slate-400">Establish the baseline identity, physical profile, and narrative foundation of your operative.</p>
       </div>
       
       <div className="space-y-4">
-        <div>
-          <label className="block text-xs font-bold text-slate-300 mb-1">Operative Name / Callsign</label>
-          <input 
-            type="text" value={draft['char-name']} onChange={e => updateDraft('char-name', e.target.value)}
-            className="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 text-white focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all" 
-            placeholder="e.g. Commander Xy'larra, Dash Rendar" 
-          />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-xs font-bold text-slate-300 mb-1">Operative Name / Callsign</label>
+            <input 
+              type="text" value={draft['char-name']} onChange={e => updateDraft('char-name', e.target.value)}
+              className="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 text-white focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all" 
+              placeholder="e.g. Commander Xy'larra, Dash Rendar" 
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-bold text-slate-300 mb-1">Character Concept / Archetype</label>
+            <input 
+              type="text" value={draft['char-concept']} onChange={e => updateDraft('char-concept', e.target.value)}
+              className="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 text-white focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all" 
+              placeholder="e.g. Cybernetic Infiltrator, Void Diplomat" 
+            />
+          </div>
         </div>
-        <div>
-          <label className="block text-xs font-bold text-slate-300 mb-1">Character Concept</label>
-          <input 
-            type="text" value={draft['char-concept']} onChange={e => updateDraft('char-concept', e.target.value)}
-            className="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 text-white focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all" 
-            placeholder="e.g. Cybernetic Infiltrator, Void-Wandering Diplomat" 
-          />
-        </div>
-        <div className="grid grid-cols-3 gap-4">
+
+        <div className="grid grid-cols-4 gap-3">
           <div>
             <label className="block text-xs font-bold text-slate-300 mb-1">Age</label>
-            <input type="text" value={draft['char-age']} onChange={e => updateDraft('char-age', e.target.value)} className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white" placeholder="28" />
+            <input type="text" value={draft['char-age']} onChange={e => updateDraft('char-age', e.target.value)} className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-xs" placeholder="28" />
+          </div>
+          <div>
+            <label className="block text-xs font-bold text-slate-300 mb-1">Gender / Pronouns</label>
+            <input type="text" value={draft['char-gender']} onChange={e => updateDraft('char-gender', e.target.value)} className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-xs" placeholder="Female / They" />
           </div>
           <div>
             <label className="block text-xs font-bold text-slate-300 mb-1">Height</label>
-            <input type="text" value={draft['char-height']} onChange={e => updateDraft('char-height', e.target.value)} className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white" placeholder="1.85m" />
+            <input type="text" value={draft['char-height']} onChange={e => updateDraft('char-height', e.target.value)} className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-xs" placeholder="1.85m" />
           </div>
           <div>
             <label className="block text-xs font-bold text-slate-300 mb-1">Weight</label>
-            <input type="text" value={draft['char-weight']} onChange={e => updateDraft('char-weight', e.target.value)} className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white" placeholder="78kg" />
+            <input type="text" value={draft['char-weight']} onChange={e => updateDraft('char-weight', e.target.value)} className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-xs" placeholder="78kg" />
           </div>
+        </div>
+
+        <div>
+          <label className="block text-xs font-bold text-slate-300 mb-1">Physical Style & Appearance</label>
+          <input 
+            type="text" value={draft['char-style']} onChange={e => updateDraft('char-style', e.target.value)}
+            className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white text-xs focus:border-cyan-500 outline-none" 
+            placeholder="e.g. Scuffed blast-vest, neon cyber-optics, rugged traveler coat" 
+          />
+        </div>
+
+        <div>
+          <label className="block text-xs font-bold text-slate-300 mb-1">Core Motivation / Driving Goal</label>
+          <input 
+            type="text" value={draft['char-motive']} onChange={e => updateDraft('char-motive', e.target.value)}
+            className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white text-xs focus:border-cyan-500 outline-none" 
+            placeholder="e.g. Pay off debt to the Syndicate, unlock ancient Progenitor ruins" 
+          />
+        </div>
+
+        <div>
+          <label className="block text-xs font-bold text-slate-300 mb-1">Brief Backstory & Origins (Optional)</label>
+          <textarea 
+            rows={2}
+            value={draft.backstory} onChange={e => updateDraft('backstory', e.target.value)}
+            className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white text-xs focus:border-cyan-500 outline-none resize-none" 
+            placeholder="Brief notes on background, past missions, or defining events..." 
+          />
         </div>
       </div>
     </div>
