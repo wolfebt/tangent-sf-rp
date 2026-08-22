@@ -21,9 +21,11 @@ export const categoryConfig = {
     species: {
         label: 'SPECIES',
         viewType: 'table',
-        directory_columns: ['name', 'type', 'trait', 'description'],
+        directory_columns: ['name', 'lineage', 'type', 'inherent_attribute_modifiers', 'cp', 'description'],
         fields: {
             name: { type: 'text', required: true },
+            lineage: { type: 'text', label: 'Lineage / Classification' },
+            parent_species: { type: 'text', label: 'Parent Species / Taxon' },
             description: { type: 'textarea', aiEnabled: true },
             prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
             type: { type: 'multiselect', source: 'species_type', manageable: true },

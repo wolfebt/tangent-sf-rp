@@ -4,9 +4,16 @@ import { collection, onSnapshot, doc, setDoc, deleteDoc, getDocs } from 'firebas
 import { categoryConfig } from '../categoryConfig';
 import { commitChunkedBatches } from '../../../utils/firestoreUtils';
 import { validateDbmEntry } from '../../../utils/dbmValidators';
+import compendiumSeedData from '../../../data/compendiumSeed.json';
+import { DEFAULT_ARCHETYPES } from '../../../data/archetypesData';
+import { DEFAULT_SPECIES } from '../../../data/speciesData';
 
 export const useFirestoreSync = (currentKey, currentUser = auth?.currentUser) => {
-  const [dbData, setDbData] = useState({});
+  const [dbData, setDbData] = useState({
+    compendium: compendiumSeedData,
+    archetypes: DEFAULT_ARCHETYPES,
+    species: DEFAULT_SPECIES
+  });
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState(null);
   const [toastMessage, setToastMessage] = useState(null);
@@ -51,11 +58,31 @@ export const useFirestoreSync = (currentKey, currentUser = auth?.currentUser) =>
       // 1. Primary real-time listener for current active category
       const colRef = collection(db, currentKey);
       const unsubCurrent = onSnapshot(colRef, (snapshot) => {
-        const items = snapshot.docs.map(d => ({ ...d.data(), id: d.id }));
+        let items = snapshot.docs.map(d => ({ ...d.data(), id: d.id }));
+        if ((currentKey === 'compendium' || currentKey === 'rules_codex') && items.length < compendiumSeedData.length) {
+          const existingIds = new Set(items.map(i => i.id || (i.name || '').toLowerCase()));
+          const missingSeeds = compendiumSeedData.filter(s => !existingIds.has(s.id) && !existingIds.has(s.name.toLowerCase()));
+          items = [...items, ...missingSeeds];
+        } else if (currentKey === 'archetypes' && items.length < DEFAULT_ARCHETYPES.length) {
+          const existingIds = new Set(items.map(i => i.id || (i.name || '').toLowerCase()));
+          const missingSeeds = DEFAULT_ARCHETYPES.filter(s => !existingIds.has(s.id) && !existingIds.has(s.name.toLowerCase()));
+          items = [...items, ...missingSeeds];
+        } else if (currentKey === 'species' && items.length < DEFAULT_SPECIES.length) {
+          const existingIds = new Set(items.map(i => i.id || (i.name || '').toLowerCase()));
+          const missingSeeds = DEFAULT_SPECIES.filter(s => !existingIds.has(s.id) && !existingIds.has(s.name.toLowerCase()));
+          items = [...items, ...missingSeeds];
+        }
         setDbData(prev => ({ ...prev, [currentKey]: items }));
         setIsLoading(false);
       }, (err) => {
         console.warn(`Firestore listener error for ${currentKey}:`, err.message);
+        if (currentKey === 'compendium' || currentKey === 'rules_codex') {
+          setDbData(prev => ({ ...prev, [currentKey]: compendiumSeedData }));
+        } else if (currentKey === 'archetypes') {
+          setDbData(prev => ({ ...prev, [currentKey]: DEFAULT_ARCHETYPES }));
+        } else if (currentKey === 'species') {
+          setDbData(prev => ({ ...prev, [currentKey]: DEFAULT_SPECIES }));
+        }
         setLoadError(`Failed to load ${currentKey}.`);
         setIsLoading(false);
       });
@@ -83,10 +110,29 @@ export const useFirestoreSync = (currentKey, currentUser = auth?.currentUser) =>
           try {
             const refCol = collection(db, catK);
             const unsubRef = onSnapshot(refCol, (snapshot) => {
-              const items = snapshot.docs.map(d => ({ ...d.data(), id: d.id }));
+              let items = snapshot.docs.map(d => ({ ...d.data(), id: d.id }));
+              if ((catK === 'compendium' || catK === 'rules_codex') && items.length < compendiumSeedData.length) {
+                const existingIds = new Set(items.map(i => i.id || (i.name || '').toLowerCase()));
+                const missingSeeds = compendiumSeedData.filter(s => !existingIds.has(s.id) && !existingIds.has(s.name.toLowerCase()));
+                items = [...items, ...missingSeeds];
+              } else if (catK === 'archetypes' && items.length < DEFAULT_ARCHETYPES.length) {
+                const existingIds = new Set(items.map(i => i.id || (i.name || '').toLowerCase()));
+                const missingSeeds = DEFAULT_ARCHETYPES.filter(s => !existingIds.has(s.id) && !existingIds.has(s.name.toLowerCase()));
+                items = [...items, ...missingSeeds];
+              } else if (catK === 'species' && items.length < DEFAULT_SPECIES.length) {
+                const existingIds = new Set(items.map(i => i.id || (i.name || '').toLowerCase()));
+                const missingSeeds = DEFAULT_SPECIES.filter(s => !existingIds.has(s.id) && !existingIds.has(s.name.toLowerCase()));
+                items = [...items, ...missingSeeds];
+              }
               setDbData(prev => ({ ...prev, [catK]: items }));
             }, (err) => {
-              // Silent fallback for background listeners
+              if (catK === 'compendium' || catK === 'rules_codex') {
+                setDbData(prev => ({ ...prev, [catK]: compendiumSeedData }));
+              } else if (catK === 'archetypes') {
+                setDbData(prev => ({ ...prev, [catK]: DEFAULT_ARCHETYPES }));
+              } else if (catK === 'species') {
+                setDbData(prev => ({ ...prev, [catK]: DEFAULT_SPECIES }));
+              }
             });
             unsubs.push(unsubRef);
           } catch (e) {

@@ -18,7 +18,13 @@ const formatCellValue = (val) => {
     if (val.length === 0) return '-';
     return val.map(item => {
       if (typeof item === 'object' && item !== null) {
-        return item.name || item.skill || item.title || item.id || JSON.stringify(item);
+        if (item.attribute && item.bonus !== undefined) {
+          return `${item.attribute} ${item.bonus >= 0 ? '+' : ''}${item.bonus}`;
+        }
+        if (item.skill && item.bonus !== undefined) {
+          return `${item.skill} ${item.bonus >= 0 ? '+' : ''}${item.bonus}`;
+        }
+        return item.name || item.skill || item.attribute || item.title || item.id || JSON.stringify(item);
       }
       return String(item);
     }).join(', ');
