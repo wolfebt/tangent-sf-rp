@@ -4,14 +4,25 @@ name: "Disguise"
 type: "social"
 subtype: "expression"
 category: "skills"
-description: "Costuming, prosthetic makeup, and impersonation."
+governing_attributes: ["Charisma","Intellect"]
+description: "Physical alteration of appearance using cosmetics, prosthetics, wigs, tailored costumes, holographic glamer filters, and camouflage."
+trained_only: false
+specialties:
+  - "Prosthetic Makeup & Facial Alteration"
+  - "Specific Individual Impersonation"
+  - "Camouflage & Visual Concealment"
+  - "Quick-Change Emergency Disguise"
+synergy_links:
+  - "social-acting"
+  - "mental-tailor"
+  - "physical-stealth"
 ---
 
 # Disguise
 
-Costuming, prosthetic makeup, and impersonation.
+Physical alteration of appearance using cosmetics, prosthetics, wigs, tailored costumes, holographic glamer filters, and camouflage.
 
-## Mechanics & Rules
-- **Skill Group**: Social
-- **Subcategory**: Expression
-
+### Mechanics & Rules
+- **Governing Attribute**: Charisma (Acting the Part) or Intellect (Fabricating Props).
+- **Create Disguise**: Check result sets the **DC** for anyone attempting to pierce the disguise via **Alertness** or **Investigation**.
+- **Application Time**: 10-30 minutes standard. Rushed disguises take 1d4 rounds with a `-5` penalty.

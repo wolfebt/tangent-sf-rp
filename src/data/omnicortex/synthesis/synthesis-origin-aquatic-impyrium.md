@@ -1,0 +1,22 @@
+---
+id: "synthesis-origin-aquatic-impyrium"
+name: "Aquatic (IMPYRIUM) Visual Synthesis"
+category: "synthesis"
+synthesis_type: "origin_scenery"
+origin_id: "origin-aquatic"
+faction_id: "faction-impyrium"
+---
+
+# Aquatic Origin × IMPYRIUM Visual Synthesis Matrix
+
+- **Origin**: Aquatic
+- **Faction**: IMPYRIUM
+- **Context**: Colossal white stone oil-rig fortresses rising from turbulent waves. Gold statues weathering the salt spray. Submerged dungeons with thick glass viewports.
+- **Style**: Marble-at-Sea, Monumental Hydro.
+- **Palette**: Storm Grey, Marble White, Gold, Ocean Blue.
+- **Tokens**: Crashing waves, brutalist pillars, wet stone, chains.
+
+## CRISP Prompt Construction
+```text
+[GLOBAL RENDERING TOKENS] + [TEMPLATE D: ARCHITECTURAL ESTABLISHING SHOT] + Context: Colossal white stone oil-rig fortresses rising from turbulent waves. Gold statues weathering the salt spray. Submerged dungeons with thick glass viewports. + Style: Marble-at-Sea, Monumental Hydro. + Palette: Storm Grey, Marble White, Gold, Ocean Blue. + Tokens: Crashing waves, brutalist pillars, wet stone, chains.
+```

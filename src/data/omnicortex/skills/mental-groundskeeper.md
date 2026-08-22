@@ -4,14 +4,25 @@ name: "Groundskeeper"
 type: "mental"
 subtype: "vocation"
 category: "skills"
-description: "Estate maintenance, terrain upkeep, and environmental management."
+governing_attributes: ["Wisdom","Constitution"]
+description: "Maintaining parklands, botanical gardens, exterior estate grounds, forestry, land reclamation, and operating terraforming machinery."
+trained_only: false
+specialties:
+  - "Landscaping & Arboriculture"
+  - "Botanical Garden Curation"
+  - "Atmospheric Processing & Terraforming Maintenance"
+  - "Estate Grounds Management"
+synergy_links:
+  - "mental-farmer"
+  - "mental-nature"
+  - "mental-laborer"
 ---
 
 # Groundskeeper
 
-Estate maintenance, terrain upkeep, and environmental management.
+Maintaining parklands, botanical gardens, exterior estate grounds, forestry, land reclamation, and operating terraforming machinery.
 
-## Mechanics & Rules
-- **Skill Group**: Mental
-- **Subcategory**: Vocations
-
+### Mechanics & Rules
+- **Governing Attribute**: Wisdom or Constitution
+- **Cultivate Hostile Flora**: DC 15 maintains exotic botanical specimens outside their native climate.
+- **Terraform Operation**: DC 25 operates and repairs large-scale planetary terraforming atmosphere scrubbers.

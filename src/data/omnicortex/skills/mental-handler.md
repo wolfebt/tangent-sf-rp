@@ -4,14 +4,25 @@ name: "Handler"
 type: "mental"
 subtype: "vocation"
 category: "skills"
-description: "Animal husbandry, beast training, mounts, and xenofauna handling."
+governing_attributes: ["Charisma","Wisdom"]
+description: "The training, care, riding, and behavioral management of domestic animals, guard beasts, combat warhounds, and alien xenobeasts."
+trained_only: false
+specialties:
+  - "Riding Mounts (Equine, reptilian, avian)"
+  - "Guard & Attack War-Beasts"
+  - "Xenobeast Taming & Habituation"
+  - "Companions & Working Animals"
+synergy_links:
+  - "mental-nature"
+  - "mental-survival"
+  - "social-insight"
 ---
 
 # Handler
 
-Animal husbandry, beast training, mounts, and xenofauna handling.
+The training, care, riding, and behavioral management of domestic animals, guard beasts, combat warhounds, and alien xenobeasts.
 
-## Mechanics & Rules
-- **Skill Group**: Mental
-- **Subcategory**: Vocations
-
+### Mechanics & Rules
+- **Governing Attribute**: Charisma or Wisdom (Also referred to as *Wrangler*).
+- **Calm Spooked Beast**: DC 15 calms a panicked mount or predator.
+- **Train Animal**: DC 15-25 teaches complex tricks, attack commands, or guard patrol routines.

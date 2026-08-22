@@ -4,14 +4,27 @@ name: "Mental"
 type: "meta"
 subtype: "discipline"
 category: "skills"
-description: "Telepathy, mind probes, empathy control, and psychic assault."
+governing_attributes: ["Intellect","Wisdom","Charisma"]
+description: "The metaphysical discipline governing telepathy, mind reading, neural blasts, psionic domination, memory alteration, precognition, and remote viewing."
+trained_only: true
+specialties:
+  - "Projection Focus (Telepathic broadcast, mind blast, domination, memory edits)"
+  - "Sense Focus (Clairvoyance, precognition, mind reading, aura detection)"
+synergy_links:
+  - "meta-attune"
+  - "social-insight"
+  - "mental-metaphysics"
 ---
 
 # Mental
 
-Telepathy, mind probes, empathy control, and psychic assault.
+The metaphysical discipline governing telepathy, mind reading, neural blasts, psionic domination, memory alteration, precognition, and remote viewing.
 
-## Mechanics & Rules
-- **Skill Group**: Meta
-- **Subcategory**: Disciplines
+### Mechanics & Rules
+- **Governing Attribute**: Key Ability (Requires Awakened feature).
+- **Range**: Extended base range (`100ft x Rank`).
+- **Mental Assaults**: Mind blast inflicts `1d6 Psychic damage per Rank` + Stun (Resisted by Will).
 
+### Focuses
+- **Projection Focus**: Direct telepathy, mind control domination, and neural overloads.
+- **Sense Focus**: Remote viewing, glimpses of future initiative advantage, and deep memory probes.

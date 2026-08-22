@@ -4,14 +4,28 @@ name: "Computers"
 type: "mental"
 subtype: "knowledge"
 category: "skills"
-description: "Hacking, programming, software engineering, and computer system security."
+governing_attributes: ["Intellect"]
+description: "The science of computer systems: programming, software architecture, cyber-warfare, firewall intrusion, encryption, and AI interface."
+trained_only: true
+specialties:
+  - "Hacking & Penetration Testing"
+  - "Coding & Software Development"
+  - "Hardware Architecture"
+  - "AI & Machine Intelligence Interfaces"
+  - "Security Systems & Encryption"
+  - "Data Mining & Forensics"
+synergy_links:
+  - "mental-electrician"
+  - "mental-technology"
+  - "mental-investigation"
 ---
 
 # Computers
 
-Hacking, programming, software engineering, and computer system security.
+The science of computer systems: programming, software architecture, cyber-warfare, firewall intrusion, encryption, and AI interface.
 
-## Mechanics & Rules
-- **Skill Group**: Mental
-- **Subcategory**: Knowledges
-
+### Mechanics & Rules
+- **Governing Attribute**: Intellect (Trained Only for complex hacking/programming).
+- **Operate Remote Systems**: DC 10 (Civic terminal) to DC 25 (Military command grid).
+- **Hacking / Cyber Intrusion**: Base DC equals target firewall's **Security Rating + 10**.
+- **Software Architecture**: DC 15 (Routine script) to DC 30+ (Sentient AI neural matrix).

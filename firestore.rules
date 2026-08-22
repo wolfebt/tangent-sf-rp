@@ -112,6 +112,38 @@ service cloud.firestore {
       allow read: if true;
       allow write: if isAdmin();
     }
+    match /rules/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /disadvantages/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /occupations/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /invocations/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /synthesis/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /maneuvers/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /conditions/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /damage_types/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
 
     // =========================================================================
     // 2. USER PROFILES & USER SETTINGS

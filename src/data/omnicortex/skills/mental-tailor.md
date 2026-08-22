@@ -4,14 +4,25 @@ name: "Tailor"
 type: "mental"
 subtype: "vocation"
 category: "skills"
-description: "Fabricating custom clothing, protective weaves, and fashion."
+governing_attributes: ["Intellect","Agility"]
+description: "Designing, patterning, cutting, sewing, and fitting garments: high fashion, diplomatic uniforms, light armor under-suits, and environmental gear."
+trained_only: false
+specialties:
+  - "High Fashion & Haute Couture"
+  - "Military & Diplomatic Uniforms"
+  - "Light Ballistic Armor Weaving"
+  - "Environmental & Hazard Suits"
+synergy_links:
+  - "social-style"
+  - "mental-armorer"
+  - "social-disguise"
 ---
 
 # Tailor
 
-Fabricating custom clothing, protective weaves, and fashion.
+Designing, patterning, cutting, sewing, and fitting garments: high fashion, diplomatic uniforms, light armor under-suits, and environmental gear.
 
-## Mechanics & Rules
-- **Skill Group**: Mental
-- **Subcategory**: Vocations
-
+### Mechanics & Rules
+- **Governing Attribute**: Intellect or Agility
+- **Craft Bespoke Outfit**: DC 15 (Standard civilian garment) to DC 25 (High-society aristocratic dress granting social bonuses).
+- **Disguise Tailoring**: DC 20 modifies uniforms or coats with hidden pockets and altered silhouettes to aid disguise checks.

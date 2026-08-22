@@ -4,14 +4,26 @@ name: "Trade"
 type: "mental"
 subtype: "knowledge"
 category: "skills"
-description: "Merchant lanes, interstellar tariffs, bargaining, and contraband smuggling."
+governing_attributes: ["Intellect"]
+description: "The knowledge of commercial logistics, merchant routes, trade tariffs, customs laws, interstellar commodity prices, and supply/demand dynamics."
+trained_only: false
+specialties:
+  - "Merchant Guilds & Cartels"
+  - "Interstellar Trade Routes"
+  - "Commodity Markets (Ore, Fuel, Grain)"
+  - "Tariffs, Customs & Import Regulations"
+  - "Black Market Trade Channels"
+synergy_links:
+  - "mental-business"
+  - "mental-appraisal"
+  - "mental-broker"
 ---
 
 # Trade
 
-Merchant lanes, interstellar tariffs, bargaining, and contraband smuggling.
+The knowledge of commercial logistics, merchant routes, trade tariffs, customs laws, interstellar commodity prices, and supply/demand dynamics.
 
-## Mechanics & Rules
-- **Skill Group**: Mental
-- **Subcategory**: Knowledges
-
+### Mechanics & Rules
+- **Governing Attribute**: Intellect
+- **Identify Trade Opportunity**: DC 15 to locate planets suffering shortages where goods sell at premium margins.
+- **Navigating Trade Tariffs**: DC 20 to legally circumvent customs duties or acquire tax-exempt trading status.

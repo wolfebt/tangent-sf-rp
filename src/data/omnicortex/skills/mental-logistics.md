@@ -4,14 +4,26 @@ name: "Logistics"
 type: "mental"
 subtype: "knowledge"
 category: "skills"
-description: "Supply chains, resource distribution, transit scheduling, and fleet support."
+governing_attributes: ["Intellect"]
+description: "Managing supply chains, freight transport routes, cargo warehousing, ammunition distribution, and operational resource planning."
+trained_only: false
+specialties:
+  - "Supply Chain Optimization"
+  - "Warehousing & Inventory Control"
+  - "Fleet & Convoy Routing"
+  - "Military Quartermastering"
+  - "Emergency Resource Rationing"
+synergy_links:
+  - "mental-business"
+  - "mental-trade"
+  - "mental-transporter"
 ---
 
 # Logistics
 
-Supply chains, resource distribution, transit scheduling, and fleet support.
+Managing supply chains, freight transport routes, cargo warehousing, ammunition distribution, and operational resource planning.
 
-## Mechanics & Rules
-- **Skill Group**: Mental
-- **Subcategory**: Knowledges
-
+### Mechanics & Rules
+- **Governing Attribute**: Intellect
+- **Supply Chain Routing**: DC 15 to establish rapid transit corridors through contested space.
+- **Crisis Allocation**: DC 20 to keep a besieged colony or fortress supplied with food and munitions.

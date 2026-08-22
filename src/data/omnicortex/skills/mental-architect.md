@@ -4,14 +4,25 @@ name: "Architect"
 type: "mental"
 subtype: "vocation"
 category: "skills"
-description: "Designing buildings, habitat domes, fortresses, and civil engineering."
+governing_attributes: ["Intellect"]
+description: "Designing blueprints, arcology layouts, orbital stations, fortifications, starship superstructures, and overseeing large construction projects."
+trained_only: true
+specialties:
+  - "Naval Architecture (Starships & Stations)"
+  - "Civil Engineering & Arcologies"
+  - "Military Fortifications & Bunkers"
+  - "Subterranean & Alien Habitation"
+synergy_links:
+  - "mental-engineer"
+  - "mental-laborer"
+  - "mental-demolitionist"
 ---
 
 # Architect
 
-Designing buildings, habitat domes, fortresses, and civil engineering.
+Designing blueprints, arcology layouts, orbital stations, fortifications, starship superstructures, and overseeing large construction projects.
 
-## Mechanics & Rules
-- **Skill Group**: Mental
-- **Subcategory**: Vocations
-
+### Mechanics & Rules
+- **Governing Attribute**: Intellect (Trained Only).
+- **Architectural Blueprinting**: DC 15 (Prefab outpost) to DC 30 (Orbital space elevator / planetary shield dome).
+- **Assess Structural Weakness**: DC 20 identifies structural load-bearing flaws, granting bonuses to Demolitionist checks.

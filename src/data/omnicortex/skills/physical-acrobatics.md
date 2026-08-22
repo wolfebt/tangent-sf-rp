@@ -2,14 +2,34 @@
 id: "physical-acrobatics"
 name: "Acrobatics"
 type: "physical"
+subtype: "mobility"
 category: "skills"
-description: "Balance, tumbling, climbing, dodging, and gymnastic maneuvers."
+governing_attributes: ["Agility"]
+description: "The skill of performing feats of gymnastics, extraordinary balance, tumbling, breaking falls, and high-agility kinetic maneuvers."
+trained_only: false
+specialties:
+  - "Tumbling (Rolling through hazardous zones)"
+  - "Balancing (Traversing narrow beams and wires)"
+  - "Tightrope Walking (High-wire traversal)"
+  - "Free-running / Parkour (Urban obstacle traversal)"
+synergy_links:
+  - "physical-athletics"
+  - "physical-stealth"
+  - "combat-defense"
 ---
 
 # Acrobatics
 
-Balance, tumbling, climbing, dodging, and gymnastic maneuvers.
+The skill of performing feats of gymnastics, extraordinary balance, tumbling, breaking falls, and high-agility kinetic maneuvers.
 
-## Mechanics & Rules
-- **Skill Group**: Physical
+### Mechanics & Rules
+- **Governing Attribute**: Agility
+- **Balance**: DC 10 (Narrow beam) to DC 20+ (Razor edge / slippery surface).
+- **Tumble**: DC 15 to move through an enemy's threatened area without provoking an Attack of Opportunity.
+- **Break Fall**: DC 15 reduces falling damage (ignores the first 10ft of fall distance).
 
+### Specialties
+- **Tumbling**: Defensive rolls and acrobatic dodges.
+- **Balancing**: Moving across precarious ledges and shifting terrain.
+- **Tightrope Walking**: Specialized high-tension cable traversal.
+- **Parkour**: Fast momentum-based urban and structural navigation.

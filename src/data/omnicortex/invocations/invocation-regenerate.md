@@ -1,0 +1,28 @@
+---
+id: "invocation-regenerate"
+name: "REGENERATE"
+category: "invocations"
+discipline: "Entropy"
+description: "REGENERATE invocation for Entropy reality manipulation."
+---
+
+# REGENERATE Invocation
+
+**Category**: Invocations  
+**Discipline**: Entropy
+
+## Description & Ritual Details
+Classification: Entropy (Order) | Healing | \[Over Time\] \[Regrowth\]  
+Parameters:
+* **Base Difficulty:** 25  
+* **Time:** Standard Action  
+* **Range:** Short  
+* **Area:** Single Creature  
+* **Duration:** Rounds/Level  
+* **Resistance:** None
+Effect Description:  
+Kickstarts the body's natural healing. Restores HP over time and regrows limbs.  
+**Scaling Function:**
+* **Healing:** Fast Healing (HP/Round) \= 2 per Stage.  
+* **Regrowth:** Regrows lost limbs or organs with regained HP.
+###

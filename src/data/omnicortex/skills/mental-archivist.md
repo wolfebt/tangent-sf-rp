@@ -4,14 +4,25 @@ name: "Archivist"
 type: "mental"
 subtype: "vocation"
 category: "skills"
-description: "Cataloging data archives, library indexes, and preserving ancient artifacts."
+governing_attributes: ["Intellect"]
+description: "The curation, preservation, restoration, and retrieval of historical records, ancient paper tomes, holographic databanks, and classified archives."
+trained_only: false
+specialties:
+  - "Digital Archival Forensics"
+  - "Ancient Tomes & Physical Manuscript Preservation"
+  - "Genealogical & Lineage Tracking"
+  - "Classified & Redacted History"
+synergy_links:
+  - "mental-history"
+  - "mental-academics"
+  - "mental-investigation"
 ---
 
 # Archivist
 
-Cataloging data archives, library indexes, and preserving ancient artifacts.
+The curation, preservation, restoration, and retrieval of historical records, ancient paper tomes, holographic databanks, and classified archives.
 
-## Mechanics & Rules
-- **Skill Group**: Mental
-- **Subcategory**: Vocations
-
+### Mechanics & Rules
+- **Governing Attribute**: Intellect
+- **Deep Historical Search**: DC 20 discovers unindexed, redacted, or non-digitized historical files.
+- **Preservation & Restoration**: DC 15 restores corrupted optical media, damaged parchment, or decaying solid-state drives.

@@ -4,14 +4,27 @@ name: "Metaphysics"
 type: "mental"
 subtype: "knowledge"
 category: "skills"
-description: "Understanding the nature of psionic energy, the Void, and supernatural phenomena."
+governing_attributes: ["Intellect"]
+description: "Theoretical understanding of reality distortion, psionic energy fields, magic weaves, dimensional anomalies, and cosmic planar dynamics."
+trained_only: true
+specialties:
+  - "Cosmology & Planar Geography"
+  - "Psionic Theory & Neural Resonances"
+  - "Arcane Weaves & Ley Line Geometry"
+  - "Reality Anchoring & Dimensional Rifts"
+  - "Mysticism & Metascience History"
+synergy_links:
+  - "meta-attune"
+  - "mental-physics"
+  - "mental-science"
 ---
 
 # Metaphysics
 
-Understanding the nature of psionic energy, the Void, and supernatural phenomena.
+Theoretical understanding of reality distortion, psionic energy fields, magic weaves, dimensional anomalies, and cosmic planar dynamics.
 
-## Mechanics & Rules
-- **Skill Group**: Mental
-- **Subcategory**: Knowledges
-
+### Mechanics & Rules
+- **Governing Attribute**: Intellect (Trained Only).
+- **Identify Metaphysical Phenomenon**: DC 15 to recognize an active spell school or psionic discipline signature.
+- **Planar / Reality Analysis**: DC 20 to diagnose localized dimensional instability or spatial rifts.
+- **Cosmic Theory**: DC 25 to devise countermeasures against high-tier metaphysical anomalies.

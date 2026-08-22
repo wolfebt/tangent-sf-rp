@@ -1,0 +1,27 @@
+---
+id: "skill-steady"
+name: "Steady"
+category: "features"
+feature_category: "Skill"
+cost_bp: 3
+is_ranked: false
+is_multiple: false
+prerequisites: "None"
+description: "The character has excellent balance and steady hands."
+---
+
+# Steady
+
+**Category**: Skill Features  
+**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
+**Prerequisite**: None
+
+## Description
+The character has excellent balance and steady hands.
+
+## Mechanics & Benefit
+Gain a **\+2 Bonus** to **Acrobatics** and **Athletics** (Balancing/Climbing) and a **\+1 Bonus** to **Reflex** checks.
+
+## Special Rules
+169
+
