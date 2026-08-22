@@ -21,12 +21,32 @@ export const categoryConfig = {
     species: {
         label: 'SPECIES',
         viewType: 'table',
-        directory_columns: ['name', 'lineage', 'type', 'inherent_attribute_modifiers', 'cp', 'description'],
+        directory_columns: ['name', 'parent_species', 'type', 'inherent_attribute_modifiers', 'stigma', 'homeworld', 'cp', 'description'],
         fields: {
             name: { type: 'text', required: true },
-            lineage: { type: 'text', label: 'Lineage / Classification' },
-            parent_species: { type: 'text', label: 'Parent Species / Taxon' },
-            description: { type: 'textarea', aiEnabled: true },
+            title: { type: 'text', label: 'Formal Title / Subspecies' },
+            parent_species: { 
+                type: 'select', 
+                label: 'Parent Lineage / Taxon', 
+                options: [
+                    'Aeld',
+                    'Asi (Fey Lineages)',
+                    'Aulurans',
+                    'Humans (Core & Variants)',
+                    'Engineered Humans (Gen-E)',
+                    'Kitin',
+                    'Synthetics',
+                    "Sha'nor & Void Lineages",
+                    'Progenitors',
+                    'Independent Xenotypes',
+                    'Independent'
+                ] 
+            },
+            description: { type: 'textarea', aiEnabled: true, label: 'Summary Description' },
+            stigma: { type: 'text', label: 'Social Stigma & Reaction Penalty' },
+            homeworld: { type: 'text', label: 'Homeworld / Origin Planet' },
+            tech_level: { type: 'text', label: 'Tech Level (TL)' },
+            meta_level: { type: 'text', label: 'Meta Level (ML)' },
             prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
             type: { type: 'multiselect', source: 'species_type', manageable: true },
             size: { type: 'multiselect', source: 'species_size', manageable: true },
@@ -44,8 +64,9 @@ export const categoryConfig = {
             bonus_disciplines: { type: 'number', label: 'Bonus Disciplines' },
             bonus_special_abilities: { type: 'number', label: 'Bonus Special Abilities' },
             modifier: { type: 'multiselect', source: 'modifier', manageable: true },
-            note: { type: 'textarea' },
-            cp: { type: 'readonlytext', label: 'CP' }
+            body: { type: 'textarea', label: 'Full Lore, Sociological Profile & Visual Semiotics (Markdown)', aiEnabled: true },
+            note: { type: 'textarea', label: 'Architect / Design Notes' },
+            cp: { type: 'number', label: 'Build Points (BP / CP Cost)' }
         }
     },
     factions: {

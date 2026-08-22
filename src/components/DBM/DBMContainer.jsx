@@ -115,11 +115,11 @@ export const DBMContainer = () => {
         if (!matchesType) return false;
       }
 
-      // 2. Filter by Subtypes / Disciplines / Society / Aspect
+      // 2. Filter by Subtypes / Disciplines / Society / Aspect / Lineage (Species)
       if (filterSubtypes.length > 0) {
-        const sub = item.subtype || item.discipline || item.society || item.aspect || item.aspect_subtype;
+        const sub = item.subtype || item.discipline || item.society || item.aspect || item.aspect_subtype || item.parent_species || item.lineage;
         const subs = Array.isArray(sub) ? sub : (sub ? [sub] : []);
-        const matchesSub = filterSubtypes.some(s => subs.includes(s));
+        const matchesSub = filterSubtypes.some(s => subs.some(subItem => String(subItem).toLowerCase().includes(String(s).toLowerCase().split(' ')[0])));
         if (!matchesSub) return false;
       }
 
@@ -153,6 +153,10 @@ export const DBMContainer = () => {
         const term = searchTerm.toLowerCase().trim();
         const matches = (
           (item.name && item.name.toLowerCase().includes(term)) ||
+          (item.title && item.title.toLowerCase().includes(term)) ||
+          (item.parent_species && item.parent_species.toLowerCase().includes(term)) ||
+          (item.homeworld && item.homeworld.toLowerCase().includes(term)) ||
+          (item.stigma && item.stigma.toLowerCase().includes(term)) ||
           (item.description && item.description.toLowerCase().includes(term)) ||
           (item.type && (Array.isArray(item.type) ? item.type.some(t => String(t).toLowerCase().includes(term)) : String(item.type).toLowerCase().includes(term))) ||
           (item.category && String(item.category).toLowerCase().includes(term)) ||

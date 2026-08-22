@@ -2,11 +2,23 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useFolio } from '../../../context/FolioContext';
 import { db } from '../../../firebase';
 import { collection, getDocs } from 'firebase/firestore';
-import { X, ChevronRight, ChevronLeft, Check, Search, Shield, Target, User, Sparkles, BookOpen, Layers, Plus, Compass } from 'lucide-react';
+import { X, ChevronRight, ChevronLeft, Check, Search, Shield, Target, User, Sparkles, BookOpen, Layers, Plus, Compass, Dna } from 'lucide-react';
 import { DEFAULT_SKILLS } from '../../../data/skillsData';
 import { DEFAULT_FEATURES, FEATURE_CATEGORIES } from '../../../data/featuresData';
 import { DEFAULT_ARCHETYPES, ARCHETYPE_SPHERES } from '../../../data/archetypesData';
-import { DEFAULT_SPECIES } from '../../../data/speciesData';
+import { DEFAULT_SPECIES, SPECIES_LINEAGES } from '../../../data/speciesData';
+
+const getSpeciesAttrModifier = (sp, attrName) => {
+  if (!sp) return 0;
+  if (Array.isArray(sp.inherent_attribute_modifiers)) {
+    const found = sp.inherent_attribute_modifiers.find(m => {
+      const a = (m.attribute || m.name || '').toLowerCase();
+      return a.startsWith(attrName.toLowerCase().substring(0, 3));
+    });
+    if (found) return found.bonus ?? found.value ?? 0;
+  }
+  return sp[`${attrName}_modifier`] || sp[`${attrName}_mod`] || 0;
+};
 
 const mapAttrToDraftKey = (attrName) => {
   if (!attrName) return null;
@@ -113,6 +125,8 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
   const [skillSearchQuery, setSkillSearchQuery] = useState('');
   const [featureSearchQuery, setFeatureSearchQuery] = useState('');
   const [featureCategoryFilter, setFeatureCategoryFilter] = useState('All');
+  const [speciesLineageFilter, setSpeciesLineageFilter] = useState('All');
+  const [speciesSearchQuery, setSpeciesSearchQuery] = useState('');
 
   // Data Caches
   const [dbData, setDbData] = useState({
@@ -738,15 +752,175 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
     </div>
   );
 
-  const renderSpecies = () => renderSelectionList(
-    'Species', 
-    dbData.species, 
-    draft['char-species'], 
-    (sp) => {
-      updateDraft('char-species', sp.name || sp.title || sp.id);
-      setSelectedSpeciesObj(sp);
-    }
-  );
+  const renderSpecies = () => {
+    const filteredSpecies = (dbData.species || []).filter(sp => {
+      const parentName = (sp.parent_species || '').toLowerCase();
+      const name = (sp.name || '').toLowerCase();
+      const title = (sp.title || '').toLowerCase();
+      const desc = (sp.description || '').toLowerCase();
+      const homeworld = (sp.homeworld || '').toLowerCase();
+
+      // Lineage filter
+      if (speciesLineageFilter !== 'All') {
+        const target = speciesLineageFilter.toLowerCase().split(' ')[0].replace(/[^a-z]/g, '');
+        if (!parentName.includes(target) && sp.id?.toLowerCase() !== target) return false;
+      }
+
+      // Search query
+      if (speciesSearchQuery.trim()) {
+        const q = speciesSearchQuery.toLowerCase().trim();
+        return name.includes(q) || title.includes(q) || desc.includes(q) || parentName.includes(q) || homeworld.includes(q);
+      }
+
+      return true;
+    });
+
+    return (
+      <div className="space-y-4 max-w-4xl mx-auto h-full flex flex-col">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h3 className="text-xl font-bold text-cyan-400 flex items-center gap-2">
+              <Dna className="text-cyan-400" size={22} />
+              <span>Species & Transhuman Lineages</span>
+            </h3>
+            <p className="text-sm text-slate-400">Select your character's species to establish inherent traits, attribute modifiers, and biology.</p>
+          </div>
+
+          {/* Search bar */}
+          <div className="relative w-full sm:w-64">
+            <input
+              type="text"
+              value={speciesSearchQuery}
+              onChange={e => setSpeciesSearchQuery(e.target.value)}
+              placeholder="Search 81 species..."
+              className="w-full bg-slate-950 border border-slate-700 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:border-cyan-500 outline-none"
+            />
+            <Search size={14} className="absolute left-2.5 top-2.5 text-slate-500" />
+            {speciesSearchQuery && (
+              <button
+                onClick={() => setSpeciesSearchQuery('')}
+                className="absolute right-2 top-2 text-slate-500 hover:text-white text-xs"
+              >✕</button>
+            )}
+          </div>
+        </div>
+
+        {/* Lineage Filter Pills */}
+        <div className="flex flex-wrap gap-1.5 bg-slate-950/80 p-2 rounded-xl border border-slate-800">
+          <button
+            type="button"
+            onClick={() => setSpeciesLineageFilter('All')}
+            className={`px-2.5 py-1 rounded text-xs font-semibold transition-all ${
+              speciesLineageFilter === 'All'
+                ? 'bg-cyan-500 text-slate-950 font-bold shadow'
+                : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+            }`}
+          >
+            All ({(dbData.species || []).length})
+          </button>
+          {SPECIES_LINEAGES.map(lin => {
+            const shortName = lin.name.split(' ')[0].replace(/[^a-zA-Z]/g, '');
+            const count = (dbData.species || []).filter(s => (s.parent_species || '').toLowerCase().includes(shortName.toLowerCase())).length;
+            return (
+              <button
+                key={lin.id}
+                type="button"
+                onClick={() => setSpeciesLineageFilter(lin.name)}
+                className={`px-2.5 py-1 rounded text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                  speciesLineageFilter === lin.name
+                    ? 'bg-purple-600 text-white font-bold shadow-[0_0_10px_rgba(168,85,247,0.4)]'
+                    : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                }`}
+                title={lin.description}
+              >
+                <span>{lin.name.split(' ')[0]}</span>
+                {count > 0 && (
+                  <span className="text-[10px] px-1 py-0.2 rounded font-mono bg-slate-800 text-slate-400">
+                    {count}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Species Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 overflow-y-auto pr-1 pb-4">
+          {filteredSpecies.map(sp => {
+            const isSelected = draft['char-species'] === sp.name || draft['char-species'] === sp.title || draft['char-species'] === sp.id;
+            const bpCost = parseInt(sp.cp_cost ?? sp.cp ?? 10, 10);
+            const inherentMods = Array.isArray(sp.inherent_attribute_modifiers) ? sp.inherent_attribute_modifiers : [];
+            const inherentFeats = Array.isArray(sp.inherent_features) ? sp.inherent_features : [];
+
+            return (
+              <div
+                key={sp.id || sp.name}
+                onClick={() => {
+                  updateDraft('char-species', sp.name || sp.title || sp.id);
+                  setSelectedSpeciesObj(sp);
+                }}
+                className={`p-4 rounded-xl border cursor-pointer transition-all flex flex-col justify-between ${
+                  isSelected
+                    ? 'bg-cyan-950/40 border-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.25)] ring-1 ring-cyan-500/40'
+                    : 'bg-slate-900/60 border-slate-800 hover:border-slate-600 hover:bg-slate-800/80'
+                }`}
+              >
+                <div>
+                  <div className="flex justify-between items-start mb-1.5 gap-2">
+                    <div>
+                      <h4 className={`font-bold text-sm ${isSelected ? 'text-cyan-300' : 'text-white'}`}>
+                        {sp.name}
+                      </h4>
+                      {sp.parent_species && (
+                        <span className="text-[10px] text-purple-300 font-mono flex items-center gap-1">
+                          <span>🧬</span> {sp.parent_species}
+                        </span>
+                      )}
+                    </div>
+                    <span className="text-xs font-bold bg-slate-950 px-2.5 py-1 rounded text-amber-400 border border-amber-500/30 font-mono shrink-0">
+                      {bpCost} BP
+                    </span>
+                  </div>
+
+                  <p className="text-xs text-slate-300 line-clamp-2 mb-2">{sp.description || 'Canonical species baseline.'}</p>
+
+                  {/* Attribute & Feature Tags */}
+                  <div className="flex flex-wrap gap-1 mb-2">
+                    {inherentMods.map((m, i) => {
+                      const aName = typeof m === 'object' ? (m.attribute || m.name) : String(m);
+                      const aVal = typeof m === 'object' ? (m.bonus ?? m.value ?? 1) : 1;
+                      return (
+                        <span key={i} className="text-[10px] px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-500/40 font-mono font-bold">
+                          {aName} {aVal >= 0 ? `+${aVal}` : aVal}
+                        </span>
+                      );
+                    })}
+                    {sp.stigma && sp.stigma !== 'None' && (
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-950/80 text-amber-300 border border-amber-500/30 font-mono">
+                        ⚠️ {sp.stigma}
+                      </span>
+                    )}
+                    {sp.homeworld && (
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-blue-950/80 text-blue-300 border border-blue-500/30 font-mono">
+                        🪐 {sp.homeworld.split('(')[0].trim()}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {inherentFeats.length > 0 && (
+                  <div className="pt-2 border-t border-slate-800/80 text-[11px] text-slate-400">
+                    <span className="text-slate-500 font-semibold">Inherent: </span>
+                    <span>{inherentFeats.slice(0, 3).join(', ')}{inherentFeats.length > 3 ? ` +${inherentFeats.length - 3} more` : ''}</span>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
 
   const renderOriginFaction = () => (
     <div className="space-y-6 max-w-4xl mx-auto h-full flex flex-col">
@@ -848,7 +1022,7 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
             <span className="font-bold text-cyan-300 block mb-1">Species Modifiers ({selectedSpeciesObj.name || selectedSpeciesObj.title || 'Selected Species'}):</span>
             <div className="flex flex-wrap gap-4">
               {['strength', 'agility', 'stamina', 'intellect', 'wisdom', 'charisma'].map(attr => {
-                const mod = selectedSpeciesObj[`${attr}_modifier`] || selectedSpeciesObj[`${attr}_mod`] || 0;
+                const mod = getSpeciesAttrModifier(selectedSpeciesObj, attr);
                 if (mod === 0) return null;
                 return <span key={attr} className="text-slate-300 capitalize">{attr}: <span className={mod > 0 ? 'text-emerald-400 font-bold' : 'text-red-400 font-bold'}>{mod > 0 ? `+${mod}` : mod}</span></span>;
               })}

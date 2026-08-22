@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { VirtualizedList } from './VirtualizedList';
 import { useItemInteractions } from '../../utils/interactionUtils';
+import { useDBM } from '../../context/DBMContext';
+import { SPECIES_LINEAGES } from '../../data/speciesData';
 
 /**
  * Format any field value for display in table rows
@@ -150,6 +152,8 @@ export const DBMTableView = ({
   const fileInputRef = useRef(null);
   const columnsDropdownRef = useRef(null);
   const filtersDropdownRef = useRef(null);
+  const { syncCanonicalSpecies } = useDBM() || {};
+  const [isSyncingSpecies, setIsSyncingSpecies] = useState(false);
 
   // Dropdown states
   const [isColumnsMenuOpen, setIsColumnsMenuOpen] = useState(false);
@@ -644,6 +648,28 @@ export const DBMTableView = ({
             Export JSON
           </button>
 
+          {isAdmin && currentKey === 'species' && (
+            <button
+              onClick={async () => {
+                if (!syncCanonicalSpecies) return;
+                if (window.confirm(`Sync all 81 canonical species from local definitions to Firestore cloud collection? This will overwrite or update cloud species documents.`)) {
+                  setIsSyncingSpecies(true);
+                  try {
+                    await syncCanonicalSpecies();
+                  } finally {
+                    setIsSyncingSpecies(false);
+                  }
+                }
+              }}
+              disabled={isSyncingSpecies}
+              className="px-3 py-1.5 bg-purple-950/80 hover:bg-purple-900 text-purple-200 border border-purple-500/50 rounded text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-1.5 disabled:opacity-50"
+              title="Synchronize all 81 canonical species to Firestore cloud database"
+            >
+              <span>🧬</span>
+              <span>{isSyncingSpecies ? 'Syncing...' : 'Sync Cloud Species'}</span>
+            </button>
+          )}
+
           {isAdmin ? (
             <button
               onClick={handleCreateNew}
@@ -662,6 +688,61 @@ export const DBMTableView = ({
           )}
         </div>
       </div>
+
+      {/* --- Species Lineage Quick Filters (when viewing species) --- */}
+      {currentKey === 'species' && (
+        <div className="flex flex-wrap items-center gap-1.5 mb-2 pb-2 border-b border-purple-900/40 shrink-0 bg-purple-950/20 p-2 rounded-lg border border-purple-800/30">
+          <span className="text-[10px] font-bold text-purple-400 uppercase tracking-widest flex items-center gap-1 shrink-0 mr-1">
+            <span>🧬</span> Lineage:
+          </span>
+          <button
+            onClick={() => setFilterSubtypes([])}
+            className={`px-2.5 py-1 text-xs font-bold uppercase rounded tracking-wider transition-all ${
+              filterSubtypes.length === 0
+                ? 'bg-purple-950 text-purple-200 border border-purple-500/70 shadow-[0_0_8px_rgba(168,85,247,0.3)]'
+                : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+            }`}
+          >
+            All Lineages ({currentItems.length})
+          </button>
+          {SPECIES_LINEAGES.map(lin => {
+            const shortName = lin.name.split(' ')[0].replace(/[^a-zA-Z]/g, '');
+            const isActive = filterSubtypes.includes(lin.name) || filterSubtypes.some(s => s.toLowerCase().includes(shortName.toLowerCase()));
+            const count = currentItems.filter(i => {
+              const p = (i.parent_species || '').toLowerCase();
+              return p.includes(shortName.toLowerCase()) || p === lin.id.toLowerCase();
+            }).length;
+
+            return (
+              <button
+                key={lin.id}
+                onClick={() => {
+                  if (isActive) {
+                    setFilterSubtypes(filterSubtypes.filter(s => !s.toLowerCase().includes(shortName.toLowerCase())));
+                  } else {
+                    setFilterSubtypes([lin.name]);
+                  }
+                }}
+                className={`px-2.5 py-1 text-xs font-bold rounded tracking-tight transition-all flex items-center gap-1.5 ${
+                  isActive
+                    ? 'bg-purple-950 text-purple-200 border border-purple-500/70 shadow-[0_0_8px_rgba(168,85,247,0.3)]'
+                    : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                }`}
+                title={lin.description}
+              >
+                <span>{lin.name}</span>
+                {count > 0 && (
+                  <span className={`text-[10px] px-1 py-0.2 rounded font-mono ${
+                    isActive ? 'bg-purple-900/80 text-purple-200' : 'bg-slate-800 text-slate-400'
+                  }`}>
+                    {count}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      )}
 
       {/* --- Filter / Filter Type Bar --- */}
       <div className="flex flex-wrap items-center gap-2 mb-2 pb-2 border-b border-slate-800/80 shrink-0">

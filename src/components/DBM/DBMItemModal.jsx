@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { db } from '../../firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import { UnifiedRelationalSelectorModal } from './UnifiedRelationalSelectorModal';
@@ -541,10 +543,10 @@ export const DBMItemModal = ({
 
   const getFieldTabGroup = (fKey) => {
     const k = fKey.toLowerCase();
-    if (['name', 'description', 'type', 'tl', 'ml', 'availability', 'rarity', 'category', 'price', 'cost_credits', 'tech_level', 'meta_level', 'size', 'movement', 'prerequisite', 'society', 'is_specialization', 'base_skill', 'subtype'].includes(k)) {
+    if (['name', 'title', 'parent_species', 'lineage', 'homeworld', 'stigma', 'description', 'type', 'tl', 'ml', 'availability', 'rarity', 'category', 'price', 'cost_credits', 'tech_level', 'meta_level', 'size', 'movement', 'prerequisite', 'society', 'is_specialization', 'base_skill', 'subtype'].includes(k)) {
       return 'general';
     }
-    if (['laws_of_physics', 'history', 'geography', 'biosphere', 'culture', 'points_of_interest', 'inhabitants', 'origin', 'practices', 'attitude', 'goals', 'social_strengths', 'social_weaknesses', 'note', 'mechanic'].includes(k)) {
+    if (['body', 'laws_of_physics', 'history', 'geography', 'biosphere', 'culture', 'points_of_interest', 'inhabitants', 'origin', 'practices', 'attitude', 'goals', 'social_strengths', 'social_weaknesses', 'note', 'mechanic'].includes(k)) {
       return 'narrative';
     }
     return 'mechanics';
@@ -767,8 +769,11 @@ export const DBMItemModal = ({
                       <textarea
                         value={editFormData[fieldKey] || ''}
                         onChange={e => setEditFormData({ ...editFormData, [fieldKey]: e.target.value })}
-                        rows={4}
-                        className="w-full bg-slate-950 border border-slate-700 text-white p-2 rounded text-xs outline-none focus:border-amber-500"
+                        rows={fieldKey === 'body' ? 14 : 4}
+                        placeholder={fieldKey === 'body' ? '# Species Lore & Mechanics\n\nEnter rich markdown formatting here...' : ''}
+                        className={`w-full bg-slate-950 border border-slate-700 text-white p-2.5 rounded text-xs outline-none focus:border-amber-500 ${
+                          fieldKey === 'body' ? 'font-mono leading-relaxed' : ''
+                        }`}
                       />
                     ) : fieldDef.type === 'select' ? (
                       <div className="flex gap-2 items-center">
@@ -1097,16 +1102,43 @@ export const DBMItemModal = ({
             </div>
           ) : (
             <div className="space-y-4">
-              <h3 className="text-xl font-bold text-white mb-2">{selectedItem?.name}</h3>
-              {((Array.isArray(selectedItem?.tags) && selectedItem.tags.length > 0) || (typeof selectedItem?.tags === 'string' && selectedItem.tags.trim())) && (
-                <div className="flex flex-wrap gap-1.5 mb-2">
-                  {(Array.isArray(selectedItem.tags) ? selectedItem.tags : selectedItem.tags.split(',').map(t => t.trim())).filter(Boolean).map((tag, idx) => (
-                    <span key={idx} className="px-2.5 py-0.5 bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 rounded-full text-xs font-mono font-bold flex items-center gap-1 shadow-sm">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <h3 className="text-xl font-bold text-white">{selectedItem?.name}</h3>
+                {selectedItem?.title && selectedItem.title !== selectedItem.name && (
+                  <span className="text-xs text-slate-400 font-mono italic">({selectedItem.title})</span>
+                )}
+              </div>
+
+              {/* Badges Bar */}
+              <div className="flex flex-wrap gap-1.5 mb-2">
+                {selectedItem?.parent_species && (
+                  <span className="px-2.5 py-0.5 bg-purple-950/90 border border-purple-500/50 text-purple-300 rounded-full text-xs font-mono font-bold flex items-center gap-1 shadow-sm">
+                    <span>🧬</span> {selectedItem.parent_species}
+                  </span>
+                )}
+                {selectedItem?.homeworld && (
+                  <span className="px-2.5 py-0.5 bg-blue-950/90 border border-blue-500/50 text-blue-300 rounded-full text-xs font-mono font-bold flex items-center gap-1 shadow-sm">
+                    <span>🪐</span> {selectedItem.homeworld}
+                  </span>
+                )}
+                {selectedItem?.stigma && selectedItem.stigma !== 'None' && (
+                  <span className="px-2.5 py-0.5 bg-amber-950/90 border border-amber-500/50 text-amber-300 rounded-full text-xs font-mono font-bold flex items-center gap-1 shadow-sm">
+                    <span>⚠️</span> {selectedItem.stigma}
+                  </span>
+                )}
+                {(selectedItem?.cp !== undefined || selectedItem?.cp_cost !== undefined) && (
+                  <span className="px-2.5 py-0.5 bg-cyan-950/90 border border-cyan-500/50 text-cyan-300 rounded-full text-xs font-mono font-bold flex items-center gap-1 shadow-sm">
+                    <span>⚡</span> {selectedItem.cp ?? selectedItem.cp_cost} BP
+                  </span>
+                )}
+                {((Array.isArray(selectedItem?.tags) && selectedItem.tags.length > 0) || (typeof selectedItem?.tags === 'string' && selectedItem.tags.trim())) && (
+                  (Array.isArray(selectedItem.tags) ? selectedItem.tags : selectedItem.tags.split(',').map(t => t.trim())).filter(Boolean).map((tag, idx) => (
+                    <span key={idx} className="px-2.5 py-0.5 bg-slate-900 border border-slate-700 text-slate-300 rounded-full text-xs font-mono font-bold flex items-center gap-1 shadow-sm">
                       <span>🏷️</span> {tag}
                     </span>
-                  ))}
-                </div>
-              )}
+                  ))
+                )}
+              </div>
               <p className="text-sm text-slate-300 whitespace-pre-line">{selectedItem?.description || 'No description available.'}</p>
               
               {/* 1-Click Cross-Module Item Importer & Exporter Transfer Bar (Plan 12) */}
@@ -1233,8 +1265,12 @@ export const DBMItemModal = ({
                               </span>
                             );
                           })
+                        ) : fKey === 'body' ? (
+                          <div className="prose prose-invert max-w-none text-xs text-slate-300 space-y-3 leading-relaxed bg-slate-900/50 p-4 rounded-lg border border-slate-800 w-full overflow-x-auto">
+                            <ReactMarkdown remarkPlugins={[remarkGfm]}>{String(val)}</ReactMarkdown>
+                          </div>
                         ) : (
-                          <span className="text-xs text-cyan-300 font-mono">{val.toString()}</span>
+                          <span className="text-xs text-cyan-300 font-mono whitespace-pre-wrap">{val.toString()}</span>
                         )}
                       </div>
                     </div>
