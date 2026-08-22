@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useFolio } from '../../../context/FolioContext';
 import { db } from '../../../firebase';
 import { collection, getDocs } from 'firebase/firestore';
-import { X, ChevronRight, ChevronLeft, Check, Search, Shield, Target, User } from 'lucide-react';
-import { attachCreatorTag } from '../../../utils/creatorUtils';
+import { X, ChevronRight, ChevronLeft, Check, Search, Shield, Target, User, Sparkles, BookOpen, Layers, Plus } from 'lucide-react';
+import { DEFAULT_SKILLS } from '../../../data/skillsData';
+import { DEFAULT_FEATURES, FEATURE_CATEGORIES } from '../../../data/featuresData';
 
 const STEPS = [
   { id: 'concept', title: 'Concept & Identity', desc: 'Basic Biography' },
@@ -12,7 +13,7 @@ const STEPS = [
   { id: 'occupation', title: 'Occupation', desc: 'Career & Training' },
   { id: 'attributes', title: 'Core Stats', desc: 'Physical & Mental Aptitude' },
   { id: 'tech', title: 'Tech Level', desc: 'Advancement & Wealth' },
-  { id: 'skills', title: 'Finalize Skills', desc: 'Allocate remaining BP' },
+  { id: 'skills', title: 'Skills & Features', desc: 'Background & General Allocations' },
   { id: 'review', title: 'Review', desc: 'Final Check' }
 ];
 
@@ -41,17 +42,44 @@ const INITIAL_DRAFT = {
   generalAllocations: { skills: {}, features: [] }
 };
 
-// Simple fetcher for collections
-const fetchCollectionData = async (path) => {
+// Flatten canonical skills with structured category names
+const ALL_CANONICAL_SKILLS = Object.entries(DEFAULT_SKILLS).flatMap(([groupKey, groupList]) =>
+  groupList.flatMap(subgroup =>
+    subgroup.skills.map(s => ({
+      ...s,
+      group: groupKey,
+      subcategory: subgroup.title || 'General',
+      groupLabel: groupKey.charAt(0).toUpperCase() + groupKey.slice(1) + (subgroup.title ? ` - ${subgroup.title}` : '')
+    }))
+  )
+);
+
+// Fallback collections fetcher with multi-path resilience
+const fetchCollectionWithFallback = async (primaryPath, fallbackPath) => {
   try {
-    const querySnapshot = await getDocs(collection(db, path));
-    const items = [];
-    querySnapshot.forEach((doc) => items.push({ id: doc.id, ...doc.data() }));
-    return items.sort((a, b) => (a.name || a.title || '').localeCompare(b.name || b.title || ''));
-  } catch (err) {
-    console.error(`Error fetching ${path}:`, err);
-    return [];
+    const qSnap = await getDocs(collection(db, primaryPath));
+    if (!qSnap.empty) {
+      const items = [];
+      qSnap.forEach(d => items.push({ id: d.id, ...d.data() }));
+      return items;
+    }
+  } catch (e) {
+    // Primary path query failed, try fallback
   }
+
+  if (fallbackPath) {
+    try {
+      const qSnap = await getDocs(collection(db, fallbackPath));
+      if (!qSnap.empty) {
+        const items = [];
+        qSnap.forEach(d => items.push({ id: d.id, ...d.data() }));
+        return items;
+      }
+    } catch (e) {
+      // Fallback query failed
+    }
+  }
+  return [];
 };
 
 const GuidedCreatorModal = ({ isOpen, onClose }) => {
@@ -60,55 +88,96 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
   const [draft, setDraft] = useState(INITIAL_DRAFT);
   const [bpRemaining, setBpRemaining] = useState(150);
   
+  // Search & Filter state for step 7
+  const [skillSearchQuery, setSkillSearchQuery] = useState('');
+  const [featureSearchQuery, setFeatureSearchQuery] = useState('');
+  const [featureCategoryFilter, setFeatureCategoryFilter] = useState('All');
+
   // Data Caches
   const [dbData, setDbData] = useState({
     species: [],
     origins: [],
     factions: [],
     occupations: [],
-    skills: [],
-    features: []
+    skills: ALL_CANONICAL_SKILLS,
+    features: DEFAULT_FEATURES
   });
   const [isLoadingData, setIsLoadingData] = useState(false);
 
-  // Selection state for complex picks
+  // Selected object tracking
   const [selectedSpeciesObj, setSelectedSpeciesObj] = useState(null);
 
   useEffect(() => {
     if (isOpen) {
-      // Fetch options if they aren't loaded
-      if (dbData.species.length === 0) {
-        setIsLoadingData(true);
-        Promise.all([
-          fetchCollectionData('omnicortex/species/items'),
-          fetchCollectionData('omnicortex/origins/items'),
-          fetchCollectionData('omnicortex/factions/items'),
-          fetchCollectionData('omnicortex/occupations/items'),
-          fetchCollectionData('omnicortex/skills/items'),
-          fetchCollectionData('omnicortex/features/items')
-        ]).then(([species, origins, factions, occupations, skills, features]) => {
-          setDbData({ species, origins, factions, occupations, skills, features });
-          setIsLoadingData(false);
+      setIsLoadingData(true);
+      Promise.all([
+        fetchCollectionWithFallback('species', 'omnicortex/species/items'),
+        fetchCollectionWithFallback('origins', 'omnicortex/origins/items'),
+        fetchCollectionWithFallback('factions', 'omnicortex/factions/items'),
+        fetchCollectionWithFallback('occupations', 'omnicortex/occupations/items'),
+        fetchCollectionWithFallback('skills', 'omnicortex/skills/items'),
+        fetchCollectionWithFallback('features', 'omnicortex/features/items')
+      ]).then(([species, origins, factions, occupations, cloudSkills, cloudFeatures]) => {
+        // Merge cloud skills with canonical defaults
+        const skillMap = new Map();
+        ALL_CANONICAL_SKILLS.forEach(s => skillMap.set(s.name.toLowerCase(), s));
+        cloudSkills.forEach(s => {
+          const name = s.name || s.title;
+          if (name) skillMap.set(name.toLowerCase(), { ...s, name });
         });
-      }
+
+        // Merge cloud features with canonical defaults
+        const featureMap = new Map();
+        DEFAULT_FEATURES.forEach(f => featureMap.set(f.name.toLowerCase(), f));
+        cloudFeatures.forEach(f => {
+          const name = f.name || f.title;
+          if (name) featureMap.set(name.toLowerCase(), { ...f, name, cp: f.cp || 3 });
+        });
+
+        setDbData({
+          species: species.length > 0 ? species : [],
+          origins: origins.length > 0 ? origins : [],
+          factions: factions.length > 0 ? factions : [],
+          occupations: occupations.length > 0 ? occupations : [],
+          skills: Array.from(skillMap.values()).sort((a, b) => (a.name || '').localeCompare(b.name || '')),
+          features: Array.from(featureMap.values()).sort((a, b) => (a.name || '').localeCompare(b.name || ''))
+        });
+        setIsLoadingData(false);
+      }).catch(err => {
+        console.warn('Guided creator background fetch notice:', err);
+        setIsLoadingData(false);
+      });
     }
   }, [isOpen]);
 
+  // Recalculate remaining BP
   useEffect(() => {
     let spent = 0;
     
-    // Attributes cost 5 BP per point allocated beyond 0 (Max +4 initially)
+    // Core attributes: 5 BP per point (starts at 0)
     spent += (draft.strength + draft.agility + draft.stamina + draft.intellect + draft.wisdom + draft.charisma) * 5;
     
-    // Species BP Cost
+    // Species Cost
     if (selectedSpeciesObj && selectedSpeciesObj.cp) {
       spent += parseInt(selectedSpeciesObj.cp, 10) || 0;
     }
 
-    // Technology Level
+    // Technology Level Cost
     if (draft.technologyLevel === 4) spent += 10;
     else if (draft.technologyLevel === 5) spent += 20;
-    else if (draft.technologyLevel < 3) spent -= 10; // TL 1 or 2 give back BP
+    else if (draft.technologyLevel < 3) spent -= 10; // Primitive TL refund
+
+    // General allocated skills (1 BP per rank beyond background pools)
+    if (draft.generalAllocations?.skills) {
+      Object.values(draft.generalAllocations.skills).forEach(rank => {
+        spent += (parseInt(rank, 10) || 0) * 1;
+      });
+    }
+
+    // General allocated features (3 BP each)
+    if (draft.generalAllocations?.features) {
+      spent += (draft.generalAllocations.features.length) * 3;
+    }
 
     setBpRemaining(150 - spent);
   }, [draft, selectedSpeciesObj]);
@@ -124,37 +193,77 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
   };
 
   const handleFinish = () => {
-    // Combine allocated skills
+    // Combine all allocated skill ranks
     const combinedSkills = {};
-    const addToSkills = (pool) => {
-      Object.entries(pool.skills || {}).forEach(([sName, sRank]) => {
-        combinedSkills[sName] = (combinedSkills[sName] || 0) + sRank;
+    const skillAttrMap = {};
+
+    dbData.skills.forEach(s => {
+      if (s.name) skillAttrMap[s.name] = s.baseAttr || 'attr-intellect';
+    });
+
+    const aggregatePoolSkills = (pool) => {
+      Object.entries(pool?.skills || {}).forEach(([sName, sRank]) => {
+        combinedSkills[sName] = (combinedSkills[sName] || 0) + (parseInt(sRank, 10) || 0);
       });
     };
-    addToSkills(draft.originAllocations);
-    addToSkills(draft.factionAllocations);
-    addToSkills(draft.occuAllocations);
-    addToSkills(draft.generalAllocations);
+
+    aggregatePoolSkills(draft.originAllocations);
+    aggregatePoolSkills(draft.factionAllocations);
+    aggregatePoolSkills(draft.occuAllocations);
+    aggregatePoolSkills(draft.generalAllocations);
 
     const finalSkillsList = Object.entries(combinedSkills).map(([name, rank], i) => ({
-      id: `skill_${i}`,
+      id: `skill_${i}_${name.toLowerCase().replace(/[^a-z0-9]+/g, '_')}`,
       name,
-      rank,
-      attr: 'Intellect' // Fallback
+      rank: Math.min(20, Math.max(0, rank)),
+      baseAttr: skillAttrMap[name] || 'attr-intellect'
     }));
 
-    // Combine allocated features
-    const combinedFeatures = new Set();
-    draft.originAllocations.features.forEach(f => combinedFeatures.add(f));
-    draft.factionAllocations.features.forEach(f => combinedFeatures.add(f));
-    draft.occuAllocations.features.forEach(f => combinedFeatures.add(f));
-    draft.generalAllocations.features.forEach(f => combinedFeatures.add(f));
+    // Combine all unique features
+    const combinedFeaturesMap = new Map();
+    const featDetailMap = new Map();
+    dbData.features.forEach(f => {
+      if (f.name) featDetailMap.set(f.name, f);
+    });
 
-    const finalFeaturesList = Array.from(combinedFeatures).map((name, i) => ({
-      id: `feat_${i}`,
-      name,
-      cp: 3
-    }));
+    const addFeatsFromPool = (pool, categoryLabel) => {
+      (pool?.features || []).forEach(fName => {
+        if (!combinedFeaturesMap.has(fName)) {
+          const detail = featDetailMap.get(fName) || {};
+          combinedFeaturesMap.set(fName, {
+            id: detail.id || `feat_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+            name: fName,
+            category: detail.category || categoryLabel,
+            description: detail.description || '',
+            mechanic: detail.mechanic || '',
+            cp: detail.cp !== undefined ? detail.cp : 3
+          });
+        }
+      });
+    };
+
+    addFeatsFromPool(draft.originAllocations, 'Origin Trait');
+    addFeatsFromPool(draft.factionAllocations, 'Faction Feature');
+    addFeatsFromPool(draft.occuAllocations, 'Occupation Trait');
+    addFeatsFromPool(draft.generalAllocations, 'General Feature');
+
+    // Add Inherent Species Features if present
+    if (selectedSpeciesObj && Array.isArray(selectedSpeciesObj.inherent_features)) {
+      selectedSpeciesObj.inherent_features.forEach(feat => {
+        const featName = typeof feat === 'object' ? (feat.name || feat.title) : feat;
+        if (featName && !combinedFeaturesMap.has(featName)) {
+          combinedFeaturesMap.set(featName, {
+            id: `feat_species_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+            name: featName,
+            category: 'Species Inherent',
+            description: typeof feat === 'object' ? feat.description || '' : '',
+            cp: 0
+          });
+        }
+      });
+    }
+
+    const finalFeaturesList = Array.from(combinedFeaturesMap.values());
 
     // Generate final sheet payload
     const payload = {
@@ -177,44 +286,66 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
     setDraft(prev => ({ ...prev, [key]: value }));
   };
 
+  // Grouped skills for organized selection
+  const groupedSkillsForSelect = useMemo(() => {
+    const groups = {};
+    dbData.skills.forEach(s => {
+      const gLabel = s.groupLabel || (s.group ? s.group.toUpperCase() : 'GENERAL SKILLS');
+      if (!groups[gLabel]) groups[gLabel] = [];
+      groups[gLabel].push(s);
+    });
+    return groups;
+  }, [dbData.skills]);
+
+  // Grouped features for organized selection
+  const groupedFeaturesForSelect = useMemo(() => {
+    const groups = {};
+    dbData.features.forEach(f => {
+      const cat = f.category || 'General';
+      if (!groups[cat]) groups[cat] = [];
+      groups[cat].push(f);
+    });
+    return groups;
+  }, [dbData.features]);
+
   // ------------------- STEP RENDERS -------------------
   
   const renderConcept = () => (
     <div className="space-y-6 max-w-2xl mx-auto">
       <div>
         <h3 className="text-xl font-bold text-cyan-400">Concept & Identity</h3>
-        <p className="text-sm text-slate-400">Who is your operative? Enter basic biographical data.</p>
+        <p className="text-sm text-slate-400">Establish the baseline identity of your operative.</p>
       </div>
       
       <div className="space-y-4">
         <div>
-          <label className="block text-xs font-bold text-slate-300 mb-1">Operative Name</label>
+          <label className="block text-xs font-bold text-slate-300 mb-1">Operative Name / Callsign</label>
           <input 
             type="text" value={draft['char-name']} onChange={e => updateDraft('char-name', e.target.value)}
             className="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 text-white focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all" 
-            placeholder="Name or Callsign" 
+            placeholder="e.g. Commander Xy'larra, Dash Rendar" 
           />
         </div>
         <div>
-          <label className="block text-xs font-bold text-slate-300 mb-1">General Concept</label>
+          <label className="block text-xs font-bold text-slate-300 mb-1">Character Concept</label>
           <input 
             type="text" value={draft['char-concept']} onChange={e => updateDraft('char-concept', e.target.value)}
             className="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 text-white focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all" 
-            placeholder="e.g., Cynical Smuggler, Ex-Corporate Mercenary" 
+            placeholder="e.g. Cybernetic Infiltrator, Void-Wandering Diplomat" 
           />
         </div>
         <div className="grid grid-cols-3 gap-4">
           <div>
             <label className="block text-xs font-bold text-slate-300 mb-1">Age</label>
-            <input type="text" value={draft['char-age']} onChange={e => updateDraft('char-age', e.target.value)} className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white" placeholder="32" />
+            <input type="text" value={draft['char-age']} onChange={e => updateDraft('char-age', e.target.value)} className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white" placeholder="28" />
           </div>
           <div>
             <label className="block text-xs font-bold text-slate-300 mb-1">Height</label>
-            <input type="text" value={draft['char-height']} onChange={e => updateDraft('char-height', e.target.value)} className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white" placeholder="1.8m" />
+            <input type="text" value={draft['char-height']} onChange={e => updateDraft('char-height', e.target.value)} className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white" placeholder="1.85m" />
           </div>
           <div>
             <label className="block text-xs font-bold text-slate-300 mb-1">Weight</label>
-            <input type="text" value={draft['char-weight']} onChange={e => updateDraft('char-weight', e.target.value)} className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white" placeholder="80kg" />
+            <input type="text" value={draft['char-weight']} onChange={e => updateDraft('char-weight', e.target.value)} className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white" placeholder="78kg" />
           </div>
         </div>
       </div>
@@ -225,20 +356,43 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
     <div className="space-y-4 max-w-4xl mx-auto h-full flex flex-col">
       <div>
         <h3 className="text-xl font-bold text-cyan-400">{title}</h3>
-        <p className="text-sm text-slate-400">Select an option to define your operative's background.</p>
+        <p className="text-sm text-slate-400">Select an option to define your operative's background archetype.</p>
       </div>
       
-      {isLoadingData ? (
+      {isLoadingData && items.length === 0 ? (
         <div className="flex-1 flex items-center justify-center">
           <div className="animate-spin text-cyan-500"><Search size={32} /></div>
+        </div>
+      ) : items.length === 0 ? (
+        <div className="p-8 text-center bg-slate-900/50 rounded-xl border border-slate-800 text-slate-400">
+          <p>No predefined database entries found. You may enter a custom {title} name below:</p>
+          <div className="mt-4 max-w-md mx-auto flex gap-2">
+            <input
+              type="text"
+              defaultValue={selectedName}
+              placeholder={`Enter custom ${title}...`}
+              id={`custom_${title}`}
+              className="flex-1 bg-slate-950 border border-slate-700 rounded-lg p-2 text-white"
+            />
+            <button
+              onClick={() => {
+                const el = document.getElementById(`custom_${title}`);
+                if (el && el.value.trim()) onSelect({ name: el.value.trim() });
+              }}
+              className="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-lg"
+            >
+              Set
+            </button>
+          </div>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 overflow-y-auto pr-2 pb-4">
           {items.map(item => {
-            const isSelected = selectedName === (item.name || item.title);
+            const name = item.name || item.title || item.id;
+            const isSelected = selectedName === name;
             return (
               <div 
-                key={item.id} 
+                key={item.id || name} 
                 onClick={() => onSelect(item)}
                 className={`p-4 rounded-xl border cursor-pointer transition-all ${
                   isSelected 
@@ -248,10 +402,10 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
               >
                 <div className="flex justify-between items-start mb-2">
                   <h4 className={`font-bold flex items-center gap-2 ${isSelected ? 'text-cyan-300' : 'text-slate-200'}`}>
-                    {icon} {item.name || item.title}
+                    {icon} {name}
                   </h4>
-                  {item.cp !== undefined && (
-                    <span className="text-xs font-bold bg-slate-900 px-2 py-1 rounded text-amber-400">
+                  {item.cp !== undefined && item.cp !== 0 && (
+                    <span className="text-xs font-bold bg-slate-900 px-2 py-1 rounded text-amber-400 border border-amber-500/30">
                       {item.cp} BP
                     </span>
                   )}
@@ -270,7 +424,7 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
     dbData.species, 
     draft['char-species'], 
     (sp) => {
-      updateDraft('char-species', sp.name || sp.title);
+      updateDraft('char-species', sp.name || sp.title || sp.id);
       setSelectedSpeciesObj(sp);
     }
   );
@@ -279,40 +433,79 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
     <div className="space-y-6 max-w-4xl mx-auto h-full flex flex-col">
       <div>
         <h3 className="text-xl font-bold text-cyan-400">Origin & Faction</h3>
-        <p className="text-sm text-slate-400">Choose where you come from and who you serve. Each grants 20 free skill ranks.</p>
+        <p className="text-sm text-slate-400">Choose your homeworld origin and faction allegiance. Each grants 20 skill ranks and 2 traits.</p>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1 overflow-y-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1 overflow-y-auto pr-1">
         {/* Origin Column */}
         <div className="space-y-3 bg-slate-900/50 p-4 rounded-xl border border-slate-800">
-          <h4 className="font-bold text-amber-400 uppercase tracking-widest text-sm mb-3">Origin</h4>
-          {dbData.origins.map(org => (
-            <div 
-              key={org.id} onClick={() => updateDraft('char-origin', org.name || org.title)}
-              className={`p-3 rounded border text-sm cursor-pointer transition-all ${
-                draft['char-origin'] === (org.name || org.title)
-                  ? 'bg-amber-950/40 border-amber-500 text-amber-200'
-                  : 'bg-slate-800 border-slate-700 text-slate-300 hover:border-slate-500'
-              }`}
-            >
-              <div className="font-bold">{org.name || org.title}</div>
+          <h4 className="font-bold text-amber-400 uppercase tracking-widest text-sm flex items-center gap-2">
+            <BookOpen size={16} /> Origin Homeworld
+          </h4>
+          {dbData.origins.length === 0 ? (
+            <div className="space-y-2">
+              <p className="text-xs text-slate-500 italic">No origin presets found. Enter custom origin:</p>
+              <input 
+                type="text" 
+                value={draft['char-origin']} 
+                onChange={e => updateDraft('char-origin', e.target.value)}
+                placeholder="e.g. Core World, Outer Fringe, Orbital Station"
+                className="w-full bg-slate-950 border border-slate-700 rounded p-2 text-xs text-white"
+              />
             </div>
-          ))}
+          ) : (
+            dbData.origins.map(org => {
+              const name = org.name || org.title || org.id;
+              return (
+                <div 
+                  key={org.id || name} onClick={() => updateDraft('char-origin', name)}
+                  className={`p-3 rounded-lg border text-sm cursor-pointer transition-all ${
+                    draft['char-origin'] === name
+                      ? 'bg-amber-950/40 border-amber-500 text-amber-200'
+                      : 'bg-slate-800 border-slate-700 text-slate-300 hover:border-slate-500'
+                  }`}
+                >
+                  <div className="font-bold">{name}</div>
+                  {org.description && <p className="text-[11px] text-slate-400 mt-1 line-clamp-2">{org.description}</p>}
+                </div>
+              );
+            })
+          )}
         </div>
+
         {/* Faction Column */}
         <div className="space-y-3 bg-slate-900/50 p-4 rounded-xl border border-slate-800">
-          <h4 className="font-bold text-emerald-400 uppercase tracking-widest text-sm mb-3">Faction</h4>
-          {dbData.factions.map(fac => (
-            <div 
-              key={fac.id} onClick={() => updateDraft('char-faction', fac.name || fac.title)}
-              className={`p-3 rounded border text-sm cursor-pointer transition-all ${
-                draft['char-faction'] === (fac.name || fac.title)
-                  ? 'bg-emerald-950/40 border-emerald-500 text-emerald-200'
-                  : 'bg-slate-800 border-slate-700 text-slate-300 hover:border-slate-500'
-              }`}
-            >
-              <div className="font-bold">{fac.name || fac.title}</div>
+          <h4 className="font-bold text-emerald-400 uppercase tracking-widest text-sm flex items-center gap-2">
+            <Shield size={16} /> Faction Allegiance
+          </h4>
+          {dbData.factions.length === 0 ? (
+            <div className="space-y-2">
+              <p className="text-xs text-slate-500 italic">No faction presets found. Enter custom faction:</p>
+              <input 
+                type="text" 
+                value={draft['char-faction']} 
+                onChange={e => updateDraft('char-faction', e.target.value)}
+                placeholder="e.g. Sol Alliance, Syndicate Guild, Independent"
+                className="w-full bg-slate-950 border border-slate-700 rounded p-2 text-xs text-white"
+              />
             </div>
-          ))}
+          ) : (
+            dbData.factions.map(fac => {
+              const name = fac.name || fac.title || fac.id;
+              return (
+                <div 
+                  key={fac.id || name} onClick={() => updateDraft('char-faction', name)}
+                  className={`p-3 rounded-lg border text-sm cursor-pointer transition-all ${
+                    draft['char-faction'] === name
+                      ? 'bg-emerald-950/40 border-emerald-500 text-emerald-200'
+                      : 'bg-slate-800 border-slate-700 text-slate-300 hover:border-slate-500'
+                  }`}
+                >
+                  <div className="font-bold">{name}</div>
+                  {fac.description && <p className="text-[11px] text-slate-400 mt-1 line-clamp-2">{fac.description}</p>}
+                </div>
+              );
+            })
+          )}
         </div>
       </div>
     </div>
@@ -322,23 +515,23 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
     'Occupation', 
     dbData.occupations, 
     draft['char-occu'], 
-    (occ) => updateDraft('char-occu', occ.name || occ.title),
+    (occ) => updateDraft('char-occu', occ.name || occ.title || occ.id),
     <Shield size={16} />
   );
 
   const renderAttributes = () => (
     <div className="space-y-6 max-w-2xl mx-auto">
       <div>
-        <h3 className="text-xl font-bold text-cyan-400">Core Stats</h3>
-        <p className="text-sm text-slate-400">Allocate your base attributes. Max +4 before species modifiers. Each +1 point costs <strong className="text-amber-400">5 BP</strong>.</p>
+        <h3 className="text-xl font-bold text-cyan-400">Core Stats (Attributes)</h3>
+        <p className="text-sm text-slate-400">Allocate your base attributes. Maximum +4 before species modifiers. Each +1 point costs <strong className="text-amber-400">5 BP</strong>.</p>
         {selectedSpeciesObj && (
           <div className="mt-3 p-3 bg-cyan-950/30 border border-cyan-800 rounded-lg text-xs">
-            <span className="font-bold text-cyan-300 block mb-1">Species Modifiers ({selectedSpeciesObj.name || selectedSpeciesObj.title}):</span>
-            <div className="flex gap-4">
+            <span className="font-bold text-cyan-300 block mb-1">Species Modifiers ({selectedSpeciesObj.name || selectedSpeciesObj.title || 'Selected Species'}):</span>
+            <div className="flex flex-wrap gap-4">
               {['strength', 'agility', 'stamina', 'intellect', 'wisdom', 'charisma'].map(attr => {
                 const mod = selectedSpeciesObj[`${attr}_modifier`] || selectedSpeciesObj[`${attr}_mod`] || 0;
                 if (mod === 0) return null;
-                return <span key={attr} className="text-slate-300 capitalize">{attr}: <span className={mod > 0 ? 'text-emerald-400' : 'text-red-400'}>{mod > 0 ? `+${mod}` : mod}</span></span>;
+                return <span key={attr} className="text-slate-300 capitalize">{attr}: <span className={mod > 0 ? 'text-emerald-400 font-bold' : 'text-red-400 font-bold'}>{mod > 0 ? `+${mod}` : mod}</span></span>;
               })}
             </div>
           </div>
@@ -354,14 +547,14 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
               <div className="flex items-center gap-4">
                 <button 
                   onClick={() => updateDraft(attr, Math.max(0, val - 1))} 
-                  className="w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 flex items-center justify-center font-black text-slate-400 hover:text-white transition-colors"
+                  className="w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 flex items-center justify-center font-black text-slate-400 hover:text-white transition-colors cursor-pointer"
                 >
                   -
                 </button>
                 <div className="w-8 text-center text-xl font-black text-cyan-300">{val}</div>
                 <button 
                   onClick={() => updateDraft(attr, Math.min(4, val + 1))} 
-                  className="w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 flex items-center justify-center font-black text-slate-400 hover:text-white transition-colors"
+                  className="w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 flex items-center justify-center font-black text-slate-400 hover:text-white transition-colors cursor-pointer"
                 >
                   +
                 </button>
@@ -381,18 +574,18 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
       </div>
       <div className="grid grid-cols-1 gap-3">
         {[
-          { level: 1, label: 'TL1 - Primitive', desc: 'Pre-industrial. Grants +10 BP.', cost: -10 },
-          { level: 2, label: 'TL2 - Industrial', desc: 'Early modern. Grants +10 BP.', cost: -10 },
-          { level: 3, label: 'TL3 - Spacefaring', desc: 'Standard galactic baseline. Costs 0 BP.', cost: 0 },
-          { level: 4, label: 'TL4 - Advanced', desc: 'Cutting-edge tech. Costs 10 BP.', cost: 10 },
-          { level: 5, label: 'TL5 - Theoretical', desc: 'Post-scarcity, exotic tech. Costs 20 BP.', cost: 20 },
+          { level: 1, label: 'TL1 - Primitive', desc: 'Pre-industrial societies. Grants +10 BP refund.', cost: -10 },
+          { level: 2, label: 'TL2 - Industrial', desc: 'Combustion engines & early electrical grids. Grants +10 BP refund.', cost: -10 },
+          { level: 3, label: 'TL3 - Spacefaring (Standard)', desc: 'Interstellar baseline: grav-drives, standard blasters, kinetic shields. Costs 0 BP.', cost: 0 },
+          { level: 4, label: 'TL4 - Advanced', desc: 'Subspace relays, plasma lattice armor, quantum AI. Costs 10 BP.', cost: 10 },
+          { level: 5, label: 'TL5 - Theoretical', desc: 'Post-scarcity matter transmuters, exotic dark-matter drives. Costs 20 BP.', cost: 20 },
         ].map(tl => (
           <div 
             key={tl.level}
             onClick={() => updateDraft('technologyLevel', tl.level)}
             className={`p-4 rounded-lg border cursor-pointer flex justify-between items-center transition-all ${
               draft.technologyLevel === tl.level 
-                ? 'bg-cyan-950/40 border-cyan-500' 
+                ? 'bg-cyan-950/40 border-cyan-500 shadow-[0_0_10px_rgba(34,211,238,0.2)]' 
                 : 'bg-slate-900 border-slate-800 hover:border-slate-600'
             }`}
           >
@@ -410,122 +603,227 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
   );
 
   const renderFinalizeSkillsFeatures = () => {
-    const renderPoolSection = (title, sourceName, poolKey, colorClass, maxSkills = 20) => {
-      if (!sourceName) return null;
-      
+    const renderPoolSection = (title, sourceName, poolKey, colorClass, maxSkills = 20, maxFeatures = 2, isGeneral = false) => {
       const alloc = draft[poolKey] || { skills: {}, features: [] };
       let spentSkills = 0;
-      Object.values(alloc.skills).forEach(v => spentSkills += v);
-      
+      Object.values(alloc.skills || {}).forEach(v => spentSkills += (parseInt(v, 10) || 0));
+
+      const filteredSkills = dbData.skills.filter(s => {
+        if (!skillSearchQuery.trim()) return true;
+        return (s.name || '').toLowerCase().includes(skillSearchQuery.toLowerCase());
+      });
+
+      const filteredFeatures = dbData.features.filter(f => {
+        const matchesSearch = !featureSearchQuery.trim() ||
+          (f.name || '').toLowerCase().includes(featureSearchQuery.toLowerCase()) ||
+          (f.description || '').toLowerCase().includes(featureSearchQuery.toLowerCase());
+        const matchesCat = featureCategoryFilter === 'All' || f.category === featureCategoryFilter;
+        return matchesSearch && matchesCat;
+      });
+
       return (
-        <div className={`p-4 rounded-xl border bg-slate-900/50 ${colorClass}`}>
-          <div className="flex justify-between items-center mb-4">
+        <div className={`p-4 rounded-xl border bg-slate-900/60 ${colorClass}`}>
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4">
             <div>
-              <h4 className="font-bold text-lg uppercase tracking-widest">{title}: {sourceName}</h4>
-              <p className="text-xs opacity-70">Allocate {maxSkills} Free Skill Ranks. Select up to 2 Free Traits.</p>
+              <h4 className="font-bold text-base uppercase tracking-widest flex items-center gap-2">
+                <Layers size={16} /> {title}{sourceName ? `: ${sourceName}` : ''}
+              </h4>
+              <p className="text-xs opacity-75">
+                {isGeneral 
+                  ? `Spend remaining general Build Points (${bpRemaining} BP). Skills: 1 BP/rank, Features: 3 BP.`
+                  : `Allocate up to ${maxSkills} Free Skill Ranks & ${maxFeatures} Free Features/Traits.`}
+              </p>
             </div>
-            <div className="text-right">
-              <div className="font-mono text-xl font-black">{maxSkills - spentSkills} <span className="text-xs">Ranks Left</span></div>
-            </div>
+            {!isGeneral && (
+              <div className="flex gap-3 text-right shrink-0">
+                <span className="font-mono text-xs px-2.5 py-1 rounded bg-slate-950 border border-slate-700">
+                  <strong className={maxSkills - spentSkills > 0 ? 'text-cyan-400' : 'text-slate-400'}>{maxSkills - spentSkills}</strong> Ranks Left
+                </span>
+                <span className="font-mono text-xs px-2.5 py-1 rounded bg-slate-950 border border-slate-700">
+                  <strong className={maxFeatures - alloc.features.length > 0 ? 'text-amber-400' : 'text-slate-400'}>{maxFeatures - alloc.features.length}</strong> Feats Left
+                </span>
+              </div>
+            )}
           </div>
           
           <div className="space-y-4">
+            {/* Skill Selector */}
             <div>
-              <span className="text-xs font-bold uppercase block mb-2 opacity-70">Add Skill Ranks</span>
+              <span className="text-xs font-bold uppercase block mb-1.5 opacity-80">Add Skill Ranks</span>
               <div className="flex gap-2 mb-2">
                 <select 
                   id={`select_${poolKey}`}
-                  className="flex-1 bg-slate-950 border border-slate-700 rounded p-2 text-sm text-white"
+                  className="flex-1 bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-white focus:border-cyan-500 outline-none"
                 >
-                  <option value="">-- Select a Skill --</option>
-                  {dbData.skills.map(s => <option key={s.id} value={s.name || s.title}>{s.name || s.title}</option>)}
+                  <option value="">-- Choose from all {dbData.skills.length} available skills --</option>
+                  {Object.entries(groupedSkillsForSelect).map(([grpName, skList]) => (
+                    <optgroup key={grpName} label={grpName} className="bg-slate-900 text-cyan-300 font-bold">
+                      {skList.map(s => (
+                        <option key={s.id || s.name} value={s.name} className="text-white font-normal">
+                          {s.name} ({s.group || 'Skill'})
+                        </option>
+                      ))}
+                    </optgroup>
+                  ))}
                 </select>
                 <button 
                   onClick={() => {
                     const sel = document.getElementById(`select_${poolKey}`);
-                    if (sel.value && spentSkills < maxSkills) {
+                    if (sel && sel.value) {
+                      if (!isGeneral && spentSkills >= maxSkills) {
+                        alert(`You have allocated all ${maxSkills} ranks in this background pool.`);
+                        return;
+                      }
+                      if (isGeneral && bpRemaining < 1) {
+                        alert('Not enough remaining BP to purchase additional skill ranks.');
+                        return;
+                      }
+                      const skName = sel.value;
                       setDraft(prev => ({
                         ...prev,
                         [poolKey]: {
                           ...prev[poolKey],
                           skills: {
                             ...prev[poolKey].skills,
-                            [sel.value]: (prev[poolKey].skills[sel.value] || 0) + 1
+                            [skName]: (prev[poolKey].skills[skName] || 0) + 1
                           }
                         }
                       }));
                     }
                   }}
-                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded"
-                >Add</button>
+                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold rounded-lg border border-slate-600 transition-colors flex items-center gap-1 cursor-pointer"
+                >
+                  <Plus size={14} /> Add
+                </button>
               </div>
-              <div className="flex flex-wrap gap-2">
-                {Object.entries(alloc.skills).map(([skillName, rank]) => (
-                  <div key={skillName} className="flex items-center gap-2 bg-slate-950 px-3 py-1 rounded-full border border-slate-700 text-sm">
-                    <span className="text-slate-300">{skillName}</span>
-                    <span className="font-bold text-white">+{rank}</span>
-                    <button 
-                      onClick={() => {
-                        setDraft(prev => {
-                          const newSkills = { ...prev[poolKey].skills };
-                          if (newSkills[skillName] > 1) newSkills[skillName] -= 1;
-                          else delete newSkills[skillName];
-                          return { ...prev, [poolKey]: { ...prev[poolKey], skills: newSkills } };
-                        });
-                      }}
-                      className="text-red-400 hover:text-red-300 ml-1"
-                    ><X size={12}/></button>
-                  </div>
-                ))}
+
+              {/* Display Chosen Skills in this pool */}
+              <div className="flex flex-wrap gap-2 min-h-[30px] p-2 bg-slate-950/70 rounded-lg border border-slate-800">
+                {Object.entries(alloc.skills || {}).length === 0 ? (
+                  <span className="text-[11px] text-slate-500 italic">No skill ranks assigned in this pool yet.</span>
+                ) : (
+                  Object.entries(alloc.skills).map(([skillName, rank]) => (
+                    <div key={skillName} className="flex items-center gap-2 bg-slate-900 px-3 py-1 rounded-md border border-slate-700 text-xs shadow-sm">
+                      <span className="text-slate-200 font-medium">{skillName}</span>
+                      <span className="font-bold text-cyan-400 font-mono">+{rank}</span>
+                      <div className="flex items-center gap-1 ml-1 border-l border-slate-700 pl-1.5">
+                        <button
+                          onClick={() => {
+                            if (!isGeneral && spentSkills >= maxSkills) return;
+                            if (isGeneral && bpRemaining < 1) return;
+                            setDraft(prev => ({
+                              ...prev,
+                              [poolKey]: {
+                                ...prev[poolKey],
+                                skills: { ...prev[poolKey].skills, [skillName]: rank + 1 }
+                              }
+                            }));
+                          }}
+                          className="text-cyan-400 hover:text-cyan-200 font-bold px-1"
+                        >+</button>
+                        <button
+                          onClick={() => {
+                            setDraft(prev => {
+                              const newSkills = { ...prev[poolKey].skills };
+                              if (newSkills[skillName] > 1) newSkills[skillName] -= 1;
+                              else delete newSkills[skillName];
+                              return { ...prev, [poolKey]: { ...prev[poolKey], skills: newSkills } };
+                            });
+                          }}
+                          className="text-red-400 hover:text-red-300 font-bold px-1"
+                        >-</button>
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
             </div>
 
-            <div className="border-t border-white/10 pt-4">
-              <span className="text-xs font-bold uppercase block mb-2 opacity-70">Select Free Features ({2 - alloc.features.length} left)</span>
+            {/* Feature Selector */}
+            <div className="border-t border-white/10 pt-3">
+              <div className="flex justify-between items-center mb-1.5">
+                <span className="text-xs font-bold uppercase opacity-80">
+                  Select {isGeneral ? 'Additional Features (3 BP each)' : `Free Features/Traits (${maxFeatures - alloc.features.length} remaining)`}
+                </span>
+              </div>
               <div className="flex gap-2 mb-2">
                 <select 
                   id={`feat_${poolKey}`}
-                  className="flex-1 bg-slate-950 border border-slate-700 rounded p-2 text-sm text-white"
-                  disabled={alloc.features.length >= 2}
+                  className="flex-1 bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-white focus:border-cyan-500 outline-none"
+                  disabled={!isGeneral && alloc.features.length >= maxFeatures}
                 >
-                  <option value="">-- Select a Feature --</option>
-                  {dbData.features.map(f => <option key={f.id} value={f.name || f.title}>{f.name || f.title}</option>)}
+                  <option value="">-- Choose from all {dbData.features.length} available features --</option>
+                  {Object.entries(groupedFeaturesForSelect).map(([catName, featList]) => (
+                    <optgroup key={catName} label={catName} className="bg-slate-900 text-amber-300 font-bold">
+                      {featList.map(f => (
+                        <option key={f.id || f.name} value={f.name} className="text-white font-normal">
+                          {f.name} ({f.category || 'General'} - {f.cp !== undefined ? `${f.cp} BP` : '3 BP'})
+                        </option>
+                      ))}
+                    </optgroup>
+                  ))}
                 </select>
                 <button 
-                  disabled={alloc.features.length >= 2}
+                  disabled={!isGeneral && alloc.features.length >= maxFeatures}
                   onClick={() => {
                     const sel = document.getElementById(`feat_${poolKey}`);
-                    if (sel.value && alloc.features.length < 2 && !alloc.features.includes(sel.value)) {
+                    if (sel && sel.value) {
+                      const featName = sel.value;
+                      if (alloc.features.includes(featName)) {
+                        alert('This feature is already selected in this pool.');
+                        return;
+                      }
+                      if (!isGeneral && alloc.features.length >= maxFeatures) {
+                        alert(`You can only select up to ${maxFeatures} features in this pool.`);
+                        return;
+                      }
+                      if (isGeneral && bpRemaining < 3) {
+                        alert('Not enough remaining BP to purchase an additional feature (Cost: 3 BP).');
+                        return;
+                      }
                       setDraft(prev => ({
                         ...prev,
                         [poolKey]: {
                           ...prev[poolKey],
-                          features: [...prev[poolKey].features, sel.value]
+                          features: [...prev[poolKey].features, featName]
                         }
                       }));
                     }
                   }}
-                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded disabled:opacity-50"
-                >Add</button>
+                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold rounded-lg border border-slate-600 transition-colors flex items-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                >
+                  <Plus size={14} /> Add
+                </button>
               </div>
-              <div className="flex flex-wrap gap-2">
-                {alloc.features.map(featName => (
-                  <div key={featName} className="flex items-center gap-2 bg-slate-950 px-3 py-1 rounded-full border border-slate-700 text-sm">
-                    <span className="text-slate-300">{featName}</span>
-                    <button 
-                      onClick={() => {
-                        setDraft(prev => ({
-                          ...prev,
-                          [poolKey]: {
-                            ...prev[poolKey],
-                            features: prev[poolKey].features.filter(f => f !== featName)
-                          }
-                        }));
-                      }}
-                      className="text-red-400 hover:text-red-300 ml-1"
-                    ><X size={12}/></button>
-                  </div>
-                ))}
+
+              {/* Display Chosen Features */}
+              <div className="flex flex-wrap gap-2 min-h-[30px] p-2 bg-slate-950/70 rounded-lg border border-slate-800">
+                {alloc.features.length === 0 ? (
+                  <span className="text-[11px] text-slate-500 italic">No features selected in this pool yet.</span>
+                ) : (
+                  alloc.features.map(featName => {
+                    const detail = dbData.features.find(f => f.name === featName);
+                    return (
+                      <div key={featName} className="flex items-center gap-2 bg-slate-900 px-3 py-1 rounded-md border border-slate-700 text-xs shadow-sm">
+                        <Sparkles size={12} className="text-amber-400 shrink-0" />
+                        <span className="text-slate-200 font-medium" title={detail?.description || ''}>{featName}</span>
+                        <button 
+                          onClick={() => {
+                            setDraft(prev => ({
+                              ...prev,
+                              [poolKey]: {
+                                ...prev[poolKey],
+                                features: prev[poolKey].features.filter(f => f !== featName)
+                              }
+                            }));
+                          }}
+                          className="text-red-400 hover:text-red-300 ml-1 font-bold"
+                          title="Remove feature"
+                        ><X size={12}/></button>
+                      </div>
+                    );
+                  })
+                )}
               </div>
             </div>
           </div>
@@ -536,95 +834,144 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
     return (
       <div className="space-y-6 max-w-4xl mx-auto h-full flex flex-col">
         <div>
-          <h3 className="text-xl font-bold text-cyan-400">Finalize Skills & Features</h3>
-          <p className="text-sm text-slate-400">Allocate your free skill ranks and traits from your background selections.</p>
+          <h3 className="text-xl font-bold text-cyan-400">Skills & Features Allocation</h3>
+          <p className="text-sm text-slate-400">
+            Allocate your free background ranks (20 ranks & 2 traits each for Origin, Faction, and Occupation), plus spend any remaining BP on additional skills and features.
+          </p>
         </div>
         <div className="flex-1 overflow-y-auto space-y-4 pr-2">
-          {renderPoolSection('Origin', draft['char-origin'], 'originAllocations', 'border-amber-500/50 text-amber-100')}
-          {renderPoolSection('Faction', draft['char-faction'], 'factionAllocations', 'border-emerald-500/50 text-emerald-100')}
-          {renderPoolSection('Occupation', draft['char-occu'], 'occuAllocations', 'border-purple-500/50 text-purple-100')}
-          
-          <div className="p-4 rounded-xl border bg-slate-900/50 border-cyan-500/50 text-cyan-100">
-            <h4 className="font-bold text-lg uppercase tracking-widest">General BP Spend</h4>
-            <p className="text-xs opacity-70 mb-4">Spend any remaining BP ({bpRemaining} BP) on additional skills (1 BP) or features (3 BP).</p>
-            <p className="text-sm italic opacity-50">Note: You can skip this and spend your BP directly in the Folio later.</p>
-          </div>
+          {renderPoolSection('Origin Homeworld', draft['char-origin'] || 'General Origin', 'originAllocations', 'border-amber-500/50 text-amber-100', 20, 2)}
+          {renderPoolSection('Faction Allegiance', draft['char-faction'] || 'General Faction', 'factionAllocations', 'border-emerald-500/50 text-emerald-100', 20, 2)}
+          {renderPoolSection('Occupation Career', draft['char-occu'] || 'General Occupation', 'occuAllocations', 'border-purple-500/50 text-purple-100', 20, 2)}
+          {renderPoolSection('General Point Buy', 'Remaining Build Points', 'generalAllocations', 'border-cyan-500/50 text-cyan-100', 99, 99, true)}
         </div>
       </div>
     );
   };
 
-  const renderPlaceholder = () => (
-    <div className="flex flex-col items-center justify-center h-full text-slate-500 space-y-4">
-      <Target size={48} className="opacity-20" />
-      <h3 className="text-xl font-bold">{STEPS[currentStep].title}</h3>
-      <p className="max-w-md text-center text-sm">
-        This section is under construction.
-      </p>
-    </div>
-  );
+  const renderReview = () => {
+    // Combine all skills for summary display
+    const summarySkills = {};
+    const countSkills = (pool) => {
+      Object.entries(pool?.skills || {}).forEach(([n, r]) => {
+        summarySkills[n] = (summarySkills[n] || 0) + (parseInt(r, 10) || 0);
+      });
+    };
+    countSkills(draft.originAllocations);
+    countSkills(draft.factionAllocations);
+    countSkills(draft.occuAllocations);
+    countSkills(draft.generalAllocations);
 
-  const renderReview = () => (
-    <div className="space-y-6 max-w-3xl mx-auto">
-      <div className="text-center">
-        <h3 className="text-2xl font-black text-emerald-400 uppercase tracking-widest">Initialization Complete</h3>
-        <p className="text-slate-400 mt-2">Ready to compile character matrix.</p>
-      </div>
-      
-      <div className="bg-slate-900/80 border border-slate-700 p-6 rounded-xl space-y-6 shadow-xl">
-        <div className="grid grid-cols-2 gap-4 border-b border-slate-800 pb-4">
-          <div>
-            <span className="text-xs font-bold text-slate-500 block">Name</span>
-            <span className="text-lg font-bold text-white">{draft['char-name'] || 'Unnamed'}</span>
-          </div>
-          <div>
-            <span className="text-xs font-bold text-slate-500 block">Concept</span>
-            <span className="text-lg text-slate-300">{draft['char-concept'] || '—'}</span>
-          </div>
-        </div>
+    // Combine all features
+    const summaryFeatures = new Set();
+    draft.originAllocations?.features?.forEach(f => summaryFeatures.add(f));
+    draft.factionAllocations?.features?.forEach(f => summaryFeatures.add(f));
+    draft.occuAllocations?.features?.forEach(f => summaryFeatures.add(f));
+    draft.generalAllocations?.features?.forEach(f => summaryFeatures.add(f));
 
-        <div className="grid grid-cols-3 gap-4 border-b border-slate-800 pb-4">
-          <div>
-            <span className="text-xs font-bold text-slate-500 block">Species</span>
-            <span className="font-bold text-cyan-300">{draft['char-species'] || 'None'}</span>
-          </div>
-          <div>
-            <span className="text-xs font-bold text-slate-500 block">Origin</span>
-            <span className="font-bold text-amber-300">{draft['char-origin'] || 'None'}</span>
-          </div>
-          <div>
-            <span className="text-xs font-bold text-slate-500 block">Occupation</span>
-            <span className="font-bold text-purple-400">{draft['char-occu'] || 'None'}</span>
-          </div>
-        </div>
-
-        <div>
-          <span className="text-xs font-bold text-slate-500 block mb-2">Base Core Stats</span>
-          <div className="grid grid-cols-6 gap-2 text-center">
-            {['strength', 'agility', 'stamina', 'intellect', 'wisdom', 'charisma'].map(attr => (
-              <div key={attr} className="bg-slate-950 rounded p-2 border border-slate-800">
-                <div className="text-[10px] text-slate-500 uppercase font-bold">{attr.substring(0,3)}</div>
-                <div className="text-lg font-black text-slate-200">{draft[attr]}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="bg-slate-950 p-4 rounded-lg flex justify-between items-center">
-          <span className="font-bold text-slate-400 uppercase tracking-widest text-sm">Final BP Remaining</span>
-          <span className={`text-2xl font-black ${bpRemaining < 0 ? 'text-red-500' : 'text-emerald-400'}`}>
-            {bpRemaining}
-          </span>
+    return (
+      <div className="space-y-6 max-w-3xl mx-auto h-full flex flex-col">
+        <div className="text-center">
+          <h3 className="text-2xl font-black text-emerald-400 uppercase tracking-widest">Initialization Matrix Complete</h3>
+          <p className="text-slate-400 mt-1 text-sm">Review your operative parameters before deploying to the Persona Folio.</p>
         </div>
         
-        {bpRemaining < 0 && (
-          <div className="p-3 bg-red-950/30 border border-red-900 rounded text-red-400 text-sm font-bold text-center">
-            Warning: Your build exceeds the 150 BP limit. You can finalize now and correct it in the Folio later.
+        <div className="bg-slate-900/80 border border-slate-700 p-6 rounded-xl space-y-5 shadow-xl flex-1 overflow-y-auto pr-2">
+          <div className="grid grid-cols-2 gap-4 border-b border-slate-800 pb-4">
+            <div>
+              <span className="text-xs font-bold text-slate-500 block uppercase">Operative Name</span>
+              <span className="text-lg font-bold text-white">{draft['char-name'] || 'Unnamed Operative'}</span>
+            </div>
+            <div>
+              <span className="text-xs font-bold text-slate-500 block uppercase">Concept</span>
+              <span className="text-sm text-slate-300">{draft['char-concept'] || '—'}</span>
+            </div>
           </div>
-        )}
+
+          <div className="grid grid-cols-3 gap-4 border-b border-slate-800 pb-4">
+            <div>
+              <span className="text-xs font-bold text-slate-500 block uppercase">Species</span>
+              <span className="font-bold text-cyan-300">{draft['char-species'] || 'None'}</span>
+            </div>
+            <div>
+              <span className="text-xs font-bold text-slate-500 block uppercase">Origin</span>
+              <span className="font-bold text-amber-300">{draft['char-origin'] || 'None'}</span>
+            </div>
+            <div>
+              <span className="text-xs font-bold text-slate-500 block uppercase">Occupation</span>
+              <span className="font-bold text-purple-400">{draft['char-occu'] || 'None'}</span>
+            </div>
+          </div>
+
+          {/* Core Stats */}
+          <div className="border-b border-slate-800 pb-4">
+            <span className="text-xs font-bold text-slate-500 block mb-2 uppercase">Base Attributes</span>
+            <div className="grid grid-cols-6 gap-2 text-center">
+              {['strength', 'agility', 'stamina', 'intellect', 'wisdom', 'charisma'].map(attr => (
+                <div key={attr} className="bg-slate-950 rounded-lg p-2 border border-slate-800">
+                  <div className="text-[10px] text-slate-500 uppercase font-bold">{attr.substring(0,3)}</div>
+                  <div className="text-lg font-black text-cyan-300">{draft[attr]}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Allocated Skills Summary */}
+          <div className="border-b border-slate-800 pb-4">
+            <span className="text-xs font-bold text-slate-500 block mb-2 uppercase">
+              Allocated Skills ({Object.keys(summarySkills).length})
+            </span>
+            <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto p-2 bg-slate-950 rounded-lg border border-slate-800">
+              {Object.keys(summarySkills).length === 0 ? (
+                <span className="text-xs text-slate-500 italic">No skills allocated.</span>
+              ) : (
+                Object.entries(summarySkills).map(([sName, r]) => (
+                  <span key={sName} className="text-xs bg-slate-900 border border-slate-700 px-2.5 py-1 rounded text-slate-200">
+                    {sName} <strong className="text-cyan-400 font-mono">+{r}</strong>
+                  </span>
+                ))
+              )}
+            </div>
+          </div>
+
+          {/* Allocated Features Summary */}
+          <div className="border-b border-slate-800 pb-4">
+            <span className="text-xs font-bold text-slate-500 block mb-2 uppercase">
+              Acquired Features & Traits ({summaryFeatures.size})
+            </span>
+            <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto p-2 bg-slate-950 rounded-lg border border-slate-800">
+              {summaryFeatures.size === 0 ? (
+                <span className="text-xs text-slate-500 italic">No traits selected.</span>
+              ) : (
+                Array.from(summaryFeatures).map(fName => (
+                  <span key={fName} className="text-xs bg-slate-900 border border-amber-500/40 px-2.5 py-1 rounded text-amber-200 flex items-center gap-1">
+                    <Sparkles size={11} className="text-amber-400" /> {fName}
+                  </span>
+                ))
+              )}
+            </div>
+          </div>
+
+          {/* Budget Display */}
+          <div className="bg-slate-950 p-4 rounded-lg flex justify-between items-center border border-slate-800">
+            <div>
+              <span className="font-bold text-slate-400 uppercase tracking-widest text-xs block">Remaining Build Points</span>
+              <span className="text-[11px] text-slate-500">Starting Budget: 150 BP</span>
+            </div>
+            <span className={`text-2xl font-black font-mono ${bpRemaining < 0 ? 'text-red-400' : 'text-emerald-400'}`}>
+              {bpRemaining} BP
+            </span>
+          </div>
+          
+          {bpRemaining < 0 && (
+            <div className="p-3 bg-red-950/30 border border-red-900 rounded text-red-400 text-xs font-bold text-center">
+              ⚠️ Warning: Your build exceeds the 150 BP starting pool by {Math.abs(bpRemaining)} BP. You can still finalize and balance it manually in the Persona Folio.
+            </div>
+          )}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   const renderStepContent = () => {
     switch (STEPS[currentStep].id) {
@@ -636,7 +983,7 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
       case 'tech': return renderTechLevel();
       case 'skills': return renderFinalizeSkillsFeatures();
       case 'review': return renderReview();
-      default: return renderPlaceholder();
+      default: return null;
     }
   };
 
@@ -663,7 +1010,7 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
               </span>
             </div>
           </div>
-          <button onClick={onClose} className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors">
+          <button onClick={onClose} className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors cursor-pointer">
             <X size={20} />
           </button>
         </div>
@@ -680,7 +1027,7 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
                 <button
                   key={step.id}
                   onClick={() => setCurrentStep(idx)}
-                  className={`w-full text-left p-3 rounded-lg border transition-all ${
+                  className={`w-full text-left p-3 rounded-lg border transition-all cursor-pointer ${
                     isActive 
                       ? 'bg-cyan-950/40 border-cyan-500/50' 
                       : isPast 
@@ -710,7 +1057,7 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
               <button
                 onClick={handlePrev}
                 disabled={currentStep === 0}
-                className="px-5 py-2.5 bg-slate-800 text-slate-300 rounded-lg font-bold uppercase tracking-wider text-xs disabled:opacity-30 disabled:cursor-not-allowed hover:bg-slate-700 transition-colors flex items-center gap-2"
+                className="px-5 py-2.5 bg-slate-800 text-slate-300 rounded-lg font-bold uppercase tracking-wider text-xs disabled:opacity-30 disabled:cursor-not-allowed hover:bg-slate-700 transition-colors flex items-center gap-2 cursor-pointer"
               >
                 <ChevronLeft size={16} /> Back
               </button>
@@ -719,16 +1066,16 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
                 {currentStep < STEPS.length - 1 ? (
                   <button
                     onClick={handleNext}
-                    className="px-6 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg font-bold uppercase tracking-wider text-xs shadow-[0_0_15px_rgba(8,145,178,0.3)] transition-all flex items-center gap-2"
+                    className="px-6 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg font-bold uppercase tracking-wider text-xs shadow-[0_0_15px_rgba(8,145,178,0.3)] transition-all flex items-center gap-2 cursor-pointer"
                   >
                     Next <ChevronRight size={16} />
                   </button>
                 ) : (
                   <button
                     onClick={handleFinish}
-                    className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-bold uppercase tracking-wider text-xs shadow-[0_0_15px_rgba(16,185,129,0.3)] transition-all flex items-center gap-2"
+                    className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-bold uppercase tracking-wider text-xs shadow-[0_0_15px_rgba(16,185,129,0.3)] transition-all flex items-center gap-2 cursor-pointer"
                   >
-                    <Check size={16} /> Finalize
+                    <Check size={16} /> Finalize & Deploy to Folio
                   </button>
                 )}
               </div>

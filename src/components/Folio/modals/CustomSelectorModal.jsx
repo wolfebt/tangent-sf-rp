@@ -2,13 +2,26 @@ import React, { useState, useEffect } from 'react';
 import { db } from '../../../firebase';
 import { collection, getDocs, onSnapshot } from 'firebase/firestore';
 
+import { DEFAULT_SKILLS } from '../../../data/skillsData';
+import { DEFAULT_FEATURES } from '../../../data/featuresData';
+
+// Flatten canonical skills for browsing
+const ALL_DEFAULT_SKILLS = Object.values(DEFAULT_SKILLS).flatMap(groups =>
+  groups.flatMap(g => g.skills.map(s => ({
+    ...s,
+    category: s.group ? (s.group.charAt(0).toUpperCase() + s.group.slice(1)) : 'General',
+    cp: 1
+  })))
+);
+
 // Clean fallback schema defaults
 const FALLBACK_DATA = {
   species: [],
   occupations: [],
   origins: [],
   factions: [],
-  features: [],
+  features: DEFAULT_FEATURES,
+  skills: ALL_DEFAULT_SKILLS,
   disadvantages: [],
   augmentations: [],
   equipment: [],
