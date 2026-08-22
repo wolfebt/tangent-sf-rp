@@ -173,9 +173,13 @@ const PrintFolio = ({ characterData, isScreenPreview = false }) => {
             <span className="font-semibold font-mono">{getStr('char-age')}</span>
           </div>
 
-          <div className="col-span-8 folio-box p-1">
+          <div className="col-span-4 folio-box p-1">
             <span className="font-bold uppercase text-[8px] block">CONCEPT</span>
             <span className="font-semibold">{getStr('char-concept')}</span>
+          </div>
+          <div className="col-span-4 folio-box p-1">
+            <span className="font-bold uppercase text-[8px] block">ARCHETYPE</span>
+            <span className="font-semibold">{getStr('char-archetype') || '—'}</span>
           </div>
           <div className="col-span-4 folio-box p-1">
             <span className="font-bold uppercase text-[8px] block">GENDER</span>

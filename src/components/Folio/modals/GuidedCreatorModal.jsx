@@ -2,9 +2,23 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useFolio } from '../../../context/FolioContext';
 import { db } from '../../../firebase';
 import { collection, getDocs } from 'firebase/firestore';
-import { X, ChevronRight, ChevronLeft, Check, Search, Shield, Target, User, Sparkles, BookOpen, Layers, Plus } from 'lucide-react';
+import { X, ChevronRight, ChevronLeft, Check, Search, Shield, Target, User, Sparkles, BookOpen, Layers, Plus, Compass } from 'lucide-react';
 import { DEFAULT_SKILLS } from '../../../data/skillsData';
 import { DEFAULT_FEATURES, FEATURE_CATEGORIES } from '../../../data/featuresData';
+import { DEFAULT_ARCHETYPES, ARCHETYPE_SPHERES } from '../../../data/archetypesData';
+import { DEFAULT_SPECIES } from '../../../data/speciesData';
+
+const mapAttrToDraftKey = (attrName) => {
+  if (!attrName) return null;
+  const lower = attrName.toLowerCase().trim();
+  if (lower.includes('strength') || lower.includes('might')) return 'strength';
+  if (lower.includes('agility') || lower.includes('reflex')) return 'agility';
+  if (lower.includes('stamina') || lower.includes('constitution') || lower.includes('fortitude')) return 'stamina';
+  if (lower.includes('intellect') || lower.includes('logic') || lower.includes('technology') || lower.includes('history')) return 'intellect';
+  if (lower.includes('wisdom') || lower.includes('will') || lower.includes('insight') || lower.includes('spirit')) return 'wisdom';
+  if (lower.includes('charisma') || lower.includes('etiquette') || lower.includes('social')) return 'charisma';
+  return null;
+};
 
 const STEPS = [
   { id: 'concept', title: 'Concept & Identity', desc: 'Basic Biography' },
@@ -20,6 +34,7 @@ const STEPS = [
 const INITIAL_DRAFT = {
   'char-name': '',
   'char-concept': '',
+  'char-archetype': '',
   'char-species': '',
   'char-origin': '',
   'char-faction': '',
@@ -101,7 +116,8 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
 
   // Data Caches
   const [dbData, setDbData] = useState({
-    species: [],
+    archetypes: DEFAULT_ARCHETYPES,
+    species: DEFAULT_SPECIES,
     origins: [],
     factions: [],
     occupations: [],
@@ -112,6 +128,9 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
 
   // Selected object tracking
   const [selectedSpeciesObj, setSelectedSpeciesObj] = useState(null);
+  const [selectedArchetypeObj, setSelectedArchetypeObj] = useState(null);
+  const [archetypeSphereFilter, setArchetypeSphereFilter] = useState('All');
+  const [chassisApplied, setChassisApplied] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -122,8 +141,9 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
         fetchCollectionWithFallback('factions', 'omnicortex/factions/items'),
         fetchCollectionWithFallback('occupations', 'omnicortex/occupations/items'),
         fetchCollectionWithFallback('skills', 'omnicortex/skills/items'),
-        fetchCollectionWithFallback('features', 'omnicortex/features/items')
-      ]).then(([species, origins, factions, occupations, cloudSkills, cloudFeatures]) => {
+        fetchCollectionWithFallback('features', 'omnicortex/features/items'),
+        fetchCollectionWithFallback('archetypes', 'omnicortex/archetypes/items')
+      ]).then(([species, origins, factions, occupations, cloudSkills, cloudFeatures, cloudArchetypes]) => {
         // Merge cloud skills with canonical defaults
         const skillMap = new Map();
         ALL_CANONICAL_SKILLS.forEach(s => skillMap.set(s.name.toLowerCase(), s));
@@ -140,8 +160,26 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
           if (name) featureMap.set(name.toLowerCase(), { ...f, name, cp: f.cp || 3 });
         });
 
+        // Merge cloud archetypes with canonical defaults
+        const archetypeMap = new Map();
+        DEFAULT_ARCHETYPES.forEach(a => archetypeMap.set(a.name.toLowerCase(), a));
+        cloudArchetypes.forEach(a => {
+          const name = a.name || a.title;
+          if (name) archetypeMap.set(name.toLowerCase(), { ...a, name });
+        });
+
+        // Merge cloud species with canonical defaults
+        const speciesMap = new Map();
+        DEFAULT_SPECIES.forEach(sp => speciesMap.set((sp.id || sp.name).toLowerCase(), sp));
+        species.forEach(sp => {
+          const name = sp.name || sp.title;
+          const key = (sp.id || name || '').toLowerCase();
+          if (key) speciesMap.set(key, { ...sp, name: name || key });
+        });
+
         setDbData({
-          species: species.length > 0 ? species : [],
+          archetypes: Array.from(archetypeMap.values()),
+          species: Array.from(speciesMap.values()),
           origins: origins.length > 0 ? origins : [],
           factions: factions.length > 0 ? factions : [],
           occupations: occupations.length > 0 ? occupations : [],
@@ -296,6 +334,7 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
       // Basic Identity Fields
       'char-name': draft['char-name']?.trim() || 'Unnamed Operative',
       'char-concept': draft['char-concept']?.trim() || '',
+      'char-archetype': draft['char-archetype'] || '',
       'char-species': draft['char-species'] || '',
       'char-origin': draft['char-origin'] || '',
       'char-faction': draft['char-faction'] || '',
@@ -378,84 +417,259 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
     setDraft(prev => ({ ...prev, [key]: value }));
   };
 
+  const applyArchetypeChassis = (arch) => {
+    if (!arch) return;
+    const primKey = mapAttrToDraftKey(arch.primary_attribute);
+    const secKey = mapAttrToDraftKey(arch.secondary_attribute);
+
+    setDraft(prev => {
+      const next = { ...prev };
+      next['char-archetype'] = arch.name;
+      if (primKey) next[primKey] = 3;
+      if (secKey) next[secKey] = 2;
+      if (!next['char-concept'] || next['char-concept'] === 'Unnamed Operative') {
+        next['char-concept'] = arch.core_concept || arch.name;
+      }
+      if (!next['char-motive']) {
+        next['char-motive'] = arch.tactical_role || '';
+      }
+
+      // Pre-allocate Essential Skills into general allocations
+      const currentSkills = { ...next.generalAllocations?.skills };
+      (arch.essential_skills || []).forEach((skName, idx) => {
+        const clean = skName.replace(/\s*\(.*\)/, '').trim();
+        currentSkills[clean] = idx < 4 ? 6 : 3;
+      });
+
+      // Pre-allocate Signature Features into general allocations
+      const currentFeats = [...(next.generalAllocations?.features || [])];
+      (arch.signature_features || []).forEach(fName => {
+        if (!currentFeats.includes(fName)) currentFeats.push(fName);
+      });
+
+      next.generalAllocations = {
+        ...next.generalAllocations,
+        skills: currentSkills,
+        features: currentFeats
+      };
+
+      return next;
+    });
+    setSelectedArchetypeObj(arch);
+    setChassisApplied(true);
+  };
+
   // ------------------- STEP RENDERS -------------------
   
-  const renderConcept = () => (
-    <div className="space-y-6 max-w-2xl mx-auto">
-      <div>
-        <h3 className="text-xl font-bold text-cyan-400">Concept & Identity</h3>
-        <p className="text-sm text-slate-400">Establish the baseline identity, physical profile, and narrative foundation of your operative.</p>
-      </div>
-      
-      <div className="space-y-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+  const renderConcept = () => {
+    const filteredArchetypes = (dbData.archetypes || []).filter(a => {
+      if (archetypeSphereFilter === 'All') return true;
+      return (a.sphere || '').toLowerCase().includes(archetypeSphereFilter.toLowerCase());
+    });
+
+    return (
+      <div className="space-y-6 max-w-2xl mx-auto">
+        <div>
+          <h3 className="text-xl font-bold text-cyan-400">Concept & Identity</h3>
+          <p className="text-sm text-slate-400">Establish the baseline identity, physical profile, narrative foundation, and optional Archetype chassis of your operative.</p>
+        </div>
+        
+        <div className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bold text-slate-300 mb-1">Operative Name / Callsign</label>
+              <input 
+                type="text" value={draft['char-name']} onChange={e => updateDraft('char-name', e.target.value)}
+                className="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 text-white focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all" 
+                placeholder="e.g. Commander Xy'larra, Dash Rendar" 
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-slate-300 mb-1">Character Concept</label>
+              <input 
+                type="text" value={draft['char-concept']} onChange={e => updateDraft('char-concept', e.target.value)}
+                className="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 text-white focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all" 
+                placeholder="e.g. Cybernetic Infiltrator, Void Diplomat" 
+              />
+            </div>
+          </div>
+
+          {/* Archetype Chassis Selector (Optional) */}
+          <div className="p-4 bg-slate-900/90 border border-cyan-500/30 rounded-xl space-y-3 shadow-lg">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Compass size={18} className="text-cyan-400" />
+                <span className="text-sm font-bold text-white uppercase tracking-wider">Archetype Chassis (Optional 80-BP Blueprint)</span>
+              </div>
+              <span className="text-[11px] font-semibold text-slate-400">100 Tangent Archetypes</span>
+            </div>
+
+            {/* Sphere Filter Pills */}
+            <div className="flex flex-wrap gap-1.5 pt-1">
+              {['All', 'Sentinels', 'Operatives', 'Visionaries', 'Savants'].map(sp => (
+                <button
+                  key={sp}
+                  type="button"
+                  onClick={() => setArchetypeSphereFilter(sp)}
+                  className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-all ${
+                    archetypeSphereFilter === sp 
+                      ? 'bg-cyan-500 text-slate-950 font-bold shadow' 
+                      : 'bg-slate-800 text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  {sp}
+                </button>
+              ))}
+            </div>
+
+            {/* Archetype Select Dropdown */}
+            <div>
+              <select
+                value={draft['char-archetype'] || ''}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  updateDraft('char-archetype', val);
+                  const found = (dbData.archetypes || []).find(a => a.name === val || a.id === val);
+                  setSelectedArchetypeObj(found || null);
+                  setChassisApplied(false);
+                }}
+                className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white text-xs focus:border-cyan-500 outline-none"
+              >
+                <option value="">-- No Archetype (Custom Open Point-Buy) --</option>
+                {filteredArchetypes.map(a => (
+                  <option key={a.id || a.name} value={a.name}>
+                    {a.name} ({a.sphere?.split(' ')[0] || 'Archetype'}) — {a.core_concept || a.primary_attribute + ' / ' + a.secondary_attribute}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Archetype Details Card */}
+            {selectedArchetypeObj && (
+              <div className="p-3 bg-slate-950/80 border border-slate-800 rounded-lg space-y-2 text-xs">
+                <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                  <div>
+                    <span className="font-bold text-white text-sm">{selectedArchetypeObj.name}</span>
+                    <span className="text-[10px] ml-2 px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800">
+                      {selectedArchetypeObj.sphere}
+                    </span>
+                  </div>
+                  <span className="text-[11px] font-mono text-cyan-400 font-bold">80 BP Chassis</span>
+                </div>
+
+                {selectedArchetypeObj.core_concept && (
+                  <p className="text-slate-300 italic text-[11px]">
+                    "{selectedArchetypeObj.core_concept}"
+                  </p>
+                )}
+
+                <div className="grid grid-cols-2 gap-2 text-[11px]">
+                  <div>
+                    <span className="text-slate-500 font-semibold block">Key Attributes:</span>
+                    <span className="text-cyan-300 font-bold">+3 {selectedArchetypeObj.primary_attribute}</span>
+                    <span className="text-slate-400">, </span>
+                    <span className="text-amber-300 font-bold">+2 {selectedArchetypeObj.secondary_attribute}</span>
+                  </div>
+                  <div>
+                    <span className="text-slate-500 font-semibold block">Tactical Role:</span>
+                    <span className="text-slate-300">{selectedArchetypeObj.tactical_role || 'Specialist'}</span>
+                  </div>
+                </div>
+
+                {selectedArchetypeObj.essential_skills?.length > 0 && (
+                  <div className="text-[11px]">
+                    <span className="text-slate-500 font-semibold block">Essential Skills:</span>
+                    <span className="text-slate-300">{selectedArchetypeObj.essential_skills.join(', ')}</span>
+                  </div>
+                )}
+
+                {selectedArchetypeObj.signature_features?.length > 0 && (
+                  <div className="text-[11px]">
+                    <span className="text-slate-500 font-semibold block">Signature Features:</span>
+                    <span className="text-slate-300">{selectedArchetypeObj.signature_features.join(', ')}</span>
+                  </div>
+                )}
+
+                <div className="pt-2">
+                  {!chassisApplied ? (
+                    <button
+                      type="button"
+                      onClick={() => applyArchetypeChassis(selectedArchetypeObj)}
+                      className="w-full py-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-lg shadow-lg flex items-center justify-center gap-2 text-xs transition-all cursor-pointer"
+                    >
+                      <Sparkles size={14} />
+                      Apply 80-BP Archetype Chassis (+3 Prim, +2 Sec, Skills & Features)
+                    </button>
+                  ) : (
+                    <div className="p-2 bg-emerald-950/60 border border-emerald-500/40 rounded-lg text-xs text-emerald-300 flex items-center justify-between">
+                      <span className="flex items-center gap-2">
+                        <Check size={14} className="text-emerald-400"/>
+                        80-BP Chassis Applied (+3 {selectedArchetypeObj.primary_attribute}, +2 {selectedArchetypeObj.secondary_attribute}, Skills & Features).
+                      </span>
+                      <button 
+                        type="button"
+                        onClick={() => applyArchetypeChassis(selectedArchetypeObj)} 
+                        className="text-xs underline text-emerald-400 hover:text-emerald-200 cursor-pointer"
+                      >
+                        Re-apply
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="grid grid-cols-4 gap-3">
+            <div>
+              <label className="block text-xs font-bold text-slate-300 mb-1">Age</label>
+              <input type="text" value={draft['char-age']} onChange={e => updateDraft('char-age', e.target.value)} className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-xs" placeholder="28" />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-slate-300 mb-1">Gender / Pronouns</label>
+              <input type="text" value={draft['char-gender']} onChange={e => updateDraft('char-gender', e.target.value)} className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-xs" placeholder="Female / They" />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-slate-300 mb-1">Height</label>
+              <input type="text" value={draft['char-height']} onChange={e => updateDraft('char-height', e.target.value)} className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-xs" placeholder="1.85m" />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-slate-300 mb-1">Weight</label>
+              <input type="text" value={draft['char-weight']} onChange={e => updateDraft('char-weight', e.target.value)} className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-xs" placeholder="78kg" />
+            </div>
+          </div>
+
           <div>
-            <label className="block text-xs font-bold text-slate-300 mb-1">Operative Name / Callsign</label>
+            <label className="block text-xs font-bold text-slate-300 mb-1">Physical Style & Appearance</label>
             <input 
-              type="text" value={draft['char-name']} onChange={e => updateDraft('char-name', e.target.value)}
-              className="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 text-white focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all" 
-              placeholder="e.g. Commander Xy'larra, Dash Rendar" 
+              type="text" value={draft['char-style']} onChange={e => updateDraft('char-style', e.target.value)}
+              className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white text-xs focus:border-cyan-500 outline-none" 
+              placeholder="e.g. Scuffed blast-vest, neon cyber-optics, rugged traveler coat" 
             />
           </div>
+
           <div>
-            <label className="block text-xs font-bold text-slate-300 mb-1">Character Concept / Archetype</label>
+            <label className="block text-xs font-bold text-slate-300 mb-1">Core Motivation / Driving Goal</label>
             <input 
-              type="text" value={draft['char-concept']} onChange={e => updateDraft('char-concept', e.target.value)}
-              className="w-full bg-slate-950 border border-slate-700 rounded-lg p-3 text-white focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all" 
-              placeholder="e.g. Cybernetic Infiltrator, Void Diplomat" 
+              type="text" value={draft['char-motive']} onChange={e => updateDraft('char-motive', e.target.value)}
+              className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white text-xs focus:border-cyan-500 outline-none" 
+              placeholder="e.g. Pay off debt to the Syndicate, unlock ancient Progenitor ruins" 
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-slate-300 mb-1">Brief Backstory & Origins (Optional)</label>
+            <textarea 
+              rows={2}
+              value={draft.backstory} onChange={e => updateDraft('backstory', e.target.value)}
+              className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white text-xs focus:border-cyan-500 outline-none resize-none" 
+              placeholder="Brief notes on background, past missions, or defining events..." 
             />
           </div>
         </div>
-
-        <div className="grid grid-cols-4 gap-3">
-          <div>
-            <label className="block text-xs font-bold text-slate-300 mb-1">Age</label>
-            <input type="text" value={draft['char-age']} onChange={e => updateDraft('char-age', e.target.value)} className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-xs" placeholder="28" />
-          </div>
-          <div>
-            <label className="block text-xs font-bold text-slate-300 mb-1">Gender / Pronouns</label>
-            <input type="text" value={draft['char-gender']} onChange={e => updateDraft('char-gender', e.target.value)} className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-xs" placeholder="Female / They" />
-          </div>
-          <div>
-            <label className="block text-xs font-bold text-slate-300 mb-1">Height</label>
-            <input type="text" value={draft['char-height']} onChange={e => updateDraft('char-height', e.target.value)} className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-xs" placeholder="1.85m" />
-          </div>
-          <div>
-            <label className="block text-xs font-bold text-slate-300 mb-1">Weight</label>
-            <input type="text" value={draft['char-weight']} onChange={e => updateDraft('char-weight', e.target.value)} className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-xs" placeholder="78kg" />
-          </div>
-        </div>
-
-        <div>
-          <label className="block text-xs font-bold text-slate-300 mb-1">Physical Style & Appearance</label>
-          <input 
-            type="text" value={draft['char-style']} onChange={e => updateDraft('char-style', e.target.value)}
-            className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white text-xs focus:border-cyan-500 outline-none" 
-            placeholder="e.g. Scuffed blast-vest, neon cyber-optics, rugged traveler coat" 
-          />
-        </div>
-
-        <div>
-          <label className="block text-xs font-bold text-slate-300 mb-1">Core Motivation / Driving Goal</label>
-          <input 
-            type="text" value={draft['char-motive']} onChange={e => updateDraft('char-motive', e.target.value)}
-            className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white text-xs focus:border-cyan-500 outline-none" 
-            placeholder="e.g. Pay off debt to the Syndicate, unlock ancient Progenitor ruins" 
-          />
-        </div>
-
-        <div>
-          <label className="block text-xs font-bold text-slate-300 mb-1">Brief Backstory & Origins (Optional)</label>
-          <textarea 
-            rows={2}
-            value={draft.backstory} onChange={e => updateDraft('backstory', e.target.value)}
-            className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white text-xs focus:border-cyan-500 outline-none resize-none" 
-            placeholder="Brief notes on background, past missions, or defining events..." 
-          />
-        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   const renderSelectionList = (title, items, selectedName, onSelect, icon = <User size={16}/>) => (
     <div className="space-y-4 max-w-4xl mx-auto h-full flex flex-col">
@@ -993,7 +1207,11 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-4 border-b border-slate-800 pb-4">
+          <div className="grid grid-cols-4 gap-4 border-b border-slate-800 pb-4">
+            <div>
+              <span className="text-xs font-bold text-slate-500 block uppercase">Archetype</span>
+              <span className="font-bold text-emerald-400">{draft['char-archetype'] || 'Custom'}</span>
+            </div>
             <div>
               <span className="text-xs font-bold text-slate-500 block uppercase">Species</span>
               <span className="font-bold text-cyan-300">{draft['char-species'] || 'None'}</span>

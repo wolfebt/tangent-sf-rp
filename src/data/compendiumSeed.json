@@ -992,5 +992,19 @@
     "guide": "Use these geometric templates when placing AoE spell templates on Foundry battle maps.",
     "note": "Solid barriers absorb damage before allowing AoE blast waves to pass through.",
     "updatedAt": "2026-08-22T18:05:13.892Z"
+  },
+  {
+    "id": "1-03-species-catalog-and-taxonomy",
+    "name": "1.03 Species Catalog & Master Build Point Matrix",
+    "category": "compendium",
+    "parent": "1.00 CHARACTER CREATION & ECONOMY",
+    "order": 3,
+    "perspective": "operator",
+    "entry_type": "Operator Rule",
+    "description": "# 1.03 Species Catalog & Master Build Point Matrix\n\nPlayer characters in Tangent Science Fantasy Roleplay choose from a diverse array of species and transhuman lineages. Each species represents a biological, cybernetic, or metaphysical baseline with associated **Build Point (BP) costs**, attribute modifiers, skill allowances, and distinct traits.\n\n---\n\n## 1. Species Point Economy\n\n- **BP Cost Range:** Species costs range from **10 BP** (Base Humans) up to **35+ BP** for advanced synthetics and **80+ BP** for deific precursor archetypes.\n- **Inherent Ability Modifiers:** Calculated at **4 BP per +1 Ability Score** (or -5 BP Disadvantage for -1).\n- **Skill Bonus Packages:** Calculated at **4 BP per set of 5 Skill Ranks** (+16 BP for +20 skills).\n- **Inherent Traits & Features:** Categorized as Basic (1 BP), Advanced (2 BP), or Elite (4 BP).\n- **Recommended Features:** When purchasing features recommended for your species during character creation, receive a **1 BP discount** (minimum cost 1 BP).\n- **Social Stigmas:** Social reaction penalties range from **Minor (-1 BP)**, **Typical (-2 BP)**, to **Severe (-4 BP)**, which also dictate the **Alien Mind Factor** modifier for mental contact.\n\n---\n\n## 2. Major Galactic Lineages\n\n| Lineage | Defining Taxon | Key Adaptations |\n| :--- | :--- | :--- |\n| **Aeld** | Humanoid | 600+ yr lifespan, sleepless, arcane affinity, high magi-tech. |\n| **Asi (Fey)** | Fey | Ageless, obfuscation, diminutive/winged/shifter taxons. |\n| **Aulurans** | Humanoid / Beast | Feline biology, bio-tech weapons, caste taxonomy (Dar, Koda, Graa, Prokos). |\n| **Humans** | Humanoid | Adaptability, versatile skill pools, wide transhuman offshoots. |\n| **Engineered (Gen-E)** | Humanoid | Laboratory genetics, psionic hives, corporate shock troopers. |\n| **Kitin** | Insectoid Aberration | Chitin plating, multi-limbed dexterity, hive psionics. |\n| **Synthetics** | Synthetic | Digital mind advantage, damage resistance (DR 5/-), immune to biology. |\n| **Sha'nor** | Void Aberration | Semi-corporeal, void step, regeneration, matter phasing. |\n| **Progenitors** | Deific Precursor | Deific reality shaping, temporal folds, cosmic attunement. |\n\n---\n\n## 3. Selecting a Species in Persona Folio\n\n1. Open the **Persona Folio** character sheet or launch the **Guided Creator Wizard**.\n2. Select your desired Species from the Omnicortex taxonomy.\n3. Your character sheet automatically applies inherent attribute bonuses, unlocks bonus skill points, and assigns default species features.",
+    "mechanic": "SpeciesCost = BaseTaxonCost + (AttributeBonus * 4) + (SkillRanks / 5 * 4) + TraitCosts - StigmaDiscounts\nFolioRemainingBP = TotalBP - SpeciesCost",
+    "guide": "1. Select a Species in the Guided Creator.\n2. Inherent attribute modifiers and traits are applied automatically.\n3. Distribute any floating Bonus Attribute or Skill Points.",
+    "note": "Characters may customize species features within their allotted point pools, subject to Architect approval.",
+    "updatedAt": "2026-08-22T22:00:02.776Z"
   }
 ]

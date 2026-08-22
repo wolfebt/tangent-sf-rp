@@ -45,6 +45,7 @@ const DEFAULT_CHARACTER = {
   ownerUid: '',
   'char-name': '',
   'char-concept': '',
+  'char-archetype': '',
   'char-species': '',
   'char-occu': '',
   'char-origin': '',
@@ -645,12 +646,14 @@ export const FolioProvider = ({ children }) => {
     const occuObj = resolveItem('char-occu', 'occupations');
     const originObj = resolveItem('char-origin', 'origins');
     const factionObj = resolveItem('char-faction', 'factions');
+    const archetypeObj = resolveItem('char-archetype', 'archetypes');
 
     const identityPools = {
       species: processIdentity(speciesObj, 'species', 'Species'),
       occupation: processIdentity(occuObj, 'occu', 'Occupation'),
       origin: processIdentity(originObj, 'origin', 'Origin'),
-      faction: processIdentity(factionObj, 'faction', 'Faction')
+      faction: processIdentity(factionObj, 'faction', 'Faction'),
+      archetype: processIdentity(archetypeObj, 'archetype', 'Archetype')
     };
 
     // Also process features for active modifiers
@@ -680,6 +683,7 @@ export const FolioProvider = ({ children }) => {
       identityPools
     };
   }, [
+    characterData['char-archetype'],
     characterData['char-species'],
     characterData['char-occu'],
     characterData['char-origin'],
@@ -1399,8 +1403,9 @@ export const FolioProvider = ({ children }) => {
       return defaultCost;
     };
 
-    // 1. Identity Selections (Species, Occupation, Origin, Faction)
+    // 1. Identity Selections (Species, Occupation, Origin, Faction, Archetype)
     const identityEntries = [
+      { key: 'char-archetype', label: 'Archetype' },
       { key: 'char-species', label: 'Species' },
       { key: 'char-occu', label: 'Occupation' },
       { key: 'char-origin', label: 'Origin' },
@@ -1843,6 +1848,7 @@ export const FolioProvider = ({ children }) => {
     id: characterData['character-doc-id'] || characterData.id || 'char_active',
     name: characterData['char-name'] || 'Active Hero',
     concept: characterData['char-concept'] || '',
+    archetype: characterData['char-archetype'] || '',
     species: characterData['char-species'] || '',
     occupation: characterData['char-occu'] || '',
     health: characterData.health || derivedStats.health,

@@ -68,6 +68,7 @@ export const characterSchema = z.object({
   ownerUid: z.string().optional().default(''),
   'char-name': z.string().optional().default(''),
   'char-concept': z.string().optional().default(''),
+  'char-archetype': z.string().optional().default(''),
   'char-species': z.string().optional().default(''),
   'char-occu': z.string().optional().default(''),
   'char-origin': z.string().optional().default(''),

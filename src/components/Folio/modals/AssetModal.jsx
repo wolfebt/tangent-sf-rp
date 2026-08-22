@@ -26,6 +26,7 @@ const AssetModal = ({
   else if (key === 'awakened') targetKey = 'awakened';
   else if (key === 'invocations') targetKey = 'invocations';
   else if (key === 'special_abilities') targetKey = 'special_abilities';
+  else if (['char-archetype', 'archetypes'].includes(key)) targetKey = 'archetypes';
   else if (['char-species', 'species'].includes(key)) targetKey = 'species';
   else if (['char-occu', 'occupations'].includes(key)) targetKey = 'occupations';
   else if (['char-origin', 'origins'].includes(key)) targetKey = 'origins';

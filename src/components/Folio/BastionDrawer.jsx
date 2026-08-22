@@ -6,6 +6,7 @@ import { sendBastionChatMessage, parseRollCommand, generateSelectiveFields } fro
 const CHARACTER_FIELDS = [
   // Core Identity
   { key: 'char-name', label: 'Character Name', category: 'Core Identity' },
+  { key: 'char-archetype', label: 'Archetype', category: 'Core Identity' },
   { key: 'char-species', label: 'Species', category: 'Core Identity' },
   { key: 'char-occu', label: 'Occupation / Role', category: 'Core Identity' },
   { key: 'char-origin', label: 'Origin / Homeworld', category: 'Core Identity' },

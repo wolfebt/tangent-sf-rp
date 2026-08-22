@@ -6,6 +6,8 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { commitChunkedBatches } from '../utils/firestoreUtils';
 import { validateDbmEntry } from '../utils/dbmValidators';
 import compendiumSeedData from '../data/compendiumSeed.json';
+import { DEFAULT_ARCHETYPES } from '../data/archetypesData';
+import { DEFAULT_SPECIES } from '../data/speciesData';
 
 const DBMContext = createContext(null);
 
@@ -13,7 +15,9 @@ export const useDBM = () => useContext(DBMContext);
 
 export const DBMProvider = ({ children }) => {
   const [dbData, setDbData] = useState({
-    compendium: compendiumSeedData
+    compendium: compendiumSeedData,
+    archetypes: DEFAULT_ARCHETYPES,
+    species: DEFAULT_SPECIES
   });
   const [currentUser, setCurrentUser] = useState(auth?.currentUser || null);
   const [isLoading, setIsLoading] = useState(true);
@@ -73,10 +77,18 @@ export const DBMProvider = ({ children }) => {
           refCol,
           (snapshot) => {
             let items = snapshot.docs.map(d => ({ ...d.data(), id: d.id }));
-            // If compendium is empty or smaller than the canonical seed, ensure all seed items are available locally
+            // If compendium, archetypes, or species is empty or smaller than the canonical seed, ensure all seed items are available locally
             if ((catK === 'compendium' || catK === 'rules_codex') && items.length < compendiumSeedData.length) {
               const existingIds = new Set(items.map(i => i.id || (i.name || '').toLowerCase()));
               const missingSeeds = compendiumSeedData.filter(s => !existingIds.has(s.id) && !existingIds.has(s.name.toLowerCase()));
+              items = [...items, ...missingSeeds];
+            } else if (catK === 'archetypes' && items.length < DEFAULT_ARCHETYPES.length) {
+              const existingIds = new Set(items.map(i => i.id || (i.name || '').toLowerCase()));
+              const missingSeeds = DEFAULT_ARCHETYPES.filter(s => !existingIds.has(s.id) && !existingIds.has(s.name.toLowerCase()));
+              items = [...items, ...missingSeeds];
+            } else if (catK === 'species' && items.length < DEFAULT_SPECIES.length) {
+              const existingIds = new Set(items.map(i => i.id || (i.name || '').toLowerCase()));
+              const missingSeeds = DEFAULT_SPECIES.filter(s => !existingIds.has(s.id) && !existingIds.has(s.name.toLowerCase()));
               items = [...items, ...missingSeeds];
             }
             setDbData(prev => ({ ...prev, [catK]: items }));
@@ -87,9 +99,13 @@ export const DBMProvider = ({ children }) => {
           },
           (err) => {
             console.warn(`[DBMContext] Listener notice for collection "${catK}":`, err.message);
-            // Fallback for compendium if listener fails
+            // Fallback for compendium, archetypes, and species if listener fails
             if (catK === 'compendium' || catK === 'rules_codex') {
               setDbData(prev => ({ ...prev, [catK]: compendiumSeedData }));
+            } else if (catK === 'archetypes') {
+              setDbData(prev => ({ ...prev, [catK]: DEFAULT_ARCHETYPES }));
+            } else if (catK === 'species') {
+              setDbData(prev => ({ ...prev, [catK]: DEFAULT_SPECIES }));
             }
             pendingCount--;
             if (pendingCount <= 0) {
@@ -102,6 +118,10 @@ export const DBMProvider = ({ children }) => {
         console.warn(`[DBMContext] Init error on collection "${catK}":`, e);
         if (catK === 'compendium' || catK === 'rules_codex') {
           setDbData(prev => ({ ...prev, [catK]: compendiumSeedData }));
+        } else if (catK === 'archetypes') {
+          setDbData(prev => ({ ...prev, [catK]: DEFAULT_ARCHETYPES }));
+        } else if (catK === 'species') {
+          setDbData(prev => ({ ...prev, [catK]: DEFAULT_SPECIES }));
         }
         pendingCount--;
         if (pendingCount <= 0) {
@@ -143,6 +163,37 @@ export const DBMProvider = ({ children }) => {
         type: 'error',
         title: 'Sync Failed',
         text: err.message || 'Could not sync compendium to Firestore.'
+      });
+      return false;
+    }
+  }, [showToast]);
+
+  // Sync all Canonical Species to Firestore Cloud
+  const syncCanonicalSpecies = useCallback(async () => {
+    try {
+      showToast({ type: 'info', title: 'Syncing...', text: `Syncing ${DEFAULT_SPECIES.length} canonical species to cloud...` });
+      const operations = DEFAULT_SPECIES.map(item => ({
+        ref: doc(db, 'species', item.id),
+        data: {
+          ...item,
+          updatedAt: new Date().toISOString()
+        },
+        merge: true
+      }));
+
+      await commitChunkedBatches(operations, 450);
+      showToast({
+        type: 'success',
+        title: 'Species Synced',
+        text: `All ${DEFAULT_SPECIES.length} canonical species successfully synced to Firestore.`
+      });
+      return true;
+    } catch (err) {
+      console.error('[DBMContext] syncCanonicalSpecies failed:', err);
+      showToast({
+        type: 'error',
+        title: 'Sync Failed',
+        text: err.message || 'Could not sync species to Firestore.'
       });
       return false;
     }
@@ -413,7 +464,8 @@ export const DBMProvider = ({ children }) => {
       saveEntry,
       deleteEntry,
       importJSON,
-      syncCanonicalCompendium
+      syncCanonicalCompendium,
+      syncCanonicalSpecies
     }}>
       {children}
     </DBMContext.Provider>

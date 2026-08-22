@@ -13,7 +13,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
   const [manualMode, setManualMode] = useState({});
 
   useEffect(() => {
-    const paths = ['species', 'occupations', 'origins', 'factions'];
+    const paths = ['species', 'occupations', 'origins', 'factions', 'archetypes'];
     const unsubs = paths.map(path => {
       try {
         const colRef = collection(db, path);
@@ -56,6 +56,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
           }
         };
 
+        checkField('char-archetype', 'archetypes');
         checkField('char-species', 'species');
         checkField('char-occu', 'occupations');
         checkField('char-origin', 'origins');
@@ -158,6 +159,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
             placeholder="Enter Character Concept..."
           />
 
+          {renderPickerField('char-archetype', 'Archetype (Optional)', 'Enter Archetype Name or Concept...', 'archetypes')}
           {renderPickerField('char-species', 'Species', 'Enter Species Name...', 'species')}
           {renderPickerField('char-occu', 'Occupation', 'Enter Occupation Name...', 'occupations')}
           {renderPickerField('char-origin', 'Origin', 'Enter Origin Name...', 'origins')}

@@ -139,6 +139,23 @@ const FolioContainer = () => {
           }
         }
       }
+
+      // Auto-prompt archetype signature features if present
+      if (key === 'char-archetype' && typeof taggedData === 'object') {
+        if (Array.isArray(taggedData.signature_features) && taggedData.signature_features.length > 0) {
+          const featListStr = taggedData.signature_features.map(f => typeof f === 'object' ? (f.name || f.id) : f).join(', ');
+          const autoApply = window.confirm(`Selected Archetype "${name}" includes recommended Signature Features (${featListStr}). Would you like to add these signature features to your character features list?`);
+          if (autoApply) {
+            taggedData.signature_features.forEach(feat => {
+              const featName = typeof feat === 'object' ? (feat.name || feat.title || feat.id) : feat;
+              const featObj = typeof feat === 'object'
+                ? attachCreatorTag({ ...feat, category: feat.category || 'Archetype Signature', cp: feat.cp !== undefined ? feat.cp : 2 }, userHandle, currentUser)
+                : attachCreatorTag({ id: `feat_arch_${Date.now()}_${Math.random().toString(36).substring(2,6)}`, name: featName, cp: 2, category: 'Archetype Signature' }, userHandle, currentUser);
+              handleAddItem('features', featObj);
+            });
+          }
+        }
+      }
     } else if (index !== null && index !== undefined && index >= 0) {
       handleUpdateItem(key, index, taggedData);
     } else {
@@ -183,6 +200,23 @@ const FolioContainer = () => {
               const featObj = typeof feat === 'object' 
                 ? attachCreatorTag(feat, userHandle, currentUser)
                 : attachCreatorTag({ id: `feat_${Date.now()}_${Math.random().toString(36).substring(2,6)}`, name: feat, cp: 0, category: 'Species Bonus' }, userHandle, currentUser);
+              handleAddItem('features', featObj);
+            });
+          }
+        }
+      }
+
+      // Auto-prompt archetype signature features if present
+      if (key === 'char-archetype' && typeof value === 'object') {
+        if (Array.isArray(value.signature_features) && value.signature_features.length > 0) {
+          const featListStr = value.signature_features.map(f => typeof f === 'object' ? (f.name || f.id) : f).join(', ');
+          const autoApply = window.confirm(`Selected Archetype "${name}" includes recommended Signature Features (${featListStr}). Would you like to add these signature features to your character features list?`);
+          if (autoApply) {
+            value.signature_features.forEach(feat => {
+              const featName = typeof feat === 'object' ? (feat.name || feat.title || feat.id) : feat;
+              const featObj = typeof feat === 'object'
+                ? attachCreatorTag({ ...feat, category: feat.category || 'Archetype Signature', cp: feat.cp !== undefined ? feat.cp : 2 }, userHandle, currentUser)
+                : attachCreatorTag({ id: `feat_arch_${Date.now()}_${Math.random().toString(36).substring(2,6)}`, name: featName, cp: 2, category: 'Archetype Signature' }, userHandle, currentUser);
               handleAddItem('features', featObj);
             });
           }

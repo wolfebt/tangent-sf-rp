@@ -20,7 +20,8 @@ import {
   Search, 
   ChevronDown, 
   Landmark, 
-  HelpCircle 
+  HelpCircle,
+  Compass 
 } from 'lucide-react';
 
 const CATEGORY_ICONS = {
@@ -29,6 +30,7 @@ const CATEGORY_ICONS = {
   factions: Users,
   origins: Globe,
   occupations: Crosshair,
+  archetypes: Compass,
   skills: Sparkles,
   features: Shield,
   disadvantages: AlertTriangle,

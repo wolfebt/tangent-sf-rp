@@ -127,6 +127,41 @@ export const categoryConfig = {
             note: { type: 'textarea' }
         }
     },
+    archetypes: {
+        label: 'ARCHETYPES',
+        viewType: 'table',
+        directory_columns: ['name', 'sphere', 'core_concept', 'tactical_role', 'primary_attribute', 'secondary_attribute'],
+        fields: {
+            name: { type: 'text', required: true },
+            sphere: { 
+                type: 'select', 
+                label: 'Sphere / Focus', 
+                options: [
+                    'Sentinels (The Stabilizers)',
+                    'Operatives (The Artisans)',
+                    'Visionaries (The Idealists)',
+                    'Savants (The Rationals)'
+                ],
+                required: true 
+            },
+            core_concept: { type: 'text', label: 'Core Concept' },
+            summary: { type: 'textarea', label: 'Summary' },
+            quote: { type: 'text', label: 'Mantra / Quote' },
+            description: { type: 'textarea', aiEnabled: true, label: 'Full Description & Flavor' },
+            tactical_role: { type: 'textarea', label: 'Tactical Role' },
+            primary_attribute: { type: 'text', label: 'Primary Attribute (+3 / 15 BP)' },
+            secondary_attribute: { type: 'text', label: 'Secondary Attribute (+2 / 10 BP)' },
+            key_attributes: { type: 'text', label: 'Key Attributes Formula' },
+            essential_skills: { type: 'multiselect', source: 'skills', label: 'Essential Skills', manageable: true },
+            signature_features: { type: 'multiselect', source: 'features', label: 'Signature Features', manageable: true },
+            recommended_occupations: { type: 'multiselect', source: 'occupations', label: 'Recommended Occupations', manageable: true },
+            recommended_origins: { type: 'multiselect', source: 'origins', label: 'Recommended Origins', manageable: true },
+            recommended_factions: { type: 'multiselect', source: 'factions', label: 'Recommended Factions', manageable: true },
+            bp_chassis: { type: 'number', label: 'Chassis BP Allocation', default: 80 },
+            mechanic: { type: 'textarea', label: 'Mechanics / Scaling Rules' },
+            note: { type: 'textarea', label: 'Architect Notes' }
+        }
+    },
     skills: {
         label: 'SKILLS',
         viewType: 'table',

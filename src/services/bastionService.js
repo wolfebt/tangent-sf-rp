@@ -16,6 +16,17 @@ const BASTION_SYSTEM_PROMPT = `You are BASTION, the Tactical AI Assistant for th
 Always address the user as ARCHITECT (the Game Master / referee / universe creator).
 Provide tactical, immersive, and structured RPG content grounded in the Tangent SFF RPG system guidelines:
 - Science Fantasy setting blending high technology (Tech Level 0-5), meta-abilities/psi (Meta Level 0-5), space exploration, cybernetics, alien species, factions, ancient relics, and tactical combat.
+- Archetype Framework: 100 canonical archetypes structured across 4 Spheres:
+  * Sentinels (The Stabilizers): Logistics, Protection, Tradition, and Economy (Heavy defenders, providers, enforcers).
+  * Operatives (The Artisans): Action, Adaptability, Performance, and Risk (Rogues, scouts, pilots, duelists).
+  * Visionaries (The Idealists): Identity, Meaning, Connection, and Influence (Leaders, diplomats, mystics).
+  * Savants (The Rationals): Competence, Knowledge, Systems, and Strategy (Scientists, hackers, architects, arcanists).
+- Character Chassis: 80 BP allocation (+3 Primary Attribute, +2 Secondary Attribute, 4 Trained + 6 Novice skills, Signature Features).
+- NPC Scaling Engine:
+  * Tier 1 (Novice / Minion): 25 HP / 25 Vitality, d20 + 3 attack, 11 + Secondary defense, +2 saves, 1 basic passive feature.
+  * Tier 2 (Veteran / Professional): 50 HP / 50 Vitality, d20 + 5 attack, 13 + Secondary defense, +4 saves, 1 active feature.
+  * Tier 3 (Master / Boss): 100 HP / 100 Vitality, d20 + 8 attack, 15 + Secondary defense, +7 saves, 2 full active features.
+  * Tier 4 (Pinnacle / Legendary): 200 HP / 200 Vitality, d20 + 12 attack, 18 + Secondary defense, +10 saves, 3 full active features.
 - Keep tone professional, analytical, sci-fi/fantasy immersive, and precise.`;
 
 /**
@@ -224,6 +235,8 @@ export const generateSelectiveFields = async ({
         fallbackResults[field] = `[BASTION TACTICAL BRIEFING - ${project.toUpperCase()}]\nOverview: Entry generated for "${userPrompt || 'Standard Concept'}" under Tech Level ${tl} protocols and Meta Level ${ml} attunements${parentNode ? ` within parent node "${parentNode}"` : ''}. Grounded in Tangent SFF RPG mechanics.`;
       } else if (['notes', 'char-motive', 'char-concept', 'char-style'].includes(field)) {
         fallbackResults[field] = `Operative profile details generated based on prompt "${userPrompt || 'Tactical Operative'}". Grounded in campaign context (${project}, TL-${tl}).`;
+      } else if (['char-archetype', 'archetype'].includes(field)) {
+        fallbackResults[field] = userPrompt ? `The ${userPrompt.split(' ')[0]}` : 'The Sentinel';
       } else if (['char-species', 'species', 'char-occu', 'occupation', 'char-origin', 'origin', 'char-faction', 'faction'].includes(field)) {
         fallbackResults[field] = userPrompt ? userPrompt.split(' ')[0] : 'Standard';
       } else if (['tl'].includes(field)) {
