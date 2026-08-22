@@ -188,7 +188,27 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
     setBpRemaining(150 - spent);
   }, [draft, selectedSpeciesObj]);
 
-  if (!isOpen) return null;
+  // Grouped skills for organized selection (declared unconditionally at top level)
+  const groupedSkillsForSelect = useMemo(() => {
+    const groups = {};
+    dbData.skills.forEach(s => {
+      const gLabel = s.groupLabel || (s.group ? s.group.toUpperCase() : 'GENERAL SKILLS');
+      if (!groups[gLabel]) groups[gLabel] = [];
+      groups[gLabel].push(s);
+    });
+    return groups;
+  }, [dbData.skills]);
+
+  // Grouped features for organized selection (declared unconditionally at top level)
+  const groupedFeaturesForSelect = useMemo(() => {
+    const groups = {};
+    dbData.features.forEach(f => {
+      const cat = f.category || 'General';
+      if (!groups[cat]) groups[cat] = [];
+      groups[cat].push(f);
+    });
+    return groups;
+  }, [dbData.features]);
 
   const handleNext = () => {
     if (currentStep < STEPS.length - 1) setCurrentStep(c => c + 1);
@@ -357,28 +377,6 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
   const updateDraft = (key, value) => {
     setDraft(prev => ({ ...prev, [key]: value }));
   };
-
-  // Grouped skills for organized selection
-  const groupedSkillsForSelect = useMemo(() => {
-    const groups = {};
-    dbData.skills.forEach(s => {
-      const gLabel = s.groupLabel || (s.group ? s.group.toUpperCase() : 'GENERAL SKILLS');
-      if (!groups[gLabel]) groups[gLabel] = [];
-      groups[gLabel].push(s);
-    });
-    return groups;
-  }, [dbData.skills]);
-
-  // Grouped features for organized selection
-  const groupedFeaturesForSelect = useMemo(() => {
-    const groups = {};
-    dbData.features.forEach(f => {
-      const cat = f.category || 'General';
-      if (!groups[cat]) groups[cat] = [];
-      groups[cat].push(f);
-    });
-    return groups;
-  }, [dbData.features]);
 
   // ------------------- STEP RENDERS -------------------
   
@@ -1093,6 +1091,8 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
       default: return null;
     }
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-sm">
