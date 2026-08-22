@@ -177,7 +177,45 @@ service cloud.firestore {
     }
 
     // =========================================================================
-    // 8. FINAL CATCH-ALL: EXPLICIT DENY
+    // 8. COMMLINK RELAY: CHANNELS & MESSAGES
+    // =========================================================================
+    match /channels/{channelId} {
+      // Allow read if channel is public or user is in members or is admin
+      allow read: if resource.data.isPublic == true 
+                  || resource.data.type == 'public'
+                  || (isAuthenticated() && (
+                       (resource.data.members != null && request.auth.uid in resource.data.members)
+                       || resource.data.createdById == request.auth.uid
+                       || isAdmin()
+                     ));
+      allow create: if isAuthenticated() || isAdmin();
+      allow update: if isAuthenticated() && (
+                       resource.data.isPublic == true
+                       || (resource.data.members != null && request.auth.uid in resource.data.members)
+                       || resource.data.createdById == request.auth.uid 
+                       || isAdmin()
+                     );
+      allow delete: if isAuthenticated() && (
+                       !channelId.matches('public_.*') 
+                       && (resource.data.createdById == request.auth.uid || isAdmin())
+                     );
+
+      // Subcollection: Channel Messages
+      match /messages/{messageId} {
+        allow read: if get(/databases/$(database)/documents/channels/$(channelId)).data.isPublic == true
+                    || get(/databases/$(database)/documents/channels/$(channelId)).data.type == 'public'
+                    || (isAuthenticated() && (
+                         request.auth.uid in get(/databases/$(database)/documents/channels/$(channelId)).data.members
+                         || get(/databases/$(database)/documents/channels/$(channelId)).data.createdById == request.auth.uid
+                         || isAdmin()
+                       ));
+        allow create: if isAuthenticated() || isAdmin();
+        allow update, delete: if isAuthenticated() && (resource.data.senderId == request.auth.uid || isAdmin());
+      }
+    }
+
+    // =========================================================================
+    // 9. FINAL CATCH-ALL: EXPLICIT DENY
     // =========================================================================
     match /{document=**} {
       allow read, write: if false;

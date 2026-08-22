@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Dices, X, Target, RotateCcw } from 'lucide-react';
+import { Dices, X, Target, RotateCcw, Radio } from 'lucide-react';
 import { rollDice } from '../../services/diceService';
 import { AudioService } from '../../services/audioService';
+import { useChat } from '../../context/ChatContext';
 
 const PRESET_DICE = [
   { label: '2d10', expr: '2d10' },
@@ -13,14 +14,16 @@ const PRESET_DICE = [
 ];
 
 export const DiceRollerDock = ({ isOpen, onClose }) => {
+  const { sendDiceRoll, activeChannel } = useChat();
   const [customExpr, setCustomExpr] = useState('2d10+2');
   const [targetNumber, setTargetNumber] = useState('');
   const [history, setHistory] = useState([]);
   const [latestRoll, setLatestRoll] = useState(null);
+  const [broadcastToChat, setBroadcastToChat] = useState(true);
 
   if (!isOpen) return null;
 
-  const handleRoll = (expr = customExpr) => {
+  const handleRoll = async (expr = customExpr) => {
     const tn = targetNumber ? parseInt(targetNumber, 10) : null;
     const result = rollDice(expr, { targetNumber: tn, label: 'Tactical Check' });
 
@@ -30,6 +33,21 @@ export const DiceRollerDock = ({ isOpen, onClose }) => {
 
     setLatestRoll(result);
     setHistory(prev => [result, ...prev.slice(0, 19)]);
+
+    if (broadcastToChat && sendDiceRoll) {
+      try {
+        await sendDiceRoll({
+          expression: result.expression,
+          total: result.total,
+          rolls: result.rolls.map(r => r.value),
+          modifier: result.modifier,
+          isCritical: result.isCritSuccess,
+          isFumble: result.isCritFail
+        });
+      } catch (err) {
+        console.warn('Failed to broadcast roll to chat:', err);
+      }
+    }
   };
 
   return (
@@ -112,6 +130,20 @@ export const DiceRollerDock = ({ isOpen, onClose }) => {
         >
           Roll
         </button>
+      </div>
+
+      {/* Broadcast to Active CommLink Channel option */}
+      <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 px-1">
+        <label className="flex items-center gap-1.5 cursor-pointer hover:text-slate-200">
+          <input
+            type="checkbox"
+            checked={broadcastToChat}
+            onChange={(e) => setBroadcastToChat(e.target.checked)}
+            className="rounded bg-slate-900 border-slate-700 text-amber-500 focus:ring-0"
+          />
+          <Radio size={12} className={broadcastToChat ? 'text-cyan-400' : 'text-slate-600'} />
+          <span>Broadcast to {activeChannel?.displayName || 'Comms'}</span>
+        </label>
       </div>
 
       {/* Latest Result Banner */}

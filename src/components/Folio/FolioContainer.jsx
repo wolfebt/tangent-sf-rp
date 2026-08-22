@@ -22,6 +22,7 @@ import PrintFolio from './print/PrintFolio';
 import { attachCreatorTag } from '../../utils/creatorUtils';
 import { confirmTypedDeletion } from '../../utils/confirmationUtils';
 import { FolioGuideModal } from './FolioGuideModal';
+import GuidedCreatorModal from './modals/GuidedCreatorModal';
 import { UserSettingsModal } from '../UserSettingsModal';
 
 const FolioContainer = () => {
@@ -46,6 +47,7 @@ const FolioContainer = () => {
   const [isBastionOpen, setIsBastionOpen] = useState(false);
   const [isFileMenuOpen, setIsFileMenuOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
+  const [isGuidedCreatorOpen, setIsGuidedCreatorOpen] = useState(false);
   const [selectorConfig, setSelectorConfig] = useState(null);
 
   const fileInputRef = useRef(null);
@@ -366,7 +368,13 @@ const FolioContainer = () => {
                     onClick={() => setIsConfirmOpen(true)}
                     className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-slate-200 uppercase font-bold"
                   >
-                    New Character
+                    New Character (Manual)
+                  </button>
+                  <button
+                    onClick={() => setIsGuidedCreatorOpen(true)}
+                    className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-cyan-300 uppercase font-bold"
+                  >
+                    New Character (Guided)
                   </button>
                   <button
                     onClick={() => setIsDeleteConfirmOpen(true)}
@@ -592,6 +600,10 @@ const FolioContainer = () => {
       <FolioGuideModal
         isOpen={isGuideOpen}
         onClose={() => setIsGuideOpen(false)}
+      />
+      <GuidedCreatorModal
+        isOpen={isGuidedCreatorOpen}
+        onClose={() => setIsGuidedCreatorOpen(false)}
       />
       <UserSettingsModal
         isOpen={isSettingsOpen}

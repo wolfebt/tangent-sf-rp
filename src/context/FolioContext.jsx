@@ -1340,6 +1340,22 @@ export const FolioProvider = ({ children }) => {
   };
 
 
+  const applyGuidedCharacter = (draftData) => {
+    try {
+      const validatedData = characterSchema.parse(draftData);
+      setCharacterData(validatedData);
+      return true;
+    } catch (err) {
+      console.error("Invalid guided character data:", err);
+      if (err?.name === 'ZodError') {
+        const errorMsgs = err.issues.map(issue => `${issue.path.join('.') || 'root'}: ${issue.message}`).join('\n');
+        alert(`Failed to apply generated character. Validation errors:\n\n${errorMsgs}`);
+      } else {
+        alert("Failed to apply generated character. Check console for details.");
+      }
+      return false;
+    }
+  };
 
   // Firestore Load Persona from Cloud
   const handleLoadCloud = async (docId) => {
@@ -1882,7 +1898,8 @@ export const FolioProvider = ({ children }) => {
         publicCatalog,
         togglePersonaVisibility,
         clonePublicPersona,
-        loadPublicPersonas
+        loadPublicPersonas,
+        applyGuidedCharacter
       }}
     >
       {children}

@@ -7,16 +7,20 @@ import {
   VolumeX, 
   Settings, 
   LogOut, 
-  Key
+  Key,
+  MessageSquare,
+  Radio
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { useChat } from '../../context/ChatContext';
 import { AudioService } from '../../services/audioService';
 import { UserSettingsModal } from '../UserSettingsModal';
 
-export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOpen }) => {
+export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOpen, onToggleCommsDock, isCommsDockOpen }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { currentUser, userHandle, loginWithGoogle, confirmLogout } = useAuth();
+  const { totalUnreadCount, toggleCommsDock } = useChat();
   
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isAudioMuted, setIsAudioMuted] = useState(() => AudioService.muted);
@@ -31,6 +35,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
 
   const getActivePageTitle = () => {
     const path = location.pathname;
+    if (path.startsWith('/comms')) return 'COMMLINK RELAY';
     if (path.startsWith('/folio') || path.startsWith('/roster')) return 'PERSONA FOLIO';
     if (path.startsWith('/dbm')) return 'OMNICORTEX';
     if (path.startsWith('/codex')) return 'CODEX';
@@ -69,6 +74,32 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
 
         {/* Right Section: Tools, Audio, User Account */}
         <div className="flex items-center justify-start md:justify-end gap-2 shrink-0">
+          {/* CommLink Comms Dock Toggle */}
+          <button
+            type="button"
+            onClick={() => {
+              AudioService.playTerminalBeep(1200, 0.03);
+              if (onToggleCommsDock) {
+                onToggleCommsDock();
+              } else {
+                toggleCommsDock();
+              }
+            }}
+            className={`p-2 rounded-lg border transition-all relative ${
+              isCommsDockOpen 
+                ? 'bg-cyan-500/20 border-cyan-500 text-cyan-300 shadow-[0_0_12px_rgba(34,211,238,0.2)]' 
+                : 'bg-slate-900/60 hover:bg-slate-800 border-slate-700 text-slate-300 hover:text-white'
+            }`}
+            title="Toggle CommLink Comms (Alt+C)"
+          >
+            <MessageSquare size={17} />
+            {totalUnreadCount > 0 && (
+              <span className="absolute -top-1 -right-1 w-4 h-4 bg-cyan-500 text-black text-[9px] font-mono font-bold rounded-full flex items-center justify-center animate-pulse">
+                {totalUnreadCount}
+              </span>
+            )}
+          </button>
+
           {/* Quick Dice Roller Toggle */}
           <button
             type="button"

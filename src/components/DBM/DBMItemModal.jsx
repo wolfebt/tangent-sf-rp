@@ -6,7 +6,10 @@ import { ALL_CANONICAL_SKILLS, SKILL_CATEGORY_SECTIONS } from '../../data/skills
 import { useFolio } from '../../context/FolioContext';
 import { useStory } from '../../context/CampaignContext';
 import { AudioService } from '../../services/audioService';
-import { Backpack, Gem, Check, Sparkles, AlertCircle } from 'lucide-react';
+import { Backpack, Gem, Check, Sparkles, AlertCircle, Cpu, RotateCcw, Calculator, Coins, Hammer, TrendingUp, Layers } from 'lucide-react';
+import * as econEngine from '../../engines/tangentEconEngine';
+import * as techEngine from '../../engines/tangentTechEngine';
+import * as uduEngine from '../../engines/tangentUDUEngine';
 
 export const DBMItemTransferBar = ({ item, categoryKey }) => {
   const folio = useFolio() || {};
@@ -1052,6 +1055,45 @@ export const DBMItemModal = ({
                   </p>
                 </div>
               )}
+
+              {/* Architect Computed Metrics Override & Recalculate */}
+              {isAdmin && (
+                <div className="space-y-2 pt-3 border-t border-slate-800/80 md:col-span-2">
+                  <div className="flex items-center justify-between">
+                    <label className="block text-[11px] font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5 font-mono">
+                      <Cpu size={13} />
+                      <span>Omnicortex Formula Synchronization</span>
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const dc = Number(editFormData.craft_dc ?? editFormData.design_dc ?? editFormData.dc ?? 10) || 10;
+                        const creditVal = econEngine.calculateCreditValue(dc);
+                        const computed = {
+                          credit_value: creditVal,
+                          material_cost: econEngine.calculateMaterialCost(creditVal),
+                          ws_threshold: dc,
+                          financial_status: econEngine.getFinancialStatus(dc)?.name || 'Standard',
+                          complexity_tier: econEngine.getComplexityTier(dc),
+                          crafting_days: econEngine.calculateAllCraftingTiers(creditVal),
+                          _computed_override: false,
+                          computed_at: new Date().toISOString()
+                        };
+                        setEditFormData(prev => ({
+                          ...prev,
+                          _computed: computed,
+                          _computed_override: false
+                        }));
+                        AudioService.playTerminalBeep(1300, 0.04);
+                      }}
+                      className="px-2.5 py-1 bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 rounded text-[10px] font-mono font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer transition-colors"
+                    >
+                      <RotateCcw size={11} />
+                      <span>Recalculate Metrics</span>
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           ) : (
             <div className="space-y-4">
@@ -1069,6 +1111,50 @@ export const DBMItemModal = ({
               
               {/* 1-Click Cross-Module Item Importer & Exporter Transfer Bar (Plan 12) */}
               <DBMItemTransferBar item={selectedItem} categoryKey={currentKey} />
+
+              {/* Omnicortex Computed Game Metrics (Plan 16) */}
+              {(selectedItem?._computed || selectedItem?.craft_dc || selectedItem?.design_dc) && (
+                <div className="bg-slate-950/90 border border-slate-800 rounded-xl p-3.5 space-y-2.5 my-3 font-mono">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-cyan-400 font-bold uppercase tracking-wider text-xs">
+                      <Cpu size={14} className="text-cyan-400" />
+                      <span>Omnicortex Formula Metrics</span>
+                    </div>
+                    {selectedItem?._computed?._computed_override && (
+                      <span className="text-[9px] px-2 py-0.5 rounded bg-amber-950/80 border border-amber-500/40 text-amber-300 font-bold uppercase">
+                        ⚠️ Architect Override
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                    <div className="bg-slate-900/80 p-2 rounded-lg border border-slate-800">
+                      <span className="block text-[9px] text-slate-400 uppercase">Market Value</span>
+                      <span className="text-amber-300 font-extrabold">
+                        {Number(selectedItem?._computed?.credit_value ?? econEngine.calculateCreditValue(selectedItem?.craft_dc ?? 10)).toLocaleString()} Cr
+                      </span>
+                    </div>
+                    <div className="bg-slate-900/80 p-2 rounded-lg border border-slate-800">
+                      <span className="block text-[9px] text-slate-400 uppercase">Material Cost (50%)</span>
+                      <span className="text-emerald-400 font-extrabold">
+                        {Number(selectedItem?._computed?.material_cost ?? econEngine.calculateMaterialCost(econEngine.calculateCreditValue(selectedItem?.craft_dc ?? 10))).toLocaleString()} Cr
+                      </span>
+                    </div>
+                    <div className="bg-slate-900/80 p-2 rounded-lg border border-slate-800">
+                      <span className="block text-[9px] text-slate-400 uppercase">Wealth Score</span>
+                      <span className="text-cyan-300 font-extrabold">
+                        {selectedItem?._computed?.financial_status || econEngine.getFinancialStatus(selectedItem?.craft_dc ?? 10)?.name}
+                      </span>
+                    </div>
+                    <div className="bg-slate-900/80 p-2 rounded-lg border border-slate-800">
+                      <span className="block text-[9px] text-slate-400 uppercase">Complexity Tier</span>
+                      <span className="text-purple-300 font-extrabold">
+                        {selectedItem?._computed?.complexity_tier || econEngine.getComplexityTier(selectedItem?.craft_dc ?? 10)}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-slate-800">
                 {Object.keys(currentConfig.fields || {}).map(fKey => {

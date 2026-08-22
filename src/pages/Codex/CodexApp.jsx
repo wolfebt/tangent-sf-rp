@@ -17,8 +17,12 @@ import {
   Eye,
   Sliders,
   Cpu,
-  Bot
+  Bot,
+  Layers,
+  LayoutGrid
 } from 'lucide-react';
+import { EconomatrixDashboard } from './EconomatrixDashboard';
+import { TechnologyCodex } from './TechnologyCodex';
 import { AudioService } from '../../services/audioService';
 import { confirmTypedDeletion } from '../../utils/confirmationUtils';
 
@@ -33,6 +37,7 @@ export const CodexApp = () => {
   const [isBuilderOpen, setIsBuilderOpen] = useState(false);
   const [isAiModalOpen, setIsAiModalOpen] = useState(false);
   const [previewItem, setPreviewItem] = useState(null);
+  const [viewSavedRecords, setViewSavedRecords] = useState(false);
 
   const { dbData, deleteEntry } = useDBM() || {};
   const currentMatrix = getMatrixById(activeMatrixId);
@@ -44,6 +49,7 @@ export const CodexApp = () => {
     setIsBuilderOpen(false);
     setPreviewItem(null);
     setSearchTerm('');
+    setViewSavedRecords(false);
   };
 
   // Collect items belonging to this matrix from Omnicortex collections
@@ -177,6 +183,42 @@ export const CodexApp = () => {
               <Search size={13} className="absolute left-2.5 top-2.5 text-slate-500" />
             </div>
 
+            {/* Dashboard vs Saved Records Toggle (for dashboard viewType matrices) */}
+            {currentMatrix.viewType === 'dashboard' && (
+              <div className="flex items-center gap-1 p-1 bg-slate-950/80 rounded-xl border border-slate-800">
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1100, 0.02);
+                    setViewSavedRecords(false);
+                  }}
+                  className={`px-2.5 py-1.5 rounded-lg text-xs font-mono font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
+                    !viewSavedRecords 
+                      ? 'bg-slate-800 text-white shadow-sm border border-slate-700' 
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  <Layers size={13} />
+                  <span>Interactive Suite</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1100, 0.02);
+                    setViewSavedRecords(true);
+                  }}
+                  className={`px-2.5 py-1.5 rounded-lg text-xs font-mono font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
+                    viewSavedRecords 
+                      ? 'bg-slate-800 text-white shadow-sm border border-slate-700' 
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  <LayoutGrid size={13} />
+                  <span>Database Records ({matrixEntries.length})</span>
+                </button>
+              </div>
+            )}
+
             {/* BASTION Synthesizer trigger */}
             <button
               type="button"
@@ -202,7 +244,7 @@ export const CodexApp = () => {
           </div>
         </header>
 
-        {/* Content View: Builder vs. Matrix Database Grid */}
+        {/* Content View: Builder vs. Dashboard vs. Matrix Database Grid */}
         <div className="flex-1 overflow-y-auto min-h-0 pr-1 pb-6">
           {isBuilderOpen ? (
             <CodexMatrixBuilder
@@ -216,6 +258,12 @@ export const CodexApp = () => {
               onOpenAiSynthesizer={() => setIsAiModalOpen(true)}
               onDelete={(item) => handleDelete(item)}
             />
+          ) : currentMatrix.viewType === 'dashboard' && !viewSavedRecords ? (
+            activeMatrixId === 'economatrix' ? (
+              <EconomatrixDashboard onOpenBuilder={handleCreateNew} />
+            ) : activeMatrixId === 'technology' ? (
+              <TechnologyCodex onOpenBuilder={handleCreateNew} />
+            ) : null
           ) : (
             <>
               {matrixEntries.length === 0 ? (
@@ -270,6 +318,11 @@ export const CodexApp = () => {
                               {itemName}
                             </h3>
                             <div className="flex items-center gap-1 shrink-0">
+                              {item._computed?.credit_value ? (
+                                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-950/80 text-amber-300 font-bold border border-amber-500/40">
+                                  {Number(item._computed.credit_value).toLocaleString()} Cr
+                                </span>
+                              ) : null}
                               <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-cyan-300 font-bold border border-slate-700">
                                 TL{tl}
                               </span>

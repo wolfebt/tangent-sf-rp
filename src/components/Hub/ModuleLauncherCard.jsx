@@ -54,7 +54,9 @@ export const ModuleLauncherCard = ({
   isActive = false,
   onClick,
   subOptions = [],
-  activeSubOptionId = null
+  activeSubOptionId = null,
+  compact = false,
+  small = false
 }) => {
   const navigate = useNavigate();
   const styles = THEME_STYLES[theme] || THEME_STYLES.cyan;
@@ -71,29 +73,29 @@ export const ModuleLauncherCard = ({
   return (
     <div
       onClick={handleClick}
-      className={`backdrop-blur-md p-3 rounded-xl border ${
+      className={`backdrop-blur-md ${small ? 'p-2' : compact ? 'p-2.5' : 'p-3'} rounded-xl border ${
         isActive ? styles.activeBorder : styles.border
       } flex flex-col justify-between cursor-pointer transition-all duration-200 group relative select-none`}
     >
       <div>
         {/* Card Header */}
-        <div className="flex items-start justify-between gap-2">
-          <div className="flex items-center gap-2 min-w-0">
+        <div className="flex items-start justify-between gap-1.5">
+          <div className="flex items-center gap-1.5 min-w-0">
             {Icon && (
-              <div className={`p-1.5 rounded-lg border ${styles.iconBg} transition-colors shrink-0`}>
-                <Icon size={16} />
+              <div className={`${small ? 'p-1' : compact ? 'p-1' : 'p-1.5'} rounded-lg border ${styles.iconBg} transition-colors shrink-0`}>
+                <Icon size={small ? 13 : compact ? 15 : 16} />
               </div>
             )}
             <div className="min-w-0">
-              <h3 className={`text-xs sm:text-sm font-bold font-mono tracking-wider transition-colors truncate ${styles.title}`}>
+              <h3 className={`${small ? 'text-[11px]' : 'text-xs sm:text-sm'} font-bold font-mono tracking-wider transition-colors truncate ${styles.title}`}>
                 {title}
               </h3>
-              <p className="text-[10px] text-slate-400 font-mono truncate">{subtitle}</p>
+              <p className={`${small ? 'text-[9px]' : 'text-[10px]'} text-slate-400 font-mono truncate`}>{subtitle}</p>
             </div>
           </div>
 
           {badge && (
-            <span className={`px-1.5 py-0.2 rounded-full border text-[9px] font-mono font-bold shrink-0 ${styles.badge}`}>
+            <span className={`${small ? 'px-1.5 py-0 text-[8px]' : 'px-1.5 py-0.2 text-[9px]'} rounded-full border font-mono font-bold shrink-0 ${styles.badge}`}>
               {badge}
             </span>
           )}
@@ -101,15 +103,15 @@ export const ModuleLauncherCard = ({
 
         {/* Description */}
         {description && (
-          <p className="text-[10px] text-slate-400 mt-1.5 line-clamp-2 leading-tight">
+          <p className={`${small ? 'text-[9px] mt-1' : compact ? 'text-[10px] mt-1' : 'text-[10px] mt-1.5'} text-slate-400 line-clamp-2 leading-tight`}>
             {description}
           </p>
         )}
 
         {/* Sub-Options List */}
         {subOptions && subOptions.length > 0 && (
-          <div className="mt-2 pt-2 border-t border-slate-800/80 space-y-1" onClick={(e) => e.stopPropagation()}>
-            <span className="text-[8.5px] font-mono uppercase tracking-widest text-slate-500 block mb-0.5">
+          <div className={`${small ? 'mt-1 pt-1' : compact ? 'mt-1.5 pt-1.5' : 'mt-2 pt-2'} border-t border-slate-800/80 space-y-1`} onClick={(e) => e.stopPropagation()}>
+            <span className={`${small ? 'text-[8px]' : 'text-[8.5px]'} font-mono uppercase tracking-widest text-slate-500 block mb-0.5`}>
               Catalogs & Workspaces
             </span>
             <div className="grid grid-cols-1 gap-1">
@@ -125,18 +127,18 @@ export const ModuleLauncherCard = ({
                       AudioService.playTerminalBeep(frequency + 50, 0.02);
                       sub.onClick?.();
                     }}
-                    className={`w-full px-2 py-1 rounded-md border text-left text-[10.5px] font-mono font-medium transition-all flex items-center justify-between gap-1.5 ${
+                    className={`w-full ${small ? 'px-1.5 py-0.5 text-[9.5px]' : 'px-2 py-1 text-[10.5px]'} rounded-md border text-left font-mono font-medium transition-all flex items-center justify-between gap-1.5 ${
                       isSubActive
                         ? styles.subActive
                         : 'bg-slate-950/60 border-slate-800 text-slate-300 hover:border-slate-700 hover:text-white'
                     }`}
                   >
                     <div className="flex items-center gap-1.5 min-w-0">
-                      {SubIcon && <SubIcon size={12} className="shrink-0 text-slate-400" />}
-                      <span className="truncate text-[10px]">{sub.label}</span>
+                      {SubIcon && <SubIcon size={small ? 10 : 12} className="shrink-0 text-slate-400" />}
+                      <span className={`truncate ${small ? 'text-[9px]' : 'text-[10px]'}`}>{sub.label}</span>
                     </div>
                     {sub.badge && (
-                      <span className="text-[8.5px] opacity-70 px-1 py-0.2 bg-black/40 rounded">
+                      <span className={`${small ? 'text-[8px]' : 'text-[8.5px]'} opacity-70 px-1 py-0.2 bg-black/40 rounded`}>
                         {sub.badge}
                       </span>
                     )}
@@ -149,13 +151,13 @@ export const ModuleLauncherCard = ({
       </div>
 
       {/* Footer / Quick Access CTA */}
-      <div className="mt-2 pt-1.5 border-t border-slate-800/60 flex items-center justify-between text-[9px] font-mono text-slate-500">
+      <div className={`${small ? 'mt-1 pt-1 text-[8px]' : compact ? 'mt-1.5 pt-1 text-[9px]' : 'mt-2 pt-1.5 text-[9px]'} border-t border-slate-800/60 flex items-center justify-between font-mono text-slate-500`}>
         <span className="uppercase tracking-wider">
           {subOptions?.length ? 'SELECT SUB-MODULE' : 'ACCESS MODULE'}
         </span>
         <div className={`flex items-center gap-0.5 font-bold ${styles.button} transition-transform group-hover:translate-x-0.5`}>
           <span>OPEN</span>
-          <ChevronRight size={11} />
+          <ChevronRight size={small ? 9 : 11} />
         </div>
       </div>
     </div>

@@ -5,6 +5,8 @@ import ElementsDrawer from './drawers/ElementsDrawer';
 import MapsDrawer from './drawers/MapsDrawer';
 import AimeDrawer from './drawers/AimeDrawer';
 import CommandOverview from './drawers/CommandOverview';
+import GameGroupsDrawer from './drawers/GameGroupsDrawer';
+import CommsCenterDrawer from './drawers/CommsCenterDrawer';
 
 export const LandingDrawerArea = ({
   activeDrawer,
@@ -23,6 +25,8 @@ export const LandingDrawerArea = ({
       <div className="relative z-10 h-full">
         {activeDrawer === 'overview' && <CommandOverview onClose={onCloseDrawer} onOpenDrawer={onOpenDrawer} />}
         {activeDrawer === 'persona-folio' && <FolioRosterDrawer onClose={onCloseDrawer} />}
+        {(activeDrawer === 'game-groups' || activeDrawer === 'squads') && <GameGroupsDrawer onClose={onCloseDrawer} />}
+        {(activeDrawer === 'comms' || activeDrawer === 'comm-center') && <CommsCenterDrawer onClose={onCloseDrawer} onOpenDrawer={onOpenDrawer} />}
         {activeDrawer === 'foundry-scenarios' && <ScenariosDrawer onClose={onCloseDrawer} />}
         {activeDrawer === 'foundry-elements' && <ElementsDrawer onClose={onCloseDrawer} />}
         {activeDrawer === 'foundry-maps' && <MapsDrawer onClose={onCloseDrawer} />}
