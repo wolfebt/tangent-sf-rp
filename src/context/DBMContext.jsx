@@ -5,13 +5,16 @@ import { categoryConfig } from '../components/DBM/categoryConfig';
 import { onAuthStateChanged } from 'firebase/auth';
 import { commitChunkedBatches } from '../utils/firestoreUtils';
 import { validateDbmEntry } from '../utils/dbmValidators';
+import compendiumSeedData from '../data/compendiumSeed.json';
 
 const DBMContext = createContext(null);
 
 export const useDBM = () => useContext(DBMContext);
 
 export const DBMProvider = ({ children }) => {
-  const [dbData, setDbData] = useState({});
+  const [dbData, setDbData] = useState({
+    compendium: compendiumSeedData
+  });
   const [currentUser, setCurrentUser] = useState(auth?.currentUser || null);
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState(null);
@@ -69,7 +72,13 @@ export const DBMProvider = ({ children }) => {
         const unsubRef = onSnapshot(
           refCol,
           (snapshot) => {
-            const items = snapshot.docs.map(d => ({ ...d.data(), id: d.id }));
+            let items = snapshot.docs.map(d => ({ ...d.data(), id: d.id }));
+            // If compendium is empty or smaller than the canonical seed, ensure all seed items are available locally
+            if ((catK === 'compendium' || catK === 'rules_codex') && items.length < compendiumSeedData.length) {
+              const existingIds = new Set(items.map(i => i.id || (i.name || '').toLowerCase()));
+              const missingSeeds = compendiumSeedData.filter(s => !existingIds.has(s.id) && !existingIds.has(s.name.toLowerCase()));
+              items = [...items, ...missingSeeds];
+            }
             setDbData(prev => ({ ...prev, [catK]: items }));
             pendingCount--;
             if (pendingCount <= 0) {
@@ -78,6 +87,10 @@ export const DBMProvider = ({ children }) => {
           },
           (err) => {
             console.warn(`[DBMContext] Listener notice for collection "${catK}":`, err.message);
+            // Fallback for compendium if listener fails
+            if (catK === 'compendium' || catK === 'rules_codex') {
+              setDbData(prev => ({ ...prev, [catK]: compendiumSeedData }));
+            }
             pendingCount--;
             if (pendingCount <= 0) {
               setIsLoading(false);
@@ -87,6 +100,9 @@ export const DBMProvider = ({ children }) => {
         unsubs.push(unsubRef);
       } catch (e) {
         console.warn(`[DBMContext] Init error on collection "${catK}":`, e);
+        if (catK === 'compendium' || catK === 'rules_codex') {
+          setDbData(prev => ({ ...prev, [catK]: compendiumSeedData }));
+        }
         pendingCount--;
         if (pendingCount <= 0) {
           setIsLoading(false);
@@ -100,6 +116,37 @@ export const DBMProvider = ({ children }) => {
       });
     };
   }, []);
+
+  // Sync all Canonical Compendium Articles to Firestore Cloud
+  const syncCanonicalCompendium = useCallback(async () => {
+    try {
+      showToast({ type: 'info', title: 'Syncing...', text: `Syncing ${compendiumSeedData.length} canonical articles to cloud...` });
+      const operations = compendiumSeedData.map(item => ({
+        ref: doc(db, 'compendium', item.id),
+        data: {
+          ...item,
+          updatedAt: new Date().toISOString()
+        },
+        merge: true
+      }));
+
+      await commitChunkedBatches(operations, 450);
+      showToast({
+        type: 'success',
+        title: 'Compendium Synced',
+        text: `All ${compendiumSeedData.length} canonical articles successfully synced to Firestore.`
+      });
+      return true;
+    } catch (err) {
+      console.error('[DBMContext] syncCanonicalCompendium failed:', err);
+      showToast({
+        type: 'error',
+        title: 'Sync Failed',
+        text: err.message || 'Could not sync compendium to Firestore.'
+      });
+      return false;
+    }
+  }, [showToast]);
 
   // Safe Save Entry with Schema Validation & Ref Snapshot Rollback
   const saveEntry = useCallback(async (rawPayload, key) => {
@@ -365,7 +412,8 @@ export const DBMProvider = ({ children }) => {
       showToast,
       saveEntry,
       deleteEntry,
-      importJSON
+      importJSON,
+      syncCanonicalCompendium
     }}>
       {children}
     </DBMContext.Provider>

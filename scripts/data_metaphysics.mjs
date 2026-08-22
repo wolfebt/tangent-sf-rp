@@ -1,0 +1,372 @@
+﻿export const metaphysicsArticles = [
+  {
+    id: "4-01-omni-codex-metaphysics-overview",
+    name: "4.01 The Omni-Codex of Metaphysics Overview",
+    category: "compendium",
+    entry_type: "Core Rule",
+    parent: "4.00 METAPHYSICS",
+    order: 1,
+    description: # 4.01 The Omni-Codex of Metaphysics Overview
+
+In the Tangent universe, reality manipulation is not mere mystical incantation—it is the deliberate restructuring of physical laws, quantum wavefunctions, and universal constants through focused biological will.
+
+---
+
+## The Philosophy of Metascience
+
+Metaphysics encompasses all forms of supernatural phenomenon, whether categorized as **Arcane Sorcery**, **Psionic Telepathy**, **Divine Channeling**, or **Quantum Weaving**. 
+
+Unlike rigid spell-slot systems, Tangent employs a fluid, skill-based energy architecture powered by the **Metaphysic Triad**:
+1. **Attune:** Drawing, channeling, and harmonizing with the universal energy field.
+2. **Discipline:** The specific school of physical/mental manipulation.
+3. **Invocation:** Codified rote techniques etched into muscle memory for maximum efficiency and power.,
+    mechanic: MetaphysicTriad = { Attune, Discipline, Invocation }
+EssenceCost = InvocationLevel * 2 (or variable for Free-Casting),
+    guide: Awaken a discipline feature during character creation to unlock access to Attune and discipline skills.,
+    note: Metaphysical phenomena interact with technological sensors, appearing as localized tachyon fluctuations.
+  },
+  {
+    id: "4-02-metafocus-levels",
+    name: "4.02 Metafocus Levels (ML 0 to ML 6)",
+    category: "compendium",
+    entry_type: "Core Rule",
+    parent: "4.00 METAPHYSICS",
+    order: 2,
+    description: # 4.02 Metafocus Levels (ML 0 to ML 6)
+
+A civilization's **Metafocus Level (ML)** determines the prevalence, legal status, and cultural prominence of metaphysics.
+
+---
+
+## Metafocus Level Hierarchy
+
+| ML Tier | Classification | Population Ratio & Cultural Integration | Starting Character Max Rank |
+| :---: | :--- | :--- | :---: |
+| **ML 0** | **Null** | Zero native meta-users; physical laws strictly rigid | **Rank 0** |
+| **ML 1** | **Rare** | <0.01% of population; practitioners are hunted, feared, or revered | **Rank 2** |
+| **ML 2** | **Selective** | Secret cults, psionic black-ops squads, monastic enclaves | **Rank 4** |
+| **ML 3** | **Cultured** | Uncommon but accepted; Adepts serve as healers, navigators, and court mages | **Rank 6** |
+| **ML 4** | **Standardized**| Common usage; integrated into legal systems, hospitals, and infrastructure | **Rank 8** |
+| **ML 5** | **Advanced** | Universal integration; telepathic data grids, matter-printing spires | **Rank 10** |
+| **ML 6** | **Deific** | Transcended god-like entities (Architects / Progenitors); *Non-Player only* | **Unlimited** |
+
+---
+
+## Starting Skill Limit Formula
+Double the planetary ML score to determine a starting character's maximum level in Metafocus Discipline skills:
+\\text{Max Starting Discipline Rank} = \\text{ML} \\times 2
+*(Note: The general **Attune** skill is not limited by planetary ML).*,
+    mechanic: MaxStartingDisciplineRank = ML * 2 (Attune is exempt from ML cap),
+    guide: Check the planetary ML of your campaign setting to determine starting discipline skill limits.,
+    note: Higher ML civilizations design specialized psi-dampening technology to police metaphysical crimes.
+  },
+  {
+    id: "4-03-triad-mechanics-attune-discipline-invocation",
+    name: "4.03 The Triad Mechanics: Attune, Discipline, Invocation",
+    category: "compendium",
+    entry_type: "Core Rule",
+    parent: "4.00 METAPHYSICS",
+    order: 3,
+    description: # 4.03 The Triad Mechanics: Attune, Discipline, Invocation
+
+Every metaphysical effect is engineered through the precise synergy of three mechanical pillars:
+
+---
+
+## The Three Pillars of Casting
+
+### 1. The Attune Skill (Drawing Energy)
+- **Role:** Measures how cleanly you channel raw reality energy without causing feedback.
+- **Roll Purpose:** Sets the **Evasion DC** or **Resistance DC** that targets must roll against to resist the spell.
+
+### 2. The Discipline Skill (Shaping Reality)
+- **Role:** Measures mastery over a specific branch of physics (*Dimension, Energy, Entropy, Illusion, Matter, Mental*).
+- **Roll Purpose:** Determines the **Severity, Duration, Area of Effect, or Raw Damage** of the invocation.
+
+### 3. The Invocation (Codified Muscle Memory)
+- **Role:** A perfected, codified formula.
+- **Benefit:** Adds its **Invocation Level** as a static bonus to the Discipline check, eliminating volatility.,
+    mechanic: TargetResistanceDC = 10 + AttuneCheckMod + KeyAbilityMod
+EffectSeverity = d20 + DisciplineSkillRank + InvocationLevel + KeyAbilityMod,
+    guide: Roll an Attune check to establish target DC, then roll your Discipline skill check to determine damage or effect.,
+    note: Free-casting does not add an Invocation Level bonus and carries higher risk of strain.
+  },
+  {
+    id: "4-04-key-abilities-awakening-sources",
+    name: "4.04 Key Abilities & Awakening Sources",
+    category: "compendium",
+    entry_type: "Core Rule",
+    parent: "4.00 METAPHYSICS",
+    order: 4,
+    description: # 4.04 Key Abilities & Awakening Sources
+
+When an Operator awakens a metaphysical discipline, they define the **Source Attribute** that channels their power:
+
+---
+
+## The Three Awakening Sources
+
+### 1. Reason & Logic (Intellect Based)
+- **Traditions:** Hermetic Arcanists, Cyber-Shamans, Akashic Coders, Quantum Psions.
+- **Flavors:** Cold, mathematical precision, runic geometric circles, holographic matrices.
+- **Key Attribute:** **Intellect (INT)**.
+
+### 2. Willpower & Intuition (Wisdom Based)
+- **Traditions:** Divine Priests, Cosmic Seers, Monastic Meditators, Nature Druids.
+- **Flavors:** Spiritual radiance, planetary harmony, instinctual biocurrents.
+- **Key Attribute:** **Wisdom (WIS)**.
+
+### 3. Confidence & Dominance (Charisma Based)
+- **Traditions:** Sorcerous Bloodlines, Bardic Choralists, Demonic Pacts, Radiant Icons.
+- **Flavors:** Raw emotional projection, sonic resonance, overwhelming aura of majesty.
+- **Key Attribute:** **Charisma (CHA)**.,
+    mechanic: MetaphysicMod = KeyAbilityMod (INT, WIS, or CHA chosen at Awakening),
+    guide: Select your Key Ability upon taking the Awakened Feature; all your casting formulas will utilize this modifier.,
+    note: Switching metaphysical sources requires extensive narrative retraining during campaign downtime.
+  },
+  {
+    id: "4-05-free-casting-vs-codified-invocations",
+    name: "4.05 Free-Casting vs. Codified Invocations",
+    category: "compendium",
+    entry_type: "Core Rule",
+    parent: "4.00 METAPHYSICS",
+    order: 5,
+    description: # 4.05 Free-Casting vs. Codified Invocations
+
+Adepts can manifest metaphysical phenomena in two distinct formats:
+
+---
+
+## Comparison Matrix
+
+| Feature | Codified Invocations | Spontaneous Free-Casting |
+| :--- | :--- | :--- |
+| **Preparation** | Learned rote formula etched into memory | Improvised on the fly in real-time |
+| **Essence Cost** | Fixed, efficient Essence cost | Variable (+50% Essence cost) |
+| **Potency Bonus** | **+ Invocation Level added to Discipline roll**| No Invocation bonus added |
+| **Volatility / Strain**| Safe; standard strain limits | **High Volatility; forces Strain check on roll <10** |
+| **Flexibility** | Fixed parameters (range, shape, damage) | Infinite narrative adaptability |
+
+---
+
+## Free-Casting Guidelines
+When free-casting, the Operator describes the desired effect. The Architect assigns an **Improvised Difficulty DC** based on the scale of reality being bent. If the Attune roll fails, the Adept suffers **Metaphysic Strain**.,
+    mechanic: CodifiedCheck = d20 + DisciplineRank + InvocationLevel + KeyAbilityMod
+FreeCastingCheck = d20 + DisciplineRank + KeyAbilityMod (Failure = 1d6 Strain),
+    guide: Use codified invocations for combat reliability; use free-casting for creative utility and exploration solutions.,
+    note: Free-casting in high-stress combat provokes an Attack of Opportunity unless the Adept passes a Concentration save.
+  },
+  {
+    id: "4-06-essence-pool-surge-strain",
+    name: "4.06 Essence Pool Economy, Surge & Strain",
+    category: "compendium",
+    entry_type: "Core Rule",
+    parent: "4.00 METAPHYSICS",
+    order: 6,
+    description: # 4.06 Essence Pool Economy, Surge & Strain
+
+**Essence** is the internal fuel that powers metaphysical phenomena. Overextending this fuel induces biological **Strain**.
+
+---
+
+## The Essence Pool Formula
+
+\\text{Total Essence Pool} = (\\text{Key Ability Mod} \\times 5) + (\\text{Attune Rank} \\times 2) + \\text{Discipline Ranks}
+
+---
+
+## Metaphysic Strain & Overchanneling
+
+- When a character's Essence drops to **0**, they can choose to **Overchannel**:
+  - Each point of Essence spent beyond zero inflicts **2 points of direct HP damage** that completely bypasses Armor DR.
+  - The character must make a **Fortitude Save (DC 10 + Points Overchanneled)**:
+    - **Failure:** Suffers **Metaphysic Burnout** (incapable of channeling for 24 hours).
+    - **Critical Failure (Nat 1):** Suffers permanent neurological or sensory impairment.
+
+---
+
+## Essence Recovery
+- **Short Rest (1 hour):** Recovers Essence equal to your Attune skill rank.
+- **Full Rest (8 hours):** Fully restores the entire Essence pool.,
+    mechanic: EssencePool = (KeyAbilityMod * 5) + (AttuneRank * 2) + Sum(DisciplineRanks)
+OverchannelDamage = PointsSpentBeyondZero * 2 (Bypasses DR),
+    guide: Monitor your Essence pool on your Folio. Avoid dropping below zero unless facing life-or-death emergencies.,
+    note: Specialized psi-crystals and bio-battery capacitors can store extra external Essence reserves.
+  },
+  {
+    id: "4-07-discipline-dimension",
+    name: "4.07 Discipline Guide: Dimension (Spatial Folding)",
+    category: "compendium",
+    entry_type: "Game Mechanic",
+    parent: "4.00 METAPHYSICS",
+    order: 7,
+    description: # 4.07 Discipline Guide: Dimension (Spatial Folding)
+
+The **Dimension Discipline** governs the bending of spacetime geometry, teleportation, wormhole stabilization, and pocket dimension access.
+
+---
+
+## Core Capabilities by Skill Tier
+- **Novice (Rank 1–5):** *Blink* (15-ft short teleport), *Spatial Cache* (access tiny pocket storage), *Distort Range* (+50% weapon range).
+- **Trained (Rank 6–10):** *Phase Step* (walk through 5-ft solid wall), *Wormhole Doorway* (open stationary 2-way portal for allies).
+- **Expert (Rank 11–15):** *Tactical Group Warp* (teleport entire squad 500 meters), *Dimensional Banishment* (shunt foe into void pocket for 1d4 rounds).
+- **Master (Rank 16–20):** *Planetary Rift* (open orbital gateway to surface), *Spacetime Distortion* (slow enemy velocity to zero).,
+    mechanic: TeleportRange = 15ft * DisciplineRank
+BanishmentDC = 10 + AttuneRank + KeyAbilityMod vs Target Will Save,
+    guide: Use Dimension invocations for instantaneous squad repositioning and bypassing fortified bulkheads.,
+    note: Teleporting into solid matter causes immediate deflection to the nearest open grid space and inflicts 3d6 kinetic shock.
+  },
+  {
+    id: "4-08-discipline-energy",
+    name: "4.08 Discipline Guide: Energy (Force & Plasma)",
+    category: "compendium",
+    entry_type: "Game Mechanic",
+    parent: "4.00 METAPHYSICS",
+    order: 8,
+    description: # 4.08 Discipline Guide: Energy (Force & Plasma)
+
+The **Energy Discipline** manipulates thermodynamics, electromagnetic currents, hard-light forcefields, and plasma generation.
+
+---
+
+## Core Capabilities by Skill Tier
+- **Novice (Rank 1–5):** *Plasma Dart* (2d6 thermal damage, AP 2), *Force Barrier* (absorbs 10 incoming damage points), *Ignite*.
+- **Trained (Rank 6–10):** *Lightning Arc* (3d8 electrical damage jumping to 3 targets), *Aegis Shield* (+6 Armor DR to ally for 1 minute).
+- **Expert (Rank 11–15):** *Plasma Bombardment* (6d10 thermal burst in 20-ft radius), *Electromagnetic EMP Pulse* (disables all electronics).
+- **Master (Rank 16–20):** *Solar Flare* (10d10 radiant thermal damage + permanent blindness), *Kinetic Invulnerability Sphere*.,
+    mechanic: PlasmaDamage = 2d6 + (DisciplineRank * 2) + KeyAbilityMod
+ForceShieldCapacity = 10 + (DisciplineRank * 5),
+    guide: Deploy Energy invocations for heavy direct fire, crowd control, and protective squad shields.,
+    note: Thermal invocations ignite flammable atmospheric environments, creating secondary hazard zones.
+  },
+  {
+    id: "4-09-discipline-entropy",
+    name: "4.09 Discipline Guide: Entropy (Decay & Probability)",
+    category: "compendium",
+    entry_type: "Game Mechanic",
+    parent: "4.00 METAPHYSICS",
+    order: 9,
+    description: # 4.09 Discipline Guide: Entropy (Decay & Probability)
+
+The **Entropy Discipline** accelerates molecular corrosion, degrades armor integrity, drains biological vitality, and manipulates probability fields.
+
+---
+
+## Core Capabilities by Skill Tier
+- **Novice (Rank 1–5):** *Corrosive Touch* (degrades enemy armor DR by 2), *Hex / Bad Luck* (target rolls next check at Disadvantage).
+- **Trained (Rank 6–10):** *Vitality Siphon* (deal 3d6 necrotic damage and heal self for half), *Rust Wave* (disintegrates mechanical locks/wires).
+- **Expert (Rank 11–15):** *Probability Maelstrom* (allies gain Advantage, enemies suffer Disadvantage in 30-ft radius), *Cellular Necrosis*.
+- **Master (Rank 16–20):** *Absolute Decay* (reduces target structural integrity to ash), *Karmic Reversal* (reflects fatal damage back to attacker).,
+    mechanic: ArmorDegradation = -2 DR per stack (permanent until repaired)
+LifeDrainHeal = floor(DamageDealt / 2),
+    guide: Cast Entropy hexes on enemy bosses to shatter high Armor DR and weaken critical saving throws.,
+    note: Entropy invocations leave distinctive carbonized decay signatures that forensic sensors can track.
+  },
+  {
+    id: "4-10-discipline-illusion",
+    name: "4.10 Discipline Guide: Illusion (Sensory & Holography)",
+    category: "compendium",
+    entry_type: "Game Mechanic",
+    parent: "4.00 METAPHYSICS",
+    order: 10,
+    description: # 4.10 Discipline Guide: Illusion (Sensory & Holography)
+
+The **Illusion Discipline** manipulates photon refraction, auditory wave harmonics, sensory perception, and neural holography.
+
+---
+
+## Core Capabilities by Skill Tier
+- **Novice (Rank 1–5):** *Ghost Sound* (replicate voices/alarms), *Minor Glamour* (alter appearance/clothing), *Refractive Cloak* (+4 Stealth).
+- **Trained (Rank 6–10):** *Invisibility* (total optical concealment), *Mirror Image* (creates 3 illusory duplicates that absorb incoming attacks).
+- **Expert (Rank 11–15):** *Holographic Terrain* (make a chasm look like solid floor), *Phantasmal Terror* (forces enemies to flee in panic).
+- **Master (Rank 16–20):** *Sensory Severance* (permanently strips all 5 physical senses), *Living Mirage* (illusion with semi-physical hard-light mass).,
+    mechanic: DisbeliefDC = 10 + AttuneRank + KeyAbilityMod vs Target Alertness/Will
+MirrorImageCount = 3 (attack hits image on 1-3 on d6),
+    guide: Use Illusion to bypass sensory checkpoints, misdirect sentry patrols, and create duplicate decoys in combat.,
+    note: Physical tactile contact with an illusion allows an immediate Disbelief saving throw with Advantage.
+  },
+  {
+    id: "4-11-discipline-matter",
+    name: "4.11 Discipline Guide: Matter (Transmutation & Telekinesis)",
+    category: "compendium",
+    entry_type: "Game Mechanic",
+    parent: "4.00 METAPHYSICS",
+    order: 11,
+    description: # 4.11 Discipline Guide: Matter (Transmutation & Telekinesis)",
+    category: "compendium",
+    entry_type: "Game Mechanic",
+    parent: "4.00 METAPHYSICS",
+    order: 11,
+    description: # 4.11 Discipline Guide: Matter (Transmutation & Telekinesis)
+
+The **Matter Discipline** controls molecular density, telekinetic force, elemental transmutation, and structural hardening.
+
+---
+
+## Core Capabilities by Skill Tier
+- **Novice (Rank 1–5):** *Telekinetic Lift* (move 50 lbs object with mind), *Stone / Steel Hardening* (+2 weapon damage or tool durability).
+- **Trained (Rank 6–10):** *Telekinetic Throw* (hurl heavy crates/foes for 3d8 kinetic damage), *Wall of Iron* (manifest solid metallic barrier).
+- **Expert (Rank 11–15):** *Molecular Transmutation* (turn poison gas into water, lead into copper), *Crush Cyberware* (implodes enemy prosthetics).
+- **Master (Rank 16–20):** *Tectonic Rupture* (shatters ground in 100-ft zone), *Disintegration* (breaks down physical bonds into subatomic dust).,
+    mechanic: TK_LiftWeight = 50 lbs * (DisciplineRank ^ 2)
+TK_ThrowDamage = 3d8 + DisciplineRank + KeyAbilityMod,
+    guide: Manipulate heavy terrain objects, disarm barricades, and shield allies behind instantaneous steel walls.,
+    note: Matter telekinesis can manipulate fine electronic switches with an Alertness check.
+  },
+  {
+    id: "4-12-discipline-mental",
+    name: "4.12 Discipline Guide: Mental (Telepathy & Domination)",
+    category: "compendium",
+    entry_type: "Game Mechanic",
+    parent: "4.00 METAPHYSICS",
+    order: 12,
+    description: # 4.12 Discipline Guide: Mental (Telepathy & Domination)
+
+The **Mental Discipline** interfaces directly with sentient neural pathways, telepathic communication, memory extraction, and psychic domination.
+
+---
+
+## Core Capabilities by Skill Tier
+- **Novice (Rank 1–5):** *Mind Link* (silent 2-way telepathic comms with squad), *Sense Emotion* (detect hostility and lies), *Mind Jab* (2d4 psychic).
+- **Trained (Rank 6–10):** *Psychic Probe* (extract deep memories/passwords), *Neural Stun* (paralyzes target for 1 round on failed Will save).
+- **Expert (Rank 11–15):** *Mind Control / Suggestion* (force enemy to obey direct commands), *Psychic Blast* (5d8 psionic damage in 15-ft cone).
+- **Master (Rank 16–20):** *Ego Wipe* (erases entire lifetime identity), *Telepathic Hive Mind* (links entire army with instantaneous coordination).,
+    mechanic: TelepathyRange = 100ft * DisciplineRank
+MindControlDC = 10 + AttuneRank + KeyAbilityMod vs Target Will Save,
+    guide: Maintain permanent telepathic squad links for silent tactical communication during covert black-ops.,
+    note: Targeting synthetic AI cores with Mental invocations requires the 'Synthetic Attunement' feature.
+  },
+  {
+    id: "4-13-metaphysic-ranges-area-geometry",
+    name: "4.13 Metaphysic Ranges & Area of Effect Geometry",
+    category: "compendium",
+    entry_type: "Game Mechanic",
+    parent: "4.00 METAPHYSICS",
+    order: 13,
+    description: # 4.13 Metaphysic Ranges & Area of Effect Geometry
+
+Metaphysical invocations manifest in distinct geometrical forms across tactical grid maps.
+
+---
+
+## Area of Effect (AoE) Shapes
+
+1. **Cone (15 to 60 ft):** Emanates outward from the caster in a ^\\circ$ triangle. Targets roll Reflex saves.
+2. **Sphere / Burst (10 to 40 ft Radius):** Detonates at a designated target grid point. Bypasses directional cover.
+3. **Line (5 ft Wide by 30 to 100 ft Long):** A straight piercing laser/plasma beam striking all entities in its path.
+4. **Wall (5 ft Thick, up to 50 ft Long):** A stationary barrier of solid matter, hard-light, or roaring plasma.
+5. **Emanation / Aura (5 to 30 ft Radius centered on Caster):** Moves continuously with the Adept.
+
+---
+
+## Range Brackets for Invocations
+- **Touch / Reach:** 5 feet.
+- **Short Range:** 30 feet.
+- **Medium Range:** 100 feet.
+- **Long Range:** 300 feet.
+- **Sight / Planetary:** Requires sensor telemetry or line of sight.,
+    mechanic: AoE_Damage = Full damage on failed Reflex save; Half damage on successful Reflex save,
+    guide: Position AoE origin points to engulf maximum enemy targets while avoiding friendly fire.,
+    note: Wall spells can be shaped into curves or enclosed rings by increasing the casting DC by +5.
+  }
+];

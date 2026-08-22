@@ -2,7 +2,8 @@ import React, { useState, useMemo } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useItemInteractions } from '../../utils/interactionUtils';
-import { ChevronDown, ChevronRight, BookOpen, Layers, Search, Sparkles, Plus, Edit, Trash2, ExternalLink } from 'lucide-react';
+import { useDBM } from '../../context/DBMContext';
+import { ChevronDown, ChevronRight, BookOpen, Layers, Search, Sparkles, Plus, Edit, Trash2, ExternalLink, RefreshCw, UserCheck, ShieldAlert, Cpu } from 'lucide-react';
 
 const TreeArticleItem = ({ item, isSelected, childrenCount, onSelect, onOpenEdit, className, prefix = '📜 ' }) => {
   const interactions = useItemInteractions({
@@ -11,30 +12,50 @@ const TreeArticleItem = ({ item, isSelected, childrenCount, onSelect, onOpenEdit
     delay: 1500
   });
 
+  const isPrimaryFaction = item.entry_type?.toLowerCase().includes('primary');
+  const isGenericTemplate = item.entry_type?.toLowerCase().includes('generic');
+
   return (
     <button
       {...interactions}
       className={className}
       title="Single-click to view article. Double-click (or long press 1.5s+ on mobile) to edit."
     >
-      <span className="truncate pr-1 flex items-center gap-1.5 min-w-0">
+      <div className="flex items-center gap-1.5 min-w-0 flex-1 pr-1">
         <span className="shrink-0 text-slate-400">{prefix}</span>
         <span className="truncate">{item.name}</span>
-      </span>
-      {childrenCount > 0 && (
-        <span className="text-[10px] bg-slate-800 px-1.5 py-0.5 rounded text-cyan-400 font-mono shrink-0">
-          {childrenCount}
-        </span>
-      )}
+      </div>
+      <div className="flex items-center gap-1 shrink-0">
+        {isPrimaryFaction && (
+          <span className="text-[8px] px-1 py-0.2 bg-emerald-950/80 text-emerald-300 border border-emerald-500/50 rounded font-mono font-bold tracking-tight">
+            PRIMARY
+          </span>
+        )}
+        {isGenericTemplate && (
+          <span className="text-[8px] px-1 py-0.2 bg-amber-950/80 text-amber-300 border border-amber-500/40 rounded font-mono font-bold tracking-tight">
+            GENERIC
+          </span>
+        )}
+        {childrenCount > 0 && (
+          <span className="text-[10px] bg-slate-800 px-1.5 py-0.5 rounded text-cyan-400 font-mono shrink-0">
+            {childrenCount}
+          </span>
+        )}
+      </div>
     </button>
   );
 };
 
 const getSectionIcon = (sectionName = '') => {
   const s = sectionName.toUpperCase();
+  if (s.includes('SYSTEM') || s.includes('MANUAL')) return '⚙️';
+  if (s.includes('CHARACTER CREATION')) return '👤';
+  if (s.includes('PRIMARY FACTION') || s.includes('MAJOR')) return '👑';
+  if (s.includes('SECONDARY FACTION') || s.includes('GENERIC')) return '🏛️';
   if (s.includes('FACTION')) return '👥';
   if (s.includes('ORIGIN')) return '🌐';
   if (s.includes('OCCUPATION')) return '🎯';
+  if (s.includes('SKILL')) return '📊';
   if (s.includes('FEATURE')) return '🛡️';
   if (s.includes('HINDRANCE')) return '⚠️';
   if (s.includes('COMBAT')) return '⚔️';
@@ -54,7 +75,20 @@ export const DBMWikiView = ({
 }) => {
   const [selectedArticleId, setSelectedArticleId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [perspectiveFilter, setPerspectiveFilter] = useState('all'); // 'all' | 'operator' | 'architect'
   const [collapsedSections, setCollapsedSections] = useState({});
+  const [isSyncing, setIsSyncing] = useState(false);
+
+  const { syncCanonicalCompendium } = useDBM() || {};
+
+  const handleSyncCloud = async () => {
+    if (!syncCanonicalCompendium) return;
+    if (window.confirm('Sync all 71 canonical rulebook articles to Firestore cloud collection? This will overwrite or update seed documents in the database.')) {
+      setIsSyncing(true);
+      await syncCanonicalCompendium();
+      setIsSyncing(false);
+    }
+  };
 
   const toggleSection = (secName) => {
     setCollapsedSections(prev => ({
@@ -76,7 +110,16 @@ export const DBMWikiView = ({
     const sectionMap = {};
     const standalone = [];
 
-    items.forEach(item => {
+    // Filter items by perspective if selected
+    const perspectiveItems = items.filter(item => {
+      if (perspectiveFilter === 'all') return true;
+      const p = (item.perspective || 'both').toLowerCase();
+      if (perspectiveFilter === 'operator') return p === 'operator' || p === 'both';
+      if (perspectiveFilter === 'architect') return p === 'architect' || p === 'both';
+      return true;
+    });
+
+    perspectiveItems.forEach(item => {
       const p = (item.parent || '').trim();
       if (!p || p === '-- Select --') {
         standalone.push(item);
@@ -132,9 +175,9 @@ export const DBMWikiView = ({
     return {
       sections: sectionEntries,
       childMap: children,
-      allArticlesFlat: items
+      allArticlesFlat: perspectiveItems
     };
-  }, [currentItems]);
+  }, [currentItems, perspectiveFilter]);
 
   // Filtered sections for search
   const filteredSections = useMemo(() => {
@@ -284,7 +327,7 @@ export const DBMWikiView = ({
             {/* Mobile Modal Header */}
             <div className="p-4 bg-slate-950 border-b border-cyan-900/60 flex justify-between items-center shrink-0">
               <div className="min-w-0 flex-1 pr-2">
-                <div className="flex items-center gap-2 mb-1">
+                <div className="flex items-center gap-1.5 flex-wrap mb-1">
                   <span className="text-[10px] text-cyan-400/90 uppercase font-mono tracking-wider">
                     {currentConfig?.label || 'Compendium'}
                   </span>
@@ -293,8 +336,25 @@ export const DBMWikiView = ({
                       / {activeArticle.parent}
                     </span>
                   )}
+                  {activeArticle.perspective && (
+                    <span className={`text-[9px] px-1.5 py-0.2 rounded font-mono uppercase font-bold border ${
+                      activeArticle.perspective === 'operator'
+                        ? 'bg-emerald-950/90 text-emerald-300 border-emerald-500/50'
+                        : activeArticle.perspective === 'architect'
+                        ? 'bg-amber-950/90 text-amber-300 border-amber-500/50'
+                        : 'bg-cyan-950 text-cyan-300 border-cyan-500/40'
+                    }`}>
+                      {activeArticle.perspective === 'operator' ? '👤 OPERATOR' : activeArticle.perspective === 'architect' ? '🏛️ ARCHITECT' : 'CORE'}
+                    </span>
+                  )}
                   {activeArticle.entry_type && (
-                    <span className="text-[9px] px-1.5 py-0.2 bg-cyan-950 text-cyan-300 border border-cyan-500/40 rounded font-mono uppercase">
+                    <span className={`text-[9px] px-1.5 py-0.2 rounded font-mono uppercase font-bold border ${
+                      activeArticle.entry_type.toLowerCase().includes('primary')
+                        ? 'bg-emerald-950 text-emerald-300 border-emerald-500/60'
+                        : activeArticle.entry_type.toLowerCase().includes('generic')
+                        ? 'bg-amber-950 text-amber-300 border-amber-500/50'
+                        : 'bg-slate-900 text-slate-300 border-slate-700'
+                    }`}>
                       {activeArticle.entry_type}
                     </span>
                   )}
@@ -393,15 +453,64 @@ export const DBMWikiView = ({
                 {allArticlesFlat.length}
               </span>
             </div>
-            {isAdmin && (
-              <button
-                onClick={handleCreateNew}
-                className="px-2.5 py-1 bg-amber-600 hover:bg-amber-500 text-white font-bold text-[11px] uppercase rounded shadow transition-colors flex items-center gap-1 cursor-pointer"
-              >
-                <Plus size={12} />
-                <span>New Article</span>
-              </button>
-            )}
+            <div className="flex items-center gap-1.5">
+              {isAdmin && (
+                <button
+                  onClick={handleSyncCloud}
+                  disabled={isSyncing}
+                  className="px-2 py-1 bg-cyan-950 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/40 font-bold text-[10px] uppercase rounded transition-colors flex items-center gap-1 cursor-pointer disabled:opacity-50 shadow-sm"
+                  title="Sync all 71 canonical rulebook articles to Firestore database"
+                >
+                  <RefreshCw size={11} className={isSyncing ? "animate-spin text-cyan-400" : "text-cyan-400"} />
+                  <span>{isSyncing ? 'Syncing...' : 'Sync Cloud'}</span>
+                </button>
+              )}
+              {isAdmin && (
+                <button
+                  onClick={handleCreateNew}
+                  className="px-2 py-1 bg-amber-600 hover:bg-amber-500 text-white font-bold text-[10px] uppercase rounded shadow transition-colors flex items-center gap-1 cursor-pointer"
+                >
+                  <Plus size={11} />
+                  <span>New</span>
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Perspective Filter Pills */}
+          <div className="flex items-center gap-1 bg-slate-900 p-1 rounded-lg border border-slate-800 text-[11px] font-mono">
+            <button
+              onClick={() => setPerspectiveFilter('all')}
+              className={`flex-1 py-1 rounded text-center font-bold uppercase transition-all ${
+                perspectiveFilter === 'all'
+                  ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-[0_0_8px_rgba(34,211,238,0.25)]'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              All ({currentItems?.length || 0})
+            </button>
+            <button
+              onClick={() => setPerspectiveFilter('operator')}
+              className={`flex-1 py-1 rounded text-center font-bold uppercase transition-all flex items-center justify-center gap-1 ${
+                perspectiveFilter === 'operator'
+                  ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/60 shadow-[0_0_8px_rgba(52,211,153,0.25)]'
+                  : 'text-slate-400 hover:text-emerald-300'
+              }`}
+              title="Player-facing rules, character creation, major primary factions, skills, features & spells"
+            >
+              <span>👤</span> Operator
+            </button>
+            <button
+              onClick={() => setPerspectiveFilter('architect')}
+              className={`flex-1 py-1 rounded text-center font-bold uppercase transition-all flex items-center justify-center gap-1 ${
+                perspectiveFilter === 'architect'
+                  ? 'bg-amber-950 text-amber-300 border border-amber-500/60 shadow-[0_0_8px_rgba(251,191,36,0.25)]'
+                  : 'text-slate-400 hover:text-amber-300'
+              }`}
+              title="Game Master rules, worldbuilding, generic templates, combat matrices & Bastion engine"
+            >
+              <span>🏛️</span> Architect
+            </button>
           </div>
 
           <div className="relative">
@@ -533,7 +642,7 @@ export const DBMWikiView = ({
             {/* Header & Controls */}
             <div className="flex justify-between items-start border-b border-slate-800 pb-4 gap-4">
               <div className="space-y-1 min-w-0">
-                <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex items-center gap-2 flex-wrap mb-1">
                   <span className="text-xs font-mono text-cyan-400 uppercase tracking-wider">
                     {currentConfig?.label || 'Compendium'}
                   </span>
@@ -542,8 +651,25 @@ export const DBMWikiView = ({
                       / {activeArticle.parent}
                     </span>
                   )}
+                  {activeArticle.perspective && (
+                    <span className={`text-[10px] px-2 py-0.5 rounded font-mono uppercase font-bold border ${
+                      activeArticle.perspective === 'operator'
+                        ? 'bg-emerald-950/90 text-emerald-300 border-emerald-500/50'
+                        : activeArticle.perspective === 'architect'
+                        ? 'bg-amber-950/90 text-amber-300 border-amber-500/50'
+                        : 'bg-cyan-950 text-cyan-300 border-cyan-500/40'
+                    }`}>
+                      {activeArticle.perspective === 'operator' ? '👤 OPERATOR' : activeArticle.perspective === 'architect' ? '🏛️ ARCHITECT' : 'CORE (ALL)'}
+                    </span>
+                  )}
                   {activeArticle.entry_type && (
-                    <span className="text-[10px] px-2 py-0.5 bg-cyan-950 text-cyan-300 border border-cyan-500/40 rounded font-mono uppercase font-bold">
+                    <span className={`text-[10px] px-2 py-0.5 rounded font-mono uppercase font-bold border ${
+                      activeArticle.entry_type.toLowerCase().includes('primary')
+                        ? 'bg-emerald-950 text-emerald-300 border-emerald-500/60'
+                        : activeArticle.entry_type.toLowerCase().includes('generic')
+                        ? 'bg-amber-950 text-amber-300 border-amber-500/50'
+                        : 'bg-slate-900 text-slate-300 border-slate-700'
+                    }`}>
                       {activeArticle.entry_type}
                     </span>
                   )}
