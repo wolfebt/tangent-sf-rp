@@ -47,10 +47,8 @@ async function syncAllToFirestore() {
     const data = parsed.data || {};
     const content = parsed.content.trim();
 
-    if (!data.id) {
-      console.warn(`[Skip] Missing ID in ${relFile}`);
-      continue;
-    }
+    const fileId = relFile.split(/[/\\]/).pop().replace(/\.md$/i, '');
+    const docId = data.id || fileId;
 
     // Determine target collection
     let collectionName = data.category;
@@ -59,7 +57,6 @@ async function syncAllToFirestore() {
       collectionName = parts[0];
     }
 
-    const docId = data.id;
 
     const payload = {
       ...data,
