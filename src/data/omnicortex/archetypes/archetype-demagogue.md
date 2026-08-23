@@ -49,3 +49,11 @@ Incite distractions, turn enemy minions against leaders, sow confusion.
 - **Occupations**: Criminal, Entertainer
 - **Origins**: Urban, Industrial, Colony
 - **Factions**: Coalition (Rebels), Outworlds (Cults), Syndicate (Hostile Takeover)
+
+
+## Extended Lore & Background
+
+A skilled propagandist who spreads dissent and undermines authority through persuasive speeches and subversive media.  
+*You are the spark that starts the fire. You know that information is a virus, and you infect the masses with ideas that topple empires. You turn the enemy's own populace against them.*  
+*"The truth is whatever I say it is loud enough."*
+

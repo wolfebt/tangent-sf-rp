@@ -48,3 +48,11 @@ Scouting (Clairvoyance), Crowd Control (Telepathy), Buffing.
 - **Occupations**: Adept, Enlightened
 - **Origins**: Enlightened, Research, Leisure
 - **Factions**: Auluran (Mystics), Alterian Enclave (Seers), Impyrium (Sanctioned Psykers)
+
+
+## Extended Lore & Background
+
+Possesses innate mental powers or spiritual connection. Seers, telepaths, and prophets.  
+*You see the strings of the universe. While others rely on their eyes, you sense the thoughts, the futures, and the connections that bind all things. You are the guide to the unseen.*  
+*"Your thoughts are so... loud."*
+

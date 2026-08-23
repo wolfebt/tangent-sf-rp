@@ -48,3 +48,11 @@ Building/repairing drones, commanding robot minions, hacking enemy bots.
 - **Occupations**: Engineer, Scholar
 - **Origins**: Research, Industrial, Urban
 - **Factions**: Mekan (Self-Study), Syndicate (Drone Works), Ascendancy
+
+
+## Extended Lore & Background
+
+A scholar who specializes in the study, design, and development of robots.  
+*You breathe life into metal. You design and build the machines that serve, fight, and explore. You understand the artificial mind better than the organic one.*  
+*"It's not just a machine. It's a masterpiece."*
+

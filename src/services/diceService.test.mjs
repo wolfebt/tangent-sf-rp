@@ -22,9 +22,17 @@ const p3 = parseDiceExpression('4d6k3-2');
 assert(p3.count === 4 && p3.sides === 6 && p3.keep === 3 && p3.modifier === -2, 'Failed 4d6k3-2 parse');
 
 // Test 2: rollDice execution
-for (let i = 0; i < 50; i++) {
+for (let i = 0; i < 100; i++) {
   const res = rollDice('2d10+5', { targetNumber: 15 });
-  assert(res.total >= 7 && res.total <= 25, `Roll out of expected bounds: ${res.total}`);
+  if (res.isCritSuccess) {
+    assert(res.subtotal === 30, `Expected crit success subtotal 30, got ${res.subtotal}`);
+    assert(res.total === 35, `Expected crit success total 35, got ${res.total}`);
+  } else if (res.isCritFail) {
+    assert(res.subtotal === -10, `Expected crit fail subtotal -10, got ${res.subtotal}`);
+    assert(res.total === -5, `Expected crit fail total -5, got ${res.total}`);
+  } else {
+    assert(res.total >= 8 && res.total <= 24, `Roll out of standard bounds: ${res.total}`);
+  }
   assert(typeof res.isCritSuccess === 'boolean', 'isCritSuccess should be boolean');
   assert(typeof res.isCritFail === 'boolean', 'isCritFail should be boolean');
   assert(res.margin === res.total - 15, `Margin calculation incorrect: ${res.margin}`);

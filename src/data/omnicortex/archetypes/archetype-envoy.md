@@ -49,3 +49,11 @@ Prevent combat before it starts, call in faction favors, secure safe houses.
 - **Occupations**: Representative, Noble
 - **Origins**: Urban, Enlightened, Leisure
 - **Factions**: Entari Combine (Diplomats), Alterian Enclave (Ambassadors), Ascendancy
+
+
+## Extended Lore & Background
+
+An adept negotiator entrusted with representing their faction. They navigate diplomatic channels to ensure peace.  
+*You hold the weight of nations. You navigate the complex web of galactic politics, turning potential wars into alliances with a handshake. You ensure your team has friends in high places.*  
+*"A treaty is just a pause between wars. Let's make it a long one."*
+

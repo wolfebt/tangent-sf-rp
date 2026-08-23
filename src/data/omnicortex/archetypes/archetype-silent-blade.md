@@ -49,3 +49,11 @@ Elimination of High Value Targets, scouting, alpha strikes.
 - **Occupations**: Criminal, Agent
 - **Origins**: Urban, Militaristic, Hostile
 - **Factions**: Syndicate (Liquidators), Dynasty (Royal Assassins), Outworlds
+
+
+## Extended Lore & Background
+
+A professional killer taking contracts to eliminate specific targets via long-range sniping or close-quarters execution.  
+*You are the surgeon of warfare. You don't fight battles; you end them. With a single shot or a blade in the dark, you remove the pieces that hold the enemy together.*  
+*"One shot. One clean timeline."*
+

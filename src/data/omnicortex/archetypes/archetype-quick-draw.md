@@ -49,3 +49,11 @@ Winning initiative, eliminating high-threat targets first, high-mobility combat.
 - **Occupations**: Drifter, Soldier
 - **Origins**: Hostile, Colony, Militaristic
 - **Factions**: Outworlds (Gunfighters), Coalition (Marshals), Syndicate
+
+
+## Extended Lore & Background
+
+The gunslinger of the future, whose survival depends on being the first to fire in any confrontation.  
+*You are the fastest hand in the sector. You live in the split second between intent and action, drawing and firing before the enemy can even process the threat. You don't start the fight, but you always end it.*  
+*"I already pulled the trigger. You just haven't fallen yet."*
+

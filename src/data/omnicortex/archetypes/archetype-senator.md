@@ -49,3 +49,11 @@ Dealing with authorities, securing funding, changing laws.
 - **Occupations**: Representative, Noble
 - **Origins**: Urban, Leisure, Enlightened
 - **Factions**: Impyrium (Senate), Coalition (Council), Entari Combine
+
+
+## Extended Lore & Background
+
+Charismatic figure who navigates the political landscape, builds alliances, and sways public opinion.  
+*You play the great game. You know that laws are just suggestions and power is just perception. You manipulate the system to serve your ends, ensuring that public opinion is always on your side.*  
+*"I don't need a weapon. I have a mandate."*
+

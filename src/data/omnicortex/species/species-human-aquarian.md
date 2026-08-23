@@ -134,3 +134,11 @@ Runner
 Scent  
 Self Sufficient  
 Swimmer
+
+
+## Extended Lore & Background
+
+Aquatic Humans possess several key physiological adaptations suited to their watery environment. Their skin is covered in fine, almost imperceptible scales that aid in hydrodynamics and offer a slight defense against environmental pressures. When submerged, their skin often takes on a subtle, natural bluish tint, which provides a degree of camouflage within the planet's deep, cerulean oceans. Their eyes are noteworthy, featuring unusually large pupils that maximize light capture in the dimmer, deeper regions of Aquarius, granting them exceptional underwater vision. Furthermore, they exhibit partial webbing—approximately halfway—on both their fingers and toes, significantly enhancing their propulsion and maneuverability through the water. These traits mark them as a species intrinsically linked to, and perfectly evolved for, the aquatic realm.
+
+\*Tiburon Syndrome \- Taboo to eat mammals / red meat (fish and fowl are acceptable) induces growth in the R-Brain and changes in physical appearance \- taking a more feral appearance and with increased aggression, claws grow out on fingers and toes and an increased hunger (double to triple meat consumption \- possibly lead to cannibalism). Gains Scent ability but may berserk at the smell of blood (Rage \- Will save (DC 15\) to fight)
+

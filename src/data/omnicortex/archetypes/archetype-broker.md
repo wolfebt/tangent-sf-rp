@@ -48,3 +48,11 @@ Funding the party, acquiring rare gear, transport logistics.
 - **Occupations**: Merchant, Spacer
 - **Origins**: Urban, Spacer, Colony
 - **Factions**: Entari Combine (Merchants), Syndicate (Traders), Alterian Enclave
+
+
+## Extended Lore & Background
+
+Travels space lanes buying and selling. Keen eye for value and negotiation.  
+*You keep the galaxy moving. You know the value of everything, from a crate of ore to a secret. You turn risks into rewards, navigating trade routes and social circles to ensure your crew always turns a profit.*  
+*"Everything is negotiable. Even loyalty."*
+

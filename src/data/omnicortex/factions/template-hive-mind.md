@@ -18,3 +18,53 @@ Psionically unified swarm, insectoid collective, or synthetic mesh where individ
 - Assign Tech Level (1-5) and Meta Level (1-5) based on campaign scale.
 - Choose 20 SP across 4-6 appropriate skills matching the organization's focus.
 - Select 1-2 Recommended Features reflecting the faction's primary trade.
+
+
+## Extended Lore & Background
+
+These factions are characterized by a collective consciousness, where individual members are subservient to the group's goals of expansion, assimilation, or self-preservation.   
+**Attitudes**    
+Single-minded, ruthless, efficient, unified, adaptive, relentless  
+**Goals**    
+Expand the hive, assimilate other species, eliminate threats, ensure the survival of the hive  
+**Strengths**    
+Large numbers, ability to adapt quickly, advanced biological technology, highly coordinated, ability to adapt rapidly, strong sense of unity and purpose  
+**Weaknesses**    
+Vulnerability to psychic attacks, lack of individuality, difficulty understanding other species, vulnerability to disruption of the hive mind's communication, potential for infighting if the hive mind is weakened, reliance on the collective for decision-making  
+**Technology** 3  
+**Skills** 4 from any category  
+**Features** 2 of any category
+
+Drone  
+Warrior  
+Architect  
+Caretaker  
+Hunter  
+Queen  
+Bio-Engineer
+
+
+
+## Extended Lore & Background
+
+These factions are characterized by a collective consciousness, where individual members are subservient to the group's goals of expansion, assimilation, or self-preservation.   
+**Attitudes**    
+Single-minded, ruthless, efficient, unified, adaptive, relentless  
+**Goals**    
+Expand the hive, assimilate other species, eliminate threats, ensure the survival of the hive  
+**Strengths**    
+Large numbers, ability to adapt quickly, advanced biological technology, highly coordinated, ability to adapt rapidly, strong sense of unity and purpose  
+**Weaknesses**    
+Vulnerability to psychic attacks, lack of individuality, difficulty understanding other species, vulnerability to disruption of the hive mind's communication, potential for infighting if the hive mind is weakened, reliance on the collective for decision-making  
+**Technology** 3  
+**Skills** 4 from any category  
+**Features** 2 of any category
+
+Drone  
+Warrior  
+Architect  
+Caretaker  
+Hunter  
+Queen  
+Bio-Engineer
+

@@ -48,3 +48,11 @@ Decrypting comms, translating alien languages, solving logic puzzles.
 - **Occupations**: Agent, Scholar
 - **Origins**: Research, Militaristic, Urban
 - **Factions**: Syndicate (Encryption), Mekan (Logic), Ascendancy
+
+
+## Extended Lore & Background
+
+An expert in deciphering codes, languages, and hidden messages.  
+*You unlock the secrets. No code is unbreakable, no language untranslatable. You find meaning in the chaos, revealing the hidden messages that others cannot see.*  
+*"Everything is a pattern. I just need to find the key."*
+

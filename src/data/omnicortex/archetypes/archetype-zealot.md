@@ -49,3 +49,11 @@ Breaking enemy morale, uncovering spies, resisting psychic attacks.
 - **Occupations**: Agent, Soldier (Impyrium)
 - **Origins**: Militaristic, Urban (Capital), Enlightened
 - **Factions**: Impyrium (Inquisitors), Auluran (Purists), Dracon Dynasty
+
+
+## Extended Lore & Background
+
+Roots out heresy and dissent. Skilled in interrogation and intimidation to enforce dogma.  
+*You are the purity of the cause. You see the corruption that hides in the hearts of men and burn it out. You are feared not for your strength, but for your absolute, terrifying certainty.*  
+*"Innocence proves nothing."*
+

@@ -50,3 +50,11 @@ Gathering rumors, gaining access to restricted social areas, manipulating NPCs.
 - **Occupations**: Citizen (Elite), Entertainer
 - **Origins**: Leisure, Urban, Enlightened
 - **Factions**: Syndicate (Elites), Entari Combine, Dracon Dynasty
+
+
+## Extended Lore & Background
+
+A charismatic individual who thrives in social settings and networking.  
+*You are the center of attention. You navigate the treacherous waters of high society with a smile and a drink. Information is your currency, and connections are your weapons.*  
+*"Oh, darling, you simply must tell me everything."*
+

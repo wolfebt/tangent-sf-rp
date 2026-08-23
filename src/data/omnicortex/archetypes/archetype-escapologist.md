@@ -49,3 +49,11 @@ Extraction specialist, bypassing traps, navigating high-security exits.
 - **Occupations**: Criminal, Entertainer
 - **Origins**: Urban, Leisure, Spacer
 - **Factions**: Outworlds (Fugitives), Syndicate (Extractors), Coalition
+
+
+## Extended Lore & Background
+
+The master of extraction and evasion who specializes in getting out of "impossible" situations.  
+*You are the loose thread. No cage can hold you, and no perimeter is absolute. You turn the enemy's own protocols into your exit strategy, proving that the best defense is simply not being there when the hammer falls.*  
+*"I'm not trapped in here with you. I'm already halfway to the hangar."*
+

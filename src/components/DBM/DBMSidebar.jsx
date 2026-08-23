@@ -80,7 +80,7 @@ export const DBMSidebar = ({
   });
 
   return (
-    <aside className="w-64 sm:w-72 h-full bg-[#0a0d14]/90 backdrop-blur-xl border-r border-[#0D5C63]/50 flex flex-col shrink-0 p-3 gap-2 overflow-hidden select-none relative z-20 font-sans shadow-xl">
+    <aside className="w-64 sm:w-72 h-full bg-[#0a0d14]/90 backdrop-blur-xl border border-[#0D5C63]/50 rounded-xl flex flex-col shrink-0 p-3 gap-2 overflow-hidden select-none relative z-20 font-sans shadow-xl">
       {/* Categories Header Banner */}
       <div className="px-1 py-1 border-b border-slate-800/80 shrink-0">
         <div className="flex items-center justify-between mb-1">
@@ -107,7 +107,7 @@ export const DBMSidebar = ({
       </div>
 
       {/* Category List Menu */}
-      <div className="flex-1 min-h-0 flex flex-col gap-1 overflow-y-auto pr-1">
+      <div className="flex-1 min-h-0 flex flex-col gap-1 overflow-y-auto pr-1 pb-2">
         {filteredCategories.map(catKey => {
           const config = categoryConfig[catKey];
           if (!config) return null;

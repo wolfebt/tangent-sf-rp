@@ -86,3 +86,9 @@ Low Light Vision line
 Methodical  
 Rugged  
 Skill Focus line
+
+
+## Extended Lore & Background
+
+The most noticeable result of this evolution is their dense, compact physique and markedly shorter-than-average stature. While classified as Medium size in general terms, their typical height is around 5 feet, giving them a "Stocky" build. Despite this reduced height, their bone density and muscular mass are significantly increased, leading to a body weight comparable to, or sometimes exceeding, that of a baseline human of average height. This combination of short stature and high mass contributes to an exceptionally low center of gravity, granting them superior stability, balance, and physical resilience. Their circulatory and skeletal systems are also uniquely adapted to withstand high-stress environments.
+

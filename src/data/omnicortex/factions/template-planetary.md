@@ -18,3 +18,49 @@ Local sovereign civil government, parliamentary senate, or royal planetary gover
 - Assign Tech Level (1-5) and Meta Level (1-5) based on campaign scale.
 - Choose 20 SP across 4-6 appropriate skills matching the organization's focus.
 - Select 1-2 Recommended Features reflecting the faction's primary trade.
+
+
+## Extended Lore & Background
+
+These factions are characterized by their focus on the development and control of individual planets or planetary systems.   
+**Attitudes**    
+Dominant, territorial, resourceful, protective  
+**Goals**    
+Control their planet(s), expand their influence, protect their resources, develop and control planets, exploit resources, defend against external threats  
+**Strengths**    
+Knowledge of their planet(s), access to local resources, strong community bonds, strong local knowledge and infrastructure, ability to adapt to planetary environments, access to planetary resources  
+**Weaknesses**    
+Vulnerability to outside threats, difficulty communicating with other factions, tendency to prioritize their own interests over the greater good, limited interstellar capabilities, vulnerability to external threats, potential for internal divisions  
+**Technology** 3  
+**Skills** Knowledge and Vocation  
+**Features** 2 General Features
+
+Planetary Governor  
+Planetary Defender  
+Planetary Scientist  
+Planetary Engineer  
+Planetary Explorer
+
+
+
+## Extended Lore & Background
+
+These factions are characterized by their focus on the development and control of individual planets or planetary systems.   
+**Attitudes**    
+Dominant, territorial, resourceful, protective  
+**Goals**    
+Control their planet(s), expand their influence, protect their resources, develop and control planets, exploit resources, defend against external threats  
+**Strengths**    
+Knowledge of their planet(s), access to local resources, strong community bonds, strong local knowledge and infrastructure, ability to adapt to planetary environments, access to planetary resources  
+**Weaknesses**    
+Vulnerability to outside threats, difficulty communicating with other factions, tendency to prioritize their own interests over the greater good, limited interstellar capabilities, vulnerability to external threats, potential for internal divisions  
+**Technology** 3  
+**Skills** Knowledge and Vocation  
+**Features** 2 General Features
+
+Planetary Governor  
+Planetary Defender  
+Planetary Scientist  
+Planetary Engineer  
+Planetary Explorer
+

@@ -49,3 +49,11 @@ Navigation through anomalies, identifying cosmic threats, operating ship sensors
 - **Occupations**: Scholar, Spacer
 - **Origins**: Research, Spacer, Enlightened
 - **Factions**: Alterian Enclave, Ascendancy, Void-dwelling species
+
+
+## Extended Lore & Background
+
+Specializes in the study of celestial objects and phenomena. They provide navigation data and understand the cosmos.  
+*You read the stars like a map. You understand the terrifying scale of the cosmos and how to navigate its dangers. When the nav-computer fails, you are the one who guides the ship home.*  
+*"We are all just stardust. Some of us are just moving faster than others."*
+

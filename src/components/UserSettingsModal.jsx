@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { db } from '../firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { BookOpen, ExternalLink, Sparkles } from 'lucide-react';
+import { ComprehensiveUserGuideModal } from './UI/ComprehensiveUserGuideModal';
+import { AudioService } from '../services/audioService';
 
 const AI_PLATFORMS = [
   { id: 'gemini', name: 'Google Gemini (System Default)' },
@@ -18,6 +21,8 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
   const [aiPlatform, setAiPlatform] = useState('gemini');
   const [otherAiApiKey, setOtherAiApiKey] = useState('');
   const [saveMessage, setSaveMessage] = useState('');
+  const [isGuideOpen, setIsGuideOpen] = useState(false);
+  const [initialGuideTab, setInitialGuideTab] = useState('hub');
 
   useEffect(() => {
     if (isOpen) {
@@ -126,6 +131,34 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
 
         {/* Form Body */}
         <form onSubmit={handleSave} className="p-5 space-y-4 overflow-y-auto max-h-[75vh] text-xs">
+
+          {/* System Documentation & User Guide Banner */}
+          <div className="p-3.5 bg-gradient-to-r from-cyan-950/60 to-slate-900/80 border border-cyan-500/40 rounded-xl flex items-center justify-between gap-3 shadow-sm">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="w-8 h-8 rounded-lg bg-cyan-500/20 border border-cyan-500/50 flex items-center justify-center text-cyan-300 shrink-0">
+                <BookOpen size={16} />
+              </div>
+              <div className="min-w-0">
+                <div className="font-bold text-white font-mono uppercase tracking-wider text-xs">
+                  Comprehensive User Guide
+                </div>
+                <div className="text-[10px] text-cyan-300/80 truncate">
+                  Full 10-app system manuals, components &amp; mechanics breakdown
+                </div>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1200, 0.03);
+                setIsGuideOpen(true);
+              }}
+              className="px-3 py-1.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-400 text-cyan-300 hover:text-white rounded-lg text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-[0_0_10px_rgba(34,211,238,0.2)] shrink-0 flex items-center gap-1.5 cursor-pointer"
+            >
+              <span>Open Guide</span>
+              <ExternalLink size={12} />
+            </button>
+          </div>
           
           {/* Public Handle */}
           <div className="space-y-1">
@@ -241,6 +274,13 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
           </div>
         </form>
       </div>
+
+      {/* Comprehensive User Guide Modal */}
+      <ComprehensiveUserGuideModal
+        isOpen={isGuideOpen}
+        onClose={() => setIsGuideOpen(false)}
+        initialTab={initialGuideTab}
+      />
     </div>
   );
 };

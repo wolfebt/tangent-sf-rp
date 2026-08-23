@@ -48,3 +48,11 @@ Keep the tank alive, revive downed allies, provide light fire support.
 - **Occupations**: Soldier, Specialist
 - **Origins**: Militaristic, Colony, Spacer
 - **Factions**: Coalition (Combat Medics), Auluran (Healer Caste), Outworlds (Sawbones)
+
+
+## Extended Lore & Background
+
+Provides emergency medical care under fire. Proficient in both combat and medicine.  
+*You hold the line between life and death. When the armor fails and the screaming starts, you are the calm in the chaos. You possess the steady hands to stitch a wound while dodging plasma fire.*  
+*"I decide who walks away from this. Don't make me regret choosing you."*
+

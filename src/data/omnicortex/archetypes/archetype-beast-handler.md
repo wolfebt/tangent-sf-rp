@@ -49,3 +49,11 @@ Directing animal allies in combat, tracking with biological aids, navigating wil
 - **Occupations**: Scout, Drifter
 - **Origins**: Agricultural, Hostile, Colony
 - **Factions**: Auluran (Graa Handlers), Outworlds (Wranglers), Coalition
+
+
+## Extended Lore & Background
+
+The rugged specialist who trains and directs animals and xeno-fauna for work and war.  
+*You understand the wild mind. You forge bonds with creatures that others view as monsters, turning their primal instincts into tactical assets. Your pack is your family and your weapon.*  
+*"They aren't pets. They're partners."*
+

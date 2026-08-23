@@ -49,3 +49,11 @@ Holding choke points, soaking damage, providing cover bonuses to allies.
 - **Occupations**: Soldier (Impyrium), Representative
 - **Origins**: Militaristic, Urban (Capital)
 - **Factions**: Impyrium (Imperial Legion), Dynasty (Dragoons)
+
+
+## Extended Lore & Background
+
+A disciplined and loyal soldier who serves in the Impyrium's legions. Expert in formation warfare.  
+*You are a brick in the wall of the Empire. You fight not as an individual, but as a unit, locking shields and advancing with the inexorable weight of history behind you.*  
+*"Strength in unity. Victory in discipline."*
+

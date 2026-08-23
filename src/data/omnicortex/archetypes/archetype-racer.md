@@ -49,3 +49,11 @@ Chase scenes, extraction, outrunning threats.
 - **Occupations**: Specialist, Entertainer
 - **Origins**: Leisure, Urban, Spacer
 - **Factions**: Syndicate (Leisure), Outworlds
+
+
+## Extended Lore & Background
+
+Skilled in piloting high-speed vehicles in competitive or dangerous environments.  
+*You are the fastest thing alive. You push machines past their breaking point, threading the needle at supersonic speeds. Victory is measured in milliseconds.*  
+*"If you aren't first, you're last."*
+

@@ -49,3 +49,11 @@ Ship combat, extraction, high-speed chases.
 - **Occupations**: Spacer, Specialist
 - **Origins**: Spacer, Militaristic, Industrial
 - **Factions**: Coalition (Smugglers), Ascendancy (Test Pilots), Syndicate (Interceptors)
+
+
+## Extended Lore & Background
+
+Navigates starships through asteroids and blockades. Master of the stick.  
+*You are the god of velocity. On the ground, you're just another grunt, but behind a yoke, you are untouchable. You weave through debris fields and dogfights with a grin, delivering the team exactly where they need to be.*  
+*"Hold on back there. I'm gonna try something stupid."*
+

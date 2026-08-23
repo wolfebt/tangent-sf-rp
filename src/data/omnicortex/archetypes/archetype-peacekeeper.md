@@ -49,3 +49,11 @@ De-escalating combat, protecting allies, subduing enemies non-lethally.
 - **Occupations**: Soldier, Representative
 - **Origins**: Urban, Colony, Enlightened
 - **Factions**: Entari Combine (Constables), Ascendancy (Judges), Coalition
+
+
+## Extended Lore & Background
+
+A protector of the innocent and champion of peace, using force and words.  
+*You fight for peace. You are the shield of the defenseless, using violence only as a last resort. You walk the line between warrior and diplomat, resolving conflicts before they begin.*  
+*"Stand down. There is no need for bloodshed today."*
+

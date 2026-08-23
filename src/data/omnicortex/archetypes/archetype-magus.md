@@ -50,3 +50,11 @@ Area damage, battlefield control, utility casting.
 - **Occupations**: Adept, Scholar
 - **Origins**: Enlightened, Research, Urban
 - **Factions**: Alterian Enclave (Arcanists), Dracon Dynasty (Sorcerers), Auluran (Shamans)
+
+
+## Extended Lore & Background
+
+A master of arcane magic, manipulating subtle energies to cast powerful spells through intricate gestures and rituals.  
+*You hack reality. You have studied the underlying code of the universe and learned to rewrite it with a gesture. Fire, gravity, and time are just variables for you to manipulate.*  
+*"Physics is just a suggestion I choose to ignore."*
+

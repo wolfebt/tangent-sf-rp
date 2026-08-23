@@ -49,3 +49,11 @@ Solving puzzles, identifying enemy origins, diplomatic context.
 - **Occupations**: Scholar, Representative
 - **Origins**: Enlightened, Research, Leisure
 - **Factions**: Mekan (Memory Banks), Impyrium (Vaults), Alterian Enclave
+
+
+## Extended Lore & Background
+
+Studies history and culture. Provides context and insight into societies and ancient technologies.  
+*You remember what the world forgot. You know that history repeats itself, and you know how to break the cycle. Your knowledge of the past is the key to surviving the future.*  
+*"Those who do not learn from the past are doomed to be eaten by it."*
+

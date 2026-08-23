@@ -48,3 +48,11 @@ Demoralizing enemies, inflicting fear, wielding entropic magic.
 - **Occupations**: Adept, Outcast
 - **Origins**: Hostile, Spacer, Enlightened
 - **Factions**: Outworlds (Entropy Cults), Sha'Nor, Coalition
+
+
+## Extended Lore & Background
+
+A nihilistic prophet who believes the end is inevitable and seeks to hasten or warn of it.  
+*You see the darkness coming. You are the harbinger of entropy, speaking truths that others fear to hear. Your presence instills dread, for you walk hand in hand with the inevitable end.*  
+*"The void calls, and I am its voice."*
+

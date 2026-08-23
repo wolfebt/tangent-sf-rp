@@ -91,3 +91,19 @@ Longevity
 Low Light Vision  
 Obfuscate  
 Well Informed
+
+
+## Extended Lore & Background
+
+Their keen intellect and innate agility contribute significantly to their success. The Half-Folk are clever problem-solvers, often utilizing their understanding of natural surroundings and simple mechanics to overcome obstacles that would baffle larger human societies. Their agility is not just a trait for movement; it is a fundamental aspect of their interaction with the environment, allowing them to traverse difficult terrain with ease.
+
+This unique combination of traits has led to the development of equally unique living arrangements. The Half-Folk are masters of dual habitation, having successfully adapted to be both arboreal and burrowers. This flexibility means they are not confined to a single type of landscape. They live comfortably in a vast variety of habitats, including:
+
+Arboreal Structures: Intricate, well-camouflaged homes built within the canopies of large trees, offering protection from ground-level threats and excellent vantage points.
+
+Natural Caves: They are experts at recognizing and utilizing existing geological features, modifying natural caves to suit their needs while maintaining the integrity of the environment.
+
+Constructed Burrows: Sophisticated underground dwellings, often dug with impressive skill and ingenuity. These burrows provide stable temperatures, security, and shelter from the most severe weather.
+
+Their ability to switch between these modes of life—and often integrate them within a single settlement—is a testament to their resourcefulness, allowing Half-Folk communities to flourish where other peoples would struggle to merely subsist.
+

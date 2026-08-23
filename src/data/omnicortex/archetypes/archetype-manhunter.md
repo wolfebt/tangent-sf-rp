@@ -49,3 +49,11 @@ Tracking enemies, capturing targets alive, wilderness survival.
 - **Occupations**: Drifter, Agent
 - **Origins**: Hostile, Spacer, Colony
 - **Factions**: Coalition (Bounty Hunters), Syndicate (Recovery), Outworlds
+
+
+## Extended Lore & Background
+
+Uses tracking and combat skills to pursue criminals for a reward. Skilled in investigation and apprehension.  
+*You always get your mark. No moon is distant enough, no hole deep enough. You combine the skills of a detective with the grit of a soldier, pursuing targets that others fear to name.*  
+*"I can bring you in warm, or I can bring you in cold."*
+

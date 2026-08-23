@@ -98,3 +98,13 @@ Stealthy
 Quick  
 Uncanny Sense (Scent)  
 Uncanny Sense (Hearing)
+
+
+## Extended Lore & Background
+
+Physically, they possess the cunning and sharp features often associated with foxes, though rendered in a bipedal form. Their bodies are typically lean and agile, built for swift movement and quick reflexes. Their coat colors can vary widely, ranging from earthy reds and browns to more exotic whites, blacks, and dappled patterns, often with lighter fur marking their chests and the tips of their tails.
+
+Beyond their physical characteristics, Kizin are renowned for their high intelligence. They possess sharp minds, a knack for puzzles, and a rapid ability to learn and adapt, making them excellent strategists, engineers, and scholars in their own right. This mental acuity, however, is often closely linked to their most defining trait: an insatiable, overwhelming over-curiosity.
+
+While they are frequently perceived as mischievous, this reputation stems less from an inclination toward deliberate harm or villainy, and more from their profound need to investigate, disassemble, and understand the world around them. A Kizin's "prank" is rarely malicious; it is far more likely a poorly considered experiment, a consequence of wanting to know *what happens if* they tamper with a mechanism, unlock a door, or simply follow a fascinating secret down a troublesome path. Their nature, therefore, is fundamentally one of discovery and exploration, often prioritizing new knowledge or experiences above social etiquette or personal safety.
+

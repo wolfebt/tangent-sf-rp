@@ -49,3 +49,11 @@ Funding the mission, legal defense, accessing corporate restricted zones.
 - **Occupations**: Agent, Citizen (Corporate)
 - **Origins**: Urban, Industrial, Leisure
 - **Factions**: Syndicate (Executives), Entari Combine (Trade Reps), Ascendancy
+
+
+## Extended Lore & Background
+
+Represents the company's interests, securing deals and resolving disputes. Backed by corporate resources.  
+*You are the avatar of the megacorp. You walk into rooms and buy the building. You wield wealth and legal precedent like a cudgel, ensuring that no matter who wins the fight, your side wins the profit.*  
+*"My client is willing to offer a generous settlement. I suggest you take it before my security team settles it for you."*
+

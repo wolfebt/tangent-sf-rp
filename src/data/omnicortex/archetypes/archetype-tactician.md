@@ -49,3 +49,11 @@ Boosting ally initiative/attacks, countering enemy tactics, controlling the batt
 - **Occupations**: Soldier, Officer
 - **Origins**: Militaristic, Urban, Spacer
 - **Factions**: Impyrium (High Command), Dracon Dynasty, Mekan (War Minds)
+
+
+## Extended Lore & Background
+
+A strategic mastermind who analyzes the battlefield and coordinates actions.  
+*You win the battle before it starts. You see the flow of combat, anticipating enemy moves and positioning your allies for maximum effect. You turn chaos into order.*  
+*"They are moving to flank. Suppress the left and advance on my signal."*
+

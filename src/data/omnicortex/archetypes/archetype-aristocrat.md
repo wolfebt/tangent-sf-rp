@@ -49,3 +49,11 @@ Gaining access to high-security areas via status, funding, legal immunity.
 - **Occupations**: Noble, Citizen
 - **Origins**: Leisure, Urban, Enlightened
 - **Factions**: Dracon Dynasty (Nobility), Impyrium (Patricians), Alterian Enclave (Elders)
+
+
+## Extended Lore & Background
+
+A member of the aristocracy, born into a position of privilege and power. They wield status as a weapon.  
+*You were born to rule. Your name opens doors that are locked to commoners, and your wealth solves problems before they begin. You navigate the deadly game of courts and kings with practiced ease.*  
+*"Do you know who I am? That was a rhetorical question."*
+

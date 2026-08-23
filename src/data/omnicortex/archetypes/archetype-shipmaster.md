@@ -49,3 +49,11 @@ Managing ship operations, negotiating docking fees, avoiding piracy.
 - **Occupations**: Merchant, Spacer
 - **Origins**: Spacer, Urban, Industrial
 - **Factions**: Outworlds (Freighters), Entari Combine (Trade Fleet), Syndicate
+
+
+## Extended Lore & Background
+
+A seasoned starship captain who commands a vessel and crew with expertise in trade and safety.  
+*You are the master of the trade lanes. You navigate the complex web of commerce and law, ensuring your ship and cargo arrive intact and on time. You are a steady hand on the tiller of enterprise.*  
+*"Time is money, and we are ahead of schedule."*
+

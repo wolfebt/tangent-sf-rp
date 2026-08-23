@@ -12,7 +12,8 @@ import {
   Dna, 
   Crosshair,
   TrendingUp,
-  Boxes
+  Boxes,
+  Database
 } from 'lucide-react';
 
 /**
@@ -295,67 +296,6 @@ export const CODEX_MATRICES = [
     ]
   },
   {
-    id: 'companion',
-    name: 'COMPANION',
-    label: 'Companion Matrix',
-    icon: HeartHandshake,
-    color: '#3b82f6', // Blue
-    theme: 'blue',
-    targetCollection: 'features',
-    altCollection: 'compendium',
-    description: 'Synthesize combat drones, cyber-beasts, AI sub-minds, genetically engineered familiars, and robotic guardians.',
-    category: 'Entities & Constructs',
-    badge: 'Construct Matrix',
-    customComponent: 'CompanionPackageSelector',
-    defaultValues: {
-      name: '',
-      companion_type: 'Biological',
-      form_package: 'canine',
-      function_packages: ['guardian_attack'],
-      bonds: [],
-      size: 'Medium',
-      companion_rank: 1,
-      owner_tier: 1,
-      tech_level: 3,
-      meta_level: 0,
-      craft_dc: 15,
-      vitality: 25,
-      armor_rating: 12,
-      control_interface: 'voice_gesture',
-      description: '',
-      mechanic: '',
-      note: ''
-    },
-    fields: [
-      { name: 'name', label: 'Companion / Unit Name', type: 'text', required: true, placeholder: 'E.g., Sentinel-IV Micro-Recon Drone' },
-      { name: 'companion_type', label: 'Companion Type', type: 'select', options: ['Biological', 'Synthetic', 'Metaphysical'] },
-      { name: 'size', label: 'Size Category', type: 'select', options: ['Diminutive', 'Tiny', 'Small', 'Medium', 'Large', 'Huge'] },
-      { name: 'companion_rank', label: 'Companion Feature Rank (1-5)', type: 'number', min: 1, max: 5 },
-      { name: 'owner_tier', label: 'Owner Threat Tier (1-20)', type: 'number', min: 1, max: 20 },
-      { name: 'tech_level', label: 'Tech Level (TL 0-5)', type: 'number', min: 0, max: 5 },
-      { name: 'meta_level', label: 'Meta Level (ML 0-5)', type: 'number', min: 0, max: 5 },
-      { name: 'craft_dc', label: 'Synthesis / Build DC', type: 'number', min: 0, max: 80 },
-      { name: 'description', label: 'Physical Profile & Personality Subroutine', type: 'textarea', aiEnabled: true },
-      { name: 'mechanic', label: 'Command Directives & Combat Actions', type: 'textarea' },
-      { name: 'note', label: 'Architect Notes', type: 'textarea' }
-    ],
-    budgets: [
-      { id: 'companion_bp', label: 'Companion Build Points', type: 'custom', max: 40, unit: 'BP', color: '#3b82f6' }
-    ],
-    computedOutputs: DEFAULT_COMPUTED_OUTPUTS,
-    computeOnSave: (formData, engines) => {
-      if (engines?.entities?.computeCompanionStats) {
-        return engines.entities.computeCompanionStats(formData);
-      }
-      return createStandardComputeOnSave('Mount', 1)(formData, engines);
-    },
-    archetypes: [
-      { name: 'Hover Recon Drone', prompt: 'Compact floating quadcopter drone equipped with thermal optics and laser designator.' },
-      { name: 'Cybernetic War Hound', prompt: 'Canine beast with titanium reinforced jaw, subdermal plating, and scent tracking algorithms.' },
-      { name: 'Holographic AI Persona', prompt: 'Portable sub-mind entity stored on a holocron data-core offering tactical hacking analysis.' }
-    ]
-  },
-  {
     id: 'equipment',
     name: 'EQUIPMENT',
     label: 'Equipment Matrix',
@@ -601,7 +541,7 @@ export const CODEX_MATRICES = [
     icon: Users,
     color: '#3b82f6', // Blue
     theme: 'blue',
-    targetCollection: 'compendium',
+    targetCollection: 'modular_characters',
     altCollection: 'features',
     description: 'Assemble NPC archetypes, tactical adversary templates, security squads, mercenary bosses, and synth droids.',
     category: 'NPCs & Operative Templates',
@@ -660,7 +600,7 @@ export const CODEX_MATRICES = [
     icon: Globe,
     color: '#10b981', // Green / Emerald
     theme: 'emerald',
-    targetCollection: 'compendium',
+    targetCollection: 'planetary_design',
     description: 'Map star systems, planetary biomes, orbital stations, atmospheric conditions, hazardous zones, and alien ecologies.',
     category: 'Cosmology & Worldbuilding',
     badge: 'Planetary Matrix',
@@ -851,7 +791,7 @@ export const CODEX_MATRICES = [
     color: '#94a3b8', // Light Grey / Slate
     theme: 'slate',
     viewType: 'dashboard',
-    targetCollection: 'compendium',
+    targetCollection: 'economatrix',
     description: 'Master economic reference suite, trade route simulator, currency converter, and standard curve calculator.',
     category: 'System Reference & Calculators',
     badge: 'Economic Engine',
@@ -869,6 +809,82 @@ export const CODEX_MATRICES = [
     computeOnSave: createStandardComputeOnSave('Socket', 1)
   },
   {
+    id: 'factions',
+    name: 'FACTIONS',
+    label: 'Faction Framework',
+    icon: Users,
+    color: '#3b82f6', // Blue
+    theme: 'blue',
+    targetCollection: 'factions',
+    description: 'Design comprehensive sociological, economic, and military factions to populate the universe.',
+    category: 'World Building',
+    badge: 'Sociology Matrix',
+    defaultValues: {
+      name: '',
+      archetype: 'Militaristic',
+      tl: 3,
+      wealth_modifier: 0,
+      description: '',
+      colloquialisms: '',
+      symbol_sigil: '',
+      driving_mandate: '',
+      motto: '',
+      core_beliefs: '',
+      social_structure: '',
+      outsider_view: '',
+      law_order: '',
+      government_type: '',
+      leadership: '',
+      succession: '',
+      primary_exports: '',
+      economic_model: '',
+      military_doctrine: '',
+      key_units: '',
+      naval_assets: '',
+      design_language: '',
+      architecture: '',
+      gear_aesthetic: '',
+      lighting_mood: '',
+      image_prompt: '',
+      inherent_features: [],
+      specific_skill_bonuses: []
+    },
+    fields: [
+      { name: 'name', label: 'Faction Name', type: 'text', required: true, placeholder: 'E.g., Free Worlds Coalition' },
+      { name: 'archetype', label: 'Archetype', type: 'select', options: ['Militaristic', 'Corporate / Mercantile', 'Religious / Cult', 'Technological', 'Criminal / Syndicate', 'Exploration / Academic', 'Agrarian / Colony', 'Isolationist / Alien'] },
+      { name: 'tl', label: 'Tech Level (TL 0-5)', type: 'number', min: 0, max: 5 },
+      { name: 'wealth_modifier', label: 'Wealth Modifier', type: 'number' },
+      { name: 'description', label: 'General Overview', type: 'textarea' },
+      { name: 'colloquialisms', label: 'Colloquialisms / Slang', type: 'text' },
+      { name: 'symbol_sigil', label: 'Symbol / Sigil', type: 'text' },
+      { name: 'driving_mandate', label: 'Driving Mandate', type: 'textarea' },
+      { name: 'motto', label: 'Motto', type: 'text' },
+      { name: 'core_beliefs', label: 'Core Beliefs', type: 'textarea' },
+      { name: 'social_structure', label: 'Social Structure', type: 'textarea' },
+      { name: 'outsider_view', label: 'View on Outsiders', type: 'textarea' },
+      { name: 'law_order', label: 'Law & Order', type: 'textarea' },
+      { name: 'government_type', label: 'Government Type', type: 'text' },
+      { name: 'leadership', label: 'Leadership', type: 'text' },
+      { name: 'succession', label: 'Succession Rules', type: 'text' },
+      { name: 'primary_exports', label: 'Primary Exports', type: 'text' },
+      { name: 'economic_model', label: 'Economic Model', type: 'text' },
+      { name: 'military_doctrine', label: 'Military Doctrine', type: 'textarea' },
+      { name: 'key_units', label: 'Key Units', type: 'textarea' },
+      { name: 'naval_assets', label: 'Naval Assets', type: 'textarea' },
+      { name: 'design_language', label: 'Design Language', type: 'textarea' },
+      { name: 'architecture', label: 'Architecture', type: 'textarea' },
+      { name: 'gear_aesthetic', label: 'Gear Aesthetic', type: 'textarea' },
+      { name: 'lighting_mood', label: 'Lighting / Mood', type: 'textarea' },
+      { name: 'image_prompt', label: 'AI Image Prompt Guidance', type: 'textarea' }
+    ],
+    computedOutputs: [], // Or add custom computed if needed
+    computeOnSave: (formData, engines) => formData, // Just pass through, maybe we compute something?
+    archetypes: [
+      { name: 'Corporate Hegemony', prompt: 'A massive interplanetary conglomerate that acts as a sovereign nation.' },
+      { name: 'Warrior Nomads', prompt: 'A fleet-based culture of proud warriors who rely on raiding.' }
+    ]
+  },
+  {
     id: 'technology',
     name: 'TECHNOLOGY',
     label: 'Technology Codex',
@@ -876,7 +892,7 @@ export const CODEX_MATRICES = [
     color: '#94a3b8', // Light Grey / Slate
     theme: 'slate',
     viewType: 'dashboard',
-    targetCollection: 'compendium',
+    targetCollection: 'technology',
     description: 'Tech Level encyclopedia, domain capability charts, schematic repositories, and adaptive material references.',
     category: 'System Reference & Calculators',
     badge: 'Tech Engine',
@@ -894,6 +910,20 @@ export const CODEX_MATRICES = [
     ],
     computedOutputs: DEFAULT_COMPUTED_OUTPUTS,
     computeOnSave: createStandardComputeOnSave('Socket', 1)
+  },
+  {
+    id: 'ingestion-engine',
+    name: 'DATA INGESTION',
+    label: 'Omnicortex Ingestion Engine',
+    icon: Database,
+    color: '#f59e0b', // Amber
+    theme: 'amber',
+    viewType: 'dashboard',
+    targetCollection: 'compendium',
+    description: 'Bulk parse and inject external markdown data, tables, and raw text into the Omnicortex structured database.',
+    category: 'System Reference & Calculators',
+    badge: 'Admin Tool',
+    customComponent: 'CodexIngestionEngine'
   }
 ];
 

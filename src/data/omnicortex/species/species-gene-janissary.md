@@ -191,3 +191,11 @@ Longevity  (enhanced physiology)
 Reduced Sustenance (enhanced physiology)  
 Regeneration (enhanced physiology)  
 \+2 Features of choice
+
+
+## Extended Lore & Background
+
+Following this physical maturation, Janissary soldiers undergo an intense, virtual training regimen. Advanced neural interface systems directly link to their minds, bypassing traditional, slow learning and memorization. Complex skill sets—from advanced tactical combat and demolitions to cryptography and xenolinguistics—are directly 'programmed' into their neural architecture, creating a force with unparalleled immediate proficiency.
+
+A critical, intentional outcome of this forced development and programmed education is the complete omission of childhood and all traditional social developmental stages. While possessing the physical maturity and technical competence of a veteran soldier, Janissary entirely lack the nuanced social and emotional context essential for human interaction and non-combat critical decision-making. They possess no personal history, emotional attachments, or the moral framework typically developed through years of social experience. This developmental void results in highly efficient, emotionally detached, and singularly focused combat instruments. Though perfectly suited for the brutal, utilitarian demands of the battlefield, they remain fundamentally alien to natural human society.
+

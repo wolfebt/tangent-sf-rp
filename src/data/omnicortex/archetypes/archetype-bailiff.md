@@ -49,3 +49,11 @@ Grappling and subduing targets, protecting VIPs, enforcing social order.
 - **Occupations**: Agent, Citizen
 - **Origins**: Urban, Militaristic, Colony
 - **Factions**: Ascendancy (Judiciaries), Impyrium (Legalists), Entari Combine
+
+
+## Extended Lore & Background
+
+The officer of the court and enforcer of civil law, ensuring that order is maintained within the halls of justice.  
+*You are the shadow of the judge. You maintain the dignity of the law through physical presence and unwavering authority. You ensure that even the most chaotic elements respect the proceedings.*  
+*"The Court will have order. One way or another."*
+

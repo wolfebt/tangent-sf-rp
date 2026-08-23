@@ -49,3 +49,11 @@ Generating food/water, building fortifications, animal taming.
 - **Occupations**: Citizen (Colonist), Scout
 - **Origins**: Agricultural, Colony, Hostile
 - **Factions**: Outworlds (Colonists), Coalition (Settlers), Dracon Dynasty (Peasantry)
+
+
+## Extended Lore & Background
+
+A hardworking and resourceful individual determined to build a life on the frontier.  
+*You tame the land. You don't need a replicator or a supermarket; you build what you need from the dirt up. You are the foundation upon which colonies are built, enduring where others would starve.*  
+*"This land is hard, but I am harder."*
+

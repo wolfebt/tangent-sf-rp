@@ -49,3 +49,11 @@ Fighting in hazardous environments/vacuum, breaching ships.
 - **Occupations**: Soldier, Spacer
 - **Origins**: Spacer, Militaristic, Aquatic
 - **Factions**: Impyrium (Void Marines), Syndicate (Drop Troops), Dynasty (Knights)
+
+
+## Extended Lore & Background
+
+Disciplined soldier serving on navy vessels. Expert in boarding actions and zero-g combat.  
+*You fight where others freeze. Vacuum, zero-g, tight corridors—this is your home. You are the tip of the spear in ship-to-ship actions, breaching hulls and taking bridges while the universe tries to kill you.*  
+*"Gravity is a crutch. Mag-lock and load."*
+

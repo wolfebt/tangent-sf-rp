@@ -49,3 +49,11 @@ Granting bonuses to allies, organizing attacks, managing NPC troops.
 - **Occupations**: Soldier (Officer), Noble
 - **Origins**: Militaristic, Urban, Colony
 - **Factions**: Impyrium (Legions), Dracon Dynasty, Coalition (Militia)
+
+
+## Extended Lore & Background
+
+A strategic leader who commands troops and coordinates military operations.  
+*You lead from the front. You are the mind of the army, directing the flow of battle with precision. Your orders save lives and win wars.*  
+*"Form up\! Hold the line\!"*
+

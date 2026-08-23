@@ -49,3 +49,11 @@ Identify enemy weaknesses, crack codes, reconstruct crime scenes.
 - **Occupations**: Scholar, Specialist, Agent
 - **Origins**: Research, Urban, Militaristic
 - **Factions**: Mekan (Logic Engines), Impyrium (Tacticians), Ascendancy
+
+
+## Extended Lore & Background
+
+A proficient analytical thinker adept at processing data and solving problems. They see the patterns others miss.  
+*You are the logic engine. You take the chaotic noise of the world and distill it into actionable data. You find the needle in the haystack, the flaw in the plan, and the weakness in the armor.*  
+*"The probability of success increases by 40% if you stop screaming."*
+

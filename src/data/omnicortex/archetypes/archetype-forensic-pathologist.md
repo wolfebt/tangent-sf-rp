@@ -48,3 +48,11 @@ Solving murders, identifying toxins/diseases, analyzing biological threats.
 - **Occupations**: Doctor, Agent
 - **Origins**: Research, Urban, Colony
 - **Factions**: Entari Combine (Justice), Syndicate (Internal Affairs), Coalition
+
+
+## Extended Lore & Background
+
+An expert in determining cause of death and analyzing biological evidence.  
+*The dead speak to you. You read the story of their final moments in their wounds and chemistry. You find the truth that the living try to hide.*  
+*"The body never lies."*
+

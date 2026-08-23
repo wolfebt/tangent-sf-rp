@@ -49,3 +49,11 @@ Traversing difficult terrain, dodging attacks, distracting enemies.
 - **Occupations**: Entertainer, Specialist
 - **Origins**: Leisure, Spacer, Urban
 - **Factions**: Entari Combine (Performers), Outworlds (Traveling Shows)
+
+
+## Extended Lore & Background
+
+A performer specializing in agility and stunts, often in zero-gravity.  
+*You laugh at gravity. You move in ways that should be impossible, turning the battlefield into your stage. Whether swinging from rigging or dodging laser fire, your grace is your defense.*  
+*"Catch me if you can."*
+

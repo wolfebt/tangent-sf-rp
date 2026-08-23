@@ -48,3 +48,11 @@ Plotting FTL jumps, navigating hazards, mapping sectors.
 - **Occupations**: Spacer, Specialist
 - **Origins**: Spacer, Research, Colony
 - **Factions**: Ascendancy (Reach Explorers), Impyrium (Navigators Guild), Outworlds
+
+
+## Extended Lore & Background
+
+A skilled pilot and navigator who charts the course for ships.  
+*You know the way. The void is vast and trackless, but you never lose your way. You guide the ship through the dark, avoiding hazards and finding the fastest route to your destination.*  
+*"Trust my headings. I've never lost a ship yet."*
+

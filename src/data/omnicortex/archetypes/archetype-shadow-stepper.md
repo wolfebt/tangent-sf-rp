@@ -49,3 +49,11 @@ Stealth scouting, planting explosives, silent elimination.
 - **Occupations**: Spy, Criminal
 - **Origins**: Urban, Research, Industrial
 - **Factions**: Syndicate (Infiltrators), Alterian Enclave (Shadows), Mekan
+
+
+## Extended Lore & Background
+
+A master of optical camouflage and tactical misdirection who treats reality as an obstacle to be bypassed.  
+*You aren't there. Even when they look right at you, their eyes slide away. You move through fortified lines like a ghost, leaving nothing behind but an empty vault or a neutralized leader.*  
+*"Did you hear that? Probably just the wind."*
+

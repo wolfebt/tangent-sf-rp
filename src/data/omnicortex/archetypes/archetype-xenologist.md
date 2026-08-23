@@ -49,3 +49,11 @@ Communicating with aliens, identifying xeno-threats, cultural navigation.
 - **Occupations**: Scholar, Diplomat
 - **Origins**: Research, Spacer, Enlightened
 - **Factions**: Entari Combine (First Contact), Alterian Enclave, Ascendancy
+
+
+## Extended Lore & Background
+
+An expert in alien cultures, biology, and languages.  
+*You bridge the gap between worlds. You understand the strange and the alien, decoding their languages and customs to foster understanding or gain an advantage.*  
+*"They aren't monsters. They're just... different."*
+

@@ -2,12 +2,10 @@
 id: "0-03-bastion-tactical-assistant-manual"
 name: "0.03 BASTION Tactical Assistant & Engine Manual"
 category: "compendium"
-parent: "0.00 SYSTEM & USER MANUALS"
+entry_type: "Role Reference"
+parent: "0.00 SYSTEM ROLES & ARCHITECTURE"
 order: 3
-perspective: "both"
-entry_type: "Core Engine Manual"
 ---
-
 # 0.03 BASTION Tactical Assistant & Engine Manual
 
 **BASTION** is the integrated Tactical AI Assistant, rules adjudication engine, and combat computation system for the Tangent Science Fantasy Roleplay suite.
@@ -19,11 +17,11 @@ entry_type: "Core Engine Manual"
 BASTION processes user directives, parses tactical encounters, calculates odds, and resolves dice commands:
 
 ### Dice Rolling Engine Syntax
-- `/roll [count]d[sides]+[mod]`
+- /roll [count]d[sides]+[mod]
 - Examples:
-  - `/roll d20+6` — Standard attack or skill check.
-  - `/roll 2d10+4` — Heavy energy blaster damage roll.
-  - `/roll 3d6+2` — Kinetic slug thrower burst roll.
+  - /roll d20+6 — Standard attack or skill check.
+  - /roll 2d10+4 — Heavy energy blaster damage roll.
+  - /roll 3d6+2 — Kinetic slug thrower burst roll.
 
 ---
 
@@ -32,13 +30,13 @@ BASTION processes user directives, parses tactical encounters, calculates odds, 
 BASTION evaluates mathematical equations across the three modules (**Omnicortex**, **Story Foundry**, and **Persona Folio**):
 
 ### Attack & Strike Calculation
-`Total Strike = d20 + Skill Rank + Attribute Mod + Weapon Mod + Situational Mod`
+\text{Total Strike} = d20 + \text{Skill Rank} + \text{Attribute Mod} + \text{Weapon Mod} + \text{Situational Mod}
 
 ### Armor Penetration & Effective Damage
-`Effective Damage = Incoming Damage - max(0, Armor DR - Armor Piercing (AP))`
+\text{Effective Damage} = \text{Incoming Damage} - \max(0, \text{Armor DR} - \text{Armor Piercing (AP)})
 
 ### Metaphysic Potency
-`Potency Score = Key Ability + Discipline Skill Level + Invocation Level + 10 (or d20)`
+\text{Potency Score} = \text{Key Ability} + \text{Discipline Skill Level} + \text{Invocation Level} + 10 \text{ (or } d20 \text{)}
 
 ---
 
@@ -47,16 +45,3 @@ BASTION evaluates mathematical equations across the three modules (**Omnicortex*
 BASTION enforces strict data validation across all DBM collections:
 - **Relational Linking:** Items link to prerequisites, species link to inherent traits, and features link to skill requirements.
 - **Bi-directional Sync:** Folio character sheets dynamically query Omnicortex DBM entries in real time.
-
-## Game Mechanics Rules
-```
-Input: /roll 2d20kh1+5 -> Roll 2d20, Keep Highest 1, Add 5 (Advantage Check)
-Damage Soak: EffectiveHP_Loss = max(1, RawDamage - max(0, TargetDR - WeaponAP))
-```
-
-## Gameplay Instructions
-Type /roll in the BASTION chat bar to execute instant dice operations.
-Ask BASTION for rule lookups, NPC generation, and combat odds analysis.
-
-## Designer Notes
-BASTION is strictly attuned to the Tangent SFF RPG rulebook and prioritizes mathematical precision.

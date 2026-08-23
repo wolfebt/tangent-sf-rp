@@ -49,3 +49,11 @@ Fills gaps in the party, transport, urban survival.
 - **Occupations**: Drifter, Scout
 - **Origins**: Spacer, Colony, Hostile
 - **Factions**: Outworlds (Drifters), Coalition (Wanderers), Ascendancy
+
+
+## Extended Lore & Background
+
+Travels from place to place without a fixed home. Characterized by freedom, adaptability, and adventure.  
+*You are the ultimate survivor. You have no home, but you have a skill for every situation. You fix what's broken, find what's lost, and disappear before the trouble starts.*  
+*"I've been everywhere, man. And I know the quickest way out of here."*
+

@@ -49,3 +49,11 @@ Rally NPCs to the party's cause, de-escalate riots, negotiate with locals.
 - **Occupations**: Citizen, Representative
 - **Origins**: Urban, Colony, Enlightened
 - **Factions**: Coalition (Freedom Movement), Entari Combine (Ethicists), Outworlds
+
+
+## Extended Lore & Background
+
+A passionate individual who fights for social justice and equality. They utilize their voice to raise awareness and effect change.  
+*You are the conscience of the galaxy. You speak for the voiceless and stand against the corrupt. Your power comes not from weapons, but from the unshakeable belief that things can be better.*  
+*"We do not beg for freedom. We demand it."*
+

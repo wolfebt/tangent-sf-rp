@@ -49,3 +49,11 @@ Converting NPCs, providing healing/support, navigating cultural/religious encoun
 - **Occupations**: Adept, Representative
 - **Origins**: Enlightened, Colony, Spacer
 - **Factions**: Impyrium (State Religion), Entari Combine (Ethical), Ascendancy
+
+
+## Extended Lore & Background
+
+A zealous preacher who travels the galaxy to spread their faith.  
+*You carry the light into the darkness. You travel to the farthest reaches of the galaxy to share your truth, bringing hope and conviction to the lost and the forgotten.*  
+*"There is no place too dark for the light to reach."*
+

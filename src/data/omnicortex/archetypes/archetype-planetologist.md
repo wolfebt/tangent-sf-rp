@@ -49,3 +49,11 @@ Identifying environmental hazards, finding resources, surviving planetary condit
 - **Occupations**: Scholar, Explorer
 - **Origins**: Research, Colony, Hostile
 - **Factions**: Auluran (Terraformers), Ascendancy, Entari Combine
+
+
+## Extended Lore & Background
+
+A scholar who studies the geology, climate, and ecosystems of planets.  
+*You read the world. You understand the forces that shape planets, from tectonics to weather. You know where to find resources and how to survive the elements.*  
+*"This planet is alive, and right now, it's angry."*
+

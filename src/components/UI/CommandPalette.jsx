@@ -79,16 +79,23 @@ export const CommandPalette = ({ isOpen, onClose, onDiceRolled }) => {
 
     let results = [];
 
-    // 2. Navigation Actions
+    // 2. Navigation & User Guide Actions
     const defaultNav = [
       { id: 'nav_hub', title: 'Go to Command Hub', subtitle: 'Main Dashboard & Operations', icon: <Compass size={16} className="text-cyan-400" />, action: () => { navigate('/'); onClose(); } },
+      { id: 'nav_guide', title: 'Open Comprehensive User Guide', subtitle: 'System Manual & 10-App Documentation', icon: <BookOpen size={16} className="text-cyan-300" />, action: () => { window.dispatchEvent(new CustomEvent('open-user-guide', { detail: { tab: 'hub' } })); onClose(); } },
       { id: 'nav_folio', title: 'Go to Persona Folio', subtitle: 'Hero Roster & Operative Sheets', icon: <User size={16} className="text-cyan-400" />, action: () => { navigate('/folio'); onClose(); } },
+      { id: 'nav_guide_folio', title: 'User Guide: Persona Folio', subtitle: 'CP Economy, 7 Tabs, 31 Narrative Fields', icon: <BookOpen size={16} className="text-cyan-400" />, action: () => { window.dispatchEvent(new CustomEvent('open-user-guide', { detail: { tab: 'folio' } })); onClose(); } },
       { id: 'nav_story', title: 'Go to Story Foundry', subtitle: 'Tactical Maps & Scenario Weaver', icon: <Map size={16} className="text-purple-400" />, action: () => { navigate('/foundry'); onClose(); } },
+      { id: 'nav_guide_story', title: 'User Guide: Story Foundry', subtitle: 'Scenario Trees, Relational Links, Export', icon: <BookOpen size={16} className="text-purple-400" />, action: () => { window.dispatchEvent(new CustomEvent('open-user-guide', { detail: { tab: 'story' } })); onClose(); } },
       { id: 'nav_dbm', title: 'Go to Omnicortex (DBM)', subtitle: 'Rules Codex & Game Database', icon: <BookOpen size={16} className="text-emerald-400" />, action: () => { navigate('/dbm'); onClose(); } },
+      { id: 'nav_guide_dbm', title: 'User Guide: Omnicortex DBM', subtitle: '13 Categories, Dev Mode & JSON Backup', icon: <BookOpen size={16} className="text-emerald-400" />, action: () => { window.dispatchEvent(new CustomEvent('open-user-guide', { detail: { tab: 'dbm' } })); onClose(); } },
       { id: 'nav_codex', title: 'Go to Codex Matrix Suite', subtitle: 'Guided Development Tools (14 Matrices)', icon: <Sparkles size={16} className="text-amber-400" />, action: () => { navigate('/codex'); onClose(); } },
-      { id: 'nav_elements', title: 'Go to Element Forge', subtitle: 'Custom Lore & Species Editor', icon: <Sparkles size={16} className="text-emerald-400" />, action: () => { navigate('/foundry/elements'); onClose(); } },
+      { id: 'nav_guide_codex', title: 'User Guide: Codex & Matrices', subtitle: '14 Engineering Matrices & Economatrix', icon: <BookOpen size={16} className="text-amber-400" />, action: () => { window.dispatchEvent(new CustomEvent('open-user-guide', { detail: { tab: 'codex' } })); onClose(); } },
       { id: 'nav_maps', title: 'Go to Tactical Map Maker', subtitle: 'Virtual Tabletop Grid Canvas', icon: <Map size={16} className="text-cyan-400" />, action: () => { navigate('/foundry/map-maker'); onClose(); } },
-      { id: 'nav_aime', title: 'Go to AIME Creative Suite', subtitle: 'Artificial Intellect Master Entity', icon: <Sparkles size={16} className="text-purple-400" />, action: () => { navigate('/foundry/aime'); onClose(); } }
+      { id: 'nav_guide_maps', title: 'User Guide: Tactical Map & VTT', subtitle: 'Grid Canvas, Tokens, Combat Tracker, Spectator', icon: <BookOpen size={16} className="text-cyan-400" />, action: () => { window.dispatchEvent(new CustomEvent('open-user-guide', { detail: { tab: 'maps' } })); onClose(); } },
+      { id: 'nav_aime', title: 'Go to AIME Creative Suite', subtitle: 'Artificial Intellect Master Entity', icon: <Sparkles size={16} className="text-purple-400" />, action: () => { navigate('/foundry/aime'); onClose(); } },
+      { id: 'nav_guide_rules', title: 'User Guide: Core Rules & Combat', subtitle: '2d10 Resolution, TN Ladder & Criticals', icon: <BookOpen size={16} className="text-teal-400" />, action: () => { window.dispatchEvent(new CustomEvent('open-user-guide', { detail: { tab: 'rules' } })); onClose(); } },
+      { id: 'nav_elements', title: 'Go to Element Forge', subtitle: 'Custom Lore & Species Editor', icon: <Sparkles size={16} className="text-emerald-400" />, action: () => { navigate('/foundry/elements'); onClose(); } }
     ];
 
     if (!q) return defaultNav;

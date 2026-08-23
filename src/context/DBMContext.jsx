@@ -453,6 +453,132 @@ export const DBMProvider = ({ children }) => {
     }
   }, [currentUser]);
 
+  // Master Database Backup Export & Restore Import
+  const handleExportMasterJSON = useCallback(async () => {
+    try {
+      const allKeys = Object.keys(categoryConfig).filter(
+        k => !categoryConfig[k].isParent && categoryConfig[k].viewType !== 'guide'
+      );
+      const masterCollections = {};
+      
+      for (const colKey of allKeys) {
+        if (dbData[colKey] && dbData[colKey].length > 0) {
+          masterCollections[colKey] = dbData[colKey];
+        } else {
+          try {
+            const snap = await getDocs(collection(db, colKey));
+            masterCollections[colKey] = snap.docs.map(d => ({ ...d.data(), id: d.id }));
+          } catch (e) {
+            masterCollections[colKey] = [];
+          }
+        }
+      }
+
+      const backup = {
+        type: "OmnicortexMasterDatabase",
+        version: "2.0",
+        exportedAt: new Date().toISOString(),
+        collections: masterCollections
+      };
+
+      const dataStr = JSON.stringify(backup, null, 2);
+      const blob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `omnicortex_universe_master_${Date.now()}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast({ type: 'success', text: 'Master Database backup exported successfully.' });
+    } catch (err) {
+      console.error("Master Export error:", err);
+      showToast({ type: 'error', text: "Failed to export Master Database: " + err.message });
+    }
+  }, [dbData, showToast]);
+
+  const handleImportMasterJSON = useCallback((e) => {
+    const file = e?.target?.files?.[0] || e;
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      try {
+        const parsed = JSON.parse(event.target.result);
+        const collections = parsed.collections || (parsed.type === "OmnicortexMasterDatabase" ? parsed : null);
+        if (!collections) {
+          showToast({ type: 'error', text: "Invalid master database format. Expected 'collections' map." });
+          return;
+        }
+        let totalCount = 0;
+        for (const [colKey, items] of Object.entries(collections)) {
+          if (Array.isArray(items) && items.length > 0) {
+            await importJSON(items, colKey);
+            totalCount += items.length;
+          }
+        }
+        showToast({ type: 'success', text: `Successfully imported Master Backup (${totalCount} entries across ${Object.keys(collections).length} collections)!` });
+      } catch (err) {
+        console.error("Master Import error:", err);
+        showToast({ type: 'error', text: "Invalid Master JSON file format." });
+      }
+    };
+    reader.readAsText(file);
+    if (e?.target) e.target.value = '';
+  }, [importJSON, showToast]);
+
+  // Omnicortex Navigation History & Global State
+  const [activeCategory, setActiveCategory] = useState('compendium');
+  const [activeSubcategory, setActiveSubcategory] = useState(null);
+  const [history, setHistory] = useState(['compendium']);
+  const [historyIndex, setHistoryIndex] = useState(0);
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isBastionOpen, setIsBastionOpen] = useState(false);
+  const [isArchitectModalOpen, setIsArchitectModalOpen] = useState(false);
+
+  const navigateToCategory = useCallback((catKey, subKey = null) => {
+    setActiveCategory(catKey);
+    setActiveSubcategory(subKey);
+
+    setHistory(prevHistory => {
+      const nextHistory = prevHistory.slice(0, historyIndex + 1);
+      nextHistory.push(subKey ? `${catKey}:${subKey}` : catKey);
+      setHistoryIndex(nextHistory.length - 1);
+      return nextHistory;
+    });
+  }, [historyIndex]);
+
+  const handleBack = useCallback(() => {
+    if (historyIndex > 0) {
+      const prevIdx = historyIndex - 1;
+      const target = history[prevIdx];
+      setHistoryIndex(prevIdx);
+      if (target.includes(':')) {
+        const [cat, sub] = target.split(':');
+        setActiveCategory(cat);
+        setActiveSubcategory(sub);
+      } else {
+        setActiveCategory(target);
+        setActiveSubcategory(null);
+      }
+    }
+  }, [history, historyIndex]);
+
+  const handleForward = useCallback(() => {
+    if (historyIndex < history.length - 1) {
+      const nextIdx = historyIndex + 1;
+      const target = history[nextIdx];
+      setHistoryIndex(nextIdx);
+      if (target.includes(':')) {
+        const [cat, sub] = target.split(':');
+        setActiveCategory(cat);
+        setActiveSubcategory(sub);
+      } else {
+        setActiveCategory(target);
+        setActiveSubcategory(null);
+      }
+    }
+  }, [history, historyIndex]);
+
   return (
     <DBMContext.Provider value={{
       dbData,
@@ -465,7 +591,24 @@ export const DBMProvider = ({ children }) => {
       deleteEntry,
       importJSON,
       syncCanonicalCompendium,
-      syncCanonicalSpecies
+      syncCanonicalSpecies,
+      handleExportMasterJSON,
+      handleImportMasterJSON,
+      activeCategory,
+      setActiveCategory,
+      activeSubcategory,
+      setActiveSubcategory,
+      history,
+      historyIndex,
+      navigateToCategory,
+      handleBack,
+      handleForward,
+      isSidebarOpen,
+      setIsSidebarOpen,
+      isBastionOpen,
+      setIsBastionOpen,
+      isArchitectModalOpen,
+      setIsArchitectModalOpen
     }}>
       {children}
     </DBMContext.Provider>

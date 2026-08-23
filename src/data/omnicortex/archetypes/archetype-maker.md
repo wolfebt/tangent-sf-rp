@@ -49,3 +49,11 @@ Fixing the ship/vehicle, building defenses, analyzing enemy tech.
 - **Occupations**: Builder, Specialist
 - **Origins**: Industrial, Urban, Research
 - **Factions**: Mekan (Constructors), Syndicate (Engineers), Ascendancy
+
+
+## Extended Lore & Background
+
+A brilliant inventor and technician who develops and maintains advanced technology. Skilled in hardware and software.  
+*You build the future. If it's broken, you fix it; if it doesn't exist, you invent it. You keep the ship flying, the guns firing, and the lights on when the universe tries to turn them off.*  
+*"Give me a wrench and five minutes. I'll make it work."*
+

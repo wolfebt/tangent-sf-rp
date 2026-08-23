@@ -241,28 +241,27 @@ const allArticles = [
   ...technologyArticles
 ];
 
-console.log(\n======================================================);
-console.log(  COMPILING CANONICAL COMPENDIUM ( ARTICLES));
-console.log(======================================================\n);
+console.log("\n======================================================");
+console.log(`  COMPILING CANONICAL COMPENDIUM (${allArticles.length} ARTICLES)`);
+console.log("======================================================\n");
 
 const volumeCounts = {};
 
 for (const article of allArticles) {
   const frontmatter = [
     '---',
-    id: "",
-    
-ame: "",
-    category: "compendium",
-    entry_type: "",
-    parent: "",
-    order: ,
+    `id: "${article.id}"`,
+    `name: "${article.name}"`,
+    `category: "${article.category || 'compendium'}"`,
+    `entry_type: "${article.entry_type || 'Core Rule'}"`,
+    `parent: "${article.parent || ''}"`,
+    `order: ${article.order || 0}`,
     '---',
     ''
   ].join('\n');
 
-  const fileContent = frontmatter + article.description.trim() + '\n';
-  const filePath = path.join(compendiumDir, ${article.id}.md);
+  const fileContent = frontmatter + (article.description ? article.description.trim() : '') + '\n';
+  const filePath = path.join(compendiumDir, `${article.id}.md`);
   fs.writeFileSync(filePath, fileContent, 'utf8');
 
   const vol = article.parent || 'Standalone';
@@ -274,9 +273,9 @@ fs.writeFileSync(seedJsonPath, JSON.stringify(allArticles, null, 2), 'utf8');
 
 console.log('Generated Articles by Volume:');
 for (const [vol, count] of Object.entries(volumeCounts)) {
-  console.log(  - []:  full articles);
+  console.log(`  - [${vol}]: ${count} full articles`);
 }
 
-console.log(\nTotal Compendium Articles: );
-console.log(Generated JSON Seed: );
-console.log(Generated Markdown Files in: \n);
+console.log(`\nTotal Compendium Articles: ${allArticles.length}`);
+console.log(`Generated JSON Seed: ${seedJsonPath}`);
+console.log(`Generated Markdown Files in: ${compendiumDir}\n`);

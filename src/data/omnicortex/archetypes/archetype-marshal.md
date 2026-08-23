@@ -49,3 +49,11 @@ De-escalating conflicts, arresting targets, tracking fugitives.
 - **Occupations**: Soldier, Agent
 - **Origins**: Colony, Hostile, Militaristic
 - **Factions**: Coalition (Rangers), Outworlds (Sheriffs)
+
+
+## Extended Lore & Background
+
+A law enforcement officer who maintains order and protects settlements in the lawless territories.  
+*You are the law where there is no law. You carry authority in your bearing and justice in your holster. You stand between the town and the chaos, enforcing order through reputation and resolve.*  
+*"The law doesn't stop at the city limits. It stops where I say it stops."*
+

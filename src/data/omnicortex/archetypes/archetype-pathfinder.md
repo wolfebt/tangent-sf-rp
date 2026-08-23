@@ -49,3 +49,11 @@ Reconnaissance, initiating ambushes, guiding the party.
 - **Occupations**: Scout, Soldier
 - **Origins**: Colony, Hostile, Militaristic
 - **Factions**: Outworlds, Auluran (Scouts), Coalition
+
+
+## Extended Lore & Background
+
+Ventures into the unknown, charting territories and assessing threats.  
+*You are the eyes of the operation. You move ahead, unseen and unheard, painting targets and identifying traps. Knowledge is power, and you ensure your team always has the advantage of knowing what's coming.*  
+*"Three guards, two turrets, and a back door they forgot to lock. Easy."*
+

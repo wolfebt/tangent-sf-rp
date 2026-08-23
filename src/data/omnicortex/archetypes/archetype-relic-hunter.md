@@ -49,3 +49,11 @@ Navigate dungeons, identify magical/tech loot, bypass ancient defenses.
 - **Occupations**: Scholar, Explorer
 - **Origins**: Research, Colony, Spacer
 - **Factions**: Alterian Enclave (Lore), Syndicate (Profit), Ascendancy (Research)
+
+
+## Extended Lore & Background
+
+Unveils the secrets of ancient ruins and artifacts, reconstructing chronicles of civilizations long gone.  
+*You dig up the past to save the future. You are fearless in the face of ancient traps and curses, driven by the need to uncover the truth buried beneath the dust of ages.*  
+*"It belongs in a museum\! Or at least, in my cargo hold."*
+

@@ -74,3 +74,13 @@ Brutal, hulking bio-engineered shock troops bred by the Impyrium for planetary b
 
 ## Roleplay & Society
 Brutal, hulking bio-engineered shock troops bred by the Impyrium for planetary boarding actions and trench warfare.
+
+
+## Extended Lore & Background
+
+Their genetics are a fusion of B'Dren and Nian traits. They are products of a harsh, Spartan upbringing that included relentless training and rigorous obedience conditioning, shaping them into brutal fighters renowned for their absolute servitude to the Impyrium.
+
+These warriors were originally created at the behest of the Red Prince, who distributed the first cohorts among his family's loyal Houses and utilized them as his personal shock troops. The Prince's specific imprinting method ensured a loyalty unto death; however, this level of complete devotion was lost following his disappearance.
+
+Since the Impyrium's collapse, many Digon maintain loyalty to their original House. Yet, a significant number have broken ranks, leading to the recent emergence of several vengeful rogue factions.
+

@@ -49,3 +49,11 @@ Detecting other-dimensional threats, communing with local spirits, planar naviga
 - **Occupations**: Adept, Scout
 - **Origins**: Enlightened, Agricultural, Hostile
 - **Factions**: Auluran (Mystics), Sha'Nor, Outworlds (Shamans)
+
+
+## Extended Lore & Background
+
+The conduit between the material plane and the spiritual realms, interpreting the will of the unseen.  
+*You are the bridge. You walk between realities, speaking for the entities that exist in the spaces between the stars. You find balance where others see only chaos or silence.*  
+*"The veil is thin here. Can you hear the ancestors?"*
+

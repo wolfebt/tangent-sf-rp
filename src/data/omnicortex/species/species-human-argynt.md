@@ -86,3 +86,12 @@ Longevity
 Reduced Sustenance  
 Rugged  
 Self Sufficient
+
+
+## Extended Lore & Background
+
+Remarkably, the native inhabitants survived this environmental poisoning. Their unique biological structure absorbed a significant quantity of this particulate matter. This involuntary biological integration did not kill them; instead, it fundamentally altered their physiology. Their descendants, the modern Argynts, exhibit prominent and stable genetic traits stemming from this deep mineral absorption.
+
+These traits include the characteristic blueing of their skin, a visible manifestation of trace silver deposits. More significantly, they possess an incredible and almost unparalleled resilience to pathogens. Their internal systems are so thoroughly integrated with the compounds that they have an inherent, systemic defense against virtually all forms of bacteria, viruses, and general infections. The common diseases that plague other human populations are largely ineffective against Argynts, granting them remarkably long lifespans and robust health.  
+Furthermore, the absorbed Aetherium, the powerful meta-material, has subtly but profoundly influenced their neurological and spiritual development. Argynts display a strong and inherent predisposition toward developing magical skills. Whether through innate psychic ability, ritualistic spellcasting, or technologically-augmented magical manipulation, a significantly higher percentage of their population manifests these powers compared to other human subspecies. This has led to Argynt communities often becoming centers for arcane study, metaphysical research, and the practice of high-level magic. Their blend of physical durability and magical potential makes them a unique and formidable presence in the wider human diaspora.
+

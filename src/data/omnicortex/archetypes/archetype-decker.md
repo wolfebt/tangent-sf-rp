@@ -48,3 +48,11 @@ Disabling alarms, stealing data, controlling enemy drones/turrets.
 - **Occupations**: Specialist, Criminal
 - **Origins**: Urban, Industrial, Research
 - **Factions**: Syndicate (The Grid), Mekan (The Code), Ascendancy
+
+
+## Extended Lore & Background
+
+A master of cyberspace who infiltrates networks, manipulates data, and exploits vulnerabilities.  
+*You own the network. While they lock the physical doors, you walk through the digital walls. You steal secrets, crash systems, and turn their own security against them without ever drawing a weapon.*  
+*"Access granted. Now, let's see what you're hiding."*
+

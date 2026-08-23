@@ -49,3 +49,11 @@ Rallying public support, demoralizing opposition through reputation, high-stakes
 - **Occupations**: Entertainer, Representative
 - **Origins**: Leisure, Urban, Industrial
 - **Factions**: Syndicate (Brand Identity), Coalition (Rebel Face), Entari
+
+
+## Extended Lore & Background
+
+The public figure who embodies a concept or cause, wielding their fame as a source of inspiration and pressure.  
+*You are more than a person; you are a symbol. Your every action is scrutinized and celebrated, and your voice carries the weight of millions. You use your status to shape the cultural landscape.*  
+*"I don't just represent the cause. I am the cause."*
+

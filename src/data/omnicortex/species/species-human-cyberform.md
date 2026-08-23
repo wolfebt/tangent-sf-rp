@@ -90,3 +90,13 @@ Immortality
 Regeneration (Fast Heal gained from PicoSurgeons)  
 Synthetic Options  
 Technologist
+
+
+## Extended Lore & Background
+
+Have strong belief in governmental transparency and communal information while having personal privacy between individuals. The Network’s management council is composed of actual Synthetic Intellects and digitally converted Cyberforms, with constant communication from personal Body Computers. This allows the system to be highly efficient in maintaining the world’s infrastructure, transportation, logistics, communications, education, archives, etc. with the priority of ALL of its people’s needs, wants, and well being.
+
+Originally was an Impyrium colony detached from politics and following the Code as shown by the Mekan.  Without the contact of other factions the society has become unique. Strong Transhumanistic beliefs throughout the entire culture with prominent augmentations, body replacements and some even becoming digital entities capable of changing bodies as needed or residing in the network.
+
+Androids are not manufactured by these people as they are pre Syndicate and any Synthetics they currently work with are Sentient Intellects and Machines, who do not suffer any stigma with Cyberform Humans.
+

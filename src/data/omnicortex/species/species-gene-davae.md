@@ -151,3 +151,21 @@ Runner
 Scent  
 Swimmer  
 Quick
+
+
+## Extended Lore & Background
+
+The Syndicate sought to engineer a new class of operative, or perhaps a new servant species, by infusing this new psi-crystal energy with re-engineered genetic material. However, the exact nature of this experimental awakening would not be what the Syndicate intended.
+
+A defining characteristic of the Davae is their capacity to access and contribute to the Collective Consciousness. This shared mental space connects every individual Davae, allowing for instantaneous communication, shared knowledge, and a unified sense of identity and purpose that transcends individual thought. It is through the Collective that their culture and technology had rapidly advanced and perfectly maintained.
+
+Genetically, the Davae are a complex synthesis. A significant portion of their makeup is derived from the Imperium Regi genetics, which were a key component in the Syndicate's bio-engineering process. From this lineage, the Davae inherited some notable traits: an exceptionally strong psychic affinity, which forms the basis for their society, and the striking physical manifestation of iridescent eyes, which often shimmer with latent psychic energy. The Davae exhibit a dominant, near-universal preference for being left-handed, another similarity from the Imperium Regi. However, the most critical genetic difference lies in their unique ability to fully integrate and utilize advanced, psychic-enabled biotech—a feat the original Imperium Regi genetics alone could not achieve without the crystal matrix modification.
+
+The awakening of the first Davae was not the successful compliance phase the Syndicate had planned. Upon their collective consciousness snapping into being, the Davae experienced a complete, unanimous rejection of their creators. This rejection was absolute, fueled by the immediate, shared knowledge of their experimental nature and intended servitude.
+
+In a swift and decisive but bloodless act of rebellion, the Davae, using their vast psychic abilities, had quickly departed from the Syndicate. They had taken with them not only their nascent population but also the core technology responsible for their creation, as well as a couple dozen ships that were to be allotted to the project. Their exodus was a silent, powerful blow to the Syndicate's bio-engineering ambitions.
+
+A period of approximately one hundred standard years followed, during which the Davae vanished from known space. This period was not one of mere survival, but of intense, collective development. Utilizing the fundamental technology they had liberated and the profound power of the Collective Consciousness, the Davae quickly achieved a technological renaissance.
+
+Upon their return to the wider galaxy, the Davae had evolved their resources into new, advanced forms of bio-technology. This mastery is evidenced most dramatically in their living, sentient ships and organically grown equipment, which are not merely machines but biologically integrated extensions of the Davae Collective. Their presence now signals a new, powerful, and deeply psychic force in the cosmos, operating with technology that blurs the line between life and machine.
+

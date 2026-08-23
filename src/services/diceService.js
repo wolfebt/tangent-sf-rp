@@ -51,13 +51,22 @@ export function rollDice(expression = '2d10', options = {}) {
     rawValues = rawValues.slice(0, parsed.keep);
   }
 
-  const subtotal = rawValues.reduce((sum, v) => sum + v, 0);
-  const total = subtotal + parsed.modifier;
+  const rawSubtotal = rawValues.reduce((sum, v) => sum + v, 0);
 
   // Tangent SFF RP Critical Evaluation (Natural dual 10s or dual 1s on 2d10)
+  // On critical fumble (2) treat rolled value as -10, on a critical success (20) treat rolled value as 30
   const is2d10 = parsed.count === 2 && parsed.sides === 10;
   const isCritSuccess = is2d10 && rolls[0]?.value === 10 && rolls[1]?.value === 10;
   const isCritFail = is2d10 && rolls[0]?.value === 1 && rolls[1]?.value === 1;
+
+  let subtotal = rawSubtotal;
+  if (isCritSuccess) {
+    subtotal = 30;
+  } else if (isCritFail) {
+    subtotal = -10;
+  }
+
+  const total = subtotal + parsed.modifier;
 
   // Target Number (TN) evaluation
   let margin = null;
@@ -74,6 +83,7 @@ export function rollDice(expression = '2d10', options = {}) {
     sides: parsed.sides,
     rolls,
     modifier: parsed.modifier,
+    rawSubtotal,
     subtotal,
     total,
     isCritSuccess,

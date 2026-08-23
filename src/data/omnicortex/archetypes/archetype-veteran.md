@@ -49,3 +49,11 @@ Frontline combat, holding ground, reliable damage output.
 - **Occupations**: Soldier, Mercenary
 - **Origins**: Militaristic, Hostile, Colony
 - **Factions**: Coalition (Rangers), Dynasty (Men-at-Arms), Outworlds (Survivors)
+
+
+## Extended Lore & Background
+
+Brave and disciplined, skilled in combat and tactics. The backbone of any fighting force.  
+*You are the professional. You don't fight for glory or gold, but for the mission and the person next to you. You bring discipline, tactics, and unwavering resolve to a chaotic universe.*  
+*"Check your corners. Stay sharp. We move on my mark."*
+

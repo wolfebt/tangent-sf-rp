@@ -49,3 +49,11 @@ Maintaining base infrastructure, rapid field repair of vehicles, bypassing indus
 - **Occupations**: Builder, Spacer
 - **Origins**: Industrial, Spacer, Urban
 - **Factions**: Mekan (Maintenance Hubs), Syndicate (Grid Techs), Impyrium
+
+
+## Extended Lore & Background
+
+The veteran technician who keeps massive infrastructure systems online under impossible conditions.  
+*You are the caretaker of the megastructure. You know the vibrations of the gravity core and the scent of a failing oxygen scrubber. You speak the language of the machine and it answers.*  
+*"She's a bit cranky today, but I've got her settled."*
+

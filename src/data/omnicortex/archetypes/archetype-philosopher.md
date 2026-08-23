@@ -49,3 +49,11 @@ Resisting mental intrusion, providing ethical guidance, identifying historical/p
 - **Occupations**: Scholar, Adept
 - **Origins**: Enlightened, Research, Urban
 - **Factions**: Alterian Enclave (Sages), Mekan (Code Adherents), Ascendancy
+
+
+## Extended Lore & Background
+
+The seeker of deeper meaning who challenges the assumptions of society and explores the fundamental nature of existence.  
+*You think where others merely act. You analyze the moral and existential implications of every decision, providing the ethical framework that keeps the group—and civilization—from losing its soul.*  
+*"To know the universe, one must first know the silence between the thoughts."*
+

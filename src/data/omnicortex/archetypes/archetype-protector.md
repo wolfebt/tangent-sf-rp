@@ -49,3 +49,11 @@ Take damage for the team, control melee engagement zones.
 - **Occupations**: Soldier, Drifter
 - **Origins**: Urban, Militaristic, Leisure
 - **Factions**: Impyrium (Praetorians), Dynasty (House Guard), Syndicate (Asset Protection)
+
+
+## Extended Lore & Background
+
+Protects high-profile individuals or cargo. Experienced in personal security and close-quarters combat.  
+*You are the wall that refuses to break. Your job isn't to kill the enemy; it's to make sure your charge survives to see tomorrow. In a universe of assassins and snipers, your vigilance is the only thing keeping the mission alive.*  
+*"Get behind me."*
+

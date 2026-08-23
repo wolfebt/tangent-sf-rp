@@ -49,3 +49,11 @@ Controlling NPC minions, sourcing illegal gear, intimidation.
 - **Occupations**: Criminal, Representative
 - **Origins**: Urban, Industrial, Colony
 - **Factions**: Syndicate (Shadow Boards), Coalition (Crime Lords), Outworlds
+
+
+## Extended Lore & Background
+
+Leader of a criminal organization, overseeing illegal activities and managing a network of underlings.  
+*You built an empire from the gutter. You command loyalty through fear and respect, leveraging a network of criminals to get things done. You don't ask for permission; you take what is yours.*  
+*"It's just business. But for you, it's personal."*
+

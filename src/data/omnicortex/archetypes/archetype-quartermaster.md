@@ -49,3 +49,11 @@ Managing party inventory, sourcing specific gear, identifying loot value.
 - **Occupations**: Merchant, Soldier
 - **Origins**: Militaristic, Spacer, Industrial
 - **Factions**: Outworlds (Scavengers), Impyrium (Logistics), Syndicate (Supply)
+
+
+## Extended Lore & Background
+
+A resourceful individual who manages supplies, equipment, and finances.  
+*You make sure the guns have ammo and the engines have fuel. You are the master of inventory, finding value in scrap and ensuring the team is never caught empty-handed.*  
+*"A soldier without bullets is just a target. I make sure you aren't targets."*
+

@@ -97,3 +97,18 @@ Regeneration
 
 Main deity is Shal’Vir the Scripted Fate  
 Hatched from fruit rich in magic
+
+
+## Extended Lore & Background
+
+Main deity is Shal’Vir the Scripted Fate  
+Hatched from fruit rich in magic
+
+
+
+## Extended Lore & Background
+
+A most prominent and defining characteristic is their prehensile tail. This appendage is a highly evolved extension of the caudal vertebrae, covered in fine fur, and serves as a powerful and dexterous fifth limb. The tail is often impressive in length, frequently matching the entire length of the body, and its fur color is generally congruent with the individual's hair and overall body fur coloration. This tail is integral to their movement, balance, and fine manipulation within their arboreal or nature-integrated environments.
+
+Societally, this group is highly advanced, but their technology is anchored in principles of environmental harmony and deep biological understanding. Their civilization is characterized by the widespread implementation of advanced Green Bio-Technology. A cornerstone of their societal infrastructure is the prominent and sophisticated use of Programmed Botany—the deliberate, technical manipulation and cultivation of plant life for architectural, industrial, and functional purposes. This is coupled with a mastery of other Nature-Based Technologies, resulting in a culture where technology and the natural world are seamlessly interwoven, with minimal ecological footprint and maximum symbiotic efficiency.
+

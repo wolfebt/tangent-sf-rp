@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { EconomatrixDashboard } from './EconomatrixDashboard';
 import { TechnologyCodex } from './TechnologyCodex';
+import { CodexIngestionEngine } from './CodexIngestionEngine';
 import { AudioService } from '../../services/audioService';
 import { confirmTypedDeletion } from '../../utils/confirmationUtils';
 
@@ -263,6 +264,8 @@ export const CodexApp = () => {
               <EconomatrixDashboard onOpenBuilder={handleCreateNew} />
             ) : activeMatrixId === 'technology' ? (
               <TechnologyCodex onOpenBuilder={handleCreateNew} />
+            ) : activeMatrixId === 'ingestion-engine' ? (
+              <CodexIngestionEngine />
             ) : null
           ) : (
             <>

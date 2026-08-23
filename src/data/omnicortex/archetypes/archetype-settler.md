@@ -49,3 +49,11 @@ Building cover, repairing structures, environmental survival.
 - **Occupations**: Citizen, Builder
 - **Origins**: Colony, Agricultural, Hostile
 - **Factions**: Outworlds, Coalition
+
+
+## Extended Lore & Background
+
+A hardy individual who builds and maintains settlements in untamed worlds.  
+*You turn wilderness into home. You are skilled in the practical arts of construction and defense, creating safe havens in the most hostile environments.*  
+*"We built this town with our own hands. We'll defend it the same way."*
+

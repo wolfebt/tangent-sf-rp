@@ -49,3 +49,11 @@ Social influence via religious rank, buffing morale, healing.
 - **Occupations**: Adept, Representative
 - **Origins**: Enlightened, Urban, Colony
 - **Factions**: Impyrium (Orthodoxy), Dracon Dynasty (Dragon Cults)
+
+
+## Extended Lore & Background
+
+A devout servant of a state religion, maintaining morale and conducting ceremonies.  
+*You are the pillar of the community. You hold the spiritual authority of an institution, guiding the faithful and ensuring the stability of society through ritual and tradition.*  
+*"By the authority vested in me, I command you to cease."*
+

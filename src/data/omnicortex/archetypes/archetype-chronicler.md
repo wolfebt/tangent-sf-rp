@@ -49,3 +49,11 @@ Buffing allies with inspiration, gathering local lore, engaging social encounter
 - **Occupations**: Entertainer, Scholar
 - **Origins**: Enlightened, Urban, Leisure
 - **Factions**: Alterian Enclave (Historians), Impyrium (Archivists), Entari Combine
+
+
+## Extended Lore & Background
+
+Weaver of words and tales, captivating audiences with immersive narratives and transporting them to fantastical realms.  
+*You keep the history alive. You know that a story can inspire a revolution or calm a beast. You carry the memory of your people, ensuring that their deeds—and your team's deeds—are never forgotten.*  
+*"Let me tell you how this ends."*
+

@@ -49,3 +49,11 @@ Leading the party through wilderness, spotting hazards, mapping.
 - **Occupations**: Scout, Drifter
 - **Origins**: Colony, Spacer, Research
 - **Factions**: Ascendancy (Explorers), Outworlds, Coalition
+
+
+## Extended Lore & Background
+
+Charts new territories and uncovers the mysteries of the universe. Thirsts for discovery.  
+*You go where the maps end. You are driven by the need to see the unseen and name the unnamed. You navigate the hazards of alien worlds so that others may follow in your footsteps.*  
+*"Second star to the right, and straight on 'til morning."*
+

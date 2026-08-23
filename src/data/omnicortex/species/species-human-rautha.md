@@ -88,3 +88,13 @@ Prehensile Tail
 Scent
 
 **Recommended Features:**
+
+
+## Extended Lore & Background
+
+The most visually striking rodentia-like features include a set of sharp, elongated incisors, indicative of their evolutionary divergence, and a highly versatile prehensile tail. This tail is an extension of the caudal vertebrae, affording it a substantial degree of strength and control, and is frequently employed for balance, climbing, and even as a fifth limb for grasping objects. Its surface is covered in a fine layer of scales and sparse, almost imperceptible hair, giving it a tactile yet durable quality. The tail's coloration is observed to vary, spanning a spectrum from pale pink to deeper brown hues, and it is a defining characteristic that often matches the length of the individual's body.
+
+Beyond these external traits, the Rautha possess highly developed sensory organs that contribute significantly to their survival and interaction with their environment. Their sense of smell is exceptionally keen, allowing them to track scents over long distances and detect subtle changes in the air, a vital asset for foraging, navigation, and defense. Furthermore, they are endowed with low-light vision, enabling effective navigation and hunting in nocturnal or dimly lit settings where other human subspecies would struggle.
+
+Genetically, the Rautha subspecies maintains a demonstrable, though distant, relationship with the Lin human subspecies, suggesting a common ancestral lineage from which the two diverged and developed their respective specialized traits. This genetic link remains a subject of ongoing anthropological and biological study.
+

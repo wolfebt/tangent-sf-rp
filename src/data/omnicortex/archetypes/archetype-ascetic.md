@@ -49,3 +49,11 @@ Resisting mental attacks, calming emotions, spiritual guidance.
 - **Occupations**: Adept, Scholar
 - **Origins**: Enlightened, Hostile, Agricultural
 - **Factions**: Auluran (Dar Mystics), Mekan (Code Monks), Outworlds
+
+
+## Extended Lore & Background
+
+A devout individual dedicated to prayer and meditation, seeking enlightenment.  
+*You have mastered the self. While others seek power in the world, you find it within. Your mind is a fortress, and your spirit is a weapon honed by discipline and silence.*  
+*"Peace is not the absence of conflict, but the ability to handle it."*
+

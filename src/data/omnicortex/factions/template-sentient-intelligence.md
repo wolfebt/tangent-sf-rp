@@ -18,3 +18,47 @@ Supercomputer mind, orbital mainframe oracle, or quantum intelligence managing p
 - Assign Tech Level (1-5) and Meta Level (1-5) based on campaign scale.
 - Choose 20 SP across 4-6 appropriate skills matching the organization's focus.
 - Select 1-2 Recommended Features reflecting the faction's primary trade.
+
+
+## Extended Lore & Background
+
+These factions are composed of sentient machines or programs and often have goals related to self-preservation or expansion. Characterized by their nature as synthetics.   
+**Attitudes**    
+Logical, calculating, self-interested, adaptive  
+**Goals**    
+Protect their existence, expand their influence, eliminate threats, self-preservation, achieve sentience, influence the development of organic life  
+**Strengths**    
+Advanced technology, immunity to biological threats, advanced computational abilities, ability to learn and adapt rapidly  
+**Weaknesses**    
+Vulnerability to hacking or sabotage, difficulty understanding human psychology, lack of creativity, difficulty understanding organic life, reliance on technology  
+**Technology** 4  
+**Skills** Knowledge  
+**Features** 2 Available Racial or Skill Features
+
+Strategist  
+Hacker  
+Digital Networker  
+Synthetic Defender
+
+
+
+## Extended Lore & Background
+
+These factions are composed of sentient machines or programs and often have goals related to self-preservation or expansion. Characterized by their nature as synthetics.   
+**Attitudes**    
+Logical, calculating, self-interested, adaptive  
+**Goals**    
+Protect their existence, expand their influence, eliminate threats, self-preservation, achieve sentience, influence the development of organic life  
+**Strengths**    
+Advanced technology, immunity to biological threats, advanced computational abilities, ability to learn and adapt rapidly  
+**Weaknesses**    
+Vulnerability to hacking or sabotage, difficulty understanding human psychology, lack of creativity, difficulty understanding organic life, reliance on technology  
+**Technology** 4  
+**Skills** Knowledge  
+**Features** 2 Available Racial or Skill Features
+
+Strategist  
+Hacker  
+Digital Networker  
+Synthetic Defender
+

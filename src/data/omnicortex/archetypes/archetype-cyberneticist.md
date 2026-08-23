@@ -49,3 +49,11 @@ Installing/repairing cybernetics, hacking enemy augments, buffing allies.
 - **Occupations**: Doctor, Engineer
 - **Origins**: Research, Industrial, Urban
 - **Factions**: Syndicate (Augmentation Clinics), Mekan (Integration), Ascendancy
+
+
+## Extended Lore & Background
+
+Specialist in creating, repairing, and modifying cybernetic enhancements.  
+*You build better humans. You merge flesh and machine to create something greater than the sum of its parts. You understand the interface between the biological and the technological.*  
+*"Flesh is weak. Steel is strong. I provide the upgrade."*
+

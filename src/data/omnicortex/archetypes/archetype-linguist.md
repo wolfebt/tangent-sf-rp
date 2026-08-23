@@ -49,3 +49,11 @@ Translating alien documents/comms, mediating first contact, deciphering codes.
 - **Occupations**: Scholar, Representative
 - **Origins**: Urban, Research, Spacer
 - **Factions**: Entari Combine (Translators), Alterian Enclave, Ascendancy
+
+
+## Extended Lore & Background
+
+The master of communication who deciphers the languages of the galaxy to enable cooperation or manipulation.  
+*You are the key to understanding. You translate the inscrutable and find the meaning hidden in alien noise. You know that the right word is often more powerful than the largest railgun.*  
+*"Language is the first weapon. And the first shield."*
+

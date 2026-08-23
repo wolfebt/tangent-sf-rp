@@ -49,3 +49,11 @@ Preventing ambushes, spotting hidden enemies, locking down areas.
 - **Occupations**: Soldier, Agent
 - **Origins**: Urban, Industrial, Leisure
 - **Factions**: Syndicate (Asset Protection), Entari Combine (Constables)
+
+
+## Extended Lore & Background
+
+A vigilant and disciplined individual who ensures the safety and security of their post.  
+*You see what others miss. While they relax, you watch the exits. You are the first line of defense against infiltration and sabotage, securing the perimeter with professional detachment.*  
+*"Secure. For now."*
+

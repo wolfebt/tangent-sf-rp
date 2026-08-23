@@ -49,3 +49,11 @@ Identifying alien fauna/flora, treating organic toxins, analyzing biological sam
 - **Occupations**: Scholar, Specialist
 - **Origins**: Agricultural, Research, Aquatic
 - **Factions**: Auluran (Life-Shapers), Entari Combine (Botanists), Ascendancy
+
+
+## Extended Lore & Background
+
+The expert on living systems who studies the interaction between species and their environments.  
+*You understand the spark of life. You see the connections between the smallest microbe and the largest apex predator. You find solutions where nature provides the blueprint.*  
+*"Life always finds a way. I'm just here to watch it happen."*
+

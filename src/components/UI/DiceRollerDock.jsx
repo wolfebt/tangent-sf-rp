@@ -162,17 +162,17 @@ export const DiceRollerDock = ({ isOpen, onClose }) => {
             {latestRoll.total}
           </div>
           <div className="text-[11px] font-mono text-slate-300">
-            Rolls: [{latestRoll.rolls.map(r => r.value).join(', ')}] {latestRoll.modifier !== 0 ? (latestRoll.modifier > 0 ? `+ ${latestRoll.modifier}` : `${latestRoll.modifier}`) : ''}
+            Rolls: [{latestRoll.rolls.map(r => r.value).join(', ')}] {latestRoll.isCritSuccess ? '(Value: 30)' : latestRoll.isCritFail ? '(Value: -10)' : ''} {latestRoll.modifier !== 0 ? (latestRoll.modifier > 0 ? `+ ${latestRoll.modifier}` : `${latestRoll.modifier}`) : ''}
           </div>
 
           {latestRoll.isCritSuccess && (
             <div className="text-xs font-bold text-amber-300 uppercase mt-1 animate-pulse">
-              ⚡ CRITICAL SUCCESS ⚡
+              ⚡ CRITICAL SUCCESS (VALUE: 30) ⚡
             </div>
           )}
           {latestRoll.isCritFail && (
             <div className="text-xs font-bold text-red-400 uppercase mt-1">
-              💀 CRITICAL FUMBLE 💀
+              💀 CRITICAL FUMBLE (VALUE: -10) 💀
             </div>
           )}
           {latestRoll.margin !== null && (

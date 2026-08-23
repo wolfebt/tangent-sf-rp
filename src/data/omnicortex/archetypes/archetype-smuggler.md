@@ -49,3 +49,11 @@ Transporting illicit cargo, bypassing blockades, fast talk.
 - **Occupations**: Merchant, Criminal
 - **Origins**: Spacer, Urban, Colony
 - **Factions**: Outworlds, Coalition, Syndicate (Black Market)
+
+
+## Extended Lore & Background
+
+Specializes in transporting illegal goods across borders.  
+*You move the unmovable. You know the secret routes and the bribe-friendly guards. You deliver the goods, no questions asked, right under the noses of authority.*  
+*"I run a clean ship. Mostly."*
+

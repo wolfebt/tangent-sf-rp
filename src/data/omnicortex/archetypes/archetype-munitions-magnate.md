@@ -49,3 +49,11 @@ Supply the team with top-tier gear, identify enemy weaponry, negotiate with warl
 - **Occupations**: Merchant, Criminal
 - **Origins**: Industrial, Urban, Militaristic
 - **Factions**: Syndicate (Arms Division), Coalition (Gun-Runners), Impyrium (Heirloom Brokers)
+
+
+## Extended Lore & Background
+
+Focuses on the trade of weapons and military equipment. They have access to cutting-edge technology and sell it at a premium.  
+*You understand that peace is expensive, but war is profitable. You are the ultimate enabler, providing the tools of destruction that topple regimes. You are never outgunned because you supply the guns.*  
+*"I don't pull the trigger. I just ensure it works when you do."*
+

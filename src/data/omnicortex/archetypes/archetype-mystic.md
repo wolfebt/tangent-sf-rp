@@ -48,3 +48,11 @@ Gaining initiative bonuses, avoiding traps, gathering info via divination.
 - **Occupations**: Adept, Scholar
 - **Origins**: Enlightened, Research, Leisure
 - **Factions**: Auluran, Alterian Enclave, Ascendancy
+
+
+## Extended Lore & Background
+
+A wise and insightful individual who perceives glimpses of the future and offers guidance.  
+*You see what will be. Time is a river, and you stand on the bank, watching the currents. You guide others away from disaster and towards their destiny with cryptic wisdom.*  
+*"The future is written, but the ink is not yet dry."*
+

@@ -1,233 +1,167 @@
 import React, { useState, useEffect } from 'react';
+import { Layers, Map, Sparkles, Cpu, BookOpen, ExternalLink } from 'lucide-react';
+import { AudioService } from '../../services/audioService';
 
 const SECTIONS = [
-  { id: 'overview', label: '📋 Overview' },
+  { id: 'overview', label: '📋 Overview & Workflow' },
   { id: 'launcher', label: '🚀 Launcher & Catalog' },
-  { id: 'story-module', label: '📖 Story Module' },
-  { id: 'map-maker', label: '🗺️ Map Maker' },
-  { id: 'aime', label: '✨ AIME Creative Suite' },
-  { id: 'element-forge', label: '🧩 Element Forge' },
-  { id: 'aime-copilot', label: '🤖 AIME & BASTION' },
-  { id: 'cloud', label: '☁️ Cloud & Saving' },
+  { id: 'story-module', label: '📖 Story Weaver Module' },
+  { id: 'map-maker', label: '🗺️ Tactical Map Maker & VTT' },
+  { id: 'aime', label: '✨ AIME Manuscript Suite' },
+  { id: 'element-forge', label: '🧩 Element Forge Lore' },
+  { id: 'aime-copilot', label: '🤖 AIME Co-Pilot & Bastion' },
+  { id: 'cloud', label: '☁️ Cloud Sync & Export' },
 ];
 
 const CONTENT = {
   overview: (
-    <div className="space-y-4">
-      <p className="text-slate-300 leading-relaxed">
-        The <strong className="text-cyan-300">Story Foundry</strong> is an integrated tabletop narrative workspace for creating, 
-        running, and archiving campaigns in the Tangent Science Fantasy Roleplay universe.
+    <div className="space-y-4 text-slate-300 text-sm leading-relaxed">
+      <p>
+        The <strong className="text-purple-300 font-mono">Story Foundry</strong> is the unified narrative development suite and Virtual Tabletop for Tangent Science Fantasy Roleplay.
       </p>
-      <div className="bg-slate-800/60 border border-cyan-500/20 rounded-lg p-4 space-y-2">
-        <h4 className="text-cyan-400 font-bold uppercase text-xs tracking-wider">Five Integrated Modules</h4>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mt-2">
+      <div className="bg-slate-800/60 border border-purple-500/30 rounded-xl p-4 space-y-2">
+        <h4 className="text-purple-400 font-bold uppercase text-xs font-mono tracking-wider">Five Integrated Sub-Modules</h4>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-2 text-xs">
           {[
-            { icon: '📖', label: 'Story Module', desc: 'Hierarchical tree editor with header bar, File Menu (Push/Pull, JSON Save/Load), and rich element editing.' },
-            { icon: '🗺️', label: 'Map Maker', desc: 'Interactive pan/zoom visual map builder with nodes, connections, node details, and image export.' },
-            { icon: '✨', label: 'AIME Suite', desc: '3-stage AI-assisted manuscript weaver (Brainstorm, Outline, Draft) with floating toolbar.' },
-            { icon: '🧩', label: 'Element Forge', desc: 'Schema-driven story element architect for defining lore, characters, locations, factions, and items.' },
-            { icon: '🚀', label: 'Launcher & Catalog', desc: 'Story campaign launcher, map picker, and cloud-synced element library catalog.' },
+            { icon: '📖', label: 'Story Weaver', desc: 'Hierarchical scenario tree with rich element editing and push/pull sync.' },
+            { icon: '🗺️', label: 'Tactical Map Maker', desc: 'Konva grid canvas, terrain painting, token summoning & combat tracker.' },
+            { icon: '✨', label: 'AIME Manuscript Suite', desc: '3-stage AI prose weaver (Brainstorm, Outline, Draft) with floating toolbar.' },
+            { icon: '🧩', label: 'Element Forge', desc: 'Schema-driven lore database for characters, planets, factions & relics.' },
+            { icon: '🚀', label: 'Launcher & Catalog', desc: 'Project switcher, map library, and cloud-synced element asset catalog.' },
           ].map(m => (
-            <div key={m.label} className="bg-slate-900/60 border border-slate-700/50 rounded-lg p-3 text-center">
-              <div className="text-2xl mb-1">{m.icon}</div>
-              <div className="text-amber-300 font-bold text-xs uppercase mb-1">{m.label}</div>
+            <div key={m.label} className="bg-slate-900/60 border border-slate-700/50 rounded-xl p-3 text-center space-y-1">
+              <div className="text-2xl">{m.icon}</div>
+              <div className="text-amber-300 font-bold font-mono uppercase text-xs">{m.label}</div>
               <div className="text-slate-400 text-[11px] leading-snug">{m.desc}</div>
             </div>
           ))}
         </div>
       </div>
-      <div className="bg-slate-800/60 border border-amber-500/20 rounded-lg p-4 space-y-2">
-        <h4 className="text-amber-400 font-bold uppercase text-xs tracking-wider">Quick Start Workflow</h4>
-        <ol className="list-decimal pl-4 space-y-1.5 text-slate-300 text-sm">
-          <li>Click <strong className="text-cyan-300">📚 Catalog &amp; Launcher</strong> to open an existing campaign or create a new story.</li>
-          <li>In the <strong className="text-cyan-300">Story Module</strong>, add narrative elements via the Scenario sidebar tree.</li>
-          <li>Use <strong className="text-cyan-300">FILE → Push to Cloud</strong> or <strong className="text-cyan-300">Save to File</strong> to persist your universe.</li>
-          <li>Switch to <strong className="text-cyan-300">Map Maker</strong> to place locations and draw travel routes.</li>
-          <li>Click <strong className="text-cyan-300">✨ AIME CO-PILOT</strong> to summon the movable floating AI window to brainstorm lore, expand scenes, or check Omnicortex rules.</li>
-        </ol>
-      </div>
     </div>
   ),
+
   launcher: (
-    <div className="space-y-4">
-      <p className="text-slate-300 leading-relaxed">
-        The <strong className="text-cyan-300">Launcher &amp; Catalog</strong> modal is the command center for your story sessions. 
-        It opens on application startup and can be accessed at any time via the <strong className="text-amber-300">Catalog &amp; Launcher</strong> button.
+    <div className="space-y-4 text-slate-300 text-sm leading-relaxed">
+      <p>
+        The <strong className="text-cyan-300 font-mono">Launcher &amp; Catalog</strong> is your story workspace command center:
       </p>
-      <div className="space-y-3">
+      <div className="space-y-2.5 text-xs">
         {[
-          { label: 'Stories Tab', desc: 'Lists all local and cloud story projects. Click any story card to set it as your active workspace. Shows node count and last modified time.' },
-          { label: 'New Story Project', desc: 'Creates a blank campaign with custom title and summary. Your active story state is automatically saved before switching.' },
-          { label: 'Element Catalog', desc: 'Browse the cloud element database. Import pre-built characters, locations, factions, and lore entries directly into your active story tree.' },
-          { label: 'Map Library', desc: 'Quick-load saved tactical and regional campaign maps into the Map Maker workspace.' },
-          { label: 'Close & Save', desc: 'Saves all active changes locally and returns to the project catalog view.' },
+          { label: 'Campaign Projects Tab', desc: 'Switch between campaigns, create blank story templates, and inspect node counts.' },
+          { label: 'Element Catalog', desc: 'Browse the cloud database of pre-built NPCs, planets, factions, and relics for 1-click scenario import.' },
+          { label: 'Tactical Map Library', desc: 'Load saved regional or tactical grid maps directly into your active workspace.' },
         ].map(f => (
-          <div key={f.label} className="flex gap-3 bg-slate-800/40 border border-slate-700/40 rounded-lg p-3">
-            <div className="min-w-[150px] text-amber-300 font-bold text-xs uppercase tracking-wide pt-0.5">{f.label}</div>
-            <div className="text-slate-300 text-sm">{f.desc}</div>
+          <div key={f.label} className="bg-slate-800/40 border border-slate-700/50 rounded-xl p-3">
+            <div className="font-bold text-amber-300 font-mono uppercase mb-0.5">{f.label}</div>
+            <div className="text-slate-300 text-xs">{f.desc}</div>
           </div>
         ))}
       </div>
     </div>
   ),
+
   'story-module': (
-    <div className="space-y-4">
-      <p className="text-slate-300 leading-relaxed">
-        The <strong className="text-cyan-300">Story Module</strong> provides a full-featured hierarchical editor for your campaign.
+    <div className="space-y-4 text-slate-300 text-sm leading-relaxed">
+      <p>
+        The <strong className="text-purple-300 font-mono">Story Weaver</strong> provides a drag-and-drop scenario tree editor:
       </p>
-      
-      <div className="bg-slate-800/70 border border-cyan-500/30 rounded-lg p-4 space-y-3">
-        <h4 className="text-cyan-400 font-bold uppercase text-xs tracking-wider">Top Header &amp; File Menu</h4>
-        <div className="space-y-2 text-xs text-slate-300">
-          <p>
-            The top header displays story title breadcrumbs, active node indicator, cloud sync status, and the main <strong className="text-amber-300">📁 FILE Menu</strong>:
-          </p>
-          <div className="grid grid-cols-2 gap-2 mt-2">
-            {[
-              { cmd: '☁️ Push to Cloud', detail: 'Saves your entire campaign to Firestore under your user account.' },
-              { cmd: '📥 Pull from Cloud', detail: 'Loads the latest remote version from cloud (with overwrite prompt).' },
-              { cmd: '💾 Save to File', detail: 'Exports full story universe as a standalone portable .JSON file.' },
-              { cmd: '📂 Load from File', detail: 'Restores story state from a local .JSON backup file.' },
-              { cmd: '📤 Export Options', detail: 'Export campaign or active sub-tree as Markdown (.md), HTML, or PDF document.' },
-              { cmd: '🔄 Reset Story', detail: 'Clears the active workspace back to a default clean template (requires confirmation).' },
-            ].map(item => (
-              <div key={item.cmd} className="bg-slate-900/70 border border-slate-700/50 rounded p-2">
-                <div className="font-bold text-cyan-300">{item.cmd}</div>
-                <div className="text-slate-400 text-[11px] mt-0.5">{item.detail}</div>
-              </div>
-            ))}
-          </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+        <div className="bg-slate-800/50 border border-slate-700/60 rounded-xl p-3.5 space-y-1">
+          <div className="font-bold text-cyan-300 font-mono uppercase">🌳 Drag-and-Drop Tree</div>
+          <p className="text-slate-400 text-[11px]">Reorder sibling acts or nest sub-elements into parent scenes with visual drop indicators.</p>
+        </div>
+        <div className="bg-slate-800/50 border border-slate-700/60 rounded-xl p-3.5 space-y-1">
+          <div className="font-bold text-emerald-300 font-mono uppercase">✍️ Rich Text &amp; Relational Links</div>
+          <p className="text-slate-400 text-[11px]">Quill editor with formatting and bi-directional links connecting characters to locations and factions.</p>
+        </div>
+        <div className="bg-slate-800/50 border border-slate-700/60 rounded-xl p-3.5 space-y-1">
+          <div className="font-bold text-amber-300 font-mono uppercase">🛡️ Typed Deletion Safety</div>
+          <p className="text-slate-400 text-[11px]">Destructive node deletions require typing the exact element title to prevent data loss.</p>
+        </div>
+        <div className="bg-slate-800/50 border border-slate-700/60 rounded-xl p-3.5 space-y-1">
+          <div className="font-bold text-purple-300 font-mono uppercase">📤 Multi-Format Export</div>
+          <p className="text-slate-400 text-[11px]">Export campaigns to Markdown (.md), clean HTML, formatted PDF, or standalone JSON.</p>
         </div>
       </div>
+    </div>
+  ),
 
-      <div className="space-y-3">
-        {[
-          { label: 'Scenario Pane Tree', desc: 'Drag-and-drop nodes to reorder siblings (line above/below) or nest inside a parent element (box highlight). Click ▶ to expand/collapse.' },
-          { label: '+ Add Sub-Element', desc: 'Click + on any node to insert a child element. Select type from Character, Location, Faction, Event, Item, Lore, Session, or Custom.' },
-          { label: 'Rich Text Editor', desc: 'Click any element to edit in the main pane. Supports Quill rich text formatting (bold, headers, lists, code blocks) and type-specific schema fields.' },
-          { label: 'Relational Links', desc: 'Link story elements to one another (e.g. Character to Location or Faction) for instant cross-referencing.' },
-          { label: 'Typed Deletion Safety', desc: 'Deleting nodes requires typing the element title to prevent accidental data loss.' },
-        ].map(f => (
-          <div key={f.label} className="flex gap-3 bg-slate-800/40 border border-slate-700/40 rounded-lg p-3">
-            <div className="min-w-[150px] text-amber-300 font-bold text-xs uppercase tracking-wide pt-0.5">{f.label}</div>
-            <div className="text-slate-300 text-sm">{f.desc}</div>
-          </div>
-        ))}
-      </div>
-    </div>
-  ),
   'map-maker': (
-    <div className="space-y-4">
-      <p className="text-slate-300 leading-relaxed">
-        The <strong className="text-cyan-300">Map Maker</strong> is an interactive visual canvas for spatial world-building.
+    <div className="space-y-4 text-slate-300 text-sm leading-relaxed">
+      <p>
+        The <strong className="text-cyan-300 font-mono">Tactical Map Maker &amp; VTT</strong> is a high-performance 2D canvas for tabletop tactical combat:
       </p>
-      <div className="space-y-3">
-        {[
-          { label: 'Pan & Zoom Canvas', desc: 'Drag empty canvas space to pan across the world map. Scroll mouse wheel to zoom in and out smoothly.' },
-          { label: 'Creating Nodes', desc: 'Double-click anywhere on the canvas to place a location node. Choose icon, color, and assign node type (City, Outpost, Wilderness, Ruin, Base).' },
-          { label: 'Connecting Nodes', desc: 'Drag vector connectors between node anchors to map out roads, jump routes, or travel paths (directional or bidirectional).' },
-          { label: 'Node Details Panel', desc: 'Click any node to open its sidebar panel. Edit node description, threat level, environmental hazards, and link to Story Elements.' },
-          { label: 'Image Export', desc: 'Export high-resolution map renders directly to PNG image files for printing or virtual tabletop (VTT) use.' },
-          { label: 'Multi-Map Hierarchy', desc: 'Create and switch between multiple maps per story (e.g. World Map, Sector Map, Dungeon Floor).' },
-        ].map(f => (
-          <div key={f.label} className="flex gap-3 bg-slate-800/40 border border-slate-700/40 rounded-lg p-3">
-            <div className="min-w-[150px] text-amber-300 font-bold text-xs uppercase tracking-wide pt-0.5">{f.label}</div>
-            <div className="text-slate-300 text-sm">{f.desc}</div>
-          </div>
-        ))}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+        <div className="bg-slate-800/50 border border-slate-700/60 rounded-xl p-3">
+          <div className="font-bold text-cyan-300 font-mono uppercase mb-1">🎯 Square / Hex / Isometric Grids</div>
+          <p className="text-slate-400 text-[11px]">Snapping grid canvas with pan/zoom, coordinate rulers, measurement tools, and ping markers.</p>
+        </div>
+        <div className="bg-slate-800/50 border border-slate-700/60 rounded-xl p-3">
+          <div className="font-bold text-emerald-300 font-mono uppercase mb-1">👥 Folio Token Summoning</div>
+          <p className="text-slate-400 text-[11px]">Summon hero tokens from your Persona Folio roster with live Health and Vitality bars.</p>
+        </div>
+        <div className="bg-slate-800/50 border border-slate-700/60 rounded-xl p-3">
+          <div className="font-bold text-amber-300 font-mono uppercase mb-1">⚔️ Initiative &amp; Combat Tracker</div>
+          <p className="text-slate-400 text-[11px]">Manage turn order, round counters, status effect gems, and floating animated damage text.</p>
+        </div>
+        <div className="bg-slate-800/50 border border-slate-700/60 rounded-xl p-3">
+          <div className="font-bold text-pink-300 font-mono uppercase mb-1">📺 Player Spectator Stream</div>
+          <p className="text-slate-400 text-[11px]">Stream <code className="text-cyan-300 font-mono">/spectator/:mapId</code> to players with GM secrets and fog-of-war hidden.</p>
+        </div>
       </div>
     </div>
   ),
+
   aime: (
-    <div className="space-y-4">
-      <p className="text-slate-300 leading-relaxed">
-        <strong className="text-cyan-300">AIME</strong> (AI-Integrated Manuscript Engine) is a 3-stage narrative prose generator powered by Bastion AI.
+    <div className="space-y-4 text-slate-300 text-sm leading-relaxed">
+      <p>
+        <strong className="text-pink-300 font-mono">AIME</strong> (AI-Integrated Manuscript Engine) helps authors draft narrative fiction:
       </p>
-      <div className="space-y-3">
-        {[
-          { label: 'Stage 1: Brainstorm', desc: 'Select active world lore elements & Guidance Gems to generate high-level story concepts and premise outlines.' },
-          { label: 'Stage 2: Outline', desc: 'Structure scene flow, plot beats, and character arcs before drafting. Re-order beats with drag handles.' },
-          { label: 'Stage 3: Draft', desc: 'Generate complete manuscript prose in a rich editor canvas with auto-completion and context injection.' },
-          { label: 'Floating Edit Toolbar', desc: 'Highlight any drafted text snippet to trigger floating tools: Rephrase, Expand, Shorten, Polish, and Transform Tone.' },
-          { label: 'Prose Export', desc: 'Export finished manuscript prose directly to Markdown (.md) or printable PDF files.' },
-        ].map(f => (
-          <div key={f.label} className="flex gap-3 bg-slate-800/40 border border-slate-700/40 rounded-lg p-3">
-            <div className="min-w-[150px] text-amber-300 font-bold text-xs uppercase tracking-wide pt-0.5">{f.label}</div>
-            <div className="text-slate-300 text-sm">{f.desc}</div>
-          </div>
-        ))}
-      </div>
-      <div className="bg-amber-950/40 border border-amber-500/30 rounded-lg p-3 text-xs text-slate-300">
-        ⚡ AIME AI features require a Gemini API key. Configure your key via <strong className="text-amber-300">Bastion AI → Settings</strong>.
+      <div className="space-y-2 text-xs">
+        <div className="bg-slate-800/40 border border-slate-700/50 rounded-xl p-3">
+          <div className="font-bold text-pink-300 font-mono uppercase mb-0.5">1. Brainstorm with Guidance Gems</div>
+          <p className="text-slate-400 text-[11px]">Select active world lore elements and premise catalysts to generate high-level story concepts.</p>
+        </div>
+        <div className="bg-slate-800/40 border border-slate-700/50 rounded-xl p-3">
+          <div className="font-bold text-cyan-300 font-mono uppercase mb-0.5">2. Outline Scene Beats</div>
+          <p className="text-slate-400 text-[11px]">Structure dramatic arcs and scene goals before generating prose.</p>
+        </div>
+        <div className="bg-slate-800/40 border border-slate-700/50 rounded-xl p-3">
+          <div className="font-bold text-amber-300 font-mono uppercase mb-0.5">3. Draft &amp; Floating Selection Toolbar</div>
+          <p className="text-slate-400 text-[11px]">Highlight drafted text snippets to trigger floating tools: Expand, Rephrase, Shorten, Polish, and Tone Transform.</p>
+        </div>
       </div>
     </div>
   ),
+
   'element-forge': (
-    <div className="space-y-4">
-      <p className="text-slate-300 leading-relaxed">
-        <strong className="text-cyan-300">Element Forge</strong> is the schema-driven story element architect for building structured lore bibles.
+    <div className="space-y-4 text-slate-300 text-sm leading-relaxed">
+      <p>
+        The <strong className="text-cyan-300 font-mono">Element Forge</strong> is a schema-driven story element architect:
       </p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-        {[
-          { type: 'Character', icon: '👤', desc: 'NPCs, PCs, and key figures with motivations, species, and status.' },
-          { type: 'Location', icon: '📍', desc: 'Planets, cities, bases, and rooms linkable to Map Maker nodes.' },
-          { type: 'Faction', icon: '⚔️', desc: 'Corporations, religions, military forces, and political syndicates.' },
-          { type: 'Event', icon: '⚡', desc: 'Historical turning points, battles, revelations, and campaign scenes.' },
-          { type: 'Item', icon: '📦', desc: 'Key artifacts, relic weapons, cybernetics, and quest objects.' },
-          { type: 'Lore', icon: '📜', desc: 'World-building entries: cosmology, history, technology, and culture.' },
-          { type: 'Session', icon: '🎲', desc: 'Game session prep documents, recaps, and operational logs.' },
-          { type: 'Custom Schema', icon: '✏️', desc: 'User-defined fields for specialized world mechanics.' },
-        ].map(e => (
-          <div key={e.type} className="bg-slate-800/50 border border-slate-700/50 rounded-lg p-3 flex gap-2 items-start">
-            <span className="text-lg shrink-0">{e.icon}</span>
-            <div>
-              <div className="text-amber-300 font-bold text-xs uppercase">{e.type}</div>
-              <div className="text-slate-400 text-xs mt-0.5">{e.desc}</div>
-            </div>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs text-center">
+        {['Character', 'Location', 'Faction', 'Event', 'Item', 'Lore', 'Session', 'Custom'].map(t => (
+          <div key={t} className="bg-slate-800/50 border border-slate-700/50 rounded-lg p-2 font-mono font-bold text-slate-200">
+            {t}
           </div>
         ))}
       </div>
     </div>
   ),
+
   'aime-copilot': (
-    <div className="space-y-4">
-      <p className="text-slate-300 leading-relaxed">
-        <strong className="text-cyan-300">AIME Co-Pilot</strong> is your context-aware storytelling and worldbuilding assistant in Story Foundry, with direct access to check with <strong className="text-amber-300">BASTION</strong> and the <strong className="text-cyan-300">OMNICORTEX</strong> for game mechanics and rules.
+    <div className="space-y-4 text-slate-300 text-sm leading-relaxed">
+      <p>
+        <strong className="text-pink-300 font-mono">AIME Co-Pilot</strong> is a draggable, movable AI assistant that checks rules with Bastion AI and rolls dice via <code className="text-amber-300 font-mono">/roll 2d10+4</code> directly from any view in Story Foundry.
       </p>
-      <div className="space-y-3">
-        {[
-          { label: 'Floating Chat Window', desc: 'Summon AIME anytime via the ✨ AIME CO-PILOT button. The window is movable and can be dragged anywhere on your canvas.' },
-          { label: 'Context-Aware Assistance', desc: 'AIME automatically reads your active Story element (type, title, description, custom fields) and universe Guidance Gems.' },
-          { label: 'BASTION Rules Synergy', desc: 'Ask AIME for game mechanics, stats, Tech Levels, or dice check guidelines—it seamlessly checks with BASTION and Omnicortex data.' },
-          { label: 'Interactive Dice Rolling', desc: 'Type /roll [dice] (e.g. /roll 2d10+4) directly into AIME chat to resolve tactical checks without leaving your workspace.' },
-          { label: 'API Key Configuration', desc: 'Enter your Gemini API key in Settings. Keys are securely stored in your browser\'s local storage with offline simulation fallback.' },
-        ].map(f => (
-          <div key={f.label} className="flex gap-3 bg-slate-800/40 border border-slate-700/40 rounded-lg p-3">
-            <div className="min-w-[150px] text-amber-300 font-bold text-xs uppercase tracking-wide pt-0.5">{f.label}</div>
-            <div className="text-slate-300 text-sm">{f.desc}</div>
-          </div>
-        ))}
-      </div>
     </div>
   ),
+
   cloud: (
-    <div className="space-y-4">
-      <p className="text-slate-300 leading-relaxed">
-        Story Foundry features <strong className="text-cyan-300">real-time cloud synchronization</strong> with offline local fallback.
+    <div className="space-y-4 text-slate-300 text-sm leading-relaxed">
+      <p>
+        Story Foundry includes <strong className="text-cyan-300 font-mono">debounced 1.5s Firestore syncing</strong> with timestamp conflict detection to protect story data.
       </p>
-      <div className="space-y-3">
-        {[
-          { label: 'Sync Status Badge', desc: 'Header badge indicates state: ☁️ Saved (synced to cloud), 🔄 Syncing, ⚠️ Error, ⚡ Conflict, 📡 Local Mode (unauthenticated).' },
-          { label: 'Push & Pull', desc: 'Use FILE → Push to Cloud to manually overwrite cloud state, or Pull from Cloud to sync down remote changes.' },
-          { label: 'Conflict Modal', desc: 'If local edits and cloud data diverge, a Sync Conflict modal appears allowing you to compare timestamps and select Local or Remote version.' },
-          { label: 'JSON File Backups', desc: 'Use FILE → Save to File to export an offline .JSON snapshot of your entire campaign. Restore anytime via FILE → Load from File.' },
-        ].map(f => (
-          <div key={f.label} className="flex gap-3 bg-slate-800/40 border border-slate-700/40 rounded-lg p-3">
-            <div className="min-w-[150px] text-amber-300 font-bold text-xs uppercase tracking-wide pt-0.5">{f.label}</div>
-            <div className="text-slate-300 text-sm">{f.desc}</div>
-          </div>
-        ))}
-      </div>
     </div>
   ),
 };
@@ -245,62 +179,87 @@ export const StoryFoundryGuideModal = ({ isOpen, onClose, initialTab = 'overview
 
   return (
     <div
-      className="fixed inset-0 z-[9999] flex items-start justify-center bg-black/70 backdrop-blur-sm pt-6 sm:pt-10 overflow-y-auto"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 overflow-hidden animate-fade-in"
       onClick={onClose}
     >
       <div
-        className="relative bg-[#0d1117] border border-[#0D5C63]/60 rounded-2xl shadow-2xl shadow-black/60 w-full max-w-4xl mx-4 flex overflow-hidden"
-        style={{ height: '80vh' }}
+        className="relative bg-[#0d1117] border border-purple-500/50 rounded-2xl shadow-2xl shadow-black/80 w-full max-w-5xl h-[88vh] flex flex-col font-sans overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Left Sidebar */}
-        <div className="w-52 bg-[#090d16] border-r border-slate-800 flex flex-col shrink-0">
-          <div className="p-4 border-b border-slate-800">
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">📖</span>
-              <div>
-                <div className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest">Story Foundry</div>
-                <div className="text-xs font-bold text-white">User Guide</div>
+        {/* Header */}
+        <div className="p-4 bg-slate-950/90 border-b border-purple-900/60 flex items-center justify-between shrink-0">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-purple-950 border border-purple-500/50 flex items-center justify-center text-purple-400">
+              <Layers size={18} />
+            </div>
+            <div>
+              <div className="text-[10px] font-mono font-bold text-purple-400 uppercase tracking-widest">
+                STORY FOUNDRY
+              </div>
+              <div className="text-sm font-bold text-white uppercase font-mono">
+                Campaign &amp; VTT User Guide
               </div>
             </div>
           </div>
-          <nav className="flex-1 overflow-y-auto p-2 space-y-0.5">
-            {SECTIONS.map(s => (
-              <button
-                key={s.id}
-                onClick={() => setActiveSection(s.id)}
-                className={`w-full text-left px-3 py-2 rounded text-xs font-bold uppercase tracking-wide transition-all ${
-                  activeSection === s.id
-                    ? 'bg-cyan-950/80 text-cyan-300 border border-cyan-500/50'
-                    : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
-                }`}
-              >
-                {s.label}
-              </button>
-            ))}
-          </nav>
-          <div className="p-3 border-t border-slate-800">
-            <div className="text-[9px] text-slate-600 font-mono uppercase tracking-widest text-center">
-              Tangent SFF RPG v2.0
-            </div>
-          </div>
-        </div>
 
-        {/* Main Content */}
-        <div className="flex-1 flex flex-col overflow-hidden">
-          <div className="p-4 border-b border-slate-800 flex items-center justify-between shrink-0">
-            <h2 className="text-lg font-bold text-white uppercase tracking-wider">
-              {SECTIONS.find(s => s.id === activeSection)?.label}
-            </h2>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1200, 0.03);
+                window.dispatchEvent(new CustomEvent('open-user-guide', { detail: { tab: 'story' } }));
+                onClose();
+              }}
+              className="px-3 py-1.5 bg-purple-950 hover:bg-purple-900 border border-purple-500/50 text-purple-300 rounded-lg text-xs font-mono font-bold uppercase transition-all flex items-center gap-1.5"
+              title="Open in Comprehensive Master Guide"
+            >
+              <span>Full System Guide</span>
+              <ExternalLink size={12} />
+            </button>
+
             <button
               onClick={onClose}
-              className="p-1.5 px-3 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white rounded text-xs font-bold uppercase transition-colors border border-slate-700"
+              className="p-1.5 px-3 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white rounded-lg text-xs font-mono font-bold uppercase transition-colors border border-slate-700"
             >
               ✕ Close
             </button>
           </div>
-          <div className="flex-1 overflow-y-auto p-6">
-            {CONTENT[activeSection]}
+        </div>
+
+        {/* 2-Pane Body */}
+        <div className="flex-1 flex min-h-0 overflow-hidden">
+          {/* Left Sidebar */}
+          <div className="w-56 sm:w-64 bg-[#090d16] border-r border-slate-800 flex flex-col shrink-0">
+            <nav className="flex-1 overflow-y-auto p-2 space-y-1 custom-scrollbar">
+              {SECTIONS.map(s => (
+                <button
+                  key={s.id}
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1100, 0.02);
+                    setActiveSection(s.id);
+                  }}
+                  className={`w-full text-left px-3 py-2 rounded-xl text-xs font-mono font-bold uppercase tracking-wide transition-all ${
+                    activeSection === s.id
+                      ? 'bg-purple-950/90 text-purple-300 border border-purple-500/50 shadow-sm'
+                      : 'text-slate-400 hover:text-white hover:bg-slate-900/60'
+                  }`}
+                >
+                  {s.label}
+                </button>
+              ))}
+            </nav>
+          </div>
+
+          {/* Right Content */}
+          <div className="flex-1 flex flex-col overflow-hidden bg-[#0a0e17]">
+            <div className="p-4 border-b border-slate-800/80 bg-slate-950/40">
+              <h2 className="text-base font-bold text-white uppercase font-mono tracking-wider">
+                {SECTIONS.find(s => s.id === activeSection)?.label}
+              </h2>
+            </div>
+            <div className="flex-1 overflow-y-auto p-6 custom-scrollbar">
+              {CONTENT[activeSection]}
+            </div>
           </div>
         </div>
       </div>
@@ -308,3 +267,4 @@ export const StoryFoundryGuideModal = ({ isOpen, onClose, initialTab = 'overview
   );
 };
 
+export default StoryFoundryGuideModal;

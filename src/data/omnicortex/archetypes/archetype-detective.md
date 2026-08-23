@@ -49,3 +49,11 @@ Finding plot hooks, solving mysteries, tracking targets in cities.
 - **Occupations**: Agent, Citizen (Law)
 - **Origins**: Urban, Colony, Hostile
 - **Factions**: Coalition (Marshals), Syndicate (PIs), Entari Combine
+
+
+## Extended Lore & Background
+
+Relentless detective who uncovers conspiracies and brings criminals to justice.  
+*You find the truth. You don't stop until the puzzle is solved and the guilty are exposed. You notice the details that others miss, following the trail wherever it leads.*  
+*"Everyone has a secret. I just have to find the loose thread."*
+

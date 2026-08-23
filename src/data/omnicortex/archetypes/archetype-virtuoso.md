@@ -49,3 +49,11 @@ Distracting guards, earning money, gaining access to exclusive events.
 - **Occupations**: Entertainer, Citizen
 - **Origins**: Leisure, Urban, Enlightened
 - **Factions**: Entari Combine (Culture), Alterian Enclave, Syndicate (Media)
+
+
+## Extended Lore & Background
+
+Captivates audiences with skills in music, dance, or acting. Thrives in the spotlight.  
+*You control the mood of the room. You can turn a hostile crowd into a cheering mob or distract a guard with a song. Your art is your weapon, and fame is your shield.*  
+*"Eyes on me, everyone. You won't want to miss this."*
+

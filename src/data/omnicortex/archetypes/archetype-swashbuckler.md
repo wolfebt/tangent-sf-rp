@@ -49,3 +49,11 @@ Engaging enemy leaders, mobile melee damage, flamboyant distraction.
 - **Occupations**: Soldier, Entertainer
 - **Origins**: Leisure, Spacer, Urban
 - **Factions**: Dynasty (Duelists), Outworlds (Pirates), Entari
+
+
+## Extended Lore & Background
+
+A skilled combatant who excels in boarding actions and close-quarters flair.  
+*You fight with panache. You treat combat as a dance, outmaneuvering foes with wit and blade. You are the hero of your own story, and you make sure everyone knows it.*  
+*"En garde\! Try not to bore me."*
+

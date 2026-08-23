@@ -48,3 +48,11 @@ Hardening party networks, creating tactical data-links, identifying digital infr
 - **Occupations**: Specialist, Builder
 - **Origins**: Urban, Industrial, Research
 - **Factions**: Syndicate (Mesh Architects), Mekan (Grid Weavers), Ascendancy
+
+
+## Extended Lore & Background
+
+The high-level systems engineer who designs and manages the data infrastructures that link civilizations.  
+*You build the digital world. You don't just hack systems; you create the foundations they sit on. You understand the flow of information as a physical force that must be harnessed.*  
+*"The Grid is my masterpiece. Every packet of data is where I intended it to be."*
+

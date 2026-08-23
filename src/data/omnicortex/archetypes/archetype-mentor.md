@@ -49,3 +49,11 @@ Granting bonuses to allies' learning and skill checks, tactical instruction.
 - **Occupations**: Scholar, Representative
 - **Origins**: Research, Urban, Enlightened
 - **Factions**: Ascendancy (Academics), Impyrium (Masters), Entari Combine
+
+
+## Extended Lore & Background
+
+The experienced instructor who guides the growth of others, identifying potential and refining raw talent.  
+*You see the future in your pupils. You understand that the survival of your legacy depends on the success of the next generation. You don't just provide answers; you teach how to find them.*  
+*"You have the spark. Let me show you how to start the fire."*
+

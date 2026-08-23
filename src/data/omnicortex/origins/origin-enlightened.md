@@ -45,3 +45,44 @@ Metaphysically active worlds rich in crystal formations, ley-line junctions, ast
 - `trait-problem-solving`
 - `trait-shared-wisdom`
 - `trait-spiritual-awareness`
+
+
+## Extended Lore & Background
+
+Certain worlds have particularly strong ley lines, special crystal formations, atmospheric anomalies, or other features that make them more metaphysically active. This could be in the form of a variety of metaphysical energies or patterns, but it is still a common occurrence.  
+Structures on these worlds may have a wide range of designs based on creativity, ability, and wants or needs.  
+Adept Occupations (and Metafocus Disciplines) are more common in these worlds.
+
+Alertness, Academics, Knowledge (Culture, History, Language, Physics, Religion), Vocation (any)
+
+Arcanist   
+Psionic   
+Seer   
+Scholar   
+Spiritual Guide   
+Envoy
+
+Has a deep sense of empathy and compassion for others  
+*\+2 Insight and \+2 Handle Animal Checks while being Friendly*
+
+The character has a natural curiosity about the world around them, which drives them to explore and discover new things in the aquatic environment.  
+*Regain a Karma Point on the first encounter when dealing with something new during the session \- creature, area, technology, etc.*
+
+May take on the role of a mentor or guide, sharing their knowledge and wisdom with others to help them grow and develop  
+*Those under the Enlightened character’s tutelage may make Study Checks at Advantage*
+
+Open to new ideas, perspectives, and experiences  
+*Reduce all Stigma Penalties with others by the Enlightened character’s Wisdom score for both parties*
+
+Seeks peace and harmony in all aspects of life  
+*\+2 to Diplomacy for peaceful meditations*
+
+Excels at problem-solving and critical thinking  
+*Once per Day may reroll a Mental Skill Check*
+
+Possesses wisdom beyond their years  
+*Any Check to Aid, Guide or Instruct another (granting them a bonus) may be made at Advantage*
+
+May have a strong connection to spirituality or metaphysical concepts  
+*\+1 to Attune and one Metafocus Skill*
+

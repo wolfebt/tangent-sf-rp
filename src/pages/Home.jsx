@@ -317,7 +317,7 @@ const Home = () => {
 
       {/* Dark Overlay Gradient */}
       <div className="min-h-full w-full bg-gradient-to-b from-[#0d1117]/85 via-[#0d1117]/65 to-[#0d1117]/90 backdrop-blur-[1px] p-3 sm:p-4 lg:p-5 flex flex-col justify-between">
-        <div className="max-w-[1580px] w-full mx-auto space-y-3 sm:space-y-4">
+        <div className="w-full space-y-3 sm:space-y-4 px-1 sm:px-2 lg:px-4">
           
           {/* Mobile View Header & Action Bar */}
           {isMobile && (
@@ -357,18 +357,21 @@ const Home = () => {
             </div>
           )}
 
-          {/* Desktop 3-Column Layout */}
+          {/* Desktop 3-Column Layout: Left ~20%, Center ~60%, Right ~20% */}
           {!isMobile ? (
-            <div className="grid grid-cols-12 gap-4 items-start pt-1">
+            <div className="flex flex-col lg:flex-row justify-between items-start gap-4 xl:gap-6 2xl:gap-8 w-full pt-1">
               
-              {/* Left Column (3 cols): Vertical Navigation Stack */}
-              <div className="col-span-3 space-y-2.5 flex flex-col" onClick={(e) => e.stopPropagation()}>
+              {/* Left Column (approx 20% width): Vertical Navigation Stack */}
+              <div 
+                className="w-full lg:w-[22%] xl:w-[20%] min-w-[280px] max-w-[380px] 2xl:max-w-[420px] space-y-2.5 flex flex-col shrink-0" 
+                onClick={(e) => e.stopPropagation()}
+              >
                 {renderModuleCards(false)}
               </div>
 
-              {/* Center Column (6 cols): Dynamic Open View Area / In-Page Drawers */}
+              {/* Center Column (approx 60% width): Dynamic Open View Area / In-Page Drawers */}
               <div 
-                className="col-span-6 min-h-[540px] flex flex-col"
+                className="w-full lg:flex-1 min-w-0 min-h-[540px] flex flex-col self-stretch"
                 onClick={(e) => e.stopPropagation()}
               >
                 <LandingDrawerArea
@@ -378,8 +381,11 @@ const Home = () => {
                 />
               </div>
 
-              {/* Right Column (3 cols): Campaign Ops + Game Squads + Comm Center */}
-              <div className="col-span-3 space-y-2.5 flex flex-col" onClick={(e) => e.stopPropagation()}>
+              {/* Right Column (approx 20% width): Campaign Ops + Game Squads + Comm Center */}
+              <div 
+                className="w-full lg:w-[22%] xl:w-[20%] min-w-[280px] max-w-[380px] 2xl:max-w-[420px] space-y-2.5 flex flex-col shrink-0" 
+                onClick={(e) => e.stopPropagation()}
+              >
                 <CampaignOpsWidget onShowOverview={() => handleSelectDrawer('overview')} />
                 <GameSquadsWidget onOpenSquadsDrawer={() => handleSelectDrawer('game-groups')} />
                 <CommCenterWidget 
@@ -415,7 +421,7 @@ const Home = () => {
         />
 
         {/* Footer info */}
-        <footer className="max-w-[1580px] w-full mx-auto pt-4 pb-2 border-t border-slate-900/80 mt-4 flex flex-col sm:flex-row items-center justify-between text-[10px] font-mono text-slate-500 gap-2">
+        <footer className="w-full pt-4 pb-2 border-t border-slate-900/80 mt-4 flex flex-col sm:flex-row items-center justify-between text-[10px] font-mono text-slate-500 gap-2 px-1 sm:px-2 lg:px-4">
           <span>TANGENT SCIENCE FANTASY ROLE PLAYING SYSTEM • HUB V2.0</span>
           <span>CYBERNETIC INTERFACE INITIALIZED</span>
         </footer>

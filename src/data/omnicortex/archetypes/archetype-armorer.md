@@ -49,3 +49,11 @@ Repairing armor in the field, identifying equipment vulnerabilities, maximizing 
 - **Occupations**: Builder, Soldier
 - **Origins**: Industrial, Urban, Militaristic
 - **Factions**: Impyrium (Forge Masters), Dynasty (Smiths), Syndicate
+
+
+## Extended Lore & Background
+
+The specialist who crafts and maintains the protective shells that preserve life in high-threat zones.  
+*You provide the safety that makes heroism possible. You know every weak point in a chest plate and every bypass in a shield generator. Without your craft, the team is just target practice.*  
+*"Flesh is soft. Let me give you something harder."*
+

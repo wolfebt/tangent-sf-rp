@@ -49,3 +49,11 @@ Mass buffing allies, coordinating large-scale battles, strategic planning.
 - **Occupations**: Soldier (Officer), Noble
 - **Origins**: Militaristic, Urban (Capital)
 - **Factions**: Impyrium (High Command), Dynasty (High Lord)
+
+
+## Extended Lore & Background
+
+A high-ranking military commander who leads legions into battle.  
+*You are the architect of victory. You see the battlefield as a chessboard, moving units with precision and foresight. Your presence inspires discipline and courage in the face of overwhelming odds.*  
+*"Victory is not an accident. It is engineered."*
+

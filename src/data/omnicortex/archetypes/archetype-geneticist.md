@@ -49,3 +49,11 @@ Healing, creating buffs/mutations, identifying xeno-threats.
 - **Occupations**: Specialist, Scholar (Auluran)
 - **Origins**: Research, Agricultural, Enlightened
 - **Factions**: Auluran (Bio-Shapers), Syndicate (Augmenters), Ascendancy
+
+
+## Extended Lore & Background
+
+Applies genetic engineering and biotechnology to create innovative tools, medicines, and biological constructs.  
+*You design life. You see biology not as destiny, but as a canvas. You cure the incurable, enhance the weak, and grow solutions to problems that machines cannot solve.*  
+*"Evolution is too slow. I prefer immediate results."*
+

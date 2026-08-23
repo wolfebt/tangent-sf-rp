@@ -49,3 +49,11 @@ Space combat, boarding actions, high-speed interdiction.
 - **Occupations**: Spacer, Soldier
 - **Origins**: Spacer, Colony, Militaristic
 - **Factions**: Coalition (Licensed), Entari Combine (Security), Outworlds
+
+
+## Extended Lore & Background
+
+A skilled starship captain who operates independently on behalf of a faction.  
+*You are a pirate with a badge. You hunt the enemies of the state for profit, blending the freedom of the outlaw with the legitimacy of the law.*  
+*"It's not piracy if you have a permit."*
+

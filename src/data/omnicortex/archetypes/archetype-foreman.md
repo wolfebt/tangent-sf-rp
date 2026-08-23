@@ -49,3 +49,11 @@ Organizing NPC labor, intimidating local workers, managing base construction.
 - **Occupations**: Citizen (Worker), Builder
 - **Origins**: Industrial, Colony, Urban
 - **Factions**: Syndicate (Labor Oversight), Outworlds (Mine Bosses), Impyrium
+
+
+## Extended Lore & Background
+
+A stern and authoritative leader who oversees the workforce and ensures that production targets are met.  
+*You are the iron fist of industry. You manage personnel and resources with ruthless efficiency, ensuring the job gets done regardless of the obstacles. Your word is law on the factory floor.*  
+*"The schedule is not a suggestion. Get back to work."*
+

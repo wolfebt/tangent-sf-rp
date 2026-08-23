@@ -49,3 +49,11 @@ Secure resources, bypass legal hurdles, manage team logistics.
 - **Occupations**: Citizen (Corporate), Representative
 - **Origins**: Urban, Colony, Industrial
 - **Factions**: Syndicate (Middle Management), Impyrium (Administration), Entari Combine
+
+
+## Extended Lore & Background
+
+The skilled administrator who ensures the smooth operation of departments or territories. They navigate red tape like a labyrinth runner.  
+*You are the grease in the gears of civilization. While others fight with guns or magic, you fight with logistics, ensuring the team has funding, permits, and a safe harbor. Without you, they are just vagrants; with you, they are an organization.*  
+*"Amateurs talk strategy. Professionals talk logistics. Now sign here."*
+

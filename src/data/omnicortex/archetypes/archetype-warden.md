@@ -49,3 +49,11 @@ Off-tank, terrain manipulation, healing support.
 - **Occupations**: Adept, Scout (Fey/Auluran origins)
 - **Origins**: Agricultural, Enlightened, Hostile
 - **Factions**: Auluran (Protector Caste), Alterian Enclave (Rangers), Entari Combine (Gardeners)
+
+
+## Extended Lore & Background
+
+A protector of forests and natural habitats, skilled in both magic and combat to defend the wild.  
+*You are the immunity of the living world. You stand between the encroaching machine and the sacred grove, wielding the raw power of nature to crush those who would despoil it. You don't just fight for a cause; you fight for existence itself.*  
+*"The forest is not empty. It is merely holding its breath."*
+

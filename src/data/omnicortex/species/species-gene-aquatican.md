@@ -86,3 +86,11 @@ Favored Environment (Aquatic)
 Fortitude Resistance  
 Low Light Vision  
 Quick line
+
+
+## Extended Lore & Background
+
+This engineered lineage possesses several noticeable aquatic traits that distinguish them from baseline humans. Physically, they exhibit larger eyes, granting superior vision in low-light, watery environments. Their skin often features silvery scales that provide a degree of protection and aid in hydrodynamic movement. A clear predatory adaptation is their set of pointed teeth. Most notably, they possess full webbing on their fingers and toes, a trait that necessitates the use of custom gloves and boots for comfortable and practical use of standard human technology and environments.
+
+Genetically, they bear a striking resemblance to their source population, the Aquarians, sharing a deep genetic ancestry. However, the Syndicate's engineering eliminated key weaknesses present in the original Aquarian genome. Consequently, the Aquatic Humans of Aquatica have no issues with diet; unlike some naturally evolved aquatic species, they are not constrained by a limited food source. Furthermore, many of their population are carnivores, reflecting a more opportunistic and robust metabolism. Crucially, they are completely unaffected by the Tiburon Syndrome, a debilitating affliction that plagues many of their Aquarian kin, making them a genetically superior and more resilient operative for the Syndicate.
+

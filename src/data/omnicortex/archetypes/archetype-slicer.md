@@ -49,3 +49,11 @@ Electronic warfare, data theft, bypassing security.
 - **Occupations**: Specialist, Criminal
 - **Origins**: Urban, Industrial, Research
 - **Factions**: Syndicate (Deckers), Mekan (Code-Weavers), Ascendancy
+
+
+## Extended Lore & Background
+
+A master of cyberspace, skilled in infiltrating networks and stealing data.  
+*You are the knife in the digital dark. You carve through firewalls and dissect data streams, extracting the secrets that power empires.*  
+*"Information wants to be free. I'm just the liberator."*
+

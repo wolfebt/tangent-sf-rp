@@ -49,3 +49,11 @@ Talk the way into secure areas, trick enemies, gather intel via deception.
 - **Occupations**: Criminal, Citizen
 - **Origins**: Urban, Leisure, Spacer
 - **Factions**: Outworlds (Con Artists), Syndicate (Espionage), Entari
+
+
+## Extended Lore & Background
+
+Uses charm and bluff to swindle and exploit others for personal gain.  
+*You exploit the bugs in human nature. You see greed, pride, and fear as levers to be pulled. You can walk into a fortress with nothing but a smile and walk out with the keys.*  
+*"Trust me. I'm exactly who you want me to be."*
+

@@ -49,3 +49,32 @@ Analyzing anomalies, solving environmental puzzles, crafting items.
 - **Occupations**: Scholar, Specialist
 - **Origins**: Research, Enlightened, Urban
 - **Factions**: Ascendancy (Universities), Entari Combine (Colleges), Alterian Enclave
+
+
+## Extended Lore & Background
+
+Focus: Action, Adaptability, Performance, and Risk.  
+Operatives are the doers. They thrive on adrenaline, skill mastery, and manipulating the physical world. They are the rogues, pilots, and entertainers.
+
+
+
+## Extended Lore & Background
+
+Focus: Identity, Meaning, Connection, and Influence.  
+Visionaries are the soul of the party. They focus on the big picture, social harmony, and the metaphysical connection between beings. They are the leaders, the diplomats, and the mystics.
+
+
+
+## Extended Lore & Background
+
+Focus: Competence, Knowledge, Systems, and Strategy.  
+Savants are the brains of the operation. They solve puzzles, build tech, plan heists, and wield magic as a science.
+
+
+
+## Extended Lore & Background
+
+Conducts research to further knowledge. Systematically gathers evidence and tests hypotheses.  
+*You question everything. You are driven by the need to understand the fundamental laws of reality. You bring the light of reason to the darkest corners of the galaxy.*  
+*"Hypothesis: This might explode. Experiment: Let's find out."*
+

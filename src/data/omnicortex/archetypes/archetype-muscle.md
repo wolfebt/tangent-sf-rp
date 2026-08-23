@@ -49,3 +49,11 @@ Clearing debris, carrying heavy gear, grappling enemies.
 - **Occupations**: Citizen, Builder
 - **Origins**: Industrial, Colony, Urban
 - **Factions**: Syndicate (Worker Caste), Outworlds, Mekan (Drones)
+
+
+## Extended Lore & Background
+
+A hardworking individual contributing through physical labor and endurance.  
+*You are the strength that builds empires. You lift, carry, and endure. When machines fail or finesse is not enough, you provide the raw power to move the world.*  
+*"Heavy lifting? That's just a warm-up."*
+

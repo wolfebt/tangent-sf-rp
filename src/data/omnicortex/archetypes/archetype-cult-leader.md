@@ -49,3 +49,11 @@ Controlling minions, inspiring allies, social manipulation.
 - **Occupations**: Representative, Adept
 - **Origins**: Urban, Colony, Enlightened
 - **Factions**: Outworlds, Impyrium (Heretics), Syndicate (Corporate Cults)
+
+
+## Extended Lore & Background
+
+A charismatic leader who inspires and guides followers, delivering divine pronouncements.  
+*You speak the divine truth. Your followers look to you for salvation, and you lead them with absolute conviction. You channel the power of belief to shape the world around you.*  
+*"Have faith, for the path is clear."*
+

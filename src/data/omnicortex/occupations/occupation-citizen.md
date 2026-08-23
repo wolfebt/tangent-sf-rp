@@ -48,3 +48,26 @@ A Citizen is an individual living within a diverse and interconnected society, s
 - `trait-citizen-networking`
 - `trait-citizen-problem-solving`
 - `trait-citizen-strategic-thinking`
+
+
+## Extended Lore & Background
+
+A Citizen is an individual living within a diverse and interconnected society, spanning multiple planets or star systems. They may have various roles and occupations, such as traders, workers, scientists, or artists, contributing to the overall functioning of their community. They are likely to be familiar with customs, languages, and technologies, allowing them to navigate the complexities of their society. They may be part of various factions, organizations, or social groups, each with their own goals and motivations.  
+Some work directly for the numerous corporations, governments or similar levels of power, but with most of all Citizens being from the Working Class.  
+As a Citizen can be from any background the Background Trait is often used to flesh them out and to assist in their trade, though the training will not be as dedicated as a true professional in the Occupation.
+
+Any Non-Combat Skills
+
+General
+
+Advocate  
+Artist  
+Entrepreneur  
+Journalist  
+Scientist  
+Laborer  
+Medic  
+Pilot  
+Technician  
+Bureaucrat
+

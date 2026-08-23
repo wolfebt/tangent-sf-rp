@@ -18,3 +18,47 @@ Vigilante marshals, bounty hunters, or sector arbiters enforcing extrajudicial j
 - Assign Tech Level (1-5) and Meta Level (1-5) based on campaign scale.
 - Choose 20 SP across 4-6 appropriate skills matching the organization's focus.
 - Select 1-2 Recommended Features reflecting the faction's primary trade.
+
+
+## Extended Lore & Background
+
+These factions are characterized by their pursuit of cosmic justice.   
+**Attitudes**    
+Just, honorable, dedicated, idealistic, compassionate, determined  
+**Goals**    
+Protect the universe from threats, enforce the law, maintain order, right wrongs in the universe, balance inequalities, address discrimination and prejudice  
+**Strengths**    
+Skilled warriors, advanced technology, strong community bonds, strong sense of purpose and unity, ability to inspire devotion in followers, access to unique powers or knowledge  
+**Weaknesses**    
+Vulnerability to corruption, difficulty maintaining unity, tendency to prioritize their own interpretation of justice over the greater good, vulnerability to manipulation by charismatic leaders, potential for infighting or schisms, difficulty adapting to new ideas or circumstances  
+**Technology** 4  
+**Skills** Knowledge and Combat  
+**Features** 2 Combat Features
+
+Paladin  
+Judge  
+Investigator  
+Sage
+
+
+
+## Extended Lore & Background
+
+These factions are characterized by their pursuit of cosmic justice.   
+**Attitudes**    
+Just, honorable, dedicated, idealistic, compassionate, determined  
+**Goals**    
+Protect the universe from threats, enforce the law, maintain order, right wrongs in the universe, balance inequalities, address discrimination and prejudice  
+**Strengths**    
+Skilled warriors, advanced technology, strong community bonds, strong sense of purpose and unity, ability to inspire devotion in followers, access to unique powers or knowledge  
+**Weaknesses**    
+Vulnerability to corruption, difficulty maintaining unity, tendency to prioritize their own interpretation of justice over the greater good, vulnerability to manipulation by charismatic leaders, potential for infighting or schisms, difficulty adapting to new ideas or circumstances  
+**Technology** 4  
+**Skills** Knowledge and Combat  
+**Features** 2 Combat Features
+
+Paladin  
+Judge  
+Investigator  
+Sage
+

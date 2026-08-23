@@ -1178,7 +1178,7 @@ export const DBMTableView = ({
           </table>
         </div>
 
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto pb-4">
           {filteredItems.length === 0 ? (
             <div className="p-8 text-center text-slate-500 italic flex flex-col items-center justify-center gap-2">
               <span>No matching records found in {currentConfig.label || currentKey}.</span>

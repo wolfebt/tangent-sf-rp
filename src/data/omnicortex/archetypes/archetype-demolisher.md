@@ -48,3 +48,11 @@ Suppressive fire, destroying vehicles, crowd control.
 - **Occupations**: Soldier, Mercenary
 - **Origins**: Militaristic, Hostile, Industrial
 - **Factions**: Coalition (Heavy Support), Impyrium (Legionnaires), Mekan (Siege Units)
+
+
+## Extended Lore & Background
+
+Expert in operating heavy weaponry like machine guns and rocket launchers. Provides overwhelming firepower.  
+*You believe there is no problem that cannot be solved by the proper application of high explosives. You control the battlefield through sheer volume of fire, turning cover into concealment and enemies into memories.*  
+*"Suppressive fire? No, I'm just clearing the room."*
+

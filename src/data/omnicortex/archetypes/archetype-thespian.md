@@ -49,3 +49,11 @@ Create diversions, infiltrate social circles, impersonate key personnel.
 - **Occupations**: Entertainer, Spy
 - **Origins**: Urban, Leisure, Enlightened
 - **Factions**: Entari Combine (Culture), Alterian Enclave (High Art), Syndicate (Media)
+
+
+## Extended Lore & Background
+
+The master of the dramatic arts, captivating audiences with powerful performances.  
+*You can be anyone. To the guard, you are a general; to the noble, a lost heir. You wield identity as a tool, slipping into social circles and extracting secrets before the curtain falls.*  
+*"All the world's a stage, and I am the only one who knows the script."*
+

@@ -49,3 +49,11 @@ Bypassing laser grids, hacking turrets, stealth takedowns.
 - **Occupations**: Agent, Soldier
 - **Origins**: Industrial, Urban, Militaristic
 - **Factions**: Syndicate (Infiltrators), Mekan (Stealth Units), Ascendancy
+
+
+## Extended Lore & Background
+
+Equipped with advanced enhancements to blend in and infiltrate high-security areas. Hack, cloak, and kill.  
+*You are the ghost in the machine. Your body is a weapon, upgraded for speed and stealth. You bypass laser grids and hack turrets before the enemy even knows their perimeter is breached.*  
+*"Security offline. Target acquired. Exfiltrating now."*
+

@@ -48,3 +48,11 @@ Designing bases, identifying structural weaknesses, overseeing construction.
 - **Occupations**: Builder, Scholar
 - **Origins**: Urban, Industrial, Colony
 - **Factions**: Syndicate (Arcologies), Dynasty (Fortresses), Mekan (Megastructures)
+
+
+## Extended Lore & Background
+
+Skilled in the design and upkeep of infrastructure.  
+*You design the world. From skyscrapers to space stations, you understand the structures that house civilization. You see the stress points and the hidden flows of energy and people.*  
+*"Form follows function, but strength is non-negotiable."*
+

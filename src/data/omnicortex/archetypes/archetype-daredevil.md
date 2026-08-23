@@ -49,3 +49,11 @@ Reaching inaccessible areas, performing stunts, surviving falls.
 - **Occupations**: Specialist, Entertainer
 - **Origins**: Leisure, Spacer, Urban
 - **Factions**: Syndicate (Media Stunts), Outworlds, Ascendancy
+
+
+## Extended Lore & Background
+
+Excels in extreme sports and high-risk maneuvers.  
+*You live for the rush. The higher the risk, the better the performance. You take leaps of faith that others would call suicide, relying on skill and sheer nerve to survive.*  
+*"It's not a fall; it's a very fast descent with style."*
+

@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStory } from '../../../context/CampaignContext';
 import { useFolio } from '../../../context/FolioContext';
@@ -137,6 +137,12 @@ export const CommandOverview = ({ onOpenDrawer, onClose }) => {
         </div>
 
         <div className="flex items-center gap-2">
+          <button
+            onClick={() => window.dispatchEvent(new CustomEvent('open-user-guide', { detail: { tab: 'hub' } }))}
+            className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-cyan-300 text-xs font-mono font-bold uppercase rounded-lg border border-cyan-500/40 transition-colors flex items-center gap-1.5"
+          >
+            <BookOpen size={12} /> System Guide
+          </button>
           <button
             onClick={() => onOpenDrawer('persona-folio')}
             className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-mono font-bold uppercase rounded-lg border border-slate-700 transition-colors"

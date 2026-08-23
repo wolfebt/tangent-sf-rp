@@ -49,3 +49,11 @@ Buffing the party (Orders), piloting/commanding vehicles, face of the group.
 - **Occupations**: Spacer, Officer
 - **Origins**: Spacer, Militaristic, Colony
 - **Factions**: Impyrium (Admiralty), Dynasty (Fleet Lords), Ascendancy
+
+
+## Extended Lore & Background
+
+A charismatic and cunning leader who commands a starship, charting courses and leading crew in dangerous adventures.  
+*You are the one they look to when the alarms scream. You make the hard calls, hold the crew together, and steer the ship through the storm. You are the undisputed master of your vessel.*  
+*"On my deck, my word is law. Prepare for hard burn."*
+

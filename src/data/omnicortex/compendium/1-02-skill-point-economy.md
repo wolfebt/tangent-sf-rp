@@ -2,12 +2,10 @@
 id: "1-02-skill-point-economy"
 name: "1.02 Skill Point Economy & Allocation Pools"
 category: "compendium"
-parent: "1.00 CHARACTER CREATION & ECONOMY"
+entry_type: "Core Rule"
+parent: "1.00 CHARACTER CREATION"
 order: 2
-perspective: "operator"
-entry_type: "Operator Rule"
 ---
-
 # 1.02 Skill Point Economy & Allocation Pools
 
 Skills in Tangent represent formal training, reflex conditioning, and practical experience. All skill ranks are purchased with **Skill Points (SP)** or **Build Points (BP)**.
@@ -20,7 +18,7 @@ Every starting character receives three separate, non-transferable pools of 20 S
 
 | Pool Name | Source | Purpose | Allowable Skills |
 | :--- | :--- | :--- | :--- |
-| **Faction Pool** | Primary Faction | Cultural, political, and doctrinal training | Listed under chosen Major Faction |
+| **Faction Pool** | Faction / Polity | Cultural, political, and doctrinal training | Listed under chosen Faction |
 | **Origin Pool** | Birthworld / Habitat | Survival, environmental adaptation, navigation | Listed under chosen Origin |
 | **Occupation Pool** | Career / Profession | Technical, combat, and vocational expertise | Listed under chosen Occupation |
 
@@ -32,16 +30,3 @@ Every starting character receives three separate, non-transferable pools of 20 S
 - **Recommended Creation Baseline:** No skill should exceed **Rank 6 (Trained / Professional)** at character creation.
 - **Maximum Creation Hard Cap:** Under no circumstance may any starting skill exceed **Rank 11 (Expert)** at character creation.
 - Ranks 12–30 are unlocked exclusively through in-game gameplay, progression milestones, and experience rewards.
-
-## Game Mechanics Rules
-```
-SkillRank_CreationMax = 11
-SkillRank_CreationRecommended = 6
-TotalStartingSkillPoints = 20(Faction) + 20(Origin) + 20(Occupation) = 60 SP
-```
-
-## Gameplay Instructions
-Spend exactly 20 points within each respective category list. Do not pool points across different categories.
-
-## Designer Notes
-Limiting starting ranks to Rank 6 ensures characters have room for meaningful growth across multiple campaign arcs.

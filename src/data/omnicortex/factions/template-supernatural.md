@@ -18,3 +18,47 @@ Ancient sorcerous cabal, psi-academy, or astral wardens guarding occult relics a
 - Assign Tech Level (1-5) and Meta Level (1-5) based on campaign scale.
 - Choose 20 SP across 4-6 appropriate skills matching the organization's focus.
 - Select 1-2 Recommended Features reflecting the faction's primary trade.
+
+
+## Extended Lore & Background
+
+These factions are characterized by their connection to supernatural forces.  
+**Attitudes**    
+Mysterious, powerful, otherworldly, mystical, secretive  
+**Goals**    
+Protect their kind, maintain the balance of power, eliminate threats, harness supernatural powers, protect or control supernatural artifacts, influence the development of other races  
+**Strengths**    
+Unique abilities, access to supernatural resources, knowledge of ancient lore  
+**Weaknesses**    
+Vulnerability to supernatural weaknesses, internal divisions,vulnerability to supernatural threats, potential for corruption  
+**Technology** 3-  
+**Skills** Knowledge and Discipline  
+**Features** 2 Discipline Features
+
+The Occultist  
+Mystic  
+Guardian  
+Shapeshifter
+
+
+
+## Extended Lore & Background
+
+These factions are characterized by their connection to supernatural forces.  
+**Attitudes**    
+Mysterious, powerful, otherworldly, mystical, secretive  
+**Goals**    
+Protect their kind, maintain the balance of power, eliminate threats, harness supernatural powers, protect or control supernatural artifacts, influence the development of other races  
+**Strengths**    
+Unique abilities, access to supernatural resources, knowledge of ancient lore  
+**Weaknesses**    
+Vulnerability to supernatural weaknesses, internal divisions,vulnerability to supernatural threats, potential for corruption  
+**Technology** 3-  
+**Skills** Knowledge and Discipline  
+**Features** 2 Discipline Features
+
+The Occultist  
+Mystic  
+Guardian  
+Shapeshifter
+

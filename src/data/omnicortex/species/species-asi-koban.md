@@ -179,3 +179,19 @@ Telekinesis
 **Recommended Features:** 
 
 *Diminutive Size (-8 Str, \+8 Dex, \+8 Combat, \+12 Stealth)*
+
+
+## Extended Lore & Background
+
+Unlike the chaotic nature of some Fey, Koban are often calm and observant. However, they possess a powerful, innate defense mechanism: the ability to assume the form of a specific Medium-sized humanoid. This "Guise" is unique to each Koban and acts as their interface with the larger galaxy, allowing them to travel, trade, and negotiate without being dismissed as mere animals.
+
+Society & Psychology: Koban culture is deeply spiritual and inextricably linked to the Meta (the Force/Magic). They view technology with skepticism, relying instead on their connection to the energies of the universe. To a Koban, a blaster is a crude tool compared to the elegance of a telekinetic push or a mind trick.
+
+They are often underestimated. In their fey form, they appear harmless and cute; in their humanoid form, they appear unassuming. They use this to their advantage, acting as spies, diplomats, or guardians who reveal their true nature only when necessary.
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+The most notable difference, however, lies in their ability to shape-shift. Where the Koban transition into a lithe, graceful humanoid form, these beings take on a natural animal guise. This shift is not merely a superficial change but a deep, spiritual integration with the chosen creature's essence. This grants them the physical prowess, instincts, and sensory perception of the animal they embody—be it the swift silence of a fox, the keen sight of an owl, or the grounded strength of a deer.
+
+Consequently, these Kin are profoundly attuned to the wild spaces they inhabit. Their connection to nature is not just a preference but a deep, symbiotic bond. They possess an innate, almost telepathic affinity for all creatures, able to soothe panicked beasts, understand the subtle warnings of the birds, and track the movements of the forest inhabitants with uncanny accuracy. They often act as silent guardians of the wilderness, their dual nature—Fey spirit and animal form—making them both a part of the environment and its watchful protector.
+

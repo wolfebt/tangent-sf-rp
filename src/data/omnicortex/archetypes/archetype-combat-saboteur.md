@@ -49,3 +49,19 @@ Breaching structures, area denial, destroying heavy enemy units.
 - **Occupations**: Soldier, Builder
 - **Origins**: Industrial, Militaristic, Colony
 - **Factions**: Coalition (Rebels), Syndicate (Demolitions), Impyrium
+
+
+## Extended Lore & Background
+
+A skilled operative who infiltrates to destroy or disrupt.  
+*You break things. Not randomly, but surgically. You know exactly where to place the charge or cut the wire to bring the whole system crashing down.*  
+*"A little chaos goes a long way."*
+
+
+
+## Extended Lore & Background
+
+The frontline demolitionist who uses chaos and high explosives to restructure the battlefield in real-time.  
+*You are the architect of rubble. You don't just clear rooms; you remove them from the blueprint. You use the environment as a weapon, turning the enemy's cover into their coffin.*  
+*"Plan A involves explosives. Plan B is more explosives."*
+

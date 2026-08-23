@@ -49,3 +49,11 @@ Infiltration, sabotage, covert surveillance.
 - **Occupations**: Agent, Criminal
 - **Origins**: Urban, Militaristic, Industrial
 - **Factions**: Syndicate (Agents), Impyrium (Spies), Ascendancy (Intelligence)
+
+
+## Extended Lore & Background
+
+A skilled agent who carries out dirty work. Expert in infiltration and sabotage.  
+*You are the shadow in the corner. You slip past defenses, disable systems, and extract targets without leaving a trace. You are the tool that fixes problems quietly.*  
+*"I was never here."*
+

@@ -534,7 +534,7 @@ export const DBMWikiView = ({
         </div>
 
         {/* Hierarchical Article Directory Tree */}
-        <div className="flex-1 overflow-y-auto p-2 space-y-2">
+        <div className="flex-1 overflow-y-auto p-2 pb-6 space-y-2">
           {(!allArticlesFlat || allArticlesFlat.length === 0) ? (
             <div className="p-8 text-center text-slate-500 italic text-xs">
               No articles found in {currentConfig?.label || 'compendium'}.
@@ -636,7 +636,7 @@ export const DBMWikiView = ({
       </aside>
 
       {/* RIGHT PANEL: Article Viewer / Content Display (Desktop Side-by-Side) */}
-      <main className="flex flex-col flex-1 max-md:hidden overflow-y-auto p-6 lg:p-8 bg-slate-900/95">
+      <main className="flex flex-col flex-1 max-md:hidden overflow-y-auto p-6 lg:p-8 pb-12 bg-slate-900/95">
         {activeArticle ? (
           <div className="max-w-4xl w-full mx-auto space-y-6">
             {/* Header & Controls */}

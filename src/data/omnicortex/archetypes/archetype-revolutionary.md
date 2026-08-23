@@ -50,3 +50,11 @@ Inspiring NPCs to fight, leading riots/raids, boosting ally morale.
 - **Occupations**: Citizen, Criminal
 - **Origins**: Industrial, Colony, Urban
 - **Factions**: Coalition (Independence), Outworlds, Syndicate (Unionizers)
+
+
+## Extended Lore & Background
+
+A charismatic leader who inspires and unites the rebellion.  
+*You are the voice of change. You rally the oppressed against the tyrant, turning despair into action. You lead the charge against the established order, fighting for a better tomorrow.*  
+*"Break the chains\! Rise up\!"*
+

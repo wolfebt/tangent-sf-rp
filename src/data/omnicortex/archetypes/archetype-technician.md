@@ -49,3 +49,11 @@ Rapid repair of gear/vehicles, bypassing locks/panels, technical support.
 - **Occupations**: Builder, Spacer
 - **Origins**: Industrial, Spacer, Colony
 - **Factions**: Outworlds (Mechanics), Coalition (Techs), Syndicate
+
+
+## Extended Lore & Background
+
+A skilled worker who maintains and repairs complex machinery.  
+*You keep the lights on. You are the hands-on expert who keeps the complex systems of the future running. You fix the engines, the power grids, and the life support.*  
+*"It's a bypass of the bypass. It'll hold... probably."*
+

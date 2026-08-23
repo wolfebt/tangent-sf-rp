@@ -49,3 +49,11 @@ Preventing conflict escalation, identifying lies, securing diplomatic safety.
 - **Occupations**: Agent, Scholar
 - **Origins**: Research, Urban, Colony
 - **Factions**: Ascendancy (Judges), Entari Combine (Ethicists), Syndicate
+
+
+## Extended Lore & Background
+
+The neutral mediator who resolves disputes with absolute impartiality and a deep understanding of universal justice.  
+*You are the middle ground. In a galaxy of competing interests and violent factions, you provide the calm center where words replace weapons. You don't take sides; you find the truth.*  
+*"Justice is a scale. It must be balanced, not broken."*
+

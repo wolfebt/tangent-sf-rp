@@ -6,7 +6,6 @@ import { collection, getDocs } from 'firebase/firestore';
 import { useAuth } from '../../context/AuthContext';
 
 // Extracted Components
-import { DBMHeader } from './DBMHeader';
 import { DBMSidebar } from './DBMSidebar';
 import { DBMWikiView } from './DBMWikiView';
 import { DBMGuideView } from './DBMGuideView';
@@ -18,7 +17,7 @@ import { ArchitectDevFieldsModal } from './ArchitectDevFieldsModal';
 import { UserSettingsModal } from '../UserSettingsModal';
 import { Toast } from '../UI/Toast';
 
-import { useDBMHistory } from './hooks/useDBMHistory';
+import { useDBM } from '../../context/DBMContext';
 import { useFirestoreSync } from './hooks/useFirestoreSync';
 import { fetchGeminiContent, getGeminiApiKey, sendBastionChatMessage } from '../../services/bastionService';
 import { confirmTypedDeletion } from '../../utils/confirmationUtils';
@@ -30,23 +29,31 @@ export const DBMContainer = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchParams] = useSearchParams();
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [isArchitectModalOpen, setIsArchitectModalOpen] = useState(false);
 
+  const dbm = useDBM() || {};
   const {
     activeCategory, setActiveCategory,
     activeSubcategory, setActiveSubcategory,
     history, historyIndex,
-    navigateToCategory, handleBack, handleForward
-  } = useDBMHistory('compendium', () => setSearchTerm(''));
+    navigateToCategory, handleBack, handleForward,
+    isSidebarOpen, setIsSidebarOpen,
+    isBastionOpen, setIsBastionOpen,
+    isArchitectModalOpen, setIsArchitectModalOpen,
+    handleExportMasterJSON, handleImportMasterJSON
+  } = dbm;
+
+  // Reset search term on category/subcategory change
+  useEffect(() => {
+    setSearchTerm('');
+  }, [activeCategory, activeSubcategory]);
 
   // Auto-navigate to user guide if ?guide=1 is in URL
   useEffect(() => {
-    if (searchParams.get('guide') === '1') {
+    if (searchParams.get('guide') === '1' && navigateToCategory) {
       navigateToCategory('user_guide');
     }
-  }, [searchParams]);
+  }, [searchParams, navigateToCategory]);
 
   const [sortField, setSortField] = useState('name');
   const [sortAsc, setSortAsc] = useState(true);
@@ -58,7 +65,6 @@ export const DBMContainer = () => {
   const [editFormData, setEditFormData] = useState({});
 
   // Bastion Modal States
-  const [isBastionOpen, setIsBastionOpen] = useState(false);
   const [bastionMessages, setBastionMessages] = useState([
     { role: 'model', text: 'Bastion initialized. Greetings, ARCHITECT! How may I assist with database entries, rules, mechanics, or universe architecture today?' }
   ]);
@@ -344,77 +350,6 @@ export const DBMContainer = () => {
   };
 
 
-  // Master Database Backup Export & Restore Import
-  const handleExportMasterJSON = async () => {
-    try {
-      const allKeys = Object.keys(categoryConfig).filter(
-        k => !categoryConfig[k].isParent && categoryConfig[k].viewType !== 'guide'
-      );
-      const masterCollections = {};
-      
-      for (const colKey of allKeys) {
-        if (dbData[colKey] && dbData[colKey].length > 0) {
-          masterCollections[colKey] = dbData[colKey];
-        } else {
-          try {
-            const snap = await getDocs(collection(db, colKey));
-            masterCollections[colKey] = snap.docs.map(d => ({ ...d.data(), id: d.id }));
-          } catch (e) {
-            masterCollections[colKey] = [];
-          }
-        }
-      }
-
-      const backup = {
-        type: "OmnicortexMasterDatabase",
-        version: "2.0",
-        exportedAt: new Date().toISOString(),
-        collections: masterCollections
-      };
-
-      const dataStr = JSON.stringify(backup, null, 2);
-      const blob = new Blob([dataStr], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `omnicortex_universe_master_${Date.now()}.json`;
-      a.click();
-      URL.revokeObjectURL(url);
-    } catch (err) {
-      console.error("Master Export error:", err);
-      alert("Failed to export Master Database: " + err.message);
-    }
-  };
-
-  const handleImportMasterJSON = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = async (event) => {
-      try {
-        const parsed = JSON.parse(event.target.result);
-        const collections = parsed.collections || (parsed.type === "OmnicortexMasterDatabase" ? parsed : null);
-        if (!collections) {
-          alert("Invalid master database format. Expected 'collections' map.");
-          return;
-        }
-        let totalCount = 0;
-        for (const [colKey, items] of Object.entries(collections)) {
-          if (Array.isArray(items) && items.length > 0) {
-            await importJSON(items, colKey);
-            totalCount += items.length;
-          }
-        }
-        alert(`Successfully imported Master Backup (${totalCount} entries across ${Object.keys(collections).length} collections)!`);
-      } catch (err) {
-        console.error("Master Import error:", err);
-        alert("Invalid Master JSON file format.");
-      }
-    };
-    reader.readAsText(file);
-    e.target.value = '';
-  };
-
   // Bastion Chat Send (Gemini API Integration)
   const handleSendBastion = async () => {
     if (!bastionInput.trim()) return;
@@ -468,7 +403,7 @@ export const DBMContainer = () => {
   // Auth gate — show login screen if user is not authenticated
   if (!currentUser) {
     return (
-      <div className="flex flex-col h-screen w-screen bg-[#0d1117] text-slate-100 font-sans items-center justify-center">
+      <div className="flex flex-col h-full w-full bg-[#0d1117] text-slate-100 font-sans items-center justify-center p-4">
         <div className="text-center max-w-md px-8 py-10 bg-slate-900 border border-cyan-900/60 rounded-2xl shadow-2xl">
           {/* Logo */}
           <div className="flex flex-col uppercase text-[#22d3ee] tangent-title-pulse mb-6">
@@ -497,32 +432,15 @@ export const DBMContainer = () => {
   }
 
   return (
-    <div className="flex flex-col h-screen w-screen bg-[#0d1117] text-slate-100 font-sans overflow-hidden">
-      {/* Top Header */}
-      <DBMHeader
-        historyIndex={historyIndex}
-        historyLength={history.length}
-        handleBack={handleBack}
-        handleForward={handleForward}
-        isBastionOpen={isBastionOpen}
-        setIsBastionOpen={setIsBastionOpen}
-        handleExportMasterJSON={handleExportMasterJSON}
-        handleImportMasterJSON={handleImportMasterJSON}
-        navigateToCategory={navigateToCategory}
-        isSidebarOpen={isSidebarOpen}
-        setIsSidebarOpen={setIsSidebarOpen}
-        setIsSettingsOpen={setIsSettingsOpen}
-        onOpenArchitectModal={() => setIsArchitectModalOpen(true)}
-      />
-
+    <div className="flex flex-col h-full w-full bg-[#0d1117] text-slate-100 font-sans overflow-hidden">
       {/* Mobile Sidebar Overlay Toggle */}
       <div 
         className={`fixed inset-0 z-40 bg-black/60 md:hidden ${isSidebarOpen ? 'block' : 'hidden'}`} 
-        onClick={() => setIsSidebarOpen(false)} 
+        onClick={() => setIsSidebarOpen && setIsSidebarOpen(false)} 
       />
 
       {/* Main App Layout */}
-      <div className="flex-1 flex overflow-hidden relative">
+      <div className="flex-1 flex overflow-hidden relative p-3 sm:p-4 pb-4 sm:pb-5 gap-3 sm:gap-4">
         {/* Left Sidebar Navigation */}
         <div className={`fixed md:relative z-40 h-full transition-transform md:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
           <DBMSidebar
@@ -531,13 +449,13 @@ export const DBMContainer = () => {
             currentKey={currentKey}
             navigateToCategory={(catKey, subKey) => {
               navigateToCategory(catKey, subKey);
-              setIsSidebarOpen(false);
+              if (setIsSidebarOpen) setIsSidebarOpen(false);
             }}
           />
         </div>
 
         {/* Right Main Content Panel */}
-        <main className="flex-1 bg-[#0d1117] flex flex-col overflow-hidden relative p-6">
+        <main className="flex-1 flex flex-col overflow-hidden relative min-w-0">
 
           {/* Subcategory Pills Bar (if available and not parent landing) */}
           {(() => {

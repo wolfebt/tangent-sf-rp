@@ -49,3 +49,11 @@ Solving complex puzzles, predicting dimensional anomalies, theoretical tech anal
 - **Occupations**: Scholar, Specialist
 - **Origins**: Research, Enlightened, Spacer
 - **Factions**: Mekan (Code Researchers), Ascendancy (Theorists), Alterian Enclave
+
+
+## Extended Lore & Background
+
+THE visionary scientist who pushes the boundaries of standard physics to unlock the secrets of the multiverse.  
+*You explore the "why" behind the "how." While others use Knowledge (Technology), you define the laws that make it possible. You see the universe as a series of equations waiting to be balanced.*  
+*"The math doesn't lie. It just tells truths we aren't ready to hear."*
+

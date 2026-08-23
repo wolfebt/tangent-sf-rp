@@ -49,3 +49,11 @@ Extracting materials from environment, bypassing mechanical hurdles, locating hi
 - **Occupations**: Spacer, Specialist
 - **Origins**: Spacer, Industrial, Colony
 - **Factions**: Outworlds (Wreckers), Mekan (Resource Converters), Coalition
+
+
+## Extended Lore & Background
+
+The high-risk recovery expert who ventures into derelict hulls and unstable ruins to pull riches from the wreckage.  
+*You find treasure in trash. You know that the most valuable tech is often buried under tons of radioactive scrap or hidden in the heart of a failing starbase. You are the scavenger-king of the void.*  
+*"One man's debris is my next month's salary."*
+

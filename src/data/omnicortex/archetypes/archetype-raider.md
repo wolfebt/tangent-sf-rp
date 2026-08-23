@@ -49,3 +49,11 @@ Shock assault, intimidation, scavenging.
 - **Occupations**: Criminal, Drifter
 - **Origins**: Hostile, Colony, Militaristic
 - **Factions**: Outworlds (Pirates), Coalition (Rebels)
+
+
+## Extended Lore & Background
+
+A hardened survivor who uses force to secure resources.  
+*You take what you need. In the lawless wastes, strength is the only currency. You strike hard and fast, seizing resources before the dust settles.*  
+*"Weakness is a choice. I chose strength."*
+

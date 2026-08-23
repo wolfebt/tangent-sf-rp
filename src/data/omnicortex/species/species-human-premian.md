@@ -83,3 +83,12 @@ Longevity
 Medical Specialist  
 Well Informed (Network)  
 Resilient
+
+
+## Extended Lore & Background
+
+While Premius is now the heart of the Syndicate and is home to vast, sprawling Multi-Level Mega Cities that tower over the landscape, the planet remains remarkably untainted by industrial sprawl. A staggering 70% of the planet's surface is still covered in ancient, pristine forests and diverse natural landscapes.
+
+The Premians have a staunch, near-religious commitment to environmental preservation. Little to no new industrialization is permitted, and the few existing facilities are primarily dedicated to maintenance and recycling, operating under stringent environmental controls. This dedication to keeping Premius "green and healthy" is primarily attributed to the collective will of the native population and a strong belief or knowledge of a pseudo-mythical, yet deeply influential, entity known simply as ‘the Lady.’  
+‘The Lady’ is not merely a figure of folklore but is regarded by Premians as a watchful, omnipresent entity—the true guardian of the planet. Her influence is believed to extend not only over every individual Premian but also over the entirety of The Syndicate itself, guiding its destiny and ensuring the balance between progress and preservation. This belief system is integral to the Premian identity and is the core reason why their homeworld remains a paradox: a highly advanced urban center woven seamlessly into a world of profound natural beauty.
+
