@@ -1,20 +1,54 @@
 ---
-id: "archetype-quartermaster"
-name: "The Quartermaster"
-sphere: "Sentinels (The Stabilizers)"
-category: "archetypes"
+id: archetype-quartermaster
+name: The Quartermaster
+sphere: Sentinels (The Stabilizers)
+category: archetypes
 bp_chassis: 80
-core_concept: "Economy / Support / Logistics"
-primary_attribute: "Intellect"
-secondary_attribute: "Wisdom"
-recommended_occupations: ["Merchant","Soldier"]
-recommended_origins: ["Militaristic","Spacer","Industrial"]
-recommended_factions: ["Outworlds (Scavengers)","Impyrium (Logistics)","Syndicate (Supply)"]
-essential_skills: ["Knowledge (Technology)","Knowledge (Appraisal)","Knowledge (Logistics)","Barter"]
-signature_features: ["Resourceful","Master of Logistics"]
-tactical_role: "Managing party inventory, sourcing specific gear, identifying loot value."
-quote: "\"A soldier without bullets is just a target. I make sure you aren't targets.\""
-description: "A resourceful individual who manages supplies, equipment, and finances."
+core_concept: Economy / Support / Logistics
+primary_attribute: Intellect
+secondary_attribute: Wisdom
+recommended_occupations:
+  - Merchant
+  - Soldier
+recommended_origins:
+  - Militaristic
+  - Spacer
+  - Industrial
+recommended_factions:
+  - Outworlds (Scavengers)
+  - Impyrium (Logistics)
+  - Syndicate (Supply)
+essential_skills:
+  - Knowledge (Technology)
+  - Knowledge (Appraisal)
+  - Knowledge (Logistics)
+  - Barter
+signature_features:
+  - Resourceful
+  - Master of Logistics
+tactical_role: 'Managing party inventory, sourcing specific gear, identifying loot value.'
+quote: '"A soldier without bullets is just a target. I make sure you aren''t targets."'
+description: 'A resourceful individual who manages supplies, equipment, and finances.'
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Quartermaster

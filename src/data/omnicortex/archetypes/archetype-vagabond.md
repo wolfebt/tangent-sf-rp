@@ -1,20 +1,56 @@
 ---
-id: "archetype-vagabond"
-name: "The Vagabond"
-sphere: "Operatives (The Artisans)"
-category: "archetypes"
+id: archetype-vagabond
+name: The Vagabond
+sphere: Operatives (The Artisans)
+category: archetypes
 bp_chassis: 80
-core_concept: "Jack-of-All-Trades / Survivor"
-primary_attribute: "Constitution"
-secondary_attribute: "Wisdom"
-recommended_occupations: ["Drifter","Scout"]
-recommended_origins: ["Spacer","Colony","Hostile"]
-recommended_factions: ["Outworlds (Drifters)","Coalition (Wanderers)","Ascendancy"]
-essential_skills: ["Pilot","Knowledge (Survival)","Streetwise","Vocation (General)"]
-signature_features: ["Adaptability","Mobility"]
-tactical_role: "Fills gaps in the party, transport, urban survival."
-quote: "\"I've been everywhere, man. And I know the quickest way out of here.\""
-description: "Travels from place to place without a fixed home. Characterized by freedom, adaptability, and adventure."
+core_concept: Jack-of-All-Trades / Survivor
+primary_attribute: Constitution
+secondary_attribute: Wisdom
+recommended_occupations:
+  - Drifter
+  - Scout
+recommended_origins:
+  - Spacer
+  - Colony
+  - Hostile
+recommended_factions:
+  - Outworlds (Drifters)
+  - Coalition (Wanderers)
+  - Ascendancy
+essential_skills:
+  - Pilot
+  - Knowledge (Survival)
+  - Streetwise
+  - Vocation (General)
+signature_features:
+  - Adaptability
+  - Mobility
+tactical_role: 'Fills gaps in the party, transport, urban survival.'
+quote: '"I''ve been everywhere, man. And I know the quickest way out of here."'
+description: >-
+  Travels from place to place without a fixed home. Characterized by freedom,
+  adaptability, and adventure.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Vagabond

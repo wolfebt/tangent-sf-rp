@@ -1,21 +1,44 @@
 ---
-id: "mental-researcher"
-name: "Researcher"
-type: "mental"
-subtype: "vocation"
-category: "skills"
-governing_attributes: ["Intellect"]
-description: "Designing scientific studies, gathering empirical field data, statistical analysis, laboratory testing, and academic paper synthesis."
+id: mental-researcher
+name: Researcher
+type: mental
+subtype: vocation
+category: skills
+governing_attributes:
+  - Intellect
+description: >-
+  Designing scientific studies, gathering empirical field data, statistical
+  analysis, laboratory testing, and academic paper synthesis.
 trained_only: false
 specialties:
-  - "Field Data Collection"
-  - "Laboratory Testing & Experimentation"
-  - "Statistical Data Modeling & Analysis"
-  - "Peer-Reviewed Academic Synthesis"
+  - Field Data Collection
+  - Laboratory Testing & Experimentation
+  - Statistical Data Modeling & Analysis
+  - Peer-Reviewed Academic Synthesis
 synergy_links:
-  - "mental-academics"
-  - "mental-science"
-  - "mental-investigation"
+  - mental-academics
+  - mental-science
+  - mental-investigation
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Researcher

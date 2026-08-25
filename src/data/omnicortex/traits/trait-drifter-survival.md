@@ -1,11 +1,32 @@
 ---
-id: "trait-drifter-survival"
-name: "Survival"
-category: "traits"
-trait_type: "Occupational Trait"
-occupation_association: "Drifter"
-cost_cp: 1
-description: "Ability to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter"
+id: trait-drifter-survival
+name: Survival
+category: traits
+trait_type: Occupational Trait
+occupation_association: Drifter
+description: >-
+  Ability to survive in harsh environments, such as deserts or post-apocalyptic
+  wastelands, by finding food, water, and shelter
+costs:
+  bp: 1
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Survival

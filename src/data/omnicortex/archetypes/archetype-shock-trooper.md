@@ -1,20 +1,56 @@
 ---
-id: "archetype-shock-trooper"
-name: "The Shock Trooper"
-sphere: "Sentinels (The Stabilizers)"
-category: "archetypes"
+id: archetype-shock-trooper
+name: The Shock Trooper
+sphere: Sentinels (The Stabilizers)
+category: archetypes
 bp_chassis: 80
-core_concept: "Combat / Environmental Specialist"
-primary_attribute: "Agility"
-secondary_attribute: "Strength"
-recommended_occupations: ["Soldier","Spacer"]
-recommended_origins: ["Spacer","Militaristic","Aquatic"]
-recommended_factions: ["Impyrium (Void Marines)","Syndicate (Drop Troops)","Dynasty (Knights)"]
-essential_skills: ["Athletics","Acrobatics","Knowledge (Tactics)","Combat"]
-signature_features: ["Zero-G Combat","Boarding Party"]
-tactical_role: "Fighting in hazardous environments/vacuum, breaching ships."
-quote: "\"Gravity is a crutch. Mag-lock and load.\""
-description: "Disciplined soldier serving on navy vessels. Expert in boarding actions and zero-g combat."
+core_concept: Combat / Environmental Specialist
+primary_attribute: Agility
+secondary_attribute: Strength
+recommended_occupations:
+  - Soldier
+  - Spacer
+recommended_origins:
+  - Spacer
+  - Militaristic
+  - Aquatic
+recommended_factions:
+  - Impyrium (Void Marines)
+  - Syndicate (Drop Troops)
+  - Dynasty (Knights)
+essential_skills:
+  - Athletics
+  - Acrobatics
+  - Knowledge (Tactics)
+  - Combat
+signature_features:
+  - Zero-G Combat
+  - Boarding Party
+tactical_role: 'Fighting in hazardous environments/vacuum, breaching ships.'
+quote: '"Gravity is a crutch. Mag-lock and load."'
+description: >-
+  Disciplined soldier serving on navy vessels. Expert in boarding actions and
+  zero-g combat.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Shock Trooper

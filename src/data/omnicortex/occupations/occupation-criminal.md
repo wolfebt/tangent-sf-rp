@@ -1,13 +1,67 @@
 ---
-id: "occupation-criminal"
-name: "Criminal"
-category: "occupations"
+id: occupation-criminal
+name: Criminal
+category: occupations
 skill_points: 20
-professional_skills: ["Bluff","Diplomacy","Awareness","Stealth and one Knowledge or Vocation"]
-recommended_features: "Skill"
-archetypes: ["Smuggler","Fixer","Assassin","Forger","Crime Boss","Tech Thief","Saboteur","Information Broker","Arms Dealer","Slaver","Hacker"]
-traits: ["trait-criminal-aggressiveness","trait-criminal-b-e","trait-criminal-combat-training","trait-criminal-deception","trait-criminal-hacking","trait-criminal-networking","trait-criminal-resourcefulness","trait-criminal-risk-taking","trait-criminal-self-preservation","trait-criminal-smooth","trait-criminal-stalker","trait-criminal-street-smarts"]
-description: "A Criminal is a character who engages in illegal activities for personal gain or as part of an organized group. This can include roles such as thieves, con artists, burglars, assassins, and members of criminal organizations. Criminal characters often possess skills in stealth, deception, and combat, allowing them to navigate the dangerous underworld and accomplish their objectives. Many Criminals can be quite brutish but some will be quite professional and honorable. Though others commit a myriad assortment of crimes on a regular basis, no one is as good at crime-for-profit as an actual Criminal."
+professional_skills:
+  - Bluff
+  - Diplomacy
+  - Awareness
+  - Stealth and one Knowledge or Vocation
+archetypes:
+  - Smuggler
+  - Fixer
+  - Assassin
+  - Forger
+  - Crime Boss
+  - Tech Thief
+  - Saboteur
+  - Information Broker
+  - Arms Dealer
+  - Slaver
+  - Hacker
+traits:
+  - trait-criminal-aggressiveness
+  - trait-criminal-b-e
+  - trait-criminal-combat-training
+  - trait-criminal-deception
+  - trait-criminal-hacking
+  - trait-criminal-networking
+  - trait-criminal-resourcefulness
+  - trait-criminal-risk-taking
+  - trait-criminal-self-preservation
+  - trait-criminal-smooth
+  - trait-criminal-stalker
+  - trait-criminal-street-smarts
+description: >-
+  A Criminal is a character who engages in illegal activities for personal gain
+  or as part of an organized group. This can include roles such as thieves, con
+  artists, burglars, assassins, and members of criminal organizations. Criminal
+  characters often possess skills in stealth, deception, and combat, allowing
+  them to navigate the dangerous underworld and accomplish their objectives.
+  Many Criminals can be quite brutish but some will be quite professional and
+  honorable. Though others commit a myriad assortment of crimes on a regular
+  basis, no one is as good at crime-for-profit as an actual Criminal.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Criminal Occupation

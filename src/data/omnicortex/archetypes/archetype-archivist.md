@@ -1,20 +1,56 @@
 ---
-id: "archetype-archivist"
-name: "The Archivist"
-sphere: "Savants (The Rationals)"
-category: "archetypes"
+id: archetype-archivist
+name: The Archivist
+sphere: Savants (The Rationals)
+category: archetypes
 bp_chassis: 80
-core_concept: "Knowledge / Utility"
-primary_attribute: "Intellect"
-secondary_attribute: "Wisdom"
-recommended_occupations: ["Scholar","Representative"]
-recommended_origins: ["Enlightened","Research","Leisure"]
-recommended_factions: ["Mekan (Memory Banks)","Impyrium (Vaults)","Alterian Enclave"]
-essential_skills: ["Academics","Insight","Knowledge (History)","Knowledge (Culture)"]
-signature_features: ["Historical Scholar","Archivist"]
-tactical_role: "Solving puzzles, identifying enemy origins, diplomatic context."
-quote: "\"Those who do not learn from the past are doomed to be eaten by it.\""
-description: "Studies history and culture. Provides context and insight into societies and ancient technologies."
+core_concept: Knowledge / Utility
+primary_attribute: Intellect
+secondary_attribute: Wisdom
+recommended_occupations:
+  - Scholar
+  - Representative
+recommended_origins:
+  - Enlightened
+  - Research
+  - Leisure
+recommended_factions:
+  - Mekan (Memory Banks)
+  - Impyrium (Vaults)
+  - Alterian Enclave
+essential_skills:
+  - Academics
+  - Insight
+  - Knowledge (History)
+  - Knowledge (Culture)
+signature_features:
+  - Historical Scholar
+  - Archivist
+tactical_role: 'Solving puzzles, identifying enemy origins, diplomatic context.'
+quote: '"Those who do not learn from the past are doomed to be eaten by it."'
+description: >-
+  Studies history and culture. Provides context and insight into societies and
+  ancient technologies.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Archivist

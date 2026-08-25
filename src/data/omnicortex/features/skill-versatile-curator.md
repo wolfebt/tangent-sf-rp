@@ -1,13 +1,33 @@
 ---
-id: "skill-versatile-curator"
-name: "Versatile Curator"
-category: "features"
-feature_category: "Skill"
+id: skill-versatile-curator
+name: Versatile Curator
+category: features
+feature_category: Skill
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: "Knowledge 6, Intellect 2"
-description: "The character is a font of trivia and data."
+prerequisites: 'Knowledge 6, Intellect 2'
+description: The character is a font of trivia and data.
+costs:
+  bp: 3
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Versatile Curator

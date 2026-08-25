@@ -1,12 +1,54 @@
 ---
-id: "origin-aquatic"
-name: "Aquatic"
-category: "origins"
+id: origin-aquatic
+name: Aquatic
+category: origins
 skill_points: 20
-society_skills: ["Athletics","Piloting","Alertness","Knowledge (Navigation)","Knowledge (Survival)","Vocation (Any)"]
-archetypes: ["Mariner","Deep Sea Explorer","Marine Biologist","Shipwright","Underwater Salvage Expert","Diver"]
-traits: ["trait-adaptability","trait-aquatic-construction","trait-curiosity","trait-empathy","trait-environmental-awareness","trait-sea-piloting","trait-resourcefulness","trait-survival-skills"]
-description: "Pelagic ocean worlds covered in vast seas, floating flotilla cities, submerged domes, and coral habitats."
+society_skills:
+  - Athletics
+  - Piloting
+  - Alertness
+  - Knowledge (Navigation)
+  - Knowledge (Survival)
+  - Vocation (Any)
+archetypes:
+  - Mariner
+  - Deep Sea Explorer
+  - Marine Biologist
+  - Shipwright
+  - Underwater Salvage Expert
+  - Diver
+traits:
+  - trait-adaptability
+  - trait-aquatic-construction
+  - trait-curiosity
+  - trait-empathy
+  - trait-environmental-awareness
+  - trait-sea-piloting
+  - trait-resourcefulness
+  - trait-survival-skills
+description: >-
+  Pelagic ocean worlds covered in vast seas, floating flotilla cities, submerged
+  domes, and coral habitats.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Aquatic Origin

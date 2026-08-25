@@ -239,7 +239,7 @@ const AbilitiesTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
   };
 
   return (
-    <div className="tab-panel active p-4 space-y-6 max-w-5xl mx-auto">
+    <div className="tab-panel active p-4 space-y-6 max-w-5xl mx-auto pb-20">
       
       {/* 1. FEATURES STACKED BLOCK */}
       <div className="bg-slate-900/80 border border-cyan-900/60 rounded-xl p-5 shadow-lg space-y-5">

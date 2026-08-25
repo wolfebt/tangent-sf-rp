@@ -1,11 +1,32 @@
 ---
-id: "trait-tech-savvy"
-name: "Tech-Savvy"
-category: "traits"
-trait_type: "Origin Trait"
-origin_association: "Urban"
-cost_cp: 1
-description: "Intimate familiarity with consumer neural nets, public datagrids, and ubiquitous urban tech."
+id: trait-tech-savvy
+name: Tech-Savvy
+category: traits
+trait_type: Origin Trait
+origin_association: Urban
+description: >-
+  Intimate familiarity with consumer neural nets, public datagrids, and
+  ubiquitous urban tech.
+costs:
+  bp: 1
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Tech-Savvy

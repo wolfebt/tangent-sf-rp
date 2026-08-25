@@ -1,10 +1,30 @@
 ---
-id: "synthesis-occupation-citizen-alterian-enclave"
-name: "Citizen (ALTERIAN ENCLAVE) Character Visual Synthesis"
-category: "synthesis"
-synthesis_type: "occupation_character"
-occupation_id: "occupation-citizen"
-faction_id: "faction-alterian-enclave"
+id: synthesis-occupation-citizen-alterian-enclave
+name: Citizen (ALTERIAN ENCLAVE) Character Visual Synthesis
+category: synthesis
+synthesis_type: occupation_character
+occupation_id: occupation-citizen
+faction_id: faction-alterian-enclave
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Citizen Occupation × ALTERIAN ENCLAVE Character Visual Synthesis Matrix

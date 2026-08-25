@@ -8,8 +8,6 @@ height_class: Multi-Story
 stories: 4
 frame: Standard
 environment: Standard
-tl: 3
-ml: 0
 cost: 10485760
 sp: 60000
 dr: 12
@@ -24,6 +22,28 @@ description: >-
 mechanic: >-
   SP: 60,000. DR: 12. Modules: 2,000. Hangar Bays (1,000), Cargo Warehousing
   (500), Commercial Concourse (300), Admin/Control (100), Fueling Systems (100).
+costs:
+  bp: 0
+  credits: 10485760
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
+tech_level: 3
+meta_level: 0
 ---
 Sprawling transit hub featuring central vaulted atrium, landing pads, hangars, customs gates, duty-free shopping, and automated cargo storage.
 

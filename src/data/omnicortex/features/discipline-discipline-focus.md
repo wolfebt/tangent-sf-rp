@@ -1,13 +1,33 @@
 ---
-id: "discipline-discipline-focus"
-name: "Discipline Focus"
-category: "features"
-feature_category: "Discipline"
+id: discipline-discipline-focus
+name: Discipline Focus
+category: features
+feature_category: Discipline
 cost_bp: 3
 is_ranked: false
 is_multiple: true
-prerequisites: "Chosen Discipline Skill 6 (Trained)"
-description: "The character has specialized in shaping a specific type of energy or reality."
+prerequisites: Chosen Discipline Skill 6 (Trained)
+description: The character has specialized in shaping a specific type of energy or reality.
+costs:
+  bp: 3
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Discipline Focus

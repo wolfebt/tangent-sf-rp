@@ -10,40 +10,102 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-inherent_attribute_modifiers:
-  - attribute: Intellect
-    bonus: 1
-bonus_attribute_points: 1
-specific_skill_bonuses:
-  - skill: Attune (Psychic)
-    bonus: 2
-bonus_skills: 5
-bonus_skill_choices:
-  - Attune
-  - Insight
-  - Discipline
-  - Science
-inherent_features:
-  - Awakened (Psychic)
-  - Telepathy (100ft)
-  - Biotechnology Mastery
-  - Hive Connection (Shared Telepathic Mesh)
-bonus_features: 2
-bonus_feature_choices:
-  - Mind Shield
-  - Psychic Scan
-  - Mesh Coordination
-recommended_features:
-  - feature-mind-shield
 stigma: Xeno (-2)
 tech_level: 4 (Neural Mesh & Bio-Computing)
 meta_level: 4 (Hive Psionics)
 homeworld: Davae Hive Laboratories
-cp_cost: 23
 cp: 23
 description: >-
   Davae are telepathically networked transhumans engineered with oversized
   craniums and bioluminescent neurological nodes.
+costs:
+  bp: 23
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Intellect
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Any Attribute
+    type: attribute
+    value: 1
+    mode: bonus_pool
+  - target: Attune (Psychic)
+    type: skill
+    value: 2
+    mode: inherent
+  - target: General Skill Pool
+    type: skill
+    value: 5
+    mode: bonus_pool
+  - target: Attune
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Insight
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Discipline
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Science
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Awakened (Psychic)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Telepathy (100ft)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Biotechnology Mastery
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Hive Connection (Shared Telepathic Mesh)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 2
+    mode: bonus_pool
+  - target: Mind Shield
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Psychic Scan
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Mesh Coordination
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-mind-shield
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Davae (Hive Psion Transhuman)
 

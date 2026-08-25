@@ -1,13 +1,36 @@
 ---
-id: "discipline-awakened"
-name: "Awakened"
-category: "features"
-feature_category: "Discipline"
+id: discipline-awakened
+name: Awakened
+category: features
+feature_category: Discipline
 cost_bp: 3
 is_ranked: false
 is_multiple: true
-prerequisites: "None (often taken at Character Creation)."
-description: "The character has opened their mind or soul to a greater reality. This is the fundamental \"spark\" required to use any form of metaphysics. Without this feature, a character cannot manipulate supernatural forces."
+prerequisites: None (often taken at Character Creation).
+description: >-
+  The character has opened their mind or soul to a greater reality. This is the
+  fundamental "spark" required to use any form of metaphysics. Without this
+  feature, a character cannot manipulate supernatural forces.
+costs:
+  bp: 3
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Awakened

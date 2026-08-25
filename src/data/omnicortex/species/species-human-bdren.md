@@ -10,42 +10,99 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-inherent_attribute_modifiers:
-  - attribute: Agility
-    bonus: 1
-bonus_attribute_points: 1
-specific_skill_bonuses:
-  - skill: Perception
-    bonus: 1
-  - skill: Stealth
-    bonus: 1
-bonus_skills: 0
-bonus_skill_choices:
-  - Perception
-  - Stealth
-  - Acrobatics
-  - Alertness
-inherent_features:
-  - Low Light Vision
-  - Quick (+5ft Movement)
-  - Echo Sensitivity
-bonus_features: 1
-bonus_feature_choices:
-  - Shadow Affinity
-  - Reflex Evasion
-  - Night Hunter
-recommended_features:
-  - feature-quick
 stigma: None
 tech_level: 3 (Standard)
 meta_level: 1 (Sensory Focus)
 homeworld: Noctis Rim Colonies
-cp_cost: 11
 cp: 11
 description: >-
   B’Dren are slender humans native to tidally locked or twilight worlds. They
   possess dilated tapetum lucidum eyes providing superior nocturnal vision and
   rapid motor reflexes.
+costs:
+  bp: 11
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Agility
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Any Attribute
+    type: attribute
+    value: 1
+    mode: bonus_pool
+  - target: Perception
+    type: skill
+    value: 1
+    mode: inherent
+  - target: Stealth
+    type: skill
+    value: 1
+    mode: inherent
+  - target: Perception
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Stealth
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Acrobatics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Alertness
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Low Light Vision
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Quick (+5ft Movement)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Echo Sensitivity
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Shadow Affinity
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Reflex Evasion
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Night Hunter
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-quick
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # B’Dren Human (Nocturnal Variant)
 

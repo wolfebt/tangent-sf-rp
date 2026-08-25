@@ -1,11 +1,32 @@
 ---
-id: "trait-teamwork"
-name: "Teamwork"
-category: "traits"
-trait_type: "Origin Trait"
-origin_association: "Industrial"
-cost_cp: 1
-description: "Practiced coordination in gang work, shift labor, and complex multi-person tasks."
+id: trait-teamwork
+name: Teamwork
+category: traits
+trait_type: Origin Trait
+origin_association: Industrial
+description: >-
+  Practiced coordination in gang work, shift labor, and complex multi-person
+  tasks.
+costs:
+  bp: 1
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Teamwork

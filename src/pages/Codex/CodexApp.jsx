@@ -31,6 +31,7 @@ export const CodexApp = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const matrixParam = searchParams.get('matrix') || 'architecture';
+  const datasetParam = searchParams.get('dataset') || '';
 
   const [activeMatrixId, setActiveMatrixId] = useState(matrixParam);
   const [searchTerm, setSearchTerm] = useState('');
@@ -43,9 +44,11 @@ export const CodexApp = () => {
   const { dbData, deleteEntry } = useDBM() || {};
   const currentMatrix = getMatrixById(activeMatrixId);
 
-  const handleSelectMatrix = (matrixId) => {
+  const handleSelectMatrix = (matrixId, datasetKey) => {
     setActiveMatrixId(matrixId);
-    setSearchParams({ matrix: matrixId });
+    const params = { matrix: matrixId };
+    if (datasetKey) params.dataset = datasetKey;
+    setSearchParams(params);
     setSelectedItem(null);
     setIsBuilderOpen(false);
     setPreviewItem(null);
@@ -220,6 +223,22 @@ export const CodexApp = () => {
               </div>
             )}
 
+            {/* Ingest Dataset trigger (when not already in ingestion engine) */}
+            {activeMatrixId !== 'ingestion-engine' && (
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1200, 0.03);
+                  handleSelectMatrix('ingestion-engine', currentMatrix.ingestionKey || 'species');
+                }}
+                className="px-3.5 py-2 bg-slate-950/80 hover:bg-slate-800 border border-slate-700/80 hover:border-amber-500/50 text-slate-300 hover:text-amber-300 text-xs font-mono font-bold uppercase tracking-wider rounded-xl flex items-center gap-1.5 shadow-sm transition-all cursor-pointer"
+                title={`Bulk ingest ${currentMatrix.name} records`}
+              >
+                <Database size={14} className="text-amber-400" />
+                <span className="hidden lg:inline">Ingest Dataset</span>
+              </button>
+            )}
+
             {/* BASTION Synthesizer trigger */}
             <button
               type="button"
@@ -265,7 +284,7 @@ export const CodexApp = () => {
             ) : activeMatrixId === 'technology' ? (
               <TechnologyCodex onOpenBuilder={handleCreateNew} />
             ) : activeMatrixId === 'ingestion-engine' ? (
-              <CodexIngestionEngine />
+              <CodexIngestionEngine initialDatasetKey={datasetParam || currentMatrix.ingestionKey || 'species'} />
             ) : null
           ) : (
             <>

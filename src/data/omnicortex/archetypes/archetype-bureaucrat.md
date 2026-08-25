@@ -1,20 +1,56 @@
 ---
-id: "archetype-bureaucrat"
-name: "The Bureaucrat"
-sphere: "Sentinels (The Stabilizers)"
-category: "archetypes"
+id: archetype-bureaucrat
+name: The Bureaucrat
+sphere: Sentinels (The Stabilizers)
+category: archetypes
 bp_chassis: 80
-core_concept: "Logistics / Support / Social Tank"
-primary_attribute: "Intellect"
-secondary_attribute: "Charisma"
-recommended_occupations: ["Citizen (Corporate)","Representative"]
-recommended_origins: ["Urban","Colony","Industrial"]
-recommended_factions: ["Syndicate (Middle Management)","Impyrium (Administration)","Entari Combine"]
-essential_skills: ["Diplomacy","Knowledge (History)","Insight","Vocation (Administration)"]
-signature_features: ["Bureaucratic Efficiency","Master Negotiator"]
-tactical_role: "Secure resources, bypass legal hurdles, manage team logistics."
-quote: "\"Amateurs talk strategy. Professionals talk logistics. Now sign here.\""
-description: "The skilled administrator who ensures the smooth operation of departments or territories. They navigate red tape like a labyrinth runner."
+core_concept: Logistics / Support / Social Tank
+primary_attribute: Intellect
+secondary_attribute: Charisma
+recommended_occupations:
+  - Citizen (Corporate)
+  - Representative
+recommended_origins:
+  - Urban
+  - Colony
+  - Industrial
+recommended_factions:
+  - Syndicate (Middle Management)
+  - Impyrium (Administration)
+  - Entari Combine
+essential_skills:
+  - Diplomacy
+  - Knowledge (History)
+  - Insight
+  - Vocation (Administration)
+signature_features:
+  - Bureaucratic Efficiency
+  - Master Negotiator
+tactical_role: 'Secure resources, bypass legal hurdles, manage team logistics.'
+quote: '"Amateurs talk strategy. Professionals talk logistics. Now sign here."'
+description: >-
+  The skilled administrator who ensures the smooth operation of departments or
+  territories. They navigate red tape like a labyrinth runner.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Bureaucrat

@@ -1,20 +1,54 @@
 ---
-id: "archetype-ascetic"
-name: "The Ascetic"
-sphere: "Visionaries (The Idealists)"
-category: "archetypes"
+id: archetype-ascetic
+name: The Ascetic
+sphere: Visionaries (The Idealists)
+category: archetypes
 bp_chassis: 80
-core_concept: "Monk / Buffer / Mental Tank"
-primary_attribute: "Wisdom"
-secondary_attribute: "Constitution"
-recommended_occupations: ["Adept","Scholar"]
-recommended_origins: ["Enlightened","Hostile","Agricultural"]
-recommended_factions: ["Auluran (Dar Mystics)","Mekan (Code Monks)","Outworlds"]
-essential_skills: ["Insight","Alertness","Knowledge (Religion)","Knowledge (Metaphysics)"]
-signature_features: ["Inner Peace","Spiritual Attunement"]
-tactical_role: "Resisting mental attacks, calming emotions, spiritual guidance."
-quote: "\"Peace is not the absence of conflict, but the ability to handle it.\""
-description: "A devout individual dedicated to prayer and meditation, seeking enlightenment."
+core_concept: Monk / Buffer / Mental Tank
+primary_attribute: Wisdom
+secondary_attribute: Constitution
+recommended_occupations:
+  - Adept
+  - Scholar
+recommended_origins:
+  - Enlightened
+  - Hostile
+  - Agricultural
+recommended_factions:
+  - Auluran (Dar Mystics)
+  - Mekan (Code Monks)
+  - Outworlds
+essential_skills:
+  - Insight
+  - Alertness
+  - Knowledge (Religion)
+  - Knowledge (Metaphysics)
+signature_features:
+  - Inner Peace
+  - Spiritual Attunement
+tactical_role: 'Resisting mental attacks, calming emotions, spiritual guidance.'
+quote: '"Peace is not the absence of conflict, but the ability to handle it."'
+description: 'A devout individual dedicated to prayer and meditation, seeking enlightenment.'
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Ascetic

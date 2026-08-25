@@ -1,11 +1,32 @@
 ---
-id: "trait-intuition"
-name: "Intuition"
-category: "traits"
-trait_type: "Origin Trait"
-origin_association: "Hostile"
-cost_cp: 1
-description: "A preternatural sixth sense for impending ambushes, environmental collapses, and traps."
+id: trait-intuition
+name: Intuition
+category: traits
+trait_type: Origin Trait
+origin_association: Hostile
+description: >-
+  A preternatural sixth sense for impending ambushes, environmental collapses,
+  and traps.
+costs:
+  bp: 1
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Intuition

@@ -1,19 +1,42 @@
 ---
-id: "combat-defense"
-name: "Defense"
-type: "combat"
-subtype: "archaic"
-category: "skills"
-governing_attributes: ["Agility"]
-description: "The art of self-preservation in combat. Measures a character's ability to avoid being hit, deflect blows, and position advantageously to mitigate harm."
+id: combat-defense
+name: Defense
+type: combat
+subtype: archaic
+category: skills
+governing_attributes:
+  - Agility
+description: >-
+  The art of self-preservation in combat. Measures a character's ability to
+  avoid being hit, deflect blows, and position advantageously to mitigate harm.
 trained_only: false
 specialties:
-  - "Evasion (Dodging and footwork)"
-  - "Shield (Positioning and blocking with shields)"
-  - "Weapon Block (Parrying with melee weapons)"
+  - Evasion (Dodging and footwork)
+  - Shield (Positioning and blocking with shields)
+  - Weapon Block (Parrying with melee weapons)
 synergy_links:
-  - "physical-acrobatics"
-  - "combat-melee"
+  - physical-acrobatics
+  - combat-melee
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Defense

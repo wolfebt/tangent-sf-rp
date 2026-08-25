@@ -10,50 +10,120 @@ size:
   - species_size-large
 movement:
   - species_movement-flight
-inherent_attribute_modifiers:
-  - attribute: Intellect
-    bonus: 4
-  - attribute: Wisdom
-    bonus: 2
-  - attribute: Charisma
-    bonus: 2
-bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Attune (Cosmic)
-    bonus: 4
-  - skill: Science (Cosmology)
-    bonus: 4
-bonus_skills: 40
-bonus_skill_choices:
-  - Attune
-  - Science
-  - Discipline
-  - Knowledge
-  - Computation
-  - Leadership
-inherent_features:
-  - >-
-    Progenitor Traits (Awakened x6, Telepathy, Telekinesis, Fast Heal,
-    Regeneration, Ageless, Immortal)
-  - Corporeal As Desired
-  - Large Size
-  - Flicker Movement (Teleport 60ft as move action)
-bonus_features: 3
-bonus_feature_choices:
-  - Reality Anchor
-  - Cosmic Insight
-  - Starfire Beam
-recommended_features:
-  - feature-reality-anchor
 stigma: 'Deific (-6), Xeno (-2)'
 tech_level: 5 (Precursor Singularity Manipulation)
 meta_level: 6 (Deific / Reality Reshaping)
 homeworld: The Ring Architect Capitals
-cp_cost: 85
 cp: 85
 description: >-
   The Ila are god-like precursor architects of transcendent intelligence and
   luminous presence, founders of ancient megastructures and stargates.
+costs:
+  bp: 85
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Intellect
+    type: attribute
+    value: 4
+    mode: inherent
+  - target: Wisdom
+    type: attribute
+    value: 2
+    mode: inherent
+  - target: Charisma
+    type: attribute
+    value: 2
+    mode: inherent
+  - target: Attune (Cosmic)
+    type: skill
+    value: 4
+    mode: inherent
+  - target: Science (Cosmology)
+    type: skill
+    value: 4
+    mode: inherent
+  - target: General Skill Pool
+    type: skill
+    value: 40
+    mode: bonus_pool
+  - target: Attune
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Science
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Discipline
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Knowledge
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Computation
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Leadership
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: >-
+      Progenitor Traits (Awakened x6, Telepathy, Telekinesis, Fast Heal,
+      Regeneration, Ageless, Immortal)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Corporeal As Desired
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Large Size
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Flicker Movement (Teleport 60ft as move action)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 3
+    mode: bonus_pool
+  - target: Reality Anchor
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Cosmic Insight
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Starfire Beam
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-reality-anchor
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Ila (Precursor Entity)
 

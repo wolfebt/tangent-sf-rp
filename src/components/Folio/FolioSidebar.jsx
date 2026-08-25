@@ -19,19 +19,14 @@ const FolioSidebar = ({ activeTab, setActiveTab, charName, onOpenRoster }) => {
   return (
     <aside className="w-64 sm:w-72 bg-[#0a0d14]/90 backdrop-blur-xl border-r border-[#0D5C63]/50 p-3 flex flex-col h-full shrink-0 gap-2 overflow-hidden select-none relative z-20 font-sans shadow-xl">
       {/* Operative Dossier Header Banner */}
-      <div className="px-1 py-1 border-b border-slate-800/80 shrink-0">
-        <div className="flex items-center justify-between mb-1">
-          <span className="text-[11px] font-mono font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
-            <Layers size={13} className="text-amber-400" />
-            FOLIO DOSSIER
-          </span>
-          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-500/10 border border-amber-500/30 text-amber-300 font-bold">
-            {TABS.length} Sections
-          </span>
-        </div>
-        <div className="text-xs font-bold font-mono text-amber-400 truncate uppercase px-2 py-1 rounded bg-amber-500/10 border border-amber-500/20 drop-shadow-[0_0_8px_rgba(245,158,11,0.3)]">
-          {charName ? charName.toUpperCase() : 'UNNAMED OPERATIVE'}
-        </div>
+      <div className="px-2 py-1.5 border-b border-slate-800/80 shrink-0 flex items-center justify-between">
+        <span className="text-[11px] font-mono font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
+          <Layers size={13} className="text-cyan-400" />
+          FOLIO DOSSIER
+        </span>
+        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 font-bold">
+          {TABS.length} SECTIONS
+        </span>
       </div>
 
       {/* Tabs List */}

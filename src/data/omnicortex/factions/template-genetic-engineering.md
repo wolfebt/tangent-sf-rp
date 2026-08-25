@@ -1,9 +1,31 @@
 ---
-id: "template-genetic-engineering"
-name: "Genetic Engineering Directorate"
-category: "factions"
-faction_type: "Generic Template"
-description: "Bio-transhumanist institute experimenting with gene-tailored soldiers, designer organs, and chimera strains."
+id: template-genetic-engineering
+name: Genetic Engineering Directorate
+category: factions
+faction_type: Generic Template
+description: >-
+  Bio-transhumanist institute experimenting with gene-tailored soldiers,
+  designer organs, and chimera strains.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Genetic Engineering Directorate (Generic Faction Template)

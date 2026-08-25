@@ -1,17 +1,44 @@
 ---
-id: "faction-dracon-dynasty"
-name: "Dracon Dynasty"
-category: "factions"
-faction_type: "Major Polity"
-archetype: "Feudal Technocracy / Space Monarchy"
-driving_mandate: "Protect the Realm; Expand through Diplomacy."
-symbol_sigil: "The Dragon Rampant"
-capital_world: "Draconis"
-tech_level: "3 (Feudal / Heavy)"
-meta_level: "3 (Sorcerous)"
-skill_package: ["Combat (Any)","Knowledge (History - Lineage)","Diplomacy","Intimidate","Knowledge (Tactics)","Piloting"]
-bonus_features: ["Benefit (Status)"]
-description: "Bastion of feudal stability and ancient honor founded by Dragons and ruled by their draconic nobility, deploying Dragoon knights and battle-mages."
+id: faction-dracon-dynasty
+name: Dracon Dynasty
+category: factions
+faction_type: Major Polity
+archetype: Feudal Technocracy / Space Monarchy
+driving_mandate: Protect the Realm; Expand through Diplomacy.
+symbol_sigil: The Dragon Rampant
+capital_world: Draconis
+tech_level: 3 (Feudal / Heavy)
+meta_level: 3 (Sorcerous)
+skill_package:
+  - Combat (Any)
+  - Knowledge (History - Lineage)
+  - Diplomacy
+  - Intimidate
+  - Knowledge (Tactics)
+  - Piloting
+description: >-
+  Bastion of feudal stability and ancient honor founded by Dragons and ruled by
+  their draconic nobility, deploying Dragoon knights and battle-mages.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Dracon Dynasty

@@ -1,13 +1,35 @@
 ---
-id: "general-trance"
-name: "Trance"
-category: "features"
-feature_category: "General"
+id: general-trance
+name: Trance
+category: features
+feature_category: General
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: "Wisdom 1"
-description: "The character can enter a deep meditative state to conserve energy or feign death."
+prerequisites: Wisdom 1
+description: >-
+  The character can enter a deep meditative state to conserve energy or feign
+  death.
+costs:
+  bp: 3
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Trance

@@ -1,20 +1,56 @@
 ---
-id: "archetype-relic-hunter"
-name: "The Relic Hunter"
-sphere: "Savants (The Rationals)"
-category: "archetypes"
+id: archetype-relic-hunter
+name: The Relic Hunter
+sphere: Savants (The Rationals)
+category: archetypes
 bp_chassis: 80
-core_concept: "Explorer / Lore Expert / Trap Specialist"
-primary_attribute: "Intellect"
-secondary_attribute: "Constitution"
-recommended_occupations: ["Scholar","Explorer"]
-recommended_origins: ["Research","Colony","Spacer"]
-recommended_factions: ["Alterian Enclave (Lore)","Syndicate (Profit)","Ascendancy (Research)"]
-essential_skills: ["Knowledge (Investigation)","Knowledge (History)","Knowledge (Survival)","Knowledge (Culture)"]
-signature_features: ["Excavation Expert","Artifact Analyst"]
-tactical_role: "Navigate dungeons, identify magical/tech loot, bypass ancient defenses."
-quote: "\"It belongs in a museum! Or at least, in my cargo hold.\""
-description: "Unveils the secrets of ancient ruins and artifacts, reconstructing chronicles of civilizations long gone."
+core_concept: Explorer / Lore Expert / Trap Specialist
+primary_attribute: Intellect
+secondary_attribute: Constitution
+recommended_occupations:
+  - Scholar
+  - Explorer
+recommended_origins:
+  - Research
+  - Colony
+  - Spacer
+recommended_factions:
+  - Alterian Enclave (Lore)
+  - Syndicate (Profit)
+  - Ascendancy (Research)
+essential_skills:
+  - Knowledge (Investigation)
+  - Knowledge (History)
+  - Knowledge (Survival)
+  - Knowledge (Culture)
+signature_features:
+  - Excavation Expert
+  - Artifact Analyst
+tactical_role: 'Navigate dungeons, identify magical/tech loot, bypass ancient defenses.'
+quote: '"It belongs in a museum! Or at least, in my cargo hold."'
+description: >-
+  Unveils the secrets of ancient ruins and artifacts, reconstructing chronicles
+  of civilizations long gone.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Relic Hunter

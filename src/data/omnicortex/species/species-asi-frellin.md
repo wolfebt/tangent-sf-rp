@@ -10,50 +10,127 @@ size:
   - species_size-tiny
 movement:
   - species_movement-flight
-inherent_attribute_modifiers:
-  - attribute: Intellect
-    bonus: 1
-  - attribute: Charisma
-    bonus: 1
-bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Alertness
-    bonus: 2
-  - skill: Communication
-    bonus: 1
-bonus_skills: 10
-bonus_skill_choices:
-  - Alertness
-  - Communication
-  - Science
-  - Navigation
-  - Attune
-inherent_features:
-  - Asi Base Traits
-  - Tiny Size
-  - Awakened (Arcane)
-  - Telepathy (Special Ability)
-  - 'Flight (Winged, 40ft)'
-  - Darksight
-bonus_features: 1
-bonus_feature_choices:
-  - Aerial Acrobatics
-  - Sonic Trill
-  - Mind Link
-  - Far-Sight
-recommended_features:
-  - feature-mind-link
-  - feature-far-sight
 stigma: 'Animal (-2), Xeno (-2)'
 tech_level: 3 (Crystal Transceivers)
 meta_level: 4 (Aero-Psionics & Telepathy)
 homeworld: Aethel-Crest (The Floating Archipelago)
-cp_cost: 27
 cp: 27
 description: >-
   Frellin are feathered, telepathic avian fey of tiny stature. Renowned scouts,
   messengers, and navigators, they read wind currents and psychic frequencies
   with equal precision.
+costs:
+  bp: 27
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Intellect
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Charisma
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Alertness
+    type: skill
+    value: 2
+    mode: inherent
+  - target: Communication
+    type: skill
+    value: 1
+    mode: inherent
+  - target: General Skill Pool
+    type: skill
+    value: 10
+    mode: bonus_pool
+  - target: Alertness
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Communication
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Science
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Navigation
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Attune
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Asi Base Traits
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Tiny Size
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Awakened (Arcane)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Telepathy (Special Ability)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: 'Flight (Winged, 40ft)'
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Darksight
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Aerial Acrobatics
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Sonic Trill
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Mind Link
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Far-Sight
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-mind-link
+    type: feature
+    value: 1
+    mode: recommended
+  - target: feature-far-sight
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Frellin (Avian Fey)
 

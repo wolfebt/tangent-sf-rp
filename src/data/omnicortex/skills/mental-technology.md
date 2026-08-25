@@ -1,23 +1,46 @@
 ---
-id: "mental-technology"
-name: "Technology"
-type: "mental"
-subtype: "knowledge"
-category: "skills"
-governing_attributes: ["Intellect"]
-description: "General technological competence: operating, identifying, troubleshooting, disabling, and repairing advanced mechanical and electronic devices."
+id: mental-technology
+name: Technology
+type: mental
+subtype: knowledge
+category: skills
+governing_attributes:
+  - Intellect
+description: >-
+  General technological competence: operating, identifying, troubleshooting,
+  disabling, and repairing advanced mechanical and electronic devices.
 trained_only: false
 specialties:
-  - "Archaic & Industrial Tech (TL 0-2)"
-  - "Standard Spacefaring Tech (TL 3)"
-  - "Advanced & Psi-Tech (TL 4)"
-  - "Xenotech & Unknown Artifacts (TL 5)"
-  - "Robotics & Drones"
-  - "Starship Auxiliary Systems"
+  - Archaic & Industrial Tech (TL 0-2)
+  - Standard Spacefaring Tech (TL 3)
+  - Advanced & Psi-Tech (TL 4)
+  - Xenotech & Unknown Artifacts (TL 5)
+  - Robotics & Drones
+  - Starship Auxiliary Systems
 synergy_links:
-  - "mental-engineer"
-  - "mental-mechanic"
-  - "mental-electrician"
+  - mental-engineer
+  - mental-mechanic
+  - mental-electrician
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Technology

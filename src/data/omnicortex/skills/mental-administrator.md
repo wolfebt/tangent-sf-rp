@@ -1,21 +1,45 @@
 ---
-id: "mental-administrator"
-name: "Administrator"
-type: "mental"
-subtype: "vocation"
-category: "skills"
-governing_attributes: ["Intellect","Charisma"]
-description: "The professional vocation of organizational leadership, public governance, corporate bureaucracy, and human resource management."
+id: mental-administrator
+name: Administrator
+type: mental
+subtype: vocation
+category: skills
+governing_attributes:
+  - Intellect
+  - Charisma
+description: >-
+  The professional vocation of organizational leadership, public governance,
+  corporate bureaucracy, and human resource management.
 trained_only: false
 specialties:
-  - "Corporate Administration"
-  - "Governmental Bureaucracy"
-  - "Military Staff Administration"
-  - "Colony & Outpost Management"
+  - Corporate Administration
+  - Governmental Bureaucracy
+  - Military Staff Administration
+  - Colony & Outpost Management
 synergy_links:
-  - "mental-business"
-  - "social-leadership"
-  - "mental-logistics"
+  - mental-business
+  - social-leadership
+  - mental-logistics
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Administrator

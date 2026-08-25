@@ -1,13 +1,37 @@
 ---
-id: "discipline-special-ability"
-name: "Special Ability"
-category: "features"
-feature_category: "Discipline"
+id: discipline-special-ability
+name: Special Ability
+category: features
+feature_category: Discipline
 cost_bp: 3
 is_ranked: false
 is_multiple: true
-prerequisites: "None (though usually tied to Species or Origin)."
-description: "The character possesses a singular, innate supernatural power that does not require the broad study of a Discipline. This represents things like a dragon's breath weapon, a mutant's teleportation, or a cyborg's built-in sonic scream."
+prerequisites: None (though usually tied to Species or Origin).
+description: >-
+  The character possesses a singular, innate supernatural power that does not
+  require the broad study of a Discipline. This represents things like a
+  dragon's breath weapon, a mutant's teleportation, or a cyborg's built-in sonic
+  scream.
+costs:
+  bp: 3
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Special Ability

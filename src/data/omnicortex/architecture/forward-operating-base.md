@@ -8,8 +8,6 @@ height_class: Single
 stories: 1
 frame: Standard
 environment: Standard
-tl: 3
-ml: 0
 cost: 71316
 sp: 6000
 dr: 17
@@ -24,6 +22,28 @@ description: >-
 mechanic: >-
   SP: 6,000 (+20% Bulwark). DR: 17 (Hardened). Modules: 90. Command/CIC (10),
   Garrison & Armory (30), Support & Vehicle Bay (20), Defenses & Shields (30).
+costs:
+  bp: 0
+  credits: 71316
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
+tech_level: 3
+meta_level: 0
 ---
 Heavily fortified military outpost with ferro-concrete walls, hardened armor plating, automated turret nests, and garrison barracks for 100 troops.
 

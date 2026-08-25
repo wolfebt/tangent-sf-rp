@@ -1,21 +1,45 @@
 ---
-id: "physical-endurance"
-name: "Endurance"
-type: "physical"
-subtype: "conditioning"
-category: "skills"
-governing_attributes: ["Stamina","Constitution"]
-description: "Physical stamina, resilience against bodily fatigue, hunger, extreme environmental exposure, and sustained grueling exertion."
+id: physical-endurance
+name: Endurance
+type: physical
+subtype: conditioning
+category: skills
+governing_attributes:
+  - Stamina
+  - Constitution
+description: >-
+  Physical stamina, resilience against bodily fatigue, hunger, extreme
+  environmental exposure, and sustained grueling exertion.
 trained_only: false
 specialties:
-  - "Pain Tolerance (Withstanding torture and trauma)"
-  - "Long March (Forced marches without collapse)"
-  - "Environmental Survival (Heat, cold, thin atmosphere)"
-  - "Breath Control (Deep diving, vacuum exposure holding)"
-  - "Fatigue Resistance (Resisting sleep deprivation)"
+  - Pain Tolerance (Withstanding torture and trauma)
+  - Long March (Forced marches without collapse)
+  - 'Environmental Survival (Heat, cold, thin atmosphere)'
+  - 'Breath Control (Deep diving, vacuum exposure holding)'
+  - Fatigue Resistance (Resisting sleep deprivation)
 synergy_links:
-  - "physical-athletics"
-  - "mental-survival"
+  - physical-athletics
+  - mental-survival
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Endurance

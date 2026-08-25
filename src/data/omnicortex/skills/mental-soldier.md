@@ -1,21 +1,45 @@
 ---
-id: "mental-soldier"
-name: "Soldier"
-type: "mental"
-subtype: "vocation"
-category: "skills"
-governing_attributes: ["Constitution","Intellect"]
-description: "Professional military knowledge: chain of command, operational discipline, maintenance of field kits, rules of engagement, and squad coordination."
+id: mental-soldier
+name: Soldier
+type: mental
+subtype: vocation
+category: skills
+governing_attributes:
+  - Constitution
+  - Intellect
+description: >-
+  Professional military knowledge: chain of command, operational discipline,
+  maintenance of field kits, rules of engagement, and squad coordination.
 trained_only: false
 specialties:
-  - "Infantry Procedures & Fieldcraft"
-  - "Officer Protocols & Chain of Command"
-  - "Quartermaster Supply Procedures"
-  - "Special Operations Protocols"
+  - Infantry Procedures & Fieldcraft
+  - Officer Protocols & Chain of Command
+  - Quartermaster Supply Procedures
+  - Special Operations Protocols
 synergy_links:
-  - "mental-tactics"
-  - "combat-ballistic"
-  - "mental-survival"
+  - mental-tactics
+  - combat-ballistic
+  - mental-survival
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Soldier

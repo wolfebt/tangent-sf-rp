@@ -10,49 +10,121 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-inherent_attribute_modifiers:
-  - attribute: Intellect
-    bonus: 1
-  - attribute: Charisma
-    bonus: -1
-bonus_attribute_points: 2
-specific_skill_bonuses:
-  - skill: Computation
-    bonus: 2
-  - skill: Engineering
-    bonus: 1
-bonus_skills: 10
-bonus_skill_choices:
-  - Computation
-  - Engineering
-  - Science
-  - Technology
-  - Discipline
-inherent_features:
-  - >-
-    Synthetic Traits (Immune to Biological Needs/Poison/Asphyxiation, Structure
-    Points, Resilient Design DR 5/-, Low-Light Vision)
-  - Digitized Mind (+Advantage vs Mental Effects)
-  - Robotic Strength (Lifting 1 Category Larger)
-bonus_features: 1
-bonus_feature_choices:
-  - Sub-Routine Matrix
-  - Integrated Scanner
-  - Overclock Burst
-  - Logic Engine
-recommended_features:
-  - feature-sub-routine-matrix
-  - feature-logic-engine
 stigma: None to Minor Synthetic (-1)
 tech_level: 4 (Optronic Cores & Piezoelectric Myomer)
 meta_level: 0 (Null)
 homeworld: Autonomous Foundry Stations
-cp_cost: 27
 cp: 27
 description: >-
   Androids are synthetic humanoids constructed with optronic neural networks,
   myomer musculature, and modular sub-systems. Immune to fatigue and disease,
   they represent tireless efficiency.
+costs:
+  bp: 27
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Intellect
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Charisma
+    type: attribute
+    value: -1
+    mode: inherent
+  - target: Any Attribute
+    type: attribute
+    value: 2
+    mode: bonus_pool
+  - target: Computation
+    type: skill
+    value: 2
+    mode: inherent
+  - target: Engineering
+    type: skill
+    value: 1
+    mode: inherent
+  - target: General Skill Pool
+    type: skill
+    value: 10
+    mode: bonus_pool
+  - target: Computation
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Engineering
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Science
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Technology
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Discipline
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: >-
+      Synthetic Traits (Immune to Biological Needs/Poison/Asphyxiation,
+      Structure Points, Resilient Design DR 5/-, Low-Light Vision)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Digitized Mind (+Advantage vs Mental Effects)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Robotic Strength (Lifting 1 Category Larger)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Sub-Routine Matrix
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Integrated Scanner
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Overclock Burst
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Logic Engine
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-sub-routine-matrix
+    type: feature
+    value: 1
+    mode: recommended
+  - target: feature-logic-engine
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Android (Synthetic Humanoid)
 

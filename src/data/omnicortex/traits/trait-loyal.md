@@ -1,11 +1,32 @@
 ---
-id: "trait-loyal"
-name: "Loyal"
-category: "traits"
-trait_type: "Origin Trait"
-origin_association: "Militaristic"
-cost_cp: 1
-description: "Unwavering commitment that rejects subversion, psychological coercion, and bribery."
+id: trait-loyal
+name: Loyal
+category: traits
+trait_type: Origin Trait
+origin_association: Militaristic
+description: >-
+  Unwavering commitment that rejects subversion, psychological coercion, and
+  bribery.
+costs:
+  bp: 1
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Loyal

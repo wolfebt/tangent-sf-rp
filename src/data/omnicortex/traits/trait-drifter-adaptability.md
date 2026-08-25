@@ -1,11 +1,30 @@
 ---
-id: "trait-drifter-adaptability"
-name: "Adaptability"
-category: "traits"
-trait_type: "Occupational Trait"
-occupation_association: "Drifter"
-cost_cp: 1
-description: "Often adaptable and able to adjust to new environments and situations quickly"
+id: trait-drifter-adaptability
+name: Adaptability
+category: traits
+trait_type: Occupational Trait
+occupation_association: Drifter
+description: Often adaptable and able to adjust to new environments and situations quickly
+costs:
+  bp: 1
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Adaptability

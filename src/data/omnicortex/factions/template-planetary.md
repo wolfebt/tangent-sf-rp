@@ -1,9 +1,31 @@
 ---
-id: "template-planetary"
-name: "Planetary Government"
-category: "factions"
-faction_type: "Generic Template"
-description: "Local sovereign civil government, parliamentary senate, or royal planetary governor of a single star system."
+id: template-planetary
+name: Planetary Government
+category: factions
+faction_type: Generic Template
+description: >-
+  Local sovereign civil government, parliamentary senate, or royal planetary
+  governor of a single star system.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Planetary Government (Generic Faction Template)

@@ -10,47 +10,118 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-inherent_attribute_modifiers:
-  - attribute: Agility
-    bonus: 2
-  - attribute: Stamina
-    bonus: 2
-bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Acrobatics
-    bonus: 1
-  - skill: Perception
-    bonus: 1
-bonus_skills: 10
-bonus_skill_choices:
-  - Acrobatics
-  - Perception
-  - Stealth
-  - Survival
-  - Athletics
-inherent_features:
-  - Fast (+10ft Movement)
-  - Jumper (+5ft Vertical)
-  - Low Light Vision
-  - Prehensile Tail
-  - Acute Scent
-bonus_features: 1
-bonus_feature_choices:
-  - Pounce Strike
-  - Feral Agility
-  - Lightning Sprint
-recommended_features:
-  - feature-fast
-  - feature-jumper
 stigma: Xeno (-2)
 tech_level: 3 (Bio-Scanners & Lightweight Stealth Armor)
 meta_level: 2 (Predator Sense)
 homeworld: Rautha Prime
-cp_cost: 26
 cp: 26
 description: >-
   Feline-influenced human transhumans bred for high-speed reconnaissance, urban
   parkour, and stealth operations.
+costs:
+  bp: 26
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Agility
+    type: attribute
+    value: 2
+    mode: inherent
+  - target: Stamina
+    type: attribute
+    value: 2
+    mode: inherent
+  - target: Acrobatics
+    type: skill
+    value: 1
+    mode: inherent
+  - target: Perception
+    type: skill
+    value: 1
+    mode: inherent
+  - target: General Skill Pool
+    type: skill
+    value: 10
+    mode: bonus_pool
+  - target: Acrobatics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Perception
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Stealth
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Survival
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Athletics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Fast (+10ft Movement)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Jumper (+5ft Vertical)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Low Light Vision
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Prehensile Tail
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Acute Scent
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Pounce Strike
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Feral Agility
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Lightning Sprint
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-fast
+    type: feature
+    value: 1
+    mode: recommended
+  - target: feature-jumper
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Rautha Human (Predator Variant)
 

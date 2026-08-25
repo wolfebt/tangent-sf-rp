@@ -1,20 +1,56 @@
 ---
-id: "archetype-arbitrator"
-name: "The Arbitrator"
-sphere: "Visionaries (The Idealists)"
-category: "archetypes"
+id: archetype-arbitrator
+name: The Arbitrator
+sphere: Visionaries (The Idealists)
+category: archetypes
 bp_chassis: 80
-core_concept: "Mediator / Social / Buffer"
-primary_attribute: "Wisdom"
-secondary_attribute: "Charisma"
-recommended_occupations: ["Agent","Scholar"]
-recommended_origins: ["Research","Urban","Colony"]
-recommended_factions: ["Ascendancy (Judges)","Entari Combine (Ethicists)","Syndicate"]
-essential_skills: ["Insight","Knowledge (Law)","Diplomacy","Investigation"]
-signature_features: ["Conflict resolution","Master Negotiator"]
-tactical_role: "Preventing conflict escalation, identifying lies, securing diplomatic safety."
-quote: "\"Justice is a scale. It must be balanced, not broken.\""
-description: "The neutral mediator who resolves disputes with absolute impartiality and a deep understanding of universal justice."
+core_concept: Mediator / Social / Buffer
+primary_attribute: Wisdom
+secondary_attribute: Charisma
+recommended_occupations:
+  - Agent
+  - Scholar
+recommended_origins:
+  - Research
+  - Urban
+  - Colony
+recommended_factions:
+  - Ascendancy (Judges)
+  - Entari Combine (Ethicists)
+  - Syndicate
+essential_skills:
+  - Insight
+  - Knowledge (Law)
+  - Diplomacy
+  - Investigation
+signature_features:
+  - Conflict resolution
+  - Master Negotiator
+tactical_role: 'Preventing conflict escalation, identifying lies, securing diplomatic safety.'
+quote: '"Justice is a scale. It must be balanced, not broken."'
+description: >-
+  The neutral mediator who resolves disputes with absolute impartiality and a
+  deep understanding of universal justice.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Arbitrator

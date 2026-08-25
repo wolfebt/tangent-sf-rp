@@ -1,20 +1,59 @@
 ---
-id: "archetype-net-architect"
-name: "The Net-architect"
-sphere: "Savants (The Rationals)"
-category: "archetypes"
+id: archetype-net-architect
+name: The Net-architect
+sphere: Savants (The Rationals)
+category: archetypes
 bp_chassis: 80
-core_concept: "Tech / Logistics / Support"
-primary_attribute: "Intellect"
-secondary_attribute: "Agility"
-recommended_occupations: ["Specialist","Builder"]
-recommended_origins: ["Urban","Industrial","Research"]
-recommended_factions: ["Syndicate (Mesh Architects)","Mekan (Grid Weavers)","Ascendancy"]
-essential_skills: ["Knowledge (Computers)","Vocation (Engineer)","Knowledge (Technology)"]
-signature_features: ["Automation Expert","Master Builder"]
-tactical_role: "Hardening party networks, creating tactical data-links, identifying digital infrastructure weaknesses."
-quote: "\"The Grid is my masterpiece. Every packet of data is where I intended it to be.\""
-description: "The high-level systems engineer who designs and manages the data infrastructures that link civilizations."
+core_concept: Tech / Logistics / Support
+primary_attribute: Intellect
+secondary_attribute: Agility
+recommended_occupations:
+  - Specialist
+  - Builder
+recommended_origins:
+  - Urban
+  - Industrial
+  - Research
+recommended_factions:
+  - Syndicate (Mesh Architects)
+  - Mekan (Grid Weavers)
+  - Ascendancy
+essential_skills:
+  - Knowledge (Computers)
+  - Vocation (Engineer)
+  - Knowledge (Technology)
+signature_features:
+  - Automation Expert
+  - Master Builder
+tactical_role: >-
+  Hardening party networks, creating tactical data-links, identifying digital
+  infrastructure weaknesses.
+quote: >-
+  "The Grid is my masterpiece. Every packet of data is where I intended it to
+  be."
+description: >-
+  The high-level systems engineer who designs and manages the data
+  infrastructures that link civilizations.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Net-architect

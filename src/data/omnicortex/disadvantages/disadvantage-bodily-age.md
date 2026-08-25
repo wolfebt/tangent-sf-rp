@@ -1,10 +1,32 @@
 ---
-id: "disadvantage-bodily-age"
-name: "Bodily Age"
-category: "disadvantages"
-bp_granted: "5 / 10"
-hindrance_type: "Physical"
-description: "The character is outside the physical prime for their species, suffering bodily limitations."
+id: disadvantage-bodily-age
+name: Bodily Age
+category: disadvantages
+bp_granted: 5 / 10
+hindrance_type: Physical
+description: >-
+  The character is outside the physical prime for their species, suffering
+  bodily limitations.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Bodily Age

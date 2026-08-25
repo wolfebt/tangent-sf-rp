@@ -1,20 +1,56 @@
 ---
-id: "archetype-manhunter"
-name: "The Manhunter"
-sphere: "Operatives (The Artisans)"
-category: "archetypes"
+id: archetype-manhunter
+name: The Manhunter
+sphere: Operatives (The Artisans)
+category: archetypes
 bp_chassis: 80
-core_concept: "Hybrid (Combat/Skill) / Tracker"
-primary_attribute: "Wisdom"
-secondary_attribute: "Agility"
-recommended_occupations: ["Drifter","Agent"]
-recommended_origins: ["Hostile","Spacer","Colony"]
-recommended_factions: ["Coalition (Bounty Hunters)","Syndicate (Recovery)","Outworlds"]
-essential_skills: ["Knowledge (Survival)","Alertness","Knowledge (Investigation)","Combat (Any)"]
-signature_features: ["Hunter's Intuition","Relentless Pursuit"]
-tactical_role: "Tracking enemies, capturing targets alive, wilderness survival."
-quote: "\"I can bring you in warm, or I can bring you in cold.\""
-description: "Uses tracking and combat skills to pursue criminals for a reward. Skilled in investigation and apprehension."
+core_concept: Hybrid (Combat/Skill) / Tracker
+primary_attribute: Wisdom
+secondary_attribute: Agility
+recommended_occupations:
+  - Drifter
+  - Agent
+recommended_origins:
+  - Hostile
+  - Spacer
+  - Colony
+recommended_factions:
+  - Coalition (Bounty Hunters)
+  - Syndicate (Recovery)
+  - Outworlds
+essential_skills:
+  - Knowledge (Survival)
+  - Alertness
+  - Knowledge (Investigation)
+  - Combat (Any)
+signature_features:
+  - Hunter's Intuition
+  - Relentless Pursuit
+tactical_role: 'Tracking enemies, capturing targets alive, wilderness survival.'
+quote: '"I can bring you in warm, or I can bring you in cold."'
+description: >-
+  Uses tracking and combat skills to pursue criminals for a reward. Skilled in
+  investigation and apprehension.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Manhunter

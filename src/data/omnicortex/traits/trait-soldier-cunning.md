@@ -1,11 +1,32 @@
 ---
-id: "trait-soldier-cunning"
-name: "Cunning"
-category: "traits"
-trait_type: "Occupational Trait"
-occupation_association: "Soldier"
-cost_cp: 1
-description: "Rely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies"
+id: trait-soldier-cunning
+name: Cunning
+category: traits
+trait_type: Occupational Trait
+occupation_association: Soldier
+description: >-
+  Rely on their wits and cunning to achieve their objectives, often using
+  deception and misdirection to outsmart their enemies
+costs:
+  bp: 1
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Cunning

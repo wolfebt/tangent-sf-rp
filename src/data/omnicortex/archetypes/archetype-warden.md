@@ -1,20 +1,56 @@
 ---
-id: "archetype-warden"
-name: "The Warden"
-sphere: "Sentinels (The Stabilizers)"
-category: "archetypes"
+id: archetype-warden
+name: The Warden
+sphere: Sentinels (The Stabilizers)
+category: archetypes
 bp_chassis: 80
-core_concept: "Hybrid (Magic/Melee) / Defender"
-primary_attribute: "Wisdom"
-secondary_attribute: "Strength or Agility"
-recommended_occupations: ["Adept","Scout (Fey/Auluran origins)"]
-recommended_origins: ["Agricultural","Enlightened","Hostile"]
-recommended_factions: ["Auluran (Protector Caste)","Alterian Enclave (Rangers)","Entari Combine (Gardeners)"]
-essential_skills: ["Athletics","Stealth","Knowledge (Survival)","Discipline (Entropy \\- Nature/Life focus)"]
-signature_features: ["Guardian's Ward","Nature's Wrath"]
-tactical_role: "Off-tank, terrain manipulation, healing support."
-quote: "\"The forest is not empty. It is merely holding its breath.\""
-description: "A protector of forests and natural habitats, skilled in both magic and combat to defend the wild."
+core_concept: Hybrid (Magic/Melee) / Defender
+primary_attribute: Wisdom
+secondary_attribute: Strength or Agility
+recommended_occupations:
+  - Adept
+  - Scout (Fey/Auluran origins)
+recommended_origins:
+  - Agricultural
+  - Enlightened
+  - Hostile
+recommended_factions:
+  - Auluran (Protector Caste)
+  - Alterian Enclave (Rangers)
+  - Entari Combine (Gardeners)
+essential_skills:
+  - Athletics
+  - Stealth
+  - Knowledge (Survival)
+  - Discipline (Entropy \- Nature/Life focus)
+signature_features:
+  - Guardian's Ward
+  - Nature's Wrath
+tactical_role: 'Off-tank, terrain manipulation, healing support.'
+quote: '"The forest is not empty. It is merely holding its breath."'
+description: >-
+  A protector of forests and natural habitats, skilled in both magic and combat
+  to defend the wild.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Warden

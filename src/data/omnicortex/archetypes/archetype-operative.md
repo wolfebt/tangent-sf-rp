@@ -1,20 +1,56 @@
 ---
-id: "archetype-operative"
-name: "The Operative"
-sphere: "Operatives (The Artisans)"
-category: "archetypes"
+id: archetype-operative
+name: The Operative
+sphere: Operatives (The Artisans)
+category: archetypes
 bp_chassis: 80
-core_concept: "Stealth / Sabotage / Utility"
-primary_attribute: "Agility"
-secondary_attribute: "Intellect"
-recommended_occupations: ["Agent","Criminal"]
-recommended_origins: ["Urban","Militaristic","Industrial"]
-recommended_factions: ["Syndicate (Agents)","Impyrium (Spies)","Ascendancy (Intelligence)"]
-essential_skills: ["Stealth","Bluff","Knowledge (Technology)","Combat (Pistol)"]
-signature_features: ["Undercover Operations","Security Expertise"]
-tactical_role: "Infiltration, sabotage, covert surveillance."
-quote: "\"I was never here.\""
-description: "A skilled agent who carries out dirty work. Expert in infiltration and sabotage."
+core_concept: Stealth / Sabotage / Utility
+primary_attribute: Agility
+secondary_attribute: Intellect
+recommended_occupations:
+  - Agent
+  - Criminal
+recommended_origins:
+  - Urban
+  - Militaristic
+  - Industrial
+recommended_factions:
+  - Syndicate (Agents)
+  - Impyrium (Spies)
+  - Ascendancy (Intelligence)
+essential_skills:
+  - Stealth
+  - Bluff
+  - Knowledge (Technology)
+  - Combat (Pistol)
+signature_features:
+  - Undercover Operations
+  - Security Expertise
+tactical_role: 'Infiltration, sabotage, covert surveillance.'
+quote: '"I was never here."'
+description: >-
+  A skilled agent who carries out dirty work. Expert in infiltration and
+  sabotage.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Operative

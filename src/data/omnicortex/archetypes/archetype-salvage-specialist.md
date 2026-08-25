@@ -1,20 +1,58 @@
 ---
-id: "archetype-salvage-specialist"
-name: "The Salvage-specialist"
-sphere: "Operatives (The Artisans)"
-category: "archetypes"
+id: archetype-salvage-specialist
+name: The Salvage-specialist
+sphere: Operatives (The Artisans)
+category: archetypes
 bp_chassis: 80
-core_concept: "Scavenging / Utility / Tech"
-primary_attribute: "Strength"
-secondary_attribute: "Intellect"
-recommended_occupations: ["Spacer","Specialist"]
-recommended_origins: ["Spacer","Industrial","Colony"]
-recommended_factions: ["Outworlds (Wreckers)","Mekan (Resource Converters)","Coalition"]
-essential_skills: ["Vocation (Salvager)","Knowledge (Technology)","Vocation (Engineer)","Investigation"]
-signature_features: ["Junk Whisperer","Technical Expertise"]
-tactical_role: "Extracting materials from environment, bypassing mechanical hurdles, locating hidden loot."
-quote: "\"One man's debris is my next month's salary.\""
-description: "The high-risk recovery expert who ventures into derelict hulls and unstable ruins to pull riches from the wreckage."
+core_concept: Scavenging / Utility / Tech
+primary_attribute: Strength
+secondary_attribute: Intellect
+recommended_occupations:
+  - Spacer
+  - Specialist
+recommended_origins:
+  - Spacer
+  - Industrial
+  - Colony
+recommended_factions:
+  - Outworlds (Wreckers)
+  - Mekan (Resource Converters)
+  - Coalition
+essential_skills:
+  - Vocation (Salvager)
+  - Knowledge (Technology)
+  - Vocation (Engineer)
+  - Investigation
+signature_features:
+  - Junk Whisperer
+  - Technical Expertise
+tactical_role: >-
+  Extracting materials from environment, bypassing mechanical hurdles, locating
+  hidden loot.
+quote: '"One man''s debris is my next month''s salary."'
+description: >-
+  The high-risk recovery expert who ventures into derelict hulls and unstable
+  ruins to pull riches from the wreckage.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Salvage-specialist

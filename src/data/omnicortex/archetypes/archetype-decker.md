@@ -1,20 +1,55 @@
 ---
-id: "archetype-decker"
-name: "The Decker"
-sphere: "Savants (The Rationals)"
-category: "archetypes"
+id: archetype-decker
+name: The Decker
+sphere: Savants (The Rationals)
+category: archetypes
 bp_chassis: 80
-core_concept: "Tech / Stealth / Intel"
-primary_attribute: "Intellect"
-secondary_attribute: "Agility"
-recommended_occupations: ["Specialist","Criminal"]
-recommended_origins: ["Urban","Industrial","Research"]
-recommended_factions: ["Syndicate (The Grid)","Mekan (The Code)","Ascendancy"]
-essential_skills: ["Knowledge (Technology)","Investigation","Knowledge (Computers)"]
-signature_features: ["Cyber Warfare","Digital Ghost"]
-tactical_role: "Disabling alarms, stealing data, controlling enemy drones/turrets."
-quote: "\"Access granted. Now, let's see what you're hiding.\""
-description: "A master of cyberspace who infiltrates networks, manipulates data, and exploits vulnerabilities."
+core_concept: Tech / Stealth / Intel
+primary_attribute: Intellect
+secondary_attribute: Agility
+recommended_occupations:
+  - Specialist
+  - Criminal
+recommended_origins:
+  - Urban
+  - Industrial
+  - Research
+recommended_factions:
+  - Syndicate (The Grid)
+  - Mekan (The Code)
+  - Ascendancy
+essential_skills:
+  - Knowledge (Technology)
+  - Investigation
+  - Knowledge (Computers)
+signature_features:
+  - Cyber Warfare
+  - Digital Ghost
+tactical_role: 'Disabling alarms, stealing data, controlling enemy drones/turrets.'
+quote: '"Access granted. Now, let''s see what you''re hiding."'
+description: >-
+  A master of cyberspace who infiltrates networks, manipulates data, and
+  exploits vulnerabilities.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Decker

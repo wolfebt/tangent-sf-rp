@@ -1,10 +1,30 @@
 ---
-id: "3-16-zero-g-vacuum-combat-rules"
-name: "3.16 Zero-G & Vacuum Combat Rules"
-category: "compendium"
-entry_type: "Core Rule"
-parent: "3.00 COMBAT"
+id: 3-16-zero-g-vacuum-combat-rules
+name: 3.16 Zero-G & Vacuum Combat Rules
+category: compendium
+entry_type: Core Rule
+parent: 3.00 COMBAT
 order: 16
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # 3.16 Zero-G & Vacuum Combat Rules
 

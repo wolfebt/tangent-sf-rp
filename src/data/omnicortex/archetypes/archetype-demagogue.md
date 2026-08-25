@@ -1,20 +1,56 @@
 ---
-id: "archetype-demagogue"
-name: "The Demagogue"
-sphere: "Visionaries (The Idealists)"
-category: "archetypes"
+id: archetype-demagogue
+name: The Demagogue
+sphere: Visionaries (The Idealists)
+category: archetypes
 bp_chassis: 80
-core_concept: "Debuffer / Chaos Agent / Crowd Control"
-primary_attribute: "Charisma"
-secondary_attribute: "Intellect"
-recommended_occupations: ["Criminal","Entertainer"]
-recommended_origins: ["Urban","Industrial","Colony"]
-recommended_factions: ["Coalition (Rebels)","Outworlds (Cults)","Syndicate (Hostile Takeover)"]
-essential_skills: ["Diplomacy","Expression (any)","Bluff","Knowledge (Computers)"]
-signature_features: ["Voice of Dissent","Subversive Tactics"]
-tactical_role: "Incite distractions, turn enemy minions against leaders, sow confusion."
-quote: "\"The truth is whatever I say it is loud enough.\""
-description: "A skilled propagandist who spreads dissent and undermines authority through persuasive speeches and subversive media."
+core_concept: Debuffer / Chaos Agent / Crowd Control
+primary_attribute: Charisma
+secondary_attribute: Intellect
+recommended_occupations:
+  - Criminal
+  - Entertainer
+recommended_origins:
+  - Urban
+  - Industrial
+  - Colony
+recommended_factions:
+  - Coalition (Rebels)
+  - Outworlds (Cults)
+  - Syndicate (Hostile Takeover)
+essential_skills:
+  - Diplomacy
+  - Expression (any)
+  - Bluff
+  - Knowledge (Computers)
+signature_features:
+  - Voice of Dissent
+  - Subversive Tactics
+tactical_role: 'Incite distractions, turn enemy minions against leaders, sow confusion.'
+quote: '"The truth is whatever I say it is loud enough."'
+description: >-
+  A skilled propagandist who spreads dissent and undermines authority through
+  persuasive speeches and subversive media.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Demagogue

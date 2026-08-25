@@ -1,19 +1,44 @@
 ---
-id: "meta-dimension"
-name: "Dimension"
-type: "meta"
-subtype: "discipline"
-category: "skills"
-governing_attributes: ["Intellect","Wisdom","Charisma"]
-description: "The metaphysical discipline governing spatial distortion, planar rifting, object/creature summoning, tactical teleportation, and gateway creation."
+id: meta-dimension
+name: Dimension
+type: meta
+subtype: discipline
+category: skills
+governing_attributes:
+  - Intellect
+  - Wisdom
+  - Charisma
+description: >-
+  The metaphysical discipline governing spatial distortion, planar rifting,
+  object/creature summoning, tactical teleportation, and gateway creation.
 trained_only: true
 specialties:
-  - "Summoning Focus (Conjuring creatures and matter)"
-  - "Teleport Focus (Blinking, portals, spatial transit)"
+  - Summoning Focus (Conjuring creatures and matter)
+  - 'Teleport Focus (Blinking, portals, spatial transit)'
 synergy_links:
-  - "meta-attune"
-  - "mental-metaphysics"
-  - "mental-physics"
+  - meta-attune
+  - mental-metaphysics
+  - mental-physics
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Dimension

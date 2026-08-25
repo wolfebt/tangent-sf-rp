@@ -1,8 +1,30 @@
 ---
-id: "time-modifiers"
-name: "Time Modifiers: Meticulous vs. Rushed"
-category: "rules"
-summary: "Mechanical adjustments for taking additional time or forcing rapid execution of skill checks."
+id: time-modifiers
+name: 'Time Modifiers: Meticulous vs. Rushed'
+category: rules
+summary: >-
+  Mechanical adjustments for taking additional time or forcing rapid execution
+  of skill checks.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Time Modifiers: Meticulous vs. Rushed

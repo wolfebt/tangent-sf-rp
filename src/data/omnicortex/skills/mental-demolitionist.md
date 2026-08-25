@@ -1,21 +1,44 @@
 ---
-id: "mental-demolitionist"
-name: "Demolitionist"
-type: "mental"
-subtype: "vocation"
-category: "skills"
-governing_attributes: ["Intellect"]
-description: "The controlled handling, manufacture, placement, and defusal of explosive charges, shaped breaching ordnance, and structural blasting."
+id: mental-demolitionist
+name: Demolitionist
+type: mental
+subtype: vocation
+category: skills
+governing_attributes:
+  - Intellect
+description: >-
+  The controlled handling, manufacture, placement, and defusal of explosive
+  charges, shaped breaching ordnance, and structural blasting.
 trained_only: true
 specialties:
-  - "Bomb Defusal & EOD"
-  - "Structural Demolition (Controlled building collapse)"
-  - "Mining & Blast Extraction"
-  - "Combat Breaching Charges"
+  - Bomb Defusal & EOD
+  - Structural Demolition (Controlled building collapse)
+  - Mining & Blast Extraction
+  - Combat Breaching Charges
 synergy_links:
-  - "combat-heavy-weapons"
-  - "mental-architect"
-  - "mental-physics"
+  - combat-heavy-weapons
+  - mental-architect
+  - mental-physics
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Demolitionist

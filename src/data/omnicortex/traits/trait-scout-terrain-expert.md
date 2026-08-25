@@ -1,11 +1,33 @@
 ---
-id: "trait-scout-terrain-expert"
-name: "Terrain Expert"
-category: "traits"
-trait_type: "Occupational Trait"
-occupation_association: "Scout"
-cost_cp: 1
-description: "Scouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.   *+2 to Stealth, Survival and Defense in chosen Terrain* #"
+id: trait-scout-terrain-expert
+name: Terrain Expert
+category: traits
+trait_type: Occupational Trait
+occupation_association: Scout
+description: >-
+  Scouts have knacks that allow them to improve their efficiency in specific
+  terrains, which may be taken multiple times for different terrain types.   *+2
+  to Stealth, Survival and Defense in chosen Terrain* #
+costs:
+  bp: 1
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Terrain Expert

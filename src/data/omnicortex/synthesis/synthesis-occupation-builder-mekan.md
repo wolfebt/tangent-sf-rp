@@ -1,10 +1,30 @@
 ---
-id: "synthesis-occupation-builder-mekan"
-name: "Builder (MEKAN) Character Visual Synthesis"
-category: "synthesis"
-synthesis_type: "occupation_character"
-occupation_id: "occupation-builder"
-faction_id: "faction-mekan"
+id: synthesis-occupation-builder-mekan
+name: Builder (MEKAN) Character Visual Synthesis
+category: synthesis
+synthesis_type: occupation_character
+occupation_id: occupation-builder
+faction_id: faction-mekan
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Builder Occupation × MEKAN Character Visual Synthesis Matrix

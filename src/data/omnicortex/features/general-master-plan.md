@@ -1,13 +1,33 @@
 ---
-id: "general-master-plan"
-name: "Master Plan"
-category: "features"
-feature_category: "General"
+id: general-master-plan
+name: Master Plan
+category: features
+feature_category: General
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: "Logic 6, Intellect 3"
-description: "The character is a tactical genius who prepares for every eventuality."
+prerequisites: 'Logic 6, Intellect 3'
+description: The character is a tactical genius who prepares for every eventuality.
+costs:
+  bp: 3
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Master Plan

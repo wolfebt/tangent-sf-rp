@@ -1,20 +1,54 @@
 ---
-id: "archetype-swashbuckler"
-name: "The Swashbuckler"
-sphere: "Operatives (The Artisans)"
-category: "archetypes"
+id: archetype-swashbuckler
+name: The Swashbuckler
+sphere: Operatives (The Artisans)
+category: archetypes
 bp_chassis: 80
-core_concept: "Melee DPS / Mobility / Face"
-primary_attribute: "Agility"
-secondary_attribute: "Charisma"
-recommended_occupations: ["Soldier","Entertainer"]
-recommended_origins: ["Leisure","Spacer","Urban"]
-recommended_factions: ["Dynasty (Duelists)","Outworlds (Pirates)","Entari"]
-essential_skills: ["Acrobatics","Athletics","Combat (Melee)","Bluff"]
-signature_features: ["Boarding Party","Weapon Master"]
-tactical_role: "Engaging enemy leaders, mobile melee damage, flamboyant distraction."
-quote: "\"En garde! Try not to bore me.\""
-description: "A skilled combatant who excels in boarding actions and close-quarters flair."
+core_concept: Melee DPS / Mobility / Face
+primary_attribute: Agility
+secondary_attribute: Charisma
+recommended_occupations:
+  - Soldier
+  - Entertainer
+recommended_origins:
+  - Leisure
+  - Spacer
+  - Urban
+recommended_factions:
+  - Dynasty (Duelists)
+  - Outworlds (Pirates)
+  - Entari
+essential_skills:
+  - Acrobatics
+  - Athletics
+  - Combat (Melee)
+  - Bluff
+signature_features:
+  - Boarding Party
+  - Weapon Master
+tactical_role: 'Engaging enemy leaders, mobile melee damage, flamboyant distraction.'
+quote: '"En garde! Try not to bore me."'
+description: A skilled combatant who excels in boarding actions and close-quarters flair.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Swashbuckler

@@ -11,42 +11,103 @@ size:
 movement:
   - species_movement-bipedal
   - species_movement-climbing
-inherent_attribute_modifiers: []
-bonus_attribute_points: 1
-specific_skill_bonuses:
-  - skill: Survival
-    bonus: 1
-  - skill: Animal Handling
-    bonus: 1
-bonus_skills: 0
-bonus_skill_choices:
-  - Survival
-  - Animal Handling
-  - Acrobatics
-  - Perception
-inherent_features:
-  - Asi Base Traits
-  - Animal Affinity
-  - Climber
-  - Alter Form (Animal)
-  - Awakened (Nature)
-bonus_features: 1
-bonus_feature_choices:
-  - Beast Speech
-  - Wild Roar
-  - Keen Senses
-recommended_features:
-  - feature-beast-speech
 stigma: 'Animal (-2), Xeno (-2)'
 tech_level: 1 (Bone & Root Tools)
 meta_level: 3 (Symbiotic Totemism)
 homeworld: Untamed Wildlands
-cp_cost: 17
 cp: 17
 description: >-
   Wildlings are feral offshoots of the Koban fey lineage who live in communion
   with apex predators, shifting effortlessly into diverse mammalian forms to
   hunt and forage.
+costs:
+  bp: 17
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Any Attribute
+    type: attribute
+    value: 1
+    mode: bonus_pool
+  - target: Survival
+    type: skill
+    value: 1
+    mode: inherent
+  - target: Animal Handling
+    type: skill
+    value: 1
+    mode: inherent
+  - target: Survival
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Animal Handling
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Acrobatics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Perception
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Asi Base Traits
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Animal Affinity
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Climber
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Alter Form (Animal)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Awakened (Nature)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Beast Speech
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Wild Roar
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Keen Senses
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-beast-speech
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Wildling (Koban Lineage)
 

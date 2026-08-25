@@ -1,13 +1,35 @@
 ---
-id: "skill-power-attack"
-name: "Power Attack"
-category: "features"
-feature_category: "Skill"
+id: skill-power-attack
+name: Power Attack
+category: features
+feature_category: Skill
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: "Strength 2, Unarmed or Melee 6"
-description: "The character sacrifices precision for raw force, trading attack accuracy for devastating damage."
+prerequisites: 'Strength 2, Unarmed or Melee 6'
+description: >-
+  The character sacrifices precision for raw force, trading attack accuracy for
+  devastating damage.
+costs:
+  bp: 3
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Power Attack

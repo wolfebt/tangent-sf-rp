@@ -10,42 +10,102 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-inherent_attribute_modifiers:
-  - attribute: Strength
-    bonus: 1
-  - attribute: Stamina
-    bonus: 1
-bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Craft (Metallurgy)
-    bonus: 2
-bonus_skills: 10
-bonus_skill_choices:
-  - Craft
-  - Engineering
-  - Athletics
-  - Science (Geology)
-  - Combat (Heavy)
-inherent_features:
-  - Mighty Surge (1/Encounter bonus to STR/STA checks)
-  - Dense Musculature
-  - Poison Resistance
-bonus_features: 1
-bonus_feature_choices:
-  - Master Smith
-  - Subterranean Instinct
-  - Unyielding Stance
-recommended_features:
-  - feature-mighty-surge
 stigma: Minor Xeno (-1)
 tech_level: 3 (Heavy Metallurgy & Kinetic Forges)
 meta_level: 1 (Earth / Mineral Resonance)
 homeworld: Nidavellir Asteroid Belt
-cp_cost: 17
 cp: 17
 description: >-
   Stocky, broad-shouldered heavy-world humans renowned for foundry work,
   starship armor plating, and asteroid mining.
+costs:
+  bp: 17
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Strength
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Stamina
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Craft (Metallurgy)
+    type: skill
+    value: 2
+    mode: inherent
+  - target: General Skill Pool
+    type: skill
+    value: 10
+    mode: bonus_pool
+  - target: Craft
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Engineering
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Athletics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Science (Geology)
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Combat (Heavy)
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Mighty Surge (1/Encounter bonus to STR/STA checks)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Dense Musculature
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Poison Resistance
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Master Smith
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Subterranean Instinct
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Unyielding Stance
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-mighty-surge
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Dwerg Human (Forge Folk)
 

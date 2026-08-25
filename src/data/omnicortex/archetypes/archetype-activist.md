@@ -1,20 +1,56 @@
 ---
-id: "archetype-activist"
-name: "The Activist"
-sphere: "Visionaries (The Idealists)"
-category: "archetypes"
+id: archetype-activist
+name: The Activist
+sphere: Visionaries (The Idealists)
+category: archetypes
 bp_chassis: 80
-core_concept: "Buffer / Leader / Moral Compass"
-primary_attribute: "Charisma"
-secondary_attribute: "Wisdom"
-recommended_occupations: ["Citizen","Representative"]
-recommended_origins: ["Urban","Colony","Enlightened"]
-recommended_factions: ["Coalition (Freedom Movement)","Entari Combine (Ethicists)","Outworlds"]
-essential_skills: ["Diplomacy","Insight","Knowledge (History)","Leadership"]
-signature_features: ["Voice of the People","Community Organizer"]
-tactical_role: "Rally NPCs to the party's cause, de-escalate riots, negotiate with locals."
-quote: "\"We do not beg for freedom. We demand it.\""
-description: "A passionate individual who fights for social justice and equality. They utilize their voice to raise awareness and effect change."
+core_concept: Buffer / Leader / Moral Compass
+primary_attribute: Charisma
+secondary_attribute: Wisdom
+recommended_occupations:
+  - Citizen
+  - Representative
+recommended_origins:
+  - Urban
+  - Colony
+  - Enlightened
+recommended_factions:
+  - Coalition (Freedom Movement)
+  - Entari Combine (Ethicists)
+  - Outworlds
+essential_skills:
+  - Diplomacy
+  - Insight
+  - Knowledge (History)
+  - Leadership
+signature_features:
+  - Voice of the People
+  - Community Organizer
+tactical_role: 'Rally NPCs to the party''s cause, de-escalate riots, negotiate with locals.'
+quote: '"We do not beg for freedom. We demand it."'
+description: >-
+  A passionate individual who fights for social justice and equality. They
+  utilize their voice to raise awareness and effect change.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Activist

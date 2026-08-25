@@ -1,12 +1,50 @@
 ---
-id: "origin-research"
-name: "Research"
-category: "origins"
+id: origin-research
+name: Research
+category: origins
 skill_points: 20
-society_skills: ["Mental (Any)"]
-archetypes: ["Research Scientist","Data Analyst","Theoretical Physicist","Archivist","Laboratory Technician","Containment Officer"]
-traits: ["trait-adaptability","trait-analytical-thinking","trait-attention-to-detail","trait-collaboration","trait-curiosity","trait-intellectualism","trait-persistence","trait-problem-solving","trait-studious"]
-description: "Planetary research facilities, deep-space astronomical observatories, xenobiological stations, and academic campuses."
+society_skills:
+  - Mental (Any)
+archetypes:
+  - Research Scientist
+  - Data Analyst
+  - Theoretical Physicist
+  - Archivist
+  - Laboratory Technician
+  - Containment Officer
+traits:
+  - trait-adaptability
+  - trait-analytical-thinking
+  - trait-attention-to-detail
+  - trait-collaboration
+  - trait-curiosity
+  - trait-intellectualism
+  - trait-persistence
+  - trait-problem-solving
+  - trait-studious
+description: >-
+  Planetary research facilities, deep-space astronomical observatories,
+  xenobiological stations, and academic campuses.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Research Origin

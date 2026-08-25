@@ -10,45 +10,122 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-inherent_attribute_modifiers: []
-bonus_attribute_points: 2
-specific_skill_bonuses:
-  - skill: Survival
-    bonus: 2
-bonus_skills: 0
-bonus_skill_choices:
-  - Survival
-  - Medicine
-  - Athletics
-  - Attune (Nature)
-inherent_features:
-  - Adaptive Aspects
-  - Ageless
-  - Alter Form (Root / Vine Morph)
-  - Atmosphere Variant (Breathes CO2/Toxics)
-  - Awakened (Nature)
-  - Chloroplast Energy (Photosynthesis)
-  - Fast Healing
-  - Immortal
-  - Non-Typical Anatomy (No Vital Organs)
-  - Regeneration (3 HP/rnd)
-  - Verdant Flesh (Plant Entity)
-bonus_features: 2
-bonus_feature_choices:
-  - Thorn Burst
-  - Entangling Roots
-  - Spore Cloud
-recommended_features:
-  - feature-entangling-roots
 stigma: Severe Xeno (-4)
 tech_level: 2 (Living Botanical Tools)
 meta_level: 4 (Verdant Metaphysics)
 homeworld: The Great Arboreal Bloom of Thorn-7
-cp_cost: 33
 cp: 33
 description: >-
   Sentient, ambulatory humanoid plant beings made of interwoven thorny briars,
   floral cores, and photosynthetic sap.
+costs:
+  bp: 33
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Any Attribute
+    type: attribute
+    value: 2
+    mode: bonus_pool
+  - target: Survival
+    type: skill
+    value: 2
+    mode: inherent
+  - target: Survival
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Medicine
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Athletics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Attune (Nature)
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Adaptive Aspects
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Ageless
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Alter Form (Root / Vine Morph)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Atmosphere Variant (Breathes CO2/Toxics)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Awakened (Nature)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Chloroplast Energy (Photosynthesis)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Fast Healing
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Immortal
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Non-Typical Anatomy (No Vital Organs)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Regeneration (3 HP/rnd)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Verdant Flesh (Plant Entity)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 2
+    mode: bonus_pool
+  - target: Thorn Burst
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Entangling Roots
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Spore Cloud
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-entangling-roots
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Thorn (Verdant Plant Entity)
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { db } from '../../firebase';
@@ -8,10 +8,31 @@ import { ALL_CANONICAL_SKILLS, SKILL_CATEGORY_SECTIONS } from '../../data/skills
 import { useFolio } from '../../context/FolioContext';
 import { useStory } from '../../context/CampaignContext';
 import { AudioService } from '../../services/audioService';
-import { Backpack, Gem, Check, Sparkles, AlertCircle, Cpu, RotateCcw, Calculator, Coins, Hammer, TrendingUp, Layers } from 'lucide-react';
+import { Backpack, Gem, Check, Sparkles, AlertCircle, Cpu, RotateCcw, Calculator, Coins, Hammer, TrendingUp, Layers, Wrench, Shield, Zap } from 'lucide-react';
 import * as econEngine from '../../engines/tangentEconEngine';
 import * as techEngine from '../../engines/tangentTechEngine';
 import * as uduEngine from '../../engines/tangentUDUEngine';
+
+// Specialized Sub-Widgets
+import { CostEconomyWidget } from './widgets/CostEconomyWidget';
+import { UniversalModifiersWidget } from './widgets/UniversalModifiersWidget';
+import { ModificationsWidget } from './widgets/ModificationsWidget';
+import { CriticalDetailsWidget } from './widgets/CriticalDetailsWidget';
+import { SocketsAllocationWidget } from './widgets/SocketsAllocationWidget';
+
+// Category Field Ordering
+import { getSortedCategoryFieldKeys } from './categoryConfig';
+
+// Schema Normalization Adapters
+import {
+  normalizeOmnicortexItem,
+  exportOmnicortexItem,
+  getItemCosts,
+  getItemModifiers,
+  getItemModifications,
+  getItemCriticalDetails,
+  getItemSockets
+} from '../../utils/tangentSchemaAdapters';
 
 export const DBMItemTransferBar = ({ item, categoryKey }) => {
   const folio = useFolio() || {};
@@ -44,7 +65,7 @@ export const DBMItemTransferBar = ({ item, categoryKey }) => {
         apCost: item.apCost || item.ap || 2,
         damage: item.damage || '',
         description: item.description || '',
-        cpCost: parseInt(item.cpCost || item.cp || item.cost_cp || 5, 10),
+        cpCost: parseInt(item.cpCost || item.cp || item.cost_cp || item.costs?.bp || 5, 10),
         ...item
       });
       setStatusMessage(`Equipped to ${heroName}!`);
@@ -59,7 +80,7 @@ export const DBMItemTransferBar = ({ item, categoryKey }) => {
         resistance: item.resistance || item.armor || '',
         weight: item.weight || item.wt || 1,
         techLevel: item.techLevel || item.tl || 1,
-        cpCost: parseInt(item.cpCost || item.cp || item.cost_cp || 0, 10),
+        cpCost: parseInt(item.cpCost || item.cp || item.cost_cp || item.costs?.bp || 0, 10),
         notes: item.description || item.notes || '',
         ...item
       });
@@ -85,7 +106,8 @@ export const DBMItemTransferBar = ({ item, categoryKey }) => {
 
     const cat = categoryKey || item.category || 'Gear';
     const existingContent = targetScenario.content || '';
-    const itemEntry = `<li><strong>${item.name}</strong> (${cat}${item.damage ? ` • Damage: ${item.damage}` : ''}${item.armor ? ` • Armor: ${item.armor}` : ''}${item.cp || item.cpCost ? ` • CP: ${item.cp || item.cpCost}` : ''})</li>`;
+    const itemCost = item.costs?.credits || item.cost || item.cp || '';
+    const itemEntry = `<li><strong>${item.name}</strong> (${cat}${item.damage ? ` • Damage: ${item.damage}` : ''}${item.armor ? ` • Armor: ${item.armor}` : ''}${itemCost ? ` • Cost: ${itemCost}` : ''})</li>`;
     
     let updatedContent = existingContent;
     if (existingContent.includes('<h3>Rewards</h3>') || existingContent.includes('<h3>Scenario Rewards</h3>')) {
@@ -107,46 +129,41 @@ export const DBMItemTransferBar = ({ item, categoryKey }) => {
           rewards: updatedRewards
         }
       });
+      setStatusMessage(`Stashed into "${targetScenario.title || 'Scenario'}" reward cache!`);
+      AudioService.playTerminalBeep(900, 0.05);
+      setTransferStatus('scenario_success');
+      setTimeout(() => {
+        setTransferStatus(null);
+        setStatusMessage('');
+      }, 3000);
     }
-
-    AudioService.playTerminalBeep(1000, 0.05);
-    setTransferStatus('scenario_success');
-    setStatusMessage(`Added to ${targetScenario.title || 'Scenario Loot'}!`);
-    setTimeout(() => {
-      setTransferStatus(null);
-      setStatusMessage('');
-    }, 3000);
   };
 
   return (
-    <div className="bg-slate-950/80 border border-slate-800 rounded-lg p-3 my-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 select-none">
-      <div className="flex items-center gap-2">
-        <span className="text-xs font-mono text-slate-400 font-bold uppercase flex items-center gap-1.5">
-          <Sparkles size={14} className="text-amber-400" />
-          <span>Cross-Module Transfer:</span>
-        </span>
-        {transferStatus === 'hero_success' && (
-          <span className="text-xs font-mono text-emerald-400 flex items-center gap-1 font-bold animate-pulse">
-            <Check size={14} /> {statusMessage || 'Equipped!'}
-          </span>
-        )}
-        {transferStatus === 'scenario_success' && (
-          <span className="text-xs font-mono text-amber-400 flex items-center gap-1 font-bold animate-pulse">
-            <Check size={14} /> {statusMessage || 'Added to Loot!'}
-          </span>
-        )}
+    <div className="bg-slate-950/80 border border-slate-800/80 rounded-xl p-3 my-2 flex flex-col sm:flex-row items-center justify-between gap-2 shadow-inner">
+      <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
+        <Sparkles size={14} className="text-amber-400 shrink-0" />
+        <div>
+          <span className="font-bold text-amber-300">Folio & Story Integration:</span>{' '}
+          <span className="text-slate-400">Transfer this item directly to active gameplay.</span>
+          {statusMessage && (
+            <div className="text-emerald-400 font-bold text-[11px] animate-pulse mt-0.5">
+              ✓ {statusMessage}
+            </div>
+          )}
+        </div>
       </div>
 
-      <div className="flex items-center gap-2">
-        {/* Equip to Hero */}
+      <div className="flex items-center gap-2 w-full sm:w-auto shrink-0">
+        {/* Equip to Persona Folio Character */}
         <button
           type="button"
           onClick={handleEquipToHero}
           className="flex-1 sm:flex-none py-1.5 px-3 bg-cyan-600/90 hover:bg-cyan-500 text-white font-bold text-xs rounded-lg flex items-center justify-center gap-1.5 transition-all shadow-md active:scale-95 cursor-pointer"
-          title={`Equip ${item.name} directly to ${heroName}'s inventory/abilities`}
+          title={`Equip ${item.name} directly to ${heroName}'s Folio Inventory`}
         >
           <Backpack size={14} />
-          <span>Equip to {heroName}</span>
+          <span>Equip to Hero</span>
         </button>
 
         {/* Add to Scenario Rewards */}
@@ -163,7 +180,6 @@ export const DBMItemTransferBar = ({ item, categoryKey }) => {
     </div>
   );
 };
-
 
 export const CANONICAL_ATTRIBUTES_LIST = [
   {
@@ -233,110 +249,29 @@ export const DBMItemModal = ({
   // Custom freeform entry state per field
   const [customInputModes, setCustomInputModes] = useState({});
   const [customInputValues, setCustomInputValues] = useState({});
-  const [newSkillBonusState, setNewSkillBonusState] = useState({});
-  const [newAttrBonusState, setNewAttrBonusState] = useState({});
 
-  // Tab state must be declared before any early returns (Rules of Hooks)
-  const [activeModalTab, setActiveModalTab] = useState('general');
+  // Tab state
+  const [activeModalTab, setActiveModalTab] = useState('all');
 
   const toggleCustomInputMode = (fieldKey) => {
     setCustomInputModes(prev => ({ ...prev, [fieldKey]: !prev[fieldKey] }));
   };
 
-  const handleAddAttrBonusItem = (fieldKey) => {
-    const state = newAttrBonusState[fieldKey] || { attribute: '', bonus: 1 };
-    const attrName = (state.attribute || '').trim();
-    const bonusVal = parseInt(state.bonus ?? 1, 10);
-    if (!attrName) {
-      alert('Please select an attribute or sub-attribute.');
-      return;
-    }
-
-    const currentList = Array.isArray(editFormData[fieldKey])
-      ? [...editFormData[fieldKey]]
-      : [];
-
-    const existingIdx = currentList.findIndex(item => 
-      (typeof item === 'object' && (item.attribute || item.name || '').toLowerCase() === attrName.toLowerCase()) ||
-      (typeof item === 'string' && item.toLowerCase().startsWith(attrName.toLowerCase()))
-    );
-
-    if (existingIdx >= 0) {
-      currentList[existingIdx] = { attribute: attrName, bonus: bonusVal };
-    } else {
-      currentList.push({ attribute: attrName, bonus: bonusVal });
-    }
-
-    setEditFormData(prev => ({ ...prev, [fieldKey]: currentList }));
-    setNewAttrBonusState(prev => ({
-      ...prev,
-      [fieldKey]: { attribute: '', bonus: 1 }
-    }));
-  };
-
-  const handleRemoveAttrBonusItem = (fieldKey, index) => {
-    const currentList = Array.isArray(editFormData[fieldKey]) ? [...editFormData[fieldKey]] : [];
-    currentList.splice(index, 1);
-    setEditFormData(prev => ({ ...prev, [fieldKey]: currentList }));
-  };
-
-  const handleAddSkillBonusItem = (fieldKey) => {
-    const state = newSkillBonusState[fieldKey] || { skill: '', bonus: 1 };
-    const skillName = (state.skill || '').trim();
-    const bonusVal = parseInt(state.bonus || 1, 10) || 1;
-    if (!skillName) {
-      alert('Please select or enter a skill name.');
-      return;
-    }
-
-    const currentList = Array.isArray(editFormData[fieldKey])
-      ? [...editFormData[fieldKey]]
-      : [];
-
-    const existingIdx = currentList.findIndex(item => 
-      (typeof item === 'object' && (item.skill || item.name || '').toLowerCase() === skillName.toLowerCase()) ||
-      (typeof item === 'string' && item.toLowerCase().startsWith(skillName.toLowerCase()))
-    );
-
-    if (existingIdx >= 0) {
-      currentList[existingIdx] = { skill: skillName, bonus: bonusVal };
-    } else {
-      currentList.push({ skill: skillName, bonus: bonusVal });
-    }
-
-    setEditFormData(prev => ({ ...prev, [fieldKey]: currentList }));
-    setNewSkillBonusState(prev => ({
-      ...prev,
-      [fieldKey]: { skill: '', bonus: 1 }
-    }));
-  };
-
-  const handleRemoveSkillBonusItem = (fieldKey, index) => {
-    const currentList = Array.isArray(editFormData[fieldKey]) ? [...editFormData[fieldKey]] : [];
-    currentList.splice(index, 1);
-    setEditFormData(prev => ({ ...prev, [fieldKey]: currentList }));
-  };
-
   const saveTimeoutRef = useRef(null);
   const isDeletingRef = useRef(false);
 
+  // Normalize form data on modal open or item selection change
   useEffect(() => {
     if (isOpen) {
       isDeletingRef.current = false;
+      setActiveModalTab('all');
+      if (selectedItem) {
+        setEditFormData(normalizeOmnicortexItem(selectedItem));
+      }
     } else {
       if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
     }
-  }, [isOpen]);
-
-  const triggerAutoSave = React.useCallback(() => {
-    if (!isEditMode || !isAdmin || isDeletingRef.current) return;
-    if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
-    saveTimeoutRef.current = setTimeout(() => {
-      if (!isDeletingRef.current) {
-        onSave(false); // pass false to closeOnSuccess so it saves silently
-      }
-    }, 1000);
-  }, [isEditMode, isAdmin, onSave]);
+  }, [isOpen, selectedItem]);
 
   const handleAddCustomValue = (fieldKey, isMulti = false) => {
     const rawVal = (customInputValues[fieldKey] || '').trim();
@@ -359,13 +294,6 @@ export const DBMItemModal = ({
     const currentArr = Array.isArray(editFormData[fieldKey]) ? editFormData[fieldKey] : [];
     setEditFormData(prev => ({ ...prev, [fieldKey]: currentArr.filter(v => v !== valToRemove) }));
   };
-
-  // Reset activeModalTab when modal opens or selected item changes
-  useEffect(() => {
-    if (isOpen) {
-      setActiveModalTab('general');
-    }
-  }, [isOpen, selectedItem]);
 
   // Fetch relational data when modal opens
   useEffect(() => {
@@ -403,33 +331,13 @@ export const DBMItemModal = ({
     fetchRelations();
   }, [isOpen, currentConfig, dbData]);
 
-  // Normalize editFormData so all multiselect / manageable fields default to arrays
-  useEffect(() => {
-    const fields = currentConfig?.fields || DEFAULT_FIELDS;
-    if (!isOpen || !fields) return;
-
-    setEditFormData(prev => {
-      let needsUpdate = false;
-      const updated = { ...prev };
-      Object.entries(fields).forEach(([fKey, fDef]) => {
-        if (fDef.type === 'multiselect' || fDef.type === 'skill_bonus_list' || fDef.manageable) {
-          if (!Array.isArray(updated[fKey])) {
-            updated[fKey] = [];
-            needsUpdate = true;
-          }
-        }
-      });
-      return needsUpdate ? updated : prev;
-    });
-  }, [isOpen, currentConfig]);
-
   // Recalculate Design DC whenever relevant form fields change
   useEffect(() => {
     if (!isEditMode || !isAdmin) return;
     if (['invocations', 'special_abilities', 'augmentations', 'weaponry', 'armoring', 'mecha'].includes(currentKey)) {
       let dc = 0;
-      dc += (Number(editFormData.tl) || 0) * 2;
-      dc += (Number(editFormData.ml) || 0) * 3;
+      dc += (Number(editFormData.tech_level ?? editFormData.tl ?? editFormData.techLevel) || 0) * 2;
+      dc += (Number(editFormData.meta_level ?? editFormData.ml ?? editFormData.metaLevel) || 0) * 3;
 
       ['area', 'effect', 'range', 'target', 'component', 'modes'].forEach(relKey => {
         const selected = editFormData[relKey];
@@ -442,133 +350,56 @@ export const DBMItemModal = ({
         }
       });
 
-      if (editFormData.design_dc !== dc) {
+      if (editFormData.design_dc !== dc && dc > 0) {
         setEditFormData(prev => ({ ...prev, design_dc: dc }));
       }
     }
-  }, [editFormData.tl, editFormData.ml, editFormData.area, editFormData.effect, editFormData.range, editFormData.target, editFormData.component, editFormData.modes, editFormData.design_dc, isEditMode, currentKey, relationalData, isAdmin]);
+  }, [editFormData.tech_level, editFormData.tl, editFormData.techLevel, editFormData.meta_level, editFormData.ml, editFormData.metaLevel, editFormData.area, editFormData.effect, editFormData.range, editFormData.target, editFormData.component, editFormData.modes, editFormData.design_dc, isEditMode, currentKey, relationalData, isAdmin]);
 
   if (!isOpen) return null;
 
-  // Aspect Subtype Dynamic Options Resolver
-  const getAspectSubtypeOptions = (aspect) => {
-    if (aspect === 'attribute') {
-      return [
-        'Any Attribute',
-        'Any Primary Attribute',
-        'Any Sub-Attribute',
-        'Strength',
-        'Might',
-        'Agility',
-        'Reflex',
-        'Stamina',
-        'Fortitude',
-        'Constitution',
-        'Intellect',
-        'Logic',
-        'Wisdom',
-        'Will',
-        'Charisma',
-        'Etiquette'
-      ];
-    } else if (aspect === 'skill') {
-      const skills = (relationalData['skills'] || []).map(s => s.name || s.id);
-      return [
-        'Any Skill',
-        'Any Mental Skill',
-        'Any Physical Skill',
-        'Any Social Skill',
-        'Any Combat Skill',
-        'Any Meta Skill',
-        ...skills
-      ];
-    } else if (aspect === 'combat') {
-      return [
-        'Any Combat Stat',
-        'Attack',
-        'Defense',
-        'Initiative',
-        'Movement',
-        'Range',
-        'Armor Piercing',
-        'Critical Score',
-        'Damage'
-      ];
-    } else if (aspect === 'feature') {
-      const features = (relationalData['features'] || []).map(f => f.name || f.id);
-      return [
-        'Any Feature',
-        'Any Ability',
-        'Any Combat Feature',
-        'Any Meta Feature',
-        'Any General Feature',
-        'Any Karma Feature',
-        'Any Skill Feature',
-        'Any Exotic Feature',
-        ...features
-      ];
-    } else if (aspect === 'other') {
-      return [
-        'Any',
-        'Health',
-        'Vitality',
-        'Karma',
-        'Plot Points',
-        'Essence',
-        'Tech Level',
-        'Meta Level'
-      ];
-    }
-    return ['Any'];
-  };
-
-  // Helper for field conditional visibility
-  const isFieldVisible = (fieldKey) => {
-    if (fieldKey === 'base_skill') {
-      return currentKey === 'skills' && Boolean(editFormData.is_specialization);
-    }
-    if (fieldKey === 'bonus_scope') {
-      return editFormData.aspect === 'feature' || editFormData.aspect === 'skill' || editFormData.aspect === 'attribute';
-    }
-    if (fieldKey === 'aspect_subtype') {
-      return editFormData.aspect === 'feature' || editFormData.aspect === 'skill' || editFormData.aspect === 'attribute' || editFormData.aspect === 'combat' || editFormData.aspect === 'other';
-    }
-    return true;
-  };
-
-
   const fieldsObj = currentConfig.fields || DEFAULT_FIELDS;
-  const fieldKeys = Object.keys(fieldsObj);
-  const isDenseForm = fieldKeys.length > 8;
+  const fieldKeys = getSortedCategoryFieldKeys(fieldsObj);
+  const isDenseForm = fieldKeys.length > 6;
 
   const getFieldTabGroup = (fKey) => {
     const k = fKey.toLowerCase();
-    if (['name', 'title', 'parent_species', 'lineage', 'homeworld', 'stigma', 'description', 'type', 'tl', 'ml', 'availability', 'rarity', 'category', 'price', 'cost_credits', 'tech_level', 'meta_level', 'size', 'movement', 'prerequisite', 'society', 'is_specialization', 'base_skill', 'subtype'].includes(k)) {
+    const fDef = fieldsObj[fKey] || {};
+    if (['costs_map', 'modifiers_list', 'modifications_list', 'critical_details', 'sockets_group'].includes(fDef.type)) {
+      return 'mechanics';
+    }
+    if (['name', 'title', 'parent_species', 'lineage', 'homeworld', 'stigma', 'description', 'type', 'tl', 'ml', 'tech_level', 'meta_level', 'techlevel', 'metalevel', 'availability', 'rarity', 'category', 'price', 'cost_credits', 'size', 'movement', 'prerequisite', 'society', 'is_specialization', 'base_skill', 'subtype'].includes(k)) {
       return 'general';
     }
-    if (['body', 'laws_of_physics', 'history', 'geography', 'biosphere', 'culture', 'points_of_interest', 'inhabitants', 'origin', 'practices', 'attitude', 'goals', 'social_strengths', 'social_weaknesses', 'note', 'mechanic'].includes(k)) {
+    if (['body', 'laws_of_physics', 'history', 'geography', 'biosphere', 'culture', 'points_of_interest', 'inhabitants', 'origin', 'practices', 'attitude', 'goals', 'social_strengths', 'social_weaknesses', 'note', 'mechanic', 'core_beliefs', 'social_structure', 'outsider_view', 'law_order', 'military_doctrine', 'design_language', 'architecture', 'gear_aesthetic', 'lighting_mood', 'image_prompt'].includes(k)) {
       return 'narrative';
     }
     return 'mechanics';
   };
 
   const getSectionHeader = (fKey) => {
-    if (fKey === 'inherent_attribute_modifiers' || (fKey === 'bonus_attribute_points' && !fieldsObj['inherent_attribute_modifiers'])) {
-      return { title: '📊 Attribute Modifiers & Bonuses', color: 'text-cyan-400', border: 'border-cyan-500/30' };
+    const fDef = fieldsObj[fKey] || {};
+    if (fDef.type === 'costs_map') {
+      return { title: '💰 Economy, Currency & Resource Expenditures', color: 'text-amber-400', border: 'border-amber-500/30' };
     }
-    if (fKey === 'specific_skill_bonuses' || (fKey === 'bonus_skills' && !fieldsObj['specific_skill_bonuses'])) {
-      return { title: '🎯 Skills & Skill Bonuses', color: 'text-amber-400', border: 'border-amber-500/30' };
+    if (fDef.type === 'modifiers_list') {
+      return { title: '⚡ Universal Modifiers & Attribute/Skill Bonuses', color: 'text-cyan-400', border: 'border-cyan-500/30' };
     }
-    if (fKey === 'inherent_features' || (fKey === 'bonus_features' && !fieldsObj['inherent_features'])) {
-      return { title: '🧬 Inherent & Bonus Features', color: 'text-emerald-400', border: 'border-emerald-500/30' };
+    if (fDef.type === 'modifications_list') {
+      return { title: '🔧 Modifications, Upgrades & Modules', color: 'text-blue-400', border: 'border-blue-500/30' };
     }
-    if (fKey === 'bonus_disciplines') {
-      return { title: '🔮 Disciplines & Special Abilities', color: 'text-purple-400', border: 'border-purple-500/30' };
+    if (fDef.type === 'critical_details') {
+      return { title: '💥 Critical Strike & Precision Metrics', color: 'text-rose-400', border: 'border-rose-500/30' };
     }
-    if (fKey === 'modifier') {
-      return { title: '⚙️ Modifiers & System', color: 'text-slate-400', border: 'border-slate-700' };
+    if (fDef.type === 'sockets_group') {
+      return { title: '🔌 Sockets & System Allocation', color: 'text-purple-400', border: 'border-purple-500/30' };
     }
     return null;
+  };
+
+  const handleSaveModal = (closeOnSuccess = true) => {
+    const cleaned = exportOmnicortexItem(editFormData);
+    onSave(closeOnSuccess, cleaned);
   };
 
   return (
@@ -592,14 +423,6 @@ export const DBMItemModal = ({
             </span>
           </div>
           <div className="flex items-center gap-2">
-            {!isEditMode && isAdmin && (
-              <button
-                onClick={() => setIsEditMode(true)}
-                className="px-3 py-1 bg-amber-600/30 hover:bg-amber-600/50 text-amber-300 border border-amber-500/50 rounded text-xs font-bold uppercase"
-              >
-                Edit
-              </button>
-            )}
             <button onClick={onClose} className="text-slate-400 hover:text-white font-bold ml-2">
               ✕
             </button>
@@ -629,7 +452,7 @@ export const DBMItemModal = ({
                   : 'bg-slate-900 border-slate-700 text-slate-400 hover:text-slate-200'
               }`}
             >
-              ⚡ Mechanics
+              ⚡ Mechanics & Economy
             </button>
             <button
               type="button"
@@ -640,7 +463,7 @@ export const DBMItemModal = ({
                   : 'bg-slate-900 border-slate-700 text-slate-400 hover:text-slate-200'
               }`}
             >
-              📖 Narrative
+              📖 Narrative & Lore
             </button>
             <button
               type="button"
@@ -661,14 +484,21 @@ export const DBMItemModal = ({
           {isEditMode ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {fieldKeys.map(fieldKey => {
-                if (!isFieldVisible(fieldKey)) return null;
                 if (isDenseForm && activeModalTab !== 'all' && getFieldTabGroup(fieldKey) !== activeModalTab) {
                   return null;
                 }
 
                 const fieldDef = currentConfig.fields[fieldKey];
                 const label = fieldDef.label || fieldKey.replace(/_/g, ' ').toUpperCase();
-                const isFullWidth = fieldDef.type === 'textarea' || fieldDef.type === 'json_list' || fieldDef.type === 'skill_bonus_list' || fieldDef.type === 'attribute_bonus_list' || fieldDef.type === 'multiselect' || fieldDef.manageable;
+                const isFullWidth = fieldDef.type === 'textarea' ||
+                  fieldDef.type === 'json_list' ||
+                  fieldDef.type === 'multiselect' ||
+                  fieldDef.type === 'costs_map' ||
+                  fieldDef.type === 'modifiers_list' ||
+                  fieldDef.type === 'modifications_list' ||
+                  fieldDef.type === 'critical_details' ||
+                  fieldDef.type === 'sockets_group' ||
+                  fieldDef.manageable;
                 const isCustomActive = Boolean(customInputModes[fieldKey]);
                 const sectionHeader = getSectionHeader(fieldKey);
 
@@ -682,358 +512,161 @@ export const DBMItemModal = ({
                       </div>
                     )}
                     <div className={isFullWidth ? 'md:col-span-2' : ''}>
-                    <div className="flex justify-between items-center mb-1">
-                      <label className="block text-xs font-bold text-slate-400 uppercase">
-                        {label} {fieldDef.required && '*'}
-                      </label>
-                        <button
-                          type="button"
-                          onClick={() => toggleCustomInputMode(fieldKey)}
-                          className="text-[10px] text-amber-400 hover:text-amber-300 font-mono underline cursor-pointer"
-                        >
-                          {isCustomActive ? '✕ Cancel Custom' : '✍️ Custom Entry'}
-                        </button>
-                    </div>
-
-                    {/* INLINE CUSTOM ENTRY MODE FOR ALL FIELDS */}
-                    {isCustomActive ? (
-                      <div className="flex gap-2 items-center bg-slate-950 p-2 border border-amber-500/50 rounded-lg">
-                        <input
-                          type="text"
-                          placeholder={`Enter custom ${label}...`}
-                          value={customInputValues[fieldKey] || ''}
-                          onChange={e => setCustomInputValues({ ...customInputValues, [fieldKey]: e.target.value })}
-                          onKeyDown={e => {
-                            if (e.key === 'Enter') {
-                              e.preventDefault();
-                              handleAddCustomValue(fieldKey, fieldDef.type === 'multiselect' || fieldDef.manageable);
-                            }
-                          }}
-                          className="w-full bg-slate-900 border border-slate-700 text-white p-2 rounded text-xs outline-none focus:border-amber-400"
-                          autoFocus
-                        />
-                        <button
-                          type="button"
-                          onClick={() => handleAddCustomValue(fieldKey, fieldDef.type === 'multiselect' || fieldDef.manageable)}
-                          className="px-3 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded text-xs uppercase shrink-0 cursor-pointer"
-                        >
-                          + Add
-                        </button>
-                      </div>
-                    ) : (fieldDef.manageable || fieldDef.type === 'multiselect') && fieldDef.source ? (
-                      /* MANAGEABLE / MULTISELECT RELATIONAL FIELD TRIGGER */
-                      <div className="bg-slate-950 border border-slate-800 p-3 rounded-lg flex items-center justify-between gap-3">
-                        <div className="flex-1 flex flex-wrap gap-1.5 min-h-[28px] items-center">
-                          {Array.isArray(editFormData[fieldKey]) && editFormData[fieldKey].length > 0 ? (
-                            editFormData[fieldKey].map(val => {
-                              const isGroup = typeof val === 'string' && (val.includes('Skill') || val.includes('Feature') || val.includes('Special Ability') || val.startsWith('Any '));
-                              return (
-                                <span
-                                  key={val}
-                                  className={`px-2 py-0.5 rounded text-xs font-mono flex items-center gap-1 ${
-                                    isGroup
-                                      ? 'bg-amber-950/80 text-amber-300 border border-amber-500/50 shadow-sm'
-                                      : 'bg-cyan-950 text-cyan-300 border border-cyan-500/40'
-                                  }`}
-                                >
-                                  {isGroup && <span>📂</span>}
-                                  {val}
-                                  <button
-                                    type="button"
-                                    onClick={() => {
-                                      const updated = editFormData[fieldKey].filter(v => v !== val);
-                                      setEditFormData({ ...editFormData, [fieldKey]: updated });
-                                    }}
-                                    className={`${isGroup ? 'text-amber-400 hover:text-white' : 'text-cyan-400 hover:text-white'} font-bold ml-1 cursor-pointer`}
-                                  >✕</button>
-                                </span>
-                              );
-                            })
-                          ) : typeof editFormData[fieldKey] === 'string' && editFormData[fieldKey] ? (
-                            <span className="px-2 py-0.5 bg-cyan-950 text-cyan-300 border border-cyan-500/40 rounded text-xs font-mono">
-                              {editFormData[fieldKey]}
-                            </span>
-                          ) : (
-                            <span className="text-xs text-slate-600 italic">No {label.toLowerCase()} selected</span>
-                          )}
+                      {/* Field Top Bar */}
+                      {!['costs_map', 'modifiers_list', 'modifications_list', 'critical_details', 'sockets_group'].includes(fieldDef.type) && (
+                        <div className="flex justify-between items-center mb-1">
+                          <label className="block text-xs font-bold text-slate-400 uppercase">
+                            {label} {fieldDef.required && '*'}
+                          </label>
+                          <button
+                            type="button"
+                            onClick={() => toggleCustomInputMode(fieldKey)}
+                            className="text-[10px] text-amber-400 hover:text-amber-300 font-mono underline cursor-pointer"
+                          >
+                            {isCustomActive ? '✕ Cancel Custom' : '✍️ Custom Entry'}
+                          </button>
                         </div>
-                        <button
-                          type="button"
-                          onClick={() => setActiveSelectorField(fieldKey)}
-                          className="px-3 py-1.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer"
-                        >
-                          📋 Select {label}
-                        </button>
-                      </div>
-                    ) : fieldDef.type === 'textarea' ? (
-                      <textarea
-                        value={editFormData[fieldKey] || ''}
-                        onChange={e => setEditFormData({ ...editFormData, [fieldKey]: e.target.value })}
-                        rows={fieldKey === 'body' ? 14 : 4}
-                        placeholder={fieldKey === 'body' ? '# Species Lore & Mechanics\n\nEnter rich markdown formatting here...' : ''}
-                        className={`w-full bg-slate-950 border border-slate-700 text-white p-2.5 rounded text-xs outline-none focus:border-amber-500 ${
-                          fieldKey === 'body' ? 'font-mono leading-relaxed' : ''
-                        }`}
-                      />
-                    ) : fieldDef.type === 'select' ? (
-                      <div className="flex gap-2 items-center">
-                        <select
-                          value={editFormData[fieldKey] || ''}
+                      )}
+
+                      {/* INLINE CUSTOM ENTRY MODE */}
+                      {isCustomActive ? (
+                        <div className="flex gap-2 items-center bg-slate-950 p-2 border border-amber-500/50 rounded-lg">
+                          <input
+                            type="text"
+                            placeholder={`Enter custom ${label}...`}
+                            value={customInputValues[fieldKey] || ''}
+                            onChange={e => setCustomInputValues({ ...customInputValues, [fieldKey]: e.target.value })}
+                            onKeyDown={e => {
+                              if (e.key === 'Enter') {
+                                e.preventDefault();
+                                handleAddCustomValue(fieldKey, fieldDef.type === 'multiselect');
+                              }
+                            }}
+                            className="flex-1 bg-slate-900 border border-slate-700 text-white p-1.5 rounded text-xs outline-none focus:border-amber-500 font-mono"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => handleAddCustomValue(fieldKey, fieldDef.type === 'multiselect')}
+                            className="px-2 py-1 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-bold uppercase transition-colors"
+                          >
+                            Add
+                          </button>
+                        </div>
+                      ) : fieldDef.type === 'costs_map' ? (
+                        <CostEconomyWidget
+                          costs={editFormData.costs || getItemCosts(editFormData)}
+                          onChange={newCosts => setEditFormData(prev => ({ ...prev, costs: newCosts }))}
+                          isEditMode={true}
+                        />
+                      ) : fieldDef.type === 'modifiers_list' ? (
+                        <UniversalModifiersWidget
+                          modifiers={editFormData.modifiers || getItemModifiers(editFormData)}
+                          onChange={newMods => setEditFormData(prev => ({ ...prev, modifiers: newMods }))}
+                          relationalData={relationalData}
+                          isEditMode={true}
+                        />
+                      ) : fieldDef.type === 'modifications_list' ? (
+                        <ModificationsWidget
+                          modifications={editFormData.modifications || getItemModifications(editFormData)}
+                          onChange={newMods => setEditFormData(prev => ({ ...prev, modifications: newMods }))}
+                          isEditMode={true}
+                        />
+                      ) : fieldDef.type === 'critical_details' ? (
+                        <CriticalDetailsWidget
+                          criticalDetails={editFormData.critical_details || getItemCriticalDetails(editFormData)}
+                          onChange={newCrit => setEditFormData(prev => ({ ...prev, critical_details: newCrit }))}
+                          isEditMode={true}
+                        />
+                      ) : fieldDef.type === 'sockets_group' ? (
+                        <SocketsAllocationWidget
+                          sockets={editFormData.sockets || getItemSockets(editFormData)}
+                          onChange={newSockets => setEditFormData(prev => ({ ...prev, sockets: newSockets }))}
+                          isEditMode={true}
+                        />
+                      ) : fieldDef.type === 'textarea' ? (
+                        <textarea
+                          rows={fieldKey === 'body' ? 12 : 4}
+                          value={editFormData[fieldKey] ?? ''}
                           onChange={e => setEditFormData({ ...editFormData, [fieldKey]: e.target.value })}
-                          className="w-full bg-slate-950 border border-slate-700 text-white p-2 rounded text-xs outline-none focus:border-amber-500 flex-1"
-                        >
-                          <option value="">-- Select --</option>
-                          {(fieldKey === 'aspect_subtype'
-                            ? getAspectSubtypeOptions(editFormData.aspect)
-                            : fieldDef.source
-                            ? (relationalData[fieldDef.source] || [])
-                            : (fieldDef.options || [])
-                          ).map(opt => {
-                            const val = typeof opt === 'string' || typeof opt === 'number' ? opt : (opt.name || opt.id);
-                            return <option key={val} value={val}>{val}</option>;
-                          })}
-                        </select>
-                        {fieldDef.source && (
-                          <button
-                            type="button"
-                            onClick={() => setActiveSelectorField(fieldKey)}
-                            className="px-2.5 py-2 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 rounded text-xs font-bold uppercase transition-colors shrink-0 flex items-center gap-1 cursor-pointer"
-                            title={`Select or Create ${label}`}
-                          >
-                            📋
-                          </button>
-                        )}
-                      </div>
-                    ) : fieldDef.type === 'attribute_bonus_list' ? (
-                      /* INHERENT ATTRIBUTE MODIFIERS (SET VALUES) LIST EDITOR */
-                      <div className="bg-slate-950 border border-slate-800 p-3 rounded-lg space-y-3">
-                        {/* List of existing attribute modifiers */}
-                        <div className="space-y-1.5">
-                          {Array.isArray(editFormData[fieldKey]) && editFormData[fieldKey].length > 0 ? (
-                            editFormData[fieldKey].map((item, idx) => {
-                              const aName = typeof item === 'object' ? (item.attribute || item.name || '') : String(item).split(/[:+(]/)[0].trim();
-                              const aVal = typeof item === 'object' ? (item.bonus ?? item.value ?? 1) : (parseInt(String(item).replace(/[^0-9-]/g, ''), 10) || 1);
-                              const isPositive = aVal >= 0;
-                              return (
-                                <div key={idx} className="flex items-center justify-between bg-slate-900/90 border border-slate-800 px-3 py-1.5 rounded text-xs">
-                                  <div className="flex items-center gap-2">
-                                    <span className="text-cyan-400 font-bold">⚡ {aName}</span>
-                                    <span className={`px-2 py-0.5 rounded font-mono font-bold ${
-                                      isPositive
-                                        ? 'bg-cyan-950/80 text-cyan-300 border border-cyan-500/40'
-                                        : 'bg-rose-950/80 text-rose-300 border border-rose-500/40'
-                                    }`}>
-                                      {isPositive ? `+${aVal}` : aVal}
-                                    </span>
-                                  </div>
-                                  <button
-                                    type="button"
-                                    onClick={() => handleRemoveAttrBonusItem(fieldKey, idx)}
-                                    className="text-slate-500 hover:text-rose-400 font-bold p-1 cursor-pointer"
-                                    title="Remove modifier"
-                                  >
-                                    ✕
-                                  </button>
-                                </div>
-                              );
-                            })
-                          ) : (
-                            <p className="text-xs text-slate-600 italic">No inherent attribute modifiers added yet.</p>
-                          )}
-                        </div>
-
-                        {/* Add new attribute modifier row */}
-                        <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 pt-2 border-t border-slate-800/80">
-                          <select
-                            value={(newAttrBonusState[fieldKey]?.attribute) || ''}
-                            onChange={e => setNewAttrBonusState(prev => ({
-                              ...prev,
-                              [fieldKey]: { ...(prev[fieldKey] || { bonus: 1 }), attribute: e.target.value }
-                            }))}
-                            className="flex-1 bg-slate-900 border border-slate-700 text-white p-2 rounded text-xs outline-none focus:border-cyan-500"
-                          >
-                            <option value="">-- Select Attribute / Sub-Attribute --</option>
-                            {CANONICAL_ATTRIBUTES_LIST.map(sec => (
-                              <optgroup key={sec.group} label={`${sec.icon} ${sec.group}`}>
-                                {sec.pairs.map(pair => (
-                                  <React.Fragment key={pair.primary.name}>
-                                    <option value={pair.primary.name}>
-                                      {pair.primary.name} ({pair.primary.type})
-                                    </option>
-                                    {pair.subAttributes.map(sub => (
-                                      <option key={sub.name} value={sub.name}>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;↳ {sub.name} ({sub.type} of {pair.primary.name})
-                                      </option>
-                                    ))}
-                                  </React.Fragment>
-                                ))}
-                              </optgroup>
-                            ))}
-                          </select>
-
-                          <div className="flex items-center gap-1 shrink-0">
-                            <span className="text-xs text-slate-400 font-mono">Mod</span>
-                            <input
-                              type="number"
-                              min="-10"
-                              max="20"
-                              value={(newAttrBonusState[fieldKey]?.bonus) ?? 1}
-                              onChange={e => setNewAttrBonusState(prev => ({
-                                ...prev,
-                                [fieldKey]: { ...(prev[fieldKey] || { attribute: '' }), bonus: parseInt(e.target.value, 10) || 0 }
-                              }))}
-                              className="w-16 bg-slate-900 border border-slate-700 text-white p-2 rounded text-xs outline-none focus:border-cyan-500 font-mono text-center"
-                            />
-                          </div>
-
-                          <button
-                            type="button"
-                            onClick={() => handleAddAttrBonusItem(fieldKey)}
-                            disabled={!((newAttrBonusState[fieldKey]?.attribute) || '').trim()}
-                            className="px-3 py-2 bg-cyan-600 hover:bg-cyan-500 disabled:opacity-40 text-white rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer"
-                          >
-                            + Add Modifier
-                          </button>
-                        </div>
-                      </div>
-                    ) : fieldDef.type === 'skill_bonus_list' ? (
-                      /* SPECIFIC SKILL BONUSES (SET VALUES) LIST EDITOR */
-                      <div className="bg-slate-950 border border-slate-800 p-3 rounded-lg space-y-3">
-                        {/* List of existing skill bonuses */}
-                        <div className="space-y-1.5">
-                          {Array.isArray(editFormData[fieldKey]) && editFormData[fieldKey].length > 0 ? (
-                            editFormData[fieldKey].map((item, idx) => {
-                              const sName = typeof item === 'object' ? (item.skill || item.name || '') : String(item).split(/[:+(]/)[0].trim();
-                              const sVal = typeof item === 'object' ? (item.bonus ?? item.value ?? 1) : (parseInt(String(item).replace(/[^0-9-]/g, ''), 10) || 1);
-                              return (
-                                <div key={idx} className="flex items-center justify-between bg-slate-900/90 border border-slate-800 px-3 py-1.5 rounded text-xs">
-                                  <div className="flex items-center gap-2">
-                                    <span className="text-amber-400 font-bold">⚡ {sName}</span>
-                                    <span className="px-2 py-0.5 bg-amber-950/80 text-amber-300 border border-amber-500/40 rounded font-mono font-bold">
-                                      +{sVal}
-                                    </span>
-                                  </div>
-                                  <button
-                                    type="button"
-                                    onClick={() => handleRemoveSkillBonusItem(fieldKey, idx)}
-                                    className="text-slate-500 hover:text-rose-400 font-bold p-1 cursor-pointer"
-                                    title="Remove bonus"
-                                  >
-                                    ✕
-                                  </button>
-                                </div>
-                              );
-                            })
-                          ) : (
-                            <p className="text-xs text-slate-600 italic">No specific skill bonuses added yet.</p>
-                          )}
-                        </div>
-
-                        {/* Add new skill bonus row */}
-                        <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 pt-2 border-t border-slate-800/80">
-                          <select
-                            value={(newSkillBonusState[fieldKey]?.skill) || ''}
-                            onChange={e => setNewSkillBonusState(prev => ({
-                              ...prev,
-                              [fieldKey]: { ...(prev[fieldKey] || { bonus: 1 }), skill: e.target.value }
-                            }))}
-                            className="flex-1 bg-slate-900 border border-slate-700 text-white p-2 rounded text-xs outline-none focus:border-amber-500"
-                          >
-                            <option value="">-- Select Skill to Add --</option>
-                            {SKILL_CATEGORY_SECTIONS.map(section => (
-                              <optgroup key={section.key} label={section.label}>
-                                {section.skills.map(s => (
-                                  <option key={s.name} value={s.name}>
-                                    {s.name}
-                                  </option>
-                                ))}
-                              </optgroup>
-                            ))}
-                            {(() => {
-                              const dynamicSkills = relationalData['skills'] || dbData['skills'] || [];
-                              const canonicalNames = new Set(ALL_CANONICAL_SKILLS.map(s => s.name.toLowerCase()));
-                              const customOnly = dynamicSkills.filter(s => {
-                                const name = s.name || s.id;
-                                return name && !canonicalNames.has(name.toLowerCase());
-                              });
-
-                              if (customOnly.length === 0) return null;
-
-                              return (
-                                <optgroup label="⚙️ Custom Skills">
-                                  {customOnly.map(s => {
-                                    const name = s.name || s.id;
-                                    return (
-                                      <option key={name} value={name}>
-                                        {name}
-                                      </option>
-                                    );
-                                  })}
-                                </optgroup>
-                              );
-                            })()}
-                          </select>
-
-                          <div className="flex items-center gap-1 shrink-0">
-                            <span className="text-xs text-slate-400 font-mono">+</span>
-                            <input
-                              type="number"
-                              min="1"
-                              max="20"
-                              value={(newSkillBonusState[fieldKey]?.bonus) ?? 1}
-                              onChange={e => setNewSkillBonusState(prev => ({
-                                ...prev,
-                                [fieldKey]: { ...(prev[fieldKey] || { skill: '' }), bonus: parseInt(e.target.value, 10) || 1 }
-                              }))}
-                              className="w-16 bg-slate-900 border border-slate-700 text-white p-2 rounded text-xs outline-none focus:border-amber-500 font-mono text-center"
-                            />
-                          </div>
-
-                          <button
-                            type="button"
-                            onClick={() => handleAddSkillBonusItem(fieldKey)}
-                            disabled={!((newSkillBonusState[fieldKey]?.skill) || '').trim()}
-                            className="px-3 py-2 bg-amber-600 hover:bg-amber-500 disabled:opacity-40 text-white rounded text-xs font-bold uppercase transition-colors shrink-0 cursor-pointer"
-                          >
-                            + Add Bonus
-                          </button>
-                        </div>
-                      </div>
-                    ) : fieldDef.type === 'multiselect' ? (
-                      <select
-                        multiple
-                        value={editFormData[fieldKey] || []}
-                        onChange={e => {
-                          const vals = Array.from(e.target.selectedOptions, option => option.value);
-                          setEditFormData({ ...editFormData, [fieldKey]: vals });
-                        }}
-                        className="w-full bg-slate-950 border border-slate-700 text-white p-2 rounded text-xs outline-none focus:border-amber-500 min-h-[80px]"
-                      >
-                        {(fieldDef.options || []).map(opt => (
-                          <option key={opt} value={opt}>{opt}</option>
-                        ))}
-                      </select>
-                    ) : fieldDef.type === 'boolean' ? (
-                      <label className="flex items-center gap-2 text-slate-300 text-xs cursor-pointer mt-2">
-                        <input
-                          type="checkbox"
-                          checked={Boolean(editFormData[fieldKey])}
-                          onChange={e => setEditFormData({ ...editFormData, [fieldKey]: e.target.checked })}
-                          className="accent-amber-500 w-4 h-4"
+                          placeholder={fieldDef.aiEnabled ? 'Lore, sociometrics, design markdown...' : ''}
+                          className="w-full bg-slate-950 border border-slate-700 text-white p-2.5 rounded text-xs outline-none focus:border-amber-500 font-mono leading-relaxed"
                         />
-                        Enable {label}
-                      </label>
-                    ) : (
-                      <input
-                        type={fieldDef.type === 'number' ? 'number' : 'text'}
-                        value={editFormData[fieldKey] ?? ''}
-                        onChange={e => setEditFormData({
-                          ...editFormData,
-                          [fieldKey]: fieldDef.type === 'number' ? Number(e.target.value) : e.target.value
-                        })}
-                        className="w-full bg-slate-950 border border-slate-700 text-white p-2 rounded text-xs outline-none focus:border-amber-500"
-                      />
-                    )}
+                      ) : fieldDef.type === 'select' ? (
+                        <div className="flex gap-2">
+                          <select
+                            value={editFormData[fieldKey] ?? ''}
+                            onChange={e => setEditFormData({ ...editFormData, [fieldKey]: e.target.value })}
+                            className="w-full bg-slate-950 border border-slate-700 text-white p-2 rounded text-xs outline-none focus:border-amber-500"
+                          >
+                            <option value="">-- None / Default --</option>
+                            {(fieldDef.options || (relationalData[fieldDef.source || fieldKey] || []).map(i => i.name || i.id)).map(opt => (
+                              <option key={opt} value={opt}>{opt}</option>
+                            ))}
+                          </select>
+                          {fieldDef.manageable && (
+                            <button
+                              type="button"
+                              onClick={() => setActiveSelectorField(fieldKey)}
+                              className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 rounded text-xs font-mono font-bold shrink-0"
+                              title="Open Relational Entity Manager"
+                            >
+                              ⚙️ Manage
+                            </button>
+                          )}
+                        </div>
+                      ) : fieldDef.type === 'multiselect' || fieldDef.manageable ? (
+                        <div className="space-y-2">
+                          <div className="flex gap-2">
+                            <button
+                              type="button"
+                              onClick={() => setActiveSelectorField(fieldKey)}
+                              className="flex-1 py-1.5 px-3 bg-cyan-950/60 hover:bg-cyan-900/80 text-cyan-300 border border-cyan-500/40 rounded text-xs font-mono font-bold flex items-center justify-between transition-colors"
+                            >
+                              <span>Select {label} ({Array.isArray(editFormData[fieldKey]) ? editFormData[fieldKey].length : 0})</span>
+                              <span>⚙️ Browse</span>
+                            </button>
+                          </div>
+                          {Array.isArray(editFormData[fieldKey]) && editFormData[fieldKey].length > 0 && (
+                            <div className="flex flex-wrap gap-1 bg-slate-950 p-2 rounded border border-slate-800">
+                              {editFormData[fieldKey].map((val, idx) => (
+                                <span
+                                  key={idx}
+                                  className="px-2 py-0.5 bg-cyan-950 border border-cyan-500/40 text-cyan-300 rounded text-xs font-mono flex items-center gap-1.5"
+                                >
+                                  <span>{typeof val === 'object' ? (val.name || val.id) : String(val)}</span>
+                                  <button
+                                    type="button"
+                                    onClick={() => handleRemoveCustomValue(fieldKey, val)}
+                                    className="text-cyan-400 hover:text-rose-400 font-bold"
+                                  >
+                                    ✕
+                                  </button>
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      ) : fieldDef.type === 'boolean' ? (
+                        <label className="flex items-center gap-2 text-slate-300 text-xs cursor-pointer mt-2">
+                          <input
+                            type="checkbox"
+                            checked={Boolean(editFormData[fieldKey])}
+                            onChange={e => setEditFormData({ ...editFormData, [fieldKey]: e.target.checked })}
+                            className="accent-amber-500 w-4 h-4"
+                          />
+                          Enable {label}
+                        </label>
+                      ) : (
+                        <input
+                          type={fieldDef.type === 'number' ? 'number' : 'text'}
+                          value={editFormData[fieldKey] ?? ''}
+                          onChange={e => setEditFormData({
+                            ...editFormData,
+                            [fieldKey]: fieldDef.type === 'number' ? Number(e.target.value) : e.target.value
+                          })}
+                          className="w-full bg-slate-950 border border-slate-700 text-white p-2 rounded text-xs outline-none focus:border-amber-500"
+                        />
+                      )}
                     </div>
                   </React.Fragment>
                 );
@@ -1103,7 +736,7 @@ export const DBMItemModal = ({
           ) : (
             <div className="space-y-4">
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <h3 className="text-xl font-bold text-white">{selectedItem?.name}</h3>
+                <h3 className="text-xl font-bold text-white">{selectedItem?.name || 'Unnamed Entry'}</h3>
                 {selectedItem?.title && selectedItem.title !== selectedItem.name && (
                   <span className="text-xs text-slate-400 font-mono italic">({selectedItem.title})</span>
                 )}
@@ -1126,9 +759,19 @@ export const DBMItemModal = ({
                     <span>⚠️</span> {selectedItem.stigma}
                   </span>
                 )}
-                {(selectedItem?.cp !== undefined || selectedItem?.cp_cost !== undefined) && (
+                {(selectedItem?.costs?.bp !== undefined || selectedItem?.cp !== undefined || selectedItem?.bp_cost !== undefined) && (
                   <span className="px-2.5 py-0.5 bg-cyan-950/90 border border-cyan-500/50 text-cyan-300 rounded-full text-xs font-mono font-bold flex items-center gap-1 shadow-sm">
-                    <span>⚡</span> {selectedItem.cp ?? selectedItem.cp_cost} BP
+                    <span>⚡</span> {selectedItem?.costs?.bp ?? selectedItem.cp ?? selectedItem.bp_cost} BP
+                  </span>
+                )}
+                {(selectedItem?.tech_level !== undefined || selectedItem?.tl !== undefined || selectedItem?.techLevel !== undefined) && (
+                  <span className="px-2.5 py-0.5 bg-slate-900 border border-slate-700 text-cyan-300 rounded-full text-xs font-mono font-bold flex items-center gap-1 shadow-sm">
+                    <span>TL</span> {selectedItem.tech_level ?? selectedItem.tl ?? selectedItem.techLevel}
+                  </span>
+                )}
+                {(selectedItem?.meta_level !== undefined || selectedItem?.ml !== undefined || selectedItem?.metaLevel !== undefined) && (
+                  <span className="px-2.5 py-0.5 bg-slate-900 border border-slate-700 text-purple-300 rounded-full text-xs font-mono font-bold flex items-center gap-1 shadow-sm">
+                    <span>ML</span> {selectedItem.meta_level ?? selectedItem.ml ?? selectedItem.metaLevel}
                   </span>
                 )}
                 {((Array.isArray(selectedItem?.tags) && selectedItem.tags.length > 0) || (typeof selectedItem?.tags === 'string' && selectedItem.tags.trim())) && (
@@ -1139,12 +782,17 @@ export const DBMItemModal = ({
                   ))
                 )}
               </div>
-              <p className="text-sm text-slate-300 whitespace-pre-line">{selectedItem?.description || 'No description available.'}</p>
+
+              {selectedItem?.description && (
+                <p className="text-sm text-slate-300 whitespace-pre-line bg-slate-950/40 p-3 rounded-lg border border-slate-800/60">
+                  {selectedItem.description}
+                </p>
+              )}
               
-              {/* 1-Click Cross-Module Item Importer & Exporter Transfer Bar (Plan 12) */}
+              {/* 1-Click Cross-Module Item Importer & Exporter Transfer Bar */}
               <DBMItemTransferBar item={selectedItem} categoryKey={currentKey} />
 
-              {/* Omnicortex Computed Game Metrics (Plan 16) */}
+              {/* Omnicortex Computed Game Metrics */}
               {(selectedItem?._computed || selectedItem?.craft_dc || selectedItem?.design_dc) && (
                 <div className="bg-slate-950/90 border border-slate-800 rounded-xl p-3.5 space-y-2.5 my-3 font-mono">
                   <div className="flex items-center justify-between">
@@ -1188,95 +836,102 @@ export const DBMItemModal = ({
                 </div>
               )}
 
+              {/* All Populated Fields Display */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-slate-800">
-                {Object.keys(currentConfig.fields || {}).map(fKey => {
-                  if (fKey === 'name' || fKey === 'description') return null;
-                  if (isDenseForm && activeModalTab !== 'all' && getFieldTabGroup(fKey) !== activeModalTab) {
-                    return null;
-                  }
-                  const val = selectedItem?.[fKey];
-                  if (val === undefined || val === null || val === '') return null;
-                  const fDef = currentConfig.fields[fKey];
-                  const label = fDef.label || fKey.replace(/_/g, ' ').toUpperCase();
-                  const isFullWidth = fDef.type === 'textarea' || fDef.type === 'json_list' || fDef.type === 'skill_bonus_list' || fDef.type === 'attribute_bonus_list' || fDef.type === 'multiselect' || fDef.manageable;
-                  const sectionHeader = getSectionHeader(fKey);
+                {(() => {
+                  const renderedKeys = new Set(['name', 'description', 'id', '_computed', '_computed_override', 'updatedAt', 'createdAt', 'searchTerms']);
+                  const fieldsConfig = currentConfig.fields || {};
+                  
+                  // Collect all keys from currentConfig.fields followed by any extra populated keys in selectedItem
+                  const allCandidateKeys = [
+                    ...Object.keys(fieldsConfig),
+                    ...Object.keys(selectedItem || {}).filter(k => !fieldsConfig[k])
+                  ];
 
-                  return (
-                    <React.Fragment key={fKey}>
-                      {sectionHeader && (
-                        <div className="col-span-1 sm:col-span-2 pt-3 pb-1 border-b border-slate-800 flex items-center gap-2 mt-1">
-                          <span className={`text-xs font-extrabold uppercase tracking-wider ${sectionHeader.color}`}>
-                            {sectionHeader.title}
-                          </span>
-                        </div>
-                      )}
-                      <div className={`bg-slate-950 p-3 rounded border border-slate-800 ${isFullWidth ? 'sm:col-span-2' : ''}`}>
-                        <span className="block text-[10px] font-bold text-slate-500 uppercase">{label}</span>
-                        <div className="flex flex-wrap gap-1 mt-1">
-                          {Array.isArray(val) && fDef.type === 'attribute_bonus_list' ? (
-                            val.map((v, i) => {
-                              const aName = typeof v === 'object' ? (v.attribute || v.name || '') : String(v).split(/[:+(]/)[0].trim();
-                              const aVal = typeof v === 'object' ? (v.bonus ?? v.value ?? 1) : (parseInt(String(v).replace(/[^0-9-]/g, ''), 10) || 1);
-                              const isPositive = aVal >= 0;
-                              return (
-                                <span
-                                  key={i}
-                                  className={`px-2 py-0.5 rounded text-xs font-mono inline-flex items-center gap-1.5 ${
-                                    isPositive
-                                      ? 'bg-cyan-950/90 text-cyan-300 border border-cyan-500/50'
-                                      : 'bg-rose-950/90 text-rose-300 border border-rose-500/50'
-                                  }`}
-                                >
-                                  <span>⚡</span>
-                                  <span className="font-bold">{aName}</span>
-                                  <span className="font-extrabold">{isPositive ? `+${aVal}` : aVal}</span>
-                                </span>
-                              );
-                            })
-                          ) : Array.isArray(val) && fDef.type === 'skill_bonus_list' ? (
-                            val.map((v, i) => {
-                              const sName = typeof v === 'object' ? (v.skill || v.name || '') : String(v).split(/[:+(]/)[0].trim();
-                              const sVal = typeof v === 'object' ? (v.bonus ?? v.value ?? 1) : (parseInt(String(v).replace(/[^0-9-]/g, ''), 10) || 1);
-                              return (
-                                <span
-                                  key={i}
-                                  className="px-2 py-0.5 rounded text-xs font-mono inline-flex items-center gap-1.5 bg-amber-950/90 text-amber-300 border border-amber-500/50"
-                                >
-                                  <span>⚡</span>
-                                  <span className="font-bold">{sName}</span>
-                                  <span className="text-amber-400 font-extrabold">+{sVal}</span>
-                                </span>
-                              );
-                            })
-                          ) : Array.isArray(val) ? (
-                          val.map((v, i) => {
-                            const isGroup = typeof v === 'string' && (v.includes('Skill') || v.includes('Feature') || v.includes('Special Ability') || v.startsWith('Any '));
-                            return (
-                              <span
-                                key={i}
-                                className={`px-2 py-0.5 rounded text-xs font-mono inline-flex items-center gap-1 ${
-                                  isGroup
-                                    ? 'bg-amber-950/80 text-amber-300 border border-amber-500/50'
-                                    : 'bg-cyan-950 text-cyan-300 border border-cyan-500/40'
-                                }`}
-                              >
-                                {isGroup && <span>📂</span>}
-                                {v}
-                              </span>
-                            );
-                          })
-                        ) : fKey === 'body' ? (
-                          <div className="prose prose-invert max-w-none text-xs text-slate-300 space-y-3 leading-relaxed bg-slate-900/50 p-4 rounded-lg border border-slate-800 w-full overflow-x-auto">
-                            <ReactMarkdown remarkPlugins={[remarkGfm]}>{String(val)}</ReactMarkdown>
+                  return allCandidateKeys.map(fKey => {
+                    if (renderedKeys.has(fKey)) return null;
+                    renderedKeys.add(fKey);
+
+                    const val = selectedItem?.[fKey];
+                    // Skip empty / null / undefined / empty arrays / empty objects
+                    if (val === undefined || val === null || val === '') return null;
+                    if (Array.isArray(val) && val.length === 0) return null;
+                    if (typeof val === 'object' && !Array.isArray(val) && Object.keys(val).length === 0) return null;
+
+                    const fDef = fieldsConfig[fKey] || {
+                      type: typeof val === 'number' ? 'number' : Array.isArray(val) ? 'multiselect' : typeof val === 'boolean' ? 'boolean' : 'text'
+                    };
+                    const label = fDef.label || fKey.replace(/_/g, ' ').toUpperCase();
+                    const isFullWidth = fDef.type === 'textarea' ||
+                      fDef.type === 'json_list' ||
+                      fDef.type === 'multiselect' ||
+                      fDef.type === 'costs_map' ||
+                      fDef.type === 'modifiers_list' ||
+                      fDef.type === 'modifications_list' ||
+                      fDef.type === 'critical_details' ||
+                      fDef.type === 'sockets_group' ||
+                      fDef.manageable ||
+                      fKey === 'body' || fKey === 'laws_of_physics' || fKey === 'history' || fKey === 'note' || fKey === 'mechanic';
+                    const sectionHeader = getSectionHeader(fKey);
+
+                    return (
+                      <React.Fragment key={fKey}>
+                        {sectionHeader && (
+                          <div className="col-span-1 sm:col-span-2 pt-3 pb-1 border-b border-slate-800 flex items-center gap-2 mt-1">
+                            <span className={`text-xs font-extrabold uppercase tracking-wider ${sectionHeader.color}`}>
+                              {sectionHeader.title}
+                            </span>
                           </div>
-                        ) : (
-                          <span className="text-xs text-cyan-300 font-mono whitespace-pre-wrap">{val.toString()}</span>
                         )}
-                      </div>
-                    </div>
-                  </React.Fragment>
-                );
-              })}
+                        <div className={`bg-slate-950 p-3 rounded border border-slate-800 ${isFullWidth ? 'sm:col-span-2' : ''}`}>
+                          <span className="block text-[10px] font-bold text-slate-500 uppercase">{label}</span>
+                          <div className="mt-1">
+                            {fDef.type === 'costs_map' ? (
+                              <CostEconomyWidget costs={val || getItemCosts(selectedItem)} isEditMode={false} />
+                            ) : fDef.type === 'modifiers_list' ? (
+                              <UniversalModifiersWidget modifiers={val || getItemModifiers(selectedItem)} isEditMode={false} relationalData={relationalData} />
+                            ) : fDef.type === 'modifications_list' ? (
+                              <ModificationsWidget modifications={val || getItemModifications(selectedItem)} isEditMode={false} />
+                            ) : fDef.type === 'critical_details' ? (
+                              <CriticalDetailsWidget criticalDetails={val || getItemCriticalDetails(selectedItem)} isEditMode={false} />
+                            ) : fDef.type === 'sockets_group' ? (
+                              <SocketsAllocationWidget sockets={val || getItemSockets(selectedItem)} isEditMode={false} />
+                            ) : Array.isArray(val) ? (
+                              <div className="flex flex-wrap gap-1">
+                                {val.map((v, i) => {
+                                  const isGroup = typeof v === 'string' && (v.includes('Skill') || v.includes('Feature') || v.includes('Special Ability') || v.startsWith('Any '));
+                                  return (
+                                    <span
+                                      key={i}
+                                      className={`px-2 py-0.5 rounded text-xs font-mono inline-flex items-center gap-1 ${
+                                        isGroup
+                                          ? 'bg-amber-950/80 text-amber-300 border border-amber-500/50'
+                                          : 'bg-cyan-950 text-cyan-300 border border-cyan-500/40'
+                                      }`}
+                                    >
+                                      {isGroup && <span>📂</span>}
+                                      {typeof v === 'object' ? (v.name || v.id || JSON.stringify(v)) : String(v)}
+                                    </span>
+                                  );
+                                })}
+                              </div>
+                            ) : fDef.type === 'boolean' || typeof val === 'boolean' ? (
+                              <span className={`px-2 py-0.5 rounded text-xs font-mono font-bold ${val ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-500/40' : 'bg-slate-900 text-slate-500 border border-slate-800'}`}>
+                                {val ? '✓ Yes / Enabled' : '✕ No / Disabled'}
+                              </span>
+                            ) : (fKey === 'body' || fKey === 'laws_of_physics' || fKey === 'history' || fDef.type === 'textarea') && String(val).includes('\n') ? (
+                              <div className="prose prose-invert max-w-none text-xs text-slate-300 space-y-3 leading-relaxed bg-slate-900/50 p-4 rounded-lg border border-slate-800 w-full overflow-x-auto">
+                                <ReactMarkdown remarkPlugins={[remarkGfm]}>{String(val)}</ReactMarkdown>
+                              </div>
+                            ) : (
+                              <span className="text-xs text-cyan-300 font-mono whitespace-pre-wrap">{val.toString()}</span>
+                            )}
+                          </div>
+                        </div>
+                      </React.Fragment>
+                    );
+                  });
+                })()}
               </div>
             </div>
           )}
@@ -1293,7 +948,7 @@ export const DBMItemModal = ({
                   if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
                   onDelete(selectedItem);
                 }}
-                className="px-3 py-2 bg-red-950/80 hover:bg-red-900 text-red-300 border border-red-500/40 rounded text-xs font-bold uppercase tracking-wider transition-colors"
+                className="px-3 py-2 bg-red-950/80 hover:bg-red-900 text-red-300 border border-red-500/40 rounded text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
               >
                 🗑️ Delete Entry
               </button>
@@ -1303,15 +958,15 @@ export const DBMItemModal = ({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-xs font-bold uppercase tracking-wider transition-colors"
+              className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
             >
               {isEditMode ? 'Cancel' : 'Close'}
             </button>
             {isEditMode && isAdmin && (
               <button
                 type="button"
-                onClick={() => onSave(true)}
-                className="px-5 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-bold uppercase tracking-wider shadow-lg transition-colors"
+                onClick={() => handleSaveModal(true)}
+                className="px-5 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-bold uppercase tracking-wider shadow-lg transition-colors cursor-pointer"
               >
                 💾 Save Entry
               </button>

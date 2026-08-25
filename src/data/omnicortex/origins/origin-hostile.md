@@ -1,12 +1,53 @@
 ---
-id: "origin-hostile"
-name: "Hostile"
-category: "origins"
+id: origin-hostile
+name: Hostile
+category: origins
 skill_points: 20
-society_skills: ["Athletics","Alertness","Knowledge (Survival)","Combat (Any)","Vocation (Any)"]
-archetypes: ["Survivalist","Wasteland Warrior","Scavenger","Desert Shaman","Mutant Survivor","Exile Outcast"]
-traits: ["trait-combat-skills","trait-intuition","trait-mental-toughness","trait-physical-endurance","trait-pilot-skills","trait-resourcefulness","trait-survival-skills","trait-technical-skills"]
-description: "Deadly planetary environments, poisonous death worlds, radiation wastelands, and extreme geothermal zones."
+society_skills:
+  - Athletics
+  - Alertness
+  - Knowledge (Survival)
+  - Combat (Any)
+  - Vocation (Any)
+archetypes:
+  - Survivalist
+  - Wasteland Warrior
+  - Scavenger
+  - Desert Shaman
+  - Mutant Survivor
+  - Exile Outcast
+traits:
+  - trait-combat-skills
+  - trait-intuition
+  - trait-mental-toughness
+  - trait-physical-endurance
+  - trait-pilot-skills
+  - trait-resourcefulness
+  - trait-survival-skills
+  - trait-technical-skills
+description: >-
+  Deadly planetary environments, poisonous death worlds, radiation wastelands,
+  and extreme geothermal zones.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Hostile Origin

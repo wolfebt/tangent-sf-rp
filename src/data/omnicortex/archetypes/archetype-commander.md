@@ -1,20 +1,56 @@
 ---
-id: "archetype-commander"
-name: "The Commander"
-sphere: "Visionaries (The Idealists)"
-category: "archetypes"
+id: archetype-commander
+name: The Commander
+sphere: Visionaries (The Idealists)
+category: archetypes
 bp_chassis: 80
-core_concept: "Leader / Buffer / Vehicle Expert"
-primary_attribute: "Charisma"
-secondary_attribute: "Intellect"
-recommended_occupations: ["Spacer","Officer"]
-recommended_origins: ["Spacer","Militaristic","Colony"]
-recommended_factions: ["Impyrium (Admiralty)","Dynasty (Fleet Lords)","Ascendancy"]
-essential_skills: ["Leadership","Diplomacy","Knowledge (Tactics)","Combat (any)"]
-signature_features: ["Commanding Presence","Pirate Captain"]
-tactical_role: "Buffing the party (Orders), piloting/commanding vehicles, face of the group."
-quote: "\"On my deck, my word is law. Prepare for hard burn.\""
-description: "A charismatic and cunning leader who commands a starship, charting courses and leading crew in dangerous adventures."
+core_concept: Leader / Buffer / Vehicle Expert
+primary_attribute: Charisma
+secondary_attribute: Intellect
+recommended_occupations:
+  - Spacer
+  - Officer
+recommended_origins:
+  - Spacer
+  - Militaristic
+  - Colony
+recommended_factions:
+  - Impyrium (Admiralty)
+  - Dynasty (Fleet Lords)
+  - Ascendancy
+essential_skills:
+  - Leadership
+  - Diplomacy
+  - Knowledge (Tactics)
+  - Combat (any)
+signature_features:
+  - Commanding Presence
+  - Pirate Captain
+tactical_role: 'Buffing the party (Orders), piloting/commanding vehicles, face of the group.'
+quote: '"On my deck, my word is law. Prepare for hard burn."'
+description: >-
+  A charismatic and cunning leader who commands a starship, charting courses and
+  leading crew in dangerous adventures.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Commander

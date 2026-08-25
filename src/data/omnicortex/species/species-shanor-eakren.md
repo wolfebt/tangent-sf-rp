@@ -10,38 +10,90 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-inherent_attribute_modifiers: []
-bonus_attribute_points: 2
-specific_skill_bonuses:
-  - skill: Survival
-    bonus: 1
-  - skill: Combat
-    bonus: 1
-bonus_skills: 0
-bonus_skill_choices:
-  - Combat
-  - Survival
-  - Intimidation
-inherent_features:
-  - Corrupted Void Traits
-  - Aberrant Mutations (Tentacles/Eyes/Claws)
-  - Void Resonance
-bonus_features: 2
-bonus_feature_choices:
-  - Chaos Burst
-  - Mind Horror
-  - Flesh Warp
-recommended_features:
-  - feature-chaos-burst
 stigma: Monstrous (-4)
 tech_level: 2 (Scavenged Warp Relics)
 meta_level: 3 (Chaotic Void Warping)
 homeworld: Corrupted Fringe Outposts
-cp_cost: 18
 cp: 18
 description: >-
   Eakren are mortals who were caught in catastrophic void collapses and mutated
   into chimeric aberrational humanoids.
+costs:
+  bp: 18
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Any Attribute
+    type: attribute
+    value: 2
+    mode: bonus_pool
+  - target: Survival
+    type: skill
+    value: 1
+    mode: inherent
+  - target: Combat
+    type: skill
+    value: 1
+    mode: inherent
+  - target: Combat
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Survival
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Intimidation
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Corrupted Void Traits
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Aberrant Mutations (Tentacles/Eyes/Claws)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Void Resonance
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 2
+    mode: bonus_pool
+  - target: Chaos Burst
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Mind Horror
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Flesh Warp
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-chaos-burst
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Eakren (Void-Warped Mutant)
 

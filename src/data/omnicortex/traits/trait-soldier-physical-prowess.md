@@ -1,11 +1,32 @@
 ---
-id: "trait-soldier-physical-prowess"
-name: "Physical Prowess"
-category: "traits"
-trait_type: "Occupational Trait"
-occupation_association: "Soldier"
-cost_cp: 1
-description: "Physically fit and strong, can endure long periods of physical activity and combat"
+id: trait-soldier-physical-prowess
+name: Physical Prowess
+category: traits
+trait_type: Occupational Trait
+occupation_association: Soldier
+description: >-
+  Physically fit and strong, can endure long periods of physical activity and
+  combat
+costs:
+  bp: 1
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Physical Prowess

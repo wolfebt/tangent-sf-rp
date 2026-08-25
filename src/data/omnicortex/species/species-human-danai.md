@@ -10,42 +10,95 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-inherent_attribute_modifiers:
-  - attribute: Intellect
-    bonus: 1
-bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Attune
-    bonus: 1
-  - skill: Biology
-    bonus: 1
-bonus_skills: 0
-bonus_skill_choices:
-  - Attune
-  - Biology
-  - Medicine
-  - Insight
-inherent_features:
-  - Awakened (Mental/Psychic)
-  - Biotechnology Affinity
-  - Hive Connection (Low-Band Telepathy)
-bonus_features: 1
-bonus_feature_choices:
-  - Neural Dampening
-  - Telepathic Whispers
-  - Bio-Crafting
-recommended_features:
-  - feature-telepathic-whispers
 stigma: Minor Xeno (-1)
 tech_level: 3 (Bio-Hybrid Devices)
 meta_level: 3 (Telepathic Linkage)
 homeworld: Danai Enclaves
-cp_cost: 14
 cp: 14
 description: >-
   Danai are genetic chimeras born from human and Davae transhumans. They display
   gentle bioluminescent patterns and natural mental connections to bio-synthetic
   equipment.
+costs:
+  bp: 14
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Intellect
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Attune
+    type: skill
+    value: 1
+    mode: inherent
+  - target: Biology
+    type: skill
+    value: 1
+    mode: inherent
+  - target: Attune
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Biology
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Medicine
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Insight
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Awakened (Mental/Psychic)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Biotechnology Affinity
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Hive Connection (Low-Band Telepathy)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Neural Dampening
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Telepathic Whispers
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Bio-Crafting
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-telepathic-whispers
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Danai (Human-Davae Hybrid)
 

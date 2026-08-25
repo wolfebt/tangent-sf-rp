@@ -1,20 +1,56 @@
 ---
-id: "archetype-envoy"
-name: "The Envoy"
-sphere: "Visionaries (The Idealists)"
-category: "archetypes"
+id: archetype-envoy
+name: The Envoy
+sphere: Visionaries (The Idealists)
+category: archetypes
 bp_chassis: 80
-core_concept: "Face / Shield / Connection Hub"
-primary_attribute: "Charisma"
-secondary_attribute: "Wisdom"
-recommended_occupations: ["Representative","Noble"]
-recommended_origins: ["Urban","Enlightened","Leisure"]
-recommended_factions: ["Entari Combine (Diplomats)","Alterian Enclave (Ambassadors)","Ascendancy"]
-essential_skills: ["Diplomacy","Insight","Knowledge (History)","Knowledge (Culture)"]
-signature_features: ["Diplomatic Immunity","Master Negotiator"]
-tactical_role: "Prevent combat before it starts, call in faction favors, secure safe houses."
-quote: "\"A treaty is just a pause between wars. Let's make it a long one.\""
-description: "An adept negotiator entrusted with representing their faction. They navigate diplomatic channels to ensure peace."
+core_concept: Face / Shield / Connection Hub
+primary_attribute: Charisma
+secondary_attribute: Wisdom
+recommended_occupations:
+  - Representative
+  - Noble
+recommended_origins:
+  - Urban
+  - Enlightened
+  - Leisure
+recommended_factions:
+  - Entari Combine (Diplomats)
+  - Alterian Enclave (Ambassadors)
+  - Ascendancy
+essential_skills:
+  - Diplomacy
+  - Insight
+  - Knowledge (History)
+  - Knowledge (Culture)
+signature_features:
+  - Diplomatic Immunity
+  - Master Negotiator
+tactical_role: 'Prevent combat before it starts, call in faction favors, secure safe houses.'
+quote: '"A treaty is just a pause between wars. Let''s make it a long one."'
+description: >-
+  An adept negotiator entrusted with representing their faction. They navigate
+  diplomatic channels to ensure peace.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Envoy

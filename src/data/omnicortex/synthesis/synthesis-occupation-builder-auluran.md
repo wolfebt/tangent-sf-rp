@@ -1,10 +1,30 @@
 ---
-id: "synthesis-occupation-builder-auluran"
-name: "Builder (AULURAN) Character Visual Synthesis"
-category: "synthesis"
-synthesis_type: "occupation_character"
-occupation_id: "occupation-builder"
-faction_id: "faction-auluran"
+id: synthesis-occupation-builder-auluran
+name: Builder (AULURAN) Character Visual Synthesis
+category: synthesis
+synthesis_type: occupation_character
+occupation_id: occupation-builder
+faction_id: faction-auluran
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Builder Occupation × AULURAN Character Visual Synthesis Matrix

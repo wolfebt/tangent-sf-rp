@@ -1,20 +1,56 @@
 ---
-id: "archetype-planetologist"
-name: "The Planetologist"
-sphere: "Savants (The Rationals)"
-category: "archetypes"
+id: archetype-planetologist
+name: The Planetologist
+sphere: Savants (The Rationals)
+category: archetypes
 bp_chassis: 80
-core_concept: "Science / Survival / Explorer"
-primary_attribute: "Intellect"
-secondary_attribute: "Constitution"
-recommended_occupations: ["Scholar","Explorer"]
-recommended_origins: ["Research","Colony","Hostile"]
-recommended_factions: ["Auluran (Terraformers)","Ascendancy","Entari Combine"]
-essential_skills: ["Academics","Knowledge (Survival)","Knowledge (Science \\- Geology)","Knowledge (Science \\- Biology)"]
-signature_features: ["Planetary Savant","Field Researcher"]
-tactical_role: "Identifying environmental hazards, finding resources, surviving planetary conditions."
-quote: "\"This planet is alive, and right now, it's angry.\""
-description: "A scholar who studies the geology, climate, and ecosystems of planets."
+core_concept: Science / Survival / Explorer
+primary_attribute: Intellect
+secondary_attribute: Constitution
+recommended_occupations:
+  - Scholar
+  - Explorer
+recommended_origins:
+  - Research
+  - Colony
+  - Hostile
+recommended_factions:
+  - Auluran (Terraformers)
+  - Ascendancy
+  - Entari Combine
+essential_skills:
+  - Academics
+  - Knowledge (Survival)
+  - Knowledge (Science \- Geology)
+  - Knowledge (Science \- Biology)
+signature_features:
+  - Planetary Savant
+  - Field Researcher
+tactical_role: >-
+  Identifying environmental hazards, finding resources, surviving planetary
+  conditions.
+quote: '"This planet is alive, and right now, it''s angry."'
+description: 'A scholar who studies the geology, climate, and ecosystems of planets.'
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Planetologist

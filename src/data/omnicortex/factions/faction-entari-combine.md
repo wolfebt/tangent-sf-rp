@@ -1,17 +1,43 @@
 ---
-id: "faction-entari-combine"
-name: "The Entari Combine"
-category: "factions"
-faction_type: "Major Polity"
-archetype: "Cosmopolitan Mercantile Federation"
-driving_mandate: "Facilitate Free Trade; Harbor Galactic Knowledge."
-symbol_sigil: "The Golden Scales"
-capital_world: "Entaria Prime"
-tech_level: "3-4 (Commercial / High-End)"
-meta_level: "2 (Artisan Magic)"
-skill_package: ["Barter","Diplomacy","Knowledge (Culture)","Vocation (Broker)","Languages"]
-bonus_features: ["Benefit (Wealth)","Connected"]
-description: "Vast interstellar trade alliance, bazaar worlds, artisan guilds, and museum libraries celebrating galactic diversity."
+id: faction-entari-combine
+name: The Entari Combine
+category: factions
+faction_type: Major Polity
+archetype: Cosmopolitan Mercantile Federation
+driving_mandate: Facilitate Free Trade; Harbor Galactic Knowledge.
+symbol_sigil: The Golden Scales
+capital_world: Entaria Prime
+tech_level: 3-4 (Commercial / High-End)
+meta_level: 2 (Artisan Magic)
+skill_package:
+  - Barter
+  - Diplomacy
+  - Knowledge (Culture)
+  - Vocation (Broker)
+  - Languages
+description: >-
+  Vast interstellar trade alliance, bazaar worlds, artisan guilds, and museum
+  libraries celebrating galactic diversity.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Entari Combine

@@ -1,12 +1,51 @@
 ---
-id: "origin-leisure"
-name: "Leisure"
-category: "origins"
+id: origin-leisure
+name: Leisure
+category: origins
 skill_points: 20
-society_skills: ["Vocation (Any)","Social (Any)"]
-archetypes: ["Aesthete","Socialite","Concierge","Entertainer","Master Artisan","Resort Security"]
-traits: ["trait-adaptability","trait-diplomacy","trait-entertainment-skill","trait-lifestyle-preferences","trait-non-combat-focus","trait-optimistic","trait-management","trait-resourcefulness","trait-smooth-talking"]
-description: "Utopian paradise resorts, casino pleasure strips, aesthetic spas, and luxury orbital pleasure-barges."
+society_skills:
+  - Vocation (Any)
+  - Social (Any)
+archetypes:
+  - Aesthete
+  - Socialite
+  - Concierge
+  - Entertainer
+  - Master Artisan
+  - Resort Security
+traits:
+  - trait-adaptability
+  - trait-diplomacy
+  - trait-entertainment-skill
+  - trait-lifestyle-preferences
+  - trait-non-combat-focus
+  - trait-optimistic
+  - trait-management
+  - trait-resourcefulness
+  - trait-smooth-talking
+description: >-
+  Utopian paradise resorts, casino pleasure strips, aesthetic spas, and luxury
+  orbital pleasure-barges.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Leisure Origin

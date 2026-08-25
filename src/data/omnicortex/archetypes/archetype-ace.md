@@ -1,20 +1,54 @@
 ---
-id: "archetype-ace"
-name: "The Ace"
-sphere: "Operatives (The Artisans)"
-category: "archetypes"
+id: archetype-ace
+name: The Ace
+sphere: Operatives (The Artisans)
+category: archetypes
 bp_chassis: 80
-core_concept: "Vehicle Specialist / Transport"
-primary_attribute: "Agility"
-secondary_attribute: "Intellect"
-recommended_occupations: ["Spacer","Specialist"]
-recommended_origins: ["Spacer","Militaristic","Industrial"]
-recommended_factions: ["Coalition (Smugglers)","Ascendancy (Test Pilots)","Syndicate (Interceptors)"]
-essential_skills: ["Knowledge (Technology)","Pilot","Alertness","Combat (Gunnery)"]
-signature_features: ["Evasive Maneuvers","Quick Reflexes"]
-tactical_role: "Ship combat, extraction, high-speed chases."
-quote: "\"Hold on back there. I'm gonna try something stupid.\""
-description: "Navigates starships through asteroids and blockades. Master of the stick."
+core_concept: Vehicle Specialist / Transport
+primary_attribute: Agility
+secondary_attribute: Intellect
+recommended_occupations:
+  - Spacer
+  - Specialist
+recommended_origins:
+  - Spacer
+  - Militaristic
+  - Industrial
+recommended_factions:
+  - Coalition (Smugglers)
+  - Ascendancy (Test Pilots)
+  - Syndicate (Interceptors)
+essential_skills:
+  - Knowledge (Technology)
+  - Pilot
+  - Alertness
+  - Combat (Gunnery)
+signature_features:
+  - Evasive Maneuvers
+  - Quick Reflexes
+tactical_role: 'Ship combat, extraction, high-speed chases.'
+quote: '"Hold on back there. I''m gonna try something stupid."'
+description: Navigates starships through asteroids and blockades. Master of the stick.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Ace

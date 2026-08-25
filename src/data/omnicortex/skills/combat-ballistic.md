@@ -1,21 +1,44 @@
 ---
-id: "combat-ballistic"
-name: "Ballistic"
-type: "combat"
-subtype: "modern"
-category: "skills"
-governing_attributes: ["Agility"]
-description: "The operation, maintenance, and precision firing of kinetic firearms and projectile weapons using chemical propellant or electromagnetic acceleration."
+id: combat-ballistic
+name: Ballistic
+type: combat
+subtype: modern
+category: skills
+governing_attributes:
+  - Agility
+description: >-
+  The operation, maintenance, and precision firing of kinetic firearms and
+  projectile weapons using chemical propellant or electromagnetic acceleration.
 trained_only: false
 specialties:
-  - "Pistols (Revolvers, semi-automatic sidearms, mag-pistols)"
-  - "Rifles (Assault rifles, battle rifles, carbines)"
-  - "Shotguns (Scatterguns, slug throwers)"
-  - "Sniper Rifles (Long-range precision platforms)"
-  - "Submachine Guns / SMGs (Compact high-rate-of-fire weapons)"
+  - 'Pistols (Revolvers, semi-automatic sidearms, mag-pistols)'
+  - 'Rifles (Assault rifles, battle rifles, carbines)'
+  - 'Shotguns (Scatterguns, slug throwers)'
+  - Sniper Rifles (Long-range precision platforms)
+  - Submachine Guns / SMGs (Compact high-rate-of-fire weapons)
 synergy_links:
-  - "mental-demolitionist"
-  - "mental-weaponsmith"
+  - mental-demolitionist
+  - mental-weaponsmith
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Ballistic

@@ -1,9 +1,31 @@
 ---
-id: "template-mercenary"
-name: "Mercenary Company"
-category: "factions"
-faction_type: "Generic Template"
-description: "Soldiers of fortune, gunships for hire, and security contractors fighting for the highest corporate bidder."
+id: template-mercenary
+name: Mercenary Company
+category: factions
+faction_type: Generic Template
+description: >-
+  Soldiers of fortune, gunships for hire, and security contractors fighting for
+  the highest corporate bidder.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Mercenary Company (Generic Faction Template)

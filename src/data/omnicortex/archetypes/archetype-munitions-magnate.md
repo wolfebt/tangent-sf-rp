@@ -1,20 +1,58 @@
 ---
-id: "archetype-munitions-magnate"
-name: "The Munitions Magnate"
-sphere: "Sentinels (The Stabilizers)"
-category: "archetypes"
+id: archetype-munitions-magnate
+name: The Munitions Magnate
+sphere: Sentinels (The Stabilizers)
+category: archetypes
 bp_chassis: 80
-core_concept: "Merchant / Tech / Heavy Support"
-primary_attribute: "Charisma"
-secondary_attribute: "Intellect"
-recommended_occupations: ["Merchant","Criminal"]
-recommended_origins: ["Industrial","Urban","Militaristic"]
-recommended_factions: ["Syndicate (Arms Division)","Coalition (Gun-Runners)","Impyrium (Heirloom Brokers)"]
-essential_skills: ["Diplomacy","Insight","Knowledge (Technology)","Streetwise"]
-signature_features: ["Weapons Expert","Black Market Connections"]
-tactical_role: "Supply the team with top-tier gear, identify enemy weaponry, negotiate with warlords."
-quote: "\"I don't pull the trigger. I just ensure it works when you do.\""
-description: "Focuses on the trade of weapons and military equipment. They have access to cutting-edge technology and sell it at a premium."
+core_concept: Merchant / Tech / Heavy Support
+primary_attribute: Charisma
+secondary_attribute: Intellect
+recommended_occupations:
+  - Merchant
+  - Criminal
+recommended_origins:
+  - Industrial
+  - Urban
+  - Militaristic
+recommended_factions:
+  - Syndicate (Arms Division)
+  - Coalition (Gun-Runners)
+  - Impyrium (Heirloom Brokers)
+essential_skills:
+  - Diplomacy
+  - Insight
+  - Knowledge (Technology)
+  - Streetwise
+signature_features:
+  - Weapons Expert
+  - Black Market Connections
+tactical_role: >-
+  Supply the team with top-tier gear, identify enemy weaponry, negotiate with
+  warlords.
+quote: '"I don''t pull the trigger. I just ensure it works when you do."'
+description: >-
+  Focuses on the trade of weapons and military equipment. They have access to
+  cutting-edge technology and sell it at a premium.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Munitions Magnate

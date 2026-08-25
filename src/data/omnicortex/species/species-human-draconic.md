@@ -10,40 +10,95 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-inherent_attribute_modifiers: []
-bonus_attribute_points: 1
-specific_skill_bonuses:
-  - skill: Intimidation
-    bonus: 1
-  - skill: Athletics
-    bonus: 1
-bonus_skills: 0
-bonus_skill_choices:
-  - Intimidation
-  - Athletics
-  - Combat
-  - Leadership
-inherent_features:
-  - 'Dragonkin Traits (Partial Scales DR 1/-, Heat Resistance)'
-  - Status (Dynasty Ties)
-  - Fiery Resolve
-bonus_features: 1
-bonus_feature_choices:
-  - Thermal Breath
-  - Dragon Eye Sight
-  - Noble Bearing
-recommended_features:
-  - feature-thermal-breath
 stigma: Draconic (-2)
 tech_level: 3 (Dracon Dynasty Imperial Tech)
 meta_level: 2 (Elemental Fire)
 homeworld: Dracon Dynasty Capitals
-cp_cost: 16
 cp: 16
 description: >-
   Humans bearing the nobility mark and genetic legacy of the Dracon Dynasty.
   They possess patchworks of iridescent scales, heat tolerance, and commanding
   social presence.
+costs:
+  bp: 16
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Any Attribute
+    type: attribute
+    value: 1
+    mode: bonus_pool
+  - target: Intimidation
+    type: skill
+    value: 1
+    mode: inherent
+  - target: Athletics
+    type: skill
+    value: 1
+    mode: inherent
+  - target: Intimidation
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Athletics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Combat
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Leadership
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: 'Dragonkin Traits (Partial Scales DR 1/-, Heat Resistance)'
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Status (Dynasty Ties)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Fiery Resolve
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Thermal Breath
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Dragon Eye Sight
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Noble Bearing
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-thermal-breath
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Draconic Human (Dragonkin Bloodline)
 

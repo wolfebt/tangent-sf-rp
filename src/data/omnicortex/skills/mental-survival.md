@@ -1,21 +1,45 @@
 ---
-id: "mental-survival"
-name: "Survival"
-type: "mental"
-subtype: "knowledge"
-category: "skills"
-governing_attributes: ["Wisdom"]
-description: "The practical knowledge of enduring in harsh, uncivilized, or deadly wilderness environments: tracking, foraging, shelter construction, and weather reading."
+id: mental-survival
+name: Survival
+type: mental
+subtype: knowledge
+category: skills
+governing_attributes:
+  - Wisdom
+description: >-
+  The practical knowledge of enduring in harsh, uncivilized, or deadly
+  wilderness environments: tracking, foraging, shelter construction, and weather
+  reading.
 trained_only: false
 specialties:
-  - "Tracking (Following footprints and broken foliage)"
-  - "Foraging (Finding potable water and sustenance)"
-  - "Shelter Construction"
-  - "Extreme Environments (Arctic, Desert, Volcanic, Zero-G, Radiation)"
+  - Tracking (Following footprints and broken foliage)
+  - Foraging (Finding potable water and sustenance)
+  - Shelter Construction
+  - 'Extreme Environments (Arctic, Desert, Volcanic, Zero-G, Radiation)'
 synergy_links:
-  - "mental-nature"
-  - "mental-alertness"
-  - "physical-endurance"
+  - mental-nature
+  - mental-alertness
+  - physical-endurance
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Survival

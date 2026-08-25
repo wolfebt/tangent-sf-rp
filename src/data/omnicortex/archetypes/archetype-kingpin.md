@@ -1,20 +1,56 @@
 ---
-id: "archetype-kingpin"
-name: "The Kingpin"
-sphere: "Visionaries (The Idealists)"
-category: "archetypes"
+id: archetype-kingpin
+name: The Kingpin
+sphere: Visionaries (The Idealists)
+category: archetypes
 bp_chassis: 80
-core_concept: "Leader / Minion Master / Intimidator"
-primary_attribute: "Charisma"
-secondary_attribute: "Strength"
-recommended_occupations: ["Criminal","Representative"]
-recommended_origins: ["Urban","Industrial","Colony"]
-recommended_factions: ["Syndicate (Shadow Boards)","Coalition (Crime Lords)","Outworlds"]
-essential_skills: ["Intimidation","Leadership","Diplomacy","Streetwise"]
-signature_features: ["Commanding Presence","Network of Power"]
-tactical_role: "Controlling NPC minions, sourcing illegal gear, intimidation."
-quote: "\"It's just business. But for you, it's personal.\""
-description: "Leader of a criminal organization, overseeing illegal activities and managing a network of underlings."
+core_concept: Leader / Minion Master / Intimidator
+primary_attribute: Charisma
+secondary_attribute: Strength
+recommended_occupations:
+  - Criminal
+  - Representative
+recommended_origins:
+  - Urban
+  - Industrial
+  - Colony
+recommended_factions:
+  - Syndicate (Shadow Boards)
+  - Coalition (Crime Lords)
+  - Outworlds
+essential_skills:
+  - Intimidation
+  - Leadership
+  - Diplomacy
+  - Streetwise
+signature_features:
+  - Commanding Presence
+  - Network of Power
+tactical_role: 'Controlling NPC minions, sourcing illegal gear, intimidation.'
+quote: '"It''s just business. But for you, it''s personal."'
+description: >-
+  Leader of a criminal organization, overseeing illegal activities and managing
+  a network of underlings.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Kingpin

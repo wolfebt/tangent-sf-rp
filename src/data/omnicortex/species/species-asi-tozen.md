@@ -10,47 +10,111 @@ size:
   - species_size-large
 movement:
   - species_movement-quadruped
-inherent_attribute_modifiers:
-  - attribute: Agility
-    bonus: 1
-  - attribute: Wisdom
-    bonus: 1
-bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Navigation
-    bonus: 1
-  - skill: Archery/Marksmanship
-    bonus: 1
-bonus_skills: 0
-bonus_skill_choices:
-  - Navigation
-  - Survival
-  - Combat (Ranged)
-  - Athletics
-inherent_features:
-  - Asi Base Traits
-  - Awakened (Natural Wisdom)
-  - Quadruped (Speed 40ft)
-  - Quick Reflexes
-  - Stable Stance
-bonus_features: 1
-bonus_feature_choices:
-  - Trample
-  - Starlight Sight
-  - Forest Stride
-  - Herbalist Mastery
-recommended_features:
-  - feature-forest-stride
 stigma: 'Xeno (-2), Seclusionist (-1)'
 tech_level: 2 (Arboreal Bowcraft & Astronomy)
 meta_level: 3 (Astral Nature Divination)
 homeworld: Plains of Eldoria
-cp_cost: 19
 cp: 19
 description: >-
   Tozen are proud centauroid fey combining humanoid torsos with equine bodies.
   Revered for their wisdom, astronomical precision, and nomadic independence,
   they range the open steppes.
+costs:
+  bp: 19
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Agility
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Wisdom
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Navigation
+    type: skill
+    value: 1
+    mode: inherent
+  - target: Archery/Marksmanship
+    type: skill
+    value: 1
+    mode: inherent
+  - target: Navigation
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Survival
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Combat (Ranged)
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Athletics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Asi Base Traits
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Awakened (Natural Wisdom)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Quadruped (Speed 40ft)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Quick Reflexes
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Stable Stance
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Trample
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Starlight Sight
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Forest Stride
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Herbalist Mastery
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-forest-stride
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Tozen (Centaur Fey)
 

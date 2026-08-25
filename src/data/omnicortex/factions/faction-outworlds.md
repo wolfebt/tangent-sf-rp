@@ -1,17 +1,43 @@
 ---
-id: "faction-outworlds"
-name: "The Outworlds Alliance"
-category: "factions"
-faction_type: "Major Polity"
-archetype: "Scavenger Frontier / Space Western"
-driving_mandate: "Survive at All Costs; Answer to No One."
-symbol_sigil: "The Lone Star Skull"
-capital_world: "Dustfall"
-tech_level: "2-3 (Scavenged / Patchwork)"
-meta_level: "1 (Feral / Shamanic)"
-skill_package: ["Survival","Piloting","Alertness","Combat (Ballistic)","Knowledge (Survival)"]
-bonus_features: ["Diehard","Tough"]
-description: "Lawless frontier wasteland of dust-bowl planets, scrap-fleets, bounty hunters, and rugged homesteaders."
+id: faction-outworlds
+name: The Outworlds Alliance
+category: factions
+faction_type: Major Polity
+archetype: Scavenger Frontier / Space Western
+driving_mandate: Survive at All Costs; Answer to No One.
+symbol_sigil: The Lone Star Skull
+capital_world: Dustfall
+tech_level: 2-3 (Scavenged / Patchwork)
+meta_level: 1 (Feral / Shamanic)
+skill_package:
+  - Survival
+  - Piloting
+  - Alertness
+  - Combat (Ballistic)
+  - Knowledge (Survival)
+description: >-
+  Lawless frontier wasteland of dust-bowl planets, scrap-fleets, bounty hunters,
+  and rugged homesteaders.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Outworlds Alliance

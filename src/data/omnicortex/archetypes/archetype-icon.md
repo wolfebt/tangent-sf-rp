@@ -1,20 +1,58 @@
 ---
-id: "archetype-icon"
-name: "The Icon"
-sphere: "Visionaries (The Idealists)"
-category: "archetypes"
+id: archetype-icon
+name: The Icon
+sphere: Visionaries (The Idealists)
+category: archetypes
 bp_chassis: 80
-core_concept: "Social Influence / Leader / Face"
-primary_attribute: "Charisma"
-secondary_attribute: "Wisdom"
-recommended_occupations: ["Entertainer","Representative"]
-recommended_origins: ["Leisure","Urban","Industrial"]
-recommended_factions: ["Syndicate (Brand Identity)","Coalition (Rebel Face)","Entari"]
-essential_skills: ["Expression (any)","Diplomacy","Bluff","Leadership"]
-signature_features: ["Star Power","Inspiring Personality"]
-tactical_role: "Rallying public support, demoralizing opposition through reputation, high-stakes negotiation."
-quote: "\"I don't just represent the cause. I am the cause.\""
-description: "The public figure who embodies a concept or cause, wielding their fame as a source of inspiration and pressure."
+core_concept: Social Influence / Leader / Face
+primary_attribute: Charisma
+secondary_attribute: Wisdom
+recommended_occupations:
+  - Entertainer
+  - Representative
+recommended_origins:
+  - Leisure
+  - Urban
+  - Industrial
+recommended_factions:
+  - Syndicate (Brand Identity)
+  - Coalition (Rebel Face)
+  - Entari
+essential_skills:
+  - Expression (any)
+  - Diplomacy
+  - Bluff
+  - Leadership
+signature_features:
+  - Star Power
+  - Inspiring Personality
+tactical_role: >-
+  Rallying public support, demoralizing opposition through reputation,
+  high-stakes negotiation.
+quote: '"I don''t just represent the cause. I am the cause."'
+description: >-
+  The public figure who embodies a concept or cause, wielding their fame as a
+  source of inspiration and pressure.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Icon

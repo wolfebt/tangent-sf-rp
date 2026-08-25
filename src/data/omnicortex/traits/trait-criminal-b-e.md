@@ -1,11 +1,30 @@
 ---
-id: "trait-criminal-b-e"
-name: "B&E"
-category: "traits"
-trait_type: "Occupational Trait"
-occupation_association: "Criminal"
-cost_cp: 1
-description: "Experience with breaking and entering into secure locations"
+id: trait-criminal-b-e
+name: B&E
+category: traits
+trait_type: Occupational Trait
+occupation_association: Criminal
+description: Experience with breaking and entering into secure locations
+costs:
+  bp: 1
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # B\&E

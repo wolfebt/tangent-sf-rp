@@ -1,21 +1,44 @@
 ---
-id: "social-acting"
-name: "Acting"
-type: "social"
-subtype: "expression"
-category: "skills"
-governing_attributes: ["Charisma"]
-description: "Embodying fictional characters, faking emotional states, adopting foreign accents, dramatic stage performance, and behavioral deception."
+id: social-acting
+name: Acting
+type: social
+subtype: expression
+category: skills
+governing_attributes:
+  - Charisma
+description: >-
+  Embodying fictional characters, faking emotional states, adopting foreign
+  accents, dramatic stage performance, and behavioral deception.
 trained_only: false
 specialties:
-  - "Dramatic Theater & Tragedy"
-  - "Comedy & Improvisation"
-  - "Vocal Mimicry & Accents"
-  - "Holo-Net & Screen Performance"
+  - Dramatic Theater & Tragedy
+  - Comedy & Improvisation
+  - Vocal Mimicry & Accents
+  - Holo-Net & Screen Performance
 synergy_links:
-  - "social-disguise"
-  - "social-bluff"
-  - "social-oratory"
+  - social-disguise
+  - social-bluff
+  - social-oratory
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Acting

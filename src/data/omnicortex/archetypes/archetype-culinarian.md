@@ -1,20 +1,58 @@
 ---
-id: "archetype-culinarian"
-name: "The Culinarian"
-sphere: "Sentinels (The Stabilizers)"
-category: "archetypes"
+id: archetype-culinarian
+name: The Culinarian
+sphere: Sentinels (The Stabilizers)
+category: archetypes
 bp_chassis: 80
-core_concept: "Support / Morale / Survival"
-primary_attribute: "Wisdom"
-secondary_attribute: "Charisma"
-recommended_occupations: ["Citizen","Drifter"]
-recommended_origins: ["Agricultural","Leisure","Colony"]
-recommended_factions: ["Entari Combine (Hospitality)","Auluran (Nurturers)","Outworlds"]
-essential_skills: ["Vocation (Culinarian)","Nature","Medicine","Insight"]
-signature_features: ["Self-Sufficiency","Resourceful"]
-tactical_role: "Buffing party recovery during rest, identifying safe/toxic flora, boosting team morale."
-quote: "\"A good meal can stop a war. A bad one can start it.\""
-description: "The essential provider of nutrition and morale, transforming scarce resources into sustaining banquets."
+core_concept: Support / Morale / Survival
+primary_attribute: Wisdom
+secondary_attribute: Charisma
+recommended_occupations:
+  - Citizen
+  - Drifter
+recommended_origins:
+  - Agricultural
+  - Leisure
+  - Colony
+recommended_factions:
+  - Entari Combine (Hospitality)
+  - Auluran (Nurturers)
+  - Outworlds
+essential_skills:
+  - Vocation (Culinarian)
+  - Nature
+  - Medicine
+  - Insight
+signature_features:
+  - Self-Sufficiency
+  - Resourceful
+tactical_role: >-
+  Buffing party recovery during rest, identifying safe/toxic flora, boosting
+  team morale.
+quote: '"A good meal can stop a war. A bad one can start it."'
+description: >-
+  The essential provider of nutrition and morale, transforming scarce resources
+  into sustaining banquets.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Culinarian

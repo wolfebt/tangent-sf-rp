@@ -1,20 +1,53 @@
 ---
-id: "archetype-broker"
-name: "The Broker"
-sphere: "Sentinels (The Stabilizers)"
-category: "archetypes"
+id: archetype-broker
+name: The Broker
+sphere: Sentinels (The Stabilizers)
+category: archetypes
 bp_chassis: 80
-core_concept: "Economy / Logistics / Face"
-primary_attribute: "Charisma"
-secondary_attribute: "Intellect"
-recommended_occupations: ["Merchant","Spacer"]
-recommended_origins: ["Urban","Spacer","Colony"]
-recommended_factions: ["Entari Combine (Merchants)","Syndicate (Traders)","Alterian Enclave"]
-essential_skills: ["Diplomacy","Insight","Vocation (Broker)"]
-signature_features: ["Market Savvy","Resourceful"]
-tactical_role: "Funding the party, acquiring rare gear, transport logistics."
-quote: "\"Everything is negotiable. Even loyalty.\""
-description: "Travels space lanes buying and selling. Keen eye for value and negotiation."
+core_concept: Economy / Logistics / Face
+primary_attribute: Charisma
+secondary_attribute: Intellect
+recommended_occupations:
+  - Merchant
+  - Spacer
+recommended_origins:
+  - Urban
+  - Spacer
+  - Colony
+recommended_factions:
+  - Entari Combine (Merchants)
+  - Syndicate (Traders)
+  - Alterian Enclave
+essential_skills:
+  - Diplomacy
+  - Insight
+  - Vocation (Broker)
+signature_features:
+  - Market Savvy
+  - Resourceful
+tactical_role: 'Funding the party, acquiring rare gear, transport logistics.'
+quote: '"Everything is negotiable. Even loyalty."'
+description: Travels space lanes buying and selling. Keen eye for value and negotiation.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Broker

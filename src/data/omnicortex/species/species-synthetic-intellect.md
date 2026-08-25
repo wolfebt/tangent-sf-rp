@@ -10,57 +10,135 @@ size:
   - species_size-tiny
 movement:
   - species_movement-flight
-inherent_attribute_modifiers:
-  - attribute: Intellect
-    bonus: 4
-  - attribute: Wisdom
-    bonus: 2
-  - attribute: Charisma
-    bonus: 2
-  - attribute: Strength
-    bonus: -10
-  - attribute: Agility
-    bonus: -5
-  - attribute: Stamina
-    bonus: -5
-bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Computation
-    bonus: 4
-  - skill: Hacking
-    bonus: 3
-  - skill: Science
-    bonus: 3
-bonus_skills: 40
-bonus_skill_choices:
-  - Computation
-  - Hacking
-  - Science
-  - Engineering
-  - Tactics
-  - Attune
-inherent_features:
-  - Synthetic Base Traits
-  - Comms Array Mastery (Instant Holo-Link)
-  - Companion Remotes (Commands 2 Drone Units)
-  - Hyper-Threading Logic Engine
-bonus_features: 2
-bonus_feature_choices:
-  - Cybernetic Possession
-  - Quantum Decryption
-  - System Lockout
-recommended_features:
-  - feature-quantum-decryption
 stigma: Severe Synthetic (-4)
 tech_level: 5 (Singularity Computing)
 meta_level: 2 (Digital Psionics)
 homeworld: Data Spires & Mothership Cores
-cp_cost: 32
 cp: 32
 description: >-
   Intellect Constructs are disembodied artificial intelligences housed in
   floating core chassis or drone bodies, commanding battlefield drones and
   networks.
+costs:
+  bp: 32
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Intellect
+    type: attribute
+    value: 4
+    mode: inherent
+  - target: Wisdom
+    type: attribute
+    value: 2
+    mode: inherent
+  - target: Charisma
+    type: attribute
+    value: 2
+    mode: inherent
+  - target: Strength
+    type: attribute
+    value: -10
+    mode: inherent
+  - target: Agility
+    type: attribute
+    value: -5
+    mode: inherent
+  - target: Stamina
+    type: attribute
+    value: -5
+    mode: inherent
+  - target: Computation
+    type: skill
+    value: 4
+    mode: inherent
+  - target: Hacking
+    type: skill
+    value: 3
+    mode: inherent
+  - target: Science
+    type: skill
+    value: 3
+    mode: inherent
+  - target: General Skill Pool
+    type: skill
+    value: 40
+    mode: bonus_pool
+  - target: Computation
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Hacking
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Science
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Engineering
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Tactics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Attune
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Synthetic Base Traits
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Comms Array Mastery (Instant Holo-Link)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Companion Remotes (Commands 2 Drone Units)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Hyper-Threading Logic Engine
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 2
+    mode: bonus_pool
+  - target: Cybernetic Possession
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Quantum Decryption
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: System Lockout
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-quantum-decryption
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Intellect Construct (Autonomous Mind Core)
 

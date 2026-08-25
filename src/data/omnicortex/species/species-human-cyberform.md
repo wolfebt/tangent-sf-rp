@@ -10,43 +10,103 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-inherent_attribute_modifiers:
-  - attribute: Intellect
-    bonus: 2
-bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Technology
-    bonus: 2
-  - skill: Hacking
-    bonus: 1
-bonus_skills: 10
-bonus_skill_choices:
-  - Technology
-  - Hacking
-  - Science
-  - Piloting
-  - Engineering
-inherent_features:
-  - 'Augmented (Sub-dermal Body Comp, Pico-Surgeons, Smart Link)'
-  - Bodyform Acclimation (0 Cyber-Strain)
-  - Companion (Integrated Sub-AI Assistant)
-bonus_features: 1
-bonus_feature_choices:
-  - Hardwired Reflexes
-  - Neural Firewall
-  - Direct Interface Tap
-recommended_features:
-  - feature-neural-firewall
 stigma: 'Xeno (-2), Augmented (-4)'
 tech_level: 4 (Advanced Cybernetics & Neural Sockets)
 meta_level: 0 (Null / Technological Optimization)
 homeworld: Cygnus Arcologies & Orbital Rings
-cp_cost: 26
 cp: 26
 description: >-
   Cyberforms are transhumans who have replaced upwards of 60% of their organic
   bodies with cybernetic augmentations, internal processors, and sub-dermal
   nano-repair hives.
+costs:
+  bp: 26
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Intellect
+    type: attribute
+    value: 2
+    mode: inherent
+  - target: Technology
+    type: skill
+    value: 2
+    mode: inherent
+  - target: Hacking
+    type: skill
+    value: 1
+    mode: inherent
+  - target: General Skill Pool
+    type: skill
+    value: 10
+    mode: bonus_pool
+  - target: Technology
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Hacking
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Science
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Piloting
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Engineering
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: 'Augmented (Sub-dermal Body Comp, Pico-Surgeons, Smart Link)'
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Bodyform Acclimation (0 Cyber-Strain)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Companion (Integrated Sub-AI Assistant)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Hardwired Reflexes
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Neural Firewall
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Direct Interface Tap
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-neural-firewall
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Cyberform Human (Transhuman Cyborg)
 

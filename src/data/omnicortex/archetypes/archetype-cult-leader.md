@@ -1,20 +1,56 @@
 ---
-id: "archetype-cult-leader"
-name: "The Cult Leader"
-sphere: "Visionaries (The Idealists)"
-category: "archetypes"
+id: archetype-cult-leader
+name: The Cult Leader
+sphere: Visionaries (The Idealists)
+category: archetypes
 bp_chassis: 80
-core_concept: "Leader / Buffer / Minion Master"
-primary_attribute: "Charisma"
-secondary_attribute: "Wisdom"
-recommended_occupations: ["Representative","Adept"]
-recommended_origins: ["Urban","Colony","Enlightened"]
-recommended_factions: ["Outworlds","Impyrium (Heretics)","Syndicate (Corporate Cults)"]
-essential_skills: ["Leadership","Diplomacy","Insight","Knowledge (Religion)"]
-signature_features: ["Divine Inspiration","Spiritual Leader"]
-tactical_role: "Controlling minions, inspiring allies, social manipulation."
-quote: "\"Have faith, for the path is clear.\""
-description: "A charismatic leader who inspires and guides followers, delivering divine pronouncements."
+core_concept: Leader / Buffer / Minion Master
+primary_attribute: Charisma
+secondary_attribute: Wisdom
+recommended_occupations:
+  - Representative
+  - Adept
+recommended_origins:
+  - Urban
+  - Colony
+  - Enlightened
+recommended_factions:
+  - Outworlds
+  - Impyrium (Heretics)
+  - Syndicate (Corporate Cults)
+essential_skills:
+  - Leadership
+  - Diplomacy
+  - Insight
+  - Knowledge (Religion)
+signature_features:
+  - Divine Inspiration
+  - Spiritual Leader
+tactical_role: 'Controlling minions, inspiring allies, social manipulation.'
+quote: '"Have faith, for the path is clear."'
+description: >-
+  A charismatic leader who inspires and guides followers, delivering divine
+  pronouncements.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Cult Leader

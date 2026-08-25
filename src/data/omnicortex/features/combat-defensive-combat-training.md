@@ -1,13 +1,35 @@
 ---
-id: "combat-defensive-combat-training"
-name: "Defensive Combat Training"
-category: "features"
-feature_category: "Combat"
+id: combat-defensive-combat-training
+name: Defensive Combat Training
+category: features
+feature_category: Combat
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: "Combat Skill 1"
-description: "The character has trained to resist grappling and takedowns, using overall combat experience rather than just raw agility."
+prerequisites: Combat Skill 1
+description: >-
+  The character has trained to resist grappling and takedowns, using overall
+  combat experience rather than just raw agility.
+costs:
+  bp: 3
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Defensive Combat Training

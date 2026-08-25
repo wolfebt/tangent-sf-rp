@@ -1,11 +1,32 @@
 ---
-id: "trait-scout-adaptability"
-name: "Adaptability"
-category: "traits"
-trait_type: "Occupational Trait"
-occupation_association: "Scout"
-cost_cp: 1
-description: "Scouts are adaptable and can quickly adjust to changing circumstances. They can handle unexpected challenges and find alternative solutions."
+id: trait-scout-adaptability
+name: Adaptability
+category: traits
+trait_type: Occupational Trait
+occupation_association: Scout
+description: >-
+  Scouts are adaptable and can quickly adjust to changing circumstances. They
+  can handle unexpected challenges and find alternative solutions.
+costs:
+  bp: 1
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Adaptability

@@ -1,20 +1,54 @@
 ---
-id: "archetype-technician"
-name: "The Technician"
-sphere: "Savants (The Rationals)"
-category: "archetypes"
+id: archetype-technician
+name: The Technician
+sphere: Savants (The Rationals)
+category: archetypes
 bp_chassis: 80
-core_concept: "Support / Utility / Repair"
-primary_attribute: "Intellect"
-secondary_attribute: "Agility"
-recommended_occupations: ["Builder","Spacer"]
-recommended_origins: ["Industrial","Spacer","Colony"]
-recommended_factions: ["Outworlds (Mechanics)","Coalition (Techs)","Syndicate"]
-essential_skills: ["Knowledge (Technology)","Vocation (Mechanic)","Vocation (Electrician)","Investigation"]
-signature_features: ["Technical Expertise","Problem Solver"]
-tactical_role: "Rapid repair of gear/vehicles, bypassing locks/panels, technical support."
-quote: "\"It's a bypass of the bypass. It'll hold... probably.\""
-description: "A skilled worker who maintains and repairs complex machinery."
+core_concept: Support / Utility / Repair
+primary_attribute: Intellect
+secondary_attribute: Agility
+recommended_occupations:
+  - Builder
+  - Spacer
+recommended_origins:
+  - Industrial
+  - Spacer
+  - Colony
+recommended_factions:
+  - Outworlds (Mechanics)
+  - Coalition (Techs)
+  - Syndicate
+essential_skills:
+  - Knowledge (Technology)
+  - Vocation (Mechanic)
+  - Vocation (Electrician)
+  - Investigation
+signature_features:
+  - Technical Expertise
+  - Problem Solver
+tactical_role: 'Rapid repair of gear/vehicles, bypassing locks/panels, technical support.'
+quote: '"It''s a bypass of the bypass. It''ll hold... probably."'
+description: A skilled worker who maintains and repairs complex machinery.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Technician

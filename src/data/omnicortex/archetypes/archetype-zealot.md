@@ -1,20 +1,56 @@
 ---
-id: "archetype-zealot"
-name: "The Zealot"
-sphere: "Visionaries (The Idealists)"
-category: "archetypes"
+id: archetype-zealot
+name: The Zealot
+sphere: Visionaries (The Idealists)
+category: archetypes
 bp_chassis: 80
-core_concept: "Social Combat / Anti-Meta"
-primary_attribute: "Wisdom"
-secondary_attribute: "Charisma"
-recommended_occupations: ["Agent","Soldier (Impyrium)"]
-recommended_origins: ["Militaristic","Urban (Capital)","Enlightened"]
-recommended_factions: ["Impyrium (Inquisitors)","Auluran (Purists)","Dracon Dynasty"]
-essential_skills: ["Intimidation","Investigation","Insight","Bluff"]
-signature_features: ["Unwavering Conviction","Fearsome Reputation"]
-tactical_role: "Breaking enemy morale, uncovering spies, resisting psychic attacks."
-quote: "\"Innocence proves nothing.\""
-description: "Roots out heresy and dissent. Skilled in interrogation and intimidation to enforce dogma."
+core_concept: Social Combat / Anti-Meta
+primary_attribute: Wisdom
+secondary_attribute: Charisma
+recommended_occupations:
+  - Agent
+  - Soldier (Impyrium)
+recommended_origins:
+  - Militaristic
+  - Urban (Capital)
+  - Enlightened
+recommended_factions:
+  - Impyrium (Inquisitors)
+  - Auluran (Purists)
+  - Dracon Dynasty
+essential_skills:
+  - Intimidation
+  - Investigation
+  - Insight
+  - Bluff
+signature_features:
+  - Unwavering Conviction
+  - Fearsome Reputation
+tactical_role: 'Breaking enemy morale, uncovering spies, resisting psychic attacks.'
+quote: '"Innocence proves nothing."'
+description: >-
+  Roots out heresy and dissent. Skilled in interrogation and intimidation to
+  enforce dogma.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Zealot

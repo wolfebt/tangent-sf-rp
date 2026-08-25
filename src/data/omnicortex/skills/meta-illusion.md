@@ -1,19 +1,45 @@
 ---
-id: "meta-illusion"
-name: "Illusion"
-type: "meta"
-subtype: "discipline"
-category: "skills"
-governing_attributes: ["Intellect","Wisdom","Charisma"]
-description: "The metaphysical discipline governing sensory deception, light-bending invisibility, sound damping, holographic phantasms, and quasi-real shadow matter."
+id: meta-illusion
+name: Illusion
+type: meta
+subtype: discipline
+category: skills
+governing_attributes:
+  - Intellect
+  - Wisdom
+  - Charisma
+description: >-
+  The metaphysical discipline governing sensory deception, light-bending
+  invisibility, sound damping, holographic phantasms, and quasi-real shadow
+  matter.
 trained_only: true
 specialties:
-  - "Phantasm Focus (Invisibility, sensory illusions, disguise glamer)"
-  - "Shadow Focus (Quasi-real matter, shadow weapons, solid fog)"
+  - 'Phantasm Focus (Invisibility, sensory illusions, disguise glamer)'
+  - 'Shadow Focus (Quasi-real matter, shadow weapons, solid fog)'
 synergy_links:
-  - "meta-attune"
-  - "social-disguise"
-  - "mental-metaphysics"
+  - meta-attune
+  - social-disguise
+  - mental-metaphysics
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Illusion

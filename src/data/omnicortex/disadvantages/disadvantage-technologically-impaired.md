@@ -1,10 +1,32 @@
 ---
-id: "disadvantage-technologically-impaired"
-name: "Technologically Impaired"
-category: "disadvantages"
-bp_granted: "10 / 20 / 30"
-hindrance_type: "Mental / Background"
-description: "Baffled by modern technology, computing devices, energy weapons, or automated starships."
+id: disadvantage-technologically-impaired
+name: Technologically Impaired
+category: disadvantages
+bp_granted: 10 / 20 / 30
+hindrance_type: Mental / Background
+description: >-
+  Baffled by modern technology, computing devices, energy weapons, or automated
+  starships.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Technologically Impaired

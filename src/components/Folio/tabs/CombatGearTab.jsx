@@ -198,7 +198,7 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
   };
 
   return (
-    <div className="tab-panel active p-4 space-y-6">
+    <div className="tab-panel active p-4 space-y-6 pb-20">
       {/* Latest Damage Roll Feedback Banner */}
       {latestDamageRoll && (
         <div className={`p-3 rounded-lg border flex items-center justify-between transition-all animate-fadeIn select-none ${

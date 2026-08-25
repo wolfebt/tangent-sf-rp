@@ -10,45 +10,111 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-inherent_attribute_modifiers:
-  - attribute: Intellect
-    bonus: 2
-bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Diplomacy
-    bonus: 2
-  - skill: Leadership
-    bonus: 2
-bonus_skills: 20
-bonus_skill_choices:
-  - Diplomacy
-  - Leadership
-  - Commerce
-  - Law
-  - History
-  - Attune
-inherent_features:
-  - Adaptive Aspects
-  - Awakened (Psionic)
-  - Status (Imperial Nobility)
-  - Aristocratic Immunity
-bonus_features: 2
-bonus_feature_choices:
-  - Royal Command
-  - Will of the Throne
-  - Silver Aegis
-recommended_features:
-  - feature-royal-command
 stigma: None
 tech_level: 4 (Imperial Regalia & Grav-Chairs)
 meta_level: 4 (Command Metaphysics)
 homeworld: Imperia Core
-cp_cost: 32
 cp: 32
 description: >-
   The apex of imperial bio-engineering: peerless aristocrats endowed with
   heightened intellect, natural psionic dominance, and undisputed political
   authority.
+costs:
+  bp: 32
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Intellect
+    type: attribute
+    value: 2
+    mode: inherent
+  - target: Diplomacy
+    type: skill
+    value: 2
+    mode: inherent
+  - target: Leadership
+    type: skill
+    value: 2
+    mode: inherent
+  - target: General Skill Pool
+    type: skill
+    value: 20
+    mode: bonus_pool
+  - target: Diplomacy
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Leadership
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Commerce
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Law
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: History
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Attune
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Adaptive Aspects
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Awakened (Psionic)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Status (Imperial Nobility)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Aristocratic Immunity
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 2
+    mode: bonus_pool
+  - target: Royal Command
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Will of the Throne
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Silver Aegis
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-royal-command
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Impyrium Regi (Imperial High Blood)
 

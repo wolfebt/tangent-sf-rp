@@ -1,20 +1,53 @@
 ---
-id: "archetype-cryptographer"
-name: "The Cryptographer"
-sphere: "Savants (The Rationals)"
-category: "archetypes"
+id: archetype-cryptographer
+name: The Cryptographer
+sphere: Savants (The Rationals)
+category: archetypes
 bp_chassis: 80
-core_concept: "Intel / Support / Puzzle Solver"
-primary_attribute: "Intellect"
-secondary_attribute: "Wisdom"
-recommended_occupations: ["Agent","Scholar"]
-recommended_origins: ["Research","Militaristic","Urban"]
-recommended_factions: ["Syndicate (Encryption)","Mekan (Logic)","Ascendancy"]
-essential_skills: ["Knowledge (Investigation)","Knowledge (Language)","Knowledge (Technology)"]
-signature_features: ["Codebreaker","Analytical Mind"]
-tactical_role: "Decrypting comms, translating alien languages, solving logic puzzles."
-quote: "\"Everything is a pattern. I just need to find the key.\""
-description: "An expert in deciphering codes, languages, and hidden messages."
+core_concept: Intel / Support / Puzzle Solver
+primary_attribute: Intellect
+secondary_attribute: Wisdom
+recommended_occupations:
+  - Agent
+  - Scholar
+recommended_origins:
+  - Research
+  - Militaristic
+  - Urban
+recommended_factions:
+  - Syndicate (Encryption)
+  - Mekan (Logic)
+  - Ascendancy
+essential_skills:
+  - Knowledge (Investigation)
+  - Knowledge (Language)
+  - Knowledge (Technology)
+signature_features:
+  - Codebreaker
+  - Analytical Mind
+tactical_role: 'Decrypting comms, translating alien languages, solving logic puzzles.'
+quote: '"Everything is a pattern. I just need to find the key."'
+description: 'An expert in deciphering codes, languages, and hidden messages.'
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Cryptographer

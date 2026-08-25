@@ -1,20 +1,56 @@
 ---
-id: "archetype-aristocrat"
-name: "The Aristocrat"
-sphere: "Visionaries (The Idealists)"
-category: "archetypes"
+id: archetype-aristocrat
+name: The Aristocrat
+sphere: Visionaries (The Idealists)
+category: archetypes
 bp_chassis: 80
-core_concept: "Resource Access / Face / Leader"
-primary_attribute: "Charisma"
-secondary_attribute: "History"
-recommended_occupations: ["Noble","Citizen"]
-recommended_origins: ["Leisure","Urban","Enlightened"]
-recommended_factions: ["Dracon Dynasty (Nobility)","Impyrium (Patricians)","Alterian Enclave (Elders)"]
-essential_skills: ["Diplomacy","Knowledge (History)","Insight","Knowledge (Nobility)"]
-signature_features: ["Noble Lineage","Courtly Intrigue"]
-tactical_role: "Gaining access to high-security areas via status, funding, legal immunity."
-quote: "\"Do you know who I am? That was a rhetorical question.\""
-description: "A member of the aristocracy, born into a position of privilege and power. They wield status as a weapon."
+core_concept: Resource Access / Face / Leader
+primary_attribute: Charisma
+secondary_attribute: History
+recommended_occupations:
+  - Noble
+  - Citizen
+recommended_origins:
+  - Leisure
+  - Urban
+  - Enlightened
+recommended_factions:
+  - Dracon Dynasty (Nobility)
+  - Impyrium (Patricians)
+  - Alterian Enclave (Elders)
+essential_skills:
+  - Diplomacy
+  - Knowledge (History)
+  - Insight
+  - Knowledge (Nobility)
+signature_features:
+  - Noble Lineage
+  - Courtly Intrigue
+tactical_role: 'Gaining access to high-security areas via status, funding, legal immunity.'
+quote: '"Do you know who I am? That was a rhetorical question."'
+description: >-
+  A member of the aristocracy, born into a position of privilege and power. They
+  wield status as a weapon.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Aristocrat

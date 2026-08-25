@@ -11,39 +11,98 @@ size:
 movement:
   - species_movement-bipedal
   - species_movement-quadruped
-inherent_attribute_modifiers: []
-bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Acrobatics
-    bonus: 2
-bonus_skills: 5
-bonus_skill_choices:
-  - Acrobatics
-  - Athletics
-  - Stealth
-  - Perception
-inherent_features:
-  - 'Kitin Base Traits (Awakened Psychic, Biotech, Hive Connection, Sleepless)'
-  - Exoskeleton (DR 3/-)
-  - Multidextrous (4 Arms)
-  - Leaper (+20ft Jump)
-  - Quick (+5ft Movement)
-bonus_features: 1
-bonus_feature_choices:
-  - Pheromone Scrambler
-  - Acid Spit
-  - Chitin Spike
-recommended_features:
-  - feature-acid-spit
 stigma: Severe Xeno (-4)
 tech_level: 3 (Chitinous Bio-Carapaces & Hive Bio-Guns)
 meta_level: 3 (Hive Mind Psionics)
 homeworld: Kitin Hive Worlds
-cp_cost: 21
 cp: 21
 description: >-
   Maantene are four-armed insectoid leapers of the Kitin hive. Agile and armored
   in heavy chitin, they serve as scouts and vanguard flankers.
+costs:
+  bp: 21
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Acrobatics
+    type: skill
+    value: 2
+    mode: inherent
+  - target: General Skill Pool
+    type: skill
+    value: 5
+    mode: bonus_pool
+  - target: Acrobatics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Athletics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Stealth
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Perception
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: 'Kitin Base Traits (Awakened Psychic, Biotech, Hive Connection, Sleepless)'
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Exoskeleton (DR 3/-)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Multidextrous (4 Arms)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Leaper (+20ft Jump)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Quick (+5ft Movement)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Pheromone Scrambler
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Acid Spit
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Chitin Spike
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-acid-spit
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Maantene (Kitin Insectoid Aberration)
 

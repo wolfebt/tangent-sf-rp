@@ -1,23 +1,47 @@
 ---
-id: "mental-medicine"
-name: "Medicine"
-type: "mental"
-subtype: "knowledge"
-category: "skills"
-governing_attributes: ["Wisdom","Intellect"]
-description: "The science of medical treatment: trauma first aid, field surgery, pharmacology, pathology, xenobiology, and cybernetic implantation."
+id: mental-medicine
+name: Medicine
+type: mental
+subtype: knowledge
+category: skills
+governing_attributes:
+  - Wisdom
+  - Intellect
+description: >-
+  The science of medical treatment: trauma first aid, field surgery,
+  pharmacology, pathology, xenobiology, and cybernetic implantation.
 trained_only: false
 specialties:
-  - "First Aid & Field Triage"
-  - "Trauma Surgery"
-  - "Xenobiology & Alien Physiology"
-  - "Toxicology & Antidotes"
-  - "Cybernetic Surgery & Implantation"
-  - "Pathology & Infectious Diseases"
+  - First Aid & Field Triage
+  - Trauma Surgery
+  - Xenobiology & Alien Physiology
+  - Toxicology & Antidotes
+  - Cybernetic Surgery & Implantation
+  - Pathology & Infectious Diseases
 synergy_links:
-  - "mental-science"
-  - "mental-nature"
-  - "mental-alchemist"
+  - mental-science
+  - mental-nature
+  - mental-alchemist
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Medicine

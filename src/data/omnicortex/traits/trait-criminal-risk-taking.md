@@ -1,11 +1,30 @@
 ---
-id: "trait-criminal-risk-taking"
-name: "Risk-taking"
-category: "traits"
-trait_type: "Occupational Trait"
-occupation_association: "Criminal"
-cost_cp: 1
-description: "Criminals may be more willing to take risks and engage in dangerous behavior"
+id: trait-criminal-risk-taking
+name: Risk-taking
+category: traits
+trait_type: Occupational Trait
+occupation_association: Criminal
+description: Criminals may be more willing to take risks and engage in dangerous behavior
+costs:
+  bp: 1
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Risk-taking

@@ -1,13 +1,35 @@
 ---
-id: "general-favored-enemy"
-name: "Favored Enemy"
-category: "features"
-feature_category: "General"
+id: general-favored-enemy
+name: Favored Enemy
+category: features
+feature_category: General
 cost_bp: 3
 is_ranked: true
 is_multiple: true
-prerequisites: "Awareness 1"
-description: "The character has studied a specific type of creature extensively, knowing their anatomy, tactics, and psychology."
+prerequisites: Awareness 1
+description: >-
+  The character has studied a specific type of creature extensively, knowing
+  their anatomy, tactics, and psychology.
+costs:
+  bp: 3
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Favored Enemy

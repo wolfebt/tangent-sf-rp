@@ -222,11 +222,11 @@ export const DBMContainer = () => {
   }, [currentItems, filterTypes, filterSubtypes, filterTLs, filterMLs, filterTags, searchTerm, sortField, sortAsc]);
 
   // Entry Management Logic
-  const handleOpenItem = (item, edit = false) => {
+  const handleOpenItem = (item, edit = isAdmin) => {
     setSelectedItem(item);
     setEditFormData(item ? { ...item } : { name: '', description: '' });
-    // Non-admins can only view (read-only mode)
-    setIsEditMode(isAdmin ? edit : false);
+    // In Dev Mode (isAdmin), directly open in Manage mode. Non-admins open in read-only View mode.
+    setIsEditMode(isAdmin ? true : false);
     setIsEntryModalOpen(true);
   };
 
@@ -270,7 +270,7 @@ export const DBMContainer = () => {
     }
   };
 
-  const handleSaveEntry = async (closeOnSuccess = false) => {
+  const handleSaveEntry = async (closeOnSuccess = false, customPayload = null) => {
     if (!currentUser) {
       alert('You must be logged in to save entries. Please sign in using the Login button in the header.');
       return;
@@ -279,12 +279,13 @@ export const DBMContainer = () => {
       alert('Administrator or GM privileges are required to save database entries.');
       return;
     }
-    if (!editFormData.name || !editFormData.name.trim()) {
+    const currentData = customPayload || editFormData;
+    if (!currentData.name || !currentData.name.trim()) {
       alert('Entry name is required!');
       return;
     }
-    const docId = selectedItem?.id || editFormData.id || `entry_${Date.now()}`;
-    const payload = { ...editFormData, name: editFormData.name.trim(), id: docId, updatedAt: new Date().toISOString() };
+    const docId = selectedItem?.id || currentData.id || `entry_${Date.now()}`;
+    const payload = { ...currentData, name: currentData.name.trim(), id: docId, updatedAt: new Date().toISOString() };
 
     const success = await saveEntry(payload, currentKey);
     if (success) {
@@ -447,6 +448,7 @@ export const DBMContainer = () => {
             mainCategories={mainCategories}
             activeCategory={activeCategory}
             currentKey={currentKey}
+            isAdmin={isAdmin}
             navigateToCategory={(catKey, subKey) => {
               navigateToCategory(catKey, subKey);
               if (setIsSidebarOpen) setIsSidebarOpen(false);

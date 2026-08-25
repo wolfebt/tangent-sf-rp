@@ -10,44 +10,102 @@ size:
   - species_size-large
 movement:
   - species_movement-slithering
-inherent_attribute_modifiers:
-  - attribute: Strength
-    bonus: 1
-  - attribute: Agility
-    bonus: 1
-bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Athletics (Grapple)
-    bonus: 2
-  - skill: Intimidation
-    bonus: 1
-bonus_skills: 0
-bonus_skill_choices:
-  - Athletics
-  - Intimidation
-  - Combat
-  - Attune
-inherent_features:
-  - 'Large Size (12-18ft serpentine body, Reach 10ft)'
-  - Awakened (Serpentine Metaphysics)
-  - Constriction (Deals double damage on successful grapple hold)
-  - Venomous Fangs (Paralytic Poison DC 15)
-bonus_features: 1
-bonus_feature_choices:
-  - Hypnotic Gaze
-  - Shed Skin (Escape Restraints)
-  - Thermal Pit Sense
-recommended_features:
-  - feature-constriction
 stigma: Severe Xeno (-4)
 tech_level: 3 (Heavy Tail-Mount Harnesses & Plasma Blasters)
 meta_level: 3 (Serpentine Sorcery)
 homeworld: Vass-Tor Dunes & Ruins
-cp_cost: 22
 cp: 22
 description: >-
   Colossal 12-to-18 foot serpentine beings with humanoid upper torsos, wielding
   crushing constriction power, heat-sensing pits, and venomous strikes.
+costs:
+  bp: 22
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Strength
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Agility
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Athletics (Grapple)
+    type: skill
+    value: 2
+    mode: inherent
+  - target: Intimidation
+    type: skill
+    value: 1
+    mode: inherent
+  - target: Athletics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Intimidation
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Combat
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Attune
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: 'Large Size (12-18ft serpentine body, Reach 10ft)'
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Awakened (Serpentine Metaphysics)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Constriction (Deals double damage on successful grapple hold)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Venomous Fangs (Paralytic Poison DC 15)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Hypnotic Gaze
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Shed Skin (Escape Restraints)
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Thermal Pit Sense
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-constriction
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Vassoth (Serpentine Colossus)
 

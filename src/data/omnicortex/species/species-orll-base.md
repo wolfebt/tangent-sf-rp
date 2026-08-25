@@ -10,45 +10,106 @@ size:
   - species_size-large
 movement:
   - species_movement-bipedal
-inherent_attribute_modifiers:
-  - attribute: Strength
-    bonus: 2
-  - attribute: Stamina
-    bonus: 2
-  - attribute: Intellect
-    bonus: -1
-  - attribute: Charisma
-    bonus: -1
-bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Combat (Melee)
-    bonus: 2
-bonus_skills: 5
-bonus_skill_choices:
-  - Combat
-  - Intimidation
-  - Athletics
-  - Survival
-inherent_features:
-  - Exoskeleton (Light Chitin DR 3/-)
-  - 'Rage (+4 STR, -2 Defense in combat 1/enc)'
-  - Heavy Strike (+2 Damage)
-bonus_features: 1
-bonus_feature_choices:
-  - Furious Slam
-  - Crushing Grip
-  - Pheromone Frenzy
-recommended_features:
-  - feature-furious-slam
 stigma: 'Savage (-4), Xeno (-2)'
 tech_level: 2 (Heavy Ballistic Scrap Guns & Cleavers)
 meta_level: 0 (Null)
 homeworld: Orll Prime Badlands
-cp_cost: 21
 cp: 21
 description: >-
   Fierce, armored insectoid-humanoid berserkers revered for their devastating
   physical power and terrifying combat rages.
+costs:
+  bp: 21
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Strength
+    type: attribute
+    value: 2
+    mode: inherent
+  - target: Stamina
+    type: attribute
+    value: 2
+    mode: inherent
+  - target: Intellect
+    type: attribute
+    value: -1
+    mode: inherent
+  - target: Charisma
+    type: attribute
+    value: -1
+    mode: inherent
+  - target: Combat (Melee)
+    type: skill
+    value: 2
+    mode: inherent
+  - target: General Skill Pool
+    type: skill
+    value: 5
+    mode: bonus_pool
+  - target: Combat
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Intimidation
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Athletics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Survival
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Exoskeleton (Light Chitin DR 3/-)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: 'Rage (+4 STR, -2 Defense in combat 1/enc)'
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Heavy Strike (+2 Damage)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Furious Slam
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Crushing Grip
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Pheromone Frenzy
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-furious-slam
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Orll (Brute Insectoid Humanoid)
 

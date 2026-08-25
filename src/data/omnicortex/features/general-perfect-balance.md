@@ -1,13 +1,35 @@
 ---
-id: "general-perfect-balance"
-name: "Perfect Balance"
-category: "features"
-feature_category: "General"
+id: general-perfect-balance
+name: Perfect Balance
+category: features
+feature_category: General
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: "Agi 4, Acrobatic Steps"
-description: "Perfect Balance is a General Feature: Ignore any difficult terrain when you move."
+prerequisites: 'Agi 4, Acrobatic Steps'
+description: >-
+  Perfect Balance is a General Feature: Ignore any difficult terrain when you
+  move.
+costs:
+  bp: 3
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Perfect Balance

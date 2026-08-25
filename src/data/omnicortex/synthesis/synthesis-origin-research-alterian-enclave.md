@@ -1,10 +1,30 @@
 ---
-id: "synthesis-origin-research-alterian-enclave"
-name: "Research (ALTERIAN ENCLAVE) Visual Synthesis"
-category: "synthesis"
-synthesis_type: "origin_scenery"
-origin_id: "origin-research"
-faction_id: "faction-alterian-enclave"
+id: synthesis-origin-research-alterian-enclave
+name: Research (ALTERIAN ENCLAVE) Visual Synthesis
+category: synthesis
+synthesis_type: origin_scenery
+origin_id: origin-research
+faction_id: faction-alterian-enclave
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Research Origin × ALTERIAN ENCLAVE Visual Synthesis Matrix

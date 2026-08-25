@@ -1,21 +1,45 @@
 ---
-id: "social-barter"
-name: "Barter"
-type: "social"
-subtype: "manipulation"
-category: "skills"
-governing_attributes: ["Charisma","Wisdom"]
-description: "The art of direct trade and negotiation: haggling prices, evaluating exchange parity, and structuring deals without cash currency."
+id: social-barter
+name: Barter
+type: social
+subtype: manipulation
+category: skills
+governing_attributes:
+  - Charisma
+  - Wisdom
+description: >-
+  The art of direct trade and negotiation: haggling prices, evaluating exchange
+  parity, and structuring deals without cash currency.
 trained_only: false
 specialties:
-  - "Haggling & Price Reduction"
-  - "Item Appraisal in Trade"
-  - "Direct Swap & Trade Agreements"
-  - "Frontier Market Trading"
+  - Haggling & Price Reduction
+  - Item Appraisal in Trade
+  - Direct Swap & Trade Agreements
+  - Frontier Market Trading
 synergy_links:
-  - "mental-trade"
-  - "mental-appraisal"
-  - "social-diplomacy"
+  - mental-trade
+  - mental-appraisal
+  - social-diplomacy
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Barter

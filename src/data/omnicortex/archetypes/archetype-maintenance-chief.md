@@ -1,20 +1,58 @@
 ---
-id: "archetype-maintenance-chief"
-name: "The Maintenance Chief"
-sphere: "Sentinels (The Stabilizers)"
-category: "archetypes"
+id: archetype-maintenance-chief
+name: The Maintenance Chief
+sphere: Sentinels (The Stabilizers)
+category: archetypes
 bp_chassis: 80
-core_concept: "Support / Repair / Logistics"
-primary_attribute: "Intellect"
-secondary_attribute: "Agility"
-recommended_occupations: ["Builder","Spacer"]
-recommended_origins: ["Industrial","Spacer","Urban"]
-recommended_factions: ["Mekan (Maintenance Hubs)","Syndicate (Grid Techs)","Impyrium"]
-essential_skills: ["Knowledge (Technology)","Vocation (Engineer)","Alertness","Vocation (Management)"]
-signature_features: ["Efficient Manager","Technical Aptitude"]
-tactical_role: "Maintaining base infrastructure, rapid field repair of vehicles, bypassing industrial locks."
-quote: "\"She's a bit cranky today, but I've got her settled.\""
-description: "The veteran technician who keeps massive infrastructure systems online under impossible conditions."
+core_concept: Support / Repair / Logistics
+primary_attribute: Intellect
+secondary_attribute: Agility
+recommended_occupations:
+  - Builder
+  - Spacer
+recommended_origins:
+  - Industrial
+  - Spacer
+  - Urban
+recommended_factions:
+  - Mekan (Maintenance Hubs)
+  - Syndicate (Grid Techs)
+  - Impyrium
+essential_skills:
+  - Knowledge (Technology)
+  - Vocation (Engineer)
+  - Alertness
+  - Vocation (Management)
+signature_features:
+  - Efficient Manager
+  - Technical Aptitude
+tactical_role: >-
+  Maintaining base infrastructure, rapid field repair of vehicles, bypassing
+  industrial locks.
+quote: '"She''s a bit cranky today, but I''ve got her settled."'
+description: >-
+  The veteran technician who keeps massive infrastructure systems online under
+  impossible conditions.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Maintenance Chief

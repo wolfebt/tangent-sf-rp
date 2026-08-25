@@ -10,37 +10,94 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-inherent_attribute_modifiers: []
-bonus_attribute_points: 2
-specific_skill_bonuses:
-  - skill: Diplomacy
-    bonus: 1
-bonus_skills: 5
-bonus_skill_choices:
-  - Diplomacy
-  - Attune
-  - Perception
-  - Culture
-inherent_features:
-  - Low Light Vision
-  - Extended Lifespan (200 years)
-  - Arcane Affinity
-bonus_features: 1
-bonus_feature_choices:
-  - Silver Tongue
-  - Graceful Stride
-  - Focused Mind
-recommended_features:
-  - feature-graceful-stride
 stigma: None
 tech_level: 3 (Magi-Tech Synthesis)
 meta_level: 2 (Harmonic Weave)
 homeworld: Border Worlds & Conclave Embassies
-cp_cost: 17
 cp: 17
 description: >-
   The Kheen represent stable human-aeld lineages who inherited elven aesthetic
   grace and longevity while maintaining human versatility and adaptability.
+costs:
+  bp: 17
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Any Attribute
+    type: attribute
+    value: 2
+    mode: bonus_pool
+  - target: Diplomacy
+    type: skill
+    value: 1
+    mode: inherent
+  - target: General Skill Pool
+    type: skill
+    value: 5
+    mode: bonus_pool
+  - target: Diplomacy
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Attune
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Perception
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Culture
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Low Light Vision
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Extended Lifespan (200 years)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Arcane Affinity
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Silver Tongue
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Graceful Stride
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Focused Mind
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-graceful-stride
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Kheen Human (Aeld Hybrid)
 

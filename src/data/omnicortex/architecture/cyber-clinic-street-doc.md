@@ -8,8 +8,6 @@ height_class: Single
 stories: 1
 frame: Standard
 environment: Standard
-tl: 3
-ml: 0
 cost: 279
 sp: 200
 dr: 12
@@ -24,6 +22,28 @@ description: >-
 mechanic: >-
   SP: 200. DR: 12. Modules: 4. Surgical Chair, Autodoc Arm, Sterilization
   Chamber, Storage.
+costs:
+  bp: 0
+  credits: 279
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
+tech_level: 3
+meta_level: 0
 ---
 Compact medical clinic tailored for rapid cybernetic surgery, trauma repair, and illicit biological modifications.
 

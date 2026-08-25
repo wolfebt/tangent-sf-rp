@@ -1,10 +1,30 @@
 ---
-id: "4-01-omni-codex-metaphysics-overview"
-name: "4.01 The Omni-Codex of Metaphysics Overview"
-category: "compendium"
-entry_type: "Core Rule"
-parent: "4.00 METAPHYSICS"
+id: 4-01-omni-codex-metaphysics-overview
+name: 4.01 The Omni-Codex of Metaphysics Overview
+category: compendium
+entry_type: Core Rule
+parent: 4.00 METAPHYSICS
 order: 1
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # 4.01 The Omni-Codex of Metaphysics Overview
 

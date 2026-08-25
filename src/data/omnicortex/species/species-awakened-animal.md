@@ -10,40 +10,95 @@ size:
   - species_size-medium
 movement:
   - species_movement-quadruped
-inherent_attribute_modifiers: []
-bonus_attribute_points: 2
-specific_skill_bonuses:
-  - skill: Perception
-    bonus: 2
-  - skill: Survival
-    bonus: 2
-bonus_skills: 0
-bonus_skill_choices:
-  - Perception
-  - Survival
-  - Athletics
-  - Stealth
-inherent_features:
-  - 'Animal Physiology (Natural Weapons, Scent, Low-Light)'
-  - Awakened Consciousness (Human-level sentience)
-  - Vocal Synthesizer / Telepathic Collar
-bonus_features: 1
-bonus_feature_choices:
-  - Keen Senses
-  - Pounce
-  - Thick Fur DR
-recommended_features:
-  - feature-keen-senses
 stigma: Beast (-4)
 tech_level: 2 (Adapted Gear)
 meta_level: 2 (Primal Sentience)
 homeworld: Uplift Habitats & Nature Sanctuaries
-cp_cost: 15
 cp: 15
 description: >-
   Uplifted canines, felines, ursines, and avians granted full sapience and
   tactical communication through cybernetic collars or bio-genetic uplift
   programs.
+costs:
+  bp: 15
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Any Attribute
+    type: attribute
+    value: 2
+    mode: bonus_pool
+  - target: Perception
+    type: skill
+    value: 2
+    mode: inherent
+  - target: Survival
+    type: skill
+    value: 2
+    mode: inherent
+  - target: Perception
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Survival
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Athletics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Stealth
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: 'Animal Physiology (Natural Weapons, Scent, Low-Light)'
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Awakened Consciousness (Human-level sentience)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Vocal Synthesizer / Telepathic Collar
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Keen Senses
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Pounce
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Thick Fur DR
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-keen-senses
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Awakened Animal (Uplifted Beast)
 

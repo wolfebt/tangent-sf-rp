@@ -1,20 +1,58 @@
 ---
-id: "archetype-astromancer"
-name: "The Astromancer"
-sphere: "Savants (The Rationals)"
-category: "archetypes"
+id: archetype-astromancer
+name: The Astromancer
+sphere: Savants (The Rationals)
+category: archetypes
 bp_chassis: 80
-core_concept: "Expert / Navigator / Science Support"
-primary_attribute: "Intellect"
-secondary_attribute: "Wisdom"
-recommended_occupations: ["Scholar","Spacer"]
-recommended_origins: ["Research","Spacer","Enlightened"]
-recommended_factions: ["Alterian Enclave","Ascendancy","Void-dwelling species"]
-essential_skills: ["Academics","Knowledge (Technology)","Knowledge (Astrophysics)","Alertness"]
-signature_features: ["Celestial Savant","Observational Skills"]
-tactical_role: "Navigation through anomalies, identifying cosmic threats, operating ship sensors."
-quote: "\"We are all just stardust. Some of us are just moving faster than others.\""
-description: "Specializes in the study of celestial objects and phenomena. They provide navigation data and understand the cosmos."
+core_concept: Expert / Navigator / Science Support
+primary_attribute: Intellect
+secondary_attribute: Wisdom
+recommended_occupations:
+  - Scholar
+  - Spacer
+recommended_origins:
+  - Research
+  - Spacer
+  - Enlightened
+recommended_factions:
+  - Alterian Enclave
+  - Ascendancy
+  - Void-dwelling species
+essential_skills:
+  - Academics
+  - Knowledge (Technology)
+  - Knowledge (Astrophysics)
+  - Alertness
+signature_features:
+  - Celestial Savant
+  - Observational Skills
+tactical_role: >-
+  Navigation through anomalies, identifying cosmic threats, operating ship
+  sensors.
+quote: '"We are all just stardust. Some of us are just moving faster than others."'
+description: >-
+  Specializes in the study of celestial objects and phenomena. They provide
+  navigation data and understand the cosmos.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Astromancer

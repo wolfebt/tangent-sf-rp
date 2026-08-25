@@ -10,37 +10,94 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-inherent_attribute_modifiers: []
-bonus_attribute_points: 2
-specific_skill_bonuses:
-  - skill: Perception
-    bonus: 1
-bonus_skills: 5
-bonus_skill_choices:
-  - Perception
-  - Athletics
-  - Survival
-  - Combat
-inherent_features:
-  - '2 Splice Mutations (Natural Weapons, Chitin/Fur, Tail)'
-  - Mutation Power (Special Perk)
-bonus_features: 2
-bonus_feature_choices:
-  - Venom Fangs
-  - Echolocation
-  - Wall Crawling
-  - Night Vision
-recommended_features:
-  - feature-venom-fangs
 stigma: 'Genetic (-2), Beastial (-2)'
 tech_level: 4 (Splice Genomics)
 meta_level: 1 (Animalistic Resonance)
 homeworld: Bio-Foundry Laboratories
-cp_cost: 19
 cp: 19
 description: >-
   Spliced humans bearing animalistic genetic sequences granting horns, claws,
   reinforced skin, or thermal vision.
+costs:
+  bp: 19
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Any Attribute
+    type: attribute
+    value: 2
+    mode: bonus_pool
+  - target: Perception
+    type: skill
+    value: 1
+    mode: inherent
+  - target: General Skill Pool
+    type: skill
+    value: 5
+    mode: bonus_pool
+  - target: Perception
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Athletics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Survival
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Combat
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: '2 Splice Mutations (Natural Weapons, Chitin/Fur, Tail)'
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Mutation Power (Special Perk)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 2
+    mode: bonus_pool
+  - target: Venom Fangs
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Echolocation
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Wall Crawling
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Night Vision
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-venom-fangs
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Chimera (Splice Transhuman)
 

@@ -1,11 +1,32 @@
 ---
-id: "trait-citizen-communication"
-name: "Communication"
-category: "traits"
-trait_type: "Occupational Trait"
-occupation_association: "Citizen"
-cost_cp: 1
-description: "Effective communicators, able to convey complex ideas and information clearly and persuasively."
+id: trait-citizen-communication
+name: Communication
+category: traits
+trait_type: Occupational Trait
+occupation_association: Citizen
+description: >-
+  Effective communicators, able to convey complex ideas and information clearly
+  and persuasively.
+costs:
+  bp: 1
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Communication

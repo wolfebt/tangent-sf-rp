@@ -1,20 +1,56 @@
 ---
-id: "archetype-homesteader"
-name: "The Homesteader"
-sphere: "Sentinels (The Stabilizers)"
-category: "archetypes"
+id: archetype-homesteader
+name: The Homesteader
+sphere: Sentinels (The Stabilizers)
+category: archetypes
 bp_chassis: 80
-core_concept: "Survival / Crafter / Base Builder"
-primary_attribute: "Constitution"
-secondary_attribute: "Wisdom"
-recommended_occupations: ["Citizen (Colonist)","Scout"]
-recommended_origins: ["Agricultural","Colony","Hostile"]
-recommended_factions: ["Outworlds (Colonists)","Coalition (Settlers)","Dracon Dynasty (Peasantry)"]
-essential_skills: ["Knowledge (Survival)","Vocation (Farming/Laborer)","Vocation (Handler)","Knowledge (Nature)"]
-signature_features: ["Self-Sufficiency","Resourceful"]
-tactical_role: "Generating food/water, building fortifications, animal taming."
-quote: "\"This land is hard, but I am harder.\""
-description: "A hardworking and resourceful individual determined to build a life on the frontier."
+core_concept: Survival / Crafter / Base Builder
+primary_attribute: Constitution
+secondary_attribute: Wisdom
+recommended_occupations:
+  - Citizen (Colonist)
+  - Scout
+recommended_origins:
+  - Agricultural
+  - Colony
+  - Hostile
+recommended_factions:
+  - Outworlds (Colonists)
+  - Coalition (Settlers)
+  - Dracon Dynasty (Peasantry)
+essential_skills:
+  - Knowledge (Survival)
+  - Vocation (Farming/Laborer)
+  - Vocation (Handler)
+  - Knowledge (Nature)
+signature_features:
+  - Self-Sufficiency
+  - Resourceful
+tactical_role: 'Generating food/water, building fortifications, animal taming.'
+quote: '"This land is hard, but I am harder."'
+description: >-
+  A hardworking and resourceful individual determined to build a life on the
+  frontier.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Homesteader

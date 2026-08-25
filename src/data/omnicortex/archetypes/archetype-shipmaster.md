@@ -1,20 +1,56 @@
 ---
-id: "archetype-shipmaster"
-name: "The Shipmaster"
-sphere: "Sentinels (The Stabilizers)"
-category: "archetypes"
+id: archetype-shipmaster
+name: The Shipmaster
+sphere: Sentinels (The Stabilizers)
+category: archetypes
 bp_chassis: 80
-core_concept: "Logistics / Transport / Leadership"
-primary_attribute: "Intellect"
-secondary_attribute: "Charisma"
-recommended_occupations: ["Merchant","Spacer"]
-recommended_origins: ["Spacer","Urban","Industrial"]
-recommended_factions: ["Outworlds (Freighters)","Entari Combine (Trade Fleet)","Syndicate"]
-essential_skills: ["Knowledge (Technology)","Leadership","Diplomacy","Knowledge (Trade)"]
-signature_features: ["Naval Expertise","Commanding Presence"]
-tactical_role: "Managing ship operations, negotiating docking fees, avoiding piracy."
-quote: "\"Time is money, and we are ahead of schedule.\""
-description: "A seasoned starship captain who commands a vessel and crew with expertise in trade and safety."
+core_concept: Logistics / Transport / Leadership
+primary_attribute: Intellect
+secondary_attribute: Charisma
+recommended_occupations:
+  - Merchant
+  - Spacer
+recommended_origins:
+  - Spacer
+  - Urban
+  - Industrial
+recommended_factions:
+  - Outworlds (Freighters)
+  - Entari Combine (Trade Fleet)
+  - Syndicate
+essential_skills:
+  - Knowledge (Technology)
+  - Leadership
+  - Diplomacy
+  - Knowledge (Trade)
+signature_features:
+  - Naval Expertise
+  - Commanding Presence
+tactical_role: 'Managing ship operations, negotiating docking fees, avoiding piracy.'
+quote: '"Time is money, and we are ahead of schedule."'
+description: >-
+  A seasoned starship captain who commands a vessel and crew with expertise in
+  trade and safety.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Shipmaster

@@ -10,43 +10,118 @@ size:
   - species_size-medium
 movement:
   - species_movement-flight
-inherent_attribute_modifiers: []
-bonus_attribute_points: 1
-specific_skill_bonuses:
-  - skill: Stealth
-    bonus: 2
-bonus_skills: 10
-bonus_skill_choices:
-  - Stealth
-  - Attune
-  - Insight
-inherent_features:
-  - Ageless
-  - Alter Form (Advanced)
-  - Awakened (Void)
-  - Fast Healing
-  - Immortal
-  - Non-Typical Anatomy
-  - Regeneration
-  - Semi-Corporeal (Pass through walls)
-  - Telepathic
-  - Flight
-bonus_features: 1
-bonus_feature_choices:
-  - Ethereal Fade
-  - Ghost Whisper
-  - Chilling Aura
-recommended_features:
-  - feature-ethereal-fade
 stigma: Xeno (-2)
 tech_level: 4 (Ethereal Lattice Tech)
 meta_level: 5 (High Spectral Metaphysics)
 homeworld: The Twilight Rifts
-cp_cost: 29
 cp: 29
 description: >-
   Tenen are benign spectral Sha’nor who lack the predatory vampiric urge,
   drifting between realities as quiet chroniclers and spatial navigators.
+costs:
+  bp: 29
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Any Attribute
+    type: attribute
+    value: 1
+    mode: bonus_pool
+  - target: Stealth
+    type: skill
+    value: 2
+    mode: inherent
+  - target: General Skill Pool
+    type: skill
+    value: 10
+    mode: bonus_pool
+  - target: Stealth
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Attune
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Insight
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Ageless
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Alter Form (Advanced)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Awakened (Void)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Fast Healing
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Immortal
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Non-Typical Anatomy
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Regeneration
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Semi-Corporeal (Pass through walls)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Telepathic
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Flight
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Ethereal Fade
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Ghost Whisper
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Chilling Aura
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-ethereal-fade
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Tenen (Spectral Void Entity)
 

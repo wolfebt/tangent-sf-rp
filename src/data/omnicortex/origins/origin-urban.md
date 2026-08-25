@@ -1,12 +1,54 @@
 ---
-id: "origin-urban"
-name: "Urban"
-category: "origins"
+id: origin-urban
+name: Urban
+category: origins
 skill_points: 20
-society_skills: ["Streetwise","Alertness","Knowledge (Culture)","Knowledge (Technology)","Social (Any)","Vocation (Any)"]
-archetypes: ["Street Fixer","Ganger Enforcer","Cyber-Runner","Rooftop Courier","Corporate Drone","City Gumshoe"]
-traits: ["trait-adaptability","trait-contacts","trait-resourcefulness","trait-social-skills","trait-street-fighting","trait-streetwise","trait-tech-savvy","trait-urban-survival"]
-description: "Dense vertical megalopolises, multi-tiered arcologies, neon-lit commercial sprawls, and bustling cybernetic metropolises."
+society_skills:
+  - Streetwise
+  - Alertness
+  - Knowledge (Culture)
+  - Knowledge (Technology)
+  - Social (Any)
+  - Vocation (Any)
+archetypes:
+  - Street Fixer
+  - Ganger Enforcer
+  - Cyber-Runner
+  - Rooftop Courier
+  - Corporate Drone
+  - City Gumshoe
+traits:
+  - trait-adaptability
+  - trait-contacts
+  - trait-resourcefulness
+  - trait-social-skills
+  - trait-street-fighting
+  - trait-streetwise
+  - trait-tech-savvy
+  - trait-urban-survival
+description: >-
+  Dense vertical megalopolises, multi-tiered arcologies, neon-lit commercial
+  sprawls, and bustling cybernetic metropolises.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Urban Origin

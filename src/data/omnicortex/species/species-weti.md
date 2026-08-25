@@ -11,43 +11,106 @@ size:
 movement:
   - species_movement-bipedal
   - species_movement-climbing
-inherent_attribute_modifiers:
-  - attribute: Agility
-    bonus: 1
-bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Acrobatics
-    bonus: 2
-  - skill: Stealth
-    bonus: 1
-bonus_skills: 10
-bonus_skill_choices:
-  - Acrobatics
-  - Stealth
-  - Sleight of Hand
-  - Athletics
-  - Technology
-inherent_features:
-  - 'Tiny Size (+4 Defense, +4 Stealth)'
-  - Climbing Speed (30ft)
-  - Prehensile Tail
-  - Quick (+5ft Movement)
-bonus_features: 1
-bonus_feature_choices:
-  - Shadow Scamper
-  - Pico-Tool Manipulator
-  - Nimble Escape
-recommended_features:
-  - feature-quick
 stigma: 'Beast (-4), Xeno (-2)'
 tech_level: 3 (Miniaturized Sensor Rigs)
 meta_level: 1 (Intuitive Agility)
 homeworld: Weti Tree Canopies & Starship Ductwork
-cp_cost: 16
 cp: 16
 description: >-
   Tiny, hyper-intelligent simian creatures standing barely 18 inches tall,
   celebrated for repairing starship conduits, espionage, and rapid climbing.
+costs:
+  bp: 16
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Agility
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Acrobatics
+    type: skill
+    value: 2
+    mode: inherent
+  - target: Stealth
+    type: skill
+    value: 1
+    mode: inherent
+  - target: General Skill Pool
+    type: skill
+    value: 10
+    mode: bonus_pool
+  - target: Acrobatics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Stealth
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Sleight of Hand
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Athletics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Technology
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: 'Tiny Size (+4 Defense, +4 Stealth)'
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Climbing Speed (30ft)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Prehensile Tail
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Quick (+5ft Movement)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Shadow Scamper
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Pico-Tool Manipulator
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Nimble Escape
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-quick
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Weti (Simian Scout)
 

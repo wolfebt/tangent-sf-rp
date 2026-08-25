@@ -10,44 +10,107 @@ size:
   - species_size-diminutive
 movement:
   - species_movement-flight
-inherent_attribute_modifiers:
-  - attribute: Intellect
-    bonus: 1
-  - attribute: Strength
-    bonus: -8
-bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Discipline
-    bonus: 2
-bonus_skills: 10
-bonus_skill_choices:
-  - Discipline
-  - Hacking
-  - Stealth
-  - Science
-inherent_features:
-  - Synthetic Base Traits
-  - Hive Mind Protocol
-  - 'Fine Size (+6 Stealth, Passes through Keyholes)'
-  - Dispersal Defense (Immune to single-target physical attacks)
-  - Nano-Flight (30ft)
-bonus_features: 1
-bonus_feature_choices:
-  - Circuit Infiltration
-  - Cloud Suffocation
-  - Shape Mimicry
-recommended_features:
-  - feature-dispersal-defense
 stigma: Severe Synthetic (-4)
 tech_level: 4 (Micro-Drone & Nanite Lattices)
 meta_level: 1 (Swarm Resonance)
 homeworld: Nano-Fabrication Cloud Platforms
-cp_cost: 21
 cp: 21
 description: >-
   A cloud of billions of microscopic robotic drones functioning as a singular
   distributed intelligence, able to seep through vents and infiltrate secure
   systems.
+costs:
+  bp: 21
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Intellect
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Strength
+    type: attribute
+    value: -8
+    mode: inherent
+  - target: Discipline
+    type: skill
+    value: 2
+    mode: inherent
+  - target: General Skill Pool
+    type: skill
+    value: 10
+    mode: bonus_pool
+  - target: Discipline
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Hacking
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Stealth
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Science
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Synthetic Base Traits
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Hive Mind Protocol
+    type: feature
+    value: 1
+    mode: inherent
+  - target: 'Fine Size (+6 Stealth, Passes through Keyholes)'
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Dispersal Defense (Immune to single-target physical attacks)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Nano-Flight (30ft)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Circuit Infiltration
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Cloud Suffocation
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Shape Mimicry
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-dispersal-defense
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Swarm (Nanite / Micro-Drone Collective)
 

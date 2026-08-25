@@ -1,20 +1,56 @@
 ---
-id: "archetype-combat-saboteur"
-name: "The Combat-saboteur"
-sphere: "Operatives (The Artisans)"
-category: "archetypes"
+id: archetype-combat-saboteur
+name: The Combat-saboteur
+sphere: Operatives (The Artisans)
+category: archetypes
 bp_chassis: 80
-core_concept: "Area Damage / Demolition / Utility"
-primary_attribute: "Strength"
-secondary_attribute: "Intellect"
-recommended_occupations: ["Soldier","Builder"]
-recommended_origins: ["Industrial","Militaristic","Colony"]
-recommended_factions: ["Coalition (Rebels)","Syndicate (Demolitions)","Impyrium"]
-essential_skills: ["Knowledge (Technology)","Knowledge (Tactics)","Athletics","Heavy Weapons"]
-signature_features: ["Demolitionist","Heavy Weapon Mastery"]
-tactical_role: "Breaching structures, area denial, destroying heavy enemy units."
-quote: "\"Plan A involves explosives. Plan B is more explosives.\""
-description: "The frontline demolitionist who uses chaos and high explosives to restructure the battlefield in real-time."
+core_concept: Area Damage / Demolition / Utility
+primary_attribute: Strength
+secondary_attribute: Intellect
+recommended_occupations:
+  - Soldier
+  - Builder
+recommended_origins:
+  - Industrial
+  - Militaristic
+  - Colony
+recommended_factions:
+  - Coalition (Rebels)
+  - Syndicate (Demolitions)
+  - Impyrium
+essential_skills:
+  - Knowledge (Technology)
+  - Knowledge (Tactics)
+  - Athletics
+  - Heavy Weapons
+signature_features:
+  - Demolitionist
+  - Heavy Weapon Mastery
+tactical_role: 'Breaching structures, area denial, destroying heavy enemy units.'
+quote: '"Plan A involves explosives. Plan B is more explosives."'
+description: >-
+  The frontline demolitionist who uses chaos and high explosives to restructure
+  the battlefield in real-time.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Combat-saboteur

@@ -79,7 +79,9 @@ const FolioContainer = () => {
     clonePublicPersona,
     togglePersonaVisibility,
     loadPublicPersonas,
-    publicCatalog
+    publicCatalog,
+    applyArchetypeChassis,
+    applySpeciesAdjustments
   } = useFolio();
 
   const handleDeleteCurrentCharacter = useCallback(() => {
@@ -102,58 +104,24 @@ const FolioContainer = () => {
     setIsAssetModalOpen(true);
   }, []);
 
-  const handleSaveAssetItem = useCallback((key, assetData, index = null) => {
-    const taggedData = typeof assetData === 'object' ? attachCreatorTag(assetData, userHandle, currentUser) : assetData;
+  // Handle Save / Select from Asset Modal
+  const handleSaveAssetItem = useCallback((key, data, index = null) => {
+    const taggedData = attachCreatorTag(data, userHandle, currentUser);
+
     if (key.startsWith('char-')) {
       const name = typeof taggedData === 'object' ? (taggedData.name || taggedData.title || '') : taggedData;
       updateField(key, name);
 
-      // Auto-apply species inherent traits & bonus features if present
-      if (key === 'char-species' && typeof taggedData === 'object') {
-        // 1. Inherent Features (guaranteed)
-        if (Array.isArray(taggedData.inherent_features) && taggedData.inherent_features.length > 0) {
-          taggedData.inherent_features.forEach(feat => {
-            const featObj = typeof feat === 'object'
-              ? attachCreatorTag({ ...feat, category: feat.category || 'Species Inherent' }, userHandle, currentUser)
-              : attachCreatorTag({ id: `feat_${Date.now()}_${Math.random().toString(36).substring(2,6)}`, name: feat, cp: 0, category: 'Species Inherent' }, userHandle, currentUser);
-            handleAddItem('features', featObj);
-          });
-        }
-
-        // 2. Bonus Feature Choices
-        const bonusFeatures = Array.isArray(taggedData.bonus_feature_choices) && taggedData.bonus_feature_choices.length > 0
-          ? taggedData.bonus_feature_choices
-          : (Array.isArray(taggedData.bonus_features) ? taggedData.bonus_features : []);
-        if (bonusFeatures.length > 0) {
-          const featListStr = bonusFeatures.map(f => typeof f === 'object' ? (f.name || f.id) : f).join(', ');
-          const pts = parseInt(taggedData.bonus_features ?? taggedData.bonus_feature_points, 10);
-          const ptsText = (!isNaN(pts) && pts > 0) ? ` (Allotted Points: ${pts})` : '';
-          const autoApply = window.confirm(`Selected Species "${name}" includes bonus feature choices${ptsText} (${featListStr}). Would you like to add these bonus traits to your character sheet?`);
-          if (autoApply) {
-            bonusFeatures.forEach(feat => {
-              const featObj = typeof feat === 'object' 
-                ? attachCreatorTag(feat, userHandle, currentUser)
-                : attachCreatorTag({ id: `feat_${Date.now()}_${Math.random().toString(36).substring(2,6)}`, name: feat, cp: 0, category: 'Species Bonus' }, userHandle, currentUser);
-              handleAddItem('features', featObj);
-            });
-          }
-        }
+      // Auto-apply species inherent traits & adjustments if present
+      if (key === 'char-species' && typeof taggedData === 'object' && applySpeciesAdjustments) {
+        applySpeciesAdjustments(taggedData);
       }
 
-      // Auto-prompt archetype signature features if present
+      // Auto-prompt archetype 80 CP chassis if present
       if (key === 'char-archetype' && typeof taggedData === 'object') {
-        if (Array.isArray(taggedData.signature_features) && taggedData.signature_features.length > 0) {
-          const featListStr = taggedData.signature_features.map(f => typeof f === 'object' ? (f.name || f.id) : f).join(', ');
-          const autoApply = window.confirm(`Selected Archetype "${name}" includes recommended Signature Features (${featListStr}). Would you like to add these signature features to your character features list?`);
-          if (autoApply) {
-            taggedData.signature_features.forEach(feat => {
-              const featName = typeof feat === 'object' ? (feat.name || feat.title || feat.id) : feat;
-              const featObj = typeof feat === 'object'
-                ? attachCreatorTag({ ...feat, category: feat.category || 'Archetype Signature', cp: feat.cp !== undefined ? feat.cp : 2 }, userHandle, currentUser)
-                : attachCreatorTag({ id: `feat_arch_${Date.now()}_${Math.random().toString(36).substring(2,6)}`, name: featName, cp: 2, category: 'Archetype Signature' }, userHandle, currentUser);
-              handleAddItem('features', featObj);
-            });
-          }
+        const autoApply = window.confirm(`Selected Archetype "${name}". Would you like to apply the 80 CP Archetype Pre-Build (+3 Primary Attr, +2 Secondary Attr, Essential Skills & Signature Features)?`);
+        if (autoApply && applyArchetypeChassis) {
+          applyArchetypeChassis(taggedData);
         }
       }
     } else if (index !== null && index !== undefined && index >= 0) {
@@ -161,7 +129,7 @@ const FolioContainer = () => {
     } else {
       handleAddItem(key, taggedData);
     }
-  }, [updateField, handleAddItem, handleUpdateItem, userHandle, currentUser]);
+  }, [updateField, handleAddItem, handleUpdateItem, userHandle, currentUser, applyArchetypeChassis, applySpeciesAdjustments]);
 
   // Open Selector Modal helper
   const handleOpenSelectorModal = useCallback((key, title, browsePath, filterCategory = null, filterCategoryExclude = null) => {
@@ -174,52 +142,16 @@ const FolioContainer = () => {
       const name = typeof value === 'object' ? (value.name || value.title || '') : value;
       updateField(key, name);
 
-      // Auto-apply Omnicortex species inherent traits & bonus features if present
-      if (key === 'char-species' && typeof value === 'object') {
-        // 1. Inherent Features (guaranteed)
-        if (Array.isArray(value.inherent_features) && value.inherent_features.length > 0) {
-          value.inherent_features.forEach(feat => {
-            const featObj = typeof feat === 'object'
-              ? attachCreatorTag({ ...feat, category: feat.category || 'Species Inherent' }, userHandle, currentUser)
-              : attachCreatorTag({ id: `feat_${Date.now()}_${Math.random().toString(36).substring(2,6)}`, name: feat, cp: 0, category: 'Species Inherent' }, userHandle, currentUser);
-            handleAddItem('features', featObj);
-          });
-        }
-
-        // 2. Bonus Feature Choices
-        const bonusFeatures = Array.isArray(value.bonus_feature_choices) && value.bonus_feature_choices.length > 0
-          ? value.bonus_feature_choices
-          : (Array.isArray(value.bonus_features) ? value.bonus_features : []);
-        if (bonusFeatures.length > 0) {
-          const featListStr = bonusFeatures.map(f => typeof f === 'object' ? (f.name || f.id) : f).join(', ');
-          const pts = parseInt(value.bonus_features ?? value.bonus_feature_points, 10);
-          const ptsText = (!isNaN(pts) && pts > 0) ? ` (Allotted Points: ${pts})` : '';
-          const autoApply = window.confirm(`Selected Species "${name}" includes bonus feature choices${ptsText} (${featListStr}). Would you like to add these bonus traits to your character sheet?`);
-          if (autoApply) {
-            bonusFeatures.forEach(feat => {
-              const featObj = typeof feat === 'object' 
-                ? attachCreatorTag(feat, userHandle, currentUser)
-                : attachCreatorTag({ id: `feat_${Date.now()}_${Math.random().toString(36).substring(2,6)}`, name: feat, cp: 0, category: 'Species Bonus' }, userHandle, currentUser);
-              handleAddItem('features', featObj);
-            });
-          }
-        }
+      // Auto-apply Omnicortex species inherent traits & adjustments if present
+      if (key === 'char-species' && typeof value === 'object' && applySpeciesAdjustments) {
+        applySpeciesAdjustments(value);
       }
 
-      // Auto-prompt archetype signature features if present
+      // Auto-prompt archetype 80 CP chassis if present
       if (key === 'char-archetype' && typeof value === 'object') {
-        if (Array.isArray(value.signature_features) && value.signature_features.length > 0) {
-          const featListStr = value.signature_features.map(f => typeof f === 'object' ? (f.name || f.id) : f).join(', ');
-          const autoApply = window.confirm(`Selected Archetype "${name}" includes recommended Signature Features (${featListStr}). Would you like to add these signature features to your character features list?`);
-          if (autoApply) {
-            value.signature_features.forEach(feat => {
-              const featName = typeof feat === 'object' ? (feat.name || feat.title || feat.id) : feat;
-              const featObj = typeof feat === 'object'
-                ? attachCreatorTag({ ...feat, category: feat.category || 'Archetype Signature', cp: feat.cp !== undefined ? feat.cp : 2 }, userHandle, currentUser)
-                : attachCreatorTag({ id: `feat_arch_${Date.now()}_${Math.random().toString(36).substring(2,6)}`, name: featName, cp: 2, category: 'Archetype Signature' }, userHandle, currentUser);
-              handleAddItem('features', featObj);
-            });
-          }
+        const autoApply = window.confirm(`Selected Archetype "${name}". Would you like to apply the 80 CP Archetype Pre-Build (+3 Primary Attr, +2 Secondary Attr, Essential Skills & Signature Features)?`);
+        if (autoApply && applyArchetypeChassis) {
+          applyArchetypeChassis(value);
         }
       }
     } else {
@@ -229,7 +161,7 @@ const FolioContainer = () => {
       const itemObj = attachCreatorTag(rawObj, userHandle, currentUser);
       handleAddItem(key, itemObj);
     }
-  }, [updateField, handleAddItem, userHandle, currentUser]);
+  }, [updateField, handleAddItem, userHandle, currentUser, applyArchetypeChassis, applySpeciesAdjustments]);
 
   const onFileChange = (e) => {
     const file = e.target.files[0];
@@ -243,10 +175,55 @@ const FolioContainer = () => {
     }
   };
 
-  const charNameUpper = characterData['char-name'] ? characterData['char-name'].toUpperCase() : 'UNNAMED';
+  // Wire Top-level GlobalHUD header custom events to Folio modal state
+  useEffect(() => {
+    const handleOpenEconomy = () => setIsEconomyOpen(true);
+    const handleToggleBastion = () => setIsBastionOpen(prev => !prev);
+    const handleOpenRoster = () => setIsRosterOpen(true);
+    const handleOpenGuide = () => setIsGuideOpen(true);
+    const handleOpenNewChar = () => setIsConfirmOpen(true);
+    const handleOpenGuidedCreator = () => setIsGuidedCreatorOpen(true);
+    const handleOpenDeleteChar = () => setIsDeleteConfirmOpen(true);
+    const handleOpenClearChar = () => setIsConfirmOpen(true);
+    const handleOpenPreview = () => setIsPreviewOpen(true);
+    const handleTriggerLoadLocal = () => fileInputRef.current?.click();
+
+    window.addEventListener('open-folio-economy', handleOpenEconomy);
+    window.addEventListener('toggle-folio-bastion', handleToggleBastion);
+    window.addEventListener('open-folio-roster', handleOpenRoster);
+    window.addEventListener('open-folio-guide', handleOpenGuide);
+    window.addEventListener('open-folio-new-character', handleOpenNewChar);
+    window.addEventListener('open-folio-guided-creator', handleOpenGuidedCreator);
+    window.addEventListener('open-folio-delete-character', handleOpenDeleteChar);
+    window.addEventListener('open-folio-clear-character', handleOpenClearChar);
+    window.addEventListener('open-folio-preview', handleOpenPreview);
+    window.addEventListener('trigger-folio-load-local', handleTriggerLoadLocal);
+
+    return () => {
+      window.removeEventListener('open-folio-economy', handleOpenEconomy);
+      window.removeEventListener('toggle-folio-bastion', handleToggleBastion);
+      window.removeEventListener('open-folio-roster', handleOpenRoster);
+      window.removeEventListener('open-folio-guide', handleOpenGuide);
+      window.removeEventListener('open-folio-new-character', handleOpenNewChar);
+      window.removeEventListener('open-folio-guided-creator', handleOpenGuidedCreator);
+      window.removeEventListener('open-folio-delete-character', handleOpenDeleteChar);
+      window.removeEventListener('open-folio-clear-character', handleOpenClearChar);
+      window.removeEventListener('open-folio-preview', handleOpenPreview);
+      window.removeEventListener('trigger-folio-load-local', handleTriggerLoadLocal);
+    };
+  }, []);
 
   return (
-    <div className="flex h-screen w-screen bg-[#0d1117] text-slate-100 overflow-hidden font-sans relative">
+    <div className="flex h-full w-full bg-[#0d1117] text-slate-100 overflow-hidden font-sans relative">
+      {/* Hidden File Input for Loading Files */}
+      <input
+        type="file"
+        accept=".json"
+        ref={fileInputRef}
+        style={{ display: 'none' }}
+        onChange={onFileChange}
+      />
+
       {/* Mobile Sidebar Overlay Toggle */}
       <div className={`fixed inset-0 z-40 bg-black/60 md:hidden ${isSidebarOpen ? 'block' : 'hidden'}`} onClick={() => setIsSidebarOpen(false)} />
 
@@ -265,7 +242,22 @@ const FolioContainer = () => {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#0d1117]">
+      <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#0d1117] min-w-0">
+        {/* Mobile Navigation Opener */}
+        <div className="md:hidden flex items-center justify-between px-3 py-2 bg-[#121824] border-b border-slate-800">
+          <button
+            type="button"
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            className="px-2.5 py-1 bg-slate-900 border border-cyan-900/60 rounded text-cyan-400 text-xs font-bold flex items-center gap-1.5"
+          >
+            <span>&#9776;</span>
+            <span className="uppercase font-mono">Sections</span>
+          </button>
+          <span className="text-xs font-mono font-bold text-amber-400 uppercase truncate">
+            {characterData['char-name'] || 'UNNAMED OPERATIVE'}
+          </span>
+        </div>
+
         {/* Public Read-Only Banner */}
         {isReadOnly && (
           <div className="bg-amber-950/90 border-b border-amber-500/50 px-4 py-2 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-amber-200 shrink-0 shadow-lg">
@@ -285,205 +277,6 @@ const FolioContainer = () => {
             </div>
           </div>
         )}
-
-        {/* Sub-Header & Actions Bar */}
-        <header className="bg-[#0d1117] border-b border-[#0D5C63]/50 p-2.5 px-4 sm:px-6 flex items-center justify-between backdrop-blur-md gap-3 relative z-40">
-          {/* Left: Mobile Menu & Operative Display */}
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              id="mobile-menu-btn"
-              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className="md:hidden px-2.5 py-1.5 bg-slate-900 border border-cyan-900/60 rounded text-cyan-400 text-sm font-bold"
-            >
-              &#9776;
-            </button>
-
-            <div className="flex items-center gap-2">
-              <h2 id="actor-display-header" className="text-sm sm:text-base font-bold font-mono text-amber-400 uppercase tracking-wider drop-shadow-[0_0_8px_rgba(245,158,11,0.3)] truncate max-w-[180px] sm:max-w-xs" title={charNameUpper}>
-                {charNameUpper}
-              </h2>
-            </div>
-          </div>
-
-          {/* Right / Actions Bar */}
-          <div className="flex items-center justify-start md:justify-end gap-2 sm:gap-3">
-            {/* Real-time CP Budget Bar */}
-            {(() => {
-              const startingCP = parseInt(characterData['starting-cp'] || 150, 10);
-              const spentCP = computeSpentCP();
-              const remainingCP = startingCP - spentCP;
-              const percent = Math.min(100, Math.max(0, (spentCP / startingCP) * 100));
-              const isOver = spentCP > startingCP;
-
-              return (
-                <div
-                  onClick={() => setIsEconomyOpen(true)}
-                  className={`cursor-pointer bg-slate-950 border rounded px-3 py-1 flex flex-col min-w-[170px] hover:border-cyan-400 transition-all ${
-                    isOver
-                      ? 'border-red-500 ring-2 ring-red-500/80 shadow-[0_0_20px_rgba(239,68,68,0.5)] animate-pulse'
-                      : 'border-cyan-500/60 shadow-[0_0_10px_rgba(34,211,238,0.15)]'
-                  }`}
-                  title="Click to view detailed CP Economy & Point Pools breakdown"
-                >
-                  <div className="flex justify-between items-center text-[10px] font-bold uppercase font-mono">
-                    <span className="text-slate-400">CP BUDGET:</span>
-                    <span className={isOver ? 'text-red-400 font-bold' : 'text-amber-400'}>
-                      {spentCP} / {startingCP} CP
-                    </span>
-                  </div>
-                  <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden mt-1">
-                    <div
-                      className={`h-full transition-all duration-300 ${isOver ? 'bg-red-500' : 'bg-gradient-to-r from-cyan-500 to-amber-400'}`}
-                      style={{ width: `${percent}%` }}
-                    />
-                  </div>
-                  <span className={`text-[9px] text-right font-mono font-bold mt-0.5 ${isOver ? 'text-red-400' : 'text-slate-400'}`}>
-                    {isOver ? `OVER BUDGET (-${Math.abs(remainingCP)} CP)` : `${remainingCP} CP REMAINING`}
-                  </span>
-                </div>
-              );
-            })()}
-
-            {/* Hidden File Input */}
-            <input
-              type="file"
-              accept=".json"
-              ref={fileInputRef}
-              style={{ display: 'none' }}
-              onChange={onFileChange}
-            />
-
-            {/* Bastion AI Top Bar Toggle Button */}
-            <button
-              type="button"
-              onClick={() => setIsBastionOpen(prev => !prev)}
-              className={`px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
-                isBastionOpen
-                  ? 'bg-cyan-900/90 text-cyan-200 border border-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.4)]'
-                  : 'bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 shadow-[0_0_8px_rgba(34,211,238,0.2)]'
-              }`}
-              title="Toggle BASTION AI (Rules assistant & character generator)"
-            >
-              <span>🤖</span>
-              <span className="hidden sm:inline">BASTION</span>
-            </button>
-
-            {/* File Menu Dropdown */}
-            <div className="relative">
-              <button
-                type="button"
-                onClick={() => setIsFileMenuOpen(!isFileMenuOpen)}
-                className="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-1"
-              >
-                <span>File Menu</span>
-                <span className="text-[10px]">▼</span>
-              </button>
-
-              {isFileMenuOpen && (
-                <div
-                  className="absolute right-0 mt-1 w-48 bg-slate-900 border border-cyan-500/60 rounded-lg shadow-xl py-1 z-50 text-xs"
-                  onClick={() => setIsFileMenuOpen(false)}
-                >
-                  <button
-                    onClick={() => setIsRosterOpen(true)}
-                    className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-amber-300 uppercase font-bold"
-                  >
-                    Character Roster
-                  </button>
-                  <button
-                    onClick={() => setIsGuideOpen(true)}
-                    className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-slate-200 uppercase font-bold"
-                  >
-                    User Guide & Manual
-                  </button>
-                  <div className="border-t border-slate-800 my-1" />
-                  <button
-                    onClick={() => setIsConfirmOpen(true)}
-                    className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-slate-200 uppercase font-bold"
-                  >
-                    New Character (Manual)
-                  </button>
-                  <button
-                    onClick={() => setIsGuidedCreatorOpen(true)}
-                    className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-cyan-300 uppercase font-bold"
-                  >
-                    New Character (Guided)
-                  </button>
-                  <button
-                    onClick={() => setIsDeleteConfirmOpen(true)}
-                    className="w-full text-left px-4 py-2 hover:bg-red-950/80 text-red-400 uppercase font-bold"
-                  >
-                    Delete Character
-                  </button>
-                  <button
-                    onClick={() => setIsConfirmOpen(true)}
-                    className="w-full text-left px-4 py-2 hover:bg-slate-800 text-slate-400 uppercase font-bold"
-                  >
-                    Clear Sheet Data
-                  </button>
-                  <button
-                    onClick={() => setIsPreviewOpen(true)}
-                    className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-slate-200 uppercase font-bold"
-                  >
-                    Preview Sheet
-                  </button>
-                  <div className="border-t border-slate-800 my-1" />
-                  <button
-                    onClick={handleSaveLocal}
-                    className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-amber-300 uppercase font-bold"
-                  >
-                    Save to File (.json)
-                  </button>
-                  <button
-                    onClick={() => fileInputRef.current?.click()}
-                    className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-amber-300 uppercase font-bold"
-                  >
-                    Load File / Story Element
-                  </button>
-                  <button
-                    onClick={handleExportAsStoryElement}
-                    className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-cyan-300 uppercase font-bold flex items-center justify-between"
-                  >
-                    <span>Export Story Element</span>
-                    <span className="text-[10px] text-cyan-400 font-mono">Foundry</span>
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* Cloud Sync Status Indicator */}
-            {cloudSaveStatus && (
-              <div 
-                className="flex items-center gap-1.5 px-2 py-1 bg-slate-900/80 border border-slate-800 rounded text-[11px] font-mono text-slate-400"
-                title={
-                  cloudSaveStatus === 'saving'
-                    ? 'Saving to Cloud...'
-                    : cloudSaveStatus === 'saved'
-                    ? lastSavedTime ? `Cloud Synced at ${lastSavedTime.toLocaleTimeString()}` : 'Cloud Synced'
-                    : cloudSaveStatus === 'error'
-                    ? 'Cloud Sync Failed'
-                    : 'Local Storage Mode'
-                }
-              >
-                <span
-                  className={`w-2 h-2 rounded-full shrink-0 ${
-                    cloudSaveStatus === 'saving'
-                      ? 'bg-amber-400 animate-ping'
-                      : cloudSaveStatus === 'saved'
-                      ? 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]'
-                      : cloudSaveStatus === 'error'
-                      ? 'bg-red-500 shadow-[0_0_6px_rgba(239,68,68,0.8)] animate-pulse'
-                      : 'bg-slate-500'
-                  }`}
-                />
-                <span className="hidden lg:inline text-[10px] uppercase font-bold text-slate-500">
-                  {cloudSaveStatus === 'saving' ? 'Syncing' : cloudSaveStatus === 'saved' ? 'Synced' : cloudSaveStatus === 'error' ? 'Sync Error' : 'Local'}
-                </span>
-              </div>
-            )}
-          </div>
-        </header>
 
         {/* Over-Budget Alert Banner */}
         {(() => {
@@ -515,7 +308,7 @@ const FolioContainer = () => {
               <button
                 type="button"
                 onClick={() => setIsEconomyOpen(true)}
-                className="px-3 py-1 bg-red-900/80 hover:bg-red-800 border border-red-400 text-xs font-bold text-red-100 uppercase tracking-wider transition-colors shadow-sm shrink-0 rounded"
+                className="px-3 py-1 bg-red-900/80 hover:bg-red-800 border border-red-400 text-xs font-bold text-red-100 uppercase tracking-wider transition-colors shadow-sm shrink-0 rounded cursor-pointer"
               >
                 Inspect Budget
               </button>
@@ -523,8 +316,8 @@ const FolioContainer = () => {
           );
         })()}
 
-        {/* Tab Content Display */}
-        <div className="flex-1 overflow-y-auto relative p-2" onBlur={triggerSave}>
+        {/* Tab Content Display with ample padding to prevent viewport cutoff */}
+        <div className="flex-1 overflow-y-auto relative p-3 sm:p-5 pb-24" onBlur={triggerSave}>
           {activeTab === 'identity' && (
             <IdentityTab
               onOpenSelectorModal={handleOpenSelectorModal}

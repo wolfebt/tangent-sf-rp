@@ -1,20 +1,54 @@
 ---
-id: "archetype-privateer"
-name: "The Privateer"
-sphere: "Operatives (The Artisans)"
-category: "archetypes"
+id: archetype-privateer
+name: The Privateer
+sphere: Operatives (The Artisans)
+category: archetypes
 bp_chassis: 80
-core_concept: "Combat Pilot / Skirmisher / Face"
-primary_attribute: "Agility"
-secondary_attribute: "Charisma"
-recommended_occupations: ["Spacer","Soldier"]
-recommended_origins: ["Spacer","Colony","Militaristic"]
-recommended_factions: ["Coalition (Licensed)","Entari Combine (Security)","Outworlds"]
-essential_skills: ["Knowledge (Technology)","Knowledge (Tactics)","Acrobatics","Combat (any)"]
-signature_features: ["Practiced Pilot","Evasive Maneuvers"]
-tactical_role: "Space combat, boarding actions, high-speed interdiction."
-quote: "\"It's not piracy if you have a permit.\""
-description: "A skilled starship captain who operates independently on behalf of a faction."
+core_concept: Combat Pilot / Skirmisher / Face
+primary_attribute: Agility
+secondary_attribute: Charisma
+recommended_occupations:
+  - Spacer
+  - Soldier
+recommended_origins:
+  - Spacer
+  - Colony
+  - Militaristic
+recommended_factions:
+  - Coalition (Licensed)
+  - Entari Combine (Security)
+  - Outworlds
+essential_skills:
+  - Knowledge (Technology)
+  - Knowledge (Tactics)
+  - Acrobatics
+  - Combat (any)
+signature_features:
+  - Practiced Pilot
+  - Evasive Maneuvers
+tactical_role: 'Space combat, boarding actions, high-speed interdiction.'
+quote: '"It''s not piracy if you have a permit."'
+description: A skilled starship captain who operates independently on behalf of a faction.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Privateer

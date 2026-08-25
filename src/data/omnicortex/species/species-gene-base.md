@@ -10,36 +10,90 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-inherent_attribute_modifiers: []
-bonus_attribute_points: 2
-specific_skill_bonuses:
-  - skill: Science (Genetics)
-    bonus: 1
-bonus_skills: 5
-bonus_skill_choices:
-  - Science
-  - Athletics
-  - Discipline
-  - Medicine
-inherent_features:
-  - 'Genetic Optimization (Disease Immunity, Retinal Filter)'
-  - Custom Gene Blueprint (+1 Free Feature)
-bonus_features: 1
-bonus_feature_choices:
-  - Metabolic Acceleration
-  - Neural Overclock
-  - Cellular Renewal
-recommended_features:
-  - feature-cellular-renewal
 stigma: None
 tech_level: 4 (Genetic Engineering & Gene-Splicing)
 meta_level: 1 (Cellular Potential)
 homeworld: Neo-Genesis Laboratories
-cp_cost: 16
 cp: 16
 description: >-
   Gen-E transhumans are laboratory-engineered humans designed without congenital
   defects, carrying optimized immune systems and modular genetic code.
+costs:
+  bp: 16
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Any Attribute
+    type: attribute
+    value: 2
+    mode: bonus_pool
+  - target: Science (Genetics)
+    type: skill
+    value: 1
+    mode: inherent
+  - target: General Skill Pool
+    type: skill
+    value: 5
+    mode: bonus_pool
+  - target: Science
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Athletics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Discipline
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Medicine
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: 'Genetic Optimization (Disease Immunity, Retinal Filter)'
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Custom Gene Blueprint (+1 Free Feature)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Metabolic Acceleration
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Neural Overclock
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Cellular Renewal
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-cellular-renewal
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Gen-E (Standard Engineered Transhuman)
 

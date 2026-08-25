@@ -1,20 +1,58 @@
 ---
-id: "archetype-theoretician"
-name: "The Theoretician"
-sphere: "Savants (The Rationals)"
-category: "archetypes"
+id: archetype-theoretician
+name: The Theoretician
+sphere: Savants (The Rationals)
+category: archetypes
 bp_chassis: 80
-core_concept: "Research / Utility / Lore"
-primary_attribute: "Intellect"
-secondary_attribute: "Wisdom"
-recommended_occupations: ["Scholar","Specialist"]
-recommended_origins: ["Research","Enlightened","Spacer"]
-recommended_factions: ["Mekan (Code Researchers)","Ascendancy (Theorists)","Alterian Enclave"]
-essential_skills: ["Academics","Knowledge (Science \\- Physics)","Knowledge (Technology)","Knowledge (Science \\- Mathematics)"]
-signature_features: ["Logical Deduction","Innovative Thinking"]
-tactical_role: "Solving complex puzzles, predicting dimensional anomalies, theoretical tech analysis."
-quote: "\"The math doesn't lie. It just tells truths we aren't ready to hear.\""
-description: "THE visionary scientist who pushes the boundaries of standard physics to unlock the secrets of the multiverse."
+core_concept: Research / Utility / Lore
+primary_attribute: Intellect
+secondary_attribute: Wisdom
+recommended_occupations:
+  - Scholar
+  - Specialist
+recommended_origins:
+  - Research
+  - Enlightened
+  - Spacer
+recommended_factions:
+  - Mekan (Code Researchers)
+  - Ascendancy (Theorists)
+  - Alterian Enclave
+essential_skills:
+  - Academics
+  - Knowledge (Science \- Physics)
+  - Knowledge (Technology)
+  - Knowledge (Science \- Mathematics)
+signature_features:
+  - Logical Deduction
+  - Innovative Thinking
+tactical_role: >-
+  Solving complex puzzles, predicting dimensional anomalies, theoretical tech
+  analysis.
+quote: '"The math doesn''t lie. It just tells truths we aren''t ready to hear."'
+description: >-
+  THE visionary scientist who pushes the boundaries of standard physics to
+  unlock the secrets of the multiverse.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Theoretician

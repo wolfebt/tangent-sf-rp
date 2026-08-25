@@ -1,8 +1,30 @@
 ---
-id: "skill-points-economy"
-name: "Skill Points Economy & Sources"
-category: "rules"
-summary: "Build Point costs, starting maximum caps, and skill point allotments from Species, Faction, Origin, and Occupation."
+id: skill-points-economy
+name: Skill Points Economy & Sources
+category: rules
+summary: >-
+  Build Point costs, starting maximum caps, and skill point allotments from
+  Species, Faction, Origin, and Occupation.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Skill Points Economy & Sources

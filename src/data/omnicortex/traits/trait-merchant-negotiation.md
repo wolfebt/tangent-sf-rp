@@ -1,11 +1,32 @@
 ---
-id: "trait-merchant-negotiation"
-name: "Negotiation"
-category: "traits"
-trait_type: "Occupational Trait"
-occupation_association: "Merchant"
-cost_cp: 1
-description: "Merchants excel at bargaining and negotiating deals. They have the ability to persuade others and get the best prices for their goods or services."
+id: trait-merchant-negotiation
+name: Negotiation
+category: traits
+trait_type: Occupational Trait
+occupation_association: Merchant
+description: >-
+  Merchants excel at bargaining and negotiating deals. They have the ability to
+  persuade others and get the best prices for their goods or services.
+costs:
+  bp: 1
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Negotiation

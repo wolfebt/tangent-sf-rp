@@ -1,20 +1,53 @@
 ---
-id: "archetype-raider"
-name: "The Raider"
-sphere: "Operatives (The Artisans)"
-category: "archetypes"
+id: archetype-raider
+name: The Raider
+sphere: Operatives (The Artisans)
+category: archetypes
 bp_chassis: 80
-core_concept: "Aggression / Survival / Intimidation"
-primary_attribute: "Strength"
-secondary_attribute: "Constitution"
-recommended_occupations: ["Criminal","Drifter"]
-recommended_origins: ["Hostile","Colony","Militaristic"]
-recommended_factions: ["Outworlds (Pirates)","Coalition (Rebels)"]
-essential_skills: ["Intimidation","Athletics","Combat (Melee/Ranged)","Knowledge (Survival)"]
-signature_features: ["Wasteland Warrior","Ruthless"]
-tactical_role: "Shock assault, intimidation, scavenging."
-quote: "\"Weakness is a choice. I chose strength.\""
-description: "A hardened survivor who uses force to secure resources."
+core_concept: Aggression / Survival / Intimidation
+primary_attribute: Strength
+secondary_attribute: Constitution
+recommended_occupations:
+  - Criminal
+  - Drifter
+recommended_origins:
+  - Hostile
+  - Colony
+  - Militaristic
+recommended_factions:
+  - Outworlds (Pirates)
+  - Coalition (Rebels)
+essential_skills:
+  - Intimidation
+  - Athletics
+  - Combat (Melee/Ranged)
+  - Knowledge (Survival)
+signature_features:
+  - Wasteland Warrior
+  - Ruthless
+tactical_role: 'Shock assault, intimidation, scavenging.'
+quote: '"Weakness is a choice. I chose strength."'
+description: A hardened survivor who uses force to secure resources.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Raider

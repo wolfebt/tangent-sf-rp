@@ -1,11 +1,32 @@
 ---
-id: "trait-soldier-strategic"
-name: "Strategic"
-category: "traits"
-trait_type: "Occupational Trait"
-occupation_association: "Soldier"
-cost_cp: 1
-description: "Experienced in planning and executing missions, skilled at analyzing the battlefield and making strategic decisions"
+id: trait-soldier-strategic
+name: Strategic
+category: traits
+trait_type: Occupational Trait
+occupation_association: Soldier
+description: >-
+  Experienced in planning and executing missions, skilled at analyzing the
+  battlefield and making strategic decisions
+costs:
+  bp: 1
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Strategic

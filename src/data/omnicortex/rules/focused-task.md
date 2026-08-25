@@ -1,8 +1,30 @@
 ---
-id: "focused-task"
-name: "Focused Task (Concentration Mode)"
-category: "rules"
-summary: "Entering a state of deep concentration for +2 task bonus at the cost of -5 Defense and Perception."
+id: focused-task
+name: Focused Task (Concentration Mode)
+category: rules
+summary: >-
+  Entering a state of deep concentration for +2 task bonus at the cost of -5
+  Defense and Perception.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Focused Task (Concentration Mode)

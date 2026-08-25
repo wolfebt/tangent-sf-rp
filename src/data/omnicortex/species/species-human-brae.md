@@ -10,42 +10,106 @@ size:
   - species_size-small
 movement:
   - species_movement-bipedal
-inherent_attribute_modifiers:
-  - attribute: Agility
-    bonus: 1
-bonus_attribute_points: 1
-specific_skill_bonuses:
-  - skill: Acrobatics
-    bonus: 1
-  - skill: Stealth
-    bonus: 1
-bonus_skills: 10
-bonus_skill_choices:
-  - Acrobatics
-  - Stealth
-  - Engineering
-  - Piloting
-  - Sleight of Hand
-inherent_features:
-  - 'Small Size (+2 Defense, +2 Stealth)'
-  - Climber
-  - High Metabolism
-bonus_features: 1
-bonus_feature_choices:
-  - Nimble Squeeze
-  - Tunnel Runner
-  - Underfoot Dodge
-recommended_features:
-  - feature-climber
 stigma: None
 tech_level: 3 (Miniaturized Mechanics)
 meta_level: 1 (Agile Flow)
 homeworld: Brae Warren Habitats
-cp_cost: 18
 cp: 18
 description: >-
   Brae are compact, diminutive humans (standing 3 to 4 feet tall) who evolved
   aboard generational colony ships and tight subterranean refinery tubes.
+costs:
+  bp: 18
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Agility
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Any Attribute
+    type: attribute
+    value: 1
+    mode: bonus_pool
+  - target: Acrobatics
+    type: skill
+    value: 1
+    mode: inherent
+  - target: Stealth
+    type: skill
+    value: 1
+    mode: inherent
+  - target: General Skill Pool
+    type: skill
+    value: 10
+    mode: bonus_pool
+  - target: Acrobatics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Stealth
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Engineering
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Piloting
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Sleight of Hand
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: 'Small Size (+2 Defense, +2 Stealth)'
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Climber
+    type: feature
+    value: 1
+    mode: inherent
+  - target: High Metabolism
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Nimble Squeeze
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Tunnel Runner
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Underfoot Dodge
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-climber
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Brae Human (Small Stature Variant)
 

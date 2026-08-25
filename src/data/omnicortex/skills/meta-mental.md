@@ -1,19 +1,46 @@
 ---
-id: "meta-mental"
-name: "Mental"
-type: "meta"
-subtype: "discipline"
-category: "skills"
-governing_attributes: ["Intellect","Wisdom","Charisma"]
-description: "The metaphysical discipline governing telepathy, mind reading, neural blasts, psionic domination, memory alteration, precognition, and remote viewing."
+id: meta-mental
+name: Mental
+type: meta
+subtype: discipline
+category: skills
+governing_attributes:
+  - Intellect
+  - Wisdom
+  - Charisma
+description: >-
+  The metaphysical discipline governing telepathy, mind reading, neural blasts,
+  psionic domination, memory alteration, precognition, and remote viewing.
 trained_only: true
 specialties:
-  - "Projection Focus (Telepathic broadcast, mind blast, domination, memory edits)"
-  - "Sense Focus (Clairvoyance, precognition, mind reading, aura detection)"
+  - >-
+    Projection Focus (Telepathic broadcast, mind blast, domination, memory
+    edits)
+  - 'Sense Focus (Clairvoyance, precognition, mind reading, aura detection)'
 synergy_links:
-  - "meta-attune"
-  - "social-insight"
-  - "mental-metaphysics"
+  - meta-attune
+  - social-insight
+  - mental-metaphysics
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Mental

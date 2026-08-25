@@ -105,6 +105,7 @@ export const CODEX_MATRICES = [
     color: '#f59e0b', // Amber
     theme: 'amber',
     targetCollection: 'architecture',
+    ingestionKey: 'architecture',
     altCollection: 'society_architecture',
     description: 'Design orbital stations, planetary facilities, structural blueprints, tactical fortifications, and megastructures.',
     category: 'Property & Infrastructure',
@@ -175,6 +176,7 @@ export const CODEX_MATRICES = [
     color: '#f59e0b', // Amber
     theme: 'amber',
     targetCollection: 'armoring',
+    ingestionKey: 'armoring',
     description: 'Engineer tactical combat suits, powered exoskeletons, energy deflector shielding, and hazard environmental gear.',
     category: 'Combat & Defense',
     badge: 'Defense Matrix',
@@ -241,6 +243,7 @@ export const CODEX_MATRICES = [
     color: '#f59e0b', // Amber
     theme: 'amber',
     targetCollection: 'augmentations',
+    ingestionKey: 'augmentations',
     description: 'Fabricate cybernetic implants, neural coprocessors, bioware enhancements, subdermal armor, and nanite systems.',
     category: 'Transhuman Enhancements',
     badge: 'Cyberware Matrix',
@@ -303,6 +306,7 @@ export const CODEX_MATRICES = [
     color: '#f59e0b', // Amber
     theme: 'amber',
     targetCollection: 'gear',
+    ingestionKey: 'gear',
     description: 'Assemble field tools, medical tech, comms gear, scanners, electronic warfare decks, and exploration kits.',
     category: 'Gear & Utilities',
     badge: 'Equipment Matrix',
@@ -366,6 +370,7 @@ export const CODEX_MATRICES = [
     color: '#a855f7', // Purple
     theme: 'purple',
     targetCollection: 'invocations',
+    ingestionKey: 'invocations',
     description: 'Weave psionic powers, meta-abilities, psychic spells, dimensional anomalies, telekinesis, and consciousness rites.',
     category: 'Meta-Abilities & Psionics',
     badge: 'Psi Matrix',
@@ -419,6 +424,7 @@ export const CODEX_MATRICES = [
     color: '#f59e0b', // Amber
     theme: 'amber',
     targetCollection: 'mecha',
+    ingestionKey: 'mecha',
     description: 'Construct combat walkers, mobile battle armors, titan frames, dropships, hover-tanks, and assault chassis.',
     category: 'Vehicles & Heavy Frames',
     badge: 'Heavy Mech Matrix',
@@ -486,6 +492,7 @@ export const CODEX_MATRICES = [
     color: '#a855f7', // Purple
     theme: 'purple',
     targetCollection: 'gear',
+    ingestionKey: 'gear',
     altCollection: 'compendium',
     description: 'Devise psi-amplifiers, void-drive resonators, anomalous artifacts, ether batteries, and quantum catalyst devices.',
     category: 'Experimental Meta-Science',
@@ -542,6 +549,7 @@ export const CODEX_MATRICES = [
     color: '#3b82f6', // Blue
     theme: 'blue',
     targetCollection: 'modular_characters',
+    ingestionKey: 'other',
     altCollection: 'features',
     description: 'Assemble NPC archetypes, tactical adversary templates, security squads, mercenary bosses, and synth droids.',
     category: 'NPCs & Operative Templates',
@@ -601,6 +609,7 @@ export const CODEX_MATRICES = [
     color: '#10b981', // Green / Emerald
     theme: 'emerald',
     targetCollection: 'planetary_design',
+    ingestionKey: 'other',
     description: 'Map star systems, planetary biomes, orbital stations, atmospheric conditions, hazardous zones, and alien ecologies.',
     category: 'Cosmology & Worldbuilding',
     badge: 'Planetary Matrix',
@@ -662,6 +671,7 @@ export const CODEX_MATRICES = [
     color: '#10b981', // Green / Emerald
     theme: 'emerald',
     targetCollection: 'species',
+    ingestionKey: 'species',
     description: 'Engineer alien lifeforms, genetic mutants, synthetic chassis races, uplifted animals, and meta-human bloodlines.',
     category: 'Biological & Synthetic Lineages',
     badge: 'Species Matrix',
@@ -722,6 +732,7 @@ export const CODEX_MATRICES = [
     color: '#f59e0b', // Amber
     theme: 'amber',
     targetCollection: 'weaponry',
+    ingestionKey: 'weaponry',
     description: 'Forge kinetic firearms, energy blasters, plasma cutters, monofilament melee blades, and heavy ordnance.',
     category: 'Tactical Armaments',
     badge: 'Armament Matrix',
@@ -792,6 +803,7 @@ export const CODEX_MATRICES = [
     theme: 'slate',
     viewType: 'dashboard',
     targetCollection: 'economatrix',
+    ingestionKey: 'other',
     description: 'Master economic reference suite, trade route simulator, currency converter, and standard curve calculator.',
     category: 'System Reference & Calculators',
     badge: 'Economic Engine',
@@ -816,6 +828,7 @@ export const CODEX_MATRICES = [
     color: '#3b82f6', // Blue
     theme: 'blue',
     targetCollection: 'factions',
+    ingestionKey: 'factions',
     description: 'Design comprehensive sociological, economic, and military factions to populate the universe.',
     category: 'World Building',
     badge: 'Sociology Matrix',
@@ -893,6 +906,7 @@ export const CODEX_MATRICES = [
     theme: 'slate',
     viewType: 'dashboard',
     targetCollection: 'technology',
+    ingestionKey: 'other',
     description: 'Tech Level encyclopedia, domain capability charts, schematic repositories, and adaptive material references.',
     category: 'System Reference & Calculators',
     badge: 'Tech Engine',
@@ -920,6 +934,7 @@ export const CODEX_MATRICES = [
     theme: 'amber',
     viewType: 'dashboard',
     targetCollection: 'compendium',
+    ingestionKey: 'species',
     description: 'Bulk parse and inject external markdown data, tables, and raw text into the Omnicortex structured database.',
     category: 'System Reference & Calculators',
     badge: 'Admin Tool',

@@ -1,11 +1,32 @@
 ---
-id: "trait-animal-husbandry"
-name: "Animal Husbandry"
-category: "traits"
-trait_type: "Origin Trait"
-origin_association: "Agricultural"
-cost_cp: 1
-description: "Expertise in raising and caring for livestock, understanding animal behavior and nutrition."
+id: trait-animal-husbandry
+name: Animal Husbandry
+category: traits
+trait_type: Origin Trait
+origin_association: Agricultural
+description: >-
+  Expertise in raising and caring for livestock, understanding animal behavior
+  and nutrition.
+costs:
+  bp: 1
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Animal Husbandry

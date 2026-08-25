@@ -11,49 +11,114 @@ size:
 movement:
   - species_movement-bipedal
   - species_movement-climbing
-inherent_attribute_modifiers:
-  - attribute: Strength
-    bonus: 1
-  - attribute: Agility
-    bonus: 1
-  - attribute: Stamina
-    bonus: -1
-  - attribute: Charisma
-    bonus: -1
-bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Stealth
-    bonus: 2
-  - skill: Climbing
-    bonus: 1
-bonus_skills: 0
-bonus_skill_choices:
-  - Stealth
-  - Athletics
-  - Survival
-  - Combat (Ambush)
-inherent_features:
-  - Kitin Base Traits
-  - Climber (Ceiling walk)
-  - Multidextrous (6 Limbs)
-  - Quick Movement
-  - Venomous Bite
-bonus_features: 1
-bonus_feature_choices:
-  - Web Spinner
-  - Shadow Chitin
-  - Paralytic Toxin
-recommended_features:
-  - feature-web-spinner
 stigma: Severe Xeno (-4)
 tech_level: 3 (Silk Weaves & Neurotoxin Darts)
 meta_level: 2 (Vibrational Sense)
 homeworld: Kitin Tunnels
-cp_cost: 17
 cp: 17
 description: >-
   Rakne are multi-limbed, arachnid-like Kitin predators capable of scaling
   walls, spinning high-tensile silk webs, and delivering paralytic venom.
+costs:
+  bp: 17
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Strength
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Agility
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Stamina
+    type: attribute
+    value: -1
+    mode: inherent
+  - target: Charisma
+    type: attribute
+    value: -1
+    mode: inherent
+  - target: Stealth
+    type: skill
+    value: 2
+    mode: inherent
+  - target: Climbing
+    type: skill
+    value: 1
+    mode: inherent
+  - target: Stealth
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Athletics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Survival
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Combat (Ambush)
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Kitin Base Traits
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Climber (Ceiling walk)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Multidextrous (6 Limbs)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Quick Movement
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Venomous Bite
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Web Spinner
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Shadow Chitin
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Paralytic Toxin
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-web-spinner
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Rakne (Kitin Arachnoid Aberration)
 

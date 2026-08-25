@@ -1,13 +1,37 @@
 ---
-id: "ability-evasiveness"
-name: "Evasiveness"
-category: "features"
-feature_category: "Ability"
+id: ability-evasiveness
+name: Evasiveness
+category: features
+feature_category: Ability
 cost_bp: 3
 is_ranked: false
 is_multiple: true
-prerequisites: "Must possess the base Feature for the chosen Save (Lightning Reflexes, Great Fortitude, or Iron Will)."
-description: "The character is adept at avoiding the brunt of area attacks or resisting the full efficacy of potent effects."
+prerequisites: >-
+  Must possess the base Feature for the chosen Save (Lightning Reflexes, Great
+  Fortitude, or Iron Will).
+description: >-
+  The character is adept at avoiding the brunt of area attacks or resisting the
+  full efficacy of potent effects.
+costs:
+  bp: 3
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Evasiveness

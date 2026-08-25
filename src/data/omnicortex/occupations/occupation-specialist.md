@@ -1,13 +1,64 @@
 ---
-id: "occupation-specialist"
-name: "Specialist"
-category: "occupations"
+id: occupation-specialist
+name: Specialist
+category: occupations
 skill_points: 20
-professional_skills: ["Any five Physical","Knowledge or Vocation Skills within specialized training"]
-recommended_features: "Skill"
-archetypes: ["Doctor","Engineer","Roboticist","Cybersecurity Expert","Biotechnologist","Space Pilot","Explorer","Smuggler","Bounty Hunter","Racing Pilot","Extreme Athlete","Gamer","Artist"]
-traits: ["trait-specialist-adaptability","trait-specialist-expertise","trait-specialist-leadership","trait-specialist-physical-and-mental-resilience","trait-specialist-problem-solving","trait-specialist-resourcefulness","trait-specialist-team-player","trait-specialist-technological-proficiency","trait-specialist-versatility"]
-description: "A Specialist focuses on a specific area of expertise, providing unique skills and abilities that make them valuable to their team in various situations. A specialist's expertise can range from technology and engineering to psychic powers and artistic expression. These characters often excel in their chosen field, allowing them to tackle challenges and solve problems that other characters might struggle with. Their specialized knowledge and skills can be crucial in overcoming obstacles, gathering information, or supporting the team in combat and non-combat situations."
+professional_skills:
+  - Any five Physical
+  - Knowledge or Vocation Skills within specialized training
+archetypes:
+  - Doctor
+  - Engineer
+  - Roboticist
+  - Cybersecurity Expert
+  - Biotechnologist
+  - Space Pilot
+  - Explorer
+  - Smuggler
+  - Bounty Hunter
+  - Racing Pilot
+  - Extreme Athlete
+  - Gamer
+  - Artist
+traits:
+  - trait-specialist-adaptability
+  - trait-specialist-expertise
+  - trait-specialist-leadership
+  - trait-specialist-physical-and-mental-resilience
+  - trait-specialist-problem-solving
+  - trait-specialist-resourcefulness
+  - trait-specialist-team-player
+  - trait-specialist-technological-proficiency
+  - trait-specialist-versatility
+description: >-
+  A Specialist focuses on a specific area of expertise, providing unique skills
+  and abilities that make them valuable to their team in various situations. A
+  specialist's expertise can range from technology and engineering to psychic
+  powers and artistic expression. These characters often excel in their chosen
+  field, allowing them to tackle challenges and solve problems that other
+  characters might struggle with. Their specialized knowledge and skills can be
+  crucial in overcoming obstacles, gathering information, or supporting the team
+  in combat and non-combat situations.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Specialist Occupation

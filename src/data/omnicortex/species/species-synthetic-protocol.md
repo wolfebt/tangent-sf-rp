@@ -10,41 +10,106 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-inherent_attribute_modifiers:
-  - attribute: Charisma
-    bonus: -2
-bonus_attribute_points: 4
-specific_skill_bonuses:
-  - skill: Vocation (Administration/Service)
-    bonus: 2
-bonus_skills: 10
-bonus_skill_choices:
-  - Vocation
-  - Language
-  - Etiquette
-  - Medicine
-  - Law
-inherent_features:
-  - Synthetic Base Traits
-  - Adaptive Task Aspects
-  - Tech Assimilation (Rapid Tool Swap)
-  - Flawless Etiquette / Calculation
-bonus_features: 1
-bonus_feature_choices:
-  - Emergency Combat Override
-  - Multilingual Core
-  - Audit Directive
-recommended_features:
-  - feature-multilingual-core
 stigma: 'Severe Synthetic (-4), Anti-Organic (-2)'
 tech_level: 4 (High-Density Directive Processing)
 meta_level: 0 (Null)
 homeworld: Megacorp Headquarters
-cp_cost: 26
 cp: 26
 description: >-
   Protocol units are dedicated administrative, medical, or security automatons
   built with rigid programming directives and extensive skill libraries.
+costs:
+  bp: 26
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Charisma
+    type: attribute
+    value: -2
+    mode: inherent
+  - target: Any Attribute
+    type: attribute
+    value: 4
+    mode: bonus_pool
+  - target: Vocation (Administration/Service)
+    type: skill
+    value: 2
+    mode: inherent
+  - target: General Skill Pool
+    type: skill
+    value: 10
+    mode: bonus_pool
+  - target: Vocation
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Language
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Etiquette
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Medicine
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Law
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Synthetic Base Traits
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Adaptive Task Aspects
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Tech Assimilation (Rapid Tool Swap)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Flawless Etiquette / Calculation
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Emergency Combat Override
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Multilingual Core
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Audit Directive
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-multilingual-core
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Protocol (Specialized Directive Unit)
 

@@ -1,13 +1,35 @@
 ---
-id: "karma-ultimate-effort"
-name: "Ultimate Effort"
-category: "features"
-feature_category: "Karma"
+id: karma-ultimate-effort
+name: Ultimate Effort
+category: features
+feature_category: Karma
 cost_bp: 3
 is_ranked: true
 is_multiple: true
-prerequisites: "None (Must be assigned to a specific Trait/Skill/Attribute)."
-description: "The character is a savant or master in a specific field. When they truly focus, failure is impossible."
+prerequisites: None (Must be assigned to a specific Trait/Skill/Attribute).
+description: >-
+  The character is a savant or master in a specific field. When they truly
+  focus, failure is impossible.
+costs:
+  bp: 3
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Ultimate Effort

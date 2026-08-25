@@ -1,12 +1,52 @@
 ---
-id: "origin-militaristic"
-name: "Militaristic"
-category: "origins"
+id: origin-militaristic
+name: Militaristic
+category: origins
 skill_points: 20
-society_skills: ["Physical (Any)","Vocation (Any)","Combat (Any)"]
-archetypes: ["Shock Trooper","Sharpshooter","Combat Medic","Tactician","Military Engineer","Intelligence Officer"]
-traits: ["trait-combat-trained","trait-disciplined","trait-honor-bound","trait-leadership","trait-loyal","trait-milspec-gear","trait-pilot-skills","trait-strategic","trait-toughness"]
-description: "Fortress bastions, planetary garrison garrisons, naval academy stations, and fortified perimeter outposts."
+society_skills:
+  - Physical (Any)
+  - Vocation (Any)
+  - Combat (Any)
+archetypes:
+  - Shock Trooper
+  - Sharpshooter
+  - Combat Medic
+  - Tactician
+  - Military Engineer
+  - Intelligence Officer
+traits:
+  - trait-combat-trained
+  - trait-disciplined
+  - trait-honor-bound
+  - trait-leadership
+  - trait-loyal
+  - trait-milspec-gear
+  - trait-pilot-skills
+  - trait-strategic
+  - trait-toughness
+description: >-
+  Fortress bastions, planetary garrison garrisons, naval academy stations, and
+  fortified perimeter outposts.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Militaristic Origin

@@ -1,20 +1,56 @@
 ---
-id: "archetype-bailiff"
-name: "The Bailiff"
-sphere: "Sentinels (The Stabilizers)"
-category: "archetypes"
+id: archetype-bailiff
+name: The Bailiff
+sphere: Sentinels (The Stabilizers)
+category: archetypes
 bp_chassis: 80
-core_concept: "Law Enforcement / Control / Tank"
-primary_attribute: "Strength"
-secondary_attribute: "Wisdom"
-recommended_occupations: ["Agent","Citizen"]
-recommended_origins: ["Urban","Militaristic","Colony"]
-recommended_factions: ["Ascendancy (Judiciaries)","Impyrium (Legalists)","Entari Combine"]
-essential_skills: ["Knowledge (Investigation)","Knowledge (Law)","Intimidation","Melee"]
-signature_features: ["Law Enforcement Training","Authority Figure"]
-tactical_role: "Grappling and subduing targets, protecting VIPs, enforcing social order."
-quote: "\"The Court will have order. One way or another.\""
-description: "The officer of the court and enforcer of civil law, ensuring that order is maintained within the halls of justice."
+core_concept: Law Enforcement / Control / Tank
+primary_attribute: Strength
+secondary_attribute: Wisdom
+recommended_occupations:
+  - Agent
+  - Citizen
+recommended_origins:
+  - Urban
+  - Militaristic
+  - Colony
+recommended_factions:
+  - Ascendancy (Judiciaries)
+  - Impyrium (Legalists)
+  - Entari Combine
+essential_skills:
+  - Knowledge (Investigation)
+  - Knowledge (Law)
+  - Intimidation
+  - Melee
+signature_features:
+  - Law Enforcement Training
+  - Authority Figure
+tactical_role: 'Grappling and subduing targets, protecting VIPs, enforcing social order.'
+quote: '"The Court will have order. One way or another."'
+description: >-
+  The officer of the court and enforcer of civil law, ensuring that order is
+  maintained within the halls of justice.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Bailiff

@@ -1,9 +1,31 @@
 ---
-id: "template-hive-mind"
-name: "Hive Mind Collective"
-category: "factions"
-faction_type: "Generic Template"
-description: "Psionically unified swarm, insectoid collective, or synthetic mesh where individual identity is subsumed into the whole."
+id: template-hive-mind
+name: Hive Mind Collective
+category: factions
+faction_type: Generic Template
+description: >-
+  Psionically unified swarm, insectoid collective, or synthetic mesh where
+  individual identity is subsumed into the whole.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Hive Mind Collective (Generic Faction Template)

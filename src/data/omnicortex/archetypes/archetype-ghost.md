@@ -1,20 +1,56 @@
 ---
-id: "archetype-ghost"
-name: "The Ghost"
-sphere: "Operatives (The Artisans)"
-category: "archetypes"
+id: archetype-ghost
+name: The Ghost
+sphere: Operatives (The Artisans)
+category: archetypes
 bp_chassis: 80
-core_concept: "Stealth / Tech / Combat"
-primary_attribute: "Agility"
-secondary_attribute: "Technology"
-recommended_occupations: ["Agent","Soldier"]
-recommended_origins: ["Industrial","Urban","Militaristic"]
-recommended_factions: ["Syndicate (Infiltrators)","Mekan (Stealth Units)","Ascendancy"]
-essential_skills: ["Stealth","Knowledge (Technology)","Acrobatics","Combat"]
-signature_features: ["Technological Prowess","Adaptive Camouflage"]
-tactical_role: "Bypassing laser grids, hacking turrets, stealth takedowns."
-quote: "\"Security offline. Target acquired. Exfiltrating now.\""
-description: "Equipped with advanced enhancements to blend in and infiltrate high-security areas. Hack, cloak, and kill."
+core_concept: Stealth / Tech / Combat
+primary_attribute: Agility
+secondary_attribute: Technology
+recommended_occupations:
+  - Agent
+  - Soldier
+recommended_origins:
+  - Industrial
+  - Urban
+  - Militaristic
+recommended_factions:
+  - Syndicate (Infiltrators)
+  - Mekan (Stealth Units)
+  - Ascendancy
+essential_skills:
+  - Stealth
+  - Knowledge (Technology)
+  - Acrobatics
+  - Combat
+signature_features:
+  - Technological Prowess
+  - Adaptive Camouflage
+tactical_role: 'Bypassing laser grids, hacking turrets, stealth takedowns.'
+quote: '"Security offline. Target acquired. Exfiltrating now."'
+description: >-
+  Equipped with advanced enhancements to blend in and infiltrate high-security
+  areas. Hack, cloak, and kill.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Ghost

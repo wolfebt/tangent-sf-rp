@@ -1,20 +1,54 @@
 ---
-id: "archetype-peacekeeper"
-name: "The Peacekeeper"
-sphere: "Visionaries (The Idealists)"
-category: "archetypes"
+id: archetype-peacekeeper
+name: The Peacekeeper
+sphere: Visionaries (The Idealists)
+category: archetypes
 bp_chassis: 80
-core_concept: "Tank / Diplomat / Controller"
-primary_attribute: "Charisma"
-secondary_attribute: "Constitution"
-recommended_occupations: ["Soldier","Representative"]
-recommended_origins: ["Urban","Colony","Enlightened"]
-recommended_factions: ["Entari Combine (Constables)","Ascendancy (Judges)","Coalition"]
-essential_skills: ["Athletics","Diplomacy","Insight","Combat (any)"]
-signature_features: ["Pacifying Presence","Defensive Stance"]
-tactical_role: "De-escalating combat, protecting allies, subduing enemies non-lethally."
-quote: "\"Stand down. There is no need for bloodshed today.\""
-description: "A protector of the innocent and champion of peace, using force and words."
+core_concept: Tank / Diplomat / Controller
+primary_attribute: Charisma
+secondary_attribute: Constitution
+recommended_occupations:
+  - Soldier
+  - Representative
+recommended_origins:
+  - Urban
+  - Colony
+  - Enlightened
+recommended_factions:
+  - Entari Combine (Constables)
+  - Ascendancy (Judges)
+  - Coalition
+essential_skills:
+  - Athletics
+  - Diplomacy
+  - Insight
+  - Combat (any)
+signature_features:
+  - Pacifying Presence
+  - Defensive Stance
+tactical_role: 'De-escalating combat, protecting allies, subduing enemies non-lethally.'
+quote: '"Stand down. There is no need for bloodshed today."'
+description: 'A protector of the innocent and champion of peace, using force and words.'
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Peacekeeper

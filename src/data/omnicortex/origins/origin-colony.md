@@ -1,12 +1,53 @@
 ---
-id: "origin-colony"
-name: "Colony"
-category: "origins"
+id: origin-colony
+name: Colony
+category: origins
 skill_points: 20
-society_skills: ["Piloting","Alertness","Knowledge (Any)","Vocation (Any)"]
-archetypes: ["Pioneer","Homesteader","Prospector","Colony Engineer","Field Doctor","Frontier Soldier"]
-traits: ["trait-adaptability","trait-adventurous-spirit","trait-community-building","trait-diplomacy","trait-leadership","trait-problem-solving","trait-resource-management","trait-scientific-knowledge","trait-survival-skills"]
-description: "Frontier settlement worlds, modular prefab colonies, terraforming encampments, and new planetary territories."
+society_skills:
+  - Piloting
+  - Alertness
+  - Knowledge (Any)
+  - Vocation (Any)
+archetypes:
+  - Pioneer
+  - Homesteader
+  - Prospector
+  - Colony Engineer
+  - Field Doctor
+  - Frontier Soldier
+traits:
+  - trait-adaptability
+  - trait-adventurous-spirit
+  - trait-community-building
+  - trait-diplomacy
+  - trait-leadership
+  - trait-problem-solving
+  - trait-resource-management
+  - trait-scientific-knowledge
+  - trait-survival-skills
+description: >-
+  Frontier settlement worlds, modular prefab colonies, terraforming encampments,
+  and new planetary territories.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Colony Origin

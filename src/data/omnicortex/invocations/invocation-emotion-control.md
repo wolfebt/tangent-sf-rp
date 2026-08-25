@@ -1,9 +1,29 @@
 ---
-id: "invocation-emotion-control"
-name: "EMOTION CONTROL"
-category: "invocations"
-discipline: "Mental"
-description: "EMOTION CONTROL invocation for Mental reality manipulation."
+id: invocation-emotion-control
+name: EMOTION CONTROL
+category: invocations
+discipline: Mental
+description: EMOTION CONTROL invocation for Mental reality manipulation.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # EMOTION CONTROL Invocation

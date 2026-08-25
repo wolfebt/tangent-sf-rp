@@ -10,42 +10,103 @@ size:
   - species_size-small
 movement:
   - species_movement-bipedal
-inherent_attribute_modifiers: []
-bonus_attribute_points: 1
-specific_skill_bonuses:
-  - skill: Stealth
-    bonus: 1
-  - skill: Survival
-    bonus: 1
-bonus_skills: 0
-bonus_skill_choices:
-  - Stealth
-  - Survival
-  - Athletics
-  - Trickery
-inherent_features:
-  - Asi Base Traits
-  - Small / Medium Size Shift
-  - Climber
-  - Alter Form (Humanoid)
-  - Awakened (Nature)
-bonus_features: 1
-bonus_feature_choices:
-  - Scent Camouflage
-  - Pounce
-  - Shadow Lurker
-recommended_features:
-  - feature-shadow-lurker
 stigma: 'Animal (-2), Xeno (-2)'
 tech_level: 2 (Primal Tools)
 meta_level: 3 (Metamorphic Nature)
 homeworld: Sylvanna Enclaves
-cp_cost: 16
 cp: 16
 description: >-
   Koban are small, versatile shifter fey who can blend into humanoid crowds or
   vanish into wilderness thickets by adopting localized animal and humanoid
   silhouettes.
+costs:
+  bp: 16
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Any Attribute
+    type: attribute
+    value: 1
+    mode: bonus_pool
+  - target: Stealth
+    type: skill
+    value: 1
+    mode: inherent
+  - target: Survival
+    type: skill
+    value: 1
+    mode: inherent
+  - target: Stealth
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Survival
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Athletics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Trickery
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Asi Base Traits
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Small / Medium Size Shift
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Climber
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Alter Form (Humanoid)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Awakened (Nature)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Scent Camouflage
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Pounce
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Shadow Lurker
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-shadow-lurker
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Koban (Shifter Fey)
 

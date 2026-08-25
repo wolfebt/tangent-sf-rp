@@ -1,13 +1,35 @@
 ---
-id: "general-connected"
-name: "Connected"
-category: "features"
-feature_category: "General"
+id: general-connected
+name: Connected
+category: features
+feature_category: General
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: "Charisma 1"
-description: "The character has friends in low (or high) places. They can call in favors for equipment, information, or safe houses."
+prerequisites: Charisma 1
+description: >-
+  The character has friends in low (or high) places. They can call in favors for
+  equipment, information, or safe houses.
+costs:
+  bp: 3
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Connected

@@ -1,20 +1,55 @@
 ---
-id: "archetype-revolutionary"
-name: "The Revolutionary"
-sphere: "Visionaries (The Idealists)"
-category: "archetypes"
+id: archetype-revolutionary
+name: The Revolutionary
+sphere: Visionaries (The Idealists)
+category: archetypes
 bp_chassis: 80
-core_concept: "Leader / Agitator / Skirmisher"
-primary_attribute: "Charisma"
-secondary_attribute: "Spirit"
-recommended_occupations: ["Citizen","Criminal"]
-recommended_origins: ["Industrial","Colony","Urban"]
-recommended_factions: ["Coalition (Independence)","Outworlds","Syndicate (Unionizers)"]
-essential_skills: ["Leadership","Diplomacy","Insight","Knowledge (Tactics)","Combat (any)"]
-signature_features: ["Inspiring Rhetoric","Rebel Leader"]
-tactical_role: "Inspiring NPCs to fight, leading riots/raids, boosting ally morale."
-quote: "\"Break the chains! Rise up!\""
-description: "A charismatic leader who inspires and unites the rebellion."
+core_concept: Leader / Agitator / Skirmisher
+primary_attribute: Charisma
+secondary_attribute: Spirit
+recommended_occupations:
+  - Citizen
+  - Criminal
+recommended_origins:
+  - Industrial
+  - Colony
+  - Urban
+recommended_factions:
+  - Coalition (Independence)
+  - Outworlds
+  - Syndicate (Unionizers)
+essential_skills:
+  - Leadership
+  - Diplomacy
+  - Insight
+  - Knowledge (Tactics)
+  - Combat (any)
+signature_features:
+  - Inspiring Rhetoric
+  - Rebel Leader
+tactical_role: 'Inspiring NPCs to fight, leading riots/raids, boosting ally morale.'
+quote: '"Break the chains! Rise up!"'
+description: A charismatic leader who inspires and unites the rebellion.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Revolutionary

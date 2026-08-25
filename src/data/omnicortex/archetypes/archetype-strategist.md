@@ -1,20 +1,57 @@
 ---
-id: "archetype-strategist"
-name: "The Strategist"
-sphere: "Savants (The Rationals)"
-category: "archetypes"
+id: archetype-strategist
+name: The Strategist
+sphere: Savants (The Rationals)
+category: archetypes
 bp_chassis: 80
-core_concept: "Utility / Investigation / Puzzle Solver"
-primary_attribute: "Intellect"
-secondary_attribute: "Wisdom"
-recommended_occupations: ["Scholar","Specialist","Agent"]
-recommended_origins: ["Research","Urban","Militaristic"]
-recommended_factions: ["Mekan (Logic Engines)","Impyrium (Tacticians)","Ascendancy"]
-essential_skills: ["Knowledge (Investigation)","Insight","Knowledge (Technology)","Alertness"]
-signature_features: ["Enhanced Processing","Logical Deduction"]
-tactical_role: "Identify enemy weaknesses, crack codes, reconstruct crime scenes."
-quote: "\"The probability of success increases by 40% if you stop screaming.\""
-description: "A proficient analytical thinker adept at processing data and solving problems. They see the patterns others miss."
+core_concept: Utility / Investigation / Puzzle Solver
+primary_attribute: Intellect
+secondary_attribute: Wisdom
+recommended_occupations:
+  - Scholar
+  - Specialist
+  - Agent
+recommended_origins:
+  - Research
+  - Urban
+  - Militaristic
+recommended_factions:
+  - Mekan (Logic Engines)
+  - Impyrium (Tacticians)
+  - Ascendancy
+essential_skills:
+  - Knowledge (Investigation)
+  - Insight
+  - Knowledge (Technology)
+  - Alertness
+signature_features:
+  - Enhanced Processing
+  - Logical Deduction
+tactical_role: 'Identify enemy weaknesses, crack codes, reconstruct crime scenes.'
+quote: '"The probability of success increases by 40% if you stop screaming."'
+description: >-
+  A proficient analytical thinker adept at processing data and solving problems.
+  They see the patterns others miss.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Strategist

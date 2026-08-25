@@ -95,8 +95,8 @@ function normalizeItem(file, rawData, content, targetCat) {
     category: targetCat,
     ...rawData,
     category: targetCat,
-    tl,
-    ml
+    tech_level: tl,
+    meta_level: ml
   };
 
   if (cost !== undefined) finalData.cost = cost;

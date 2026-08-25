@@ -1,10 +1,32 @@
 ---
-id: "disadvantage-secret"
-name: "Secret"
-category: "disadvantages"
-bp_granted: "3 / 6 / 9"
-hindrance_type: "Background / Social"
-description: "Hiding a dangerous truth or past crime that would result in public ruin, exile, or execution if exposed."
+id: disadvantage-secret
+name: Secret
+category: disadvantages
+bp_granted: 3 / 6 / 9
+hindrance_type: Background / Social
+description: >-
+  Hiding a dangerous truth or past crime that would result in public ruin,
+  exile, or execution if exposed.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Secret

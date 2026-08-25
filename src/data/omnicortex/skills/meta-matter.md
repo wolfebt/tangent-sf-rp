@@ -1,19 +1,48 @@
 ---
-id: "meta-matter"
-name: "Matter"
-type: "meta"
-subtype: "discipline"
-category: "skills"
-governing_attributes: ["Intellect","Wisdom","Charisma"]
-description: "The metaphysical discipline governing physical state alteration, material transmutation, object hardening, biological enhancement, and polymorphing."
+id: meta-matter
+name: Matter
+type: meta
+subtype: discipline
+category: skills
+governing_attributes:
+  - Intellect
+  - Wisdom
+  - Charisma
+description: >-
+  The metaphysical discipline governing physical state alteration, material
+  transmutation, object hardening, biological enhancement, and polymorphing.
 trained_only: true
 specialties:
-  - "Enhancement Focus (Armor hardening, keen edge, physical attribute buffs, repair)"
-  - "Transmutation Focus (Polymorphing, petrification, gaseous form, matter reshaping)"
+  - >-
+    Enhancement Focus (Armor hardening, keen edge, physical attribute buffs,
+    repair)
+  - >-
+    Transmutation Focus (Polymorphing, petrification, gaseous form, matter
+    reshaping)
 synergy_links:
-  - "meta-attune"
-  - "mental-artificer"
-  - "mental-physics"
+  - meta-attune
+  - mental-artificer
+  - mental-physics
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Matter

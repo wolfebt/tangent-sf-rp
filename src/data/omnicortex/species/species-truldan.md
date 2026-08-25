@@ -11,46 +11,110 @@ size:
 movement:
   - species_movement-bipedal
   - species_movement-swimming
-inherent_attribute_modifiers:
-  - attribute: Stamina
-    bonus: 1
-  - attribute: Agility
-    bonus: 1
-  - attribute: Strength
-    bonus: 1
-bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Stealth
-    bonus: 2
-bonus_skills: 0
-bonus_skill_choices:
-  - Stealth
-  - Survival
-  - Combat
-  - Athletics
-inherent_features:
-  - Amphibious
-  - Chameleon (+3 Stealth in natural environments)
-  - Exoskeleton (Light Scales DR 2/-)
-  - Fast Heal
-  - Reach (+5ft Melee Reach with Tongue/Limbs)
-  - Regeneration (2 HP/rnd)
-bonus_features: 1
-bonus_feature_choices:
-  - Adhesive Tongue Strike
-  - Toxic Skin Secretion
-  - Bog Stride
-recommended_features:
-  - feature-adhesive-tongue-strike
 stigma: Severe Xeno (-4)
 tech_level: 3 (Swamp Camouflage Suits & Harpoon Launchers)
 meta_level: 1 (Cellular Adaptation)
 homeworld: Trulda Mangrove Archipelago
-cp_cost: 21
 cp: 21
 description: >-
   Robust amphibian humanoids possessing color-shifting skin, long prehensile
   tongue strikes, and rapid aquatic regeneration.
+costs:
+  bp: 21
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Stamina
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Agility
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Strength
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Stealth
+    type: skill
+    value: 2
+    mode: inherent
+  - target: Stealth
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Survival
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Combat
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Athletics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Amphibious
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Chameleon (+3 Stealth in natural environments)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Exoskeleton (Light Scales DR 2/-)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Fast Heal
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Reach (+5ft Melee Reach with Tongue/Limbs)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Regeneration (2 HP/rnd)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Adhesive Tongue Strike
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Toxic Skin Secretion
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Bog Stride
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-adhesive-tongue-strike
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Truldan (Amphibious Chameleonfolk)
 

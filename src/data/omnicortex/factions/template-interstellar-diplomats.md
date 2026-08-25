@@ -1,9 +1,31 @@
 ---
-id: "template-interstellar-diplomats"
-name: "Interstellar Diplomatic Corps"
-category: "factions"
-faction_type: "Generic Template"
-description: "Neutral peacekeeping envoys, treaty negotiators, and embassy attachés resolving interstellar crises."
+id: template-interstellar-diplomats
+name: Interstellar Diplomatic Corps
+category: factions
+faction_type: Generic Template
+description: >-
+  Neutral peacekeeping envoys, treaty negotiators, and embassy attachés
+  resolving interstellar crises.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Interstellar Diplomatic Corps (Generic Faction Template)

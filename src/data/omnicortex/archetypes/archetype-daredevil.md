@@ -1,20 +1,54 @@
 ---
-id: "archetype-daredevil"
-name: "The Daredevil"
-sphere: "Operatives (The Artisans)"
-category: "archetypes"
+id: archetype-daredevil
+name: The Daredevil
+sphere: Operatives (The Artisans)
+category: archetypes
 bp_chassis: 80
-core_concept: "Mobility / Risk / Action"
-primary_attribute: "Agility"
-secondary_attribute: "Constitution"
-recommended_occupations: ["Specialist","Entertainer"]
-recommended_origins: ["Leisure","Spacer","Urban"]
-recommended_factions: ["Syndicate (Media Stunts)","Outworlds","Ascendancy"]
-essential_skills: ["Athletics","Acrobatics","Knowledge (Survival)","Alertness"]
-signature_features: ["Peak Physical Condition","Fearless"]
-tactical_role: "Reaching inaccessible areas, performing stunts, surviving falls."
-quote: "\"It's not a fall; it's a very fast descent with style.\""
-description: "Excels in extreme sports and high-risk maneuvers."
+core_concept: Mobility / Risk / Action
+primary_attribute: Agility
+secondary_attribute: Constitution
+recommended_occupations:
+  - Specialist
+  - Entertainer
+recommended_origins:
+  - Leisure
+  - Spacer
+  - Urban
+recommended_factions:
+  - Syndicate (Media Stunts)
+  - Outworlds
+  - Ascendancy
+essential_skills:
+  - Athletics
+  - Acrobatics
+  - Knowledge (Survival)
+  - Alertness
+signature_features:
+  - Peak Physical Condition
+  - Fearless
+tactical_role: 'Reaching inaccessible areas, performing stunts, surviving falls.'
+quote: '"It''s not a fall; it''s a very fast descent with style."'
+description: Excels in extreme sports and high-risk maneuvers.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Daredevil

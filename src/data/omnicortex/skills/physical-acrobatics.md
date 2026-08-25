@@ -1,21 +1,44 @@
 ---
-id: "physical-acrobatics"
-name: "Acrobatics"
-type: "physical"
-subtype: "mobility"
-category: "skills"
-governing_attributes: ["Agility"]
-description: "The skill of performing feats of gymnastics, extraordinary balance, tumbling, breaking falls, and high-agility kinetic maneuvers."
+id: physical-acrobatics
+name: Acrobatics
+type: physical
+subtype: mobility
+category: skills
+governing_attributes:
+  - Agility
+description: >-
+  The skill of performing feats of gymnastics, extraordinary balance, tumbling,
+  breaking falls, and high-agility kinetic maneuvers.
 trained_only: false
 specialties:
-  - "Tumbling (Rolling through hazardous zones)"
-  - "Balancing (Traversing narrow beams and wires)"
-  - "Tightrope Walking (High-wire traversal)"
-  - "Free-running / Parkour (Urban obstacle traversal)"
+  - Tumbling (Rolling through hazardous zones)
+  - Balancing (Traversing narrow beams and wires)
+  - Tightrope Walking (High-wire traversal)
+  - Free-running / Parkour (Urban obstacle traversal)
 synergy_links:
-  - "physical-athletics"
-  - "physical-stealth"
-  - "combat-defense"
+  - physical-athletics
+  - physical-stealth
+  - combat-defense
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Acrobatics

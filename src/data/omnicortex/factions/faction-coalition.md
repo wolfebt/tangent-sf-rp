@@ -1,17 +1,43 @@
 ---
-id: "faction-coalition"
-name: "The Coalition of Independent Worlds"
-category: "factions"
-faction_type: "Major Polity"
-archetype: "Frontier Democracy / Industrial Free-States"
-driving_mandate: "Sovereignty, Self-Determination, and Freedom."
-symbol_sigil: "The Broken Chain"
-capital_world: "Liberty Station"
-tech_level: "3 (Industrial / Gritty)"
-meta_level: "1-2 (Unregulated)"
-skill_package: ["Streetwise","Piloting","Knowledge (Technology)","Combat (Any)","Survival"]
-bonus_features: ["Contacts","Jack-of-all-trades"]
-description: "Loose confederation of gritty frontier worlds, independent asteroid miners, privateers, and industrial boomtowns resisting imperial dominance."
+id: faction-coalition
+name: The Coalition of Independent Worlds
+category: factions
+faction_type: Major Polity
+archetype: Frontier Democracy / Industrial Free-States
+driving_mandate: 'Sovereignty, Self-Determination, and Freedom.'
+symbol_sigil: The Broken Chain
+capital_world: Liberty Station
+tech_level: 3 (Industrial / Gritty)
+meta_level: 1-2 (Unregulated)
+skill_package:
+  - Streetwise
+  - Piloting
+  - Knowledge (Technology)
+  - Combat (Any)
+  - Survival
+description: >-
+  Loose confederation of gritty frontier worlds, independent asteroid miners,
+  privateers, and industrial boomtowns resisting imperial dominance.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Coalition of Independent Worlds

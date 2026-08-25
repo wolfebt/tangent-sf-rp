@@ -1,13 +1,36 @@
 ---
-id: "ability-potent-might"
-name: "Potent Might"
-category: "features"
-feature_category: "Ability"
+id: ability-potent-might
+name: Potent Might
+category: features
+feature_category: Ability
 cost_bp: 3
 is_ranked: true
 is_multiple: true
-prerequisites: "Strength 1"
-description: "The character knows how to apply their strength for maximum leverage and impact. Whether forcing open a blast door or holding back a crushing weight, they are far more effective than their muscle mass alone suggests."
+prerequisites: Strength 1
+description: >-
+  The character knows how to apply their strength for maximum leverage and
+  impact. Whether forcing open a blast door or holding back a crushing weight,
+  they are far more effective than their muscle mass alone suggests.
+costs:
+  bp: 3
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Potent Might

@@ -10,46 +10,106 @@ size:
   - species_size-large
 movement:
   - species_movement-bipedal
-inherent_attribute_modifiers:
-  - attribute: Strength
-    bonus: 1
-  - attribute: Agility
-    bonus: 1
-  - attribute: Stamina
-    bonus: 1
-  - attribute: Intellect
-    bonus: -1
-  - attribute: Charisma
-    bonus: -1
-bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Combat (Melee/Heavy)
-    bonus: 2
-bonus_skills: 5
-bonus_skill_choices:
-  - Combat
-  - Intimidation
-  - Athletics
-inherent_features:
-  - Brutal (+3 Melee Damage)
-  - Exoskeleton (Partial Sub-dermal Plates DR 3/-)
-  - Combat Rage (1/Encounter)
-bonus_features: 1
-bonus_feature_choices:
-  - Unstoppable Charge
-  - Pain Immunity
-  - Flesh Tearer
-recommended_features:
-  - feature-combat-rage
 stigma: 'Xeno (-2), Savage (-4)'
 tech_level: 3 (Imperial Heavy Ordinance)
 meta_level: 0 (Null)
 homeworld: Imperial Barracks Worlds
-cp_cost: 16
 cp: 16
 description: >-
   Brutal, hulking bio-engineered shock troops bred by the Impyrium for planetary
   boarding actions and trench warfare.
+costs:
+  bp: 16
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Strength
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Agility
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Stamina
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Intellect
+    type: attribute
+    value: -1
+    mode: inherent
+  - target: Charisma
+    type: attribute
+    value: -1
+    mode: inherent
+  - target: Combat (Melee/Heavy)
+    type: skill
+    value: 2
+    mode: inherent
+  - target: General Skill Pool
+    type: skill
+    value: 5
+    mode: bonus_pool
+  - target: Combat
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Intimidation
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Athletics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Brutal (+3 Melee Damage)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Exoskeleton (Partial Sub-dermal Plates DR 3/-)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Combat Rage (1/Encounter)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Unstoppable Charge
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Pain Immunity
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Flesh Tearer
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-combat-rage
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Digon (Imperial Heavy Shock Trooper)
 

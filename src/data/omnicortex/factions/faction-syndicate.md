@@ -1,17 +1,42 @@
 ---
-id: "faction-syndicate"
-name: "Incorporated Planetary Syndication"
-category: "factions"
-faction_type: "Major Polity"
-archetype: "Cyber-Corporate / High-Tech Cyberocracy"
-driving_mandate: "Eliminate Friction; Maximize Efficiency."
-symbol_sigil: "The Hexagon (The Mesh)"
-capital_world: "Premius"
-tech_level: "4 (High-Tech / Cybernetic)"
-meta_level: "2 (Regulated PsiCorp)"
-skill_package: ["Computers","Vocation (Any)","Social Manipulation (Any)","Knowledge (Technology)"]
-bonus_features: ["Benefit (Wealth)"]
-description: "Ultra-efficient transhumanist corporate superpower interconnected by 'The Mesh' augmented reality network and governed by executive boardrooms."
+id: faction-syndicate
+name: Incorporated Planetary Syndication
+category: factions
+faction_type: Major Polity
+archetype: Cyber-Corporate / High-Tech Cyberocracy
+driving_mandate: Eliminate Friction; Maximize Efficiency.
+symbol_sigil: The Hexagon (The Mesh)
+capital_world: Premius
+tech_level: 4 (High-Tech / Cybernetic)
+meta_level: 2 (Regulated PsiCorp)
+skill_package:
+  - Computers
+  - Vocation (Any)
+  - Social Manipulation (Any)
+  - Knowledge (Technology)
+description: >-
+  Ultra-efficient transhumanist corporate superpower interconnected by 'The
+  Mesh' augmented reality network and governed by executive boardrooms.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Incorporated Planetary Syndication

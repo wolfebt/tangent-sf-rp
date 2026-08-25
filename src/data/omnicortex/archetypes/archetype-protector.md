@@ -1,20 +1,56 @@
 ---
-id: "archetype-protector"
-name: "The Protector"
-sphere: "Sentinels (The Stabilizers)"
-category: "archetypes"
+id: archetype-protector
+name: The Protector
+sphere: Sentinels (The Stabilizers)
+category: archetypes
 bp_chassis: 80
-core_concept: "Tank / Defender / Interceptor"
-primary_attribute: "Constitution"
-secondary_attribute: "Perception"
-recommended_occupations: ["Soldier","Drifter"]
-recommended_origins: ["Urban","Militaristic","Leisure"]
-recommended_factions: ["Impyrium (Praetorians)","Dynasty (House Guard)","Syndicate (Asset Protection)"]
-essential_skills: ["Athletics","Alertness","Intimidation","Combat (Melee/Pistol)"]
-signature_features: ["Protective Stance","Situational Awareness"]
-tactical_role: "Take damage for the team, control melee engagement zones."
-quote: "\"Get behind me.\""
-description: "Protects high-profile individuals or cargo. Experienced in personal security and close-quarters combat."
+core_concept: Tank / Defender / Interceptor
+primary_attribute: Constitution
+secondary_attribute: Perception
+recommended_occupations:
+  - Soldier
+  - Drifter
+recommended_origins:
+  - Urban
+  - Militaristic
+  - Leisure
+recommended_factions:
+  - Impyrium (Praetorians)
+  - Dynasty (House Guard)
+  - Syndicate (Asset Protection)
+essential_skills:
+  - Athletics
+  - Alertness
+  - Intimidation
+  - Combat (Melee/Pistol)
+signature_features:
+  - Protective Stance
+  - Situational Awareness
+tactical_role: 'Take damage for the team, control melee engagement zones.'
+quote: '"Get behind me."'
+description: >-
+  Protects high-profile individuals or cargo. Experienced in personal security
+  and close-quarters combat.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Protector

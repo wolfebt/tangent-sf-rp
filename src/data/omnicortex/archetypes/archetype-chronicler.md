@@ -1,20 +1,58 @@
 ---
-id: "archetype-chronicler"
-name: "The Chronicler"
-sphere: "Visionaries (The Idealists)"
-category: "archetypes"
+id: archetype-chronicler
+name: The Chronicler
+sphere: Visionaries (The Idealists)
+category: archetypes
 bp_chassis: 80
-core_concept: "Bard / Historian / Buffer"
-primary_attribute: "Charisma"
-secondary_attribute: "Intellect"
-recommended_occupations: ["Entertainer","Scholar"]
-recommended_origins: ["Enlightened","Urban","Leisure"]
-recommended_factions: ["Alterian Enclave (Historians)","Impyrium (Archivists)","Entari Combine"]
-essential_skills: ["Expression (Oratory)","Knowledge (History)","Diplomacy","Bluff"]
-signature_features: ["Masterful Narrator","World Builder"]
-tactical_role: "Buffing allies with inspiration, gathering local lore, engaging social encounters."
-quote: "\"Let me tell you how this ends.\""
-description: "Weaver of words and tales, captivating audiences with immersive narratives and transporting them to fantastical realms."
+core_concept: Bard / Historian / Buffer
+primary_attribute: Charisma
+secondary_attribute: Intellect
+recommended_occupations:
+  - Entertainer
+  - Scholar
+recommended_origins:
+  - Enlightened
+  - Urban
+  - Leisure
+recommended_factions:
+  - Alterian Enclave (Historians)
+  - Impyrium (Archivists)
+  - Entari Combine
+essential_skills:
+  - Expression (Oratory)
+  - Knowledge (History)
+  - Diplomacy
+  - Bluff
+signature_features:
+  - Masterful Narrator
+  - World Builder
+tactical_role: >-
+  Buffing allies with inspiration, gathering local lore, engaging social
+  encounters.
+quote: '"Let me tell you how this ends."'
+description: >-
+  Weaver of words and tales, captivating audiences with immersive narratives and
+  transporting them to fantastical realms.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Chronicler

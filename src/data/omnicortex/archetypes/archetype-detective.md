@@ -1,20 +1,56 @@
 ---
-id: "archetype-detective"
-name: "The Detective"
-sphere: "Savants (The Rationals)"
-category: "archetypes"
+id: archetype-detective
+name: The Detective
+sphere: Savants (The Rationals)
+category: archetypes
 bp_chassis: 80
-core_concept: "Investigation / Perception"
-primary_attribute: "Intellect"
-secondary_attribute: "Wisdom"
-recommended_occupations: ["Agent","Citizen (Law)"]
-recommended_origins: ["Urban","Colony","Hostile"]
-recommended_factions: ["Coalition (Marshals)","Syndicate (PIs)","Entari Combine"]
-essential_skills: ["Knowledge (Investigation)","Insight","Stealth","Knowledge (Law/Streetwise)"]
-signature_features: ["Keen Observer","Unwavering Determination"]
-tactical_role: "Finding plot hooks, solving mysteries, tracking targets in cities."
-quote: "\"Everyone has a secret. I just have to find the loose thread.\""
-description: "Relentless detective who uncovers conspiracies and brings criminals to justice."
+core_concept: Investigation / Perception
+primary_attribute: Intellect
+secondary_attribute: Wisdom
+recommended_occupations:
+  - Agent
+  - Citizen (Law)
+recommended_origins:
+  - Urban
+  - Colony
+  - Hostile
+recommended_factions:
+  - Coalition (Marshals)
+  - Syndicate (PIs)
+  - Entari Combine
+essential_skills:
+  - Knowledge (Investigation)
+  - Insight
+  - Stealth
+  - Knowledge (Law/Streetwise)
+signature_features:
+  - Keen Observer
+  - Unwavering Determination
+tactical_role: 'Finding plot hooks, solving mysteries, tracking targets in cities.'
+quote: '"Everyone has a secret. I just have to find the loose thread."'
+description: >-
+  Relentless detective who uncovers conspiracies and brings criminals to
+  justice.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Detective

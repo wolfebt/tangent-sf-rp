@@ -39,7 +39,7 @@ const OtherTab = () => {
   };
 
   return (
-    <div className="tab-panel active p-4 space-y-6">
+    <div className="tab-panel active p-4 space-y-6 pb-20">
       <div className="bg-slate-900/60 border border-cyan-900/50 rounded-lg p-4 space-y-4">
         <div className="flex justify-between items-center border-b border-cyan-900/60 pb-2">
           <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-400">

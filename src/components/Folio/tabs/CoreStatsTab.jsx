@@ -18,7 +18,7 @@ const ATTRIBUTES = [
 ];
 
 const CoreStatsTab = () => {
-  const { characterData, updateField, derivedStats, getAttrMod, getAttrTotal, computedModifiers } = useFolio();
+  const { characterData, updateField, derivedStats, getAttrMod, getAttrTotal, getSubAttrBase, enabledMovementModes, computedModifiers } = useFolio();
   // Helper to safely get numeric field value
   const getNum = (id, defaultVal = 0) => parseInt(characterData[id] || defaultVal, 10);
 
@@ -79,20 +79,15 @@ const CoreStatsTab = () => {
 
   const essenceTotal = primaryAttrsTotal + metaSkillsTotal;
 
-  // Handler for primary attribute changes to auto-update sub-attribute base
+  // Handler for primary attribute changes (FolioContext automatically shifts sub-attribute base while preserving delta)
   const handlePrimaryChange = (attrId, value) => {
     const val = parseInt(value, 10) || 0;
     updateField(attrId, val);
-    
-    // Find sub attribute and auto set baseline if sub-attr is unedited or lower
-    const subAttr = ATTRIBUTES.find(a => a.primaryId === attrId);
-    if (subAttr) {
-      const defaultSubVal = (val * 2) + 2;
-      const currentSubVal = getNum(subAttr.id);
-      if (currentSubVal === 0 || currentSubVal <= defaultSubVal) {
-        updateField(subAttr.id, defaultSubVal);
-      }
-    }
+  };
+
+  const handleSubAttrChange = (subAttrId, value) => {
+    const val = parseInt(value, 10) || 0;
+    updateField(subAttrId, val);
   };
 
   const handleStatChange = (id, val) => {
@@ -115,8 +110,26 @@ const CoreStatsTab = () => {
     });
   }
 
+  const allPossibleMoveModes = [
+    { id: 'walk', label: 'Walk / Ground', defaultSpeed: 30 },
+    { id: 'climb', label: 'Climb', defaultSpeed: 30 },
+    { id: 'swim', label: 'Swim', defaultSpeed: 30 },
+    { id: 'fly', label: 'Fly / Aerial', defaultSpeed: 40 },
+    { id: 'burrow', label: 'Burrow', defaultSpeed: 20 },
+    { id: 'flicker', label: 'Flicker / Phase', defaultSpeed: 30 }
+  ];
+
+  const activeMoveModes = enabledMovementModes || ['walk'];
+  const unenabledModes = allPossibleMoveModes.filter(m => !activeMoveModes.includes(m.id));
+
+  const handleAddMovementMode = (modeId) => {
+    const modeConfig = allPossibleMoveModes.find(m => m.id === modeId);
+    const speed = modeConfig ? modeConfig.defaultSpeed : 30;
+    updateField(`move-${modeId}`, speed);
+  };
+
   return (
-    <div className="tab-panel active p-4 space-y-6">
+    <div className="tab-panel active p-4 space-y-6 pb-20">
       {/* Identity Attribute Bonus Banner if any pools are granted */}
       {identityAttrPools.length > 0 && (
         <div className="bg-cyan-950/70 border border-cyan-500/50 rounded-lg p-3 flex flex-wrap items-center justify-between gap-2 text-xs text-cyan-200">
@@ -146,13 +159,13 @@ const CoreStatsTab = () => {
               Attributes & Sub-Attributes
             </h3>
             <span className="text-[10px] font-mono text-slate-400">
-              Auto-Calculated with Species & Modifiers
+              Base Sub-Attr = (Primary × 2) + 2
             </span>
           </div>
 
           <div className="grid grid-cols-12 text-xs font-bold text-slate-400 uppercase tracking-wider px-2 py-1">
             <span className="col-span-5">Attribute</span>
-            <span className="col-span-3 text-center">Value</span>
+            <span className="col-span-3 text-center">Score</span>
             <span className="col-span-2 text-center">Mod</span>
             <span className="col-span-2 text-center">Total</span>
           </div>
@@ -160,10 +173,22 @@ const CoreStatsTab = () => {
           <div className="space-y-1">
             {ATTRIBUTES.map((attr) => {
               const total = getAttrTotal(attr.id);
-              const val = getNum(attr.id);
               const totalMod = getAttrMod(attr.id);
               const identityBonusMod = computedModifiers?.attributeMods?.[attr.id] || 0;
               const hasIdentityBonus = identityBonusMod !== 0;
+
+              let displayVal;
+              let baseSubVal = 0;
+              let purchasedDelta = 0;
+
+              if (attr.sub) {
+                baseSubVal = getSubAttrBase ? getSubAttrBase(attr.id) : ((getNum(attr.primaryId) * 2) + 2);
+                const hasExplicit = characterData[attr.id] !== undefined && characterData[attr.id] !== null && characterData[attr.id] !== '';
+                displayVal = hasExplicit ? getNum(attr.id) : baseSubVal;
+                purchasedDelta = displayVal - baseSubVal;
+              } else {
+                displayVal = getNum(attr.id);
+              }
 
               return (
                 <div
@@ -174,11 +199,18 @@ const CoreStatsTab = () => {
                       : 'bg-slate-950/40 border-l border-slate-700 pl-4 text-slate-300'
                   } ${hasIdentityBonus ? 'ring-1 ring-cyan-500/30' : ''}`}
                 >
-                  <label htmlFor={attr.id} className="col-span-5 text-xs tracking-wide flex items-center gap-1.5">
-                    <span>{attr.name}</span>
-                    {hasIdentityBonus && (
-                      <span className="text-[9px] bg-cyan-950 text-cyan-300 border border-cyan-500/50 px-1 rounded font-mono font-bold" title={`+${identityBonusMod} from Species/Identity Modifiers`}>
-                        +{identityBonusMod}
+                  <label htmlFor={attr.id} className="col-span-5 text-xs tracking-wide flex items-center justify-between pr-2">
+                    <span className="flex items-center gap-1.5">
+                      <span>{attr.name}</span>
+                      {hasIdentityBonus && (
+                        <span className="text-[9px] bg-cyan-950 text-cyan-300 border border-cyan-500/50 px-1 rounded font-mono font-bold" title={`+${identityBonusMod} from Species/Identity Modifiers`}>
+                          +{identityBonusMod}
+                        </span>
+                      )}
+                    </span>
+                    {attr.sub && (
+                      <span className="text-[9px] font-mono text-slate-500" title={`Base (Primary * 2 + 2) = ${baseSubVal}`}>
+                        base {baseSubVal}{purchasedDelta !== 0 ? ` (${purchasedDelta > 0 ? '+' : ''}${purchasedDelta})` : ''}
                       </span>
                     )}
                   </label>
@@ -187,13 +219,17 @@ const CoreStatsTab = () => {
                     <input
                       type="number"
                       id={attr.id}
-                      value={val}
+                      value={displayVal}
                       onChange={(e) =>
                         !attr.sub
                           ? handlePrimaryChange(attr.id, e.target.value)
-                          : updateField(attr.id, parseInt(e.target.value, 10) || 0)
+                          : handleSubAttrChange(attr.id, e.target.value)
                       }
-                      className="w-full text-center bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded px-1 py-0.5 text-xs text-slate-100 outline-none"
+                      className={`w-full text-center border focus:border-cyan-400 rounded px-1 py-0.5 text-xs font-mono outline-none ${
+                        attr.sub && purchasedDelta !== 0 
+                          ? 'bg-amber-950/40 border-amber-500/50 text-amber-200' 
+                          : 'bg-slate-900 border-slate-700 text-slate-100'
+                      }`}
                     />
                   </div>
 
@@ -266,77 +302,63 @@ const CoreStatsTab = () => {
               </div>
             </div>
 
-            {/* Row 2: Tech Level, Meta Level, Essence */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <FolioInput
-                id="tech-level"
-                label="Tech Level"
-                type="number"
-                value={getNum('tech-level', 3)}
-                onChange={updateField}
-                labelSize="text-[10px] tracking-widest"
-                containerClassName="flex flex-col bg-slate-800/60 p-2.5 rounded border border-cyan-900/40"
-                inputClassName="bg-slate-900 border border-slate-700 px-2 py-1 text-xs font-mono text-center"
-              />
-
-              <FolioInput
-                id="magic-level"
-                label="Meta Level"
-                type="number"
-                value={getNum('magic-level', 1)}
-                onChange={updateField}
-                labelSize="text-[10px] tracking-widest"
-                containerClassName="flex flex-col bg-slate-800/60 p-2.5 rounded border border-cyan-900/40"
-                inputClassName="bg-slate-900 border border-slate-700 px-2 py-1 text-xs font-mono text-center"
-              />
-
-              <div className="flex flex-col bg-slate-800/60 p-2.5 rounded border border-cyan-900/40 justify-between">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-cyan-400 mb-0.5">
-                  Essence
-                </label>
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] text-slate-400">Attrs ({primaryAttrsTotal}) + Meta ({metaSkillsTotal})</span>
-                  <span className="text-base font-bold text-cyan-300 font-mono">{essenceTotal}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Row 3: Karma, Plot Points */}
-            <div className="grid grid-cols-2 gap-4">
+            {/* Row 2: Karma, Tech Level, Magic Level */}
+            <div className="grid grid-cols-3 gap-3">
               <FolioInput
                 id="karma"
                 label="Karma"
                 type="number"
                 value={getNum('karma', 3)}
                 onChange={updateField}
-                labelColor="text-slate-300"
-                inputClassName="bg-slate-900 border border-slate-700 px-3 py-1.5 text-sm font-mono"
+                labelColor="text-slate-400"
+                labelSize="text-[10px]"
+                containerClassName="flex flex-col bg-slate-800/40 p-2 rounded border border-slate-700/80"
+                inputClassName="bg-slate-900 border border-slate-700 px-2 py-1 text-xs font-mono text-center"
               />
 
               <FolioInput
-                id="plot-points"
-                label="Plot Points"
+                id="tech-level"
+                label="Tech Level"
                 type="number"
-                value={getNum('plot-points', 0)}
+                value={getNum('tech-level', 3)}
                 onChange={updateField}
-                labelColor="text-slate-300"
-                inputClassName="bg-slate-900 border border-slate-700 px-3 py-1.5 text-sm font-mono"
+                labelColor="text-slate-400"
+                labelSize="text-[10px]"
+                containerClassName="flex flex-col bg-slate-800/40 p-2 rounded border border-slate-700/80"
+                inputClassName="bg-slate-900 border border-slate-700 px-2 py-1 text-xs font-mono text-center"
+              />
+
+              <FolioInput
+                id="magic-level"
+                label="Magic Level"
+                type="number"
+                value={getNum('magic-level', 1)}
+                onChange={updateField}
+                labelColor="text-slate-400"
+                labelSize="text-[10px]"
+                containerClassName="flex flex-col bg-slate-800/40 p-2 rounded border border-slate-700/80"
+                inputClassName="bg-slate-900 border border-slate-700 px-2 py-1 text-xs font-mono text-center"
               />
             </div>
           </div>
 
-          {/* Perception Block */}
-          <div className="bg-slate-900/60 border border-cyan-900/50 rounded-lg p-4 space-y-3">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-400 border-b border-cyan-900/60 pb-2">
-              Perception System
-            </h3>
-
-            <div className="flex items-center justify-between bg-cyan-950/40 p-3 rounded border border-cyan-500/40">
-              <span className="text-xs font-bold uppercase tracking-wider text-cyan-300">Base Perception</span>
-              <span className="text-lg font-bold font-mono text-cyan-400">{basePerception}</span>
+          {/* Perception & Essence Block */}
+          <div className="bg-slate-900/60 border border-cyan-900/50 rounded-lg p-4 space-y-4">
+            <div className="flex justify-between items-center border-b border-cyan-900/60 pb-2">
+              <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-400">
+                Perception & Essence
+              </h3>
+              <div className="flex items-center gap-1.5 bg-slate-800 px-2 py-0.5 rounded border border-cyan-500/40">
+                <span className="text-[10px] font-bold text-slate-400 uppercase">Essence Total:</span>
+                <span className="text-xs font-mono font-bold text-cyan-300">{essenceTotal}</span>
+              </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              <div className="flex flex-col bg-slate-800/50 p-2 rounded border border-slate-700 text-center">
+                <span className="text-[10px] uppercase font-bold text-slate-400">Base</span>
+                <span className="text-sm font-bold font-mono text-cyan-300">{basePerception}</span>
+              </div>
               <div className="flex flex-col bg-slate-800/50 p-2 rounded border border-slate-700 text-center">
                 <span className="text-[10px] uppercase font-bold text-slate-400">Meta</span>
                 <span className="text-sm font-bold font-mono text-amber-400">{metaPerception}</span>
@@ -352,27 +374,67 @@ const CoreStatsTab = () => {
             </div>
           </div>
 
-          {/* Movement Block */}
+          {/* Movement Block (Displays only enabled modes with quick add option) */}
           <div className="bg-slate-900/60 border border-cyan-900/50 rounded-lg p-4 space-y-3">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-400 border-b border-cyan-900/60 pb-2">
-              Movement Modes
-            </h3>
+            <div className="flex justify-between items-center border-b border-cyan-900/60 pb-2">
+              <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-400">
+                Movement Modes
+              </h3>
+              {unenabledModes.length > 0 && (
+                <div className="flex items-center gap-1">
+                  <select
+                    onChange={(e) => {
+                      if (e.target.value) {
+                        handleAddMovementMode(e.target.value);
+                        e.target.value = '';
+                      }
+                    }}
+                    defaultValue=""
+                    className="bg-slate-800 border border-slate-700 hover:border-cyan-400 rounded px-2 py-0.5 text-[10px] text-cyan-300 font-bold uppercase outline-none cursor-pointer"
+                  >
+                    <option value="" disabled>+ Enable Mode...</option>
+                    {unenabledModes.map(m => (
+                      <option key={m.id} value={m.id} className="bg-slate-900 text-slate-100">{m.label}</option>
+                    ))}
+                  </select>
+                </div>
+              )}
+            </div>
 
-            <div className="grid grid-cols-3 gap-3">
-              {['walk', 'swim', 'climb', 'fly', 'burrow', 'flicker'].map((mode) => (
-                <FolioInput
-                  key={mode}
-                  id={`move-${mode}`}
-                  label={mode}
-                  type="number"
-                  value={getNum(`move-${mode}`)}
-                  onChange={updateField}
-                  labelColor="text-slate-400"
-                  labelSize="text-[10px]"
-                  containerClassName="flex flex-col bg-slate-800/40 p-2 rounded border border-slate-700/80"
-                  inputClassName="bg-slate-900 border border-slate-700 px-2 py-1 text-xs font-mono text-center"
-                />
-              ))}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {activeMoveModes.map((mode) => {
+                const config = allPossibleMoveModes.find(m => m.id === mode) || { id: mode, label: mode, defaultSpeed: 30 };
+                const speedVal = getNum(`move-${mode}`, config.defaultSpeed);
+
+                return (
+                  <div key={mode} className="flex flex-col bg-slate-800/40 p-2.5 rounded border border-slate-700/80 relative group">
+                    <FolioInput
+                      id={`move-${mode}`}
+                      label={`${config.label} (ft)`}
+                      type="number"
+                      value={speedVal}
+                      onChange={updateField}
+                      labelColor="text-cyan-400"
+                      labelSize="text-[10px]"
+                      containerClassName="flex flex-col"
+                      inputClassName="bg-slate-900 border border-slate-700 px-2 py-1 text-xs font-mono text-center"
+                    />
+                    <div className="flex justify-between items-center text-[9px] font-mono text-slate-500 mt-1">
+                      <span>{Math.round(speedVal * 0.3)} m/turn</span>
+                      {mode !== 'walk' && (
+                        <button
+                          type="button"
+                          onClick={() => updateField(`move-${mode}`, 0)}
+                          className="text-slate-600 hover:text-red-400 transition-colors cursor-pointer"
+                          title="Disable movement mode"
+                        >
+                          ✕
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
 

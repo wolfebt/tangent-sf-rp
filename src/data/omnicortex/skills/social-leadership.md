@@ -1,21 +1,44 @@
 ---
-id: "social-leadership"
-name: "Leadership"
-type: "social"
-subtype: "manipulation"
-category: "skills"
-governing_attributes: ["Charisma"]
-description: "Inspiring, organizing, motivating, and directing teams, military squads, corporate divisions, and ship crews under extreme pressure."
+id: social-leadership
+name: Leadership
+type: social
+subtype: manipulation
+category: skills
+governing_attributes:
+  - Charisma
+description: >-
+  Inspiring, organizing, motivating, and directing teams, military squads,
+  corporate divisions, and ship crews under extreme pressure.
 trained_only: false
 specialties:
-  - "Military Command & Squad Direction"
-  - "Inspiration & Morale Rallying"
-  - "Crisis Management & Group Coordination"
-  - "Organizational Motivation"
+  - Military Command & Squad Direction
+  - Inspiration & Morale Rallying
+  - Crisis Management & Group Coordination
+  - Organizational Motivation
 synergy_links:
-  - "social-oratory"
-  - "mental-tactics"
-  - "social-diplomacy"
+  - social-oratory
+  - mental-tactics
+  - social-diplomacy
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Leadership

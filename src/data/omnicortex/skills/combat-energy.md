@@ -1,23 +1,46 @@
 ---
-id: "combat-energy"
-name: "Energy"
-type: "combat"
-subtype: "advanced"
-category: "skills"
-governing_attributes: ["Agility"]
-description: "Proficiency with handheld directed-energy weapons discharging coherent light, ionized plasma, acoustic shockwaves, or electromagnetic arcs."
+id: combat-energy
+name: Energy
+type: combat
+subtype: advanced
+category: skills
+governing_attributes:
+  - Agility
+description: >-
+  Proficiency with handheld directed-energy weapons discharging coherent light,
+  ionized plasma, acoustic shockwaves, or electromagnetic arcs.
 trained_only: false
 specialties:
-  - "Lasers (Coherent beam and pulsed laser carbines)"
-  - "Plasma (Superheated gas blasters)"
-  - "Sonic (Acoustic disruptors and stunners)"
-  - "Cryo (Endothermic freeze weapons)"
-  - "Voltic / Arc (Electric discharge weapons)"
-  - "Disruptor (Molecular dissolution weapons)"
+  - Lasers (Coherent beam and pulsed laser carbines)
+  - Plasma (Superheated gas blasters)
+  - Sonic (Acoustic disruptors and stunners)
+  - Cryo (Endothermic freeze weapons)
+  - Voltic / Arc (Electric discharge weapons)
+  - Disruptor (Molecular dissolution weapons)
 synergy_links:
-  - "mental-technology"
-  - "mental-physics"
-  - "mental-weaponsmith"
+  - mental-technology
+  - mental-physics
+  - mental-weaponsmith
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Energy

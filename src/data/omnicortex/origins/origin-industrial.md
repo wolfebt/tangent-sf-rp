@@ -1,12 +1,52 @@
 ---
-id: "origin-industrial"
-name: "Industrial"
-category: "origins"
+id: origin-industrial
+name: Industrial
+category: origins
 skill_points: 20
-society_skills: ["Knowledge (Technology)","Knowledge (Science)","Vocation (Any)"]
-archetypes: ["Miner","Factory Worker","Industrial Engineer","Foundry Foreman","Security Officer","Corporate Executive"]
-traits: ["trait-adaptability","trait-mechanical-aptitude","trait-physical-strength","trait-practicality","trait-problem-solving","trait-resourcefulness","trait-risk-taking","trait-specialized-knowledge","trait-teamwork"]
-description: "Resource-extraction worlds, heavy foundry planets, smog-shrouded manufactories, and automated refinery grids."
+society_skills:
+  - Knowledge (Technology)
+  - Knowledge (Science)
+  - Vocation (Any)
+archetypes:
+  - Miner
+  - Factory Worker
+  - Industrial Engineer
+  - Foundry Foreman
+  - Security Officer
+  - Corporate Executive
+traits:
+  - trait-adaptability
+  - trait-mechanical-aptitude
+  - trait-physical-strength
+  - trait-practicality
+  - trait-problem-solving
+  - trait-resourcefulness
+  - trait-risk-taking
+  - trait-specialized-knowledge
+  - trait-teamwork
+description: >-
+  Resource-extraction worlds, heavy foundry planets, smog-shrouded
+  manufactories, and automated refinery grids.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Industrial Origin

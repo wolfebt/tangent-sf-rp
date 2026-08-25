@@ -11,38 +11,98 @@ size:
 movement:
   - species_movement-bipedal
   - species_movement-swimming
-inherent_attribute_modifiers: []
-bonus_attribute_points: 1
-specific_skill_bonuses:
-  - skill: Athletics (Swimming)
-    bonus: 2
-bonus_skills: 5
-bonus_skill_choices:
-  - Athletics
-  - Stealth
-  - Survival
-  - Sabotage
-inherent_features:
-  - Adapted (Deep Ocean)
-  - Amphibious
-  - Natural Swim Speed (40ft)
-  - Hydrodynamic Skin
-bonus_features: 1
-bonus_feature_choices:
-  - Pressure Sovereign
-  - Sub-aquatic Sonar
-  - Cold Blood Control
-recommended_features:
-  - feature-pressure-sovereign
 stigma: Aquatic Xeno (-3)
 tech_level: 4 (Deep Trench Tech)
 meta_level: 1 (Echo Resonance)
 homeworld: Syndicate Marine Arcologies
-cp_cost: 17
 cp: 17
 description: >-
   Syndicate-engineered pelagic operatives bred for underwater sabotage, deep-sea
   mining security, and submerged salvage.
+costs:
+  bp: 17
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Any Attribute
+    type: attribute
+    value: 1
+    mode: bonus_pool
+  - target: Athletics (Swimming)
+    type: skill
+    value: 2
+    mode: inherent
+  - target: General Skill Pool
+    type: skill
+    value: 5
+    mode: bonus_pool
+  - target: Athletics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Stealth
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Survival
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Sabotage
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Adapted (Deep Ocean)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Amphibious
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Natural Swim Speed (40ft)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Hydrodynamic Skin
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Pressure Sovereign
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Sub-aquatic Sonar
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Cold Blood Control
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-pressure-sovereign
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Aquatican (Syndicate Pelagic Operative)
 

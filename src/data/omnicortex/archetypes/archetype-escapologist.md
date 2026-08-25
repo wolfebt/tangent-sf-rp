@@ -1,20 +1,56 @@
 ---
-id: "archetype-escapologist"
-name: "The Escapologist"
-sphere: "Operatives (The Artisans)"
-category: "archetypes"
+id: archetype-escapologist
+name: The Escapologist
+sphere: Operatives (The Artisans)
+category: archetypes
 bp_chassis: 80
-core_concept: "Evasion / Utility / Mobility"
-primary_attribute: "Agility"
-secondary_attribute: "Wisdom"
-recommended_occupations: ["Criminal","Entertainer"]
-recommended_origins: ["Urban","Leisure","Spacer"]
-recommended_factions: ["Outworlds (Fugitives)","Syndicate (Extractors)","Coalition"]
-essential_skills: ["Acrobatics","Legerdemain","Stealth","Investigation"]
-signature_features: ["Daredevil","Evasive Maneuvers"]
-tactical_role: "Extraction specialist, bypassing traps, navigating high-security exits."
-quote: "\"I'm not trapped in here with you. I'm already halfway to the hangar.\""
-description: "The master of extraction and evasion who specializes in getting out of \"impossible\" situations."
+core_concept: Evasion / Utility / Mobility
+primary_attribute: Agility
+secondary_attribute: Wisdom
+recommended_occupations:
+  - Criminal
+  - Entertainer
+recommended_origins:
+  - Urban
+  - Leisure
+  - Spacer
+recommended_factions:
+  - Outworlds (Fugitives)
+  - Syndicate (Extractors)
+  - Coalition
+essential_skills:
+  - Acrobatics
+  - Legerdemain
+  - Stealth
+  - Investigation
+signature_features:
+  - Daredevil
+  - Evasive Maneuvers
+tactical_role: 'Extraction specialist, bypassing traps, navigating high-security exits.'
+quote: '"I''m not trapped in here with you. I''m already halfway to the hangar."'
+description: >-
+  The master of extraction and evasion who specializes in getting out of
+  "impossible" situations.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Escapologist

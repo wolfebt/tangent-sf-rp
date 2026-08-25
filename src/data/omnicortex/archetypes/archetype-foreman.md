@@ -1,20 +1,56 @@
 ---
-id: "archetype-foreman"
-name: "The Foreman"
-sphere: "Sentinels (The Stabilizers)"
-category: "archetypes"
+id: archetype-foreman
+name: The Foreman
+sphere: Sentinels (The Stabilizers)
+category: archetypes
 bp_chassis: 80
-core_concept: "Leadership / Logistics / Intimidation"
-primary_attribute: "Charisma"
-secondary_attribute: "Constitution"
-recommended_occupations: ["Citizen (Worker)","Builder"]
-recommended_origins: ["Industrial","Colony","Urban"]
-recommended_factions: ["Syndicate (Labor Oversight)","Outworlds (Mine Bosses)","Impyrium"]
-essential_skills: ["Intimidation","Leadership","Diplomacy","Vocation (Administrator)"]
-signature_features: ["Commanding Presence","Efficient Manager"]
-tactical_role: "Organizing NPC labor, intimidating local workers, managing base construction."
-quote: "\"The schedule is not a suggestion. Get back to work.\""
-description: "A stern and authoritative leader who oversees the workforce and ensures that production targets are met."
+core_concept: Leadership / Logistics / Intimidation
+primary_attribute: Charisma
+secondary_attribute: Constitution
+recommended_occupations:
+  - Citizen (Worker)
+  - Builder
+recommended_origins:
+  - Industrial
+  - Colony
+  - Urban
+recommended_factions:
+  - Syndicate (Labor Oversight)
+  - Outworlds (Mine Bosses)
+  - Impyrium
+essential_skills:
+  - Intimidation
+  - Leadership
+  - Diplomacy
+  - Vocation (Administrator)
+signature_features:
+  - Commanding Presence
+  - Efficient Manager
+tactical_role: 'Organizing NPC labor, intimidating local workers, managing base construction.'
+quote: '"The schedule is not a suggestion. Get back to work."'
+description: >-
+  A stern and authoritative leader who oversees the workforce and ensures that
+  production targets are met.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Foreman

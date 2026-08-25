@@ -1,20 +1,58 @@
 ---
-id: "archetype-company-man"
-name: "The Company Man"
-sphere: "Sentinels (The Stabilizers)"
-category: "archetypes"
+id: archetype-company-man
+name: The Company Man
+sphere: Sentinels (The Stabilizers)
+category: archetypes
 bp_chassis: 80
-core_concept: "Resource Access / Face / Fixer"
-primary_attribute: "Charisma"
-secondary_attribute: "Intellect"
-recommended_occupations: ["Agent","Citizen (Corporate)"]
-recommended_origins: ["Urban","Industrial","Leisure"]
-recommended_factions: ["Syndicate (Executives)","Entari Combine (Trade Reps)","Ascendancy"]
-essential_skills: ["Diplomacy","Insight","Bluff","Knowledge (Business)"]
-signature_features: ["Corporate Backing","Business Acumen"]
-tactical_role: "Funding the mission, legal defense, accessing corporate restricted zones."
-quote: "\"My client is willing to offer a generous settlement. I suggest you take it before my security team settles it for you.\""
-description: "Represents the company's interests, securing deals and resolving disputes. Backed by corporate resources."
+core_concept: Resource Access / Face / Fixer
+primary_attribute: Charisma
+secondary_attribute: Intellect
+recommended_occupations:
+  - Agent
+  - Citizen (Corporate)
+recommended_origins:
+  - Urban
+  - Industrial
+  - Leisure
+recommended_factions:
+  - Syndicate (Executives)
+  - Entari Combine (Trade Reps)
+  - Ascendancy
+essential_skills:
+  - Diplomacy
+  - Insight
+  - Bluff
+  - Knowledge (Business)
+signature_features:
+  - Corporate Backing
+  - Business Acumen
+tactical_role: 'Funding the mission, legal defense, accessing corporate restricted zones.'
+quote: >-
+  "My client is willing to offer a generous settlement. I suggest you take it
+  before my security team settles it for you."
+description: >-
+  Represents the company's interests, securing deals and resolving disputes.
+  Backed by corporate resources.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Company Man

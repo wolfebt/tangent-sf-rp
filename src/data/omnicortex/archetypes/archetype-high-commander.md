@@ -1,20 +1,52 @@
 ---
-id: "archetype-high-commander"
-name: "The High Commander"
-sphere: "Sentinels (The Stabilizers)"
-category: "archetypes"
+id: archetype-high-commander
+name: The High Commander
+sphere: Sentinels (The Stabilizers)
+category: archetypes
 bp_chassis: 80
-core_concept: "Leadership / Strategy / Buff"
-primary_attribute: "Intellect"
-secondary_attribute: "Charisma"
-recommended_occupations: ["Soldier (Officer)","Noble"]
-recommended_origins: ["Militaristic","Urban (Capital)"]
-recommended_factions: ["Impyrium (High Command)","Dynasty (High Lord)"]
-essential_skills: ["Leadership","Knowledge (Tactics)","Athletics","Combat (Any)"]
-signature_features: ["Tactical Mastery","Inspiring Strategist"]
-tactical_role: "Mass buffing allies, coordinating large-scale battles, strategic planning."
-quote: "\"Victory is not an accident. It is engineered.\""
-description: "A high-ranking military commander who leads legions into battle."
+core_concept: Leadership / Strategy / Buff
+primary_attribute: Intellect
+secondary_attribute: Charisma
+recommended_occupations:
+  - Soldier (Officer)
+  - Noble
+recommended_origins:
+  - Militaristic
+  - Urban (Capital)
+recommended_factions:
+  - Impyrium (High Command)
+  - Dynasty (High Lord)
+essential_skills:
+  - Leadership
+  - Knowledge (Tactics)
+  - Athletics
+  - Combat (Any)
+signature_features:
+  - Tactical Mastery
+  - Inspiring Strategist
+tactical_role: 'Mass buffing allies, coordinating large-scale battles, strategic planning.'
+quote: '"Victory is not an accident. It is engineered."'
+description: A high-ranking military commander who leads legions into battle.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The High Commander

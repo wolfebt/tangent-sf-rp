@@ -1,9 +1,31 @@
 ---
-id: "template-supernatural"
-name: "Supernatural Order"
-category: "factions"
-faction_type: "Generic Template"
-description: "Ancient sorcerous cabal, psi-academy, or astral wardens guarding occult relics and dangerous invocations."
+id: template-supernatural
+name: Supernatural Order
+category: factions
+faction_type: Generic Template
+description: >-
+  Ancient sorcerous cabal, psi-academy, or astral wardens guarding occult relics
+  and dangerous invocations.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Supernatural Order (Generic Faction Template)

@@ -1,13 +1,35 @@
 ---
-id: "general-fearless"
-name: "Fearless"
-category: "features"
-feature_category: "General"
+id: general-fearless
+name: Fearless
+category: features
+feature_category: General
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: "Will 3+"
-description: "Whether through madness, conditioning, or bravery, the character is immune to terror."
+prerequisites: Will 3+
+description: >-
+  Whether through madness, conditioning, or bravery, the character is immune to
+  terror.
+costs:
+  bp: 3
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Fearless

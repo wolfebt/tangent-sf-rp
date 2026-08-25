@@ -1,9 +1,29 @@
 ---
-id: "damage-energy-voltic"
-name: "Voltic / Electrical Energy Damage"
-category: "damage_types"
-damage_classification: "Energy"
-description: "High-voltage arcs overloading cybernetics, robots, and nervous systems."
+id: damage-energy-voltic
+name: Voltic / Electrical Energy Damage
+category: damage_types
+damage_classification: Energy
+description: 'High-voltage arcs overloading cybernetics, robots, and nervous systems.'
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Voltic / Electrical Energy Damage

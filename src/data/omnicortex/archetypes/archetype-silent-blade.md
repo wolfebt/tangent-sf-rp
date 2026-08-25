@@ -1,20 +1,56 @@
 ---
-id: "archetype-silent-blade"
-name: "The Silent Blade"
-sphere: "Operatives (The Artisans)"
-category: "archetypes"
+id: archetype-silent-blade
+name: The Silent Blade
+sphere: Operatives (The Artisans)
+category: archetypes
 bp_chassis: 80
-core_concept: "Stealth / Burst Damage"
-primary_attribute: "Agility"
-secondary_attribute: "Perception"
-recommended_occupations: ["Criminal","Agent"]
-recommended_origins: ["Urban","Militaristic","Hostile"]
-recommended_factions: ["Syndicate (Liquidators)","Dynasty (Royal Assassins)","Outworlds"]
-essential_skills: ["Stealth","Acrobatics","Athletics","Combat (Sniper or Blades)"]
-signature_features: ["Silent Killer","Master of Disguise"]
-tactical_role: "Elimination of High Value Targets, scouting, alpha strikes."
-quote: "\"One shot. One clean timeline.\""
-description: "A professional killer taking contracts to eliminate specific targets via long-range sniping or close-quarters execution."
+core_concept: Stealth / Burst Damage
+primary_attribute: Agility
+secondary_attribute: Perception
+recommended_occupations:
+  - Criminal
+  - Agent
+recommended_origins:
+  - Urban
+  - Militaristic
+  - Hostile
+recommended_factions:
+  - Syndicate (Liquidators)
+  - Dynasty (Royal Assassins)
+  - Outworlds
+essential_skills:
+  - Stealth
+  - Acrobatics
+  - Athletics
+  - Combat (Sniper or Blades)
+signature_features:
+  - Silent Killer
+  - Master of Disguise
+tactical_role: 'Elimination of High Value Targets, scouting, alpha strikes.'
+quote: '"One shot. One clean timeline."'
+description: >-
+  A professional killer taking contracts to eliminate specific targets via
+  long-range sniping or close-quarters execution.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Silent Blade

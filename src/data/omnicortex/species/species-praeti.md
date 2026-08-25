@@ -10,41 +10,106 @@ size:
   - species_size-medium
 movement:
   - species_movement-flight
-inherent_attribute_modifiers: []
-bonus_attribute_points: 2
-specific_skill_bonuses:
-  - skill: Alertness
-    bonus: 2
-  - skill: Navigation (Aerial)
-    bonus: 1
-bonus_skills: 10
-bonus_skill_choices:
-  - Alertness
-  - Navigation
-  - Athletics
-  - Combat (Ranged)
-  - Survival
-inherent_features:
-  - Uncanny Senses (Telescopic Vision +4)
-  - Flight (Winged Speed 50ft)
-  - Hollow Bone Agility
-  - Thermal Current Riding
-bonus_features: 1
-bonus_feature_choices:
-  - Dive Bomb Strike
-  - Aerial Barrel Roll
-  - Wind Gust Blast
-recommended_features:
-  - feature-dive-bomb-strike
 stigma: Xeno (-2)
 tech_level: 3 (Aerodynamic Laminates & Long-Rifle Snipers)
 meta_level: 2 (Aero-Kinetic Wind Weaving)
 homeworld: Avis Spire Worlds
-cp_cost: 22
 cp: 22
 description: >-
   Magnificent winged humanoids possessing feathered plumage, eagle-like
   telescopic eyesight, and aerial supremacy.
+costs:
+  bp: 22
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Any Attribute
+    type: attribute
+    value: 2
+    mode: bonus_pool
+  - target: Alertness
+    type: skill
+    value: 2
+    mode: inherent
+  - target: Navigation (Aerial)
+    type: skill
+    value: 1
+    mode: inherent
+  - target: General Skill Pool
+    type: skill
+    value: 10
+    mode: bonus_pool
+  - target: Alertness
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Navigation
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Athletics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Combat (Ranged)
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Survival
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Uncanny Senses (Telescopic Vision +4)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Flight (Winged Speed 50ft)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Hollow Bone Agility
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Thermal Current Riding
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Dive Bomb Strike
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Aerial Barrel Roll
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Wind Gust Blast
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-dive-bomb-strike
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Praeti (Winged Avian Humanoid)
 

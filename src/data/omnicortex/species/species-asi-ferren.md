@@ -11,47 +11,119 @@ size:
 movement:
   - species_movement-bipedal
   - species_movement-climbing
-inherent_attribute_modifiers:
-  - attribute: Agility
-    bonus: 1
-bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Acrobatics
-    bonus: 2
-  - skill: Stealth
-    bonus: 1
-bonus_skills: 5
-bonus_skill_choices:
-  - Acrobatics
-  - Stealth
-  - Athletics
-  - Survival
-  - Sleight of Hand
-inherent_features:
-  - 'Asi Base Traits (Ageless, Obfuscate, Sleepless)'
-  - Prehensile Tail
-  - Climber
-  - Quick (+5ft Movement)
-  - Adapted (Arboreal)
-bonus_features: 1
-bonus_feature_choices:
-  - Lightning Reflexes
-  - Tree Singer
-  - Danger Sense
-  - Nimble Leap
-recommended_features:
-  - feature-lightning-reflexes
-  - feature-nimble-leap
 stigma: 'Fey (-2), Xeno (-2)'
 tech_level: 2 (Bio-Loomed Weaves & Organic Tools)
 meta_level: 3 (Primal Fey Illusion)
 homeworld: Sylvanna (The Canopied World)
-cp_cost: 19
 cp: 19
 description: >-
   Ferren are nimble, tail-bearing fey creatures adapted to high-canopy
   ecosystems. Inquisitive and fleet-footed, they traverse vertical cityscapes
   and wild jungles with equal ease.
+costs:
+  bp: 19
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Agility
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Acrobatics
+    type: skill
+    value: 2
+    mode: inherent
+  - target: Stealth
+    type: skill
+    value: 1
+    mode: inherent
+  - target: General Skill Pool
+    type: skill
+    value: 5
+    mode: bonus_pool
+  - target: Acrobatics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Stealth
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Athletics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Survival
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Sleight of Hand
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: 'Asi Base Traits (Ageless, Obfuscate, Sleepless)'
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Prehensile Tail
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Climber
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Quick (+5ft Movement)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Adapted (Arboreal)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Lightning Reflexes
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Tree Singer
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Danger Sense
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Nimble Leap
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-lightning-reflexes
+    type: feature
+    value: 1
+    mode: recommended
+  - target: feature-nimble-leap
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Ferren (Arboreal Fey)
 

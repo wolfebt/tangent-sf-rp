@@ -1,11 +1,32 @@
 ---
-id: "trait-persistence"
-name: "Persistence"
-category: "traits"
-trait_type: "Origin Trait"
-origin_association: "Research"
-cost_cp: 1
-description: "Tireless determination that runs countless trials until a breakthrough is achieved."
+id: trait-persistence
+name: Persistence
+category: traits
+trait_type: Origin Trait
+origin_association: Research
+description: >-
+  Tireless determination that runs countless trials until a breakthrough is
+  achieved.
+costs:
+  bp: 1
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Persistence

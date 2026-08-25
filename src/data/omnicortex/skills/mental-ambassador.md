@@ -1,21 +1,44 @@
 ---
-id: "mental-ambassador"
-name: "Ambassador"
-type: "mental"
-subtype: "vocation"
-category: "skills"
-governing_attributes: ["Charisma"]
-description: "Official diplomatic representation, high-level treaty negotiations, state protocol, first contact missions, and interstellar diplomacy."
+id: mental-ambassador
+name: Ambassador
+type: mental
+subtype: vocation
+category: skills
+governing_attributes:
+  - Charisma
+description: >-
+  Official diplomatic representation, high-level treaty negotiations, state
+  protocol, first contact missions, and interstellar diplomacy.
 trained_only: false
 specialties:
-  - "First Contact Protocols"
-  - "Treaty & Armistice Negotiation"
-  - "Trade Compacts"
-  - "Faction-Specific Court Protocol"
+  - First Contact Protocols
+  - Treaty & Armistice Negotiation
+  - Trade Compacts
+  - Faction-Specific Court Protocol
 synergy_links:
-  - "social-diplomacy"
-  - "mental-culture"
-  - "mental-nobility"
+  - social-diplomacy
+  - mental-culture
+  - mental-nobility
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Ambassador

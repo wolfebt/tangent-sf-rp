@@ -1,9 +1,29 @@
 ---
-id: "invocation-analyze-illusion"
-name: "ANALYZE ILLUSION"
-category: "invocations"
-discipline: "Illusion"
-description: "ANALYZE ILLUSION invocation for Illusion reality manipulation."
+id: invocation-analyze-illusion
+name: ANALYZE ILLUSION
+category: invocations
+discipline: Illusion
+description: ANALYZE ILLUSION invocation for Illusion reality manipulation.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # ANALYZE ILLUSION Invocation

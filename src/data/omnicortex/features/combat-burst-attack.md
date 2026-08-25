@@ -1,13 +1,35 @@
 ---
-id: "combat-burst-attack"
-name: "Burst Attack"
-category: "features"
-feature_category: "Combat"
+id: combat-burst-attack
+name: Burst Attack
+category: features
+feature_category: Combat
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: "Ballistic, Energy, or Heavy Weapon Skill Rank 2"
-description: "The character is trained in controlling the recoil and spray of automatic weaponry to maximize accuracy or saturation."
+prerequisites: 'Ballistic, Energy, or Heavy Weapon Skill Rank 2'
+description: >-
+  The character is trained in controlling the recoil and spray of automatic
+  weaponry to maximize accuracy or saturation.
+costs:
+  bp: 3
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Burst Attack

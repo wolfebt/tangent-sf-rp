@@ -1,13 +1,62 @@
 ---
-id: "occupation-entertainer"
-name: "Entertainer"
-category: "occupations"
+id: occupation-entertainer
+name: Entertainer
+category: occupations
 skill_points: 20
-professional_skills: ["Any Expression Skills"]
-recommended_features: "Skill"
-archetypes: ["Holographic Performer","Psionic Entertainer","Circus Performer","Comedian","Dancer","Storyteller","Musician","Actor","Courtesan"]
-traits: ["trait-entertainer-adaptable","trait-entertainer-charismatic","trait-entertainer-confident","trait-entertainer-creative","trait-entertainer-energetic","trait-entertainer-fans","trait-entertainer-fellow-artists","trait-entertainer-freedom","trait-entertainer-fun","trait-entertainer-venues"]
-description: "Entertainers might perform in various forms of art, such as music, dance, acting, or even virtual reality experiences. They could use advanced technology to create immersive and captivating performances, reaching audiences across different planets and star systems.Entertainers in the future may perform in a variety of ways, including music, dance, acting, and even virtual reality experiences. They can use advanced technology to create immersive and captivating performances that can reach audiences across different planets and star systems. The possibilities for entertainment are truly endless. As technology continues to evolve, so will the ways we can be entertained."
+professional_skills:
+  - Any Expression Skills
+archetypes:
+  - Holographic Performer
+  - Psionic Entertainer
+  - Circus Performer
+  - Comedian
+  - Dancer
+  - Storyteller
+  - Musician
+  - Actor
+  - Courtesan
+traits:
+  - trait-entertainer-adaptable
+  - trait-entertainer-charismatic
+  - trait-entertainer-confident
+  - trait-entertainer-creative
+  - trait-entertainer-energetic
+  - trait-entertainer-fans
+  - trait-entertainer-fellow-artists
+  - trait-entertainer-freedom
+  - trait-entertainer-fun
+  - trait-entertainer-venues
+description: >-
+  Entertainers might perform in various forms of art, such as music, dance,
+  acting, or even virtual reality experiences. They could use advanced
+  technology to create immersive and captivating performances, reaching
+  audiences across different planets and star systems.Entertainers in the future
+  may perform in a variety of ways, including music, dance, acting, and even
+  virtual reality experiences. They can use advanced technology to create
+  immersive and captivating performances that can reach audiences across
+  different planets and star systems. The possibilities for entertainment are
+  truly endless. As technology continues to evolve, so will the ways we can be
+  entertained.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Entertainer Occupation

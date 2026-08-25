@@ -1,13 +1,37 @@
 ---
-id: "special-technologist"
-name: "Technologist"
-category: "features"
-feature_category: "Special"
+id: special-technologist
+name: Technologist
+category: features
+feature_category: Special
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: "Intellect 3, Technology (Knowledge) 11"
-description: "The character is ahead of the curve, understanding technology that shouldn't exist yet. For a character to advance in their (TL Tech Level) they will require different fields of advanced study, the feature will need to be selected multiple times for various fields (minimum of five)."
+prerequisites: 'Intellect 3, Technology (Knowledge) 11'
+description: >-
+  The character is ahead of the curve, understanding technology that shouldn't
+  exist yet. For a character to advance in their (TL Tech Level) they will
+  require different fields of advanced study, the feature will need to be
+  selected multiple times for various fields (minimum of five).
+costs:
+  bp: 3
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Technologist

@@ -118,7 +118,7 @@ const NarrativeTab = () => {
         ))}
       </div>
 
-      <div className="overflow-y-auto pr-2 pb-10 flex-1">
+      <div className="overflow-y-auto pr-2 pb-20 flex-1">
         <div className="bg-slate-900/60 p-4 rounded-xl border border-cyan-900/40">
           <h3 className="text-sm font-bold font-mono text-cyan-400 uppercase tracking-wider mb-4 border-b border-cyan-900/50 pb-2">
             {currentSection.title}

@@ -1,20 +1,56 @@
 ---
-id: "archetype-senator"
-name: "The Senator"
-sphere: "Visionaries (The Idealists)"
-category: "archetypes"
+id: archetype-senator
+name: The Senator
+sphere: Visionaries (The Idealists)
+category: archetypes
 bp_chassis: 80
-core_concept: "Face / Leader / Buffer"
-primary_attribute: "Charisma"
-secondary_attribute: "Wisdom"
-recommended_occupations: ["Representative","Noble"]
-recommended_origins: ["Urban","Leisure","Enlightened"]
-recommended_factions: ["Impyrium (Senate)","Coalition (Council)","Entari Combine"]
-essential_skills: ["Diplomacy","Bluff","Insight","Leadership"]
-signature_features: ["Political Acumen","Influence Network"]
-tactical_role: "Dealing with authorities, securing funding, changing laws."
-quote: "\"I don't need a weapon. I have a mandate.\""
-description: "Charismatic figure who navigates the political landscape, builds alliances, and sways public opinion."
+core_concept: Face / Leader / Buffer
+primary_attribute: Charisma
+secondary_attribute: Wisdom
+recommended_occupations:
+  - Representative
+  - Noble
+recommended_origins:
+  - Urban
+  - Leisure
+  - Enlightened
+recommended_factions:
+  - Impyrium (Senate)
+  - Coalition (Council)
+  - Entari Combine
+essential_skills:
+  - Diplomacy
+  - Bluff
+  - Insight
+  - Leadership
+signature_features:
+  - Political Acumen
+  - Influence Network
+tactical_role: 'Dealing with authorities, securing funding, changing laws.'
+quote: '"I don''t need a weapon. I have a mandate."'
+description: >-
+  Charismatic figure who navigates the political landscape, builds alliances,
+  and sways public opinion.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Senator

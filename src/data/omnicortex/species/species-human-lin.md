@@ -11,44 +11,110 @@ size:
 movement:
   - species_movement-bipedal
   - species_movement-climbing
-inherent_attribute_modifiers:
-  - attribute: Intellect
-    bonus: 1
-bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Acrobatics
-    bonus: 1
-  - skill: Survival (Jungle)
-    bonus: 1
-bonus_skills: 10
-bonus_skill_choices:
-  - Acrobatics
-  - Survival
-  - Athletics
-  - Medicine (Herbal)
-  - Stealth
-inherent_features:
-  - Adapted (Arboreal)
-  - Awakened (Nature/Psychic)
-  - Biotech Synergy
-  - Climber
-  - Prehensile Tail
-bonus_features: 1
-bonus_feature_choices:
-  - Canopy Acrobat
-  - Plant Whisperer
-  - Natural Camouflage
-recommended_features:
-  - feature-climber
 stigma: Xeno (-2)
 tech_level: 2 (Living Vine Architecture)
 meta_level: 3 (Botanical Psionics)
 homeworld: Lin-Shur Canopies
-cp_cost: 19
 cp: 19
 description: >-
   Tail-bearing canopy humans who merged their physiology with arboreal symbiotic
   plants to navigate colossal alien forests.
+costs:
+  bp: 19
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Intellect
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Acrobatics
+    type: skill
+    value: 1
+    mode: inherent
+  - target: Survival (Jungle)
+    type: skill
+    value: 1
+    mode: inherent
+  - target: General Skill Pool
+    type: skill
+    value: 10
+    mode: bonus_pool
+  - target: Acrobatics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Survival
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Athletics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Medicine (Herbal)
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Stealth
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Adapted (Arboreal)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Awakened (Nature/Psychic)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Biotech Synergy
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Climber
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Prehensile Tail
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Canopy Acrobat
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Plant Whisperer
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Natural Camouflage
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-climber
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Lin Human (Arboreal Canopy Folk)
 

@@ -10,44 +10,111 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-inherent_attribute_modifiers:
-  - attribute: Charisma
-    bonus: -1
-bonus_attribute_points: 2
-specific_skill_bonuses:
-  - skill: Combat (Firearms)
-    bonus: 2
-  - skill: Tactics
-    bonus: 2
-bonus_skills: 20
-bonus_skill_choices:
-  - Combat
-  - Tactics
-  - Athletics
-  - Discipline
-  - Stealth
-  - Perception
-inherent_features:
-  - 'Augmented (Sub-dermal Targeter, Adrenal Regulator)'
-  - Conditioned Mind (+4 vs Fear)
-  - Combat Specialization
-bonus_features: 1
-bonus_feature_choices:
-  - Zero-Delay Reaction
-  - Covert Infiltration
-  - Precision Marksman
-recommended_features:
-  - feature-precision-marksman
 stigma: Xeno (-2)
 tech_level: 4 (Syndicate Black-Ops Tech)
 meta_level: 1 (Tactical Focus)
 homeworld: Syndicate Citadel Academies
-cp_cost: 26
 cp: 26
 description: >-
   The Janissaries are precision-crafted corporate enforcers possessing
   surgically implanted targeters, adrenal pumps, and uncompromising tactical
   conditioning.
+costs:
+  bp: 26
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Charisma
+    type: attribute
+    value: -1
+    mode: inherent
+  - target: Any Attribute
+    type: attribute
+    value: 2
+    mode: bonus_pool
+  - target: Combat (Firearms)
+    type: skill
+    value: 2
+    mode: inherent
+  - target: Tactics
+    type: skill
+    value: 2
+    mode: inherent
+  - target: General Skill Pool
+    type: skill
+    value: 20
+    mode: bonus_pool
+  - target: Combat
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Tactics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Athletics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Discipline
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Stealth
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Perception
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: 'Augmented (Sub-dermal Targeter, Adrenal Regulator)'
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Conditioned Mind (+4 vs Fear)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Combat Specialization
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Zero-Delay Reaction
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Covert Infiltration
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Precision Marksman
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-precision-marksman
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Janissary (Syndicate Elite Enforcer)
 

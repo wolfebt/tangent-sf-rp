@@ -1,20 +1,54 @@
 ---
-id: "archetype-pathfinder"
-name: "The Pathfinder"
-sphere: "Operatives (The Artisans)"
-category: "archetypes"
+id: archetype-pathfinder
+name: The Pathfinder
+sphere: Operatives (The Artisans)
+category: archetypes
 bp_chassis: 80
-core_concept: "Stealth / Recon / Survival"
-primary_attribute: "Agility"
-secondary_attribute: "Wisdom"
-recommended_occupations: ["Scout","Soldier"]
-recommended_origins: ["Colony","Hostile","Militaristic"]
-recommended_factions: ["Outworlds","Auluran (Scouts)","Coalition"]
-essential_skills: ["Knowledge (Survival)","Acrobatics","Alertness","Knowledge (Geography)"]
-signature_features: ["Pathfinder","Keen Observer"]
-tactical_role: "Reconnaissance, initiating ambushes, guiding the party."
-quote: "\"Three guards, two turrets, and a back door they forgot to lock. Easy.\""
-description: "Ventures into the unknown, charting territories and assessing threats."
+core_concept: Stealth / Recon / Survival
+primary_attribute: Agility
+secondary_attribute: Wisdom
+recommended_occupations:
+  - Scout
+  - Soldier
+recommended_origins:
+  - Colony
+  - Hostile
+  - Militaristic
+recommended_factions:
+  - Outworlds
+  - Auluran (Scouts)
+  - Coalition
+essential_skills:
+  - Knowledge (Survival)
+  - Acrobatics
+  - Alertness
+  - Knowledge (Geography)
+signature_features:
+  - Pathfinder
+  - Keen Observer
+tactical_role: 'Reconnaissance, initiating ambushes, guiding the party.'
+quote: '"Three guards, two turrets, and a back door they forgot to lock. Easy."'
+description: 'Ventures into the unknown, charting territories and assessing threats.'
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Pathfinder

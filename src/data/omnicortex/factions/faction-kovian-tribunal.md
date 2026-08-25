@@ -1,17 +1,43 @@
 ---
-id: "faction-kovian-tribunal"
-name: "The Kovian Tribunal"
-category: "factions"
-faction_type: "Major Polity"
-archetype: "Militant Judicial Autocracy"
-driving_mandate: "Enforce Absolute Justice; Eradicate Chaos."
-symbol_sigil: "The Obsidian Gavel"
-capital_world: "Kovia Bastion"
-tech_level: "3 (Heavy Kinetic / Fortified)"
-meta_level: "2 (Order Invocations)"
-skill_package: ["Combat (Melee)","Intimidate","Knowledge (Law)","Alertness","Soldier Vocation"]
-bonus_features: ["Iron Will","Benefit (Authority)"]
-description: "Unyielding inquisitorial judicial empire enforcing immutable laws through armored judges and automated suppression brigades."
+id: faction-kovian-tribunal
+name: The Kovian Tribunal
+category: factions
+faction_type: Major Polity
+archetype: Militant Judicial Autocracy
+driving_mandate: Enforce Absolute Justice; Eradicate Chaos.
+symbol_sigil: The Obsidian Gavel
+capital_world: Kovia Bastion
+tech_level: 3 (Heavy Kinetic / Fortified)
+meta_level: 2 (Order Invocations)
+skill_package:
+  - Combat (Melee)
+  - Intimidate
+  - Knowledge (Law)
+  - Alertness
+  - Soldier Vocation
+description: >-
+  Unyielding inquisitorial judicial empire enforcing immutable laws through
+  armored judges and automated suppression brigades.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Kovian Tribunal

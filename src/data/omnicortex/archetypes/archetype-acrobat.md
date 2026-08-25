@@ -1,20 +1,53 @@
 ---
-id: "archetype-acrobat"
-name: "The Acrobat"
-sphere: "Operatives (The Artisans)"
-category: "archetypes"
+id: archetype-acrobat
+name: The Acrobat
+sphere: Operatives (The Artisans)
+category: archetypes
 bp_chassis: 80
-core_concept: "Mobility / Evasion / Performance"
-primary_attribute: "Agility"
-secondary_attribute: "Strength"
-recommended_occupations: ["Entertainer","Specialist"]
-recommended_origins: ["Leisure","Spacer","Urban"]
-recommended_factions: ["Entari Combine (Performers)","Outworlds (Traveling Shows)"]
-essential_skills: ["Acrobatics","Athletics","Expression (any)","Animal Handling"]
-signature_features: ["Daredevil","Showmanship"]
-tactical_role: "Traversing difficult terrain, dodging attacks, distracting enemies."
-quote: "\"Catch me if you can.\""
-description: "A performer specializing in agility and stunts, often in zero-gravity."
+core_concept: Mobility / Evasion / Performance
+primary_attribute: Agility
+secondary_attribute: Strength
+recommended_occupations:
+  - Entertainer
+  - Specialist
+recommended_origins:
+  - Leisure
+  - Spacer
+  - Urban
+recommended_factions:
+  - Entari Combine (Performers)
+  - Outworlds (Traveling Shows)
+essential_skills:
+  - Acrobatics
+  - Athletics
+  - Expression (any)
+  - Animal Handling
+signature_features:
+  - Daredevil
+  - Showmanship
+tactical_role: 'Traversing difficult terrain, dodging attacks, distracting enemies.'
+quote: '"Catch me if you can."'
+description: 'A performer specializing in agility and stunts, often in zero-gravity.'
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Acrobat

@@ -11,40 +11,99 @@ size:
 movement:
   - species_movement-bipedal
   - species_movement-swimming
-inherent_attribute_modifiers: []
-bonus_attribute_points: 1
-specific_skill_bonuses:
-  - skill: Athletics (Swimming)
-    bonus: 2
-bonus_skills: 0
-bonus_skill_choices:
-  - Athletics
-  - Survival
-  - Navigation
-  - Science (Oceanography)
-inherent_features:
-  - Adapted (Aquatic)
-  - Amphibious (Gills & Lungs)
-  - Aquatic Strength (+2 in water)
-  - Specialized Senses (Underwater Vision/Sonar)
-  - Natural Swim Speed (30ft)
-bonus_features: 1
-bonus_feature_choices:
-  - Pressure Tolerance
-  - Bioluminescence
-  - Cold Water Immunity
-recommended_features:
-  - feature-pressure-tolerance
 stigma: Aquatic Xeno (-3)
 tech_level: 3 (Sub-Surface Habitats & Hydro-Drives)
 meta_level: 1 (Oceanic Echo)
 homeworld: Thalassa (Ocean World)
-cp_cost: 17
 cp: 17
 description: >-
   Aquarians are oceanic-adapted humans with gill slits, webbed digits, and
   pressurized vascular systems suited for pelagic trenches and coastal orbital
   habitats.
+costs:
+  bp: 17
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Any Attribute
+    type: attribute
+    value: 1
+    mode: bonus_pool
+  - target: Athletics (Swimming)
+    type: skill
+    value: 2
+    mode: inherent
+  - target: Athletics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Survival
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Navigation
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Science (Oceanography)
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Adapted (Aquatic)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Amphibious (Gills & Lungs)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Aquatic Strength (+2 in water)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Specialized Senses (Underwater Vision/Sonar)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Natural Swim Speed (30ft)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Pressure Tolerance
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Bioluminescence
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Cold Water Immunity
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-pressure-tolerance
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Aquarian Human (Water Variant)
 

@@ -1,21 +1,45 @@
 ---
-id: "mental-electrician"
-name: "Electrician"
-type: "mental"
-subtype: "vocation"
-category: "skills"
-governing_attributes: ["Intellect","Agility"]
-description: "Installing, troubleshooting, and repairing power grids, high-voltage conduits, sub-surface wiring, lighting circuits, and micro-electronics."
+id: mental-electrician
+name: Electrician
+type: mental
+subtype: vocation
+category: skills
+governing_attributes:
+  - Intellect
+  - Agility
+description: >-
+  Installing, troubleshooting, and repairing power grids, high-voltage conduits,
+  sub-surface wiring, lighting circuits, and micro-electronics.
 trained_only: false
 specialties:
-  - "High-Voltage Power Grids & Fusion Taps"
-  - "Micro-circuitry & Breadboarding"
-  - "Starship Power Distribution & Relays"
-  - "Robotic Wiring & Actuators"
+  - High-Voltage Power Grids & Fusion Taps
+  - Micro-circuitry & Breadboarding
+  - Starship Power Distribution & Relays
+  - Robotic Wiring & Actuators
 synergy_links:
-  - "mental-computers"
-  - "mental-technology"
-  - "mental-engineer"
+  - mental-computers
+  - mental-technology
+  - mental-engineer
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Electrician

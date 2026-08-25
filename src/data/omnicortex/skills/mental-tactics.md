@@ -1,22 +1,45 @@
 ---
-id: "mental-tactics"
-name: "Tactics"
-type: "mental"
-subtype: "knowledge"
-category: "skills"
-governing_attributes: ["Intellect"]
-description: "The science of military strategy, troop formations, ambush design, battlefield positioning, fire-support coordination, and predicting enemy movement."
+id: mental-tactics
+name: Tactics
+type: mental
+subtype: knowledge
+category: skills
+governing_attributes:
+  - Intellect
+description: >-
+  The science of military strategy, troop formations, ambush design, battlefield
+  positioning, fire-support coordination, and predicting enemy movement.
 trained_only: false
 specialties:
-  - "Squad & Small Unit Tactics"
-  - "Guerrilla Warfare & Ambush Craft"
-  - "Siege & Fortification Assault"
-  - "Fleet & Naval Fleet Strategy"
-  - "Space Combat Maneuvers"
+  - Squad & Small Unit Tactics
+  - Guerrilla Warfare & Ambush Craft
+  - Siege & Fortification Assault
+  - Fleet & Naval Fleet Strategy
+  - Space Combat Maneuvers
 synergy_links:
-  - "combat-heavy-weapons"
-  - "mental-soldier"
-  - "social-leadership"
+  - combat-heavy-weapons
+  - mental-soldier
+  - social-leadership
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Tactics

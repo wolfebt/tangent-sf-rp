@@ -1,17 +1,43 @@
 ---
-id: "faction-auluran-clans"
-name: "The Auluran Clans"
-category: "factions"
-faction_type: "Major Polity"
-archetype: "Biomorphic Solarpunk / Organic Ecology"
-driving_mandate: "Preserve Living Symbiosis; Honor Ancestral Forests."
-symbol_sigil: "The World Tree Spiral"
-capital_world: "Sylva Magna"
-tech_level: "3-4 (Biotech / Grown Systems)"
-meta_level: "3 (Nature Attunement)"
-skill_package: ["Knowledge (Nature)","Handle Animal","Stealth","Survival","Attune"]
-bonus_features: ["Biotechnology","Wild Speech"]
-description: "Living ecological civilization of tree-scraper cities, bioluminescent bio-ships, grown chitin weaponry, and druidic shamans."
+id: faction-auluran-clans
+name: The Auluran Clans
+category: factions
+faction_type: Major Polity
+archetype: Biomorphic Solarpunk / Organic Ecology
+driving_mandate: Preserve Living Symbiosis; Honor Ancestral Forests.
+symbol_sigil: The World Tree Spiral
+capital_world: Sylva Magna
+tech_level: 3-4 (Biotech / Grown Systems)
+meta_level: 3 (Nature Attunement)
+skill_package:
+  - Knowledge (Nature)
+  - Handle Animal
+  - Stealth
+  - Survival
+  - Attune
+description: >-
+  Living ecological civilization of tree-scraper cities, bioluminescent
+  bio-ships, grown chitin weaponry, and druidic shamans.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Auluran Clans

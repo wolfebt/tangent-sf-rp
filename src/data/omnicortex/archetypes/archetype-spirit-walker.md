@@ -1,20 +1,58 @@
 ---
-id: "archetype-spirit-walker"
-name: "The Spirit-walker"
-sphere: "Visionaries (The Idealists)"
-category: "archetypes"
+id: archetype-spirit-walker
+name: The Spirit-walker
+sphere: Visionaries (The Idealists)
+category: archetypes
 bp_chassis: 80
-core_concept: "Medium / Scout / Utility"
-primary_attribute: "Wisdom"
-secondary_attribute: "Constitution"
-recommended_occupations: ["Adept","Scout"]
-recommended_origins: ["Enlightened","Agricultural","Hostile"]
-recommended_factions: ["Auluran (Mystics)","Sha'Nor","Outworlds (Shamans)"]
-essential_skills: ["Discipline (Entropy \\- Order (Nature/Life))","Insight","Alertness","Knowledge (Nature)"]
-signature_features: ["Spirit Walker","Spiritual Attunement"]
-tactical_role: "Detecting other-dimensional threats, communing with local spirits, planar navigation."
-quote: "\"The veil is thin here. Can you hear the ancestors?\""
-description: "The conduit between the material plane and the spiritual realms, interpreting the will of the unseen."
+core_concept: Medium / Scout / Utility
+primary_attribute: Wisdom
+secondary_attribute: Constitution
+recommended_occupations:
+  - Adept
+  - Scout
+recommended_origins:
+  - Enlightened
+  - Agricultural
+  - Hostile
+recommended_factions:
+  - Auluran (Mystics)
+  - Sha'Nor
+  - Outworlds (Shamans)
+essential_skills:
+  - Discipline (Entropy \- Order (Nature/Life))
+  - Insight
+  - Alertness
+  - Knowledge (Nature)
+signature_features:
+  - Spirit Walker
+  - Spiritual Attunement
+tactical_role: >-
+  Detecting other-dimensional threats, communing with local spirits, planar
+  navigation.
+quote: '"The veil is thin here. Can you hear the ancestors?"'
+description: >-
+  The conduit between the material plane and the spiritual realms, interpreting
+  the will of the unseen.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Spirit-walker

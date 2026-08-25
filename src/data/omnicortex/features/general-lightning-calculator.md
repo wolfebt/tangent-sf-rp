@@ -1,13 +1,35 @@
 ---
-id: "general-lightning-calculator"
-name: "Lightning Calculator"
-category: "features"
-feature_category: "General"
+id: general-lightning-calculator
+name: Lightning Calculator
+category: features
+feature_category: General
 cost_bp: 3
 is_ranked: true
 is_multiple: false
-prerequisites: "Intellect 1"
-description: "The character is a living computer, able to perform complex mathematics instantly."
+prerequisites: Intellect 1
+description: >-
+  The character is a living computer, able to perform complex mathematics
+  instantly.
+costs:
+  bp: 3
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Lightning Calculator

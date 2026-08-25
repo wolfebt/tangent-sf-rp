@@ -1,20 +1,55 @@
 ---
-id: "archetype-mystic"
-name: "The Mystic"
-sphere: "Visionaries (The Idealists)"
-category: "archetypes"
+id: archetype-mystic
+name: The Mystic
+sphere: Visionaries (The Idealists)
+category: archetypes
 bp_chassis: 80
-core_concept: "Diviner / Support / Advisor"
-primary_attribute: "Wisdom"
-secondary_attribute: "Insight"
-recommended_occupations: ["Adept","Scholar"]
-recommended_origins: ["Enlightened","Research","Leisure"]
-recommended_factions: ["Auluran","Alterian Enclave","Ascendancy"]
-essential_skills: ["Insight","Diplomacy","Discipline (Divination)"]
-signature_features: ["Prophetic Visions","Spiritual Advisor"]
-tactical_role: "Gaining initiative bonuses, avoiding traps, gathering info via divination."
-quote: "\"The future is written, but the ink is not yet dry.\""
-description: "A wise and insightful individual who perceives glimpses of the future and offers guidance."
+core_concept: Diviner / Support / Advisor
+primary_attribute: Wisdom
+secondary_attribute: Insight
+recommended_occupations:
+  - Adept
+  - Scholar
+recommended_origins:
+  - Enlightened
+  - Research
+  - Leisure
+recommended_factions:
+  - Auluran
+  - Alterian Enclave
+  - Ascendancy
+essential_skills:
+  - Insight
+  - Diplomacy
+  - Discipline (Divination)
+signature_features:
+  - Prophetic Visions
+  - Spiritual Advisor
+tactical_role: 'Gaining initiative bonuses, avoiding traps, gathering info via divination.'
+quote: '"The future is written, but the ink is not yet dry."'
+description: >-
+  A wise and insightful individual who perceives glimpses of the future and
+  offers guidance.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Mystic

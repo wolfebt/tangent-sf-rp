@@ -12,44 +12,106 @@ movement:
   - species_movement-bipedal
   - species_movement-climbing
   - species_movement-glide
-inherent_attribute_modifiers:
-  - attribute: Agility
-    bonus: 1
-  - attribute: Charisma
-    bonus: 1
-bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Acrobatics
-    bonus: 2
-bonus_skills: 0
-bonus_skill_choices:
-  - Acrobatics
-  - Stealth
-  - Perception
-  - Sleight of Hand
-inherent_features:
-  - Small Size
-  - Climbing
-  - Patagia (Glide 30ft)
-  - Multidextrous
-  - Uncanny Senses (Acute Scent)
-  - Climb Speed (30ft)
-bonus_features: 1
-bonus_feature_choices:
-  - Tree Glider
-  - Quick Escape
-  - Charm Whisper
-recommended_features:
-  - feature-tree-glider
 stigma: Severe Xeno (-4)
 tech_level: 2 (Lightweight Harnesses)
 meta_level: 1 (Animalistic Empathy)
 homeworld: Qerica Jungle Spires
-cp_cost: 17
 cp: 17
 description: >-
   Small, charismatic mammalian quadrupeds with patagial gliding membranes who
   navigate high-canopy habitats and urban catwalks.
+costs:
+  bp: 17
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Agility
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Charisma
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Acrobatics
+    type: skill
+    value: 2
+    mode: inherent
+  - target: Acrobatics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Stealth
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Perception
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Sleight of Hand
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Small Size
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Climbing
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Patagia (Glide 30ft)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Multidextrous
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Uncanny Senses (Acute Scent)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Climb Speed (30ft)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Tree Glider
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Quick Escape
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Charm Whisper
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-tree-glider
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Qeric (Gliding Beastfolk)
 

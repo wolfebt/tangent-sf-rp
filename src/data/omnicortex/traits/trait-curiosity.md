@@ -1,11 +1,32 @@
 ---
-id: "trait-curiosity"
-name: "Curiosity"
-category: "traits"
-trait_type: "Origin Trait"
-origin_association: "General"
-cost_cp: 1
-description: "An insatiable drive to explore the unknown, analyze anomalous phenomena, and investigate new discoveries."
+id: trait-curiosity
+name: Curiosity
+category: traits
+trait_type: Origin Trait
+origin_association: General
+description: >-
+  An insatiable drive to explore the unknown, analyze anomalous phenomena, and
+  investigate new discoveries.
+costs:
+  bp: 1
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Curiosity

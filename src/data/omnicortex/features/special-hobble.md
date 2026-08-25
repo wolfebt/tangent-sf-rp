@@ -1,13 +1,35 @@
 ---
-id: "special-hobble"
-name: "Hobble"
-category: "features"
-feature_category: "Special"
+id: special-hobble
+name: Hobble
+category: features
+feature_category: Special
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: "Sneak Attack"
-description: "Hobble is a Special Feature: Reduce a target’s speed by 50% (immobilize on 2nd)."
+prerequisites: Sneak Attack
+description: >-
+  Hobble is a Special Feature: Reduce a target’s speed by 50% (immobilize on
+  2nd).
+costs:
+  bp: 3
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Hobble

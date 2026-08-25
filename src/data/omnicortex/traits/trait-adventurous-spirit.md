@@ -1,11 +1,32 @@
 ---
-id: "trait-adventurous-spirit"
-name: "Adventurous Spirit"
-category: "traits"
-trait_type: "Origin Trait"
-origin_association: "Colony"
-cost_cp: 1
-description: "Fearless enthusiasm for venturing beyond established perimeter fences into uncharted wilds."
+id: trait-adventurous-spirit
+name: Adventurous Spirit
+category: traits
+trait_type: Origin Trait
+origin_association: Colony
+description: >-
+  Fearless enthusiasm for venturing beyond established perimeter fences into
+  uncharted wilds.
+costs:
+  bp: 1
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Adventurous Spirit

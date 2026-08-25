@@ -10,45 +10,107 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-inherent_attribute_modifiers:
-  - attribute: Agility
-    bonus: 1
-  - attribute: Strength
-    bonus: 1
-bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Craft (Bio-Tech)
-    bonus: 2
-bonus_skills: 0
-bonus_skill_choices:
-  - Craft (Bio-Tech)
-  - Athletics
-  - Engineering
-  - Science
-inherent_features:
-  - Auluran Base Traits
-  - Digitigrade Legs
-  - Climber
-  - Quick
-  - Martial Arts
-  - Biotechnology (+2 Crafting)
-bonus_features: 1
-bonus_feature_choices:
-  - Heavy Load Lifter
-  - Symbiote Weaver
-  - Cellular Resilience
-recommended_features:
-  - feature-cellular-resilience
 stigma: Xeno (-2)
 tech_level: 3 (Living Habitat Architecture)
 meta_level: 1 (Cellular Attunement)
 homeworld: Aulura Prime
-cp_cost: 20
 cp: 20
 description: >-
   The Koda are the artisan and bio-architect caste of the Aulurans, possessing
   enhanced muscular density, digitigrade agility, and an innate knack for
   breeding chitinous structures.
+costs:
+  bp: 20
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Agility
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Strength
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Craft (Bio-Tech)
+    type: skill
+    value: 2
+    mode: inherent
+  - target: Craft (Bio-Tech)
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Athletics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Engineering
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Science
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Auluran Base Traits
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Digitigrade Legs
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Climber
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Quick
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Martial Arts
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Biotechnology (+2 Crafting)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Heavy Load Lifter
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Symbiote Weaver
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Cellular Resilience
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-cellular-resilience
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Koda (Auluran Builder Caste)
 

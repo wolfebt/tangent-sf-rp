@@ -1,10 +1,30 @@
 ---
-id: "5-03-cybernetic-bioware-augmentations"
-name: "5.03 Cybernetic & Bioware Augmentations"
-category: "compendium"
-entry_type: "Core Rule"
-parent: "5.00 TECHNOLOGY & GEAR"
+id: 5-03-cybernetic-bioware-augmentations
+name: 5.03 Cybernetic & Bioware Augmentations
+category: compendium
+entry_type: Core Rule
+parent: 5.00 TECHNOLOGY & GEAR
 order: 3
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # 5.03 Cybernetic & Bioware Augmentations
 

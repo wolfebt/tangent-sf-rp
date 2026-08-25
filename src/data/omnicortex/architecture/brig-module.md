@@ -8,8 +8,6 @@ height_class: Single
 stories: 1
 frame: Standard
 environment: Standard
-tl: 3
-ml: 0
 cost: 1500
 sp: 300
 dr: 20
@@ -20,6 +18,28 @@ security_level: High Security
 primary_purpose: Secure Prisoner Holding Cell
 description: Heavy containment cell with forcefield bars and anti-tamper locks.
 mechanic: Holding cell with Structure 30 Forcefield walls.
+costs:
+  bp: 0
+  credits: 1500
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
+tech_level: 3
+meta_level: 0
 ---
 Heavy containment cell with forcefield bars and anti-tamper locks.
 

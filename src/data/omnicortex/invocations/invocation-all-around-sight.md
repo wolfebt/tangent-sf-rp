@@ -1,9 +1,29 @@
 ---
-id: "invocation-all-around-sight"
-name: "ALL-AROUND SIGHT"
-category: "invocations"
-discipline: "Mental"
-description: "ALL-AROUND SIGHT invocation for Mental reality manipulation."
+id: invocation-all-around-sight
+name: ALL-AROUND SIGHT
+category: invocations
+discipline: Mental
+description: ALL-AROUND SIGHT invocation for Mental reality manipulation.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # ALL-AROUND SIGHT Invocation

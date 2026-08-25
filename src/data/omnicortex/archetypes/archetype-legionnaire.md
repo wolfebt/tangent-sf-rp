@@ -1,20 +1,54 @@
 ---
-id: "archetype-legionnaire"
-name: "The Legionnaire"
-sphere: "Sentinels (The Stabilizers)"
-category: "archetypes"
+id: archetype-legionnaire
+name: The Legionnaire
+sphere: Sentinels (The Stabilizers)
+category: archetypes
 bp_chassis: 80
-core_concept: "Tank / Formation Fighter / Discipline"
-primary_attribute: "Constitution"
-secondary_attribute: "Strength"
-recommended_occupations: ["Soldier (Impyrium)","Representative"]
-recommended_origins: ["Militaristic","Urban (Capital)"]
-recommended_factions: ["Impyrium (Imperial Legion)","Dynasty (Dragoons)"]
-essential_skills: ["Athletics","Intimidation","Knowledge (Tactics)","Combat (Melee/Heavy)"]
-signature_features: ["Iron Will","Legionary Training"]
-tactical_role: "Holding choke points, soaking damage, providing cover bonuses to allies."
-quote: "\"Strength in unity. Victory in discipline.\""
-description: "A disciplined and loyal soldier who serves in the Impyrium's legions. Expert in formation warfare."
+core_concept: Tank / Formation Fighter / Discipline
+primary_attribute: Constitution
+secondary_attribute: Strength
+recommended_occupations:
+  - Soldier (Impyrium)
+  - Representative
+recommended_origins:
+  - Militaristic
+  - Urban (Capital)
+recommended_factions:
+  - Impyrium (Imperial Legion)
+  - Dynasty (Dragoons)
+essential_skills:
+  - Athletics
+  - Intimidation
+  - Knowledge (Tactics)
+  - Combat (Melee/Heavy)
+signature_features:
+  - Iron Will
+  - Legionary Training
+tactical_role: 'Holding choke points, soaking damage, providing cover bonuses to allies.'
+quote: '"Strength in unity. Victory in discipline."'
+description: >-
+  A disciplined and loyal soldier who serves in the Impyrium's legions. Expert
+  in formation warfare.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Legionnaire

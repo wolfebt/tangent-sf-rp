@@ -1,10 +1,30 @@
 ---
-id: "synthesis-occupation-merchant-dynasty"
-name: "Merchant (DYNASTY) Character Visual Synthesis"
-category: "synthesis"
-synthesis_type: "occupation_character"
-occupation_id: "occupation-merchant"
-faction_id: "faction-dynasty"
+id: synthesis-occupation-merchant-dynasty
+name: Merchant (DYNASTY) Character Visual Synthesis
+category: synthesis
+synthesis_type: occupation_character
+occupation_id: occupation-merchant
+faction_id: faction-dynasty
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Merchant Occupation × DYNASTY Character Visual Synthesis Matrix

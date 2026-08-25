@@ -1,10 +1,30 @@
 ---
-id: "synthesis-occupation-drifter-syndicate"
-name: "Drifter (SYNDICATE) Character Visual Synthesis"
-category: "synthesis"
-synthesis_type: "occupation_character"
-occupation_id: "occupation-drifter"
-faction_id: "faction-syndicate"
+id: synthesis-occupation-drifter-syndicate
+name: Drifter (SYNDICATE) Character Visual Synthesis
+category: synthesis
+synthesis_type: occupation_character
+occupation_id: occupation-drifter
+faction_id: faction-syndicate
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Drifter Occupation × SYNDICATE Character Visual Synthesis Matrix

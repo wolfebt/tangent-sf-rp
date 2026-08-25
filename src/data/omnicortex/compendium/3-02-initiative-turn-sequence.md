@@ -1,10 +1,30 @@
 ---
-id: "3-02-initiative-turn-sequence"
-name: "3.02 Initiative & Turn Sequence"
-category: "compendium"
-entry_type: "Core Rule"
-parent: "3.00 COMBAT"
+id: 3-02-initiative-turn-sequence
+name: 3.02 Initiative & Turn Sequence
+category: compendium
+entry_type: Core Rule
+parent: 3.00 COMBAT
 order: 2
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # 3.02 Initiative & Turn Sequence
 

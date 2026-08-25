@@ -1,21 +1,45 @@
 ---
-id: "mental-salvager"
-name: "Salvager"
-type: "mental"
-subtype: "vocation"
-category: "skills"
-governing_attributes: ["Wisdom","Intellect"]
-description: "Identifying, evaluating, breaching, and extracting valuable tech components and scrap metal from derelict ships, ruins, and battlefields."
+id: mental-salvager
+name: Salvager
+type: mental
+subtype: vocation
+category: skills
+governing_attributes:
+  - Wisdom
+  - Intellect
+description: >-
+  Identifying, evaluating, breaching, and extracting valuable tech components
+  and scrap metal from derelict ships, ruins, and battlefields.
 trained_only: false
 specialties:
-  - "Deep Space Derelict Salvage"
-  - "Underwater Wreck Stripping"
-  - "Urban Scavenging & Ruin Excavation"
-  - "Hazardous Materials Reclamation"
+  - Deep Space Derelict Salvage
+  - Underwater Wreck Stripping
+  - Urban Scavenging & Ruin Excavation
+  - Hazardous Materials Reclamation
 synergy_links:
-  - "mental-appraisal"
-  - "mental-mechanic"
-  - "mental-demolitionist"
+  - mental-appraisal
+  - mental-mechanic
+  - mental-demolitionist
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Salvager

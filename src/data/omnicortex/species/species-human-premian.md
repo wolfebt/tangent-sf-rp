@@ -10,40 +10,102 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-inherent_attribute_modifiers: []
-bonus_attribute_points: 1
-specific_skill_bonuses:
-  - skill: Commerce
-    bonus: 2
-  - skill: Persuasion
-    bonus: 1
-bonus_skills: 10
-bonus_skill_choices:
-  - Commerce
-  - Persuasion
-  - Streetwise
-  - Law
-  - Insight
-inherent_features:
-  - Calculating Mind
-  - Silver Tongue
-  - Syndicate Network
-bonus_features: 1
-bonus_feature_choices:
-  - Master Negotiator
-  - Market Sense
-  - Hidden Assets
-recommended_features:
-  - feature-master-negotiator
 stigma: None
 tech_level: 3 (Financial Holo-Nets & Comms)
 meta_level: 1 (Subconscious Suggestion)
 homeworld: Premia (Syndicate Financial Hub)
-cp_cost: 14
 cp: 14
 description: >-
   Urban, corporate-bred humans renowned for financial acumen, mercantile trade
   empires, and silver-tongued contract negotiations.
+costs:
+  bp: 14
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Any Attribute
+    type: attribute
+    value: 1
+    mode: bonus_pool
+  - target: Commerce
+    type: skill
+    value: 2
+    mode: inherent
+  - target: Persuasion
+    type: skill
+    value: 1
+    mode: inherent
+  - target: General Skill Pool
+    type: skill
+    value: 10
+    mode: bonus_pool
+  - target: Commerce
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Persuasion
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Streetwise
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Law
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Insight
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Calculating Mind
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Silver Tongue
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Syndicate Network
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Master Negotiator
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Market Sense
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Hidden Assets
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-master-negotiator
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Premian Human (Merchant Folk)
 

@@ -8,8 +8,6 @@ height_class: Multi-Story
 stories: 5
 frame: Tower
 environment: Vacuum / Toxic / Corrosive
-tl: 4
-ml: 0
 cost: 23525
 sp: 2250
 dr: 18
@@ -24,6 +22,28 @@ description: >-
 mechanic: >-
   SP: 2,250. DR: 18. Modules: 40. Labs (20), Containment (10), Server Core (5),
   Living Quarters (5).
+costs:
+  bp: 0
+  credits: 23525
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
+tech_level: 4
+meta_level: 0
 ---
 Central vertical core with radiating horizontal research pods isolating hazardous experiments, containing bio-labs, AI servers, and crew quarters.
 

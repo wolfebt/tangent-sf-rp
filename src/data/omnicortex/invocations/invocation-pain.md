@@ -1,9 +1,29 @@
 ---
-id: "invocation-pain"
-name: "PAIN"
-category: "invocations"
-discipline: "Mental"
-description: "PAIN invocation for Mental reality manipulation."
+id: invocation-pain
+name: PAIN
+category: invocations
+discipline: Mental
+description: PAIN invocation for Mental reality manipulation.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # PAIN Invocation

@@ -1,9 +1,31 @@
 ---
-id: "template-cosmic-justice"
-name: "Cosmic Justice Order"
-category: "factions"
-faction_type: "Generic Template"
-description: "Vigilante marshals, bounty hunters, or sector arbiters enforcing extrajudicial justice across frontier worlds."
+id: template-cosmic-justice
+name: Cosmic Justice Order
+category: factions
+faction_type: Generic Template
+description: >-
+  Vigilante marshals, bounty hunters, or sector arbiters enforcing extrajudicial
+  justice across frontier worlds.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Cosmic Justice Order (Generic Faction Template)

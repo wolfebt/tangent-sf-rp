@@ -1,20 +1,56 @@
 ---
-id: "archetype-shadow-stepper"
-name: "The Shadow-stepper"
-sphere: "Operatives (The Artisans)"
-category: "archetypes"
+id: archetype-shadow-stepper
+name: The Shadow-stepper
+sphere: Operatives (The Artisans)
+category: archetypes
 bp_chassis: 80
-core_concept: "Stealth / Infiltration / Sabotage"
-primary_attribute: "Agility"
-secondary_attribute: "Intellect"
-recommended_occupations: ["Spy","Criminal"]
-recommended_origins: ["Urban","Research","Industrial"]
-recommended_factions: ["Syndicate (Infiltrators)","Alterian Enclave (Shadows)","Mekan"]
-essential_skills: ["Stealth","Disguise","Knowledge (Computers)","Acrobatics"]
-signature_features: ["Master of Disguise","Digital Ghost"]
-tactical_role: "Stealth scouting, planting explosives, silent elimination."
-quote: "\"Did you hear that? Probably just the wind.\""
-description: "A master of optical camouflage and tactical misdirection who treats reality as an obstacle to be bypassed."
+core_concept: Stealth / Infiltration / Sabotage
+primary_attribute: Agility
+secondary_attribute: Intellect
+recommended_occupations:
+  - Spy
+  - Criminal
+recommended_origins:
+  - Urban
+  - Research
+  - Industrial
+recommended_factions:
+  - Syndicate (Infiltrators)
+  - Alterian Enclave (Shadows)
+  - Mekan
+essential_skills:
+  - Stealth
+  - Disguise
+  - Knowledge (Computers)
+  - Acrobatics
+signature_features:
+  - Master of Disguise
+  - Digital Ghost
+tactical_role: 'Stealth scouting, planting explosives, silent elimination.'
+quote: '"Did you hear that? Probably just the wind."'
+description: >-
+  A master of optical camouflage and tactical misdirection who treats reality as
+  an obstacle to be bypassed.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Shadow-stepper

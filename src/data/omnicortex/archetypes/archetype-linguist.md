@@ -1,20 +1,56 @@
 ---
-id: "archetype-linguist"
-name: "The Linguist"
-sphere: "Savants (The Rationals)"
-category: "archetypes"
+id: archetype-linguist
+name: The Linguist
+sphere: Savants (The Rationals)
+category: archetypes
 bp_chassis: 80
-core_concept: "Intel / Face / Support"
-primary_attribute: "Intellect"
-secondary_attribute: "Charisma"
-recommended_occupations: ["Scholar","Representative"]
-recommended_origins: ["Urban","Research","Spacer"]
-recommended_factions: ["Entari Combine (Translators)","Alterian Enclave","Ascendancy"]
-essential_skills: ["Knowledge (Languages)","Diplomacy","Insight","Knowledge (History)"]
-signature_features: ["Polyglot","Cultural Interpreter"]
-tactical_role: "Translating alien documents/comms, mediating first contact, deciphering codes."
-quote: "\"Language is the first weapon. And the first shield.\""
-description: "The master of communication who deciphers the languages of the galaxy to enable cooperation or manipulation."
+core_concept: Intel / Face / Support
+primary_attribute: Intellect
+secondary_attribute: Charisma
+recommended_occupations:
+  - Scholar
+  - Representative
+recommended_origins:
+  - Urban
+  - Research
+  - Spacer
+recommended_factions:
+  - Entari Combine (Translators)
+  - Alterian Enclave
+  - Ascendancy
+essential_skills:
+  - Knowledge (Languages)
+  - Diplomacy
+  - Insight
+  - Knowledge (History)
+signature_features:
+  - Polyglot
+  - Cultural Interpreter
+tactical_role: 'Translating alien documents/comms, mediating first contact, deciphering codes.'
+quote: '"Language is the first weapon. And the first shield."'
+description: >-
+  The master of communication who deciphers the languages of the galaxy to
+  enable cooperation or manipulation.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Linguist

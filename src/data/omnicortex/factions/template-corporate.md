@@ -1,9 +1,31 @@
 ---
-id: "template-corporate"
-name: "Corporate Subsidiary"
-category: "factions"
-faction_type: "Generic Template"
-description: "Branch office, megacorporate extraction subsidiary, or planetary retail franchise operating for shareholder profit."
+id: template-corporate
+name: Corporate Subsidiary
+category: factions
+faction_type: Generic Template
+description: >-
+  Branch office, megacorporate extraction subsidiary, or planetary retail
+  franchise operating for shareholder profit.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Corporate Subsidiary (Generic Faction Template)

@@ -1,13 +1,36 @@
 ---
-id: "special-biotechnology"
-name: "Biotechnology"
-category: "features"
-feature_category: "Special"
+id: special-biotechnology
+name: Biotechnology
+category: features
+feature_category: Special
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: "Awakened (Psychic) OR Tech Level 4+ society."
-description: "The character is trained or naturally adapted to use \"Living Technology\"—grown items, symbiotic armor, and genetically engineered tools (common among Aulurans and Tyranid-like factions)."
+prerequisites: Awakened (Psychic) OR Tech Level 4+ society.
+description: >-
+  The character is trained or naturally adapted to use "Living Technology"—grown
+  items, symbiotic armor, and genetically engineered tools (common among
+  Aulurans and Tyranid-like factions).
+costs:
+  bp: 3
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Biotechnology

@@ -1,20 +1,56 @@
 ---
-id: "archetype-virtuoso"
-name: "The Virtuoso"
-sphere: "Operatives (The Artisans)"
-category: "archetypes"
+id: archetype-virtuoso
+name: The Virtuoso
+sphere: Operatives (The Artisans)
+category: archetypes
 bp_chassis: 80
-core_concept: "Social / Distraction / Buffer"
-primary_attribute: "Charisma"
-secondary_attribute: "Agility"
-recommended_occupations: ["Entertainer","Citizen"]
-recommended_origins: ["Leisure","Urban","Enlightened"]
-recommended_factions: ["Entari Combine (Culture)","Alterian Enclave","Syndicate (Media)"]
-essential_skills: ["Acrobatics","Expression (any)","Diplomacy","Social"]
-signature_features: ["Showmanship","Star Power"]
-tactical_role: "Distracting guards, earning money, gaining access to exclusive events."
-quote: "\"Eyes on me, everyone. You won't want to miss this.\""
-description: "Captivates audiences with skills in music, dance, or acting. Thrives in the spotlight."
+core_concept: Social / Distraction / Buffer
+primary_attribute: Charisma
+secondary_attribute: Agility
+recommended_occupations:
+  - Entertainer
+  - Citizen
+recommended_origins:
+  - Leisure
+  - Urban
+  - Enlightened
+recommended_factions:
+  - Entari Combine (Culture)
+  - Alterian Enclave
+  - Syndicate (Media)
+essential_skills:
+  - Acrobatics
+  - Expression (any)
+  - Diplomacy
+  - Social
+signature_features:
+  - Showmanship
+  - Star Power
+tactical_role: 'Distracting guards, earning money, gaining access to exclusive events.'
+quote: '"Eyes on me, everyone. You won''t want to miss this."'
+description: >-
+  Captivates audiences with skills in music, dance, or acting. Thrives in the
+  spotlight.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Virtuoso

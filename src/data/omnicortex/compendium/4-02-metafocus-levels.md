@@ -1,10 +1,30 @@
 ---
-id: "4-02-metafocus-levels"
-name: "4.02 Metafocus Levels (ML 0 to ML 6)"
-category: "compendium"
-entry_type: "Core Rule"
-parent: "4.00 METAPHYSICS"
+id: 4-02-metafocus-levels
+name: 4.02 Metafocus Levels (ML 0 to ML 6)
+category: compendium
+entry_type: Core Rule
+parent: 4.00 METAPHYSICS
 order: 2
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # 4.02 Metafocus Levels (ML 0 to ML 6)
 

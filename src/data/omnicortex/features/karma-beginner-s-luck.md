@@ -1,13 +1,36 @@
 ---
-id: "karma-beginner-s-luck"
-name: "Beginner's Luck"
-category: "features"
-feature_category: "Karma"
+id: karma-beginner-s-luck
+name: Beginner's Luck
+category: features
+feature_category: Karma
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: "The Skill being attempted must be at **Rank 5 (Novice) or lower**."
-description: "The character has an uncanny knack for succeeding at things they have no business doing. When inexperienced, they rely on instinct and fortune rather than training."
+prerequisites: The Skill being attempted must be at **Rank 5 (Novice) or lower**.
+description: >-
+  The character has an uncanny knack for succeeding at things they have no
+  business doing. When inexperienced, they rely on instinct and fortune rather
+  than training.
+costs:
+  bp: 3
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Beginner's Luck

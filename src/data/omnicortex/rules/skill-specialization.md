@@ -1,8 +1,30 @@
 ---
-id: "skill-specialization"
-name: "Skill Specialization System"
-category: "rules"
-summary: "Rules for unlocking specialized skill sub-categories, independent leveling, and exceeding the normal Rank 20 cap."
+id: skill-specialization
+name: Skill Specialization System
+category: rules
+summary: >-
+  Rules for unlocking specialized skill sub-categories, independent leveling,
+  and exceeding the normal Rank 20 cap.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Skill Specialization System

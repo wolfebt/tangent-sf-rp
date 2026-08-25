@@ -1,8 +1,28 @@
 ---
-id: "condition-staggered"
-name: "Staggered"
-category: "conditions"
-description: "Can take only a single Standard or Movement action per turn, not both."
+id: condition-staggered
+name: Staggered
+category: conditions
+description: 'Can take only a single Standard or Movement action per turn, not both.'
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Staggered

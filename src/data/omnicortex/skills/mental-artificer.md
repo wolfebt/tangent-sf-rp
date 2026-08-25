@@ -1,21 +1,45 @@
 ---
-id: "mental-artificer"
-name: "Artificer"
-type: "mental"
-subtype: "vocation"
-category: "skills"
-governing_attributes: ["Intellect","Wisdom"]
-description: "The specialized craft of combining technology with metaphysical energies to create enchanted devices, psi-amps, resonant crystals, and golems."
+id: mental-artificer
+name: Artificer
+type: mental
+subtype: vocation
+category: skills
+governing_attributes:
+  - Intellect
+  - Wisdom
+description: >-
+  The specialized craft of combining technology with metaphysical energies to
+  create enchanted devices, psi-amps, resonant crystals, and golems.
 trained_only: true
 specialties:
-  - "Wands, Rods & Focus Implements"
-  - "Resonant Crystal Matrix Forging"
-  - "Psionic Amplifiers & Halo Interfaces"
-  - "Golem & Automata Metaconstruction"
+  - 'Wands, Rods & Focus Implements'
+  - Resonant Crystal Matrix Forging
+  - Psionic Amplifiers & Halo Interfaces
+  - Golem & Automata Metaconstruction
 synergy_links:
-  - "meta-attune"
-  - "mental-metaphysics"
-  - "mental-technology"
+  - meta-attune
+  - mental-metaphysics
+  - mental-technology
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Artificer

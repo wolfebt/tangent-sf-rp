@@ -1,19 +1,44 @@
 ---
-id: "meta-energy"
-name: "Energy"
-type: "meta"
-subtype: "discipline"
-category: "skills"
-governing_attributes: ["Intellect","Wisdom","Charisma"]
-description: "The metaphysical discipline governing the manipulation of raw energy states, kinetic force, elemental plasma, electricity, acoustic waves, and telekinesis."
+id: meta-energy
+name: Energy
+type: meta
+subtype: discipline
+category: skills
+governing_attributes:
+  - Intellect
+  - Wisdom
+  - Charisma
+description: >-
+  The metaphysical discipline governing the manipulation of raw energy states,
+  kinetic force, elemental plasma, electricity, acoustic waves, and telekinesis.
 trained_only: true
 specialties:
-  - "Elemental Focus (Pyro, Cryo, Voltic, Sonic, Corrosive)"
-  - "Force Focus (Kinetic telekinesis, force barriers, force missiles)"
+  - 'Elemental Focus (Pyro, Cryo, Voltic, Sonic, Corrosive)'
+  - 'Force Focus (Kinetic telekinesis, force barriers, force missiles)'
 synergy_links:
-  - "meta-attune"
-  - "mental-metaphysics"
-  - "mental-physics"
+  - meta-attune
+  - mental-metaphysics
+  - mental-physics
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Energy

@@ -8,8 +8,6 @@ height_class: Single
 stories: 1
 frame: Standard
 environment: Standard
-tl: 3
-ml: 0
 cost: 2000
 sp: 250
 dr: 15
@@ -22,6 +20,28 @@ description: >-
   Reinforced security vault fitted with Grade 3 biometric locks and specialized
   weapon racks.
 mechanic: Secure storage holding 50 Slots of gear. Security Grade 3 locks.
+costs:
+  bp: 0
+  credits: 2000
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
+tech_level: 3
+meta_level: 0
 ---
 Reinforced security vault fitted with Grade 3 biometric locks and specialized weapon racks.
 

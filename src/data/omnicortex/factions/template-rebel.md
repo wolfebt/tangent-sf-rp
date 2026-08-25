@@ -1,9 +1,31 @@
 ---
-id: "template-rebel"
-name: "Rebel Resistance Cell"
-category: "factions"
-faction_type: "Generic Template"
-description: "Guerilla insurgents, underground saboteurs, and freedom fighters resisting imperial or corporate occupation."
+id: template-rebel
+name: Rebel Resistance Cell
+category: factions
+faction_type: Generic Template
+description: >-
+  Guerilla insurgents, underground saboteurs, and freedom fighters resisting
+  imperial or corporate occupation.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Rebel Resistance Cell (Generic Faction Template)

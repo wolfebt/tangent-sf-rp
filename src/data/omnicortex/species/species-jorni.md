@@ -11,46 +11,110 @@ size:
 movement:
   - species_movement-bipedal
   - species_movement-swimming
-inherent_attribute_modifiers:
-  - attribute: Strength
-    bonus: 1
-  - attribute: Stamina
-    bonus: 1
-bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Athletics
-    bonus: 1
-  - skill: Survival
-    bonus: 1
-bonus_skills: 0
-bonus_skill_choices:
-  - Athletics
-  - Survival
-  - Combat
-  - Stealth
-inherent_features:
-  - Climber
-  - Digitigrade
-  - Fast Heal
-  - Long Prehensile Tail (Trip/Hold)
-  - 'Regeneration (3 HP/rnd, regrows limbs)'
-  - Swimmer
-bonus_features: 1
-bonus_feature_choices:
-  - Thermal Cold Blooded
-  - Chameleon Scales
-  - Constrictor Tail
-recommended_features:
-  - feature-regeneration
 stigma: Xeno (-2)
 tech_level: 3 (Bio-Thermal Tech & Slugthrowers)
 meta_level: 1 (Regenerative Vitality)
 homeworld: Jorn-Tor Swamps
-cp_cost: 21
 cp: 21
 description: >-
   Reptilian swamp hunters possessing extraordinary regenerative biology, capable
   of re-growing severed limbs and enduring lethal trauma.
+costs:
+  bp: 21
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Strength
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Stamina
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Athletics
+    type: skill
+    value: 1
+    mode: inherent
+  - target: Survival
+    type: skill
+    value: 1
+    mode: inherent
+  - target: Athletics
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Survival
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Combat
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Stealth
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Climber
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Digitigrade
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Fast Heal
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Long Prehensile Tail (Trip/Hold)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: 'Regeneration (3 HP/rnd, regrows limbs)'
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Swimmer
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Thermal Cold Blooded
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Chameleon Scales
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Constrictor Tail
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-regeneration
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Jorni (Reptilian Regenerator)
 

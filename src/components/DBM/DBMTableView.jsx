@@ -20,11 +20,20 @@ const formatCellValue = (val) => {
     if (val.length === 0) return '-';
     return val.map(item => {
       if (typeof item === 'object' && item !== null) {
+        // Universal Modifiers
+        if (item.target && item.value !== undefined) {
+          const sign = item.value >= 0 ? '+' : '';
+          return `${item.target} ${sign}${item.value}`;
+        }
         if (item.attribute && item.bonus !== undefined) {
           return `${item.attribute} ${item.bonus >= 0 ? '+' : ''}${item.bonus}`;
         }
         if (item.skill && item.bonus !== undefined) {
           return `${item.skill} ${item.bonus >= 0 ? '+' : ''}${item.bonus}`;
+        }
+        // Modifications
+        if (item.name) {
+          return item.dcMod ? `${item.name} (${item.dcMod >= 0 ? '+' : ''}${item.dcMod} DC)` : item.name;
         }
         return item.name || item.skill || item.attribute || item.title || item.id || JSON.stringify(item);
       }
@@ -32,6 +41,24 @@ const formatCellValue = (val) => {
     }).join(', ');
   }
   if (typeof val === 'object') {
+    // Costs Map
+    if (val.bp !== undefined || val.credits !== undefined || val.nodes !== undefined) {
+      const parts = [];
+      if (val.bp !== undefined && val.bp !== 0) parts.push(`${val.bp} BP`);
+      if (val.credits !== undefined && val.credits !== 0) parts.push(`${Number(val.credits).toLocaleString()} Cr`);
+      if (val.nodes !== undefined && val.nodes !== 0) parts.push(`${val.nodes} Nodes`);
+      if (val.strain !== undefined && val.strain !== 0) parts.push(`${val.strain} Strain`);
+      if (val.focus !== undefined && val.focus !== 0) parts.push(`${val.focus} Focus`);
+      return parts.length > 0 ? parts.join(' • ') : '0 Cr';
+    }
+    // Sockets Group
+    if (val.max !== undefined || val.used !== undefined) {
+      return `${val.used || 0}/${val.max || 0} Sockets${val.tier ? ` (${val.tier})` : ''}`;
+    }
+    // Critical Details
+    if (val.score !== undefined) {
+      return `Crit: ${val.score}${val.effect ? ` (${Array.isArray(val.effect) ? val.effect.join(', ') : val.effect})` : ''}`;
+    }
     return val.name || val.title || val.id || JSON.stringify(val);
   }
   return String(val);
@@ -39,7 +66,7 @@ const formatCellValue = (val) => {
 
 const CatalogVirtualRow = ({ item, visibleColumns, handleOpenItem, isAdmin }) => {
   const interactions = useItemInteractions({
-    onSelect: () => handleOpenItem(item, false),
+    onSelect: () => handleOpenItem(item, isAdmin),
     onOpenEdit: () => isAdmin && handleOpenItem(item, true),
     delay: 1500
   });
@@ -55,7 +82,7 @@ const CatalogVirtualRow = ({ item, visibleColumns, handleOpenItem, isAdmin }) =>
       key={item.id || item.name}
       {...interactions}
       className="hover:bg-slate-800/60 cursor-pointer transition-colors border-b border-slate-800/60 flex items-center px-3 text-xs text-slate-300 h-[44px] box-border select-none gap-3"
-      title="Single click to view. Double-click (or long press 1.5s+ on mobile) to edit."
+      title={isAdmin ? "Click to manage entry (Dev Mode)" : "Click to view entry"}
     >
       <div className="w-1/3 min-w-[160px] font-bold text-white truncate flex items-center gap-1.5 shrink-0">
         <span className="truncate">{item.name || 'Unnamed'}</span>
@@ -80,7 +107,7 @@ const CatalogVirtualRow = ({ item, visibleColumns, handleOpenItem, isAdmin }) =>
 
 const CatalogTableRow = ({ item, visibleColumns, handleOpenItem, isAdmin }) => {
   const interactions = useItemInteractions({
-    onSelect: () => handleOpenItem(item, false),
+    onSelect: () => handleOpenItem(item, isAdmin),
     onOpenEdit: () => isAdmin && handleOpenItem(item, true),
     delay: 1500
   });
@@ -96,7 +123,7 @@ const CatalogTableRow = ({ item, visibleColumns, handleOpenItem, isAdmin }) => {
       key={item.id || item.name}
       {...interactions}
       className="hover:bg-slate-800/60 cursor-pointer transition-colors h-[44px] select-none"
-      title="Single click to view. Double-click (or long press 1.5s+ on mobile) to edit."
+      title={isAdmin ? "Click to manage entry (Dev Mode)" : "Click to view entry"}
     >
       <td className="p-3 font-bold text-white w-1/3 min-w-[160px] truncate">
         <div className="flex items-center gap-1.5 truncate">
@@ -333,7 +360,7 @@ export const DBMTableView = ({
   const availableTLs = useMemo(() => {
     const tls = new Set();
     currentItems.forEach(item => {
-      const val = item.tl !== undefined ? item.tl : item.tech_level;
+      const val = item.tech_level !== undefined ? item.tech_level : (item.tl !== undefined ? item.tl : item.techLevel);
       if (val !== undefined && val !== null && val !== '') {
         tls.add(val);
       }
@@ -344,7 +371,7 @@ export const DBMTableView = ({
   const availableMLs = useMemo(() => {
     const mls = new Set();
     currentItems.forEach(item => {
-      const val = item.ml !== undefined ? item.ml : item.meta_level;
+      const val = item.meta_level !== undefined ? item.meta_level : (item.ml !== undefined ? item.ml : item.metaLevel);
       if (val !== undefined && val !== null && val !== '') {
         mls.add(val);
       }
@@ -950,7 +977,7 @@ export const DBMTableView = ({
                     <div className="flex flex-wrap gap-1.5">
                       {availableTLs.map(tl => {
                         const checked = filterTLs.includes(tl);
-                        const count = currentItems.filter(i => (i.tl !== undefined ? i.tl : i.tech_level) === tl).length;
+                        const count = currentItems.filter(i => (i.tech_level !== undefined ? i.tech_level : (i.tl !== undefined ? i.tl : i.techLevel)) === tl).length;
                         return (
                           <button
                             key={tl}
@@ -986,7 +1013,7 @@ export const DBMTableView = ({
                     <div className="flex flex-wrap gap-1.5">
                       {availableMLs.map(ml => {
                         const checked = filterMLs.includes(ml);
-                        const count = currentItems.filter(i => (i.ml !== undefined ? i.ml : i.meta_level) === ml).length;
+                        const count = currentItems.filter(i => (i.meta_level !== undefined ? i.meta_level : (i.ml !== undefined ? i.ml : i.metaLevel)) === ml).length;
                         return (
                           <button
                             key={ml}

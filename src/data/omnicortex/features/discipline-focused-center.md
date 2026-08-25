@@ -1,13 +1,35 @@
 ---
-id: "discipline-focused-center"
-name: "Focused Center"
-category: "features"
-feature_category: "Discipline"
+id: discipline-focused-center
+name: Focused Center
+category: features
+feature_category: Discipline
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: "Centering, Discipline Focus (in all currently used Disciplines)"
-description: "The character's concentration is so absolute that they can channel power reliably even in the heat of battle."
+prerequisites: 'Centering, Discipline Focus (in all currently used Disciplines)'
+description: >-
+  The character's concentration is so absolute that they can channel power
+  reliably even in the heat of battle.
+costs:
+  bp: 3
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Focused Center

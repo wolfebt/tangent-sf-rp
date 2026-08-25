@@ -1,20 +1,56 @@
 ---
-id: "archetype-maker"
-name: "The Maker"
-sphere: "Savants (The Rationals)"
-category: "archetypes"
+id: archetype-maker
+name: The Maker
+sphere: Savants (The Rationals)
+category: archetypes
 bp_chassis: 80
-core_concept: "Utility / Support / Repair"
-primary_attribute: "Intellect"
-secondary_attribute: "Agility"
-recommended_occupations: ["Builder","Specialist"]
-recommended_origins: ["Industrial","Urban","Research"]
-recommended_factions: ["Mekan (Constructors)","Syndicate (Engineers)","Ascendancy"]
-essential_skills: ["Knowledge (Technology)","Vocation (Engineer)","Vocation (Mechanic)","Vocation (Electrician)"]
-signature_features: ["Master Builder","Technical Aptitude"]
-tactical_role: "Fixing the ship/vehicle, building defenses, analyzing enemy tech."
-quote: "\"Give me a wrench and five minutes. I'll make it work.\""
-description: "A brilliant inventor and technician who develops and maintains advanced technology. Skilled in hardware and software."
+core_concept: Utility / Support / Repair
+primary_attribute: Intellect
+secondary_attribute: Agility
+recommended_occupations:
+  - Builder
+  - Specialist
+recommended_origins:
+  - Industrial
+  - Urban
+  - Research
+recommended_factions:
+  - Mekan (Constructors)
+  - Syndicate (Engineers)
+  - Ascendancy
+essential_skills:
+  - Knowledge (Technology)
+  - Vocation (Engineer)
+  - Vocation (Mechanic)
+  - Vocation (Electrician)
+signature_features:
+  - Master Builder
+  - Technical Aptitude
+tactical_role: 'Fixing the ship/vehicle, building defenses, analyzing enemy tech.'
+quote: '"Give me a wrench and five minutes. I''ll make it work."'
+description: >-
+  A brilliant inventor and technician who develops and maintains advanced
+  technology. Skilled in hardware and software.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Maker

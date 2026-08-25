@@ -1,20 +1,58 @@
 ---
-id: "archetype-quick-draw"
-name: "The Quick-draw"
-sphere: "Operatives (The Artisans)"
-category: "archetypes"
+id: archetype-quick-draw
+name: The Quick-draw
+sphere: Operatives (The Artisans)
+category: archetypes
 bp_chassis: 80
-core_concept: "Burst DPS / Initiative / Reflex"
-primary_attribute: "Agility"
-secondary_attribute: "Perception"
-recommended_occupations: ["Drifter","Soldier"]
-recommended_origins: ["Hostile","Colony","Militaristic"]
-recommended_factions: ["Outworlds (Gunfighters)","Coalition (Marshals)","Syndicate"]
-essential_skills: ["Combat (Pistols)","Alertness","Acrobatics","Stealth"]
-signature_features: ["Quick Reflexes","Seize Initiative"]
-tactical_role: "Winning initiative, eliminating high-threat targets first, high-mobility combat."
-quote: "\"I already pulled the trigger. You just haven't fallen yet.\""
-description: "The gunslinger of the future, whose survival depends on being the first to fire in any confrontation."
+core_concept: Burst DPS / Initiative / Reflex
+primary_attribute: Agility
+secondary_attribute: Perception
+recommended_occupations:
+  - Drifter
+  - Soldier
+recommended_origins:
+  - Hostile
+  - Colony
+  - Militaristic
+recommended_factions:
+  - Outworlds (Gunfighters)
+  - Coalition (Marshals)
+  - Syndicate
+essential_skills:
+  - Combat (Pistols)
+  - Alertness
+  - Acrobatics
+  - Stealth
+signature_features:
+  - Quick Reflexes
+  - Seize Initiative
+tactical_role: >-
+  Winning initiative, eliminating high-threat targets first, high-mobility
+  combat.
+quote: '"I already pulled the trigger. You just haven''t fallen yet."'
+description: >-
+  The gunslinger of the future, whose survival depends on being the first to
+  fire in any confrontation.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Quick-draw

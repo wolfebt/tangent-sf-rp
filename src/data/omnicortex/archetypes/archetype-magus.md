@@ -1,20 +1,57 @@
 ---
-id: "archetype-magus"
-name: "The Magus"
-sphere: "Savants (The Rationals)"
-category: "archetypes"
+id: archetype-magus
+name: The Magus
+sphere: Savants (The Rationals)
+category: archetypes
 bp_chassis: 80
-core_concept: "Artillery / Utility / Glass Cannon"
-primary_attribute: "Intellect"
-secondary_attribute: "Constitution"
-recommended_occupations: ["Adept","Scholar"]
-recommended_origins: ["Enlightened","Research","Urban"]
-recommended_factions: ["Alterian Enclave (Arcanists)","Dracon Dynasty (Sorcerers)","Auluran (Shamans)"]
-essential_skills: ["Alertness","Two Disciplines (e.g","Energy","Dimension)","Attune"]
-signature_features: ["Arcane Mastery","Spell Weaving"]
-tactical_role: "Area damage, battlefield control, utility casting."
-quote: "\"Physics is just a suggestion I choose to ignore.\""
-description: "A master of arcane magic, manipulating subtle energies to cast powerful spells through intricate gestures and rituals."
+core_concept: Artillery / Utility / Glass Cannon
+primary_attribute: Intellect
+secondary_attribute: Constitution
+recommended_occupations:
+  - Adept
+  - Scholar
+recommended_origins:
+  - Enlightened
+  - Research
+  - Urban
+recommended_factions:
+  - Alterian Enclave (Arcanists)
+  - Dracon Dynasty (Sorcerers)
+  - Auluran (Shamans)
+essential_skills:
+  - Alertness
+  - Two Disciplines (e.g
+  - Energy
+  - Dimension)
+  - Attune
+signature_features:
+  - Arcane Mastery
+  - Spell Weaving
+tactical_role: 'Area damage, battlefield control, utility casting.'
+quote: '"Physics is just a suggestion I choose to ignore."'
+description: >-
+  A master of arcane magic, manipulating subtle energies to cast powerful spells
+  through intricate gestures and rituals.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Magus

@@ -1,20 +1,55 @@
 ---
-id: "archetype-priest"
-name: "The Priest"
-sphere: "Visionaries (The Idealists)"
-category: "archetypes"
+id: archetype-priest
+name: The Priest
+sphere: Visionaries (The Idealists)
+category: archetypes
 bp_chassis: 80
-core_concept: "Support / Leader / Face"
-primary_attribute: "Wisdom"
-secondary_attribute: "Charisma"
-recommended_occupations: ["Adept","Representative"]
-recommended_origins: ["Enlightened","Urban","Colony"]
-recommended_factions: ["Impyrium (Orthodoxy)","Dracon Dynasty (Dragon Cults)"]
-essential_skills: ["Diplomacy","Insight","Knowledge (History)","Knowledge (Religion)"]
-signature_features: ["Religious Authority","Spiritual Guidance"]
-tactical_role: "Social influence via religious rank, buffing morale, healing."
-quote: "\"By the authority vested in me, I command you to cease.\""
-description: "A devout servant of a state religion, maintaining morale and conducting ceremonies."
+core_concept: Support / Leader / Face
+primary_attribute: Wisdom
+secondary_attribute: Charisma
+recommended_occupations:
+  - Adept
+  - Representative
+recommended_origins:
+  - Enlightened
+  - Urban
+  - Colony
+recommended_factions:
+  - Impyrium (Orthodoxy)
+  - Dracon Dynasty (Dragon Cults)
+essential_skills:
+  - Diplomacy
+  - Insight
+  - Knowledge (History)
+  - Knowledge (Religion)
+signature_features:
+  - Religious Authority
+  - Spiritual Guidance
+tactical_role: 'Social influence via religious rank, buffing morale, healing.'
+quote: '"By the authority vested in me, I command you to cease."'
+description: >-
+  A devout servant of a state religion, maintaining morale and conducting
+  ceremonies.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Priest

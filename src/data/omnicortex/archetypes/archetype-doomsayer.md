@@ -1,20 +1,55 @@
 ---
-id: "archetype-doomsayer"
-name: "The Doomsayer"
-sphere: "Visionaries (The Idealists)"
-category: "archetypes"
+id: archetype-doomsayer
+name: The Doomsayer
+sphere: Visionaries (The Idealists)
+category: archetypes
 bp_chassis: 80
-core_concept: "Debuffer / Intimidator / Caster"
-primary_attribute: "Charisma"
-secondary_attribute: "Wisdom"
-recommended_occupations: ["Adept","Outcast"]
-recommended_origins: ["Hostile","Spacer","Enlightened"]
-recommended_factions: ["Outworlds (Entropy Cults)","Sha'Nor","Coalition"]
-essential_skills: ["Intimidation","Diplomacy","Discipline (Entropy \\- Chaos)"]
-signature_features: ["Harbinger of Doom","Embrace the Void"]
-tactical_role: "Demoralizing enemies, inflicting fear, wielding entropic magic."
-quote: "\"The void calls, and I am its voice.\""
-description: "A nihilistic prophet who believes the end is inevitable and seeks to hasten or warn of it."
+core_concept: Debuffer / Intimidator / Caster
+primary_attribute: Charisma
+secondary_attribute: Wisdom
+recommended_occupations:
+  - Adept
+  - Outcast
+recommended_origins:
+  - Hostile
+  - Spacer
+  - Enlightened
+recommended_factions:
+  - Outworlds (Entropy Cults)
+  - Sha'Nor
+  - Coalition
+essential_skills:
+  - Intimidation
+  - Diplomacy
+  - Discipline (Entropy \- Chaos)
+signature_features:
+  - Harbinger of Doom
+  - Embrace the Void
+tactical_role: 'Demoralizing enemies, inflicting fear, wielding entropic magic.'
+quote: '"The void calls, and I am its voice."'
+description: >-
+  A nihilistic prophet who believes the end is inevitable and seeks to hasten or
+  warn of it.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Doomsayer

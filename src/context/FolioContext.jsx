@@ -28,6 +28,24 @@ const ATTR_NAME_TO_ID = {
   etiquette: 'attr-etiquette'
 };
 
+export const PRIMARY_TO_SUB_ATTR = {
+  'attr-strength': 'attr-might',
+  'attr-agility': 'attr-reflex',
+  'attr-stamina': 'attr-fortitude',
+  'attr-intellect': 'attr-logic',
+  'attr-wisdom': 'attr-will',
+  'attr-charisma': 'attr-etiquette'
+};
+
+export const SUB_TO_PRIMARY_ATTR = {
+  'attr-might': 'attr-strength',
+  'attr-reflex': 'attr-agility',
+  'attr-fortitude': 'attr-stamina',
+  'attr-logic': 'attr-intellect',
+  'attr-will': 'attr-wisdom',
+  'attr-etiquette': 'attr-charisma'
+};
+
 const FolioContext = createContext(null);
 
 export const useFolio = () => {
@@ -692,6 +710,14 @@ export const FolioProvider = ({ children }) => {
     dbData
   ]);
 
+  // Helper to get dynamic sub-attribute base: (Current Primary Attribute * 2) + 2
+  const getSubAttrBase = useCallback((subKey, data = characterData) => {
+    const primaryKey = SUB_TO_PRIMARY_ATTR[subKey];
+    if (!primaryKey) return 2;
+    const pVal = parseInt(data[primaryKey] || 0, 10);
+    return (pVal * 2) + 2;
+  }, [characterData]);
+
   // Attribute Mod & Total Calculation Helpers
   const getAttrMod = useCallback((attrId) => {
     const userMod = parseInt(characterData[`${attrId}-mod`] || 0, 10) || 0;
@@ -700,7 +726,16 @@ export const FolioProvider = ({ children }) => {
   }, [characterData, computedModifiers.attributeMods]);
 
   const getAttrTotal = useCallback((attrId) => {
-    const val = parseInt(characterData[attrId] || 0, 10) || 0;
+    let val;
+    if (SUB_TO_PRIMARY_ATTR[attrId]) {
+      const primaryKey = SUB_TO_PRIMARY_ATTR[attrId];
+      const pVal = parseInt(characterData[primaryKey] || 0, 10);
+      const base = (pVal * 2) + 2;
+      const hasExplicit = characterData[attrId] !== undefined && characterData[attrId] !== null && characterData[attrId] !== '';
+      val = hasExplicit ? (parseInt(characterData[attrId], 10) || 0) : base;
+    } else {
+      val = parseInt(characterData[attrId] || 0, 10) || 0;
+    }
     return val + getAttrMod(attrId);
   }, [characterData, getAttrMod]);
 
@@ -1033,7 +1068,7 @@ export const FolioProvider = ({ children }) => {
     } catch (e) {}
   }, [characterData]);
 
-  // Field updater
+  // Field updater with primary attribute auto-sync to sub-attributes
   const updateField = useCallback((key, value) => {
     // If updating a skill rank, clamp max to 20
     if (typeof key === 'string' && key.startsWith('skill-') && key.endsWith('-rank')) {
@@ -1044,11 +1079,246 @@ export const FolioProvider = ({ children }) => {
       }));
       return;
     }
+
+    // If updating a primary attribute, automatically shift the base of its paired sub-attribute
+    if (PRIMARY_TO_SUB_ATTR[key]) {
+      const subKey = PRIMARY_TO_SUB_ATTR[key];
+      const newPrimaryVal = parseInt(value, 10) || 0;
+      setCharacterData((prev) => {
+        const oldPrimaryVal = parseInt(prev[key] || 0, 10);
+        const oldBase = (oldPrimaryVal * 2) + 2;
+        const newBase = (newPrimaryVal * 2) + 2;
+        const hasExplicitSub = prev[subKey] !== undefined && prev[subKey] !== null && prev[subKey] !== '';
+        const currentSubVal = hasExplicitSub ? parseInt(prev[subKey], 10) : oldBase;
+        const delta = currentSubVal - oldBase;
+        const newSubVal = newBase + delta;
+
+        return {
+          ...prev,
+          [key]: newPrimaryVal,
+          [subKey]: newSubVal
+        };
+      });
+      return;
+    }
+
     setCharacterData((prev) => ({
       ...prev,
       [key]: value
     }));
   }, []);
+
+  // 80 CP Archetype Pre-build Application Engine
+  const applyArchetypeChassis = useCallback((archetypeInput) => {
+    if (!archetypeInput) return;
+    const arch = typeof archetypeInput === 'object' 
+      ? archetypeInput 
+      : (dbData.archetypes || []).find(a => (a.name || a.id || '').toLowerCase() === String(archetypeInput).toLowerCase()) || {};
+
+    const archName = arch.name || String(archetypeInput);
+    const primAttr = arch.primary_attribute || 'Strength';
+    const secAttr = arch.secondary_attribute || 'Agility';
+
+    const mapToAttrKey = (name) => {
+      if (!name) return null;
+      const lower = name.toLowerCase().trim();
+      if (lower.includes('strength') || lower.includes('might')) return 'attr-strength';
+      if (lower.includes('agility') || lower.includes('reflex')) return 'attr-agility';
+      if (lower.includes('stamina') || lower.includes('constitution') || lower.includes('fortitude')) return 'attr-stamina';
+      if (lower.includes('intellect') || lower.includes('logic')) return 'attr-intellect';
+      if (lower.includes('wisdom') || lower.includes('will')) return 'attr-wisdom';
+      if (lower.includes('charisma') || lower.includes('etiquette')) return 'attr-charisma';
+      return null;
+    };
+
+    const primKey = mapToAttrKey(primAttr) || 'attr-strength';
+    const secKey = mapToAttrKey(secAttr) || 'attr-agility';
+
+    setCharacterData(prev => {
+      const updates = {
+        'char-archetype': archName,
+        'starting-cp': prev['starting-cp'] || 150
+      };
+
+      // Primary & Secondary Attributes
+      const allPrimaryKeys = ['attr-strength', 'attr-agility', 'attr-stamina', 'attr-intellect', 'attr-wisdom', 'attr-charisma'];
+      allPrimaryKeys.forEach(pk => {
+        let pVal = 0;
+        if (pk === primKey) pVal = 3;
+        else if (pk === secKey) pVal = 2;
+        updates[pk] = pVal;
+
+        const subKey = PRIMARY_TO_SUB_ATTR[pk];
+        if (subKey) {
+          updates[subKey] = (pVal * 2) + 2;
+        }
+      });
+
+      // Concept & Motivation
+      if (!prev['char-concept'] || prev['char-concept'].trim() === '' || prev['char-concept'] === 'Unnamed Operative') {
+        updates['char-concept'] = arch.core_concept || archName;
+      }
+      if (!prev['char-motive'] || prev['char-motive'].trim() === '') {
+        updates['char-motive'] = arch.tactical_role || '';
+      }
+
+      // Essential Skills (4 trained at rank 6, remainder novice at rank 3)
+      const essentialSkills = Array.isArray(arch.essential_skills) ? arch.essential_skills : [];
+      const allSkillsList = dbData.skills || [];
+      essentialSkills.forEach((skNameRaw, idx) => {
+        const cleanName = String(skNameRaw).replace(/\s*\(.*\)/, '').trim();
+        const skObj = allSkillsList.find(s => (s.name || '').toLowerCase() === cleanName.toLowerCase());
+        const cleanId = (skObj?.id || `skill-${cleanName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`).replace('skill-', '');
+        const rank = idx < 4 ? 6 : 3;
+        const baseAttr = skObj?.baseAttr || primKey;
+
+        updates[`skill-${cleanId}-rank`] = rank;
+        updates[`skill-${cleanId}-base`] = baseAttr;
+        updates[`skill-${cleanId}-name`] = cleanName;
+        if (skObj?.group) updates[`skill-${cleanId}-group`] = skObj.group;
+        if (skObj?.subcategory) updates[`skill-${cleanId}-subcategory`] = skObj.subcategory;
+      });
+
+      // Signature Features
+      const sigFeatures = Array.isArray(arch.signature_features) ? arch.signature_features : [];
+      const currentFeatures = Array.isArray(prev.features) ? [...prev.features] : [];
+      sigFeatures.forEach(feat => {
+        const featName = typeof feat === 'object' ? (feat.name || feat.title || feat.id) : String(feat);
+        const alreadyHas = currentFeatures.some(f => (typeof f === 'object' ? f.name : f).toLowerCase() === featName.toLowerCase());
+        if (!alreadyHas) {
+          const featObj = typeof feat === 'object' ? {
+            ...feat,
+            name: featName,
+            category: feat.category || 'Archetype Signature',
+            cp: feat.cp !== undefined ? feat.cp : 2
+          } : {
+            id: `feat_arch_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+            name: featName,
+            category: 'Archetype Signature',
+            cp: 2,
+            description: `Signature feature granted by ${archName} archetype.`
+          };
+          currentFeatures.push(attachCreatorTag(featObj, localStorage.getItem('userHandle'), auth.currentUser));
+        }
+      });
+      updates.features = currentFeatures;
+
+      return {
+        ...prev,
+        ...updates
+      };
+    });
+  }, [dbData.archetypes, dbData.skills]);
+
+  // Full Species Adjustments Application Engine
+  const applySpeciesAdjustments = useCallback((speciesInput) => {
+    if (!speciesInput) return;
+    const sp = typeof speciesInput === 'object'
+      ? speciesInput
+      : (dbData.species || []).find(s => (s.name || s.id || '').toLowerCase() === String(speciesInput).toLowerCase()) || {};
+
+    const speciesName = sp.name || sp.title || String(speciesInput);
+
+    setCharacterData(prev => {
+      const updates = {
+        'char-species': speciesName
+      };
+
+      // Inherent Attribute Modifiers
+      const inherentAttrMods = sp.inherent_attribute_modifiers || sp.specific_attribute_bonuses || [];
+      if (Array.isArray(inherentAttrMods)) {
+        inherentAttrMods.forEach(m => {
+          const aName = typeof m === 'object' ? (m.attribute || m.name || '') : String(m).split(/[:+(]/)[0].trim();
+          const aBonus = typeof m === 'object' ? (m.bonus ?? m.value ?? 1) : (parseInt(String(m).replace(/[^0-9-]/g, ''), 10) || 1);
+          if (aName) {
+            const lower = aName.toLowerCase().trim();
+            let targetKey = null;
+            if (lower.includes('strength')) targetKey = 'attr-strength';
+            else if (lower.includes('agility')) targetKey = 'attr-agility';
+            else if (lower.includes('stamina') || lower.includes('constitution')) targetKey = 'attr-stamina';
+            else if (lower.includes('intellect')) targetKey = 'attr-intellect';
+            else if (lower.includes('wisdom')) targetKey = 'attr-wisdom';
+            else if (lower.includes('charisma')) targetKey = 'attr-charisma';
+
+            if (targetKey) {
+              const currentP = parseInt(prev[targetKey] || 0, 10);
+              const newP = Math.max(0, currentP + aBonus);
+              updates[targetKey] = newP;
+              const subKey = PRIMARY_TO_SUB_ATTR[targetKey];
+              if (subKey) {
+                const oldBase = (currentP * 2) + 2;
+                const currentSub = prev[subKey] !== undefined ? parseInt(prev[subKey], 10) : oldBase;
+                const delta = currentSub - oldBase;
+                updates[subKey] = ((newP * 2) + 2) + delta;
+              }
+            }
+          }
+        });
+      }
+
+      // Inherent Features
+      const currentFeatures = Array.isArray(prev.features) ? [...prev.features] : [];
+      if (Array.isArray(sp.inherent_features)) {
+        sp.inherent_features.forEach(feat => {
+          const featName = typeof feat === 'object' ? (feat.name || feat.title || feat.id) : String(feat);
+          const alreadyHas = currentFeatures.some(f => (typeof f === 'object' ? f.name : f).toLowerCase() === featName.toLowerCase());
+          if (!alreadyHas) {
+            const featObj = typeof feat === 'object' ? {
+              ...feat,
+              name: featName,
+              category: feat.category || 'Species Inherent',
+              cp: 0
+            } : {
+              id: `feat_sp_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+              name: featName,
+              category: 'Species Inherent',
+              cp: 0,
+              description: `Inherent trait granted by ${speciesName}.`
+            };
+            currentFeatures.push(attachCreatorTag(featObj, localStorage.getItem('userHandle'), auth.currentUser));
+          }
+        });
+      }
+      updates.features = currentFeatures;
+
+      // Movement Modes
+      const moveArray = Array.isArray(sp.movement) ? sp.movement : [];
+      const spText = JSON.stringify(sp).toLowerCase();
+      updates['move-walk'] = parseInt(prev['move-walk'] || 30, 10); // Standard ground speed 30ft
+      if (moveArray.some(m => String(m).includes('climb')) || spText.includes('climber') || spText.includes('arboreal')) {
+        if (!prev['move-climb'] || prev['move-climb'] === 0) updates['move-climb'] = 30;
+      }
+      if (moveArray.some(m => String(m).includes('swim')) || spText.includes('aquatic') || spText.includes('amphibious')) {
+        if (!prev['move-swim'] || prev['move-swim'] === 0) updates['move-swim'] = 30;
+      }
+      if (moveArray.some(m => String(m).includes('fly') || String(m).includes('wing')) || spText.includes('flight') || spText.includes('winged')) {
+        if (!prev['move-fly'] || prev['move-fly'] === 0) updates['move-fly'] = 40;
+      }
+      if (moveArray.some(m => String(m).includes('burrow')) || spText.includes('burrow')) {
+        if (!prev['move-burrow'] || prev['move-burrow'] === 0) updates['move-burrow'] = 20;
+      }
+      if (moveArray.some(m => String(m).includes('flicker')) || spText.includes('flicker')) {
+        if (!prev['move-flicker'] || prev['move-flicker'] === 0) updates['move-flicker'] = 30;
+      }
+
+      // Specific Skill Bonuses
+      if (Array.isArray(sp.specific_skill_bonuses)) {
+        sp.specific_skill_bonuses.forEach(b => {
+          const sName = typeof b === 'object' ? (b.skill || b.name || '') : String(b).split(/[:+(]/)[0].trim();
+          const sBonus = typeof b === 'object' ? (b.bonus ?? b.value ?? 1) : 1;
+          if (sName) {
+            const cleanId = sName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+            updates[`skill-${cleanId}-mod`] = (parseInt(prev[`skill-${cleanId}-mod`] || 0, 10)) + sBonus;
+          }
+        });
+      }
+
+      return {
+        ...prev,
+        ...updates
+      };
+    });
+  }, [dbData.species]);
 
   // Add Item Handler
   // Add Item Handler
@@ -1843,6 +2113,51 @@ export const FolioProvider = ({ children }) => {
     return economyBreakdown.spentCP;
   }, [economyBreakdown]);
 
+  // Dynamically compute which movement modes are currently enabled for the character
+  const enabledMovementModes = useMemo(() => {
+    const modes = new Set(['walk']); // Ground walk is always enabled as base
+
+    // Check characterData explicit move-* fields
+    ['swim', 'climb', 'fly', 'burrow', 'flicker'].forEach(mode => {
+      const val = parseInt(characterData[`move-${mode}`] || 0, 10);
+      if (val > 0) modes.add(mode);
+    });
+
+    // Check species movement
+    const speciesVal = characterData['char-species'];
+    const speciesObj = typeof speciesVal === 'object' ? speciesVal : (dbData.species || []).find(s => (s.name || s.id || '').toLowerCase() === String(speciesVal || '').toLowerCase());
+    if (speciesObj) {
+      const moveArray = Array.isArray(speciesObj.movement) ? speciesObj.movement : [];
+      const moveStr = JSON.stringify(speciesObj).toLowerCase();
+      if (moveArray.some(m => String(m).includes('swim')) || moveStr.includes('swim') || moveStr.includes('aquatic') || moveStr.includes('amphibious')) modes.add('swim');
+      if (moveArray.some(m => String(m).includes('climb')) || moveStr.includes('climb') || moveStr.includes('arboreal')) modes.add('climb');
+      if (moveArray.some(m => String(m).includes('fly') || String(m).includes('wing')) || moveStr.includes('flight') || moveStr.includes('winged') || moveStr.includes('aerial')) modes.add('fly');
+      if (moveArray.some(m => String(m).includes('burrow')) || moveStr.includes('burrow')) modes.add('burrow');
+      if (moveArray.some(m => String(m).includes('flicker') || String(m).includes('phase')) || moveStr.includes('flicker') || moveStr.includes('teleport')) modes.add('flicker');
+    }
+
+    // Check features, traits, and augmentations
+    const allFeats = [
+      ...(Array.isArray(characterData.features) ? characterData.features : []),
+      ...(Array.isArray(characterData.augmentations) ? characterData.augmentations : []),
+      ...(Array.isArray(characterData.awakened) ? characterData.awakened : [])
+    ];
+
+    allFeats.forEach(f => {
+      const name = (typeof f === 'object' ? (f.name || f.title || f.id || '') : String(f)).toLowerCase();
+      const desc = (typeof f === 'object' ? (f.description || f.mechanic || '') : '').toLowerCase();
+      const combined = `${name} ${desc}`;
+
+      if (combined.includes('swim') || combined.includes('amphibious') || combined.includes('aquatic')) modes.add('swim');
+      if (combined.includes('climb') || combined.includes('climber') || combined.includes('arboreal')) modes.add('climb');
+      if (combined.includes('fly') || combined.includes('flight') || combined.includes('wings') || combined.includes('winged') || combined.includes('jetpack') || combined.includes('aerial')) modes.add('fly');
+      if (combined.includes('burrow') || combined.includes('tunneler') || combined.includes('burrowing')) modes.add('burrow');
+      if (combined.includes('flicker') || combined.includes('phase shift') || combined.includes('dimension') || combined.includes('teleport') || combined.includes('blink')) modes.add('flicker');
+    });
+
+    return Array.from(modes);
+  }, [characterData, dbData.species]);
+
   // Active character summary alias for cross-module integration
   const activeCharacter = useMemo(() => ({
     id: characterData['character-doc-id'] || characterData.id || 'char_active',
@@ -1888,6 +2203,10 @@ export const FolioProvider = ({ children }) => {
         computedModifiers,
         getAttrMod,
         getAttrTotal,
+        getSubAttrBase,
+        enabledMovementModes,
+        applyArchetypeChassis,
+        applySpeciesAdjustments,
         personaRoster,
         roster: personaRoster,
         saveCurrentToRoster,

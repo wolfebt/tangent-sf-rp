@@ -1,13 +1,35 @@
 ---
-id: "general-double-jointed"
-name: "Double Jointed"
-category: "features"
-feature_category: "General"
+id: general-double-jointed
+name: Double Jointed
+category: features
+feature_category: General
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: "Agility 1"
-description: "The character possesses extreme flexibility, able to dislocate joints or contort into impossible shapes."
+prerequisites: Agility 1
+description: >-
+  The character possesses extreme flexibility, able to dislocate joints or
+  contort into impossible shapes.
+costs:
+  bp: 3
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Double Jointed

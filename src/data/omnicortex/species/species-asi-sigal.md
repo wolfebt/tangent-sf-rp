@@ -10,46 +10,115 @@ size:
   - species_size-diminutive
 movement:
   - species_movement-flight
-inherent_attribute_modifiers:
-  - attribute: Intellect
-    bonus: 1
-  - attribute: Strength
-    bonus: -8
-bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Discipline
-    bonus: 2
-bonus_skills: 10
-bonus_skill_choices:
-  - Discipline
-  - Attune (Energy)
-  - Knowledge (Physics)
-  - Computation
-inherent_features:
-  - Asi Base Traits
-  - Diminutive Size
-  - Awakened (Energy/Illusion)
-  - Telekinetic Flight
-  - Non-Living (Energy Entity)
-  - Telekinesis (Special Ability)
-  - Perfect Memory
-bonus_features: 1
-bonus_feature_choices:
-  - Light Discharge
-  - Electromagnetic Pulse
-  - Phase Shift
-recommended_features:
-  - feature-phase-shift
 stigma: Severe Xeno (-6)
 tech_level: 4 (Photonic & Energy Resonators)
 meta_level: 5 (Pure Energy Metaphysics)
 homeworld: The Solar Auroras of Lumina
-cp_cost: 18
 cp: 18
 description: >-
   Sigal are diminutive, non-corporeal elemental wisps of concentrated
   consciousness and photon energy. While physically frail, their intellect,
   perfect memory, and telekinetic mastery are staggering.
+costs:
+  bp: 18
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Intellect
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Strength
+    type: attribute
+    value: -8
+    mode: inherent
+  - target: Discipline
+    type: skill
+    value: 2
+    mode: inherent
+  - target: General Skill Pool
+    type: skill
+    value: 10
+    mode: bonus_pool
+  - target: Discipline
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Attune (Energy)
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Knowledge (Physics)
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Computation
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Asi Base Traits
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Diminutive Size
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Awakened (Energy/Illusion)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Telekinetic Flight
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Non-Living (Energy Entity)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Telekinesis (Special Ability)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Perfect Memory
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Light Discharge
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Electromagnetic Pulse
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Phase Shift
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-phase-shift
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Sigal (Elemental Fey)
 

@@ -1,13 +1,35 @@
 ---
-id: "skill-platinum-personality"
-name: "Platinum Personality"
-category: "features"
-feature_category: "Skill"
+id: skill-platinum-personality
+name: Platinum Personality
+category: features
+feature_category: Skill
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: "Golden Smile, Cha 4, Dip/Bluff 11"
-description: "Platinum Personality is a Skill Feature: Make Bluff and Diplomacy Checks with Advantage."
+prerequisites: 'Golden Smile, Cha 4, Dip/Bluff 11'
+description: >-
+  Platinum Personality is a Skill Feature: Make Bluff and Diplomacy Checks with
+  Advantage.
+costs:
+  bp: 3
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Platinum Personality

@@ -1,22 +1,46 @@
 ---
-id: "mental-farmer"
-name: "Farmer"
-type: "mental"
-subtype: "vocation"
-category: "skills"
-governing_attributes: ["Wisdom","Constitution"]
-description: "Cultivating crops, managing large-scale hydroponics facilities, soil science, livestock animal husbandry, and agricultural production."
+id: mental-farmer
+name: Farmer
+type: mental
+subtype: vocation
+category: skills
+governing_attributes:
+  - Wisdom
+  - Constitution
+description: >-
+  Cultivating crops, managing large-scale hydroponics facilities, soil science,
+  livestock animal husbandry, and agricultural production.
 trained_only: false
 specialties:
-  - "Crop Science & Agronomy"
-  - "Livestock Breeding & Husbandry"
-  - "Hydroponics & Vertical Arcology Farming"
-  - "Irrigation & Water Reclamation"
-  - "Pest & Blight Control"
+  - Crop Science & Agronomy
+  - Livestock Breeding & Husbandry
+  - Hydroponics & Vertical Arcology Farming
+  - Irrigation & Water Reclamation
+  - Pest & Blight Control
 synergy_links:
-  - "mental-nature"
-  - "mental-groundskeeper"
-  - "mental-handler"
+  - mental-nature
+  - mental-groundskeeper
+  - mental-handler
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Farmer

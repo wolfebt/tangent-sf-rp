@@ -1,20 +1,58 @@
 ---
-id: "archetype-beast-handler"
-name: "The Beast-handler"
-sphere: "Sentinels (The Stabilizers)"
-category: "archetypes"
+id: archetype-beast-handler
+name: The Beast-handler
+sphere: Sentinels (The Stabilizers)
+category: archetypes
 bp_chassis: 80
-core_concept: "Pet Master / Utility / Scout"
-primary_attribute: "Charisma"
-secondary_attribute: "Wisdom"
-recommended_occupations: ["Scout","Drifter"]
-recommended_origins: ["Agricultural","Hostile","Colony"]
-recommended_factions: ["Auluran (Graa Handlers)","Outworlds (Wranglers)","Coalition"]
-essential_skills: ["Vocation (Handler)","Knowledge (Survival)","Athletics","Insight"]
-signature_features: ["Animal Affinity","Spirit Walker"]
-tactical_role: "Directing animal allies in combat, tracking with biological aids, navigating wilderness."
-quote: "\"They aren't pets. They're partners.\""
-description: "The rugged specialist who trains and directs animals and xeno-fauna for work and war."
+core_concept: Pet Master / Utility / Scout
+primary_attribute: Charisma
+secondary_attribute: Wisdom
+recommended_occupations:
+  - Scout
+  - Drifter
+recommended_origins:
+  - Agricultural
+  - Hostile
+  - Colony
+recommended_factions:
+  - Auluran (Graa Handlers)
+  - Outworlds (Wranglers)
+  - Coalition
+essential_skills:
+  - Vocation (Handler)
+  - Knowledge (Survival)
+  - Athletics
+  - Insight
+signature_features:
+  - Animal Affinity
+  - Spirit Walker
+tactical_role: >-
+  Directing animal allies in combat, tracking with biological aids, navigating
+  wilderness.
+quote: '"They aren''t pets. They''re partners."'
+description: >-
+  The rugged specialist who trains and directs animals and xeno-fauna for work
+  and war.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Beast-handler

@@ -1,21 +1,44 @@
 ---
-id: "mental-physics"
-name: "Physics"
-type: "mental"
-subtype: "knowledge"
-category: "skills"
-governing_attributes: ["Intellect"]
-description: "The fundamental science of matter, energy, motion, gravity, electromagnetism, quantum mechanics, and relativistic spacetime."
+id: mental-physics
+name: Physics
+type: mental
+subtype: knowledge
+category: skills
+governing_attributes:
+  - Intellect
+description: >-
+  The fundamental science of matter, energy, motion, gravity, electromagnetism,
+  quantum mechanics, and relativistic spacetime.
 trained_only: true
 specialties:
-  - "Astrophysics & Gravitational Dynamics"
-  - "Quantum Mechanics & Particle Physics"
-  - "Dimensional & Spacetime Mechanics"
-  - "Energy Dynamics & Plasma Physics"
+  - Astrophysics & Gravitational Dynamics
+  - Quantum Mechanics & Particle Physics
+  - Dimensional & Spacetime Mechanics
+  - Energy Dynamics & Plasma Physics
 synergy_links:
-  - "mental-science"
-  - "mental-engineer"
-  - "mental-technology"
+  - mental-science
+  - mental-engineer
+  - mental-technology
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Physics

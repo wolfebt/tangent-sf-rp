@@ -1,12 +1,54 @@
 ---
-id: "origin-spacer"
-name: "Spacer"
-category: "origins"
+id: origin-spacer
+name: Spacer
+category: origins
 skill_points: 20
-society_skills: ["Piloting","Alertness","Knowledge (Technology)","Knowledge (Survival)","Vocation (Any)"]
-archetypes: ["Freighter Captain","Void Explorer","Mercenary Pilot","Smuggler","Shipboard Technician","Free-Trader Merchant"]
-traits: ["trait-combat-trained","trait-independence","trait-leadership","trait-pilot-skills","trait-resourcefulness","trait-smooth-talking","trait-technical-skills","trait-toughness","trait-zero-g-acclimation"]
-description: "Void-born populations living aboard generation ships, starship crews, orbital trade rings, and deep-space asteroid stations."
+society_skills:
+  - Piloting
+  - Alertness
+  - Knowledge (Technology)
+  - Knowledge (Survival)
+  - Vocation (Any)
+archetypes:
+  - Freighter Captain
+  - Void Explorer
+  - Mercenary Pilot
+  - Smuggler
+  - Shipboard Technician
+  - Free-Trader Merchant
+traits:
+  - trait-combat-trained
+  - trait-independence
+  - trait-leadership
+  - trait-pilot-skills
+  - trait-resourcefulness
+  - trait-smooth-talking
+  - trait-technical-skills
+  - trait-toughness
+  - trait-zero-g-acclimation
+description: >-
+  Void-born populations living aboard generation ships, starship crews, orbital
+  trade rings, and deep-space asteroid stations.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Spacer Origin

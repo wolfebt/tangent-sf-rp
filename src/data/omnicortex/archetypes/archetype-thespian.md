@@ -1,20 +1,56 @@
 ---
-id: "archetype-thespian"
-name: "The Thespian"
-sphere: "Operatives (The Artisans)"
-category: "archetypes"
+id: archetype-thespian
+name: The Thespian
+sphere: Operatives (The Artisans)
+category: archetypes
 bp_chassis: 80
-core_concept: "Face / Infiltrator / Distraction"
-primary_attribute: "Charisma"
-secondary_attribute: "Wisdom"
-recommended_occupations: ["Entertainer","Spy"]
-recommended_origins: ["Urban","Leisure","Enlightened"]
-recommended_factions: ["Entari Combine (Culture)","Alterian Enclave (High Art)","Syndicate (Media)"]
-essential_skills: ["Expression (any)","Diplomacy","Bluff","Insight"]
-signature_features: ["Stage Presence","Emotional Range"]
-tactical_role: "Create diversions, infiltrate social circles, impersonate key personnel."
-quote: "\"All the world's a stage, and I am the only one who knows the script.\""
-description: "The master of the dramatic arts, captivating audiences with powerful performances."
+core_concept: Face / Infiltrator / Distraction
+primary_attribute: Charisma
+secondary_attribute: Wisdom
+recommended_occupations:
+  - Entertainer
+  - Spy
+recommended_origins:
+  - Urban
+  - Leisure
+  - Enlightened
+recommended_factions:
+  - Entari Combine (Culture)
+  - Alterian Enclave (High Art)
+  - Syndicate (Media)
+essential_skills:
+  - Expression (any)
+  - Diplomacy
+  - Bluff
+  - Insight
+signature_features:
+  - Stage Presence
+  - Emotional Range
+tactical_role: 'Create diversions, infiltrate social circles, impersonate key personnel.'
+quote: '"All the world''s a stage, and I am the only one who knows the script."'
+description: >-
+  The master of the dramatic arts, captivating audiences with powerful
+  performances.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Thespian

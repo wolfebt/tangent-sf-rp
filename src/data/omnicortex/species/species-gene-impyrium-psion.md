@@ -10,43 +10,110 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-inherent_attribute_modifiers:
-  - attribute: Wisdom
-    bonus: 1
-bonus_attribute_points: 1
-specific_skill_bonuses:
-  - skill: Attune (Psionic)
-    bonus: 2
-  - skill: Insight
-    bonus: 1
-bonus_skills: 10
-bonus_skill_choices:
-  - Attune
-  - Insight
-  - Discipline
-  - Investigation
-  - Intimidation
-inherent_features:
-  - Awakened (Psionic)
-  - Status (Impyrium Authority)
-  - Mind Wipe Resistance
-  - Psychic Aura
-bonus_features: 1
-bonus_feature_choices:
-  - Thought Probe
-  - Psionic Crush
-  - Telepathic Command
-recommended_features:
-  - feature-thought-probe
 stigma: None
 tech_level: 4 (Imperial Psionic Relics & Force Armor)
 meta_level: 4 (Imperial High Psionics)
 homeworld: Imperia Core
-cp_cost: 20
 cp: 20
 description: >-
   Bred in imperial gen-vaults, Impyrium Psions serve the Throne as telepathic
   judges, interrogators, and battle-psions.
+costs:
+  bp: 20
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Wisdom
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Any Attribute
+    type: attribute
+    value: 1
+    mode: bonus_pool
+  - target: Attune (Psionic)
+    type: skill
+    value: 2
+    mode: inherent
+  - target: Insight
+    type: skill
+    value: 1
+    mode: inherent
+  - target: General Skill Pool
+    type: skill
+    value: 10
+    mode: bonus_pool
+  - target: Attune
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Insight
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Discipline
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Investigation
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Intimidation
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Awakened (Psionic)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Status (Impyrium Authority)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Mind Wipe Resistance
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Psychic Aura
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Thought Probe
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Psionic Crush
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Telepathic Command
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-thought-probe
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Impyrium Psion (Imperial Inquisitor)
 

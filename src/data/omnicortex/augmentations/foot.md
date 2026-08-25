@@ -2,15 +2,35 @@
 id: foot
 name: Foot
 category: augmentations
-tl: 0
 cost: 640
 durability: '5'
-ml: 0
 design_dc: 15
 craft_dc: 15
 description: "**Nodes:** 5\r\n**Sockets:** 0"
 stigma: None
 type: Prosthetic
+costs:
+  bp: 0
+  credits: 640
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
+tech_level: 0
+meta_level: 0
 ---
 Category: **4.1 Synth Limbs & Structural Integrity (TL 3\)**
 

@@ -8,8 +8,6 @@ height_class: Single
 stories: 1
 frame: Standard
 environment: Standard
-tl: 3
-ml: 0
 cost: 3000
 sp: 150
 dr: 10
@@ -20,6 +18,28 @@ security_level: Open
 primary_purpose: Engineering & Manufacturing Workshop
 description: 'Equipped with heavy tooling benches, diagnostic computers, and repair suites.'
 mechanic: Contains Engineering Tools. Reduces Crafting Time by 25%.
+costs:
+  bp: 0
+  credits: 3000
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
+tech_level: 3
+meta_level: 0
 ---
 Equipped with heavy tooling benches, diagnostic computers, and repair suites.
 

@@ -1,13 +1,35 @@
 ---
-id: "combat-combat-expertise"
-name: "Combat Expertise"
-category: "features"
-feature_category: "Combat"
+id: combat-combat-expertise
+name: Combat Expertise
+category: features
+feature_category: Combat
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: "Intellect 2"
-description: "The character fights with superior tactical caution, sacrificing aggression for protection."
+prerequisites: Intellect 2
+description: >-
+  The character fights with superior tactical caution, sacrificing aggression
+  for protection.
+costs:
+  bp: 3
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Combat Expertise

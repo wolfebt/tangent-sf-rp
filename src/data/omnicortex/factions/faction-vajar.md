@@ -1,17 +1,43 @@
 ---
-id: "faction-vajar"
-name: "The Vajar Dominion"
-category: "factions"
-faction_type: "Major Polity"
-archetype: "Warrior-Clans / Honor Fleet"
-driving_mandate: "Conquest, Martial Prowess, and Honorable Glory."
-symbol_sigil: "The Crossed Blades"
-capital_world: "Vajar Kor"
-tech_level: "3 (Military Hardware)"
-meta_level: "2 (Combat Enhancement)"
-skill_package: ["Combat (Melee)","Combat (Heavy Weapons)","Athletics","Intimidate","Piloting"]
-bonus_features: ["Power Attack","Rage"]
-description: "Fierce warrior civilization bound by martial blood-oaths, boarding pods, orbital dreadnoughts, and gladiatorial trials."
+id: faction-vajar
+name: The Vajar Dominion
+category: factions
+faction_type: Major Polity
+archetype: Warrior-Clans / Honor Fleet
+driving_mandate: 'Conquest, Martial Prowess, and Honorable Glory.'
+symbol_sigil: The Crossed Blades
+capital_world: Vajar Kor
+tech_level: 3 (Military Hardware)
+meta_level: 2 (Combat Enhancement)
+skill_package:
+  - Combat (Melee)
+  - Combat (Heavy Weapons)
+  - Athletics
+  - Intimidate
+  - Piloting
+description: >-
+  Fierce warrior civilization bound by martial blood-oaths, boarding pods,
+  orbital dreadnoughts, and gladiatorial trials.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Vajar Dominion

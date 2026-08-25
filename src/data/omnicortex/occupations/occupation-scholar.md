@@ -1,13 +1,66 @@
 ---
-id: "occupation-scholar"
-name: "Scholar"
-category: "occupations"
+id: occupation-scholar
+name: Scholar
+category: occupations
 skill_points: 20
-professional_skills: ["Any Knowledge Skills"]
-recommended_features: "Skill"
-archetypes: ["Xenology Expert","Geneticist","Linguistics Specialist","Historian","Astrophysicist","Cybernetics Expert","Planetologist","Psionicologist","Roboticist","Scientist","Archaeologist","Cosmologist"]
-traits: ["trait-scholar-adaptability","trait-scholar-attention-to-detail","trait-scholar-collaboration","trait-scholar-continuous-learning","trait-scholar-critical-thinking","trait-scholar-ethical-conduct","trait-scholar-metacognition","trait-scholar-patience","trait-scholar-problem-solving","trait-scholar-technological-innovation"]
-description: "A Scholar is a character who specializes in academic pursuits, research, and study. They possess a comprehensive education in a range of scientific skills.A scholar is a character who specializes in academic pursuits, research, and study. They possess a comprehensive education in a range of scientific skills. They are often well-read and have a deep understanding of various subjects. Scholars are typically curious and inquisitive, and they enjoy learning new things. They are also often creative and innovative, and they are able to think outside the box. Scholars can be found in a variety of settings, including universities, libraries, and research labs. Overall, scholars are intelligent, curious, and dedicated individuals who play an important role in society by advancing knowledge and understanding."
+professional_skills:
+  - Any Knowledge Skills
+archetypes:
+  - Xenology Expert
+  - Geneticist
+  - Linguistics Specialist
+  - Historian
+  - Astrophysicist
+  - Cybernetics Expert
+  - Planetologist
+  - Psionicologist
+  - Roboticist
+  - Scientist
+  - Archaeologist
+  - Cosmologist
+traits:
+  - trait-scholar-adaptability
+  - trait-scholar-attention-to-detail
+  - trait-scholar-collaboration
+  - trait-scholar-continuous-learning
+  - trait-scholar-critical-thinking
+  - trait-scholar-ethical-conduct
+  - trait-scholar-metacognition
+  - trait-scholar-patience
+  - trait-scholar-problem-solving
+  - trait-scholar-technological-innovation
+description: >-
+  A Scholar is a character who specializes in academic pursuits, research, and
+  study. They possess a comprehensive education in a range of scientific
+  skills.A scholar is a character who specializes in academic pursuits,
+  research, and study. They possess a comprehensive education in a range of
+  scientific skills. They are often well-read and have a deep understanding of
+  various subjects. Scholars are typically curious and inquisitive, and they
+  enjoy learning new things. They are also often creative and innovative, and
+  they are able to think outside the box. Scholars can be found in a variety of
+  settings, including universities, libraries, and research labs. Overall,
+  scholars are intelligent, curious, and dedicated individuals who play an
+  important role in society by advancing knowledge and understanding.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Scholar Occupation

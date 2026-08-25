@@ -1,21 +1,45 @@
 ---
-id: "mental-alertness"
-name: "Alertness"
-type: "mental"
-subtype: "general"
-category: "skills"
-governing_attributes: ["Intellect","Wisdom"]
-description: "Environmental perception and sensory awareness. Spotting hidden items, hearing subtle sounds, identifying traps, and avoiding ambushes."
+id: mental-alertness
+name: Alertness
+type: mental
+subtype: general
+category: skills
+governing_attributes:
+  - Intellect
+  - Wisdom
+description: >-
+  Environmental perception and sensory awareness. Spotting hidden items, hearing
+  subtle sounds, identifying traps, and avoiding ambushes.
 trained_only: false
 specialties:
-  - "Sight (Spotting visual anomalies and concealed foes)"
-  - "Hearing (Detecting faint footsteps and whispered conversations)"
-  - "Scent (Noticing chemical, biological, or thermal cues)"
-  - "Intuition (Gut feelings and ambush sensing)"
+  - Sight (Spotting visual anomalies and concealed foes)
+  - Hearing (Detecting faint footsteps and whispered conversations)
+  - 'Scent (Noticing chemical, biological, or thermal cues)'
+  - Intuition (Gut feelings and ambush sensing)
 synergy_links:
-  - "mental-investigation"
-  - "mental-survival"
-  - "physical-stealth"
+  - mental-investigation
+  - mental-survival
+  - physical-stealth
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Alertness

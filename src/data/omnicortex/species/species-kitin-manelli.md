@@ -10,42 +10,102 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
-inherent_attribute_modifiers:
-  - attribute: Wisdom
-    bonus: 1
-bonus_attribute_points: 1
-specific_skill_bonuses:
-  - skill: Diplomacy
-    bonus: 1
-  - skill: Insight
-    bonus: 1
-bonus_skills: 0
-bonus_skill_choices:
-  - Diplomacy
-  - Insight
-  - Attune
-  - Language
-inherent_features:
-  - Kitin Base Traits
-  - Humanoid Stance
-  - Pheromone Translator
-  - Telepathic Voice
-bonus_features: 1
-bonus_feature_choices:
-  - Hive Empathy
-  - Mental Barrier
-  - Sympathetic Resonance
-recommended_features:
-  - feature-hive-empathy
 stigma: Xeno (-2)
 tech_level: 3 (Bio-Tech Synapses)
 meta_level: 3 (Telepathic Diplomacy)
 homeworld: Kitin Diplomatic Hubs
-cp_cost: 16
 cp: 16
 description: >-
   Manelli are humanoid-shaped Kitin who act as ambassadors, envoys, and
   translators between the hive mind and carbon civilizations.
+costs:
+  bp: 16
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Wisdom
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Any Attribute
+    type: attribute
+    value: 1
+    mode: bonus_pool
+  - target: Diplomacy
+    type: skill
+    value: 1
+    mode: inherent
+  - target: Insight
+    type: skill
+    value: 1
+    mode: inherent
+  - target: Diplomacy
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Insight
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Attune
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Language
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Kitin Base Traits
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Humanoid Stance
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Pheromone Translator
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Telepathic Voice
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Hive Empathy
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Mental Barrier
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Sympathetic Resonance
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-hive-empathy
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Manelli (Kitin Humanoid Caste)
 

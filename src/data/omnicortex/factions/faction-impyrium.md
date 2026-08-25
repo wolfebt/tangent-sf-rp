@@ -1,17 +1,43 @@
 ---
-id: "faction-impyrium"
-name: "The Radiant Impyrium"
-category: "factions"
-faction_type: "Major Polity"
-archetype: "Monumental Imperial Dominion / Solar Hegemony"
-driving_mandate: "Universal Order; Solar Divine Manifest Destiny."
-symbol_sigil: "The Solar Aquila"
-capital_world: "Imperial Sanctum"
-tech_level: "3-4 (Monumental / Dreadnought)"
-meta_level: "3 (Divine Faith & Inquisitions)"
-skill_package: ["Knowledge (History)","Knowledge (Nobility)","Soldier Vocation","Combat (Any)","Diplomacy"]
-bonus_features: ["Benefit (Clearance)","Benefit (Status)"]
-description: "Vast solar empire of white marble basilicas, golden dreadnoughts, aristocratic senators, and unwavering legions."
+id: faction-impyrium
+name: The Radiant Impyrium
+category: factions
+faction_type: Major Polity
+archetype: Monumental Imperial Dominion / Solar Hegemony
+driving_mandate: Universal Order; Solar Divine Manifest Destiny.
+symbol_sigil: The Solar Aquila
+capital_world: Imperial Sanctum
+tech_level: 3-4 (Monumental / Dreadnought)
+meta_level: 3 (Divine Faith & Inquisitions)
+skill_package:
+  - Knowledge (History)
+  - Knowledge (Nobility)
+  - Soldier Vocation
+  - Combat (Any)
+  - Diplomacy
+description: >-
+  Vast solar empire of white marble basilicas, golden dreadnoughts, aristocratic
+  senators, and unwavering legions.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Radiant Impyrium

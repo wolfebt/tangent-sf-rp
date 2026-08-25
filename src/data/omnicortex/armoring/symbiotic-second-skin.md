@@ -2,8 +2,6 @@
 id: symbiotic-second-skin
 category: Lightweight
 name: Symbiotic "Second Skin"
-tl: 4
-ml: 0
 cost: 2560
 craft_dc: 20
 design_dc: 20
@@ -17,13 +15,34 @@ body_locations:
   - Legs
 coverage: Sealed
 component_slots: 4
-sockets: 4
+sockets:
+  max: 4
+  used: 0
+  tier: Socket
+  allocated: []
 description: >-
   Living Auluran bioweave suit that bonds to the wearer's epidermis, flexing
   naturally and regenerating cellular tears.
 mechanic: >-
   Regenerating Bio-Armor (Regains 5 SP per hour), Zero Mobility Penalty. DR 12,
   SP 30.
+costs:
+  bp: 0
+  credits: 2560
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+tech_level: 4
+meta_level: 0
 ---
 Living Auluran bioweave suit that bonds to the wearer's epidermis, flexing naturally and regenerating cellular tears.
 

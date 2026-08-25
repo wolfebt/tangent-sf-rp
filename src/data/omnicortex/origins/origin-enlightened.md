@@ -1,12 +1,56 @@
 ---
-id: "origin-enlightened"
-name: "Enlightened"
-category: "origins"
+id: origin-enlightened
+name: Enlightened
+category: origins
 skill_points: 20
-society_skills: ["Alertness","Academics","Knowledge (Culture)","Knowledge (History)","Knowledge (Language)","Knowledge (Physics)","Knowledge (Religion)","Vocation (Any)"]
-archetypes: ["Arcanist","Psionic Adept","Seer","Monastic Scholar","Spiritual Guide","Cultural Envoy"]
-traits: ["trait-empathy","trait-curiosity","trait-mentorship","trait-open-mindedness","trait-peaceful-nature","trait-problem-solving","trait-shared-wisdom","trait-spiritual-awareness"]
-description: "Metaphysically active worlds rich in crystal formations, ley-line junctions, astral shrines, and monastic academies."
+society_skills:
+  - Alertness
+  - Academics
+  - Knowledge (Culture)
+  - Knowledge (History)
+  - Knowledge (Language)
+  - Knowledge (Physics)
+  - Knowledge (Religion)
+  - Vocation (Any)
+archetypes:
+  - Arcanist
+  - Psionic Adept
+  - Seer
+  - Monastic Scholar
+  - Spiritual Guide
+  - Cultural Envoy
+traits:
+  - trait-empathy
+  - trait-curiosity
+  - trait-mentorship
+  - trait-open-mindedness
+  - trait-peaceful-nature
+  - trait-problem-solving
+  - trait-shared-wisdom
+  - trait-spiritual-awareness
+description: >-
+  Metaphysically active worlds rich in crystal formations, ley-line junctions,
+  astral shrines, and monastic academies.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Enlightened Origin

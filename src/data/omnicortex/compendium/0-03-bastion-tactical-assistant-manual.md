@@ -1,10 +1,30 @@
 ---
-id: "0-03-bastion-tactical-assistant-manual"
-name: "0.03 BASTION Tactical Assistant & Engine Manual"
-category: "compendium"
-entry_type: "Role Reference"
-parent: "0.00 SYSTEM ROLES & ARCHITECTURE"
+id: 0-03-bastion-tactical-assistant-manual
+name: 0.03 BASTION Tactical Assistant & Engine Manual
+category: compendium
+entry_type: Role Reference
+parent: 0.00 SYSTEM ROLES & ARCHITECTURE
 order: 3
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # 0.03 BASTION Tactical Assistant & Engine Manual
 

@@ -811,7 +811,7 @@ export function computeMetaTechStats(formData) {
   const baseItemDC = Number(formData.base_item_dc ?? formData.baseItemDC ?? 15);
   const invocationRank = Number(formData.invocation_rank ?? formData.invocationRank ?? 10);
   const tl = Number(formData.tech_level ?? formData.tl ?? 3);
-  const socketsUsed = Number(formData.sockets_used ?? formData.socketsUsed ?? (invocationRank > 10 ? (invocationRank > 20 ? 3 : 2) : 1));
+  const socketsUsed = Number(formData.sockets?.used ?? formData.sockets_used ?? formData.socketsUsed ?? (invocationRank > 10 ? (invocationRank > 20 ? 3 : 2) : 1));
   const dailyCharges = formData.daily_charges ?? null;
   const scaleTier = formData.scale_tier || 'Personal';
 

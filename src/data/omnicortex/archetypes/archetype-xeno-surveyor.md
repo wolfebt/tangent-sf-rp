@@ -1,20 +1,56 @@
 ---
-id: "archetype-xeno-surveyor"
-name: "The Xeno-surveyor"
-sphere: "Savants (The Rationals)"
-category: "archetypes"
+id: archetype-xeno-surveyor
+name: The Xeno-surveyor
+sphere: Savants (The Rationals)
+category: archetypes
 bp_chassis: 80
-core_concept: "Exploration / Science / Survival"
-primary_attribute: "Intellect"
-secondary_attribute: "Wisdom"
-recommended_occupations: ["Scout","Scholar"]
-recommended_origins: ["Colony","Spacer","Research"]
-recommended_factions: ["Ascendancy (Reach Surveyors)","Outworlds","Auluran"]
-essential_skills: ["Knowledge (Survival)","Navigation","Knowledge (Geology)","Alertness"]
-signature_features: ["Cartographer","Planetary Savant"]
-tactical_role: "Identifying environmental resources, plotting safe paths, planetary analysis."
-quote: "\"This world has potential. And at least three ways to kill you by sunset.\""
-description: "The meticulous researcher who maps the biological and geological variables of alien worlds to assess their value and danger."
+core_concept: Exploration / Science / Survival
+primary_attribute: Intellect
+secondary_attribute: Wisdom
+recommended_occupations:
+  - Scout
+  - Scholar
+recommended_origins:
+  - Colony
+  - Spacer
+  - Research
+recommended_factions:
+  - Ascendancy (Reach Surveyors)
+  - Outworlds
+  - Auluran
+essential_skills:
+  - Knowledge (Survival)
+  - Navigation
+  - Knowledge (Geology)
+  - Alertness
+signature_features:
+  - Cartographer
+  - Planetary Savant
+tactical_role: 'Identifying environmental resources, plotting safe paths, planetary analysis.'
+quote: '"This world has potential. And at least three ways to kill you by sunset."'
+description: >-
+  The meticulous researcher who maps the biological and geological variables of
+  alien worlds to assess their value and danger.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Xeno-surveyor

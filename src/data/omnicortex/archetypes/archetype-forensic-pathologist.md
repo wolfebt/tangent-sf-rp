@@ -1,20 +1,53 @@
 ---
-id: "archetype-forensic-pathologist"
-name: "The Forensic Pathologist"
-sphere: "Savants (The Rationals)"
-category: "archetypes"
+id: archetype-forensic-pathologist
+name: The Forensic Pathologist
+sphere: Savants (The Rationals)
+category: archetypes
 bp_chassis: 80
-core_concept: "Investigation / Science / Intel"
-primary_attribute: "Intellect"
-secondary_attribute: "Wisdom"
-recommended_occupations: ["Doctor","Agent"]
-recommended_origins: ["Research","Urban","Colony"]
-recommended_factions: ["Entari Combine (Justice)","Syndicate (Internal Affairs)","Coalition"]
-essential_skills: ["Knowledge (Medicine)","Knowledge (Investigation)","Knowledge (Science \\- Biology)"]
-signature_features: ["Forensic Analysis","Medical Expertise"]
-tactical_role: "Solving murders, identifying toxins/diseases, analyzing biological threats."
-quote: "\"The body never lies.\""
-description: "An expert in determining cause of death and analyzing biological evidence."
+core_concept: Investigation / Science / Intel
+primary_attribute: Intellect
+secondary_attribute: Wisdom
+recommended_occupations:
+  - Doctor
+  - Agent
+recommended_origins:
+  - Research
+  - Urban
+  - Colony
+recommended_factions:
+  - Entari Combine (Justice)
+  - Syndicate (Internal Affairs)
+  - Coalition
+essential_skills:
+  - Knowledge (Medicine)
+  - Knowledge (Investigation)
+  - Knowledge (Science \- Biology)
+signature_features:
+  - Forensic Analysis
+  - Medical Expertise
+tactical_role: 'Solving murders, identifying toxins/diseases, analyzing biological threats.'
+quote: '"The body never lies."'
+description: An expert in determining cause of death and analyzing biological evidence.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Forensic Pathologist

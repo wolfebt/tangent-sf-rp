@@ -615,7 +615,7 @@ const SkillsTab = ({ onOpenAddSkillModal }) => {
   };
 
   return (
-    <div className="tab-panel active p-4 space-y-4">
+    <div className="tab-panel active p-4 space-y-4 pb-20">
       {/* Header Toolbar & Search Filter */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-cyan-900/60 pb-3 gap-3">
         <div>

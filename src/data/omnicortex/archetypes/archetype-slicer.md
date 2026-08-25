@@ -1,20 +1,54 @@
 ---
-id: "archetype-slicer"
-name: "The Slicer"
-sphere: "Operatives (The Artisans)"
-category: "archetypes"
+id: archetype-slicer
+name: The Slicer
+sphere: Operatives (The Artisans)
+category: archetypes
 bp_chassis: 80
-core_concept: "Hacking / Intel / Support"
-primary_attribute: "Intellect"
-secondary_attribute: "Technology"
-recommended_occupations: ["Specialist","Criminal"]
-recommended_origins: ["Urban","Industrial","Research"]
-recommended_factions: ["Syndicate (Deckers)","Mekan (Code-Weavers)","Ascendancy"]
-essential_skills: ["Knowledge (Technology)","Knowledge (Computers)","Knowledge (Investigation)","Social"]
-signature_features: ["Digital Ghost","Cyber Intrusion"]
-tactical_role: "Electronic warfare, data theft, bypassing security."
-quote: "\"Information wants to be free. I'm just the liberator.\""
-description: "A master of cyberspace, skilled in infiltrating networks and stealing data."
+core_concept: Hacking / Intel / Support
+primary_attribute: Intellect
+secondary_attribute: Technology
+recommended_occupations:
+  - Specialist
+  - Criminal
+recommended_origins:
+  - Urban
+  - Industrial
+  - Research
+recommended_factions:
+  - Syndicate (Deckers)
+  - Mekan (Code-Weavers)
+  - Ascendancy
+essential_skills:
+  - Knowledge (Technology)
+  - Knowledge (Computers)
+  - Knowledge (Investigation)
+  - Social
+signature_features:
+  - Digital Ghost
+  - Cyber Intrusion
+tactical_role: 'Electronic warfare, data theft, bypassing security.'
+quote: '"Information wants to be free. I''m just the liberator."'
+description: 'A master of cyberspace, skilled in infiltrating networks and stealing data.'
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Slicer

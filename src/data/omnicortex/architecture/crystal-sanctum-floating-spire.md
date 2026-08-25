@@ -8,8 +8,6 @@ height_class: Skyscraper
 stories: 50
 frame: Palatial
 environment: Standard
-tl: 5
-ml: 3
 cost: 167772160
 sp: 62500
 dr: 25
@@ -25,6 +23,28 @@ mechanic: >-
   SP: 62,500. DR: 25 (Adaptive). Modules: 1,000. Focus Chamber (100, +4 Meta
   Skills), Archives (400), Training Halls (200), Levitation Core (100), Psionic
   Defenses (100).
+costs:
+  bp: 0
+  credits: 167772160
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
+tech_level: 5
+meta_level: 3
 ---
 Towering spire of psycho-reactive crystal floating weightlessly above ground via psionic resonance fields, housing metaphysical research sanctums.
 

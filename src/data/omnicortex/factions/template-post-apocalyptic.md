@@ -1,9 +1,31 @@
 ---
-id: "template-post-apocalyptic"
-name: "Post-Apocalyptic Warlords"
-category: "factions"
-faction_type: "Generic Template"
-description: "Barter clans, road raiders, and bunker tyrants dominating the scorched ruins of a fallen civilized world."
+id: template-post-apocalyptic
+name: Post-Apocalyptic Warlords
+category: factions
+faction_type: Generic Template
+description: >-
+  Barter clans, road raiders, and bunker tyrants dominating the scorched ruins
+  of a fallen civilized world.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Post-Apocalyptic Warlords (Generic Faction Template)

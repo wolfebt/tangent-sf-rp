@@ -1,21 +1,45 @@
 ---
-id: "mental-culinarian"
-name: "Culinarian"
-type: "mental"
-subtype: "vocation"
-category: "skills"
-governing_attributes: ["Wisdom","Agility"]
-description: "The culinary arts: preparing nutritious and gourmet food, baking, brewing, catering state banquets, and preparing alien ingredients."
+id: mental-culinarian
+name: Culinarian
+type: mental
+subtype: vocation
+category: skills
+governing_attributes:
+  - Wisdom
+  - Agility
+description: >-
+  The culinary arts: preparing nutritious and gourmet food, baking, brewing,
+  catering state banquets, and preparing alien ingredients.
 trained_only: false
 specialties:
-  - "Gourmet Cuisine & Banquets"
-  - "Xenofood Preparation (Making alien flora/fauna edible for humans)"
-  - "Baking & Pastry"
-  - "Brewing & Distilling"
+  - Gourmet Cuisine & Banquets
+  - Xenofood Preparation (Making alien flora/fauna edible for humans)
+  - Baking & Pastry
+  - Brewing & Distilling
 synergy_links:
-  - "mental-nature"
-  - "mental-alchemist"
-  - "mental-medicine"
+  - mental-nature
+  - mental-alchemist
+  - mental-medicine
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Culinarian

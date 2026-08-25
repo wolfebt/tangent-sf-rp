@@ -1,10 +1,30 @@
 ---
-id: "4-09-discipline-entropy"
-name: "4.09 Discipline Guide: Entropy (Decay & Probability)"
-category: "compendium"
-entry_type: "Game Mechanic"
-parent: "4.00 METAPHYSICS"
+id: 4-09-discipline-entropy
+name: '4.09 Discipline Guide: Entropy (Decay & Probability)'
+category: compendium
+entry_type: Game Mechanic
+parent: 4.00 METAPHYSICS
 order: 9
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # 4.09 Discipline Guide: Entropy (Decay & Probability)
 

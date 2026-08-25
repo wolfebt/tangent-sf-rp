@@ -1,20 +1,53 @@
 ---
-id: "archetype-roboticist"
-name: "The Roboticist"
-sphere: "Savants (The Rationals)"
-category: "archetypes"
+id: archetype-roboticist
+name: The Roboticist
+sphere: Savants (The Rationals)
+category: archetypes
 bp_chassis: 80
-core_concept: "Crafter / Minion Master / Tech"
-primary_attribute: "Intellect"
-secondary_attribute: "Technology"
-recommended_occupations: ["Engineer","Scholar"]
-recommended_origins: ["Research","Industrial","Urban"]
-recommended_factions: ["Mekan (Self-Study)","Syndicate (Drone Works)","Ascendancy"]
-essential_skills: ["Knowledge (Technology)","Vocation (Engineer)","Knowledge (Computers)"]
-signature_features: ["Robotic Affinity","Automation Expert"]
-tactical_role: "Building/repairing drones, commanding robot minions, hacking enemy bots."
-quote: "\"It's not just a machine. It's a masterpiece.\""
-description: "A scholar who specializes in the study, design, and development of robots."
+core_concept: Crafter / Minion Master / Tech
+primary_attribute: Intellect
+secondary_attribute: Technology
+recommended_occupations:
+  - Engineer
+  - Scholar
+recommended_origins:
+  - Research
+  - Industrial
+  - Urban
+recommended_factions:
+  - Mekan (Self-Study)
+  - Syndicate (Drone Works)
+  - Ascendancy
+essential_skills:
+  - Knowledge (Technology)
+  - Vocation (Engineer)
+  - Knowledge (Computers)
+signature_features:
+  - Robotic Affinity
+  - Automation Expert
+tactical_role: 'Building/repairing drones, commanding robot minions, hacking enemy bots.'
+quote: '"It''s not just a machine. It''s a masterpiece."'
+description: 'A scholar who specializes in the study, design, and development of robots.'
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Roboticist

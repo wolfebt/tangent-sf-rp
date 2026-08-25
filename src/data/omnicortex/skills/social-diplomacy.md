@@ -1,21 +1,44 @@
 ---
-id: "social-diplomacy"
-name: "Diplomacy"
-type: "social"
-subtype: "manipulation"
-category: "skills"
-governing_attributes: ["Charisma"]
-description: "The art of peaceful persuasion, formal etiquette, mediating disputes, building alliances, and shifting the attitudes of non-player characters."
+id: social-diplomacy
+name: Diplomacy
+type: social
+subtype: manipulation
+category: skills
+governing_attributes:
+  - Charisma
+description: >-
+  The art of peaceful persuasion, formal etiquette, mediating disputes, building
+  alliances, and shifting the attitudes of non-player characters.
 trained_only: false
 specialties:
-  - "Negotiation & Pact-Making"
-  - "Cross-Cultural Etiquette"
-  - "Treaty & Armistice Drafting"
-  - "Formal Information Gathering"
+  - Negotiation & Pact-Making
+  - Cross-Cultural Etiquette
+  - Treaty & Armistice Drafting
+  - Formal Information Gathering
 synergy_links:
-  - "social-insight"
-  - "mental-culture"
-  - "social-leadership"
+  - social-insight
+  - mental-culture
+  - social-leadership
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Diplomacy

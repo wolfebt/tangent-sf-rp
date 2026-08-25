@@ -10,37 +10,90 @@ size:
   - species_size-large
 movement:
   - species_movement-flight
-inherent_attribute_modifiers:
-  - attribute: Intellect
-    bonus: 4
-bonus_attribute_points: 6
-specific_skill_bonuses:
-  - skill: Discipline
-    bonus: 4
-bonus_skills: 40
-bonus_skill_choices:
-  - All Categories
-inherent_features:
-  - Progenitor Heritage Base
-  - Large Size
-  - Absolute Mental Fortitude
-  - Matter Reshaping (Special Ability)
-bonus_features: 3
-bonus_feature_choices:
-  - Temporal Fold
-  - Dimensional Sever
-  - Universal Translation
-recommended_features:
-  - feature-temporal-fold
 stigma: 'Deific (-6), Xeno (-2)'
 tech_level: 5 (Exotic Precursor Tech)
 meta_level: 6 (Deific Metaphysics)
 homeworld: Extragalactic Citadel of Void
-cp_cost: 95
 cp: 95
 description: >-
   U’Nonn are ancient primordial progenitors who command matter and energy
   directly through pure thought and deific metaphysical matrices.
+costs:
+  bp: 95
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Intellect
+    type: attribute
+    value: 4
+    mode: inherent
+  - target: Any Attribute
+    type: attribute
+    value: 6
+    mode: bonus_pool
+  - target: Discipline
+    type: skill
+    value: 4
+    mode: inherent
+  - target: General Skill Pool
+    type: skill
+    value: 40
+    mode: bonus_pool
+  - target: All Categories
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Progenitor Heritage Base
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Large Size
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Absolute Mental Fortitude
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Matter Reshaping (Special Ability)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 3
+    mode: bonus_pool
+  - target: Temporal Fold
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Dimensional Sever
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Universal Translation
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-temporal-fold
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # U’Nonn (Ancient Reality Shaper)
 

@@ -10,46 +10,115 @@ size:
   - species_size-diminutive
 movement:
   - species_movement-flight
-inherent_attribute_modifiers:
-  - attribute: Charisma
-    bonus: 1
-bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Attune
-    bonus: 2
-  - skill: Perception
-    bonus: 1
-bonus_skills: 10
-bonus_skill_choices:
-  - Attune
-  - Perception
-  - Trickery
-  - Performance
-  - Stealth
-inherent_features:
-  - Asi Base Traits
-  - 'Diminutive Size (+4 Stealth, -4 Might)'
-  - Awakened (Nature)
-  - 'Flight (Gossamer Wings, 30ft)'
-bonus_features: 1
-bonus_feature_choices:
-  - Glamour Weaving
-  - Invisibility Aura
-  - Pixie Dust Spark
-  - Nature Communion
-recommended_features:
-  - feature-glamour-weaving
-  - feature-invisibility-aura
 stigma: 'Fae (-2), Xeno (-2)'
 tech_level: 1 (Enchanted Flora)
 meta_level: 5 (High Fey Metaphysics)
 homeworld: The Feywild Reliquary
-cp_cost: 23
 cp: 23
 description: >-
   Base Fey are diminutive, winged beings of pure elemental and natural
   resonance. Mischievous, radiant, and immortal, they navigate mortal
   civilizations with wonder and cryptic intentions.
+costs:
+  bp: 23
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Charisma
+    type: attribute
+    value: 1
+    mode: inherent
+  - target: Attune
+    type: skill
+    value: 2
+    mode: inherent
+  - target: Perception
+    type: skill
+    value: 1
+    mode: inherent
+  - target: General Skill Pool
+    type: skill
+    value: 10
+    mode: bonus_pool
+  - target: Attune
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Perception
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Trickery
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Performance
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Stealth
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Asi Base Traits
+    type: feature
+    value: 1
+    mode: inherent
+  - target: 'Diminutive Size (+4 Stealth, -4 Might)'
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Awakened (Nature)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: 'Flight (Gossamer Wings, 30ft)'
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 1
+    mode: bonus_pool
+  - target: Glamour Weaving
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Invisibility Aura
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Pixie Dust Spark
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Nature Communion
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-glamour-weaving
+    type: feature
+    value: 1
+    mode: recommended
+  - target: feature-invisibility-aura
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Fey (Base Asi)
 

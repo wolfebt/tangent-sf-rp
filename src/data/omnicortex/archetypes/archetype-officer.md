@@ -1,20 +1,54 @@
 ---
-id: "archetype-officer"
-name: "The Officer"
-sphere: "Visionaries (The Idealists)"
-category: "archetypes"
+id: archetype-officer
+name: The Officer
+sphere: Visionaries (The Idealists)
+category: archetypes
 bp_chassis: 80
-core_concept: "Leader / Tactician / Buffer"
-primary_attribute: "Charisma"
-secondary_attribute: "Intellect"
-recommended_occupations: ["Soldier (Officer)","Noble"]
-recommended_origins: ["Militaristic","Urban","Colony"]
-recommended_factions: ["Impyrium (Legions)","Dracon Dynasty","Coalition (Militia)"]
-essential_skills: ["Leadership","Knowledge (Tactics)","Diplomacy","Combat (Any)"]
-signature_features: ["Tactical Expertise","Inspiring Leader"]
-tactical_role: "Granting bonuses to allies, organizing attacks, managing NPC troops."
-quote: "\"Form up! Hold the line!\""
-description: "A strategic leader who commands troops and coordinates military operations."
+core_concept: Leader / Tactician / Buffer
+primary_attribute: Charisma
+secondary_attribute: Intellect
+recommended_occupations:
+  - Soldier (Officer)
+  - Noble
+recommended_origins:
+  - Militaristic
+  - Urban
+  - Colony
+recommended_factions:
+  - Impyrium (Legions)
+  - Dracon Dynasty
+  - Coalition (Militia)
+essential_skills:
+  - Leadership
+  - Knowledge (Tactics)
+  - Diplomacy
+  - Combat (Any)
+signature_features:
+  - Tactical Expertise
+  - Inspiring Leader
+tactical_role: 'Granting bonuses to allies, organizing attacks, managing NPC troops.'
+quote: '"Form up! Hold the line!"'
+description: A strategic leader who commands troops and coordinates military operations.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Officer

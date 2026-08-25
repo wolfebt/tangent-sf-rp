@@ -1,20 +1,57 @@
 ---
-id: "archetype-socialite"
-name: "The Socialite"
-sphere: "Visionaries (The Idealists)"
-category: "archetypes"
+id: archetype-socialite
+name: The Socialite
+sphere: Visionaries (The Idealists)
+category: archetypes
 bp_chassis: 80
-core_concept: "Face / Info Gatherer / Buffer"
-primary_attribute: "Charisma"
-secondary_attribute: "Wisdom"
-recommended_occupations: ["Citizen (Elite)","Entertainer"]
-recommended_origins: ["Leisure","Urban","Enlightened"]
-recommended_factions: ["Syndicate (Elites)","Entari Combine","Dracon Dynasty"]
-essential_skills: ["Bluff","Insight","Leadership","Diplomacy","Etiquette"]
-signature_features: ["Social Butterfly","Connections"]
-tactical_role: "Gathering rumors, gaining access to restricted social areas, manipulating NPCs."
-quote: "\"Oh, darling, you simply must tell me everything.\""
-description: "A charismatic individual who thrives in social settings and networking."
+core_concept: Face / Info Gatherer / Buffer
+primary_attribute: Charisma
+secondary_attribute: Wisdom
+recommended_occupations:
+  - Citizen (Elite)
+  - Entertainer
+recommended_origins:
+  - Leisure
+  - Urban
+  - Enlightened
+recommended_factions:
+  - Syndicate (Elites)
+  - Entari Combine
+  - Dracon Dynasty
+essential_skills:
+  - Bluff
+  - Insight
+  - Leadership
+  - Diplomacy
+  - Etiquette
+signature_features:
+  - Social Butterfly
+  - Connections
+tactical_role: >-
+  Gathering rumors, gaining access to restricted social areas, manipulating
+  NPCs.
+quote: '"Oh, darling, you simply must tell me everything."'
+description: A charismatic individual who thrives in social settings and networking.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Socialite

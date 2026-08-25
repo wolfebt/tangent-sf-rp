@@ -1,20 +1,55 @@
 ---
-id: "archetype-racer"
-name: "The Racer"
-sphere: "Operatives (The Artisans)"
-category: "archetypes"
+id: archetype-racer
+name: The Racer
+sphere: Operatives (The Artisans)
+category: archetypes
 bp_chassis: 80
-core_concept: "Speed / Transport / Evasion"
-primary_attribute: "Agility"
-secondary_attribute: "Technology"
-recommended_occupations: ["Specialist","Entertainer"]
-recommended_origins: ["Leisure","Urban","Spacer"]
-recommended_factions: ["Syndicate (Leisure)","Outworlds"]
-essential_skills: ["Pilot","Acrobatics","Knowledge (Technology)","Alertness"]
-signature_features: ["Speed Demon","Adrenaline Rush"]
-tactical_role: "Chase scenes, extraction, outrunning threats."
-quote: "\"If you aren't first, you're last.\""
-description: "Skilled in piloting high-speed vehicles in competitive or dangerous environments."
+core_concept: Speed / Transport / Evasion
+primary_attribute: Agility
+secondary_attribute: Technology
+recommended_occupations:
+  - Specialist
+  - Entertainer
+recommended_origins:
+  - Leisure
+  - Urban
+  - Spacer
+recommended_factions:
+  - Syndicate (Leisure)
+  - Outworlds
+essential_skills:
+  - Pilot
+  - Acrobatics
+  - Knowledge (Technology)
+  - Alertness
+signature_features:
+  - Speed Demon
+  - Adrenaline Rush
+tactical_role: 'Chase scenes, extraction, outrunning threats.'
+quote: '"If you aren''t first, you''re last."'
+description: >-
+  Skilled in piloting high-speed vehicles in competitive or dangerous
+  environments.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Racer

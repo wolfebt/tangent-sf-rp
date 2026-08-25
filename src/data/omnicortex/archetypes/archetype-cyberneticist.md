@@ -1,20 +1,54 @@
 ---
-id: "archetype-cyberneticist"
-name: "The Cyberneticist"
-sphere: "Savants (The Rationals)"
-category: "archetypes"
+id: archetype-cyberneticist
+name: The Cyberneticist
+sphere: Savants (The Rationals)
+category: archetypes
 bp_chassis: 80
-core_concept: "Healer / Crafter / Buffer"
-primary_attribute: "Intellect"
-secondary_attribute: "Technology"
-recommended_occupations: ["Doctor","Engineer"]
-recommended_origins: ["Research","Industrial","Urban"]
-recommended_factions: ["Syndicate (Augmentation Clinics)","Mekan (Integration)","Ascendancy"]
-essential_skills: ["Knowledge (Medicine)","Knowledge (Technology)","Knowledge (Biology)","Vocation (Engineer)"]
-signature_features: ["Cybernetic Enhancement","Biomechanical Integration"]
-tactical_role: "Installing/repairing cybernetics, hacking enemy augments, buffing allies."
-quote: "\"Flesh is weak. Steel is strong. I provide the upgrade.\""
-description: "Specialist in creating, repairing, and modifying cybernetic enhancements."
+core_concept: Healer / Crafter / Buffer
+primary_attribute: Intellect
+secondary_attribute: Technology
+recommended_occupations:
+  - Doctor
+  - Engineer
+recommended_origins:
+  - Research
+  - Industrial
+  - Urban
+recommended_factions:
+  - Syndicate (Augmentation Clinics)
+  - Mekan (Integration)
+  - Ascendancy
+essential_skills:
+  - Knowledge (Medicine)
+  - Knowledge (Technology)
+  - Knowledge (Biology)
+  - Vocation (Engineer)
+signature_features:
+  - Cybernetic Enhancement
+  - Biomechanical Integration
+tactical_role: 'Installing/repairing cybernetics, hacking enemy augments, buffing allies.'
+quote: '"Flesh is weak. Steel is strong. I provide the upgrade."'
+description: 'Specialist in creating, repairing, and modifying cybernetic enhancements.'
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Cyberneticist

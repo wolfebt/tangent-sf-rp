@@ -1,21 +1,45 @@
 ---
-id: "physical-athletics"
-name: "Athletics"
-type: "physical"
-subtype: "fitness"
-category: "skills"
-governing_attributes: ["Strength","Stamina"]
-description: "General physical power, fitness, and conditioning: running, climbing, swimming, jumping, weightlifting, and physical endurance."
+id: physical-athletics
+name: Athletics
+type: physical
+subtype: fitness
+category: skills
+governing_attributes:
+  - Strength
+  - Stamina
+description: >-
+  General physical power, fitness, and conditioning: running, climbing,
+  swimming, jumping, weightlifting, and physical endurance.
 trained_only: false
 specialties:
-  - "Climbing (Ascending natural cliffs and sheer walls)"
-  - "Running (Sprinting, distance pacing)"
-  - "Swimming (Aquatic traversal and diving)"
-  - "Jumping (High jump, broad jump distance)"
-  - "Weightlifting (Power lifting, feats of brute force)"
+  - Climbing (Ascending natural cliffs and sheer walls)
+  - 'Running (Sprinting, distance pacing)'
+  - Swimming (Aquatic traversal and diving)
+  - 'Jumping (High jump, broad jump distance)'
+  - 'Weightlifting (Power lifting, feats of brute force)'
 synergy_links:
-  - "physical-acrobatics"
-  - "combat-unarmed"
+  - physical-acrobatics
+  - combat-unarmed
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Athletics

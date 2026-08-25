@@ -1,20 +1,56 @@
 ---
-id: "archetype-academic"
-name: "The Academic"
-sphere: "Savants (The Rationals)"
-category: "archetypes"
+id: archetype-academic
+name: The Academic
+sphere: Savants (The Rationals)
+category: archetypes
 bp_chassis: 80
-core_concept: "Intelligence / Utility / Crafter"
-primary_attribute: "Intellect"
-secondary_attribute: "Wisdom"
-recommended_occupations: ["Scholar","Specialist"]
-recommended_origins: ["Research","Enlightened","Urban"]
-recommended_factions: ["Ascendancy (Universities)","Entari Combine (Colleges)","Alterian Enclave"]
-essential_skills: ["Academics","Knowledge (Investigation)","Knowledge (Technology)","Knowledge (Science)"]
-signature_features: ["Scientific Method","Inquisitive Mind"]
-tactical_role: "Analyzing anomalies, solving environmental puzzles, crafting items."
-quote: "\"Hypothesis: This might explode. Experiment: Let's find out.\""
-description: "Conducts research to further knowledge. Systematically gathers evidence and tests hypotheses."
+core_concept: Intelligence / Utility / Crafter
+primary_attribute: Intellect
+secondary_attribute: Wisdom
+recommended_occupations:
+  - Scholar
+  - Specialist
+recommended_origins:
+  - Research
+  - Enlightened
+  - Urban
+recommended_factions:
+  - Ascendancy (Universities)
+  - Entari Combine (Colleges)
+  - Alterian Enclave
+essential_skills:
+  - Academics
+  - Knowledge (Investigation)
+  - Knowledge (Technology)
+  - Knowledge (Science)
+signature_features:
+  - Scientific Method
+  - Inquisitive Mind
+tactical_role: 'Analyzing anomalies, solving environmental puzzles, crafting items.'
+quote: '"Hypothesis: This might explode. Experiment: Let''s find out."'
+description: >-
+  Conducts research to further knowledge. Systematically gathers evidence and
+  tests hypotheses.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Academic

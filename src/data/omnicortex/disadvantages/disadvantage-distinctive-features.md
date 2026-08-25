@@ -1,10 +1,32 @@
 ---
-id: "disadvantage-distinctive-features"
-name: "Distinctive Features"
-category: "disadvantages"
-bp_granted: "3 / 6 / 9"
-hindrance_type: "Physical / Social"
-description: "Unmistakable physical marks, alien coloration, cybernetic glow, or monstrous traits that make blending in impossible."
+id: disadvantage-distinctive-features
+name: Distinctive Features
+category: disadvantages
+bp_granted: 3 / 6 / 9
+hindrance_type: Physical / Social
+description: >-
+  Unmistakable physical marks, alien coloration, cybernetic glow, or monstrous
+  traits that make blending in impossible.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Distinctive Features

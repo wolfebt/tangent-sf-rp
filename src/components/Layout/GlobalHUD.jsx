@@ -16,6 +16,7 @@ import {
 import { useAuth } from '../../context/AuthContext';
 import { useChat } from '../../context/ChatContext';
 import { useDBM } from '../../context/DBMContext';
+import { useFolio } from '../../context/FolioContext';
 import { AudioService } from '../../services/audioService';
 import { UserSettingsModal } from '../UserSettingsModal';
 import { ComprehensiveUserGuideModal } from '../UI/ComprehensiveUserGuideModal';
@@ -26,6 +27,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
   const { currentUser, userHandle, loginWithGoogle, confirmLogout, isAdmin, userRole, adminOverride, toggleAdminOverride } = useAuth();
   const { totalUnreadCount, toggleCommsDock } = useChat();
   const dbm = useDBM() || {};
+  const folio = useFolio() || {};
   const {
     history,
     historyIndex,
@@ -41,16 +43,28 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
     navigateToCategory
   } = dbm;
 
+  const {
+    characterData,
+    computeSpentCP,
+    cloudSaveStatus,
+    lastSavedTime,
+    handleSaveLocal,
+    handleExportAsStoryElement
+  } = folio;
+
   const isDBM = location.pathname.startsWith('/dbm');
+  const isFolio = location.pathname.startsWith('/folio') || location.pathname.startsWith('/roster');
   
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [guideInitialTab, setGuideInitialTab] = useState('hub');
   const [isAudioMuted, setIsAudioMuted] = useState(() => AudioService.muted);
   const [isDbmMenuOpen, setIsDbmMenuOpen] = useState(false);
+  const [isFolioMenuOpen, setIsFolioMenuOpen] = useState(false);
 
   const dbmMenuRef = useRef(null);
   const dbmFileInputRef = useRef(null);
+  const folioMenuRef = useRef(null);
 
   const getRouteGuideTab = () => {
     const path = location.pathname;
@@ -83,6 +97,9 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
     const handleClickOutside = (event) => {
       if (dbmMenuRef.current && !dbmMenuRef.current.contains(event.target)) {
         setIsDbmMenuOpen(false);
+      }
+      if (folioMenuRef.current && !folioMenuRef.current.contains(event.target)) {
+        setIsFolioMenuOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -189,8 +206,145 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
           </span>
         </div>
 
-        {/* Right Section: Omnicortex Controls + Comms, Dice, Audio, User Account */}
+        {/* Right Section: Omnicortex/Folio Controls + Comms, Dice, Audio, User Account */}
         <div className="flex items-center justify-end gap-1.5 sm:gap-2 shrink-0">
+          {/* Persona Folio Title Bar Controls */}
+          {isFolio && (
+            <div className="flex items-center gap-1.5 sm:gap-2 pr-1.5 sm:pr-2 border-r border-slate-800 shrink-0">
+              {/* Real-time CP Budget Bar */}
+              {(() => {
+                const startingCP = parseInt(characterData?.['starting-cp'] || 150, 10);
+                const spentCP = computeSpentCP ? computeSpentCP() : 0;
+                const remainingCP = startingCP - spentCP;
+                const percent = Math.min(100, Math.max(0, (spentCP / startingCP) * 100));
+                const isOver = spentCP > startingCP;
+
+                return (
+                  <div
+                    onClick={() => window.dispatchEvent(new CustomEvent('open-folio-economy'))}
+                    className={`cursor-pointer bg-slate-950 border rounded-lg px-2.5 py-1 flex flex-col min-w-[145px] sm:min-w-[160px] hover:border-cyan-400 transition-all ${
+                      isOver
+                        ? 'border-red-500 ring-2 ring-red-500/80 shadow-[0_0_15px_rgba(239,68,68,0.5)] animate-pulse'
+                        : 'border-cyan-500/50 shadow-[0_0_8px_rgba(34,211,238,0.15)]'
+                    }`}
+                    title="Click to view detailed CP Economy & Point Pools breakdown"
+                  >
+                    <div className="flex justify-between items-center text-[9px] font-bold uppercase font-mono">
+                      <span className="text-slate-400">CP BUDGET:</span>
+                      <span className={isOver ? 'text-red-400 font-bold' : 'text-amber-400'}>
+                        {spentCP} / {startingCP} CP
+                      </span>
+                    </div>
+                    <div className="w-full bg-slate-800 h-1 rounded-full overflow-hidden mt-0.5">
+                      <div
+                        className={`h-full transition-all duration-300 ${isOver ? 'bg-red-500' : 'bg-gradient-to-r from-cyan-500 to-amber-400'}`}
+                        style={{ width: `${percent}%` }}
+                      />
+                    </div>
+                    <span className={`text-[8px] text-right font-mono font-bold mt-0.5 ${isOver ? 'text-red-400' : 'text-slate-400'}`}>
+                      {isOver ? `OVER BUDGET (-${Math.abs(remainingCP)} CP)` : `${remainingCP} CP REMAINING`}
+                    </span>
+                  </div>
+                );
+              })()}
+
+              {/* Bastion AI Top Bar Access */}
+              <button
+                type="button"
+                onClick={() => window.dispatchEvent(new CustomEvent('toggle-folio-bastion'))}
+                className="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 shadow-[0_0_8px_rgba(34,211,238,0.2)] shrink-0"
+                title="Toggle BASTION AI (Rules assistant & character generator)"
+              >
+                <span>🤖</span>
+                <span className="hidden sm:inline">BASTION</span>
+              </button>
+
+              {/* Folio File Menu Dropdown */}
+              <div className="relative shrink-0" ref={folioMenuRef}>
+                <button
+                  type="button"
+                  onClick={() => setIsFolioMenuOpen(prev => !prev)}
+                  className="px-2.5 sm:px-3 py-1 sm:py-1.5 bg-[#161b22] hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 rounded-lg text-xs font-bold uppercase transition-colors flex items-center gap-1.5 shadow-sm"
+                  title="Folio System Tools & File Actions Menu"
+                >
+                  <span>File Menu</span>
+                  <span className="text-[10px] text-cyan-400">▼</span>
+                </button>
+
+                {isFolioMenuOpen && (
+                  <div
+                    className="absolute right-0 top-full mt-2 w-52 bg-[#161b22] border border-cyan-500/50 rounded-lg shadow-2xl p-1.5 z-50 text-xs flex flex-col gap-1 backdrop-blur-md"
+                    onClick={() => setIsFolioMenuOpen(false)}
+                  >
+                    <button
+                      onClick={() => window.dispatchEvent(new CustomEvent('open-folio-roster'))}
+                      className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-amber-300 uppercase font-bold rounded"
+                    >
+                      Character Roster
+                    </button>
+                    <button
+                      onClick={() => handleOpenGuide('folio')}
+                      className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-slate-200 uppercase font-bold rounded"
+                    >
+                      User Guide & Manual
+                    </button>
+                    <div className="border-t border-slate-800 my-0.5" />
+                    <button
+                      onClick={() => window.dispatchEvent(new CustomEvent('open-folio-new-character'))}
+                      className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-slate-200 uppercase font-bold rounded"
+                    >
+                      New Character (Manual)
+                    </button>
+                    <button
+                      onClick={() => window.dispatchEvent(new CustomEvent('open-folio-guided-creator'))}
+                      className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-cyan-300 uppercase font-bold rounded"
+                    >
+                      New Character (Guided)
+                    </button>
+                    <button
+                      onClick={() => window.dispatchEvent(new CustomEvent('open-folio-delete-character'))}
+                      className="w-full text-left px-3 py-1.5 hover:bg-red-950/80 text-red-400 uppercase font-bold rounded"
+                    >
+                      Delete Character
+                    </button>
+                    <button
+                      onClick={() => window.dispatchEvent(new CustomEvent('open-folio-clear-character'))}
+                      className="w-full text-left px-3 py-1.5 hover:bg-slate-800 text-slate-400 uppercase font-bold rounded"
+                    >
+                      Clear Sheet Data
+                    </button>
+                    <button
+                      onClick={() => window.dispatchEvent(new CustomEvent('open-folio-preview'))}
+                      className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-slate-200 uppercase font-bold rounded"
+                    >
+                      Preview Sheet
+                    </button>
+                    <div className="border-t border-slate-800 my-0.5" />
+                    <button
+                      onClick={handleSaveLocal}
+                      className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-amber-300 uppercase font-bold rounded"
+                    >
+                      Save to File (.json)
+                    </button>
+                    <button
+                      onClick={() => window.dispatchEvent(new CustomEvent('trigger-folio-load-local'))}
+                      className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-amber-300 uppercase font-bold rounded"
+                    >
+                      Load File / Story Element
+                    </button>
+                    <button
+                      onClick={handleExportAsStoryElement}
+                      className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-cyan-300 uppercase font-bold rounded flex items-center justify-between"
+                    >
+                      <span>Export Story Element</span>
+                      <span className="text-[10px] text-cyan-400 font-mono">Foundry</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
           {/* Omnicortex-specific Title Bar Controls */}
           {isDBM && (
             <div className="flex items-center gap-1.5 sm:gap-2 pr-1.5 sm:pr-2 border-r border-slate-800 shrink-0">
@@ -418,7 +572,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
             {isAudioMuted ? <VolumeX size={17} /> : <Volume2 size={17} />}
           </button>
 
-          {/* User Account Menu */}
+          {/* User Account Menu with Functional Cloud Sync Status */}
           {currentUser ? (
             <div className="flex items-center gap-1.5 pl-1.5 border-l border-slate-800">
               <button
@@ -427,18 +581,36 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                   AudioService.playTerminalBeep(1000, 0.02);
                   setIsSettingsOpen(true);
                 }}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs font-mono transition-colors shadow-sm"
-                title="Account & System Settings"
+                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs font-mono transition-colors shadow-sm cursor-pointer group"
+                title={
+                  cloudSaveStatus === 'saving'
+                    ? 'Cloud Sync: Saving to Cloud...'
+                    : cloudSaveStatus === 'saved'
+                    ? lastSavedTime ? `Cloud Synced at ${lastSavedTime.toLocaleTimeString()}` : 'Cloud Synced'
+                    : cloudSaveStatus === 'error'
+                    ? 'Cloud Sync Failed (Click to open Settings)'
+                    : 'Local Storage Mode (Click to open Settings)'
+                }
               >
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span className="max-w-[120px] truncate text-cyan-300 font-bold">{displayIdentity}</span>
-                <Settings size={14} className="text-slate-400 ml-0.5" />
+                <span
+                  className={`w-2 h-2 rounded-full shrink-0 ${
+                    cloudSaveStatus === 'saving'
+                      ? 'bg-amber-400 animate-ping'
+                      : cloudSaveStatus === 'saved'
+                      ? 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]'
+                      : cloudSaveStatus === 'error'
+                      ? 'bg-red-500 shadow-[0_0_6px_rgba(239,68,68,0.8)] animate-pulse'
+                      : 'bg-slate-500'
+                  }`}
+                />
+                <span className="max-w-[120px] truncate text-cyan-300 font-bold group-hover:text-cyan-200">{displayIdentity}</span>
+                <Settings size={14} className="text-slate-400 ml-0.5 group-hover:text-slate-200" />
               </button>
 
               <button
                 type="button"
                 onClick={() => confirmLogout(navigate)}
-                className="p-1.5 rounded-lg hover:bg-red-500/20 text-slate-400 hover:text-red-400 transition-colors"
+                className="p-1.5 rounded-lg hover:bg-red-500/20 text-slate-400 hover:text-red-400 transition-colors cursor-pointer"
                 title="Logout"
               >
                 <LogOut size={16} />

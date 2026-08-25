@@ -1,9 +1,31 @@
 ---
-id: "template-artificial-life"
-name: "Artificial Life Network"
-category: "factions"
-faction_type: "Generic Template"
-description: "Liberated synthetic droids, android collectives, and awakened AI units seeking civil rights and self-governance."
+id: template-artificial-life
+name: Artificial Life Network
+category: factions
+faction_type: Generic Template
+description: >-
+  Liberated synthetic droids, android collectives, and awakened AI units seeking
+  civil rights and self-governance.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Artificial Life Network (Generic Faction Template)

@@ -1,20 +1,53 @@
 ---
-id: "archetype-architect"
-name: "The Architect"
-sphere: "Savants (The Rationals)"
-category: "archetypes"
+id: archetype-architect
+name: The Architect
+sphere: Savants (The Rationals)
+category: archetypes
 bp_chassis: 80
-core_concept: "Builder / Support / Utility"
-primary_attribute: "Intellect"
-secondary_attribute: "Wisdom"
-recommended_occupations: ["Builder","Scholar"]
-recommended_origins: ["Urban","Industrial","Colony"]
-recommended_factions: ["Syndicate (Arcologies)","Dynasty (Fortresses)","Mekan (Megastructures)"]
-essential_skills: ["Knowledge (Architecture)","Knowledge (Technology)","Vocation (Engineer)"]
-signature_features: ["Macro-Engineering","Coordination"]
-tactical_role: "Designing bases, identifying structural weaknesses, overseeing construction."
-quote: "\"Form follows function, but strength is non-negotiable.\""
-description: "Skilled in the design and upkeep of infrastructure."
+core_concept: Builder / Support / Utility
+primary_attribute: Intellect
+secondary_attribute: Wisdom
+recommended_occupations:
+  - Builder
+  - Scholar
+recommended_origins:
+  - Urban
+  - Industrial
+  - Colony
+recommended_factions:
+  - Syndicate (Arcologies)
+  - Dynasty (Fortresses)
+  - Mekan (Megastructures)
+essential_skills:
+  - Knowledge (Architecture)
+  - Knowledge (Technology)
+  - Vocation (Engineer)
+signature_features:
+  - Macro-Engineering
+  - Coordination
+tactical_role: 'Designing bases, identifying structural weaknesses, overseeing construction.'
+quote: '"Form follows function, but strength is non-negotiable."'
+description: Skilled in the design and upkeep of infrastructure.
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Architect

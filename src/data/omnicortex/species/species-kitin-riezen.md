@@ -10,41 +10,98 @@ size:
   - species_size-large
 movement:
   - species_movement-bipedal
-inherent_attribute_modifiers:
-  - attribute: Agility
-    bonus: 2
-bonus_attribute_points: 0
-specific_skill_bonuses:
-  - skill: Perception
-    bonus: 2
-bonus_skills: 0
-bonus_skill_choices:
-  - Perception
-  - Intimidation
-  - Combat
-inherent_features:
-  - Kitin Base Traits
-  - Blindsight (60ft)
-  - Exoskeleton (DR 4/-)
-  - Fast Healing / Regeneration
-  - Telepathic Hive Node
-  - Swarm Entity (Resistant to Single-Target Attacks)
-bonus_features: 2
-bonus_feature_choices:
-  - Swarm Split
-  - Devouring Cloud
-  - Bio-Electric Shock
-recommended_features:
-  - feature-swarm-split
 stigma: 'Monstrous (-4), Xeno (-2)'
 tech_level: 3 (Swarm Bio-Mass)
 meta_level: 4 (Collective Psionic Core)
 homeworld: Kitin Deep Nests
-cp_cost: 31
 cp: 31
 description: >-
   Riezen are colossal aggregate swarm entities composed of millions of
   synchronized micro-arthropods behaving as a unified conscious giant.
+costs:
+  bp: 31
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers:
+  - target: Agility
+    type: attribute
+    value: 2
+    mode: inherent
+  - target: Perception
+    type: skill
+    value: 2
+    mode: inherent
+  - target: Perception
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Intimidation
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Combat
+    type: skill
+    value: 1
+    mode: choice_pool
+  - target: Kitin Base Traits
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Blindsight (60ft)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Exoskeleton (DR 4/-)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Fast Healing / Regeneration
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Telepathic Hive Node
+    type: feature
+    value: 1
+    mode: inherent
+  - target: Swarm Entity (Resistant to Single-Target Attacks)
+    type: feature
+    value: 1
+    mode: inherent
+  - target: General Feature Pool
+    type: feature
+    value: 2
+    mode: bonus_pool
+  - target: Swarm Split
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Devouring Cloud
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: Bio-Electric Shock
+    type: feature
+    value: 1
+    mode: choice_pool
+  - target: feature-swarm-split
+    type: feature
+    value: 1
+    mode: recommended
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 # Riezen (Kitin Swarm Colossus)
 

@@ -1,8 +1,28 @@
 ---
-id: "rule-hit-location-legs"
-name: "Hit Location: Legs (-2 to -3)"
-category: "rules"
-description: "Might save or Hobbled (1/2 speed); fail by 10+ = Crippled leg."
+id: rule-hit-location-legs
+name: 'Hit Location: Legs (-2 to -3)'
+category: rules
+description: Might save or Hobbled (1/2 speed); fail by 10+ = Crippled leg.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Hit Location: Legs (-2 to -3)

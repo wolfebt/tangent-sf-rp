@@ -1,20 +1,54 @@
 ---
-id: "archetype-xenologist"
-name: "The Xenologist"
-sphere: "Savants (The Rationals)"
-category: "archetypes"
+id: archetype-xenologist
+name: The Xenologist
+sphere: Savants (The Rationals)
+category: archetypes
 bp_chassis: 80
-core_concept: "Face / Knowledge / Science"
-primary_attribute: "Intellect"
-secondary_attribute: "Charisma"
-recommended_occupations: ["Scholar","Diplomat"]
-recommended_origins: ["Research","Spacer","Enlightened"]
-recommended_factions: ["Entari Combine (First Contact)","Alterian Enclave","Ascendancy"]
-essential_skills: ["Knowledge (Xenology)","Diplomacy","Insight","Linguistics"]
-signature_features: ["Cultural Sensitivity","Xeno-Linguist"]
-tactical_role: "Communicating with aliens, identifying xeno-threats, cultural navigation."
-quote: "\"They aren't monsters. They're just... different.\""
-description: "An expert in alien cultures, biology, and languages."
+core_concept: Face / Knowledge / Science
+primary_attribute: Intellect
+secondary_attribute: Charisma
+recommended_occupations:
+  - Scholar
+  - Diplomat
+recommended_origins:
+  - Research
+  - Spacer
+  - Enlightened
+recommended_factions:
+  - Entari Combine (First Contact)
+  - Alterian Enclave
+  - Ascendancy
+essential_skills:
+  - Knowledge (Xenology)
+  - Diplomacy
+  - Insight
+  - Linguistics
+signature_features:
+  - Cultural Sensitivity
+  - Xeno-Linguist
+tactical_role: 'Communicating with aliens, identifying xeno-threats, cultural navigation.'
+quote: '"They aren''t monsters. They''re just... different."'
+description: 'An expert in alien cultures, biology, and languages.'
+costs:
+  bp: 80
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # The Xenologist

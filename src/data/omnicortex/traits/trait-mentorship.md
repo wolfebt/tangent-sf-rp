@@ -1,11 +1,32 @@
 ---
-id: "trait-mentorship"
-name: "Mentorship"
-category: "traits"
-trait_type: "Origin Trait"
-origin_association: "Enlightened"
-cost_cp: 1
-description: "Patient pedagogical wisdom that accelerates the learning and focus of pupils and companions."
+id: trait-mentorship
+name: Mentorship
+category: traits
+trait_type: Origin Trait
+origin_association: Enlightened
+description: >-
+  Patient pedagogical wisdom that accelerates the learning and focus of pupils
+  and companions.
+costs:
+  bp: 1
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Mentorship

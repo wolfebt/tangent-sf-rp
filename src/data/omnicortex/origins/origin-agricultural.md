@@ -1,12 +1,54 @@
 ---
-id: "origin-agricultural"
-name: "Agricultural"
-category: "origins"
+id: origin-agricultural
+name: Agricultural
+category: origins
 skill_points: 20
-society_skills: ["Piloting","Alertness","Knowledge (Nature)","Knowledge (Survival)","Knowledge (Technology)","Vocation (Any)"]
-archetypes: ["Farmer","Hunter","Preservationist","Agri-Pilot","Technician","Community Leader"]
-traits: ["trait-animal-husbandry","trait-botanical-knowledge","trait-community-building","trait-green-thumb","trait-mechanical-aptitude","trait-resourcefulness","trait-survival-skills","trait-sustainable-practices"]
-description: "Agri-Worlds and farming arcologies dedicated to mass food production, preservation biospheres, and self-sustaining rural communities."
+society_skills:
+  - Piloting
+  - Alertness
+  - Knowledge (Nature)
+  - Knowledge (Survival)
+  - Knowledge (Technology)
+  - Vocation (Any)
+archetypes:
+  - Farmer
+  - Hunter
+  - Preservationist
+  - Agri-Pilot
+  - Technician
+  - Community Leader
+traits:
+  - trait-animal-husbandry
+  - trait-botanical-knowledge
+  - trait-community-building
+  - trait-green-thumb
+  - trait-mechanical-aptitude
+  - trait-resourcefulness
+  - trait-survival-skills
+  - trait-sustainable-practices
+description: >-
+  Agri-Worlds and farming arcologies dedicated to mass food production,
+  preservation biospheres, and self-sustaining rural communities.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Agricultural Origin

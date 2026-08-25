@@ -1,9 +1,31 @@
 ---
-id: "template-space-tourism"
-name: "Space Tourism Conglomerate"
-category: "factions"
-faction_type: "Generic Template"
-description: "Luxury orbital liner operators, pleasure casino chains, and zero-g theme resort management."
+id: template-space-tourism
+name: Space Tourism Conglomerate
+category: factions
+faction_type: Generic Template
+description: >-
+  Luxury orbital liner operators, pleasure casino chains, and zero-g theme
+  resort management.
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
 
 # Space Tourism Conglomerate (Generic Faction Template)

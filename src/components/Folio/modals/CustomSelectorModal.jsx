@@ -5,6 +5,7 @@ import { collection, getDocs, onSnapshot } from 'firebase/firestore';
 import { DEFAULT_SKILLS } from '../../../data/skillsData';
 import { DEFAULT_FEATURES } from '../../../data/featuresData';
 import { DEFAULT_ARCHETYPES } from '../../../data/archetypesData';
+import { DEFAULT_SPECIES } from '../../../data/speciesData';
 
 // Flatten canonical skills for browsing
 const ALL_DEFAULT_SKILLS = Object.values(DEFAULT_SKILLS).flatMap(groups =>
@@ -18,7 +19,7 @@ const ALL_DEFAULT_SKILLS = Object.values(DEFAULT_SKILLS).flatMap(groups =>
 // Clean fallback schema defaults
 const FALLBACK_DATA = {
   archetypes: DEFAULT_ARCHETYPES,
-  species: [],
+  species: DEFAULT_SPECIES,
   occupations: [],
   origins: [],
   factions: [],
