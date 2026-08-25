@@ -14,7 +14,8 @@ import { UserSettingsModal } from '../components/UserSettingsModal';
 import { 
   Database, Users, Map, Key, Shield,
   BookOpen, Sparkles, Layers, Dices, Volume2, VolumeX, Settings, LogOut,
-  Menu, X, ChevronRight, Activity, ShieldAlert
+  Menu, X, ChevronRight, ChevronLeft, Activity, ShieldAlert,
+  PanelLeftClose, PanelLeftOpen, PanelRightClose, PanelRightOpen
 } from 'lucide-react';
 import { AudioService } from '../services/audioService';
 
@@ -52,11 +53,15 @@ const Home = () => {
     }
   }, []);
 
-  // Active Center View Drawer state: null | 'persona-folio' | 'game-groups' | 'foundry-scenarios' | 'foundry-elements' | 'foundry-maps' | 'foundry-aime' | 'overview'
+  // Active Center View Drawer state: null | 'persona-folio' | 'persona-sheet' | 'omnicortex' | 'codex' | 'game-groups' | 'foundry-scenarios' | 'foundry-elements' | 'foundry-maps' | 'foundry-aime' | 'overview'
   const [activeDrawer, setActiveDrawer] = useState(null);
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isAudioMuted, setIsAudioMuted] = useState(() => AudioService.muted);
+
+  // Left & Right Collapsible Column Drawers (Open by default)
+  const [isLeftCollapsed, setIsLeftCollapsed] = useState(false);
+  const [isRightCollapsed, setIsRightCollapsed] = useState(false);
 
   // Live Metrics
   const heroCount = (personaRoster || roster || []).length;
@@ -106,11 +111,57 @@ const Home = () => {
         theme="cyan"
         frequency={1200}
         compact={isCompact}
-        isActive={activeDrawer === 'persona-folio'}
+        isActive={activeDrawer === 'persona-folio' || activeDrawer === 'persona-sheet'}
         onClick={() => handleSelectDrawer('persona-folio')}
       />
 
-      {/* 2. STORY FOUNDRY with 4 Sub-Options */}
+      {/* 2. COMPENDIUM & MATRICES (OMNICORTEX & CODEX) */}
+      <div className="rounded-xl border-2 border-slate-700/80 bg-slate-950/20 hover:bg-slate-950/80 hover:shadow-[0_0_24px_rgba(52,211,153,0.25)] backdrop-blur-md p-2 space-y-1.5 relative transition-all duration-200">
+        {/* Frame Header Accent */}
+        <div className="flex items-center justify-between px-1 pb-1 border-b border-slate-800/70">
+          <div className="flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+            <span className="text-[9px] font-mono font-bold tracking-widest text-slate-400 uppercase">
+              COMPENDIUM & MATRICES
+            </span>
+          </div>
+          <span className="text-[8px] font-mono text-slate-500 uppercase">
+            ARCHIVE
+          </span>
+        </div>
+
+        {/* OMNICORTEX */}
+        <ModuleLauncherCard
+          title="OMNICORTEX"
+          subtitle="Rules & DBM"
+          description="Database manager for species, cyberware, disciplines, and rules."
+          badge={dbmTotalItems > 0 ? `${dbmTotalItems.toLocaleString()} Entries` : 'Active Codex'}
+          icon={Database}
+          theme="emerald"
+          frequency={1050}
+          compact={isCompact}
+          small={true}
+          isActive={activeDrawer === 'omnicortex' || activeDrawer === 'dbm'}
+          onClick={() => handleSelectDrawer('omnicortex')}
+        />
+
+        {/* CODEX */}
+        <ModuleLauncherCard
+          title="CODEX"
+          subtitle="Matrix Suite"
+          description="Development tools across 14 matrices to create and commit rules."
+          badge="14 Matrices"
+          icon={BookOpen}
+          theme="amber"
+          frequency={1400}
+          compact={isCompact}
+          small={true}
+          isActive={activeDrawer === 'codex'}
+          onClick={() => handleSelectDrawer('codex')}
+        />
+      </div>
+
+      {/* 3. STORY FOUNDRY with 4 Sub-Options */}
       <ModuleLauncherCard
         title="STORY FOUNDRY"
         subtitle="Campaigns & World Engine"
@@ -120,7 +171,7 @@ const Home = () => {
         theme="purple"
         frequency={1350}
         compact={isCompact}
-        isActive={['foundry-scenarios', 'foundry-elements', 'foundry-maps', 'foundry-aime'].includes(activeDrawer)}
+        isActive={['foundry-scenarios', 'foundry-elements', 'foundry-maps', 'foundry-aime', 'foundry-scenarios-workspace', 'foundry-elements-workspace', 'foundry-maps-workspace', 'foundry-aime-workspace'].includes(activeDrawer)}
         onClick={handleSelectFoundry}
         activeSubOptionId={activeDrawer}
         subOptions={[
@@ -154,60 +205,6 @@ const Home = () => {
           }
         ]}
       />
-
-      {/* 3 & 4. RULES & MATRICES COMPILATION FRAME */}
-      <div className="rounded-xl border border-slate-800/90 bg-slate-950/40 backdrop-blur-md p-2 space-y-1.5 relative shadow-[0_0_20px_rgba(0,0,0,0.5)]">
-        {/* Frame Header Accent */}
-        <div className="flex items-center justify-between px-1 pb-1 border-b border-slate-800/70">
-          <div className="flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-            <span className="text-[9px] font-mono font-bold tracking-widest text-slate-400 uppercase">
-              COMPENDIUM & MATRICES
-            </span>
-          </div>
-          <span className="text-[8px] font-mono text-slate-500 uppercase">
-            ARCHIVE
-          </span>
-        </div>
-
-        {/* 3. OMNICORTEX */}
-        <ModuleLauncherCard
-          title="OMNICORTEX"
-          subtitle="Rules & DBM"
-          description="Database manager for species, cyberware, disciplines, and rules."
-          badge={dbmTotalItems > 0 ? `${dbmTotalItems.toLocaleString()} Entries` : 'Active Codex'}
-          icon={Database}
-          path="/dbm"
-          theme="emerald"
-          frequency={1050}
-          compact={isCompact}
-          small={true}
-          onClick={() => {
-            if (isMobile) setIsMobileDrawerOpen(false);
-            AudioService.playTerminalBeep(1050, 0.03);
-            navigate('/dbm');
-          }}
-        />
-
-        {/* 4. CODEX */}
-        <ModuleLauncherCard
-          title="CODEX"
-          subtitle="Matrix Suite"
-          description="Development tools across 14 matrices to create and commit rules."
-          badge="14 Matrices"
-          icon={BookOpen}
-          path="/codex"
-          theme="amber"
-          frequency={1400}
-          compact={isCompact}
-          small={true}
-          onClick={() => {
-            if (isMobile) setIsMobileDrawerOpen(false);
-            AudioService.playTerminalBeep(1400, 0.03);
-            navigate('/codex');
-          }}
-        />
-      </div>
     </div>
   );
 
@@ -315,8 +312,8 @@ const Home = () => {
         </div>
       )}
 
-      {/* Dark Overlay Gradient */}
-      <div className="min-h-full w-full bg-gradient-to-b from-[#0d1117]/85 via-[#0d1117]/65 to-[#0d1117]/90 backdrop-blur-[1px] p-3 sm:p-4 lg:p-5 flex flex-col justify-between">
+      {/* Transparent Page Container */}
+      <div className="min-h-full w-full bg-transparent p-3 sm:p-4 lg:p-5 flex flex-col justify-between">
         <div className="w-full space-y-3 sm:space-y-4 px-1 sm:px-2 lg:px-4">
           
           {/* Mobile View Header & Action Bar */}
@@ -357,21 +354,60 @@ const Home = () => {
             </div>
           )}
 
-          {/* Desktop 3-Column Layout: Left ~20%, Center ~60%, Right ~20% */}
+          {/* Desktop 3-Column Layout with Collapsible Side Drawers */}
           {!isMobile ? (
-            <div className="flex flex-col lg:flex-row justify-between items-start gap-4 xl:gap-6 2xl:gap-8 w-full pt-1">
+            <div className="flex flex-row justify-between items-start gap-3 xl:gap-5 w-full pt-1 relative">
               
-              {/* Left Column (approx 20% width): Vertical Navigation Stack */}
-              <div 
-                className="w-full lg:w-[22%] xl:w-[20%] min-w-[280px] max-w-[380px] 2xl:max-w-[420px] space-y-2.5 flex flex-col shrink-0" 
-                onClick={(e) => e.stopPropagation()}
-              >
-                {renderModuleCards(false)}
-              </div>
+              {/* Left Floating Slide-out Trigger Tab (When Left Column is Collapsed) */}
+              {isLeftCollapsed && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    AudioService.playTerminalBeep(1100, 0.03);
+                    setIsLeftCollapsed(false);
+                  }}
+                  className="fixed left-2 top-1/2 -translate-y-1/2 z-40 px-2 py-4 bg-slate-950/90 hover:bg-slate-900 border-2 border-cyan-500/70 text-cyan-300 rounded-r-xl shadow-[0_0_20px_rgba(34,211,238,0.35)] flex flex-col items-center gap-2 transition-all group backdrop-blur-md"
+                  title="Expand Left Modules Drawer"
+                >
+                  <PanelLeftOpen size={16} className="text-cyan-400 group-hover:scale-110 transition-transform" />
+                  <span className="text-[9px] font-mono font-bold uppercase [writing-mode:vertical-lr] tracking-widest text-slate-300 group-hover:text-cyan-200">
+                    MODULES
+                  </span>
+                </button>
+              )}
 
-              {/* Center Column (approx 60% width): Dynamic Open View Area / In-Page Drawers */}
+              {/* Left Column (Vertical Navigation Stack) */}
+              {!isLeftCollapsed && (
+                <div 
+                  className="w-[22%] xl:w-[20%] min-w-[280px] max-w-[380px] 2xl:max-w-[420px] space-y-2 flex flex-col shrink-0 animate-fadeIn" 
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {/* Left Column Collapse Header Control */}
+                  <div className="flex items-center justify-between px-2.5 py-1 bg-slate-900/20 hover:bg-slate-900/80 border-2 border-cyan-500/60 rounded-xl backdrop-blur-md transition-all duration-200">
+                    <span className="text-[10px] font-mono font-bold text-cyan-300 uppercase tracking-wide">
+                      SYSTEM MODULES
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        AudioService.playTerminalBeep(900, 0.02);
+                        setIsLeftCollapsed(true);
+                      }}
+                      className="p-1 rounded-md text-slate-400 hover:text-cyan-300 hover:bg-slate-800/80 transition-colors"
+                      title="Collapse Left Drawer"
+                    >
+                      <PanelLeftClose size={14} />
+                    </button>
+                  </div>
+
+                  {renderModuleCards(false)}
+                </div>
+              )}
+
+              {/* Center Column: Dynamic Open View Area / In-Page Drawers */}
               <div 
-                className="w-full lg:flex-1 min-w-0 min-h-[540px] flex flex-col self-stretch"
+                className="flex-1 min-w-0 min-h-[560px] flex flex-col self-stretch transition-all duration-200"
                 onClick={(e) => e.stopPropagation()}
               >
                 <LandingDrawerArea
@@ -381,19 +417,58 @@ const Home = () => {
                 />
               </div>
 
-              {/* Right Column (approx 20% width): Campaign Ops + Game Squads + Comm Center */}
-              <div 
-                className="w-full lg:w-[22%] xl:w-[20%] min-w-[280px] max-w-[380px] 2xl:max-w-[420px] space-y-2.5 flex flex-col shrink-0" 
-                onClick={(e) => e.stopPropagation()}
-              >
-                <CampaignOpsWidget onShowOverview={() => handleSelectDrawer('overview')} />
-                <GameSquadsWidget onOpenSquadsDrawer={() => handleSelectDrawer('game-groups')} />
-                <CommCenterWidget 
-                  onOpenCommsDrawer={() => handleSelectDrawer('comms')}
-                  onOpenSquadsDrawer={() => handleSelectDrawer('game-groups')}
-                  onOpenCampaignOps={() => handleSelectDrawer('overview')}
-                />
-              </div>
+              {/* Right Column (Campaign Ops + Game Squads + Comm Center) */}
+              {!isRightCollapsed && (
+                <div 
+                  className="w-[22%] xl:w-[20%] min-w-[280px] max-w-[380px] 2xl:max-w-[420px] space-y-2.5 flex flex-col shrink-0 animate-fadeIn" 
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {/* Right Column Collapse Header Control */}
+                  <div className="flex items-center justify-between px-2.5 py-1 bg-slate-900/20 hover:bg-slate-900/80 border-2 border-cyan-500/60 rounded-xl backdrop-blur-md transition-all duration-200">
+                    <span className="text-[10px] font-mono font-bold text-cyan-300 uppercase tracking-wide">
+                      OPERATIONS & SQUADS
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        AudioService.playTerminalBeep(900, 0.02);
+                        setIsRightCollapsed(true);
+                      }}
+                      className="p-1 rounded-md text-slate-400 hover:text-cyan-300 hover:bg-slate-800/80 transition-colors"
+                      title="Collapse Right Drawer"
+                    >
+                      <PanelRightClose size={14} />
+                    </button>
+                  </div>
+
+                  <CampaignOpsWidget onShowOverview={() => handleSelectDrawer('overview')} />
+                  <GameSquadsWidget onOpenSquadsDrawer={() => handleSelectDrawer('game-groups')} />
+                  <CommCenterWidget 
+                    onOpenCommsDrawer={() => handleSelectDrawer('comms')}
+                    onOpenSquadsDrawer={() => handleSelectDrawer('game-groups')}
+                    onOpenCampaignOps={() => handleSelectDrawer('overview')}
+                  />
+                </div>
+              )}
+
+              {/* Right Floating Slide-out Trigger Tab (When Right Column is Collapsed) */}
+              {isRightCollapsed && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    AudioService.playTerminalBeep(1100, 0.03);
+                    setIsRightCollapsed(false);
+                  }}
+                  className="fixed right-2 top-1/2 -translate-y-1/2 z-40 px-2 py-4 bg-slate-950/90 hover:bg-slate-900 border-2 border-cyan-500/70 text-cyan-300 rounded-l-xl shadow-[0_0_20px_rgba(34,211,238,0.35)] flex flex-col items-center gap-2 transition-all group backdrop-blur-md"
+                  title="Expand Right Operations Drawer"
+                >
+                  <PanelRightOpen size={16} className="text-cyan-400 group-hover:scale-110 transition-transform" />
+                  <span className="text-[9px] font-mono font-bold uppercase [writing-mode:vertical-lr] tracking-widest text-slate-300 group-hover:text-cyan-200">
+                    OPERATIONS
+                  </span>
+                </button>
+              )}
 
             </div>
           ) : (

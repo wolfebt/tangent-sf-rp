@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStory } from '../../../context/CampaignContext';
 import { AudioService } from '../../../services/audioService';
-import { BookOpen, X, Plus, Search, Layers, Map, Trash2, ChevronRight } from 'lucide-react';
+import { BookOpen, X, Plus, Search, Layers, Map, Trash2, ChevronRight, ArrowUpRight } from 'lucide-react';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 
-export const ScenariosDrawer = ({ onClose }) => {
+export const ScenariosDrawer = ({ onClose, onOpenDrawer }) => {
   const navigate = useNavigate();
   const {
     universeState,
@@ -28,10 +28,20 @@ export const ScenariosDrawer = ({ onClose }) => {
     return (s.projectName || '').toLowerCase().includes(q) || (s.description || '').toLowerCase().includes(q);
   });
 
+  const handleOpenScenarioProject = (storyId) => {
+    AudioService.playTerminalBeep(1200, 0.03);
+    openStory(storyId);
+    if (onOpenDrawer) {
+      onOpenDrawer('foundry-scenarios-workspace');
+    } else {
+      navigate(`/foundry/story?storyId=${storyId}`);
+    }
+  };
+
   return (
-    <div className="flex flex-col h-full space-y-4 select-none">
+    <div className="flex flex-col h-full space-y-3.5 select-none">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-2.5 border-b border-slate-800 shrink-0">
         <div>
           <div className="flex items-center gap-2">
             <span className="px-2 py-0.5 rounded bg-purple-500/10 border border-purple-500/30 text-[10px] font-mono text-purple-400 font-bold uppercase">
@@ -40,7 +50,7 @@ export const ScenariosDrawer = ({ onClose }) => {
             <span className="text-slate-600 font-mono">•</span>
             <span className="text-slate-400 font-mono text-xs">SCENARIOS & CAMPAIGNS</span>
           </div>
-          <h2 className="text-lg sm:text-xl font-bold text-white font-mono uppercase tracking-wide mt-0.5">
+          <h2 className="text-base sm:text-lg font-bold text-white font-mono uppercase tracking-wide mt-0.5">
             Story Scenarios Catalog
           </h2>
         </div>
@@ -50,23 +60,39 @@ export const ScenariosDrawer = ({ onClose }) => {
             onClick={() => {
               AudioService.playTerminalBeep(1300, 0.03);
               createNewStory();
-              navigate('/foundry/story');
+              if (onOpenDrawer) onOpenDrawer('foundry-scenarios-workspace');
+              else navigate('/foundry/story');
             }}
             className="px-3 py-1.5 bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-white rounded-lg text-xs font-mono font-bold uppercase shadow transition-all flex items-center gap-1.5"
           >
             <Plus size={14} /> New Campaign
           </button>
+
           <button
-            onClick={onClose}
-            className="p-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors"
+            onClick={() => {
+              AudioService.playTerminalBeep(1200, 0.02);
+              navigate('/foundry/story');
+            }}
+            className="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-purple-300 border border-slate-700 rounded-lg text-xs font-mono font-bold uppercase transition-colors hidden sm:flex items-center gap-1"
+            title="Open Full Browser View (/foundry/story)"
           >
-            <X size={16} />
+            <ArrowUpRight size={13} />
+            <span>FULL BROWSER</span>
           </button>
+
+          {onClose && (
+            <button
+              onClick={onClose}
+              className="p-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors"
+            >
+              <X size={16} />
+            </button>
+          )}
         </div>
       </div>
 
       {/* Filters */}
-      <div className="flex flex-wrap items-center justify-between gap-2">
+      <div className="flex flex-wrap items-center justify-between gap-2 shrink-0">
         <div className="flex items-center gap-1.5">
           <button
             onClick={() => {
@@ -113,8 +139,8 @@ export const ScenariosDrawer = ({ onClose }) => {
         </div>
       </div>
 
-      {/* Stories List */}
-      <div className="flex-1 overflow-y-auto pr-1 space-y-3 max-h-[calc(100vh-340px)]">
+      {/* Stories Vertical Stacked Gem-Like List */}
+      <div className="flex-1 overflow-y-auto pr-1 space-y-1.5 max-h-[calc(100vh-320px)]">
         {isFetchingPublic ? (
           <div className="p-10 text-center border border-dashed border-amber-500/30 rounded-xl bg-slate-950/40">
             <span className="text-2xl block mb-2 animate-bounce">🌐</span>
@@ -153,7 +179,8 @@ export const ScenariosDrawer = ({ onClose }) => {
               <button
                 onClick={() => {
                   createNewStory();
-                  navigate('/foundry/story');
+                  if (onOpenDrawer) onOpenDrawer('foundry-scenarios-workspace');
+                  else navigate('/foundry/story');
                 }}
                 className="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-white font-mono text-xs font-bold uppercase rounded-lg shadow inline-flex items-center gap-1.5"
               >
@@ -162,7 +189,7 @@ export const ScenariosDrawer = ({ onClose }) => {
             </div>
           )
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="space-y-1.5">
             {filteredStories.map(story => {
               const isCurrent = story.id === universeState?.id;
               const scenarioCount = story.scenarios?.length || 0;
@@ -171,44 +198,51 @@ export const ScenariosDrawer = ({ onClose }) => {
               return (
                 <div
                   key={story.id}
-                  onClick={() => {
-                    AudioService.playTerminalBeep(1200, 0.03);
-                    openStory(story.id);
-                    navigate(`/foundry/story?storyId=${story.id}`);
-                  }}
-                  className={`p-3.5 rounded-xl border flex flex-col justify-between transition-all cursor-pointer ${
+                  onClick={() => handleOpenScenarioProject(story.id)}
+                  className={`px-3 py-2 rounded-xl border flex items-center justify-between gap-3 transition-all cursor-pointer group ${
                     isCurrent
-                      ? 'bg-purple-950/40 border-purple-500 shadow-[0_0_15px_rgba(168,85,247,0.2)]'
-                      : 'bg-slate-950/80 border-slate-800/90 hover:border-purple-500/60 hover:bg-slate-900/60'
+                      ? 'bg-purple-950/40 border-purple-500 shadow-[0_0_15px_rgba(168,85,247,0.25)]'
+                      : 'bg-slate-950/60 border-slate-800/90 hover:border-purple-500/60 hover:bg-slate-900/60'
                   }`}
                 >
-                  <div>
-                    <div className="flex items-start justify-between gap-2 mb-1.5">
-                      <h4 className="text-sm font-bold text-white font-mono uppercase truncate">
-                        {story.projectName || 'Untitled Story'}
-                      </h4>
-                      {isCurrent && (
-                        <span className="px-1.5 py-0.2 bg-purple-500/20 text-purple-300 border border-purple-400/50 rounded text-[9px] font-mono font-bold uppercase">
-                          LOADED
-                        </span>
-                      )}
+                  {/* Left: Gem Pill & Project Info */}
+                  <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                    <div className="w-8 h-8 rounded-lg bg-purple-950/90 border border-purple-500/50 flex items-center justify-center font-mono font-bold text-xs text-purple-300 shadow-[0_0_8px_rgba(168,85,247,0.2)] shrink-0">
+                      <BookOpen size={15} />
                     </div>
-                    <p className="text-xs text-slate-400 font-sans line-clamp-2 leading-relaxed">
-                      {story.description || 'Campaign universe outline and tactical story branches.'}
-                    </p>
 
-                    <div className="flex items-center gap-3 text-[11px] font-mono text-slate-400 mt-3 pt-2 border-t border-slate-800/60">
-                      <span className="flex items-center gap-1 text-cyan-300">
-                        <Layers size={12} /> {scenarioCount} {scenarioCount === 1 ? 'Node' : 'Nodes'}
-                      </span>
-                      <span>•</span>
-                      <span className="flex items-center gap-1 text-purple-300">
-                        <Map size={12} /> {mapCount} {mapCount === 1 ? 'Map' : 'Maps'}
-                      </span>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <h4 className="text-xs sm:text-sm font-bold text-white font-mono uppercase truncate group-hover:text-purple-200 transition-colors">
+                          {story.projectName || 'Untitled Story'}
+                        </h4>
+                        {isCurrent && (
+                          <span className="px-1.5 py-0.2 bg-purple-500/20 text-purple-300 border border-purple-400/50 rounded text-[8.5px] font-mono font-bold uppercase">
+                            LOADED
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="flex items-center gap-2 text-[10px] font-mono text-slate-400 mt-0.5 truncate">
+                        <span className="flex items-center gap-1 text-cyan-300 font-semibold">
+                          <Layers size={11} /> {scenarioCount} {scenarioCount === 1 ? 'Node' : 'Nodes'}
+                        </span>
+                        <span>•</span>
+                        <span className="flex items-center gap-1 text-purple-300 font-semibold">
+                          <Map size={11} /> {mapCount} {mapCount === 1 ? 'Map' : 'Maps'}
+                        </span>
+                        {story.description && (
+                          <>
+                            <span>•</span>
+                            <span className="text-slate-500 truncate max-w-xs">{story.description}</span>
+                          </>
+                        )}
+                      </div>
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between gap-2 mt-3 pt-2.5 border-t border-slate-800/80">
+                  {/* Right: Quick Actions */}
+                  <div className="flex items-center gap-1.5 shrink-0" onClick={(e) => e.stopPropagation()}>
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
@@ -217,23 +251,18 @@ export const ScenariosDrawer = ({ onClose }) => {
                           deleteStoryProject(story.id);
                         }
                       }}
-                      className="p-1 text-slate-500 hover:text-red-400 transition-colors"
+                      className="p-1.5 text-slate-500 hover:text-red-400 hover:bg-red-950/30 rounded transition-colors"
                       title="Delete Story Project"
                     >
                       <Trash2 size={13} />
                     </button>
 
                     <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        AudioService.playTerminalBeep(1200, 0.03);
-                        openStory(story.id);
-                        navigate(`/foundry/story?storyId=${story.id}`);
-                      }}
-                      className="px-3 py-1 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-xs font-mono font-bold uppercase shadow transition-colors flex items-center gap-1"
+                      onClick={() => handleOpenScenarioProject(story.id)}
+                      className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-xs font-mono font-bold uppercase shadow transition-colors flex items-center gap-1"
                     >
-                      <span>Open Story Module</span>
-                      <ChevronRight size={13} />
+                      <span>Open Story</span>
+                      <ChevronRight size={12} />
                     </button>
                   </div>
                 </div>

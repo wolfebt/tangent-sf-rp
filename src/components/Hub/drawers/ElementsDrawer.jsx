@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStory } from '../../../context/CampaignContext';
 import { AudioService } from '../../../services/audioService';
-import { Database, X, Plus, Search, Trash2, ChevronRight } from 'lucide-react';
+import { Database, X, Plus, Search, Trash2, ChevronRight, ArrowUpRight } from 'lucide-react';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 
-export const ElementsDrawer = ({ onClose }) => {
+export const ElementsDrawer = ({ onClose, onOpenDrawer }) => {
   const navigate = useNavigate();
   const { elementsCatalog, deleteSavedElement } = useStory();
 
@@ -23,10 +23,19 @@ export const ElementsDrawer = ({ onClose }) => {
     return (elem.title || '').toLowerCase().includes(q) || (elem.type || '').toLowerCase().includes(q);
   });
 
+  const handleOpenElementForge = () => {
+    AudioService.playTerminalBeep(1200, 0.03);
+    if (onOpenDrawer) {
+      onOpenDrawer('foundry-elements-workspace');
+    } else {
+      navigate('/foundry/elements');
+    }
+  };
+
   return (
-    <div className="flex flex-col h-full space-y-4 select-none">
+    <div className="flex flex-col h-full space-y-3.5 select-none">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-2.5 border-b border-slate-800 shrink-0">
         <div>
           <div className="flex items-center gap-2">
             <span className="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-[10px] font-mono text-emerald-400 font-bold uppercase">
@@ -35,7 +44,7 @@ export const ElementsDrawer = ({ onClose }) => {
             <span className="text-slate-600 font-mono">•</span>
             <span className="text-slate-400 font-mono text-xs">DATABASE MANAGER</span>
           </div>
-          <h2 className="text-lg sm:text-xl font-bold text-white font-mono uppercase tracking-wide mt-0.5">
+          <h2 className="text-base sm:text-lg font-bold text-white font-mono uppercase tracking-wide mt-0.5">
             Element Forge Catalog
           </h2>
         </div>
@@ -44,24 +53,39 @@ export const ElementsDrawer = ({ onClose }) => {
           <button
             onClick={() => {
               AudioService.playTerminalBeep(1300, 0.03);
-              navigate('/foundry/elements');
+              handleOpenElementForge();
             }}
             className="px-3 py-1.5 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white rounded-lg text-xs font-mono font-bold uppercase shadow transition-all flex items-center gap-1.5"
           >
             <Plus size={14} /> Open Forge
           </button>
+
           <button
-            onClick={onClose}
-            className="p-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors"
+            onClick={() => {
+              AudioService.playTerminalBeep(1200, 0.02);
+              navigate('/foundry/elements');
+            }}
+            className="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-slate-700 rounded-lg text-xs font-mono font-bold uppercase transition-colors hidden sm:flex items-center gap-1"
+            title="Open Full Browser View (/foundry/elements)"
           >
-            <X size={16} />
+            <ArrowUpRight size={13} />
+            <span>FULL BROWSER</span>
           </button>
+
+          {onClose && (
+            <button
+              onClick={onClose}
+              className="p-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors"
+            >
+              <X size={16} />
+            </button>
+          )}
         </div>
       </div>
 
       {/* Filter Type Pills & Search */}
-      <div className="space-y-2">
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
+      <div className="space-y-2 shrink-0">
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar">
           {elementTypes.map(t => (
             <button
               key={t}
@@ -89,46 +113,54 @@ export const ElementsDrawer = ({ onClose }) => {
         </div>
       </div>
 
-      {/* Elements Grid */}
-      <div className="flex-1 overflow-y-auto pr-1 space-y-2.5 max-h-[calc(100vh-360px)]">
+      {/* Elements Vertical Stacked Gem-Like List */}
+      <div className="flex-1 overflow-y-auto pr-1 space-y-1.5 max-h-[calc(100vh-340px)]">
         {filtered.length === 0 ? (
           <div className="p-8 text-center border border-dashed border-slate-800 rounded-xl bg-slate-950/40">
             <Database size={28} className="mx-auto text-slate-600 mb-2" />
             <h4 className="text-sm font-mono font-bold text-slate-300 uppercase">No Elements Found</h4>
             <p className="text-xs text-slate-500 font-mono mt-1 mb-4">Design species, factions, gear, and lore elements.</p>
             <button
-              onClick={() => navigate('/foundry/elements')}
+              onClick={handleOpenElementForge}
               className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-mono text-xs font-bold uppercase rounded-lg shadow inline-flex items-center gap-1.5"
             >
               <Plus size={13} /> Forge Elements
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+          <div className="space-y-1.5">
             {filtered.map(elem => (
               <div
                 key={elem.id}
-                onClick={() => {
-                  AudioService.playTerminalBeep(1200, 0.03);
-                  navigate('/foundry/elements');
-                }}
-                className="p-3 rounded-lg bg-slate-950/80 border border-slate-800/90 hover:border-emerald-500/60 hover:bg-slate-900/60 transition-all flex flex-col justify-between cursor-pointer"
+                onClick={handleOpenElementForge}
+                className="px-3 py-2 rounded-xl bg-slate-950/60 border border-slate-800/90 hover:border-emerald-500/60 hover:bg-slate-900/60 transition-all flex items-center justify-between gap-3 cursor-pointer group"
               >
-                <div>
-                  <div className="flex items-center justify-between gap-2 mb-1">
-                    <h4 className="text-xs font-bold text-white font-mono uppercase truncate">{elem.title || 'Untitled Element'}</h4>
-                    <span className="px-1.5 py-0.2 bg-emerald-950 text-emerald-300 border border-emerald-500/40 rounded text-[9px] font-mono uppercase font-bold shrink-0">
-                      {elem.type || 'Element'}
-                    </span>
+                {/* Left: Gem Pill & Title */}
+                <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-950/90 border border-emerald-500/50 flex items-center justify-center font-mono font-bold text-xs text-emerald-300 shadow-[0_0_8px_rgba(52,211,153,0.2)] shrink-0">
+                    <Database size={15} />
                   </div>
-                  {elem.parentPath && (
-                    <span className="text-[9px] text-slate-500 font-mono block truncate">
-                      Path: {elem.parentPath}
-                    </span>
-                  )}
+
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h4 className="text-xs sm:text-sm font-bold text-white font-mono uppercase truncate group-hover:text-emerald-200 transition-colors">
+                        {elem.title || 'Untitled Element'}
+                      </h4>
+                      <span className="px-1.5 py-0.2 bg-emerald-950 text-emerald-300 border border-emerald-500/40 rounded text-[8.5px] font-mono uppercase font-bold shrink-0">
+                        {elem.type || 'Element'}
+                      </span>
+                    </div>
+
+                    {elem.parentPath && (
+                      <span className="text-[9.5px] text-slate-500 font-mono block truncate mt-0.5">
+                        Path: {elem.parentPath}
+                      </span>
+                    )}
+                  </div>
                 </div>
 
-                <div className="flex items-center justify-between mt-3 pt-2 border-t border-slate-800/80">
+                {/* Right: Actions */}
+                <div className="flex items-center gap-1.5 shrink-0" onClick={(e) => e.stopPropagation()}>
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
@@ -137,22 +169,18 @@ export const ElementsDrawer = ({ onClose }) => {
                         deleteSavedElement(elem.id);
                       }
                     }}
-                    className="p-1 text-slate-500 hover:text-red-400 transition-colors"
+                    className="p-1.5 text-slate-500 hover:text-red-400 hover:bg-red-950/30 rounded transition-colors"
                     title="Delete Element"
                   >
-                    <Trash2 size={12} />
+                    <Trash2 size={13} />
                   </button>
 
                   <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      AudioService.playTerminalBeep(1200, 0.03);
-                      navigate('/foundry/elements');
-                    }}
-                    className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-[11px] font-mono font-bold uppercase transition-colors flex items-center gap-1"
+                    onClick={handleOpenElementForge}
+                    className="px-2.5 py-1 bg-slate-800 hover:bg-emerald-600 hover:text-white text-emerald-300 rounded-lg text-xs font-mono font-bold uppercase transition-colors flex items-center gap-1 border border-slate-700"
                   >
-                    <span>Edit in Forge</span>
-                    <ChevronRight size={11} />
+                    <span>Edit Forge</span>
+                    <ChevronRight size={12} />
                   </button>
                 </div>
               </div>

@@ -5,8 +5,8 @@ import { AudioService } from '../../services/audioService';
 
 const THEME_STYLES = {
   cyan: {
-    border: 'border-cyan-500/40 hover:border-cyan-400 bg-cyan-950/15 hover:bg-slate-900/80 shadow-[0_0_15px_rgba(34,211,238,0.1)]',
-    activeBorder: 'border-cyan-400 bg-cyan-950/40 shadow-[0_0_20px_rgba(34,211,238,0.3)]',
+    border: 'border-2 border-cyan-500/70 bg-cyan-950/20 hover:bg-slate-900/80 shadow-[0_0_15px_rgba(34,211,238,0.1)] hover:shadow-[0_0_24px_rgba(34,211,238,0.35)]',
+    activeBorder: 'border-2 border-cyan-400 bg-cyan-950/40 shadow-[0_0_24px_rgba(34,211,238,0.4)]',
     title: 'text-white group-hover:text-cyan-300',
     badge: 'bg-cyan-500/10 border-cyan-500/30 text-cyan-300',
     iconBg: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20 group-hover:bg-cyan-500/20',
@@ -14,8 +14,8 @@ const THEME_STYLES = {
     button: 'text-cyan-400 group-hover:text-cyan-300'
   },
   emerald: {
-    border: 'border-2 border-emerald-500/70 hover:border-emerald-400 bg-emerald-950/20 hover:bg-slate-900/80 shadow-[0_0_18px_rgba(52,211,153,0.18)]',
-    activeBorder: 'border-2 border-emerald-400 bg-emerald-950/45 shadow-[0_0_22px_rgba(52,211,153,0.35)]',
+    border: 'border-2 border-emerald-500/70 bg-emerald-950/20 hover:bg-slate-900/80 shadow-[0_0_15px_rgba(52,211,153,0.1)] hover:shadow-[0_0_24px_rgba(52,211,153,0.35)]',
+    activeBorder: 'border-2 border-emerald-400 bg-emerald-950/40 shadow-[0_0_24px_rgba(52,211,153,0.4)]',
     title: 'text-white group-hover:text-emerald-300',
     badge: 'bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 font-bold',
     iconBg: 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 group-hover:bg-emerald-500/25',
@@ -23,8 +23,8 @@ const THEME_STYLES = {
     button: 'text-emerald-400 group-hover:text-emerald-300 font-bold'
   },
   purple: {
-    border: 'border-purple-500/40 hover:border-purple-400 bg-purple-950/15 hover:bg-slate-900/80 shadow-[0_0_15px_rgba(192,132,252,0.1)]',
-    activeBorder: 'border-purple-400 bg-purple-950/40 shadow-[0_0_20px_rgba(192,132,252,0.3)]',
+    border: 'border-2 border-purple-500/70 bg-purple-950/20 hover:bg-slate-900/80 shadow-[0_0_15px_rgba(192,132,252,0.1)] hover:shadow-[0_0_24px_rgba(192,132,252,0.35)]',
+    activeBorder: 'border-2 border-purple-400 bg-purple-950/40 shadow-[0_0_24px_rgba(192,132,252,0.4)]',
     title: 'text-white group-hover:text-purple-300',
     badge: 'bg-purple-500/10 border-purple-500/30 text-purple-300',
     iconBg: 'bg-purple-500/10 text-purple-400 border-purple-500/20 group-hover:bg-purple-500/20',
@@ -32,8 +32,8 @@ const THEME_STYLES = {
     button: 'text-purple-400 group-hover:text-purple-300'
   },
   amber: {
-    border: 'border-2 border-amber-500/70 hover:border-amber-400 bg-amber-950/20 hover:bg-slate-900/80 shadow-[0_0_18px_rgba(251,191,36,0.18)]',
-    activeBorder: 'border-2 border-amber-400 bg-amber-950/45 shadow-[0_0_22px_rgba(251,191,36,0.35)]',
+    border: 'border-2 border-amber-500/70 bg-amber-950/20 hover:bg-slate-900/80 shadow-[0_0_15px_rgba(251,191,36,0.1)] hover:shadow-[0_0_24px_rgba(251,191,36,0.35)]',
+    activeBorder: 'border-2 border-amber-400 bg-amber-950/40 shadow-[0_0_24px_rgba(251,191,36,0.4)]',
     title: 'text-white group-hover:text-amber-300',
     badge: 'bg-amber-500/15 border border-amber-500/40 text-amber-300 font-bold',
     iconBg: 'bg-amber-500/15 text-amber-400 border border-amber-500/30 group-hover:bg-amber-500/25',
@@ -73,7 +73,7 @@ export const ModuleLauncherCard = ({
   return (
     <div
       onClick={handleClick}
-      className={`backdrop-blur-md ${small ? 'p-2' : compact ? 'p-2.5' : 'p-3'} rounded-xl border ${
+      className={`backdrop-blur-md ${small ? 'p-2' : compact ? 'p-2.5' : 'p-3'} rounded-xl ${
         isActive ? styles.activeBorder : styles.border
       } flex flex-col justify-between cursor-pointer transition-all duration-200 group relative select-none`}
     >

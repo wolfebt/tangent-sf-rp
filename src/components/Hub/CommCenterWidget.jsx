@@ -81,7 +81,7 @@ export const CommCenterWidget = ({
     <>
       <div 
         onClick={() => handleActivateCenter('comms')}
-        className="bg-slate-900/40 hover:bg-slate-900/80 backdrop-blur-md p-2.5 sm:p-3 rounded-xl border border-slate-800 hover:border-cyan-500/50 flex flex-col justify-between transition-all duration-300 shadow-[0_4px_24px_rgba(0,0,0,0.4)] group cursor-pointer select-none"
+        className="bg-slate-900/20 hover:bg-slate-900/80 backdrop-blur-md p-2.5 sm:p-3 rounded-xl border-2 border-cyan-500/70 hover:border-cyan-400 flex flex-col justify-between transition-all duration-300 shadow-[0_0_15px_rgba(34,211,238,0.1)] hover:shadow-[0_0_24px_rgba(34,211,238,0.35)] group cursor-pointer select-none"
       >
         <div>
           {/* Header */}
