@@ -15,6 +15,8 @@ import NarrativeTab from './tabs/NarrativeTab';
 import OtherTab from './tabs/OtherTab';
 import MetaphysicsModal from './modals/MetaphysicsModal';
 import EconomyModal from './modals/EconomyModal';
+import ExperienceCodexModal from './modals/ExperienceCodexModal';
+import KarmaCodexModal from './modals/KarmaCodexModal';
 import AddSkillModal from './modals/AddSkillModal';
 import CustomSelectorModal from './modals/CustomSelectorModal';
 import AssetModal from './modals/AssetModal';
@@ -86,8 +88,19 @@ const FolioContainer = () => {
     loadPublicPersonas,
     publicCatalog,
     applyArchetypeChassis,
-    applySpeciesAdjustments
+    applySpeciesAdjustments,
+    isInActiveGame,
+    activeGameSession,
+    setInActiveGame,
+    toggleActiveGameLock,
+    applyGMConfirmedUpdate,
+    isGMConfirmed,
+    setIsGMConfirmed,
+    isProtectedGameStat
   } = useFolio();
+
+  const [isExperienceCodexOpen, setIsExperienceCodexOpen] = useState(false);
+  const [isKarmaCodexOpen, setIsKarmaCodexOpen] = useState(false);
 
   const handleDeleteCurrentCharacter = useCallback(() => {
     const charName = characterData['char-name'] || 'Unnamed Operative';
@@ -333,6 +346,86 @@ const FolioContainer = () => {
           </div>
         )}
 
+        {/* Active Game Session & Tactical Integrity Lock Banner */}
+        {isInActiveGame && (
+          <div className="bg-gradient-to-r from-[#081b2b] via-[#0c1829] to-[#121c2e] border-b-2 border-cyan-500/80 px-4 py-2.5 flex flex-col md:flex-row items-center justify-between gap-3 text-xs font-mono text-cyan-200 shrink-0 shadow-[0_4px_25px_rgba(6,182,212,0.35)] ring-1 ring-cyan-500/40 z-30">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="w-8 h-8 rounded-lg bg-cyan-500/20 border border-cyan-500/50 flex items-center justify-center text-cyan-300 shadow-[0_0_10px_rgba(34,211,238,0.3)] shrink-0">
+                <span className="text-base animate-pulse">⚡</span>
+              </div>
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="px-2 py-0.5 rounded bg-cyan-950/90 border border-cyan-400 text-[10px] font-extrabold uppercase tracking-wider text-cyan-200 flex items-center gap-1.5 shadow-sm">
+                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span>
+                    ACTIVE GAME ENGAGED
+                  </span>
+                  <span className="text-slate-500 hidden sm:inline">•</span>
+                  <span className="font-bold text-white uppercase truncate">
+                    {activeGameSession?.gameName || 'VTT Tactical Campaign'}
+                  </span>
+                  {activeGameSession?.gmHandle && (
+                    <span className="text-[10px] text-amber-300 bg-amber-950/60 px-1.5 py-0.2 rounded border border-amber-700/50">
+                      GM: @{activeGameSession.gmHandle}
+                    </span>
+                  )}
+                </div>
+                <p className="text-[11px] text-cyan-300/85 mt-0.5">
+                  <strong>STATISTICS LOCKED:</strong> Game statistics are protected during live play. Adjustments require GM experience awards, karma updates, or VTT confirmation.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-1.5 shrink-0 flex-wrap">
+              <button
+                type="button"
+                onClick={() => setIsExperienceCodexOpen(true)}
+                className="px-2.5 py-1 bg-purple-950/90 hover:bg-purple-900 border border-purple-400 text-purple-200 font-bold rounded uppercase text-[10px] shadow-[0_0_10px_rgba(168,85,247,0.25)] transition-all flex items-center gap-1 cursor-pointer"
+                title="Open Experience Codex for AP awards & spend validation"
+              >
+                <span>✨</span>
+                <span>Experience / AP</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setIsKarmaCodexOpen(true)}
+                className="px-2.5 py-1 bg-amber-950/90 hover:bg-amber-900 border border-amber-400 text-amber-200 font-bold rounded uppercase text-[10px] shadow-[0_0_10px_rgba(245,158,11,0.25)] transition-all flex items-center gap-1 cursor-pointer"
+                title="Open Karma Codex & Ledger"
+              >
+                <span>☸️</span>
+                <span>Karma Ledger</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  const reason = prompt("GM Override: Enter authorization note to enable/disable direct stat modifications during active session:");
+                  if (reason !== null) {
+                    setIsGMConfirmed(prev => !prev);
+                  }
+                }}
+                className={`px-2.5 py-1 font-bold rounded uppercase text-[10px] border transition-all flex items-center gap-1 cursor-pointer ${
+                  isGMConfirmed 
+                    ? 'bg-emerald-950/90 border-emerald-400 text-emerald-200 shadow-[0_0_10px_rgba(16,185,129,0.3)]' 
+                    : 'bg-slate-900/90 hover:bg-slate-800 border-slate-700 text-slate-300'
+                }`}
+                title="GM authorization override toggle"
+              >
+                <span>{isGMConfirmed ? '🔓 GM Override Active' : '🔒 GM Override'}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => toggleActiveGameLock()}
+                className="px-2 py-1 bg-slate-900/80 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-slate-200 rounded text-[10px] transition-colors"
+                title="Toggle Active Game Status"
+              >
+                <span>Session Lock</span>
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Over-Budget Alert Banner */}
         {(() => {
           const startingCP = parseInt(characterData['starting-cp'] || 150, 10);
@@ -510,6 +603,17 @@ const FolioContainer = () => {
       <MetaphysicsModal
         isOpen={isMetaphysicsOpen}
         onClose={() => setIsMetaphysicsOpen(false)}
+      />
+      <ExperienceCodexModal
+        isOpen={isExperienceCodexOpen}
+        onClose={() => setIsExperienceCodexOpen(false)}
+        earnedAP={parseInt(characterData.earned_ap || 0, 10)}
+        availableAP={parseInt(characterData.available_ap !== undefined ? characterData.available_ap : (characterData.earned_ap || 0), 10)}
+        experienceDebt={parseInt(characterData.experience_debt || 0, 10)}
+      />
+      <KarmaCodexModal
+        isOpen={isKarmaCodexOpen}
+        onClose={() => setIsKarmaCodexOpen(false)}
       />
       {/* Print-only Folio Output */}
       <div className="hidden print:block">

@@ -57,7 +57,8 @@ export const DBMSidebar = ({
   activeCategory,
   currentKey,
   navigateToCategory,
-  isAdmin: propIsAdmin
+  isAdmin: propIsAdmin,
+  onCloseMenu
 }) => {
   const auth = useAuth() || {};
   const isAdmin = propIsAdmin !== undefined ? propIsAdmin : Boolean(auth.isAdmin);
@@ -122,9 +123,24 @@ export const DBMSidebar = ({
             <Layers size={13} className="text-cyan-400" />
             OMNICORTEX SECTIONS
           </span>
-          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 font-bold">
-            {mainCategories.length} Categories
-          </span>
+          <div className="flex items-center gap-1.5">
+            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 font-bold">
+              {mainCategories.length}
+            </span>
+            {onCloseMenu && (
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(900, 0.02);
+                  onCloseMenu();
+                }}
+                className="p-1 rounded-md bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-cyan-300 transition-colors"
+                title="Collapse Menu Drawer (◀)"
+              >
+                <ChevronRight size={13} className="rotate-180" />
+              </button>
+            )}
+          </div>
         </div>
       </div>
 

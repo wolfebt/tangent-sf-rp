@@ -15,6 +15,19 @@ import ProgressionKarmaLedgerModal from '../../../../components/RulesAssistant/P
 import UduFacilityGeneratorModal from '../../../../components/StoryFoundry/UduFacilityGeneratorModal';
 import EconomatrixLootGeneratorModal from '../../../../components/StoryFoundry/EconomatrixLootGeneratorModal';
 import FactionClocksModal from '../../../../components/StoryFoundry/FactionClocksModal';
+import SocialDispositionModal from '../../../../components/StoryFoundry/SocialDispositionModal';
+import BastionWhisperDrawer from '../../../../components/StoryFoundry/BastionWhisperDrawer';
+import EncounterSimModal from '../../../../components/StoryFoundry/EncounterSimModal';
+import SkillChallengeModal from '../../../../components/StoryFoundry/SkillChallengeModal';
+import CyberDeckModal from '../../../../components/StoryFoundry/CyberDeckModal';
+import RulesAdjudicatorPanel from '../../../../components/RulesAssistant/RulesAdjudicatorPanel';
+import GalaxyStarmapModal from '../../../../components/StoryFoundry/GalaxyStarmapModal';
+import FactionWebModal from '../../../../components/StoryFoundry/FactionWebModal';
+import ModularStarshipForgeModal from '../../../../components/StoryFoundry/ModularStarshipForgeModal';
+import ConditionManagerModal from './ConditionManagerModal';
+import ReactionPromptModal from './ReactionPromptModal';
+import AoEResolutionModal from './AoEResolutionModal';
+import { evaluateTokenConditionsOnTurnStart } from '../../../../services/conditionService';
 
 const MapCombatTracker = ({
   tokens = [],
@@ -65,6 +78,23 @@ const MapCombatTracker = ({
   const [showFacilityGen, setShowFacilityGen] = useState(false);
   const [showLootGen, setShowLootGen] = useState(false);
   const [showFactionClocks, setShowFactionClocks] = useState(false);
+  const [showConditionModal, setShowConditionModal] = useState(false);
+  const [selectedTokenForConditions, setSelectedTokenForConditions] = useState(null);
+  const [showReactionModal, setShowReactionModal] = useState(false);
+  const [reactionReactorToken, setReactionReactorToken] = useState(null);
+  const [reactionTargetToken, setReactionTargetToken] = useState(null);
+  const [reactionEventDesc, setReactionEventDesc] = useState('');
+  const [showAoEModal, setShowAoEModal] = useState(false);
+  const [showSocialModal, setShowSocialModal] = useState(false);
+  const [selectedNpcForSocial, setSelectedNpcForSocial] = useState(null);
+  const [showWhisperDrawer, setShowWhisperDrawer] = useState(false);
+  const [showEncounterSimModal, setShowEncounterSimModal] = useState(false);
+  const [showSkillChallengeModal, setShowSkillChallengeModal] = useState(false);
+  const [showCyberDeckModal, setShowCyberDeckModal] = useState(false);
+  const [showRulesAdjudicator, setShowRulesAdjudicator] = useState(false);
+  const [showGalaxyStarmapModal, setShowGalaxyStarmapModal] = useState(false);
+  const [showFactionWebModal, setShowFactionWebModal] = useState(false);
+  const [showModularStarshipForge, setShowModularStarshipForge] = useState(false);
 
   if (!showTracker) return null;
 
@@ -409,6 +439,27 @@ const MapCombatTracker = ({
       }
     }
 
+    // Evaluate start-of-turn conditions for the incoming unit
+    if (sortedTokens.length > 0) {
+      const curIdx = sortedTokens.findIndex(t => t.id === activeTurnTokenId);
+      const nextIdx = curIdx >= 0 ? (curIdx + 1) % sortedTokens.length : 0;
+      const nextToken = sortedTokens[nextIdx];
+
+      if (nextToken) {
+        const { updatedToken, triggeredEffects } = evaluateTokenConditionsOnTurnStart(nextToken);
+        if (triggeredEffects.length > 0) {
+          onUpdateToken?.(nextToken.id, updatedToken);
+          triggeredEffects.forEach((eff, idx) => {
+            setTimeout(() => {
+              const screenX = (nextToken.x || 0) * scale + position.x;
+              const screenY = (nextToken.y || 0) * scale + position.y;
+              onTriggerFloatingText?.(screenX, screenY, eff.message, eff.sfx === 'heal' ? 'heal' : 'damage');
+            }, (idx + 1) * 200);
+          });
+        }
+      }
+    }
+
     onNextTurn?.();
   };
 
@@ -618,11 +669,28 @@ const MapCombatTracker = ({
           </button>
           <button
             type="button"
+            onClick={() => setShowAoEModal(true)}
+            disabled={sortedTokens.length === 0}
+            className="px-2 py-0.5 bg-orange-950/90 hover:bg-orange-900 text-orange-300 border border-orange-500/60 font-bold text-[10px] rounded uppercase transition-colors flex items-center gap-1 cursor-pointer disabled:opacity-50"
+            title="Open Multi-Target AoE & Environmental Hazard Engine"
+          >
+            <span>💥</span> AoE
+          </button>
+          <button
+            type="button"
             onClick={() => setShowStarshipBridge(true)}
             className="px-2 py-0.5 bg-purple-950/90 hover:bg-purple-900 text-purple-300 border border-purple-500/50 font-bold text-[10px] rounded uppercase transition-colors flex items-center gap-1 cursor-pointer"
             title="Open Starship & Vehicle Subsystem Bridge"
           >
             <span>🚀</span> Bridge
+          </button>
+          <button
+            type="button"
+            onClick={() => setShowModularStarshipForge(true)}
+            className="px-2 py-0.5 bg-cyan-950/90 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 font-bold text-[10px] rounded uppercase transition-colors flex items-center gap-1 cursor-pointer"
+            title="Open Modular Starship & Mecha Hardpoint Forge"
+          >
+            <span>🛠️</span> Forge
           </button>
           <button
             type="button"
@@ -702,11 +770,106 @@ const MapCombatTracker = ({
         </button>
         <button
           type="button"
-          onClick={() => setShowFactionClocks(true)}
-          className="flex-1 py-0.5 bg-purple-950/80 hover:bg-purple-900 text-purple-300 border border-purple-700/60 rounded flex items-center justify-center gap-0.5 font-bold cursor-pointer transition-colors"
-          title="Open Living World Faction Clocks & Agendas"
+          onClick={() => {
+            const tok = sortedTokens.find(t => t.id === activeTurnTokenId) || sortedTokens[0];
+            if (tok) setSelectedTokenForConditions(tok);
+            setShowConditionModal(true);
+          }}
+          className="flex-1 py-0.5 bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-700/60 rounded flex items-center justify-center gap-0.5 font-bold cursor-pointer transition-colors"
+          title="Open Condition & Affliction State Machine"
         >
-          <span>🌐</span> Clocks
+          <span>✨</span> Conds
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            const tok = sortedTokens.find(t => t.id === activeTurnTokenId) || sortedTokens[0];
+            if (tok) {
+              setReactionReactorToken(tok);
+              setReactionEventDesc('Manual GM / Player Reactive Interrupt Action declaration.');
+              setShowReactionModal(true);
+            }
+          }}
+          className="flex-1 py-0.5 bg-amber-950/80 hover:bg-amber-900 text-amber-300 border border-amber-700/60 rounded flex items-center justify-center gap-0.5 font-bold cursor-pointer transition-colors"
+          title="Declare / Adjudicate Combat Reaction Interrupt"
+        >
+          <span>⚡</span> React
+        </button>
+        <button
+          type="button"
+          onClick={() => setShowAoEModal(true)}
+          className="flex-1 py-0.5 bg-orange-950/80 hover:bg-orange-900 text-orange-300 border border-orange-700/60 rounded flex items-center justify-center gap-0.5 font-bold cursor-pointer transition-colors"
+          title="Open Multi-Target AoE & Environmental Hazard Engine"
+        >
+          <span>💥</span> AoE
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            const npc = sortedTokens.find(t => t.isEnemy || t.type === 'adversary' || t.type === 'enemy' || !t.linkedHeroId) || sortedTokens[0];
+            if (npc) setSelectedNpcForSocial(npc);
+            setShowSocialModal(true);
+          }}
+          className="flex-1 py-0.5 bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-700/60 rounded flex items-center justify-center gap-0.5 font-bold cursor-pointer transition-colors"
+          title="Open Scene Director & Social Disposition Matrix"
+        >
+          <span>🎭</span> Social
+        </button>
+        <button
+          type="button"
+          onClick={() => setShowWhisperDrawer(true)}
+          className="flex-1 py-0.5 bg-amber-950/80 hover:bg-amber-900 text-amber-300 border border-amber-700/60 rounded flex items-center justify-center gap-0.5 font-bold cursor-pointer transition-colors"
+          title="Open BASTION Proactive Pacing & Tactical Whisper AI"
+        >
+          <span>🧠</span> Whisper
+        </button>
+        <button
+          type="button"
+          onClick={() => setShowEncounterSimModal(true)}
+          className="flex-1 py-0.5 bg-indigo-950/80 hover:bg-indigo-900 text-indigo-300 border border-indigo-700/60 rounded flex items-center justify-center gap-0.5 font-bold cursor-pointer transition-colors"
+          title="Open Predictive Monte Carlo Encounter Balancer"
+        >
+          <span>🎲</span> Sim
+        </button>
+        <button
+          type="button"
+          onClick={() => setShowSkillChallengeModal(true)}
+          className="flex-1 py-0.5 bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border border-emerald-700/60 rounded flex items-center justify-center gap-0.5 font-bold cursor-pointer transition-colors"
+          title="Open Complex Skill Challenge & Heist Progress Clock Console"
+        >
+          <span>⏱️</span> Heist
+        </button>
+        <button
+          type="button"
+          onClick={() => setShowCyberDeckModal(true)}
+          className="flex-1 py-0.5 bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-700/60 rounded flex items-center justify-center gap-0.5 font-bold cursor-pointer transition-colors"
+          title="Open Cyber-Deck Intrusion & Encrypted Data-Slate Terminal"
+        >
+          <span>💻</span> Cyber
+        </button>
+        <button
+          type="button"
+          onClick={() => setShowRulesAdjudicator(true)}
+          className="flex-1 py-0.5 bg-amber-950/80 hover:bg-amber-900 text-amber-300 border border-amber-700/60 rounded flex items-center justify-center gap-0.5 font-bold cursor-pointer transition-colors"
+          title="Open Tactical Trait, Range & Cover Modifiers Adjudicator"
+        >
+          <span>⚖️</span> Rules
+        </button>
+        <button
+          type="button"
+          onClick={() => setShowGalaxyStarmapModal(true)}
+          className="flex-1 py-0.5 bg-indigo-950/80 hover:bg-indigo-900 text-indigo-300 border border-indigo-700/60 rounded flex items-center justify-center gap-0.5 font-bold cursor-pointer transition-colors"
+          title="Open Interactive Galaxy Sector & Planetary Starmap"
+        >
+          <span>🌌</span> Map
+        </button>
+        <button
+          type="button"
+          onClick={() => setShowFactionWebModal(true)}
+          className="flex-1 py-0.5 bg-purple-950/80 hover:bg-purple-900 text-purple-300 border border-purple-700/60 rounded flex items-center justify-center gap-0.5 font-bold cursor-pointer transition-colors"
+          title="Open Faction Relational Web & Party Heat Console"
+        >
+          <span>🌐</span> Factions
         </button>
       </div>
 
@@ -820,14 +983,36 @@ const MapCombatTracker = ({
                         DEF:{token.defense}
                       </span>
                     )}
-                    {token.conditions?.length > 0 && (
-                      <div className="flex gap-0.5">
-                        {token.conditions.map(c => (
-                          <span key={c} className="text-[8px] px-1 py-0.2 bg-slate-800 border border-slate-700 rounded text-slate-300">
-                            {c[0]}
-                          </span>
-                        ))}
-                      </div>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedTokenForConditions(token);
+                        setShowConditionModal(true);
+                      }}
+                      className="px-1.5 py-0.5 bg-cyan-950/80 hover:bg-cyan-800 text-cyan-300 border border-cyan-700/60 rounded text-[8px] font-bold font-mono transition-colors flex items-center gap-0.5 cursor-pointer"
+                      title="Inspect / Manage Conditions & Afflictions"
+                    >
+                      <span>✨</span> {(token.conditions || []).length > 0 ? `${token.conditions.length}` : 'Cond'}
+                    </button>
+                    {!isDead && (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setReactionReactorToken(token);
+                          setReactionEventDesc(`Manual Reaction declaration for ${token.label || 'Unit'}.`);
+                          setShowReactionModal(true);
+                        }}
+                        className={`px-1.5 py-0.5 rounded text-[8px] font-bold font-mono transition-colors flex items-center gap-0.5 cursor-pointer border ${
+                          token.actions?.reaction === false
+                            ? 'bg-rose-950/50 border-rose-900/60 text-rose-400 opacity-60'
+                            : 'bg-amber-950/80 hover:bg-amber-800 text-amber-300 border-amber-700/60'
+                        }`}
+                        title={token.actions?.reaction === false ? 'Reaction already spent this round' : 'Declare / Execute Reaction (Shield, Opportunity Strike, Parry)'}
+                      >
+                        <span>⚡</span>
+                      </button>
                     )}
                   </div>
                 </div>
@@ -1495,6 +1680,130 @@ const MapCombatTracker = ({
       <FactionClocksModal
         isOpen={showFactionClocks}
         onClose={() => setShowFactionClocks(false)}
+      />
+
+      {/* Condition & Affliction State Machine Modal */}
+      <ConditionManagerModal
+        isOpen={showConditionModal}
+        onClose={() => {
+          setShowConditionModal(false);
+          setSelectedTokenForConditions(null);
+        }}
+        selectedToken={selectedTokenForConditions || sortedTokens.find(t => t.id === activeTurnTokenId) || sortedTokens[0]}
+        onUpdateToken={onUpdateToken}
+        onTriggerFloatingText={onTriggerFloatingText}
+      />
+
+      {/* Reaction & Interrupt Adjudicator Modal */}
+      <ReactionPromptModal
+        isOpen={showReactionModal}
+        onClose={() => {
+          setShowReactionModal(false);
+          setReactionReactorToken(null);
+          setReactionTargetToken(null);
+          setReactionEventDesc('');
+        }}
+        reactorToken={reactionReactorToken}
+        targetToken={reactionTargetToken}
+        eventDescription={reactionEventDesc}
+        onUpdateToken={onUpdateToken}
+        onTriggerFloatingText={onTriggerFloatingText}
+        onInitiateCombatStrike={(attackerId, targetId) => {
+          setResolverAttackerId(attackerId);
+          setShowCombatResolver(true);
+        }}
+      />
+
+      {/* Multi-Target AoE & Environmental Hazard Engine Modal */}
+      <AoEResolutionModal
+        isOpen={showAoEModal}
+        onClose={() => setShowAoEModal(false)}
+        tokens={sortedTokens}
+        activeTokenId={activeTurnTokenId}
+        onUpdateToken={onUpdateToken}
+        onTriggerFloatingText={onTriggerFloatingText}
+        scale={scale}
+        position={position}
+      />
+
+      {/* Dynamic Scene Director & Social Disposition Modal */}
+      <SocialDispositionModal
+        isOpen={showSocialModal}
+        onClose={() => {
+          setShowSocialModal(false);
+          setSelectedNpcForSocial(null);
+        }}
+        npcTokens={sortedTokens.filter(t => t.isEnemy || t.type === 'adversary' || t.type === 'enemy' || !t.linkedHeroId)}
+        heroTokens={sortedTokens.filter(t => Boolean(t.linkedHeroId))}
+        selectedNpcToken={selectedNpcForSocial || sortedTokens.find(t => t.isEnemy || t.type === 'adversary') || sortedTokens[0]}
+        onUpdateToken={onUpdateToken}
+        onTriggerFloatingText={onTriggerFloatingText}
+        scale={scale}
+        position={position}
+      />
+
+      {/* BASTION Proactive Pacing & Tactical Whisper AI Drawer */}
+      <BastionWhisperDrawer
+        isOpen={showWhisperDrawer}
+        onClose={() => setShowWhisperDrawer(false)}
+        tokens={sortedTokens}
+        roundNumber={1}
+        onTriggerFloatingText={onTriggerFloatingText}
+        scale={scale}
+        position={position}
+      />
+
+      {/* Predictive Monte Carlo Encounter Balancer Modal */}
+      <EncounterSimModal
+        isOpen={showEncounterSimModal}
+        onClose={() => setShowEncounterSimModal(false)}
+        tokens={sortedTokens}
+      />
+
+      {/* Complex Skill Challenge & Heist Progress Clock Modal */}
+      <SkillChallengeModal
+        isOpen={showSkillChallengeModal}
+        onClose={() => setShowSkillChallengeModal(false)}
+        heroTokens={sortedTokens.filter(t => Boolean(t.linkedHeroId))}
+        onTriggerFloatingText={onTriggerFloatingText}
+      />
+
+      {/* Cyber-Deck Intrusion & Encrypted Data-Slate Modal */}
+      <CyberDeckModal
+        isOpen={showCyberDeckModal}
+        onClose={() => setShowCyberDeckModal(false)}
+        heroTokens={sortedTokens.filter(t => Boolean(t.linkedHeroId))}
+        onTriggerFloatingText={onTriggerFloatingText}
+      />
+
+      {/* Real-Time Tactical Trait & Modifiers Adjudicator Modal */}
+      <RulesAdjudicatorPanel
+        isOpen={showRulesAdjudicator}
+        onClose={() => setShowRulesAdjudicator(false)}
+        tokens={sortedTokens}
+        activeAttackerId={activeTurnTokenId}
+        onApplyToCombatResolver={(attackerId, targetId, netAtk, targetDef) => {
+          setResolverAttackerId(attackerId);
+          setShowCombatResolver(true);
+        }}
+      />
+
+      {/* Interactive Galaxy Sector & Planetary Starmap Modal */}
+      <GalaxyStarmapModal
+        isOpen={showGalaxyStarmapModal}
+        onClose={() => setShowGalaxyStarmapModal(false)}
+      />
+
+      {/* Faction Relational Web & Party Heat Modal */}
+      <FactionWebModal
+        isOpen={showFactionWebModal}
+        onClose={() => setShowFactionWebModal(false)}
+      />
+
+      {/* Modular Starship & Mecha Hardpoint Forge Modal */}
+      <ModularStarshipForgeModal
+        isOpen={showModularStarshipForge}
+        onClose={() => setShowModularStarshipForge(false)}
       />
     </DraggablePanel>
   );

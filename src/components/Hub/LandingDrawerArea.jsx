@@ -24,7 +24,7 @@ export const LandingDrawerArea = ({
   return (
     <div 
       onClick={(e) => e.stopPropagation()}
-      className="bg-slate-900/20 hover:bg-slate-900/80 backdrop-blur-md p-3.5 sm:p-4 rounded-xl border-2 border-slate-800/90 hover:border-slate-700 h-full flex flex-col justify-between shadow-[0_0_15px_rgba(0,0,0,0.3)] hover:shadow-[0_0_24px_rgba(34,211,238,0.2)] relative overflow-hidden transition-all duration-200 animate-fadeIn"
+      className="bg-slate-900/15 hover:bg-slate-900/85 backdrop-blur-md p-3.5 sm:p-4 rounded-xl border-2 border-slate-800/90 hover:border-slate-700 h-full flex flex-col justify-between shadow-[0_0_15px_rgba(0,0,0,0.3)] hover:shadow-[0_0_24px_rgba(34,211,238,0.2)] relative overflow-hidden transition-all duration-200 animate-fadeIn"
     >
       {/* Background ambient lighting */}
       <div className="absolute top-0 right-0 w-72 h-72 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none"></div>

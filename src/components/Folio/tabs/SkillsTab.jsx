@@ -112,10 +112,14 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
     updateField,
     handleDeleteSkill,
     handleUpdateSpecialization,
-    handleDeleteSpecialization
+    handleDeleteSpecialization,
+    isInActiveGame,
+    isGMConfirmed
   } = useFolio();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategoryTab, setActiveCategoryTab] = useState('all');
+
+  const isStatsLocked = isInActiveGame && !isGMConfirmed;
 
   const getNum = useCallback((id) => parseInt(characterData[id] || 0, 10), [characterData]);
 
@@ -403,18 +407,28 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
             type="number"
             min="0"
             max="20"
-            disabled={isLocked}
+            disabled={isLocked || isStatsLocked}
             value={rank}
-            onChange={(e) => !isLocked && updateField(`skill-${skill.id}-rank`, Math.min(20, Math.max(0, parseInt(e.target.value, 10) || 0)))}
-            className={`col-span-2 text-center bg-slate-950 border ${isLocked ? 'border-slate-800 text-slate-600 cursor-not-allowed' : 'border-slate-700 focus:border-cyan-400 text-slate-100'} rounded py-0.5 outline-none text-xs`}
+            onChange={(e) => !isLocked && !isStatsLocked && updateField(`skill-${skill.id}-rank`, Math.min(20, Math.max(0, parseInt(e.target.value, 10) || 0)))}
+            title={isStatsLocked ? 'Skill rank locked during active game session. Request GM AP update.' : isLocked ? lockMessage : undefined}
+            className={`col-span-2 text-center bg-slate-950 border ${
+              isLocked || isStatsLocked 
+                ? 'border-slate-800 text-slate-600 cursor-not-allowed opacity-75' 
+                : 'border-slate-700 focus:border-cyan-400 text-slate-100'
+            } rounded py-0.5 outline-none text-xs font-mono`}
           />
 
           {/* Base Attr Select */}
           <select
             value={baseAttr}
-            disabled={isLocked}
-            onChange={(e) => !isLocked && updateField(`skill-${skill.id}-base`, e.target.value)}
-            className={`col-span-3 bg-slate-950 border ${isLocked ? 'border-slate-800 text-slate-600 cursor-not-allowed' : 'border-slate-700 focus:border-cyan-400 text-slate-300'} rounded py-0.5 text-center outline-none text-xs`}
+            disabled={isLocked || isStatsLocked}
+            onChange={(e) => !isLocked && !isStatsLocked && updateField(`skill-${skill.id}-base`, e.target.value)}
+            title={isStatsLocked ? 'Skill base attribute locked during active game session.' : undefined}
+            className={`col-span-3 bg-slate-950 border ${
+              isLocked || isStatsLocked 
+                ? 'border-slate-800 text-slate-600 cursor-not-allowed opacity-75' 
+                : 'border-slate-700 focus:border-cyan-400 text-slate-300'
+            } rounded py-0.5 text-center outline-none text-xs`}
           >
             <option value="">--</option>
             {ATTRIBUTE_OPTIONS.map((opt) => (

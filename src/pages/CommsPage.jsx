@@ -17,11 +17,13 @@ import { ChannelSidebar } from '../components/Chat/ChannelSidebar';
 import { MessageView } from '../components/Chat/MessageView';
 import { MessageInput } from '../components/Chat/MessageInput';
 import { CreateChannelModal } from '../components/Chat/CreateChannelModal';
+import { GameGroupModal } from '../components/Groups/GameGroupModal';
 import { AudioService } from '../services/audioService';
 
 export const CommsPage = () => {
   const { activeChannel, messages, loadingMessages } = useChat();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isSquadModalOpen, setIsSquadModalOpen] = useState(false);
   const [mobileView, setMobileView] = useState('chat'); // 'sidebar' | 'chat'
 
   return (
@@ -69,6 +71,7 @@ export const CommsPage = () => {
         }`}>
           <ChannelSidebar
             onOpenCreateModal={() => setIsCreateModalOpen(true)}
+            onOpenSquadModal={() => setIsSquadModalOpen(true)}
           />
         </div>
 
@@ -90,6 +93,15 @@ export const CommsPage = () => {
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
       />
+
+      {/* Game Squads & Parties Builder Modal */}
+      {isSquadModalOpen && (
+        <GameGroupModal
+          isOpen={isSquadModalOpen}
+          onClose={() => setIsSquadModalOpen(false)}
+          initialTab="roster"
+        />
+      )}
     </div>
   );
 };

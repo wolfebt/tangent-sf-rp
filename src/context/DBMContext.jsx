@@ -597,7 +597,8 @@ export const DBMProvider = ({ children }) => {
   const [history, setHistory] = useState(['compendium']);
   const [historyIndex, setHistoryIndex] = useState(0);
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  // Sidebar Menu Drawer State (Open by default)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isBastionOpen, setIsBastionOpen] = useState(false);
   const [isArchitectModalOpen, setIsArchitectModalOpen] = useState(false);
 

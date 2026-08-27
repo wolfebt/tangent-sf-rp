@@ -144,6 +144,10 @@ export const FolioProvider = ({ children }) => {
   const [lastSavedTime, setLastSavedTime] = useState(null);
   const [isReadOnly, setIsReadOnly] = useState(false);
   const [publicCatalog, setPublicCatalog] = useState([]);
+  
+  // Active Game Session & Tactical Integrity Lock State
+  const [isGMConfirmed, setIsGMConfirmed] = useState(false);
+  const [activeGameOverride, setActiveGameOverride] = useState(null);
 
   // Character Roster State — primary source is Firestore; StorageService/IndexedDB is secondary offline cache
   const [personaRoster, setPersonaRoster] = useState(() => {
@@ -1255,8 +1259,100 @@ export const FolioProvider = ({ children }) => {
     } catch (e) {}
   }, [characterData]);
 
-  // Field updater with primary attribute auto-sync to sub-attributes
+  // Active Game State Evaluation
+  const isInActiveGame = useMemo(() => {
+    if (activeGameOverride !== null) return activeGameOverride;
+    return Boolean(characterData?.inActiveGame || characterData?.activeGameSession || characterData?.activeGameId);
+  }, [characterData?.inActiveGame, characterData?.activeGameSession, characterData?.activeGameId, activeGameOverride]);
+
+  const activeGameSession = useMemo(() => {
+    if (!isInActiveGame) return null;
+    return {
+      inActiveGame: true,
+      gameName: characterData?.activeGameName || 'VTT Tactical Campaign',
+      squadName: characterData?.activeSquadName || 'Active Fireteam',
+      gmHandle: characterData?.activeGameGM || 'Game Master',
+      sessionStartedAt: characterData?.activeGameStartedAt || characterData?.updatedAt || new Date().toISOString()
+    };
+  }, [isInActiveGame, characterData]);
+
+  // Set / Toggle active game state
+  const setInActiveGame = useCallback((inGame, details = {}) => {
+    const isEngaged = Boolean(inGame);
+    setActiveGameOverride(isEngaged);
+    setCharacterData(prev => {
+      const updated = {
+        ...prev,
+        inActiveGame: isEngaged,
+        activeGameName: isEngaged ? (details.gameName || details.name || prev.activeGameName || 'VTT Tactical Campaign') : '',
+        activeSquadName: isEngaged ? (details.squadName || prev.activeSquadName || 'Active Fireteam') : '',
+        activeGameGM: isEngaged ? (details.gmHandle || details.gm || prev.activeGameGM || 'Game Master') : '',
+        activeGameStartedAt: isEngaged ? (details.startedAt || prev.activeGameStartedAt || new Date().toISOString()) : '',
+        updatedAt: new Date().toISOString()
+      };
+      return updated;
+    });
+
+    setPersonaRoster(prev => prev.map(c => {
+      if (c['character-doc-id'] === characterData['character-doc-id']) {
+        return {
+          ...c,
+          inActiveGame: isEngaged,
+          activeGameName: isEngaged ? (details.gameName || details.name || c.activeGameName || 'VTT Tactical Campaign') : '',
+          activeSquadName: isEngaged ? (details.squadName || c.activeSquadName || 'Active Fireteam') : '',
+          activeGameGM: isEngaged ? (details.gmHandle || details.gm || c.activeGameGM || 'Game Master') : '',
+          updatedAt: new Date().toISOString()
+        };
+      }
+      return c;
+    }));
+  }, [characterData]);
+
+  const toggleActiveGameLock = useCallback((details = {}) => {
+    setInActiveGame(!isInActiveGame, details);
+  }, [isInActiveGame, setInActiveGame]);
+
+  // List of protected game statistics
+  const isProtectedGameStat = useCallback((key) => {
+    if (!key || typeof key !== 'string') return false;
+    if (key.startsWith('attr-')) return true;
+    if (key.startsWith('skill-') && (key.endsWith('-rank') || key.endsWith('-base') || key.endsWith('-mod'))) return true;
+    if (['starting-cp', 'health', 'vitality', 'structure', 'magic-level', 'tech-level'].includes(key)) return true;
+    if (['char-species', 'char-archetype'].includes(key)) return true;
+    return false;
+  }, []);
+
+  // GM Confirmed update to alter statistics during active game
+  const applyGMConfirmedUpdate = useCallback((key, value, reason = 'GM Confirmed Adjustment') => {
+    const oldVal = characterDataRef.current?.[key];
+    const logEntry = {
+      timestamp: new Date().toISOString(),
+      field: key,
+      oldValue: oldVal,
+      newValue: value,
+      reason
+    };
+
+    setCharacterData(prev => {
+      const existingLogs = Array.isArray(prev.gm_audit_log) ? prev.gm_audit_log : [];
+      return {
+        ...prev,
+        [key]: value,
+        gm_audit_log: [logEntry, ...existingLogs.slice(0, 49)],
+        updatedAt: new Date().toISOString()
+      };
+    });
+  }, []);
+
+  // Field updater with primary attribute auto-sync to sub-attributes & Active Game Lockdown
   const updateField = useCallback((key, value) => {
+    // If character is in an active game session and the field is a protected game stat without GM confirmation
+    if (isInActiveGame && !isGMConfirmed && isProtectedGameStat(key)) {
+      console.warn(`[Folio Integrity Lock]: Cannot alter game statistic "${key}" while persona is in an active game without GM confirmation.`);
+      alert(`🔒 ACTIVE GAME INTEGRITY LOCK: Game statistic "${key}" cannot be altered while the persona is in an active game session.\n\nTo modify game statistics, apply changes via GM Experience (AP) awards, Karma adjustments, VTT Combat Vitals, or request a GM confirmed override.`);
+      return;
+    }
+
     // If updating a skill rank, clamp max to 20
     if (typeof key === 'string' && key.startsWith('skill-') && key.endsWith('-rank')) {
       const clampedVal = Math.min(20, Math.max(0, parseInt(value, 10) || 0));
@@ -1293,7 +1389,7 @@ export const FolioProvider = ({ children }) => {
       ...prev,
       [key]: value
     }));
-  }, []);
+  }, [isInActiveGame, isGMConfirmed, isProtectedGameStat]);
 
   // 80 CP Archetype Pre-build Application Engine
   const applyArchetypeChassis = useCallback((archetypeInput) => {
@@ -3067,6 +3163,14 @@ export const FolioProvider = ({ children }) => {
         resetKarmaToMax,
         spendPlotPoint,
         gainPlotPoint,
+        isInActiveGame,
+        activeGameSession,
+        setInActiveGame,
+        toggleActiveGameLock,
+        applyGMConfirmedUpdate,
+        isGMConfirmed,
+        setIsGMConfirmed,
+        isProtectedGameStat,
         isReadOnly,
         publicCatalog,
         togglePersonaVisibility,

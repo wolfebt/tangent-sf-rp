@@ -120,7 +120,7 @@ const GROUP_DEFINITIONS = [
   }
 ];
 
-export const CodexSidebar = ({ activeMatrixId, onSelectMatrix }) => {
+export const CodexSidebar = ({ activeMatrixId, onSelectMatrix, onCloseMenu }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const { dbData } = useDBM() || {};
 
@@ -274,9 +274,24 @@ export const CodexSidebar = ({ activeMatrixId, onSelectMatrix }) => {
             <BookOpen size={12} className="text-amber-400" />
             CODEX MATRICES
           </span>
-          <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-amber-500/10 border border-amber-500/30 text-amber-300 font-bold">
-            {CODEX_MATRICES.length} Matrices
-          </span>
+          <div className="flex items-center gap-1.5">
+            <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-amber-500/10 border border-amber-500/30 text-amber-300 font-bold">
+              {CODEX_MATRICES.length}
+            </span>
+            {onCloseMenu && (
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(900, 0.02);
+                  onCloseMenu();
+                }}
+                className="p-1 rounded-md bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-amber-300 transition-colors"
+                title="Collapse Menu Drawer (◀)"
+              >
+                <ChevronRight size={13} className="rotate-180" />
+              </button>
+            )}
+          </div>
         </div>
       </div>
 

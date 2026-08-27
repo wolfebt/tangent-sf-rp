@@ -211,3 +211,4 @@ class ProceduralSciFiAudio {
 }
 
 export const AudioService = new ProceduralSciFiAudio();
+export default AudioService;

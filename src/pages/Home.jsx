@@ -15,7 +15,7 @@ import {
   Database, Users, Map, Key, Shield,
   BookOpen, Sparkles, Layers, Dices, Volume2, VolumeX, Settings, LogOut,
   Menu, X, ChevronRight, ChevronLeft, Activity, ShieldAlert,
-  PanelLeftClose, PanelLeftOpen, PanelRightClose, PanelRightOpen
+  PanelLeftOpen, PanelRightOpen
 } from 'lucide-react';
 import { AudioService } from '../services/audioService';
 
@@ -116,7 +116,7 @@ const Home = () => {
       />
 
       {/* 2. COMPENDIUM & MATRICES (OMNICORTEX & CODEX) */}
-      <div className="rounded-xl border-2 border-slate-700/80 bg-slate-950/20 hover:bg-slate-950/80 hover:shadow-[0_0_24px_rgba(52,211,153,0.25)] backdrop-blur-md p-2 space-y-1.5 relative transition-all duration-200">
+      <div className="rounded-xl border-2 border-slate-700/80 bg-slate-950/15 hover:bg-slate-950/85 hover:shadow-[0_0_24px_rgba(52,211,153,0.25)] backdrop-blur-md p-2 space-y-1.5 relative transition-all duration-200">
         {/* Frame Header Accent */}
         <div className="flex items-center justify-between px-1 pb-1 border-b border-slate-800/70">
           <div className="flex items-center gap-1.5">
@@ -384,7 +384,7 @@ const Home = () => {
                   onClick={(e) => e.stopPropagation()}
                 >
                   {/* Drawer Frame with Slight Border & Glass Blur */}
-                  <div className="rounded-2xl border border-cyan-500/30 bg-[#0b0f17]/90 backdrop-blur-xl p-3 shadow-[0_0_25px_rgba(0,0,0,0.6)] space-y-2.5 relative flex flex-col">
+                  <div className="rounded-2xl border border-cyan-500/30 bg-[#0b0f17]/15 hover:bg-[#0b0f17]/85 backdrop-blur-xl p-3 shadow-[0_0_25px_rgba(0,0,0,0.6)] space-y-2.5 relative flex flex-col transition-colors duration-300">
                     
                     {/* Inner Edge Collapse Trigger Button */}
                     <button
@@ -400,24 +400,13 @@ const Home = () => {
                     </button>
 
                     {/* Left Drawer Header Accent */}
-                    <div className="flex items-center justify-between px-2.5 py-1.5 bg-slate-900/60 hover:bg-slate-900/90 border border-cyan-500/40 rounded-xl backdrop-blur-md transition-all duration-200">
+                    <div className="flex items-center justify-between px-2.5 py-1.5 bg-slate-900/15 hover:bg-slate-900/85 border border-cyan-500/40 rounded-xl backdrop-blur-md transition-all duration-200">
                       <div className="flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
                         <span className="text-[10px] font-mono font-bold text-cyan-300 uppercase tracking-wider">
                           SYSTEM MODULES
                         </span>
                       </div>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          AudioService.playTerminalBeep(900, 0.02);
-                          setIsLeftCollapsed(true);
-                        }}
-                        className="p-1 rounded-md text-slate-400 hover:text-cyan-300 hover:bg-slate-800/80 transition-colors cursor-pointer"
-                        title="Collapse Drawer"
-                      >
-                        <PanelLeftClose size={14} />
-                      </button>
                     </div>
 
                     {/* Module Cards Stack */}
@@ -486,7 +475,7 @@ const Home = () => {
                   onClick={(e) => e.stopPropagation()}
                 >
                   {/* Drawer Frame with Slight Border & Glass Blur */}
-                  <div className="rounded-2xl border border-cyan-500/30 bg-[#0b0f17]/90 backdrop-blur-xl p-3 shadow-[0_0_25px_rgba(0,0,0,0.6)] space-y-2.5 relative flex flex-col">
+                  <div className="rounded-2xl border border-cyan-500/30 bg-[#0b0f17]/15 hover:bg-[#0b0f17]/85 backdrop-blur-xl p-3 shadow-[0_0_25px_rgba(0,0,0,0.6)] space-y-2.5 relative flex flex-col transition-colors duration-300">
                     
                     {/* Inner Edge Collapse Trigger Button */}
                     <button
@@ -502,24 +491,13 @@ const Home = () => {
                     </button>
 
                     {/* Right Drawer Header Accent */}
-                    <div className="flex items-center justify-between px-2.5 py-1.5 bg-slate-900/60 hover:bg-slate-900/90 border border-cyan-500/40 rounded-xl backdrop-blur-md transition-all duration-200">
+                    <div className="flex items-center justify-between px-2.5 py-1.5 bg-slate-900/15 hover:bg-slate-900/85 border border-cyan-500/40 rounded-xl backdrop-blur-md transition-all duration-200">
                       <div className="flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                         <span className="text-[10px] font-mono font-bold text-cyan-300 uppercase tracking-wider">
                           OPERATIONS &amp; SQUADS
                         </span>
                       </div>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          AudioService.playTerminalBeep(900, 0.02);
-                          setIsRightCollapsed(true);
-                        }}
-                        className="p-1 rounded-md text-slate-400 hover:text-cyan-300 hover:bg-slate-800/80 transition-colors cursor-pointer"
-                        title="Collapse Drawer"
-                      >
-                        <PanelRightClose size={14} />
-                      </button>
                     </div>
 
                     {/* Operations Widgets Stack */}
@@ -580,7 +558,7 @@ const Home = () => {
 
         {/* Footer info */}
         <footer className="w-full pt-4 pb-2 border-t border-slate-900/80 mt-4 flex flex-col sm:flex-row items-center justify-between text-[10px] font-mono text-slate-500 gap-2 px-1 sm:px-2 lg:px-4">
-          <span>TANGENT SCIENCE FANTASY ROLE PLAYING SYSTEM • UNIFIED DASHBOARD V2.0</span>
+          <span>TANGENT SCIENCE FANTASY ROLE PLAY ENGINE BY WOLFE.BT@TANGENTLLC</span>
           <span>CYBERNETIC INTERFACE INITIALIZED</span>
         </footer>
       </div>

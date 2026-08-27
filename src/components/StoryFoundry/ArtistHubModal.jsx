@@ -98,8 +98,8 @@ Format your response in two distinct sections:
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto font-sans select-none">
-      <div className="w-full max-w-3xl bg-[#0d1117] border border-purple-500/50 rounded-2xl shadow-[0_0_40px_rgba(168,85,247,0.25)] flex flex-col max-h-[90vh] overflow-hidden">
+    <div className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-md flex items-center justify-center p-4 pt-14 pb-8 overflow-y-auto font-sans select-none animate-fadeIn">
+      <div className="w-full max-w-3xl bg-[#0d1117] border border-purple-500/70 rounded-2xl shadow-[0_0_50px_rgba(168,85,247,0.35)] flex flex-col max-h-[88vh] overflow-hidden my-auto">
         
         {/* Modal Header */}
         <div className="flex items-center justify-between px-6 py-4 bg-[#161b22] border-b border-purple-500/30 shrink-0">

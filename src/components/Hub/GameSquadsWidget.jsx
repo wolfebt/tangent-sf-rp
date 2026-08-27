@@ -65,7 +65,7 @@ export const GameSquadsWidget = ({ onOpenSquadsDrawer }) => {
   return (
     <div 
       onClick={handleWidgetClick}
-      className="bg-slate-900/20 hover:bg-slate-900/80 backdrop-blur-md p-2.5 sm:p-3 rounded-xl border-2 border-emerald-500/70 hover:border-emerald-400 flex flex-col justify-between relative overflow-hidden group transition-all duration-200 shadow-[0_0_15px_rgba(16,185,129,0.1)] hover:shadow-[0_0_24px_rgba(16,185,129,0.35)] cursor-pointer select-none"
+      className="bg-slate-900/15 hover:bg-slate-900/85 backdrop-blur-md p-2.5 sm:p-3 rounded-xl border-2 border-emerald-500/70 hover:border-emerald-400 flex flex-col justify-between relative overflow-hidden group transition-all duration-200 shadow-[0_0_15px_rgba(16,185,129,0.1)] hover:shadow-[0_0_24px_rgba(16,185,129,0.35)] cursor-pointer select-none"
     >
       {/* Ambient Glow */}
       <div className="absolute -right-12 -bottom-12 w-44 h-44 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-emerald-500/20 transition-all duration-500"></div>

@@ -43,8 +43,12 @@ const CoreStatsTab = () => {
     revivifyCharacter,
     payExperienceDebt,
     economyBreakdown,
-    deathAndDyingRules
+    deathAndDyingRules,
+    isInActiveGame,
+    isGMConfirmed
   } = useFolio();
+
+  const isStatsLocked = isInActiveGame && !isGMConfirmed;
 
   const [isFateOverrideOpen, setIsFateOverrideOpen] = useState(false);
   const [isCoreRulesModalOpen, setIsCoreRulesModalOpen] = useState(false);
@@ -233,8 +237,12 @@ const CoreStatsTab = () => {
                             type="number"
                             value={isNaN(rawBase) ? 0 : rawBase}
                             onChange={(e) => isSub ? handleSubAttrChange(attr.id, e.target.value) : handlePrimaryChange(attr.id, e.target.value)}
+                            disabled={isStatsLocked}
+                            title={isStatsLocked ? 'Attribute locked during active game session. Request GM update.' : ''}
                             className={`w-11 text-center bg-slate-900 border rounded px-1 py-0.5 text-xs text-slate-100 focus:outline-none focus:border-cyan-400 ${
-                              isSub ? 'border-slate-800 text-slate-300' : 'border-slate-700 font-bold'
+                              isStatsLocked
+                                ? 'opacity-60 cursor-not-allowed border-slate-800 text-slate-400'
+                                : isSub ? 'border-slate-800 text-slate-300' : 'border-slate-700 font-bold'
                             }`}
                           />
                         </td>

@@ -1,9 +1,13 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Stage, Layer, Rect, Line, RegularPolygon, Image as KonvaImage } from 'react-konva';
+import { Stage, Layer, Rect, Circle, Text as KonvaText, Line, RegularPolygon, Image as KonvaImage, Group } from 'react-konva';
 import { useCampaign, formatExportFilename } from '../../../context/CampaignContext';
 import { v4 as uuidv4 } from 'uuid';
 import { produce } from 'immer';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
+import VttCommandDrawer from './map/VttCommandDrawer';
+import OperativeTacticalHud from './map/OperativeTacticalHud';
+import { createTacticalPing, filterExpiredPings } from '../../../services/mapPingService';
+import { createDefaultTeamRoster, canUserControlToken, isUserArchitect, VTT_ROLES } from '../../../services/vttTeamService';
 
 import { MAP_TYPES, DEFAULT_LAYERS, MASTER_TERRAINS, MASTER_OBJECTS, PENCIL_COLORS, PENCIL_WIDTHS, TEXT_COLORS } from './map/MapConstants';
 import { MapObjectNode, TokenNode, TextLabelNode } from './map/MapObjectNode';
@@ -207,6 +211,33 @@ const MapPane = ({ mapExportPngRef }) => {
     deleteCustomObject
   } = useCampaign();
   const [selectedId, setSelectedId] = useState(null);
+
+  // VTT Tactical Role, Teams, System Options & Ping State
+  const [vttRole, setVttRole] = useState('architect'); // 'architect' | 'co_architect' | 'operative' | 'spectator'
+  const [isVttDrawerOpen, setIsVttDrawerOpen] = useState(false);
+  const [teamRoster, setTeamRoster] = useState(() => createDefaultTeamRoster());
+  const [activePings, setActivePings] = useState([]);
+  const [gridSnap, setGridSnap] = useState(true);
+  const [gridSize, setGridSize] = useState(40);
+  const [measurementUnit, setMeasurementUnit] = useState('meters');
+
+  // Ping Auto-Decay Timer
+  useEffect(() => {
+    if (activePings.length === 0) return;
+    const interval = setInterval(() => {
+      setActivePings(prev => filterExpiredPings(prev));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [activePings.length]);
+
+  // Handler to drop tactical radar pings
+  const handleDropTacticalPing = (pingType, targetX = null, targetY = null) => {
+    const px = targetX !== null ? targetX : (position.x + stageSize.width / 2);
+    const py = targetY !== null ? targetY : (position.y + stageSize.height / 2);
+    const newPing = createTacticalPing(px, py, pingType, null, vttRole === 'operative' ? 'Operative' : 'Architect', '#06b6d4');
+    setActivePings(prev => [...prev, newPing]);
+    AudioService.playTerminalBeep(newPing.soundFreq, 0.1);
+  };
 
   // Map Creation Modal, Landmass Generator Modal, Asset Manager Modal & Shortcuts Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -1089,6 +1120,8 @@ const MapPane = ({ mapExportPngRef }) => {
         onLoadMapFromFile={() => mapFileInputRef.current?.click()}
         onDeleteActiveMap={handleDeleteActiveMap}
         onOpenGuide={() => setIsGuideOpen(true)}
+        isVttDrawerOpen={isVttDrawerOpen}
+        onToggleVttDrawer={() => setIsVttDrawerOpen(prev => !prev)}
       />
 
       <LandmassGeneratorModal
@@ -1429,6 +1462,40 @@ const MapPane = ({ mapExportPngRef }) => {
         >
           <FloatingCombatText activeFloats={activeFloats} />
 
+          {/* Floating VTT Quick Launcher */}
+          <div className="absolute top-3 right-3 z-30 flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(950, 0.05);
+                setIsVttDrawerOpen(prev => !prev);
+              }}
+              className={`px-3 py-1.5 rounded-xl font-mono text-xs font-bold transition-all shadow-lg backdrop-blur-md flex items-center gap-1.5 cursor-pointer border ${
+                isVttDrawerOpen
+                  ? 'bg-cyan-500 text-black border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.4)]'
+                  : 'bg-black/80 hover:bg-slate-900 border-cyan-500/60 text-cyan-300'
+              }`}
+            >
+              <span>🎮</span>
+              <span>VTT Console ({vttRole.toUpperCase()})</span>
+            </button>
+          </div>
+
+          {/* Operative Player Tactical HUD */}
+          {vttRole === 'operative' && (
+            <OperativeTacticalHud
+              userControlledTokens={tokens}
+              activeTokenId={selectedId || tokens[0]?.id}
+              onSelectActiveToken={(id) => setSelectedId(id)}
+              targetToken={tokens.find(t => t.id !== selectedId && t.type !== 'link')}
+              onTriggerAttack={(attId, tgtId) => {
+                triggerFloatingCombatText(window.innerWidth / 2, window.innerHeight - 150, `TARGET ENGAGED: 2d10 ATTACK`, 'damage');
+              }}
+              onDropPing={(pingType) => handleDropTacticalPing(pingType)}
+              onTriggerFloatingText={triggerFloatingCombatText}
+            />
+          )}
+
           {!currentMap ? (
             <div className="absolute inset-0 flex items-center justify-center text-slate-500 font-bold text-xl italic">
               Please create or select a map.
@@ -1457,16 +1524,32 @@ const MapPane = ({ mapExportPngRef }) => {
                 }
               }}
             >
-              <Layer>
+              {/* Layer 1: Background & Tactical Grid */}
+              <Layer id="layer_bg_grid">
                 <Rect x={0} y={0} width={4000} height={3000} fill="#111827" name="bgRect" />
+                <Group listening={false}>
+                  {renderGrid()}
+                </Group>
               </Layer>
 
-              {isLayerVisible('layer_terrain') && (
-                <Layer>
-                  {terrains.map((t, i) => {
-                    if (t.renderType === 'canvasImage') {
+              {/* Layer 2: World Terrain & Objects */}
+              <Layer id="layer_world">
+                {isLayerVisible('layer_terrain') && (
+                  <Group>
+                    {terrains.map((t, i) => {
+                      if (t.renderType === 'canvasImage') {
+                        return (
+                          <TerrainImageNode
+                            key={t.id || i}
+                            t={t}
+                            isLocked={isLayerLocked('layer_terrain')}
+                            isEraser={activeTool === 'eraser'}
+                            onErase={eraseElement}
+                          />
+                        );
+                      }
                       return (
-                        <TerrainImageNode
+                        <TexturedTerrainNode
                           key={t.id || i}
                           t={t}
                           isLocked={isLayerLocked('layer_terrain')}
@@ -1474,98 +1557,107 @@ const MapPane = ({ mapExportPngRef }) => {
                           onErase={eraseElement}
                         />
                       );
-                    }
-                    return (
-                      <TexturedTerrainNode
-                        key={t.id || i}
-                        t={t}
-                        isLocked={isLayerLocked('layer_terrain')}
+                    })}
+                    {lines.map((l, i) => (
+                      <Line key={l.id || i} points={l.points} stroke={l.color || "#ef4444"} strokeWidth={l.strokeWidth || 5} tension={0.5} lineCap="round" lineJoin="round" onClick={() => !isLayerLocked('layer_terrain') && activeTool === 'eraser' && eraseElement(l.id)} />
+                    ))}
+                  </Group>
+                )}
+
+                {isLayerVisible('layer_objects') && (
+                  <Group>
+                    {objects.map((obj) => (
+                      <MapObjectNode
+                        key={obj.id}
+                        shapeProps={obj}
+                        isSelected={obj.id === selectedId}
                         isEraser={activeTool === 'eraser'}
+                        isLocked={isLayerLocked('layer_objects')}
+                        zoomScale={scale}
                         onErase={eraseElement}
+                        onSelect={() => { if (activeTool === 'select' && !isLayerLocked('layer_objects')) setSelectedId(obj.id); }}
+                        onDoubleClick={() => handleObjectDoubleClick(obj)}
+                        onChange={(newAttrs) => {
+                          const nextObjects = produce(objects, draft => {
+                            const index = draft.findIndex(o => o.id === obj.id);
+                            if (index !== -1) draft[index] = newAttrs;
+                          });
+                          updateMap(activeMapId, { objects: nextObjects });
+                        }}
                       />
-                    );
-                  })}
-                  {lines.map((l, i) => (
-                    <Line key={l.id || i} points={l.points} stroke={l.color || "#ef4444"} strokeWidth={l.strokeWidth || 5} tension={0.5} lineCap="round" lineJoin="round" onClick={() => !isLayerLocked('layer_terrain') && activeTool === 'eraser' && eraseElement(l.id)} />
-                  ))}
-                </Layer>
-              )}
-
-              {isLayerVisible('layer_objects') && (
-                <Layer>
-                  {objects.map((obj) => (
-                    <MapObjectNode
-                      key={obj.id}
-                      shapeProps={obj}
-                      isSelected={obj.id === selectedId}
-                      isEraser={activeTool === 'eraser'}
-                      isLocked={isLayerLocked('layer_objects')}
-                      zoomScale={scale}
-                      onErase={eraseElement}
-                      onSelect={() => { if (activeTool === 'select' && !isLayerLocked('layer_objects')) setSelectedId(obj.id); }}
-                      onDoubleClick={() => handleObjectDoubleClick(obj)}
-                      onChange={(newAttrs) => {
-                        const nextObjects = produce(objects, draft => {
-                          const index = draft.findIndex(o => o.id === obj.id);
-                          if (index !== -1) draft[index] = newAttrs;
-                        });
-                        updateMap(activeMapId, { objects: nextObjects });
-                      }}
-                    />
-                  ))}
-                </Layer>
-              )}
-
-              <Layer listening={false}>
-                {renderGrid()}
+                    ))}
+                  </Group>
+                )}
               </Layer>
 
-              {isLayerVisible('layer_annotations') && (
-                <Layer>
-                  {texts.map((txt) => (
-                    <TextLabelNode
-                      key={txt.id} shapeProps={txt} isSelected={txt.id === selectedId} isEraser={activeTool === 'eraser'} isLocked={isLayerLocked('layer_annotations')}
-                      onErase={eraseElement}
-                      onSelect={() => { if (activeTool === 'select' && !isLayerLocked('layer_annotations')) setSelectedId(txt.id); }}
-                      onChange={(newAttrs) => {
-                        const nextTexts = produce(texts, draft => {
-                          const index = draft.findIndex(t => t.id === txt.id);
-                          if (index !== -1) draft[index] = newAttrs;
-                        });
-                        updateMap(activeMapId, { texts: nextTexts });
-                      }}
-                    />
-                  ))}
-                </Layer>
-              )}
+              {/* Layer 3: Annotations, Tokens, Units & Tactical Radar Pings */}
+              <Layer id="layer_entities">
+                {isLayerVisible('layer_annotations') && (
+                  <Group>
+                    {texts.map((txt) => (
+                      <TextLabelNode
+                        key={txt.id} shapeProps={txt} isSelected={txt.id === selectedId} isEraser={activeTool === 'eraser'} isLocked={isLayerLocked('layer_annotations')}
+                        onErase={eraseElement}
+                        onSelect={() => { if (activeTool === 'select' && !isLayerLocked('layer_annotations')) setSelectedId(txt.id); }}
+                        onChange={(newAttrs) => {
+                          const nextTexts = produce(texts, draft => {
+                            const index = draft.findIndex(t => t.id === txt.id);
+                            if (index !== -1) draft[index] = newAttrs;
+                          });
+                          updateMap(activeMapId, { texts: nextTexts });
+                        }}
+                      />
+                    ))}
+                  </Group>
+                )}
 
-              {isLayerVisible('layer_tokens') && (
-                <Layer>
-                  {tokens.map((token) => (
-                    <TokenNode
-                      key={token.id}
-                      shapeProps={token}
-                      isSelected={token.id === selectedId}
-                      isActiveTurn={token.id === activeTurnTokenId}
-                      isEraser={activeTool === 'eraser'}
-                      isLocked={isLayerLocked('layer_tokens')}
-                      onErase={eraseElement}
-                      onSelect={() => { if (activeTool === 'select' && !isLayerLocked('layer_tokens')) setSelectedId(token.id); }}
-                      onDoubleClick={() => { if (token.type === 'link' && token.targetMapId) { setActiveMapId(token.targetMapId); setSelectedId(null); } }}
-                      onChange={(newAttrs) => {
-                        const nextTokens = produce(tokens, draft => {
-                          const index = draft.findIndex(t => t.id === token.id);
-                          if (index !== -1) draft[index] = newAttrs;
-                        });
-                        updateMap(activeMapId, { tokens: nextTokens });
-                      }}
-                    />
-                  ))}
-                </Layer>
-              )}
+                {isLayerVisible('layer_tokens') && (
+                  <Group>
+                    {tokens.map((token) => (
+                      <TokenNode
+                        key={token.id}
+                        shapeProps={token}
+                        isSelected={token.id === selectedId}
+                        isActiveTurn={token.id === activeTurnTokenId}
+                        isEraser={activeTool === 'eraser'}
+                        isLocked={isLayerLocked('layer_tokens')}
+                        onErase={eraseElement}
+                        onSelect={() => { if (activeTool === 'select' && !isLayerLocked('layer_tokens')) setSelectedId(token.id); }}
+                        onDoubleClick={() => { if (token.type === 'link' && token.targetMapId) { setActiveMapId(token.targetMapId); setSelectedId(null); } }}
+                        onChange={(newAttrs) => {
+                          const nextTokens = produce(tokens, draft => {
+                            const index = draft.findIndex(t => t.id === token.id);
+                            if (index !== -1) draft[index] = newAttrs;
+                          });
+                          updateMap(activeMapId, { tokens: nextTokens });
+                        }}
+                      />
+                    ))}
+                  </Group>
+                )}
 
+                {/* Tactical Radar Pings */}
+                {activePings.map(ping => (
+                  <Group key={ping.id} x={ping.x} y={ping.y}>
+                    <Circle radius={30} stroke={ping.color} strokeWidth={2} opacity={0.7} />
+                    <Circle radius={14} fill={ping.color} opacity={0.6} />
+                    <KonvaText
+                      text={`${ping.icon} ${ping.label}`}
+                      fontSize={12}
+                      fontStyle="bold"
+                      fill="#ffffff"
+                      align="center"
+                      y={-28}
+                      x={-60}
+                      width={120}
+                    />
+                  </Group>
+                ))}
+              </Layer>
+
+              {/* Layer 4: Fog of War */}
               {isLayerVisible('layer_fog') && (
-                <Layer>
+                <Layer id="layer_fog">
                   {fogEnabled && <Rect x={0} y={0} width={4000} height={3000} fill="rgba(0, 0, 0, 0.75)" listening={false} />}
                   {fog.map((f, i) => (
                     <Line key={f.id || i} points={f.points} stroke="#000000" strokeWidth={50} tension={0.4} lineCap="round" lineJoin="round" onClick={() => !isLayerLocked('layer_fog') && activeTool === 'eraser' && eraseElement(f.id)} />
@@ -1576,6 +1668,36 @@ const MapPane = ({ mapExportPngRef }) => {
           )}
         </div>
       </div>
+
+      {/* Unified Tactical VTT Command Drawer */}
+      <VttCommandDrawer
+        isOpen={isVttDrawerOpen}
+        onClose={() => setIsVttDrawerOpen(false)}
+        vttRole={vttRole}
+        onChangeVttRole={setVttRole}
+        activeMapId={activeMapId}
+        allMaps={universeState.maps}
+        tokens={tokens}
+        teamRoster={teamRoster}
+        onUpdateTeamRoster={setTeamRoster}
+        gridSnap={gridSnap}
+        onToggleGridSnap={() => setGridSnap(prev => !prev)}
+        gridSize={gridSize}
+        onChangeGridSize={setGridSize}
+        gridMode={gridMode}
+        onChangeGridMode={setGridMode}
+        measurementUnit={measurementUnit}
+        onChangeMeasurementUnit={setMeasurementUnit}
+        fogEnabled={fogEnabled}
+        onToggleFog={() => setFogEnabled(prev => !prev)}
+        onDropPing={(pingType) => handleDropTacticalPing(pingType)}
+        onApplyEnvironmentPreset={(envId) => {
+          triggerFloatingCombatText(window.innerWidth / 2, 100, `ENVIRONMENT: ${envId.toUpperCase()}`, 'karma');
+        }}
+        onBatchTokenAction={(action) => {
+          triggerFloatingCombatText(window.innerWidth / 2, 100, `BATCH ACTION: ${action.toUpperCase()}`, 'heal');
+        }}
+      />
 
       <UnifiedRelationalSelectorModal
         isOpen={isTokenSelectorOpen}

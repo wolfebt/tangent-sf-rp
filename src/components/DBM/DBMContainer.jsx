@@ -22,6 +22,9 @@ import { useFirestoreSync } from './hooks/useFirestoreSync';
 import { fetchGeminiContent, getGeminiApiKey, sendBastionChatMessage } from '../../services/bastionService';
 import { confirmTypedDeletion } from '../../utils/confirmationUtils';
 
+import { PanelLeftOpen, ChevronRight, Menu } from 'lucide-react';
+import { AudioService } from '../../services/audioService';
+
 const EMPTY_CONFIG = {};
 
 export const DBMContainer = () => {
@@ -440,18 +443,39 @@ export const DBMContainer = () => {
         onClick={() => setIsSidebarOpen && setIsSidebarOpen(false)} 
       />
 
-      {/* Main App Layout */}
+      {/* Main App Layout with Collapsible Drawer Menu */}
       <div className="flex-1 flex overflow-hidden relative p-3 sm:p-4 pb-4 sm:pb-5 gap-3 sm:gap-4">
-        {/* Left Sidebar Navigation */}
-        <div className={`fixed md:relative z-40 h-full transition-transform md:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        {/* Floating Expand Tab (When Menu Drawer is Collapsed) */}
+        {!isSidebarOpen && (
+          <button
+            type="button"
+            onClick={() => {
+              AudioService.playTerminalBeep(1100, 0.03);
+              if (setIsSidebarOpen) setIsSidebarOpen(true);
+            }}
+            className="fixed left-2 top-1/2 -translate-y-1/2 z-40 px-2 py-4 bg-slate-950/95 hover:bg-slate-900 border-2 border-emerald-500/70 hover:border-emerald-400 text-emerald-300 rounded-r-xl shadow-[0_0_25px_rgba(16,185,129,0.4)] flex flex-col items-center gap-2 transition-all group backdrop-blur-md cursor-pointer"
+            title="Expand Omnicortex Compendium Menu (▶)"
+          >
+            <PanelLeftOpen size={16} className="text-emerald-400 group-hover:scale-110 transition-transform" />
+            <span className="text-[9px] font-mono font-bold uppercase [writing-mode:vertical-lr] tracking-widest text-slate-300 group-hover:text-emerald-200">
+              COMPENDIUM MENU
+            </span>
+          </button>
+        )}
+
+        {/* Left Sidebar Collapsible Drawer (Open by default) */}
+        <div className={`fixed md:relative z-40 h-full transition-all duration-300 shrink-0 ${
+          isSidebarOpen ? 'translate-x-0 opacity-100' : '-translate-x-full md:-ml-72 md:opacity-0 pointer-events-none'
+        }`}>
           <DBMSidebar
             mainCategories={mainCategories}
             activeCategory={activeCategory}
             currentKey={currentKey}
             isAdmin={isAdmin}
+            onCloseMenu={() => setIsSidebarOpen && setIsSidebarOpen(false)}
             navigateToCategory={(catKey, subKey) => {
               navigateToCategory(catKey, subKey);
-              if (setIsSidebarOpen) setIsSidebarOpen(false);
+              if (window.innerWidth < 768 && setIsSidebarOpen) setIsSidebarOpen(false);
             }}
           />
         </div>

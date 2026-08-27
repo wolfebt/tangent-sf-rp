@@ -30,7 +30,7 @@ export const TransmissionFeed = ({ recentActivities = [] }) => {
   };
 
   return (
-    <div className="bg-slate-900/20 hover:bg-slate-900/80 backdrop-blur-md p-5 rounded-xl border border-slate-800 hover:border-emerald-400/50 h-full flex flex-col justify-between transition-all duration-300 shadow-[0_4px_24px_rgba(0,0,0,0.4)]">
+    <div className="bg-slate-900/15 hover:bg-slate-900/85 backdrop-blur-md p-5 rounded-xl border border-slate-800 hover:border-emerald-400/50 h-full flex flex-col justify-between transition-all duration-300 shadow-[0_4px_24px_rgba(0,0,0,0.4)]">
       <div>
         {/* Header */}
         <div className="flex items-center justify-between pb-3 border-b border-slate-800">

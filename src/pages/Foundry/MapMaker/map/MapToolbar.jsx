@@ -39,7 +39,9 @@ const MapToolbar = ({
   onSaveMapToFile,
   onLoadMapFromFile,
   onDeleteActiveMap,
-  onOpenGuide
+  onOpenGuide,
+  isVttDrawerOpen,
+  onToggleVttDrawer
 }) => {
   const { universeState, activeMapId, setActiveMapId, updateMap } = useCampaign();
 
@@ -403,6 +405,21 @@ const MapToolbar = ({
       >
         <Palette size={13} />
         <span className="hidden md:inline">Artist Hub</span>
+      </button>
+
+      {/* Unified VTT Tactical Console Drawer Button */}
+      <button
+        type="button"
+        onClick={onToggleVttDrawer}
+        className={`px-3 py-1 border rounded text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1.5 h-8 cursor-pointer ${
+          isVttDrawerOpen
+            ? 'bg-cyan-600 border-cyan-400 text-black shadow-[0_0_15px_rgba(6,182,212,0.4)]'
+            : 'bg-gradient-to-r from-cyan-950 to-slate-900 hover:from-cyan-900 hover:to-slate-800 border-cyan-500/60 text-cyan-300 shadow-[0_0_10px_rgba(6,182,212,0.2)]'
+        }`}
+        title="Open Unified Tactical VTT Command Drawer (Grid, Teams, Hazards, Pings)"
+      >
+        <span>🎮</span>
+        <span className="hidden md:inline">VTT Console</span>
       </button>
 
       <div className="flex-1"></div>

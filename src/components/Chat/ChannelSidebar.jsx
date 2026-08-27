@@ -19,7 +19,7 @@ import { useChat } from '../../context/ChatContext';
 import { useAuth } from '../../context/AuthContext';
 import { ChannelSettingsModal } from './ChannelSettingsModal';
 
-export const ChannelSidebar = ({ onOpenCreateModal, isCompact = false }) => {
+export const ChannelSidebar = ({ onOpenCreateModal, onOpenSquadModal, isCompact = false }) => {
   const { 
     publicChannels, 
     directChannels, 
@@ -51,7 +51,6 @@ export const ChannelSidebar = ({ onOpenCreateModal, isCompact = false }) => {
     const unread = unreadCounts[channel.id] || 0;
     const isDM = channel.type === 'direct' || channel.id.startsWith('dm_');
     const isGroup = channel.type === 'group' || !!channel.groupId;
-    const isPublic = channel.isPublic !== false;
     const canDelete = !channel.id.startsWith('public_') && (channel.createdById === currentUser?.uid || isAdmin);
 
     return (
@@ -68,17 +67,13 @@ export const ChannelSidebar = ({ onOpenCreateModal, isCompact = false }) => {
           {/* Channel Icon */}
           <div className="shrink-0 text-slate-400 group-hover:text-cyan-400 transition-colors">
             {isDM ? (
-              <span className="text-cyan-400 text-xs font-mono font-bold">@</span>
+              <UserPlus size={14} className="text-emerald-400" />
             ) : isGroup ? (
-              <Shield size={14} className={isActive ? 'text-amber-300' : 'text-emerald-400'} />
-            ) : isPublic ? (
-              <Hash size={14} className={isActive ? 'text-cyan-300' : 'text-slate-400'} />
+              <Shield size={14} className="text-emerald-400" />
             ) : (
-              <Lock size={13} className="text-amber-400" />
+              <Hash size={14} className="text-cyan-400" />
             )}
           </div>
-
-          {/* Channel Name & Sub-info */}
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-1.5">
               <span className="text-xs truncate font-mono">
@@ -201,16 +196,43 @@ export const ChannelSidebar = ({ onOpenCreateModal, isCompact = false }) => {
       {/* Channel Lists */}
       <div className="flex-1 overflow-y-auto p-2 space-y-4 no-scrollbar">
         {/* 1. Game Squad Channels */}
-        {(activeTab === 'all' || activeTab === 'squad') && groupChannels.length > 0 && (
+        {(activeTab === 'all' || activeTab === 'squad') && (
           <div className="space-y-1">
             <div className="flex items-center justify-between px-2 py-1 text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider">
               <span className="flex items-center gap-1.5">
                 <Shield size={11} className="text-emerald-400" />
-                GAME SQUADS & PARTIES
+                GAME SQUADS &amp; PARTIES
               </span>
-              <span className="text-slate-600">{groupChannels.length}</span>
+              <div className="flex items-center gap-1">
+                {onOpenSquadModal && (
+                  <button
+                    type="button"
+                    onClick={onOpenSquadModal}
+                    className="text-[9px] text-emerald-300 hover:text-white bg-emerald-950 px-1.5 py-0.2 rounded border border-emerald-700/60 font-bold hover:bg-emerald-900 transition-colors"
+                    title="Open Squad / Party Builder"
+                  >
+                    👥 Squad Hub
+                  </button>
+                )}
+                <span className="text-slate-600">{groupChannels.length}</span>
+              </div>
             </div>
-            {filterChannels(groupChannels).map(renderChannelItem)}
+            {groupChannels.length === 0 ? (
+              <div className="px-3 py-2 text-[11px] text-slate-500 font-mono italic flex items-center justify-between">
+                <span>No active squad channels.</span>
+                {onOpenSquadModal && (
+                  <button
+                    type="button"
+                    onClick={onOpenSquadModal}
+                    className="text-emerald-400 underline font-bold"
+                  >
+                    Build Squad →
+                  </button>
+                )}
+              </div>
+            ) : (
+              filterChannels(groupChannels).map(renderChannelItem)
+            )}
           </div>
         )}
 

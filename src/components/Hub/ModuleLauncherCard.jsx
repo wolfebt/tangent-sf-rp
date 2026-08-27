@@ -5,7 +5,7 @@ import { AudioService } from '../../services/audioService';
 
 const THEME_STYLES = {
   cyan: {
-    border: 'border-2 border-cyan-500/70 bg-cyan-950/20 hover:bg-slate-900/80 shadow-[0_0_15px_rgba(34,211,238,0.1)] hover:shadow-[0_0_24px_rgba(34,211,238,0.35)]',
+    border: 'border-2 border-cyan-500/70 bg-cyan-950/15 hover:bg-slate-900/85 shadow-[0_0_15px_rgba(34,211,238,0.1)] hover:shadow-[0_0_24px_rgba(34,211,238,0.35)]',
     activeBorder: 'border-2 border-cyan-400 bg-cyan-950/40 shadow-[0_0_24px_rgba(34,211,238,0.4)]',
     title: 'text-white group-hover:text-cyan-300',
     badge: 'bg-cyan-500/10 border-cyan-500/30 text-cyan-300',
@@ -14,7 +14,7 @@ const THEME_STYLES = {
     button: 'text-cyan-400 group-hover:text-cyan-300'
   },
   emerald: {
-    border: 'border-2 border-emerald-500/70 bg-emerald-950/20 hover:bg-slate-900/80 shadow-[0_0_15px_rgba(52,211,153,0.1)] hover:shadow-[0_0_24px_rgba(52,211,153,0.35)]',
+    border: 'border-2 border-emerald-500/70 bg-emerald-950/15 hover:bg-slate-900/85 shadow-[0_0_15px_rgba(52,211,153,0.1)] hover:shadow-[0_0_24px_rgba(52,211,153,0.35)]',
     activeBorder: 'border-2 border-emerald-400 bg-emerald-950/40 shadow-[0_0_24px_rgba(52,211,153,0.4)]',
     title: 'text-white group-hover:text-emerald-300',
     badge: 'bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 font-bold',
@@ -23,7 +23,7 @@ const THEME_STYLES = {
     button: 'text-emerald-400 group-hover:text-emerald-300 font-bold'
   },
   purple: {
-    border: 'border-2 border-purple-500/70 bg-purple-950/20 hover:bg-slate-900/80 shadow-[0_0_15px_rgba(192,132,252,0.1)] hover:shadow-[0_0_24px_rgba(192,132,252,0.35)]',
+    border: 'border-2 border-purple-500/70 bg-purple-950/15 hover:bg-slate-900/85 shadow-[0_0_15px_rgba(192,132,252,0.1)] hover:shadow-[0_0_24px_rgba(192,132,252,0.35)]',
     activeBorder: 'border-2 border-purple-400 bg-purple-950/40 shadow-[0_0_24px_rgba(192,132,252,0.4)]',
     title: 'text-white group-hover:text-purple-300',
     badge: 'bg-purple-500/10 border-purple-500/30 text-purple-300',
@@ -32,7 +32,7 @@ const THEME_STYLES = {
     button: 'text-purple-400 group-hover:text-purple-300'
   },
   amber: {
-    border: 'border-2 border-amber-500/70 bg-amber-950/20 hover:bg-slate-900/80 shadow-[0_0_15px_rgba(251,191,36,0.1)] hover:shadow-[0_0_24px_rgba(251,191,36,0.35)]',
+    border: 'border-2 border-amber-500/70 bg-amber-950/15 hover:bg-slate-900/85 shadow-[0_0_15px_rgba(251,191,36,0.1)] hover:shadow-[0_0_24px_rgba(251,191,36,0.35)]',
     activeBorder: 'border-2 border-amber-400 bg-amber-950/40 shadow-[0_0_24px_rgba(251,191,36,0.4)]',
     title: 'text-white group-hover:text-amber-300',
     badge: 'bg-amber-500/15 border border-amber-500/40 text-amber-300 font-bold',

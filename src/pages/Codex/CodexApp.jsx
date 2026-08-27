@@ -19,7 +19,8 @@ import {
   Cpu,
   Bot,
   Layers,
-  LayoutGrid
+  LayoutGrid,
+  PanelLeftOpen
 } from 'lucide-react';
 import { EconomatrixDashboard } from './EconomatrixDashboard';
 import { TechnologyCodex } from './TechnologyCodex';
@@ -41,6 +42,7 @@ export const CodexApp = () => {
   const [isAiModalOpen, setIsAiModalOpen] = useState(false);
   const [previewItem, setPreviewItem] = useState(null);
   const [viewSavedRecords, setViewSavedRecords] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const { dbData, deleteEntry } = useDBM() || {};
   const currentMatrix = getMatrixById(activeMatrixId);
@@ -143,11 +145,37 @@ export const CodexApp = () => {
       />
       <div className="absolute bottom-10 right-1/4 w-[400px] h-[400px] bg-cyan-600/10 rounded-full blur-[120px] pointer-events-none" />
 
-      {/* Left Navigation Sidebar */}
-      <CodexSidebar
-        activeMatrixId={activeMatrixId}
-        onSelectMatrix={handleSelectMatrix}
-      />
+      {/* Floating Expand Tab (When Codex Sidebar Drawer is Collapsed) */}
+      {!isSidebarOpen && (
+        <button
+          type="button"
+          onClick={() => {
+            AudioService.playTerminalBeep(1100, 0.03);
+            setIsSidebarOpen(true);
+          }}
+          className="fixed left-2 top-1/2 -translate-y-1/2 z-40 px-2 py-4 bg-slate-950/95 hover:bg-slate-900 border-2 border-amber-500/70 hover:border-amber-400 text-amber-300 rounded-r-xl shadow-[0_0_25px_rgba(245,158,11,0.35)] flex flex-col items-center gap-2 transition-all group backdrop-blur-md cursor-pointer"
+          title="Expand Codex Matrix Menu (▶)"
+        >
+          <PanelLeftOpen size={16} className="text-amber-400 group-hover:scale-110 transition-transform" />
+          <span className="text-[9px] font-mono font-bold uppercase [writing-mode:vertical-lr] tracking-widest text-slate-300 group-hover:text-amber-200">
+            CODEX MATRICES
+          </span>
+        </button>
+      )}
+
+      {/* Left Navigation Collapsible Sidebar Drawer (Open by default) */}
+      <div className={`fixed lg:relative z-40 h-full transition-all duration-300 shrink-0 ${
+        isSidebarOpen ? 'translate-x-0 opacity-100' : '-translate-x-full lg:-ml-72 lg:opacity-0 pointer-events-none'
+      }`}>
+        <CodexSidebar
+          activeMatrixId={activeMatrixId}
+          onSelectMatrix={(matrixId, datasetKey) => {
+            handleSelectMatrix(matrixId, datasetKey);
+            if (window.innerWidth < 1024) setIsSidebarOpen(false);
+          }}
+          onCloseMenu={() => setIsSidebarOpen(false)}
+        />
+      </div>
 
       {/* Main Workspace Area */}
       <main className="flex-1 flex flex-col h-full overflow-hidden relative z-10 p-4 sm:p-6 lg:p-8">
