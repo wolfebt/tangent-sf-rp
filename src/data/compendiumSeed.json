@@ -11,7 +11,7 @@
     "mechanic": "Attack Check = d20 + Combat Skill Rank + Ability Mod + Weapon Modifiers\nActive Defense = d20 + Defense Skill + Agility Mod (each successive defense at cumulative -5)\nSpell Resistance DC = 10 + Key Ability Mod + Attune Rank + Invocation Level",
     "guide": "1. Check your Persona Folio for current HP, Armor DR, and Essence Pool.\n2. On your turn in combat, declare actions up to your Skill Stage limit.\n3. Roll d20 + Skill Rank + Attribute Mod vs target DC or Opposed Defense.",
     "note": "Operators should balance offensive actions with defensive reserves, as reactive defenses suffer cumulative penalties.",
-    "updatedAt": "2026-08-27T02:07:49.055Z"
+    "updatedAt": "2026-08-27T04:26:38.643Z"
   },
   {
     "id": "0-02-architect-reference-manual",
@@ -25,7 +25,7 @@
     "mechanic": "Unopposed DC = 15 + Size Modifier + Range Penalty + Movement Modifier\nDesign DC = (TL * 2) + (ML * 3) + Base Component Difficulty",
     "guide": "1. Establish planetary TL and ML before designing scenes.\n2. Use Base DC 15 for average tasks under pressure; adjust in +/- 5 increments.\n3. When resolving opposed checks, award ties to the defending party.",
     "note": "Keep the story moving: if a roll fails by 1-2 points, offer a Success at a Cost rather than a hard roadblock.",
-    "updatedAt": "2026-08-27T02:07:49.055Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "0-03-bastion-tactical-assistant-manual",
@@ -39,7 +39,7 @@
     "mechanic": "Input: /roll 2d20kh1+5 -> Roll 2d20, Keep Highest 1, Add 5 (Advantage Check)\nDamage Soak: EffectiveHP_Loss = max(1, RawDamage - max(0, TargetDR - WeaponAP))",
     "guide": "Type /roll in the BASTION chat bar to execute instant dice operations.\nAsk BASTION for rule lookups, NPC generation, and combat odds analysis.",
     "note": "BASTION is strictly attuned to the Tangent SFF RPG rulebook and prioritizes mathematical precision.",
-    "updatedAt": "2026-08-27T02:07:49.055Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-01-character-creation-pipeline",
@@ -53,7 +53,7 @@
     "mechanic": "BaseBP = 150\nAttributeCost = 5 BP per +1 (Max +4 raw at creation)\nSkillRankCost = 1 BP per rank\nFeatureBaseCost = 3 BP (2 BP if Recommended, 1 BP Minimum)\nTotalFoundationalGrants = 60 Skill Ranks + 4 Features + 4 Traits (From Faction, Origin, Occupation)",
     "guide": "1. Define concept, background, and persona goals.\n2. Deduct Species BP cost from the 150 BP pool; apply species ability modifiers and inherent traits.\n3. Allocate remaining BP to Attributes (5 BP each, max +4), Skills (1 BP each), and Features (3 BP / 2 BP).\n4. Allocate 20 Faction SP, 20 Origin SP, and 20 Occupation SP from background pools.\n5. Select 2 Origin Traits and 2 Occupation Traits.\n6. Calculate derived Hit Points, Toughness, Initiative, and Saving Throws.",
     "note": "Remember, character creation in Tangent is designed to be highly flexible, and these steps can be adapted to fit your preferences and the GM's guidelines.",
-    "updatedAt": "2026-08-27T02:07:49.055Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-01-01-core-attributes-checks",
@@ -67,7 +67,7 @@
     "mechanic": "BaseAttributeScore = 0 (Standard Human)\nAttributeCheck_Base = 2 + (AttributeScore * 2)\nPerceptionBase = Intellect + Wisdom\nAttributeCheck_Roll = d20 + AttributeCheck_Base + Modifiers",
     "guide": "Use Attribute Checks primarily for saving throws and fallback situations not covered by specific learned skills.",
     "note": "Attribute checks are not a replacement for trained skills; unassisted raw checks lack focus strike and specialization bonuses.",
-    "updatedAt": "2026-08-27T02:07:49.055Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-01-02-vitality-health-structure",
@@ -81,7 +81,7 @@
     "mechanic": "StartingVitality = 30 + (PurchasedBP * 5)\nStartingHealth = 30 + (PurchasedBP * 5)\nStructure = Vitality + Health (for Synthetics/Objects)\nDamageSoak = IncomingDamage - Toughness - ArmorDR",
     "guide": "Deplete Vitality first when taking damage from standard attacks; apply damage to Health once Vitality reaches 0.",
     "note": "Critical hits bypass the Vitality buffer and inflict direct Health damage.",
-    "updatedAt": "2026-08-27T02:07:49.055Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-01-03-karma-fate-economy",
@@ -95,7 +95,7 @@
     "mechanic": "BaseKarma = 3\nMaxKarmaDebt = Charisma + 1\nAdvantage = Roll 2d20, Take Highest Result\nDisadvantage = Roll 2d20, Take Lowest Result\nConditionReduction = -1 Severity Stage (Major -> Minor -> Cleared)\nSecondWind = 1 Min Focus, Replaces Light Rest",
     "guide": "Spend Karma points during critical encounters to gain Advantage, reroll non-combat failures, reduce debuffs, or bend reality. Track Plot Points separately for arc-specific narrative boosts.",
     "note": "Negative Karma must never exceed Charisma + 1 and grants the GM narrative complication triggers until resolved.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-01-04-rest-recovery-cycles",
@@ -109,7 +109,7 @@
     "mechanic": "FullRest_Duration = 6-8 Hours (Restores 100% Vitality, Resets Daily Traits)\nLightRest_MaxPerDay = 4\nNapDuration = 1 Hour",
     "guide": "Declare Light Rests during transit or post-combat triage to reset short-rest abilities.",
     "note": "Architects should enforce environmental threats if characters attempt to rest in unsecured hostile zones.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-01-05-death-dying-revivification",
@@ -123,7 +123,7 @@
     "mechanic": "DeathClock_Rounds = max(1, StaminaScore)\nStabilization_DC = Medicine DC 15\nRevive_Penalty = Lose All Karma + 5 XP Debt",
     "guide": "Allies should prioritize stabilizing downed teammates within their Stamina round window.",
     "note": "Revivification should be a rare, momentous narrative arc rather than a routine transaction.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-01-06-experience-award-points",
@@ -137,7 +137,7 @@
     "mechanic": "1 AP = 1 BP for Character Folio Advancements\nMaxSingleStatIncrease_PerAward = +1 Rank",
     "guide": "Spend AP between gaming sessions to advance your Persona Folio capabilities.",
     "note": "Architects should distribute AP at the end of each session or chapter downtime.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-02-skill-point-economy",
@@ -151,7 +151,7 @@
     "mechanic": "SkillRank_CreationMax = 11\nSkillRank_CreationRecommended = 6\nTotalStartingSkillPoints = 20(Faction) + 20(Origin) + 20(Occupation) = 60 SP",
     "guide": "Spend exactly 20 points within each respective category list. Do not pool points across different categories.",
     "note": "Limiting starting ranks to Rank 6 ensures characters have room for meaningful growth across multiple campaign arcs.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-04-00-major-factions-overview",
@@ -165,7 +165,7 @@
     "mechanic": "FactionSkillPoints = 20\nFactionFeatureDiscount = 1 BP per recommended feature (Min 1 BP)",
     "guide": "Choose one Major Faction during Step 4 of character creation. Allocate your 20 Faction Skill Points and select 2 Faction Features.",
     "note": "Major Factions are the primary choice for player characters. Generic Factions (1.04.10) serve as secondary options for custom backgrounds.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-04-01-dracon-dynasty",
@@ -179,7 +179,7 @@
     "mechanic": "Faction Package: Combat +4, History +4, Diplomacy +3, Intimidate +3, Tactics +3, Pilot +3 = 20 SP\nBonus Feat: Status (Knight/Noble) at 2 BP (1 BP Discount)",
     "guide": "Ideal for noble warriors, battle-mages, honorbound dragoons, and diplomatic envoys.",
     "note": "The Dynasty views the Coalition as anarchic and the Syndicate as vulgar merchants.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-04-02-the-syndicate",
@@ -193,7 +193,7 @@
     "mechanic": "Faction Package: Computers +4, Vocation +4, Business +3, Culture +3, Deception +3, Investigation +3 = 20 SP\nBonus Feat: Cybernetic Integration / Wealth at 2 BP",
     "guide": "Ideal for hackers, corporate fixers, cyber-enhanced operatives, executives, and tech specialists.",
     "note": "The Syndicate trades with everyone but is trusted by no one.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-04-03-free-worlds-coalition",
@@ -207,7 +207,7 @@
     "mechanic": "Faction Package: Piloting +4, Survival +4, Technology +3, Firearms +3, Streetwise +3, Alertness +3 = 20 SP\nBonus Feat: Jack of All Trades / Independent Grit at 2 BP",
     "guide": "Ideal for smugglers, frontier marshals, blockade runners, freedom fighters, and scrappy star pilots.",
     "note": "Coalition characters value personal freedom above rigid hierarchy.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-04-04-the-ascendancy",
@@ -221,7 +221,7 @@
     "mechanic": "Faction Package: Attune +5, Discipline +5, Metaphysics +4, Alertness +3, Diplomacy +3 = 20 SP\nBonus Feat: Awakened / Deep Attunement at 2 BP",
     "guide": "Ideal for arcanists, psions, mystic healers, telepaths, and metaphysical scholars.",
     "note": "The Ascendancy views technological dependence without spiritual maturity as dangerous.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-04-05-auluran-clans",
@@ -235,7 +235,7 @@
     "mechanic": "Faction Package: Biology +5, Piloting +4, Bio-Tech +4, Space Survival +3, Combat +4 = 20 SP\nBonus Feat: Bio-Engineered Adaptation / Zero-G Veteran at 2 BP",
     "guide": "Ideal for geneticists, space pilots, living-ship engineers, and fleet defense warriors.",
     "note": "The Clans prize ancestral family lineage and organic technology over cold metal.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-04-06-elven-providence",
@@ -249,7 +249,7 @@
     "mechanic": "Faction Package: Attune +4, Culture +4, Combat +4, History +3, Diplomacy +3, Nature +2 = 20 SP\nBonus Feat: Ethereal Grace / Ancient Lineage at 2 BP",
     "guide": "Ideal for star-singers, magitech archers, noble diplomats, and ancient lorekeepers.",
     "note": "The Providence looks upon younger human factions with patronizing patience.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-04-07-kovian-tribunal",
@@ -263,7 +263,7 @@
     "mechanic": "Faction Package: Investigation +5, Law +4, Combat +4, Alertness +4, Intimidate +3 = 20 SP\nBonus Feat: Incorruptible Will / Precision Strike at 2 BP",
     "guide": "Ideal for galactic marshals, forensic investigators, bounty arbiters, and tactical judges.",
     "note": "The Tribunal enforces laws strictly according to written statutes without personal bias.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-04-08-vajar",
@@ -277,7 +277,7 @@
     "mechanic": "Faction Package: Melee Combat +5, Athletics +4, Intimidate +4, Tactics +3, Survival +4 = 20 SP\nBonus Feat: Blood of the Warrior / Mighty Surge at 2 BP",
     "guide": "Ideal for frontline shock troopers, clade champions, gladiators, and assault commanders.",
     "note": "A Vajar's word is an unbreakable iron oath; breaking a vow is worse than death.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-04-09-impyrium-dominion",
@@ -291,7 +291,7 @@
     "mechanic": "Faction Package: Combat +5, Tactics +4, Culture +3, Intimidate +4, Technology +4 = 20 SP\nBonus Feat: Imperial Discipline / Solar Wrath at 2 BP",
     "guide": "Ideal for imperial legionnaires, solar inquisitors, fleet officers, and noble scicons.",
     "note": "The Impyrium views the Syndicate as corporate heretics and the Coalition as chaotic rebels.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-04-10-01-generic-commercial-corporate",
@@ -305,7 +305,7 @@
     "mechanic": "Template Skill Points: 20 SP (Allocated per template profile)\nTemplate Base TL: TL 3 to TL 4",
     "guide": "Use these secondary templates to quickly construct corporate adversaries, neutral shipping guilds, and orbital resorts for Architect campaigns.",
     "note": "Generic templates allow flexible customization for secondary player backgrounds or GM factions.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-04-10-02-generic-military-security",
@@ -319,7 +319,7 @@
     "mechanic": "Template Skill Points: 20 SP\nTemplate Base TL: TL 3 to TL 4",
     "guide": "Deploy for military conflicts, security details, and bounty hunting campaigns.",
     "note": "Mercenary companies can be hired by both Operators and villainous Architects.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-04-10-03-generic-underworld-outlaws",
@@ -333,7 +333,7 @@
     "mechanic": "Template Skill Points: 20 SP\nTemplate Base TL: TL 3",
     "guide": "Use for heist adventures, space piracy encounters, and rebellion campaigns.",
     "note": "Underworld factions offer excellent black-market gear and dangerous allies.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-04-10-04-generic-faith-mysticism",
@@ -347,7 +347,7 @@
     "mechanic": "Template Skill Points: 20 SP\nTemplate Base ML: ML 3 to ML 5",
     "guide": "Deploy for mystery investigations, cult confrontations, and cosmic horror encounters.",
     "note": "Cultists provide high-stakes narrative tension and eldritch metaphysical challenges.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-04-10-05-generic-science-evolution",
@@ -361,7 +361,7 @@
     "mechanic": "Template Skill Points: 20 SP\nTemplate Base TL: TL 4 to TL 5",
     "guide": "Use for transhumanist dilemmas, rogue AI threats, and mutant survival storylines.",
     "note": "AI and Gene-Smith factions challenge players with unconventional tactics.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-04-10-06-generic-planetary-exploration",
@@ -375,7 +375,7 @@
     "mechanic": "Template Skill Points: 20 SP\nTemplate Base TL: TL 1 to TL 4",
     "guide": "Use to populate newly discovered planetary sectors and diplomatic summits.",
     "note": "Exploration and Diplomatic factions provide strong non-combat narrative hooks.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-05-00-origins-system-overview",
@@ -389,7 +389,7 @@
     "mechanic": "OriginSkillPoints = 20\nOriginTraits = 2 (Selected from Origin Trait List)\nSecondaryOrigin = Allows cross-selection of traits without extra points",
     "guide": "Select one Origin during Step 5 of character creation. Allocate 20 SP among listed skills and choose 2 Traits.",
     "note": "Origins ground characters in their home environment and explain their unique physical or survival advantages.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-05-01-agri-worlds",
@@ -403,7 +403,7 @@
     "mechanic": "Origin Skills: Piloting, Alertness, Nature, Survival, Technology, Vocation (20 SP)\nOrigin Traits: Choose 2 (Animal Husbandry, Botany, Community, Green Thumb, Mechanics, Resourcefulness)",
     "guide": "Ideal for survivalists, botanists, scouts, rugged engineers, and community protectors.",
     "note": "Agri-World characters understand the rhythm of life, weather, and practical machinery.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-05-02-arcologies-megacities",
@@ -417,7 +417,7 @@
     "mechanic": "Origin Skills: Computers, Streetwise, Culture, Acrobatics, Alertness, Investigation (20 SP)\nOrigin Traits: Choose 2 (Street Smarts, Tech Savvy, Crowd Blend, Neon Reflexes, Corp Fluency, Parkour)",
     "guide": "Ideal for hackers, street operatives, private eyes, fixers, and corporate runaways.",
     "note": "Arcology natives are comfortable in claustrophobic, high-stimulus urban environments.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-05-03-asteroid-belts",
@@ -431,7 +431,7 @@
     "mechanic": "Origin Skills: Piloting, Technology, Space Survival, Astrogation, Geology, Zero-G Athletics (20 SP)\nOrigin Traits: Choose 2 (Zero-G Native, Vacuum Instincts, Astrogation, Life Support, Radiation Hardened, Mineral Eye)",
     "guide": "Ideal for asteroid miners, void pilots, salvage engineers, and deep space scouts.",
     "note": "Belters often feel uncomfortable under open, boundless planetary skies.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-05-04-death-worlds",
@@ -445,7 +445,7 @@
     "mechanic": "Origin Skills: Survival, Combat, Alertness, Athletics, Medicine, Stealth (20 SP)\nOrigin Traits: Choose 2 (Apex Reflexes, Iron Stomach, Predator Sense, Adrenaline, Tough Hide, Wilderness Stalker)",
     "guide": "Ideal for big-game hunters, berserkers, tough scouts, and frontier mercenaries.",
     "note": "Death World survivors have hyper-vigilant survival reflexes that never truly turn off.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-05-05-high-g-low-g-worlds",
@@ -459,7 +459,7 @@
     "mechanic": "High-G Traits: Dense Bone Mass, Heavy Lifter, Standard G Speed (+5 ft)\nLow-G Traits: Graceful Leaper (Double Jump), Kinetic Drift, Spatial Coordination",
     "guide": "Select based on your character's physiological background.",
     "note": "Gravitational adaptations represent deep cellular acclimation to extreme worlds.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-05-06-toxic-wastelands",
@@ -473,7 +473,7 @@
     "mechanic": "Origin Skills: Survival, Scrap Tech, Medicine, Alertness, Combat, Trade (20 SP)\nOrigin Traits: Choose 2 (Radiation Immunity, Filter Master, Scrap Savant, Corrosive Resist, Desperate Grit)",
     "guide": "Ideal for scavengers, hazard troopers, toxic zone explorers, and mutant survivors.",
     "note": "Wastelanders understand how to stretch scarce survival equipment to the breaking point.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-06-00-occupations-system-overview",
@@ -487,7 +487,7 @@
     "mechanic": "ProfessionalSkillPoints = 20\nRecommendedFeatureDiscount = 1 BP discount (Cost: 2 BP)\nOccupationalTraits = Choose 2",
     "guide": "Choose your Occupation during Step 6 of character creation. Allocate your 20 SP and select 2 Traits.",
     "note": "Occupations define what your character does for a living and their core competency in the party.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-06-01-adepts-metaphysics",
@@ -501,7 +501,7 @@
     "mechanic": "Professional Skills: Attune, Disciplines, Metaphysics, Academics, Alertness (20 SP)\nRecommended Feats: Awakened (2 BP), Deep Attunement (2 BP), Meta Mastery (2 BP)\nTraits: Choose 2 (Concentration, Reservoir, Reality Intuition, Spell Weaver, Arcanist, Esoteric)",
     "guide": "Ideal for arcanists, psions, priests, battle-mages, dimensional jaunters, and mentalists.",
     "note": "Adepts are the primary reality-warpers of the party.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-06-02-soldiers-tactical",
@@ -515,7 +515,7 @@
     "mechanic": "Professional Skills: Combat Skills, Defense, Athletics, Tactics, Alertness, Survival (20 SP)\nRecommended Feats: Weapon Spec (2 BP), Point Blank (2 BP), Toughness (2 BP)\nTraits: Choose 2 (Combat Reflexes, Suppressing Fire, Armor Acclimation, Battle Hardened, Rapid Reload, Field Medic)",
     "guide": "Ideal for front-line tanks, heavy gunners, shock troopers, and tactical commanders.",
     "note": "Soldiers maximize action economy through high Combat Skill ranks.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-06-03-scouts-pathfinders",
@@ -529,7 +529,7 @@
     "mechanic": "Professional Skills: Stealth, Alertness, Piloting, Survival, Sniper Combat, Navigation (20 SP)\nRecommended Feats: Sniper Mastery (2 BP), Lightning Reflexes (2 BP), Trailblazer (2 BP)\nTraits: Choose 2 (Eagle Eye, Silent Step, Vanish, Tracker, Pathfinder, Trap Awareness)",
     "guide": "Ideal for snipers, recon pilots, stealth infiltrators, and wilderness rangers.",
     "note": "Scouts excel at controlling engagement range and initiating surprise attacks.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-06-04-scholars-technologists",
@@ -543,7 +543,7 @@
     "mechanic": "Professional Skills: Science, Technology, Computers, Medicine, Investigation, Academics (20 SP)\nRecommended Feats: Master Inventor (2 BP), Insightful Reason (2 BP), Medical Specialist (2 BP)\nTraits: Choose 2 (Cyber-Surgeon, Overclock, Master Hacker, Deductive Genius, Field Repair, Xeno-Linguist)",
     "guide": "Ideal for starship engineers, cyber-doctors, science officers, hackers, and researchers.",
     "note": "Technologists turn the tide through digital subversion, gadgetry, and medical support.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-06-05-scoundrels-operatives",
@@ -557,7 +557,7 @@
     "mechanic": "Professional Skills: Streetwise, Deception, Stealth, Security, Light Combat, Sleight of Hand (20 SP)\nRecommended Feats: Underworld Connections (2 BP), Sneak Attack (2 BP), Silver Tongue (2 BP)\nTraits: Choose 2 (Fast-Talker, Hidden Pocket, Black Market, Slip Cuffs, Opportunistic, Fence Master)",
     "guide": "Ideal for smugglers, assassins, thieves, bounty fixers, and charismatic grifters.",
     "note": "Scoundrels thrive by bypassing direct confrontations through cunning and subterfuge.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-06-06-diplomats-leaders",
@@ -571,7 +571,7 @@
     "mechanic": "Professional Skills: Diplomacy, Etiquette, Leadership, Deception, Investigation, Law (20 SP)\nRecommended Feats: Inspiring Personality (2 BP), High Status (2 BP), Iron Will (2 BP)\nTraits: Choose 2 (Rallying Cry, Silver Tongue, Immunity, Poker Face, High Connections, Command Presence)",
     "guide": "Ideal for ambassadors, party leaders, merchant princes, aristocrats, and fleet commanders.",
     "note": "Diplomats can resolve massive galactic conflicts without firing a single shot.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-07-00-skills-system-overview",
@@ -585,7 +585,7 @@
     "mechanic": "SkillCheck = d20 + SkillRank + AttributeMod + SituationalMod vs DC\nCreation Cap: Rank 6 recommended, Rank 11 maximum",
     "guide": "To perform a skill check: roll d20, add your skill rank and attribute modifier, and compare against the Architect's DC.",
     "note": "Opposed checks resolve against the opponent's active skill check. Defender wins all ties.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-07-01-physical-skills",
@@ -599,7 +599,7 @@
     "mechanic": "Acrobatics = d20 + AcrobaticsRank + AgilityMod\nAthletics = d20 + AthleticsRank + StrengthMod\nPiloting = d20 + PilotingRank + AgilityMod\nStealth = d20 + StealthRank + AgilityMod vs Alertness",
     "guide": "Physical skills are essential for mobility, vehicle dogfights, and stealth infiltration.",
     "note": "Piloting checks are modified by the maneuverability rating of your vehicle.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-07-02-mental-knowledges",
@@ -613,7 +613,7 @@
     "mechanic": "KnowledgeCheck = d20 + KnowledgeRank + IntellectMod vs DC",
     "guide": "Knowledge checks allow characters to recall lore, analyze technical systems, and perform complex research.",
     "note": "Characters without training in specialized sciences (e.g. Physics, Metaphysics) may only attempt basic DC 10 checks.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-07-03-mental-vocations",
@@ -627,7 +627,7 @@
     "mechanic": "CraftingCheck = d20 + VocationRank + AttributeMod vs (TL * 2 + BaseComplexity)",
     "guide": "Use vocation skills during campaign downtime to manufacture customized gear, repair starships, and earn trade income.",
     "note": "Crafting masterwork gear with special weapon traits requires Expert rank (Rank 11+) in the relevant vocation.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-07-04-social-skills",
@@ -641,7 +641,7 @@
     "mechanic": "Diplomacy = d20 + DiplomacyRank + CharismaMod vs Target DC\nDeception = d20 + DeceptionRank + CharismaMod vs Investigation\nIntimidation = d20 + IntimidateRank + Charisma/Strength vs Will Save",
     "guide": "Use social skills to avoid unnecessary bloodshed, recruit allies, and manipulate enemies.",
     "note": "Social checks are heavily influenced by the target's faction loyalty and current hostility level.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-07-05-combat-skills",
@@ -655,7 +655,7 @@
     "mechanic": "AttackCheck = d20 + CombatSkillRank + AttributeMod + WeaponBonus vs Target Defense\nAction Economy: Higher Skill Ranks unlock up to 6 attacks per round (see 3.00.01)",
     "guide": "Investing in Combat Skills increases both your base attack bonus and the number of actions you can execute per turn.",
     "note": "Advanced weapons (TL 4+) inflict exotic damage types that bypass standard kinetic armor DR.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-07-06-metafocus-skills",
@@ -669,7 +669,7 @@
     "mechanic": "Spell Resistance DC = 10 + KeyAbilityMod + AttuneRank + InvocationLevel\nDiscipline Check = d20 + DisciplineRank + KeyAbilityMod (determines severity & damage)",
     "guide": "To cast invocations: Attune sets the difficulty for targets to resist, while your Discipline skill determines the potency and damage.",
     "note": "Discipline skills cannot exceed double the planetary or character Metafocus Level (ML).",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-08-00-features-system-overview",
@@ -683,7 +683,7 @@
     "mechanic": "Standard Feature Cost = 3 BP\nRecommended Feature Cost = 2 BP (1 BP Discount)\nRanked Feature Max Stages = 5 Stages (Stage limit = Skill Tier)",
     "guide": "Select Features during character creation or spend experience points during campaign progression.",
     "note": "Ranked features allow specialized characters to stack potent bonuses in their core competencies.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-08-01-ability-features",
@@ -697,7 +697,7 @@
     "mechanic": "Ranked Bonus: +2 per stage purchased (Max 5 stages)\nAdvantage: Roll 2d20, take higher result",
     "guide": "Invest in Ability Features to safeguard your character against deadly poison, explosions, psionic domination, and instant death effects.",
     "note": "Pairing Great Fortitude with Incredible Fortitude provides supreme protection in hostile environments.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-08-02-combat-features",
@@ -711,7 +711,7 @@
     "mechanic": "Weapon Spec: +2 Attack / +2 Damage with chosen weapon group\nDual Wielding: Primary Attack + Off-hand Attack (penalty reduced by feat)",
     "guide": "Stack Combat Features with high Combat Skill ranks to dominate the tactical action economy.",
     "note": "Deflect allows skilled cyber-samurai and energy blade masters to protect teammates from sniper fire.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-08-03-meta-psionic-features",
@@ -725,7 +725,7 @@
     "mechanic": "Deep Attunement: +4 Max Essence per rank\nOverchannel: 1 Essence Point = 2 HP sacrificed",
     "guide": "Crucial for Adepts, Arcanists, and Psions looking to cast multiple invocations in high-stakes combat.",
     "note": "Overchanneling is a double-edged sword: powerful in an emergency, but lethal if mismanaged.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-08-04-general-social-karma-features",
@@ -739,7 +739,7 @@
     "mechanic": "Lucky: Spend 1 Karma Point -> Reroll any d20 check, take new result\nWealth: +4 Wealth per stage",
     "guide": "Karma and Social features provide exceptional flexibility and narrative control outside pure combat.",
     "note": "Karma points refresh at the beginning of each game session.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-08-05-technologist-augmentation-features",
@@ -753,7 +753,7 @@
     "mechanic": "Cyber Tolerance: +2 Cybernetic Slots per stage\nDrone Master: 3 Active Combat Drones simultaneously",
     "guide": "Essential for cyber-operatives, engineers, droid commanders, and starship pilots.",
     "note": "Cybernetic installations require surgery and recovery time unless installed during character generation.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-09-00-hindrances-system-overview",
@@ -767,7 +767,7 @@
     "mechanic": "Hindrance BP Values: Minor (+3 BP), Moderate (+6 BP), Major (+9 BP), Severe (+18 BP)\nRecommended Hindrance Cap = 15 Bonus BP",
     "guide": "Select up to 15 BP of Hindrances during Step 7 of character creation to earn bonus Build Points for attributes and features.",
     "note": "Hindrances should actively drive roleplay and create dramatic challenges during sessions.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "1-09-01-complete-hindrances-catalog",
@@ -781,7 +781,7 @@
     "mechanic": "Gain Bonus BP = Listed Hindrance Value\nTotal Bonus BP <= 15 recommended",
     "guide": "Choose Hindrances that enrich your character's backstory and provide engaging dramatic hurdles.",
     "note": "The Architect can reward inspiration or karma points when a player roleplays their hindrance faithfully.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "3-00-00-tactical-combat-overview",
@@ -795,7 +795,7 @@
     "mechanic": "Opposed: Attacker (2d10 + Skill + Attr + Mod) vs Defender (Agility + Defense Skill + Mod) [Defender wins ties]\nUnopposed: Attacker Roll vs CR 15 + SizeMod + RangeMod + MoveMod",
     "guide": "On your turn in combat: declare target, choose weapon, roll 2d10 attack check against target's defense roll or static DC.",
     "note": "Defender wins ties on all opposed checks, emphasizing defensive positioning and reactive cover.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "3-00-01-action-economy-skill-tiers",
@@ -809,7 +809,7 @@
     "mechanic": "Actions: Rank 1-5 (1 act @ +0), Rank 6-10 (2 acts @ -5), Rank 11-15 (3 acts @ -10), Rank 16-20 (4 acts @ -15), Rank 21-25 (5 acts @ -20), Rank 26-30 (6 acts @ -25)\nActive Defense Penalty: (DefenseReactionIndex - 1) * -5",
     "guide": "Declare your primary action on your turn. Higher ranks allow additional strikes with cumulative -5 penalties.",
     "note": "Focus Strike bonus adds directly to all attack rolls made with dedicated weapons in that skill.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "3-00-02-initiative-surprise-reactions",
@@ -823,7 +823,7 @@
     "mechanic": "Initiative = 2d10 + ReflexSave + AgilityMod\nSurprise Attack: Attacker at -5 to hit vs NO Target Defense; Damage rolled with Advantage",
     "guide": "Roll 2d10 initiative once at encounter start. Ambushes deny defender reaction defense.",
     "note": "Danger Sense prevents surprise and grants advantage on awareness tests.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "3-00-03-attack-defense-modifiers",
@@ -837,7 +837,7 @@
     "mechanic": "TargetDC = 15 + SizeMod + RangePenalty + MoveMod\nPoint Blank: +5 Strike & Roll Damage with Advantage\nIterative limit: Moving > 5ft restricts to 1 attack action",
     "guide": "Consult this table whenever resolving ranged attacks against moving, distant, or unusual sized targets.",
     "note": "All Range Penalties are Doubled during automatic fire.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "3-00-04-combat-maneuvers",
@@ -851,7 +851,7 @@
     "mechanic": "Aiming: +2 Strike/rnd (up to 1/2 Skill Rank)\nFlanking: +2 to Hit\nHigh Ground: +2 Strike, +2 Crit Range\nFeint: Bluff vs Sense Motive -> Sneak Attack at -5 vs 0 Defense\nCharge: -2 Def/-2 Atk, +1d Dmg, -1 Atk/speed stage, +1 Impact/10ft (max +100%)",
     "guide": "Declare tactical maneuvers or stance adjustments at the start of your movement or attack sequence.",
     "note": "Close In and Withdraw prevent provoking defensive Advancing/Retreating counter-attacks.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "3-00-05-damage-soak-armor-dr-ap",
@@ -865,7 +865,7 @@
     "mechanic": "TotalDamage = (WeaponDice + AbilityMod + PrecisionDamage) - (ArmorDR + TargetCONMod)\nActiveDefense: Reduces incoming damage by Defender Defense Score (countering Precision)\nSneakAttack: Adds bonus only if >= 1 pt penetrates Armor DR (evaluated before CON Mod)\nConcussive: Split 50/50 between Vitality and Health on attempted reduction; 1/2 Hard Armor DR\nForce: Ignores 1/2 Armor DR; Phase & Mental: Ignore physical Armor DR",
     "guide": "Calculate base strike with 2d10 + Ability + Skill. If hit, resolve damage formula. Deduct active defense score from precision damage if defending.",
     "note": "Dual 10s (Natural 20) doubles weapon damage dice and adds +30 to base attack score. Dual 1s (Natural 2) subtracts 10 from attack score.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "3-00-06-health-wound-thresholds-mortality",
@@ -879,7 +879,7 @@
     "mechanic": "HitLocation: 1d10 (1 Head, 2-4 Torso, 5-6 Arm, 7-0 Leg; 1d6 melee)\nCalledShots: -2 Torso/Leg, -4 Head/Arm\nTraumaSaves: Head (Reason), Torso (Fort), Arm (Ref), Leg (Might); duration = points under CR\nDisabled: 1/3 Health -> Sta check CR 10+dmg to keep using (-4 actions head, -4 Str/Agi arm, 1/2 speed leg)\nDestroyed: 2/3 Health -> Mangled, no check, brain death GM discretion\nSynthLimbs: +50% damage threshold before Disabled/Destroyed (no Sta check)\nMortality: 0 HP -> Bleeding out (1 Stability Dmg/rnd), Stability Pool = CON + 5",
     "guide": "Roll 1d10 for critical hit location or declare called shot (-2 or -4). Track limb damage at 1/3 and 2/3 Health thresholds.",
     "note": "",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "3-00-07-critical-hits-failures",
@@ -893,7 +893,7 @@
     "mechanic": "Dual 10s (Nat 20): Auto-Hit, Subtotal = 30, 2x Damage Dice, 50% Armor DR Bypass\nDual 1s (Nat 2): Auto-Miss, Subtotal = -10, Weapon Jam / Fumble Check",
     "guide": "Roll double damage dice on critical hits. Apply fumble complications narratively.",
     "note": "High Ground adds +2 to the critical hit threshold window.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "3-00-08-status-effects-conditions",
@@ -907,7 +907,7 @@
     "mechanic": "Bleeding: 1d4 dmg/turn ignores DR (Medicine DC 10)\nBurning: 1d6 fire/rnd + Will DC 12 panic (Full Action Stop/Drop/Roll)\nFreeze: Speed 0, Vulnerable Phys/Sonic (Str DC 20 or Fire)\nStunned: 0 Actions, Drop items, Base Defense (Con DC 15)",
     "guide": "Track conditions on the Folio and Foundry combat tracker during active skirmishes.",
     "note": "Prone provides +2 Defense per range category after Point Blank vs. ranged attacks.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "3-00-10-movement-modes-paces-fatigue",
@@ -921,7 +921,7 @@
     "mechanic": "GroundPaces: Walk(1x), Jog(2x), Run(4x/5x), Sprint(6x/7x)\nAerialRam: +1d per FlightStage + 1 Impact per 10ft Speed\nExhausted: -2 to all checks, Movement Speed halved",
     "guide": "Track pace multiples during movement actions and prompt Fortitude DC 15 checks upon sustained sprint triggers.",
     "note": "Running, Swimming, Climbing, and Soar features augment speed multiples without increasing subtlety penalties.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "3-00-11-vehicle-mecha-chase-combat",
@@ -935,7 +935,7 @@
     "mechanic": "VehicleInitiative = 2d10 + AgilityMod + Alertness + HandlingMod\nRamming = 1d10 / 10ft Speed (heavier takes 1/2)\nDogfight = Opposed Pilot Check (Winner: Advantage + Tail/Flank; Loser: Flat-Footed)\nArmorThreshold = Damage <= DR bounces\nInfantryCalledShot = -5 Attack -> Ignore 50% DR or disable system\nStructureSiege = Heavy weapons deal 2x damage against Defense 5 structures\nCatastrophicExplosion = 10ft/Size Cat radius, 1d6 per 10 max SP",
     "guide": "Track Pilot, Gunner, and Engineer turns independently. Roll on System Failure Table (d6) at 50% SP or on critical hits.",
     "note": "Capital ship spinal mounts inflict proximity concussive damage to fighters on near-misses.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "3-00-10-zero-g-environmental-hazards",
@@ -949,7 +949,7 @@
     "mechanic": "Zero-G Recoil: -2 Attack & 5ft pushback without mag-boots\nVacuum Damage: 2d10 per round after 1 round stun",
     "guide": "Enforce environmental hazard checks during space-walks, hull breaches, and alien ruin expeditions.",
     "note": "Environmental suits and mag-boots are mandatory standard gear for void operatives.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "4-00-00-metaphysics-framework",
@@ -963,7 +963,7 @@
     "mechanic": "MaxDisciplineRank = ML * 2 (Attune is not limited by ML)\nPotency = KeyAbilityMod + DisciplineSkillRank + InvocationLevel + 10 (or d20)\nEssencePool = Sum(6 Abilities) + AttuneRank + Sum(DisciplineSkillRanks)",
     "guide": "Establish your character's Key Ability, awakened disciplines, and starting ML caps during character creation.",
     "note": "Attune is the foundation of all reality manipulation and is exempt from planetary ML restrictions.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "4-00-01-casting-mechanics-free-invocations",
@@ -977,7 +977,7 @@
     "mechanic": "CodifiedPotency = KeyMod + DisciplineRank + InvocationLevel + 10 (or d20)\nInternalizedStrain = floor(FailureMargin / 5) * 1 NonLethal HP\nEnergySurge = Attune <= 0 -> EssenceCost * 2",
     "guide": "Use codified invocations for reliable Take 10 operational safety in combat; use free-casting for flexible narrative problem solving.",
     "note": "Internalized Strain cannot be absorbed by Stamina or Armor DR, representing direct biological strain.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "4-00-02-essence-economy-surge-strain",
@@ -991,7 +991,7 @@
     "mechanic": "EssencePool = Sum(6 Abilities) + AttuneRank + Sum(DisciplineSkillRanks)\nTheBurn = 1 Essence : 2 Direct Health Damage (Bypasses DR & Stamina)\nBaseDCCosts = { DC5: 0, DC10: 0, DC15: 1, DC20: 2, DC25: 3, DC30: 4, DC35: 5 }",
     "guide": "Monitor your Essence pool closely during dungeon crawls and prolonged firefights. When empty, beware The Burn.",
     "note": "The Burn inflicts non-soakable Health trauma, representing physical breakdown from channeling unshielded power.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "4-00-03-discipline-dimension",
@@ -1005,7 +1005,7 @@
     "mechanic": "Blink-Step: 1 Essence -> 30ft Teleport (Quick Action)\nSingularity Well: 4 Essence -> 40ft Radius Pull & 4d10 Kinetic Damage (Reflex DC)",
     "guide": "Dimensional adepts excel at battlefield mobility, bypassing barriers, and isolating dangerous foes.",
     "note": "Teleporting into solid matter is impossible; the spatial field shunts the caster to the nearest open space.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "4-00-04-discipline-energy",
@@ -1019,7 +1019,7 @@
     "mechanic": "Plasma Bolt: 1 Essence -> 2d8 Thermal (Range 60ft)\nLightning Lance: 3 Essence -> 5d10 Electrical Line (60ft)\nPlasma Nova: 4 Essence -> 8d8 Thermal Sphere (40ft Radius)",
     "guide": "Energy adepts provide devastating area-of-effect damage and impenetrable kinetic shielding.",
     "note": "Thermal invocations ignite flammable materials and melt thin metal bulkheads.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "4-00-05-discipline-entropy",
@@ -1033,7 +1033,7 @@
     "mechanic": "Life Siphon: 2 Essence -> 3d6 Necrotic Damage + Heal 50%\nEntropic Blast: 3 Essence -> 5d8 Entropy Damage (Ignores Armor DR)",
     "guide": "Entropy adepts excel at bypassing high Armor DR and crippling enemy combat statistics.",
     "note": "Entropy invocations leave targets with blackened, necrotic cellular scarring.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "4-00-06-discipline-illusion",
@@ -1047,7 +1047,7 @@
     "mechanic": "Invisibility: 1 Essence -> Total Concealment (+8 Stealth, Advantage on first attack)\nHolographic Decoy: 1 Essence -> 50% Miss Chance",
     "guide": "Illusion adepts excel at infiltration, social infiltration, diversion, and avoiding direct combat.",
     "note": "True-sight cybernetic sensors roll an Investigation check against your Attune DC to see through illusions.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "4-00-07-discipline-matter",
@@ -1061,7 +1061,7 @@
     "mechanic": "Telekinetic Throw: 1 Essence -> 2d8 Kinetic (Range 60ft)\nTelekinetic Crush: 3 Essence -> 4d10 Crushing Damage (Might DC)\nTelekinetic Storm: 4 Essence -> 6d10 Damage in 40ft Radius",
     "guide": "Matter adepts provide massive physical battlefield control, barricades, and object manipulation.",
     "note": "Telekinesis uses your Intellect or Wisdom modifier for grapple checks and throwing accuracy.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "4-00-08-discipline-mental",
@@ -1075,7 +1075,7 @@
     "mechanic": "Psychic Strike: 2 Essence -> 3d8 Psychic Damage (Bypasses Physical Armor DR)\nDomination: 4 Essence -> Full Mind Control for 1 minute (Will DC)",
     "guide": "Mental adepts dominate intelligence gathering, silent squad coordination, and disabling priority targets.",
     "note": "Psychic damage attacks the mind directly and ignores physical kinetic armor DR entirely.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "4-00-09-invocations-geometry-aoe",
@@ -1089,7 +1089,7 @@
     "mechanic": "Sphere Radius: Count grid squares from origin point\nLine: 5ft wide straight path\nHalf Cover in AoE = +2 to Saving Throw",
     "guide": "Use these geometric templates when placing AoE spell templates on Foundry battle maps.",
     "note": "Solid barriers absorb damage before allowing AoE blast waves to pass through.",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "4-01-omni-codex-metaphysics-overview",
@@ -1103,7 +1103,7 @@
     "guide": "Awaken a discipline feature during character creation to unlock access to Attune and its associated Metafocus skills.",
     "note": "Metaphysical phenomena interact with technological sensors, manifesting as localized tachyon spikes and quantum flux.",
     "perspective": "both",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "4-02-metafocus-levels",
@@ -1117,7 +1117,7 @@
     "guide": "Check the planetary ML of your campaign world to verify starting discipline skill caps during character generation.",
     "note": "Civilizations with ML 4+ regularly integrate metaphysical anti-tampering runes into currency, architecture, and legal oaths.",
     "perspective": "both",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "4-03-triad-mechanics-attune-discipline-invocation",
@@ -1131,7 +1131,7 @@
     "guide": "When casting, roll Attune to establish the target difficulty or attack accuracy, then resolve Discipline potency.",
     "note": "Minor abilities and cantrips require zero Essence expenditure and resolve automatically without a roll.",
     "perspective": "both",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "4-04-key-abilities-awakening-sources",
@@ -1145,7 +1145,7 @@
     "guide": "Select your Key Ability upon taking the Awakened Feature. All your invocation formulas and save DCs will utilize this modifier.",
     "note": "A character's Key Ability modifier also determines their hourly Essence recovery rate during Light Rest.",
     "perspective": "both",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "4-05-free-casting-vs-codified-invocations",
@@ -1159,7 +1159,7 @@
     "guide": "Use codified invocations with Take 10 during chaotic gunfights; save spontaneous free-casting for out-of-combat problem solving.",
     "note": "Internalized Strain damages biological or synthetic vitality directly and bypasses all Armor DR.",
     "perspective": "both",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "4-06-essence-pool-surge-strain",
@@ -1173,7 +1173,7 @@
     "guide": "Track your current Essence pool on your Folio. When running low, retreat to a secure sanctum or seek cover for Light Rest.",
     "note": "The Burn inflicts permanent scarring or cybernetic circuit burn if used repeatedly without medical stabilization.",
     "perspective": "both",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "4-07-discipline-dimension",
@@ -1187,7 +1187,7 @@
     "guide": "Use Dimension invocations to reposition squad members instantaneously and bypass heavily fortified chokepoints.",
     "note": "Teleporting into solid matter is prevented by the quantum field, shunting the traveler to the nearest open space.",
     "perspective": "both",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "4-08-discipline-energy",
@@ -1201,7 +1201,7 @@
     "guide": "Energy adepts provide high-intensity direct fire, barrier protection, and battlefield crowd control.",
     "note": "Thermal energy ignites flammable atmospheric gases and rapidly boils liquid oxygen reserves.",
     "perspective": "both",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "4-09-discipline-entropy",
@@ -1215,7 +1215,7 @@
     "guide": "Deploy Chaos to dissolve enemy armor DR, and use Order to stabilize dying squad operatives in combat.",
     "note": "Entropy invocations ignore physical kinetic shields and degrade mechanical armor DR permanently.",
     "perspective": "both",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.644Z"
   },
   {
     "id": "4-10-discipline-illusion",
@@ -1229,7 +1229,7 @@
     "guide": "Use Illusion for covert infiltration, electronic deception, diverting enemy sniper fire, and cloaking squad vehicles.",
     "note": "Tactile physical contact with an illusion permits an immediate Disbelief saving throw with Advantage.",
     "perspective": "both",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.645Z"
   },
   {
     "id": "4-11-discipline-matter",
@@ -1243,7 +1243,7 @@
     "guide": "Shape stone and metal bulkheads into defensive blast barricades or transmute hazardous liquid toxins into neutral water.",
     "note": "Enhancement invocations can reinforce damaged starship hulls during catastrophic hull breaches.",
     "perspective": "both",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.645Z"
   },
   {
     "id": "4-12-discipline-mental",
@@ -1257,7 +1257,7 @@
     "guide": "Maintain encrypted telepathic links across your operative squad for completely silent coordination.",
     "note": "Interfacing with synthetic AI matrices requires specialized cyber-psionic training or composite invocations.",
     "perspective": "both",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.645Z"
   },
   {
     "id": "4-13-metaphysic-ranges-area-geometry",
@@ -1271,7 +1271,7 @@
     "guide": "Apply range and area modifiers to checks before calculating the final potency stage.",
     "note": "Extended range invocations targeting locations across planetary distances require telemetry triangulation.",
     "perspective": "both",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.645Z"
   },
   {
     "id": "4-14-composite-invocations-synthesis",
@@ -1285,7 +1285,7 @@
     "guide": "Train multiple disciplines to qualify for composite invocations that combine the capabilities of both spheres.",
     "note": "Composite Invocations count as known Invocations for both disciplines, but require both Awakened features.",
     "perspective": "both",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.645Z"
   },
   {
     "id": "4-15-meta-combat-counter-effects",
@@ -1299,7 +1299,7 @@
     "guide": "Hold a Reaction action to counter devastating incoming area-of-effect spells during boss encounters.",
     "note": "Countering does not consume the defender's Essence unless the counter attempt itself utilizes a specialized ward.",
     "perspective": "both",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.645Z"
   },
   {
     "id": "4-16-codex-meta-sensory-manifestations",
@@ -1313,6 +1313,6 @@
     "guide": "Describe the visual, audio, and tactile texture of invocations based on the caster's cultural origin and discipline.",
     "note": "Sensory signatures allow observers with Alertness or Attune to identify the school and source of an incoming spell.",
     "perspective": "both",
-    "updatedAt": "2026-08-27T02:07:49.056Z"
+    "updatedAt": "2026-08-27T04:26:38.645Z"
   }
 ]

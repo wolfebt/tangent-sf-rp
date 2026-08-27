@@ -1,66 +1,48 @@
 ---
-id: 3-09-health-vitality-mortality-trauma
-name: '3.09 Health, Vitality, Mortality & Trauma (0 Health Rules)'
-category: compendium
-entry_type: Core Rule
-parent: 3.00 COMBAT
+id: "3-09-health-vitality-mortality-trauma"
+name: "3.09 Health, Vitality, Limb Trauma & Mortality State (0 HP Rules)"
+category: "compendium"
+entry_type: "Core Rule"
+parent: "3.00 COMBAT"
 order: 9
-costs:
-  bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
-# 3.09 Health, Vitality, Mortality & Trauma (DEATH & DYING)
+# 3.09 Health, Vitality, Limb Trauma & Mortality State (0 HP Rules)
 
-Death is a state reached when a character loses all their health points. This can occur due to combat injuries, environmental hazards, or other detrimental effects. However, in Tangent, there's a nuance to this: characters have Vitality Points that provide a buffer against death. Tangent does not use Hit Points (HP).
+Combat lethality in Tangent tracks vital hit points, limb damage thresholds, and the **Mortality State (0 HP)**.
 
 ---
 
-## THE MECHANICS OF DYING
+## 1. Limb Damage Thresholds: Disabled vs. Destroyed
 
-### 1. Health vs. Vitality
-- **Vitality represents stamina, luck, and minor bruising. This is a track of nonlethal damage.** It is lost first.
-- **Health represents physical trauma and structural integrity. It is lost from lethal damage or after Vitality is depleted** (or from Critical Hits).
-- **Concussive Damage (Falls, Explosions, Crashes):** Divided equally (50% Vitality / 50% Health) if any defensive reduction is attempted, regardless of success.
-- **Structure (Synthetics & Constructs):** Possess no Vitality buffer. All damage is sustained directly by Structure Points (`SP = Vitality + Health`).
+### Disabled (1/3rd Health in Damage to a Limb)
+- Taking **1/3rd of Health Score** in damage to a limb disables it (or causes Unconsciousness if dealt to the Head).
+- **Stamina Check:** Pass a **Stamina Check with CR = 10 + Damage Taken** to keep using the limb.
+- **Penalties:**
+  - **Head:** **-4 on all actions**.
+  - **Arm:** **-4 Strength and Agility** for actions using that arm.
+  - **Leg:** **Half Ground Speed** and **no Rush Maneuver**.
+- Requires medical attention or Metaphysics to properly restore function.
 
----
-
-### 2. The Threshold of Death
-When a character takes damage that reduces them to 0 Health, the following sequence occurs:
-
-#### 0 Health (Incapacitated)
-The character falls unconscious immediately. They drop anything they are holding and fall Prone. Any excess damage is applied to Vitality (if any remains).
-
-#### Death's Door
-If Health is 0 and Vitality is depleted (0), the character enters the **"Death's Door"** state.
-- **Condition:** The character is **Comatose** and severely wounded.
-- **The Clock:** The character has a number of rounds equal to their **Stamina Score** to receive medical aid (Minimum 1 round).
-- **Stabilization:** A successful **Medicine (DC 15)** check or the application of healing magic/tech stops the clock. The character remains unconscious but is no longer dying.
-- **Death:** If the clock runs out, the character dies permanently.
-- **Massive Damage:** If the character takes damage equal to or greater than their STA score in a single hit while at Death's Door, they die instantly.
+### Destroyed (2/3rds Health in Damage to an Area)
+- Taking **2/3rds of Health Score** in damage to an area damages it **beyond ANY further use** (Brain Death** if Head).
+- **NO Check:** It is mangled beyond repair. Traumatic Damage Control is immediately required for shock, blood loss, and vital collapse.
+- \*\* *Brain death is at GM discretion. If the character survives, they remain permanently disabled and require surgery and intense downtime.*
 
 ---
 
-### 3. Revivification ("The High Cost of Dying")
-This is the return from the dead option. It is generally rare, involves high-level Metaphysics or Tech (TL5), and carries a heavy toll—known as "The High Cost of Dying."
+## 2. Technology Level 3+ Limb Replacements & Cybernetics
+- **Surgery & Recovery:** A replacement limb requires **1 day of surgery and recovery** whether Biological or Synthetic.
+  - **Biological Limb:** Must be tissue-matched (**+1 day**) or lab-grown (**+2d4 days**).
+  - **Synthetic Cyber-Limb:** Available stock can be prepped for installation during surgery time.
+- **Body Replacement:** Tech 4 Tran-Cerebral Venture; Tech 5 Consciousness Transfer.
+- **Durability:** Biological limbs have baseline capacity. Synthetic limbs take **50% more damage** before reaching Disabled or Destroyed, but **may NOT get the Stamina check** to remain functional once reaching Disabled.
 
-#### Penalties:
-- A revived character loses **ALL** remaining Karma Points.
-- They suffer a **-5 Experience Debt** due to the trauma. This is taken as a reduction in a trait (or Traits) or as a reduction in accumulated/future experience until the debt is paid.
+---
+
+## 3. The Mortality State (0 Hit Points)
+When a character's Health Points reach 0, they immediately enter the **Mortality State**:
+1. **Unconscious and Incapacitated:** The character immediately falls Prone and is Incapacitated.
+2. **Bleeding Out:** At the beginning of the character's turn, they suffer **1 point of Stability Damage**.
+3. **Stability Threshold:** A character has a Stability Points total equal to their **Constitution Score + 5**.
+4. **Death:** If Stability Points reach 0, the character expires.
+5. **Stabilization:** First aid via Medicine Check (DC 15) or metaphysical healing stabilizes the character.

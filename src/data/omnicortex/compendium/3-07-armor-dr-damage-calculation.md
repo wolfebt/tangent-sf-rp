@@ -1,57 +1,39 @@
 ---
-id: 3-07-armor-dr-damage-calculation
-name: '3.07 Armor DR, AP Rating & Damage Calculation'
-category: compendium
-entry_type: Core Rule
-parent: 3.00 COMBAT
+id: "3-07-armor-dr-damage-calculation"
+name: "3.07 Master Damage Calculation, Metafocus & Precision Resolution"
+category: "compendium"
+entry_type: "Core Rule"
+parent: "3.00 COMBAT"
 order: 7
-costs:
-  bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
-# 3.07 Armor DR, AP Rating & Damage Calculation
+# 3.07 Master Damage Calculation, Metafocus & Precision Resolution
 
-Damage in Tangent is resolved through a realistic **Damage Reduction (DR)** and **Armor Piercing (AP)** penetration model.
+Damage in Tangent is resolved through a unified formula incorporating weapon force, relevant abilities, precision bonuses, target armor protection, and natural resilience.
 
 ---
 
-## The Damage Resolution Formula
+## The Master Damage Formula
 
-$$\text{Effective Armor DR} = \max(0, \text{Target Armor DR} - \text{Weapon AP Rating})$$
+$$\text{Total Damage} = (\text{Weapon Dice} + \text{Relevant Ability Mod} + \text{Precision Damage}) - (\text{Target Armor DR} + \text{Target CON Mod})$$
 
-$$\text{Wound Damage Taken} = \max(0, \text{Incoming Damage} - \text{Effective Armor DR} - \text{Toughness})$$
-
-- **Toughness:** Stamina Ability Score determines base Toughness, reducing incoming wound damage on a point-for-point basis. Damage is then applied to Vitality (if non-lethal) or Health (if lethal), or Structure (for Synthetics).
+### Core Calculation Components
+- **Weapon Die Damage:** Base rolled damage from the physical weapon or metaphysical invocation tier.
+- **Relevant Ability Modifier:** Applied according to the combat vector:
+  - **Strength:** Melee attacks, brawling strikes, and throwing heavy objects.
+  - **Agility:** Finesse of light or natural weapons and most ranged physical attacks.
+  - **Intelligence:** Directly weaving and calculating magical or technological effects.
+  - **Charisma:** Subtle, emotional, and controlling metaphysical factors.
+  - **Stamina & Wisdom (Defensive):** Guard the body (**Fortitude**) and mind (**Willpower**) defensively. *Wisdom may substitute for Int/Cha in Metaphysic Skill checks for faith-based casters.*
+- **Precision Damage:** Bonus directly from the attacker's skill level (relative Combat or Focus Skill Rank).
+- **Active Defense Counter:** A defender who is actively defending reduces incoming damage by their **Defense score** (acting as a direct reduction against precision bonuses).
+- **Target's Armor DR:** Subtracted based on armor resistance against the specific damage type.
+- **Target's CON Mod:** Innate physiological resilience mitigating harm.
+- **Sneak Attack Activation:** Added **only if at least 1 point of damage penetrates target Armor DR** (determined after Armor DR but before Stamina/CON modifier).
 
 ---
 
-## Armor & Damage Interactions
-
-- **Damage Reduction (DR):** The static number of damage points absorbed by physical armor, energy shields, or natural carapace.
-- **Armor Piercing (AP):** The rating of the ammunition or energy beam that bypasses an equivalent amount of target Armor DR.
-- **Minimum Damage Rule:** A successful hit that penetrates or glances always inflicts at least **1 point of damage**, representing kinetic concussive transfer.
-
----
-
-## Example Calculation
-- A heavy battle rifle fires an AP-4 slug dealing **16 Kinetic Damage**.
-- The target wears Combat Plate with **DR 10**.
-- **Effective DR:**  - 4 = 6$.
-- **Final HP Lost:**  - 6 = 10 \text{ HP}$.
+## Metafocus (Metaphysical Attacks)
+- **Invocation as Weapon:** An Invocation is treated as the weapon with damage dice and type determined accordingly.
+- **Attack Roll:** Rolled with the **Attune Skill** (Strike roll, opposed by target Defense score or setting the saving throw CR).
+- **Damage & Magnitude:** Potency is determined by the **Invocation Tier and Discipline Skill Level**.
+- **Spontaneous Casting:** Fully supported, using the relevant **Discipline's Skill Rank**.

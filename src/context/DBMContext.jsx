@@ -12,6 +12,16 @@ import { DEFAULT_SPECIES_TYPES } from '../data/speciesTypesData';
 import { DEFAULT_OCCUPATIONS } from '../data/occupationsData';
 import { DEFAULT_ORIGINS } from '../data/originsData';
 import { DEFAULT_FACTIONS } from '../data/factionsData';
+import { DEFAULT_FEATURES } from '../data/featuresData';
+import { ALL_CANONICAL_TRAITS } from '../data/speciesTraitsData';
+import { ALL_CANONICAL_SKILLS } from '../data/skillsData';
+import { DEFAULT_SPECIES_DISADVANTAGES } from '../data/speciesDisadvantagesData';
+import { DEFAULT_WEAPONRY } from '../data/weaponryData';
+import { DEFAULT_ARMORING } from '../data/armoringData';
+import { DEFAULT_AUGMENTATIONS } from '../data/augmentationsData';
+import { DEFAULT_INVOCATIONS } from '../data/invocationsData';
+import { DEFAULT_SPECIES_SIZES } from '../data/speciesSizeData';
+import { DEFAULT_SPECIES_MOVEMENT } from '../data/speciesMovementData';
 
 const DBMContext = createContext(null);
 
@@ -23,9 +33,20 @@ export const DBMProvider = ({ children }) => {
     archetypes: DEFAULT_ARCHETYPES,
     species: DEFAULT_SPECIES,
     species_type: DEFAULT_SPECIES_TYPES,
+    species_size: DEFAULT_SPECIES_SIZES,
+    species_movement: DEFAULT_SPECIES_MOVEMENT,
     occupations: DEFAULT_OCCUPATIONS,
     origins: DEFAULT_ORIGINS,
-    factions: DEFAULT_FACTIONS
+    factions: DEFAULT_FACTIONS,
+    features: DEFAULT_FEATURES,
+    trait: ALL_CANONICAL_TRAITS,
+    traits: ALL_CANONICAL_TRAITS,
+    skills: ALL_CANONICAL_SKILLS,
+    disadvantages: DEFAULT_SPECIES_DISADVANTAGES,
+    weaponry: DEFAULT_WEAPONRY,
+    armoring: DEFAULT_ARMORING,
+    augmentations: DEFAULT_AUGMENTATIONS,
+    invocations: DEFAULT_INVOCATIONS
   });
   const [currentUser, setCurrentUser] = useState(auth?.currentUser || null);
   const [isLoading, setIsLoading] = useState(true);
@@ -115,7 +136,12 @@ export const DBMProvider = ({ children }) => {
               const missingSeeds = DEFAULT_FACTIONS.filter(s => !existingIds.has(s.id) && !existingIds.has(s.name.toLowerCase()));
               items = [...items, ...missingSeeds];
             }
-            setDbData(prev => ({ ...prev, [catK]: items }));
+            setDbData(prev => {
+              if (items.length === 0 && prev[catK] && prev[catK].length > 0) {
+                return prev;
+              }
+              return { ...prev, [catK]: items };
+            });
             pendingCount--;
             if (pendingCount <= 0) {
               setIsLoading(false);

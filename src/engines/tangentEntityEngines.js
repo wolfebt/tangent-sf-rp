@@ -99,18 +99,18 @@ export function calculateSpeciesBP({
   }
   bpTotal += movementBP;
 
-  // 4. Attribute Modifiers (1 point = 4 BP, -1 point = -4 BP refund)
+  // 4. Attribute Modifiers (1 point = 5 BP, -1 point = -5 BP refund)
   let attributeBP = 0;
   if (attributes && typeof attributes === 'object') {
     for (const attr of ['str', 'agi', 'sta', 'int', 'wis', 'cha']) {
       const val = Number(attributes[attr] || 0);
-      attributeBP += val * 4;
+      attributeBP += val * 5;
     }
   }
   bpTotal += attributeBP;
 
-  // 5. Skill Points (Each +5 bundle costs 4 BP)
-  const skillsBP = Math.max(0, Number(skillBundles || 0)) * 4;
+  // 5. Skill Points (Each +5 bundle costs 5 BP)
+  const skillsBP = Math.max(0, Number(skillBundles || 0)) * 5;
   bpTotal += skillsBP;
 
   // 6. Traits Catalog (Basic 1 BP, Advanced 2 BP, Elite 4 BP)

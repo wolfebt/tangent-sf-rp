@@ -87,6 +87,34 @@ function syncSpecies() {
     const category = data.category || 'species';
     const parentSpecies = data.parent_species || 'Independent Xenotypes';
 
+    const modifiers = Array.isArray(data.modifiers) ? data.modifiers : [];
+    const costs = data.costs || { bp: data.cp || data.cp_cost || 10, credits: 0 };
+
+    // Backward-compatibility derivation from modern modifiers:
+    const inherent_attribute_modifiers = Array.isArray(data.inherent_attribute_modifiers) ? [...data.inherent_attribute_modifiers] : [];
+    const specific_skill_bonuses = Array.isArray(data.specific_skill_bonuses) ? [...data.specific_skill_bonuses] : [];
+    const inherent_features = Array.isArray(data.inherent_features) ? [...data.inherent_features] : [];
+    const recommended_features = Array.isArray(data.recommended_features) ? [...data.recommended_features] : [];
+
+    modifiers.forEach(m => {
+      if (!m || typeof m !== 'object') return;
+      if (m.type === 'attribute' && m.mode === 'inherent') {
+        if (!inherent_attribute_modifiers.some(x => (typeof x === 'object' ? x.attribute : String(x)).toLowerCase().includes(m.target.toLowerCase()))) {
+          inherent_attribute_modifiers.push({ attribute: m.target, bonus: m.value });
+        }
+      } else if (m.type === 'skill' && m.mode === 'inherent') {
+        if (!specific_skill_bonuses.some(x => (typeof x === 'object' ? x.skill : String(x)).toLowerCase().includes(m.target.toLowerCase()))) {
+          specific_skill_bonuses.push({ skill: m.target, bonus: m.value });
+        }
+      } else if (m.type === 'feature') {
+        if (m.mode === 'inherent') {
+          if (!inherent_features.includes(m.target)) inherent_features.push(m.target);
+        } else if (m.mode === 'recommended') {
+          if (!recommended_features.includes(m.target)) recommended_features.push(m.target);
+        }
+      }
+    });
+
     const speciesObj = {
       id,
       name,
@@ -96,21 +124,23 @@ function syncSpecies() {
       type: Array.isArray(data.type) ? data.type : (data.type ? [data.type] : ['species_type-humanoid']),
       size: Array.isArray(data.size) ? data.size : (data.size ? [data.size] : ['species_size-medium']),
       movement: Array.isArray(data.movement) ? data.movement : (data.movement ? [data.movement] : ['species_movement-bipedal']),
-      inherent_attribute_modifiers: Array.isArray(data.inherent_attribute_modifiers) ? data.inherent_attribute_modifiers : [],
+      modifiers: modifiers,
+      costs: costs,
+      inherent_attribute_modifiers: inherent_attribute_modifiers,
       bonus_attribute_points: typeof data.bonus_attribute_points === 'number' ? data.bonus_attribute_points : 0,
-      specific_skill_bonuses: Array.isArray(data.specific_skill_bonuses) ? data.specific_skill_bonuses : [],
+      specific_skill_bonuses: specific_skill_bonuses,
       bonus_skills: typeof data.bonus_skills === 'number' ? data.bonus_skills : 0,
       bonus_skill_choices: Array.isArray(data.bonus_skill_choices) ? data.bonus_skill_choices : [],
-      inherent_features: Array.isArray(data.inherent_features) ? data.inherent_features : [],
+      inherent_features: inherent_features,
       bonus_features: typeof data.bonus_features === 'number' ? data.bonus_features : 0,
       bonus_feature_choices: Array.isArray(data.bonus_feature_choices) ? data.bonus_feature_choices : [],
-      recommended_features: Array.isArray(data.recommended_features) ? data.recommended_features : [],
+      recommended_features: recommended_features,
       stigma: data.stigma || 'None',
       tech_level: data.tech_level ? String(data.tech_level) : '3',
       meta_level: data.meta_level ? String(data.meta_level) : '1',
       homeworld: data.homeworld || 'Unknown',
-      cp_cost: typeof data.cp_cost === 'number' ? data.cp_cost : (typeof data.cp === 'number' ? data.cp : 10),
-      cp: typeof data.cp === 'number' ? data.cp : (typeof data.cp_cost === 'number' ? data.cp_cost : 10),
+      cp_cost: typeof costs.bp === 'number' ? costs.bp : (typeof data.cp_cost === 'number' ? data.cp_cost : (typeof data.cp === 'number' ? data.cp : 10)),
+      cp: typeof costs.bp === 'number' ? costs.bp : (typeof data.cp === 'number' ? data.cp : 10),
       description: data.description || '',
       body: body
     };

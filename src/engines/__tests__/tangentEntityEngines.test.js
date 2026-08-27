@@ -41,22 +41,22 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
         type: 'Aberration', // +1 BP
         size: 'Large', // +2 BP
         movementModes: ['flight_basic'], // +2 BP
-        attributes: { str: 2, agi: 1, sta: 0, int: -1, wis: 0, cha: 0 }, // (+2 + 1 - 1) * 4 = +8 BP
-        skillBundles: 1, // +4 BP
+        attributes: { str: 2, agi: 1, sta: 0, int: -1, wis: 0, cha: 0 }, // (+2 + 1 - 1) * 5 = +10 BP
+        skillBundles: 1, // +5 BP
         traits: ['adapted', 'camouflage'], // 1 BP + 1 BP = +2 BP
         disadvantages: ['light_sensitivity'], // -2 BP refund
         budgetLevel: 'Advanced' // max 40 BP
       });
 
-      // Total = 1 + 2 + 2 + 8 + 4 + 2 - 2 = 17 BP
-      assert.strictEqual(result.totalBPUsed, 17);
-      assert.strictEqual(result.bpRemaining, 23);
+      // Total = 1 + 2 + 2 + 10 + 5 + 2 - 2 = 20 BP
+      assert.strictEqual(result.totalBPUsed, 20);
+      assert.strictEqual(result.bpRemaining, 20);
       assert.strictEqual(result.isOverBudget, false);
       assert.strictEqual(result.breakdown.typeBP, 1);
       assert.strictEqual(result.breakdown.sizeBP, 2);
       assert.strictEqual(result.breakdown.movementBP, 2);
-      assert.strictEqual(result.breakdown.attributeBP, 8);
-      assert.strictEqual(result.breakdown.skillsBP, 4);
+      assert.strictEqual(result.breakdown.attributeBP, 10);
+      assert.strictEqual(result.breakdown.skillsBP, 5);
       assert.strictEqual(result.breakdown.traitsBP, 2);
       assert.strictEqual(result.breakdown.disadvantagesRefund, 2);
     });
@@ -65,13 +65,13 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
       const result = calculateSpeciesBP({
         type: 'Dragon', // +5 BP
         size: 'Huge', // +4 BP
-        attributes: { str: 3, agi: 2 }, // +20 BP
+        attributes: { str: 3, agi: 2 }, // (3 + 2) * 5 = +25 BP
         budgetLevel: 'Standard' // max 20 BP
       });
-      // Total = 5 + 4 + 20 = 29 BP > 20
-      assert.strictEqual(result.totalBPUsed, 29);
+      // Total = 5 + 4 + 25 = 34 BP > 20
+      assert.strictEqual(result.totalBPUsed, 34);
       assert.strictEqual(result.isOverBudget, true);
-      assert.strictEqual(result.bpRemaining, -9);
+      assert.strictEqual(result.bpRemaining, -14);
     });
 
     it('resolves size combat and stealth modifiers correctly', () => {

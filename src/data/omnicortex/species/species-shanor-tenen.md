@@ -5,7 +5,7 @@ title: Tenen (Spectral Void Entity)
 category: species
 parent_species: Sha'Nor
 type:
-  - species_type-spectral
+  - species_type-entity
 size:
   - species_size-medium
 movement:

@@ -296,10 +296,10 @@ const HubGuideSection = ({ onCopy, copiedSnippet }) => (
 
       <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-4 space-y-2">
         <h4 className="text-purple-400 font-bold text-xs uppercase font-mono tracking-wider flex items-center gap-1.5">
-          <Maximize2 size={15} /> Center View Dynamic Drawers
+          <Maximize2 size={15} /> Collapsible Drawers &amp; Gem Lists
         </h4>
         <p className="text-xs text-slate-300">
-          Clicking any module launcher card unfolds interactive preview drawers (Persona Folio roster cards, Story scenarios tree, Element Forge lore elements, Tactical map selector, AIME manuscript cards) right on the home canvas without route transitions.
+          Clicking any module launcher card unfolds interactive preview drawers (Persona Folio roster cards, Story scenarios tree, Element Forge lore elements, Tactical map selector, AIME manuscript cards) with compact gem-like list views, card borders, and transparent backdrops directly on the home canvas without route transitions.
         </p>
       </div>
     </div>
@@ -344,12 +344,13 @@ const FolioGuideSection = () => (
 
     <div className="bg-amber-950/30 border border-amber-500/40 rounded-xl p-4 space-y-2">
       <h4 className="text-amber-300 font-bold text-xs uppercase font-mono tracking-wider flex items-center gap-1.5">
-        💎 Character Point (CP) Economy Rules & Validation
+        💎 Character Point (CP/BP) Economy & Background Pools
       </h4>
       <ul className="list-disc pl-5 text-xs space-y-1 text-slate-300">
-        <li><strong>Starting Budget:</strong> Default <strong className="text-cyan-300 font-mono">150 CP</strong>. GMs can adjust the budget limit in campaign settings.</li>
+        <li><strong>Starting Budget:</strong> Default <strong className="text-cyan-300 font-mono">150 BP/CP</strong>. GMs can adjust the budget limit in campaign settings.</li>
+        <li><strong>Three Dedicated 20 SP Pools:</strong> In addition to the 150 BP starting budget, characters receive <strong>20 Faction SP</strong>, <strong>20 Origin SP</strong>, and <strong>20 Occupation SP</strong> to assign to their background proficiencies.</li>
         <li><strong>Legality Enforcement:</strong> When total expenditures exceed budget, the header displays a pulsating red <strong className="text-red-400 font-mono">ILLEGAL BUILD</strong> badge. Clicking the CP bar opens the complete line-item breakdown.</li>
-        <li><strong>CP Allocations:</strong> Core stats, skill ranks, specializations, positive features, and augmentations cost CP. Flaws and hindrances grant CP rebates.</li>
+        <li><strong>CP Allocations:</strong> Core stats (5 BP / +1), check bonuses (1 BP / +1), skills, positive features, and augmentations cost CP. Flaws grant CP rebates.</li>
       </ul>
     </div>
 
@@ -373,7 +374,7 @@ const FolioGuideSection = () => (
             <span>📊</span> 2. CORE STATS & DERIVED VITALS
           </div>
           <p className="text-slate-300 text-[11px]">
-            The 6 primary attributes (STR, AGI, STA, INT, WIS, CHA) and sub-attributes (Might, Reflex, Fortitude, Logic, Will, Etiquette). Automatically computes <strong className="text-white">Health (30 + Fortitude)</strong>, <strong className="text-white">Vitality (30 + Will)</strong>, Karma pool, Defense value, and STR-based carry capacity.
+            The 6 primary attributes (STR, AGI, STA, INT, WIS, CHA) and sub-attributes (Might, Reflex, Fortitude, Logic, Will, Etiquette). Automatically computes <strong className="text-white">Health (30 + Fortitude)</strong>, <strong className="text-white">Vitality (30 + Will)</strong>, Toughness (STA score), Defense value, and STR-based carry capacity.
           </p>
         </div>
 
@@ -417,16 +418,20 @@ const FolioGuideSection = () => (
 
     <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-4 space-y-2">
       <h4 className="text-cyan-400 font-bold text-xs uppercase font-mono tracking-wider flex items-center gap-1.5">
-        🚀 Guided Character Creator & Roster Management
+        🚀 Guided Creator Wizard, Persona Bridge & Roster Management
       </h4>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
         <div className="bg-slate-950 p-3 rounded-lg border border-slate-800">
           <div className="font-bold text-white mb-1">🧙 Guided Creator Wizard</div>
           <p className="text-slate-400 text-[11px]">An 8-step walkthrough taking players from concept, species lineage, origin, occupation, attributes, and starting gear to a fully validated character sheet.</p>
         </div>
         <div className="bg-slate-950 p-3 rounded-lg border border-slate-800">
-          <div className="font-bold text-white mb-1">📇 Roster & Cloud Sync</div>
-          <p className="text-slate-400 text-[11px]">Store unlimited characters in your authenticated Google Cloud account, clone/duplicate operatives, generate public read-only share links, or export standalone JSON files.</p>
+          <div className="font-bold text-cyan-300 mb-1">🌉 Persona Bridge Sync</div>
+          <p className="text-slate-400 text-[11px]">Real-time synchronization utility linking Folio operative stats directly to Map Maker battlemap tokens and CommLink chat identities.</p>
+        </div>
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800">
+          <div className="font-bold text-emerald-300 mb-1">📇 Roster & Cloud Sync</div>
+          <p className="text-slate-400 text-[11px]">Store unlimited characters in your authenticated Google Cloud account, clone operatives, generate public read-only share links, or export standalone JSON files.</p>
         </div>
       </div>
     </div>
@@ -444,24 +449,24 @@ const DbmGuideSection = () => (
         3. Omnicortex Master Compendium & DBM Operations
       </h3>
       <p>
-        The <strong className="text-white">Omnicortex (`/dbm`)</strong> is the central relational rules codex and compendium of Tangent SFF RP. It indexes all canon items, biological lineages, occupational backgrounds, combat arms, powers, and modifier tables with live search, relational selectors, and JSON portability.
+        The <strong className="text-white">Omnicortex (`/dbm`)</strong> is the central relational rules codex and compendium of Tangent SFF RP. Organized into distinct architectural subdomains, it indexes all canon items, biological lineages, occupational backgrounds, combat arms, powers, and modifier tables with live search, relational selectors, and JSON portability.
       </p>
     </div>
 
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
       {[
-        { cat: 'Rules Codex', icon: '📜', desc: 'Core mechanics, combat systems & resolution rules.' },
-        { cat: 'Species Matrix', icon: '🧬', desc: 'Biological species profiles, multi-trait selection & stat mods.' },
-        { cat: 'Factions & Cartels', icon: '⚔️', desc: 'Corporate empires, syndicates & political groups.' },
-        { cat: 'Occupations & Origins', icon: '💼', desc: 'Career backgrounds, starting proficiencies & bonuses.' },
-        { cat: 'Skills Compendium', icon: '🎯', desc: 'Proficiency ranks, attribute links & specializations.' },
-        { cat: 'Features & Hindrances', icon: '⚡', desc: 'Positive talents, species gifts & flaw point rebates.' },
-        { cat: 'Weaponry Matrix', icon: '🔫', desc: 'Melee, ballistic, laser & plasma combat arms.' },
-        { cat: 'Armor & Defenses', icon: '🛡️', desc: 'Protective weave, powered suits, coverage & shields.' },
-        { cat: 'Mecha & Frames', icon: '🤖', desc: 'Heavy exoskeleton chassis, hardpoints & vehicle systems.' },
-        { cat: 'Powers & Psionics', icon: '✨', desc: 'Meta-tech imbuements, psychic talents & invocations.' },
-        { cat: 'Prerequisites', icon: '🔑', desc: 'Requirement ladders for high-tier abilities.' },
-        { cat: 'Modifiers & Buffs', icon: '📊', desc: 'Global stat modifiers, conditions & mechanical buffs.' },
+        { cat: 'Architecture', icon: '🏛️', desc: 'Facility scales, modular rooms, life support & defense grids.' },
+        { cat: 'Armoring & Shields', icon: '🛡️', desc: 'Protective weave, powered suits, coverage zones & DR ratings.' },
+        { cat: 'Augmentations', icon: '🦾', desc: 'Cybernetics, bioware, neural co-processors & sensory shunts.' },
+        { cat: 'Mecha & Vehicles', icon: '🤖', desc: 'Frame weight classes, propulsion, hardpoints & combat walkers.' },
+        { cat: 'Weaponry Matrix', icon: '🔫', desc: 'Melee, slugthrowers, lasers, plasma arms & heavy artillery.' },
+        { cat: 'Gear & Tools', icon: '🧰', desc: 'Field equipment, scanners, medical injectors & utility rigs.' },
+        { cat: 'Invocations', icon: '✨', desc: 'Disciplines (Energy, Entropy, Matter, Mental, Dimension, Illusion).' },
+        { cat: 'Occupations & Origins', icon: '💼', desc: 'Career backgrounds, homeworld habitats & starting packages.' },
+        { cat: 'Species & Lineages', icon: '🧬', desc: 'Biological species profiles, synthetic chassis & alien types.' },
+        { cat: 'Traits & Disadvantages', icon: '⚡', desc: 'Granular species traits (Basic, Advanced, Elite) & flaw rebates.' },
+        { cat: 'Rules & Compendium', icon: '📜', desc: 'Core mechanics, combat systems, movement & advancement manuals.' },
+        { cat: 'Prerequisites & Modifiers', icon: '🔑', desc: 'Requirement ladders and global combat condition modifiers.' },
       ].map(c => (
         <div key={c.cat} className="bg-slate-900/60 border border-slate-800 rounded-xl p-3">
           <div className="font-bold text-amber-300 font-mono flex items-center gap-1.5 mb-1">
@@ -485,10 +490,10 @@ const DbmGuideSection = () => (
 
       <div className="bg-slate-900/60 border border-emerald-500/30 rounded-xl p-4 space-y-2">
         <h4 className="text-emerald-300 font-bold uppercase font-mono tracking-wider">
-          💾 Master JSON Backup & Cloud Synchronization
+          💾 Cloud Sync & Automated Ingestion Pipelines
         </h4>
         <p className="text-slate-300 text-[11px]">
-          Export the entire Omnicortex database to a single standalone <code className="text-cyan-300 font-mono">.json</code> file with 450-op chunked batch import to prevent quota throttling. Includes automatic local caching for instant search response.
+          Synchronizes local markdown files with Firestore using automated 450-op batch scripts (<code className="text-cyan-300 font-mono">syncOmnicortexSpecies.mjs</code>, <code className="text-cyan-300 font-mono">syncOmnicortexEquipment.mjs</code>) to prevent quota throttling, paired with offline IndexedDB caching for instant search.
         </p>
       </div>
     </div>
@@ -503,15 +508,17 @@ const CodexGuideSection = () => (
     <div className="bg-slate-900/60 border border-amber-500/30 rounded-2xl p-5 sm:p-6 space-y-3">
       <h3 className="text-base font-bold text-amber-300 uppercase tracking-wide font-mono flex items-center gap-2">
         <Sparkles size={18} />
-        4. Codex Matrix Suite, Economatrix & Technology Codex
+        4. Codex Matrix Suite, Economatrix, Ingestion & Scaling
       </h3>
       <p>
-        The <strong className="text-white">Codex (`/codex`)</strong> contains 14 specialized engineering matrices and economic models designed to compute exact balance, credit costs, crafting times, Unified Difficulty Units (UDU), and Tech Level formulas for custom sci-fi content.
+        The <strong className="text-white">Codex (`/codex`)</strong> contains 14 specialized engineering matrices, multi-dataset ingestion pipelines, and economic models designed to compute exact balance, credit costs, crafting times, Unified Difficulty Units (UDU), and Tech Level formulas for custom sci-fi content.
       </p>
     </div>
 
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
       {[
+        { name: 'Species Forge', icon: '🧬', desc: 'Custom lineage builder with real-time BP budget tracking, types & size modifiers.' },
+        { name: 'Scaling Codex', icon: '📐', desc: '8-tier unified scale multipliers (Personal 1x to Planetary 1000x) for damage & DR.' },
         { name: 'Architecture Blueprint', icon: '🏛️', desc: 'Facility scales, room modules, defensive hardpoints & energy budgets.' },
         { name: 'Armor Coverage Matrix', icon: '🛡️', desc: 'Coverage zones (Head, Torso, Limbs), material hardness & resistance.' },
         { name: 'Augmentation Nodes', icon: '🦾', desc: 'Cybernetic implants, biological grafts & essence/karma footprint.' },
@@ -519,10 +526,8 @@ const CodexGuideSection = () => (
         { name: 'Invocation Matrix', icon: '🔮', desc: 'Psionic spell parameters, area effects, channeling costs & limits.' },
         { name: 'Mecha Chassis Builder', icon: '🤖', desc: 'Frame weight classes, propulsion modules, armor plates & mount bays.' },
         { name: 'Meta-Tech Imbuement', icon: '✨', desc: 'Artifact crafting, metamaterial bonding & supernatural enhancements.' },
-        { name: 'Modular Stat Blocks', icon: '📐', desc: 'Automated NPC and monster generator with scalable difficulty tiers.' },
+        { name: 'Modular Stat Blocks', icon: '📊', desc: 'Automated NPC and monster generator with scalable difficulty tiers (1–10).' },
         { name: 'Planetary Design Matrix', icon: '🪐', desc: 'Planetary biomes, atmospheric pressure, gravity & settlement tiers.' },
-        { name: 'Species Trait Selector', icon: '🧬', desc: 'Custom lineage builder with balanced biological point accounting.' },
-        { name: 'UDU Capacity Meter', icon: '📏', desc: 'Unified Difficulty Units meter measuring scenario hazard scaling.' },
         { name: 'Weapon Mod Stacker', icon: '🔫', desc: 'Optics, muzzle devices, receivers, elemental coils & balance points.' },
       ].map(m => (
         <div key={m.name} className="bg-slate-900/50 border border-slate-800 rounded-xl p-3">
@@ -536,9 +541,9 @@ const CodexGuideSection = () => (
 
     <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-5 space-y-3">
       <h4 className="text-cyan-400 font-bold text-xs uppercase font-mono tracking-wider flex items-center gap-1.5">
-        📈 Economatrix Dashboard & Technology Codex (TL0–TL9)
+        📈 Economatrix, Ingestion Engine & AI Prompt Registry
       </h4>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
         <div className="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-1">
           <div className="text-amber-300 font-bold font-mono uppercase">Universal Economic Theory (EUT)</div>
           <p className="text-slate-300 text-[11px]">
@@ -546,9 +551,15 @@ const CodexGuideSection = () => (
           </p>
         </div>
         <div className="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-1">
-          <div className="text-cyan-300 font-bold font-mono uppercase">Technology Codex & Ingestion</div>
+          <div className="text-cyan-300 font-bold font-mono uppercase">Codex Ingestion Engine</div>
           <p className="text-slate-300 text-[11px]">
-            Defines Technology Levels from TL0 (Primitive) to TL9 (Singularity / Trans-Dimensional) with research trees, power consumption, and direct Markdown rulebook ingestion.
+            Consolidates external markdown compendiums, rules, and matrices directly into active memory and Firestore with automated taxonomy tagging.
+          </p>
+        </div>
+        <div className="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-1">
+          <div className="text-emerald-300 font-bold font-mono uppercase">AI Prompt Registry</div>
+          <p className="text-slate-300 text-[11px]">
+            Centralized prompt library powering the AI Architect and AIME Co-Pilot for scenario generation, NPC dialogue, and mechanical balancing.
           </p>
         </div>
       </div>
@@ -609,7 +620,7 @@ const MapMakerGuideSection = () => (
         6. Tactical Map Maker & Virtual Tabletop (VTT)
       </h3>
       <p>
-        The <strong className="text-white">Tactical Map Maker (`/foundry/map-maker`)</strong> is a canvas powered by React Konva for spatial battlemaps, regional overland maps, token summoning, fog-of-war, initiative tracking, and real-time player spectator broadcasting.
+        The <strong className="text-white">Tactical Map Maker (`/foundry/map-maker`)</strong> is a high-performance battlemap canvas powered by React Konva for spatial tactical combat, regional overland maps, token summoning, fog-of-war, initiative tracking, and real-time player spectator broadcasting.
       </p>
     </div>
 
@@ -625,23 +636,23 @@ const MapMakerGuideSection = () => (
       </div>
 
       <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-3.5 space-y-1">
-        <div className="font-bold text-amber-300 font-mono uppercase">👥 Folio Token Summoning</div>
-        <p className="text-slate-400 text-[11px]">Drag hero tokens directly from your Persona Folio roster onto the map. Tokens maintain live Health and Vitality bars.</p>
+        <div className="font-bold text-amber-300 font-mono uppercase">👥 Folio Token Drawer</div>
+        <p className="text-slate-400 text-[11px]">Collapsible side drawer providing one-click drag-and-drop summoning of operative tokens directly from your Persona Folio roster with live vitals.</p>
       </div>
 
       <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-3.5 space-y-1">
-        <div className="font-bold text-purple-300 font-mono uppercase">⚔️ Initiative Combat Tracker</div>
-        <p className="text-slate-400 text-[11px]">Track round count, turn order, initiative rolls, status gems, and floating animated combat damage numbers.</p>
+        <div className="font-bold text-purple-300 font-mono uppercase">⚔️ Initiative Tracker & Combat Log</div>
+        <p className="text-slate-400 text-[11px]">Manage round sequences, initiative order, active engagement ranges, and synchronized combat turns across players and NPCs.</p>
       </div>
 
       <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-3.5 space-y-1">
-        <div className="font-bold text-blue-300 font-mono uppercase">🌫️ Dynamic Fog of War</div>
-        <p className="text-slate-400 text-[11px]">Reveal or shroud map sectors in real time to conceal enemy ambushes and uncharted dungeon corridors from players.</p>
+        <div className="font-bold text-red-300 font-mono uppercase">💥 Floating Combat Text</div>
+        <p className="text-slate-400 text-[11px]">Animated scrolling combat numbers displaying damage dealt, armor absorption, health recovered, and critical hits directly over tokens.</p>
       </div>
 
       <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-3.5 space-y-1">
-        <div className="font-bold text-pink-300 font-mono uppercase">📺 Player Spectator View</div>
-        <p className="text-slate-400 text-[11px]">Open or project <code className="text-cyan-300 font-mono">/spectator/:mapId</code> on a secondary monitor or player stream for clean, GM-hidden gameplay.</p>
+        <div className="font-bold text-pink-300 font-mono uppercase">💎 Status Gems & Fog of War</div>
+        <p className="text-slate-400 text-[11px]">Attach visual condition gems (Stunned, Burning, Concealed, Exhausted) to token bases, with paintable fog-of-war to shroud unexplored rooms.</p>
       </div>
     </div>
   </div>
@@ -1037,6 +1048,249 @@ const RulesGuideSection = () => (
             <div className="flex justify-between"><span className="text-slate-300">Revivification Trauma</span> <strong className="text-rose-400 font-mono">-5 AP Debt</strong></div>
           </div>
         </div>
+      </div>
+    </div>
+
+    {/* Section 5: Vitality, Health, Toughness & Damage Resolution */}
+    <div className="bg-slate-900/50 border border-cyan-900/50 rounded-xl p-4 sm:p-5 space-y-4">
+      <div className="flex justify-between items-center border-b border-slate-800 pb-2">
+        <h4 className="text-rose-400 font-bold uppercase font-mono tracking-wider text-xs flex items-center gap-2">
+          <span>❤️</span> Vitality, Health, Toughness &amp; Damage Resolution
+        </h4>
+        <span className="text-[10px] font-mono text-cyan-300 font-semibold">
+          Vitality: 30 + Will • Health: 30 + Fortitude
+        </span>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+        <div className="bg-slate-950 p-3.5 rounded-lg border border-slate-800 space-y-2">
+          <div className="font-bold text-amber-300 font-mono uppercase text-xs">
+            🛡️ Vitality vs. Physical Health
+          </div>
+          <p className="text-slate-300 text-[11px] leading-relaxed">
+            <strong className="text-cyan-300">Vitality</strong> represents stamina, reflex avoidance, minor bruising, and luck. It is depleted first. <strong className="text-rose-400">Health</strong> represents deep physical tissue, structural integrity, and organ function. Health is damaged only when Vitality reaches 0, or directly via Critical Hits and Armor-Piercing weapons.
+          </p>
+          <div className="text-[10.5px] font-mono text-emerald-300 border-t border-slate-800/80 pt-1.5">
+            Base Toughness: Stamina Score (direct damage soak from physical hits)
+          </div>
+        </div>
+
+        <div className="bg-slate-950 p-3.5 rounded-lg border border-slate-800 space-y-2">
+          <div className="font-bold text-cyan-300 font-mono uppercase text-xs">
+            💥 Concussive Split &amp; Armor DR
+          </div>
+          <p className="text-slate-300 text-[11px] leading-relaxed">
+            Blunt concussive blasts and explosive shocks split incoming damage between the Vitality and Health pools based on impact energy. Armor Damage Reduction (DR) deflects damage prior to pool subtraction based on the hit location struck.
+          </p>
+          <div className="text-[10.5px] font-mono text-amber-300 border-t border-slate-800/80 pt-1.5">
+            Called Shots: Specific limb targeting with situational DR penalties
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Section 6: The Death Clock, Massive Damage & Revivification */}
+    <div className="bg-slate-900/50 border border-cyan-900/50 rounded-xl p-4 sm:p-5 space-y-4">
+      <div className="flex justify-between items-center border-b border-slate-800 pb-2">
+        <h4 className="text-rose-500 font-bold uppercase font-mono tracking-wider text-xs flex items-center gap-2">
+          <span>💀</span> The Death Clock, Massive Damage &amp; Revivification
+        </h4>
+        <span className="text-[10px] font-mono text-rose-400 font-semibold">
+          Clock = Stamina Score in Rounds
+        </span>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1.5">
+          <div className="font-bold text-rose-400 font-mono text-xs uppercase">
+            ⏳ The Death Clock
+          </div>
+          <p className="text-slate-300 text-[11px] leading-relaxed">
+            When Health hits 0, the character collapses unconscious and initiates the Death Clock, equal to their Stamina score in rounds (minimum 1 round). Each un-stabilized round ticks the clock down by 1. At 0, permanent clinical death occurs.
+          </p>
+        </div>
+
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1.5">
+          <div className="font-bold text-amber-400 font-mono text-xs uppercase">
+            ⚡ Massive Damage &amp; Stabs
+          </div>
+          <p className="text-slate-300 text-[11px] leading-relaxed">
+            Taking damage in a single hit equal to or exceeding your Stamina score directly to Health triggers an immediate DC 15 Fortitude check. Failure causes instant death or instantaneous coma. A successful DC 15 Medicine check stops the Death Clock.
+          </p>
+        </div>
+
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1.5">
+          <div className="font-bold text-purple-400 font-mono text-xs uppercase">
+            🌌 The High Cost of Dying
+          </div>
+          <p className="text-slate-300 text-[11px] leading-relaxed">
+            Revivification via TL5 medical resurrection or rare metaphysics incurs devastating existential trauma: the character loses ALL remaining Karma Points and suffers a <strong className="text-rose-400 font-mono">-5 AP Experience Debt</strong> paid 1-for-1 before new advancements.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    {/* Section 7: Rest & Recovery Engine & Movement Fatigue */}
+    <div className="bg-slate-900/50 border border-cyan-900/50 rounded-xl p-4 sm:p-5 space-y-4">
+      <div className="flex justify-between items-center border-b border-slate-800 pb-2">
+        <h4 className="text-blue-400 font-bold uppercase font-mono tracking-wider text-xs flex items-center gap-2">
+          <span>🌙</span> Rest Cycles, Recovery &amp; Movement Fatigue
+        </h4>
+        <span className="text-[10px] font-mono text-cyan-400 font-semibold">
+          Full Rest: 6-8h • Light Rest: up to 4×/day
+        </span>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+        <div className="bg-slate-950 p-3.5 rounded-lg border border-slate-800 space-y-2">
+          <div className="font-bold text-blue-300 font-mono uppercase text-xs">
+            🛌 Full Rest vs. Light Rest Tiers
+          </div>
+          <div className="space-y-1 text-[11px] text-slate-300">
+            <div><strong>Full Rest (6-8 Hours):</strong> Completely removes exhaustion and restores full vitality. Synthetics, Fae, and Insects need only a brief Light Rest; Alterians/Mondi meditate.</div>
+            <div><strong>Nap / Meditation (1 Hour):</strong> Optimal Light Rest resetting single-encounter features.</div>
+            <div><strong>Lounging (2 Hours) / Light Duty (3 Hours):</strong> Passive guard/reading. Strenuous action worsens rest tier.</div>
+          </div>
+        </div>
+
+        <div className="bg-slate-950 p-3.5 rounded-lg border border-slate-800 space-y-2">
+          <div className="font-bold text-amber-300 font-mono uppercase text-xs">
+            🏃 Movement Fatigue Triggers
+          </div>
+          <p className="text-slate-300 text-[11px] leading-relaxed">
+            Sprinting for <strong>5 consecutive combat rounds</strong> or maintaining hurried forced march for <strong>10 minutes</strong> triggers a mandatory <strong>DC 15 Stamina Fortitude Check</strong>.
+          </p>
+          <div className="text-[10.5px] text-slate-400 border-t border-slate-800/80 pt-1.5">
+            Failure: Suffer 5 points of non-lethal Vitality damage. If Vitality is 0, take 2 Health damage and become <strong className="text-amber-300">Exhausted</strong> (-2 to active checks, half movement speed) until receiving a Light Rest.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Section 8: Movement Rules, Locomotion Modes & Tactical Paces */}
+    <div className="bg-slate-900/50 border border-cyan-900/50 rounded-xl p-4 sm:p-5 space-y-4">
+      <div className="flex justify-between items-center border-b border-slate-800 pb-2">
+        <h4 className="text-emerald-400 font-bold uppercase font-mono tracking-wider text-xs flex items-center gap-2">
+          <span>👟</span> Movement Rules, Locomotion Modes &amp; Tactical Paces
+        </h4>
+        <span className="text-[10px] font-mono text-emerald-300 font-semibold">
+          Base: 30 ft (6 hexes/squares)
+        </span>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 text-xs">
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+          <div className="font-bold text-cyan-300 font-mono">Walk (1× Base)</div>
+          <p className="text-slate-400 text-[10.5px]">Standard movement; perform normal combat actions with zero tactical penalty.</p>
+        </div>
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+          <div className="font-bold text-emerald-300 font-mono">Hustle (2× Base)</div>
+          <p className="text-slate-400 text-[10.5px]">Double-time movement; consumes standard action during the tactical round.</p>
+        </div>
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+          <div className="font-bold text-amber-300 font-mono">Run (3× Base)</div>
+          <p className="text-slate-400 text-[10.5px]">High-speed advance; imposes -2 penalty to passive perception checks.</p>
+        </div>
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+          <div className="font-bold text-rose-400 font-mono">Sprint (4× Base)</div>
+          <p className="text-slate-400 text-[10.5px]">Straight-line surge; imposes -4 to defense and triggers fatigue checks after 5 rounds.</p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs pt-1">
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+          <div className="font-bold text-sky-300 font-mono uppercase text-xs">🦅 Aerial Flight &amp; Ramming</div>
+          <p className="text-slate-400 text-[10.5px]">
+            Hovering requires DC 15 Acrobatics. Soaring grants <strong className="text-cyan-300">High Ground (+2 Strike/+2 Crit)</strong>. Aerial rams deal +1d damage per flight stage and +1 impact per 10ft of speed to both flyer and target.
+          </p>
+        </div>
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+          <div className="font-bold text-teal-300 font-mono uppercase text-xs">🧗 Climbing &amp; Descents</div>
+          <p className="text-slate-400 text-[10.5px]">
+            Base climbing is 1/2 speed. Scaling (2×, DC 15), Fast Ascent (3×, DC 18), and Fast Descent (6×, DC 20 Athletics) permit rapid vertical maneuvers across sheer cliff faces.
+          </p>
+        </div>
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+          <div className="font-bold text-purple-300 font-mono uppercase text-xs">🚀 Zero-G &amp; Locomotion Modes</div>
+          <p className="text-slate-400 text-[10.5px]">
+            Zero-G requires reaction thrusters or mag-boots. Quadruped, Slithering, Swimming, Hexapedal, and Treads locomotion modes provide specialized terrain bonuses.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    {/* Section 9: Unified Scaling Multipliers (Personal to Planetary) */}
+    <div className="bg-slate-900/50 border border-cyan-900/50 rounded-xl p-4 sm:p-5 space-y-4">
+      <div className="flex justify-between items-center border-b border-slate-800 pb-2">
+        <h4 className="text-amber-400 font-bold uppercase font-mono tracking-wider text-xs flex items-center gap-2">
+          <span>📐</span> Unified Scaling Multipliers (Personal to Planetary)
+        </h4>
+        <span className="text-[10px] font-mono text-amber-300 font-semibold">
+          8 Distinct Scale Tiers
+        </span>
+      </div>
+
+      <div className="overflow-x-auto">
+        <table className="w-full text-left text-xs font-mono">
+          <thead>
+            <tr className="border-b border-slate-800 text-slate-400 text-[10.5px]">
+              <th className="pb-2">Tier</th>
+              <th className="pb-2">Multiplier</th>
+              <th className="pb-2">Typical Archetypes</th>
+              <th className="pb-2">Damage / DR Scale</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-slate-800/60 text-slate-300 text-[11px]">
+            <tr>
+              <td className="py-1.5 font-bold text-white">Personal</td>
+              <td className="py-1.5 text-cyan-300">1×</td>
+              <td>Humanoids, biological species, infantry rifles</td>
+              <td>1× Kinetic / 1× DR</td>
+            </tr>
+            <tr>
+              <td className="py-1.5 font-bold text-white">Heavy Exo</td>
+              <td className="py-1.5 text-cyan-300">2×</td>
+              <td>Powered exoskeleton rigs, crew-served autocannons</td>
+              <td>2× Kinetic / 2× DR</td>
+            </tr>
+            <tr>
+              <td className="py-1.5 font-bold text-white">Light Vehicle</td>
+              <td className="py-1.5 text-emerald-300">5×</td>
+              <td>Hoverbikes, light buggies, scout walkers</td>
+              <td>5× Kinetic / 5× DR</td>
+            </tr>
+            <tr>
+              <td className="py-1.5 font-bold text-white">Medium Mecha</td>
+              <td className="py-1.5 text-emerald-300">10×</td>
+              <td>Combat walkers, armored personnel carriers</td>
+              <td>10× Kinetic / 10× DR</td>
+            </tr>
+            <tr>
+              <td className="py-1.5 font-bold text-white">Heavy MBT</td>
+              <td className="py-1.5 text-amber-300">20×</td>
+              <td>Main battle tanks, heavy siege platforms</td>
+              <td>20× Kinetic / 20× DR</td>
+            </tr>
+            <tr>
+              <td className="py-1.5 font-bold text-white">Super Heavy</td>
+              <td className="py-1.5 text-amber-300">50×</td>
+              <td>Titan combat chassis, super-heavy assault mecha</td>
+              <td>50× Kinetic / 50× DR</td>
+            </tr>
+            <tr>
+              <td className="py-1.5 font-bold text-white">Capital Ship</td>
+              <td className="py-1.5 text-purple-300">100×</td>
+              <td>Starship corvettes, frigates, orbital stations</td>
+              <td>100× Kinetic / 100× DR</td>
+            </tr>
+            <tr>
+              <td className="py-1.5 font-bold text-white">Planetary</td>
+              <td className="py-1.5 text-rose-400">1000×</td>
+              <td>Orbital bombardment arrays, world-cracker lasers</td>
+              <td>1000× Kinetic / 1000× DR</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

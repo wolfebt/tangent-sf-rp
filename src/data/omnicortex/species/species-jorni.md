@@ -5,7 +5,7 @@ title: Jorni (Reptilian Regenerator)
 category: species
 parent_species: Independent Xenotypes
 type:
-  - species_type-reptile
+  - species_type-humanoid
 size:
   - species_size-medium
 movement:

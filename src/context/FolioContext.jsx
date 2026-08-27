@@ -24,6 +24,7 @@ import {
 } from '../engines/tangentEntityEngines';
 import { DEATH_AND_DYING_RULES, EXPERIENCE_RULES } from '../engines/tangentConstants';
 import { executeRestCycle, resetDailyRests, getSpeciesRestProfile } from '../engines/tangentRestEngine';
+import { ALL_CANONICAL_SKILLS } from '../data/skillsData';
 
 const ATTR_NAME_TO_ID = {
   strength: 'attr-strength',
@@ -599,9 +600,84 @@ export const FolioProvider = ({ children }) => {
           }
         };
 
-        // 4. Resolve attached direct modifiers
+        // 4. Resolve attached direct modifiers (legacy and modern)
         const modRefs = Array.isArray(identityItem.modifier) ? identityItem.modifier : (identityItem.modifier ? [identityItem.modifier] : []);
         modRefs.forEach(modRef => applyModifier(modRef));
+
+        // 4b. Resolve modern consolidated modifiers array [{ target, type, value, mode }]
+        if (Array.isArray(identityItem.modifiers) && identityItem.modifiers.length > 0) {
+          identityItem.modifiers.forEach(mod => {
+            if (!mod || typeof mod !== 'object') return;
+            const target = (mod.target || '').trim();
+            const type = (mod.type || 'other').toLowerCase();
+            const mode = (mod.mode || 'inherent').toLowerCase();
+            const val = parseInt(mod.value ?? 1, 10) || 0;
+            if (!target) return;
+
+            const modDesc = `[${identityTitle}: ${name}] ${target} ${val >= 0 ? '+' : ''}${val}`;
+
+            if (type === 'attribute') {
+              const lowerTarget = target.toLowerCase();
+              const attrKeyMap = {
+                'strength': 'attr-strength', 'might': 'attr-might',
+                'agility': 'attr-agility', 'reflex': 'attr-reflex',
+                'stamina': 'attr-stamina', 'fortitude': 'attr-fortitude', 'constitution': 'attr-fortitude',
+                'intellect': 'attr-intellect', 'logic': 'attr-logic',
+                'wisdom': 'attr-wisdom', 'will': 'attr-will',
+                'charisma': 'attr-charisma', 'etiquette': 'attr-etiquette'
+              };
+              const targetKey = attrKeyMap[lowerTarget] || (lowerTarget.startsWith('attr-') ? lowerTarget : `attr-${lowerTarget}`);
+
+              if (mode === 'inherent' && attributeMods[targetKey] !== undefined) {
+                attributeMods[targetKey] = (attributeMods[targetKey] || 0) + val;
+                activeModifiers.push({ name: modDesc, target: target.toUpperCase(), value: val, type: 'Attribute' });
+                pools.push({ name: `Inherent Attr: ${target} (${val >= 0 ? '+' : ''}${val})`, awarded: val, type: 'Inherent Attr' });
+              } else if (mode === 'bonus_pool' || lowerTarget.includes('any attribute') || lowerTarget.includes('any')) {
+                pools.push({ name: `${modDesc} (Attribute Pool)`, awarded: val || 1, type: 'Attr Points' });
+              } else if (mode === 'choice_pool') {
+                pools.push({ name: `Attribute Choice: ${target}`, awarded: val || 1, type: 'Choice' });
+              } else if (attributeMods[targetKey] !== undefined) {
+                attributeMods[targetKey] = (attributeMods[targetKey] || 0) + val;
+                activeModifiers.push({ name: modDesc, target: target.toUpperCase(), value: val, type: 'Attribute' });
+              }
+            } else if (type === 'skill') {
+              const cleanSkill = target.toLowerCase().trim();
+              if (mode === 'inherent') {
+                skillMods[cleanSkill] = (skillMods[cleanSkill] || 0) + val;
+                activeModifiers.push({ name: modDesc, target: target.toUpperCase(), value: val, type: 'Skill' });
+                pools.push({ name: `Set Skill: ${target} (+${val})`, awarded: val, type: 'Set Skill' });
+              } else if (mode === 'bonus_pool' || cleanSkill.includes('general skill pool') || cleanSkill.includes('any skill') || cleanSkill.includes('any')) {
+                pools.push({ name: `${target} (Skill Pool)`, awarded: val, type: 'Skill Points' });
+              } else if (mode === 'choice_pool') {
+                pools.push({ name: `Skill Choice: ${target}`, awarded: val || 1, type: 'Skill Choice' });
+              } else {
+                skillMods[cleanSkill] = (skillMods[cleanSkill] || 0) + val;
+                activeModifiers.push({ name: modDesc, target: target.toUpperCase(), value: val, type: 'Skill' });
+              }
+            } else if (type === 'feature') {
+              if (mode === 'inherent') {
+                pools.push({ name: `Inherent Feature: ${target}`, awarded: 1, type: 'Inherent' });
+                activeModifiers.push({ name: modDesc, target: target.toUpperCase(), value: val || 1, type: 'Feature' });
+              } else if (mode === 'bonus_pool' || target.toLowerCase().includes('feature pool')) {
+                pools.push({ name: `${target}`, awarded: val, type: 'Feature Points' });
+              } else if (mode === 'choice_pool') {
+                pools.push({ name: `Feature Choice: ${target}`, awarded: val || 1, type: 'Choice' });
+              } else if (mode === 'recommended') {
+                pools.push({ name: `Recommended Feature: ${target}`, awarded: val || 1, type: 'Recommended' });
+              }
+            } else if (type === 'combat') {
+              const lowerTarget = target.toLowerCase();
+              if (lowerTarget.includes('initiative')) combatMods['initiative-mod'] += val;
+              else if (lowerTarget.includes('movement') || lowerTarget.includes('walk') || lowerTarget.includes('speed')) combatMods['move-walk'] += val;
+              else combatMods['defense-mod'] += val;
+              activeModifiers.push({ name: modDesc, target: target.toUpperCase(), value: val, type: 'Combat' });
+            } else {
+              if (val) {
+                pools.push({ name: modDesc, awarded: val, type: 'Bonus' });
+              }
+            }
+          });
+        }
 
         // 5. Resolve attached species traits (multiple selection traits)
         const rawTraits = identityItem.trait || identityItem.traits || [];
@@ -1275,17 +1351,52 @@ export const FolioProvider = ({ children }) => {
 
       // Essential Skills (4 trained at rank 6, remainder novice at rank 3)
       const essentialSkills = Array.isArray(arch.essential_skills) ? arch.essential_skills : [];
-      const allSkillsList = dbData.skills || [];
+      const allSkillsList = (dbData.skills && dbData.skills.length > 0) ? dbData.skills : ALL_CANONICAL_SKILLS;
+      const SKILL_ALIASES = {
+        'intimidation': 'Intimidate', 'pilot': 'Piloting', 'linguistics': 'Language', 'languages': 'Language',
+        'animal handling': 'Handler', 'creature handling': 'Handler', 'combat': 'Melee', 'combat (any)': 'Ranged',
+        'combat (melee)': 'Melee', 'combat (ranged)': 'Ranged', 'combat (pistol)': 'Ranged', 'combat (pistols)': 'Ranged',
+        'combat (rifle)': 'Ranged', 'combat (rifle/pistol)': 'Ranged', 'combat (melee/pistol)': 'Melee',
+        'combat (melee/ranged)': 'Melee', 'combat (melee/heavy)': 'Heavy Weapons', 'combat (heavy)': 'Heavy Weapons',
+        'combat (gunnery)': 'Heavy Weapons', 'combat (sniper or blades)': 'Ranged', 'administration': 'Administrator',
+        'vocation (administration)': 'Administrator', 'vocation (management)': 'Administrator',
+        'vocation (farming/laborer)': 'Farmer', 'vocation (farming)': 'Farmer', 'vocation (laborer)': 'Laborer',
+        'vocation (general)': 'Laborer', 'law': 'Academics', 'knowledge (law)': 'Academics',
+        'knowledge (law/streetwise)': 'Streetwise', 'knowledge (geography)': 'Navigation',
+        'knowledge (architecture)': 'Architect', 'knowledge (astrophysics)': 'Science', 'knowledge (biology)': 'Science',
+        'knowledge (geology)': 'Science', 'knowledge (physics)': 'Physics', 'knowledge (xenology)': 'Science',
+        'knowledge (languages)': 'Language', 'social': 'Diplomacy', 'etiquette': 'Diplomacy',
+        'expression (any)': 'Acting', 'nature/life': 'Nature', 'nature': 'Nature', 'chaos': 'Chaos',
+        'divination': 'Metaphysics'
+      };
+
       essentialSkills.forEach((skNameRaw, idx) => {
-        const cleanName = String(skNameRaw).replace(/\s*\(.*\)/, '').trim();
-        const skObj = allSkillsList.find(s => (s.name || '').toLowerCase() === cleanName.toLowerCase());
-        const cleanId = (skObj?.id || `skill-${cleanName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`).replace('skill-', '');
+        const rawStr = String(skNameRaw).trim();
+        const lowerRaw = rawStr.toLowerCase();
+        const innerMatch = rawStr.match(/\((.*?)\)/);
+        const candidateInner = innerMatch ? innerMatch[1].trim() : null;
+        const candidatePrefix = rawStr.replace(/\s*\(.*\)/, '').trim();
+        const alias = SKILL_ALIASES[lowerRaw] || 
+                      (candidateInner ? SKILL_ALIASES[candidateInner.toLowerCase()] : null) || 
+                      SKILL_ALIASES[candidatePrefix.toLowerCase()];
+
+        // Find match in canonical skills by alias, candidateInner, full name, or candidatePrefix
+        const skObj = allSkillsList.find(s => {
+          const sName = (s.name || '').toLowerCase();
+          return (alias && sName === alias.toLowerCase()) ||
+                 (candidateInner && sName === candidateInner.toLowerCase()) ||
+                 (sName === lowerRaw) ||
+                 (sName === candidatePrefix.toLowerCase());
+        });
+
+        const finalSkillName = skObj?.name || alias || candidateInner || rawStr;
+        const cleanId = (skObj?.id || `skill-${finalSkillName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`).replace('skill-', '');
         const rank = idx < 4 ? 6 : 3;
         const baseAttr = skObj?.baseAttr || primKey;
 
         updates[`skill-${cleanId}-rank`] = rank;
         updates[`skill-${cleanId}-base`] = baseAttr;
-        updates[`skill-${cleanId}-name`] = cleanName;
+        updates[`skill-${cleanId}-name`] = finalSkillName;
         if (skObj?.group) updates[`skill-${cleanId}-group`] = skObj.group;
         if (skObj?.subcategory) updates[`skill-${cleanId}-subcategory`] = skObj.subcategory;
       });

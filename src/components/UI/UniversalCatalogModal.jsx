@@ -30,6 +30,14 @@ import { ALL_CANONICAL_SKILLS } from '../../data/skillsData';
 import { DEFAULT_OCCUPATIONS } from '../../data/occupationsData';
 import { DEFAULT_ORIGINS } from '../../data/originsData';
 import { DEFAULT_FACTIONS } from '../../data/factionsData';
+import { DEFAULT_SPECIES_DISADVANTAGES } from '../../data/speciesDisadvantagesData';
+import { ALL_CANONICAL_TRAITS } from '../../data/speciesTraitsData';
+import { DEFAULT_WEAPONRY } from '../../data/weaponryData';
+import { DEFAULT_ARMORING } from '../../data/armoringData';
+import { DEFAULT_AUGMENTATIONS } from '../../data/augmentationsData';
+import { DEFAULT_INVOCATIONS } from '../../data/invocationsData';
+import { DEFAULT_SPECIES_SIZES } from '../../data/speciesSizeData';
+import { DEFAULT_SPECIES_MOVEMENT } from '../../data/speciesMovementData';
 
 // Canonical Core Disciplines for default/fallback catalog load
 export const DEFAULT_DISCIPLINES = [
@@ -66,22 +74,27 @@ export const SKILL_GROUP_ITEMS = [
 const FALLBACK_CATALOG_DATA = {
   archetypes: DEFAULT_ARCHETYPES,
   species: DEFAULT_SPECIES,
+  species_size: DEFAULT_SPECIES_SIZES,
+  species_movement: DEFAULT_SPECIES_MOVEMENT,
+  movement: DEFAULT_SPECIES_MOVEMENT,
   features: DEFAULT_FEATURES,
+  traits: ALL_CANONICAL_TRAITS,
+  trait: ALL_CANONICAL_TRAITS,
   skills: ALL_CANONICAL_SKILLS,
   disciplines: DEFAULT_DISCIPLINES,
   awakened: DEFAULT_DISCIPLINES,
-  disadvantages: [],
-  augmentations: [],
-  weaponry: [],
-  weapons: [],
-  armoring: [],
-  armor: [],
-  gear: [],
-  equipment: [],
+  disadvantages: DEFAULT_SPECIES_DISADVANTAGES,
+  augmentations: DEFAULT_AUGMENTATIONS,
+  weaponry: DEFAULT_WEAPONRY,
+  weapons: DEFAULT_WEAPONRY,
+  armoring: DEFAULT_ARMORING,
+  armor: DEFAULT_ARMORING,
+  gear: DEFAULT_WEAPONRY,
+  equipment: DEFAULT_WEAPONRY,
   occupations: DEFAULT_OCCUPATIONS,
   origins: DEFAULT_ORIGINS,
   factions: DEFAULT_FACTIONS,
-  invocations: [],
+  invocations: DEFAULT_INVOCATIONS,
   special_abilities: [],
   mecha: []
 };

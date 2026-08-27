@@ -73,15 +73,214 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Agility",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Intellect",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Knowledge (Arcane)",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Diplomacy",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 20,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Knowledge (Arcane)",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Diplomacy",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Attune",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Science",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Language",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Awakened (Arcane)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Long-Lived (600+ years)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Sleepless (Immune to Sleep Effects)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Acute Senses",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Adapted (Arboreal)",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Ageless",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Agile Maneuvers",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Combat Expertise",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Darksight",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Eidetic Memory",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Low Light Vision",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Martial Arts",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Sense Magic (30ft)",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-acute-senses",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      },
+      {
+        "target": "feature-eidetic-memory",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      },
+      {
+        "target": "feature-sense-magic",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 20,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Agility",
+        "bonus": 1
+      },
+      {
+        "attribute": "Intellect",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Knowledge (Arcane)",
+        "bonus": 2
+      },
+      {
+        "skill": "Diplomacy",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Awakened (Arcane)",
+      "Long-Lived (600+ years)",
+      "Sleepless (Immune to Sleep Effects)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-acute-senses",
+      "feature-eidetic-memory",
+      "feature-sense-magic"
+    ],
     "stigma": "Minor Xeno (-1)",
     "tech_level": "3 (Magi-Tech: Solar Sails, Crystalline Laminates, Aetherium Refinement)",
     "meta_level": "4 (High Magic: The Flow)",
@@ -106,15 +305,167 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Charisma",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Deception",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Insight",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 5,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Deception",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Insight",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Streetwise",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Persuasion",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Aeld Lineage Traits",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Alter Form (Humanoid - Special Ability)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Sense Alignment/Intent",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Actor",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Chameleon",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Quick Disguise",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Silver Tongue",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Uncanny Instincts",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-chameleon",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      },
+      {
+        "target": "feature-actor",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 16,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Charisma",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Deception",
+        "bonus": 2
+      },
+      {
+        "skill": "Insight",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Aeld Lineage Traits",
+      "Alter Form (Humanoid - Special Ability)",
+      "Sense Alignment/Intent"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-chameleon",
+      "feature-actor"
+    ],
     "stigma": "Shifter (-2), Xeno (-2)",
     "tech_level": "3 (Adaptive Technology)",
     "meta_level": "3 (Metamorphic Psionics)",
@@ -139,15 +490,167 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Combat (Melee)",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Attune",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Combat (Melee)",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Intimidation",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Attune",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "History",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Aeld Lineage Traits",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Dragonkin Heritage (Scales, DR 2/-)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Natural Weapon (Claws/Bite)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Energy Breath",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Dragon Fear",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Thermal Resistance",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Mighty Surge",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Combat Specialization",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-energy-breath",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      },
+      {
+        "target": "feature-mighty-surge",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 22,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Intellect",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Combat (Melee)",
+        "bonus": 1
+      },
+      {
+        "skill": "Attune",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Aeld Lineage Traits",
+      "Dragonkin Heritage (Scales, DR 2/-)",
+      "Natural Weapon (Claws/Bite)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-energy-breath",
+      "feature-mighty-surge"
+    ],
     "stigma": "Dragonkin (-4), Xeno (-2)",
     "tech_level": "3 (Forge-Tech & Arcane Metallurgy)",
     "meta_level": "3 (Draconic Sorcery)",
@@ -172,15 +675,184 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Charisma",
+        "type": "attribute",
+        "value": -1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Discipline",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Discipline",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Science",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Knowledge (Void)",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Tactics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Aeld Lineage Traits",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Darksight",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Cold Discipline",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Indomitable Will",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Shadow Step",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Silent Caster",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Ruthless Focus",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Iron Mind",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-shadow-step",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      },
+      {
+        "target": "feature-iron-mind",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 18,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Intellect",
+        "bonus": 1
+      },
+      {
+        "attribute": "Charisma",
+        "bonus": -1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Discipline",
+        "bonus": 2
+      },
+      {
+        "skill": "Stealth",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Aeld Lineage Traits",
+      "Darksight",
+      "Cold Discipline",
+      "Indomitable Will"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-shadow-step",
+      "feature-iron-mind"
+    ],
     "stigma": "Xeno (-2), Supremacist (-2)",
     "tech_level": "4 (Void-Tech & Stealth Sub-systems)",
     "meta_level": "4 (Shadow Metaphysics & Telepathy)",
@@ -205,15 +877,176 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 2,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Perception",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Animal Handling",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Attune (Nature)",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Awakened (Nature)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Ageless",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Immune to Sleep",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Alter Form (Adv. Animal)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Animalistic Mutation",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Primal Scent",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Predator Instinct",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Fast Healing",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Climbing Claws",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Fleet of Foot",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-primal-scent",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      },
+      {
+        "target": "feature-fast-healing",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 21,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Survival",
+        "bonus": 2
+      },
+      {
+        "skill": "Athletics",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Awakened (Nature)",
+      "Ageless",
+      "Immune to Sleep",
+      "Alter Form (Adv. Animal)",
+      "Animalistic Mutation"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-primal-scent",
+      "feature-fast-healing"
+    ],
     "stigma": "Feral (-4), Xeno (-2)",
     "tech_level": "2 (Biomimetic Crafting)",
     "meta_level": "4 (Primal Shamanism & Biomorphism)",
@@ -239,15 +1072,175 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-climbing"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Agility",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Acrobatics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 5,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Acrobatics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Sleight of Hand",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Asi Base Traits (Ageless, Obfuscate, Sleepless)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Prehensile Tail",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Climber",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Quick (+5ft Movement)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Adapted (Arboreal)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Lightning Reflexes",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Tree Singer",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Danger Sense",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Nimble Leap",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-lightning-reflexes",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      },
+      {
+        "target": "feature-nimble-leap",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 19,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Agility",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Acrobatics",
+        "bonus": 2
+      },
+      {
+        "skill": "Stealth",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Asi Base Traits (Ageless, Obfuscate, Sleepless)",
+      "Prehensile Tail",
+      "Climber",
+      "Quick (+5ft Movement)",
+      "Adapted (Arboreal)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-lightning-reflexes",
+      "feature-nimble-leap"
+    ],
     "stigma": "Fey (-2), Xeno (-2)",
     "tech_level": "2 (Bio-Loomed Weaves & Organic Tools)",
     "meta_level": "3 (Primal Fey Illusion)",
@@ -272,15 +1265,168 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-flight"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Charisma",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Attune",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Perception",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Attune",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Perception",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Trickery",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Performance",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Asi Base Traits",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Diminutive Size (+4 Stealth, -4 Might)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Awakened (Nature)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Flight (Gossamer Wings, 30ft)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Glamour Weaving",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Invisibility Aura",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Pixie Dust Spark",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Nature Communion",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-glamour-weaving",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      },
+      {
+        "target": "feature-invisibility-aura",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 23,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Charisma",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Attune",
+        "bonus": 2
+      },
+      {
+        "skill": "Perception",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Asi Base Traits",
+      "Diminutive Size (+4 Stealth, -4 Might)",
+      "Awakened (Nature)",
+      "Flight (Gossamer Wings, 30ft)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-glamour-weaving",
+      "feature-invisibility-aura"
+    ],
     "stigma": "Fae (-2), Xeno (-2)",
     "tech_level": "1 (Enchanted Flora)",
     "meta_level": "5 (High Fey Metaphysics)",
@@ -305,15 +1451,192 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-flight"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Charisma",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Alertness",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Communication",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Alertness",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Communication",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Science",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Navigation",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Attune",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Asi Base Traits",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Tiny Size",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Awakened (Arcane)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Telepathy (Special Ability)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Flight (Winged, 40ft)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Darksight",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Aerial Acrobatics",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Sonic Trill",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Mind Link",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Far-Sight",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-mind-link",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      },
+      {
+        "target": "feature-far-sight",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 27,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Intellect",
+        "bonus": 1
+      },
+      {
+        "attribute": "Charisma",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Alertness",
+        "bonus": 2
+      },
+      {
+        "skill": "Communication",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Asi Base Traits",
+      "Tiny Size",
+      "Awakened (Arcane)",
+      "Telepathy (Special Ability)",
+      "Flight (Winged, 40ft)",
+      "Darksight"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-mind-link",
+      "feature-far-sight"
+    ],
     "stigma": "Animal (-2), Xeno (-2)",
     "tech_level": "3 (Crystal Transceivers)",
     "meta_level": "4 (Aero-Psionics & Telepathy)",
@@ -338,15 +1661,145 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Trickery",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Asi Base Traits",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Small / Medium Size Shift",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Climber",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Alter Form (Humanoid)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Awakened (Nature)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Scent Camouflage",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Pounce",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Shadow Lurker",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-shadow-lurker",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 16,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Stealth",
+        "bonus": 1
+      },
+      {
+        "skill": "Survival",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Asi Base Traits",
+      "Small / Medium Size Shift",
+      "Climber",
+      "Alter Form (Humanoid)",
+      "Awakened (Nature)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-shadow-lurker"
+    ],
     "stigma": "Animal (-2), Xeno (-2)",
     "tech_level": "2 (Primal Tools)",
     "meta_level": "3 (Metamorphic Nature)",
@@ -371,15 +1824,170 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-flight"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Strength",
+        "type": "attribute",
+        "value": -8,
+        "mode": "inherent"
+      },
+      {
+        "target": "Discipline",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Discipline",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Attune (Energy)",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Knowledge (Physics)",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Computation",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Asi Base Traits",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Diminutive Size",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Awakened (Energy/Illusion)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Telekinetic Flight",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Non-Living (Energy Entity)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Telekinesis (Special Ability)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Perfect Memory",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Light Discharge",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Electromagnetic Pulse",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Phase Shift",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-phase-shift",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 18,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Intellect",
+        "bonus": 1
+      },
+      {
+        "attribute": "Strength",
+        "bonus": -8
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Discipline",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Asi Base Traits",
+      "Diminutive Size",
+      "Awakened (Energy/Illusion)",
+      "Telekinetic Flight",
+      "Non-Living (Energy Entity)",
+      "Telekinesis (Special Ability)",
+      "Perfect Memory"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-phase-shift"
+    ],
     "stigma": "Severe Xeno (-6)",
     "tech_level": "4 (Photonic & Energy Resonators)",
     "meta_level": "5 (Pure Energy Metaphysics)",
@@ -404,15 +2012,166 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-quadruped"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Agility",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Wisdom",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Navigation",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Archery/Marksmanship",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Navigation",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Combat (Ranged)",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Asi Base Traits",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Awakened (Natural Wisdom)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Quadruped (Speed 40ft)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Quick Reflexes",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Stable Stance",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Trample",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Starlight Sight",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Forest Stride",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Herbalist Mastery",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-forest-stride",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 19,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Agility",
+        "bonus": 1
+      },
+      {
+        "attribute": "Wisdom",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Navigation",
+        "bonus": 1
+      },
+      {
+        "skill": "Archery/Marksmanship",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Asi Base Traits",
+      "Awakened (Natural Wisdom)",
+      "Quadruped (Speed 40ft)",
+      "Quick Reflexes",
+      "Stable Stance"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-forest-stride"
+    ],
     "stigma": "Xeno (-2), Seclusionist (-1)",
     "tech_level": "2 (Arboreal Bowcraft & Astronomy)",
     "meta_level": "3 (Astral Nature Divination)",
@@ -438,15 +2197,140 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-flight"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Charisma",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Attune",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Insight",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Investigation",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Asi Base Traits",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Alter Form (Wisp / Orb Form - Special Ability)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Awakened (Nature)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Silent Step",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Flight (in Wisp Form)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Invisibility",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Ethereal Jaunt",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Luminescent Flash",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-ethereal-jaunt",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 18,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Charisma",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Stealth",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Asi Base Traits",
+      "Alter Form (Wisp / Orb Form - Special Ability)",
+      "Awakened (Nature)",
+      "Silent Step",
+      "Flight (in Wisp Form)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-ethereal-jaunt"
+    ],
     "stigma": "Fey (-2)",
     "tech_level": "3 (Optical Mirage Tech)",
     "meta_level": "4 (Ethereal Illusion)",
@@ -472,15 +2356,145 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-climbing"
     ],
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Animal Handling",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Animal Handling",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Acrobatics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Perception",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Asi Base Traits",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Animal Affinity",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Climber",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Alter Form (Animal)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Awakened (Nature)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Beast Speech",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Wild Roar",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Keen Senses",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-beast-speech",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 17,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Survival",
+        "bonus": 1
+      },
+      {
+        "skill": "Animal Handling",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Asi Base Traits",
+      "Animal Affinity",
+      "Climber",
+      "Alter Form (Animal)",
+      "Awakened (Nature)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-beast-speech"
+    ],
     "stigma": "Animal (-2), Xeno (-2)",
     "tech_level": "1 (Bone & Root Tools)",
     "meta_level": "3 (Symbiotic Totemism)",
@@ -505,15 +2519,174 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Agility",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Martial Arts",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 5,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Martial Arts",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Acrobatics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Auluran Base Traits (Biotechnology, Low Light Vision, Prehensile Feet/Tail, Scent, Nat. Weapons)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Awakened (Psychic)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Climber",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Martial Arts",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Quick (+5ft Movement)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Apex Predator",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Bio-Venom Spit",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Uncanny Balance",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Chitinous Plating",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-apex-predator",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 21,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Agility",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Martial Arts",
+        "bonus": 1
+      },
+      {
+        "skill": "Survival",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Auluran Base Traits (Biotechnology, Low Light Vision, Prehensile Feet/Tail, Scent, Nat. Weapons)",
+      "Awakened (Psychic)",
+      "Climber",
+      "Martial Arts",
+      "Quick (+5ft Movement)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-apex-predator"
+    ],
     "stigma": "Xeno (-2)",
     "tech_level": "3 (Bio-Tech Weapons & Neural Symbionts)",
     "meta_level": "2 (Bio-Psionics)",
@@ -538,15 +2711,154 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-quadruped"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Agility",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 2,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Intimidation",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Combat (Natural)",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Auluran Base Traits",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Large Size",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Armless (-4 penalty to manipulation)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Quick Speed",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Martial Arts",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Quadruped (Speed 40ft)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Crushing Jaw",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Thick Hide (DR 4/-)",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Savage Charge",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-crushing-jaw",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      },
+      {
+        "target": "feature-savage-charge",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 20,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Agility",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Athletics",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Auluran Base Traits",
+      "Large Size",
+      "Armless (-4 penalty to manipulation)",
+      "Quick Speed",
+      "Martial Arts",
+      "Quadruped (Speed 40ft)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-crushing-jaw",
+      "feature-savage-charge"
+    ],
     "stigma": "Animal (-2), Xeno (-2)",
     "tech_level": "2 (Symbiotic Harnesses)",
     "meta_level": "1 (Pheromone Network)",
@@ -571,15 +2883,157 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Agility",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Strength",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Craft (Bio-Tech)",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Craft (Bio-Tech)",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Engineering",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Science",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Auluran Base Traits",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Digitigrade Legs",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Climber",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Quick",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Martial Arts",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Biotechnology (+2 Crafting)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Heavy Load Lifter",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Symbiote Weaver",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Cellular Resilience",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-cellular-resilience",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 20,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Agility",
+        "bonus": 1
+      },
+      {
+        "attribute": "Strength",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Craft (Bio-Tech)",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Auluran Base Traits",
+      "Digitigrade Legs",
+      "Climber",
+      "Quick",
+      "Martial Arts",
+      "Biotechnology (+2 Crafting)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-cellular-resilience"
+    ],
     "stigma": "Xeno (-2)",
     "tech_level": "3 (Living Habitat Architecture)",
     "meta_level": "1 (Cellular Attunement)",
@@ -604,15 +3058,154 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Survival (Cold)",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Medicine",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Perception",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Auluran Base Traits",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Digitigrade",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Climber",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Quick",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Adapted (Cold Environments)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Alternate Form (Humanoid / Beast Form)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Improved Great Fortitude",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Thermal Fur Insulation",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Primal Regeneration",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Frost Resistance",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-primal-regeneration",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 21,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Intellect",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Survival (Cold)",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Auluran Base Traits",
+      "Digitigrade",
+      "Climber",
+      "Quick",
+      "Adapted (Cold Environments)",
+      "Alternate Form (Humanoid / Beast Form)",
+      "Improved Great Fortitude"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-primal-regeneration"
+    ],
     "stigma": "Xeno (-2)",
     "tech_level": "3 (Cryo-Biotechnology)",
     "meta_level": "2 (Cellular Metamorphosis)",
@@ -638,15 +3231,134 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-swimming"
     ],
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Athletics (Swimming)",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 5,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Sabotage",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Adapted (Deep Ocean)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Amphibious",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Natural Swim Speed (40ft)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Hydrodynamic Skin",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Pressure Sovereign",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Sub-aquatic Sonar",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Cold Blood Control",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-pressure-sovereign",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 17,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Athletics (Swimming)",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Adapted (Deep Ocean)",
+      "Amphibious",
+      "Natural Swim Speed (40ft)",
+      "Hydrodynamic Skin"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-pressure-sovereign"
+    ],
     "stigma": "Aquatic Xeno (-3)",
     "tech_level": "4 (Deep Trench Tech)",
     "meta_level": "1 (Echo Resonance)",
@@ -671,15 +3383,126 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 2,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Perception",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 5,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Perception",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Combat",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "2 Splice Mutations (Natural Weapons, Chitin/Fur, Tail)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Mutation Power (Special Perk)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 2,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Venom Fangs",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Echolocation",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Wall Crawling",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Night Vision",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-venom-fangs",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 19,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Perception",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "2 Splice Mutations (Natural Weapons, Chitin/Fur, Tail)",
+      "Mutation Power (Special Perk)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-venom-fangs"
+    ],
     "stigma": "Genetic (-2), Beastial (-2)",
     "tech_level": "4 (Splice Genomics)",
     "meta_level": "1 (Animalistic Resonance)",
@@ -704,15 +3527,145 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Attune (Psychic)",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 5,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Attune",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Insight",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Discipline",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Science",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Awakened (Psychic)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Telepathy (100ft)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Biotechnology Mastery",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Hive Connection (Shared Telepathic Mesh)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 2,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Mind Shield",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Psychic Scan",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Mesh Coordination",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-mind-shield",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 23,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Intellect",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Attune (Psychic)",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Awakened (Psychic)",
+      "Telepathy (100ft)",
+      "Biotechnology Mastery",
+      "Hive Connection (Shared Telepathic Mesh)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-mind-shield"
+    ],
     "stigma": "Xeno (-2)",
     "tech_level": "4 (Neural Mesh & Bio-Computing)",
     "meta_level": "4 (Hive Psionics)",
@@ -737,15 +3690,166 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Strength",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Agility",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Stamina",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Intellect",
+        "type": "attribute",
+        "value": -1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Charisma",
+        "type": "attribute",
+        "value": -1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Combat (Melee/Heavy)",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 5,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Combat",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Intimidation",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Brutal (+3 Melee Damage)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Exoskeleton (Partial Sub-dermal Plates DR 3/-)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Combat Rage (1/Encounter)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Unstoppable Charge",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Pain Immunity",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Flesh Tearer",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-combat-rage",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 16,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Strength",
+        "bonus": 1
+      },
+      {
+        "attribute": "Agility",
+        "bonus": 1
+      },
+      {
+        "attribute": "Stamina",
+        "bonus": 1
+      },
+      {
+        "attribute": "Intellect",
+        "bonus": -1
+      },
+      {
+        "attribute": "Charisma",
+        "bonus": -1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Combat (Melee/Heavy)",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Brutal (+3 Melee Damage)",
+      "Exoskeleton (Partial Sub-dermal Plates DR 3/-)",
+      "Combat Rage (1/Encounter)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-combat-rage"
+    ],
     "stigma": "Xeno (-2), Savage (-4)",
     "tech_level": "3 (Imperial Heavy Ordinance)",
     "meta_level": "0 (Null)",
@@ -770,15 +3874,120 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 2,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Science (Genetics)",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 5,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Science",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Discipline",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Medicine",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Genetic Optimization (Disease Immunity, Retinal Filter)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Custom Gene Blueprint (+1 Free Feature)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Metabolic Acceleration",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Neural Overclock",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Cellular Renewal",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-cellular-renewal",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 16,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Science (Genetics)",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Genetic Optimization (Disease Immunity, Retinal Filter)",
+      "Custom Gene Blueprint (+1 Free Feature)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-cellular-renewal"
+    ],
     "stigma": "None",
     "tech_level": "4 (Genetic Engineering & Gene-Splicing)",
     "meta_level": "1 (Cellular Potential)",
@@ -803,15 +4012,161 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Wisdom",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Attune (Psionic)",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Insight",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Attune",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Insight",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Discipline",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Investigation",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Intimidation",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Awakened (Psionic)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Status (Impyrium Authority)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Mind Wipe Resistance",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Psychic Aura",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Thought Probe",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Psionic Crush",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Telepathic Command",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-thought-probe",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 20,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Wisdom",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Attune (Psionic)",
+        "bonus": 2
+      },
+      {
+        "skill": "Insight",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Awakened (Psionic)",
+      "Status (Impyrium Authority)",
+      "Mind Wipe Resistance",
+      "Psychic Aura"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-thought-probe"
+    ],
     "stigma": "None",
     "tech_level": "4 (Imperial Psionic Relics & Force Armor)",
     "meta_level": "4 (Imperial High Psionics)",
@@ -836,15 +4191,161 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "type": "attribute",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Diplomacy",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Leadership",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 20,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Diplomacy",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Leadership",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Commerce",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Law",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "History",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Attune",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Adaptive Aspects",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Awakened (Psionic)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Status (Imperial Nobility)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Aristocratic Immunity",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 2,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Royal Command",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Will of the Throne",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Silver Aegis",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-royal-command",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 32,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Intellect",
+        "bonus": 2
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Diplomacy",
+        "bonus": 2
+      },
+      {
+        "skill": "Leadership",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Adaptive Aspects",
+      "Awakened (Psionic)",
+      "Status (Imperial Nobility)",
+      "Aristocratic Immunity"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-royal-command"
+    ],
     "stigma": "None",
     "tech_level": "4 (Imperial Regalia & Grav-Chairs)",
     "meta_level": "4 (Command Metaphysics)",
@@ -869,15 +4370,160 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Charisma",
+        "type": "attribute",
+        "value": -1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 2,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Combat (Firearms)",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Tactics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 20,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Combat",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Tactics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Discipline",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Perception",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Augmented (Sub-dermal Targeter, Adrenal Regulator)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Conditioned Mind (+4 vs Fear)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Combat Specialization",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Zero-Delay Reaction",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Covert Infiltration",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Precision Marksman",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-precision-marksman",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 26,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Charisma",
+        "bonus": -1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Combat (Firearms)",
+        "bonus": 2
+      },
+      {
+        "skill": "Tactics",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Augmented (Sub-dermal Targeter, Adrenal Regulator)",
+      "Conditioned Mind (+4 vs Fear)",
+      "Combat Specialization"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-precision-marksman"
+    ],
     "stigma": "Xeno (-2)",
     "tech_level": "4 (Syndicate Black-Ops Tech)",
     "meta_level": "1 (Tactical Focus)",
@@ -903,15 +4549,135 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-swimming"
     ],
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Athletics (Swimming)",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Navigation",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Science (Oceanography)",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Adapted (Aquatic)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Amphibious (Gills & Lungs)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Aquatic Strength (+2 in water)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Specialized Senses (Underwater Vision/Sonar)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Natural Swim Speed (30ft)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Pressure Tolerance",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Bioluminescence",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Cold Water Immunity",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-pressure-tolerance",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 17,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Athletics (Swimming)",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Adapted (Aquatic)",
+      "Amphibious (Gills & Lungs)",
+      "Aquatic Strength (+2 in water)",
+      "Specialized Senses (Underwater Vision/Sonar)",
+      "Natural Swim Speed (30ft)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-pressure-tolerance"
+    ],
     "stigma": "Aquatic Xeno (-3)",
     "tech_level": "3 (Sub-Surface Habitats & Hydro-Drives)",
     "meta_level": "1 (Oceanic Echo)",
@@ -936,15 +4702,142 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Science",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Engineering",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 5,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Science",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Engineering",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Medicine",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Improved Great Fortitude (+4 vs Poison/Disease)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Dense Skeletal Structure",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Radiation Tolerance",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Silver Skin DR",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Toxic Neutralization",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Tireless",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-improved-great-fortitude",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 13,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Intellect",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Science",
+        "bonus": 1
+      },
+      {
+        "skill": "Engineering",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Improved Great Fortitude (+4 vs Poison/Disease)",
+      "Dense Skeletal Structure",
+      "Radiation Tolerance"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-improved-great-fortitude"
+    ],
     "stigma": "Blue Skin (-1)",
     "tech_level": "3 (Industrial Heavy Tech)",
     "meta_level": "2 (Electrochemical Psionics)",
@@ -969,15 +4862,142 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Agility",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Perception",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Perception",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Acrobatics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Alertness",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Low Light Vision",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Quick (+5ft Movement)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Echo Sensitivity",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Shadow Affinity",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Reflex Evasion",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Night Hunter",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-quick",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 11,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Agility",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Perception",
+        "bonus": 1
+      },
+      {
+        "skill": "Stealth",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Low Light Vision",
+      "Quick (+5ft Movement)",
+      "Echo Sensitivity"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-quick"
+    ],
     "stigma": "None",
     "tech_level": "3 (Standard)",
     "meta_level": "1 (Sensory Focus)",
@@ -1002,15 +5022,154 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Agility",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Acrobatics",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Acrobatics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Engineering",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Piloting",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Sleight of Hand",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Small Size (+2 Defense, +2 Stealth)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Climber",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "High Metabolism",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Nimble Squeeze",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Tunnel Runner",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Underfoot Dodge",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-climber",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 18,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Agility",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Acrobatics",
+        "bonus": 1
+      },
+      {
+        "skill": "Stealth",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Small Size (+2 Defense, +2 Stealth)",
+      "Climber",
+      "High Metabolism"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-climber"
+    ],
     "stigma": "None",
     "tech_level": "3 (Miniaturized Mechanics)",
     "meta_level": "1 (Agile Flow)",
@@ -1035,15 +5194,125 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Charisma",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Deception",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 5,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Deception",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Insight",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Persuasion",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Alter Form (Minor - Facial/Skin/Hair Shift)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Intuitive Empathy",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Voice Mimicry",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Pheromone Mask",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Social Chameleon",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-voice-mimicry",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 12,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Charisma",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Deception",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Alter Form (Minor - Facial/Skin/Hair Shift)",
+      "Intuitive Empathy"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-voice-mimicry"
+    ],
     "stigma": "Shifter (-2)",
     "tech_level": "3 (Cosmetic Synthesis)",
     "meta_level": "2 (Empathic Resonance)",
@@ -1068,15 +5337,148 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "type": "attribute",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Technology",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Hacking",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Technology",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Hacking",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Science",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Piloting",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Engineering",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Augmented (Sub-dermal Body Comp, Pico-Surgeons, Smart Link)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Bodyform Acclimation (0 Cyber-Strain)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Companion (Integrated Sub-AI Assistant)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Hardwired Reflexes",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Neural Firewall",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Direct Interface Tap",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-neural-firewall",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 26,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Intellect",
+        "bonus": 2
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Technology",
+        "bonus": 2
+      },
+      {
+        "skill": "Hacking",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Augmented (Sub-dermal Body Comp, Pico-Surgeons, Smart Link)",
+      "Bodyform Acclimation (0 Cyber-Strain)",
+      "Companion (Integrated Sub-AI Assistant)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-neural-firewall"
+    ],
     "stigma": "Xeno (-2), Augmented (-4)",
     "tech_level": "4 (Advanced Cybernetics & Neural Sockets)",
     "meta_level": "0 (Null / Technological Optimization)",
@@ -1101,15 +5503,136 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Attune",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Biology",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Attune",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Biology",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Medicine",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Insight",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Awakened (Mental/Psychic)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Biotechnology Affinity",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Hive Connection (Low-Band Telepathy)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Neural Dampening",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Telepathic Whispers",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Bio-Crafting",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-telepathic-whispers",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 14,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Intellect",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Attune",
+        "bonus": 1
+      },
+      {
+        "skill": "Biology",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Awakened (Mental/Psychic)",
+      "Biotechnology Affinity",
+      "Hive Connection (Low-Band Telepathy)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-telepathic-whispers"
+    ],
     "stigma": "Minor Xeno (-1)",
     "tech_level": "3 (Bio-Hybrid Devices)",
     "meta_level": "3 (Telepathic Linkage)",
@@ -1134,15 +5657,131 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Intimidation",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Intimidation",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Combat",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Leadership",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Dragonkin Traits (Partial Scales DR 1/-, Heat Resistance)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Status (Dynasty Ties)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Fiery Resolve",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Thermal Breath",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Dragon Eye Sight",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Noble Bearing",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-thermal-breath",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 16,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Intimidation",
+        "bonus": 1
+      },
+      {
+        "skill": "Athletics",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Dragonkin Traits (Partial Scales DR 1/-, Heat Resistance)",
+      "Status (Dynasty Ties)",
+      "Fiery Resolve"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-thermal-breath"
+    ],
     "stigma": "Draconic (-2)",
     "tech_level": "3 (Dracon Dynasty Imperial Tech)",
     "meta_level": "2 (Elemental Fire)",
@@ -1167,15 +5806,148 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Strength",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Stamina",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Craft (Metallurgy)",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Craft",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Engineering",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Science (Geology)",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Combat (Heavy)",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Mighty Surge (1/Encounter bonus to STR/STA checks)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Dense Musculature",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Poison Resistance",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Master Smith",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Subterranean Instinct",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Unyielding Stance",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-mighty-surge",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 17,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Strength",
+        "bonus": 1
+      },
+      {
+        "attribute": "Stamina",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Craft (Metallurgy)",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Mighty Surge (1/Encounter bonus to STR/STA checks)",
+      "Dense Musculature",
+      "Poison Resistance"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-mighty-surge"
+    ],
     "stigma": "Minor Xeno (-1)",
     "tech_level": "3 (Heavy Metallurgy & Kinetic Forges)",
     "meta_level": "1 (Earth / Mineral Resonance)",
@@ -1200,15 +5972,141 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "modifiers": [
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Physical Skills",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Mental Skills",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Persuasion",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Streetwise",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Technology",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Adaptability",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Broad Horizons (+1 Feature at Creation)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Endurance",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Resourceful",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Fast Learner",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Versatile",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Jack of All Trades",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-adaptability",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      },
+      {
+        "target": "feature-endurance",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      },
+      {
+        "target": "feature-resourceful",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 10,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 0,
     "specific_skill_bonuses": [],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Adaptability",
+      "Broad Horizons (+1 Feature at Creation)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-adaptability",
+      "feature-endurance",
+      "feature-resourceful"
+    ],
     "stigma": "None (Galactic Baseline)",
     "tech_level": "3 (Standard Interstellar Fusion & Ballistics)",
     "meta_level": "1 (Variable / Latent Potential)",
@@ -1233,15 +6131,127 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 2,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Diplomacy",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 5,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Diplomacy",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Attune",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Perception",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Culture",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Low Light Vision",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Extended Lifespan (200 years)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Arcane Affinity",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Silver Tongue",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Graceful Stride",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Focused Mind",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-graceful-stride",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 17,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Diplomacy",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Low Light Vision",
+      "Extended Lifespan (200 years)",
+      "Arcane Affinity"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-graceful-stride"
+    ],
     "stigma": "None",
     "tech_level": "3 (Magi-Tech Synthesis)",
     "meta_level": "2 (Harmonic Weave)",
@@ -1267,15 +6277,162 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-climbing"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Acrobatics",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Survival (Jungle)",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Acrobatics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Medicine (Herbal)",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Adapted (Arboreal)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Awakened (Nature/Psychic)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Biotech Synergy",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Climber",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Prehensile Tail",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Canopy Acrobat",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Plant Whisperer",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Natural Camouflage",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-climber",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 19,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Intellect",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Acrobatics",
+        "bonus": 1
+      },
+      {
+        "skill": "Survival (Jungle)",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Adapted (Arboreal)",
+      "Awakened (Nature/Psychic)",
+      "Biotech Synergy",
+      "Climber",
+      "Prehensile Tail"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-climber"
+    ],
     "stigma": "Xeno (-2)",
     "tech_level": "2 (Living Vine Architecture)",
     "meta_level": "3 (Botanical Psionics)",
@@ -1300,15 +6457,140 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Strength",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Stamina",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Charisma",
+        "type": "attribute",
+        "value": -1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Intimidation",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Combat (Brawling)",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Brutal (+2 Melee Damage)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Exoskeleton (Partial Chitinous Plates DR 2/-)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Pain Tolerance",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Bone Spikes",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Furious Counter",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Unstoppable Momentum",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-brutal",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 12,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Strength",
+        "bonus": 1
+      },
+      {
+        "attribute": "Stamina",
+        "bonus": 1
+      },
+      {
+        "attribute": "Charisma",
+        "bonus": -1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Athletics",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Brutal (+2 Melee Damage)",
+      "Exoskeleton (Partial Chitinous Plates DR 2/-)",
+      "Pain Tolerance"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-brutal"
+    ],
     "stigma": "None",
     "tech_level": "3 (Ballistics & Heavy Exosuits)",
     "meta_level": "0 (Null)",
@@ -1333,15 +6615,143 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Commerce",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Persuasion",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Commerce",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Persuasion",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Streetwise",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Law",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Insight",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Calculating Mind",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Silver Tongue",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Syndicate Network",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Master Negotiator",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Market Sense",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Hidden Assets",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-master-negotiator",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 14,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Commerce",
+        "bonus": 2
+      },
+      {
+        "skill": "Persuasion",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Calculating Mind",
+      "Silver Tongue",
+      "Syndicate Network"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-master-negotiator"
+    ],
     "stigma": "None",
     "tech_level": "3 (Financial Holo-Nets & Comms)",
     "meta_level": "1 (Subconscious Suggestion)",
@@ -1366,15 +6776,179 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Agility",
+        "type": "attribute",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Stamina",
+        "type": "attribute",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Acrobatics",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Perception",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Acrobatics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Perception",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Fast (+10ft Movement)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Jumper (+5ft Vertical)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Low Light Vision",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Prehensile Tail",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Acute Scent",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Pounce Strike",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Feral Agility",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Lightning Sprint",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-fast",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      },
+      {
+        "target": "feature-jumper",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 26,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Agility",
+        "bonus": 2
+      },
+      {
+        "attribute": "Stamina",
+        "bonus": 2
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Acrobatics",
+        "bonus": 1
+      },
+      {
+        "skill": "Perception",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Fast (+10ft Movement)",
+      "Jumper (+5ft Vertical)",
+      "Low Light Vision",
+      "Prehensile Tail",
+      "Acute Scent"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-fast",
+      "feature-jumper"
+    ],
     "stigma": "Xeno (-2)",
     "tech_level": "3 (Bio-Scanners & Lightweight Stealth Armor)",
     "meta_level": "2 (Predator Sense)",
@@ -1399,15 +6973,142 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Strength",
+        "type": "attribute",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Stamina",
+        "type": "attribute",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Intimidation",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Combat (Heavy Weapons)",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Large Size (8-10ft, Reach 10ft)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Massive Bulk (DR 3/-)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Colossal Carrying Capacity",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 2,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Crushing Blow",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Titan Endurance",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Ground Slam",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-crushing-blow",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 26,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Strength",
+        "bonus": 2
+      },
+      {
+        "attribute": "Stamina",
+        "bonus": 2
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Athletics",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Large Size (8-10ft, Reach 10ft)",
+      "Massive Bulk (DR 3/-)",
+      "Colossal Carrying Capacity"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-crushing-blow"
+    ],
     "stigma": "Xeno (-2), Giant (-2)",
     "tech_level": "3 (Heavy Industrial Hydraulic Rigging)",
     "meta_level": "0 (Physical Dominance)",
@@ -1432,15 +7133,155 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Attune (Dimension)",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Navigation (Astrogation)",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Attune",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Navigation",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Science (Astrophysics)",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Discipline",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Awakened (Dimension/Psychic)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Indomitable Will",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Teleportal (Special Ability - Short Jump)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Homing (Special Ability - Spatial Recall)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Dimensional Tear",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Warp Sight",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Spatial Anchor",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-spatial-anchor",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 22,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Intellect",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Attune (Dimension)",
+        "bonus": 2
+      },
+      {
+        "skill": "Navigation (Astrogation)",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Awakened (Dimension/Psychic)",
+      "Indomitable Will",
+      "Teleportal (Special Ability - Short Jump)",
+      "Homing (Special Ability - Spatial Recall)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-spatial-anchor"
+    ],
     "stigma": "None",
     "tech_level": "4 (FTL & Slipstream Gate Tech)",
     "meta_level": "4 (Spatial Metaphysics)",
@@ -1465,15 +7306,131 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-quadruped"
     ],
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 2,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Perception",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Perception",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Animal Physiology (Natural Weapons, Scent, Low-Light)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Awakened Consciousness (Human-level sentience)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Vocal Synthesizer / Telepathic Collar",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Keen Senses",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Pounce",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Thick Fur DR",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-keen-senses",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 15,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Perception",
+        "bonus": 2
+      },
+      {
+        "skill": "Survival",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Animal Physiology (Natural Weapons, Scent, Low-Light)",
+      "Awakened Consciousness (Human-level sentience)",
+      "Vocal Synthesizer / Telepathic Collar"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-keen-senses"
+    ],
     "stigma": "Beast (-4)",
     "tech_level": "2 (Adapted Gear)",
     "meta_level": "2 (Primal Sentience)",
@@ -1498,15 +7455,139 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Stamina",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Athletics (Climbing)",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 5,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Perception",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Acrobatics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Ungulate Legs (Sure-Footed on Cliffs)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Uncanny Senses (360-degree Vision & Hearing)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Quick (+5ft Movement)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Horn Strike (Melee 1d6)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Mountain Stride",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Headbutt Stun",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "High-Altitude Lung",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-mountain-stride",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 16,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Stamina",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Athletics (Climbing)",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Ungulate Legs (Sure-Footed on Cliffs)",
+      "Uncanny Senses (360-degree Vision & Hearing)",
+      "Quick (+5ft Movement)",
+      "Horn Strike (Melee 1d6)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-mountain-stride"
+    ],
     "stigma": "Xeno (-2)",
     "tech_level": "3 (High-Altitude Climbing Rigs & Kinetic Carbines)",
     "meta_level": "1 (Mountain Resonance)",
@@ -1531,15 +7612,146 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Strength",
+        "type": "attribute",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Stamina",
+        "type": "attribute",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Charisma",
+        "type": "attribute",
+        "value": -1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 5,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Combat",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Chloroplast Cells (Sustained by sunlight, +2 STA in sun)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Exoskeleton (DR 3/-)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Regenerative Sap",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Sunlight Surge",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Bark Chitin",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Root Stance",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-sunlight-surge",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 20,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Strength",
+        "bonus": 2
+      },
+      {
+        "attribute": "Stamina",
+        "bonus": 2
+      },
+      {
+        "attribute": "Charisma",
+        "bonus": -1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Athletics",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Chloroplast Cells (Sustained by sunlight, +2 STA in sun)",
+      "Exoskeleton (DR 3/-)",
+      "Regenerative Sap"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-sunlight-surge"
+    ],
     "stigma": "Xeno (-2)",
     "tech_level": "2 (Solar Bio-Crafting)",
     "meta_level": "1 (Solar Resonance)",
@@ -1556,7 +7768,7 @@ export const DEFAULT_SPECIES = [
     "category": "species",
     "parent_species": "Independent Xenotypes",
     "type": [
-      "species_type-reptile"
+      "species_type-humanoid"
     ],
     "size": [
       "species_size-medium"
@@ -1565,15 +7777,167 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-swimming"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Strength",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Stamina",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Combat",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Climber",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Digitigrade",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Fast Heal",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Long Prehensile Tail (Trip/Hold)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Regeneration (3 HP/rnd, regrows limbs)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Swimmer",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Thermal Cold Blooded",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Chameleon Scales",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Constrictor Tail",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-regeneration",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 21,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Strength",
+        "bonus": 1
+      },
+      {
+        "attribute": "Stamina",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Athletics",
+        "bonus": 1
+      },
+      {
+        "skill": "Survival",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Climber",
+      "Digitigrade",
+      "Fast Heal",
+      "Long Prehensile Tail (Trip/Hold)",
+      "Regeneration (3 HP/rnd, regrows limbs)",
+      "Swimmer"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-regeneration"
+    ],
     "stigma": "Xeno (-2)",
     "tech_level": "3 (Bio-Thermal Tech & Slugthrowers)",
     "meta_level": "1 (Regenerative Vitality)",
@@ -1598,15 +7962,159 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Agility",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Stamina",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Alertness",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Survival (Tracking)",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Alertness",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Combat",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Intimidation",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Digitigrade",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Quick (+5ft Movement)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Uncanny Senses (Acute Scent & Hearing +4)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Pack Tactics (+2 to hit when flanking)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Apex Tracker",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Bite Attack",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Howl of Morale",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-pack-tactics",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 17,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Agility",
+        "bonus": 1
+      },
+      {
+        "attribute": "Stamina",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Alertness",
+        "bonus": 2
+      },
+      {
+        "skill": "Survival (Tracking)",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Digitigrade",
+      "Quick (+5ft Movement)",
+      "Uncanny Senses (Acute Scent & Hearing +4)",
+      "Pack Tactics (+2 to hit when flanking)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-pack-tactics"
+    ],
     "stigma": "Xeno (-2)",
     "tech_level": "3 (Standard Infantry Gear & Tracking Arrays)",
     "meta_level": "1 (Pack Empathy)",
@@ -1631,15 +8139,172 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Agility",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Investigation",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 5,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Investigation",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Technology",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Perception",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Acrobatics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Digitigrade",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Low Light Vision",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Acute Scent",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Silent Stride",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Retractable Claws",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Ambush Reflex",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Nimble Leap",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Inquisitive Mind",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-ambush-reflex",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 16,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Intellect",
+        "bonus": 1
+      },
+      {
+        "attribute": "Agility",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Stealth",
+        "bonus": 2
+      },
+      {
+        "skill": "Investigation",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Digitigrade",
+      "Low Light Vision",
+      "Acute Scent",
+      "Silent Stride",
+      "Retractable Claws"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-ambush-reflex"
+    ],
     "stigma": "Xeno (-2)",
     "tech_level": "3 (Sensory Scanners & Covert Tech)",
     "meta_level": "2 (Intuitive Psionics)",
@@ -1665,15 +8330,157 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-climbing"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Strength",
+        "type": "attribute",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Agility",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Intimidation",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Combat",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Engineering (Heavy)",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Climber",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Low Light Vision",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Mighty Surge (Bonus STR/Athletics)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Prehensile Tail & Feet",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Acute Scent",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Climb Speed (30ft)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Brachiation Mastery",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Chest Beat Roar",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Grip of Iron",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-mighty-surge",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 21,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Strength",
+        "bonus": 2
+      },
+      {
+        "attribute": "Agility",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Athletics",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Climber",
+      "Low Light Vision",
+      "Mighty Surge (Bonus STR/Athletics)",
+      "Prehensile Tail & Feet",
+      "Acute Scent",
+      "Climb Speed (30ft)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-mighty-surge"
+    ],
     "stigma": "Minor Xeno (-1)",
     "tech_level": "3 (Heavy Rigging & Mining Plasma Tools)",
     "meta_level": "1 (Primal Strength)",
@@ -1700,15 +8507,157 @@ export const DEFAULT_SPECIES = [
       "species_movement-swimming",
       "species_movement-flight"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Agility",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Stamina",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Perception",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Perception",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Navigation",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Adapted (Aquatic)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Amphibious",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Alternate Form (Manta Ray Flight Form)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Echolocation (60ft Sonar)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Uncanny Sense (Underwater Vision)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Swim / Glide Speed (40ft)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Electro-Magnetic Pulse Sting",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Hydrofoil Dash",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Deep Trench Sight",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-echolocation",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 22,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Agility",
+        "bonus": 1
+      },
+      {
+        "attribute": "Stamina",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Perception",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Adapted (Aquatic)",
+      "Amphibious",
+      "Alternate Form (Manta Ray Flight Form)",
+      "Echolocation (60ft Sonar)",
+      "Uncanny Sense (Underwater Vision)",
+      "Swim / Glide Speed (40ft)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-echolocation"
+    ],
     "stigma": "Severe Xeno (-4)",
     "tech_level": "3 (Hydro-Resonance Equipment)",
     "meta_level": "2 (Sonic Metaphysics)",
@@ -1733,15 +8682,162 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-flight"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "type": "attribute",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Discipline",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Attune",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Discipline",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Attune",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Science",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Diplomacy",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Philosophy",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Awakened (Psychic)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Telepathic (150ft)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Adaptive Aspects",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Flight (Telekinetic Levitation 30ft)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Bioluminescent Body Glow",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Psychic Barrier",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Calming Aura",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Telekinetic Wave",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-psychic-barrier",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 27,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Intellect",
+        "bonus": 2
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Discipline",
+        "bonus": 2
+      },
+      {
+        "skill": "Attune",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Awakened (Psychic)",
+      "Telepathic (150ft)",
+      "Adaptive Aspects",
+      "Flight (Telekinetic Levitation 30ft)",
+      "Bioluminescent Body Glow"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-psychic-barrier"
+    ],
     "stigma": "Xeno (-2), Luminescent (-1)",
     "tech_level": "4 (Psi-Amplifier Holo-Suits)",
     "meta_level": "4 (High Psionics)",
@@ -1766,15 +8862,162 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Strength",
+        "type": "attribute",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Stamina",
+        "type": "attribute",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Intellect",
+        "type": "attribute",
+        "value": -1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Charisma",
+        "type": "attribute",
+        "value": -1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Combat (Melee)",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 5,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Combat",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Intimidation",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Exoskeleton (Light Chitin DR 3/-)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Rage (+4 STR, -2 Defense in combat 1/enc)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Heavy Strike (+2 Damage)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Furious Slam",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Crushing Grip",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Pheromone Frenzy",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-furious-slam",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 21,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Strength",
+        "bonus": 2
+      },
+      {
+        "attribute": "Stamina",
+        "bonus": 2
+      },
+      {
+        "attribute": "Intellect",
+        "bonus": -1
+      },
+      {
+        "attribute": "Charisma",
+        "bonus": -1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Combat (Melee)",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Exoskeleton (Light Chitin DR 3/-)",
+      "Rage (+4 STR, -2 Defense in combat 1/enc)",
+      "Heavy Strike (+2 Damage)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-furious-slam"
+    ],
     "stigma": "Savage (-4), Xeno (-2)",
     "tech_level": "2 (Heavy Ballistic Scrap Guns & Cleavers)",
     "meta_level": "0 (Null)",
@@ -1800,15 +9043,159 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-slithering"
     ],
+    "modifiers": [
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Discipline",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Discipline",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Science",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Attune",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Adaptive Aspects (Acid / Thermal Immunity)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Alter Form (Amorphous Slime / Pseudo-Humanoid)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Awakened (Cosmic)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Bodyform Adaptation (Squeeze through any opening)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Fast Healing",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Regeneration (3 HP/rnd)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Telepathic (100ft)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Engulf Attack",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Acid Touch",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Split Form",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-engulf-attack",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 28,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Stealth",
+        "bonus": 2
+      },
+      {
+        "skill": "Discipline",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Adaptive Aspects (Acid / Thermal Immunity)",
+      "Alter Form (Amorphous Slime / Pseudo-Humanoid)",
+      "Awakened (Cosmic)",
+      "Bodyform Adaptation (Squeeze through any opening)",
+      "Fast Healing",
+      "Regeneration (3 HP/rnd)",
+      "Telepathic (100ft)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-engulf-attack"
+    ],
     "stigma": "Severe Xeno (-4)",
     "tech_level": "3 (Bio-Polymer Containment Suits)",
     "meta_level": "4 (Cosmic Fluidity)",
@@ -1833,15 +9220,150 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-flight"
     ],
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 2,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Alertness",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Navigation (Aerial)",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Alertness",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Navigation",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Combat (Ranged)",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Uncanny Senses (Telescopic Vision +4)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Flight (Winged Speed 50ft)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Hollow Bone Agility",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Thermal Current Riding",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Dive Bomb Strike",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Aerial Barrel Roll",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Wind Gust Blast",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-dive-bomb-strike",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 22,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Alertness",
+        "bonus": 2
+      },
+      {
+        "skill": "Navigation (Aerial)",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Uncanny Senses (Telescopic Vision +4)",
+      "Flight (Winged Speed 50ft)",
+      "Hollow Bone Agility",
+      "Thermal Current Riding"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-dive-bomb-strike"
+    ],
     "stigma": "Xeno (-2)",
     "tech_level": "3 (Aerodynamic Laminates & Long-Rifle Snipers)",
     "meta_level": "2 (Aero-Kinetic Wind Weaving)",
@@ -1868,15 +9390,157 @@ export const DEFAULT_SPECIES = [
       "species_movement-climbing",
       "species_movement-glide"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Agility",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Charisma",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Acrobatics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Acrobatics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Perception",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Sleight of Hand",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Small Size",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Climbing",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Patagia (Glide 30ft)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Multidextrous",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Uncanny Senses (Acute Scent)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Climb Speed (30ft)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Tree Glider",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Quick Escape",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Charm Whisper",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-tree-glider",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 17,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Agility",
+        "bonus": 1
+      },
+      {
+        "attribute": "Charisma",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Acrobatics",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Small Size",
+      "Climbing",
+      "Patagia (Glide 30ft)",
+      "Multidextrous",
+      "Uncanny Senses (Acute Scent)",
+      "Climb Speed (30ft)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-tree-glider"
+    ],
     "stigma": "Severe Xeno (-4)",
     "tech_level": "2 (Lightweight Harnesses)",
     "meta_level": "1 (Animalistic Empathy)",
@@ -1902,15 +9566,163 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-swimming"
     ],
+    "modifiers": [
+      {
+        "target": "Stealth (Camouflage)",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 5,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Science",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Medicine",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Adapted (Deep Sea / Pelagic)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Awakened (Psychic)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Amphibious",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Biotech Affinity",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Chameleon Skin (+4 Stealth)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Fast Healing",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Tentacles (4 Prehensile Grasping Limbs)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Quick Movement",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Regeneration (3 HP/rnd)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Ink Cloud Blast",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Tentacle Grapple",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Neural Drain",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-chameleon-skin",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 25,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Stealth (Camouflage)",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Adapted (Deep Sea / Pelagic)",
+      "Awakened (Psychic)",
+      "Amphibious",
+      "Biotech Affinity",
+      "Chameleon Skin (+4 Stealth)",
+      "Fast Healing",
+      "Tentacles (4 Prehensile Grasping Limbs)",
+      "Quick Movement",
+      "Regeneration (3 HP/rnd)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-chameleon-skin"
+    ],
     "stigma": "Xeno (-2)",
     "tech_level": "4 (Bio-Organic Submersibles & Neural Syringes)",
     "meta_level": "3 (Aquatic Psionics)",
@@ -1935,15 +9747,177 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 2,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Medicine",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Attune (Nature)",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Adaptive Aspects",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Ageless",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Alter Form (Root / Vine Morph)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Atmosphere Variant (Breathes CO2/Toxics)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Awakened (Nature)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Chloroplast Energy (Photosynthesis)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Fast Healing",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Immortal",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Non-Typical Anatomy (No Vital Organs)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Regeneration (3 HP/rnd)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Verdant Flesh (Plant Entity)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 2,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Thorn Burst",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Entangling Roots",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Spore Cloud",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-entangling-roots",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 33,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Survival",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Adaptive Aspects",
+      "Ageless",
+      "Alter Form (Root / Vine Morph)",
+      "Atmosphere Variant (Breathes CO2/Toxics)",
+      "Awakened (Nature)",
+      "Chloroplast Energy (Photosynthesis)",
+      "Fast Healing",
+      "Immortal",
+      "Non-Typical Anatomy (No Vital Organs)",
+      "Regeneration (3 HP/rnd)",
+      "Verdant Flesh (Plant Entity)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-entangling-roots"
+    ],
     "stigma": "Severe Xeno (-4)",
     "tech_level": "2 (Living Botanical Tools)",
     "meta_level": "4 (Verdant Metaphysics)",
@@ -1969,15 +9943,167 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-swimming"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Stamina",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Agility",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Strength",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Combat",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Amphibious",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Chameleon (+3 Stealth in natural environments)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Exoskeleton (Light Scales DR 2/-)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Fast Heal",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Reach (+5ft Melee Reach with Tongue/Limbs)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Regeneration (2 HP/rnd)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Adhesive Tongue Strike",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Toxic Skin Secretion",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Bog Stride",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-adhesive-tongue-strike",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 21,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Stamina",
+        "bonus": 1
+      },
+      {
+        "attribute": "Agility",
+        "bonus": 1
+      },
+      {
+        "attribute": "Strength",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Stealth",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Amphibious",
+      "Chameleon (+3 Stealth in natural environments)",
+      "Exoskeleton (Light Scales DR 2/-)",
+      "Fast Heal",
+      "Reach (+5ft Melee Reach with Tongue/Limbs)",
+      "Regeneration (2 HP/rnd)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-adhesive-tongue-strike"
+    ],
     "stigma": "Severe Xeno (-4)",
     "tech_level": "3 (Swamp Camouflage Suits & Harpoon Launchers)",
     "meta_level": "1 (Cellular Adaptation)",
@@ -2002,15 +10128,153 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-slithering"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Strength",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Agility",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Athletics (Grapple)",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Intimidation",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Intimidation",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Combat",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Attune",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Large Size (12-18ft serpentine body, Reach 10ft)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Awakened (Serpentine Metaphysics)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Constriction (Deals double damage on successful grapple hold)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Venomous Fangs (Paralytic Poison DC 15)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Hypnotic Gaze",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Shed Skin (Escape Restraints)",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Thermal Pit Sense",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-constriction",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 22,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Strength",
+        "bonus": 1
+      },
+      {
+        "attribute": "Agility",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Athletics (Grapple)",
+        "bonus": 2
+      },
+      {
+        "skill": "Intimidation",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Large Size (12-18ft serpentine body, Reach 10ft)",
+      "Awakened (Serpentine Metaphysics)",
+      "Constriction (Deals double damage on successful grapple hold)",
+      "Venomous Fangs (Paralytic Poison DC 15)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-constriction"
+    ],
     "stigma": "Severe Xeno (-4)",
     "tech_level": "3 (Heavy Tail-Mount Harnesses & Plasma Blasters)",
     "meta_level": "3 (Serpentine Sorcery)",
@@ -2036,15 +10300,155 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-climbing"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Agility",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Acrobatics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Acrobatics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Sleight of Hand",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Technology",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Tiny Size (+4 Defense, +4 Stealth)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Climbing Speed (30ft)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Prehensile Tail",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Quick (+5ft Movement)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Shadow Scamper",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Pico-Tool Manipulator",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Nimble Escape",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-quick",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 16,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Agility",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Acrobatics",
+        "bonus": 2
+      },
+      {
+        "skill": "Stealth",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Tiny Size (+4 Defense, +4 Stealth)",
+      "Climbing Speed (30ft)",
+      "Prehensile Tail",
+      "Quick (+5ft Movement)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-quick"
+    ],
     "stigma": "Beast (-4), Xeno (-2)",
     "tech_level": "3 (Miniaturized Sensor Rigs)",
     "meta_level": "1 (Intuitive Agility)",
@@ -2070,15 +10474,135 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-quadruped"
     ],
+    "modifiers": [
+      {
+        "target": "Acrobatics",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 5,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Acrobatics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Perception",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Kitin Base Traits (Awakened Psychic, Biotech, Hive Connection, Sleepless)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Exoskeleton (DR 3/-)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Multidextrous (4 Arms)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Leaper (+20ft Jump)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Quick (+5ft Movement)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Pheromone Scrambler",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Acid Spit",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Chitin Spike",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-acid-spit",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 21,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Acrobatics",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Kitin Base Traits (Awakened Psychic, Biotech, Hive Connection, Sleepless)",
+      "Exoskeleton (DR 3/-)",
+      "Multidextrous (4 Arms)",
+      "Leaper (+20ft Jump)",
+      "Quick (+5ft Movement)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-acid-spit"
+    ],
     "stigma": "Severe Xeno (-4)",
     "tech_level": "3 (Chitinous Bio-Carapaces & Hive Bio-Guns)",
     "meta_level": "3 (Hive Mind Psionics)",
@@ -2103,15 +10627,149 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Wisdom",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Diplomacy",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Insight",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Diplomacy",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Insight",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Attune",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Language",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Kitin Base Traits",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Humanoid Stance",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Pheromone Translator",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Telepathic Voice",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Hive Empathy",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Mental Barrier",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Sympathetic Resonance",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-hive-empathy",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 16,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Wisdom",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Diplomacy",
+        "bonus": 1
+      },
+      {
+        "skill": "Insight",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Kitin Base Traits",
+      "Humanoid Stance",
+      "Pheromone Translator",
+      "Telepathic Voice"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-hive-empathy"
+    ],
     "stigma": "Xeno (-2)",
     "tech_level": "3 (Bio-Tech Synapses)",
     "meta_level": "3 (Telepathic Diplomacy)",
@@ -2137,15 +10795,180 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-climbing"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Strength",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Agility",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Stamina",
+        "type": "attribute",
+        "value": -1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Charisma",
+        "type": "attribute",
+        "value": -1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Climbing",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Combat (Ambush)",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Kitin Base Traits",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Climber (Ceiling walk)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Multidextrous (6 Limbs)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Quick Movement",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Venomous Bite",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Web Spinner",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Shadow Chitin",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Paralytic Toxin",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-web-spinner",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 17,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Strength",
+        "bonus": 1
+      },
+      {
+        "attribute": "Agility",
+        "bonus": 1
+      },
+      {
+        "attribute": "Stamina",
+        "bonus": -1
+      },
+      {
+        "attribute": "Charisma",
+        "bonus": -1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Stealth",
+        "bonus": 2
+      },
+      {
+        "skill": "Climbing",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Kitin Base Traits",
+      "Climber (Ceiling walk)",
+      "Multidextrous (6 Limbs)",
+      "Quick Movement",
+      "Venomous Bite"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-web-spinner"
+    ],
     "stigma": "Severe Xeno (-4)",
     "tech_level": "3 (Silk Weaves & Neurotoxin Darts)",
     "meta_level": "2 (Vibrational Sense)",
@@ -2170,15 +10993,141 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Agility",
+        "type": "attribute",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Perception",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Perception",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Intimidation",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Combat",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Kitin Base Traits",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Blindsight (60ft)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Exoskeleton (DR 4/-)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Fast Healing / Regeneration",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Telepathic Hive Node",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Swarm Entity (Resistant to Single-Target Attacks)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 2,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Swarm Split",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Devouring Cloud",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Bio-Electric Shock",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-swarm-split",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 31,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Agility",
+        "bonus": 2
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Perception",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Kitin Base Traits",
+      "Blindsight (60ft)",
+      "Exoskeleton (DR 4/-)",
+      "Fast Healing / Regeneration",
+      "Telepathic Hive Node",
+      "Swarm Entity (Resistant to Single-Target Attacks)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-swarm-split"
+    ],
     "stigma": "Monstrous (-4), Xeno (-2)",
     "tech_level": "3 (Swarm Bio-Mass)",
     "meta_level": "4 (Collective Psionic Core)",
@@ -2203,15 +11152,181 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-flight"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "type": "attribute",
+        "value": 4,
+        "mode": "inherent"
+      },
+      {
+        "target": "Wisdom",
+        "type": "attribute",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Charisma",
+        "type": "attribute",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Attune (Cosmic)",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent"
+      },
+      {
+        "target": "Science (Cosmology)",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 40,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Attune",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Science",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Discipline",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Knowledge",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Computation",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Leadership",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Progenitor Traits (Awakened x6, Telepathy, Telekinesis, Fast Heal, Regeneration, Ageless, Immortal)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Corporeal As Desired",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Large Size",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Flicker Movement (Teleport 60ft as move action)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 3,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Reality Anchor",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Cosmic Insight",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Starfire Beam",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-reality-anchor",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 85,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Intellect",
+        "bonus": 4
+      },
+      {
+        "attribute": "Wisdom",
+        "bonus": 2
+      },
+      {
+        "attribute": "Charisma",
+        "bonus": 2
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Attune (Cosmic)",
+        "bonus": 4
+      },
+      {
+        "skill": "Science (Cosmology)",
+        "bonus": 4
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Progenitor Traits (Awakened x6, Telepathy, Telekinesis, Fast Heal, Regeneration, Ageless, Immortal)",
+      "Corporeal As Desired",
+      "Large Size",
+      "Flicker Movement (Teleport 60ft as move action)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-reality-anchor"
+    ],
     "stigma": "Deific (-6), Xeno (-2)",
     "tech_level": "5 (Precursor Singularity Manipulation)",
     "meta_level": "6 (Deific / Reality Reshaping)",
@@ -2236,15 +11351,127 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-flight"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "type": "attribute",
+        "value": 4,
+        "mode": "inherent"
+      },
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 6,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Discipline",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 40,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "All Categories",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Progenitor Heritage Base",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Large Size",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Absolute Mental Fortitude",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Matter Reshaping (Special Ability)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 3,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Temporal Fold",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Dimensional Sever",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Universal Translation",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-temporal-fold",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 95,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Intellect",
+        "bonus": 4
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Discipline",
+        "bonus": 4
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Progenitor Heritage Base",
+      "Large Size",
+      "Absolute Mental Fortitude",
+      "Matter Reshaping (Special Ability)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-temporal-fold"
+    ],
     "stigma": "Deific (-6), Xeno (-2)",
     "tech_level": "5 (Exotic Precursor Tech)",
     "meta_level": "6 (Deific Metaphysics)",
@@ -2269,15 +11496,125 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 2,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Combat",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Combat",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Survival",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Intimidation",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Corrupted Void Traits",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Aberrant Mutations (Tentacles/Eyes/Claws)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Void Resonance",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 2,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Chaos Burst",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Mind Horror",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Flesh Warp",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-chaos-burst",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 18,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Survival",
+        "bonus": 1
+      },
+      {
+        "skill": "Combat",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Corrupted Void Traits",
+      "Aberrant Mutations (Tentacles/Eyes/Claws)",
+      "Void Resonance"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-chaos-burst"
+    ],
     "stigma": "Monstrous (-4)",
     "tech_level": "2 (Scavenged Warp Relics)",
     "meta_level": "3 (Chaotic Void Warping)",
@@ -2302,15 +11639,194 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-flight"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Wisdom",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Attune (Void)",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Attune",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Intimidation",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Discipline",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Ageless",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Alter Form (Void Wisp / Shadow - Special Ability)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Awakened (Void)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Fast Healing",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Immortal",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Non-Typical Anatomy",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Regeneration (2 HP/rnd)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Semi-Corporeal",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Telepathic (100ft)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Flight",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Vampiric (-4 Essence Drain need)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 2,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Void Stride",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Shadow Tendrils",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Mind Drain",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-void-stride",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 32,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Wisdom",
+        "bonus": 1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Attune (Void)",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Ageless",
+      "Alter Form (Void Wisp / Shadow - Special Ability)",
+      "Awakened (Void)",
+      "Fast Healing",
+      "Immortal",
+      "Non-Typical Anatomy",
+      "Regeneration (2 HP/rnd)",
+      "Semi-Corporeal",
+      "Telepathic (100ft)",
+      "Flight",
+      "Vampiric (-4 Essence Drain need)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-void-stride"
+    ],
     "stigma": "Monstrous (-6), Xeno (-2)",
     "tech_level": "4 (Void Siphons & Dark Matter Taps)",
     "meta_level": "5 (Void Reality-Warping)",
@@ -2327,7 +11843,7 @@ export const DEFAULT_SPECIES = [
     "category": "species",
     "parent_species": "Sha'Nor",
     "type": [
-      "species_type-spectral"
+      "species_type-entity"
     ],
     "size": [
       "species_size-medium"
@@ -2335,15 +11851,170 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-flight"
     ],
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Attune",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Insight",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Ageless",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Alter Form (Advanced)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Awakened (Void)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Fast Healing",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Immortal",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Non-Typical Anatomy",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Regeneration",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Semi-Corporeal (Pass through walls)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Telepathic",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Flight",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Ethereal Fade",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Ghost Whisper",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Chilling Aura",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-ethereal-fade",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 29,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Stealth",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Ageless",
+      "Alter Form (Advanced)",
+      "Awakened (Void)",
+      "Fast Healing",
+      "Immortal",
+      "Non-Typical Anatomy",
+      "Regeneration",
+      "Semi-Corporeal (Pass through walls)",
+      "Telepathic",
+      "Flight"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-ethereal-fade"
+    ],
     "stigma": "Xeno (-2)",
     "tech_level": "4 (Ethereal Lattice Tech)",
     "meta_level": "5 (High Spectral Metaphysics)",
@@ -2368,15 +12039,177 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Charisma",
+        "type": "attribute",
+        "value": -1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 2,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Computation",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Engineering",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Computation",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Engineering",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Science",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Technology",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Discipline",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Synthetic Traits (Immune to Biological Needs/Poison/Asphyxiation, Structure Points, Resilient Design DR 5/-, Low-Light Vision)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Digitized Mind (+Advantage vs Mental Effects)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Robotic Strength (Lifting 1 Category Larger)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Sub-Routine Matrix",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Integrated Scanner",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Overclock Burst",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Logic Engine",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-sub-routine-matrix",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      },
+      {
+        "target": "feature-logic-engine",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 27,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Intellect",
+        "bonus": 1
+      },
+      {
+        "attribute": "Charisma",
+        "bonus": -1
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Computation",
+        "bonus": 2
+      },
+      {
+        "skill": "Engineering",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Synthetic Traits (Immune to Biological Needs/Poison/Asphyxiation, Structure Points, Resilient Design DR 5/-, Low-Light Vision)",
+      "Digitized Mind (+Advantage vs Mental Effects)",
+      "Robotic Strength (Lifting 1 Category Larger)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-sub-routine-matrix",
+      "feature-logic-engine"
+    ],
     "stigma": "None to Minor Synthetic (-1)",
     "tech_level": "4 (Optronic Cores & Piezoelectric Myomer)",
     "meta_level": "0 (Null)",
@@ -2401,15 +12234,151 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Charisma",
+        "type": "attribute",
+        "value": -2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 2,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Science (Bio-Engineering)",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 20,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Science",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Engineering",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Medicine",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Discipline",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Synthetic Base Traits",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Adaptive Aspects (Rapid Evolutionary Resistance)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Self-Healing Bio-Circuits",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Hybrid Metabolism (Fuel or Food)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Chitin Plating",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Bio-Electric Arc",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Neural Overclock",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-chitin-plating",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 32,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Charisma",
+        "bonus": -2
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Science (Bio-Engineering)",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Synthetic Base Traits",
+      "Adaptive Aspects (Rapid Evolutionary Resistance)",
+      "Self-Healing Bio-Circuits",
+      "Hybrid Metabolism (Fuel or Food)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-chitin-plating"
+    ],
     "stigma": "Xeno (-2)",
     "tech_level": "4 (Biomechanical Synthesis)",
     "meta_level": "2 (Cyber-Psionics)",
@@ -2435,15 +12404,162 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-flight"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "type": "attribute",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Discipline",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Science (Astrophysics)",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Discipline",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Science",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Attune",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Computation",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Synthetic Base Traits",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Crystalline Photonic Physiology",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Consensus Mesh Telepathy",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Photonic Bleed (Energy Sustenance)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Tech Level 5 / Meta Level 5 Relic Matrix",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 2,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Photonic Laser Discharge",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Spacetime Fold",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Quantum Memory",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-spacetime-fold",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 38,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Intellect",
+        "bonus": 2
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Discipline",
+        "bonus": 2
+      },
+      {
+        "skill": "Science (Astrophysics)",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Synthetic Base Traits",
+      "Crystalline Photonic Physiology",
+      "Consensus Mesh Telepathy",
+      "Photonic Bleed (Energy Sustenance)",
+      "Tech Level 5 / Meta Level 5 Relic Matrix"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-spacetime-fold"
+    ],
     "stigma": "Synthetic (-2), Severe Xeno (-6)",
     "tech_level": "5 (Zero-Point Energy & Chrono-Lattices)",
     "meta_level": "5 (Crystalline Metaphysics)",
@@ -2468,15 +12584,170 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Strength",
+        "type": "attribute",
+        "value": 3,
+        "mode": "inherent"
+      },
+      {
+        "target": "Stamina",
+        "type": "attribute",
+        "value": 3,
+        "mode": "inherent"
+      },
+      {
+        "target": "Intellect",
+        "type": "attribute",
+        "value": -2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Charisma",
+        "type": "attribute",
+        "value": -2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Combat (Melee)",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Combat",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Intimidation",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Synthetic Base Traits",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Large Size",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Stone/Metal Alloy Body (DR 8/-)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Magic Core Power",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Spell Resistance (+4 vs Magic)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Runic Ward",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Earth Shaker",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Unstoppable Bulk",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-runic-ward",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 26,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Strength",
+        "bonus": 3
+      },
+      {
+        "attribute": "Stamina",
+        "bonus": 3
+      },
+      {
+        "attribute": "Intellect",
+        "bonus": -2
+      },
+      {
+        "attribute": "Charisma",
+        "bonus": -2
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Combat (Melee)",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Synthetic Base Traits",
+      "Large Size",
+      "Stone/Metal Alloy Body (DR 8/-)",
+      "Magic Core Power",
+      "Spell Resistance (+4 vs Magic)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-runic-ward"
+    ],
     "stigma": "Severe Synthetic (-4)",
     "tech_level": "2 (Arcane Masonry & Runic Seals)",
     "meta_level": "4 (Runic Core Animation)",
@@ -2501,15 +12772,221 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-flight"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "type": "attribute",
+        "value": 4,
+        "mode": "inherent"
+      },
+      {
+        "target": "Wisdom",
+        "type": "attribute",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Charisma",
+        "type": "attribute",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Strength",
+        "type": "attribute",
+        "value": -10,
+        "mode": "inherent"
+      },
+      {
+        "target": "Agility",
+        "type": "attribute",
+        "value": -5,
+        "mode": "inherent"
+      },
+      {
+        "target": "Stamina",
+        "type": "attribute",
+        "value": -5,
+        "mode": "inherent"
+      },
+      {
+        "target": "Computation",
+        "type": "skill",
+        "value": 4,
+        "mode": "inherent"
+      },
+      {
+        "target": "Hacking",
+        "type": "skill",
+        "value": 3,
+        "mode": "inherent"
+      },
+      {
+        "target": "Science",
+        "type": "skill",
+        "value": 3,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 40,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Computation",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Hacking",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Science",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Engineering",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Tactics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Attune",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Synthetic Base Traits",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Comms Array Mastery (Instant Holo-Link)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Companion Remotes (Commands 2 Drone Units)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Hyper-Threading Logic Engine",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 2,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Cybernetic Possession",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Quantum Decryption",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "System Lockout",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-quantum-decryption",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 32,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Intellect",
+        "bonus": 4
+      },
+      {
+        "attribute": "Wisdom",
+        "bonus": 2
+      },
+      {
+        "attribute": "Charisma",
+        "bonus": 2
+      },
+      {
+        "attribute": "Strength",
+        "bonus": -10
+      },
+      {
+        "attribute": "Agility",
+        "bonus": -5
+      },
+      {
+        "attribute": "Stamina",
+        "bonus": -5
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Computation",
+        "bonus": 4
+      },
+      {
+        "skill": "Hacking",
+        "bonus": 3
+      },
+      {
+        "skill": "Science",
+        "bonus": 3
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Synthetic Base Traits",
+      "Comms Array Mastery (Instant Holo-Link)",
+      "Companion Remotes (Commands 2 Drone Units)",
+      "Hyper-Threading Logic Engine"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-quantum-decryption"
+    ],
     "stigma": "Severe Synthetic (-4)",
     "tech_level": "5 (Singularity Computing)",
     "meta_level": "2 (Digital Psionics)",
@@ -2534,15 +13011,156 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "type": "attribute",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Technology",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Engineering",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Technology",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Engineering",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Hacking",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Discipline",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Synthetic Base Traits",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Double Adaptive Aspects",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Telepathic / Technopathic Network",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Tech Assimilation (Integrates Alien Gear instantly)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Technokinesis (Special Ability)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 2,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Machine Overcharge",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Nanite Swarm Shield",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Hardware Cannibalize",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-technokinesis",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 35,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Intellect",
+        "bonus": 2
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Technology",
+        "bonus": 2
+      },
+      {
+        "skill": "Engineering",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Synthetic Base Traits",
+      "Double Adaptive Aspects",
+      "Telepathic / Technopathic Network",
+      "Tech Assimilation (Integrates Alien Gear instantly)",
+      "Technokinesis (Special Ability)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-technokinesis"
+    ],
     "stigma": "Severe Synthetic (-4)",
     "tech_level": "4 (Adaptive Nanite Reconfiguration)",
     "meta_level": "3 (Technomancy)",
@@ -2567,15 +13185,151 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Charisma",
+        "type": "attribute",
+        "value": -2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 4,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Vocation (Administration/Service)",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Vocation",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Language",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Etiquette",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Medicine",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Law",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Synthetic Base Traits",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Adaptive Task Aspects",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Tech Assimilation (Rapid Tool Swap)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Flawless Etiquette / Calculation",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Emergency Combat Override",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Multilingual Core",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Audit Directive",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-multilingual-core",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 26,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Charisma",
+        "bonus": -2
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Vocation (Administration/Service)",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Synthetic Base Traits",
+      "Adaptive Task Aspects",
+      "Tech Assimilation (Rapid Tool Swap)",
+      "Flawless Etiquette / Calculation"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-multilingual-core"
+    ],
     "stigma": "Severe Synthetic (-4), Anti-Organic (-2)",
     "tech_level": "4 (High-Density Directive Processing)",
     "meta_level": "0 (Null)",
@@ -2600,15 +13354,155 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Charisma",
+        "type": "attribute",
+        "value": -2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 3,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Engineering (Salvage)",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Repair",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Engineering",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Repair",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Combat (Improvised)",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Streetwise",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Synthetic Base Traits",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Heavy Augmentation Slots (3 Free Cyber Slots)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Field Self-Repair Protocol",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Scrap Plating (DR 6/-)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Weapon Hardpoint Mount",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Overcharged Capacitor",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "EMP Hardening",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-weapon-hardpoint-mount",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 26,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Charisma",
+        "bonus": -2
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Engineering (Salvage)",
+        "bonus": 2
+      },
+      {
+        "skill": "Repair",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Synthetic Base Traits",
+      "Heavy Augmentation Slots (3 Free Cyber Slots)",
+      "Field Self-Repair Protocol",
+      "Scrap Plating (DR 6/-)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-weapon-hardpoint-mount"
+    ],
     "stigma": "Synthetic (-2)",
     "tech_level": "3 (Salvage & Reclaimed Hardware)",
     "meta_level": "0 (Null)",
@@ -2634,15 +13528,169 @@ export const DEFAULT_SPECIES = [
       "species_movement-bipedal",
       "species_movement-treads"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Strength",
+        "type": "attribute",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Stamina",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Charisma",
+        "type": "attribute",
+        "value": -2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Repair",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Repair",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Athletics",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Engineering",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Combat (Heavy)",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Synthetic Base Traits",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Reinforced Chassis (DR 6/-)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Heavy Industrial Motors",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Direct USB/Data Jack",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Hydraulic Piston Slam",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Battery Surge",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Tireless Labor",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-reinforced-chassis",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 23,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Strength",
+        "bonus": 2
+      },
+      {
+        "attribute": "Stamina",
+        "bonus": 1
+      },
+      {
+        "attribute": "Charisma",
+        "bonus": -2
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Repair",
+        "bonus": 1
+      },
+      {
+        "skill": "Athletics",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Synthetic Base Traits",
+      "Reinforced Chassis (DR 6/-)",
+      "Heavy Industrial Motors",
+      "Direct USB/Data Jack"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-reinforced-chassis"
+    ],
     "stigma": "Synthetic (-4)",
     "tech_level": "3 (Industrial Heavy Mechanics)",
     "meta_level": "0 (Null)",
@@ -2667,15 +13715,98 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 2,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "All Categories (Retains Previous Organic Training)",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Synthetic Base Traits",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Neural Stack Integration (Organic Consciousness Housing)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Ghost In The Machine Resilience",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Cortical Backup",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Sensor Upgrade",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Neural Stability",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-cortical-backup",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 22,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 0,
     "specific_skill_bonuses": [],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Synthetic Base Traits",
+      "Neural Stack Integration (Organic Consciousness Housing)",
+      "Ghost In The Machine Resilience"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-cortical-backup"
+    ],
     "stigma": "Synthetic (-2)",
     "tech_level": "4 (Cortical Stacks & Sleeves)",
     "meta_level": "1 (Residual Soul)",
@@ -2700,15 +13831,150 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-bipedal"
     ],
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "type": "attribute",
+        "value": 2,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Deception",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "Insight",
+        "type": "skill",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Deception",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Insight",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Persuasion",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Technology",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Synthetic Base Traits",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Synthetic Flesh Shroud (Indistinguishable from organic to casual scans)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Alter Self (Advanced Cellular Surface)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Thermal Simulation",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Voice Mimicry",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Memory Tap",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Silent Hydraulics",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-voice-mimicry",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 28,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
     "inherent_attribute_modifiers": [],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Deception",
+        "bonus": 2
+      },
+      {
+        "skill": "Insight",
+        "bonus": 1
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Synthetic Base Traits",
+      "Synthetic Flesh Shroud (Indistinguishable from organic to casual scans)",
+      "Alter Self (Advanced Cellular Surface)",
+      "Thermal Simulation"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-voice-mimicry"
+    ],
     "stigma": "Secret (-6) / Severe if Exposed",
     "tech_level": "4 (Bio-Synthetic Weave & Organic Cloaking)",
     "meta_level": "1 (Neural Empathy)",
@@ -2733,15 +13999,156 @@ export const DEFAULT_SPECIES = [
     "movement": [
       "species_movement-flight"
     ],
-    "inherent_attribute_modifiers": [],
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "type": "attribute",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Strength",
+        "type": "attribute",
+        "value": -8,
+        "mode": "inherent"
+      },
+      {
+        "target": "Discipline",
+        "type": "skill",
+        "value": 2,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Skill Pool",
+        "type": "skill",
+        "value": 10,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Discipline",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Hacking",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Stealth",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Science",
+        "type": "skill",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Synthetic Base Traits",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Hive Mind Protocol",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Fine Size (+6 Stealth, Passes through Keyholes)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Dispersal Defense (Immune to single-target physical attacks)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "Nano-Flight (30ft)",
+        "type": "feature",
+        "value": 1,
+        "mode": "inherent"
+      },
+      {
+        "target": "General Feature Pool",
+        "type": "feature",
+        "value": 1,
+        "mode": "bonus_pool"
+      },
+      {
+        "target": "Circuit Infiltration",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Cloud Suffocation",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "Shape Mimicry",
+        "type": "feature",
+        "value": 1,
+        "mode": "choice_pool"
+      },
+      {
+        "target": "feature-dispersal-defense",
+        "type": "feature",
+        "value": 1,
+        "mode": "recommended"
+      }
+    ],
+    "costs": {
+      "bp": 21,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "inherent_attribute_modifiers": [
+      {
+        "attribute": "Intellect",
+        "bonus": 1
+      },
+      {
+        "attribute": "Strength",
+        "bonus": -8
+      }
+    ],
     "bonus_attribute_points": 0,
-    "specific_skill_bonuses": [],
+    "specific_skill_bonuses": [
+      {
+        "skill": "Discipline",
+        "bonus": 2
+      }
+    ],
     "bonus_skills": 0,
     "bonus_skill_choices": [],
-    "inherent_features": [],
+    "inherent_features": [
+      "Synthetic Base Traits",
+      "Hive Mind Protocol",
+      "Fine Size (+6 Stealth, Passes through Keyholes)",
+      "Dispersal Defense (Immune to single-target physical attacks)",
+      "Nano-Flight (30ft)"
+    ],
     "bonus_features": 0,
     "bonus_feature_choices": [],
-    "recommended_features": [],
+    "recommended_features": [
+      "feature-dispersal-defense"
+    ],
     "stigma": "Severe Synthetic (-4)",
     "tech_level": "4 (Micro-Drone & Nanite Lattices)",
     "meta_level": "1 (Swarm Resonance)",

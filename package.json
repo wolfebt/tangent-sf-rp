@@ -10,7 +10,9 @@
     "deploy": "npm run build && firebase deploy --only hosting",
     "sync:species": "node scripts/syncOmnicortexSpecies.mjs",
     "sync:species-traits": "node scripts/syncSpeciesTraits.mjs",
-    "sync:species-disadvantages": "node scripts/syncSpeciesDisadvantages.mjs"
+    "sync:species-disadvantages": "node scripts/syncSpeciesDisadvantages.mjs",
+    "build:data": "node scripts/buildAllBundles.mjs",
+    "test:data": "node scripts/validateDataIntegrity.mjs"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",

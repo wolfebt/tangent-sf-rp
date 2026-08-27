@@ -1,43 +1,28 @@
 ---
-id: 3-12-status-conditions-effects
-name: 3.12 Status Conditions & Effects
-category: compendium
-entry_type: Core Rule
-parent: 3.00 COMBAT
+id: "3-12-status-conditions-effects"
+name: "3.12 Canonical Status Effects & Conditions Matrix"
+category: "compendium"
+entry_type: "Core Rule"
+parent: "3.00 COMBAT"
 order: 12
-costs:
-  bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
-# 3.12 Status Conditions & Effects
+# 3.12 Canonical Status Effects & Conditions Matrix
 
-Conditions represent tactical impairments, sensory loss, and physical trauma suffered during encounters.
+Complete reference matrix of all 10 tactical combat status effects, mechanical penalties, and cures/removals.
 
 ---
 
-## Master Conditions Directory
+## Master Status Effects Table
 
-- **Blinded:** Automatic failure on vision-based checks; attacks against the blinded target gain **Advantage**; blinded character attacks suffer **Disadvantage**.
-- **Burning:** Suffers $ thermal damage at the start of each turn until spending an action to extinguish flames.
-- **Deafened:** Automatic failure on sound-based checks; -2 penalty on Initiative rolls.
-- **Immobilized / Restrained:** Speed is 0; suffers Disadvantage on Dexterity/Reflex saves; attacks against target gain Advantage.
-- **Prone:** Character is on the ground; melee attacks against prone target gain **+2 Advantage**; ranged attacks from >20 ft suffer **-2 penalty**. Costs half movement speed to stand up.
-- **Stunned:** Cannot take actions or reactions; drops held items; fails Reflex and Might checks automatically.
-- **Suppressed:** Forced to remain behind cover; suffers -4 penalty on all attack rolls until suppression fire ceases.
+| Status | Mechanical Effect | Cure / Removal |
+| :--- | :--- | :--- |
+| **Bleeding** | Target takes 1d4 Damage at start of their turn. Ignores Armor/DR. | Medicine Check (DC 10) or any Healing ability/item. |
+| **Blinded** | -5 Penalty to Attack/Defense. Visual Perception fails automatically. | Medical intervention or Time (Temporary: 1d4 rounds). |
+| **Burning** | Takes 1d6 Fire Damage per round. Panic Check (Will DC 12) or flail/flee. | Full Action to extinguish (Stop, Drop, Roll). |
+| **Dazed** | Mentally reeling. Only 1 Action per turn (Move OR Standard). No Reactions. | Ends automatically at the end of the creature's next turn. |
+| **Entangled** | Movement = 0. -2 Penalty to Attack/Defense. No Dodge/Evasion. | Strength Check (DC 15) or Cutting free (Structure damage). |
+| **Exhausted** | -2 Penalty to Physical Checks (Str/Agi/Sta). Speed -50%. No Run/Charge. | Requires 8 Hours of Rest with food/water. |
+| **Freeze** | Target is encased/chilled. Speed = 0. Target gains Vulnerability to Physical & Sonic Dmg. | Strength Check (DC 20) to shatter ice or Fire Dmg to melt. |
+| **Prone** | Lying on ground. Ranged Attacks vs. Target: Disadvantage. Melee vs. Target: Advantage. | Move Action to stand up. |
+| **Stunned** | Incapacitated. Lose all Actions. Drop items. Defense = Base (No Dex/Skill). | Constitution Save (DC 15) at end of turn to recover. |
+| **Suppressed** | Pinned by fire. Leaving cover triggers immediate Attack of Opportunity. | Enemy stops firing, reloads, or is neutralized. |
