@@ -503,63 +503,234 @@ const DbmGuideSection = () => (
 /* =========================================================================
    4. CODEX MATRIX SUITE & ECONOMATRIX GUIDE
    ========================================================================= */
-const CodexGuideSection = () => (
+const CodexGuideSection = ({ onCopy, copiedSnippet }) => (
   <div className="space-y-6">
     <div className="bg-slate-900/60 border border-amber-500/30 rounded-2xl p-5 sm:p-6 space-y-3">
-      <h3 className="text-base font-bold text-amber-300 uppercase tracking-wide font-mono flex items-center gap-2">
-        <Sparkles size={18} />
-        4. Codex Matrix Suite, Economatrix, Ingestion & Scaling
-      </h3>
-      <p>
-        The <strong className="text-white">Codex (`/codex`)</strong> contains 14 specialized engineering matrices, multi-dataset ingestion pipelines, and economic models designed to compute exact balance, credit costs, crafting times, Unified Difficulty Units (UDU), and Tech Level formulas for custom sci-fi content.
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h3 className="text-base font-bold text-amber-300 uppercase tracking-wide font-mono flex items-center gap-2">
+          <Sparkles size={18} />
+          4. Codex Simulation Engine, Matrices & Data Ingestion
+        </h3>
+        <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-500/40 uppercase">
+          17 Matrices • 5 Suites • 6 Pure Engines
+        </span>
+      </div>
+      <p className="text-xs text-slate-300 leading-relaxed">
+        The <strong className="text-white">Codex (`/codex`)</strong> is the definitive mathematical simulation engine and asset forge for Tangent SFF RP. It governs all equipment crafting, structure construction, vehicle fabrication, biological species synthesis, world generation, and automated multi-format data ingestion directly into active memory and Firestore.
       </p>
     </div>
 
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
-      {[
-        { name: 'Species Forge', icon: '🧬', desc: 'Custom lineage builder with real-time BP budget tracking, types & size modifiers.' },
-        { name: 'Scaling Codex', icon: '📐', desc: '8-tier unified scale multipliers (Personal 1x to Planetary 1000x) for damage & DR.' },
-        { name: 'Architecture Blueprint', icon: '🏛️', desc: 'Facility scales, room modules, defensive hardpoints & energy budgets.' },
-        { name: 'Armor Coverage Matrix', icon: '🛡️', desc: 'Coverage zones (Head, Torso, Limbs), material hardness & resistance.' },
-        { name: 'Augmentation Nodes', icon: '🦾', desc: 'Cybernetic implants, biological grafts & essence/karma footprint.' },
-        { name: 'Companion Package', icon: '🐾', desc: 'Drones, synthetic pets, combat beasts & loyalist AI modules.' },
-        { name: 'Invocation Matrix', icon: '🔮', desc: 'Psionic spell parameters, area effects, channeling costs & limits.' },
-        { name: 'Mecha Chassis Builder', icon: '🤖', desc: 'Frame weight classes, propulsion modules, armor plates & mount bays.' },
-        { name: 'Meta-Tech Imbuement', icon: '✨', desc: 'Artifact crafting, metamaterial bonding & supernatural enhancements.' },
-        { name: 'Modular Stat Blocks', icon: '📊', desc: 'Automated NPC and monster generator with scalable difficulty tiers (1–10).' },
-        { name: 'Planetary Design Matrix', icon: '🪐', desc: 'Planetary biomes, atmospheric pressure, gravity & settlement tiers.' },
-        { name: 'Weapon Mod Stacker', icon: '🔫', desc: 'Optics, muzzle devices, receivers, elemental coils & balance points.' },
-      ].map(m => (
-        <div key={m.name} className="bg-slate-900/50 border border-slate-800 rounded-xl p-3">
-          <div className="font-bold text-amber-300 font-mono flex items-center gap-1.5 mb-1">
-            <span>{m.icon}</span> {m.name}
+    {/* The 5 Thematic Suites Accordion Summary */}
+    <div className="space-y-4">
+      <h4 className="text-xs font-bold text-white uppercase font-mono tracking-wider flex items-center gap-1.5">
+        <span>📂</span> The 5 Thematic Sidebar Suites & 17 Matrices
+      </h4>
+
+      {/* 1. Hardware & Structures (Amber) */}
+      <div className="bg-slate-900/50 border border-amber-500/30 rounded-xl p-4 space-y-3">
+        <div className="flex items-center justify-between">
+          <div className="font-bold text-amber-300 font-mono text-xs uppercase flex items-center gap-1.5">
+            <span>📦</span> 1. Hardware & Structures Suite
           </div>
-          <p className="text-slate-400 text-[11px]">{m.desc}</p>
+          <span className="text-[10px] font-mono text-amber-400/80 bg-amber-950/60 px-2 py-0.5 rounded border border-amber-500/30">
+            6 Matrices
+          </span>
         </div>
-      ))}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 text-xs">
+          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+            <strong className="text-amber-200 block mb-0.5">🏛️ Architecture Blueprint</strong>
+            <p className="text-slate-400 text-[11px]">Sheds (0.1 Mod) to Spires (800+ Mods), 10:1 UDU mount conversion, Highest Complexity DC rule, Workforce PP calendar & Liquidity Gap.</p>
+          </div>
+          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+            <strong className="text-amber-200 block mb-0.5">🛡️ Armor Coverage Matrix</strong>
+            <p className="text-slate-400 text-[11px]">7 hit-location slots (Head, Torso, Arms, Legs, Full Suit), composite DR, Max Dex caps, and hardware socket allocation.</p>
+          </div>
+          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+            <strong className="text-amber-200 block mb-0.5">🦾 Augmentations & FBC</strong>
+            <p className="text-slate-400 text-[11px]">Cranial, Ocular, Thoracic & Dermal nodes, Full Body Conversion (FBC) synthetic packages, and social stigma stepper.</p>
+          </div>
+          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+            <strong className="text-amber-200 block mb-0.5">🎒 Equipment & Workshop</strong>
+            <p className="text-slate-400 text-[11px]">Fine to Structure sizing, workshop toolkits (+0 to +8 Check bonus), Processor Ratings (PR 0–4), and Hazard Sealing (EPR 0–3).</p>
+          </div>
+          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+            <strong className="text-amber-200 block mb-0.5">🤖 Mecha & Vehicles</strong>
+            <p className="text-slate-400 text-[11px]">Humanoid/Quad/Tracked frames, mount bays, Defense DC, variable thrusters & Megacredit ($M) conversion.</p>
+          </div>
+          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+            <strong className="text-amber-200 block mb-0.5">⚔️ Weapon Mod Stacker</strong>
+            <p className="text-slate-400 text-[11px]">Attachment rails, damage dice overcharge upgrades, reliability downgrades, and corporate manufacturer skins.</p>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. Characters & Companions (Blue) */}
+      <div className="bg-slate-900/50 border border-blue-500/30 rounded-xl p-4 space-y-3">
+        <div className="flex items-center justify-between">
+          <div className="font-bold text-blue-300 font-mono text-xs uppercase flex items-center gap-1.5">
+            <span>👥</span> 2. Characters & Companions Suite
+          </div>
+          <span className="text-[10px] font-mono text-blue-400/80 bg-blue-950/60 px-2 py-0.5 rounded border border-blue-500/30">
+            2 Matrices
+          </span>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
+          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+            <strong className="text-blue-200 block mb-0.5">👤 Modular NPC Stat Blocks</strong>
+            <p className="text-slate-400 text-[11px]">Threat Tiers 1–20, Competency roles (Minion, Skirmisher, Bruiser, Sniper, Elite, Boss), and tactical AI behaviors (Swarm, Flank, Suppress, Protect).</p>
+          </div>
+          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+            <strong className="text-blue-200 block mb-0.5">🌟 Features & Perks Matrix</strong>
+            <p className="text-slate-400 text-[11px]">Master compendium of general perks, combat feats, biological mutations, and racial features with BP balance validation.</p>
+          </div>
+        </div>
+      </div>
+
+      {/* 3. Planetary, Species & Factions (Emerald) */}
+      <div className="bg-slate-900/50 border border-emerald-500/30 rounded-xl p-4 space-y-3">
+        <div className="flex items-center justify-between">
+          <div className="font-bold text-emerald-300 font-mono text-xs uppercase flex items-center gap-1.5">
+            <span>🌍</span> 3. Planetary, Species & Factions Suite
+          </div>
+          <span className="text-[10px] font-mono text-emerald-400/80 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-500/30">
+            3 Matrices
+          </span>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+            <strong className="text-emerald-200 block mb-0.5">🧬 Species Forge Matrix</strong>
+            <p className="text-slate-400 text-[11px]">150 BP character budget, movement modes (Ground, Burrow, Swim, Glide, Fly), and genetic biotechnology synthesis DC.</p>
+          </div>
+          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+            <strong className="text-emerald-200 block mb-0.5">🪐 Planetary Design Matrix</strong>
+            <p className="text-slate-400 text-[11px]">Universal World Profile (UWP/TWP), 16-domain civilization radar, Trade codes (Ag, In, Hi, Ri), and speculative commodity market margins.</p>
+          </div>
+          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+            <strong className="text-emerald-200 block mb-0.5">🚩 Factions & Polities</strong>
+            <p className="text-slate-400 text-[11px]">26 canonical attributes covering driving mandates, government types, naval assets, sigils, and economic models.</p>
+          </div>
+        </div>
+      </div>
+
+      {/* 4. Metaphysics (Purple) */}
+      <div className="bg-slate-900/50 border border-purple-500/30 rounded-xl p-4 space-y-3">
+        <div className="flex items-center justify-between">
+          <div className="font-bold text-purple-300 font-mono text-xs uppercase flex items-center gap-1.5">
+            <span>✨</span> 4. Metaphysics Suite
+          </div>
+          <span className="text-[10px] font-mono text-purple-400/80 bg-purple-950/60 px-2 py-0.5 rounded border border-purple-500/30">
+            2 Matrices
+          </span>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
+          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+            <strong className="text-purple-200 block mb-0.5">⚡ Invocation Matrix</strong>
+            <p className="text-slate-400 text-[11px]">6 disciplines (Telekinesis, Telepathy, Pyrokinesis, Chronomancy, Biokinesis, Voidcraft), range/target/area/duration formulas, and essence drain strain costs.</p>
+          </div>
+          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+            <strong className="text-purple-200 block mb-0.5">🔮 Meta-Tech Matrix</strong>
+            <p className="text-slate-400 text-[11px]">Metamaterial resonance bonding, artifact crafting formulas, and passive imbuements into weapons, armor, and cyberware.</p>
+          </div>
+        </div>
+      </div>
+
+      {/* 5. System Suites (Slate) */}
+      <div className="bg-slate-900/50 border border-slate-500/30 rounded-xl p-4 space-y-3">
+        <div className="flex items-center justify-between">
+          <div className="font-bold text-slate-200 font-mono text-xs uppercase flex items-center gap-1.5">
+            <span>⚡</span> 5. System Suites
+          </div>
+          <span className="text-[10px] font-mono text-slate-300 bg-slate-800/80 px-2 py-0.5 rounded border border-slate-600/40">
+            4 Suites
+          </span>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 text-xs">
+          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+            <strong className="text-slate-200 block mb-0.5">💰 Economatrix Dashboard</strong>
+            <p className="text-slate-400 text-[11px]">TSC calculator, 7-tier crafting timetable, speculative trade simulator, and Wealth Score status table.</p>
+          </div>
+          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+            <strong className="text-slate-200 block mb-0.5">🔬 Technology Codex</strong>
+            <p className="text-slate-400 text-[11px]">TL0–TL5 Domain Grid across 16 domains, adaptive tech reconfiguration action economy, and AI continuum.</p>
+          </div>
+          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+            <strong className="text-slate-200 block mb-0.5">📐 Scaling Codex</strong>
+            <p className="text-slate-400 text-[11px]">14 size tiers, die degradation ladder (-1ds to -5ds), cross-scale combat matchups, and starship overblast.</p>
+          </div>
+          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+            <strong className="text-slate-200 block mb-0.5">📥 Ingestion Engine</strong>
+            <p className="text-slate-400 text-[11px]">Multimodal BASTION AI, Universal Delimiter CSV/TSV/Markdown parser, and Side-by-Side Record Diff Inspector.</p>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-5 space-y-3">
-      <h4 className="text-cyan-400 font-bold text-xs uppercase font-mono tracking-wider flex items-center gap-1.5">
-        📈 Economatrix, Ingestion Engine & AI Prompt Registry
+    {/* Core Mathematical Formulations */}
+    <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-5 space-y-3 font-mono text-xs">
+      <div className="flex items-center justify-between">
+        <h4 className="text-cyan-400 font-bold uppercase tracking-wider flex items-center gap-1.5">
+          <Code size={14} /> Core Mathematical Formulations
+        </h4>
+        <button
+          type="button"
+          onClick={() => onCopy('V = 10 * 4^(DC / 5); MaterialCost = V * 0.50; DailyPP = max(1, (Check - 10) * TierMult);', 'tsc-formula')}
+          className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-[10px] flex items-center gap-1 transition-all"
+        >
+          {copiedSnippet === 'tsc-formula' ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}
+          <span>{copiedSnippet === 'tsc-formula' ? 'Copied' : 'Copy Formulas'}</span>
+        </button>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-[11px]">
+        <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1.5">
+          <div className="text-amber-300 font-bold">Tangent Standard Curve (TSC)</div>
+          <div className="text-slate-300 bg-slate-900 px-2 py-1 rounded">Market Value = 10 * 4^(DC / 5)</div>
+          <div className="text-slate-300 bg-slate-900 px-2 py-1 rounded">Material Cost = floor(Market Value * 0.50)</div>
+        </div>
+
+        <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1.5">
+          <div className="text-emerald-300 font-bold">Fabrication & Workforce (PP)</div>
+          <div className="text-slate-300 bg-slate-900 px-2 py-1 rounded">Daily PP = max(1, (SkillCheck - 10) * ToolTierMult)</div>
+          <div className="text-slate-300 bg-slate-900 px-2 py-1 rounded">Coop Daily PP = Crew * (SkillCheck - 10) * ToolTierMult</div>
+        </div>
+
+        <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1.5">
+          <div className="text-cyan-300 font-bold">Liquidity Gap & Wealth Score</div>
+          <div className="text-slate-300 bg-slate-900 px-2 py-1 rounded">Liquid Cost = max(0, ItemValue - BuyerAutoBuyLimit)</div>
+        </div>
+
+        <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1.5">
+          <div className="text-purple-300 font-bold">10:1 UDU Capacity Hierarchy</div>
+          <div className="text-slate-300 bg-slate-900 px-2 py-1 rounded">1 Mod = 10 Mounts = 100 Sockets = 1,000 Nodes = 10,000 Sub-Nodes</div>
+        </div>
+      </div>
+    </div>
+
+    {/* Data Ingestion Engine & Revision Pipeline */}
+    <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-5 space-y-3 text-xs">
+      <h4 className="text-cyan-400 font-bold uppercase font-mono tracking-wider flex items-center gap-1.5">
+        📥 Codex Ingestion Engine & Diff Revision Workbench
       </h4>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-        <div className="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-1">
-          <div className="text-amber-300 font-bold font-mono uppercase">Universal Economic Theory (EUT)</div>
-          <p className="text-slate-300 text-[11px]">
-            Simulates Galactic Standard Credits (Cr), planetary market indices, supply-demand scarcity multipliers, black market markups, and barter exchange equations.
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div className="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-1.5">
+          <div className="text-cyan-300 font-bold font-mono uppercase">1. Multi-Modal Intake</div>
+          <p className="text-slate-300 text-[11px] leading-relaxed">
+            <strong>BASTION AI Studio:</strong> Multimodal extraction from PDFs/TXTs with automatic multi-chunk section splitting (&gt;10k chars) and real-time synthesis progress.<br />
+            <strong>Universal Delimiter Parser:</strong> Auto-detects Markdown pipes, TSV (Excel paste), RFC 4180 CSV, and Semicolon tables with header aliasing and drag-and-drop file upload.
           </p>
         </div>
-        <div className="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-1">
-          <div className="text-cyan-300 font-bold font-mono uppercase">Codex Ingestion Engine</div>
-          <p className="text-slate-300 text-[11px]">
-            Consolidates external markdown compendiums, rules, and matrices directly into active memory and Firestore with automated taxonomy tagging.
+
+        <div className="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-1.5">
+          <div className="text-amber-300 font-bold font-mono uppercase">2. Side-by-Side Diff Modal</div>
+          <p className="text-slate-300 text-[11px] leading-relaxed">
+            Compares incoming staged records against existing database items. Visual status badges highlight <strong className="text-amber-300">MODIFIED</strong> fields, <strong className="text-emerald-300">NEW FIELDS</strong>, and <strong className="text-slate-400">MATCHES</strong> with one-click transition into the In-Place Revision Workbench.
           </p>
         </div>
-        <div className="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-1">
-          <div className="text-emerald-300 font-bold font-mono uppercase">AI Prompt Registry</div>
-          <p className="text-slate-300 text-[11px]">
-            Centralized prompt library powering the AI Architect and AIME Co-Pilot for scenario generation, NPC dialogue, and mechanical balancing.
+
+        <div className="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-1.5">
+          <div className="text-emerald-300 font-bold font-mono uppercase">3. Conflict Strategies & Sanitization</div>
+          <p className="text-slate-300 text-[11px] leading-relaxed">
+            Choose between <strong>Merge</strong> (preserves existing document IDs), <strong>Overwrite</strong>, or <strong>Skip</strong>. All incoming strings are automatically sanitized to strip LaTeX math delimiters and unescaped markdown to ensure 100% Folio and DBM compendium compatibility.
           </p>
         </div>
       </div>

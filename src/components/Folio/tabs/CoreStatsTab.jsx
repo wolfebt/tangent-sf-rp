@@ -312,58 +312,6 @@ const CoreStatsTab = () => {
             </div>
           </div>
 
-          {/* Essence Block */}
-          <div className="bg-slate-900/60 border border-purple-900/50 rounded-lg p-3.5 space-y-3">
-            <div className="flex flex-wrap justify-between items-center border-b border-purple-900/60 pb-2 gap-2">
-              <div className="flex flex-wrap items-center gap-2">
-                <h3 className="text-sm font-bold uppercase tracking-wider text-purple-400">
-                  Essence
-                </h3>
-                <span className="text-[10px] font-mono text-slate-400">
-                  (Attrs: {primaryAttrsTotal} + Meta: {metaSkillsTotal} = {essenceTotal})
-                </span>
-                <div className="flex items-center gap-1.5 bg-slate-800 px-2 py-0.5 rounded border border-purple-500/40">
-                  <span className="text-[10px] font-bold text-purple-300 uppercase">Capacity:</span>
-                  <span className="text-xs font-mono font-bold text-purple-200">{essenceTotal}</span>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-1.5 ml-auto">
-                <button
-                  type="button"
-                  onClick={() => openRulesModal('essence')}
-                  className="px-2.5 py-1 rounded bg-purple-950 hover:bg-purple-900 border border-purple-500/50 text-[10px] font-bold text-purple-300 transition-colors flex items-center gap-1 shadow-sm cursor-pointer"
-                  title="Open Essence Pool & Metaphysical Strain Rules Codex"
-                >
-                  <span>🔮</span> Essence Rules
-                </button>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-              <div className="flex flex-col bg-slate-800/50 p-2 rounded border border-purple-700/60 text-center" title="Total Metaphysical Essence Capacity = Primary Attributes + Attune & Discipline Skills">
-                <span className="text-[10px] uppercase font-bold text-purple-300">Total Essence</span>
-                <span className="text-sm font-bold font-mono text-purple-200">{essenceTotal}</span>
-                <span className="text-[8.5px] text-purple-400/80 font-mono">Pool Capacity</span>
-              </div>
-              <div className="flex flex-col bg-slate-800/50 p-2 rounded border border-slate-700 text-center" title="Ability Substrate (Containment): Sum of all 6 Primary Attributes">
-                <span className="text-[10px] uppercase font-bold text-slate-400">Substrate</span>
-                <span className="text-sm font-bold font-mono text-cyan-300">+{primaryAttrsTotal}</span>
-                <span className="text-[8.5px] text-slate-500 font-mono">6 Primary Attrs</span>
-              </div>
-              <div className="flex flex-col bg-slate-800/50 p-2 rounded border border-amber-700/60 text-center" title="The Conduit: Attune skill rank + modifier for channeling Code">
-                <span className="text-[10px] uppercase font-bold text-amber-400">Conduit</span>
-                <span className="text-sm font-bold font-mono text-amber-300">+{attuneRank + attuneMod}</span>
-                <span className="text-[8.5px] text-amber-400/80 font-mono">Attune Skill</span>
-              </div>
-              <div className="flex flex-col bg-slate-800/50 p-2 rounded border border-slate-700 text-center" title="The Breadth: Total ranks across all known Metaphysical disciplines">
-                <span className="text-[10px] uppercase font-bold text-slate-400">Disciplines</span>
-                <span className="text-sm font-bold font-mono text-cyan-300">+{Math.max(0, metaSkillsTotal - (attuneRank + attuneMod))}</span>
-                <span className="text-[8.5px] text-slate-500 font-mono">Meta Skills</span>
-              </div>
-            </div>
-          </div>
-
           {/* Fate Block */}
           <div className="bg-slate-900/60 border border-cyan-900/50 rounded-lg p-3.5 space-y-3">
             <div className="flex flex-wrap justify-between items-center border-b border-cyan-900/60 pb-2 gap-2">
@@ -473,6 +421,58 @@ const CoreStatsTab = () => {
                   </div>
                 );
               })()}
+            </div>
+          </div>
+
+          {/* Essence Block (Positioned Under Fate) */}
+          <div className="bg-slate-900/60 border border-purple-900/50 rounded-lg p-3.5 space-y-3">
+            <div className="flex flex-wrap justify-between items-center border-b border-purple-900/60 pb-2 gap-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-purple-400">
+                  Essence
+                </h3>
+                <span className="text-[10px] font-mono text-slate-400">
+                  (Attrs: {primaryAttrsTotal} + Meta: {metaSkillsTotal} = {essenceTotal})
+                </span>
+                <div className="flex items-center gap-1.5 bg-slate-800 px-2 py-0.5 rounded border border-purple-500/40">
+                  <span className="text-[10px] font-bold text-purple-300 uppercase">Capacity:</span>
+                  <span className="text-xs font-mono font-bold text-purple-200">{essenceTotal}</span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-1.5 ml-auto">
+                <button
+                  type="button"
+                  onClick={() => openRulesModal('essence')}
+                  className="px-2.5 py-1 rounded bg-purple-950 hover:bg-purple-900 border border-purple-500/50 text-[10px] font-bold text-purple-300 transition-colors flex items-center gap-1 shadow-sm cursor-pointer"
+                  title="Open Essence Pool & Metaphysical Strain Rules Codex"
+                >
+                  <span>🔮</span> Essence Rules
+                </button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              <div className="flex flex-col bg-slate-800/50 p-2 rounded border border-purple-700/60 text-center" title="Total Metaphysical Essence Capacity = Primary Attributes + Attune & Discipline Skills">
+                <span className="text-[10px] uppercase font-bold text-purple-300">Total Essence</span>
+                <span className="text-sm font-bold font-mono text-purple-200">{essenceTotal}</span>
+                <span className="text-[8.5px] text-purple-400/80 font-mono">Pool Capacity</span>
+              </div>
+              <div className="flex flex-col bg-slate-800/50 p-2 rounded border border-slate-700 text-center" title="Ability Substrate (Containment): Sum of all 6 Primary Attributes">
+                <span className="text-[10px] uppercase font-bold text-slate-400">Substrate</span>
+                <span className="text-sm font-bold font-mono text-cyan-300">+{primaryAttrsTotal}</span>
+                <span className="text-[8.5px] text-slate-500 font-mono">6 Primary Attrs</span>
+              </div>
+              <div className="flex flex-col bg-slate-800/50 p-2 rounded border border-amber-700/60 text-center" title="The Conduit: Attune skill rank + modifier for channeling Code">
+                <span className="text-[10px] uppercase font-bold text-amber-400">Conduit</span>
+                <span className="text-sm font-bold font-mono text-amber-300">+{attuneRank + attuneMod}</span>
+                <span className="text-[8.5px] text-amber-400/80 font-mono">Attune Skill</span>
+              </div>
+              <div className="flex flex-col bg-slate-800/50 p-2 rounded border border-slate-700 text-center" title="The Breadth: Total ranks across all known Metaphysical disciplines">
+                <span className="text-[10px] uppercase font-bold text-slate-400">Disciplines</span>
+                <span className="text-sm font-bold font-mono text-cyan-300">+{Math.max(0, metaSkillsTotal - (attuneRank + attuneMod))}</span>
+                <span className="text-[8.5px] text-slate-500 font-mono">Meta Skills</span>
+              </div>
             </div>
           </div>
         </div>

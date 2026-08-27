@@ -390,7 +390,13 @@ const FolioContainer = () => {
           )}
           {(activeTab === 'features' || activeTab === 'abilities' || activeTab.startsWith('features-')) && (
             <FeaturesTab
-              activeSection={activeTab === 'features-hindrances' ? 'hindrances' : (activeTab === 'features-augmentations' ? 'augmentations' : 'all')}
+              activeSection={
+                activeTab === 'features-hindrances' ? 'hindrances' :
+                activeTab === 'features-augmentations' ? 'augmentations' :
+                activeTab === 'features-metaphysics' || activeTab === 'features-awakened' ? 'metaphysics' :
+                activeTab === 'features-standard' ? 'features' :
+                'all'
+              }
               onOpenSelectorModal={handleOpenSelectorModal}
               onOpenAssetModal={handleOpenAssetModal}
               onOpenMetaphysicsModal={() => setIsMetaphysicsOpen(true)}

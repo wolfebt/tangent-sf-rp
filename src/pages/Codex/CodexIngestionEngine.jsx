@@ -33,13 +33,17 @@ import {
   Upload,
   FileText,
   File,
+  FileSpreadsheet,
   X,
   Edit3,
   Plus,
   Sliders,
   Check,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  GitCompare,
+  Layers,
+  ArrowRight
 } from 'lucide-react';
 
 export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
@@ -61,6 +65,7 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
   const [rawTableText, setRawTableText] = useState('');
   const [defaultTL, setDefaultTL] = useState(3);
   const [defaultCategory, setDefaultCategory] = useState('');
+  const tableFileInputRef = useRef(null);
   
   // Staged Records & Validation
   const [parsedItems, setParsedItems] = useState([]);
@@ -70,6 +75,7 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
   
   // Processing States
   const [isAiProcessing, setIsAiProcessing] = useState(false);
+  const [synthesisStatus, setSynthesisStatus] = useState('');
   const [aiError, setAiError] = useState('');
   const [isInjecting, setIsInjecting] = useState(false);
   const [injectionProgress, setInjectionProgress] = useState({ current: 0, total: 0 });
@@ -79,9 +85,13 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
   const [revisingItem, setRevisingItem] = useState(null);
   const [revisionForm, setRevisionForm] = useState(null);
 
+  // Side-by-Side Diff Modal State
+  const [diffModalItem, setDiffModalItem] = useState(null);
+
   // UI helpers
   const [searchFilter, setSearchFilter] = useState('');
   const [expandedJsonIds, setExpandedJsonIds] = useState(new Set());
+
 
   const currentDataset = useMemo(() => getDatasetByKey(selectedDatasetKey), [selectedDatasetKey]);
   const targetCollection = currentDataset.targetCollection;
@@ -199,6 +209,7 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
     }
 
     setIsAiProcessing(true);
+    setSynthesisStatus('Synthesizing Omnicortex Schema...');
     setAiError('');
     AudioService.playTerminalBeep(1200, 0.04);
 
@@ -207,7 +218,10 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
         categoryKey: selectedDatasetKey,
         rawText: rawAiText,
         fileData: uploadedFile,
-        conflictStrategy
+        conflictStrategy,
+        onProgress: ({ current, total, status }) => {
+          setSynthesisStatus(status || `Synthesizing Part ${current}/${total}...`);
+        }
       });
 
       if (!result.success) {
@@ -226,11 +240,12 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
       AudioService.playErrorSound();
     } finally {
       setIsAiProcessing(false);
+      setSynthesisStatus('');
     }
   };
 
   // ─────────────────────────────────────────────────────────────────────────────
-  // MANUAL JSON / TABLE PARSING MODES
+  // MANUAL JSON / UNIVERSAL TABULAR PARSING (CSV, TSV, MARKDOWN)
   // ─────────────────────────────────────────────────────────────────────────────
   const handleParseJson = (textToParse = rawJsonText) => {
     if (!textToParse.trim()) {
@@ -283,32 +298,104 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
     }
   };
 
-  const handleParseTable = () => {
-    if (!rawTableText.trim()) return;
+  // Universal CSV/TSV/Markdown delimiter parser
+  const parseDelimitedRow = (line, delimiter) => {
+    if (delimiter === '|') {
+      return line.split('|').map(x => x.trim()).filter((_, idx, arr) => idx > 0 && idx < arr.length - 1);
+    }
+    if (delimiter === '\t') {
+      return line.split('\t').map(x => x.trim());
+    }
+    if (delimiter === ';') {
+      return line.split(';').map(x => x.trim());
+    }
+    
+    // RFC 4180 quotation-aware CSV tokenizer
+    const result = [];
+    let cur = '';
+    let inQuotes = false;
+    for (let i = 0; i < line.length; i++) {
+      const char = line[i];
+      if (char === '"') {
+        if (inQuotes && line[i + 1] === '"') {
+          cur += '"';
+          i++;
+        } else {
+          inQuotes = !inQuotes;
+        }
+      } else if (char === ',' && !inQuotes) {
+        result.push(cur.trim());
+        cur = '';
+      } else {
+        cur += char;
+      }
+    }
+    result.push(cur.trim());
+    return result;
+  };
+
+  const handleParseTable = (overrideText = null) => {
+    const textToParse = overrideText !== null ? overrideText : rawTableText;
+    if (!textToParse.trim()) return;
     AudioService.playTerminalBeep(1200, 0.03);
 
-    const lines = rawTableText.split('\n');
+    const lines = textToParse.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+    if (lines.length === 0) return;
+
+    // Auto-detect delimiter from the first line
+    const firstLine = lines[0];
+    let delimiter = ',';
+    if (firstLine.startsWith('|') || (firstLine.includes('|') && firstLine.endsWith('|'))) {
+      delimiter = '|';
+    } else if (firstLine.includes('\t')) {
+      delimiter = '\t';
+    } else if (firstLine.includes(';') && !firstLine.includes(',')) {
+      delimiter = ';';
+    }
+
     let items = [];
     let headers = [];
-    let isParsingTable = false;
+    let isParsingHeader = true;
 
     for (let i = 0; i < lines.length; i++) {
-      const line = lines[i].trim();
-      if (line.startsWith('|')) {
-        const rowData = line.split('|').map(x => x.trim()).filter((_, idx, arr) => idx > 0 && idx < arr.length - 1);
-        if (rowData.length > 0 && rowData[0].startsWith('---')) continue;
+      const line = lines[i];
+      // Skip Markdown separator line |---|---|
+      if (delimiter === '|' && /^\|?[\s\-:|]+\|?$/.test(line)) {
+        continue;
+      }
 
-        if (!isParsingTable) {
-          headers = rowData.map(h => h.toLowerCase().replace(/[^a-z0-9]/g, ''));
-          isParsingTable = true;
-        } else {
-          if (rowData.length < headers.length) continue;
-          let rowObj = { tech_level: defaultTL, category: defaultCategory };
-          headers.forEach((h, idx) => {
+      const rowData = parseDelimitedRow(line, delimiter);
+      if (rowData.length === 0) continue;
+
+      if (isParsingHeader) {
+        headers = rowData.map(h => {
+          const raw = h.toLowerCase().replace(/[^a-z0-9_]/g, '');
+          // Common header normalizations
+          if (['title', 'itemname', 'item_name', 'designation'].includes(raw)) return 'name';
+          if (['tl', 'techlevel'].includes(raw)) return 'tech_level';
+          if (['ml', 'metalevel'].includes(raw)) return 'meta_level';
+          if (['craftdc', 'craft_dc', 'designdc', 'design_dc', 'dc'].includes(raw)) return 'craft_dc';
+          if (['cost', 'price', 'credits', 'credit'].includes(raw)) return 'credits';
+          if (['bp', 'cp', 'bpcost', 'cpcost'].includes(raw)) return 'bp';
+          if (['sp', 'structurepoints', 'hp'].includes(raw)) return 'sp';
+          if (['dr', 'damageresist', 'armor'].includes(raw)) return 'dr';
+          if (['desc', 'lore', 'summary'].includes(raw)) return 'description';
+          if (['rules', 'special', 'effects'].includes(raw)) return 'mechanic';
+          return raw;
+        });
+        isParsingHeader = false;
+      } else {
+        if (rowData.length < Math.min(2, headers.length)) continue;
+        let rowObj = { 
+          tech_level: defaultTL, 
+          category: defaultCategory || currentDataset.label 
+        };
+        headers.forEach((h, idx) => {
+          if (h && rowData[idx] !== undefined) {
             rowObj[h] = rowData[idx];
-          });
-          items.push(rowObj);
-        }
+          }
+        });
+        items.push(rowObj);
       }
     }
 
@@ -326,11 +413,24 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
         allReady: adapted.every(i => i._folioHealth?.isFolioReady),
         failedCount: adapted.filter(i => !i._folioHealth?.isFolioReady).length
       });
+      setInjectionResults(null);
+      AudioService.playTerminalBeep(1400, 0.04);
     }
   };
 
+  const handleTableFileUpload = (file) => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const content = e.target.result;
+      setRawTableText(content);
+      handleParseTable(content);
+    };
+    reader.readAsText(file);
+  };
+
   // ─────────────────────────────────────────────────────────────────────────────
-  // IN-PLACE REVISION WORKBENCH
+  // IN-PLACE REVISION WORKBENCH & DIFF INSPECTOR
   // ─────────────────────────────────────────────────────────────────────────────
   const handleOpenRevision = (item) => {
     AudioService.playTerminalBeep(1300, 0.03);
@@ -346,6 +446,16 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
     AudioService.playTerminalBeep(1000, 0.02);
     setRevisingItem(null);
     setRevisionForm(null);
+  };
+
+  const handleOpenDiff = (item) => {
+    AudioService.playTerminalBeep(1200, 0.03);
+    setDiffModalItem(item);
+  };
+
+  const handleCloseDiff = () => {
+    AudioService.playTerminalBeep(1000, 0.02);
+    setDiffModalItem(null);
   };
 
   const handleSaveRevision = () => {
@@ -764,7 +874,7 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
                     {isAiProcessing ? (
                       <>
                         <RefreshCw size={16} className="animate-spin text-cyan-400" />
-                        <span>BASTION Synthesizing Schema...</span>
+                        <span>{synthesisStatus || 'BASTION Synthesizing Schema...'}</span>
                       </>
                     ) : (
                       <>
@@ -802,7 +912,7 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
                 </div>
               )}
 
-              {/* TAB 3: MARKDOWN TABLE PARSER */}
+              {/* TAB 3: UNIVERSAL TABULAR PARSER (CSV, TSV, MARKDOWN, SEMICOLON) */}
               {activeTab === 'table' && (
                 <div className="flex-1 flex flex-col space-y-3 min-h-[360px]">
                   <div className="grid grid-cols-2 gap-3">
@@ -833,20 +943,40 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
                     </div>
                   </div>
 
+                  {/* CSV / TSV File Drop / Selector */}
+                  <div
+                    onClick={() => tableFileInputRef.current && tableFileInputRef.current.click()}
+                    className="border border-dashed border-slate-800 hover:border-emerald-500/50 bg-slate-950/40 hover:bg-slate-950/80 rounded-xl p-2.5 flex items-center justify-center gap-2 cursor-pointer transition-all text-slate-400 hover:text-slate-200"
+                  >
+                    <input
+                      ref={tableFileInputRef}
+                      type="file"
+                      accept=".csv,.tsv,.txt"
+                      onChange={(e) => {
+                        if (e.target.files && e.target.files[0]) {
+                          handleTableFileUpload(e.target.files[0]);
+                        }
+                      }}
+                      className="hidden"
+                    />
+                    <FileSpreadsheet size={15} className="text-emerald-400" />
+                    <span className="text-xs font-mono">Upload or drop .CSV, .TSV, or .TXT tabular file</span>
+                  </div>
+
                   <textarea
                     value={rawTableText}
                     onChange={(e) => setRawTableText(e.target.value)}
-                    placeholder="| Name | Damage | Range | Cost | DC | Special |\n| --- | --- | --- | --- | --- | --- |\n| Viper Carbine | 3d8 | 60ft | 1280 | 18 | Thermal Melt |"
-                    className="flex-1 w-full bg-slate-950 border border-slate-800 rounded-xl p-4 font-mono text-xs text-slate-200 resize-none focus:outline-none focus:border-amber-500/60 shadow-inner"
+                    placeholder="Auto-detects Markdown pipes (|), CSV (comma), TSV (tab/Excel copy-paste), or semicolon (;)...&#10;&#10;Name,Damage,Range,Cost,DC,Special&#10;Viper Carbine,3d8,60ft,1280,18,Thermal Melt"
+                    className="flex-1 w-full bg-slate-950 border border-slate-800 rounded-xl p-4 font-mono text-xs text-slate-200 resize-none focus:outline-none focus:border-emerald-500/60 shadow-inner"
                   />
 
                   <button
                     type="button"
-                    onClick={handleParseTable}
-                    className="w-full py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl font-mono text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 border border-slate-700 transition-all cursor-pointer"
+                    onClick={() => handleParseTable()}
+                    className="w-full py-3 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white rounded-xl font-mono text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(16,185,129,0.25)] transition-all cursor-pointer"
                   >
-                    <Table size={15} className="text-amber-400" />
-                    <span>Parse Markdown Table</span>
+                    <Table size={15} />
+                    <span>Auto-Detect Delimiter & Parse Table</span>
                   </button>
                 </div>
               )}
@@ -1128,6 +1258,18 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
                           </div>
 
                           <div className="flex items-center gap-2">
+                            {existing && (
+                              <button
+                                type="button"
+                                onClick={() => handleOpenDiff(item)}
+                                className="px-2 py-1 rounded bg-blue-950/80 hover:bg-blue-900 text-blue-300 border border-blue-500/40 flex items-center gap-1 transition-all cursor-pointer text-[10px]"
+                                title="Compare changes against existing Omnicortex record"
+                              >
+                                <GitCompare size={11} />
+                                <span>Diff</span>
+                              </button>
+                            )}
+
                             <button
                               type="button"
                               onClick={() => handleOpenRevision(item)}
@@ -1444,6 +1586,242 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
         </div>
       )}
 
+      {/* ─────────────────────────────────────────────────────────────────────────
+          SIDE-BY-SIDE RECORD DIFF INSPECTOR MODAL
+      ───────────────────────────────────────────────────────────────────────── */}
+      {diffModalItem && (() => {
+        const existingItem = existingIdsMap.get((diffModalItem.id || '').toLowerCase()) || 
+                             existingIdsMap.get(((diffModalItem.name || '').toLowerCase()));
+        
+        // Helper to format values for diff comparison
+        const formatValue = (val) => {
+          if (val === null || val === undefined) return '<empty>';
+          if (typeof val === 'object') return JSON.stringify(val, null, 1);
+          return String(val);
+        };
+
+        const fieldsToCompare = [
+          { key: 'name', label: 'Designation / Name' },
+          { key: 'title', label: 'Formal Title' },
+          { key: 'parent_species', label: 'Parent Lineage' },
+          { key: 'tech_level', label: 'Tech Level (TL)' },
+          { key: 'meta_level', label: 'Meta Level (ML)' },
+          { key: 'craft_dc', label: 'Craft / Design DC' },
+          { key: 'costs', label: 'Resource Costs Map', isJson: true },
+          { key: 'modifiers', label: 'Modifiers Array', isJson: true },
+          { key: 'mechanic', label: 'Game Mechanics' },
+          { key: 'description', label: 'Lore / Description' },
+          { key: 'note', label: 'Architect / GM Notes' },
+          { key: 'stigma', label: 'Social Stigma' },
+          { key: 'homeworld', label: 'Homeworld' },
+          { key: 'category', label: 'Category' },
+          { key: 'sp', label: 'Structure Points (SP)' },
+          { key: 'dr', label: 'Damage Resistance (DR)' }
+        ];
+
+        const diffRows = fieldsToCompare.map(f => {
+          const existVal = existingItem ? existingItem[f.key] : undefined;
+          const stagedVal = diffModalItem[f.key];
+
+          const existStr = formatValue(existVal);
+          const stagedStr = formatValue(stagedVal);
+
+          let status = 'unchanged';
+          if (existVal === undefined || existVal === null || existVal === '') {
+            if (stagedVal !== undefined && stagedVal !== null && stagedVal !== '') {
+              status = 'added';
+            }
+          } else if (existStr !== stagedStr) {
+            status = 'modified';
+          }
+
+          return {
+            ...f,
+            existVal,
+            stagedVal,
+            existStr,
+            stagedStr,
+            status
+          };
+        }).filter(row => row.existVal !== undefined || row.stagedVal !== undefined);
+
+        const modifiedCount = diffRows.filter(r => r.status === 'modified').length;
+        const addedCount = diffRows.filter(r => r.status === 'added').length;
+
+        return (
+          <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-4xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+              
+              {/* Diff Modal Header */}
+              <div className="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/80">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-blue-950 text-blue-400 border border-blue-500/40">
+                    <GitCompare size={18} />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-mono font-bold text-slate-100 uppercase flex items-center gap-2">
+                      <span>Diff Comparison: {diffModalItem.name}</span>
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-500/30">
+                        {modifiedCount} Modified • {addedCount} Added
+                      </span>
+                    </h3>
+                    <div className="text-[10px] font-mono text-slate-400">
+                      Collection: <code className="text-cyan-400">{targetCollection}</code> • ID: <code className="text-slate-400">{diffModalItem.id}</code>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleCloseDiff}
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition-colors cursor-pointer"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              {/* Diff Content Body */}
+              <div className="p-6 overflow-y-auto space-y-4 font-mono text-xs">
+                
+                {/* Visual Legend */}
+                <div className="flex items-center justify-between p-3 rounded-xl bg-slate-950/60 border border-slate-800 text-[11px]">
+                  <div className="flex items-center gap-4">
+                    <span className="flex items-center gap-1.5 text-amber-400">
+                      <span className="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block" />
+                      <span>Modified Value</span>
+                    </span>
+                    <span className="flex items-center gap-1.5 text-emerald-400">
+                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block" />
+                      <span>Newly Added Field</span>
+                    </span>
+                    <span className="flex items-center gap-1.5 text-slate-400">
+                      <span className="w-2.5 h-2.5 rounded-full bg-slate-600 inline-block" />
+                      <span>Unchanged</span>
+                    </span>
+                  </div>
+                  <span className="text-slate-500">
+                    Conflict Strategy: <strong className="text-cyan-400 uppercase">{conflictStrategy}</strong>
+                  </span>
+                </div>
+
+                {/* Diff Comparison Table */}
+                <div className="border border-slate-800 rounded-xl overflow-hidden">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="bg-slate-950 border-b border-slate-800 text-[10px] uppercase text-slate-400 font-bold">
+                        <th className="p-3 w-1/4">Field Attribute</th>
+                        <th className="p-3 w-3/8 border-l border-slate-800 bg-slate-950/80">Existing Omnicortex</th>
+                        <th className="p-3 w-3/8 border-l border-slate-800 bg-cyan-950/20 text-cyan-300">Incoming Staged</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-800/80 text-xs">
+                      {diffRows.map((row) => {
+                        const isModified = row.status === 'modified';
+                        const isAdded = row.status === 'added';
+
+                        return (
+                          <tr 
+                            key={row.key}
+                            className={`transition-colors ${
+                              isModified 
+                                ? 'bg-amber-950/20' 
+                                : isAdded 
+                                  ? 'bg-emerald-950/20' 
+                                  : 'hover:bg-slate-800/30'
+                            }`}
+                          >
+                            <td className="p-3 align-top">
+                              <div className="font-bold text-slate-200">{row.label}</div>
+                              <div className="text-[10px] text-slate-500 flex items-center gap-1 mt-0.5">
+                                <code>{row.key}</code>
+                                {isModified && (
+                                  <span className="px-1.5 py-0.2 rounded text-[9px] bg-amber-950 text-amber-300 border border-amber-500/40">
+                                    MOD
+                                  </span>
+                                )}
+                                {isAdded && (
+                                  <span className="px-1.5 py-0.2 rounded text-[9px] bg-emerald-950 text-emerald-300 border border-emerald-500/40">
+                                    NEW
+                                  </span>
+                                )}
+                              </div>
+                            </td>
+
+                            {/* Existing Record Column */}
+                            <td className="p-3 align-top border-l border-slate-800 text-slate-400">
+                              {row.existVal !== undefined && row.existVal !== null ? (
+                                row.isJson ? (
+                                  <pre className="text-[10px] max-h-36 overflow-y-auto p-2 bg-slate-950/70 rounded border border-slate-800 text-slate-300 whitespace-pre-wrap">
+                                    {row.existStr}
+                                  </pre>
+                                ) : (
+                                  <div className="whitespace-pre-wrap break-words">{row.existStr}</div>
+                                )
+                              ) : (
+                                <span className="text-slate-600 italic">None / Not Set</span>
+                              )}
+                            </td>
+
+                            {/* Staged Record Column */}
+                            <td className={`p-3 align-top border-l border-slate-800 ${
+                              isModified 
+                                ? 'text-amber-200 font-medium' 
+                                : isAdded 
+                                  ? 'text-emerald-300 font-medium' 
+                                  : 'text-slate-300'
+                            }`}>
+                              {row.stagedVal !== undefined && row.stagedVal !== null ? (
+                                row.isJson ? (
+                                  <pre className="text-[10px] max-h-36 overflow-y-auto p-2 bg-slate-950/90 rounded border border-slate-800 text-cyan-300 whitespace-pre-wrap">
+                                    {row.stagedStr}
+                                  </pre>
+                                ) : (
+                                  <div className="whitespace-pre-wrap break-words">{row.stagedStr}</div>
+                                )
+                              ) : (
+                                <span className="text-slate-600 italic">None</span>
+                              )}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
+
+              {/* Diff Modal Footer */}
+              <div className="p-4 border-t border-slate-800 flex items-center justify-between bg-slate-950/80">
+                <button
+                  type="button"
+                  onClick={handleCloseDiff}
+                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-mono font-bold transition-colors cursor-pointer"
+                >
+                  Close Diff Inspector
+                </button>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleCloseDiff();
+                      handleOpenRevision(diffModalItem);
+                    }}
+                    className="px-5 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white rounded-xl text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all cursor-pointer"
+                  >
+                    <Edit3 size={14} />
+                    <span>Open in Revision Workbench</span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        );
+      })()}
+
     </div>
   );
 };
+

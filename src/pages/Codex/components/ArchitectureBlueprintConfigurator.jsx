@@ -203,7 +203,7 @@ export const ArchitectureBlueprintConfigurator = ({
   const validation = useMemo(() => validateArchitectureBlueprint(formData), [formData]);
 
   // Liquidity Gap
-  const liquidityGap = useMemo(() => calculateLiquidityGap(buyerWS, finalDC), [buyerWS, finalDC]);
+  const liquidityGap = useMemo(() => calculateLiquidityGap(finalDC, buyerWS), [finalDC, buyerWS]);
 
   // Mecha Garaging calculation helper
   const garagingReq = useMemo(() => {
@@ -933,13 +933,13 @@ export const ArchitectureBlueprintConfigurator = ({
                 />
               </div>
               <div className="text-xs font-mono">
-                {liquidityGap.autoBuy ? (
+                {liquidityGap?.autoBuy ? (
                   <span className="text-emerald-400 font-bold bg-emerald-950/80 px-2 py-1 rounded border border-emerald-500/40">
                     ✓ Full Auto-Buy (0 Liquid Credits Needed)
                   </span>
                 ) : (
                   <span className="text-amber-300 font-bold bg-amber-950/80 px-2 py-1 rounded border border-amber-500/40">
-                    Required Liquid Cash: {liquidityGap.liquidCost.toLocaleString()} Cr
+                    Required Liquid Cash: {Number(liquidityGap?.liquidCost ?? liquidityGap?.liquidGapCost ?? 0).toLocaleString()} Cr
                   </span>
                 )}
               </div>

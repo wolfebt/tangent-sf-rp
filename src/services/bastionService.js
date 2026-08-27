@@ -479,7 +479,8 @@ export const synthesizeDatasetIngestionWithBastion = async ({
   categoryKey,
   rawText = '',
   fileData = null,
-  conflictStrategy = 'merge'
+  conflictStrategy = 'merge',
+  onProgress = null
 }) => {
   const hasText = rawText && rawText.trim().length > 0;
   const hasFile = fileData && (fileData.text || fileData.base64);
@@ -520,24 +521,68 @@ export const synthesizeDatasetIngestionWithBastion = async ({
   }
 
   try {
-    const parts = [];
+    // Helper to parse a single payload or chunk with Gemini
+    const executeGeminiCall = async (parts) => {
+      const requestBody = {
+        contents: [{ role: 'user', parts }],
+        generationConfig: {
+          temperature: 0.1,
+          maxOutputTokens: 8192,
+          responseMimeType: 'application/json'
+        }
+      };
+
+      const response = await fetchGeminiContent(apiKey, requestBody);
+      const rawTextOutput = response?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+
+      if (!rawTextOutput) {
+        throw new Error('No structured response returned from BASTION AI.');
+      }
+
+      const cleanJson = rawTextOutput
+        .replace(/^```json\s*/i, '')
+        .replace(/^```\s*/i, '')
+        .replace(/\s*```$/i, '')
+        .trim();
+
+      try {
+        const parsed = JSON.parse(cleanJson);
+        return Array.isArray(parsed) ? parsed : [parsed];
+      } catch (parseErr) {
+        const match = cleanJson.match(/\[[\s\S]*\]/) || cleanJson.match(/\{[\s\S]*\}/);
+        if (!match) {
+          throw new Error('Failed to parse BASTION output as JSON array: ' + parseErr.message);
+        }
+        const sanitized = match[0]
+          .replace(/\n/g, '\\n')
+          .replace(/\r/g, '\\r')
+          .replace(/\t/g, '\\t');
+        const recovered = JSON.parse(sanitized);
+        return Array.isArray(recovered) ? recovered : [recovered];
+      }
+    };
+
+    let allRawItems = [];
 
     // Check if a PDF file is provided with base64 data
     if (fileData && fileData.mimeType === 'application/pdf' && fileData.base64) {
-      parts.push({
-        text: dataset.promptText + '\n\nTASK: Parse the accompanying PDF document into the JSON schema defined above. Extract all playable entries for "' + dataset.label + '". Return ONLY the raw JSON array.'
-      });
-      parts.push({
-        inlineData: {
-          mimeType: 'application/pdf',
-          data: fileData.base64
+      if (onProgress) onProgress({ current: 1, total: 1, status: 'Synthesizing PDF Document...' });
+      const parts = [
+        {
+          text: dataset.promptText + '\n\nTASK: Parse the accompanying PDF document into the JSON schema defined above. Extract all playable entries for "' + dataset.label + '". Return ONLY the raw JSON array.'
+        },
+        {
+          inlineData: {
+            mimeType: 'application/pdf',
+            data: fileData.base64
+          }
         }
-      });
+      ];
       if (hasText) {
-        parts.push({
-          text: 'ADDITIONAL CONTEXT / DIRECTIVES:\n' + rawText
-        });
+        parts.push({ text: 'ADDITIONAL CONTEXT / DIRECTIVES:\n' + rawText });
       }
+      const pdfParsed = await executeGeminiCall(parts);
+      allRawItems = pdfParsed;
     } else {
       // Standard Text or Text-Document input
       const combinedInput = [
@@ -545,61 +590,54 @@ export const synthesizeDatasetIngestionWithBastion = async ({
         hasText ? '--- INPUT TEXT / NOTES ---\n' + rawText : ''
       ].filter(Boolean).join('\n\n');
 
-      const promptInstructions = dataset.promptText.replace('[INSERT RAW ' + dataset.label.toUpperCase() + ' TEXT HERE]', combinedInput) + '\n\nRAW INPUT TEXT TO PARSE:\n' + combinedInput;
-      parts.push({ text: promptInstructions });
-    }
+      // Check if text is large enough to warrant section chunking (> 10,000 characters)
+      const CHUNK_SIZE = 10000;
+      if (combinedInput.length > CHUNK_SIZE) {
+        // Split by markdown headers or double newlines
+        const rawSections = combinedInput.split(/\n(?=#{1,4}\s|\n\n[A-Z0-9])/);
+        const textChunks = [];
+        let curChunk = '';
 
-    const requestBody = {
-      contents: [
-        {
-          role: 'user',
-          parts
+        for (const sec of rawSections) {
+          if ((curChunk + '\n' + sec).length > CHUNK_SIZE && curChunk.trim().length > 0) {
+            textChunks.push(curChunk.trim());
+            curChunk = sec;
+          } else {
+            curChunk = curChunk ? curChunk + '\n\n' + sec : sec;
+          }
         }
-      ],
-      generationConfig: {
-        temperature: 0.1,
-        maxOutputTokens: 8192,
-        responseMimeType: 'application/json'
+        if (curChunk.trim().length > 0) {
+          textChunks.push(curChunk.trim());
+        }
+
+        for (let idx = 0; idx < textChunks.length; idx++) {
+          const chunkText = textChunks[idx];
+          if (onProgress) {
+            onProgress({
+              current: idx + 1,
+              total: textChunks.length,
+              status: `Synthesizing Section ${idx + 1} of ${textChunks.length}...`
+            });
+          }
+
+          const promptInstructions = dataset.promptText.replace('[INSERT RAW ' + dataset.label.toUpperCase() + ' TEXT HERE]', chunkText) + '\n\nRAW INPUT TEXT SECTION ' + (idx + 1) + ' OF ' + textChunks.length + ' TO PARSE:\n' + chunkText;
+          const chunkParsed = await executeGeminiCall([{ text: promptInstructions }]);
+          if (Array.isArray(chunkParsed)) {
+            allRawItems.push(...chunkParsed);
+          }
+        }
+      } else {
+        if (onProgress) onProgress({ current: 1, total: 1, status: 'Synthesizing text...' });
+        const promptInstructions = dataset.promptText.replace('[INSERT RAW ' + dataset.label.toUpperCase() + ' TEXT HERE]', combinedInput) + '\n\nRAW INPUT TEXT TO PARSE:\n' + combinedInput;
+        allRawItems = await executeGeminiCall([{ text: promptInstructions }]);
       }
-    };
-
-    const response = await fetchGeminiContent(apiKey, requestBody);
-    const rawTextOutput = response?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-
-    if (!rawTextOutput) {
-      throw new Error('No structured response returned from BASTION AI.');
-    }
-
-    // Clean any markdown fences if present
-    const cleanJson = rawTextOutput
-      .replace(/^``json\s*/i, '')
-      .replace(/^``\s*/i, '')
-      .replace(/\s*``$/i, '')
-      .trim();
-
-    let parsedArray;
-    try {
-      const parsed = JSON.parse(cleanJson);
-      parsedArray = Array.isArray(parsed) ? parsed : [parsed];
-    } catch (parseErr) {
-      // Recovery attempt for unescaped characters
-      const match = cleanJson.match(/\[[\s\S]*\]/) || cleanJson.match(/\{[\s\S]*\}/);
-      if (!match) {
-        throw new Error('Failed to parse BASTION output as JSON array: ' + parseErr.message);
-      }
-      const sanitized = match[0]
-        .replace(/\n/g, '\\n')
-        .replace(/\r/g, '\\r')
-        .replace(/\t/g, '\\t');
-      const recovered = JSON.parse(sanitized);
-      parsedArray = Array.isArray(recovered) ? recovered : [recovered];
     }
 
     // Run Pre-Flight Validation against Omnicortex expected schema
-    const validationReport = validateDatasetPayload(categoryKey, parsedArray);
+    const validationReport = validateDatasetPayload(categoryKey, allRawItems);
 
     // Adapt to canonical Omnicortex Firestore & Folio objects
-    const adaptedItems = parsedArray
+    const adaptedItems = allRawItems
       .map(item => {
         const adapted = adaptSparkItemToFirestore(categoryKey, item);
         if (adapted) {
@@ -617,7 +655,7 @@ export const synthesizeDatasetIngestionWithBastion = async ({
     return {
       success: true,
       isSimulated: false,
-      rawItems: parsedArray,
+      rawItems: allRawItems,
       adaptedItems,
       validationReport,
       folioHealthReport
@@ -630,3 +668,4 @@ export const synthesizeDatasetIngestionWithBastion = async ({
     };
   }
 };
+

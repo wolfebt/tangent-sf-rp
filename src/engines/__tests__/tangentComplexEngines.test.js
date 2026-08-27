@@ -165,19 +165,19 @@ test('Plan 22: Architecture Matrix Engine - SP, Modules, and Height Scaling', ()
 
   // Total Modules for Gargantuan Skyscraper (16 * 50 = 800 Modules)
   const spireModules = calculateArchitectureModules({ footprint: 'Gargantuan', heightClass: 'Skyscraper' });
-  assert.equal(spireModules, 800);
+  assert.equal(spireModules.totalModules, 800);
 });
 
 test('Plan 22: Architecture Matrix Engine - Highest Complexity Rule and Cooperative Build', () => {
-  // Base Medium Shed (Base DC 15) + Nanoforge Foundry (DC 35) -> Total DC becomes 35 due to Highest Complexity Rule!
-  const shedWithNanoforgeDC = calculateArchitectureDC({
+  // Base Medium Shed (Base DC 15) + Holodeck (DC 35) -> Total DC becomes 35 due to Highest Complexity Rule!
+  const shedWithHolodeck = calculateArchitectureDC({
     footprint: 'Medium',
     heightClass: 'Single',
     tl: 3,
-    specializedModules: ['nanoforge_foundry']
+    specializedModules: ['holodeck']
   });
-  assert.equal(shedWithNanoforgeDC, 35);
-  assert.equal(calculateCreditValue(shedWithNanoforgeDC), 163840);
+  assert.equal(shedWithHolodeck.finalDC, 35);
+  assert.equal(calculateCreditValue(shedWithHolodeck.finalDC), 163840);
 
   // Cooperative Construction Timeline:
   // 50,000 Cr Outpost with 10 workers, Industrial Tier (200x), check 15 -> Daily PP = 10 * (15 - 10) * 200 = 10,000 PP/day
@@ -198,7 +198,7 @@ test('Plan 22: Architecture Matrix Engine - Highest Complexity Rule and Cooperat
     height_class: 'Duplex', // 2 Stories (+2 DC) -> 24 Base DC
     tl: 3, // Plasteel 2.0x SP, 20 DR, +0 DC
     environment: 'Standard',
-    specialized_modules: ['tactical_armory', 'medbay_intensive'], // 2 + 2 = 4 Modules used (at budget), max DC 20 <= 24
+    specialized_modules: ['command_center', 'purification_plant'], // 2 + 2 = 4 Modules used (at budget), max DC 20 <= 24
     workforce_workers: 20,
     workforce_skill: 15,
     tool_tier: 'Industrial'

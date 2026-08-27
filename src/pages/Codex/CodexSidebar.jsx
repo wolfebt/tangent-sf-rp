@@ -63,7 +63,7 @@ const GROUP_DEFINITIONS = [
   },
   {
     key: 'planetary',
-    title: 'PLANETARY & SPECIES',
+    title: 'PLANETARY, SPECIES & FACTIONS',
     icon: Globe,
     ids: PLANETARY_SPECIES_MATRIX_IDS,
     theme: {

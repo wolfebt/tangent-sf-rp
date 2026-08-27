@@ -312,15 +312,49 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
     return unlocked;
   }, [characterData.features, characterData.awakened]);
 
+  const hasAnyAwakened = unlockedDisciplines.size > 0;
+
+  // Helper to determine the parent discipline for a metaphysical skill
+  const getDisciplineForSkill = (skill) => {
+    if (skill.discipline) return skill.discipline.toLowerCase();
+    const id = skill.id.toLowerCase();
+    if (id === 'meta-summoning' || id === 'meta-teleport' || id === 'meta-dimension') return 'dimension';
+    if (id === 'meta-elemental' || id === 'meta-force' || id === 'meta-energy') return 'energy';
+    if (id === 'meta-chaos' || id === 'meta-order' || id === 'meta-entropy') return 'entropy';
+    if (id === 'meta-phantasm' || id === 'meta-shadow' || id === 'meta-illusion') return 'illusion';
+    if (id === 'meta-enhancement' || id === 'meta-transmutation' || id === 'meta-matter') return 'matter';
+    if (id === 'meta-projection' || id === 'meta-sense' || id === 'meta-mental') return 'mental';
+    return null;
+  };
+
   const renderSkillRow = (skill) => {
     const isCustom = !defaultSkillIds.has(skill.id);
-    const isDisciplineSkill = (skill.group === 'meta' || skill.id.startsWith('meta-')) && skill.id !== 'meta-attune';
-    const discKey = skill.name.toLowerCase();
-    const isLocked = isDisciplineSkill && !unlockedDisciplines.has(discKey) && !unlockedDisciplines.has(skill.id.replace('meta-', ''));
+    const isAttune = skill.id === 'meta-attune';
+    const discKey = getDisciplineForSkill(skill);
+    const isDisciplineSkill = (skill.group === 'meta' || skill.id.startsWith('meta-')) && !isAttune && Boolean(discKey);
+
+    // Locking rules:
+    // 1. Attune is locked unless character has ANY awakened feature
+    // 2. Discipline skills are locked unless character has THAT specific awakened discipline
+    let isLocked = false;
+    let lockMessage = '';
+
+    if (isAttune) {
+      if (!hasAnyAwakened) {
+        isLocked = true;
+        lockMessage = "Attune requires purchasing or possessing any Awakened feature in the Features tab";
+      }
+    } else if (isDisciplineSkill) {
+      if (!unlockedDisciplines.has(discKey)) {
+        isLocked = true;
+        const discTitle = discKey.charAt(0).toUpperCase() + discKey.slice(1);
+        lockMessage = `Requires purchasing 'Awakened: ${discTitle}' feature in Features tab to unlock ${skill.name}`;
+      }
+    }
 
     const rank = isLocked ? 0 : Math.min(20, Math.max(0, getNum(`skill-${skill.id}-rank`)));
     const mod = getNum(`skill-${skill.id}-mod`);
-    const baseAttr = characterData[`skill-${skill.id}-base`] || '';
+    const baseAttr = characterData[`skill-${skill.id}-base`] || (skill.baseAttr || 'attr-wisdom');
     const baseSkillTotal = isLocked ? 0 : getSkillTotal(skill.id);
     const linkedSpecs = specializationsByBaseSkill[skill.id] || [];
 
@@ -329,10 +363,10 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
         <div
           className={`grid grid-cols-12 items-center gap-2 py-1 px-2 rounded transition-colors text-xs border ${
             isLocked
-              ? 'bg-slate-950/40 opacity-50 border-slate-800/60'
+              ? 'bg-slate-950/40 opacity-60 border-slate-800/60'
               : 'bg-slate-900/50 hover:bg-slate-800/60 border-slate-800/40'
           }`}
-          title={isLocked ? `Requires purchasing 'Awakened: ${skill.name}' feature in Features tab` : undefined}
+          title={isLocked ? lockMessage : undefined}
         >
           <div className="col-span-4 flex items-center justify-between pr-1 overflow-hidden">
             <div className="flex items-center gap-1.5 truncate">
@@ -342,7 +376,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
               {isLocked && (
                 <span
                   className="text-[9px] font-mono font-bold text-amber-400/90 bg-amber-950/70 border border-amber-900/60 px-1.5 py-0.2 rounded shrink-0"
-                  title={`Purchased Awakened feature required to unlock ${skill.name}`}
+                  title={lockMessage}
                 >
                   🔒 Locked
                 </span>
@@ -434,9 +468,10 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                   type="number"
                   min="0"
                   max="10"
+                  disabled={isLocked}
                   value={specRank}
-                  onChange={(e) => handleUpdateSpecialization(spec.id, 'rank', e.target.value)}
-                  className={`w-full text-center bg-slate-950 border ${isMetaSkill ? 'border-purple-800/60 focus:border-purple-400 text-purple-200' : 'border-amber-800/60 focus:border-amber-400 text-amber-200'} rounded py-0.5 outline-none text-xs font-bold`}
+                  onChange={(e) => !isLocked && handleUpdateSpecialization(spec.id, 'rank', e.target.value)}
+                  className={`w-full text-center bg-slate-950 border ${isLocked ? 'border-slate-800 text-slate-600 cursor-not-allowed' : (isMetaSkill ? 'border-purple-800/60 focus:border-purple-400 text-purple-200' : 'border-amber-800/60 focus:border-amber-400 text-amber-200')} rounded py-0.5 outline-none text-xs font-bold`}
                 />
               </div>
 
@@ -448,15 +483,16 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
               {/* Spec Mod Input */}
               <input
                 type="number"
+                disabled={isLocked}
                 value={specMod}
-                onChange={(e) => handleUpdateSpecialization(spec.id, 'mod', e.target.value)}
-                className={`col-span-1 text-center bg-slate-950 border ${isMetaSkill ? 'border-purple-900/40 focus:border-purple-400' : 'border-amber-900/40 focus:border-amber-400'} rounded py-0.5 text-slate-300 outline-none text-xs font-mono`}
+                onChange={(e) => !isLocked && handleUpdateSpecialization(spec.id, 'mod', e.target.value)}
+                className={`col-span-1 text-center bg-slate-950 border ${isLocked ? 'border-slate-800 text-slate-600 cursor-not-allowed' : (isMetaSkill ? 'border-purple-900/40 focus:border-purple-400' : 'border-amber-900/40 focus:border-amber-400')} rounded py-0.5 text-slate-300 outline-none text-xs font-mono`}
               />
 
               {/* Specialization Total Score */}
               <div className="col-span-2 flex items-center justify-between pl-1">
-                <span className={`font-mono font-bold ${isMetaSkill ? 'text-purple-300' : 'text-amber-300'} text-center w-full`}>
-                  {specTotal}
+                <span className={`font-mono font-bold ${isLocked ? 'text-slate-600' : (isMetaSkill ? 'text-purple-300' : 'text-amber-300')} text-center w-full`}>
+                  {isLocked ? 0 : specTotal}
                 </span>
                 <button
                   type="button"
@@ -478,15 +514,46 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
     );
   };
 
-  const renderSubcategoryBlock = (groupTitle, skillsList, colorClass, borderClass, key) => {
+  const renderSubcategoryBlock = (groupTitle, skillsList, colorClass, borderClass, key, catKey) => {
     if (skillsList.length === 0) return null;
+
+    // Metadata for Metafocus discipline blocks
+    const isMetaCategory = catKey === 'meta';
+    const isDiscipline = isMetaCategory && groupTitle !== 'General';
+    const discKey = isDiscipline ? groupTitle.toLowerCase() : null;
+    const isDisciplineUnlocked = discKey ? unlockedDisciplines.has(discKey) : (groupTitle === 'General' ? hasAnyAwakened : true);
+
+    const discIcons = {
+      dimension: '🌀',
+      energy: '⚡',
+      entropy: '⏳',
+      illusion: '🎭',
+      matter: '🧱',
+      mental: '🧠'
+    };
 
     return (
       <div key={key} className={`bg-slate-900/60 border ${borderClass} rounded-lg p-4 space-y-3 shadow-lg backdrop-blur-sm`}>
         <div className="flex justify-between items-center border-b border-slate-800 pb-2">
-          <h4 className={`text-xs font-bold uppercase tracking-widest ${colorClass}`}>
-            {groupTitle || 'General'}
-          </h4>
+          <div className="flex items-center gap-2">
+            {isDiscipline && (
+              <span className="text-base">{discIcons[discKey] || '🔮'}</span>
+            )}
+            <h4 className={`text-xs font-bold uppercase tracking-widest ${colorClass}`}>
+              {isDiscipline ? `Discipline: ${groupTitle}` : (groupTitle || 'General')}
+            </h4>
+            {isMetaCategory && (
+              <span
+                className={`px-2 py-0.2 rounded text-[9.5px] font-mono font-bold uppercase border ${
+                  isDisciplineUnlocked
+                    ? 'bg-purple-950/80 border-purple-500/60 text-purple-200'
+                    : 'bg-amber-950/70 border-amber-900/60 text-amber-300'
+                }`}
+              >
+                {isDisciplineUnlocked ? '✨ Awakened' : '🔒 Locked'}
+              </span>
+            )}
+          </div>
           <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-950 text-slate-400 border border-slate-800">
             {skillsList.length} {skillsList.length === 1 ? 'skill' : 'skills'}
           </span>
@@ -584,7 +651,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
               {filteredGroups
                 .filter((g) => (g.title || 'General') === 'General' || (g.title || '') === 'Knowledges')
                 .map((group, idx) =>
-                  renderSubcategoryBlock(group.title, group.skills, cat.color, cat.border, `${cat.key}-left-${idx}`)
+                  renderSubcategoryBlock(group.title, group.skills, cat.color, cat.border, `${cat.key}-left-${idx}`, cat.key)
                 )}
             </div>
 
@@ -593,20 +660,20 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
               {filteredGroups
                 .filter((g) => (g.title || '') !== 'General' && (g.title || '') !== 'Knowledges')
                 .map((group, idx) =>
-                  renderSubcategoryBlock(group.title, group.skills, cat.color, cat.border, `${cat.key}-right-${idx}`)
+                  renderSubcategoryBlock(group.title, group.skills, cat.color, cat.border, `${cat.key}-right-${idx}`, cat.key)
                 )}
               {unmappedCustomSkills.length > 0 &&
-                renderSubcategoryBlock(unmappedBlockTitle, unmappedCustomSkills, 'text-amber-400', 'border-amber-900/50', `${cat.key}-custom`)
+                renderSubcategoryBlock(unmappedBlockTitle, unmappedCustomSkills, 'text-amber-400', 'border-amber-900/50', `${cat.key}-custom`, cat.key)
               }
             </div>
           </div>
         ) : (
           <div className={isSingleTabMode && (filteredGroups.length > 1 || unmappedCustomSkills.length > 0) ? "grid grid-cols-1 lg:grid-cols-2 gap-4 items-start" : "space-y-4"}>
             {filteredGroups.map((group, idx) =>
-              renderSubcategoryBlock(group.title, group.skills, cat.color, cat.border, `${cat.key}-${idx}`)
+              renderSubcategoryBlock(group.title, group.skills, cat.color, cat.border, `${cat.key}-${idx}`, cat.key)
             )}
             {unmappedCustomSkills.length > 0 &&
-              renderSubcategoryBlock(unmappedBlockTitle, unmappedCustomSkills, 'text-amber-400', 'border-amber-900/50', `${cat.key}-custom`)
+              renderSubcategoryBlock(unmappedBlockTitle, unmappedCustomSkills, 'text-amber-400', 'border-amber-900/50', `${cat.key}-custom`, cat.key)
             }
           </div>
         )}

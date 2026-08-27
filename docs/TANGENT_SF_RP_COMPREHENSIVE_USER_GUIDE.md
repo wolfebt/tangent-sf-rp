@@ -141,29 +141,166 @@ The Omnicortex catalog is organized into specialized architectural domains:
 
 ## Chapter 4: Codex Matrix Suite, Economatrix & Ingestion
 
-The **Codex (`/codex`)** provides 14 engineering calculators, economic simulation models, and automated data ingestion.
+The **Codex (`/codex`)** is the definitive simulation engine, mathematical source of truth, and procedural asset forge for Tangent SFF RP. It governs all asset construction, economic valuation, scaling transitions, and automated data ingestion.
 
-### 4.1 Engineering Matrices & Builders
-1. **Species Forge Engine (`calculateSpeciesBP`)**: Live species creator with budget tracking (Standard 0 BP, Advanced 10 BP, Monster 20+ BP), size sizing modifiers, movement modes, and trait calculators.
-2. **Architecture Blueprint Configurator**: Facility budgets, defense turrets, atmospheric life support, and structural Integrity.
-3. **Armor Coverage Matrix**: Detailed hit-location coverage (Head, Torso, Arms, Legs), hardness ratings, and weight penalties.
-4. **Augmentation Nodes Matrix**: Hardware capacity, socket limits, neural strain, and essence thresholds.
-5. **Companion Package Builder**: Drones, synthetic companions, cyber-hounds, and combat beasts with form/function modules.
-6. **Invocation Matrix**: DC calculation, essence channeling costs, area-of-effect templates, and spell duration multipliers.
-7. **Mecha Chassis Builder**: Weight classes (Light Skimmer to Super-Heavy Titan), hardpoint weapon bays, and armor layering.
-8. **Meta-Tech Imbuement**: Artifact crafting formulas, metamaterial bonding, and supernatural enhancement sockets.
-9. **Modular Stat Blocks**: Threat Tier 1–10 automated NPC and creature generator with role templates (Striker, Tank, Controller, Elite Boss).
-10. **Planetary Design Matrix**: World generation including gravity, biomes, atmospheric toxicity, tech capacity, and trade routes.
-11. **UDU Capacity Meter**: Unified Difficulty Units measuring adventure hazard levels and party survival expectations.
-12. **Weapon Mod Stacker**: Modular rail attachments, barrel extensions, energy coils, and balance adjustments.
+```mermaid
+graph TD
+    CODEX["🔮 Codex Suite (/codex)"] --> SIDEBAR["📂 5-Group Accordion Sidebar"]
+    
+    SIDEBAR --> G1["📦 Hardware & Structures (Amber)"]
+    SIDEBAR --> G2["👥 Characters & Companions (Blue)"]
+    SIDEBAR --> G3["🌍 Planetary, Species & Factions (Emerald)"]
+    SIDEBAR --> G4["✨ Metaphysics (Purple)"]
+    SIDEBAR --> G5["⚡ System Suites (Slate)"]
 
-### 4.2 Unified Scaling Codex (`ScalingCodex.jsx`)
-Provides real-time damage, armor DR, and structural conversion across 8 scale tiers:
-`Personal (1x) → Heavy Exo (2x) → Light Vehicle (5x) → Medium Mecha (10x) → Heavy MBT (20x) → Super Heavy Mech (50x) → Capital Starship (100x) → Planetary (1000x)`.
+    G1 --> ARCH["🏛️ Architecture Blueprint Matrix"]
+    G1 --> ARMOR["🛡️ Armor Coverage Matrix"]
+    G1 --> AUG["🧬 Augmentations & FBC Matrix"]
+    G1 --> EQUIP["🎒 Equipment & Workshop Matrix"]
+    G1 --> MECHA["🤖 Mecha & Vehicle Matrix"]
+    G1 --> WEAP["⚔️ Weapon Mod Stacker Matrix"]
 
-### 4.3 Multi-Dataset Codex Ingestion Engine & Prompt Registry
-- **Codex Ingestion Engine (`CodexIngestionEngine.jsx`)**: Tool for importing and consolidating external markdown matrices, rules volumes, and JSON datasets directly into active game memory and Firestore.
-- **Prompt Registry (`codexPromptRegistry.js`)**: Standardized system prompts for AI Architect generation, scenario drafting, and procedural NPC dialogue.
+    G2 --> NPC["👤 Modular NPC Stat Block Matrix"]
+    G2 --> FEAT["🌟 Features & Perks Matrix"]
+
+    G3 --> SPEC["🧬 Species Forge Matrix"]
+    G3 --> PLAN["🪐 Planetary Design Matrix"]
+    G3 --> FACT["🚩 Factions & Polities Matrix"]
+
+    G4 --> INVOC["⚡ Invocation Matrix"]
+    G4 --> META["🔮 Meta-Tech Matrix"]
+
+    G5 --> ECON["💰 Economatrix Dashboard"]
+    G5 --> TECH["🔬 Technology & Domain Codex"]
+    G5 --> SCALE["📐 Scaling Codex & Combat Matchups"]
+    G5 --> INGEST["📥 Codex Data Ingestion Engine"]
+```
+
+---
+
+### 4.1 The 5 Canonical Sidebar Suites & 17 Matrices
+
+The Codex navigation organizes all game content into five thematic suites:
+
+#### 1. Hardware & Structures (`#f59e0b` Amber Theme)
+- **Architecture Blueprint Configurator (`ArchitectureBlueprintConfigurator.jsx`)**:
+  - **Scale & Footprints**: From Outpost Sheds (1 Module) to Spire Megastructures (800+ Modules).
+  - **10:1 UDU Conversion**: Converts unspent building modules into tactical mount hardpoints (`1 Module = 10 Mounts`).
+  - **Highest Complexity Rule**: If any installed facility, weapon turret, or generator exceeds the baseline building DC, the final construction DC elevates to match the highest system.
+  - **Workforce Productivity Engine (PP)**: Calculates cooperative construction timelines based on crew size, average skill check, and tool tier.
+  - **Liquidity Gap Analysis**: Derives real-time credit shortfall against buyer Wealth Score (WS).
+- **Armor Coverage Matrix (`ArmorCoverageSelector.jsx`)**:
+  - **7 Hit-Location Slots**: Head, Torso, Left/Right Arm, Left/Right Leg, and Full Suit coverage.
+  - **Dynamic Layering & DR**: Computes composite Damage Resistance (DR), Maximum Dexterity cap, and movement penalties.
+  - **UDU Socket Displacement**: Evaluates hardware socket budgets across armor plating.
+- **Augmentation Nodes Matrix (`AugmentationNodeConfigurator.jsx`)**:
+  - **Node Locations**: Cranial, Ocular, Thoracic, Brachial, Neural, and Dermal node installations.
+  - **Full Body Conversion (FBC)**: Complete synthetic chassis conversion packages with fixed credit valuations.
+  - **Stigma Stepper**: Applies social/medical stigma penalties (`-1 per 5 nodes installed`).
+- **Equipment & Workshop Matrix (`EquipmentCategoryConfigurator.jsx`)**:
+  - **Size Tiers**: Fine (<0.1 kg, 2 Nodes) to Structure (>10 Tons, 1 Module).
+  - **Workshop Scales**: Belt Pouch (+0) to Industrial Campus (+8 Check).
+  - **Processor Ratings (PR 0–4)**: Terminal (PR 0) to Singularity Deck (PR 4).
+  - **Environmental Hazard Protection (EPR 0–3)**: Standard to Vacuum/Toxic radiation sealing.
+- **Mecha & Vehicle Matrix (`MechaChassisConfigurator.jsx`)**:
+  - **Chassis Frames**: Humanoid, Quadruped, Tracked, Hover, Submersible, and Aerospace.
+  - **Mount Hardpoints**: Heavy weapon bays, energy shielding, and variable flight thrusters (VFT).
+  - **Megacredit Scaling**: Automated conversion into Megacredits (`M$ = Credits / 1,000,000`) for military-grade warmachines.
+- **Weapon Mod Stacker (`WeaponModStacker.jsx`)**:
+  - **Mod Stacking**: Optics, barrel extensions, recoil compensators, and exotic energy coils.
+  - **Capacity Upgrades & Downgrades**: Overcharging, extended magazines, or stripped-down frames.
+  - **Manufacturer Skins**: Weapon finishes and corporate aesthetic brands.
+
+#### 2. Characters & Companions (`#3b82f6` Blue Theme)
+- **Modular NPC Stat Block Matrix (`ModularStatBlockConfigurator.jsx`)**:
+  - **Threat Tiers 1–20**: Narrative ranks from Recruit to Transcendent Avatar.
+  - **Competency Roles**: Minion, Skirmisher, Bruiser, Sniper, Elite, and Boss.
+  - **Tactical Behaviors**: Automated behavioral AI routines (Swarm, Flank, Suppress, Protect).
+  - **Vitals Derivation**: Automatically calculates Vitality, Health, Structure, Defense DC, and Expected DR.
+- **Features & Perks Matrix**: Canonical master library of general perks, martial features, and racial traits.
+
+#### 3. Planetary, Species & Factions (`#10b981` Emerald Theme)
+- **Species Forge Matrix (`SpeciesTraitSelector.jsx`)**:
+  - **150 BP Economy**: Full point budget validation (Standard 0 BP, Advanced 10 BP, Monster 20+ BP).
+  - **Movement Modes**: Ground, Burrowing, Aquatic, Gliding, and Flight.
+  - **Genetic Crafting DC**: Derives biotechnology synthesis DC and gestation duration.
+  - **Disadvantage Point Rebates**: Automatic point rebate calculations.
+- **Planetary Design Matrix (`PlanetaryDesignConfigurator.jsx`)**:
+  - **Universal World Profile (UWP/TWP)**: Procedural generation of Starport, Size, Atmosphere, Hydrographics, Population, Government, and Law levels.
+  - **16-Domain Civilization Radar**: Visual polygon radar plotting governance, cybernetics, metaphysics, and infrastructure.
+  - **Trade Code Derivation**: Automated tagging of Agricultural (`Ag`), Industrial (`In`), Rich (`Ri`), Desert (`De`), and High-Tech (`Ht`) worlds.
+  - **Speculative Commodity Exchange**: Supply/demand price shifts for raw ores, cybernetics, narcotics, and antimatter.
+- **Factions & Polities Matrix**: Comprehensive catalog across 26 canonical attributes (sigils, economic models, naval doctrines, and gear aesthetics).
+
+#### 4. Metaphysics (`#a855f7` Purple Theme)
+- **Invocation Matrix (`InvocationParameterConfigurator.jsx`)**:
+  - **6 Metaphysical Disciplines**: Telekinesis, Telepathy, Pyrokinesis, Chronomancy, Biokinesis, and Voidcraft.
+  - **Parameter Scaling**: Cast DC, Essence channeling cost, Area-of-Effect templates, and Duration multipliers.
+- **Meta-Tech Matrix (`MetaTechImbuementConfigurator.jsx`)**:
+  - **Resonance & Imbuement**: Metamaterial bonding, artifact crafting formulas, and passive effect imbuements.
+  - **Host Chassis Sockets**: Weapon, Armor, Cyberware, and Architecture resonance slots.
+
+#### 5. System Suites (`#94a3b8` Slate Theme)
+- **Economatrix Dashboard (`EconomatrixDashboard.jsx`)**:
+  - **TSC Curve Explorer**: Live calculation of Tangent Standard Curve (`V = 10 * 4^(DC / 5)`).
+  - **7-Tier Crafting Timetable**: Fabrication days across Improvised (1x) to Megafabricator (1000x).
+  - **Speculative Trade Route Calculator**: Profit margin pipeline between source and destination trade codes.
+  - **Financial Status Lookup**: Wealth Score tiers (WS 0–999) and Auto-Buy purchasing limits.
+- **Technology & Domain Codex (`TechnologyCodex.jsx`)**:
+  - **TL 0–5 Domain Grid**: Primitive to Transcendent civilization matrix across 16 domains.
+  - **Adaptive Tech Reconfiguration**: Dynamic switching times from Nanotech (Minutes) to Holophotonics (Instant).
+  - **Synthetic Intelligence Continuum**: Sub-AI Automation to Self-Aware Metaminds.
+- **Scaling Codex (`ScalingCodex.jsx`)**:
+  - **14 Size Categories**: Fine (0.01x) to Cosmic/Planetary (100,000x).
+  - **Die-Stepping Ladder**: Step degradation from `-1ds` to `-5ds`.
+  - **Fluid Combat Matchups**: Cross-scale hit modifiers, damage dice multipliers, and starship overblast.
+- **Codex Ingestion Engine (`CodexIngestionEngine.jsx`)**:
+  - **Universal Intake Matrix**: Multi-modal BASTION AI, Direct JSON array, and Universal Delimiter Tabular parser.
+
+---
+
+### 4.2 The 6 Core Calculation Engines
+
+All calculations are executed by pure, deterministic engine modules:
+
+| Engine | Source File | Core Formulas & Responsibilities |
+| :--- | :--- | :--- |
+| **Economatrix Engine** | [`tangentEconEngine.js`](file:///d:/_%20Data/Tangent%20SF%20RP/TANGENT%20SF%20RP%20react%20project/src/engines/tangentEconEngine.js) | TSC Value `V = 10 * 4^(DC/5)`, Material Cost (50%), Crafting PP, Cooperative Crafting Days, Liquidity Gap, Speculative Trade Margins, Resale Fencing. |
+| **UDU Engine** | [`tangentUDUEngine.js`](file:///d:/_%20Data/Tangent%20SF%20RP/TANGENT%20SF%20RP%20react%20project/src/engines/tangentUDUEngine.js) | Unified Difficulty Units, 10:1 UDU tier conversion (`Module → Mount → Socket → Node → Sub-Node`), Encounter Hazard Ratings. |
+| **Technology Engine** | [`tangentTechEngine.js`](file:///d:/_%20Data/Tangent%20SF%20RP/TANGENT%20SF%20RP%20react%20project/src/engines/tangentTechEngine.js) | Tech Level (TL0–TL5) progression, Domain rating evaluation, Adaptive tech reconfiguration action economy, Field rarity cost multipliers. |
+| **Complex Systems Engine** | [`tangentComplexEngines.js`](file:///d:/_%20Data/Tangent%20SF%20RP/TANGENT%20SF%20RP%20react%20project/src/engines/tangentComplexEngines.js) | Architecture SP, Module allocations, 20% Mobile chassis tax, Mount hardpoints, Highest Complexity Rule (DC stacking), Mecha Chassis Defense DC & megacredits. |
+| **Entity Engine** | [`tangentEntityEngines.js`](file:///d:/_%20Data/Tangent%20SF%20RP/TANGENT%20SF%20RP%20react%20project/src/engines/tangentEntityEngines.js) | Modular Character vital pools (Vitality, Health, Structure), Threat Tier scaling, Competency role matrix, Species BP budget & genetic DC. |
+| **Planetary Engine** | [`tangentPlanetaryEngine.js`](file:///d:/_%20Data/Tangent%20SF%20RP/TANGENT%20SF%20RP%20react%20project/src/engines/tangentPlanetaryEngine.js) | UWP/TWP string parser/formatter, Gravity & Atmosphere profiles, Canonical Trade Code derivation, Market availability cap `(TL * 5) + 10`. |
+
+---
+
+### 4.3 Data Ingestion Engine & Revision Workbench
+
+The **Codex Ingestion Engine (`/codex?matrix=ingestion-engine`)** is the enterprise data pipeline that imports, parses, validates, and stages content for all 14 canonical Omnicortex collections.
+
+#### 1. Intake Modes
+1. **BASTION AI Studio**:
+   - Multimodal extraction from uploaded rulebook PDFs, TXT, and Markdown files.
+   - **Large Document Section Chunking**: Automatically segments files >10,000 characters along markdown headers and paragraph boundaries, reporting real-time synthesis progress (`Synthesizing Section X of Y...`).
+2. **Direct JSON Array**:
+   - Paste or upload raw JSON arrays matching the canonical schema.
+3. **Universal Delimiter Tabular Parser**:
+   - **Delimiter Auto-Detection**: Supports Markdown Pipe Tables (`|`), Tab-Separated Values (`\t` from Excel / Google Sheets), RFC 4180 quotation-aware CSV (`,`), and Semicolon (`;`) tables.
+   - **Header Normalization Aliases**: Resolves non-standard column headers (e.g. `tl`, `craftdc`, `credits`, `sp`, `dr`, `desc`) to canonical database keys.
+   - **Tabular File Dropzone**: Drag-and-drop selector accepting `.csv`, `.tsv`, and `.txt` files directly.
+
+#### 2. Staged Ingestion Workbench & Side-by-Side Diff Inspector
+- **Card Preview Ledger**: Displays staged entries with live validation badges, syntax warnings, and Folio health status.
+- **Side-by-Side Diff Inspector Modal**:
+  - Compares incoming records against existing database items by ID or Name.
+  - Highlights modified fields in **Amber**, newly added fields in **Emerald**, and unchanged fields in **Slate**.
+  - One-click transition into the In-Place Revision Workbench.
+- **In-Place Revision Workbench**: Edit fields, JSON keys, and validation parameters directly before committing.
+- **Conflict Handling Strategies**:
+  - `Merge`: Combines existing document fields with staged modifications while preserving Firestore document IDs.
+  - `Overwrite`: Replaces the entire existing record.
+  - `Skip`: Bypasses conflicting document IDs.
+- **Math & LaTeX Sanitization Engine**: Strips LaTeX `$`/`$$` delimiters and unescaped markdown to ensure 100% compatibility with the DBM compendium and Persona Folio sheets.
 
 ---
 

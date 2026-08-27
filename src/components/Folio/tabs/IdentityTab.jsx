@@ -1567,38 +1567,16 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
             placeholder="Personal goals, flaws, motivations, quirks..."
           />
 
-          {/* Creator & Contributors Identification */}
+          {/* Owner Handle Identification */}
           {(() => {
             const creatorInfo = extractCreatorInfo(characterData, typeof window !== 'undefined' ? localStorage.getItem('userHandle') : '');
+            const ownerHandle = creatorInfo.creatorTag || (typeof window !== 'undefined' ? localStorage.getItem('userHandle') : '') || 'Local Operative';
             return (
-              <div className="space-y-1.5 pt-1">
-                <label className="block text-xs font-bold uppercase tracking-wider text-cyan-400">
-                  Creator &amp; Contributor Identification
-                </label>
-                <div className="w-full bg-slate-900 border border-slate-700/80 rounded-lg p-2.5 flex flex-col gap-2">
-                  <div className="flex items-center justify-between flex-wrap gap-2">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Creator:</span>
-                      <span className="px-2.5 py-0.5 bg-cyan-950/90 border border-cyan-500/50 text-cyan-300 rounded-md text-xs font-mono font-bold flex items-center gap-1 shadow-sm">
-                        <span>🏷️</span>
-                        <span>{creatorInfo.creatorTag}</span>
-                      </span>
-                    </div>
-                    <span className="text-[10px] text-slate-500 font-mono italic">
-                      (Auto-populated from Settings)
-                    </span>
-                  </div>
-                  {creatorInfo.contributorTags && creatorInfo.contributorTags.length > 0 && (
-                    <div className="flex items-center gap-2 flex-wrap pt-1 border-t border-slate-800/80">
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Contributors:</span>
-                      {creatorInfo.contributorTags.map((contrib, idx) => (
-                        <span key={idx} className="px-2 py-0.5 bg-amber-950/80 border border-amber-500/40 text-amber-300 rounded-md text-[11px] font-mono font-bold">
-                          {contrib}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
+              <div className="pt-3 pb-1 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Owner Handle:</span>
+                <span className="px-2.5 py-1 bg-slate-900 border border-slate-700/80 text-cyan-300 rounded text-xs font-mono font-bold">
+                  @{ownerHandle.replace(/^@/, '')}
+                </span>
               </div>
             );
           })()}

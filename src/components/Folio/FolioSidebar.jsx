@@ -31,9 +31,10 @@ const NAVIGATION_ITEMS = [
     label: 'Features', 
     icon: Sparkles,
     children: [
-      { id: 'features-augmentations', label: 'Augmentations', icon: Cpu, actionType: 'augmentations' },
-      { id: 'features-metaphysics', label: 'Metaphysics', icon: Zap, actionType: 'metaphysics' },
-      { id: 'features-hindrances', label: 'Hindrances', icon: AlertTriangle, actionType: 'hindrances' }
+      { id: 'features-standard', label: 'Standard Features', icon: Sparkles, section: 'features' },
+      { id: 'features-metaphysics', label: 'Metaphysics / Awakened', icon: Zap, section: 'metaphysics' },
+      { id: 'features-augmentations', label: 'Augmentations', icon: Cpu, section: 'augmentations' },
+      { id: 'features-hindrances', label: 'Hindrances', icon: AlertTriangle, section: 'hindrances' }
     ]
   },
   { id: 'combat', label: 'Combat', icon: Crosshair },
@@ -81,6 +82,8 @@ export const FolioSidebar = ({
 
     if (item.id === 'property') {
       setActiveTab('property-gear');
+    } else if (item.id === 'features') {
+      setActiveTab('features-standard');
     } else {
       setActiveTab(item.id);
     }
@@ -88,32 +91,6 @@ export const FolioSidebar = ({
 
   const handleSelectChild = (child, parentId) => {
     AudioService.playTerminalBeep(1300, 0.02);
-
-    if (child.actionType === 'augmentations') {
-      if (onOpenAugmentationsCatalog) {
-        onOpenAugmentationsCatalog();
-      } else {
-        setActiveTab('features-augmentations');
-      }
-      return;
-    }
-
-    if (child.actionType === 'metaphysics') {
-      if (onOpenMetaphysicsModal) {
-        onOpenMetaphysicsModal();
-      } else {
-        setActiveTab('features-metaphysics');
-      }
-      return;
-    }
-
-    // Hindrances navigation
-    if (child.actionType === 'hindrances') {
-      setActiveTab('features-hindrances');
-      return;
-    }
-
-    // Property children
     setActiveTab(child.id);
   };
 

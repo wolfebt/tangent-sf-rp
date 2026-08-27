@@ -115,19 +115,24 @@ export function calculateAllCraftingTiers(creditValue, skillCheck = 20) {
  * Calculate the liquidity gap between an item's DC and a character's Wealth Score.
  * @param {number} itemDC - Item complexity DC
  * @param {number} playerWS - Player character's Wealth Score
- * @returns {number} Credit gap required to finance the purchase
+ * @returns {{ itemDC: number, playerWS: number, itemValue: number, playerWSValue: number, liquidGapCost: number, liquidCost: number, autoBuy: boolean, isAutoBuy: boolean }}
  */
 export function calculateLiquidityGap(itemDC, playerWS) {
-  const itemVal = calculateCreditValue(itemDC);
-  const wsStatus = getFinancialStatus(playerWS);
-  const autoBuyLimit = wsStatus && wsStatus.autoBuyCr !== undefined ? wsStatus.autoBuyCr : calculateCreditValue(playerWS);
+  const dc = Number(itemDC) || 0;
+  const ws = Number(playerWS) || 0;
+  const itemVal = calculateCreditValue(dc);
+  const wsStatus = getFinancialStatus(ws);
+  const autoBuyLimit = wsStatus && wsStatus.autoBuyCr !== undefined ? wsStatus.autoBuyCr : calculateCreditValue(ws);
   const gap = Math.max(0, itemVal - autoBuyLimit);
   return {
-    itemDC,
-    playerWS,
+    itemDC: dc,
+    playerWS: ws,
     itemValue: itemVal,
     playerWSValue: autoBuyLimit,
-    liquidGapCost: gap
+    liquidGapCost: gap,
+    liquidCost: gap,
+    autoBuy: gap === 0,
+    isAutoBuy: gap === 0
   };
 }
 

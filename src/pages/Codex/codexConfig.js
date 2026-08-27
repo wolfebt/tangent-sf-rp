@@ -14,7 +14,9 @@ import {
   TrendingUp,
   Boxes,
   Database,
-  Maximize2
+  Maximize2,
+  Award,
+  Flag
 } from 'lucide-react';
 
 /**
@@ -654,7 +656,6 @@ export const CODEX_MATRICES = [
     theme: 'blue',
     targetCollection: 'modular_characters',
     ingestionKey: 'other',
-    altCollection: 'features',
     description: 'Assemble NPC archetypes, tactical adversary templates, security squads, mercenary bosses, and synth droids.',
     category: 'NPCs & Operative Templates',
     badge: 'Archetype Matrix',
@@ -703,6 +704,57 @@ export const CODEX_MATRICES = [
       { name: 'Cyber-Yakuza Enforcer', prompt: 'Heavy augmented street muscle with dermal plating, sub-dermal blades, and shotgun.' },
       { name: 'Corpo Black-Ops Assassin', prompt: 'Silent operative equipped with thermal cloak, silenced needle pistol, and monomolecular garrote.' },
       { name: 'Renegade Psi-Warmaster', prompt: 'Dangerous psychic commander who bends enemy minds while leading an automated drone squad.' }
+    ]
+  },
+  {
+    id: 'features',
+    name: 'FEATURES',
+    label: 'Features & Talents Matrix',
+    icon: Award,
+    color: '#38bdf8', // Sky Blue
+    theme: 'sky',
+    targetCollection: 'features',
+    ingestionKey: 'features',
+    description: 'Design character features, special combat abilities, biological traits, karma perks, and exotic talents.',
+    category: 'Character Traits & Talents',
+    badge: 'Features Matrix',
+    defaultValues: {
+      name: '',
+      type: 'ability',
+      cp: 2,
+      tech_level: 0,
+      tl: 0,
+      meta_level: 0,
+      ml: 0,
+      craft_dc: 15,
+      prerequisite: [],
+      modifiers: [],
+      costs: {},
+      multi: false,
+      staged: false,
+      description: '',
+      mechanic: '',
+      note: ''
+    },
+    fields: [
+      { name: 'name', label: 'Feature / Talent Name', type: 'text', required: true, placeholder: 'E.g., Void Acclimation' },
+      { name: 'type', label: 'Feature Category / Classification', type: 'select', options: ['ability', 'combat', 'meta', 'general', 'karma', 'skill', 'exotic', 'Special Ability'] },
+      { name: 'cp', label: 'Character Point (CP) Cost', type: 'number', min: -50, max: 100 },
+      { name: 'tech_level', label: 'Tech Level (TL 0-5)', type: 'number', min: 0, max: 5 },
+      { name: 'meta_level', label: 'Meta Level (ML 0-5)', type: 'number', min: 0, max: 5 },
+      { name: 'craft_dc', label: 'Complexity / Acclimation DC', type: 'number', min: 0, max: 80, triggers: ['credit_value', 'material_cost', 'ws_threshold', 'complexity_tier', 'crafting_time'] },
+      { name: 'multi', label: 'Multi-Rank / Repeatable', type: 'boolean' },
+      { name: 'staged', label: 'Staged Scaling Feature', type: 'boolean' },
+      { name: 'description', label: 'Description & Lore', type: 'textarea', aiEnabled: true },
+      { name: 'mechanic', label: 'Rules & Mechanical Effects', type: 'textarea' },
+      { name: 'note', label: 'Architect Notes', type: 'textarea' }
+    ],
+    computedOutputs: DEFAULT_COMPUTED_OUTPUTS,
+    computeOnSave: createStandardComputeOnSave('Socket', 1),
+    archetypes: [
+      { name: 'Combat Reflexes', prompt: 'Lightning-fast instincts allowing instant reaction to ambushes and bonus defensive positioning.' },
+      { name: 'Void-Born Metabolism', prompt: 'Physiological adaptation granting resistance to decompression, radiation, and low-gravity disorientation.' },
+      { name: 'Cybernetic Neural Affinity', prompt: 'Inherent high tolerance for neural augmentations, reducing cyber-strain and increasing overclock capacity.' }
     ]
   },
   {
@@ -928,9 +980,9 @@ export const CODEX_MATRICES = [
     id: 'factions',
     name: 'FACTIONS',
     label: 'Faction Framework',
-    icon: Users,
-    color: '#3b82f6', // Blue
-    theme: 'blue',
+    icon: Flag,
+    color: '#10b981', // Emerald / Green
+    theme: 'emerald',
     targetCollection: 'factions',
     ingestionKey: 'factions',
     description: 'Design comprehensive sociological, economic, and military factions to populate the universe.',
@@ -1076,8 +1128,8 @@ export const CODEX_MATRICES = [
 ];
 
 export const HARDWARE_MATRIX_IDS = ['architecture', 'armor', 'augmentations', 'equipment', 'mecha', 'weaponry'];
-export const CHARACTER_MATRIX_IDS = ['modular-characters', 'companion'];
-export const PLANETARY_SPECIES_MATRIX_IDS = ['planetary-design', 'species'];
+export const CHARACTER_MATRIX_IDS = ['modular-characters', 'features'];
+export const PLANETARY_SPECIES_MATRIX_IDS = ['planetary-design', 'species', 'factions'];
 export const META_MATRIX_IDS = ['invocation', 'meta-tech'];
 export const SYSTEM_MATRIX_IDS = ['scaling', 'economatrix', 'technology'];
 
