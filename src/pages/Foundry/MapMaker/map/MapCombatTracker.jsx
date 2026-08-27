@@ -4,6 +4,17 @@ import { useFolio } from '../../../../context/FolioContext';
 import { AudioService } from '../../../../services/audioService';
 import KarmaCodexModal from '../../../../components/Folio/modals/KarmaCodexModal';
 import ExperienceCodexModal from '../../../../components/Folio/modals/ExperienceCodexModal';
+import CombatResolutionModal from './CombatResolutionModal';
+import MapActionEconomyDrawer from './MapActionEconomyDrawer';
+import StarshipBridgeModal from './StarshipBridgeModal';
+import EncounterTensionWidget from '../../../../components/StoryFoundry/EncounterTensionWidget';
+import SessionRecapModal from '../../../../components/StoryFoundry/SessionRecapModal';
+import RulebookAssistantModal from '../../../../components/RulesAssistant/RulebookAssistantModal';
+import PassivePerceptionRadarModal from '../../../../components/RulesAssistant/PassivePerceptionRadarModal';
+import ProgressionKarmaLedgerModal from '../../../../components/RulesAssistant/ProgressionKarmaLedgerModal';
+import UduFacilityGeneratorModal from '../../../../components/StoryFoundry/UduFacilityGeneratorModal';
+import EconomatrixLootGeneratorModal from '../../../../components/StoryFoundry/EconomatrixLootGeneratorModal';
+import FactionClocksModal from '../../../../components/StoryFoundry/FactionClocksModal';
 
 const MapCombatTracker = ({
   tokens = [],
@@ -44,6 +55,16 @@ const MapCombatTracker = ({
   const [activeKarmaActionTokenId, setActiveKarmaActionTokenId] = useState(null);
   const [showKarmaRulesModal, setShowKarmaRulesModal] = useState(false);
   const [showExperienceRulesModal, setShowExperienceRulesModal] = useState(false);
+  const [showCombatResolver, setShowCombatResolver] = useState(false);
+  const [resolverAttackerId, setResolverAttackerId] = useState(null);
+  const [showStarshipBridge, setShowStarshipBridge] = useState(false);
+  const [showRecapModal, setShowRecapModal] = useState(false);
+  const [showRulebookModal, setShowRulebookModal] = useState(false);
+  const [showPerceptionRadar, setShowPerceptionRadar] = useState(false);
+  const [showProgressionLedger, setShowProgressionLedger] = useState(false);
+  const [showFacilityGen, setShowFacilityGen] = useState(false);
+  const [showLootGen, setShowLootGen] = useState(false);
+  const [showFactionClocks, setShowFactionClocks] = useState(false);
 
   if (!showTracker) return null;
 
@@ -58,6 +79,13 @@ const MapCombatTracker = ({
 
   const handleApplyHealthChange = (token, amount, isDamage = true) => {
     const numAmount = Math.max(1, parseInt(amount, 10) || 1);
+
+    // Synthetic rule: Synthetics route all lethal damage to Structure
+    if (token.isSynthetic || Boolean(token.structure)) {
+      handleApplyStructureChange(token, numAmount, isDamage);
+      return;
+    }
+
     const health = token.health || token.hp || { current: 30, max: 30 };
     const currentHealth = health.current !== undefined ? health.current : 30;
     const maxHealth = health.max || 30;
@@ -214,6 +242,18 @@ const MapCombatTracker = ({
 
   const handleApplyVitalityChange = (token, amount, isDamage = true) => {
     const numAmount = Math.max(1, parseInt(amount, 10) || 1);
+
+    // Synthetic rule: Synthetics are IMMUNE to non-lethal fatigue, environmental stress & subdual damage!
+    if (isDamage && (token.isSynthetic || Boolean(token.structure))) {
+      AudioService.playTerminalBeep(440, 0.08);
+      if (onTriggerFloatingText) {
+        const screenX = (token.x || 0) * scale + position.x;
+        const screenY = (token.y || 0) * scale + position.y;
+        onTriggerFloatingText(screenX, screenY, `🤖 SYNTHETIC IMMUNE (NON-LETHAL)`, 'miss');
+      }
+      return;
+    }
+
     const vitality = token.vitality || { current: 30, max: 30 };
     const currentVitality = vitality.current !== undefined ? vitality.current : 30;
     const maxVitality = vitality.max || 30;
@@ -534,6 +574,22 @@ const MapCombatTracker = ({
     setShowPartyAwardsModal(false);
   };
 
+  const handleApplyDamageFromResolver = (targetTokenId, payload = {}) => {
+    const target = sortedTokens.find(t => t.id === targetTokenId);
+    if (!target) return;
+
+    if (payload.structureDamage > 0) {
+      handleApplyStructureChange(target, payload.structureDamage, true);
+    } else {
+      if (payload.vitalityDamage > 0) {
+        handleApplyVitalityChange(target, payload.vitalityDamage, true);
+      }
+      if (payload.healthDamage > 0) {
+        handleApplyHealthChange(target, payload.healthDamage, true);
+      }
+    }
+  };
+
   return (
     <DraggablePanel
       id="combat_tracker"
@@ -550,11 +606,39 @@ const MapCombatTracker = ({
         <div className="flex items-center gap-1">
           <button
             type="button"
+            onClick={() => {
+              setResolverAttackerId(activeTurnTokenId || (sortedTokens[0]?.id ?? null));
+              setShowCombatResolver(true);
+            }}
+            disabled={sortedTokens.length === 0}
+            className="px-2 py-0.5 bg-amber-950/90 hover:bg-amber-900 text-amber-300 border border-amber-500/60 font-bold text-[10px] rounded uppercase transition-colors flex items-center gap-1 cursor-pointer disabled:opacity-50"
+            title="Open Strike & Tactical Combat Resolution Pipeline"
+          >
+            <span>⚔️</span> Strike
+          </button>
+          <button
+            type="button"
+            onClick={() => setShowStarshipBridge(true)}
+            className="px-2 py-0.5 bg-purple-950/90 hover:bg-purple-900 text-purple-300 border border-purple-500/50 font-bold text-[10px] rounded uppercase transition-colors flex items-center gap-1 cursor-pointer"
+            title="Open Starship & Vehicle Subsystem Bridge"
+          >
+            <span>🚀</span> Bridge
+          </button>
+          <button
+            type="button"
             onClick={() => setShowPartyAwardsModal(true)}
             className="px-2 py-0.5 bg-cyan-950/90 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 font-bold text-[10px] rounded uppercase transition-colors flex items-center gap-1 cursor-pointer"
             title="Open GM Party Awards (Karma & Experience)"
           >
             <span>🎁</span> Awards
+          </button>
+          <button
+            type="button"
+            onClick={() => setShowRecapModal(true)}
+            className="px-2 py-0.5 bg-emerald-950/90 hover:bg-emerald-900 text-emerald-300 border border-emerald-500/50 font-bold text-[10px] rounded uppercase transition-colors flex items-center gap-1 cursor-pointer"
+            title="Open Mission Debrief & Episodic Recap Synthesizer"
+          >
+            <span>📜</span> Recap
           </button>
           <button
             onClick={handleAdvanceTurn}
@@ -573,6 +657,66 @@ const MapCombatTracker = ({
           </button>
         </div>
       </div>
+
+      {/* 4-Pillar Rules, Co-GM & Content Forge Quick Ribbon */}
+      <div className="flex items-center justify-between gap-1 pt-0.5 pb-1 border-b border-slate-800/80 text-[8.5px] font-mono">
+        <button
+          type="button"
+          onClick={() => setShowRulebookModal(true)}
+          className="flex-1 py-0.5 bg-indigo-950/80 hover:bg-indigo-900 text-indigo-300 border border-indigo-700/60 rounded flex items-center justify-center gap-0.5 font-bold cursor-pointer transition-colors"
+          title="Open Semantic Rulebook Assistant (/askrule across 44 books)"
+        >
+          <span>📖</span> /askrule
+        </button>
+        <button
+          type="button"
+          onClick={() => setShowPerceptionRadar(true)}
+          className="flex-1 py-0.5 bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-700/60 rounded flex items-center justify-center gap-0.5 font-bold cursor-pointer transition-colors"
+          title="Open Passive Perception & Secret GM Radar"
+        >
+          <span>👁️</span> Radar
+        </button>
+        <button
+          type="button"
+          onClick={() => setShowProgressionLedger(true)}
+          className="flex-1 py-0.5 bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border border-emerald-700/60 rounded flex items-center justify-center gap-0.5 font-bold cursor-pointer transition-colors"
+          title="Open Party AP Progression & Karma Master Ledger"
+        >
+          <span>🌟</span> AP
+        </button>
+        <button
+          type="button"
+          onClick={() => setShowFacilityGen(true)}
+          className="flex-1 py-0.5 bg-amber-950/80 hover:bg-amber-900 text-amber-300 border border-amber-700/60 rounded flex items-center justify-center gap-0.5 font-bold cursor-pointer transition-colors"
+          title="Open 1-Click UDU Facility & Dungeon Generator"
+        >
+          <span>🏗️</span> UDU
+        </button>
+        <button
+          type="button"
+          onClick={() => setShowLootGen(true)}
+          className="flex-1 py-0.5 bg-orange-950/80 hover:bg-orange-900 text-orange-300 border border-orange-700/60 rounded flex items-center justify-center gap-0.5 font-bold cursor-pointer transition-colors"
+          title="Open Economatrix TSC Loot & Salvage Generator"
+        >
+          <span>💰</span> Loot
+        </button>
+        <button
+          type="button"
+          onClick={() => setShowFactionClocks(true)}
+          className="flex-1 py-0.5 bg-purple-950/80 hover:bg-purple-900 text-purple-300 border border-purple-700/60 rounded flex items-center justify-center gap-0.5 font-bold cursor-pointer transition-colors"
+          title="Open Living World Faction Clocks & Agendas"
+        >
+          <span>🌐</span> Clocks
+        </button>
+      </div>
+
+      {/* Pair GM: Real-Time Encounter Tension & Complication Director */}
+      <EncounterTensionWidget
+        tokens={sortedTokens}
+        onTriggerFloatingText={onTriggerFloatingText}
+        scale={scale}
+        position={position}
+      />
 
       {/* Token / Combatant List */}
       <div className="flex flex-col gap-2 max-h-[380px] overflow-y-auto pr-1">
@@ -652,6 +796,20 @@ const MapCombatTracker = ({
 
                   {/* Conditions & Defense Badges */}
                   <div className="flex items-center gap-1 shrink-0">
+                    {!isDead && (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setResolverAttackerId(token.id);
+                          setShowCombatResolver(true);
+                        }}
+                        className="px-1.5 py-0.5 bg-amber-950/90 hover:bg-amber-800 text-amber-300 border border-amber-500/60 rounded text-[8px] font-bold uppercase transition-colors cursor-pointer flex items-center gap-0.5"
+                        title={`Initiate Strike / Attack with ${token.label}`}
+                      >
+                        <span>⚔️</span> Atk
+                      </button>
+                    )}
                     {token.toughness !== undefined && (
                       <span className="text-[9px] font-mono px-1 bg-emerald-950/80 border border-emerald-700/60 rounded text-emerald-300 font-bold" title="Toughness: Point-for-point wound reduction">
                         🛡️+{token.toughness}
@@ -1070,6 +1228,19 @@ const MapCombatTracker = ({
                         </span>
                       </div>
                     )}
+
+                    {/* Active Turn Unit: Action Economy, Ammo & Essence Deck */}
+                    {isActive && (
+                      <div className="pt-1 border-t border-slate-800/80">
+                        <MapActionEconomyDrawer
+                          token={token}
+                          onUpdateToken={onUpdateToken}
+                          onTriggerFloatingText={onTriggerFloatingText}
+                          scale={scale}
+                          position={position}
+                        />
+                      </div>
+                    )}
                   </>
                 )}
               </div>
@@ -1252,6 +1423,78 @@ const MapCombatTracker = ({
         earnedAP={0}
         availableAP={0}
         experienceDebt={0}
+      />
+
+      {/* VTT Pure Combat Resolution Pipeline Modal */}
+      <CombatResolutionModal
+        isOpen={showCombatResolver}
+        onClose={() => setShowCombatResolver(false)}
+        tokens={sortedTokens}
+        activeTokenId={resolverAttackerId || activeTurnTokenId}
+        personaRoster={personaRoster}
+        characterData={characterData}
+        onApplyDamage={handleApplyDamageFromResolver}
+        onUpdateToken={onUpdateToken}
+        onTriggerFloatingText={onTriggerFloatingText}
+        scale={scale}
+        position={position}
+      />
+
+      {/* Starship & Vehicle Subsystem Bridge Modal */}
+      <StarshipBridgeModal
+        isOpen={showStarshipBridge}
+        onClose={() => setShowStarshipBridge(false)}
+        tokens={sortedTokens}
+        activeTokenId={activeTurnTokenId}
+        onUpdateToken={onUpdateToken}
+        onTriggerFloatingText={onTriggerFloatingText}
+        scale={scale}
+        position={position}
+      />
+
+      {/* Session Event Recap & Debrief Modal */}
+      <SessionRecapModal
+        isOpen={showRecapModal}
+        onClose={() => setShowRecapModal(false)}
+        campaignName="Active Operation"
+      />
+
+      {/* Semantic Rulebook Assistant (/askrule) Modal */}
+      <RulebookAssistantModal
+        isOpen={showRulebookModal}
+        onClose={() => setShowRulebookModal(false)}
+      />
+
+      {/* Passive Perception & Secret GM Radar Modal */}
+      <PassivePerceptionRadarModal
+        isOpen={showPerceptionRadar}
+        onClose={() => setShowPerceptionRadar(false)}
+        tokens={sortedTokens}
+        onTriggerFloatingText={onTriggerFloatingText}
+      />
+
+      {/* Party Progression & Karma Master Ledger Modal */}
+      <ProgressionKarmaLedgerModal
+        isOpen={showProgressionLedger}
+        onClose={() => setShowProgressionLedger(false)}
+      />
+
+      {/* 1-Click UDU Facility & Floorplan Generator Modal */}
+      <UduFacilityGeneratorModal
+        isOpen={showFacilityGen}
+        onClose={() => setShowFacilityGen(false)}
+      />
+
+      {/* Economatrix TSC Loot & Salvage Generator Modal */}
+      <EconomatrixLootGeneratorModal
+        isOpen={showLootGen}
+        onClose={() => setShowLootGen(false)}
+      />
+
+      {/* Living World Faction Clocks & Agendas Modal */}
+      <FactionClocksModal
+        isOpen={showFactionClocks}
+        onClose={() => setShowFactionClocks(false)}
       />
     </DraggablePanel>
   );

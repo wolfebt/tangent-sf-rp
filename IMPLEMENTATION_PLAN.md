@@ -1,143 +1,116 @@
-# Landing Page Refresh, Card Styling & Center Drawer Architecture
-## Comprehensive Implementation Plan & Progress Checklist
+# 🌌 Tangent SFF RP: Comprehensive 4-Pillar Master Implementation Plan & Progress Checklist
+### *Complete RPG Game Engine, Pair Game Master (Co-GM), Real-Time Rules Assistant & Content Co-Creator*
 
 ---
 
-## 📋 Progress Checklist
-
-### Phase 1: Landing Page Transparency & Card Border Upgrades
-- [x] **Page Background**: Set outer page overlay in `Home.jsx` to fully transparent (`bg-transparent` / ultra-subtle tint) so the space wallpaper renders cleanly without heavy dark tint.
-- [x] **Card Default Transparency (80% transparent / 20% opacity)**: Update all Hub cards (`ModuleLauncherCard`, `CampaignOpsWidget`, `GameSquadsWidget`, `CommCenterWidget`, Compendium & Matrices Frame, `LandingDrawerArea`) to use `bg-.../20` (or `rgba(..., 0.2)`).
-- [x] **Card Hover State (20% transparent / 80% opacity)**: Add smooth hover transition on cards to `hover:bg-slate-900/80` (or theme-matched `hover:bg-.../80`).
-- [x] **Card Hover Shadow**: Add dynamic border-highlighting ambient glow on hover (e.g. `hover:shadow-[0_0_24px_rgba(theme_color,0.35)]`).
-- [x] **Static Card Content**: Ensure card borders, badges, text, and icons stay static while background opacity and shadow smoothly transition on hover.
-- [x] **Card Border Thickness**: Upgrade all card borders across the Hub to **`border-2`** (2px thick) with high-contrast theme styling matching Omnicortex and Codex (`border-2 border-[theme]-500/70`).
-
----
-
-### Phase 2: Left Column Navigation Reordering
-- [x] Reorder modules in `Home.jsx` (`renderModuleCards`):
-  1. **Persona Folio** (Hero Builder & Operative Roster)
-  2. **Compendium & Matrices Block** (Omnicortex & Codex inside the framed compendium border)
-  3. **Story Foundry** (Campaigns & World Engine with 4 sub-options: Scenarios, Elements, Maps, AIME)
-- [x] Upgrade the Compendium & Matrices outer frame border to `border-2 border-slate-700/80` with matching transparency and hover effect.
-
----
-
-### Phase 3: Collapsible Left & Right Column Drawers & Full Browser View
-- [x] **Collapsible State**: Add `isLeftCollapsed` and `isRightCollapsed` state hooks to `Home.jsx` (**open by default** on desktop).
-- [x] **Slide-Out & Smooth Transitions**: When a column is collapsed, animate it sliding out of view and display a slim, floating side drawer toggle tab on the screen edge.
-- [x] **Dynamic Center Expansion**: Center View area dynamically stretches from ~60% up to 100% full width when one or both side columns are collapsed.
-- [x] **Full Browser View Controls**: Add a "Full Browser View" action icon/button to the Center Drawer header allowing the user to expand or navigate directly to full-screen standalone views (`/folio`, `/dbm`, `/codex`, `/foundry/...`).
-
----
-
-### Phase 4: Thin Compact "Gem-Like" Vertical Stacked List Displays
-- [x] **Folio Operatives Catalog (`FolioRosterDrawer.jsx`)**:
-  - Replace large multi-row grid cards with sleek, horizontally compact "gem-like" stacked entries.
-  - Display: Operative initial gem, Operative Name, Species & Faction pills, CP / TL summary, and quick action buttons (Open Sheet in Center, Clone, Share, Delete).
-- [x] **Story Scenarios Catalog (`ScenariosDrawer.jsx`)**:
-  - Replace bulky cards with thin compact rows featuring purple gem pill, Scenario Title, Node count, Map count, and Loaded status.
-- [x] **Element Forge Catalog (`ElementsDrawer.jsx`)**:
-  - Replace cards with thin compact rows featuring emerald type gem pill, Element Title, Parent Path, and Edit/Delete actions.
-- [x] **Tactical Battlemaps Catalog (`MapsDrawer.jsx`)**:
-  - Replace cards with thin compact rows featuring cyan map gem pill, Map Name, Dimensions, Object count, Spectator link copy, and Launch VTT button.
-- [x] **AIME Creative Engine Drawer (`AimeDrawer.jsx`)**:
-  - Convert generated idea cards and guidance gems into compact gem-like list rows.
-
----
-
-### Phase 5: Center Drawer Full Modules (Folio, Omnicortex, Codex, Foundry)
-- [x] **Create `OmnicortexDrawer.jsx`**:
-  - Embed full Omnicortex `DBMContainer` inside the Center Drawer with a top control bar (Full Browser View `/dbm`, sidebar toggle, and dismiss button).
-- [x] **Create `CodexDrawer.jsx`**:
-  - Embed full Codex Matrix Suite (`CodexApp`: 14 Matrices, Builder, Synthesizer, Economatrix, Tech Codex) inside the Center Drawer with top control bar (Full Browser View `/codex` and dismiss button).
-- [x] **Create `FolioSheetDrawer.jsx`**:
-  - Embed full interactive `FolioContainer` character sheet editor in the Center Drawer with options to toggle back to the Operative Roster or open full browser `/folio`.
-- [x] **Create `FoundryWorkspaceDrawer.jsx`**:
-  - Embed Foundry sub-tools (Scenarios / `StoryModule`, `ElementForge`, `MapMaker`, `AIME`) directly into the Center Drawer with Full Browser View navigation buttons.
-- [x] **Update `LandingDrawerArea.jsx`**:
-  - Wire all new drawer keys (`omnicortex`, `codex`, `persona-sheet`, `foundry-scenarios-workspace`, `foundry-elements-workspace`, `foundry-maps-workspace`, `foundry-aime-workspace`).
-  - Add standardized center drawer container styling with `border-2 border-slate-800/90`, `bg-slate-900/30 backdrop-blur-md`, and full-width expand controls.
-
----
-
-### Phase 6: Build & Integration Verification
-- [x] Run build test (`npm run build` / Vite build check) to verify zero syntax, bundle, or JSX errors.
-- [x] Verify background transparency and hover animations in the browser.
-- [x] Verify left and right column collapse/expand drawers and full browser view transitions.
-- [x] Verify gem-like compact list layouts across all catalogs.
-- [x] Verify that Persona Folio, Omnicortex, Codex, and Foundry tools launch and function properly inside the Center Drawer.
-
----
-
-## 📐 Detailed Architecture & Design Specifications
-
-### 1. Landing Page Transparency & Card Borders
+## 🧭 Master Architecture & Progress Dashboard
 
 ```
-+----------------------------------------------------------------------------------------------------+
-|  Background: Transparent Space Backdrop (No dark heavy overlay)                                    |
-|                                                                                                    |
-|  +---------------------------+  +---------------------------------------+  +---------------------+  |
-|  | LEFT COLUMN (~20%)        |  | CENTER VIEW AREA (~60% -> 100%)       |  | RIGHT COLUMN (~20%) |  |
-|  | [Collapse Button <]       |  | [Full Browser Option] [Expand < >]    |  | [Collapse Button >] |  |
-|  |                           |  |                                       |  |                     |  |
-|  | 1. PERSONA FOLIO (border-2|  | Active Drawer View:                   |  | CAMPAIGN OPS        |  |
-|  |    bg-20% -> hover:bg-80%)|  | - Gem-like Catalog Lists              |  | (border-2, bg-20%)  |  |
-|  |                           |  | - Embedded Persona Sheet              |  |                     |  |
-|  | 2. COMPENDIUM & MATRICES  |  | - Embedded Omnicortex (DBM)           |  | GAME SQUADS         |  |
-|  |    - OMNICORTEX           |  | - Embedded Codex (14 Matrices)        |  | (border-2, bg-20%)  |  |
-|  |    - CODEX                |  | - Embedded Story Foundry Workspace    |  |                     |  |
-|  |                           |  |                                       |  | COMM CENTER         |  |
-|  | 3. STORY FOUNDRY          |  |                                       |  | (border-2, bg-20%)  |  |
-|  |    - Scenarios            |  |                                       |  |                     |  |
-|  |    - Elements             |  |                                       |  |                     |  |
-|  |    - Maps / VTT           |  |                                       |  |                     |  |
-|  |    - AIME                 |  |                                       |  |                     |  |
-|  +---------------------------+  +---------------------------------------+  +---------------------+  |
-+----------------------------------------------------------------------------------------------------+
++---------------------------------------------------------------------------------------------------------+
+|                                TANGENT SFF RP 4-PILLAR ROADMAP (100% COMPLETE)                         |
++---------------------------------------------------------------------------------------------------------+
+|                                                                                                         |
+|  [PILLAR 1: SIMULATION & COMBAT ENGINE]       [PILLAR 2: PAIR GAME MASTER / CO-GM]                      |
+|  - [x] 1.1 Closed-Loop Combat Resolution       - [x] 2.1 Live Encounter Tension Gauge                   |
+|  - [x] 1.2 Action Economy & Ammo/Essence       - [x] 2.2 Behavioral Adversary AI (Roles & Bosses)       |
+|  - [x] 1.3 Starship & Vehicle Bridge           - [x] 2.3 1-Click Session Auto-Recap Synthesizer         |
+|                                                                                                         |
+|  [PILLAR 3: RULES ASSISTANT & ADJUDICATOR]    [PILLAR 4: CONTENT CO-CREATOR & FORGE]                    |
+|  - [x] 3.1 Semantic Rulebook RAG (/askrule)   - [x] 4.1 1-Click UDU Facility Floorplan Generator       |
+|  - [x] 3.2 Passive Perception & Secret Radar   - [x] 4.2 Economatrix Loot, Salvage & Cargo Drops        |
+|  - [x] 3.3 Advancement & AP/Karma Ledger       - [x] 4.3 Faction Clocks & Living World Simulation       |
+|                                                                                                         |
++---------------------------------------------------------------------------------------------------------+
 ```
-
-### 2. Card Styling Rules
-
-| Element | Default State (Static) | Hover State |
-| :--- | :--- | :--- |
-| **Border** | `border-2 border-[theme]-500/70` | Static (remains `border-2 border-[theme]-500/70`) |
-| **Background** | 80% Transparent (`bg-.../20` / `rgba(..., 0.2)`) | 20% Transparent (`hover:bg-slate-900/80` / `rgba(..., 0.8)`) |
-| **Shadow** | Subtle ambient (`shadow-[0_0_15px_rgba(...,0.1)]`) | High-glow border highlight (`hover:shadow-[0_0_24px_rgba(theme,0.35)]`) |
-| **Content/Text** | Static text, icons, badges | Static text, icons, badges (crisp and readable) |
 
 ---
 
-### 3. Gem-Like Compact List Row Format
-
-```
-+--------------------------------------------------------------------------------------------------+
-| [💎 ICON/AVATAR]  ITEM TITLE / OPERATIVE NAME    [SPECIES/TAG] [FACTION/STATUS]   CP: 150   [ACTION BUTTONS] |
-+--------------------------------------------------------------------------------------------------+
-```
-- **Height**: Compact ~38px - 44px per row.
-- **Visuals**: Distinct neon gem tag/indicator per category, high-density metadata pills, and quick action triggers.
+## 📋 Comprehensive Checklist by Pillar & Stage
 
 ---
 
-## 🛠️ Target Files
+### 🛡️ PILLAR 1: Tactical Resolution & Simulation Engine (✅ Completed)
 
-| Action | File Path |
-| :--- | :--- |
-| **MODIFY** | `src/pages/Home.jsx` |
-| **MODIFY** | `src/components/Hub/ModuleLauncherCard.jsx` |
-| **MODIFY** | `src/components/Hub/CampaignOpsWidget.jsx` |
-| **MODIFY** | `src/components/Hub/GameSquadsWidget.jsx` |
-| **MODIFY** | `src/components/Hub/CommCenterWidget.jsx` |
-| **MODIFY** | `src/components/Hub/LandingDrawerArea.jsx` |
-| **MODIFY** | `src/components/Hub/drawers/FolioRosterDrawer.jsx` |
-| **MODIFY** | `src/components/Hub/drawers/ScenariosDrawer.jsx` |
-| **MODIFY** | `src/components/Hub/drawers/ElementsDrawer.jsx` |
-| **MODIFY** | `src/components/Hub/drawers/MapsDrawer.jsx` |
-| **MODIFY** | `src/components/Hub/drawers/AimeDrawer.jsx` |
-| **NEW** | `src/components/Hub/drawers/OmnicortexDrawer.jsx` |
-| **NEW** | `src/components/Hub/drawers/CodexDrawer.jsx` |
-| **NEW** | `src/components/Hub/drawers/FolioSheetDrawer.jsx` |
-| **NEW** | `src/components/Hub/drawers/FoundryWorkspaceDrawer.jsx` |
+#### ✅ Stage 1.1: Tactical Combat Resolution Modal (`CombatResolutionModal.jsx`)
+- [x] **Attacker & Target Selector**: Interactive dropdown connecting battlemap tokens and linked Folio characters.
+- [x] **2d10 Dual-Resolution Attack Engine**: Rolls `2d10 + Skill + Attribute + Situational + Aim (+2) + Point Blank (+2)` with Advantage/Disadvantage.
+- [x] **Critical Detection**: Double-10s (+30) Critical Triumph and Double-1s (-10) Critical Fumble.
+- [x] **Dynamic Defense DC**: Incorporates Target Base Defense DC + Cover (None +0, Half +2, Full +4) + Evasive Stance (+2 / -2).
+- [x] **Hit Location & Armor DR Soak**: Targeted Shot & Random d100 location determination (Head 1.5x Dmg, Torso, Left/Right Arm, Left/Right Leg) with location DR and Base Toughness (STA) soak.
+- [x] **Canonical Damage Classification & Routing**:
+  - [x] **🔵 Non-Lethal Damage (Vitality)**: Environmental stress, fatigue, subdual strikes, and mental exhaustion.
+  - [x] **🔴 Lethal Damage (Health)**: Cuts, burns, bullet trauma, shrapnel, and penetrating wounds.
+  - [x] **🤖 Synthetic Structure Immunity**: Synthetics use unified **Structure** and are **completely IMMUNE to non-lethal damage**.
+  - [x] **Vitality Spillover**: Excess non-lethal exhaustion beyond remaining Vitality spills into Health (causing incapacitation).
+  - [x] **Massive Damage**: Lethal damage to Health $\ge$ Stamina prompts instant DC 15 Fortitude Save vs. death.
+  - [x] **Death Clock**: Health reduced to 0 initiates Stamina-round death countdown.
+- [x] **Integration into `MapCombatTracker.jsx`**: Added `⚔️ Strike` header action and `⚔️ Atk` row buttons with synchronized floating battle text, Web Audio SFX, and CommLink broadcast.
+
+#### ✅ Stage 1.2: Action Economy, Ammo & Essence Burn Tracker (`MapActionEconomyDrawer.jsx`)
+- [x] **Turn Action Budget**: Tracks 1 Standard Action, 1 Move Action, 1 Reaction, and Free Actions per round with 1-click toggles and auto-reset.
+- [x] **Ammo & Battery Depletion**: Real-time magazine count and battery charge deduction per single (-1 rd), burst (-3 rds), and auto-suppression (-6 rds) with reload actions and dry-fire alerts.
+- [x] **Metaphysical Essence Burn**: Tracks Essence channeling points (-2 EP, -4 EP), Meditate restoration, and fatigue stages (Fresh, Fatigued -1, Exhausted -2, Overburn).
+- [x] **Folio & Token Synchronization**: Live action indicators rendered on active token bases in VTT and integrated with `CombatResolutionModal`.
+
+#### ✅ Stage 1.3: Vehicle & Starship Subsystem Combat Bridge (`StarshipBridgeModal.jsx`)
+- [x] **Crew Station Assignments**: 4 active bridge stations:
+  - [x] **Helm / Pilot**: Evasive Maneuvers (+2 Defense DC), Vector Boost (Double Pace), Intercept/Ramming vector.
+  - [x] **Tactical / Gunner**: Spinal Battery Volleys (4d10+12 AP 8), Point-Defense Flak Intercept.
+  - [x] **Engineering**: Power Unit (PU) routing (Shields +15 SP, Weapons +4 Dmg, Thruster Overcharge).
+  - [x] **Science / EWAR**: Sensor Jammer ECM shroud (-2 enemy lock penalty), Cyber-Breach firewall hack.
+- [x] **Targeted Subsystem Damage**: Interactive 6-node condition matrix (Bridge, Thrusters, Shields, Weapons, Reactor Core, Life Support) with Operational / Damaged / Destroyed degradation tiers.
+- [x] **Mecha & Starship Archetypes**: Scale 2 Mecha Walkers, Scale 3 Corvettes, Scale 4 Destroyers.
+- [x] **VTT Integration**: Dedicated `🚀 Bridge` header action in `MapCombatTracker` with floating text, SFX, and CommLink relay broadcasts.
+
+---
+
+### 🎭 PILLAR 2: Pair Game Master (Co-GM) & Encounter Director (✅ Completed)
+
+#### ✅ Stage 2.1: Live Encounter Tension Gauge & Complication Engine (`EncounterTensionWidget.jsx`)
+- [x] **Real-Time Tension Telemetry**: Dynamic 0–100% tension score computed from party health/vitality deficit, enemy count, round number, and critical conditions (Death's Door, Bleeding, Stunned).
+- [x] **Dynamic Tension Tiers**: Routine Skirmish (0–35%), Active Engagement (35–60%), High Stakes (60–85%), and Catastrophic Climax (85–100%).
+- [x] **1-Click Narrative Complications**: Injects Reinforcement Incursions, Environmental Hazards, Tactical Curveballs, Adversary Morale Breaks, Parley/Surrender offers, and Catastrophic Meltdowns directly into CommLink and on-screen floating text.
+- [x] **Bastion Heuristic Tactical Advice**: Live advisory prompts providing pacing and tactical recommendations for the GM.
+
+#### ✅ Stage 2.2: Adversary Behavioral AI Engine (`adversaryAiService.js`)
+- [x] **Competency Role Routines**: Automated tactical moves for Minions (Swarm & Flank), Skirmishers (Fire & Fade), Bruisers (Close & Pin), Snipers (Aimed Headshot), and Commanders.
+- [x] **Multi-Phase Boss Scripts**: Phase 1 (Tactical Focus Fire), Phase 2 (<65% HP: Kinetic Wards & Drop-Pod Escorts), and Phase 3 (<35% HP: Enraged AoE Meltdown Salvo).
+
+#### ✅ Stage 2.3: Automated Session Logger & Chrono-Recap Synthesizer (`sessionRecapService.js` & `SessionRecapModal.jsx`)
+- [x] **Live Event Logger**: Automatically logs strikes, criticals, stabilization, and complications into `SessionJournal`.
+- [x] **1-Click Episodic Recap Generator**: Generates formatted Markdown recaps ("Previously on Tangent SFF...") with chapter headings, chronological milestones, and MVP metrics.
+- [x] **Recap Modal Actions**: 1-click Copy Markdown, Download `.md` file, or direct broadcast to CommLink relay.
+
+---
+
+### ⚖️ PILLAR 3: Real-Time Rules Assistant & System Adjudicator (✅ Completed)
+
+#### ✅ Stage 3.1: Semantic Rulebook Engine & `/askrule` RAG Index (`rulebookRagService.js` & `RulebookAssistantModal.jsx`)
+- [x] **44-Rulebook Search Index**: Comprehensive semantic rule knowledge indexed across all 44 Operator & Architect rulebooks.
+- [x] **Global `/askrule` Modal**: Instant lookup with cited rulebook names and page numbers (Combat, Damage Pools, Massive Damage, Cover DC, Essence Burn, Economatrix pricing $V=10\cdot 4^{DC/5}$, Starship Bridge).
+- [x] **Rule Actions**: 1-click Copy Rule Text and direct Broadcast to CommLink chat relay.
+
+#### ✅ Stage 3.2: Passive Perception & Secret GM Radar (`PassivePerceptionRadarModal.jsx`)
+- [x] **Party Passive Radar**: Real-time summary of Physical Alertness, Metaphysical/Psionic Sense, Tech & Sensor Scan, and Social Insight/Empathy across all operatives.
+- [x] **Hidden DC Auto-Detection**: Flags which operatives passively detect traps, ambushes, concealed doors, and deceit without metagaming dice rolls.
+
+#### ✅ Stage 3.3: Automated Progression, Award Points (AP) & Karma Ledger (`ProgressionKarmaLedgerModal.jsx`)
+- [x] **AP Allocation & Tier Status**: Tracks earned AP, available AP, spent AP, and Tiers (Novice $\rightarrow$ Expert $\rightarrow$ Master $\rightarrow$ Legend).
+- [x] **Experience Debt Automation**: Automatically manages -5 AP debt repayment following death revivification.
+- [x] **Batch Party Operations**: 1-click Batch Mission AP awards and full party Karma recharge.
+
+---
+
+### 🌌 PILLAR 4: Content Co-Creator & Procedural World Forge (✅ Completed)
+
+#### ✅ Stage 4.1: 1-Click UDU Facility & Dungeon Floorplan Generator (`UduFacilityGeneratorModal.jsx`)
+- [x] **Procedural Facility Generator**: Generates sci-fi facilities (Derelict Starship Hulks, Subterranean Cyber-Vaults, Bio-Lab Outposts, Black-Market Bazaars) using UDU Module footprints.
+- [x] **Direct VTT Canvas Export**: Generates interactive rooms with bulkheads, security terminals, hazards (plasma conduits, gas leaks), and supply crates with 1-click broadcast.
+
+#### ✅ Stage 4.2: Economatrix TSC Loot & Salvage Drop Generator (`EconomatrixLootGeneratorModal.jsx`)
+- [x] **Encounter Salvage Generator**: Drops based on Threat Tier (Tier 1 Scavenger $\rightarrow$ Tier 5 Transcendent) and Tech Level (TL1–TL5).
+- [x] **TSC Economic Valuation**: Calculates exact market credit value via $V = 10 \cdot 4^{\frac{\text{DC}}{5}}$ modified by planetary trade codes (Industrial, Agricultural, High-Tech, Barren).
+
+#### ✅ Stage 4.3: Living World Faction Clocks & Agendas Engine (`FactionClocksModal.jsx`)
+- [x] **Interactive Progress Clocks**: 4/6/8-tick clocks for rival megacorps, syndicates, and factions.
+- [x] **"Advance Faction Turn"**: Background simulation of faction moves and market shifts between campaign sessions, triggering crisis alerts upon completion.

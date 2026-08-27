@@ -427,11 +427,11 @@ Base Perception = Intellect + Wisdom
 - **Social Perception** (`Perception + Insight`): Reading micro-expressions, vocal shifts, deceit detection, and assessing emotional motives.
 - **Technical Perception** (`Perception + Technology`): Interpreting electronic sensors, locating hardware vulnerabilities, and detecting electronic counter-measures.
 
-### 10.4 Vitality, Health, Toughness & Damage Resolution
-- **Vitality Pool (`30 + Willpower`)**: Stamina, luck, deflection, and minor scrapes. Absorbs incoming damage first.
-- **Health Pool (`30 + Fortitude`)**: Deep physical trauma, organ integrity, and cellular vitality. Depleted only when Vitality reaches 0, or directly via Critical Hits and armor-piercing effects.
+### 10.4 Vitality, Health, Structure & Damage Classification
+- **Vitality Pool (`30 + Willpower`)**: Tracks **Non-Lethal Damage Capacity**, environmental stress, fatigue damage, subdual strikes, and mental/sensory exhaustion. Depleted by non-lethal attacks first; once Vitality reaches 0, excess non-lethal exhaustion spills into Health (causing incapacitation).
+- **Health Pool (`30 + Fortitude`)**: Tracks **Lethal Damage Capacity** such as cuts, burns, bullet trauma, shrapnel, and high-impact physical wounds. Lethal attacks damage Health directly. When Health reaches 0, the operative collapses and begins their Death Clock.
+- **Structure Pool (Synthetics, Mecha & Objects)**: Synthetics possess no biological nervous system and have a unified **Structure Pool** (the total of what would be Vitality + Health). **Synthetics are completely IMMUNE to non-lethal damage** (fatigue, environmental stress, subdual strikes). All lethal damage applies directly to Structure.
 - **Base Toughness (`Stamina Score`)**: Inherent physiological damage soak deducted from physical impacts.
-- **Concussive Damage Split**: Blunt force and blast shock divide incoming damage between Vitality and Health pools based on impact energy.
 - **Armor Damage Reduction (DR)**: Absorbs damage prior to pool subtraction based on hit location coverage.
 
 ### 10.5 Death Clock, Massive Damage & Revivification
