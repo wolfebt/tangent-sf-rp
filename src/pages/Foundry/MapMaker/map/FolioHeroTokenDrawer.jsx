@@ -35,6 +35,14 @@ export const FolioHeroTokenDrawer = ({
     const defense = parseInt(hero.derived_defense || (hero['attr-reflex'] ? Math.floor(parseInt(hero['attr-reflex'], 10) / 2) + 10 : 12), 10);
     const actionPoints = parseInt(hero.derived_ap || 3, 10);
     const agility = parseInt(hero['attr-agility'] || hero.attr_agility || 10, 10);
+    const speciesStr = String(hero['char-species'] || hero.species || '').toLowerCase();
+    const isSynthetic = speciesStr.includes('synthetic') || speciesStr.includes('mekan') || speciesStr.includes('construct') || speciesStr.includes('golem') || speciesStr.includes('ooze') || speciesStr.includes('undead');
+    const stamina = parseInt(hero['attr-stamina'] || 0, 10);
+    const toughness = stamina;
+    const maxStructure = maxHealth + maxVitality;
+    const currentStructure = hero.current_structure !== undefined && hero.current_structure !== null
+      ? parseInt(hero.current_structure, 10)
+      : (currentHealth + currentVitality);
 
     const tokenPayload = {
       type: 'folio_hero_token',
@@ -45,14 +53,21 @@ export const FolioHeroTokenDrawer = ({
       currentHealth,
       maxVitality,
       currentVitality,
-      maxHp: maxHealth,
-      currentHp: currentHealth,
+      maxStructure,
+      currentStructure,
+      isSynthetic,
+      toughness,
       health: { current: currentHealth, max: maxHealth },
       vitality: { current: currentVitality, max: maxVitality },
-      hp: { current: currentHealth, max: maxHealth },
+      structure: { current: currentStructure, max: maxStructure },
       defense,
       actionPoints,
-      agility
+      agility,
+      karma: parseInt(hero.karma !== undefined ? hero.karma : 3, 10),
+      maxKarma: parseInt(hero.maxKarma || 3, 10),
+      charisma: parseInt(hero['attr-charisma'] || hero.attr_charisma || 10, 10),
+      earned_ap: parseInt(hero.earned_ap || 0, 10),
+      available_ap: parseInt(hero.available_ap || hero.earned_ap || 0, 10)
     };
 
     e.dataTransfer.setData('application/json', JSON.stringify(tokenPayload));
@@ -72,6 +87,14 @@ export const FolioHeroTokenDrawer = ({
       const defense = parseInt(hero.derived_defense || (hero['attr-reflex'] ? Math.floor(parseInt(hero['attr-reflex'], 10) / 2) + 10 : 12), 10);
       const actionPoints = parseInt(hero.derived_ap || 3, 10);
       const agility = parseInt(hero['attr-agility'] || hero.attr_agility || 10, 10);
+      const speciesStr = String(hero['char-species'] || hero.species || '').toLowerCase();
+      const isSynthetic = speciesStr.includes('synthetic') || speciesStr.includes('mekan') || speciesStr.includes('construct') || speciesStr.includes('golem') || speciesStr.includes('ooze') || speciesStr.includes('undead');
+      const stamina = parseInt(hero['attr-stamina'] || 0, 10);
+      const toughness = stamina;
+      const maxStructure = maxHealth + maxVitality;
+      const currentStructure = hero.current_structure !== undefined && hero.current_structure !== null
+        ? parseInt(hero.current_structure, 10)
+        : (currentHealth + currentVitality);
 
       onSummonToken({
         type: 'folio_hero_token',
@@ -82,14 +105,21 @@ export const FolioHeroTokenDrawer = ({
         currentHealth,
         maxVitality,
         currentVitality,
-        maxHp: maxHealth,
-        currentHp: currentHealth,
+        maxStructure,
+        currentStructure,
+        isSynthetic,
+        toughness,
         health: { current: currentHealth, max: maxHealth },
         vitality: { current: currentVitality, max: maxVitality },
-        hp: { current: currentHealth, max: maxHealth },
+        structure: { current: currentStructure, max: maxStructure },
         defense,
         actionPoints,
-        agility
+        agility,
+        karma: parseInt(hero.karma !== undefined ? hero.karma : 3, 10),
+        maxKarma: parseInt(hero.maxKarma || 3, 10),
+        charisma: parseInt(hero['attr-charisma'] || hero.attr_charisma || 10, 10),
+        earned_ap: parseInt(hero.earned_ap || 0, 10),
+        available_ap: parseInt(hero.available_ap || hero.earned_ap || 0, 10)
       });
     }
   };
@@ -158,6 +188,14 @@ export const FolioHeroTokenDrawer = ({
             const currentVitality = hero.current_vitality !== undefined && hero.current_vitality !== null
               ? parseInt(hero.current_vitality, 10)
               : maxVitality;
+            const stamina = parseInt(hero['attr-stamina'] || 0, 10);
+            const toughness = stamina;
+            const speciesStr = String(hero['char-species'] || hero.species || '').toLowerCase();
+            const isSynthetic = speciesStr.includes('synthetic') || speciesStr.includes('mekan') || speciesStr.includes('construct') || speciesStr.includes('golem') || speciesStr.includes('ooze') || speciesStr.includes('undead');
+            const currentStructure = hero.current_structure !== undefined && hero.current_structure !== null
+              ? parseInt(hero.current_structure, 10)
+              : (currentHealth + currentVitality);
+            const maxStructure = maxHealth + maxVitality;
             const defense = parseInt(hero.derived_defense || (hero['attr-reflex'] ? Math.floor(parseInt(hero['attr-reflex'], 10) / 2) + 10 : 12), 10);
             const avatar = hero.avatarUrl || hero.imageUrl;
 
@@ -185,8 +223,15 @@ export const FolioHeroTokenDrawer = ({
                     </div>
                     <div className="text-[10px] text-slate-400 font-mono truncate flex items-center gap-1">
                       {concept && <span className="text-slate-500 mr-0.5">{typeof concept === 'object' ? concept.name : concept} •</span>}
-                      <span className="text-emerald-400 font-semibold">HLTH:{currentHealth}/{maxHealth}</span>
-                      <span className="text-cyan-400 font-semibold">VIT:{currentVitality}/{maxVitality}</span>
+                      {isSynthetic ? (
+                        <span className="text-amber-400 font-semibold">SP:{currentStructure}/{maxStructure}</span>
+                      ) : (
+                        <>
+                          <span className="text-emerald-400 font-semibold">HLTH:{currentHealth}/{maxHealth}</span>
+                          <span className="text-cyan-400 font-semibold">VIT:{currentVitality}/{maxVitality}</span>
+                        </>
+                      )}
+                      <span className="text-emerald-400/90 font-semibold">Tgh:+{toughness}</span>
                       <span className="text-slate-500">Def:{defense}</span>
                     </div>
                   </div>

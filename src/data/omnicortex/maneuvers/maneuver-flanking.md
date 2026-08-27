@@ -2,8 +2,10 @@
 id: maneuver-flanking
 name: Flanking
 category: maneuvers
-action_type: Positional Edge
-description: Positioning on opposite arcs of a target granting +2 Strike to attackers.
+action_type: Tactical Positioning
+description: >-
+  Allies positioned on multiple sides of target exploit defensive openings,
+  granting +2 bonus to hit.
 costs:
   bp: 0
   credits: 0
@@ -25,11 +27,10 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # Flanking
 
 **Category**: Combat Maneuvers  
-**Action Type**: Positional Edge
+**Action Type**: Tactical Positioning
 
-## Description & Mechanics
-Positioning on opposite arcs of a target granting +2 Strike to attackers.
+## Mechanics & Edge Bonus
+Advantage gained when an attacker has allies positioned on multiple sides of the target. This positioning creates an opportunity to exploit openings in the target's defenses, granting a **+2 bonus to hit**.

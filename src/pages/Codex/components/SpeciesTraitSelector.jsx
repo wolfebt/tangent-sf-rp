@@ -18,6 +18,8 @@ import {
   SPECIES_TYPES, 
   SPECIES_SIZES, 
   SPECIES_MOVEMENT_MODES, 
+  SPECIES_MOVEMENT_BASE_MODES,
+  SPECIES_MOVEMENT_MODIFICATIONS,
   SPECIES_TRAITS_BASIC, 
   SPECIES_TRAITS_ADVANCED, 
   SPECIES_TRAITS_ELITE, 
@@ -464,36 +466,94 @@ export const SpeciesTraitSelector = ({ formData = {}, onChange }) => {
         </div>
       )}
 
-      {/* Tab 3: Movement Modes */}
+      {/* Tab 3: Movement Modes & Modifications */}
       {activeTab === 'movement' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-72 overflow-y-auto">
-          {SPECIES_MOVEMENT_MODES.map(mode => {
-            const isSelected = selectedModes.includes(mode.id);
-            return (
-              <button
-                key={mode.id}
-                type="button"
-                onClick={() => toggleMovementMode(mode.id)}
-                className={`p-2.5 rounded-xl border text-left transition-all flex items-center justify-between ${
-                  isSelected 
-                    ? 'bg-purple-950/60 border-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.2)]' 
-                    : 'bg-slate-950/60 border-slate-800 hover:border-purple-500/40'
-                }`}
-              >
-                <div>
-                  <span className="text-xs font-bold text-slate-100 block">{mode.name}</span>
-                  <span className="text-[10px] text-slate-400">{mode.description}</span>
-                </div>
-                <div className="text-right shrink-0 ml-2">
-                  <span className={`text-[11px] font-bold font-mono px-2 py-0.5 rounded ${
-                    mode.bp > 0 ? 'bg-purple-500/20 text-purple-300' : (mode.bp < 0 ? 'bg-emerald-500/20 text-emerald-300' : 'bg-slate-800 text-slate-400')
-                  }`}>
-                    {mode.bp > 0 ? `+${mode.bp} BP` : (mode.bp < 0 ? `${mode.bp} BP` : '0 BP')}
-                  </span>
-                </div>
-              </button>
-            );
-          })}
+        <div className="space-y-4 max-h-80 overflow-y-auto pr-1">
+          {/* Base Movement Modes */}
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-bold text-purple-300 uppercase tracking-wider">
+                1. Base Movement Modes
+              </span>
+              <span className="text-[10px] text-slate-400">Primary Locomotion Chassis</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              {SPECIES_MOVEMENT_BASE_MODES.map(mode => {
+                const isSelected = selectedModes.includes(mode.id);
+                return (
+                  <button
+                    key={mode.id}
+                    type="button"
+                    onClick={() => toggleMovementMode(mode.id)}
+                    className={`p-2.5 rounded-xl border text-left transition-all flex items-center justify-between ${
+                      isSelected 
+                        ? 'bg-purple-950/60 border-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.2)]' 
+                        : 'bg-slate-950/60 border-slate-800 hover:border-purple-500/40'
+                    }`}
+                  >
+                    <div>
+                      <span className="text-xs font-bold text-slate-100 block">{mode.name}</span>
+                      <span className="text-[10px] text-slate-400">{mode.description}</span>
+                    </div>
+                    <div className="text-right shrink-0 ml-2">
+                      <span className={`text-[11px] font-bold font-mono px-2 py-0.5 rounded ${
+                        mode.bp > 0 ? 'bg-purple-500/20 text-purple-300' : 'bg-slate-800 text-slate-400'
+                      }`}>
+                        {mode.bp > 0 ? `+${mode.bp} BP` : '0 BP'}
+                      </span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Species Movement Modifications */}
+          <div>
+            <div className="flex items-center justify-between mb-2 pt-2 border-t border-slate-800">
+              <span className="text-xs font-bold text-amber-300 uppercase tracking-wider">
+                2. Species Movement Modifications
+              </span>
+              <span className="text-[10px] text-slate-400">* Mutually Exclusive Base Speed Traits</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              {SPECIES_MOVEMENT_MODIFICATIONS.map(mod => {
+                const isSelected = selectedModes.includes(mod.id);
+                return (
+                  <button
+                    key={mod.id}
+                    type="button"
+                    onClick={() => toggleMovementMode(mod.id)}
+                    className={`p-2.5 rounded-xl border text-left transition-all flex items-center justify-between ${
+                      isSelected 
+                        ? (mod.bp < 0 ? 'bg-emerald-950/60 border-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.2)]' : 'bg-purple-950/60 border-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.2)]')
+                        : 'bg-slate-950/60 border-slate-800 hover:border-purple-500/40'
+                    }`}
+                  >
+                    <div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-xs font-bold text-slate-100">{mod.name}</span>
+                        {mod.isRanked && (
+                          <span className="text-[9px] px-1 py-0.2 bg-blue-500/20 text-blue-300 rounded font-mono">Ranked</span>
+                        )}
+                        {mod.isExclusive && (
+                          <span className="text-[9px] px-1 py-0.2 bg-amber-500/20 text-amber-300 rounded font-mono">*Speed</span>
+                        )}
+                      </div>
+                      <span className="text-[10px] text-slate-400">{mod.description}</span>
+                    </div>
+                    <div className="text-right shrink-0 ml-2">
+                      <span className={`text-[11px] font-bold font-mono px-2 py-0.5 rounded ${
+                        mod.bp > 0 ? 'bg-purple-500/20 text-purple-300' : (mod.bp < 0 ? 'bg-emerald-500/20 text-emerald-300' : 'bg-slate-800 text-slate-400')
+                      }`}>
+                        {mod.bp > 0 ? `+${mod.bp} BP` : (mod.bp < 0 ? `${mod.bp} BP` : '0 BP')}
+                      </span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
       )}
 

@@ -34,9 +34,11 @@ Damage in Tangent is resolved through a realistic **Damage Reduction (DR)** and 
 
 ## The Damage Resolution Formula
 
-\text{Effective Armor DR} = \max(0, \text{Target Armor DR} - \text{Weapon AP Rating})
+$$\text{Effective Armor DR} = \max(0, \text{Target Armor DR} - \text{Weapon AP Rating})$$
 
-\text{Hit Points Lost} = \max(1, \text{Incoming Damage} - \text{Effective Armor DR})
+$$\text{Wound Damage Taken} = \max(0, \text{Incoming Damage} - \text{Effective Armor DR} - \text{Toughness})$$
+
+- **Toughness:** Stamina Ability Score determines base Toughness, reducing incoming wound damage on a point-for-point basis. Damage is then applied to Vitality (if non-lethal) or Health (if lethal), or Structure (for Synthetics).
 
 ---
 

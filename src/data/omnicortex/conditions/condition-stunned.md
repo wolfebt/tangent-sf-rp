@@ -2,7 +2,9 @@
 id: condition-stunned
 name: Stunned
 category: conditions
-description: 'Drops held items, cannot take actions, Defense DC suffers -4 penalty.'
+description: >-
+  Incapacitated. Lose all Actions. Drop items. Defense = Base (No Dex/Skill).
+  Constitution Save (DC 15) at end of turn to recover.
 costs:
   bp: 0
   credits: 0
@@ -24,10 +26,12 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # Stunned
 
 **Category**: Tactical Conditions & Status Effects
 
-## Mechanics & Debuffs
-Drops held items, cannot take actions, Defense DC suffers -4 penalty.
+## Mechanical Effect
+**Incapacitated**. Lose all Actions. **Drop held items**. **Defense = Base** (No Dex/Skill modifiers applied).
+
+## Cure / Removal
+**Constitution Save (DC 15)** at end of turn to recover.

@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { EconomatrixDashboard } from './EconomatrixDashboard';
 import { TechnologyCodex } from './TechnologyCodex';
+import { ScalingCodex } from './ScalingCodex';
 import { CodexIngestionEngine } from './CodexIngestionEngine';
 import { AudioService } from '../../services/audioService';
 import { confirmTypedDeletion } from '../../utils/confirmationUtils';
@@ -279,7 +280,9 @@ export const CodexApp = () => {
               onDelete={(item) => handleDelete(item)}
             />
           ) : currentMatrix.viewType === 'dashboard' && !viewSavedRecords ? (
-            activeMatrixId === 'economatrix' ? (
+            activeMatrixId === 'scaling' ? (
+              <ScalingCodex onOpenBuilder={handleCreateNew} />
+            ) : activeMatrixId === 'economatrix' ? (
               <EconomatrixDashboard onOpenBuilder={handleCreateNew} />
             ) : activeMatrixId === 'technology' ? (
               <TechnologyCodex onOpenBuilder={handleCreateNew} />

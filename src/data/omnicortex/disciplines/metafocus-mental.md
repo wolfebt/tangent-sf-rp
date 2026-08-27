@@ -5,9 +5,11 @@ category: disciplines
 metafocus_skills:
   - Projection
   - Sense
+primary_color: 'Pink/Magenta'
+secondary_color: 'Cyan'
+texture_form: 'Cognitive ripples, psionic pulses, telepathic threads, and glowing eyes.'
 description: >-
-  Telepathic broadcasting, memory scanning, aura detection, clairvoyance,
-  psychic shielding, and mental domination.
+  Direct neural interfacing, telepathic communication, remote sensory clairvoyance, and psychic will projection.
 costs:
   bp: 0
   credits: 0
@@ -33,7 +35,14 @@ sockets:
 # Mental Discipline
 
 **Category**: Metafocus Disciplines  
-**Associated Skills**: Projection, Sense
+**Associated Skills**: Projection, Sense  
+**Sensory Signature**: Primary: Pink/Magenta | Secondary: Cyan  
+**Texture & Form**: Cognitive ripples, psionic pulses, telepathic threads, and glowing eyes.  
 
 ## Description
-Telepathic broadcasting, memory scanning, aura detection, clairvoyance, psychic shielding, and mental domination.
+Direct neural interfacing, telepathic communication, remote sensory clairvoyance, and psychic will projection.
+
+## Core Mechanics
+- **Governing Attribute**: Selected at Awakening (Intellect for Arcane/Logic, Wisdom for Faith/Intuition, Charisma for Inherent/Dominance).
+- **Damage Scaling**: Standard 1d6 per Stage achieved (Force Focus utilizes d8s as specific exception).
+- **Conduit & Breadth**: Ranks in Projection and Sense contribute directly to the character's **Essence Pool**.

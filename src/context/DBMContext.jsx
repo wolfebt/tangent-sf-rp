@@ -8,6 +8,10 @@ import { validateDbmEntry } from '../utils/dbmValidators';
 import compendiumSeedData from '../data/compendiumSeed.json';
 import { DEFAULT_ARCHETYPES } from '../data/archetypesData';
 import { DEFAULT_SPECIES } from '../data/speciesData';
+import { DEFAULT_SPECIES_TYPES } from '../data/speciesTypesData';
+import { DEFAULT_OCCUPATIONS } from '../data/occupationsData';
+import { DEFAULT_ORIGINS } from '../data/originsData';
+import { DEFAULT_FACTIONS } from '../data/factionsData';
 
 const DBMContext = createContext(null);
 
@@ -17,7 +21,11 @@ export const DBMProvider = ({ children }) => {
   const [dbData, setDbData] = useState({
     compendium: compendiumSeedData,
     archetypes: DEFAULT_ARCHETYPES,
-    species: DEFAULT_SPECIES
+    species: DEFAULT_SPECIES,
+    species_type: DEFAULT_SPECIES_TYPES,
+    occupations: DEFAULT_OCCUPATIONS,
+    origins: DEFAULT_ORIGINS,
+    factions: DEFAULT_FACTIONS
   });
   const [currentUser, setCurrentUser] = useState(auth?.currentUser || null);
   const [isLoading, setIsLoading] = useState(true);
@@ -90,6 +98,22 @@ export const DBMProvider = ({ children }) => {
               const existingIds = new Set(items.map(i => i.id || (i.name || '').toLowerCase()));
               const missingSeeds = DEFAULT_SPECIES.filter(s => !existingIds.has(s.id) && !existingIds.has(s.name.toLowerCase()));
               items = [...items, ...missingSeeds];
+            } else if (catK === 'species_type' && items.length < DEFAULT_SPECIES_TYPES.length) {
+              const existingIds = new Set(items.map(i => i.id || (i.name || '').toLowerCase()));
+              const missingSeeds = DEFAULT_SPECIES_TYPES.filter(s => !existingIds.has(s.id) && !existingIds.has(s.name.toLowerCase()));
+              items = [...items, ...missingSeeds];
+            } else if (catK === 'occupations' && items.length < DEFAULT_OCCUPATIONS.length) {
+              const existingIds = new Set(items.map(i => i.id || (i.name || '').toLowerCase()));
+              const missingSeeds = DEFAULT_OCCUPATIONS.filter(s => !existingIds.has(s.id) && !existingIds.has(s.name.toLowerCase()));
+              items = [...items, ...missingSeeds];
+            } else if (catK === 'origins' && items.length < DEFAULT_ORIGINS.length) {
+              const existingIds = new Set(items.map(i => i.id || (i.name || '').toLowerCase()));
+              const missingSeeds = DEFAULT_ORIGINS.filter(s => !existingIds.has(s.id) && !existingIds.has(s.name.toLowerCase()));
+              items = [...items, ...missingSeeds];
+            } else if (catK === 'factions' && items.length < DEFAULT_FACTIONS.length) {
+              const existingIds = new Set(items.map(i => i.id || (i.name || '').toLowerCase()));
+              const missingSeeds = DEFAULT_FACTIONS.filter(s => !existingIds.has(s.id) && !existingIds.has(s.name.toLowerCase()));
+              items = [...items, ...missingSeeds];
             }
             setDbData(prev => ({ ...prev, [catK]: items }));
             pendingCount--;
@@ -99,13 +123,21 @@ export const DBMProvider = ({ children }) => {
           },
           (err) => {
             console.warn(`[DBMContext] Listener notice for collection "${catK}":`, err.message);
-            // Fallback for compendium, archetypes, and species if listener fails
+            // Fallback for compendium, archetypes, species, species_type, occupations, origins, factions if listener fails
             if (catK === 'compendium' || catK === 'rules_codex') {
               setDbData(prev => ({ ...prev, [catK]: compendiumSeedData }));
             } else if (catK === 'archetypes') {
               setDbData(prev => ({ ...prev, [catK]: DEFAULT_ARCHETYPES }));
             } else if (catK === 'species') {
               setDbData(prev => ({ ...prev, [catK]: DEFAULT_SPECIES }));
+            } else if (catK === 'species_type') {
+              setDbData(prev => ({ ...prev, [catK]: DEFAULT_SPECIES_TYPES }));
+            } else if (catK === 'occupations') {
+              setDbData(prev => ({ ...prev, [catK]: DEFAULT_OCCUPATIONS }));
+            } else if (catK === 'origins') {
+              setDbData(prev => ({ ...prev, [catK]: DEFAULT_ORIGINS }));
+            } else if (catK === 'factions') {
+              setDbData(prev => ({ ...prev, [catK]: DEFAULT_FACTIONS }));
             }
             pendingCount--;
             if (pendingCount <= 0) {
@@ -122,6 +154,14 @@ export const DBMProvider = ({ children }) => {
           setDbData(prev => ({ ...prev, [catK]: DEFAULT_ARCHETYPES }));
         } else if (catK === 'species') {
           setDbData(prev => ({ ...prev, [catK]: DEFAULT_SPECIES }));
+        } else if (catK === 'species_type') {
+          setDbData(prev => ({ ...prev, [catK]: DEFAULT_SPECIES_TYPES }));
+        } else if (catK === 'occupations') {
+          setDbData(prev => ({ ...prev, [catK]: DEFAULT_OCCUPATIONS }));
+        } else if (catK === 'origins') {
+          setDbData(prev => ({ ...prev, [catK]: DEFAULT_ORIGINS }));
+        } else if (catK === 'factions') {
+          setDbData(prev => ({ ...prev, [catK]: DEFAULT_FACTIONS }));
         }
         pendingCount--;
         if (pendingCount <= 0) {

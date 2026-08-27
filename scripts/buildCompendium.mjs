@@ -18,7 +18,7 @@ if (!fs.existsSync(compendiumDir)) {
   fs.mkdirSync(compendiumDir, { recursive: true });
 }
 
-// Clean old files
+// Clean old files in compendiumDir
 const oldFiles = fs.readdirSync(compendiumDir);
 for (const f of oldFiles) {
   if (f.endsWith('.md')) {
@@ -35,28 +35,58 @@ const allArticles = [
   ...technologyArticles
 ];
 
-console.log(\n======================================================);
-console.log(  COMPILING OMNICORTEX CANONICAL COMPENDIUM (50+ ENTRIES));
-console.log(======================================================\n);
+console.log('\n======================================================');
+console.log('  COMPILING OMNICORTEX CANONICAL COMPENDIUM (50+ ENTRIES)');
+console.log('======================================================\n');
 
 const volumeCounts = {};
 
 for (const article of allArticles) {
   const frontmatter = [
     '---',
-    id: "",
-    
-ame: "",
-    category: "compendium",
-    entry_type: "",
-    parent: "",
-    order: ,
+    `id: "${article.id}"`,
+    `name: "${article.name.replace(/"/g, '\\"')}"`,
+    `category: "compendium"`,
+    `entry_type: "${article.entry_type || 'Core Rule'}"`,
+    `parent: "${(article.parent || '').replace(/"/g, '\\"')}"`,
+    `order: ${article.order || 0}`,
+    `costs:`,
+    `  bp: 0`,
+    `  credits: 0`,
+    `  nodes: 0`,
+    `  sockets: 0`,
+    `  strain: 0`,
+    `  focus: 0`,
+    `  ap: 0`,
+    `modifiers: []`,
+    `modifications: []`,
+    `critical_details:`,
+    `  score: ''`,
+    `  effect: []`,
+    `  success_effect: []`,
+    `  failure_effect: []`,
+    `sockets:`,
+    `  max: 0`,
+    `  used: 0`,
+    `  tier: Socket`,
+    `  allocated: []`,
     '---',
     ''
   ].join('\n');
 
-  const fileContent = frontmatter + article.description.trim() + '\n';
-  const filePath = path.join(compendiumDir, ${article.id}.md);
+  let body = article.description ? article.description.trim() : '';
+  if (article.mechanic && !body.includes('## Game Mechanics Rules')) {
+    body += `\n\n## Game Mechanics Rules\n\`\`\`\n${article.mechanic.trim()}\n\`\`\``;
+  }
+  if (article.guide && !body.includes('## Gameplay Instructions')) {
+    body += `\n\n## Gameplay Instructions\n${article.guide.trim()}`;
+  }
+  if (article.note && !body.includes('## Designer Notes')) {
+    body += `\n\n## Designer Notes\n${article.note.trim()}`;
+  }
+
+  const fileContent = frontmatter + body + '\n';
+  const filePath = path.join(compendiumDir, `${article.id}.md`);
   fs.writeFileSync(filePath, fileContent, 'utf8');
 
   const vol = article.parent || 'Standalone';
@@ -68,9 +98,9 @@ fs.writeFileSync(seedJsonPath, JSON.stringify(allArticles, null, 2), 'utf8');
 
 console.log('Successfully generated articles by volume:');
 for (const [vol, count] of Object.entries(volumeCounts)) {
-  console.log(  - []:  full articles);
+  console.log(`  - [${vol}]: ${count} full articles`);
 }
 
-console.log(\nTotal Compendium Articles: );
-console.log(Generated JSON Seed: );
-console.log(Generated Markdown Files in: \n);
+console.log(`\nTotal Compendium Articles: ${allArticles.length}`);
+console.log(`Generated JSON Seed: ${seedJsonPath}`);
+console.log(`Generated Markdown Files in: ${compendiumDir}\n`);

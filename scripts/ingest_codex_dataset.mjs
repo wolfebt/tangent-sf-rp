@@ -13,6 +13,7 @@ import { fileURLToPath } from 'url';
 import matter from 'gray-matter';
 import { OMNICORTEX_DATASETS, getDatasetByKey, validateDatasetPayload } from '../src/pages/Codex/codexPromptRegistry.js';
 import { adaptSparkItemToFirestore, sanitizeDocumentId } from '../src/utils/codexIngestionAdapters.js';
+import { exportOmnicortexItem } from '../src/utils/tangentSchemaAdapters.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -153,7 +154,9 @@ rawData.forEach((rawItem, index) => {
 
   if (!dryRun) {
     const bodyContent = finalItem.body || finalItem.description || '';
-    const fileMarkdown = matter.stringify(bodyContent, finalItem);
+    const cleanData = exportOmnicortexItem(finalItem);
+    delete cleanData.body;
+    const fileMarkdown = matter.stringify(bodyContent, cleanData);
     fs.writeFileSync(targetFile, fileMarkdown, 'utf8');
   }
 });

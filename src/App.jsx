@@ -12,7 +12,8 @@ import { CommandPalette } from './components/UI/CommandPalette';
 import { ErrorBoundary } from './components/UI/ErrorBoundary';
 
 // Lazy Loaded Top-Level Routes for Optimal Bundle Performance
-const Home = lazy(() => import('./pages/Home'));
+const Dashboard = lazy(() => import('./pages/Home'));
+const Home = Dashboard;
 const CodexApp = lazy(() => import('./pages/Codex/CodexApp'));
 const DBM = lazy(() => import('./pages/DBM'));
 const Folio = lazy(() => import('./pages/Folio'));
@@ -89,7 +90,8 @@ export function App() {
                     <ErrorBoundary>
                       <Suspense fallback={<PageLoader />}>
                         <Routes>
-                          <Route path="/" element={<Home />} />
+                          <Route path="/" element={<Dashboard />} />
+                          <Route path="/dashboard" element={<Dashboard />} />
                           <Route path="/comms" element={<CommsPage />} />
                           <Route path="/chat" element={<CommsPage />} />
                           <Route path="/codex" element={<CodexApp />} />

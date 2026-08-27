@@ -104,6 +104,7 @@ export const ELEMENT_SCHEMAS = {
     { tab: 'Mechanics: Vitals', key: 'health', label: 'Health (Physical)', type: 'text', placeholder: '30' },
     { tab: 'Mechanics: Vitals', key: 'vitality', label: 'Vitality (Mental)', type: 'text', placeholder: '30' },
     { tab: 'Mechanics: Vitals', key: 'karma', label: 'Karma', type: 'text', placeholder: '3' },
+    { tab: 'Mechanics: Vitals', key: 'plot-points', label: 'Plot Points', type: 'text', placeholder: '0' },
     { tab: 'Mechanics: JSON', key: 'features', label: 'Features (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
     { tab: 'Mechanics: JSON', key: 'disadvantages', label: 'Disadvantages (JSON)', type: 'textarea', placeholder: 'JSON Array...' },
     { tab: 'Mechanics: JSON', key: 'augmentations', label: 'Augmentations (JSON)', type: 'textarea', placeholder: 'JSON Array...' },

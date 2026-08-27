@@ -12,7 +12,13 @@ export const DEFAULT_STATUS_GEMS = [
   { id: 'Flight', label: 'Flight', icon: '🕊️', color: '#38bdf8' },
   { id: 'Frozen', label: 'Frozen', icon: '🧊', color: '#60a5fa' },
   { id: 'Charmed', label: 'Charmed', icon: '🧠', color: '#ec4899' },
-  { id: 'Hasted', label: 'Hasted', icon: '⚡', color: '#facc15' }
+  { id: 'Hasted', label: 'Hasted', icon: '⚡', color: '#facc15' },
+  { id: 'DeathsDoor', label: "Death's Door", icon: '💀', color: '#e11d48' },
+  { id: 'Incapacitated', label: 'Incapacitated', icon: '🛌', color: '#f59e0b' },
+  { id: 'Comatose', label: 'Comatose', icon: '💫', color: '#8b5cf6' },
+  { id: 'Prone', label: 'Prone', icon: '⬇️', color: '#94a3b8' },
+  { id: 'Stabilized', label: 'Stabilized', icon: '🩹', color: '#10b981' },
+  { id: 'Dead', label: 'Dead', icon: '⚰️', color: '#475569' }
 ];
 
 const PRESET_GEM_COLORS = [

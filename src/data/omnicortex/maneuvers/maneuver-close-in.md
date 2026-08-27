@@ -2,10 +2,10 @@
 id: maneuver-close-in
 name: Close In
 category: maneuvers
-action_type: Guarded Movement
+action_type: Movement Action
 description: >-
-  Defensive advance at base speed without triggering advancing target
-  vulnerabilities.
+  Guarded approach, defensive advancement at base speed. NO Modifiers and not
+  counted as an Advancing Target.
 costs:
   bp: 0
   credits: 0
@@ -27,11 +27,11 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # Close In
 
 **Category**: Combat Maneuvers  
-**Action Type**: Guarded Movement
+**Action Type**: Movement Action
 
-## Description & Mechanics
-Defensive advance at base speed without triggering advancing target vulnerabilities.
+## Mechanics & Edge Bonus
+- **Guarded Approach**: Defensive advancement toward an opponent at base speed.
+- **No Penalties**: **NO Modifiers** applied and **not counted as an Advancing Target** (does not provoke the Advancing Target extra attack).

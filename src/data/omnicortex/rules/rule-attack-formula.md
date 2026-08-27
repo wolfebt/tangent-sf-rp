@@ -1,8 +1,10 @@
 ---
 id: rule-attack-formula
-name: Attack Roll Formula
+name: 2d10 Attack Roll Formula
 category: rules
-description: d20 + Combat Skill + Ability Mod vs. Target Defense DC.
+description: >-
+  2d10 + Skill Rank + Attribute Mod + Situational Modifiers vs. Target Defense
+  (DC).
 costs:
   bp: 0
   credits: 0
@@ -24,10 +26,13 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # Attack Roll Formula
 
 **Category**: Core Combat Rules & Tables
 
-## Mechanics
-d20 + Combat Skill + Ability Mod vs. Target Defense DC.
+## The Attack Roll Formula
+\text{Attack Roll} = 2d10 + \text{Skill Rank} + \text{Attribute Mod} + \text{Situational Modifiers} \quad \text{vs.} \quad \text{Target Defense (DC)}
+
+- **Dual 10s (Total 20)**: Natural Critical Hit (evaluated as 30).
+- **Dual 1s (Total 2)**: Natural Critical Fumble (evaluated as -10).
+- **Defender Wins All Ties** on opposed defense checks.

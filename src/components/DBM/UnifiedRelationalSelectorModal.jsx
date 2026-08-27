@@ -1,10 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { db, auth } from '../../firebase';
 import { collection, getDocs, setDoc, doc } from 'firebase/firestore';
 import { categoryConfig } from './categoryConfig';
 import { VirtualizedList } from './VirtualizedList';
 import { useDBM } from '../../context/DBMContext';
 import { ALL_CANONICAL_SKILLS } from '../../data/skillsData';
+
+// Dynamically import DBMItemModal to enable full manage modal build flow without circular bundling
+const DBMItemModal = React.lazy(() => import('./DBMItemModal').then(m => ({ default: m.DBMItemModal })));
 
 const EMPTY_CONFIG = {};
 const DEFAULT_SCHEMA_FIELDS = {
@@ -125,6 +128,7 @@ export const UnifiedRelationalSelectorModal = ({
   isMulti = true,
   selectedValues = [],
   onSelect,
+  onChange,
   fieldLabel = 'Items',
   onItemCreated,
   dbData = {},
@@ -140,17 +144,22 @@ export const UnifiedRelationalSelectorModal = ({
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [loading, setLoading] = useState(false);
   const [currentSelected, setCurrentSelected] = useState([]);
+  const [viewMode, setViewMode] = useState(() => {
+    try {
+      return localStorage.getItem('tangent_catalog_view_mode') || 'cards';
+    } catch {
+      return 'cards';
+    }
+  });
 
-  // Quick / Granular Create State
-  const [isCreatingNew, setIsCreatingNew] = useState(false);
-  const [isFullForm, setIsFullForm] = useState(false);
-  const [newFormData, setNewFormData] = useState({ name: '', description: '' });
-  const [savingNew, setSavingNew] = useState(false);
+  // Dedicated Manage Modal State for building/editing a record
+  const [isManageModalOpen, setIsManageModalOpen] = useState(false);
+  const [manageSelectedItem, setManageSelectedItem] = useState(null);
+  const [manageFormData, setManageFormData] = useState({});
 
   const selectorFetchedRef = useRef({});
 
   const colConfig = getCollectionConfig(sourceCollection) || EMPTY_CONFIG;
-  const schemaFields = colConfig.fields || DEFAULT_SCHEMA_FIELDS;
 
   // Reset modal state on open or sourceCollection change
   useEffect(() => {
@@ -161,9 +170,9 @@ export const UnifiedRelationalSelectorModal = ({
     setCurrentSelected(Array.isArray(selectedValues) ? selectedValues : (selectedValues ? [selectedValues] : []));
     setSearchTerm('');
     setCategoryFilter('all');
-    setIsCreatingNew(false);
-    setIsFullForm(false);
-    setNewFormData({ name: '', description: '' });
+    setIsManageModalOpen(false);
+    setManageSelectedItem(null);
+    setManageFormData({});
   }, [isOpen, sourceCollection]);
 
   // Non-blocking background Firestore fetch (never replaces UI body with loading screen)
@@ -289,84 +298,105 @@ export const UnifiedRelationalSelectorModal = ({
   };
 
   const handleConfirm = () => {
-    if (isMulti) {
-      onSelect(currentSelected);
-    } else {
-      onSelect(currentSelected[0] || '');
+    if (onSelect) {
+      if (isMulti) {
+        onSelect(currentSelected);
+      } else {
+        onSelect(currentSelected[0] || '');
+      }
+    }
+    if (onChange) {
+      const selectedObjects = currentSelected.map(sel => {
+        const found = allAvailableItems.find(i => (i.name || i.id) === sel || i.id === sel);
+        return found || { name: sel, id: sel };
+      });
+      onChange(isMulti ? selectedObjects : (selectedObjects.length > 0 ? selectedObjects : []));
     }
     onClose();
   };
 
-  const handleSaveNewItem = async (e) => {
+  const handleOpenBuildManage = (e) => {
     if (e) {
       e.preventDefault();
       e.stopPropagation();
     }
+    setManageSelectedItem(null);
+    setManageFormData({
+      name: searchTerm.trim() || '',
+      category: categoryFilter !== 'all' && categoryFilter !== 'groups' ? categoryFilter : ''
+    });
+    setIsManageModalOpen(true);
+  };
 
-    const itemName = (newFormData.name || '').trim();
-    if (!itemName) {
-      alert("Item name is required!");
-      return;
+  const handleOpenEditManage = (item, e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    setManageSelectedItem(item);
+    setManageFormData({ ...item });
+    setIsManageModalOpen(true);
+  };
+
+  const handleManageSave = async (savedItem) => {
+    const itemToSave = {
+      ...savedItem,
+      id: savedItem.id || manageSelectedItem?.id || `custom_${Date.now()}`
+    };
+
+    // 1. Update local items list
+    setItems(prev => {
+      const idx = prev.findIndex(i => (i.id && i.id === itemToSave.id) || (i.name && i.name === itemToSave.name));
+      if (idx >= 0) {
+        const next = [...prev];
+        next[idx] = itemToSave;
+        return next;
+      }
+      return [...prev, itemToSave];
+    });
+
+    // 2. Update global activeDbData state & local storage
+    if (activeSaveEntry) {
+      await activeSaveEntry(itemToSave, sourceCollection);
     }
 
-    setSavingNew(true);
-    try {
-      const newId = `${sourceCollection}_${Date.now()}`;
-      const payload = {
-        id: newId,
-        ...newFormData,
-        name: itemName,
-        description: (newFormData.description || '').trim(),
-        createdAt: new Date().toISOString()
-      };
+    // 3. Notify parent DBMItemModal
+    if (onItemCreated) {
+      onItemCreated(sourceCollection, itemToSave);
+    }
 
-      // 1. Update local items list
-      setItems(prev => [...prev, payload]);
-
-      // 2. Update global activeDbData state & local storage
-      if (activeSaveEntry) {
-        await activeSaveEntry(payload, sourceCollection);
+    // 4. Update selection array & confirm to parent form
+    const selectVal = itemToSave.name || itemToSave.id;
+    let updatedSelected = [...currentSelected];
+    if (isMulti) {
+      if (!updatedSelected.includes(selectVal)) {
+        updatedSelected.push(selectVal);
       }
+    } else {
+      updatedSelected = [selectVal];
+    }
 
-      // 3. Notify parent DBMItemModal
-      if (onItemCreated) {
-        onItemCreated(sourceCollection, payload);
-      }
+    setCurrentSelected(updatedSelected);
 
-      // 4. Update selection array & confirm to parent form
-      const selectVal = payload.name || payload.id;
-      let updatedSelected = [...currentSelected];
-      if (isMulti) {
-        if (!updatedSelected.includes(selectVal)) {
-          updatedSelected.push(selectVal);
-        }
-      } else {
-        updatedSelected = [selectVal];
-      }
-
-      setCurrentSelected(updatedSelected);
-
+    if (onSelect) {
       if (isMulti) {
         onSelect(updatedSelected);
       } else {
         onSelect(updatedSelected[0] || '');
       }
-
-      // 5. Reset internal form state and close modal immediately (0ms delay)
-      setNewFormData({ name: '', description: '' });
-      setIsCreatingNew(false);
-      onClose();
-
-      // 6. Non-blocking background Firestore sync
-      setDoc(doc(db, sourceCollection, newId), payload).catch(err => {
-        console.warn("Background cloud sync note:", err.message);
-      });
-    } catch (err) {
-      console.error("Error saving new relational item:", err);
-      alert("Failed to save item: " + err.message);
-    } finally {
-      setSavingNew(false);
     }
+    if (onChange) {
+      onChange([itemToSave]);
+    }
+
+    // 5. Close manage modal and selector modal
+    setIsManageModalOpen(false);
+    onClose();
+
+    // 6. Non-blocking background Firestore sync
+    setDoc(doc(db, sourceCollection, itemToSave.id), itemToSave).catch(err => {
+      console.warn("Background cloud sync note:", err.message);
+    });
   };
 
   return (
@@ -381,19 +411,13 @@ export const UnifiedRelationalSelectorModal = ({
             <span className="text-xs text-slate-400 font-mono">Collection: {colConfig.label || sourceCollection}</span>
           </div>
           <div className="flex items-center gap-2">
-            {devMode && (
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setIsCreatingNew(!isCreatingNew);
-                }}
-                className="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-bold uppercase transition-colors shadow flex items-center gap-1 cursor-pointer z-10"
-              >
-                {isCreatingNew ? '✕ Cancel New' : '✨ + Create New'}
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={handleOpenBuildManage}
+              className="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-bold uppercase transition-colors shadow flex items-center gap-1 cursor-pointer z-10"
+            >
+              ✨ + Build Record
+            </button>
             <button
               type="button"
               onClick={onClose}
@@ -404,144 +428,7 @@ export const UnifiedRelationalSelectorModal = ({
           </div>
         </div>
 
-        {/* Modal Body */}
-        {isCreatingNew ? (
-          /* CREATE NEW ITEM DEDICATED FORM VIEW */
-          <div className="flex-1 overflow-y-auto p-5 bg-slate-950/80 space-y-4">
-            <div className="bg-slate-900 border border-amber-500/40 p-4 rounded-lg space-y-4 shadow-lg">
-              <div className="flex justify-between items-center border-b border-slate-800 pb-3">
-                <h4 className="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-2">
-                  <span>✨</span> Create New Record in {colConfig.label || sourceCollection}
-                </h4>
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setIsFullForm(!isFullForm);
-                  }}
-                  className="text-[11px] text-cyan-400 hover:text-cyan-300 font-mono underline cursor-pointer"
-                >
-                  {isFullForm ? '⚡ Switch to Quick Create' : '⚙️ Toggle Full Schema Fields'}
-                </button>
-              </div>
-
-              {/* Core Name & Description */}
-              <div className="space-y-3">
-                <div>
-                  <label className="block text-[11px] font-bold text-slate-300 uppercase mb-1">Item Name *</label>
-                  <input
-                    type="text"
-                    placeholder="Enter Record Name *"
-                    value={newFormData.name || ''}
-                    onChange={e => setNewFormData({ ...newFormData, name: e.target.value })}
-                    className="w-full bg-slate-950 border border-slate-700 text-white p-2.5 rounded text-xs outline-none focus:border-amber-500"
-                    autoFocus
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[11px] font-bold text-slate-300 uppercase mb-1">Description</label>
-                  <textarea
-                    placeholder="Enter Record Description..."
-                    value={newFormData.description || ''}
-                    onChange={e => setNewFormData({ ...newFormData, description: e.target.value })}
-                    rows={3}
-                    className="w-full bg-slate-950 border border-slate-700 text-white p-2.5 rounded text-xs outline-none focus:border-amber-500"
-                  />
-                </div>
-              </div>
-
-              {/* Dynamic Granular Schema Fields */}
-              {isFullForm && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3 border-t border-slate-800">
-                  {Object.keys(schemaFields).map(fKey => {
-                    if (fKey === 'name' || fKey === 'description') return null;
-                    const fDef = schemaFields[fKey];
-                    const label = fDef.label || fKey.replace(/_/g, ' ').toUpperCase();
-
-                    let selectOptions = fDef.options || [];
-                    if (fKey === 'aspect_subtype' && newFormData.aspect) {
-                      selectOptions = getAspectSubtypeOptions(newFormData.aspect, activeDbData);
-                    }
-
-                    return (
-                      <div key={fKey} className={fDef.type === 'textarea' ? 'sm:col-span-2' : ''}>
-                        <label className="block text-[10px] font-bold text-slate-400 uppercase mb-1">
-                          {label}
-                        </label>
-                        {fDef.type === 'textarea' ? (
-                          <textarea
-                            value={newFormData[fKey] || ''}
-                            onChange={e => setNewFormData({ ...newFormData, [fKey]: e.target.value })}
-                            rows={2}
-                            className="w-full bg-slate-950 border border-slate-700 text-white p-2 rounded text-xs outline-none focus:border-amber-500"
-                          />
-                        ) : fDef.type === 'select' ? (
-                          <select
-                            value={newFormData[fKey] || ''}
-                            onChange={e => setNewFormData({ ...newFormData, [fKey]: e.target.value })}
-                            className="w-full bg-slate-950 border border-slate-700 text-white p-2 rounded text-xs outline-none focus:border-amber-500"
-                          >
-                            <option value="">-- Select {label} --</option>
-                            {selectOptions.map(opt => (
-                              <option key={opt} value={opt}>{opt}</option>
-                            ))}
-                          </select>
-                        ) : fDef.type === 'boolean' ? (
-                          <label className="flex items-center gap-2 text-slate-300 text-xs cursor-pointer mt-1">
-                            <input
-                              type="checkbox"
-                              checked={Boolean(newFormData[fKey])}
-                              onChange={e => setNewFormData({ ...newFormData, [fKey]: e.target.checked })}
-                              className="accent-amber-500 w-4 h-4"
-                            />
-                            Enable {label}
-                          </label>
-                        ) : (
-                          <input
-                            type={fDef.type === 'number' ? 'number' : 'text'}
-                            value={newFormData[fKey] ?? ''}
-                            onChange={e => setNewFormData({
-                              ...newFormData,
-                              [fKey]: fDef.type === 'number' ? Number(e.target.value) : e.target.value
-                            })}
-                            className="w-full bg-slate-950 border border-slate-700 text-white p-2 rounded text-xs outline-none focus:border-amber-500"
-                          />
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-
-              {/* Action Buttons */}
-              <div className="flex justify-end gap-3 pt-3 border-t border-slate-800">
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setIsCreatingNew(false);
-                  }}
-                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold rounded uppercase cursor-pointer"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  onClick={handleSaveNewItem}
-                  disabled={savingNew || !(newFormData.name || '').trim()}
-                  className="px-5 py-2 bg-amber-600 hover:bg-amber-500 disabled:opacity-50 text-white text-xs font-bold rounded uppercase shadow transition-colors flex items-center gap-1.5 cursor-pointer"
-                >
-                  <span>💾</span> {savingNew ? 'Saving...' : 'Save & Select Item'}
-                </button>
-              </div>
-            </div>
-          </div>
-        ) : (
-          /* ITEM LIST SELECTION VIEW */
-          <>
+        {/* Modal Body: Always directly presents the sorted catalog */}
             {/* Search Bar */}
             <div className="p-4 bg-slate-950/60 border-b border-slate-800 flex items-center gap-3 shrink-0">
               <input
@@ -565,6 +452,39 @@ export const UnifiedRelationalSelectorModal = ({
               >
                 <span>🔍</span> Search DB
               </button>
+              {/* View Mode Toggle: Clean Table vs Cards */}
+              <div className="flex items-center bg-slate-900 border border-slate-700/80 rounded p-1 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setViewMode('table');
+                    try { localStorage.setItem('tangent_catalog_view_mode', 'table'); } catch {}
+                  }}
+                  className={`px-2 py-1 rounded text-[11px] font-bold transition-all cursor-pointer ${
+                    viewMode === 'table'
+                      ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-[0_0_8px_rgba(34,211,238,0.25)]'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                  title="Clean Table Listing View"
+                >
+                  Table
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setViewMode('cards');
+                    try { localStorage.setItem('tangent_catalog_view_mode', 'cards'); } catch {}
+                  }}
+                  className={`px-2 py-1 rounded text-[11px] font-bold transition-all cursor-pointer ${
+                    viewMode === 'cards'
+                      ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-[0_0_8px_rgba(34,211,238,0.25)]'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                  title="Sharp High-Tech Cards View"
+                >
+                  Cards
+                </button>
+              </div>
               {loading && <span className="text-[10px] text-cyan-400 font-mono animate-pulse">Syncing cloud...</span>}
               <span className="text-xs text-slate-400 font-mono">
                 {currentSelected.length} Selected
@@ -665,19 +585,75 @@ export const UnifiedRelationalSelectorModal = ({
                   <p className="text-[11px] text-slate-400 max-w-sm mx-auto">
                     This database collection in Omnicortex is currently empty. You can create the very first record right now.
                   </p>
-                  {devMode && (
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        setIsCreatingNew(true);
-                      }}
-                      className="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs uppercase rounded shadow transition-all inline-flex items-center gap-1.5 mt-1 cursor-pointer"
-                    >
-                      <span>✨</span> Create First {colConfig.label || sourceCollection} Record
-                    </button>
-                  )}
+                  <button
+                    type="button"
+                    onClick={handleOpenBuildManage}
+                    className="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs uppercase rounded shadow transition-all inline-flex items-center gap-1.5 mt-1 cursor-pointer"
+                  >
+                    <span>✨</span> + Build New {colConfig.label || sourceCollection} Record
+                  </button>
+                </div>
+              </div>
+            ) : viewMode === 'table' ? (
+              <div className="flex-1 overflow-y-auto p-4 bg-slate-950/40">
+                <div className="border border-slate-800 rounded-lg overflow-hidden bg-slate-950/80 shadow-lg">
+                  <table className="w-full text-left text-xs border-collapse">
+                    <thead>
+                      <tr className="bg-slate-900/90 border-b border-slate-800 text-slate-400 uppercase tracking-wider font-bold text-[10px]">
+                        <th className="py-2.5 px-3 w-10 text-center">Sel</th>
+                        <th className="py-2.5 px-3">Designation / Record</th>
+                        <th className="py-2.5 px-3">Type / Category</th>
+                        <th className="py-2.5 px-3 hidden md:table-cell">Overview</th>
+                        <th className="py-2.5 px-3 text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-800/60">
+                      {filteredItems.map((item, idx) => {
+                        const val = item.name || item.id;
+                        const isChecked = currentSelected.includes(val) || currentSelected.includes(item.id);
+                        return (
+                          <tr
+                            key={item.id || idx}
+                            onClick={() => toggleItem(val)}
+                            className={`transition-colors cursor-pointer ${
+                              isChecked ? 'bg-cyan-950/60 border-l-2 border-l-cyan-400' : 'hover:bg-cyan-950/20'
+                            }`}
+                          >
+                            <td className="py-2.5 px-3 text-center" onClick={e => e.stopPropagation()}>
+                              <input
+                                type={isMulti ? 'checkbox' : 'radio'}
+                                checked={isChecked}
+                                onChange={() => toggleItem(val)}
+                                className="accent-cyan-500 w-3.5 h-3.5 cursor-pointer"
+                              />
+                            </td>
+                            <td className="py-2.5 px-3 font-bold text-slate-200">
+                              {item.name || item.id}
+                            </td>
+                            <td className="py-2.5 px-3 whitespace-nowrap">
+                              <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700/80 text-[10px] font-mono text-cyan-300">
+                                {item.type || item.category || 'Standard'}
+                              </span>
+                            </td>
+                            <td className="py-2.5 px-3 text-slate-400 max-w-xs truncate hidden md:table-cell">
+                              {item.description || '—'}
+                            </td>
+                            <td className="py-2.5 px-3 text-right whitespace-nowrap" onClick={e => e.stopPropagation()}>
+                              <button
+                                type="button"
+                                onClick={(e) => handleOpenEditManage(item, e)}
+                                className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-slate-900 hover:bg-slate-800 border border-slate-700 hover:border-amber-500/70 text-slate-400 hover:text-amber-300 transition-all cursor-pointer inline-flex items-center gap-1 shadow-sm"
+                                title={`Edit ${item.name || item.id} in database`}
+                              >
+                                <span>✏️</span>
+                                <span>Edit</span>
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             ) : (
@@ -718,25 +694,37 @@ export const UnifiedRelationalSelectorModal = ({
                               {isCategoryGroup && <span>📂</span>}
                               {item.name || item.id}
                             </span>
-                            {item.type && (
-                              <span className={`text-[10px] px-2 py-0.5 rounded font-mono shrink-0 ${
-                                isCategoryGroup
-                                  ? 'bg-amber-950/90 text-amber-300 border border-amber-500/50 font-bold'
-                                  : item.group === 'physical'
-                                  ? 'bg-emerald-950/90 text-emerald-300 border border-emerald-500/50 font-bold'
-                                  : item.group === 'mental'
-                                  ? 'bg-blue-950/90 text-blue-300 border border-blue-500/50 font-bold'
-                                  : item.group === 'social'
-                                  ? 'bg-cyan-950/90 text-cyan-300 border border-cyan-500/50 font-bold'
-                                  : item.group === 'combat'
-                                  ? 'bg-amber-950/90 text-amber-300 border border-amber-500/50 font-bold'
-                                  : item.group === 'meta'
-                                  ? 'bg-purple-950/90 text-purple-300 border border-purple-500/50 font-bold'
-                                  : 'bg-slate-800 text-cyan-300'
-                              }`}>
-                                {item.type}
-                              </span>
-                            )}
+                            <div className="flex items-center gap-1 shrink-0">
+                              {item.type && (
+                                <span className={`text-[10px] px-2 py-0.5 rounded font-mono shrink-0 ${
+                                  isCategoryGroup
+                                    ? 'bg-amber-950/90 text-amber-300 border border-amber-500/50 font-bold'
+                                    : item.group === 'physical'
+                                    ? 'bg-emerald-950/90 text-emerald-300 border border-emerald-500/50 font-bold'
+                                    : item.group === 'mental'
+                                    ? 'bg-blue-950/90 text-blue-300 border border-blue-500/50 font-bold'
+                                    : item.group === 'social'
+                                    ? 'bg-cyan-950/90 text-cyan-300 border border-cyan-500/50 font-bold'
+                                    : item.group === 'combat'
+                                    ? 'bg-amber-950/90 text-amber-300 border border-amber-500/50 font-bold'
+                                    : item.group === 'meta'
+                                    ? 'bg-purple-950/90 text-purple-300 border border-purple-500/50 font-bold'
+                                    : 'bg-slate-800 text-cyan-300'
+                                }`}>
+                                  {item.type}
+                                </span>
+                              )}
+                              {!isCategoryGroup && (
+                                <button
+                                  type="button"
+                                  onClick={(e) => { e.stopPropagation(); handleOpenEditManage(item, e); }}
+                                  className="p-1 rounded text-[10px] bg-slate-950/80 hover:bg-slate-900 border border-slate-800 hover:border-amber-500/70 text-slate-400 hover:text-amber-300 transition-all cursor-pointer"
+                                  title={`Edit ${item.name || item.id} in database`}
+                                >
+                                  <span>✏️</span>
+                                </button>
+                              )}
+                            </div>
                           </div>
                           {item.description && (
                             <p className="text-[11px] text-slate-400 line-clamp-1 mt-0.5">{item.description}</p>
@@ -749,34 +737,68 @@ export const UnifiedRelationalSelectorModal = ({
               />
             )}
 
-            {/* Footer Actions */}
-            <div className="bg-slate-950 p-4 border-t border-slate-800 flex justify-between items-center shrink-0">
-              <button
-                type="button"
-                onClick={() => setCurrentSelected([])}
-                className="text-xs text-slate-400 hover:text-slate-200 underline uppercase cursor-pointer"
-              >
-                Clear Selection
-              </button>
-              <div className="flex gap-3">
-                <button
-                  type="button"
-                  onClick={onClose}
-                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-xs font-bold uppercase cursor-pointer"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  onClick={handleConfirm}
-                  className="px-5 py-2 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded text-xs uppercase shadow-md transition-colors cursor-pointer"
-                >
-                  Confirm Selection ({currentSelected.length})
-                </button>
-              </div>
-            </div>
-          </>
-        )}
+        {/* Footer Actions */}
+        <div className="bg-slate-950 p-4 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-2 shrink-0">
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setCurrentSelected([])}
+              className="text-xs text-slate-400 hover:text-slate-200 underline uppercase cursor-pointer"
+            >
+              Clear Selection
+            </button>
+            <span className="text-[11px] text-slate-500 font-mono">
+              ({filteredItems.length} records available)
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={handleOpenBuildManage}
+              className="px-3.5 py-2 bg-amber-950 hover:bg-amber-900 border border-amber-500/60 text-amber-300 rounded text-xs font-bold uppercase cursor-pointer flex items-center gap-1.5 transition-colors"
+            >
+              <span>✨</span> + Build Record
+            </button>
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-xs font-bold uppercase cursor-pointer transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              onClick={handleConfirm}
+              className="px-5 py-2 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded text-xs uppercase shadow-md transition-colors cursor-pointer"
+            >
+              Confirm Selection ({currentSelected.length})
+            </button>
+          </div>
+        </div>
+
+        {/* Dedicated DBM Manage Modal for Building New Record */}
+        <Suspense fallback={null}>
+          {isManageModalOpen && (
+            <DBMItemModal
+              isOpen={isManageModalOpen}
+              onClose={() => setIsManageModalOpen(false)}
+              isEditMode={true}
+              setIsEditMode={() => {}}
+              selectedItem={manageSelectedItem}
+              editFormData={manageFormData}
+              setEditFormData={setManageFormData}
+              currentConfig={colConfig}
+              currentKey={sourceCollection}
+              onSave={handleManageSave}
+              onDelete={() => setIsManageModalOpen(false)}
+              dbData={activeDbData}
+              saveEntry={activeSaveEntry}
+              devMode={true}
+              isAdmin={true}
+            />
+          )}
+        </Suspense>
       </div>
     </div>
   );

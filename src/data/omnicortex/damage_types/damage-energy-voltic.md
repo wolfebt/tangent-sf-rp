@@ -1,9 +1,10 @@
 ---
 id: damage-energy-voltic
-name: Voltic / Electrical Energy Damage
+name: Voltic / Electrical Damage
 category: damage_types
-damage_classification: Energy
-description: 'High-voltage arcs overloading cybernetics, robots, and nervous systems.'
+description: >-
+  High-voltage electrical arcs that stun biological nervous systems and overload
+  electronic circuitry, cyberware, and robotics.
 costs:
   bp: 0
   credits: 0
@@ -25,11 +26,30 @@ sockets:
   tier: Socket
   allocated: []
 ---
+# Voltic / Electrical Damage
 
-# Voltic / Electrical Energy Damage
+**Category**: Damage Types & Energy Profiles
 
-**Category**: Damage Types  
-**Classification**: Energy
+## Overview
+Voltic damage discharges high-voltage electrical arcs into targets, causing violent muscle spasms, disrupting bio-electric signals, and frying electronic processors. It frequently inflicts the **Stunned** condition.
 
-## Tactical Properties
-High-voltage arcs overloading cybernetics, robots, and nervous systems.
+### Metaphysical
+- **Electrokinesis**: Generating lightning bolts, controlling electrical currents, and storing electrostatic charges.
+- **Electricity Evocation**: Summoning living storm elementals and ball lightning.
+- **Electrical Enchantments**: Imbuing weapons with shock arcs on contact.
+
+### Archaic Tech
+- **Leyden Jars**: Primitive static electrical storage jars discharging non-lethal shocks.
+
+### Modern Tech
+- **Stun Guns & Tasers**: High-voltage, low-amperage neuro-muscular incapacitation devices.
+- **Electrified Projectiles**: Shotgun slugs or darts delivering high-voltage capacitors on impact.
+- **Shock Traps**: Pressure plates releasing high-voltage defensive discharges.
+
+### Advanced Tech
+- **Railguns & Arc Cannons**: Weapons launching lightning-sheathed hypervelocity slugs or directed ionic arcs.
+- **EMP Projectors**: Electromagnetic pulse weapons that instantly shut down cyberware, power grids, and robots.
+- **Lightning Field Barriers**: Perimeter shields vaporizing incoming drones with continuous electrical arcs.
+
+### Tactical Notes
+Voltic weapons deal double system damage to robotic, cybernetic, and vehicle power conduits, with a high chance of inducing temporary shutdown.

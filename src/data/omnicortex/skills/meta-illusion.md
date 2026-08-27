@@ -9,16 +9,13 @@ governing_attributes:
   - Wisdom
   - Charisma
 description: >-
-  The metaphysical discipline governing sensory deception, light-bending
-  invisibility, sound damping, holographic phantasms, and quasi-real shadow
-  matter.
+  The metaphysical discipline governing photon refraction, sensory deception, holographic phantasms, mental glamours, and shadow weaving.
 trained_only: true
 specialties:
-  - 'Phantasm Focus (Invisibility, sensory illusions, disguise glamer)'
-  - 'Shadow Focus (Quasi-real matter, shadow weapons, solid fog)'
+  - 'Phantasm Focus (Sensory phantasms, holographic weaves, mirages)'
+  - 'Shadow Focus (Weaving darkness, shadow-stuff, optical refraction)'
 synergy_links:
   - meta-attune
-  - social-disguise
   - mental-metaphysics
 costs:
   bp: 0
@@ -44,14 +41,18 @@ sockets:
 
 # Illusion
 
-The metaphysical discipline governing sensory deception, light-bending invisibility, sound damping, holographic phantasms, and quasi-real shadow matter.
+The metaphysical discipline governing photon refraction, sensory deception, holographic phantasms, mental glamours, and shadow weaving.
 
-### Mechanics & Rules
-- **Governing Attribute**: Key Ability (Requires Awakened feature).
-- **Disbelief Mechanics**:
-  - *Phantasm Focus*: Will save negates effect entirely.
-  - *Shadow Focus*: Infused with Shadow Plane matter; even if disbelieved, retains 20% reality and damage.
+### Core Rules & Mechanics
+- **Governing Attribute**: Selected at Awakening (Intellect for Reason/Arcane, Wisdom for Intuition/Faith, Charisma for Dominance/Inherent).
+- **Potency Formula**:
+  $$\text{Potency} = [\text{Key Ability Mod} + \text{Discipline Skill Level} + \text{Invocation Level} + 10 \text{ (or } d20 \text{)}]$$
+- **Damage & Scaling**: 1d6 per Stage achieved with check (Psychic/Cold or Deception Potency).
+- **Essence Pool Contribution**: Ranks in this discipline's focus skills contribute directly to the character's **Essence Pool** (Breadth component).
+- **Sensory Manifestation**:
+  - *Colors*: Shimmering (Primary) / Oil-Slick (Secondary)
+  - *Texture & Form*: Mirrored surfaces, chromatic haze, sensor glitches, and light-bending refractive weaves
 
 ### Focuses
-- **Phantasm Focus**: Invisibility (1 min/rank), sensory decoys, auditory silence domes.
-- **Shadow Focus**: Shadow weapon creation, duplicate conjuration spells at 50% power.
+- **Phantasm Focus**: Sensory phantasms, holographic weaves, mirages
+- **Shadow Focus**: Weaving darkness, shadow-stuff, optical refraction

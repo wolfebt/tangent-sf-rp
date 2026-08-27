@@ -140,24 +140,108 @@ export const DEFAULT_SKILLS = {
   ],
   meta: [
     {
-      title: null,
+      title: 'General',
       skills: [
         { name: 'Attune', id: 'meta-attune', group: 'meta', baseAttr: 'attr-wisdom', description: 'Channeling energy, sensing psionic/magical fields, and metaphysical resonance.' }
       ]
     },
     {
-      title: 'Disciplines',
+      title: 'Discipline Skills',
       skills: [
-        { name: 'Dimension', id: 'meta-dimension', group: 'meta', baseAttr: 'attr-wisdom', description: 'Spatial manipulation, teleportation, phasing, and portal dynamics.' },
-        { name: 'Energy', id: 'meta-energy', group: 'meta', baseAttr: 'attr-wisdom', description: 'Manipulating thermal, electromagnetic, kinetic, and radiant energy.' },
-        { name: 'Entropy', id: 'meta-entropy', group: 'meta', baseAttr: 'attr-wisdom', description: 'Decay, dissolution, probability manipulation, and necrotic entropy.' },
-        { name: 'Illusion', id: 'meta-illusion', group: 'meta', baseAttr: 'attr-wisdom', description: 'Sensory deception, mental phantasms, holographic weaves, and mirages.' },
-        { name: 'Matter', id: 'meta-matter', group: 'meta', baseAttr: 'attr-wisdom', description: 'Transmutation, telekinesis, reshaping physical materials, and molecular density.' },
-        { name: 'Mental', id: 'meta-mental', group: 'meta', baseAttr: 'attr-wisdom', description: 'Telepathy, mind probes, empathy control, and psychic assault.' }
+        { name: 'Chaos', id: 'meta-chaos', group: 'meta', discipline: 'Entropy', baseAttr: 'attr-wisdom', description: 'Entropy: Accelerating decay, breaking molecular bonds, curses, and destructive negative energy.' },
+        { name: 'Order', id: 'meta-order', group: 'meta', discipline: 'Entropy', baseAttr: 'attr-wisdom', description: 'Entropy: Probability stabilization, cellular regeneration, biological healing, and preservation.' },
+        { name: 'Summoning', id: 'meta-summoning', group: 'meta', discipline: 'Dimension', baseAttr: 'attr-wisdom', description: 'Dimension: Drawing entities, matter, and energetic constructs across dimensional boundaries.' },
+        { name: 'Teleport', id: 'meta-teleport', group: 'meta', discipline: 'Dimension', baseAttr: 'attr-wisdom', description: 'Dimension: Instantaneous spatial relocation, portal anchors, and trans-dimensional folding.' },
+        { name: 'Elemental', id: 'meta-elemental', group: 'meta', discipline: 'Energy', baseAttr: 'attr-wisdom', description: 'Energy: Thermal, electrical, fire, frost, and plasma generation and channeling.' },
+        { name: 'Force', id: 'meta-force', group: 'meta', discipline: 'Energy', baseAttr: 'attr-wisdom', description: 'Energy: Kinetic barriers, gravimetric pulses, concussive waves, and physical repulsors.' },
+        { name: 'Phantasm', id: 'meta-phantasm', group: 'meta', discipline: 'Illusion', baseAttr: 'attr-wisdom', description: 'Illusion: Sensory phantasms, holographic weaves, auditory deception, and mirages.' },
+        { name: 'Shadow', id: 'meta-shadow', group: 'meta', discipline: 'Illusion', baseAttr: 'attr-wisdom', description: 'Illusion: Weaving darkness, shadow-stuff, optical refraction, and umbral constructs.' },
+        { name: 'Enhancement', id: 'meta-enhancement', group: 'meta', discipline: 'Matter', baseAttr: 'attr-wisdom', description: 'Matter: Strengthening material bonds, hardening objects, and physical reinforcement.' },
+        { name: 'Transmutation', id: 'meta-transmutation', group: 'meta', discipline: 'Matter', baseAttr: 'attr-wisdom', description: 'Matter: Reshaping physical matter, molecular conversion, and phase state changes.' },
+        { name: 'Projection', id: 'meta-projection', group: 'meta', discipline: 'Mental', baseAttr: 'attr-wisdom', description: 'Mental: Psionic projections, telekinesis, telepathic speech, and cognitive thrusts.' },
+        { name: 'Sense', id: 'meta-sense', group: 'meta', discipline: 'Mental', baseAttr: 'attr-wisdom', description: 'Mental: Remote viewing, psionic detection, empathy, telepathic probing, and clairvoyance.' },
+        { name: 'Dimension', id: 'meta-dimension', group: 'meta', discipline: 'Dimension', baseAttr: 'attr-wisdom', description: 'Spatial manipulation, teleportation, phasing, and portal dynamics.' },
+        { name: 'Energy', id: 'meta-energy', group: 'meta', discipline: 'Energy', baseAttr: 'attr-wisdom', description: 'Manipulating thermal, electromagnetic, kinetic, and radiant energy.' },
+        { name: 'Entropy', id: 'meta-entropy', group: 'meta', discipline: 'Entropy', baseAttr: 'attr-wisdom', description: 'Decay, dissolution, probability manipulation, and necrotic entropy.' },
+        { name: 'Illusion', id: 'meta-illusion', group: 'meta', discipline: 'Illusion', baseAttr: 'attr-wisdom', description: 'Sensory deception, mental phantasms, holographic weaves, and mirages.' },
+        { name: 'Matter', id: 'meta-matter', group: 'meta', discipline: 'Matter', baseAttr: 'attr-wisdom', description: 'Transmutation, telekinesis, reshaping physical materials, and molecular density.' },
+        { name: 'Mental', id: 'meta-mental', group: 'meta', discipline: 'Mental', baseAttr: 'attr-wisdom', description: 'Telepathy, mind probes, empathy control, and psychic assault.' }
       ]
     }
   ]
 };
+
+/**
+ * Canonical 6 Metaphysical Disciplines and their associated skills
+ */
+export const METAPHYSICAL_DISCIPLINES = [
+  {
+    id: 'entropy',
+    name: 'Entropy',
+    icon: '⏳',
+    color: 'rose',
+    skills: [
+      { id: 'meta-chaos', name: 'Chaos', baseAttr: 'attr-wisdom', description: 'Accelerating decay, breaking molecular bonds, curses, and destructive negative energy.' },
+      { id: 'meta-order', name: 'Order', baseAttr: 'attr-wisdom', description: 'Probability stabilization, cellular regeneration, biological healing, and preservation.' }
+    ],
+    description: 'Governing probability, organic healing, cellular regeneration, life control, restoration, decay, and probability flux.'
+  },
+  {
+    id: 'dimension',
+    name: 'Dimension',
+    icon: '🌀',
+    color: 'purple',
+    skills: [
+      { id: 'meta-summoning', name: 'Summoning', baseAttr: 'attr-wisdom', description: 'Drawing entities, matter, and energetic constructs across dimensional boundaries.' },
+      { id: 'meta-teleport', name: 'Teleport', baseAttr: 'attr-wisdom', description: 'Instantaneous spatial relocation, portal anchors, and trans-dimensional folding.' }
+    ],
+    description: 'Spatial manipulation, teleportation, phasing, dimensional gates, and portal dynamics.'
+  },
+  {
+    id: 'energy',
+    name: 'Energy',
+    icon: '⚡',
+    color: 'amber',
+    skills: [
+      { id: 'meta-elemental', name: 'Elemental', baseAttr: 'attr-wisdom', description: 'Thermal, electrical, fire, frost, and plasma generation and channeling.' },
+      { id: 'meta-force', name: 'Force', baseAttr: 'attr-wisdom', description: 'Kinetic barriers, gravimetric pulses, concussive waves, and physical repulsors.' }
+    ],
+    description: 'Manipulating thermal, electromagnetic, kinetic, radiant, and pure kinetic force fields.'
+  },
+  {
+    id: 'illusion',
+    name: 'Illusion',
+    icon: '🎭',
+    color: 'cyan',
+    skills: [
+      { id: 'meta-phantasm', name: 'Phantasm', baseAttr: 'attr-wisdom', description: 'Sensory phantasms, holographic weaves, auditory deception, and mirages.' },
+      { id: 'meta-shadow', name: 'Shadow', baseAttr: 'attr-wisdom', description: 'Weaving darkness, shadow-stuff, optical refraction, and umbral constructs.' }
+    ],
+    description: 'Sensory deception, mental phantasms, holographic weaves, and optical distortions.'
+  },
+  {
+    id: 'matter',
+    name: 'Matter',
+    icon: '🧱',
+    color: 'emerald',
+    skills: [
+      { id: 'meta-enhancement', name: 'Enhancement', baseAttr: 'attr-wisdom', description: 'Strengthening material bonds, hardening objects, and physical reinforcement.' },
+      { id: 'meta-transmutation', name: 'Transmutation', baseAttr: 'attr-wisdom', description: 'Reshaping physical matter, molecular conversion, and phase state changes.' }
+    ],
+    description: 'Molecular alteration, density shifting, material reinforcement, and matter transmutation.'
+  },
+  {
+    id: 'mental',
+    name: 'Mental',
+    icon: '🧠',
+    color: 'blue',
+    skills: [
+      { id: 'meta-projection', name: 'Projection', baseAttr: 'attr-wisdom', description: 'Psionic projections, telekinesis, telepathic speech, and cognitive thrusts.' },
+      { id: 'meta-sense', name: 'Sense', baseAttr: 'attr-wisdom', description: 'Remote viewing, psionic detection, empathy, telepathic probing, and clairvoyance.' }
+    ],
+    description: 'Telepathy, psionic force, neural influence, clairvoyance, and cognitive attunement.'
+  }
+];
 
 /**
  * Flattened array of all canonical skills for relational selectors and dropdowns

@@ -76,78 +76,98 @@ export const OMNICORTEX_DATASETS = [
     targetCollection: 'species',
     icon: Users,
     color: '#10b981',
-    description: 'Parse raw species and sub-species text into flat, self-contained Firestore JSON documents with embedded parent lineage lore.',
+    description: 'Parse raw species and sub-species text into self-contained, structured Firestore JSON documents with embedded parent taxon lore.',
     promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX SPECIES PARSER
 
-**ROLE:** You are an expert data engineer and RPG system archivist. Your job is to parse raw, hierarchical RPG lore and mechanical text into a flat, self-contained JSON schema optimized for a NoSQL Firebase/Firestore database.
+**ROLE:** You are an expert data engineer, systems architect, and RPG archivist for the Tangent Science Fantasy Roleplaying Game (SFF RPG). Your task is to parse raw species and sub-species documentation into self-contained, canonical JSON documents for the OMNICORTEX database.
 
-**TASK:** I will provide you with raw text detailing "Species" and "Sub-species" from the Tangent SF RP system. You must extract this information and output a perfectly formatted JSON array of objects.
+**TASK:** Parse the provided text and output ONLY a valid JSON array of objects adhering strictly to the schema below.
 
 **JSON SCHEMA:**
-Every species/sub-species must strictly adhere to the following schema. Do not add or remove keys.
-
 [
   {
-    "name": "String (Common name of the specific sub-species, e.g., 'Dar' or 'Alterian')",
-    "formalTitle": "String (The formal or cultural title)",
-    "parentLineage": "String (The overarching species group, e.g., 'Aulurans' or 'Aeld')",
-    "summary": "String (A 1-2 sentence elevator pitch of the species)",
-    "socialStigma": "String (e.g., 'Xeno (-2)')",
-    "homeworld": "String (e.g., 'Aquatica' or 'Various')",
-    "techLevel": "String (e.g., '4')",
-    "metaLevel": "String (e.g., '3+')",
-    "prerequisites": "String (The BP Cost, e.g., '27 BP')",
-    "type": "String (Classification, e.g., 'Humanoid (Feline)')",
-    "size": "String (e.g., 'Medium (5 to 6ft)')",
-    "movement": "String (e.g., '40ft Groundspeed')",
-    "traits": "String (Unique physical or biological quirks not listed as features)",
-    "attributeModifiers": "String (e.g., '+1 Agi, +1 Int')",
-    "skillModifiers": "String (e.g., '+10 Skills')",
-    "bonusFeatures": "String (Inherent granted features)",
-    "recommendedFeatures": "String (List of suggested features)",
-    "disciplinesAndSpecialAbilities": "String (Specific magical, psychic, or unique mechanics)",
-    "fullLore": "String (Comprehensive history, culture, and philosophy)",
-    "profileAndVisualSemiotics": "String (Aesthetic, architectural, and visual motifs)"
+    "name": "String (Common name of the specific sub-species, e.g., 'Dar' or 'Celestine')",
+    "title": "String (Formal cultural or caste title, e.g., 'Dar (Auluran Hunter Caste)')",
+    "parent_species": "String (Exact canonical lineage: 'Aeld', 'Asi (Fey Lineages)', 'Aulurans', 'Humans (Core & Variants)', 'Engineered Humans (Gen-E)', 'Kitin', 'Synthetics', 'Sha\\'nor & Void Lineages', 'Progenitors', 'Independent Xenotypes')",
+    "description": "String (1-2 sentence elevator pitch of the species)",
+    "stigma": "String (Reaction penalty, e.g., 'Xeno (-2)' or 'None')",
+    "homeworld": "String (Origin planet or habitat, e.g., 'Aulura Prime')",
+    "tech_level": 3,
+    "meta_level": 1,
+    "prerequisite": ["String (Any prerequisite or racial requirements)"],
+    "type": ["species_type-humanoid"],
+    "size": ["species_size-medium"],
+    "movement": ["species_movement-bipedal"],
+    "trait": ["String (Array of unique physiological trait names or IDs)"],
+    "costs": {
+      "bp": 25,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "modifiers": [
+      { "target": "Agility", "type": "attribute", "value": 1, "mode": "inherent" },
+      { "target": "Any Attribute", "type": "attribute", "value": 1, "mode": "bonus_pool" },
+      { "target": "Martial Arts", "type": "skill", "value": 1, "mode": "inherent" },
+      { "target": "General Skill Pool", "type": "skill", "value": 5, "mode": "bonus_pool" },
+      { "target": "Climber", "type": "feature", "value": 1, "mode": "inherent" },
+      { "target": "Apex Predator", "type": "feature", "value": 1, "mode": "choice_pool" }
+    ],
+    "body": "Markdown String (Comprehensive history, biology, culture, visual semiotics, and caste role. Self-contained; must embed parent taxon context)",
+    "note": "String (Architect / GM rules notes or null)"
   }
 ]
 
 **PARSING HEURISTICS & RULES:**
-1. **Self-Contained Documents (Crucial):** Embed parent lineage lore, visual semiotics, and base traits directly into the \`fullLore\`, \`profileAndVisualSemiotics\`, and \`traits\` fields of each sub-species.
-2. **BP Cost:** Map Build Point (BP) cost directly to \`prerequisites\`.
-3. **Data Aggregation:** Combine scattered lore paragraphs into \`fullLore\` and \`profileAndVisualSemiotics\`.
-4. **Clean Formatting:** Strip unnecessary markdown syntax (asterisks, stray table pipes \`|\`) from JSON string values.
-5. **Formatting Standard:** All mathematical/scientific notation, attributes, and formulas must use text and not be LaTeX-style syntax (no inline $ and display $$).
-6. **Output Requirement:** Output ONLY the valid JSON block.
+1. **Self-Contained Records:** Embed the parent species' foundational history and biology directly into the body field so the sub-species requires zero database joins.
+2. **Numeric Types:** tech_level, meta_level, and costs.bp MUST be numbers, never strings.
+3. **Structured Modifiers:** Dissect '+1 Agility, +1 Int, +5 Skills' into structured objects in modifiers. Valid types: attribute, skill, feature, discipline, combat. Valid modes: inherent, bonus_pool, choice_pool, recommended.
+4. **No LaTeX:** Do not use $ or $$. Write standard text formulas.
+5. **Output Requirement:** Output ONLY the valid JSON block.
 
 **INPUT TEXT:**
 [INSERT RAW SPECIES TEXT HERE]`,
     expectedKeys: [
-      'name', 'formalTitle', 'parentLineage', 'summary', 'socialStigma', 'homeworld',
-      'techLevel', 'metaLevel', 'prerequisites', 'type', 'size', 'movement', 'traits',
-      'attributeModifiers', 'skillModifiers', 'bonusFeatures', 'recommendedFeatures',
-      'disciplinesAndSpecialAbilities', 'fullLore', 'profileAndVisualSemiotics'
+      'name', 'title', 'parent_species', 'description', 'stigma', 'homeworld',
+      'tech_level', 'meta_level', 'prerequisite', 'type', 'size', 'movement',
+      'trait', 'costs', 'modifiers', 'body', 'note'
     ],
     sampleItem: {
       name: "Dar",
-      formalTitle: "Dar Auluran",
-      parentLineage: "Aulurans",
-      summary: "Agile, felinoid hunters adept at covert reconnaissance in urban and canopy environments.",
-      socialStigma: "Xeno (-2)",
-      homeworld: "Auluria",
-      techLevel: "3",
-      metaLevel: "1",
-      prerequisites: "25 BP",
-      type: "Humanoid (Feline)",
-      size: "Medium (5 to 6ft)",
-      movement: "40ft Groundspeed, 20ft Climb",
-      traits: "Low-Light Vision, Retractable Claws",
-      attributeModifiers: "+1 Agi, +1 Int",
-      skillModifiers: "+10 Stealth, +5 Perception",
-      bonusFeatures: "Catfall, Silent Step",
-      recommendedFeatures: "Nightstalker, Ambush Specialist",
-      disciplinesAndSpecialAbilities: "Kinetic Attunement",
-      fullLore: "The Dar are one of the core lineages of the Auluran race...",
-      profileAndVisualSemiotics: "Sleek biometric harnesses with subdued matte carbon plating."
+      title: "Dar (Auluran Hunter Caste)",
+      parent_species: "Aulurans",
+      description: "Feline, arboreal, and biologically sophisticated hunters and scouts wielding living symbiote weapons and prehensile limbs with lethal grace.",
+      stigma: "Xeno (-2)",
+      homeworld: "Aulura Prime",
+      tech_level: 3,
+      meta_level: 1,
+      prerequisite: [],
+      type: ["species_type-humanoid"],
+      size: ["species_size-medium"],
+      movement: ["species_movement-bipedal"],
+      trait: ["Low Light Vision", "Prehensile Tail", "Natural Weapons"],
+      costs: {
+        bp: 25,
+        credits: 0,
+        nodes: 0,
+        sockets: 0,
+        strain: 0,
+        focus: 0,
+        ap: 0
+      },
+      modifiers: [
+        { target: "Agility", type: "attribute", value: 1, mode: "inherent" },
+        { target: "Any Attribute", type: "attribute", value: 1, mode: "bonus_pool" },
+        { target: "Martial Arts", type: "skill", value: 1, mode: "inherent" },
+        { target: "General Skill Pool", type: "skill", value: 5, mode: "bonus_pool" },
+        { target: "Climber", type: "feature", value: 1, mode: "inherent" },
+        { target: "Apex Predator", type: "feature", value: 1, mode: "choice_pool" }
+      ],
+      body: "### Biology & Heritage\nThe Dar are an agile hunter sub-species of the Auluran taxon. Covered in fine short fur with elongated ears and reflective tapetum lucidum eyes, they excel in three-dimensional environments...",
+      note: "Auluran base traits are natively embedded into the chassis."
     }
   },
 
@@ -157,64 +177,84 @@ Every species/sub-species must strictly adhere to the following schema. Do not a
   {
     key: 'features',
     code: 'PROMPT B',
-    label: 'Features (Feats)',
+    label: 'Features & Feats',
     matrixId: 'features',
     targetCollection: 'features',
     icon: Sparkles,
-    color: '#eab308',
-    description: 'Parse rulebook character features and feats into structured mechanical records with boolean flags for multiple selection and staging.',
+    color: '#8b5cf6',
+    description: 'Parse raw rulebook features, feats, perks, and mechanical traits into structured JSON documents with costs and mechanics.',
     promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX FEATURE PARSER
 
-**ROLE:** You are an expert data engineer and RPG system archivist. Your job is to parse raw, unformatted RPG rulebook text into a strict, clean JSON schema optimized for a NoSQL Firebase/Firestore database.
+**ROLE:** You are an expert data engineer and RPG rules architect for Tangent SFF RPG. Your task is to parse raw rulebook features (feats/perks) into strict, canonical JSON documents for the OMNICORTEX database.
 
-**TASK:** I will provide you with raw text detailing character "Features" (or Feats) from the Tangent SF RP system. You must extract this information and output a perfectly formatted JSON array of objects. 
+**TASK:** Parse the provided feature text into a JSON array of objects adhering strictly to the schema below.
 
 **JSON SCHEMA:**
-Every feature must strictly adhere to the following schema. Do not add or remove keys.
-
 [
   {
     "name": "String (Name of the feature)",
-    "type": "String (e.g., Ability, Combat, Discipline, General, Karma, Skill, Special)",
-    "description": "String (The flavorful description of the feature)",
-    "techLevel": "String or null (If applicable, e.g., 'TL 3+')",
-    "metaLevel": "String or null (If applicable)",
-    "prerequisites": "String (List of required stats, skills, or features)",
-    "modifiers": "String (A brief summary of the mechanical numeric bonuses)",
-    "gameMechanics": "String (The detailed rules of how the feature works in play)",
-    "notes": "String (Any additional edge cases, restrictions, or table notes)",
-    "isMultipleSelection": true,
-    "isStaged": false
+    "type": "String (Exact enum: 'ability', 'combat', 'meta', 'general', 'karma', 'skill', 'exotic', 'Special Ability')",
+    "description": "String (Flavorful description and thematic narrative)",
+    "tech_level": 0,
+    "meta_level": 0,
+    "prerequisite": ["String (Required attributes, skills, features, or level)"],
+    "costs": {
+      "bp": 5,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "modifiers": [
+      { "target": "Target Name", "type": "feature", "value": 1, "mode": "inherent" }
+    ],
+    "mechanic": "String (Precise mechanical game rules, roll triggers, DCs, and dice formulas)",
+    "note": "String or null (Architect notes, edge cases, stacking rules)",
+    "multi": false,
+    "staged": false
   }
 ]
 
 **PARSING HEURISTICS & RULES:**
-1. **Boolean Flags:** 
-   - If marked "[Multiple]" or "Multiple", set \`"isMultipleSelection": true\`. Otherwise, \`false\`.
-   - If marked "[Ranked]" or "Ranked", set \`"isStaged": true\`. Otherwise, \`false\`.
-2. **Null Values:** Use JSON \`null\` for missing levels (do not use string "null").
-3. **Data Separation:** Separate flavor (\`description\`) from rules (\`gameMechanics\`). Summarize numeric bonus in \`modifiers\`.
-4. **Clean Formatting:** Remove markdown bold/italics from inside strings. No LaTeX $ symbols.
+1. **Boolean Flags:**
+   - If marked "[Multiple]", set "multi": true. Otherwise false.
+   - If marked "[Ranked]" or "[Staged]", set "staged": true. Otherwise false.
+2. **Data Separation:** Flavor belongs in description. Exact tabletop mechanics belong in mechanic.
+3. **BP Cost:** Map point costs into costs.bp.
+4. **No LaTeX:** Dice expressions must be plain text (e.g. 2d10+4).
 5. **Output Requirement:** Output ONLY the valid JSON block.
 
 **INPUT TEXT:**
 [INSERT RAW FEATURE TEXT HERE]`,
     expectedKeys: [
-      'name', 'type', 'description', 'techLevel', 'metaLevel', 'prerequisites',
-      'modifiers', 'gameMechanics', 'notes', 'isMultipleSelection', 'isStaged'
+      'name', 'type', 'description', 'tech_level', 'meta_level', 'prerequisite',
+      'costs', 'modifiers', 'mechanic', 'note', 'multi', 'staged'
     ],
     sampleItem: {
-      name: "Point Blank Shot",
-      type: "Combat",
-      description: "Mastery of close-quarters firearm combat and tactical snap-aiming.",
-      techLevel: "TL 2+",
-      metaLevel: null,
-      prerequisites: "Agi 12+, Firearms 4+",
-      modifiers: "+2 Ranged Attack within 15ft, +1 Damage",
-      gameMechanics: "When making ranged attacks against targets within 15ft, you do not suffer close-combat penalties.",
-      notes: "Applies to pistols, shotguns, and compact carbines.",
-      isMultipleSelection: false,
-      isStaged: false
+      name: "Deadeye Focus",
+      type: "combat",
+      description: "Through rigorous breathing and target synchronization, you steady your aim even amid chaotic crossfire.",
+      tech_level: 1,
+      meta_level: 0,
+      prerequisite: ["Firearms 3+", "Reflex 3+"],
+      costs: {
+        bp: 5,
+        credits: 0,
+        nodes: 0,
+        sockets: 0,
+        strain: 0,
+        focus: 1,
+        ap: 0
+      },
+      modifiers: [
+        { target: "Accuracy", type: "combat", value: 2, mode: "inherent" }
+      ],
+      mechanic: "When you take the Aim action before firing a ranged weapon, you ignore partial cover penalties and add +2 to the attack roll.",
+      note: "Does not stack with Smartlink targeting bonuses.",
+      multi: false,
+      staged: false
     }
   },
 
@@ -224,57 +264,56 @@ Every feature must strictly adhere to the following schema. Do not add or remove
   {
     key: 'skills',
     code: 'PROMPT C',
-    label: 'Skills & Vocations',
+    label: 'Skills & Proficiencies',
     matrixId: 'skills',
     targetCollection: 'skills',
     icon: BookOpen,
-    color: '#38bdf8',
-    description: 'Parse RPG skill documentation into standardized skill records categorized by Physical, Mental, Social, Combat, and Metafocus.',
+    color: '#3b82f6',
+    description: 'Parse raw skill documentation into strict JSON documents with classification, specializations, and mechanics.',
     promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX SKILL PARSER
 
-**ROLE:** You are an expert data engineer and RPG system archivist. Your job is to parse raw RPG skill documentation into a strict, clean JSON schema optimized for a NoSQL Firebase/Firestore database.
+**ROLE:** You are an expert data engineer and RPG system archivist for Tangent SFF RPG. Your task is to parse raw skill documentation into strict JSON documents for the OMNICORTEX database.
 
-**TASK:** I will provide you with raw text detailing "Skills" from the Tangent SF RP system. You must extract this information and output a perfectly formatted JSON array of objects.
+**TASK:** Parse the provided text into a JSON array of objects adhering strictly to the schema below.
 
 **JSON SCHEMA:**
-Every skill must strictly adhere to the following schema. Do not add or remove keys.
-
 [
   {
-    "name": "String (Name of the skill, e.g., 'Acrobatics' or 'Computers')",
-    "type": "String (Physical, Mental, Social, Combat, Metafocus)",
-    "subtype": "String or null (e.g., Knowledge, Vocation, Manipulation, Expression, Archaic, Modern, Advanced)",
-    "isSpecialization": false,
-    "description": "String (The narrative summary and purpose of the skill)",
-    "techLevel": "String or null (If applicable)",
-    "metaLevel": "String or null (If applicable)",
-    "gameMechanics": "String (DCs, checks, opposed rolls, and mechanical effects)",
-    "notes": "String (Specialties, attributes, governing stats, or special riders)"
+    "name": "String (Name of the skill, e.g., 'Acrobatics', 'Astrogation')",
+    "type": "String (Exact enum: 'mental', 'physical', 'social', 'combat', 'meta')",
+    "subtype": "String or null (Exact enum: 'knowledge', 'vocation', 'manipulation', 'expression', 'archaic', 'modern', 'advanced' or null)",
+    "is_specialization": false,
+    "base_skill": "String or null (If specialization, name of parent skill, otherwise null)",
+    "description": "String (Narrative summary and domain of competence)",
+    "tech_level": 0,
+    "meta_level": 0,
+    "mechanic": "String (DCs, opposed check procedures, governing attributes, situational mods)",
+    "note": "String or null (Common specialties, synergy riders, tool requirements)"
   }
 ]
 
 **PARSING HEURISTICS & RULES:**
-1. **Classification:** Categorize strictly under \`type\` and sub-categorize nested lists under \`subtype\` (e.g., Knowledge or Vocation skills get subtype: "Knowledge").
-2. **Specializations:** Base skills should have \`"isSpecialization": false\`, with specialized branches noted in the \`notes\` field.
-3. **Clean Formatting:** Escape strings properly and remove markdown styling. No LaTeX math syntax.
-4. **Output Requirement:** Output ONLY the valid JSON block.
+1. **Lowercase Enums:** type and subtype MUST be lowercase strings matching the allowed enums.
+2. **Specializations:** Set is_specialization: true only if the entry is an explicit sub-branch of an existing parent skill.
+3. **Output Requirement:** Output ONLY the valid JSON block.
 
 **INPUT TEXT:**
 [INSERT RAW SKILL TEXT HERE]`,
     expectedKeys: [
-      'name', 'type', 'subtype', 'isSpecialization', 'description',
-      'techLevel', 'metaLevel', 'gameMechanics', 'notes'
+      'name', 'type', 'subtype', 'is_specialization', 'base_skill',
+      'description', 'tech_level', 'meta_level', 'mechanic', 'note'
     ],
     sampleItem: {
-      name: "Cybernetics Engineering",
-      type: "Mental",
-      subtype: "Vocation",
-      isSpecialization: false,
-      description: "The design, surgical installation, calibration, and diagnostic repair of neural cyberware and mechanical prosthetics.",
-      techLevel: "TL 3+",
-      metaLevel: null,
-      gameMechanics: "Standard check DC 15 to calibrate; DC 20 to install node socket; DC 25 to repair severe neural damage.",
-      notes: "Governing attribute: Intelligence. Synergizes with Medicine and Electronics."
+      name: "Astrogation",
+      type: "mental",
+      subtype: "vocation",
+      is_specialization: false,
+      base_skill: null,
+      description: "Calculation of hyperspace trajectories, gravity well avoidance, and orbital mechanics.",
+      tech_level: 3,
+      meta_level: 0,
+      mechanic: "Governing Attribute: Intellect (Logic). Standard DC 15 to compute safe jump coordinates through chartered corridors.",
+      note: "Requires navigational computer or star charts."
     }
   },
 
@@ -284,58 +323,76 @@ Every skill must strictly adhere to the following schema. Do not add or remove k
   {
     key: 'disadvantages',
     code: 'PROMPT D',
-    label: 'Disadvantages',
+    label: 'Disadvantages & Hindrances',
     matrixId: 'disadvantages',
     targetCollection: 'disadvantages',
     icon: AlertOctagon,
     color: '#ef4444',
-    description: 'Parse character flaws, social stigmas, physical impairments, and mental afflictions with CP/BP refund tracking.',
+    description: 'Parse raw character disadvantages, handicaps, and hindrances into strict JSON documents with CP refunds and negative modifiers.',
     promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX DISADVANTAGE PARSER
 
-**ROLE:** You are an expert data engineer and RPG system archivist. Your job is to parse raw, unformatted RPG rulebook text into a strict, clean JSON schema optimized for a NoSQL Firebase/Firestore database.
+**ROLE:** You are an expert data engineer and RPG system archivist for Tangent SFF RPG. Your task is to parse raw character disadvantages and hindrances into strict JSON documents for the OMNICORTEX database.
 
-**TASK:** I will provide you with raw text detailing character "Disadvantages" from the Tangent SF RP system. You must extract this information and output a perfectly formatted JSON array of objects.
+**TASK:** Parse the provided text into a JSON array of objects adhering strictly to the schema below.
 
 **JSON SCHEMA:**
-Every disadvantage must strictly adhere to the following schema. Do not add or remove keys.
-
 [
   {
     "name": "String (Name of the disadvantage)",
-    "description": "String (The flavorful description of the disadvantage)",
-    "techLevel": "String or null (If applicable)",
-    "metaLevel": "String or null (If applicable)",
-    "prerequisites": "String or null (List of required stats, skills, features, or disadvantages to take this)",
-    "modifiers": "String or null (A brief summary of the mechanical numeric penalties or effects)",
-    "cpRefunded": "String (The amount of Character Points/Build Points refunded, e.g., '10 CP')",
-    "gameMechanics": "String (The detailed rules of how the disadvantage affects play)",
-    "notes": "String or null (Any additional edge cases, restrictions, or table notes)"
+    "description": "String (Flavorful description and psychological/physical nature)",
+    "tech_level": 0,
+    "meta_level": 0,
+    "prerequisite": ["String (Mutually exclusive traits or required conditions)"],
+    "cp": 10,
+    "costs": {
+      "bp": -10,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "modifiers": [
+      { "target": "Target Name", "type": "disadvantage", "value": -2, "mode": "inherent" }
+    ],
+    "mechanic": "String (Precise mechanical rules, penalty triggers, roleplay mandates)",
+    "note": "String or null (Removability, GM notes, overcoming conditions)"
   }
 ]
 
 **PARSING HEURISTICS & RULES:**
-1. **Null Values:** Use JSON \`null\` for missing levels, prerequisites, modifiers, or notes (do not use string "null").
-2. **Data Separation:** Separate flavor (\`description\`) from rules (\`gameMechanics\`). Summarize numeric penalties in \`modifiers\`.
-3. **CP Refunded:** Map the Character Point/Build Point refund value directly to \`cpRefunded\`.
-4. **Clean Formatting:** Escape strings properly and remove markdown bold/italics from inside JSON string values.
-5. **Output Requirement:** Output ONLY the valid JSON block.
+1. **Refunded Points:** cp is the positive integer value refunded. costs.bp MUST be the negative value (e.g. cp: 10, costs.bp: -10).
+2. **Negative Modifiers:** Any penalty applied to rolls or pools should be recorded as a negative value in modifiers.
+3. **Output Requirement:** Output ONLY the valid JSON block.
 
 **INPUT TEXT:**
 [INSERT RAW DISADVANTAGE TEXT HERE]`,
     expectedKeys: [
-      'name', 'description', 'techLevel', 'metaLevel', 'prerequisites',
-      'modifiers', 'cpRefunded', 'gameMechanics', 'notes'
+      'name', 'description', 'tech_level', 'meta_level', 'prerequisite',
+      'cp', 'costs', 'modifiers', 'mechanic', 'note'
     ],
     sampleItem: {
-      name: "Neural Feedback Vulnerability",
-      description: "Severe physiological sensitivity to electronic warfare pulses and psionic shock.",
-      techLevel: "TL 3+",
-      metaLevel: null,
-      prerequisites: "Must have at least 2 cybernetic implants",
-      modifiers: "-4 to saves vs EMP and Psionic Overload",
-      cpRefunded: "10 CP",
-      gameMechanics: "Whenever subject takes electric or psionic damage, roll Willpower save DC 15 or become stunned for 1 round.",
-      notes: "Can be alleviated with Faraday cranial plating."
+      name: "Cybernetic Rejection",
+      description: "Your immune system violently rejects foreign synthetic hardware and neuro-synaptic couplers.",
+      tech_level: 0,
+      meta_level: 0,
+      prerequisite: [],
+      cp: 10,
+      costs: {
+        bp: -10,
+        credits: 0,
+        nodes: 0,
+        sockets: 0,
+        strain: 0,
+        focus: 0,
+        ap: 0
+      },
+      modifiers: [
+        { target: "Max Cyberware Nodes", type: "disadvantage", value: -4, mode: "inherent" }
+      ],
+      mechanic: "Any cybernetic installation requires an opposed Fortitude check (DC 18) to avoid suffering 2d6 systemic bio-strain.",
+      note: "Cannot be taken by Synthetic species."
     }
   },
 
@@ -345,123 +402,117 @@ Every disadvantage must strictly adhere to the following schema. Do not add or r
   {
     key: 'factions',
     code: 'PROMPT E',
-    label: 'Factions & Societies',
+    label: 'Factions & Polities',
     matrixId: 'factions',
     targetCollection: 'factions',
     icon: Building,
-    color: '#3b82f6',
-    description: 'Structured ingestion of rich narrative, sociological, economic, military, and visual semiotic faction data across 38 standardized fields.',
+    color: '#06b6d4',
+    description: 'Parse raw faction documentation into comprehensive JSON documents covering culture, military doctrine, aesthetics, and societal structure.',
     promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX FACTION PARSER
 
-**ROLE:** You are an expert data engineer and RPG system archivist. Your job is to parse raw, unformatted RPG rulebook text into a strict, clean JSON schema optimized for a NoSQL Firebase/Firestore database.
+**ROLE:** You are an expert worldbuilding archivist and data engineer for Tangent SFF RPG. Your task is to parse raw faction documentation into strict, comprehensive JSON documents for the OMNICORTEX database.
 
-**TASK:** I will provide you with raw text detailing character 'Factions' from the Tangent SF RP system. You must extract this information and output a perfectly formatted JSON array of objects.
+**TASK:** Parse the provided text into a JSON array of objects adhering strictly to the schema below.
 
 **JSON SCHEMA:**
-Every faction must strictly adhere to the following schema. Do not add or remove keys.
-
 [
   {
-    "name": "String (Name of the faction)",
-    "description": "String (The flavorful description of the faction)",
-    "society": "String or null (Description of the faction's society)",
-    "prerequisites": "String or null (Prerequisites to join or associate with the faction)",
-    "attributeModifiers": "String or null (Inherent or bonus pool attribute modifiers)",
-    "skillModifiers": "String or null (Inherent or bonus pool skill modifiers)",
-    "featureModifiers": "String or null (Inherent or bonus pool feature modifiers)",
-    "disciplinesAndSpecialAbilities": "String or null (Disciplines and special abilities associated with the faction)",
-    "modifiers": "String or null (Other mechanical modifiers or penalties)",
-    "attitude": "String or null (The overall attitude or behavioral guidelines of the faction)",
-    "goals": "String or null (The goals and objectives of the faction)",
-    "socialStrengths": "String or null (Social strengths of the faction)",
-    "socialWeaknesses": "String or null (Social weaknesses of the faction)",
-    "socialArchetype": "String or null (The social archetype classification)",
-    "techLevel": "String or null (Technical/Technology level of the faction)",
-    "metaLevel": "String or null (Meta/Power level of the faction)",
-    "wealthModifiers": "String or null (Wealth or credit-related modifiers)",
-    "colloquialisms": "String or null (Slang, jargon, or common terms used by the faction)",
-    "symbolSigil": "String or null (Description of the faction's symbol or sigil)",
-    "drivingMandate": "String or null (The faction's core driving mandate)",
-    "motto": "String or null (The faction's official motto)",
-    "coreBeliefs": "String or null (The core philosophy or beliefs of the faction)",
-    "socialStructure": "String or null (The social structure or hierarchy)",
-    "viewOfOutsiders": "String or null (How the faction views and treats non-members)",
-    "lawAndOrder": "String or null (The level and nature of law, order, and discipline)",
-    "governmentType": "String or null (Type of government or administration)",
-    "leadership": "String or null (How leadership is structured or who the current leaders are)",
-    "succession": "String or null (How power or leadership is passed on)",
-    "primaryExports": "String or null (Major goods, services, or resources exported)",
-    "economicModel": "String or null (The type of economy or financial system)",
-    "militaryDoctrine": "String or null (The military philosophy and strategies)",
-    "keyUnits": "String or null (Prominent or special units within their military/organization)",
-    "navalAssets": "String or null (Naval, space fleet, or vehicular assets)",
-    "designLanguage": "String or null (Aesthetic design principles for their gear and technology)",
-    "architecture": "String or null (The architectural style of their buildings and stations)",
-    "gearAesthetic": "String or null (The visual style of their gear, armor, and weapons)",
-    "lightingMood": "String or null (The characteristic lighting and atmosphere of their spaces)",
-    "imagePrompt": "String or null (An AI art prompt to visually represent the faction)",
-    "gameMechanicsAndNotes": "String or null (Rules mechanics, system notes, or table-specific details)"
+    "name": "String (Faction Name)",
+    "description": "String (High-level narrative overview and thematic summary)",
+    "society": "String or null (Associated societal structure or planetary origin)",
+    "prerequisite": ["String (Requirements to join or hold rank)"],
+    "archetype": "String (Exact enum: 'Militaristic', 'Corporate / Mercantile', 'Religious / Cult', 'Technological', 'Criminal / Syndicate', 'Exploration / Academic', 'Agrarian / Colony', 'Isolationist / Alien')",
+    "tech_level": 3,
+    "meta_level": 0,
+    "colloquialisms": "String (In-universe slang and terminology)",
+    "symbol_sigil": "String (Description of emblem, crest, or heraldry)",
+    "driving_mandate": "String (Core institutional objective)",
+    "motto": "String (Official rallying cry or creed)",
+    "core_beliefs": "String (Ideological foundation and worldview)",
+    "social_structure": "String (Internal hierarchy and command authority)",
+    "outsider_view": "String (Policy toward alien species and rival factions)",
+    "law_order": "String (Disciplinary framework and internal justice)",
+    "government_type": "String (Administrative model)",
+    "leadership": "String (Key rulers, councilors, or commanding officers)",
+    "succession": "String (Method of leadership transition)",
+    "primary_exports": "String (Key goods, services, and raw commodities)",
+    "economic_model": "String (Financial structure)",
+    "military_doctrine": "String (Combat strategy and tactical philosophy)",
+    "key_units": "String (Elite regiments, security details, or divisions)",
+    "naval_assets": "String (Starships, fleet composition, and heavy armor)",
+    "design_language": "String (Visual styling of hardware, bases, and technology)",
+    "architecture": "String (Urban, station, and outpost architectural motifs)",
+    "gear_aesthetic": "String (Uniforms, weaponry styling, armor silhouettes)",
+    "lighting_mood": "String (Atmosphere, interior lighting, and visual tone)",
+    "image_prompt": "String (Detailed AI art generation prompt representing the faction)",
+    "attitude": "String (Default demeanor in diplomacy)",
+    "goals": "String (Short-term and long-term strategic plans)",
+    "social_strengths": "String (Institutional advantages)",
+    "social_weaknesses": "String (Vulnerabilities, corruption, or blind spots)",
+    "modifiers": [
+      { "target": "Wealth Score", "type": "wealth", "value": 1, "mode": "inherent" }
+    ],
+    "mechanic": "String or null (Faction-specific mechanical bonuses or reputation tracks)",
+    "note": "String or null (GM campaign hooks and secrets)"
   }
 ]
 
 **PARSING HEURISTICS & RULES:**
-1. **Null Values:** Use JSON \`null\` for missing levels, prerequisites, modifiers, or attributes (do not use string 'null').
-2. **Data Separation:** Keep cultural, political, and world-building details separated strictly into their respective fields.
-3. **Clean Formatting:** Escape strings properly, preserve paragraph structures as single-line string values using \\n if necessary, and remove markdown bold/italics. No LaTeX syntax.
-4. **Output Requirement:** Output ONLY the valid JSON block.
+1. **Snake Case Keys:** Use snake_case for all multi-word keys (e.g. driving_mandate, social_structure, symbol_sigil).
+2. **Archetype Enum:** Restrict archetype to the 8 canonical options.
+3. **Output Requirement:** Output ONLY the valid JSON block.
 
 **INPUT TEXT:**
 [INSERT RAW FACTIONS TEXT HERE]`,
     expectedKeys: [
-      'name', 'description', 'society', 'prerequisites', 'attributeModifiers',
-      'skillModifiers', 'featureModifiers', 'disciplinesAndSpecialAbilities', 'modifiers',
-      'attitude', 'goals', 'socialStrengths', 'socialWeaknesses', 'socialArchetype',
-      'techLevel', 'metaLevel', 'wealthModifiers', 'colloquialisms', 'symbolSigil',
-      'drivingMandate', 'motto', 'coreBeliefs', 'socialStructure', 'viewOfOutsiders',
-      'lawAndOrder', 'governmentType', 'leadership', 'succession', 'primaryExports',
-      'economicModel', 'militaryDoctrine', 'keyUnits', 'navalAssets', 'designLanguage',
-      'architecture', 'gearAesthetic', 'lightingMood', 'imagePrompt', 'gameMechanicsAndNotes'
+      'name', 'description', 'society', 'prerequisite', 'archetype', 'tech_level',
+      'meta_level', 'colloquialisms', 'symbol_sigil', 'driving_mandate', 'motto',
+      'core_beliefs', 'social_structure', 'outsider_view', 'law_order',
+      'government_type', 'leadership', 'succession', 'primary_exports',
+      'economic_model', 'military_doctrine', 'key_units', 'naval_assets',
+      'design_language', 'architecture', 'gear_aesthetic', 'lighting_mood',
+      'image_prompt', 'attitude', 'goals', 'social_strengths', 'social_weaknesses',
+      'modifiers', 'mechanic', 'note'
     ],
     sampleItem: {
-      name: "Aegis Directorate",
-      description: "A high-tech paramilitary security syndicate governing several core trade jump-gates.",
-      society: "Militaristic Meritocracy",
-      prerequisites: "Tactics 4+, Law 2+",
-      attributeModifiers: "+1 Int, +1 End",
-      skillModifiers: "+10 Tactics, +5 Firearms",
-      featureModifiers: "Security Clearance Tier 2",
-      disciplinesAndSpecialAbilities: null,
-      modifiers: "+2 to Law and Diplomacy checks with Corporate factions",
-      attitude: "Disciplined, cautious, contract-bound",
-      goals: "Maintain unconditional control over orbital trade corridors",
-      socialStrengths: "Unmatched logistics and legal protection",
-      socialWeaknesses: "Bureaucratic inertia and rigid protocol",
-      socialArchetype: "Militaristic",
-      techLevel: "4",
-      metaLevel: "0",
-      wealthModifiers: "+2 Wealth Score",
-      colloquialisms: "Clearance-bound, Black-tape, Gate-keeper",
-      symbolSigil: "A stylized geometric bastion shield with an orbital vector ring",
-      drivingMandate: "Securing the conduits of civilization through precision enforcement",
-      motto: "Vigilance is the First Duty",
-      coreBeliefs: "Order precedes prosperity; chaos is an economic liability",
-      socialStructure: "Tiered executive council commanding field marshals and sector directors",
-      viewOfOutsiders: "Untrusted contractors until verified by biometrics",
-      lawAndOrder: "Extremely strict martial code with instant biometric tribunal",
-      governmentType: "Corporate Martial Directory",
-      leadership: "High Director Vance Thorne and the Directorate Board",
-      succession: "Meritocratic board appointment based on operational efficiency",
-      primaryExports: "Security frames, jump-gate enforcement, tactical logistics",
-      economicModel: "Corporate Mercantilism with automated toll levies",
-      militaryDoctrine: "Rapid orbital drop-pod deployment combined with autonomous defense grids",
-      keyUnits: "Aegis Gatewardens, Orbital Valkyrie Drop Teams",
-      navalAssets: "Aegis Bastion-Class Battle Cruisers and automated patrol corvettes",
-      designLanguage: "Hexagonal matte black armor, hazard amber warning glyphs, chamfered steel",
-      architecture: "Brutalist void stations with heavy angular blast shielding",
-      gearAesthetic: "Heavy modular exosuits with integrated biometric transponders",
-      lightingMood: "Deep industrial amber emergency lighting contrasting cool slate blues",
-      imagePrompt: "Sci-fi corporate security officer in heavy black and amber powered armor, standing inside a massive orbital space station command deck",
-      gameMechanicsAndNotes: "Members gain automatic access to Directorate munitions at a 20% discount."
+      name: "The Obsidian Syndicate",
+      description: "A shadowy inter-sector cartel controlling covert hyperspace routing, smuggling, and illicit bio-tech laboratories.",
+      society: "Shadow Archipelago",
+      prerequisite: ["Underworld Contact or Outlaw Trait"],
+      archetype: "Criminal / Syndicate",
+      tech_level: 3,
+      meta_level: 1,
+      colloquialisms: "The Deep Current, Ghost Cargo, Tithe-Keepers",
+      symbol_sigil: "An eclipse silhouette bisected by an obsidian dagger",
+      driving_mandate: "Monopolize covert transit and sub-space intelligence channels",
+      motto: "What travels in shadow remains unbroken.",
+      core_beliefs: "Sovereignty belongs to those who control the lines of supply.",
+      social_structure: "Tiered syndics led by an anonymous Board of Shadows",
+      outsider_view: "Tolerated as marks, clients, or unwitting pawns",
+      law_order: "Lethal internal arbitration governed by blood pacts",
+      government_type: "Cryptocratic Oligarchy",
+      leadership: "The Arch-Syndic Council",
+      succession: "Ascension by challenge or unanimous council decree",
+      primary_exports: "Contraband, encrypted com-relays, cloned organs",
+      economic_model: "Shadow credit exchanges and commodity barter",
+      military_doctrine: "Precision ambushes, boarding actions, and electronic sabotage",
+      key_units: "Ghost Corsairs, Null-Infiltrators",
+      naval_assets: "Stealth corvettes and retrofitted deep-space haulers",
+      design_language: "Matte carbon surfaces, angular stealth chasses, suppressed thermal exhausts",
+      architecture: "Concealed hollowed-out asteroid docks and subterranean bases",
+      gear_aesthetic: "Sealed black ballistic trenchcoats with HUD-integrated respirators",
+      lighting_mood: "Low-intensity amber and UV emergency strips",
+      image_prompt: "Cyberpunk syndicate operatives in matte-black tactical gear conferring around a holographic star map inside a dimly lit asteroid hangar, volumetric amber lighting, cinematic sci-fi.",
+      attitude: "Cautious, calculating, and ruthless when crossed",
+      goals: "Secure monopoly over the Rimward Trade Gates",
+      social_strengths: "Unmatched informant network and untraceable wealth",
+      social_weaknesses: "Pervasive paranoia and internal power struggles",
+      modifiers: [
+        { target: "Wealth Score", type: "wealth", value: 2, mode: "inherent" },
+        { target: "Streetwise", type: "skill", value: 2, mode: "inherent" }
+      ],
+      mechanic: "Members gain access to black-market asset acquisition at standard cost.",
+      note: "GM Note: Has infiltrated several port authorities."
     }
   },
 
@@ -471,66 +522,60 @@ Every faction must strictly adhere to the following schema. Do not add or remove
   {
     key: 'occupations',
     code: 'PROMPT F',
-    label: 'Occupations',
+    label: 'Occupations & Careers',
     matrixId: 'occupations',
     targetCollection: 'occupations',
     icon: Briefcase,
-    color: '#f97316',
-    description: 'Parse character occupational archetypes, skill bonuses, inherent traits, and career prerequisites.',
+    color: '#eab308',
+    description: 'Parse raw character career and occupational documentation into strict JSON documents with skill modifiers and operational rules.',
     promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX OCCUPATION PARSER
 
-**ROLE:** You are an expert data engineer and RPG system archivist. Your job is to parse raw, unformatted RPG rulebook text into a strict, clean JSON schema optimized for a NoSQL Firebase/Firestore database.
+**ROLE:** You are an expert data engineer and RPG system archivist for Tangent SFF RPG. Your task is to parse raw character occupation documentation into strict JSON documents for the OMNICORTEX database.
 
-**TASK:** I will provide you with raw text detailing character "Occupations" from the Tangent SF RP system. You must extract this information and output a perfectly formatted JSON array of objects.
+**TASK:** Parse the provided text into a JSON array of objects adhering strictly to the schema below.
 
 **JSON SCHEMA:**
-Every occupation must strictly adhere to the following schema. Do not add or remove keys.
-
 [
   {
     "name": "String (Name of the occupation)",
-    "description": "String (The flavorful description of the occupation)",
-    "prerequisites": "String or null (Prerequisites required to enter the occupation)",
-    "trait": "String or null (Unique biological, physical, or behavioral traits associated with this occupation)",
-    "attributeModifiers": "String or null (Inherent or bonus pool attribute modifiers)",
-    "skillModifiers": "String or null (Inherent or bonus pool skill modifiers)",
-    "featureModifiers": "String or null (Inherent or bonus pool feature modifiers)",
-    "disciplinesAndSpecialAbilities": "String or null (Disciplines and special abilities associated with the occupation)",
-    "modifiers": "String or null (Other mechanical modifiers or penalties)",
-    "gameMechanics": "String (The detailed rules of how the occupation affects play)",
-    "techLevel": "String or null (Technical/Technology level of the occupation)",
-    "metaLevel": "String or null (Meta/Power level of the occupation)",
-    "notes": "String or null (Any additional edge cases, restrictions, or table notes)"
+    "description": "String (Flavorful description of the professional role)",
+    "prerequisite": ["String (Prerequisites to enter this occupation)"],
+    "trait": ["String (Associated traits or professional perks)"],
+    "tech_level": 3,
+    "meta_level": 0,
+    "modifiers": [
+      { "target": "Firearms", "type": "skill", "value": 1, "mode": "inherent" },
+      { "target": "General Skill Pool", "type": "skill", "value": 2, "mode": "choice_pool" }
+    ],
+    "mechanic": "String (Operational rules, resource access, and career perks)",
+    "note": "String or null (Common contacts, starting gear packages, GM hooks)"
   }
 ]
 
 **PARSING HEURISTICS & RULES:**
-1. **Null Values:** Use JSON \`null\` for missing levels, prerequisites, modifiers, traits, or attributes (do not use string 'null').
-2. **Data Separation:** Keep cultural, narrative, and mechanical details separated strictly into their respective fields. Separate flavor (\`description\`) from rules (\`gameMechanics\`).
-3. **Clean Formatting:** Escape strings properly, preserve paragraph structures as single-line string values using \\n if necessary, and remove markdown bold/italics. No LaTeX.
-4. **Output Requirement:** Output ONLY the valid JSON block.
+1. **Skill & Attribute Packages:** Convert granted vocational skills and attribute adjustments into discrete entries inside the modifiers array.
+2. **Output Requirement:** Output ONLY the valid JSON block.
 
 **INPUT TEXT:**
 [INSERT RAW OCCUPATIONS TEXT HERE]`,
     expectedKeys: [
-      'name', 'description', 'prerequisites', 'trait', 'attributeModifiers',
-      'skillModifiers', 'featureModifiers', 'disciplinesAndSpecialAbilities',
-      'modifiers', 'gameMechanics', 'techLevel', 'metaLevel', 'notes'
+      'name', 'description', 'prerequisite', 'trait', 'tech_level',
+      'meta_level', 'modifiers', 'mechanic', 'note'
     ],
     sampleItem: {
-      name: "Void Salvager",
-      description: "Hardened zero-G specialists who recover derelict starships and high-tech salvage in deep space.",
-      prerequisites: "Agi 11+, Zero-G Movement 3+",
-      trait: "Adapted to Low-G decompression",
-      attributeModifiers: "+1 Agi, +1 End",
-      skillModifiers: "+10 Zero-G Operations, +10 Heavy Machinery",
-      featureModifiers: "Debris Sight, Vacuum Tolerance",
-      disciplinesAndSpecialAbilities: null,
-      modifiers: "+2 to salvage appraisal and cutting torch DC",
-      gameMechanics: "Ignores disorientation penalties when operating in zero-gravity environments.",
-      techLevel: "3",
-      metaLevel: "0",
-      notes: "Starts with standard EVA suit and plasma cutting rig."
+      name: "Void Marine",
+      description: "Frontline zero-gravity breach and boarding specialists trained for ship-to-ship tactical actions.",
+      prerequisite: ["Might 2+", "Stamina 2+"],
+      trait: ["Zero-G Combatant"],
+      tech_level: 3,
+      meta_level: 0,
+      modifiers: [
+        { target: "Firearms", type: "skill", value: 2, mode: "inherent" },
+        { target: "Armor Handling", type: "skill", value: 1, mode: "inherent" },
+        { target: "Athletics", type: "skill", value: 1, mode: "inherent" }
+      ],
+      mechanic: "Suffers no penalties to movement or weapon recoil while operating in low or zero gravity.",
+      note: "Standard issue includes sealed boarding vac-suit."
     }
   },
 
@@ -541,82 +586,118 @@ Every occupation must strictly adhere to the following schema. Do not add or rem
     key: 'invocations',
     code: 'PROMPT G',
     label: 'Invocations & Special Abilities',
-    matrixId: 'invocation',
+    matrixId: 'invocations',
     targetCollection: 'invocations',
     icon: Zap,
     color: '#a855f7',
-    description: 'Parse psionic invocations, metaphysical powers, disciplines, casting times, critical success/failure effects, and strain costs.',
-    promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX INVOCATIONS & SPECIAL ABILITIES PARSER
+    description: 'Parse raw psionics, metaphysics, spells, and special abilities into structured JSON documents with AP, strain, focus, and critical effects.',
+    promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX INVOCATION PARSER
 
-**ROLE:** You are an expert data engineer and RPG system archivist. Your job is to parse raw, unformatted RPG rulebook text into a strict, clean JSON schema optimized for a NoSQL Firebase/Firestore database.
+**ROLE:** You are an expert data engineer and RPG rules architect for Tangent SFF RPG. Your task is to parse raw magical, psionic, and meta-ability documentation into strict JSON documents for the OMNICORTEX database.
 
-**TASK:** I will provide you with raw text detailing "Invocations & Special Abilities" from the Tangent SF RP system. You must extract this information and output a perfectly formatted JSON array of objects.
+**TASK:** Parse the provided text into a JSON array of objects adhering strictly to the schema below.
 
 **JSON SCHEMA:**
-Every invocation must strictly adhere to the following schema. Do not add or remove keys.
-
 [
   {
-    "name": "String (Name of the invocation or ability)",
-    "description": "String (The flavorful description)",
-    "discipline": "String or null (Associated discipline)",
-    "metaSkill": "String or null (Associated meta skill)",
-    "area": "String or null (Area of effect)",
-    "effect": "String or null (Description of the effect)",
-    "range": "String or null (Range of the ability)",
-    "target": "String or null (Target of the ability)",
-    "prerequisites": "String or null (List of required stats, skills, or features)",
-    "modifiers": "String or null (Summary of mechanical numeric modifiers)",
-    "criticalSuccessEffect": "String or null (Effect on critical success)",
-    "criticalFailureEffect": "String or null (Effect on critical failure)",
-    "designDC": "String or null (Design Difficulty Class)",
-    "gameMechanics": "String (Detailed rules of the ability)",
-    "techLevel": "String or null (Technical level)",
-    "metaLevel": "String or null (Meta level)",
-    "actionCost": "String or null (Cost in actions)",
-    "castTime": "String or null (Casting time)",
-    "duration": "String or null (Duration of the effect)",
-    "strainFocusCost": "String or null (Cost in strain or focus)",
-    "notes": "String or null (Any additional edge cases or restrictions)"
+    "name": "String (Name of the invocation or special ability)",
+    "description": "String (Narrative manifestation and sensory phenomenon)",
+    "discipline": "String (Associated discipline, e.g., 'telekinesis', 'pyromancy', 'biomancy')",
+    "meta_skill": "String (Governing skill, e.g., 'Metaphysics')",
+    "area": ["String (Area pattern, e.g., 'Single Target', '10ft Radius Sphere', 'Cone')"],
+    "effect": ["String (Effect type, e.g., 'Kinetic Force', 'Direct Damage', 'Barrier')"],
+    "range": ["String (Range band, e.g., 'Touch', 'Short (30ft)', 'Extreme (1000m)')"],
+    "target": ["String (Target restrictions, e.g., 'One Sophont', 'Unliving Matter')"],
+    "prerequisite": ["String (Required Meta Level, discipline ranks, or feats)"],
+    "design_dc": 18,
+    "craft_dc": 18,
+    "tech_level": 0,
+    "meta_level": 2,
+    "cast_time": "String (Action cost, e.g., '1 Action', 'Reaction', '10 Minutes')",
+    "duration": "String (Duration of effect, e.g., 'Instant', 'Sustained (Concentration)', '1 Hour')",
+    "critical_details": {
+      "score": "20",
+      "effect": ["String (Standard crit rider)"],
+      "success_effect": ["String (Critical success manifestation)"],
+      "failure_effect": ["String (Critical fumble or psychic backlash)"]
+    },
+    "costs": {
+      "bp": 0,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 2,
+      "focus": 2,
+      "ap": 2
+    },
+    "sockets": {
+      "max": 0,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "modifiers": [
+      { "target": "Target Name", "type": "discipline", "value": 1, "mode": "inherent" }
+    ],
+    "mechanic": "String (Exact combat mechanics, damage formulas, saves, DCs, opposed checks)",
+    "note": "String or null (Synergies, failure consequences, material foci)"
   }
 ]
 
 **PARSING HEURISTICS & RULES:**
-1. **Null Values:** Use JSON \`null\` for missing fields (do not use string "null").
-2. **Data Separation:** Keep narrative descriptions separate from rules mechanics.
-3. **Clean Formatting:** Escape strings properly, preserve paragraph structures as single-line strings using \\n if necessary, and remove markdown bold/italics. No LaTeX.
+1. **Resource Accounting:** Map action points to costs.ap, strain expenditure to costs.strain, and focus expenditure to costs.focus.
+2. **Arrays for Patterns:** area, effect, range, target, and prerequisite MUST be arrays of strings.
+3. **No LaTeX:** Write all damage and DC expressions as plain text (e.g. 2d8+3, DC 15 + ML).
 4. **Output Requirement:** Output ONLY the valid JSON block.
 
 **INPUT TEXT:**
-[INSERT RAW INVOCATIONS/ABILITIES TEXT HERE]`,
+[INSERT RAW INVOCATION TEXT HERE]`,
     expectedKeys: [
-      'name', 'description', 'discipline', 'metaSkill', 'area', 'effect',
-      'range', 'target', 'prerequisites', 'modifiers', 'criticalSuccessEffect',
-      'criticalFailureEffect', 'designDC', 'gameMechanics', 'techLevel',
-      'metaLevel', 'actionCost', 'castTime', 'duration', 'strainFocusCost', 'notes'
+      'name', 'description', 'discipline', 'meta_skill', 'area', 'effect',
+      'range', 'target', 'prerequisite', 'design_dc', 'craft_dc', 'tech_level',
+      'meta_level', 'cast_time', 'duration', 'critical_details', 'costs',
+      'sockets', 'modifiers', 'mechanic', 'note'
     ],
     sampleItem: {
-      name: "Quantum Warp Lance",
-      description: "A focused beam of spacetime distortion that pierces kinetic and thermal barriers.",
-      discipline: "spatial_distortion",
-      metaSkill: "Metaphysics",
-      area: "Line (5ft wide, 60ft long)",
-      effect: "Kinetic & Spacetime tearing",
-      range: "60 ft",
-      target: "All targets in line",
-      prerequisites: "ML 2+, Spatial Attunement",
-      modifiers: "+4 to armor penetration",
-      criticalSuccessEffect: "Target armor is bypassed entirely and target is displaced 10ft backwards.",
-      criticalFailureEffect: "Caster suffers 1d6 Strain damage and becomes disoriented for 1 round.",
-      designDC: "18",
-      gameMechanics: "Deals 3d8 Force damage to all creatures in the line. Reflex save DC 16 for half damage.",
-      techLevel: "0",
-      metaLevel: "2",
-      actionCost: "2 AP",
-      castTime: "Standard Action",
-      duration: "Instantaneous",
-      strainFocusCost: "3 Strain",
-      notes: "Ignores conventional energy shields."
+      name: "Kinetic Lance",
+      description: "A focused pulse of compressed psionic force visible as an atmospheric distortion that pierces armor.",
+      discipline: "telekinesis",
+      meta_skill: "Metaphysics",
+      area: ["Single Target"],
+      effect: ["Kinetic Force", "Armor Piercing"],
+      range: ["Medium (60ft)"],
+      target: ["One Visible Target"],
+      prerequisite: ["Meta Level 2+", "Telekinesis Rank 2"],
+      design_dc: 18,
+      craft_dc: 18,
+      tech_level: 0,
+      meta_level: 2,
+      cast_time: "1 Action",
+      duration: "Instant",
+      critical_details: {
+        score: "20",
+        effect: ["Target is knocked prone"],
+        success_effect: ["Double Damage and pushed back 15ft"],
+        failure_effect: ["Psychic backlash deals 1d4 Focus burn to caster"]
+      },
+      costs: {
+        bp: 0,
+        credits: 0,
+        nodes: 0,
+        sockets: 0,
+        strain: 1,
+        focus: 2,
+        ap: 2
+      },
+      sockets: {
+        max: 0,
+        used: 0,
+        tier: "Socket",
+        allocated: []
+      },
+      modifiers: [],
+      mechanic: "Make a Metaphysics vs. Defense check. On hit, deals 3d8 Kinetic damage with AP 4.",
+      note: "Can be overcharged for +1d8 per additional Focus point spent."
     }
   },
 
@@ -630,86 +711,118 @@ Every invocation must strictly adhere to the following schema. Do not add or rem
     matrixId: 'augmentations',
     targetCollection: 'augmentations',
     icon: Cpu,
-    color: '#06b6d4',
-    description: 'Parse cybernetic implants, bioware upgrades, nanite systems, node/socket budgets, and surgical difficulty classes.',
-    promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX AUGMENTATIONS PARSER
+    color: '#ec4899',
+    description: 'Parse raw cyberware, bioware, nanotech, and anatomical augmentations into strict JSON documents with nodes, sockets, and stigma.',
+    promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX AUGMENTATION PARSER
 
-**ROLE:** You are an expert data engineer and RPG system archivist. Your job is to parse raw, unformatted RPG rulebook text into a strict, clean JSON schema optimized for a NoSQL Firebase/Firestore database.
+**ROLE:** You are an expert cybernetics data engineer and RPG system archivist for Tangent SFF RPG. Your task is to parse raw cyberware, bioware, and nanotech augmentations into strict JSON documents for the OMNICORTEX database.
 
-**TASK:** I will provide you with raw text detailing character "Augmentations" from the Tangent SF RP system. You must extract this information and output a perfectly formatted JSON array of objects.
+**TASK:** Parse the provided text into a JSON array of objects adhering strictly to the schema below.
 
 **JSON SCHEMA:**
-Every augmentation must strictly adhere to the following schema. Do not add or remove keys.
-
 [
   {
     "name": "String (Name of the augmentation)",
-    "augmentationCategory": "String or null (e.g., Cybernetics, Bioware, Nanotech)",
-    "location": "String or null (Anatomical slot or location, e.g., 'Head' or 'Arms')",
-    "description": "String (The flavorful description)",
-    "techLevel": "String or null (Technical/Technology level)",
-    "metaLevel": "String or null (Meta/Power level)",
-    "nodeCost": "String or null (Node cost if applicable)",
-    "socketCost": "String or null (Socket cost if applicable)",
-    "nodeOrSocket": "String or null (Node / socket status)",
-    "bpCost": "String or null (BP or Build Point cost)",
-    "structurePoints": "String or null (Structure points adjustment)",
-    "damageResist": "String or null (Damage resistance modifiers)",
-    "stigma": "String or null (Social stigma or physical changes)",
-    "craftingDC": "String or null (Crafting Difficulty Class)",
-    "classification": "String or null (Classification type)",
-    "creator": "String or null (Manufacturer, creator, or origin faction)",
-    "design": "String or null (Design and visual appearance)",
-    "component": "String or null (Required components or parts)",
-    "prerequisites": "String or null (List of required stats, skills, other augmentations, or features)",
-    "modifiers": "String or null (A brief summary of mechanical numeric bonuses or penalties)",
-    "criticalSuccessEffect": "String or null (Effect on critical success during installation/use)",
-    "criticalFailureEffect": "String or null (Effect on critical failure during installation/use)",
-    "gameMechanics": "String (The detailed rules of how the augmentation affects play)",
-    "notes": "String or null (Any additional edge cases, restrictions, or table notes)"
+    "type": "String (Category, e.g., 'Cybernetics', 'Bioware', 'Nanotech', 'Gene-Craft')",
+    "location": ["String (Body location: 'Head', 'Torso', 'Arms', 'Legs', 'Nervous System', 'Internal Organs', 'Subdermal')"],
+    "description": "String (Flavorful description and visual appearance)",
+    "tech_level": 3,
+    "meta_level": 0,
+    "design_dc": 20,
+    "craft_dc": 20,
+    "sp": 15,
+    "dr": 2,
+    "stigma": "String (Exact enum: 'None', 'Minor', 'Moderate', 'Severe')",
+    "classification": ["String (Military, Civilian, Exotic)"],
+    "creator": ["String (Origin corporation or faction)"],
+    "design": ["String (Schematic or model designation)"],
+    "component": ["String (Required modular components)"],
+    "prerequisite": ["String (Prerequisites to install or support)"],
+    "costs": {
+      "bp": 4,
+      "credits": 2500,
+      "nodes": 2,
+      "sockets": 1,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "sockets": {
+      "max": 1,
+      "used": 1,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "critical_details": {
+      "score": "20",
+      "effect": [],
+      "success_effect": ["Optimized Integration (+1 to check)"],
+      "failure_effect": ["Hardware Rejection (Take 1d6 Bio-Strain)"]
+    },
+    "modifiers": [
+      { "target": "Might", "type": "attribute", "value": 1, "mode": "inherent" }
+    ],
+    "mechanic": "String (Active and passive mechanical rules, roll bonuses, power draw)",
+    "note": "String or null (Maintenance requirements, EMP vulnerability, surgery notes)"
   }
 ]
 
 **PARSING HEURISTICS & RULES:**
-1. **Null Values:** Use JSON \`null\` for missing levels, prerequisites, modifiers, costs, or effects (do not use string "null").
-2. **Data Separation:** Separate flavor (\`description\`) and visual cues (\`design\`) from rules (\`gameMechanics\`).
-3. **Clean Formatting:** Escape strings properly, preserve paragraph structures as single-line strings using \\n if necessary, and remove markdown bold/italics. No LaTeX.
-4. **Output Requirement:** Output ONLY the valid JSON block.
+1. **Hardware Costs:** Map node footprint to costs.nodes, socket requirements to costs.sockets, and BP cost to costs.bp.
+2. **Numeric Fields:** sp (Structure Points), dr (Damage Resistance), and design_dc MUST be numbers.
+3. **Output Requirement:** Output ONLY the valid JSON block.
 
 **INPUT TEXT:**
 [INSERT RAW AUGMENTATIONS TEXT HERE]`,
     expectedKeys: [
-      'name', 'augmentationCategory', 'location', 'description', 'techLevel',
-      'metaLevel', 'nodeCost', 'socketCost', 'nodeOrSocket', 'bpCost',
-      'structurePoints', 'damageResist', 'stigma', 'craftingDC', 'classification',
-      'creator', 'design', 'component', 'prerequisites', 'modifiers',
-      'criticalSuccessEffect', 'criticalFailureEffect', 'gameMechanics', 'notes'
+      'name', 'type', 'location', 'description', 'tech_level', 'meta_level',
+      'design_dc', 'craft_dc', 'sp', 'dr', 'stigma', 'classification',
+      'creator', 'design', 'component', 'prerequisite', 'costs', 'sockets',
+      'critical_details', 'modifiers', 'mechanic', 'note'
     ],
     sampleItem: {
-      name: "Reflex Velocity Coprocessor",
-      augmentationCategory: "Cybernetics",
-      location: "Head",
-      description: "Sub-cranial neural coprocessor that intercepts spinal signals to accelerate combat reaction speed.",
-      techLevel: "3",
-      metaLevel: "0",
-      nodeCost: "10 Nodes",
-      socketCost: "1 Socket",
-      nodeOrSocket: "Node",
-      bpCost: "2 BP",
-      structurePoints: "+5 SP",
-      damageResist: "+0 DR",
-      stigma: "Minor (Subtle metallic nape port)",
-      craftingDC: "20",
-      classification: "Neural Acceleration",
-      creator: "Syndicate Cybernetics",
-      design: "Gold-plated micro-bus visible behind the left ear",
-      component: "Neural lace, superconducting bus",
-      prerequisites: "Endurance 10+",
-      modifiers: "+2 Initiative, +1 Reaction Defense",
-      criticalSuccessEffect: "User gains 1 bonus reaction per combat encounter.",
-      criticalFailureEffect: "Neural overload causes 2d6 bio-shock damage and migraines.",
-      gameMechanics: "Provides +2 to all Initiative rolls and allows dodging as an immediate reaction with +1 bonus.",
-      notes: "Compatible with Cyber-Eyes and Smart-Link optics."
+      name: "Subdermal Plasteel Weave",
+      type: "Cybernetics",
+      location: ["Subdermal", "Torso"],
+      description: "A flexible mesh of plasteel fibers woven into the deep dermis to disperse kinetic trauma.",
+      tech_level: 3,
+      meta_level: 0,
+      design_dc: 18,
+      craft_dc: 18,
+      sp: 20,
+      dr: 2,
+      stigma: "Minor",
+      classification: ["Military"],
+      creator: ["Aegis Biometics"],
+      design: ["Mk-IV Ballistic Dermal Weave"],
+      component: ["Flexible Plasteel Fiber", "Neuro-Sealant"],
+      prerequisite: ["Stamina 2+"],
+      costs: {
+        bp: 4,
+        credits: 3000,
+        nodes: 1,
+        sockets: 1,
+        strain: 0,
+        focus: 0,
+        ap: 0
+      },
+      sockets: {
+        max: 1,
+        used: 1,
+        tier: "Socket",
+        allocated: []
+      },
+      critical_details: {
+        score: "20",
+        effect: [],
+        success_effect: ["Deflection (+1 DR for 1 round)"],
+        failure_effect: ["Torn mesh requires surgical repair"]
+      },
+      modifiers: [
+        { target: "Damage Resist", type: "combat", value: 2, mode: "inherent" }
+      ],
+      mechanic: "Provides passive DR 2 against Kinetic and Ballistic damage. Invisible to casual inspection.",
+      note: "Standard medical scanner detects synthetic subdermal density."
     }
   },
 
@@ -719,103 +832,128 @@ Every augmentation must strictly adhere to the following schema. Do not add or r
   {
     key: 'gear',
     code: 'PROMPT I',
-    label: 'Gear & Equipment',
-    matrixId: 'equipment',
+    label: 'Gear & Apparatus',
+    matrixId: 'gear',
     targetCollection: 'gear',
     icon: Package,
-    color: '#eab308',
-    description: 'Parse field equipment, survival tools, electronics, scanners, and kits with socket counts, EPR ratings, and supply dice.',
+    color: '#64748b',
+    description: 'Parse raw equipment, tools, survival kits, and electronics into strict JSON documents with weight, sockets, and credits.',
     promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX GEAR PARSER
 
-**ROLE:** You are an expert data engineer and RPG system archivist. Your job is to parse raw, unformatted RPG rulebook text into a strict, clean JSON schema optimized for a NoSQL Firebase/Firestore database.
+**ROLE:** You are an expert data engineer and equipment cataloger for Tangent SFF RPG. Your task is to parse raw gear, electronics, tools, and survival equipment into strict JSON documents for the OMNICORTEX database.
 
-**TASK:** I will provide you with raw text detailing character "Gear" (equipment, weapons, tools, armor, etc.) from the Tangent SF RP system. You must extract this information and output a perfectly formatted JSON array of objects.
+**TASK:** Parse the provided text into a JSON array of objects adhering strictly to the schema below.
 
 **JSON SCHEMA:**
-Every gear item must strictly adhere to the following schema. Do not add or remove keys.
-
 [
   {
-    "name": "String (Name of the gear)",
-    "gearCategory": "String or null (e.g., Weapons, Armor, Tools, Electronics)",
-    "sizeCategory": "String or null (e.g., Small, Medium, Large)",
-    "manufacturer": "String or null (Origin company, faction, or creator)",
-    "baseDC": "String or null (Base Difficulty Class for use)",
-    "craftingDC": "String or null (Difficulty Class to construct or repair)",
-    "techLevel": "String or null (Technical/Technology level)",
-    "metaLevel": "String or null (Meta/Power level)",
-    "creditCost": "String or null (Value in credits, e.g., '150 Credits')",
-    "weight": "String or null (Weight, e.g., '2 lbs' or 'Light')",
-    "totalSockets": "String or null (Number of total sockets for upgrades)",
-    "structurePoints": "String or null (Structure points adjustment)",
-    "damageResist": "String or null (Damage resistance modifiers)",
-    "workspaceScale": "String or null (Workspace scale category if applicable)",
-    "processorRating": "String or null (Rating of electronic/computing gear)",
-    "softwareLevel": "String or null (Level of software programs/OS if applicable)",
-    "eprRating": "String or null (Environmental Protection Rating)",
-    "supplyDie": "String or null (Supply rating/die size, e.g., 'd6')",
-    "metaTechType": "String or null (Classification of meta-tech)",
-    "invocationRank": "String or null (Rank of tied magical/psychic abilities)",
-    "socketsUsed": "String or null (Number of sockets occupied natively)",
-    "scaleTier": "String or null (Scale tier, e.g., 'Personal' or 'Vehicle')",
-    "dailyCharges": "String or null (Number of uses/charges per day)",
-    "passiveEnhancements": "String or null (Passive bonuses granted by carrying/wearing)",
-    "description": "String (The flavorful description)",
-    "availability": "String or null (Legality, rarity, or availability code)",
-    "prerequisites": "String or null (Requirements to use or equip)",
-    "modifiers": "String or null (A brief summary of mechanical numeric bonuses or penalties)",
-    "gameMechanics": "String (The detailed rules of how the gear functions in play)",
-    "notes": "String or null (Any additional edge cases, restrictions, or table notes)"
+    "name": "String (Name of the item)",
+    "category": "String (Gear category, e.g., 'Electronics', 'Medical', 'Surveillance', 'Tools', 'Survival', 'Field Gear')",
+    "size": "String (Exact enum: 'Fine', 'Diminutive', 'Tiny', 'Small', 'Medium', 'Mecha', 'Structure')",
+    "faction_skin": "String (Manufacturer or cultural aesthetic origin)",
+    "base_dc": 12,
+    "craft_dc": 16,
+    "tech_level": 3,
+    "meta_level": 0,
+    "weight": 1.5,
+    "sp": 10,
+    "dr": 0,
+    "workspace_scale": "String (Exact enum: 'Belt', 'Bench', 'Bay', 'Facility')",
+    "computer_pr": 2,
+    "software_level": 0,
+    "epr_rating": 2,
+    "supply_die": "String (Exact enum: 'None', 'd4', 'd6', 'd8', 'd10', 'd12', 'd20')",
+    "enhancement_type": "String (Exact enum: 'Passive', 'Active', 'Symbiotic')",
+    "invocation_rank": 0,
+    "scale_tier": "String (Exact enum: 'Personal', 'Vehicle', 'Strategic')",
+    "daily_charges": 10,
+    "description": "String (Flavorful description, operation, and aesthetic)",
+    "availability": "String (Legality/rarity, e.g., 'Common', 'Restricted', 'Military', 'Black Market')",
+    "prerequisite": ["String (Required skills or proficiencies)"],
+    "costs": {
+      "bp": 0,
+      "credits": 250,
+      "nodes": 0,
+      "sockets": 2,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "sockets": {
+      "max": 2,
+      "used": 0,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "modifications": [],
+    "modifiers": [
+      { "target": "Perception", "type": "skill", "value": 2, "mode": "inherent" }
+    ],
+    "mechanic": "String (Operational rules, sensor ranges, battery life, activated abilities)",
+    "note": "String or null (Maintenance, recharge cycles, table notes)"
   }
 ]
 
 **PARSING HEURISTICS & RULES:**
-1. **Null Values:** Use JSON \`null\` for missing levels, costs, weights, ratings, or stats (do not use string "null").
-2. **Data Separation:** Separate flavor (\`description\`) from rules (\`gameMechanics\`). Summarize passive benefits in \`passiveEnhancements\` and numeric bonuses in \`modifiers\`.
-3. **Clean Formatting:** Escape strings properly, preserve paragraph structures as single-line strings using \\n if necessary, and remove markdown bold/italics. No LaTeX.
-4. **Output Requirement:** Output ONLY the valid JSON block.
+1. **Weight in KG:** weight must be a positive float representing weight in kilograms.
+2. **Supply Die:** Standard expendables use supply_die (e.g. d6, d8).
+3. **Output Requirement:** Output ONLY the valid JSON block.
 
 **INPUT TEXT:**
 [INSERT RAW GEAR TEXT HERE]`,
     expectedKeys: [
-      'name', 'gearCategory', 'sizeCategory', 'manufacturer', 'baseDC', 'craftingDC',
-      'techLevel', 'metaLevel', 'creditCost', 'weight', 'totalSockets', 'structurePoints',
-      'damageResist', 'workspaceScale', 'processorRating', 'softwareLevel', 'eprRating',
-      'supplyDie', 'metaTechType', 'invocationRank', 'socketsUsed', 'scaleTier',
-      'dailyCharges', 'passiveEnhancements', 'description', 'availability', 'prerequisites',
-      'modifiers', 'gameMechanics', 'notes'
+      'name', 'category', 'size', 'faction_skin', 'base_dc', 'craft_dc',
+      'tech_level', 'meta_level', 'weight', 'sp', 'dr', 'workspace_scale',
+      'computer_pr', 'software_level', 'epr_rating', 'supply_die',
+      'enhancement_type', 'invocation_rank', 'scale_tier', 'daily_charges',
+      'description', 'availability', 'prerequisite', 'costs', 'sockets',
+      'modifications', 'modifiers', 'mechanic', 'note'
     ],
     sampleItem: {
-      name: "Omnidirectional Spectral Scanner",
-      gearCategory: "Electronics",
-      sizeCategory: "Small",
-      manufacturer: "Horizon Sensing Group",
-      baseDC: "15",
-      craftingDC: "15",
-      techLevel: "3",
-      metaLevel: "0",
-      creditCost: "640 Credits",
-      weight: "1.5 kg",
-      totalSockets: "4",
-      structurePoints: "10",
-      damageResist: "2",
-      workspaceScale: "Belt",
-      processorRating: "2",
-      softwareLevel: "1",
-      eprRating: "2",
-      supplyDie: "d6",
-      metaTechType: null,
-      invocationRank: null,
-      socketsUsed: "1",
-      scaleTier: "Personal",
-      dailyCharges: "20",
-      passiveEnhancements: "+2 Perception vs hidden items",
-      description: "Handheld sensory array capable of infrared, electromagnetic, and life-sign detection.",
+      name: "Tactical Multispectral Scanner",
+      category: "Surveillance",
+      size: "Small",
+      faction_skin: "Aegis Dynamics",
+      base_dc: 12,
+      craft_dc: 16,
+      tech_level: 3,
+      meta_level: 0,
+      weight: 0.8,
+      sp: 10,
+      dr: 1,
+      workspace_scale: "Belt",
+      computer_pr: 2,
+      software_level: 2,
+      epr_rating: 3,
+      supply_die: "None",
+      enhancement_type: "Active",
+      invocation_rank: 0,
+      scale_tier: "Personal",
+      daily_charges: 24,
+      description: "Handheld scanner detecting thermal, electromagnetic, and biological life-signatures up to 200 meters.",
       availability: "Common",
-      prerequisites: "Perception 10+",
-      modifiers: "+2 to Scan & Investigate checks",
-      gameMechanics: "Provides active 360-degree detection up to 100 meters through light barriers.",
-      notes: "Battery life lasts 8 hours on continuous scanning."
+      prerequisite: ["Sensors 1+"],
+      costs: {
+        bp: 0,
+        credits: 450,
+        nodes: 0,
+        sockets: 2,
+        strain: 0,
+        focus: 0,
+        ap: 0
+      },
+      sockets: {
+        max: 2,
+        used: 0,
+        tier: "Socket",
+        allocated: []
+      },
+      modifications: [],
+      modifiers: [
+        { target: "Perception", type: "skill", value: 2, mode: "inherent" }
+      ],
+      mechanic: "Active ping reveals hidden targets within 200m line of sight. Battery lasts 24 operational hours.",
+      note: "Can be linked to smartlink HUD."
     }
   },
 
@@ -825,136 +963,158 @@ Every gear item must strictly adhere to the following schema. Do not add or remo
   {
     key: 'weaponry',
     code: 'PROMPT J',
-    label: 'Weaponry',
+    label: 'Weaponry & Ordinance',
     matrixId: 'weaponry',
     targetCollection: 'weaponry',
     icon: Crosshair,
-    color: '#ef4444',
-    description: 'Parse tactical firearms, melee weapons, heavy ordnance, damage profiles, armor penetration (AP), and firing modes.',
+    color: '#dc2626',
+    description: 'Parse raw weapons, firearms, energy rifles, and melee weapons into strict JSON documents with damage dice, AP, and firing modes.',
     promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX WEAPONRY PARSER
 
-**ROLE:** You are an expert data engineer and RPG system archivist. Your job is to parse raw, unformatted RPG rulebook text into a strict, clean JSON schema optimized for a NoSQL Firebase/Firestore database.
+**ROLE:** You are an expert arms designer and data engineer for Tangent SFF RPG. Your task is to parse raw firearms, melee weapons, energy projectors, and tactical ordinance into strict JSON documents for the OMNICORTEX database.
 
-**TASK:** I will provide you with raw text detailing character "Weaponry" (weapons, firearms, melee weapons, etc.) from the Tangent SF RP system. You must extract this information and output a perfectly formatted JSON array of objects.
+**TASK:** Parse the provided text into a JSON array of objects adhering strictly to the schema below.
 
 **JSON SCHEMA:**
-Every weapon must strictly adhere to the following schema. Do not add or remove keys.
-
 [
   {
-    "name": "String (Name of the weapon)",
-    "description": "String (The flavorful description)",
-    "techLevel": "String or null (Technical/Technology level)",
-    "metaLevel": "String or null (Meta/Power level)",
-    "cost": "String or null (Value in credits, e.g., '500 Credits')",
-    "availability": "String or null (Legality, rarity, or availability code)",
-    "designDC": "String or null (Difficulty Class to design/craft)",
-    "size": "String or null (e.g., Small, Medium, Large)",
-    "weight": "String or null (Weight, e.g., '4 lbs')",
-    "quality": "String or null (e.g., Standard, Exceptional)",
-    "durability": "String or null (Durability rating or stats)",
-    "prerequisites": "String or null (Requirements to use or equip)",
-    "skill": "String or null (Required governing skill, e.g., 'Rifles')",
-    "special": "String or null (Special weapon properties or rules)",
-    "area": "String or null (Area of effect if applicable)",
-    "effect": "String or null (Primary hit effects)",
-    "range": "String or null (Range bands, e.g., '50/100/300')",
-    "target": "String or null (Target restrictions or types)",
-    "origin": "String or null (Faction or planetary origin)",
-    "creator": "String or null (Manufacturer or designer company)",
-    "classification": "String or null (Weapon group classification)",
-    "damage": "String or null (Damage rating/die, e.g., '3d6')",
-    "damageType": "String or null (Type of damage, e.g., 'Thermal', 'Kinetic')",
-    "critical": "String or null (Critical parameters)",
-    "penetration": "String or null (Armor penetration rating)",
-    "ammunitionCapacity": "String or null (Ammo capacity and type, e.g., '30 (Cell)')",
-    "powerSource": "String or null (Power source/battery type)",
-    "sockets": "String or null (Number of modular sockets)",
-    "weaponDowngrades": "String or null (Inherent or potential downgrades)",
-    "factionSkin": "String or null (Faction aesthetic modifications or variants)",
-    "modules": "String or null (Compatible or pre-installed modules)",
-    "design": "String or null (Visual aesthetic and ergonomics description)",
-    "accuracy": "String or null (Accuracy modifier or rating)",
-    "modes": "String or null (Firing modes, e.g., 'Single', 'Burst', 'Auto')",
-    "rateOfFire": "String or null (Rate of fire stats)",
-    "criticalScore": "String or null (Required roll for critical, e.g., '19-20')",
-    "criticalEffect": "String or null (Narrative effect on critical hit)",
-    "criticalSuccessEffect": "String or null (Mechanical critical success effects)",
-    "criticalFailureEffect": "String or null (Mechanical critical failure/fumble effects)",
-    "wielding": "String or null (Hands required, e.g., '1-Handed' or '2-Handed')",
-    "components": "String or null (Integrated components)",
-    "componentSlots": "String or null (Available component slots)",
-    "modifiers": "String or null (Summary of mechanical numeric bonuses or penalties)",
-    "gameMechanics": "String (The detailed rules of how the weapon functions in play)",
-    "notes": "String or null (Any additional edge cases, restrictions, or table notes)"
+    "name": "String (Weapon Name)",
+    "description": "String (Tactical description, ergonomics, and aesthetic)",
+    "tech_level": 3,
+    "meta_level": 0,
+    "availability": "String (e.g., 'Common', 'Restricted', 'Military', 'Illegal')",
+    "design_dc": 18,
+    "craft_dc": 18,
+    "size": ["species_size-medium"],
+    "weight": 3.2,
+    "quality": "String (Exact enum: 'Bad', 'Poor', 'Standard', 'Good', 'Exceptional', 'Mastercrafted')",
+    "durability": 30,
+    "prerequisite": ["String (Required strength, features, or proficiency)"],
+    "skill": "String (Governing skill, e.g., 'Rifles', 'Heavy Ballistic', 'Blades', 'Unarmed')",
+    "special": ["String (Weapon tags, e.g., 'Concealable', 'Silent', 'High Recoil', 'Stun')"],
+    "area": ["String or null"],
+    "effect": ["String or null"],
+    "range": "String (Range bands, e.g., '30/60/150' or 'Melee')",
+    "target": ["String (Target profile)"],
+    "origin": ["String (Faction or planetary origin)"],
+    "creator": ["String (Manufacturer)"],
+    "classification": "String (Exact enum: 'Melee (Slashing)', 'Melee (Blunt)', 'Melee (Piercing)', 'Ranged (Ballistic)', 'Heavy (Ballistic)', 'Ranged (Energy)', 'Heavy (Energy)')",
+    "damage": "String (Dice expression: '2d8+2', '3d6', '1d10')",
+    "damage_type": "String (Exact enum: 'Kinetic', 'Force', 'Thermal (Pyro/Cryo)', 'Voltic (Electrical)', 'Sonic', 'Corrosive (Acid)', 'Psychic/Metaphysical')",
+    "ap": 2,
+    "ammunition": "String (Capacity and type, e.g., '30 (Standard Ballistic Magazine)', '10 (Heavy Power Cell)')",
+    "power_source": "String (Standard Magazine, Power Cell, Chemical Reactor, None)",
+    "faction_skin": "String (Manufacturer skin)",
+    "design": ["String (Schematic design code)"],
+    "accuracy": 0,
+    "modes": ["String (Firing modes: 'Single', 'Burst', 'Auto', 'Suppression')"],
+    "attack_rate": "String (Rate of fire, e.g., '1', '3', 'Burst 5')",
+    "wielding": "String (Exact enum: 'One-Handed', 'Two-Handed', 'Versatile', 'Independent', 'Mounted')",
+    "component": ["String (Integrated scopes, muzzles, grips)"],
+    "critical_details": {
+      "score": "20",
+      "effect": ["String (Critical hit effect)"],
+      "success_effect": ["Double Damage"],
+      "failure_effect": ["Weapon Jam / Misfire"]
+    },
+    "costs": {
+      "bp": 0,
+      "credits": 750,
+      "nodes": 0,
+      "sockets": 3,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "sockets": {
+      "max": 3,
+      "used": 1,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "modifications": [],
+    "modifiers": [],
+    "mechanic": "String (Full tactical rules, recoil effects, special attack options)",
+    "note": "String or null (Maintenance, ammunition costs, GM notes)"
   }
 ]
 
 **PARSING HEURISTICS & RULES:**
-1. **Null Values:** Use JSON \`null\` for missing levels, prerequisites, modifiers, ratings, or stats (do not use string "null").
-2. **Data Separation:** Separate flavor ("description", "design") from rules ("gameMechanics"). Summarize numeric bonuses/penalties in "modifiers".
-3. **Clean Formatting:** Escape strings properly, preserve paragraph structures as single-line strings using \\n if necessary, and remove markdown bold/italics. No LaTeX.
+1. **Discrete Mechanical Fields:** Never combine damage and damage type into one string. damage is the dice string (e.g. 2d8), damage_type is the enum (e.g. Kinetic).
+2. **Penetration:** Armor penetration rating is stored as a number in ap.
+3. **No LaTeX:** Use plain text formulas.
 4. **Output Requirement:** Output ONLY the valid JSON block.
 
 **INPUT TEXT:**
 [INSERT RAW WEAPONRY TEXT HERE]`,
     expectedKeys: [
-      'name', 'description', 'techLevel', 'metaLevel', 'cost', 'availability',
-      'designDC', 'size', 'weight', 'quality', 'durability', 'prerequisites',
-      'skill', 'special', 'area', 'effect', 'range', 'target', 'origin',
-      'creator', 'classification', 'damage', 'damageType', 'critical',
-      'penetration', 'ammunitionCapacity', 'powerSource', 'sockets',
-      'weaponDowngrades', 'factionSkin', 'modules', 'design', 'accuracy',
-      'modes', 'rateOfFire', 'criticalScore', 'criticalEffect',
-      'criticalSuccessEffect', 'criticalFailureEffect', 'wielding', 'components',
-      'componentSlots', 'modifiers', 'gameMechanics', 'notes'
+      'name', 'description', 'tech_level', 'meta_level', 'availability',
+      'design_dc', 'craft_dc', 'size', 'weight', 'quality', 'durability',
+      'prerequisite', 'skill', 'special', 'area', 'effect', 'range', 'target',
+      'origin', 'creator', 'classification', 'damage', 'damage_type', 'ap',
+      'ammunition', 'power_source', 'faction_skin', 'design', 'accuracy',
+      'modes', 'attack_rate', 'wielding', 'component', 'critical_details',
+      'costs', 'sockets', 'modifications', 'modifiers', 'mechanic', 'note'
     ],
     sampleItem: {
-      name: "Viper Tactical Plasma Carbine",
-      description: "Bullpup energy rifle engineered for shipboard boarding operations and close-quarters suppression.",
-      techLevel: "3",
-      metaLevel: "0",
-      cost: "1280 Credits",
+      name: "Apex-7 Plasma Carbine",
+      description: "Compact bullpup energy weapon firing superheated magnetic plasma bolts with high muzzle velocity.",
+      tech_level: 3,
+      meta_level: 0,
       availability: "Restricted",
-      designDC: "18",
-      size: "Medium",
-      weight: "3.2 kg",
+      design_dc: 20,
+      craft_dc: 20,
+      size: ["species_size-medium"],
+      weight: 3.5,
       quality: "Standard",
-      durability: "30",
-      prerequisites: "Firearms 3+",
-      skill: "Rifles",
-      special: "Thermal Melt on sustained fire",
-      area: null,
-      effect: "Superheated plasma burns",
-      range: "30/60/120 ft",
-      target: "Single Target",
-      origin: "Aegis Directorate",
-      creator: "Viper Armaments",
+      durability: 35,
+      prerequisite: ["Energy Weapons 2+"],
+      skill: "Energy Weapons",
+      special: ["Thermal Burn"],
+      area: [],
+      effect: [],
+      range: "40/80/200",
+      target: ["Single Target"],
+      origin: ["Solari Foundries"],
+      creator: ["Solari Ordnance"],
       classification: "Ranged (Energy)",
       damage: "3d8",
-      damageType: "Thermal",
-      critical: "19-20 / x2",
-      penetration: "4 AP",
-      ammunitionCapacity: "30 (Standard Plasma Cell)",
-      powerSource: "Type-3 Energy Cell",
-      sockets: "3",
-      weaponDowngrades: null,
-      factionSkin: "Aegis Matte Black",
-      modules: "Smart-Link Holo-Sight, Recoil Compensator",
-      design: "Ergonomic thumbhole stock with illuminated ammo readout",
-      accuracy: "+1",
-      modes: "Single, 3-Round Burst",
-      rateOfFire: "3",
-      criticalScore: "19-20",
-      criticalEffect: "Target armor suffers permanent -2 DR shred.",
-      criticalSuccessEffect: "Inflicts 1d6 ongoing burn damage for 2 rounds.",
-      criticalFailureEffect: "Plasma coil overheats, weapon disabled for 1 round.",
+      damage_type: "Thermal (Pyro/Cryo)",
+      ap: 3,
+      ammunition: "24 (Standard Cell)",
+      power_source: "Power Cell",
+      faction_skin: "Standard",
+      design: ["Apex-Series Mk-II"],
+      accuracy: 1,
+      modes: ["Single", "Burst"],
+      attack_rate: "1",
       wielding: "Two-Handed",
-      components: "Magnetic accelerator, plasma focus lens",
-      componentSlots: "3",
-      modifiers: "+1 Attack with Smart-Link",
-      gameMechanics: "Firing in 3-Round burst grants +2 to damage on a successful hit.",
-      notes: "Cell replacement requires 1 AP."
+      component: ["Holographic Sight"],
+      critical_details: {
+        score: "19-20",
+        effect: ["Target ignited for 1d6 ongoing thermal damage"],
+        success_effect: ["Double Damage and melts 1 point of armor DR"],
+        failure_effect: ["Thermal vent overheat requires 1 round cool down"]
+      },
+      costs: {
+        bp: 0,
+        credits: 1100,
+        nodes: 0,
+        sockets: 3,
+        strain: 0,
+        focus: 0,
+        ap: 0
+      },
+      sockets: {
+        max: 3,
+        used: 1,
+        tier: "Socket",
+        allocated: []
+      },
+      modifications: [],
+      modifiers: [],
+      mechanic: "Burst fire expends 3 rounds for +2 to attack roll or +1d8 damage.",
+      note: "Cell replacement requires 1 AP."
     }
   },
 
@@ -964,114 +1124,149 @@ Every weapon must strictly adhere to the following schema. Do not add or remove 
   {
     key: 'armoring',
     code: 'PROMPT K',
-    label: 'Armoring & Protective Gear',
-    matrixId: 'armor',
+    label: 'Armoring & Protective Suits',
+    matrixId: 'armoring',
     targetCollection: 'armoring',
     icon: Shield,
-    color: '#f59e0b',
-    description: 'Parse tactical armor, powered exoskeletons, hazard suits, shields, DR ratings, coverage zones, and mobility penalties.',
+    color: '#2563eb',
+    description: 'Parse raw armor, suits, ballistic vests, shields, and environmental protection into strict JSON documents with coverage and resistances.',
     promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX ARMORING PARSER
 
-**ROLE:** You are an expert data engineer and RPG system archivist. Your job is to parse raw, unformatted RPG rulebook text into a strict, clean JSON schema optimized for a NoSQL Firebase/Firestore database.
+**ROLE:** You are an expert defense system engineer and data archivist for Tangent SFF RPG. Your task is to parse raw armor, suits, shields, and protective equipment into strict JSON documents for the OMNICORTEX database.
 
-**TASK:** I will provide you with raw text detailing character "Armoring" (armor, suits, shields, protective gear) from the Tangent SF RP system. You must extract this information and output a perfectly formatted JSON array of objects.
+**TASK:** Parse the provided text into a JSON array of objects adhering strictly to the schema below.
 
 **JSON SCHEMA:**
-Every armor item must strictly adhere to the following schema. Do not add or remove keys.
-
 [
   {
-    "name": "String (Name of the armor/shield)",
-    "description": "String (The flavorful description)",
-    "techLevel": "String or null (Technical/Technology level)",
-    "metaLevel": "String or null (Meta/Power level)",
-    "cost": "String or null (Value in credits, e.g., '1000 Credits')",
-    "availability": "String or null (Legality, rarity, or availability code)",
-    "designDC": "String or null (Difficulty Class to design/craft)",
-    "size": "String or null (e.g., Medium, Large)",
-    "weight": "String or null (Weight, e.g., '15 lbs')",
-    "quality": "String or null (e.g., Standard, Exceptional)",
-    "durability": "String or null (Durability rating or stats)",
-    "prerequisite": "String or null (Requirements to use or equip)",
-    "skill": "String or null (Required governing skill, e.g., 'Armor Proficiency')",
-    "origin": "String or null (Faction or planetary origin)",
-    "creator": "String or null (Manufacturer or designer company)",
-    "design": "String or null (Visual aesthetic and ergonomics description)",
-    "classification": "String or null (Armor group classification, e.g., 'Light', 'Heavy')",
-    "material": "String or null (Primary composition material, e.g., 'Plasteel')",
-    "bodyLocations": "String or null (Body parts covered, e.g., 'Full Body', 'Torso')",
-    "modules": "String or null (Compatible or pre-installed modules)",
-    "coverage": "String or null (Protection coverage rating/type)",
-    "maxDexBonus": "String or null (Maximum dexterity/agility bonus allowed)",
-    "mobilityPenalty": "String or null (Movement or skill penalties from wearing)",
-    "factionSkin": "String or null (Faction aesthetic modifications or variants)",
-    "armorDowngrades": "String or null (Inherent or potential downgrades)",
-    "carriedShield": "String or null (Shield-specific properties if applicable)",
-    "category": "String or null (e.g., Shield, Powered Armor, Environmental Suit)",
-    "resistance": "String or null (Damage resistances or environmental protections)",
-    "criticalSuccessEffect": "String or null (Mechanical critical success effects)",
-    "criticalFailureEffect": "String or null (Mechanical critical failure/fumble effects)",
-    "componentSlots": "String or null (Available component slots)",
-    "modes": "String or null (Operational modes, e.g., 'Active', 'Passive')",
-    "modifiers": "String or null (Summary of mechanical numeric bonuses or penalties)",
-    "gameMechanics": "String (The detailed rules of how the armor functions in play)",
-    "notes": "String or null (Any additional edge cases, restrictions, or table notes)"
+    "name": "String (Armor / Shield Name)",
+    "description": "String (Aesthetic description, materials, and silhouette)",
+    "tech_level": 3,
+    "meta_level": 0,
+    "availability": "String (e.g., 'Common', 'Restricted', 'Military')",
+    "design_dc": 16,
+    "craft_dc": 16,
+    "size": ["species_size-medium"],
+    "weight": 8.0,
+    "quality": "String (Exact enum: 'Bad', 'Poor', 'Standard', 'Good', 'Exceptional', 'Mastercrafted')",
+    "durability": 50,
+    "prerequisite": ["String (Armor proficiencies or minimum Might)"],
+    "skill": "String (Governing skill, e.g., 'Armor Handling', 'Combat Defense')",
+    "origin": ["String (Faction or planetary origin)"],
+    "creator": ["String (Manufacturer)"],
+    "design": ["String (Design model)"],
+    "classification": ["String (Civilian, Ballistic, Sealed, Powered)"],
+    "material": ["String (Materials: 'Plasteel', 'Ceramite', 'Titanium Mesh', 'Carbon Weave')"],
+    "body_locations": ["String (Locations covered: 'Full Body', 'Torso', 'Head', 'Limbs')"],
+    "coverage": "String (Exact enum: 'Partial', 'Standard', 'Sealed', 'Reinforced', 'Bulwark')",
+    "max_dex": 4,
+    "mobility_penalty": 0,
+    "faction_skin": "String (Cultural skin)",
+    "carried_shield": "String or null (If shield, describe shield profile)",
+    "category": "String (Exact enum: 'Jewelry', 'Device', 'Lightweight', 'Mediumweight', 'Heavyweight', 'Mecha', 'Structure')",
+    "resistance": ["String (Resistances granted: 'Kinetic', 'Thermal (Pyro/Cryo)', 'Voltic (Electrical)', 'Radiation', 'Toxic')"],
+    "modes": ["String (Operational modes: 'Passive', 'Active Shielding', 'Emergency Power')"],
+    "critical_details": {
+      "score": "20",
+      "effect": [],
+      "success_effect": ["Deflection (Damage reduced to 0)"],
+      "failure_effect": ["Armor Breach / Compromised Seal"]
+    },
+    "costs": {
+      "bp": 0,
+      "credits": 1200,
+      "nodes": 0,
+      "sockets": 4,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "sockets": {
+      "max": 4,
+      "used": 1,
+      "tier": "Socket",
+      "allocated": []
+    },
+    "modifications": [],
+    "modifiers": [
+      { "target": "Damage Resist", "type": "combat", "value": 4, "mode": "inherent" }
+    ],
+    "mechanic": "String (Environmental seals, life support durations, kinetic dampening rules)",
+    "note": "String or null (Maintenance, recharge protocols, sealed atmosphere limits)"
   }
 ]
 
 **PARSING HEURISTICS & RULES:**
-1. **Null Values:** Use JSON null for missing levels, prerequisites, modifiers, ratings, or stats (do not use string "null").
-2. **Data Separation:** Separate flavor ("description", "design") from rules ("gameMechanics"). Summarize numeric bonuses/penalties in "modifiers".
-3. **Clean Formatting:** Escape strings properly, preserve paragraph structures as single-line strings using \\n if necessary, and remove markdown bold/italics. No LaTeX.
-4. **Output Requirement:** Output ONLY the valid JSON block.
+1. **Dexterity Limits:** max_dex and mobility_penalty MUST be numbers.
+2. **Exact Coverage:** coverage must strictly be one of: Partial, Standard, Sealed, Reinforced, Bulwark.
+3. **Output Requirement:** Output ONLY the valid JSON block.
 
 **INPUT TEXT:**
 [INSERT RAW ARMORING TEXT HERE]`,
     expectedKeys: [
-      'name', 'description', 'techLevel', 'metaLevel', 'cost', 'availability',
-      'designDC', 'size', 'weight', 'quality', 'durability', 'prerequisite',
-      'skill', 'origin', 'creator', 'design', 'classification', 'material',
-      'bodyLocations', 'modules', 'coverage', 'maxDexBonus', 'mobilityPenalty',
-      'factionSkin', 'armorDowngrades', 'carriedShield', 'category', 'resistance',
-      'criticalSuccessEffect', 'criticalFailureEffect', 'componentSlots', 'modes',
-      'modifiers', 'gameMechanics', 'notes'
+      'name', 'description', 'tech_level', 'meta_level', 'availability',
+      'design_dc', 'craft_dc', 'size', 'weight', 'quality', 'durability',
+      'prerequisite', 'skill', 'origin', 'creator', 'design', 'classification',
+      'material', 'body_locations', 'coverage', 'max_dex', 'mobility_penalty',
+      'faction_skin', 'carried_shield', 'category', 'resistance', 'modes',
+      'critical_details', 'costs', 'sockets', 'modifications', 'modifiers',
+      'mechanic', 'note'
     ],
     sampleItem: {
-      name: "Apex Heavy Carapace Exosuit",
-      description: "Powered heavy combat suit constructed of layered ceramite-titanium composite with servomotor assist.",
-      techLevel: "3",
-      metaLevel: "0",
-      cost: "2560 Credits",
-      availability: "Military",
-      designDC: "20",
-      size: "Medium",
-      weight: "18 kg",
+      name: "Aegis Reinforced Ballistic Suit",
+      description: "Segmented composite ceramite plates over high-density ballistic weave with neck and groin gorgets.",
+      tech_level: 3,
+      meta_level: 0,
+      availability: "Commercial",
+      design_dc: 16,
+      craft_dc: 16,
+      size: ["species_size-medium"],
+      weight: 7.5,
       quality: "Standard",
-      durability: "60",
-      prerequisite: "End 12+, Heavy Armor Proficiency",
-      skill: "Heavy Armor",
-      origin: "Aegis Directorate",
-      creator: "Aegis Defense",
-      design: "Interlocking angular plates with sealed internal atmospheric circulation",
-      classification: "Heavyweight",
-      material: "Ceramite Titanium Composite",
-      bodyLocations: "Full Body (Head, Torso, Arms, Legs)",
-      modules: "Hydraulic Jump Servos, Auto-Injectors",
-      coverage: "Reinforced",
-      maxDexBonus: "+1",
-      mobilityPenalty: "-2",
-      factionSkin: "Aegis Matte Slate",
-      armorDowngrades: null,
-      carriedShield: "None",
-      category: "Powered Armor",
-      resistance: "DR 12 (Kinetic), DR 8 (Thermal), Vacuum Sealed",
-      criticalSuccessEffect: "Deflects incoming kinetic projectile completely.",
-      criticalFailureEffect: "Hydraulic lock causes -2 to Agility for 1 round.",
-      componentSlots: "4",
-      modes: "Standard, Overdrive (+2 Str, high power drain)",
-      modifiers: "+2 Strength checks, -2 Stealth checks",
-      gameMechanics: "Absorbs 12 kinetic and 8 thermal damage before applying to HP. Provides full vacuum and toxic hazard protection for 24 hours.",
-      notes: "Requires 1 Standard Power Cell every 24 hours."
+      durability: 45,
+      prerequisite: ["Might 1+"],
+      skill: "Armor Handling",
+      origin: ["Aegis Defense Systems"],
+      creator: ["Aegis Armor Core"],
+      design: ["Mk-3 Tactical Rig"],
+      classification: ["Ballistic"],
+      material: ["Ceramite", "Ballistic Weave"],
+      body_locations: ["Torso", "Limbs"],
+      coverage: "Standard",
+      max_dex: 3,
+      mobility_penalty: 0,
+      faction_skin: "Standard",
+      carried_shield: null,
+      category: "Mediumweight",
+      resistance: ["Kinetic", "Thermal (Pyro/Cryo)"],
+      modes: ["Passive"],
+      critical_details: {
+        score: "20",
+        effect: [],
+        success_effect: ["Deflects incoming critical hit to standard hit"],
+        failure_effect: ["Ceramite plate cracks (-1 DR until repaired)"]
+      },
+      costs: {
+        bp: 0,
+        credits: 950,
+        nodes: 0,
+        sockets: 3,
+        strain: 0,
+        focus: 0,
+        ap: 0
+      },
+      sockets: {
+        max: 3,
+        used: 0,
+        tier: "Socket",
+        allocated: []
+      },
+      modifications: [],
+      modifiers: [
+        { target: "Damage Resist", type: "combat", value: 3, mode: "inherent" }
+      ],
+      mechanic: "Provides passive DR 3 against Kinetic and DR 1 against Thermal damage.",
+      note: "Standard sealed helmet available as modular add-on."
     }
   },
 
@@ -1081,90 +1276,113 @@ Every armor item must strictly adhere to the following schema. Do not add or rem
   {
     key: 'mecha',
     code: 'PROMPT L',
-    label: 'Mecha & Heavy Frames',
+    label: 'Mecha & Combat Frames',
     matrixId: 'mecha',
     targetCollection: 'mecha',
     icon: Bot,
-    color: '#f59e0b',
-    description: 'Parse piloted battle frames, combat walkers, dropships, hardpoints, propulsion systems, and variable form technology (VFT).',
+    color: '#ea580c',
+    description: 'Parse raw mecha frames, giant robots, piloted walker suits, propulsion specs, and weapon hardpoints into strict JSON documents.',
     promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX MECHA PARSER
 
-**ROLE:** You are an expert data engineer and RPG system archivist. Your job is to parse raw, unformatted RPG rulebook text into a strict, clean JSON schema optimized for a NoSQL Firebase/Firestore database.
+**ROLE:** You are an expert mecha engineer and data archivist for Tangent SFF RPG. Your task is to parse raw mecha, combat chassis, walkers, and powered exosuits into strict JSON documents for the OMNICORTEX database.
 
-**TASK:** I will provide you with raw text detailing character "Mecha" (frames, giant robots, piloted suits) from the Tangent SF RP system. You must extract this information and output a perfectly formatted JSON array of objects.
+**TASK:** Parse the provided text into a JSON array of objects adhering strictly to the schema below.
 
 **JSON SCHEMA:**
-Every mecha must strictly adhere to the following schema. Do not add or remove keys.
-
 [
   {
-    "name": "String (Name of the mecha)",
-    "operationDomain": "String or null (e.g., Space, Atmospheric, Amphibious, Ground)",
-    "sizeCategory": "String or null (e.g., Light, Medium, Heavy, Colossal)",
-    "bodyType": "String or null (e.g., Bipedal, Quadrupedal, Treaded, Vehicular)",
-    "manufacturer": "String or null (Origin company, faction, or creator)",
-    "techLevel": "String or null (Technical/Technology level)",
-    "metaLevel": "String or null (Meta/Power level)",
-    "creditCost": "String or null (Value in credits, e.g., '120,000 Credits')",
-    "craftingDC": "String or null (Difficulty Class to design, build, or repair)",
-    "structurePoints": "String or null (Structure points adjustment)",
-    "damageResist": "String or null (Damage resistance modifiers)",
-    "totalMounts": "String or null (Available hardpoints/weapon mounts, e.g., '2 Shoulder, 2 Arm')",
-    "primaryPropulsion": "String or null (Propulsion system, e.g., 'Fusion Thrusters', 'Heavy Treads')",
-    "armorPlating": "String or null (Type of integrated armor plating)",
-    "installedModules": "String or null (Pre-installed software, utility, or support modules)",
-    "coreComponents": "String or null (Essential engine, reactor, or cockpit specs)",
-    "variableForm": "String or null (Details of transformation modes if applicable)",
-    "pilotMod": "String or null (Modifiers applied to the pilot's attributes/skills)",
-    "handlingMod": "String or null (Handling, maneuverability, or steering modifiers)",
-    "description": "String (The flavorful description)",
-    "availability": "String or null (Legality, rarity, or availability code)",
-    "prerequisites": "String or null (Requirements to pilot, equip, or construct)",
-    "modifiers": "String or null (A brief summary of mechanical numeric bonuses or penalties)",
-    "notes": "String or null (Any additional edge cases, restrictions, or table notes)"
+    "name": "String (Mecha Chassis Designation)",
+    "domain": "String (Operational domain: 'Ground', 'Atmospheric', 'Vacuum / Orbital', 'Amphibious')",
+    "size": "String (Exact enum: 'Miniscule', 'Fine', 'Diminutive', 'Tiny', 'Small', 'Medium', 'Large', 'Huge', 'Gargantuan', 'Colossal', 'Enormous', 'Titanic', 'Super Gargantuan', 'Mega Colossal')",
+    "frame": "String (Exact enum: 'Creature', 'Humanoid', 'Industrial', 'Personal', 'Platform', 'Racing', 'Walker', 'Winged')",
+    "faction_skin": "String (Manufacturer / Cultural aesthetic)",
+    "tech_level": 3,
+    "meta_level": 0,
+    "craft_dc": 24,
+    "sp": 150,
+    "dr": 15,
+    "propulsion": "String (Propulsion system: 'Bipedal Walker', 'Quad Treads', 'Ion Thrusters', 'Grav-Repulsor')",
+    "armor_plating": ["String (Integrated composite armor specs)"],
+    "vft_mode": "String (Variable Form Technology modes or 'None')",
+    "pilot_agility": 0,
+    "handling": 0,
+    "description": "String (Chassis overview, cockpit ergonomics, aesthetic)",
+    "availability": "String (Military, Commercial, Black Market)",
+    "prerequisite": ["String (Mecha Piloting skill, Neural Interface feat)"],
+    "costs": {
+      "bp": 0,
+      "credits": 250000,
+      "nodes": 0,
+      "sockets": 8,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "sockets": {
+      "max": 8,
+      "used": 2,
+      "tier": "Hardpoint",
+      "allocated": []
+    },
+    "modifications": [],
+    "modifiers": [],
+    "mechanic": "String (Reactor output, cockpit life support, ejection protocols, movement speeds)",
+    "note": "String or null (Maintenance cycles, fuel requirements, field repair DCs)"
   }
 ]
 
 **PARSING HEURISTICS & RULES:**
-1. **Null Values:** Use JSON null for missing levels, prerequisites, modifiers, ratings, or stats (do not use string "null").
-2. **Data Separation:** Separate flavor ("description") from rules ("notes", "installedModules"). Summarize numeric bonuses/penalties in "modifiers".
-3. **Clean Formatting:** Escape strings properly, preserve paragraph structures as single-line strings using \\n if necessary, and remove markdown bold/italics. No LaTeX.
-4. **Output Requirement:** Output ONLY the valid JSON block.
+1. **Hardpoint Sockets:** Frame mounting hardpoints are stored in sockets.max with tier 'Hardpoint'.
+2. **Durability:** Structure Points (sp) and Damage Resistance (dr) must be numbers.
+3. **Output Requirement:** Output ONLY the valid JSON block.
 
 **INPUT TEXT:**
 [INSERT RAW MECHA TEXT HERE]`,
     expectedKeys: [
-      'name', 'operationDomain', 'sizeCategory', 'bodyType', 'manufacturer',
-      'techLevel', 'metaLevel', 'creditCost', 'craftingDC', 'structurePoints',
-      'damageResist', 'totalMounts', 'primaryPropulsion', 'armorPlating',
-      'installedModules', 'coreComponents', 'variableForm', 'pilotMod',
-      'handlingMod', 'description', 'availability', 'prerequisites', 'modifiers', 'notes'
+      'name', 'domain', 'size', 'frame', 'faction_skin', 'tech_level',
+      'meta_level', 'craft_dc', 'sp', 'dr', 'propulsion', 'armor_plating',
+      'vft_mode', 'pilot_agility', 'handling', 'description', 'availability',
+      'prerequisite', 'costs', 'sockets', 'modifications', 'modifiers',
+      'mechanic', 'note'
     ],
     sampleItem: {
-      name: "Vanguard Mk-VI Stryker Frame",
-      operationDomain: "Ground / Atmospheric Drop",
-      sizeCategory: "Medium",
-      bodyType: "Bipedal Walker",
-      manufacturer: "Ironclad Industrial FrameWorks",
-      techLevel: "3",
-      metaLevel: "0",
-      creditCost: "40,960 Credits",
-      craftingDC: "30",
-      structurePoints: "150 SP",
-      damageResist: "DR 15",
-      totalMounts: "2 Shoulder Hardpoints, 2 Arm Mounts",
-      primaryPropulsion: "Bipedal Myomer Legs with Vector Thrusters",
-      armorPlating: "Reinforced Plasteel Reactive Armor",
-      installedModules: "Fire-Control Sensor Suite, ECM Jammer",
-      coreComponents: "Compact Fusion Reactor (Rating 4), Sealed Cockpit",
-      variableForm: "None",
-      pilotMod: "+2 Gunnery, +1 Sensor Ops",
-      handlingMod: "+0 Handling",
-      description: "Agile medium assault frame optimized for urban fire support and breach tactics.",
-      availability: "Military / Mercenary License",
-      prerequisites: "Mecha Operation 3+, Gunnery 2+",
-      modifiers: "+15 Base Speed on flat terrain",
-      notes: "Includes auto-eject capsule for the pilot."
+      name: "Centurion Mk-IV Assault Frame",
+      domain: "Ground",
+      size: "Large",
+      frame: "Humanoid",
+      faction_skin: "Aegis Industrial",
+      tech_level: 3,
+      meta_level: 0,
+      craft_dc: 26,
+      sp: 220,
+      dr: 18,
+      propulsion: "Bipedal Myomer Walker with Vector Jump Thrusters",
+      armor_plating: ["Reactive Plasteel Laminate"],
+      vft_mode: "None",
+      pilot_agility: 0,
+      handling: 1,
+      description: "A 7-meter heavy frontline assault frame engineered for urban breach operations and sustained fire support.",
+      availability: "Military License",
+      prerequisite: ["Mecha Operation 2+", "Heavy Weapons 2+"],
+      costs: {
+        bp: 0,
+        credits: 185000,
+        nodes: 0,
+        sockets: 6,
+        strain: 0,
+        focus: 0,
+        ap: 0
+      },
+      sockets: {
+        max: 6,
+        used: 2,
+        tier: "Hardpoint",
+        allocated: []
+      },
+      modifications: [],
+      modifiers: [],
+      mechanic: "Jump thrusters allow 60ft vertical clearance or 120ft forward boost. Cockpit is fully sealed with 48-hour life support.",
+      note: "Reactor core requires hydrogen cell replenishment every 120 hours."
     }
   },
 
@@ -1182,85 +1400,104 @@ Every mecha must strictly adhere to the following schema. Do not add or remove k
     description: 'Parse orbital stations, planetary fortresses, arcologies, underground bunkers, security levels, and structural module capacity.',
     promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX ARCHITECTURE PARSER
 
-**ROLE:** You are an expert data engineer and RPG system archivist. Your job is to parse raw, unformatted RPG rulebook text into a strict, clean JSON schema optimized for a NoSQL Firebase/Firestore database.
+**ROLE:** You are an expert structural engineer and architectural archivist for Tangent SFF RPG. Your task is to parse raw habitats, orbital stations, fortifications, and bases into strict JSON documents for the OMNICORTEX database.
 
-**TASK:** I will provide you with raw text detailing character "Architecture" (structures, buildings, bases, outposts) from the Tangent SF RP system. You must extract this information and output a perfectly formatted JSON array of objects.
+**TASK:** Parse the provided text into a JSON array of objects adhering strictly to the schema below.
 
 **JSON SCHEMA:**
-Every architecture must strictly adhere to the following schema. Do not add or remove keys.
-
 [
   {
-    "name": "String (Name of the architecture/structure)",
-    "architecturalStyle": "String or null (e.g., Brutalist, Gothic, High-Tech)",
-    "footprintSize": "String or null (Footprint size or area)",
-    "heightClass": "String or null (e.g., Low-Rise, Sky-Scraper)",
-    "stories": "String or null (Number of stories or levels)",
-    "frameConfiguration": "String or null (Frame configuration and structure materials)",
-    "environmentalModifiers": "String or null (Environmental protections or modifiers)",
-    "mobilityPropulsion": "String or null (Mobility or propulsion systems if mobile)",
-    "techLevel": "String or null (Technical/Technology level)",
-    "metaLevel": "String or null (Meta/Power level)",
-    "creditCost": "String or null (Value in credits)",
-    "structurePoints": "String or null (Structure points adjustment)",
-    "damageResist": "String or null (Damage resistance modifiers)",
-    "totalModules": "String or null (Total module slots or capacity)",
-    "craftingDC": "String or null (Difficulty Class to design, build, or repair)",
-    "securityLevel": "String or null (Integrated security rating or level)",
-    "primaryPurpose": "String or null (Primary purpose or function)",
-    "description": "String (The flavorful description)",
-    "installedFacilities": "String or null (Details of integrated facilities or modules)",
-    "installedHardpoints": "String or null (Defense hardpoints or weapon mounts)",
-    "coreInternals": "String or null (Reactor, life support, or engine specifications)",
-    "prerequisites": "String or null (Requirements to build, acquire, or occupy)",
-    "modifiers": "String or null (A brief summary of mechanical numeric bonuses or penalties)",
-    "gameMechanics": "String (The detailed rules of how the architecture functions in play)",
-    "notes": "String or null (Any additional edge cases, restrictions, or table notes)"
+    "name": "String (Structure Designation / Blueprint Name)",
+    "style": "String (Architectural style, e.g., 'Brutalist', 'Gothic Arcology', 'Modular High-Tech')",
+    "footprint": "String (Exact enum: 'Miniscule', 'Fine', 'Diminutive', 'Tiny', 'Small', 'Medium', 'Large', 'Huge', 'Gargantuan', 'Colossal', 'Enormous', 'Titanic', 'Super Gargantuan', 'Mega Colossal')",
+    "height_class": "String (Exact enum: 'Single', 'Duplex', 'Multi-Story', 'Mid-Rise', 'High-Rise', 'Skyscraper')",
+    "stories": 4,
+    "frame": "String (Exact enum: 'Industrial', 'Standard', 'Elevated', 'Tower', 'Subterranean', 'Biomimetic', 'Dynamic', 'Palatial')",
+    "environment": "String (Exact enum: 'Standard', 'Low Gravity', 'High Gravity', 'Vacuum / Toxic / Corrosive', 'Liquid (Aquatic)')",
+    "propulsion": "String (Exact enum: 'None (Static)', 'Ground Crawler', 'Independent Suspension', 'Aquatic Flotilla', 'Supercavitation', 'Heavy Hover', 'Orbital Station-Keeping', 'Heavy VTOL System', 'Arcane Levitation', 'Aerial Grav-Spire')",
+    "tech_level": 3,
+    "meta_level": 0,
+    "sp": 1000,
+    "dr": 25,
+    "design_dc": 22,
+    "craft_dc": 22,
+    "security_level": "String (Exact enum: 'Open', 'Restricted', 'High Security', 'Black-Site', 'Quarantine')",
+    "primary_purpose": "String (Functional purpose: 'Refinery', 'Research Outpost', 'Orbital Citadel')",
+    "description": "String (Architectural overview, layout, and visual aesthetic)",
+    "prerequisite": ["String (Construction prerequisites or zoning)"],
+    "costs": {
+      "bp": 0,
+      "credits": 1500000,
+      "nodes": 0,
+      "sockets": 16,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "sockets": {
+      "max": 16,
+      "used": 4,
+      "tier": "Module",
+      "allocated": []
+    },
+    "modifications": [],
+    "modifiers": [],
+    "mechanic": "String (Life support capacity, sensor coverage, shield generator output, hangar limits)",
+    "note": "String or null (Integrated facilities, point defense hardpoints, core reactor specifications)"
   }
 ]
 
 **PARSING HEURISTICS & RULES:**
-1. **Null Values:** Use JSON null for missing levels, prerequisites, modifiers, ratings, or stats (do not use string "null").
-2. **Data Separation:** Separate flavor ("description", "architecturalStyle") from rules ("gameMechanics"). Summarize numeric bonuses/penalties in "modifiers".
-3. **Clean Formatting:** Escape strings properly, preserve paragraph structures as single-line strings using \\n if necessary, and remove markdown bold/italics. No LaTeX.
-4. **Output Requirement:** Output ONLY the valid JSON block.
+1. **Module Capacity:** Facility modules (medical bays, hangars, barracks) are counted in sockets.max with tier 'Module'.
+2. **Output Requirement:** Output ONLY the valid JSON block.
 
 **INPUT TEXT:**
 [INSERT RAW ARCHITECTURE TEXT HERE]`,
     expectedKeys: [
-      'name', 'architecturalStyle', 'footprintSize', 'heightClass', 'stories',
-      'frameConfiguration', 'environmentalModifiers', 'mobilityPropulsion',
-      'techLevel', 'metaLevel', 'creditCost', 'structurePoints', 'damageResist',
-      'totalModules', 'craftingDC', 'securityLevel', 'primaryPurpose',
-      'description', 'installedFacilities', 'installedHardpoints', 'coreInternals',
-      'prerequisites', 'modifiers', 'gameMechanics', 'notes'
+      'name', 'style', 'footprint', 'height_class', 'stories', 'frame',
+      'environment', 'propulsion', 'tech_level', 'meta_level', 'sp', 'dr',
+      'design_dc', 'craft_dc', 'security_level', 'primary_purpose',
+      'description', 'prerequisite', 'costs', 'sockets', 'modifications',
+      'modifiers', 'mechanic', 'note'
     ],
     sampleItem: {
       name: "Aegis Spire Orbital Station",
-      architecturalStyle: "Cyber-Industrial",
-      footprintSize: "Colossal",
-      heightClass: "Skyscraper",
-      stories: "120",
-      frameConfiguration: "Reinforced Titanium Spaceframe with Magnetic Clamps",
-      environmentalModifiers: "Vacuum Sealed, Radiation Shielded",
-      mobilityPropulsion: "Orbital Station-Keeping Thrusters",
-      techLevel: "4",
-      metaLevel: "0",
-      creditCost: "5,000,000 Credits",
-      structurePoints: "10,000 SP",
-      damageResist: "DR 30",
-      totalModules: "32 Modules",
-      craftingDC: "35",
-      securityLevel: "High Security (Tier 3)",
-      primaryPurpose: "Trade Nexus and Orbital Defense Citadel",
-      description: "A colossal modular space station serving as the gateway to the primary jump-gate.",
-      installedFacilities: "Automated Drydock, Hydroponics Bay, Quantum Sensor Array, Medical Trauma Core",
-      installedHardpoints: "8 Heavy Railgun Turrets, 12 Point Defense Lasers",
-      coreInternals: "Dual Tokamak Fusion Cores with Redundant Cryo Coolant Loops",
-      prerequisites: "Corporate Sovereignty License",
-      modifiers: "+4 to sensor detection across orbital perimeter",
-      gameMechanics: "Provides docking berths for up to 20 starships with automated repair cycles.",
-      notes: "Maintains independent artificial gravity at 1.0G."
+      style: "Modular High-Tech",
+      footprint: "Colossal",
+      height_class: "Skyscraper",
+      stories: 120,
+      frame: "Standard",
+      environment: "Vacuum / Toxic / Corrosive",
+      propulsion: "Orbital Station-Keeping",
+      tech_level: 4,
+      meta_level: 0,
+      sp: 12000,
+      dr: 35,
+      design_dc: 30,
+      craft_dc: 30,
+      security_level: "High Security",
+      primary_purpose: "Trade Nexus and Orbital Defense Citadel",
+      description: "A colossal modular space station serving as the primary logistics gateway to the sector jump-gate.",
+      prerequisite: ["Orbital Charter License"],
+      costs: {
+        bp: 0,
+        credits: 5000000,
+        nodes: 0,
+        sockets: 32,
+        strain: 0,
+        focus: 0,
+        ap: 0
+      },
+      sockets: {
+        max: 32,
+        used: 12,
+        tier: "Module",
+        allocated: []
+      },
+      modifications: [],
+      modifiers: [],
+      mechanic: "Houses 12,000 residents with full life support recycling. Docking ring handles up to 20 starships.",
+      note: "Maintains independent point defense grid."
     }
   },
 
@@ -1276,55 +1513,67 @@ Every architecture must strictly adhere to the following schema. Do not add or r
     icon: HelpCircle,
     color: '#94a3b8',
     description: 'Parse miscellaneous items, trade goods, generic commodities, consumable items, and general rules into clean JSON structures.',
-    promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX OTHER PARSER
+    promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX OTHER / MISCELLANEOUS PARSER
 
-**ROLE:** You are an expert data engineer and RPG system archivist. Your job is to parse raw, unformatted RPG rulebook text into a strict, clean JSON schema optimized for a NoSQL Firebase/Firestore database.
+**ROLE:** You are an expert data engineer and archivist for Tangent SFF RPG. Your task is to parse miscellaneous items, raw materials, commodities, trade goods, and system entities into strict JSON documents for the OMNICORTEX database.
 
-**TASK:** I will provide you with raw text detailing miscellaneous items, general rules, or "Other" entities from the Tangent SF RP system. You must extract this information and output a perfectly formatted JSON array of objects.
+**TASK:** Parse the provided text into a JSON array of objects adhering strictly to the schema below.
 
 **JSON SCHEMA:**
-Every item must strictly adhere to the following schema. Do not add or remove keys.
-
 [
   {
-    "name": "String (Name of the item/entity)",
-    "description": "String (The flavorful description)",
-    "cost": "String or null (Value in credits, e.g., '50 Credits')",
-    "weight": "String or null (Weight description, e.g., '1 lb')",
-    "techLevel": "String or null (Technical/Technology level)",
-    "metaLevel": "String or null (Meta/Power level)",
-    "availability": "String or null (Legality, rarity, or availability code)",
-    "prerequisites": "String or null (Requirements to use, equip, or acquire)",
-    "modifiers": "String or null (A brief summary of mechanical numeric bonuses or penalties)",
-    "gameMechanics": "String (The detailed rules of how it functions in play)",
-    "notes": "String or null (Any additional edge cases, restrictions, or table notes)"
+    "name": "String (Name of the item or entity)",
+    "description": "String (Flavorful description and practical usage)",
+    "weight": 1.0,
+    "tech_level": 2,
+    "meta_level": 0,
+    "availability": "String (e.g., 'Common', 'Restricted', 'Exotic')",
+    "prerequisite": ["String (Handling requirements or licenses)"],
+    "costs": {
+      "bp": 0,
+      "credits": 50,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "modifiers": [],
+    "mechanic": "String (Rules, shelf-life, consumption effects, trade utility)",
+    "note": "String or null (Package sizes, cargo transport notes)"
   }
 ]
 
 **PARSING HEURISTICS & RULES:**
-1. **Null Values:** Use JSON null for missing levels, prerequisites, modifiers, ratings, or stats (do not use string "null").
-2. **Data Separation:** Separate flavor ("description") from rules ("gameMechanics"). Summarize numeric bonuses/penalties in "modifiers".
-3. **Clean Formatting:** Escape strings properly, preserve paragraph structures as single-line strings using \\n if necessary, and remove markdown bold/italics. No LaTeX.
-4. **Output Requirement:** Output ONLY the valid JSON block.
+1. **Numeric Integrity:** weight, tech_level, meta_level, and costs.credits MUST be numbers.
+2. **Output Requirement:** Output ONLY the valid JSON block.
 
 **INPUT TEXT:**
 [INSERT RAW OTHER TEXT HERE]`,
     expectedKeys: [
-      'name', 'description', 'cost', 'weight', 'techLevel', 'metaLevel',
-      'availability', 'prerequisites', 'modifiers', 'gameMechanics', 'notes'
+      'name', 'description', 'weight', 'tech_level', 'meta_level',
+      'availability', 'prerequisite', 'costs', 'modifiers', 'mechanic', 'note'
     ],
     sampleItem: {
       name: "Emergency Atmospheric Scrubbing Canister",
       description: "Pressurized chemical canister that neutralizes toxic air and restores breathable oxygen in sealed compartments.",
-      cost: "75 Credits",
-      weight: "0.8 kg",
-      techLevel: "2",
-      metaLevel: "0",
-      availability: "Everywhere",
-      prerequisites: "None",
-      modifiers: "Neutralizes ambient toxic gas within 1 round",
-      gameMechanics: "Cleanses up to 500 cubic feet of toxic air for 4 hours.",
-      notes: "Single-use disposable unit."
+      weight: 0.8,
+      tech_level: 2,
+      meta_level: 0,
+      availability: "Common",
+      prerequisite: [],
+      costs: {
+        bp: 0,
+        credits: 75,
+        nodes: 0,
+        sockets: 0,
+        strain: 0,
+        focus: 0,
+        ap: 0
+      },
+      modifiers: [],
+      mechanic: "Cleanses up to 500 cubic feet of toxic air for 4 hours upon activation.",
+      note: "Single-use disposable unit."
     }
   }
 ];
@@ -1370,11 +1619,20 @@ export function validateDatasetPayload(datasetKey, parsedArray) {
       }
     });
 
-    // Check for missing expected keys
-    const itemKeys = Object.keys(item);
-    const missingKeys = dataset.expectedKeys.filter(k => !itemKeys.includes(k));
-    if (missingKeys.length > 0) {
-      warnings.push(`Item "${item.name}" is missing ${missingKeys.length} schema fields (${missingKeys.slice(0, 3).join(', ')}${missingKeys.length > 3 ? '...' : ''}).`);
+    // Flexible key checking: check whether item has modern keys or legacy keys
+    const hasModernStructure = item.costs !== undefined || item.tech_level !== undefined;
+    
+    if (hasModernStructure) {
+      // Validate modern fields
+      if (item.tech_level !== undefined && typeof item.tech_level !== 'number') {
+        warnings.push(`Item "${item.name}": 'tech_level' should be a number (got ${typeof item.tech_level}).`);
+      }
+      if (item.meta_level !== undefined && typeof item.meta_level !== 'number') {
+        warnings.push(`Item "${item.name}": 'meta_level' should be a number (got ${typeof item.meta_level}).`);
+      }
+      if (item.costs && typeof item.costs !== 'object') {
+        warnings.push(`Item "${item.name}": 'costs' should be a structured object map.`);
+      }
     }
 
     validCount++;

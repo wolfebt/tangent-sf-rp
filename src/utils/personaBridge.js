@@ -109,7 +109,9 @@ export const convertFolioToPersonaElement = (folioData, options = {}) => {
     'magic-level': String(folioData['magic-level'] ?? 1),
     'health': String(folioData.health ?? 30),
     'vitality': String(folioData.vitality ?? 30),
+    'structure': String(folioData.structure ?? 60),
     'karma': String(folioData.karma ?? 3),
+    'plot-points': String(folioData['plot-points'] ?? 0),
     'initiative-mod': String(folioData['initiative-mod'] ?? 0),
 
     'attr-strength': String(folioData['attr-strength'] ?? 3),
@@ -217,7 +219,9 @@ export const convertPersonaElementToFolio = (element) => {
     'magic-level': parseNum(fields['magic-level'] ?? attachedFolio['magic-level'], 1),
     'health': parseNum(fields.health ?? attachedFolio.health, 30),
     'vitality': parseNum(fields.vitality ?? attachedFolio.vitality, 30),
+    'structure': parseNum(fields.structure ?? attachedFolio.structure, 60),
     'karma': parseNum(fields.karma ?? attachedFolio.karma, 3),
+    'plot-points': parseNum(fields['plot-points'] ?? attachedFolio['plot-points'], 0),
     'initiative-mod': parseNum(fields['initiative-mod'] ?? attachedFolio['initiative-mod'], 0),
 
     // 12 Attributes

@@ -785,20 +785,21 @@ const RulesGuideSection = () => (
     <div className="bg-slate-900/60 border border-teal-500/30 rounded-2xl p-5 sm:p-6 space-y-3">
       <h3 className="text-base font-bold text-teal-300 uppercase tracking-wide font-mono flex items-center gap-2">
         <BookOpen size={18} />
-        10. Tangent Core 2d10 Resolution Engine & Combat Reference
+        10. Tangent Core Mechanics, Attributes &amp; Resolution Engine
       </h3>
-      <p>
-        Tangent Science Fantasy uses a probability-curve <strong className="text-cyan-300 font-mono">2d10 + Attribute + Skill Rank vs Target Number (TN)</strong> mechanic.
+      <p className="text-slate-300 text-sm">
+        Tangent Science Fantasy uses a dual resolution architecture: <strong className="text-cyan-300 font-mono">2d10 + Attribute + Skill Rank vs TN</strong> for trained skill tests, and <strong className="text-amber-300 font-mono">d20 + Base Check Score + Modifiers vs CR</strong> for Attribute Checks &amp; Saving Throws.
       </p>
     </div>
 
+    {/* Section 1: Trained Skills Resolution */}
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
       <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-4 space-y-2">
         <h4 className="text-teal-300 font-bold uppercase font-mono tracking-wider">
-          🎲 Core Formula & Target Numbers (TN)
+          🎲 Trained Skill Formula &amp; Target Numbers (TN)
         </h4>
         <div className="p-3 bg-slate-950 rounded-lg border border-slate-800 font-mono text-cyan-300 text-center font-bold text-sm">
-          Roll = 2d10 + Stat Modifier + Skill Modifier
+          Roll = 2d10 + Linked Attribute + Skill Rank + Mods
         </div>
         <div className="space-y-1 text-slate-300 text-[11px]">
           <div className="flex justify-between py-0.5 border-b border-slate-800"><span>TN 10 — Routine / Simple</span> <span className="text-emerald-400 font-bold">Standard Task</span></div>
@@ -810,7 +811,7 @@ const RulesGuideSection = () => (
 
       <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-4 space-y-2">
         <h4 className="text-amber-300 font-bold uppercase font-mono tracking-wider">
-          ⚡ Critical Success & Critical Fumbles (Numeric Value Adjustments)
+          ⚡ Critical Success &amp; Critical Fumbles (Numeric Adjustments)
         </h4>
         <p className="text-slate-300 text-[11px]">
           <strong>Critical Success (Double 10s on 2d10):</strong> The rolled value is treated as <strong className="text-amber-300 font-mono">30</strong> (<code className="text-cyan-300 font-mono">Total = 30 + Modifiers</code>), guaranteeing an extraordinary triumph and maximum margin of success.
@@ -818,6 +819,224 @@ const RulesGuideSection = () => (
         <p className="text-slate-300 text-[11px]">
           <strong>Critical Fumble (Double 1s on 2d10):</strong> The rolled value is treated as <strong className="text-red-400 font-mono">-10</strong> (<code className="text-red-300 font-mono">Total = -10 + Modifiers</code>), resulting in catastrophic failure, weapon malfunctions, or severe tactical complications.
         </p>
+      </div>
+    </div>
+
+    {/* Section 2: Core Attributes & Checks System */}
+    <div className="bg-slate-900/50 border border-cyan-900/50 rounded-xl p-4 sm:p-5 space-y-4">
+      <div className="flex justify-between items-center border-b border-slate-800 pb-2">
+        <h4 className="text-cyan-300 font-bold uppercase font-mono tracking-wider text-xs flex items-center gap-2">
+          <span>🧬</span> The Six Core Attributes &amp; Attribute Checks
+        </h4>
+        <span className="text-[10px] font-mono text-amber-300 font-semibold">
+          Attr Cost: 5 BP / +1 • Check Cost: 1 BP / +1
+        </span>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
+        {[
+          { name: 'Strength (STR)', check: 'Might Check', formula: '2 + (STR × 2)', desc: 'Carrying/lifting weight, melee damage, grappling, bending prison bars, smashing gates.' },
+          { name: 'Agility (AGI)', check: 'Reflex Check', formula: '2 + (AGI × 2)', desc: 'Dodging attacks, ranged accuracy, initiative, acrobatic feats, diving from explosions.' },
+          { name: 'Stamina (STA)', check: 'Fortitude Check', formula: '2 + (STA × 2)', desc: 'Endurance, toxic/disease immunity, harsh climates, base Toughness, Health buffer.' },
+          { name: 'Intellect (INT)', check: 'Reason Check', formula: '2 + (INT × 2)', desc: 'Pure logic, problem-solving, deduction, decoding languages/ciphers, technical analysis.' },
+          { name: 'Wisdom (WIS)', check: 'Willpower Check', formula: '2 + (WIS × 2)', desc: 'Sensing deception, mental fortitude, resisting terror/fear, breaking mind control, focus.' },
+          { name: 'Charisma (CHA)', check: 'Etiquette Check', formula: '2 + (CHA × 2)', desc: 'Persuasion, leadership, inspiring morale, bartering, diplomacy, peaceful conflict resolution.' },
+        ].map(item => (
+          <div key={item.name} className="bg-slate-950/80 border border-slate-800 rounded-lg p-3 space-y-1.5">
+            <div className="flex justify-between items-center">
+              <span className="font-bold text-white font-mono">{item.name}</span>
+              <span className="text-[10px] px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800 font-mono font-bold">
+                {item.check}
+              </span>
+            </div>
+            <div className="text-[10px] font-mono text-amber-300">Base: {item.formula}</div>
+            <p className="text-slate-400 text-[11px] leading-relaxed">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Mechanics Breakdown: General Checks, Saving Throws, Challenges & Synergy */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs pt-2">
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1.5">
+          <div className="font-bold text-emerald-300 font-mono text-xs uppercase">
+            🛡️ General Checks vs Saving Throws
+          </div>
+          <p className="text-slate-300 text-[11px]">
+            <strong>General Checks:</strong> Tests for actions not covered by specific skills (e.g., Strength to force a door, Dexterity to catch a falling glass).
+          </p>
+          <p className="text-slate-300 text-[11px]">
+            <strong>Saving Throws:</strong> Reactive checks to resist or mitigate harmful effects (Fortitude vs neurotoxin, Willpower vs psionic charm, Reflex vs explosive traps).
+          </p>
+          <p className="text-amber-400 text-[10px] font-mono">
+            ⚠️ Rule: Attribute checks never replace trained skill checks; if an action is covered by a skill, use the skill roll.
+          </p>
+        </div>
+
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1.5">
+          <div className="font-bold text-purple-300 font-mono text-xs uppercase">
+            ⚔️ Challenge Types &amp; Skill Synergy
+          </div>
+          <p className="text-slate-300 text-[11px]">
+            <strong>Targeted Challenge:</strong> Compare <code className="text-cyan-300 font-mono">d20 + Base Score + Mods</code> against the GM's Challenge Rating (CR).
+          </p>
+          <p className="text-slate-300 text-[11px]">
+            <strong>Opposed Challenge:</strong> Direct contest between two characters (e.g. arm wrestling, battle of wills, social debate). Highest total wins.
+          </p>
+          <p className="text-teal-300 text-[11px]">
+            <strong>Skill Synergy:</strong> Relevant skills aid saves (e.g., Medicine aids Fortitude vs poison; Athletics aids Reflex vs hazards; Perception aids Willpower vs illusions; Linguistics aids Reason vs ancient inscriptions).
+          </p>
+        </div>
+      </div>
+    </div>
+
+    {/* Section 3: Perception Sub-Ability & Detection Checks */}
+    <div className="bg-slate-900/50 border border-cyan-900/50 rounded-xl p-4 sm:p-5 space-y-4">
+      <div className="flex justify-between items-center border-b border-slate-800 pb-2">
+        <h4 className="text-cyan-300 font-bold uppercase font-mono tracking-wider text-xs flex items-center gap-2">
+          <span>👁️</span> Sub-Ability: Perception &amp; Detection Checks
+        </h4>
+        <span className="text-[10px] font-mono text-cyan-300 font-semibold">
+          Formula: Intellect + Wisdom
+        </span>
+      </div>
+
+      <p className="text-slate-300 text-xs leading-relaxed">
+        <strong>Perception</strong> is a sub-ability derived from a character's <strong>Intellect</strong> and <strong>Wisdom</strong> scores. It reflects overall sensory acuity, mental focus, and intuitive awareness. Perception is combined with specific skills to determine success across different detection scenarios.
+      </p>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+          <div className="font-bold text-cyan-300 font-mono text-xs flex items-center gap-1.5">
+            <span>🎯</span> Default Check (Alertness)
+          </div>
+          <div className="text-[10.5px] text-slate-400 font-mono">
+            <code>Perception Base + Alertness (Rank + Mod)</code>
+          </div>
+          <p className="text-slate-300 text-[11px]">
+            Standard environmental awareness: spotting visual/auditory cues, noticing hidden traps, concealed doors, and detecting ambushes.
+          </p>
+        </div>
+
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+          <div className="font-bold text-amber-300 font-mono text-xs flex items-center gap-1.5">
+            <span>✨</span> Meta Perception (Attune)
+          </div>
+          <div className="text-[10.5px] text-slate-400 font-mono">
+            <code>Perception Base + Attune (Rank + Mod)</code>
+          </div>
+          <p className="text-slate-300 text-[11px]">
+            Supernatural sensing: detecting and analyzing magic, psychic powers, subtle planar energies, and Metafocus aura signatures.
+          </p>
+        </div>
+
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+          <div className="font-bold text-emerald-300 font-mono text-xs flex items-center gap-1.5">
+            <span>💬</span> Social Perception (Insight)
+          </div>
+          <div className="text-[10.5px] text-slate-400 font-mono">
+            <code>Perception Base + Insight (Rank + Mod)</code>
+          </div>
+          <p className="text-slate-300 text-[11px]">
+            Interpersonal reading: picking up on subtle social cues, micro-expressions, vocal tone shifts, motivations, and lie detection.
+          </p>
+        </div>
+
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+          <div className="font-bold text-blue-300 font-mono text-xs flex items-center gap-1.5">
+            <span>⚙️</span> Technical Perception (Technology)
+          </div>
+          <div className="text-[10.5px] text-slate-400 font-mono">
+            <code>Perception Base + Technology (Rank + Mod)</code>
+          </div>
+          <p className="text-slate-300 text-[11px]">
+            Hardware analysis: interpreting electronic sensors, detecting hardware vulnerabilities, electronic counter-measures, and tech devices.
+          </p>
+        </div>
+      </div>
+
+      <div className="bg-slate-950/80 p-3 rounded-lg border border-cyan-900/40 space-y-1">
+        <div className="text-[11px] font-bold text-slate-200 uppercase font-mono">
+          Example &amp; GM Modifiers
+        </div>
+        <p className="text-[11px] text-slate-400">
+          A character with <strong className="text-slate-200">INT +2</strong> and <strong className="text-slate-200">WIS +1</strong> has a <strong className="text-cyan-300">Base Perception of +3</strong>. Spotting a hidden tripwire uses Alertness + 3; sensing a magic rune uses Attune + 3; reading a suspect uses Insight + 3; analyzing computer hardware uses Technology + 3. The GM applies situational modifiers based on lighting, distance, interference, or camouflage.
+        </p>
+      </div>
+    </div>
+
+    {/* Section 4: Experience & Advancement System */}
+    <div className="bg-slate-900/50 border border-cyan-900/50 rounded-xl p-4 sm:p-5 space-y-4">
+      <div className="flex justify-between items-center border-b border-slate-800 pb-2">
+        <h4 className="text-emerald-300 font-bold uppercase font-mono tracking-wider text-xs flex items-center gap-2">
+          <span>🎖️</span> Experience &amp; Advancement (Award Points &amp; The Increment Rule)
+        </h4>
+        <span className="text-[10px] font-mono text-emerald-400 font-bold">
+          1 AP = 1 BP • Standard Pacing: 1-3 AP / session
+        </span>
+      </div>
+
+      <p className="text-slate-300 text-xs leading-relaxed">
+        Character progression in Tangent is organic, non-linear, and based on real narrative achievements. <strong>Award Points (AP)</strong> are awarded for outstanding gameplay, strategic competence, and immersive roleplaying.
+      </p>
+
+      {/* The Increment Rule */}
+      <div className="bg-amber-950/40 border border-amber-500/50 rounded-lg p-3 space-y-1">
+        <div className="flex items-center gap-2 text-xs font-bold font-mono text-amber-300 uppercase tracking-wider">
+          <span>⚠️</span> The Increment Rule (CRITICAL)
+        </div>
+        <p className="text-[11px] text-slate-300 leading-relaxed">
+          Award Points are spent in the exact same manner as Build Points in character creation, on a 1-for-1 basis, except that <strong className="text-amber-200">abilities, skills, or other traits may ONLY HAVE A 1 POINT INCREMENT OF ANY SCORE PER EXPERIENCE AWARD</strong>. A player cannot dump 10 AP into a single skill instantly.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+        {/* Story Awards */}
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-2 flex flex-col justify-between">
+          <div>
+            <div className="font-bold text-cyan-300 font-mono text-xs uppercase flex items-center gap-1.5">
+              <span>📖</span> Story Awards
+            </div>
+            <p className="text-slate-400 text-[10.5px] mt-1 leading-relaxed">
+              Awarded upon concluding story milestones, chapters, and during downtime reflection.
+            </p>
+          </div>
+          <div className="space-y-1 text-[11px] border-t border-slate-800/80 pt-1.5">
+            <div className="flex justify-between"><span className="text-slate-300">Chapter Completion</span> <strong className="text-cyan-300 font-mono">5 to 10 AP</strong></div>
+            <div className="flex justify-between"><span className="text-slate-300">Overcoming Villain/Plot</span> <strong className="text-cyan-300 font-mono">1, 2, or 3 AP</strong></div>
+          </div>
+        </div>
+
+        {/* Session Awards */}
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-2 flex flex-col justify-between">
+          <div>
+            <div className="font-bold text-emerald-300 font-mono text-xs uppercase flex items-center gap-1.5">
+              <span>🎲</span> Session Awards
+            </div>
+            <p className="text-slate-400 text-[10.5px] mt-1 leading-relaxed">
+              Evaluated post-session regardless of narrative milestone completion.
+            </p>
+          </div>
+          <div className="space-y-1 text-[11px] border-t border-slate-800/80 pt-1.5">
+            <div className="flex justify-between"><span className="text-slate-300">Proper Game / Mechanics</span> <strong className="text-emerald-300 font-mono">0, 1, or 2 AP</strong></div>
+            <div className="flex justify-between"><span className="text-slate-300">Roleplaying in Character</span> <strong className="text-emerald-300 font-mono">0, 1, or 2 AP</strong></div>
+          </div>
+        </div>
+
+        {/* Epic Awards */}
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-2 flex flex-col justify-between">
+          <div>
+            <div className="font-bold text-purple-300 font-mono text-xs uppercase flex items-center gap-1.5">
+              <span>⚡</span> Epic &amp; Ad Hoc
+            </div>
+            <p className="text-slate-400 text-[10.5px] mt-1 leading-relaxed">
+              Granted immediately for turns of the tide, brilliant ideas, and stumping the Architect.
+            </p>
+          </div>
+          <div className="space-y-1 text-[11px] border-t border-slate-800/80 pt-1.5">
+            <div className="flex justify-between"><span className="text-slate-300">Stumping the Architect</span> <strong className="text-purple-300 font-mono">1 to 5 AP</strong></div>
+            <div className="flex justify-between"><span className="text-slate-300">Revivification Trauma</span> <strong className="text-rose-400 font-mono">-5 AP Debt</strong></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

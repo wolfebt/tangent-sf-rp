@@ -1,9 +1,9 @@
 ---
 id: species-shanor-base
-name: Sha'nor
-title: Sha'nor (Void Aberration)
+name: Sha'Nor
+title: Sha'Nor (Void Aberration)
 category: species
-parent_species: Sha'nor
+parent_species: Sha'Nor
 type:
   - species_type-aberration
 size:
@@ -16,7 +16,7 @@ meta_level: 5 (Void Reality-Warping)
 homeworld: The Abyssal Rift of Null-Space
 cp: 32
 description: >-
-  Sha'nor are semi-corporeal shadow and void beings dwelling in cosmic rifts.
+  Sha'Nor are semi-corporeal shadow and void beings dwelling in cosmic rifts.
   Immortal and telepathic, they sustain themselves on ambient essence and deep
   void energy.
 costs:

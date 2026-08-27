@@ -1,10 +1,11 @@
 ---
-id: 4-11-discipline-matter
-name: '4.11 Discipline Guide: Matter (Transmutation & Telekinesis)'
-category: compendium
-entry_type: Game Mechanic
-parent: 4.00 METAPHYSICS
+id: "4-11-discipline-matter"
+name: "4.11 Discipline Guide: Matter (Transmutation & Telekinesis)"
+category: "compendium"
+parent: "4.00 METAPHYSICS"
 order: 11
+perspective: "both"
+entry_type: "Game Mechanic"
 costs:
   bp: 0
   credits: 0
@@ -26,14 +27,32 @@ sockets:
   tier: Socket
   allocated: []
 ---
+
 # 4.11 Discipline Guide: Matter (Transmutation & Telekinesis)
 
-The **Matter Discipline** controls molecular density, telekinetic force, elemental transmutation, and structural hardening.
+The **Discipline of Matter** controls physical density, atomic crystalline bonds, elemental transmutation, and structural reinforcement.
 
 ---
 
-## Core Capabilities by Skill Tier
-- **Novice (Rank 1–5):** *Telekinetic Lift* (move 50 lbs object with mind), *Stone / Steel Hardening* (+2 weapon damage or tool durability).
-- **Trained (Rank 6–10):** *Telekinetic Throw* (hurl heavy crates/foes for 3d8 kinetic damage), *Wall of Iron* (manifest solid metallic barrier).
-- **Expert (Rank 11–15):** *Molecular Transmutation* (turn poison gas into water, lead into copper), *Crush Cyberware* (implodes enemy prosthetics).
-- **Master (Rank 16–20):** *Tectonic Rupture* (shatters ground in 100-ft zone), *Disintegration* (breaks down physical bonds into subatomic dust).
+## Associated Metafocus Skills
+1. **Enhancement**: Strengthening material bonds, hardening objects, and physical armor reinforcement.
+2. **Transmutation**: Reshaping physical matter, molecular conversion, and phase state changes.
+
+---
+
+## Sensory Manifestation & Aesthetics
+- **Primary Color**: Earth Tones
+- **Secondary Color**: Metallic Sheen
+- **Texture & Form**: Solidification, density shifting, stone shaping, transmutation, and diamond lattice sheen.
+
+## Game Mechanics Rules
+```
+Damage = 1d6 per Stage achieved with check (Kinetic/Crushing)
+Reinforcement = +1 Armor DR per Stage achieved with check
+```
+
+## Gameplay Instructions
+Shape stone and metal bulkheads into defensive blast barricades or transmute hazardous liquid toxins into neutral water.
+
+## Designer Notes
+Enhancement invocations can reinforce damaged starship hulls during catastrophic hull breaches.

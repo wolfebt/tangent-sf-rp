@@ -9,20 +9,14 @@ governing_attributes:
   - Wisdom
   - Charisma
 description: >-
-  The metaphysical discipline governing physical state alteration, material
-  transmutation, object hardening, biological enhancement, and polymorphing.
+  The metaphysical discipline governing molecular alteration, density shifting, material reinforcement, telekinetic manipulation, and matter transmutation.
 trained_only: true
 specialties:
-  - >-
-    Enhancement Focus (Armor hardening, keen edge, physical attribute buffs,
-    repair)
-  - >-
-    Transmutation Focus (Polymorphing, petrification, gaseous form, matter
-    reshaping)
+  - 'Enhancement Focus (Strengthening material bonds, hardening objects)'
+  - 'Transmutation Focus (Reshaping physical matter, molecular conversion)'
 synergy_links:
   - meta-attune
-  - mental-artificer
-  - mental-physics
+  - mental-metaphysics
 costs:
   bp: 0
   credits: 0
@@ -47,14 +41,18 @@ sockets:
 
 # Matter
 
-The metaphysical discipline governing physical state alteration, material transmutation, object hardening, biological enhancement, and polymorphing.
+The metaphysical discipline governing molecular alteration, density shifting, material reinforcement, telekinetic manipulation, and matter transmutation.
 
-### Mechanics & Rules
-- **Governing Attribute**: Key Ability (Requires Awakened feature).
-- **Physical Modification**:
-  - *Enhancement Focus*: Adds `+1 DR per 3 Ranks`, `+2` to physical attributes, restores Structure Points to constructs.
-  - *Transmutation Focus*: Biological polymorph, turns flesh to stone (Fortitude save), converts body into liquid/gas.
+### Core Rules & Mechanics
+- **Governing Attribute**: Selected at Awakening (Intellect for Reason/Arcane, Wisdom for Intuition/Faith, Charisma for Dominance/Inherent).
+- **Potency Formula**:
+  $$\text{Potency} = [\text{Key Ability Mod} + \text{Discipline Skill Level} + \text{Invocation Level} + 10 \text{ (or } d20 \text{)}]$$
+- **Damage & Scaling**: 1d6 per Stage achieved with check (Kinetic/Crushing or DR reinforcement).
+- **Essence Pool Contribution**: Ranks in this discipline's focus skills contribute directly to the character's **Essence Pool** (Breadth component).
+- **Sensory Manifestation**:
+  - *Colors*: Earth Tones (Primary) / Metallic Sheen (Secondary)
+  - *Texture & Form*: Solidification, density shifting, transmutation, and diamond lattice reinforcement
 
 ### Focuses
-- **Enhancement Focus**: Structural buffing, sharpening blades, and emergency repair.
-- **Transmutation Focus**: State of matter change and bodily transfiguration.
+- **Enhancement Focus**: Strengthening material bonds, hardening objects
+- **Transmutation Focus**: Reshaping physical matter, molecular conversion

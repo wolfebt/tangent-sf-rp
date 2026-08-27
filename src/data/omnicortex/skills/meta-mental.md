@@ -9,17 +9,13 @@ governing_attributes:
   - Wisdom
   - Charisma
 description: >-
-  The metaphysical discipline governing telepathy, mind reading, neural blasts,
-  psionic domination, memory alteration, precognition, and remote viewing.
+  The metaphysical discipline governing telepathy, psionic force, neural influence, clairvoyant sensing, and cognitive will projection.
 trained_only: true
 specialties:
-  - >-
-    Projection Focus (Telepathic broadcast, mind blast, domination, memory
-    edits)
-  - 'Sense Focus (Clairvoyance, precognition, mind reading, aura detection)'
+  - 'Projection Focus (Psionic thrusts, telekinesis, telepathic speech)'
+  - 'Sense Focus (Remote viewing, psionic detection, empathy, clairvoyance)'
 synergy_links:
   - meta-attune
-  - social-insight
   - mental-metaphysics
 costs:
   bp: 0
@@ -45,13 +41,18 @@ sockets:
 
 # Mental
 
-The metaphysical discipline governing telepathy, mind reading, neural blasts, psionic domination, memory alteration, precognition, and remote viewing.
+The metaphysical discipline governing telepathy, psionic force, neural influence, clairvoyant sensing, and cognitive will projection.
 
-### Mechanics & Rules
-- **Governing Attribute**: Key Ability (Requires Awakened feature).
-- **Range**: Extended base range (`100ft x Rank`).
-- **Mental Assaults**: Mind blast inflicts `1d6 Psychic damage per Rank` + Stun (Resisted by Will).
+### Core Rules & Mechanics
+- **Governing Attribute**: Selected at Awakening (Intellect for Reason/Arcane, Wisdom for Intuition/Faith, Charisma for Dominance/Inherent).
+- **Potency Formula**:
+  $$\text{Potency} = [\text{Key Ability Mod} + \text{Discipline Skill Level} + \text{Invocation Level} + 10 \text{ (or } d20 \text{)}]$$
+- **Damage & Scaling**: 1d6 per Stage achieved with check (Psionic damage bypassing physical armor DR).
+- **Essence Pool Contribution**: Ranks in this discipline's focus skills contribute directly to the character's **Essence Pool** (Breadth component).
+- **Sensory Manifestation**:
+  - *Colors*: Pink/Magenta (Primary) / Cyan (Secondary)
+  - *Texture & Form*: Cognitive ripples, psionic pulses, telepathic threads, and glowing eyes
 
 ### Focuses
-- **Projection Focus**: Direct telepathy, mind control domination, and neural overloads.
-- **Sense Focus**: Remote viewing, glimpses of future initiative advantage, and deep memory probes.
+- **Projection Focus**: Psionic thrusts, telekinesis, telepathic speech
+- **Sense Focus**: Remote viewing, psionic detection, empathy, clairvoyance

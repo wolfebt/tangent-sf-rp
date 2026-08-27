@@ -1,9 +1,10 @@
 ---
 id: damage-elemental-radiant
-name: Radiant Light Damage
+name: Radiant / Light Damage
 category: damage_types
-damage_classification: Elemental
-description: Pure solar light burning shadowy entities and blinding targets.
+description: >-
+  Pure radiant energy and blinding light. Excels against undead, shadow
+  entities, and light-sensitive targets; induces Blinded status.
 costs:
   bp: 0
   credits: 0
@@ -25,11 +26,25 @@ sockets:
   tier: Socket
   allocated: []
 ---
+# Radiant / Light Damage
 
-# Radiant Light Damage
+**Category**: Damage Types & Energy Profiles
 
-**Category**: Damage Types  
-**Classification**: Elemental
+## Overview
+Radiant damage channels coherent light, solar flare energy, and luminous photons. It blinds adversaries, dispels darkness, and burns away supernatural shadows.
 
-## Tactical Properties
-Pure solar light burning shadowy entities and blinding targets.
+### Metaphysical
+- **Photokinesis**: Manifesting blinding flashes, solid light shields, and radiant laser beams.
+- **Light Evocation**: Summoning luminous archons and spirits of pure sunlight.
+- **Solar Enchantments**: Imbuing weapons with blinding radiance that sears shadow creatures.
+
+### Archaic Tech
+- **Focused Mirrors & Reflectors**: Directing concentrated solar beams to blind or burn targets.
+
+### Modern & Advanced Tech
+- **Flashbangs & Stun Grenades**: Pyrotechnic devices inducing sensory blindness and shock.
+- **High-Energy Photonic Lasers**: Weapons delivering pinpoint thermal damage via concentrated light.
+- **Particle Beam Grasers**: Relativistic particle streams producing brilliant radiant detonation.
+
+### Tactical Notes
+Radiant damage forces saving throws against the **Blinded status effect** (-5 Attack/Defense, visual perception auto-fails).

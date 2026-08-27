@@ -3,8 +3,8 @@ id: condition-blinded
 name: Blinded
 category: conditions
 description: >-
-  Cannot see; visual checks auto-fail, combat suffers 50% miss chance, -4
-  Defense.
+  -5 Penalty to Attack/Defense. Visual Perception fails automatically. Cured by
+  medical intervention or Time (Temporary: 1d4 rounds).
 costs:
   bp: 0
   credits: 0
@@ -26,10 +26,12 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # Blinded
 
 **Category**: Tactical Conditions & Status Effects
 
-## Mechanics & Debuffs
-Cannot see; visual checks auto-fail, combat suffers 50% miss chance, -4 Defense.
+## Mechanical Effect
+**-5 Penalty to Attack/Defense**. Visual Perception fails automatically.
+
+## Cure / Removal
+Medical intervention or Time (Temporary: **1d4 rounds**).

@@ -20,12 +20,19 @@ export const DiceRollerDock = ({ isOpen, onClose }) => {
   const [history, setHistory] = useState([]);
   const [latestRoll, setLatestRoll] = useState(null);
   const [broadcastToChat, setBroadcastToChat] = useState(true);
+  const [rollMode, setRollMode] = useState('normal'); // 'normal', 'advantage', 'disadvantage'
 
   if (!isOpen) return null;
 
-  const handleRoll = async (expr = customExpr) => {
+  const handleRoll = async (expr = customExpr, overrideMode = null) => {
+    const mode = overrideMode || rollMode;
     const tn = targetNumber ? parseInt(targetNumber, 10) : null;
-    const result = rollDice(expr, { targetNumber: tn, label: 'Tactical Check' });
+    const result = rollDice(expr, {
+      targetNumber: tn,
+      advantage: mode === 'advantage',
+      disadvantage: mode === 'disadvantage',
+      label: mode === 'advantage' ? 'Advantage ("I Got This")' : mode === 'disadvantage' ? 'Disadvantage (Negative Karma)' : 'Tactical Check'
+    });
 
     AudioService.playDiceRollSound();
     if (result.isCritSuccess) AudioService.playCriticalChime(true);
@@ -42,7 +49,9 @@ export const DiceRollerDock = ({ isOpen, onClose }) => {
           rolls: result.rolls.map(r => r.value),
           modifier: result.modifier,
           isCritical: result.isCritSuccess,
-          isFumble: result.isCritFail
+          isFumble: result.isCritFail,
+          isAdvantage: result.isAdvantage,
+          isDisadvantage: result.isDisadvantage
         });
       } catch (err) {
         console.warn('Failed to broadcast roll to chat:', err);
@@ -90,11 +99,50 @@ export const DiceRollerDock = ({ isOpen, onClose }) => {
             key={p.expr}
             type="button"
             onClick={() => handleRoll(p.expr)}
-            className="py-1.5 px-2 rounded bg-slate-900/80 hover:bg-amber-500/20 border border-slate-800 hover:border-amber-500/40 text-slate-200 text-xs font-mono font-bold transition-all"
+            className="py-1.5 px-2 rounded bg-slate-900/80 hover:bg-amber-500/20 border border-slate-800 hover:border-amber-500/40 text-slate-200 text-xs font-mono font-bold transition-all cursor-pointer"
           >
             {p.label}
           </button>
         ))}
+      </div>
+
+      {/* Fate & Karma Roll Modifier Bar */}
+      <div className="grid grid-cols-3 gap-1 bg-slate-950/80 p-1 rounded-lg border border-slate-800 text-[10px] font-mono">
+        <button
+          type="button"
+          onClick={() => setRollMode('normal')}
+          className={`py-1 rounded transition-colors text-center font-bold cursor-pointer ${
+            rollMode === 'normal'
+              ? 'bg-slate-800 text-slate-200 border border-slate-700'
+              : 'text-slate-500 hover:text-slate-300'
+          }`}
+        >
+          Standard
+        </button>
+        <button
+          type="button"
+          onClick={() => setRollMode(rollMode === 'advantage' ? 'normal' : 'advantage')}
+          className={`py-1 rounded transition-colors text-center font-bold flex items-center justify-center gap-1 cursor-pointer ${
+            rollMode === 'advantage'
+              ? 'bg-emerald-950/90 text-emerald-300 border border-emerald-500/60 shadow-[0_0_8px_rgba(16,185,129,0.3)]'
+              : 'text-emerald-500/70 hover:text-emerald-300'
+          }`}
+          title="Advantage: Roll twice, take highest ('I Got This' - 1 Karma)"
+        >
+          <span>✨</span> Adv (Karma)
+        </button>
+        <button
+          type="button"
+          onClick={() => setRollMode(rollMode === 'disadvantage' ? 'normal' : 'disadvantage')}
+          className={`py-1 rounded transition-colors text-center font-bold flex items-center justify-center gap-1 cursor-pointer ${
+            rollMode === 'disadvantage'
+              ? 'bg-rose-950/90 text-rose-300 border border-rose-500/60 shadow-[0_0_8px_rgba(244,63,94,0.3)]'
+              : 'text-rose-500/70 hover:text-rose-300'
+          }`}
+          title="Disadvantage: Roll twice, take lowest (Negative Karma Debt)"
+        >
+          <span>⚖️</span> Disadv (Debt)
+        </button>
       </div>
 
       {/* Custom Formula & Target Number Input */}
@@ -126,7 +174,7 @@ export const DiceRollerDock = ({ isOpen, onClose }) => {
         <button
           type="button"
           onClick={() => handleRoll(customExpr)}
-          className="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs rounded-lg uppercase transition-all shadow-md shrink-0"
+          className="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs rounded-lg uppercase transition-all shadow-md shrink-0 cursor-pointer"
         >
           Roll
         </button>
@@ -158,6 +206,19 @@ export const DiceRollerDock = ({ isOpen, onClose }) => {
           <div className="text-[10px] font-mono text-slate-400 uppercase">
             {latestRoll.expression} {latestRoll.targetNumber ? `vs TN ${latestRoll.targetNumber}` : ''}
           </div>
+
+          {/* Advantage / Disadvantage Header */}
+          {latestRoll.isAdvantage && (
+            <div className="text-[10px] font-mono font-bold text-emerald-300 bg-emerald-950/60 py-0.5 px-2 rounded border border-emerald-700/40 my-1 inline-block">
+              ✨ ADVANTAGE ("I GOT THIS"): Kept {latestRoll.total} {latestRoll.alternateRoll ? `over ${latestRoll.alternateRoll.total}` : ''}
+            </div>
+          )}
+          {latestRoll.isDisadvantage && (
+            <div className="text-[10px] font-mono font-bold text-rose-300 bg-rose-950/60 py-0.5 px-2 rounded border border-rose-700/40 my-1 inline-block">
+              ⚖️ DISADVANTAGE (KARMIC DEBT): Kept {latestRoll.total} {latestRoll.alternateRoll ? `over ${latestRoll.alternateRoll.total}` : ''}
+            </div>
+          )}
+
           <div className="text-3xl font-bold font-mono my-1 tracking-wider text-cyan-300">
             {latestRoll.total}
           </div>
@@ -180,6 +241,16 @@ export const DiceRollerDock = ({ isOpen, onClose }) => {
               {latestRoll.isSuccess ? `SUCCESS (Margin: +${latestRoll.margin})` : `FAILURE (Margin: ${latestRoll.margin})`}
             </div>
           )}
+
+          {/* Reroll: "Not What I Meant" Karma Action Trigger */}
+          <button
+            type="button"
+            onClick={() => handleRoll(latestRoll.expression, 'normal')}
+            className="mt-2.5 w-full py-1 bg-amber-950/50 hover:bg-amber-900/80 border border-amber-500/40 text-amber-300 hover:text-amber-200 rounded text-[10px] font-mono font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+            title="Reroll Check ('Not What I Meant' - 1 Karma Point). Must accept 2nd result."
+          >
+            <span>🔄</span> Reroll Check ("Not What I Meant" - 1 KP)
+          </button>
         </div>
       )}
 

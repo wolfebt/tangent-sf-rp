@@ -48,7 +48,7 @@ export const SPECIES_LINEAGES = [
   },
   {
     id: 'shanor',
-    name: "Sha'nor & Void Lineages",
+    name: "Sha'Nor & Void Lineages",
     description: "Semi-corporeal beings born of deep void rifts, wielding reality-warping and spectral powers."
   },
   {
@@ -85,7 +85,7 @@ function syncSpecies() {
     const name = data.name || id;
     const title = data.title || name;
     const category = data.category || 'species';
-    const parentSpecies = data.parent_species || 'Independent';
+    const parentSpecies = data.parent_species || 'Independent Xenotypes';
 
     const speciesObj = {
       id,

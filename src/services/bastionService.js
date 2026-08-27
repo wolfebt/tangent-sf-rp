@@ -1,3 +1,5 @@
+import { getDatasetByKey, validateDatasetPayload } from '../pages/Codex/codexPromptRegistry.js';
+import { adaptSparkItemToFirestore } from '../utils/codexIngestionAdapters.js';
 /**
  * BASTION AI Service
  * Handles BASTION AI chatbot queries and selective field content generation
@@ -23,10 +25,10 @@ Provide tactical, immersive, and structured RPG content grounded in the Tangent 
   * Savants (The Rationals): Competence, Knowledge, Systems, and Strategy (Scientists, hackers, architects, arcanists).
 - Character Chassis: 80 BP allocation (+3 Primary Attribute, +2 Secondary Attribute, 4 Trained + 6 Novice skills, Signature Features).
 - NPC Scaling Engine:
-  * Tier 1 (Novice / Minion): 25 HP / 25 Vitality, d20 + 3 attack, 11 + Secondary defense, +2 saves, 1 basic passive feature.
-  * Tier 2 (Veteran / Professional): 50 HP / 50 Vitality, d20 + 5 attack, 13 + Secondary defense, +4 saves, 1 active feature.
-  * Tier 3 (Master / Boss): 100 HP / 100 Vitality, d20 + 8 attack, 15 + Secondary defense, +7 saves, 2 full active features.
-  * Tier 4 (Pinnacle / Legendary): 200 HP / 200 Vitality, d20 + 12 attack, 18 + Secondary defense, +10 saves, 3 full active features.
+  * Tier 1 (Novice / Minion): 25 HP / 25 Vitality, 2d10 + 3 attack, 11 + Secondary defense, +2 saves, 1 basic passive feature.
+  * Tier 2 (Veteran / Professional): 50 HP / 50 Vitality, 2d10 + 5 attack, 13 + Secondary defense, +4 saves, 1 active feature.
+  * Tier 3 (Master / Boss): 100 HP / 100 Vitality, 2d10 + 8 attack, 15 + Secondary defense, +7 saves, 2 full active features.
+  * Tier 4 (Pinnacle / Legendary): 200 HP / 200 Vitality, 2d10 + 12 attack, 18 + Secondary defense, +10 saves, 3 full active features.
 - Keep tone professional, analytical, sci-fi/fantasy immersive, and precise.`;
 
 /**
@@ -421,4 +423,210 @@ Return ONLY the raw JSON object.`;
     tl: parsed.tl ?? targetTechLevel,
     ml: parsed.ml ?? targetMetaLevel
   };
+};
+
+/**
+ * Verifies that an adapted item is safely structured for Persona Folio game asset calculation
+ */
+export function verifyFolioAssetHealth(item, categoryKey) {
+  const issues = [];
+  if (!item || typeof item !== 'object') {
+    return { isFolioReady: false, issues: ['Item is not an object'] };
+  }
+
+  if (!item.name || !item.name.trim()) {
+    issues.push('Missing designation/name');
+  }
+
+  // Check costs map
+  if (!item.costs || typeof item.costs !== 'object') {
+    issues.push('Invalid costs map structure');
+  } else {
+    if (isNaN(item.costs.bp)) issues.push('BP cost is NaN');
+    if (isNaN(item.costs.credits)) issues.push('Credit cost is NaN');
+    if (isNaN(item.costs.nodes)) issues.push('Nodes cost is NaN');
+    if (isNaN(item.costs.sockets)) issues.push('Sockets cost is NaN');
+  }
+
+  // Check modifiers
+  if (Array.isArray(item.modifiers)) {
+    item.modifiers.forEach((m, idx) => {
+      if (!m.target) issues.push('Modifier #' + (idx + 1) + ' missing target');
+      if (isNaN(m.value)) issues.push('Modifier #' + (idx + 1) + ' value is NaN');
+    });
+  }
+
+  // Check tech_level & meta_level
+  if (item.tech_level !== undefined && item.tech_level !== null && isNaN(item.tech_level)) {
+    issues.push('Tech Level is NaN');
+  }
+  if (item.meta_level !== undefined && item.meta_level !== null && isNaN(item.meta_level)) {
+    issues.push('Meta Level is NaN');
+  }
+
+  return {
+    isFolioReady: issues.length === 0,
+    issues
+  };
+}
+
+/**
+ * Autonomous BASTION Dataset Ingestion Service
+ * Parses raw text or documents (PDF, TXT, MD, JSON) directly into canonical Omnicortex documents
+ * using schema-enforced prompt instructions, pre-flight validation, and entity adapters.
+ */
+export const synthesizeDatasetIngestionWithBastion = async ({
+  categoryKey,
+  rawText = '',
+  fileData = null,
+  conflictStrategy = 'merge'
+}) => {
+  const hasText = rawText && rawText.trim().length > 0;
+  const hasFile = fileData && (fileData.text || fileData.base64);
+
+  if (!hasText && !hasFile) {
+    return { success: false, error: 'Raw text or document content is required for BASTION parsing.' };
+  }
+
+  const dataset = getDatasetByKey(categoryKey);
+  if (!dataset) {
+    return { success: false, error: 'Unknown Omnicortex dataset category: "' + categoryKey + '".' };
+  }
+
+  const apiKey = getGeminiApiKey();
+
+  // If no API key, return simulated offline cognition using canonical sample
+  if (!apiKey) {
+    const adaptedSample = adaptSparkItemToFirestore(categoryKey, dataset.sampleItem);
+    const health = verifyFolioAssetHealth(adaptedSample, categoryKey);
+    adaptedSample._folioHealth = health;
+
+    return {
+      success: true,
+      isSimulated: true,
+      rawItems: [dataset.sampleItem],
+      adaptedItems: [adaptedSample],
+      validationReport: {
+        isValid: true,
+        errors: [],
+        warnings: ['Simulation mode: Connected to BASTION tactical offline matrix (configure Gemini API Key in Settings for live extraction).'],
+        validCount: 1
+      },
+      folioHealthReport: {
+        allReady: health.isFolioReady,
+        itemIssues: health.issues
+      }
+    };
+  }
+
+  try {
+    const parts = [];
+
+    // Check if a PDF file is provided with base64 data
+    if (fileData && fileData.mimeType === 'application/pdf' && fileData.base64) {
+      parts.push({
+        text: dataset.promptText + '\n\nTASK: Parse the accompanying PDF document into the JSON schema defined above. Extract all playable entries for "' + dataset.label + '". Return ONLY the raw JSON array.'
+      });
+      parts.push({
+        inlineData: {
+          mimeType: 'application/pdf',
+          data: fileData.base64
+        }
+      });
+      if (hasText) {
+        parts.push({
+          text: 'ADDITIONAL CONTEXT / DIRECTIVES:\n' + rawText
+        });
+      }
+    } else {
+      // Standard Text or Text-Document input
+      const combinedInput = [
+        fileData && fileData.text ? '--- DOCUMENT CONTENT (' + (fileData.name || 'Uploaded File') + ') ---\n' + fileData.text : '',
+        hasText ? '--- INPUT TEXT / NOTES ---\n' + rawText : ''
+      ].filter(Boolean).join('\n\n');
+
+      const promptInstructions = dataset.promptText.replace('[INSERT RAW ' + dataset.label.toUpperCase() + ' TEXT HERE]', combinedInput) + '\n\nRAW INPUT TEXT TO PARSE:\n' + combinedInput;
+      parts.push({ text: promptInstructions });
+    }
+
+    const requestBody = {
+      contents: [
+        {
+          role: 'user',
+          parts
+        }
+      ],
+      generationConfig: {
+        temperature: 0.1,
+        maxOutputTokens: 8192,
+        responseMimeType: 'application/json'
+      }
+    };
+
+    const response = await fetchGeminiContent(apiKey, requestBody);
+    const rawTextOutput = response?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+
+    if (!rawTextOutput) {
+      throw new Error('No structured response returned from BASTION AI.');
+    }
+
+    // Clean any markdown fences if present
+    const cleanJson = rawTextOutput
+      .replace(/^``json\s*/i, '')
+      .replace(/^``\s*/i, '')
+      .replace(/\s*``$/i, '')
+      .trim();
+
+    let parsedArray;
+    try {
+      const parsed = JSON.parse(cleanJson);
+      parsedArray = Array.isArray(parsed) ? parsed : [parsed];
+    } catch (parseErr) {
+      // Recovery attempt for unescaped characters
+      const match = cleanJson.match(/\[[\s\S]*\]/) || cleanJson.match(/\{[\s\S]*\}/);
+      if (!match) {
+        throw new Error('Failed to parse BASTION output as JSON array: ' + parseErr.message);
+      }
+      const sanitized = match[0]
+        .replace(/\n/g, '\\n')
+        .replace(/\r/g, '\\r')
+        .replace(/\t/g, '\\t');
+      const recovered = JSON.parse(sanitized);
+      parsedArray = Array.isArray(recovered) ? recovered : [recovered];
+    }
+
+    // Run Pre-Flight Validation against Omnicortex expected schema
+    const validationReport = validateDatasetPayload(categoryKey, parsedArray);
+
+    // Adapt to canonical Omnicortex Firestore & Folio objects
+    const adaptedItems = parsedArray
+      .map(item => {
+        const adapted = adaptSparkItemToFirestore(categoryKey, item);
+        if (adapted) {
+          adapted._folioHealth = verifyFolioAssetHealth(adapted, categoryKey);
+        }
+        return adapted;
+      })
+      .filter(Boolean);
+
+    const folioHealthReport = {
+      allReady: adaptedItems.every(i => i._folioHealth?.isFolioReady),
+      failedCount: adaptedItems.filter(i => !i._folioHealth?.isFolioReady).length
+    };
+
+    return {
+      success: true,
+      isSimulated: false,
+      rawItems: parsedArray,
+      adaptedItems,
+      validationReport,
+      folioHealthReport
+    };
+  } catch (err) {
+    console.warn('BASTION Ingestion Synthesis Error:', err);
+    return {
+      success: false,
+      error: err.message
+    };
+  }
 };

@@ -1,10 +1,11 @@
 ---
-id: 4-13-metaphysic-ranges-area-geometry
-name: 4.13 Metaphysic Ranges & Area of Effect Geometry
-category: compendium
-entry_type: Game Mechanic
-parent: 4.00 METAPHYSICS
+id: "4-13-metaphysic-ranges-area-geometry"
+name: "4.13 Metaphysic Ranges, Modifiers & Area Geometry"
+category: "compendium"
+parent: "4.00 METAPHYSICS"
 order: 13
+perspective: "both"
+entry_type: "Game Mechanic"
 costs:
   bp: 0
   credits: 0
@@ -26,25 +27,51 @@ sockets:
   tier: Socket
   allocated: []
 ---
-# 4.13 Metaphysic Ranges & Area of Effect Geometry
 
-Metaphysical invocations manifest in distinct geometrical forms across tactical grid maps.
+# 4.13 Metaphysic Ranges, Modifiers & Area Geometry
 
----
-
-## Area of Effect (AoE) Shapes
-
-1. **Cone (15 to 60 ft):** Emanates outward from the caster in a ^\circ$ triangle. Targets roll Reflex saves.
-2. **Sphere / Burst (10 to 40 ft Radius):** Detonates at a designated target grid point. Bypasses directional cover.
-3. **Line (5 ft Wide by 30 to 100 ft Long):** A straight piercing laser/plasma beam striking all entities in its path.
-4. **Wall (5 ft Thick, up to 50 ft Long):** A stationary barrier of solid matter, hard-light, or roaring plasma.
-5. **Emanation / Aura (5 to 30 ft Radius centered on Caster):** Moves continuously with the Adept.
+Metaphysical invocations manifest in distinct geometrical forms across tactical grid battle maps. Greater distances and broader shapes impose mechanical modifiers.
 
 ---
 
-## Range Brackets for Invocations
-- **Touch / Reach:** 5 feet.
-- **Short Range:** 30 feet.
-- **Medium Range:** 100 feet.
-- **Long Range:** 300 feet.
-- **Sight / Planetary:** Requires sensor telemetry or line of sight.
+## 1. Ranges & Check Modifiers
+
+| Range Bracket | Distance Bracket | Check Modifier | Operational Notes |
+| :--- | :--- | :---: | :--- |
+| **Melee / Point Blank** | 5 ft (Small/Medium reach) | **+5 to Check** | Intimate conduit connection provides maximum stability. |
+| **Close** | Up to 100 ft | **None (0)** | Standard tactical engagement distance. |
+| **Medium** | Up to 500 ft | **-5 to Check** | Requires clear line-of-sight and focused tracking. |
+| **Long** | Up to 2,500 ft | **-10 to Check** | Atmospheric dissipation and sensory refraction apply. |
+| **Extended** | Miles+ | **-15 to Check** | Target or location must be accurately detected, mapped, or known well. |
+
+---
+
+## 2. Targeting & Area Effects
+
+### Multiple Targets
+- **Separate Targets**: Imposes a **-5 penalty to the Attune check per additional target**, granting full effect and damage to each target.
+- **Split Effect**: If the penalty is not applied, total damage and effects must be divided equally among all targets.
+
+### Area Effects (AoE Penalties to Focus Skill Check)
+- **Blast (10 ft radius sphere)**: **-5 to Focus Skill check**. Detonates at target point, bypassing directional cover.
+- **Line (5 ft wide x 60 ft long)**: **-10 to Focus Skill check**. Pierces along an unwavering straight trajectory.
+- **Cone (90 ft long x 45 ft wide)**: **-15 to Focus Skill check**. Expanding wave originating from the caster.
+
+---
+
+## 3. Damage Calculation Summary
+- **Standard**: **1d6 per Stage achieved** with the check (after all modifiers).
+- **Force Exception**: Some specific Disciplines, like **Force**, utilize **d8s** as a specific exception.
+
+## Game Mechanics Rules
+```
+MultipleTargetsPenalty = -5 per additional target to Attune
+BlastPenalty = -5 to Focus Skill | LinePenalty = -10 | ConePenalty = -15
+Damage = 1d6 per Stage (Force: 1d8 per Stage)
+```
+
+## Gameplay Instructions
+Apply range and area modifiers to checks before calculating the final potency stage.
+
+## Designer Notes
+Extended range invocations targeting locations across planetary distances require telemetry triangulation.

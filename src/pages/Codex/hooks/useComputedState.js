@@ -3,12 +3,18 @@ import * as econEngine from '../../../engines/tangentEconEngine';
 import * as techEngine from '../../../engines/tangentTechEngine';
 import * as uduEngine from '../../../engines/tangentUDUEngine';
 import * as itemEngines from '../../../engines/tangentItemEngines';
+import * as complexEngines from '../../../engines/tangentComplexEngines';
+import * as entityEngines from '../../../engines/tangentEntityEngines';
+import * as planetaryEngine from '../../../engines/tangentPlanetaryEngine';
 
 const ENGINES = {
   econ: econEngine,
   tech: techEngine,
   udu: uduEngine,
-  items: itemEngines
+  items: itemEngines,
+  complex: complexEngines,
+  entities: entityEngines,
+  planetary: planetaryEngine
 };
 
 /**

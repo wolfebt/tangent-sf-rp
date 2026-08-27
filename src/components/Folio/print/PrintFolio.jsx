@@ -2,6 +2,10 @@ import React from 'react';
 import { extractCreatorInfo } from '../../../utils/creatorUtils';
 import { useFolio } from '../../../context/FolioContext';
 import './printStyles.css';
+import {
+  formatHeightWithConversion,
+  formatWeightWithConversion
+} from '../../../engines/tangentMeasurementEngine';
 
 const DEFAULT_PHYSICAL_SKILLS = ['Acrobatics', 'Athletics', 'Piloting', 'Stealth'];
 const DEFAULT_MENTAL_SKILLS = ['Alertness', 'Academics'];
@@ -66,7 +70,8 @@ const PrintFolio = ({ characterData, isScreenPreview = false }) => {
   const mightTotal = getAttrTotal('attr-might');
   const agiTotal = getAttrTotal('attr-agility');
   const reflexTotal = getAttrTotal('attr-reflex');
-  const conTotal = getAttrTotal('attr-stamina');
+  const staTotal = getAttrTotal('attr-stamina');
+  const conTotal = staTotal;
   const fortTotal = getAttrTotal('attr-fortitude');
   const intTotal = getAttrTotal('attr-intellect');
   const logicTotal = getAttrTotal('attr-logic');
@@ -81,17 +86,25 @@ const PrintFolio = ({ characterData, isScreenPreview = false }) => {
   const health = characterData['health'] ?? 30;
   const vitality = characterData['vitality'] ?? 30;
   const karma = characterData['karma'] ?? 3;
+  const toughness = folioCtx?.derivedStats?.toughness ?? staTotal;
+  const speciesStr = String(characterData['char-species'] || '').toLowerCase();
+  const isSynthetic = speciesStr.includes('synthetic') || speciesStr.includes('mekan') || speciesStr.includes('construct') || speciesStr.includes('golem') || speciesStr.includes('ooze') || speciesStr.includes('undead');
+  const structure = characterData['structure'] ?? (Number(health) + Number(vitality));
 
   const alertnessMod = getNum('skill-mental-alertness-mod');
   const alertnessRank = getNum('skill-mental-alertness-rank');
+  const attuneMod = getNum('skill-meta-attune-mod');
   const attuneRank = getNum('skill-meta-attune-rank');
+  const insightMod = getNum('skill-social-insight-mod');
   const insightRank = getNum('skill-social-insight-rank');
+  const techMod = getNum('skill-mental-technology-mod');
   const techRank = getNum('skill-mental-technology-rank');
 
-  const basePerception = intTotal + wisTotal + alertnessMod + alertnessRank;
-  const metaPerception = intTotal + wisTotal + alertnessMod + attuneRank;
-  const socialPerception = intTotal + wisTotal + alertnessMod + insightRank;
-  const techPerception = intTotal + wisTotal + alertnessMod + techRank;
+  const basePerception = intTotal + wisTotal;
+  const alertPerception = basePerception + alertnessMod + alertnessRank;
+  const metaPerception = basePerception + attuneMod + attuneRank;
+  const socialPerception = basePerception + insightMod + insightRank;
+  const techPerception = basePerception + techMod + techRank;
 
   // Attacks
   const attacks = getArray('attacks');
@@ -196,7 +209,7 @@ const PrintFolio = ({ characterData, isScreenPreview = false }) => {
           </div>
           <div className="col-span-4 folio-box p-1">
             <span className="font-bold uppercase text-[8px] block">HEIGHT</span>
-            <span className="font-semibold font-mono">{getStr('char-height')}</span>
+            <span className="font-semibold font-mono">{formatHeightWithConversion(getStr('char-height'))}</span>
           </div>
 
           <div className="col-span-4 folio-box p-1">
@@ -209,7 +222,7 @@ const PrintFolio = ({ characterData, isScreenPreview = false }) => {
           </div>
           <div className="col-span-4 folio-box p-1">
             <span className="font-bold uppercase text-[8px] block">WEIGHT</span>
-            <span className="font-semibold font-mono">{getStr('char-weight')}</span>
+            <span className="font-semibold font-mono">{formatWeightWithConversion(getStr('char-weight'))}</span>
           </div>
 
           <div className="col-span-6 folio-box p-1 h-12">
@@ -268,39 +281,53 @@ const PrintFolio = ({ characterData, isScreenPreview = false }) => {
 
             {/* Vitals & Secondary Stats */}
             <div className="folio-box p-1 space-y-1 bg-gray-50">
-              <div className="grid grid-cols-3 gap-1 text-center font-bold text-[8px]">
+              <div className="grid grid-cols-4 gap-1 text-center font-bold text-[8px]">
                 <div className="border border-black p-0.5">
                   <span className="block text-[7px]">INITIATIVE</span>
                   <span className="font-mono text-xs">{initiative}</span>
+                </div>
+                <div className="border border-black p-0.5" title="Stamina Toughness: Point-for-point wound damage reduction">
+                  <span className="block text-[7px]">TOUGHNESS</span>
+                  <span className="font-mono text-xs">+{toughness}</span>
                 </div>
                 <div className="border border-black p-0.5">
                   <span className="block text-[7px]">HEALTH</span>
                   <span className="font-mono text-xs">{health}</span>
                 </div>
                 <div className="border border-black p-0.5">
-                  <span className="block text-[7px]">VITALITY</span>
-                  <span className="font-mono text-xs">{vitality}</span>
+                  <span className="block text-[7px]">{isSynthetic ? 'STRUCTURE' : 'VITALITY'}</span>
+                  <span className="font-mono text-xs">{isSynthetic ? structure : vitality}</span>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-1 text-[7.5px]">
+              <div className="grid grid-cols-3 gap-1 text-[7.5px]">
                 <div className="border border-black p-0.5">
                   <span className="font-bold">KARMA:</span> <span className="font-mono font-bold">{karma}</span>
                 </div>
                 <div className="border border-black p-0.5">
-                  <span className="font-bold">PLOT POINTS:</span> <span className="font-mono font-bold">{getNum('plot-points', 0)}</span>
+                  <span className="font-bold">PLOT PTS:</span> <span className="font-mono font-bold">{getNum('plot-points', 0)}</span>
                 </div>
                 <div className="border border-black p-0.5">
-                  <span className="font-bold">TECH LEVEL:</span> <span className="font-mono font-bold">{getNum('tech-level', 3)}</span>
+                  <span className="font-bold">AWARD PTS:</span> <span className="font-mono font-bold">+{getNum('earned_ap', 0)} AP</span>
+                </div>
+                <div className="border border-black p-0.5">
+                  <span className="font-bold">TECH LVL:</span> <span className="font-mono font-bold">{getNum('tech-level', 3)}</span>
                 </div>
                 <div className="border border-black p-0.5">
                   <span className="font-bold">WEALTH:</span> <span className="font-mono font-bold">{getStr('wealth-rating', 'Lvl 0')}</span>
                 </div>
+                <div className="border border-black p-0.5">
+                  <span className="font-bold">XP DEBT:</span> <span className="font-mono font-bold">{getNum('experience_debt', 0) > 0 ? `-${getNum('experience_debt')}` : '0'}</span>
+                </div>
               </div>
 
               <div className="border border-black p-1 text-[7.5px]">
-                <div className="font-bold border-b border-black mb-0.5 pb-0.5 uppercase">PERCEPTION</div>
-                <div className="grid grid-cols-3 text-center font-mono font-semibold">
+                <div className="flex justify-between items-center border-b border-black mb-0.5 pb-0.5 uppercase">
+                  <span className="font-bold">PERCEPTION</span>
+                  <span className="font-mono text-[6.5px]">Base (INT+WIS): {basePerception}</span>
+                </div>
+                <div className="grid grid-cols-4 text-center font-mono font-semibold">
+                  <div>Alert: {alertPerception}</div>
                   <div>Meta: {metaPerception}</div>
                   <div>Social: {socialPerception}</div>
                   <div>Tech: {techPerception}</div>

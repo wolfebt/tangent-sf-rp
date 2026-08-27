@@ -1,9 +1,9 @@
 ---
 id: species-shanor-tenen
-name: Tenen (Sha’nor Spectral)
+name: Tenen (Sha'Nor Spectral)
 title: Tenen (Spectral Void Entity)
 category: species
-parent_species: Sha'nor
+parent_species: Sha'Nor
 type:
   - species_type-spectral
 size:
@@ -16,7 +16,7 @@ meta_level: 5 (High Spectral Metaphysics)
 homeworld: The Twilight Rifts
 cp: 29
 description: >-
-  Tenen are benign spectral Sha’nor who lack the predatory vampiric urge,
+  Tenen are benign spectral Sha'Nor who lack the predatory vampiric urge,
   drifting between realities as quiet chroniclers and spatial navigators.
 costs:
   bp: 29

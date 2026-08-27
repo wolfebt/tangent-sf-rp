@@ -1,9 +1,11 @@
 ---
 id: maneuver-subtle
-name: Subtle Movement
+name: Subtle
 category: maneuvers
-action_type: Movement Action
-description: Low-profile stalking required to initiate stealth attacks and infiltration.
+action_type: Movement / Stance Condition
+description: >-
+  Quiet, sneaky, low-key action avoiding attention. Required for availability of
+  stealth-based Skill Actions.
 costs:
   bp: 0
   credits: 0
@@ -25,11 +27,11 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
-# Subtle Movement
+# Subtle
 
 **Category**: Combat Maneuvers  
-**Action Type**: Movement Action
+**Action Type**: Movement / Stance Condition
 
-## Description & Mechanics
-Low-profile stalking required to initiate stealth attacks and infiltration.
+## Mechanics & Edge Bonus
+- Moving quietly to avoid attention and conceal presence.
+- **Prerequisite Condition**: Required for the availability and execution of stealth-based Skill Actions and unnoticed ambushes.

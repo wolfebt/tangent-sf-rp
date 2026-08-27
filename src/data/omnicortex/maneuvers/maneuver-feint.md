@@ -3,7 +3,9 @@ id: maneuver-feint
 name: Feint
 category: maneuvers
 action_type: Standard Action
-description: Opposed Bluff vs. Sense Motive to bypass target defense for a Sneak Attack.
+description: >-
+  Bluff check vs Sense Motive leads target into False Defense, allowing a Sneak
+  Attack at -5 Strike with Target having NO Defense.
 costs:
   bp: 0
   credits: 0
@@ -25,11 +27,11 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # Feint
 
 **Category**: Combat Maneuvers  
 **Action Type**: Standard Action
 
-## Description & Mechanics
-Opposed Bluff vs. Sense Motive to bypass target defense for a Sneak Attack.
+## Mechanics & Edge Bonus
+- **Check**: Attacker makes an opposed **Bluff check vs. Sense Motive (Insight)**.
+- **Success**: Leads the target into a **False Defense**, forcing an opening for a **Sneak Attack at -5 Strike** with the target having **NO Defense**.

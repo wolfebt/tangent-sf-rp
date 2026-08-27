@@ -13,7 +13,8 @@ import {
   Crosshair,
   TrendingUp,
   Boxes,
-  Database
+  Database,
+  Maximize2
 } from 'lucide-react';
 
 /**
@@ -107,27 +108,40 @@ export const CODEX_MATRICES = [
     targetCollection: 'architecture',
     ingestionKey: 'architecture',
     altCollection: 'society_architecture',
-    description: 'Design orbital stations, planetary facilities, structural blueprints, tactical fortifications, and megastructures.',
+    description: 'Design planetary facilities, orbital stations, mobile crawlers, tactical fortifications, and sprawling arcologies.',
     category: 'Property & Infrastructure',
     badge: 'Structural Matrix',
     customComponent: 'ArchitectureBlueprintConfigurator',
     defaultValues: {
       name: '',
-      style: 'Cyber-Industrial',
+      style: 'Coalition / Scrappy Industrial',
+      faction_skin: 'Coalition',
       footprint: 'Large',
       height_class: 'Single',
       stories: 1,
+      frame_type: 'Standard',
       tl: 3,
       ml: 0,
       environment: 'Standard',
+      is_mobile: false,
+      propulsion_type: 'ground_crawler',
+      udu_compression: null,
+      is_rare: false,
+      mastercraft_bonus: 0,
+      bulwark_bonus: 0,
       specialized_modules: [],
+      armor_plating: [],
+      energy_shields: [],
+      structural_weapons: [],
+      sensors_and_aux: [],
+      generators: [],
       workforce_workers: 10,
       workforce_skill: 15,
       tool_tier: 'industrial',
       base_dc: 18,
       craft_dc: 18,
       durability: 200,
-      cost: 2560,
+      cost: 1500,
       power_grid: 'Standard Fusion Matrix',
       security_level: 'High Security (Tier 3)',
       primary_purpose: 'Tactical Outpost',
@@ -137,7 +151,8 @@ export const CODEX_MATRICES = [
     },
     fields: [
       { name: 'name', label: 'Structure / Blueprint Name', type: 'text', required: true, placeholder: 'E.g., Aegis Spire Orbital Station' },
-      { name: 'style', label: 'Architectural Style', type: 'select', options: ['Cyber-Industrial', 'Brutalist Voidcraft', 'Neo-Gothic High Arcology', 'Bio-Organic Crystalline', 'Nomadic Prefab Modular', 'Ancient Hyper-Structure', 'Subterranean Bunker Complex'] },
+      { name: 'faction_skin', label: 'Cultural Skin / Faction Paradigm', type: 'select', options: ['Syndicate', 'Impyrium', 'Dracon', 'Ascendancy', 'Coalition', 'Alterian', 'Auluran', 'Mekan', 'Entari'] },
+      { name: 'frame_type', label: 'Frame & Configuration', type: 'select', options: ['Standard', 'Industrial', 'Elevated', 'Tower', 'Subterranean', 'Biomimetic', 'Dynamic', 'Palatial'] },
       { name: 'footprint', label: 'Scale & Footprint', type: 'select', options: ['Miniscule', 'Fine', 'Diminutive', 'Tiny', 'Small', 'Medium', 'Large', 'Huge', 'Gargantuan', 'Colossal', 'Enormous', 'Titanic', 'SuperGargantuan', 'MegaColossal'] },
       { name: 'height_class', label: 'Verticality & Stories', type: 'select', options: ['Single', 'Duplex', 'MultiStory', 'MidRise', 'HighRise', 'Skyscraper'] },
       { name: 'tl', label: 'Tech Level (TL 0-5)', type: 'number', min: 0, max: 5 },
@@ -145,7 +160,7 @@ export const CODEX_MATRICES = [
       { name: 'craft_dc', label: 'Architecture / Engineering DC', type: 'number', min: 0, max: 80, triggers: ['credit_value', 'material_cost', 'ws_threshold', 'complexity_tier', 'crafting_time'], helpText: 'Determines structural credit construction value via TSC' },
       { name: 'cost', label: 'Credit Construction Cost (Override)', type: 'number' },
       { name: 'durability', label: 'Structural Durability / HP', type: 'number' },
-      { name: 'power_grid', label: 'Power & Life Support Matrix', type: 'text', placeholder: 'E.g., Geothermal Tap / Void Siphon Core' },
+      { name: 'power_grid', label: 'Power & Life Support Matrix', type: 'text', placeholder: 'E.g., Micro-Fusion Reactor / Void Siphon Core' },
       { name: 'security_level', label: 'Security & Access Protocols', type: 'select', options: ['Open / Civilian Access', 'Restricted Standard', 'High Security (Tier 3)', 'Black-Site Military Matrix', 'Quantum Encrypted Quarantine'] },
       { name: 'primary_purpose', label: 'Primary Purpose / Function', type: 'text', placeholder: 'E.g., Weapons R&D, Mining Refinery, Defense Citadel' },
       { name: 'description', label: 'Design & Visual Overview', type: 'textarea', aiEnabled: true },
@@ -163,9 +178,98 @@ export const CODEX_MATRICES = [
       return createStandardComputeOnSave('Module', 1)(formData, engines);
     },
     archetypes: [
-      { name: 'Orbital Defense Citadel', prompt: 'An orbital planetary defense installation equipped with automated railguns and particle shielding.' },
-      { name: 'Cyberpunk Arcology', prompt: 'A massive 200-story self-sustaining city complex owned by a ruthless mega-corporation with tiered access zones.' },
-      { name: 'Ancient Alien Relic Vault', prompt: 'A subterranean ruin of forgotten meta-technology protected by gravity puzzles and energy barriers.' }
+      {
+        name: 'Outworld Frontier Outpost (Mudskipper)',
+        prompt: 'Ubiquitous on colonization worlds. Cheap, durable, air-droppable. Medium (10x10ft) Single Story at TL3 Plasteel (DR 20, 100 SP, DC 15, ~640 Cr) with Bunk, Comms Array, and Air-Lock.',
+        preset: {
+          name: 'Frontier Outpost (The "Mudskipper")',
+          footprint: 'Medium',
+          height_class: 'Single',
+          stories: 1,
+          frame_type: 'Industrial',
+          tl: 3,
+          faction_skin: 'Coalition',
+          craft_dc: 15,
+          specialized_modules: [],
+          sensors_and_aux: ['comm_array_av'],
+          description: 'Ubiquitous on colonization worlds. Cheap, durable, air-droppable. It is designed as a secure toe-hold on hostile planets.',
+          mechanic: 'Air-dropped module. Restores basic fatigue and provides emergency comms coverage.'
+        }
+      },
+      {
+        name: 'The "Sand-Skimmer" (Mobile Base)',
+        prompt: 'A slow but steady ground crawler favored by Outworlds scavengers and nomads. Medium (10x10ft) Single Story TL3 with Ground Crawler propulsion treads (DC 20, ~2,560 Cr).',
+        preset: {
+          name: 'The "Sand-Skimmer" Mobile Base',
+          footprint: 'Medium',
+          height_class: 'Single',
+          stories: 1,
+          frame_type: 'Industrial',
+          tl: 3,
+          is_mobile: true,
+          propulsion_type: 'ground_crawler',
+          faction_skin: 'Coalition',
+          craft_dc: 20,
+          specialized_modules: ['cargo_bay'],
+          description: 'A slow but steady ground crawler favored by Outworlds scavengers and nomads. Moves at 20 ft/rnd to follow resource veins.',
+          mechanic: 'Mobile Structure (20% Chassis Tax). Glacial Handling tracks.'
+        }
+      },
+      {
+        name: 'Syndicate Executive Penthouse',
+        prompt: 'A floating luxury pod atop a massive arcology. Huge (40x40ft) Single Story TL4 Nanocarbon (DR 30, 750 SP, DC 30, ~41,000 Cr) with Luxury Suite, Secure Vault, and Holo-Lounge.',
+        preset: {
+          name: 'Syndicate Executive Penthouse',
+          footprint: 'Huge',
+          height_class: 'Single',
+          stories: 1,
+          frame_type: 'Palatial',
+          tl: 4,
+          faction_skin: 'Syndicate',
+          craft_dc: 30,
+          specialized_modules: ['luxury_suite', 'secure_vault', 'holodeck'],
+          description: 'A floating pod atop a massive arcology. Featuring bulletproof glass, seamless white composites, and a nanocarbon frame.',
+          mechanic: 'Palatial Frame (+8 DC). Luxury Suite grants +1 Morale; Secure Vault has DR 30 walls and DC 30 hack resistance.'
+        }
+      },
+      {
+        name: 'Impyrium Forward Command Bunker',
+        prompt: 'A prefabricated war-room dropped from orbit. Gargantuan (80x80ft) Single Story TL3 Duranium (DR 25, 1,600 SP, DC 32, ~70,000 Cr) with Command Center, Barracks, Micro-Fusion generator, Deflector Shields, and Vulcan Point-Defense.',
+        preset: {
+          name: 'Impyrium Forward Command Bunker',
+          footprint: 'Gargantuan',
+          height_class: 'Single',
+          stories: 1,
+          frame_type: 'Standard',
+          tl: 3,
+          faction_skin: 'Impyrium',
+          craft_dc: 32,
+          specialized_modules: ['command_center', 'barracks'],
+          energy_shields: ['deflector_screen'],
+          structural_weapons: ['vulcan_minigun'],
+          generators: ['micro_fusion'],
+          description: 'A prefabricated war-room designed to be dropped from orbit directly into warzones. Bristling with auto-turrets and deflector screens.',
+          mechanic: 'Impyrium Fortress Integrity (+5 DR vs kinetic). Overlapping fields of auto-fire kinetic weaponry repel infantry assaults.'
+        }
+      },
+      {
+        name: 'Arcology Habitat (Mega-Structure)',
+        prompt: 'A massive, self-sustaining city-state structure. Titanic (2,000x2,000ft) Skyscraper (100 Stories) TL4 Nanocarbon (15 Million SP, 1,000,000 Modules, DC 80+, ~42 Billion Cr).',
+        preset: {
+          name: 'Ascendancy Solar Arcology Habitat',
+          footprint: 'Titanic',
+          height_class: 'Skyscraper',
+          stories: 100,
+          frame_type: 'Tower',
+          tl: 4,
+          faction_skin: 'Ascendancy',
+          craft_dc: 80,
+          specialized_modules: ['full_facility_campus', 'life_support', 'purification_plant', 'hangar_large', 'server_farm'],
+          generators: ['antimatter_core'],
+          description: 'A massive, self-sustaining city-state structure piercing the clouds. Holds hundreds of thousands of citizens with internal ecosystems and high-efficiency ion power grids.',
+          mechanic: 'Strategic Megastructure. 15,000,000 Structure Points. Antimatter Core and atmospheric purifiers sustain continuous district operation.'
+        }
+      }
     ]
   },
   {
@@ -701,7 +805,7 @@ export const CODEX_MATRICES = [
     fields: [
       { name: 'name', label: 'Species / Lineage Name', type: 'text', required: true, placeholder: 'E.g., Vesperian Void-Stalkers' },
       { name: 'budget_level', label: 'Budget Tier', type: 'select', options: ['Standard', 'Advanced', 'Monster'] },
-      { name: 'species_type', label: 'Species Chassis Type', type: 'select', options: ['Aberration', 'Animal', 'Beast', 'Construct', 'Dragon', 'Elemental', 'Fey', 'Fiend', 'Humanoid', 'Monstrosity', 'Ooze', 'Plant', 'Undead'] },
+      { name: 'species_type', label: 'Species Chassis Type', type: 'select', options: ['Aberration', 'Beast', 'Dragon', 'Elemental', 'Entity', 'Fey', 'Humanoid', 'Mythical', 'Ooze', 'Planar', 'Synthetic', 'Undead', 'Verdant'] },
       { name: 'size', label: 'Size Category', type: 'select', options: ['Diminutive', 'Small', 'Medium', 'Large', 'Huge'] },
       { name: 'craft_dc', label: 'Genetic Complexity DC', type: 'number', min: 0, max: 80 },
       { name: 'description', label: 'Physiology, Culture & Evolutionary Origin', type: 'textarea', aiEnabled: true },
@@ -926,6 +1030,35 @@ export const CODEX_MATRICES = [
     computeOnSave: createStandardComputeOnSave('Socket', 1)
   },
   {
+    id: 'scaling',
+    name: 'SCALING',
+    label: 'Scaling Matrix & Sim',
+    icon: Maximize2,
+    color: '#f59e0b', // Amber
+    theme: 'amber',
+    viewType: 'dashboard',
+    targetCollection: 'scaling',
+    ingestionKey: 'other',
+    description: 'Universal 14-Tier Size Categories, Fluid Combat Modifier Matchup Simulator, Meta-Tech Amplification & Asset Valuation Diagnostics.',
+    category: 'System Reference & Calculators',
+    badge: 'Scale Matrix',
+    customComponent: 'ScalingCodex',
+    defaultValues: {
+      name: 'Scaling Reference Profile',
+      size: 'Huge',
+      craft_dc: 20,
+      description: 'Universal scaling mechanics and fluid combat simulator profile.'
+    },
+    fields: [
+      { name: 'name', label: 'Reference / Profile Name', type: 'text', required: true, placeholder: 'E.g., Tactical Scaling Reference' },
+      { name: 'size', label: 'Size Category', type: 'select', options: ['Miniscule', 'Fine', 'Diminutive', 'Tiny', 'Small', 'Medium', 'Large', 'Huge', 'Gargantuan', 'Colossal', 'Enormous', 'Titanic', 'SuperGargantuan', 'MegaColossal'] },
+      { name: 'craft_dc', label: 'Crafting / Complexity DC', type: 'number', min: 0, max: 80 },
+      { name: 'description', label: 'Scale Mechanics Notes', type: 'textarea' }
+    ],
+    computedOutputs: DEFAULT_COMPUTED_OUTPUTS,
+    computeOnSave: createStandardComputeOnSave('Mount', 1)
+  },
+  {
     id: 'ingestion-engine',
     name: 'DATA INGESTION',
     label: 'Omnicortex Ingestion Engine',
@@ -946,7 +1079,7 @@ export const HARDWARE_MATRIX_IDS = ['architecture', 'armor', 'augmentations', 'e
 export const CHARACTER_MATRIX_IDS = ['modular-characters', 'companion'];
 export const PLANETARY_SPECIES_MATRIX_IDS = ['planetary-design', 'species'];
 export const META_MATRIX_IDS = ['invocation', 'meta-tech'];
-export const SYSTEM_MATRIX_IDS = ['economatrix', 'technology'];
+export const SYSTEM_MATRIX_IDS = ['scaling', 'economatrix', 'technology'];
 
 // Backwards-compatible aliases
 export const ENTITY_MATRIX_IDS = CHARACTER_MATRIX_IDS;

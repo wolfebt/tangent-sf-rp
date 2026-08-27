@@ -1,9 +1,11 @@
 ---
 id: maneuver-burst-fire
-name: Burst Fire
+name: Burst Fire (Short)
 category: maneuvers
-action_type: Firearm Action
-description: 3-round burst delivering tight grouping; grants +1 Strike bonus.
+action_type: Standard Ranged Action
+description: >-
+  3-round burst granting +1 Strike. All range penalties are doubled during
+  automatic fire.
 costs:
   bp: 0
   credits: 0
@@ -25,11 +27,12 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
-# Burst Fire
+# Burst Fire (Short)
 
 **Category**: Combat Maneuvers  
-**Action Type**: Firearm Action
+**Action Type**: Standard Ranged Action
 
-## Description & Mechanics
-3-round burst delivering tight grouping; grants +1 Strike bonus.
+## Mechanics
+- **Ammunition**: 3 rounds.
+- **Strike Bonus**: **+1 Strike**.
+- **Range Penalties**: All Range Penalties are **Doubled** during automatic fire.

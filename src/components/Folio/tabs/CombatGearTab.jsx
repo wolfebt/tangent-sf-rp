@@ -171,25 +171,16 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
           )}
         </div>
 
-        <div className="mt-3 flex gap-2 pt-2 border-t border-slate-800/80">
-          {onOpenAssetModal && (
-            <button
-              type="button"
-              onClick={() => onOpenAssetModal(key, title, 'create', null, { category: dbPath })}
-              className="flex-1 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-cyan-300 rounded text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-1 cursor-pointer"
-              title={`Open Manage Modal to build and save a new ${title} entry in OmniCortex DB`}
-            >
-              <span>⚙️</span> Build {title}
-            </button>
-          )}
+        <div className="mt-3 pt-2 border-t border-slate-800/80">
           {onOpenSelectorModal && (
             <button
               type="button"
               onClick={() => onOpenSelectorModal(key, title, dbPath)}
-              className="flex-1 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-400 hover:text-cyan-300 rounded text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-1 cursor-pointer"
-              title={`Browse ${title} Database`}
+              className="w-full py-1.5 bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shadow-[0_0_8px_rgba(34,211,238,0.15)] cursor-pointer"
+              title={`Open ${title} Catalog (Table / Cards) with build option`}
             >
-              <span>🔍</span> Browse {title} DB
+              <span>✨</span>
+              <span>+ Add {title}</span>
             </button>
           )}
         </div>
@@ -288,29 +279,21 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                 {onOpenSelectorModal && (
                   <button
                     type="button"
-                    onClick={() => onOpenSelectorModal('weapons', 'Offensive Weapons', 'weaponry')}
-                    className="px-2 py-1 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-cyan-300 rounded text-[10px] font-bold uppercase tracking-wider transition-colors flex items-center gap-1 cursor-pointer"
-                    title="Browse Weapons Database"
+                    onClick={() => onOpenSelectorModal('weapons', 'Weaponry', 'weaponry')}
+                    className="px-3 py-1 bg-amber-950/90 hover:bg-amber-900 border border-amber-500/60 text-amber-300 rounded text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_8px_rgba(245,158,11,0.2)] cursor-pointer"
+                    title="Open Weapons Catalog (Table / Cards) with build option"
                   >
-                    <span>🔍</span> Browse DB
-                  </button>
-                )}
-                {onOpenAssetModal && (
-                  <button
-                    type="button"
-                    onClick={() => onOpenAssetModal('weapons', 'Attack Weapon', 'create', null, { category: 'weaponry' })}
-                    className="px-2 py-1 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-amber-300 rounded text-[10px] font-bold uppercase tracking-wider transition-colors flex items-center gap-1 cursor-pointer"
-                    title="Build Weapon in Manage Modal"
-                  >
-                    <span>⚙️</span> Build Weapon
+                    <span>✨</span>
+                    <span>+ Add Weapon</span>
                   </button>
                 )}
                 <button
                   type="button"
                   onClick={addAttack}
-                  className="px-2.5 py-1 bg-amber-950/80 hover:bg-amber-900 border border-amber-600/60 text-amber-300 rounded text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                  className="px-2 py-1 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-slate-200 rounded text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                  title="Add empty quick scratch row"
                 >
-                  + Add Row
+                  + Row
                 </button>
               </div>
             </div>
@@ -402,28 +385,20 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                   <button
                     type="button"
                     onClick={() => onOpenSelectorModal('armoring', 'Armor & Defense', 'armoring')}
-                    className="px-2 py-1 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-cyan-300 rounded text-[10px] font-bold uppercase tracking-wider transition-colors flex items-center gap-1 cursor-pointer"
-                    title="Browse Armor Database"
+                    className="px-3 py-1 bg-emerald-950/90 hover:bg-emerald-900 border border-emerald-500/60 text-emerald-300 rounded text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_8px_rgba(16,185,129,0.2)] cursor-pointer"
+                    title="Open Armor Catalog (Table / Cards) with build option"
                   >
-                    <span>🔍</span> Browse DB
-                  </button>
-                )}
-                {onOpenAssetModal && (
-                  <button
-                    type="button"
-                    onClick={() => onOpenAssetModal('armoring', 'Armor & Defense', 'create', null, { category: 'armoring' })}
-                    className="px-2 py-1 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-emerald-300 rounded text-[10px] font-bold uppercase tracking-wider transition-colors flex items-center gap-1 cursor-pointer"
-                    title="Build Armor in Manage Modal"
-                  >
-                    <span>⚙️</span> Build Armor
+                    <span>✨</span>
+                    <span>+ Add Armor</span>
                   </button>
                 )}
                 <button
                   type="button"
                   onClick={addArmor}
-                  className="px-2.5 py-1 bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-600/60 text-emerald-300 rounded text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                  className="px-2 py-1 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-slate-200 rounded text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                  title="Add empty quick scratch row"
                 >
-                  + Add Row
+                  + Row
                 </button>
               </div>
             </div>

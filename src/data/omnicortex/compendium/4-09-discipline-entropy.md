@@ -1,10 +1,11 @@
 ---
-id: 4-09-discipline-entropy
-name: '4.09 Discipline Guide: Entropy (Decay & Probability)'
-category: compendium
-entry_type: Game Mechanic
-parent: 4.00 METAPHYSICS
+id: "4-09-discipline-entropy"
+name: "4.09 Discipline Guide: Entropy (Decay & Probability)"
+category: "compendium"
+parent: "4.00 METAPHYSICS"
 order: 9
+perspective: "both"
+entry_type: "Game Mechanic"
 costs:
   bp: 0
   credits: 0
@@ -26,14 +27,32 @@ sockets:
   tier: Socket
   allocated: []
 ---
+
 # 4.09 Discipline Guide: Entropy (Decay & Probability)
 
-The **Entropy Discipline** accelerates molecular corrosion, degrades armor integrity, drains biological vitality, and manipulates probability fields.
+The **Discipline of Entropy** governs the breakdown of complex systems, molecular decay, biological necrosis, probability distortion, cellular regeneration, and life-force transfer.
 
 ---
 
-## Core Capabilities by Skill Tier
-- **Novice (Rank 1–5):** *Corrosive Touch* (degrades enemy armor DR by 2), *Hex / Bad Luck* (target rolls next check at Disadvantage).
-- **Trained (Rank 6–10):** *Vitality Siphon* (deal 3d6 necrotic damage and heal self for half), *Rust Wave* (disintegrates mechanical locks/wires).
-- **Expert (Rank 11–15):** *Probability Maelstrom* (allies gain Advantage, enemies suffer Disadvantage in 30-ft radius), *Cellular Necrosis*.
-- **Master (Rank 16–20):** *Absolute Decay* (reduces target structural integrity to ash), *Karmic Reversal* (reflects fatal damage back to attacker).
+## Associated Metafocus Skills
+1. **Chaos**: Accelerating decay, breaking molecular bonds, curses, and destructive negative energy.
+2. **Order**: Probability stabilization, cellular regeneration, biological healing, and preservation.
+
+---
+
+## Sensory Manifestation & Aesthetics
+- **Chaos Manifestations**: Sickly Green primary, Grey/Black secondary; rusting, decaying, mist, acidic smoke.
+- **Order Manifestations**: Geometric Gold primary, Crystal White secondary; perfect lattices, interlocking shields.
+- **Healing Manifestations**: Vibrant Life Green primary, Soft Gold secondary; rapid cell growth, knitting flesh, warm pulse.
+
+## Game Mechanics Rules
+```
+Damage = 1d6 per Stage achieved with check (Necrotic/Acid)
+Healing = 1d6 per Stage achieved with check (Restores Health directly)
+```
+
+## Gameplay Instructions
+Deploy Chaos to dissolve enemy armor DR, and use Order to stabilize dying squad operatives in combat.
+
+## Designer Notes
+Entropy invocations ignore physical kinetic shields and degrade mechanical armor DR permanently.

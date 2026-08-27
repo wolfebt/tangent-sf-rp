@@ -13,8 +13,16 @@ export const FloatingCombatText = ({ activeFloats = [] }) => {
               ? 'text-red-400 drop-shadow-[0_0_10px_rgba(239,68,68,0.95)]'
               : float.type === 'vitality_damage'
               ? 'text-purple-400 drop-shadow-[0_0_10px_rgba(168,85,247,0.95)]'
+              : float.type === 'structure_damage'
+              ? 'text-amber-400 drop-shadow-[0_0_10px_rgba(245,158,11,0.95)]'
+              : float.type === 'concussive_damage'
+              ? 'text-orange-400 drop-shadow-[0_0_10px_rgba(251,146,60,0.95)]'
               : float.type === 'vitality_heal'
               ? 'text-cyan-300 drop-shadow-[0_0_10px_rgba(34,211,238,0.95)]'
+              : float.type === 'karma'
+              ? 'text-cyan-300 drop-shadow-[0_0_12px_rgba(6,182,212,1)]'
+              : float.type === 'experience'
+              ? 'text-yellow-300 drop-shadow-[0_0_12px_rgba(234,179,8,1)]'
               : 'text-emerald-400 drop-shadow-[0_0_10px_rgba(16,185,129,0.95)]'
           }`}
           style={{

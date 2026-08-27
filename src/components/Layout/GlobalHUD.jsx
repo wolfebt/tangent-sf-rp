@@ -133,6 +133,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
 
   const getActivePageTitle = () => {
     const path = location.pathname;
+    if (path === '/' || path === '/dashboard') return null; // Dashboard - no user-facing label needed
     if (path.startsWith('/comms')) return 'COMMLINK RELAY';
     if (path.startsWith('/folio') || path.startsWith('/roster')) return 'PERSONA FOLIO';
     if (path.startsWith('/dbm')) return 'OMNICORTEX';
@@ -143,7 +144,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
     if (path.includes('/aime')) return 'AIME CREATIVE ENGINE';
     if (path.includes('/vtt-options') || path.startsWith('/vtt-ops')) return 'VTT OPERATIONS';
     if (path.startsWith('/foundry') || path.startsWith('/campaign-builder')) return 'STORY FOUNDRY';
-    return 'OPERATIONS HUB';
+    return null;
   };
 
   const displayIdentity = userHandle ? `@${userHandle}` : (currentUser?.displayName || currentUser?.email || 'OPERATOR');
@@ -199,12 +200,14 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
           )}
         </div>
 
-        {/* Center Section: Centered Active Page Title */}
-        <div className="hidden lg:flex items-center justify-center uppercase text-[#22d3ee] tangent-title-pulse select-none text-center">
-          <span className="text-[1.35rem] sm:text-[1.5rem] lg:text-[1.65rem] font-bold leading-none tracking-wide whitespace-nowrap">
-            {getActivePageTitle()}
-          </span>
-        </div>
+        {/* Center Section: Centered Active Page Title (Sub-routes only) */}
+        {getActivePageTitle() && (
+          <div className="hidden lg:flex items-center justify-center uppercase text-[#22d3ee] tangent-title-pulse select-none text-center">
+            <span className="text-[1.35rem] sm:text-[1.5rem] lg:text-[1.65rem] font-bold leading-none tracking-wide whitespace-nowrap">
+              {getActivePageTitle()}
+            </span>
+          </div>
+        )}
 
         {/* Right Section: Omnicortex/Folio Controls + Comms, Dice, Audio, User Account */}
         <div className="flex items-center justify-end gap-1.5 sm:gap-2 shrink-0">
@@ -531,16 +534,6 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
             )}
           </button>
 
-          {/* Quick Guide Manual Button */}
-          <button
-            type="button"
-            onClick={() => handleOpenGuide()}
-            className="p-2 rounded-lg bg-slate-900/60 hover:bg-slate-800 border border-slate-700 text-cyan-300 hover:text-white transition-all shadow-sm"
-            title="Open Comprehensive User Guide & System Manual"
-          >
-            <BookOpen size={17} />
-          </button>
-
           {/* Quick Dice Roller Toggle */}
           <button
             type="button"
@@ -556,20 +549,6 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
             title="Toggle Dice Roller Tray (Alt+D)"
           >
             <Dices size={17} />
-          </button>
-
-          {/* Audio Immersion Switch */}
-          <button
-            type="button"
-            onClick={toggleAudio}
-            className={`p-2 rounded-lg border transition-all ${
-              !isAudioMuted 
-                ? 'bg-cyan-500/10 border-cyan-500/40 text-cyan-300' 
-                : 'bg-slate-900/60 hover:bg-slate-800 border-slate-700 text-slate-500'
-            }`}
-            title={isAudioMuted ? 'Unmute Sci-Fi Audio FX' : 'Mute Sci-Fi Audio FX'}
-          >
-            {isAudioMuted ? <VolumeX size={17} /> : <Volume2 size={17} />}
           </button>
 
           {/* User Account Menu with Functional Cloud Sync Status */}

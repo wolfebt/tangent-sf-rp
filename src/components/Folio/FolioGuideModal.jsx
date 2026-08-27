@@ -75,23 +75,56 @@ const CONTENT = {
   cp: (
     <div className="space-y-4 text-slate-300 text-sm leading-relaxed">
       <p>
-        <strong className="text-cyan-300 font-mono">Character Points (CP)</strong> are the universal mechanical currency for character balance in Tangent SFF RP.
+        <strong className="text-cyan-300 font-mono">Character Points (CP / BP)</strong> and <strong className="text-emerald-400 font-mono">Award Points (AP)</strong> form the unified mathematical currency for character balance and organic progression in Tangent SFF RP.
       </p>
+
+      {/* Starting Budget vs AP */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+        <div className="bg-slate-800/60 border border-cyan-500/30 rounded-xl p-3.5 space-y-1.5">
+          <div className="font-bold text-cyan-300 font-mono uppercase">1. Character Creation (150 BP)</div>
+          <p className="text-slate-400 text-[11px] leading-relaxed">
+            All operatives start with 150 Build Points to purchase Attributes (5 BP), Skills (1 BP), Features (3 BP), and Vitals (1 BP per 5). Flaws provide BP refunds.
+          </p>
+        </div>
+
+        <div className="bg-slate-800/60 border border-emerald-500/30 rounded-xl p-3.5 space-y-1.5">
+          <div className="font-bold text-emerald-300 font-mono uppercase">2. Campaign Awards (1 AP = 1 BP)</div>
+          <p className="text-slate-400 text-[11px] leading-relaxed">
+            Players earn Award Points (AP) during campaign play. AP expands the total budget permanently and is spent 1-for-1 like BP during downtime.
+          </p>
+        </div>
+      </div>
+
+      {/* The Increment Rule */}
+      <div className="bg-amber-950/40 border border-amber-500/50 rounded-xl p-4 space-y-1.5">
+        <h4 className="text-amber-300 font-bold uppercase text-xs font-mono tracking-wider flex items-center gap-1.5">
+          <span>⚠️</span> The Increment Rule (CRITICAL CANON RULE)
+        </h4>
+        <p className="text-xs text-slate-300 leading-relaxed">
+          Abilities, skills, or other traits may <strong className="text-amber-200">ONLY HAVE A 1 POINT INCREMENT OF ANY SCORE PER EXPERIENCE AWARD EVENT</strong>. 
+          A player cannot dump 10 AP into a single skill all at once. Growth requires balanced training and reflection across downtime.
+        </p>
+      </div>
+
+      {/* Award Types Table */}
       <div className="bg-slate-800/60 border border-cyan-500/20 rounded-xl p-4 space-y-2">
-        <h4 className="text-cyan-400 font-bold uppercase text-xs font-mono tracking-wider">Economy Breakdown Breakdown</h4>
+        <h4 className="text-cyan-400 font-bold uppercase text-xs font-mono tracking-wider">Experience Award Categories</h4>
         <div className="space-y-2 text-xs">
           {[
-            { item: 'Starting Budget', cost: '150 CP (Standard Campaign Baseline)' },
-            { item: 'Core Attributes (STR, AGI, STA, INT, WIS, CHA)', cost: 'Scaling cost per tier above zero base' },
-            { item: 'Skill Proficiencies', cost: 'Novice (1 CP), Adept (2 CP), Expert (4 CP), Master (7 CP), Legend (10 CP)' },
-            { item: 'Specializations', cost: '+1 CP per sub-discipline specialization focus' },
-            { item: 'Features & Talents', cost: 'Positive traits cost 2 to 10 CP based on power level' },
-            { item: 'Flaws & Hindrances', cost: 'Grants +2 to +8 CP refund (adds points back to spend)' },
-            { item: 'Cybernetics & Augmentations', cost: 'Varies by Tech Level and essence footprint' },
+            { item: 'Chapter Completion', award: '5 to 10 AP', desc: 'Awarded at major story milestones and narrative downtime.' },
+            { item: 'Overcoming Goal / Villain / Plot', award: '1 to 3 AP', desc: 'Overcoming significant obstacles or defeating powerful nemeses.' },
+            { item: 'Focused on Game / Tactical Play', award: '0 to 2 AP', desc: 'Engaging with game mechanics, combat strategy, and team tactics.' },
+            { item: 'Roleplaying in Character', award: '0 to 2 AP', desc: 'Embodying personality, backstory development, and deep roleplay.' },
+            { item: 'Standard Session Pacing', award: '1 to 3 AP', desc: 'Typical award per game session based on pacing/achievements.' },
+            { item: 'Epic Actions & Stumping Architect', award: '1 to 5 AP', desc: 'Ad hoc GM award for unexpected genius turning the tide of battle.' },
+            { item: 'Experience Debt (Revivification)', award: '-5 AP Debt', desc: 'Trauma debt from dying, paid off 1-for-1 from future AP awards.' },
           ].map(e => (
-            <div key={e.item} className="flex justify-between py-1 border-b border-slate-700/50">
-              <span className="font-bold text-slate-200">{e.item}</span>
-              <span className="text-amber-300 font-mono">{e.cost}</span>
+            <div key={e.item} className="flex justify-between items-center py-1 border-b border-slate-700/50">
+              <div>
+                <span className="font-bold text-slate-200 block">{e.item}</span>
+                <span className="text-[10px] text-slate-400">{e.desc}</span>
+              </div>
+              <span className="text-emerald-400 font-mono font-bold shrink-0 ml-3">{e.award}</span>
             </div>
           ))}
         </div>
@@ -124,41 +157,112 @@ const CONTENT = {
   'core-stats': (
     <div className="space-y-4 text-slate-300 text-sm leading-relaxed">
       <p>
-        <strong className="text-cyan-300 font-mono">Core Attributes</strong> govern all dice rolls, difficulty checks, and derived survival pools.
+        <strong className="text-cyan-300 font-mono">Core Attributes</strong> represent a character's natural talents and modify all linked skill checks. Attribute scores cost <strong className="text-amber-300 font-mono">5 BP per +1 point</strong> (0 human average baseline, maximum +4 during creation before species/aug modifiers; upper tier is 5 + species modifier for paragons). Characters completely lacking an attribute can take the <strong className="text-red-400 font-mono">Non-Attribute Flaw (-25 BP)</strong>, automatically failing all checks for that stat.
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
         {[
-          { stat: 'STR (Strength)', sub: 'Might', desc: 'Physical power, melee strike damage, athletics, and encumbrance limit.' },
-          { stat: 'AGI (Agility)', sub: 'Reflex & Initiative', desc: 'Manual dexterity, ranged weapon aim, evasion, acrobatics, and turn speed.' },
-          { stat: 'STA (Stamina)', sub: 'Fortitude', desc: 'Endurance, poison/radiation resistance, and basis for total Health pool.' },
-          { stat: 'INT (Intellect)', sub: 'Logic', desc: 'Scientific knowledge, cybertech hacking, weapon crafting, and tactical analysis.' },
-          { stat: 'WIS (Wisdom)', sub: 'Will', desc: 'Perception, mental fortitude, intuition, and basis for Vitality/Karma pool.' },
-          { stat: 'CHA (Charisma)', sub: 'Etiquette', desc: 'Social presence, persuasion, leadership, intimidation, and faction standing.' },
+          { stat: 'STR (Strength)', check: 'Might Check', desc: 'Lifting/carrying capacity, breaking objects (doors, locks, weapons), melee weapon damage, grappling, and shoving.' },
+          { stat: 'AGI (Agility)', check: 'Reflex Check', desc: 'Dodging attacks, acrobatics (jumping, climbing, tumbling), ranged accuracy, readying weapons, and initiative.' },
+          { stat: 'STA (Stamina)', check: 'Fortitude Check', desc: 'Enduring physical hardship (hunger, thirst, sleep, extreme weather), toxic/disease resistance, base Toughness, and Health buffer.' },
+          { stat: 'INT (Intellect)', check: 'Reason Check', desc: 'Problem-solving, deductive logic, decoding ciphers and alien languages, comprehending dense technical manuals and scientific theories.' },
+          { stat: 'WIS (Wisdom)', check: 'Willpower Check', desc: 'Sensing deception (detecting lies/hidden agendas), mental fortitude against terror/fear, breaking psionic mind control, and maintaining focus under pressure.' },
+          { stat: 'CHA (Charisma)', check: 'Etiquette Check', desc: 'Persuasion, leadership and inspiring morale, complex negotiation, bartering, formal receptions, and peaceful dispute resolution.' },
         ].map(s => (
           <div key={s.stat} className="bg-slate-800/50 border border-slate-700/60 rounded-xl p-3 space-y-1">
             <div className="flex justify-between items-center">
               <span className="font-bold text-cyan-300 font-mono">{s.stat}</span>
-              <span className="text-[10px] text-amber-300 font-mono font-bold bg-slate-900 px-1.5 py-0.5 rounded border border-slate-700">Sub: {s.sub}</span>
+              <span className="text-[10px] text-amber-300 font-mono font-bold bg-slate-900 px-1.5 py-0.5 rounded border border-slate-700">{s.check}</span>
             </div>
             <p className="text-slate-400 text-[11px]">{s.desc}</p>
           </div>
         ))}
+      </div>
+      <div className="bg-slate-800/70 border border-cyan-500/30 rounded-xl p-4 space-y-2">
+        <h4 className="text-cyan-300 font-bold uppercase text-xs font-mono tracking-wider">
+          🎲 Attribute Checks &amp; Saving Throws Mechanics
+        </h4>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800 space-y-1">
+            <div className="font-bold text-amber-300 font-mono text-[11px]">Base Check Formula &amp; Upgrades</div>
+            <div className="text-slate-300 text-[11px]">
+              <code className="text-cyan-300 font-mono">Base Score = 2 + (Attribute Score × 2)</code>
+            </div>
+            <div className="text-slate-400 text-[10px]">
+              Directly upgrading an Attribute Check costs <strong className="text-amber-300 font-mono">1 BP per +1 point</strong> without needing to raise the base attribute.
+            </div>
+          </div>
+          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800 space-y-1">
+            <div className="font-bold text-emerald-300 font-mono text-[11px]">General Checks vs Saving Throws</div>
+            <div className="text-slate-300 text-[11px]">
+              Roll is <code className="text-amber-300 font-mono">d20 + Base Score + Modifiers</code>.
+            </div>
+            <div className="text-slate-400 text-[10px]">
+              Used for un-skilled fallback tasks (General Checks) and resisting hazards/spells/poisons (Saving Throws).
+            </div>
+          </div>
+          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800 space-y-1">
+            <div className="font-bold text-purple-300 font-mono text-[11px]">Targeted vs Opposed Challenges</div>
+            <div className="text-slate-400 text-[10px]">
+              <strong>Targeted:</strong> Beat the GM's Challenge Rating (CR).<br/>
+              <strong>Opposed:</strong> Direct roll contest between characters (e.g. arm wrestling, battle of wills, social debate). Highest total wins.
+            </div>
+          </div>
+          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800 space-y-1">
+            <div className="font-bold text-teal-300 font-mono text-[11px]">Skill Synergy</div>
+            <div className="text-slate-400 text-[10px]">
+              Logically connected skills aid saves (e.g., Medicine aids Fortitude vs disease, Athletics aids Reflex vs hazards, Perception aids Willpower vs illusions, Linguistics aids Reason vs ancient scripts).
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="bg-slate-800/70 border border-cyan-500/30 rounded-xl p-4 space-y-2">
+        <div className="flex justify-between items-center">
+          <h4 className="text-cyan-400 font-bold uppercase text-xs font-mono tracking-wider">Perception Sub-Ability &amp; Detection Types</h4>
+          <span className="text-[10px] font-mono text-cyan-300">Base = Intellect + Wisdom</span>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+            <div className="font-bold text-cyan-300">Alertness (Default)</div>
+            <div className="text-slate-400 font-mono text-[10px]">Base + Alertness</div>
+            <div className="text-[9.5px] text-slate-500">Traps, ambushes, hazards</div>
+          </div>
+          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+            <div className="font-bold text-amber-300">Meta (Attune)</div>
+            <div className="text-slate-400 font-mono text-[10px]">Base + Attune</div>
+            <div className="text-[9.5px] text-slate-500">Magic/psionic auras</div>
+          </div>
+          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+            <div className="font-bold text-emerald-300">Social (Insight)</div>
+            <div className="text-slate-400 font-mono text-[10px]">Base + Insight</div>
+            <div className="text-[9.5px] text-slate-500">Social cues &amp; lies</div>
+          </div>
+          <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+            <div className="font-bold text-blue-300">Technical (Tech)</div>
+            <div className="text-slate-400 font-mono text-[10px]">Base + Technology</div>
+            <div className="text-[9.5px] text-slate-500">Hardware &amp; sensor scans</div>
+          </div>
+        </div>
       </div>
       <div className="bg-slate-800/70 border border-emerald-500/30 rounded-xl p-4 space-y-2">
         <h4 className="text-emerald-400 font-bold uppercase text-xs font-mono tracking-wider">Derived Vitals Formulas</h4>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
           <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
             <div className="font-bold text-emerald-300">Health Pool</div>
-            <div className="text-slate-400 font-mono text-[10px]">30 + (Fortitude × 2)</div>
+            <div className="text-slate-400 font-mono text-[10px]">30 + Purchased (No HP)</div>
           </div>
           <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
             <div className="font-bold text-cyan-300">Vitality Pool</div>
-            <div className="text-slate-400 font-mono text-[10px]">30 + (Will × 2)</div>
+            <div className="text-slate-400 font-mono text-[10px]">30 + Purchased (Buffer)</div>
           </div>
           <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
             <div className="font-bold text-amber-300">Karma Pool</div>
-            <div className="text-slate-400 font-mono text-[10px]">Meta Level / Psionic Rank</div>
+            <div className="text-slate-400 font-mono text-[10px]">Base 3 • +1/rank Karmic Blessing</div>
           </div>
+        </div>
+        <div className="p-2.5 rounded bg-slate-950/80 border border-slate-800 text-[11px] text-slate-400 space-y-1">
+          <p><strong className="text-amber-300">Karma Reset:</strong> Resets to max (Default 3) at session start; does NOT regenerate via rest. GM may award +1 for heroic actions.</p>
+          <p><strong className="text-rose-300">Negative Karma (Karmic Debt):</strong> May spend into debt up to <code className="text-rose-200 font-mono">Charisma + 1</code>; GM triggers Disadvantage, rerolls, or enemy perks.</p>
+          <p><strong className="text-fuchsia-300">Plot Points:</strong> Separate temporary resource awarded by GM for active narrative engagement and setback compensation.</p>
         </div>
       </div>
     </div>

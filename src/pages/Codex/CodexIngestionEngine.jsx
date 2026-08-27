@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useDBM } from '../../context/DBMContext';
 import { categoryConfig } from '../../components/DBM/categoryConfig';
 import { 
@@ -8,7 +8,12 @@ import {
   sanitizePayloadStrings 
 } from './codexPromptRegistry';
 import { adaptSparkItemToFirestore, sanitizeDocumentId } from '../../utils/codexIngestionAdapters';
-import { fetchGeminiContent, getGeminiApiKey } from '../../services/bastionService';
+import { normalizeOmnicortexItem } from '../../utils/tangentSchemaAdapters';
+import { 
+  getGeminiApiKey, 
+  synthesizeDatasetIngestionWithBastion,
+  verifyFolioAssetHealth 
+} from '../../services/bastionService';
 import { AudioService } from '../../services/audioService';
 import { 
   Database, 
@@ -19,50 +24,62 @@ import {
   Code, 
   Search, 
   Sparkles, 
-  Copy, 
-  Check, 
-  FileText, 
   Table, 
   Bot, 
-  Layers, 
-  ArrowRight, 
   RefreshCw, 
   Trash2, 
   Eye, 
-  ShieldAlert,
+  Cpu,
+  Upload,
+  FileText,
+  File,
+  X,
+  Edit3,
+  Plus,
+  Sliders,
+  Check,
   ChevronDown,
-  ChevronUp,
-  Cpu
+  ChevronUp
 } from 'lucide-react';
 
 export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
   const { dbData, saveEntry } = useDBM() || {};
 
-  // State
+  // State: Dataset & Intake Modes
   const [selectedDatasetKey, setSelectedDatasetKey] = useState(initialDatasetKey);
-  const [activeTab, setActiveTab] = useState('json'); // 'json' | 'ai' | 'table' | 'prompt'
+  const [activeTab, setActiveTab] = useState('bastion'); // 'bastion' (default) | 'json' | 'table'
   const [conflictStrategy, setConflictStrategy] = useState('merge'); // 'merge' | 'overwrite' | 'skip'
   
-  // Inputs
-  const [rawJsonText, setRawJsonText] = useState('');
+  // BASTION Intake Inputs
   const [rawAiText, setRawAiText] = useState('');
+  const [uploadedFile, setUploadedFile] = useState(null); // { name, size, type, mimeType, text, base64 }
+  const [isDraggingFile, setIsDraggingFile] = useState(false);
+  const fileInputRef = useRef(null);
+
+  // Manual Fallback Inputs
+  const [rawJsonText, setRawJsonText] = useState('');
   const [rawTableText, setRawTableText] = useState('');
   const [defaultTL, setDefaultTL] = useState(3);
   const [defaultCategory, setDefaultCategory] = useState('');
   
-  // Processing & Results
+  // Staged Records & Validation
   const [parsedItems, setParsedItems] = useState([]);
   const [selectedItemIds, setSelectedItemIds] = useState(new Set());
   const [validationReport, setValidationReport] = useState(null);
+  const [folioHealthReport, setFolioHealthReport] = useState(null);
+  
+  // Processing States
   const [isAiProcessing, setIsAiProcessing] = useState(false);
   const [aiError, setAiError] = useState('');
   const [isInjecting, setIsInjecting] = useState(false);
   const [injectionProgress, setInjectionProgress] = useState({ current: 0, total: 0 });
   const [injectionResults, setInjectionResults] = useState(null);
   
-  // UI state
-  const [copiedPrompt, setCopiedPrompt] = useState(false);
-  const [copiedSample, setCopiedSample] = useState(false);
+  // In-Place Revision Modal State
+  const [revisingItem, setRevisingItem] = useState(null);
+  const [revisionForm, setRevisionForm] = useState(null);
+
+  // UI helpers
   const [searchFilter, setSearchFilter] = useState('');
   const [expandedJsonIds, setExpandedJsonIds] = useState(new Set());
 
@@ -98,20 +115,123 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
     setParsedItems([]);
     setSelectedItemIds(new Set());
     setValidationReport(null);
+    setFolioHealthReport(null);
     setInjectionResults(null);
     setAiError('');
   };
 
-  // Load Sample Data
-  const handleLoadSample = () => {
+  // ─────────────────────────────────────────────────────────────────────────────
+  // FILE / DOCUMENT HANDLING (PDF, TXT, MD, JSON)
+  // ─────────────────────────────────────────────────────────────────────────────
+  const processUploadedFile = (file) => {
+    if (!file) return;
     AudioService.playTerminalBeep(1200, 0.03);
-    const sample = [currentDataset.sampleItem];
-    const jsonString = JSON.stringify(sample, null, 2);
-    setRawJsonText(jsonString);
-    handleParseJson(jsonString);
+
+    const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
+    const isJson = file.type === 'application/json' || file.name.toLowerCase().endsWith('.json');
+
+    if (isPdf) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const result = e.target.result;
+        // Strip data:application/pdf;base64, prefix for Gemini inlineData
+        const base64Data = result.split(',')[1] || result;
+        setUploadedFile({
+          name: file.name,
+          size: file.size,
+          type: 'pdf',
+          mimeType: 'application/pdf',
+          base64: base64Data
+        });
+      };
+      reader.readAsDataURL(file);
+    } else {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const textContent = e.target.result;
+        setUploadedFile({
+          name: file.name,
+          size: file.size,
+          type: isJson ? 'json' : 'text',
+          mimeType: file.type || 'text/plain',
+          text: textContent
+        });
+
+        // If JSON file uploaded, also populate JSON box for user convenience
+        if (isJson) {
+          setRawJsonText(textContent);
+        }
+      };
+      reader.readAsText(file);
+    }
   };
 
-  // Parse Raw JSON Array Mode
+  const handleFileDrop = (e) => {
+    e.preventDefault();
+    setIsDraggingFile(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      processUploadedFile(e.dataTransfer.files[0]);
+    }
+  };
+
+  const handleFileInputChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      processUploadedFile(e.target.files[0]);
+    }
+  };
+
+  const handleClearFile = () => {
+    AudioService.playTerminalBeep(1000, 0.02);
+    setUploadedFile(null);
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // BASTION AUTONOMOUS PARSER EXECUTION
+  // ─────────────────────────────────────────────────────────────────────────────
+  const handleRunBastionAi = async () => {
+    const hasText = rawAiText && rawAiText.trim().length > 0;
+    const hasFile = uploadedFile && (uploadedFile.text || uploadedFile.base64);
+
+    if (!hasText && !hasFile) {
+      setAiError('Please provide raw text or upload a document to parse.');
+      return;
+    }
+
+    setIsAiProcessing(true);
+    setAiError('');
+    AudioService.playTerminalBeep(1200, 0.04);
+
+    try {
+      const result = await synthesizeDatasetIngestionWithBastion({
+        categoryKey: selectedDatasetKey,
+        rawText: rawAiText,
+        fileData: uploadedFile,
+        conflictStrategy
+      });
+
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to synthesize dataset entry with BASTION.');
+      }
+
+      setRawJsonText(JSON.stringify(result.rawItems, null, 2));
+      setParsedItems(result.adaptedItems);
+      setSelectedItemIds(new Set(result.adaptedItems.map(i => i.id)));
+      setValidationReport(result.validationReport);
+      setFolioHealthReport(result.folioHealthReport);
+      setInjectionResults(null);
+      AudioService.playTerminalBeep(1400, 0.06);
+    } catch (err) {
+      setAiError('BASTION Ingestion Error: ' + err.message);
+      AudioService.playErrorSound();
+    } finally {
+      setIsAiProcessing(false);
+    }
+  };
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // MANUAL JSON / TABLE PARSING MODES
+  // ─────────────────────────────────────────────────────────────────────────────
   const handleParseJson = (textToParse = rawJsonText) => {
     if (!textToParse.trim()) {
       setValidationReport({ isValid: false, errors: ['Please paste a JSON array payload.'], warnings: [], validCount: 0 });
@@ -119,7 +239,6 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
     }
 
     try {
-      // Clean JSON text (strip code blocks if user pasted with ```json ... ```)
       let cleaned = textToParse.trim();
       if (cleaned.startsWith('```')) {
         cleaned = cleaned.replace(/^```[a-z]*\n/i, '').replace(/\n```$/, '');
@@ -139,16 +258,24 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
       const report = validateDatasetPayload(selectedDatasetKey, parsed);
       setValidationReport(report);
 
-      // Adapt each item into Firestore normalized format
-      const adapted = parsed.map(item => adaptSparkItemToFirestore(selectedDatasetKey, item)).filter(Boolean);
+      const adapted = parsed.map(item => {
+        const ad = adaptSparkItemToFirestore(selectedDatasetKey, item);
+        if (ad) ad._folioHealth = verifyFolioAssetHealth(ad, selectedDatasetKey);
+        return ad;
+      }).filter(Boolean);
+
       setParsedItems(adapted);
       setSelectedItemIds(new Set(adapted.map(i => i.id)));
+      setFolioHealthReport({
+        allReady: adapted.every(i => i._folioHealth?.isFolioReady),
+        failedCount: adapted.filter(i => !i._folioHealth?.isFolioReady).length
+      });
       setInjectionResults(null);
       AudioService.playTerminalBeep(1400, 0.04);
     } catch (err) {
       setValidationReport({
         isValid: false,
-        errors: [`JSON Syntax Error: ${err.message}`],
+        errors: ['JSON Syntax Error: ' + err.message],
         warnings: [],
         validCount: 0
       });
@@ -156,7 +283,6 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
     }
   };
 
-  // Parse Markdown Table Mode
   const handleParseTable = () => {
     if (!rawTableText.trim()) return;
     AudioService.playTerminalBeep(1200, 0.03);
@@ -177,114 +303,90 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
           isParsingTable = true;
         } else {
           if (rowData.length < headers.length) continue;
-
-          let rawObj = {
-            name: rowData[0],
-            category: defaultCategory || targetCollection,
-            techLevel: defaultTL
-          };
-
-          for (let j = 1; j < headers.length; j++) {
-            const h = headers[j];
-            const val = rowData[j].replace(/[#*]/g, '');
-            if (h.includes('dmg') || h.includes('damage')) rawObj.damage = val;
-            else if (h.includes('range')) rawObj.range = val;
-            else if (h.includes('ammo') || h.includes('capacity')) rawObj.ammunitionCapacity = val;
-            else if (h.includes('cost') || h.includes('credit')) rawObj.cost = val;
-            else if (h.includes('dc') || h.includes('craft')) rawObj.craftingDC = val;
-            else if (h.includes('sp') || h.includes('durability')) rawObj.structurePoints = val;
-            else if (h.includes('dr')) rawObj.damageResist = val;
-            else if (h.includes('desc')) rawObj.description = val;
-            else if (h.includes('mech') || h.includes('rule')) rawObj.gameMechanics = val;
-            else rawObj[h] = val;
-          }
-
-          const adapted = adaptSparkItemToFirestore(selectedDatasetKey, rawObj);
-          if (adapted) items.push(adapted);
+          let rowObj = { tech_level: defaultTL, category: defaultCategory };
+          headers.forEach((h, idx) => {
+            rowObj[h] = rowData[idx];
+          });
+          items.push(rowObj);
         }
-      } else {
-        isParsingTable = false;
       }
     }
 
-    setParsedItems(items);
-    setSelectedItemIds(new Set(items.map(i => i.id)));
-    setValidationReport({
-      isValid: items.length > 0,
-      errors: items.length === 0 ? ['No table rows found. Ensure rows start and end with "|" pipes.'] : [],
-      warnings: [],
-      validCount: items.length
+    if (items.length > 0) {
+      const adapted = items.map(item => {
+        const ad = adaptSparkItemToFirestore(selectedDatasetKey, item);
+        if (ad) ad._folioHealth = verifyFolioAssetHealth(ad, selectedDatasetKey);
+        return ad;
+      }).filter(Boolean);
+
+      setParsedItems(adapted);
+      setSelectedItemIds(new Set(adapted.map(i => i.id)));
+      setValidationReport({ isValid: true, errors: [], warnings: [], validCount: adapted.length });
+      setFolioHealthReport({
+        allReady: adapted.every(i => i._folioHealth?.isFolioReady),
+        failedCount: adapted.filter(i => !i._folioHealth?.isFolioReady).length
+      });
+    }
+  };
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // IN-PLACE REVISION WORKBENCH
+  // ─────────────────────────────────────────────────────────────────────────────
+  const handleOpenRevision = (item) => {
+    AudioService.playTerminalBeep(1300, 0.03);
+    setRevisingItem(item);
+    setRevisionForm({
+      ...item,
+      costs: { bp: 0, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0, ...(item.costs || {}) },
+      modifiers: Array.isArray(item.modifiers) ? item.modifiers.map(m => ({ ...m })) : []
     });
-    setInjectionResults(null);
   };
 
-  // Run BASTION Live Text Synthesizer
-  const handleRunBastionAi = async () => {
-    if (!rawAiText.trim()) return;
-    const apiKey = getGeminiApiKey();
-    if (!apiKey) {
-      setAiError('Gemini API key is required. Please set VITE_GEMINI_API_KEY or configure it in Settings.');
-      return;
-    }
-
-    setIsAiProcessing(true);
-    setAiError('');
-    AudioService.playTerminalBeep(1200, 0.04);
-
-    try {
-      const fullPrompt = `${currentDataset.promptText.replace('[INSERT RAW ' + currentDataset.label.toUpperCase() + ' TEXT HERE]', rawAiText)}\n\nRAW INPUT TEXT TO PARSE:\n${rawAiText}`;
-
-      const requestBody = {
-        contents: [
-          {
-            role: 'user',
-            parts: [{ text: fullPrompt }]
-          }
-        ],
-        generationConfig: {
-          temperature: 0.1,
-          maxOutputTokens: 8192,
-          responseMimeType: 'application/json'
-        }
-      };
-
-      const result = await fetchGeminiContent(apiKey, requestBody);
-      const textOutput = result?.candidates?.[0]?.content?.parts?.[0]?.text;
-
-      if (!textOutput) {
-        throw new Error('No response returned from BASTION model.');
-      }
-
-      setRawJsonText(textOutput);
-      setActiveTab('json');
-      handleParseJson(textOutput);
-      AudioService.playTerminalBeep(1400, 0.06);
-    } catch (err) {
-      setAiError(`BASTION Parsing Error: ${err.message}`);
-      AudioService.playErrorSound();
-    } finally {
-      setIsAiProcessing(false);
-    }
+  const handleCloseRevision = () => {
+    AudioService.playTerminalBeep(1000, 0.02);
+    setRevisingItem(null);
+    setRevisionForm(null);
   };
 
-  // Copy Prompt to Clipboard
-  const handleCopyPrompt = () => {
-    AudioService.playTerminalBeep(1300, 0.02);
-    navigator.clipboard.writeText(currentDataset.promptText);
-    setCopiedPrompt(true);
-    setTimeout(() => setCopiedPrompt(false), 2500);
+  const handleSaveRevision = () => {
+    if (!revisionForm || !revisingItem) return;
+    AudioService.playTerminalBeep(1400, 0.05);
+
+    const normalized = normalizeOmnicortexItem(revisionForm);
+    normalized._folioHealth = verifyFolioAssetHealth(normalized, selectedDatasetKey);
+
+    setParsedItems(prev => prev.map(p => p.id === revisingItem.id ? normalized : p));
+    handleCloseRevision();
   };
 
-  // Copy Sample to Clipboard
-  const handleCopySample = () => {
-    AudioService.playTerminalBeep(1300, 0.02);
-    const sampleStr = JSON.stringify([currentDataset.sampleItem], null, 2);
-    navigator.clipboard.writeText(sampleStr);
-    setCopiedSample(true);
-    setTimeout(() => setCopiedSample(false), 2500);
+  const handleAddModifier = () => {
+    setRevisionForm(prev => ({
+      ...prev,
+      modifiers: [
+        ...prev.modifiers,
+        { target: 'Agility', type: 'attribute', value: 1, mode: 'inherent' }
+      ]
+    }));
   };
 
-  // Selection toggles
+  const handleRemoveModifier = (index) => {
+    setRevisionForm(prev => ({
+      ...prev,
+      modifiers: prev.modifiers.filter((_, i) => i !== index)
+    }));
+  };
+
+  const handleModifierChange = (index, field, value) => {
+    setRevisionForm(prev => {
+      const nextMods = [...prev.modifiers];
+      nextMods[index] = { ...nextMods[index], [field]: value };
+      return { ...prev, modifiers: nextMods };
+    });
+  };
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // BATCH & SINGLE DATABASE INJECTION
+  // ─────────────────────────────────────────────────────────────────────────────
   const handleToggleItemSelect = (id) => {
     setSelectedItemIds(prev => {
       const next = new Set(prev);
@@ -311,7 +413,6 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
     });
   };
 
-  // Batch Injection into Omnicortex Firestore
   const handleInject = async () => {
     if (!saveEntry || parsedItems.length === 0) return;
 
@@ -345,12 +446,15 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
         payloadToSave = { ...existing, ...item, id: existing.id || item.id };
       }
 
+      // Strip internal health metadata before persisting
+      delete payloadToSave._folioHealth;
+
       try {
         await saveEntry(targetCollection, payloadToSave);
         if (existing) updatedCount++;
         else createdCount++;
       } catch (err) {
-        errors.push(`Failed to save ${item.name} (${item.id}): ${err.message}`);
+        errors.push('Failed to save ' + item.name + ' (' + item.id + '): ' + err.message);
       }
 
       setInjectionProgress({ current: i + 1, total: itemsToInject.length });
@@ -368,30 +472,22 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
     AudioService.playTerminalBeep(1500, 0.08);
   };
 
-  // Single Item Direct Inject
-  const handleSingleInject = async (item) => {
-    try {
-      AudioService.playTerminalBeep(1200, 0.03);
-      await saveEntry(targetCollection, item);
-      alert(`Successfully saved "${item.name}" into "${targetCollection}"!`);
-    } catch (err) {
-      alert(`Error saving item: ${err.message}`);
-    }
-  };
-
-  // Download JSON
   const handleDownloadJson = () => {
     AudioService.playTerminalBeep(1200, 0.02);
-    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(parsedItems, null, 2));
+    const cleanList = parsedItems.map(p => {
+      const c = { ...p };
+      delete c._folioHealth;
+      return c;
+    });
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(cleanList, null, 2));
     const downloadAnchor = document.createElement('a');
     downloadAnchor.setAttribute("href", dataStr);
-    downloadAnchor.setAttribute("download", `omnicortex_${selectedDatasetKey}_ingestion.json`);
+    downloadAnchor.setAttribute("download", 'omnicortex_' + selectedDatasetKey + '_ingestion.json');
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
   };
 
-  // Filtered items
   const filteredItems = useMemo(() => {
     if (!searchFilter.trim()) return parsedItems;
     const term = searchFilter.toLowerCase();
@@ -406,63 +502,60 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
   const DatasetIcon = currentDataset.icon;
 
   return (
-    <div className="h-full flex flex-col p-4 sm:p-6 lg:p-8 space-y-6 overflow-y-auto font-sans select-none text-slate-100">
+    <div className="flex flex-col h-full bg-slate-950 text-slate-100 p-6 space-y-6 overflow-y-auto">
       
       {/* Header Banner */}
-      <div className="flex flex-wrap items-center justify-between gap-4 p-5 rounded-2xl bg-slate-900/80 backdrop-blur-md border border-slate-800 shadow-xl shrink-0">
-        <div className="flex items-center gap-3.5 min-w-0">
-          <div 
-            className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg shrink-0"
-            style={{ background: `${currentDataset.color}25`, border: `1px solid ${currentDataset.color}80`, color: currentDataset.color }}
-          >
-            <DatasetIcon size={24} />
-          </div>
-          <div className="min-w-0">
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded font-bold uppercase tracking-wider" style={{ background: `${currentDataset.color}20`, color: currentDataset.color }}>
-                {currentDataset.code}
-              </span>
-              <span className="text-slate-600 font-mono text-xs">•</span>
-              <span className="text-xs font-mono text-slate-400">Target Collection: <strong className="text-amber-400 font-mono">{targetCollection}</strong></span>
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
+        <div>
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 rounded-xl bg-cyan-950/80 border border-cyan-500/40 text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.25)]">
+              <Bot size={22} />
             </div>
-            <h1 className="text-xl sm:text-2xl font-extrabold font-mono tracking-wider text-white uppercase mt-0.5 truncate">
-              OMNICORTEX INGESTION ENGINE
-            </h1>
+            <div>
+              <h1 className="text-xl font-mono font-bold tracking-wider text-slate-100 uppercase flex items-center gap-2">
+                <span>BASTION OMNICORTEX INGESTION STUDIO</span>
+                <span className="text-xs font-mono px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-500/30">
+                  AI COGNITION V3
+                </span>
+              </h1>
+              <p className="text-xs font-mono text-slate-400 mt-0.5">
+                Autonomous text & document ingestion pipeline parsing into schema-enforced Omnicortex game assets with pre-flight verification.
+              </p>
+            </div>
           </div>
         </div>
 
-        {/* Dataset Quick Switcher Ribbon */}
-        <div className="flex items-center gap-2 max-w-full overflow-x-auto pb-1 sm:pb-0">
-          <label className="text-xs font-mono text-slate-400 font-bold uppercase mr-1 hidden md:inline">Dataset:</label>
-          <select
-            value={selectedDatasetKey}
-            onChange={(e) => handleSelectDataset(e.target.value)}
-            className="bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-amber-300 focus:outline-none focus:border-amber-400 shadow-inner cursor-pointer"
-          >
-            {OMNICORTEX_DATASETS.map((d) => (
-              <option key={d.key} value={d.key}>
-                {d.code}: {d.label} ({d.targetCollection})
-              </option>
-            ))}
-          </select>
+        {/* Global Dataset Quick Stats */}
+        <div className="flex items-center gap-3">
+          <div className="bg-slate-900/80 border border-slate-800 rounded-xl px-3 py-2 flex items-center gap-3">
+            <DatasetIcon size={18} style={{ color: currentDataset.color }} />
+            <div>
+              <div className="text-[10px] font-mono text-slate-500 uppercase leading-none">Target Collection</div>
+              <div className="text-xs font-mono font-bold text-slate-200 mt-0.5">
+                {currentDataset.label} ({existingCollectionItems.length} stored)
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* 14-Dataset Selector Grid (Collapsible/Visual Pills) */}
+      {/* Dataset Selection Ribbons (14 Omnicortex Datasets) */}
       <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2">
         {OMNICORTEX_DATASETS.map((d) => {
           const isSelected = d.key === selectedDatasetKey;
           const Icon = d.icon;
           const count = (dbData?.[d.targetCollection] || []).length;
+
           return (
             <button
               key={d.key}
               type="button"
               onClick={() => handleSelectDataset(d.key)}
-              className={`p-2.5 rounded-xl border text-left transition-all flex flex-col justify-between gap-1.5 cursor-pointer ${
+              style={{ borderColor: isSelected ? d.color : undefined }}
+              className={`flex flex-col items-start p-2.5 rounded-xl border transition-all cursor-pointer text-left ${
                 isSelected
-                  ? 'bg-slate-900 border-amber-500/80 shadow-[0_0_15px_rgba(245,158,11,0.2)] ring-1 ring-amber-500/40 text-white'
-                  : 'bg-slate-950/60 border-slate-800/80 text-slate-400 hover:bg-slate-900 hover:text-slate-200'
+                  ? 'bg-slate-900 border-2 shadow-lg'
+                  : 'bg-slate-950/60 border-slate-800/80 hover:bg-slate-900/50 text-slate-400 hover:text-slate-200'
               }`}
             >
               <div className="flex items-center justify-between w-full">
@@ -471,7 +564,7 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
                   {count}
                 </span>
               </div>
-              <div className="text-[11px] font-mono font-bold uppercase truncate leading-tight">
+              <div className="text-[11px] font-mono font-bold uppercase truncate leading-tight mt-1">
                 {d.label.split(' ')[0]}
               </div>
               <div className="text-[9px] font-mono text-slate-500 truncate">
@@ -482,16 +575,29 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
         })}
       </div>
 
-      {/* Main Two-Column Ingestion Workbench */}
+      {/* Main Ingestion Workbench */}
       <div className="grid grid-cols-12 gap-6 flex-1 min-h-0">
         
-        {/* Left Column: Multi-Mode Ingestion Input */}
+        {/* Left Column: Intake Workbench */}
         <div className="col-span-12 xl:col-span-5 flex flex-col space-y-4">
           <div className="bg-slate-900/80 backdrop-blur-md border border-slate-800 rounded-2xl flex flex-col h-full shadow-lg overflow-hidden">
             
-            {/* Ingestion Mode Tabs */}
+            {/* Mode Switcher */}
             <div className="flex items-center justify-between border-b border-slate-800 p-2 bg-slate-950/50">
               <div className="flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={() => { AudioService.playTerminalBeep(1100, 0.02); setActiveTab('bastion'); }}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
+                    activeTab === 'bastion'
+                      ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  <Bot size={13} />
+                  <span>BASTION AI Studio</span>
+                </button>
+
                 <button
                   type="button"
                   onClick={() => { AudioService.playTerminalBeep(1100, 0.02); setActiveTab('json'); }}
@@ -502,20 +608,7 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
                   }`}
                 >
                   <Code size={13} />
-                  <span>Structured JSON</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => { AudioService.playTerminalBeep(1100, 0.02); setActiveTab('ai'); }}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
-                    activeTab === 'ai'
-                      ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm'
-                      : 'text-slate-400 hover:text-slate-200'
-                  }`}
-                >
-                  <Bot size={13} />
-                  <span>BASTION AI Parser</span>
+                  <span>Direct JSON</span>
                 </button>
 
                 <button
@@ -530,41 +623,22 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
                   <Table size={13} />
                   <span>Markdown Table</span>
                 </button>
-
-                <button
-                  type="button"
-                  onClick={() => { AudioService.playTerminalBeep(1100, 0.02); setActiveTab('prompt'); }}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
-                    activeTab === 'prompt'
-                      ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40 shadow-sm'
-                      : 'text-slate-400 hover:text-slate-200'
-                  }`}
-                >
-                  <FileText size={13} />
-                  <span>Prompt & Schema</span>
-                </button>
               </div>
 
-              {activeTab === 'json' && (
-                <button
-                  type="button"
-                  onClick={handleLoadSample}
-                  className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-[11px] font-mono text-amber-300 border border-slate-700 transition-colors"
-                  title="Load sample schema-compliant item"
-                >
-                  Load Sample
-                </button>
-              )}
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-mono text-cyan-400/80 px-2 py-0.5 rounded bg-cyan-950/40 border border-cyan-500/20">
+                  {currentDataset.code}
+                </span>
+              </div>
             </div>
 
-            {/* Ingestion Configuration Controls */}
+            {/* Ingestion Options Bar */}
             <div className="p-4 flex-1 flex flex-col space-y-4 overflow-y-auto">
               
-              {/* Conflict Strategy Selector */}
               <div className="grid grid-cols-2 gap-3 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
                 <div>
                   <label className="text-[10px] font-mono uppercase text-slate-400 font-bold block mb-1">
-                    Duplicate Strategy
+                    Duplicate Resolution
                   </label>
                   <select
                     value={conflictStrategy}
@@ -579,7 +653,7 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
 
                 <div>
                   <label className="text-[10px] font-mono uppercase text-slate-400 font-bold block mb-1">
-                    Formatting Standard
+                    Compliance Verification
                   </label>
                   <div className="text-[11px] font-mono text-emerald-400 bg-emerald-950/40 border border-emerald-500/30 px-2 py-1.5 rounded-lg flex items-center gap-1.5">
                     <CheckCircle2 size={13} />
@@ -588,11 +662,125 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
                 </div>
               </div>
 
-              {/* TAB 1: STRUCTURED JSON INPUT */}
+              {/* TAB 1: BASTION DOCUMENT & TEXT INGESTION (PRIMARY) */}
+              {activeTab === 'bastion' && (
+                <div className="flex-1 flex flex-col space-y-4">
+                  
+                  {/* File / Document Upload & Drop Area */}
+                  <div
+                    onDragOver={(e) => { e.preventDefault(); setIsDraggingFile(true); }}
+                    onDragLeave={() => setIsDraggingFile(false)}
+                    onDrop={handleFileDrop}
+                    onClick={() => fileInputRef.current && fileInputRef.current.click()}
+                    className={`border-2 border-dashed rounded-xl p-4 transition-all cursor-pointer flex flex-col items-center justify-center text-center ${
+                      isDraggingFile 
+                        ? 'border-cyan-400 bg-cyan-950/40' 
+                        : uploadedFile 
+                          ? 'border-emerald-500/60 bg-emerald-950/20' 
+                          : 'border-slate-800 hover:border-slate-700 bg-slate-950/40'
+                    }`}
+                  >
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept=".pdf,.txt,.md,.markdown,.json,.csv"
+                      onChange={handleFileInputChange}
+                      className="hidden"
+                    />
+
+                    {uploadedFile ? (
+                      <div className="flex items-center justify-between w-full" onClick={(e) => e.stopPropagation()}>
+                        <div className="flex items-center gap-3 min-w-0">
+                          <div className="p-2 rounded-lg bg-emerald-950 text-emerald-400 border border-emerald-500/40">
+                            {uploadedFile.type === 'pdf' ? <FileText size={20} /> : <File size={20} />}
+                          </div>
+                          <div className="text-left min-w-0">
+                            <div className="text-xs font-mono font-bold text-emerald-300 truncate">
+                              {uploadedFile.name}
+                            </div>
+                            <div className="text-[10px] font-mono text-slate-400">
+                              {(uploadedFile.size / 1024).toFixed(1)} KB • {uploadedFile.type.toUpperCase()}
+                              {uploadedFile.type === 'pdf' && ' (Multimodal Document Parsing)'}
+                            </div>
+                          </div>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={handleClearFile}
+                          className="p-1.5 text-slate-400 hover:text-red-400 hover:bg-slate-800 rounded-lg transition-colors cursor-pointer"
+                          title="Remove file"
+                        >
+                          <X size={16} />
+                        </button>
+                      </div>
+                    ) : (
+                      <>
+                        <Upload size={24} className="text-cyan-400 mb-2" />
+                        <span className="text-xs font-mono font-bold text-slate-200">
+                          Upload Document or Drag & Drop File
+                        </span>
+                        <span className="text-[10px] font-mono text-slate-500 mt-0.5">
+                          Supports .PDF, .TXT, .MD, .JSON, .CSV
+                        </span>
+                      </>
+                    )}
+                  </div>
+
+                  {/* Text / Directives Input */}
+                  <div className="flex-1 flex flex-col space-y-2 min-h-[220px]">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-mono text-slate-300 flex items-center gap-1.5 font-bold">
+                        <Cpu size={13} className="text-cyan-400" />
+                        Raw Text / Lore / Directives:
+                      </span>
+                      <span className="text-[10px] font-mono text-slate-500">
+                        {rawAiText.length} characters
+                      </span>
+                    </div>
+
+                    {aiError && (
+                      <div className="p-3 rounded-xl bg-red-950/70 border border-red-500/60 text-red-300 text-xs font-mono flex items-center gap-2">
+                        <AlertTriangle size={15} className="shrink-0 text-red-400" />
+                        <span>{aiError}</span>
+                      </div>
+                    )}
+
+                    <textarea
+                      value={rawAiText}
+                      onChange={(e) => setRawAiText(e.target.value)}
+                      placeholder={`Paste raw ${currentDataset.label.toLowerCase()} text from your rulebook, notes, or supplemental document here...`}
+                      className="flex-1 w-full bg-slate-950 border border-slate-800 focus:border-cyan-400/60 rounded-xl p-3 font-mono text-xs text-slate-200 resize-none shadow-inner"
+                    />
+                  </div>
+
+                  {/* Execution Trigger */}
+                  <button
+                    type="button"
+                    disabled={isAiProcessing || (!rawAiText.trim() && !uploadedFile)}
+                    onClick={handleRunBastionAi}
+                    className="w-full py-3.5 bg-gradient-to-r from-cyan-950 via-slate-900 to-blue-950 hover:from-cyan-900 hover:to-blue-900 border border-cyan-500/50 text-cyan-200 rounded-xl font-mono text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(6,182,212,0.25)] transition-all cursor-pointer disabled:opacity-50"
+                  >
+                    {isAiProcessing ? (
+                      <>
+                        <RefreshCw size={16} className="animate-spin text-cyan-400" />
+                        <span>BASTION Synthesizing Schema...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles size={16} className="text-cyan-400" />
+                        <span>Parse & Ingest with BASTION ({currentDataset.code})</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              )}
+
+              {/* TAB 2: DIRECT JSON INPUT */}
               {activeTab === 'json' && (
                 <div className="flex-1 flex flex-col space-y-3 min-h-[360px]">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-mono text-slate-400">Paste Spark JSON Array:</span>
+                    <span className="text-xs font-mono text-slate-400">Paste JSON Array:</span>
                     <span className="text-[10px] font-mono text-slate-500">Expects: [...]</span>
                   </div>
 
@@ -610,51 +798,6 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
                   >
                     <Play size={15} />
                     <span>Validate & Prepare Ingestion</span>
-                  </button>
-                </div>
-              )}
-
-              {/* TAB 2: BASTION AI LIVE TEXT PARSER */}
-              {activeTab === 'ai' && (
-                <div className="flex-1 flex flex-col space-y-3 min-h-[360px]">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-mono text-cyan-300 flex items-center gap-1">
-                      <Cpu size={13} /> Paste Unformatted Rulebook / Lore Text:
-                    </span>
-                    <span className="text-[10px] font-mono text-slate-500">BASTION Tactical Cognition</span>
-                  </div>
-
-                  {aiError && (
-                    <div className="p-3 rounded-xl bg-red-950/70 border border-red-500/60 text-red-300 text-xs font-mono flex items-center gap-2">
-                      <AlertTriangle size={15} className="shrink-0 text-red-400" />
-                      <span>{aiError}</span>
-                    </div>
-                  )}
-
-                  <textarea
-                    value={rawAiText}
-                    onChange={(e) => setRawAiText(e.target.value)}
-                    placeholder={`Paste raw ${currentDataset.label.toLowerCase()} text from the PDF, rulebook, or lore document here...`}
-                    className="flex-1 w-full bg-slate-950 border border-cyan-500/30 rounded-xl p-4 font-mono text-xs text-slate-200 resize-none focus:outline-none focus:border-cyan-400 shadow-inner"
-                  />
-
-                  <button
-                    type="button"
-                    disabled={isAiProcessing || !rawAiText.trim()}
-                    onClick={handleRunBastionAi}
-                    className="w-full py-3 bg-gradient-to-r from-cyan-950 to-blue-950 hover:from-cyan-900 hover:to-blue-900 border border-cyan-500/50 text-cyan-200 rounded-xl font-mono text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(6,182,212,0.25)] transition-all cursor-pointer disabled:opacity-50"
-                  >
-                    {isAiProcessing ? (
-                      <>
-                        <RefreshCw size={15} className="animate-spin text-cyan-400" />
-                        <span>Synthesizing Schema with BASTION...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Sparkles size={15} className="text-cyan-400" />
-                        <span>Run {currentDataset.code} via BASTION</span>
-                      </>
-                    )}
                   </button>
                 </div>
               )}
@@ -708,62 +851,27 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
                 </div>
               )}
 
-              {/* TAB 4: PROMPT & SCHEMA REFERENCE HUB */}
-              {activeTab === 'prompt' && (
-                <div className="flex-1 flex flex-col space-y-3 min-h-[360px]">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="text-xs font-mono text-purple-300 font-bold">
-                      {currentDataset.code}: Copy-Paste Instructions
-                    </span>
-                    <div className="flex items-center gap-2">
-                      <button
-                        type="button"
-                        onClick={handleCopySample}
-                        className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-[10px] font-mono text-slate-300 border border-slate-700 flex items-center gap-1"
-                      >
-                        {copiedSample ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}
-                        <span>{copiedSample ? 'Sample Copied!' : 'Copy Sample'}</span>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={handleCopyPrompt}
-                        className="px-2.5 py-1 rounded bg-purple-950/80 hover:bg-purple-900 border border-purple-500/50 text-[10px] font-mono text-purple-300 font-bold flex items-center gap-1 shadow-sm"
-                      >
-                        {copiedPrompt ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}
-                        <span>{copiedPrompt ? 'Prompt Copied!' : 'Copy System Prompt'}</span>
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="flex-1 bg-slate-950 border border-slate-800 rounded-xl p-4 overflow-y-auto max-h-[400px]">
-                    <pre className="font-mono text-[11px] text-slate-300 whitespace-pre-wrap leading-relaxed">
-                      {currentDataset.promptText}
-                    </pre>
-                  </div>
-                </div>
-              )}
-
             </div>
           </div>
         </div>
 
-        {/* Right Column: Ingestion Validation Diff & Live Omnicortex Preview */}
+        {/* Right Column: Staged Records & In-Place Verification */}
         <div className="col-span-12 xl:col-span-7 flex flex-col space-y-4">
           <div className="bg-slate-900/80 backdrop-blur-md border border-slate-800 rounded-2xl flex flex-col h-full shadow-lg overflow-hidden">
             
-            {/* Preview Toolbar */}
+            {/* Toolbar */}
             <div className="p-4 border-b border-slate-800 flex flex-wrap items-center justify-between gap-3 bg-slate-950/50">
               <div className="flex items-center gap-3">
                 <h2 className="text-sm font-mono font-bold text-slate-200 flex items-center gap-2">
-                  <Search size={15} className="text-amber-400" />
-                  <span>PREPARED RECORDS ({parsedItems.length})</span>
+                  <Search size={15} className="text-cyan-400" />
+                  <span>STAGED OMNICORTEX RECORDS ({parsedItems.length})</span>
                 </h2>
                 {parsedItems.length > 0 && (
                   <div className="flex items-center gap-2">
                     <button
                       type="button"
                       onClick={handleSelectAll}
-                      className="text-[10px] font-mono text-slate-400 hover:text-amber-300 underline"
+                      className="text-[10px] font-mono text-slate-400 hover:text-cyan-300 underline cursor-pointer"
                     >
                       Select All
                     </button>
@@ -771,7 +879,7 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
                     <button
                       type="button"
                       onClick={handleDeselectAll}
-                      className="text-[10px] font-mono text-slate-400 hover:text-amber-300 underline"
+                      className="text-[10px] font-mono text-slate-400 hover:text-cyan-300 underline cursor-pointer"
                     >
                       Deselect All
                     </button>
@@ -786,7 +894,7 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
                     <button
                       type="button"
                       onClick={handleDownloadJson}
-                      className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-mono font-bold flex items-center gap-1.5 border border-slate-700 transition-colors"
+                      className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-mono font-bold flex items-center gap-1.5 border border-slate-700 transition-colors cursor-pointer"
                       title="Download parsed JSON file"
                     >
                       <Download size={13} />
@@ -797,7 +905,7 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
                       type="button"
                       onClick={handleInject}
                       disabled={isInjecting || selectedItemIds.size === 0}
-                      className="px-4 py-1.5 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-white rounded-xl text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-[0_0_20px_rgba(245,158,11,0.3)] transition-all cursor-pointer disabled:opacity-50"
+                      className="px-4 py-1.5 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white rounded-xl text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-all cursor-pointer disabled:opacity-50"
                     >
                       {isInjecting ? (
                         <>
@@ -816,8 +924,8 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
               </div>
             </div>
 
-            {/* Main Preview Body */}
-            <div className="p-4 flex-1 overflow-y-auto space-y-4 max-h-[700px]">
+            {/* Main Staging List */}
+            <div className="p-4 flex-1 overflow-y-auto space-y-4 max-h-[720px]">
               
               {/* Validation Status Banner */}
               {validationReport && (
@@ -829,7 +937,7 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
                   <div className="flex items-center font-bold gap-2">
                     {validationReport.isValid ? <CheckCircle2 size={16} /> : <AlertTriangle size={16} />}
                     <span>
-                      {validationReport.isValid ? `Schema Validation Passed: ${validationReport.validCount} valid items` : 'Validation Errors Detected'}
+                      {validationReport.isValid ? `Omnicortex Schema Validation: ${validationReport.validCount} valid entries` : 'Validation Errors Detected'}
                     </span>
                   </div>
                   {validationReport.errors.length > 0 && (
@@ -839,7 +947,7 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
                   )}
                   {validationReport.warnings.length > 0 && (
                     <div className="mt-1 pt-1 border-t border-emerald-500/20 text-[11px] text-amber-300 opacity-90">
-                      <strong>Notices:</strong>
+                      <strong>Schema Notices:</strong>
                       <ul className="list-disc pl-5">
                         {validationReport.warnings.map((w, i) => <li key={i}>{w}</li>)}
                       </ul>
@@ -861,7 +969,7 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
                   </div>
                   <div className="text-xs font-mono opacity-90 space-y-1">
                     <p>
-                      • <strong>{injectionResults.createdCount}</strong> new entries created in <code className="text-amber-300">{targetCollection}</code>.<br />
+                      • <strong>{injectionResults.createdCount}</strong> new entries created in <code className="text-cyan-300">{targetCollection}</code>.<br />
                       • <strong>{injectionResults.updatedCount}</strong> existing entries merged/updated.<br />
                       {injectionResults.skippedCount > 0 && (
                         <span>• <strong>{injectionResults.skippedCount}</strong> duplicates skipped.</span>
@@ -879,15 +987,15 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
                 </div>
               )}
 
-              {/* Search Filter input */}
+              {/* Search Filter */}
               {parsedItems.length > 3 && (
                 <div className="relative">
                   <input
                     type="text"
                     value={searchFilter}
                     onChange={(e) => setSearchFilter(e.target.value)}
-                    placeholder="Filter prepared records by name, ID, or keywords..."
-                    className="w-full pl-8 pr-3 py-2 bg-slate-950/80 border border-slate-800 rounded-xl text-xs font-mono text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-400"
+                    placeholder="Filter staged records by name, ID, or keywords..."
+                    className="w-full pl-8 pr-3 py-2 bg-slate-950/80 border border-slate-800 rounded-xl text-xs font-mono text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-400"
                   />
                   <Search size={13} className="absolute left-2.5 top-2.5 text-slate-500" />
                 </div>
@@ -898,14 +1006,14 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
                 <div className="h-64 flex flex-col items-center justify-center text-center p-8 rounded-2xl bg-slate-950/40 border border-dashed border-slate-800">
                   <Database size={40} className="text-slate-600 mb-3" />
                   <h3 className="text-sm font-mono font-bold text-slate-400 uppercase">
-                    No Records Prepared for Ingestion
+                    No Records Staged for Ingestion
                   </h3>
                   <p className="text-xs text-slate-500 max-w-sm mt-1">
-                    Select an ingestion mode on the left, paste your Spark JSON payload or raw text, and click Validate to preview the Firestore documents.
+                    Upload a document or paste raw text on the left, then click Parse with BASTION to stage entries for verification and revision.
                   </p>
                 </div>
               ) : (
-                /* Item Cards Grid */
+                /* Staged Item Cards Grid */
                 <div className="space-y-3">
                   {filteredItems.map((item, idx) => {
                     const isSelected = selectedItemIds.has(item.id);
@@ -913,6 +1021,7 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
                     const existing = existingIdsMap.get(item.id.toLowerCase()) || existingIdsMap.get((item.name || '').toLowerCase());
                     const tl = item.tech_level ?? item.tl ?? 0;
                     const ml = item.meta_level ?? item.ml ?? 0;
+                    const isFolioReady = item._folioHealth?.isFolioReady ?? true;
 
                     return (
                       <div
@@ -929,11 +1038,16 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
                               type="checkbox"
                               checked={isSelected}
                               onChange={() => handleToggleItemSelect(item.id)}
-                              className="rounded border-slate-700 bg-slate-900 text-amber-500 focus:ring-0 cursor-pointer"
+                              className="rounded border-slate-700 bg-slate-900 text-cyan-500 focus:ring-0 cursor-pointer"
                             />
                             <div className="min-w-0">
-                              <h3 className="font-mono font-bold text-sm text-amber-300 truncate">
-                                {item.name || 'Unnamed'}
+                              <h3 className="font-mono font-bold text-sm text-cyan-300 truncate flex items-center gap-2">
+                                <span>{item.name || 'Unnamed'}</span>
+                                {item.title && item.title !== item.name && (
+                                  <span className="text-[10px] font-mono text-slate-400 font-normal truncate">
+                                    ({item.title})
+                                  </span>
+                                )}
                               </h3>
                               <span className="text-[10px] font-mono text-slate-500">
                                 ID: <code className="text-slate-400">{item.id}</code>
@@ -941,7 +1055,7 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
                             </div>
                           </div>
 
-                          {/* Status & Stat Badges */}
+                          {/* Status & Verification Badges */}
                           <div className="flex items-center gap-1.5 shrink-0">
                             {existing ? (
                               <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-blue-950/80 text-blue-300 font-bold border border-blue-500/40">
@@ -953,76 +1067,91 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
                               </span>
                             )}
 
+                            {isFolioReady ? (
+                              <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-teal-950 text-teal-300 font-bold border border-teal-500/30 flex items-center gap-1">
+                                <Check size={10} /> FOLIO READY
+                              </span>
+                            ) : (
+                              <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-amber-950 text-amber-300 font-bold border border-amber-500/30 flex items-center gap-1">
+                                <AlertTriangle size={10} /> FOLIO NOTICE
+                              </span>
+                            )}
+
+                            {item.costs?.bp !== undefined && item.costs.bp !== 0 && (
+                              <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-purple-950/80 text-purple-300 font-bold border border-purple-500/30">
+                                {item.costs.bp > 0 ? `+${item.costs.bp}` : item.costs.bp} BP
+                              </span>
+                            )}
                             {item.costs?.credits > 0 && (
                               <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-amber-950/80 text-amber-300 font-bold border border-amber-500/30">
                                 {item.costs.credits.toLocaleString()} Cr
                               </span>
                             )}
-                            {item.costs?.bp > 0 && (
-                              <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-purple-950/80 text-purple-300 font-bold border border-purple-500/30">
-                                {item.costs.bp} BP
-                              </span>
-                            )}
                             <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-cyan-300 font-bold border border-slate-700">
-                              TL{tl}
+                              TL {tl} • ML {ml}
                             </span>
-                            {ml > 0 && (
-                              <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-purple-950 text-purple-300 font-bold border border-purple-800">
-                                ML{ml}
-                              </span>
-                            )}
                           </div>
                         </div>
 
-                        {/* Description / Summary */}
-                        <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed mb-3">
-                          {item.description || item.summary || item.mechanic || 'No narrative overview.'}
+                        {/* Description & Core Mechanics Preview */}
+                        <p className="text-xs font-sans text-slate-300 line-clamp-2 mb-2 leading-relaxed">
+                          {item.description || item.body || 'No description provided.'}
                         </p>
 
-                        {/* Attribute & Modifiers tags */}
-                        {item.modifiers && item.modifiers.length > 0 && (
-                          <div className="flex flex-wrap gap-1.5 mb-3">
-                            {item.modifiers.slice(0, 4).map((m, mi) => (
-                              <span key={mi} className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 text-slate-300 border border-slate-800">
-                                {m.mode ? `${m.mode}: ` : ''}{m.target} ({m.value > 0 ? `+${m.value}` : m.value})
-                              </span>
-                            ))}
-                            {item.modifiers.length > 4 && (
-                              <span className="text-[10px] font-mono text-slate-500 self-center">
-                                +{item.modifiers.length - 4} more
-                              </span>
-                            )}
+                        {item.mechanic && (
+                          <div className="p-2 rounded-lg bg-slate-900/90 border border-slate-800 text-[11px] font-mono text-slate-300 mb-2">
+                            <span className="text-slate-500 uppercase font-bold mr-1">Mechanic:</span>
+                            <span>{item.mechanic}</span>
                           </div>
                         )}
 
-                        {/* Footer Controls */}
-                        <div className="flex items-center justify-between pt-2 border-t border-slate-800/80 text-[10px] font-mono text-slate-500">
-                          <button
-                            type="button"
-                            onClick={() => toggleJsonExpand(item.id)}
-                            className="flex items-center gap-1 text-slate-400 hover:text-amber-300 transition-colors"
-                          >
-                            <Code size={12} />
-                            <span>{isExpanded ? 'Hide Raw Schema' : 'Inspect Firestore Document'}</span>
-                            {isExpanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
-                          </button>
+                        {/* Modifiers List Preview */}
+                        {Array.isArray(item.modifiers) && item.modifiers.length > 0 && (
+                          <div className="flex flex-wrap gap-1 mb-2">
+                            {item.modifiers.map((m, mIdx) => (
+                              <span key={mIdx} className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-300">
+                                {m.target}: {m.value > 0 ? `+${m.value}` : m.value} ({m.mode})
+                              </span>
+                            ))}
+                          </div>
+                        )}
 
-                          <button
-                            type="button"
-                            onClick={() => handleSingleInject(item)}
-                            className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold flex items-center gap-1 transition-colors"
-                          >
-                            <ArrowRight size={11} />
-                            <span>Inject Single</span>
-                          </button>
+                        {/* Card Footer: Revision & Inspection Actions */}
+                        <div className="flex items-center justify-between border-t border-slate-800/80 pt-2 text-[10px] font-mono text-slate-500">
+                          <div className="flex items-center gap-2">
+                            {item.parent_species && (
+                              <span>Lineage: <strong className="text-slate-400">{item.parent_species}</strong></span>
+                            )}
+                            {item.classification && (
+                              <span>Classification: <strong className="text-slate-400">{Array.isArray(item.classification) ? item.classification.join(', ') : item.classification}</strong></span>
+                            )}
+                          </div>
+
+                          <div className="flex items-center gap-2">
+                            <button
+                              type="button"
+                              onClick={() => handleOpenRevision(item)}
+                              className="px-2 py-1 rounded bg-slate-800 hover:bg-cyan-950 hover:text-cyan-300 border border-slate-700 hover:border-cyan-500/50 text-slate-300 flex items-center gap-1 transition-all cursor-pointer"
+                            >
+                              <Edit3 size={11} />
+                              <span>Revise / Edit</span>
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => toggleJsonExpand(item.id)}
+                              className="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 flex items-center gap-1 transition-all cursor-pointer"
+                            >
+                              <Code size={11} />
+                              <span>{isExpanded ? 'Hide JSON' : 'JSON'}</span>
+                            </button>
+                          </div>
                         </div>
 
-                        {/* Expandable JSON Inspector */}
+                        {/* Expanded JSON Inspector */}
                         {isExpanded && (
-                          <div className="mt-3 pt-3 border-t border-slate-800 bg-slate-950 p-3 rounded-xl">
-                            <pre className="text-[10px] font-mono text-cyan-300 overflow-x-auto whitespace-pre-wrap max-h-60">
-                              {JSON.stringify(item, null, 2)}
-                            </pre>
+                          <div className="mt-3 p-3 rounded-xl bg-black border border-slate-800 overflow-x-auto text-[10px] font-mono text-cyan-400/90 max-h-60">
+                            <pre>{JSON.stringify(item, null, 2)}</pre>
                           </div>
                         )}
                       </div>
@@ -1037,8 +1166,284 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
 
       </div>
 
+      {/* ─────────────────────────────────────────────────────────────────────────
+          IN-PLACE REVISION MODAL
+      ───────────────────────────────────────────────────────────────────────── */}
+      {revisingItem && revisionForm && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            
+            {/* Modal Header */}
+            <div className="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/80">
+              <div className="flex items-center gap-2">
+                <div className="p-2 rounded-lg bg-cyan-950 text-cyan-400 border border-cyan-500/40">
+                  <Sliders size={18} />
+                </div>
+                <div>
+                  <h3 className="text-sm font-mono font-bold text-slate-100 uppercase">
+                    Revise Omnicortex Entry: {revisingItem.name}
+                  </h3>
+                  <div className="text-[10px] font-mono text-slate-400">
+                    Collection: <code className="text-cyan-400">{targetCollection}</code> • ID: <code className="text-slate-400">{revisingItem.id}</code>
+                  </div>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={handleCloseRevision}
+                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition-colors cursor-pointer"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* Modal Form Content */}
+            <div className="p-6 overflow-y-auto space-y-4 font-mono text-xs">
+              
+              {/* Row 1: Name & Formal Title */}
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-[10px] uppercase text-slate-400 font-bold block mb-1">Designation / Name</label>
+                  <input
+                    type="text"
+                    value={revisionForm.name || ''}
+                    onChange={(e) => setRevisionForm(prev => ({ ...prev, name: e.target.value }))}
+                    className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-100"
+                  />
+                </div>
+                <div>
+                  <label className="text-[10px] uppercase text-slate-400 font-bold block mb-1">Formal Title</label>
+                  <input
+                    type="text"
+                    value={revisionForm.title || ''}
+                    onChange={(e) => setRevisionForm(prev => ({ ...prev, title: e.target.value }))}
+                    className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-100"
+                  />
+                </div>
+              </div>
+
+              {/* Row 2: Parent Species & Tech Level */}
+              <div className="grid grid-cols-3 gap-4">
+                <div>
+                  <label className="text-[10px] uppercase text-slate-400 font-bold block mb-1">Parent Species / Lineage</label>
+                  <input
+                    type="text"
+                    value={revisionForm.parent_species || ''}
+                    onChange={(e) => setRevisionForm(prev => ({ ...prev, parent_species: e.target.value }))}
+                    placeholder="E.g., Aulurans"
+                    className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-100"
+                  />
+                </div>
+                <div>
+                  <label className="text-[10px] uppercase text-slate-400 font-bold block mb-1">Tech Level (TL)</label>
+                  <input
+                    type="number"
+                    value={revisionForm.tech_level ?? 3}
+                    onChange={(e) => setRevisionForm(prev => ({ ...prev, tech_level: parseInt(e.target.value) || 0 }))}
+                    className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-100"
+                  />
+                </div>
+                <div>
+                  <label className="text-[10px] uppercase text-slate-400 font-bold block mb-1">Meta Level (ML)</label>
+                  <input
+                    type="number"
+                    value={revisionForm.meta_level ?? 0}
+                    onChange={(e) => setRevisionForm(prev => ({ ...prev, meta_level: parseInt(e.target.value) || 0 }))}
+                    className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-100"
+                  />
+                </div>
+              </div>
+
+              {/* Row 3: Costs Grid */}
+              <div className="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                <label className="text-[10px] uppercase text-cyan-400 font-bold block mb-2">Resource Costs Map</label>
+                <div className="grid grid-cols-4 sm:grid-cols-7 gap-2">
+                  <div>
+                    <span className="text-[9px] text-slate-500 uppercase">BP</span>
+                    <input
+                      type="number"
+                      value={revisionForm.costs?.bp ?? 0}
+                      onChange={(e) => setRevisionForm(prev => ({ ...prev, costs: { ...prev.costs, bp: parseInt(e.target.value) || 0 } }))}
+                      className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-center text-slate-100"
+                    />
+                  </div>
+                  <div>
+                    <span className="text-[9px] text-slate-500 uppercase">Credits</span>
+                    <input
+                      type="number"
+                      value={revisionForm.costs?.credits ?? 0}
+                      onChange={(e) => setRevisionForm(prev => ({ ...prev, costs: { ...prev.costs, credits: parseInt(e.target.value) || 0 } }))}
+                      className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-center text-slate-100"
+                    />
+                  </div>
+                  <div>
+                    <span className="text-[9px] text-slate-500 uppercase">Nodes</span>
+                    <input
+                      type="number"
+                      value={revisionForm.costs?.nodes ?? 0}
+                      onChange={(e) => setRevisionForm(prev => ({ ...prev, costs: { ...prev.costs, nodes: parseInt(e.target.value) || 0 } }))}
+                      className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-center text-slate-100"
+                    />
+                  </div>
+                  <div>
+                    <span className="text-[9px] text-slate-500 uppercase">Sockets</span>
+                    <input
+                      type="number"
+                      value={revisionForm.costs?.sockets ?? 0}
+                      onChange={(e) => setRevisionForm(prev => ({ ...prev, costs: { ...prev.costs, sockets: parseInt(e.target.value) || 0 } }))}
+                      className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-center text-slate-100"
+                    />
+                  </div>
+                  <div>
+                    <span className="text-[9px] text-slate-500 uppercase">Strain</span>
+                    <input
+                      type="number"
+                      value={revisionForm.costs?.strain ?? 0}
+                      onChange={(e) => setRevisionForm(prev => ({ ...prev, costs: { ...prev.costs, strain: parseInt(e.target.value) || 0 } }))}
+                      className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-center text-slate-100"
+                    />
+                  </div>
+                  <div>
+                    <span className="text-[9px] text-slate-500 uppercase">Focus</span>
+                    <input
+                      type="number"
+                      value={revisionForm.costs?.focus ?? 0}
+                      onChange={(e) => setRevisionForm(prev => ({ ...prev, costs: { ...prev.costs, focus: parseInt(e.target.value) || 0 } }))}
+                      className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-center text-slate-100"
+                    />
+                  </div>
+                  <div>
+                    <span className="text-[9px] text-slate-500 uppercase">AP</span>
+                    <input
+                      type="number"
+                      value={revisionForm.costs?.ap ?? 0}
+                      onChange={(e) => setRevisionForm(prev => ({ ...prev, costs: { ...prev.costs, ap: parseInt(e.target.value) || 0 } }))}
+                      className="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-center text-slate-100"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Row 4: Modifiers List Editor */}
+              <div className="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                <div className="flex items-center justify-between mb-2">
+                  <label className="text-[10px] uppercase text-cyan-400 font-bold">Modifiers List</label>
+                  <button
+                    type="button"
+                    onClick={handleAddModifier}
+                    className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-[10px] text-cyan-300 flex items-center gap-1 border border-slate-700 cursor-pointer"
+                  >
+                    <Plus size={12} /> Add Modifier
+                  </button>
+                </div>
+
+                <div className="space-y-1.5 max-h-40 overflow-y-auto">
+                  {revisionForm.modifiers.map((mod, idx) => (
+                    <div key={idx} className="flex items-center gap-2 bg-slate-900 p-1.5 rounded border border-slate-800">
+                      <input
+                        type="text"
+                        value={mod.target || ''}
+                        onChange={(e) => handleModifierChange(idx, 'target', e.target.value)}
+                        placeholder="Target Stat"
+                        className="flex-1 bg-slate-950 border border-slate-700 rounded p-1 text-slate-100 text-xs"
+                      />
+                      <select
+                        value={mod.type || 'attribute'}
+                        onChange={(e) => handleModifierChange(idx, 'type', e.target.value)}
+                        className="bg-slate-950 border border-slate-700 rounded p-1 text-slate-100 text-xs"
+                      >
+                        <option value="attribute">attribute</option>
+                        <option value="skill">skill</option>
+                        <option value="feature">feature</option>
+                        <option value="combat">combat</option>
+                        <option value="discipline">discipline</option>
+                      </select>
+                      <input
+                        type="number"
+                        value={mod.value || 0}
+                        onChange={(e) => handleModifierChange(idx, 'value', parseInt(e.target.value) || 0)}
+                        className="w-14 bg-slate-950 border border-slate-700 rounded p-1 text-center text-slate-100 text-xs"
+                      />
+                      <select
+                        value={mod.mode || 'inherent'}
+                        onChange={(e) => handleModifierChange(idx, 'mode', e.target.value)}
+                        className="bg-slate-950 border border-slate-700 rounded p-1 text-slate-100 text-xs"
+                      >
+                        <option value="inherent">inherent</option>
+                        <option value="bonus_pool">bonus_pool</option>
+                        <option value="choice_pool">choice_pool</option>
+                        <option value="recommended">recommended</option>
+                      </select>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveModifier(idx)}
+                        className="text-slate-500 hover:text-red-400 p-1 cursor-pointer"
+                      >
+                        <Trash2 size={13} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Row 5: Mechanics & Description */}
+              <div>
+                <label className="text-[10px] uppercase text-slate-400 font-bold block mb-1">Game Mechanics / Rules</label>
+                <textarea
+                  value={revisionForm.mechanic || ''}
+                  onChange={(e) => setRevisionForm(prev => ({ ...prev, mechanic: e.target.value }))}
+                  rows={3}
+                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-100 resize-none font-mono"
+                />
+              </div>
+
+              <div>
+                <label className="text-[10px] uppercase text-slate-400 font-bold block mb-1">Lore / Description</label>
+                <textarea
+                  value={revisionForm.description || revisionForm.body || ''}
+                  onChange={(e) => setRevisionForm(prev => ({ ...prev, description: e.target.value, body: e.target.value }))}
+                  rows={4}
+                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-100 resize-none font-sans text-xs"
+                />
+              </div>
+
+              <div>
+                <label className="text-[10px] uppercase text-slate-400 font-bold block mb-1">Architect / GM Note</label>
+                <input
+                  type="text"
+                  value={revisionForm.note || ''}
+                  onChange={(e) => setRevisionForm(prev => ({ ...prev, note: e.target.value }))}
+                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-100"
+                />
+              </div>
+
+            </div>
+
+            {/* Modal Footer */}
+            <div className="p-4 border-t border-slate-800 flex items-center justify-between bg-slate-950/80">
+              <button
+                type="button"
+                onClick={handleCloseRevision}
+                className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-mono font-bold transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
+
+              <button
+                type="button"
+                onClick={handleSaveRevision}
+                className="px-5 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white rounded-xl text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all cursor-pointer"
+              >
+                <Check size={14} />
+                <span>Save Revision to Staging</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
-
-export default CodexIngestionEngine;

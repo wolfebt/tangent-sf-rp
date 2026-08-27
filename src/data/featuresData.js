@@ -366,6 +366,17 @@ export const DEFAULT_FEATURES = [
     cp: 3,
     description: 'Deepened cosmic resonance and metaphysical luck.',
     mechanic: 'Permanently increases maximum Karma Point pool by +1 point.'
+  },
+
+  // --- HINDRANCES & FLAWS ---
+  {
+    id: 'feat-non-attribute',
+    name: 'Non-Attribute Flaw',
+    category: 'Hindrance',
+    type: 'disadvantage',
+    cp: -25,
+    description: 'A character with a Non-attribute in a particular score is severely limited. They cannot perform actions that rely on that attribute and automatically fail all checks associated with it (e.g., a stationary Intellect construct lacking STR/AGI or simple automata lacking INT/WIS/CHA).',
+    mechanic: 'Grants +25 BP rebate at character creation. Character automatically fails all checks associated with the chosen attribute.'
   }
 ];
 
@@ -377,5 +388,6 @@ export const FEATURE_CATEGORIES = [
   'Social',
   'Karma',
   'Skill',
-  'Augmentation'
+  'Augmentation',
+  'Hindrance'
 ];

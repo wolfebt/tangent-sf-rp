@@ -1,10 +1,11 @@
 ---
-id: 0-02-architect-reference-manual
-name: 0.02 ARCHITECT Reference Manual (Game Master Guide)
-category: compendium
-entry_type: Role Reference
-parent: 0.00 SYSTEM ROLES & ARCHITECTURE
+id: "0-02-architect-reference-manual"
+name: "0.02 ARCHITECT Reference Manual (Game Master & Worldbuilder Guide)"
+category: "compendium"
+parent: "0.00 SYSTEM & USER MANUALS"
 order: 2
+perspective: "architect"
+entry_type: "Architect Guide"
 costs:
   bp: 0
   credits: 0
@@ -26,7 +27,8 @@ sockets:
   tier: Socket
   allocated: []
 ---
-# 0.02 ARCHITECT Reference Manual (Game Master Guide)
+
+# 0.02 ARCHITECT Reference Manual (Game Master & Worldbuilder Guide)
 
 The **ARCHITECT** is the Game Master, universe designer, referee, and lead storyteller of the Tangent SFF RPG framework. The Architect sets the parameters of worlds, crafts adversaries and factions, adjudicates rules, and maintains dramatic momentum.
 
@@ -83,3 +85,17 @@ Architects can quickly assemble adversary statblocks using the **3-Tier Threat M
 - **Minions / Grunts:** Fixed 10 HP, No Armor DR, +2 to +4 on attack rolls, 1 action per round.
 - **Elites / Enforcers:** 30–50 HP, Armor DR 5–10, +6 to +10 attack roll, 2–3 actions per round.
 - **Bosses / Arch-Villains:** 100+ HP, Armor DR 15+, Legendary Reactions, Focus Strike +5, full Metaphysic suites.
+
+## Game Mechanics Rules
+```
+Unopposed DC = 15 + Size Modifier + Range Penalty + Movement Modifier
+Design DC = (TL * 2) + (ML * 3) + Base Component Difficulty
+```
+
+## Gameplay Instructions
+1. Establish planetary TL and ML before designing scenes.
+2. Use Base DC 15 for average tasks under pressure; adjust in +/- 5 increments.
+3. When resolving opposed checks, award ties to the defending party.
+
+## Designer Notes
+Keep the story moving: if a roll fails by 1-2 points, offer a Success at a Cost rather than a hard roadblock.

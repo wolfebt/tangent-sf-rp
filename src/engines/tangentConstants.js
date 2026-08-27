@@ -1,7 +1,317 @@
 // ═══════════════════════════════════════════════════════════
-// TANGENT SF RP — SHARED SYSTEM CONSTANTS & LOOKUP TABLES
-// Single source of truth for calculations, matrices, and DBM
+// CORE ATTRIBUTES & ATTRIBUTE CHECKS (CANONICAL DEFINITIONS)
 // ═══════════════════════════════════════════════════════════
+
+export const CORE_ATTRIBUTES = {
+  STR: {
+    id: 'attr-strength',
+    code: 'STR',
+    name: 'Strength',
+    checkName: 'Might',
+    checkId: 'attr-might',
+    costPerPoint: 5, // 5 BP per +1 increase
+    startingMax: 4,  // Maximum +4 at character creation before species/aug modifiers
+    paragonScore: 5, // Upper tier is 5 + species modifier
+    averageScore: 0, // Baseline human average
+    description: "Strength measures a character's physical power, force, and stability. It is a crucial ability for tasks that involve lifting heavy objects, breaking things, and engaging in melee combat. A character with high Strength can wield heavier weapons, grapple with opponents, and resist attempts to push or knock them down.",
+    coreInfluences: [
+      'Lifting and Carrying capacity',
+      'Breaking Objects (doors, locks, weapons)',
+      'Melee Combat damage and grappling/shoving'
+    ],
+    checkSummary: 'Might Check — tests of raw physical power (lifting heavy gates/boulders, bending prison bars, prying doors, breaking chains and smashing walls).'
+  },
+  AGI: {
+    id: 'attr-agility',
+    code: 'AGI',
+    name: 'Agility',
+    checkName: 'Reflex',
+    checkId: 'attr-reflex',
+    costPerPoint: 5,
+    startingMax: 4,
+    paragonScore: 5,
+    averageScore: 0,
+    description: "Agility measures a character's balance, coordination, and nimbleness. It is a crucial attribute for tasks that involve dodging attacks, performing acrobatic feats, and engaging in ranged combat. A character with high Agility can move swiftly, react quickly to danger, and accurately target opponents with ranged weapons.",
+    coreInfluences: [
+      'Dodging incoming melee and ranged attacks',
+      'Acrobatics (jumping, climbing, balancing, tumbling)',
+      'Ranged Combat accuracy, readying weapons, and balance'
+    ],
+    checkSummary: 'Reflex Check — reacting swiftly and precisely to unexpected events (avoiding AOE attacks/explosions, catching falling/thrown objects, acrobatic feats).'
+  },
+  STA: {
+    id: 'attr-stamina',
+    code: 'STA',
+    name: 'Stamina',
+    checkName: 'Fortitude',
+    checkId: 'attr-fortitude',
+    costPerPoint: 5,
+    startingMax: 4,
+    paragonScore: 5,
+    averageScore: 0,
+    description: "Stamina measures a character's endurance, resistance, and toughness. A character with high Stamina can endure prolonged exertion, tolerate more damaging injuries and resist the effects of fatigue, poison, and other debilitating conditions.",
+    coreInfluences: [
+      'Enduring Physical Hardship (running, swimming, hunger, thirst, sleep deprivation, extreme temperatures)',
+      'Resistances to diseases, infections, and toxins',
+      'Base Toughness and Vitality buffer'
+    ],
+    checkSummary: 'Fortitude Check — enduring physical hardships, biological hazards, toxins, extreme weather, and pushing through exhaustion, fatigue, and pain.'
+  },
+  INT: {
+    id: 'attr-intellect',
+    code: 'INT',
+    name: 'Intellect',
+    checkName: 'Reason',
+    checkId: 'attr-reason',
+    aliasCheckId: 'attr-logic',
+    costPerPoint: 5,
+    startingMax: 4,
+    paragonScore: 5,
+    averageScore: 0,
+    description: "Intellect measures a character's reason, logic, and wits. It is a crucial attribute for tasks that involve problem-solving, deduction, and understanding complex information. A character with high Intellect can analyze situations quickly, come up with creative solutions, and excel in fields that require mental acuity.",
+    coreInfluences: [
+      'Problem-Solving (analyzing problems, identifying patterns, devising solutions)',
+      'Deduction (investigations, uncovering hidden truths, predicting actions)',
+      'Understanding Complex Information (technical manuals, scientific theories, ancient texts)'
+    ],
+    checkSummary: 'Reason Check — logical deduction, solving puzzles/riddles, deciphering codes and ancient languages, comprehending dense technical/scientific information.'
+  },
+  WIS: {
+    id: 'attr-wisdom',
+    code: 'WIS',
+    name: 'Wisdom',
+    checkName: 'Willpower',
+    checkId: 'attr-willpower',
+    aliasCheckId: 'attr-will',
+    costPerPoint: 5,
+    startingMax: 4,
+    paragonScore: 5,
+    averageScore: 0,
+    description: "Wisdom measures a character's insight, intuition, and determination. It is a crucial attribute for tasks that involve sensing deception, resisting fear, and understanding the motivations of others. A character with high Wisdom can perceive hidden truths, remain calm in the face of danger, and make sound judgments even in difficult situations.",
+    coreInfluences: [
+      'Sensing Deception (detecting lies, inconsistencies, hidden agendas)',
+      'Resisting Fear, panic, and emotional manipulation',
+      'Understanding Motivations of others to find common ground and navigate social dynamics'
+    ],
+    checkSummary: "Willpower Check — mental fortitude, resilience, overcoming fear/panic/despair, resisting psychic mental manipulation/mind control, and maintaining focus under intense pressure."
+  },
+  CHA: {
+    id: 'attr-charisma',
+    code: 'CHA',
+    name: 'Charisma',
+    checkName: 'Etiquette',
+    checkId: 'attr-etiquette',
+    costPerPoint: 5,
+    startingMax: 4,
+    paragonScore: 5,
+    averageScore: 0,
+    description: "Charisma measures a character's confidence, assertiveness, and personal magnetism. It is a crucial attribute for tasks that involve persuasion, leadership, and social interaction. A character with high Charisma can influence and inspire others, negotiate effectively, and excel in roles that require social finesse.",
+    coreInfluences: [
+      'Persuasion (convincing, negotiating, and influencing others)',
+      'Leadership (inspiring troops, boosting morale, commanding respect)',
+      'Social Interaction (navigating social situations, making positive impressions, building rapport)'
+    ],
+    checkSummary: 'Etiquette Check — social finesse, tact, bartering and negotiating treaties/business deals, navigating formal receptions or rowdy taverns, and resolving social conflicts peacefully.'
+  }
+};
+
+export const CORE_ATTRIBUTES_LIST = Object.values(CORE_ATTRIBUTES);
+
+export const ATTRIBUTE_CHECKS = {
+  Might: {
+    id: 'attr-might',
+    name: 'Might',
+    attributeCode: 'STR',
+    attributeName: 'Strength',
+    attributeId: 'attr-strength',
+    costPerPoint: 1, // 1 BP per +1 point to increase separately
+    baseFormula: '2 + (Strength × 2)',
+    description: 'Tests of raw physical power. Lifting heavy objects, bending bars, prying open doors, breaking chains, smashing walls.',
+    example: 'Strength +3 vs metal bar CR 15: Base score 8 (2 + 2×3). Needs 7+ on d20.'
+  },
+  Reflex: {
+    id: 'attr-reflex',
+    name: 'Reflex',
+    attributeCode: 'AGI',
+    attributeName: 'Agility',
+    attributeId: 'attr-agility',
+    costPerPoint: 1,
+    baseFormula: '2 + (Agility × 2)',
+    description: 'Reacting swiftly and precisely. Dodging area attacks/explosions, catching falling objects, intercepting moving targets, acrobatic feats.',
+    example: 'Agility +3 vs explosion CR 15: Base score 8 (2 + 2×3). Needs 7+ on d20.'
+  },
+  Fortitude: {
+    id: 'attr-fortitude',
+    name: 'Fortitude',
+    attributeCode: 'STA',
+    attributeName: 'Stamina',
+    attributeId: 'attr-stamina',
+    costPerPoint: 1,
+    baseFormula: '2 + (Stamina × 2)',
+    description: 'Enduring hardships and toxins. Resisting poisons, venoms, and diseases; coping with extreme environments; pushing through exhaustion and fatigue.',
+    example: 'Stamina +4 vs neurotoxin CR 18: Base score 10 (2 + 2×4). Needs 8+ on d20.'
+  },
+  Reason: {
+    id: 'attr-reason',
+    aliasId: 'attr-logic',
+    name: 'Reason',
+    attributeCode: 'INT',
+    attributeName: 'Intellect',
+    attributeId: 'attr-intellect',
+    costPerPoint: 1,
+    baseFormula: '2 + (Intellect × 2)',
+    description: 'Logical deduction and problem-solving. Cracking riddles, deciphering cryptic codes and languages, comprehending dense technical manuals.',
+    example: 'Intellect +4 vs riddle CR 20: Base score 10 (2 + 2×4). Needs 10+ on d20.'
+  },
+  Willpower: {
+    id: 'attr-willpower',
+    aliasId: 'attr-will',
+    name: 'Willpower',
+    attributeCode: 'WIS',
+    attributeName: 'Wisdom',
+    attributeId: 'attr-wisdom',
+    costPerPoint: 1,
+    baseFormula: '2 + (Wisdom × 2)',
+    description: 'Mental fortitude and resilience. Resisting terror/fear, breaking free from mind control or psychic manipulation, maintaining deep focus under stress.',
+    example: 'Wisdom +5 vs psychic suggestion CR 15: Base score 12 (2 + 2×5). Needs 3+ on d20.'
+  },
+  Etiquette: {
+    id: 'attr-etiquette',
+    name: 'Etiquette',
+    attributeCode: 'CHA',
+    attributeName: 'Charisma',
+    attributeId: 'attr-charisma',
+    costPerPoint: 1,
+    baseFormula: '2 + (Charisma × 2)',
+    description: 'Navigating social situations with tact. Haggling and high-stakes negotiation, fitting into high society or underworld gatherings, de-escalating disputes.',
+    example: 'Charisma +5 at diplomatic reception CR 15: Base score 12 (2 + 2×5). Needs 3+ on d20.'
+  }
+};
+
+export const ATTRIBUTE_CHECKS_LIST = Object.values(ATTRIBUTE_CHECKS);
+
+export const NON_ATTRIBUTE_FLAW = {
+  id: 'feat-non-attribute',
+  name: 'Non-Attribute Flaw',
+  bpRefund: 25,
+  description: 'A character completely lacking a core attribute (e.g. a stationary AI construct lacking STR/AGI or simple automata lacking INT/WIS/CHA). Automatically fails all actions and checks associated with that attribute.',
+  examples: [
+    'Stationary Intellect Construct lacking Strength and Agility',
+    'Simple Automata Mecha running basic scripts lacking Intellect, Wisdom, or Charisma'
+  ]
+};
+
+export const SKILL_SYNERGY_EXAMPLES = [
+  {
+    skills: 'Perception and Willpower',
+    context: 'Illusion / Deception',
+    description: "Keen Perception helps see through trickery, granting a synergy bonus to Willpower Check against mental illusions."
+  },
+  {
+    skills: 'Technology and Fortitude',
+    context: 'Technological Hazard',
+    description: "Knowledge of Technology allows taking proper precautions against radiation leaks or malfunctioning reactors, granting a synergy bonus to Fortitude Check."
+  },
+  {
+    skills: 'Medicine and Fortitude',
+    context: 'Disease and Poison',
+    description: "Medical expertise aids Fortitude Check to fight off diseases, biological toxins, and long-term effects of illnesses."
+  },
+  {
+    skills: 'Athletics and Reflex',
+    context: 'Sudden Danger / Hazard',
+    description: "Athletic conditioning and physical coordination grant a synergy bonus to Reflex Check to avoid traps, collapsing terrain, or incoming area attacks."
+  },
+  {
+    skills: 'Linguistics and Reason',
+    context: 'Ancient Inscriptions / Cryptanalysis',
+    description: "For every 5 points scored over DC 10 on a Linguistics check, a +1 bonus is added to the Reason check to decipher cryptic texts."
+  }
+];
+
+export const calculateAttributeCheckBase = (score = 0) => 2 + (Number(score || 0) * 2);
+export const calculateAttributeCost = (score = 0) => Number(score || 0) * 5;
+export const calculateAttributeCheckCost = (ranks = 0) => Number(ranks || 0) * 1;
+
+// ═══════════════════════════════════════════════════════════
+// SUB-ABILITIES: PERCEPTION & DETECTION CHECKS
+// ═══════════════════════════════════════════════════════════
+
+export const PERCEPTION_RULES = {
+  id: 'sub-ability-perception',
+  name: 'Perception',
+  type: 'Sub-Ability',
+  derivedFrom: ['Intellect', 'Wisdom'],
+  baseFormula: 'Intellect + Wisdom',
+  description: "Perception is a sub-ability derived from a character's Intellect and Wisdom scores. This attribute reflects a character's overall awareness and their ability to perceive and interpret their surroundings. It plays a vital role in various detection checks throughout the game, impacting a character's ability to notice details, spot hidden dangers, and understand the subtleties of their environment.\n\nThe base score for Perception is calculated by adding the character's Intellect and Wisdom scores together. This combined value represents their innate sensory acuity, mental focus, and intuitive awareness. However, Perception is not used in isolation. In most situations, it's combined with specific skills to determine a character's success in different types of detection checks.",
+  defaultCheck: {
+    name: 'Default Detection Check',
+    skill: 'Alertness',
+    skillCategory: 'Mental',
+    formula: 'Perception Base + Alertness (Rank + Mod)',
+    description: "In most standard situations, where a character is simply trying to be aware of their surroundings and notice anything out of the ordinary, their Perception base score is combined with their Alertness skill. This represents a general awareness and the ability to spot visual, auditory, or other sensory cues that might indicate something important or unusual."
+  },
+  focusedTypes: [
+    {
+      id: 'meta',
+      name: 'Meta',
+      skill: 'Attune',
+      skillCategory: 'Metafocus',
+      formula: 'Perception Base + Attune (Rank + Mod)',
+      description: "When dealing with Meta effects (such as magic, psychic powers, or other supernatural phenomena), the Attune skill is added to the Perception base score. This allows the character to detect and analyze these subtle energies, and utilize Metafocus-based sensory abilities."
+    },
+    {
+      id: 'social',
+      name: 'Social',
+      skill: 'Insight',
+      skillCategory: 'Social',
+      formula: 'Perception Base + Insight (Rank + Mod)',
+      description: "When trying to \"read\" other characters and understand their intentions, the Insight skill is added to the Perception base score. This represents the ability to pick up on subtle social cues, body language, and vocal tones to discern hidden emotions, motivations, and potential deceptions."
+    },
+    {
+      id: 'technical',
+      name: 'Technical',
+      skill: 'Technology',
+      skillCategory: 'Mental (Knowledge)',
+      formula: 'Perception Base + Technology (Rank + Mod)',
+      description: "When analyzing technology or using certain technological sensory devices, the Technology (Knowledge) skill is added to the Perception base score. This reflects the character's understanding of how technology works and their ability to better identify its functions, strengths, and weaknesses."
+    }
+  ],
+  modifiers: {
+    description: "The Game Master (GM) may apply additional modifiers to Perception checks based on the specific circumstances of the situation. These modifiers can reflect factors such as visibility, distance, the nature of the thing being detected, and any other relevant environmental or situational factors."
+  },
+  example: "A character with an Intellect score of +2 and a Wisdom score of +1 has a Perception base score of 3. If they are trying to notice a hidden trap, they would make an Alertness check with a modifier of +3. However, if they are trying to locate an item using magical means, they would make an Attune check with a modifier of +3 instead. While a check for a social situation will be added to Insight as checks for analyzing tech will use Technology (Knowledge)."
+};
+
+export const calculatePerceptionBase = (intellectScore = 0, wisdomScore = 0) => {
+  return (Number(intellectScore) || 0) + (Number(wisdomScore) || 0);
+};
+
+export const calculatePerceptionCheck = (intellectScore = 0, wisdomScore = 0, skillRank = 0, skillMod = 0) => {
+  return calculatePerceptionBase(intellectScore, wisdomScore) + (Number(skillRank) || 0) + (Number(skillMod) || 0);
+};
+
+export const calculatePerceptionSuite = ({
+  intellect = 0,
+  wisdom = 0,
+  alertnessRank = 0,
+  alertnessMod = 0,
+  attuneRank = 0,
+  attuneMod = 0,
+  insightRank = 0,
+  insightMod = 0,
+  techRank = 0,
+  techMod = 0
+} = {}) => {
+  const base = calculatePerceptionBase(intellect, wisdom);
+  return {
+    base,
+    alertness: base + (Number(alertnessRank) || 0) + (Number(alertnessMod) || 0),
+    meta: base + (Number(attuneRank) || 0) + (Number(attuneMod) || 0),
+    social: base + (Number(insightRank) || 0) + (Number(insightMod) || 0),
+    technical: base + (Number(techRank) || 0) + (Number(techMod) || 0)
+  };
+};
 
 // ═══════════════════════════════════════════════════════════
 // TECH LEVELS (TL 0 - 5)
@@ -557,6 +867,241 @@ export const MECHA_OPERATIONAL_DOMAINS = [
   'Power Armor & Walkers'
 ];
 
+// ═══════════════════════════════════════════════════════════
+// UNIVERSAL CANONICAL SCALING SYSTEM (01.01.09 & 99. SCALING)
+// ═══════════════════════════════════════════════════════════
+
+export const DIE_STEP_LADDER = ['d10', 'd8', 'd6', 'd4', 'd3', 'd2', '1'];
+
+export const SIZE_CATEGORIES = {
+  Miniscule: {
+    id: 'Miniscule',
+    name: 'Miniscule',
+    scaleDisplay: '-5ds (1/12)',
+    scaleMultiplier: 1 / 12,
+    dieStep: -5,
+    strMod: -32,
+    combatMod: 32,
+    defMod: 32,
+    stealthMod: 20,
+    height: '< 1in',
+    weight: '< 1 oz',
+    reach: '1in',
+    isStarship: false,
+    example: 'Micro-Drone, Insectoid Larva'
+  },
+  Fine: {
+    id: 'Fine',
+    name: 'Fine',
+    scaleDisplay: '-4ds (1/6)',
+    scaleMultiplier: 1 / 6,
+    dieStep: -4,
+    strMod: -16,
+    combatMod: 16,
+    defMod: 16,
+    stealthMod: 16,
+    height: '< 6in',
+    weight: '< 1/8 lb',
+    reach: '6in',
+    isStarship: false,
+    example: 'Spy Bot, Sparrow, Tiny Rodent'
+  },
+  Diminutive: {
+    id: 'Diminutive',
+    name: 'Diminutive',
+    scaleDisplay: '-3ds (1/3)',
+    scaleMultiplier: 1 / 3,
+    dieStep: -3,
+    strMod: -8,
+    combatMod: 8,
+    defMod: 8,
+    stealthMod: 12,
+    height: '< 1ft',
+    weight: '< 1 lb',
+    reach: '1ft',
+    isStarship: false,
+    example: 'Hoverboard, Rat, Hawk'
+  },
+  Tiny: {
+    id: 'Tiny',
+    name: 'Tiny',
+    scaleDisplay: '-2ds (1/2)',
+    scaleMultiplier: 0.5,
+    dieStep: -2,
+    strMod: -4,
+    combatMod: 4,
+    defMod: 4,
+    stealthMod: 8,
+    height: '< 2ft',
+    weight: '< 8 lbs',
+    reach: '2ft',
+    isStarship: false,
+    example: 'House Cat, Drone, Courier Bot'
+  },
+  Small: {
+    id: 'Small',
+    name: 'Small',
+    scaleDisplay: '-1ds (2/3)',
+    scaleMultiplier: 2 / 3,
+    dieStep: -1,
+    strMod: -2,
+    combatMod: 2,
+    defMod: 2,
+    stealthMod: 4,
+    height: '< 4ft',
+    weight: '< 60 lbs',
+    reach: '3ft',
+    isStarship: false,
+    example: 'Chimpanzee, Lynx, ATV, Quad'
+  },
+  Medium: {
+    id: 'Medium',
+    name: 'Medium',
+    scaleDisplay: 'Base (x1)',
+    scaleMultiplier: 1.0,
+    dieStep: 0,
+    strMod: 0,
+    combatMod: 0,
+    defMod: 0,
+    stealthMod: 0,
+    height: '< 8ft',
+    weight: '< 500 lbs',
+    reach: '5ft',
+    isStarship: false,
+    example: 'Humanoid, Cycle, Power Armor'
+  },
+  Large: {
+    id: 'Large',
+    name: 'Large',
+    scaleDisplay: 'x2',
+    scaleMultiplier: 2.0,
+    dieStep: 0,
+    strMod: 2,
+    combatMod: -2,
+    defMod: -2,
+    stealthMod: -4,
+    height: '< 16ft',
+    weight: '< 2 tons',
+    reach: '10ft',
+    isStarship: false,
+    example: 'Horse, Automobile, Light Walker'
+  },
+  Huge: {
+    id: 'Huge',
+    name: 'Huge',
+    scaleDisplay: 'x5',
+    scaleMultiplier: 5.0,
+    dieStep: 0,
+    strMod: 4,
+    combatMod: -4,
+    defMod: -4,
+    stealthMod: -8,
+    height: '< 32ft',
+    weight: '< 16 tons',
+    reach: '15ft',
+    isStarship: false,
+    example: 'Elephant, Main Battle Tank, Dropship'
+  },
+  Gargantuan: {
+    id: 'Gargantuan',
+    name: 'Gargantuan',
+    scaleDisplay: 'x10',
+    scaleMultiplier: 10.0,
+    dieStep: 0,
+    strMod: 8,
+    combatMod: -8,
+    defMod: -8,
+    stealthMod: -16,
+    height: '< 64ft',
+    weight: '< 125 tons',
+    reach: '20ft',
+    isStarship: false,
+    example: 'Corvette, Assault Gunboat, Titan Walker'
+  },
+  Colossal: {
+    id: 'Colossal',
+    name: 'Colossal',
+    scaleDisplay: 'x20',
+    scaleMultiplier: 20.0,
+    dieStep: 0,
+    strMod: 16,
+    combatMod: -16,
+    defMod: -16,
+    stealthMod: -32,
+    height: '< 128ft',
+    weight: '< 1K tons',
+    reach: '25ft',
+    isStarship: false,
+    example: 'Frigate, Heavy Destroyer, Mega-Carrier'
+  },
+  Enormous: {
+    id: 'Enormous',
+    name: 'Enormous',
+    scaleDisplay: 'x40',
+    scaleMultiplier: 40.0,
+    dieStep: 0,
+    strMod: 32,
+    combatMod: -32,
+    defMod: -32,
+    stealthMod: 'NO',
+    height: '< 512ft',
+    weight: '< 16K tons',
+    reach: '-',
+    isStarship: true,
+    example: 'Capital Battlecruiser'
+  },
+  Titanic: {
+    id: 'Titanic',
+    name: 'Titanic',
+    scaleDisplay: 'x80',
+    scaleMultiplier: 80.0,
+    dieStep: 0,
+    strMod: 64,
+    combatMod: -64,
+    defMod: -64,
+    stealthMod: 'NO',
+    height: '< 1,024ft',
+    weight: '< 144K tons',
+    reach: '-',
+    isStarship: true,
+    example: 'Colony Ship, Planetary Dreadnought'
+  },
+  SuperGargantuan: {
+    id: 'SuperGargantuan',
+    name: 'Super Gargantuan',
+    scaleDisplay: 'x160',
+    scaleMultiplier: 160.0,
+    dieStep: 0,
+    strMod: 128,
+    combatMod: -128,
+    defMod: -128,
+    stealthMod: 'NO',
+    height: '< 5,280ft',
+    weight: '< 50M ton',
+    reach: '-',
+    isStarship: true,
+    example: 'System Dreadnought, Star Fort'
+  },
+  MegaColossal: {
+    id: 'MegaColossal',
+    name: 'Mega Colossal',
+    scaleDisplay: 'x320',
+    scaleMultiplier: 320.0,
+    dieStep: 0,
+    strMod: 256,
+    combatMod: -256,
+    defMod: -256,
+    stealthMod: 'NO',
+    height: '1 Mile',
+    weight: '50M ton+',
+    reach: '-',
+    isStarship: true,
+    example: 'Dyson Swarm Node, Megastructure Ship'
+  }
+};
+
+export const SIZE_CATEGORIES_LIST = Object.values(SIZE_CATEGORIES);
+
 export const MECHA_SIZES = {
   Miniscule: { id: 'Miniscule', name: 'Miniscule', scale: '-5ds (1/12)', scaleMult: 0.083, strCbtMod: -32, defMod: 32, stealth: 20, structure: 5, mounts: 0.5, baseDC: 10, example: 'Micro-Drone' },
   Fine: { id: 'Fine', name: 'Fine', scale: '-4ds (1/6)', scaleMult: 0.167, strCbtMod: -16, defMod: 16, stealth: 16, structure: 10, mounts: 1, baseDC: 12, example: 'Spy Bot' },
@@ -650,77 +1195,277 @@ export const VFT_MODES = {
 };
 
 // ═══════════════════════════════════════════════════════════
-// ARCHITECTURE MATRIX CONSTANTS (PLAN 22)
+// ARCHITECTURE MATRIX CONSTANTS (99 - ARCHITECTURAL MATRIX)
 // ═══════════════════════════════════════════════════════════
 
 export const ARCHITECTURE_FOOTPRINTS = {
-  Miniscule: { id: 'Miniscule', name: 'Miniscule', dimensions: '< 0.5 x 0.5 ft', sqFt: 0.25, baseModules: 0.001, baseSP: 1, baseDC: 2, example: 'Micro-Sensor, Beacon Node' },
-  Fine: { id: 'Fine', name: 'Fine', dimensions: '0.5 x 0.5 ft', sqFt: 0.25, baseModules: 0.002, baseSP: 2, baseDC: 5, example: 'Comm-Relay, Security Pylon' },
-  Diminutive: { id: 'Diminutive', name: 'Diminutive', dimensions: '1 x 1 ft', sqFt: 1, baseModules: 0.005, baseSP: 5, baseDC: 8, example: 'Light Fixture, Junction Box' },
-  Tiny: { id: 'Tiny', name: 'Tiny', dimensions: '2 x 2 ft', sqFt: 4, baseModules: 0.01, baseSP: 10, baseDC: 10, example: 'Terminal Post, Signage Node' },
-  Small: { id: 'Small', name: 'Small', dimensions: '5 x 5 ft', sqFt: 25, baseModules: 0.06, baseSP: 25, baseDC: 12, example: 'Kiosk, ATM, Automated Sentry Turret' },
-  Medium: { id: 'Medium', name: 'Medium', dimensions: '10 x 10 ft', sqFt: 100, baseModules: 0.25, baseSP: 50, baseDC: 15, example: 'Shed, Guard Booth, Tiny Micro-Hab' },
-  Large: { id: 'Large', name: 'Large', dimensions: '20 x 20 ft', sqFt: 400, baseModules: 1, baseSP: 100, baseDC: 18, example: 'Garage, Outpost Hab, Cabin, Workshop' },
-  Huge: { id: 'Huge', name: 'Huge', dimensions: '40 x 40 ft', sqFt: 1600, baseModules: 4, baseSP: 250, baseDC: 22, example: 'House, Field Laboratory, Barracks, Depot' },
-  Gargantuan: { id: 'Gargantuan', name: 'Gargantuan', dimensions: '80 x 80 ft', sqFt: 6400, baseModules: 16, baseSP: 800, baseDC: 28, example: 'Mansion, Logistics Warehouse, Fortress Keep' },
-  Colossal: { id: 'Colossal', name: 'Colossal', dimensions: '200 x 200 ft', sqFt: 40000, baseModules: 100, baseSP: 2500, baseDC: 35, example: 'Factory, City Block, Defense Bastion' },
-  Enormous: { id: 'Enormous', name: 'Enormous', dimensions: '500 x 500 ft', sqFt: 250000, baseModules: 625, baseSP: 10000, baseDC: 45, example: 'Mega-Complex, Planetary Starport, Refinery' },
-  Titanic: { id: 'Titanic', name: 'Titanic', dimensions: '2,000 x 2,000 ft', sqFt: 4000000, baseModules: 10000, baseSP: 50000, baseDC: 60, example: 'Arcology Base, Sector Hub, Fleet Citadel' },
-  SuperGargantuan: { id: 'SuperGargantuan', name: 'Super Gargantuan', dimensions: '1 Mile x 1 Mile', sqFt: 27000000, baseModules: 69000, baseSP: 100000, baseDC: 70, example: 'Capital Orbital Shipyard, Hive City Core' },
-  MegaColossal: { id: 'MegaColossal', name: 'Mega Colossal', dimensions: 'Miles (Orbital Plate)', sqFt: 100000000, baseModules: 100000, baseSP: 200000, baseDC: 80, example: 'Orbital Ring Segment, Dyson Plate, Megacity' }
+  Miniscule: { id: 'Miniscule', name: 'Miniscule', dimensions: '< 0.5 x 0.5 ft', sqFt: 0.25, baseModules: 0.001, baseSP: 1, baseDC: 2, scaleMod: 0.01, baseCost: 15, example: 'Micro-Sensor' },
+  Fine: { id: 'Fine', name: 'Fine', dimensions: '0.5 x 0.5 ft', sqFt: 0.25, baseModules: 0.002, baseSP: 2, baseDC: 5, scaleMod: 0.02, baseCost: 40, example: 'Comm-Relay' },
+  Diminutive: { id: 'Diminutive', name: 'Diminutive', dimensions: '1 x 1 ft', sqFt: 1, baseModules: 0.005, baseSP: 5, baseDC: 8, scaleMod: 0.05, baseCost: 90, example: 'Light Fixture' },
+  Tiny: { id: 'Tiny', name: 'Tiny', dimensions: '2 x 2 ft', sqFt: 4, baseModules: 0.01, baseSP: 10, baseDC: 10, scaleMod: 0.1, baseCost: 160, example: 'Post, Signage' },
+  Small: { id: 'Small', name: 'Small', dimensions: '5 x 5 ft', sqFt: 25, baseModules: 0.06, baseSP: 25, baseDC: 12, scaleMod: 0.5, baseCost: 280, example: 'Kiosk, ATM, Turret' },
+  Medium: { id: 'Medium', name: 'Medium', dimensions: '10 x 10 ft', sqFt: 100, baseModules: 0.25, baseSP: 50, baseDC: 15, scaleMod: 1.0, baseCost: 640, example: 'Shed, Tiny Home' },
+  Large: { id: 'Large', name: 'Large', dimensions: '20 x 20 ft', sqFt: 400, baseModules: 1, baseSP: 100, baseDC: 18, scaleMod: 2.0, baseCost: 1500, example: 'Garage, Cabin' },
+  Huge: { id: 'Huge', name: 'Huge', dimensions: '40 x 40 ft', sqFt: 1600, baseModules: 4, baseSP: 250, baseDC: 22, scaleMod: 5.0, baseCost: 4500, example: 'House, Shop, Lab' },
+  Gargantuan: { id: 'Gargantuan', name: 'Gargantuan', dimensions: '80 x 80 ft', sqFt: 6400, baseModules: 16, baseSP: 800, baseDC: 28, scaleMod: 10.0, baseCost: 23000, example: 'Mansion, Warehouse' },
+  Colossal: { id: 'Colossal', name: 'Colossal', dimensions: '200 x 200 ft', sqFt: 40000, baseModules: 100, baseSP: 2500, baseDC: 35, scaleMod: 20.0, baseCost: 163000, example: 'Factory, City Block' },
+  Enormous: { id: 'Enormous', name: 'Enormous', dimensions: '500 x 500 ft', sqFt: 250000, baseModules: 625, baseSP: 10000, baseDC: 45, scaleMod: 40.0, baseCost: 2600000, example: 'Mega-Complex, Starport' },
+  Titanic: { id: 'Titanic', name: 'Titanic', dimensions: '2,000 x 2,000 ft', sqFt: 4000000, baseModules: 10000, baseSP: 50000, baseDC: 60, scaleMod: 80.0, baseCost: 167000000, example: 'Arcology Base' },
+  SuperGargantuan: { id: 'SuperGargantuan', name: 'Super Gargantuan', dimensions: '1 Mile x 1 Mile', sqFt: 27000000, baseModules: 69000, baseSP: 100000, baseDC: 70, scaleMod: 150.0, baseCost: 2600000000, example: 'Capital Shipyard' },
+  MegaColossal: { id: 'MegaColossal', name: 'Mega Colossal', dimensions: 'Miles (Orbital Plate)', sqFt: 100000000, baseModules: 100000, baseSP: 200000, baseDC: 80, scaleMod: 300.0, baseCost: 42000000000, example: 'Orbital Plate / Ring' }
 };
 
 export const HEIGHT_CLASSES = {
-  Single: { id: 'Single', name: 'Single Story', stories: 1, craftMod: 0, label: 'Single Story (1 Flr)', description: 'Ranch, shed, single floor facility' },
-  Duplex: { id: 'Duplex', name: 'Duplex (2 Stories)', stories: 2, craftMod: 2, label: 'Duplex (2 Flrs)', description: '2-story house, townhouse, split-level' },
-  MultiStory: { id: 'MultiStory', name: 'Multi-Story (3–5 Stories)', stories: 4, craftMod: 4, label: 'Multi-Story (4 Flrs)', description: 'Apartment block, commercial office building' },
-  MidRise: { id: 'MidRise', name: 'Mid-Rise (6–12 Stories)', stories: 8, craftMod: 8, label: 'Mid-Rise (8 Flrs)', description: 'Corporate HQ, luxury hotel, institutional facility' },
-  HighRise: { id: 'HighRise', name: 'High-Rise (13–40 Stories)', stories: 20, craftMod: 12, label: 'High-Rise (20 Flrs)', description: 'Urban tower, residential high-rise complex' },
-  Skyscraper: { id: 'Skyscraper', name: 'Skyscraper (40+ Stories)', stories: 50, craftMod: 16, label: 'Skyscraper (50 Flrs)', description: 'Mega-tower, hyper-spire, arcology spine' }
+  Single: { id: 'Single', name: 'Single Story', stories: 1, craftMod: 0, label: 'Single Story (1 Flr)', description: 'Ranch House, Shed, Warehouse' },
+  Duplex: { id: 'Duplex', name: 'Duplex (2 Stories)', stories: 2, craftMod: 2, label: 'Duplex (2 Flrs)', description: '2-Story House, Townhouse' },
+  MultiStory: { id: 'MultiStory', name: 'Multi-Story (3–5 Stories)', stories: 4, craftMod: 4, label: 'Multi-Story (4 Flrs)', description: 'Apartment Block, Office' },
+  MidRise: { id: 'MidRise', name: 'Mid-Rise (6–12 Stories)', stories: 8, craftMod: 8, label: 'Mid-Rise (8 Flrs)', description: 'Corporate HQ, Hotel' },
+  HighRise: { id: 'HighRise', name: 'High-Rise (13–40 Stories)', stories: 20, craftMod: 12, label: 'High-Rise (20 Flrs)', description: 'Urban Tower' },
+  Skyscraper: { id: 'Skyscraper', name: 'Skyscraper (40+ Stories)', stories: 50, craftMod: 16, label: 'Skyscraper (50 Flrs)', description: 'Mega-Tower, Spire' }
+};
+
+export const ARCHITECTURE_FRAME_TYPES = {
+  Standard: { id: 'Standard', name: 'Standard Frame', dcMod: 0, spMult: 1.0, moduleMult: 1.0, example: 'Civilian Housing, Shops', description: 'Basic habitation with standard utilities (+0 DC).' },
+  Industrial: { id: 'Industrial', name: 'Industrial Frame', dcMod: -2, spMult: 1.0, moduleMult: 1.0, example: 'Factories, Warehouses', description: 'Function over form; boxy, bare concrete/metal (-2 DC).' },
+  Elevated: { id: 'Elevated', name: 'Elevated Platform / Stilts', dcMod: 2, spMult: 0.75, moduleMult: 1.25, example: 'Built on Stilts, Offshore Platforms', description: '+25% Modules (expand outward), -25% SP (foundation stress) (+2 DC).' },
+  Tower: { id: 'Tower', name: 'Tower / Spire Frame', dcMod: 2, spMult: 1.0, moduleMult: 1.0, example: 'Spires, Skyscrapers', description: 'Verticality focus, wind-shear resistant (+2 DC).' },
+  Subterranean: { id: 'Subterranean', name: 'Subterranean Bunker / Vault', dcMod: 5, spMult: 1.15, moduleMult: 0.85, example: 'Bunkers, Vaults, Underground Silos', description: 'Dug into earth/rock. +15% SP, -15% Modules (hard to expand) (+5 DC).' },
+  Biomimetic: { id: 'Biomimetic', name: 'Biomimetic / Grown Arcology', dcMod: 5, spMult: 1.0, moduleMult: 1.0, example: 'Grown Arcologies, Living Habitats', description: 'Mimics local flora/geography; highly customized (+5 DC).' },
+  Dynamic: { id: 'Dynamic', name: 'Dynamic / Shifting Frame', dcMod: 5, spMult: 1.0, moduleMult: 1.0, example: 'Mekan Geometry, Reconfigurable Halls', description: 'Modularly shifting rooms and hallways (+5 DC).' },
+  Palatial: { id: 'Palatial', name: 'Palatial / Fortress Keep', dcMod: 8, spMult: 1.0, moduleMult: 1.0, example: 'Castles, Megacorp Citadels', description: 'Highly versatile, prioritizing defense and extreme luxury (+8 DC).' }
 };
 
 export const ARCHITECTURE_MATERIALS = {
-  0: { tl: 0, name: 'Wood, Stone & Hide', dr: 5, spMult: 0.5, dcMod: -10, passive: 'Degrading: Breaks easily under sustained structural stress' },
-  1: { tl: 1, name: 'Brick & Iron-Beam Framing', dr: 10, spMult: 0.75, dcMod: -5, passive: 'Industrial: Heavy masonry and coal/steam power lines' },
-  2: { tl: 2, name: 'Steel-Reinforced Concrete & Glass', dr: 15, spMult: 1.0, dcMod: -2, passive: 'Ballistic: Structural rebar and resilient foundation' },
-  3: { tl: 3, name: 'Plasteel & Duranium Composite', dr: 20, spMult: 2.0, dcMod: 0, passive: 'Modular: Universal utility conduits, hermetic seals standard' },
-  4: { tl: 4, name: 'Nanocarbon & Smart-Fabrics', dr: 30, spMult: 3.0, dcMod: 5, passive: 'Self-Repairing: Structure regenerates 1 SP/hour' },
-  5: { tl: 5, name: 'Polymatter & Hard-Light Emitters', dr: 50, spMult: 5.0, dcMod: 10, passive: 'Morphic / Weightless: Instant reconfiguration and dimensional space folding' }
+  0: { tl: 0, name: 'TL0: Wood, Stone & Hide (Stone Age)', dr: 5, spMult: 0.5, dcMod: -10, passive: 'Degrading: Hardness/DR 5, x0.50 SP Multiplier' },
+  1: { tl: 1, name: 'TL1: Brick & Iron-Beam Framing (Metal Age)', dr: 10, spMult: 0.75, dcMod: -5, passive: 'Steam/Coal power: Hardness/DR 10, x0.75 SP Multiplier' },
+  2: { tl: 2, name: 'TL2: Steel-Reinforced Concrete & Glass (Data Age)', dr: 15, spMult: 1.0, dcMod: -2, passive: 'Hydrocarbon/fission power: Hardness/DR 15, x1.0 SP Multiplier' },
+  3: { tl: 3, name: 'TL3: Plasteel & Duranium (Space Age)', dr: 20, spMult: 2.0, dcMod: 0, passive: 'Modular: Universal ports, fusion power, hermetic seals standard (DR 20, x2.0 SP)' },
+  4: { tl: 4, name: 'TL4: Smart-Fabric & Nanocarbon (Stellar Age)', dr: 30, spMult: 3.0, dcMod: 5, passive: 'Self-Repairing: Regens 1 SP/hour, repulsorlift foundations (DR 30, x3.0 SP)' },
+  5: { tl: 5, name: 'TL5: Polymatter & Hard-Light (Galactic Age)', dr: 50, spMult: 5.0, dcMod: 10, passive: 'Morphic / Weightless: Instant reconfiguration, dimensional compression (DR 50+, x5.0 SP)' }
 };
 
 export const ENVIRONMENTAL_MODIFIERS = {
   Standard: { id: 'Standard', name: 'Standard Terrestrial (1.0G)', dcMod: 0, costMult: 1.0, description: 'Standard atmospheric pressure and gravity' },
-  LowGravity: { id: 'LowGravity', name: 'Low Gravity (<0.8G)', dcMod: -2, costMult: 1.0, description: 'Taller and lighter architecture; verticality DC penalty halved' },
-  HighGravity: { id: 'HighGravity', name: 'High Gravity (>1.5G)', dcMod: 5, costMult: 1.0, description: 'Reinforced foundation required; verticality DC penalty doubled' },
-  VacuumToxic: { id: 'VacuumToxic', name: 'Vacuum / Corrosive Atmosphere', dcMod: 0, costMult: 1.2, description: 'Requires airlocks and hermetic sealing (+20% cost; free at TL3+)' },
-  AquaticPressure: { id: 'AquaticPressure', name: 'Sub-Aquatic Pressure Hull', dcMod: 5, costMult: 1.5, description: 'Heavy deep-sea pressure containment (+5 DC, +50% cost)' }
+  LowGravity: { id: 'LowGravity', name: 'Low Gravity (<0.8G)', dcMod: -2, costMult: 1.0, description: 'Taller and lighter. -2 DC to Design, Verticality Craft Modifiers halved' },
+  HighGravity: { id: 'HighGravity', name: 'High Gravity (>1.5G)', dcMod: 5, costMult: 1.0, description: 'Reinforced foundation required. +5 DC to Design/Build, Verticality Craft Modifiers doubled' },
+  VacuumToxic: { id: 'VacuumToxic', name: 'Vacuum / Toxic / Corrosive', dcMod: 0, costMult: 1.2, description: 'Requires Life Support Module. +20% Cost for hermetic sealing (Standard and free at TL3+)' },
+  AquaticPressure: { id: 'AquaticPressure', name: 'Liquid / Aquatic (Pressure Hull)', dcMod: 5, costMult: 1.5, description: 'Requires Pressure Hull reinforcement (+5 DC, +50% Total Cost)' }
 };
 
-export const SPECIALIZED_MODULE_CATALOG = [
-  { id: 'living_quarters', name: 'Standard Living Quarters', category: 'Residential', modules: 1, dc: 15, description: 'Habitation space for 4–8 occupants' },
-  { id: 'luxury_suite', name: 'Executive Luxury Suite', category: 'Residential', modules: 2, dc: 20, description: 'High-end quarters with panoramic viewing and private amenities' },
-  { id: 'cryo_stasis', name: 'Cryo-Stasis Chamber', category: 'Residential', modules: 2, dc: 25, description: 'Suspended animation berths for 20 crew' },
-  { id: 'trade_bazaar', name: 'Commercial Trade Bazaar', category: 'Commercial', modules: 4, dc: 18, description: 'Merchant stalls, exchange terminals, and transaction booths' },
-  { id: 'hydroponics', name: 'Hydroponics & Algae Farm', category: 'Commercial', modules: 2, dc: 15, description: 'Sustains food and oxygen for 50 inhabitants' },
-  { id: 'entertainment_hub', name: 'Entertainment Holo-Lounge', category: 'Commercial', modules: 4, dc: 22, description: 'SimStim parlor, recreation arena, and social lounge' },
-  { id: 'power_fusion', name: 'Heavy Fusion Power Grid', category: 'Industrial', modules: 4, dc: 25, description: 'Megawatt power generator capable of powering district' },
-  { id: 'power_antimatter', name: 'Antimatter Reactor Core', category: 'Industrial', modules: 6, dc: 30, description: 'Gigawatt output for planetary shields and heavy industry' },
-  { id: 'nanoforge_foundry', name: 'Industrial Nanoforge Foundry', category: 'Industrial', modules: 4, dc: 35, description: 'Automated molecular manufacturing plant' },
-  { id: 'refinery_mineral', name: 'Mineral & Isotope Refinery', category: 'Industrial', modules: 8, dc: 22, description: 'Processes raw ore and radioactive isotopes' },
-  { id: 'tactical_armory', name: 'Fortified Tactical Armory', category: 'Military', modules: 2, dc: 20, description: 'Secure weapons storage, ammo cache, and loadout benches' },
-  { id: 'shield_generator_core', name: 'Structural Shield Generator', category: 'Military', modules: 2, dc: 28, description: 'Projects 100 AP energy barrier over structure' },
-  { id: 'turret_battery', name: 'Automated Defense Turret (10 Mounts)', category: 'Military', modules: 1, dc: 25, description: 'External hardpoint cluster with automated fire control' },
-  { id: 'security_brig', name: 'Security Matrix & Detention Brig', category: 'Military', modules: 2, dc: 22, description: 'Hardened energy containment cells and guard post' },
-  { id: 'command_cic', name: 'Command & Control CIC', category: 'Military', modules: 2, dc: 25, description: 'Tactical holographic battle map and fleet comms array' },
-  { id: 'medbay_intensive', name: 'Intensive Trauma Med-Bay', category: 'Scientific', modules: 2, dc: 20, description: 'Surgical theaters, bio-beds, and trauma injectors' },
-  { id: 'genetics_lab', name: 'Genetics & Xenobiology Lab', category: 'Scientific', modules: 4, dc: 25, description: 'Gene splicing vats and organic culture incubators' },
-  { id: 'quantum_core', name: 'Quantum Mainframe Core', category: 'Scientific', modules: 2, dc: 30, description: 'Supercomputer running planetary mesh and AI sub-minds' },
-  { id: 'holodeck_chamber', name: 'Holodeck Tactical Simulator', category: 'Scientific', modules: 2, dc: 35, description: 'Hard-light holographic training and simulation environment' },
-  { id: 'hangar_bay', name: 'Vehicle & Mecha Hangar Bay', category: 'Transport', modules: 4, dc: 18, description: 'Maintenance berths for 4 Medium or 2 Large mecha/crafts' },
-  { id: 'launch_gantry', name: 'Orbital Launch Gantry', category: 'Transport', modules: 10, dc: 25, description: 'Vertical launch rail and catapult for shuttlecraft' },
-  { id: 'docking_ring', name: 'Universal Airlock Docking Ring', category: 'Transport', modules: 2, dc: 15, description: 'Pressurized umbilical for starship docking' },
-  { id: 'teleport_chamber', name: 'Quantum Teleportation Chamber', category: 'Meta-Tech', modules: 2, dc: 35, description: 'Spatial displacement pad for instant transit up to 500 miles' }
+export const MECHA_GARAGING_RULES = {
+  Medium: { size: 'Medium', scale: 'x1 Scale (<8ft)', modulesPerUnit: 0.025, unitsPerModule: 40, description: 'Requires ~0.025 Modules (40 units fit in 1 Module)' },
+  Large: { size: 'Large', scale: 'x2 Scale (<16ft)', modulesPerUnit: 0.50, unitsPerModule: 2, description: 'Requires 0.50 Modules (2 units fit in 1 Module)' },
+  Huge: { size: 'Huge', scale: 'x5 Scale (<32ft)', modulesPerUnit: 5.0, unitsPerModule: 0.2, description: 'Requires 5 Full Modules (Hangar Bay) per unit' },
+  Gargantuan: { size: 'Gargantuan', scale: 'x10 Scale (<64ft)', modulesPerUnit: 10.0, unitsPerModule: 0.1, description: 'Requires 10 Full Modules (Heavy Bay) per unit' },
+  Colossal: { size: 'Colossal', scale: 'x20 Scale (<128ft)', modulesPerUnit: 20.0, unitsPerModule: 0.05, description: 'Requires 20 Full Modules (Launch Gantry) per unit' }
+};
+
+// 9.1 Hardpoints: Armor Plating & Shields (Uses MOUNTS)
+export const ARCHITECTURE_HARDPOINTS_ARMOR = [
+  // Physical Plating
+  { id: 'steel_plate', name: 'Industrial Steel Plate', category: 'Physical Plating', tl: 2, dc: 12, dr: 5, effect: 'DR 5', mountBaseMult: 1, description: '1 x Scale Modifier Mounts per layer' },
+  { id: 'ceramic_comp', name: 'Ceramic Composite Plating', category: 'Physical Plating', tl: 3, dc: 18, dr: 10, effect: 'DR 10', mountBaseMult: 2, description: '2 x Scale Modifier Mounts per layer' },
+  { id: 'reactive_armor', name: 'Reactive Armor (Explosive)', category: 'Physical Plating', tl: 3, dc: 20, dr: 15, effect: 'DR 15 (Single Use vs Kinetic)', mountBaseMult: 1, description: '1 x Scale Modifier Mounts per layer' },
+  { id: 'nanocarbon_weave', name: 'Nanocarbon Weave', category: 'Physical Plating', tl: 4, dc: 25, dr: 15, effect: 'DR 15 (Lightweight)', mountBaseMult: 1, description: '1 x Scale Modifier Mounts per layer' },
+  { id: 'adamantine_plate', name: 'Adamantine / Neutronium', category: 'Physical Plating', tl: 5, dc: 35, dr: 30, effect: 'DR 30 (Heavy)', mountBaseMult: 4, description: '4 x Scale Modifier Mounts per layer' },
+  // Energy Shields
+  { id: 'deflector_screen', name: 'Deflector Screen (Ray Shield)', category: 'Energy Shield', tl: 3, dc: 22, dr: 10, effect: 'DR 10 vs Energy only', mountBaseMult: 2, description: '2 x Scale Modifier Mounts' },
+  { id: 'kinetic_barrier', name: 'Kinetic Barrier', category: 'Energy Shield', tl: 4, dc: 25, dr: 10, effect: 'DR 10 vs Physical only', mountBaseMult: 2, description: '2 x Scale Modifier Mounts' },
+  { id: 'omnishield', name: 'Omnishield Generator', category: 'Energy Shield', tl: 4, dc: 30, dr: 15, effect: 'DR 15 vs All', mountBaseMult: 3, description: '3 x Scale Modifier Mounts' },
+  { id: 'hardlight_hex', name: 'Hard-Light Hex Shield', category: 'Energy Shield', tl: 5, dc: 35, dr: 20, effect: 'DR 20 + Regenerates', mountBaseMult: 3, description: '3 x Scale Modifier Mounts' },
+  // Specialty Coatings
+  { id: 'stealth_coating', name: 'Stealth Coating (Radar Absorbent)', category: 'Specialty Coating', tl: 3, dc: 20, dr: 0, effect: '+4 Stealth vs Sensors', mountBaseMult: 0, mountsFlat: 0, description: '0 Mounts consumed' },
+  { id: 'thermal_dispersion', name: 'Thermal Dispersion Coating', category: 'Specialty Coating', tl: 3, dc: 18, dr: 0, effect: '+4 Stealth vs Thermal', mountBaseMult: 0, mountsFlat: 0, description: '0 Mounts consumed' },
+  { id: 'psionic_ward', name: 'Psionic Ward Lattice', category: 'Specialty Coating', tl: 4, ml: 3, dc: 28, dr: 10, effect: 'DR 10 vs Psionic/Magic', mountBaseMult: 1, description: '1 x Scale Modifier Mounts' }
 ];
+
+// 9.2 Hardpoints: Structural Weaponry & Defenses (Uses MOUNTS)
+export const ARCHITECTURE_HARDPOINTS_WEAPONS = [
+  // Ballistic (Kinetic)
+  { id: 'vulcan_minigun', name: 'Vulcan Minigun (Light)', category: 'Ballistic', tl: 3, dc: 15, mounts: 1, baseDamage: '2d10', damageType: 'Ballistic', baseRange: '2,000 ft', notes: 'Auto-Fire, Anti-Infantry' },
+  { id: 'light_autocannon', name: 'Light Autocannon (Light)', category: 'Ballistic', tl: 3, dc: 18, mounts: 2, baseDamage: '3d10', damageType: 'Ballistic', baseRange: '3,000 ft', notes: 'Burst Fire' },
+  { id: 'atgm_pod', name: 'ATGM Pod (Light)', category: 'Ballistic', tl: 3, dc: 18, mounts: 2, baseDamage: '4d8', damageType: 'Explosive', baseRange: '1 Mile', notes: 'Homing, Ammo: 4' },
+  { id: 'heavy_railgun', name: 'Heavy Railgun (Heavy)', category: 'Ballistic', tl: 3, dc: 25, mounts: 4, baseDamage: '4d10', damageType: 'Kinetic', baseRange: '2 Miles', notes: 'Penetration (Ignores 10 DR)' },
+  { id: 'siege_howitzer', name: 'Siege Howitzer (Heavy)', category: 'Ballistic', tl: 2, dc: 20, mounts: 5, baseDamage: '5d10', damageType: 'Explosive', baseRange: '5 Miles', notes: 'Arcing Fire (Indirect)' },
+  { id: 'mac_cannon', name: 'MAC Cannon (Heavy)', category: 'Ballistic', tl: 4, dc: 30, mounts: 6, baseDamage: '6d10', damageType: 'Kinetic', baseRange: 'Line of Sight', notes: '"Structure Killer"' },
+  { id: 'mass_driver', name: 'Mass Driver (Titan)', category: 'Ballistic', tl: 4, dc: 40, mounts: 10, baseDamage: '10d10', damageType: 'Kinetic', baseRange: 'Orbital', notes: 'Planetary Defense' },
+  // Energy Weaponry
+  { id: 'pulse_laser', name: 'Pulse Laser Battery (Light)', category: 'Energy', tl: 3, dc: 18, mounts: 1, baseDamage: '2d8', damageType: 'Energy', baseRange: '3,000 ft', notes: 'Accurate (+1 to Hit)' },
+  { id: 'plasma_flamer', name: 'Plasma Flamer (Light)', category: 'Energy', tl: 3, dc: 20, mounts: 2, baseDamage: '3d6', damageType: 'Thermal', baseRange: 'Cone (100 ft)', notes: 'Ignores DR, Overheat risk' },
+  { id: 'ion_blaster', name: 'Ion Blaster (Light)', category: 'Energy', tl: 3, dc: 18, mounts: 1, baseDamage: '1d10', damageType: 'Ion', baseRange: '1,500 ft', notes: 'Dmg x2 vs Shields/Synthetics' },
+  { id: 'heavy_particle_beam', name: 'Heavy Particle Beam (Heavy)', category: 'Energy', tl: 4, dc: 28, mounts: 4, baseDamage: '5d8', damageType: 'Energy', baseRange: 'Line (2,000 ft)', notes: 'Melts Armor (-2 DR to target)' },
+  { id: 'ppc_projector', name: 'PPC Projector (Heavy)', category: 'Energy', tl: 4, dc: 30, mounts: 5, baseDamage: '4d10', damageType: 'Lightning', baseRange: '4,000 ft', notes: 'EMP Effect (Stuns Systems)' },
+  { id: 'tachyon_lance', name: 'Tachyon Lance (Heavy)', category: 'Energy', tl: 5, dc: 35, mounts: 4, baseDamage: '4d12', damageType: 'Exotic', baseRange: 'Line of Sight', notes: 'Ignores Shields' },
+  { id: 'nova_cannon', name: 'Nova Cannon (Titan)', category: 'Energy', tl: 5, dc: 45, mounts: 12, baseDamage: '12d10', damageType: 'Thermal', baseRange: '10 Miles', notes: 'Orbital Defense (WMD)' },
+  // Industrial & Close-Proximity Defenses
+  { id: 'hydraulic_ram', name: 'Hydraulic Siege Ram', category: 'Close-Proximity', tl: 2, dc: 12, mounts: 1, baseDamage: '2d8', damageType: 'Bludgeon', baseRange: 'Touch', notes: 'Knockback. x2 dmg to structures.' },
+  { id: 'harvester_saw', name: 'Industrial Harvester Saw', category: 'Close-Proximity', tl: 2, dc: 15, mounts: 2, baseDamage: '3d10', damageType: 'Slashing', baseRange: 'Touch', notes: 'Sundering (Destroys Armor)' },
+  { id: 'vibro_cleaver', name: 'Vibro-Cleaver (Defense Arm)', category: 'Close-Proximity', tl: 3, dc: 20, mounts: 2, baseDamage: '4d8', damageType: 'Slashing', baseRange: 'Reach', notes: 'High Crit Range (19-20)' },
+  { id: 'thermal_lance', name: 'Thermal Lance (Pile Bunker)', category: 'Close-Proximity', tl: 3, dc: 22, mounts: 2, baseDamage: '5d10', damageType: 'Piercing', baseRange: 'Touch', notes: 'Single Shot spike, penetration' },
+  { id: 'arc_whip', name: 'Arc-Whip (Perimeter)', category: 'Close-Proximity', tl: 4, dc: 25, mounts: 1, baseDamage: '3d8', damageType: 'Slashing', baseRange: '30 ft', notes: 'Entangle / Trip intruding vehicles' },
+  { id: 'plasma_emitter', name: 'Plasma Beam Emitter', category: 'Close-Proximity', tl: 4, dc: 28, mounts: 2, baseDamage: '5d8', damageType: 'Energy', baseRange: 'Reach', notes: 'Penetrating - Ignores 10 DR' },
+  { id: 'grav_hammer_array', name: 'Grav-Hammer Array', category: 'Close-Proximity', tl: 5, dc: 35, mounts: 3, baseDamage: '6d10', damageType: 'Force', baseRange: 'Reach', notes: 'Knockback and AoE Shockwave' }
+];
+
+// 9.3 Hardpoints: Sensors & Aux Systems (Uses MOUNTS)
+export const ARCHITECTURE_HARDPOINTS_SENSORS = [
+  { id: 'passive_sensor', name: 'Passive Sensor Array', category: 'Sensors', tl: 2, dc: 5, mounts: 5, function: 'Rangefinders and external Cameras.' },
+  { id: 'sensor_suite_radar', name: 'Sensor Suite (Radar/Lidar)', category: 'Sensors', tl: 3, dc: 15, mounts: 10, function: 'Range 5 miles. Detects movement.' },
+  { id: 'sensor_suite_omni', name: 'Sensor Suite (Omni-Scan)', category: 'Sensors', tl: 4, dc: 25, mounts: 20, function: 'Range Orbit. Detects Life/Energy/Structure.' },
+  { id: 'comm_array_av', name: 'Comm Array (A/V Radio)', category: 'Comms', tl: 2, dc: 5, mounts: 5, function: 'Standard audio/visual planetary comms.' },
+  { id: 'scrambler_unit', name: 'Scrambler Unit', category: 'Comms', tl: 2, dc: 10, mounts: 5, function: 'Protects local comms from basic slicing.' },
+  { id: 'ecm_encryption', name: 'ECM / Advanced Encryption', category: 'EW/Comms', tl: 4, dc: 20, mounts: 20, function: 'Scrambles comms/missiles (DC 15+ check to slice).' },
+  { id: 'auto_targeting_base', name: 'Automated Targeting Base', category: 'Tactical', tl: 3, dc: 15, mounts: 10, function: '+1 to base Automated Defense attacks.' },
+  { id: 'smoke_chaff', name: 'Smoke/Chaff Launcher', category: 'Tactical', tl: 2, dc: 12, mounts: 1, function: 'Obscures Vision (Reaction Action to incoming fire).' },
+  { id: 'tractor_beam', name: 'Tractor Beam', category: 'Utility', tl: 4, dc: 25, mounts: 2, function: 'Immobilize Target (Str vs Str check to hold vessels).' },
+  { id: 'drone_hive', name: 'Drone Hive (Swarm Bay)', category: 'Tactical', tl: 4, dc: 30, mounts: 4, function: 'Deploys 1d4 Automated point-defense drones.' }
+];
+
+// 9.4 - 9.6 Architectural Facilities Catalog (Uses MODULES)
+export const ARCHITECTURE_FACILITIES = [
+  // 9.4 Living & Social
+  { id: 'capsule_coffin', name: 'Capsule / Coffin Block', category: 'Living & Social', tl: 3, dc: 22, modules: 1, function: 'Ultra-high density (20 pods). Morale: Poor.' },
+  { id: 'barracks', name: 'Barracks', category: 'Living & Social', tl: 1, dc: 12, modules: 2, function: 'High-density bunks (12 troops).' },
+  { id: 'hab_unit', name: 'Standard Hab-Unit', category: 'Living & Social', tl: 2, dc: 16, modules: 1, function: 'Studio apartment (1-2 people).' },
+  { id: 'luxury_suite', name: 'Luxury Suite', category: 'Living & Social', tl: 3, dc: 25, modules: 4, function: 'High-status (2,000 sq ft). +1 Morale.' },
+  { id: 'mess_hall', name: 'Mess Hall', category: 'Living & Social', tl: 1, dc: 12, modules: 2, function: 'Kitchen/Seating for 40.' },
+  { id: 'lounge_bar', name: 'Lounge / Bar', category: 'Living & Social', tl: 1, dc: 12, modules: 2, function: 'Social hub. +2 Diplomacy/Gather Info.' },
+  { id: 'holodeck', name: 'Holodeck', category: 'Living & Social', tl: 4, dc: 35, modules: 2, function: 'Hard-light sim room. Training XP bonus.' },
+  { id: 'sanctuary_shrine', name: 'Sanctuary / Shrine', category: 'Living & Social', tl: 1, dc: 10, modules: 1, function: 'Meditation space. +1 Willpower after rest.' },
+
+  // 9.5 Vocation, Core & Logistics
+  { id: 'command_center', name: 'Command Center / Bridge', category: 'Vocation & Logistics', tl: 2, dc: 10, modules: 2, function: 'Basic manual controls and tactical oversight.' },
+  { id: 'neural_ops', name: 'Neural-Link Ops Center', category: 'Vocation & Logistics', tl: 4, dc: 25, modules: 2, function: '+2 Initiative/Tactics. Direct brain interface.' },
+  { id: 'dedicated_shop_lab', name: 'Dedicated Shop / Lab', category: 'Vocation & Logistics', tl: 3, dc: 20, modules: 1, function: '+4 Equipment Bonus to relevant checks (5 users).' },
+  { id: 'full_facility_campus', name: 'Full Facility Campus', category: 'Vocation & Logistics', tl: 3, dc: 30, modules: 4, function: '+6 Equipment Bonus to relevant checks (10+ users).' },
+  { id: 'diagnostic_mainframe', name: 'Diagnostic Mainframe', category: 'Vocation & Logistics', tl: 3, dc: 15, modules: 1, function: 'Scaling bonuses (+2 at TL3, +4 at TL4, +6 at TL5) to Repair.' },
+  { id: 'database_archives', name: 'Database Archives', category: 'Vocation & Logistics', tl: 3, dc: 15, modules: 1, function: 'Scaling bonuses (+2 at TL3, +4 at TL4) to Knowledge.' },
+  { id: 'fabricator_workshop', name: 'Fabricator Workshop', category: 'Vocation & Logistics', tl: 3, dc: 25, modules: 2, function: '50% reduced Crafting time for personal items.' },
+  { id: 'fabricator_nanoforge', name: 'Fabricator (Nano-Forge)', category: 'Vocation & Logistics', tl: 5, dc: 40, modules: 4, function: 'Creates complex ammo/items automatically in the field.' },
+  { id: 'server_farm', name: 'Server Farm', category: 'Vocation & Logistics', tl: 3, dc: 24, modules: 2, function: 'AI hosting. +2 Computing defense.' },
+  { id: 'secure_vault', name: 'Secure Vault', category: 'Vocation & Logistics', tl: 3, dc: 30, modules: 1, function: 'Reinforced (DR 30 walls). DC 30 Break/Hack to enter.' },
+  { id: 'brig_detention', name: 'Brig / Detention Center', category: 'Vocation & Logistics', tl: 3, dc: 24, modules: 4, function: '10 Cells with force fields.' },
+  { id: 'cargo_bay', name: 'Cargo Bay (Expandable)', category: 'Vocation & Logistics', tl: 2, dc: 10, modules: 2, function: 'Converts Modules to bulk Tonnage (1,000 tons).' },
+  { id: 'garage_bay', name: 'Garage Bay', category: 'Vocation & Logistics', tl: 2, dc: 14, modules: 1, function: 'Stores 2 Large Ground Vehicles safely.' },
+  { id: 'hangar_small', name: 'Hangar Bay (Small)', category: 'Vocation & Logistics', tl: 3, dc: 24, modules: 4, function: 'Stores 1 Huge Aircraft/Starfighter.' },
+  { id: 'hangar_large', name: 'Hangar Bay (Large)', category: 'Vocation & Logistics', tl: 3, dc: 28, modules: 10, function: 'Stores 1 Gargantuan Shuttle or dropship.' },
+
+  // 9.6 Medical & Hazard Mitigation
+  { id: 'life_support', name: 'Life Support (Environmental)', category: 'Medical & Hazard', tl: 3, dc: 15, modules: 1, function: 'Sealed vs Vacuum/Poison. 24hr emergency air.' },
+  { id: 'purification_plant', name: 'Base Purification Plant', category: 'Medical & Hazard', tl: 3, dc: 20, modules: 2, function: 'Advanced recyclers. Actively restores degraded Supply Dice.' },
+  { id: 'enviro_dome', name: 'Enviro-Dome Generator', category: 'Medical & Hazard', tl: 3, dc: 15, modules: 1, function: '20ft radius of Environmental Protection Rating (EPR) 1.' },
+  { id: 'evac_bunker', name: 'Emergency Evacuation Bunker', category: 'Medical & Hazard', tl: 3, dc: 15, modules: 1, function: 'Saves key personnel on structural destruction.' },
+  { id: 'autodoc_station', name: 'Autodoc Station', category: 'Medical & Hazard', tl: 4, dc: 20, modules: 1, function: 'Autonomous robotic surgeon (runs Operation Software).' },
+  { id: 'operating_theater', name: 'Operating Theater', category: 'Medical & Hazard', tl: 3, dc: 20, modules: 1, function: '+4 Equipment Bonus to Medicine checks.' },
+  { id: 'medical_campus', name: 'Medical Lab (Facility)', category: 'Medical & Hazard', tl: 3, dc: 30, modules: 4, function: '+6 Equipment Bonus. Supports multiple trauma patients.' },
+  { id: 'repair_drones_facility', name: 'Repair Drones (Auto-Doc)', category: 'Medical & Hazard', tl: 4, dc: 28, modules: 2, function: 'Restores 1d10 Structure Points/minute to the building.' },
+  { id: 'vertical_rails', name: 'Vertical Traversal Rails', category: 'Medical & Hazard', tl: 4, dc: 15, modules: 0.5, function: 'Advanced elevator shafts (Take 10 on climb).' },
+  { id: 'grav_attenuators', name: 'Grav-Attenuator Shafts', category: 'Medical & Hazard', tl: 5, dc: 25, modules: 1, function: 'Dampens gravity. Advantage on traversal/rapid movement.' }
+];
+
+// 9.7 Core Internals (Generators & Infrastructure)
+export const ARCHITECTURE_CORE_INTERNALS = [
+  { id: 'combustion_gen', name: 'Internal Combustion Generator', tl: 2, dc: 12, notes: 'Requires liquid fuel. Loud, creates heavy exhaust.' },
+  { id: 'battery_bank', name: 'High-Capacity Battery Bank', tl: 3, dc: 15, notes: 'Silent. Limited operational duration if cut off.' },
+  { id: 'micro_fusion', name: 'Micro-Fusion Reactor', tl: 3, dc: 22, notes: 'Infinite duration (years). Volatile breach risk.' },
+  { id: 'antimatter_core', name: 'Antimatter Core', tl: 4, dc: 30, notes: 'Massive energy output. Catastrophic breach if destroyed.' },
+  { id: 'zpe_node', name: 'Zero-Point Energy Node', tl: 5, dc: 35, notes: 'Infinite power. No heat signature.' },
+  { id: 'hydraulic_servos', name: 'Hydraulic Servos', tl: 2, dc: 10, notes: 'Infrastructure for heavy moving parts (blast doors/elevators).' },
+  { id: 'myomer_musculature', name: 'Myomer Musculature', tl: 3, dc: 18, notes: 'Infrastructure for mobile structures. Silent operation.' },
+  { id: 'gyro_stabilizers', name: 'Gyroscopic Stabilizers', tl: 3, dc: 15, notes: 'Advantage on structural stability checks (earthquakes/impacts).' }
+];
+
+// Section X: Mobile Propulsion Systems (20% Chassis Tax on Module Capacity)
+export const ARCHITECTURE_PROPULSION = [
+  { id: 'ground_crawler', name: 'Ground Crawler (Treads)', tl: 2, dc: 20, baseSpeed: 20, handling: 'Glacial Handling', notes: 'Requires massive gearing/suspension.' },
+  { id: 'independent_suspension', name: 'Independent Suspension', tl: 2, dc: 25, baseSpeed: 40, handling: 'Standard Handling', notes: 'Ignores light terrain penalties. (For smaller mobile bases).' },
+  { id: 'aquatic_flotilla', name: 'Aquatic Flotilla (Ballast)', tl: 2, dc: 15, baseSpeed: 30, handling: 'Poor Handling', notes: 'Standard sub-surface/surface movement.' },
+  { id: 'supercavitation', name: 'Supercavitation (Hydro-Jet)', tl: 3, dc: 20, baseSpeed: 60, handling: 'Good Handling', notes: 'High speed underwater city/base.' },
+  { id: 'heavy_hover', name: 'Heavy Hover (Skimmer)', tl: 3, dc: 25, baseSpeed: 60, handling: 'Poor Handling', notes: 'Requires immense power distribution.' },
+  { id: 'orbital_keeping', name: 'Orbital Station-Keeping', tl: 3, dc: 20, baseSpeed: 10, handling: 'Thruster Handling', notes: 'Thrusters for orbit maintenance. Includes vacuum seals.' },
+  { id: 'heavy_vtol', name: 'Heavy VTOL System (Jets)', tl: 4, dc: 30, baseSpeed: 50, handling: 'Glacial Handling', notes: 'Massive thrust stress on the structural frame.' },
+  { id: 'arcane_levitation', name: 'Arcane Levitation (Tower)', tl: 4, ml: 3, dc: 25, baseSpeed: 30, handling: 'Silent Handling', notes: 'Requires Pilot with Telepathy or Meta-Craft skill.' },
+  { id: 'aerial_grav_spire', name: 'Aerial Grav-Spire (Anti-Grav)', tl: 4, dc: 40, baseSpeed: 80, handling: 'Average Handling', notes: 'The pinnacle of structural engineering.' }
+];
+
+// Section XIV: Cultural Skin / Faction Architectural Paradigms
+export const FACTION_ARCHITECTURAL_PARADIGMS = {
+  Syndicate: {
+    id: 'Syndicate',
+    name: 'The Syndicate (Corporate Utopia / High-Tech Sanctum)',
+    aesthetic: '"The Apple Store Cathedral." Matte white composites, brushed aluminum, holographic interfaces.',
+    philosophy: 'Technical Facilitation & Mesh integration. Subscription-based habits ("Penance Mode" on lapse).',
+    signature: 'Hexagonal tiling, cyan data-streams, anti-gravity elevators, hyper-modular construction.',
+    bonusTrait: 'Mesh Grid Integration: All internal communication/computing checks gain +2 bonus.'
+  },
+  Impyrium: {
+    id: 'Impyrium',
+    name: 'The Impyrium (Stagnant Grandeur / Heirloom Industrial)',
+    aesthetic: '"Celestial Neo-Sumerian." Massive brutalist marble structures clad in gold filigree and statuary.',
+    philosophy: 'Enduring Dominance. Infrastructure maintained by sacred ritual; Relic Sockets reject foreign tech.',
+    signature: 'Solar 8-pointed star motifs, heavy physical armor plating, load-bearing statuary.',
+    bonusTrait: 'Fortress Integrity: Structural shell gains +5 DR against ballistic and kinetic impacts.'
+  },
+  Dracon: {
+    id: 'Dracon',
+    name: 'The Dracon Dynasty (Feudal Protection / Warmth)',
+    aesthetic: '"High-Fantasy Industrial." Castle silhouettes, warm gold lighting, great halls, heraldic crests.',
+    philosophy: 'Noblesse Oblige. Prioritizes structural integrity and extreme durability over speed/efficiency.',
+    signature: 'Dragon scale motifs, heavy kinetic/thermal hardpoints, "Void Castle" bulkheads.',
+    bonusTrait: 'Void Castle Bastion: Foundation gains Advantage on all integrity & siege collapse checks.'
+  },
+  Ascendancy: {
+    id: 'Ascendancy',
+    name: 'The Ascendancy (Enlightened Innovation / Solar Renaissance)',
+    aesthetic: '"Smart City Solarpunk." Clean curves, glass canopies, white facades with blue energy accents.',
+    philosophy: 'Adaptive Progress. User-friendly, heavily shielded, designed for modular agility.',
+    signature: 'Variable-geometry spires, high-efficiency ion power grids, non-lethal defense arrays.',
+    bonusTrait: 'Harmonic Power: Core generators produce 25% surplus energy for emergency shielding.'
+  },
+  Coalition: {
+    id: 'Coalition',
+    name: 'The Coalition & Outworlds (Used Future / Scrappy Industrial)',
+    aesthetic: '"Space Western Noir." Scavenged parts, exposed wiring, welded patch-jobs, hazard stripes.',
+    philosophy: 'Survival Pragmatism. If it works, live in it; built for easy field patching.',
+    signature: 'Asymmetrical layouts, cheap ballistic turrets, oversized bolt-on generators, Franken-habs.',
+    bonusTrait: 'Field Patchable: Emergency repairs cost 50% less materials and take half the time.'
+  },
+  Alterian: {
+    id: 'Alterian',
+    name: 'The Alterian Enclave (Magi-Tech Refinement / Crystal Spires)',
+    aesthetic: '"Interstellar Art Nouveau." Solar sails, white ceramic fused with living wood, crystal matrices.',
+    philosophy: 'The Long View. Structures are timeless works of art integrating science and sorcery.',
+    signature: 'Silent environmental systems, Sun-Lance energy weapons, open atrium force fields.',
+    bonusTrait: 'Sunglass Canopies: Crystalline roofs act as solar capacitors, auto-recharging energy grids.'
+  },
+  Auluran: {
+    id: 'Auluran',
+    name: 'The Auluran (Symbiotic Growth / Bioluminescent Jungle)',
+    aesthetic: '"Living Tech." Grown arcologies, chitinous walls, vascular corridors, bioluminescent moss.',
+    philosophy: 'Biological Imperative. Living organism bonded to inhabitants; heals damage naturally.',
+    signature: 'No hard angles, organic shapes, acid/spore defense weapons, bonded neural-grafts.',
+    bonusTrait: 'Symbiotic Regeneration: Structure regenerates 1 SP per hour when bonded Overseer is present.'
+  },
+  Mekan: {
+    id: 'Mekan',
+    name: 'The Mekan (Geometric Logic / Pure Code)',
+    aesthetic: '"Fractal Perfection." Floating geometric shapes, magnetism pylons, shifting polymatter surfaces.',
+    philosophy: 'The Code. Form follows function instantaneously; reconfigures floorplans mid-siege.',
+    signature: 'Liquid metal facades, hard-light structural projections, Swarm modularity.',
+    bonusTrait: 'Dynamic Reconfiguration: Hallways and cover can be reshaped as a Move Action.'
+  },
+  Entari: {
+    id: 'Entari',
+    name: 'The Entari Combine (Cosmopolitan Trade / Eco-Luxury)',
+    aesthetic: '"Galactic Senate." Smooth luxury finishes, high-end materials, non-threatening silhouettes.',
+    philosophy: 'Ethical Efficiency. Infrastructure for mass trade, diplomacy, and elite comfort.',
+    signature: 'Universal transit rings, integrated translation suites, concealed structural weaponry.',
+    bonusTrait: 'Concealed Emplacements: All weapon emplacements are hidden until activated in combat.'
+  }
+};
+
+// Backwards compatibility alias
+export const SPECIALIZED_MODULE_CATALOG = ARCHITECTURE_FACILITIES;
 
 // ═══════════════════════════════════════════════════════════
 // SPECIES MATRIX CONSTANTS (PLAN 23)
@@ -757,135 +1502,179 @@ export const SPECIES_SIZES = {
   Huge: { id: 'Huge', name: 'Huge', bp: 4, strMod: 4, agiMod: -4, combatMod: -4, defMod: -4, stealthMod: -8, stabilityMod: 8, dmgDiceMult: 5, speedMult: 5, dimensions: '>16 ft / >4,000 lbs (Elephant, Rhinoceros, Delivery Truck)' }
 };
 
+export const SPECIES_MOVEMENT_BASE_MODES = [
+  { id: 'normal', name: 'Normal Speed', bp: 0, speed: 30, category: 'Mode', description: 'Base speed of 30 feet. Determines speed of other modes.' },
+  { id: 'climber', name: 'Climber', bp: 2, speed: 30, category: 'Mode', description: 'Base Climb Speed 30, and gain the +5 racial bonus on climbing checks.' },
+  { id: 'gliding', name: 'Gliding Wings', bp: 1, speed: 30, category: 'Mode', description: 'While in midair, move 5ft horizontal for every 1ft fall. Speed 30ft/rnd (60 diving).' },
+  { id: 'swim', name: 'Swim', bp: 2, speed: 30, category: 'Mode', description: 'Swim speed 30 feet. Gain +5 racial bonus on Swim checks.' },
+  { id: 'burrow', name: 'Burrow', bp: 2, speed: 20, category: 'Mode', description: 'Base Burrow Speed 20.' },
+  { id: 'flight_basic', name: 'Basic Flight', bp: 2, speed: 30, category: 'Mode', description: 'Base Fly Speed 30 (Poor Maneuverability).' }
+];
+
+export const SPECIES_MOVEMENT_MODIFICATIONS = [
+  { id: 'very_fast', name: 'Very Fast', bp: 4, speed: 50, speedMod: 20, isExclusive: true, category: 'Modification', description: 'Base Speed +20 feet. *' },
+  { id: 'fast', name: 'Fast', bp: 2, speed: 40, speedMod: 10, isExclusive: true, category: 'Modification', description: 'Base Speed +10 feet. *' },
+  { id: 'slow', name: 'Slow (Disadvantage)', bp: -2, refundBP: 2, speed: 20, speedMod: -10, isExclusive: true, isDisadvantage: true, category: 'Modification', description: 'Base Speed -10 feet. (BP Gain) *' },
+  { id: 'ponderous', name: 'Ponderous (Disadvantage)', bp: -4, refundBP: 4, speed: 10, speedMod: -20, isExclusive: true, isDisadvantage: true, category: 'Modification', description: 'Base Speed -20 feet. (BP Gain) *' },
+  { id: 'flight_improved', name: 'Improved Flight Speed', bp: 1, speedMod: 10, isRanked: true, category: 'Modification', description: 'Increases base flight speed by 10 feet. Ranked.' },
+  { id: 'flight_maneuver', name: 'Improved Maneuverability', bp: 1, isRanked: true, category: 'Modification', description: 'Maneuverability improves by 1 step (Clumsy > Poor > Average > Good > Perfect). Ranked.' },
+  { id: 'strong_flyer', name: 'Strong Flyer', bp: 2, category: 'Modification', description: 'Increase the Size category multiplier by 1 for Flying Speed.' },
+  { id: 'hauler', name: 'Hauler', bp: 1, category: 'Modification', description: 'Not encumbered by carrying a Heavy Load.' },
+  { id: 'marcher', name: 'Marcher', bp: 1, category: 'Modification', description: 'Fatigued ½ when moving at a regular pace.' },
+  { id: 'terrain_movement', name: 'Terrain Movement', bp: 1, category: 'Modification', description: 'Move through naturally difficult terrain (specific type) at normal speed.' },
+  { id: 'leaper', name: 'Leaper', bp: 1, category: 'Modification', description: 'Always considered to have a running start when making Jump checks.' },
+  { id: 'mountaineer', name: 'Mountaineer', bp: 1, category: 'Modification', description: 'Immune to altitude sickness, no defense loss on narrow/slippery surfaces.' },
+  { id: 'sprinter', name: 'Sprinter', bp: 1, speedMod: 10, isRanked: true, category: 'Modification', description: 'Gain +10 foot racial bonus to speed when running. Ranked.' }
+];
+
 export const SPECIES_MOVEMENT_MODES = [
-  { id: 'normal', name: 'Normal Ground Speed (30 ft)', bp: 0, speed: 30, description: 'Base speed of 30 feet' },
-  { id: 'fast', name: 'Fast (+10 ft)', bp: 2, speed: 40, description: 'Base speed 40 feet (+10 ft)' },
-  { id: 'very_fast', name: 'Very Fast (+20 ft)', bp: 4, speed: 50, description: 'Base speed 50 feet (+20 ft)' },
-  { id: 'slow', name: 'Slow (-10 ft)', bp: -2, speed: 20, description: 'Base speed 20 feet (Grants +2 BP)' },
-  { id: 'ponderous', name: 'Ponderous (-20 ft)', bp: -4, speed: 10, description: 'Base speed 10 feet (Grants +4 BP)' },
-  { id: 'climber', name: 'Climber (Climb 30 ft)', bp: 2, speed: 30, description: 'Climb speed 30 ft, +5 racial bonus on climbing' },
-  { id: 'gliding', name: 'Gliding Wings', bp: 1, speed: 30, description: '5ft horizontal per 1ft fall, glide speed 30ft/rnd' },
-  { id: 'leaper', name: 'Leaper', bp: 1, speed: 0, description: 'Always treated as running start for Jump checks' },
-  { id: 'mountaineer', name: 'Mountaineer', bp: 1, speed: 0, description: 'Immune to altitude sickness, no defense loss on narrow surfaces' },
-  { id: 'sprinter', name: 'Sprinter', bp: 1, speed: 10, description: '+10 ft bonus speed when running' },
-  { id: 'swim', name: 'Swim (Swim 30 ft)', bp: 2, speed: 30, description: 'Swim speed 30 ft, +5 racial bonus on Swim checks' },
-  { id: 'terrain_movement', name: 'Terrain Movement', bp: 1, speed: 0, description: 'Ignore naturally difficult terrain of specific type' },
-  { id: 'burrow', name: 'Burrow (Burrow 20 ft)', bp: 2, speed: 20, description: 'Base burrow speed 20 ft' },
-  { id: 'flight_basic', name: 'Basic Flight (Fly 30 ft)', bp: 2, speed: 30, description: 'Fly speed 30 ft (Poor maneuverability)' },
-  { id: 'flight_improved', name: 'Improved Flight Speed (+10 ft)', bp: 1, speed: 10, description: 'Increases fly speed by 10 ft' },
-  { id: 'flight_maneuver', name: 'Improved Maneuverability', bp: 1, speed: 0, description: 'Improves fly maneuverability by 1 step' },
-  { id: 'strong_flyer', name: 'Strong Flyer', bp: 2, speed: 0, description: 'Increases size multiplier for fly speed' },
-  { id: 'hauler', name: 'Hauler', bp: 1, speed: 0, description: 'Not encumbered by carrying heavy load' },
-  { id: 'marcher', name: 'Marcher', bp: 1, speed: 0, description: 'Fatigued 1/2 when moving at regular pace' }
+  ...SPECIES_MOVEMENT_BASE_MODES,
+  ...SPECIES_MOVEMENT_MODIFICATIONS
 ];
 
 export const SPECIES_TRAITS_BASIC = [
-  { id: 'adapted', name: 'Adapted', bp: 1, type: 'Physical', description: 'No penalties or damage from one set environment type' },
-  { id: 'alter_form_basic', name: 'Alter Form (Basic)', bp: 1, type: 'Physical', description: 'Change appearance only (+5 Disguise)' },
-  { id: 'amphibious', name: 'Amphibious', bp: 1, type: 'Physical', description: 'Breathe air and water equally well, +10 Swim Speed' },
-  { id: 'bonded_terrain', name: 'Bonded Terrain', bp: 1, type: 'Defensive', description: '+2 dodge bonus to AC when in specific terrain type' },
-  { id: 'bonus_feature', name: 'Bonus Feature', bp: 1, type: 'Trained', description: 'Select one extra feature of choice' },
-  { id: 'camouflage', name: 'Camouflage', bp: 1, type: 'Physical', description: '+4 bonus on Stealth checks in favored terrain' },
-  { id: 'cats_luck', name: 'Cat\'s Luck', bp: 1, type: 'Defensive', description: 'Once per Long Rest make Reflex Check at Advantage' },
-  { id: 'cave_dweller', name: 'Cave Dweller', bp: 1, type: 'Trained', description: '+4 bonus on Survival checks underground' },
-  { id: 'craftsman', name: 'Craftsman', bp: 1, type: 'Trained', description: '+2 to specific Vocation skill' },
-  { id: 'digitigrade', name: 'Digitigrade / Ungulated', bp: 1, type: 'Movement', description: '+10 Movement Speed and +4 Stability' },
-  { id: 'draconic', name: 'Draconic', bp: 1, type: 'Physical', description: 'Access to purchase various Dragon traits' },
-  { id: 'emissary', name: 'Emissary', bp: 1, type: 'Social', description: '1/day check at advantage for Bluff or Diplomacy' },
-  { id: 'exoskeleton_partial', name: 'Exoskeleton (Partial)', bp: 1, type: 'Physical', description: 'DR (Str + 2) x2: Str 2, Leathery or Scaled' },
-  { id: 'focused_study', name: 'Focused Study', bp: 1, type: 'Trained', description: 'Gain Skill Focus in skill of choice' },
-  { id: 'frenzy', name: 'Frenzy', bp: 1, type: 'Physical', description: '1/day on damage fly into frenzy (+2 Con/Str, -2 AC)' },
-  { id: 'greedy_eye', name: 'Greedy Eye', bp: 1, type: 'Trained', description: '+4 bonus on all Appraise checks' },
-  { id: 'hardy', name: 'Hardy', bp: 1, type: 'Defensive', description: '+2 bonus on saving throws vs poison, spells, psi' },
-  { id: 'healthy', name: 'Healthy', bp: 1, type: 'Defensive', description: '+4 bonus on Fortitude saves vs disease and poison' },
-  { id: 'integrated', name: 'Integrated', bp: 1, type: 'Social', description: '+1 on Bluff, Disguise, and Knowledge (local)' },
-  { id: 'low_light_vision', name: 'Low Light Vision', bp: 1, type: 'Sensory', description: 'See twice as well in low light, spectrum vision' },
-  { id: 'lucky_lesser', name: 'Lucky (Lesser)', bp: 1, type: 'Defensive', description: '+1 racial bonus on all saving throws' },
-  { id: 'natural_armor', name: 'Natural Armor', bp: 1, type: 'Defensive', description: '+2 natural armor bonus' },
-  { id: 'patagia', name: 'Patagia', bp: 1, type: 'Physical', description: 'Gliding speed of 2x Ground speed' },
-  { id: 'reach', name: 'Reach', bp: 1, type: 'Physical', description: 'Melee reach of 10 feet' },
-  { id: 'reduced_sustenance', name: 'Reduced Sustenance', bp: 1, type: 'Physical', description: 'Eat and drink half typical amount' },
-  { id: 'relentless', name: 'Relentless', bp: 1, type: 'Physical', description: '+2 bonus on combat maneuver checks (Bull Rush/Overrun)' },
-  { id: 'runner', name: 'Runner', bp: 1, type: 'Movement', description: '+4 bonus on saves vs fatigue/exhaustion from running' },
-  { id: 'scent', name: 'Scent', bp: 1, type: 'Physical', description: 'Identify by smell, +4 to Track and Medical Diagnosis' },
-  { id: 'shadow_affinity', name: 'Shadow Affinity', bp: 1, type: 'Meta', description: '+5 to Stealth when in shadowy or dim areas' },
-  { id: 'shadow_blending', name: 'Shadow Blending', bp: 1, type: 'Meta', description: 'Attacks made against member in dim light have 30% miss chance' },
-  { id: 'shards_of_the_past', name: 'Shards of the Past', bp: 1, type: 'Meta', description: 'Pick two skills; gain +2 racial bonus on both' },
-  { id: 'silent_hunter', name: 'Silent Hunter', bp: 1, type: 'Movement', description: 'Reduce Stealth penalty for moving by 5' },
-  { id: 'silver_tongued', name: 'Silver Tongued', bp: 1, type: 'Social', description: '+2 bonus on Diplomacy and Bluff' },
-  { id: 'skill_bonus', name: 'Skill Bonus', bp: 1, type: 'Trained', description: '+2 racial bonus to divide amongst noted skills' },
-  { id: 'sneaky', name: 'Sneaky', bp: 1, type: 'Trained', description: '+2 racial bonus on Stealth checks' },
-  { id: 'sociable', name: 'Sociable', bp: 1, type: 'Social', description: 'Try failed Diplomacy attitude check again within 24 hrs' },
-  { id: 'stable_footed', name: 'Stable Footed', bp: 1, type: 'Defensive', description: '+4 racial Stability bonus on ground' },
-  { id: 'stalker', name: 'Stalker', bp: 1, type: 'Trained', description: '+2 bonus to Perception and Stealth vs one target' },
-  { id: 'static_bonus_feat', name: 'Static Bonus Feat', bp: 1, type: 'Trained', description: 'Gain one feat with no prerequisites as bonus feat' },
-  { id: 'tail', name: 'Tail', bp: 1, type: 'Physical', description: '+2 to Trip and Balance checks, usable as a club' },
-  { id: 'urbanite', name: 'Urbanite', bp: 1, type: 'Social', description: '+2 racial bonus on Diplomacy and Sense Motive' },
-  { id: 'water_sense', name: 'Water-Sense', bp: 1, type: 'Sensory', description: 'Blindsense 30ft vs creatures touching same water' }
+  { id: 'adapted', name: 'Adapted', bp: 1, type: 'Physical', description: 'No penalties or Damage from one set environment type. Multiple.' },
+  { id: 'alter_form_basic', name: 'Alter Form (Basic)', bp: 1, type: 'Physical', description: 'Base Category, Change Appearance only (+5 to Disguise).' },
+  { id: 'amphibious', name: 'Amphibious', bp: 1, type: 'Physical', description: 'Breathe Air and Water equally well, +10 to Swim Speed.' },
+  { id: 'bonded_terrain', name: 'Bonded Terrain', bp: 1, type: 'Defensive', description: '+2 dodge bonus to AC when in a specific terrain type.' },
+  { id: 'bonus_feature', name: 'Bonus Feature', bp: 1, type: 'Trained', description: 'Members of this race select one extra feature of their choice.' },
+  { id: 'camouflage', name: 'Camouflage', bp: 1, type: 'Physical', description: 'Choose a favored terrain type. +4 bonus on Stealth checks within that terrain.' },
+  { id: 'cats_luck', name: "Cat's Luck", bp: 1, type: 'Defensive', description: 'Once per Long Rest make a Reflex Check at Advantage.' },
+  { id: 'cave_dweller', name: 'Cave Dweller', bp: 1, type: 'Trained', description: '+4 bonus on Survival checks made underground.' },
+  { id: 'craftsman', name: 'Craftsman', bp: 1, type: 'Trained', description: '+2 to Specific Vocation.' },
+  { id: 'digitigrade', name: 'Digitigrade / Ungulated', bp: 1, type: 'Movement', description: '+10 Movement Speed and +4 Stability, Special pants and Boots needed.' },
+  { id: 'draconic', name: 'Draconic', bp: 1, type: 'Physical', description: 'Access to purchase various Dragon Traits' },
+  { id: 'emissary', name: 'Emissary', bp: 1, type: 'Social', description: 'Once per day make a check at advantage for Bluff or Diplomacy.' },
+  { id: 'exoskeleton_partial', name: 'Exoskeleton (Partial)', bp: 1, type: 'Physical', description: 'DR (Strength +2) x2: Str 2, Concealable - Leathery or Scaled.' },
+  { id: 'focused_study', name: 'Focused Study', bp: 1, type: 'Trained', description: 'Gain Skill Focus in a skill of their choice.' },
+  { id: 'frenzy', name: 'Frenzy', bp: 1, type: 'Physical', description: '1/day, whenever taking damage, fly into frenzy for 1 min (+2 Con/Str, –2 AC).' },
+  { id: 'greedy_eye', name: 'Greedy Eye', bp: 1, type: 'Trained', description: '+4 bonus on all Appraise checks.' },
+  { id: 'hardy', name: 'Hardy', bp: 1, type: 'Defensive', description: '+2 racial bonus on saving throws against poison, spells, and spell-like abilities.' },
+  { id: 'healthy', name: 'Healthy', bp: 1, type: 'Defensive', description: '+4 bonus on Fortitude saves against disease and poison' },
+  { id: 'integrated', name: 'Integrated', bp: 1, type: 'Social', description: '+1 bonus on Bluff, Disguise, and Knowledge (local) checks.' },
+  { id: 'low_light_vision', name: 'Low Light Vision', bp: 1, type: 'Sensory', description: 'See twice as well in low light, Improved Spectrum Vision (lower IR and UV).' },
+  { id: 'lucky_lesser', name: 'Lucky, Lesser', bp: 1, type: 'Defensive', description: '+1 racial bonus on all saving throws.' },
+  { id: 'natural_armor', name: 'Natural Armor', bp: 1, type: 'Defensive', description: '+2 natural armor bonus.' },
+  { id: 'patagia', name: 'Patagia', bp: 1, type: 'Physical', description: 'Gliding speed of 2x Ground speed, uses Acrobatics skill. Special Top Clothing.' },
+  { id: 'reach', name: 'Reach', bp: 1, type: 'Physical', description: 'Reach of 10 feet.' },
+  { id: 'reduced_sustenance', name: 'Reduced Sustenance', bp: 1, type: 'Physical', description: 'Eat and drink half typical.' },
+  { id: 'relentless', name: 'Relentless', bp: 1, type: 'Physical', description: '+2 bonus on combat maneuver checks made to bull rush or overrun an opponent.' },
+  { id: 'runner', name: 'Runner', bp: 1, type: 'Movement', description: '+4 racial bonus on saves to avoid fatigue/exhaustion/ill effects from running' },
+  { id: 'scent', name: 'Scent', bp: 1, type: 'Physical', description: 'Identify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).' },
+  { id: 'shadow_affinity', name: 'Shadow Affinity', bp: 1, type: 'Meta', description: 'Gain +5 to Stealth when in Shadowy or Dim area.' },
+  { id: 'shadow_blending', name: 'Shadow Blending', bp: 1, type: 'Meta', description: 'Attacks made against members in dim light have 30% miss chance.' },
+  { id: 'shards_of_the_past', name: 'Shards of the Past', bp: 1, type: 'Meta', description: 'Pick two skills. Gain +2 racial bonus on both. Represents past lives.' },
+  { id: 'silent_hunter', name: 'Silent Hunter', bp: 1, type: 'Movement', description: 'Reduce Stealth penalty for moving by 5 / Stealth checks while running at –20' },
+  { id: 'silver_tongued', name: 'Silver Tongued', bp: 1, type: 'Social', description: '+2 bonus on Diplomacy and Bluff. Can shift attitude up to three steps.' },
+  { id: 'skill_bonus', name: 'Skill Bonus', bp: 1, type: 'Trained', description: 'Gain +2 racial bonus to divide amongst noted skills.' },
+  { id: 'sneaky', name: 'Sneaky', bp: 1, type: 'Trained', description: '+2 racial bonus on Stealth checks.' },
+  { id: 'sociable', name: 'Sociable', bp: 1, type: 'Social', description: 'Diplomacy check to change attitude fails by 5 or more, try again within 24 hours.' },
+  { id: 'stable_footed', name: 'Stable Footed', bp: 1, type: 'Defensive', description: '+4 racial Stability bonus while standing on the ground.' },
+  { id: 'stalker', name: 'Stalker', bp: 1, type: 'Trained', description: 'Gain +2 bonus to Perception and Stealth checks versus one target.' },
+  { id: 'static_bonus_feat', name: 'Static Bonus Feat', bp: 1, type: 'Trained', description: 'Choose one feat with no prerequisites. All members gain this feat as a bonus feat.' },
+  { id: 'tail', name: 'Tail', bp: 1, type: 'Physical', description: '+2 to Trip and Balance Checks and usable as a Club.' },
+  { id: 'urbanite', name: 'Urbanite', bp: 1, type: 'Social', description: '+2 racial bonus on Diplomacy and Sense Motive checks.' },
+  { id: 'water_sense', name: 'Water-Sense', bp: 1, type: 'Sensory', description: 'Blindsense 30 feet against creatures touching the same body of water.' }
 ];
 
 export const SPECIES_TRAITS_ADVANCED = [
-  { id: 'adaptive_features', name: 'Adaptive Features', bp: 2, type: 'Physical', description: 'Change between specific features during Light Rest' },
-  { id: 'adaptive_skill_set', name: 'Adaptive Skill Set', bp: 2, type: 'Trained', description: '4 point bonus allotted in a pool' },
-  { id: 'additional_limbs', name: 'Additional Limbs', bp: 2, type: 'Physical', description: 'Another pair of prehensile limbs (Arms/Tentacles)' },
-  { id: 'ageless', name: 'Ageless', bp: 2, type: 'Physical', description: 'No penalties or visual signs of aging' },
-  { id: 'all_around_vision', name: 'All-Around Vision', bp: 2, type: 'Sensory', description: '+4 on Perception checks, immune to flanking' },
-  { id: 'alter_form_adv', name: 'Alter Form (Advanced)', bp: 2, type: 'Physical', description: 'Change appearance (+5 Disguise), gender, minor traits' },
-  { id: 'alternate_form', name: 'Alternate Form', bp: 2, type: 'Physical', description: 'An additional natural form' },
-  { id: 'aquatic', name: 'Aquatic', bp: 2, type: 'Movement', description: '+4 on Swim checks, may take 10 on swimming' },
-  { id: 'aquatic_strength', name: 'Aquatic Strength', bp: 2, type: 'Physical', description: '+1 size category for Combat/Str checks in water' },
-  { id: 'autotroph', name: 'Autotroph', bp: 2, type: 'Physical', description: 'Does not require food/drink; photosynthesizes/absorbs energy' },
-  { id: 'blind_sense', name: 'Blind Sense', bp: 2, type: 'Sensory', description: 'Sense unseen objects in 30ft radius or 60ft cone' },
-  { id: 'bodyform_armor', name: 'Bodyform Armor', bp: 2, type: 'Physical', description: 'Shapechange to gain protective layer (+4 DR)' },
-  { id: 'chameleon', name: 'Chameleon', bp: 2, type: 'Physical', description: '+5 Stealth or take 10 on Stealth checks' },
-  { id: 'chloroplast', name: 'Chloroplast', bp: 2, type: 'Physical', description: 'Double healing rate while in sunlight' },
-  { id: 'constriction', name: 'Constriction', bp: 2, type: 'Physical', description: 'Improved Grapple, crushing damage 2x Unarmed' },
-  { id: 'curiosity', name: 'Curiosity', bp: 2, type: 'Trained', description: '+4 on Diplomacy to gather info and Knowledge checks' },
-  { id: 'dark_sight', name: 'Dark Sight', bp: 2, type: 'Sensory', description: 'Clear vision in all light/darkness (UV, luminescence)' },
-  { id: 'defensive_training', name: 'Defensive Training', bp: 2, type: 'Defensive', description: '+2 dodge bonus to Defense' },
-  { id: 'dragon_might', name: 'Dragon Might', bp: 2, type: 'Physical', description: 'Lift and grapple as if 1 size category larger' },
-  { id: 'dragon_mind', name: 'Dragon Mind', bp: 2, type: 'Physical', description: 'Mental Resistance checks made with Advantage' },
-  { id: 'energy_resist', name: 'Energy Resistance', bp: 2, type: 'Physical', description: 'DR 10 vs chosen energy type (Pyro/Cryo/Sonic/Voltic)' },
-  { id: 'exoskeleton_light', name: 'Exoskeleton (Light)', bp: 2, type: 'Physical', description: 'DR (Str + 2) x3: Str 3, Heavy Scales or Plating' },
-  { id: 'fast_heal', name: 'Fast Heal', bp: 2, type: 'Physical', description: 'Daily recovery of Health/Vitality during Light Rest' },
-  { id: 'fey_affinity', name: 'Fey Affinity', bp: 2, type: 'Meta', description: 'Animals treat character as Trusting & Friendly' },
-  { id: 'hive_connection', name: 'Hive Connection', bp: 2, type: 'Meta', description: 'Mentally share information across hive members' },
-  { id: 'mind_speech', name: 'Mind Speech (Telepathy)', bp: 2, type: 'Meta', description: 'Telepathic communication to one subject in 500 ft' },
-  { id: 'natural_weapons', name: 'Natural Weapons', bp: 2, type: 'Combat', description: 'Claw, Fang, Horn, or Tail attack (1d6 damage)' },
-  { id: 'powerful_charge', name: 'Powerful Charge', bp: 2, type: 'Combat', description: 'Charge deals 2x damage dice + 1.5x Str bonus' },
-  { id: 'prehensile_tail', name: 'Prehensile Tail', bp: 2, type: 'Physical', description: '+2 Climb/Balance, usable as off-hand' },
-  { id: 'quadruped', name: 'Quadruped', bp: 2, type: 'Movement', description: 'Four legged, +4 Stability, +10 movement speed' },
-  { id: 'quick_reactions', name: 'Quick Reactions', bp: 2, type: 'Physical', description: 'Use double Agility score for base Initiative' },
-  { id: 'resistant', name: 'Resistant', bp: 2, type: 'Defensive', description: '+2 saves vs mind-affecting and poison' },
-  { id: 'sleepless', name: 'Sleepless', bp: 2, type: 'Physical', description: 'Does not require sleep; rest regains metaphysical energy' },
-  { id: 'thermal_sight', name: 'Thermal Sight', bp: 2, type: 'Sensory', description: 'See IR heat patterns, track warm targets in dark' },
-  { id: 'venom', name: 'Venom', bp: 2, type: 'Physical', description: 'Hemotoxic (Str/Sta) or Neurotoxic (Agi/Sensory) toxin' }
+  { id: 'adaptive_features', name: 'Adaptive Features', bp: 2, is_ranked: true, type: 'Physical', description: 'May change between specific features during a Light Rest. Ranked.' },
+  { id: 'adaptive_skill_set', name: 'Adaptive Skill Set', bp: 2, is_ranked: true, type: 'Trained', description: '4 point bonus allotted in a pool. Ranked.' },
+  { id: 'additional_limbs', name: 'Additional Limbs', bp: 2, type: 'Physical', description: 'Another pair of prehensile limbs; Arms, Tentacles or other.' },
+  { id: 'ageless', name: 'Ageless', bp: 2, type: 'Physical', description: 'Does not suffer penalties nor show any signs of aging.' },
+  { id: 'all_around_vision', name: 'All-Around Vision', bp: 2, type: 'Sensory', description: '+4 racial bonus on Perception checks and immune to flanking.' },
+  { id: 'alter_form_adv', name: 'Alter Form (Adv)', bp: 2, type: 'Physical', description: 'Base Category, Change Appearance (+5 Disguise)/gender/adjust minor traits.' },
+  { id: 'alternate_form', name: 'Alternate Form', bp: 2, type: 'Physical', description: 'An additional ‘Natural’ Form.' },
+  { id: 'aquatic', name: 'Aquatic', bp: 2, type: 'Movement', description: '+4 racial bonus on Swim checks and may take 10 on swimming checks.' },
+  { id: 'aquatic_strength', name: 'Aquatic Strength', bp: 2, type: 'Physical', description: '+1 size category for Combat, Strength or other checks while in water.' },
+  { id: 'autotroph', name: 'Autotroph', bp: 2, type: 'Physical', description: 'Does not require food/drink, may eat/digest elixirs for effects.' },
+  { id: 'blind_sense', name: 'Blind Sense', bp: 2, type: 'Sensory', description: 'Sense unseen objects in a 30 ft Radius or Cone of 60 ft.' },
+  { id: 'bodyform_appendages', name: 'Bodyform Appendages', bp: 2, type: 'Physical', description: 'Shapechange to gain additional limbs (2 arms, legs, tentacles, wings, or fins).' },
+  { id: 'bodyform_armor', name: 'Bodyform Armor', bp: 2, type: 'Physical', description: 'Shapechange to gain a protective layer.' },
+  { id: 'bodyform_armor_options', name: 'Bodyform Armor Options', bp: 2, is_ranked: true, type: 'Physical', description: 'Upgraded Bodyform Armor, +1 option slot. Ranked.' },
+  { id: 'bodyform_adaptation', name: 'Bodyform Adaptation', bp: 2, type: 'Physical', description: 'Physiology shifts to be compatible with the new environment.' },
+  { id: 'bodyform_mutation', name: 'Bodyform Mutation', bp: 2, is_ranked: true, type: 'Physical', description: 'Adjust to a Racial Trait of which prerequisites are possessed. Ranked.' },
+  { id: 'bodyform_sizing', name: 'Bodyform Sizing', bp: 2, type: 'Physical', description: 'Shapechange to alter size category 1 step up or down.' },
+  { id: 'bodyform_structure', name: 'Bodyform Structure', bp: 2, is_ranked: true, type: 'Physical', description: 'Adjust Physical Abilities in equal trade. Once per day for the entire day. Ranked.' },
+  { id: 'bodyform_weapons', name: 'Bodyform Weapons', bp: 2, type: 'Physical', description: 'Shapechange to gain ‘Natural Weaponry’ based on Size' },
+  { id: 'bodyform_weapon_options', name: 'Bodyform Weapon Options', bp: 2, is_ranked: true, type: 'Physical', description: 'Upgraded Bodyform Weapons, +1 option slot. Ranked.' },
+  { id: 'brutal', name: 'Brutal', bp: 2, type: 'Physical', description: 'Growths/Spurs doubling Str damage bonus to natural damage (Lethal).' },
+  { id: 'chameleon', name: 'Chameleon', bp: 2, type: 'Physical', description: 'Changes color, +5 Stealth or may take 10 on Stealth checks.' },
+  { id: 'chloroplast', name: 'Chloroplast', bp: 2, type: 'Physical', description: 'Gain sustenance from and Double Healing rate while in daylight equivalent light.' },
+  { id: 'constriction', name: 'Constriction', bp: 2, type: 'Physical', description: 'Grants Improved and Greater Grapple, Crushing damage is 2x Unarmed.' },
+  { id: 'curiosity', name: 'Curiosity', bp: 2, type: 'Trained', description: '+4 bonus on Diplomacy checks to gather information, and Knowledge checks.' },
+  { id: 'dark_sight', name: 'Dark Sight', bp: 2, type: 'Sensory', description: 'Clear vision in all levels of Light or Darkness (UV, seeing luminescence).' },
+  { id: 'defensive_training', name: 'Defensive Training', bp: 2, type: 'Defensive', description: '+2 dodge bonus to Defense.' },
+  { id: 'dragon_eyes', name: 'Dragon Eyes', bp: 2, type: 'Sensory', description: 'Choose from Low-Light Vision line (Dark, Ether, Thermal). Multiple.' },
+  { id: 'dragon_form', name: 'Dragon Form', bp: 2, type: 'Meta', description: 'Alternate Form of a Large size Dragon' },
+  { id: 'dragon_might', name: 'Dragon Might', bp: 2, type: 'Physical', description: 'Lift Objects and Grapple as if 1 size category larger. Req: Dragonkin, Str 4.' },
+  { id: 'dragon_mind', name: 'Dragon Mind', bp: 2, type: 'Physical', description: 'Make any Mental Resistance checks with Advantage. Req: Dragonkin, Wis 2.' },
+  { id: 'dragon_senses', name: 'Dragon Senses', bp: 2, type: 'Sensory', description: 'Make Awareness Checks with Advantage. Req: Dragonkin, Awareness 11.' },
+  { id: 'energy_resist', name: 'Energy Resist', bp: 2, is_ranked: true, type: 'Physical', description: 'DR 10 vs Chosen Type (Pyro, Cryo, Sonic, Voltic, Corrosive). Multiple/Ranked.' },
+  { id: 'exoskeleton_light', name: 'Exoskeleton (Light)', bp: 2, type: 'Physical', description: 'DR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating.' },
+  { id: 'fast_heal', name: 'Fast Heal', bp: 2, type: 'Physical', description: 'Daily Recovery of Health and Vitality during a Light Rest (repeatable).' },
+  { id: 'fey_affinity', name: 'Fey Affinity', bp: 2, type: 'Meta', description: 'Animals treat character as Trusting & Neutral, Friendly.' },
+  { id: 'fiend_affinity', name: 'Fiend Affinity', bp: 2, type: 'Meta', description: 'Animals treat character as a Predator & Dangerous, Wary.' },
+  { id: 'gifted_linguist', name: 'Gifted Linguist', bp: 2, type: 'Trained', description: '+4 racial bonus on Linguistics checks.' },
+  { id: 'hive_connection', name: 'Hive Connection', bp: 2, type: 'Meta', description: 'Allows members to mentally share information on different levels (Special).' },
+  { id: 'longevity', name: 'Longevity', bp: 2, type: 'Physical', description: 'Effectively doubles age categories.' },
+  { id: 'lucky_greater', name: 'Lucky, Greater', bp: 2, type: 'Meta', description: '+2 racial bonus on all saving throws.' },
+  { id: 'master_tinker', name: 'Master Tinker', bp: 2, type: 'Trained', description: '+2 bonus on Disable Device and Engineering.' },
+  { id: 'mind_speech', name: 'Mind Speech', bp: 2, is_ranked: true, type: 'Meta', description: 'Telepathic Communication to one subject within 500 ft. Ranked.' },
+  { id: 'natural_weapons', name: 'Natural Weapons', bp: 2, type: 'Combat', description: 'A Claw, Fang, Horn or other attack form.' },
+  { id: 'powerful_charge', name: 'Powerful Charge', bp: 2, type: 'Combat', description: 'Charge deals twice the number of damage dice plus 1-1/2 times Str bonus.' },
+  { id: 'prehensile_tail', name: 'Prehensile Tail', bp: 2, type: 'Physical', description: '+2 to Climbing and Balance checks and usable as an off-hand. Special Pants.' },
+  { id: 'prehensile_limbs', name: 'Prehensile Limbs', bp: 2, type: 'Physical', description: 'Fully Prehensile tentacles/off-hands/limbs, make certain checks with Advantage.' },
+  { id: 'quadruped', name: 'Quadruped', bp: 2, type: 'Movement', description: 'Four legged, +4 Stability, +10 movement speed. Special Accommodations.' },
+  { id: 'quick_reactions', name: 'Quick Reactions', bp: 2, type: 'Physical', description: 'Use double Agility score to calculate base Initiative. Req: Racial Agility +1.' },
+  { id: 'resistant', name: 'Resistant', bp: 2, type: 'Defensive', description: '+2 racial bonus on saving throws against mind-affecting effects and poison.' },
+  { id: 'rock_throwing', name: 'Rock Throwing', bp: 2, type: 'Combat', description: 'Range increment 60ft. Damage 2d6 + 1.5 Str. Req: Large.' },
+  { id: 'sleepless', name: 'Sleepless', bp: 2, type: 'Physical', description: 'Does not require sleep, may rest to regain metaphysical energy.' },
+  { id: 'swarming', name: 'Swarming', bp: 2, type: 'Combat', description: 'Two members can share same square. If attacking same foe, considered flanking.' },
+  { id: 'synthetic_armor_options', name: 'Synthetic Armor Options', bp: 2, type: 'Physical', description: 'Armor and Armor Upgrades available as Augmentations. Req: Synthetic, TL2.' },
+  { id: 'synthetic_weapon_options', name: 'Synthetic Weapon Options', bp: 2, type: 'Physical', description: 'Weapons and Weapon Upgrades available as Augmentations. Req: Synthetic, TL2.' },
+  { id: 'thermal_sight', name: 'Thermal Sight', bp: 2, type: 'Sensory', description: 'See Infra-Red/heat patterns, track passage of a warm target without light.' },
+  { id: 'treespeech', name: 'Treespeech', bp: 2, type: 'Meta', description: 'Ability to converse with plants.' },
+  { id: 'venom', name: 'Venom', bp: 2, type: 'Physical', description: 'Hemotoxic (Str/Sta) / Neurotoxic (Agility/Sensory) / Cytotoxic (Tissue Corrosive)' }
 ];
 
 export const SPECIES_TRAITS_ELITE = [
-  { id: 'blind_sight', name: 'Blind Sight', bp: 4, type: 'Sensory', description: 'Accurately target unseen objects in 30ft radius / 60ft cone' },
-  { id: 'dragon_breath', name: 'Dragon Breath Weapon', bp: 4, type: 'Meta', description: '30ft cone or 60ft line of energy (Str x d8 damage)' },
-  { id: 'dragon_wings', name: 'Dragon Wings', bp: 4, type: 'Movement', description: 'Leathery wings: Fly speed = 3x Ground speed' },
-  { id: 'energy_immunity', name: 'Energy Immunity', bp: 4, type: 'Physical', description: 'Completely immune to specific energy damage type' },
-  { id: 'ether_sight', name: 'Ether Sight', bp: 4, type: 'Meta', description: 'See invisible, phased, and bioluminescence auras' },
-  { id: 'exoskeleton_heavy', name: 'Exoskeleton (Heavy)', bp: 4, type: 'Physical', description: 'DR (Str + 2) x4: Str 4, Heavy Plating or Shell' },
-  { id: 'flight_true', name: 'True Flight', bp: 4, type: 'Movement', description: 'Fly speed = 2x Ground speed with Average Maneuverability' },
-  { id: 'hexapedal', name: 'Hexapedal', bp: 4, type: 'Movement', description: 'Six legged, +8 Stability, +20 movement speed' },
-  { id: 'immortal', name: 'Immortal', bp: 4, type: 'Meta', description: 'Cannot die of natural causes or age, immune to disease/poison' },
-  { id: 'regeneration', name: 'Regeneration', bp: 4, type: 'Physical', description: 'Regenerates lost limbs and organs with health recovery' },
-  { id: 'semi_corporeal', name: 'Semi-Corporeal', bp: 4, type: 'Meta', description: 'DR 30 vs physical, phase through solid matter at will' },
-  { id: 'synthetic_tech_assim', name: 'Synthetic Tech Assimilation', bp: 4, type: 'Physical', description: 'Absorb, power, and use technological devices natively' },
-  { id: 'vampiric_power', name: 'Vampiric Power', bp: 4, type: 'Meta', description: 'Gain physical ability point per 2 Sta drained' }
+  { id: 'alter_form_elite', name: 'Alter Form (Elite)', bp: 4, type: 'Physical', description: 'Base Category, Change Appearance (+10 Disguise)/gender/adjust minor traits.' },
+  { id: 'blind_sight', name: 'Blind Sight', bp: 4, type: 'Sensory', description: 'Accurately target unseen objects in a 30 ft Radius or 60 ft Cone.' },
+  { id: 'bodyform_heavy_armor', name: 'Bodyform Heavy Armor', bp: 4, type: 'Physical', description: 'Shapechange to gain a heavy protective layer (Doubles Bodyform Armor bonus to DR).' },
+  { id: 'dragon_apotheosis', name: 'Dragon Apotheosis', bp: 4, type: 'Meta', description: 'Gain Type Specific Ability and access to Advanced Dragon Abilities. Req: Dragon Form.' },
+  { id: 'dragon_breath', name: 'Dragon Breath', bp: 4, type: 'Meta', description: 'Breath Weapon - 30 ft Cone or 60 ft Line of Energy [Str x d8 in Dmg].' },
+  { id: 'dragon_wings', name: 'Dragon Wings', bp: 4, type: 'Movement', description: 'Grow Leathery Wings - Fly Speed of 3x Ground Speed. Req: Dragonkin, Exoskeleton.' },
+  { id: 'energized_breath', name: 'Energized Breath', bp: 4, type: 'Meta', description: 'Focus energy into breath weapon to roll damage at advantage, 1/2 damage is magic.' },
+  { id: 'energy_absorption', name: 'Energy Absorption', bp: 4, is_ranked: true, type: 'Meta', description: 'Heals 20% of damage ignored. Ranked. Req: Energy Immunity.' },
+  { id: 'energy_immunity', name: 'Energy Immunity', bp: 4, type: 'Physical', description: 'Completely Immune to specific Energy Damage. Req: Sta 2, DR 20 vs specific Energy.' },
+  { id: 'ether_sight', name: 'Ether Sight', bp: 4, type: 'Meta', description: 'See the Invisible, Phased (other-dimensional energies) and Bioluminescence Auras.' },
+  { id: 'exoskeleton_heavy', name: 'Exoskeleton (Heavy)', bp: 4, type: 'Physical', description: 'DR (Strength +2) x4: Str 4, Obvious, Special Clothing - Heavy Plating or Shell.' },
+  { id: 'flight', name: 'Flight', bp: 4, type: 'Movement', description: 'Flight Speed of 2x Ground Speed and Average Maneuverability, uses Acrobatics skill.' },
+  { id: 'hexapedal', name: 'Hexapedal', bp: 4, type: 'Movement', description: 'Six legged, +8 Stability, +20 movement speed. Special Accommodations.' },
+  { id: 'immortal', name: 'Immortal', bp: 4, type: 'Meta', description: 'Cannot die of Natural Causes, nor suffer damage from Poisons/Diseases. Req: Ageless.' },
+  { id: 'nimble_appendages', name: 'Nimble Appendages', bp: 4, type: 'Physical', description: 'Usable as ‘main-hand’ with no penalties. Req: Additional Limbs/Tail.' },
+  { id: 'non_living', name: 'Non-Living', bp: 4, type: 'Meta', description: 'Undead, Elementals and others not classified as Living by normal standards.' },
+  { id: 'regeneration', name: 'Regeneration', bp: 4, type: 'Physical', description: 'Will regrow lost Limbs and Organs with recovery of Health.' },
+  { id: 'self_revivifying', name: 'Self Revivifying', bp: 4, type: 'Meta', description: '1/day attempt to resurrect. Cost: 1 Karma, Con Check Diff 20. Req: Immortal.' },
+  { id: 'semi_corporeal', name: 'Semi-Corporeal', bp: 4, type: 'Meta', description: 'DR30 vs physical, able to Phase through solid matter, Solidify at will.' },
+  { id: 'synthetic_aux_core', name: 'Synthetic Aux Core', bp: 4, type: 'Physical', description: 'Revivification without loss of Karma/Exp. Not traumatic. Req: Synthetic, TL4.' },
+  { id: 'synthetic_exotic_opt', name: 'Synthetic Exotic Opt', bp: 4, type: 'Physical', description: 'Synthetic version of a Racial Trait or Special Feature. Req: Synthetic, Multiple.' },
+  { id: 'synthetic_tech_assim', name: 'Synthetic Tech Assim', bp: 4, type: 'Physical', description: 'Able to absorb, power and use technological devices. Req: Synthetic, TL5.' },
+  { id: 'vampiric_power', name: 'Vampiric Power', bp: 4, type: 'Meta', description: 'Gain point in Physical Ability per 2 points of Sta drained (Lethal at 3+Sta).' },
+  { id: 'wyrm_senses', name: 'Wyrm Senses', bp: 4, type: 'Sensory', description: 'Take Features from any Acute Sense Line. Req: Dragon Apotheosis.' }
 ];
 
 export const SPECIES_DISADVANTAGES = [
-  { id: 'armless', name: 'Armless', refundBP: 4, description: 'Without arms or primary manipulators (-4 BP)' },
-  { id: 'elemental_vulnerability', name: 'Elemental Vulnerability', refundBP: 4, description: '+2 damage per die from Acid, Cold, Electricity, or Fire (-4 BP)' },
-  { id: 'light_blindness', name: 'Light Blindness', refundBP: 4, description: 'Abrupt bright light blinds 1 round, then dazzled (-4 BP)' },
-  { id: 'light_sensitivity', name: 'Light Sensitivity', refundBP: 2, description: 'Dazzled in bright sunlight (-2 BP)' },
-  { id: 'negative_energy_affinity', name: 'Negative Energy Affinity', refundBP: 4, description: 'Alive, but harmed by positive/healed by negative energy (-4 BP)' },
-  { id: 'sunlight_powerlessness', name: 'Sunlight Powerlessness', refundBP: 6, description: 'Staggered/Helpless in direct sunlight (-6 BP)' },
-  { id: 'vulnerable_to_sunlight', name: 'Vulnerable to Sunlight', refundBP: 4, description: 'Take 1 Con damage per hour in sunlight (-4 BP)' }
+  { id: 'armless', name: 'Armless', refundBP: 4, costBP: -4, type: 'Physical', description: 'Without Arms.' },
+  { id: 'elemental_vulnerability', name: 'Elemental Vulnerability', refundBP: 4, costBP: -4, type: 'Physical', description: 'Vulnerability (+2 dmg per die) to Acid, Cold, Electricity, or Fire.' },
+  { id: 'light_blindness', name: 'Light Blindness', refundBP: 4, costBP: -4, type: 'Sensory', description: 'Abrupt exposure to bright light blinds for 1 round; then dazzled. Req: Darkvision.' },
+  { id: 'light_sensitivity', name: 'Light Sensitivity', refundBP: 2, costBP: -2, type: 'Sensory', description: 'Dazzled in bright sunlight. Req: Darkvision.' },
+  { id: 'negative_energy_affinity', name: 'Negative Energy Affinity', refundBP: 4, costBP: -4, type: 'Meta', description: 'Alive, but harmed by positive/healed by negative energy (like undead).' },
+  { id: 'slow', name: 'Slow (Disadvantage)', refundBP: 2, costBP: -2, type: 'Movement', description: 'Base Speed -10 feet (+2 BP Gain) *' },
+  { id: 'ponderous', name: 'Ponderous (Disadvantage)', refundBP: 4, costBP: -4, type: 'Movement', description: 'Base Speed -20 feet (+4 BP Gain) *' },
+  { id: 'sunlight_powerlessness', name: 'Sunlight Powerlessness', refundBP: 6, costBP: -6, type: 'Meta', description: 'Staggered/Helpless in direct sunlight. Req: Undead/Half-Undead.' },
+  { id: 'vulnerable_to_sunlight', name: 'Vulnerable to Sunlight', refundBP: 4, costBP: -4, type: 'Meta', description: 'Take 1 Con damage per hour in sunlight. Req: Native to Darklands/Shadow.' }
 ];
 
 // ═══════════════════════════════════════════════════════════
@@ -940,7 +1729,7 @@ export const DESIGNATIONS = {
 
 export const BOSS_TYPES = {
   Standard: { id: 'Standard', name: 'Standard Unit (1x Health)', multiplier: 1, description: 'Standard health pool, regular action economy' },
-  Minion: { id: 'Minion', name: 'Minion (1 HP Rule)', multiplier: 0, isMinion: true, description: '1 HP Rule: Incapacitated if any damage bypasses DR' },
+  Minion: { id: 'Minion', name: 'Minion (1 Health Rule)', multiplier: 0, isMinion: true, description: '1 Health Rule: Incapacitated if any damage bypasses DR' },
   Boss: { id: 'Boss', name: 'Boss (2x Health + Legendary Resilience)', multiplier: 2, isBoss: true, description: '2x Vitality & Health, Legendary Resilience (1-3 saves/day), Lair Actions' },
   Mastermind: { id: 'Mastermind', name: 'Mastermind (3x Health + Plot Armor)', multiplier: 3, isMastermind: true, description: '3x to 5x Vitality & Health, Plot Armor escape mechanics, macro-scale influence' }
 };
@@ -956,7 +1745,7 @@ export const TACTICAL_BEHAVIORS = [
   'Electronic Jamming & Sabotage',
   'Metaphysical Area Denial',
   'Buff & Command Coordination',
-  'Strategic Retreat on 50% HP'
+  'Strategic Retreat on 50% Health'
 ];
 
 // ═══════════════════════════════════════════════════════════
@@ -965,7 +1754,7 @@ export const TACTICAL_BEHAVIORS = [
 
 export const COMPANION_TYPES = {
   Biological: { id: 'Biological', name: 'Biological (Beast / Xeno / Plant)', integrityType: 'Vitality + Health', recovery: 'Natural Healing / Medicine Skill', fuel: 'Food / Water / Sunlight', description: 'Living creature; full Vitality and Health pools' },
-  Synthetic: { id: 'Synthetic', name: 'Synthetic (Drone / Automaton / Cyber-Pet)', integrityType: 'Structure Points (SP = Health x 1.5)', recovery: 'Repair / Engineering Skill', fuel: 'Energy Cells / Power Core', description: 'Mechanical unit; no Vitality, immune to poison, disease, fatigue' },
+  Synthetic: { id: 'Synthetic', name: 'Synthetic (Drone / Automaton / Cyber-Pet)', integrityType: 'Structure Points (SP = Vitality + Health)', recovery: 'Repair / Engineering Skill', fuel: 'Energy Cells / Power Core', description: 'Mechanical unit; combines Vitality and Health into Structure, no Vitality buffer, immune to poison, disease, fatigue' },
   Metaphysical: { id: 'Metaphysical', name: 'Metaphysical (Spirit / Elemental / Familiar)', integrityType: 'Essence (Health)', recovery: 'Attune check / Master Essence Donation', fuel: 'Master\'s Essence / Ambient Magic', description: 'Ethereal entity; discorporates on 0 Essence, re-summoned with Karma' }
 };
 
@@ -1110,7 +1899,7 @@ export const META_TECH_PASSIVE_CATALOG = [
   { id: 'energy_sheath', name: 'Energy Sheath', discipline: 'Energy (Elemental)', sockets: 1, dcMod: 5, targetType: 'Weapon', effect: 'Deals +1d6 Energy damage (Pyro/Cryo/Voltic)' },
   { id: 'ghost_strike', name: 'Ghost-Strike', discipline: 'Dimension (Phase)', sockets: 1, dcMod: 5, targetType: 'Weapon', effect: 'Ignores physical DR; only blocked by force fields' },
   { id: 'seeking', name: 'Seeking Micro-Correction', discipline: 'Mental (Sense)', sockets: 1, dcMod: 5, targetType: 'Weapon', effect: '+2 Attack roll bonus via micro-telekinetic nudging' },
-  { id: 'vampiric', name: 'Vampiric Drain', discipline: 'Entropy (Chaos)', sockets: 1, dcMod: 5, targetType: 'Weapon', effect: 'On Critical Hit, wielder heals HP equal to 1/2 damage' },
+  { id: 'vampiric', name: 'Vampiric Drain', discipline: 'Entropy (Chaos)', sockets: 1, dcMod: 5, targetType: 'Weapon', effect: 'On Critical Hit, wielder heals Health equal to 1/2 damage' },
   { id: 'soul_bound', name: 'Soul-Bound', discipline: 'Mental (Projection)', sockets: 1, dcMod: 5, targetType: 'Weapon/Armor', effect: 'Only functions for designated user; immune to disarm' },
   { id: 'featherweight', name: 'Featherweight Weave', discipline: 'Dimension (Gravity)', sockets: 1, dcMod: 5, targetType: 'Armor', effect: 'Armor counts as one weight category lighter' },
   { id: 'chameleon_weave', name: 'Chameleon Shadow Weave', discipline: 'Illusion (Shadow)', sockets: 1, dcMod: 5, targetType: 'Armor', effect: '+4 Stealth while moving, +8 when stationary' },
@@ -1326,6 +2115,336 @@ export const CULTURAL_QUIRKS = [
   'Weather Rituals: Technological terraforming accompanied by sacred ceremonial observances',
   'Sound Silence: Continuous low-frequency harmonic resonance hum piped into all public plazas'
 ];
+
+// ═══════════════════════════════════════════════════════════
+// MOVEMENT MODES, PACES & FATIGUE SYSTEM
+// ═══════════════════════════════════════════════════════════
+
+export const MOVEMENT_MODES_AND_PACES = {
+  ground: {
+    id: 'ground',
+    name: 'Ground Movement',
+    mediumBaseSpeed: 30, // ft per 6s round (3.72 mph / 6 kph)
+    description: 'Terrestrial walking and running pace baseline.',
+    paces: {
+      walk: { id: 'walk', name: 'Walk', multiplier: 1.0, speedFt: 30, actionPenalty: 0, checkDC: null, checkSkill: null, stealthBonus: 0, description: 'Default baseline pace' },
+      jog: { id: 'jog', name: 'Jog', multiplier: 2.0, speedFt: 60, actionPenalty: -2, checkDC: null, checkSkill: null, stealthBonus: 0, description: 'Hurried pace with subtlety penalty' },
+      running: { id: 'running', name: 'Running', multiplier: 4.0, featureMultiplier: 5.0, speedFt: 120, actionPenalty: -4, checkDC: 10, checkSkill: 'Athletics', stealthBonus: 0, description: 'Fast pace requiring Athletics checks' },
+      sprinting: { id: 'sprinting', name: 'Sprinting', multiplier: 6.0, featureMultiplier: 7.0, speedFt: 180, actionPenalty: -8, checkDC: 15, checkSkill: 'Athletics', stealthBonus: 0, description: 'Maximum sprint speed requiring Athletics DC 15+' },
+      crawl: { id: 'crawl', name: 'Crawl', multiplier: 0.5, speedFt: 15, actionPenalty: 0, checkDC: null, checkSkill: null, stealthBonus: 2, condition: 'Prone', description: 'Low profile crawling with +2 stealth' },
+      slow_crawl: { id: 'slow_crawl', name: 'Slow Crawl', multiplier: 0.25, speedFt: 7.5, actionPenalty: 0, checkDC: null, checkSkill: null, stealthBonus: 4, condition: 'Prone', description: 'Very slow crawl with +4 stealth' }
+    }
+  },
+  flying: {
+    id: 'flying',
+    name: 'Flying Movement',
+    mediumBaseSpeed: 60, // 2x walking speed
+    description: '3D aerial locomotion with flight maneuvers.',
+    paces: {
+      flight: { id: 'flight', name: 'Flight', multiplier: 1.0, speedFt: 60, actionPenalty: 0, checkDC: null, checkSkill: null, description: 'Standard flying speed (double walking speed)' },
+      sail: { id: 'sail', name: 'Sail', multiplier: 2.0, speedFt: 120, actionPenalty: -2, checkDC: null, checkSkill: null, description: 'Hurried cruising speed' },
+      surge: { id: 'surge', name: 'Surge / Soar', multiplier: 4.0, featureMultiplier: 5.0, speedFt: 240, actionPenalty: -4, checkDC: 10, checkSkill: 'Acrobatics', description: 'Rapid chase speed requiring Acrobatics DC 10+' },
+      diving: { id: 'diving', name: 'Diving', multiplier: 2.0, featureMultiplier: 9.0, speedFt: 480, actionPenalty: -4, checkDC: 15, checkSkill: 'Acrobatics', description: 'High-speed descent maneuver' },
+      gliding: { id: 'gliding', name: 'Gliding', multiplier: 1.0, speedFt: 60, actionPenalty: 2, checkDC: 10, checkSkill: 'Acrobatics', dropRate: '1ft fall per 5ft horiz', description: 'Controlled descent (+2 to actions)' },
+      hover: { id: 'hover', name: 'Hover / Controlled Descent', multiplier: 0.5, speedFt: 30, actionPenalty: 0, checkDC: 15, checkSkill: 'Acrobatics', description: 'Slow or stationary flight for observation' }
+    }
+  },
+  swimming: {
+    id: 'swimming',
+    name: 'Swimming Movement',
+    mediumBaseSpeed: 15, // 1/2 walking speed (1.83 mph / 3 kph)
+    description: 'Aquatic propulsion through liquid.',
+    paces: {
+      swimming: { id: 'swimming', name: 'Swimming', multiplier: 1.0, featureMultiplier: 2.0, speedFt: 15, actionPenalty: 0, checkDC: null, checkSkill: null, description: 'Standard swim speed' },
+      glide: { id: 'glide', name: 'Glide', multiplier: 2.0, featureMultiplier: 4.0, speedFt: 30, actionPenalty: -2, checkDC: 10, checkSkill: 'Athletics (Swimming)', description: 'Hurried swim pace' },
+      stroke: { id: 'stroke', name: 'Stroke', multiplier: 4.0, featureMultiplier: 6.0, speedFt: 60, actionPenalty: -4, checkDC: 15, checkSkill: 'Athletics (Swimming)', description: 'Fast power stroke swim pace' },
+      treading: { id: 'treading', name: 'Treading', multiplier: 0.5, speedFt: 7.5, actionPenalty: 2, checkDC: 5, checkSkill: 'Athletics (Swimming)', description: 'Surface treading (+2 bonus to actions)' }
+    }
+  },
+  climbing: {
+    id: 'climbing',
+    name: 'Climbing Movement',
+    mediumBaseSpeed: 15,
+    description: 'Vertical scaling across terrain.',
+    paces: {
+      easy: { id: 'easy', name: 'Easy Climb (DC 10+)', multiplier: 0.5, speedFt: 15, checkDC: 10, checkSkill: 'Athletics (Climbing)', description: 'Half walking speed' },
+      moderate: { id: 'moderate', name: 'Moderate Climb (DC 15+)', multiplier: 0.25, speedFt: 7.5, checkDC: 15, checkSkill: 'Athletics (Climbing)', description: 'Quarter walking speed' },
+      difficult: { id: 'difficult', name: 'Difficult Climb (DC 20+)', multiplier: 0.1, speedFt: 3, checkDC: 20, checkSkill: 'Athletics (Climbing)', description: 'Tenth walking speed' },
+      scaling: { id: 'scaling', name: 'Scaling', multiplier: 1.0, featureMultiplier: 2.0, speedFt: 30, actionPenalty: -2, checkDC: null, checkSkill: 'Athletics (Climbing)', checkPenalty: -5, description: 'Ascending at full base speed (-5 check penalty)' },
+      fast_ascent: { id: 'fast_ascent', name: 'Fast Ascent', multiplier: 2.0, featureMultiplier: 3.0, speedFt: 60, actionPenalty: -4, checkDC: null, checkSkill: 'Athletics (Climbing)', checkPenalty: -10, description: 'Ascending at double speed (-10 check penalty)' },
+      fast_descent: { id: 'fast_descent', name: 'Fast Descent', multiplier: 4.0, featureMultiplier: 6.0, speedFt: 120, actionPenalty: -4, checkDC: 20, checkSkill: 'Athletics (Climbing)', checkPenalty: -10, description: 'Descending at quadruple speed without injury' }
+    }
+  },
+  burrowing: {
+    id: 'burrowing',
+    name: 'Burrowing Movement',
+    mediumBaseSpeed: 7.5, // 1/4 walking speed
+    description: 'Subterranean displacement through earth, sand, and rock.',
+    paces: {
+      burrowing: { id: 'burrowing', name: 'Burrowing', multiplier: 1.0, speedFt: 7.5, actionPenalty: 0, description: 'Standard burrowing pace' },
+      tunneling: { id: 'tunneling', name: 'Tunneling', multiplier: 2.0, speedFt: 15, actionPenalty: -2, description: 'Rapid tunnel excavation' },
+      excavation: { id: 'excavation', name: 'Excavation', multiplier: 0.5, speedFt: 3.75, actionPenalty: 0, description: 'Creating chambers and reinforced subterranean spaces' }
+    }
+  }
+};
+
+export const MOVEMENT_FATIGUE_SYSTEM = {
+  combatSprintRounds: 5,
+  hurriedTravelMinutes: 10,
+  fortitudeCheckDC: 15,
+  vitalityDamageFail: 5,
+  vitalityDamagePerMissOf5: 1,
+  exhaustionHealthDamage: 2,
+  exhaustionDebuff: {
+    checkPenalty: -2,
+    speedMultiplier: 0.5,
+    recoveryCondition: 'Light Rest (Nap)'
+  }
+};
+
+export const FLYING_COMBAT_RULES = {
+  highGroundStrikeBonus: 2,
+  highGroundCritBonus: 2,
+  flightStages: ['Flight', 'Sail', 'Surge', 'Dive'],
+  ramDicePerStage: 1,
+  ramImpactDamagePer10Ft: 1
+};
+
+// ═══════════════════════════════════════════════════════════
+// VITALITY, HEALTH & STRUCTURE (CANONICAL DAMAGE & RESILIENCE RULES)
+// ═══════════════════════════════════════════════════════════
+
+export const VITALITY_HEALTH_STRUCTURE_RULES = {
+  startingBaseVitality: 30,
+  startingBaseHealth: 30,
+  bpCostPer5Points: 1, // 1 BP = +5 points in either Vitality or Health
+  suggestedStartingMax: 60,
+  toughnessSource: 'Stamina Ability Score', // Point-for-point wound reduction
+  nonStandardPhysiologies: ['Synthetic', 'Mecha', 'Construct', 'Elemental', 'Golem', 'Ooze', 'Undead'],
+  descriptions: {
+    systemRule: "In Tangent, a character's ability to endure and recover from damage is represented by Vitality and Health (or Structure for Synthetics and others with non-typical physiology). Tangent does NOT use HP.",
+    staminaScore: "While the Stamina Ability Score does not directly grant extra Vitality or Health points, it will determine the character’s base Toughness to reduce the damage taken from wounds, point for point, making characters more resilient overall.",
+    startingValuesAndMax: "Characters begin with a base of 30 points in both Vitality and Health. These can be increased by spending Build Points (BP) during character creation at a rate of 5 in either Vitality or Health for 1 BP, with a suggested maximum of 60 each. Structure is calculated by combining the character's Vitality and Health for characters with non-typical anatomy such as Synthetics, Oozes, Undead, etc.",
+    concussiveDamage: "Concussive Damage is unique in that it is Heavily Traumatic but dispersed over the entire body. This damage can be divided equally between Vitality and Health if the character attempts to reduce the damage, regardless of whether the attempt is successful. This reflects the potential for both non-lethal and lethal injuries from falls, explosions, crashes, etc. This does not include any additional damage taken for what they may fall into such as spikes, debris, lava, etc.",
+    vitality: "Vitality represents stamina, luck, and minor bruising. This is a track of nonlethal damage. It acts as a buffer, absorbing damage from sources like pummeling, exhaustion, fatigue, and other forms of harm that are not immediately life-threatening. Only when a character's Vitality is completely depleted does non-lethal damage become life-threatening and start to affect their Health. The starting score of 30 is increased by 5 points per 1 BP.",
+    health: "Health represents physical trauma and structural integrity. It is lost from lethal damage or after Vitality is depleted. Damage to Health comes from weapons, severe injuries, and other lethal sources. When a character's Health reaches zero, they are Incapacitated (falling Unconscious immediately, dropping anything they are holding, and falling Prone; any excess damage is applied to Vitality if any remains). If Health is 0 and Vitality is depleted (0), the character enters the Death's Door state. The starting score of 30 is increased by 5 points per 1 BP.",
+    structure: "This attribute applies to objects, constructs, and creatures with non-standard anatomies, such as Synthetics, mecha, elementals, golems, oozes, and undead. It measures their structural integrity and functions similarly to Health, but without the Vitality buffer. Damage to Structure can impair functionality, reduce effectiveness, or ultimately lead to destruction. Calculate Vitality and Health scores and combine for Structure score."
+  }
+};
+
+// ═══════════════════════════════════════════════════════════
+// DEATH & DYING SYSTEM (CANONICAL RULES)
+// ═══════════════════════════════════════════════════════════
+
+export const DEATH_AND_DYING_RULES = {
+  HEALTH_VS_VITALITY: {
+    vitality: "Vitality represents stamina, luck, and minor bruising. This is a track of nonlethal damage.",
+    health: "Health represents physical trauma and structural integrity. It is lost from lethal damage or after Vitality is depleted.",
+    damageRouting: {
+      nonlethal: "Nonlethal damage damages Vitality directly. Only after Vitality is completely depleted does excess nonlethal damage spill into Health.",
+      lethal: "Lethal damage damages Health directly. Any excess damage beyond 0 Health is applied to Vitality (if any remains).",
+      criticalHits: "Critical Hits inflict direct lethal damage to Health, bypassing the Vitality buffer. Any excess damage beyond 0 Health is applied to Vitality (if any remains)."
+    }
+  },
+  THRESHOLD_OF_DEATH: {
+    zeroHealth: {
+      name: "0 Health (Incapacitated)",
+      conditions: ['Incapacitated', 'Unconscious', 'Prone'],
+      dropItems: true,
+      description: "When a character takes damage that reduces them to 0 Health, they fall unconscious immediately, drop anything they are holding, and fall Prone. Any excess damage is applied to Vitality (if any remains)."
+    },
+    deathsDoor: {
+      name: "Death's Door",
+      condition: "Comatose",
+      statusGem: "Death's Door",
+      trigger: "Health is 0 AND Vitality is depleted (0)",
+      clockFormula: "Number of rounds equal to Stamina Score (Minimum 1 round)",
+      minRounds: 1,
+      stabilization: {
+        medicineDC: 15,
+        healingMagicOrTech: true,
+        description: "A successful Medicine (DC 15) check or the application of healing magic/tech stops the clock. The character remains unconscious but is no longer dying."
+      },
+      death: "If the clock runs out, the character dies permanently.",
+      massiveDamage: {
+        threshold: "Damage equal to or greater than STA score in a single hit while at Death's Door",
+        effect: "Instant permanent death."
+      }
+    }
+  },
+  REVIVIFICATION: {
+    name: "Revivification",
+    subtitle: "The High Cost of Dying",
+    requirements: "High-level Metaphysics or Tech (TL5)",
+    penalties: {
+      karmaLoss: "A revived character loses ALL remaining Karma Points (resets to 0).",
+      experienceDebt: 5,
+      debtDescription: "They suffer a -5 Experience Debt due to the trauma. This is taken as a reduction in a trait (or Traits) or as a reduction in accumulated/future experience until the debt is paid."
+    }
+  }
+};
+
+// ═══════════════════════════════════════════════════════════
+// REST & RECOVERY SYSTEM (CANONICAL RULES)
+// ═══════════════════════════════════════════════════════════
+
+export const REST_SYSTEM_RULES = {
+  FULL_REST: {
+    name: 'Full Rest',
+    standardHoursMin: 6,
+    standardHoursMax: 8,
+    description: "The typical sleep cycle for most sentient species ranges from 6 to 8 hours. This allows their bodies and minds to rest and recharge, preparing them for the following day's activities. However, there are exceptions to this general rule.",
+    vitalityRestorationPercent: 100, // Restores 100% of maximum Vitality
+    removesExhaustion: true,
+    resetsDailyTraits: true,
+    resetsDailyLightRests: true,
+    speciesExceptions: {
+      minimalRest: {
+        types: ['Synthetic', 'Fae', 'Insect'],
+        keywords: ['synthetic', 'fae', 'fey', 'asi', 'insect', 'insectoid', 'kitin', 'mekan', 'android', 'golem', 'construct'],
+        summary: 'Minimal Rest (Light Rest counts as Full Rest)',
+        description: 'Synthetics, Fae, and Insect species possess unique physiological attributes that enable them to function without traditional sleep. These species have evolved to require minimal rest, and a brief period of Light Rest is sufficient for them to fully refresh and maintain their energy levels.'
+      },
+      meditative: {
+        types: ['Alterian', 'Mondi'],
+        keywords: ['alterian', 'mondi', 'celestine'],
+        summary: 'Deep Contemplative Meditation',
+        description: 'In contrast, Alterians and Mondi, while technically not sleeping, engage in meditations throughout the day. This is considered Light Rest, where they enter a state of deep contemplation and reflection. During this relaxing state, their minds and bodies find solace, allowing them to recharge and maintain their mental and physical well-being.'
+      }
+    }
+  },
+  LIGHT_REST: {
+    name: 'Light Rest',
+    maxPerDay: 4,
+    description: 'A nap or rest period is a short period of little or no activity that can effectively reset traits or features. It can be performed up to four times a day.',
+    removesExhaustion: true,
+    resetsShortRestTraits: true,
+    vitalityRestorationFraction: 0.5, // Restores 50% of missing Vitality (or 100% for minimal rest species)
+    tiers: {
+      nap: {
+        id: 'nap',
+        name: 'Nap or Meditation',
+        durationHours: 1,
+        quality: 'Most restful',
+        allowedActivities: 'Do nothing else but rest and relax.',
+        description: "This is the most restful period and is ideal for resetting traits or features. During this time, it's important to do nothing else but rest and relax."
+      },
+      lounging: {
+        id: 'lounging',
+        name: 'Lounging',
+        durationHours: 2,
+        quality: 'Less restful',
+        allowedActivities: 'Casual observation, light recreation, and non-laborious activities.',
+        description: 'This type of rest period is less restful than a nap or meditation but still beneficial. Casual observation, light recreation, and non-laborious activities are allowed during this time.'
+      },
+      light_duty: {
+        id: 'light_duty',
+        name: 'Light Duty',
+        durationHours: 3,
+        quality: 'Least restful',
+        allowedActivities: 'Light recreation, casual work, and minimal labor activities.',
+        description: 'This type of rest period is the least restful but still counts as a rest period. Light recreation, casual work, and minimal labor activities are allowed during this time.'
+      }
+    },
+    degradationSequence: ['nap', 'lounging', 'light_duty', 'not_rested'],
+    strenuousActivities: {
+      types: ['physical labor', 'intense exercise', 'mentally demanding tasks'],
+      rule: 'Any activities more strenuous than those listed will count against rest. Each time a strenuous activity is performed, it will worsen the rest category (e.g., Nap to Lounging to Light Duty to Not Rested).'
+    },
+    karmaSecondWind: {
+      cost: '1 Karma Point + 1 Minute of Focus',
+      rule: 'Second Wind replaces Light Rest without downtime to instantly refresh abilities.'
+    }
+  },
+  ROLEPLAY_AND_STRATEGY: {
+    strategicImpact: 'In-game features or abilities that require rest add a layer of strategy and resource management to gameplay. Players must balance using these abilities with resting to ensure they are available when needed, avoiding overusing abilities without considering the consequences.',
+    roleplayValue: 'Rest mechanics encourage roleplaying opportunities. Players find safe places to rest, such as inns or campsites, talk to NPCs, learn new information, or take a break from the action to create an immersive and believable world.'
+  }
+};
+
+// ═══════════════════════════════════════════════════════════
+// EXPERIENCE & AWARD POINTS (AP) SYSTEM (CANONICAL RULES)
+// ═══════════════════════════════════════════════════════════
+
+export const EXPERIENCE_RULES = {
+  EXCHANGE_RATE: {
+    apToBp: 1, // 1 AP = 1 BP
+    formula: '1 AP = 1 Build Point (BP)',
+    description: 'Award Points (AP) are spent in the same manner as Build Points in character creation, on a 1-for-1 basis.'
+  },
+  INCREMENT_RULE: {
+    maxIncrementPerAward: 1,
+    isCritical: true,
+    description: 'Abilities, skills, or other traits may ONLY HAVE A 1 POINT INCREMENT OF ANY SCORE PER EXPERIENCE AWARD. A player cannot dump multiple AP into a single skill or trait instantly.'
+  },
+  PACING: {
+    standardSessionMin: 1,
+    standardSessionMax: 3,
+    description: 'Standard Award: 1-3 Award Points (AP) per Session based on pacing and achievements.'
+  },
+  STORY_AWARDS: {
+    CHAPTER_COMPLETION: {
+      id: 'chapter_completion',
+      name: 'Chapter Completion',
+      minAP: 5,
+      maxAP: 10,
+      description: 'Awarded when a chapter or major story arc is completed. Based on the steps and complexity involved, longer and complex chapters awarding more points. Opportunity for character development and reflection during downtime.'
+    },
+    OVERCOMING_GOAL_VILLAIN_PLOT: {
+      id: 'overcoming_goal_villain_plot',
+      name: 'Overcoming Worthy Goal, Villain, or Plot',
+      minAP: 1,
+      maxAP: 3,
+      description: 'Recognizes achievements in overcoming significant obstacles, defeating powerful villains, or unraveling complex plots. Storyline elements, may be awarded by session.'
+    }
+  },
+  SESSION_AWARDS: {
+    PROPER_GAME_SESSION: {
+      id: 'proper_game_session',
+      name: 'Proper Game Session & Focused on Game',
+      minAP: 0,
+      maxAP: 2,
+      description: 'Recognizes players who approach the game with a focus on gameplay mechanics and strategy (combat encounters, puzzles, game-related challenges).'
+    },
+    ROLEPLAYING_IN_CHARACTER: {
+      id: 'roleplaying_in_character',
+      name: 'Roleplaying in Character',
+      minAP: 0,
+      maxAP: 2,
+      description: 'Given to players who immerse themselves in characters\' personalities and motivations, actively embodying them during roleplaying interactions.'
+    }
+  },
+  EPIC_AWARDS: {
+    EPIC_ACTION_OR_IDEA: {
+      id: 'epic_action_or_idea',
+      name: 'Epic Actions, Good Ideas & Stumping the Architect',
+      minAP: 1,
+      maxAP: 5,
+      isAdHoc: true,
+      description: 'Exceptional moments during gameplay: epic actions that turn the tide of battle, creative solutions to problems, or surprising the GM with unexpected twists.'
+    }
+  },
+  EXPERIENCE_DEBT: {
+    revivificationDebt: 5,
+    repaymentRate: 1, // 1 AP pays off 1 Experience Debt
+    description: 'A revived character suffers a -5 Experience Debt due to trauma. Settled as a reduction in traits or paid down 1-for-1 from future AP awards before new traits are advanced.'
+  },
+  SPENDING_COSTS: {
+    SKILL_RANK: { costAP: 1, maxIncrement: 1, label: 'Skill Rank' },
+    ATTRIBUTE_CHECK: { costAP: 1, maxIncrement: 1, label: 'Attribute Check (+1)' },
+    PRIMARY_ATTRIBUTE: { costAP: 5, maxIncrement: 1, label: 'Primary Attribute (+1)' },
+    FEATURE: { costAP: 3, recommendedCostAP: 2, maxIncrement: 1, label: 'Feature / Feat' },
+    SPECIAL_ABILITY: { costAP: 5, maxIncrement: 1, label: 'Special Ability' },
+    AWAKENED_DISCIPLINE: { costAP: 5, maxIncrement: 1, label: 'Awakened Discipline' },
+    INVOCATION: { costAPMin: 1, costAPMax: 3, maxIncrement: 1, label: 'Invocation' },
+    SPECIALIZATION: { costAP: 1, maxIncrement: 1, label: 'Specialization (+1 Rank)' },
+    VITALITY: { costAP: 1, pointsPerAP: 5, maxIncrement: 5, label: 'Bonus Vitality (+5)' },
+    HEALTH: { costAP: 1, pointsPerAP: 5, maxIncrement: 5, label: 'Bonus Health (+5)' }
+  }
+};
+
+
+
 
 
 

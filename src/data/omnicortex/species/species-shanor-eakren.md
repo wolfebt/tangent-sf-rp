@@ -1,9 +1,9 @@
 ---
 id: species-shanor-eakren
-name: Eakren (Corrupted Aberration)
-title: Eakren (Void-Warped Mutant)
+name: Eakrin (Corrupted Aberration)
+title: Eakrin (Void-Warped Mutant)
 category: species
-parent_species: Sha'nor
+parent_species: Sha'Nor
 type:
   - species_type-aberration
 size:
@@ -16,8 +16,8 @@ meta_level: 3 (Chaotic Void Warping)
 homeworld: Corrupted Fringe Outposts
 cp: 18
 description: >-
-  Eakren are mortals who were caught in catastrophic void collapses and mutated
-  into chimeric aberrational humanoids.
+  Eakrin (also referenced as Eakren in void archives) are mortals who were caught
+  in catastrophic void collapses and mutated into chimeric aberrational humanoids.
 costs:
   bp: 18
   credits: 0

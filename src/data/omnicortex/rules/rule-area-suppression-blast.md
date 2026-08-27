@@ -1,8 +1,10 @@
 ---
 id: rule-area-suppression-blast
-name: Area Suppression & Blast Rules
+name: Area Suppression & Blasting Rules
 category: rules
-description: Suppressing fire grants bonus damage dice exceeding DC 10/15.
+description: >-
+  General Area (+2 dice per 5 pts over DC 10); Focused Blast Zone (+100% dice
+  per 10 pts over DC 15). Range penalties doubled.
 costs:
   bp: 0
   credits: 0
@@ -24,10 +26,11 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
-# Area Suppression & Blast Rules
+# Area Suppression & Blasting Rules
 
 **Category**: Core Combat Rules & Tables
 
 ## Mechanics
-Suppressing fire grants bonus damage dice exceeding DC 10/15.
+All Range Penalties are **Doubled** during automatic suppression fire.
+- **General Area**: Targets take **+2 Damage Dice** for every 5 points the attack roll exceeds DC 10.
+- **Focused Blast Zone**: Targets take **+100% Damage Dice** for every 10 points the attack roll exceeds DC 15.

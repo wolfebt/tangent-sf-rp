@@ -1,8 +1,8 @@
 ---
 id: rule-hit-location-arms
-name: 'Hit Location: Arms (-2 to -3)'
+name: 'Hit Location: Arms (-2 to -5)'
 category: rules
-description: Reflex save or Disarmed; fail by 10+ = Crippled limb.
+description: 'Arms: Called Shot -2. Upper Arm: -3. Forearm: -3. Hand: -4. Digits: -5.'
 costs:
   bp: 0
   credits: 0
@@ -24,10 +24,13 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
-# Hit Location: Arms (-2 to -3)
+# Hit Location: Arms (-2 to -5)
 
 **Category**: Core Combat Rules & Tables
 
-## Mechanics
-Reflex save or Disarmed; fail by 10+ = Crippled limb.
+## Targeting Modifiers & Trauma
+- **Arms (Left and Right)**: Hits can disable use of weapons, shields, or held items. **Called Shot -2**.
+- **Upper Arm**: **Called Shot -3**.
+- **Forearm**: **Called Shot -3**.
+- **Hand**: **Called Shot -4**.
+- **Digits**: **Called Shot -5**.

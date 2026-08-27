@@ -7,7 +7,7 @@ cost_bp: 3
 is_ranked: false
 is_multiple: false
 prerequisites: 'Strength 1, Agility 1, Stamina 1'
-description: The character is trained for speed and distance.
+description: The character is trained for exceptional land speed and endurance.
 costs:
   bp: 3
   credits: 0
@@ -34,14 +34,11 @@ sockets:
 
 **Category**: General Features  
 **Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
-**Prerequisite**: Strength 1, Agility 1, Stamina 1
+**Prerequisites**: Strength 1, Agility 1, Stamina 1  
 
 ## Description
-The character is trained for speed and distance.
+The character is trained for exceptional land speed, endurance pacing, and swift tactical relocation.
 
 ## Mechanics & Benefit
-You Run at **5x** your base speed (instead of 4x) and Sprint at **7x** (instead of 6x). You gain \+2 to Athletics checks for running endurance.
-
-## Special Rules
-109
-
+- **Pace Multiplier Increase**: Increases the movement speed multiple of **Running** to **5x** (instead of 4x) and **Sprinting** to **7x** (instead of 6x) base walking speed without increasing action penalties.
+- **Endurance Bonus**: Gain a **+2 bonus** to Athletics checks made to avoid fatigue from running and sprinting.

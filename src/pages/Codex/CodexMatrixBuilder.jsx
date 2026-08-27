@@ -458,6 +458,7 @@ export const CodexMatrixBuilder = ({
           <ComputedOutputPanel
             computedOutputs={matrix.computedOutputs}
             computedValues={computedValues}
+            formData={formData}
             matrix={matrix}
             isLoading={isCalculating}
           />

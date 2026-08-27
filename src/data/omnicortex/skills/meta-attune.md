@@ -9,14 +9,14 @@ governing_attributes:
   - Wisdom
   - Charisma
 description: >-
-  Channeling raw metaphysical energy, establishing a conduit to the power source
-  (Void, Weave, Psionics, Divine), setting spell Save DCs, and overcoming Spell
-  Resistance.
+  The universal conduit skill for drawing and channeling energy. Required for all Disciplines.
+  Sets Resistance/Evasion DC, resolves Attack Rolls and Opposed Countering, and expands Essence capacity.
 trained_only: true
 specialties:
-  - Channeling & Energy Surge Control
-  - Resistance Penetration (Overcoming SR)
-  - Spell Save DC Setting
+  - Channeling & Conduit Regulation
+  - Setting Resistance & Evasion DCs
+  - Meta Combat Attack Rolls
+  - Counter Effect Nullification
   - Concentration & Sustained Focus
 synergy_links:
   - mental-metaphysics
@@ -50,10 +50,13 @@ sockets:
 
 # Attune
 
-Channeling raw metaphysical energy, establishing a conduit to the power source (Void, Weave, Psionics, Divine), setting spell Save DCs, and overcoming Spell Resistance.
+The universal master conduit skill for drawing, regulating, and channeling metaphysical energy from the Quantum Field, the Weave, or the Void. Required for all Disciplines.
 
-### Mechanics & Rules
-- **Governing Attribute**: Varies by caster tradition (Intellect for Arcane/Magi-Tech, Wisdom for Divine/Psychic, Charisma for Sorcery/Fey).
-- **Save DC Formula**: `d20 + Attune Rank + Ability Mod` (Passive DC: `10 + Attune Rank + Ability Mod`).
-- **Overcoming Resistance**: Check must exceed target's Spell Resistance (SR) or Psionic Dampening.
-- **Concentration**: Attune check when taking damage to avoid losing sustained invocations.
+### Core Rules & Mechanics
+- **Exempt from ML Cap**: The Attune skill is **not limited by planetary Metafocus Level (ML)**.
+- **Conduit of Essence**: Your character's permanent Attune rank is added directly to their **Essence Pool**.
+- **Resistance & Evasion DC**: Sets the difficulty for targets resisting or evading your metaphysical effects:
+  $$\text{Target DC} = 10 + \text{Attune Check Modifier} + \text{Key Ability Mod}$$
+- **Meta Combat Attack Rolls**: Used for all metaphysical Strike and Attack rolls.
+- **Counter Effect**: Used in Step 1 of opposed Counter Effect checks to seize control of an incoming conduit.
+- **Concentration**: Tested when taking damage to avoid losing sustained invocations.

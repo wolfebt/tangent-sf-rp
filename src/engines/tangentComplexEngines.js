@@ -17,11 +17,23 @@ import {
   VFT_MODES,
   ARCHITECTURE_FOOTPRINTS,
   HEIGHT_CLASSES,
+  ARCHITECTURE_FRAME_TYPES,
   ARCHITECTURE_MATERIALS,
   ENVIRONMENTAL_MODIFIERS,
-  SPECIALIZED_MODULE_CATALOG,
+  ARCHITECTURE_HARDPOINTS_ARMOR,
+  ARCHITECTURE_HARDPOINTS_WEAPONS,
+  ARCHITECTURE_HARDPOINTS_SENSORS,
+  ARCHITECTURE_FACILITIES,
+  ARCHITECTURE_CORE_INTERNALS,
+  ARCHITECTURE_PROPULSION,
+  FACTION_ARCHITECTURAL_PARADIGMS,
+  MECHA_GARAGING_RULES,
   MANUFACTURER_SKINS,
-  TOOL_TIERS
+  TOOL_TIERS,
+  MOVEMENT_MODES_AND_PACES,
+  MOVEMENT_FATIGUE_SYSTEM,
+  FLYING_COMBAT_RULES,
+  SPECIALIZED_MODULE_CATALOG
 } from './tangentConstants.js';
 
 import {
@@ -540,73 +552,186 @@ export function computeMechaStats(formData) {
 }
 
 // ═══════════════════════════════════════════════════════════
-// 3. ARCHITECTURE FORGE ENGINE (PLAN 22)
+// 3. ARCHITECTURE FORGE ENGINE (99 - ARCHITECTURAL MATRIX)
 // ═══════════════════════════════════════════════════════════
 
 /**
  * Calculates total Structure Points (SP) for an architectural blueprint.
- * Formula: Base_SP * Stories * Material_Multiplier + Bulwark_Bonus
+ * Formula: Base_SP * Stories * Material_Multiplier * Frame_SP_Multiplier + Bulwark_Bonus
  */
 export function calculateArchitectureSP({
   footprint = 'Large',
   heightClass = 'Single',
   customStories = null,
   tl = 3,
+  frame = 'Standard',
   bulwarkBonus = 0
 } = {}) {
   const footprintDef = ARCHITECTURE_FOOTPRINTS[footprint] || ARCHITECTURE_FOOTPRINTS.Large;
   const heightDef = HEIGHT_CLASSES[heightClass] || HEIGHT_CLASSES.Single;
   const matDef = ARCHITECTURE_MATERIALS[tl] || ARCHITECTURE_MATERIALS[3];
+  const frameDef = ARCHITECTURE_FRAME_TYPES[frame] || ARCHITECTURE_FRAME_TYPES.Standard;
 
   const stories = customStories !== null && customStories !== undefined && !isNaN(customStories)
     ? Number(customStories)
     : heightDef.stories;
 
   const baseSP = footprintDef.baseSP;
-  const calculated = Math.round(baseSP * stories * matDef.spMult + Number(bulwarkBonus || 0));
+  const frameSPMult = frameDef.spMult ?? 1.0;
+  const calculated = Math.round(baseSP * stories * matDef.spMult * frameSPMult + Number(bulwarkBonus || 0));
 
   return Math.max(1, calculated);
 }
 
 /**
  * Calculates total Module capacity for an architectural structure.
+ * Includes Frame module multipliers (Elevated +25%, Subterranean -15%),
+ * Mastercraft bonus capacity, and deductions for Mobile 20% Chassis Tax.
  */
 export function calculateArchitectureModules({
   footprint = 'Large',
   heightClass = 'Single',
   customStories = null,
+  frame = 'Standard',
+  isMobile = false,
   mastercraftBonus = 0
 } = {}) {
   const footprintDef = ARCHITECTURE_FOOTPRINTS[footprint] || ARCHITECTURE_FOOTPRINTS.Large;
   const heightDef = HEIGHT_CLASSES[heightClass] || HEIGHT_CLASSES.Single;
+  const frameDef = ARCHITECTURE_FRAME_TYPES[frame] || ARCHITECTURE_FRAME_TYPES.Standard;
 
   const stories = customStories !== null && customStories !== undefined && !isNaN(customStories)
     ? Number(customStories)
     : heightDef.stories;
 
-  const totalModules = Number((footprintDef.baseModules * stories + Number(mastercraftBonus || 0)).toFixed(2));
-  return Math.max(0.001, totalModules);
+  const frameModMult = frameDef.moduleMult ?? 1.0;
+  const rawModules = footprintDef.baseModules * stories * frameModMult + Number(mastercraftBonus || 0);
+
+  // 20% Chassis Tax for Mobile Structures (min 1 Module if total >= 1, or 20% of capacity)
+  const mobileTax = isMobile 
+    ? (rawModules >= 1 ? Math.max(1, Math.ceil(rawModules * 0.20)) : Number((rawModules * 0.20).toFixed(3)))
+    : 0;
+
+  const usableModules = Number(Math.max(0.001, rawModules - mobileTax).toFixed(3));
+
+  return {
+    rawModules: Number(rawModules.toFixed(3)),
+    mobileTax,
+    totalModules: usableModules
+  };
+}
+
+/**
+ * Calculates the Mount budget and allocation using the 10:1 UDU Integration Rule (1 Module = 10 Mounts).
+ * Scales Armor Plating and Energy Shields by the Structure's Scale Modifier.
+ */
+export function calculateArchitectureMounts({
+  footprint = 'Large',
+  totalModules = 1,
+  usedModules = 0,
+  armorPlating = [],
+  energyShields = [],
+  structuralWeapons = [],
+  sensorsAndAux = []
+} = {}) {
+  const footprintDef = ARCHITECTURE_FOOTPRINTS[footprint] || ARCHITECTURE_FOOTPRINTS.Large;
+  const scaleMod = footprintDef.scaleMod || 1.0;
+
+  // Unspent modules converted to mounts (1 Module = 10 Mounts)
+  const unspentModules = Math.max(0, totalModules - usedModules);
+  const totalMounts = Number((unspentModules * 10).toFixed(2));
+
+  let usedMounts = 0;
+
+  // Scaled Armor Plating (mountBaseMult * scaleMod)
+  if (Array.isArray(armorPlating)) {
+    for (const item of armorPlating) {
+      const id = typeof item === 'string' ? item : item.id;
+      const count = typeof item === 'object' && item.count ? Number(item.count) : 1;
+      const def = ARCHITECTURE_HARDPOINTS_ARMOR.find(a => a.id === id || a.name === id);
+      if (def) {
+        usedMounts += (def.mountBaseMult * scaleMod) * count;
+      }
+    }
+  }
+
+  // Scaled Energy Shields (mountBaseMult * scaleMod)
+  if (Array.isArray(energyShields)) {
+    for (const item of energyShields) {
+      const id = typeof item === 'string' ? item : item.id;
+      const count = typeof item === 'object' && item.count ? Number(item.count) : 1;
+      const def = ARCHITECTURE_HARDPOINTS_ARMOR.find(a => a.id === id || a.name === id);
+      if (def) {
+        usedMounts += (def.mountBaseMult * scaleMod) * count;
+      }
+    }
+  }
+
+  // Structural Weapon Emplacements
+  if (Array.isArray(structuralWeapons)) {
+    for (const item of structuralWeapons) {
+      const id = typeof item === 'string' ? item : item.id;
+      const count = typeof item === 'object' && item.count ? Number(item.count) : 1;
+      const def = ARCHITECTURE_HARDPOINTS_WEAPONS.find(w => w.id === id || w.name === id);
+      if (def) {
+        usedMounts += (def.mounts || 1) * count;
+      } else if (typeof item === 'object' && item.mounts) {
+        usedMounts += Number(item.mounts) * count;
+      }
+    }
+  }
+
+  // Sensors & Auxiliary Systems
+  if (Array.isArray(sensorsAndAux)) {
+    for (const item of sensorsAndAux) {
+      const id = typeof item === 'string' ? item : item.id;
+      const count = typeof item === 'object' && item.count ? Number(item.count) : 1;
+      const def = ARCHITECTURE_HARDPOINTS_SENSORS.find(s => s.id === id || s.name === id);
+      if (def) {
+        usedMounts += (def.mounts || 1) * count;
+      }
+    }
+  }
+
+  const remainingMounts = Number((totalMounts - usedMounts).toFixed(2));
+  const isOverBudget = usedMounts > totalMounts;
+
+  return {
+    totalMounts,
+    usedMounts: Number(usedMounts.toFixed(2)),
+    remainingMounts,
+    isOverBudget,
+    scaleMod
+  };
 }
 
 /**
  * Calculates the final Crafting/Engineering DC for Architecture.
- * Applies the Highest Complexity Rule: if any specialized module has DC higher
- * than the building's base DC, the total base DC is raised to match that module.
+ * Applies the Highest Complexity Rule (DC Stacking):
+ * If any installed module, hardpoint, propulsion system, or generator has a DC
+ * higher than the building's calculated baseline DC, the base DC is elevated to match.
  */
 export function calculateArchitectureDC({
   footprint = 'Large',
   heightClass = 'Single',
   customStories = null,
+  frame = 'Standard',
   tl = 3,
   environment = 'Standard',
   specializedModules = [],
-  mastercraftBonus = 0,
+  armorPlating = [],
+  energyShields = [],
+  structuralWeapons = [],
+  sensorsAndAux = [],
+  propulsion = null,
+  generators = [],
   uduCompression = null,
   isRare = false,
   baseDC = null
 } = {}) {
   const footprintDef = ARCHITECTURE_FOOTPRINTS[footprint] || ARCHITECTURE_FOOTPRINTS.Large;
   const heightDef = HEIGHT_CLASSES[heightClass] || HEIGHT_CLASSES.Single;
+  const frameDef = ARCHITECTURE_FRAME_TYPES[frame] || ARCHITECTURE_FRAME_TYPES.Standard;
   const matDef = ARCHITECTURE_MATERIALS[tl] || ARCHITECTURE_MATERIALS[3];
   const envDef = ENVIRONMENTAL_MODIFIERS[environment] || ENVIRONMENTAL_MODIFIERS.Standard;
 
@@ -618,22 +743,73 @@ export function calculateArchitectureDC({
   }
 
   let runningDC = Number(baseDC !== null && baseDC !== undefined && !isNaN(baseDC) ? baseDC : footprintDef.baseDC);
-  runningDC += heightCraftMod + matDef.dcMod + envDef.dcMod;
+  runningDC += heightCraftMod + (frameDef.dcMod || 0) + matDef.dcMod + envDef.dcMod;
 
-  // Highest Complexity Rule
-  let highestModuleDC = 0;
+  // Track Highest Component DC across all installed systems
+  let highestComponentDC = 0;
+  let highestComponentSource = null;
+
+  const checkComponent = (compDef) => {
+    if (compDef && typeof compDef.dc === 'number' && compDef.dc > highestComponentDC) {
+      highestComponentDC = compDef.dc;
+      highestComponentSource = compDef.name;
+    }
+  };
+
+  // Facilities
   if (Array.isArray(specializedModules)) {
     for (const mod of specializedModules) {
       const modId = typeof mod === 'string' ? mod : mod.id;
-      const modDef = SPECIALIZED_MODULE_CATALOG.find(m => m.id === modId || m.name === modId);
-      if (modDef && modDef.dc > highestModuleDC) {
-        highestModuleDC = modDef.dc;
-      }
+      const modDef = ARCHITECTURE_FACILITIES.find(m => m.id === modId || m.name === modId);
+      checkComponent(modDef);
     }
   }
 
-  if (highestModuleDC > runningDC) {
-    runningDC = highestModuleDC;
+  // Armor Plating & Shields
+  const combinedArmor = [...(Array.isArray(armorPlating) ? armorPlating : []), ...(Array.isArray(energyShields) ? energyShields : [])];
+  for (const arm of combinedArmor) {
+    const armId = typeof arm === 'string' ? arm : arm.id;
+    const armDef = ARCHITECTURE_HARDPOINTS_ARMOR.find(a => a.id === armId || a.name === armId);
+    checkComponent(armDef);
+  }
+
+  // Weapons
+  if (Array.isArray(structuralWeapons)) {
+    for (const wpn of structuralWeapons) {
+      const wpnId = typeof wpn === 'string' ? wpn : wpn.id;
+      const wpnDef = ARCHITECTURE_HARDPOINTS_WEAPONS.find(w => w.id === wpnId || w.name === wpnId);
+      checkComponent(wpnDef);
+    }
+  }
+
+  // Sensors & Aux
+  if (Array.isArray(sensorsAndAux)) {
+    for (const sens of sensorsAndAux) {
+      const sensId = typeof sens === 'string' ? sens : sens.id;
+      const sensDef = ARCHITECTURE_HARDPOINTS_SENSORS.find(s => s.id === sensId || s.name === sensId);
+      checkComponent(sensDef);
+    }
+  }
+
+  // Propulsion System
+  if (propulsion) {
+    const propId = typeof propulsion === 'string' ? propulsion : propulsion.id;
+    const propDef = ARCHITECTURE_PROPULSION.find(p => p.id === propId || p.name === propId);
+    checkComponent(propDef);
+  }
+
+  // Core Generators
+  if (Array.isArray(generators)) {
+    for (const gen of generators) {
+      const genId = typeof gen === 'string' ? gen : gen.id;
+      const genDef = ARCHITECTURE_CORE_INTERNALS.find(g => g.id === genId || g.name === genId);
+      checkComponent(genDef);
+    }
+  }
+
+  const highestRuleApplied = highestComponentDC > runningDC;
+  if (highestRuleApplied) {
+    runningDC = highestComponentDC;
   }
 
   // UDU Compression modifiers
@@ -644,7 +820,14 @@ export function calculateArchitectureDC({
   // Regional rarity
   if (isRare) runningDC += 5;
 
-  return Math.max(0, Math.round(runningDC));
+  const finalDC = Math.max(0, Math.round(runningDC));
+
+  return {
+    finalDC,
+    highestRuleApplied,
+    highestComponentDC,
+    highestComponentSource
+  };
 }
 
 /**
@@ -691,30 +874,173 @@ export function calculateCooperativeConstructionDays({
 }
 
 /**
+ * Computes tactical combat & integrity metrics.
+ */
+export function calculateArchitectureCombatMetrics({
+  totalSP = 100,
+  baseSP = 100,
+  tl = 3,
+  armorPlating = [],
+  creditValue = 1000
+} = {}) {
+  const matDef = ARCHITECTURE_MATERIALS[tl] || ARCHITECTURE_MATERIALS[3];
+
+  // Base Damage Resistance from Material
+  let totalDR = matDef.dr || 20;
+
+  // Additional DR from installed armor plating
+  if (Array.isArray(armorPlating)) {
+    for (const arm of armorPlating) {
+      const id = typeof arm === 'string' ? arm : arm.id;
+      const def = ARCHITECTURE_HARDPOINTS_ARMOR.find(a => a.id === id || a.name === id);
+      if (def && def.dr > 0) {
+        totalDR += def.dr;
+      }
+    }
+  }
+
+  // Section Integrity: A 10x10ft section of wall has roughly 10% of the Building's Base SP
+  const sectionIntegrity = Math.max(1, Math.round(baseSP * 0.10));
+  const breachThreshold = `${sectionIntegrity} SP (after DR)`;
+
+  // Annual Upkeep: 2% of Total Value per year
+  const annualUpkeep = Math.round(creditValue * 0.02);
+
+  // Field Repair: 10% SP restored per hour, costing 10% of building value in materials
+  const fieldRepairRate = `${Math.round(totalSP * 0.10)} SP / hr`;
+  const fieldRepairMaterialCost = Math.round(creditValue * 0.10);
+
+  return {
+    total_sp: totalSP,
+    total_dr: totalDR,
+    section_integrity: sectionIntegrity,
+    breach_threshold: breachThreshold,
+    annual_upkeep: annualUpkeep,
+    field_repair_rate: fieldRepairRate,
+    field_repair_material_cost: fieldRepairMaterialCost
+  };
+}
+
+/**
+ * Validates an architectural blueprint against the 99 - Architectural Matrix rules.
+ */
+export function validateArchitectureBlueprint(formData) {
+  const errors = [];
+  const warnings = [];
+
+  const footprint = formData.footprint || formData.scale || 'Large';
+  const heightClass = formData.height_class || 'Single';
+  const frame = formData.frame_type || formData.frame || 'Standard';
+  const tl = Number(formData.tl ?? 3);
+  const environment = formData.environment || 'Standard';
+
+  const moduleCalc = calculateArchitectureModules({
+    footprint,
+    heightClass,
+    customStories: formData.stories,
+    frame,
+    isMobile: !!formData.is_mobile,
+    mastercraftBonus: formData.mastercraft_bonus || 0
+  });
+
+  const totalModules = moduleCalc.totalModules;
+
+  // Compute used modules
+  const specializedModules = formData.specialized_modules || formData.modules || [];
+  let usedModules = 0;
+  for (const mod of specializedModules) {
+    const modId = typeof mod === 'string' ? mod : mod.id;
+    const count = typeof mod === 'object' && mod.count ? Number(mod.count) : 1;
+    const modDef = ARCHITECTURE_FACILITIES.find(m => m.id === modId || m.name === modId);
+    if (modDef) {
+      usedModules += modDef.modules * count;
+    }
+  }
+
+  if (usedModules > totalModules) {
+    errors.push(`Module capacity exceeded: Using ${usedModules} of ${totalModules} available Modules.`);
+  }
+
+  // Mount Budget Validation
+  const mountCalc = calculateArchitectureMounts({
+    footprint,
+    totalModules,
+    usedModules,
+    armorPlating: formData.armor_plating || formData.armor || [],
+    energyShields: formData.energy_shields || formData.shields || [],
+    structuralWeapons: formData.structural_weapons || formData.weapons || [],
+    sensorsAndAux: formData.sensors_and_aux || formData.sensors || []
+  });
+
+  if (mountCalc.isOverBudget) {
+    errors.push(`Mount hardpoint budget exceeded: Using ${mountCalc.usedMounts} of ${mountCalc.totalMounts} converted Mounts.`);
+  }
+
+  // Environmental Hazards Check
+  if (environment === 'VacuumToxic') {
+    const hasLifeSupport = specializedModules.some(m => {
+      const id = typeof m === 'string' ? m : m.id;
+      return id === 'life_support' || id === 'enviro_dome';
+    });
+    if (!hasLifeSupport && tl < 3) {
+      warnings.push('Environmental Hazard: Vacuum / Toxic worlds require a Life Support module on TL 0-2 structures.');
+    }
+  }
+
+  if (environment === 'AquaticPressure') {
+    warnings.push('Sub-Aquatic Hazard: Pressure Hull reinforcement required (+5 DC, +50% cost).');
+  }
+
+  // Tech Level Gating Warnings
+  for (const mod of specializedModules) {
+    const modId = typeof mod === 'string' ? mod : mod.id;
+    const modDef = ARCHITECTURE_FACILITIES.find(m => m.id === modId || m.name === modId);
+    if (modDef && modDef.tl > tl) {
+      warnings.push(`Tech Level Notice: "${modDef.name}" is TL${modDef.tl}, exceeding structure's TL${tl}.`);
+    }
+  }
+
+  return {
+    valid: errors.length === 0,
+    errors,
+    warnings,
+    moduleCalc,
+    mountCalc
+  };
+}
+
+/**
  * Computes full persistent metadata for Architecture on save.
  */
 export function computeArchitectureStats(formData) {
   const footprint = formData.footprint || formData.scale || 'Large';
   const heightClass = formData.height_class || 'Single';
-  const tl = formData.tl ?? 3;
+  const frame = formData.frame_type || formData.frame || 'Standard';
+  const tl = Number(formData.tl ?? 3);
   const environment = formData.environment || 'Standard';
   const matDef = ARCHITECTURE_MATERIALS[tl] || ARCHITECTURE_MATERIALS[3];
   const envDef = ENVIRONMENTAL_MODIFIERS[environment] || ENVIRONMENTAL_MODIFIERS.Standard;
+  const footprintDef = ARCHITECTURE_FOOTPRINTS[footprint] || ARCHITECTURE_FOOTPRINTS.Large;
 
   const totalSP = calculateArchitectureSP({
     footprint,
     heightClass,
     customStories: formData.stories,
     tl,
+    frame,
     bulwarkBonus: formData.bulwark_bonus || 0
   });
 
-  const totalModules = calculateArchitectureModules({
+  const moduleCalc = calculateArchitectureModules({
     footprint,
     heightClass,
     customStories: formData.stories,
+    frame,
+    isMobile: !!formData.is_mobile,
     mastercraftBonus: formData.mastercraft_bonus || 0
   });
+
+  const totalModules = moduleCalc.totalModules;
 
   const specializedModules = formData.specialized_modules || formData.modules || [];
   let usedModules = 0;
@@ -722,48 +1048,113 @@ export function computeArchitectureStats(formData) {
     for (const mod of specializedModules) {
       const modId = typeof mod === 'string' ? mod : mod.id;
       const count = typeof mod === 'object' && mod.count ? Number(mod.count) : 1;
-      const modDef = SPECIALIZED_MODULE_CATALOG.find(m => m.id === modId || m.name === modId);
+      const modDef = ARCHITECTURE_FACILITIES.find(m => m.id === modId || m.name === modId);
       if (modDef) {
         usedModules += modDef.modules * count;
       }
     }
   }
 
-  const finalDC = calculateArchitectureDC({
+  const armorPlating = formData.armor_plating || formData.armor || [];
+  const energyShields = formData.energy_shields || formData.shields || [];
+  const structuralWeapons = formData.structural_weapons || formData.weapons || [];
+  const sensorsAndAux = formData.sensors_and_aux || formData.sensors || [];
+  const generators = formData.generators || formData.power_generators || [];
+  const propulsion = formData.propulsion || formData.propulsion_type || null;
+
+  const mountCalc = calculateArchitectureMounts({
+    footprint,
+    totalModules,
+    usedModules,
+    armorPlating,
+    energyShields,
+    structuralWeapons,
+    sensorsAndAux
+  });
+
+  const dcResult = calculateArchitectureDC({
     footprint,
     heightClass,
     customStories: formData.stories,
+    frame,
     tl,
     environment,
     specializedModules,
+    armorPlating,
+    energyShields,
+    structuralWeapons,
+    sensorsAndAux,
+    propulsion,
+    generators,
     uduCompression: formData.udu_compression,
     isRare: !!formData.is_rare,
     baseDC: formData.base_dc ?? formData.craft_dc
   });
 
+  const finalDC = dcResult.finalDC;
+
+  // If the user checked VacuumToxic and TL < 3, or Aquatic, cost multipliers apply
+  let costMult = envDef.costMult || 1.0;
+  if (environment === 'VacuumToxic' && tl >= 3) {
+    costMult = 1.0; // Free at TL3+
+  }
+
   const baseCreditValue = calculateCreditValue(finalDC);
-  const adjustedCreditValue = Math.round(baseCreditValue * (envDef.costMult || 1.0));
+  const adjustedCreditValue = Math.round(baseCreditValue * costMult);
   const materialCost = calculateMaterialCost(adjustedCreditValue);
 
   const cooperativeTimeline = calculateCooperativeConstructionDays({
     creditValue: adjustedCreditValue,
     workforceWorkers: formData.workforce_workers || 10,
     avgSkillCheck: formData.workforce_skill || 15,
-    toolTier: formData.tool_tier || 'Industrial'
+    toolTier: formData.tool_tier || 'industrial'
   });
+
+  const combatMetrics = calculateArchitectureCombatMetrics({
+    totalSP,
+    baseSP: footprintDef.baseSP,
+    tl,
+    armorPlating,
+    creditValue: adjustedCreditValue
+  });
+
+  const validation = validateArchitectureBlueprint(formData);
+
+  // Tactical Speed for Mobile Structures
+  let tacticalSpeed = null;
+  if (formData.is_mobile && propulsion) {
+    const propId = typeof propulsion === 'string' ? propulsion : propulsion.id;
+    const propDef = ARCHITECTURE_PROPULSION.find(p => p.id === propId || p.name === propId);
+    if (propDef) {
+      const scaledSpeed = Math.round(propDef.baseSpeed * (footprintDef.scaleMod || 1.0));
+      tacticalSpeed = `${scaledSpeed} ft/rnd (${propDef.handling})`;
+    }
+  }
 
   return {
     final_dc: finalDC,
+    highest_rule_applied: dcResult.highestRuleApplied,
+    highest_component_source: dcResult.highestComponentSource,
     credit_value: adjustedCreditValue,
     material_cost: materialCost,
     ws_threshold: finalDC,
     complexity_tier: getComplexityTier(finalDC),
     total_sp: totalSP,
-    dr_rating: matDef.dr,
+    dr_rating: combatMetrics.total_dr,
     total_modules: totalModules,
+    raw_modules: moduleCalc.rawModules,
+    mobile_tax_modules: moduleCalc.mobileTax,
     used_modules: usedModules,
     remaining_modules: Number((totalModules - usedModules).toFixed(2)),
     is_module_overbudget: usedModules > totalModules,
+    mount_budget: mountCalc,
+    tactical_speed: tacticalSpeed,
+    combat_metrics: combatMetrics,
+    validation_status: {
+      valid: validation.valid,
+      errors: validation.errors,
+      warnings: validation.warnings
+    },
     single_crafter_days: calculateAllCraftingTiers(adjustedCreditValue),
     cooperative_construction: cooperativeTimeline,
     udu_displacement: {
@@ -773,3 +1164,146 @@ export function computeArchitectureStats(formData) {
     computed_at: new Date().toISOString()
   };
 }
+
+// ═══════════════════════════════════════════════════════════
+// 4. MOVEMENT MODES, PACES & COMBAT DYNAMICS ENGINE
+// ═══════════════════════════════════════════════════════════
+
+/**
+ * Calculates effective movement speed (in feet per round) given a mode, pace, and character traits.
+ * 
+ * @param {object} params
+ * @param {string} [params.mode='ground'] - 'ground' | 'flying' | 'swimming' | 'climbing' | 'burrowing'
+ * @param {string} [params.pace='walk'] - Specific pace ID within the mode
+ * @param {number} [params.baseWalkSpeed=30] - Base ground walking speed (typically 30 ft)
+ * @param {boolean} [params.hasRunner=false] - Possesses the Runner feature (5x Run / 7x Sprint)
+ * @param {boolean} [params.hasSwimmer=false] - Possesses the Swimmer feature (1x Swim / 2x Glide / 3x Stroke)
+ * @param {boolean} [params.hasClimber=false] - Possesses the Climber feature (1x Climb / 2x Scale / 3x Ascent / 6x Descent)
+ * @param {boolean} [params.hasSoar=false] - Possesses the Soar feature (5x Surge / 9x Dive)
+ * @param {boolean} [params.isExhausted=false] - Subject to the Exhausted condition (halves all speeds)
+ * @returns {object} Calculated movement metrics
+ */
+export function calculateMovementPace({
+  mode = 'ground',
+  pace = 'walk',
+  baseWalkSpeed = 30,
+  hasRunner = false,
+  hasSwimmer = false,
+  hasClimber = false,
+  hasSoar = false,
+  isExhausted = false
+} = {}) {
+  const modeData = MOVEMENT_MODES_AND_PACES[mode] || MOVEMENT_MODES_AND_PACES.ground;
+  const paceData = modeData.paces[pace] || Object.values(modeData.paces)[0];
+
+  let multiplier = paceData.multiplier;
+
+  // Apply feature multiplier boosts
+  if (mode === 'ground' && hasRunner && (pace === 'running' || pace === 'sprinting')) {
+    multiplier = paceData.featureMultiplier || multiplier;
+  } else if (mode === 'flying' && hasSoar && (pace === 'surge' || pace === 'diving')) {
+    multiplier = paceData.featureMultiplier || multiplier;
+  } else if (mode === 'swimming' && hasSwimmer) {
+    if (pace === 'swimming') multiplier = 1.0;
+    else if (pace === 'glide') multiplier = 2.0;
+    else if (pace === 'stroke') multiplier = 3.0;
+  } else if (mode === 'climbing' && hasClimber) {
+    if (pace === 'easy' || pace === 'moderate' || pace === 'difficult') multiplier = 1.0;
+    else if (pace === 'scaling') multiplier = 2.0;
+    else if (pace === 'fast_ascent') multiplier = 3.0;
+    else if (pace === 'fast_descent') multiplier = 6.0;
+  }
+
+  // Base speed for the mode
+  let baseSpeedForMode = baseWalkSpeed;
+  if (mode === 'flying') baseSpeedForMode = baseWalkSpeed * 2.0;
+  else if (mode === 'swimming' || mode === 'climbing') baseSpeedForMode = baseWalkSpeed * 0.5;
+  else if (mode === 'burrowing') baseSpeedForMode = baseWalkSpeed * 0.25;
+
+  // Raw speed before condition debuffs
+  let rawSpeed = Math.round(baseSpeedForMode * multiplier);
+
+  // Apply Exhausted condition if active
+  let finalSpeed = isExhausted ? Math.floor(rawSpeed * 0.5) : rawSpeed;
+
+  return {
+    mode: modeData.id,
+    mode_name: modeData.name,
+    pace: paceData.id,
+    pace_name: paceData.name,
+    base_walk_speed: baseWalkSpeed,
+    multiplier,
+    raw_speed_ft: rawSpeed,
+    final_speed_ft: finalSpeed,
+    speed_mph: Number(((finalSpeed * 10) / 88).toFixed(2)),
+    speed_kph: Number((((finalSpeed * 10) / 88) * 1.60934).toFixed(2)),
+    action_penalty: paceData.actionPenalty || 0,
+    check_dc: paceData.checkDC || null,
+    check_skill: paceData.checkSkill || null,
+    check_penalty: paceData.checkPenalty || 0,
+    stealth_bonus: paceData.stealthBonus || 0,
+    condition: isExhausted ? 'Exhausted' : (paceData.condition || null),
+    description: paceData.description
+  };
+}
+
+/**
+ * Calculates Aerial Ramming damage and kinetic impact for flyers colliding with targets.
+ * 
+ * @param {object} params
+ * @param {number} [params.flightStage=1] - 1 (Flight) | 2 (Sail) | 3 (Surge/Soar) | 4 (Dive)
+ * @param {number} [params.speedFt=60] - Velocity in feet per round
+ * @returns {object} Aerial ram collision damage details
+ */
+export function calculateAerialRamDamage({
+  flightStage = 1,
+  speedFt = 60
+} = {}) {
+  const stage = Math.max(1, Math.min(4, Math.round(flightStage)));
+  const stageName = FLYING_COMBAT_RULES.flightStages[stage - 1] || 'Flight';
+  const stageBonusDice = stage * FLYING_COMBAT_RULES.ramDicePerStage;
+  const impactFlatDamage = Math.floor(speedFt / 10) * FLYING_COMBAT_RULES.ramImpactDamagePer10Ft;
+
+  return {
+    flight_stage: stage,
+    stage_name: stageName,
+    speed_ft: speedFt,
+    bonus_dice_str: `+${stageBonusDice}d`,
+    impact_flat_damage: impactFlatDamage,
+    formula: `+${stageBonusDice}d damage + ${impactFlatDamage} kinetic impact damage`,
+    applies_to_all_involved: true,
+    crash_rules_apply: true
+  };
+}
+
+/**
+ * Evaluates movement fatigue checks and calculates non-lethal vitality loss.
+ * 
+ * @param {object} params
+ * @param {number} params.checkTotal - Total result of Fortitude/Athletics check
+ * @param {number} [params.targetDC=15] - Target DC for the fatigue check
+ * @returns {object} Fatigue check resolution outcome
+ */
+export function evaluateMovementFatigue({
+  checkTotal,
+  targetDC = 15
+} = {}) {
+  const success = checkTotal >= targetDC;
+  const missMargin = success ? 0 : targetDC - checkTotal;
+  const damagePerMiss = Math.floor(missMargin / 5) * MOVEMENT_FATIGUE_SYSTEM.vitalityDamagePerMissOf5;
+  const baseVitalityDamage = success ? 0 : MOVEMENT_FATIGUE_SYSTEM.vitalityDamageFail;
+  const totalVitalityLoss = success ? 0 : Math.max(baseVitalityDamage, 1 + damagePerMiss);
+
+  return {
+    success,
+    check_total: checkTotal,
+    target_dc: targetDC,
+    miss_margin: missMargin,
+    vitality_damage: totalVitalityLoss,
+    exhaustion_risk: !success,
+    consequence: success
+      ? 'Fatigue warded off successfully. Pacing maintained.'
+      : `Failed by ${missMargin}. Suffer ${totalVitalityLoss} non-lethal Vitality damage. If Vitality reaches 0, suffer 2 Health damage and become Exhausted (-2 checks, 1/2 speed).`
+  };
+}
+

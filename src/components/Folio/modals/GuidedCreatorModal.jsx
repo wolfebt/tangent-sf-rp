@@ -5,8 +5,14 @@ import { collection, getDocs } from 'firebase/firestore';
 import { X, ChevronRight, ChevronLeft, Check, Search, Shield, Target, User, Sparkles, BookOpen, Layers, Plus, Compass, Dna } from 'lucide-react';
 import { DEFAULT_SKILLS } from '../../../data/skillsData';
 import { DEFAULT_FEATURES, FEATURE_CATEGORIES } from '../../../data/featuresData';
-import { DEFAULT_ARCHETYPES, ARCHETYPE_SPHERES } from '../../../data/archetypesData';
+import { DEFAULT_ARCHETYPES, ARCHETYPE_SPHERES, getGroupedArchetypes } from '../../../data/archetypesData';
 import { DEFAULT_SPECIES, SPECIES_LINEAGES } from '../../../data/speciesData';
+import {
+  formatHeightWithConversion,
+  getHeightConversion,
+  formatWeightWithConversion,
+  getWeightConversion
+} from '../../../engines/tangentMeasurementEngine';
 
 const getSpeciesAttrModifier = (sp, attrName) => {
   if (!sp) return 0;
@@ -262,6 +268,11 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
     return groups;
   }, [dbData.features]);
 
+  // Grouped archetypes for organized selection by canonical 4 spheres
+  const groupedArchetypesForSelect = useMemo(() => {
+    return getGroupedArchetypes(dbData.archetypes);
+  }, [dbData.archetypes]);
+
   const handleNext = () => {
     if (currentStep < STEPS.length - 1) setCurrentStep(c => c + 1);
   };
@@ -476,10 +487,12 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
   // ------------------- STEP RENDERS -------------------
   
   const renderConcept = () => {
-    const filteredArchetypes = (dbData.archetypes || []).filter(a => {
-      if (archetypeSphereFilter === 'All') return true;
-      return (a.sphere || '').toLowerCase().includes(archetypeSphereFilter.toLowerCase());
-    });
+    const filteredArchetypes = (dbData.archetypes || [])
+      .filter(a => {
+        if (archetypeSphereFilter === 'All') return true;
+        return (a.sphere || '').toLowerCase().includes(archetypeSphereFilter.toLowerCase());
+      })
+      .sort((a, b) => (a.name || '').localeCompare(b.name || ''));
 
     return (
       <div className="space-y-6 max-w-2xl mx-auto">
@@ -550,11 +563,23 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
                 className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white text-xs focus:border-cyan-500 outline-none"
               >
                 <option value="">-- No Archetype (Custom Open Point-Buy) --</option>
-                {filteredArchetypes.map(a => (
-                  <option key={a.id || a.name} value={a.name}>
-                    {a.name} ({a.sphere?.split(' ')[0] || 'Archetype'}) — {a.core_concept || a.primary_attribute + ' / ' + a.secondary_attribute}
-                  </option>
-                ))}
+                {archetypeSphereFilter === 'All' ? (
+                  groupedArchetypesForSelect.map(([sphereName, list]) => (
+                    <optgroup key={sphereName} label={`─── ${sphereName.toUpperCase()} ───`} className="bg-slate-950 text-cyan-400 font-bold font-mono">
+                      {list.map(a => (
+                        <option key={a.id || a.name} value={a.name} className="bg-slate-900 text-slate-100 font-normal font-sans">
+                          {a.name} — {a.core_concept || `${a.primary_attribute} / ${a.secondary_attribute}`}
+                        </option>
+                      ))}
+                    </optgroup>
+                  ))
+                ) : (
+                  filteredArchetypes.map(a => (
+                    <option key={a.id || a.name} value={a.name}>
+                      {a.name} ({a.sphere?.split(' ')[0] || 'Archetype'}) — {a.core_concept || `${a.primary_attribute} / ${a.secondary_attribute}`}
+                    </option>
+                  ))
+                )}
               </select>
             </div>
 
@@ -644,12 +669,56 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
               <input type="text" value={draft['char-gender']} onChange={e => updateDraft('char-gender', e.target.value)} className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-xs" placeholder="Female / They" />
             </div>
             <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1">Height</label>
-              <input type="text" value={draft['char-height']} onChange={e => updateDraft('char-height', e.target.value)} className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-xs" placeholder="1.85m" />
+              <div className="flex justify-between items-center mb-1">
+                <label className="block text-xs font-bold text-slate-300">Height</label>
+                {(() => {
+                  const val = draft['char-height'] || '';
+                  const conv = getHeightConversion(val);
+                  if (conv && !val.includes(`[${conv}]`)) {
+                    return <span className="text-[10px] font-mono text-cyan-300">≈ [{conv}]</span>;
+                  }
+                  return null;
+                })()}
+              </div>
+              <input
+                type="text"
+                value={draft['char-height']}
+                onChange={e => updateDraft('char-height', e.target.value)}
+                onBlur={e => {
+                  const formatted = formatHeightWithConversion(e.target.value);
+                  if (formatted !== e.target.value) {
+                    updateDraft('char-height', formatted);
+                  }
+                }}
+                className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-xs focus:border-cyan-500 outline-none"
+                placeholder="5'11&quot; or 1.80m"
+              />
             </div>
             <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1">Weight</label>
-              <input type="text" value={draft['char-weight']} onChange={e => updateDraft('char-weight', e.target.value)} className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-xs" placeholder="78kg" />
+              <div className="flex justify-between items-center mb-1">
+                <label className="block text-xs font-bold text-slate-300">Weight</label>
+                {(() => {
+                  const val = draft['char-weight'] || '';
+                  const conv = getWeightConversion(val);
+                  if (conv && !val.includes(`[${conv}]`)) {
+                    return <span className="text-[10px] font-mono text-cyan-300">≈ [{conv}]</span>;
+                  }
+                  return null;
+                })()}
+              </div>
+              <input
+                type="text"
+                value={draft['char-weight']}
+                onChange={e => updateDraft('char-weight', e.target.value)}
+                onBlur={e => {
+                  const formatted = formatWeightWithConversion(e.target.value);
+                  if (formatted !== e.target.value) {
+                    updateDraft('char-weight', formatted);
+                  }
+                }}
+                className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-white text-xs focus:border-cyan-500 outline-none"
+                placeholder="180 lbs or 82kg"
+              />
             </div>
           </div>
 
@@ -762,8 +831,10 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
 
       // Lineage filter
       if (speciesLineageFilter !== 'All') {
-        const target = speciesLineageFilter.toLowerCase().split(' ')[0].replace(/[^a-z]/g, '');
-        if (!parentName.includes(target) && sp.id?.toLowerCase() !== target) return false;
+        const target = speciesLineageFilter.toLowerCase().split(' ')[0].replace(/[^a-z0-9]/g, '');
+        const cleanParent = parentName.replace(/[^a-z0-9]/g, '');
+        const cleanId = (sp.id || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+        if (!cleanParent.includes(target) && !cleanId.includes(target)) return false;
       }
 
       // Search query
@@ -819,8 +890,12 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
             All ({(dbData.species || []).length})
           </button>
           {SPECIES_LINEAGES.map(lin => {
-            const shortName = lin.name.split(' ')[0].replace(/[^a-zA-Z]/g, '');
-            const count = (dbData.species || []).filter(s => (s.parent_species || '').toLowerCase().includes(shortName.toLowerCase())).length;
+            const shortName = lin.name.split(' ')[0].replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+            const count = (dbData.species || []).filter(s => {
+              const cleanParent = (s.parent_species || '').toLowerCase().replace(/[^a-zA-Z0-9]/g, '');
+              const cleanId = (s.id || '').toLowerCase().replace(/[^a-zA-Z0-9]/g, '');
+              return cleanParent.includes(shortName) || cleanId.includes(shortName);
+            }).length;
             return (
               <button
                 key={lin.id}

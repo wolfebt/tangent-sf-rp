@@ -1,8 +1,10 @@
 ---
 id: rule-range-point-blank
-name: 'Range: Point Blank (+5 Strike)'
+name: Point Blank Range & Damage Advantage
 category: rules
-description: Within reach; +5 Strike and Damage rolled at Advantage.
+description: >-
+  Point Blank shots grant +5 Strike and roll damage dice with Advantage for
+  ballistic/energy weapons.
 costs:
   bp: 0
   credits: 0
@@ -24,10 +26,11 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
-# Range: Point Blank (+5 Strike)
+# Point Blank Range & Damage Advantage
 
 **Category**: Core Combat Rules & Tables
 
 ## Mechanics
-Within reach; +5 Strike and Damage rolled at Advantage.
+- **Target Distance**: Within Reach / Point Blank range.
+- **Strike Bonus**: **+5 Strike** (Target DC reduced to 10).
+- **Damage Advantage**: For Ballistic and Energy weapons, a shot striking at this range inflicts its **Damage with Advantage** (rolling damage dice twice and taking the highest result) in addition to all other damage modifiers.

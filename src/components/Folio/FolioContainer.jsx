@@ -6,10 +6,14 @@ import FolioSidebar from './FolioSidebar';
 import IdentityTab from './tabs/IdentityTab';
 import CoreStatsTab from './tabs/CoreStatsTab';
 import SkillsTab from './tabs/SkillsTab';
+import FeaturesTab from './tabs/FeaturesTab';
 import AbilitiesTab from './tabs/AbilitiesTab';
+import CombatTab from './tabs/CombatTab';
+import PropertyTab from './tabs/PropertyTab';
 import CombatGearTab from './tabs/CombatGearTab';
 import NarrativeTab from './tabs/NarrativeTab';
 import OtherTab from './tabs/OtherTab';
+import MetaphysicsModal from './modals/MetaphysicsModal';
 import EconomyModal from './modals/EconomyModal';
 import AddSkillModal from './modals/AddSkillModal';
 import CustomSelectorModal from './modals/CustomSelectorModal';
@@ -48,6 +52,7 @@ const FolioContainer = () => {
   const [isFileMenuOpen, setIsFileMenuOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [isGuidedCreatorOpen, setIsGuidedCreatorOpen] = useState(false);
+  const [isMetaphysicsOpen, setIsMetaphysicsOpen] = useState(false);
   const [selectorConfig, setSelectorConfig] = useState(null);
 
   const fileInputRef = useRef(null);
@@ -124,12 +129,36 @@ const FolioContainer = () => {
           applyArchetypeChassis(taggedData);
         }
       }
+    } else if (key === 'skills' || key === 'skill') {
+      const cleanName = typeof taggedData === 'object' ? (taggedData.name || taggedData.title || '') : taggedData;
+      const skillGroup = taggedData.group || taggedData.type || 'physical';
+      const id = taggedData.id || `${skillGroup}-${cleanName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+      handleAddSkill({
+        name: cleanName,
+        id,
+        group: skillGroup,
+        subcategory: taggedData.subcategory || taggedData.subtype || 'General',
+        baseAttr: taggedData.baseAttr || 'attr-strength',
+        rank: parseInt(taggedData.rank, 10) || 1
+      });
+    } else if (key === 'disciplines' || key === 'awakened') {
+      const discName = typeof taggedData === 'object' ? (taggedData.name || taggedData.title || '') : taggedData;
+      const formattedName = discName.startsWith('Awakened:') ? discName : `Awakened: ${discName}`;
+      const item = {
+        id: taggedData.id || `awakened_${Date.now()}`,
+        name: formattedName,
+        cp: 3,
+        type: 'Awakened',
+        category: 'Awakened Discipline',
+        description: taggedData.description || taggedData.desc || ''
+      };
+      handleAddItem('features', item);
     } else if (index !== null && index !== undefined && index >= 0) {
       handleUpdateItem(key, index, taggedData);
     } else {
       handleAddItem(key, taggedData);
     }
-  }, [updateField, handleAddItem, handleUpdateItem, userHandle, currentUser, applyArchetypeChassis, applySpeciesAdjustments]);
+  }, [updateField, handleAddItem, handleUpdateItem, handleAddSkill, userHandle, currentUser, applyArchetypeChassis, applySpeciesAdjustments]);
 
   // Open Selector Modal helper
   const handleOpenSelectorModal = useCallback((key, title, browsePath, filterCategory = null, filterCategoryExclude = null) => {
@@ -154,6 +183,30 @@ const FolioContainer = () => {
           applyArchetypeChassis(value);
         }
       }
+    } else if (key === 'skills' || key === 'skill') {
+      const cleanName = typeof value === 'object' ? (value.name || value.title || '') : value;
+      const skillGroup = value.group || value.type || 'physical';
+      const id = value.id || `${skillGroup}-${cleanName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+      handleAddSkill({
+        name: cleanName,
+        id,
+        group: skillGroup,
+        subcategory: value.subcategory || value.subtype || 'General',
+        baseAttr: value.baseAttr || 'attr-strength',
+        rank: parseInt(value.rank, 10) || 1
+      });
+    } else if (key === 'disciplines' || key === 'awakened') {
+      const discName = typeof value === 'object' ? (value.name || value.title || '') : value;
+      const formattedName = discName.startsWith('Awakened:') ? discName : `Awakened: ${discName}`;
+      const item = {
+        id: (typeof value === 'object' && value.id) ? value.id : `awakened_${Date.now()}`,
+        name: formattedName,
+        cp: 3,
+        type: 'Awakened',
+        category: 'Awakened Discipline',
+        description: typeof value === 'object' ? (value.description || value.desc || '') : ''
+      };
+      handleAddItem('features', item);
     } else {
       const rawObj = typeof value === 'object' 
         ? { id: value.id || `item_${Date.now()}`, ...value, name: value.name || value.title, description: value.description || '', cp: value.cp || 0, category: value.category || '' } 
@@ -161,7 +214,7 @@ const FolioContainer = () => {
       const itemObj = attachCreatorTag(rawObj, userHandle, currentUser);
       handleAddItem(key, itemObj);
     }
-  }, [updateField, handleAddItem, userHandle, currentUser, applyArchetypeChassis, applySpeciesAdjustments]);
+  }, [updateField, handleAddItem, handleAddSkill, userHandle, currentUser, applyArchetypeChassis, applySpeciesAdjustments]);
 
   const onFileChange = (e) => {
     const file = e.target.files[0];
@@ -238,6 +291,8 @@ const FolioContainer = () => {
           }}
           charName={characterData['char-name']}
           onOpenRoster={() => setIsRosterOpen(true)}
+          onOpenAugmentationsCatalog={() => handleOpenSelectorModal('augmentations', 'Augmentations', 'augmentations')}
+          onOpenMetaphysicsModal={() => setIsMetaphysicsOpen(true)}
         />
       </div>
 
@@ -330,16 +385,26 @@ const FolioContainer = () => {
           {activeTab === 'skills' && (
             <SkillsTab
               onOpenAddSkillModal={handleOpenAddSkillModal}
+              onOpenSelectorModal={handleOpenSelectorModal}
             />
           )}
-          {activeTab === 'abilities' && (
-            <AbilitiesTab
+          {(activeTab === 'features' || activeTab === 'abilities' || activeTab.startsWith('features-')) && (
+            <FeaturesTab
+              activeSection={activeTab === 'features-hindrances' ? 'hindrances' : (activeTab === 'features-augmentations' ? 'augmentations' : 'all')}
+              onOpenSelectorModal={handleOpenSelectorModal}
+              onOpenAssetModal={handleOpenAssetModal}
+              onOpenMetaphysicsModal={() => setIsMetaphysicsOpen(true)}
+            />
+          )}
+          {activeTab === 'combat' && (
+            <CombatTab
               onOpenSelectorModal={handleOpenSelectorModal}
               onOpenAssetModal={handleOpenAssetModal}
             />
           )}
-          {activeTab === 'combat-gear' && (
-            <CombatGearTab
+          {(activeTab === 'property' || activeTab.startsWith('property-') || activeTab === 'combat-gear') && (
+            <PropertyTab
+              activeSection={activeTab.startsWith('property-') ? activeTab.replace('property-', '') : 'gear'}
               onOpenSelectorModal={handleOpenSelectorModal}
               onOpenAssetModal={handleOpenAssetModal}
             />
@@ -435,6 +500,10 @@ const FolioContainer = () => {
       <UserSettingsModal
         isOpen={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}
+      />
+      <MetaphysicsModal
+        isOpen={isMetaphysicsOpen}
+        onClose={() => setIsMetaphysicsOpen(false)}
       />
       {/* Print-only Folio Output */}
       <div className="hidden print:block">

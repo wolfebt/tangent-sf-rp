@@ -1,8 +1,10 @@
 ---
 id: rule-synthetic-limb-50pct
-name: Synthetic Limb +50% Threshold
+name: Synthetic Limb +50% Durability Threshold
 category: rules
-description: Synthetic limbs gain +50% damage capacity before disabling.
+description: >-
+  Synthetic limbs take 50% more damage before Disabled/Destroyed than biological
+  ones.
 costs:
   bp: 0
   credits: 0
@@ -24,10 +26,10 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
-# Synthetic Limb +50% Threshold
+# Synthetic Limb +50% Durability Threshold
 
 **Category**: Core Combat Rules & Tables
 
 ## Mechanics
-Synthetic limbs gain +50% damage capacity before disabling.
+- **Synth vs. Bio**: Synthetic limbs can take **50% more damage** before being Disabled or Destroyed than biological ones.
+- Synthetic limbs may **not** get a Stamina check to remain functional once reaching Disabled status.

@@ -45,7 +45,7 @@ An Operator can spend 1 Karma Point to achieve one of the following heroic feats
 
 1. **Fate Reroll:** Reroll any single failed d20 check (attack, saving throw, or skill check) and take the new result.
 2. **Impose Disadvantage:** Force an enemy targeting you to roll their attack with Disadvantage.
-3. **Cheat Death:** When reduced to 0 HP and entering the Mortality state, immediately stabilize and regain 1 HP.
+3. **Cheat Death:** When reduced to 0 Health and entering the Mortality state, immediately stabilize and regain 1 Health.
 4. **Extra Reaction:** Execute an additional active defense reaction without suffering the cumulative -5 multiple defense penalty.
 5. **Flash of Genius:** Declare an immediate tactical insight, finding a hidden exit, power conduit, or weak point in an enemy shield.
 

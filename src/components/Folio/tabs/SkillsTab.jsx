@@ -106,7 +106,7 @@ const TABS_CONFIG = [
   }
 ];
 
-const SkillsTab = ({ onOpenAddSkillModal }) => {
+const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
   const {
     characterData,
     updateField,
@@ -651,10 +651,18 @@ const SkillsTab = ({ onOpenAddSkillModal }) => {
           {/* Consolidated Action Button */}
           <button
             type="button"
-            onClick={() => onOpenAddSkillModal('skill', allAvailableSkills)}
-            className="px-3.5 py-1.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded text-xs font-bold uppercase tracking-wider transition-all shadow-[0_0_8px_rgba(34,211,238,0.2)] shrink-0"
+            onClick={() => {
+              if (onOpenSelectorModal) {
+                onOpenSelectorModal('skills', 'Skills Database', 'skills');
+              } else if (onOpenAddSkillModal) {
+                onOpenAddSkillModal('skill', allAvailableSkills);
+              }
+            }}
+            className="px-3.5 py-1.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded text-xs font-bold uppercase tracking-wider transition-all shadow-[0_0_8px_rgba(34,211,238,0.2)] shrink-0 flex items-center gap-1.5 cursor-pointer"
+            title="Open Skills Catalog (Table / Cards) with build option"
           >
-            + Custom/Special
+            <span>✨</span>
+            <span>+ Add Skill</span>
           </button>
         </div>
       </div>

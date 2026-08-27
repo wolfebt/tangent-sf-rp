@@ -1,10 +1,11 @@
 ---
-id: 4-12-discipline-mental
-name: '4.12 Discipline Guide: Mental (Telepathy & Domination)'
-category: compendium
-entry_type: Game Mechanic
-parent: 4.00 METAPHYSICS
+id: "4-12-discipline-mental"
+name: "4.12 Discipline Guide: Mental (Telepathy & Domination)"
+category: "compendium"
+parent: "4.00 METAPHYSICS"
 order: 12
+perspective: "both"
+entry_type: "Game Mechanic"
 costs:
   bp: 0
   credits: 0
@@ -26,14 +27,33 @@ sockets:
   tier: Socket
   allocated: []
 ---
+
 # 4.12 Discipline Guide: Mental (Telepathy & Domination)
 
-The **Mental Discipline** interfaces directly with sentient neural pathways, telepathic communication, memory extraction, and psychic domination.
+The **Discipline of Mental** interfaces directly with sentient neural pathways, telepathic communication, memory extraction, and cognitive will projection.
 
 ---
 
-## Core Capabilities by Skill Tier
-- **Novice (Rank 1–5):** *Mind Link* (silent 2-way telepathic comms with squad), *Sense Emotion* (detect hostility and lies), *Mind Jab* (2d4 psychic).
-- **Trained (Rank 6–10):** *Psychic Probe* (extract deep memories/passwords), *Neural Stun* (paralyzes target for 1 round on failed Will save).
-- **Expert (Rank 11–15):** *Mind Control / Suggestion* (force enemy to obey direct commands), *Psychic Blast* (5d8 psionic damage in 15-ft cone).
-- **Master (Rank 16–20):** *Ego Wipe* (erases entire lifetime identity), *Telepathic Hive Mind* (links entire army with instantaneous coordination).
+## Associated Metafocus Skills
+1. **Projection**: Psionic thrusts, telekinesis, telepathic speech, and cognitive thrusts.
+2. **Sense**: Remote viewing, psionic detection, empathy, telepathic probing, and clairvoyance.
+
+---
+
+## Sensory Manifestation & Aesthetics
+- **Primary Color**: Pink/Magenta
+- **Secondary Color**: Cyan
+- **Texture & Form**: Cognitive ripples, psionic pulses, telepathic threads, and glowing eyes.
+- **Audio Profile**: Subconscious whispers, cerebral static, electronic humming, heartbeat reverberations.
+
+## Game Mechanics Rules
+```
+Damage = 1d6 per Stage achieved with check (Bypasses Physical Armor DR)
+MindControlDC = 10 + AttuneRank + KeyAbilityMod vs Will Save
+```
+
+## Gameplay Instructions
+Maintain encrypted telepathic links across your operative squad for completely silent coordination.
+
+## Designer Notes
+Interfacing with synthetic AI matrices requires specialized cyber-psionic training or composite invocations.

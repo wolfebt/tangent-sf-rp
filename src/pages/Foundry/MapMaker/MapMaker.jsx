@@ -323,7 +323,7 @@ const MapPane = ({ mapExportPngRef }) => {
     tokenType, tokenLabelInput, tokenOmnicortexData, textLabelInput, textColor, textSize
   });
 
-  const { updateCharacterHealth, updateCharacterVitality, updateCharacterHp } = useFolio();
+  const { updateCharacterHealth, updateCharacterVitality, updateCharacterStructure, updateCharacterHp } = useFolio();
 
   const triggerFloatingCombatText = (screenX, screenY, text, type = 'damage') => {
     const newFloat = {
@@ -407,7 +407,52 @@ const MapPane = ({ mapExportPngRef }) => {
     }
   };
 
+  const handleUpdateTokenStructure = (tokenId, newStructure, isDamage = true, deltaAmount = 1) => {
+    const token = tokens.find(t => t.id === tokenId);
+    if (!token) return;
+
+    recordHistory();
+    const nextTokens = produce(tokens, draft => {
+      const target = draft.find(t => t.id === tokenId);
+      if (target) {
+        if (!target.structure) target.structure = { current: 60, max: 60 };
+        target.structure.current = newStructure;
+      }
+    });
+    updateMap(activeMapId, { tokens: nextTokens });
+
+    AudioService.playCombatHit(deltaAmount >= 15);
+
+    const screenX = (token.x || 0) * scale + position.x;
+    const screenY = (token.y || 0) * scale + position.y;
+    triggerFloatingCombatText(
+      screenX,
+      screenY,
+      isDamage ? `-${deltaAmount} STRUCT` : `+${deltaAmount} STRUCT`,
+      isDamage ? 'structure_damage' : 'structure_heal'
+    );
+
+    if (token.linkedHeroId && updateCharacterStructure) {
+      updateCharacterStructure(token.linkedHeroId, newStructure);
+    }
+  };
+
   const handleUpdateTokenHp = handleUpdateTokenHealth;
+
+  const handleUpdateToken = (tokenId, updates = {}) => {
+    const token = tokens.find(t => t.id === tokenId);
+    if (!token) return;
+    recordHistory();
+    const nextTokens = produce(tokens, draft => {
+      const target = draft.find(t => t.id === tokenId);
+      if (target) Object.assign(target, updates);
+    });
+    updateMap(activeMapId, { tokens: nextTokens });
+  };
+
+  const handleUpdateTokenConditions = (tokenId, nextConditions) => {
+    handleUpdateToken(tokenId, { conditions: nextConditions });
+  };
 
   const handleStageDrop = (e) => {
     e.preventDefault();
@@ -432,6 +477,10 @@ const MapPane = ({ mapExportPngRef }) => {
         const maxHealth = data.maxHealth || data.maxHp || 30;
         const curVitality = data.currentVitality !== undefined ? data.currentVitality : (data.maxVitality || 30);
         const maxVitality = data.maxVitality || 30;
+        const curStructure = data.currentStructure !== undefined ? data.currentStructure : (data.maxStructure || curHealth + curVitality);
+        const maxStructure = data.maxStructure || (maxHealth + maxVitality);
+        const isSynthetic = data.isSynthetic || false;
+        const toughness = data.toughness !== undefined ? data.toughness : 0;
 
         const newHeroToken = {
           id: `token_hero_${data.heroId}_${Date.now()}`,
@@ -452,6 +501,12 @@ const MapPane = ({ mapExportPngRef }) => {
             current: curVitality,
             max: maxVitality
           },
+          structure: {
+            current: curStructure,
+            max: maxStructure
+          },
+          isSynthetic,
+          toughness,
           hp: {
             current: curHealth,
             max: maxHealth
@@ -459,7 +514,12 @@ const MapPane = ({ mapExportPngRef }) => {
           defense: data.defense || 12,
           actionPoints: data.actionPoints || 3,
           initiative: derivedInitiative,
-          conditions: []
+          conditions: [],
+          karma: data.karma !== undefined ? data.karma : 3,
+          maxKarma: data.maxKarma || 3,
+          charisma: data.charisma || 10,
+          earned_ap: data.earned_ap || 0,
+          available_ap: data.available_ap || 0
         };
 
         recordHistory();
@@ -482,6 +542,10 @@ const MapPane = ({ mapExportPngRef }) => {
     const maxHealth = data.maxHealth || data.maxHp || 30;
     const curVitality = data.currentVitality !== undefined ? data.currentVitality : (data.maxVitality || 30);
     const maxVitality = data.maxVitality || 30;
+    const curStructure = data.currentStructure !== undefined ? data.currentStructure : (data.maxStructure || curHealth + curVitality);
+    const maxStructure = data.maxStructure || (maxHealth + maxVitality);
+    const isSynthetic = data.isSynthetic || false;
+    const toughness = data.toughness !== undefined ? data.toughness : 0;
 
     const newHeroToken = {
       id: `token_hero_${data.heroId}_${Date.now()}`,
@@ -502,6 +566,12 @@ const MapPane = ({ mapExportPngRef }) => {
         current: curVitality,
         max: maxVitality
       },
+      structure: {
+        current: curStructure,
+        max: maxStructure
+      },
+      isSynthetic,
+      toughness,
       hp: {
         current: curHealth,
         max: maxHealth
@@ -509,7 +579,12 @@ const MapPane = ({ mapExportPngRef }) => {
       defense: data.defense || 12,
       actionPoints: data.actionPoints || 3,
       initiative: derivedInitiative,
-      conditions: []
+      conditions: [],
+      karma: data.karma !== undefined ? data.karma : 3,
+      maxKarma: data.maxKarma || 3,
+      charisma: data.charisma || 10,
+      earned_ap: data.earned_ap || 0,
+      available_ap: data.available_ap || 0
     };
 
     recordHistory();
@@ -1281,7 +1356,10 @@ const MapPane = ({ mapExportPngRef }) => {
           onSelectToken={(id) => setSelectedId(id)}
           onUpdateTokenHealth={handleUpdateTokenHealth}
           onUpdateTokenVitality={handleUpdateTokenVitality}
+          onUpdateTokenStructure={handleUpdateTokenStructure}
           onUpdateTokenHp={handleUpdateTokenHealth}
+          onUpdateToken={handleUpdateToken}
+          onUpdateTokenConditions={handleUpdateTokenConditions}
           onTriggerFloatingText={triggerFloatingCombatText}
           scale={scale}
           position={position}

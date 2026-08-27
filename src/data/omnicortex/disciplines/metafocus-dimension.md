@@ -5,9 +5,11 @@ category: disciplines
 metafocus_skills:
   - Summoning
   - Teleport
+primary_color: 'Deep Indigo'
+secondary_color: 'Void Black'
+texture_form: 'Warping, folding, portals, rifts.'
 description: >-
-  Manipulating spatial coordinates, folding space, opening wormholes, and
-  conjuring objects or entities across dimensional boundaries.
+  Manipulating spatial coordinates, folding space, opening wormholes, and conjuring objects or entities across dimensional boundaries.
 costs:
   bp: 0
   credits: 0
@@ -33,7 +35,14 @@ sockets:
 # Dimension Discipline
 
 **Category**: Metafocus Disciplines  
-**Associated Skills**: Summoning, Teleport
+**Associated Skills**: Summoning, Teleport  
+**Sensory Signature**: Primary: Deep Indigo | Secondary: Void Black  
+**Texture & Form**: Warping, folding, portals, rifts.  
 
 ## Description
 Manipulating spatial coordinates, folding space, opening wormholes, and conjuring objects or entities across dimensional boundaries.
+
+## Core Mechanics
+- **Governing Attribute**: Selected at Awakening (Intellect for Arcane/Logic, Wisdom for Faith/Intuition, Charisma for Inherent/Dominance).
+- **Damage Scaling**: Standard 1d6 per Stage achieved (Force Focus utilizes d8s as specific exception).
+- **Conduit & Breadth**: Ranks in Summoning and Teleport contribute directly to the character's **Essence Pool**.

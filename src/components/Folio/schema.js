@@ -84,7 +84,46 @@ export const characterSchema = z.object({
   'magic-level': z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseInt(val, 10) || 1 : val).optional().default(1),
   'health': z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseInt(val, 10) || 30 : val).optional().default(30),
   'vitality': z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseInt(val, 10) || 30 : val).optional().default(30),
-  'karma': z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseInt(val, 10) || 3 : val).optional().default(3),
+  'structure': z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseInt(val, 10) || 60 : val).optional().default(60),
+  'karma': z.union([z.number(), z.string()]).transform(val => {
+    if (typeof val === 'string') {
+      const parsed = parseInt(val, 10);
+      return isNaN(parsed) ? 3 : parsed;
+    }
+    return typeof val === 'number' && !isNaN(val) ? val : 3;
+  }).optional().default(3),
+  'plot-points': z.union([z.number(), z.string()]).transform(val => {
+    if (typeof val === 'string') {
+      const parsed = parseInt(val, 10);
+      return isNaN(parsed) ? 0 : Math.max(0, parsed);
+    }
+    return typeof val === 'number' && !isNaN(val) ? Math.max(0, val) : 0;
+  }).optional().default(0),
+
+  // Rest & Recovery tracking (Canonical 4 Light Rests per day limit)
+  light_rests_today: z.union([z.number(), z.string()]).transform(val => {
+    const parsed = typeof val === 'string' ? parseInt(val, 10) : val;
+    return isNaN(parsed) ? 0 : Math.min(4, Math.max(0, parsed));
+  }).optional().default(0),
+  last_rest_type: z.string().optional().default(''),
+  last_rest_timestamp: z.string().optional().default(''),
+  current_vitality: z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseInt(val, 10) || 30 : val).optional(),
+  current_health: z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseInt(val, 10) || 30 : val).optional(),
+  current_structure: z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseInt(val, 10) || 60 : val).optional(),
+
+  // Death & Dying tracking (Canonical Tangent rules)
+  is_at_deaths_door: z.boolean().optional().default(false),
+  death_clock: z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseInt(val, 10) || 0 : val).optional().nullable(),
+  is_stabilized: z.boolean().optional().default(false),
+  is_comatose: z.boolean().optional().default(false),
+  is_dead: z.boolean().optional().default(false),
+  experience_debt: z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseInt(val, 10) || 0 : val).optional().default(0),
+
+  // Experience & Advancement tracking (Canonical Award Points / AP system)
+  earned_ap: z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseInt(val, 10) || 0 : val).optional().default(0),
+  spent_ap: z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseInt(val, 10) || 0 : val).optional().default(0),
+  experience_awards: z.array(z.any()).optional().default([]),
+  experience_spends: z.array(z.any()).optional().default([]),
 
   // Narrative fields (aligned with StoryFoundry Persona)
   role: z.string().optional().default(''),
@@ -120,6 +159,7 @@ export const characterSchema = z.object({
   // Array fields with defaults and sub-schema validation
   features: z.array(traitItemSchema).optional().default([]),
   disadvantages: z.array(traitItemSchema).optional().default([]),
+  hindrances: z.array(traitItemSchema).optional().default([]),
   augmentations: z.array(traitItemSchema).optional().default([]),
   awakened: z.array(traitItemSchema).optional().default([]),
   invocations: z.array(traitItemSchema).optional().default([]),
@@ -128,8 +168,10 @@ export const characterSchema = z.object({
   armor: z.array(inventoryItemSchema).optional().default([]),
   gear: z.array(inventoryItemSchema).optional().default([]),
   weapons: z.array(inventoryItemSchema).optional().default([]),
+  weaponry: z.array(inventoryItemSchema).optional().default([]),
   armoring: z.array(inventoryItemSchema).optional().default([]),
   mecha: z.array(inventoryItemSchema).optional().default([]),
+  architecture: z.array(inventoryItemSchema).optional().default([]),
   other: z.array(inventoryItemSchema).optional().default([]),
   specializations: z.array(specializationItemSchema).optional().default([]),
   notes: z.array(noteItemSchema).optional().default([{ text: '' }])

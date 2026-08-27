@@ -9,16 +9,13 @@ governing_attributes:
   - Wisdom
   - Charisma
 description: >-
-  The metaphysical discipline governing the cosmic cycles of decay, necrosis,
-  curses, healing positive energy, biological stabilization, and restorative
-  wards.
+  The metaphysical discipline governing decay, dissolution, probability manipulation, molecular breakdown, cellular regeneration, and life restoration.
 trained_only: true
 specialties:
-  - 'Chaos Focus (Decay, necrotic damage, curses, armor corrosion)'
-  - 'Order Focus (Healing, stabilization, poison removal, protective wards)'
+  - 'Chaos Focus (Accelerating decay, unmaking bonds, curses)'
+  - 'Order Focus (Harmonic stabilization, cellular regeneration, healing)'
 synergy_links:
   - meta-attune
-  - mental-medicine
   - mental-metaphysics
 costs:
   bp: 0
@@ -44,14 +41,18 @@ sockets:
 
 # Entropy
 
-The metaphysical discipline governing the cosmic cycles of decay, necrosis, curses, healing positive energy, biological stabilization, and restorative wards.
+The metaphysical discipline governing decay, dissolution, probability manipulation, molecular breakdown, cellular regeneration, and life restoration.
 
-### Mechanics & Rules
-- **Governing Attribute**: Key Ability (Requires Awakened feature).
-- **Potency Scaling**:
-  - *Chaos Focus (Decay)*: `2d6 per Discipline Stage + 1d6 per Invocation Rank` (Ignores non-magical DR).
-  - *Order Focus (Healing)*: `2d6 per Discipline Stage + 1d6 per Invocation Rank` (Restores Health / Vitality).
+### Core Rules & Mechanics
+- **Governing Attribute**: Selected at Awakening (Intellect for Reason/Arcane, Wisdom for Intuition/Faith, Charisma for Dominance/Inherent).
+- **Potency Formula**:
+  $$\text{Potency} = [\text{Key Ability Mod} + \text{Discipline Skill Level} + \text{Invocation Level} + 10 \text{ (or } d20 \text{)}]$$
+- **Damage & Scaling**: 1d6 per Stage achieved with check (Necrotic, Acid, or Healing dice).
+- **Essence Pool Contribution**: Ranks in this discipline's focus skills contribute directly to the character's **Essence Pool** (Breadth component).
+- **Sensory Manifestation**:
+  - *Colors*: Sickly Green (Chaos), Geometric Gold (Order), Vibrant Life Green (Healing) / Grey/Black, Crystal White, Soft Gold
+  - *Texture & Form*: Rusting, decaying, mist, smoke; or perfect crystal lattices and knitting flesh
 
 ### Focuses
-- **Chaos Focus**: Melee touch withering, armor corrosion, panic induction, and curses.
-- **Order Focus**: Rapid wound restoration, death stabilization, and status cleansing.
+- **Chaos Focus**: Accelerating decay, unmaking bonds, curses
+- **Order Focus**: Harmonic stabilization, cellular regeneration, healing

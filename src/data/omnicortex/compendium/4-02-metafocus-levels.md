@@ -1,10 +1,11 @@
 ---
-id: 4-02-metafocus-levels
-name: 4.02 Metafocus Levels (ML 0 to ML 6)
-category: compendium
-entry_type: Core Rule
-parent: 4.00 METAPHYSICS
+id: "4-02-metafocus-levels"
+name: "4.02 Metafocus Levels (ML 0 to ML 6)"
+category: "compendium"
+parent: "4.00 METAPHYSICS"
 order: 2
+perspective: "both"
+entry_type: "Core Rule"
 costs:
   bp: 0
   credits: 0
@@ -26,27 +27,43 @@ sockets:
   tier: Socket
   allocated: []
 ---
+
 # 4.02 Metafocus Levels (ML 0 to ML 6)
 
-A civilization's **Metafocus Level (ML)** determines the prevalence, legal status, and cultural prominence of metaphysics.
+Comparable to the Technological Level (TL) of a society, the **Metafocus Level (ML)** determines the prominence, societal integration, and legal standing of Metaphysics within a civilization or demographic.
 
 ---
 
-## Metafocus Level Hierarchy
+## Metafocus Level Classification Table
 
-| ML Tier | Classification | Population Ratio & Cultural Integration | Starting Character Max Rank |
-| :---: | :--- | :--- | :---: |
-| **ML 0** | **Null** | Zero native meta-users; physical laws strictly rigid | **Rank 0** |
-| **ML 1** | **Rare** | <0.01% of population; practitioners are hunted, feared, or revered | **Rank 2** |
-| **ML 2** | **Selective** | Secret cults, psionic black-ops squads, monastic enclaves | **Rank 4** |
-| **ML 3** | **Cultured** | Uncommon but accepted; Adepts serve as healers, navigators, and court mages | **Rank 6** |
-| **ML 4** | **Standardized**| Common usage; integrated into legal systems, hospitals, and infrastructure | **Rank 8** |
-| **ML 5** | **Advanced** | Universal integration; telepathic data grids, matter-printing spires | **Rank 10** |
-| **ML 6** | **Deific** | Transcended god-like entities (Architects / Progenitors); *Non-Player only* | **Unlimited** |
+| ML | Classification | Description | Typical Examples | Max Discipline Rank |
+| :---: | :--- | :--- | :--- | :---: |
+| **0** | **Null** | No native Meta users. Physical laws strictly rigid. | None | **Rank 0** |
+| **1** | **Rare** | Negligible ratio of Meta Users; likely to be harshly judged or highly expected of. | Skeptical societies / Most races | **Rank 2** |
+| **2** | **Selective** | More ‘in tune’ people but in minorities or reclusive. Early stage of Enlightenment. | Special Ops, Esoteric Cults, Enclaves | **Rank 4** |
+| **3** | **Cultured** | Uncommon but accepted Meta Usage (Adepts of various types). Awakened as a recommended feature of the species. | Aulurans, Dracon Dynasty, Impyrium | **Rank 6** |
+| **4** | **Standardized** | Common Meta Usage; used by many and evident in daily society. Awakened as a granted feature of the species. | Alterians, Impyrium Regi, Psion | **Rank 8** |
+| **5** | **Advanced** | Very Common Meta Usage; prominent usage by everyone in infrastructure and communication. | Mondi, Shar Knor | **Rank 10** |
+| **6** | **Deific** | Transcended; casually affecting reality. **NOT AVAILABLE TO PCs**. | Progenitor types / Cosmic Architects | **Unlimited (NPC Only)** |
 
 ---
 
-## Starting Skill Limit Formula
-Double the planetary ML score to determine a starting character's maximum level in Metafocus Discipline skills:
-\text{Max Starting Discipline Rank} = \text{ML} \times 2
-*(Note: The general **Attune** skill is not limited by planetary ML).*
+## Starting Character Skill Limit Formula
+
+Double the planetary or demographic ML to determine a starting character’s maximum level in Metafocus Discipline Skills:
+
+$$\text{Max Starting Discipline Rank} = \text{ML} \times 2$$
+
+> [!IMPORTANT]
+> **Attune Skill Exemption**: The **Attune** skill is the conduit through which all metaphysics flows and is **not limited by ML**. A character from an ML 1 world may train Attune beyond Rank 2 even while their specific Discipline skills remain capped at Rank 2.
+
+## Game Mechanics Rules
+```
+MaxStartingDisciplineRank = ML * 2 (Attune is exempt from ML cap)
+```
+
+## Gameplay Instructions
+Check the planetary ML of your campaign world to verify starting discipline skill caps during character generation.
+
+## Designer Notes
+Civilizations with ML 4+ regularly integrate metaphysical anti-tampering runes into currency, architecture, and legal oaths.

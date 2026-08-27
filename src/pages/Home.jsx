@@ -356,9 +356,9 @@ const Home = () => {
 
           {/* Desktop 3-Column Layout with Collapsible Side Drawers */}
           {!isMobile ? (
-            <div className="flex flex-row justify-between items-start gap-3 xl:gap-5 w-full pt-1 relative">
+            <div className="flex flex-row justify-between items-start gap-3 xl:gap-5 w-full pt-1 relative min-h-[580px]">
               
-              {/* Left Floating Slide-out Trigger Tab (When Left Column is Collapsed) */}
+              {/* Left Floating Slide-out Trigger Tab (When Left Modules Drawer is Collapsed) */}
               {isLeftCollapsed && (
                 <button
                   type="button"
@@ -367,8 +367,8 @@ const Home = () => {
                     AudioService.playTerminalBeep(1100, 0.03);
                     setIsLeftCollapsed(false);
                   }}
-                  className="fixed left-2 top-1/2 -translate-y-1/2 z-40 px-2 py-4 bg-slate-950/90 hover:bg-slate-900 border-2 border-cyan-500/70 text-cyan-300 rounded-r-xl shadow-[0_0_20px_rgba(34,211,238,0.35)] flex flex-col items-center gap-2 transition-all group backdrop-blur-md"
-                  title="Expand Left Modules Drawer"
+                  className="fixed left-2 top-1/2 -translate-y-1/2 z-40 px-2 py-4 bg-slate-950/95 hover:bg-slate-900 border-2 border-cyan-500/70 hover:border-cyan-400 text-cyan-300 rounded-r-xl shadow-[0_0_25px_rgba(34,211,238,0.4)] flex flex-col items-center gap-2 transition-all group backdrop-blur-md cursor-pointer"
+                  title="Expand Left Modules Drawer (▶)"
                 >
                   <PanelLeftOpen size={16} className="text-cyan-400 group-hover:scale-110 transition-transform" />
                   <span className="text-[9px] font-mono font-bold uppercase [writing-mode:vertical-lr] tracking-widest text-slate-300 group-hover:text-cyan-200">
@@ -377,81 +377,164 @@ const Home = () => {
                 </button>
               )}
 
-              {/* Left Column (Vertical Navigation Stack) */}
+              {/* Left Collapsible Drawer: System Modules */}
               {!isLeftCollapsed && (
                 <div 
-                  className="w-[22%] xl:w-[20%] min-w-[280px] max-w-[380px] 2xl:max-w-[420px] space-y-2 flex flex-col shrink-0 animate-fadeIn" 
+                  className="w-[24%] xl:w-[22%] min-w-[280px] max-w-[390px] 2xl:max-w-[430px] shrink-0 relative flex flex-col animate-fadeIn" 
                   onClick={(e) => e.stopPropagation()}
                 >
-                  {/* Left Column Collapse Header Control */}
-                  <div className="flex items-center justify-between px-2.5 py-1 bg-slate-900/20 hover:bg-slate-900/80 border-2 border-cyan-500/60 rounded-xl backdrop-blur-md transition-all duration-200">
-                    <span className="text-[10px] font-mono font-bold text-cyan-300 uppercase tracking-wide">
-                      SYSTEM MODULES
-                    </span>
+                  {/* Drawer Frame with Slight Border & Glass Blur */}
+                  <div className="rounded-2xl border border-cyan-500/30 bg-[#0b0f17]/90 backdrop-blur-xl p-3 shadow-[0_0_25px_rgba(0,0,0,0.6)] space-y-2.5 relative flex flex-col">
+                    
+                    {/* Inner Edge Collapse Trigger Button */}
                     <button
                       type="button"
                       onClick={() => {
                         AudioService.playTerminalBeep(900, 0.02);
                         setIsLeftCollapsed(true);
                       }}
-                      className="p-1 rounded-md text-slate-400 hover:text-cyan-300 hover:bg-slate-800/80 transition-colors"
-                      title="Collapse Left Drawer"
+                      className="absolute -right-3.5 top-1/2 -translate-y-1/2 z-30 px-1 py-3.5 bg-slate-950/95 hover:bg-slate-900 border-y border-r border-cyan-500/60 hover:border-cyan-400 text-cyan-300 rounded-r-lg shadow-[0_0_15px_rgba(34,211,238,0.25)] flex flex-col items-center justify-center transition-all group cursor-pointer"
+                      title="Collapse System Modules Drawer (◀)"
                     >
-                      <PanelLeftClose size={14} />
+                      <ChevronLeft size={15} className="group-hover:-translate-x-0.5 transition-transform" />
                     </button>
-                  </div>
 
-                  {renderModuleCards(false)}
+                    {/* Left Drawer Header Accent */}
+                    <div className="flex items-center justify-between px-2.5 py-1.5 bg-slate-900/60 hover:bg-slate-900/90 border border-cyan-500/40 rounded-xl backdrop-blur-md transition-all duration-200">
+                      <div className="flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+                        <span className="text-[10px] font-mono font-bold text-cyan-300 uppercase tracking-wider">
+                          SYSTEM MODULES
+                        </span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          AudioService.playTerminalBeep(900, 0.02);
+                          setIsLeftCollapsed(true);
+                        }}
+                        className="p-1 rounded-md text-slate-400 hover:text-cyan-300 hover:bg-slate-800/80 transition-colors cursor-pointer"
+                        title="Collapse Drawer"
+                      >
+                        <PanelLeftClose size={14} />
+                      </button>
+                    </div>
+
+                    {/* Module Cards Stack */}
+                    {renderModuleCards(false)}
+                  </div>
                 </div>
               )}
 
-              {/* Center Column: Dynamic Open View Area / In-Page Drawers */}
+              {/* Center Dynamic View Area / In-Page Drawers */}
               <div 
-                className="flex-1 min-w-0 min-h-[560px] flex flex-col self-stretch transition-all duration-200"
+                className="flex-1 min-w-0 min-h-[560px] flex flex-col self-stretch transition-all duration-300"
                 onClick={(e) => e.stopPropagation()}
               >
-                <LandingDrawerArea
-                  activeDrawer={activeDrawer}
-                  onCloseDrawer={() => setActiveDrawer(null)}
-                  onOpenDrawer={(drawerKey) => handleSelectDrawer(drawerKey)}
-                />
+                {activeDrawer ? (
+                  <LandingDrawerArea
+                    activeDrawer={activeDrawer}
+                    onCloseDrawer={() => setActiveDrawer(null)}
+                    onOpenDrawer={(drawerKey) => handleSelectDrawer(drawerKey)}
+                  />
+                ) : (
+                  /* Empty state when both drawers are collapsed */
+                  isLeftCollapsed && isRightCollapsed && (
+                    <div className="flex-1 flex flex-col items-center justify-center p-8 text-center text-slate-400 font-mono space-y-4 animate-fadeIn">
+                      <div className="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-300 shadow-[0_0_25px_rgba(34,211,238,0.2)] animate-pulse">
+                        <Activity size={28} />
+                      </div>
+                      <div className="space-y-1">
+                        <h3 className="text-sm font-bold tracking-widest text-cyan-300 uppercase">
+                          UNIFIED DASHBOARD WORKSPACE READY
+                        </h3>
+                        <p className="text-xs text-slate-500 max-w-md">
+                          Click the edge tabs to expand System Modules or Operations Drawers.
+                        </p>
+                      </div>
+                      <div className="flex gap-3 pt-2">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            AudioService.playTerminalBeep(1100, 0.02);
+                            setIsLeftCollapsed(false);
+                          }}
+                          className="px-4 py-2 bg-slate-900 hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 rounded-xl text-xs font-bold uppercase transition-all shadow-sm cursor-pointer"
+                        >
+                          Expand Modules (◀)
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            AudioService.playTerminalBeep(1100, 0.02);
+                            setIsRightCollapsed(false);
+                          }}
+                          className="px-4 py-2 bg-slate-900 hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 rounded-xl text-xs font-bold uppercase transition-all shadow-sm cursor-pointer"
+                        >
+                          Expand Operations (▶)
+                        </button>
+                      </div>
+                    </div>
+                  )
+                )}
               </div>
 
-              {/* Right Column (Campaign Ops + Game Squads + Comm Center) */}
+              {/* Right Collapsible Drawer: Operations & Squads */}
               {!isRightCollapsed && (
                 <div 
-                  className="w-[22%] xl:w-[20%] min-w-[280px] max-w-[380px] 2xl:max-w-[420px] space-y-2.5 flex flex-col shrink-0 animate-fadeIn" 
+                  className="w-[24%] xl:w-[22%] min-w-[280px] max-w-[390px] 2xl:max-w-[430px] shrink-0 relative flex flex-col animate-fadeIn" 
                   onClick={(e) => e.stopPropagation()}
                 >
-                  {/* Right Column Collapse Header Control */}
-                  <div className="flex items-center justify-between px-2.5 py-1 bg-slate-900/20 hover:bg-slate-900/80 border-2 border-cyan-500/60 rounded-xl backdrop-blur-md transition-all duration-200">
-                    <span className="text-[10px] font-mono font-bold text-cyan-300 uppercase tracking-wide">
-                      OPERATIONS & SQUADS
-                    </span>
+                  {/* Drawer Frame with Slight Border & Glass Blur */}
+                  <div className="rounded-2xl border border-cyan-500/30 bg-[#0b0f17]/90 backdrop-blur-xl p-3 shadow-[0_0_25px_rgba(0,0,0,0.6)] space-y-2.5 relative flex flex-col">
+                    
+                    {/* Inner Edge Collapse Trigger Button */}
                     <button
                       type="button"
                       onClick={() => {
                         AudioService.playTerminalBeep(900, 0.02);
                         setIsRightCollapsed(true);
                       }}
-                      className="p-1 rounded-md text-slate-400 hover:text-cyan-300 hover:bg-slate-800/80 transition-colors"
-                      title="Collapse Right Drawer"
+                      className="absolute -left-3.5 top-1/2 -translate-y-1/2 z-30 px-1 py-3.5 bg-slate-950/95 hover:bg-slate-900 border-y border-l border-cyan-500/60 hover:border-cyan-400 text-cyan-300 rounded-l-lg shadow-[0_0_15px_rgba(34,211,238,0.25)] flex flex-col items-center justify-center transition-all group cursor-pointer"
+                      title="Collapse Operations Drawer (▶)"
                     >
-                      <PanelRightClose size={14} />
+                      <ChevronRight size={15} className="group-hover:translate-x-0.5 transition-transform" />
                     </button>
-                  </div>
 
-                  <CampaignOpsWidget onShowOverview={() => handleSelectDrawer('overview')} />
-                  <GameSquadsWidget onOpenSquadsDrawer={() => handleSelectDrawer('game-groups')} />
-                  <CommCenterWidget 
-                    onOpenCommsDrawer={() => handleSelectDrawer('comms')}
-                    onOpenSquadsDrawer={() => handleSelectDrawer('game-groups')}
-                    onOpenCampaignOps={() => handleSelectDrawer('overview')}
-                  />
+                    {/* Right Drawer Header Accent */}
+                    <div className="flex items-center justify-between px-2.5 py-1.5 bg-slate-900/60 hover:bg-slate-900/90 border border-cyan-500/40 rounded-xl backdrop-blur-md transition-all duration-200">
+                      <div className="flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                        <span className="text-[10px] font-mono font-bold text-cyan-300 uppercase tracking-wider">
+                          OPERATIONS &amp; SQUADS
+                        </span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          AudioService.playTerminalBeep(900, 0.02);
+                          setIsRightCollapsed(true);
+                        }}
+                        className="p-1 rounded-md text-slate-400 hover:text-cyan-300 hover:bg-slate-800/80 transition-colors cursor-pointer"
+                        title="Collapse Drawer"
+                      >
+                        <PanelRightClose size={14} />
+                      </button>
+                    </div>
+
+                    {/* Operations Widgets Stack */}
+                    <CampaignOpsWidget onShowOverview={() => handleSelectDrawer('overview')} />
+                    <GameSquadsWidget onOpenSquadsDrawer={() => handleSelectDrawer('game-groups')} />
+                    <CommCenterWidget 
+                      onOpenCommsDrawer={() => handleSelectDrawer('comms')}
+                      onOpenSquadsDrawer={() => handleSelectDrawer('game-groups')}
+                      onOpenCampaignOps={() => handleSelectDrawer('overview')}
+                    />
+                  </div>
                 </div>
               )}
 
-              {/* Right Floating Slide-out Trigger Tab (When Right Column is Collapsed) */}
+              {/* Right Floating Slide-out Trigger Tab (When Right Operations Drawer is Collapsed) */}
               {isRightCollapsed && (
                 <button
                   type="button"
@@ -460,8 +543,8 @@ const Home = () => {
                     AudioService.playTerminalBeep(1100, 0.03);
                     setIsRightCollapsed(false);
                   }}
-                  className="fixed right-2 top-1/2 -translate-y-1/2 z-40 px-2 py-4 bg-slate-950/90 hover:bg-slate-900 border-2 border-cyan-500/70 text-cyan-300 rounded-l-xl shadow-[0_0_20px_rgba(34,211,238,0.35)] flex flex-col items-center gap-2 transition-all group backdrop-blur-md"
-                  title="Expand Right Operations Drawer"
+                  className="fixed right-2 top-1/2 -translate-y-1/2 z-40 px-2 py-4 bg-slate-950/95 hover:bg-slate-900 border-2 border-cyan-500/70 hover:border-cyan-400 text-cyan-300 rounded-l-xl shadow-[0_0_25px_rgba(34,211,238,0.4)] flex flex-col items-center gap-2 transition-all group backdrop-blur-md cursor-pointer"
+                  title="Expand Right Operations Drawer (◀)"
                 >
                   <PanelRightOpen size={16} className="text-cyan-400 group-hover:scale-110 transition-transform" />
                   <span className="text-[9px] font-mono font-bold uppercase [writing-mode:vertical-lr] tracking-widest text-slate-300 group-hover:text-cyan-200">
@@ -497,7 +580,7 @@ const Home = () => {
 
         {/* Footer info */}
         <footer className="w-full pt-4 pb-2 border-t border-slate-900/80 mt-4 flex flex-col sm:flex-row items-center justify-between text-[10px] font-mono text-slate-500 gap-2 px-1 sm:px-2 lg:px-4">
-          <span>TANGENT SCIENCE FANTASY ROLE PLAYING SYSTEM • HUB V2.0</span>
+          <span>TANGENT SCIENCE FANTASY ROLE PLAYING SYSTEM • UNIFIED DASHBOARD V2.0</span>
           <span>CYBERNETIC INTERFACE INITIALIZED</span>
         </footer>
       </div>

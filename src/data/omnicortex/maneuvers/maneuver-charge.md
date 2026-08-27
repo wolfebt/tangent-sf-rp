@@ -4,8 +4,8 @@ name: Charge
 category: maneuvers
 action_type: Full Movement Action
 description: >-
-  Move 10+ ft in straight line; +1d damage and +1 Impact per 10ft speed (-1
-  Strike).
+  Move 10+ ft straight toward enemy (-2 Def, -2 Atk); on hit +1d damage, -1
+  strike/speed stage, +1 impact/10ft speed (up to +100%).
 costs:
   bp: 0
   credits: 0
@@ -27,11 +27,13 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # Charge
 
 **Category**: Combat Maneuvers  
 **Action Type**: Full Movement Action
 
-## Description & Mechanics
-Move 10+ ft in straight line; +1d damage and +1 Impact per 10ft speed (-1 Strike).
+## Mechanics & Edge Bonus
+- **Requirement**: Must move at least 10 feet in a straight line toward an enemy.
+- **Stance Modifiers**: **-2 Defense** and **-2 Attack** during the charge.
+- **Damage Escalation**: On a successful strike, add **+1d to Attack Damage** and **-1 to strike per stage of speed** (walk, jog, run, sprint).
+- **Impact Damage**: Deals an additional **+1 Point of Impact Damage per 10 ft of Speed** (up to a maximum of **+100% increase** in the attack's damage).

@@ -6,10 +6,8 @@ feature_category: General
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: Athletics 1
-description: >-
-  The character is at home on vertical surfaces, moving with the agility of a
-  spider or monkey.
+prerequisites: 'Agility 1, Athletics 1'
+description: The character is a master mountaineer and vertical surface scaler.
 costs:
   bp: 3
   credits: 0
@@ -36,14 +34,15 @@ sockets:
 
 **Category**: General Features  
 **Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
-**Prerequisite**: Athletics 1
+**Prerequisites**: Agility 1, Athletics 1  
 
 ## Description
-The character is at home on vertical surfaces, moving with the agility of a spider or monkey.
+The character is an expert climber capable of rapid ascent, surface scaling, and controlled vertical descent.
 
 ## Mechanics & Benefit
-You gain a **Climb Speed** equal to half your base speed. You may **Take 10** on Climb checks even when rushed or threatened. You retain your Agility bonus to Defense while climbing.
-
-## Special Rules
-87
-
+- **Speed Multiplier Boost**: Increases all Climbing speeds without affecting action penalties:
+  - **Standard Climbing**: Moves at full **Base Walking Speed (1x = 30 ft/rd)** on standard surfaces.
+  - **Scaling Pace**: Moves at **2x Base Speed (60 ft/rd)**.
+  - **Fast Ascent Pace**: Moves at **3x Base Speed (90 ft/rd)**.
+  - **Fast Descent Pace**: Moves at **6x Base Speed (180 ft/rd)**.
+- **Grip & Balance**: Gain **+2 bonus** to Athletics (Climbing) checks and avoid fall damage on successful descent checks.

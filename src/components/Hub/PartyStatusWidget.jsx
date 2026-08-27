@@ -68,15 +68,25 @@ export const PartyStatusWidget = () => {
               const species = hero['char-species'] || hero.species || 'Human';
               const concept = hero['char-concept'] || hero['char-occu'] || hero.occupation || 'Specialist';
 
-              // Health calculations (Physical)
+              // Health calculations (Physical / Lethal)
               const maxHealth = parseInt(hero['health'] || hero.health || hero.derived_max_hp || 30, 10);
               const curHealth = parseInt(hero.current_health !== undefined ? hero.current_health : (hero.current_hp !== undefined ? hero.current_hp : maxHealth), 10);
               const healthPercent = Math.max(0, Math.min(100, Math.round((curHealth / Math.max(1, maxHealth)) * 100)));
 
-              // Vitality calculations (Mental / Energy)
+              // Vitality calculations (Mental / Non-Lethal Buffer)
               const maxVitality = parseInt(hero['vitality'] || hero.vitality || hero.derived_max_vitality || 30, 10);
               const curVitality = parseInt(hero.current_vitality !== undefined ? hero.current_vitality : maxVitality, 10);
               const vitalityPercent = Math.max(0, Math.min(100, Math.round((curVitality / Math.max(1, maxVitality)) * 100)));
+
+              // Structure calculations (Synthetics / Non-typical Anatomy)
+              const speciesStr = String(species).toLowerCase();
+              const isSynthetic = speciesStr.includes('synthetic') || speciesStr.includes('mekan') || speciesStr.includes('construct') || speciesStr.includes('golem') || speciesStr.includes('ooze') || speciesStr.includes('undead');
+              const maxStructure = maxHealth + maxVitality;
+              const curStructure = parseInt(hero.current_structure !== undefined ? hero.current_structure : (curHealth + curVitality), 10);
+              const structurePercent = Math.max(0, Math.min(100, Math.round((curStructure / Math.max(1, maxStructure)) * 100)));
+
+              // Toughness derived from Stamina
+              const toughness = parseInt(hero['attr-stamina'] || 0, 10);
 
               const healthBarColor = healthPercent <= 25 
                 ? 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]' 
@@ -117,8 +127,13 @@ export const PartyStatusWidget = () => {
                     </div>
                     
                     <div className="min-w-0">
-                      <div className="text-xs font-bold text-slate-200 truncate group-hover:text-white transition-colors">
-                        {name}
+                      <div className="text-xs font-bold text-slate-200 truncate group-hover:text-white transition-colors flex items-center gap-1.5">
+                        <span className="truncate">{name}</span>
+                        {toughness > 0 && (
+                          <span className="text-[9px] font-mono font-bold text-emerald-400/90 bg-emerald-950/60 px-1 rounded border border-emerald-800/40 shrink-0" title="Toughness: Point-for-point wound reduction">
+                            🛡️+{toughness}
+                          </span>
+                        )}
                       </div>
                       <div className="text-[10px] text-slate-400 font-mono truncate">
                         {species} • <span className="text-slate-500">{concept}</span>
@@ -126,43 +141,64 @@ export const PartyStatusWidget = () => {
                     </div>
                   </div>
 
-                  {/* Dual Vitals: Health & Vitality Gauges */}
+                  {/* Vitals Display: Structure for Synthetics, or Health & Vitality Gauges */}
                   <div className="w-40 shrink-0 flex flex-col gap-1.5">
-                    {/* Health Gauge (Physical) */}
-                    <div className="flex flex-col gap-0.5">
-                      <div className="flex items-center justify-between w-full text-[9px] font-mono leading-none">
-                        <span className="text-slate-400 flex items-center gap-0.5 font-bold">
-                          <Heart size={9} className={healthTextColor} /> Health
-                        </span>
-                        <span className={`font-bold ${healthTextColor}`}>
-                          {curHealth}/{maxHealth}
-                        </span>
+                    {isSynthetic ? (
+                      <div className="flex flex-col gap-0.5">
+                        <div className="flex items-center justify-between w-full text-[9px] font-mono leading-none">
+                          <span className="text-amber-400 flex items-center gap-0.5 font-bold">
+                            ⚙️ Structure
+                          </span>
+                          <span className="font-bold text-amber-300">
+                            {curStructure}/{maxStructure}
+                          </span>
+                        </div>
+                        <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
+                          <div
+                            className="h-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.4)] transition-all duration-500"
+                            style={{ width: `${structurePercent}%` }}
+                          ></div>
+                        </div>
                       </div>
-                      <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
-                        <div
-                          className={`h-full ${healthBarColor} transition-all duration-500`}
-                          style={{ width: `${healthPercent}%` }}
-                        ></div>
-                      </div>
-                    </div>
+                    ) : (
+                      <>
+                        {/* Health Gauge (Lethal) */}
+                        <div className="flex flex-col gap-0.5">
+                          <div className="flex items-center justify-between w-full text-[9px] font-mono leading-none">
+                            <span className="text-slate-400 flex items-center gap-0.5 font-bold">
+                              <Heart size={9} className={healthTextColor} /> Health
+                            </span>
+                            <span className={`font-bold ${healthTextColor}`}>
+                              {curHealth}/{maxHealth}
+                            </span>
+                          </div>
+                          <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
+                            <div
+                              className={`h-full ${healthBarColor} transition-all duration-500`}
+                              style={{ width: `${healthPercent}%` }}
+                            ></div>
+                          </div>
+                        </div>
 
-                    {/* Vitality Gauge (Mental / Energy) */}
-                    <div className="flex flex-col gap-0.5">
-                      <div className="flex items-center justify-between w-full text-[9px] font-mono leading-none">
-                        <span className="text-slate-400 flex items-center gap-0.5 font-bold">
-                          <Sparkles size={9} className={vitalityTextColor} /> Vitality
-                        </span>
-                        <span className={`font-bold ${vitalityTextColor}`}>
-                          {curVitality}/{maxVitality}
-                        </span>
-                      </div>
-                      <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
-                        <div
-                          className={`h-full ${vitalityBarColor} transition-all duration-500`}
-                          style={{ width: `${vitalityPercent}%` }}
-                        ></div>
-                      </div>
-                    </div>
+                        {/* Vitality Gauge (Non-Lethal Buffer) */}
+                        <div className="flex flex-col gap-0.5">
+                          <div className="flex items-center justify-between w-full text-[9px] font-mono leading-none">
+                            <span className="text-slate-400 flex items-center gap-0.5 font-bold">
+                              <Sparkles size={9} className={vitalityTextColor} /> Vitality
+                            </span>
+                            <span className={`font-bold ${vitalityTextColor}`}>
+                              {curVitality}/{maxVitality}
+                            </span>
+                          </div>
+                          <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
+                            <div
+                              className={`h-full ${vitalityBarColor} transition-all duration-500`}
+                              style={{ width: `${vitalityPercent}%` }}
+                            ></div>
+                          </div>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               );

@@ -2,8 +2,10 @@
 id: maneuver-withdraw
 name: Withdraw
 category: maneuvers
-action_type: Guarded Movement
-description: Defensive retreat at base speed without provoking opportunity attacks.
+action_type: Movement Action
+description: >-
+  Pulling back defensively at base speed. NO Modifiers and not counted as a
+  Retreating Target.
 costs:
   bp: 0
   credits: 0
@@ -25,11 +27,11 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # Withdraw
 
 **Category**: Combat Maneuvers  
-**Action Type**: Guarded Movement
+**Action Type**: Movement Action
 
-## Description & Mechanics
-Defensive retreat at base speed without provoking opportunity attacks.
+## Mechanics & Edge Bonus
+- **Defensive Pullback**: Controlled tactical retreat at base speed.
+- **No Penalties**: **NO Modifiers** applied and **not counted as a Retreating Target** (does not provoke the Retreating Target extra attack).

@@ -9,16 +9,14 @@ governing_attributes:
   - Wisdom
   - Charisma
 description: >-
-  The metaphysical discipline governing spatial distortion, planar rifting,
-  object/creature summoning, tactical teleportation, and gateway creation.
+  The metaphysical discipline governing spatial distortion, planar rifting, object/creature summoning, tactical teleportation, and gateway creation.
 trained_only: true
 specialties:
-  - Summoning Focus (Conjuring creatures and matter)
+  - 'Summoning Focus (Conjuring creatures and matter across boundaries)'
   - 'Teleport Focus (Blinking, portals, spatial transit)'
 synergy_links:
   - meta-attune
   - mental-metaphysics
-  - mental-physics
 costs:
   bp: 0
   credits: 0
@@ -45,15 +43,16 @@ sockets:
 
 The metaphysical discipline governing spatial distortion, planar rifting, object/creature summoning, tactical teleportation, and gateway creation.
 
-### Mechanics & Rules
-- **Governing Attribute**: Key Ability (Requires Awakened feature).
-- **Skill Stages & Base Potency**:
-  - *Novice (Ranks 1-5)*: Touch to Short Range.
-  - *Trained (Ranks 6-10)*: Medium Range. +1d6 Base Effect.
-  - *Expert (Ranks 11-15)*: Long Range. +2d6 Base Effect.
-  - *Master (Ranks 16-19)*: Extreme Range. +3d6 Base Effect.
-  - *Pinnacle (Rank 20)*: Line of Sight / Global. +4d6 Base Effect.
+### Core Rules & Mechanics
+- **Governing Attribute**: Selected at Awakening (Intellect for Reason/Arcane, Wisdom for Intuition/Faith, Charisma for Dominance/Inherent).
+- **Potency Formula**:
+  $$\text{Potency} = [\text{Key Ability Mod} + \text{Discipline Skill Level} + \text{Invocation Level} + 10 \text{ (or } d20 \text{)}]$$
+- **Damage & Scaling**: 1d6 per Stage achieved with check.
+- **Essence Pool Contribution**: Ranks in this discipline's focus skills contribute directly to the character's **Essence Pool** (Breadth component).
+- **Sensory Manifestation**:
+  - *Colors*: Deep Indigo (Primary) / Void Black (Secondary)
+  - *Texture & Form*: Warping, folding, portals, rifts
 
 ### Focuses
-- **Summoning Focus**: Manifests temporary objects or summons creatures (BP budget = `10 + Invocation Rank x 5`).
-- **Teleport Focus**: Relocation through space (Familiarity DC 5 Very Familiar to DC 30 Blind).
+- **Summoning Focus**: Conjuring creatures and matter across boundaries
+- **Teleport Focus**: Blinking, portals, spatial transit
