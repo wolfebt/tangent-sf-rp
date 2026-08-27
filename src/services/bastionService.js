@@ -151,20 +151,28 @@ export const sendBastionChatMessage = async ({ prompt, history = [], contextData
       parts: [{ text: m.text }]
     }));
 
+    const MAX_HISTORY = 20;
+    const truncatedHistory = formattedHistory.slice(-MAX_HISTORY);
+
     let systemPromptContent = BASTION_SYSTEM_PROMPT;
     if (contextData) {
       systemPromptContent += `\n\nCURRENT CONTEXT:\n${JSON.stringify(contextData, null, 2)}`;
     }
 
-    const contents = [
-      ...formattedHistory,
-      {
-        role: 'user',
-        parts: [{ text: `${systemPromptContent}\n\nUser Query: ${prompt}` }]
-      }
-    ];
+    const requestBody = {
+      systemInstruction: {
+        parts: [{ text: systemPromptContent }]
+      },
+      contents: [
+        ...truncatedHistory,
+        {
+          role: 'user',
+          parts: [{ text: prompt }]
+        }
+      ]
+    };
 
-    const data = await fetchGeminiContent(apiKey, { contents });
+    const data = await fetchGeminiContent(apiKey, requestBody);
     const replyText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
 
     if (!replyText) {

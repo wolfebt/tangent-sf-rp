@@ -114,3 +114,188 @@
 #### ✅ Stage 4.3: Living World Faction Clocks & Agendas Engine (`FactionClocksModal.jsx`)
 - [x] **Interactive Progress Clocks**: 4/6/8-tick clocks for rival megacorps, syndicates, and factions.
 - [x] **"Advance Faction Turn"**: Background simulation of faction moves and market shifts between campaign sessions, triggering crisis alerts upon completion.
+
+---
+
+## 🧭 MASTER ROADMAP MATRIX & MULTI-TRACK PROGRESS
+
+```
++-------------------------------------------------------------------------------------------------------------------+
+|                                 TANGENT SFF RP MULTI-TRACK ROADMAP & STATUS DASHBOARD                              |
++-------------------------------------------------------------------------------------------------------------------+
+|                                                                                                                   |
+|  [PILLAR 1: COMBAT & SIMULATION ENGINE] (✅ 100%)       [PILLAR 2: PAIR GAME MASTER / CO-GM] (✅ 100%)              |
+|  - [x] 1.1 Closed-Loop Dual-2d10 Combat Modal          - [x] 2.1 Live Tension Gauge & Complications               |
+|  - [x] 1.2 Action Economy & Ammo/Essence Tracker       - [x] 2.2 Adversary Behavioral AI Roles & Bosses           |
+|  - [x] 1.3 Starship & Subsystem Combat Bridge          - [x] 2.3 1-Click Chrono-Recap Synthesizer                 |
+|                                                                                                                   |
+|  [PILLAR 3: RULES ASSISTANT & RAG] (✅ 100%)            [PILLAR 4: CONTENT CO-CREATOR & FORGE] (✅ 100%)            |
+|  - [x] 3.1 44-Rulebook Semantic RAG (/askrule)         - [x] 4.1 1-Click UDU Facility Generator                  |
+|  - [x] 3.2 Passive Perception Party Radar              - [x] 4.2 Economatrix Loot, Salvage & Cargo Drops          |
+|  - [x] 3.3 AP, Karma & Death Debt Ledger               - [x] 4.3 Faction Clocks & Living World Simulation         |
+|                                                                                                                   |
+|  [OPTION A: BATTLEMAP VTT CANVAS PLAY] (READY)         [OPTION B: SECURITY & PERFORMANCE] (READY)                 |
+|  - [ ] A.1 Interactive Destructible Objects & Nodes    - [ ] B.1 Firestore Security Rules Catch-All Patch         |
+|  - [ ] A.2 Hazmat Volume Visual Overlays & Ticks       - [ ] B.2 Serverless Proxy / Secure API Key Routing        |
+|  - [ ] A.3 1-Click Autonomous Combat Turn Button       - [ ] B.3 Gemini 'systemInstruction' Protocol Migration    |
+|  - [ ] A.4 Multi-Spectrum Sensor Vision Modes          - [ ] B.4 CampaignContext Debounced Auto-Save Cascade      |
+|  - [ ] A.5 Scenario Objectives & Wave Spawn HUD        - [ ] B.5 DBM Route Lazy-Loading & Batch Chunking          |
+|                                                                                                                   |
+|  [OPTION C: AI VIRTUAL CO-GM & SOCIAL] (READY)         [OPTION D: ARCHITECTURE & SCHEMAS] (READY)                 |
+|  - [ ] C.1 Live Combat Event Narration HUD             - [ ] D.1 Context Decomposition (Campaign & Folio)         |
+|  - [ ] C.2 Dynamic Social Disposition & Negotiation    - [ ] D.2 Unified Cross-Module Schema Adapter              |
+|  - [ ] C.3 Contextual Tactical Radio Chatter Barks     - [ ] D.3 Shared UI Component Library (Design Tokens)      |
+|  - [ ] C.4 Compendium Grounded Interrogation Engine    - [ ] D.4 Discord Relay & Modular Expansion Packs (Void)   |
+|                                                                                                                   |
++-------------------------------------------------------------------------------------------------------------------+
+```
+
+---
+
+## 📋 Comprehensive Checklists by Option & Track
+
+---
+
+### 🕹️ OPTION A: Battlemap VTT Canvas & Interactive Grid Play
+
+#### 🚀 Stage A.1: Interactive Destructible Objects & Map Nodes (`interactiveObjectService.js`)
+- [ ] **Canvas Object Node Rendering**:
+  - [ ] Render interactive map nodes on the Konva layer (Blast Doors, Security Terminals, Explosive Canisters, Power Conduits).
+  - [ ] Display overhead health bars and visual state transitions (Pristine $\rightarrow$ Damaged $\rightarrow$ Destroyed / Breached).
+- [ ] **Interactive Context Modal (`InteractiveObjectModal.jsx`)**:
+  - [ ] 1-Click Breach action (Athletics / Explosives check).
+  - [ ] 1-Click Slice action (Tech hacking check vs. Security DC).
+  - [ ] Blast door Open / Lock / Seal toggle with sound effect triggers.
+- [ ] **Detonation & Chain Reaction Engine**:
+  - [ ] Explosive canisters trigger automatic 3-hex radius 3d10 damage + condition tick on destruction.
+
+#### ☢️ Stage A.2: Dynamic Hazmat Volumes & Environmental Overlays (`hazmatVolumeService.js`)
+- [ ] **Canvas Polygon Hazard Overlay**:
+  - [ ] Render translucent colored hazard polygons (Radiation: Yellow, Toxic Gas: Green, Vacuum Breach: Violet, Plasma: Orange).
+  - [ ] Subtle pulsing animation for active danger sectors.
+- [ ] **Hazard Manager Modal (`HazmatVolumeManagerModal.jsx`)**:
+  - [ ] GM tool to draw custom hazard zones, assign Save DC, tick damage frequency, and applied condition.
+- [ ] **Automated Turn-Start & Movement Trigger**:
+  - [ ] Tokens entering or ending turns inside hazard volumes automatically prompt Fortitude/Stamina checks and apply conditions via `ConditionManagerModal`.
+
+#### 🤖 Stage A.3: 1-Click Autonomous NPC Combat Turn Execution (`autoCombatResolver.js`)
+- [ ] **Combat Tracker Integration (`MapCombatTracker.jsx`)**:
+  - [ ] Add `🤖 Auto-Turn` action button on enemy combatant rows.
+  - [ ] Evaluates tactical behavior profile (Swarm, Tactical, Guardian, Coward).
+  - [ ] Automatically computes line-of-sight, cover, optimal weapon action, and resolves 2d10 attack roll.
+  - [ ] Deducts ammo / battery charges and applies damage / conditions to target with floating combat text.
+
+#### 👁️ Stage A.4: Multi-Spectrum Sensor Vision Modes (`sensorVisionService.js`)
+- [ ] **HUD Sensor Mode Selector**:
+  - [ ] Standard Optical, Night Vision, Thermal / Infrared, Cyber Radar, and Meta-Attunement.
+- [ ] **Dynamic Token & Fog-of-War Filtering**:
+  - [ ] Thermal reveals biological tokens behind light barriers.
+  - [ ] Cyber Radar detects mechanical and armored units through walls within 12 hexes.
+  - [ ] Meta-Attunement highlights psionic / essence anomalies.
+
+#### 🏁 Stage A.5: Scenario Objective HUD & Wave Spawn Triggers (`scenarioEngineService.js`)
+- [ ] **Scenario Objectives HUD Bar**:
+  - [ ] Displays live mission goals (Extraction, Assassination, Holdout Defense, Data Retrieval) and completion progress.
+- [ ] **Automated Reinforcement Incursions**:
+  - [ ] Spawns reinforcement tokens at designated drop zones when round thresholds or alarms trigger.
+
+---
+
+### 🛡️ OPTION B: Security, Authentication & Performance Hardening
+
+#### 🔒 Stage B.1: Firestore Security Rules Catch-All Patch (`firestore.rules`)
+- [ ] **Collection-Specific Ownership Rules**:
+  - [ ] Add explicit read/write rules for `story_elements/{docId}` and `story_maps/{docId}` requiring user authentication and owner verification.
+- [ ] **Strict Deny-All Default**:
+  - [ ] Replace permissive wildcard catch-all with a secure fallback that blocks unauthorized access to unlisted collections.
+
+#### 🔑 Stage B.2: Serverless Proxy / Secure API Key Architecture
+- [ ] **Eliminate URL Query Param API Keys**:
+  - [ ] Route Gemini API calls through Firebase Cloud Functions or secure backend endpoint, removing exposed keys from client network traffic.
+- [ ] **Environment Variable Hardening**:
+  - [ ] Verify production client builds do not leak sensitive service credentials.
+
+#### 🤖 Stage B.3: Gemini `systemInstruction` Protocol Migration (`bastionService.js`, `aimeService.js`)
+- [ ] **Top-Level `systemInstruction` Migration**:
+  - [ ] Move system prompts out of the user prompt string into the native Gemini API `systemInstruction` field.
+- [ ] **Context Window Sliding History**:
+  - [ ] Implement token-budget sliding window (keep last 20 messages + summary) to prevent context overflow.
+- [ ] **API Rate Limiting & Exponential Backoff**:
+  - [ ] Throttling queue with automatic backoff retry on HTTP 429 status.
+
+#### ⚡ Stage B.4: CampaignContext Debounced Auto-Save & Throttling (`CampaignContext.jsx`)
+- [ ] **Auto-Save Cascade Elimination**:
+  - [ ] Route continuous state updates through the 1.5s debounced save trigger instead of writing to 3 documents and running batch writes on every keystroke.
+- [ ] **Chunked Batch Writes**:
+  - [ ] Chunk `saveAllElementsIndependently` into 450-operation batches to protect against Firestore's 500-operation limit.
+
+#### 🗄️ Stage B.5: DBM Route Lazy-Loading & State Rollback Fix (`DBMContext.jsx`)
+- [ ] **Lazy Collection Subscriptions**:
+  - [ ] Activate the 40+ Firestore collection listeners only when navigating to `/dbm` rather than globally at app root.
+- [ ] **Stale Closure Rollback Fix**:
+  - [ ] Replace closure snapshot with `useRef` for reliable rollback on save failure.
+
+---
+
+### 🧠 OPTION C: AI Virtual Co-GM, Social Agents & Narrative Director
+
+#### 🎙️ Stage C.1: Live Combat Event Narration HUD (`AimeNarrationHud.jsx` & `aimeDirectorService.js`)
+- [ ] **Live Telemetry Event Listener**:
+  - [ ] Monitors Combat Tracker events (Critical Triumphs, Fumbles, Massive Damage, Terminal Hacks, Token Deaths).
+- [ ] **Atmospheric Narrative Synthesis**:
+  - [ ] Generates 1–2 sentence cyber-noir / space-opera flavor text broadcast directly to a floating HUD banner and CommLink.
+- [ ] **Dynamic Tension Audio Transitions**:
+  - [ ] Dynamically shifts background synthesizer tension based on encounter threat score.
+
+#### 🤝 Stage C.2: Dynamic NPC Social Disposition & Negotiation Matrix (`npcSocialEngine.js`)
+- [ ] **Dynamic Disposition Meter**:
+  - [ ] Real-time 0–100% meter (Hostile $\rightarrow$ Suspicious $\rightarrow$ Neutral $\rightarrow$ Cooperative).
+- [ ] **Interactive Negotiation Checks**:
+  - [ ] Intimidation check (rapid disposition shift vs. panic / hostility risk).
+  - [ ] Persuasion / Parley check (gradual trust building through common ground).
+  - [ ] Economatrix Bribery (credits / cargo trade for passage or codes).
+- [ ] **Automated Combat State Alterations**:
+  - [ ] High disposition unlocks mid-combat surrender, truce, or faction defection.
+
+#### 📻 Stage C.3: Contextual In-Character Radio Battle Barks (`tacticalBarksService.js`)
+- [ ] **Contextual Radio Chatter**:
+  - [ ] NPCs emit authentic faction barks into CommLink ("Hostile acquired!", "Heavy suppression!", "Command is down!").
+- [ ] **Waveform Audio Effect**:
+  - [ ] Visual audio waveform indicator in CommLink chat for incoming radio relays.
+
+#### 🔍 Stage C.4: Compendium-Grounded Interrogation Engine (`NpcInterrogationModal.jsx`)
+- [ ] **Interactive Interrogation Console**:
+  - [ ] Chat interface with captured NPCs grounded in Omnicortex faction lore.
+  - [ ] Social check rolls reveal verified intel, access codes, or deceptive red herrings based on roll margin.
+
+---
+
+### 🏗️ OPTION D: Architecture Modernization, Data Schemas & Modular Expansions
+
+#### 🧩 Stage D.1: Monolithic Context Decomposition
+- [ ] **Split `CampaignContext.jsx` (1,500 lines)**:
+  - [ ] `StoryCatalogContext`: Catalog browsing and scenario CRUD.
+  - [ ] `UniverseStateContext`: Active project and scenario state.
+  - [ ] `MapContext`: Tactical map state and token management.
+- [ ] **Split `FolioContext.jsx` (1,170 lines)**:
+  - [ ] `RosterContext`: Character roster and active selection.
+  - [ ] `CharacterStatsContext`: CP economy and derived stat calculations.
+
+#### 🔄 Stage D.2: Canonical Cross-Module Schema Adapter (`sharedSchemas.js`)
+- [ ] **Schema Harmonization**:
+  - [ ] Reconcile field naming differences (`char-name` vs `name`, relational species links).
+  - [ ] Bidirectional adapters converting between DBM items, Story Foundry elements, and Folio characters.
+
+#### 🎨 Stage D.3: Shared UI Component Library & Design Tokens
+- [ ] **Reusable UI Primitives (`src/components/UI/`)**:
+  - [ ] `Button.jsx`, `Modal.jsx`, `Input.jsx`, `Select.jsx`, `Badge.jsx`, `Toast.jsx`.
+- [ ] **Design Token Unification**:
+  - [ ] Consolidate `:root` custom properties and Tailwind tokens in `design-tokens.css`.
+  - [ ] WCAG AA color contrast updates for `--text-muted` and full ARIA keyboard navigation.
+
+#### 🌌 Stage D.4: Modular Expansion Packs (*Void Crash*) & Discord Webhook Relay
+- [ ] **Expansion Pack Ingestion Pipeline**:
+  - [ ] Support loading standalone expansion datasets (*e.g., Void Crash*) without schema conflicts.
+- [ ] **Discord Webhook Bot Relay**:
+  - [ ] Bidirectional relay transmitting rolls, session recaps, and CommLink transmissions to Discord channels.
+

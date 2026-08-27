@@ -82,25 +82,16 @@ graph TD
 
 ---
 
-## 📑 13-Plan Architectural Roadmap
+## 📑 Multi-Track Implementation Plans & Strategic Roadmap
 
-The project is structured around 13 modular technical implementation plans located in [`docs/plans/`](./docs/plans/):
+The ongoing development roadmap is documented in [`IMPLEMENTATION_PLAN.md`](./IMPLEMENTATION_PLAN.md) and modular track specifications in [`docs/plans/`](./docs/plans/):
 
-| Phase | Plan | Description | Status |
+| Track | Plan Document | Scope & Focus | Status |
 | :---: | :--- | :--- | :---: |
-| **Phase 1** | [Plan 01](./docs/plans/PLAN_01_FIRESTORE_WRITE_THROTTLING_AND_DEBOUNCING.md) | Firestore Write Throttling & 1.5s Debounce Saver | ✅ Ready |
-| **Phase 1** | [Plan 02](./docs/plans/PLAN_02_CHUNKED_BATCH_WRITES_AND_SECURITY_RULES.md) | 450-Op Chunked Batch Writes & Security Rules | ✅ Ready |
-| **Phase 1** | [Plan 03](./docs/plans/PLAN_03_DBM_STATE_ROLLBACK_AND_SCHEMA_VALIDATION.md) | DBM State Rollback & Runtime Schema Validation | ✅ Ready |
-| **Phase 1** | [Plan 04](./docs/plans/PLAN_04_INDEXEDDB_STORAGE_ENGINE_AND_OFFLINE_CACHE.md) | IndexedDB Storage Engine (`StorageService`) | ✅ Ready |
-| **Phase 1** | [Plan 05](./docs/plans/PLAN_05_CSS_DESIGN_TOKENS_AND_RESPONSIVE_NORMALIZATION.md) | Central CSS Design Tokens & Layout Normalization | ✅ Ready |
-| **Phase 2** | [Plan 06](./docs/plans/PLAN_06_PERSISTENT_GLOBAL_HUD_AND_APP_SHELL.md) | Persistent 56px Global HUD & App Shell | ✅ Ready |
-| **Phase 2** | [Plan 07](./docs/plans/PLAN_07_DYNAMIC_COMMAND_CENTER_HUB_AND_WIDGETS.md) | Dynamic Command Center Hub & Interactive Widgets | ✅ Ready |
-| **Phase 2** | [Plan 08](./docs/plans/PLAN_08_GLOBAL_COMMAND_PALETTE_CTRL_K.md) | Global Command Palette (`Ctrl+K` Omni-Search) | ✅ Ready |
-| **Phase 2** | [Plan 09](./docs/plans/PLAN_09_MATHEMATICAL_DICE_ENGINE_AND_ROLLER_DOCK.md) | Mathematical Polyhedral Dice Engine & Tray Dock | ✅ Ready |
-| **Phase 2** | [Plan 10](./docs/plans/PLAN_10_PROCEDURAL_WEB_AUDIO_AND_SFX_SUITE.md) | Procedural Web Audio API Sound Effects Suite | ✅ Ready |
-| **Phase 3** | [Plan 11](./docs/plans/PLAN_11_FOLIO_TO_MAP_TOKEN_SYNC_AND_COMBAT_TRACKER.md) | Folio-to-Map Token Synchronization & Combat Tracker | ✅ Complete |
-| **Phase 3** | [Plan 12](./docs/plans/PLAN_12_OMNICORTEX_DBM_ITEM_IMPORTER_AND_EXPORTER.md) | Omnicortex DBM Item Importer & Exporter | ✅ Complete |
-| **Phase 3** | [Plan 13](./docs/plans/PLAN_13_AIME_CONSOLIDATION_AND_PLAYER_SPECTATOR_VTT.md) | AIME Consolidation & Player Spectator VTT Screen | ✅ Complete |
+| **Track A** | [Option A: Battlemap VTT Canvas Play](./docs/plans/OPTION_A_BATTLEMAP_VTT_PLAY.md) | Interactive Destructible Objects, Hazmat Overlays, Autonomous Turn Resolver, Multi-Spectrum Sensor Vision | 🚀 Ready |
+| **Track B** | [Option B: Security & Performance](./docs/plans/OPTION_B_SECURITY_AND_PERFORMANCE.md) | Firestore Rules Catch-All Patch, Secure API Key Routing, Gemini `systemInstruction`, Debounced Save Cascade | 🛡️ Ready |
+| **Track C** | [Option C: AI Virtual GM & Social](./docs/plans/OPTION_C_AI_VIRTUAL_GM_AND_SOCIAL.md) | Live Combat Narration HUD, Dynamic Social Disposition Matrix, Tactical Radio Barks, Interrogation Engine | 🧠 Ready |
+| **Track D** | [Option D: Architecture & Schemas](./docs/plans/OPTION_D_ARCHITECTURE_AND_SCHEMAS.md) | Context Decomposition, Unified Cross-Module Schemas, Shared UI Component Library, *Void Crash* Modules | 🏗️ Ready |
 
 ---
 

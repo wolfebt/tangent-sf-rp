@@ -27,7 +27,14 @@ import ModularStarshipForgeModal from '../../../../components/StoryFoundry/Modul
 import ConditionManagerModal from './ConditionManagerModal';
 import ReactionPromptModal from './ReactionPromptModal';
 import AoEResolutionModal from './AoEResolutionModal';
+import HazmatVolumeManagerModal from './HazmatVolumeManagerModal';
+import InteractiveObjectModal from './InteractiveObjectModal';
+import ScenarioObjectivesModal from './ScenarioObjectivesModal';
+import { SENSOR_MODES } from '../../../../services/sensorVisionService';
 import { evaluateTokenConditionsOnTurnStart } from '../../../../services/conditionService';
+import { decideAutonomousAction, BEHAVIOR_PROFILES } from '../../../../services/unitBehaviorService';
+import { resolveAutonomousAttack } from '../../../../services/autoCombatResolver';
+import { evaluateHazmatTick } from '../../../../services/hazmatVolumeService';
 
 const MapCombatTracker = ({
   tokens = [],
@@ -95,6 +102,13 @@ const MapCombatTracker = ({
   const [showGalaxyStarmapModal, setShowGalaxyStarmapModal] = useState(false);
   const [showFactionWebModal, setShowFactionWebModal] = useState(false);
   const [showModularStarshipForge, setShowModularStarshipForge] = useState(false);
+  const [showHazmatModal, setShowHazmatModal] = useState(false);
+  const [showInteractiveObjModal, setShowInteractiveObjModal] = useState(false);
+  const [selectedInteractiveObj, setSelectedInteractiveObj] = useState(null);
+  const [localHazardZones, setLocalHazardZones] = useState([]);
+  const [showObjectivesModal, setShowObjectivesModal] = useState(false);
+  const [activeSensorMode, setActiveSensorMode] = useState('standard_optical');
+  const [localObjectives, setLocalObjectives] = useState([]);
 
   if (!showTracker) return null;
 
@@ -641,6 +655,51 @@ const MapCombatTracker = ({
     }
   };
 
+  const handleAutoExecuteNpcTurn = (attackerToken) => {
+    const unitToAct = attackerToken || activeTurnToken || sortedTokens.find(t => !t.linkedHeroId && !t.isDead);
+    if (!unitToAct) return;
+
+    const heroCandidates = sortedTokens.filter(t => Boolean(t.linkedHeroId) && !t.isDead);
+    if (heroCandidates.length === 0) {
+      alert('No active player hero tokens detected on the battlemap to target.');
+      return;
+    }
+
+    const actionPlan = decideAutonomousAction(unitToAct, heroCandidates, { allies: sortedTokens.filter(t => !t.linkedHeroId) });
+
+    if (actionPlan.status === 'morale_broken') {
+      AudioService.playTerminalBeep(550, 0.1);
+      if (onTriggerFloatingText) {
+        const screenX = (unitToAct.x || 0) * scale + position.x;
+        const screenY = (unitToAct.y || 0) * scale + position.y;
+        onTriggerFloatingText(screenX, screenY, `🏳️ MORALE BROKEN (RETREATING)`, 'miss');
+      }
+      return;
+    }
+
+    const target = heroCandidates.find(h => h.id === actionPlan.targetId) || heroCandidates[0];
+    const outcome = resolveAutonomousAttack(unitToAct, target, actionPlan);
+
+    // Show floating combat text over attacker
+    if (onTriggerFloatingText) {
+      const atkX = (unitToAct.x || 0) * scale + position.x;
+      const atkY = (unitToAct.y || 0) * scale + position.y;
+      onTriggerFloatingText(atkX, atkY, `🤖 AUTO: ${actionPlan.actionType.toUpperCase().replace(/_/g, ' ')}`, 'combat');
+
+      // Show floating text over target
+      const tgtX = (target.x || 0) * scale + position.x;
+      const tgtY = (target.y || 0) * scale + position.y;
+      setTimeout(() => {
+        onTriggerFloatingText(tgtX, tgtY, outcome.isHit ? `💥 -${outcome.effectiveDamage} HP (${outcome.location.toUpperCase()})` : `💨 MISSED (${outcome.totalAttack} vs DC ${outcome.defenseDc})`, outcome.isHit ? 'damage' : 'miss');
+      }, 300);
+    }
+
+    // Apply damage to target
+    if (outcome.isHit && outcome.effectiveDamage > 0) {
+      handleApplyHealthChange(target, outcome.effectiveDamage, true);
+    }
+  };
+
   return (
     <DraggablePanel
       id="combat_tracker"
@@ -707,6 +766,15 @@ const MapCombatTracker = ({
             title="Open Mission Debrief & Episodic Recap Synthesizer"
           >
             <span>📜</span> Recap
+          </button>
+          <button
+            type="button"
+            onClick={() => handleAutoExecuteNpcTurn()}
+            disabled={sortedTokens.length === 0}
+            className="px-2 py-0.5 bg-cyan-900/90 hover:bg-cyan-800 text-cyan-200 border border-cyan-500/60 font-bold text-[10px] rounded uppercase transition-all shadow-[0_0_10px_rgba(6,182,212,0.3)] disabled:opacity-50 cursor-pointer flex items-center gap-1"
+            title="Execute Autonomous AI Turn for Active NPC / Adversary"
+          >
+            <span>🤖</span> Auto-Act
           </button>
           <button
             onClick={handleAdvanceTurn}
@@ -805,6 +873,14 @@ const MapCombatTracker = ({
         </button>
         <button
           type="button"
+          onClick={() => setShowHazmatModal(true)}
+          className="flex-1 py-0.5 bg-amber-950/80 hover:bg-amber-900 text-amber-300 border border-amber-700/60 rounded flex items-center justify-center gap-0.5 font-bold cursor-pointer transition-colors"
+          title="Open Dynamic Hazmat & Environmental Volume Manager"
+        >
+          <span>☢️</span> Hazmat
+        </button>
+        <button
+          type="button"
           onClick={() => {
             const npc = sortedTokens.find(t => t.isEnemy || t.type === 'adversary' || t.type === 'enemy' || !t.linkedHeroId) || sortedTokens[0];
             if (npc) setSelectedNpcForSocial(npc);
@@ -814,6 +890,14 @@ const MapCombatTracker = ({
           title="Open Scene Director & Social Disposition Matrix"
         >
           <span>🎭</span> Social
+        </button>
+        <button
+          type="button"
+          onClick={() => setShowObjectivesModal(true)}
+          className="flex-1 py-0.5 bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border border-emerald-700/60 rounded flex items-center justify-center gap-0.5 font-bold cursor-pointer transition-colors"
+          title="Open Scenario Objectives & Mission Waves Console"
+        >
+          <span>🎯</span> Goals
         </button>
         <button
           type="button"
@@ -971,6 +1055,19 @@ const MapCombatTracker = ({
                         title={`Initiate Strike / Attack with ${token.label}`}
                       >
                         <span>⚔️</span> Atk
+                      </button>
+                    )}
+                    {!isDead && !token.linkedHeroId && (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleAutoExecuteNpcTurn(token);
+                        }}
+                        className="px-1.5 py-0.5 bg-cyan-950/90 hover:bg-cyan-800 text-cyan-300 border border-cyan-500/60 rounded text-[8px] font-bold uppercase transition-all shadow-sm cursor-pointer flex items-center gap-0.5"
+                        title={`Execute Autonomous AI Behavior for ${token.label}`}
+                      >
+                        <span>🤖</span> Act
                       </button>
                     )}
                     {token.toughness !== undefined && (
@@ -1804,6 +1901,70 @@ const MapCombatTracker = ({
       <ModularStarshipForgeModal
         isOpen={showModularStarshipForge}
         onClose={() => setShowModularStarshipForge(false)}
+      />
+
+      {/* Dynamic Hazmat & Environmental Volume Manager Modal */}
+      <HazmatVolumeManagerModal
+        isOpen={showHazmatModal}
+        onClose={() => setShowHazmatModal(false)}
+        hazardZones={localHazardZones}
+        onAddHazardZone={(newZone) => setLocalHazardZones(prev => [...prev, newZone])}
+        onDeleteHazardZone={(id) => setLocalHazardZones(prev => prev.filter(z => z.id !== id))}
+        tokens={sortedTokens}
+        onUpdateTokenHealth={handleApplyHealthChange}
+        onUpdateTokenVitality={handleApplyVitalityChange}
+        onUpdateTokenStructure={handleApplyStructureChange}
+        onUpdateTokenConditions={onUpdateTokenConditions}
+        onTriggerFloatingText={onTriggerFloatingText}
+        scale={scale}
+        position={position}
+      />
+
+      {/* Interactive Map Destructibles & Slicing Modal */}
+      <InteractiveObjectModal
+        isOpen={showInteractiveObjModal}
+        onClose={() => {
+          setShowInteractiveObjModal(false);
+          setSelectedInteractiveObj(null);
+        }}
+        objectNode={selectedInteractiveObj}
+        onUpdateObject={(id, updated) => {
+          onUpdateToken?.(id, updated);
+        }}
+        onDeleteObject={(id) => {
+          onUpdateToken?.(id, { isDeleted: true });
+        }}
+        tokens={sortedTokens}
+        onUpdateTokenHealth={handleApplyHealthChange}
+        onUpdateTokenVitality={handleApplyVitalityChange}
+        onUpdateTokenStructure={handleApplyStructureChange}
+        onTriggerFloatingText={onTriggerFloatingText}
+        scale={scale}
+        position={position}
+      />
+
+      {/* Scenario Objectives & Mission Waves Modal */}
+      <ScenarioObjectivesModal
+        isOpen={showObjectivesModal}
+        onClose={() => setShowObjectivesModal(false)}
+        objectives={localObjectives}
+        onAddObjective={(newObj) => setLocalObjectives(prev => [...prev, newObj])}
+        onUpdateObjective={(id, updated) => {
+          setLocalObjectives(prev => prev.map(o => o.id === id ? { ...o, ...updated } : o));
+        }}
+        onDeleteObjective={(id) => setLocalObjectives(prev => prev.filter(o => o.id !== id))}
+        tokens={sortedTokens}
+        onSpawnWaveTokens={(waveTokens) => {
+          waveTokens.forEach(t => onUpdateToken?.(t.id, t));
+        }}
+        currentRound={1}
+        onAwardMissionRewards={(ap, karma) => {
+          handleAwardPartyAP(ap, 'Mission Objectives Accomplished');
+          handleAwardPartyKarma(karma, 'Mission Objectives Accomplished');
+        }}
+        onTriggerFloatingText={onTriggerFloatingText}
+        scale={scale}
+        position={position}
       />
     </DraggablePanel>
   );

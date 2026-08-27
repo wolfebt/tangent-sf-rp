@@ -52,10 +52,13 @@ export async function generateContent({ prompt, context = "", model = "gemini-3.
     : prompt;
 
   const requestBody = {
+    systemInstruction: {
+      parts: [{ text: AIME_SYSTEM_PROMPT }]
+    },
     contents: [
       {
         role: "user",
-        parts: [{ text: `${AIME_SYSTEM_PROMPT}\n\n${fullPrompt}` }]
+        parts: [{ text: fullPrompt }]
       }
     ]
   };
@@ -79,10 +82,13 @@ export async function streamContent({ prompt, context = "", model = "gemini-3.6-
     : prompt;
 
   const requestBody = {
+    systemInstruction: {
+      parts: [{ text: AIME_SYSTEM_PROMPT }]
+    },
     contents: [
       {
         role: "user",
-        parts: [{ text: `${AIME_SYSTEM_PROMPT}\n\n${fullPrompt}` }]
+        parts: [{ text: fullPrompt }]
       }
     ]
   };
