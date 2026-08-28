@@ -17,7 +17,8 @@ import {
   Globe, 
   Sparkles, 
   Layers, 
-  ChevronDown 
+  ChevronDown,
+  ChevronRight
 } from 'lucide-react';
 import { AudioService } from '../../services/audioService';
 

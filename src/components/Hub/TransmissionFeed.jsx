@@ -2,16 +2,6 @@ import React from 'react';
 import { Activity, Dices, Sparkles, BookOpen, Database, Radio } from 'lucide-react';
 
 export const TransmissionFeed = ({ recentActivities = [] }) => {
-  const defaultFeed = [
-    { id: '1', type: 'roll', text: 'Tactical Check: Vance Kael rolled 2d10+4 = 19 (Critical Success)', time: '4m ago' },
-    { id: '2', type: 'story', text: 'Scenario "Sub-level Infiltration" synced by Architect', time: '22m ago' },
-    { id: '3', type: 'aime', text: 'AIME generated 3 Scene Beats for Act II: Station Core', time: '1h ago' },
-    { id: '4', type: 'dbm', text: 'Omnicortex rules database synced to version 2.4', time: '3h ago' },
-    { id: '5', type: 'system', text: 'Local IndexedDB operational cache verified & active', time: '5h ago' }
-  ];
-
-  const feedItems = recentActivities.length > 0 ? recentActivities : defaultFeed;
-
   const getIcon = (type) => {
     switch (type) {
       case 'roll':
@@ -47,22 +37,28 @@ export const TransmissionFeed = ({ recentActivities = [] }) => {
 
         {/* Stream List */}
         <div className="mt-3 space-y-2 max-h-[220px] overflow-y-auto pr-1 no-scrollbar">
-          {feedItems.map((item) => (
-            <div
-              key={item.id}
-              className="p-2.5 rounded-lg bg-slate-900/50 hover:bg-slate-900/80 border border-slate-800/70 hover:border-slate-700 flex items-start gap-2.5 text-xs transition-colors"
-            >
-              <div className="mt-0.5 p-1 rounded bg-slate-800/80 border border-slate-700/50">
-                {getIcon(item.type)}
+          {recentActivities.length > 0 ? (
+            recentActivities.map((item) => (
+              <div
+                key={item.id}
+                className="p-2.5 rounded-lg bg-slate-900/50 hover:bg-slate-900/80 border border-slate-800/70 hover:border-slate-700 flex items-start gap-2.5 text-xs transition-colors"
+              >
+                <div className="mt-0.5 p-1 rounded bg-slate-800/80 border border-slate-700/50">
+                  {getIcon(item.type)}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-slate-300 leading-snug text-[12px]">{item.text}</p>
+                  <span className="text-[10px] text-slate-500 font-mono mt-0.5 block">
+                    {item.time}
+                  </span>
+                </div>
               </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-slate-300 leading-snug text-[12px]">{item.text}</p>
-                <span className="text-[10px] text-slate-500 font-mono mt-0.5 block">
-                  {item.time}
-                </span>
-              </div>
+            ))
+          ) : (
+            <div className="p-4 rounded-lg border border-slate-800/50 border-dashed text-center">
+              <p className="text-slate-500 text-xs font-mono">No transmissions received</p>
             </div>
-          ))}
+          )}
         </div>
       </div>
 
