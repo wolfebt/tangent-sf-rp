@@ -15,8 +15,10 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg,webp,md}'],
+        globPatterns: ['**/*.{html,ico,png,svg,jpg,jpeg,webp}'],
         maximumFileSizeToCacheInBytes: 10000000,
+        navigateFallback: '/index.html',
+        navigateFallbackDenylist: [/^\/api/, /^\/__(.*)/],
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/firebasestorage\.googleapis\.com\/.*/i,
