@@ -226,6 +226,7 @@ export const AiConfigDrawer = ({
                 onClick={() => setShowGeminiKey(!showGeminiKey)}
                 className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white p-1 cursor-pointer"
                 title={showGeminiKey ? "Hide key" : "Show key"}
+                aria-label={showGeminiKey ? "Hide key" : "Show key"}
               >
                 {showGeminiKey ? <EyeOff size={14} /> : <Eye size={14} />}
               </button>
@@ -260,6 +261,8 @@ export const AiConfigDrawer = ({
                   type="button"
                   onClick={() => setShowOtherKey(!showOtherKey)}
                   className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white p-1 cursor-pointer"
+                  title={showOtherKey ? "Hide key" : "Show key"}
+                  aria-label={showOtherKey ? "Hide key" : "Show key"}
                 >
                   {showOtherKey ? <EyeOff size={14} /> : <Eye size={14} />}
                 </button>
