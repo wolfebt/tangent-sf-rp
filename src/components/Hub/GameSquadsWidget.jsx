@@ -27,7 +27,7 @@ export const GameSquadsWidget = ({ onOpenSquadsDrawer }) => {
   const [modalTab, setModalTab] = useState('roster');
   const [isCreateOpen, setIsCreateOpen] = useState(false);
 
-  const squadCount = groups.length;
+  const teamCount = groups.length;
   const inviteCount = pendingInvites.length;
   const targetGroup = activeGroup || (groups.length > 0 ? groups[0] : null);
   const membersList = Object.values(targetGroup?.memberDetails || {});
@@ -76,7 +76,7 @@ export const GameSquadsWidget = ({ onOpenSquadsDrawer }) => {
           <div className="flex items-center gap-1.5">
             <Shield className="text-emerald-400 animate-pulse" size={14} />
             <span className="text-[11px] font-mono uppercase tracking-widest text-emerald-300 font-bold">
-              GAME SQUADS & PARTIES
+              GAME TEAMS
             </span>
           </div>
           {inviteCount > 0 ? (
@@ -87,7 +87,7 @@ export const GameSquadsWidget = ({ onOpenSquadsDrawer }) => {
           ) : (
             <span className="px-1.5 py-0.2 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-[8px] font-bold flex items-center gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-              <span>{squadCount} {squadCount === 1 ? 'SQUAD' : 'SQUADS'}</span>
+              <span>{teamCount} {teamCount === 1 ? 'TEAM' : 'TEAMS'}</span>
             </span>
           )}
         </div>
@@ -97,7 +97,7 @@ export const GameSquadsWidget = ({ onOpenSquadsDrawer }) => {
           {targetGroup ? (
             <>
               <div>
-                <span className="text-[8px] font-mono uppercase tracking-wider text-slate-500">Active Fireteam</span>
+                <span className="text-[8px] font-mono uppercase tracking-wider text-slate-500">Active Team</span>
                 <div className="flex items-center justify-between mt-0">
                   <h2 className="text-xs sm:text-sm font-bold text-white tracking-wide truncate font-mono">
                     {targetGroup.name}
@@ -149,9 +149,9 @@ export const GameSquadsWidget = ({ onOpenSquadsDrawer }) => {
             </>
           ) : (
             <div className="py-1 text-center space-y-0.5">
-              <p className="text-[11px] text-slate-400 font-mono font-bold">NO ACTIVE SQUAD</p>
+              <p className="text-[11px] text-slate-400 font-mono font-bold">NO ACTIVE TEAM</p>
               <p className="text-[9.5px] text-slate-500 max-w-[220px] mx-auto leading-tight">
-                Form a fireteam or join with an invite passcode.
+                Form a team or join with an invite passcode.
               </p>
             </div>
           )}
@@ -174,7 +174,7 @@ export const GameSquadsWidget = ({ onOpenSquadsDrawer }) => {
           className="w-full py-1.5 px-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-[10px] font-mono uppercase tracking-wider rounded-md flex items-center justify-center gap-1.5 transition-all shadow-[0_0_15px_rgba(16,185,129,0.25)] hover:shadow-[0_0_20px_rgba(16,185,129,0.4)] active:scale-98"
         >
           <Users size={11} />
-          <span>{targetGroup ? 'Manage Squad & Roster' : 'Establish Fireteam'}</span>
+          <span>{targetGroup ? 'Manage Team & Roster' : 'Establish Team'}</span>
         </button>
 
         <div className="flex items-center gap-1.5">
@@ -185,7 +185,7 @@ export const GameSquadsWidget = ({ onOpenSquadsDrawer }) => {
               className="flex-1 py-1 px-2 bg-slate-800/90 hover:bg-slate-700 text-slate-200 font-bold text-[9px] font-mono uppercase tracking-wider rounded-md border border-slate-700 hover:border-cyan-500/50 transition-colors flex items-center justify-center gap-1"
             >
               <Radio size={10} className="text-cyan-400" />
-              <span>Squad Comms</span>
+              <span>Team Comms</span>
             </button>
           ) : (
             <button

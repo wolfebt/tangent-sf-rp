@@ -1,0 +1,92 @@
+[
+  {
+    "category": "societies",
+    "description": "High-elegance aristocratic technomancers pursuing esoteric perfection in floating crystal spires.",
+    "body": "# Alterian Arcane Society\n\n**Category**: Galactic Societies  \n**Associated Faction**: `faction-alterian-enclave`\n\n## Sociological Profile\nHigh-elegance aristocratic technomancers pursuing esoteric perfection in floating crystal spires.",
+    "id": "society-alterian",
+    "name": "Alterian Arcane Society",
+    "associated_faction": "faction-alterian-enclave",
+    "updatedAt": "2026-08-23T10:56:49.111Z"
+  },
+  {
+    "name": "Ascendancy Zen Society",
+    "updatedAt": "2026-08-23T10:56:49.111Z",
+    "id": "society-ascendancy",
+    "category": "societies",
+    "description": "Harmonious solarpunk eco-society focused on mental clarity, psionic meditation, and public welfare.",
+    "body": "# Ascendancy Zen Society\n\n**Category**: Galactic Societies  \n**Associated Faction**: `faction-ascendancy`\n\n## Sociological Profile\nHarmonious solarpunk eco-society focused on mental clarity, psionic meditation, and public welfare.",
+    "associated_faction": "faction-ascendancy"
+  },
+  {
+    "name": "Auluran Ecological Society",
+    "associated_faction": "faction-auluran-clans",
+    "id": "society-auluran",
+    "description": "Symbiotic biomorphic tribal society living in balance with ancestral forests and bio-engineered flora.",
+    "category": "societies",
+    "updatedAt": "2026-08-23T10:56:49.111Z",
+    "body": "# Auluran Ecological Society\n\n**Category**: Galactic Societies  \n**Associated Faction**: `faction-auluran-clans`\n\n## Sociological Profile\nSymbiotic biomorphic tribal society living in balance with ancestral forests and bio-engineered flora."
+  },
+  {
+    "id": "society-coalition",
+    "name": "Coalition Free-State Society",
+    "category": "societies",
+    "body": "# Coalition Free-State Society\n\n**Category**: Galactic Societies  \n**Associated Faction**: `faction-coalition`\n\n## Sociological Profile\nFiercely independent frontier democracy with heavy industrial grit, boomtown taverns, and union solidarity.",
+    "associated_faction": "faction-coalition",
+    "description": "Fiercely independent frontier democracy with heavy industrial grit, boomtown taverns, and union solidarity.",
+    "updatedAt": "2026-08-23T10:56:49.111Z"
+  },
+  {
+    "name": "Draconic Feudal Society",
+    "id": "society-draconic",
+    "category": "societies",
+    "description": "Rigid chivalric caste structure governed by dragon-blooded lords, honorable knights, and loyal commoners.",
+    "updatedAt": "2026-08-23T10:56:49.110Z",
+    "body": "# Draconic Feudal Society\n\n**Category**: Galactic Societies  \n**Associated Faction**: `faction-dracon-dynasty`\n\n## Sociological Profile\nRigid chivalric caste structure governed by dragon-blooded lords, honorable knights, and loyal commoners.",
+    "associated_faction": "faction-dracon-dynasty"
+  },
+  {
+    "body": "# Entari Mercantile Society\n\n**Category**: Galactic Societies  \n**Associated Faction**: `faction-entari-combine`\n\n## Sociological Profile\nVibrant multicultural bazaar culture valuing trade acumen, diplomatic hospitality, and artisan craftsmanship.",
+    "category": "societies",
+    "id": "society-entari",
+    "name": "Entari Mercantile Society",
+    "updatedAt": "2026-08-23T10:56:49.110Z",
+    "description": "Vibrant multicultural bazaar culture valuing trade acumen, diplomatic hospitality, and artisan craftsmanship.",
+    "associated_faction": "faction-entari-combine"
+  },
+  {
+    "associated_faction": "faction-kovian-tribunal",
+    "body": "# Kovian Inquisitorial Society\n\n**Category**: Galactic Societies  \n**Associated Faction**: `faction-kovian-tribunal`\n\n## Sociological Profile\nAustere judicial autocracy where duty, martial discipline, and strict legal codes govern all aspects of life.",
+    "description": "Austere judicial autocracy where duty, martial discipline, and strict legal codes govern all aspects of life.",
+    "id": "society-kovian",
+    "category": "societies",
+    "updatedAt": "2026-08-23T10:56:49.110Z",
+    "name": "Kovian Inquisitorial Society"
+  },
+  {
+    "associated_faction": "faction-outworlds",
+    "body": "# Outworlds Scavenger Society\n\n**Category**: Galactic Societies  \n**Associated Faction**: `faction-outworlds`\n\n## Sociological Profile\nRugged survivalist clans living on the fringes of civilization, bound by frontier hospitality and grit.",
+    "category": "societies",
+    "description": "Rugged survivalist clans living on the fringes of civilization, bound by frontier hospitality and grit.",
+    "name": "Outworlds Scavenger Society",
+    "id": "society-outworlds",
+    "updatedAt": "2026-08-23T10:56:49.110Z"
+  },
+  {
+    "body": "# Syndicate Cyber-Society\n\n**Category**: Galactic Societies  \n**Associated Faction**: `faction-syndicate`\n\n## Sociological Profile\nHigh-speed corporate meritocracy interconnected through the Mesh AR datagrid and transhuman enhancement.",
+    "id": "society-syndicate",
+    "name": "Syndicate Cyber-Society",
+    "updatedAt": "2026-08-23T10:56:49.110Z",
+    "description": "High-speed corporate meritocracy interconnected through the Mesh AR datagrid and transhuman enhancement.",
+    "category": "societies",
+    "associated_faction": "faction-syndicate"
+  },
+  {
+    "updatedAt": "2026-08-23T10:56:49.110Z",
+    "category": "societies",
+    "body": "# Vajar Martial Society\n\n**Category**: Galactic Societies  \n**Associated Faction**: `faction-vajar`\n\n## Sociological Profile\nHonor-driven warrior society centered around clan halls, martial trials, starship boarding raids, and bloodlines.",
+    "name": "Vajar Martial Society",
+    "associated_faction": "faction-vajar",
+    "id": "society-vajar",
+    "description": "Honor-driven warrior society centered around clan halls, martial trials, starship boarding raids, and bloodlines."
+  }
+]

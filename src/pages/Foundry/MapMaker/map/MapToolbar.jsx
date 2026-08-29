@@ -23,6 +23,8 @@ const MapToolbar = ({
   setShowLayersPanel,
   showHeroDrawer,
   setShowHeroDrawer,
+  showOmnicortexDrawer,
+  setShowOmnicortexDrawer,
   showCombatTracker,
   setShowCombatTracker,
   showMetadataPanel,
@@ -36,6 +38,7 @@ const MapToolbar = ({
   onExportPNG,
   onOpenLandmassGenerator,
   onOpenAssetManager,
+  onOpenUvttImport,
   onSaveMapToFile,
   onLoadMapFromFile,
   onDeleteActiveMap,
@@ -135,6 +138,14 @@ const MapToolbar = ({
                 className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-amber-300 uppercase font-bold flex items-center gap-2 transition-colors cursor-pointer"
               >
                 <span>📥</span> Load Map from File
+              </button>
+            )}
+            {onOpenUvttImport && (
+              <button
+                onClick={() => { onOpenUvttImport(); setIsFileMenuOpen(false); }}
+                className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-cyan-300 uppercase font-bold flex items-center gap-2 transition-colors cursor-pointer border-t border-[#0D5C63]/30"
+              >
+                <span>🧭</span> Import Universal VTT (.dd2vtt)
               </button>
             )}
 
@@ -318,6 +329,7 @@ const MapToolbar = ({
               { id: 'tools', label: 'Tools', active: showToolsPanel, toggle: () => setShowToolsPanel(prev => !prev), icon: '🛠️' },
               { id: 'settings', label: 'Settings', active: showSettingsPanel, toggle: () => setShowSettingsPanel(prev => !prev), icon: '⚙️' },
               { id: 'heroes', label: 'Folio Hero Roster', active: showHeroDrawer, toggle: () => setShowHeroDrawer?.(prev => !prev), icon: '📜' },
+              { id: 'omnicortex', label: 'Omnicortex Codex', active: showOmnicortexDrawer, toggle: () => setShowOmnicortexDrawer?.(prev => !prev), icon: '🧠' },
               { id: 'layers', label: 'Layers', active: showLayersPanel, toggle: () => setShowLayersPanel(prev => !prev), icon: '🥞' },
               { id: 'key', label: 'Map Key & Directory', active: showKeyPanel, toggle: () => setShowKeyPanel?.(prev => !prev), icon: '🗺️' },
               { id: 'metadata', label: 'Scale Properties', active: showMetadataPanel, toggle: () => setShowMetadataPanel?.(prev => !prev), icon: '🌐' },
@@ -394,6 +406,21 @@ const MapToolbar = ({
         <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
         <Tv size={13} />
         <span className="hidden md:inline">Cast / Spectator</span>
+      </button>
+
+      {/* Omnicortex Asset Compendium Button */}
+      <button
+        type="button"
+        onClick={() => setShowOmnicortexDrawer?.(prev => !prev)}
+        className={`px-3 py-1 border rounded text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1.5 h-8 cursor-pointer ${
+          showOmnicortexDrawer
+            ? 'bg-cyan-600 border-cyan-400 text-black shadow-[0_0_15px_rgba(6,182,212,0.4)]'
+            : 'bg-gradient-to-r from-blue-950 to-slate-900 hover:from-blue-900 hover:to-slate-800 border-cyan-500/60 text-cyan-300 shadow-[0_0_10px_rgba(6,182,212,0.2)]'
+        }`}
+        title="Open Omnicortex Compendium (Spawn Bestiary, Weapons, Armor, Hazards, Vehicles)"
+      >
+        <span>🧠</span>
+        <span className="hidden md:inline">Omnicortex Codex</span>
       </button>
 
       {/* Artist Hub Button */}

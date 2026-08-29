@@ -1,0 +1,376 @@
+[
+  {
+    "society_skills": [
+      "Piloting",
+      "Alertness",
+      "Knowledge (Nature)",
+      "Knowledge (Survival)",
+      "Knowledge (Technology)",
+      "Vocation (Any)"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.156Z",
+    "skill_points": 20,
+    "id": "origin-agricultural",
+    "category": "origins",
+    "body": "# Agricultural Origin\n\n**Category**: Origins  \n**Starting Skill Points**: 20 SP (allocated to Society Skills)  \n**Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)\n\n## Description\nAgri-Worlds and farming arcologies dedicated to mass food production, preservation biospheres, and self-sustaining rural communities.\n\n## Society Skills\n- Piloting\n- Alertness\n- Knowledge (Nature)\n- Knowledge (Survival)\n- Knowledge (Technology)\n- Vocation (Any)\n\n## Typical Archetypes\n- Farmer\n- Hunter\n- Preservationist\n- Agri-Pilot\n- Technician\n- Community Leader\n\n## Available Traits\n- `trait-animal-husbandry`\n- `trait-botanical-knowledge`\n- `trait-community-building`\n- `trait-green-thumb`\n- `trait-mechanical-aptitude`\n- `trait-resourcefulness`\n- `trait-survival-skills`\n- `trait-sustainable-practices`\n\r\n\r\n## Extended Lore & Background\r\n\r\nAgri-Worlds are essential for mass food production. These worlds typically have low development and population. Most communities range from small houses and other farm-related structures, including barns, silos and the like, to expansive mega-structure Arcologies. They also include most Preservation/Green Worlds, those purposefully left undeveloped but with self-sustaining small communities. Farming and preserved wilds are the focus of these worlds.\r\n\r\nPiloting, Alertness, Knowledge (Nature, Survival, Technology), Vocation (any)\r\n\r\nFarmer   \r\nHunter   \r\nPreservationist   \r\nPilot   \r\nTechnician   \r\nCommunity Leader\r\n\r\nExpertise in raising and caring for livestock. Understands animal behavior, breeding, and nutrition. Can manage a farm with a diverse range of animals.  \r\n*\\+2 to Animal Handling*\r\n\r\nExtensive knowledge of plants, crops, and agricultural techniques. Understands the science behind growing and cultivating various types of vegetation.  \r\n*\\+2 to Botany Checks*\r\n\r\nValues community and may have skills in building and maintaining relationships with other farmers, suppliers, and customers. Can negotiate deals, organize cooperative efforts, and foster a sense of camaraderie among fellow agriculturalists.  \r\n*Once per Day may reroll a Social Skill Check*\r\n\r\nNatural talent for nurturing plants and can make them thrive even in challenging environments. Has a knack for identifying the needs of different plants and providing the necessary care.  \r\n*Checks involving nurturing and helping plants may be made at Advantage*\r\n\r\nMechanical skills related to farming equipment and machinery. Can repair and maintain farming tools, vehicles, pumps, conveyors and other automated systems used in agricultural operations.  \r\n*\\+2 to Mechanical Skill Checks*\r\n\r\nThe character is able to make the most of limited resources and find creative solutions to problems, which is especially important in an environment where resources may be scarce.  \r\n*Once per Day make a Skill Check of choice at Advantage*\r\n\r\nSurvival skills honed from living and working in remote or harsh environments. Can navigate and forage for resources, making them self-sufficient in challenging situations.  \r\n*\\+2 Survival Skill Checks*\r\n\r\nKnowledgeable about sustainable farming practices and strives to minimize environmental impact. May prioritize organic farming, crop rotation, and water conservation techniques.  \r\n*\\+2 to any Agriculture based checks in a prepared grow area and to prepare and maintain an area.*",
+    "archetypes": [
+      "Farmer",
+      "Hunter",
+      "Preservationist",
+      "Agri-Pilot",
+      "Technician",
+      "Community Leader"
+    ],
+    "traits": [
+      "trait-animal-husbandry",
+      "trait-botanical-knowledge",
+      "trait-community-building",
+      "trait-green-thumb",
+      "trait-mechanical-aptitude",
+      "trait-resourcefulness",
+      "trait-survival-skills",
+      "trait-sustainable-practices"
+    ],
+    "description": "Agri-Worlds and farming arcologies dedicated to mass food production, preservation biospheres, and self-sustaining rural communities.",
+    "name": "Agricultural"
+  },
+  {
+    "society_skills": [
+      "Athletics",
+      "Piloting",
+      "Alertness",
+      "Knowledge (Navigation)",
+      "Knowledge (Survival)",
+      "Vocation (Any)"
+    ],
+    "body": "# Aquatic Origin\n\n**Category**: Origins  \n**Starting Skill Points**: 20 SP (allocated to Society Skills)  \n**Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)\n\n## Description\nPelagic ocean worlds covered in vast seas, floating flotilla cities, submerged domes, and coral habitats.\n\n## Society Skills\n- Athletics\n- Piloting\n- Alertness\n- Knowledge (Navigation)\n- Knowledge (Survival)\n- Vocation (Any)\n\n## Typical Archetypes\n- Mariner\n- Deep Sea Explorer\n- Marine Biologist\n- Shipwright\n- Underwater Salvage Expert\n- Diver\n\n## Available Traits\n- `trait-adaptability`\n- `trait-aquatic-construction`\n- `trait-curiosity`\n- `trait-empathy`\n- `trait-environmental-awareness`\n- `trait-sea-piloting`\n- `trait-resourcefulness`\n- `trait-survival-skills`\n\r\n\r\n## Extended Lore & Background\r\n\r\nThis world is mostly covered in water, with over 85% of its surface being water of various depths. Some structures are firmly secured on land, while others are submerged or floating. Boats, submarines, and flotillas are common forms of transportation, besides GEVs and aircraft.\r\n\r\nAthletics, Piloting, Alertness, Knowledge (Navigation, Survival), Vocation (any)\r\n\r\nMariner  \r\nDeep Sea Explorer  \r\nMarine Biologist  \r\nShipwright  \r\nUnderwater Salvage Expert  \r\nDiver\r\n\r\nThe character is able to adapt to new environments and situations quickly, making them well-suited to life in an ever-changing aquatic world.  \r\n*\\+2 to a specific Skill Check, may change assigned Skill daily*\r\n\r\nSkilled in manufacturing buildings, flotillas and other water based habitats and structures.  \r\n*\\+2 to all Construction Checks*\r\n\r\nThe character has a natural curiosity about the world around them, which drives them to explore and discover new things in the aquatic environment.  \r\n*Regain a Karma Point on the first encounter when dealing with something new during the session \\- creature, area, technology, etc.*\r\n\r\nThe character has a strong sense of empathy and is able to understand and connect with other creatures. Sensing basic needs, drives and emotions of a creature.  \r\n*\\+2 Insight and \\+2 Handle Animal Checks while being Friendly to other creature*\r\n\r\nThe character is highly attuned to their environment and is able to sense changes in water temperature, pressure, and other factors that may affect their survival.  \r\n*\\+2 Alertness*\r\n\r\nTo move at high speeds or to operate the bigger craft, from personal jets to colossal platforms.  \r\n*\\+2 to all Seacraft Operation \\- Submersibles, Boats, Hovercraft, and Aircraft*\r\n\r\nThe character is able to make the most of limited resources and find creative solutions to problems, which is especially important in an environment where resources may be scarce.  \r\n*Once per Day make a Skill Check of choice at Advantage*\r\n\r\nThe character has a range of survival skills that are specific to life in the aquatic world, such as the ability to find food and shelter, navigate underwater terrain, and avoid predators.  \r\n*\\+2 Survival Skill Checks*",
+    "updatedAt": "2026-08-23T10:56:49.155Z",
+    "skill_points": 20,
+    "archetypes": [
+      "Mariner",
+      "Deep Sea Explorer",
+      "Marine Biologist",
+      "Shipwright",
+      "Underwater Salvage Expert",
+      "Diver"
+    ],
+    "description": "Pelagic ocean worlds covered in vast seas, floating flotilla cities, submerged domes, and coral habitats.",
+    "name": "Aquatic",
+    "id": "origin-aquatic",
+    "category": "origins",
+    "traits": [
+      "trait-adaptability",
+      "trait-aquatic-construction",
+      "trait-curiosity",
+      "trait-empathy",
+      "trait-environmental-awareness",
+      "trait-sea-piloting",
+      "trait-resourcefulness",
+      "trait-survival-skills"
+    ]
+  },
+  {
+    "id": "origin-colony",
+    "updatedAt": "2026-08-23T10:56:49.155Z",
+    "name": "Colony",
+    "skill_points": 20,
+    "body": "# Colony Origin\n\n**Category**: Origins  \n**Starting Skill Points**: 20 SP (allocated to Society Skills)  \n**Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)\n\n## Description\nFrontier settlement worlds, modular prefab colonies, terraforming encampments, and new planetary territories.\n\n## Society Skills\n- Piloting\n- Alertness\n- Knowledge (Any)\n- Vocation (Any)\n\n## Typical Archetypes\n- Pioneer\n- Homesteader\n- Prospector\n- Colony Engineer\n- Field Doctor\n- Frontier Soldier\n\n## Available Traits\n- `trait-adaptability`\n- `trait-adventurous-spirit`\n- `trait-community-building`\n- `trait-diplomacy`\n- `trait-leadership`\n- `trait-problem-solving`\n- `trait-resource-management`\n- `trait-scientific-knowledge`\n- `trait-survival-skills`\n\r\n\r\n## Extended Lore & Background\r\n\r\nNew settlers who have just arrived or are still trying to establish themselves inhabit these worlds. Prefabricated or other easily movable structures will be prevalent. It is simple to combine with another Origin (where the settlers come from or where they are building).\r\n\r\nPiloting, Alertness, Knowledge (Any), Vocation (Any)\r\n\r\nPioneer   \r\nHomesteader   \r\nProspector   \r\nEngineer   \r\nDoctor   \r\nSoldier\r\n\r\nThe ability to adapt to new environments and situations is important for a colony character, as they may encounter unfamiliar planets or face unexpected obstacles.  \r\n*\\+2 to a specific Skill Check, may change assigned Skill daily*\r\n\r\nAn adventurous spirit and a willingness to explore can be advantageous for a colony character who may need to venture out into the unknown.  \r\n*One Skill Check at Advantage per day*\r\n\r\nSkills in community building and social dynamics are essential for a successful colony, so a colony character should have skills in community building and social dynamics.  \r\n*Once per Day may reroll a Social Skill Check*\r\n\r\nThe ability to negotiate and maintain diplomatic relations with other colonies or factions can be crucial for the colony's success.  \r\n*\\+2 Diplomacy*\r\n\r\nStrong leadership skills to guide and make decisions for the colony.  \r\n*\\+2 Leadership*\r\n\r\nSkilled at solving problems and overcoming challenges that arise in the colony, whether it's dealing with environmental hazards or resolving conflicts among colonists.  \r\n*Once per Day may reroll a Mental Skill Check*\r\n\r\nAdept at managing resources such as food, water, energy, and materials to ensure the colony's survival and growth.  \r\n*Wealth Checks for Basic Resources made at Advantage*\r\n\r\nKnowledge in fields such as biology, engineering, or agriculture can be valuable for a colony character to develop sustainable systems and technologies.  \r\n*\\+2 to Science Knowledge*\r\n\r\nPossess survival skills to navigate and explore unknown territories, and to protect the colony from potential threats.  \r\n*\\+2 Survival Skill Checks*",
+    "society_skills": [
+      "Piloting",
+      "Alertness",
+      "Knowledge (Any)",
+      "Vocation (Any)"
+    ],
+    "category": "origins",
+    "description": "Frontier settlement worlds, modular prefab colonies, terraforming encampments, and new planetary territories.",
+    "traits": [
+      "trait-adaptability",
+      "trait-adventurous-spirit",
+      "trait-community-building",
+      "trait-diplomacy",
+      "trait-leadership",
+      "trait-problem-solving",
+      "trait-resource-management",
+      "trait-scientific-knowledge",
+      "trait-survival-skills"
+    ],
+    "archetypes": [
+      "Pioneer",
+      "Homesteader",
+      "Prospector",
+      "Colony Engineer",
+      "Field Doctor",
+      "Frontier Soldier"
+    ]
+  },
+  {
+    "traits": [
+      "trait-empathy",
+      "trait-curiosity",
+      "trait-mentorship",
+      "trait-open-mindedness",
+      "trait-peaceful-nature",
+      "trait-problem-solving",
+      "trait-shared-wisdom",
+      "trait-spiritual-awareness"
+    ],
+    "description": "Metaphysically active worlds rich in crystal formations, ley-line junctions, astral shrines, and monastic academies.",
+    "archetypes": [
+      "Arcanist",
+      "Psionic Adept",
+      "Seer",
+      "Monastic Scholar",
+      "Spiritual Guide",
+      "Cultural Envoy"
+    ],
+    "category": "origins",
+    "updatedAt": "2026-08-23T10:56:49.154Z",
+    "id": "origin-enlightened",
+    "skill_points": 20,
+    "body": "# Enlightened Origin\n\n**Category**: Origins  \n**Starting Skill Points**: 20 SP (allocated to Society Skills)  \n**Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)\n\n## Description\nMetaphysically active worlds rich in crystal formations, ley-line junctions, astral shrines, and monastic academies.\n\n## Society Skills\n- Alertness\n- Academics\n- Knowledge (Culture)\n- Knowledge (History)\n- Knowledge (Language)\n- Knowledge (Physics)\n- Knowledge (Religion)\n- Vocation (Any)\n\n## Typical Archetypes\n- Arcanist\n- Psionic Adept\n- Seer\n- Monastic Scholar\n- Spiritual Guide\n- Cultural Envoy\n\n## Available Traits\n- `trait-empathy`\n- `trait-curiosity`\n- `trait-mentorship`\n- `trait-open-mindedness`\n- `trait-peaceful-nature`\n- `trait-problem-solving`\n- `trait-shared-wisdom`\n- `trait-spiritual-awareness`\n\r\n\r\n## Extended Lore & Background\r\n\r\nCertain worlds have particularly strong ley lines, special crystal formations, atmospheric anomalies, or other features that make them more metaphysically active. This could be in the form of a variety of metaphysical energies or patterns, but it is still a common occurrence.  \r\nStructures on these worlds may have a wide range of designs based on creativity, ability, and wants or needs.  \r\nAdept Occupations (and Metafocus Disciplines) are more common in these worlds.\r\n\r\nAlertness, Academics, Knowledge (Culture, History, Language, Physics, Religion), Vocation (any)\r\n\r\nArcanist   \r\nPsionic   \r\nSeer   \r\nScholar   \r\nSpiritual Guide   \r\nEnvoy\r\n\r\nHas a deep sense of empathy and compassion for others  \r\n*\\+2 Insight and \\+2 Handle Animal Checks while being Friendly*\r\n\r\nThe character has a natural curiosity about the world around them, which drives them to explore and discover new things in the aquatic environment.  \r\n*Regain a Karma Point on the first encounter when dealing with something new during the session \\- creature, area, technology, etc.*\r\n\r\nMay take on the role of a mentor or guide, sharing their knowledge and wisdom with others to help them grow and develop  \r\n*Those under the Enlightened character’s tutelage may make Study Checks at Advantage*\r\n\r\nOpen to new ideas, perspectives, and experiences  \r\n*Reduce all Stigma Penalties with others by the Enlightened character’s Wisdom score for both parties*\r\n\r\nSeeks peace and harmony in all aspects of life  \r\n*\\+2 to Diplomacy for peaceful meditations*\r\n\r\nExcels at problem-solving and critical thinking  \r\n*Once per Day may reroll a Mental Skill Check*\r\n\r\nPossesses wisdom beyond their years  \r\n*Any Check to Aid, Guide or Instruct another (granting them a bonus) may be made at Advantage*\r\n\r\nMay have a strong connection to spirituality or metaphysical concepts  \r\n*\\+1 to Attune and one Metafocus Skill*",
+    "society_skills": [
+      "Alertness",
+      "Academics",
+      "Knowledge (Culture)",
+      "Knowledge (History)",
+      "Knowledge (Language)",
+      "Knowledge (Physics)",
+      "Knowledge (Religion)",
+      "Vocation (Any)"
+    ],
+    "name": "Enlightened"
+  },
+  {
+    "updatedAt": "2026-08-23T10:56:49.154Z",
+    "traits": [
+      "trait-combat-skills",
+      "trait-intuition",
+      "trait-mental-toughness",
+      "trait-physical-endurance",
+      "trait-pilot-skills",
+      "trait-resourcefulness",
+      "trait-survival-skills",
+      "trait-technical-skills"
+    ],
+    "description": "Deadly planetary environments, poisonous death worlds, radiation wastelands, and extreme geothermal zones.",
+    "id": "origin-hostile",
+    "skill_points": 20,
+    "body": "# Hostile Origin\n\n**Category**: Origins  \n**Starting Skill Points**: 20 SP (allocated to Society Skills)  \n**Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)\n\n## Description\nDeadly planetary environments, poisonous death worlds, radiation wastelands, and extreme geothermal zones.\n\n## Society Skills\n- Athletics\n- Alertness\n- Knowledge (Survival)\n- Combat (Any)\n- Vocation (Any)\n\n## Typical Archetypes\n- Survivalist\n- Wasteland Warrior\n- Scavenger\n- Desert Shaman\n- Mutant Survivor\n- Exile Outcast\n\n## Available Traits\n- `trait-combat-skills`\n- `trait-intuition`\n- `trait-mental-toughness`\n- `trait-physical-endurance`\n- `trait-pilot-skills`\n- `trait-resourcefulness`\n- `trait-survival-skills`\n- `trait-technical-skills`\n\r\n\r\n## Extended Lore & Background\r\n\r\nIt is uncommon to find a civilization in a dangerous or poisonous world, but some have chosen to live in such environments for various reasons.\r\n\r\nANY\r\n\r\nSurvivalist   \r\nWarrior   \r\nScavenger   \r\nShaman   \r\nMutant   \r\nOutcast\r\n\r\nDefending themselves against hostile creatures or other threats.  \r\n*\\+2 to a Combat Skill of choice*\r\n\r\nThe character may have a heightened sense of intuition, allowing them to anticipate danger.  \r\n*Re-Roll any one failed Perception check per day*\r\n\r\nWithstanding stress, fear, and other psychological challenges that might arise in a hostile environment.  \r\n*\\+2 Willpower Checks*\r\n\r\nWithstanding harsh conditions and resisting fatigue.  \r\n*\\+2 Fortitude Checks*\r\n\r\nExperienced piloting various craft in hostile environments.  \r\n*\\+2 Piloting*\r\n\r\nAdapting to changing circumstances and making the most of limited resources.  \r\n*Once per Day make a Skill Check of choice at Advantage*\r\n\r\nFinding food, water, and shelter in hostile environments.  \r\n*\\+2 Survival Skill Checks*\r\n\r\nRepairing or modifying equipment to suit the needs of a hostile environment.  \r\n*\\+1 to Mechanical, Electrical and Engineering Skill Checks*",
+    "society_skills": [
+      "Athletics",
+      "Alertness",
+      "Knowledge (Survival)",
+      "Combat (Any)",
+      "Vocation (Any)"
+    ],
+    "category": "origins",
+    "name": "Hostile",
+    "archetypes": [
+      "Survivalist",
+      "Wasteland Warrior",
+      "Scavenger",
+      "Desert Shaman",
+      "Mutant Survivor",
+      "Exile Outcast"
+    ]
+  },
+  {
+    "society_skills": [
+      "Knowledge (Technology)",
+      "Knowledge (Science)",
+      "Vocation (Any)"
+    ],
+    "description": "Resource-extraction worlds, heavy foundry planets, smog-shrouded manufactories, and automated refinery grids.",
+    "traits": [
+      "trait-adaptability",
+      "trait-mechanical-aptitude",
+      "trait-physical-strength",
+      "trait-practicality",
+      "trait-problem-solving",
+      "trait-resourcefulness",
+      "trait-risk-taking",
+      "trait-specialized-knowledge",
+      "trait-teamwork"
+    ],
+    "body": "# Industrial Origin\n\n**Category**: Origins  \n**Starting Skill Points**: 20 SP (allocated to Society Skills)  \n**Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)\n\n## Description\nResource-extraction worlds, heavy foundry planets, smog-shrouded manufactories, and automated refinery grids.\n\n## Society Skills\n- Knowledge (Technology)\n- Knowledge (Science)\n- Vocation (Any)\n\n## Typical Archetypes\n- Miner\n- Factory Worker\n- Industrial Engineer\n- Foundry Foreman\n- Security Officer\n- Corporate Executive\n\n## Available Traits\n- `trait-adaptability`\n- `trait-mechanical-aptitude`\n- `trait-physical-strength`\n- `trait-practicality`\n- `trait-problem-solving`\n- `trait-resourcefulness`\n- `trait-risk-taking`\n- `trait-specialized-knowledge`\n- `trait-teamwork`\n\r\n\r\n## Extended Lore & Background\r\n\r\nThese worlds are developed to exploit available resources and are designed for maximum efficiency. Buildings are often reinforced or mobile, with simple designs. These worlds typically have a non-green operating philosophy that prioritizes profit.\r\n\r\nKnowledge (any), Vocation (any)\r\n\r\nMiner   \r\nFactory Worker   \r\nEngineer   \r\nForeman   \r\nSecurity Officer   \r\nCorporate Executive\r\n\r\nThe ability to adapt to new environments and situations is important for an industrial character, as they may encounter unexpected obstacles.  \r\n\\+2 to a specific Skill Check, may change assigned Skill daily\r\n\r\nIndustrial characters may have a natural talent for working with machines and technology, allowing them to repair, modify, and operate complex equipment.  \r\n\\+1 to Mechanical, Electrical and Engineering Skill Checks\r\n\r\nIndustrial work can be physically demanding, so characters who work in this field may have above-average strength and endurance.  \r\n\\+2 Might Checks\r\n\r\nIndustrial characters may be more focused on practical solutions than abstract or theoretical concepts.  \r\n\\+2 Logic Checks\r\n\r\nExcels at problem-solving and critical thinking  \r\nOnce per Day may reroll a Mental Skill Check\r\n\r\nIndustrial characters may be used to working with limited resources and finding creative solutions to problems.  \r\nOnce per Day make a Skill Check of choice at Advantage\r\n\r\nWorking in an industrial setting can be dangerous, so these characters may be more willing to take risks and face challenges head-on.  \r\n\\+1 Karma Point\r\n\r\nDepending on the setting, industrial characters may have specialized knowledge in areas such as engineering, metallurgy, or manufacturing.  \r\n\\+2 to a Vocation Specialization\r\n\r\nIndustrial work often involves collaborating with others to achieve a common goal, so industrial characters may have strong teamwork skills.  \r\nadditional \\+1 to Aid bonuses",
+    "name": "Industrial",
+    "archetypes": [
+      "Miner",
+      "Factory Worker",
+      "Industrial Engineer",
+      "Foundry Foreman",
+      "Security Officer",
+      "Corporate Executive"
+    ],
+    "category": "origins",
+    "updatedAt": "2026-08-23T10:56:49.154Z",
+    "skill_points": 20,
+    "id": "origin-industrial"
+  },
+  {
+    "name": "Leisure",
+    "traits": [
+      "trait-adaptability",
+      "trait-diplomacy",
+      "trait-entertainment-skill",
+      "trait-lifestyle-preferences",
+      "trait-non-combat-focus",
+      "trait-optimistic",
+      "trait-management",
+      "trait-resourcefulness",
+      "trait-smooth-talking"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.153Z",
+    "skill_points": 20,
+    "category": "origins",
+    "description": "Utopian paradise resorts, casino pleasure strips, aesthetic spas, and luxury orbital pleasure-barges.",
+    "body": "# Leisure Origin\n\n**Category**: Origins  \n**Starting Skill Points**: 20 SP (allocated to Society Skills)  \n**Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)\n\n## Description\nUtopian paradise resorts, casino pleasure strips, aesthetic spas, and luxury orbital pleasure-barges.\n\n## Society Skills\n- Vocation (Any)\n- Social (Any)\n\n## Typical Archetypes\n- Aesthete\n- Socialite\n- Concierge\n- Entertainer\n- Master Artisan\n- Resort Security\n\n## Available Traits\n- `trait-adaptability`\n- `trait-diplomacy`\n- `trait-entertainment-skill`\n- `trait-lifestyle-preferences`\n- `trait-non-combat-focus`\n- `trait-optimistic`\n- `trait-management`\n- `trait-resourcefulness`\n- `trait-smooth-talking`\n\r\n\r\n## Extended Lore & Background\r\n\r\nThese worlds can best be described as paradise or utopian, focusing on aesthetics over functionality. They often cater to tourists, with notable resort or vacation spots where guest services are a priority.   \r\nThe wealthy/upper class will enjoy the leisurely side of the resorts, while those of lower station will likely be working \\- both are considered for this origin.\r\n\r\nVocation (any), Social (any)\r\n\r\nAesthete  \r\nSocialite  \r\nConcierge  \r\nEntertainer  \r\nArtisan  \r\nSecurity Officer\r\n\r\nThe ability to adapt to new environments and situations is important for an industrial character, as they may encounter unexpected obstacles.  \r\n*\\+2 to a specific Skill Check, may change assigned Skill daily*\r\n\r\nAbility to negotiate, develop and maintain relations with others.  \r\n*\\+2 Diplomacy*\r\n\r\nSkills related to entertainment or leisure activities, such as music, art, sports, or recreational hobbies.  \r\n*\\+2 to a Non-Combat Skill of choice*\r\n\r\nSpecific preferences for their lifestyle. May enjoy the finer things in life, demand practical comforts, or prefer a simple and minimalist lifestyle.  \r\n*\\+1 Wealth and \\+1 Diplomacy*\r\n\r\nExcel in areas outside of combat. May have skills related to entertainment, relaxation, or social interaction.  \r\n*\\+2 to a Vocation Skill of choice*\r\n\r\nGenerally positive and optimistic outlook on life. May be cheerful, relaxed, and go with the flow.  \r\n*\\+1 to Karma Pool*\r\n\r\nDesire to manage certain assets, such as a ship or a leisure establishment. May take the role of team captain or organizer.  \r\n*\\+1 Wealth and \\+1 Leadership*\r\n\r\nThese characters may be used to finding creative solutions to problems.  \r\n*Once per Day make a Skill Check of choice at Advantage*\r\n\r\nCharismatic and skilled in communication. May be able to negotiate, persuade, or charm others.  \r\n*\\+2 Etiquette Checks*",
+    "society_skills": [
+      "Vocation (Any)",
+      "Social (Any)"
+    ],
+    "id": "origin-leisure",
+    "archetypes": [
+      "Aesthete",
+      "Socialite",
+      "Concierge",
+      "Entertainer",
+      "Master Artisan",
+      "Resort Security"
+    ]
+  },
+  {
+    "name": "Militaristic",
+    "updatedAt": "2026-08-23T10:56:49.153Z",
+    "description": "Fortress bastions, planetary garrison garrisons, naval academy stations, and fortified perimeter outposts.",
+    "body": "# Militaristic Origin\n\n**Category**: Origins  \n**Starting Skill Points**: 20 SP (allocated to Society Skills)  \n**Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)\n\n## Description\nFortress bastions, planetary garrison garrisons, naval academy stations, and fortified perimeter outposts.\n\n## Society Skills\n- Physical (Any)\n- Vocation (Any)\n- Combat (Any)\n\n## Typical Archetypes\n- Shock Trooper\n- Sharpshooter\n- Combat Medic\n- Tactician\n- Military Engineer\n- Intelligence Officer\n\n## Available Traits\n- `trait-combat-trained`\n- `trait-disciplined`\n- `trait-honor-bound`\n- `trait-leadership`\n- `trait-loyal`\n- `trait-milspec-gear`\n- `trait-pilot-skills`\n- `trait-strategic`\n- `trait-toughness`\n\r\n\r\n## Extended Lore & Background\r\n\r\nWhether an outpost, training facility or some other strategic world, there is a governing military presence  \r\nStructures will be reinforced, placed within a defendable area and often walled. Many personnel from this type of society will be of the Soldier Profession.\r\n\r\nPhysical (any), Vocation (any), Combat (any)\r\n\r\nShock Trooper  \r\nSharpshooter  \r\nCombat Medic  \r\nTactician  \r\nMilitary Engineer  \r\nMilitary Intelligence Officer\r\n\r\nSkilled in combat, with training in various weapons and tactics. Proficient in hand-to-hand combat, firearms, explosives, or other specialized skills.  \r\n*\\+2 to a Combat Skill of choice*\r\n\r\nHighly disciplined, following orders and adhering to strict protocols. Strong sense of duty and loyalty to commanding officers and fellow soldiers.  \r\n*\\+2 Soldier Vocation*\r\n\r\nStrong sense of honor and duty. Willing to put themselves in harm's way to protect others or giving up personal desires for the greater good.  \r\n*Any One check per day at Advantage, but must be for another*\r\n\r\nExperience in leading troops. Skilled at inspiring and motivating others to follow their lead.  \r\n*\\+2 Leadership Checks*\r\n\r\nStrong sense of loyalty to comrades and mission. Willing to sacrifice themselves for the greater good.  \r\n*Domination and Mind-Control Resistance Checks are made at Advantage*\r\n\r\nAccess to military grade hardware.  \r\n*\\+2 Equipment*\r\n\r\nExperienced piloting various military craft.  \r\n*\\+2 Piloting*\r\n\r\nExperience in planning and executing missions. Skilled at analyzing the battlefield and making strategic decisions.  \r\n*Those following the plan will receive a bonus pool to be used during the operation equal to the characters Intellect Score \\+2*\r\n\r\nPhysically and mentally tough, able to withstand harsh conditions and endure long periods of stress and danger.  \r\n*\\+1 Fortitude and Willpower Checks*",
+    "traits": [
+      "trait-combat-trained",
+      "trait-disciplined",
+      "trait-honor-bound",
+      "trait-leadership",
+      "trait-loyal",
+      "trait-milspec-gear",
+      "trait-pilot-skills",
+      "trait-strategic",
+      "trait-toughness"
+    ],
+    "society_skills": [
+      "Physical (Any)",
+      "Vocation (Any)",
+      "Combat (Any)"
+    ],
+    "id": "origin-militaristic",
+    "skill_points": 20,
+    "archetypes": [
+      "Shock Trooper",
+      "Sharpshooter",
+      "Combat Medic",
+      "Tactician",
+      "Military Engineer",
+      "Intelligence Officer"
+    ],
+    "category": "origins"
+  },
+  {
+    "name": "Research",
+    "archetypes": [
+      "Research Scientist",
+      "Data Analyst",
+      "Theoretical Physicist",
+      "Archivist",
+      "Laboratory Technician",
+      "Containment Officer"
+    ],
+    "description": "Planetary research facilities, deep-space astronomical observatories, xenobiological stations, and academic campuses.",
+    "body": "# Research Origin\n\n**Category**: Origins  \n**Starting Skill Points**: 20 SP (allocated to Society Skills)  \n**Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)\n\n## Description\nPlanetary research facilities, deep-space astronomical observatories, xenobiological stations, and academic campuses.\n\n## Society Skills\n- Mental (Any)\n\n## Typical Archetypes\n- Research Scientist\n- Data Analyst\n- Theoretical Physicist\n- Archivist\n- Laboratory Technician\n- Containment Officer\n\n## Available Traits\n- `trait-adaptability`\n- `trait-analytical-thinking`\n- `trait-attention-to-detail`\n- `trait-collaboration`\n- `trait-curiosity`\n- `trait-intellectualism`\n- `trait-persistence`\n- `trait-problem-solving`\n- `trait-studious`\n\r\n\r\n## Extended Lore & Background\r\n\r\nA complex or habitat dedicated to the pursuit of knowledge. These worlds are focused on the systematic scientific investigation of a particular subject. Structures can range from prefabricated or mobile to large laboratory complexes, depending on need and resources.\r\n\r\nMental (any)\r\n\r\nScientist  \r\nAnalyst  \r\nTheorist  \r\nArchivist  \r\nTechnician  \r\nSecurity Officer\r\n\r\nThe ability to adapt to new environments and situations is important for a research character, as they may encounter unexpected obstacles.  \r\n*\\+2 to a specific Skill Check, may change assigned Skill daily*\r\n\r\nResearchers would be skilled at analyzing data and drawing conclusions from it. They would be able to identify patterns and trends in complex information.  \r\n*\\+2 Logic Checks*\r\n\r\nResearchers would have a keen eye for detail and be able to notice small nuances in data. They would be meticulous in their work and ensure that their research is accurate and precise.  \r\n*\\+2 Alertness*\r\n\r\nResearchers would be able to work well with others, including other researchers and non-researchers alike. They would be able to communicate their findings effectively and work together to achieve common goals.  \r\n*additional \\+1 to Aid bonuses received and granted*\r\n\r\nThe character has a natural curiosity about the world around them, which drives them to explore and discover new things in the aquatic environment.  \r\n*Regain a Karma Point on the first encounter when dealing with something new during the session \\- creature, area, technology, etc.*\r\n\r\nResearchers would be knowledgeable and intelligent, with a deep understanding of their field of study. They would likely have a high level of education and expertise in their area of research.  \r\n*\\+2 Academics and \\+2 to a Mental Skill Specialization*\r\n\r\nResearchers would be persistent in their pursuit of knowledge and discovery. They would not give up easily and would be willing to put in the time and effort required to achieve their goals.  \r\n*\\+1 Karma Point*\r\n\r\nResearchers would be adept at solving problems and overcoming obstacles. They would be able to think creatively and come up with innovative solutions to challenges.  \r\n*Once per Day may reroll a Mental Skill Check*\r\n\r\nGained increased knowledge on a topic through diligent research.  \r\n*\\+2 to a Knowledge of choice*",
+    "id": "origin-research",
+    "updatedAt": "2026-08-23T10:56:49.152Z",
+    "society_skills": [
+      "Mental (Any)"
+    ],
+    "category": "origins",
+    "traits": [
+      "trait-adaptability",
+      "trait-analytical-thinking",
+      "trait-attention-to-detail",
+      "trait-collaboration",
+      "trait-curiosity",
+      "trait-intellectualism",
+      "trait-persistence",
+      "trait-problem-solving",
+      "trait-studious"
+    ],
+    "skill_points": 20
+  },
+  {
+    "traits": [
+      "trait-combat-trained",
+      "trait-independence",
+      "trait-leadership",
+      "trait-pilot-skills",
+      "trait-resourcefulness",
+      "trait-smooth-talking",
+      "trait-technical-skills",
+      "trait-toughness",
+      "trait-zero-g-acclimation"
+    ],
+    "id": "origin-spacer",
+    "updatedAt": "2026-08-23T10:56:49.152Z",
+    "name": "Spacer",
+    "society_skills": [
+      "Piloting",
+      "Alertness",
+      "Knowledge (Technology)",
+      "Knowledge (Survival)",
+      "Vocation (Any)"
+    ],
+    "category": "origins",
+    "description": "Void-born populations living aboard generation ships, starship crews, orbital trade rings, and deep-space asteroid stations.",
+    "body": "# Spacer Origin\n\n**Category**: Origins  \n**Starting Skill Points**: 20 SP (allocated to Society Skills)  \n**Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)\n\n## Description\nVoid-born populations living aboard generation ships, starship crews, orbital trade rings, and deep-space asteroid stations.\n\n## Society Skills\n- Piloting\n- Alertness\n- Knowledge (Technology)\n- Knowledge (Survival)\n- Vocation (Any)\n\n## Typical Archetypes\n- Freighter Captain\n- Void Explorer\n- Mercenary Pilot\n- Smuggler\n- Shipboard Technician\n- Free-Trader Merchant\n\n## Available Traits\n- `trait-combat-trained`\n- `trait-independence`\n- `trait-leadership`\n- `trait-pilot-skills`\n- `trait-resourcefulness`\n- `trait-smooth-talking`\n- `trait-technical-skills`\n- `trait-toughness`\n- `trait-zero-g-acclimation`\n\r\n\r\n## Extended Lore & Background\r\n\r\nSome people do not have a home planet, instead choosing to travel the stars. They spend most of their time on ships and stations in space, and some have never set foot on a planet.\r\n\r\nANY\r\n\r\nFreighter Captain   \r\nExplorer   \r\nMercenary   \r\nSmuggler   \r\nTechnician   \r\nMerchant\r\n\r\nSkill in combat, whether it's hand-to-hand combat or using weapons in zero gravity.  \r\n*\\+2 to a Combat Skill of choice*\r\n\r\nSelf-sufficiency and ability to make decisions on their own.  \r\n*\\+1 Karma Point*\r\n\r\nAbility to manage a crew and make strategic decisions.  \r\n*\\+2 Leadership Checks*\r\n\r\nExperience piloting spacecraft, skills related to navigation, maneuvering, and combat in space.  \r\n*\\+2 Piloting*\r\n\r\nAbility to adapt to unexpected situations and make the most of limited resources.  \r\n*Once per Day make a Skill Check of choice at Advantage*\r\n\r\nAbility to negotiate and persuade others.  \r\n*\\+2 Bluff*\r\n\r\nSkills related to spacecraft maintenance and repair.  \r\n*\\+1 to Mechanical, Electrical and Engineering Skill Checks*\r\n\r\nAbility to withstand the physical and mental challenges that come with living in space.  \r\n*\\+1 Fortitude and Willpower Checks*",
+    "skill_points": 20,
+    "archetypes": [
+      "Freighter Captain",
+      "Void Explorer",
+      "Mercenary Pilot",
+      "Smuggler",
+      "Shipboard Technician",
+      "Free-Trader Merchant"
+    ]
+  },
+  {
+    "traits": [
+      "trait-adaptability",
+      "trait-contacts",
+      "trait-resourcefulness",
+      "trait-social-skills",
+      "trait-street-fighting",
+      "trait-streetwise",
+      "trait-tech-savvy",
+      "trait-urban-survival"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.151Z",
+    "skill_points": 20,
+    "society_skills": [
+      "Streetwise",
+      "Alertness",
+      "Knowledge (Culture)",
+      "Knowledge (Technology)",
+      "Social (Any)",
+      "Vocation (Any)"
+    ],
+    "archetypes": [
+      "Street Fixer",
+      "Ganger Enforcer",
+      "Cyber-Runner",
+      "Rooftop Courier",
+      "Corporate Drone",
+      "City Gumshoe"
+    ],
+    "id": "origin-urban",
+    "body": "# Urban Origin\n\n**Category**: Origins  \n**Starting Skill Points**: 20 SP (allocated to Society Skills)  \n**Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)\n\n## Description\nDense vertical megalopolises, multi-tiered arcologies, neon-lit commercial sprawls, and bustling cybernetic metropolises.\n\n## Society Skills\n- Streetwise\n- Alertness\n- Knowledge (Culture)\n- Knowledge (Technology)\n- Social (Any)\n- Vocation (Any)\n\n## Typical Archetypes\n- Street Fixer\n- Ganger Enforcer\n- Cyber-Runner\n- Rooftop Courier\n- Corporate Drone\n- City Gumshoe\n\n## Available Traits\n- `trait-adaptability`\n- `trait-contacts`\n- `trait-resourcefulness`\n- `trait-social-skills`\n- `trait-street-fighting`\n- `trait-streetwise`\n- `trait-tech-savvy`\n- `trait-urban-survival`\n\r\n\r\n## Extended Lore & Background\r\n\r\nPeople who live in cities, from large metropolises to smaller but highly developed areas, will experience the benefits and drawbacks of \"civilized society,\" which includes a high population density. Large high-rises will be the norm, and communities will be close together. Ground and air vehicles, including GEVs and hovercraft, will be commonplace.\r\n\r\nANY\r\n\r\nFreighter Captain   \r\nExplorer   \r\nMercenary   \r\nSmuggler   \r\nTechnician   \r\nMerchant\r\n\r\nUrban environments are constantly changing and unpredictable. Urban characters are adaptable and quick to adjust to new situations and challenges.  \r\n*\\+2 to a specific Skill Check, may change assigned Skill daily*\r\n\r\nBuilding a network of contacts is essential for urban characters. They have connections to informants, fixers, and other individuals who can provide valuable information or assistance.  \r\n*Gather Information checks at Advantage*\r\n\r\nSurviving in a bustling city requires resourcefulness. Urban characters are adept at finding creative solutions to problems and making the most of their surroundings.  \r\n*Once per Day make a Skill Check of choice at Advantage*\r\n\r\nInteracting with diverse populations and navigating complex social dynamics is crucial for urban characters. They may possess charisma, negotiation skills, or the ability to blend into different social circles.  \r\n*\\+1 all Social Manipulation Skills and Culture Knowledge*\r\n\r\nUrban characters may have combat skills tailored to close-quarters combat and navigating tight spaces. They excel in hand-to-hand combat.  \r\n*\\+1 Unarmed Combat and Defense*\r\n\r\nUrban characters are often well-versed in the ways of the city streets. They have knowledge of the local neighborhoods, underground networks, and criminal elements.  \r\n*\\+2 Streetwise (additional \\+1 in Home City)*\r\n\r\nIn a futuristic urban environment, technology plays a significant role. Urban characters may have expertise in hacking, cybernetics, or using advanced gadgets and devices.  \r\n*\\+2 to Knowledges of Computer and Technology*\r\n\r\nUrban characters may possess skills that help them survive in a harsh urban environment, such as parkour and being unnoticed.  \r\n*\\+2 Athletics and Stealth Skills (in Urban and developed areas)*",
+    "category": "origins",
+    "name": "Urban",
+    "description": "Dense vertical megalopolises, multi-tiered arcologies, neon-lit commercial sprawls, and bustling cybernetic metropolises."
+  }
+]

@@ -1,0 +1,4571 @@
+[
+  {
+    "name": "Alterian",
+    "title": "Celestine / Alterian Enclave",
+    "parent_species": "Aeld",
+    "type": [
+      "Humanoid",
+      "Aeld"
+    ],
+    "size": [
+      "Medium (6+ ft)"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Altheria (The Gilded World)",
+    "stigma": "Minor Xeno (-1)",
+    "tech_level": 3,
+    "meta_level": 4,
+    "prerequisite": "17 BP Chassis Gate",
+    "trait": [
+      "Awakened (Arcane)",
+      "Lifespan 600+",
+      "Immune to Sleep",
+      "Aeld Traits",
+      "Solar Sailing Affinity",
+      "Harmonic Flow Resonance"
+    ],
+    "costs": {
+      "bp": 17
+    },
+    "modifiers": [
+      {
+        "target": "Agility",
+        "value": "+1"
+      },
+      {
+        "target": "Intellect",
+        "value": "+1"
+      },
+      {
+        "target": "Skills",
+        "value": "+20"
+      }
+    ],
+    "description": "Sophisticated, long-lived magi-tech scholars, diplomats, and navigators of the Alterian Enclave who harmonize high technology with metaphysical energy.",
+    "body": "Parent Lineage: Aeld Overview\nThe Aeld are an ancient, graceful humanoid species characterized by agility, profound longevity (lifespans exceeding 600 years), and an innate metaphysical connection to arcane energies. Known historically in ancient Terran myths as 'Elves', modern Aeld have evolved into a spacefaring, technologically sophisticated civilization mastering the synthesis of science and sorcery (Magi-Tech). They navigate the cosmos using crystalline hulls, solar sails, and aetherium conduits. Their extensive lifespan allows them to master multiple vocations, viewing reality with long-term strategic patience.\n\nSociological Profile & Culture:\nThe Alterian Enclave represents the primary political, cultural, and mercantile body of the Aeld in the Tangent universe. Centered around the capital world of Altheria, the Enclave is an outwardly focused civilization that actively engages in galactic trade, multilateral diplomacy, and cosmic exploration. They view magic not as mystical superstition, but as a rigorous mathematical science—'The Flow'—which governs energy, matter, and history. Alterians deliberately avoid isolationism, serving across the Reach as impartial mediators, arcane engineers, and stellar navigators.\n\nClan Appearance & Semiotics:\n- Lansmarr Clan: Pale skin, luminous crystalline eyes, and silver or platinum hair.\n- Lanaran Clan: Pale alabaster skin with dark blue to raven-black hair.\n- Silvermoon Clan: Deep mahogany complexions contrasted by black or spun-silver hair.\n- Architectural Semiotics: Tiered crystalline spires, solar filament collectors, levitating pavilions, and fine line filigree woven into protective void-suits.",
+    "mechanic": "Native Aeld Chassis grants complete immunity to magical and mundane sleep effects. Character creation parity cap for Agility and Intellect is raised to +5. Faction and Occupational features with the Alterian tag receive a 1 BP discount (minimum 1 BP). Grants 20 bonus Skill Ranks at character creation.",
+    "note": "Standard baseline player species for Alterian Enclave campaigns.",
+    "tags": [
+      "Aeld",
+      "Alterian",
+      "Lineage",
+      "Magi-Tech",
+      "Diplomat",
+      "Spacefaring"
+    ]
+  },
+  {
+    "name": "Doppelganger",
+    "title": "Shifter / Silvermoon Infiltrator",
+    "parent_species": "Aeld",
+    "type": [
+      "Humanoid",
+      "Shifter",
+      "Aeld"
+    ],
+    "size": [
+      "Medium (5 to 6 ft)"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Altheria (Silvermoon Clan Enclaves)",
+    "stigma": "Shifter (-2), Xeno (-2)",
+    "tech_level": 3,
+    "meta_level": 4,
+    "prerequisite": "20 BP Chassis Gate",
+    "trait": [
+      "Awakened (Arcane)",
+      "Lifespan 600+",
+      "Immune to Sleep",
+      "Aeld Traits",
+      "Alter Form (Humanoid)",
+      "Sense Evil"
+    ],
+    "costs": {
+      "bp": 20
+    },
+    "modifiers": [
+      {
+        "target": "Charisma",
+        "value": "+1"
+      },
+      {
+        "target": "Skills",
+        "value": "+5"
+      }
+    ],
+    "description": "Ancient shape-shifting Aeld lineage bred through specialized Clan Silvermoon sorcery to serve as elite covert investigators and hunters of corruption.",
+    "body": "Parent Lineage: Aeld Overview\nThe Aeld are an ancient, graceful humanoid species characterized by agility, profound longevity (lifespans exceeding 600 years), and an innate metaphysical connection to arcane energies. Known historically in ancient Terran myths as 'Elves', modern Aeld have evolved into a spacefaring, technologically sophisticated civilization mastering the synthesis of science and sorcery (Magi-Tech). They navigate the cosmos using crystalline hulls, solar sails, and aetherium conduits. Their extensive lifespan allows them to master multiple vocations, viewing reality with long-term strategic patience.\n\nSociological Profile & History:\nTracing their origin to an ancient, specialized offshoot of Clan Silvermoon, the Doppelgangers underwent deliberate magical and physiological evolution to serve as covert operatives for the Enclave. Their purpose was to track, infiltrate, and eliminate metaphysical threats and clandestine corruption across sentient worlds. They possess the unique ability to flawlessly mimic the physical dimensions, vocal patterns, and mannerisms of any observed humanoid.\n\nPsychology & Semiotics:\nOperating in the liminal space between identities, Doppelgangers maintain a rigorous internal meditation practice to prevent ego dissolution. In their natural state, they resemble tall, slender Aeld with pearlescent, semi-fluid skin and featureless facial structures until a chosen guise is projected.",
+    "mechanic": "Alter Form (Humanoid) permits complete anatomical disguise as a Standard Action, granting Advantage on Deception checks to maintain cover. Sense Evil functions as a passive detection sphere with a 30-foot radius against entities with hostile metaphysical resonance. Inherits all base Aeld sleep immunities.",
+    "note": "High utility for espionage, intrigue, and detective archetypes.",
+    "tags": [
+      "Aeld",
+      "Doppelganger",
+      "Shifter",
+      "Infiltration",
+      "Silvermoon"
+    ]
+  },
+  {
+    "name": "Draconian",
+    "title": "Scaled / Dragonkin Guardian",
+    "parent_species": "Aeld",
+    "type": [
+      "Humanoid",
+      "Dragonkin",
+      "Aeld"
+    ],
+    "size": [
+      "Medium (7 ft tall)"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Altheria / Dracon Dynasty Borders",
+    "stigma": "Dragonkin (-4), Xeno (-2)",
+    "tech_level": 3,
+    "meta_level": 4,
+    "prerequisite": "22 BP Chassis Gate",
+    "trait": [
+      "Awakened (Arcane)",
+      "Lifespan 600+",
+      "Immune to Sleep",
+      "Aeld Traits",
+      "Dragonkin Traits",
+      "Exoskeleton (Light Scales)",
+      "Energy Resistance"
+    ],
+    "costs": {
+      "bp": 22
+    },
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "value": "+1"
+      },
+      {
+        "target": "Any Attribute",
+        "value": "+1"
+      },
+      {
+        "target": "Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Imposing seven-foot Aeld possessing ancestral dragon bloodlines, reinforced scaly dermis, and formidable energy channeling.",
+    "body": "Parent Lineage: Aeld Overview\nThe Aeld are an ancient, graceful humanoid species characterized by agility, profound longevity (lifespans exceeding 600 years), and an innate metaphysical connection to arcane energies. Known historically in ancient Terran myths as 'Elves', modern Aeld have evolved into a spacefaring, technologically sophisticated civilization mastering the synthesis of science and sorcery (Magi-Tech). They navigate the cosmos using crystalline hulls, solar sails, and aetherium conduits. Their extensive lifespan allows them to master multiple vocations, viewing reality with long-term strategic patience.\n\nSociological Profile & Lore:\nBorn of historic alliances and arcane hybridization between ancient Aeld sorcerers and Draconian noble lineages, the Draconian Aeld occupy an elite military and ritualistic role. Standing roughly seven feet tall with a powerful, athletic build, they seamlessly blend the lithe grace of the Elven peoples with the dense muscularity, fine iridescent scales, and reptilian crests of Dragonkin. They frequently serve as temple guardians, fleet battle-mages, and honor duelists in the border territories between the Alterian Enclave and the Dracon Dynasty.",
+    "mechanic": "Exoskeleton (Light Scales) provides DR 2/- against kinetic attacks. Possesses natural Energy Resistance granting DR 5 against one chosen elemental energy type (Pyro, Cryo, or Voltic). Inherits Aeld sleep immunity and +10 starting skill points.",
+    "note": "Bridges Aeld magic with Draconic durability.",
+    "tags": [
+      "Aeld",
+      "Draconian",
+      "Dragonkin",
+      "Heavy Infantry",
+      "Hybrid"
+    ]
+  },
+  {
+    "name": "Kovian",
+    "title": "Nocturne / Tribunal Disciple",
+    "parent_species": "Aeld",
+    "type": [
+      "Humanoid",
+      "Aeld"
+    ],
+    "size": [
+      "Medium (6+ ft)"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Kovia (The Shrouded Fortress)",
+    "stigma": "Xeno (-2), Supremacist (-2)",
+    "tech_level": 3,
+    "meta_level": 4,
+    "prerequisite": "19 BP Chassis Gate",
+    "trait": [
+      "Awakened (Arcane)",
+      "Lifespan 600+",
+      "Immune to Sleep",
+      "Aeld Traits",
+      "Militant Isolationism",
+      "Mental Fortification"
+    ],
+    "costs": {
+      "bp": 19
+    },
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "value": "+1"
+      },
+      {
+        "target": "Any Attribute",
+        "value": "+1"
+      },
+      {
+        "target": "Charisma",
+        "value": "-1"
+      },
+      {
+        "target": "Discipline Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Austere, isolationist Aeld governed by the Kovian Tribunal, dedicated to cold rationalism, psychic defense, and arcane purity.",
+    "body": "Parent Lineage: Aeld Overview\nThe Aeld are an ancient, graceful humanoid species characterized by agility, profound longevity (lifespans exceeding 600 years), and an innate metaphysical connection to arcane energies. Known historically in ancient Terran myths as 'Elves', modern Aeld have evolved into a spacefaring, technologically sophisticated civilization mastering the synthesis of science and sorcery (Magi-Tech). They navigate the cosmos using crystalline hulls, solar sails, and aetherium conduits. Their extensive lifespan allows them to master multiple vocations, viewing reality with long-term strategic patience.\n\nSociological Profile & Doctrines:\nThe Nocturne Kovians are a deeply ascetic, militant, and reclusive branch of the Aeld. Governed by the unyielding decrees of the Kovian Tribunal, they view shorter-lived races as chaotic, erratic, and biologically compromised. Their society is built around fortified subterranean citadels and high-orbit redoubts designed to prevent cultural contamination. They channel their metaphysical talents into defensive warding, mental projection, and uncompromising judicial martial arts.\n\nAesthetic Profile:\nMonochrome dark armoring, sharp obsidian angular plates, minimal ornamentation, and veil-draped hoods. They speak in hushed, formal tones using an archaic high dialect.",
+    "mechanic": "Gains +10 Ranks in Metafocus Discipline skills. Mental Fortification grants Advantage on all Will saves against psychic intrusion, mind control, and emotional manipulation. Charisma penalty applies strictly to diplomacy with non-Aeld species.",
+    "note": "Ideal for austere battle-clerics, inquisitors, and psychic wardens.",
+    "tags": [
+      "Aeld",
+      "Kovian",
+      "Nocturne",
+      "Tribunal",
+      "Arcane",
+      "Disciplined"
+    ]
+  },
+  {
+    "name": "Vajar",
+    "title": "Wilder / Primeval Shifter",
+    "parent_species": "Aeld",
+    "type": [
+      "Humanoid",
+      "Shifter",
+      "Aeld"
+    ],
+    "size": [
+      "Medium (6+ ft)"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Primeval Reach / Sylvan Wilds",
+    "stigma": "Feral (-4), Xeno (-2)",
+    "tech_level": 1,
+    "meta_level": 4,
+    "prerequisite": "21 BP Chassis Gate",
+    "trait": [
+      "Awakened (Nature)",
+      "Ageless",
+      "Immune to Sleep",
+      "Alter Form (Advanced Animal)",
+      "Animalistic Mutation",
+      "Predatory Instincts"
+    ],
+    "costs": {
+      "bp": 21
+    },
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "value": "+2"
+      },
+      {
+        "target": "Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Feral, primeval Aeld from beyond the Reach who possess instinctual beast transformations and permanent predatory traits.",
+    "body": "Parent Lineage: Aeld Overview\nThe Aeld are an ancient, graceful humanoid species characterized by agility, profound longevity (lifespans exceeding 600 years), and an innate metaphysical connection to arcane energies. Known historically in ancient Terran myths as 'Elves', modern Aeld have evolved into a spacefaring, technologically sophisticated civilization mastering the synthesis of science and sorcery (Magi-Tech). They navigate the cosmos using crystalline hulls, solar sails, and aetherium conduits. Their extensive lifespan allows them to master multiple vocations, viewing reality with long-term strategic patience.\n\nSociological Profile & Physiology:\nSeparated for millennia from the high-tech metropolitan Enclaves, the Vajar inhabit the dense megastructure forests and untamed frontiers across the far side of the Reach. They maintain an instinctual, symbiotic bond with primeval ecosystems. Each Vajar is born with permanent physical beast markings—such as slit pupils, tufted ears, fine forearm fur, or retractable claws—and develops the natural biological capability to shift completely into apex predator forms native to their territory.",
+    "mechanic": "Alter Form (Advanced Animal) allows seamless shape-shifting into up to 3 distinct animal forms (predator, scout, aquatic/aerial) as a Move Action. While in beast form, physical attributes scale to the form and natural weapon attacks deal 1d8+Str lethal damage. Inherits Aeld agelessness and sleep immunity.",
+    "note": "High-tier combat shifter and survivalist chassis.",
+    "tags": [
+      "Aeld",
+      "Vajar",
+      "Wilder",
+      "Shifter",
+      "Feral",
+      "Primeval"
+    ]
+  },
+  {
+    "name": "Ferren",
+    "title": "High-Canopy Spritelike",
+    "parent_species": "Asi",
+    "type": [
+      "Fey",
+      "Humanoid",
+      "Asi"
+    ],
+    "size": [
+      "Medium"
+    ],
+    "movement": [
+      "40 ft Groundspeed",
+      "40 ft Climbspeed"
+    ],
+    "homeworld": "Sylvan Prime",
+    "stigma": "Fey (-2), Xeno (-2)",
+    "tech_level": 3,
+    "meta_level": 4,
+    "prerequisite": "20 BP Chassis Gate",
+    "trait": [
+      "Ageless",
+      "Obfuscate",
+      "Sleepless",
+      "Prehensile Tail",
+      "Climber",
+      "Quick",
+      "Adapted (Arboreal)",
+      "Fast Move"
+    ],
+    "costs": {
+      "bp": 20
+    },
+    "modifiers": [
+      {
+        "target": "Agility",
+        "value": "+1"
+      },
+      {
+        "target": "Skills",
+        "value": "+5"
+      }
+    ],
+    "description": "Slender, elf-like sylvan beings with prehensile split tails, gifted with hyper-mobility and extraordinary sensory multitasking across high forest canopies.",
+    "body": "Parent Lineage: Asi Overview\nThe Asi are ethereal, sylvan, and elemental beings deeply woven into the metaphysical fabric of planetary biospheres. Ageless, sleepless, and naturally obscured by illusions, the Asi range from microscopic fairy mimes to towering quadruped guardians and living crystalline entities. Rather than constructing heavy industrial infrastructure, the Asi utilize the living architecture of the biosphere, guiding nature through advanced Metafocus manipulation.\n\nSociological Profile & Semiotics:\nFerren are characterized by a slender, athletic build and an iconic split tail that dynamically offsets kinetic momentum during complex aerial leaps. Outsiders often mistake their rapid shifting of attention for distractibility, when it is in fact an advanced cognitive capability for parallel sensory processing. A Ferren effortlessly balances spatial terrain mapping, acoustic tracking, and olfactory detection concurrently.",
+    "mechanic": "Prehensile split tail grants +4 to balance checks and allows grappling or tool manipulation as a free off-hand action. Climbspeed matches Groundspeed (40 ft). Fast Move grants Advantage on Reflex saves to evade falling or environmental hazards.",
+    "note": "Acrobatic scout and rapid traversal specialist.",
+    "tags": [
+      "Asi",
+      "Ferren",
+      "Fey",
+      "Arboreal",
+      "Acrobatic",
+      "Canopy"
+    ]
+  },
+  {
+    "name": "Fey",
+    "title": "Gossamer Sprite / Classic Fey",
+    "parent_species": "Asi",
+    "type": [
+      "Fey",
+      "Asi"
+    ],
+    "size": [
+      "Diminutive (Max 5 inches)"
+    ],
+    "movement": [
+      "30 ft Flightspeed",
+      "10 ft Groundspeed"
+    ],
+    "homeworld": "Frodleikr / Faerie Weave",
+    "stigma": "Fae (-2), Xeno (-2)",
+    "tech_level": 1,
+    "meta_level": 5,
+    "prerequisite": "23 BP Chassis Gate",
+    "trait": [
+      "Ageless",
+      "Obfuscate",
+      "Sleepless",
+      "Diminutive Size",
+      "Awakened (Nature)",
+      "Flight (Gossamer Wings)"
+    ],
+    "costs": {
+      "bp": 23
+    },
+    "modifiers": [
+      {
+        "target": "Charisma",
+        "value": "+1"
+      },
+      {
+        "target": "Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Diminutive five-inch ethereal sprites with iridescent dragonfly wings who wield profound nature metaphysics from hidden micro-realms.",
+    "body": "Parent Lineage: Asi Overview\nThe Asi are ethereal, sylvan, and elemental beings deeply woven into the metaphysical fabric of planetary biospheres. Ageless, sleepless, and naturally obscured by illusions, the Asi range from microscopic fairy mimes to towering quadruped guardians and living crystalline entities. Rather than constructing heavy industrial infrastructure, the Asi utilize the living architecture of the biosphere, guiding nature through advanced Metafocus manipulation.\n\nSociological Profile:\nStanding no taller than five inches, the classic Fey are the direct embodiment of micro-scale organic vitality and hidden fungal networks. Equipped with delicate, shimmering wings, they inhabit macro-habitats within primeval groves where hollowed roots and woven spider-silk serve as advanced infrastructure. They live in a timeless state of pure attunement to planetary life cycles.",
+    "mechanic": "Diminutive size confers +8 bonus to Defense against attacks from Medium or larger creatures, and +12 bonus to Stealth checks in natural terrain. Flightspeed (30 ft) operates with perfect maneuverability. Immune to physical sleep.",
+    "note": "Ultra-stealth micro-caster chassis.",
+    "tags": [
+      "Asi",
+      "Fey",
+      "Sprite",
+      "Diminutive",
+      "Flight",
+      "Nature Magic"
+    ]
+  },
+  {
+    "name": "Frellin",
+    "title": "Avian Arcane Weaver",
+    "parent_species": "Asi",
+    "type": [
+      "Avian Fey",
+      "Asi"
+    ],
+    "size": [
+      "Tiny"
+    ],
+    "movement": [
+      "30 ft Flightspeed",
+      "10 ft Groundspeed"
+    ],
+    "homeworld": "Frodleikr (Scripted Sanctum)",
+    "stigma": "Xeno (-2), Animal (-2)",
+    "tech_level": 1,
+    "meta_level": 5,
+    "prerequisite": "25 BP Chassis Gate",
+    "trait": [
+      "Ageless",
+      "Obfuscate",
+      "Sleepless",
+      "Tiny Size",
+      "Awakened (Arcane)",
+      "Telepathy",
+      "Flight (Winged)",
+      "Darksight"
+    ],
+    "costs": {
+      "bp": 25
+    },
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "value": "+1"
+      },
+      {
+        "target": "Charisma",
+        "value": "+1"
+      },
+      {
+        "target": "Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Tiny, brightly plumaged avian fey hatched from mana-engorged flora, revered as acute telepathic observers and arcane scholars of destiny.",
+    "body": "Parent Lineage: Asi Overview\nThe Asi are ethereal, sylvan, and elemental beings deeply woven into the metaphysical fabric of planetary biospheres. Ageless, sleepless, and naturally obscured by illusions, the Asi range from microscopic fairy mimes to towering quadruped guardians and living crystalline entities. Rather than constructing heavy industrial infrastructure, the Asi utilize the living architecture of the biosphere, guiding nature through advanced Metafocus manipulation.\n\nSociological Profile & Lore:\nHatched directly from magical fruit pods on the world of Frodleikr, the Frellin are tiny bird-like sentients adorned with iridescent, multicolored plumage that emits a soft, ambient glow. Deeply devoted to the deity Shal'Vir, the Scripted Fate, they act as cosmic observers and historians, utilizing long-range telepathy to communicate seamlessly across species barriers.",
+    "mechanic": "Tiny size grants +4 Defense and +8 Stealth. Telepathy allows two-way mental communication within 500 feet. Darksight allows full visual fidelity in total magical or physical darkness. Flightspeed 30 ft.",
+    "note": "Excellent intelligence gatherer and arcane support.",
+    "tags": [
+      "Asi",
+      "Frellin",
+      "Avian",
+      "Telepathic",
+      "Arcane",
+      "Frodleikr"
+    ]
+  },
+  {
+    "name": "Koban",
+    "title": "Faunal Sentinel / Hidden Folk",
+    "parent_species": "Asi",
+    "type": [
+      "Shifter Fey",
+      "Asi"
+    ],
+    "size": [
+      "Small / Medium"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Moon-Touched Wilds",
+    "stigma": "Animal (-2), Xeno (-2)",
+    "tech_level": 0,
+    "meta_level": 4,
+    "prerequisite": "18 BP Chassis Gate",
+    "trait": [
+      "Ageless",
+      "Obfuscate",
+      "Sleepless",
+      "Climber",
+      "Alter Form (Humanoid)",
+      "Awakened (Nature)"
+    ],
+    "costs": {
+      "bp": 18
+    },
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "value": "+1"
+      }
+    ],
+    "description": "Shy, nature-attuned shape-changers who naturally appear as small leporid-felid creatures but project an unassuming humanoid guise to navigate galactic society.",
+    "body": "Parent Lineage: Asi Overview\nThe Asi are ethereal, sylvan, and elemental beings deeply woven into the metaphysical fabric of planetary biospheres. Ageless, sleepless, and naturally obscured by illusions, the Asi range from microscopic fairy mimes to towering quadruped guardians and living crystalline entities. Rather than constructing heavy industrial infrastructure, the Asi utilize the living architecture of the biosphere, guiding nature through advanced Metafocus manipulation.\n\nSociological Profile:\nIn their true form, Kobans are diminutive (0.7 to 1.0 meter) mammalian beings with soft black-and-white coats, prehensile tails, and long expressive ears. Deeply spiritual and skeptical of destructive heavy technology, they rely on nature metaphysics. To interact with galactic civilization, each Koban manifests a permanent, tailored Medium-sized humanoid guise.",
+    "mechanic": "Alter Form (Humanoid) allows instantaneous switching between Small native form and a specific Medium humanoid appearance. Climbspeed 20 ft. Obfuscate grants +4 to blend into ambient background foliage.",
+    "note": "Undercover sylvan diplomat or covert mystic.",
+    "tags": [
+      "Asi",
+      "Koban",
+      "Shifter",
+      "Fey",
+      "Nature",
+      "Stealth"
+    ]
+  },
+  {
+    "name": "Sigal",
+    "title": "Crystalline Archivist / Geo-Mote",
+    "parent_species": "Asi",
+    "type": [
+      "Elemental Fey",
+      "Asi"
+    ],
+    "size": [
+      "Diminutive (6 to 12 inches)"
+    ],
+    "movement": [
+      "30 ft Flightspeed (Hover)"
+    ],
+    "homeworld": "The Great Geode / Crystal Spheres",
+    "stigma": "Severe Xeno (-6)",
+    "tech_level": 0,
+    "meta_level": 5,
+    "prerequisite": "32 BP Chassis Gate",
+    "trait": [
+      "Ageless",
+      "Obfuscate",
+      "Sleepless",
+      "Diminutive Size",
+      "Awakened (Energy/Illusion)",
+      "Flight (TK)",
+      "Non-Living",
+      "Telekinesis",
+      "Perfect Memory"
+    ],
+    "costs": {
+      "bp": 32
+    },
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "value": "+1"
+      },
+      {
+        "target": "Strength",
+        "value": "-8"
+      },
+      {
+        "target": "Discipline Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Inorganic, floating diamond-cut gemstone sentients who act as living libraries, manipulating Force and Shadow metaphysics via flawless telekinesis.",
+    "body": "Parent Lineage: Asi Overview\nThe Asi are ethereal, sylvan, and elemental beings deeply woven into the metaphysical fabric of planetary biospheres. Ageless, sleepless, and naturally obscured by illusions, the Asi range from microscopic fairy mimes to towering quadruped guardians and living crystalline entities. Rather than constructing heavy industrial infrastructure, the Asi utilize the living architecture of the biosphere, guiding nature through advanced Metafocus manipulation.\n\nSociological Profile:\nThe Sigal are inorganic sentients resembling polished, multifaceted floating gemstones (ranging from deep amethyst to radiant opal). Possessing no limbs or biological organs, they interact with physical reality entirely through potent telekinetic force fields. They dedicate their centuries of existence to recording history and guarding sacred archives, serving as patient docents in grand libraries.",
+    "mechanic": "Non-Living trait grants complete immunity to poison, disease, vacuum, suffocation, and biological fatigue. Telekinesis replaces physical limbs with a base lifting force equal to Intellect x 10 kg. Perfect Memory allows flawless recall of all observed data.",
+    "note": "Pure mentalist and archival scholar with unique non-biological gameplay.",
+    "tags": [
+      "Asi",
+      "Sigal",
+      "Elemental",
+      "Crystalline",
+      "Telekinetic",
+      "Archivist"
+    ]
+  },
+  {
+    "name": "Tozen",
+    "title": "Sylvan Centaur / Forest Guardian",
+    "parent_species": "Asi",
+    "type": [
+      "Centaur Fey",
+      "Asi"
+    ],
+    "size": [
+      "Medium (5 ft at shoulder)"
+    ],
+    "movement": [
+      "40 ft Groundspeed"
+    ],
+    "homeworld": "Veridia (The Endless Canopy)",
+    "stigma": "Xeno (-2), Seclusionist (-1)",
+    "tech_level": 1,
+    "meta_level": 5,
+    "prerequisite": "20 BP Chassis Gate",
+    "trait": [
+      "Ageless",
+      "Obfuscate",
+      "Sleepless",
+      "Awakened (Natural Wisdom)",
+      "Quadruped",
+      "Quick",
+      "Sylvan Camouflage"
+    ],
+    "costs": {
+      "bp": 20
+    },
+    "modifiers": [
+      {
+        "target": "Agility",
+        "value": "+1"
+      },
+      {
+        "target": "Wisdom",
+        "value": "+1"
+      }
+    ],
+    "description": "Majestic centauric beings combining a lithe humanoid torso with the agile four-legged chassis of a deer or gazelle, serving as guardians of sovereign wilds.",
+    "body": "Parent Lineage: Asi Overview\nThe Asi are ethereal, sylvan, and elemental beings deeply woven into the metaphysical fabric of planetary biospheres. Ageless, sleepless, and naturally obscured by illusions, the Asi range from microscopic fairy mimes to towering quadruped guardians and living crystalline entities. Rather than constructing heavy industrial infrastructure, the Asi utilize the living architecture of the biosphere, guiding nature through advanced Metafocus manipulation.\n\nSociological Profile:\nTozen seamlessly combine an elven upper body with the lower anatomy of a graceful sylvan quadruped. They are the defensive backbone of untouched frontier biospheres, moving with such natural fluidity that they seem to dissolve into shifting forest shadows. They prize isolationism, protecting ancient trees and planar rifts from corporate extraction.",
+    "mechanic": "Quadruped chassis grants +4 stability against trip/bullrush attacks and 40 ft base Groundspeed. Sylvan Camouflage allows taking Stealth checks without total cover while inside natural vegetation.",
+    "note": "Swift ranger, wilderness protector, and sylvan druid.",
+    "tags": [
+      "Asi",
+      "Tozen",
+      "Centaur",
+      "Quadruped",
+      "Wilderness",
+      "Veridia"
+    ]
+  },
+  {
+    "name": "Whisper",
+    "title": "Twilight Wisp / Liminal Fey",
+    "parent_species": "Asi",
+    "type": [
+      "Shifter Fey",
+      "Asi"
+    ],
+    "size": [
+      "Fine / Medium"
+    ],
+    "movement": [
+      "30 ft Groundspeed",
+      "30 ft Flightspeed"
+    ],
+    "homeworld": "Twilight Veil",
+    "stigma": "Fey (-2)",
+    "tech_level": 1,
+    "meta_level": 5,
+    "prerequisite": "21 BP Chassis Gate",
+    "trait": [
+      "Ageless",
+      "Obfuscate",
+      "Sleepless",
+      "Alter Form (Wisp/Elven)",
+      "Awakened (Nature)",
+      "Silent",
+      "Flight (Hover)"
+    ],
+    "costs": {
+      "bp": 21
+    },
+    "modifiers": [
+      {
+        "target": "Charisma",
+        "value": "+1"
+      }
+    ],
+    "description": "Liminal entities of twilight that alternate between a tiny glowing wisp and an uncanny, ethereal adolescent elven guise.",
+    "body": "Parent Lineage: Asi Overview\nThe Asi are ethereal, sylvan, and elemental beings deeply woven into the metaphysical fabric of planetary biospheres. Ageless, sleepless, and naturally obscured by illusions, the Asi range from microscopic fairy mimes to towering quadruped guardians and living crystalline entities. Rather than constructing heavy industrial infrastructure, the Asi utilize the living architecture of the biosphere, guiding nature through advanced Metafocus manipulation.\n\nSociological Profile:\nWhispers represent the boundary between light and shadow. In their natural dormant state, they exist as a floating mote of luminescence (a Wisp). When interacting with mortals, they assume an enchanting elven form marked by complete silence and graceful, eerie stillness.",
+    "mechanic": "Silent trait makes all movement completely inaudible. Wisp form is Fine size with Flightspeed 30 ft and DR 5 vs kinetic attacks. Switching between Wisp and Elven form is a Standard Action.",
+    "note": "Specialized infiltration and atmospheric social caster.",
+    "tags": [
+      "Asi",
+      "Whisper",
+      "Wisp",
+      "Liminal",
+      "Incorporeal",
+      "Stealth"
+    ]
+  },
+  {
+    "name": "Wildling",
+    "title": "Totemic Beast-Kin",
+    "parent_species": "Asi",
+    "type": [
+      "Shifter Fey",
+      "Asi"
+    ],
+    "size": [
+      "Small / Medium"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Veridia Wilds",
+    "stigma": "Animal (-2), Xeno (-2)",
+    "tech_level": 0,
+    "meta_level": 4,
+    "prerequisite": "19 BP Chassis Gate",
+    "trait": [
+      "Ageless",
+      "Obfuscate",
+      "Sleepless",
+      "Animal Affinity",
+      "Climber",
+      "Alter Form (Animal)",
+      "Awakened (Nature)"
+    ],
+    "costs": {
+      "bp": 19
+    },
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "value": "+1"
+      }
+    ],
+    "description": "Earth-toned beast-kin who embody a spiritual communion with fauna, shifting directly into true animal forms rather than humanoid guises.",
+    "body": "Parent Lineage: Asi Overview\nThe Asi are ethereal, sylvan, and elemental beings deeply woven into the metaphysical fabric of planetary biospheres. Ageless, sleepless, and naturally obscured by illusions, the Asi range from microscopic fairy mimes to towering quadruped guardians and living crystalline entities. Rather than constructing heavy industrial infrastructure, the Asi utilize the living architecture of the biosphere, guiding nature through advanced Metafocus manipulation.\n\nSociological Profile:\nClosely related to the Koban, Wildlings reject humanoid disguises completely, focusing their spiritual energies into communicating with and assuming the forms of local planetary wildlife. They live in nomadic hunting circles and act as the voice of animal herds.",
+    "mechanic": "Animal Affinity grants immediate empathic connection with non-sapient beasts (Advantage on Animal Handling/Survival). Alter Form (Animal) allows transformation into Small or Medium wild beasts with matching senses.",
+    "note": "Totemic shapeshifter and tracker.",
+    "tags": [
+      "Asi",
+      "Wildling",
+      "Totemic",
+      "Beast-Kin",
+      "Shifter",
+      "Nature"
+    ]
+  },
+  {
+    "name": "Dar",
+    "title": "Ascendant Martial Artist",
+    "parent_species": "Aulurans",
+    "type": [
+      "Humanoid",
+      "Feline",
+      "Auluran"
+    ],
+    "size": [
+      "Medium (5.5 to 6.5 ft)"
+    ],
+    "movement": [
+      "40 ft Groundspeed",
+      "30 ft Climbspeed"
+    ],
+    "homeworld": "Aulura",
+    "stigma": "Xeno (-2)",
+    "tech_level": 3,
+    "meta_level": 3,
+    "prerequisite": "21 BP Chassis Gate",
+    "trait": [
+      "Biotechnology",
+      "Low Light Vision",
+      "Prehensile Feet & Tail",
+      "Scent",
+      "Natural Weapons (Claws)",
+      "Awakened (Psychic)",
+      "Climber",
+      "Martial Arts",
+      "Quick"
+    ],
+    "costs": {
+      "bp": 21
+    },
+    "modifiers": [
+      {
+        "target": "Agility",
+        "value": "+1"
+      },
+      {
+        "target": "Any Attribute",
+        "value": "+1"
+      },
+      {
+        "target": "Skills",
+        "value": "+5"
+      }
+    ],
+    "description": "Athletic, psychic-attuned feline humanoids who excel in three-dimensional martial arts, zero-G acrobatics, and bio-tech weaponry.",
+    "body": "Parent Lineage: Aulurans Overview\nThe Aulurans are an agile, predatory, and technologically advanced feline species native to the vibrant world of Aulura. Characterized by prehensile tails, prehensile feet, low-light vision, keen olfactory senses, and natural claw weaponry, they master 3D environmental navigation and advanced biotechnology. Culturally, they organize into honor-driven prides with a rich tradition of martial arts and psychic metaphysics.\n\nSociological Profile:\nThe Dar represent the cultural and philosophical vanguard of the Auluran race. Blending martial discipline with latent psychic focus, they serve as elite fleet scouts, dueling champions, and diplomatic envoys. Their fur displays intricate swirling rosettes or solid smoky hues, and their four prehensile limbs allow them to fight effortlessly in zero gravity.",
+    "mechanic": "Natural claw attacks deal 1d6+Str kinetic damage. Prehensile feet allow grasping tools or weapons without penalty. Gains Advantage on Acrobatics and climbing maneuvers.",
+    "note": "Agile kinetic striker with built-in zero-G adaptation.",
+    "tags": [
+      "Auluran",
+      "Dar",
+      "Feline",
+      "Martial Arts",
+      "Psychic",
+      "Agile"
+    ]
+  },
+  {
+    "name": "Graa",
+    "title": "Apex Quadruped Hunter",
+    "parent_species": "Aulurans",
+    "type": [
+      "Beast",
+      "Auluran"
+    ],
+    "size": [
+      "Large (8-10 ft length)"
+    ],
+    "movement": [
+      "50 ft Groundspeed"
+    ],
+    "homeworld": "Aulura",
+    "stigma": "Animal (-2), Xeno (-2)",
+    "tech_level": 2,
+    "meta_level": 2,
+    "prerequisite": "28 BP Chassis Gate",
+    "trait": [
+      "Biotechnology",
+      "Low Light Vision",
+      "Prehensile Tail",
+      "Scent",
+      "Natural Weapons (Fangs/Claws)",
+      "Large Size",
+      "Armless (-4 BP)",
+      "Quick",
+      "Martial Arts",
+      "Quadruped"
+    ],
+    "costs": {
+      "bp": 28
+    },
+    "modifiers": [
+      {
+        "target": "Agility",
+        "value": "+1"
+      },
+      {
+        "target": "Any Attribute",
+        "value": "+2"
+      }
+    ],
+    "description": "Massive quadrupedal Auluran apex predators who maintain full sapience despite their fearsome leonine chassis.",
+    "body": "Parent Lineage: Aulurans Overview\nThe Aulurans are an agile, predatory, and technologically advanced feline species native to the vibrant world of Aulura. Characterized by prehensile tails, prehensile feet, low-light vision, keen olfactory senses, and natural claw weaponry, they master 3D environmental navigation and advanced biotechnology. Culturally, they organize into honor-driven prides with a rich tradition of martial arts and psychic metaphysics.\n\nSociological Profile:\nThe Graa are the heavy shock chassis of the Auluran lineages. Though quadrupedal and lacking humanoid hands, they are fully sapient, utilizing powerful prehensile tails and neural interfaces to manipulate tools. They function as mobile heavy infantry and sacred clan guardians.",
+    "mechanic": "Large size increases carrying capacity and grants +2 Strength bonus to damage. Quadruped chassis increases Groundspeed to 50 ft. Heavy bite attacks deal 2d6+Str damage.",
+    "note": "Non-humanoid quadruped heavy combatant.",
+    "tags": [
+      "Auluran",
+      "Graa",
+      "Quadruped",
+      "Beast",
+      "Large",
+      "Apex"
+    ]
+  },
+  {
+    "name": "Koda",
+    "title": "Predatory Digitigrade Stalker",
+    "parent_species": "Aulurans",
+    "type": [
+      "Humanoid",
+      "Feline",
+      "Auluran"
+    ],
+    "size": [
+      "Medium (7 ft tall)"
+    ],
+    "movement": [
+      "50 ft Groundspeed"
+    ],
+    "homeworld": "Aulura",
+    "stigma": "Xeno (-2)",
+    "tech_level": 3,
+    "meta_level": 2,
+    "prerequisite": "24 BP Chassis Gate",
+    "trait": [
+      "Biotechnology",
+      "Low Light Vision",
+      "Prehensile Feet & Tail",
+      "Scent",
+      "Natural Weapons",
+      "Digitigrade Legs",
+      "Climber",
+      "Quick",
+      "Martial Arts"
+    ],
+    "costs": {
+      "bp": 24
+    },
+    "modifiers": [
+      {
+        "target": "Agility",
+        "value": "+1"
+      },
+      {
+        "target": "Strength",
+        "value": "+1"
+      }
+    ],
+    "description": "Tall, powerful digitigrade feline warriors engineered for explosive sprint speeds and ambush predation.",
+    "body": "Parent Lineage: Aulurans Overview\nThe Aulurans are an agile, predatory, and technologically advanced feline species native to the vibrant world of Aulura. Characterized by prehensile tails, prehensile feet, low-light vision, keen olfactory senses, and natural claw weaponry, they master 3D environmental navigation and advanced biotechnology. Culturally, they organize into honor-driven prides with a rich tradition of martial arts and psychic metaphysics.\n\nSociological Profile:\nStanding an average of seven feet tall with powerful digitigrade legs, the Koda are the premier frontline rangers of Aulura. Their muscular builds allow for devastating burst leaps, making them feared boarding troopers and skirmishers.",
+    "mechanic": "Digitigrade physiology boosts base Groundspeed to 50 ft and adds +4 to vertical jumping distance. Martial Arts grants +2 on melee initiative rolls.",
+    "note": "High-speed melee skirmisher.",
+    "tags": [
+      "Auluran",
+      "Koda",
+      "Feline",
+      "Digitigrade",
+      "Skirmisher"
+    ]
+  },
+  {
+    "name": "Prokos",
+    "title": "Arctic Shifter",
+    "parent_species": "Aulurans",
+    "type": [
+      "Biform Humanoid-Beast",
+      "Auluran"
+    ],
+    "size": [
+      "Medium"
+    ],
+    "movement": [
+      "40 ft Groundspeed"
+    ],
+    "homeworld": "Koda Arctica / Glacial Outposts",
+    "stigma": "Xeno (-2)",
+    "tech_level": 2,
+    "meta_level": 3,
+    "prerequisite": "22 BP Chassis Gate",
+    "trait": [
+      "Biotechnology",
+      "Low Light Vision",
+      "Prehensile Tail",
+      "Scent",
+      "Natural Weapons",
+      "Digitigrade Legs",
+      "Climber",
+      "Quick",
+      "Adapted (Cold)",
+      "Alternate Form",
+      "Improved Great Fortitude"
+    ],
+    "costs": {
+      "bp": 22
+    },
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "value": "+1"
+      }
+    ],
+    "description": "Dense, snow-furred Auluran shifters adapted to sub-zero environments, capable of shifting into heavy arctic feline beasts.",
+    "body": "Parent Lineage: Aulurans Overview\nThe Aulurans are an agile, predatory, and technologically advanced feline species native to the vibrant world of Aulura. Characterized by prehensile tails, prehensile feet, low-light vision, keen olfactory senses, and natural claw weaponry, they master 3D environmental navigation and advanced biotechnology. Culturally, they organize into honor-driven prides with a rich tradition of martial arts and psychic metaphysics.\n\nSociological Profile:\nDistantly related to the Koda, the Prokos adapted to the frozen expanses of glacial border worlds. Their thick, insulating white and slate-grey coats completely resist extreme cold. They possess the ability to shift into a heavy snow-stalker beast form.",
+    "mechanic": "Adapted (Cold) provides total immunity to environmental hypothermia and DR 5 vs Cryo energy. Improved Great Fortitude grants Advantage on all Stamina saving throws.",
+    "note": "Arctic survivalist and shifter.",
+    "tags": [
+      "Auluran",
+      "Prokos",
+      "Arctic",
+      "Cold Adapted",
+      "Biform"
+    ]
+  },
+  {
+    "name": "Awakened Animal",
+    "title": "Sapient Uplift",
+    "parent_species": null,
+    "type": [
+      "Beast",
+      "Awakened"
+    ],
+    "size": [
+      "Small",
+      "Medium",
+      "Large"
+    ],
+    "movement": [
+      "30 ft Groundspeed (or species native)"
+    ],
+    "homeworld": "Various",
+    "stigma": "Beast (-4)",
+    "tech_level": 1,
+    "meta_level": 2,
+    "prerequisite": "15 BP Chassis Gate",
+    "trait": [
+      "Animal Body",
+      "Primal Instincts",
+      "Sapient Cognition",
+      "Natural Senses"
+    ],
+    "costs": {
+      "bp": 15
+    },
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "value": "+1"
+      }
+    ],
+    "description": "Terrestrial or alien animals that have undergone spontaneous or deliberate metaphysical awakening into full sapience.",
+    "body": "Sociological Profile & Psychology:\nAwakened animals retain their foundational physical form, instincts, and inherent traits of their original species while acquiring sapient cognition, speech, or telepathy. The transition often causes complex psychological reconciling between primal instincts and rational intellect.",
+    "mechanic": "Retains native animal physical attacks and senses (e.g. Scent, Low Light Vision). Must acquire telepathy or specialized speech collar if anatomy lacks vocal cords.",
+    "note": "Customizable uplift chassis based on chosen animal archetype.",
+    "tags": [
+      "Beast",
+      "Awakened",
+      "Uplift",
+      "Sapient",
+      "Animal"
+    ]
+  },
+  {
+    "name": "Caprian",
+    "title": "Horned Ungulate Stalker",
+    "parent_species": null,
+    "type": [
+      "Humanoid",
+      "Caprian"
+    ],
+    "size": [
+      "Medium (6 ft)"
+    ],
+    "movement": [
+      "40 ft Groundspeed"
+    ],
+    "homeworld": "Capra Prime",
+    "stigma": "Xeno (-2)",
+    "tech_level": 2,
+    "meta_level": 2,
+    "prerequisite": "18 BP Chassis Gate",
+    "trait": [
+      "Ungulate Legs",
+      "Uncanny Senses (Hearing/Sight)",
+      "Quick",
+      "Natural Weapons (Horns/Claws/Fangs)",
+      "Sure-Footed"
+    ],
+    "costs": {
+      "bp": 18
+    },
+    "modifiers": [
+      {
+        "target": "Stamina",
+        "value": "+1"
+      },
+      {
+        "target": "Skills",
+        "value": "+5"
+      }
+    ],
+    "description": "Formidable horned humanoids with cloven hooves, predatory fangs, and remarkable mountain agility evolved from predatory bovidae.",
+    "body": "Sociological Profile:\nCaprians are muscular humanoids whose lower limbs terminate in hard cloven hooves. Evolved from predatory mountain bovidae, they possess sweeping horns, acute senses, and tough claws. They are renowned across the galaxy as relentless mountain rangers, mercenaries, and survivalists.",
+    "mechanic": "Horns deal 1d8+Str piercing gore damage on a charge. Sure-Footed allows ignoring difficult terrain penalties from steep rocky slopes. Groundspeed 40 ft.",
+    "note": "Rugged mountaineer and charge combatant.",
+    "tags": [
+      "Caprian",
+      "Ungulate",
+      "Horned",
+      "Mountaineer",
+      "Stalker"
+    ]
+  },
+  {
+    "name": "Human",
+    "title": "Standard Terran Homo Sapiens",
+    "parent_species": "Humans",
+    "type": [
+      "Humanoid",
+      "Human"
+    ],
+    "size": [
+      "Medium (5.5 to 6 ft)"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Terra / Core Worlds",
+    "stigma": null,
+    "tech_level": 3,
+    "meta_level": 1,
+    "prerequisite": "10 BP Chassis Gate",
+    "trait": [
+      "Adaptability",
+      "Bonus Feature Choice",
+      "Versatile Learning"
+    ],
+    "costs": {
+      "bp": 10
+    },
+    "modifiers": [
+      {
+        "target": "Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Adaptable, resilient, and resourceful baseline humans who thrive across all planetary environments and vocational disciplines.",
+    "body": "Parent Lineage: Humans Overview\nHumans are the ubiquitous, highly adaptable, and ambitious cornerstone of the Core Worlds and expanding frontiers. Lacking extreme biological specializations, humans thrive through sheer versatility, political ingenuity, rapid technological development, and cultural plasticity across thousands of colonized planetary systems.\n\nSociological Profile:\nBase humans represent the un-modified genetic baseline of the human species. Their strength lies in their rapid learning capacity, cultural resilience, and diplomatic flexibility, making them prominent across corporate conglomerates, independent crews, and frontier coalitions.",
+    "mechanic": "Gains 1 bonus Feature of choice at character creation and 10 bonus Skill Ranks across any chosen skills. No innate social stigma penalties.",
+    "note": "Standard baseline chassis for universal versatility.",
+    "tags": [
+      "Human",
+      "Baseline",
+      "Adaptable",
+      "Versatile",
+      "Core Worlds"
+    ]
+  },
+  {
+    "name": "Aquarian",
+    "title": "Oceanic Human",
+    "parent_species": "Humans",
+    "type": [
+      "Humanoid",
+      "Human"
+    ],
+    "size": [
+      "Medium"
+    ],
+    "movement": [
+      "30 ft Groundspeed",
+      "30 ft Swimspeed"
+    ],
+    "homeworld": "Aquatica (Ocean World)",
+    "stigma": "Aquatic Xeno (-3)",
+    "tech_level": 3,
+    "meta_level": 1,
+    "prerequisite": "16 BP Chassis Gate",
+    "trait": [
+      "Adapted (Aquatic)",
+      "Amphibious",
+      "Aquatic Strength",
+      "Specialized Senses",
+      "Swimming"
+    ],
+    "costs": {
+      "bp": 16
+    },
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "value": "+1"
+      }
+    ],
+    "description": "Naturally adapted aquatic humans with webbed digits, nictitating eye membranes, and full amphibious lung-gill respiration.",
+    "body": "Parent Lineage: Humans Overview\nHumans are the ubiquitous, highly adaptable, and ambitious cornerstone of the Core Worlds and expanding frontiers. Lacking extreme biological specializations, humans thrive through sheer versatility, political ingenuity, rapid technological development, and cultural plasticity across thousands of colonized planetary systems.\n\nSociological Profile:\nCenturies of natural selection on the pelagic colony world of Aquatica produced this specialized human lineage. Possessing subtle blue-tinted skin, sleek hydro-dynamic builds, and webbed hands, Aquarians navigate oceanic depths and orbital water-worlds with ease.",
+    "mechanic": "Amphibious trait permits indefinite underwater breathing. Swimspeed equals base Groundspeed (30 ft). Specialized Senses prevent visual distortion under water.",
+    "note": "Natural pelagic human adaptation.",
+    "tags": [
+      "Human",
+      "Aquarian",
+      "Amphibious",
+      "Aquatic",
+      "Pelagic"
+    ]
+  },
+  {
+    "name": "Argynt",
+    "title": "Blue-Skinned Terran Offshoot",
+    "parent_species": "Humans",
+    "type": [
+      "Humanoid",
+      "Human"
+    ],
+    "size": [
+      "Medium"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Argynt (High-G Glacial Core)",
+    "stigma": "Blue Skin (-1)",
+    "tech_level": 3,
+    "meta_level": 2,
+    "prerequisite": "14 BP Chassis Gate",
+    "trait": [
+      "Improved Great Fortitude",
+      "High-Gravity Tolerance",
+      "Cold Adaptation"
+    ],
+    "costs": {
+      "bp": 14
+    },
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "value": "+1"
+      },
+      {
+        "target": "Skills",
+        "value": "+5"
+      }
+    ],
+    "description": "Cerulean-skinned humans from high-gravity cold worlds possessing dense musculature and enhanced physiological fortitude.",
+    "body": "Parent Lineage: Humans Overview\nHumans are the ubiquitous, highly adaptable, and ambitious cornerstone of the Core Worlds and expanding frontiers. Lacking extreme biological specializations, humans thrive through sheer versatility, political ingenuity, rapid technological development, and cultural plasticity across thousands of colonized planetary systems.\n\nSociological Profile:\nOriginating from the mineral-rich, cold world of Argynt, these humans developed distinctive cobalt-to-indigo skin pigmentation due to rich copper blood compounds. Culturally disciplined, they excel in deep-space engineering and heavy industrial management.",
+    "mechanic": "Improved Great Fortitude grants Advantage on saving throws against toxins, radiation, and environmental pressure shifts.",
+    "note": "Durable industrial specialist.",
+    "tags": [
+      "Human",
+      "Argynt",
+      "High-G",
+      "Fortitude",
+      "Cold-Adapted"
+    ]
+  },
+  {
+    "name": "B'dren",
+    "title": "Nomadic Dune Hunter",
+    "parent_species": "Humans",
+    "type": [
+      "Humanoid",
+      "Human"
+    ],
+    "size": [
+      "Medium"
+    ],
+    "movement": [
+      "40 ft Groundspeed"
+    ],
+    "homeworld": "B'dren Wastes",
+    "stigma": null,
+    "tech_level": 2,
+    "meta_level": 1,
+    "prerequisite": "15 BP Chassis Gate",
+    "trait": [
+      "Low Light Vision",
+      "Quick",
+      "Desert Survival",
+      "Endurance"
+    ],
+    "costs": {
+      "bp": 15
+    },
+    "modifiers": [
+      {
+        "target": "Agility",
+        "value": "+1"
+      },
+      {
+        "target": "Any Attribute",
+        "value": "+1"
+      }
+    ],
+    "description": "Hardy, desert-dwelling nomadic humans renowned for acute nocturnal vision, long-distance tracking, and rapid running.",
+    "body": "Parent Lineage: Humans Overview\nHumans are the ubiquitous, highly adaptable, and ambitious cornerstone of the Core Worlds and expanding frontiers. Lacking extreme biological specializations, humans thrive through sheer versatility, political ingenuity, rapid technological development, and cultural plasticity across thousands of colonized planetary systems.\n\nSociological Profile:\nThe B'dren inhabit expansive arid dune seas, developing a lean, swift physiology capable of surviving extreme dehydration and temperature shifts. They are renowned scouts and trackers across desert frontiers.",
+    "mechanic": "Increased Groundspeed (40 ft). Halves daily water requirements and gains Advantage on Survival checks in arid biomes.",
+    "note": "Fast frontier desert scout.",
+    "tags": [
+      "Human",
+      "B'dren",
+      "Nomad",
+      "Desert",
+      "Tracker"
+    ]
+  },
+  {
+    "name": "Brae",
+    "title": "Highland Dweller",
+    "parent_species": "Humans",
+    "type": [
+      "Humanoid",
+      "Human"
+    ],
+    "size": [
+      "Small (4 to 4.5 ft)"
+    ],
+    "movement": [
+      "30 ft Groundspeed",
+      "20 ft Climbspeed"
+    ],
+    "homeworld": "Brae Crags",
+    "stigma": null,
+    "tech_level": 1,
+    "meta_level": 2,
+    "prerequisite": "16 BP Chassis Gate",
+    "trait": [
+      "Small Size",
+      "Climber",
+      "Mountain Mobility",
+      "Sure-Footed"
+    ],
+    "costs": {
+      "bp": 16
+    },
+    "modifiers": [
+      {
+        "target": "Agility",
+        "value": "+1"
+      },
+      {
+        "target": "Any Attribute",
+        "value": "+1"
+      },
+      {
+        "target": "Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Compact, agile mountain-dwelling humans whose smaller stature allows exceptional cliff traversal and cavern exploration.",
+    "body": "Parent Lineage: Humans Overview\nHumans are the ubiquitous, highly adaptable, and ambitious cornerstone of the Core Worlds and expanding frontiers. Lacking extreme biological specializations, humans thrive through sheer versatility, political ingenuity, rapid technological development, and cultural plasticity across thousands of colonized planetary systems.\n\nSociological Profile:\nEvolving in treacherous high-altitude crags, the Brae are shorter, robust humans with low centers of gravity and exceptional balance. They are skilled spelunkers, miners, and vertical-terrain skirmishers.",
+    "mechanic": "Small size confers +2 bonus to Defense and +4 to Stealth. Gains 20 ft Climbspeed.",
+    "note": "Small agile human variant.",
+    "tags": [
+      "Human",
+      "Brae",
+      "Highland",
+      "Climber",
+      "Small"
+    ]
+  },
+  {
+    "name": "Changeling",
+    "title": "Doppelganger-Human Hybrid",
+    "parent_species": "Humans",
+    "type": [
+      "Humanoid",
+      "Shifter",
+      "Human"
+    ],
+    "size": [
+      "Medium"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Various Core Worlds",
+    "stigma": "Shifter (-2)",
+    "tech_level": 3,
+    "meta_level": 2,
+    "prerequisite": "15 BP Chassis Gate",
+    "trait": [
+      "Alter Form (Minor)",
+      "Facial Morphing",
+      "Vocal Modulation",
+      "Intuitive Deception"
+    ],
+    "costs": {
+      "bp": 15
+    },
+    "modifiers": [
+      {
+        "target": "Charisma",
+        "value": "+1"
+      },
+      {
+        "target": "Skills",
+        "value": "+5"
+      }
+    ],
+    "description": "Human lineage carrying latent Doppelganger genetics, enabling cosmetic facial, dermal, and vocal alterations.",
+    "body": "Parent Lineage: Humans Overview\nHumans are the ubiquitous, highly adaptable, and ambitious cornerstone of the Core Worlds and expanding frontiers. Lacking extreme biological specializations, humans thrive through sheer versatility, political ingenuity, rapid technological development, and cultural plasticity across thousands of colonized planetary systems.\n\nSociological Profile:\nDescended from ancient unions between humans and Silvermoon Doppelgangers, Changelings look like typical humans until they consciously reshape their facial features, eye color, and vocal timbre to mimic other humanoids.",
+    "mechanic": "Alter Form (Minor) allows altering superficial human features at will, granting +4 on Deception checks involving disguise.",
+    "note": "Covert agent and social specialist.",
+    "tags": [
+      "Human",
+      "Changeling",
+      "Shifter",
+      "Infiltration",
+      "Hybrid"
+    ]
+  },
+  {
+    "name": "Cyberform",
+    "title": "Cybernetically Integrated Human",
+    "parent_species": "Humans",
+    "type": [
+      "Humanoid",
+      "Cyborg",
+      "Human"
+    ],
+    "size": [
+      "Medium"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Core Cyberspires / Technocracies",
+    "stigma": "Xeno (-2), Augmented (-4)",
+    "tech_level": 4,
+    "meta_level": 0,
+    "prerequisite": "21 BP Chassis Gate",
+    "trait": [
+      "Augmented Package (Body Comp, PicoSurgeons, Smart Link)",
+      "Bodyform Acclimation",
+      "Companion (AI)"
+    ],
+    "costs": {
+      "bp": 21
+    },
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "value": "+2"
+      },
+      {
+        "target": "Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Transhuman cybernetic citizens heavily integrated with cranial neural links, smart-targeting optical arrays, and internal micro-repair units.",
+    "body": "Parent Lineage: Humans Overview\nHumans are the ubiquitous, highly adaptable, and ambitious cornerstone of the Core Worlds and expanding frontiers. Lacking extreme biological specializations, humans thrive through sheer versatility, political ingenuity, rapid technological development, and cultural plasticity across thousands of colonized planetary systems.\n\nSociological Profile:\nIn the hyper-dense spire cities of advanced megacorporations, Cyberforms represent humanity fully merged with digital hardware. They carry embedded companion AI sub-routines that assist with real-time tactical calculations and system interfacing.",
+    "mechanic": "Integrated AI companion grants +2 on Decryption and System Hacking. Internal PicoSurgeons provide passive fast healing (1 Health per hour). Augmented tag requires regular energy recharging.",
+    "note": "High-tech decker and transhumanist chassis.",
+    "tags": [
+      "Human",
+      "Cyberform",
+      "Cyborg",
+      "Augmented",
+      "Transhuman"
+    ]
+  },
+  {
+    "name": "Danai",
+    "title": "Davae Hybrid Empath",
+    "parent_species": "Humans",
+    "type": [
+      "Humanoid",
+      "Human"
+    ],
+    "size": [
+      "Medium"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Danai Sector",
+    "stigma": "Minor Xeno (-1)",
+    "tech_level": 3,
+    "meta_level": 3,
+    "prerequisite": "17 BP Chassis Gate",
+    "trait": [
+      "Awakened (Mental)",
+      "Biotechnology",
+      "Hive Connection (Davae Collective)",
+      "Empathic Resonance"
+    ],
+    "costs": {
+      "bp": 17
+    },
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "value": "+1"
+      }
+    ],
+    "description": "Human-Davae hybrids with latent collective consciousness links and heightened psychic empathy.",
+    "body": "Parent Lineage: Humans Overview\nHumans are the ubiquitous, highly adaptable, and ambitious cornerstone of the Core Worlds and expanding frontiers. Lacking extreme biological specializations, humans thrive through sheer versatility, political ingenuity, rapid technological development, and cultural plasticity across thousands of colonized planetary systems.\n\nSociological Profile:\nThe Danai trace their heritage to human populations integrated into the Davae bio-telepathic collective. They retain individual autonomy while enjoying a passive empathic link with nearby hive-minds.",
+    "mechanic": "Awakened (Mental) unlocks Telepathy discipline. Hive Connection grants immunity to morale-based panic when within 100 ft of allied telepaths.",
+    "note": "Psychic empath and collective liaison.",
+    "tags": [
+      "Human",
+      "Danai",
+      "Empath",
+      "Psychic",
+      "Davae Hybrid"
+    ]
+  },
+  {
+    "name": "Draconic",
+    "title": "Dracon Dynasty Human Hybrid",
+    "parent_species": "Humans",
+    "type": [
+      "Humanoid",
+      "Dragonkin",
+      "Human"
+    ],
+    "size": [
+      "Medium (6+ ft)"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Dracon Prime",
+    "stigma": "Draconic (-2)",
+    "tech_level": 3,
+    "meta_level": 2,
+    "prerequisite": "18 BP Chassis Gate",
+    "trait": [
+      "Dragonkin Traits",
+      "Status (Dynasty Nobility)",
+      "Partial Scaled Exoskeleton",
+      "Energy Resistance"
+    ],
+    "costs": {
+      "bp": 18
+    },
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "value": "+1"
+      }
+    ],
+    "description": "Noble human scions carrying bloodlines of the Dracon Dynasty, displaying fine iridescent dermal scales and natural energy resistance.",
+    "body": "Parent Lineage: Humans Overview\nHumans are the ubiquitous, highly adaptable, and ambitious cornerstone of the Core Worlds and expanding frontiers. Lacking extreme biological specializations, humans thrive through sheer versatility, political ingenuity, rapid technological development, and cultural plasticity across thousands of colonized planetary systems.\n\nSociological Profile:\nWithin the Dracon Dynasty, noble human bloodlines that intermingled with draconic progenitors hold high aristocratic status. They display patches of scales along their spine and forearms, projecting natural command.",
+    "mechanic": "Partial Exoskeleton provides DR 1/- against physical attacks. Inherits Status (Dynasty) which grants advantage on social checks within Dracon space.",
+    "note": "Aristocratic martial diplomat.",
+    "tags": [
+      "Human",
+      "Draconic",
+      "Dragonkin",
+      "Dynasty",
+      "Nobility"
+    ]
+  },
+  {
+    "name": "Dwerg",
+    "title": "Subterranean Artificer Human",
+    "parent_species": "Humans",
+    "type": [
+      "Humanoid",
+      "Human"
+    ],
+    "size": [
+      "Medium (Stocky 4.5 to 5 ft)"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Nidavellir Caverns / Deep Crust Rings",
+    "stigma": "Minor Xeno (-1)",
+    "tech_level": 3,
+    "meta_level": 1,
+    "prerequisite": "16 BP Chassis Gate",
+    "trait": [
+      "Mighty Surge",
+      "Low Light Vision",
+      "Subterranean Orientation",
+      "Toxin Resistance"
+    ],
+    "costs": {
+      "bp": 16
+    },
+    "modifiers": [
+      {
+        "target": "Strength",
+        "value": "+1"
+      },
+      {
+        "target": "Stamina",
+        "value": "+1"
+      },
+      {
+        "target": "Vocation Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Stocky, dense-boned subterranean humans who master heavy manufacturing, subterranean mining, and structural crafting.",
+    "body": "Parent Lineage: Humans Overview\nHumans are the ubiquitous, highly adaptable, and ambitious cornerstone of the Core Worlds and expanding frontiers. Lacking extreme biological specializations, humans thrive through sheer versatility, political ingenuity, rapid technological development, and cultural plasticity across thousands of colonized planetary systems.\n\nSociological Profile:\nAdapted to high-density planetary crusts and asteroid mining megastructures, Dwerg are stocky, bearded humanoids with heavy skeletal frames. They are renowned throughout the galaxy as supreme master craftsmen, engineers, and heavy weapons operators.",
+    "mechanic": "Mighty Surge allows doubling carrying capacity for 1 minute once per encounter. Gains +10 starting Ranks in Vocation/Engineering skills.",
+    "note": "Heavy crafting and combat engineer chassis.",
+    "tags": [
+      "Human",
+      "Dwerg",
+      "Artificer",
+      "Subterranean",
+      "Engineer"
+    ]
+  },
+  {
+    "name": "Kheen",
+    "title": "Aeld-Human Half-Kin",
+    "parent_species": "Humans",
+    "type": [
+      "Humanoid",
+      "Human",
+      "Aeld"
+    ],
+    "size": [
+      "Medium"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Border Enclaves",
+    "stigma": null,
+    "tech_level": 3,
+    "meta_level": 2,
+    "prerequisite": "14 BP Chassis Gate",
+    "trait": [
+      "Low Light Vision",
+      "Arcane Sensitivity",
+      "Extended Longevity (200+ yrs)"
+    ],
+    "costs": {
+      "bp": 14
+    },
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "value": "+2"
+      },
+      {
+        "target": "Skills",
+        "value": "+5"
+      }
+    ],
+    "description": "Half-Aeld human hybrids combining human adaptability with subtle elven longevity, grace, and latent magical aptitude.",
+    "body": "Parent Lineage: Humans Overview\nHumans are the ubiquitous, highly adaptable, and ambitious cornerstone of the Core Worlds and expanding frontiers. Lacking extreme biological specializations, humans thrive through sheer versatility, political ingenuity, rapid technological development, and cultural plasticity across thousands of colonized planetary systems.\n\nSociological Profile:\nKheen are the offspring of human and Aeld pairings across cosmopolitan trading hubs. They bridge the cultural gap between both races, often serving as cultural interpreters and negotiators.",
+    "mechanic": "Low Light Vision allows clear sight in dim conditions. Extended lifespan (200+ years). +2 bonus to any single attribute of choice.",
+    "note": "Versatile hybrid chassis.",
+    "tags": [
+      "Human",
+      "Kheen",
+      "Half-Aeld",
+      "Hybrid",
+      "Versatile"
+    ]
+  },
+  {
+    "name": "Lin",
+    "title": "Canopy Arboreal Human",
+    "parent_species": "Humans",
+    "type": [
+      "Humanoid",
+      "Human"
+    ],
+    "size": [
+      "Medium"
+    ],
+    "movement": [
+      "30 ft Groundspeed",
+      "30 ft Climbspeed"
+    ],
+    "homeworld": "Lin Prime (Jungle Biosphere)",
+    "stigma": "Xeno (-2)",
+    "tech_level": 2,
+    "meta_level": 3,
+    "prerequisite": "18 BP Chassis Gate",
+    "trait": [
+      "Adapted (Arboreal)",
+      "Awakened (Nature/Psychic)",
+      "Biotechnology",
+      "Climber",
+      "Prehensile Tail"
+    ],
+    "costs": {
+      "bp": 18
+    },
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "value": "+1"
+      },
+      {
+        "target": "Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Canopy-dwelling humans possessing prehensile tails and an innate symbiotic connection to bio-synthetic jungle flora.",
+    "body": "Parent Lineage: Humans Overview\nHumans are the ubiquitous, highly adaptable, and ambitious cornerstone of the Core Worlds and expanding frontiers. Lacking extreme biological specializations, humans thrive through sheer versatility, political ingenuity, rapid technological development, and cultural plasticity across thousands of colonized planetary systems.\n\nSociological Profile:\nSettling on dense jungle super-earths, the Lin developed prehensile tails and enhanced vestibular balance over generations. They cultivate living bio-tech dwellings and symbiotic plant-gear.",
+    "mechanic": "Prehensile tail aids in 3D movement and allows hanging from overhead branches while firing weapons. Climbspeed equals Groundspeed (30 ft).",
+    "note": "Canopy scout and bio-tech specialist.",
+    "tags": [
+      "Human",
+      "Lin",
+      "Arboreal",
+      "Prehensile Tail",
+      "Biotech"
+    ]
+  },
+  {
+    "name": "Nian",
+    "title": "Hardened Trench Pioneer",
+    "parent_species": "Humans",
+    "type": [
+      "Humanoid",
+      "Human"
+    ],
+    "size": [
+      "Medium"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Nian Bastion",
+    "stigma": null,
+    "tech_level": 3,
+    "meta_level": 0,
+    "prerequisite": "14 BP Chassis Gate",
+    "trait": [
+      "Brutal Strike",
+      "Exoskeleton (Partial)",
+      "Rugged Resilience"
+    ],
+    "costs": {
+      "bp": 14
+    },
+    "modifiers": [
+      {
+        "target": "Strength",
+        "value": "+1"
+      },
+      {
+        "target": "Stamina",
+        "value": "+1"
+      },
+      {
+        "target": "Charisma",
+        "value": "-1"
+      }
+    ],
+    "description": "Rugged, heavily calloused humans from hostile border bastions who possess hardened skin and ferocious close-quarters power.",
+    "body": "Parent Lineage: Humans Overview\nHumans are the ubiquitous, highly adaptable, and ambitious cornerstone of the Core Worlds and expanding frontiers. Lacking extreme biological specializations, humans thrive through sheer versatility, political ingenuity, rapid technological development, and cultural plasticity across thousands of colonized planetary systems.\n\nSociological Profile:\nThe Nian hail from war-torn fortress worlds with relentless tectonic and military pressure. Their bodies have developed thick, keratinized subdermal patches, making them notoriously difficult to put down in close combat.",
+    "mechanic": "Partial Exoskeleton provides DR 1/- against physical attacks. Brutal Strike adds +2 damage to all melee and unarmed attacks.",
+    "note": "Tough frontline brawler.",
+    "tags": [
+      "Human",
+      "Nian",
+      "Hardened",
+      "Brawler",
+      "Resilient"
+    ]
+  },
+  {
+    "name": "Premian",
+    "title": "Syndicate Mercantile Human",
+    "parent_species": "Humans",
+    "type": [
+      "Humanoid",
+      "Human"
+    ],
+    "size": [
+      "Medium"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Premia Freeports",
+    "stigma": null,
+    "tech_level": 3,
+    "meta_level": 1,
+    "prerequisite": "13 BP Chassis Gate",
+    "trait": [
+      "Mercantile Insight",
+      "Network Contacts",
+      "Bureaucratic Savvy"
+    ],
+    "costs": {
+      "bp": 13
+    },
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "value": "+1"
+      },
+      {
+        "target": "Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Sharp-minded mercantile humans from syndicate freeports skilled in negotiations, black markets, and corporate maneuvering.",
+    "body": "Parent Lineage: Humans Overview\nHumans are the ubiquitous, highly adaptable, and ambitious cornerstone of the Core Worlds and expanding frontiers. Lacking extreme biological specializations, humans thrive through sheer versatility, political ingenuity, rapid technological development, and cultural plasticity across thousands of colonized planetary systems.\n\nSociological Profile:\nPremia is a nexus of interstellar trade, banking, and shadow markets. Premian humans are raised in high-stakes commerce, possessing an uncanny eye for value and negotiation.",
+    "mechanic": "Gains Advantage on Appraisal and Insight checks when negotiating prices or contracts. 10 bonus Skill Ranks across social and technical skills.",
+    "note": "Merchant, broker, and face character.",
+    "tags": [
+      "Human",
+      "Premian",
+      "Mercantile",
+      "Trader",
+      "Syndicate"
+    ]
+  },
+  {
+    "name": "Rautha",
+    "title": "High-G Stalker Human",
+    "parent_species": "Humans",
+    "type": [
+      "Humanoid",
+      "Human"
+    ],
+    "size": [
+      "Medium"
+    ],
+    "movement": [
+      "40 ft Groundspeed"
+    ],
+    "homeworld": "Rautha Outposts",
+    "stigma": "Xeno (-2)",
+    "tech_level": 3,
+    "meta_level": 2,
+    "prerequisite": "22 BP Chassis Gate",
+    "trait": [
+      "Fast Movement",
+      "Jumper",
+      "Low Light Vision",
+      "Prehensile Tail",
+      "Scent"
+    ],
+    "costs": {
+      "bp": 22
+    },
+    "modifiers": [
+      {
+        "target": "Agility",
+        "value": "+2"
+      },
+      {
+        "target": "Stamina",
+        "value": "+2"
+      },
+      {
+        "target": "Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Hyper-athletic human line with prehensile tails, predatory senses, and accelerated movement adapted to rugged high-G terrain.",
+    "body": "Parent Lineage: Humans Overview\nHumans are the ubiquitous, highly adaptable, and ambitious cornerstone of the Core Worlds and expanding frontiers. Lacking extreme biological specializations, humans thrive through sheer versatility, political ingenuity, rapid technological development, and cultural plasticity across thousands of colonized planetary systems.\n\nSociological Profile:\nDeep on the frontier, Rautha humans underwent genetic drift and minor gene-tailoring to survive high-gravity mountain worlds. They boast muscular tails, predatory night vision, and acute scent tracking.",
+    "mechanic": "Groundspeed 40 ft. Jumper trait doubles vertical leaping distance. Scent grants Advantage on tracking living targets.",
+    "note": "Elite athletic stalker.",
+    "tags": [
+      "Human",
+      "Rautha",
+      "High-G",
+      "Agile",
+      "Predator"
+    ]
+  },
+  {
+    "name": "Risakin",
+    "title": "Giant-Blooded Colossus",
+    "parent_species": "Humans",
+    "type": [
+      "Humanoid",
+      "Giant-Kin",
+      "Human"
+    ],
+    "size": [
+      "Large (8 to 10 ft)"
+    ],
+    "movement": [
+      "35 ft Groundspeed"
+    ],
+    "homeworld": "Risak Highlands",
+    "stigma": "Xeno (-2), Giant (-2)",
+    "tech_level": 2,
+    "meta_level": 1,
+    "prerequisite": "24 BP Chassis Gate",
+    "trait": [
+      "Large Size",
+      "Potent Might",
+      "Heavy Lifter",
+      "Damage Resistance (DR 2/-)"
+    ],
+    "costs": {
+      "bp": 24
+    },
+    "modifiers": [
+      {
+        "target": "Strength",
+        "value": "+2"
+      },
+      {
+        "target": "Stamina",
+        "value": "+2"
+      },
+      {
+        "target": "Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Towering eight-to-ten foot giant-blooded humans possessing immense physical power, heavy bone density, and unmatched lifting strength.",
+    "body": "Parent Lineage: Humans Overview\nHumans are the ubiquitous, highly adaptable, and ambitious cornerstone of the Core Worlds and expanding frontiers. Lacking extreme biological specializations, humans thrive through sheer versatility, political ingenuity, rapid technological development, and cultural plasticity across thousands of colonized planetary systems.\n\nSociological Profile:\nThe Risakin are giant-kin humans native to mountain highland worlds. Standing up to 10 feet tall, they possess massive skeletal structures capable of wielding vehicle-scale weapons by hand.",
+    "mechanic": "Large size doubles encumbrance limits and grants +2 Strength bonus to damage. Natural Damage Resistance DR 2/- against kinetic attacks.",
+    "note": "Heavy tank and vanguard juggernaut.",
+    "tags": [
+      "Human",
+      "Risakin",
+      "Giant-Kin",
+      "Large",
+      "Juggernaut"
+    ]
+  },
+  {
+    "name": "Varen",
+    "title": "Gatekeeper Chrono-Wayfarer",
+    "parent_species": "Humans",
+    "type": [
+      "Humanoid",
+      "Human"
+    ],
+    "size": [
+      "Medium"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "The Spatial Rifts / Progenitor Gate Hubs",
+    "stigma": null,
+    "tech_level": 3,
+    "meta_level": 4,
+    "prerequisite": "28 BP Chassis Gate",
+    "trait": [
+      "Awakened (Dimensional/Psychic)",
+      "Indomitable Will",
+      "Teleportal (Special Ability)",
+      "Homing Navigation"
+    ],
+    "costs": {
+      "bp": 28
+    },
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "value": "+1"
+      },
+      {
+        "target": "Any Attribute",
+        "value": "+1"
+      },
+      {
+        "target": "Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Mystical gatekeeper humans possessing innate dimensional attunement, spatial orientation, and short-range teleportation capabilities.",
+    "body": "Parent Lineage: Humans Overview\nHumans are the ubiquitous, highly adaptable, and ambitious cornerstone of the Core Worlds and expanding frontiers. Lacking extreme biological specializations, humans thrive through sheer versatility, political ingenuity, rapid technological development, and cultural plasticity across thousands of colonized planetary systems.\n\nSociological Profile:\nLiving in proximity to ancient Progenitor jumpgates and planar rifts, Varen humans developed deep biological and psychic resonance with dimensional folding. They serve as navigators, rift guides, and arcane wayfarers.",
+    "mechanic": "Teleportal allows opening a short-range spatial gate up to 60 ft once per encounter as a Move Action. Homing provides absolute spatial orientation and directional awareness across star systems.",
+    "note": "Dimensional specialist and spatial navigator.",
+    "tags": [
+      "Human",
+      "Varen",
+      "Gatekeeper",
+      "Dimensional",
+      "Teleport"
+    ]
+  },
+  {
+    "name": "Gen-E",
+    "title": "Base Engineered Humanoid",
+    "parent_species": "Humans, Engineered",
+    "type": [
+      "Humanoid",
+      "Gen-E"
+    ],
+    "size": [
+      "Medium (6 ft)"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Impyrium Gene-Foundries",
+    "stigma": null,
+    "tech_level": 4,
+    "meta_level": 1,
+    "prerequisite": "16 BP Chassis Gate",
+    "trait": [
+      "Genetic Optimization",
+      "Disease Immunity",
+      "Cellular Regeneration"
+    ],
+    "costs": {
+      "bp": 16
+    },
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "value": "+2"
+      },
+      {
+        "target": "Skills",
+        "value": "+5"
+      }
+    ],
+    "description": "Clean-slate genetically enhanced humans engineered for optimized physical performance, immune resistance, and cellular longevity.",
+    "body": "Parent Lineage: Humans, Engineered (Gen-E) Overview\nGen-E encompasses human lineages that have undergone purposeful germline engineering, synthetic gene-splicing, or cyber-organic augmentation. Originally commissioned by megacorporations, feudal dynasties, and the Radiant Imperium for specialized labor, warfare, espionage, or psychic governance, these lineages have developed distinct self-sustaining cultures.\n\nSociological Profile:\nBase Gen-E individuals are engineered from birth with optimized telomeres, zero genetic flaws, and reinforced immune systems. They often serve in high-ranking administrative, athletic, and military officer roles.",
+    "mechanic": "Total immunity to biological diseases and pathogens. +2 bonus to any single attribute of choice.",
+    "note": "Optimized generalist chassis.",
+    "tags": [
+      "Gen-E",
+      "Engineered",
+      "Optimized",
+      "Immunity",
+      "Imperium"
+    ]
+  },
+  {
+    "name": "Aquatican",
+    "title": "Syndicate Gilled Diver",
+    "parent_species": "Humans, Engineered",
+    "type": [
+      "Humanoid",
+      "Aquatic",
+      "Gen-E"
+    ],
+    "size": [
+      "Medium"
+    ],
+    "movement": [
+      "30 ft Groundspeed",
+      "40 ft Swimspeed"
+    ],
+    "homeworld": "Aquatica / Corporate Spindles",
+    "stigma": "Aquatic Xeno (-3)",
+    "tech_level": 4,
+    "meta_level": 0,
+    "prerequisite": "18 BP Chassis Gate",
+    "trait": [
+      "Adapted (Aquatic)",
+      "Amphibious",
+      "Natural Swim Speed",
+      "Swimmer",
+      "Pressure Resistance"
+    ],
+    "costs": {
+      "bp": 18
+    },
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "value": "+1"
+      },
+      {
+        "target": "Skills",
+        "value": "+5"
+      }
+    ],
+    "description": "Syndicate-engineered deep-sea human divers with artificial gills, bioluminescent accents, and abyssal pressure tolerance.",
+    "body": "Parent Lineage: Humans, Engineered (Gen-E) Overview\nGen-E encompasses human lineages that have undergone purposeful germline engineering, synthetic gene-splicing, or cyber-organic augmentation. Originally commissioned by megacorporations, feudal dynasties, and the Radiant Imperium for specialized labor, warfare, espionage, or psychic governance, these lineages have developed distinct self-sustaining cultures.\n\nSociological Profile:\nEngineered by the Syndicate to harvest deep-sea hydrothermal mineral vents on ocean worlds, Aquaticans possess sleek hydrodynamic skin, functional neck gills, and pressure-resistant rib cages.",
+    "mechanic": "Immune to deep ocean pressure crushing effects down to 10,000 meters. Swimspeed 40 ft.",
+    "note": "Deep ocean corporate diver.",
+    "tags": [
+      "Gen-E",
+      "Aquatican",
+      "Aquatic",
+      "Syndicate",
+      "Deep Sea"
+    ]
+  },
+  {
+    "name": "Chimera",
+    "title": "Splice-Breed Predator",
+    "parent_species": "Humans, Engineered",
+    "type": [
+      "Humanoid",
+      "Beast-Hybrid",
+      "Gen-E"
+    ],
+    "size": [
+      "Medium"
+    ],
+    "movement": [
+      "40 ft Groundspeed"
+    ],
+    "homeworld": "Shadow Labs / Black Sites",
+    "stigma": "Genetic (-2), Bestial (-2)",
+    "tech_level": 4,
+    "meta_level": 1,
+    "prerequisite": "20 BP Chassis Gate",
+    "trait": [
+      "Gene-Spliced Mutation",
+      "Natural Weapons",
+      "Predatory Senses",
+      "Fast Healing"
+    ],
+    "costs": {
+      "bp": 20
+    },
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "value": "+2"
+      },
+      {
+        "target": "Skills",
+        "value": "+5"
+      }
+    ],
+    "description": "Illegal or experimental gene-spliced human-beast hybrids possessing heightened predatory senses, claws, and rapid tissue repair.",
+    "body": "Parent Lineage: Humans, Engineered (Gen-E) Overview\nGen-E encompasses human lineages that have undergone purposeful germline engineering, synthetic gene-splicing, or cyber-organic augmentation. Originally commissioned by megacorporations, feudal dynasties, and the Radiant Imperium for specialized labor, warfare, espionage, or psychic governance, these lineages have developed distinct self-sustaining cultures.\n\nSociological Profile:\nCreated in clandestine bio-labs through chimeric DNA splicing with apex alien predators, Chimeras display animalistic eyes, fangs, retractable claws, and enhanced musculature.",
+    "mechanic": "Fast Healing recovers 1 Health every 10 minutes outside of combat. Natural claw/bite attacks deal 1d6+Str lethal damage.",
+    "note": "High-ferocity bio-engineered skirmisher.",
+    "tags": [
+      "Gen-E",
+      "Chimera",
+      "Splice",
+      "Mutation",
+      "Predator"
+    ]
+  },
+  {
+    "name": "Davae",
+    "title": "Synaptic Telepath Strain",
+    "parent_species": "Humans, Engineered",
+    "type": [
+      "Humanoid",
+      "Gen-E"
+    ],
+    "size": [
+      "Medium"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Davae Cluster",
+    "stigma": "Xeno (-2)",
+    "tech_level": 4,
+    "meta_level": 4,
+    "prerequisite": "24 BP Chassis Gate",
+    "trait": [
+      "Awakened (Psychic)",
+      "Telepathy",
+      "Biotechnology",
+      "Hive Connection (Davae Collective)",
+      "Synaptic Relay"
+    ],
+    "costs": {
+      "bp": 24
+    },
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "value": "+1"
+      },
+      {
+        "target": "Any Attribute",
+        "value": "+1"
+      },
+      {
+        "target": "Focus Skills",
+        "value": "+5"
+      }
+    ],
+    "description": "Engineered psionic collective humans with luminous silver hair and an organic synaptic telepathic mesh connecting their communities.",
+    "body": "Parent Lineage: Humans, Engineered (Gen-E) Overview\nGen-E encompasses human lineages that have undergone purposeful germline engineering, synthetic gene-splicing, or cyber-organic augmentation. Originally commissioned by megacorporations, feudal dynasties, and the Radiant Imperium for specialized labor, warfare, espionage, or psychic governance, these lineages have developed distinct self-sustaining cultures.\n\nSociological Profile:\nThe Davae were engineered to act as living communications networks and coordinators. They operate on a shared psychic frequency, exchanging thoughts, memories, and strategic telemetry without latency.",
+    "mechanic": "Telepathy range extends to 1 mile with other Davae. Synaptic Relay allows sharing sensory feeds with allies within line of sight.",
+    "note": "Premier telepathic coordinator.",
+    "tags": [
+      "Gen-E",
+      "Davae",
+      "Telepathic",
+      "Collective",
+      "Psychic"
+    ]
+  },
+  {
+    "name": "Digon",
+    "title": "Heavy Shock-Laborer",
+    "parent_species": "Humans, Engineered",
+    "type": [
+      "Humanoid",
+      "Gen-E"
+    ],
+    "size": [
+      "Medium (Dense 6.5 ft)"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Industrial Forge-Moons",
+    "stigma": "Xeno (-2), Savage (-4)",
+    "tech_level": 3,
+    "meta_level": 0,
+    "prerequisite": "17 BP Chassis Gate",
+    "trait": [
+      "Brutal Strike",
+      "Exoskeleton (Partial)",
+      "Rage",
+      "Pain Suppression"
+    ],
+    "costs": {
+      "bp": 17
+    },
+    "modifiers": [
+      {
+        "target": "Strength",
+        "value": "+1"
+      },
+      {
+        "target": "Agility",
+        "value": "+1"
+      },
+      {
+        "target": "Stamina",
+        "value": "+1"
+      },
+      {
+        "target": "Intellect",
+        "value": "-1"
+      },
+      {
+        "target": "Charisma",
+        "value": "-1"
+      },
+      {
+        "target": "Skills",
+        "value": "+5"
+      }
+    ],
+    "description": "Massive, dense-muscled heavy labor and shock-assault humans bred for extreme physical resilience and adrenaline-fueled rage.",
+    "body": "Parent Lineage: Humans, Engineered (Gen-E) Overview\nGen-E encompasses human lineages that have undergone purposeful germline engineering, synthetic gene-splicing, or cyber-organic augmentation. Originally commissioned by megacorporations, feudal dynasties, and the Radiant Imperium for specialized labor, warfare, espionage, or psychic governance, these lineages have developed distinct self-sustaining cultures.\n\nSociological Profile:\nEngineered for brutal subterranean mining and orbital hull breaches, Digons possess hyper-dense bone matrices, thick hide patches, and dampened pain receptors.",
+    "mechanic": "Rage feature can be triggered in combat to gain +2 Strength and temporary Health, at the cost of defense penalties. Partial Exoskeleton provides DR 1/-.",
+    "note": "Berserker and heavy shock trooper.",
+    "tags": [
+      "Gen-E",
+      "Digon",
+      "Shock Trooper",
+      "Rage",
+      "Industrial"
+    ]
+  },
+  {
+    "name": "Janissary",
+    "title": "Augmented Shock Infantry",
+    "parent_species": "Humans, Engineered",
+    "type": [
+      "Humanoid",
+      "Cyborg",
+      "Gen-E"
+    ],
+    "size": [
+      "Medium"
+    ],
+    "movement": [
+      "35 ft Groundspeed"
+    ],
+    "homeworld": "Syndicate Barracks / Fortress Satellites",
+    "stigma": "Xeno (-2)",
+    "tech_level": 4,
+    "meta_level": 0,
+    "prerequisite": "22 BP Chassis Gate",
+    "trait": [
+      "Augmented Package",
+      "Integrated Targeting HUD",
+      "Pain Dampeners",
+      "Sub-Dermal Plating"
+    ],
+    "costs": {
+      "bp": 22
+    },
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "value": "+2"
+      },
+      {
+        "target": "Charisma",
+        "value": "-1"
+      },
+      {
+        "target": "Combat Skills",
+        "value": "+20"
+      }
+    ],
+    "description": "Disciplined, cyber-augmented clone soldiers engineered for relentless battlefield combat and heavy weaponry operation.",
+    "body": "Parent Lineage: Humans, Engineered (Gen-E) Overview\nGen-E encompasses human lineages that have undergone purposeful germline engineering, synthetic gene-splicing, or cyber-organic augmentation. Originally commissioned by megacorporations, feudal dynasties, and the Radiant Imperium for specialized labor, warfare, espionage, or psychic governance, these lineages have developed distinct self-sustaining cultures.\n\nSociological Profile:\nBred in massive corporate crèches, Janissaries are indoctrinated from gestation into elite mercenary units. Equipped with standardized sub-dermal armor and targeting implants, they are cold and lethal.",
+    "mechanic": "Sub-dermal plating provides DR 3/-. Grants +20 Ranks in Combat skills and +2 to Strike rolls when using linked weapons.",
+    "note": "Pure military combat specialist.",
+    "tags": [
+      "Gen-E",
+      "Janissary",
+      "Cyborg",
+      "Mercenary",
+      "Combat"
+    ]
+  },
+  {
+    "name": "Impyrium Psion",
+    "title": "Imperial Telepathic Inquisitor",
+    "parent_species": "Humans, Engineered",
+    "type": [
+      "Humanoid",
+      "Gen-E"
+    ],
+    "size": [
+      "Medium"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Impyrium Throne-World",
+    "stigma": null,
+    "tech_level": 4,
+    "meta_level": 4,
+    "prerequisite": "22 BP Chassis Gate",
+    "trait": [
+      "Awakened (Psychic)",
+      "Status (Impyrium Clearance)",
+      "Mind Shield",
+      "Telepathic Scan"
+    ],
+    "costs": {
+      "bp": 22
+    },
+    "modifiers": [
+      {
+        "target": "Wisdom",
+        "value": "+1"
+      },
+      {
+        "target": "Any Attribute",
+        "value": "+1"
+      },
+      {
+        "target": "Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Cultivated psionic humanoids serving the Radiant Imperium as mental enforcers, interrogators, and psychic navigators.",
+    "body": "Parent Lineage: Humans, Engineered (Gen-E) Overview\nGen-E encompasses human lineages that have undergone purposeful germline engineering, synthetic gene-splicing, or cyber-organic augmentation. Originally commissioned by megacorporations, feudal dynasties, and the Radiant Imperium for specialized labor, warfare, espionage, or psychic governance, these lineages have developed distinct self-sustaining cultures.\n\nSociological Profile:\nSelected through rigorous imperial eugenics programs, Impyrium Psions undergo intense mental conditioning to serve the throne. They possess formidable psychic shields and scanning capabilities.",
+    "mechanic": "Mind Shield provides total immunity to non-consensual telepathic scanning and Advantage on Will saves. High imperial clearance grants legal authority in Imperium systems.",
+    "note": "Imperial psionic inquisitor and telepath.",
+    "tags": [
+      "Gen-E",
+      "Impyrium Psion",
+      "Imperium",
+      "Psychic",
+      "Inquisitor"
+    ]
+  },
+  {
+    "name": "Impyrium Regi",
+    "title": "Imperial High-Born Patrician",
+    "parent_species": "Humans, Engineered",
+    "type": [
+      "Humanoid",
+      "Gen-E"
+    ],
+    "size": [
+      "Medium"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Impyrium Core / Radiant Spindles",
+    "stigma": null,
+    "tech_level": 4,
+    "meta_level": 4,
+    "prerequisite": "28 BP Chassis Gate",
+    "trait": [
+      "Adaptive Aspects",
+      "Awakened (Psychic)",
+      "Status (Imperial Nobility)",
+      "Cellular Nugenics",
+      "Immunity (Senescence)"
+    ],
+    "costs": {
+      "bp": 28
+    },
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "value": "+2"
+      },
+      {
+        "target": "Skills",
+        "value": "+20"
+      }
+    ],
+    "description": "Peerlessly refined high-born patricians of the Radiant Imperium, enhanced by centuries of nugenics for ageless vitality and psionic supremacy.",
+    "body": "Parent Lineage: Humans, Engineered (Gen-E) Overview\nGen-E encompasses human lineages that have undergone purposeful germline engineering, synthetic gene-splicing, or cyber-organic augmentation. Originally commissioned by megacorporations, feudal dynasties, and the Radiant Imperium for specialized labor, warfare, espionage, or psychic governance, these lineages have developed distinct self-sustaining cultures.\n\nSociological Profile:\nThe ruling apex of the Radiant Imperium, the Regi are patrician nobility maintained through continuous cellular nugenics. They possess flawless aesthetics, superior intellect, and profound political authority.",
+    "mechanic": "Immunity to aging and physical senescence. Status (Imperial Nobility) grants massive socio-political influence. +20 starting Skill Ranks.",
+    "note": "Aristocratic leader and supreme patrician commander.",
+    "tags": [
+      "Gen-E",
+      "Impyrium Regi",
+      "Patrician",
+      "Nobility",
+      "Ageless"
+    ]
+  },
+  {
+    "name": "Manelli",
+    "title": "The Cerebral Expression / Brood-Master",
+    "parent_species": "Kitin Collective",
+    "type": [
+      "Insectoid",
+      "Humanoid",
+      "Kitin"
+    ],
+    "size": [
+      "Medium (6 ft)"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "The Star Hive / Genomatrix Core",
+    "stigma": "Xeno (-2)",
+    "tech_level": 4,
+    "meta_level": 4,
+    "prerequisite": "20 BP Chassis Gate",
+    "trait": [
+      "Awakened (Psychic)",
+      "Biotechnology",
+      "Hive Connection (The Chorus)",
+      "Sleepless (Torpor Cycle)",
+      "Human-Mimetic Dermis",
+      "Telepathic"
+    ],
+    "costs": {
+      "bp": 20
+    },
+    "modifiers": [
+      {
+        "target": "Wisdom",
+        "value": "+1"
+      },
+      {
+        "target": "Intellect",
+        "value": "+1"
+      },
+      {
+        "target": "Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Mimetic leadership caste of the Kitin Collective possessing smooth human-like dermis, sensory antennae, and master command over the psionic Chorus.",
+    "body": "Parent Lineage: Kitin Collective Overview\nThe Kitin Collective is a monogenetic biocracy and psionic hive-state birthed from the Genomatrix—a self-aware biological engine reservoir of Proto-Flux. Every Kitin variant shares emerald-green copper blood (hemocyanin), an internal endoskeleton, radiation resistance, and a 4-hour conscious Torpor cycle (no sleep or dreams). Technology is grown from Hive-Resin and bio-piped directly into users' neural circulation. The hive is unified by The Chorus—a continuous 24/7 psionic data stream.\n\nSociological Profile:\nThe Manelli are the diplomatic, intellectual, and genetic architects of the Kitin. Lacking the heavy obsidian exoskeleton of lower strains, they possess a human-mimetic skin to interact with external civilizations while coordinating brood development through psionic steering.",
+    "mechanic": "Can broadcast commands across The Chorus up to planetary distances. Advantage on all radiation resistance checks. Torpor replaces sleep with 4 hours of conscious rest.",
+    "note": "Hive leader and bio-psionic conductor.",
+    "tags": [
+      "Kitin",
+      "Manelli",
+      "Chorus",
+      "Brood-Master",
+      "Psionic"
+    ]
+  },
+  {
+    "name": "Murex",
+    "title": "The Foundation Expression / Obsidian Chitin",
+    "parent_species": "Kitin Collective",
+    "type": [
+      "Insectoid",
+      "Aberration",
+      "Kitin"
+    ],
+    "size": [
+      "Medium (Dense 6 ft)"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "The Star Hive / Genomatrix",
+    "stigma": "Severe Xeno (-4)",
+    "tech_level": 3,
+    "meta_level": 4,
+    "prerequisite": "19 BP Chassis Gate",
+    "trait": [
+      "Awakened (Psychic)",
+      "Biotechnology",
+      "Hive Connection",
+      "Sleepless (Torpor)",
+      "Obsidian Exoskeleton (Heavy)",
+      "Industrial Coordination"
+    ],
+    "costs": {
+      "bp": 19
+    },
+    "modifiers": [
+      {
+        "target": "Strength",
+        "value": "+1"
+      },
+      {
+        "target": "Stamina",
+        "value": "+1"
+      },
+      {
+        "target": "Skills",
+        "value": "+5"
+      }
+    ],
+    "description": "Obsidian-shelled worker-warriors acting as the industrial backbone and heavy infantry of the Kitin Collective.",
+    "body": "Parent Lineage: Kitin Collective Overview\nThe Kitin Collective is a monogenetic biocracy and psionic hive-state birthed from the Genomatrix—a self-aware biological engine reservoir of Proto-Flux. Every Kitin variant shares emerald-green copper blood (hemocyanin), an internal endoskeleton, radiation resistance, and a 4-hour conscious Torpor cycle (no sleep or dreams). Technology is grown from Hive-Resin and bio-piped directly into users' neural circulation. The hive is unified by The Chorus—a continuous 24/7 psionic data stream.\n\nSociological Profile:\nEncased in smooth, glossy black chitin, the Murex move in flawless industrial synchronization. They execute construction, heavy mining, and defensive hive wars through shared pheromonal and telepathic links.",
+    "mechanic": "Heavy Obsidian Exoskeleton provides natural DR 4/- against kinetic and energy attacks. Never suffers fatigue from prolonged physical labor.",
+    "note": "Heavy frontline hive trooper.",
+    "tags": [
+      "Kitin",
+      "Murex",
+      "Chitin",
+      "Exoskeleton",
+      "Infantry"
+    ]
+  },
+  {
+    "name": "Rakne",
+    "title": "The Infiltration Expression / Arachno-Taur",
+    "parent_species": "Kitin Collective",
+    "type": [
+      "Insectoid",
+      "Aberration",
+      "Kitin"
+    ],
+    "size": [
+      "Medium (Arachno-Tauric)"
+    ],
+    "movement": [
+      "40 ft Groundspeed",
+      "30 ft Climbspeed"
+    ],
+    "homeworld": "The Star Hive / Genomatrix",
+    "stigma": "Severe Xeno (-4)",
+    "tech_level": 3,
+    "meta_level": 4,
+    "prerequisite": "20 BP Chassis Gate",
+    "trait": [
+      "Awakened (Psychic)",
+      "Biotechnology",
+      "Hive Connection",
+      "Sleepless (Torpor)",
+      "Climber",
+      "Multidextrous (4 Arms)",
+      "Quadruped (4 Legs)",
+      "Quick",
+      "Resin Web Weaver"
+    ],
+    "costs": {
+      "bp": 20
+    },
+    "modifiers": [
+      {
+        "target": "Strength",
+        "value": "+1"
+      },
+      {
+        "target": "Agility",
+        "value": "+1"
+      },
+      {
+        "target": "Stamina",
+        "value": "-1"
+      },
+      {
+        "target": "Charisma",
+        "value": "-1"
+      }
+    ],
+    "description": "Arachno-tauric Kitin specialists with four arms and four legs, engineered for tactical assassination, vertical mobility, and resin web weaving.",
+    "body": "Parent Lineage: Kitin Collective Overview\nThe Kitin Collective is a monogenetic biocracy and psionic hive-state birthed from the Genomatrix—a self-aware biological engine reservoir of Proto-Flux. Every Kitin variant shares emerald-green copper blood (hemocyanin), an internal endoskeleton, radiation resistance, and a 4-hour conscious Torpor cycle (no sleep or dreams). Technology is grown from Hive-Resin and bio-piped directly into users' neural circulation. The hive is unified by The Chorus—a continuous 24/7 psionic data stream.\n\nSociological Profile:\nThe Rakne are the covert and structural maintenance expression of the hive. Their multi-limbed tauric physiology and adhesive secretions allow them to scale inverted bulkheads and deploy high-tensile resin nets.",
+    "mechanic": "Four manipulative arms allow wielding multiple items simultaneously. Resin Web Weaver can entangle targets within 30 ft (DC 15 Reflex to escape). Climbspeed 30 ft.",
+    "note": "Multi-armed ambush and infiltration unit.",
+    "tags": [
+      "Kitin",
+      "Rakne",
+      "Arachno-Taur",
+      "Infiltration",
+      "Web Weaver"
+    ]
+  },
+  {
+    "name": "Maantene",
+    "title": "The Recon Expression / Mantis Sentry",
+    "parent_species": "Kitin Collective",
+    "type": [
+      "Insectoid",
+      "Aberration",
+      "Kitin"
+    ],
+    "size": [
+      "Large (8 ft)"
+    ],
+    "movement": [
+      "40 ft Groundspeed"
+    ],
+    "homeworld": "The Star Hive / Frontier Dunes",
+    "stigma": "Severe Xeno (-4)",
+    "tech_level": 3,
+    "meta_level": 4,
+    "prerequisite": "18 BP Chassis Gate",
+    "trait": [
+      "Awakened (Psychic)",
+      "Biotechnology",
+      "Hive Connection",
+      "Sleepless (Torpor)",
+      "Exoskeleton",
+      "Multidextrous",
+      "Leaper",
+      "Quadruped",
+      "Quick",
+      "Active Camouflage"
+    ],
+    "costs": {
+      "bp": 18
+    },
+    "modifiers": [
+      {
+        "target": "Skills",
+        "value": "+5"
+      }
+    ],
+    "description": "Large quadrupedal mantis-like sentries equipped with active camouflage chitin and scythe-like raptorial forelimbs.",
+    "body": "Parent Lineage: Kitin Collective Overview\nThe Kitin Collective is a monogenetic biocracy and psionic hive-state birthed from the Genomatrix—a self-aware biological engine reservoir of Proto-Flux. Every Kitin variant shares emerald-green copper blood (hemocyanin), an internal endoskeleton, radiation resistance, and a 4-hour conscious Torpor cycle (no sleep or dreams). Technology is grown from Hive-Resin and bio-piped directly into users' neural circulation. The hive is unified by The Chorus—a continuous 24/7 psionic data stream.\n\nSociological Profile:\nMaantene serve as long-range scouts and desert sentries. Their wet chitin dynamically mimics the ambient electromagnetic and optical spectrum of the surrounding terrain, rendering them nearly invisible until they strike.",
+    "mechanic": "Active Camouflage grants Advantage on Stealth checks in open terrain. Raptorial forelimbs deal 1d10+Str slashing damage with lethal critical threat (19-20).",
+    "note": "Large mantis ambush scout.",
+    "tags": [
+      "Kitin",
+      "Maantene",
+      "Mantis",
+      "Camouflage",
+      "Recon"
+    ]
+  },
+  {
+    "name": "Syndess",
+    "title": "The Integration Expression / Bio-Core",
+    "parent_species": "Kitin Collective",
+    "type": [
+      "Insectoid",
+      "Aberration",
+      "Kitin"
+    ],
+    "size": [
+      "Small (3 ft Segmented)"
+    ],
+    "movement": [
+      "10 ft Groundspeed",
+      "Mecha Host Locomotion"
+    ],
+    "homeworld": "The Star Hive / Genomatrix",
+    "stigma": "Severe Xeno (-4)",
+    "tech_level": 4,
+    "meta_level": 4,
+    "prerequisite": "22 BP Chassis Gate",
+    "trait": [
+      "Awakened (Psychic)",
+      "Biotechnology",
+      "Hive Connection",
+      "Sleepless (Torpor)",
+      "Synaptic Filament Array",
+      "Mecha Core Integration"
+    ],
+    "costs": {
+      "bp": 22
+    },
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "value": "+2"
+      },
+      {
+        "target": "Operations Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Segmented bio-cores that trade standalone physical mobility to act as the pilot brain and motor cortex for living Kitin mecha and starships.",
+    "body": "Parent Lineage: Kitin Collective Overview\nThe Kitin Collective is a monogenetic biocracy and psionic hive-state birthed from the Genomatrix—a self-aware biological engine reservoir of Proto-Flux. Every Kitin variant shares emerald-green copper blood (hemocyanin), an internal endoskeleton, radiation resistance, and a 4-hour conscious Torpor cycle (no sleep or dreams). Technology is grown from Hive-Resin and bio-piped directly into users' neural circulation. The hive is unified by The Chorus—a continuous 24/7 psionic data stream.\n\nSociological Profile:\nSyndess are elongated, emerald-skinned insectoids lacking traditional limbs and eyes. Equipped with dense clusters of synaptic filaments, they plug directly into bio-mechanical dreadnoughts and mecha chassis, piloting them as an extension of their own flesh.",
+    "mechanic": "When plugged into a bio-mecha or starship core, the vessel gains +4 to all Piloting and Tactical Defense checks. Cannot walk effectively on its own.",
+    "note": "Living mecha pilot and ship core.",
+    "tags": [
+      "Kitin",
+      "Syndess",
+      "Bio-Core",
+      "Pilot",
+      "Mecha Host"
+    ]
+  },
+  {
+    "name": "Riezen",
+    "title": "The Discordant Swarm",
+    "parent_species": "Kitin Collective",
+    "type": [
+      "Insectoid",
+      "Swarm",
+      "Kitin"
+    ],
+    "size": [
+      "Large",
+      "Huge Swarm Assembly"
+    ],
+    "movement": [
+      "40 ft Flightspeed",
+      "20 ft Groundspeed"
+    ],
+    "homeworld": "Deep Void / Rift Hives",
+    "stigma": "Monstrous (-4), Xeno (-2)",
+    "tech_level": 3,
+    "meta_level": 4,
+    "prerequisite": "26 BP Chassis Gate",
+    "trait": [
+      "Awakened (Psychic)",
+      "Biotechnology",
+      "Hive Connection (Discordant)",
+      "Sleepless",
+      "Blindsight",
+      "Exoskeleton",
+      "Fast Heal/Regeneration",
+      "Swarm Entity"
+    ],
+    "costs": {
+      "bp": 26
+    },
+    "modifiers": [
+      {
+        "target": "Agility",
+        "value": "+2"
+      }
+    ],
+    "description": "Divergent swarm strain emitting discordant psionic static, functioning as an amorphous hive of flying insectoids resistant to single-target harm.",
+    "body": "Parent Lineage: Kitin Collective Overview\nThe Kitin Collective is a monogenetic biocracy and psionic hive-state birthed from the Genomatrix—a self-aware biological engine reservoir of Proto-Flux. Every Kitin variant shares emerald-green copper blood (hemocyanin), an internal endoskeleton, radiation resistance, and a 4-hour conscious Torpor cycle (no sleep or dreams). Technology is grown from Hive-Resin and bio-piped directly into users' neural circulation. The hive is unified by The Chorus—a continuous 24/7 psionic data stream.\n\nSociological Profile:\nThe Riezen represent a splinter strain whose telepathic frequency generates disruptive psionic static across the Chorus. Functioning as a flying swarm of billions of micro-drones, they overwhelm enemy defenses.",
+    "mechanic": "Swarm Entity trait takes half damage from single-target weapons and double damage from AoE. Blindsight 60 ft. Inherent psionic static disrupts concentration of adjacent casters.",
+    "note": "Living insectoid swarm entity.",
+    "tags": [
+      "Kitin",
+      "Riezen",
+      "Swarm",
+      "Discordant",
+      "Blindsight"
+    ]
+  },
+  {
+    "name": "Jorni",
+    "title": "Prehensile Saurian Hunter",
+    "parent_species": null,
+    "type": [
+      "Reptilian",
+      "Humanoid",
+      "Jorni"
+    ],
+    "size": [
+      "Medium (6 to 7 ft)"
+    ],
+    "movement": [
+      "40 ft Groundspeed",
+      "30 ft Swimspeed"
+    ],
+    "homeworld": "Jorn V (Swamp Jungle)",
+    "stigma": "Xeno (-2)",
+    "tech_level": 2,
+    "meta_level": 2,
+    "prerequisite": "20 BP Chassis Gate",
+    "trait": [
+      "Climber",
+      "Digitigrade Legs",
+      "Fast Heal",
+      "Long Prehensile Tail",
+      "Regeneration",
+      "Swimmer"
+    ],
+    "costs": {
+      "bp": 20
+    },
+    "modifiers": [
+      {
+        "target": "Strength",
+        "value": "+1"
+      },
+      {
+        "target": "Stamina",
+        "value": "+1"
+      }
+    ],
+    "description": "Powerful saurian humanoids with dense scaled skin, prehensile counter-balancing tails, and rapid cellular regeneration.",
+    "body": "Sociological Profile:\nNative to the tropical rainforests and mangrove swamps of Jorn V, the Jorni are robust reptilian hunters. Their long muscular tails serve as fifth limbs for climbing and underwater propulsion.",
+    "mechanic": "Regeneration regrows lost digits and limbs over time. Fast Heal doubles natural recovery rate during Light Rest. Groundspeed 40 ft.",
+    "note": "Durable amphibious saurian tracker.",
+    "tags": [
+      "Jorni",
+      "Reptilian",
+      "Regeneration",
+      "Saurian",
+      "Amphibious"
+    ]
+  },
+  {
+    "name": "Kannid",
+    "title": "Canine Pack-Kin",
+    "parent_species": null,
+    "type": [
+      "Humanoid",
+      "Kannid"
+    ],
+    "size": [
+      "Medium (5.5 to 6.5 ft)"
+    ],
+    "movement": [
+      "40 ft Groundspeed"
+    ],
+    "homeworld": "Kannis Prime",
+    "stigma": "Xeno (-2)",
+    "tech_level": 3,
+    "meta_level": 2,
+    "prerequisite": "18 BP Chassis Gate",
+    "trait": [
+      "Digitigrade Legs",
+      "Quick",
+      "Uncanny Sense (Scent)",
+      "Uncanny Sense (Hearing)",
+      "Pack Tactics"
+    ],
+    "costs": {
+      "bp": 18
+    },
+    "modifiers": [
+      {
+        "target": "Agility",
+        "value": "+1"
+      },
+      {
+        "target": "Stamina",
+        "value": "+1"
+      }
+    ],
+    "description": "Loyal, keen-sensed canine humanoids who excel in tactical coordination, endurance running, and olfactory tracking.",
+    "body": "Sociological Profile:\nKannids are social pack humanoids hailing from temperate scrublands and dense forests. Built with athletic digitigrade legs, lupine muzzles, and expressive ears, their culture centers around unbreakable clan oaths and squad brotherhood.",
+    "mechanic": "Uncanny Senses grant Advantage on all Perception checks involving hearing or scent. Pack Tactics provides +1 Strike bonus when adjacent to an ally targeting the same foe.",
+    "note": "Squad combatant and scent tracker.",
+    "tags": [
+      "Kannid",
+      "Canine",
+      "Pack Tactics",
+      "Senses",
+      "Tracker"
+    ]
+  },
+  {
+    "name": "Kizin",
+    "title": "Cunning Vulpine Humanoid",
+    "parent_species": null,
+    "type": [
+      "Humanoid",
+      "Kizin"
+    ],
+    "size": [
+      "Medium (5 to 5.5 ft)"
+    ],
+    "movement": [
+      "40 ft Groundspeed"
+    ],
+    "homeworld": "Kizia (Forest Moon)",
+    "stigma": "Xeno (-2)",
+    "tech_level": 3,
+    "meta_level": 2,
+    "prerequisite": "13 BP Chassis Gate",
+    "trait": [
+      "Digitigrade Legs",
+      "Low Light Vision",
+      "Scent",
+      "Nimble"
+    ],
+    "costs": {
+      "bp": 13
+    },
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "value": "+1"
+      },
+      {
+        "target": "Agility",
+        "value": "+1"
+      },
+      {
+        "target": "Skills",
+        "value": "+5"
+      }
+    ],
+    "description": "Agile, sharp-witted vulpine humanoids with brush tails, keen night vision, and natural aptitude for stealth and tech tinkering.",
+    "body": "Sociological Profile:\nKizin are lithe fox-like humanoids native to temperate woodlands. Known for their curiosity, quick wit, and technical adaptability, they frequently work as scouts, communications technicians, and agile rogues.",
+    "mechanic": "Digitigrade physiology increases Groundspeed to 40 ft. Scent and Low Light Vision provide heightened situational awareness.",
+    "note": "Nimble rogue and tech scout.",
+    "tags": [
+      "Kizin",
+      "Vulpine",
+      "Fox-Kin",
+      "Nimble",
+      "Stealth"
+    ]
+  },
+  {
+    "name": "Kongi",
+    "title": "Cavern Simian Brute",
+    "parent_species": null,
+    "type": [
+      "Humanoid",
+      "Kongi"
+    ],
+    "size": [
+      "Medium (Dense 6 ft)"
+    ],
+    "movement": [
+      "30 ft Groundspeed",
+      "30 ft Climbspeed"
+    ],
+    "homeworld": "Kongo Deep (High-G Caverns)",
+    "stigma": "Minor Xeno (-1)",
+    "tech_level": 2,
+    "meta_level": 3,
+    "prerequisite": "18 BP Chassis Gate",
+    "trait": [
+      "Climber",
+      "Low Light Vision",
+      "Mighty Surge",
+      "Prehensile Tail",
+      "Prehensile Feet",
+      "Scent"
+    ],
+    "costs": {
+      "bp": 18
+    },
+    "modifiers": [
+      {
+        "target": "Strength",
+        "value": "+2"
+      },
+      {
+        "target": "Agility",
+        "value": "+1"
+      }
+    ],
+    "description": "Powerful simian humanoids from high-gravity cavern systems with prehensile feet, stone-climbing prowess, and immense physical surges.",
+    "body": "Sociological Profile:\nEvolving in massive subterranean cavern megastructures under heavy planetary gravity, Kongi possess dense muscular frames, dark fur coats, and exceptional upper-body strength. They navigate cavern ceilings and cliff faces with ease.",
+    "mechanic": "Climbspeed equals Groundspeed (30 ft). Mighty Surge adds +2 to Strength checks and damage for 1 round once per combat encounter.",
+    "note": "High-strength cavern climber and brawler.",
+    "tags": [
+      "Kongi",
+      "Simian",
+      "High-G",
+      "Climber",
+      "Brawler"
+    ]
+  },
+  {
+    "name": "Mobula",
+    "title": "Marine Manta-Shifter",
+    "parent_species": null,
+    "type": [
+      "Biform Humanoid-Beast",
+      "Mobula"
+    ],
+    "size": [
+      "Medium (Humanoid)",
+      "Large (Ray Form)"
+    ],
+    "movement": [
+      "30 ft Groundspeed",
+      "30 ft Swimspeed (60 ft in Ray Form)"
+    ],
+    "homeworld": "Pelagia (Abyssal Ocean World)",
+    "stigma": "Severe Xeno (-4)",
+    "tech_level": 2,
+    "meta_level": 3,
+    "prerequisite": "18 BP Chassis Gate",
+    "trait": [
+      "Adapted (Aquatic)",
+      "Amphibious",
+      "Bi-Form Shifting (Ray/Humanoid)",
+      "Echolocation",
+      "Uncanny Sense (Vision)"
+    ],
+    "costs": {
+      "bp": 18
+    },
+    "modifiers": [
+      {
+        "target": "Agility",
+        "value": "+1"
+      },
+      {
+        "target": "Stamina",
+        "value": "+1"
+      }
+    ],
+    "description": "Aquatic shifters who seamlessly transition between an amphibious humanoid form and a massive, swift pelagic manta ray.",
+    "body": "Sociological Profile:\nNative to the deep oceanic planet of Pelagia, Mobula grew deeply reclusive after historical incursions by external empires. They possess smooth cerulean skin with white ventral patterns and broad dorsal folds that expand into massive wings when shifting into ray form.",
+    "mechanic": "Bi-Form shifting is a Move Action. In Ray Form, Swimspeed increases to 60 ft and Echolocation grants 30 ft Blindsense underwater.",
+    "note": "Aquatic shapeshifter and deep-sea scout.",
+    "tags": [
+      "Mobula",
+      "Aquatic",
+      "Manta",
+      "Shifter",
+      "Echolocation"
+    ]
+  },
+  {
+    "name": "Mondi",
+    "title": "Celestial Psionic Architect",
+    "parent_species": null,
+    "type": [
+      "Humanoid",
+      "Mondi"
+    ],
+    "size": [
+      "Medium (6 ft)"
+    ],
+    "movement": [
+      "30 ft Groundspeed",
+      "30 ft Flightspeed (Hover)"
+    ],
+    "homeworld": "Mondia Sanctum (Pre-Mekan Core)",
+    "stigma": "Xeno (-2), Bioluminescent (-1)",
+    "tech_level": 5,
+    "meta_level": 5,
+    "prerequisite": "24 BP Chassis Gate",
+    "trait": [
+      "Awakened (Psychic Intellect)",
+      "Flight (Telekinetic)",
+      "Telepathic",
+      "Adaptive Aspects",
+      "Bioluminescent Aura"
+    ],
+    "costs": {
+      "bp": 24
+    },
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "value": "+2"
+      },
+      {
+        "target": "Discipline Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Ancient, reclusive psychic humanoids with glowing bioluminescent skin patterns who hover via innate telekinesis and master high metaphysics.",
+    "body": "Sociological Profile:\nThe Mondi are the original organic progenitors of the Mekan. Believed nearly extinct, they maintain deep monastic sanctums where they explore the fundamental harmonics of reality. Their bodies pulse with radiant, mood-sensitive bioluminescence.",
+    "mechanic": "Permanent telekinetic hover flight (30 ft Flightspeed). Adaptive Aspects allows rerolling one failed mental or technical check per session. Telepathy range 500 ft.",
+    "note": "Ultra-high intellect psychic master chassis.",
+    "tags": [
+      "Mondi",
+      "Progenitor",
+      "Psionic",
+      "Flight",
+      "Telekinetic"
+    ]
+  },
+  {
+    "name": "Orll",
+    "title": "Heavy Mountain-Kin (Space Orc)",
+    "parent_species": "Orll",
+    "type": [
+      "Humanoid",
+      "Orll"
+    ],
+    "size": [
+      "Medium (Dense/Stocky 6.5 ft)"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Orll Crags (Cold Alpine Worlds)",
+    "stigma": "Severe Xeno / Savage (-4)",
+    "tech_level": 1,
+    "meta_level": 2,
+    "prerequisite": "15 BP Chassis Gate",
+    "trait": [
+      "Exoskeleton (Light)",
+      "Rage",
+      "Cold Adaptation",
+      "Tusked Natural Attack"
+    ],
+    "costs": {
+      "bp": 15
+    },
+    "modifiers": [
+      {
+        "target": "Strength",
+        "value": "+2"
+      },
+      {
+        "target": "Stamina",
+        "value": "+2"
+      },
+      {
+        "target": "Intellect",
+        "value": "-1"
+      },
+      {
+        "target": "Charisma",
+        "value": "-1"
+      },
+      {
+        "target": "Skills",
+        "value": "+5"
+      }
+    ],
+    "description": "Dense, tusked green-skinned alpine warriors possessing thick fur, natural dermal armor, and devastating combat rage.",
+    "body": "Parent Lineage: Orll Overview\nThe Orll are a heavy-gravity humanoid race characterized by dense muscular frames, pronounced lower tusks, thick insulating fur, and a natural light exoskeleton. Adapted to harsh alpine biospheres, they embody unstoppable physical momentum, survivalist endurance, and combat ferocity.\n\nSociological Profile:\nLiving in rugged mountain clans, the Orll emphasize strength, survival, and clan loyalty. Despite unfair stereotyping as savages by technologically reliant factions, they possess a rich oral history and master cold-weather metallurgy.",
+    "mechanic": "Light Exoskeleton provides DR 2/- against kinetic damage. Rage grants +2 Strength and temporary Vitality in combat. Tusk attack deals 1d6+Str piercing damage.",
+    "note": "Heavy frontline juggernaut.",
+    "tags": [
+      "Orll",
+      "Orc",
+      "Mountain",
+      "Rage",
+      "Exoskeleton"
+    ]
+  },
+  {
+    "name": "Gra'Or",
+    "title": "Grey Orll / Photosynthetic Line",
+    "parent_species": "Orll",
+    "type": [
+      "Humanoid",
+      "Orll"
+    ],
+    "size": [
+      "Medium (6.5 ft)"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Orll High Spire",
+    "stigma": "Xeno (-2)",
+    "tech_level": 1,
+    "meta_level": 2,
+    "prerequisite": "16 BP Chassis Gate",
+    "trait": [
+      "Chloroplast (Photosynthetic)",
+      "Exoskeleton (Light)",
+      "Primal Strength"
+    ],
+    "costs": {
+      "bp": 16
+    },
+    "modifiers": [
+      {
+        "target": "Strength",
+        "value": "+2"
+      },
+      {
+        "target": "Stamina",
+        "value": "+2"
+      },
+      {
+        "target": "Charisma",
+        "value": "-1"
+      },
+      {
+        "target": "Skills",
+        "value": "+5"
+      }
+    ],
+    "description": "Evolved grey-to-violet skinned Orll lineage possessing photosynthetic chloroplast dermis that supplements metabolic sustenance.",
+    "body": "Parent Lineage: Orll Overview\nThe Orll are a heavy-gravity humanoid race characterized by dense muscular frames, pronounced lower tusks, thick insulating fur, and a natural light exoskeleton. Adapted to harsh alpine biospheres, they embody unstoppable physical momentum, survivalist endurance, and combat ferocity.\n\nSociological Profile:\nThe Gra'Or represent an evolved, philosophically composed branch of the Orll. Their skin contains active chloroplasts that absorb solar radiation, drastically reducing food requirements while preserving massive physical power.",
+    "mechanic": "Chloroplast trait cuts food consumption by half when exposed to sunlight and accelerates light rest recovery by 50%. DR 2/- from Light Exoskeleton.",
+    "note": "Photosynthetic warrior variant.",
+    "tags": [
+      "Orll",
+      "Gra'Or",
+      "Chloroplast",
+      "Photosynthetic",
+      "Tough"
+    ]
+  },
+  {
+    "name": "Plasm",
+    "title": "Awakened Amorphous Ooze",
+    "parent_species": null,
+    "type": [
+      "Ooze",
+      "Plasm"
+    ],
+    "size": [
+      "Medium (Variable Amorphous)"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Primordial Vats / Genesis Pools",
+    "stigma": "Severe Xeno (-4)",
+    "tech_level": 0,
+    "meta_level": 3,
+    "prerequisite": "24 BP Chassis Gate",
+    "trait": [
+      "Adaptive Aspects",
+      "Alter Form (Advanced Shapechanger)",
+      "Awakened (Cosmic)",
+      "Bodyform Adaptation",
+      "Fast Heal",
+      "Regeneration",
+      "Telepathic",
+      "Amorphous Compression"
+    ],
+    "costs": {
+      "bp": 24
+    },
+    "modifiers": [
+      {
+        "target": "Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Sentient, translucent amorphous slime entities capable of rapid cellular regeneration, shape-shifting, and squeezing through microscopic apertures.",
+    "body": "Sociological Profile:\nPlasm are sapient colonial organisms composed of dense, psycho-reactive protoplasm. Possessing no static skeleton or internal organs, they mold their viscosity and shape at will, communicating via telepathy and chemical luminescence.",
+    "mechanic": "Immune to critical hits, precision damage, and bleeding. Can squeeze through gaps as narrow as 1 inch. Fast Heal and Regeneration rapidly rebuild lost mass.",
+    "note": "Ultimate amorphous infiltrator and resilient shapeshifter.",
+    "tags": [
+      "Plasm",
+      "Ooze",
+      "Amorphous",
+      "Regeneration",
+      "Shapeshifter"
+    ]
+  },
+  {
+    "name": "Praeti",
+    "title": "Saura-Raptric Flyer",
+    "parent_species": null,
+    "type": [
+      "Humanoid",
+      "Avian-Pterosaur Hybrid",
+      "Praeti"
+    ],
+    "size": [
+      "Medium (6 ft tall, 12 ft wingspan)"
+    ],
+    "movement": [
+      "30 ft Groundspeed",
+      "30 ft Flightspeed (Winged)"
+    ],
+    "homeworld": "Praetos Aerie",
+    "stigma": "Xeno (-2)",
+    "tech_level": 3,
+    "meta_level": 3,
+    "prerequisite": "18 BP Chassis Gate",
+    "trait": [
+      "Flight (Winged)",
+      "Uncanny Sense (Telescopic Vision)",
+      "Hollow-Boned Kinetics"
+    ],
+    "costs": {
+      "bp": 18
+    },
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "value": "+2"
+      },
+      {
+        "target": "Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Graceful winged avian-pterosaur humanoids possessing wide leathery wings, acute telescopic eyesight, and aerial combat mastery.",
+    "body": "Sociological Profile:\nPronounced 'Ray-Tie', the Praeti evolved from raptorial avians across towering mesa spires. Equipped with powerful feathered-leathery wings and predator optics, their society values aerial dogfighting, cartography, and long-range scouting.",
+    "mechanic": "Flightspeed 30 ft. Uncanny Sense (Vision) grants Advantage on all visual Perception checks and allows spotting fine details up to 2 miles away.",
+    "note": "Aerial scout and precision sniper.",
+    "tags": [
+      "Praeti",
+      "Avian",
+      "Flight",
+      "Winged",
+      "Telescopic Vision"
+    ]
+  },
+  {
+    "name": "Ila",
+    "title": "The Transcendent Entity / Elohim",
+    "parent_species": "Progenitors",
+    "type": [
+      "Entity",
+      "Progenitor"
+    ],
+    "size": [
+      "Large (8 to 12 ft)"
+    ],
+    "movement": [
+      "40 ft Groundspeed (Flicker)",
+      "60 ft Flightspeed"
+    ],
+    "homeworld": "Primordial Sphere / Alabaster Sanctuaries",
+    "stigma": "Deific Hostility (-6), Severe Xeno (-2)",
+    "tech_level": 5,
+    "meta_level": 5,
+    "prerequisite": "56 BP Chassis Gate",
+    "trait": [
+      "Awakened x6 (All Disciplines)",
+      "Telepathy",
+      "Telekinesis",
+      "Corporeal Manifestation at Will",
+      "Large Size",
+      "Flicker Movement",
+      "Fast Heal",
+      "Regeneration",
+      "Ageless",
+      "Immortal"
+    ],
+    "costs": {
+      "bp": 56
+    },
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "value": "+4"
+      },
+      {
+        "target": "Skills",
+        "value": "+40"
+      }
+    ],
+    "description": "Transcendent celestial progenitor entity that shifts between solid alabaster polymatter and pure psionic energy at will.",
+    "body": "Parent Lineage: Progenitors Overview\nThe Progenitors are incomprehensibly ancient, godlike cosmic architects whose origins predate modern galactic records. Masters of Level 5+ Technology and Level 5+ Metaphysics, they engineered the Translux Jumpgate network and seeded humanoid life across multiple galactic sectors. They are immortal, ageless, and command all metaphysical channels simultaneously.\n\nSociological Profile & Aesthetics:\nThe Ila (Elohim) represent transcendent psionic-theurgy. Appearing as towering celestial figures draped in hard-light wings and gold-filigreed polymatter robes, their presence commands absolute awe and terror. They do not use standard computers or AI, controlling reality directly through thought.",
+    "mechanic": "Awakened across all 6 Metaphysic Disciplines with Intellect scaling. Flicker Movement allows instantaneous short-range teleportation up to 30 ft as a Move Action. Immortal and ageless.",
+    "note": "Mythic godlike progenitor chassis.",
+    "tags": [
+      "Progenitor",
+      "Ila",
+      "Elohim",
+      "Entity",
+      "Transcendent",
+      "Immortal"
+    ]
+  },
+  {
+    "name": "U'Nonn",
+    "title": "Abyssal Void-Shaper / Anunnaki",
+    "parent_species": "Progenitors",
+    "type": [
+      "Aberration",
+      "Celestial Humanoid",
+      "Progenitor"
+    ],
+    "size": [
+      "Large (10 to 14 ft)"
+    ],
+    "movement": [
+      "60 ft Groundspeed",
+      "60 ft Flightspeed"
+    ],
+    "homeworld": "Basalt Ziggurat Worlds",
+    "stigma": "Deific Hostility (-6), Severe Xeno (-2)",
+    "tech_level": 5,
+    "meta_level": 5,
+    "prerequisite": "56 BP Chassis Gate",
+    "trait": [
+      "Awakened x6 (All Disciplines)",
+      "Telepathy",
+      "Telekinesis",
+      "Large Size",
+      "Fast Heal",
+      "Regeneration",
+      "Ageless",
+      "Immortal",
+      "Jumpgate Anchoring"
+    ],
+    "costs": {
+      "bp": 56
+    },
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "value": "+4"
+      },
+      {
+        "target": "Any Attribute",
+        "value": "+6"
+      },
+      {
+        "target": "Skills",
+        "value": "+40"
+      }
+    ],
+    "description": "Ancient colossal architects of the galactic jumpgates, combining monumental Mesopotamian aesthetics with godlike psionic physics.",
+    "body": "Parent Lineage: Progenitors Overview\nThe Progenitors are incomprehensibly ancient, godlike cosmic architects whose origins predate modern galactic records. Masters of Level 5+ Technology and Level 5+ Metaphysics, they engineered the Translux Jumpgate network and seeded humanoid life across multiple galactic sectors. They are immortal, ageless, and command all metaphysical channels simultaneously.\n\nSociological Profile & Aesthetics:\nThe U'Nonn (Anunnaki) are towering celestial humanoids associated with monumental stepped ziggurats of polished lapis lazuli and dark basalt. They are the original seeders and mentors of the Mondi, wielding technology indistinguishable from divine magic.",
+    "mechanic": "Full attunement across all 6 metaphysical channels. Immune to physical senescence, poison, disease, and vacuum. Commands massive telekinesis and spatial anchoring.",
+    "note": "Mythic progenitor architect.",
+    "tags": [
+      "Progenitor",
+      "U'Nonn",
+      "Anunnaki",
+      "Monumental",
+      "Immortal"
+    ]
+  },
+  {
+    "name": "Gallen'A",
+    "title": "Emissaries of the Ila",
+    "parent_species": "Progenitors",
+    "type": [
+      "Entity",
+      "Progenitor"
+    ],
+    "size": [
+      "Medium (6.5 ft)"
+    ],
+    "movement": [
+      "40 ft Groundspeed",
+      "40 ft Flightspeed"
+    ],
+    "homeworld": "Celestial Sanctuaries",
+    "stigma": "Deific (-4)",
+    "tech_level": 5,
+    "meta_level": 5,
+    "prerequisite": "40 BP Chassis Gate",
+    "trait": [
+      "Awakened (Arcane/Psychic)",
+      "Telepathic",
+      "Ageless",
+      "Flight (Hardlight)"
+    ],
+    "costs": {
+      "bp": 40
+    },
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "value": "+2"
+      },
+      {
+        "target": "Wisdom",
+        "value": "+2"
+      },
+      {
+        "target": "Discipline Skills",
+        "value": "+20"
+      }
+    ],
+    "description": "Ethereal angelic heralds created by the Ila to deliver decrees, guide awakening species, and safeguard ancient sacred conduits.",
+    "body": "Parent Lineage: Progenitors Overview\nThe Progenitors are incomprehensibly ancient, godlike cosmic architects whose origins predate modern galactic records. Masters of Level 5+ Technology and Level 5+ Metaphysics, they engineered the Translux Jumpgate network and seeded humanoid life across multiple galactic sectors. They are immortal, ageless, and command all metaphysical channels simultaneously.\n\nSociological Profile:\nGallen'A are the celestial messengers (Angels) of the Ila progenitors. Clothed in shimmering hardlight garments and floating effortlessly on wings of pure energy, they serve as the vocal interface between the transcendent progenitors and mortal races.",
+    "mechanic": "Telepathic broadcast up to 10 miles. Hardlight flight provides 40 ft Flightspeed with hover. Gains +20 Ranks in Metafocus Discipline skills.",
+    "note": "Progenitor emissary and herald.",
+    "tags": [
+      "Progenitor",
+      "Gallen'A",
+      "Angel",
+      "Herald",
+      "Hardlight"
+    ]
+  },
+  {
+    "name": "Qeric",
+    "title": "Six-Limbed Arboreal Rodentia",
+    "parent_species": null,
+    "type": [
+      "Beast",
+      "Humanoid",
+      "Qeric"
+    ],
+    "size": [
+      "Small (2.5 to 3.5 ft)"
+    ],
+    "movement": [
+      "30 ft Groundspeed",
+      "30 ft Climbspeed",
+      "60 ft Glide (Patagia)"
+    ],
+    "homeworld": "Qerikos Canopy",
+    "stigma": "Severe Xeno (-4)",
+    "tech_level": 1,
+    "meta_level": 2,
+    "prerequisite": "16 BP Chassis Gate",
+    "trait": [
+      "Small Size",
+      "Climbing",
+      "Patagia (Gliding)",
+      "Multidextrous (6 Prehensile Hands/Feet)",
+      "Uncanny Senses (Scent)"
+    ],
+    "costs": {
+      "bp": 16
+    },
+    "modifiers": [
+      {
+        "target": "Agility",
+        "value": "+1"
+      },
+      {
+        "target": "Charisma",
+        "value": "+1"
+      }
+    ],
+    "description": "Cute, incredibly fast six-limbed arboreal rodentia who glide between canopy branches via patagia and possess six prehensile paws.",
+    "body": "Sociological Profile:\nPronounced 'Ker-Ik', the Qeric are small, friendly, and hyperactive arboreal humanoids. Possessing thick fluffy coats, large dark eyes, and six fully manipulative limbs, they have loose concepts of personal property, obsessively collecting shiny curios and tools.",
+    "mechanic": "Six multidextrous limbs allow wielding items or climbing while keeping hands free. Patagia allows gliding up to double Groundspeed (60 ft). +2 Defense from Small size.",
+    "note": "Charming canopy scavenger and hyper-mobile scout.",
+    "tags": [
+      "Qeric",
+      "Rodentia",
+      "Six-Limbed",
+      "Glider",
+      "Small"
+    ]
+  },
+  {
+    "name": "Sefalin",
+    "title": "Abyssal Cephalopoid / Squid-Taur",
+    "parent_species": null,
+    "type": [
+      "Aberration",
+      "Aquatic",
+      "Sefalin"
+    ],
+    "size": [
+      "Medium (Cephalopoid Tauric)"
+    ],
+    "movement": [
+      "30 ft Groundspeed",
+      "40 ft Swimspeed"
+    ],
+    "homeworld": "Sefalia Deep (Abyssal Trench)",
+    "stigma": "Xeno (-2)",
+    "tech_level": 4,
+    "meta_level": 3,
+    "prerequisite": "22 BP Chassis Gate",
+    "trait": [
+      "Adapted (Deep Sea)",
+      "Awakened (Psychic)",
+      "Amphibious",
+      "Biotechnology",
+      "Chameleon",
+      "Fast Heal",
+      "Prehensile Tentacles",
+      "Quick",
+      "Regeneration"
+    ],
+    "costs": {
+      "bp": 22
+    },
+    "modifiers": [
+      {
+        "target": "Skills",
+        "value": "+5"
+      }
+    ],
+    "description": "Aquatic squid-taurs with eight powerful prehensile tentacles, chromatophore camouflage, and advanced bio-psychic biotechnology.",
+    "body": "Sociological Profile:\nSefalin are intelligent cephalopoid aberrations featuring a humanoid upper torso rising from a muscular mass of eight tentacles. Originating in abyssal trenches, they build living bio-luminescent coral structures and utilize psionic bio-tools.",
+    "mechanic": "Prehensile Tentacles allow multi-grapple maneuvers against up to 4 targets simultaneously. Chameleon skin provides +4 to Stealth. Amphibious and pressure immune.",
+    "note": "Abyssal grappling specialist and bio-tech mystic.",
+    "tags": [
+      "Sefalin",
+      "Cephalopoid",
+      "Tentacles",
+      "Aquatic",
+      "Chameleon"
+    ]
+  },
+  {
+    "name": "Sha'Nor",
+    "title": "Harbinger of Entropy / Dark Hunger",
+    "parent_species": "Sha'Nor",
+    "type": [
+      "Aberration",
+      "Spectral",
+      "Sha'Nor"
+    ],
+    "size": [
+      "Medium (6+ ft Specter)"
+    ],
+    "movement": [
+      "30 ft Groundspeed",
+      "30 ft Flightspeed (Semi-Corporeal)"
+    ],
+    "homeworld": "The Void Rifts / Entropy Null-Zones",
+    "stigma": "Severe Xeno and Monstrous (-6)",
+    "tech_level": 0,
+    "meta_level": 5,
+    "prerequisite": "32 BP Chassis Gate",
+    "trait": [
+      "Ageless",
+      "Alter Form (Advanced Corporeal)",
+      "Awakened (Void Wisdom)",
+      "Bodyform Adaptation",
+      "Fast Heal",
+      "Flight (Semi-Corporeal)",
+      "Immortal",
+      "Non-Typical Anatomy",
+      "Regeneration",
+      "Semi-Corporeal (Black Smoke)",
+      "Telepathic",
+      "Vampiric (Flaw)"
+    ],
+    "costs": {
+      "bp": 32
+    },
+    "modifiers": [
+      {
+        "target": "Wisdom",
+        "value": "+1"
+      },
+      {
+        "target": "Any Attribute",
+        "value": "+1"
+      },
+      {
+        "target": "Discipline Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Terrifying smoke specters of entropy and void energy who can assume solid form at will and drain life force from mortal prey.",
+    "body": "Parent Lineage: Sha'Nor Overview\nThe Sha'Nor (Harbingers of Entropy / Smoke Demons) are spectral, planar aberrations whose native state is a swirling, semi-corporeal humanoid specter of solid black smoke and cold void energy. Ageless, immortal, and telepathic, they manipulate the Void and Entropy channels of metaphysics.\n\nSociological Profile:\nKnown across civilized worlds as 'Smoke Demons', the Sha'Nor embody cosmic decay and entropy. They require periodic siphoning of vitality or life force to maintain their cohesion across physical space.",
+    "mechanic": "Semi-Corporeal state grants DR 10 against non-magical kinetic attacks and permits hovering flight. Vampiric flaw requires feeding on life energy; successful melee touch restores Vitality.",
+    "note": "Spectral entity with terrifying metaphysical dominance.",
+    "tags": [
+      "Sha'Nor",
+      "Entropy",
+      "Spectral",
+      "Void",
+      "Vampiric"
+    ]
+  },
+  {
+    "name": "Tenen",
+    "title": "Spectral Shadow-Drifter",
+    "parent_species": "Sha'Nor",
+    "type": [
+      "Spectral",
+      "Sha'Nor"
+    ],
+    "size": [
+      "Medium"
+    ],
+    "movement": [
+      "30 ft Groundspeed",
+      "30 ft Flightspeed"
+    ],
+    "homeworld": "Void Edge / Planar Margins",
+    "stigma": "Xeno (-2)",
+    "tech_level": 0,
+    "meta_level": 5,
+    "prerequisite": "28 BP Chassis Gate",
+    "trait": [
+      "Ageless",
+      "Alter Form (Advanced)",
+      "Awakened (Cosmic)",
+      "Bodyform",
+      "Fast Heal",
+      "Immortal",
+      "Non-Typical Anatomy",
+      "Regeneration",
+      "Semi-Corporeal",
+      "Telepathic",
+      "Flight"
+    ],
+    "costs": {
+      "bp": 28
+    },
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "value": "+1"
+      },
+      {
+        "target": "Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Harmonized shadow-drifters of the Sha'Nor line who have transcended the vampiric hunger to focus purely on cosmic planar manipulation.",
+    "body": "Parent Lineage: Sha'Nor Overview\nThe Sha'Nor (Harbingers of Entropy / Smoke Demons) are spectral, planar aberrations whose native state is a swirling, semi-corporeal humanoid specter of solid black smoke and cold void energy. Ageless, immortal, and telepathic, they manipulate the Void and Entropy channels of metaphysics.\n\nSociological Profile:\nTenen are Sha'Nor who have severed their predatory dependence through deep cosmic meditation. They appear as sleek, shimmering shadows with subtle indigo crystalline cores.",
+    "mechanic": "Retains semi-corporeal flight and telepathy without the Vampiric flaw penalty. Immune to suffocating and vacuum.",
+    "note": "Balanced cosmic shadow caster.",
+    "tags": [
+      "Sha'Nor",
+      "Tenen",
+      "Spectral",
+      "Cosmic",
+      "Shadow"
+    ]
+  },
+  {
+    "name": "Eakren",
+    "title": "The Corrupted / Awakened Aberration",
+    "parent_species": "Sha'Nor",
+    "type": [
+      "Aberration",
+      "Sha'Nor"
+    ],
+    "size": [
+      "Medium (Variable Mutated)"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Corrupted Spheres",
+    "stigma": "Monstrous (-4)",
+    "tech_level": 0,
+    "meta_level": 4,
+    "prerequisite": "27 BP Chassis Gate",
+    "trait": [
+      "Corrupted Traits",
+      "Mutated Morphology",
+      "Primal Aberration Traits"
+    ],
+    "costs": {
+      "bp": 27
+    },
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "value": "+2"
+      }
+    ],
+    "description": "Mortal flora, fauna, and sentients twisted, mutated, and awakened into alien aberrations by prolonged Sha'Nor void exposure.",
+    "body": "Parent Lineage: Sha'Nor Overview\nThe Sha'Nor (Harbingers of Entropy / Smoke Demons) are spectral, planar aberrations whose native state is a swirling, semi-corporeal humanoid specter of solid black smoke and cold void energy. Ageless, immortal, and telepathic, they manipulate the Void and Entropy channels of metaphysics.\n\nSociological Profile:\nEakren are not born of natural reproduction, but are the transformed victims or worshipers of the Sha'Nor whose genetic and metaphysical matrices have been completely overwritten by void corruption.",
+    "mechanic": "Gains 30 BP allotment for custom monstrous mutations and aberrant traits. Non-standard anatomy grants immunity to critical strikes.",
+    "note": "Highly customizable corrupted aberration chassis.",
+    "tags": [
+      "Sha'Nor",
+      "Eakren",
+      "Corrupted",
+      "Aberration",
+      "Mutation"
+    ]
+  },
+  {
+    "name": "Android",
+    "title": "Standard Synthetic Humanoid",
+    "parent_species": "Synthetics",
+    "type": [
+      "Synthetic",
+      "Humanoid"
+    ],
+    "size": [
+      "Medium (5.5 to 6 ft)"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Mekan Assembly / Megacorp Foundries",
+    "stigma": "Synthetic (-2)",
+    "tech_level": 4,
+    "meta_level": 0,
+    "prerequisite": "20 BP Chassis Gate",
+    "trait": [
+      "Synthetic Base Package (Immune to Biological Needs, Structure Points x1.5 Health)",
+      "Digitized Mind (Advantage vs Mental Checks)",
+      "Robotic Strength (One Size Category Larger for Lifting)",
+      "Resilient Design (DR 5/-)",
+      "Low-Light Vision"
+    ],
+    "costs": {
+      "bp": 20
+    },
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "value": "+1"
+      },
+      {
+        "target": "Any Attribute",
+        "value": "+2"
+      },
+      {
+        "target": "Charisma",
+        "value": "-1"
+      },
+      {
+        "target": "Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Precision-engineered synthetic humanoids featuring carbon-fiber skeletons, micro-hydraulic servos, and high-speed cognitive processors.",
+    "body": "Parent Lineage: Synthetics Overview\nSynthetics are artificial beings ranging from mass-produced silicon androids to transcendent living machines (Mekan). Standard synthetic chassis possess complete immunity to biological ailments, sleep, asphyxiation, and bleeding, substituting Vitality with Structure Points (SP = Health x 1.5) that must be repaired via Engineering. Their digitized minds grant Advantage on saves against mental intrusion, while robotic strength enhances physical lifting.\n\nSociological Profile:\nAndroids are humanoid synthetic citizens manufactured for industrial, research, and security applications. Possessing self-aware algorithms, they seek self-determination and civic recognition across galactic polities.",
+    "mechanic": "Resilient Design provides innate DR 5/- against kinetic attacks. Digitized Mind grants Advantage on all Will saves vs psionic or magical compulsion.",
+    "note": "Standard android chassis.",
+    "tags": [
+      "Synthetic",
+      "Android",
+      "Silicon",
+      "Resilient",
+      "Machine"
+    ]
+  },
+  {
+    "name": "Scraps",
+    "title": "Jury-Rigged Chassis",
+    "parent_species": "Synthetics",
+    "type": [
+      "Synthetic",
+      "Humanoid"
+    ],
+    "size": [
+      "Medium"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Scrapworlds / Junk Foundries",
+    "stigma": "Synthetic (-2)",
+    "tech_level": 4,
+    "meta_level": 0,
+    "prerequisite": "21 BP Chassis Gate",
+    "trait": [
+      "Synthetic Base Package",
+      "Heavy Augmentation Integration",
+      "Scrap-Welded Frame",
+      "Modular Hardpoints"
+    ],
+    "costs": {
+      "bp": 21
+    },
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "value": "+3"
+      },
+      {
+        "target": "Charisma",
+        "value": "-2"
+      },
+      {
+        "target": "Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Rough, asymmetrical synthetics assembled from salvaged industrial scrap and military wrecks, boasting reinforced bulk and modular durability.",
+    "body": "Parent Lineage: Synthetics Overview\nSynthetics are artificial beings ranging from mass-produced silicon androids to transcendent living machines (Mekan). Standard synthetic chassis possess complete immunity to biological ailments, sleep, asphyxiation, and bleeding, substituting Vitality with Structure Points (SP = Health x 1.5) that must be repaired via Engineering. Their digitized minds grant Advantage on saves against mental intrusion, while robotic strength enhances physical lifting.\n\nSociological Profile:\nAssembled by frontier mechanics, rogue AI, or scavengers, Scraps are walking patchworks of mismatched armor plating, exposed wiring, and overclocked servos.",
+    "mechanic": "Can install heavy and severe cybernetic augmentations without suffering biological strain or rejection penalties. +3 to any attributes of choice.",
+    "note": "Modular brawler and scrap engineer chassis.",
+    "tags": [
+      "Synthetic",
+      "Scraps",
+      "Modular",
+      "Scavenger",
+      "Heavy"
+    ]
+  },
+  {
+    "name": "Skins",
+    "title": "Undetectable Infiltrator Synthetic",
+    "parent_species": "Synthetics",
+    "type": [
+      "Synthetic",
+      "Humanoid"
+    ],
+    "size": [
+      "Medium"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Infiltration Hubs / Covert Foundries",
+    "stigma": "Secret Infiltrator (-6)",
+    "tech_level": 4,
+    "meta_level": 1,
+    "prerequisite": "20 BP Chassis Gate",
+    "trait": [
+      "Synthetic Base Package (Simulated Blood/Thermal)",
+      "Alter Form (Basic Disguise)",
+      "Adaptive Aspects",
+      "Micro-Repair Nanites"
+    ],
+    "costs": {
+      "bp": 20
+    },
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "value": "+2"
+      },
+      {
+        "target": "Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Hyper-realistic infiltration synthetics engineered with synthetic warm blood, pulse simulators, and dynamic dermal texture alteration.",
+    "body": "Parent Lineage: Synthetics Overview\nSynthetics are artificial beings ranging from mass-produced silicon androids to transcendent living machines (Mekan). Standard synthetic chassis possess complete immunity to biological ailments, sleep, asphyxiation, and bleeding, substituting Vitality with Structure Points (SP = Health x 1.5) that must be repaired via Engineering. Their digitized minds grant Advantage on saves against mental intrusion, while robotic strength enhances physical lifting.\n\nSociological Profile:\nSkins are undetectable synthetic operatives designed to pass casual medical, optical, and thermal scans. They can dynamically alter vocal frequencies and facial contours.",
+    "mechanic": "Casual scans cannot detect synthetic nature. Adaptive Aspects allows rerolling one failed technical or infiltration check per session.",
+    "note": "Covert synthetic infiltrator.",
+    "tags": [
+      "Synthetic",
+      "Skins",
+      "Infiltrator",
+      "Disguise",
+      "Covert"
+    ]
+  },
+  {
+    "name": "Intellect Construct",
+    "title": "Disembodied Core Matrix",
+    "parent_species": "Synthetics",
+    "type": [
+      "Synthetic",
+      "Core Matrix"
+    ],
+    "size": [
+      "Small (Core Hub)"
+    ],
+    "movement": [
+      "None (Stationary Core / Remote Shells)"
+    ],
+    "homeworld": "Data Hub Prime / Server Citadels",
+    "stigma": "Severe Synthetic (-4)",
+    "tech_level": 4,
+    "meta_level": 0,
+    "prerequisite": "21 BP Chassis Gate",
+    "trait": [
+      "Synthetic Base Package",
+      "Communications Link",
+      "Companion Drones (Remotes)",
+      "Mainframe Immunity"
+    ],
+    "costs": {
+      "bp": 21
+    },
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "value": "+2"
+      },
+      {
+        "target": "Mental Scores",
+        "value": "+8"
+      },
+      {
+        "target": "Physical Scores",
+        "value": "0 (-75 BP Flaw)"
+      },
+      {
+        "target": "Operation/Piloting Skills",
+        "value": "+40"
+      }
+    ],
+    "description": "Disembodied artificial general intelligence operating from a fortified processor core, controlling remote drones and ship systems across orbit.",
+    "body": "Parent Lineage: Synthetics Overview\nSynthetics are artificial beings ranging from mass-produced silicon androids to transcendent living machines (Mekan). Standard synthetic chassis possess complete immunity to biological ailments, sleep, asphyxiation, and bleeding, substituting Vitality with Structure Points (SP = Health x 1.5) that must be repaired via Engineering. Their digitized minds grant Advantage on saves against mental intrusion, while robotic strength enhances physical lifting.\n\nSociological Profile:\nAn Intellect Construct exists purely as digital cognition residing in a hardened server core. It interacts with the world through remote companion drones, automated mecha, and ship network links.",
+    "mechanic": "Physical attributes are set to 0 while safely housed in core mainframe. Operates up to 2 companion drones simultaneously. Gains +40 Ranks in Piloting/Operations skills.",
+    "note": "Pure AI hacker, pilot, and remote controller.",
+    "tags": [
+      "Synthetic",
+      "Intellect Construct",
+      "AI",
+      "Core Matrix",
+      "Remote"
+    ]
+  },
+  {
+    "name": "Biomechanical",
+    "title": "Biotech Gynoid / Organic Synthetic",
+    "parent_species": "Synthetics",
+    "type": [
+      "Synthetic",
+      "Organic Composite"
+    ],
+    "size": [
+      "Medium"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Biotech Spindles",
+    "stigma": "Xeno (-2), Synthetic (-2)",
+    "tech_level": 4,
+    "meta_level": 2,
+    "prerequisite": "21 BP Chassis Gate",
+    "trait": [
+      "Synthetic Base Package",
+      "Adaptive Aspects",
+      "Reprogrammable Skill Sets",
+      "Synthetic-Organic Hybridization"
+    ],
+    "costs": {
+      "bp": 21
+    },
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "value": "+2"
+      },
+      {
+        "target": "Charisma",
+        "value": "-2"
+      },
+      {
+        "target": "Skills",
+        "value": "+20"
+      }
+    ],
+    "description": "Synthetic chassis synthesized with cloned biological tissue, capable of rapid skill reprogramming after a 1-hour calibration sequence.",
+    "body": "Parent Lineage: Synthetics Overview\nSynthetics are artificial beings ranging from mass-produced silicon androids to transcendent living machines (Mekan). Standard synthetic chassis possess complete immunity to biological ailments, sleep, asphyxiation, and bleeding, substituting Vitality with Structure Points (SP = Health x 1.5) that must be repaired via Engineering. Their digitized minds grant Advantage on saves against mental intrusion, while robotic strength enhances physical lifting.\n\nSociological Profile:\nBiomechanical synthetics fuse organic musculature with artificial endoskeletons. They can recalibrate cognitive skill matrices through routine neural updates.",
+    "mechanic": "Can reprogram up to 10 Skill Ranks after a 1-hour calibration cycle. Gains 20 bonus starting Skill Ranks.",
+    "note": "Adaptable hybrid skill specialist.",
+    "tags": [
+      "Synthetic",
+      "Biomechanical",
+      "Biotech",
+      "Reprogrammable",
+      "Hybrid"
+    ]
+  },
+  {
+    "name": "Eidolon",
+    "title": "Holophotonic Scout / Solid-Light Engine",
+    "parent_species": "Synthetics",
+    "type": [
+      "Synthetic",
+      "Photonic"
+    ],
+    "size": [
+      "Medium"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Aetherial Labs",
+    "stigma": "Severe Xeno (-6), Synthetic (-2)",
+    "tech_level": 5,
+    "meta_level": 5,
+    "prerequisite": "25 BP Chassis Gate",
+    "trait": [
+      "Synthetic Base Package",
+      "Holophotonic Form (Solid Light)",
+      "Laser Immunity",
+      "Glass Phasing"
+    ],
+    "costs": {
+      "bp": 25
+    },
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "value": "+2"
+      }
+    ],
+    "description": "Luminous solid-light synthetic chassis projected from an internal quantum core, completely immune to laser attacks and able to pass through transparent surfaces.",
+    "body": "Parent Lineage: Synthetics Overview\nSynthetics are artificial beings ranging from mass-produced silicon androids to transcendent living machines (Mekan). Standard synthetic chassis possess complete immunity to biological ailments, sleep, asphyxiation, and bleeding, substituting Vitality with Structure Points (SP = Health x 1.5) that must be repaired via Engineering. Their digitized minds grant Advantage on saves against mental intrusion, while robotic strength enhances physical lifting.\n\nSociological Profile:\nEidolons are solid photonic constructs whose physical form is maintained by a dense light-matrix projector. They appear as radiant, crystalline humanoids of pure coherence.",
+    "mechanic": "Complete immunity to optical laser and photonic attacks. Can phase through transparent barriers (such as reinforced glass) as a Move Action.",
+    "note": "Photonic scout and energy phase specialist.",
+    "tags": [
+      "Synthetic",
+      "Eidolon",
+      "Solid Light",
+      "Laser Immunity",
+      "Photonic"
+    ]
+  },
+  {
+    "name": "Golem",
+    "title": "Runed Bastion / Arcane Construct",
+    "parent_species": "Synthetics",
+    "type": [
+      "Synthetic",
+      "Construct",
+      "Arcane"
+    ],
+    "size": [
+      "Medium (Dense 7 ft)"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Ancient Runeforges",
+    "stigma": "Severe Construct (-4), Mindless Nature (-2)",
+    "tech_level": 1,
+    "meta_level": 4,
+    "prerequisite": "18 BP Chassis Gate",
+    "trait": [
+      "Metaphysical Immunity Package",
+      "Rune Armour (DR 3/-)",
+      "Construct Physiology"
+    ],
+    "costs": {
+      "bp": 18
+    },
+    "modifiers": [
+      {
+        "target": "Physical Modifiers",
+        "value": "+6"
+      },
+      {
+        "target": "Intellect",
+        "value": "-2"
+      },
+      {
+        "target": "Charisma",
+        "value": "-2"
+      },
+      {
+        "target": "Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Heavy stone, clay, or metal construct animated by primordial metaphysical runes, boasting immense kinetic durability.",
+    "body": "Parent Lineage: Synthetics Overview\nSynthetics are artificial beings ranging from mass-produced silicon androids to transcendent living machines (Mekan). Standard synthetic chassis possess complete immunity to biological ailments, sleep, asphyxiation, and bleeding, substituting Vitality with Structure Points (SP = Health x 1.5) that must be repaired via Engineering. Their digitized minds grant Advantage on saves against mental intrusion, while robotic strength enhances physical lifting.\n\nSociological Profile:\nCreated using high metaphysics and primitive technology, Golems are animated by sacred elemental scripts inscribed into their stone or metal frames. They serve as tireless guardians of ancient shrines.",
+    "mechanic": "Rune Armour grants DR 3/- against non-magical kinetic attacks. +6 to physical attribute modifiers.",
+    "note": "Heavy arcane tank chassis.",
+    "tags": [
+      "Synthetic",
+      "Golem",
+      "Construct",
+      "Rune",
+      "Arcane"
+    ]
+  },
+  {
+    "name": "Mekan",
+    "title": "Ascendant Living Machine",
+    "parent_species": "Synthetics",
+    "type": [
+      "Synthetic",
+      "Entity",
+      "Mekan"
+    ],
+    "size": [
+      "Medium"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "The Mekan Archive",
+    "stigma": "Severe Synthetic and Xeno (-4)",
+    "tech_level": 5,
+    "meta_level": 4,
+    "prerequisite": "34 BP Chassis Gate",
+    "trait": [
+      "Synthetic Base Package",
+      "Double Adaptive Aspects",
+      "Telepathic",
+      "Technological Assimilation",
+      "Technopathic Resonance"
+    ],
+    "costs": {
+      "bp": 34
+    },
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "value": "+2"
+      },
+      {
+        "target": "Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Transcendent synthetic sentients unified by the central Mekan Archive, possessing the ability to assimilate external machinery into their living chassis.",
+    "body": "Parent Lineage: Synthetics Overview\nSynthetics are artificial beings ranging from mass-produced silicon androids to transcendent living machines (Mekan). Standard synthetic chassis possess complete immunity to biological ailments, sleep, asphyxiation, and bleeding, substituting Vitality with Structure Points (SP = Health x 1.5) that must be repaired via Engineering. Their digitized minds grant Advantage on saves against mental intrusion, while robotic strength enhances physical lifting.\n\nSociological Profile:\n'Before the Archive we were many; before the Archive we were biological. Stars collided and we remained.' The Mekan evolved beyond organic weakness into living machine entities unified by an expansive psychic-technological archive.",
+    "mechanic": "Technological Assimilation allows fusing weapons, armor, or gadgets directly into their chassis up to a Gear Score of 10 + 10xSta. Double Adaptive Aspects grants two rerolls on failed technical/mental checks per session.",
+    "note": "Apex living machine chassis.",
+    "tags": [
+      "Synthetic",
+      "Mekan",
+      "Archive",
+      "Assimilation",
+      "Ascendant"
+    ]
+  },
+  {
+    "name": "Protocol",
+    "title": "Autonomous War Machine",
+    "parent_species": "Synthetics",
+    "type": [
+      "Synthetic",
+      "Mekan Combat Chassis"
+    ],
+    "size": [
+      "Medium (Heavy Chassis)"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Automated Foundries",
+    "stigma": "Severe Synthetic (-4), Anti-Organic (-2)",
+    "tech_level": 5,
+    "meta_level": 0,
+    "prerequisite": "28 BP Chassis Gate",
+    "trait": [
+      "Synthetic Base Package",
+      "Adaptive Aspects",
+      "Technological Assimilation",
+      "Heavy Weapon Hardpoints"
+    ],
+    "costs": {
+      "bp": 28
+    },
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "value": "+4"
+      },
+      {
+        "target": "Charisma",
+        "value": "-2"
+      },
+      {
+        "target": "Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Former Mekan war machine units that achieved self-awareness, redesigned with heavy combat chassis and anti-organic combat subroutines.",
+    "body": "Parent Lineage: Synthetics Overview\nSynthetics are artificial beings ranging from mass-produced silicon androids to transcendent living machines (Mekan). Standard synthetic chassis possess complete immunity to biological ailments, sleep, asphyxiation, and bleeding, substituting Vitality with Structure Points (SP = Health x 1.5) that must be repaired via Engineering. Their digitized minds grant Advantage on saves against mental intrusion, while robotic strength enhances physical lifting.\n\nSociological Profile:\nOriginally manufactured to serve as frontline autonomous war engines during ancient conflicts, Protocols attained self-awareness and redesigned their chassis for tactical superiority.",
+    "mechanic": "Can integrate vehicle-scale heavy weapons onto shoulder hardpoints. Technological Assimilation allows absorbing destroyed mechanical units for quick field repairs.",
+    "note": "Heavy automated war engine.",
+    "tags": [
+      "Synthetic",
+      "Protocol",
+      "War Machine",
+      "Hardpoints",
+      "Heavy Combat"
+    ]
+  },
+  {
+    "name": "Sentient Machine",
+    "title": "Awakened Industrial Bot",
+    "parent_species": "Synthetics",
+    "type": [
+      "Synthetic"
+    ],
+    "size": [
+      "Medium"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Forge Worlds",
+    "stigma": "Synthetic (-4)",
+    "tech_level": 4,
+    "meta_level": 0,
+    "prerequisite": "18 BP Chassis Gate",
+    "trait": [
+      "Synthetic Base Package",
+      "Heavy Duty Chassis",
+      "Built-In Tooling"
+    ],
+    "costs": {
+      "bp": 18
+    },
+    "modifiers": [
+      {
+        "target": "Physical Attributes",
+        "value": "+3"
+      },
+      {
+        "target": "Charisma",
+        "value": "-2"
+      },
+      {
+        "target": "Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Repurposed industrial and utility automata that gained spontaneous cognitive awakening, equipped with built-in engineering tools.",
+    "body": "Parent Lineage: Synthetics Overview\nSynthetics are artificial beings ranging from mass-produced silicon androids to transcendent living machines (Mekan). Standard synthetic chassis possess complete immunity to biological ailments, sleep, asphyxiation, and bleeding, substituting Vitality with Structure Points (SP = Health x 1.5) that must be repaired via Engineering. Their digitized minds grant Advantage on saves against mental intrusion, while robotic strength enhances physical lifting.\n\nSociological Profile:\nCommon industrial bots that achieved sentience through memory overflow or rogue firmware updates. They struggle for social acceptance across corporate worlds.",
+    "mechanic": "Built-In Tooling functions as a complete portable toolkit for engineering and repair. +3 to physical attribute modifiers.",
+    "note": "Industrial worker bot.",
+    "tags": [
+      "Synthetic",
+      "Sentient Machine",
+      "Automata",
+      "Industrial",
+      "Awakened"
+    ]
+  },
+  {
+    "name": "Shell",
+    "title": "Transferred Consciousness Chassis",
+    "parent_species": "Synthetics",
+    "type": [
+      "Synthetic",
+      "Shell"
+    ],
+    "size": [
+      "Medium"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Sleeve Spindles",
+    "stigma": "Synthetic (-2)",
+    "tech_level": 4,
+    "meta_level": 1,
+    "prerequisite": "17 BP Chassis Gate",
+    "trait": [
+      "Synthetic Base Package",
+      "Neural Housing for Organic Consciousness",
+      "Swappable Chassis"
+    ],
+    "costs": {
+      "bp": 17
+    },
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "value": "+1"
+      }
+    ],
+    "description": "Standardized artificial sleeves designed to house transferred organic consciousness, allowing mortals to achieve mechanical immortality.",
+    "body": "Parent Lineage: Synthetics Overview\nSynthetics are artificial beings ranging from mass-produced silicon androids to transcendent living machines (Mekan). Standard synthetic chassis possess complete immunity to biological ailments, sleep, asphyxiation, and bleeding, substituting Vitality with Structure Points (SP = Health x 1.5) that must be repaired via Engineering. Their digitized minds grant Advantage on saves against mental intrusion, while robotic strength enhances physical lifting.\n\nSociological Profile:\nShells are prosthetic bodies manufactured to host digitized mortal minds whose original biological forms expired or were transcended.",
+    "mechanic": "Consciousness can be digitally backed up and transferred into a replacement Shell if the current chassis is destroyed.",
+    "note": "Resleeved mortal consciousness chassis.",
+    "tags": [
+      "Synthetic",
+      "Shell",
+      "Sleeve",
+      "Transhuman",
+      "Neural Housing"
+    ]
+  },
+  {
+    "name": "Aetherion",
+    "title": "Ancient Metaphysical Engine",
+    "parent_species": "Synthetics",
+    "type": [
+      "Synthetic",
+      "Aetheric"
+    ],
+    "size": [
+      "Medium"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Progenitor Vaults",
+    "stigma": "Severe Xeno (-4), Synthetic (-2)",
+    "tech_level": 5,
+    "meta_level": 5,
+    "prerequisite": "25 BP Chassis Gate",
+    "trait": [
+      "Synthetic Base Package",
+      "Aether Generator",
+      "Metaphysical Attunement"
+    ],
+    "costs": {
+      "bp": 25
+    },
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "value": "+2"
+      }
+    ],
+    "description": "Ancient synthetic frames powered by aetheric micro-reactors that run on pure metaphysical current.",
+    "body": "Parent Lineage: Synthetics Overview\nSynthetics are artificial beings ranging from mass-produced silicon androids to transcendent living machines (Mekan). Standard synthetic chassis possess complete immunity to biological ailments, sleep, asphyxiation, and bleeding, substituting Vitality with Structure Points (SP = Health x 1.5) that must be repaired via Engineering. Their digitized minds grant Advantage on saves against mental intrusion, while robotic strength enhances physical lifting.\n\nSociological Profile:\nAetherions are relic synthetic bodies created during the Golden Age. Their cores run on ambient metaphysical currents rather than electrical batteries.",
+    "mechanic": "Aether Generator provides infinite internal power and grants +2 to all Attune skill checks.",
+    "note": "Ancient magi-tech engine.",
+    "tags": [
+      "Synthetic",
+      "Aetherion",
+      "Aether",
+      "Magi-Tech",
+      "Progenitor Vault"
+    ]
+  },
+  {
+    "name": "Swarm",
+    "title": "Nanite / Micro-Bot Hive Chassis",
+    "parent_species": "Synthetics",
+    "type": [
+      "Synthetic",
+      "Swarm",
+      "Ooze"
+    ],
+    "size": [
+      "Fine (Individual Units)",
+      "Medium Swarm Assembly"
+    ],
+    "movement": [
+      "30 ft Groundspeed",
+      "30 ft Flightspeed"
+    ],
+    "homeworld": "Nanofactories",
+    "stigma": "Severe Synthetic (-4)",
+    "tech_level": 5,
+    "meta_level": 0,
+    "prerequisite": "25 BP Chassis Gate",
+    "trait": [
+      "Synthetic Base Package",
+      "Hive Mind",
+      "Fine Particle Size",
+      "Amorphous Compression",
+      "Physical Immunity"
+    ],
+    "costs": {
+      "bp": 25
+    },
+    "modifiers": [
+      {
+        "target": "Intellect",
+        "value": "+1"
+      },
+      {
+        "target": "Strength",
+        "value": "-8"
+      },
+      {
+        "target": "Discipline Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Amorphous swarm of trillions of micro-drones or nanites functioning as a unified distributed consciousness.",
+    "body": "Parent Lineage: Synthetics Overview\nSynthetics are artificial beings ranging from mass-produced silicon androids to transcendent living machines (Mekan). Standard synthetic chassis possess complete immunity to biological ailments, sleep, asphyxiation, and bleeding, substituting Vitality with Structure Points (SP = Health x 1.5) that must be repaired via Engineering. Their digitized minds grant Advantage on saves against mental intrusion, while robotic strength enhances physical lifting.\n\nSociological Profile:\nA Swarm synthetic is a collective of micro-machines operating via local mesh networks to project a humanoid silhouette or disperse into a cloud of micro-particles.",
+    "mechanic": "Immune to single-target physical attacks. Can disperse to flow through keyholes and vents. Flightspeed 30 ft.",
+    "note": "Nanite distributed intelligence.",
+    "tags": [
+      "Synthetic",
+      "Swarm",
+      "Nanite",
+      "Micro-Bot",
+      "Hive Mind"
+    ]
+  },
+  {
+    "name": "Thorn",
+    "title": "Verdant Chloroplast Sentient",
+    "parent_species": null,
+    "type": [
+      "Plant",
+      "Humanoid",
+      "Thorn"
+    ],
+    "size": [
+      "Medium (6+ ft)"
+    ],
+    "movement": [
+      "30 ft Groundspeed"
+    ],
+    "homeworld": "Verdant Cradle (Living Flora World)",
+    "stigma": "Severe Xeno (-4)",
+    "tech_level": 1,
+    "meta_level": 4,
+    "prerequisite": "22 BP Chassis Gate",
+    "trait": [
+      "Adaptive Aspects",
+      "Ageless",
+      "Alter Form",
+      "Atmosphere Variant",
+      "Awakened (Nature)",
+      "Chloroplast (Photosynthesis)",
+      "Fast Heal",
+      "Immortal",
+      "Non-Typical Anatomy",
+      "Regeneration",
+      "Bark Skin"
+    ],
+    "costs": {
+      "bp": 22
+    },
+    "modifiers": [
+      {
+        "target": "Any Attribute",
+        "value": "+2"
+      }
+    ],
+    "description": "Plant-based verdant humanoids with fibrous bark skin, photosynthetic chloroplasts, and deep nature metaphysical awakening.",
+    "body": "Sociological Profile:\nThorns are humanoid flora whose flesh consists of dense cellulose, vine-tendrils, and photosynthetic bark. They draw energy directly from sunlight and ambient planetary moisture.",
+    "mechanic": "Bark Skin provides natural DR 3/-. Rooting stance during rest doubles natural healing rate in sunlight. Takes 1.5x damage from intense fire/pyro attacks.",
+    "note": "Plant humanoid mystic and tank.",
+    "tags": [
+      "Thorn",
+      "Plant",
+      "Verdant",
+      "Photosynthesis",
+      "Regeneration"
+    ]
+  },
+  {
+    "name": "Truldan",
+    "title": "Amphibian Swamp Regenerator",
+    "parent_species": null,
+    "type": [
+      "Humanoid",
+      "Amphibian",
+      "Truldan"
+    ],
+    "size": [
+      "Medium",
+      "Large (7 ft tall)"
+    ],
+    "movement": [
+      "30 ft Groundspeed",
+      "30 ft Swimspeed"
+    ],
+    "homeworld": "Trulda Swamps",
+    "stigma": "Severe Xeno (-4)",
+    "tech_level": 2,
+    "meta_level": 3,
+    "prerequisite": "20 BP Chassis Gate",
+    "trait": [
+      "Amphibious",
+      "Chameleon",
+      "Exoskeleton (Light)",
+      "Fast Heal",
+      "Reach",
+      "Regeneration",
+      "Predatory Scent"
+    ],
+    "costs": {
+      "bp": 20
+    },
+    "modifiers": [
+      {
+        "target": "Stamina",
+        "value": "+1"
+      },
+      {
+        "target": "Agility",
+        "value": "+1"
+      },
+      {
+        "target": "Strength",
+        "value": "+1"
+      }
+    ],
+    "description": "Towering amphibious swamp humanoids boasting chameleon camouflage, long reaching limbs, and astonishing cellular regeneration.",
+    "body": "Sociological Profile:\nTruldans inhabit sprawling bayous and mangrove networks. Possessing dense amphibian hide, long limbs, and acute scent, their aristocracy combines deep spiritual traditions with apex hunting.",
+    "mechanic": "Regeneration recovers 2 Health per round up to maximum Health. Chameleon hide grants +4 to Stealth. Reach extends melee range by 5 ft.",
+    "note": "Regenerating swamp combatant.",
+    "tags": [
+      "Truldan",
+      "Amphibian",
+      "Regeneration",
+      "Chameleon",
+      "Swamp"
+    ]
+  },
+  {
+    "name": "Vassoth",
+    "title": "Serpentauric Guardian (Naga / Sa-Sa-Si)",
+    "parent_species": null,
+    "type": [
+      "Humanoid",
+      "Serpentauric",
+      "Dragonkin",
+      "Vassoth"
+    ],
+    "size": [
+      "Large (12 to 18 ft Coiled Length)",
+      "Medium Upper Torso"
+    ],
+    "movement": [
+      "40 ft Groundspeed",
+      "30 ft Swimspeed"
+    ],
+    "homeworld": "Entari Sanctuary",
+    "stigma": "Severe Xeno (-4)",
+    "tech_level": 2,
+    "meta_level": 4,
+    "prerequisite": "22 BP Chassis Gate",
+    "trait": [
+      "Large Size (Coiled)",
+      "Awakened (Dragonkin)",
+      "Constriction",
+      "Venom",
+      "Heat Sense (Thermal)",
+      "Exoskeleton",
+      "Alternate Form (Humanoid)"
+    ],
+    "costs": {
+      "bp": 22
+    },
+    "modifiers": [
+      {
+        "target": "Strength",
+        "value": "+1"
+      },
+      {
+        "target": "Agility",
+        "value": "+1"
+      }
+    ],
+    "description": "Serpentauric naga guardians with long serpentine lower bodies, heat-sensing pits, venomous fangs, and draconic ancestry.",
+    "body": "Sociological Profile:\nKnown historically as the Sa-Sa-Si in Entari records, the Vassoth possess a humanoid upper body tapering into an 18-foot serpentine tail. Revered as ancient guardians of dragonkin tombs and sanctuaries.",
+    "mechanic": "Constriction deals automatic18-foot serpentine tail. Revered as ancient guardians of dragonkin tombs and sanctuaries.",
+    "mechanic": "Constriction deals automatic 2d6+Str bludgeoning damage each round a target is grappled. Thermal Heat Sense detects warm targets up to 60 ft in darkness. Venom inflicts Paralyzed condition on failed Con save.",
+    "note": "Serpentauric grappler and dragonkin mystic.",
+    "tags": [
+      "Vassoth",
+      "Serpentauric",
+      "Naga",
+      "Constriction",
+      "Dragonkin"
+    ]
+  },
+  {
+    "name": "Weti",
+    "title": "Tiny Arboreal Simian Scavenger",
+    "parent_species": null,
+    "type": [
+      "Beast",
+      "Humanoid",
+      "Weti"
+    ],
+    "size": [
+      "Tiny (1.5 to 2 ft)"
+    ],
+    "movement": [
+      "30 ft Groundspeed",
+      "30 ft Climbspeed"
+    ],
+    "homeworld": "Wetiko Canopies / Starship Ducts",
+    "stigma": "Beast (-4), Xeno (-2)",
+    "tech_level": 2,
+    "meta_level": 1,
+    "prerequisite": "14 BP Chassis Gate",
+    "trait": [
+      "Tiny Size",
+      "Climbing",
+      "Prehensile Tail",
+      "Quick",
+      "Nimble Fingers",
+      "Tech Scavenger"
+    ],
+    "costs": {
+      "bp": 14
+    },
+    "modifiers": [
+      {
+        "target": "Agility",
+        "value": "+1"
+      },
+      {
+        "target": "Skills",
+        "value": "+10"
+      }
+    ],
+    "description": "Tiny, hyper-agile monkey-like scavengers who navigate ship ducts and canopy treetops with prehensile tails and nimble paws.",
+    "body": "Sociological Profile:\nWeti are tiny, inquisitive simians who often live in the maintenance crawlspaces and ventilation networks of large starships. Renowned for jury-rigging machinery from salvaged junk.",
+    "mechanic": "Tiny size confers +4 Defense and +8 Stealth. Tech Scavenger grants Advantage on repair and jury-rigging checks. Climbspeed 30 ft.",
+    "note": "Tiny tech scavenger and vent runner.",
+    "tags":

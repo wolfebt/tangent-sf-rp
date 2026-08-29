@@ -34,8 +34,17 @@ const MapToolsPanel = ({
   fogEnabled, setFogEnabled,
   currentMapScale = 'Planetary',
   customAssets = { terrains: [], objects: [] },
+  selectedWallType = 'solid',
+  setSelectedWallType,
+  doorLockDc = 14,
+  setDoorLockDc,
+  rulerAvailableAp = 4,
+  setRulerAvailableAp,
+  activeSensorMode = 'standard_optical',
+  setActiveSensorMode,
   onOpenAssetManager,
-  onOpenHeroDrawer
+  onOpenHeroDrawer,
+  onOpenOmnicortexDrawer
 }) => {
   const [selectedCatalogScale, setSelectedCatalogScale] = useState(currentMapScale);
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -61,6 +70,89 @@ const MapToolsPanel = ({
 
   const renderToolSubPanel = () => {
     switch (activeTool) {
+      case 'wall':
+        return (
+          <div className="flex flex-col gap-2.5">
+            <span className="text-[10px] uppercase text-[#22d3ee] font-bold tracking-wider">
+              🧱 Wall & Barrier Type:
+            </span>
+            <div className="grid grid-cols-2 gap-1.5">
+              {[
+                { id: 'solid', label: 'Solid Wall', color: 'border-slate-500 bg-slate-900 text-slate-200' },
+                { id: 'door', label: 'Bulkhead Door', color: 'border-amber-500 bg-amber-950 text-amber-300' },
+                { id: 'window', label: 'Window (LoS)', color: 'border-cyan-500 bg-cyan-950 text-cyan-300' },
+                { id: 'ethereal', label: 'Ethereal / Meta', color: 'border-purple-500 bg-purple-950 text-purple-300' }
+              ].map(w => (
+                <button
+                  key={w.id}
+                  onClick={() => setSelectedWallType?.(w.id)}
+                  className={`py-1.5 px-2 text-xs rounded border text-center font-bold transition-all ${
+                    selectedWallType === w.id
+                      ? `${w.color} shadow-[0_0_8px_rgba(34,211,238,0.4)] border-[#22d3ee]`
+                      : 'border-[#0D5C63]/40 bg-[#0d1117] text-slate-400 hover:text-white'
+                  }`}
+                >
+                  {w.label}
+                </button>
+              ))}
+            </div>
+
+            {selectedWallType === 'door' && (
+              <div className="bg-[#0d1117] border border-[#0D5C63]/60 p-2 rounded-lg flex flex-col gap-1.5 mt-1">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="text-amber-400 font-bold uppercase text-[10px]">Cyber Hack DC:</span>
+                  <span className="text-white font-mono font-bold">{doorLockDc}</span>
+                </div>
+                <input
+                  type="range"
+                  min="8"
+                  max="24"
+                  step="1"
+                  value={doorLockDc}
+                  onChange={e => setDoorLockDc?.(Number(e.target.value))}
+                  className="accent-amber-400 w-full cursor-pointer h-1.5 bg-[#161b22] rounded-lg"
+                />
+              </div>
+            )}
+
+            <span className="text-[10px] text-slate-400 italic mt-1">
+              Click and drag on the canvas to place wall and barrier segments.
+            </span>
+          </div>
+        );
+
+      case 'ruler':
+        return (
+          <div className="flex flex-col gap-2.5">
+            <span className="text-[10px] uppercase text-[#22d3ee] font-bold tracking-wider">
+              📏 Tactical Waypoint Ruler:
+            </span>
+            <div className="bg-[#0d1117] border border-[#0D5C63]/60 p-2.5 rounded-lg flex flex-col gap-1.5">
+              <div className="flex justify-between items-center text-xs">
+                <span className="text-cyan-400 font-bold uppercase text-[10px]">Max AP Pool:</span>
+                <span className="text-cyan-300 font-mono font-bold bg-cyan-950 px-1.5 py-0.5 rounded border border-[#0D5C63]/60">
+                  {rulerAvailableAp} AP
+                </span>
+              </div>
+              <input
+                type="range"
+                min="1"
+                max="12"
+                step="1"
+                value={rulerAvailableAp}
+                onChange={e => setRulerAvailableAp?.(Number(e.target.value))}
+                className="accent-[#22d3ee] w-full cursor-pointer h-1.5 bg-[#161b22] rounded-lg"
+              />
+            </div>
+            <div className="text-[10px] text-slate-400 space-y-1 bg-slate-950 p-2 rounded border border-slate-800">
+              <div>• <strong>Click + Drag</strong>: Measure direct distance & AP.</div>
+              <div>• <strong>Space + Click</strong>: Drop intermediate waypoints.</div>
+              <div>• <strong>Green</strong> = Standard Move ($\le$ AP).</div>
+              <div>• <strong>Amber</strong> = Sprint / Overdrive ($2\times$ AP).</div>
+            </div>
+          </div>
+        );
+
       case 'terrain':
         return (
           <div className="flex flex-col gap-2.5">
@@ -330,6 +422,16 @@ const MapToolsPanel = ({
                 className="w-full py-1.5 px-2 bg-cyan-950/80 hover:bg-cyan-900 text-[#22d3ee] border border-[#22d3ee]/60 rounded text-[11px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shadow-[0_0_8px_rgba(34,211,238,0.25)]"
               >
                 <span>📜</span> Summon Folio Hero...
+              </button>
+            )}
+
+            {onOpenOmnicortexDrawer && (
+              <button
+                type="button"
+                onClick={onOpenOmnicortexDrawer}
+                className="w-full py-1.5 px-2 bg-blue-950/80 hover:bg-blue-900 text-cyan-300 border border-cyan-500/60 rounded text-[11px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shadow-[0_0_8px_rgba(6,182,212,0.25)]"
+              >
+                <span>🧠</span> Browse Omnicortex Codex...
               </button>
             )}
 

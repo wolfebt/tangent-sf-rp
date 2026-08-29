@@ -1,0 +1,261 @@
+[
+  {
+    "id": "disadvantage-addiction",
+    "name": "Addiction",
+    "hindrance_type": "Psychological / Physical",
+    "description": "A chemical, biological, or psychological dependency on a substance or intense stimulus.",
+    "updatedAt": "2026-08-23T10:56:50.623Z",
+    "category": "disadvantages",
+    "bp_granted": "3 / 6 / 9",
+    "body": "# Addiction\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 BP  \n**Type**: Psychological / Physical\n\n## Description\nA chemical, biological, or psychological dependency on a substance or intense stimulus.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 BP)**: A bad habit (tobacco, alcohol, mild gambling). Suffer **-2 to Will saves** if denied within 24 hours.\n- **Moderate (6 BP)**: Serious dependency (hallucinogens, painkillers, hard narcotics). Going 24 hours without inflicts the **Sickened** condition (`-2` to all checks) until indulged.\n- **Major (9 BP)**: Debilitating addiction (rare combat stims, neural-jacking). Withdrawal begins after 12 hours. The character rolls **all checks with Disadvantage** and takes **1 Constitution damage per day** until indulged or detoxed."
+  },
+  {
+    "hindrance_type": "Social / Background",
+    "updatedAt": "2026-08-23T10:56:50.622Z",
+    "body": "# Adversary\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 1 to 10 BP  \n**Type**: Social / Background\n\n## Description\nAn individual rival or powerful organization actively hunting, harassing, or seeking to ruin the character.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Individual Adversary (1-5 BP)**:\n  - *1-2 BP*: Nuisance or rival of equal power level.\n  - *3-5 BP*: Superior hunter, assassin, or nemesis who actively tracks the character.\n- **Organizational Adversary (5-10 BP)**:\n  - *5-7 BP*: Local gang, sector police precinct, or planetary guild.\n  - *8-10 BP*: Galaxy-spanning megacorporation (Syndicate), Imperial Inquisition (Impyrium), or interstellar crime syndicate.",
+    "id": "disadvantage-adversary",
+    "description": "An individual rival or powerful organization actively hunting, harassing, or seeking to ruin the character.",
+    "bp_granted": "1 to 10",
+    "category": "disadvantages",
+    "name": "Adversary"
+  },
+  {
+    "category": "disadvantages",
+    "updatedAt": "2026-08-23T10:56:50.622Z",
+    "description": "The character is outside the physical prime for their species, suffering bodily limitations.",
+    "name": "Bodily Age",
+    "body": "# Bodily Age\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 5 / 10 BP  \n**Type**: Physical\n\n## Description\nThe character is outside the physical prime for their species, suffering bodily limitations.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Child (10 BP)**: 7-12ish typical human years. **-1 Strength, -1 Agility, -1 Stamina** (Choose two). Small stature, physically undeveloped.\n- **Teen (5 BP)**: 12-16ish typical human years. **-1 Strength, -1 Agility, or -1 Stamina** (Choose one). Awkward growth phases.\n- **Old (5 BP)**: 60-90ish typical human years. **-1 Strength, -1 Agility, or -1 Stamina** (Choose one). Aching joints and slower reflexes.\n- **Venerable (10 BP)**: 90+ typical human years. **-1 Strength, -1 Agility, -1 Stamina** (Choose two). Physically frail but rich in experience.",
+    "id": "disadvantage-bodily-age",
+    "hindrance_type": "Physical",
+    "bp_granted": "5 / 10"
+  },
+  {
+    "description": "A known compulsive jokester, prankster, or class clown who struggles to project authority.",
+    "id": "disadvantage-clown",
+    "name": "Clown",
+    "body": "# Clown\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 2 BP  \n**Type**: Social\n\n## Description\nA known compulsive jokester, prankster, or class clown who struggles to project authority.\n\n## Mechanics & Severity\n### Mechanics\n- **-2 Penalty** on all checks to be taken seriously (Intimidation, formal Persuasion, battlefield Command).\n- NPCs naturally assume the character is joking, bluffing, or being sarcastic.",
+    "category": "disadvantages",
+    "updatedAt": "2026-08-23T10:56:50.622Z",
+    "hindrance_type": "Social",
+    "bp_granted": "2"
+  },
+  {
+    "id": "disadvantage-covetous",
+    "body": "# Covetous\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 BP  \n**Type**: Psychological\n\n## Description\nAn overwhelming compulsion toward Greed (Money), Lechery (Lust), Ambition (Power), or Conspicuousness (Fame).\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Compulsion Trigger**: When presented with the object of desire, make a **Will Save (DC 15 + Severity)** to avoid acting impulsively.\n- **Minor (3 BP)**: Grumbles and complains bitterly if denied.\n- **Moderate (6 BP)**: Takes dangerous tactical risks or commits social faux pas to acquire the prize.\n- **Major (9 BP)**: Will steal, betray allies, or enter combat to satisfy the craving.",
+    "description": "An overwhelming compulsion toward Greed (Money), Lechery (Lust), Ambition (Power), or Conspicuousness (Fame).",
+    "category": "disadvantages",
+    "bp_granted": "3 / 6 / 9",
+    "hindrance_type": "Psychological",
+    "name": "Covetous",
+    "updatedAt": "2026-08-23T10:56:50.622Z"
+  },
+  {
+    "name": "Dependent",
+    "category": "disadvantages",
+    "description": "Responsible for the continuous protection, feeding, and medical safety of a non-combatant NPC ward.",
+    "id": "disadvantage-dependent",
+    "updatedAt": "2026-08-23T10:56:50.621Z",
+    "body": "# Dependent\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 BP  \n**Type**: Social\n\n## Description\nResponsible for the continuous protection, feeding, and medical safety of a non-combatant NPC ward.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Capable (3 BP)**: Ward feeds and dresses themselves but needs protection in combat (spouse, teenage apprentice).\n- **Needy (6 BP)**: Ward requires daily assistance, supervision, and guidance (young child, frail elder).\n- **Dependent (9 BP)**: Ward is completely helpless or requires expensive medical upkeep/stasis pod support (infant, comatose patient).",
+    "hindrance_type": "Social",
+    "bp_granted": "3 / 6 / 9"
+  },
+  {
+    "name": "Disability",
+    "hindrance_type": "Physical",
+    "bp_granted": "3 / 6 / 9 / 18",
+    "description": "Missing limbs, paralysis, or severe mechanical impairment of bodily motor function.",
+    "category": "disadvantages",
+    "id": "disadvantage-disability",
+    "updatedAt": "2026-08-23T10:56:50.621Z",
+    "body": "# Disability\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 / 18 BP  \n**Type**: Physical\n\n## Description\nMissing limbs, paralysis, or severe mechanical impairment of bodily motor function.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 BP)**: Missing a Hand or Foot. `-2` to Athletics/Dexterity tasks with that limb; reduced movement if foot.\n- **Major (6 BP)**: Missing a full Limb (Arm or Leg). Cannot use two-handed gear/shields (Arm); movement speed halved (Leg).\n- **Severe (9 BP)**: Two Limbs missing or Paraplegic (Legs paralyzed). Requires wheelchair, hover-rig, or cybernetics.\n- **Crippling (18 BP)**: Quadriplegic or all limbs missing. Requires full-body life-support chassis or prosthetics."
+  },
+  {
+    "hindrance_type": "Physical / Social",
+    "description": "Unmistakable physical marks, alien coloration, cybernetic glow, or monstrous traits that make blending in impossible.",
+    "body": "# Distinctive Features\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 BP  \n**Type**: Physical / Social\n\n## Description\nUnmistakable physical marks, alien coloration, cybernetic glow, or monstrous traits that make blending in impossible.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Disguisable (3 BP)**: Large facial scar, distinct tattoo, exotic hair. Can be hidden with standard Disguise check.\n- **Not-Disguisable (6 BP)**: Extra eye cluster, bioluminescent blue skin in human cities, 7-foot height. Disguise checks roll with Disadvantage.\n- **Very Obvious (9 BP)**: Blazing energy aura, stone carapace, horrific mutation. Stealth and Disguise impossible in populated areas.",
+    "updatedAt": "2026-08-23T10:56:50.621Z",
+    "bp_granted": "3 / 6 / 9",
+    "name": "Distinctive Features",
+    "id": "disadvantage-distinctive-features",
+    "category": "disadvantages"
+  },
+  {
+    "id": "disadvantage-emotional-issues",
+    "name": "Emotional Issues",
+    "category": "disadvantages",
+    "updatedAt": "2026-08-23T10:56:50.621Z",
+    "description": "Severe emotional volatility, mood swings, rage triggers, or trauma-induced freezing under pressure.",
+    "hindrance_type": "Psychological",
+    "body": "# Emotional Issues\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 / 12 BP  \n**Type**: Psychological\n\n## Description\nSevere emotional volatility, mood swings, rage triggers, or trauma-induced freezing under pressure.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 BP)**: Mood swings. `-2` penalty to social interactions when under stress.\n- **Moderate (6 BP)**: Outbursts or deep withdrawal. Make **Will Save (DC 15)** under duress or become *Stunned* for 1 round.\n- **Major (9 BP)**: Debilitating hysteria or catatonia. Make **Will Save (DC 20)** at start of any round where damage is taken to act normally.\n- **Severe (12 BP)**: Crippling instability. Permanent **-2 to Will saves**. Must pass **Will Save (DC 18)** at start of each combat turn or become *Panicked*, *Paralyzed*, or *Staggered*.",
+    "bp_granted": "3 / 6 / 9 / 12"
+  },
+  {
+    "body": "# Extreme Morality\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 4 / 8 / 12 BP  \n**Type**: Psychological / Metaphysical\n\n## Description\nUnshakeable moral dogma aligned with cosmic poles (Good, Evil, Law, Chaos) that the character cannot violate.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (4 BP)**: Refuses to perform actions contrary to personal cosmic alignment.\n- **Moderate (8 BP)**: Actively intervenes to stop allies or bystanders from violating moral code.\n- **Major (12 BP)**: Violently opposes moral antithesis, even facing certain death.",
+    "description": "Unshakeable moral dogma aligned with cosmic poles (Good, Evil, Law, Chaos) that the character cannot violate.",
+    "bp_granted": "4 / 8 / 12",
+    "hindrance_type": "Psychological / Metaphysical",
+    "category": "disadvantages",
+    "updatedAt": "2026-08-23T10:56:50.620Z",
+    "id": "disadvantage-extreme-morality",
+    "name": "Extreme Morality"
+  },
+  {
+    "id": "disadvantage-hatred",
+    "name": "Hatred",
+    "hindrance_type": "Psychological",
+    "bp_granted": "3 / 6 / 9",
+    "category": "disadvantages",
+    "updatedAt": "2026-08-23T10:56:50.620Z",
+    "body": "# Hatred\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 BP  \n**Type**: Psychological\n\n## Description\nDeep prejudice, visceral loathing, or blood-feud hatred directed against a specific species, faction, or creed.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 BP)**: Disgust & Prejudice. `-2` to all Social checks with target group.\n- **Moderate (6 BP)**: Loathing. Must pass a **Will Save (DC 15)** to assist, heal, or cooperate with them.\n- **Major (9 BP)**: Violent animosity. Must pass a **Will Save (DC 18)** *not* to attack or sabotage them on sight.",
+    "description": "Deep prejudice, visceral loathing, or blood-feud hatred directed against a specific species, faction, or creed."
+  },
+  {
+    "category": "disadvantages",
+    "description": "Bound by an inflexible code of chivalry, bushido, rules of engagement, or strict honesty.",
+    "body": "# Honorable\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 BP  \n**Type**: Psychological\n\n## Description\nBound by an inflexible code of chivalry, bushido, rules of engagement, or strict honesty.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 BP)**: Gentlemanly conduct. Refuses to cheat at games or strike from behind.\n- **Moderate (6 BP)**: Code of Honor. Won't attack an unarmed foe, won't tell deliberate lies, accepts formal surrenders.\n- **Major (9 BP)**: Absolute Pacifism or Unbreakable Oath. Cannot break word or harm a living being even to save own life.",
+    "hindrance_type": "Psychological",
+    "bp_granted": "3 / 6 / 9",
+    "updatedAt": "2026-08-23T10:56:50.620Z",
+    "id": "disadvantage-honorable",
+    "name": "Honorable"
+  },
+  {
+    "body": "# Humorless\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 2 BP  \n**Type**: Social\n\n## Description\nTakes every statement literally and lacks the ability to parse sarcasm, dry humor, or double entendres.\n\n## Mechanics & Severity\n### Mechanics\n- **-2 Penalty** to Insight and Social checks involving nuance, sarcasm, subtext, innuendo, or metaphors.",
+    "description": "Takes every statement literally and lacks the ability to parse sarcasm, dry humor, or double entendres.",
+    "bp_granted": "2",
+    "hindrance_type": "Social",
+    "updatedAt": "2026-08-23T10:56:50.620Z",
+    "id": "disadvantage-humorless",
+    "name": "Humorless",
+    "category": "disadvantages"
+  },
+  {
+    "category": "disadvantages",
+    "body": "# Impaired Sense\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 4 BP  \n**Type**: Physical\n\n## Description\nOne primary sensory organ is partially damaged or weak (e.g., Near-Sighted, Hard of Hearing, Nerve Damage).\n\n## Mechanics & Severity\n### Mechanics\n- **Alertness and Perception Checks** relying on the chosen sense are permanently made with **Disadvantage**.",
+    "description": "One primary sensory organ is partially damaged or weak (e.g., Near-Sighted, Hard of Hearing, Nerve Damage).",
+    "name": "Impaired Sense",
+    "hindrance_type": "Physical",
+    "updatedAt": "2026-08-23T10:56:50.619Z",
+    "id": "disadvantage-impaired-sense",
+    "bp_granted": "4"
+  },
+  {
+    "category": "disadvantages",
+    "bp_granted": "3 / 6 / 9",
+    "name": "Lost Sense",
+    "id": "disadvantage-lost-sense",
+    "description": "Complete biological absence or destruction of one of the character's primary sensory channels.",
+    "body": "# Lost Sense\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 BP  \n**Type**: Physical\n\n## Description\nComplete biological absence or destruction of one of the character's primary sensory channels.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **3 BP**: Total loss of **Taste or Smell**. Immune to scent-based nausea/gas sickness, but cannot smell toxins or smoke.\n- **6 BP**: Total loss of **Touch (Numbness)** or **Hearing (Deafness)**. `-4` to fine Dexterity (if Numb) or auto-fail all acoustic checks (if Deaf).\n- **9 BP**: Total loss of **Sight (Blindness)**. Automatically fails visual checks; 50% miss chance in combat unless using blind-fight/meta senses.",
+    "hindrance_type": "Physical",
+    "updatedAt": "2026-08-23T10:56:50.619Z"
+  },
+  {
+    "id": "disadvantage-mental-issues",
+    "category": "disadvantages",
+    "description": "Neurodivergence, chronic amnesia, hallucinations, severe cognitive blocks, or traumatic brain injuries.",
+    "body": "# Mental Issues\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 / 12 BP  \n**Type**: Mental\n\n## Description\nNeurodivergence, chronic amnesia, hallucinations, severe cognitive blocks, or traumatic brain injuries.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 BP)**: Mild distraction or fixation. `-2` to Concentration checks.\n- **Moderate (6 BP)**: Stress confusion. Suffer **-2 penalty to all mental checks** when under duress.\n- **Major (9 BP)**: Hallucinogenic / Dissociative. Suffer **-4 penalty to Perception**; struggles to distinguish reality from delusion.\n- **Severe (12 BP)**: Catatonic / Paralyzing Anxiety. When triggered, character cannot initiate attacks or complex actions, taking only defensive actions.",
+    "bp_granted": "3 / 6 / 9 / 12",
+    "name": "Mental Issues",
+    "hindrance_type": "Mental",
+    "updatedAt": "2026-08-23T10:56:50.619Z"
+  },
+  {
+    "category": "disadvantages",
+    "id": "disadvantage-minority",
+    "body": "# Minority\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 2+ BP  \n**Type**: Social\n\n## Description\nBelonging to an oppressed, feared, or heavily stigmatized demographic, species, or creed in the sector.\n\n## Mechanics & Severity\n### Mechanics\n- Gains the **Xeno / Social Stigma** modifier.\n- Prices for goods/services are 20-50% higher; law enforcement treats character with extreme suspicion; initial NPC reactions start as *Unfriendly* or *Hostile*.",
+    "updatedAt": "2026-08-23T10:56:50.619Z",
+    "name": "Minority",
+    "bp_granted": "2+",
+    "description": "Belonging to an oppressed, feared, or heavily stigmatized demographic, species, or creed in the sector.",
+    "hindrance_type": "Social"
+  },
+  {
+    "hindrance_type": "Physical",
+    "bp_granted": "2",
+    "updatedAt": "2026-08-23T10:56:50.619Z",
+    "name": "Mute",
+    "description": "Lacking vocal cords or biological capacity for verbal speech.",
+    "id": "disadvantage-mute",
+    "category": "disadvantages",
+    "body": "# Mute\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 2 BP  \n**Type**: Physical\n\n## Description\nLacking vocal cords or biological capacity for verbal speech.\n\n## Mechanics & Severity\n### Mechanics\n- Cannot speak aloud. Cannot cast invocations requiring Verbal components. Must communicate via sign language, datapad text, or telepathy."
+  },
+  {
+    "id": "disadvantage-nightmares",
+    "category": "disadvantages",
+    "body": "# Nightmares\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 2 BP  \n**Type**: Mental\n\n## Description\nPlagued by psychic echoes, traumatic memories, or horrifying supernatural dreams.\n\n## Mechanics & Severity\n### Mechanics\n- After every Long Rest, roll **1d10**. On a **1**, the character suffers night terrors and gains **no benefit from the rest**, starting the day **Fatigued** (`-2` to all actions).",
+    "description": "Plagued by psychic echoes, traumatic memories, or horrifying supernatural dreams.",
+    "bp_granted": "2",
+    "name": "Nightmares",
+    "hindrance_type": "Mental",
+    "updatedAt": "2026-08-23T10:56:50.618Z"
+  },
+  {
+    "bp_granted": "3 / 6 / 9",
+    "hindrance_type": "Social",
+    "name": "Obligation",
+    "updatedAt": "2026-08-23T10:56:50.618Z",
+    "id": "disadvantage-obligation",
+    "body": "# Obligation\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 BP  \n**Type**: Social\n\n## Description\nBound by contractual feudal duty, military service, syndicate blood oath, or patron servitude.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 BP)**: Weekly report-ins, minor tithes, or regular civic duty.\n- **Moderate (6 BP)**: Must perform dangerous missions on demand or surrender 25% of all earned revenue.\n- **Major (9 BP)**: Total servitude. The character is a sworn thrall, indentured slave, or sacred avatar with zero personal assets.",
+    "description": "Bound by contractual feudal duty, military service, syndicate blood oath, or patron servitude.",
+    "category": "disadvantages"
+  },
+  {
+    "hindrance_type": "Resource",
+    "category": "disadvantages",
+    "body": "# Poor\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 BP  \n**Type**: Resource\n\n## Description\nStarting with severe financial deficits, second-hand gear, or crushing loanshark debt.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **3 BP**: **-4 to Wealth Score**. Starts with basic, second-hand survival gear only.\n- **6 BP**: **-8 to Wealth Score**. Destitute; starts with practically nothing.\n- **9 BP**: **-12 to Wealth Score**. Enters **Negative Wealth (Debt)**. Creditors garnish all income; bounty hunters pursue for unpaid loans.",
+    "bp_granted": "3 / 6 / 9",
+    "description": "Starting with severe financial deficits, second-hand gear, or crushing loanshark debt.",
+    "id": "disadvantage-poor",
+    "name": "Poor",
+    "updatedAt": "2026-08-23T10:56:50.618Z"
+  },
+  {
+    "updatedAt": "2026-08-23T10:56:50.618Z",
+    "description": "Hiding a dangerous truth or past crime that would result in public ruin, exile, or execution if exposed.",
+    "hindrance_type": "Background / Social",
+    "body": "# Secret\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 BP  \n**Type**: Background / Social\n\n## Description\nHiding a dangerous truth or past crime that would result in public ruin, exile, or execution if exposed.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 BP)**: Reputation damage or public embarrassment (e.g., forged academic degree).\n- **Moderate (6 BP)**: Legal prosecution, imprisonment, or exile (e.g., undercover enemy operative, escaped convict).\n- **Major (9 BP)**: Immediate death warrant or sector-wide manhunt (e.g., fugitive heir to fallen dynasty, wanted serial assassin).",
+    "category": "disadvantages",
+    "name": "Secret",
+    "bp_granted": "3 / 6 / 9",
+    "id": "disadvantage-secret"
+  },
+  {
+    "category": "disadvantages",
+    "hindrance_type": "Social",
+    "body": "# Social Issues\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 / 12 BP  \n**Type**: Social\n\n## Description\nSevere social awkwardness, abrasive personality, inability to read rooms, or notorious reputation.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 BP)**: Introverted/Shy. `-2` to Persuasion checks.\n- **Moderate (6 BP)**: Abrasive or Clueless. `-4` to Diplomacy; NPC starting attitudes drop one step lower.\n- **Major (9 BP)**: Antisocial / Sociopathic. All social checks (Diplomacy, Deception, Intimidate) made with **Disadvantage**.\n- **Severe (12 BP)**: Social Pariah. All social checks with Disadvantage plus a permanent **-2 penalty to all Charisma skills**.",
+    "updatedAt": "2026-08-23T10:56:50.617Z",
+    "description": "Severe social awkwardness, abrasive personality, inability to read rooms, or notorious reputation.",
+    "name": "Social Issues",
+    "bp_granted": "3 / 6 / 9 / 12",
+    "id": "disadvantage-social-issues"
+  },
+  {
+    "hindrance_type": "Mental / Background",
+    "description": "Baffled by modern technology, computing devices, energy weapons, or automated starships.",
+    "name": "Technologically Impaired",
+    "updatedAt": "2026-08-23T10:56:50.617Z",
+    "category": "disadvantages",
+    "id": "disadvantage-technologically-impaired",
+    "bp_granted": "10 / 20 / 30",
+    "body": "# Technologically Impaired\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 10 / 20 / 30 BP  \n**Type**: Mental / Background\n\n## Description\nBaffled by modern technology, computing devices, energy weapons, or automated starships.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **10 BP**: **-1 Tech Level**. Treats standard TL 3 tech as unfamiliar (-2 penalty).\n- **20 BP**: **-2 Tech Level**. Struggles with basic industrial machinery (-4 penalty).\n- **30 BP**: **-3 Tech Level (Luddite)**. Cannot operate computers, energy weapons, or starship controls without massive penalties."
+  },
+  {
+    "hindrance_type": "Metaphysical / Karma",
+    "name": "Unlucky",
+    "description": "A profound cosmic jinx that drains the character's pool of heroic luck and causes probability to work against them.",
+    "body": "# Unlucky\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 BP  \n**Type**: Metaphysical / Karma\n\n## Description\nA profound cosmic jinx that drains the character's pool of heroic luck and causes probability to work against them.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **3 BP**: **-2 to Karma Pool** maximum.\n- **6 BP**: **-4 to Karma Pool** maximum.\n- **9 BP**: **-6 to Karma Pool** maximum. Drops character into **Karmic Debt**, granting the GM automatic complication triggers at the start of each session.",
+    "id": "disadvantage-unlucky",
+    "category": "disadvantages",
+    "bp_granted": "3 / 6 / 9",
+    "updatedAt": "2026-08-23T10:56:50.617Z"
+  },
+  {
+    "id": "entry_1787660294734",
+    "name": "TEST",
+    "cp": 0,
+    "updatedAt": "2026-08-25T12:18:14.734Z",
+    "prerequisite": [],
+    "description": "",
+    "modifier": []
+  }
+]

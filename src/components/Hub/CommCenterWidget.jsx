@@ -100,10 +100,10 @@ export const CommCenterWidget = ({
                   type="button"
                   onClick={(e) => handleActivateCenter('squads', e)}
                   className="px-1.5 py-0.5 rounded bg-slate-800/80 hover:bg-purple-900/40 border border-slate-700 hover:border-purple-500/40 text-slate-300 hover:text-purple-300 text-[9px] font-mono font-bold transition-all flex items-center gap-1"
-                  title="Activate Center Block: Squad Cards"
+                  title="Activate Center Block: Team Cards"
                 >
                   <Users size={10} className="text-purple-400" />
-                  <span>SQUADS</span>
+                  <span>TEAMS</span>
                 </button>
               )}
 

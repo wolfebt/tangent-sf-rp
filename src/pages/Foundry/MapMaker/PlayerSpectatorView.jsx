@@ -5,6 +5,8 @@ import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../../../firebase';
 import { useCampaign } from '../../../context/CampaignContext';
 import { TokenNode, MapObjectNode, TextLabelNode } from './map/MapObjectNode';
+import MapWallNode from './map/MapWallNode';
+import { computeVisibilityPolygon } from '../../../services/raycastVisionService';
 import { getBiomeTextureUrl } from './map/landmassGenerator';
 import { getTextureUrlFromColor } from './map/MapTextures';
 import { Maximize, Minimize, Compass, RotateCcw, Volume2, VolumeX, Shield, Swords, Eye } from 'lucide-react';
@@ -218,6 +220,27 @@ export const PlayerSpectatorView = () => {
     return mapData.fog.filter(f => !f.isHidden);
   }, [mapData?.fog]);
 
+  const visibleWalls = useMemo(() => {
+    if (!mapData?.walls) return [];
+    return mapData.walls.filter(w => !w.isSecret || w.isOpen);
+  }, [mapData?.walls]);
+
+  const activeHeroToken = useMemo(() => {
+    return visibleTokens.find(t => t.type === 'hero' || t.linkedHeroId) || visibleTokens[0];
+  }, [visibleTokens]);
+
+  const visibilityPolygon = useMemo(() => {
+    if (!activeHeroToken || visibleWalls.length === 0) return null;
+    return computeVisibilityPolygon(
+      { x: activeHeroToken.x, y: activeHeroToken.y },
+      visibleWalls,
+      {
+        maxRadius: 1000,
+        bounds: { width: mapData?.width || 3000, height: mapData?.height || 2000 }
+      }
+    );
+  }, [activeHeroToken?.x, activeHeroToken?.y, visibleWalls, mapData?.width, mapData?.height]);
+
   const lines = mapData?.lines || [];
   const gridMode = mapData?.gridMode || 'hex';
 
@@ -413,6 +436,24 @@ export const PlayerSpectatorView = () => {
           ))}
         </Layer>
 
+        {/* Layer 2.5: Visible Walls, Bulkheads & Doors */}
+        {visibleWalls.length > 0 && (
+          <Layer id="spectator_walls">
+            {visibleWalls.map((w) => (
+              <MapWallNode
+                key={w.id}
+                wall={w}
+                isSelected={false}
+                isLocked={true}
+                zoomScale={scale}
+                onSelect={() => {}}
+                onErase={() => {}}
+                onToggleDoor={() => {}}
+              />
+            ))}
+          </Layer>
+        )}
+
         {/* Layer 3: Player-Visible Tokens & Initiative Tracker */}
         <Layer id="spectator_tokens">
           {visibleTokens.map((token) => (
@@ -430,9 +471,23 @@ export const PlayerSpectatorView = () => {
           ))}
         </Layer>
 
-        {/* Layer 4: Dynamic Fog of War Mask */}
-        {visibleFog.length > 0 && (
-          <Layer id="spectator_fog" opacity={0.92}>
+        {/* Layer 4: Dynamic Fog of War Mask & Line of Sight */}
+        {(visibleFog.length > 0 || (mapData.fogEnabled && visibilityPolygon)) && (
+          <Layer id="spectator_fog" opacity={0.94}>
+            {mapData.fogEnabled && (
+              <Group>
+                <Rect x={-5000} y={-5000} width={14000} height={13000} fill="#05070a" listening={false} />
+                {visibilityPolygon && (
+                  <Line
+                    points={visibilityPolygon}
+                    fill="#000000"
+                    closed={true}
+                    globalCompositeOperation="destination-out"
+                    listening={false}
+                  />
+                )}
+              </Group>
+            )}
             {visibleFog.map((f) => (
               <Line
                 key={f.id}

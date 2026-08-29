@@ -1,0 +1,27 @@
+[
+  {
+    "value": 1,
+    "name": "Intellect +1",
+    "mechanic": "+1 Intellect Attribute",
+    "tags": [
+      "@Lanaran"
+    ],
+    "description": "a +1 bonus to the Intellect Attribute.",
+    "aspect": "attribute",
+    "id": "modifier_1786543756517",
+    "aspect_subtype": "Intellect",
+    "createdAt": "2026-08-12T14:09:16.517Z"
+  },
+  {
+    "name": "Attribute +1",
+    "tags": [
+      "@Lanaran"
+    ],
+    "mechanic": "any attribute of users choice gains +1",
+    "value": 1,
+    "id": "modifier_1786543824160",
+    "description": "a +1 to an Attribute of choice",
+    "aspect": "attribute",
+    "createdAt": "2026-08-12T14:10:24.160Z"
+  }
+]

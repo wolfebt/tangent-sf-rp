@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { produce } from 'immer';
 import { getTextureUrlFromColor } from '../map/MapTextures';
+import { createWallSegment, WALL_TYPES } from '../../../../schemas/vttWallSchema.js';
 
 export const useMapCanvasEvents = ({
   currentMap,
@@ -11,6 +12,7 @@ export const useMapCanvasEvents = ({
   activeTool,
   lines,
   terrains,
+  walls = [],
   fog,
   objects,
   tokens,
@@ -20,6 +22,8 @@ export const useMapCanvasEvents = ({
   selectedTerrain,
   terrainWidth = 30,
   selectedObjectType,
+  selectedWallType = 'solid',
+  doorLockDc = 14,
   tokenType,
   tokenLabelInput,
   tokenOmnicortexData,
@@ -32,6 +36,10 @@ export const useMapCanvasEvents = ({
   const [isPanning, setIsPanning] = useState(false);
   const [panStart, setPanStart] = useState({ x: 0, y: 0 });
   const [isDrawing, setIsDrawing] = useState(false);
+  const [wallStartPoint, setWallStartPoint] = useState(null);
+  const [wallPreviewEnd, setWallPreviewEnd] = useState(null);
+  const [rulerWaypoints, setRulerWaypoints] = useState([]);
+  const [rulerPointer, setRulerPointer] = useState(null);
 
   const handleWheel = (e) => {
     e.evt.preventDefault();
@@ -66,11 +74,22 @@ export const useMapCanvasEvents = ({
     if (e.evt.button === 0 && currentMap) {
       const pos = e.target.getStage().getRelativePointerPosition();
 
-      if (['pencil', 'terrain', 'fog', 'object', 'token', 'text'].includes(activeTool)) {
+      if (['pencil', 'terrain', 'fog', 'object', 'token', 'text', 'wall'].includes(activeTool)) {
         recordHistory();
       }
 
-      if (activeTool === 'pencil') {
+      if (activeTool === 'wall') {
+        setIsDrawing(true);
+        setWallStartPoint(pos);
+        setWallPreviewEnd(pos);
+      } else if (activeTool === 'ruler') {
+        if (e.evt.shiftKey || e.evt.ctrlKey || rulerWaypoints.length === 0) {
+          setRulerWaypoints(prev => [...prev, pos]);
+        } else {
+          // Reset or add
+          setRulerWaypoints([pos]);
+        }
+      } else if (activeTool === 'pencil') {
         setIsDrawing(true);
         updateMap(activeMapId, { lines: [...lines, { id: uuidv4(), color: pencilColor, strokeWidth: pencilWidth, points: [pos.x, pos.y] }] });
       } else if (activeTool === 'terrain') {
@@ -142,35 +161,61 @@ export const useMapCanvasEvents = ({
       return;
     }
 
-    if (isDrawing && currentMap) {
+    if (currentMap) {
       const stage = e.target.getStage();
       const point = stage.getRelativePointerPosition();
 
-      if (activeTool === 'pencil') {
-        const nextLines = produce(lines, draft => {
-          const lastLine = draft[draft.length - 1];
-          if (lastLine) lastLine.points.push(point.x, point.y);
-        });
-        updateMap(activeMapId, { lines: nextLines });
-      } else if (activeTool === 'terrain') {
-        const nextTerrains = produce(terrains, draft => {
-          const lastTerrain = draft[draft.length - 1];
-          if (lastTerrain) lastTerrain.points.push(point.x, point.y);
-        });
-        updateMap(activeMapId, { terrains: nextTerrains });
-      } else if (activeTool === 'fog') {
-        const nextFog = produce(fog, draft => {
-          const lastFog = draft[draft.length - 1];
-          if (lastFog) lastFog.points.push(point.x, point.y);
-        });
-        updateMap(activeMapId, { fog: nextFog });
+      if (activeTool === 'ruler') {
+        setRulerPointer(point);
+      }
+
+      if (isDrawing) {
+        if (activeTool === 'wall') {
+          setWallPreviewEnd(point);
+        } else if (activeTool === 'pencil') {
+          const nextLines = produce(lines, draft => {
+            const lastLine = draft[draft.length - 1];
+            if (lastLine) lastLine.points.push(point.x, point.y);
+          });
+          updateMap(activeMapId, { lines: nextLines });
+        } else if (activeTool === 'terrain') {
+          const nextTerrains = produce(terrains, draft => {
+            const lastTerrain = draft[draft.length - 1];
+            if (lastTerrain) lastTerrain.points.push(point.x, point.y);
+          });
+          updateMap(activeMapId, { terrains: nextTerrains });
+        } else if (activeTool === 'fog') {
+          const nextFog = produce(fog, draft => {
+            const lastFog = draft[draft.length - 1];
+            if (lastFog) lastFog.points.push(point.x, point.y);
+          });
+          updateMap(activeMapId, { fog: nextFog });
+        }
       }
     }
   };
 
   const handleMouseUp = () => {
     if (isPanning) setIsPanning(false);
-    if (isDrawing) setIsDrawing(false);
+    if (isDrawing) {
+      if (activeTool === 'wall' && wallStartPoint && wallPreviewEnd) {
+        const dist = Math.hypot(wallPreviewEnd.x - wallStartPoint.x, wallPreviewEnd.y - wallStartPoint.y);
+        if (dist > 10) {
+          const newWall = createWallSegment(wallStartPoint, wallPreviewEnd, selectedWallType, {
+            hackDc: doorLockDc
+          });
+          updateMap(activeMapId, { walls: [...walls, newWall] });
+        }
+        setWallStartPoint(null);
+        setWallPreviewEnd(null);
+      }
+      setIsDrawing(false);
+    }
+  };
+
+  const clearRuler = () => {
+    setRulerWaypoints([]);
+    setRulerPointer(null);
   };
 
   const zoomBy = (factor) => {
@@ -184,10 +229,16 @@ export const useMapCanvasEvents = ({
   return {
     scale, setScale,
     position, setPosition,
+    isDrawing,
     handleWheel,
     handleMouseDown,
     handleMouseMove,
     handleMouseUp,
+    wallStartPoint,
+    wallPreviewEnd,
+    rulerWaypoints,
+    rulerPointer,
+    clearRuler,
     zoomBy,
     panBy
   };

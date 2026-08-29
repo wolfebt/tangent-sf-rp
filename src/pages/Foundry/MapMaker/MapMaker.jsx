@@ -11,6 +11,13 @@ import { createDefaultTeamRoster, canUserControlToken, isUserArchitect, VTT_ROLE
 
 import { MAP_TYPES, DEFAULT_LAYERS, MASTER_TERRAINS, MASTER_OBJECTS, PENCIL_COLORS, PENCIL_WIDTHS, TEXT_COLORS } from './map/MapConstants';
 import { MapObjectNode, TokenNode, TextLabelNode } from './map/MapObjectNode';
+import MapWallNode from './map/MapWallNode';
+import WaypointRulerOverlay from './map/WaypointRulerOverlay';
+import TokenRadialActionWheel from './map/TokenRadialActionWheel';
+import UvttImportModal from './map/UvttImportModal';
+import { computeVisibilityPolygon } from '../../../services/raycastVisionService';
+import { toggleDoorState, damageWallSegment } from '../../../schemas/vttWallSchema';
+import SpatialAudio from '../../../services/spatialAudioService';
 import MapToolbar from './map/MapToolbar';
 import MapToolsPanel from './map/MapToolsPanel';
 import MapLayersPanel from './map/MapLayersPanel';
@@ -21,6 +28,8 @@ import StatusGemsModal from './map/StatusGemsModal';
 import LandmassGeneratorModal from './map/LandmassGeneratorModal';
 import MapAssetManagerModal from './map/MapAssetManagerModal';
 import FolioHeroTokenDrawer from './map/FolioHeroTokenDrawer';
+import OmnicortexAssetDrawer from './map/OmnicortexAssetDrawer';
+import { DBMItemModal } from '../../../components/DBM/DBMItemModal';
 import FloatingCombatText from './map/FloatingCombatText';
 import { StoryFoundryGuideModal } from '../../../components/StoryFoundry/StoryFoundryGuideModal';
 import { useFolio } from '../../../context/FolioContext';
@@ -168,6 +177,8 @@ const MapPane = ({ mapExportPngRef }) => {
   const [showSettingsPanel, setShowSettingsPanel] = useState(true);
   const [showLayersPanel, setShowLayersPanel] = useState(true);
   const [showHeroDrawer, setShowHeroDrawer] = useState(false);
+  const [showOmnicortexDrawer, setShowOmnicortexDrawer] = useState(false);
+  const [inspectingOmnicortexItem, setInspectingOmnicortexItem] = useState(null);
   const [showCombatTracker, setShowCombatTracker] = useState(false);
   const [showMetadataPanel, setShowMetadataPanel] = useState(false);
   const [showKeyPanel, setShowKeyPanel] = useState(true);
@@ -185,6 +196,10 @@ const MapPane = ({ mapExportPngRef }) => {
   const [selectedTerrain, setSelectedTerrain] = useState(MASTER_TERRAINS['Planetary'][0]);
   const [terrainWidth, setTerrainWidth] = useState(30);
   const [selectedObjectType, setSelectedObjectType] = useState(MASTER_OBJECTS['Planetary'][0]);
+  const [selectedWallType, setSelectedWallType] = useState('solid');
+  const [doorLockDc, setDoorLockDc] = useState(14);
+  const [rulerAvailableAp, setRulerAvailableAp] = useState(4);
+  const [activeSensorMode, setActiveSensorMode] = useState('standard_optical');
   const [pencilColor, setPencilColor] = useState(PENCIL_COLORS[0]);
   const [pencilWidth, setPencilWidth] = useState(PENCIL_WIDTHS[1]);
   const [tokenType, setTokenType] = useState('standard');
@@ -195,6 +210,8 @@ const MapPane = ({ mapExportPngRef }) => {
   const [textColor, setTextColor] = useState(TEXT_COLORS[0]);
   const [textSize, setTextSize] = useState(24);
   const [fogEnabled, setFogEnabled] = useState(false);
+  const [isUvttModalOpen, setIsUvttModalOpen] = useState(false);
+  const [radialMenuState, setRadialMenuState] = useState({ isOpen: false, position: { x: 0, y: 0 }, token: null });
 
   const {
     universeState,
@@ -337,22 +354,82 @@ const MapPane = ({ mapExportPngRef }) => {
   const terrains = currentMap?.terrains || [];
   const objects = currentMap?.objects || [];
   const texts = currentMap?.texts || [];
+  const walls = currentMap?.walls || [];
   const fog = currentMap?.fog || [];
   const mapLayers = currentMap?.layers || DEFAULT_LAYERS;
   const { undoStack, redoStack, recordHistory, handleUndo, handleRedo } = useMapHistory({
-    currentMap, lines, tokens, terrains, objects, texts, fog, mapLayers, updateMap, activeMapId
+    currentMap, lines, tokens, terrains, objects, texts, walls, fog, mapLayers, updateMap, activeMapId
   });
 
   const {
     scale, setScale, position, setPosition,
+    isDrawing,
     handleWheel, handleMouseDown, handleMouseMove, handleMouseUp,
+    wallStartPoint, wallPreviewEnd, rulerWaypoints, rulerPointer, clearRuler,
     zoomBy, panBy
   } = useMapCanvasEvents({
     currentMap, activeMapId, updateMap, recordHistory,
-    activeTool, lines, terrains, fog, objects, tokens, texts,
+    activeTool, lines, terrains, walls, fog, objects, tokens, texts,
     pencilColor, pencilWidth, selectedTerrain, terrainWidth, selectedObjectType,
+    selectedWallType, doorLockDc,
     tokenType, tokenLabelInput, tokenOmnicortexData, textLabelInput, textColor, textSize
   });
+
+  // Calculate dynamic Line-of-Sight visibility polygon for the active / selected token
+  const activeVisionToken = tokens.find(t => t.id === activeTurnTokenId) || tokens.find(t => t.id === selectedId) || tokens[0];
+  const visibilityPolygon = React.useMemo(() => {
+    if (!activeVisionToken || !currentMap || walls.length === 0) return null;
+    return computeVisibilityPolygon(
+      { x: activeVisionToken.x, y: activeVisionToken.y },
+      walls,
+      {
+        maxRadius: 1000,
+        bounds: { width: currentMap.width || 3000, height: currentMap.height || 2000 },
+        sensorMode: activeSensorMode
+      }
+    );
+  }, [activeVisionToken?.x, activeVisionToken?.y, walls, currentMap?.width, currentMap?.height, activeSensorMode]);
+
+  // Update Spatial Audio listener coordinate whenever active token moves
+  useEffect(() => {
+    if (activeVisionToken) {
+      SpatialAudio.setListenerPosition(activeVisionToken.x, activeVisionToken.y, gridSize);
+    }
+  }, [activeVisionToken?.x, activeVisionToken?.y, gridSize]);
+
+  // Door toggle and breach helpers
+  const handleToggleDoor = (wallId) => {
+    const targetWall = walls.find(w => w.id === wallId);
+    if (!targetWall) return;
+    recordHistory();
+    const updatedWall = toggleDoorState(targetWall);
+    const nextWalls = walls.map(w => w.id === wallId ? updatedWall : w);
+    updateMap(activeMapId, { walls: nextWalls });
+  };
+
+  const handleRadialActionSelect = (actionId, token) => {
+    if (actionId === 'omnicortex') {
+      setInspectingOmnicortexItem(token.linkedOmnicortexItem || { id: token.omnicortexId, name: token.label, category: token.omnicortexCategory || 'compendium' });
+      setRadialMenuState({ isOpen: false, position: { x: 0, y: 0 }, token: null });
+      return;
+    } else if (actionId === 'attack') {
+      triggerFloatingCombatText(window.innerWidth / 2, window.innerHeight - 150, `${token.name || token.label}: 2d10 ENGAGED`, 'damage');
+    } else if (actionId === 'defend') {
+      triggerFloatingCombatText(window.innerWidth / 2, window.innerHeight - 150, `${token.name || token.label}: DEFENSE STANCE (+2 DEF)`, 'karma');
+    } else if (actionId === 'move') {
+      setActiveTool('ruler');
+      setShowSettingsPanel(true);
+    } else if (actionId === 'stim') {
+      triggerFloatingCombatText(window.innerWidth / 2, window.innerHeight - 150, `${token.name || token.label}: STIM APPLIED (+15 HP)`, 'heal');
+    } else if (actionId === 'cyber') {
+      triggerFloatingCombatText(window.innerWidth / 2, window.innerHeight - 150, `${token.name || token.label}: CYBER SLICE INITIATED`, 'vitality_damage');
+    } else if (actionId === 'sensor') {
+      const modes = ['standard_optical', 'thermal_ir', 'cyber_radar', 'meta_attunement'];
+      const nextIdx = (modes.indexOf(activeSensorMode) + 1) % modes.length;
+      setActiveSensorMode(modes[nextIdx]);
+      triggerFloatingCombatText(window.innerWidth / 2, window.innerHeight - 150, `SENSOR: ${modes[nextIdx].toUpperCase()}`, 'karma');
+    }
+  };
 
   const { updateCharacterHealth, updateCharacterVitality, updateCharacterStructure, updateCharacterHp } = useFolio();
 
@@ -485,6 +562,84 @@ const MapPane = ({ mapExportPngRef }) => {
     handleUpdateToken(tokenId, { conditions: nextConditions });
   };
 
+  const handleSummonOmnicortexAsset = (item, category, targetPos = null) => {
+    if (!currentMap) return;
+
+    const posX = targetPos?.x !== undefined ? targetPos.x : Math.round((-position.x + stageSize.width / 2) / scale);
+    const posY = targetPos?.y !== undefined ? targetPos.y : Math.round((-position.y + stageSize.height / 2) / scale);
+
+    const cat = (category || item.category || item._categoryKey || '').toLowerCase();
+    const isUnit = ['bestiary', 'adversaries', 'creatures', 'npc', 'enemies'].some(k => cat.includes(k)) || item.type === 'adversary' || item.type === 'npc';
+    const isVehicle = ['vehicles', 'starships', 'mechs'].some(k => cat.includes(k));
+    const isHazard = ['hazards', 'traps', 'environment'].some(k => cat.includes(k));
+
+    recordHistory();
+
+    if (isUnit || isVehicle) {
+      const curHealth = parseInt(item.health || item.vitality || item.hp || item.derived_max_hp || 30, 10);
+      const maxHealth = parseInt(item.maxHealth || curHealth, 10);
+      const curVitality = parseInt(item.vitality || 20, 10);
+      const maxVitality = parseInt(item.maxVitality || curVitality, 10);
+      const curStructure = parseInt(item.structure || curHealth + curVitality, 10);
+      const maxStructure = parseInt(item.maxStructure || curStructure, 10);
+      const derivedInit = item.agility ? Math.floor((parseInt(item.agility, 10) - 10) / 2) : (item.initiative || 10);
+
+      const newUnitToken = {
+        id: `token_omnicortex_${item.id || Date.now()}_${Math.floor(Math.random()*1000)}`,
+        type: isVehicle ? 'vehicle' : 'hostile',
+        omnicortexId: item.id,
+        omnicortexCategory: category || item.category || item._categoryKey,
+        linkedOmnicortexItem: item,
+        label: item.name || item.title || (isVehicle ? 'Vehicle' : 'Adversary'),
+        avatarUrl: item.avatarUrl || item.imageUrl || null,
+        x: posX,
+        y: posY,
+        radius: isVehicle ? 45 : 35,
+        fill: isVehicle ? '#eab308' : '#ef4444',
+        layerId: 'layer_tokens',
+        health: { current: curHealth, max: maxHealth },
+        vitality: { current: curVitality, max: maxVitality },
+        structure: { current: curStructure, max: maxStructure },
+        toughness: parseInt(item.toughness || item.armor || 0, 10),
+        defense: parseInt(item.defense || 12, 10),
+        actionPoints: parseInt(item.actionPoints || item.ap || 3, 10),
+        initiative: derivedInit,
+        conditions: [],
+        attacks: item.attacks || item.weaponry || []
+      };
+
+      updateMap(activeMapId, { tokens: [...tokens, newUnitToken] });
+      AudioService.playCombatHit(false);
+      triggerFloatingCombatText(targetPos ? (posX * scale + position.x) : stageSize.width / 2, targetPos ? (posY * scale + position.y) : stageSize.height / 2, `+ ${item.name || 'Adversary'}`, 'crit_fail');
+    } else {
+      // Weapon / Armor / Gear / Loot or Hazard Placeable Object
+      const newObject = {
+        id: `obj_omnicortex_${item.id || Date.now()}_${Math.floor(Math.random()*1000)}`,
+        type: isHazard ? 'hazard' : 'loot_cache',
+        shape: isHazard ? 'circle' : 'rect',
+        x: posX - 25,
+        y: posY - 25,
+        width: 50,
+        height: 50,
+        radius: 25,
+        label: item.name || item.title || (isHazard ? 'Hazard' : 'Loot Cache'),
+        color: isHazard ? '#f97316' : '#22d3ee',
+        layerId: 'layer_objects',
+        omnicortexId: item.id,
+        omnicortexCategory: category || item.category || item._categoryKey,
+        linkedOmnicortexItem: item,
+        isInteractive: true,
+        hazard: isHazard,
+        damageDice: item.damage || item.damageDice || '2d10',
+        saveDc: item.saveDc || item.dc || 14
+      };
+
+      updateMap(activeMapId, { objects: [...objects, newObject] });
+      AudioService.playTerminalBeep(950, 0.05);
+      triggerFloatingCombatText(targetPos ? (posX * scale + position.x) : stageSize.width / 2, targetPos ? (posY * scale + position.y) : stageSize.height / 2, `+ ${item.name || 'Asset'}`, 'heal');
+    }
+  };
+
   const handleStageDrop = (e) => {
     e.preventDefault();
     const raw = e.dataTransfer.getData('application/json');
@@ -557,9 +712,17 @@ const MapPane = ({ mapExportPngRef }) => {
         updateMap(activeMapId, { tokens: [...tokens, newHeroToken] });
         AudioService.playTerminalBeep(880, 0.08);
         triggerFloatingCombatText(mouseX, mouseY, `+ ${data.name}`, 'heal');
+      } else if (data.type === 'omnicortex_asset') {
+        if (!currentMap) return;
+        const rect = containerRef.current.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+        const canvasX = (mouseX - position.x) / scale;
+        const canvasY = (mouseY - position.y) / scale;
+        handleSummonOmnicortexAsset(data.item, data.category, { x: Math.round(canvasX), y: Math.round(canvasY) });
       }
     } catch (err) {
-      console.warn('Failed to parse dropped hero token:', err);
+      console.warn('Failed to parse dropped token/asset:', err);
     }
   };
 
@@ -777,6 +940,7 @@ const MapPane = ({ mapExportPngRef }) => {
       lines: lines.filter(l => l.id !== id),
       tokens: tokens.filter(t => t.id !== id),
       terrains: terrains.filter(t => t.id !== id),
+      walls: walls.filter(w => w.id !== id),
       objects: objects.filter(item => item.id !== id),
       texts: texts.filter(item => item.id !== id),
       fog: fog.filter(item => item.id !== id)
@@ -786,7 +950,7 @@ const MapPane = ({ mapExportPngRef }) => {
 
   const handleClearMap = () => {
     recordHistory();
-    updateMap(activeMapId, { lines: [], terrains: [], objects: [], texts: [], fog: [] });
+    updateMap(activeMapId, { lines: [], terrains: [], walls: [], objects: [], texts: [], fog: [] });
   };
 
   const handleExportPNG = () => {
@@ -1002,48 +1166,48 @@ const MapPane = ({ mapExportPngRef }) => {
 
       {/* Canvas Keyboard Shortcuts Manager Legend Modal Element */}
       {isShortcutsModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/80 backdrop-blur-md p-4 pt-6 sm:pt-10 overflow-y-auto">
-          <div className="bg-slate-900 border border-cyan-500/50 rounded-xl w-full max-w-md p-5 text-slate-100 shadow-2xl">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 overflow-y-auto">
+          <div className="bg-slate-900 border border-cyan-500/50 rounded-xl w-full max-w-md p-5 text-slate-100 shadow-[0_0_30px_rgba(6,182,212,0.3)] animate-in fade-in zoom-in-95 duration-150">
             <div className="flex justify-between items-center pb-3 border-b border-slate-800 mb-4">
-              <h3 className="text-base font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-2">
-                <span>⌨️</span> Canvas Hotkeys & Keyboard Shortcuts
+              <h3 className="text-base font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-2 font-mono">
+                <span>⌨️</span> Canvas Hotkeys & Shortcuts
               </h3>
-              <button onClick={() => setIsShortcutsModalOpen(false)} className="text-slate-400 hover:text-white font-bold">
+              <button onClick={() => setIsShortcutsModalOpen(false)} className="text-slate-400 hover:text-white font-bold p-1 rounded-lg hover:bg-slate-800 transition-colors">
                 ✕
               </button>
             </div>
 
-            <div className="space-y-2 text-xs">
+            <div className="space-y-2 text-xs font-mono">
               <div className="flex justify-between items-center bg-slate-950 p-2 rounded border border-slate-800">
                 <span className="text-slate-300 font-medium">Toggle Grid Mode (Square / Hex / Off)</span>
-                <kbd className="px-2 py-0.5 bg-slate-800 text-amber-400 font-mono font-bold rounded border border-slate-700">G</kbd>
+                <kbd className="px-2 py-0.5 bg-slate-800 text-amber-400 font-bold rounded border border-slate-700">G</kbd>
               </div>
               <div className="flex justify-between items-center bg-slate-950 p-2 rounded border border-slate-800">
                 <span className="text-slate-300 font-medium">Toggle Fog of War Tool</span>
-                <kbd className="px-2 py-0.5 bg-slate-800 text-amber-400 font-mono font-bold rounded border border-slate-700">F</kbd>
+                <kbd className="px-2 py-0.5 bg-slate-800 text-amber-400 font-bold rounded border border-slate-700">F</kbd>
               </div>
               <div className="flex justify-between items-center bg-slate-950 p-2 rounded border border-slate-800">
                 <span className="text-slate-300 font-medium">Select Tool Mode</span>
-                <kbd className="px-2 py-0.5 bg-slate-800 text-amber-400 font-mono font-bold rounded border border-slate-700">V</kbd>
+                <kbd className="px-2 py-0.5 bg-slate-800 text-amber-400 font-bold rounded border border-slate-700">V</kbd>
               </div>
               <div className="flex justify-between items-center bg-slate-950 p-2 rounded border border-slate-800">
                 <span className="text-slate-300 font-medium">Pan Tool Mode</span>
-                <kbd className="px-2 py-0.5 bg-slate-800 text-amber-400 font-mono font-bold rounded border border-slate-700">H</kbd>
+                <kbd className="px-2 py-0.5 bg-slate-800 text-amber-400 font-bold rounded border border-slate-700">H</kbd>
               </div>
               <div className="flex justify-between items-center bg-slate-950 p-2 rounded border border-slate-800">
                 <span className="text-slate-300 font-medium">Delete Selected Canvas Node</span>
-                <kbd className="px-2 py-0.5 bg-slate-800 text-red-400 font-mono font-bold rounded border border-slate-700">Del / Backspace</kbd>
+                <kbd className="px-2 py-0.5 bg-slate-800 text-red-400 font-bold rounded border border-slate-700">Del / Backspace</kbd>
               </div>
               <div className="flex justify-between items-center bg-slate-950 p-2 rounded border border-slate-800">
                 <span className="text-slate-300 font-medium">Toggle Hotkeys Legend</span>
-                <kbd className="px-2 py-0.5 bg-slate-800 text-amber-400 font-mono font-bold rounded border border-slate-700">?</kbd>
+                <kbd className="px-2 py-0.5 bg-slate-800 text-amber-400 font-bold rounded border border-slate-700">?</kbd>
               </div>
             </div>
 
             <div className="mt-5 text-right">
               <button
                 onClick={() => setIsShortcutsModalOpen(false)}
-                className="px-4 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded text-xs uppercase"
+                className="px-4 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-black font-bold rounded text-xs uppercase font-mono shadow-md"
               >
                 Got it
               </button>
@@ -1053,23 +1217,57 @@ const MapPane = ({ mapExportPngRef }) => {
       )}
 
       {isModalOpen && (
-        <div className="absolute inset-0 z-50 flex items-start justify-center bg-black/60 backdrop-blur-sm p-4 pt-6 sm:pt-10 overflow-y-auto">
-          <div className="bg-slate-800 border border-slate-600 rounded-lg p-6 w-96 shadow-xl text-white">
-            <h3 className="text-lg font-bold mb-4 uppercase tracking-wider">Create New Map</h3>
-            <form onSubmit={createNewMap} className="flex flex-col gap-4">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 overflow-y-auto">
+          <div className="bg-slate-900 border border-cyan-500/50 rounded-xl p-6 w-full max-w-md shadow-[0_0_30px_rgba(6,182,212,0.3)] text-white animate-in fade-in zoom-in-95 duration-150">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
+              <h3 className="text-base font-bold uppercase tracking-wider text-cyan-400 font-mono flex items-center gap-2">
+                <span>🗺️</span> Create New Map
+              </h3>
+              <button
+                type="button"
+                onClick={() => setIsModalOpen(false)}
+                className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+            <form onSubmit={createNewMap} className="flex flex-col gap-4 font-mono">
               <div>
                 <label className="block text-xs text-slate-400 uppercase mb-1">Scale / Type</label>
-                <select value={newMapType} onChange={e => setNewMapType(e.target.value)} className="w-full bg-slate-700 border border-slate-600 text-white p-2 rounded focus:border-amber-500 outline-none">
+                <select
+                  value={newMapType}
+                  onChange={e => setNewMapType(e.target.value)}
+                  className="w-full bg-slate-950 border border-slate-700 text-white p-2.5 rounded-lg focus:border-cyan-400 outline-none text-xs"
+                >
                   {MAP_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
                 </select>
               </div>
               <div>
                 <label className="block text-xs text-slate-400 uppercase mb-1">Map Title</label>
-                <input type="text" value={newMapTitle} onChange={e => setNewMapTitle(e.target.value)} placeholder="E.g. Sol Sector" autoFocus className="w-full bg-slate-700 border border-slate-600 text-white p-2 rounded focus:border-amber-500 outline-none" required />
+                <input
+                  type="text"
+                  value={newMapTitle}
+                  onChange={e => setNewMapTitle(e.target.value)}
+                  placeholder="E.g. Sol Sector"
+                  autoFocus
+                  className="w-full bg-slate-950 border border-slate-700 text-white p-2.5 rounded-lg focus:border-cyan-400 outline-none text-xs font-sans"
+                  required
+                />
               </div>
-              <div className="flex justify-end gap-2 mt-4">
-                <button type="button" onClick={() => setIsModalOpen(false)} className="px-4 py-2 text-slate-300 hover:text-white">Cancel</button>
-                <button type="submit" className="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded">Create</button>
+              <div className="flex justify-end gap-2 mt-4 pt-3 border-t border-slate-800">
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  className="px-4 py-2 text-xs uppercase font-bold text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 bg-cyan-600 hover:bg-cyan-500 text-black font-bold text-xs uppercase rounded-lg shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all"
+                >
+                  Create Map
+                </button>
               </div>
             </form>
           </div>
@@ -1103,6 +1301,8 @@ const MapPane = ({ mapExportPngRef }) => {
         setShowLayersPanel={setShowLayersPanel}
         showHeroDrawer={showHeroDrawer}
         setShowHeroDrawer={setShowHeroDrawer}
+        showOmnicortexDrawer={showOmnicortexDrawer}
+        setShowOmnicortexDrawer={setShowOmnicortexDrawer}
         showCombatTracker={showCombatTracker}
         setShowCombatTracker={setShowCombatTracker}
         showMetadataPanel={showMetadataPanel}
@@ -1116,6 +1316,7 @@ const MapPane = ({ mapExportPngRef }) => {
         onExportPNG={handleExportPNG}
         onOpenLandmassGenerator={() => setIsLandmassModalOpen(true)}
         onOpenAssetManager={() => setIsAssetManagerOpen(true)}
+        onOpenUvttImport={() => setIsUvttModalOpen(true)}
         onSaveMapToFile={handleSaveMapToFile}
         onLoadMapFromFile={() => mapFileInputRef.current?.click()}
         onDeleteActiveMap={handleDeleteActiveMap}
@@ -1309,6 +1510,18 @@ const MapPane = ({ mapExportPngRef }) => {
                 </>
               )}
 
+              {/* Omnicortex Linked Item Sheet Inspection Button */}
+              {(item.linkedOmnicortexItem || item.omnicortexId) && (
+                <button
+                  type="button"
+                  onClick={() => setInspectingOmnicortexItem(item.linkedOmnicortexItem || { id: item.omnicortexId, name: item.label, category: item.omnicortexCategory || 'compendium' })}
+                  className="px-2.5 py-1 bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all shadow-[0_0_8px_rgba(6,182,212,0.2)]"
+                  title="Open Omnicortex Compendium Item Sheet"
+                >
+                  <span>🧠</span> Omnicortex Sheet
+                </button>
+              )}
+
               {/* Portal Target Map Dropdown */}
               {isPortal && (
                 <div className="flex items-center gap-1.5 bg-[#0d1117] px-2 py-1 rounded border border-[#0D5C63]/60">
@@ -1346,6 +1559,10 @@ const MapPane = ({ mapExportPngRef }) => {
           selectedTerrain={selectedTerrain} setSelectedTerrain={setSelectedTerrain}
           terrainWidth={terrainWidth} setTerrainWidth={setTerrainWidth}
           selectedObjectType={selectedObjectType} setSelectedObjectType={setSelectedObjectType}
+          selectedWallType={selectedWallType} setSelectedWallType={setSelectedWallType}
+          doorLockDc={doorLockDc} setDoorLockDc={setDoorLockDc}
+          rulerAvailableAp={rulerAvailableAp} setRulerAvailableAp={setRulerAvailableAp}
+          activeSensorMode={activeSensorMode} setActiveSensorMode={setActiveSensorMode}
           pencilColor={pencilColor} setPencilColor={setPencilColor}
           pencilWidth={pencilWidth} setPencilWidth={setPencilWidth}
           tokenType={tokenType} setTokenType={setTokenType}
@@ -1360,6 +1577,7 @@ const MapPane = ({ mapExportPngRef }) => {
           customAssets={universeState.customAssets || { terrains: [], objects: [] }}
           onOpenAssetManager={() => setIsAssetManagerOpen(true)}
           onOpenHeroDrawer={() => setShowHeroDrawer(true)}
+          onOpenOmnicortexDrawer={() => setShowOmnicortexDrawer(true)}
         />
 
         <MapLayersPanel
@@ -1377,6 +1595,12 @@ const MapPane = ({ mapExportPngRef }) => {
           showDrawer={showHeroDrawer}
           setShowDrawer={setShowHeroDrawer}
           onSummonToken={handleSummonHeroToken}
+        />
+
+        <OmnicortexAssetDrawer
+          showDrawer={showOmnicortexDrawer}
+          setShowDrawer={setShowOmnicortexDrawer}
+          onSummonAsset={(item, cat) => handleSummonOmnicortexAsset(item, cat)}
         />
 
         <MapCombatTracker
@@ -1590,6 +1814,34 @@ const MapPane = ({ mapExportPngRef }) => {
                 )}
               </Layer>
 
+              {/* Layer 2.5: Walls, Bulkheads & Interactive Doors */}
+              {isLayerVisible('layer_walls') && (
+                <Layer id="layer_walls">
+                  {walls.map((w) => (
+                    <MapWallNode
+                      key={w.id}
+                      wall={w}
+                      isSelected={w.id === selectedId}
+                      isEraser={activeTool === 'eraser'}
+                      isLocked={isLayerLocked('layer_walls')}
+                      zoomScale={scale}
+                      onSelect={(id) => { if (activeTool === 'select' && !isLayerLocked('layer_walls')) setSelectedId(id); }}
+                      onErase={(id) => eraseElement(id)}
+                      onToggleDoor={handleToggleDoor}
+                    />
+                  ))}
+                  {/* Active Wall Drawing Line Preview */}
+                  {isDrawing && activeTool === 'wall' && wallStartPoint && wallPreviewEnd && (
+                    <Line
+                      points={[wallStartPoint.x, wallStartPoint.y, wallPreviewEnd.x, wallPreviewEnd.y]}
+                      stroke={selectedWallType === 'door' ? '#f59e0b' : (selectedWallType === 'window' ? '#38bdf8' : (selectedWallType === 'ethereal' ? '#c084fc' : '#22d3ee'))}
+                      strokeWidth={5}
+                      dash={[6, 4]}
+                    />
+                  )}
+                </Layer>
+              )}
+
               {/* Layer 3: Annotations, Tokens, Units & Tactical Radar Pings */}
               <Layer id="layer_entities">
                 {isLayerVisible('layer_annotations') && (
@@ -1614,27 +1866,51 @@ const MapPane = ({ mapExportPngRef }) => {
                 {isLayerVisible('layer_tokens') && (
                   <Group>
                     {tokens.map((token) => (
-                      <TokenNode
+                      <Group
                         key={token.id}
-                        shapeProps={token}
-                        isSelected={token.id === selectedId}
-                        isActiveTurn={token.id === activeTurnTokenId}
-                        isEraser={activeTool === 'eraser'}
-                        isLocked={isLayerLocked('layer_tokens')}
-                        onErase={eraseElement}
-                        onSelect={() => { if (activeTool === 'select' && !isLayerLocked('layer_tokens')) setSelectedId(token.id); }}
-                        onDoubleClick={() => { if (token.type === 'link' && token.targetMapId) { setActiveMapId(token.targetMapId); setSelectedId(null); } }}
-                        onChange={(newAttrs) => {
-                          const nextTokens = produce(tokens, draft => {
-                            const index = draft.findIndex(t => t.id === token.id);
-                            if (index !== -1) draft[index] = newAttrs;
+                        onContextMenu={(e) => {
+                          e.evt.preventDefault();
+                          const stage = e.target.getStage();
+                          const mousePos = stage.getPointerPosition();
+                          setRadialMenuState({
+                            isOpen: true,
+                            position: { x: e.evt.clientX, y: e.evt.clientY },
+                            token: token
                           });
-                          updateMap(activeMapId, { tokens: nextTokens });
                         }}
-                      />
+                      >
+                        <TokenNode
+                          shapeProps={token}
+                          isSelected={token.id === selectedId}
+                          isActiveTurn={token.id === activeTurnTokenId}
+                          isEraser={activeTool === 'eraser'}
+                          isLocked={isLayerLocked('layer_tokens')}
+                          onErase={eraseElement}
+                          onSelect={() => { if (activeTool === 'select' && !isLayerLocked('layer_tokens')) setSelectedId(token.id); }}
+                          onDoubleClick={() => { if (token.type === 'link' && token.targetMapId) { setActiveMapId(token.targetMapId); setSelectedId(null); } }}
+                          onChange={(newAttrs) => {
+                            const nextTokens = produce(tokens, draft => {
+                              const index = draft.findIndex(t => t.id === token.id);
+                              if (index !== -1) draft[index] = newAttrs;
+                            });
+                            updateMap(activeMapId, { tokens: nextTokens });
+                          }}
+                        />
+                      </Group>
                     ))}
                   </Group>
                 )}
+
+                {/* Tactical Waypoint Movement Ruler Overlay */}
+                <WaypointRulerOverlay
+                  waypoints={rulerWaypoints}
+                  currentPointer={rulerPointer}
+                  gridSize={gridSize}
+                  gridMode={gridMode}
+                  measurementUnit={measurementUnit}
+                  availableAp={rulerAvailableAp}
+                  zoomScale={scale}
+                />
 
                 {/* Tactical Radar Pings */}
                 {activePings.map(ping => (
@@ -1655,10 +1931,24 @@ const MapPane = ({ mapExportPngRef }) => {
                 ))}
               </Layer>
 
-              {/* Layer 4: Fog of War */}
+              {/* Layer 4: Fog of War & Dynamic Line of Sight */}
               {isLayerVisible('layer_fog') && (
                 <Layer id="layer_fog">
-                  {fogEnabled && <Rect x={0} y={0} width={4000} height={3000} fill="rgba(0, 0, 0, 0.75)" listening={false} />}
+                  {fogEnabled && (
+                    <Group>
+                      <Rect x={0} y={0} width={4000} height={3000} fill="rgba(0, 0, 0, 0.75)" listening={false} />
+                      {/* Dynamic Line-of-Sight Cutout */}
+                      {visibilityPolygon && (
+                        <Line
+                          points={visibilityPolygon}
+                          fill="#000000"
+                          closed={true}
+                          globalCompositeOperation="destination-out"
+                          listening={false}
+                        />
+                      )}
+                    </Group>
+                  )}
                   {fog.map((f, i) => (
                     <Line key={f.id || i} points={f.points} stroke="#000000" strokeWidth={50} tension={0.4} lineCap="round" lineJoin="round" onClick={() => !isLayerLocked('layer_fog') && activeTool === 'eraser' && eraseElement(f.id)} />
                   ))}
@@ -1668,6 +1958,26 @@ const MapPane = ({ mapExportPngRef }) => {
           )}
         </div>
       </div>
+
+      {/* Contextual Radial Action Wheel */}
+      <TokenRadialActionWheel
+        isOpen={radialMenuState.isOpen}
+        onClose={() => setRadialMenuState({ isOpen: false, position: { x: 0, y: 0 }, token: null })}
+        position={radialMenuState.position}
+        token={radialMenuState.token}
+        onActionSelect={handleRadialActionSelect}
+      />
+
+      {/* Universal VTT (.dd2vtt) Importer Modal */}
+      <UvttImportModal
+        isOpen={isUvttModalOpen}
+        onClose={() => setIsUvttModalOpen(false)}
+        onImportComplete={(importedMap) => {
+          addMap(importedMap);
+          setActiveMapId(importedMap.id);
+          triggerFloatingCombatText(window.innerWidth / 2, 100, `UNIVERSAL VTT IMPORTED: ${importedMap.title}`, 'heal');
+        }}
+      />
 
       {/* Unified Tactical VTT Command Drawer */}
       <VttCommandDrawer
@@ -1716,6 +2026,16 @@ const MapPane = ({ mapExportPngRef }) => {
         }}
         fieldLabel="Import Stats"
       />
+
+      {/* Omnicortex Compendium Item Sheet Modal */}
+      {inspectingOmnicortexItem && (
+        <DBMItemModal
+          isOpen={!!inspectingOmnicortexItem}
+          onClose={() => setInspectingOmnicortexItem(null)}
+          categoryKey={inspectingOmnicortexItem._categoryKey || inspectingOmnicortexItem.category || 'compendium'}
+          initialItem={inspectingOmnicortexItem}
+        />
+      )}
     </div>
   );
 };

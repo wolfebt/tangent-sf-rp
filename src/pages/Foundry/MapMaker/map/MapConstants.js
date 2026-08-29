@@ -13,6 +13,8 @@ export const MAP_TYPES = [
 
 export const SIDEBAR_TOOLS = [
   { id: 'select', label: 'Select / Move' },
+  { id: 'wall', label: 'Wall & Door' },
+  { id: 'ruler', label: 'Waypoint Ruler' },
   { id: 'terrain', label: 'Terrain Brush' },
   { id: 'object', label: 'Place Object' },
   { id: 'pencil', label: 'Freehand Draw' },
@@ -28,6 +30,7 @@ export const TEXT_COLORS = ['#ffffff', '#fcd34d', '#60a5fa', '#ef4444', '#10b981
 
 export const DEFAULT_LAYERS = [
   { id: 'layer_terrain', name: 'Terrain & Ground', visible: true, locked: false },
+  { id: 'layer_walls', name: 'Walls & Bulkheads', visible: true, locked: false },
   { id: 'layer_objects', name: 'Objects & Buildings', visible: true, locked: false },
   { id: 'layer_tokens', name: 'Tokens & Portals', visible: true, locked: false },
   { id: 'layer_annotations', name: 'Text & Labels', visible: true, locked: false },

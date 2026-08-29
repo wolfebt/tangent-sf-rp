@@ -1,0 +1,16 @@
+[
+  {
+    "target": [],
+    "updatedAt": "2026-08-25T12:17:51.126Z",
+    "id": "entry_1787660271126",
+    "range": [],
+    "name": "TEST",
+    "critical_success_effect": [],
+    "description": "",
+    "effect": [],
+    "critical_failure_effect": [],
+    "modifier": [],
+    "prerequisite": [],
+    "area": []
+  }
+]

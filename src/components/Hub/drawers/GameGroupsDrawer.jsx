@@ -114,7 +114,7 @@ export const GameGroupsDrawer = ({ onClose }) => {
             <div>
               <div className="flex items-center gap-2">
                 <h2 className="text-sm font-mono font-bold text-slate-100 uppercase tracking-wider">
-                  GAME SQUADS & PARTIES
+                  GAME TEAMS
                 </h2>
                 <span className="px-2 py-0.2 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-[10px] font-mono font-bold">
                   {groups.length} Active
@@ -136,7 +136,7 @@ export const GameGroupsDrawer = ({ onClose }) => {
               className="px-3 py-1.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white font-mono font-bold text-xs rounded-lg shadow flex items-center gap-1.5 transition-all"
             >
               <Plus size={14} />
-              <span>NEW SQUAD</span>
+              <span>NEW TEAM</span>
             </button>
             {onClose && (
               <button
@@ -158,7 +158,7 @@ export const GameGroupsDrawer = ({ onClose }) => {
             type="text"
             value={inviteCodeInput}
             onChange={(e) => setInviteCodeInput(e.target.value.toUpperCase())}
-            placeholder="Enter Squad Invite Code (e.g. GRP-XXXXXX)..."
+            placeholder="Enter Team Invite Code (e.g. GRP-XXXXXX)..."
             className="flex-1 px-2.5 py-1.5 bg-slate-950 border border-slate-800 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-500 uppercase tracking-widest text-[11px]"
           />
           <button
@@ -184,7 +184,7 @@ export const GameGroupsDrawer = ({ onClose }) => {
             <div className="flex items-center justify-between text-amber-300 font-bold">
               <span className="flex items-center gap-1.5">
                 <UserPlus size={14} />
-                <span>INCOMING SQUAD INVITATIONS ({pendingInvites.length})</span>
+                <span>INCOMING TEAM INVITATIONS ({pendingInvites.length})</span>
               </span>
               <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
             </div>
@@ -224,14 +224,14 @@ export const GameGroupsDrawer = ({ onClose }) => {
           </div>
         )}
 
-        {/* Squads List */}
+        {/* Teams List */}
         <div className="space-y-2 max-h-[360px] overflow-y-auto pr-1">
           {groups.length === 0 ? (
             <div className="py-12 px-4 rounded-xl bg-slate-900/40 border border-dashed border-slate-800 text-center space-y-2 font-mono">
               <Users size={28} className="mx-auto text-slate-600" />
-              <p className="text-xs text-slate-400">NO ACTIVE SQUADS OR PARTIES</p>
+              <p className="text-xs text-slate-400">NO ACTIVE TEAMS</p>
               <p className="text-[11px] text-slate-500 max-w-sm mx-auto">
-                Create a tactical squad to organize your tabletop group, assign operatives, share invite codes, and tune into tied-in holonet channels.
+                Create a tactical team to organize your tabletop group, assign operatives, share invite codes, and tune into tied-in holonet channels.
               </p>
               <button
                 type="button"
@@ -299,7 +299,7 @@ export const GameGroupsDrawer = ({ onClose }) => {
                       type="button"
                       onClick={(e) => handleOpenTiedInComms(group, e)}
                       className="px-2.5 py-1.5 rounded-lg bg-slate-800/90 hover:bg-cyan-600/30 text-cyan-300 border border-slate-700 hover:border-cyan-500/40 text-[11px] font-mono font-bold transition-all flex items-center gap-1"
-                      title="Open Tied-in Squad Channel"
+                      title="Open Tied-in Team Channel"
                     >
                       <Radio size={12} />
                       <span>Comms</span>

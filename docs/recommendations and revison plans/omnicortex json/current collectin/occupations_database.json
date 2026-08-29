@@ -1,0 +1,514 @@
+[
+  {
+    "updatedAt": "2026-08-23T10:56:49.159Z",
+    "archetypes": [
+      "Combatant",
+      "Psionic",
+      "Psychic",
+      "Mystic",
+      "Magician",
+      "Sorcerer",
+      "Priest",
+      "Shaman"
+    ],
+    "recommended_features": "Discipline (Awakened or Special Ability Feature is required)",
+    "category": "occupations",
+    "id": "occupation-adept",
+    "body": "# Adept Occupation\n\n**Category**: Occupations  \n**Starting Skill Points**: 20 SP (allocated to Professional Skills, max Rank 11, recommended Rank 6)  \n**Recommended Features**: Discipline (Awakened or Special Ability Feature is required) (1 BP Discount)  \n**Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)\n\n## Description\nAn adept is a person who has developed their skills and abilities to a high level in a particular area. This can be achieved through a combination of innate talent, training, and experience. Adepts may possess unique powers or abilities that set them apart from others in their field, making them valuable assets in various situations. These abilities could include mental abilities, arcane study, or some other source. Adepts are often sought after for their expertise and skills, and they can play a vital role in many different areas. For example, they may be used as consultants, trainers, or even soldiers. Adepts can be found in all walks of life, and they can use their skills for good or evil. Some adepts choose to use their powers to help others, while others use them for personal gain or to harm others. Adepts are often seen as mysterious and powerful figures, and they can be both feared and respected. Though many may have Awakened various Metafocus Skills and Abilities \\- an Adept has a true understanding of the arts.\n\n## Professional Skills\n- Disciplines (Attune or any known Metafocus Skill)\n\n## Typical Archetypes\n- Combatant\n- Psionic\n- Psychic\n- Mystic\n- Magician\n- Sorcerer\n- Priest\n- Shaman\n\n## Available Traits\n- `trait-adept-enhanced-abilities`\n- `trait-adept-heightened-senses`\n- `trait-adept-martial-arts-mastery`\n- `trait-adept-mastery-of-a-discipline`\n- `trait-adept-mystical-or-spiritual-connection`\n- `trait-adept-resourcefulness`\n- `trait-adept-special-equipment`\n- `trait-adept-special-ability`\n- `trait-adept-specialized-skills`\n- `trait-adept-versatility`\n\r\n\r\n## Extended Lore & Background\r\n\r\nAn adept is a person who has developed their skills and abilities to a high level in a particular area. This can be achieved through a combination of innate talent, training, and experience. Adepts may possess unique powers or abilities that set them apart from others in their field, making them valuable assets in various situations. These abilities could include mental abilities, arcane study, or some other source. Adepts are often sought after for their expertise and skills, and they can play a vital role in many different areas. For example, they may be used as consultants, trainers, or even soldiers. Adepts can be found in all walks of life, and they can use their skills for good or evil. Some adepts choose to use their powers to help others, while others use them for personal gain or to harm others. Adepts are often seen as mysterious and powerful figures, and they can be both feared and respected. Though many may have Awakened various Metafocus Skills and Abilities \\- an Adept has a true understanding of the arts.\r\n\r\nDisciplines (Attune or any known Metafocus Skill)\r\n\r\nDiscipline (Awakened or Special Ability Feature is required)\r\n\r\nCombatant  \r\nPsionic  \r\nPsychic  \r\nMystic  \r\nMagician  \r\nSorcerer  \r\nPriest  \r\nShaman\r\n\r\nAdepts may be able to temporarily enhance their physical or mental abilities to go beyond what is considered normal for their species or race.  \r\n*Able to spend a Karma Point to increase any one Ability Score by 1 point for 1 Minute, multiple points spent will increase a different Ability or the same.*\r\n\r\nAdepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras.  \r\n*Gains access to purchase Sensory Features \\- Night Vision Line, Scent, Acute Senses and Sense Features (still must be purchased but Considered Recommended)*\r\n\r\nMany adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics.  \r\n*\\+2 Unarmed Combat*\r\n\r\nAdepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively.  \r\n*\\+2 to a Metafocus Discipline*\r\n\r\nAdepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world.  \r\n*\\+1 Attune and \\+1 Insight*\r\n\r\nAdepts are often resourceful characters who can think on their feet and find creative solutions to problems. They may have a knack for improvisation and using their environment to their advantage.  \r\n*Once per Day make a Skill Check of choice at Advantage*\r\n\r\nAdepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties.  \r\n*\\+2 Equipment*\r\n\r\nAdepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.  \r\nMay be taken multiple times for a different Special Ability.  \r\n*Special Ability at level 1 (which are afterwards improved as a skill)*\r\n\r\nAdepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession.  \r\n*\\+2 to a Skill of Choice*\r\n\r\nAdepts are often versatile characters who can adapt to different situations. They may have a wide range of skills and abilities that allow them to handle various challenges and tasks.  \r\n*\\+1 to Karma Point*",
+    "name": "Adept",
+    "traits": [
+      "trait-adept-enhanced-abilities",
+      "trait-adept-heightened-senses",
+      "trait-adept-martial-arts-mastery",
+      "trait-adept-mastery-of-a-discipline",
+      "trait-adept-mystical-or-spiritual-connection",
+      "trait-adept-resourcefulness",
+      "trait-adept-special-equipment",
+      "trait-adept-special-ability",
+      "trait-adept-specialized-skills",
+      "trait-adept-versatility"
+    ],
+    "description": "An adept is a person who has developed their skills and abilities to a high level in a particular area. This can be achieved through a combination of innate talent, training, and experience. Adepts may possess unique powers or abilities that set them apart from others in their field, making them valuable assets in various situations. These abilities could include mental abilities, arcane study, or some other source. Adepts are often sought after for their expertise and skills, and they can play a vital role in many different areas. For example, they may be used as consultants, trainers, or even soldiers. Adepts can be found in all walks of life, and they can use their skills for good or evil. Some adepts choose to use their powers to help others, while others use them for personal gain or to harm others. Adepts are often seen as mysterious and powerful figures, and they can be both feared and respected. Though many may have Awakened various Metafocus Skills and Abilities - an Adept has a true understanding of the arts.",
+    "professional_skills": [
+      "Disciplines (Attune or any known Metafocus Skill)"
+    ],
+    "skill_points": 20
+  },
+  {
+    "skill_points": 20,
+    "traits": [
+      "trait-agent-adaptability",
+      "trait-agent-combat-skills",
+      "trait-agent-deception",
+      "trait-agent-guile",
+      "trait-agent-investigation",
+      "trait-agent-languages",
+      "trait-agent-mental-resilience",
+      "trait-agent-networking",
+      "trait-agent-persuasion",
+      "trait-agent-physical-fitness",
+      "trait-agent-quick-thinking",
+      "trait-agent-stealth",
+      "trait-agent-survival-skills",
+      "trait-agent-technology",
+      "trait-agent-travel"
+    ],
+    "recommended_features": "General",
+    "updatedAt": "2026-08-23T10:56:49.159Z",
+    "professional_skills": [
+      "Insight",
+      "Alertness",
+      "Bluff",
+      "Stealth and one Social or Vocation Skill"
+    ],
+    "name": "Agent",
+    "id": "occupation-agent",
+    "category": "occupations",
+    "description": "An agent is a skilled operative who specializes in espionage, intelligence gathering, and covert missions. They often work for governments, corporations, or other powerful organizations. Agents are typically highly trained in a variety of skills, including infiltration, surveillance, and interrogation. They may also be experts in foreign languages, cultures, and technologies. Agents often work in dangerous and high-pressure environments, and they must be able to think quickly and make sound decisions under pressure. They must also be able to maintain their cover identities and blend in with their surroundings. Agents play a vital role in gathering intelligence and carrying out covert operations. They can help to prevent terrorist attacks, protect national security, and advance the interests of their employers. Overall, agents are versatile and adaptable, making them valuable assets in any organization or team.",
+    "archetypes": [
+      "Spy",
+      "Intelligence Officer",
+      "Cybernetic Infiltrator",
+      "Law Enforcement",
+      "Psionic Operative",
+      "Bounty Hunter"
+    ],
+    "body": "# Agent Occupation\n\n**Category**: Occupations  \n**Starting Skill Points**: 20 SP (allocated to Professional Skills, max Rank 11, recommended Rank 6)  \n**Recommended Features**: General (1 BP Discount)  \n**Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)\n\n## Description\nAn agent is a skilled operative who specializes in espionage, intelligence gathering, and covert missions. They often work for governments, corporations, or other powerful organizations. Agents are typically highly trained in a variety of skills, including infiltration, surveillance, and interrogation. They may also be experts in foreign languages, cultures, and technologies. Agents often work in dangerous and high-pressure environments, and they must be able to think quickly and make sound decisions under pressure. They must also be able to maintain their cover identities and blend in with their surroundings. Agents play a vital role in gathering intelligence and carrying out covert operations. They can help to prevent terrorist attacks, protect national security, and advance the interests of their employers. Overall, agents are versatile and adaptable, making them valuable assets in any organization or team.\n\n## Professional Skills\n- Insight\n- Alertness\n- Bluff\n- Stealth and one Social or Vocation Skill\n\n## Typical Archetypes\n- Spy\n- Intelligence Officer\n- Cybernetic Infiltrator\n- Law Enforcement\n- Psionic Operative\n- Bounty Hunter\n\n## Available Traits\n- `trait-agent-adaptability`\n- `trait-agent-combat-skills`\n- `trait-agent-deception`\n- `trait-agent-guile`\n- `trait-agent-investigation`\n- `trait-agent-languages`\n- `trait-agent-mental-resilience`\n- `trait-agent-networking`\n- `trait-agent-persuasion`\n- `trait-agent-physical-fitness`\n- `trait-agent-quick-thinking`\n- `trait-agent-stealth`\n- `trait-agent-survival-skills`\n- `trait-agent-technology`\n- `trait-agent-travel`\n\r\n\r\n## Extended Lore & Background\r\n\r\nAn agent is a skilled operative who specializes in espionage, intelligence gathering, and covert missions. They often work for governments, corporations, or other powerful organizations. Agents are typically highly trained in a variety of skills, including infiltration, surveillance, and interrogation. They may also be experts in foreign languages, cultures, and technologies. Agents often work in dangerous and high-pressure environments, and they must be able to think quickly and make sound decisions under pressure. They must also be able to maintain their cover identities and blend in with their surroundings. Agents play a vital role in gathering intelligence and carrying out covert operations. They can help to prevent terrorist attacks, protect national security, and advance the interests of their employers. Overall, agents are versatile and adaptable, making them valuable assets in any organization or team.\r\n\r\nInsight, Alertness, Bluff, Stealth and one Social or Vocation Skill\r\n\r\nGeneral\r\n\r\nSpy  \r\nIntelligence Officer  \r\nCybernetic Infiltrator  \r\nLaw Enforcement  \r\nPsionic Operative  \r\nBounty Hunter\r\n\r\nImprovisation, problem-solving, and quick thinking  \r\n*\\+2 to a specific Skill Check, may change assigned Skill daily*\r\n\r\nCombat and proficiency with firearms and weapons  \r\n*\\+2 to a Combat Skill of Choice*\r\n\r\nDisguise, impersonation, and deception  \r\n*\\+2 Disguise and Cover Checks*\r\n\r\nGood at devising clever solutions  \r\n*\\+1 Karma Point*\r\n\r\nGathering information, analyzing data, and conducting surveillance  \r\n*\\+2 Investigation and Gather Information*\r\n\r\nFluency in multiple languages  \r\n*\\+2 Linguistic Knowledge*\r\n\r\nWithstand psychological challenges  \r\n*\\+2 Willpower Checks*\r\n\r\nGathering information, acquiring resources, and gaining assistance  \r\n*Gather Information checks at Advantage*\r\n\r\nConvincing others to cooperate, negotiation, deception, and diplomacy  \r\n*\\+1 Manipulation Skills and Etiquette Checks*\r\n\r\nEndurance and strength  \r\n*\\+1 Might and Fortitude Checks*\r\n\r\nThink on their feet, make split-second decisions, and adapt to rapidly changing situations  \r\n*\\+2 Initiative*\r\n\r\nOperating covertly, sneaking, hiding, and remaining undetected  \r\n*\\+2 Stealth*\r\n\r\nScavenging for resources, navigating dangerous environments, and adapting to harsh conditions  \r\n*\\+2 Survival*\r\n\r\nFamiliarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons  \r\n*\\+2 Technology Knowledge*\r\n\r\nPiloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain  \r\n*\\+2 Piloting and Navigation*"
+  },
+  {
+    "professional_skills": [
+      "Any Vocation Skills"
+    ],
+    "traits": [
+      "trait-builder-adaptability",
+      "trait-builder-attention-to-detail",
+      "trait-builder-attention-to-safety",
+      "trait-builder-business-acumen",
+      "trait-builder-creativity",
+      "trait-builder-environmental-awareness",
+      "trait-builder-mecha-physics",
+      "trait-builder-machine-affinity",
+      "trait-builder-patience",
+      "trait-builder-persistence",
+      "trait-builder-problem-solving-skills",
+      "trait-builder-teamwork",
+      "trait-builder-technical-knowledge",
+      "trait-builder-technological-aptitude",
+      "trait-builder-time-management"
+    ],
+    "name": "Builder",
+    "updatedAt": "2026-08-23T10:56:49.159Z",
+    "id": "occupation-builder",
+    "skill_points": 20,
+    "recommended_features": "Skill",
+    "description": "A builder character would be responsible for creating, repairing, and modifying various items, equipment, and structures. This character would have a diverse set of skills and knowledge in various fields, such as engineering, materials science, and technology. They would need to be able to understand and work with a variety of materials, and be able to design and build structures that are both functional and aesthetically pleasing. They would also need to be able to troubleshoot problems and make repairs when necessary. Builder characters are often essential to the success of any group or community. They can provide the tools and structures that are necessary for survival, and they can help to improve the quality of life for everyone.",
+    "body": "# Builder Occupation\n\n**Category**: Occupations  \n**Starting Skill Points**: 20 SP (allocated to Professional Skills, max Rank 11, recommended Rank 6)  \n**Recommended Features**: Skill (1 BP Discount)  \n**Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)\n\n## Description\nA builder character would be responsible for creating, repairing, and modifying various items, equipment, and structures. This character would have a diverse set of skills and knowledge in various fields, such as engineering, materials science, and technology. They would need to be able to understand and work with a variety of materials, and be able to design and build structures that are both functional and aesthetically pleasing. They would also need to be able to troubleshoot problems and make repairs when necessary. Builder characters are often essential to the success of any group or community. They can provide the tools and structures that are necessary for survival, and they can help to improve the quality of life for everyone.\n\n## Professional Skills\n- Any Vocation Skills\n\n## Typical Archetypes\n- Starship Engineer\n- Cybernetic Technician\n- Nanotechnology Specialist\n- Habitat Architect\n- Weaponsmith\n- Robotics Engineer\n- Matter Manipulator\n\n## Available Traits\n- `trait-builder-adaptability`\n- `trait-builder-attention-to-detail`\n- `trait-builder-attention-to-safety`\n- `trait-builder-business-acumen`\n- `trait-builder-creativity`\n- `trait-builder-environmental-awareness`\n- `trait-builder-mecha-physics`\n- `trait-builder-machine-affinity`\n- `trait-builder-patience`\n- `trait-builder-persistence`\n- `trait-builder-problem-solving-skills`\n- `trait-builder-teamwork`\n- `trait-builder-technical-knowledge`\n- `trait-builder-technological-aptitude`\n- `trait-builder-time-management`\n\r\n\r\n## Extended Lore & Background\r\n\r\nA builder character would be responsible for creating, repairing, and modifying various items, equipment, and structures. This character would have a diverse set of skills and knowledge in various fields, such as engineering, materials science, and technology. They would need to be able to understand and work with a variety of materials, and be able to design and build structures that are both functional and aesthetically pleasing. They would also need to be able to troubleshoot problems and make repairs when necessary. Builder characters are often essential to the success of any group or community. They can provide the tools and structures that are necessary for survival, and they can help to improve the quality of life for everyone.\r\n\r\nAny Vocation Skills\r\n\r\nSkill\r\n\r\nStarship Engineer  \r\nCybernetic Technician  \r\nNanotechnology Specialist  \r\nHabitat Architect  \r\nWeaponsmith  \r\nRobotics Engineer  \r\nMatter Manipulator\r\n\r\nAbility to adjust their approach based on the specific needs of each project  \r\n*\\+2 to a specific Skill Check, may change assigned Skill daily*\r\n\r\nMeticulous and detail-oriented  \r\n*Mastercrafting Checks made at Advantage*\r\n\r\nAwareness of safety protocols and ensuring that their creations are safe to use  \r\n*Prototyping Checks gain a \\+4 bonus*\r\n\r\nAbility to handle financial and administrative aspects of their profession  \r\n*\\+2 Administration Knowledge*\r\n\r\nCreative mindset and ability to think outside the box  \r\n*\\+1 Karma*\r\n\r\nAwareness of environmental factors that could impact construction  \r\n*\\+2 Alertness*\r\n\r\nComprehensive understanding of physics  \r\n*\\+2 to Engineering*\r\n\r\nNatural aptitude for working with machinery and tools  \r\n*Additional \\+1 from Equipment Bonus and \\+2 Technology (Knowledge)*\r\n\r\nPatience and willingness to put in the necessary time and effort  \r\n*Meticulous skill check bonus is increased by 1 per stage*\r\n\r\nAbility to persevere through challenges  \r\n*\\+1 Willpower Checks*\r\n\r\nStrong analytical and problem-solving skills  \r\n*\\+2 Logic Checks*\r\n\r\nAbility to work well with others  \r\n*\\+1 to Aid*\r\n\r\nDeep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques  \r\n*\\+2 Vocation Skill*\r\n\r\nNatural aptitude for understanding and operating advanced technology  \r\n*\\+2 Technology Knowledge*\r\n\r\nExcellent time management skills  \r\n*Reduce Rush modifiers to Skill checks by 2*",
+    "category": "occupations",
+    "archetypes": [
+      "Starship Engineer",
+      "Cybernetic Technician",
+      "Nanotechnology Specialist",
+      "Habitat Architect",
+      "Weaponsmith",
+      "Robotics Engineer",
+      "Matter Manipulator"
+    ]
+  },
+  {
+    "name": "Citizen",
+    "updatedAt": "2026-08-23T10:56:49.158Z",
+    "body": "# Citizen Occupation\n\n**Category**: Occupations  \n**Starting Skill Points**: 20 SP (allocated to Professional Skills, max Rank 11, recommended Rank 6)  \n**Recommended Features**: General (1 BP Discount)  \n**Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)\n\n## Description\nA Citizen is an individual living within a diverse and interconnected society, spanning multiple planets or star systems. They may have various roles and occupations, such as traders, workers, scientists, or artists, contributing to the overall functioning of their community. They are likely to be familiar with customs, languages, and technologies, allowing them to navigate the complexities of their society. They may be part of various factions, organizations, or social groups, each with their own goals and motivations.   Some work directly for the numerous corporations, governments or similar levels of power, but with most of all Citizens being from the Working Class.   As a Citizen can be from any background the Background Trait is often used to flesh them out and to assist in their trade, though the training will not be as dedicated as a true professional in the Occupation.\n\n## Professional Skills\n- Any Non-Combat Skills\n\n## Typical Archetypes\n- Advocate\n- Artist\n- Entrepreneur\n- Journalist\n- Scientist\n- Laborer\n- Medic\n- Pilot\n- Technician\n- Bureaucrat\n- # **\\- Corporate**\n- Your character may have a background in the corporate world, giving them skills in negotiation, finance, and management. They will be used to working within a hierarchy and following orders from superiors.\n\n## Available Traits\n- `trait-citizen-adaptability`\n- `trait-citizen-communication`\n- `trait-citizen-ethical-awareness`\n- `trait-citizen-financial-expertise`\n- `trait-citizen-high-social-standing`\n- `trait-citizen-management`\n- `trait-citizen-negotiation`\n- `trait-citizen-networking`\n- `trait-citizen-problem-solving`\n- `trait-citizen-strategic-thinking`\n\r\n\r\n## Extended Lore & Background\r\n\r\nA Citizen is an individual living within a diverse and interconnected society, spanning multiple planets or star systems. They may have various roles and occupations, such as traders, workers, scientists, or artists, contributing to the overall functioning of their community. They are likely to be familiar with customs, languages, and technologies, allowing them to navigate the complexities of their society. They may be part of various factions, organizations, or social groups, each with their own goals and motivations.  \r\nSome work directly for the numerous corporations, governments or similar levels of power, but with most of all Citizens being from the Working Class.  \r\nAs a Citizen can be from any background the Background Trait is often used to flesh them out and to assist in their trade, though the training will not be as dedicated as a true professional in the Occupation.\r\n\r\nAny Non-Combat Skills\r\n\r\nGeneral\r\n\r\nAdvocate  \r\nArtist  \r\nEntrepreneur  \r\nJournalist  \r\nScientist  \r\nLaborer  \r\nMedic  \r\nPilot  \r\nTechnician  \r\nBureaucrat",
+    "professional_skills": [
+      "Any Non-Combat Skills"
+    ],
+    "traits": [
+      "trait-citizen-adaptability",
+      "trait-citizen-communication",
+      "trait-citizen-ethical-awareness",
+      "trait-citizen-financial-expertise",
+      "trait-citizen-high-social-standing",
+      "trait-citizen-management",
+      "trait-citizen-negotiation",
+      "trait-citizen-networking",
+      "trait-citizen-problem-solving",
+      "trait-citizen-strategic-thinking"
+    ],
+    "description": "A Citizen is an individual living within a diverse and interconnected society, spanning multiple planets or star systems. They may have various roles and occupations, such as traders, workers, scientists, or artists, contributing to the overall functioning of their community. They are likely to be familiar with customs, languages, and technologies, allowing them to navigate the complexities of their society.",
+    "category": "occupations",
+    "archetypes": [
+      "Advocate",
+      "Artist",
+      "Entrepreneur",
+      "Journalist",
+      "Scientist",
+      "Laborer",
+      "Medic",
+      "Pilot",
+      "Technician",
+      "Bureaucrat",
+      "Corporate Drone"
+    ],
+    "skill_points": 20,
+    "recommended_features": "General",
+    "id": "occupation-citizen"
+  },
+  {
+    "category": "occupations",
+    "professional_skills": [
+      "Bluff",
+      "Diplomacy",
+      "Awareness",
+      "Stealth and one Knowledge or Vocation"
+    ],
+    "body": "# Criminal Occupation\n\n**Category**: Occupations  \n**Starting Skill Points**: 20 SP (allocated to Professional Skills, max Rank 11, recommended Rank 6)  \n**Recommended Features**: Skill (1 BP Discount)  \n**Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)\n\n## Description\nA Criminal is a character who engages in illegal activities for personal gain or as part of an organized group. This can include roles such as thieves, con artists, burglars, assassins, and members of criminal organizations. Criminal characters often possess skills in stealth, deception, and combat, allowing them to navigate the dangerous underworld and accomplish their objectives. Many Criminals can be quite brutish but some will be quite professional and honorable. Though others commit a myriad assortment of crimes on a regular basis, no one is as good at crime-for-profit as an actual Criminal.\n\n## Professional Skills\n- Bluff\n- Diplomacy\n- Awareness\n- Stealth and one Knowledge or Vocation\n\n## Typical Archetypes\n- Smuggler\n- Fixer\n- Assassin\n- Forger\n- Crime Boss\n- Tech Thief\n- Saboteur\n- Information Broker\n- Arms Dealer\n- Slaver\n- Hacker\n\n## Available Traits\n- `trait-criminal-aggressiveness`\n- `trait-criminal-b-e`\n- `trait-criminal-combat-training`\n- `trait-criminal-deception`\n- `trait-criminal-hacking`\n- `trait-criminal-networking`\n- `trait-criminal-resourcefulness`\n- `trait-criminal-risk-taking`\n- `trait-criminal-self-preservation`\n- `trait-criminal-smooth`\n- `trait-criminal-stalker`\n- `trait-criminal-street-smarts`\n\r\n\r\n## Extended Lore & Background\r\n\r\nA Criminal is a character who engages in illegal activities for personal gain or as part of an organized group. This can include roles such as thieves, con artists, burglars, assassins, and members of criminal organizations. Criminal characters often possess skills in stealth, deception, and combat, allowing them to navigate the dangerous underworld and accomplish their objectives. Many Criminals can be quite brutish but some will be quite professional and honorable. Though others commit a myriad assortment of crimes on a regular basis, no one is as good at crime-for-profit as an actual Criminal.\r\n\r\nBluff, Diplomacy, Awareness, Stealth and one Knowledge or Vocation\r\n\r\nSkill\r\n\r\nSmuggler  \r\nFixer  \r\nAssassin  \r\nForger  \r\nCrime Boss  \r\nTech Thief  \r\nSaboteur  \r\nInformation Broker  \r\nArms Dealer  \r\nSlaver  \r\nHacker\r\n\r\nCriminals may be more prone to violence and aggression than the average person  \r\n*\\+2 Intimidation*\r\n\r\nExperience with breaking and entering into secure locations  \r\n*\\+2 all checks to the Infiltration of a physical location*\r\n\r\nCriminals may have experience with hand-to-hand combat or the use of weapons  \r\n*\\+2 to a Combat Skill of choice*\r\n\r\nCriminals are often skilled at lying and manipulating others to get what they want  \r\n*\\+1 Manipulation Skills*\r\n\r\nExperience with hacking into computer systems and stealing information  \r\n*\\+2 all checks to the Infiltration of a digital domain*\r\n\r\nCriminals may have a network of contacts and associates that they can call upon for assistance  \r\n*Gather Information checks at Advantage*\r\n\r\nCriminals may have a knack at finding creative solutions to problems, especially those related to their criminal activities and should be able to improvise and adapt to changing circumstances  \r\n*Once per Day make a Skill Check of choice at Advantage*\r\n\r\nCriminals may be more willing to take risks and engage in dangerous behavior  \r\n*\\+1 Karma Point*\r\n\r\nCriminals may be skilled at protecting themselves and avoiding capture by law enforcement  \r\n*\\+1 Karma Point*\r\n\r\nCriminals may be charming and persuasive, able to talk their way out of difficult situations  \r\n*\\+2 Bluff*\r\n\r\nSkilled at moving quietly and avoiding detection  \r\n*May take 10 on Stealth Checks*\r\n\r\nCriminals may have a deep understanding of the criminal underworld and how to navigate it  \r\n*\\+2 Streetwise*",
+    "id": "occupation-criminal",
+    "description": "A Criminal is a character who engages in illegal activities for personal gain or as part of an organized group. This can include roles such as thieves, con artists, burglars, assassins, and members of criminal organizations. Criminal characters often possess skills in stealth, deception, and combat, allowing them to navigate the dangerous underworld and accomplish their objectives. Many Criminals can be quite brutish but some will be quite professional and honorable. Though others commit a myriad assortment of crimes on a regular basis, no one is as good at crime-for-profit as an actual Criminal.",
+    "name": "Criminal",
+    "archetypes": [
+      "Smuggler",
+      "Fixer",
+      "Assassin",
+      "Forger",
+      "Crime Boss",
+      "Tech Thief",
+      "Saboteur",
+      "Information Broker",
+      "Arms Dealer",
+      "Slaver",
+      "Hacker"
+    ],
+    "skill_points": 20,
+    "traits": [
+      "trait-criminal-aggressiveness",
+      "trait-criminal-b-e",
+      "trait-criminal-combat-training",
+      "trait-criminal-deception",
+      "trait-criminal-hacking",
+      "trait-criminal-networking",
+      "trait-criminal-resourcefulness",
+      "trait-criminal-risk-taking",
+      "trait-criminal-self-preservation",
+      "trait-criminal-smooth",
+      "trait-criminal-stalker",
+      "trait-criminal-street-smarts"
+    ],
+    "recommended_features": "Skill",
+    "updatedAt": "2026-08-23T10:56:49.158Z"
+  },
+  {
+    "description": "A drifter is a person who travels from place to place, often without a fixed home or occupation. They may take on various temporary jobs or roles to survive, and their lifestyle is typically characterized by freedom, adaptability, and a sense of adventure. Drifters may be motivated by a variety of factors, such as a desire to see the world, a need to escape from a difficult situation, or simply a love of travel. They may also be drawn to the drifter lifestyle because it offers them a sense of freedom and independence. While the drifter lifestyle can be challenging, it can also be very rewarding. Drifters often have the opportunity to meet new people, experience different cultures, and see amazing things. They may also develop a strong sense of self-reliance and independence. Drifters can be found in various settings, such as aboard starships, space stations, or on distant planets.",
+    "body": "# Drifter Occupation\n\n**Category**: Occupations  \n**Starting Skill Points**: 20 SP (allocated to Professional Skills, max Rank 11, recommended Rank 6)  \n**Recommended Features**: General (1 BP Discount)  \n**Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)\n\n## Description\nA drifter is a person who travels from place to place, often without a fixed home or occupation. They may take on various temporary jobs or roles to survive, and their lifestyle is typically characterized by freedom, adaptability, and a sense of adventure. Drifters may be motivated by a variety of factors, such as a desire to see the world, a need to escape from a difficult situation, or simply a love of travel. They may also be drawn to the drifter lifestyle because it offers them a sense of freedom and independence. While the drifter lifestyle can be challenging, it can also be very rewarding. Drifters often have the opportunity to meet new people, experience different cultures, and see amazing things. They may also develop a strong sense of self-reliance and independence. Drifters can be found in various settings, such as aboard starships, space stations, or on distant planets.\n\n## Professional Skills\n- Pilot\n- Survival and any three Knowledge or Vocation Skills\n\n## Typical Archetypes\n- Scavenger\n- Smuggler\n- Bounty Hunter\n- Spy\n- Space Trucker\n- Mercenary\n- Explorer\n- Space Pirate\n- Salvage Expert\n- Prospector\n- Freelance Mechanic\n- Information Broker\n- Bodyguard\n- Medical Specialist\n\n## Available Traits\n- `trait-drifter-adaptability`\n- `trait-drifter-adventurous-spirit`\n- `trait-drifter-aggressiveness`\n- `trait-drifter-caution`\n- `trait-drifter-combat-training`\n- `trait-drifter-fearlessness`\n- `trait-drifter-jack-of-all-trades`\n- `trait-drifter-loyalty`\n- `trait-drifter-mobility`\n- `trait-drifter-resourcefulness`\n- `trait-drifter-scavenging`\n- `trait-drifter-self-sufficiency`\n- `trait-drifter-stalker`\n- `trait-drifter-street-smarts`\n- `trait-drifter-survival`\n- `trait-drifter-unpredictability`\n\r\n\r\n## Extended Lore & Background\r\n\r\nA drifter is a person who travels from place to place, often without a fixed home or occupation. They may take on various temporary jobs or roles to survive, and their lifestyle is typically characterized by freedom, adaptability, and a sense of adventure. Drifters may be motivated by a variety of factors, such as a desire to see the world, a need to escape from a difficult situation, or simply a love of travel. They may also be drawn to the drifter lifestyle because it offers them a sense of freedom and independence. While the drifter lifestyle can be challenging, it can also be very rewarding. Drifters often have the opportunity to meet new people, experience different cultures, and see amazing things. They may also develop a strong sense of self-reliance and independence. Drifters can be found in various settings, such as aboard starships, space stations, or on distant planets.\r\n\r\nPilot, Survival and any three Knowledge or Vocation Skills\r\n\r\nGeneral\r\n\r\nScavenger  \r\nSmuggler  \r\nBounty Hunter  \r\nSpy  \r\nSpace Trucker  \r\nMercenary  \r\nBounty Hunter  \r\nExplorer  \r\nSpace Pirate  \r\nSalvage Expert  \r\nProspector  \r\nFreelance Mechanic  \r\nInformation Broker  \r\nBodyguard  \r\nMedical Specialist\r\n\r\nOften adaptable and able to adjust to new environments and situations quickly  \r\n*\\+2 to a specific Skill Check, may change assigned Skill daily*\r\n\r\nStrong sense of adventure and are always seeking new experiences and challenges  \r\n*Regain a Karma Point on the first encounter when dealing with something new \\- creature, area, technology, etc.*\r\n\r\nExhibit aggressive behavior and are not afraid to use violence to achieve their goals  \r\n*\\+2 Intimidate*\r\n\r\nCautious and prefer to avoid unnecessary risks, especially when dealing with others  \r\n*\\+2 Insight*\r\n\r\nSkilled with firearms and other weapons, making them formidable opponents in combat  \r\n*\\+2 Combat Skill of choice*\r\n\r\nSeem fearless and willing to take risks in order to achieve their goals  \r\n*\\+1 Karma Point*\r\n\r\nPossess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group  \r\n*May use any skill without formal training*\r\n\r\nWhile they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups  \r\n*Domination and Mind-Control Resistance Checks are made at Advantage*\r\n\r\nOften on the move, traveling from place to place and exploring new territories  \r\n*\\+2 Equipment (Vehicle)*\r\n\r\nSkilled at finding ways to survive and thrive in difficult situations  \r\n*Once per Day make a Skill Check of choice at Advantage*\r\n\r\nExcel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources  \r\n*\\+2 Salvage checks*\r\n\r\nOften self-sufficient and able to take care of themselves without relying on others  \r\n*\\+1 Karma Point*\r\n\r\nPossess stealthy skills, allowing them to move silently and go unnoticed when necessary  \r\n*May take 10 on Stealth Checks*\r\n\r\nStreetwise and have a keen understanding of the urban landscape, including knowing where to find resources, contacts, and information  \r\n*\\+2 Streetwise*\r\n\r\nAbility to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter  \r\n*\\+2 Survival*\r\n\r\nUnpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries  \r\n*\\+2 Initiative*",
+    "archetypes": [
+      "Scavenger",
+      "Smuggler",
+      "Bounty Hunter",
+      "Spy",
+      "Space Trucker",
+      "Mercenary",
+      "Explorer",
+      "Space Pirate",
+      "Salvage Expert",
+      "Prospector",
+      "Freelance Mechanic",
+      "Information Broker",
+      "Bodyguard",
+      "Medical Specialist"
+    ],
+    "name": "Drifter",
+    "professional_skills": [
+      "Pilot",
+      "Survival and any three Knowledge or Vocation Skills"
+    ],
+    "traits": [
+      "trait-drifter-adaptability",
+      "trait-drifter-adventurous-spirit",
+      "trait-drifter-aggressiveness",
+      "trait-drifter-caution",
+      "trait-drifter-combat-training",
+      "trait-drifter-fearlessness",
+      "trait-drifter-jack-of-all-trades",
+      "trait-drifter-loyalty",
+      "trait-drifter-mobility",
+      "trait-drifter-resourcefulness",
+      "trait-drifter-scavenging",
+      "trait-drifter-self-sufficiency",
+      "trait-drifter-stalker",
+      "trait-drifter-street-smarts",
+      "trait-drifter-survival",
+      "trait-drifter-unpredictability"
+    ],
+    "recommended_features": "General",
+    "skill_points": 20,
+    "id": "occupation-drifter",
+    "updatedAt": "2026-08-23T10:56:49.158Z",
+    "category": "occupations"
+  },
+  {
+    "description": "Entertainers might perform in various forms of art, such as music, dance, acting, or even virtual reality experiences. They could use advanced technology to create immersive and captivating performances, reaching audiences across different planets and star systems.Entertainers in the future may perform in a variety of ways, including music, dance, acting, and even virtual reality experiences. They can use advanced technology to create immersive and captivating performances that can reach audiences across different planets and star systems. The possibilities for entertainment are truly endless. As technology continues to evolve, so will the ways we can be entertained.",
+    "name": "Entertainer",
+    "recommended_features": "Skill",
+    "body": "# Entertainer Occupation\n\n**Category**: Occupations  \n**Starting Skill Points**: 20 SP (allocated to Professional Skills, max Rank 11, recommended Rank 6)  \n**Recommended Features**: Skill (1 BP Discount)  \n**Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)\n\n## Description\nEntertainers might perform in various forms of art, such as music, dance, acting, or even virtual reality experiences. They could use advanced technology to create immersive and captivating performances, reaching audiences across different planets and star systems.Entertainers in the future may perform in a variety of ways, including music, dance, acting, and even virtual reality experiences. They can use advanced technology to create immersive and captivating performances that can reach audiences across different planets and star systems. The possibilities for entertainment are truly endless. As technology continues to evolve, so will the ways we can be entertained.\n\n## Professional Skills\n- Any Expression Skills\n\n## Typical Archetypes\n- Holographic Performer\n- Psionic Entertainer\n- Circus Performer\n- Comedian\n- Dancer\n- Storyteller\n- Musician\n- Actor\n- Courtesan\n\n## Available Traits\n- `trait-entertainer-adaptable`\n- `trait-entertainer-charismatic`\n- `trait-entertainer-confident`\n- `trait-entertainer-creative`\n- `trait-entertainer-energetic`\n- `trait-entertainer-fans`\n- `trait-entertainer-fellow-artists`\n- `trait-entertainer-freedom`\n- `trait-entertainer-fun`\n- `trait-entertainer-venues`\n\r\n\r\n## Extended Lore & Background\r\n\r\nEntertainers might perform in various forms of art, such as music, dance, acting, or even virtual reality experiences. They could use advanced technology to create immersive and captivating performances, reaching audiences across different planets and star systems.Entertainers in the future may perform in a variety of ways, including music, dance, acting, and even virtual reality experiences. They can use advanced technology to create immersive and captivating performances that can reach audiences across different planets and star systems. The possibilities for entertainment are truly endless. As technology continues to evolve, so will the ways we can be entertained.\r\n\r\nAny Expression Skills\r\n\r\nSkill\r\n\r\nHolographic Performer  \r\nPsionic Entertainer  \r\nCircus Performer  \r\nComedian  \r\nDancer  \r\nStoryteller  \r\nMusician  \r\nActor  \r\nCourtesan\r\n\r\nAble to adjust performances to suit different audiences  \r\n*\\+2 to a specific Skill Check, may change assigned Skill daily*\r\n\r\nOutgoing and charming  \r\n*May take 10 on Diplomacy*\r\n\r\nComfortable in the spotlight  \r\n*\\+2 Willpower*\r\n\r\nSkilled at coming up with new ideas  \r\n*\\+1 Karma Point*\r\n\r\nHigh levels of energy and enthusiasm  \r\n*\\+1 Karma Point*\r\n\r\nHas a loyal following of fans  \r\n*\\+2 Wealth and \\+1 Manipulations with Fans*\r\n\r\nHas close relationships with other performers  \r\n*Gather Information checks made at Advantage when dealing with the entertainment scene*\r\n\r\nValues independence and self-expression  \r\n*Domination and Mind-Control Resistance Checks are made at Advantage*\r\n\r\nValues having a good time and making others happy  \r\n*Regain a Karma Point when a crowd enjoys your performance*\r\n\r\nHas strong ties to certain performance venues  \r\n*\\+2 Equipment (Hideout) and \\+1 Wealth*",
+    "skill_points": 20,
+    "id": "occupation-entertainer",
+    "traits": [
+      "trait-entertainer-adaptable",
+      "trait-entertainer-charismatic",
+      "trait-entertainer-confident",
+      "trait-entertainer-creative",
+      "trait-entertainer-energetic",
+      "trait-entertainer-fans",
+      "trait-entertainer-fellow-artists",
+      "trait-entertainer-freedom",
+      "trait-entertainer-fun",
+      "trait-entertainer-venues"
+    ],
+    "professional_skills": [
+      "Any Expression Skills"
+    ],
+    "category": "occupations",
+    "archetypes": [
+      "Holographic Performer",
+      "Psionic Entertainer",
+      "Circus Performer",
+      "Comedian",
+      "Dancer",
+      "Storyteller",
+      "Musician",
+      "Actor",
+      "Courtesan"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.158Z"
+  },
+  {
+    "archetypes": [
+      "Store Owner",
+      "Traveling Merchant",
+      "Merchant Prince",
+      "Smuggler",
+      "Resource Gatherer",
+      "Diplomatic Trader",
+      "Fence",
+      "Information Broker",
+      "Art Dealer",
+      "Curator",
+      "Arms Dealer",
+      "Pawnbroker"
+    ],
+    "name": "Merchant",
+    "category": "occupations",
+    "professional_skills": [
+      "Any Manipulation Skills"
+    ],
+    "body": "# Merchant Occupation\n\n**Category**: Occupations  \n**Starting Skill Points**: 20 SP (allocated to Professional Skills, max Rank 11, recommended Rank 6)  \n**Recommended Features**: Skill (1 BP Discount)  \n**Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)\n\n## Description\nA merchant's occupation would involve trading, negotiating, and exploring uncharted regions of space for profit and adventure. As a merchant, the character would be skilled in various aspects of commerce, diplomacy, and resource management. They would need to be able to assess the value of goods, negotiate prices, and manage their finances. They would also need to be able to build relationships with other merchants and traders, and be able to navigate the political and social landscape of the space they are in. Additionally, they would need to be able to handle the physical and mental challenges of exploring uncharted space, such as dealing with dangerous environments and creatures, and making quick decisions in high-pressure situations. They might operate a store, be a traveling merchant, or even a merchant prince, who is a powerful and wealthy individual with a license to explore and trade outside the limits of their civilization.\n\n## Professional Skills\n- Any Manipulation Skills\n\n## Typical Archetypes\n- Store Owner\n- Traveling Merchant\n- Merchant Prince\n- Smuggler\n- Resource Gatherer\n- Diplomatic Trader\n- Fence\n- Information Broker\n- Art Dealer\n- Curator\n- Arms Dealer\n- Pawnbroker\n\n## Available Traits\n- `trait-merchant-adaptability`\n- `trait-merchant-appraisal`\n- `trait-merchant-business-acumen`\n- `trait-merchant-charismatic`\n- `trait-merchant-cultural-awareness`\n- `trait-merchant-linguistics`\n- `trait-merchant-logistics`\n- `trait-merchant-negotiation`\n- `trait-merchant-networking`\n- `trait-merchant-product-knowledge`\n- `trait-merchant-resourcefulness`\n- `trait-merchant-risk-management`\n\r\n\r\n## Extended Lore & Background\r\n\r\nA merchant's occupation would involve trading, negotiating, and exploring uncharted regions of space for profit and adventure. As a merchant, the character would be skilled in various aspects of commerce, diplomacy, and resource management. They would need to be able to assess the value of goods, negotiate prices, and manage their finances. They would also need to be able to build relationships with other merchants and traders, and be able to navigate the political and social landscape of the space they are in. Additionally, they would need to be able to handle the physical and mental challenges of exploring uncharted space, such as dealing with dangerous environments and creatures, and making quick decisions in high-pressure situations. They might operate a store, be a traveling merchant, or even a merchant prince, who is a powerful and wealthy individual with a license to explore and trade outside the limits of their civilization.\r\n\r\nAny Manipulation Skills\r\n\r\nSkill\r\n\r\nStore Owner  \r\nTraveling Merchant  \r\nMerchant Prince  \r\nSmuggler  \r\nResource Gatherer  \r\nDiplomatic Trader  \r\nFence  \r\nInformation Broker  \r\nArt Dealer  \r\nCurator  \r\nArms Dealer  \r\nPawnbroker\r\n\r\nMerchants are adaptable and can quickly adjust their strategies to changing market conditions. They can thrive in different environments and make the most of any situation.  \r\n*\\+2 to a specific Skill Check, may change assigned Skill daily*\r\n\r\nMerchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices.  \r\n*\\+2 to any Appraisal check*\r\n\r\nMerchants have a keen understanding of economics and market trends. They know how to identify profitable opportunities and make wise investments.  \r\n*\\+2 Merchant Vocation*\r\n\r\nMerchants possess charisma and charm, making them persuasive and likable. They can easily win over potential customers and build long-lasting relationships.  \r\n*May take 10 on Diplomacy*\r\n\r\nMerchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds.  \r\n*\\+2 Culture Knowledge*\r\n\r\nMerchants often possess linguistic skills, enabling them to communicate with customers and suppliers who speak different languages. This skill can help them expand their reach and negotiate better deals.  \r\n*\\+2 Linguistic Knowledge*\r\n\r\nMerchants have a strong understanding of logistics and supply chain management. They can efficiently transport goods, manage inventory, and optimize distribution to maximize efficiency and minimize costs.  \r\n*\\+2 Wealth Checks*\r\n\r\nMerchants excel at bargaining and negotiating deals. They have the ability to persuade others and get the best prices for their goods or services.  \r\n*\\+1 all Manipulation Skills*\r\n\r\nMerchants have a wide network of contacts and connections. They know the right people to get information, find buyers or sellers, and establish lucrative partnerships.  \r\n*Gather Information checks at Advantage*\r\n\r\nMerchants have in-depth knowledge about the products they sell. They understand their features, benefits, and potential uses, allowing them to effectively market and sell their goods.  \r\n*\\+2 to a Knowledge or Vocation Skill*\r\n\r\nMerchants are resourceful and can find creative solutions to problems. They can adapt to unexpected situations, overcome obstacles, and turn challenges into opportunities.  \r\n*Once per Day make a Skill Check of choice at Advantage*\r\n\r\nMerchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.  \r\n*\\+1 Karma Point*",
+    "description": "A merchant's occupation would involve trading, negotiating, and exploring uncharted regions of space for profit and adventure. As a merchant, the character would be skilled in various aspects of commerce, diplomacy, and resource management. They would need to be able to assess the value of goods, negotiate prices, and manage their finances. They would also need to be able to build relationships with other merchants and traders, and be able to navigate the political and social landscape of the space they are in. Additionally, they would need to be able to handle the physical and mental challenges of exploring uncharted space, such as dealing with dangerous environments and creatures, and making quick decisions in high-pressure situations. They might operate a store, be a traveling merchant, or even a merchant prince, who is a powerful and wealthy individual with a license to explore and trade outside the limits of their civilization.",
+    "updatedAt": "2026-08-23T10:56:49.157Z",
+    "skill_points": 20,
+    "recommended_features": "Skill",
+    "traits": [
+      "trait-merchant-adaptability",
+      "trait-merchant-appraisal",
+      "trait-merchant-business-acumen",
+      "trait-merchant-charismatic",
+      "trait-merchant-cultural-awareness",
+      "trait-merchant-linguistics",
+      "trait-merchant-logistics",
+      "trait-merchant-negotiation",
+      "trait-merchant-networking",
+      "trait-merchant-product-knowledge",
+      "trait-merchant-resourcefulness",
+      "trait-merchant-risk-management"
+    ],
+    "id": "occupation-merchant"
+  },
+  {
+    "professional_skills": [
+      "Any Manipulation Skills"
+    ],
+    "body": "# Representative Occupation\n\n**Category**: Occupations  \n**Starting Skill Points**: 20 SP (allocated to Professional Skills, max Rank 11, recommended Rank 6)  \n**Recommended Features**: Skill (1 BP Discount)  \n**Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)\n\n## Description\nA Representative's occupation could involve diplomacy, negotiation, and communication between various factions, planets, or organizations. They might be responsible for maintaining relationships, resolving conflicts, and advocating for their constituents' interests whether they are in a governmental or corporate arena.   A Governmental Representative might be responsible for representing the interests of their constituents in the legislative branch of government. They would do this by drafting and voting on legislation, and by participating in committee hearings and floor debates. They would also be responsible for communicating with their constituents and keeping them updated on the legislative process.   A Corporate Representative might be responsible for representing the interests of their company in dealings with other companies, government agencies, and the public. They would do this by negotiating contracts, resolving disputes, and providing information about the company. They would also be responsible for communicating with the company's employees and keeping them updated on the company's activities.   Representatives play an important role in maintaining order and cooperation between different groups. They use their skills in diplomacy, negotiation, and communication to build relationships, resolve conflicts, and advocate for the interests of their constituents.\n\n## Professional Skills\n- Any Manipulation Skills\n\n## Typical Archetypes\n- Interstellar Diplomat\n- Trade Envoy\n- Peace Negotiator\n- Intelligence Liaison\n- Cultural Ambassador\n- Corporate Administrator\n\n## Available Traits\n- `trait-representative-analytical`\n- `trait-representative-conflict-resolution`\n- `trait-representative-creativity`\n- `trait-representative-emotional-intelligence`\n- `trait-representative-flexibility`\n- `trait-representative-integrity`\n- `trait-representative-languages`\n- `trait-representative-negotiation`\n- `trait-representative-networking`\n- `trait-representative-time-management`\n\r\n\r\n## Extended Lore & Background\r\n\r\nA Representative's occupation could involve diplomacy, negotiation, and communication between various factions, planets, or organizations. They might be responsible for maintaining relationships, resolving conflicts, and advocating for their constituents' interests whether they are in a governmental or corporate arena.  \r\nA Governmental Representative might be responsible for representing the interests of their constituents in the legislative branch of government. They would do this by drafting and voting on legislation, and by participating in committee hearings and floor debates. They would also be responsible for communicating with their constituents and keeping them updated on the legislative process.  \r\nA Corporate Representative might be responsible for representing the interests of their company in dealings with other companies, government agencies, and the public. They would do this by negotiating contracts, resolving disputes, and providing information about the company. They would also be responsible for communicating with the company's employees and keeping them updated on the company's activities.  \r\nRepresentatives play an important role in maintaining order and cooperation between different groups. They use their skills in diplomacy, negotiation, and communication to build relationships, resolve conflicts, and advocate for the interests of their constituents.\r\n\r\nAny Manipulation Skills\r\n\r\nSkill\r\n\r\nInterstellar Diplomat  \r\nTrade Envoy  \r\nPeace Negotiator  \r\nIntelligence Liaison  \r\nCultural Ambassador  \r\nCorporate Administrator\r\n\r\nAbility to analyze data and information to make informed decisions  \r\n*\\+2 Alertness*\r\n\r\nAbility to resolve conflicts effectively and find solutions that satisfy all parties involved  \r\n*\\+2 Diplomacy*\r\n\r\nAbility to think creatively and develop innovative solutions to complex problems  \r\n*\\+1 Karma*\r\n\r\nAbility to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states  \r\n*\\+2 Insight*\r\n\r\nAbility to adapt to changing circumstances and adjust plans and strategies as needed  \r\n*\\+2 to a specific Skill Check, may change assigned Skill daily*\r\n\r\nHonest and trustworthy, able to maintain a high level of integrity in their work  \r\n*\\+1 Karma*\r\n\r\nAbility to speak multiple languages and communicate effectively with people from different cultures and backgrounds  \r\n*\\+2 Language*\r\n\r\nSkilled negotiator, able to find common ground with others and reach mutually beneficial agreements  \r\n*\\+1 all Manipulation Skills*\r\n\r\nAbility to build strong relationships with others, including politicians, businesspeople, and other diplomats  \r\n*Gather Information checks at Advantage*\r\n\r\nAbility to manage time effectively and prioritize tasks to ensure that they are completed on time  \r\n*Reduce Rush modifier to Skill check by 2*",
+    "category": "occupations",
+    "archetypes": [
+      "Interstellar Diplomat",
+      "Trade Envoy",
+      "Peace Negotiator",
+      "Intelligence Liaison",
+      "Cultural Ambassador",
+      "Corporate Administrator"
+    ],
+    "name": "Representative",
+    "updatedAt": "2026-08-23T10:56:49.157Z",
+    "recommended_features": "Skill",
+    "skill_points": 20,
+    "traits": [
+      "trait-representative-analytical",
+      "trait-representative-conflict-resolution",
+      "trait-representative-creativity",
+      "trait-representative-emotional-intelligence",
+      "trait-representative-flexibility",
+      "trait-representative-integrity",
+      "trait-representative-languages",
+      "trait-representative-negotiation",
+      "trait-representative-networking",
+      "trait-representative-time-management"
+    ],
+    "id": "occupation-representative",
+    "description": "A Representative's occupation could involve diplomacy, negotiation, and communication between various factions, planets, or organizations. They might be responsible for maintaining relationships, resolving conflicts, and advocating for their constituents' interests whether they are in a governmental or corporate arena.   A Governmental Representative might be responsible for representing the interests of their constituents in the legislative branch of government. They would do this by drafting and voting on legislation, and by participating in committee hearings and floor debates. They would also be responsible for communicating with their constituents and keeping them updated on the legislative process.   A Corporate Representative might be responsible for representing the interests of their company in dealings with other companies, government agencies, and the public. They would do this by negotiating contracts, resolving disputes, and providing information about the company. They would also be responsible for communicating with the company's employees and keeping them updated on the company's activities.   Representatives play an important role in maintaining order and cooperation between different groups. They use their skills in diplomacy, negotiation, and communication to build relationships, resolve conflicts, and advocate for the interests of their constituents."
+  },
+  {
+    "body": "# Scholar Occupation\n\n**Category**: Occupations  \n**Starting Skill Points**: 20 SP (allocated to Professional Skills, max Rank 11, recommended Rank 6)  \n**Recommended Features**: Skill (1 BP Discount)  \n**Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)\n\n## Description\nA Scholar is a character who specializes in academic pursuits, research, and study. They possess a comprehensive education in a range of scientific skills.A scholar is a character who specializes in academic pursuits, research, and study. They possess a comprehensive education in a range of scientific skills. They are often well-read and have a deep understanding of various subjects. Scholars are typically curious and inquisitive, and they enjoy learning new things. They are also often creative and innovative, and they are able to think outside the box. Scholars can be found in a variety of settings, including universities, libraries, and research labs. Overall, scholars are intelligent, curious, and dedicated individuals who play an important role in society by advancing knowledge and understanding.\n\n## Professional Skills\n- Any Knowledge Skills\n\n## Typical Archetypes\n- Xenology Expert\n- Geneticist\n- Linguistics Specialist\n- Historian\n- Astrophysicist\n- Cybernetics Expert\n- Planetologist\n- Psionicologist\n- Roboticist\n- Scientist\n- Archaeologist\n- Cosmologist\n\n## Available Traits\n- `trait-scholar-adaptability`\n- `trait-scholar-attention-to-detail`\n- `trait-scholar-collaboration`\n- `trait-scholar-continuous-learning`\n- `trait-scholar-critical-thinking`\n- `trait-scholar-ethical-conduct`\n- `trait-scholar-metacognition`\n- `trait-scholar-patience`\n- `trait-scholar-problem-solving`\n- `trait-scholar-technological-innovation`\n\r\n\r\n## Extended Lore & Background\r\n\r\nA Scholar is a character who specializes in academic pursuits, research, and study. They possess a comprehensive education in a range of scientific skills.A scholar is a character who specializes in academic pursuits, research, and study. They possess a comprehensive education in a range of scientific skills. They are often well-read and have a deep understanding of various subjects. Scholars are typically curious and inquisitive, and they enjoy learning new things. They are also often creative and innovative, and they are able to think outside the box. Scholars can be found in a variety of settings, including universities, libraries, and research labs. Overall, scholars are intelligent, curious, and dedicated individuals who play an important role in society by advancing knowledge and understanding.\r\n\r\nAny Knowledge Skills\r\n\r\nSkill\r\n\r\nXenology Expert  \r\nGeneticist  \r\nLinguistics Specialist  \r\nHistorian  \r\nAstrophysicist  \r\nCybernetics Expert  \r\nPlanetologist  \r\nPsionicologist  \r\nRoboticist  \r\nScientist  \r\nArchaeologist  \r\nCosmologist\r\n\r\nOpen to new ideas, willing to learn and adapt.  \r\n*\\+2 to a specific Skill Check, may change assigned Skill daily*\r\n\r\nMeticulous in observations, measurements, and data analysis.  \r\n*\\+2 Alertness*\r\n\r\nAble to effectively communicate and work with colleagues.  \r\n*additional \\+1 to Aid bonuses*\r\n\r\nHas a thirst for knowledge and is committed to lifelong learning.  \r\n*All Learning Checks are made at Advantage*\r\n\r\nPossess strong critical thinking skills.  \r\n*\\+1 Karma Point*\r\n\r\nAdheres to ethical standards in research and work.  \r\n*\\+2 to any Manipulation checks when taking an Ethical side*\r\n\r\nAware of own cognitive abilities and strategies.  \r\n*\\+1 to Logic and Willpower Checks*\r\n\r\nUnderstands that scientific research and discovery often require patience.  \r\n*Additional \\+1 bonus per stage of time for Meticulous Skill Checks*\r\n\r\nAdept at identifying and solving problems.  \r\n*Once per Day may reroll a Mental Skill Check*\r\n\r\nAble to create, adapt, and improve technology in novel ways.  \r\n*Knowledge (Technology) checks made at Advantage.*",
+    "skill_points": 20,
+    "id": "occupation-scholar",
+    "recommended_features": "Skill",
+    "archetypes": [
+      "Xenology Expert",
+      "Geneticist",
+      "Linguistics Specialist",
+      "Historian",
+      "Astrophysicist",
+      "Cybernetics Expert",
+      "Planetologist",
+      "Psionicologist",
+      "Roboticist",
+      "Scientist",
+      "Archaeologist",
+      "Cosmologist"
+    ],
+    "name": "Scholar",
+    "description": "A Scholar is a character who specializes in academic pursuits, research, and study. They possess a comprehensive education in a range of scientific skills.A scholar is a character who specializes in academic pursuits, research, and study. They possess a comprehensive education in a range of scientific skills. They are often well-read and have a deep understanding of various subjects. Scholars are typically curious and inquisitive, and they enjoy learning new things. They are also often creative and innovative, and they are able to think outside the box. Scholars can be found in a variety of settings, including universities, libraries, and research labs. Overall, scholars are intelligent, curious, and dedicated individuals who play an important role in society by advancing knowledge and understanding.",
+    "updatedAt": "2026-08-23T10:56:49.157Z",
+    "category": "occupations",
+    "professional_skills": [
+      "Any Knowledge Skills"
+    ],
+    "traits": [
+      "trait-scholar-adaptability",
+      "trait-scholar-attention-to-detail",
+      "trait-scholar-collaboration",
+      "trait-scholar-continuous-learning",
+      "trait-scholar-critical-thinking",
+      "trait-scholar-ethical-conduct",
+      "trait-scholar-metacognition",
+      "trait-scholar-patience",
+      "trait-scholar-problem-solving",
+      "trait-scholar-technological-innovation"
+    ]
+  },
+  {
+    "professional_skills": [
+      "Alertness",
+      "Pilot",
+      "Stealth",
+      "Survival and one Knowledge or Vocation Skill"
+    ],
+    "body": "# Scout Occupation\n\n**Category**: Occupations  \n**Starting Skill Points**: 20 SP (allocated to Professional Skills, max Rank 11, recommended Rank 6)  \n**Recommended Features**: General (1 BP Discount)  \n**Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)\n\n## Description\nA Scout focuses on exploration, survival, and gathering information in various environments. Scouts are often skilled in piloting, navigation, and engineering, and being adept at handling out-of-the-way locations and recognizing potential dangers. Scouts are trained to survey and survive in unknown territories, gathering information while keeping themselves safe. They are skilled in traversing different environments and are knowledgeable enough to make the most of their situation. Scouts are often proficient in finding food, shelter, and navigating through unfamiliar terrain.\n\n## Professional Skills\n- Alertness\n- Pilot\n- Stealth\n- Survival and one Knowledge or Vocation Skill\n\n## Typical Archetypes\n- Space Scout\n- Planetary Scout\n- Reconnaissance Scout\n- Urban Scout\n- Wilderness Scout\n\n## Available Traits\n- `trait-scout-adaptability`\n- `trait-scout-camouflage`\n- `trait-scout-combat-training`\n- `trait-scout-curiosity`\n- `trait-scout-independence`\n- `trait-scout-keen-observation`\n- `trait-scout-navigation`\n- `trait-scout-physical-fitness`\n- `trait-scout-pilot`\n- `trait-scout-resourcefulness`\n- `trait-scout-stalker`\n- `trait-scout-survival-skills`\n- `trait-scout-terrain-expert`\n\r\n\r\n## Extended Lore & Background\r\n\r\nA Scout focuses on exploration, survival, and gathering information in various environments. Scouts are often skilled in piloting, navigation, and engineering, and being adept at handling out-of-the-way locations and recognizing potential dangers. Scouts are trained to survey and survive in unknown territories, gathering information while keeping themselves safe. They are skilled in traversing different environments and are knowledgeable enough to make the most of their situation. Scouts are often proficient in finding food, shelter, and navigating through unfamiliar terrain.\r\n\r\nAlertness, Pilot, Stealth, Survival and one Knowledge or Vocation Skill\r\n\r\nGeneral\r\n\r\nSpace Scout  \r\nPlanetary Scout  \r\nReconnaissance Scout  \r\nUrban Scout  \r\nWilderness Scout\r\n\r\nScouts are adaptable and can quickly adjust to changing circumstances. They can handle unexpected challenges and find alternative solutions.  \r\n*\\+2 to a specific Skill Check, may change assigned Skill daily*\r\n\r\nScouts are adept at moving silently and remaining undetected. They know how to blend into their surroundings and use camouflage techniques to avoid detection.  \r\n*May use Stealth at normal movement speed*\r\n\r\nScouts are proficient in combat, making them skilled with various types of weapons.  \r\n*\\+2 to a Combat Skill of choice*\r\n\r\nExplorer type Scouts have a natural curiosity and thirst for knowledge. They are driven to discover new places, species, and phenomena.  \r\n*Regain a Karma Point on the first encounter when dealing with something new \\- creature, area, technology, etc.*\r\n\r\nScouts are self-reliant and comfortable with solitude. They are capable of working alone and making decisions without relying on others.  \r\n*\\+1 Karma Point*\r\n\r\nScouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings.  \r\n*Take 10 on Alertness Checks*\r\n\r\nScouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively.  \r\n*\\+2 Navigation (Knowledge)*\r\n\r\nScouts possess a high level of physical fitness to endure the demands of exploration and survive in challenging environments.  \r\n*\\+1 Might and Reflex Checks*\r\n\r\nMost field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations.  \r\n*\\+2 Pilot and Navigation*\r\n\r\nScouts are known for their resourcefulness and ability to adapt to different situations. They can think on their feet and come up with creative solutions to challenges they encounter.  \r\n*Once per Day make a Skill Check of choice at Advantage*\r\n\r\nThe scout is able to stay out of sight with ease.  \r\n*May take 10 on Stealth Checks*\r\n\r\nThe ability to survive in hostile environments is a primary characteristic of a scout. They are not easily deterred by the lack of creature comforts and are skilled at eking out their next meal and finding shelter.  \r\n*\\+2 Survival*\r\n\r\nScouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.  \r\n*\\+2 to Stealth, Survival and Defense in chosen Terrain*",
+    "category": "occupations",
+    "archetypes": [
+      "Space Scout",
+      "Planetary Scout",
+      "Reconnaissance Scout",
+      "Urban Scout",
+      "Wilderness Scout"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.156Z",
+    "name": "Scout",
+    "recommended_features": "General",
+    "skill_points": 20,
+    "traits": [
+      "trait-scout-adaptability",
+      "trait-scout-camouflage",
+      "trait-scout-combat-training",
+      "trait-scout-curiosity",
+      "trait-scout-independence",
+      "trait-scout-keen-observation",
+      "trait-scout-navigation",
+      "trait-scout-physical-fitness",
+      "trait-scout-pilot",
+      "trait-scout-resourcefulness",
+      "trait-scout-stalker",
+      "trait-scout-survival-skills",
+      "trait-scout-terrain-expert"
+    ],
+    "id": "occupation-scout",
+    "description": "A Scout focuses on exploration, survival, and gathering information in various environments. Scouts are often skilled in piloting, navigation, and engineering, and being adept at handling out-of-the-way locations and recognizing potential dangers. Scouts are trained to survey and survive in unknown territories, gathering information while keeping themselves safe. They are skilled in traversing different environments and are knowledgeable enough to make the most of their situation. Scouts are often proficient in finding food, shelter, and navigating through unfamiliar terrain."
+  },
+  {
+    "description": "A Soldier can be described as a highly trained and versatile combatant, skilled in various forms of warfare and tactics. They are often responsible for protecting their allies, engaging in direct combat with enemies, and carrying out strategic operations.A soldier is a highly trained and versatile combatant, skilled in various forms of warfare and tactics. They are often responsible for protecting their allies, engaging in direct combat with enemies, and carrying out strategic operations. Soldiers must be able to think quickly and make decisions under pressure. They must also be able to work as part of a team and follow orders. Soldiers play a vital role in protecting the faction they serve and its citizens. They are often the first to respond to natural disasters and other emergencies. They also help keep the peace and protect their faction's borders. Soldiers are brave and dedicated individuals who put their lives on the line to serve their faction’s interest.",
+    "archetypes": [
+      "Infantry",
+      "Heavy Weapons Specialist",
+      "Sniper",
+      "Tactical Officer",
+      "Medic",
+      "Powered Armor Trooper",
+      "Special Forces",
+      "Empowered"
+    ],
+    "category": "occupations",
+    "updatedAt": "2026-08-23T10:56:49.156Z",
+    "professional_skills": [
+      "Any Combat Skills"
+    ],
+    "name": "Soldier",
+    "skill_points": 20,
+    "recommended_features": "Combat",
+    "id": "occupation-soldier",
+    "traits": [
+      "trait-soldier-adaptable",
+      "trait-soldier-attention-to-detail",
+      "trait-soldier-combat-training",
+      "trait-soldier-cool",
+      "trait-soldier-cunning",
+      "trait-soldier-discipline",
+      "trait-soldier-loyal",
+      "trait-soldier-observant",
+      "trait-soldier-physical-prowess",
+      "trait-soldier-rapid-response",
+      "trait-soldier-resourceful",
+      "trait-soldier-stalker",
+      "trait-soldier-strategic",
+      "trait-soldier-team-oriented",
+      "trait-soldier-versatile",
+      "trait-soldier-well-equipped"
+    ],
+    "body": "# Soldier Occupation\n\n**Category**: Occupations  \n**Starting Skill Points**: 20 SP (allocated to Professional Skills, max Rank 11, recommended Rank 6)  \n**Recommended Features**: Combat (1 BP Discount)  \n**Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)\n\n## Description\nA Soldier can be described as a highly trained and versatile combatant, skilled in various forms of warfare and tactics. They are often responsible for protecting their allies, engaging in direct combat with enemies, and carrying out strategic operations.A soldier is a highly trained and versatile combatant, skilled in various forms of warfare and tactics. They are often responsible for protecting their allies, engaging in direct combat with enemies, and carrying out strategic operations. Soldiers must be able to think quickly and make decisions under pressure. They must also be able to work as part of a team and follow orders. Soldiers play a vital role in protecting the faction they serve and its citizens. They are often the first to respond to natural disasters and other emergencies. They also help keep the peace and protect their faction's borders. Soldiers are brave and dedicated individuals who put their lives on the line to serve their faction’s interest.\n\n## Professional Skills\n- Any Combat Skills\n\n## Typical Archetypes\n- Infantry\n- Heavy Weapons Specialist\n- Sniper\n- Tactical Officer\n- Medic\n- Powered Armor Trooper\n- Special Forces\n- Empowered\n\n## Available Traits\n- `trait-soldier-adaptable`\n- `trait-soldier-attention-to-detail`\n- `trait-soldier-combat-training`\n- `trait-soldier-cool`\n- `trait-soldier-cunning`\n- `trait-soldier-discipline`\n- `trait-soldier-loyal`\n- `trait-soldier-observant`\n- `trait-soldier-physical-prowess`\n- `trait-soldier-rapid-response`\n- `trait-soldier-resourceful`\n- `trait-soldier-stalker`\n- `trait-soldier-strategic`\n- `trait-soldier-team-oriented`\n- `trait-soldier-versatile`\n- `trait-soldier-well-equipped`\n\r\n\r\n## Extended Lore & Background\r\n\r\nA Soldier can be described as a highly trained and versatile combatant, skilled in various forms of warfare and tactics. They are often responsible for protecting their allies, engaging in direct combat with enemies, and carrying out strategic operations.A soldier is a highly trained and versatile combatant, skilled in various forms of warfare and tactics. They are often responsible for protecting their allies, engaging in direct combat with enemies, and carrying out strategic operations. Soldiers must be able to think quickly and make decisions under pressure. They must also be able to work as part of a team and follow orders. Soldiers play a vital role in protecting the faction they serve and its citizens. They are often the first to respond to natural disasters and other emergencies. They also help keep the peace and protect their faction's borders. Soldiers are brave and dedicated individuals who put their lives on the line to serve their faction’s interest.\r\n\r\nAny Combat Skills\r\n\r\nCombat\r\n\r\nInfantry  \r\nHeavy Weapons Specialist  \r\nSniper  \r\nTactical Officer  \r\nMedic  \r\nPowered Armor Trooper  \r\nSpecial Forces  \r\nEmpowered\r\n\r\nAble to adapt to new situations quickly and can think on their feet  \r\n*\\+2 to a specific Skill Check, may change assigned Skill daily*\r\n\r\nPay attention to details and are able to spot potential threats before they become a problem  \r\n*\\+2 Alertness*\r\n\r\nExtensive training in combat tactics, weapons handling, and hand-to-hand combat  \r\n*\\+2 Combat Skill of choice*\r\n\r\nAble to remain calm and focused even in high-pressure situations  \r\n*\\+2 Willpower*\r\n\r\nRely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies  \r\n*Additional \\+1 to appropriate maneuvers from having Edge*\r\n\r\nDisciplined and able to follow orders without question, even in high-pressure situations  \r\n*\\+2 Soldier Vocation*\r\n\r\nFiercely loyal to their comrades and their mission  \r\n*Domination and Mind-Control Resistance Checks are made at Advantage*\r\n\r\nAlert and observant, constantly scanning the area for potential threats  \r\n*May take 10 on Alertness Checks*\r\n\r\nPhysically fit and strong, can endure long periods of physical activity and combat  \r\n*\\+1 Might and Fortitude Checks*\r\n\r\nAble to respond quickly to threats and can act decisively in high-pressure situations  \r\n*\\+2 Initiative*\r\n\r\nAble to make weapons out of anything and can adapt to new situations quickly  \r\n*Once per Day make a Skill Check of choice at Advantage*\r\n\r\nSkilled in stealth and able to move without detection  \r\n*May take 10 on Stealth Checks*\r\n\r\nExperienced in planning and executing missions, skilled at analyzing the battlefield and making strategic decisions  \r\n*\\+1 Karma Point*\r\n\r\nAble to work in teams and coordinate their efforts to achieve their objectives  \r\n*additional \\+1 to Aid bonuses*\r\n\r\nAble to operate in a variety of environments, including underwater and in zero-gravity  \r\n*\\+1 Karma Point*\r\n\r\nEquipped with the latest technology and weaponry  \r\n*\\+2 Equipment*"
+  },
+  {
+    "body": "# Specialist Occupation\n\n**Category**: Occupations  \n**Starting Skill Points**: 20 SP (allocated to Professional Skills, max Rank 11, recommended Rank 6)  \n**Recommended Features**: Skill (1 BP Discount)  \n**Starting Traits**: 2 Free selections (Additional traits cost 1 CP each)\n\n## Description\nA Specialist focuses on a specific area of expertise, providing unique skills and abilities that make them valuable to their team in various situations. A specialist's expertise can range from technology and engineering to psychic powers and artistic expression. These characters often excel in their chosen field, allowing them to tackle challenges and solve problems that other characters might struggle with. Their specialized knowledge and skills can be crucial in overcoming obstacles, gathering information, or supporting the team in combat and non-combat situations.\n\n## Professional Skills\n- Any five Physical\n- Knowledge or Vocation Skills within specialized training\n\n## Typical Archetypes\n- Doctor\n- Engineer\n- Roboticist\n- Cybersecurity Expert\n- Biotechnologist\n- Space Pilot\n- Explorer\n- Smuggler\n- Bounty Hunter\n- Racing Pilot\n- Extreme Athlete\n- Gamer\n- Artist\n\n## Available Traits\n- `trait-specialist-adaptability`\n- `trait-specialist-expertise`\n- `trait-specialist-leadership`\n- `trait-specialist-physical-and-mental-resilience`\n- `trait-specialist-problem-solving`\n- `trait-specialist-resourcefulness`\n- `trait-specialist-team-player`\n- `trait-specialist-technological-proficiency`\n- `trait-specialist-versatility`\n\r\n\r\n## Extended Lore & Background\r\n\r\nA Specialist focuses on a specific area of expertise, providing unique skills and abilities that make them valuable to their team in various situations. A specialist's expertise can range from technology and engineering to psychic powers and artistic expression. These characters often excel in their chosen field, allowing them to tackle challenges and solve problems that other characters might struggle with. Their specialized knowledge and skills can be crucial in overcoming obstacles, gathering information, or supporting the team in combat and non-combat situations.\r\n\r\nAny five Physical, Knowledge or Vocation Skills within specialized training\r\n\r\nSkill\r\n\r\nDoctor  \r\nEngineer  \r\nRoboticist  \r\nCybersecurity Expert  \r\nBiotechnologist  \r\nSpace Pilot  \r\nExplorer  \r\nSmuggler  \r\nBounty Hunter  \r\nRacing Pilot  \r\nExtreme Athlete  \r\nGamer  \r\nArtist\r\n\r\nAbility to quickly learn and adapt to new technologies, environments, or situations  \r\n*\\+2 to a specific Skill Check, may change assigned Skill daily*\r\n\r\nIn-depth knowledge and experience in a particular area  \r\n*\\+2 to a Skill Specialization of choice*\r\n\r\nAbility to lead a team or make critical decisions  \r\n*\\+2 Leadership*\r\n\r\nAbility to endure harsh conditions or high-stress situations  \r\n*\\+1 Willpower and Fortitude*\r\n\r\nAbility to solve complex problems and overcome obstacles  \r\n*Once per Day may reroll a Mental Skill Check*\r\n\r\nAbility to make the most out of limited resources  \r\n*Once per Day make a Skill Check of choice at Advantage*\r\n\r\nAbility to communicate effectively and collaborate with others  \r\n*additional \\+1 to Aid bonuses*\r\n\r\nProficiency in advanced technology  \r\n*Additional \\+1 from Equipment Bonus and \\+2 Technology (Knowledge)*\r\n\r\nAbility to fulfill multiple roles within a team  \r\n*\\+1 to Karma Pool maximum*",
+    "id": "occupation-specialist",
+    "updatedAt": "2026-08-23T10:56:49.156Z",
+    "description": "A Specialist focuses on a specific area of expertise, providing unique skills and abilities that make them valuable to their team in various situations. A specialist's expertise can range from technology and engineering to psychic powers and artistic expression. These characters often excel in their chosen field, allowing them to tackle challenges and solve problems that other characters might struggle with. Their specialized knowledge and skills can be crucial in overcoming obstacles, gathering information, or supporting the team in combat and non-combat situations.",
+    "professional_skills": [
+      "Any five Physical",
+      "Knowledge or Vocation Skills within specialized training"
+    ],
+    "recommended_features": "Skill",
+    "category": "occupations",
+    "name": "Specialist",
+    "skill_points": 20,
+    "archetypes": [
+      "Doctor",
+      "Engineer",
+      "Roboticist",
+      "Cybersecurity Expert",
+      "Biotechnologist",
+      "Space Pilot",
+      "Explorer",
+      "Smuggler",
+      "Bounty Hunter",
+      "Racing Pilot",
+      "Extreme Athlete",
+      "Gamer",
+      "Artist"
+    ],
+    "traits": [
+      "trait-specialist-adaptability",
+      "trait-specialist-expertise",
+      "trait-specialist-leadership",
+      "trait-specialist-physical-and-mental-resilience",
+      "trait-specialist-problem-solving",
+      "trait-specialist-resourcefulness",
+      "trait-specialist-team-player",
+      "trait-specialist-technological-proficiency",
+      "trait-specialist-versatility"
+    ]
+  }
+]

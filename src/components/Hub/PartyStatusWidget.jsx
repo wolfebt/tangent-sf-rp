@@ -32,7 +32,7 @@ export const PartyStatusWidget = () => {
           <div className="flex items-center gap-2">
             <Users className="text-amber-400" size={18} />
             <span className="text-xs font-mono uppercase tracking-widest text-amber-300 font-bold">
-              PARTY AT A GLANCE ({heroList.length} {heroList.length === 1 ? 'OPERATIVE' : 'OPERATIVES'})
+              TEAM AT A GLANCE ({heroList.length} {heroList.length === 1 ? 'OPERATIVE' : 'OPERATIVES'})
             </span>
           </div>
           <button

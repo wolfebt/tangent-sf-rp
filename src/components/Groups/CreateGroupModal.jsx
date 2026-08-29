@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { 
   X, 
   Users, 
@@ -36,7 +36,7 @@ export const CreateGroupModal = ({ isOpen, onClose, onCreated }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name.trim()) {
-      setError('Please provide a squad or game group name.');
+      setError('Please provide a team or game group name.');
       return;
     }
 
@@ -63,8 +63,8 @@ export const CreateGroupModal = ({ isOpen, onClose, onCreated }) => {
       }
       onClose();
     } catch (err) {
-      console.error('Failed to establish squad group:', err);
-      setError(err.message || 'Failed to establish game squad.');
+      console.error('Failed to establish team group:', err);
+      setError(err.message || 'Failed to establish game team.');
     } finally {
       setSubmitting(false);
     }
@@ -81,7 +81,7 @@ export const CreateGroupModal = ({ isOpen, onClose, onCreated }) => {
             </div>
             <div>
               <h2 className="text-sm font-mono font-bold tracking-wider text-slate-100 uppercase">
-                ESTABLISH GAME SQUAD / PARTY
+                ESTABLISH GAME TEAM
               </h2>
               <span className="text-[11px] font-mono text-cyan-400">
                 Form a tactical group with linked Holonet comms and invite codes
@@ -108,7 +108,7 @@ export const CreateGroupModal = ({ isOpen, onClose, onCreated }) => {
           {/* Group Name */}
           <div>
             <label className="block text-slate-300 font-bold mb-1 uppercase tracking-wider">
-              Squad / Group Name *
+              Team / Group Name *
             </label>
             <input
               type="text"
@@ -164,7 +164,7 @@ export const CreateGroupModal = ({ isOpen, onClose, onCreated }) => {
                 className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-slate-200 focus:outline-none focus:border-cyan-500"
               >
                 <option value="4">4 Operatives (Standard Fireteam)</option>
-                <option value="6">6 Operatives (Tactical Squad)</option>
+                <option value="6">6 Operatives (Tactical Team)</option>
                 <option value="8">8 Operatives (Platoon Strike)</option>
                 <option value="12">12 Operatives (Battalion Raid)</option>
               </select>
@@ -217,7 +217,7 @@ export const CreateGroupModal = ({ isOpen, onClose, onCreated }) => {
                   <span>PUBLIC LISTING</span>
                 </div>
                 <p className="text-[10px] text-slate-400">
-                  Visible to operators browsing public squads in the Hub.
+                  Visible to operators browsing public teams in the Hub.
                 </p>
               </div>
 
@@ -248,7 +248,7 @@ export const CreateGroupModal = ({ isOpen, onClose, onCreated }) => {
               className="w-full py-2.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 disabled:opacity-40 text-white font-mono font-bold rounded-xl shadow-[0_0_15px_rgba(34,211,238,0.3)] transition-all flex items-center justify-center gap-2"
             >
               <Sparkles size={15} />
-              <span>{submitting ? 'COMMISSIONING SQUAD...' : 'INITIALIZE GAME SQUAD & COMMS'}</span>
+              <span>{submitting ? 'COMMISSIONING TEAM...' : 'INITIALIZE GAME TEAM & COMMS'}</span>
             </button>
           </div>
         </form>

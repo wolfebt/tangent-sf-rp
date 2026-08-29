@@ -149,18 +149,18 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
       campaignId: editStoryId || null,
       campaignTitle: selectedStory?.projectName || selectedStory?.title || activeGroup.campaignTitle || ''
     });
-    alert('Squad configuration updated successfully.');
+    alert('Team configuration updated successfully.');
   };
 
   const handleLeave = async () => {
-    if (window.confirm(`Are you sure you want to leave squad "${activeGroup.name}"?`)) {
+    if (window.confirm(`Are you sure you want to leave team "${activeGroup.name}"?`)) {
       await leaveGroup(activeGroup.id);
       onClose();
     }
   };
 
   const handleDelete = async () => {
-    if (window.confirm(`DISBAND SQUAD: Are you sure you want to permanently disband "${activeGroup.name}" and delete its tied-in channel?`)) {
+    if (window.confirm(`DISBAND TEAM: Are you sure you want to permanently disband "${activeGroup.name}" and delete its tied-in channel?`)) {
       await deleteGroup(activeGroup.id);
       onClose();
     }
@@ -246,8 +246,8 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
           {[
             { id: 'roster', label: 'OPERATIVES ROSTER', icon: Shield, badge: membersList.length },
             { id: 'invites', label: 'INVITE & RECRUIT', icon: UserPlus },
-            { id: 'chat', label: 'TIED-IN SQUAD COMMS', icon: Radio },
-            { id: 'settings', label: isGM ? 'SQUAD SETTINGS' : 'SQUAD DETAILS', icon: Settings }
+            { id: 'chat', label: 'TIED-IN TEAM COMMS', icon: Radio },
+            { id: 'settings', label: isGM ? 'TEAM SETTINGS' : 'TEAM DETAILS', icon: Settings }
           ].map(tab => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -415,7 +415,7 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
                     className="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded-xl border border-slate-700 flex items-center gap-1.5 font-bold transition-all"
                   >
                     <MessageSquare size={13} />
-                    <span>Open Squad Comms</span>
+                    <span>Open Team Comms</span>
                   </button>
                   <button
                     type="button"
@@ -442,14 +442,14 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
                   <div className="flex items-center gap-2">
                     <Share2 size={16} className="text-cyan-400" />
                     <span className="font-bold text-slate-100 uppercase tracking-wider">
-                      SHAREABLE SQUAD ACCESS CODE
+                      SHAREABLE TEAM ACCESS CODE
                     </span>
                   </div>
                   <span className="text-[10px] text-cyan-400 font-bold">1-CLICK JOIN</span>
                 </div>
                 
                 <p className="text-[11px] text-slate-400">
-                  Any operative can join this squad instantly by entering this code into the Hub or following the direct CommLink.
+                  Any operative can join this team instantly by entering this code into the Hub or following the direct CommLink.
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
@@ -571,7 +571,7 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
             </div>
           )}
 
-          {/* TAB 3: TIED-IN SQUAD COMMS */}
+          {/* TAB 3: TIED-IN TEAM COMMS */}
           {activeTab === 'chat' && (
             <div className="h-[460px] flex flex-col justify-between bg-slate-950/80 rounded-xl border border-slate-800 p-3 space-y-3">
               <div className="flex items-center justify-between pb-2 border-b border-slate-800 text-[11px]">
@@ -593,7 +593,7 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
                 {messages.length === 0 ? (
                   <div className="h-full flex flex-col items-center justify-center text-slate-500 text-center space-y-1">
                     <Radio size={24} className="text-slate-600" />
-                    <p>No squad transmissions yet.</p>
+                    <p>No team transmissions yet.</p>
                     <p className="text-[10px]">Send a tactical message or roll dice below.</p>
                   </div>
                 ) : (
@@ -652,14 +652,14 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
             </div>
           )}
 
-          {/* TAB 4: SQUAD SETTINGS / MANAGEMENT */}
+          {/* TAB 4: TEAM SETTINGS / MANAGEMENT */}
           {activeTab === 'settings' && (
             <div className="space-y-4">
               {isGM ? (
                 <form onSubmit={handleSaveSettings} className="space-y-4 max-w-xl">
                   <div>
                     <label className="block text-slate-300 font-bold mb-1 uppercase tracking-wider">
-                      Squad Name
+                      Team Name
                     </label>
                     <input
                       type="text"
@@ -721,7 +721,7 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
                       type="submit"
                       className="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-lg transition-all"
                     >
-                      Save Squad Configuration
+                      Save Team Configuration
                     </button>
 
                     <button
@@ -730,7 +730,7 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
                       className="px-3 py-2 bg-red-950 hover:bg-red-900 text-red-300 border border-red-500/50 font-bold rounded-lg transition-all flex items-center gap-1.5"
                     >
                       <Trash2 size={13} />
-                      <span>Disband Squad</span>
+                      <span>Disband Team</span>
                     </button>
                   </div>
                 </form>
@@ -738,7 +738,7 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
                 <div className="space-y-4 max-w-xl">
                   <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 space-y-2">
                     <span className="text-slate-400 text-xs block">
-                      You are an operative member of this squad managed by @{activeGroup.creatorHandle}.
+                      You are an operative member of this team managed by @{activeGroup.creatorHandle}.
                     </span>
                   </div>
 
@@ -748,7 +748,7 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
                     className="px-4 py-2 bg-red-950 hover:bg-red-900 text-red-300 border border-red-500/50 font-bold rounded-lg transition-all flex items-center gap-1.5"
                   >
                     <LogOut size={14} />
-                    <span>Leave Squad</span>
+                    <span>Leave Team</span>
                   </button>
                 </div>
               )}

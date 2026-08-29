@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStory } from '../../../context/CampaignContext';
+import { useGroup } from '../../../context/GroupContext';
 import { AudioService } from '../../../services/audioService';
-import { Map, X, Plus, Search, Eye, Check, Trash2, ChevronRight, ArrowUpRight } from 'lucide-react';
+import { Map, X, Plus, Search, Eye, Check, Trash2, ChevronRight, ArrowUpRight, Play, MapPin, Users, Radio, Copy } from 'lucide-react';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 
 export const MapsDrawer = ({ onClose, onOpenDrawer }) => {
   const navigate = useNavigate();
-  const { universeState, mapsCatalog, deleteSavedMap } = useStory();
+  const { universeState, mapsCatalog, deleteSavedMap, activeMapId, setActiveMapId } = useStory();
+  const { activeGroup } = useGroup();
 
   const [mapSearch, setMapSearch] = useState('');
   const [copiedLink, setCopiedLink] = useState('');
@@ -22,6 +24,12 @@ export const MapsDrawer = ({ onClose, onOpenDrawer }) => {
     const q = mapSearch.toLowerCase();
     return (m.name || m.title || '').toLowerCase().includes(q);
   });
+
+  // VTT Dashboard data
+  const primaryMap = allMaps.find(m => m.id === activeMapId) || allMaps[0] || null;
+  const recentMaps = allMaps.slice(0, 4);
+  const activeScenario = universeState?.scenarios?.[0] || null;
+  const teamMembers = Object.values(activeGroup?.memberDetails || {});
 
   const handleCopyShareLink = (url, key) => {
     AudioService.playTerminalBeep(1200, 0.03);
@@ -44,8 +52,125 @@ export const MapsDrawer = ({ onClose, onOpenDrawer }) => {
     }
   };
 
+  const handleEnterVTT = (mapId, e) => {
+    if (e) e.stopPropagation();
+    AudioService.playTerminalBeep(1100, 0.03);
+    if (setActiveMapId && mapId) setActiveMapId(mapId);
+    navigate(`/foundry/map-maker${mapId ? `?mapId=${mapId}` : ''}`);
+  };
+
   return (
     <div className="flex flex-col h-full space-y-3.5 select-none">
+
+      {/* ── VTT DASHBOARD SECTION ─────────────────────────────────── */}
+      <div className="rounded-xl border border-cyan-500/30 bg-slate-950/60 p-3 space-y-2.5 shrink-0">
+        <div className="flex items-center justify-between">
+          <span className="text-[9px] font-mono uppercase tracking-widest text-cyan-400 font-bold">VTT Dashboard</span>
+          <span className="px-1.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-[8px] font-bold flex items-center gap-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+            VTT COMMAND READY
+          </span>
+        </div>
+
+        {/* Active Map Banner */}
+        <div className="p-2 rounded-lg bg-slate-900/80 border border-cyan-900/50 flex items-center justify-between gap-2">
+          <div className="min-w-0 flex-1">
+            <span className="text-[8px] font-mono uppercase tracking-wider text-cyan-400 block">Active Tactical Deployment:</span>
+            <h3 className="text-xs font-bold text-white tracking-wide truncate font-mono">
+              {primaryMap ? (primaryMap.title || primaryMap.name || 'Tactical Battlemap') : (universeState?.projectName || 'Tangent Universe')}
+            </h3>
+            <span className="text-[9px] text-slate-400 font-mono flex items-center gap-1 mt-0.5">
+              <MapPin size={9} className="text-amber-400" />
+              {activeScenario ? activeScenario.title : 'No active scenario'}
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={(e) => handleEnterVTT(primaryMap?.id, e)}
+            className="px-2.5 py-1.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-black font-extrabold text-[10px] font-mono uppercase rounded-md flex items-center gap-1 shadow-[0_0_12px_rgba(34,211,238,0.4)] shrink-0 transition-all"
+          >
+            <Play size={10} fill="currentColor" /> Enter VTT
+          </button>
+        </div>
+
+        {/* Recent Maps List */}
+        {recentMaps.length > 0 && (
+          <div className="space-y-1">
+            <span className="text-[9px] font-mono uppercase tracking-wider text-slate-400 font-bold block">
+              Recent Maps ({allMaps.length}):
+            </span>
+            <div className="space-y-1">
+              {recentMaps.map(m => {
+                const isActive = m.id === activeMapId || (!activeMapId && m.id === primaryMap?.id);
+                const tokenCount = (m.tokens || []).length;
+                const spectatorUrl = `${window.location.origin}/spectator/${m.id}`;
+
+                return (
+                  <div
+                    key={m.id}
+                    onClick={(e) => { e.stopPropagation(); handleEnterVTT(m.id, e); }}
+                    className={`p-1.5 rounded-lg border transition-all flex items-center justify-between text-[10px] font-mono cursor-pointer ${
+                      isActive
+                        ? 'bg-cyan-950/40 border-cyan-500/80 shadow-[0_0_8px_rgba(6,182,212,0.2)]'
+                        : 'bg-slate-950/50 hover:bg-slate-900 border-slate-800 text-slate-300'
+                    }`}
+                  >
+                    <div className="min-w-0 flex-1 pr-2">
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <span className="font-bold text-white truncate">{m.title || m.name || 'Untitled Map'}</span>
+                        {isActive ? (
+                          <span className="px-1 py-0.2 rounded bg-emerald-500/20 text-emerald-300 text-[8px] font-extrabold border border-emerald-500/40 shrink-0">🟢 LIVE</span>
+                        ) : (
+                          <span className="px-1 py-0.2 rounded bg-slate-800 text-slate-400 text-[8px] shrink-0">⚪ STANDBY</span>
+                        )}
+                      </div>
+                      <span className="text-[9px] text-slate-500 flex items-center gap-1">
+                        <Users size={8} className="text-cyan-400" />
+                        {tokenCount > 0 ? `${tokenCount} units deployed` : 'No units deployed'}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1 shrink-0" onClick={(e) => e.stopPropagation()}>
+                      <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); handleCopyShareLink(spectatorUrl, m.id); }}
+                        title="Copy Spectator Link"
+                        className="p-1 rounded bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-slate-700 transition-colors"
+                      >
+                        {copiedLink === m.id ? <Check size={9} /> : <Eye size={9} />}
+                      </button>
+                      <ChevronRight size={11} className="text-slate-500" />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Active Team Strip */}
+        {activeGroup && (
+          <div className="p-2 rounded-lg bg-slate-900/60 border border-emerald-500/20 flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 min-w-0">
+              <Users size={12} className="text-emerald-400 shrink-0" />
+              <div className="min-w-0">
+                <span className="text-[10px] font-mono font-bold text-emerald-300 truncate block">{activeGroup.name}</span>
+                <span className="text-[9px] font-mono text-slate-500">{teamMembers.length} Operatives</span>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); if (activeGroup.channelId) navigate('/comms'); }}
+              className="px-2 py-1 rounded-md bg-slate-800/90 hover:bg-slate-700 text-cyan-300 border border-slate-700 hover:border-cyan-500/40 text-[9px] font-mono font-bold transition-all flex items-center gap-1 shrink-0"
+            >
+              <Radio size={10} />
+              <span>Team Comms</span>
+            </button>
+          </div>
+        )}
+      </div>
+      {/* ─────────────────────────────────────────────────────────── */}
+
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-2.5 border-b border-slate-800 shrink-0">
         <div>

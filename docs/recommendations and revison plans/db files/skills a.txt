@@ -1,0 +1,291 @@
+[
+  {
+    "name": "Acrobatics",
+    "type": "Physical",
+    "subtype": null,
+    "isSpecialization": false,
+    "description": "Balance, tumbling, escaping restraints, and aerial maneuvers. The ability to perform feats of gymnastics, breaking falls, keeping one's footing on slippery surfaces or tightropes, and maneuvering through threatened areas without being hit.",
+    "techLevel": null,
+    "metaLevel": null,
+    "gameMechanics": "Balance: DC 10 (narrow surface) to DC 20+ (razor edge). Tumble: DC 15 to move through an enemy's threatened area without provoking an attack. Break Fall: Reduce falling damage (DC 15 ignores first 10ft).",
+    "notes": "Primary Attribute: Agility. Specialties: Tumbling, Balancing, Tightrope Walking, Free-running (Parkour)."
+  },
+  {
+    "name": "Athletics",
+    "type": "Physical",
+    "subtype": null,
+    "isSpecialization": false,
+    "description": "Running, climbing, swimming, jumping, and physical endurance. It reflects a character's overall fitness and physical prowess, used whenever a character attempts a feat that requires strength and endurance.",
+    "techLevel": null,
+    "metaLevel": null,
+    "gameMechanics": "Climb: DC 10 (rope with knots) to DC 25 (sheer surface). Jump: DC equals the distance in feet (running start). Swim: DC 10 (calm water) to DC 20 (stormy water). Failure by 5 or more risks drowning.",
+    "notes": "Primary Attribute: Strength. Specialties: Climbing, Running, Swimming, Jumping, Weightlifting."
+  },
+  {
+    "name": "Piloting",
+    "type": "Physical",
+    "subtype": null,
+    "isSpecialization": false,
+    "description": "Operating vehicles, starships, mecha, and mount-riding. It reflects a character's ability to navigate, steer, and control various vehicles in both peaceful journeys and combat.",
+    "techLevel": null,
+    "metaLevel": null,
+    "gameMechanics": "Normal Operation: No roll required for standard travel. Stunts/Combat: DC depends on maneuver difficulty (DC 15 for sharp turns at speed, DC 25 for 'threading the needle').",
+    "notes": "Primary Attribute: Agility (Reaction) or Intellect (Navigation/Systems). Specialties: Ground Vehicles, Aircraft, Spacecraft, Mecha/Walkers, Watercraft."
+  },
+  {
+    "name": "Stealth",
+    "type": "Physical",
+    "subtype": null,
+    "isSpecialization": false,
+    "description": "Hiding, moving silently, and camouflaging oneself. It reflects a character's ability to avoid detection, sneak past guards, or remain undetected while spying.",
+    "techLevel": null,
+    "metaLevel": null,
+    "gameMechanics": "Hide: Your check becomes the DC for the enemy's Perception/Alertness check. Requires cover or concealment. Move Silently: Move at half speed without penalty. Moving faster imposes penalties (-5 for full speed).",
+    "notes": "Primary Attribute: Agility. Opposed by Alertness. Specialties: Hiding, Stalking, Urban Stealth, Wilderness Stealth."
+  },
+  {
+    "name": "Alertness",
+    "type": "Mental",
+    "subtype": null,
+    "isSpecialization": false,
+    "description": "Environmental perception. Spotting hidden items, hearing noises, and avoiding surprise. It reflects a character's ability to pay attention to details and react quickly to unexpected situations.",
+    "techLevel": null,
+    "metaLevel": null,
+    "gameMechanics": "Spot/Listen: Opposed by Stealth. Search: DC 10 (easy) to DC 30 (microscopic detail).",
+    "notes": "Primary Attribute: Perception (Intellect + Wisdom). Specialties: Sight, Hearing, Scent, Intuition (Gut Feeling)."
+  },
+  {
+    "name": "Academics",
+    "type": "Mental",
+    "subtype": null,
+    "isSpecialization": false,
+    "description": "Research, general education, and the ability to learn new information. It reflects a character's ability to research and understand complex topics, analyze data, and draw conclusions based on evidence.",
+    "techLevel": null,
+    "metaLevel": null,
+    "gameMechanics": "Research: DC 15 to find obscure information in a library or database.",
+    "notes": "Primary Attribute: Intellect. Specialties: Research, Bureaucracy, Teaching, Library Science."
+  },
+  {
+    "name": "Appraisal",
+    "type": "Mental",
+    "subtype": "Knowledge",
+    "isSpecialization": false,
+    "description": "Determining value and authenticity. It allows a character to identify rare artifacts, detect forgeries, and estimate the market price of goods.",
+    "techLevel": null,
+    "metaLevel": null,
+    "gameMechanics": "Value Item: DC 10 (Common) to DC 30 (Unique/Alien). Detect Forgery: Opposed check vs. Forgery (Bluff/Craft). Identify Properties: DC 15+ to determine what a specific device or artifact does.",
+    "notes": "Primary Attribute: Intellect. Specialties: Art, Gems, Jewelry, Technology, Antiquities, Xenotech, Weapons."
+  },
+  {
+    "name": "Business",
+    "type": "Mental",
+    "subtype": "Knowledge",
+    "isSpecialization": false,
+    "description": "Understanding of markets, corporate structures, and finance. It allows a character to analyze market trends, understand financial systems, and manage business ventures.",
+    "techLevel": null,
+    "metaLevel": null,
+    "gameMechanics": "Analyze Market: DC 15 to predict trends or find investment opportunities. Corporate Insight: DC 20 to understand internal company politics. Negotiation: DC 15+ to facilitate business deals.",
+    "notes": "Primary Attribute: Intellect. Specialties: Economics, Corporate Law, Management, Marketing, Finance."
+  },
+  {
+    "name": "Computers",
+    "type": "Mental",
+    "subtype": "Knowledge",
+    "isSpecialization": false,
+    "description": "Hacking, programming, and system operation. It reflects a character's ability to understand the underlying principles of computer science.",
+    "techLevel": null,
+    "metaLevel": null,
+    "gameMechanics": "Operate Remote System: DC 10 to DC 25. Hacking: DC is determined by target firewall (Security Level + 10). Programming: DC 15 (Simple Script) to DC 30+ (AI architecture).",
+    "notes": "Primary Attribute: Intellect. Specialties: Hacking, Coding, Hardware, AI, Security Systems, Data Mining."
+  },
+  {
+    "name": "Culture",
+    "type": "Mental",
+    "subtype": "Knowledge",
+    "isSpecialization": false,
+    "description": "Etiquette, customs, and xenology. It reflects a character's ability to understand the customs, beliefs, and practices of different groups to negotiate deals or avoid offending others.",
+    "techLevel": null,
+    "metaLevel": null,
+    "gameMechanics": "Etiquette Knowledge: DC 10 (Common custom) to DC 25 (Obscure ritual). Identify Origin: DC 15 to identify a person's origin based on dress or behavior.",
+    "notes": "Primary Attribute: Intellect. Specialties: Specific Species (e.g., Auluran, Human), Specific Factions, Corporate Culture, Underworld."
+  },
+  {
+    "name": "History",
+    "type": "Mental",
+    "subtype": "Knowledge",
+    "isSpecialization": false,
+    "description": "Knowledge of past events and civilizations. It reflects a character's ability to understand the past and how it has shaped the present context.",
+    "techLevel": null,
+    "metaLevel": null,
+    "gameMechanics": "Recall Event: DC 10 (Recent/Famous) to DC 30 (Pre-history/Lost). Legend Lore: DC 20 to know rumors or legends about a specific place or item.",
+    "notes": "Primary Attribute: Intellect. Specialties: Galactic History, Military History, Ancient Civilizations, Art History, Political History."
+  },
+  {
+    "name": "Investigation",
+    "type": "Mental",
+    "subtype": "Knowledge",
+    "isSpecialization": false,
+    "description": "Forensics and deductive reasoning. The application of information gathering to solve mysteries. It focuses on analyzing what is found rather than just spotting it.",
+    "techLevel": null,
+    "metaLevel": null,
+    "gameMechanics": "Analyze Clue: DC 15 to determine how a clue fits into the larger picture. Search/Forensics: DC 15+ to find microscopic evidence or wiped data.",
+    "notes": "Primary Attribute: Intellect (sometimes Perception). Specialties: Forensics, Crime Scene Analysis, Data Profiling, Cryptography, Research."
+  },
+  {
+    "name": "Language",
+    "type": "Mental",
+    "subtype": "Knowledge",
+    "isSpecialization": false,
+    "description": "Fluency in alien or ancient tongues. Reflects a character's ability to read, write, and speak to communicate across cultural boundaries.",
+    "techLevel": null,
+    "metaLevel": null,
+    "gameMechanics": "Decipher Script: DC 20 (Simple code/Unknown dialect) to DC 30+ (Ancient/Alien cipher). Fluency: Ranks determine fluency (1-2: Broken, 3-5: Fluent, 6+: Native/Technical).",
+    "notes": "Primary Attribute: Intellect. Notable languages include Trade, Draconic, Premian, Tech, Fae, High Tongue, and Sign. Specialties: Decryption, Specific Languages, Ancient Dialects, Sign Language, Lip Reading."
+  },
+  {
+    "name": "Logistics",
+    "type": "Mental",
+    "subtype": "Knowledge",
+    "isSpecialization": false,
+    "description": "Supply chain management, distribution networks, and resource allocation. It reflects a character's ability to plan efficient movement and coordinate operations.",
+    "techLevel": null,
+    "metaLevel": null,
+    "gameMechanics": "Supply Chain Management: DC 15 to establish efficient routes. Resource Allocation: DC 20 to optimize distribution during a crisis. Transport Planning: DC 15+ to coordinate fleet movements.",
+    "notes": "Primary Attribute: Intellect. Specialties: Supply Chain, Warehousing, Distribution, Procurement, Fleet Coordination."
+  },
+  {
+    "name": "Medicine",
+    "type": "Mental",
+    "subtype": "Knowledge",
+    "isSpecialization": false,
+    "description": "First aid, surgery, and biology. It reflects a character's ability to diagnose illnesses, treat injuries, and save lives.",
+    "techLevel": null,
+    "metaLevel": null,
+    "gameMechanics": "First Aid: DC 15 to stabilize a dying character. Long-term Care: DC 15 to double natural healing rates. Surgery/Treat Disease: DC varies by severity (DC 15 to DC 30).",
+    "notes": "Primary Attribute: Wisdom (Intellect for surgery/diagnosis). Specialties: First Aid, Surgery, Xenobiology, Toxicology, Cybernetics, Pathology."
+  },
+  {
+    "name": "Metaphysics",
+    "type": "Mental",
+    "subtype": "Knowledge",
+    "isSpecialization": false,
+    "description": "Study of fundamental reality, the nature of existence, and metaphysical/magical phenomena. Helps comprehend anomalies and navigate realities.",
+    "techLevel": null,
+    "metaLevel": "1+",
+    "gameMechanics": "Identify Pattern: DC 15 to recognize mystical patterns. Analyze Reality: DC 20 to determine unusual planar laws. Theorize: DC 25 to formulate hypotheses about cosmic events.",
+    "notes": "Primary Attribute: Intellect. Specialties: Cosmology, Planar Studies, Reality Anchoring, Psionics, Mysticism."
+  },
+  {
+    "name": "Nature",
+    "type": "Mental",
+    "subtype": "Knowledge",
+    "isSpecialization": false,
+    "description": "Flora, fauna, and geology. It reflects a character's ability to understand ecology, navigate wilderness, and track natural phenomena.",
+    "techLevel": null,
+    "metaLevel": null,
+    "gameMechanics": "Identify Creature: DC 10 + Creature's Rarity/CR. Foraging/Remedies: DC 15 to find herbal antidotes or food.",
+    "notes": "Primary Attribute: Intellect (or Wisdom for practical application). Specialties: Botany, Zoology, Geology, Xenology, Meteorology, Oceanography."
+  },
+  {
+    "name": "Navigation",
+    "type": "Mental",
+    "subtype": "Knowledge",
+    "isSpecialization": false,
+    "description": "Astrogation and pathfinding. It reflects a character's ability to travel to a specific location on land, sea, air, or deep space.",
+    "techLevel": null,
+    "metaLevel": null,
+    "gameMechanics": "Plot Course: DC 10 (Familiar) to DC 25 (Uncharted/Hazardous). Astrogation: Calculating FTL jumps (DC varies by distance and route stability).",
+    "notes": "Primary Attribute: Intellect (Astrogation) or Wisdom (Survival). Specialties: Astrogation, Orienteering, Cartography, Hyperspace Physics."
+  },
+  {
+    "name": "Nobility",
+    "type": "Mental",
+    "subtype": "Knowledge",
+    "isSpecialization": false,
+    "description": "Lineages, heraldry, and politics. It reflects a character's ability to navigate high society, identify titles, and understand political intrigue.",
+    "techLevel": null,
+    "metaLevel": null,
+    "gameMechanics": "Identify Heraldry: DC 10 (Major House) to DC 25 (Obscure lineage). Political Insight: DC 15 to understand current political intrigues.",
+    "notes": "Primary Attribute: Intellect. Specialties: House Dynasties, Galactic Politics, Heraldry, Court Protocol."
+  },
+  {
+    "name": "Physics",
+    "type": "Mental",
+    "subtype": "Knowledge",
+    "isSpecialization": false,
+    "description": "Understanding of forces and energy. Used to calculate trajectories, design experiments, and understand the properties of matter and energy.",
+    "techLevel": null,
+    "metaLevel": null,
+    "gameMechanics": "Solve Problem: DC 15 to DC 30 depending on complexity. Analyze Anomaly: DC 20+ to understand spatial distortions or energy fields.",
+    "notes": "Primary Attribute: Intellect. Specialties: Astrophysics, Quantum Mechanics, Dimensional Physics, Energy Dynamics."
+  },
+  {
+    "name": "Religion",
+    "type": "Mental",
+    "subtype": "Knowledge",
+    "isSpecialization": false,
+    "description": "Myths, deities, and rituals. It reflects a character's ability to interpret religious symbols, perform ceremonies, and understand the faiths of others.",
+    "techLevel": null,
+    "metaLevel": null,
+    "gameMechanics": "Identify Symbol/Rite: DC 10 (Common) to DC 25 (Secret Cult). Theological Debate: Supported by Diplomacy checks.",
+    "notes": "Primary Attribute: Intellect. Specialties: Mythology, Specific Faiths (e.g., The Lady, Ancestor Worship), Occult, Rituals."
+  },
+  {
+    "name": "Science",
+    "type": "Mental",
+    "subtype": "Knowledge",
+    "isSpecialization": false,
+    "description": "Chemistry, biology, and laboratory procedure. The application of the scientific method to design experiments and solve mysteries of the natural world.",
+    "techLevel": null,
+    "metaLevel": null,
+    "gameMechanics": "Lab Work: DC 15 to perform experiments. Identify Substance: DC 15 to DC 25.",
+    "notes": "Primary Attribute: Intellect. Specialties: Chemistry, Biology, Genetics, Metallurgy, Nanotechnology."
+  },
+  {
+    "name": "Survival",
+    "type": "Mental",
+    "subtype": "Knowledge",
+    "isSpecialization": false,
+    "description": "Tracking, foraging, and enduring elements. The ability to find food, water, shelter, and avoid danger in extreme environments.",
+    "techLevel": null,
+    "metaLevel": null,
+    "gameMechanics": "Track: DC varies by surface (Soft ground DC 10, Hard floor DC 20+). Survival: DC 15 to provide food/water for self (+2 DC per extra person). Endure Elements: Grants bonuses to Fortitude saves against weather.",
+    "notes": "Primary Attribute: Wisdom. Specialties: Foraging, Tracking, Shelter Building, Specific Environments (Arctic, Desert, Urban, Zero-G)."
+  },
+  {
+    "name": "Tactics",
+    "type": "Mental",
+    "subtype": "Knowledge",
+    "isSpecialization": false,
+    "description": "Strategy, warfare, and battlefield command. Allows a character to predict enemy movements and plan effective ambushes.",
+    "techLevel": null,
+    "metaLevel": null,
+    "gameMechanics": "Predict Strategy: Opposed check vs. Enemy Tactics/Bluff. Combat Bonus: Successful check (DC 15+) prior to combat may grant +1 Initiative or Attack bonus for the first round.",
+    "notes": "Primary Attribute: Intellect. Specialties: Space Combat, Guerrilla Warfare, Squad Tactics, Siege Warfare, Fleet Command."
+  },
+  {
+    "name": "Technology",
+    "type": "Mental",
+    "subtype": "Knowledge",
+    "isSpecialization": false,
+    "description": "Engineering, repair, and mechanics. The understanding of underlying technological principles and advanced equipment operation.",
+    "techLevel": null,
+    "metaLevel": null,
+    "gameMechanics": "Repair: DC 15 (Simple fix) to DC 30 (Rebuild from scrap). Disable Device: DC depends on complexity/security. Identify Tech: DC 10 + Tech Level difference.",
+    "notes": "Primary Attribute: Intellect. Specialties: Archaic Tech, Advanced Tech, Xenotech, Robotics, Weapons Tech, Starship Systems."
+  },
+  {
+    "name": "Trade",
+    "type": "Mental",
+    "subtype": "Knowledge",
+    "isSpecialization": false,
+    "description": "Commerce of supply and demand. Navigating commercial exchange, negotiating contracts, and identifying market needs.",
+    "techLevel": null,
+    "metaLevel": null,
+    "gameMechanics": "Analyze Market: DC 15 to identify trade opportunities or supply shortages. Trade Law: DC 20 to understand tariffs, agreements, or restricted goods in a sector.",
+    "notes": "Primary Attribute: Intellect. Specialties: Merchant Guilds, Trade Routes, Commodities, Tariffs/Law, Black Market."
+  }
+]
+```eof
+
+Let me know when you're ready for **Batch 2**, which will round out the list with **Vocation Skills, Social Skills (Manipulation & Expression), Combat Skills, and Metafocus Skills**!

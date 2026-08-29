@@ -1,0 +1,2282 @@
+[
+  {
+    "description": "The operation, maintenance, and precision firing of kinetic firearms and projectile weapons using chemical propellant or electromagnetic acceleration.",
+    "synergy_links": [
+      "mental-demolitionist",
+      "mental-weaponsmith"
+    ],
+    "category": "skills",
+    "type": "combat",
+    "specialties": [
+      "Pistols (Revolvers, semi-automatic sidearms, mag-pistols)",
+      "Rifles (Assault rifles, battle rifles, carbines)",
+      "Shotguns (Scatterguns, slug throwers)",
+      "Sniper Rifles (Long-range precision platforms)",
+      "Submachine Guns / SMGs (Compact high-rate-of-fire weapons)"
+    ],
+    "id": "combat-ballistic",
+    "updatedAt": "2026-08-23T10:56:49.141Z",
+    "governing_attributes": [
+      "Agility"
+    ],
+    "trained_only": false,
+    "name": "Ballistic",
+    "subtype": "modern",
+    "body": "# Ballistic\n\nThe operation, maintenance, and precision firing of kinetic firearms and projectile weapons using chemical propellant or electromagnetic acceleration.\n\n### Mechanics & Rules\n- **Governing Attribute**: Agility\n- **Standard Attack Roll**: `d20 + Ballistic Rank + Agility Mod vs. Target Defense`.\n- **Burst Fire (Short)**: Controlled 3-round burst grants **+1 Bonus to Strike**.\n- **Auto-Fire (Long Burst)**: Firing 10+ rounds imposes **-1 Recoil Penalty** per 10 rounds fired. For every point the attack roll exceeds target Defense, 1 additional round hits (up to total shots fired), dealing **+1d damage** per extra hit if initial hit penetrates target DR.\n\n### Specialties\n- **Pistols**: Concealable sidearms and tactical handguns.\n- **Rifles**: Standard infantry rifles and long-barrel carbines.\n- **Shotguns**: Close-range spread weapons and breaching tools.\n- **Sniper Rifles**: High-magnification precision kinetic rifles.\n- **SMGs**: High-cycling close-quarters automatic weapons."
+  },
+  {
+    "governing_attributes": [
+      "Agility"
+    ],
+    "description": "The art of self-preservation in combat. Measures a character's ability to avoid being hit, deflect blows, and position advantageously to mitigate harm.",
+    "trained_only": false,
+    "id": "combat-defense",
+    "type": "combat",
+    "specialties": [
+      "Evasion (Dodging and footwork)",
+      "Shield (Positioning and blocking with shields)",
+      "Weapon Block (Parrying with melee weapons)"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.141Z",
+    "subtype": "archaic",
+    "name": "Defense",
+    "body": "# Defense\n\nThe art of self-preservation in combat. Measures a character's ability to avoid being hit, deflect blows, and position advantageously to mitigate harm.\n\n### Mechanics & Rules\n- **Governing Attribute**: Agility\n- **Passive Defense**: Rank is added directly to static **Defense Score** (`10 + Agility + Defense Rank + Armor/Size Modifiers`).\n- **Active Defense (Reaction)**: In tactical situations (such as *Total Defense*), roll a Defense check to replace static Defense score or negate combat maneuvers (Trips, Grapples, Disarms).\n\n### Specialties\n- **Evasion**: Dodging, weaving, and utilizing agile footwork to avoid attacks entirely (common for unarmored combatants).\n- **Shield**: Proper angle and bracing of handheld shields to block incoming melee and ranged strikes.\n- **Weapon Block**: Deflecting incoming blows using one's own weapon in close quarters.",
+    "category": "skills",
+    "synergy_links": [
+      "physical-acrobatics",
+      "combat-melee"
+    ]
+  },
+  {
+    "synergy_links": [
+      "mental-technology",
+      "mental-physics",
+      "mental-weaponsmith"
+    ],
+    "description": "Proficiency with handheld directed-energy weapons discharging coherent light, ionized plasma, acoustic shockwaves, or electromagnetic arcs.",
+    "governing_attributes": [
+      "Agility"
+    ],
+    "trained_only": false,
+    "subtype": "advanced",
+    "category": "skills",
+    "type": "combat",
+    "specialties": [
+      "Lasers (Coherent beam and pulsed laser carbines)",
+      "Plasma (Superheated gas blasters)",
+      "Sonic (Acoustic disruptors and stunners)",
+      "Cryo (Endothermic freeze weapons)",
+      "Voltic / Arc (Electric discharge weapons)",
+      "Disruptor (Molecular dissolution weapons)"
+    ],
+    "name": "Energy",
+    "id": "combat-energy",
+    "updatedAt": "2026-08-23T10:56:49.141Z",
+    "body": "# Energy\n\nProficiency with handheld directed-energy weapons discharging coherent light, ionized plasma, acoustic shockwaves, or electromagnetic arcs.\n\n### Mechanics & Rules\n- **Governing Attribute**: Agility\n- **Standard Attack Roll**: `d20 + Energy Rank + Agility Mod vs. Target Defense`.\n- **Critical Status Effects**:\n  - **Pyro (Plasma)**: Burns target for 1/2 damage on following round.\n  - **Cryo (Icer)**: Freezes target (Slow/Snare condition).\n  - **Voltic (Electricity)**: Shocks target (Stun condition).\n  - **Sonic**: Concussive force (Deafen / Stun condition).\n  - **Corrosive**: Dissolves armor (1/2 damage for next 2 rounds, reduces DR).\n  - **Grav**: High kinetic impact causing Knockback.\n\n### Specialties\n- **Lasers**: High-penetration pinpoint energy beams.\n- **Plasma**: High-thermal area and burst munitions.\n- **Sonic**: Non-lethal and crowd-control acoustic emitters.\n- **Voltic**: Anti-shield and anti-synthetic arc discharge weapons.\n- **Disruptor**: High-tier tech bypassing energy shielding."
+  },
+  {
+    "category": "skills",
+    "body": "# Heavy Energy\n\nThe operation of massive, high-yield energy cannons, particle lances, and ship-mounted orbital bombards.\n\n### Mechanics & Rules\n- **Governing Attribute**: Agility (or Intellect when integrated into fire-control / targeting matrices).\n- **Targeting & Accuracy**: Often interfaces with smart targeting links to mitigate extreme range penalties.\n- **Area of Effect**: Particle beams and plasma bombards strike in lines or massive burst radiuses.\n- **High Penetration**: Bypasses substantial standard armor Damage Resistance (DR).\n\n### Specialties\n- **Heavy Lasers**: Anti-capital and fortifications beam weaponry.\n- **Particle Beams**: Long-range relativistic particle accelerators.\n- **Plasma Cannons**: Catastrophic thermal bombards.\n- **Railguns**: Electromagnetic relativistic slug throwers.",
+    "subtype": "advanced",
+    "synergy_links": [
+      "physical-piloting",
+      "mental-engineer",
+      "mental-physics"
+    ],
+    "id": "combat-heavy-energy",
+    "trained_only": false,
+    "name": "Heavy Energy",
+    "description": "The operation of massive, high-yield energy cannons, particle lances, and ship-mounted orbital bombards.",
+    "type": "combat",
+    "specialties": [
+      "Heavy Lasers (Ship-to-ship and anti-armor spinal lasers)",
+      "Particle Beams (Subatomic particle lances)",
+      "Plasma Cannons (Heavy bombardment thermal projectors)",
+      "Railguns (Magnetically accelerated relativistic cannons)",
+      "Turrets (Automated and manual stationary defense batteries)"
+    ],
+    "governing_attributes": [
+      "Agility",
+      "Intellect"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.140Z"
+  },
+  {
+    "body": "# Heavy Weapons\n\nThe operation of crew-served, vehicular, and squad-level heavy kinetic ordnance, including machine guns, rocket launchers, and artillery.\n\n### Mechanics & Rules\n- **Governing Attribute**: Agility (or Intellect for computed trajectory systems).\n- **Launched Ordnance**: Direct targeting for grenades, mortars, and missiles.\n- **Area Suppression (Blasting)**:\n  - **General Area**: Targets within blast radius take base damage. For every **5 points** the attack roll exceeds **CR 10**, damage increases by **+2 Dice**.\n  - **Focused Blast Zone**: Targets in the direct epicenter take **+100% Damage Dice** if attack roll exceeds **CR 15** by 10 or more.\n\n### Specialties\n- **Machine Guns**: Heavy suppression automatic weapons.\n- **Rocket Launchers**: Shoulder-fired and vehicle-mounted missile systems.\n- **Grenade Launchers**: Indirect and direct explosive projectile systems.\n- **Vehicle Mounted**: Heavy kinetic cannons, autocannons, and gatlings.",
+    "description": "The operation of crew-served, vehicular, and squad-level heavy kinetic ordnance, including machine guns, rocket launchers, and artillery.",
+    "subtype": "modern",
+    "specialties": [
+      "Machine Guns (Heavy belt-fed squad automatic weapons)",
+      "Rocket Launchers (Unguided and wire-guided rocket pods)",
+      "Grenade Launchers (Rotary and single-shot launchers)",
+      "Vehicle Mounted Weapons (Pintle and turret kinetic cannons)",
+      "Demolitions & Ordnance Placement"
+    ],
+    "name": "Heavy Weapons",
+    "trained_only": false,
+    "id": "combat-heavy-weapons",
+    "governing_attributes": [
+      "Agility",
+      "Intellect"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.140Z",
+    "type": "combat",
+    "synergy_links": [
+      "mental-demolitionist",
+      "mental-tactics",
+      "mental-weaponsmith"
+    ],
+    "category": "skills"
+  },
+  {
+    "body": "# Melee\n\nProficiency with handheld close-quarters weaponry, from simple clubs and combat knives to energized power swords and heavy polearms.\n\n### Mechanics & Rules\n- **Governing Attribute**: Strength (Standard) or Agility (with Features like *Weapon Finesse*).\n- **Standard Attack Roll**: `d20 + Melee Rank + Strength Mod vs. Target Defense`.\n- **Damage**: Weapon Base Damage Dice + Strength Modifier.\n- **Reach Weapons**: Polearms and extended hafted weapons allow melee attacks from 10ft away.\n\n### Specialties\n- **Knives**: Lightweight concealable blades, daggers, and vibro-knives.\n- **Swords**: Balanced bladed weapons including shortswords, broadswords, and mono-molecular katanas.\n- **Staves**: Blunt wooden, composite, or energized pole weapons.\n- **Axes/Hammers**: Heavy cleaving axes and crushing hammers optimized for breaking armor.",
+    "governing_attributes": [
+      "Strength",
+      "Agility"
+    ],
+    "subtype": "archaic",
+    "id": "combat-melee",
+    "description": "Proficiency with handheld close-quarters weaponry, from simple clubs and combat knives to energized power swords and heavy polearms.",
+    "name": "Melee",
+    "specialties": [
+      "Knives (Daggers, shivs, vibro-blades)",
+      "Swords (Longswords, rapiers, katanas, sabers)",
+      "Staves (Quarterstaffs, bo staffs, blunt polearms)",
+      "Axes/Hammers (Battleaxes, warhammers, crushing mauls)",
+      "Polearms (Spears, halberds with 10ft reach)"
+    ],
+    "type": "combat",
+    "updatedAt": "2026-08-23T10:56:49.140Z",
+    "trained_only": false,
+    "category": "skills",
+    "synergy_links": [
+      "combat-defense",
+      "mental-weaponsmith",
+      "mental-armorer"
+    ]
+  },
+  {
+    "synergy_links": [
+      "physical-athletics",
+      "mental-weaponsmith"
+    ],
+    "description": "The skill of using muscle-powered projectile weapons and thrown implements to strike targets at a distance.",
+    "governing_attributes": [
+      "Agility"
+    ],
+    "trained_only": false,
+    "subtype": "archaic",
+    "category": "skills",
+    "type": "combat",
+    "specialties": [
+      "Bows (Shortbows, longbows, compound bows)",
+      "Crossbows (Hand crossbows, heavy mechanical crossbows)",
+      "Throwing Blades (Knives, shuriken, throwing axes)",
+      "Boomerangs & Aerodynamic Implements"
+    ],
+    "id": "combat-ranged",
+    "name": "Ranged",
+    "updatedAt": "2026-08-23T10:56:49.140Z",
+    "body": "# Ranged\n\nThe skill of using muscle-powered projectile weapons and thrown implements to strike targets at a distance.\n\n### Mechanics & Rules\n- **Governing Attribute**: Agility\n- **Standard Attack Roll**: `d20 + Ranged Rank + Agility Mod vs. Target Defense`.\n- **Damage**: Weapon Base Damage Dice. (Strength modifier added to Thrown weapons, and composite bows up to weapon rating).\n- **Range Increments**: Attacking beyond the weapon's base range increment imposes a cumulative `-2` penalty per increment.\n\n### Specialties\n- **Bows**: Traditional and high-tension compound bows.\n- **Crossbows**: Crank and lever-operated mechanical projectile weapons.\n- **Throwing Blades**: Weighted knives, throwing stars, and axes.\n- **Boomerangs**: Aerodynamic returning and non-returning hunting clubs."
+  },
+  {
+    "description": "Fighting without artificial weaponry, utilizing the body for brawling, martial arts, joint locks, throws, and natural species weaponry.",
+    "body": "# Unarmed\n\nFighting without artificial weaponry, utilizing the body for brawling, martial arts, joint locks, throws, and natural species weaponry.\n\n### Mechanics & Rules\n- **Governing Attribute**: Strength (Power & Grappling) or Agility (Striking Speed & Precision).\n- **Standard Attack Roll**: `d20 + Unarmed Rank + Str/Agi Mod vs. Target Defense`.\n- **Damage**: `1d4 + Strength Mod` (scales with Species natural traits or martial features).\n- **Non-Lethal Damage**: May deal non-lethal / stun damage without penalty.\n- **Grappling**: Used for opposed grapple, hold, and submission checks.\n\n### Specialties\n- **Punches**: Boxing, open-palm strikes, and rapid hand combinations.\n- **Kicks**: Powerful roundhouse, snap, and jumping kicks.\n- **Natural Weapons**: Claws, fangs, horns, and armored tail attacks for bestial and alien species.\n- **Grappling & Throws**: Takedowns, pins, locks, and throws.",
+    "category": "skills",
+    "name": "Unarmed",
+    "updatedAt": "2026-08-23T10:56:49.140Z",
+    "synergy_links": [
+      "physical-athletics",
+      "physical-acrobatics",
+      "combat-defense"
+    ],
+    "specialties": [
+      "Punches (Boxing, precision hand strikes)",
+      "Kicks (Taekwondo, sweeping leg strikes)",
+      "Natural Weapons (Claws, fangs, horns, tail strikes)",
+      "Grappling (Judo, wrestling, joint manipulation)"
+    ],
+    "subtype": "archaic",
+    "type": "combat",
+    "governing_attributes": [
+      "Strength",
+      "Agility"
+    ],
+    "trained_only": false,
+    "id": "combat-unarmed"
+  },
+  {
+    "specialties": [
+      "Research (Database mining, academic archives)",
+      "Bureaucracy (Navigating university and governmental documentation)",
+      "Teaching (Instruction, pedagogy, tutelage)",
+      "Library Science (Cataloging, indexing, archival search)"
+    ],
+    "category": "skills",
+    "type": "mental",
+    "description": "General scholarly education, research methodology, data synthesis, and the capacity to absorb and contextualize complex formal knowledge.",
+    "subtype": "general",
+    "body": "# Academics\n\nGeneral scholarly education, research methodology, data synthesis, and the capacity to absorb and contextualize complex formal knowledge.\n\n### Mechanics & Rules\n- **Governing Attribute**: Intellect\n- **Archival Research**: DC 15 to locate obscure technical or historical data in planetary repositories.\n- **Learning Bonus**: Enhances study period checks when learning new skills or analyzing alien texts.",
+    "trained_only": false,
+    "name": "Academics",
+    "id": "mental-academics",
+    "updatedAt": "2026-08-23T10:56:49.139Z",
+    "synergy_links": [
+      "mental-researcher",
+      "mental-archivist",
+      "mental-history"
+    ],
+    "governing_attributes": [
+      "Intellect"
+    ]
+  },
+  {
+    "category": "skills",
+    "specialties": [
+      "Corporate Administration",
+      "Governmental Bureaucracy",
+      "Military Staff Administration",
+      "Colony & Outpost Management"
+    ],
+    "type": "mental",
+    "subtype": "vocation",
+    "description": "The professional vocation of organizational leadership, public governance, corporate bureaucracy, and human resource management.",
+    "synergy_links": [
+      "mental-business",
+      "social-leadership",
+      "mental-logistics"
+    ],
+    "trained_only": false,
+    "governing_attributes": [
+      "Intellect",
+      "Charisma"
+    ],
+    "body": "# Administrator\n\nThe professional vocation of organizational leadership, public governance, corporate bureaucracy, and human resource management.\n\n### Mechanics & Rules\n- **Governing Attribute**: Intellect or Charisma\n- **Bureaucratic Clearance**: DC 15 expedites permits, licenses, and official clearances through red tape.\n- **Colony Governance**: DC 20 coordinates multi-department projects to maximize operational output.",
+    "id": "mental-administrator",
+    "name": "Administrator",
+    "updatedAt": "2026-08-23T10:56:49.139Z"
+  },
+  {
+    "description": "The vocation of brewing, compounding, and synthesizing potions, pharmaceuticals, acids, stimulants, and metaphysical elixirs.",
+    "synergy_links": [
+      "mental-science",
+      "mental-medicine",
+      "mental-nature"
+    ],
+    "category": "skills",
+    "type": "mental",
+    "specialties": [
+      "Pharmaceuticals & Medical Stimulants",
+      "Combat Stimulants & Combat Drugs",
+      "Poisons & Neurotoxins",
+      "Acids & Corrosive Compounds",
+      "Metaphysical & Resonant Elixirs"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.138Z",
+    "id": "mental-alchemist",
+    "governing_attributes": [
+      "Intellect"
+    ],
+    "trained_only": true,
+    "name": "Alchemist",
+    "body": "# Alchemist\n\nThe vocation of brewing, compounding, and synthesizing potions, pharmaceuticals, acids, stimulants, and metaphysical elixirs.\n\n### Mechanics & Rules\n- **Governing Attribute**: Intellect (Trained Only).\n- **Identify Substance**: DC 15 identifies chemical reagents, potions, or poisons.\n- **Craft Chemical Compound**: DC varies by potency (Acid DC 15, Military Stim DC 20, Panacea DC 25). Failing by 5+ causes chemical contamination or explosive blowout.",
+    "subtype": "vocation"
+  },
+  {
+    "trained_only": false,
+    "id": "mental-alertness",
+    "subtype": "general",
+    "type": "mental",
+    "synergy_links": [
+      "mental-investigation",
+      "mental-survival",
+      "physical-stealth"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.138Z",
+    "category": "skills",
+    "name": "Alertness",
+    "description": "Environmental perception and sensory awareness. Spotting hidden items, hearing subtle sounds, identifying traps, and avoiding ambushes.",
+    "body": "# Alertness\n\nEnvironmental perception and sensory awareness. Spotting hidden items, hearing subtle sounds, identifying traps, and avoiding ambushes.\n\n### Mechanics & Rules\n- **Governing Attribute**: Perception (Intellect + Wisdom).\n- **Spot / Listen**: Opposed check against target's **Stealth**.\n- **Search Tasks**: DC 10 (Noticing obvious items) to DC 30 (Microscopic data caches or hidden seams).\n- **Surprise Avoidance**: Used at encounter start to detect ambushes and retain normal initiative.",
+    "governing_attributes": [
+      "Intellect",
+      "Wisdom"
+    ],
+    "specialties": [
+      "Sight (Spotting visual anomalies and concealed foes)",
+      "Hearing (Detecting faint footsteps and whispered conversations)",
+      "Scent (Noticing chemical, biological, or thermal cues)",
+      "Intuition (Gut feelings and ambush sensing)"
+    ]
+  },
+  {
+    "trained_only": false,
+    "subtype": "vocation",
+    "category": "skills",
+    "body": "# Ambassador\n\nOfficial diplomatic representation, high-level treaty negotiations, state protocol, first contact missions, and interstellar diplomacy.\n\n### Mechanics & Rules\n- **Governing Attribute**: Charisma\n- **Court Protocol**: DC 15 ensures zero diplomatic faux pas in alien or imperial courts.\n- **Treaty Negotiations**: Opposed check vs. rival diplomatic envoy to secure advantageous treaty terms.",
+    "name": "Ambassador",
+    "updatedAt": "2026-08-23T10:56:49.138Z",
+    "governing_attributes": [
+      "Charisma"
+    ],
+    "id": "mental-ambassador",
+    "specialties": [
+      "First Contact Protocols",
+      "Treaty & Armistice Negotiation",
+      "Trade Compacts",
+      "Faction-Specific Court Protocol"
+    ],
+    "type": "mental",
+    "synergy_links": [
+      "social-diplomacy",
+      "mental-culture",
+      "mental-nobility"
+    ],
+    "description": "Official diplomatic representation, high-level treaty negotiations, state protocol, first contact missions, and interstellar diplomacy."
+  },
+  {
+    "id": "mental-appraisal",
+    "trained_only": false,
+    "subtype": "knowledge",
+    "type": "mental",
+    "synergy_links": [
+      "mental-trade",
+      "social-barter",
+      "mental-artificer"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.137Z",
+    "category": "skills",
+    "description": "Determining the monetary value, authenticity, craftsmanship quality, and provenance of items, artifacts, antiquities, and raw materials.",
+    "name": "Appraisal",
+    "body": "# Appraisal\n\nDetermining the monetary value, authenticity, craftsmanship quality, and provenance of items, artifacts, antiquities, and raw materials.\n\n### Mechanics & Rules\n- **Governing Attribute**: Intellect\n- **Value Item**: DC 10 (Common commercial goods) to DC 30 (Unique Pre-Severance / Alien relics).\n- **Detect Forgery**: Opposed check vs. Forger's **Bluff** or **Craft** roll.\n- **Identify Properties**: DC 15+ reveals technical specifications and operational functions.",
+    "governing_attributes": [
+      "Intellect"
+    ],
+    "specialties": [
+      "Art & Antiquities",
+      "Gems & Precious Metals",
+      "Technology & Cybernetics",
+      "Xenotech & Progenitor Relics",
+      "Weapons & Armaments"
+    ]
+  },
+  {
+    "trained_only": true,
+    "subtype": "vocation",
+    "category": "skills",
+    "body": "# Architect\n\nDesigning blueprints, arcology layouts, orbital stations, fortifications, starship superstructures, and overseeing large construction projects.\n\n### Mechanics & Rules\n- **Governing Attribute**: Intellect (Trained Only).\n- **Architectural Blueprinting**: DC 15 (Prefab outpost) to DC 30 (Orbital space elevator / planetary shield dome).\n- **Assess Structural Weakness**: DC 20 identifies structural load-bearing flaws, granting bonuses to Demolitionist checks.",
+    "name": "Architect",
+    "updatedAt": "2026-08-23T10:56:49.137Z",
+    "governing_attributes": [
+      "Intellect"
+    ],
+    "id": "mental-architect",
+    "type": "mental",
+    "specialties": [
+      "Naval Architecture (Starships & Stations)",
+      "Civil Engineering & Arcologies",
+      "Military Fortifications & Bunkers",
+      "Subterranean & Alien Habitation"
+    ],
+    "synergy_links": [
+      "mental-engineer",
+      "mental-laborer",
+      "mental-demolitionist"
+    ],
+    "description": "Designing blueprints, arcology layouts, orbital stations, fortifications, starship superstructures, and overseeing large construction projects."
+  },
+  {
+    "description": "The curation, preservation, restoration, and retrieval of historical records, ancient paper tomes, holographic databanks, and classified archives.",
+    "body": "# Archivist\n\nThe curation, preservation, restoration, and retrieval of historical records, ancient paper tomes, holographic databanks, and classified archives.\n\n### Mechanics & Rules\n- **Governing Attribute**: Intellect\n- **Deep Historical Search**: DC 20 discovers unindexed, redacted, or non-digitized historical files.\n- **Preservation & Restoration**: DC 15 restores corrupted optical media, damaged parchment, or decaying solid-state drives.",
+    "name": "Archivist",
+    "subtype": "vocation",
+    "specialties": [
+      "Digital Archival Forensics",
+      "Ancient Tomes & Physical Manuscript Preservation",
+      "Genealogical & Lineage Tracking",
+      "Classified & Redacted History"
+    ],
+    "trained_only": false,
+    "synergy_links": [
+      "mental-history",
+      "mental-academics",
+      "mental-investigation"
+    ],
+    "type": "mental",
+    "updatedAt": "2026-08-23T10:56:49.137Z",
+    "category": "skills",
+    "governing_attributes": [
+      "Intellect"
+    ],
+    "id": "mental-archivist"
+  },
+  {
+    "type": "mental",
+    "updatedAt": "2026-08-23T10:56:49.136Z",
+    "category": "skills",
+    "governing_attributes": [
+      "Intellect",
+      "Agility"
+    ],
+    "description": "Forging, tailoring, modifying, and repairing personal armor, tactical bodysuits, hazard plating, shields, and powered exoskeletons.",
+    "body": "# Armorer\n\nForging, tailoring, modifying, and repairing personal armor, tactical bodysuits, hazard plating, shields, and powered exoskeletons.\n\n### Mechanics & Rules\n- **Governing Attribute**: Intellect (Design & Physics) or Agility (Metalworking & Fitting).\n- **Armor Repair**: DC 15 + Tech Level restores damaged Armor Points (AP) or structural integrity.\n- **Armor Fitting**: DC 15 resizes a suit of armor for an alien species with non-standard body proportions.",
+    "id": "mental-armorer",
+    "trained_only": false,
+    "synergy_links": [
+      "mental-weaponsmith",
+      "mental-mechanic",
+      "combat-defense"
+    ],
+    "name": "Armorer",
+    "subtype": "vocation",
+    "specialties": [
+      "Light Ballistic & Stealth Bodysuits",
+      "Medium Tactical Carapace",
+      "Heavy Powered Exosuits",
+      "Energy & Deflector Shields",
+      "Archaic & Ceremonial Plate"
+    ]
+  },
+  {
+    "category": "skills",
+    "description": "The specialized craft of combining technology with metaphysical energies to create enchanted devices, psi-amps, resonant crystals, and golems.",
+    "type": "mental",
+    "subtype": "vocation",
+    "id": "mental-artificer",
+    "specialties": [
+      "Wands, Rods & Focus Implements",
+      "Resonant Crystal Matrix Forging",
+      "Psionic Amplifiers & Halo Interfaces",
+      "Golem & Automata Metaconstruction"
+    ],
+    "trained_only": true,
+    "synergy_links": [
+      "meta-attune",
+      "mental-metaphysics",
+      "mental-technology"
+    ],
+    "body": "# Artificer\n\nThe specialized craft of combining technology with metaphysical energies to create enchanted devices, psi-amps, resonant crystals, and golems.\n\n### Mechanics & Rules\n- **Governing Attribute**: Intellect or Wisdom (Trained Only; requires Awakened or Metascience training).\n- **Imprint Metaphysical Item**: DC 20 + Spell/Invocation Level binds an invocation into a physical matrix.\n- **Analyze Artifact**: DC 15+ identifies the charges, command words, and resonance properties of a magical/psionic relic.",
+    "governing_attributes": [
+      "Intellect",
+      "Wisdom"
+    ],
+    "name": "Artificer",
+    "updatedAt": "2026-08-23T10:56:49.136Z"
+  },
+  {
+    "governing_attributes": [
+      "Charisma",
+      "Wisdom",
+      "Agility"
+    ],
+    "category": "skills",
+    "description": "Creating visual and physical artwork: painting, holographic sculpting, digital illustration, body modifications, and aesthetic crafts.",
+    "subtype": "vocation",
+    "specialties": [
+      "Painting & Murals",
+      "Holographic Art & Light Sculpture",
+      "Physical Sculpture & Stonework",
+      "Digital Media & Holo-Design",
+      "Tattooing & Cosmetic Body Modification"
+    ],
+    "trained_only": false,
+    "type": "mental",
+    "updatedAt": "2026-08-23T10:56:49.135Z",
+    "name": "Artist",
+    "synergy_links": [
+      "social-style",
+      "mental-appraisal",
+      "social-expression"
+    ],
+    "id": "mental-artist",
+    "body": "# Artist\n\nCreating visual and physical artwork: painting, holographic sculpting, digital illustration, body modifications, and aesthetic crafts.\n\n### Mechanics & Rules\n- **Governing Attribute**: Charisma (Aesthetic Expression), Wisdom (Inspirational Insight), or Agility (Precision Brushwork).\n- **Create Masterpiece**: Check result directly determines market value and cultural renown of the work.\n- **Artistic Forgery**: Opposed check vs. **Appraisal** to forge a master's signature or visual style."
+  },
+  {
+    "governing_attributes": [
+      "Wisdom",
+      "Charisma"
+    ],
+    "specialties": [
+      "Black Market & Illicit Goods",
+      "Commodities & Resource Futures",
+      "Real Estate & Space Hab Title Deeds",
+      "Arms Dealing & Mercenary Contracting"
+    ],
+    "type": "mental",
+    "category": "skills",
+    "description": "Commercial mediation: matching buyers and sellers, negotiating commissions, black market dealing, real estate, and financial transactions.",
+    "updatedAt": "2026-08-23T10:56:49.135Z",
+    "id": "mental-broker",
+    "trained_only": false,
+    "synergy_links": [
+      "mental-business",
+      "mental-trade",
+      "social-barter"
+    ],
+    "body": "# Broker\n\nCommercial mediation: matching buyers and sellers, negotiating commissions, black market dealing, real estate, and financial transactions.\n\n### Mechanics & Rules\n- **Governing Attribute**: Wisdom or Charisma\n- **Market Appraisal**: DC 15 determines if a commodity is selling above or below planetary market value.\n- **Brokering Black Market Deals**: DC 20 connects with a discreet buyer for stolen goods or contraband.",
+    "subtype": "vocation",
+    "name": "Broker"
+  },
+  {
+    "body": "# Business\n\nUnderstanding financial markets, corporate structures, investment flows, macroeconomic models, and corporate boardroom dynamics.\n\n### Mechanics & Rules\n- **Governing Attribute**: Intellect\n- **Market Analysis**: DC 15 to predict commodity price swings or detect investment opportunities.\n- **Corporate Intrigues**: DC 20 to deduce internal megacorp political alliances and hostile takeover plans.\n- **Commercial Negotiations**: DC 15+ to structure multi-million credit contracts.",
+    "subtype": "knowledge",
+    "name": "Business",
+    "description": "Understanding financial markets, corporate structures, investment flows, macroeconomic models, and corporate boardroom dynamics.",
+    "updatedAt": "2026-08-23T10:56:49.134Z",
+    "category": "skills",
+    "type": "mental",
+    "specialties": [
+      "Economics & Macro-finance",
+      "Corporate Law & Regulations",
+      "Management & Executive Operations",
+      "Marketing & Branding",
+      "Securities & Venture Capital"
+    ],
+    "id": "mental-business",
+    "trained_only": false,
+    "synergy_links": [
+      "mental-trade",
+      "mental-broker",
+      "mental-administrator"
+    ],
+    "governing_attributes": [
+      "Intellect"
+    ]
+  },
+  {
+    "governing_attributes": [
+      "Charisma"
+    ],
+    "specialties": [
+      "Holo-Net & Social Media Streaming",
+      "Live Media Interviews & Press Conferences",
+      "Public Relations & Crisis Spin",
+      "Hero / Persona Branding"
+    ],
+    "type": "mental",
+    "category": "skills",
+    "description": "Managing public relations, fame, media interviews, fan followings, personal branding, and spinning public perception.",
+    "trained_only": false,
+    "updatedAt": "2026-08-23T10:56:49.134Z",
+    "id": "mental-celebrity",
+    "body": "# Celebrity\n\nManaging public relations, fame, media interviews, fan followings, personal branding, and spinning public perception.\n\n### Mechanics & Rules\n- **Governing Attribute**: Charisma\n- **Work the Crowd**: DC 15 leverages fame to bypass VIP security checkpoints or get free luxury hospitality.\n- **Media Spin**: DC 20 mitigates the reputational fallout of a public scandal or criminal accusation.",
+    "synergy_links": [
+      "social-acting",
+      "social-oratory",
+      "social-style"
+    ],
+    "subtype": "vocation",
+    "name": "Celebrity"
+  },
+  {
+    "updatedAt": "2026-08-23T10:56:49.133Z",
+    "body": "# Computers\n\nThe science of computer systems: programming, software architecture, cyber-warfare, firewall intrusion, encryption, and AI interface.\n\n### Mechanics & Rules\n- **Governing Attribute**: Intellect (Trained Only for complex hacking/programming).\n- **Operate Remote Systems**: DC 10 (Civic terminal) to DC 25 (Military command grid).\n- **Hacking / Cyber Intrusion**: Base DC equals target firewall's **Security Rating + 10**.\n- **Software Architecture**: DC 15 (Routine script) to DC 30+ (Sentient AI neural matrix).",
+    "subtype": "knowledge",
+    "name": "Computers",
+    "trained_only": true,
+    "synergy_links": [
+      "mental-electrician",
+      "mental-technology",
+      "mental-investigation"
+    ],
+    "specialties": [
+      "Hacking & Penetration Testing",
+      "Coding & Software Development",
+      "Hardware Architecture",
+      "AI & Machine Intelligence Interfaces",
+      "Security Systems & Encryption",
+      "Data Mining & Forensics"
+    ],
+    "category": "skills",
+    "type": "mental",
+    "governing_attributes": [
+      "Intellect"
+    ],
+    "id": "mental-computers",
+    "description": "The science of computer systems: programming, software architecture, cyber-warfare, firewall intrusion, encryption, and AI interface."
+  },
+  {
+    "trained_only": false,
+    "subtype": "vocation",
+    "type": "mental",
+    "governing_attributes": [
+      "Wisdom",
+      "Intellect"
+    ],
+    "name": "Constable",
+    "updatedAt": "2026-08-23T10:56:49.132Z",
+    "id": "mental-constable",
+    "description": "Law enforcement procedures, jurisdictional law, patrol duties, non-lethal apprehension, crime scene security, and prisoner custody.",
+    "synergy_links": [
+      "mental-investigation",
+      "social-intimidate",
+      "mental-alertness"
+    ],
+    "specialties": [
+      "Municipal & Frontier Jurisdictions",
+      "Tactical Breaching & SWAT Procedures",
+      "Patrol & Crowd Control",
+      "Evidence Custody & Chain of Custody",
+      "Interrogation Protocols"
+    ],
+    "body": "# Constable\n\nLaw enforcement procedures, jurisdictional law, patrol duties, non-lethal apprehension, crime scene security, and prisoner custody.\n\n### Mechanics & Rules\n- **Governing Attribute**: Wisdom or Intellect\n- **Sector Jurisdiction Knowledge**: DC 15 determines legal authority, warrant rights, and local legal codes.\n- **Evidence Collection**: DC 15 properly gathers forensic evidence ensuring it remains legally admissible in court.",
+    "category": "skills"
+  },
+  {
+    "subtype": "vocation",
+    "type": "mental",
+    "specialties": [
+      "High Society Socialization",
+      "Diplomatic & Corporate Espionage",
+      "Intimacy & Seduction",
+      "Psychological Counseling & Comfort"
+    ],
+    "governing_attributes": [
+      "Charisma"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.132Z",
+    "id": "mental-courtesan",
+    "trained_only": false,
+    "description": "High-society professional companionship, elegant conversation, emotional counseling, social seduction, and discreet espionage.",
+    "body": "# Courtesan\n\nHigh-society professional companionship, elegant conversation, emotional counseling, social seduction, and discreet espionage.\n\n### Mechanics & Rules\n- **Governing Attribute**: Charisma\n- **Seduction & Rapport**: Opposed check vs. target's **Wisdom (Insight)** to establish deep trust.\n- **Gather Whispers**: DC 15 extracts confidential corporate or state secrets during informal pillow talk.",
+    "category": "skills",
+    "synergy_links": [
+      "social-insight",
+      "social-bluff",
+      "social-style"
+    ],
+    "name": "Courtesan"
+  },
+  {
+    "description": "The culinary arts: preparing nutritious and gourmet food, baking, brewing, catering state banquets, and preparing alien ingredients.",
+    "name": "Culinarian",
+    "specialties": [
+      "Gourmet Cuisine & Banquets",
+      "Xenofood Preparation (Making alien flora/fauna edible for humans)",
+      "Baking & Pastry",
+      "Brewing & Distilling"
+    ],
+    "category": "skills",
+    "synergy_links": [
+      "mental-nature",
+      "mental-alchemist",
+      "mental-medicine"
+    ],
+    "body": "# Culinarian\n\nThe culinary arts: preparing nutritious and gourmet food, baking, brewing, catering state banquets, and preparing alien ingredients.\n\n### Mechanics & Rules\n- **Governing Attribute**: Wisdom or Agility\n- **Prepare Gourmet Meal**: DC 10 (Standard field meal) to DC 30 (Legendary banquet providing temporary morale buffs to all who partake).\n- **Identify Ingested Toxins**: DC 15 detects poisons or spoilage by smell and subtle taste.",
+    "updatedAt": "2026-08-23T10:56:49.131Z",
+    "governing_attributes": [
+      "Wisdom",
+      "Agility"
+    ],
+    "trained_only": false,
+    "id": "mental-culinarian",
+    "subtype": "vocation",
+    "type": "mental"
+  },
+  {
+    "type": "mental",
+    "description": "Understanding customs, traditions, social taboos, artistic styles, religious rituals, and sociological traits across diverse galactic species and factions.",
+    "category": "skills",
+    "id": "mental-culture",
+    "subtype": "knowledge",
+    "specialties": [
+      "Species Cultures (Auluran, Human, Vassoth, Mekan)",
+      "Faction Etiquette (Impyrium, Dynasty, Syndicate, Combine)",
+      "Corporate Culture & Boardroom Protocols",
+      "Underworld Slang & Rituals"
+    ],
+    "trained_only": false,
+    "synergy_links": [
+      "social-diplomacy",
+      "mental-nobility",
+      "mental-history"
+    ],
+    "body": "# Culture\n\nUnderstanding customs, traditions, social taboos, artistic styles, religious rituals, and sociological traits across diverse galactic species and factions.\n\n### Mechanics & Rules\n- **Governing Attribute**: Intellect\n- **Etiquette Knowledge**: DC 10 (Common civilized custom) to DC 25 (Ancient sacred caste ritual).\n- **Origin Identification**: DC 15 to identify a character's homeworld or sub-culture based on dialect and dress.",
+    "governing_attributes": [
+      "Intellect"
+    ],
+    "name": "Culture",
+    "updatedAt": "2026-08-23T10:56:49.131Z"
+  },
+  {
+    "name": "Demolitionist",
+    "specialties": [
+      "Bomb Defusal & EOD",
+      "Structural Demolition (Controlled building collapse)",
+      "Mining & Blast Extraction",
+      "Combat Breaching Charges"
+    ],
+    "body": "# Demolitionist\n\nThe controlled handling, manufacture, placement, and defusal of explosive charges, shaped breaching ordnance, and structural blasting.\n\n### Mechanics & Rules\n- **Governing Attribute**: Intellect (Trained Only).\n- **Set Breaching Charge**: DC 15 cleanly blows a vault door without damaging contents; DC 25 brings down a multi-story building into its own footprint.\n- **Defuse Explosives**: Base DC determined by device complexity (DC 20+). Failing by 5+ prematurely detonates the bomb.",
+    "description": "The controlled handling, manufacture, placement, and defusal of explosive charges, shaped breaching ordnance, and structural blasting.",
+    "subtype": "vocation",
+    "id": "mental-demolitionist",
+    "governing_attributes": [
+      "Intellect"
+    ],
+    "category": "skills",
+    "updatedAt": "2026-08-23T10:56:49.131Z",
+    "trained_only": true,
+    "type": "mental",
+    "synergy_links": [
+      "combat-heavy-weapons",
+      "mental-architect",
+      "mental-physics"
+    ]
+  },
+  {
+    "synergy_links": [
+      "mental-computers",
+      "mental-technology",
+      "mental-engineer"
+    ],
+    "type": "mental",
+    "category": "skills",
+    "subtype": "vocation",
+    "trained_only": false,
+    "id": "mental-electrician",
+    "governing_attributes": [
+      "Intellect",
+      "Agility"
+    ],
+    "body": "# Electrician\n\nInstalling, troubleshooting, and repairing power grids, high-voltage conduits, sub-surface wiring, lighting circuits, and micro-electronics.\n\n### Mechanics & Rules\n- **Governing Attribute**: Intellect or Agility\n- **Bypass Electronic Locks**: DC 20 hotwires an electronic keypad or security door.\n- **Reroute Power**: DC 20 restores auxiliary power to life support or weapons systems on a crippled starship.",
+    "updatedAt": "2026-08-23T10:56:49.130Z",
+    "description": "Installing, troubleshooting, and repairing power grids, high-voltage conduits, sub-surface wiring, lighting circuits, and micro-electronics.",
+    "name": "Electrician",
+    "specialties": [
+      "High-Voltage Power Grids & Fusion Taps",
+      "Micro-circuitry & Breadboarding",
+      "Starship Power Distribution & Relays",
+      "Robotic Wiring & Actuators"
+    ]
+  },
+  {
+    "type": "mental",
+    "synergy_links": [
+      "mental-mechanic",
+      "mental-electrician",
+      "mental-physics"
+    ],
+    "category": "skills",
+    "subtype": "vocation",
+    "trained_only": true,
+    "id": "mental-engineer",
+    "governing_attributes": [
+      "Intellect"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.130Z",
+    "body": "# Engineer\n\nDesigning and integrating complex mechanical, chemical, and electrical systems into functioning starships, mecha chassis, and generators.\n\n### Mechanics & Rules\n- **Governing Attribute**: Intellect (Trained Only).\n- **Diagnose Catastrophic Failure**: DC 15 determines why complex machinery is malfunctioning.\n- **Overcharge System**: DC 20 temporarily boosts shield capacity or thruster output by +20% for 1d4 rounds.",
+    "description": "Designing and integrating complex mechanical, chemical, and electrical systems into functioning starships, mecha chassis, and generators.",
+    "name": "Engineer",
+    "specialties": [
+      "Starship Propulsion & FTL Hyperdrives",
+      "Civil & Structural Engineering",
+      "Mechanical Powertrains",
+      "Chemical Processing & Life Support Refineries",
+      "Electrical & Fusion Power Plants"
+    ]
+  },
+  {
+    "body": "# Farmer\n\nCultivating crops, managing large-scale hydroponics facilities, soil science, livestock animal husbandry, and agricultural production.\n\n### Mechanics & Rules\n- **Governing Attribute**: Wisdom or Constitution\n- **Harvest Optimization**: DC 15 produces abundant food yields despite adverse weather or soil conditions.\n- **Soil & Flora Diagnostics**: DC 20 assesses terraforming viability and determines optimal crop rotations.",
+    "governing_attributes": [
+      "Wisdom",
+      "Constitution"
+    ],
+    "specialties": [
+      "Crop Science & Agronomy",
+      "Livestock Breeding & Husbandry",
+      "Hydroponics & Vertical Arcology Farming",
+      "Irrigation & Water Reclamation",
+      "Pest & Blight Control"
+    ],
+    "id": "mental-farmer",
+    "description": "Cultivating crops, managing large-scale hydroponics facilities, soil science, livestock animal husbandry, and agricultural production.",
+    "trained_only": false,
+    "name": "Farmer",
+    "updatedAt": "2026-08-23T10:56:49.129Z",
+    "subtype": "vocation",
+    "type": "mental",
+    "category": "skills",
+    "synergy_links": [
+      "mental-nature",
+      "mental-groundskeeper",
+      "mental-handler"
+    ]
+  },
+  {
+    "description": "Maintaining parklands, botanical gardens, exterior estate grounds, forestry, land reclamation, and operating terraforming machinery.",
+    "type": "mental",
+    "governing_attributes": [
+      "Wisdom",
+      "Constitution"
+    ],
+    "subtype": "vocation",
+    "specialties": [
+      "Landscaping & Arboriculture",
+      "Botanical Garden Curation",
+      "Atmospheric Processing & Terraforming Maintenance",
+      "Estate Grounds Management"
+    ],
+    "id": "mental-groundskeeper",
+    "category": "skills",
+    "updatedAt": "2026-08-23T10:56:49.129Z",
+    "body": "# Groundskeeper\n\nMaintaining parklands, botanical gardens, exterior estate grounds, forestry, land reclamation, and operating terraforming machinery.\n\n### Mechanics & Rules\n- **Governing Attribute**: Wisdom or Constitution\n- **Cultivate Hostile Flora**: DC 15 maintains exotic botanical specimens outside their native climate.\n- **Terraform Operation**: DC 25 operates and repairs large-scale planetary terraforming atmosphere scrubbers.",
+    "synergy_links": [
+      "mental-farmer",
+      "mental-nature",
+      "mental-laborer"
+    ],
+    "trained_only": false,
+    "name": "Groundskeeper"
+  },
+  {
+    "specialties": [
+      "Riding Mounts (Equine, reptilian, avian)",
+      "Guard & Attack War-Beasts",
+      "Xenobeast Taming & Habituation",
+      "Companions & Working Animals"
+    ],
+    "name": "Handler",
+    "category": "skills",
+    "body": "# Handler\n\nThe training, care, riding, and behavioral management of domestic animals, guard beasts, combat warhounds, and alien xenobeasts.\n\n### Mechanics & Rules\n- **Governing Attribute**: Charisma or Wisdom (Also referred to as *Wrangler*).\n- **Calm Spooked Beast**: DC 15 calms a panicked mount or predator.\n- **Train Animal**: DC 15-25 teaches complex tricks, attack commands, or guard patrol routines.",
+    "synergy_links": [
+      "mental-nature",
+      "mental-survival",
+      "social-insight"
+    ],
+    "subtype": "vocation",
+    "id": "mental-handler",
+    "trained_only": false,
+    "description": "The training, care, riding, and behavioral management of domestic animals, guard beasts, combat warhounds, and alien xenobeasts.",
+    "updatedAt": "2026-08-23T10:56:49.129Z",
+    "governing_attributes": [
+      "Charisma",
+      "Wisdom"
+    ],
+    "type": "mental"
+  },
+  {
+    "category": "skills",
+    "description": "Knowledge of past epochs, wars, political treaties, fallen empires, pre-Severance human history, and ancient galactic civilizations.",
+    "synergy_links": [
+      "mental-archivist",
+      "mental-academics",
+      "mental-nobility"
+    ],
+    "specialties": [
+      "Galactic History & The Severance",
+      "Military History & Famous Campaigns",
+      "Ancient Civilizations & Progenitors",
+      "Art & Architectural Eras",
+      "Political History & Royal Lineages"
+    ],
+    "type": "mental",
+    "updatedAt": "2026-08-23T10:56:49.128Z",
+    "name": "History",
+    "governing_attributes": [
+      "Intellect"
+    ],
+    "subtype": "knowledge",
+    "trained_only": false,
+    "id": "mental-history",
+    "body": "# History\n\nKnowledge of past epochs, wars, political treaties, fallen empires, pre-Severance human history, and ancient galactic civilizations.\n\n### Mechanics & Rules\n- **Governing Attribute**: Intellect\n- **Recall Historical Event**: DC 10 (Famous galactic event) to DC 30 (Forgotten pre-stellar lore).\n- **Legend Lore**: DC 20 to recall the legendary properties or historical curse of a location or artifact."
+  },
+  {
+    "description": "Deductive reasoning, crime scene reconstruction, forensic examination, data correlation, and systematic puzzle solving.",
+    "category": "skills",
+    "name": "Investigation",
+    "specialties": [
+      "Forensics & Ballistic Analysis",
+      "Crime Scene Reconstruction",
+      "Data Profiling & Financial Auditing",
+      "Cryptography & Decryption",
+      "Document Research"
+    ],
+    "body": "# Investigation\n\nDeductive reasoning, crime scene reconstruction, forensic examination, data correlation, and systematic puzzle solving.\n\n### Mechanics & Rules\n- **Governing Attribute**: Intellect (or Perception/Wisdom for direct observation).\n- **Analyze Clues**: DC 15 to deduce the timeline and modus operandi of a crime scene.\n- **Forensic Search**: DC 15+ to detect wiped digital logs, blood spatter, or nano-residue.",
+    "subtype": "knowledge",
+    "governing_attributes": [
+      "Intellect",
+      "Wisdom"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.128Z",
+    "id": "mental-investigation",
+    "synergy_links": [
+      "mental-alertness",
+      "mental-constable",
+      "mental-computers"
+    ],
+    "trained_only": false,
+    "type": "mental"
+  },
+  {
+    "type": "mental",
+    "subtype": "vocation",
+    "name": "Laborer",
+    "updatedAt": "2026-08-23T10:56:49.127Z",
+    "category": "skills",
+    "trained_only": false,
+    "description": "Heavy physical labor: mining, construction, dock cargo handling, demolition, operating heavy industrial machinery, and physical endurance.",
+    "synergy_links": [
+      "physical-athletics",
+      "physical-endurance",
+      "mental-transporter"
+    ],
+    "id": "mental-laborer",
+    "governing_attributes": [
+      "Strength",
+      "Constitution"
+    ],
+    "specialties": [
+      "Deep Core & Asteroid Mining",
+      "Building Construction & Rigging",
+      "Dockworking & Cargo Stevedoring",
+      "Zero-G Orbital Construction"
+    ],
+    "body": "# Laborer\n\nHeavy physical labor: mining, construction, dock cargo handling, demolition, operating heavy industrial machinery, and physical endurance.\n\n### Mechanics & Rules\n- **Governing Attribute**: Strength or Constitution\n- **Endurance Shift**: DC 15 works continuous double shifts under harsh conditions without suffering Fatigue.\n- **Operate Heavy Exosuits**: DC 10 operates industrial forklifts, plasma cutters, and mining rigs."
+  },
+  {
+    "trained_only": false,
+    "name": "Language",
+    "updatedAt": "2026-08-23T10:56:49.127Z",
+    "governing_attributes": [
+      "Intellect"
+    ],
+    "body": "# Language\n\nFluency in spoken, written, and signed languages, dialect translation, deciphering ancient scripts, and xenolinguistics.\n\n### Mechanics & Rules\n- **Governing Attribute**: Intellect\n- **Fluency Ranks**: Rank 1-2 (Broken basics), Rank 3-5 (Conversational / Fluent), Rank 6+ (Technical / Native accent).\n- **Decipher Script**: DC 20 (Simple cipher) to DC 30+ (Ancient alien runic dialect).",
+    "synergy_links": [
+      "social-diplomacy",
+      "mental-academics",
+      "mental-culture"
+    ],
+    "specialties": [
+      "Trade Common",
+      "Draconic (Dynasty nobility & Dragonkin)",
+      "Premian (Syndicate indigenous dialect)",
+      "Tech-Pidgin (Engineers & AI jargon)",
+      "High Tongue (Impyrium court & Ascendancy)",
+      "Fae / Astral Dialects",
+      "Sign Language & Sub-vocal Codes"
+    ],
+    "id": "mental-language",
+    "description": "Fluency in spoken, written, and signed languages, dialect translation, deciphering ancient scripts, and xenolinguistics.",
+    "category": "skills",
+    "subtype": "knowledge",
+    "type": "mental"
+  },
+  {
+    "trained_only": false,
+    "name": "Logistics",
+    "governing_attributes": [
+      "Intellect"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.127Z",
+    "body": "# Logistics\n\nManaging supply chains, freight transport routes, cargo warehousing, ammunition distribution, and operational resource planning.\n\n### Mechanics & Rules\n- **Governing Attribute**: Intellect\n- **Supply Chain Routing**: DC 15 to establish rapid transit corridors through contested space.\n- **Crisis Allocation**: DC 20 to keep a besieged colony or fortress supplied with food and munitions.",
+    "specialties": [
+      "Supply Chain Optimization",
+      "Warehousing & Inventory Control",
+      "Fleet & Convoy Routing",
+      "Military Quartermastering",
+      "Emergency Resource Rationing"
+    ],
+    "synergy_links": [
+      "mental-business",
+      "mental-trade",
+      "mental-transporter"
+    ],
+    "id": "mental-logistics",
+    "description": "Managing supply chains, freight transport routes, cargo warehousing, ammunition distribution, and operational resource planning.",
+    "category": "skills",
+    "subtype": "knowledge",
+    "type": "mental"
+  },
+  {
+    "category": "skills",
+    "governing_attributes": [
+      "Agility",
+      "Intellect"
+    ],
+    "subtype": "vocation",
+    "type": "mental",
+    "synergy_links": [
+      "mental-engineer",
+      "mental-technology",
+      "mental-armorer"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.127Z",
+    "trained_only": false,
+    "body": "# Mechanic\n\nRepairing, servicing, overhauling, and jury-rigging mechanical moving parts in vehicles, starships, droids, and industrial machinery.\n\n### Mechanics & Rules\n- **Governing Attribute**: Agility or Intellect\n- **Mechanical Repair**: DC 15 (Standard replacement) to DC 30 (Rebuilding an engine block from scrap).\n- **Jury-Rig Emergency Fix**: DC 20 creates a temporary mechanical patch with scrap parts (functions for 1d6 hours).",
+    "specialties": [
+      "Ground Vehicles (Combustion, electric, hover)",
+      "Starship Mechanical Systems & Thrusters",
+      "Droids, Automata & Robotics",
+      "Industrial Pneumatics & Hydraulics"
+    ],
+    "id": "mental-mechanic",
+    "name": "Mechanic",
+    "description": "Repairing, servicing, overhauling, and jury-rigging mechanical moving parts in vehicles, starships, droids, and industrial machinery."
+  },
+  {
+    "subtype": "knowledge",
+    "description": "The science of medical treatment: trauma first aid, field surgery, pharmacology, pathology, xenobiology, and cybernetic implantation.",
+    "category": "skills",
+    "specialties": [
+      "First Aid & Field Triage",
+      "Trauma Surgery",
+      "Xenobiology & Alien Physiology",
+      "Toxicology & Antidotes",
+      "Cybernetic Surgery & Implantation",
+      "Pathology & Infectious Diseases"
+    ],
+    "type": "mental",
+    "name": "Medicine",
+    "trained_only": false,
+    "id": "mental-medicine",
+    "synergy_links": [
+      "mental-science",
+      "mental-nature",
+      "mental-alchemist"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.126Z",
+    "body": "# Medicine\n\nThe science of medical treatment: trauma first aid, field surgery, pharmacology, pathology, xenobiology, and cybernetic implantation.\n\n### Mechanics & Rules\n- **Governing Attribute**: Wisdom (Field First Aid / Diagnostics) or Intellect (Surgery / Pharmacology).\n- **Stabilize Dying Character**: DC 15 Medicine check restores a character at 0 HP from Bleeding Out to Stable.\n- **Long-Term Care**: DC 15 doubles natural healing recovery rates for patients under care.\n- **Surgery / Treat Disease**: DC 15 (Minor illness) to DC 30 (Alien viral pathogen or brain surgery).",
+    "governing_attributes": [
+      "Wisdom",
+      "Intellect"
+    ]
+  },
+  {
+    "trained_only": true,
+    "name": "Metaphysics",
+    "updatedAt": "2026-08-23T10:56:49.126Z",
+    "governing_attributes": [
+      "Intellect"
+    ],
+    "body": "# Metaphysics\n\nTheoretical understanding of reality distortion, psionic energy fields, magic weaves, dimensional anomalies, and cosmic planar dynamics.\n\n### Mechanics & Rules\n- **Governing Attribute**: Intellect (Trained Only).\n- **Identify Metaphysical Phenomenon**: DC 15 to recognize an active spell school or psionic discipline signature.\n- **Planar / Reality Analysis**: DC 20 to diagnose localized dimensional instability or spatial rifts.\n- **Cosmic Theory**: DC 25 to devise countermeasures against high-tier metaphysical anomalies.",
+    "synergy_links": [
+      "meta-attune",
+      "mental-physics",
+      "mental-science"
+    ],
+    "specialties": [
+      "Cosmology & Planar Geography",
+      "Psionic Theory & Neural Resonances",
+      "Arcane Weaves & Ley Line Geometry",
+      "Reality Anchoring & Dimensional Rifts",
+      "Mysticism & Metascience History"
+    ],
+    "id": "mental-metaphysics",
+    "description": "Theoretical understanding of reality distortion, psionic energy fields, magic weaves, dimensional anomalies, and cosmic planar dynamics.",
+    "category": "skills",
+    "subtype": "knowledge",
+    "type": "mental"
+  },
+  {
+    "body": "# Nature\n\nKnowledge of planetary biospheres: flora, fauna, geology, meteorology, ecosystem dynamics, and identifying toxic or beneficial alien life.\n\n### Mechanics & Rules\n- **Governing Attribute**: Intellect (Scientific Theory) or Wisdom (Practical Ecology).\n- **Identify Creature / Plant**: DC 10 + Creature CR/Rarity to recall weaknesses, behavior, and traits.\n- **Foraging Herbal Remedies**: DC 15 to locate natural antiseptics, poisons, or edible biomass.",
+    "category": "skills",
+    "specialties": [
+      "Botany (Plants and agricultural flora)",
+      "Zoology (Beasts and predatory fauna)",
+      "Geology & Mineralogy",
+      "Meteorology & Planetary Climatology",
+      "Xenobiology & Alien Ecosystems",
+      "Oceanography & Marine Biology"
+    ],
+    "id": "mental-nature",
+    "updatedAt": "2026-08-23T10:56:49.126Z",
+    "description": "Knowledge of planetary biospheres: flora, fauna, geology, meteorology, ecosystem dynamics, and identifying toxic or beneficial alien life.",
+    "name": "Nature",
+    "type": "mental",
+    "trained_only": false,
+    "subtype": "knowledge",
+    "synergy_links": [
+      "mental-survival",
+      "mental-farmer",
+      "mental-groundskeeper"
+    ],
+    "governing_attributes": [
+      "Intellect",
+      "Wisdom"
+    ]
+  },
+  {
+    "body": "# Navigation\n\nTerrestrial pathfinding, nautical orienteering, celestial astrogation, star chart plotting, and calculating FTL hyperspace trajectories.\n\n### Mechanics & Rules\n- **Governing Attribute**: Intellect (Astrogation & Hyperspace) or Wisdom (Surface Orienteering).\n- **Plotting Course**: DC 10 (Chartered star lanes) to DC 25 (Uncharted void anomaly sectors).\n- **FTL Astrogation Calculation**: DC scales with jump distance and vicinity of gravitational wells.",
+    "governing_attributes": [
+      "Intellect",
+      "Wisdom"
+    ],
+    "id": "mental-navigation",
+    "synergy_links": [
+      "physical-piloting",
+      "mental-physics",
+      "mental-transporter"
+    ],
+    "name": "Navigation",
+    "trained_only": false,
+    "subtype": "knowledge",
+    "type": "mental",
+    "category": "skills",
+    "specialties": [
+      "Astrogation (FTL warp jump calculations)",
+      "Orienteering (Terrestrial compass and landmark navigation)",
+      "Cartography & Star Chart Mapping",
+      "Hyperspace Physics & Grav-Well Avoidance"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.126Z",
+    "description": "Terrestrial pathfinding, nautical orienteering, celestial astrogation, star chart plotting, and calculating FTL hyperspace trajectories."
+  },
+  {
+    "description": "Understanding dynastic bloodlines, heraldry, aristocratic privileges, feudal succession laws, and the complex intrigues of ruling houses.",
+    "synergy_links": [
+      "mental-culture",
+      "social-diplomacy",
+      "mental-history"
+    ],
+    "trained_only": false,
+    "type": "mental",
+    "specialties": [
+      "House Dynasties & Lineages (Impyrium, Dynasty Houses)",
+      "Heraldry & Sigils",
+      "Court Protocols & High Etiquette",
+      "Galactic High Politics & Succession Treaties"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.126Z",
+    "governing_attributes": [
+      "Intellect"
+    ],
+    "subtype": "knowledge",
+    "body": "# Nobility\n\nUnderstanding dynastic bloodlines, heraldry, aristocratic privileges, feudal succession laws, and the complex intrigues of ruling houses.\n\n### Mechanics & Rules\n- **Governing Attribute**: Intellect\n- **Heraldry Identification**: DC 10 (Major Great House) to DC 25 (Minor cadet branch or lost lineage).\n- **Political Intrigue Assessment**: DC 15 to anticipate diplomatic maneuvers and aristocratic rivalries.",
+    "id": "mental-nobility",
+    "category": "skills",
+    "name": "Nobility"
+  },
+  {
+    "synergy_links": [
+      "mental-science",
+      "mental-engineer",
+      "mental-technology"
+    ],
+    "description": "The fundamental science of matter, energy, motion, gravity, electromagnetism, quantum mechanics, and relativistic spacetime.",
+    "trained_only": true,
+    "type": "mental",
+    "updatedAt": "2026-08-23T10:56:49.125Z",
+    "specialties": [
+      "Astrophysics & Gravitational Dynamics",
+      "Quantum Mechanics & Particle Physics",
+      "Dimensional & Spacetime Mechanics",
+      "Energy Dynamics & Plasma Physics"
+    ],
+    "governing_attributes": [
+      "Intellect"
+    ],
+    "body": "# Physics\n\nThe fundamental science of matter, energy, motion, gravity, electromagnetism, quantum mechanics, and relativistic spacetime.\n\n### Mechanics & Rules\n- **Governing Attribute**: Intellect (Trained Only).\n- **Calculate Relativistic Trajectories**: DC 15 to calculate orbital slingshots or kinetic bombardment paths.\n- **Analyze Physical Anomaly**: DC 20+ to diagnose singularities, tachyon leaks, or gravitational shears.",
+    "subtype": "knowledge",
+    "id": "mental-physics",
+    "category": "skills",
+    "name": "Physics"
+  },
+  {
+    "synergy_links": [
+      "mental-history",
+      "mental-culture",
+      "social-oratory"
+    ],
+    "id": "mental-religion",
+    "type": "mental",
+    "governing_attributes": [
+      "Intellect"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.125Z",
+    "subtype": "knowledge",
+    "specialties": [
+      "Major Galactic Faiths (The Lady of Light, Ancestral Spirits)",
+      "Occult & Forbidden Cults",
+      "Sacred Rituals & Sacraments",
+      "Theology & Philosophical Dogma"
+    ],
+    "name": "Religion",
+    "category": "skills",
+    "body": "# Religion\n\nKnowledge of galactic mythologies, sacred scriptures, divine pantheons, cosmic cults, holy relics, and religious ceremonies.\n\n### Mechanics & Rules\n- **Governing Attribute**: Intellect\n- **Identify Sacred Symbol / Rite**: DC 10 (Mainstream church) to DC 25 (Clandestine void cult).\n- **Theological Debates**: Supported by Diplomacy or Oratory when interacting with devout factions.",
+    "trained_only": false,
+    "description": "Knowledge of galactic mythologies, sacred scriptures, divine pantheons, cosmic cults, holy relics, and religious ceremonies."
+  },
+  {
+    "type": "mental",
+    "id": "mental-researcher",
+    "subtype": "vocation",
+    "description": "Designing scientific studies, gathering empirical field data, statistical analysis, laboratory testing, and academic paper synthesis.",
+    "updatedAt": "2026-08-23T10:56:49.125Z",
+    "synergy_links": [
+      "mental-academics",
+      "mental-science",
+      "mental-investigation"
+    ],
+    "specialties": [
+      "Field Data Collection",
+      "Laboratory Testing & Experimentation",
+      "Statistical Data Modeling & Analysis",
+      "Peer-Reviewed Academic Synthesis"
+    ],
+    "governing_attributes": [
+      "Intellect"
+    ],
+    "body": "# Researcher\n\nDesigning scientific studies, gathering empirical field data, statistical analysis, laboratory testing, and academic paper synthesis.\n\n### Mechanics & Rules\n- **Governing Attribute**: Intellect\n- **Conduct Controlled Experiment**: DC 20 successfully isolates independent variables to test a hypothesis.\n- **Data Synthesis**: DC 15 correlates diverse clues and data feeds into a coherent scientific theory.",
+    "category": "skills",
+    "trained_only": false,
+    "name": "Researcher"
+  },
+  {
+    "synergy_links": [
+      "mental-appraisal",
+      "mental-mechanic",
+      "mental-demolitionist"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.125Z",
+    "body": "# Salvager\n\nIdentifying, evaluating, breaching, and extracting valuable tech components and scrap metal from derelict ships, ruins, and battlefields.\n\n### Mechanics & Rules\n- **Governing Attribute**: Wisdom or Intellect\n- **Salvage Valuation**: DC 15 estimates the scrap and component resale value of a derelict hull.\n- **Delicate Extraction**: DC 20 strips a sensitive hyperdrive core or sensor array without damaging it.",
+    "trained_only": false,
+    "description": "Identifying, evaluating, breaching, and extracting valuable tech components and scrap metal from derelict ships, ruins, and battlefields.",
+    "name": "Salvager",
+    "specialties": [
+      "Deep Space Derelict Salvage",
+      "Underwater Wreck Stripping",
+      "Urban Scavenging & Ruin Excavation",
+      "Hazardous Materials Reclamation"
+    ],
+    "governing_attributes": [
+      "Wisdom",
+      "Intellect"
+    ],
+    "id": "mental-salvager",
+    "subtype": "vocation",
+    "type": "mental",
+    "category": "skills"
+  },
+  {
+    "category": "skills",
+    "body": "# Science\n\nGeneral empirical sciences: chemistry, molecular biology, genetics, metallurgy, crystallography, and rigorous laboratory methodology.\n\n### Mechanics & Rules\n- **Governing Attribute**: Intellect\n- **Laboratory Experimentation**: DC 15 to test hypotheses and analyze unknown biological/mineral samples.\n- **Identify Chemical Substance**: DC 15 (Standard industrial solvent) to DC 25 (Exotic synthetic mutagen).",
+    "trained_only": false,
+    "name": "Science",
+    "governing_attributes": [
+      "Intellect"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.124Z",
+    "synergy_links": [
+      "mental-academics",
+      "mental-researcher",
+      "mental-physics"
+    ],
+    "subtype": "knowledge",
+    "type": "mental",
+    "description": "General empirical sciences: chemistry, molecular biology, genetics, metallurgy, crystallography, and rigorous laboratory methodology.",
+    "id": "mental-science",
+    "specialties": [
+      "Chemistry & Molecular Compounds",
+      "Genetics & Bio-engineering",
+      "Metallurgy & Material Science",
+      "Nanotechnology",
+      "Laboratory Procedure & Testing"
+    ]
+  },
+  {
+    "synergy_links": [
+      "mental-tactics",
+      "combat-ballistic",
+      "mental-survival"
+    ],
+    "trained_only": false,
+    "specialties": [
+      "Infantry Procedures & Fieldcraft",
+      "Officer Protocols & Chain of Command",
+      "Quartermaster Supply Procedures",
+      "Special Operations Protocols"
+    ],
+    "subtype": "vocation",
+    "updatedAt": "2026-08-23T10:56:49.124Z",
+    "body": "# Soldier\n\nProfessional military knowledge: chain of command, operational discipline, maintenance of field kits, rules of engagement, and squad coordination.\n\n### Mechanics & Rules\n- **Governing Attribute**: Constitution or Intellect (Covers the *profession* and administration of soldiering, not raw weapon attack rolls).\n- **Rules of Engagement**: DC 10 recalls legal military protocols in planetary or interstellar conflicts.\n- **Squad Drill**: DC 15 coordinates orderly tactical retreats, marches, or formation maneuvers.",
+    "name": "Soldier",
+    "description": "Professional military knowledge: chain of command, operational discipline, maintenance of field kits, rules of engagement, and squad coordination.",
+    "category": "skills",
+    "type": "mental",
+    "id": "mental-soldier",
+    "governing_attributes": [
+      "Constitution",
+      "Intellect"
+    ]
+  },
+  {
+    "id": "mental-survival",
+    "type": "mental",
+    "subtype": "knowledge",
+    "updatedAt": "2026-08-23T10:56:49.124Z",
+    "description": "The practical knowledge of enduring in harsh, uncivilized, or deadly wilderness environments: tracking, foraging, shelter construction, and weather reading.",
+    "synergy_links": [
+      "mental-nature",
+      "mental-alertness",
+      "physical-endurance"
+    ],
+    "specialties": [
+      "Tracking (Following footprints and broken foliage)",
+      "Foraging (Finding potable water and sustenance)",
+      "Shelter Construction",
+      "Extreme Environments (Arctic, Desert, Volcanic, Zero-G, Radiation)"
+    ],
+    "governing_attributes": [
+      "Wisdom"
+    ],
+    "body": "# Survival\n\nThe practical knowledge of enduring in harsh, uncivilized, or deadly wilderness environments: tracking, foraging, shelter construction, and weather reading.\n\n### Mechanics & Rules\n- **Governing Attribute**: Wisdom\n- **Tracking**: DC 10 (Soft mud/snow) to DC 25 (Hard metal decking / rocky scree).\n- **Sustenance Foraging**: DC 15 provides basic food and water for oneself for 1 day (+2 DC per additional person).\n- **Endure Elements**: Grants circumstance bonuses to Fortitude saves against extreme temperatures.",
+    "category": "skills",
+    "trained_only": false,
+    "name": "Survival"
+  },
+  {
+    "specialties": [
+      "Squad & Small Unit Tactics",
+      "Guerrilla Warfare & Ambush Craft",
+      "Siege & Fortification Assault",
+      "Fleet & Naval Fleet Strategy",
+      "Space Combat Maneuvers"
+    ],
+    "subtype": "knowledge",
+    "category": "skills",
+    "synergy_links": [
+      "combat-heavy-weapons",
+      "mental-soldier",
+      "social-leadership"
+    ],
+    "trained_only": false,
+    "id": "mental-tactics",
+    "type": "mental",
+    "description": "The science of military strategy, troop formations, ambush design, battlefield positioning, fire-support coordination, and predicting enemy movement.",
+    "governing_attributes": [
+      "Intellect"
+    ],
+    "name": "Tactics",
+    "body": "# Tactics\n\nThe science of military strategy, troop formations, ambush design, battlefield positioning, fire-support coordination, and predicting enemy movement.\n\n### Mechanics & Rules\n- **Governing Attribute**: Intellect\n- **Predict Enemy Strategy**: Opposed check vs. Enemy Commander's **Tactics** or **Bluff**.\n- **Pre-Battle Briefing Bonus**: Successful DC 15+ Tactics check before combat grants allies a **+1 Initiative** or **+1 Attack bonus** during the opening combat round.",
+    "updatedAt": "2026-08-23T10:56:49.124Z"
+  },
+  {
+    "category": "skills",
+    "body": "# Tailor\n\nDesigning, patterning, cutting, sewing, and fitting garments: high fashion, diplomatic uniforms, light armor under-suits, and environmental gear.\n\n### Mechanics & Rules\n- **Governing Attribute**: Intellect or Agility\n- **Craft Bespoke Outfit**: DC 15 (Standard civilian garment) to DC 25 (High-society aristocratic dress granting social bonuses).\n- **Disguise Tailoring**: DC 20 modifies uniforms or coats with hidden pockets and altered silhouettes to aid disguise checks.",
+    "trained_only": false,
+    "name": "Tailor",
+    "governing_attributes": [
+      "Intellect",
+      "Agility"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.124Z",
+    "synergy_links": [
+      "social-style",
+      "mental-armorer",
+      "social-disguise"
+    ],
+    "subtype": "vocation",
+    "type": "mental",
+    "id": "mental-tailor",
+    "description": "Designing, patterning, cutting, sewing, and fitting garments: high fashion, diplomatic uniforms, light armor under-suits, and environmental gear.",
+    "specialties": [
+      "High Fashion & Haute Couture",
+      "Military & Diplomatic Uniforms",
+      "Light Ballistic Armor Weaving",
+      "Environmental & Hazard Suits"
+    ]
+  },
+  {
+    "name": "Technology",
+    "specialties": [
+      "Archaic & Industrial Tech (TL 0-2)",
+      "Standard Spacefaring Tech (TL 3)",
+      "Advanced & Psi-Tech (TL 4)",
+      "Xenotech & Unknown Artifacts (TL 5)",
+      "Robotics & Drones",
+      "Starship Auxiliary Systems"
+    ],
+    "subtype": "knowledge",
+    "trained_only": false,
+    "updatedAt": "2026-08-23T10:56:49.123Z",
+    "description": "General technological competence: operating, identifying, troubleshooting, disabling, and repairing advanced mechanical and electronic devices.",
+    "body": "# Technology\n\nGeneral technological competence: operating, identifying, troubleshooting, disabling, and repairing advanced mechanical and electronic devices.\n\n### Mechanics & Rules\n- **Governing Attribute**: Intellect\n- **Repair Device**: DC 15 (Routine mechanical fault) to DC 30 (Rebuilding destroyed alien tech from scrap).\n- **Disable Security Device**: DC determined by security rating and complexity.\n- **Identify Unknown Technology**: Base DC 10 + 5 per Tech Level discrepancy.",
+    "id": "mental-technology",
+    "synergy_links": [
+      "mental-engineer",
+      "mental-mechanic",
+      "mental-electrician"
+    ],
+    "governing_attributes": [
+      "Intellect"
+    ],
+    "category": "skills",
+    "type": "mental"
+  },
+  {
+    "subtype": "knowledge",
+    "specialties": [
+      "Merchant Guilds & Cartels",
+      "Interstellar Trade Routes",
+      "Commodity Markets (Ore, Fuel, Grain)",
+      "Tariffs, Customs & Import Regulations",
+      "Black Market Trade Channels"
+    ],
+    "name": "Trade",
+    "synergy_links": [
+      "mental-business",
+      "mental-appraisal",
+      "mental-broker"
+    ],
+    "body": "# Trade\n\nThe knowledge of commercial logistics, merchant routes, trade tariffs, customs laws, interstellar commodity prices, and supply/demand dynamics.\n\n### Mechanics & Rules\n- **Governing Attribute**: Intellect\n- **Identify Trade Opportunity**: DC 15 to locate planets suffering shortages where goods sell at premium margins.\n- **Navigating Trade Tariffs**: DC 20 to legally circumvent customs duties or acquire tax-exempt trading status.",
+    "id": "mental-trade",
+    "trained_only": false,
+    "description": "The knowledge of commercial logistics, merchant routes, trade tariffs, customs laws, interstellar commodity prices, and supply/demand dynamics.",
+    "updatedAt": "2026-08-23T10:56:49.123Z",
+    "governing_attributes": [
+      "Intellect"
+    ],
+    "category": "skills",
+    "type": "mental"
+  },
+  {
+    "subtype": "vocation",
+    "category": "skills",
+    "body": "# Transporter\n\nThe commercial movement of passengers and cargo: space trucking, transit shuttles, cargo loading, hazardous transport, and smuggling routes.\n\n### Mechanics & Rules\n- **Governing Attribute**: Agility or Wisdom\n- **Load Balancing**: DC 15 secures hazardous or heavy cargo to maximize hold efficiency and prevent shifts during high-G burns.\n- **Smuggling Route Navigation**: DC 15 identifies undetected shipping lanes bypassing customs patrol cordons.",
+    "updatedAt": "2026-08-23T10:56:49.123Z",
+    "name": "Transporter",
+    "trained_only": false,
+    "id": "mental-transporter",
+    "description": "The commercial movement of passengers and cargo: space trucking, transit shuttles, cargo loading, hazardous transport, and smuggling routes.",
+    "governing_attributes": [
+      "Agility",
+      "Wisdom"
+    ],
+    "type": "mental",
+    "synergy_links": [
+      "physical-piloting",
+      "mental-navigation",
+      "mental-logistics"
+    ],
+    "specialties": [
+      "Space Trucking & Interstellar Hauling",
+      "Urban Shuttles & Rapid Transit",
+      "Smuggling & Hidden Compartment Fabrication",
+      "Hazardous & Volatile Cargo Transport"
+    ]
+  },
+  {
+    "name": "Weaponsmith",
+    "specialties": [
+      "Melee Weapon Forging (Blades, hammers, vibro-weapons)",
+      "Ballistic Weapon Machining (Pistols, rifles, shotguns)",
+      "Energy Weapon Calibration (Lasers, plasma, emitters)",
+      "Weapon Modifications (Scopes, silencers, extended mags)"
+    ],
+    "subtype": "vocation",
+    "trained_only": true,
+    "updatedAt": "2026-08-23T10:56:49.123Z",
+    "description": "Forging, machining, assembling, calibrating, and modifying melee blades, ballistic firearms, energy blasters, and heavy weapons.",
+    "body": "# Weaponsmith\n\nForging, machining, assembling, calibrating, and modifying melee blades, ballistic firearms, energy blasters, and heavy weapons.\n\n### Mechanics & Rules\n- **Governing Attribute**: Intellect or Strength (Trained Only).\n- **Weapon Repair**: DC 15 fixes jammed, corroded, or broken firing mechanisms.\n- **Weapon Crafting**: DC 15 (Sword/Pistol) to DC 25 (Plasma Rifle or Heavy Railgun).\n- **Custom Weapon Modification**: DC 20 installs scopes, hair-triggers, extended magazines, or silencers.",
+    "id": "mental-weaponsmith",
+    "synergy_links": [
+      "combat-melee",
+      "combat-ballistic",
+      "mental-technology"
+    ],
+    "governing_attributes": [
+      "Intellect",
+      "Strength"
+    ],
+    "category": "skills",
+    "type": "mental"
+  },
+  {
+    "synergy_links": [
+      "mental-metaphysics",
+      "meta-dimension",
+      "meta-energy",
+      "meta-entropy",
+      "meta-illusion",
+      "meta-matter",
+      "meta-mental"
+    ],
+    "id": "meta-attune",
+    "type": "meta",
+    "governing_attributes": [
+      "Intellect",
+      "Wisdom",
+      "Charisma"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.122Z",
+    "subtype": "metafocus",
+    "specialties": [
+      "Channeling & Energy Surge Control",
+      "Resistance Penetration (Overcoming SR)",
+      "Spell Save DC Setting",
+      "Concentration & Sustained Focus"
+    ],
+    "name": "Attune",
+    "body": "# Attune\n\nChanneling raw metaphysical energy, establishing a conduit to the power source (Void, Weave, Psionics, Divine), setting spell Save DCs, and overcoming Spell Resistance.\n\n### Mechanics & Rules\n- **Governing Attribute**: Varies by caster tradition (Intellect for Arcane/Magi-Tech, Wisdom for Divine/Psychic, Charisma for Sorcery/Fey).\n- **Save DC Formula**: `d20 + Attune Rank + Ability Mod` (Passive DC: `10 + Attune Rank + Ability Mod`).\n- **Overcoming Resistance**: Check must exceed target's Spell Resistance (SR) or Psionic Dampening.\n- **Concentration**: Attune check when taking damage to avoid losing sustained invocations.",
+    "category": "skills",
+    "trained_only": true,
+    "description": "Channeling raw metaphysical energy, establishing a conduit to the power source (Void, Weave, Psionics, Divine), setting spell Save DCs, and overcoming Spell Resistance."
+  },
+  {
+    "category": "skills",
+    "governing_attributes": [
+      "Intellect",
+      "Wisdom",
+      "Charisma"
+    ],
+    "type": "meta",
+    "subtype": "discipline",
+    "synergy_links": [
+      "meta-attune",
+      "mental-metaphysics",
+      "mental-physics"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.122Z",
+    "trained_only": true,
+    "specialties": [
+      "Summoning Focus (Conjuring creatures and matter)",
+      "Teleport Focus (Blinking, portals, spatial transit)"
+    ],
+    "body": "# Dimension\n\nThe metaphysical discipline governing spatial distortion, planar rifting, object/creature summoning, tactical teleportation, and gateway creation.\n\n### Mechanics & Rules\n- **Governing Attribute**: Key Ability (Requires Awakened feature).\n- **Skill Stages & Base Potency**:\n  - *Novice (Ranks 1-5)*: Touch to Short Range.\n  - *Trained (Ranks 6-10)*: Medium Range. +1d6 Base Effect.\n  - *Expert (Ranks 11-15)*: Long Range. +2d6 Base Effect.\n  - *Master (Ranks 16-19)*: Extreme Range. +3d6 Base Effect.\n  - *Pinnacle (Rank 20)*: Line of Sight / Global. +4d6 Base Effect.\n\n### Focuses\n- **Summoning Focus**: Manifests temporary objects or summons creatures (BP budget = `10 + Invocation Rank x 5`).\n- **Teleport Focus**: Relocation through space (Familiarity DC 5 Very Familiar to DC 30 Blind).",
+    "description": "The metaphysical discipline governing spatial distortion, planar rifting, object/creature summoning, tactical teleportation, and gateway creation.",
+    "name": "Dimension",
+    "id": "meta-dimension"
+  },
+  {
+    "updatedAt": "2026-08-23T10:56:49.122Z",
+    "body": "# Energy\n\nThe metaphysical discipline governing the manipulation of raw energy states, kinetic force, elemental plasma, electricity, acoustic waves, and telekinesis.\n\n### Mechanics & Rules\n- **Governing Attribute**: Key Ability (Requires Awakened feature).\n- **Damage Scaling**:\n  - *Elemental Focus*: `1d6 per Discipline Stage + 1d6 per Invocation Rank` (Applies critical status conditions).\n  - *Force Focus*: `1d8 per Discipline Stage + 1d8 per Invocation Rank` (Force Damage).\n\n### Focuses\n- **Elemental Focus**: Area bursts, piercing bolts, and elemental barriers.\n- **Force Focus**: Telekinetic object manipulation, homing force missiles, and force shields.",
+    "name": "Energy",
+    "id": "meta-energy",
+    "specialties": [
+      "Elemental Focus (Pyro, Cryo, Voltic, Sonic, Corrosive)",
+      "Force Focus (Kinetic telekinesis, force barriers, force missiles)"
+    ],
+    "type": "meta",
+    "synergy_links": [
+      "meta-attune",
+      "mental-metaphysics",
+      "mental-physics"
+    ],
+    "subtype": "discipline",
+    "trained_only": true,
+    "governing_attributes": [
+      "Intellect",
+      "Wisdom",
+      "Charisma"
+    ],
+    "description": "The metaphysical discipline governing the manipulation of raw energy states, kinetic force, elemental plasma, electricity, acoustic waves, and telekinesis.",
+    "category": "skills"
+  },
+  {
+    "governing_attributes": [
+      "Intellect",
+      "Wisdom",
+      "Charisma"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.121Z",
+    "type": "meta",
+    "id": "meta-entropy",
+    "subtype": "discipline",
+    "specialties": [
+      "Chaos Focus (Decay, necrotic damage, curses, armor corrosion)",
+      "Order Focus (Healing, stabilization, poison removal, protective wards)"
+    ],
+    "name": "Entropy",
+    "description": "The metaphysical discipline governing the cosmic cycles of decay, necrosis, curses, healing positive energy, biological stabilization, and restorative wards.",
+    "trained_only": true,
+    "body": "# Entropy\n\nThe metaphysical discipline governing the cosmic cycles of decay, necrosis, curses, healing positive energy, biological stabilization, and restorative wards.\n\n### Mechanics & Rules\n- **Governing Attribute**: Key Ability (Requires Awakened feature).\n- **Potency Scaling**:\n  - *Chaos Focus (Decay)*: `2d6 per Discipline Stage + 1d6 per Invocation Rank` (Ignores non-magical DR).\n  - *Order Focus (Healing)*: `2d6 per Discipline Stage + 1d6 per Invocation Rank` (Restores Health / Vitality).\n\n### Focuses\n- **Chaos Focus**: Melee touch withering, armor corrosion, panic induction, and curses.\n- **Order Focus**: Rapid wound restoration, death stabilization, and status cleansing.",
+    "category": "skills",
+    "synergy_links": [
+      "meta-attune",
+      "mental-medicine",
+      "mental-metaphysics"
+    ]
+  },
+  {
+    "body": "# Illusion\n\nThe metaphysical discipline governing sensory deception, light-bending invisibility, sound damping, holographic phantasms, and quasi-real shadow matter.\n\n### Mechanics & Rules\n- **Governing Attribute**: Key Ability (Requires Awakened feature).\n- **Disbelief Mechanics**:\n  - *Phantasm Focus*: Will save negates effect entirely.\n  - *Shadow Focus*: Infused with Shadow Plane matter; even if disbelieved, retains 20% reality and damage.\n\n### Focuses\n- **Phantasm Focus**: Invisibility (1 min/rank), sensory decoys, auditory silence domes.\n- **Shadow Focus**: Shadow weapon creation, duplicate conjuration spells at 50% power.",
+    "name": "Illusion",
+    "governing_attributes": [
+      "Intellect",
+      "Wisdom",
+      "Charisma"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.121Z",
+    "description": "The metaphysical discipline governing sensory deception, light-bending invisibility, sound damping, holographic phantasms, and quasi-real shadow matter.",
+    "type": "meta",
+    "id": "meta-illusion",
+    "subtype": "discipline",
+    "synergy_links": [
+      "meta-attune",
+      "social-disguise",
+      "mental-metaphysics"
+    ],
+    "trained_only": true,
+    "category": "skills",
+    "specialties": [
+      "Phantasm Focus (Invisibility, sensory illusions, disguise glamer)",
+      "Shadow Focus (Quasi-real matter, shadow weapons, solid fog)"
+    ]
+  },
+  {
+    "name": "Matter",
+    "body": "# Matter\n\nThe metaphysical discipline governing physical state alteration, material transmutation, object hardening, biological enhancement, and polymorphing.\n\n### Mechanics & Rules\n- **Governing Attribute**: Key Ability (Requires Awakened feature).\n- **Physical Modification**:\n  - *Enhancement Focus*: Adds `+1 DR per 3 Ranks`, `+2` to physical attributes, restores Structure Points to constructs.\n  - *Transmutation Focus*: Biological polymorph, turns flesh to stone (Fortitude save), converts body into liquid/gas.\n\n### Focuses\n- **Enhancement Focus**: Structural buffing, sharpening blades, and emergency repair.\n- **Transmutation Focus**: State of matter change and bodily transfiguration.",
+    "updatedAt": "2026-08-23T10:56:49.120Z",
+    "synergy_links": [
+      "meta-attune",
+      "mental-artificer",
+      "mental-physics"
+    ],
+    "id": "meta-matter",
+    "trained_only": true,
+    "specialties": [
+      "Enhancement Focus (Armor hardening, keen edge, physical attribute buffs, repair)",
+      "Transmutation Focus (Polymorphing, petrification, gaseous form, matter reshaping)"
+    ],
+    "subtype": "discipline",
+    "governing_attributes": [
+      "Intellect",
+      "Wisdom",
+      "Charisma"
+    ],
+    "description": "The metaphysical discipline governing physical state alteration, material transmutation, object hardening, biological enhancement, and polymorphing.",
+    "category": "skills",
+    "type": "meta"
+  },
+  {
+    "type": "meta",
+    "id": "meta-mental",
+    "subtype": "discipline",
+    "updatedAt": "2026-08-23T10:56:49.120Z",
+    "description": "The metaphysical discipline governing telepathy, mind reading, neural blasts, psionic domination, memory alteration, precognition, and remote viewing.",
+    "synergy_links": [
+      "meta-attune",
+      "social-insight",
+      "mental-metaphysics"
+    ],
+    "specialties": [
+      "Projection Focus (Telepathic broadcast, mind blast, domination, memory edits)",
+      "Sense Focus (Clairvoyance, precognition, mind reading, aura detection)"
+    ],
+    "governing_attributes": [
+      "Intellect",
+      "Wisdom",
+      "Charisma"
+    ],
+    "body": "# Mental\n\nThe metaphysical discipline governing telepathy, mind reading, neural blasts, psionic domination, memory alteration, precognition, and remote viewing.\n\n### Mechanics & Rules\n- **Governing Attribute**: Key Ability (Requires Awakened feature).\n- **Range**: Extended base range (`100ft x Rank`).\n- **Mental Assaults**: Mind blast inflicts `1d6 Psychic damage per Rank` + Stun (Resisted by Will).\n\n### Focuses\n- **Projection Focus**: Direct telepathy, mind control domination, and neural overloads.\n- **Sense Focus**: Remote viewing, glimpses of future initiative advantage, and deep memory probes.",
+    "category": "skills",
+    "trained_only": true,
+    "name": "Mental"
+  },
+  {
+    "body": "# Acrobatics\n\nThe skill of performing feats of gymnastics, extraordinary balance, tumbling, breaking falls, and high-agility kinetic maneuvers.\n\n### Mechanics & Rules\n- **Governing Attribute**: Agility\n- **Balance**: DC 10 (Narrow beam) to DC 20+ (Razor edge / slippery surface).\n- **Tumble**: DC 15 to move through an enemy's threatened area without provoking an Attack of Opportunity.\n- **Break Fall**: DC 15 reduces falling damage (ignores the first 10ft of fall distance).\n\n### Specialties\n- **Tumbling**: Defensive rolls and acrobatic dodges.\n- **Balancing**: Moving across precarious ledges and shifting terrain.\n- **Tightrope Walking**: Specialized high-tension cable traversal.\n- **Parkour**: Fast momentum-based urban and structural navigation.",
+    "updatedAt": "2026-08-23T10:56:49.120Z",
+    "id": "physical-acrobatics",
+    "category": "skills",
+    "synergy_links": [
+      "physical-athletics",
+      "physical-stealth",
+      "combat-defense"
+    ],
+    "governing_attributes": [
+      "Agility"
+    ],
+    "subtype": "mobility",
+    "trained_only": false,
+    "name": "Acrobatics",
+    "type": "physical",
+    "specialties": [
+      "Tumbling (Rolling through hazardous zones)",
+      "Balancing (Traversing narrow beams and wires)",
+      "Tightrope Walking (High-wire traversal)",
+      "Free-running / Parkour (Urban obstacle traversal)"
+    ],
+    "description": "The skill of performing feats of gymnastics, extraordinary balance, tumbling, breaking falls, and high-agility kinetic maneuvers."
+  },
+  {
+    "specialties": [
+      "Climbing (Ascending natural cliffs and sheer walls)",
+      "Running (Sprinting, distance pacing)",
+      "Swimming (Aquatic traversal and diving)",
+      "Jumping (High jump, broad jump distance)",
+      "Weightlifting (Power lifting, feats of brute force)"
+    ],
+    "category": "skills",
+    "governing_attributes": [
+      "Strength",
+      "Stamina"
+    ],
+    "description": "General physical power, fitness, and conditioning: running, climbing, swimming, jumping, weightlifting, and physical endurance.",
+    "updatedAt": "2026-08-23T10:56:49.119Z",
+    "type": "physical",
+    "trained_only": false,
+    "name": "Athletics",
+    "synergy_links": [
+      "physical-acrobatics",
+      "combat-unarmed"
+    ],
+    "id": "physical-athletics",
+    "subtype": "fitness",
+    "body": "# Athletics\n\nGeneral physical power, fitness, and conditioning: running, climbing, swimming, jumping, weightlifting, and physical endurance.\n\n### Mechanics & Rules\n- **Governing Attribute**: Strength (or Stamina for long-duration endurance trials).\n- **Climbing**: DC 10 (Knotted rope) to DC 25 (Sheer glass/metal wall). Movement speed is standardly half base speed.\n- **Jumping**: Check result determines running horizontal jump distance in feet.\n- **Swimming**: DC 10 (Calm water) to DC 20 (Violent storm). Failing by 5+ risks water inhalation / drowning.\n\n### Specialties\n- **Climbing**: Ascending walls, hulls, and rock faces.\n- **Running**: Maximum speed bursts and sustained marathons.\n- **Swimming**: Rapid aquatic movement and diving.\n- **Jumping**: Vertical leaps and clearing wide gaps.\n- **Weightlifting**: Heavy structural lifting and carrying."
+  },
+  {
+    "updatedAt": "2026-08-23T10:56:49.119Z",
+    "id": "physical-endurance",
+    "subtype": "conditioning",
+    "synergy_links": [
+      "physical-athletics",
+      "mental-survival"
+    ],
+    "name": "Endurance",
+    "body": "# Endurance\n\nPhysical stamina, resilience against bodily fatigue, hunger, extreme environmental exposure, and sustained grueling exertion.\n\n### Mechanics & Rules\n- **Governing Attribute**: Stamina / Constitution\n- **Fatigue Checks**: DC 10 + 2 per hour of continuous forced exertion or environmental hazard.\n- **Holding Breath**: Base rounds equal to Constitution score; DC 15 check extends duration by +1 round per point over DC.\n- **System Integration**: In Tangent 1.07 rules, endurance is frequently tested via Fortitude resistance checks and the Athletics skill; this entry provides dedicated standalone vocational specialization.",
+    "trained_only": false,
+    "category": "skills",
+    "description": "Physical stamina, resilience against bodily fatigue, hunger, extreme environmental exposure, and sustained grueling exertion.",
+    "governing_attributes": [
+      "Stamina",
+      "Constitution"
+    ],
+    "type": "physical",
+    "specialties": [
+      "Pain Tolerance (Withstanding torture and trauma)",
+      "Long March (Forced marches without collapse)",
+      "Environmental Survival (Heat, cold, thin atmosphere)",
+      "Breath Control (Deep diving, vacuum exposure holding)",
+      "Fatigue Resistance (Resisting sleep deprivation)"
+    ]
+  },
+  {
+    "specialties": [
+      "Ground Vehicles (Wheeled, tracked, GEV hovercraft)",
+      "Aircraft (Atmospheric jets, VTOLs, rotorcraft)",
+      "Spacecraft (Shuttles, freighters, capital warships)",
+      "Mecha / Walkers (Bipedal and quadrupedal combat chassis)",
+      "Watercraft (Surface boats, deep submersibles)"
+    ],
+    "name": "Piloting",
+    "updatedAt": "2026-08-23T10:56:49.118Z",
+    "synergy_links": [
+      "mental-navigation",
+      "mental-mechanic",
+      "mental-engineer"
+    ],
+    "description": "The operation, handling, and tactical maneuvering of surface ground vehicles, aircraft, submersibles, mecha walkers, and starships.",
+    "governing_attributes": [
+      "Agility",
+      "Intellect"
+    ],
+    "body": "# Piloting\n\nThe operation, handling, and tactical maneuvering of surface ground vehicles, aircraft, submersibles, mecha walkers, and starships.\n\n### Mechanics & Rules\n- **Governing Attribute**: Agility (Reflex / Evasive Maneuvers) or Intellect (Navigation & Ship Systems).\n- **Standard Travel**: No check required for routine operation under benign conditions.\n- **Combat & Stunts**: DC 15 (High-speed evasive turn), DC 25 (Threading asteroid gaps or tight urban canyons).\n- **Dogfighting**: Opposed Piloting checks determine positioning, firing arcs, and evasion.\n\n### Specialties\n- **Ground Vehicles**: High-speed highway chases and rough terrain crawling.\n- **Aircraft**: Atmospheric dogfighting and precision landing.\n- **Spacecraft**: Orbital insertion, docking, and vacuum combat.\n- **Mecha**: Gyroscopic balance and walker tactical positioning.\n- **Watercraft**: Sub-surface nautical navigation.",
+    "trained_only": false,
+    "id": "physical-piloting",
+    "category": "skills",
+    "subtype": "operation",
+    "type": "physical"
+  },
+  {
+    "subtype": "covert",
+    "synergy_links": [
+      "social-disguise",
+      "social-legerdemain",
+      "combat-unarmed"
+    ],
+    "name": "Stealth",
+    "id": "physical-stealth",
+    "category": "skills",
+    "trained_only": false,
+    "updatedAt": "2026-08-23T10:56:49.117Z",
+    "body": "# Stealth\n\nThe ability to move silently, conceal one's presence, blend into shadows or terrain, and avoid detection by biological or electronic sensors.\n\n### Mechanics & Rules\n- **Governing Attribute**: Agility\n- **Opposed Check**: Stealth roll sets the DC for observers' **Alertness / Perception** checks.\n- **Movement Speed**: Move at half speed without penalty; moving at full speed incurs a `-5` penalty; sprinting incurs `-10`.\n- **Sensory Masking**: Advanced stealth suits or camo cloaks grant equipment bonuses to the check.\n\n### Specialties\n- **Hiding**: Static concealment using terrain and shadows.\n- **Stalking**: Moving silently across crunchy or resonant surfaces.\n- **Urban Stealth**: Slipping between alleyways and security camera blind spots.\n- **Wilderness Stealth**: Natural ghillie camouflage and scent masking.",
+    "governing_attributes": [
+      "Agility"
+    ],
+    "specialties": [
+      "Hiding (Remaining unseen in cover or shadows)",
+      "Stalking (Moving silently without sound)",
+      "Urban Stealth (Blending into crowds and city infrastructure)",
+      "Wilderness Stealth (Camouflage in natural flora and terrain)"
+    ],
+    "type": "physical",
+    "description": "The ability to move silently, conceal one's presence, blend into shadows or terrain, and avoid detection by biological or electronic sensors."
+  },
+  {
+    "synergy_links": [
+      "social-disguise",
+      "social-bluff",
+      "social-oratory"
+    ],
+    "description": "Embodying fictional characters, faking emotional states, adopting foreign accents, dramatic stage performance, and behavioral deception.",
+    "trained_only": false,
+    "governing_attributes": [
+      "Charisma"
+    ],
+    "body": "# Acting\n\nEmbodying fictional characters, faking emotional states, adopting foreign accents, dramatic stage performance, and behavioral deception.\n\n### Mechanics & Rules\n- **Governing Attribute**: Charisma\n- **Behavioral Impersonation**: Opposed check vs. observer's **Insight**. Allows passing as a member of a different caste or military unit through mannerisms alone.\n- **Public Distraction**: DC 15 creates a dramatic scene to pull attention away from sneaking allies.",
+    "specialties": [
+      "Dramatic Theater & Tragedy",
+      "Comedy & Improvisation",
+      "Vocal Mimicry & Accents",
+      "Holo-Net & Screen Performance"
+    ],
+    "name": "Acting",
+    "category": "skills",
+    "subtype": "expression",
+    "updatedAt": "2026-08-23T10:56:49.116Z",
+    "type": "social",
+    "id": "social-acting"
+  },
+  {
+    "governing_attributes": [
+      "Charisma",
+      "Wisdom"
+    ],
+    "subtype": "manipulation",
+    "name": "Barter",
+    "id": "social-barter",
+    "body": "# Barter\n\nThe art of direct trade and negotiation: haggling prices, evaluating exchange parity, and structuring deals without cash currency.\n\n### Mechanics & Rules\n- **Governing Attribute**: Charisma or Wisdom\n- **Haggling Negotiations**: Opposed check vs. merchant's **Diplomacy** or **Insight**. Margin of success reduces purchase cost or increases sale value (typically by 10-30%).\n- **Frontier Trade Parity**: DC 15 calculates fair trade ratios for commodities in non-currency economies.",
+    "trained_only": false,
+    "category": "skills",
+    "description": "The art of direct trade and negotiation: haggling prices, evaluating exchange parity, and structuring deals without cash currency.",
+    "synergy_links": [
+      "mental-trade",
+      "mental-appraisal",
+      "social-diplomacy"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.115Z",
+    "type": "social",
+    "specialties": [
+      "Haggling & Price Reduction",
+      "Item Appraisal in Trade",
+      "Direct Swap & Trade Agreements",
+      "Frontier Market Trading"
+    ]
+  },
+  {
+    "body": "# Bluff\n\nThe skill of lying convincingly, fabricating pretexts, disguising intent, fast-talking, forging credentials, and combat feinting.\n\n### Mechanics & Rules\n- **Governing Attribute**: Charisma\n- **Deceive Target**: Opposed check vs. target's **Insight**.\n- **Combat Feint**: Standard Action in melee. Opposed check vs. target's **Insight** (or Defense). Success denies the target their Agility Defense bonus on the attacker's next strike.\n- **Create Distraction**: DC 15 diverts guards' attention momentarily (allowing allies to slip past into Stealth).",
+    "name": "Bluff",
+    "trained_only": false,
+    "synergy_links": [
+      "social-insight",
+      "social-disguise",
+      "social-acting"
+    ],
+    "governing_attributes": [
+      "Charisma"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.115Z",
+    "specialties": [
+      "Fast-Talking (Overwhelming with rapid-fire data)",
+      "Combat Feinting (Misleading opponents in melee)",
+      "Forgery (Fabricating documents and passes)",
+      "False Personas & Deceptive Cover"
+    ],
+    "type": "social",
+    "description": "The skill of lying convincingly, fabricating pretexts, disguising intent, fast-talking, forging credentials, and combat feinting.",
+    "subtype": "manipulation",
+    "id": "social-bluff",
+    "category": "skills"
+  },
+  {
+    "trained_only": false,
+    "name": "Comedy",
+    "specialties": [
+      "Political Satire",
+      "Stand-Up Comedy",
+      "Slapstick & Physical Humor",
+      "Combat Taunts & Roasting"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.115Z",
+    "category": "skills",
+    "synergy_links": [
+      "social-acting",
+      "social-bluff",
+      "social-insight"
+    ],
+    "description": "Humor, stand-up, satire, roasting, defusing tense social confrontations with laughter, and provoking enemies in combat.",
+    "subtype": "expression",
+    "body": "# Comedy\n\nHumor, stand-up, satire, roasting, defusing tense social confrontations with laughter, and provoking enemies in combat.\n\n### Mechanics & Rules\n- **Governing Attribute**: Charisma\n- **Defuse Hostility**: DC 20 shifts a Hostile NPC to Indifferent if they possess a receptive sense of humor.\n- **Combat Taunt**: Opposed check vs. target's **Willpower**. Success forces target to fixate attacks on you, suffering a penalty to tactical discipline.",
+    "governing_attributes": [
+      "Charisma"
+    ],
+    "id": "social-comedy",
+    "type": "social"
+  },
+  {
+    "name": "Dancing",
+    "updatedAt": "2026-08-23T10:56:49.115Z",
+    "description": "Rhythmic physical expression to music: classical ballroom, ballet, club freestyle, traditional folk dances, and zero-G choreographies.",
+    "subtype": "expression",
+    "governing_attributes": [
+      "Charisma",
+      "Agility"
+    ],
+    "specialties": [
+      "Ballroom & Courtly Waltz",
+      "Ballet & Precision Choreography",
+      "Club & Cyber-Freestyle",
+      "Zero-G Aerobatics Dancing",
+      "Folk & Tribal Dances"
+    ],
+    "body": "# Dancing\n\nRhythmic physical expression to music: classical ballroom, ballet, club freestyle, traditional folk dances, and zero-G choreographies.\n\n### Mechanics & Rules\n- **Governing Attribute**: Charisma (Expression) or Agility (Kinetic Technique).\n- **Performance Evaluation**: Check result determines audience acclaim and social prestige.\n- **Courtly Partnering**: DC 15 expertly leads a dance partner, granting them a **+2 bonus** to their own Social checks during the event.",
+    "category": "skills",
+    "id": "social-dancing",
+    "synergy_links": [
+      "physical-acrobatics",
+      "social-style",
+      "physical-athletics"
+    ],
+    "trained_only": false,
+    "type": "social"
+  },
+  {
+    "name": "Diplomacy",
+    "subtype": "manipulation",
+    "specialties": [
+      "Negotiation & Pact-Making",
+      "Cross-Cultural Etiquette",
+      "Treaty & Armistice Drafting",
+      "Formal Information Gathering"
+    ],
+    "category": "skills",
+    "updatedAt": "2026-08-23T10:56:49.114Z",
+    "synergy_links": [
+      "social-insight",
+      "mental-culture",
+      "social-leadership"
+    ],
+    "governing_attributes": [
+      "Charisma"
+    ],
+    "description": "The art of peaceful persuasion, formal etiquette, mediating disputes, building alliances, and shifting the attitudes of non-player characters.",
+    "body": "# Diplomacy\n\nThe art of peaceful persuasion, formal etiquette, mediating disputes, building alliances, and shifting the attitudes of non-player characters.\n\n### Mechanics & Rules\n- **Governing Attribute**: Charisma\n- **Influence Attitude**: Shifting NPC attitudes (Hostile -> Unfriendly -> Indifferent -> Friendly -> Helpful). DC 15 (Indifferent to Friendly) to DC 25+ (Hostile to Indifferent).\n- **Formal Information Gathering**: DC 15 gathers intelligence through high-society galas and official embassies.",
+    "id": "social-diplomacy",
+    "trained_only": false,
+    "type": "social"
+  },
+  {
+    "trained_only": false,
+    "synergy_links": [
+      "social-acting",
+      "mental-tailor",
+      "physical-stealth"
+    ],
+    "type": "social",
+    "updatedAt": "2026-08-23T10:56:49.114Z",
+    "id": "social-disguise",
+    "subtype": "expression",
+    "body": "# Disguise\n\nPhysical alteration of appearance using cosmetics, prosthetics, wigs, tailored costumes, holographic glamer filters, and camouflage.\n\n### Mechanics & Rules\n- **Governing Attribute**: Charisma (Acting the Part) or Intellect (Fabricating Props).\n- **Create Disguise**: Check result sets the **DC** for anyone attempting to pierce the disguise via **Alertness** or **Investigation**.\n- **Application Time**: 10-30 minutes standard. Rushed disguises take 1d4 rounds with a `-5` penalty.",
+    "category": "skills",
+    "governing_attributes": [
+      "Charisma",
+      "Intellect"
+    ],
+    "specialties": [
+      "Prosthetic Makeup & Facial Alteration",
+      "Specific Individual Impersonation",
+      "Camouflage & Visual Concealment",
+      "Quick-Change Emergency Disguise"
+    ],
+    "name": "Disguise",
+    "description": "Physical alteration of appearance using cosmetics, prosthetics, wigs, tailored costumes, holographic glamer filters, and camouflage."
+  },
+  {
+    "synergy_links": [
+      "social-bluff",
+      "mental-alertness",
+      "social-diplomacy"
+    ],
+    "governing_attributes": [
+      "Wisdom",
+      "Charisma"
+    ],
+    "id": "social-insight",
+    "type": "social",
+    "trained_only": false,
+    "category": "skills",
+    "description": "Social perception and empathy: reading emotional states, detecting lies, discerning hidden motives, and picking up on social cues.",
+    "name": "Insight",
+    "subtype": "manipulation",
+    "updatedAt": "2026-08-23T10:56:49.114Z",
+    "body": "# Insight\n\nSocial perception and empathy: reading emotional states, detecting lies, discerning hidden motives, and picking up on social cues.\n\n### Mechanics & Rules\n- **Governing Attribute**: Wisdom (or Charisma for active social maneuvering).\n- **Opposed Sense Motive**: Opposed check vs. target's **Bluff**. Success reveals deception or concealed intentions.\n- **Read Room Dynamics**: DC 15 assesses hidden alliances, hostilities, and unspoken power dynamics in a gathering.",
+    "specialties": [
+      "Lie Detection (Spotting vocal tremors and micro-expressions)",
+      "Empathy & Emotional Reading",
+      "Cold Reading (Inferring background from dress and posture)",
+      "Social Threat Assessment"
+    ]
+  },
+  {
+    "subtype": "manipulation",
+    "specialties": [
+      "Interrogation (Extracting secrets from captives)",
+      "Physical Menace (Using raw strength to cow foes)",
+      "Psychological Warfare (Breaking resolve with threats)",
+      "Stare Down (Dominating rooms through cold presence)"
+    ],
+    "category": "skills",
+    "synergy_links": [
+      "social-insight",
+      "combat-unarmed",
+      "mental-constable"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.114Z",
+    "name": "Intimidate",
+    "body": "# Intimidate\n\nCoercing others through fear, physical menace, psychological pressure, interrogation, and aggressive displays of authority.\n\n### Mechanics & Rules\n- **Governing Attribute**: Charisma (or Strength for physical threats).\n- **Coercion**: Opposed check vs. target's **Insight** or **Willpower**. Success forces short-term compliance (target may become resentful/hostile afterward).\n- **Demoralize in Combat**: Standard Action. Opposed check vs. target's **Insight** or **Willpower**. Success inflicts the **Shaken** condition (`-2` penalty to attack rolls and checks) for 1 round.",
+    "description": "Coercing others through fear, physical menace, psychological pressure, interrogation, and aggressive displays of authority.",
+    "id": "social-intimidate",
+    "governing_attributes": [
+      "Charisma",
+      "Strength"
+    ],
+    "type": "social",
+    "trained_only": false
+  },
+  {
+    "name": "Keyboard",
+    "category": "skills",
+    "governing_attributes": [
+      "Charisma",
+      "Intellect"
+    ],
+    "body": "# Keyboard\n\nPlaying keyed and synthesized musical instruments: grand pianos, electronic synthesizers, holographic keyboards, and pipe organs.\n\n### Mechanics & Rules\n- **Governing Attribute**: Charisma (Performance) or Intellect (Musical Composition).\n- **Performance Acclaim**: Standard performance DC chart (DC 10 Amateur to DC 30 Legendary virtuoso concert).",
+    "description": "Playing keyed and synthesized musical instruments: grand pianos, electronic synthesizers, holographic keyboards, and pipe organs.",
+    "subtype": "expression",
+    "trained_only": false,
+    "id": "social-keyboard",
+    "synergy_links": [
+      "social-composition",
+      "social-percussion",
+      "mental-music"
+    ],
+    "specialties": [
+      "Acoustic Grand Piano",
+      "Electronic Synthesizers & MIDI Consoles",
+      "Holographic Light-Keys",
+      "Cathedral Pipe Organs"
+    ],
+    "type": "social",
+    "updatedAt": "2026-08-23T10:56:49.114Z"
+  },
+  {
+    "specialties": [
+      "Military Command & Squad Direction",
+      "Inspiration & Morale Rallying",
+      "Crisis Management & Group Coordination",
+      "Organizational Motivation"
+    ],
+    "id": "social-leadership",
+    "governing_attributes": [
+      "Charisma"
+    ],
+    "type": "social",
+    "description": "Inspiring, organizing, motivating, and directing teams, military squads, corporate divisions, and ship crews under extreme pressure.",
+    "subtype": "manipulation",
+    "trained_only": false,
+    "category": "skills",
+    "updatedAt": "2026-08-23T10:56:49.113Z",
+    "name": "Leadership",
+    "body": "# Leadership\n\nInspiring, organizing, motivating, and directing teams, military squads, corporate divisions, and ship crews under extreme pressure.\n\n### Mechanics & Rules\n- **Governing Attribute**: Charisma\n- **Inspire Allies**: DC 15 grants all allies within hearing a **+1 Morale Bonus** to saving throws and checks for 1 hour.\n- **Rally Broken Troops**: DC 20 suppresses fear, panic, or confusion conditions among subordinates.",
+    "synergy_links": [
+      "social-oratory",
+      "mental-tactics",
+      "social-diplomacy"
+    ]
+  },
+  {
+    "name": "Legerdemain",
+    "body": "# Legerdemain\n\nSleight of hand, stage magic, card tricks, pickpocketing, palming small objects, escaping ropes, and concealing small blades.\n\n### Mechanics & Rules\n- **Governing Attribute**: Agility (Manual Dexterity) or Charisma (Misdirection).\n- **Pickpocket**: DC 20 (or opposed by target's **Alertness**) to lift a credit chip or keycard unnoticed.\n- **Conceal Weapon**: DC 15 hides a knife or holdout blaster on your person, setting the DC for physical search checks.",
+    "synergy_links": [
+      "physical-stealth",
+      "physical-acrobatics",
+      "social-bluff"
+    ],
+    "id": "social-legerdemain",
+    "trained_only": false,
+    "subtype": "expression",
+    "updatedAt": "2026-08-23T10:56:49.113Z",
+    "specialties": [
+      "Pickpocketing & Cut-Purse",
+      "Palming & Small Object Concealment",
+      "Card & Token Sleight of Hand",
+      "Escapology & Knot Slipping"
+    ],
+    "governing_attributes": [
+      "Agility",
+      "Charisma"
+    ],
+    "description": "Sleight of hand, stage magic, card tricks, pickpocketing, palming small objects, escaping ropes, and concealing small blades.",
+    "type": "social",
+    "category": "skills"
+  },
+  {
+    "category": "skills",
+    "specialties": [
+      "Political Debate & Senate Rhetoric",
+      "Military Harangues & Battlefield Speeches",
+      "Preaching & Spiritual Sermons",
+      "Epic Storytelling & Recitation"
+    ],
+    "type": "social",
+    "subtype": "expression",
+    "updatedAt": "2026-08-23T10:56:49.113Z",
+    "description": "Public speaking, political rhetoric, delivering rallying speeches, pulpit preaching, courtroom advocacy, and commanding large crowds.",
+    "synergy_links": [
+      "social-leadership",
+      "social-diplomacy",
+      "mental-nobility"
+    ],
+    "body": "# Oratory\n\nPublic speaking, political rhetoric, delivering rallying speeches, pulpit preaching, courtroom advocacy, and commanding large crowds.\n\n### Mechanics & Rules\n- **Governing Attribute**: Charisma\n- **Inspire Audience**: DC 15 grants listeners a **+1 Morale bonus** to Willpower saving throws for 1 hour.\n- **Persuade Mass Gathering**: Opposed check vs. the crowd's collective skepticism to sway public opinion on a crucial vote.",
+    "id": "social-oratory",
+    "name": "Oratory",
+    "governing_attributes": [
+      "Charisma"
+    ],
+    "trained_only": false
+  },
+  {
+    "governing_attributes": [
+      "Charisma",
+      "Agility"
+    ],
+    "name": "Percussion",
+    "subtype": "expression",
+    "id": "social-percussion",
+    "body": "# Percussion\n\nPlaying struck instruments: acoustic drum kits, timpani, electronic rhythm pads, metallic cymbals, and tribal war-drums.\n\n### Mechanics & Rules\n- **Governing Attribute**: Charisma or Agility\n- **Cadence Coordination**: DC 15 maintains a steady rhythm that grants allies a **+1 bonus** to endurance-based forced march checks.",
+    "trained_only": false,
+    "category": "skills",
+    "description": "Playing struck instruments: acoustic drum kits, timpani, electronic rhythm pads, metallic cymbals, and tribal war-drums.",
+    "synergy_links": [
+      "social-dancing",
+      "social-keyboard",
+      "physical-athletics"
+    ],
+    "updatedAt": "2026-08-23T10:56:49.113Z",
+    "type": "social",
+    "specialties": [
+      "Acoustic Drum Kits",
+      "Electronic Beats & Synth Pads",
+      "Tribal & War-Drums",
+      "Orchestral Timpani & Cymbals"
+    ]
+  },
+  {
+    "updatedAt": "2026-08-23T10:56:49.112Z",
+    "trained_only": false,
+    "governing_attributes": [
+      "Charisma",
+      "Constitution"
+    ],
+    "type": "social",
+    "name": "Singing",
+    "description": "Vocal music and vocal performance: classical opera, modern rock/pop vocals, traditional ballads, Gregorian chant, and harmonic throat singing.",
+    "id": "social-singing",
+    "subtype": "expression",
+    "synergy_links": [
+      "social-acting",
+      "social-oratory",
+      "physical-endurance"
+    ],
+    "specialties": [
+      "Operatic & Classical Vocals",
+      "Rock, Pop & Holo-Net Vocals",
+      "Chants, Hymns & Sacred Harmony",
+      "Throat Singing & Overtone Harmonics"
+    ],
+    "body": "# Singing\n\nVocal music and vocal performance: classical opera, modern rock/pop vocals, traditional ballads, Gregorian chant, and harmonic throat singing.\n\n### Mechanics & Rules\n- **Governing Attribute**: Charisma (Performance) or Constitution (Breath Control & Projection).\n- **Vocal Projection**: DC 15 allows clear vocal communication over the roar of gunfire, machinery, or planetary storms.",
+    "category": "skills"
+  },
+  {
+    "name": "Streetwise",
+    "trained_only": false,
+    "subtype": "manipulation",
+    "governing_attributes": [
+      "Charisma",
+      "Wisdom"
+    ],
+    "body": "# Streetwise\n\nNavigating the criminal underworld, finding black markets, picking up street rumors, avoiding gang turf wars, and locating underworld fixers.\n\n### Mechanics & Rules\n- **Governing Attribute**: Charisma or Wisdom\n- **Informal Information Gathering**: DC 10 (Local gossip) to DC 20 (Targeted syndicate intelligence); requires 1d4 hours in local cantinas or back alleys.\n- **Locate Safe House / Black Market**: DC 15 finds illicit merchants, fences, or unmonitored hideouts.",
+    "category": "skills",
+    "id": "social-streetwise",
+    "synergy_links": [
+      "mental-investigation",
+      "mental-trade",
+      "social-bluff"
+    ],
+    "specialties": [
+      "Black Market Sourcing",
+      "Rumor Gathering & Underworld Slang",
+      "Urban Underbelly Survival",
+      "Criminal Fixers & Fence Contacts"
+    ],
+    "type": "social",
+    "updatedAt": "2026-08-23T10:56:49.112Z",
+    "description": "Navigating the criminal underworld, finding black markets, picking up street rumors, avoiding gang turf wars, and locating underworld fixers."
+  },
+  {
+    "category": "skills",
+    "specialties": [
+      "Acoustic & Electric Guitars",
+      "Bowed Violins, Violas & Cellos",
+      "Harps & Resonant Lyres",
+      "Plucked Lutes & Mandolins"
+    ],
+    "subtype": "expression",
+    "trained_only": false,
+    "body": "# String\n\nPlaying stringed musical instruments: acoustic/electric guitars, violins, cellos, harps, mandolins, and alien resonant string boxes.\n\n### Mechanics & Rules\n- **Governing Attribute**: Charisma or Agility\n- **Virtuoso Recital**: Standard performance DC chart (DC 10 to DC 30).",
+    "governing_attributes": [
+      "Charisma",
+      "Agility"
+    ],
+    "name": "String",
+    "description": "Playing stringed musical instruments: acoustic/electric guitars, violins, cellos, harps, mandolins, and alien resonant string boxes.",
+    "id": "social-string",
+    "synergy_links": [
+      "social-keyboard",
+      "social-music",
+      "social-expression"
+    ],
+    "type": "social",
+    "updatedAt": "2026-08-23T10:56:49.112Z"
+  },
+  {
+    "trained_only": false,
+    "specialties": [
+      "High-Society Aristocratic Fashion",
+      "Streetwear & Cyberpunk Aesthetics",
+      "Corporate Executive Styling",
+      "Intimidating & Militaristic Presence",
+      "Uniforms & Royal Heraldry"
+    ],
+    "name": "Style",
+    "id": "social-style",
+    "governing_attributes": [
+      "Charisma"
+    ],
+    "body": "# Style\n\nPersonal aesthetics, fashion awareness, grooming, color coordination, wearing high-caste garments, and projecting an aura of power.\n\n### Mechanics & Rules\n- **Governing Attribute**: Charisma\n- **First Impression**: DC 15 grants a **+2 bonus** on the very first **Diplomacy** or **Intimidate** check made during an encounter.\n- **Caste Blending**: DC 15 allows dressing seamlessly to blend into high-society ballrooms or gritty underworld clubs.",
+    "description": "Personal aesthetics, fashion awareness, grooming, color coordination, wearing high-caste garments, and projecting an aura of power.",
+    "category": "skills",
+    "synergy_links": [
+      "mental-tailor",
+      "social-diplomacy",
+      "social-intimidate"
+    ],
+    "type": "social",
+    "updatedAt": "2026-08-23T10:56:49.112Z",
+    "subtype": "expression"
+  },
+  {
+    "description": "Playing breath-powered acoustic instruments: flutes, saxophones, brass trumpets, clarinets, and alien harmonic pipes.",
+    "body": "# Wind\n\nPlaying breath-powered acoustic instruments: flutes, saxophones, brass trumpets, clarinets, and alien harmonic pipes.\n\n### Mechanics & Rules\n- **Governing Attribute**: Charisma or Constitution\n- **Performance Evaluation**: Standard performance DC chart (DC 10 to DC 30).",
+    "name": "Wind",
+    "specialties": [
+      "Flutes & Woodwinds",
+      "Trumpets, Trombones & Brass",
+      "Saxophones & Reeds",
+      "Harmonic Alien Pipes & Bagpipes"
+    ],
+    "category": "skills",
+    "governing_attributes": [
+      "Charisma",
+      "Constitution"
+    ],
+    "synergy_links": [
+      "social-singing",
+      "physical-endurance",
+      "social-expression"
+    ],
+    "trained_only": false,
+    "subtype": "expression",
+    "type": "social",
+    "id": "social-wind",
+    "updatedAt": "2026-08-23T10:56:49.111Z"
+  }
+]
