@@ -7,6 +7,7 @@ import { ArtistHubModal } from '../../../components/StoryFoundry/ArtistHubModal'
 import { generateContent } from '../../../services/aimeService';
 import { Sparkles, Palette, BookOpen, Plus, Search, Wand2, X, Trash2 } from 'lucide-react';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
+import DOMPurify from 'dompurify';
 
 export const ElementForge = () => {
   const navigate = useNavigate();
@@ -239,7 +240,7 @@ Output Format: Provide structured markdown with rich sections, atmospheric read-
                   {el.content && !el.fields?.summary && (
                     <div 
                       className="text-xs text-slate-400 line-clamp-2 mb-3 flex-1 overflow-hidden"
-                      dangerouslySetInnerHTML={{ __html: el.content.substring(0, 100) }} 
+                      dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(el.content.substring(0, 100)) }}
                     />
                   )}
 
