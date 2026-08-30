@@ -1,0 +1,3 @@
+## 2024-05-18 - Memoizing O(N*M) Rendering Loops
+**Learning:** The `DBMTableView.jsx` component was recalculating facet counts (Types, Subtypes, TLs, etc.) inline during render inside `.map` loops, creating an O(N*M) operation that caused input and render lag. React’s component re-renders were severely bottlenecked by recalculating these dynamic counts.
+**Action:** Group these dynamic facet count computations into a single O(N) pass using a `useMemo` block that runs exactly once when `currentItems` changes, then replace the inline array `.filter().length` calls inside JSX with O(1) object key lookups.
