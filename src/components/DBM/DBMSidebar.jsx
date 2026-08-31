@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { categoryConfig, DEVELOPMENT_FIELDS_GROUPS, DEVELOPMENT_FIELDS_REGISTRY } from './categoryConfig';
 import { useDBM } from '../../context/DBMContext';
 import { useAuth } from '../../context/AuthContext';
@@ -93,26 +93,35 @@ export const DBMSidebar = ({
     return Array.isArray(list) ? list.length : 0;
   };
 
-  const filteredCategories = mainCategories.filter(catKey => {
-    if (!searchTerm.trim()) return true;
-    const term = searchTerm.toLowerCase();
-    const config = categoryConfig[catKey];
-    if (config?.label?.toLowerCase().includes(term)) return true;
-    if (config?.subItems?.some(s => s.toLowerCase().includes(term))) return true;
-    if (config?.subcategories && Object.keys(config.subcategories).some(s => s.toLowerCase().includes(term))) return true;
-    return false;
-  });
+  // ⚡ Bolt Optimization: Memoize filtered categories to prevent recalculating on every render,
+  // especially important for large compendiums where mainCategories can be extensive.
+  // Reduces unnecessary CPU cycles during re-renders when searchTerm hasn't changed.
+  const filteredCategories = useMemo(() => {
+    return mainCategories.filter(catKey => {
+      if (!searchTerm.trim()) return true;
+      const term = searchTerm.toLowerCase();
+      const config = categoryConfig[catKey];
+      if (config?.label?.toLowerCase().includes(term)) return true;
+      if (config?.subItems?.some(s => s.toLowerCase().includes(term))) return true;
+      if (config?.subcategories && Object.keys(config.subcategories).some(s => s.toLowerCase().includes(term))) return true;
+      return false;
+    });
+  }, [mainCategories, searchTerm]);
 
   // Filtered Developer Fields (only when in Dev Mode)
-  const filteredDevFields = DEVELOPMENT_FIELDS_REGISTRY.filter(field => {
-    if (!searchTerm.trim()) return true;
-    const term = searchTerm.toLowerCase();
-    return (
-      field.label.toLowerCase().includes(term) ||
-      field.key.toLowerCase().includes(term) ||
-      (field.desc && field.desc.toLowerCase().includes(term))
-    );
-  });
+  // ⚡ Bolt Optimization: Memoize the filtering of developer fields to avoid O(N) recalculation
+  // on every render, improving UI responsiveness during typing and general navigation.
+  const filteredDevFields = useMemo(() => {
+    return DEVELOPMENT_FIELDS_REGISTRY.filter(field => {
+      if (!searchTerm.trim()) return true;
+      const term = searchTerm.toLowerCase();
+      return (
+        field.label.toLowerCase().includes(term) ||
+        field.key.toLowerCase().includes(term) ||
+        (field.desc && field.desc.toLowerCase().includes(term))
+      );
+    });
+  }, [searchTerm]);
 
   return (
     <aside className="w-64 sm:w-72 h-full bg-[#0a0d14]/90 backdrop-blur-xl border border-[#0D5C63]/50 rounded-xl flex flex-col shrink-0 p-3 gap-2 overflow-hidden select-none relative z-20 font-sans shadow-xl">
