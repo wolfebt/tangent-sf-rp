@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, Suspense } from 'react';
+import React, { useState, useEffect, useRef, Suspense, useMemo } from 'react';
 import { db, auth } from '../../firebase';
 import { collection, getDocs, setDoc, doc } from 'firebase/firestore';
 import { categoryConfig } from './categoryConfig';
@@ -265,25 +265,31 @@ export const UnifiedRelationalSelectorModal = ({
     }
   }
 
-  const allAvailableItems = [...categoryOptions, ...nonDuplicateItems];
+  // ⚡ Bolt Optimization: Memoize allAvailableItems to prevent re-merging arrays on every render.
+  const allAvailableItems = useMemo(() => [...categoryOptions, ...nonDuplicateItems], [categoryOptions, nonDuplicateItems]);
 
-  const filteredItems = allAvailableItems.filter(item => {
-    if (categoryFilter !== 'all') {
-      if (categoryFilter === 'groups') {
-        if (item.type !== 'Category Group' && item.type !== 'Skill Group') return false;
-      } else if (item.group !== categoryFilter) {
-        return false;
+  // ⚡ Bolt Optimization: Memoize the filtered items list. allAvailableItems can be large (hundreds of items),
+  // and recalculating the filter synchronously on every render causes UI lag.
+  // This reduces main thread blocking by only recalculating when search or filters change.
+  const filteredItems = useMemo(() => {
+    return allAvailableItems.filter(item => {
+      if (categoryFilter !== 'all') {
+        if (categoryFilter === 'groups') {
+          if (item.type !== 'Category Group' && item.type !== 'Skill Group') return false;
+        } else if (item.group !== categoryFilter) {
+          return false;
+        }
       }
-    }
-    if (!searchTerm) return true;
-    const term = searchTerm.toLowerCase();
-    return (
-      (item.name && item.name.toLowerCase().includes(term)) ||
-      (item.description && item.description.toLowerCase().includes(term)) ||
-      (item.type && item.type.toLowerCase().includes(term)) ||
-      (item.categoryLabel && item.categoryLabel.toLowerCase().includes(term))
-    );
-  });
+      if (!searchTerm) return true;
+      const term = searchTerm.toLowerCase();
+      return (
+        (item.name && item.name.toLowerCase().includes(term)) ||
+        (item.description && item.description.toLowerCase().includes(term)) ||
+        (item.type && item.type.toLowerCase().includes(term)) ||
+        (item.categoryLabel && item.categoryLabel.toLowerCase().includes(term))
+      );
+    });
+  }, [allAvailableItems, categoryFilter, searchTerm]);
 
   const toggleItem = (val) => {
     if (isMulti) {
