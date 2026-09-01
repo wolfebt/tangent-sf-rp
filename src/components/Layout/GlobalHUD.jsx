@@ -247,8 +247,8 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
           )}
         </div>
 
-        {/* Center Section: Persistent Desktop Navigation Suite (Hidden on Mobile) */}
-        <nav className="hidden md:flex items-center justify-center gap-1.5 sm:gap-2.5 shrink-0 mx-auto">
+        {/* Center Section: Persistent Navigation Suite (Always in Title Bar) */}
+        <nav className="flex items-center justify-center gap-1 xs:gap-1.5 sm:gap-2 shrink-0 mx-auto">
           {/* 1. FOLIO Button */}
           <button
             type="button"
@@ -256,18 +256,18 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
               AudioService.playTerminalBeep(1150, 0.03);
               navigate('/folio');
             }}
-            className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl border-2 text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-2 cursor-pointer select-none ${
+            className={`px-2 xs:px-2.5 sm:px-3.5 py-1 xs:py-1.5 sm:py-2 rounded-lg sm:rounded-xl border sm:border-2 text-[10.5px] xs:text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1 xs:gap-1.5 sm:gap-2 cursor-pointer select-none ${
               isFolio
-                ? 'bg-cyan-950/60 border-cyan-400 text-cyan-200 shadow-[0_0_20px_rgba(34,211,238,0.4)]'
-                : 'bg-slate-950/50 hover:bg-slate-900/90 border-slate-700/80 hover:border-cyan-400 text-slate-200 hover:text-cyan-300 hover:shadow-[0_0_16px_rgba(34,211,238,0.25)]'
+                ? 'bg-cyan-950/60 border-cyan-400 text-cyan-200 shadow-[0_0_15px_rgba(34,211,238,0.4)]'
+                : 'bg-slate-950/50 hover:bg-slate-900/90 border-slate-700/80 hover:border-cyan-400 text-slate-200 hover:text-cyan-300'
             }`}
             title="Open Persona Folio Character Sheet & Roster (/folio)"
           >
-            <div className={`p-1 rounded-lg border shrink-0 ${isFolio ? 'bg-cyan-500/25 border-cyan-400/60 text-cyan-300' : 'bg-cyan-500/10 border-cyan-500/30 text-cyan-400'}`}>
-              <Users size={16} />
+            <div className={`p-0.5 xs:p-1 rounded-md sm:rounded-lg border shrink-0 ${isFolio ? 'bg-cyan-500/25 border-cyan-400/60 text-cyan-300' : 'bg-cyan-500/10 border-cyan-500/30 text-cyan-400'}`}>
+              <Users size={14} className="sm:w-4 sm:h-4" />
             </div>
             <span>FOLIO</span>
-            {isFolio && <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse hidden sm:inline-block shadow-[0_0_8px_rgba(34,211,238,0.8)]" />}
+            {isFolio && <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse hidden sm:inline-block shadow-[0_0_8px_rgba(34,211,238,0.8)]" />}
           </button>
 
           {/* 2. OMNICORTEX Button */}
@@ -277,19 +277,19 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
               AudioService.playTerminalBeep(1150, 0.03);
               navigate('/dbm');
             }}
-            className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl border-2 text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-2 cursor-pointer select-none ${
+            className={`px-2 xs:px-2.5 sm:px-3.5 py-1 xs:py-1.5 sm:py-2 rounded-lg sm:rounded-xl border sm:border-2 text-[10.5px] xs:text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1 xs:gap-1.5 sm:gap-2 cursor-pointer select-none ${
               isDBM || isCodex
-                ? 'bg-emerald-950/60 border-emerald-400 text-emerald-200 shadow-[0_0_20px_rgba(52,211,153,0.4)]'
-                : 'bg-slate-950/50 hover:bg-slate-900/90 border-slate-700/80 hover:border-emerald-400 text-slate-200 hover:text-emerald-300 hover:shadow-[0_0_16px_rgba(52,211,153,0.25)]'
+                ? 'bg-emerald-950/60 border-emerald-400 text-emerald-200 shadow-[0_0_15px_rgba(52,211,153,0.4)]'
+                : 'bg-slate-950/50 hover:bg-slate-900/90 border-slate-700/80 hover:border-emerald-400 text-slate-200 hover:text-emerald-300'
             }`}
             title="Open Omnicortex Database Master Rules (/dbm)"
           >
-            <div className={`p-1 rounded-lg border shrink-0 ${isDBM || isCodex ? 'bg-emerald-500/25 border-emerald-400/60 text-emerald-300' : 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'}`}>
-              <Database size={16} />
+            <div className={`p-0.5 xs:p-1 rounded-md sm:rounded-lg border shrink-0 ${isDBM || isCodex ? 'bg-emerald-500/25 border-emerald-400/60 text-emerald-300' : 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'}`}>
+              <Database size={14} className="sm:w-4 sm:h-4" />
             </div>
-            <span className="hidden xs:inline">OMNICORTEX</span>
-            <span className="xs:hidden">OMNI</span>
-            {(isDBM || isCodex) && <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse hidden sm:inline-block shadow-[0_0_8px_rgba(52,211,153,0.8)]" />}
+            <span className="hidden sm:inline">OMNICORTEX</span>
+            <span className="sm:hidden">OMNI</span>
+            {(isDBM || isCodex) && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse hidden sm:inline-block shadow-[0_0_8px_rgba(52,211,153,0.8)]" />}
           </button>
 
           {/* 3. STORY FOUNDRY Dropdown Button */}
@@ -303,18 +303,19 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 setIsDbmMenuOpen(false);
                 setIsFolioMenuOpen(false);
               }}
-              className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl border-2 text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-2 cursor-pointer select-none ${
+              className={`px-2 xs:px-2.5 sm:px-3.5 py-1 xs:py-1.5 sm:py-2 rounded-lg sm:rounded-xl border sm:border-2 text-[10.5px] xs:text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1 xs:gap-1.5 sm:gap-2 cursor-pointer select-none ${
                 isFoundry
-                  ? 'bg-purple-950/60 border-purple-400 text-purple-200 shadow-[0_0_20px_rgba(168,85,247,0.4)]'
-                  : 'bg-slate-950/50 hover:bg-slate-900/90 border-slate-700/80 hover:border-purple-400 text-slate-200 hover:text-purple-300 hover:shadow-[0_0_16px_rgba(168,85,247,0.25)]'
+                  ? 'bg-purple-950/60 border-purple-400 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.4)]'
+                  : 'bg-slate-950/50 hover:bg-slate-900/90 border-slate-700/80 hover:border-purple-400 text-slate-200 hover:text-purple-300'
               }`}
               title="Story Foundry VTT, Scenarios, Elements & AIME Studio Menu"
             >
-              <div className={`p-1 rounded-lg border shrink-0 ${isFoundry ? 'bg-purple-500/25 border-purple-400/60 text-purple-300' : 'bg-purple-500/10 border-purple-500/30 text-purple-400'}`}>
-                <Layers size={16} />
+              <div className={`p-0.5 xs:p-1 rounded-md sm:rounded-lg border shrink-0 ${isFoundry ? 'bg-purple-500/25 border-purple-400/60 text-purple-300' : 'bg-purple-500/10 border-purple-500/30 text-purple-400'}`}>
+                <Layers size={14} className="sm:w-4 sm:h-4" />
               </div>
-              <span>FOUNDRY</span>
-              <ChevronDown size={14} className={`text-purple-400 transition-transform duration-200 ${isFoundryMenuOpen ? 'rotate-180' : ''}`} />
+              <span className="hidden xs:inline">FOUNDRY</span>
+              <span className="xs:hidden">VTT</span>
+              <ChevronDown size={12} className={`text-purple-400 transition-transform duration-200 ${isFoundryMenuOpen ? 'rotate-180' : ''}`} />
             </button>
 
             {isFoundryMenuOpen && (
@@ -455,23 +456,23 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 setIsDbmMenuOpen(false);
                 setIsFolioMenuOpen(false);
               }}
-              className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl border-2 text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-2 cursor-pointer select-none relative ${
+              className={`px-2 xs:px-2.5 sm:px-3.5 py-1 xs:py-1.5 sm:py-2 rounded-lg sm:rounded-xl border sm:border-2 text-[10.5px] xs:text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1 xs:gap-1.5 sm:gap-2 cursor-pointer select-none relative ${
                 isComms
-                  ? 'bg-amber-950/60 border-amber-400 text-amber-200 shadow-[0_0_20px_rgba(245,158,11,0.4)]'
-                  : 'bg-slate-950/50 hover:bg-slate-900/90 border-slate-700/80 hover:border-amber-400 text-slate-200 hover:text-amber-300 hover:shadow-[0_0_16px_rgba(245,158,11,0.25)]'
+                  ? 'bg-amber-950/60 border-amber-400 text-amber-200 shadow-[0_0_15px_rgba(245,158,11,0.4)]'
+                  : 'bg-slate-950/50 hover:bg-slate-900/90 border-slate-700/80 hover:border-amber-400 text-slate-200 hover:text-amber-300'
               }`}
               title="CommLink Relay, Floating Comms Dock & Dice Roller Menu"
             >
-              <div className={`p-1 rounded-lg border shrink-0 ${isComms ? 'bg-amber-500/25 border-amber-400/60 text-amber-300' : 'bg-amber-500/10 border-amber-500/30 text-amber-400'}`}>
-                <Radio size={16} />
+              <div className={`p-0.5 xs:p-1 rounded-md sm:rounded-lg border shrink-0 ${isComms ? 'bg-amber-500/25 border-amber-400/60 text-amber-300' : 'bg-amber-500/10 border-amber-500/30 text-amber-400'}`}>
+                <Radio size={14} className="sm:w-4 sm:h-4" />
               </div>
               <span>COMMS</span>
               {totalUnreadCount > 0 && (
-                <span className="w-4 h-4 bg-amber-500 text-black text-[9px] font-mono font-bold rounded-full flex items-center justify-center animate-pulse">
+                <span className="w-3.5 h-3.5 sm:w-4 sm:h-4 bg-amber-500 text-black text-[8.5px] sm:text-[9px] font-mono font-bold rounded-full flex items-center justify-center animate-pulse">
                   {totalUnreadCount}
                 </span>
               )}
-              <ChevronDown size={14} className={`text-amber-400 transition-transform duration-200 ${isCommsMenuOpen ? 'rotate-180' : ''}`} />
+              <ChevronDown size={12} className={`text-amber-400 transition-transform duration-200 ${isCommsMenuOpen ? 'rotate-180' : ''}`} />
             </button>
 
             {isCommsMenuOpen && (
@@ -552,19 +553,6 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
             )}
           </div>
         </nav>
-
-        {/* Active Module Quick Badge (Mobile Only) */}
-        {getActivePageTitle() && (
-          <button 
-            type="button"
-            onClick={() => setIsMobileNavOpen(true)}
-            className="md:hidden flex items-center gap-1.5 px-2 py-1 rounded-lg bg-slate-900/90 border border-slate-700/80 hover:border-cyan-400 text-cyan-300 text-[10px] sm:text-xs font-mono font-bold uppercase truncate max-w-[130px] xs:max-w-[160px] cursor-pointer shadow-sm active:scale-95"
-            title="Current system module (Tap to open menu)"
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse shrink-0" />
-            <span className="truncate">{getActivePageTitle()}</span>
-          </button>
-        )}
 
         {/* Right Section: Omnicortex/Folio/Codex Controls + User Account */}
         <div className="flex items-center justify-end gap-1.5 sm:gap-2 shrink-0">
