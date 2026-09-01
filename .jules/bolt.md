@@ -1,0 +1,3 @@
+## 2024-09-01 - Hoisting operations out of `useMemo` `.filter()`
+**Learning:** Found an anti-pattern in `useMemo` hooks where statically computable values inside dependency arrays (like `filterTags` and `searchTerm`) had their `.toLowerCase()` or `.split()` evaluated *inside* the array iteration logic (`.filter(item => ...)`). This meant performing expensive string creations and allocations O(N) times instead of O(1).
+**Action:** Always inspect `.filter`, `.map`, and `.sort` inner logic inside React's `useMemo` and extract statically derivable variables and loop-invariant code out of the loop block and into the root level of the `useMemo`.

@@ -113,6 +113,12 @@ export const DBMContainer = () => {
 
   // Filter & Sort Items
   const filteredItems = useMemo(() => {
+    // Pre-calculate filter values outside the loop to avoid redundant string operations
+    const processedSearchTerm = searchTerm && searchTerm.trim() ? searchTerm.toLowerCase().trim() : null;
+    const processedSubtypes = filterSubtypes.length > 0
+      ? filterSubtypes.map(s => String(s).toLowerCase().split(' ')[0])
+      : [];
+
     return currentItems.filter(item => {
       // 1. Filter by Types (Multi-select)
       if (filterTypes.length > 0) {
@@ -125,10 +131,10 @@ export const DBMContainer = () => {
       }
 
       // 2. Filter by Subtypes / Disciplines / Society / Aspect / Lineage (Species)
-      if (filterSubtypes.length > 0) {
+      if (processedSubtypes.length > 0) {
         const sub = item.subtype || item.discipline || item.society || item.aspect || item.aspect_subtype || item.parent_species || item.lineage;
         const subs = Array.isArray(sub) ? sub : (sub ? [sub] : []);
-        const matchesSub = filterSubtypes.some(s => subs.some(subItem => String(subItem).toLowerCase().includes(String(s).toLowerCase().split(' ')[0])));
+        const matchesSub = processedSubtypes.some(ps => subs.some(subItem => String(subItem).toLowerCase().includes(ps)));
         if (!matchesSub) return false;
       }
 
@@ -158,8 +164,8 @@ export const DBMContainer = () => {
       }
 
       // 6. Search Term (full-text search across multiple fields)
-      if (searchTerm && searchTerm.trim()) {
-        const term = searchTerm.toLowerCase().trim();
+      if (processedSearchTerm) {
+        const term = processedSearchTerm;
         const matches = (
           (item.name && item.name.toLowerCase().includes(term)) ||
           (item.title && item.title.toLowerCase().includes(term)) ||
