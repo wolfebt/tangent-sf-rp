@@ -20,7 +20,10 @@ import {
   Shield, 
   Bot, 
   Building2, 
-  HelpCircle 
+  HelpCircle,
+  Compass,
+  UserCheck,
+  Flame
 } from 'lucide-react';
 
 /**
@@ -1574,6 +1577,381 @@ export const OMNICORTEX_DATASETS = [
       modifiers: [],
       mechanic: "Cleanses up to 500 cubic feet of toxic air for 4 hours upon activation.",
       note: "Single-use disposable unit."
+    }
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // PROMPT O: ORIGINS PARSER
+  // ─────────────────────────────────────────────────────────────────────────────
+  {
+    key: 'origins',
+    code: 'PROMPT O',
+    label: 'Origins & Upbringings',
+    matrixId: 'origins',
+    targetCollection: 'origins',
+    icon: Compass,
+    color: '#0ea5e9',
+    description: 'Parse planetary, cultural, and environmental origins into structured JSON documents with traits and language adaptations.',
+    promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX ORIGINS PARSER
+
+**ROLE:** You are an expert worldbuilding data engineer and RPG system archivist for Tangent SFF RPG. Your task is to parse raw character origin and upbringing documentation into strict JSON documents for the OMNICORTEX database.
+
+**TASK:** Parse the provided text into a JSON array of objects adhering strictly to the schema below.
+
+**JSON SCHEMA:**
+[
+  {
+    "name": "String (Name of the origin, e.g., 'Core World', 'Deep Fringe', 'Orbital Habitat')",
+    "origin_type": "String (Subtype: 'Planetary', 'Void', 'Subterranean', 'Arcology', 'Nomadic', 'High-Gravity')",
+    "description": "String (Narrative background, cultural atmosphere, and upbringing lore)",
+    "tech_level": 3,
+    "meta_level": 0,
+    "origin_traits": ["String (Selectable origin traits or perk names)"],
+    "native_languages": ["String (Granted linguistic proficiencies)"],
+    "environmental_adaptation": "String (Innate environmental adaptation, e.g., 'Zero-G', 'High Gravity', 'Toxic Atmospheres')",
+    "prerequisite": ["String (Prerequisites or mutually exclusive origins)"],
+    "modifiers": [
+      { "target": "Target Name", "type": "skill", "value": 1, "mode": "inherent" }
+    ],
+    "costs": {
+      "bp": 0,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "mechanic": "String (Environmental tolerances, starting skill options, and cultural mechanics)",
+    "note": "String or null (Common origin associations and GM hooks)"
+  }
+]
+
+**PARSING HEURISTICS & RULES:**
+1. **Array Normalization:** origin_traits and native_languages MUST be arrays of strings.
+2. **Modifiers:** Convert granted starting skill bonuses or attribute perks into structured modifier objects.
+3. **Output Requirement:** Output ONLY the valid JSON block.
+
+**INPUT TEXT:**
+[INSERT RAW ORIGINS TEXT HERE]`,
+    expectedKeys: [
+      'name', 'origin_type', 'description', 'tech_level', 'meta_level',
+      'origin_traits', 'native_languages', 'environmental_adaptation',
+      'prerequisite', 'modifiers', 'costs', 'mechanic', 'note'
+    ],
+    sampleItem: {
+      name: "Core World Metropolis",
+      origin_type: "Planetary",
+      description: "Raised amidst the glittering towers, high-tech infrastructure, and dense bureaucracy of a sector capital world.",
+      tech_level: 4,
+      meta_level: 0,
+      origin_traits: ["Cosmopolitan", "Bureaucratic Fluency"],
+      native_languages: ["Solar Standard", "High Imperial"],
+      environmental_adaptation: "Standard Gravity & Filtered Urban Atmospheres",
+      prerequisite: [],
+      modifiers: [
+        { target: "Academics", type: "skill", value: 1, mode: "inherent" },
+        { target: "Diplomacy", type: "skill", value: 1, mode: "inherent" }
+      ],
+      costs: {
+        bp: 0,
+        credits: 500,
+        nodes: 0,
+        sockets: 0,
+        strain: 0,
+        focus: 0,
+        ap: 0
+      },
+      mechanic: "Gain advantage on etiquette and bureaucratic navigation checks when dealing with sector authorities.",
+      note: "Standard starting stipend includes +500 Credits."
+    }
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // PROMPT P: ARCHETYPES PARSER
+  // ─────────────────────────────────────────────────────────────────────────────
+  {
+    key: 'archetypes',
+    code: 'PROMPT P',
+    label: 'Archetypes & Modular Roles',
+    matrixId: 'archetypes',
+    targetCollection: 'archetypes',
+    icon: UserCheck,
+    color: '#f97316',
+    description: 'Parse character and NPC build archetypes with primary attributes, tactical roles, and suggested competencies.',
+    promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX ARCHETYPES PARSER
+
+**ROLE:** You are an expert character progression architect and data engineer for Tangent SFF RPG. Your task is to parse raw archetype and modular character role documentation into strict JSON documents for the OMNICORTEX database.
+
+**TASK:** Parse the provided text into a JSON array of objects adhering strictly to the schema below.
+
+**JSON SCHEMA:**
+[
+  {
+    "name": "String (Archetype title, e.g., 'Vanguard', 'Decker', 'Infiltrator')",
+    "role": "String (Tactical / narrative function: 'Combat', 'Support', 'Tech', 'Mystic', 'Leadership', 'Survival')",
+    "sphere": "String (Core sphere: 'Sentinels', 'Operatives', 'Visionaries', 'Savants')",
+    "description": "String (Narrative overview, combat profile, and team role)",
+    "tech_level": 3,
+    "meta_level": 0,
+    "primary_attributes": ["String (Favored attributes, e.g., 'strength', 'agility')"],
+    "suggested_skills": ["String (Recommended primary skill IDs or names)"],
+    "essential_skills": ["String (Core operational competencies)"],
+    "suggested_traits": ["String (Recommended trait IDs or names)"],
+    "suggested_features": ["String (Signature features)"],
+    "starting_gear": ["String (Recommended equipment IDs)"],
+    "modifiers": [
+      { "target": "Primary Attribute", "type": "attribute", "value": 3, "mode": "inherent" }
+    ],
+    "costs": {
+      "bp": 0,
+      "credits": 1000,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "mechanic": "String (Chassis point allocation guide, signature dice mechanics, and operational bonuses)",
+    "note": "String or null (Suggested sub-specializations and advancement pathways)"
+  }
+]
+
+**PARSING HEURISTICS & RULES:**
+1. **Attributes & Skills:** primary_attributes, suggested_skills, and essential_skills MUST be arrays of strings.
+2. **Sphere Classification:** Ensure sphere maps to one of: Sentinels, Operatives, Visionaries, Savants.
+3. **Output Requirement:** Output ONLY the valid JSON block.
+
+**INPUT TEXT:**
+[INSERT RAW ARCHETYPES TEXT HERE]`,
+    expectedKeys: [
+      'name', 'role', 'sphere', 'description', 'tech_level', 'meta_level',
+      'primary_attributes', 'suggested_skills', 'essential_skills',
+      'suggested_traits', 'suggested_features', 'starting_gear',
+      'modifiers', 'costs', 'mechanic', 'note'
+    ],
+    sampleItem: {
+      name: "Vanguard",
+      role: "Combat",
+      sphere: "Sentinels",
+      description: "Frontline heavy defense and breach specialist trained to hold choke-points and anchor tactical formations.",
+      tech_level: 3,
+      meta_level: 0,
+      primary_attributes: ["strength", "stamina"],
+      suggested_skills: ["Melee", "Heavy Weapons", "Armor Handling", "Athletics"],
+      essential_skills: ["Combat (Melee)", "Armor Handling"],
+      suggested_traits: ["Thick-Skinned", "Braced Stance"],
+      suggested_features: ["Bulwark Defense", "Interception"],
+      starting_gear: ["gear-medkit-adv", "weapon-plasma-rifle"],
+      modifiers: [
+        { target: "Strength", type: "attribute", value: 3, mode: "inherent" },
+        { target: "Stamina", type: "attribute", value: 2, mode: "inherent" }
+      ],
+      costs: {
+        bp: 0,
+        credits: 1500,
+        nodes: 0,
+        sockets: 0,
+        strain: 0,
+        focus: 0,
+        ap: 0
+      },
+      mechanic: "Gain +2 base DR when defending stationary positions or allies within 2 meters.",
+      note: "Pairs well with powered armor and heavy ballistic shields."
+    }
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // PROMPT Q: TRAITS PARSER
+  // ─────────────────────────────────────────────────────────────────────────────
+  {
+    key: 'traits',
+    code: 'PROMPT Q',
+    label: 'Traits & Morphologies',
+    matrixId: 'traits',
+    targetCollection: 'traits',
+    icon: Sparkles,
+    color: '#14b8a6',
+    description: 'Parse Character Point traits, innate species traits, origin traits, and occupational perks into structured JSON documents.',
+    promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX TRAITS PARSER
+
+**ROLE:** You are an expert data engineer and game balance specialist for Tangent SFF RPG. Your task is to parse raw trait documentation into strict JSON documents for the OMNICORTEX database.
+
+**TASK:** Parse the provided text into a JSON array of objects adhering strictly to the schema below.
+
+**JSON SCHEMA:**
+[
+  {
+    "name": "String (Name of the trait)",
+    "trait_type": "String (Exact enum: 'Species Trait', 'Origin Trait', 'Occupational Trait', 'General Trait')",
+    "cost_cp": 5,
+    "origin_association": "String or null (Associated origin or 'General')",
+    "occupation_association": "String or null (Associated occupation or 'General')",
+    "species_association": "String or null (Associated species lineage or 'General')",
+    "description": "String (Narrative description and biological / cultural origin)",
+    "tech_level": 0,
+    "meta_level": 0,
+    "prerequisite": ["String (Required attributes, species, or conditions)"],
+    "modifiers": [
+      { "target": "Perception", "type": "skill", "value": 1, "mode": "inherent" }
+    ],
+    "costs": {
+      "bp": 5,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "mechanic": "String (Active / passive tabletop mechanics, dice bonuses, roll advantages)",
+    "note": "String or null (Stacking rules and interaction notes)"
+  }
+]
+
+**PARSING HEURISTICS & RULES:**
+1. **CP Accounting:** cost_cp and costs.bp MUST match the positive integer cost.
+2. **Associations:** Fill origin_association, occupation_association, or species_association where applicable.
+3. **Output Requirement:** Output ONLY the valid JSON block.
+
+**INPUT TEXT:**
+[INSERT RAW TRAITS TEXT HERE]`,
+    expectedKeys: [
+      'name', 'trait_type', 'cost_cp', 'origin_association',
+      'occupation_association', 'species_association', 'description',
+      'tech_level', 'meta_level', 'prerequisite', 'modifiers', 'costs',
+      'mechanic', 'note'
+    ],
+    sampleItem: {
+      name: "Prehensile Tail",
+      trait_type: "Species Trait",
+      cost_cp: 5,
+      origin_association: null,
+      occupation_association: null,
+      species_association: "Aulurans",
+      description: "A strong, dexterous tail capable of grasping tools, weapons, and stabilizing climbs in complex environments.",
+      tech_level: 0,
+      meta_level: 0,
+      prerequisite: ["Auluran or simian morphology"],
+      modifiers: [
+        { target: "Athletics", type: "skill", value: 1, mode: "inherent" }
+      ],
+      costs: {
+        bp: 5,
+        credits: 0,
+        nodes: 0,
+        sockets: 0,
+        strain: 0,
+        focus: 0,
+        ap: 0
+      },
+      mechanic: "Allows holding an additional small object or weapon and grants advantage on climbing balance checks.",
+      note: "Cannot be used to fire heavy two-handed weaponry."
+    }
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // PROMPT R: DISCIPLINES PARSER
+  // ─────────────────────────────────────────────────────────────────────────────
+  {
+    key: 'disciplines',
+    code: 'PROMPT R',
+    label: 'Disciplines & Psionic Paths',
+    matrixId: 'disciplines',
+    targetCollection: 'disciplines',
+    icon: Flame,
+    color: '#d946ef',
+    description: 'Parse psionic, metaphysical, and arcane disciplines with governing attributes and tier progressions.',
+    promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX DISCIPLINES PARSER
+
+**ROLE:** You are an expert metaphysics architect and data engineer for Tangent SFF RPG. Your task is to parse raw psionic and metaphysical discipline documentation into strict JSON documents for the OMNICORTEX database.
+
+**TASK:** Parse the provided text into a JSON array of objects adhering strictly to the schema below.
+
+**JSON SCHEMA:**
+[
+  {
+    "name": "String (Name of the discipline, e.g., 'Psychokinesis', 'Telepathy', 'Biomancy', 'Chronoshifting')",
+    "governing_attribute": "String (Core attribute: 'metaphysics', 'willpower', 'intellect')",
+    "description": "String (Philosophical tradition, sensory manifestation, and power scope)",
+    "tech_level": 0,
+    "meta_level": 1,
+    "prerequisite": ["String (Minimum ML, attribute thresholds, or awakening rites)"],
+    "tier_progression": [
+      {
+        "tier": 1,
+        "name": "Novice Awakening",
+        "strain_discount": 0,
+        "unlocked_powers": ["String (Unlocked invocation names or IDs)"],
+        "passive_bonus": "String (Passive bonus granted at this tier)"
+      }
+    ],
+    "modifiers": [
+      { "target": "Metaphysics", "type": "discipline", "value": 1, "mode": "inherent" }
+    ],
+    "costs": {
+      "bp": 10,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "mechanic": "String (Strain threshold formulas, focus regeneration rules, and backlash conditions)",
+    "note": "String or null (Associated factions, sacred texts, and GM plot hooks)"
+  }
+]
+
+**PARSING HEURISTICS & RULES:**
+1. **Tier Progression:** tier_progression MUST be an array of structured tier objects.
+2. **Governing Attribute:** governing_attribute should be a lowercase string.
+3. **Output Requirement:** Output ONLY the valid JSON block.
+
+**INPUT TEXT:**
+[INSERT RAW DISCIPLINES TEXT HERE]`,
+    expectedKeys: [
+      'name', 'governing_attribute', 'description', 'tech_level',
+      'meta_level', 'prerequisite', 'tier_progression', 'modifiers',
+      'costs', 'mechanic', 'note'
+    ],
+    sampleItem: {
+      name: "Psychokinesis",
+      governing_attribute: "metaphysics",
+      description: "Direct manipulation of kinetic energy, matter acceleration, and force vector manipulation via mental resonance.",
+      tech_level: 0,
+      meta_level: 1,
+      prerequisite: ["Meta Level 1+", "Willpower 2+"],
+      tier_progression: [
+        {
+          "tier": 1,
+          "name": "Kinetic Touch",
+          "strain_discount": 0,
+          "unlocked_powers": ["Kinetic Shove", "Micro-Levitation"],
+          "passive_bonus": "+1 DR against falling damage"
+        },
+        {
+          "tier": 2,
+          "name": "Vector Projection",
+          "strain_discount": 1,
+          "unlocked_powers": ["Kinetic Lance", "Ballistic Repulsion Field"],
+          "passive_bonus": "+10m range on kinetic invocations"
+        }
+      ],
+      modifiers: [
+        { "target": "Psychokinesis", "type": "discipline", "value": 1, "mode": "inherent" }
+      ],
+      costs: {
+        bp: 10,
+        credits: 0,
+        nodes: 0,
+        sockets: 0,
+        strain: 0,
+        focus: 0,
+        ap: 0
+      },
+      mechanic: "Casting psychokinetic invocations requires an opposed Metaphysics check. Critical failure incurs 1d4 Focus burn.",
+      note: "Favored by Solari Templars and Aeld Force-Weavers."
     }
   }
 ];

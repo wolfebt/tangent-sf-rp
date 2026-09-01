@@ -1,4 +1,4 @@
-﻿import { 
+import { 
   collection, 
   doc, 
   getDoc, 
@@ -210,24 +210,37 @@ export const GroupService = {
       createdAt: new Date().toISOString()
     };
 
-    if (db) {
-      const inviteRef = doc(db, 'group_invites', inviteId);
-      await setDoc(inviteRef, inviteData);
+    // Save to local cache
+    try {
+      const cached = (await StorageService.getItem('tangent_group_invites')) || [];
+      const updated = [inviteData, ...cached.filter(i => i.id !== inviteId)];
+      await StorageService.setItem('tangent_group_invites', updated);
+    } catch (e) {
+      console.warn('[GroupService] Local cache save invite failed:', e);
+    }
 
-      // Post an automated DM notification if possible
+    if (db) {
       try {
-        const notifChannelId = `dm_${[currentUser.uid, targetUserId].sort().join('_')}`;
-        const notifRef = collection(db, 'channels', notifChannelId, 'messages');
-        await addDoc(notifRef, {
-          text: `[SQUAD INVITATION] You have been invited to join "${groupName}" by @${inviterHandle}. Check your Game Squads drawer to accept.`,
-          type: 'system',
-          senderId: 'system',
-          senderHandle: 'SYSTEM RELAY',
-          createdAt: serverTimestamp(),
-          createdLocalAt: new Date().toISOString()
-        });
-      } catch (e) {
-        // Ignored
+        const inviteRef = doc(db, 'group_invites', inviteId);
+        await setDoc(inviteRef, inviteData);
+
+        // Post an automated DM notification if possible
+        try {
+          const notifChannelId = `dm_${[currentUser.uid, targetUserId].sort().join('_')}`;
+          const notifRef = collection(db, 'channels', notifChannelId, 'messages');
+          await addDoc(notifRef, {
+            text: `[SQUAD INVITATION] You have been invited to join "${groupName}" by @${inviterHandle}. Check your Game Squads drawer to accept.`,
+            type: 'system',
+            senderId: 'system',
+            senderHandle: 'SYSTEM RELAY',
+            createdAt: serverTimestamp(),
+            createdLocalAt: new Date().toISOString()
+          });
+        } catch (e) {
+          // Ignored
+        }
+      } catch (err) {
+        console.warn('[GroupService] Firestore invite write fallback to local cache:', err);
       }
     }
 
@@ -236,26 +249,51 @@ export const GroupService = {
 
   // 4. Subscribe to pending invites for current user
   subscribeToIncomingInvites(currentUser, callback) {
-    if (!currentUser || !db) {
+    if (!currentUser) {
       callback([]);
       return () => {};
     }
 
-    const q = query(
-      collection(db, 'group_invites'),
-      where('toUserId', '==', currentUser.uid),
-      where('status', '==', 'pending')
-    );
+    const deliverLocalFallback = async () => {
+      try {
+        const cached = (await StorageService.getItem('tangent_group_invites')) || [];
+        const myInvites = cached.filter(i => 
+          (i.toUserId === currentUser.uid || i.toUserHandle === currentUser.displayName) && 
+          i.status === 'pending'
+        );
+        callback(myInvites);
+      } catch (e) {
+        callback([]);
+      }
+    };
 
-    const unsub = onSnapshot(q, (snapshot) => {
-      const invites = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-      callback(invites);
-    }, (err) => {
-      console.warn('[GroupService] Error listening to invites:', err);
-      callback([]);
-    });
+    if (!db) {
+      deliverLocalFallback();
+      return () => {};
+    }
 
-    return unsub;
+    try {
+      const q = query(
+        collection(db, 'group_invites'),
+        where('toUserId', '==', currentUser.uid),
+        where('status', '==', 'pending')
+      );
+
+      const unsub = onSnapshot(q, (snapshot) => {
+        const invites = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+        // Sync local cache
+        StorageService.setItem('tangent_group_invites', invites).catch(() => {});
+        callback(invites);
+      }, (err) => {
+        console.warn('[GroupService] Error listening to invites, using local cache:', err);
+        deliverLocalFallback();
+      });
+
+      return unsub;
+    } catch (err) {
+      deliverLocalFallback();
+      return () => {};
+    }
   },
 
   // 5. Respond to Invite (Accept or Decline)
@@ -327,20 +365,43 @@ export const GroupService = {
 
     const cleanCode = inviteCode.trim().toUpperCase();
 
-    if (!db) throw new Error('Database connection required to join by code');
+    let groupData = null;
+    let groupDocId = null;
 
-    const q = query(
-      collection(db, 'game_groups'),
-      where('inviteCode', '==', cleanCode)
-    );
-
-    const snapshot = await getDocs(q);
-    if (snapshot.empty) {
-      throw new Error(`No active game squad found for invite code "${cleanCode}".`);
+    if (db) {
+      try {
+        const q = query(
+          collection(db, 'game_groups'),
+          where('inviteCode', '==', cleanCode)
+        );
+        const snapshot = await getDocs(q);
+        if (!snapshot.empty) {
+          const groupDoc = snapshot.docs[0];
+          groupDocId = groupDoc.id;
+          groupData = { id: groupDoc.id, ...groupDoc.data() };
+        }
+      } catch (err) {
+        console.warn('[GroupService] Firestore join query error, falling back to cache:', err);
+      }
     }
 
-    const groupDoc = snapshot.docs[0];
-    const groupData = { id: groupDoc.id, ...groupDoc.data() };
+    // Fallback to local storage if not found in Firestore
+    if (!groupData) {
+      try {
+        const cachedGroups = (await StorageService.getItem('tangent_game_groups')) || [];
+        const found = cachedGroups.find(g => g.inviteCode?.toUpperCase() === cleanCode);
+        if (found) {
+          groupData = found;
+          groupDocId = found.id;
+        }
+      } catch (e) {
+        // Ignored
+      }
+    }
+
+    if (!groupData) {
+      throw new Error(`No active game squad found for invite code "${cleanCode}".`);
+    }
 
     if (groupData.members && groupData.members.includes(currentUser.uid)) {
       return groupData; // Already a member
@@ -368,26 +429,28 @@ export const GroupService = {
       } : null
     };
 
-    // Update group document
-    const groupRef = doc(db, 'game_groups', groupDoc.id);
-    await updateDoc(groupRef, {
-      members: arrayUnion(currentUser.uid),
-      [`memberDetails.${currentUser.uid}`]: memberData,
-      updatedAt: new Date().toISOString()
-    });
+    // Update group document in Firestore if possible
+    if (db && groupDocId) {
+      try {
+        const groupRef = doc(db, 'game_groups', groupDocId);
+        await updateDoc(groupRef, {
+          members: arrayUnion(currentUser.uid),
+          [`memberDetails.${currentUser.uid}`]: memberData,
+          updatedAt: new Date().toISOString()
+        });
 
-    // Grant access to tied-in channel
-    const channelId = groupData.channelId || `group_chan_${groupDoc.id}`;
-    try {
-      const channelRef = doc(db, 'channels', channelId);
-      await updateDoc(channelRef, {
-        members: arrayUnion(currentUser.uid)
-      });
-    } catch (e) {
-      console.warn('[GroupService] Channel member update skipped:', e);
+        // Grant access to tied-in channel
+        const channelId = groupData.channelId || `group_chan_${groupDocId}`;
+        const channelRef = doc(db, 'channels', channelId);
+        await updateDoc(channelRef, {
+          members: arrayUnion(currentUser.uid)
+        }).catch(() => {});
+      } catch (err) {
+        console.warn('[GroupService] Firestore join update fallback to local cache:', err);
+      }
     }
 
-    return {
+    const updatedGroup = {
       ...groupData,
       members: [...(groupData.members || []), currentUser.uid],
       memberDetails: {
@@ -395,6 +458,17 @@ export const GroupService = {
         [currentUser.uid]: memberData
       }
     };
+
+    // Update local cache
+    try {
+      const cached = (await StorageService.getItem('tangent_game_groups')) || [];
+      const updated = [updatedGroup, ...cached.filter(g => g.id !== updatedGroup.id)];
+      await StorageService.setItem('tangent_game_groups', updated);
+    } catch (e) {
+      console.warn('[GroupService] Local cache save joined group failed:', e);
+    }
+
+    return updatedGroup;
   },
 
   // 7. Update assigned Operative Persona for a member in a group

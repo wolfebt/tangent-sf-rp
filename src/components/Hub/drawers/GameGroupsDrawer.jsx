@@ -48,6 +48,19 @@ export const GameGroupsDrawer = ({ onClose }) => {
 
   const allPersonas = personaRoster || roster || [];
 
+  // Check URL parameters for join code
+  React.useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get('join');
+      if (code) {
+        setInviteCodeInput(code.toUpperCase());
+      }
+    } catch (e) {
+      // Ignored
+    }
+  }, []);
+
   const handleOpenGroupDetails = (group, tab = 'roster') => {
     AudioService.playTerminalBeep(1100, 0.02);
     selectGroup(group.id);

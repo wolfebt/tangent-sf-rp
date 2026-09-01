@@ -60,21 +60,33 @@
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
-/* Global Unified Custom Scrollbar */
+/* Global Unified Cross-Browser Custom Scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #0284c7 #090d16;
+}
+
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-bg-core);
+  background: #090d16;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #334155;
+  background: #1e293b;
   border-radius: var(--radius-full);
+  border: 1px solid rgba(34, 211, 238, 0.25);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-accent-cyan);
+  background: #0284c7;
+  border-color: #22d3ee;
+  box-shadow: 0 0 8px rgba(34, 211, 238, 0.5);
+}
+
+::-webkit-scrollbar-corner {
+  background: #090d16;
 }

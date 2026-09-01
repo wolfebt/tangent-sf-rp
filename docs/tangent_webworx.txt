@@ -1,25 +1,22 @@
-dashboard
-- rename "squad" and "party" (names and references) to "team", and integrate the team operations into the vtt system.
-- remove campaign ops and maps and we will have a recent and current listing in the users vtt dashboard and move the chat functions to the vtt as well. 
-- remove the entire right side block 
--lets make the left drawer horizontal and moved to the top of the page under the title and remove the container block for the 3 cards (FOLIO, OMNICORTEX, FOUNDRY). keep extra padding between the cards. horizontal cards - folio, omnicortex, foundry (as a block with VTT, SCENERIOS and AIME STUDIO)
-
-omnicortex
-- in viewing the database tables we have ALOT of filter buttons, this needs consolidated ito intelligently sorts and dynamics multiselect pulldown list which will the show the selected filters as gems.
-- we should be autosyncing and do not need a general sync button and columns and organize all of our sorting options on the same row adn we need a file control menu which the importexport options will be in.
 
 ---------------------------------------------------------
 
-AND WE WANT NO MOCK OR PLACEHOLDER DATA, THE PROJECT MUST ONLY USE CONTENT FROM THE OMNICORTEX. review for mock data to remove and ensure all planned connections are active.
-
----  INGEST COMPLETE JSON DATASETS TO THE OMNICORTEX VIA THE CODEX. - parsing to json in process
-_____________________________________________
-
-
-foundry
+lets work out a full implementation plan for the following foundry revison 
 - we need to consolidate the element forge into the scenerio app in a tab page to consolidate the story module components
-- if the persona's archetype, speces,  occupation, origin or faction change, ensure that any traits and modification due to the selection are updated with the new selection. 
+
+
+lets work out a full implementation plan for the following vtt revison -
+- we need to fully revise the mapnmaker / VTT into a singular interact dynamic platform to fully consider the game rules and have an intelligent user friendly design with our wide range of capabilities and possible improvements.  review the plans in \docs\recommendations and revison plans\vtt plans for my indepth ideation of the vtt platform and component to review for implementation or inspiration.
+
 - the persona will need to be set before it can be used in the vtt, so we will have a development phase of the character and a lock option which will then allow it to join the vtt. this is to enable (on the player side a ready status and allows the vtt (ie GM) to sent the character xp,karme, status condition updates, damage, heals, etc for a dynamic and interactive persona integration with the map system and game mechanics.) - setting the character will lockout player modification on that folio (will still have the clone option for possible variants), character may be unlocked with an override by player but if active in a game any modification will be fully tracked (with an optional message/note, ) for gm review, with accept, refuse or adjust (and reply with suggestions in message to player to adjust, as the gm will NOT have any edit or delete option of the persona folio)
+
 - the vtt will need a split view of the map and optional custom tabs to view content - player personas folios, team rosters, npc folios, current story module (tree of components), etc..
 
 
+
+_____________________________________________
+
+---  INGEST COMPLETE JSON DATASETS TO THE OMNICORTEX VIA THE CODEX. - parsing to json in process
+
+AND WE WANT NO MOCK OR PLACEHOLDER DATA, THE PROJECT MUST ONLY USE CONTENT FROM THE OMNICORTEX. review for mock data to remove and ensure all planned connections are active.
+_____________________________________________

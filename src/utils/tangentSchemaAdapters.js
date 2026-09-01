@@ -26,7 +26,7 @@ export function normalizeOmnicortexItem(item) {
   // 1. Costs & Economy Consolidation
   const costs = { ...(item.costs || {}) };
   if (costs.bp === undefined) {
-    costs.bp = parseNumeric(item.bp ?? item.cp ?? item.cp_cost ?? item.cost_cp ?? item.bp_chassis ?? item.cost_bp, 0);
+    costs.bp = parseNumeric(item.bp ?? item.cp ?? item.cp_cost ?? item.cost_cp ?? item.bp_chassis ?? item.cost_bp ?? item.cp_refund, 0);
   }
   if (costs.credits === undefined) {
     costs.credits = parseNumeric(item.credits ?? item.cost ?? item.price ?? item.cost_credits, 0);
@@ -38,7 +38,7 @@ export function normalizeOmnicortexItem(item) {
     costs.sockets = parseNumeric(item.socket_cost ?? item.sockets_cost ?? item.sockets_used, 0);
   }
   if (costs.strain === undefined) {
-    costs.strain = parseNumeric(item.strain_cost ?? item.strain, 0);
+    costs.strain = parseNumeric(item.cost_essence ?? item.essence_cost ?? item.strain_cost ?? item.strain, 0);
   }
   if (costs.focus === undefined) {
     costs.focus = parseNumeric(item.focus_cost ?? item.focus, 0);

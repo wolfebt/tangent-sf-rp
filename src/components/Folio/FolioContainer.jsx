@@ -65,7 +65,10 @@ const FolioContainer = () => {
     handleAddItem,
     handleUpdateItem,
     handleAddSkill,
+    handleDeleteSkill,
     handleAddSpecialization,
+    handleUpdateSpecialization,
+    handleDeleteSpecialization,
     handleNewCharacter,
     handleSaveLocal,
     handleLoadLocal,
@@ -172,6 +175,46 @@ const FolioContainer = () => {
       handleAddItem(key, taggedData);
     }
   }, [updateField, handleAddItem, handleUpdateItem, handleAddSkill, userHandle, currentUser, applyArchetypeChassis, applySpeciesAdjustments]);
+
+  // Handle Delete from Asset Modal
+  const handleDeleteAssetItem = useCallback((key, index = null, itemData = null) => {
+    if (!key) return;
+
+    if (key.startsWith('char-')) {
+      updateField(key, '');
+    } else if (key === 'skills' || key === 'skill') {
+      const id = itemData?.id;
+      if (id && handleDeleteSkill) {
+        handleDeleteSkill(id);
+      }
+    } else if (key === 'specializations') {
+      const id = itemData?.id;
+      if (id && handleDeleteSpecialization) {
+        handleDeleteSpecialization(id);
+      }
+    } else {
+      const currentList = Array.isArray(characterData[key]) ? [...characterData[key]] : [];
+      let updatedList = [];
+      if (index !== null && index !== undefined && index >= 0 && index < currentList.length) {
+        updatedList = currentList.filter((_, idx) => idx !== index);
+      } else if (itemData) {
+        const targetId = itemData.id;
+        const targetName = (itemData.name || itemData.title || '').trim().toLowerCase();
+        updatedList = currentList.filter(item => {
+          if (typeof item === 'object' && item !== null) {
+            if (targetId && item.id === targetId) return false;
+            if (targetName && (item.name || item.title || '').trim().toLowerCase() === targetName) return false;
+          } else if (typeof item === 'string' && targetName) {
+            if (item.trim().toLowerCase() === targetName) return false;
+          }
+          return true;
+        });
+      } else {
+        updatedList = currentList;
+      }
+      updateField(key, updatedList);
+    }
+  }, [characterData, updateField, handleDeleteSkill, handleDeleteSpecialization]);
 
   // Open Selector Modal helper
   const handleOpenSelectorModal = useCallback((key, title, browsePath, filterCategory = null, filterCategoryExclude = null) => {
@@ -564,6 +607,7 @@ const FolioContainer = () => {
         onClose={() => setIsAssetModalOpen(false)}
         modalConfig={assetModalConfig}
         onSaveAsset={handleSaveAssetItem}
+        onDeleteAsset={handleDeleteAssetItem}
       />
       <ConfirmationModal
         isOpen={isConfirmOpen}

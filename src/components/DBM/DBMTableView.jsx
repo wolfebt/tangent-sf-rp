@@ -179,12 +179,14 @@ export const DBMTableView = ({
   const fileInputRef = useRef(null);
   const columnsDropdownRef = useRef(null);
   const filtersDropdownRef = useRef(null);
+  const fileMenuRef = useRef(null);
   const { syncCanonicalSpecies } = useDBM() || {};
   const [isSyncingSpecies, setIsSyncingSpecies] = useState(false);
 
   // Dropdown states
   const [isColumnsMenuOpen, setIsColumnsMenuOpen] = useState(false);
   const [isFiltersMenuOpen, setIsFiltersMenuOpen] = useState(false);
+  const [isFileMenuOpen, setIsFileMenuOpen] = useState(false);
   const [columnSearchTerm, setColumnSearchTerm] = useState('');
   const [filterSearchTerm, setFilterSearchTerm] = useState('');
 
@@ -197,12 +199,16 @@ export const DBMTableView = ({
       if (filtersDropdownRef.current && !filtersDropdownRef.current.contains(e.target)) {
         setIsFiltersMenuOpen(false);
       }
+      if (fileMenuRef.current && !fileMenuRef.current.contains(e.target)) {
+        setIsFileMenuOpen(false);
+      }
     };
 
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') {
         setIsColumnsMenuOpen(false);
         setIsFiltersMenuOpen(false);
+        setIsFileMenuOpen(false);
       }
     };
 
@@ -480,7 +486,7 @@ export const DBMTableView = ({
         </div>
 
         {/* Toolbar controls */}
-        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
           {/* Search Box */}
           <div className="relative">
             <input
@@ -488,7 +494,7 @@ export const DBMTableView = ({
               placeholder="Search entries..."
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
-              className="bg-slate-950 border border-slate-700 text-white pl-8 pr-7 py-1.5 rounded text-xs outline-none focus:border-cyan-500 w-48 sm:w-56"
+              className="bg-slate-950 border border-slate-700 text-white pl-8 pr-7 py-1.5 rounded text-xs outline-none focus:border-cyan-500 w-44 sm:w-52 shadow-inner font-mono"
             />
             <span className="absolute left-2.5 top-2 text-slate-500 text-xs pointer-events-none">🔍</span>
             {searchTerm && (
@@ -502,33 +508,404 @@ export const DBMTableView = ({
             )}
           </div>
 
-          {/* Multi-Select Pulldown: Columns & Sorting Configuration */}
+          {/* Dynamic Multi-Select Filters Pulldown Button */}
+          <div className="relative" ref={filtersDropdownRef}>
+            <button
+              onClick={() => {
+                setIsFiltersMenuOpen(!isFiltersMenuOpen);
+                setIsColumnsMenuOpen(false);
+                setIsFileMenuOpen(false);
+              }}
+              className={`px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider border transition-all flex items-center gap-1.5 ${
+                totalActiveFilterCount > 0
+                  ? 'bg-amber-950/80 text-amber-300 border-amber-500/70 shadow-[0_0_10px_rgba(245,158,11,0.25)]'
+                  : 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
+              }`}
+              title="Open dynamic multi-select filter options"
+            >
+              <span>💎 Filters</span>
+              {totalActiveFilterCount > 0 && (
+                <span className="px-1.5 py-0.2 bg-amber-900/80 text-amber-200 border border-amber-500/50 rounded-full text-[10px] font-mono font-bold">
+                  {totalActiveFilterCount}
+                </span>
+              )}
+              <span className="text-[10px] opacity-70">{isFiltersMenuOpen ? '▲' : '▼'}</span>
+            </button>
+
+            {/* Filter Options Multi-Select Popover Menu */}
+            {isFiltersMenuOpen && (
+              <div className="absolute left-0 sm:right-auto sm:left-0 mt-2 w-72 sm:w-84 bg-slate-900 border-2 border-amber-500/60 rounded-xl shadow-2xl z-50 p-3 flex flex-col gap-3 backdrop-blur-xl animate-fadeIn">
+                <div className="flex justify-between items-center pb-2 border-b border-slate-800">
+                  <span className="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+                    <span>💎</span>
+                    <span>Dynamic Filter Options</span>
+                  </span>
+                  <button
+                    onClick={() => setIsFiltersMenuOpen(false)}
+                    className="text-slate-400 hover:text-white text-xs px-1"
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                {/* Search within filter values */}
+                <input
+                  type="text"
+                  placeholder="Search filter options..."
+                  value={filterSearchTerm}
+                  onChange={e => setFilterSearchTerm(e.target.value)}
+                  className="bg-slate-950 border border-slate-700 text-white px-2.5 py-1.5 rounded text-xs outline-none focus:border-amber-500 font-mono"
+                />
+
+                <div className="max-h-72 overflow-y-auto space-y-3 pr-1 custom-scrollbar">
+                  {/* Species Lineage Section (if viewing species) */}
+                  {currentKey === 'species' && (
+                    <div>
+                      <div className="text-[10px] font-bold text-purple-400 uppercase tracking-wider mb-1.5 flex justify-between items-center">
+                        <span className="flex items-center gap-1"><span>🧬</span> Lineage / Taxon</span>
+                        {filterSubtypes.length > 0 && (
+                          <button
+                            onClick={() => setFilterSubtypes([])}
+                            className="text-[10px] text-slate-500 hover:text-slate-300 lowercase"
+                          >
+                            clear
+                          </button>
+                        )}
+                      </div>
+                      <div className="space-y-1">
+                        {SPECIES_LINEAGES
+                          .filter(lin => !filterSearchTerm || lin.name.toLowerCase().includes(filterSearchTerm.toLowerCase()))
+                          .map(lin => {
+                            const shortName = lin.name.split(' ')[0].replace(/[^a-zA-Z]/g, '');
+                            const checked = filterSubtypes.includes(lin.name) || filterSubtypes.some(s => s.toLowerCase().includes(shortName.toLowerCase()));
+                            const count = currentItems.filter(i => {
+                              const p = (i.parent_species || '').toLowerCase();
+                              return p.includes(shortName.toLowerCase()) || p === lin.id.toLowerCase();
+                            }).length;
+
+                            return (
+                              <label
+                                key={lin.id}
+                                className={`flex items-center justify-between px-2 py-1 rounded text-xs cursor-pointer select-none transition-colors ${
+                                  checked ? 'bg-purple-950/70 text-purple-200 border border-purple-500/50' : 'bg-slate-950/40 text-slate-300 hover:bg-slate-800'
+                                }`}
+                              >
+                                <div className="flex items-center gap-2 truncate">
+                                  <input
+                                    type="checkbox"
+                                    checked={checked}
+                                    onChange={() => {
+                                      if (checked) {
+                                        setFilterSubtypes(filterSubtypes.filter(s => !s.toLowerCase().includes(shortName.toLowerCase())));
+                                      } else {
+                                        setFilterSubtypes([...filterSubtypes, lin.name]);
+                                      }
+                                    }}
+                                    className="rounded border-slate-700 text-purple-500 focus:ring-0 cursor-pointer accent-purple-500"
+                                  />
+                                  <span className="truncate">{lin.name}</span>
+                                </div>
+                                <span className="text-[10px] text-slate-500 font-mono ml-2">({count})</span>
+                              </label>
+                            );
+                          })}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* 1. Types & Categories */}
+                  {availableTypes.length > 0 && (
+                    <div>
+                      <div className="text-[10px] font-bold text-cyan-400 uppercase tracking-wider mb-1.5 flex justify-between items-center">
+                        <span className="flex items-center gap-1"><span>🗂️</span> Type & Category</span>
+                        {filterTypes.length > 0 && (
+                          <button
+                            onClick={() => setFilterTypes([])}
+                            className="text-[10px] text-slate-500 hover:text-slate-300 lowercase"
+                          >
+                            clear
+                          </button>
+                        )}
+                      </div>
+                      <div className="space-y-1">
+                        {availableTypes
+                          .filter(t => !filterSearchTerm || t.toLowerCase().includes(filterSearchTerm.toLowerCase()))
+                          .map(t => {
+                            const count = currentItems.filter(i => {
+                              const types = Array.isArray(i.type) ? i.type : (i.type ? [i.type] : []);
+                              if (i.category && !types.includes(i.category)) types.push(i.category);
+                              return types.includes(t);
+                            }).length;
+                            const checked = filterTypes.includes(t);
+
+                            return (
+                              <label
+                                key={t}
+                                className={`flex items-center justify-between px-2 py-1 rounded text-xs cursor-pointer select-none transition-colors ${
+                                  checked ? 'bg-cyan-950/60 text-cyan-300 border border-cyan-500/40' : 'bg-slate-950/40 text-slate-300 hover:bg-slate-800'
+                                }`}
+                              >
+                                <div className="flex items-center gap-2 truncate">
+                                  <input
+                                    type="checkbox"
+                                    checked={checked}
+                                    onChange={() => toggleFilterType(t)}
+                                    className="rounded border-slate-700 text-cyan-500 focus:ring-0 cursor-pointer accent-cyan-500"
+                                  />
+                                  <span className="truncate">{t}</span>
+                                </div>
+                                <span className="text-[10px] text-slate-500 font-mono ml-2">({count})</span>
+                              </label>
+                            );
+                          })}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* 2. Subtypes / Disciplines / Society */}
+                  {availableSubtypes.length > 0 && currentKey !== 'species' && (
+                    <div>
+                      <div className="text-[10px] font-bold text-cyan-400 uppercase tracking-wider mb-1.5 flex justify-between items-center">
+                        <span className="flex items-center gap-1"><span>🔮</span> Subtype / Discipline / Aspect</span>
+                        {filterSubtypes.length > 0 && (
+                          <button
+                            onClick={() => setFilterSubtypes([])}
+                            className="text-[10px] text-slate-500 hover:text-slate-300 lowercase"
+                          >
+                            clear
+                          </button>
+                        )}
+                      </div>
+                      <div className="space-y-1">
+                        {availableSubtypes
+                          .filter(s => !filterSearchTerm || s.toLowerCase().includes(filterSearchTerm.toLowerCase()))
+                          .map(s => {
+                            const count = currentItems.filter(i => {
+                              const val = i.subtype || i.discipline || i.society || i.aspect || i.aspect_subtype;
+                              const subs = Array.isArray(val) ? val : (val ? [val] : []);
+                              return subs.includes(s);
+                            }).length;
+                            const checked = filterSubtypes.includes(s);
+
+                            return (
+                              <label
+                                key={s}
+                                className={`flex items-center justify-between px-2 py-1 rounded text-xs cursor-pointer select-none transition-colors ${
+                                  checked ? 'bg-cyan-950/60 text-cyan-300 border border-cyan-500/40' : 'bg-slate-950/40 text-slate-300 hover:bg-slate-800'
+                                }`}
+                              >
+                                <div className="flex items-center gap-2 truncate">
+                                  <input
+                                    type="checkbox"
+                                    checked={checked}
+                                    onChange={() => toggleFilterSubtype(s)}
+                                    className="rounded border-slate-700 text-cyan-500 focus:ring-0 cursor-pointer accent-cyan-500"
+                                  />
+                                  <span className="truncate">{s}</span>
+                                </div>
+                                <span className="text-[10px] text-slate-500 font-mono ml-2">({count})</span>
+                              </label>
+                            );
+                          })}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* 3. Tech Level (TL) & Meta Level (ML) */}
+                  {(availableTLs.length > 0 || availableMLs.length > 0) && (
+                    <div className="space-y-2">
+                      {availableTLs.length > 0 && (
+                        <div>
+                          <div className="text-[10px] font-bold text-amber-400 uppercase tracking-wider mb-1 flex justify-between items-center">
+                            <span>Tech Level (TL)</span>
+                            {filterTLs.length > 0 && (
+                              <button
+                                onClick={() => setFilterTLs([])}
+                                className="text-[10px] text-slate-500 hover:text-slate-300 lowercase"
+                              >
+                                clear
+                              </button>
+                            )}
+                          </div>
+                          <div className="flex flex-wrap gap-1.5">
+                            {availableTLs.map(tl => {
+                              const checked = filterTLs.includes(tl);
+                              const count = currentItems.filter(i => (i.tech_level !== undefined ? i.tech_level : (i.tl !== undefined ? i.tl : i.techLevel)) === tl).length;
+                              return (
+                                <button
+                                  key={tl}
+                                  onClick={() => toggleFilterTL(tl)}
+                                  className={`px-2 py-0.5 rounded text-xs font-mono font-bold border transition-colors ${
+                                    checked
+                                      ? 'bg-amber-950 text-amber-300 border-amber-500/70 shadow-sm'
+                                      : 'bg-slate-950 text-slate-400 border-slate-800 hover:border-slate-700'
+                                  }`}
+                                >
+                                  TL {tl} ({count})
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+
+                      {availableMLs.length > 0 && (
+                        <div>
+                          <div className="text-[10px] font-bold text-purple-400 uppercase tracking-wider mb-1 flex justify-between items-center">
+                            <span>Meta Level (ML)</span>
+                            {filterMLs.length > 0 && (
+                              <button
+                                onClick={() => setFilterMLs([])}
+                                className="text-[10px] text-slate-500 hover:text-slate-300 lowercase"
+                              >
+                                clear
+                              </button>
+                            )}
+                          </div>
+                          <div className="flex flex-wrap gap-1.5">
+                            {availableMLs.map(ml => {
+                              const checked = filterMLs.includes(ml);
+                              const count = currentItems.filter(i => (i.meta_level !== undefined ? i.meta_level : (i.ml !== undefined ? i.ml : i.metaLevel)) === ml).length;
+                              return (
+                                <button
+                                  key={ml}
+                                  onClick={() => toggleFilterML(ml)}
+                                  className={`px-2 py-0.5 rounded text-xs font-mono font-bold border transition-colors ${
+                                    checked
+                                      ? 'bg-purple-950 text-purple-300 border-purple-500/70 shadow-sm'
+                                      : 'bg-slate-950 text-slate-400 border-slate-800 hover:border-slate-700'
+                                  }`}
+                                >
+                                  ML {ml} ({count})
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* 4. Tags & Creators */}
+                  {availableTags.length > 0 && (
+                    <div>
+                      <div className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider mb-1.5 flex justify-between items-center">
+                        <span className="flex items-center gap-1"><span>🏷️</span> Tags & Creators</span>
+                        {filterTags.length > 0 && (
+                          <button
+                            onClick={() => setFilterTags([])}
+                            className="text-[10px] text-slate-500 hover:text-slate-300 lowercase"
+                          >
+                            clear
+                          </button>
+                        )}
+                      </div>
+                      <div className="space-y-1">
+                        {availableTags
+                          .filter(tag => !filterSearchTerm || tag.toLowerCase().includes(filterSearchTerm.toLowerCase()))
+                          .map(tag => {
+                            const checked = filterTags.includes(tag);
+                            const count = currentItems.filter(i => {
+                              const tags = Array.isArray(i.tags) ? i.tags : (typeof i.tags === 'string' ? i.tags.split(',').map(t => t.trim()) : []);
+                              return tags.includes(tag);
+                            }).length;
+
+                            return (
+                              <label
+                                key={tag}
+                                className={`flex items-center justify-between px-2 py-1 rounded text-xs cursor-pointer select-none transition-colors ${
+                                  checked ? 'bg-emerald-950/60 text-emerald-300 border border-emerald-500/40' : 'bg-slate-950/40 text-slate-300 hover:bg-slate-800'
+                                }`}
+                              >
+                                <div className="flex items-center gap-2 truncate">
+                                  <input
+                                    type="checkbox"
+                                    checked={checked}
+                                    onChange={() => toggleFilterTag(tag)}
+                                    className="rounded border-slate-700 text-emerald-500 focus:ring-0 cursor-pointer accent-emerald-500"
+                                  />
+                                  <span className={`truncate ${tag.startsWith('@') ? 'font-mono text-cyan-400' : ''}`}>{tag}</span>
+                                </div>
+                                <span className="text-[10px] text-slate-500 font-mono ml-2">({count})</span>
+                              </label>
+                            );
+                          })}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Popover Footer */}
+                <div className="pt-2 border-t border-slate-800 flex justify-between items-center">
+                  <button
+                    onClick={clearAllFilters}
+                    className="text-xs font-bold text-rose-400 hover:text-rose-300 transition-colors"
+                  >
+                    ✕ Clear All
+                  </button>
+                  <button
+                    onClick={() => setIsFiltersMenuOpen(false)}
+                    className="px-3.5 py-1 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-bold uppercase tracking-wider transition-colors shadow-sm"
+                  >
+                    Apply
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Unified Inline Sorting Controls on Same Row */}
+          <div className="flex items-center gap-1.5 bg-slate-950/80 border border-slate-800 px-2 py-1 rounded">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider hidden sm:inline">Sort:</span>
+            <select
+              value={sortField}
+              onChange={e => setSortField(e.target.value)}
+              className="bg-slate-900 border border-slate-700 text-cyan-300 px-2 py-0.5 rounded text-xs outline-none focus:border-cyan-500 max-w-[110px] sm:max-w-[130px] truncate"
+              title="Sort entries by field"
+            >
+              {allAvailableFields.map(f => (
+                <option key={f.key} value={f.key}>
+                  {f.label}
+                </option>
+              ))}
+            </select>
+            <button
+              onClick={() => setSortAsc(!sortAsc)}
+              className="px-1.5 py-0.5 bg-slate-900 border border-slate-700 hover:border-cyan-500 text-cyan-300 hover:text-white font-bold rounded text-[11px] font-mono shrink-0 transition-colors"
+              title="Toggle Sort Direction"
+            >
+              {sortAsc ? '▲ ASC' : '▼ DESC'}
+            </button>
+          </div>
+
+          {/* Columns & Field Visibility Menu */}
           <div className="relative" ref={columnsDropdownRef}>
             <button
               onClick={() => {
                 setIsColumnsMenuOpen(!isColumnsMenuOpen);
                 setIsFiltersMenuOpen(false);
+                setIsFileMenuOpen(false);
               }}
-              className={`px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider border transition-all flex items-center gap-1.5 ${
+              className={`px-2.5 py-1.5 rounded text-xs font-bold uppercase tracking-wider border transition-all flex items-center gap-1.5 ${
                 isColumnsMenuOpen
                   ? 'bg-cyan-950 text-cyan-300 border-cyan-500 shadow-[0_0_10px_rgba(34,211,238,0.2)]'
                   : 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
               }`}
-              title="Configure visible columns and field sorting options"
+              title="Configure visible table columns"
             >
-              <span>⚙️ Columns & Sorting</span>
+              <span>⚙️ Columns</span>
               <span className="px-1.5 py-0.2 bg-cyan-900/80 text-cyan-300 border border-cyan-500/40 rounded-full text-[10px] font-mono">
                 {visibleColumns.length}
               </span>
               <span className="text-[10px] opacity-70">{isColumnsMenuOpen ? '▲' : '▼'}</span>
             </button>
 
-            {/* Columns & Sorting Popover Menu */}
+            {/* Columns Popover Menu */}
             {isColumnsMenuOpen && (
-              <div className="absolute right-0 mt-2 w-72 sm:w-80 bg-slate-900 border-2 border-cyan-500/60 rounded-lg shadow-2xl z-50 p-3 flex flex-col gap-2.5 backdrop-blur-xl animate-fadeIn">
+              <div className="absolute right-0 mt-2 w-72 sm:w-80 bg-slate-900 border-2 border-cyan-500/60 rounded-xl shadow-2xl z-50 p-3 flex flex-col gap-2.5 backdrop-blur-xl animate-fadeIn">
                 <div className="flex justify-between items-center pb-2 border-b border-slate-800">
                   <span className="text-xs font-bold text-cyan-400 uppercase tracking-wider">
-                    Columns & Sorting Fields
+                    Visible Table Columns
                   </span>
                   <button
                     onClick={() => setIsColumnsMenuOpen(false)}
@@ -538,22 +915,20 @@ export const DBMTableView = ({
                   </button>
                 </div>
 
-                {/* Search within fields */}
                 <input
                   type="text"
                   placeholder="Filter fields..."
                   value={columnSearchTerm}
                   onChange={e => setColumnSearchTerm(e.target.value)}
-                  className="bg-slate-950 border border-slate-700 text-white px-2.5 py-1 rounded text-xs outline-none focus:border-cyan-500"
+                  className="bg-slate-950 border border-slate-700 text-white px-2.5 py-1 rounded text-xs outline-none focus:border-cyan-500 font-mono"
                 />
 
-                {/* Quick actions */}
                 <div className="flex items-center justify-between text-[11px] font-bold text-slate-400 pb-1 border-b border-slate-800/80">
                   <button
                     onClick={resetDefaultColumns}
                     className="hover:text-cyan-400 transition-colors"
                   >
-                    ↺ Reset Defaults
+                    ↺ Defaults
                   </button>
                   <div className="flex gap-2">
                     <button
@@ -572,11 +947,9 @@ export const DBMTableView = ({
                   </div>
                 </div>
 
-                {/* Fields Checkbox List */}
                 <div className="max-h-60 overflow-y-auto space-y-1 pr-1 custom-scrollbar">
                   {filteredAvailableFields.map(f => {
                     const isVisible = visibleColumns.includes(f.key);
-                    const isCurrentSort = sortField === f.key;
 
                     return (
                       <div
@@ -598,61 +971,101 @@ export const DBMTableView = ({
                             <span className="text-[9px] text-slate-500 font-mono">(required)</span>
                           )}
                         </label>
-
-                        {/* Quick Sort Button for this field */}
-                        <button
-                          onClick={() => {
-                            if (sortField === f.key) {
-                              setSortAsc(!sortAsc);
-                            } else {
-                              setSortField(f.key);
-                              setSortAsc(true);
-                              if (!isVisible) toggleColumn(f.key);
-                            }
-                          }}
-                          className={`px-1.5 py-0.5 rounded text-[10px] font-bold border transition-colors shrink-0 ml-1.5 ${
-                            isCurrentSort
-                              ? 'bg-cyan-950 text-cyan-300 border-cyan-500/70'
-                              : 'bg-slate-900 text-slate-500 border-slate-800 hover:text-slate-300 hover:border-slate-700'
-                          }`}
-                          title={`Sort by ${f.label} (${isCurrentSort ? (sortAsc ? 'Ascending' : 'Descending') : 'Click to Sort'})`}
-                        >
-                          {isCurrentSort ? (sortAsc ? '▲ ASC' : '▼ DESC') : '⇅ SORT'}
-                        </button>
                       </div>
                     );
                   })}
-                </div>
-
-                {/* Active Sort Selector in Dropdown Footer */}
-                <div className="pt-2 border-t border-slate-800 flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-1.5 flex-1 truncate">
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Sort:</span>
-                    <select
-                      value={sortField}
-                      onChange={e => setSortField(e.target.value)}
-                      className="bg-slate-950 border border-slate-700 text-cyan-300 px-2 py-1 rounded text-xs outline-none focus:border-cyan-500 flex-1 truncate"
-                    >
-                      {allAvailableFields.map(f => (
-                        <option key={f.key} value={f.key}>
-                          {f.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <button
-                    onClick={() => setSortAsc(!sortAsc)}
-                    className="px-2 py-1 bg-slate-950 border border-slate-700 hover:border-cyan-500 text-cyan-400 font-bold rounded text-xs shrink-0"
-                    title="Toggle Sort Direction"
-                  >
-                    {sortAsc ? '▲ ASC' : '▼ DESC'}
-                  </button>
                 </div>
               </div>
             )}
           </div>
 
-          {/* Local JSON Controls */}
+          {/* File Controls Dropdown Menu */}
+          <div className="relative" ref={fileMenuRef}>
+            <button
+              onClick={() => {
+                setIsFileMenuOpen(!isFileMenuOpen);
+                setIsColumnsMenuOpen(false);
+                setIsFiltersMenuOpen(false);
+              }}
+              className={`px-2.5 py-1.5 rounded text-xs font-bold uppercase tracking-wider border transition-all flex items-center gap-1.5 ${
+                isFileMenuOpen
+                  ? 'bg-slate-800 text-cyan-300 border-cyan-500 shadow-sm'
+                  : 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
+              }`}
+              title="File control actions & data export/import"
+            >
+              <span>📁 File Controls</span>
+              <span className="text-[10px] opacity-70">{isFileMenuOpen ? '▲' : '▼'}</span>
+            </button>
+
+            {isFileMenuOpen && (
+              <div className="absolute right-0 mt-2 w-56 bg-slate-900 border-2 border-cyan-500/60 rounded-xl shadow-2xl z-50 p-2 flex flex-col gap-1 backdrop-blur-xl animate-fadeIn text-xs">
+                <div className="px-2 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-800 mb-0.5">
+                  Category File Actions
+                </div>
+
+                <button
+                  onClick={() => {
+                    handleExportJSON();
+                    setIsFileMenuOpen(false);
+                  }}
+                  className="w-full text-left px-2.5 py-1.5 hover:bg-slate-800 text-slate-200 rounded flex items-center gap-2 transition-colors font-medium"
+                >
+                  <span>📤</span>
+                  <span>Export JSON ({currentConfig.label || currentKey})</span>
+                </button>
+
+                {isAdmin && (
+                  <button
+                    onClick={() => {
+                      fileInputRef.current?.click();
+                      setIsFileMenuOpen(false);
+                    }}
+                    className="w-full text-left px-2.5 py-1.5 hover:bg-slate-800 text-cyan-300 rounded flex items-center gap-2 transition-colors font-medium"
+                  >
+                    <span>📥</span>
+                    <span>Import JSON ({currentConfig.label || currentKey})</span>
+                  </button>
+                )}
+
+                {isAdmin && currentKey === 'species' && syncCanonicalSpecies && (
+                  <button
+                    onClick={async () => {
+                      setIsFileMenuOpen(false);
+                      if (window.confirm(`Sync all 81 canonical species from local definitions to Firestore cloud collection? This will overwrite or update cloud species documents.`)) {
+                        setIsSyncingSpecies(true);
+                        try {
+                          await syncCanonicalSpecies();
+                        } finally {
+                          setIsSyncingSpecies(false);
+                        }
+                      }
+                    }}
+                    disabled={isSyncingSpecies}
+                    className="w-full text-left px-2.5 py-1.5 bg-purple-950/40 hover:bg-purple-900/60 text-purple-300 rounded flex items-center gap-2 transition-colors font-medium border border-purple-500/30"
+                  >
+                    <span>🧬</span>
+                    <span>{isSyncingSpecies ? 'Syncing...' : 'Sync Cloud Species (81)'}</span>
+                  </button>
+                )}
+
+                <div className="border-t border-slate-800 my-0.5" />
+
+                <button
+                  onClick={() => {
+                    clearAllFilters();
+                    setIsFileMenuOpen(false);
+                  }}
+                  className="w-full text-left px-2.5 py-1.5 hover:bg-rose-950/50 text-rose-300 rounded flex items-center gap-2 transition-colors font-medium"
+                >
+                  <span>🧹</span>
+                  <span>Reset All Active Filters</span>
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Hidden File Input for JSON import */}
           <input
             type="file"
             accept=".json"
@@ -660,54 +1073,19 @@ export const DBMTableView = ({
             className="hidden"
             onChange={onImport}
           />
-          {isAdmin && (
-            <button
-              onClick={() => fileInputRef.current?.click()}
-              className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded text-xs font-bold uppercase tracking-wider transition-colors"
-            >
-              Import JSON
-            </button>
-          )}
-          <button
-            onClick={handleExportJSON}
-            className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded text-xs font-bold uppercase tracking-wider transition-colors"
-          >
-            Export JSON
-          </button>
 
-          {isAdmin && currentKey === 'species' && (
-            <button
-              onClick={async () => {
-                if (!syncCanonicalSpecies) return;
-                if (window.confirm(`Sync all 81 canonical species from local definitions to Firestore cloud collection? This will overwrite or update cloud species documents.`)) {
-                  setIsSyncingSpecies(true);
-                  try {
-                    await syncCanonicalSpecies();
-                  } finally {
-                    setIsSyncingSpecies(false);
-                  }
-                }
-              }}
-              disabled={isSyncingSpecies}
-              className="px-3 py-1.5 bg-purple-950/80 hover:bg-purple-900 text-purple-200 border border-purple-500/50 rounded text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-1.5 disabled:opacity-50"
-              title="Synchronize all 81 canonical species to Firestore cloud database"
-            >
-              <span>🧬</span>
-              <span>{isSyncingSpecies ? 'Syncing...' : 'Sync Cloud Species'}</span>
-            </button>
-          )}
-
+          {/* Create Entry Button */}
           {isAdmin ? (
             <button
               onClick={handleCreateNew}
-              className="px-4 py-1.5 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-bold uppercase tracking-wider shadow-md transition-colors"
+              className="px-4 py-1.5 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-bold uppercase tracking-wider shadow-md transition-colors whitespace-nowrap"
             >
               + ADD NEW ENTRY
             </button>
           ) : (
             <button
               disabled
-              className="px-4 py-1.5 bg-slate-800 text-slate-500 border border-slate-700/50 rounded text-xs font-bold uppercase tracking-wider cursor-not-allowed opacity-60"
+              className="px-4 py-1.5 bg-slate-800 text-slate-500 border border-slate-700/50 rounded text-xs font-bold uppercase tracking-wider cursor-not-allowed opacity-60 whitespace-nowrap"
               title="Administrator or GM privileges required to add entries"
             >
               🔒 READ-ONLY
@@ -716,443 +1094,60 @@ export const DBMTableView = ({
         </div>
       </div>
 
-      {/* --- Species Lineage Quick Filters (when viewing species) --- */}
-      {currentKey === 'species' && (
-        <div className="flex flex-wrap items-center gap-1.5 mb-2 pb-2 border-b border-purple-900/40 shrink-0 bg-purple-950/20 p-2 rounded-lg border border-purple-800/30">
-          <span className="text-[10px] font-bold text-purple-400 uppercase tracking-widest flex items-center gap-1 shrink-0 mr-1">
-            <span>🧬</span> Lineage:
-          </span>
-          <button
-            onClick={() => setFilterSubtypes([])}
-            className={`px-2.5 py-1 text-xs font-bold uppercase rounded tracking-wider transition-all ${
-              filterSubtypes.length === 0
-                ? 'bg-purple-950 text-purple-200 border border-purple-500/70 shadow-[0_0_8px_rgba(168,85,247,0.3)]'
-                : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
-            }`}
-          >
-            All Lineages ({currentItems.length})
-          </button>
-          {SPECIES_LINEAGES.map(lin => {
-            const shortName = lin.name.split(' ')[0].replace(/[^a-zA-Z]/g, '');
-            const isActive = filterSubtypes.includes(lin.name) || filterSubtypes.some(s => s.toLowerCase().includes(shortName.toLowerCase()));
-            const count = currentItems.filter(i => {
-              const p = (i.parent_species || '').toLowerCase();
-              return p.includes(shortName.toLowerCase()) || p === lin.id.toLowerCase();
-            }).length;
-
-            return (
-              <button
-                key={lin.id}
-                onClick={() => {
-                  if (isActive) {
-                    setFilterSubtypes(filterSubtypes.filter(s => !s.toLowerCase().includes(shortName.toLowerCase())));
-                  } else {
-                    setFilterSubtypes([lin.name]);
-                  }
-                }}
-                className={`px-2.5 py-1 text-xs font-bold rounded tracking-tight transition-all flex items-center gap-1.5 ${
-                  isActive
-                    ? 'bg-purple-950 text-purple-200 border border-purple-500/70 shadow-[0_0_8px_rgba(168,85,247,0.3)]'
-                    : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
-                }`}
-                title={lin.description}
-              >
-                <span>{lin.name}</span>
-                {count > 0 && (
-                  <span className={`text-[10px] px-1 py-0.2 rounded font-mono ${
-                    isActive ? 'bg-purple-900/80 text-purple-200' : 'bg-slate-800 text-slate-400'
-                  }`}>
-                    {count}
-                  </span>
-                )}
-              </button>
-            );
-          })}
-        </div>
-      )}
-
-      {/* --- Filter / Filter Type Bar --- */}
-      <div className="flex flex-wrap items-center gap-2 mb-2 pb-2 border-b border-slate-800/80 shrink-0">
-        <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Filter Type:</span>
-
-        {/* 'All' button */}
-        <button
-          onClick={() => setFilterTypes([])}
-          className={`px-3 py-1 text-xs font-bold uppercase rounded tracking-wider transition-all ${
-            filterTypes.length === 0
-              ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-[0_0_8px_rgba(34,211,238,0.2)]'
-              : 'bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-800'
-          }`}
-        >
-          All ({currentItems.length})
-        </button>
-
-        {/* Quick Autogenerated Type Buttons with Multi-Select Toggle */}
-        {availableTypes.map(t => {
-          const count = currentItems.filter(i => {
-            const types = Array.isArray(i.type) ? i.type : (i.type ? [i.type] : []);
-            if (i.category && !types.includes(i.category)) types.push(i.category);
-            return types.includes(t);
-          }).length;
-          const isActive = filterTypes.includes(t);
-
-          return (
-            <button
-              key={t}
-              onClick={() => toggleFilterType(t)}
-              className={`px-3 py-1 text-xs font-bold uppercase rounded tracking-wider transition-all flex items-center gap-1.5 ${
-                isActive
-                  ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-[0_0_8px_rgba(34,211,238,0.2)]'
-                  : 'bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-800'
-              }`}
-              title={`Toggle filter for "${t}"`}
-            >
-              <span>{t}</span>
-              <span className={`text-[10px] px-1 py-0.2 rounded font-mono ${isActive ? 'bg-cyan-900/60 text-cyan-200' : 'bg-slate-800 text-slate-500'}`}>
-                {count}
-              </span>
-            </button>
-          );
-        })}
-
-        {/* Multi-Select Filters Pulldown Button (Facet Filter Dropdown) */}
-        <div className="relative ml-auto" ref={filtersDropdownRef}>
-          <button
-            onClick={() => {
-              setIsFiltersMenuOpen(!isFiltersMenuOpen);
-              setIsColumnsMenuOpen(false);
-            }}
-            className={`px-3 py-1 text-xs font-bold uppercase rounded tracking-wider border transition-all flex items-center gap-1.5 ${
-              totalActiveFilterCount > 0
-                ? 'bg-amber-950 text-amber-300 border-amber-500/60 shadow-[0_0_8px_rgba(245,158,11,0.2)]'
-                : 'bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-800'
-            }`}
-          >
-            <span>🔍 Filter Options</span>
-            {totalActiveFilterCount > 0 && (
-              <span className="px-1.5 py-0.2 bg-amber-900/80 text-amber-200 border border-amber-500/50 rounded-full text-[10px] font-mono">
-                {totalActiveFilterCount}
-              </span>
-            )}
-            <span className="text-[10px] opacity-70">{isFiltersMenuOpen ? '▲' : '▼'}</span>
-          </button>
-
-          {/* Filter Options Multi-Select Popover Menu */}
-          {isFiltersMenuOpen && (
-            <div className="absolute right-0 mt-2 w-72 sm:w-80 bg-slate-900 border-2 border-amber-500/60 rounded-lg shadow-2xl z-50 p-3 flex flex-col gap-3 backdrop-blur-xl animate-fadeIn">
-              <div className="flex justify-between items-center pb-2 border-b border-slate-800">
-                <span className="text-xs font-bold text-amber-400 uppercase tracking-wider">
-                  Multi-Select Filter Options
-                </span>
-                <button
-                  onClick={() => setIsFiltersMenuOpen(false)}
-                  className="text-slate-400 hover:text-white text-xs px-1"
-                >
-                  ✕
-                </button>
-              </div>
-
-              {/* Search within filter values */}
-              <input
-                type="text"
-                placeholder="Search filter options..."
-                value={filterSearchTerm}
-                onChange={e => setFilterSearchTerm(e.target.value)}
-                className="bg-slate-950 border border-slate-700 text-white px-2.5 py-1 rounded text-xs outline-none focus:border-amber-500"
-              />
-
-              <div className="max-h-72 overflow-y-auto space-y-3 pr-1 custom-scrollbar">
-                {/* 1. Types / Categories */}
-                {availableTypes.length > 0 && (
-                  <div>
-                    <div className="text-[10px] font-bold text-cyan-400 uppercase tracking-wider mb-1 flex justify-between items-center">
-                      <span>Type / Category</span>
-                      {filterTypes.length > 0 && (
-                        <button
-                          onClick={() => setFilterTypes([])}
-                          className="text-[10px] text-slate-500 hover:text-slate-300 lowercase"
-                        >
-                          clear
-                        </button>
-                      )}
-                    </div>
-                    <div className="space-y-1">
-                      {availableTypes
-                        .filter(t => !filterSearchTerm || t.toLowerCase().includes(filterSearchTerm.toLowerCase()))
-                        .map(t => {
-                          const count = currentItems.filter(i => {
-                            const types = Array.isArray(i.type) ? i.type : (i.type ? [i.type] : []);
-                            if (i.category && !types.includes(i.category)) types.push(i.category);
-                            return types.includes(t);
-                          }).length;
-                          const checked = filterTypes.includes(t);
-
-                          return (
-                            <label
-                              key={t}
-                              className={`flex items-center justify-between px-2 py-1 rounded text-xs cursor-pointer select-none transition-colors ${
-                                checked ? 'bg-cyan-950/60 text-cyan-300 border border-cyan-500/40' : 'bg-slate-950/40 text-slate-300 hover:bg-slate-800'
-                              }`}
-                            >
-                              <div className="flex items-center gap-2 truncate">
-                                <input
-                                  type="checkbox"
-                                  checked={checked}
-                                  onChange={() => toggleFilterType(t)}
-                                  className="rounded border-slate-700 text-cyan-500 focus:ring-0 cursor-pointer accent-cyan-500"
-                                />
-                                <span className="truncate">{t}</span>
-                              </div>
-                              <span className="text-[10px] text-slate-500 font-mono ml-2">({count})</span>
-                            </label>
-                          );
-                        })}
-                    </div>
-                  </div>
-                )}
-
-                {/* 2. Subtypes / Disciplines / Society */}
-                {availableSubtypes.length > 0 && (
-                  <div>
-                    <div className="text-[10px] font-bold text-cyan-400 uppercase tracking-wider mb-1 flex justify-between items-center">
-                      <span>Subtype / Discipline / Aspect</span>
-                      {filterSubtypes.length > 0 && (
-                        <button
-                          onClick={() => setFilterSubtypes([])}
-                          className="text-[10px] text-slate-500 hover:text-slate-300 lowercase"
-                        >
-                          clear
-                        </button>
-                      )}
-                    </div>
-                    <div className="space-y-1">
-                      {availableSubtypes
-                        .filter(s => !filterSearchTerm || s.toLowerCase().includes(filterSearchTerm.toLowerCase()))
-                        .map(s => {
-                          const count = currentItems.filter(i => {
-                            const val = i.subtype || i.discipline || i.society || i.aspect || i.aspect_subtype;
-                            const subs = Array.isArray(val) ? val : (val ? [val] : []);
-                            return subs.includes(s);
-                          }).length;
-                          const checked = filterSubtypes.includes(s);
-
-                          return (
-                            <label
-                              key={s}
-                              className={`flex items-center justify-between px-2 py-1 rounded text-xs cursor-pointer select-none transition-colors ${
-                                checked ? 'bg-cyan-950/60 text-cyan-300 border border-cyan-500/40' : 'bg-slate-950/40 text-slate-300 hover:bg-slate-800'
-                              }`}
-                            >
-                              <div className="flex items-center gap-2 truncate">
-                                <input
-                                  type="checkbox"
-                                  checked={checked}
-                                  onChange={() => toggleFilterSubtype(s)}
-                                  className="rounded border-slate-700 text-cyan-500 focus:ring-0 cursor-pointer accent-cyan-500"
-                                />
-                                <span className="truncate">{s}</span>
-                              </div>
-                              <span className="text-[10px] text-slate-500 font-mono ml-2">({count})</span>
-                            </label>
-                          );
-                        })}
-                    </div>
-                  </div>
-                )}
-
-                {/* 3. Tech Level (TL) */}
-                {availableTLs.length > 0 && (
-                  <div>
-                    <div className="text-[10px] font-bold text-amber-400 uppercase tracking-wider mb-1 flex justify-between items-center">
-                      <span>Tech Level (TL)</span>
-                      {filterTLs.length > 0 && (
-                        <button
-                          onClick={() => setFilterTLs([])}
-                          className="text-[10px] text-slate-500 hover:text-slate-300 lowercase"
-                        >
-                          clear
-                        </button>
-                      )}
-                    </div>
-                    <div className="flex flex-wrap gap-1.5">
-                      {availableTLs.map(tl => {
-                        const checked = filterTLs.includes(tl);
-                        const count = currentItems.filter(i => (i.tech_level !== undefined ? i.tech_level : (i.tl !== undefined ? i.tl : i.techLevel)) === tl).length;
-                        return (
-                          <button
-                            key={tl}
-                            onClick={() => toggleFilterTL(tl)}
-                            className={`px-2 py-0.5 rounded text-xs font-mono font-bold border transition-colors ${
-                              checked
-                                ? 'bg-amber-950 text-amber-300 border-amber-500/60'
-                                : 'bg-slate-950 text-slate-400 border-slate-800 hover:border-slate-700'
-                            }`}
-                          >
-                            TL {tl} ({count})
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-
-                {/* 4. Meta Level (ML) */}
-                {availableMLs.length > 0 && (
-                  <div>
-                    <div className="text-[10px] font-bold text-amber-400 uppercase tracking-wider mb-1 flex justify-between items-center">
-                      <span>Meta Level (ML)</span>
-                      {filterMLs.length > 0 && (
-                        <button
-                          onClick={() => setFilterMLs([])}
-                          className="text-[10px] text-slate-500 hover:text-slate-300 lowercase"
-                        >
-                          clear
-                        </button>
-                      )}
-                    </div>
-                    <div className="flex flex-wrap gap-1.5">
-                      {availableMLs.map(ml => {
-                        const checked = filterMLs.includes(ml);
-                        const count = currentItems.filter(i => (i.meta_level !== undefined ? i.meta_level : (i.ml !== undefined ? i.ml : i.metaLevel)) === ml).length;
-                        return (
-                          <button
-                            key={ml}
-                            onClick={() => toggleFilterML(ml)}
-                            className={`px-2 py-0.5 rounded text-xs font-mono font-bold border transition-colors ${
-                              checked
-                                ? 'bg-amber-950 text-amber-300 border-amber-500/60'
-                                : 'bg-slate-950 text-slate-400 border-slate-800 hover:border-slate-700'
-                            }`}
-                          >
-                            ML {ml} ({count})
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-
-                {/* 5. Tags & Creators */}
-                {availableTags.length > 0 && (
-                  <div>
-                    <div className="text-[10px] font-bold text-cyan-400 uppercase tracking-wider mb-1 flex justify-between items-center">
-                      <span>Tags & Creators</span>
-                      {filterTags.length > 0 && (
-                        <button
-                          onClick={() => setFilterTags([])}
-                          className="text-[10px] text-slate-500 hover:text-slate-300 lowercase"
-                        >
-                          clear
-                        </button>
-                      )}
-                    </div>
-                    <div className="space-y-1">
-                      {availableTags
-                        .filter(tag => !filterSearchTerm || tag.toLowerCase().includes(filterSearchTerm.toLowerCase()))
-                        .map(tag => {
-                          const checked = filterTags.includes(tag);
-                          const count = currentItems.filter(i => {
-                            const tags = Array.isArray(i.tags) ? i.tags : (typeof i.tags === 'string' ? i.tags.split(',').map(t => t.trim()) : []);
-                            return tags.includes(tag);
-                          }).length;
-
-                          return (
-                            <label
-                              key={tag}
-                              className={`flex items-center justify-between px-2 py-1 rounded text-xs cursor-pointer select-none transition-colors ${
-                                checked ? 'bg-cyan-950/60 text-cyan-300 border border-cyan-500/40' : 'bg-slate-950/40 text-slate-300 hover:bg-slate-800'
-                              }`}
-                            >
-                              <div className="flex items-center gap-2 truncate">
-                                <input
-                                  type="checkbox"
-                                  checked={checked}
-                                  onChange={() => toggleFilterTag(tag)}
-                                  className="rounded border-slate-700 text-cyan-500 focus:ring-0 cursor-pointer accent-cyan-500"
-                                />
-                                <span className={`truncate ${tag.startsWith('@') ? 'font-mono text-cyan-400' : ''}`}>{tag}</span>
-                              </div>
-                              <span className="text-[10px] text-slate-500 font-mono ml-2">({count})</span>
-                            </label>
-                          );
-                        })}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Popover Footer */}
-              <div className="pt-2 border-t border-slate-800 flex justify-between items-center">
-                <button
-                  onClick={clearAllFilters}
-                  className="text-xs font-bold text-rose-400 hover:text-rose-300 transition-colors"
-                >
-                  ✕ Clear All Filters
-                </button>
-                <button
-                  onClick={() => setIsFiltersMenuOpen(false)}
-                  className="px-3 py-1 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-bold uppercase tracking-wider transition-colors"
-                >
-                  Done
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* --- Active Filter Chips Bar --- */}
+      {/* --- Dynamic Selected Filters as Glowing Gems Bar --- */}
       {isAnyFilterActive && (
-        <div className="flex flex-wrap items-center gap-1.5 mb-3 px-1 py-1 bg-slate-950/60 border border-slate-800/80 rounded shrink-0">
-          <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mr-1">Active:</span>
+        <div className="flex flex-wrap items-center gap-1.5 mb-3 px-2.5 py-1.5 bg-slate-950/80 border border-slate-800/90 rounded-lg shrink-0 shadow-inner">
+          <span className="text-[10px] font-bold text-amber-400 uppercase tracking-widest mr-1 flex items-center gap-1 font-mono">
+            <span>💎</span> ACTIVE GEMS:
+          </span>
 
           {searchTerm && (
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-slate-800 text-slate-200 border border-slate-700 rounded text-[11px]">
-              <span>Search: "{searchTerm}"</span>
-              <button onClick={() => setSearchTerm('')} className="hover:text-white ml-0.5">✕</button>
+            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-slate-900 text-cyan-300 border border-cyan-500/50 rounded-full text-xs font-mono shadow-[0_0_8px_rgba(34,211,238,0.2)]">
+              <span>🔍 "{searchTerm}"</span>
+              <button onClick={() => setSearchTerm('')} className="hover:text-white ml-0.5 text-[11px] font-bold">✕</button>
             </span>
           )}
 
           {filterTypes.map(t => (
-            <span key={t} className="inline-flex items-center gap-1 px-2 py-0.5 bg-cyan-950/80 text-cyan-300 border border-cyan-500/40 rounded text-[11px]">
-              <span>Type: {t}</span>
-              <button onClick={() => toggleFilterType(t)} className="hover:text-white ml-0.5">✕</button>
+            <span key={t} className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-cyan-950/90 text-cyan-300 border border-cyan-500/60 rounded-full text-xs font-mono font-medium shadow-[0_0_8px_rgba(34,211,238,0.3)]">
+              <span>💎 {t}</span>
+              <button onClick={() => toggleFilterType(t)} className="hover:text-white ml-0.5 text-[11px] font-bold">✕</button>
             </span>
           ))}
 
           {filterSubtypes.map(s => (
-            <span key={s} className="inline-flex items-center gap-1 px-2 py-0.5 bg-cyan-950/80 text-cyan-300 border border-cyan-500/40 rounded text-[11px]">
-              <span>Subtype: {s}</span>
-              <button onClick={() => toggleFilterSubtype(s)} className="hover:text-white ml-0.5">✕</button>
+            <span key={s} className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-purple-950/90 text-purple-200 border border-purple-500/60 rounded-full text-xs font-mono font-medium shadow-[0_0_8px_rgba(168,85,247,0.3)]">
+              <span>🧬 {s}</span>
+              <button onClick={() => toggleFilterSubtype(s)} className="hover:text-white ml-0.5 text-[11px] font-bold">✕</button>
             </span>
           ))}
 
           {filterTLs.map(tl => (
-            <span key={tl} className="inline-flex items-center gap-1 px-2 py-0.5 bg-amber-950/80 text-amber-300 border border-amber-500/40 rounded text-[11px]">
-              <span>TL: {tl}</span>
-              <button onClick={() => toggleFilterTL(tl)} className="hover:text-white ml-0.5">✕</button>
+            <span key={tl} className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-amber-950/90 text-amber-300 border border-amber-500/60 rounded-full text-xs font-mono font-medium shadow-[0_0_8px_rgba(245,158,11,0.3)]">
+              <span>⚡ TL {tl}</span>
+              <button onClick={() => toggleFilterTL(tl)} className="hover:text-white ml-0.5 text-[11px] font-bold">✕</button>
             </span>
           ))}
 
           {filterMLs.map(ml => (
-            <span key={ml} className="inline-flex items-center gap-1 px-2 py-0.5 bg-amber-950/80 text-amber-300 border border-amber-500/40 rounded text-[11px]">
-              <span>ML: {ml}</span>
-              <button onClick={() => toggleFilterML(ml)} className="hover:text-white ml-0.5">✕</button>
+            <span key={ml} className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-purple-950/90 text-purple-300 border border-purple-500/60 rounded-full text-xs font-mono font-medium shadow-[0_0_8px_rgba(168,85,247,0.3)]">
+              <span>🔮 ML {ml}</span>
+              <button onClick={() => toggleFilterML(ml)} className="hover:text-white ml-0.5 text-[11px] font-bold">✕</button>
             </span>
           ))}
 
           {filterTags.map(tag => (
-            <span key={tag} className="inline-flex items-center gap-1 px-2 py-0.5 bg-cyan-950/80 text-cyan-300 border border-cyan-500/40 rounded text-[11px]">
-              <span>Tag: {tag}</span>
-              <button onClick={() => toggleFilterTag(tag)} className="hover:text-white ml-0.5">✕</button>
+            <span key={tag} className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-emerald-950/90 text-emerald-300 border border-emerald-500/60 rounded-full text-xs font-mono font-medium shadow-[0_0_8px_rgba(16,185,129,0.3)]">
+              <span>🏷️ {tag}</span>
+              <button onClick={() => toggleFilterTag(tag)} className="hover:text-white ml-0.5 text-[11px] font-bold">✕</button>
             </span>
           ))}
 
           <button
             onClick={clearAllFilters}
-            className="text-[10px] font-bold text-rose-400 hover:text-rose-300 underline ml-2 cursor-pointer"
+            className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-950/80 text-rose-300 border border-rose-500/50 hover:bg-rose-900 transition-colors ml-1 cursor-pointer"
           >
-            Clear All
+            ✕ Clear All Gems
           </button>
 
           <span className="text-[10px] text-slate-500 ml-auto font-mono">

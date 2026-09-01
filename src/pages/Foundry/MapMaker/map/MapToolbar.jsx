@@ -43,6 +43,9 @@ const MapToolbar = ({
   onLoadMapFromFile,
   onDeleteActiveMap,
   onOpenGuide,
+  onOpenShortcuts,
+  onAddNewMapTab,
+  onDeleteMapTab,
   isVttDrawerOpen,
   onToggleVttDrawer
 }) => {
@@ -85,7 +88,7 @@ const MapToolbar = ({
   const currentMap = universeState.maps.find(m => m.id === activeMapId);
 
   return (
-    <div className="relative z-50 bg-[#161b22]/95 border-b border-[#0D5C63]/60 px-3 py-1.5 flex items-center gap-2 select-none shadow-md backdrop-blur-md flex-wrap">
+    <div className="relative z-20 bg-[#161b22]/95 border-b border-[#0D5C63]/60 px-3 py-1.5 flex items-center gap-2 select-none shadow-md backdrop-blur-md flex-wrap">
 
       {/* FILE Menu Dropdown */}
       <div className="relative" ref={fileMenuRef}>
@@ -362,21 +365,60 @@ const MapToolbar = ({
 
       <div className="w-px h-6 bg-slate-700 mx-1"></div>
 
-      {/* Map Name Input Badge */}
-      {currentMap && (
-        <div className="flex items-center gap-1.5 bg-[#0d1117]/90 border border-[#0D5C63]/80 rounded px-2 py-0.5 h-8 shadow-inner">
-          <span className="text-xs">🗺️</span>
-          <span className="text-[10px] font-bold text-cyan-400 uppercase tracking-wider hidden sm:inline">Map Name:</span>
-          <input
-            type="text"
-            value={currentMap.title || ''}
-            onChange={(e) => updateMap(activeMapId, { title: e.target.value })}
-            className="bg-transparent text-xs font-bold text-[#22d3ee] hover:text-white focus:bg-slate-900 px-1 rounded outline-none w-32 sm:w-44 transition-all truncate border-b border-transparent focus:border-cyan-400"
-            placeholder="Untitled Map..."
-            title="Click to rename Map"
-          />
-        </div>
-      )}
+      {/* Multi-Map Campaign Tabs Switcher */}
+      <div className="flex items-center gap-1.5 overflow-x-auto max-w-full py-0.5 shrink-0">
+        <span className="text-[10px] font-bold text-amber-500 uppercase tracking-widest mr-0.5 shrink-0 flex items-center gap-1">
+          <span>🗺️</span>
+          <span className="hidden sm:inline">Campaign Maps:</span>
+        </span>
+        {(universeState.maps || []).map(m => {
+          const isActive = m.id === activeMapId;
+          return (
+            <div
+              key={m.id}
+              className={`flex items-center gap-1 px-2.5 py-1 rounded text-xs font-bold uppercase transition-all shrink-0 border h-8 ${
+                isActive
+                  ? 'bg-cyan-950 border-cyan-500 text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
+                  : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800'
+              }`}
+            >
+              <button
+                type="button"
+                onClick={() => setActiveMapId(m.id)}
+                className="truncate max-w-[120px] text-left cursor-pointer"
+                title={m.title || 'Untitled Map'}
+              >
+                {m.title || 'Untitled Map'}
+              </button>
+              {universeState.maps.length > 1 && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (onDeleteMapTab) {
+                      onDeleteMapTab(m.id, m.title);
+                    }
+                  }}
+                  className="text-slate-500 hover:text-red-400 font-bold ml-1 cursor-pointer"
+                  title="Delete map element"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+          );
+        })}
+        {onAddNewMapTab && (
+          <button
+            type="button"
+            onClick={onAddNewMapTab}
+            className="px-2.5 py-1 bg-amber-600/30 hover:bg-amber-600/60 border border-amber-500/50 text-amber-300 rounded text-xs font-bold uppercase shrink-0 transition-colors h-8 flex items-center cursor-pointer shadow-sm"
+            title="Add new map element to campaign"
+          >
+            + New Map Tab
+          </button>
+        )}
+      </div>
 
       {/* Map Creator & Contributor Badge */}
       {currentMap && (() => {
@@ -451,8 +493,20 @@ const MapToolbar = ({
 
       <div className="flex-1"></div>
 
-      {/* Right Side: Undo / Redo Buttons */}
-      <div className="flex items-center gap-1">
+      {/* Right Side: Hotkeys & Undo / Redo Buttons */}
+      <div className="flex items-center gap-1.5">
+        {onOpenShortcuts && (
+          <button
+            type="button"
+            onClick={onOpenShortcuts}
+            className="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 text-cyan-300 border border-slate-700 hover:border-cyan-400 rounded text-xs font-bold uppercase tracking-wider flex items-center gap-1 h-8 transition-colors cursor-pointer"
+            title="View Canvas Keyboard Shortcuts Legend"
+          >
+            <span>⌨️</span>
+            <span className="hidden sm:inline">Hotkeys</span>
+          </button>
+        )}
+
         <button
           disabled={undoStack.length === 0}
           onClick={handleUndo}

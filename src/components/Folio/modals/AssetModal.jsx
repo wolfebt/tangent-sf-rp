@@ -3,12 +3,14 @@ import { db, auth } from '../../../firebase';
 import { doc, setDoc, deleteDoc } from 'firebase/firestore';
 import { DBMItemModal } from '../../DBM/DBMItemModal';
 import { categoryConfig } from '../../DBM/categoryConfig';
+import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 
 const AssetModal = ({
   isOpen,
   onClose,
   modalConfig,
-  onSaveAsset
+  onSaveAsset,
+  onDeleteAsset
 }) => {
   const { mode = 'create', key = 'equipment', itemIndex = null, initialData = null, title = 'Asset' } = modalConfig || {};
 
@@ -96,14 +98,20 @@ const AssetModal = ({
   };
 
   const handleDelete = async () => {
-    if (!selectedItem?.id) return;
-    const itemName = selectedItem.name || selectedItem.label || 'this item';
+    if (!selectedItem) return;
+    const itemName = selectedItem.name || selectedItem.label || selectedItem.title || 'this item';
     if (!confirmTypedDeletion(itemName, 'item')) return;
 
-    try {
-      await deleteDoc(doc(db, targetKey, selectedItem.id));
-    } catch (err) {
-      console.warn(`Failed to delete from Firestore collection "${targetKey}":`, err);
+    if (onDeleteAsset) {
+      onDeleteAsset(key, itemIndex, selectedItem);
+    }
+
+    if (selectedItem.id) {
+      try {
+        await deleteDoc(doc(db, targetKey, selectedItem.id));
+      } catch (err) {
+        console.warn(`Failed to delete from Firestore collection "${targetKey}":`, err);
+      }
     }
     onClose();
   };

@@ -46,11 +46,18 @@ import {
   ArrowRight
 } from 'lucide-react';
 
-export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
+export const CodexIngestionEngine = ({ 
+  initialDatasetKey = 'species',
+  isModal = false,
+  focusedMode = false,
+  onApplyEntry = null,
+  onClose = null
+}) => {
   const { dbData, saveEntry } = useDBM() || {};
 
   // State: Dataset & Intake Modes
   const [selectedDatasetKey, setSelectedDatasetKey] = useState(initialDatasetKey);
+  const [showAllDatasetsRibbon, setShowAllDatasetsRibbon] = useState(!focusedMode);
   const [activeTab, setActiveTab] = useState('bastion'); // 'bastion' (default) | 'json' | 'table'
   const [conflictStrategy, setConflictStrategy] = useState('merge'); // 'merge' | 'overwrite' | 'skip'
   
@@ -612,78 +619,105 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
   const DatasetIcon = currentDataset.icon;
 
   return (
-    <div className="flex flex-col h-full bg-slate-950 text-slate-100 p-6 space-y-6 overflow-y-auto">
+    <div className={`flex flex-col h-full bg-slate-950 text-slate-100 overflow-y-auto ${isModal ? 'p-3 sm:p-5 space-y-4' : 'p-6 space-y-6'}`}>
       
-      {/* Header Banner */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
-        <div>
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-cyan-950/80 border border-cyan-500/40 text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.25)]">
-              <Bot size={22} />
-            </div>
-            <div>
-              <h1 className="text-xl font-mono font-bold tracking-wider text-slate-100 uppercase flex items-center gap-2">
-                <span>BASTION OMNICORTEX INGESTION STUDIO</span>
-                <span className="text-xs font-mono px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-500/30">
-                  AI COGNITION V3
-                </span>
-              </h1>
-              <p className="text-xs font-mono text-slate-400 mt-0.5">
-                Autonomous text & document ingestion pipeline parsing into schema-enforced Omnicortex game assets with pre-flight verification.
-              </p>
-            </div>
+      {/* Header Banner (Compact if modal) */}
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+        <div className="flex items-center gap-3">
+          <div className="p-2 sm:p-2.5 rounded-xl bg-cyan-950/80 border border-cyan-500/40 text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.25)] shrink-0">
+            <Bot size={isModal ? 18 : 22} />
+          </div>
+          <div>
+            <h1 className={`${isModal ? 'text-base sm:text-lg' : 'text-xl'} font-mono font-bold tracking-wider text-slate-100 uppercase flex items-center gap-2`}>
+              <span>BASTION OMNICORTEX INGESTION STUDIO</span>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-500/30">
+                AI COGNITION V3
+              </span>
+            </h1>
+            <p className="text-[11px] font-mono text-slate-400 mt-0.5">
+              Autonomous text & document ingestion pipeline parsing into schema-enforced Omnicortex game assets.
+            </p>
           </div>
         </div>
 
-        {/* Global Dataset Quick Stats */}
-        <div className="flex items-center gap-3">
-          <div className="bg-slate-900/80 border border-slate-800 rounded-xl px-3 py-2 flex items-center gap-3">
-            <DatasetIcon size={18} style={{ color: currentDataset.color }} />
+        {/* Global Dataset Quick Stats & Selector Controls */}
+        <div className="flex flex-wrap items-center gap-2.5">
+          <div className="bg-slate-900/80 border border-slate-800 rounded-xl px-3 py-1.5 flex items-center gap-2.5">
+            <DatasetIcon size={16} style={{ color: currentDataset.color }} />
             <div>
-              <div className="text-[10px] font-mono text-slate-500 uppercase leading-none">Target Collection</div>
+              <div className="text-[9px] font-mono text-slate-500 uppercase leading-none">Target Collection</div>
               <div className="text-xs font-mono font-bold text-slate-200 mt-0.5">
                 {currentDataset.label} ({existingCollectionItems.length} stored)
               </div>
             </div>
           </div>
+
+          {/* Quick Dataset Switcher Dropdown */}
+          <div className="flex items-center gap-1.5 bg-slate-900/80 border border-slate-800 rounded-xl px-2 py-1">
+            <span className="text-[10px] font-mono text-slate-400 uppercase font-bold hidden sm:inline">Dataset:</span>
+            <select
+              value={selectedDatasetKey}
+              onChange={(e) => handleSelectDataset(e.target.value)}
+              className="bg-slate-950 border border-slate-700 text-cyan-300 rounded-lg px-2 py-1 text-xs font-mono font-bold uppercase outline-none cursor-pointer"
+            >
+              {OMNICORTEX_DATASETS.map((d) => (
+                <option key={d.key} value={d.key}>
+                  {d.code}: {d.label}
+                </option>
+              ))}
+            </select>
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(900, 0.02);
+                setShowAllDatasetsRibbon(prev => !prev);
+              }}
+              className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-[10px] font-mono uppercase font-bold transition-colors cursor-pointer"
+              title="Toggle full 14-dataset ribbon grid"
+            >
+              {showAllDatasetsRibbon ? 'Compact' : 'Grid'}
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Dataset Selection Ribbons (14 Omnicortex Datasets) */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2">
-        {OMNICORTEX_DATASETS.map((d) => {
-          const isSelected = d.key === selectedDatasetKey;
-          const Icon = d.icon;
-          const count = (dbData?.[d.targetCollection] || []).length;
+      {showAllDatasetsRibbon && (
+        <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2 animate-fade-in">
+          {OMNICORTEX_DATASETS.map((d) => {
+            const isSelected = d.key === selectedDatasetKey;
+            const Icon = d.icon;
+            const count = (dbData?.[d.targetCollection] || []).length;
 
-          return (
-            <button
-              key={d.key}
-              type="button"
-              onClick={() => handleSelectDataset(d.key)}
-              style={{ borderColor: isSelected ? d.color : undefined }}
-              className={`flex flex-col items-start p-2.5 rounded-xl border transition-all cursor-pointer text-left ${
-                isSelected
-                  ? 'bg-slate-900 border-2 shadow-lg'
-                  : 'bg-slate-950/60 border-slate-800/80 hover:bg-slate-900/50 text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              <div className="flex items-center justify-between w-full">
-                <Icon size={14} style={{ color: isSelected ? d.color : undefined }} />
-                <span className="text-[9px] font-mono font-bold px-1 rounded bg-slate-800/80 text-slate-400">
-                  {count}
-                </span>
-              </div>
-              <div className="text-[11px] font-mono font-bold uppercase truncate leading-tight mt-1">
-                {d.label.split(' ')[0]}
-              </div>
-              <div className="text-[9px] font-mono text-slate-500 truncate">
-                {d.code}
-              </div>
-            </button>
-          );
-        })}
-      </div>
+            return (
+              <button
+                key={d.key}
+                type="button"
+                onClick={() => handleSelectDataset(d.key)}
+                style={{ borderColor: isSelected ? d.color : undefined }}
+                className={`flex flex-col items-start p-2 rounded-xl border transition-all cursor-pointer text-left ${
+                  isSelected
+                    ? 'bg-slate-900 border-2 shadow-lg'
+                    : 'bg-slate-950/60 border-slate-800/80 hover:bg-slate-900/50 text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                <div className="flex items-center justify-between w-full">
+                  <Icon size={14} style={{ color: isSelected ? d.color : undefined }} />
+                  <span className="text-[9px] font-mono font-bold px-1 rounded bg-slate-800/80 text-slate-400">
+                    {count}
+                  </span>
+                </div>
+                <div className="text-[11px] font-mono font-bold uppercase truncate leading-tight mt-1">
+                  {d.label.split(' ')[0]}
+                </div>
+                <div className="text-[9px] font-mono text-slate-500 truncate">
+                  {d.code}
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      )}
 
       {/* Main Ingestion Workbench */}
       <div className="grid grid-cols-12 gap-6 flex-1 min-h-0">
@@ -1258,6 +1292,24 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
                           </div>
 
                           <div className="flex items-center gap-2">
+                            {onApplyEntry && (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  AudioService.playTerminalBeep(1400, 0.05);
+                                  const clean = { ...item };
+                                  delete clean._folioHealth;
+                                  onApplyEntry(clean);
+                                  if (onClose) onClose();
+                                }}
+                                className="px-2.5 py-1 rounded bg-amber-600 hover:bg-amber-500 text-white font-bold text-[10px] uppercase font-mono flex items-center gap-1 shadow-md transition-all cursor-pointer"
+                                title="Populate current manage form with this parsed entry"
+                              >
+                                <Sparkles size={11} />
+                                <span>Apply to Form</span>
+                              </button>
+                            )}
+
                             {existing && (
                               <button
                                 type="button"
@@ -1572,14 +1624,33 @@ export const CodexIngestionEngine = ({ initialDatasetKey = 'species' }) => {
                 Cancel
               </button>
 
-              <button
-                type="button"
-                onClick={handleSaveRevision}
-                className="px-5 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white rounded-xl text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all cursor-pointer"
-              >
-                <Check size={14} />
-                <span>Save Revision to Staging</span>
-              </button>
+              <div className="flex items-center gap-2">
+                {onApplyEntry && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const normalized = normalizeOmnicortexItem(revisionForm);
+                      AudioService.playTerminalBeep(1400, 0.05);
+                      onApplyEntry(normalized);
+                      handleCloseRevision();
+                      if (onClose) onClose();
+                    }}
+                    className="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded-xl text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-[0_0_15px_rgba(245,158,11,0.3)] transition-all cursor-pointer"
+                  >
+                    <Sparkles size={14} />
+                    <span>Apply Revision to Form</span>
+                  </button>
+                )}
+
+                <button
+                  type="button"
+                  onClick={handleSaveRevision}
+                  className="px-5 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white rounded-xl text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all cursor-pointer"
+                >
+                  <Check size={14} />
+                  <span>Save Revision to Staging</span>
+                </button>
+              </div>
             </div>
 
           </div>

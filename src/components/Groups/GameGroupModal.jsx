@@ -23,7 +23,11 @@ import {
   Edit3,
   Dices,
   Send,
-  ChevronRight
+  ChevronRight,
+  QrCode,
+  ExternalLink,
+  Smartphone,
+  Download
 } from 'lucide-react';
 import { useGroup } from '../../context/GroupContext';
 import { useChat } from '../../context/ChatContext';
@@ -58,7 +62,10 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
   const [activeTab, setActiveTab] = useState(initialTab);
   const [copiedCode, setCopiedCode] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
+  const [showEnlargedQr, setShowEnlargedQr] = useState(false);
   const [userSearchQuery, setUserSearchQuery] = useState('');
+  const [customInviteHandle, setCustomInviteHandle] = useState('');
+  const [dispatchStatus, setDispatchStatus] = useState(null);
   const [inviteStatusMap, setInviteStatusMap] = useState({});
   const [chatInput, setChatInput] = useState('');
   const [speakingMode, setSpeakingMode] = useState('OOC');
@@ -93,8 +100,24 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
   const currentMember = activeGroup.memberDetails?.[currentUser?.uid] || null;
   const inviteCode = activeGroup.inviteCode || 'GRP-TANGENT';
   const shareableUrl = `${window.location.origin}/?join=${inviteCode}`;
+  const qrCodeImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(shareableUrl)}&bgcolor=0b0f17&color=22d3ee&margin=12`;
 
   const allPersonas = personaRoster || roster || [];
+
+  const fallbackCopyText = (text, setCopied) => {
+    try {
+      const el = document.createElement('textarea');
+      el.value = text;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (e) {
+      console.warn('Fallback copy failed:', e);
+    }
+  };
 
   const handleCopyCode = () => {
     AudioService.playTerminalBeep(1200, 0.03);
@@ -102,7 +125,11 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
       navigator.clipboard.writeText(inviteCode).then(() => {
         setCopiedCode(true);
         setTimeout(() => setCopiedCode(false), 2000);
+      }).catch(() => {
+        fallbackCopyText(inviteCode, setCopiedCode);
       });
+    } else {
+      fallbackCopyText(inviteCode, setCopiedCode);
     }
   };
 
@@ -112,23 +139,94 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
       navigator.clipboard.writeText(shareableUrl).then(() => {
         setCopiedLink(true);
         setTimeout(() => setCopiedLink(false), 2000);
+      }).catch(() => {
+        fallbackCopyText(shareableUrl, setCopiedLink);
       });
+    } else {
+      fallbackCopyText(shareableUrl, setCopiedLink);
     }
+  };
+
+  const handleShareCommLink = async () => {
+    AudioService.playTerminalBeep(1200, 0.03);
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `Join ${activeGroup.name} - Tangent SF RP`,
+          text: `Join fireteam "${activeGroup.name}" on Tangent SF RP with passcode: ${inviteCode}`,
+          url: shareableUrl
+        });
+      } catch (e) {
+        // Ignored if cancelled
+      }
+    } else {
+      handleCopyLink();
+    }
+  };
+
+  const handleDownloadQr = () => {
+    AudioService.playTerminalBeep(1300, 0.03);
+    const link = document.createElement('a');
+    link.href = qrCodeImageUrl;
+    link.download = `Tangent_Team_${inviteCode}_QR.png`;
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const handleSendDirectInvite = async (targetUser) => {
     try {
       AudioService.playTerminalBeep(1400, 0.04);
       setInviteStatusMap(prev => ({ ...prev, [targetUser.uid]: 'sending' }));
+      const handle = targetUser.userHandle || targetUser.displayName || targetUser.email || 'Operator';
       await sendInvite({
         groupId: activeGroup.id,
         targetUserId: targetUser.uid,
-        targetUserHandle: targetUser.userHandle || targetUser.displayName || targetUser.email || 'Operator'
+        targetUserHandle: handle
       });
       setInviteStatusMap(prev => ({ ...prev, [targetUser.uid]: 'sent' }));
+      setDispatchStatus({ type: 'success', text: `Tactical invite transmitted to @${handle}!` });
+      setTimeout(() => setDispatchStatus(null), 4000);
     } catch (err) {
       console.error('Failed to send invite:', err);
       setInviteStatusMap(prev => ({ ...prev, [targetUser.uid]: 'error' }));
+      setDispatchStatus({ type: 'error', text: `Failed to invite operator: ${err.message}` });
+    }
+  };
+
+  const handleDispatchCustomInvite = async (e) => {
+    e.preventDefault();
+    if (!customInviteHandle.trim()) return;
+    const cleanHandle = customInviteHandle.trim().replace(/^@/, '');
+    
+    // Check if in userDirectory first
+    const matchedUser = userDirectory.find(u => 
+      (u.userHandle || u.displayName || u.email || '').toLowerCase() === cleanHandle.toLowerCase()
+    );
+
+    try {
+      AudioService.playTerminalBeep(1400, 0.04);
+      setDispatchStatus({ type: 'loading', text: `Dispatching invite to @${cleanHandle}...` });
+      
+      const targetUid = matchedUser?.uid || `usr_${cleanHandle.toLowerCase().replace(/[^a-z0-9]/g, '_')}`;
+      const targetHandle = matchedUser?.userHandle || matchedUser?.displayName || cleanHandle;
+      
+      await sendInvite({
+        groupId: activeGroup.id,
+        targetUserId: targetUid,
+        targetUserHandle: targetHandle
+      });
+
+      setDispatchStatus({ type: 'success', text: `Tactical invite successfully dispatched to @${targetHandle}!` });
+      setCustomInviteHandle('');
+      if (matchedUser) {
+        setInviteStatusMap(prev => ({ ...prev, [matchedUser.uid]: 'sent' }));
+      }
+      setTimeout(() => setDispatchStatus(null), 5000);
+    } catch (err) {
+      console.error('Custom dispatch invite failed:', err);
+      setDispatchStatus({ type: 'error', text: err.message || 'Failed to dispatch invitation.' });
     }
   };
 
@@ -278,7 +376,7 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
         </div>
 
         {/* Modal Body Tabs */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 text-xs font-mono">
+        <div className="flex-1 min-h-0 overflow-y-auto p-4 sm:p-6 space-y-4 text-xs font-mono pb-8">
           
           {/* TAB 1: OPERATIVES ROSTER */}
           {activeTab === 'roster' && (
@@ -437,84 +535,185 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
           {/* TAB 2: INVITE & RECRUIT */}
           {activeTab === 'invites' && (
             <div className="space-y-5">
-              <div className="p-4 rounded-xl bg-slate-900/80 border border-cyan-500/30 space-y-3">
+              {/* Feedback status banner */}
+              {dispatchStatus && (
+                <div className={`p-3 rounded-xl border text-xs font-mono flex items-center justify-between gap-2 transition-all ${
+                  dispatchStatus.type === 'success' 
+                    ? 'bg-emerald-950/60 border-emerald-500/50 text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.2)]'
+                    : dispatchStatus.type === 'error'
+                    ? 'bg-red-950/60 border-red-500/50 text-red-300'
+                    : 'bg-cyan-950/60 border-cyan-500/50 text-cyan-300'
+                }`}>
+                  <span className="flex items-center gap-2">
+                    {dispatchStatus.type === 'success' && <Check size={14} className="text-emerald-400" />}
+                    <span>{dispatchStatus.text}</span>
+                  </span>
+                  <button type="button" onClick={() => setDispatchStatus(null)} className="text-slate-400 hover:text-white px-1">✕</button>
+                </div>
+              )}
+
+              {/* Shareable Code, URL & QR Code */}
+              <div className="p-4 rounded-xl bg-slate-900/80 border border-cyan-500/30 space-y-3.5">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Share2 size={16} className="text-cyan-400" />
                     <span className="font-bold text-slate-100 uppercase tracking-wider">
-                      SHAREABLE TEAM ACCESS CODE
+                      TEAM ACCESS: PASSCODE, DIRECT COMMLINK &amp; QR CODE
                     </span>
                   </div>
-                  <span className="text-[10px] text-cyan-400 font-bold">1-CLICK JOIN</span>
+                  <span className="text-[10px] text-cyan-400 font-bold px-2 py-0.5 rounded bg-cyan-950/80 border border-cyan-500/40">
+                    1-CLICK MOBILE &amp; DESKTOP JOIN
+                  </span>
                 </div>
                 
                 <p className="text-[11px] text-slate-400">
-                  Any operative can join this team instantly by entering this code into the Hub or following the direct CommLink.
+                  Operatives can join this team instantly by entering the passcode, following the direct CommLink, or scanning the cybernetic QR matrix with any mobile camera.
                 </p>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                  <div className="flex items-center justify-between p-3 rounded-lg bg-slate-950 border border-slate-800">
-                    <div>
-                      <span className="text-[9px] text-slate-500 block uppercase">Invite Passcode</span>
-                      <span className="text-base font-bold text-cyan-300 tracking-widest">{inviteCode}</span>
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 pt-1">
+                  {/* Left: Passcode & URL (8 cols) */}
+                  <div className="lg:col-span-8 flex flex-col gap-2.5">
+                    {/* Invite Code */}
+                    <div className="flex items-center justify-between p-3 rounded-lg bg-slate-950 border border-slate-800">
+                      <div>
+                        <span className="text-[9px] text-slate-500 block uppercase">Invite Passcode</span>
+                        <span className="text-base font-bold text-cyan-300 tracking-widest">{inviteCode}</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={handleCopyCode}
+                        className="px-3 py-1.5 rounded bg-cyan-600/30 hover:bg-cyan-600 text-cyan-300 hover:text-white flex items-center gap-1 font-bold transition-all cursor-pointer"
+                      >
+                        {copiedCode ? <Check size={13} /> : <Copy size={13} />}
+                        <span>{copiedCode ? 'Copied' : 'Copy Code'}</span>
+                      </button>
                     </div>
-                    <button
-                      type="button"
-                      onClick={handleCopyCode}
-                      className="px-3 py-1.5 rounded bg-cyan-600/30 hover:bg-cyan-600 text-cyan-300 hover:text-white flex items-center gap-1 font-bold transition-all"
-                    >
-                      {copiedCode ? <Check size={13} /> : <Copy size={13} />}
-                      <span>{copiedCode ? 'Copied' : 'Copy Code'}</span>
-                    </button>
+
+                    {/* Direct CommLink URL */}
+                    <div className="flex items-center justify-between p-3 rounded-lg bg-slate-950 border border-slate-800">
+                      <div className="min-w-0 pr-2">
+                        <span className="text-[9px] text-slate-500 block uppercase">Direct CommLink URL</span>
+                        <span className="text-xs text-slate-300 truncate block font-mono">{shareableUrl}</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        <button
+                          type="button"
+                          onClick={handleCopyLink}
+                          className="px-2.5 py-1.5 rounded bg-cyan-600/30 hover:bg-cyan-600 text-cyan-300 hover:text-white flex items-center gap-1 font-bold transition-all cursor-pointer"
+                          title="Copy Direct URL"
+                        >
+                          {copiedLink ? <Check size={13} /> : <Copy size={13} />}
+                          <span>{copiedLink ? 'Copied' : 'Copy'}</span>
+                        </button>
+                        <a
+                          href={shareableUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="p-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors"
+                          title="Open URL in New Tab"
+                        >
+                          <ExternalLink size={14} />
+                        </a>
+                        <button
+                          type="button"
+                          onClick={handleShareCommLink}
+                          className="p-1.5 rounded bg-slate-800 hover:bg-cyan-600 text-cyan-300 hover:text-white transition-colors cursor-pointer"
+                          title="Share CommLink"
+                        >
+                          <Share2 size={14} />
+                        </button>
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="flex items-center justify-between p-3 rounded-lg bg-slate-950 border border-slate-800">
-                    <div className="min-w-0 pr-2">
-                      <span className="text-[9px] text-slate-500 block uppercase">Direct CommLink</span>
-                      <span className="text-xs text-slate-300 truncate block">{shareableUrl}</span>
+                  {/* Right: Quick QR Code Matrix Card (4 cols) */}
+                  <div className="lg:col-span-4 flex flex-col items-center justify-between p-3 rounded-lg bg-slate-950 border border-cyan-500/30 text-center gap-2">
+                    <div className="relative group cursor-pointer" onClick={() => setShowEnlargedQr(true)}>
+                      <img 
+                        src={qrCodeImageUrl} 
+                        alt="Team Invite QR Code" 
+                        className="w-24 h-24 rounded-lg bg-black p-1 border border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.25)] group-hover:scale-105 transition-transform"
+                      />
+                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 rounded-lg flex items-center justify-center text-cyan-300 text-[10px] font-bold transition-opacity">
+                        <span>🔍 ENLARGE</span>
+                      </div>
                     </div>
-                    <button
-                      type="button"
-                      onClick={handleCopyLink}
-                      className="px-3 py-1.5 rounded bg-cyan-600/30 hover:bg-cyan-600 text-cyan-300 hover:text-white flex items-center gap-1 font-bold transition-all shrink-0"
-                    >
-                      {copiedLink ? <Check size={13} /> : <Copy size={13} />}
-                      <span>{copiedLink ? 'Copied' : 'Copy Link'}</span>
-                    </button>
+                    <div className="flex items-center gap-1.5 w-full">
+                      <button
+                        type="button"
+                        onClick={() => setShowEnlargedQr(true)}
+                        className="flex-1 py-1 px-2 rounded bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 text-[10px] font-bold flex items-center justify-center gap-1 transition-colors cursor-pointer"
+                      >
+                        <QrCode size={12} />
+                        <span>Scan QR</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleDownloadQr}
+                        className="p-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors cursor-pointer"
+                        title="Download QR Code"
+                      >
+                        <Download size={13} />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              {/* Direct In-App Operator Dispatch */}
+              {/* Direct Invite Dispatch Form */}
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <UserPlus size={16} className="text-emerald-400" />
                     <span className="font-bold text-slate-100 uppercase tracking-wider">
-                      DIRECT OPERATOR INVITATION
+                      DISPATCH OPERATOR INVITATION
                     </span>
                   </div>
                   <span className="text-[11px] text-slate-400">
-                    {inviteableUsers.length} Available in Network
+                    {inviteableUsers.length} in Network Directory
                   </span>
                 </div>
 
+                {/* Manual Handle Dispatch Input */}
+                <form onSubmit={handleDispatchCustomInvite} className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col sm:flex-row gap-2 items-stretch sm:items-center">
+                  <div className="flex-1 relative">
+                    <UserPlus size={14} className="absolute left-3 top-2.5 text-slate-500" />
+                    <input
+                      type="text"
+                      value={customInviteHandle}
+                      onChange={(e) => setCustomInviteHandle(e.target.value)}
+                      placeholder="Dispatch invite by Operative Handle (e.g. @Vanguard, player_2, etc.)..."
+                      className="w-full pl-8 pr-3 py-2 bg-slate-950 border border-slate-700 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-500"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={!customInviteHandle.trim()}
+                    className="px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 disabled:opacity-40 text-white font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 shrink-0 shadow-sm cursor-pointer"
+                  >
+                    <Send size={13} />
+                    <span>TRANSMIT INVITE</span>
+                  </button>
+                </form>
+
+                {/* Search Filter for Directory */}
                 <div className="relative">
                   <Search size={14} className="absolute left-3 top-2.5 text-slate-500" />
                   <input
                     type="text"
                     value={userSearchQuery}
                     onChange={(e) => setUserSearchQuery(e.target.value)}
-                    placeholder="Search registered operators by handle..."
-                    className="w-full pl-8 pr-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+                    placeholder="Filter registered operators by handle..."
+                    className="w-full pl-8 pr-3 py-2 bg-slate-900/70 border border-slate-800 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500"
                   />
                 </div>
 
-                <div className="space-y-2 max-h-56 overflow-y-auto pr-1">
+                {/* Directory List */}
+                <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
                   {inviteableUsers.length === 0 ? (
-                    <div className="p-6 text-center text-slate-500 space-y-1 bg-slate-950/60 rounded-xl border border-dashed border-slate-800">
-                      <p>No eligible operators found to invite.</p>
-                      <p className="text-[10px] text-slate-600">Share the invite code above for open recruitment.</p>
+                    <div className="p-5 text-center text-slate-500 space-y-1 bg-slate-950/60 rounded-xl border border-dashed border-slate-800">
+                      <p>No other registered operators in active directory filter.</p>
+                      <p className="text-[10px] text-slate-600">You can dispatch directly to any handle above or share the Team Passcode.</p>
                     </div>
                   ) : (
                     inviteableUsers.map(targetUser => {
@@ -542,7 +741,7 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
                             type="button"
                             disabled={status === 'sending' || status === 'sent'}
                             onClick={() => handleSendDirectInvite(targetUser)}
-                            className={`px-3 py-1.5 rounded-lg text-[11px] font-bold transition-all flex items-center gap-1 ${
+                            className={`px-3 py-1.5 rounded-lg text-[11px] font-bold transition-all flex items-center gap-1 cursor-pointer ${
                               status === 'sent'
                                 ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
                                 : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-sm'
@@ -573,7 +772,7 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
 
           {/* TAB 3: TIED-IN TEAM COMMS */}
           {activeTab === 'chat' && (
-            <div className="h-[460px] flex flex-col justify-between bg-slate-950/80 rounded-xl border border-slate-800 p-3 space-y-3">
+            <div className="flex-1 min-h-[380px] flex flex-col justify-between bg-slate-950/80 rounded-xl border border-slate-800 p-3 space-y-3">
               <div className="flex items-center justify-between pb-2 border-b border-slate-800 text-[11px]">
                 <div className="flex items-center gap-2">
                   <Radio size={14} className="text-cyan-400 animate-pulse" />
@@ -582,16 +781,16 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
                 <button
                   type="button"
                   onClick={handleOpenFullComms}
-                  className="text-cyan-400 hover:text-cyan-300 hover:underline flex items-center gap-1"
+                  className="text-cyan-400 hover:text-cyan-300 hover:underline flex items-center gap-1 cursor-pointer"
                 >
                   <span>Open in Full Matrix</span>
                   <ChevronRight size={12} />
                 </button>
               </div>
 
-              <div className="flex-1 overflow-y-auto space-y-2.5 pr-1 select-text">
+              <div className="flex-1 min-h-0 overflow-y-auto space-y-2.5 pr-1 select-text">
                 {messages.length === 0 ? (
-                  <div className="h-full flex flex-col items-center justify-center text-slate-500 text-center space-y-1">
+                  <div className="h-full flex flex-col items-center justify-center text-slate-500 text-center space-y-1 py-8">
                     <Radio size={24} className="text-slate-600" />
                     <p>No team transmissions yet.</p>
                     <p className="text-[10px]">Send a tactical message or roll dice below.</p>
@@ -644,7 +843,7 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
                 <button
                   type="submit"
                   disabled={!chatInput.trim()}
-                  className="p-2 bg-cyan-600 hover:bg-cyan-500 disabled:opacity-30 text-white rounded-lg transition-colors"
+                  className="p-2 bg-cyan-600 hover:bg-cyan-500 disabled:opacity-30 text-white rounded-lg transition-colors cursor-pointer"
                 >
                   <Send size={15} />
                 </button>
@@ -654,7 +853,7 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
 
           {/* TAB 4: TEAM SETTINGS / MANAGEMENT */}
           {activeTab === 'settings' && (
-            <div className="space-y-4">
+            <div className="space-y-4 pb-4">
               {isGM ? (
                 <form onSubmit={handleSaveSettings} className="space-y-4 max-w-xl">
                   <div>
@@ -757,6 +956,72 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
 
         </div>
       </div>
+
+      {/* Enlarged QR Code Modal */}
+      {showEnlargedQr && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4 animate-fade-in"
+          onClick={() => setShowEnlargedQr(false)}
+        >
+          <div 
+            className="bg-[#0b0f17] border-2 border-cyan-400 rounded-2xl p-6 max-w-sm w-full flex flex-col items-center gap-4 shadow-[0_0_60px_rgba(6,182,212,0.4)] text-center text-white"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between w-full border-b border-slate-800 pb-2">
+              <div className="flex items-center gap-2 text-cyan-300 font-bold text-xs uppercase tracking-wider">
+                <Smartphone size={16} />
+                <span>MOBILE SQUAD COMM-SCAN</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowEnlargedQr(false)}
+                className="p-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors cursor-pointer"
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            <div className="p-3 bg-black rounded-xl border border-cyan-500/60 shadow-[0_0_30px_rgba(6,182,212,0.3)]">
+              <img 
+                src={qrCodeImageUrl} 
+                alt="Full Size Team QR" 
+                className="w-56 h-56 rounded-lg"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <span className="text-xs font-bold text-slate-200">
+                {activeGroup.name}
+              </span>
+              <span className="text-[10px] text-cyan-400 block font-mono tracking-widest font-bold">
+                {inviteCode}
+              </span>
+              <p className="text-[11px] text-slate-400 pt-1">
+                Point any mobile camera to scan and load this fireteam workspace instantly.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2 w-full pt-2 border-t border-slate-800">
+              <button
+                type="button"
+                onClick={handleCopyLink}
+                className="flex-1 py-2 bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+              >
+                {copiedLink ? <Check size={14} /> : <Copy size={14} />}
+                <span>{copiedLink ? 'Copied Link' : 'Copy CommLink'}</span>
+              </button>
+              <button
+                type="button"
+                onClick={handleDownloadQr}
+                className="p-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl transition-colors cursor-pointer"
+                title="Download QR Code"
+              >
+                <Download size={16} />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

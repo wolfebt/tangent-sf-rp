@@ -5,7 +5,6 @@ import { useFolio } from '../context/FolioContext';
 import { useDBM } from '../context/DBMContext';
 import { useGroup } from '../context/GroupContext';
 import { LandingDrawerArea } from '../components/Hub/LandingDrawerArea';
-import { TopNavBar } from '../components/Hub/TopNavBar';
 import { GameSquadsWidget } from '../components/Hub/GameSquadsWidget';
 import { CommCenterWidget } from '../components/Hub/CommCenterWidget';
 import { UserSettingsModal } from '../components/UserSettingsModal';
@@ -152,23 +151,6 @@ const Home = () => {
             <span className="truncate max-w-[160px]">{displayIdentity}</span>
             <span className="text-cyan-400/90 font-bold">HUB V3.0</span>
           </div>
-        </div>
-      )}
-
-      {/* ── Horizontal Top Nav Bar (desktop only, under GlobalHUD) ── */}
-      {!isMobile && (
-        <div onClick={(e) => e.stopPropagation()}>
-          <TopNavBar
-            activeDrawer={activeDrawer}
-            onSelectDrawer={handleSelectDrawer}
-            heroCount={heroCount}
-            dbmTotalItems={dbmTotalItems}
-            scenarioCount={scenarioCount}
-            mapCount={mapCount}
-            aimeCardsCount={aimeCardsCount}
-            teamCount={teamCount}
-            inviteCount={inviteCount}
-          />
         </div>
       )}
 

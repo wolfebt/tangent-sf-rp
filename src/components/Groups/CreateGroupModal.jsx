@@ -98,7 +98,7 @@ export const CreateGroupModal = ({ isOpen, onClose, onCreated }) => {
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handleSubmit} className="p-4 sm:p-5 overflow-y-auto space-y-4 text-xs font-mono">
+        <form onSubmit={handleSubmit} className="flex-1 min-h-0 p-4 sm:p-5 overflow-y-auto space-y-4 text-xs font-mono">
           {error && (
             <div className="p-3 rounded-lg bg-red-950/50 border border-red-500/60 text-red-300">
               {error}

@@ -27,27 +27,65 @@ const DBMContext = createContext(null);
 
 export const useDBM = () => useContext(DBMContext);
 
+const TOMBSTONES_KEY = 'omnicortex_deleted_entries';
+
+export const getOmnicortexTombstones = () => {
+  try {
+    const raw = localStorage.getItem(TOMBSTONES_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    return [];
+  }
+};
+
+export const addOmnicortexTombstone = (docId, name) => {
+  try {
+    const current = getOmnicortexTombstones();
+    const set = new Set(current);
+    if (docId) set.add(docId.toString().toLowerCase().trim());
+    if (name) set.add(name.toString().toLowerCase().trim());
+    const updated = Array.from(set);
+    localStorage.setItem(TOMBSTONES_KEY, JSON.stringify(updated));
+    StorageService.setItem(TOMBSTONES_KEY, updated);
+  } catch (e) {}
+};
+
+export const isOmnicortexDeleted = (item, tombstones = null) => {
+  if (!item) return false;
+  const list = tombstones || getOmnicortexTombstones();
+  if (!list || list.length === 0) return false;
+  const set = new Set(list);
+  const id = (item.id || '').toString().toLowerCase().trim();
+  const name = (item.name || item.title || '').toString().toLowerCase().trim();
+  return (id && set.has(id)) || (name && set.has(name));
+};
+
+const filterInitialData = (dataList) => {
+  const tombstones = getOmnicortexTombstones();
+  return (dataList || []).filter(item => !isOmnicortexDeleted(item, tombstones));
+};
+
 export const DBMProvider = ({ children }) => {
-  const [dbData, setDbData] = useState({
-    compendium: compendiumSeedData,
-    archetypes: DEFAULT_ARCHETYPES,
-    species: DEFAULT_SPECIES,
-    species_type: DEFAULT_SPECIES_TYPES,
-    species_size: DEFAULT_SPECIES_SIZES,
-    species_movement: DEFAULT_SPECIES_MOVEMENT,
-    occupations: DEFAULT_OCCUPATIONS,
-    origins: DEFAULT_ORIGINS,
-    factions: DEFAULT_FACTIONS,
-    features: DEFAULT_FEATURES,
-    trait: ALL_CANONICAL_TRAITS,
-    traits: ALL_CANONICAL_TRAITS,
-    skills: ALL_CANONICAL_SKILLS,
-    disadvantages: DEFAULT_SPECIES_DISADVANTAGES,
-    weaponry: DEFAULT_WEAPONRY,
-    armoring: DEFAULT_ARMORING,
-    augmentations: DEFAULT_AUGMENTATIONS,
-    invocations: DEFAULT_INVOCATIONS
-  });
+  const [dbData, setDbData] = useState(() => ({
+    compendium: filterInitialData(compendiumSeedData),
+    archetypes: filterInitialData(DEFAULT_ARCHETYPES),
+    species: filterInitialData(DEFAULT_SPECIES),
+    species_type: filterInitialData(DEFAULT_SPECIES_TYPES),
+    species_size: filterInitialData(DEFAULT_SPECIES_SIZES),
+    species_movement: filterInitialData(DEFAULT_SPECIES_MOVEMENT),
+    occupations: filterInitialData(DEFAULT_OCCUPATIONS),
+    origins: filterInitialData(DEFAULT_ORIGINS),
+    factions: filterInitialData(DEFAULT_FACTIONS),
+    features: filterInitialData(DEFAULT_FEATURES),
+    trait: filterInitialData(ALL_CANONICAL_TRAITS),
+    traits: filterInitialData(ALL_CANONICAL_TRAITS),
+    skills: filterInitialData(ALL_CANONICAL_SKILLS),
+    disadvantages: filterInitialData(DEFAULT_SPECIES_DISADVANTAGES),
+    weaponry: filterInitialData(DEFAULT_WEAPONRY),
+    armoring: filterInitialData(DEFAULT_ARMORING),
+    augmentations: filterInitialData(DEFAULT_AUGMENTATIONS),
+    invocations: filterInitialData(DEFAULT_INVOCATIONS)
+  }));
   const [currentUser, setCurrentUser] = useState(auth?.currentUser || null);
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState(null);
@@ -105,43 +143,32 @@ export const DBMProvider = ({ children }) => {
         const unsubRef = onSnapshot(
           refCol,
           (snapshot) => {
-            let items = snapshot.docs.map(d => ({ ...d.data(), id: d.id }));
-            // If compendium, archetypes, or species is empty or smaller than the canonical seed, ensure all seed items are available locally
-            if ((catK === 'compendium' || catK === 'rules_codex') && items.length < compendiumSeedData.length) {
-              const existingIds = new Set(items.map(i => i.id || (i.name || '').toLowerCase()));
-              const missingSeeds = compendiumSeedData.filter(s => !existingIds.has(s.id) && !existingIds.has(s.name.toLowerCase()));
-              items = [...items, ...missingSeeds];
-            } else if (catK === 'archetypes' && items.length < DEFAULT_ARCHETYPES.length) {
-              const existingIds = new Set(items.map(i => i.id || (i.name || '').toLowerCase()));
-              const missingSeeds = DEFAULT_ARCHETYPES.filter(s => !existingIds.has(s.id) && !existingIds.has(s.name.toLowerCase()));
-              items = [...items, ...missingSeeds];
-            } else if (catK === 'species' && items.length < DEFAULT_SPECIES.length) {
-              const existingIds = new Set(items.map(i => i.id || (i.name || '').toLowerCase()));
-              const missingSeeds = DEFAULT_SPECIES.filter(s => !existingIds.has(s.id) && !existingIds.has(s.name.toLowerCase()));
-              items = [...items, ...missingSeeds];
-            } else if (catK === 'species_type' && items.length < DEFAULT_SPECIES_TYPES.length) {
-              const existingIds = new Set(items.map(i => i.id || (i.name || '').toLowerCase()));
-              const missingSeeds = DEFAULT_SPECIES_TYPES.filter(s => !existingIds.has(s.id) && !existingIds.has(s.name.toLowerCase()));
-              items = [...items, ...missingSeeds];
-            } else if (catK === 'occupations' && items.length < DEFAULT_OCCUPATIONS.length) {
-              const existingIds = new Set(items.map(i => i.id || (i.name || '').toLowerCase()));
-              const missingSeeds = DEFAULT_OCCUPATIONS.filter(s => !existingIds.has(s.id) && !existingIds.has(s.name.toLowerCase()));
-              items = [...items, ...missingSeeds];
-            } else if (catK === 'origins' && items.length < DEFAULT_ORIGINS.length) {
-              const existingIds = new Set(items.map(i => i.id || (i.name || '').toLowerCase()));
-              const missingSeeds = DEFAULT_ORIGINS.filter(s => !existingIds.has(s.id) && !existingIds.has(s.name.toLowerCase()));
-              items = [...items, ...missingSeeds];
-            } else if (catK === 'factions' && items.length < DEFAULT_FACTIONS.length) {
-              const existingIds = new Set(items.map(i => i.id || (i.name || '').toLowerCase()));
-              const missingSeeds = DEFAULT_FACTIONS.filter(s => !existingIds.has(s.id) && !existingIds.has(s.name.toLowerCase()));
-              items = [...items, ...missingSeeds];
+            const tombstones = getOmnicortexTombstones();
+            let items = snapshot.docs.map(d => ({ ...d.data(), id: d.id })).filter(i => !isOmnicortexDeleted(i, tombstones));
+            
+            // If collection is completely unpopulated in Firestore, fall back to seed data only if not deleted
+            if (items.length === 0 && snapshot.docs.length === 0) {
+              let fallbackSeeds = [];
+              if (catK === 'compendium' || catK === 'rules_codex') fallbackSeeds = compendiumSeedData;
+              else if (catK === 'archetypes') fallbackSeeds = DEFAULT_ARCHETYPES;
+              else if (catK === 'species') fallbackSeeds = DEFAULT_SPECIES;
+              else if (catK === 'species_type') fallbackSeeds = DEFAULT_SPECIES_TYPES;
+              else if (catK === 'occupations') fallbackSeeds = DEFAULT_OCCUPATIONS;
+              else if (catK === 'origins') fallbackSeeds = DEFAULT_ORIGINS;
+              else if (catK === 'factions') fallbackSeeds = DEFAULT_FACTIONS;
+              else if (catK === 'features') fallbackSeeds = DEFAULT_FEATURES;
+              else if (catK === 'traits' || catK === 'trait') fallbackSeeds = ALL_CANONICAL_TRAITS;
+              else if (catK === 'skills') fallbackSeeds = ALL_CANONICAL_SKILLS;
+              else if (catK === 'disadvantages') fallbackSeeds = DEFAULT_SPECIES_DISADVANTAGES;
+              else if (catK === 'weaponry') fallbackSeeds = DEFAULT_WEAPONRY;
+              else if (catK === 'armoring') fallbackSeeds = DEFAULT_ARMORING;
+              else if (catK === 'augmentations') fallbackSeeds = DEFAULT_AUGMENTATIONS;
+              else if (catK === 'invocations') fallbackSeeds = DEFAULT_INVOCATIONS;
+
+              items = fallbackSeeds.filter(s => !isOmnicortexDeleted(s, tombstones));
             }
-            setDbData(prev => {
-              if (items.length === 0 && prev[catK] && prev[catK].length > 0) {
-                return prev;
-              }
-              return { ...prev, [catK]: items };
-            });
+
+            setDbData(prev => ({ ...prev, [catK]: items }));
             pendingCount--;
             if (pendingCount <= 0) {
               setIsLoading(false);
@@ -149,21 +176,21 @@ export const DBMProvider = ({ children }) => {
           },
           (err) => {
             console.warn(`[DBMContext] Listener notice for collection "${catK}":`, err.message);
-            // Fallback for compendium, archetypes, species, species_type, occupations, origins, factions if listener fails
+            const tombstones = getOmnicortexTombstones();
             if (catK === 'compendium' || catK === 'rules_codex') {
-              setDbData(prev => ({ ...prev, [catK]: compendiumSeedData }));
+              setDbData(prev => ({ ...prev, [catK]: compendiumSeedData.filter(s => !isOmnicortexDeleted(s, tombstones)) }));
             } else if (catK === 'archetypes') {
-              setDbData(prev => ({ ...prev, [catK]: DEFAULT_ARCHETYPES }));
+              setDbData(prev => ({ ...prev, [catK]: DEFAULT_ARCHETYPES.filter(s => !isOmnicortexDeleted(s, tombstones)) }));
             } else if (catK === 'species') {
-              setDbData(prev => ({ ...prev, [catK]: DEFAULT_SPECIES }));
+              setDbData(prev => ({ ...prev, [catK]: DEFAULT_SPECIES.filter(s => !isOmnicortexDeleted(s, tombstones)) }));
             } else if (catK === 'species_type') {
-              setDbData(prev => ({ ...prev, [catK]: DEFAULT_SPECIES_TYPES }));
+              setDbData(prev => ({ ...prev, [catK]: DEFAULT_SPECIES_TYPES.filter(s => !isOmnicortexDeleted(s, tombstones)) }));
             } else if (catK === 'occupations') {
-              setDbData(prev => ({ ...prev, [catK]: DEFAULT_OCCUPATIONS }));
+              setDbData(prev => ({ ...prev, [catK]: DEFAULT_OCCUPATIONS.filter(s => !isOmnicortexDeleted(s, tombstones)) }));
             } else if (catK === 'origins') {
-              setDbData(prev => ({ ...prev, [catK]: DEFAULT_ORIGINS }));
+              setDbData(prev => ({ ...prev, [catK]: DEFAULT_ORIGINS.filter(s => !isOmnicortexDeleted(s, tombstones)) }));
             } else if (catK === 'factions') {
-              setDbData(prev => ({ ...prev, [catK]: DEFAULT_FACTIONS }));
+              setDbData(prev => ({ ...prev, [catK]: DEFAULT_FACTIONS.filter(s => !isOmnicortexDeleted(s, tombstones)) }));
             }
             pendingCount--;
             if (pendingCount <= 0) {
@@ -331,7 +358,7 @@ export const DBMProvider = ({ children }) => {
     }
   }, [currentUser]);
 
-  // Safe Delete Entry with Multi-Collection Scan & Rollback
+  // Safe Delete Entry with Multi-Collection Scan & Tombstone Persistence
   const deleteEntry = useCallback(async (docId, key) => {
     if (!docId) return false;
 
@@ -356,6 +383,9 @@ export const DBMProvider = ({ children }) => {
     }
 
     const displayName = targetName || docId;
+
+    // Persist tombstone so seed arrays and caches never resurrect this entry
+    addOmnicortexTombstone(docId, targetName);
 
     // 3. Optimistic local removal across collections
     setDbData(prev => {
@@ -422,15 +452,14 @@ export const DBMProvider = ({ children }) => {
       });
       return true;
     } catch (err) {
-      console.error(`[DBMContext] deleteEntry failed for "${docId}":`, err);
-      // Precision rollback to ref snapshot
-      setDbData(previousSnapshot);
+      console.warn(`[DBMContext] Cloud delete notice for "${docId}":`, err.message);
+      // Even if Firestore fails (e.g., offline or unauthenticated), local tombstone and removal succeed
       setToastMessage({
-        type: 'error',
-        title: 'Delete Failed',
-        text: `Failed to delete "${displayName}". Reverted.`
+        type: 'info',
+        title: 'Removed Locally',
+        text: `"${displayName}" removed locally.`
       });
-      return false;
+      return true;
     }
   }, []);
 

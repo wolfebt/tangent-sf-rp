@@ -1093,76 +1093,6 @@ const MapPane = ({ mapExportPngRef }) => {
 
   return (
     <div className="h-full w-full bg-gray-950 flex flex-col" ref={containerRef}>
-      {/* Multi-Map Campaign Tab Switcher element & Hotkeys Bar */}
-      <div className="bg-slate-950 border-b border-slate-800 px-3 py-1.5 flex items-center justify-between gap-2 overflow-x-auto shrink-0 z-30">
-        <div className="flex items-center gap-1.5 overflow-x-auto">
-          <span className="text-[10px] font-bold text-amber-500 uppercase tracking-widest mr-1 shrink-0">
-            🗺️ Campaign Maps:
-          </span>
-          {(universeState.maps || []).map(m => {
-            const isActive = m.id === activeMapId;
-            return (
-              <div
-                key={m.id}
-                className={`flex items-center gap-1.5 px-3 py-1 rounded text-xs font-bold uppercase transition-all shrink-0 border ${
-                  isActive
-                    ? 'bg-cyan-950 border-cyan-500 text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
-                    : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800'
-                }`}
-              >
-                <button
-                  onClick={() => setActiveMapId(m.id)}
-                  className="truncate max-w-[120px] text-left"
-                  title={m.title || 'Untitled Map'}
-                >
-                  {m.title || 'Untitled Map'}
-                </button>
-                {universeState.maps.length > 1 && (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      if (confirmTypedDeletion(m.title || 'Untitled Map', 'map element')) {
-                        deleteMap(m.id);
-                      }
-                    }}
-                    className="text-slate-500 hover:text-red-400 font-bold ml-1"
-                    title="Delete map element"
-                  >
-                    ✕
-                  </button>
-                )}
-              </div>
-            );
-          })}
-          <button
-            onClick={() => {
-              const newId = uuidv4();
-              const mapCount = (universeState.maps || []).length + 1;
-              const newMapObj = {
-                id: newId,
-                title: `Map Sector ${mapCount}`,
-                type: 'Standard',
-                lines: [], tokens: [], terrains: [], objects: [], texts: [], fog: [], layers: DEFAULT_LAYERS
-              };
-              addMap(newMapObj);
-            }}
-            className="px-2.5 py-1 bg-amber-600/30 hover:bg-amber-600/60 border border-amber-500/50 text-amber-300 rounded text-xs font-bold uppercase shrink-0 transition-colors"
-            title="Add new map element to campaign"
-          >
-            + New Map Tab
-          </button>
-        </div>
-
-        <div className="flex items-center gap-2 shrink-0">
-          <button
-            onClick={() => setIsShortcutsModalOpen(true)}
-            className="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 text-cyan-300 border border-slate-700 rounded text-xs font-bold uppercase tracking-wider flex items-center gap-1"
-            title="View Canvas Keyboard Shortcuts Legend element"
-          >
-            <span>⌨️</span> Hotkeys
-          </button>
-        </div>
-      </div>
 
       {/* Canvas Keyboard Shortcuts Manager Legend Modal Element */}
       {isShortcutsModalOpen && (
@@ -1321,6 +1251,23 @@ const MapPane = ({ mapExportPngRef }) => {
         onLoadMapFromFile={() => mapFileInputRef.current?.click()}
         onDeleteActiveMap={handleDeleteActiveMap}
         onOpenGuide={() => setIsGuideOpen(true)}
+        onOpenShortcuts={() => setIsShortcutsModalOpen(true)}
+        onAddNewMapTab={() => {
+          const newId = uuidv4();
+          const mapCount = (universeState.maps || []).length + 1;
+          const newMapObj = {
+            id: newId,
+            title: `Map Sector ${mapCount}`,
+            type: 'Standard',
+            lines: [], tokens: [], terrains: [], objects: [], texts: [], fog: [], layers: DEFAULT_LAYERS
+          };
+          addMap(newMapObj);
+        }}
+        onDeleteMapTab={(mapId, title) => {
+          if (confirmTypedDeletion(title || 'Untitled Map', 'map element')) {
+            deleteMap(mapId);
+          }
+        }}
         isVttDrawerOpen={isVttDrawerOpen}
         onToggleVttDrawer={() => setIsVttDrawerOpen(prev => !prev)}
       />
@@ -1377,7 +1324,7 @@ const MapPane = ({ mapExportPngRef }) => {
         const currentConditions = item.conditions || [];
 
         return (
-          <div className="relative z-40 bg-[#161b22]/95 p-2 border-b border-[#0D5C63]/60 flex items-center justify-between text-xs gap-3 flex-wrap text-slate-200 backdrop-blur-md">
+          <div className="relative z-20 bg-[#161b22]/95 p-2 border-b border-[#0D5C63]/60 flex items-center justify-between text-xs gap-3 flex-wrap text-slate-200 backdrop-blur-md">
             <div className="flex items-center gap-3 flex-wrap w-full">
               {/* Type Badge */}
               <div className="flex items-center gap-1 font-bold">

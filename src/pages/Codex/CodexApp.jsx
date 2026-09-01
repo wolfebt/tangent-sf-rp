@@ -1,9 +1,11 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { CODEX_MATRICES, getMatrixById } from './codexConfig';
 import { CodexSidebar } from './CodexSidebar';
 import { CodexMatrixBuilder } from './CodexMatrixBuilder';
 import { CodexAiSynthesizerModal } from './CodexAiSynthesizerModal';
+import { CodexIngestionModal } from './CodexIngestionModal';
+import { OMNICORTEX_DATASETS } from './codexPromptRegistry';
 import { useDBM } from '../../context/DBMContext';
 import { 
   Plus, 
@@ -20,7 +22,8 @@ import {
   Bot,
   Layers,
   LayoutGrid,
-  PanelLeftOpen
+  PanelLeftOpen,
+  FileText
 } from 'lucide-react';
 import { EconomatrixDashboard } from './EconomatrixDashboard';
 import { TechnologyCodex } from './TechnologyCodex';
@@ -40,12 +43,21 @@ export const CodexApp = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [isBuilderOpen, setIsBuilderOpen] = useState(false);
   const [isAiModalOpen, setIsAiModalOpen] = useState(false);
+  const [isIngestionModalOpen, setIsIngestionModalOpen] = useState(false);
   const [previewItem, setPreviewItem] = useState(null);
   const [viewSavedRecords, setViewSavedRecords] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const { dbData, deleteEntry } = useDBM() || {};
   const currentMatrix = getMatrixById(activeMatrixId);
+  const [parsingDatasetKey, setParsingDatasetKey] = useState(currentMatrix.ingestionKey || 'species');
+
+  // Keep parsing dataset synchronized with the current active matrix
+  useEffect(() => {
+    if (currentMatrix.ingestionKey) {
+      setParsingDatasetKey(currentMatrix.ingestionKey);
+    }
+  }, [currentMatrix]);
 
   const handleSelectMatrix = (matrixId, datasetKey) => {
     setActiveMatrixId(matrixId);
@@ -252,21 +264,35 @@ export const CodexApp = () => {
               </div>
             )}
 
-            {/* Ingest Dataset trigger (when not already in ingestion engine) */}
-            {activeMatrixId !== 'ingestion-engine' && (
+            {/* Ingestion Studio Focused Parsing Selector & Launcher */}
+            <div className="flex items-center bg-slate-950/90 border border-cyan-500/40 rounded-xl p-0.5 shadow-[0_0_15px_rgba(6,182,212,0.15)]">
+              <select
+                value={parsingDatasetKey}
+                onChange={(e) => {
+                  setParsingDatasetKey(e.target.value);
+                }}
+                className="bg-transparent text-[11px] font-mono font-bold text-cyan-300 uppercase px-2 py-1.5 outline-none cursor-pointer hover:text-cyan-200 max-w-[130px] sm:max-w-none truncate"
+                title="Select dataset to parse with BASTION"
+              >
+                {OMNICORTEX_DATASETS.map((d) => (
+                  <option key={d.key} value={d.key} className="bg-slate-900 text-slate-200">
+                    {d.code}: {d.label}
+                  </option>
+                ))}
+              </select>
               <button
                 type="button"
                 onClick={() => {
                   AudioService.playTerminalBeep(1200, 0.03);
-                  handleSelectMatrix('ingestion-engine', currentMatrix.ingestionKey || 'species');
+                  setIsIngestionModalOpen(true);
                 }}
-                className="px-3.5 py-2 bg-slate-950/80 hover:bg-slate-800 border border-slate-700/80 hover:border-amber-500/50 text-slate-300 hover:text-amber-300 text-xs font-mono font-bold uppercase tracking-wider rounded-xl flex items-center gap-1.5 shadow-sm transition-all cursor-pointer"
-                title={`Bulk ingest ${currentMatrix.name} records`}
+                className="px-2.5 sm:px-3 py-1.5 bg-gradient-to-r from-cyan-950 to-blue-950 hover:from-cyan-900 hover:to-blue-900 border-l border-cyan-500/30 text-cyan-300 text-xs font-mono font-bold uppercase tracking-wider rounded-r-lg flex items-center gap-1.5 transition-all cursor-pointer shadow-inner"
+                title={`Open focused Omnicortex Ingestion Studio for ${parsingDatasetKey}`}
               >
-                <Database size={14} className="text-amber-400" />
-                <span className="hidden lg:inline">Ingest Dataset</span>
+                <Bot size={13} className="text-cyan-400" />
+                <span className="hidden sm:inline">Parse Studio</span>
               </button>
-            )}
+            </div>
 
             {/* BASTION Synthesizer trigger */}
             <button
@@ -437,6 +463,17 @@ export const CodexApp = () => {
         onClose={() => setIsAiModalOpen(false)}
         matrix={currentMatrix}
         onApplyGeneratedData={handleApplyAiData}
+      />
+
+      {/* Omnicortex Focused Ingestion Studio Modal */}
+      <CodexIngestionModal
+        isOpen={isIngestionModalOpen}
+        onClose={() => setIsIngestionModalOpen(false)}
+        initialDatasetKey={parsingDatasetKey}
+        focusedMode={true}
+        onApplyEntry={(item) => {
+          handleApplyAiData(item);
+        }}
       />
     </div>
   );

@@ -30,7 +30,7 @@ export const LandingDrawerArea = ({
       <div className="absolute top-0 right-0 w-72 h-72 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none"></div>
 
       {/* Dynamic Viewport Selection */}
-      <div className="relative z-10 h-full">
+      <div className="relative z-10 h-full flex flex-col min-h-0">
         {activeDrawer === 'overview' && (
           <CommandOverview onClose={onCloseDrawer} onOpenDrawer={onOpenDrawer} />
         )}

@@ -454,6 +454,9 @@ export function verifyFolioAssetHealth(item, categoryKey) {
     if (isNaN(item.costs.credits)) issues.push('Credit cost is NaN');
     if (isNaN(item.costs.nodes)) issues.push('Nodes cost is NaN');
     if (isNaN(item.costs.sockets)) issues.push('Sockets cost is NaN');
+    if (isNaN(item.costs.strain)) issues.push('Strain cost is NaN');
+    if (isNaN(item.costs.focus)) issues.push('Focus cost is NaN');
+    if (isNaN(item.costs.ap)) issues.push('AP cost is NaN');
   }
 
   // Check modifiers
@@ -470,6 +473,46 @@ export function verifyFolioAssetHealth(item, categoryKey) {
   }
   if (item.meta_level !== undefined && item.meta_level !== null && isNaN(item.meta_level)) {
     issues.push('Meta Level is NaN');
+  }
+
+  // Category-specific sanity checks based on DATASET_SCHEMA_FIELD_CATALOG.md
+  switch (categoryKey) {
+    case 'species':
+      if (!item.size || (Array.isArray(item.size) && item.size.length === 0)) {
+        issues.push('Species missing size classification');
+      }
+      if (!item.movement || (Array.isArray(item.movement) && item.movement.length === 0)) {
+        issues.push('Species missing movement modes');
+      }
+      break;
+    case 'weaponry':
+      if (!item.damage) issues.push('Weapon missing damage formula');
+      if (!item.damage_type) issues.push('Weapon missing damage type');
+      if (!item.classification) issues.push('Weapon missing classification');
+      break;
+    case 'armoring':
+      if (item.dr === undefined || isNaN(item.dr)) issues.push('Armor missing Damage Reduction (DR)');
+      break;
+    case 'invocations':
+      if (!item.discipline) issues.push('Invocation missing discipline');
+      break;
+    case 'skills':
+      if (!item.governing_attribute && !item.type) issues.push('Skill missing governing attribute / type');
+      break;
+    case 'origins':
+      if (!item.origin_type) issues.push('Origin missing origin_type');
+      break;
+    case 'archetypes':
+      if (!item.role) issues.push('Archetype missing tactical/narrative role');
+      break;
+    case 'traits':
+      if (!item.trait_type) issues.push('Trait missing trait_type');
+      break;
+    case 'disciplines':
+      if (!item.governing_attribute) issues.push('Discipline missing governing_attribute');
+      break;
+    default:
+      break;
   }
 
   return {

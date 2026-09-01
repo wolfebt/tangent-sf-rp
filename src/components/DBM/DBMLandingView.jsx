@@ -14,7 +14,14 @@ export const DBMLandingView = ({ parentKey, onNavigateToSubItem }) => {
     species_type: '🧬',
     species_size: '📏',
     species_movement: '🏃',
-    trait: '✨'
+    trait: '✨',
+    planetary_design: '🪐',
+    universe: '🌌',
+    philosophy: '📜',
+    factions: '🚩',
+    technology: '⚡',
+    setting: '📍',
+    scene: '🎬'
   };
 
   return (
@@ -23,7 +30,7 @@ export const DBMLandingView = ({ parentKey, onNavigateToSubItem }) => {
         <span className="text-xs text-amber-500 font-bold uppercase tracking-widest block mb-1">Parent Category</span>
         <h2 className="text-3xl font-bold text-white uppercase tracking-wider">{config.label || parentKey}</h2>
         <p className="text-xs text-slate-400 mt-2">
-          Select a sub-category below to manage equipment, inventory, and property items.
+          Select a sub-category below to explore, create, and manage structured database records.
         </p>
       </div>
 

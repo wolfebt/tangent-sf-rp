@@ -20,7 +20,14 @@ import {
   calculateExperiencePool,
   applyExperienceAward,
   validateExperienceSpend,
-  settleExperienceDebt
+  settleExperienceDebt,
+  applySpeciesTransition,
+  applyArchetypeTransition,
+  applyOccupationTransition,
+  applyOriginTransition,
+  applyFactionTransition,
+  applyIdentityFieldTransition,
+  resolveCatalogItem
 } from '../engines/tangentEntityEngines';
 import { DEATH_AND_DYING_RULES, EXPERIENCE_RULES } from '../engines/tangentConstants';
 import { executeRestCycle, resetDailyRests, getSpeciesRestProfile } from '../engines/tangentRestEngine';
@@ -122,13 +129,47 @@ const DEFAULT_CHARACTER = {
   notes: [{ text: '' }]
 };
 
+const FOLIO_TOMBSTONES_KEY = 'folio_deleted_personas';
+
+export const getFolioTombstones = () => {
+  try {
+    const raw = localStorage.getItem(FOLIO_TOMBSTONES_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    return [];
+  }
+};
+
+export const addFolioTombstone = (docId) => {
+  if (!docId) return;
+  try {
+    const current = getFolioTombstones();
+    const set = new Set(current);
+    set.add(docId.toString().trim());
+    const updated = Array.from(set);
+    localStorage.setItem(FOLIO_TOMBSTONES_KEY, JSON.stringify(updated));
+    StorageService.setItem(FOLIO_TOMBSTONES_KEY, updated);
+  } catch (e) {}
+};
+
+export const isFolioPersonaDeleted = (docId, tombstones = null) => {
+  if (!docId) return false;
+  const list = tombstones || getFolioTombstones();
+  if (!list || list.length === 0) return false;
+  return new Set(list).has(docId.toString().trim());
+};
+
 export const FolioProvider = ({ children }) => {
   // Master Character Form State initialized from localStorage/sessionStorage if available
   const [characterData, setCharacterData] = useState(() => {
     try {
+      const tombstones = getFolioTombstones();
       const saved = localStorage.getItem('personaFolioData') || sessionStorage.getItem('personaFolioData');
       if (saved) {
-        return characterSchema.parse(JSON.parse(saved));
+        const parsed = characterSchema.parse(JSON.parse(saved));
+        if (!isFolioPersonaDeleted(parsed['character-doc-id'], tombstones)) {
+          return parsed;
+        }
       }
     } catch (e) {
       console.warn('Could not parse saved persona data:', e);
@@ -152,8 +193,14 @@ export const FolioProvider = ({ children }) => {
   // Character Roster State — primary source is Firestore; StorageService/IndexedDB is secondary offline cache
   const [personaRoster, setPersonaRoster] = useState(() => {
     try {
+      const tombstones = getFolioTombstones();
       const saved = localStorage.getItem('personaRoster');
-      if (saved) return JSON.parse(saved);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          return parsed.filter(c => !isFolioPersonaDeleted(c['character-doc-id'], tombstones));
+        }
+      }
     } catch (e) {
       console.warn('Failed to load character roster from localStorage cache:', e);
     }
@@ -165,6 +212,7 @@ export const FolioProvider = ({ children }) => {
     let isMounted = true;
     async function hydrateCacheFromStorage() {
       try {
+        const tombstones = getFolioTombstones();
         const [cachedRoster, cachedCharacter] = await Promise.all([
           StorageService.getItem('personaRoster'),
           StorageService.getItem('personaFolioData')
@@ -173,19 +221,23 @@ export const FolioProvider = ({ children }) => {
         if (!isMounted) return;
 
         if (Array.isArray(cachedRoster) && cachedRoster.length > 0) {
-          setPersonaRoster(cachedRoster);
+          const validRoster = cachedRoster.filter(c => !isFolioPersonaDeleted(c['character-doc-id'], tombstones));
+          setPersonaRoster(validRoster);
+          localStorage.setItem('personaRoster', JSON.stringify(validRoster));
         }
 
         if (cachedCharacter && typeof cachedCharacter === 'object') {
           try {
             const parsed = characterSchema.parse(cachedCharacter);
-            setCharacterData(prev => {
-              // Only hydrate if active character is currently empty/default
-              if (!prev['char-name'] && !prev['character-doc-id']) {
-                return parsed;
-              }
-              return prev;
-            });
+            if (!isFolioPersonaDeleted(parsed['character-doc-id'], tombstones)) {
+              setCharacterData(prev => {
+                // Only hydrate if active character is currently empty/default
+                if (!prev['char-name'] && !prev['character-doc-id']) {
+                  return parsed;
+                }
+                return prev;
+              });
+            }
           } catch (e) {
             console.warn('[FolioContext] Saved character failed schema parse during hydration:', e);
           }
@@ -249,10 +301,16 @@ export const FolioProvider = ({ children }) => {
       // User is authenticated — subscribe to their persona roster in Firestore
       const personasRef = collection(db, `users/${user.uid}/personas`);
       firestoreUnsub = onSnapshot(personasRef, (snapshot) => {
-        const personas = snapshot.docs.map(d => ({ ...d.data(), 'character-doc-id': d.id, ownerUid: user.uid }));
+        const tombstones = getFolioTombstones();
+        const personas = snapshot.docs
+          .map(d => ({ ...d.data(), 'character-doc-id': d.id, ownerUid: user.uid }))
+          .filter(p => !isFolioPersonaDeleted(p['character-doc-id'], tombstones));
         setPersonaRoster(personas);
-        // Mirror to StorageService as offline cache
+        // Mirror to StorageService & localStorage as offline cache
         StorageService.setItem('personaRoster', personas);
+        try {
+          localStorage.setItem('personaRoster', JSON.stringify(personas));
+        } catch (e) {}
       }, (err) => {
         console.warn('Firestore personas listener error:', err.message);
       });
@@ -278,6 +336,7 @@ export const FolioProvider = ({ children }) => {
 
     if (saveTimeoutRef.current) {
       clearTimeout(saveTimeoutRef.current);
+      saveTimeoutRef.current = null;
     }
 
     const executeSave = async () => {
@@ -287,21 +346,23 @@ export const FolioProvider = ({ children }) => {
         return;
       }
 
+      const currentData = characterDataRef.current;
+      const docId = currentData['character-doc-id'];
+      
+      // Do not save if character has been deleted or has no document ID
+      if (!docId || isFolioPersonaDeleted(docId)) {
+        return;
+      }
+
       setCloudSaveStatus('saving');
 
       try {
-        const currentData = characterDataRef.current;
-        const docId = currentData['character-doc-id'] || `char_${Date.now()}`;
         const rawData = {
           ...currentData,
           'character-doc-id': docId,
           updatedAt: new Date().toISOString()
         };
         const updatedData = attachCreatorTag(rawData, localStorage.getItem('userHandle'), user);
-
-        if (!currentData['character-doc-id']) {
-          setCharacterData(prev => ({ ...prev, 'character-doc-id': docId }));
-        }
 
         const docRef = doc(db, `users/${user.uid}/personas`, docId);
         await setDoc(docRef, updatedData);
@@ -374,12 +435,7 @@ export const FolioProvider = ({ children }) => {
       const val = characterData[key];
       if (!val) return null;
       if (typeof val === 'object' && val !== null) return val;
-      const list = dbData[colName] || [];
-      const match = list.find(item => 
-        (item.name && item.name.toLowerCase() === String(val).toLowerCase()) ||
-        item.id === val
-      );
-      return match || { name: String(val) };
+      return resolveCatalogItem(colName, val, dbData);
     };
 
     const processIdentity = (identityItem, identityKey, identityTitle) => {
@@ -1177,21 +1233,36 @@ export const FolioProvider = ({ children }) => {
   const deleteRosterCharacter = useCallback(async (docId) => {
     const targetId = docId || characterData['character-doc-id'];
     
+    // Clear any pending debounced auto-save timer immediately
+    if (saveTimeoutRef.current) {
+      clearTimeout(saveTimeoutRef.current);
+      saveTimeoutRef.current = null;
+    }
+
     if (!targetId) {
-      setCharacterData({
+      const resetChar = {
         ...DEFAULT_CHARACTER,
         'character-doc-id': `char_${Date.now()}`
-      });
+      };
+      characterDataRef.current = resetChar;
+      setCharacterData(resetChar);
       StorageService.removeItem('personaFolioData');
       sessionStorage.removeItem('personaFolioData');
+      localStorage.removeItem('personaFolioData');
       setIsReadOnly(false);
       return;
     }
 
-    // 1. Filter out from personaRoster state & StorageService cache
+    // Persist to tombstones immediately so no background query or cache restores it
+    addFolioTombstone(targetId);
+
+    // 1. Filter out from personaRoster state & StorageService/localStorage caches
     const updatedRoster = personaRoster.filter(c => c['character-doc-id'] !== targetId);
     setPersonaRoster(updatedRoster);
     StorageService.setItem('personaRoster', updatedRoster);
+    try {
+      localStorage.setItem('personaRoster', JSON.stringify(updatedRoster));
+    } catch (e) {}
 
     // 2. Filter out from publicCatalog state
     setPublicCatalog(prev => prev.filter(c => c['character-doc-id'] !== targetId));
@@ -1199,15 +1270,25 @@ export const FolioProvider = ({ children }) => {
     // 3. Reset or switch characterData if the active character is being deleted
     if (characterData['character-doc-id'] === targetId) {
       if (updatedRoster.length > 0) {
-        setCharacterData(updatedRoster[0]);
+        const nextChar = updatedRoster[0];
+        characterDataRef.current = nextChar;
+        setCharacterData(nextChar);
+        StorageService.setItem('personaFolioData', nextChar);
+        try {
+          sessionStorage.setItem('personaFolioData', JSON.stringify(nextChar));
+          localStorage.setItem('personaFolioData', JSON.stringify(nextChar));
+        } catch (e) {}
       } else {
-        setCharacterData({
+        const resetChar = {
           ...DEFAULT_CHARACTER,
           'character-doc-id': `char_${Date.now()}`
-        });
+        };
+        characterDataRef.current = resetChar;
+        setCharacterData(resetChar);
+        StorageService.removeItem('personaFolioData');
+        sessionStorage.removeItem('personaFolioData');
+        localStorage.removeItem('personaFolioData');
       }
-      StorageService.removeItem('personaFolioData');
-      sessionStorage.removeItem('personaFolioData');
       setIsReadOnly(false);
     }
 
@@ -1237,6 +1318,9 @@ export const FolioProvider = ({ children }) => {
       const updatedRoster = [...personaRoster, clone];
       setPersonaRoster(updatedRoster);
       StorageService.setItem('personaRoster', updatedRoster);
+      try {
+        localStorage.setItem('personaRoster', JSON.stringify(updatedRoster));
+      } catch (e) {}
 
       // Persist duplicate to Firestore
       const user = auth.currentUser;
@@ -1251,13 +1335,37 @@ export const FolioProvider = ({ children }) => {
     }
   }, [personaRoster]);
 
-  // Sync to StorageService and sessionStorage on state change
+  // Sync to StorageService, localStorage, and sessionStorage on state change
   useEffect(() => {
+    const docId = characterData?.['character-doc-id'];
+    if (docId && isFolioPersonaDeleted(docId)) {
+      return;
+    }
+
     StorageService.setItem('personaFolioData', characterData);
     try {
       sessionStorage.setItem('personaFolioData', JSON.stringify(characterData));
+      localStorage.setItem('personaFolioData', JSON.stringify(characterData));
     } catch (e) {}
-  }, [characterData]);
+
+    // Auto-sync active character updates into personaRoster and trigger debounced cloud save
+    if (docId) {
+      setPersonaRoster(prev => {
+        const idx = prev.findIndex(c => c['character-doc-id'] === docId);
+        if (idx >= 0) {
+          const next = [...prev];
+          next[idx] = characterData;
+          StorageService.setItem('personaRoster', next);
+          try {
+            localStorage.setItem('personaRoster', JSON.stringify(next));
+          } catch (e) {}
+          return next;
+        }
+        return prev;
+      });
+      triggerSave(false);
+    }
+  }, [characterData, triggerSave]);
 
   // Active Game State Evaluation
   const isInActiveGame = useMemo(() => {
@@ -1353,6 +1461,12 @@ export const FolioProvider = ({ children }) => {
       return;
     }
 
+    // If updating identity selection (species, archetype, occupation, origin, faction), automatically transition traits & modifications
+    if (['char-species', 'char-archetype', 'char-occu', 'char-origin', 'char-faction'].includes(key)) {
+      setCharacterData((prev) => applyIdentityFieldTransition(prev, key, value, dbData));
+      return;
+    }
+
     // If updating a skill rank, clamp max to 20
     if (typeof key === 'string' && key.startsWith('skill-') && key.endsWith('-rank')) {
       const clampedVal = Math.min(20, Math.max(0, parseInt(value, 10) || 0));
@@ -1389,254 +1503,42 @@ export const FolioProvider = ({ children }) => {
       ...prev,
       [key]: value
     }));
-  }, [isInActiveGame, isGMConfirmed, isProtectedGameStat]);
+  }, [isInActiveGame, isGMConfirmed, isProtectedGameStat, dbData]);
 
   // 80 CP Archetype Pre-build Application Engine
   const applyArchetypeChassis = useCallback((archetypeInput) => {
     if (!archetypeInput) return;
-    const arch = typeof archetypeInput === 'object' 
-      ? archetypeInput 
-      : (dbData.archetypes || []).find(a => (a.name || a.id || '').toLowerCase() === String(archetypeInput).toLowerCase()) || {};
-
-    const archName = arch.name || String(archetypeInput);
-    const primAttr = arch.primary_attribute || 'Strength';
-    const secAttr = arch.secondary_attribute || 'Agility';
-
-    const mapToAttrKey = (name) => {
-      if (!name) return null;
-      const lower = name.toLowerCase().trim();
-      if (lower.includes('strength') || lower.includes('might')) return 'attr-strength';
-      if (lower.includes('agility') || lower.includes('reflex')) return 'attr-agility';
-      if (lower.includes('stamina') || lower.includes('constitution') || lower.includes('fortitude')) return 'attr-stamina';
-      if (lower.includes('intellect') || lower.includes('logic')) return 'attr-intellect';
-      if (lower.includes('wisdom') || lower.includes('will')) return 'attr-wisdom';
-      if (lower.includes('charisma') || lower.includes('etiquette')) return 'attr-charisma';
-      return null;
-    };
-
-    const primKey = mapToAttrKey(primAttr) || 'attr-strength';
-    const secKey = mapToAttrKey(secAttr) || 'attr-agility';
-
-    setCharacterData(prev => {
-      const updates = {
-        'char-archetype': archName,
-        'starting-cp': prev['starting-cp'] || 150
-      };
-
-      // Primary & Secondary Attributes
-      const allPrimaryKeys = ['attr-strength', 'attr-agility', 'attr-stamina', 'attr-intellect', 'attr-wisdom', 'attr-charisma'];
-      allPrimaryKeys.forEach(pk => {
-        let pVal = 0;
-        if (pk === primKey) pVal = 3;
-        else if (pk === secKey) pVal = 2;
-        updates[pk] = pVal;
-
-        const subKey = PRIMARY_TO_SUB_ATTR[pk];
-        if (subKey) {
-          updates[subKey] = (pVal * 2) + 2;
-        }
-      });
-
-      // Concept & Motivation
-      if (!prev['char-concept'] || prev['char-concept'].trim() === '' || prev['char-concept'] === 'Unnamed Operative') {
-        updates['char-concept'] = arch.core_concept || archName;
-      }
-      if (!prev['char-motive'] || prev['char-motive'].trim() === '') {
-        updates['char-motive'] = arch.tactical_role || '';
-      }
-
-      // Essential Skills (4 trained at rank 6, remainder novice at rank 3)
-      const essentialSkills = Array.isArray(arch.essential_skills) ? arch.essential_skills : [];
-      const allSkillsList = (dbData.skills && dbData.skills.length > 0) ? dbData.skills : ALL_CANONICAL_SKILLS;
-      const SKILL_ALIASES = {
-        'intimidation': 'Intimidate', 'pilot': 'Piloting', 'linguistics': 'Language', 'languages': 'Language',
-        'animal handling': 'Handler', 'creature handling': 'Handler', 'combat': 'Melee', 'combat (any)': 'Ranged',
-        'combat (melee)': 'Melee', 'combat (ranged)': 'Ranged', 'combat (pistol)': 'Ranged', 'combat (pistols)': 'Ranged',
-        'combat (rifle)': 'Ranged', 'combat (rifle/pistol)': 'Ranged', 'combat (melee/pistol)': 'Melee',
-        'combat (melee/ranged)': 'Melee', 'combat (melee/heavy)': 'Heavy Weapons', 'combat (heavy)': 'Heavy Weapons',
-        'combat (gunnery)': 'Heavy Weapons', 'combat (sniper or blades)': 'Ranged', 'administration': 'Administrator',
-        'vocation (administration)': 'Administrator', 'vocation (management)': 'Administrator',
-        'vocation (farming/laborer)': 'Farmer', 'vocation (farming)': 'Farmer', 'vocation (laborer)': 'Laborer',
-        'vocation (general)': 'Laborer', 'law': 'Academics', 'knowledge (law)': 'Academics',
-        'knowledge (law/streetwise)': 'Streetwise', 'knowledge (geography)': 'Navigation',
-        'knowledge (architecture)': 'Architect', 'knowledge (astrophysics)': 'Science', 'knowledge (biology)': 'Science',
-        'knowledge (geology)': 'Science', 'knowledge (physics)': 'Physics', 'knowledge (xenology)': 'Science',
-        'knowledge (languages)': 'Language', 'social': 'Diplomacy', 'etiquette': 'Diplomacy',
-        'expression (any)': 'Acting', 'nature/life': 'Nature', 'nature': 'Nature', 'chaos': 'Chaos',
-        'divination': 'Metaphysics'
-      };
-
-      essentialSkills.forEach((skNameRaw, idx) => {
-        const rawStr = String(skNameRaw).trim();
-        const lowerRaw = rawStr.toLowerCase();
-        const innerMatch = rawStr.match(/\((.*?)\)/);
-        const candidateInner = innerMatch ? innerMatch[1].trim() : null;
-        const candidatePrefix = rawStr.replace(/\s*\(.*\)/, '').trim();
-        const alias = SKILL_ALIASES[lowerRaw] || 
-                      (candidateInner ? SKILL_ALIASES[candidateInner.toLowerCase()] : null) || 
-                      SKILL_ALIASES[candidatePrefix.toLowerCase()];
-
-        // Find match in canonical skills by alias, candidateInner, full name, or candidatePrefix
-        const skObj = allSkillsList.find(s => {
-          const sName = (s.name || '').toLowerCase();
-          return (alias && sName === alias.toLowerCase()) ||
-                 (candidateInner && sName === candidateInner.toLowerCase()) ||
-                 (sName === lowerRaw) ||
-                 (sName === candidatePrefix.toLowerCase());
-        });
-
-        const finalSkillName = skObj?.name || alias || candidateInner || rawStr;
-        const cleanId = (skObj?.id || `skill-${finalSkillName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`).replace('skill-', '');
-        const rank = idx < 4 ? 6 : 3;
-        const baseAttr = skObj?.baseAttr || primKey;
-
-        updates[`skill-${cleanId}-rank`] = rank;
-        updates[`skill-${cleanId}-base`] = baseAttr;
-        updates[`skill-${cleanId}-name`] = finalSkillName;
-        if (skObj?.group) updates[`skill-${cleanId}-group`] = skObj.group;
-        if (skObj?.subcategory) updates[`skill-${cleanId}-subcategory`] = skObj.subcategory;
-      });
-
-      // Signature Features
-      const sigFeatures = Array.isArray(arch.signature_features) ? arch.signature_features : [];
-      const currentFeatures = Array.isArray(prev.features) ? [...prev.features] : [];
-      sigFeatures.forEach(feat => {
-        const featName = typeof feat === 'object' ? (feat.name || feat.title || feat.id) : String(feat);
-        const alreadyHas = currentFeatures.some(f => (typeof f === 'object' ? f.name : f).toLowerCase() === featName.toLowerCase());
-        if (!alreadyHas) {
-          const featObj = typeof feat === 'object' ? {
-            ...feat,
-            name: featName,
-            category: feat.category || 'Archetype Signature',
-            cp: feat.cp !== undefined ? feat.cp : 2
-          } : {
-            id: `feat_arch_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
-            name: featName,
-            category: 'Archetype Signature',
-            cp: 2,
-            description: `Signature feature granted by ${archName} archetype.`
-          };
-          currentFeatures.push(attachCreatorTag(featObj, localStorage.getItem('userHandle'), auth.currentUser));
-        }
-      });
-      updates.features = currentFeatures;
-
-      return {
-        ...prev,
-        ...updates
-      };
-    });
-  }, [dbData.archetypes, dbData.skills]);
+    setCharacterData(prev => applyArchetypeTransition(prev, archetypeInput, dbData, { applyPreBuild: true }));
+  }, [dbData]);
 
   // Full Species Adjustments Application Engine
   const applySpeciesAdjustments = useCallback((speciesInput) => {
     if (!speciesInput) return;
-    const sp = typeof speciesInput === 'object'
-      ? speciesInput
-      : (dbData.species || []).find(s => (s.name || s.id || '').toLowerCase() === String(speciesInput).toLowerCase()) || {};
+    setCharacterData(prev => applySpeciesTransition(prev, speciesInput, dbData));
+  }, [dbData]);
 
-    const speciesName = sp.name || sp.title || String(speciesInput);
+  // Full Occupation Adjustments Application Engine
+  const applyOccupationAdjustments = useCallback((occupationInput) => {
+    if (!occupationInput) return;
+    setCharacterData(prev => applyOccupationTransition(prev, occupationInput, dbData));
+  }, [dbData]);
 
-    setCharacterData(prev => {
-      const updates = {
-        'char-species': speciesName
-      };
+  // Full Origin Adjustments Application Engine
+  const applyOriginAdjustments = useCallback((originInput) => {
+    if (!originInput) return;
+    setCharacterData(prev => applyOriginTransition(prev, originInput, dbData));
+  }, [dbData]);
 
-      // Inherent Attribute Modifiers
-      const inherentAttrMods = sp.inherent_attribute_modifiers || sp.specific_attribute_bonuses || [];
-      if (Array.isArray(inherentAttrMods)) {
-        inherentAttrMods.forEach(m => {
-          const aName = typeof m === 'object' ? (m.attribute || m.name || '') : String(m).split(/[:+(]/)[0].trim();
-          const aBonus = typeof m === 'object' ? (m.bonus ?? m.value ?? 1) : (parseInt(String(m).replace(/[^0-9-]/g, ''), 10) || 1);
-          if (aName) {
-            const lower = aName.toLowerCase().trim();
-            let targetKey = null;
-            if (lower.includes('strength')) targetKey = 'attr-strength';
-            else if (lower.includes('agility')) targetKey = 'attr-agility';
-            else if (lower.includes('stamina') || lower.includes('constitution')) targetKey = 'attr-stamina';
-            else if (lower.includes('intellect')) targetKey = 'attr-intellect';
-            else if (lower.includes('wisdom')) targetKey = 'attr-wisdom';
-            else if (lower.includes('charisma')) targetKey = 'attr-charisma';
+  // Full Faction Adjustments Application Engine
+  const applyFactionAdjustments = useCallback((factionInput) => {
+    if (!factionInput) return;
+    setCharacterData(prev => applyFactionTransition(prev, factionInput, dbData));
+  }, [dbData]);
 
-            if (targetKey) {
-              const currentP = parseInt(prev[targetKey] || 0, 10);
-              const newP = Math.max(0, currentP + aBonus);
-              updates[targetKey] = newP;
-              const subKey = PRIMARY_TO_SUB_ATTR[targetKey];
-              if (subKey) {
-                const oldBase = (currentP * 2) + 2;
-                const currentSub = prev[subKey] !== undefined ? parseInt(prev[subKey], 10) : oldBase;
-                const delta = currentSub - oldBase;
-                updates[subKey] = ((newP * 2) + 2) + delta;
-              }
-            }
-          }
-        });
-      }
-
-      // Inherent Features
-      const currentFeatures = Array.isArray(prev.features) ? [...prev.features] : [];
-      if (Array.isArray(sp.inherent_features)) {
-        sp.inherent_features.forEach(feat => {
-          const featName = typeof feat === 'object' ? (feat.name || feat.title || feat.id) : String(feat);
-          const alreadyHas = currentFeatures.some(f => (typeof f === 'object' ? f.name : f).toLowerCase() === featName.toLowerCase());
-          if (!alreadyHas) {
-            const featObj = typeof feat === 'object' ? {
-              ...feat,
-              name: featName,
-              category: feat.category || 'Species Inherent',
-              cp: 0
-            } : {
-              id: `feat_sp_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
-              name: featName,
-              category: 'Species Inherent',
-              cp: 0,
-              description: `Inherent trait granted by ${speciesName}.`
-            };
-            currentFeatures.push(attachCreatorTag(featObj, localStorage.getItem('userHandle'), auth.currentUser));
-          }
-        });
-      }
-      updates.features = currentFeatures;
-
-      // Movement Modes
-      const moveArray = Array.isArray(sp.movement) ? sp.movement : [];
-      const spText = JSON.stringify(sp).toLowerCase();
-      updates['move-walk'] = parseInt(prev['move-walk'] || 30, 10); // Standard ground speed 30ft
-      if (moveArray.some(m => String(m).includes('climb')) || spText.includes('climber') || spText.includes('arboreal')) {
-        if (!prev['move-climb'] || prev['move-climb'] === 0) updates['move-climb'] = 30;
-      }
-      if (moveArray.some(m => String(m).includes('swim')) || spText.includes('aquatic') || spText.includes('amphibious')) {
-        if (!prev['move-swim'] || prev['move-swim'] === 0) updates['move-swim'] = 30;
-      }
-      if (moveArray.some(m => String(m).includes('fly') || String(m).includes('wing')) || spText.includes('flight') || spText.includes('winged')) {
-        if (!prev['move-fly'] || prev['move-fly'] === 0) updates['move-fly'] = 40;
-      }
-      if (moveArray.some(m => String(m).includes('burrow')) || spText.includes('burrow')) {
-        if (!prev['move-burrow'] || prev['move-burrow'] === 0) updates['move-burrow'] = 20;
-      }
-      if (moveArray.some(m => String(m).includes('flicker')) || spText.includes('flicker')) {
-        if (!prev['move-flicker'] || prev['move-flicker'] === 0) updates['move-flicker'] = 30;
-      }
-
-      // Specific Skill Bonuses
-      if (Array.isArray(sp.specific_skill_bonuses)) {
-        sp.specific_skill_bonuses.forEach(b => {
-          const sName = typeof b === 'object' ? (b.skill || b.name || '') : String(b).split(/[:+(]/)[0].trim();
-          const sBonus = typeof b === 'object' ? (b.bonus ?? b.value ?? 1) : 1;
-          if (sName) {
-            const cleanId = sName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-            updates[`skill-${cleanId}-mod`] = (parseInt(prev[`skill-${cleanId}-mod`] || 0, 10)) + sBonus;
-          }
-        });
-      }
-
-      return {
-        ...prev,
-        ...updates
-      };
-    });
-  }, [dbData.species]);
+  // Universal Identity Selection Transition Engine
+  const applyIdentitySelection = useCallback((fieldKey, itemValue, options = {}) => {
+    setCharacterData(prev => applyIdentityFieldTransition(prev, fieldKey, itemValue, dbData, options));
+  }, [dbData]);
 
   // Add Item Handler
   // Add Item Handler
@@ -3130,6 +3032,10 @@ export const FolioProvider = ({ children }) => {
         enabledMovementModes,
         applyArchetypeChassis,
         applySpeciesAdjustments,
+        applyOccupationAdjustments,
+        applyOriginAdjustments,
+        applyFactionAdjustments,
+        applyIdentitySelection,
         personaRoster,
         roster: personaRoster,
         saveCurrentToRoster,

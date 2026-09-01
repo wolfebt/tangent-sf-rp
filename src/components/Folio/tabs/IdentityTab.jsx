@@ -383,16 +383,22 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
 
   const handleSpeciesChange = (value) => {
     updateField('char-species', value);
-    if (!value) return;
-    const allSpecies = (dbOptions.species && dbOptions.species.length > 0) ? dbOptions.species : DEFAULT_SPECIES;
-    const found = allSpecies.find(s => s.name === value || s.title === value || s.id === value);
-    if (found && applySpeciesAdjustments) {
-      applySpeciesAdjustments(found);
-    }
   };
 
   const handleArchetypeChange = (value) => {
     updateField('char-archetype', value);
+  };
+
+  const handleOccupationChange = (value) => {
+    updateField('char-occu', value);
+  };
+
+  const handleOriginChange = (value) => {
+    updateField('char-origin', value);
+  };
+
+  const handleFactionChange = (value) => {
+    updateField('char-faction', value);
   };
 
   return (

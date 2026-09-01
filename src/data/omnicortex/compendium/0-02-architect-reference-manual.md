@@ -86,31 +86,16 @@ Architects can quickly assemble adversary statblocks using the **3-Tier Threat M
 - **Elites / Enforcers:** 30–50 HP, Armor DR 5–10, +6 to +10 attack roll, 2–3 actions per round.
 - **Bosses / Arch-Villains:** 100+ HP, Armor DR 15+, Legendary Reactions, Focus Strike +5, full Metaphysic suites.
 
----
-
-## 5. Codex Simulation & In-Game Asset Forge
-
-When designing custom equipment, starships, structures, or adversaries, the **Codex (`/codex`)** provides 17 generative engineering matrices backed by the **Tangent Standard Curve (TSC)**:
-- **Tangent Standard Curve:** $\text{Market Value} = 10 \times 4^{\left(\frac{\text{DC}}{5}\right)}$
-- **Material Cost:** Exactly 50% of the calculated TSC market value.
-- **10:1 UDU Conversion:** 1 Facility Module = 10 Vehicle Mounts = 100 Sockets = 1,000 Nodes.
-- **Batch Ingestion Pipeline (`/codex?matrix=ingestion-engine`):** Multimodal BASTION AI extraction (>10k char chunking), Universal Delimiter CSV/TSV/Markdown parser, and Side-by-Side Diff Inspector for staged database commits.
-
-*For complete matrix schemas and formulas, see [0.04 CODEX Simulation & Ingestion Manual](file:///d:/_%20Data/Tangent%20SF%20RP/TANGENT%20SF%20RP%20react%20project/src/data/omnicortex/compendium/0-04-codex-simulation-and-ingestion-manual.md).*
-
 ## Game Mechanics Rules
 ```
 Unopposed DC = 15 + Size Modifier + Range Penalty + Movement Modifier
 Design DC = (TL * 2) + (ML * 3) + Base Component Difficulty
-TSC Market Value = 10 * Math.pow(4, DC / 5)
 ```
 
 ## Gameplay Instructions
 1. Establish planetary TL and ML before designing scenes.
 2. Use Base DC 15 for average tasks under pressure; adjust in +/- 5 increments.
 3. When resolving opposed checks, award ties to the defending party.
-4. Launch `/codex` to design balance-legal weapons, mecha, structures, or NPCs.
 
 ## Designer Notes
 Keep the story moving: if a roll fails by 1-2 points, offer a Success at a Cost rather than a hard roadblock.
-

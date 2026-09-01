@@ -8,10 +8,13 @@ import {
   CheckCircle, 
   AlertTriangle, 
   Cpu, 
+  Bot,
   Trash2,
   Calculator,
-  HelpCircle
+  HelpCircle,
+  Sparkles
 } from 'lucide-react';
+import { CodexIngestionModal } from './CodexIngestionModal';
 import { AudioService } from '../../services/audioService';
 import { confirmTypedDeletion } from '../../utils/confirmationUtils';
 import { useComputedState } from './hooks/useComputedState';
@@ -72,6 +75,7 @@ export const CodexMatrixBuilder = ({
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [isIngestionModalOpen, setIsIngestionModalOpen] = useState(false);
 
   // Reactive state derivation hook
   const { computedValues, isCalculating } = useComputedState(matrix, formData);
@@ -208,8 +212,21 @@ export const CodexMatrixBuilder = ({
           </div>
         </div>
 
-        {/* BASTION Synthesizer & Close Controls */}
+        {/* BASTION Ingestion Studio, Synthesizer & Close Controls */}
         <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => {
+              AudioService.playTerminalBeep(1200, 0.03);
+              setIsIngestionModalOpen(true);
+            }}
+            className="px-3.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-sm transition-all cursor-pointer"
+            title={`Parse and ingest data for ${matrix.name} with BASTION Ingestion Studio`}
+          >
+            <Bot size={14} className="text-cyan-400" />
+            <span className="hidden sm:inline">Ingestion Studio</span>
+          </button>
+
           {onOpenAiSynthesizer && (
             <button
               type="button"
@@ -217,7 +234,7 @@ export const CodexMatrixBuilder = ({
               className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-cyan-950 to-blue-950 hover:from-cyan-900 hover:to-blue-900 border border-cyan-500/50 text-cyan-300 text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-[0_0_15px_rgba(6,182,212,0.2)] transition-all cursor-pointer"
             >
               <Cpu size={14} />
-              <span>BASTION Synthesizer</span>
+              <span className="hidden sm:inline">BASTION Synthesizer</span>
             </button>
           )}
 
@@ -464,6 +481,28 @@ export const CodexMatrixBuilder = ({
           />
         )}
       </div>
+
+      {/* Omnicortex Focused Ingestion Studio Modal */}
+      <CodexIngestionModal
+        isOpen={isIngestionModalOpen}
+        onClose={() => setIsIngestionModalOpen(false)}
+        initialDatasetKey={matrix.ingestionKey || matrix.targetCollection || matrix.id}
+        focusedMode={true}
+        onApplyEntry={(appliedItem) => {
+          setFormData(prev => ({
+            ...prev,
+            ...appliedItem,
+            name: appliedItem.name || prev.name,
+            description: appliedItem.description || appliedItem.body || prev.description,
+            mechanic: appliedItem.mechanic || prev.mechanic,
+            note: appliedItem.note || prev.note,
+            tl: appliedItem.tech_level ?? appliedItem.tl ?? prev.tl,
+            ml: appliedItem.meta_level ?? appliedItem.ml ?? prev.ml,
+            craft_dc: appliedItem.craft_dc ?? appliedItem.design_dc ?? prev.craft_dc
+          }));
+          AudioService.playTerminalBeep(1400, 0.05);
+        }}
+      />
     </div>
   );
 };

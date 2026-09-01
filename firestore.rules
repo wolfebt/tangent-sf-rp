@@ -149,11 +149,39 @@ service cloud.firestore {
     // 2. USER PROFILES & USER SETTINGS
     // =========================================================================
     match /users/{userId} {
-      allow read, write: if isOwner(userId) || isAdmin();
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId) || isAdmin();
     }
 
     // =========================================================================
-    // 3. PERSONA FOLIO DATA & CHARACTERS
+    // 3. GAME GROUPS & SQUAD ROSTERS
+    // =========================================================================
+    match /game_groups/{groupId} {
+      allow read: if isAuthenticated() || resource.data.isPublic == true;
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated();
+      allow delete: if isAuthenticated() && (resource.data.creatorId == request.auth.uid || isAdmin());
+    }
+
+    // =========================================================================
+    // 4. GROUP & SQUAD INVITATIONS
+    // =========================================================================
+    match /group_invites/{inviteId} {
+      allow read: if isAuthenticated() && (
+        resource.data.toUserId == request.auth.uid 
+        || resource.data.fromUserId == request.auth.uid 
+        || isAdmin()
+      );
+      allow create: if isAuthenticated();
+      allow update, delete: if isAuthenticated() && (
+        resource.data.toUserId == request.auth.uid 
+        || resource.data.fromUserId == request.auth.uid 
+        || isAdmin()
+      );
+    }
+
+    // =========================================================================
+    // 5. PERSONA FOLIO DATA & CHARACTERS
     // =========================================================================
     match /users/{userId}/personas/{personaId} {
       allow read: if isOwner(userId) || resource.data.isPublic == true || isAdmin();
@@ -173,7 +201,7 @@ service cloud.firestore {
     }
 
     // =========================================================================
-    // 4. STORY FOUNDRY: USER STORIES & CAMPAIGNS
+    // 6. STORY FOUNDRY: USER STORIES & CAMPAIGNS
     // =========================================================================
     match /user_stories/{storyId} {
       allow read: if resource.data.isPublic == true 
@@ -183,7 +211,7 @@ service cloud.firestore {
     }
 
     // =========================================================================
-    // 5. STORY FOUNDRY: INDEPENDENT SCENARIO ELEMENTS
+    // 7. STORY FOUNDRY: INDEPENDENT SCENARIO ELEMENTS
     // =========================================================================
     match /story_elements/{elementId} {
       allow read: if resource.data.isPublic == true 
@@ -193,7 +221,7 @@ service cloud.firestore {
     }
 
     // =========================================================================
-    // 6. STORY FOUNDRY: TACTICAL MAPS
+    // 8. STORY FOUNDRY: TACTICAL MAPS
     // =========================================================================
     match /story_maps/{mapId} {
       allow read: if isAuthenticated() || resource.data.isPublic == true;
@@ -202,14 +230,14 @@ service cloud.firestore {
     }
 
     // =========================================================================
-    // 7. STORY FOUNDRY: SHARED UNIVERSE STATE
+    // 9. STORY FOUNDRY: SHARED UNIVERSE STATE
     // =========================================================================
     match /universe/{document=**} {
       allow read, write: if isAuthenticated();
     }
 
     // =========================================================================
-    // 8. COMMLINK RELAY: CHANNELS & MESSAGES
+    // 10. COMMLINK RELAY: CHANNELS & MESSAGES
     // =========================================================================
     match /channels/{channelId} {
       // Allow read if channel is public or user is in members or is admin
@@ -247,7 +275,7 @@ service cloud.firestore {
     }
 
     // =========================================================================
-    // 9. FINAL CATCH-ALL: EXPLICIT DENY
+    // 11. FINAL CATCH-ALL: EXPLICIT DENY
     // =========================================================================
     match /{document=**} {
       allow read, write: if false;

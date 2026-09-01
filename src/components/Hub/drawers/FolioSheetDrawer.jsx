@@ -74,7 +74,7 @@ export const FolioSheetDrawer = ({ onClose, onOpenRoster }) => {
       </div>
 
       {/* Embedded Folio Container Workspace */}
-      <div className="flex-1 min-h-[520px] max-h-[calc(100vh-280px)] rounded-xl border border-slate-800/90 overflow-hidden bg-[#0d1117]/95 shadow-inner">
+      <div className="flex-1 min-h-[450px] rounded-xl border border-slate-800/90 overflow-hidden bg-[#0d1117]/95 shadow-inner flex flex-col">
         <FolioContainer />
       </div>
     </div>

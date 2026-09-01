@@ -127,9 +127,20 @@ export const StorageService = {
    * @returns {Promise<boolean>}
    */
   async setItem(key, value) {
+    // Keep localStorage in sync synchronously for immediate boot availability
+    try {
+      if (typeof value === 'string') {
+        localStorage.setItem(key, value);
+      } else {
+        localStorage.setItem(key, JSON.stringify(value));
+      }
+    } catch (lsErr) {
+      // LocalStorage quota or serialization issue, IDB will still persist
+    }
+
     try {
       const db = await getDB();
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         const tx = db.transaction(STORE_NAME, 'readwrite');
         const store = tx.objectStore(STORE_NAME);
         const req = store.put(value, key);
@@ -137,23 +148,11 @@ export const StorageService = {
         req.onsuccess = () => resolve(true);
         req.onerror = (e) => {
           console.warn(`[StorageService] Error putting item for key "${key}":`, e.target.error);
-          // Attempt localStorage fallback
-          try {
-            localStorage.setItem(key, JSON.stringify(value));
-            resolve(true);
-          } catch (storageErr) {
-            reject(storageErr);
-          }
+          resolve(true);
         };
       });
     } catch {
-      try {
-        localStorage.setItem(key, JSON.stringify(value));
-        return true;
-      } catch (err) {
-        console.warn(`[StorageService] LocalStorage quota exceeded or error for key "${key}":`, err);
-        return false;
-      }
+      return true;
     }
   },
 
@@ -164,15 +163,21 @@ export const StorageService = {
    */
   async removeItem(key) {
     try {
+      localStorage.removeItem(key);
+    } catch {}
+
+    try {
       const db = await getDB();
-      const tx = db.transaction(STORE_NAME, 'readwrite');
-      tx.objectStore(STORE_NAME).delete(key);
+      return new Promise((resolve) => {
+        const tx = db.transaction(STORE_NAME, 'readwrite');
+        const store = tx.objectStore(STORE_NAME);
+        const req = store.delete(key);
+        req.onsuccess = () => resolve();
+        req.onerror = () => resolve();
+      });
     } catch (e) {
       // Ignore IDB errors during deletion
     }
-    try {
-      localStorage.removeItem(key);
-    } catch {}
   },
 
   /**

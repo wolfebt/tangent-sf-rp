@@ -53,7 +53,7 @@ export const categoryConfig = {
             movement: { type: 'multiselect', source: 'species_movement', manageable: true },
             trait: { type: 'multiselect', source: 'trait', label: 'Traits', manageable: true },
             modifiers: { type: 'modifiers_list', label: 'Universal Modifiers & Bonuses' },
-            costs: { type: 'costs_map', label: 'Build Costs (BP)' },
+            cp: { type: 'number', label: 'Character Points (CP)', default: 0 },
             body: { type: 'textarea', label: 'Full Lore, Sociological Profile & Visual Semiotics (Markdown)', aiEnabled: true },
             note: { type: 'textarea', label: 'Architect / Design Notes' }
         }
@@ -161,7 +161,6 @@ export const categoryConfig = {
             recommended_origins: { type: 'multiselect', source: 'origins', label: 'Recommended Origins', manageable: true },
             recommended_factions: { type: 'multiselect', source: 'factions', label: 'Recommended Factions', manageable: true },
             modifiers: { type: 'modifiers_list', label: 'Archetype Modifiers' },
-            costs: { type: 'costs_map', label: 'Chassis BP Costs' },
             mechanic: { type: 'textarea', label: 'Mechanics / Scaling Rules' },
             note: { type: 'textarea', label: 'Architect Notes' }
         }
@@ -193,9 +192,9 @@ export const categoryConfig = {
             description: { type:'textarea', aiEnabled: true},
             tech_level: { type: 'select', label: 'Tech Level', options: [0, 1, 2, 3, 4, 5] },
             meta_level: { type: 'select', label: 'Meta Level', options: [0, 1, 2, 3, 4, 5] },
+            cp: { type: 'number', label: 'Character Point (CP) Cost', default: 2 },
             prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true},
             modifiers: { type: 'modifiers_list', label: 'Universal Modifiers' },
-            costs: { type: 'costs_map', label: 'CP & Resource Costs' },
             mechanic: { type: 'textarea' },
             note: { type: 'textarea' },
             multi: { type: 'boolean', label: 'Multi' },
@@ -341,9 +340,25 @@ export const categoryConfig = {
             note: { type: 'textarea', label: 'Architect Notes' }
         }
     },
+    world_design: {
+        label: 'WORLD DESIGN',
+        isParent: true,
+        viewType: 'landing',
+        subItems: ['planetary_design', 'universe', 'philosophy', 'factions', 'technology', 'setting', 'scene'],
+        subcategories: {
+            planetary_design: { label: 'PLANETARY SPECS' },
+            universe: { label: 'UNIVERSE' },
+            philosophy: { label: 'PHILOSOPHY & RELIGION' },
+            factions: { label: 'FACTION' },
+            technology: { label: 'TECHNOLOGY' },
+            setting: { label: 'SETTING' },
+            scene: { label: 'SCENE (AIME)' }
+        }
+    },
     planetary_design: {
-        label: 'PLANETARY DESIGN',
+        label: 'PLANETARY SPECS',
         viewType: 'table',
+        parent: 'world_design',
         directory_columns: ['name', 'starClass', 'orbitalZone', 'size', 'atmosphere', 'tech_level', 'meta_level', 'population'],
         fields: {
             name: { type: 'text', required: true, label: 'Planet / System Name' },
@@ -912,11 +927,12 @@ export const categoryConfig = {
             description: { type: 'textarea' }
         }
     },
-    // --- AIME Narrative Categories ---
+    // --- World Design & Narrative Categories ---
     universe: {
-        label: 'UNIVERSES',
+        label: 'UNIVERSE',
         viewType: 'table',
-        directory_columns: ['name', 'description', 'scale'],
+        parent: 'world_design',
+        directory_columns: ['name', 'scale', 'description'],
         fields: {
             name: { type: 'text', required: true, label: 'Universe Name' },
             description: { type: 'textarea', aiEnabled: true, label: 'Cosmology & Origins' },
@@ -928,7 +944,9 @@ export const categoryConfig = {
     },
     world: {
         label: 'WORLDS',
+        hideFromMenu: true,
         viewType: 'table',
+        parent: 'world_design',
         directory_columns: ['name', 'universe', 'description'],
         fields: {
             name: { type: 'text', required: true, label: 'World Name' },
@@ -941,12 +959,13 @@ export const categoryConfig = {
         }
     },
     setting: {
-        label: 'SETTINGS',
+        label: 'SETTING',
         viewType: 'table',
-        directory_columns: ['name', 'world', 'description'],
+        parent: 'world_design',
+        directory_columns: ['name', 'description', 'points_of_interest'],
         fields: {
             name: { type: 'text', required: true, label: 'Setting/Location Name' },
-            world: { type: 'select', source: 'world', manageable: true },
+            world: { type: 'text', label: 'World / Origin' },
             description: { type: 'textarea', aiEnabled: true, label: 'Atmosphere & Vibe' },
             points_of_interest: { type: 'textarea', label: 'Points of Interest' },
             inhabitants: { type: 'textarea', label: 'Notable Inhabitants' },
@@ -954,15 +973,33 @@ export const categoryConfig = {
         }
     },
     philosophy: {
-        label: 'PHILOSOPHIES',
+        label: 'PHILOSOPHY & RELIGION',
         viewType: 'table',
-        directory_columns: ['name', 'description'],
+        parent: 'world_design',
+        directory_columns: ['name', 'origin', 'description'],
         fields: {
-            name: { type: 'text', required: true, label: 'Belief/Philosophy Name' },
+            name: { type: 'text', required: true, label: 'Belief / Philosophy Name' },
             description: { type: 'textarea', aiEnabled: true, label: 'Core Tenets' },
             origin: { type: 'textarea', label: 'Origin & Founders' },
             practices: { type: 'textarea', label: 'Practices & Rituals' },
             note: { type: 'textarea' }
+        }
+    },
+    scene: {
+        label: 'SCENE (AIME)',
+        viewType: 'table',
+        parent: 'world_design',
+        directory_columns: ['name', 'scene_type', 'dramatic_hook', 'description'],
+        fields: {
+            name: { type: 'text', required: true, label: 'Scene Title' },
+            scene_type: { type: 'select', label: 'Scene Type', options: ['Action / Combat', 'Investigation / Clue', 'Social / Intrigue', 'Exploration / Survival', 'Downtime / Recovery', 'Cinematic Revelation'], default: 'Action / Combat' },
+            dramatic_hook: { type: 'text', label: 'Dramatic Hook / Conflict' },
+            setting_location: { type: 'text', label: 'Location / Setting' },
+            participants: { type: 'text', label: 'Key NPCs & Factions' },
+            description: { type: 'textarea', aiEnabled: true, label: 'Scene Beats & Narrative Flow' },
+            rewards_loot: { type: 'textarea', label: 'Rewards, Clues & Loot Cache' },
+            mechanic: { type: 'textarea', label: 'Tactical Rules & DC Checks' },
+            note: { type: 'textarea', label: 'GM Secrets & Architect Notes' }
         }
     },
     // --- Auxiliary & Subcategory Reference Collections (Top-Level Mapped) ---

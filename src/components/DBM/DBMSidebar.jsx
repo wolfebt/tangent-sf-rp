@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { categoryConfig, DEVELOPMENT_FIELDS_GROUPS, DEVELOPMENT_FIELDS_REGISTRY } from './categoryConfig';
 import { useDBM } from '../../context/DBMContext';
 import { useAuth } from '../../context/AuthContext';
@@ -47,6 +48,12 @@ const CATEGORY_ICONS = {
   armoring: Shield,
   mecha: Bot,
   architecture: Building2,
+  world_design: Globe,
+  planetary_design: Globe,
+  universe: Globe,
+  philosophy: Landmark,
+  setting: Compass,
+  scene: Sparkles,
   other: Layers,
   societies: Landmark,
   user_guide: HelpCircle
@@ -60,6 +67,7 @@ export const DBMSidebar = ({
   isAdmin: propIsAdmin,
   onCloseMenu
 }) => {
+  const navigate = useNavigate();
   const auth = useAuth() || {};
   const isAdmin = propIsAdmin !== undefined ? propIsAdmin : Boolean(auth.isAdmin);
   const [searchTerm, setSearchTerm] = useState('');
@@ -155,6 +163,22 @@ export const DBMSidebar = ({
         />
         <Search size={13} className="absolute left-2.5 top-2 text-slate-500" />
       </div>
+
+      {/* Rules Codex Matrices Quick Switcher */}
+      <button
+        type="button"
+        onClick={() => {
+          AudioService.playTerminalBeep(1200, 0.03);
+          navigate('/codex');
+        }}
+        className="w-full px-3 py-1.5 rounded-xl text-xs font-mono font-bold tracking-wider bg-gradient-to-r from-purple-950/80 to-slate-900 border border-purple-500/50 hover:border-purple-400 text-purple-200 hover:text-white flex items-center justify-between shadow-[0_0_10px_rgba(168,85,247,0.2)] hover:shadow-[0_0_15px_rgba(168,85,247,0.35)] transition-all shrink-0 my-0.5"
+      >
+        <div className="flex items-center gap-2">
+          <span>📖</span>
+          <span className="uppercase text-[11px]">Rules Codex Matrices</span>
+        </div>
+        <span className="text-[10px] text-purple-400 font-bold">➔</span>
+      </button>
 
       {/* Category List Menu */}
       <div className="flex-1 min-h-0 flex flex-col gap-1 overflow-y-auto pr-1 pb-2">

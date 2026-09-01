@@ -7,12 +7,16 @@ import { validateDbmEntry } from '../../../utils/dbmValidators';
 import compendiumSeedData from '../../../data/compendiumSeed.json';
 import { DEFAULT_ARCHETYPES } from '../../../data/archetypesData';
 import { DEFAULT_SPECIES } from '../../../data/speciesData';
+import { getOmnicortexTombstones, addOmnicortexTombstone, isOmnicortexDeleted } from '../../../context/DBMContext';
 
 export const useFirestoreSync = (currentKey, currentUser = auth?.currentUser) => {
-  const [dbData, setDbData] = useState({
-    compendium: compendiumSeedData,
-    archetypes: DEFAULT_ARCHETYPES,
-    species: DEFAULT_SPECIES
+  const [dbData, setDbData] = useState(() => {
+    const tombstones = getOmnicortexTombstones();
+    return {
+      compendium: compendiumSeedData.filter(s => !isOmnicortexDeleted(s, tombstones)),
+      archetypes: DEFAULT_ARCHETYPES.filter(s => !isOmnicortexDeleted(s, tombstones)),
+      species: DEFAULT_SPECIES.filter(s => !isOmnicortexDeleted(s, tombstones))
+    };
   });
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState(null);
@@ -58,30 +62,28 @@ export const useFirestoreSync = (currentKey, currentUser = auth?.currentUser) =>
       // 1. Primary real-time listener for current active category
       const colRef = collection(db, currentKey);
       const unsubCurrent = onSnapshot(colRef, (snapshot) => {
-        let items = snapshot.docs.map(d => ({ ...d.data(), id: d.id }));
-        if ((currentKey === 'compendium' || currentKey === 'rules_codex') && items.length < compendiumSeedData.length) {
-          const existingIds = new Set(items.map(i => i.id || (i.name || '').toLowerCase()));
-          const missingSeeds = compendiumSeedData.filter(s => !existingIds.has(s.id) && !existingIds.has(s.name.toLowerCase()));
-          items = [...items, ...missingSeeds];
-        } else if (currentKey === 'archetypes' && items.length < DEFAULT_ARCHETYPES.length) {
-          const existingIds = new Set(items.map(i => i.id || (i.name || '').toLowerCase()));
-          const missingSeeds = DEFAULT_ARCHETYPES.filter(s => !existingIds.has(s.id) && !existingIds.has(s.name.toLowerCase()));
-          items = [...items, ...missingSeeds];
-        } else if (currentKey === 'species' && items.length < DEFAULT_SPECIES.length) {
-          const existingIds = new Set(items.map(i => i.id || (i.name || '').toLowerCase()));
-          const missingSeeds = DEFAULT_SPECIES.filter(s => !existingIds.has(s.id) && !existingIds.has(s.name.toLowerCase()));
-          items = [...items, ...missingSeeds];
+        const tombstones = getOmnicortexTombstones();
+        let items = snapshot.docs.map(d => ({ ...d.data(), id: d.id })).filter(i => !isOmnicortexDeleted(i, tombstones));
+        if (items.length === 0 && snapshot.docs.length === 0) {
+          if (currentKey === 'compendium' || currentKey === 'rules_codex') {
+            items = compendiumSeedData.filter(s => !isOmnicortexDeleted(s, tombstones));
+          } else if (currentKey === 'archetypes') {
+            items = DEFAULT_ARCHETYPES.filter(s => !isOmnicortexDeleted(s, tombstones));
+          } else if (currentKey === 'species') {
+            items = DEFAULT_SPECIES.filter(s => !isOmnicortexDeleted(s, tombstones));
+          }
         }
         setDbData(prev => ({ ...prev, [currentKey]: items }));
         setIsLoading(false);
       }, (err) => {
         console.warn(`Firestore listener error for ${currentKey}:`, err.message);
+        const tombstones = getOmnicortexTombstones();
         if (currentKey === 'compendium' || currentKey === 'rules_codex') {
-          setDbData(prev => ({ ...prev, [currentKey]: compendiumSeedData }));
+          setDbData(prev => ({ ...prev, [currentKey]: compendiumSeedData.filter(s => !isOmnicortexDeleted(s, tombstones)) }));
         } else if (currentKey === 'archetypes') {
-          setDbData(prev => ({ ...prev, [currentKey]: DEFAULT_ARCHETYPES }));
+          setDbData(prev => ({ ...prev, [currentKey]: DEFAULT_ARCHETYPES.filter(s => !isOmnicortexDeleted(s, tombstones)) }));
         } else if (currentKey === 'species') {
-          setDbData(prev => ({ ...prev, [currentKey]: DEFAULT_SPECIES }));
+          setDbData(prev => ({ ...prev, [currentKey]: DEFAULT_SPECIES.filter(s => !isOmnicortexDeleted(s, tombstones)) }));
         }
         setLoadError(`Failed to load ${currentKey}.`);
         setIsLoading(false);
@@ -110,28 +112,26 @@ export const useFirestoreSync = (currentKey, currentUser = auth?.currentUser) =>
           try {
             const refCol = collection(db, catK);
             const unsubRef = onSnapshot(refCol, (snapshot) => {
-              let items = snapshot.docs.map(d => ({ ...d.data(), id: d.id }));
-              if ((catK === 'compendium' || catK === 'rules_codex') && items.length < compendiumSeedData.length) {
-                const existingIds = new Set(items.map(i => i.id || (i.name || '').toLowerCase()));
-                const missingSeeds = compendiumSeedData.filter(s => !existingIds.has(s.id) && !existingIds.has(s.name.toLowerCase()));
-                items = [...items, ...missingSeeds];
-              } else if (catK === 'archetypes' && items.length < DEFAULT_ARCHETYPES.length) {
-                const existingIds = new Set(items.map(i => i.id || (i.name || '').toLowerCase()));
-                const missingSeeds = DEFAULT_ARCHETYPES.filter(s => !existingIds.has(s.id) && !existingIds.has(s.name.toLowerCase()));
-                items = [...items, ...missingSeeds];
-              } else if (catK === 'species' && items.length < DEFAULT_SPECIES.length) {
-                const existingIds = new Set(items.map(i => i.id || (i.name || '').toLowerCase()));
-                const missingSeeds = DEFAULT_SPECIES.filter(s => !existingIds.has(s.id) && !existingIds.has(s.name.toLowerCase()));
-                items = [...items, ...missingSeeds];
+              const tombstones = getOmnicortexTombstones();
+              let items = snapshot.docs.map(d => ({ ...d.data(), id: d.id })).filter(i => !isOmnicortexDeleted(i, tombstones));
+              if (items.length === 0 && snapshot.docs.length === 0) {
+                if (catK === 'compendium' || catK === 'rules_codex') {
+                  items = compendiumSeedData.filter(s => !isOmnicortexDeleted(s, tombstones));
+                } else if (catK === 'archetypes') {
+                  items = DEFAULT_ARCHETYPES.filter(s => !isOmnicortexDeleted(s, tombstones));
+                } else if (catK === 'species') {
+                  items = DEFAULT_SPECIES.filter(s => !isOmnicortexDeleted(s, tombstones));
+                }
               }
               setDbData(prev => ({ ...prev, [catK]: items }));
             }, (err) => {
+              const tombstones = getOmnicortexTombstones();
               if (catK === 'compendium' || catK === 'rules_codex') {
-                setDbData(prev => ({ ...prev, [catK]: compendiumSeedData }));
+                setDbData(prev => ({ ...prev, [catK]: compendiumSeedData.filter(s => !isOmnicortexDeleted(s, tombstones)) }));
               } else if (catK === 'archetypes') {
-                setDbData(prev => ({ ...prev, [catK]: DEFAULT_ARCHETYPES }));
+                setDbData(prev => ({ ...prev, [catK]: DEFAULT_ARCHETYPES.filter(s => !isOmnicortexDeleted(s, tombstones)) }));
               } else if (catK === 'species') {
-                setDbData(prev => ({ ...prev, [catK]: DEFAULT_SPECIES }));
+                setDbData(prev => ({ ...prev, [catK]: DEFAULT_SPECIES.filter(s => !isOmnicortexDeleted(s, tombstones)) }));
               }
             });
             unsubs.push(unsubRef);
@@ -217,7 +217,7 @@ export const useFirestoreSync = (currentKey, currentUser = auth?.currentUser) =>
     }
   }, [currentKey, currentUser]);
 
-  // Safe Delete Entry with Multi-Collection Scan & Rollback
+  // Safe Delete Entry with Multi-Collection Scan & Tombstone Persistence
   const deleteEntry = useCallback(async (docId, key = currentKey) => {
     if (!docId) return false;
 
@@ -241,6 +241,9 @@ export const useFirestoreSync = (currentKey, currentUser = auth?.currentUser) =>
     }
 
     const displayName = targetName || docId;
+
+    // Persist tombstone so seed arrays and caches never resurrect this entry
+    addOmnicortexTombstone(docId, targetName);
 
     // 2. Optimistically remove from all local categories
     setDbData(prev => {
@@ -307,15 +310,14 @@ export const useFirestoreSync = (currentKey, currentUser = auth?.currentUser) =>
       });
       return true;
     } catch (err) {
-      console.error(`Firestore deleteEntry failed for document ${docId}:`, err.message);
-      // Precision rollback to ref snapshot
-      setDbData(previousState);
+      console.warn(`Firestore delete notice for document ${docId}:`, err.message);
+      // Local removal and tombstone remain active
       setToastMessage({
-        type: 'error',
-        title: 'Delete Failed',
-        text: `Failed to delete "${displayName}". Reverted.`
+        type: 'info',
+        title: 'Removed Locally',
+        text: `"${displayName}" removed locally.`
       });
-      return false;
+      return true;
     }
   }, [currentKey]);
 

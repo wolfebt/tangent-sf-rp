@@ -86,52 +86,8 @@ export const DBMHeader = ({
         </div>
       </div>
 
-      {/* Right section: Roles, Bastion AI, System Tools */}
+      {/* Right section: System Tools Menu */}
       <div className="flex items-center gap-2 sm:gap-3">
-        {/* Role Indicator Flag & Narrow-screen Undo/Redo Stack */}
-        <div className="flex flex-col items-end gap-1">
-          {/* RBAC Role Indicator / Architect Dev Fields Modal Trigger Button */}
-          {currentUser && (
-            isAdmin ? (
-              <button
-                type="button"
-                onClick={() => onOpenArchitectModal && onOpenArchitectModal()}
-                className="flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] sm:text-xs font-extrabold border uppercase tracking-wider bg-gradient-to-r from-amber-950/90 to-amber-900/80 hover:from-amber-900 hover:to-amber-800 border-amber-500/70 hover:border-amber-400 text-amber-300 hover:text-amber-200 shadow-[0_0_12px_rgba(245,158,11,0.25)] hover:shadow-[0_0_16px_rgba(245,158,11,0.4)] transition-all cursor-pointer group active:scale-95"
-                title="Manage Development & Reference Fields (Dev Mode)"
-              >
-                <span className="group-hover:scale-110 transition-transform">🛡️</span>
-                <span>{userRole || 'Architect'}</span>
-                <span className="text-[9px] bg-amber-950/90 text-amber-200 px-1.5 py-0.2 rounded border border-amber-500/40 font-mono">
-                  FIELDS
-                </span>
-              </button>
-            ) : (
-              <div 
-                className="flex items-center gap-1.5 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded text-[11px] sm:text-xs font-bold border uppercase tracking-wide bg-slate-800/80 border-slate-600 text-slate-400"
-                title="Read-only access mode"
-              >
-                <span>👁️</span>
-                <span>{userRole || 'Operator'}</span>
-              </div>
-            )
-          )}
-        </div>
-
-        {/* Bastion AI Top Bar Access */}
-        <button
-          type="button"
-          onClick={() => setIsBastionOpen && setIsBastionOpen(prev => !prev)}
-          className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
-            isBastionOpen
-              ? 'bg-cyan-900/90 text-cyan-200 border border-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.4)]'
-              : 'bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 shadow-[0_0_8px_rgba(34,211,238,0.2)]'
-          }`}
-          title="Toggle BASTION AI (Rules assistant & entry generator)"
-        >
-          <span>🤖</span>
-          <span className="hidden sm:inline">BASTION</span>
-        </button>
-
         {/* System Actions Dropdown Menu */}
         <div className="relative" ref={menuRef}>
           <button
@@ -149,6 +105,42 @@ export const DBMHeader = ({
               <div className="px-2 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-800 mb-0.5">
                 System Options
               </div>
+
+              {/* Switch to Rules Codex */}
+              <button
+                type="button"
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  navigate('/codex');
+                }}
+                className="w-full text-left px-3 py-2 bg-purple-950/40 hover:bg-purple-900/60 border border-purple-500/40 text-purple-200 rounded text-xs font-bold uppercase transition-colors flex items-center justify-between"
+                title="Switch from Omnicortex DB to Rules Codex Matrices"
+              >
+                <div className="flex items-center gap-2">
+                  <span>📖</span>
+                  <span>Rules Codex</span>
+                </div>
+                <span className="text-[10px] text-purple-400 font-mono">Codex</span>
+              </button>
+
+              {/* Bastion AI Assistant Toggle */}
+              <button
+                type="button"
+                onClick={() => {
+                  setIsBastionOpen && setIsBastionOpen(!isBastionOpen);
+                  setIsMenuOpen(false);
+                }}
+                className="w-full text-left px-3 py-2 bg-cyan-950/40 hover:bg-cyan-900/60 border border-cyan-500/40 text-cyan-300 rounded text-xs font-bold uppercase transition-colors flex items-center justify-between"
+                title="Toggle BASTION AI (Rules assistant & entry generator)"
+              >
+                <div className="flex items-center gap-2">
+                  <span>🤖</span>
+                  <span>Bastion AI</span>
+                </div>
+                <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${isBastionOpen ? 'bg-cyan-500/20 text-cyan-300' : 'bg-slate-700 text-slate-400'}`}>
+                  {isBastionOpen ? 'OPEN' : 'CLOSED'}
+                </span>
+              </button>
 
               {/* User Guide */}
               <button

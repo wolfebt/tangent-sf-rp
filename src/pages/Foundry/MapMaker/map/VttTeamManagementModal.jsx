@@ -114,7 +114,7 @@ const VttTeamManagementModal = ({
         </div>
 
         {/* 2-Column Layout: Teams & Roles (Left) + Multi-Character Binding (Right) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 overflow-hidden">
+        <div className="flex-1 min-h-0 overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-4 pr-1">
           {/* Left Column: Teams & Roles */}
           <div className="flex flex-col gap-3">
             <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col gap-2 text-xs">

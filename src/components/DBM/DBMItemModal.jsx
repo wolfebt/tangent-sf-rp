@@ -8,10 +8,30 @@ import { ALL_CANONICAL_SKILLS, SKILL_CATEGORY_SECTIONS } from '../../data/skills
 import { useFolio } from '../../context/FolioContext';
 import { useStory } from '../../context/CampaignContext';
 import { AudioService } from '../../services/audioService';
-import { Backpack, Gem, Check, Sparkles, AlertCircle, Cpu, RotateCcw, Calculator, Coins, Hammer, TrendingUp, Layers, Wrench, Shield, Zap } from 'lucide-react';
+import { Backpack, Gem, Check, Sparkles, AlertCircle, Cpu, Bot, RotateCcw, Calculator, Coins, Hammer, TrendingUp, Layers, Wrench, Shield, Zap } from 'lucide-react';
 import * as econEngine from '../../engines/tangentEconEngine';
 import * as techEngine from '../../engines/tangentTechEngine';
 import * as uduEngine from '../../engines/tangentUDUEngine';
+import { CodexIngestionModal } from '../../pages/Codex/CodexIngestionModal';
+
+export const getDatasetKeyForCollection = (colKey) => {
+  if (!colKey) return 'species';
+  const k = colKey.toLowerCase();
+  if (k === 'species' || k === 'species_type' || k === 'species_size' || k === 'species_movement') return 'species';
+  if (k === 'features' || k === 'trait' || k === 'traits') return 'features';
+  if (k === 'skills' || k === 'skill') return 'skills';
+  if (k === 'disadvantages' || k === 'disadvantage') return 'disadvantages';
+  if (k === 'factions' || k === 'faction' || k === 'societies') return 'factions';
+  if (k === 'occupations' || k === 'occupation' || k === 'origins' || k === 'archetypes') return 'occupations';
+  if (k === 'invocations' || k === 'invocation' || k === 'special_abilities' || k === 'disciplines') return 'invocations';
+  if (k === 'augmentations' || k === 'augmentation' || k === 'augmentation_type' || k === 'body_location') return 'augmentations';
+  if (k === 'gear' || k === 'equipment' || k === 'personal_property' || k === 'meta-tech') return 'gear';
+  if (k === 'weaponry' || k === 'weapons' || k === 'weapon') return 'weaponry';
+  if (k === 'armoring' || k === 'armor') return 'armoring';
+  if (k === 'mecha' || k === 'vehicles' || k === 'starships') return 'mecha';
+  if (k === 'architecture' || k === 'facilities' || k === 'stations') return 'architecture';
+  return 'other';
+};
 
 // Specialized Sub-Widgets
 import { CostEconomyWidget } from './widgets/CostEconomyWidget';
@@ -252,6 +272,7 @@ export const DBMItemModal = ({
 
   // Tab state
   const [activeModalTab, setActiveModalTab] = useState('all');
+  const [isIngestionModalOpen, setIsIngestionModalOpen] = useState(false);
 
   const toggleCustomInputMode = (fieldKey) => {
     setCustomInputModes(prev => ({ ...prev, [fieldKey]: !prev[fieldKey] }));
@@ -362,13 +383,15 @@ export const DBMItemModal = ({
   const fieldKeys = getSortedCategoryFieldKeys(fieldsObj);
   const isDenseForm = fieldKeys.length > 6;
 
+  const isNonCraftedCategory = ['species', 'archetypes', 'features', 'skills', 'origins', 'occupations', 'universe', 'world', 'setting', 'philosophy', 'scene'].includes((currentKey || '').toLowerCase());
+
   const getFieldTabGroup = (fKey) => {
     const k = fKey.toLowerCase();
     const fDef = fieldsObj[fKey] || {};
     if (['costs_map', 'modifiers_list', 'modifications_list', 'critical_details', 'sockets_group'].includes(fDef.type)) {
       return 'mechanics';
     }
-    if (['name', 'title', 'parent_species', 'lineage', 'homeworld', 'stigma', 'description', 'type', 'tl', 'ml', 'tech_level', 'meta_level', 'techlevel', 'metalevel', 'availability', 'rarity', 'category', 'price', 'cost_credits', 'size', 'movement', 'prerequisite', 'society', 'is_specialization', 'base_skill', 'subtype'].includes(k)) {
+    if (['name', 'title', 'parent_species', 'lineage', 'homeworld', 'stigma', 'description', 'type', 'tl', 'ml', 'tech_level', 'meta_level', 'techlevel', 'metalevel', 'availability', 'rarity', 'category', 'price', 'cost_credits', 'size', 'movement', 'prerequisite', 'society', 'is_specialization', 'base_skill', 'subtype', 'cp', 'bp'].includes(k)) {
       return 'general';
     }
     if (['body', 'laws_of_physics', 'history', 'geography', 'biosphere', 'culture', 'points_of_interest', 'inhabitants', 'origin', 'practices', 'attitude', 'goals', 'social_strengths', 'social_weaknesses', 'note', 'mechanic', 'core_beliefs', 'social_structure', 'outsider_view', 'law_order', 'military_doctrine', 'design_language', 'architecture', 'gear_aesthetic', 'lighting_mood', 'image_prompt'].includes(k)) {
@@ -379,7 +402,7 @@ export const DBMItemModal = ({
 
   const getSectionHeader = (fKey) => {
     const fDef = fieldsObj[fKey] || {};
-    if (fDef.type === 'costs_map') {
+    if (fDef.type === 'costs_map' && !isNonCraftedCategory) {
       return { title: '💰 Economy, Currency & Resource Expenditures', color: 'text-amber-400', border: 'border-amber-500/30' };
     }
     if (fDef.type === 'modifiers_list') {
@@ -423,6 +446,21 @@ export const DBMItemModal = ({
             </span>
           </div>
           <div className="flex items-center gap-2">
+            {isEditMode && isAdmin && (
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1200, 0.03);
+                  setIsIngestionModalOpen(true);
+                }}
+                className="px-2.5 py-1 rounded bg-slate-900 hover:bg-cyan-950 border border-cyan-500/40 text-cyan-300 text-[11px] font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-sm transition-all cursor-pointer"
+                title={`Open BASTION Ingestion Studio for ${currentConfig.label}`}
+              >
+                <Bot size={13} className="text-cyan-400" />
+                <span>AI Ingestion Studio</span>
+              </button>
+            )}
+
             <button onClick={onClose} className="text-slate-400 hover:text-white font-bold ml-2">
               ✕
             </button>
@@ -553,11 +591,13 @@ export const DBMItemModal = ({
                           </button>
                         </div>
                       ) : fieldDef.type === 'costs_map' ? (
-                        <CostEconomyWidget
-                          costs={editFormData.costs || getItemCosts(editFormData)}
-                          onChange={newCosts => setEditFormData(prev => ({ ...prev, costs: newCosts }))}
-                          isEditMode={true}
-                        />
+                        !isNonCraftedCategory ? (
+                          <CostEconomyWidget
+                            costs={editFormData.costs || getItemCosts(editFormData)}
+                            onChange={newCosts => setEditFormData(prev => ({ ...prev, costs: newCosts }))}
+                            isEditMode={true}
+                          />
+                        ) : null
                       ) : fieldDef.type === 'modifiers_list' ? (
                         <UniversalModifiersWidget
                           modifiers={editFormData.modifiers || getItemModifiers(editFormData)}
@@ -695,7 +735,7 @@ export const DBMItemModal = ({
               )}
 
               {/* Architect Computed Metrics Override & Recalculate */}
-              {isAdmin && (
+              {isAdmin && !isNonCraftedCategory && (
                 <div className="space-y-2 pt-3 border-t border-slate-800/80 md:col-span-2">
                   <div className="flex items-center justify-between">
                     <label className="block text-[11px] font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5 font-mono">
@@ -759,9 +799,9 @@ export const DBMItemModal = ({
                     <span>⚠️</span> {selectedItem.stigma}
                   </span>
                 )}
-                {(selectedItem?.costs?.bp !== undefined || selectedItem?.cp !== undefined || selectedItem?.bp_cost !== undefined) && (
+                {(selectedItem?.costs?.bp !== undefined || selectedItem?.cp !== undefined || selectedItem?.bp_cost !== undefined || selectedItem?.bp !== undefined) && (
                   <span className="px-2.5 py-0.5 bg-cyan-950/90 border border-cyan-500/50 text-cyan-300 rounded-full text-xs font-mono font-bold flex items-center gap-1 shadow-sm">
-                    <span>⚡</span> {selectedItem?.costs?.bp ?? selectedItem.cp ?? selectedItem.bp_cost} BP
+                    <span>⚡</span> {selectedItem?.costs?.bp ?? selectedItem.cp ?? selectedItem.bp ?? selectedItem.bp_cost} {selectedItem?.cp !== undefined ? 'CP' : 'BP'}
                   </span>
                 )}
                 {(selectedItem?.tech_level !== undefined || selectedItem?.tl !== undefined || selectedItem?.techLevel !== undefined) && (
@@ -792,8 +832,8 @@ export const DBMItemModal = ({
               {/* 1-Click Cross-Module Item Importer & Exporter Transfer Bar */}
               <DBMItemTransferBar item={selectedItem} categoryKey={currentKey} />
 
-              {/* Omnicortex Computed Game Metrics */}
-              {(selectedItem?._computed || selectedItem?.craft_dc || selectedItem?.design_dc) && (
+              {/* Omnicortex Computed Game Metrics (For Craftable / Market Goods only) */}
+              {!isNonCraftedCategory && (selectedItem?._computed || selectedItem?.craft_dc || selectedItem?.design_dc) && (
                 <div className="bg-slate-950/90 border border-slate-800 rounded-xl p-3.5 space-y-2.5 my-3 font-mono">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2 text-cyan-400 font-bold uppercase tracking-wider text-xs">
@@ -840,6 +880,9 @@ export const DBMItemModal = ({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-slate-800">
                 {(() => {
                   const renderedKeys = new Set(['name', 'description', 'id', '_computed', '_computed_override', 'updatedAt', 'createdAt', 'searchTerms']);
+                  if (isNonCraftedCategory) {
+                    renderedKeys.add('costs');
+                  }
                   const fieldsConfig = currentConfig.fields || {};
                   
                   // Collect all keys from currentConfig.fields followed by any extra populated keys in selectedItem
@@ -850,6 +893,7 @@ export const DBMItemModal = ({
 
                   return allCandidateKeys.map(fKey => {
                     if (renderedKeys.has(fKey)) return null;
+                    if (fKey === 'costs' && isNonCraftedCategory) return null;
                     renderedKeys.add(fKey);
 
                     const val = selectedItem?.[fKey];
@@ -887,7 +931,7 @@ export const DBMItemModal = ({
                           <span className="block text-[10px] font-bold text-slate-500 uppercase">{label}</span>
                           <div className="mt-1">
                             {fDef.type === 'costs_map' ? (
-                              <CostEconomyWidget costs={val || getItemCosts(selectedItem)} isEditMode={false} />
+                              !isNonCraftedCategory ? <CostEconomyWidget costs={val || getItemCosts(selectedItem)} isEditMode={false} /> : null
                             ) : fDef.type === 'modifiers_list' ? (
                               <UniversalModifiersWidget modifiers={val || getItemModifiers(selectedItem)} isEditMode={false} relationalData={relationalData} />
                             ) : fDef.type === 'modifications_list' ? (
@@ -998,6 +1042,23 @@ export const DBMItemModal = ({
           devMode={true}
         />
       )}
+
+      {/* Omnicortex Ingestion Studio Modal */}
+      <CodexIngestionModal
+        isOpen={isIngestionModalOpen}
+        onClose={() => setIsIngestionModalOpen(false)}
+        initialDatasetKey={getDatasetKeyForCollection(currentKey)}
+        focusedMode={true}
+        onApplyEntry={(appliedItem) => {
+          const normalized = normalizeOmnicortexItem(appliedItem);
+          setEditFormData(prev => ({
+            ...prev,
+            ...normalized,
+            id: prev.id || normalized.id
+          }));
+          AudioService.playTerminalBeep(1400, 0.05);
+        }}
+      />
     </div>
   );
 };

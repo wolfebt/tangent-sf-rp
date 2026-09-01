@@ -1493,3 +1493,18 @@ export function settleExperienceDebt({ characterData = {}, apAmount = 1 } = {}) 
   };
 }
 
+// ═══════════════════════════════════════════════════════════
+// IDENTITY TRANSITION & TRAIT SYNCHRONIZATION RE-EXPORTS
+// ═══════════════════════════════════════════════════════════
+export {
+  applySpeciesTransition,
+  applyArchetypeTransition,
+  applyOccupationTransition,
+  applyOriginTransition,
+  applyFactionTransition,
+  applyIdentityFieldTransition,
+  resolveCatalogItem,
+  normalizeTraitString
+} from './tangentIdentityEngine.js';
+
+
