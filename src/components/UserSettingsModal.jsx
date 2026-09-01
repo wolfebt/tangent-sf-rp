@@ -554,8 +554,8 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                       >
                         <span className="text-amber-400">🗺️</span>
                         <div>
-                          <div className="font-bold text-slate-200 text-[11px]">Tactical Maps</div>
-                          <div className="text-[9px] text-slate-500">VTT Operations</div>
+                          <div className="font-bold text-slate-200 text-[11px]">THE STAGE VTT</div>
+                          <div className="text-[9px] text-slate-500">Tactical Grid &amp; Combat</div>
                         </div>
                       </button>
                     </div>

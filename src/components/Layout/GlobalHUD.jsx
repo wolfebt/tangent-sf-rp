@@ -69,7 +69,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
   const isDBM = location.pathname.startsWith('/dbm');
   const isCodex = location.pathname.startsWith('/codex');
   const isFolio = location.pathname.startsWith('/folio') || location.pathname.startsWith('/roster');
-  const isFoundry = location.pathname.startsWith('/foundry') || location.pathname.startsWith('/story-foundry') || location.pathname.startsWith('/vtt-ops') || location.pathname.startsWith('/campaign-builder') || location.pathname.startsWith('/spectator');
+  const isFoundry = location.pathname.startsWith('/foundry') || location.pathname.startsWith('/story-foundry') || location.pathname.startsWith('/vtt-ops') || location.pathname.startsWith('/campaign-builder') || location.pathname.startsWith('/spectator') || location.pathname.startsWith('/stage') || location.pathname === '/vtt';
   const isComms = location.pathname.startsWith('/comms') || location.pathname.startsWith('/chat');
   const isStage = location.pathname.startsWith('/stage') || location.pathname === '/vtt';
   
@@ -186,6 +186,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
     if (path.startsWith('/codex')) return 'CODEX';
     if (path.includes('/story') || path.startsWith('/story-foundry')) return 'STORY WEAVER';
     if (path.includes('/elements')) return 'ELEMENT FORGE';
+    if (path.startsWith('/stage') || path === '/vtt') return 'THE STAGE VTT';
     if (path.includes('/map-maker')) return 'TACTICAL MAPS & VTT';
     if (path.includes('/aime')) return 'AIME CREATIVE ENGINE';
     if (path.includes('/vtt-options') || path.startsWith('/vtt-ops')) return 'VTT OPERATIONS';
@@ -356,7 +357,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                     </div>
                     <div>
                       <div className="font-bold text-amber-200 flex items-center gap-1.5">
-                        <span>The Stage (Next-Gen VTT)</span>
+                        <span>THE STAGE VTT</span>
                         <span className="px-1 py-0.5 bg-amber-500/30 text-amber-300 rounded text-[8px] font-mono">WEBGPU</span>
                       </div>
                       <div className="text-[9.5px] text-amber-400/80 font-mono">Tactical grid, LoS & Live Combat</div>
@@ -364,62 +365,6 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                   </div>
                 </button>
 
-                <button
-                  type="button"
-                  onClick={() => {
-                    AudioService.playTerminalBeep(1200, 0.03);
-                    navigate('/foundry');
-                  }}
-                  className="w-full text-left p-2.5 hover:bg-purple-950/60 rounded-xl text-xs font-mono text-slate-200 hover:text-purple-200 flex items-center justify-between transition-colors group cursor-pointer"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <div className="p-1.5 rounded-lg bg-purple-500/15 border border-purple-500/30 text-purple-300 group-hover:bg-purple-500/25 transition-colors">
-                      <Layers size={15} />
-                    </div>
-                    <div>
-                      <div className="font-bold text-slate-100 group-hover:text-purple-200">Foundry Hub</div>
-                      <div className="text-[9.5px] text-slate-400">Overview & Module Launcher</div>
-                    </div>
-                  </div>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    AudioService.playTerminalBeep(1200, 0.03);
-                    navigate('/foundry/map-maker');
-                  }}
-                  className="w-full text-left p-2.5 hover:bg-purple-950/60 rounded-xl text-xs font-mono text-slate-200 hover:text-purple-200 flex items-center justify-between transition-colors group cursor-pointer"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <div className="p-1.5 rounded-lg bg-purple-500/15 border border-purple-500/30 text-purple-300 group-hover:bg-purple-500/25 transition-colors">
-                      <Tv2 size={15} />
-                    </div>
-                    <div>
-                      <div className="font-bold text-slate-100 group-hover:text-purple-200">Tactical Maps & VTT</div>
-                      <div className="text-[9.5px] text-purple-400/90 font-mono">Battle Grid, Tokens & Fog</div>
-                    </div>
-                  </div>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    AudioService.playTerminalBeep(1200, 0.03);
-                    navigate('/foundry/vtt-options');
-                  }}
-                  className="w-full text-left p-2.5 hover:bg-purple-950/60 rounded-xl text-xs font-mono text-slate-200 hover:text-purple-200 flex items-center justify-between transition-colors group cursor-pointer"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <div className="p-1.5 rounded-lg bg-purple-500/15 border border-purple-500/30 text-purple-300 group-hover:bg-purple-500/25 transition-colors">
-                      <Compass size={15} />
-                    </div>
-                    <div>
-                      <div className="font-bold text-slate-100 group-hover:text-purple-200">VTT Operations</div>
-                      <div className="text-[9.5px] text-slate-400">Scene Manager & Spectator</div>
-                    </div>
-                  </div>
-                </button>
 
                 <button
                   type="button"
@@ -481,29 +426,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
             )}
           </div>
 
-          {/* 4. THE STAGE / VTT Button */}
-          <button
-            type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(1150, 0.03);
-              navigate('/stage');
-            }}
-            className={`px-2 xs:px-2.5 sm:px-3.5 py-1 xs:py-1.5 sm:py-2 rounded-lg sm:rounded-xl border sm:border-2 text-[10.5px] xs:text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1 xs:gap-1.5 sm:gap-2 cursor-pointer select-none ${
-              isStage
-                ? 'bg-amber-950/60 border-amber-400 text-amber-200 shadow-[0_0_15px_rgba(251,191,36,0.4)]'
-                : 'bg-slate-950/50 hover:bg-slate-900/90 border-slate-700/80 hover:border-amber-400 text-slate-200 hover:text-amber-300'
-            }`}
-            title="Enter Next-Gen WebGPU Stage & Tactical Viewport (/stage)"
-          >
-            <div className={`p-0.5 xs:p-1 rounded-md sm:rounded-lg border shrink-0 ${isStage ? 'bg-amber-500/25 border-amber-400/60 text-amber-300' : 'bg-amber-500/10 border-amber-500/30 text-amber-400'}`}>
-              <Tv2 size={14} className="sm:w-4 sm:h-4" />
-            </div>
-            <span className="hidden sm:inline">STAGE</span>
-            <span className="sm:hidden">STAGE</span>
-            {isStage && <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse hidden sm:inline-block shadow-[0_0_8px_rgba(251,191,36,0.8)]" />}
-          </button>
-
-          {/* 5. COMMS Dropdown Button */}
+          {/* 4. COMMS Dropdown Button */}
           <div className="relative shrink-0" ref={commsMenuRef}>
             <button
               type="button"
@@ -1105,7 +1028,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                   </button>
                 </div>
 
-                {/* 2. The Stage (Next-Gen VTT) */}
+                {/* 2. THE STAGE VTT */}
                 <div className="space-y-1 pt-2 border-t border-slate-800/80">
                   <span className="text-[9px] uppercase tracking-widest text-amber-400 font-bold block px-1">Tactical Combat</span>
                   <button
@@ -1120,7 +1043,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                     </div>
                     <div className="text-left">
                       <div className="font-bold text-xs flex items-center gap-1.5">
-                        <span>The Stage (Next-Gen VTT)</span>
+                        <span>THE STAGE VTT</span>
                         <span className="px-1 py-0.2 bg-amber-500/30 text-amber-300 rounded text-[8px]">WEBGPU</span>
                       </div>
                       <div className="text-[10px] text-slate-400">5ft Encounter Grid, LoS & Combat</div>
@@ -1128,28 +1051,10 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                   </button>
                 </div>
 
-                {/* 3. Story Foundry & VTT */}
+                {/* 3. Story Foundry */}
                 <div className="space-y-1 pt-2 border-t border-slate-800/80">
                   <span className="text-[9px] uppercase tracking-widest text-purple-400 font-bold block px-1">Story Foundry</span>
-                  <div className="grid grid-cols-2 gap-1.5">
-                    <button
-                      type="button"
-                      onClick={() => { navigate('/foundry'); setIsMobileNavOpen(false); }}
-                      className="p-2 bg-slate-900/60 hover:bg-purple-950/40 border border-slate-800 hover:border-purple-500/40 rounded-lg text-left transition-colors cursor-pointer"
-                    >
-                      <div className="font-bold text-[11px] text-slate-200 flex items-center gap-1.5">
-                        <Layers size={13} className="text-purple-400" /> Hub
-                      </div>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => { navigate('/foundry/map-maker'); setIsMobileNavOpen(false); }}
-                      className="p-2 bg-slate-900/60 hover:bg-purple-950/40 border border-slate-800 hover:border-purple-500/40 rounded-lg text-left transition-colors cursor-pointer"
-                    >
-                      <div className="font-bold text-[11px] text-slate-200 flex items-center gap-1.5">
-                        <Tv2 size={13} className="text-purple-400" /> VTT Maps
-                      </div>
-                    </button>
+                  <div className="grid grid-cols-3 gap-1.5">
                     <button
                       type="button"
                       onClick={() => { navigate('/foundry/story'); setIsMobileNavOpen(false); }}
@@ -1157,6 +1062,15 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                     >
                       <div className="font-bold text-[11px] text-slate-200 flex items-center gap-1.5">
                         <BookOpen size={13} className="text-purple-400" /> Scenarios
+                      </div>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => { navigate('/foundry/elements'); setIsMobileNavOpen(false); }}
+                      className="p-2 bg-slate-900/60 hover:bg-purple-950/40 border border-slate-800 hover:border-purple-500/40 rounded-lg text-left transition-colors cursor-pointer"
+                    >
+                      <div className="font-bold text-[11px] text-slate-200 flex items-center gap-1.5">
+                        <Hammer size={13} className="text-purple-400" /> Elements
                       </div>
                     </button>
                     <button

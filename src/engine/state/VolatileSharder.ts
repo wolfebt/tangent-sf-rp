@@ -166,23 +166,43 @@ export const useEngineStore = create<EngineState>()(
  */
 
 // --- MEMOIZED SELECTORS ---
+let lastStaticData: Record<string, StaticEntity> | null = null;
+let lastEphemeralData: Record<string, EphemeralState> | null = null;
+let cachedAllFusedTokens: FusedToken[] = [];
+const tokenCache = new Map<string, { staticRef: StaticEntity; ephRef: EphemeralState; fused: FusedToken }>();
+
 export const selectFusedToken = (state: EngineState, id: string): FusedToken | null => {
   const staticData = state.staticData[id];
   const ephemeralData = state.ephemeralData[id];
   
   if (!staticData || !ephemeralData) return null;
   
-  return {
+  const cached = tokenCache.get(id);
+  if (cached && cached.staticRef === staticData && cached.ephRef === ephemeralData) {
+    return cached.fused;
+  }
+
+  const fused: FusedToken = {
     ...staticData,
     ...ephemeralData
   };
+  tokenCache.set(id, { staticRef: staticData, ephRef: ephemeralData, fused });
+  return fused;
 };
 
 export const selectAllFusedTokens = (state: EngineState): FusedToken[] => {
+  if (state.staticData === lastStaticData && state.ephemeralData === lastEphemeralData) {
+    return cachedAllFusedTokens;
+  }
+
+  lastStaticData = state.staticData;
+  lastEphemeralData = state.ephemeralData;
+
   const result: FusedToken[] = [];
   for (const id of Object.keys(state.staticData)) {
     const fused = selectFusedToken(state, id);
     if (fused) result.push(fused);
   }
+  cachedAllFusedTokens = result;
   return result;
 };

@@ -23,7 +23,7 @@ const modules = [
   },
   {
     id: 'stage',
-    title: 'The Stage (Next-Gen VTT)',
+    title: 'THE STAGE VTT',
     description: 'Launch real-time WebGPU tactical encounter viewport with 5ft grid, LoS & combat arbitration.',
     icon: <Map size={32} />,
     path: '/stage',
