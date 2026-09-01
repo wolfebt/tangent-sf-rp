@@ -228,6 +228,8 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                 onClose();
               }}
               className="text-slate-400 hover:text-white text-xl font-bold leading-none p-1.5 rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
+              title="Close settings"
+              aria-label="Close settings"
             >
               &times;
             </button>
