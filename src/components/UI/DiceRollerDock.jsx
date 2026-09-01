@@ -60,7 +60,7 @@ export const DiceRollerDock = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 w-80 sm:w-88 bg-[#0d1117]/95 backdrop-blur-md border border-amber-500/50 rounded-xl shadow-[0_0_30px_rgba(0,0,0,0.8),0_0_15px_rgba(245,158,11,0.25)] p-4 flex flex-col gap-3 font-sans select-none animate-slide-up">
+    <div className="fixed bottom-3 right-3 sm:bottom-4 sm:right-4 z-50 w-[calc(100vw-1.5rem)] max-w-sm sm:w-88 bg-[#0d1117]/95 backdrop-blur-md border border-amber-500/50 rounded-xl shadow-[0_0_30px_rgba(0,0,0,0.8),0_0_15px_rgba(245,158,11,0.25)] p-3 sm:p-4 flex flex-col gap-3 font-sans select-none animate-slide-up">
       
       {/* Header */}
       <div className="flex items-center justify-between pb-2 border-b border-amber-500/30">

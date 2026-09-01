@@ -463,6 +463,14 @@ export const DBMContainer = () => {
           </button>
         )}
 
+        {/* Mobile Compendium Sidebar Backdrop */}
+        {isSidebarOpen && (
+          <div
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-30 md:hidden transition-opacity"
+            onClick={() => setIsSidebarOpen && setIsSidebarOpen(false)}
+          />
+        )}
+
         {/* Left Sidebar Collapsible Drawer (Open by default) */}
         <div className={`fixed md:relative z-40 h-full transition-all duration-300 shrink-0 ${
           isSidebarOpen ? 'translate-x-0 opacity-100' : '-translate-x-full md:-ml-72 md:opacity-0 pointer-events-none'
@@ -492,7 +500,7 @@ export const DBMContainer = () => {
             const parentKeyForNav = catForPills === categoryConfig[activeCategory] ? activeCategory : currentKey;
 
             return (
-              <div className="flex flex-wrap items-center gap-1 sm:gap-2 mb-3 border-b border-slate-800 pb-2 shrink-0">
+              <div className="flex items-center gap-1 sm:gap-2 mb-3 border-b border-slate-800 pb-2 shrink-0 overflow-x-auto no-scrollbar py-0.5">
                 <button
                   onClick={() => navigateToCategory(parentKeyForNav, null)}
                   className={`px-2.5 sm:px-4 py-1 sm:py-1.5 text-[10px] sm:text-xs font-bold uppercase tracking-tight sm:tracking-wider rounded transition-all shrink-0 whitespace-nowrap ${

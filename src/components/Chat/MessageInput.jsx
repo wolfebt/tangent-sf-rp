@@ -79,7 +79,7 @@ export const MessageInput = ({ isCompact = false }) => {
         });
         setIsDiceModalOpen(false);
       } else {
-        alert('Format: e.g. 2d10 or 1d20+4');
+        alert('Format: e.g. 2d10 or 2d10+4');
       }
     } catch (err) {
       console.error('Dice parse error:', err);

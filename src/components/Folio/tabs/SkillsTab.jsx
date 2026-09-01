@@ -364,8 +364,9 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
 
     return (
       <div key={skill.id} className="space-y-1.5">
+        {/* Desktop / Tablet Grid View (>= 640px) */}
         <div
-          className={`grid grid-cols-12 items-center gap-2 py-1 px-2 rounded transition-colors text-xs border ${
+          className={`hidden sm:grid grid-cols-12 items-center gap-2 py-1 px-2 rounded transition-colors text-xs border ${
             isLocked
               ? 'bg-slate-950/40 opacity-60 border-slate-800/60'
               : 'bg-slate-900/50 hover:bg-slate-800/60 border-slate-800/40'
@@ -449,6 +450,102 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
           </span>
         </div>
 
+        {/* Mobile View (< 640px) */}
+        <div
+          className={`sm:hidden flex flex-col gap-1.5 p-2 rounded transition-colors text-xs border ${
+            isLocked
+              ? 'bg-slate-950/40 opacity-60 border-slate-800/60'
+              : 'bg-slate-900/60 hover:bg-slate-800/60 border-slate-800/60'
+          }`}
+          title={isLocked ? lockMessage : undefined}
+        >
+          {/* Top Line: Name + Status + Delete + Total Badge */}
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-1.5 min-w-0">
+              <span className={`font-semibold ${isLocked ? 'text-slate-500' : 'text-slate-100'} truncate`} title={skill.name}>
+                {skill.name}
+              </span>
+              {isLocked && (
+                <span
+                  className="text-[9px] font-mono font-bold text-amber-400/90 bg-amber-950/70 border border-amber-900/60 px-1.5 py-0.2 rounded shrink-0"
+                  title={lockMessage}
+                >
+                  🔒 Locked
+                </span>
+              )}
+            </div>
+
+            <div className="flex items-center gap-1.5 shrink-0">
+              <span className={`px-2 py-0.5 rounded font-mono font-bold text-xs ${
+                isLocked ? 'bg-slate-800 text-slate-500' : 'bg-cyan-950/80 border border-cyan-500/50 text-cyan-300 shadow-sm'
+              }`}>
+                Score: {baseSkillTotal}
+              </span>
+              {isCustom && !isLocked && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (confirmTypedDeletion(skill.name, 'custom skill')) {
+                      handleDeleteSkill(skill.id);
+                    }
+                  }}
+                  className="text-red-400/70 hover:text-red-400 font-bold p-1 text-sm shrink-0"
+                  title="Delete Custom Skill"
+                >
+                  &times;
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Bottom Line: Rank Input + Base Attr Select + Mod */}
+          <div className="flex items-center gap-2 text-[11px] font-mono pt-1 border-t border-slate-800/60">
+            <div className="flex items-center gap-1">
+              <span className="text-slate-400 text-[10px]">Rank:</span>
+              <input
+                type="number"
+                min="0"
+                max="20"
+                disabled={isLocked || isStatsLocked}
+                value={rank}
+                onChange={(e) => !isLocked && !isStatsLocked && updateField(`skill-${skill.id}-rank`, Math.min(20, Math.max(0, parseInt(e.target.value, 10) || 0)))}
+                className={`w-12 text-center bg-slate-950 border ${
+                  isLocked || isStatsLocked 
+                    ? 'border-slate-800 text-slate-600 cursor-not-allowed opacity-75' 
+                    : 'border-slate-700 focus:border-cyan-400 text-slate-100'
+                } rounded py-0.5 outline-none font-bold`}
+              />
+            </div>
+
+            <div className="flex items-center gap-1 flex-1">
+              <span className="text-slate-400 text-[10px]">Attr:</span>
+              <select
+                value={baseAttr}
+                disabled={isLocked || isStatsLocked}
+                onChange={(e) => !isLocked && !isStatsLocked && updateField(`skill-${skill.id}-base`, e.target.value)}
+                className={`flex-1 bg-slate-950 border ${
+                  isLocked || isStatsLocked 
+                    ? 'border-slate-800 text-slate-600 cursor-not-allowed opacity-75' 
+                    : 'border-slate-700 focus:border-cyan-400 text-slate-300'
+                } rounded py-0.5 text-center outline-none`}
+              >
+                <option value="">--</option>
+                {ATTRIBUTE_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {mod !== 0 && (
+              <span className="text-amber-400 text-[10px] shrink-0">
+                Mod: {mod > 0 ? `+${mod}` : mod}
+              </span>
+            )}
+          </div>
+        </div>
+
         {/* Linked Specializations List */}
         {linkedSpecs.map((spec) => {
           const specRank = Math.min(10, Math.max(0, parseInt(spec.rank || 0, 10)));
@@ -457,71 +554,134 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
           const isMetaSkill = skill.group === 'meta' || skill.id.startsWith('meta-');
 
           return (
-            <div
-              key={spec.id}
-              className={`ml-6 pl-2.5 border-l-2 ${isMetaSkill ? 'border-purple-500/60 bg-purple-950/20 hover:bg-purple-900/30 border-purple-900/30' : 'border-amber-500/60 bg-amber-950/20 hover:bg-amber-900/30 border-amber-900/30'} grid grid-cols-12 items-center gap-2 py-1 px-2 rounded transition-colors text-xs border`}
-            >
-              {/* Specialization Name & Base Skill Ref */}
-              <div className="col-span-4 flex flex-col justify-center overflow-hidden">
-                <div className="flex items-center gap-1 truncate">
-                  <span className={`text-[9px] font-bold uppercase tracking-wider ${isMetaSkill ? 'text-purple-400 font-mono' : 'text-amber-400/90'} shrink-0`}>
-                    {isMetaSkill ? 'EVOCATION:' : 'SPEC:'}
-                  </span>
-                  <span className={`font-semibold ${isMetaSkill ? 'text-purple-200' : 'text-amber-200'} truncate`} title={spec.name}>
-                    {spec.name}
+            <React.Fragment key={spec.id}>
+              {/* Desktop / Tablet View (>= 640px) */}
+              <div
+                className={`hidden sm:grid ml-6 pl-2.5 border-l-2 ${isMetaSkill ? 'border-purple-500/60 bg-purple-950/20 hover:bg-purple-900/30 border-purple-900/30' : 'border-amber-500/60 bg-amber-950/20 hover:bg-amber-900/30 border-amber-900/30'} grid-cols-12 items-center gap-2 py-1 px-2 rounded transition-colors text-xs border`}
+              >
+                {/* Specialization Name & Base Skill Ref */}
+                <div className="col-span-4 flex flex-col justify-center overflow-hidden">
+                  <div className="flex items-center gap-1 truncate">
+                    <span className={`text-[9px] font-bold uppercase tracking-wider ${isMetaSkill ? 'text-purple-400 font-mono' : 'text-amber-400/90'} shrink-0`}>
+                      {isMetaSkill ? 'EVOCATION:' : 'SPEC:'}
+                    </span>
+                    <span className={`font-semibold ${isMetaSkill ? 'text-purple-200' : 'text-amber-200'} truncate`} title={spec.name}>
+                      {spec.name}
+                    </span>
+                  </div>
+                  <span className="text-[9px] text-slate-400 font-mono truncate">
+                    {isMetaSkill ? 'Discipline: ' : 'Base: '}<span className="text-slate-300">{skill.name}</span> ({baseSkillTotal})
                   </span>
                 </div>
-                <span className="text-[9px] text-slate-400 font-mono truncate">
-                  {isMetaSkill ? 'Discipline: ' : 'Base: '}<span className="text-slate-300">{skill.name}</span> ({baseSkillTotal})
-                </span>
-              </div>
 
-              {/* Specialization Level / Rank Input (Max Level 10) */}
-              <div className="col-span-2 flex items-center justify-center">
+                {/* Specialization Level / Rank Input (Max Level 10) */}
+                <div className="col-span-2 flex items-center justify-center">
+                  <input
+                    type="number"
+                    min="0"
+                    max="10"
+                    disabled={isLocked}
+                    value={specRank}
+                    onChange={(e) => !isLocked && handleUpdateSpecialization(spec.id, 'rank', e.target.value)}
+                    className={`w-full text-center bg-slate-950 border ${isLocked ? 'border-slate-800 text-slate-600 cursor-not-allowed' : (isMetaSkill ? 'border-purple-800/60 focus:border-purple-400 text-purple-200' : 'border-amber-800/60 focus:border-amber-400 text-amber-200')} rounded py-0.5 outline-none text-xs font-bold`}
+                  />
+                </div>
+
+                {/* Linked Label / Indicator */}
+                <span className={`col-span-3 text-center text-[10px] font-mono ${isMetaSkill ? 'text-purple-400/80' : 'text-amber-400/80'} truncate`}>
+                  +{specRank} to Base
+                </span>
+
+                {/* Spec Mod Input */}
                 <input
                   type="number"
-                  min="0"
-                  max="10"
                   disabled={isLocked}
-                  value={specRank}
-                  onChange={(e) => !isLocked && handleUpdateSpecialization(spec.id, 'rank', e.target.value)}
-                  className={`w-full text-center bg-slate-950 border ${isLocked ? 'border-slate-800 text-slate-600 cursor-not-allowed' : (isMetaSkill ? 'border-purple-800/60 focus:border-purple-400 text-purple-200' : 'border-amber-800/60 focus:border-amber-400 text-amber-200')} rounded py-0.5 outline-none text-xs font-bold`}
+                  value={specMod}
+                  onChange={(e) => !isLocked && handleUpdateSpecialization(spec.id, 'mod', e.target.value)}
+                  className={`col-span-1 text-center bg-slate-950 border ${isLocked ? 'border-slate-800 text-slate-600 cursor-not-allowed' : (isMetaSkill ? 'border-purple-900/40 focus:border-purple-400' : 'border-amber-900/40 focus:border-amber-400')} rounded py-0.5 text-slate-300 outline-none text-xs font-mono`}
                 />
+
+                {/* Specialization Total Score */}
+                <div className="col-span-2 flex items-center justify-between pl-1">
+                  <span className={`font-mono font-bold ${isLocked ? 'text-slate-600' : (isMetaSkill ? 'text-purple-300' : 'text-amber-300')} text-center w-full`}>
+                    {isLocked ? 0 : specTotal}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (confirmTypedDeletion(spec.name, 'specialization')) {
+                        handleDeleteSpecialization(spec.id);
+                      }
+                    }}
+                    className="text-red-400/60 hover:text-red-400 font-bold px-1 text-xs shrink-0"
+                    title={isMetaSkill ? "Delete Evocation" : "Delete Specialization"}
+                  >
+                    &times;
+                  </button>
+                </div>
               </div>
 
-              {/* Linked Label / Indicator */}
-              <span className={`col-span-3 text-center text-[10px] font-mono ${isMetaSkill ? 'text-purple-400/80' : 'text-amber-400/80'} truncate`}>
-                +{specRank} to Base
-              </span>
+              {/* Mobile Spec View (< 640px) */}
+              <div
+                className={`sm:hidden ml-3 pl-2.5 border-l-2 ${
+                  isMetaSkill ? 'border-purple-500/60 bg-purple-950/20 border-purple-900/30' : 'border-amber-500/60 bg-amber-950/20 border-amber-900/30'
+                } p-2 rounded transition-colors text-xs border flex flex-col gap-1.5`}
+              >
+                <div className="flex items-center justify-between gap-1.5">
+                  <div className="flex items-center gap-1 min-w-0">
+                    <span className={`text-[9px] font-bold uppercase tracking-wider ${isMetaSkill ? 'text-purple-400 font-mono' : 'text-amber-400/90'} shrink-0`}>
+                      {isMetaSkill ? 'EVOC:' : 'SPEC:'}
+                    </span>
+                    <span className={`font-semibold ${isMetaSkill ? 'text-purple-200' : 'text-amber-200'} truncate`} title={spec.name}>
+                      {spec.name}
+                    </span>
+                  </div>
 
-              {/* Spec Mod Input */}
-              <input
-                type="number"
-                disabled={isLocked}
-                value={specMod}
-                onChange={(e) => !isLocked && handleUpdateSpecialization(spec.id, 'mod', e.target.value)}
-                className={`col-span-1 text-center bg-slate-950 border ${isLocked ? 'border-slate-800 text-slate-600 cursor-not-allowed' : (isMetaSkill ? 'border-purple-900/40 focus:border-purple-400' : 'border-amber-900/40 focus:border-amber-400')} rounded py-0.5 text-slate-300 outline-none text-xs font-mono`}
-              />
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    <span className={`px-2 py-0.5 rounded font-mono font-bold text-xs ${
+                      isLocked ? 'bg-slate-800 text-slate-500' : (isMetaSkill ? 'bg-purple-950 border border-purple-500/50 text-purple-200' : 'bg-amber-950 border border-amber-500/50 text-amber-200')
+                    }`}>
+                      {isLocked ? 0 : specTotal}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (confirmTypedDeletion(spec.name, 'specialization')) {
+                          handleDeleteSpecialization(spec.id);
+                        }
+                      }}
+                      className="text-red-400/60 hover:text-red-400 font-bold p-1 text-sm shrink-0"
+                      title={isMetaSkill ? "Delete Evocation" : "Delete Specialization"}
+                    >
+                      &times;
+                    </button>
+                  </div>
+                </div>
 
-              {/* Specialization Total Score */}
-              <div className="col-span-2 flex items-center justify-between pl-1">
-                <span className={`font-mono font-bold ${isLocked ? 'text-slate-600' : (isMetaSkill ? 'text-purple-300' : 'text-amber-300')} text-center w-full`}>
-                  {isLocked ? 0 : specTotal}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (confirmTypedDeletion(spec.name, 'specialization')) {
-                      handleDeleteSpecialization(spec.id);
-                    }
-                  }}
-                  className="text-red-400/60 hover:text-red-400 font-bold px-1 text-xs shrink-0"
-                  title={isMetaSkill ? "Delete Evocation" : "Delete Specialization"}
-                >
-                  &times;
-                </button>
+                <div className="flex items-center gap-2 text-[10.5px] font-mono pt-1 border-t border-slate-800/40">
+                  <span className="text-slate-400 text-[10px]">Rank:</span>
+                  <input
+                    type="number"
+                    min="0"
+                    max="10"
+                    disabled={isLocked}
+                    value={specRank}
+                    onChange={(e) => !isLocked && handleUpdateSpecialization(spec.id, 'rank', e.target.value)}
+                    className={`w-12 text-center bg-slate-950 border ${
+                      isLocked ? 'border-slate-800 text-slate-600 cursor-not-allowed' : (isMetaSkill ? 'border-purple-800/60 text-purple-200' : 'border-amber-800/60 text-amber-200')
+                    } rounded py-0.5 outline-none font-bold`}
+                  />
+                  <span className={`text-[10px] ${isMetaSkill ? 'text-purple-400/80' : 'text-amber-400/80'}`}>
+                    +{specRank} to Base
+                  </span>
+                  {specMod !== 0 && (
+                    <span className="text-slate-400 text-[10px] ml-auto">
+                      Mod: {specMod}
+                    </span>
+                  )}
+                </div>
               </div>
-            </div>
+            </React.Fragment>
           );
         })}
       </div>
@@ -547,7 +707,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
     };
 
     return (
-      <div key={key} className={`bg-slate-900/60 border ${borderClass} rounded-lg p-4 space-y-3 shadow-lg backdrop-blur-sm`}>
+      <div key={key} className={`bg-slate-900/60 border ${borderClass} rounded-lg p-3 sm:p-4 space-y-3 shadow-lg backdrop-blur-sm`}>
         <div className="flex justify-between items-center border-b border-slate-800 pb-2">
           <div className="flex items-center gap-2">
             {isDiscipline && (
@@ -573,8 +733,8 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
           </span>
         </div>
 
-        {/* Column Table Header */}
-        <div className="grid grid-cols-12 text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2 border-b border-slate-800/60 pb-1">
+        {/* Column Table Header (Desktop Only) */}
+        <div className="hidden sm:grid grid-cols-12 text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2 border-b border-slate-800/60 pb-1">
           <span className="col-span-4">Skill / Specialization</span>
           <span className="col-span-2 text-center">Rank</span>
           <span className="col-span-3 text-center">Attr / Base</span>

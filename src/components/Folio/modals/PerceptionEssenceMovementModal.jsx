@@ -1275,7 +1275,7 @@ const PerceptionEssenceMovementModal = ({
               <div className="p-3 rounded-lg bg-cyan-950/40 border border-cyan-800/50 text-xs text-cyan-200">
                 <strong className="text-cyan-100">Roll Formula:</strong> When an operative conducts a sensory detection check, they roll:
                 <div className="font-mono font-bold text-cyan-300 mt-1 bg-slate-950/80 p-2 rounded border border-cyan-700/40">
-                  Result = 1d20 + Perception Base + Relevant Skill Modifiers + Circumstance Modifiers
+                  Result = 2d10 + Perception Base + Relevant Skill Modifiers + Circumstance Modifiers
                 </div>
               </div>
             </div>

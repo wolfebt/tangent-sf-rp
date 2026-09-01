@@ -265,7 +265,7 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
   // Roll Invocation check
   const handleRollInvocation = (inv) => {
     const calc = calculateInvocationScore(inv);
-    const rollResult = rollDice(`1d20+${calc.totalScore}`, {
+    const rollResult = rollDice(`2d10+${calc.totalScore}`, {
       characterName: characterData['char-name'] || 'Operative',
       label: `${inv.name} Metaphysics Check`
     });
@@ -837,7 +837,7 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
                               type="button"
                               onClick={() => handleRollInvocation(inv)}
                               className="px-2 py-1 bg-purple-600 hover:bg-purple-500 text-white rounded text-xs font-mono font-bold flex items-center gap-1 shadow-sm cursor-pointer"
-                              title="Roll Invocation Check (1d20 + Score)"
+                              title="Roll Invocation Check (2d10 + Score)"
                             >
                               <span>🎲</span>
                               <span>+{calc.totalScore}</span>

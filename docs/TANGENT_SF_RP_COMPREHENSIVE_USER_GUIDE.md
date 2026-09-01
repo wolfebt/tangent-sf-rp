@@ -375,17 +375,21 @@ The **CommLink Relay (`/comms`)** provides real-time encrypted communications an
 | `Esc` | Close any active modal, drawer, or palette | Global |
 
 ### 9.2 Dice Formula Parsing & Evaluation
-- Standard notation: `XdY + Z` (e.g. `2d10+5`, `1d20+3`, `4d6-2`).
+- Standard notation: `XdY + Z` (e.g. `2d10+5`, `2d10+3`, `4d6-2`).
 - Advantage / Disadvantage: Rolls twice and automatically takes the higher or lower total.
-- In-memory roll history with reroll and copy-result actions.
+- Polyhedral dock provides instant one-click rolling with advantage/disadvantage modifiers.
 
----
+### Dual-Resolution Mechanics
 
-## Chapter 10: Tangent Dual Resolution Mechanics & Combat Reference
+Tangent SFF RP uses a unified **2d10** resolution framework:
 
-Tangent SFF RP utilizes a **Dual Resolution Architecture**:
-1. **Trained Skills**: `2d10 + Attribute Modifier + Skill Rank vs Target Number (TN)`.
-2. **Attribute Checks & Saving Throws**: `d20 + Base Check Score + Modifiers vs Challenge Rating (CR)`.
+1. **Skill & Tactical Checks**: `2d10 + Linked Attribute Modifier + Skill Rank vs Target Defense/DC`.
+2. **Attribute Checks & Saving Throws**: `2d10 + Base Check Score + Modifiers vs Challenge Rating (CR)`.
+3. **Critical Hits / Fumbles**: Natural dual 10s evaluate with a +30 subtotal (Critical Triumph), while natural dual 1s evaluate with a -10 subtotal (Critical Fumble).
+
+```
+Check Roll = 2d10 + Base Check Score + Situational Modifiers
+```
 
 ### 10.1 Trained Skills Resolution & Target Numbers (TN)
 ```

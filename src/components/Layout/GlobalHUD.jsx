@@ -21,7 +21,10 @@ import {
   Hammer,
   MapPin,
   Flame,
-  Hash
+  Hash,
+  Menu,
+  X,
+  Command
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useChat } from '../../context/ChatContext';
@@ -68,6 +71,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
   const isFoundry = location.pathname.startsWith('/foundry') || location.pathname.startsWith('/story-foundry') || location.pathname.startsWith('/vtt-ops') || location.pathname.startsWith('/campaign-builder') || location.pathname.startsWith('/spectator');
   const isComms = location.pathname.startsWith('/comms') || location.pathname.startsWith('/chat');
   
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [guideInitialTab, setGuideInitialTab] = useState('hub');
@@ -76,6 +80,11 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
   const [isFolioMenuOpen, setIsFolioMenuOpen] = useState(false);
   const [isFoundryMenuOpen, setIsFoundryMenuOpen] = useState(false);
   const [isCommsMenuOpen, setIsCommsMenuOpen] = useState(false);
+
+  // Close mobile nav drawer when route changes
+  useEffect(() => {
+    setIsMobileNavOpen(false);
+  }, [location.pathname]);
 
   const dbmMenuRef = useRef(null);
   const dbmFileInputRef = useRef(null);
@@ -174,16 +183,29 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
 
   return (
     <>
-      <header className="w-full bg-[#0d1117]/95 backdrop-blur-md border-b border-slate-800 px-2.5 sm:px-5 py-1.5 sm:py-2 flex items-center justify-between gap-3 z-[100] select-none shrink-0 font-sans shadow-md relative">
-        {/* Left Section: Logo & Mobile menu */}
-        <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
+      <header className="w-full bg-[#0d1117]/95 backdrop-blur-md border-b border-slate-800 px-2 sm:px-4 py-1.5 sm:py-2 flex items-center justify-between gap-2 sm:gap-3 z-[100] select-none shrink-0 font-sans shadow-md relative">
+        {/* Left Section: Mobile Menu Trigger & Logo */}
+        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+          {/* Mobile Main Menu Drawer Toggle Button */}
+          <button
+            type="button"
+            onClick={() => {
+              AudioService.playTerminalBeep(1100, 0.02);
+              setIsMobileNavOpen(prev => !prev);
+            }}
+            className="md:hidden p-1.5 rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 hover:text-white transition-colors shrink-0 cursor-pointer shadow-sm active:scale-95"
+            title="Open Global System Navigation Menu"
+          >
+            <Menu size={18} />
+          </button>
+
           {isDBM && (
             <button
               type="button"
               id="dbm-mobile-menu-btn"
               onClick={() => setIsSidebarOpen && setIsSidebarOpen(prev => !prev)}
-              className="md:hidden p-1.5 bg-slate-900 border border-cyan-900/60 rounded text-cyan-400 text-sm font-bold shrink-0"
-              title="Toggle Navigation Menu"
+              className="md:hidden p-1.5 bg-slate-900 border border-emerald-500/40 rounded text-emerald-400 text-xs font-bold shrink-0"
+              title="Toggle Compendium Menu"
             >
               &#9776;
             </button>
@@ -195,13 +217,14 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
             title="Return to Operations Hub"
             onClick={() => AudioService.playTerminalBeep(1100, 0.03)}
           >
-            <span className="text-[1.45rem] sm:text-[1.95rem] font-bold leading-none">TANGENT</span>
-            <span className="text-[0.65rem] sm:text-[0.8rem] lg:text-[0.9rem] leading-none whitespace-nowrap">SCIENCE FANTASY ROLEPLAY</span>
+            <span className="text-[1.3rem] sm:text-[1.85rem] font-bold leading-none">TANGENT</span>
+            <span className="text-[0.6rem] sm:text-[0.8rem] leading-none whitespace-nowrap hidden xs:inline">SCIENCE FANTASY ROLEPLAY</span>
+            <span className="text-[0.6rem] leading-none whitespace-nowrap xs:hidden text-cyan-400/80">SF ROLEPLAY</span>
           </NavLink>
 
           {/* DBM Undo / Redo navigation controls */}
           {isDBM && handleBack && handleForward && (
-            <div className="flex items-center gap-1 bg-[#161b22] p-1 rounded-md border border-[#0D5C63]/40 ml-1 shrink-0">
+            <div className="hidden sm:flex items-center gap-1 bg-[#161b22] p-1 rounded-md border border-[#0D5C63]/40 ml-1 shrink-0">
               <button
                 type="button"
                 onClick={handleBack}
@@ -224,8 +247,8 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
           )}
         </div>
 
-        {/* Center Section: Persistent Global Project Navigation Suite (Centered in Title Bar) */}
-        <nav className="flex items-center justify-center gap-1.5 sm:gap-2.5 shrink-0 mx-auto">
+        {/* Center Section: Persistent Desktop Navigation Suite (Hidden on Mobile) */}
+        <nav className="hidden md:flex items-center justify-center gap-1.5 sm:gap-2.5 shrink-0 mx-auto">
           {/* 1. FOLIO Button */}
           <button
             type="button"
@@ -530,12 +553,25 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
           </div>
         </nav>
 
+        {/* Active Module Quick Badge (Mobile Only) */}
+        {getActivePageTitle() && (
+          <button 
+            type="button"
+            onClick={() => setIsMobileNavOpen(true)}
+            className="md:hidden flex items-center gap-1.5 px-2 py-1 rounded-lg bg-slate-900/90 border border-slate-700/80 hover:border-cyan-400 text-cyan-300 text-[10px] sm:text-xs font-mono font-bold uppercase truncate max-w-[130px] xs:max-w-[160px] cursor-pointer shadow-sm active:scale-95"
+            title="Current system module (Tap to open menu)"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse shrink-0" />
+            <span className="truncate">{getActivePageTitle()}</span>
+          </button>
+        )}
+
         {/* Right Section: Omnicortex/Folio/Codex Controls + User Account */}
         <div className="flex items-center justify-end gap-1.5 sm:gap-2 shrink-0">
           {/* Persona Folio Title Bar Controls */}
           {isFolio && (
             <div className="flex items-center gap-1.5 sm:gap-2 pr-1.5 sm:pr-2 border-r border-slate-800 shrink-0">
-              {/* Real-time CP Budget Bar */}
+              {/* Real-time CP Budget Bar (Desktop) & Compact Badge (Mobile) */}
               {(() => {
                 const startingCP = parseInt(characterData?.['starting-cp'] || 150, 10);
                 const spentCP = computeSpentCP ? computeSpentCP() : 0;
@@ -544,31 +580,49 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 const isOver = spentCP > startingCP;
 
                 return (
-                  <div
-                    onClick={() => window.dispatchEvent(new CustomEvent('open-folio-economy'))}
-                    className={`cursor-pointer bg-slate-950 border rounded-lg px-2.5 py-1 flex flex-col min-w-[145px] sm:min-w-[160px] hover:border-cyan-400 transition-all ${
-                      isOver
-                        ? 'border-red-500 ring-2 ring-red-500/80 shadow-[0_0_15px_rgba(239,68,68,0.5)] animate-pulse'
-                        : 'border-cyan-500/50 shadow-[0_0_8px_rgba(34,211,238,0.15)]'
-                    }`}
-                    title="Click to view detailed CP Economy & Point Pools breakdown"
-                  >
-                    <div className="flex justify-between items-center text-[9px] font-bold uppercase font-mono">
-                      <span className="text-slate-400">CP BUDGET:</span>
-                      <span className={isOver ? 'text-red-400 font-bold' : 'text-amber-400'}>
-                        {spentCP} / {startingCP} CP
+                  <>
+                    {/* Desktop / Tablet Bar */}
+                    <div
+                      onClick={() => window.dispatchEvent(new CustomEvent('open-folio-economy'))}
+                      className={`hidden sm:flex cursor-pointer bg-slate-950 border rounded-lg px-2.5 py-1 flex-col min-w-[145px] sm:min-w-[160px] hover:border-cyan-400 transition-all ${
+                        isOver
+                          ? 'border-red-500 ring-2 ring-red-500/80 shadow-[0_0_15px_rgba(239,68,68,0.5)] animate-pulse'
+                          : 'border-cyan-500/50 shadow-[0_0_8px_rgba(34,211,238,0.15)]'
+                      }`}
+                      title="Click to view detailed CP Economy & Point Pools breakdown"
+                    >
+                      <div className="flex justify-between items-center text-[9px] font-bold uppercase font-mono">
+                        <span className="text-slate-400">CP BUDGET:</span>
+                        <span className={isOver ? 'text-red-400 font-bold' : 'text-amber-400'}>
+                          {spentCP} / {startingCP} CP
+                        </span>
+                      </div>
+                      <div className="w-full bg-slate-800 h-1 rounded-full overflow-hidden mt-0.5">
+                        <div
+                          className={`h-full transition-all duration-300 ${isOver ? 'bg-red-500' : 'bg-gradient-to-r from-cyan-500 to-amber-400'}`}
+                          style={{ width: `${percent}%` }}
+                        />
+                      </div>
+                      <span className={`text-[8px] text-right font-mono font-bold mt-0.5 ${isOver ? 'text-red-400' : 'text-slate-400'}`}>
+                        {isOver ? `OVER BUDGET (-${Math.abs(remainingCP)} CP)` : `${remainingCP} CP REMAINING`}
                       </span>
                     </div>
-                    <div className="w-full bg-slate-800 h-1 rounded-full overflow-hidden mt-0.5">
-                      <div
-                        className={`h-full transition-all duration-300 ${isOver ? 'bg-red-500' : 'bg-gradient-to-r from-cyan-500 to-amber-400'}`}
-                        style={{ width: `${percent}%` }}
-                      />
-                    </div>
-                    <span className={`text-[8px] text-right font-mono font-bold mt-0.5 ${isOver ? 'text-red-400' : 'text-slate-400'}`}>
-                      {isOver ? `OVER BUDGET (-${Math.abs(remainingCP)} CP)` : `${remainingCP} CP REMAINING`}
-                    </span>
-                  </div>
+
+                    {/* Compact Mobile CP Badge */}
+                    <button
+                      type="button"
+                      onClick={() => window.dispatchEvent(new CustomEvent('open-folio-economy'))}
+                      className={`sm:hidden flex items-center gap-1.5 px-2 py-1 bg-slate-950 border rounded-lg font-mono text-[10px] cursor-pointer shrink-0 ${
+                        isOver
+                          ? 'border-red-500 text-red-300 ring-1 ring-red-500/80 animate-pulse'
+                          : 'border-cyan-500/40 text-cyan-300'
+                      }`}
+                      title="Click to inspect CP Economy"
+                    >
+                      <span className="text-slate-400 text-[9px]">CP:</span>
+                      <span className={`font-bold ${isOver ? 'text-red-400' : 'text-amber-400'}`}>{spentCP}/{startingCP}</span>
+                    </button>
+                  </>
                 );
               })()}
 
@@ -576,7 +630,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
               <button
                 type="button"
                 onClick={() => window.dispatchEvent(new CustomEvent('toggle-folio-bastion'))}
-                className="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 shadow-[0_0_8px_rgba(34,211,238,0.2)] shrink-0"
+                className="hidden xs:flex px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all items-center gap-1.5 cursor-pointer bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 shadow-[0_0_8px_rgba(34,211,238,0.2)] shrink-0"
                 title="Toggle BASTION AI (Rules assistant & character generator)"
               >
                 <span>🤖</span>
@@ -588,10 +642,11 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 <button
                   type="button"
                   onClick={() => setIsFolioMenuOpen(prev => !prev)}
-                  className="px-2.5 sm:px-3 py-1 sm:py-1.5 bg-[#161b22] hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 rounded-lg text-xs font-bold uppercase transition-colors flex items-center gap-1.5 shadow-sm"
+                  className="px-2 sm:px-3 py-1 sm:py-1.5 bg-[#161b22] hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 rounded-lg text-xs font-bold uppercase transition-colors flex items-center gap-1.5 shadow-sm"
                   title="Folio System Tools & File Actions Menu"
                 >
-                  <span>File Menu</span>
+                  <span className="hidden xs:inline">File Menu</span>
+                  <span className="xs:hidden">Files</span>
                   <span className="text-[10px] text-cyan-400">▼</span>
                 </button>
 
@@ -677,7 +732,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 <button
                   type="button"
                   onClick={() => setIsDbmMenuOpen(prev => !prev)}
-                  className="px-2.5 sm:px-3 py-1 sm:py-1.5 bg-[#161b22] hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 rounded-lg text-xs font-bold uppercase transition-colors flex items-center gap-1.5 shadow-sm"
+                  className="px-2 sm:px-3 py-1 sm:py-1.5 bg-[#161b22] hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 rounded-lg text-xs font-bold uppercase transition-colors flex items-center gap-1.5 shadow-sm"
                   title="System Tools & Actions Menu"
                 >
                   <span>⚙️</span>
@@ -845,14 +900,14 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
 
           {/* User Account Menu with Functional Cloud Sync Status */}
           {currentUser ? (
-            <div className="flex items-center gap-1.5 pl-1.5">
+            <div className="flex items-center gap-1 sm:gap-1.5 pl-1 sm:pl-1.5">
               <button
                 type="button"
                 onClick={() => {
                   AudioService.playTerminalBeep(1000, 0.02);
                   setIsSettingsOpen(true);
                 }}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs font-mono transition-colors shadow-sm cursor-pointer group"
+                className="flex items-center gap-1.5 sm:gap-2 p-1.5 sm:px-3 sm:py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-800 border border-slate-700 text-slate-200 text-xs font-mono transition-colors shadow-sm cursor-pointer group"
                 title={
                   cloudSaveStatus === 'saving'
                     ? 'Cloud Sync: Saving to Cloud...'
@@ -874,8 +929,8 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                       : 'bg-slate-500'
                   }`}
                 />
-                <span className="max-w-[120px] truncate text-cyan-300 font-bold group-hover:text-cyan-200">{displayIdentity}</span>
-                <Settings size={14} className="text-slate-400 ml-0.5 group-hover:text-slate-200" />
+                <span className="hidden md:inline max-w-[120px] truncate text-cyan-300 font-bold group-hover:text-cyan-200">{displayIdentity}</span>
+                <Settings size={14} className="text-slate-400 group-hover:text-slate-200" />
               </button>
 
               <button
@@ -891,13 +946,258 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
             <button
               type="button"
               onClick={loginWithGoogle}
-              className="px-3.5 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-[0_0_15px_rgba(34,211,238,0.3)] flex items-center gap-1.5 font-mono"
+              className="px-2.5 sm:px-3.5 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-[0_0_15px_rgba(34,211,238,0.3)] flex items-center gap-1.5 font-mono"
             >
-              <Key size={13} /> Login
+              <Key size={13} /> <span className="hidden xs:inline">Login</span>
             </button>
           )}
         </div>
       </header>
+
+      {/* ── Slide-Out Mobile Navigation Drawer ── */}
+      {isMobileNavOpen && (
+        <div
+          className="fixed inset-0 bg-black/80 backdrop-blur-md z-[150] transition-opacity duration-300 md:hidden"
+          onClick={() => setIsMobileNavOpen(false)}
+        >
+          <div
+            className="fixed top-0 left-0 bottom-0 w-[85%] max-w-[340px] bg-[#0c1018]/98 border-r border-cyan-500/40 p-4 flex flex-col justify-between shadow-[0_0_50px_rgba(0,0,0,0.95)] overflow-y-auto animate-slide-right"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="space-y-4">
+              {/* Drawer Header */}
+              <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 rounded-lg bg-cyan-500/15 border border-cyan-500/40 text-cyan-300">
+                    <Compass size={18} />
+                  </div>
+                  <div>
+                    <h2 className="text-xs font-mono font-bold tracking-wider text-slate-100 uppercase">SYSTEM MATRIX</h2>
+                    <span className="text-[10px] font-mono text-cyan-400">Navigation Hub</span>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => { AudioService.playTerminalBeep(900, 0.02); setIsMobileNavOpen(false); }}
+                  className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-white transition-colors cursor-pointer"
+                  title="Close Menu"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+
+              {/* Navigation Sections */}
+              <div className="space-y-3 font-mono text-xs">
+                {/* 1. Core Modules */}
+                <div className="space-y-1">
+                  <span className="text-[9px] uppercase tracking-widest text-slate-500 font-bold block px-1">Core Modules</span>
+                  <button
+                    type="button"
+                    onClick={() => { navigate('/folio'); setIsMobileNavOpen(false); }}
+                    className={`w-full p-2.5 rounded-xl border flex items-center gap-3 transition-colors cursor-pointer ${
+                      isFolio ? 'bg-cyan-950/60 border-cyan-400 text-cyan-200 shadow-[0_0_15px_rgba(34,211,238,0.3)]' : 'bg-slate-900/60 border-slate-800 text-slate-200 hover:bg-slate-800'
+                    }`}
+                  >
+                    <div className="p-1.5 rounded-lg bg-cyan-500/20 text-cyan-300">
+                      <Users size={16} />
+                    </div>
+                    <div className="text-left">
+                      <div className="font-bold text-xs">Persona Folio</div>
+                      <div className="text-[10px] text-slate-400">Operative Sheet & Roster</div>
+                    </div>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => { navigate('/dbm'); setIsMobileNavOpen(false); }}
+                    className={`w-full p-2.5 rounded-xl border flex items-center gap-3 transition-colors cursor-pointer ${
+                      isDBM ? 'bg-emerald-950/60 border-emerald-400 text-emerald-200 shadow-[0_0_15px_rgba(16,185,129,0.3)]' : 'bg-slate-900/60 border-slate-800 text-slate-200 hover:bg-slate-800'
+                    }`}
+                  >
+                    <div className="p-1.5 rounded-lg bg-emerald-500/20 text-emerald-300">
+                      <Database size={16} />
+                    </div>
+                    <div className="text-left">
+                      <div className="font-bold text-xs">Omnicortex Database</div>
+                      <div className="text-[10px] text-slate-400">Master Compendium</div>
+                    </div>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => { navigate('/codex'); setIsMobileNavOpen(false); }}
+                    className={`w-full p-2.5 rounded-xl border flex items-center gap-3 transition-colors cursor-pointer ${
+                      isCodex ? 'bg-purple-950/60 border-purple-400 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.3)]' : 'bg-slate-900/60 border-slate-800 text-slate-200 hover:bg-slate-800'
+                    }`}
+                  >
+                    <div className="p-1.5 rounded-lg bg-purple-500/20 text-purple-300">
+                      <BookOpen size={16} />
+                    </div>
+                    <div className="text-left">
+                      <div className="font-bold text-xs">Rules Codex</div>
+                      <div className="text-[10px] text-slate-400">System Matrices & Rules</div>
+                    </div>
+                  </button>
+                </div>
+
+                {/* 2. Story Foundry & VTT */}
+                <div className="space-y-1 pt-2 border-t border-slate-800/80">
+                  <span className="text-[9px] uppercase tracking-widest text-purple-400 font-bold block px-1">Story Foundry</span>
+                  <div className="grid grid-cols-2 gap-1.5">
+                    <button
+                      type="button"
+                      onClick={() => { navigate('/foundry'); setIsMobileNavOpen(false); }}
+                      className="p-2 bg-slate-900/60 hover:bg-purple-950/40 border border-slate-800 hover:border-purple-500/40 rounded-lg text-left transition-colors cursor-pointer"
+                    >
+                      <div className="font-bold text-[11px] text-slate-200 flex items-center gap-1.5">
+                        <Layers size={13} className="text-purple-400" /> Hub
+                      </div>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => { navigate('/foundry/map-maker'); setIsMobileNavOpen(false); }}
+                      className="p-2 bg-slate-900/60 hover:bg-purple-950/40 border border-slate-800 hover:border-purple-500/40 rounded-lg text-left transition-colors cursor-pointer"
+                    >
+                      <div className="font-bold text-[11px] text-slate-200 flex items-center gap-1.5">
+                        <Tv2 size={13} className="text-purple-400" /> VTT Maps
+                      </div>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => { navigate('/foundry/story'); setIsMobileNavOpen(false); }}
+                      className="p-2 bg-slate-900/60 hover:bg-purple-950/40 border border-slate-800 hover:border-purple-500/40 rounded-lg text-left transition-colors cursor-pointer"
+                    >
+                      <div className="font-bold text-[11px] text-slate-200 flex items-center gap-1.5">
+                        <BookOpen size={13} className="text-purple-400" /> Scenarios
+                      </div>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => { navigate('/foundry/aime'); setIsMobileNavOpen(false); }}
+                      className="p-2 bg-slate-900/60 hover:bg-purple-950/40 border border-slate-800 hover:border-purple-500/40 rounded-lg text-left transition-colors cursor-pointer"
+                    >
+                      <div className="font-bold text-[11px] text-slate-200 flex items-center gap-1.5">
+                        <Sparkles size={13} className="text-purple-400" /> AIME
+                      </div>
+                    </button>
+                  </div>
+                </div>
+
+                {/* 3. Communications & Quick Tools */}
+                <div className="space-y-1 pt-2 border-t border-slate-800/80">
+                  <span className="text-[9px] uppercase tracking-widest text-amber-400 font-bold block px-1">Comms & Quick Docks</span>
+                  <div className="grid grid-cols-2 gap-1.5">
+                    <button
+                      type="button"
+                      onClick={() => { navigate('/comms'); setIsMobileNavOpen(false); }}
+                      className="p-2 bg-slate-900/60 hover:bg-amber-950/40 border border-slate-800 hover:border-amber-500/40 rounded-lg text-left transition-colors cursor-pointer"
+                    >
+                      <div className="font-bold text-[11px] text-slate-200 flex items-center gap-1.5">
+                        <MessageSquare size={13} className="text-amber-400" /> Channels
+                      </div>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsMobileNavOpen(false);
+                        if (onToggleDiceDock) onToggleDiceDock();
+                        else window.dispatchEvent(new CustomEvent('toggle-dice-dock'));
+                      }}
+                      className="p-2 bg-slate-900/60 hover:bg-amber-950/40 border border-slate-800 hover:border-amber-500/40 rounded-lg text-left transition-colors cursor-pointer"
+                    >
+                      <div className="font-bold text-[11px] text-slate-200 flex items-center gap-1.5">
+                        <Dices size={13} className="text-amber-400" /> Dice Tray
+                      </div>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsMobileNavOpen(false);
+                        if (onToggleCommsDock) onToggleCommsDock();
+                        else toggleCommsDock();
+                      }}
+                      className="p-2 bg-slate-900/60 hover:bg-amber-950/40 border border-slate-800 hover:border-amber-500/40 rounded-lg text-left transition-colors cursor-pointer"
+                    >
+                      <div className="font-bold text-[11px] text-slate-200 flex items-center gap-1.5">
+                        <Radio size={13} className="text-amber-400" /> Comms Dock
+                      </div>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsMobileNavOpen(false);
+                        if (onOpenCommandPalette) onOpenCommandPalette();
+                      }}
+                      className="p-2 bg-slate-900/60 hover:bg-cyan-950/40 border border-slate-800 hover:border-cyan-500/40 rounded-lg text-left transition-colors cursor-pointer"
+                    >
+                      <div className="font-bold text-[11px] text-slate-200 flex items-center gap-1.5">
+                        <Command size={13} className="text-cyan-400" /> Command
+                      </div>
+                    </button>
+                  </div>
+                </div>
+
+                {/* 4. Global System Utilities */}
+                <div className="space-y-1.5 pt-2 border-t border-slate-800/80">
+                  <div className="flex items-center justify-between gap-2">
+                    <button
+                      type="button"
+                      onClick={() => { handleOpenGuide(); setIsMobileNavOpen(false); }}
+                      className="flex-1 p-2 rounded-lg bg-slate-900/80 border border-slate-800 hover:border-cyan-400 text-xs text-slate-300 flex items-center gap-2 transition-colors cursor-pointer"
+                    >
+                      <HelpCircle size={14} className="text-cyan-400" />
+                      <span>User Manual</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={toggleAudio}
+                      className={`p-2 rounded-lg border text-xs flex items-center justify-center transition-colors cursor-pointer ${
+                        isAudioMuted ? 'bg-slate-900 text-slate-500 border-slate-800' : 'bg-cyan-950/60 text-cyan-300 border-cyan-500/50'
+                      }`}
+                      title={isAudioMuted ? 'Unmute Audio SFX' : 'Mute Audio SFX'}
+                    >
+                      {isAudioMuted ? <VolumeX size={15} /> : <Volume2 size={15} />}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Drawer Footer Account Area */}
+            <div className="pt-3 mt-4 border-t border-slate-800 text-xs font-mono flex items-center justify-between">
+              {currentUser ? (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => { setIsSettingsOpen(true); setIsMobileNavOpen(false); }}
+                    className="flex items-center gap-2 text-cyan-300 hover:text-cyan-200 truncate max-w-[200px]"
+                  >
+                    <Settings size={14} />
+                    <span className="truncate">{displayIdentity}</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => confirmLogout(navigate)}
+                    className="p-1.5 text-slate-400 hover:text-red-400 transition-colors cursor-pointer"
+                    title="Logout"
+                  >
+                    <LogOut size={16} />
+                  </button>
+                </>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => { loginWithGoogle(); setIsMobileNavOpen(false); }}
+                  className="w-full py-2 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-lg uppercase tracking-wider flex items-center justify-center gap-2"
+                >
+                  <Key size={14} /> Login
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Global Settings Modal */}
       <UserSettingsModal

@@ -75,7 +75,7 @@ export function App() {
           <FolioProvider>
             <GroupProvider>
               <ChatProvider>
-                <div className="h-screen w-screen bg-[#0d1117] flex flex-col font-sans overflow-hidden text-slate-100 select-none">
+                <div className="h-screen h-dvh w-screen bg-[#0d1117] flex flex-col font-sans overflow-hidden text-slate-100 select-none">
                   {/* Persistent Global HUD (Height: 52px on sub-routes) */}
                   <GlobalHUD
                     onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
