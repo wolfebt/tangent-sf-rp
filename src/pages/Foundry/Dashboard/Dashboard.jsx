@@ -22,6 +22,14 @@ const modules = [
     color: 'var(--accent-green-dark)',
   },
   {
+    id: 'stage',
+    title: 'The Stage (Next-Gen VTT)',
+    description: 'Launch real-time WebGPU tactical encounter viewport with 5ft grid, LoS & combat arbitration.',
+    icon: <Map size={32} />,
+    path: '/stage',
+    color: '#f59e0b',
+  },
+  {
     id: 'map-maker',
     title: 'Map Maker',
     description: 'Craft dynamic maps for your scenarios and encounters.',

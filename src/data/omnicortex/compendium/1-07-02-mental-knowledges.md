@@ -6,6 +6,11 @@ parent: "1.07 MASTER SKILLS CODEX"
 order: 3
 perspective: "operator"
 entry_type: "Skill Codex"
+tl: 3
+ml: 0
+cost: 0
+tags: ["compendium","skill-codex"]
+updatedAt: "2026-09-01T20:54:33.508Z"
 costs:
   bp: 0
   credits: 0

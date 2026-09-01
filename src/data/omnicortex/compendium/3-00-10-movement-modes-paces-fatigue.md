@@ -6,6 +6,11 @@ parent: "3.00 TACTICAL COMBAT SYSTEM"
 order: 10
 perspective: "both"
 entry_type: "Core Rule"
+tl: 3
+ml: 0
+cost: 0
+tags: ["compendium","core-rule"]
+updatedAt: "2026-09-01T20:54:33.509Z"
 costs:
   bp: 0
   credits: 0

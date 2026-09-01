@@ -33,6 +33,7 @@ import { useFolio } from '../../context/FolioContext';
 import { AudioService } from '../../services/audioService';
 import { UserSettingsModal } from '../UserSettingsModal';
 import { ComprehensiveUserGuideModal } from '../UI/ComprehensiveUserGuideModal';
+import { GameGroupModal } from '../Groups/GameGroupModal';
 
 export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOpen, onToggleCommsDock, isCommsDockOpen }) => {
   const navigate = useNavigate();
@@ -70,6 +71,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
   const isFolio = location.pathname.startsWith('/folio') || location.pathname.startsWith('/roster');
   const isFoundry = location.pathname.startsWith('/foundry') || location.pathname.startsWith('/story-foundry') || location.pathname.startsWith('/vtt-ops') || location.pathname.startsWith('/campaign-builder') || location.pathname.startsWith('/spectator');
   const isComms = location.pathname.startsWith('/comms') || location.pathname.startsWith('/chat');
+  const isStage = location.pathname.startsWith('/stage') || location.pathname === '/vtt';
   
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -80,6 +82,18 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
   const [isFolioMenuOpen, setIsFolioMenuOpen] = useState(false);
   const [isFoundryMenuOpen, setIsFoundryMenuOpen] = useState(false);
   const [isCommsMenuOpen, setIsCommsMenuOpen] = useState(false);
+  const [isSquadModalOpen, setIsSquadModalOpen] = useState(false);
+
+  // Global custom event listeners for Team Management
+  useEffect(() => {
+    const handleOpenTeamModal = () => setIsSquadModalOpen(true);
+    window.addEventListener('open-team-management', handleOpenTeamModal);
+    window.addEventListener('open-squad-modal', handleOpenTeamModal);
+    return () => {
+      window.removeEventListener('open-team-management', handleOpenTeamModal);
+      window.removeEventListener('open-squad-modal', handleOpenTeamModal);
+    };
+  }, []);
 
   // Close mobile nav drawer when route changes
   useEffect(() => {
@@ -332,6 +346,28 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                   type="button"
                   onClick={() => {
                     AudioService.playTerminalBeep(1200, 0.03);
+                    navigate('/stage');
+                  }}
+                  className="w-full text-left p-2.5 hover:bg-amber-950/60 rounded-xl text-xs font-mono text-slate-200 hover:text-amber-200 flex items-center justify-between transition-colors group cursor-pointer border border-amber-500/30 bg-amber-950/20"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <div className="p-1.5 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-300 group-hover:bg-amber-500/30 transition-colors">
+                      <Tv2 size={15} />
+                    </div>
+                    <div>
+                      <div className="font-bold text-amber-200 flex items-center gap-1.5">
+                        <span>The Stage (Next-Gen VTT)</span>
+                        <span className="px-1 py-0.5 bg-amber-500/30 text-amber-300 rounded text-[8px] font-mono">WEBGPU</span>
+                      </div>
+                      <div className="text-[9.5px] text-amber-400/80 font-mono">Tactical grid, LoS & Live Combat</div>
+                    </div>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1200, 0.03);
                     navigate('/foundry');
                   }}
                   className="w-full text-left p-2.5 hover:bg-purple-950/60 rounded-xl text-xs font-mono text-slate-200 hover:text-purple-200 flex items-center justify-between transition-colors group cursor-pointer"
@@ -445,7 +481,29 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
             )}
           </div>
 
-          {/* 4. COMMS Dropdown Button */}
+          {/* 4. THE STAGE / VTT Button */}
+          <button
+            type="button"
+            onClick={() => {
+              AudioService.playTerminalBeep(1150, 0.03);
+              navigate('/stage');
+            }}
+            className={`px-2 xs:px-2.5 sm:px-3.5 py-1 xs:py-1.5 sm:py-2 rounded-lg sm:rounded-xl border sm:border-2 text-[10.5px] xs:text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1 xs:gap-1.5 sm:gap-2 cursor-pointer select-none ${
+              isStage
+                ? 'bg-amber-950/60 border-amber-400 text-amber-200 shadow-[0_0_15px_rgba(251,191,36,0.4)]'
+                : 'bg-slate-950/50 hover:bg-slate-900/90 border-slate-700/80 hover:border-amber-400 text-slate-200 hover:text-amber-300'
+            }`}
+            title="Enter Next-Gen WebGPU Stage & Tactical Viewport (/stage)"
+          >
+            <div className={`p-0.5 xs:p-1 rounded-md sm:rounded-lg border shrink-0 ${isStage ? 'bg-amber-500/25 border-amber-400/60 text-amber-300' : 'bg-amber-500/10 border-amber-500/30 text-amber-400'}`}>
+              <Tv2 size={14} className="sm:w-4 sm:h-4" />
+            </div>
+            <span className="hidden sm:inline">STAGE</span>
+            <span className="sm:hidden">STAGE</span>
+            {isStage && <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse hidden sm:inline-block shadow-[0_0_8px_rgba(251,191,36,0.8)]" />}
+          </button>
+
+          {/* 5. COMMS Dropdown Button */}
           <div className="relative shrink-0" ref={commsMenuRef}>
             <button
               type="button"
@@ -523,6 +581,25 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                     <div>
                       <div className="font-bold text-slate-100 group-hover:text-amber-200">Floating CommLink Tray</div>
                       <div className="text-[9.5px] text-slate-400">Alt+C Dock Overlay</div>
+                    </div>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1200, 0.03);
+                    setIsSquadModalOpen(true);
+                  }}
+                  className="w-full text-left p-2.5 hover:bg-amber-950/60 rounded-xl text-xs font-mono text-slate-200 hover:text-amber-200 flex items-center justify-between transition-colors group cursor-pointer"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <div className="p-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 group-hover:bg-emerald-500/25 transition-colors">
+                      <Users size={15} />
+                    </div>
+                    <div>
+                      <div className="font-bold text-slate-100 group-hover:text-amber-200">Team &amp; Squad Management</div>
+                      <div className="text-[9.5px] text-emerald-400 font-mono">Party Roster, Invites &amp; VTT</div>
                     </div>
                   </div>
                 </button>
@@ -1028,7 +1105,30 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                   </button>
                 </div>
 
-                {/* 2. Story Foundry & VTT */}
+                {/* 2. The Stage (Next-Gen VTT) */}
+                <div className="space-y-1 pt-2 border-t border-slate-800/80">
+                  <span className="text-[9px] uppercase tracking-widest text-amber-400 font-bold block px-1">Tactical Combat</span>
+                  <button
+                    type="button"
+                    onClick={() => { navigate('/stage'); setIsMobileNavOpen(false); }}
+                    className={`w-full p-2.5 rounded-xl border flex items-center gap-3 transition-colors cursor-pointer ${
+                      isStage ? 'bg-amber-950/60 border-amber-400 text-amber-200 shadow-[0_0_15px_rgba(251,191,36,0.3)]' : 'bg-slate-900/60 border-slate-800 text-slate-200 hover:bg-slate-800'
+                    }`}
+                  >
+                    <div className="p-1.5 rounded-lg bg-amber-500/20 text-amber-300">
+                      <Tv2 size={16} />
+                    </div>
+                    <div className="text-left">
+                      <div className="font-bold text-xs flex items-center gap-1.5">
+                        <span>The Stage (Next-Gen VTT)</span>
+                        <span className="px-1 py-0.2 bg-amber-500/30 text-amber-300 rounded text-[8px]">WEBGPU</span>
+                      </div>
+                      <div className="text-[10px] text-slate-400">5ft Encounter Grid, LoS & Combat</div>
+                    </div>
+                  </button>
+                </div>
+
+                {/* 3. Story Foundry & VTT */}
                 <div className="space-y-1 pt-2 border-t border-slate-800/80">
                   <span className="text-[9px] uppercase tracking-widest text-purple-400 font-bold block px-1">Story Foundry</span>
                   <div className="grid grid-cols-2 gap-1.5">
@@ -1108,6 +1208,18 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                     >
                       <div className="font-bold text-[11px] text-slate-200 flex items-center gap-1.5">
                         <Radio size={13} className="text-amber-400" /> Comms Dock
+                      </div>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsMobileNavOpen(false);
+                        setIsSquadModalOpen(true);
+                      }}
+                      className="p-2 bg-slate-900/60 hover:bg-emerald-950/40 border border-slate-800 hover:border-emerald-500/40 rounded-lg text-left transition-colors cursor-pointer"
+                    >
+                      <div className="font-bold text-[11px] text-slate-200 flex items-center gap-1.5">
+                        <Users size={13} className="text-emerald-400" /> Team &amp; Squads
                       </div>
                     </button>
                     <button
@@ -1198,6 +1310,13 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
         isOpen={isGuideOpen}
         onClose={() => setIsGuideOpen(false)}
         initialTab={guideInitialTab}
+      />
+
+      {/* Global Team & Squad Management Modal */}
+      <GameGroupModal
+        isOpen={isSquadModalOpen}
+        onClose={() => setIsSquadModalOpen(false)}
+        initialTab="roster"
       />
     </>
   );

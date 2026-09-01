@@ -6,6 +6,11 @@ parent: "1.09 HINDRANCES & FLAWS CODEX"
 order: 2
 perspective: "operator"
 entry_type: "Hindrance Codex"
+tl: 3
+ml: 0
+cost: 0
+tags: ["compendium","hindrance-codex"]
+updatedAt: "2026-09-01T20:54:33.508Z"
 costs:
   bp: 0
   credits: 0

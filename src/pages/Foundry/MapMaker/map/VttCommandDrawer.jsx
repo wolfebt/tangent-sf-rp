@@ -396,6 +396,22 @@ const VttCommandDrawer = ({
         {/* TAB 2: Squads & Team Permissions */}
         {activeTab === 'teams' && (
           <div className="space-y-3.5">
+            {/* Quick Link to Full Team & Squad Management via Comms */}
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1200, 0.03);
+                window.dispatchEvent(new CustomEvent('open-team-management'));
+              }}
+              className="w-full p-2.5 bg-gradient-to-r from-emerald-950/80 to-slate-950 border border-emerald-500/50 hover:border-emerald-400 text-emerald-300 rounded-xl text-xs font-mono font-bold flex items-center justify-between transition-all group shadow-[0_0_15px_rgba(16,185,129,0.15)] cursor-pointer"
+            >
+              <div className="flex items-center gap-2">
+                <Users size={14} className="text-emerald-400 group-hover:scale-110 transition-transform" />
+                <span>Open Full Squad &amp; Team Hub</span>
+              </div>
+              <span className="text-[10px] text-emerald-400/80 font-normal">Comms Hub →</span>
+            </button>
+
             {/* Squads List */}
             <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2">
               <span className="text-[10px] uppercase font-bold text-slate-400">Tactical Squads:</span>

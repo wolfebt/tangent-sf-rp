@@ -2,11 +2,18 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { metaphysicsArticles } from './data_metaphysics.mjs';
+import { introVolume0Articles } from './data_intro_volume0.mjs';
+import { creationVolume1Articles } from './data_creation_volume1.mjs';
+import { economatrixVolume2Articles } from './data_economatrix_volume2.mjs';
+import { architectVolume5Articles } from './data_architect_volume5.mjs';
+import { architectBestiaryVolume6Articles } from './data_architect_bestiary_volume6.mjs';
+import { kitinCollectiveArticles } from './data_kitin_collective.mjs';
+import { additionalArchitectMatrices } from './data_matrices_volume0_2_4.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const DOCS_DIR = path.resolve(__dirname, '../docs/operator');
+const DOCS_DIR = path.resolve(__dirname, '../docs/game rules/operator');
 const SEED_OUTPUT_PATH = path.resolve(__dirname, '../src/data/compendiumSeed.json');
 const MD_OUTPUT_DIR = path.resolve(__dirname, '../src/data/omnicortex/compendium');
 
@@ -47,7 +54,7 @@ console.log(`Loaded source docs:
 const articles = [];
 
 // Helper to add an article
-function addArticle({ id, name, category = 'compendium', parent, order, perspective = 'both', entry_type, description, mechanic = '', guide = '', note = '' }) {
+function addArticle({ id, name, category = 'compendium', parent, order = 1, perspective = 'both', entry_type = 'Core Rule', description = '', mechanic = '', guide = '', note = '', tl = 3, ml = 0, cost = 0, tags = [] }) {
   articles.push({
     id,
     name,
@@ -56,10 +63,14 @@ function addArticle({ id, name, category = 'compendium', parent, order, perspect
     order,
     perspective,
     entry_type,
-    description: description.trim(),
-    mechanic: mechanic.trim(),
-    guide: guide.trim(),
-    note: note.trim(),
+    tl,
+    ml,
+    cost,
+    tags: Array.isArray(tags) && tags.length > 0 ? tags : [category, (entry_type || 'core-rule').toLowerCase().replace(/\s+/g, '-')],
+    description: (description || '').trim(),
+    mechanic: (mechanic || '').trim(),
+    guide: (guide || '').trim(),
+    note: (note || '').trim(),
     updatedAt: new Date().toISOString()
   });
 }
@@ -3997,12 +4008,30 @@ Half Cover in AoE = +2 to Saving Throw`,
   note: `Solid barriers absorb damage before allowing AoE blast waves to pass through.`
 });
 
-// Also integrate all canonical 16 Metaphysics Volume articles
-metaphysicsArticles.forEach(art => {
-  if (!articles.some(a => a.id === art.id)) {
+// Also integrate all canonical Volume 0, 1, 2, 4, 5, 6, Kitin, and Architect Matrices dataset articles
+const modularVolumeArticles = [
+  ...introVolume0Articles,
+  ...creationVolume1Articles,
+  ...economatrixVolume2Articles,
+  ...metaphysicsArticles,
+  ...architectVolume5Articles,
+  ...architectBestiaryVolume6Articles,
+  ...kitinCollectiveArticles,
+  ...additionalArchitectMatrices
+];
+
+modularVolumeArticles.forEach(art => {
+  const existingIdx = articles.findIndex(a => a.id === art.id);
+  if (existingIdx !== -1) {
+    articles[existingIdx] = {
+      ...articles[existingIdx],
+      ...art,
+      updatedAt: new Date().toISOString()
+    };
+  } else {
     articles.push({
       ...art,
-      perspective: 'both',
+      perspective: art.perspective || 'both',
       updatedAt: new Date().toISOString()
     });
   }
@@ -4025,6 +4054,11 @@ parent: "${(art.parent || '').replace(/"/g, '\\"')}"
 order: ${art.order || 0}
 perspective: "${art.perspective || 'both'}"
 entry_type: "${art.entry_type || 'Core Rule'}"
+tl: ${art.tl ?? 3}
+ml: ${art.ml ?? 0}
+cost: ${art.cost ?? 0}
+tags: ${JSON.stringify(art.tags || ['compendium'])}
+updatedAt: "${art.updatedAt || new Date().toISOString()}"
 costs:
   bp: 0
   credits: 0

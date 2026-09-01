@@ -6,6 +6,11 @@ parent: "1.06 OCCUPATIONS & CAREERS"
 order: 4
 perspective: "operator"
 entry_type: "Occupation Profile"
+tl: 3
+ml: 0
+cost: 0
+tags: ["compendium","occupation-profile"]
+updatedAt: "2026-09-01T20:54:33.508Z"
 costs:
   bp: 0
   credits: 0

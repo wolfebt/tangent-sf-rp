@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Palette, Image as ImageIcon, Sparkles, Copy, Check, X, Wand2, Ratio } from 'lucide-react';
 import { generateContent } from '../../services/aimeService';
 
@@ -97,8 +98,8 @@ Format your response in two distinct sections:
     }
   };
 
-  return (
-    <div className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-md flex items-center justify-center p-4 pt-14 pb-8 overflow-y-auto font-sans select-none animate-fadeIn">
+  const modalContent = (
+    <div className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto font-sans select-none animate-fadeIn">
       <div className="w-full max-w-3xl bg-[#0d1117] border border-purple-500/70 rounded-2xl shadow-[0_0_50px_rgba(168,85,247,0.35)] flex flex-col max-h-[88vh] overflow-hidden my-auto">
         
         {/* Modal Header */}
@@ -280,6 +281,8 @@ Format your response in two distinct sections:
       </div>
     </div>
   );
+
+  return typeof document !== 'undefined' ? createPortal(modalContent, document.body) : modalContent;
 };
 
 export default ArtistHubModal;

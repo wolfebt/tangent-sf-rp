@@ -6,6 +6,11 @@ parent: "3.00 TACTICAL COMBAT SYSTEM"
 order: 4
 perspective: "architect"
 entry_type: "Combat Matrix"
+tl: 3
+ml: 0
+cost: 0
+tags: ["compendium","combat-matrix"]
+updatedAt: "2026-09-01T20:54:33.508Z"
 costs:
   bp: 0
   credits: 0

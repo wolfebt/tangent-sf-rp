@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useCampaign } from '../../../../context/CampaignContext';
 import { useAuth } from '../../../../context/AuthContext';
 import { extractCreatorInfo } from '../../../../utils/creatorUtils';
@@ -538,7 +539,7 @@ const MapToolbar = ({
       )}
 
       {/* Cast / Spectator Modal */}
-      {isCastModalOpen && (
+      {isCastModalOpen && createPortal(
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
           <div className="w-full max-w-lg bg-[#0d1117] border border-emerald-500/50 rounded-2xl p-6 shadow-[0_0_35px_rgba(16,185,129,0.25)] flex flex-col gap-4">
             <div className="flex items-center justify-between pb-3 border-b border-slate-800">
@@ -617,7 +618,8 @@ const MapToolbar = ({
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Artist Hub Modal */}

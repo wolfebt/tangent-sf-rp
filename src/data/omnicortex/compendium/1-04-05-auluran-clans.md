@@ -6,6 +6,11 @@ parent: "1.04 PRIMARY FACTIONS (MAJOR POLITIES)"
 order: 6
 perspective: "operator"
 entry_type: "Major Faction (Primary)"
+tl: 3
+ml: 0
+cost: 0
+tags: ["compendium","major-faction-(primary)"]
+updatedAt: "2026-09-01T20:54:33.508Z"
 costs:
   bp: 0
   credits: 0

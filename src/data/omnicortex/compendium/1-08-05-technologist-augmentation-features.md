@@ -6,6 +6,11 @@ parent: "1.08 FEATURES & PERKS CODEX"
 order: 6
 perspective: "operator"
 entry_type: "Feature Codex"
+tl: 3
+ml: 0
+cost: 0
+tags: ["compendium","feature-codex"]
+updatedAt: "2026-09-01T20:54:33.508Z"
 costs:
   bp: 0
   credits: 0

@@ -21,6 +21,7 @@ const FoundryApp = lazy(() => import('./pages/Foundry/FoundryApp'));
 const VttOptionsPage = lazy(() => import('./pages/Foundry/MapMaker/VttOptionsPage'));
 const PlayerSpectatorView = lazy(() => import('./pages/Foundry/MapMaker/PlayerSpectatorView'));
 const CommsPage = lazy(() => import('./pages/CommsPage'));
+const StageView = lazy(() => import('./components/VTT/StageView'));
 
 const PageLoader = () => (
   <div className="flex-1 flex items-center justify-center bg-[#0d1117] text-cyan-400 font-mono text-sm tracking-wider h-full w-full">
@@ -100,6 +101,8 @@ export function App() {
                           <Route path="/folio" element={<Folio />} />
                           <Route path="/roster" element={<Folio />} />
                           <Route path="/vtt-ops" element={<VttOptionsPage />} />
+                          <Route path="/stage" element={<StageView />} />
+                          <Route path="/vtt" element={<StageView />} />
                           <Route path="/foundry/vtt-options" element={<VttOptionsPage />} />
                           <Route path="/foundry/view/:mapId" element={<PlayerSpectatorView />} />
                           <Route path="/foundry/spectator/:mapId" element={<PlayerSpectatorView />} />

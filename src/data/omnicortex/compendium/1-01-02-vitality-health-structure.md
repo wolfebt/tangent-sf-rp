@@ -1,11 +1,16 @@
 ---
 id: "1-01-02-vitality-health-structure"
-name: "1.01.02 Vitality, Health, Structure & Toughness"
+name: "1.01.02 Vitality, Health, Structure & Damage Buffers"
 category: "compendium"
-parent: "1.00 CHARACTER CREATION & ECONOMY"
+parent: "1.00 CHARACTER CREATION & PROFILES"
 order: 3
-perspective: "operator"
-entry_type: "Operator Rule"
+perspective: "both"
+entry_type: "Game Mechanic"
+tl: 3
+ml: 0
+cost: 0
+tags: ["compendium","volume-1","vitality-health","mechanics"]
+updatedAt: "2026-09-01T20:54:33.509Z"
 costs:
   bp: 0
   credits: 0
@@ -28,48 +33,37 @@ sockets:
   allocated: []
 ---
 
-# 1.01.02 Vitality, Health, Structure & Toughness
+# 1.01.02 Vitality, Health, Structure & Damage Buffers
 
-In Tangent, a character's ability to endure and recover from damage is represented by **Vitality**, **Health**, and **Structure** (for Synthetics and non-biological entities).
-
----
-
-## 1. Vitality vs. Health Breakdown
-
-- **Vitality (Starting Base: 30):** Represents energy, stamina, physical resilience, and luck. Non-lethal damage, fatigue, and minor scrapes deplete Vitality first.
-- **Health (Starting Base: 30):** Represents biological life force and anatomical integrity. Severe weapon trauma, critical hits, and deep wounds damage Health after Vitality is exhausted.
-- **Structure (Combined Pool):** For Synthetics, Golems, Mecha, and Undead lacking biological buffers, Vitality and Health are combined into a single unified **Structure** pool.
+Tangent divides damage into two primary layers to represent the difference between fatigue/close calls and lethal physical trauma:
 
 ---
 
-## 2. Increasing Pools with Build Points
+## 1. Vitality Pool (Stamina & Surface Resilience)
+- **Base Formula:** **30 + (5 × Stamina Score) + (5 per BP invested)**.
+- Absorbs incoming kinetic, energy, and environmental damage after Damage Reduction (DR).
+- Represents dodging by millimeters, kinetic shielding absorbing impacts, and tactical fatigue.
+- Recovers rapidly through Short Rests (Respite).
 
-- **Cost:** **1 BP = +5 Vitality** or **+5 Health** during character creation.
-- **Suggested Soft Cap:** 60 points in each pool at character creation.
+## 2. Health Pool (Structural Flesh & Vital Organs)
+- **Base Formula:** **30 + (5 × Stamina Score) + (5 per BP invested)**.
+- Damage overflows to Health only when Vitality is reduced to 0, or from direct critical bypass attacks.
+- Represents broken bones, severe lacerations, internal bleeding, and organ failure.
+- Requires medical surgery, trauma kits, or biomancy to heal.
 
----
-
-## 3. Toughness & Damage Reduction
-
-- **Toughness:** A character's Stamina score provides base **Toughness**, reducing incoming kinetic and physical trauma on a point-for-point basis before Armor DR.
-
----
-
-## 4. Concussive Damage, Explosions & Falls
-
-Concussive and blast damage is dispersed over the entire body:
-- If a character attempts a defensive reaction (Reflex save), blast damage is **divided equally between Vitality and Health**.
+## 3. Structure (Synthetics, Cyberforms & Objects)
+- Synthetics and vehicles possess **Structure** in place of biological Health.
+- Immune to biological toxins, bleeding, and organic disease.
+- Requires mechanical repair kits, nano-lathes, and Engineering checks to restore.
 
 ## Game Mechanics Rules
 ```
-StartingVitality = 30 + (PurchasedBP * 5)
-StartingHealth = 30 + (PurchasedBP * 5)
-Structure = Vitality + Health (for Synthetics/Objects)
-DamageSoak = IncomingDamage - Toughness - ArmorDR
+Damage Flow: Incoming Damage - Armor DR -> Vitality -> Health (overflow).
+At 0 Health: Character falls Unconscious and makes Mortal Wound Fortitude checks (DC 15).
 ```
 
 ## Gameplay Instructions
-Deplete Vitality first when taking damage from standard attacks; apply damage to Health once Vitality reaches 0.
+Track Vitality as your active combat cushion; preserve Health points at all costs.
 
 ## Designer Notes
-Critical hits bypass the Vitality buffer and inflict direct Health damage.
+Critical hits by default deal double damage to Vitality, or may bypass directly to Health with specialized features.

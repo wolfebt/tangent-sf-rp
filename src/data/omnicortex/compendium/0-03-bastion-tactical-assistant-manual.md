@@ -6,6 +6,11 @@ parent: "0.00 SYSTEM & USER MANUALS"
 order: 3
 perspective: "both"
 entry_type: "Core Engine Manual"
+tl: 3
+ml: 0
+cost: 0
+tags: ["compendium","core-engine-manual"]
+updatedAt: "2026-09-01T20:54:33.508Z"
 costs:
   bp: 0
   credits: 0

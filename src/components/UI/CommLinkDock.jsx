@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { X, MessageSquare, Plus, Maximize2, Radio } from 'lucide-react';
+import { X, MessageSquare, Plus, Maximize2, Radio, Users } from 'lucide-react';
 import { useChat } from '../../context/ChatContext';
 import { ChannelSidebar } from '../Chat/ChannelSidebar';
 import { MessageView } from '../Chat/MessageView';
 import { MessageInput } from '../Chat/MessageInput';
 import { CreateChannelModal } from '../Chat/CreateChannelModal';
+import { GameGroupModal } from '../Groups/GameGroupModal';
 import { useNavigate } from 'react-router-dom';
 import { AudioService } from '../../services/audioService';
 
@@ -12,6 +13,7 @@ export const CommLinkDock = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
   const { activeChannel, messages, loadingMessages } = useChat();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isSquadModalOpen, setIsSquadModalOpen] = useState(false);
   const [showChannelList, setShowChannelList] = useState(false);
 
   if (!isOpen) return null;
@@ -36,6 +38,20 @@ export const CommLinkDock = ({ isOpen, onClose }) => {
           </div>
 
           <div className="flex items-center gap-1.5">
+            {/* Direct Squads & Team Management Button */}
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1100, 0.02);
+                setIsSquadModalOpen(true);
+              }}
+              className="px-2 py-1 rounded text-[11px] font-mono font-bold border transition-colors bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border-emerald-500/40 flex items-center gap-1 cursor-pointer"
+              title="Team & Squad Management"
+            >
+              <Users size={12} />
+              <span>SQUADS</span>
+            </button>
+
             {/* Toggle Channels List view on mobile/compact */}
             <button
               type="button"
@@ -88,6 +104,7 @@ export const CommLinkDock = ({ isOpen, onClose }) => {
             <div className="flex-1 overflow-hidden">
               <ChannelSidebar
                 onOpenCreateModal={() => setIsCreateModalOpen(true)}
+                onOpenSquadModal={() => setIsSquadModalOpen(true)}
               />
             </div>
           ) : (
@@ -107,6 +124,13 @@ export const CommLinkDock = ({ isOpen, onClose }) => {
       <CreateChannelModal
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
+      />
+
+      {/* Game Squads & Parties Builder Modal */}
+      <GameGroupModal
+        isOpen={isSquadModalOpen}
+        onClose={() => setIsSquadModalOpen(false)}
+        initialTab="roster"
       />
     </>
   );

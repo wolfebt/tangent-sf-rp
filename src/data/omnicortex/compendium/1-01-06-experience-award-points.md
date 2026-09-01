@@ -6,6 +6,11 @@ parent: "1.00 CHARACTER CREATION & ECONOMY"
 order: 7
 perspective: "operator"
 entry_type: "Operator Rule"
+tl: 3
+ml: 0
+cost: 0
+tags: ["compendium","operator-rule"]
+updatedAt: "2026-09-01T20:54:33.508Z"
 costs:
   bp: 0
   credits: 0

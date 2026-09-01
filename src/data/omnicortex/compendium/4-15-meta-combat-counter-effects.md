@@ -6,6 +6,11 @@ parent: "4.00 METAPHYSICS"
 order: 15
 perspective: "both"
 entry_type: "Core Rule"
+tl: 3
+ml: 0
+cost: 0
+tags: ["compendium"]
+updatedAt: "2026-09-01T20:54:33.509Z"
 costs:
   bp: 0
   credits: 0

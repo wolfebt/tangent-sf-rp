@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { 
   X, 
@@ -289,7 +290,7 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
     return handle.includes(q);
   });
 
-  return (
+  const modalContent = (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-3 sm:p-5 animate-fade-in select-none">
       <div className="bg-[#0b0f17] border border-cyan-500/40 rounded-2xl w-full max-w-4xl overflow-hidden shadow-[0_0_60px_rgba(0,0,0,0.9)] flex flex-col h-[90vh] max-h-[820px]">
         
@@ -1024,6 +1025,8 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
       )}
     </div>
   );
+
+  return typeof document !== 'undefined' ? createPortal(modalContent, document.body) : modalContent;
 };
 
 export default GameGroupModal;

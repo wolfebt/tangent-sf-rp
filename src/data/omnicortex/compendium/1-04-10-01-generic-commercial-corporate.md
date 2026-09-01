@@ -6,6 +6,11 @@ parent: "1.04.10 SECONDARY FACTIONS (25 TEMPLATES)"
 order: 1
 perspective: "architect"
 entry_type: "Generic Faction Template"
+tl: 3
+ml: 0
+cost: 0
+tags: ["compendium","generic-faction-template"]
+updatedAt: "2026-09-01T20:54:33.508Z"
 costs:
   bp: 0
   credits: 0
