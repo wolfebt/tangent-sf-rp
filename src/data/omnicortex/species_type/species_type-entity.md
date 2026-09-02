@@ -20,7 +20,7 @@ description: Entity chassis.
 # Entity
 
 **Category**: Species Types (The Chassis)  
-**Build Point Cost**: 24 BP  
+**Character Point Cost**: 24 CP  
 
 ## Description
 Entity chassis with innate biological and metaphysical adaptations.

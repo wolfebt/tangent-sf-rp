@@ -102,12 +102,12 @@ export const CompanionPackageSelector = ({ formData = {}, onChange }) => {
           </div>
         </div>
 
-        {/* Live BP Progress Meter */}
+        {/* Live CP Progress Meter */}
         <div className="flex items-center gap-3 bg-slate-950/80 px-3 py-1.5 rounded-xl border border-slate-700">
           <div className="text-right">
-            <span className="text-[10px] text-slate-400 uppercase font-bold block">Companion BP</span>
+            <span className="text-[10px] text-slate-400 uppercase font-bold block">Companion CP</span>
             <span className={`text-sm font-bold ${bpData.isOverBudget ? 'text-red-400 animate-pulse' : 'text-emerald-400'}`}>
-              {bpData.totalBPUsed} / {bpData.maxBudget} BP
+              {bpData.totalBPUsed} / {bpData.maxBudget} CP
             </span>
           </div>
           <div className="w-24 bg-slate-800 h-2.5 rounded-full overflow-hidden border border-slate-700">
@@ -127,7 +127,7 @@ export const CompanionPackageSelector = ({ formData = {}, onChange }) => {
         <div className="p-3 bg-slate-950/80 border border-slate-800 rounded-xl space-y-1">
           <label className="text-[10px] uppercase font-bold text-slate-400 flex items-center justify-between">
             <span>Companion Feature Rank</span>
-            <span className="text-pink-400 font-bold">Rank {companionRank} ({bpData.maxBudget} BP)</span>
+            <span className="text-pink-400 font-bold">Rank {companionRank} ({bpData.maxBudget} CP)</span>
           </label>
           <div className="flex items-center justify-between pt-1">
             <button
@@ -266,7 +266,7 @@ export const CompanionPackageSelector = ({ formData = {}, onChange }) => {
                 <div className="flex items-center justify-between w-full">
                   <span className="text-xs font-bold text-slate-100">{form.name}</span>
                   <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-pink-500/20 text-pink-300 font-bold">
-                    {form.baseBP} BP
+                    {form.baseBP} CP
                   </span>
                 </div>
                 <div className="text-[10px] text-slate-400 space-y-0.5">
@@ -305,7 +305,7 @@ export const CompanionPackageSelector = ({ formData = {}, onChange }) => {
                 </div>
                 <div className="text-right shrink-0 ml-2">
                   <span className="text-[11px] font-bold font-mono px-2 py-0.5 rounded bg-pink-500/20 text-pink-300">
-                    +{func.bpCost} BP
+                    +{func.bpCost} CP
                   </span>
                 </div>
               </button>
@@ -336,7 +336,7 @@ export const CompanionPackageSelector = ({ formData = {}, onChange }) => {
                 </div>
                 <div className="text-right shrink-0 ml-2">
                   <span className="text-[11px] font-bold font-mono px-2 py-0.5 rounded bg-pink-500/20 text-pink-300">
-                    +{bond.bpCost} BP
+                    +{bond.bpCost} CP
                   </span>
                 </div>
               </button>

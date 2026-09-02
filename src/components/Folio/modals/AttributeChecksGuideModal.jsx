@@ -189,10 +189,10 @@ const AttributeChecksGuideModal = ({ isOpen, onClose, characterData = {}, getAtt
                 <div className="bg-slate-950/70 p-3.5 rounded-lg border border-slate-800 space-y-2">
                   <div className="font-bold text-cyan-300 flex items-center justify-between">
                     <span>Point Costs &amp; Paragon Limits</span>
-                    <span className="text-[10px] font-mono text-emerald-400 font-bold">5 BP / Attr • 1 BP / Check</span>
+                    <span className="text-[10px] font-mono text-emerald-400 font-bold">5 CP / Attr • 1 CP / Check</span>
                   </div>
                   <p className="text-slate-300 text-[11.5px] leading-relaxed">
-                    <strong>Primary Attributes</strong> cost <strong>5 Build Points (BP)</strong> per +1 increase. <strong>Attribute Checks</strong> can also be increased independently at a cost of <strong>1 BP</strong> per +1 point.
+                    <strong>Primary Attributes</strong> cost <strong>5 Character Points (CP)</strong> per +1 increase. <strong>Attribute Checks</strong> can also be increased independently at a cost of <strong>1 CP</strong> per +1 point.
                   </p>
                   <div className="text-[11px] text-slate-400 border-t border-slate-800/80 pt-2">
                     Characters start with an attribute maximum of <strong>+4</strong> before species traits. Paragon upper score is <strong>+5</strong> + species modifiers.
@@ -296,7 +296,7 @@ const AttributeChecksGuideModal = ({ isOpen, onClose, characterData = {}, getAtt
                         </div>
                         <div className="text-[10px] text-slate-500 font-mono flex justify-between">
                           <span>Base Formula: {check.baseFormula}</span>
-                          <span>Cost: 1 BP / point</span>
+                          <span>Cost: 1 CP / point</span>
                         </div>
                       </div>
                     </div>
@@ -346,7 +346,7 @@ const AttributeChecksGuideModal = ({ isOpen, onClose, characterData = {}, getAtt
                   <span>⚠️</span> {NON_ATTRIBUTE_FLAW.name} (Special Rule)
                 </h4>
                 <span className="text-[10px] font-mono bg-rose-950 text-rose-300 border border-rose-800 px-2 py-0.5 rounded font-bold">
-                  +{NON_ATTRIBUTE_FLAW.bpRefund} BP Refund
+                  +{NON_ATTRIBUTE_FLAW.bpRefund || NON_ATTRIBUTE_FLAW.cpRefund || 25} CP Refund
                 </span>
               </div>
 

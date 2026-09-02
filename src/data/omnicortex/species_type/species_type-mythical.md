@@ -20,7 +20,7 @@ description: Mythical chassis.
 # Mythical
 
 **Category**: Species Types (The Chassis)  
-**Build Point Cost**: 5 BP  
+**Character Point Cost**: 5 CP  
 
 ## Description
 Mythical chassis with innate biological and metaphysical adaptations.

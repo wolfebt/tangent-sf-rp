@@ -22,7 +22,7 @@ description: Synthetic chassis.
 # Synthetic
 
 **Category**: Species Types (The Chassis)  
-**Build Point Cost**: 15 BP  
+**Character Point Cost**: 15 CP  
 
 ## Description
 Synthetic chassis with innate biological and metaphysical adaptations.

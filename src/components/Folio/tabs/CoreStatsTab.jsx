@@ -848,7 +848,7 @@ const CoreStatsTab = () => {
                   Experience
                 </h3>
                 <span className="text-[10px] font-mono text-slate-400 hidden sm:inline">
-                  (1 AP = 1 BP)
+                  (1 AP = 1 CP)
                 </span>
               </div>
 

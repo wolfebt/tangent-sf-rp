@@ -29,10 +29,10 @@ sockets:
 
 # Skill Points Economy & Sources
 
-In Tangent SF RP, Skills represent a character's training, experience, and practical expertise. Build Points (BP) are the primary currency used during character creation.
+In Tangent SF RP, Skills represent a character's training, experience, and practical expertise. Character Points (CP) are the primary currency used during character creation.
 
-## Build Point Costs
-- **Base Cost**: Every Skill Rank costs **1 Build Point (BP)** to acquire during character creation.
+## Character Point Costs
+- **Base Cost**: Every Skill Rank costs **1 Character Point (CP)** to acquire during character creation.
 - **Maximum Starting Rank**: The maximum starting Skill Rank is **Rank 11** (Expert Tier cap).
 - **Post-Creation Advancement**: Skills advance at a rate of 1 point per session/experience reward.
 

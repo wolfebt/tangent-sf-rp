@@ -20,7 +20,7 @@ description: Humanoid chassis.
 # Humanoid
 
 **Category**: Species Types (The Chassis)  
-**Build Point Cost**: 0 BP  
+**Character Point Cost**: 0 CP  
 
 ## Description
 Humanoid chassis with innate biological and metaphysical adaptations.

@@ -75,22 +75,22 @@ const CONTENT = {
   cp: (
     <div className="space-y-4 text-slate-300 text-sm leading-relaxed">
       <p>
-        <strong className="text-cyan-300 font-mono">Character Points (CP / BP)</strong> and <strong className="text-emerald-400 font-mono">Award Points (AP)</strong> form the unified mathematical currency for character balance and organic progression in Tangent SFF RP.
+        <strong className="text-cyan-300 font-mono">Character Points (CP)</strong> and <strong className="text-emerald-400 font-mono">Award Points (AP)</strong> form the unified mathematical currency for character balance and organic progression in Tangent SFF RP.
       </p>
 
       {/* Starting Budget vs AP */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
         <div className="bg-slate-800/60 border border-cyan-500/30 rounded-xl p-3.5 space-y-1.5">
-          <div className="font-bold text-cyan-300 font-mono uppercase">1. Character Creation (150 BP)</div>
+          <div className="font-bold text-cyan-300 font-mono uppercase">1. Character Creation (150 CP)</div>
           <p className="text-slate-400 text-[11px] leading-relaxed">
-            All operatives start with 150 Build Points to purchase Attributes (5 BP), Skills (1 BP), Features (3 BP), and Vitals (1 BP per 5). Flaws provide BP refunds.
+            All operatives start with 150 Character Points to purchase Attributes (5 CP), Skills (1 CP), Features (3 CP), and Vitals (1 CP per 5). Flaws provide CP refunds.
           </p>
         </div>
 
         <div className="bg-slate-800/60 border border-emerald-500/30 rounded-xl p-3.5 space-y-1.5">
-          <div className="font-bold text-emerald-300 font-mono uppercase">2. Campaign Awards (1 AP = 1 BP)</div>
+          <div className="font-bold text-emerald-300 font-mono uppercase">2. Campaign Awards (1 AP = 1 CP)</div>
           <p className="text-slate-400 text-[11px] leading-relaxed">
-            Players earn Award Points (AP) during campaign play. AP expands the total budget permanently and is spent 1-for-1 like BP during downtime.
+            Players earn Award Points (AP) during campaign play. AP expands the total budget permanently and is spent 1-for-1 like CP during downtime.
           </p>
         </div>
       </div>
@@ -157,7 +157,7 @@ const CONTENT = {
   'core-stats': (
     <div className="space-y-4 text-slate-300 text-sm leading-relaxed">
       <p>
-        <strong className="text-cyan-300 font-mono">Core Attributes</strong> represent a character's natural talents and modify all linked skill checks. Attribute scores cost <strong className="text-amber-300 font-mono">5 BP per +1 point</strong> (0 human average baseline, maximum +4 during creation before species/aug modifiers; upper tier is 5 + species modifier for paragons). Characters completely lacking an attribute can take the <strong className="text-red-400 font-mono">Non-Attribute Flaw (-25 BP)</strong>, automatically failing all checks for that stat.
+        <strong className="text-cyan-300 font-mono">Core Attributes</strong> represent a character's natural talents and modify all linked skill checks. Attribute scores cost <strong className="text-amber-300 font-mono">5 CP per +1 point</strong> (0 human average baseline, maximum +4 during creation before species/aug modifiers; upper tier is 5 + species modifier for paragons). Characters completely lacking an attribute can take the <strong className="text-red-400 font-mono">Non-Attribute Flaw (-25 CP)</strong>, automatically failing all checks for that stat.
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
         {[
@@ -188,7 +188,7 @@ const CONTENT = {
               <code className="text-cyan-300 font-mono">Base Score = 2 + (Attribute Score × 2)</code>
             </div>
             <div className="text-slate-400 text-[10px]">
-              Directly upgrading an Attribute Check costs <strong className="text-amber-300 font-mono">1 BP per +1 point</strong> without needing to raise the base attribute.
+              Directly upgrading an Attribute Check costs <strong className="text-amber-300 font-mono">1 CP per +1 point</strong> without needing to raise the base attribute.
             </div>
           </div>
           <div className="bg-slate-950 p-2.5 rounded-lg border border-slate-800 space-y-1">

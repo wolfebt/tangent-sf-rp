@@ -62,6 +62,36 @@ import {
  * 
  * @param {Array<string|object>} movementSelections - List of movement IDs/objects
  * @param {string|object} [size='Medium'] - Size category
+/**
+ * Formats an asset's cost string for the BP/CP economy.
+ * If the asset is granted by a package (e.g. species), its used cost is 0,
+ * and we display both the 0 used cost and the standalone/unbundled cost as "0 [3] CP" or "0 [3]".
+ * 
+ * @param {number} usedCost - The actual points charged to the character (0 if included in package)
+ * @param {number} standaloneCost - What the asset would have cost without being included in the package
+ * @param {string} [unit='CP'] - Cost unit ('CP', 'BP', or empty)
+ * @returns {string} Formatted cost string e.g. "0 [3] CP", "5 CP", "0 CP", "-3 CP"
+ */
+export function formatGrantedCost(usedCost = 0, standaloneCost = 0, unit = 'CP') {
+  const unitSuffix = unit ? ` ${unit}` : '';
+  if (usedCost === 0 && standaloneCost > 0) {
+    return `0 [${standaloneCost}]${unitSuffix}`;
+  }
+  if (usedCost === 0 && standaloneCost < 0) {
+    return `0 [${standaloneCost}]${unitSuffix}`;
+  }
+  if (usedCost < 0) {
+    return `${usedCost}${unitSuffix}`;
+  }
+  return `${usedCost}${unitSuffix}`;
+}
+
+/**
+ * Calculates additive movement speeds and derived tactical paces for a species or entity.
+ * Associates speed adjusters with their respective base modes (Ground, Flying, Swimming, Climbing, Burrowing).
+ * 
+ * @param {Array<string|object>} movementSelections - List of movement IDs/objects
+ * @param {string|object} [size='Medium'] - Size category
  * @returns {object} Calculated additive speeds, formatted string, itemized breakdowns, and total movement BP
  */
 export function calculateSpeciesSpeeds(movementSelections = ['normal'], size = 'Medium') {
@@ -75,18 +105,27 @@ export function calculateSpeciesSpeeds(movementSelections = ['normal'], size = '
     if (!mItem) continue;
     const rawId = typeof mItem === 'object' ? (mItem.id || mItem.name) : String(mItem);
     const cleanId = rawId.toLowerCase().replace(/^species_movement-/, '').replace(/^movement-/, '').replace(/-/g, '_');
+    const rawLower = rawId.toLowerCase().trim();
 
     // 1. Check BASE_MODES
-    const baseMatch = SPECIES_MOVEMENT_BASE_MODES.find(b => 
-      b.id === rawId || b.id === `species_movement-${cleanId}` || b.id === `movement-${cleanId}` ||
-      b.id === cleanId || b.name.toLowerCase() === rawId.toLowerCase()
-    );
+    const baseMatch = SPECIES_MOVEMENT_BASE_MODES.find(b => {
+      const bId = b.id.toLowerCase();
+      const bName = b.name.toLowerCase();
+      const bBaseName = bName.replace(/\s*\(.*\)/, '').trim();
+      return b.id === rawId || b.id === `species_movement-${cleanId}` || b.id === `movement-${cleanId}` ||
+        bId === cleanId || bName === rawLower || bBaseName === rawLower ||
+        bName.startsWith(rawLower) || (rawLower.length > 3 && bBaseName.startsWith(rawLower));
+    });
 
     // 2. Check ADJUSTERS
-    const adjMatch = SPECIES_MOVEMENT_ADJUSTERS.find(a => 
-      a.id === rawId || a.id === `species_movement-${cleanId}` || a.id === `movement-${cleanId}` ||
-      a.id === cleanId || a.name.toLowerCase() === rawId.toLowerCase()
-    );
+    const adjMatch = SPECIES_MOVEMENT_ADJUSTERS.find(a => {
+      const aId = a.id.toLowerCase();
+      const aName = a.name.toLowerCase();
+      const aBaseName = aName.replace(/\s*\(.*\)/, '').trim();
+      return a.id === rawId || a.id === `species_movement-${cleanId}` || a.id === `movement-${cleanId}` ||
+        aId === cleanId || aName === rawLower || aBaseName === rawLower ||
+        aName.startsWith(rawLower) || (rawLower.length > 3 && aBaseName.startsWith(rawLower));
+    });
 
     if (baseMatch) {
       const target = baseMatch.target_mode || 'Ground';
@@ -96,7 +135,12 @@ export function calculateSpeciesSpeeds(movementSelections = ['normal'], size = '
     } else if (adjMatch) {
       activeAdjusters.push(adjMatch);
     } else {
-      const fallback = SPECIES_MOVEMENT_MODES.find(f => f.id === rawId || f.id === cleanId || f.name.toLowerCase() === rawId.toLowerCase());
+      const fallback = SPECIES_MOVEMENT_MODES.find(f => {
+        const fId = f.id.toLowerCase();
+        const fName = f.name.toLowerCase();
+        const fBaseName = fName.replace(/\s*\(.*\)/, '').trim();
+        return f.id === rawId || fId === cleanId || fName === rawLower || fBaseName === rawLower || fName.startsWith(rawLower);
+      });
       if (fallback) {
         if (fallback.category === 'Mode' || fallback.base_speed !== undefined) {
           activeBaseModes.set(fallback.target_mode || 'Ground', fallback);
@@ -213,8 +257,15 @@ export function calculateSpeciesBP(params = {}) {
   let movementModes = params.movementModes || params.movement_modes || params.movement || ['normal'];
   let attributes = {};
   let skillBundles = params.skillBundles ?? params.skill_bundles ?? 0;
-  let traits = Array.isArray(params.traits) ? [...params.traits] : [];
-  let disadvantages = Array.isArray(params.disadvantages) ? [...params.disadvantages] : [];
+  let traits = [
+    ...(Array.isArray(params.traits) ? params.traits : []),
+    ...(Array.isArray(params.inherent_features) ? params.inherent_features : []),
+    ...(Array.isArray(params.inherent_traits) ? params.inherent_traits : [])
+  ];
+  let disadvantages = [
+    ...(Array.isArray(params.disadvantages) ? params.disadvantages : []),
+    ...(Array.isArray(params.inherent_disadvantages) ? params.inherent_disadvantages : [])
+  ];
   let budgetLevel = params.budgetLevel || params.budget_level || 'Standard';
 
   // Normalize type
@@ -242,15 +293,15 @@ export function calculateSpeciesBP(params = {}) {
   movementModes = movementModes.map(m => {
     if (typeof m === 'string') {
       const clean = m.replace(/^species_movement-/, '').replace(/-trait$/, '').trim().toLowerCase();
-      if (clean === 'bipedal' || clean === 'normal' || clean === 'standard') return 'species_movement-bipedal';
-      if (clean === 'swim' || clean === 'swimming') return 'species_movement-swimming';
-      if (clean === 'burrow' || clean === 'burrowing') return 'movement-burrow-trait';
-      if (clean === 'climb' || clean === 'climber') return 'species_movement-climbing';
-      if (clean === 'fly' || clean === 'flight' || clean === 'flight_basic') return 'species_movement-flight';
-      if (clean === 'gliding' || clean === 'gliding_wings' || clean === 'gliding wings') return 'species_movement-glide';
+      if (clean === 'bipedal' || clean === 'normal' || clean === 'standard') return 'normal';
+      if (clean === 'flight_basic' || clean === 'basic flight') return 'flight_basic';
+      if (clean === 'swim' || clean === 'swimming') return 'swim';
+      if (clean === 'burrow' || clean === 'burrowing') return 'burrow';
+      if (clean === 'climb' || clean === 'climber') return 'climber';
+      if (clean === 'gliding' || clean === 'gliding_wings' || clean === 'gliding wings') return 'gliding';
       return m;
     }
-    return m?.id || 'species_movement-bipedal';
+    return m?.id || 'normal';
   });
 
   // Normalize attributes from object (supporting con/dex aliases and full names)
@@ -549,7 +600,7 @@ export function calculateFullSpeciesCost(speciesInput, dbData = {}) {
         disadvantagesRefund: 0
       },
       itemizedList: [],
-      summaryText: 'No Species (0 BP)'
+      summaryText: 'No Species (0 CP)'
     };
   }
 
@@ -567,7 +618,7 @@ export function calculateFullSpeciesCost(speciesInput, dbData = {}) {
 
   const speciesName = speciesObj.name || speciesObj.title || (typeof speciesInput === 'string' ? speciesInput : 'Unknown Species');
 
-  // Compute BP breakdown
+  // Compute BP/CP breakdown
   const bpData = calculateSpeciesBP(speciesObj);
 
   // If explicit cp/cost is specified in catalog, use document standard or computed total
@@ -578,35 +629,35 @@ export function calculateFullSpeciesCost(speciesInput, dbData = {}) {
 
   const itemizedList = [];
   if (bpData.breakdown.typeBP > 0) {
-    itemizedList.push({ category: 'Species Type', name: bpData.itemized.type.name, bp: bpData.breakdown.typeBP });
+    itemizedList.push({ category: 'Species Type', name: bpData.itemized.type.name, bp: bpData.breakdown.typeBP, cp: bpData.breakdown.typeBP });
   }
   if (bpData.breakdown.sizeBP > 0) {
-    itemizedList.push({ category: 'Species Size', name: bpData.itemized.size.name, bp: bpData.breakdown.sizeBP });
+    itemizedList.push({ category: 'Species Size', name: bpData.itemized.size.name, bp: bpData.breakdown.sizeBP, cp: bpData.breakdown.sizeBP });
   }
   if (bpData.breakdown.movementBP > 0) {
-    itemizedList.push({ category: 'Movement Modes', name: `${bpData.breakdown.movementBP} BP Modes`, bp: bpData.breakdown.movementBP });
+    itemizedList.push({ category: 'Movement Modes', name: `${bpData.breakdown.movementBP} CP Modes`, bp: bpData.breakdown.movementBP, cp: bpData.breakdown.movementBP });
   }
   if (bpData.breakdown.attributeBP !== 0) {
-    itemizedList.push({ category: 'Attribute Modifiers', name: `${bpData.breakdown.attributeBP >= 0 ? '+' : ''}${bpData.breakdown.attributeBP} BP`, bp: bpData.breakdown.attributeBP });
+    itemizedList.push({ category: 'Attribute Modifiers', name: `${bpData.breakdown.attributeBP >= 0 ? '+' : ''}${bpData.breakdown.attributeBP} CP`, bp: bpData.breakdown.attributeBP, cp: bpData.breakdown.attributeBP });
   }
   if (bpData.breakdown.skillsBP > 0) {
-    itemizedList.push({ category: 'Skill Points', name: `${bpData.breakdown.skillsBP} BP`, bp: bpData.breakdown.skillsBP });
+    itemizedList.push({ category: 'Skill Points', name: `${bpData.breakdown.skillsBP} CP`, bp: bpData.breakdown.skillsBP, cp: bpData.breakdown.skillsBP });
   }
   if (bpData.breakdown.traitsBP > 0) {
-    itemizedList.push({ category: 'Species Traits', name: `${bpData.itemized.traits.length} Traits (${bpData.breakdown.traitsBP} BP)`, bp: bpData.breakdown.traitsBP });
+    itemizedList.push({ category: 'Species Traits', name: `${bpData.itemized.traits.length} Traits (${bpData.breakdown.traitsBP} CP)`, bp: bpData.breakdown.traitsBP, cp: bpData.breakdown.traitsBP });
   }
   if (bpData.breakdown.disadvantagesRefund > 0) {
-    itemizedList.push({ category: 'Disadvantages (Refund)', name: `-${bpData.breakdown.disadvantagesRefund} BP`, bp: -bpData.breakdown.disadvantagesRefund });
+    itemizedList.push({ category: 'Disadvantages (Refund)', name: `-${bpData.breakdown.disadvantagesRefund} CP`, bp: -bpData.breakdown.disadvantagesRefund, cp: -bpData.breakdown.disadvantagesRefund });
   }
 
   const summaryParts = [];
-  if (bpData.breakdown.typeBP) summaryParts.push(`Type: ${bpData.breakdown.typeBP} BP`);
-  if (bpData.breakdown.sizeBP) summaryParts.push(`Size: ${bpData.breakdown.sizeBP} BP`);
-  if (bpData.breakdown.movementBP) summaryParts.push(`Move: ${bpData.breakdown.movementBP} BP`);
-  if (bpData.breakdown.attributeBP) summaryParts.push(`Attr: ${bpData.breakdown.attributeBP} BP`);
-  if (bpData.breakdown.skillsBP) summaryParts.push(`Skills: ${bpData.breakdown.skillsBP} BP`);
-  if (bpData.breakdown.traitsBP) summaryParts.push(`Traits: ${bpData.breakdown.traitsBP} BP`);
-  if (bpData.breakdown.disadvantagesRefund) summaryParts.push(`Refund: -${bpData.breakdown.disadvantagesRefund} BP`);
+  if (bpData.breakdown.typeBP) summaryParts.push(`Type: ${bpData.breakdown.typeBP} CP`);
+  if (bpData.breakdown.sizeBP) summaryParts.push(`Size: ${bpData.breakdown.sizeBP} CP`);
+  if (bpData.breakdown.movementBP) summaryParts.push(`Move: ${bpData.breakdown.movementBP} CP`);
+  if (bpData.breakdown.attributeBP) summaryParts.push(`Attr: ${bpData.breakdown.attributeBP} CP`);
+  if (bpData.breakdown.skillsBP) summaryParts.push(`Skills: ${bpData.breakdown.skillsBP} CP`);
+  if (bpData.breakdown.traitsBP) summaryParts.push(`Traits: ${bpData.breakdown.traitsBP} CP`);
+  if (bpData.breakdown.disadvantagesRefund) summaryParts.push(`Refund: -${bpData.breakdown.disadvantagesRefund} CP`);
 
   return {
     speciesName,
@@ -619,7 +670,7 @@ export function calculateFullSpeciesCost(speciesInput, dbData = {}) {
     breakdown: bpData.breakdown,
     itemized: bpData.itemized,
     itemizedList,
-    summaryText: summaryParts.length > 0 ? summaryParts.join(' • ') : 'Standard (0 BP)',
+    summaryText: summaryParts.length > 0 ? summaryParts.join(' • ') : 'Standard (0 CP)',
     isOverBudget: bpData.isOverBudget,
     budgetLevel: bpData.budgetLevel
   };
@@ -673,7 +724,7 @@ export function validateSpeciesBuild(speciesData = {}) {
   const warnings = [];
 
   if (bpData.isOverBudget) {
-    issues.push(`Total BP used (${bpData.totalBPUsed} BP) exceeds the ${bpData.budgetLevel} budget limit of ${bpData.budgetMax} BP.`);
+    issues.push(`Total CP used (${bpData.totalBPUsed} CP) exceeds the ${bpData.budgetLevel} budget limit of ${bpData.budgetMax} CP.`);
   }
 
   // Check Attribute maximums during creation
@@ -1089,6 +1140,8 @@ export function computeCompanionStats(formData) {
   const synthesisDC = Math.max(10, Math.round(15 + bp.totalBPUsed / 4 + stats.ownerTier));
 
   return {
+    total_cp_used: bp.totalBPUsed,
+    cp_remaining: bp.bpRemaining,
     total_bp_used: bp.totalBPUsed,
     bp_remaining: bp.bpRemaining,
     is_over_budget: bp.isOverBudget,

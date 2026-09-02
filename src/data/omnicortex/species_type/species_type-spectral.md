@@ -20,7 +20,7 @@ description: Spectral chassis.
 # Spectral
 
 **Category**: Species Types (The Chassis)  
-**Build Point Cost**: 18 BP  
+**Character Point Cost**: 18 CP  
 
 ## Description
 Spectral chassis with innate biological and metaphysical adaptations.

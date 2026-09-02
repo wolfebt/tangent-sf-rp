@@ -381,7 +381,7 @@ export const CODEX_MATRICES = [
       { name: 'meta_level', label: 'Meta Level (ML 0-5)', type: 'number', min: 0, max: 5 },
       { name: 'craft_dc', label: 'Surgical / Design DC', type: 'number', min: 0, max: 80, triggers: ['credit_value', 'material_cost', 'ws_threshold', 'complexity_tier', 'crafting_time'] },
       { name: 'nodes_consumed', label: 'Node Displacement (UDU Nodes)', type: 'number', min: 0, max: 200 },
-      { name: 'bp_cost', label: 'Build Point (BP) Bio-Tolerance', type: 'number' },
+      { name: 'bp_cost', label: 'Character Point (CP) Bio-Tolerance', type: 'number' },
       { name: 'durability', label: 'Structure Points (SP)', type: 'number' },
       { name: 'cost', label: 'Credit Cost (Override)', type: 'number' },
       { name: 'description', label: 'Physiological Overview', type: 'textarea', aiEnabled: true },
@@ -865,7 +865,7 @@ export const CODEX_MATRICES = [
       { name: 'note', label: 'Architect Notes', type: 'textarea' }
     ],
     budgets: [
-      { id: 'species_bp', label: 'Species Build Points', type: 'custom', max: 20, unit: 'BP', color: '#10b981' }
+      { id: 'species_bp', label: 'Species Character Points', type: 'custom', max: 20, unit: 'CP', color: '#10b981' }
     ],
     computedOutputs: DEFAULT_COMPUTED_OUTPUTS,
     computeOnSave: (formData, engines) => {

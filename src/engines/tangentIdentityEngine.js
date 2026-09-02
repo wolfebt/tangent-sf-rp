@@ -15,6 +15,8 @@ import { DEFAULT_OCCUPATIONS } from '../data/occupationsData.js';
 import { DEFAULT_ORIGINS } from '../data/originsData.js';
 import { DEFAULT_FACTIONS } from '../data/factionsData.js';
 import { ALL_CANONICAL_SKILLS } from '../data/skillsData.js';
+import { DEFAULT_FEATURES } from '../data/featuresData.js';
+import { ALL_CANONICAL_TRAITS } from '../data/speciesTraitsData.js';
 
 export const PRIMARY_TO_SUB_ATTR_MAP = {
   'attr-strength': 'attr-might',
@@ -186,11 +188,33 @@ export const applySpeciesTransition = (characterData, newSpeciesInput, dbData = 
     const newFeaturesToAdd = [];
     const addedNames = new Set(filteredFeatures.map(f => (typeof f === 'object' ? (f.name || f.title) : String(f)).toLowerCase()));
 
+    const getStandaloneCost = (rawName) => {
+      if (!rawName) return 3;
+      const lower = String(rawName).toLowerCase().trim();
+      const clean = normalizeTraitString(rawName).toLowerCase();
+      
+      const foundTrait = ALL_CANONICAL_TRAITS.find(t => {
+        const tName = (t.name || t.id || '').toLowerCase();
+        return tName === lower || tName === clean || t.id === rawName;
+      });
+      if (foundTrait) return foundTrait.bp || 1;
+
+      const foundFeat = DEFAULT_FEATURES.find(f => {
+        const fName = (f.name || f.id || '').toLowerCase();
+        return fName === lower || fName === clean || f.id === rawName;
+      });
+      if (foundFeat) return foundFeat.cp || 3;
+
+      if (lower.includes('awakened')) return 3;
+      return 3;
+    };
+
     const addInherentFeat = (rawName, desc = '') => {
       if (!rawName) return;
       const cleanTitle = normalizeTraitString(rawName);
       if (!addedNames.has(cleanTitle.toLowerCase()) && !addedNames.has(String(rawName).toLowerCase())) {
         addedNames.add(cleanTitle.toLowerCase());
+        const standalone = getStandaloneCost(rawName);
         newFeaturesToAdd.push({
           id: `feat_sp_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
           name: cleanTitle,
@@ -198,6 +222,7 @@ export const applySpeciesTransition = (characterData, newSpeciesInput, dbData = 
           source: 'species',
           sourceName: newSpeciesName,
           cp: 0,
+          standaloneCp: standalone,
           description: desc || `Inherent trait granted by ${newSpeciesName}.`
         });
       }

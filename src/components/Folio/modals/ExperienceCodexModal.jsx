@@ -147,7 +147,7 @@ export const ExperienceCodexModal = ({
           <div className="space-y-0.5">
             <span className="text-[10px] uppercase tracking-wider text-slate-400">Conversion Rate</span>
             <div className="text-base font-bold text-amber-300">
-              1 AP = 1 BP
+              1 AP = 1 CP
             </div>
           </div>
           <div className="space-y-0.5">
@@ -215,10 +215,10 @@ export const ExperienceCodexModal = ({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="bg-slate-950/60 p-3.5 rounded-xl border border-slate-800 space-y-2">
                   <h4 className="font-bold text-emerald-300 text-sm flex items-center gap-1.5">
-                    <span>⚖️</span> 1 AP = 1 BP Direct Exchange
+                    <span>⚖️</span> 1 AP = 1 CP Direct Exchange
                   </h4>
                   <p className="text-slate-400 text-xs">
-                    Award Points (AP) represent the experiential growth earned by characters in active play. They function identically to Build Points (BP) from character creation, on a direct 1-for-1 basis.
+                    Award Points (AP) represent the experiential growth earned by characters in active play. They function identically to Character Points (CP) from character creation, on a direct 1-for-1 basis.
                   </p>
                 </div>
 

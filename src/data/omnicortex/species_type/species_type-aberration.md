@@ -20,7 +20,7 @@ description: Aberration chassis.
 # Aberration
 
 **Category**: Species Types (The Chassis)  
-**Build Point Cost**: 1 BP  
+**Character Point Cost**: 1 CP  
 
 ## Description
 Aberration chassis with innate biological and metaphysical adaptations.

@@ -7,7 +7,8 @@ export const CostEconomyWidget = ({
   isEditMode = true
 }) => {
   const currentCosts = {
-    bp: Number(costs.bp ?? 0),
+    bp: Number(costs.bp ?? costs.cp ?? 0),
+    cp: Number(costs.cp ?? costs.bp ?? 0),
     credits: Number(costs.credits ?? 0),
     nodes: Number(costs.nodes ?? 0),
     sockets: Number(costs.sockets ?? 0),
@@ -18,10 +19,15 @@ export const CostEconomyWidget = ({
 
   const handleFieldChange = (field, val) => {
     const num = Math.max(0, parseInt(val, 10) || 0);
-    onChange({
+    const updated = {
       ...currentCosts,
       [field]: num
-    });
+    };
+    if (field === 'cp' || field === 'bp') {
+      updated.cp = num;
+      updated.bp = num;
+    }
+    onChange(updated);
   };
 
   if (!isEditMode) {
@@ -45,12 +51,12 @@ export const CostEconomyWidget = ({
             </div>
           </div>
         )}
-        {currentCosts.bp > 0 && (
+        {(currentCosts.cp > 0 || currentCosts.bp > 0) && (
           <div className="bg-slate-950 p-2 rounded-lg border border-cyan-500/30 flex items-center gap-2">
             <Zap size={14} className="text-cyan-400 shrink-0" />
             <div>
-              <span className="block text-[9px] text-slate-500 uppercase">Build Points</span>
-              <span className="text-cyan-300 font-bold">{currentCosts.bp} BP</span>
+              <span className="block text-[9px] text-slate-500 uppercase">Character Points</span>
+              <span className="text-cyan-300 font-bold">{currentCosts.cp || currentCosts.bp} CP</span>
             </div>
           </div>
         )}
@@ -131,17 +137,17 @@ export const CostEconomyWidget = ({
           />
         </div>
 
-        {/* BP / CP */}
+        {/* CP */}
         <div className="space-y-1">
           <label className="block text-[10px] font-bold text-slate-400 uppercase flex items-center gap-1">
             <Zap size={11} className="text-cyan-400" />
-            <span>Build Points (BP)</span>
+            <span>Character Points (CP)</span>
           </label>
           <input
             type="number"
             min="0"
-            value={currentCosts.bp}
-            onChange={e => handleFieldChange('bp', e.target.value)}
+            value={currentCosts.cp || currentCosts.bp}
+            onChange={e => handleFieldChange('cp', e.target.value)}
             className="w-full bg-slate-900 border border-slate-700 text-cyan-300 font-bold p-1.5 rounded text-xs outline-none focus:border-cyan-400"
             placeholder="0"
           />

@@ -20,7 +20,7 @@ description: Verdant chassis.
 # Verdant
 
 **Category**: Species Types (The Chassis)  
-**Build Point Cost**: 9 BP  
+**Character Point Cost**: 9 CP  
 
 ## Description
 Verdant chassis with innate biological and metaphysical adaptations.

@@ -71,6 +71,16 @@ const Home = () => {
       className="h-full w-full relative bg-cover bg-center bg-no-repeat bg-fixed text-slate-100 font-sans flex flex-col overflow-hidden"
       style={{ backgroundImage: "url('/assets/images/background.png')" }}
     >
+      {/* ── Creator Tag — Top Right View Area ── */}
+      <div className="absolute top-2 sm:top-3 right-3 sm:right-5 z-20 pointer-events-none select-none text-right">
+        <div className="flex items-center gap-1.5 justify-end">
+          <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_6px_rgba(34,211,238,0.8)]" />
+          <span className="font-mono text-[9px] sm:text-[10.5px] font-bold tracking-wider text-cyan-300/90 uppercase [text-shadow:0_0_8px_rgba(0,0,0,0.95),0_0_16px_rgba(34,211,238,0.4)]">
+            TANGENT SCIENCE FANTASY ROLE PLAY ENGINE BY WOLFE.BT@TANGENTLLC
+          </span>
+        </div>
+      </div>
+
       {/* ── Mobile Slide-Out Backdrop ── */}
       {isMobile && isMobileDrawerOpen && (
         <div
@@ -209,18 +219,18 @@ const Home = () => {
                   onOpenDrawer={(drawerKey) => handleSelectDrawer(drawerKey)}
                 />
               ) : (
-                /* Idle state — prompt to select a module */
-                <div className="flex-1 flex flex-col items-center justify-center p-8 text-center text-slate-400 font-mono space-y-4 animate-fadeIn">
-                  <div className="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-300 shadow-[0_0_25px_rgba(34,211,238,0.2)] animate-pulse">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                /* Idle state — prompt to select a module, shifted to middle-top dark space of background */
+                <div className="flex-1 flex flex-col items-center justify-start pt-12 sm:pt-16 lg:pt-20 p-8 text-center font-mono space-y-4 animate-fadeIn">
+                  <div className="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/40 flex items-center justify-center text-cyan-300 shifting-wb-box-shadow">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" className="shifting-wb-drop-shadow">
                       <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
                     </svg>
                   </div>
-                  <div className="space-y-1">
-                    <h3 className="text-sm font-bold tracking-widest text-cyan-300 uppercase">
+                  <div className="space-y-1.5 max-w-lg">
+                    <h3 className="text-sm sm:text-base font-bold tracking-widest text-cyan-300 uppercase shifting-wb-text-shadow">
                       UNIFIED DASHBOARD WORKSPACE READY
                     </h3>
-                    <p className="text-xs text-slate-500 max-w-md">
+                    <p className="text-xs sm:text-sm text-slate-300 max-w-md mx-auto shifting-wb-text-shadow leading-relaxed">
                       Select a module from the navigation bar above to load a workspace.
                     </p>
                   </div>
@@ -228,8 +238,8 @@ const Home = () => {
               )}
             </div>
           ) : (
-            /* Mobile: drawer content when open */
-            activeDrawer && (
+            /* Mobile: drawer content when open, or idle prompt in middle top dark space */
+            activeDrawer ? (
               <div
                 className="w-full min-h-[460px] flex flex-col"
                 onClick={(e) => e.stopPropagation()}
@@ -239,6 +249,22 @@ const Home = () => {
                   onCloseDrawer={() => setActiveDrawer(null)}
                   onOpenDrawer={(drawerKey) => handleSelectDrawer(drawerKey)}
                 />
+              </div>
+            ) : (
+              <div className="flex-1 flex flex-col items-center justify-start pt-10 sm:pt-14 p-6 text-center font-mono space-y-4 animate-fadeIn">
+                <div className="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/40 flex items-center justify-center text-cyan-300 shifting-wb-box-shadow">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" className="shifting-wb-drop-shadow">
+                    <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                  </svg>
+                </div>
+                <div className="space-y-1 max-w-sm">
+                  <h3 className="text-xs sm:text-sm font-bold tracking-widest text-cyan-300 uppercase shifting-wb-text-shadow">
+                    UNIFIED DASHBOARD WORKSPACE READY
+                  </h3>
+                  <p className="text-[11px] sm:text-xs text-slate-300 shifting-wb-text-shadow leading-relaxed">
+                    Tap MODULES above to load a workspace.
+                  </p>
+                </div>
               </div>
             )
           )}
@@ -251,8 +277,7 @@ const Home = () => {
         />
 
         {/* Footer */}
-        <footer className="w-full pt-4 pb-2 border-t border-slate-900/80 mt-auto flex flex-col sm:flex-row items-center justify-between text-[10px] font-mono text-slate-500 gap-2 px-4">
-          <span>TANGENT SCIENCE FANTASY ROLE PLAY ENGINE BY WOLFE.BT@TANGENTLLC</span>
+        <footer className="w-full pt-4 pb-2 border-t border-slate-900/60 mt-auto flex items-center justify-end text-[10px] font-mono text-slate-500 gap-2 px-4">
           <span>CYBERNETIC INTERFACE INITIALIZED</span>
         </footer>
       </div>

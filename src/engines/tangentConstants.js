@@ -9,7 +9,7 @@ export const CORE_ATTRIBUTES = {
     name: 'Strength',
     checkName: 'Might',
     checkId: 'attr-might',
-    costPerPoint: 5, // 5 BP per +1 increase
+    costPerPoint: 5, // 5 CP per +1 increase
     startingMax: 4,  // Maximum +4 at character creation before species/aug modifiers
     paragonScore: 5, // Upper tier is 5 + species modifier
     averageScore: 0, // Baseline human average
@@ -1851,8 +1851,8 @@ export const SPECIES_DISADVANTAGES = [
   { id: 'light_blindness', name: 'Light Blindness', refundBP: 4, costBP: -4, type: 'Sensory', description: 'Abrupt exposure to bright light blinds for 1 round; then dazzled. Req: Darkvision.' },
   { id: 'light_sensitivity', name: 'Light Sensitivity', refundBP: 2, costBP: -2, type: 'Sensory', description: 'Dazzled in bright sunlight. Req: Darkvision.' },
   { id: 'negative_energy_affinity', name: 'Negative Energy Affinity', refundBP: 4, costBP: -4, type: 'Meta', description: 'Alive, but harmed by positive/healed by negative energy (like undead).' },
-  { id: 'slow', name: 'Slow (Disadvantage)', refundBP: 2, costBP: -2, type: 'Movement', description: 'Base Speed -10 feet (+2 BP Gain) *' },
-  { id: 'ponderous', name: 'Ponderous (Disadvantage)', refundBP: 4, costBP: -4, type: 'Movement', description: 'Base Speed -20 feet (+4 BP Gain) *' },
+  { id: 'slow', name: 'Slow (Disadvantage)', refundBP: 2, costBP: -2, type: 'Movement', description: 'Base Speed -10 feet (+2 CP Gain) *' },
+  { id: 'ponderous', name: 'Ponderous (Disadvantage)', refundBP: 4, costBP: -4, type: 'Movement', description: 'Base Speed -20 feet (+4 CP Gain) *' },
   { id: 'sunlight_powerlessness', name: 'Sunlight Powerlessness', refundBP: 6, costBP: -6, type: 'Meta', description: 'Staggered/Helpless in direct sunlight. Req: Undead/Half-Undead.' },
   { id: 'vulnerable_to_sunlight', name: 'Vulnerable to Sunlight', refundBP: 4, costBP: -4, type: 'Meta', description: 'Take 1 Con damage per hour in sunlight. Req: Native to Darklands/Shadow.' }
 ];
@@ -1864,7 +1864,7 @@ export const SPECIES_ATTRIBUTE_MODIFIERS = [
   { id: 'improved_intellect', name: 'Improved Intellect', bp: 5, attribute: 'Intellect', code: 'INT', value: 1, type: 'Attribute', effect: '+1 racial bonus to Intellect.' },
   { id: 'improved_wisdom', name: 'Improved Wisdom', bp: 5, attribute: 'Wisdom', code: 'WIS', value: 1, type: 'Attribute', effect: '+1 racial bonus to Wisdom.' },
   { id: 'improved_charisma', name: 'Improved Charisma', bp: 5, attribute: 'Charisma', code: 'CHA', value: 1, type: 'Attribute', effect: '+1 racial bonus to Charisma.' },
-  { id: 'reduced_ability', name: 'Reduced Ability', bp: -5, refundBP: 5, value: -1, type: 'Attribute', effect: 'Penalties to Ability Scores (+5 BP refund per -1 to Ability Scores).' }
+  { id: 'reduced_ability', name: 'Reduced Ability', bp: -5, refundBP: 5, value: -1, type: 'Attribute', effect: 'Penalties to Ability Scores (+5 CP refund per -1 to Ability Scores).' }
 ];
 
 export const SPECIES_SKILL_MODIFIERS = [
@@ -1898,27 +1898,27 @@ export const SPECIES_COMPONENT_RULES = {
 // ═══════════════════════════════════════════════════════════
 
 export const THREAT_TIER_CHASSIS = {
-  0: { tier: 0, narrativeRank: 'Civilian / Minion', attrBonus: 0, primarySkill: 5, secondarySkill: 3, actions: 1, vitHeaBonus: 0, dr: 0, bp: '< 50 BP' },
-  1: { tier: 1, narrativeRank: 'Adept', attrBonus: 0, primarySkill: 6, secondarySkill: 3, actions: 2, vitHeaBonus: 5, dr: 2, bp: '50 BP' },
-  2: { tier: 2, narrativeRank: 'Militia', attrBonus: 1, primarySkill: 7, secondarySkill: 4, actions: 2, vitHeaBonus: 10, dr: 5, bp: '75 BP' },
-  3: { tier: 3, narrativeRank: 'Trooper', attrBonus: 1, primarySkill: 8, secondarySkill: 4, actions: 2, vitHeaBonus: 15, dr: 8, bp: '100 BP' },
-  4: { tier: 4, narrativeRank: 'Standard', attrBonus: 2, primarySkill: 9, secondarySkill: 5, actions: 2, vitHeaBonus: 20, dr: 10, bp: '125 BP' },
-  5: { tier: 5, narrativeRank: 'Professional', attrBonus: 2, primarySkill: 10, secondarySkill: 5, actions: 2, vitHeaBonus: 25, dr: 12, bp: '150 BP' },
-  6: { tier: 6, narrativeRank: 'Veteran', attrBonus: 3, primarySkill: 11, secondarySkill: 6, actions: 3, vitHeaBonus: 30, dr: 15, bp: '175 BP' },
-  7: { tier: 7, narrativeRank: 'Specialist', attrBonus: 3, primarySkill: 12, secondarySkill: 7, actions: 3, vitHeaBonus: 35, dr: 18, bp: '200 BP' },
-  8: { tier: 8, narrativeRank: 'Elite', attrBonus: 4, primarySkill: 13, secondarySkill: 8, actions: 3, vitHeaBonus: 40, dr: 20, bp: '225 BP' },
-  9: { tier: 9, narrativeRank: 'Operative', attrBonus: 4, primarySkill: 14, secondarySkill: 9, actions: 3, vitHeaBonus: 45, dr: 22, bp: '250 BP' },
-  10: { tier: 10, narrativeRank: 'Champion', attrBonus: 5, primarySkill: 16, secondarySkill: 11, actions: 4, vitHeaBonus: 50, dr: 25, bp: '275 BP' },
-  11: { tier: 11, narrativeRank: 'Warlord', attrBonus: 5, primarySkill: 17, secondarySkill: 12, actions: 4, vitHeaBonus: 55, dr: 28, bp: '300 BP' },
-  12: { tier: 12, narrativeRank: 'Commander', attrBonus: 6, primarySkill: 18, secondarySkill: 13, actions: 4, vitHeaBonus: 60, dr: 30, bp: '325 BP' },
-  13: { tier: 13, narrativeRank: 'General', attrBonus: 6, primarySkill: 19, secondarySkill: 14, actions: 4, vitHeaBonus: 65, dr: 32, bp: '350 BP' },
-  14: { tier: 14, narrativeRank: 'Paragon', attrBonus: 7, primarySkill: 21, secondarySkill: 16, actions: 5, vitHeaBonus: 70, dr: 35, bp: '375 BP' },
-  15: { tier: 15, narrativeRank: 'High Lord', attrBonus: 7, primarySkill: 22, secondarySkill: 17, actions: 5, vitHeaBonus: 75, dr: 38, bp: '400 BP' },
-  16: { tier: 16, narrativeRank: 'Heroic', attrBonus: 8, primarySkill: 23, secondarySkill: 18, actions: 5, vitHeaBonus: 80, dr: 40, bp: '425 BP' },
-  17: { tier: 17, narrativeRank: 'Legend', attrBonus: 8, primarySkill: 24, secondarySkill: 19, actions: 5, vitHeaBonus: 85, dr: 42, bp: '450 BP' },
-  18: { tier: 18, narrativeRank: 'Ascendant', attrBonus: 9, primarySkill: 26, secondarySkill: 21, actions: 6, vitHeaBonus: 90, dr: 45, bp: '475 BP' },
-  19: { tier: 19, narrativeRank: 'Demigod', attrBonus: 9, primarySkill: 28, secondarySkill: 23, actions: 6, vitHeaBonus: 95, dr: 48, bp: '500 BP' },
-  20: { tier: 20, narrativeRank: 'Cosmic / Mythic', attrBonus: 10, primarySkill: 30, secondarySkill: 26, actions: 6, vitHeaBonus: 100, dr: 50, bp: '525 BP' }
+  0: { tier: 0, narrativeRank: 'Civilian / Minion', attrBonus: 0, primarySkill: 5, secondarySkill: 3, actions: 1, vitHeaBonus: 0, dr: 0, bp: '< 50 CP', cp: '< 50 CP' },
+  1: { tier: 1, narrativeRank: 'Adept', attrBonus: 0, primarySkill: 6, secondarySkill: 3, actions: 2, vitHeaBonus: 5, dr: 2, bp: '50 CP', cp: '50 CP' },
+  2: { tier: 2, narrativeRank: 'Militia', attrBonus: 1, primarySkill: 7, secondarySkill: 4, actions: 2, vitHeaBonus: 10, dr: 5, bp: '75 CP', cp: '75 CP' },
+  3: { tier: 3, narrativeRank: 'Trooper', attrBonus: 1, primarySkill: 8, secondarySkill: 4, actions: 2, vitHeaBonus: 15, dr: 8, bp: '100 CP', cp: '100 CP' },
+  4: { tier: 4, narrativeRank: 'Standard', attrBonus: 2, primarySkill: 9, secondarySkill: 5, actions: 2, vitHeaBonus: 20, dr: 10, bp: '125 CP', cp: '125 CP' },
+  5: { tier: 5, narrativeRank: 'Professional', attrBonus: 2, primarySkill: 10, secondarySkill: 5, actions: 2, vitHeaBonus: 25, dr: 12, bp: '150 CP', cp: '150 CP' },
+  6: { tier: 6, narrativeRank: 'Veteran', attrBonus: 3, primarySkill: 11, secondarySkill: 6, actions: 3, vitHeaBonus: 30, dr: 15, bp: '175 CP', cp: '175 CP' },
+  7: { tier: 7, narrativeRank: 'Specialist', attrBonus: 3, primarySkill: 12, secondarySkill: 7, actions: 3, vitHeaBonus: 35, dr: 18, bp: '200 CP', cp: '200 CP' },
+  8: { tier: 8, narrativeRank: 'Elite', attrBonus: 4, primarySkill: 13, secondarySkill: 8, actions: 3, vitHeaBonus: 40, dr: 20, bp: '225 CP', cp: '225 CP' },
+  9: { tier: 9, narrativeRank: 'Operative', attrBonus: 4, primarySkill: 14, secondarySkill: 9, actions: 3, vitHeaBonus: 45, dr: 22, bp: '250 CP', cp: '250 CP' },
+  10: { tier: 10, narrativeRank: 'Champion', attrBonus: 5, primarySkill: 16, secondarySkill: 11, actions: 4, vitHeaBonus: 50, dr: 25, bp: '275 CP', cp: '275 CP' },
+  11: { tier: 11, narrativeRank: 'Warlord', attrBonus: 5, primarySkill: 17, secondarySkill: 12, actions: 4, vitHeaBonus: 55, dr: 28, bp: '300 CP', cp: '300 CP' },
+  12: { tier: 12, narrativeRank: 'Commander', attrBonus: 6, primarySkill: 18, secondarySkill: 13, actions: 4, vitHeaBonus: 60, dr: 30, bp: '325 CP', cp: '325 CP' },
+  13: { tier: 13, narrativeRank: 'General', attrBonus: 6, primarySkill: 19, secondarySkill: 14, actions: 4, vitHeaBonus: 65, dr: 32, bp: '350 CP', cp: '350 CP' },
+  14: { tier: 14, narrativeRank: 'Paragon', attrBonus: 7, primarySkill: 21, secondarySkill: 16, actions: 5, vitHeaBonus: 70, dr: 35, bp: '375 CP', cp: '375 CP' },
+  15: { tier: 15, narrativeRank: 'High Lord', attrBonus: 7, primarySkill: 22, secondarySkill: 17, actions: 5, vitHeaBonus: 75, dr: 38, bp: '400 CP', cp: '400 CP' },
+  16: { tier: 16, narrativeRank: 'Heroic', attrBonus: 8, primarySkill: 23, secondarySkill: 18, actions: 5, vitHeaBonus: 80, dr: 40, bp: '425 CP', cp: '425 CP' },
+  17: { tier: 17, narrativeRank: 'Legend', attrBonus: 8, primarySkill: 24, secondarySkill: 19, actions: 5, vitHeaBonus: 85, dr: 42, bp: '450 CP', cp: '450 CP' },
+  18: { tier: 18, narrativeRank: 'Ascendant', attrBonus: 9, primarySkill: 26, secondarySkill: 21, actions: 6, vitHeaBonus: 90, dr: 45, bp: '475 CP', cp: '475 CP' },
+  19: { tier: 19, narrativeRank: 'Demigod', attrBonus: 9, primarySkill: 28, secondarySkill: 23, actions: 6, vitHeaBonus: 95, dr: 48, bp: '500 CP', cp: '500 CP' },
+  20: { tier: 20, narrativeRank: 'Cosmic / Mythic', attrBonus: 10, primarySkill: 30, secondarySkill: 26, actions: 6, vitHeaBonus: 100, dr: 50, bp: '525 CP', cp: '525 CP' }
 };
 
 export const COMPETENCY_ROLES = {
@@ -1939,7 +1939,7 @@ export const COMPETENCY_ROLES = {
 export const DESIGNATIONS = {
   Adversary: { id: 'Adversary', name: 'Adversary (Enemy)', description: 'Built to actively oppose players using full combat mechanics' },
   Ally: { id: 'Ally', name: 'Ally (Independent)', description: 'Aids players autonomously on own initiative with full tier scaling' },
-  Companion: { id: 'Companion', name: 'Companion (Player-Bound)', description: 'Bound directly to player character via 40 BP budget system' },
+  Companion: { id: 'Companion', name: 'Companion (Player-Bound)', description: 'Bound directly to player character via 40 CP budget system' },
   Neutral: { id: 'Neutral', name: 'Neutral (Civilian / Bystander)', description: 'Managed via narrative block; full health pool with untrained combat triggers' }
 };
 
@@ -2433,17 +2433,18 @@ export const FLYING_COMBAT_RULES = {
 export const VITALITY_HEALTH_STRUCTURE_RULES = {
   startingBaseVitality: 30,
   startingBaseHealth: 30,
-  bpCostPer5Points: 1, // 1 BP = +5 points in either Vitality or Health
+  cpCostPer5Points: 1, // 1 CP = +5 points in either Vitality or Health
+  bpCostPer5Points: 1, // backward compatibility alias
   suggestedStartingMax: 60,
   toughnessSource: 'Stamina Ability Score', // Point-for-point wound reduction
   nonStandardPhysiologies: ['Synthetic', 'Mecha', 'Construct', 'Elemental', 'Golem', 'Ooze', 'Undead'],
   descriptions: {
     systemRule: "In Tangent, a character's ability to endure and recover from damage is represented by Vitality and Health (or Structure for Synthetics and others with non-typical physiology). Tangent does NOT use HP.",
     staminaScore: "While the Stamina Ability Score does not directly grant extra Vitality or Health points, it will determine the character’s base Toughness to reduce the damage taken from wounds, point for point, making characters more resilient overall.",
-    startingValuesAndMax: "Characters begin with a base of 30 points in both Vitality and Health. These can be increased by spending Build Points (BP) during character creation at a rate of 5 in either Vitality or Health for 1 BP, with a suggested maximum of 60 each. Structure is calculated by combining the character's Vitality and Health for characters with non-typical anatomy such as Synthetics, Oozes, Undead, etc.",
+    startingValuesAndMax: "Characters begin with a base of 30 points in both Vitality and Health. These can be increased by spending Character Points (CP) during character creation at a rate of 5 in either Vitality or Health for 1 CP, with a suggested maximum of 60 each. Structure is calculated by combining the character's Vitality and Health for characters with non-typical anatomy such as Synthetics, Oozes, Undead, etc.",
     concussiveDamage: "Concussive Damage is unique in that it is Heavily Traumatic but dispersed over the entire body. This damage can be divided equally between Vitality and Health if the character attempts to reduce the damage, regardless of whether the attempt is successful. This reflects the potential for both non-lethal and lethal injuries from falls, explosions, crashes, etc. This does not include any additional damage taken for what they may fall into such as spikes, debris, lava, etc.",
-    vitality: "Vitality represents stamina, luck, and minor bruising. This is a track of nonlethal damage. It acts as a buffer, absorbing damage from sources like pummeling, exhaustion, fatigue, and other forms of harm that are not immediately life-threatening. Only when a character's Vitality is completely depleted does non-lethal damage become life-threatening and start to affect their Health. The starting score of 30 is increased by 5 points per 1 BP.",
-    health: "Health represents physical trauma and structural integrity. It is lost from lethal damage or after Vitality is depleted. Damage to Health comes from weapons, severe injuries, and other lethal sources. When a character's Health reaches zero, they are Incapacitated (falling Unconscious immediately, dropping anything they are holding, and falling Prone; any excess damage is applied to Vitality if any remains). If Health is 0 and Vitality is depleted (0), the character enters the Death's Door state. The starting score of 30 is increased by 5 points per 1 BP.",
+    vitality: "Vitality represents stamina, luck, and minor bruising. This is a track of nonlethal damage. It acts as a buffer, absorbing damage from sources like pummeling, exhaustion, fatigue, and other forms of harm that are not immediately life-threatening. Only when a character's Vitality is completely depleted does non-lethal damage become life-threatening and start to affect their Health. The starting score of 30 is increased by 5 points per 1 CP.",
+    health: "Health represents physical trauma and structural integrity. It is lost from lethal damage or after Vitality is depleted. Damage to Health comes from weapons, severe injuries, and other lethal sources. When a character's Health reaches zero, they are Incapacitated (falling Unconscious immediately, dropping anything they are holding, and falling Prone; any excess damage is applied to Vitality if any remains). If Health is 0 and Vitality is depleted (0), the character enters the Death's Door state. The starting score of 30 is increased by 5 points per 1 CP.",
     structure: "This attribute applies to objects, constructs, and creatures with non-standard anatomies, such as Synthetics, mecha, elementals, golems, oozes, and undead. It measures their structural integrity and functions similarly to Health, but without the Vitality buffer. Damage to Structure can impair functionality, reduce effectiveness, or ultimately lead to destruction. Calculate Vitality and Health scores and combine for Structure score."
   }
 };
@@ -2584,9 +2585,10 @@ export const REST_SYSTEM_RULES = {
 
 export const EXPERIENCE_RULES = {
   EXCHANGE_RATE: {
-    apToBp: 1, // 1 AP = 1 BP
-    formula: '1 AP = 1 Build Point (BP)',
-    description: 'Award Points (AP) are spent in the same manner as Build Points in character creation, on a 1-for-1 basis.'
+    apToCp: 1, // 1 AP = 1 CP
+    apToBp: 1, // backward compatibility alias
+    formula: '1 AP = 1 Character Point (CP)',
+    description: 'Award Points (AP) are spent in the same manner as Character Points in character creation, on a 1-for-1 basis.'
   },
   INCREMENT_RULE: {
     maxIncrementPerAward: 1,

@@ -20,7 +20,7 @@ description: Planar chassis.
 # Planar
 
 **Category**: Species Types (The Chassis)  
-**Build Point Cost**: 4 BP  
+**Character Point Cost**: 4 CP  
 
 ## Description
 Planar chassis with innate biological and metaphysical adaptations.

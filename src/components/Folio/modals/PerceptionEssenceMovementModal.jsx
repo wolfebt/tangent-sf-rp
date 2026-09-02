@@ -596,10 +596,10 @@ const PerceptionEssenceMovementModal = ({
                 <div className="bg-slate-950/70 p-3.5 rounded-lg border border-slate-800 space-y-2">
                   <div className="font-bold text-cyan-300 flex items-center justify-between">
                     <span>Point Costs &amp; Paragon Limits</span>
-                    <span className="text-[10px] font-mono text-emerald-400 font-bold">5 BP / Attr • 1 BP / Check</span>
+                    <span className="text-[10px] font-mono text-emerald-400 font-bold">5 CP / Attr • 1 CP / Check</span>
                   </div>
                   <p className="text-slate-300 text-[11.5px] leading-relaxed">
-                    <strong>Primary Attributes</strong> cost <strong>5 Build Points (BP)</strong> per +1 increase. <strong>Attribute Checks</strong> can also be increased independently at a cost of <strong>1 BP</strong> per +1 point.
+                    <strong>Primary Attributes</strong> cost <strong>5 Character Points (CP)</strong> per +1 increase. <strong>Attribute Checks</strong> can also be increased independently at a cost of <strong>1 CP</strong> per +1 point.
                   </p>
                   <div className="text-[11px] text-slate-400 border-t border-slate-800/80 pt-2">
                     Characters start with an attribute maximum of <strong>+4</strong> before species traits. Paragon upper score is <strong>+5</strong> + species modifiers.
@@ -1130,7 +1130,7 @@ const PerceptionEssenceMovementModal = ({
                   <Award size={14} /> Hero Experience &amp; Progression Telemetry
                 </span>
                 <span className="text-xs font-mono px-2 py-0.5 rounded bg-amber-950 border border-amber-600/50 text-amber-300 font-bold">
-                  1 AP = 1 BP • Increment Rule: Max +1 per Event
+                  1 AP = 1 CP • Increment Rule: Max +1 per Event
                 </span>
               </div>
 
@@ -1184,7 +1184,7 @@ const PerceptionEssenceMovementModal = ({
             {/* Advancement Costs Table */}
             <div className="space-y-3">
               <h3 className="text-xs font-bold uppercase tracking-wider text-amber-300">
-                Advancement Point Costs (1 AP = 1 BP)
+                Advancement Point Costs (1 AP = 1 CP)
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
                 {ADVANCEMENT_COSTS.map((cat, idx) => (

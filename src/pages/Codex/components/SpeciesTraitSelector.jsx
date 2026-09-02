@@ -136,7 +136,7 @@ export const SpeciesTraitSelector = ({ formData = {}, onChange }) => {
 
   return (
     <div className="bg-slate-900/90 border border-purple-500/40 rounded-2xl p-4 sm:p-5 shadow-2xl space-y-4 text-slate-100 font-mono">
-      {/* Top Header & Live BP Tracker */}
+      {/* Top Header & Live CP Tracker */}
       <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-purple-500/30">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-lg bg-purple-500/20 border border-purple-500/50 flex items-center justify-center text-purple-400">
@@ -144,20 +144,20 @@ export const SpeciesTraitSelector = ({ formData = {}, onChange }) => {
           </div>
           <div>
             <h3 className="text-sm font-bold tracking-wider uppercase text-purple-200">
-              Species Genetics & BP Configurator
+              Species Genetics & CP Configurator
             </h3>
             <p className="text-[11px] text-slate-400">
-              Build Point Budget: <span className="text-purple-300 font-bold">{bpData.budgetMin}–{bpData.budgetMax} BP</span> ({selectedBudget})
+              Character Point Budget: <span className="text-purple-300 font-bold">{bpData.budgetMin}–{bpData.budgetMax} CP</span> ({selectedBudget})
             </p>
           </div>
         </div>
 
-        {/* Live BP Progress Meter */}
+        {/* Live CP Progress Meter */}
         <div className="flex items-center gap-3 bg-slate-950/80 px-3 py-1.5 rounded-xl border border-slate-700">
           <div className="text-right">
-            <span className="text-[10px] text-slate-400 uppercase font-bold block">Build Points</span>
+            <span className="text-[10px] text-slate-400 uppercase font-bold block">Character Points</span>
             <span className={`text-sm font-bold ${bpData.isOverBudget ? 'text-red-400 animate-pulse' : 'text-emerald-400'}`}>
-              {bpData.totalBPUsed} / {bpData.budgetMax} BP
+              {bpData.totalBPUsed} / {bpData.budgetMax} CP
             </span>
           </div>
           <div className="w-24 bg-slate-800 h-2.5 rounded-full overflow-hidden border border-slate-700">
@@ -192,7 +192,7 @@ export const SpeciesTraitSelector = ({ formData = {}, onChange }) => {
         {/* Species Type (Chassis) */}
         <div>
           <label className="text-[10px] uppercase font-bold text-slate-400 block mb-1">
-            Species Type Chassis ({SPECIES_TYPES[selectedType]?.bp || 0} BP)
+            Species Type Chassis ({SPECIES_TYPES[selectedType]?.bp || 0} CP)
           </label>
           <select
             value={selectedType}
@@ -204,7 +204,7 @@ export const SpeciesTraitSelector = ({ formData = {}, onChange }) => {
           >
             {Object.keys(SPECIES_TYPES).map(t => (
               <option key={t} value={t}>
-                {SPECIES_TYPES[t].name} ({SPECIES_TYPES[t].bp} BP)
+                {SPECIES_TYPES[t].name} ({SPECIES_TYPES[t].bp} CP)
               </option>
             ))}
           </select>
@@ -213,7 +213,7 @@ export const SpeciesTraitSelector = ({ formData = {}, onChange }) => {
         {/* Size Category */}
         <div>
           <label className="text-[10px] uppercase font-bold text-slate-400 block mb-1">
-            Size Category ({SPECIES_SIZES[selectedSize]?.bp || 0} BP)
+            Size Category ({SPECIES_SIZES[selectedSize]?.bp || 0} CP)
           </label>
           <select
             value={selectedSize}
@@ -222,7 +222,7 @@ export const SpeciesTraitSelector = ({ formData = {}, onChange }) => {
           >
             {Object.keys(SPECIES_SIZES).map(s => (
               <option key={s} value={s}>
-                {SPECIES_SIZES[s].name} ({SPECIES_SIZES[s].bp} BP)
+                {SPECIES_SIZES[s].name} ({SPECIES_SIZES[s].bp} CP)
               </option>
             ))}
           </select>
@@ -335,21 +335,21 @@ export const SpeciesTraitSelector = ({ formData = {}, onChange }) => {
                 onClick={() => setTraitTier('basic')}
                 className={`px-2.5 py-1 rounded font-bold uppercase ${traitTier === 'basic' ? 'bg-purple-600 text-white' : 'text-slate-400 hover:text-white'}`}
               >
-                Basic (1 BP)
+                Basic (1 CP)
               </button>
               <button
                 type="button"
                 onClick={() => setTraitTier('advanced')}
                 className={`px-2.5 py-1 rounded font-bold uppercase ${traitTier === 'advanced' ? 'bg-purple-600 text-white' : 'text-slate-400 hover:text-white'}`}
               >
-                Advanced (2 BP)
+                Advanced (2 CP)
               </button>
               <button
                 type="button"
                 onClick={() => setTraitTier('elite')}
                 className={`px-2.5 py-1 rounded font-bold uppercase ${traitTier === 'elite' ? 'bg-purple-600 text-white' : 'text-slate-400 hover:text-white'}`}
               >
-                Elite (4 BP)
+                Elite (4 CP)
               </button>
             </div>
 
@@ -383,7 +383,7 @@ export const SpeciesTraitSelector = ({ formData = {}, onChange }) => {
                   <div className="flex items-center justify-between w-full">
                     <span className="text-xs font-bold text-slate-100">{trait.name}</span>
                     <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 font-bold">
-                      {trait.bp} BP
+                      {trait.bp} CP
                     </span>
                   </div>
                   <p className="text-[10px] text-slate-400 line-clamp-2">
@@ -419,7 +419,7 @@ export const SpeciesTraitSelector = ({ formData = {}, onChange }) => {
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-bold text-slate-200">{attr.name}</span>
                     <span className={`text-[10px] font-bold ${cost > 0 ? 'text-purple-400' : (cost < 0 ? 'text-emerald-400' : 'text-slate-500')}`}>
-                      {cost >= 0 ? `+${cost}` : cost} BP
+                      {cost >= 0 ? `+${cost}` : cost} CP
                     </span>
                   </div>
                   <div className="flex items-center justify-between pt-1">
@@ -449,7 +449,7 @@ export const SpeciesTraitSelector = ({ formData = {}, onChange }) => {
           {/* Skill Point Bundles */}
           <div className="p-3 bg-slate-950/70 border border-slate-800 rounded-xl flex items-center justify-between">
             <div>
-              <span className="text-xs font-bold text-slate-200 block">+5 Skill Points Bundle (4 BP)</span>
+              <span className="text-xs font-bold text-slate-200 block">+5 Skill Points Bundle (4 CP)</span>
               <span className="text-[10px] text-slate-400">Add bundles of 5 racial skill points for custom proficiencies</span>
             </div>
             <div className="flex items-center gap-3">
@@ -461,7 +461,7 @@ export const SpeciesTraitSelector = ({ formData = {}, onChange }) => {
                 <Minus size={13} />
               </button>
               <span className="text-sm font-bold text-purple-300 font-mono">
-                {skillBundles * 5} pts ({skillBundles * 4} BP)
+                {skillBundles * 5} pts ({skillBundles * 4} CP)
               </span>
               <button
                 type="button"
@@ -492,9 +492,9 @@ export const SpeciesTraitSelector = ({ formData = {}, onChange }) => {
               </div>
             </div>
             <div className="text-right">
-              <span className="text-[10px] text-slate-400 block">Total Movement BP</span>
+              <span className="text-[10px] text-slate-400 block">Total Movement CP</span>
               <span className="text-xs font-bold text-purple-300 font-mono">
-                {bpData.breakdown.movementBP > 0 ? `+${bpData.breakdown.movementBP}` : bpData.breakdown.movementBP} BP
+                {bpData.breakdown.movementBP > 0 ? `+${bpData.breakdown.movementBP}` : bpData.breakdown.movementBP} CP
               </span>
             </div>
           </div>
@@ -553,7 +553,7 @@ export const SpeciesTraitSelector = ({ formData = {}, onChange }) => {
                             <span className={`text-[11px] font-bold font-mono px-2 py-0.5 rounded ${
                               mode.bp > 0 ? 'bg-purple-500/20 text-purple-300' : 'bg-slate-800 text-slate-400'
                             }`}>
-                              {mode.bp > 0 ? `+${mode.bp} BP` : '0 BP'}
+                              {mode.bp > 0 ? `+${mode.bp} CP` : '0 CP'}
                             </span>
                           </div>
                         </button>
@@ -602,7 +602,7 @@ export const SpeciesTraitSelector = ({ formData = {}, onChange }) => {
                               <span className={`text-[11px] font-bold font-mono px-2 py-0.5 rounded ${
                                 adj.bp > 0 ? 'bg-purple-500/20 text-purple-300' : (adj.bp < 0 ? 'bg-emerald-500/20 text-emerald-300' : 'bg-slate-800 text-slate-400')
                               }`}>
-                                {adj.bp > 0 ? `+${adj.bp} BP` : (adj.bp < 0 ? `${adj.bp} BP` : '0 BP')}
+                                {adj.bp > 0 ? `+${adj.bp} CP` : (adj.bp < 0 ? `${adj.bp} CP` : '0 CP')}
                               </span>
                             </div>
                           </button>
@@ -639,7 +639,7 @@ export const SpeciesTraitSelector = ({ formData = {}, onChange }) => {
                 </div>
                 <div className="text-right shrink-0 ml-2">
                   <span className="text-[11px] font-bold font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">
-                    -{dis.refundBP} BP
+                    -{dis.refundBP} CP
                   </span>
                 </div>
               </button>

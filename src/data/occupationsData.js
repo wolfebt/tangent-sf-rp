@@ -785,3 +785,56 @@ export const DEFAULT_OCCUPATIONS = [
     "field": "High-Tech & Tactics"
   }
 ];
+
+/**
+ * Common Occupational Traits available to all professions in Tangent
+ */
+export const COMMON_OCCUPATIONAL_TRAITS = [
+  {
+    id: "trait-background",
+    name: "Background",
+    category: "traits",
+    trait_type: "Occupational Trait",
+    trait_tier: "Basic",
+    classification: "Mental",
+    bp: 1,
+    description: "The character may select additional training from another Occupation fitting the character's backstory. This does not grant any additional Professional Skill points or Recommended Features from the other Profession. May be taken multiple times granting a different Trait in the chosen Background Occupation, traits may now be chosen from the primary and background Occupation. Gain one Trait from a SECONDARY Chosen Occupation.",
+    costs: { bp: 1, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0 }
+  },
+  {
+    id: "trait-trade-tools",
+    name: "Trade Tools",
+    category: "traits",
+    trait_type: "Occupational Trait",
+    trait_tier: "Basic",
+    classification: "Physical",
+    bp: 1,
+    description: "Helps cover general gear the character would have for their Occupation. The character's additional equipment will depend on their specific job within their profession. +2 Equipment",
+    modifiers: [{ target: "equipment", value: 2, type: "other", mode: "inherent" }],
+    costs: { bp: 1, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0 }
+  },
+  {
+    id: "trait-high-pay",
+    name: "High Pay",
+    category: "traits",
+    trait_type: "Occupational Trait",
+    trait_tier: "Basic",
+    classification: "Social",
+    bp: 1,
+    description: "Benefit for doing their job well. +2 Wealth",
+    modifiers: [{ target: "wealth", value: 2, type: "other", mode: "inherent" }],
+    costs: { bp: 1, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0 }
+  },
+  {
+    id: "trait-professionalism",
+    name: "Professionalism",
+    category: "traits",
+    trait_type: "Occupational Trait",
+    trait_tier: "Basic",
+    classification: "Social",
+    bp: 1,
+    description: "Benefit of being known to do their job well. +2 Reputation",
+    modifiers: [{ target: "reputation", value: 2, type: "other", mode: "inherent" }],
+    costs: { bp: 1, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0 }
+  }
+];

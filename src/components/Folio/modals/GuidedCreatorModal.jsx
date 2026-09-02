@@ -5,8 +5,16 @@ import { collection, getDocs } from 'firebase/firestore';
 import { X, ChevronRight, ChevronLeft, Check, Search, Shield, Target, User, Sparkles, BookOpen, Layers, Plus, Compass, Dna } from 'lucide-react';
 import { DEFAULT_SKILLS } from '../../../data/skillsData';
 import { DEFAULT_FEATURES, FEATURE_CATEGORIES } from '../../../data/featuresData';
+import { ALL_CANONICAL_TRAITS } from '../../../data/speciesTraitsData';
 import { DEFAULT_ARCHETYPES, ARCHETYPE_SPHERES, getGroupedArchetypes } from '../../../data/archetypesData';
 import { DEFAULT_SPECIES, SPECIES_LINEAGES } from '../../../data/speciesData';
+import { DEFAULT_OCCUPATIONS, COMMON_OCCUPATIONAL_TRAITS } from '../../../data/occupationsData';
+import {
+  AttributePoolPulldown,
+  FeatureMultiselectPulldown,
+  TraitMultiselectPulldown,
+  SkillPoolRankPulldown
+} from '../shared/IdentityPoolPulldown';
 import {
   formatHeightWithConversion,
   getHeightConversion,
@@ -38,6 +46,17 @@ const mapAttrToDraftKey = (attrName) => {
   return null;
 };
 
+const extractNameList = (raw) => {
+  if (!raw) return [];
+  const list = Array.isArray(raw) ? raw : [raw];
+  return list.map(item => {
+    if (typeof item === 'object' && item !== null) {
+      return item.name || item.title || item.skill || item.id || '';
+    }
+    return String(item);
+  }).filter(Boolean);
+};
+
 const STEPS = [
   { id: 'concept', title: 'Concept & Identity', desc: 'Basic Biography' },
   { id: 'species', title: 'Species', desc: 'Biological Traits' },
@@ -55,8 +74,10 @@ const INITIAL_DRAFT = {
   'char-archetype': '',
   'char-species': '',
   'char-origin': '',
+  'char-secondary-origin': '',
   'char-faction': '',
   'char-occu': '',
+  'char-secondary-occu': '',
   'char-age': '',
   'char-gender': '',
   'char-height': '',
@@ -74,11 +95,13 @@ const INITIAL_DRAFT = {
   charisma: 0,
   technologyLevel: 3, // Default is 3 (0 BP)
   skills: [],
+  traits: [],
   features: [],
-  originAllocations: { skills: {}, features: [] },
-  factionAllocations: { skills: {}, features: [] },
-  occuAllocations: { skills: {}, features: [] },
-  generalAllocations: { skills: {}, features: [] }
+  speciesAllocations: { skills: {}, traits: [], features: [], attributes: {} },
+  originAllocations: { skills: {}, traits: [], features: [] },
+  factionAllocations: { skills: {}, traits: [], features: [] },
+  occuAllocations: { skills: {}, traits: [], features: [] },
+  generalAllocations: { skills: {}, traits: [], features: [] }
 };
 
 // Flatten canonical skills with structured category names
@@ -88,7 +111,7 @@ const ALL_CANONICAL_SKILLS = Object.entries(DEFAULT_SKILLS).flatMap(([groupKey, 
       ...s,
       group: groupKey,
       subcategory: subgroup.title || 'General',
-      groupLabel: groupKey.charAt(0).toUpperCase() + groupKey.slice(1) + (subgroup.title ? ` - ${subgroup.title}` : '')
+      category: subgroup.title || groupKey
     }))
   )
 );
@@ -142,6 +165,7 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
     factions: [],
     occupations: [],
     skills: ALL_CANONICAL_SKILLS,
+    traits: ALL_CANONICAL_TRAITS,
     features: DEFAULT_FEATURES
   });
   const [isLoadingData, setIsLoadingData] = useState(false);
@@ -152,6 +176,26 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
   const [archetypeSphereFilter, setArchetypeSphereFilter] = useState('All');
   const [chassisApplied, setChassisApplied] = useState(false);
 
+  const selectedOriginObj = useMemo(() => {
+    return (dbData.origins || []).find(o => (o.name || o.title || o.id) === draft['char-origin']);
+  }, [dbData.origins, draft['char-origin']]);
+
+  const selectedSecondaryOriginObj = useMemo(() => {
+    return (dbData.origins || []).find(o => (o.name || o.title || o.id) === draft['char-secondary-origin']);
+  }, [dbData.origins, draft['char-secondary-origin']]);
+
+  const selectedFactionObj = useMemo(() => {
+    return (dbData.factions || []).find(f => (f.name || f.title || f.id) === draft['char-faction']);
+  }, [dbData.factions, draft['char-faction']]);
+
+  const selectedOccupationObj = useMemo(() => {
+    return (dbData.occupations || []).find(oc => (oc.name || oc.title || oc.id) === draft['char-occu']);
+  }, [dbData.occupations, draft['char-occu']]);
+
+  const selectedSecondaryOccupationObj = useMemo(() => {
+    return (dbData.occupations || []).find(oc => (oc.name || oc.title || oc.id) === draft['char-secondary-occu']);
+  }, [dbData.occupations, draft['char-secondary-occu']]);
+
   useEffect(() => {
     if (isOpen) {
       setIsLoadingData(true);
@@ -161,15 +205,24 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
         fetchCollectionWithFallback('factions', 'omnicortex/factions/items'),
         fetchCollectionWithFallback('occupations', 'omnicortex/occupations/items'),
         fetchCollectionWithFallback('skills', 'omnicortex/skills/items'),
+        fetchCollectionWithFallback('traits', 'omnicortex/traits/items'),
         fetchCollectionWithFallback('features', 'omnicortex/features/items'),
         fetchCollectionWithFallback('archetypes', 'omnicortex/archetypes/items')
-      ]).then(([species, origins, factions, occupations, cloudSkills, cloudFeatures, cloudArchetypes]) => {
+      ]).then(([species, origins, factions, occupations, cloudSkills, cloudTraits, cloudFeatures, cloudArchetypes]) => {
         // Merge cloud skills with canonical defaults
         const skillMap = new Map();
         ALL_CANONICAL_SKILLS.forEach(s => skillMap.set(s.name.toLowerCase(), s));
         cloudSkills.forEach(s => {
           const name = s.name || s.title;
           if (name) skillMap.set(name.toLowerCase(), { ...s, name });
+        });
+
+        // Merge cloud traits with canonical defaults
+        const traitMap = new Map();
+        ALL_CANONICAL_TRAITS.forEach(t => traitMap.set((t.name || t.id).toLowerCase(), t));
+        cloudTraits.forEach(t => {
+          const name = t.name || t.title;
+          if (name) traitMap.set(name.toLowerCase(), { ...t, name });
         });
 
         // Merge cloud features with canonical defaults
@@ -204,6 +257,7 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
           factions: factions.length > 0 ? factions : [],
           occupations: occupations.length > 0 ? occupations : [],
           skills: Array.from(skillMap.values()).sort((a, b) => (a.name || '').localeCompare(b.name || '')),
+          traits: Array.from(traitMap.values()).sort((a, b) => (a.name || '').localeCompare(b.name || '')),
           features: Array.from(featureMap.values()).sort((a, b) => (a.name || '').localeCompare(b.name || ''))
         });
         setIsLoadingData(false);
@@ -214,16 +268,16 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
     }
   }, [isOpen]);
 
-  // Recalculate remaining BP
+  // Recalculate remaining CP
   useEffect(() => {
     let spent = 0;
     
-    // Core attributes: 5 BP per point (starts at 0)
+    // Core attributes: 5 CP per point (starts at 0)
     spent += (draft.strength + draft.agility + draft.stamina + draft.intellect + draft.wisdom + draft.charisma) * 5;
     
     // Species Cost
-    if (selectedSpeciesObj && selectedSpeciesObj.cp) {
-      spent += parseInt(selectedSpeciesObj.cp, 10) || 0;
+    if (selectedSpeciesObj && (selectedSpeciesObj.cp || selectedSpeciesObj.costs?.bp)) {
+      spent += parseInt(selectedSpeciesObj.cp ?? selectedSpeciesObj.costs?.bp, 10) || 0;
     }
 
     // Technology Level Cost
@@ -231,14 +285,14 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
     else if (draft.technologyLevel === 5) spent += 20;
     else if (draft.technologyLevel < 3) spent -= 10; // Primitive TL refund
 
-    // General allocated skills (1 BP per rank beyond background pools)
+    // General allocated skills (1 CP per rank beyond background pools)
     if (draft.generalAllocations?.skills) {
       Object.values(draft.generalAllocations.skills).forEach(rank => {
         spent += (parseInt(rank, 10) || 0) * 1;
       });
     }
 
-    // General allocated features (3 BP each)
+    // General allocated features (3 CP each)
     if (draft.generalAllocations?.features) {
       spent += (draft.generalAllocations.features.length) * 3;
     }
@@ -296,6 +350,7 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
       });
     };
 
+    aggregatePoolSkills(draft.speciesAllocations);
     aggregatePoolSkills(draft.originAllocations);
     aggregatePoolSkills(draft.factionAllocations);
     aggregatePoolSkills(draft.occuAllocations);
@@ -308,20 +363,76 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
       baseAttr: skillAttrMap[name] || 'attr-intellect'
     }));
 
+    // Combine all unique traits
+    const combinedTraitsMap = new Map();
+    const traitDetailMap = new Map();
+    (dbData.traits || []).forEach(t => {
+      if (t.name) traitDetailMap.set(t.name.toLowerCase(), t);
+      if (t.id) traitDetailMap.set(t.id.toLowerCase(), t);
+    });
+
+    const addTraitsFromPool = (pool, categoryLabel) => {
+      (pool?.traits || []).forEach(tName => {
+        const cleanName = typeof tName === 'object' ? (tName.name || tName.id) : String(tName);
+        if (!combinedTraitsMap.has(cleanName)) {
+          const detail = traitDetailMap.get(cleanName.toLowerCase()) || (typeof tName === 'object' ? tName : {});
+          combinedTraitsMap.set(cleanName, {
+            id: detail.id || `trait_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+            name: cleanName,
+            category: detail.category || detail.trait_type || categoryLabel,
+            trait_type: detail.trait_type || categoryLabel,
+            trait_tier: detail.trait_tier || detail.tier || 'Basic',
+            classification: detail.classification || 'Physical',
+            description: detail.description || detail.desc || detail.mechanics || '',
+            bp: detail.bp !== undefined ? detail.bp : 1
+          });
+        }
+      });
+    };
+
+    addTraitsFromPool(draft.speciesAllocations, 'Species Trait');
+    addTraitsFromPool(draft.originAllocations, 'Origin Trait');
+    addTraitsFromPool(draft.factionAllocations, 'Faction Trait');
+    addTraitsFromPool(draft.occuAllocations, 'Occupation Trait');
+    addTraitsFromPool(draft.generalAllocations, 'General Trait');
+
+    // Add Inherent Species Traits if present
+    if (selectedSpeciesObj && Array.isArray(selectedSpeciesObj.inherent_features)) {
+      selectedSpeciesObj.inherent_features.forEach(trait => {
+        const traitName = typeof trait === 'object' ? (trait.name || trait.title || trait.id) : String(trait);
+        if (traitName && !combinedTraitsMap.has(traitName)) {
+          combinedTraitsMap.set(traitName, {
+            id: `trait_species_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+            name: traitName,
+            category: 'Species Inherent',
+            trait_type: 'Species Trait',
+            trait_tier: 'Basic',
+            classification: 'Physical',
+            description: typeof trait === 'object' ? trait.description || trait.desc || '' : '',
+            bp: 0
+          });
+        }
+      });
+    }
+
+    const finalTraitsList = Array.from(combinedTraitsMap.values());
+
     // Combine all unique features
     const combinedFeaturesMap = new Map();
     const featDetailMap = new Map();
-    dbData.features.forEach(f => {
-      if (f.name) featDetailMap.set(f.name, f);
+    (dbData.features || []).forEach(f => {
+      if (f.name) featDetailMap.set(f.name.toLowerCase(), f);
+      if (f.id) featDetailMap.set(f.id.toLowerCase(), f);
     });
 
     const addFeatsFromPool = (pool, categoryLabel) => {
       (pool?.features || []).forEach(fName => {
-        if (!combinedFeaturesMap.has(fName)) {
-          const detail = featDetailMap.get(fName) || {};
-          combinedFeaturesMap.set(fName, {
+        const cleanName = typeof fName === 'object' ? (fName.name || fName.id) : String(fName);
+        if (!combinedFeaturesMap.has(cleanName)) {
+          const detail = featDetailMap.get(cleanName.toLowerCase()) || (typeof fName === 'object' ? fName : {});
+          combinedFeaturesMap.set(cleanName, {
             id: detail.id || `feat_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
-            name: fName,
+            name: cleanName,
             category: detail.category || categoryLabel,
             description: detail.description || '',
             mechanic: detail.mechanic || '',
@@ -331,26 +442,11 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
       });
     };
 
-    addFeatsFromPool(draft.originAllocations, 'Origin Trait');
+    addFeatsFromPool(draft.speciesAllocations, 'Species Feature');
+    addFeatsFromPool(draft.originAllocations, 'Origin Feature');
     addFeatsFromPool(draft.factionAllocations, 'Faction Feature');
-    addFeatsFromPool(draft.occuAllocations, 'Occupation Trait');
+    addFeatsFromPool(draft.occuAllocations, 'Occupation Feature');
     addFeatsFromPool(draft.generalAllocations, 'General Feature');
-
-    // Add Inherent Species Features if present
-    if (selectedSpeciesObj && Array.isArray(selectedSpeciesObj.inherent_features)) {
-      selectedSpeciesObj.inherent_features.forEach(feat => {
-        const featName = typeof feat === 'object' ? (feat.name || feat.title) : feat;
-        if (featName && !combinedFeaturesMap.has(featName)) {
-          combinedFeaturesMap.set(featName, {
-            id: `feat_species_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
-            name: featName,
-            category: 'Species Inherent',
-            description: typeof feat === 'object' ? feat.description || '' : '',
-            cp: 0
-          });
-        }
-      });
-    }
 
     const finalFeaturesList = Array.from(combinedFeaturesMap.values());
 
@@ -362,8 +458,10 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
       'char-archetype': draft['char-archetype'] || '',
       'char-species': draft['char-species'] || '',
       'char-origin': draft['char-origin'] || '',
+      'char-secondary-origin': draft['char-secondary-origin'] || '',
       'char-faction': draft['char-faction'] || '',
       'char-occu': draft['char-occu'] || '',
+      'char-secondary-occu': draft['char-secondary-occu'] || '',
       'char-age': draft['char-age'] || '',
       'char-gender': draft['char-gender'] || '',
       'char-height': draft['char-height'] || '',
@@ -380,21 +478,29 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
       goals: draft['char-motive'] || '',
       backstory: draft.backstory || '',
 
-      // Primary Core Attributes (0 to +4 base)
-      'attr-strength': draft.strength || 0,
+      // Primary Core Attributes (0 to +4 base + allocated species bonus points)
+      'attr-strength': (draft.strength || 0) + (parseInt(draft.speciesAllocations?.attributes?.['attr-strength'] || 0, 10)),
       'attr-might': 0,
-      'attr-agility': draft.agility || 0,
+      'attr-agility': (draft.agility || 0) + (parseInt(draft.speciesAllocations?.attributes?.['attr-agility'] || 0, 10)),
       'attr-reflex': 0,
-      'attr-stamina': draft.stamina || 0,
+      'attr-stamina': (draft.stamina || 0) + (parseInt(draft.speciesAllocations?.attributes?.['attr-stamina'] || 0, 10)),
       'attr-fortitude': 0,
-      'attr-intellect': draft.intellect || 0,
+      'attr-intellect': (draft.intellect || 0) + (parseInt(draft.speciesAllocations?.attributes?.['attr-intellect'] || 0, 10)),
       'attr-logic': 0,
-      'attr-wisdom': draft.wisdom || 0,
+      'attr-wisdom': (draft.wisdom || 0) + (parseInt(draft.speciesAllocations?.attributes?.['attr-wisdom'] || 0, 10)),
       'attr-will': 0,
-      'attr-charisma': draft.charisma || 0,
+      'attr-charisma': (draft.charisma || 0) + (parseInt(draft.speciesAllocations?.attributes?.['attr-charisma'] || 0, 10)),
       'attr-etiquette': 0,
 
+      // Allocations metadata
+      speciesAllocations: draft.speciesAllocations || { skills: {}, traits: [], features: [], attributes: {} },
+      originAllocations: draft.originAllocations || { skills: {}, traits: [], features: [] },
+      factionAllocations: draft.factionAllocations || { skills: {}, traits: [], features: [] },
+      occuAllocations: draft.occuAllocations || { skills: {}, traits: [], features: [] },
+      generalAllocations: draft.generalAllocations || { skills: {}, traits: [], features: [] },
+
       // Structured Arrays
+      traits: finalTraitsList,
       features: finalFeaturesList,
       disadvantages: [],
       augmentations: [],
@@ -526,7 +632,7 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Compass size={18} className="text-cyan-400" />
-                <span className="text-sm font-bold text-white uppercase tracking-wider">Archetype Chassis (Optional 80-BP Blueprint)</span>
+                <span className="text-sm font-bold text-white uppercase tracking-wider">Archetype Chassis (Optional 80-CP Blueprint)</span>
               </div>
               <span className="text-[11px] font-semibold text-slate-400">100 Tangent Archetypes</span>
             </div>
@@ -593,7 +699,7 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
                       {selectedArchetypeObj.sphere}
                     </span>
                   </div>
-                  <span className="text-[11px] font-mono text-cyan-400 font-bold">80 BP Chassis</span>
+                  <span className="text-[11px] font-mono text-cyan-400 font-bold">80 CP Chassis</span>
                 </div>
 
                 {selectedArchetypeObj.core_concept && (
@@ -637,13 +743,13 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
                       className="w-full py-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-lg shadow-lg flex items-center justify-center gap-2 text-xs transition-all cursor-pointer"
                     >
                       <Sparkles size={14} />
-                      Apply 80-BP Archetype Chassis (+3 Prim, +2 Sec, Skills & Features)
+                      Apply 80-CP Archetype Chassis (+3 Prim, +2 Sec, Skills & Features)
                     </button>
                   ) : (
                     <div className="p-2 bg-emerald-950/60 border border-emerald-500/40 rounded-lg text-xs text-emerald-300 flex items-center justify-between">
                       <span className="flex items-center gap-2">
                         <Check size={14} className="text-emerald-400"/>
-                        80-BP Chassis Applied (+3 {selectedArchetypeObj.primary_attribute}, +2 {selectedArchetypeObj.secondary_attribute}, Skills & Features).
+                        80-CP Chassis Applied (+3 {selectedArchetypeObj.primary_attribute}, +2 {selectedArchetypeObj.secondary_attribute}, Skills & Features).
                       </span>
                       <button 
                         type="button"
@@ -808,7 +914,7 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
                   </h4>
                   {item.cp !== undefined && item.cp !== 0 && (
                     <span className="text-xs font-bold bg-slate-900 px-2 py-1 rounded text-amber-400 border border-amber-500/30">
-                      {item.cp} BP
+                      {item.cp} CP
                     </span>
                   )}
                 </div>
@@ -953,7 +1059,7 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
                       )}
                     </div>
                     <span className="text-xs font-bold bg-slate-950 px-2.5 py-1 rounded text-amber-400 border border-amber-500/30 font-mono shrink-0">
-                      {bpCost} BP
+                      {bpCost} CP
                     </span>
                   </div>
 
@@ -1001,14 +1107,20 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
     <div className="space-y-6 max-w-4xl mx-auto h-full flex flex-col">
       <div>
         <h3 className="text-xl font-bold text-cyan-400">Origin & Faction</h3>
-        <p className="text-sm text-slate-400">Choose your homeworld origin and faction allegiance. Each grants 20 skill ranks and 2 traits.</p>
+        <p className="text-sm text-slate-400">
+          Choose your homeworld origin and faction allegiance. Your chosen origin grants 20 SP for society skills and 2 bonus features/traits reflecting your upbringing environment, while your faction grants a 20 SP skill package and 2 organizational benefits.
+        </p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1 overflow-y-auto pr-1">
         {/* Origin Column */}
-        <div className="space-y-3 bg-slate-900/50 p-4 rounded-xl border border-slate-800">
-          <h4 className="font-bold text-amber-400 uppercase tracking-widest text-sm flex items-center gap-2">
-            <BookOpen size={16} /> Origin Homeworld
-          </h4>
+        <div className="space-y-4 bg-slate-900/50 p-4 rounded-xl border border-slate-800 flex flex-col">
+          <div>
+            <h4 className="font-bold text-amber-400 uppercase tracking-widest text-sm flex items-center gap-2">
+              <BookOpen size={16} /> Origin Homeworld (Primary)
+            </h4>
+            <p className="text-[11px] text-slate-400 mt-0.5">Defines your home environment and grants 20 SP & 2 traits.</p>
+          </div>
+
           {dbData.origins.length === 0 ? (
             <div className="space-y-2">
               <p className="text-xs text-slate-500 italic">No origin presets found. Enter custom origin:</p>
@@ -1021,23 +1133,70 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
               />
             </div>
           ) : (
-            dbData.origins.map(org => {
-              const name = org.name || org.title || org.id;
-              return (
-                <div 
-                  key={org.id || name} onClick={() => updateDraft('char-origin', name)}
-                  className={`p-3 rounded-lg border text-sm cursor-pointer transition-all ${
-                    draft['char-origin'] === name
-                      ? 'bg-amber-950/40 border-amber-500 text-amber-200'
-                      : 'bg-slate-800 border-slate-700 text-slate-300 hover:border-slate-500'
-                  }`}
-                >
-                  <div className="font-bold">{name}</div>
-                  {org.description && <p className="text-[11px] text-slate-400 mt-1 line-clamp-2">{org.description}</p>}
-                </div>
-              );
-            })
+            <div className="space-y-2 max-h-56 overflow-y-auto pr-1">
+              {dbData.origins.map(org => {
+                const name = org.name || org.title || org.id;
+                const isSelected = draft['char-origin'] === name;
+                return (
+                  <div 
+                    key={org.id || name} onClick={() => updateDraft('char-origin', name)}
+                    className={`p-2.5 rounded-lg border text-sm cursor-pointer transition-all ${
+                      isSelected
+                        ? 'bg-amber-950/40 border-amber-500 text-amber-200 shadow-sm'
+                        : 'bg-slate-800/80 border-slate-700/80 text-slate-300 hover:border-slate-500'
+                    }`}
+                  >
+                    <div className="font-bold text-xs flex justify-between items-center">
+                      <span>{name}</span>
+                      {isSelected && <span className="text-[10px] text-amber-400 font-mono">PRIMARY</span>}
+                    </div>
+                    {org.description && <p className="text-[10px] text-slate-400 mt-0.5 line-clamp-1">{org.description}</p>}
+                  </div>
+                );
+              })}
+            </div>
           )}
+
+          {/* Optional Secondary Origin (Expands Options) */}
+          <div className="pt-3 border-t border-slate-800 space-y-2">
+            <div className="flex justify-between items-center">
+              <div>
+                <span className="text-xs font-bold text-amber-300/90 block uppercase tracking-wide">
+                  Optional Secondary Origin
+                </span>
+                <span className="text-[10px] text-slate-400">
+                  Expands available skill & trait options without gaining extra points.
+                </span>
+              </div>
+              {draft['char-secondary-origin'] && (
+                <button
+                  type="button"
+                  onClick={() => updateDraft('char-secondary-origin', '')}
+                  className="text-[10px] text-slate-400 hover:text-red-400 uppercase font-mono cursor-pointer"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+
+            <select
+              value={draft['char-secondary-origin'] || ''}
+              onChange={e => updateDraft('char-secondary-origin', e.target.value)}
+              className="w-full bg-slate-950 border border-slate-700 focus:border-amber-400 rounded-lg p-2 text-xs text-slate-200 outline-none font-mono"
+            >
+              <option value="">-- No Secondary Origin --</option>
+              {dbData.origins
+                .filter(o => (o.name || o.title || o.id) !== draft['char-origin'])
+                .map(org => {
+                  const name = org.name || org.title || org.id;
+                  return (
+                    <option key={org.id || name} value={name}>
+                      + {name}
+                    </option>
+                  );
+                })}
+            </select>
+          </div>
         </div>
 
         {/* Faction Column */}
@@ -1079,19 +1238,64 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
     </div>
   );
 
-  const renderOccupation = () => renderSelectionList(
-    'Occupation', 
-    dbData.occupations, 
-    draft['char-occu'], 
-    (occ) => updateDraft('char-occu', occ.name || occ.title || occ.id),
-    <Shield size={16} />
+  const renderOccupation = () => (
+    <div className="space-y-4 max-w-4xl mx-auto">
+      {renderSelectionList(
+        'Occupation', 
+        dbData.occupations, 
+        draft['char-occu'], 
+        (occ) => updateDraft('char-occu', occ.name || occ.title || occ.id),
+        <Shield size={16} />
+      )}
+
+      {/* Optional Background Occupation (via Background Trait) */}
+      <div className="bg-slate-900/60 border border-sky-900/50 p-3.5 rounded-xl space-y-2">
+        <div className="flex justify-between items-center">
+          <div>
+            <span className="text-xs font-bold text-sky-300 block uppercase tracking-wider">
+              Optional Background Occupation (via Background Trait)
+            </span>
+            <span className="text-[10px] text-slate-400">
+              The Background trait enables selecting training from another profession, expanding trait options from that background.
+            </span>
+          </div>
+          {draft['char-secondary-occu'] && (
+            <button
+              type="button"
+              onClick={() => updateDraft('char-secondary-occu', '')}
+              className="text-[10px] text-slate-400 hover:text-red-400 uppercase font-mono cursor-pointer"
+            >
+              Clear
+            </button>
+          )}
+        </div>
+
+        <select
+          value={draft['char-secondary-occu'] || ''}
+          onChange={e => updateDraft('char-secondary-occu', e.target.value)}
+          className="w-full bg-slate-950 border border-slate-700 focus:border-sky-400 rounded-lg p-2 text-xs text-slate-200 outline-none font-mono"
+        >
+          <option value="">-- No Background Occupation --</option>
+          {dbData.occupations
+            .filter(oc => (oc.name || oc.title || oc.id) !== draft['char-occu'])
+            .map(oc => {
+              const name = oc.name || oc.title || oc.id;
+              return (
+                <option key={oc.id || name} value={name}>
+                  + {name}
+                </option>
+              );
+            })}
+        </select>
+      </div>
+    </div>
   );
 
   const renderAttributes = () => (
     <div className="space-y-6 max-w-2xl mx-auto">
       <div>
         <h3 className="text-xl font-bold text-cyan-400">Core Stats (Attributes)</h3>
-        <p className="text-sm text-slate-400">Allocate your base attributes. Maximum +4 before species modifiers. Each +1 point costs <strong className="text-amber-400">5 BP</strong>.</p>
+        <p className="text-sm text-slate-400">Allocate your base attributes. Maximum +4 before species modifiers. Each +1 point costs <strong className="text-amber-400">5 CP</strong>.</p>
         {selectedSpeciesObj && (
           <div className="mt-3 p-3 bg-cyan-950/30 border border-cyan-800 rounded-lg text-xs">
             <span className="font-bold text-cyan-300 block mb-1">Species Modifiers ({selectedSpeciesObj.name || selectedSpeciesObj.title || 'Selected Species'}):</span>
@@ -1138,15 +1342,15 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
     <div className="space-y-6 max-w-2xl mx-auto">
       <div>
         <h3 className="text-xl font-bold text-cyan-400">Technology Level</h3>
-        <p className="text-sm text-slate-400">Determine your access to advanced tech. Default is TL3 (0 BP).</p>
+        <p className="text-sm text-slate-400">Determine your access to advanced tech. Default is TL3 (0 CP).</p>
       </div>
       <div className="grid grid-cols-1 gap-3">
         {[
-          { level: 1, label: 'TL1 - Primitive', desc: 'Pre-industrial societies. Grants +10 BP refund.', cost: -10 },
-          { level: 2, label: 'TL2 - Industrial', desc: 'Combustion engines & early electrical grids. Grants +10 BP refund.', cost: -10 },
-          { level: 3, label: 'TL3 - Spacefaring (Standard)', desc: 'Interstellar baseline: grav-drives, standard blasters, kinetic shields. Costs 0 BP.', cost: 0 },
-          { level: 4, label: 'TL4 - Advanced', desc: 'Subspace relays, plasma lattice armor, quantum AI. Costs 10 BP.', cost: 10 },
-          { level: 5, label: 'TL5 - Theoretical', desc: 'Post-scarcity matter transmuters, exotic dark-matter drives. Costs 20 BP.', cost: 20 },
+          { level: 1, label: 'TL1 - Primitive', desc: 'Pre-industrial societies. Grants +10 CP refund.', cost: -10 },
+          { level: 2, label: 'TL2 - Industrial', desc: 'Combustion engines & early electrical grids. Grants +10 CP refund.', cost: -10 },
+          { level: 3, label: 'TL3 - Spacefaring (Standard)', desc: 'Interstellar baseline: grav-drives, standard blasters, kinetic shields. Costs 0 CP.', cost: 0 },
+          { level: 4, label: 'TL4 - Advanced', desc: 'Subspace relays, plasma lattice armor, quantum AI. Costs 10 CP.', cost: 10 },
+          { level: 5, label: 'TL5 - Theoretical', desc: 'Post-scarcity matter transmuters, exotic dark-matter drives. Costs 20 CP.', cost: 20 },
         ].map(tl => (
           <div 
             key={tl.level}
@@ -1162,7 +1366,7 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
               <div className="text-xs text-slate-500">{tl.desc}</div>
             </div>
             <div className={`font-mono text-sm font-bold ${tl.cost > 0 ? 'text-red-400' : tl.cost < 0 ? 'text-emerald-400' : 'text-slate-400'}`}>
-              {tl.cost > 0 ? `-${tl.cost} BP` : tl.cost < 0 ? `+${Math.abs(tl.cost)} BP` : '0 BP'}
+              {tl.cost > 0 ? `-${tl.cost} CP` : tl.cost < 0 ? `+${Math.abs(tl.cost)} CP` : '0 CP'}
             </div>
           </div>
         ))}
@@ -1171,247 +1375,410 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
   );
 
   const renderFinalizeSkillsFeatures = () => {
-    const renderPoolSection = (title, sourceName, poolKey, colorClass, maxSkills = 20, maxFeatures = 2, isGeneral = false) => {
-      const alloc = draft[poolKey] || { skills: {}, features: [] };
-      let spentSkills = 0;
-      Object.values(alloc.skills || {}).forEach(v => spentSkills += (parseInt(v, 10) || 0));
+    const primaryOrigTraits = selectedOriginObj ? extractNameList(selectedOriginObj.traits || selectedOriginObj.trait) : [];
+    const secondaryOrigTraits = selectedSecondaryOriginObj ? extractNameList(selectedSecondaryOriginObj.traits || selectedSecondaryOriginObj.trait) : [];
+    const origTraits = Array.from(new Set([...primaryOrigTraits, ...secondaryOrigTraits]));
 
-      const filteredSkills = dbData.skills.filter(s => {
-        if (!skillSearchQuery.trim()) return true;
-        return (s.name || '').toLowerCase().includes(skillSearchQuery.toLowerCase());
+    const primaryOrigSkills = selectedOriginObj ? extractNameList(selectedOriginObj.society_skills) : [];
+    const secondaryOrigSkills = selectedSecondaryOriginObj ? extractNameList(selectedSecondaryOriginObj.society_skills) : [];
+    const origSkills = Array.from(new Set([...primaryOrigSkills, ...secondaryOrigSkills]));
+    const origMaxTraits = parseInt(selectedOriginObj?.bonus_traits || selectedOriginObj?.bonus_features || 2, 10);
+
+    const facFeats = selectedFactionObj ? extractNameList(selectedFactionObj.features || selectedFactionObj.bonus_features || selectedFactionObj.benefits) : [];
+    const facTraits = selectedFactionObj ? extractNameList(selectedFactionObj.traits || selectedFactionObj.trait) : [];
+    const facSkills = selectedFactionObj ? extractNameList(selectedFactionObj.skill_package || selectedFactionObj.skills) : [];
+    const facMaxFeats = parseInt(selectedFactionObj?.bonus_features || 2, 10);
+    const facMaxTraits = parseInt(selectedFactionObj?.bonus_traits || (facTraits.length > 0 ? 1 : 0), 10);
+
+    const commonOccTraitNames = COMMON_OCCUPATIONAL_TRAITS.map(t => t.name);
+    const primaryOccTraits = selectedOccupationObj ? extractNameList(selectedOccupationObj.traits || selectedOccupationObj.trait) : [];
+    const secondaryOccTraits = selectedSecondaryOccupationObj ? extractNameList(selectedSecondaryOccupationObj.traits || selectedSecondaryOccupationObj.trait) : [];
+    const occTraits = Array.from(new Set([...primaryOccTraits, ...commonOccTraitNames, ...secondaryOccTraits]));
+    const occSkills = selectedOccupationObj ? extractNameList(selectedOccupationObj.professional_skills || selectedOccupationObj.skills) : [];
+    const occMaxTraits = parseInt(selectedOccupationObj?.bonus_traits || selectedOccupationObj?.bonus_features || 2, 10);
+
+    const specAttrs = selectedSpeciesObj?.bonus_attribute_points || selectedSpeciesObj?.bonus_attribute_choices || 0;
+    const specFeats = selectedSpeciesObj ? extractNameList(selectedSpeciesObj.bonus_feature_choices || selectedSpeciesObj.recommended_features) : [];
+    const specTraits = selectedSpeciesObj ? extractNameList(selectedSpeciesObj.bonus_trait_choices || selectedSpeciesObj.recommended_traits || selectedSpeciesObj.traits) : [];
+    const specSkills = selectedSpeciesObj ? extractNameList(selectedSpeciesObj.bonus_skill_choices) : [];
+    const specMaxTraits = parseInt(selectedSpeciesObj?.bonus_traits || (specTraits.length > 0 ? 1 : 0), 10);
+    const specMaxFeats = parseInt(selectedSpeciesObj?.bonus_features || (specFeats.length > 0 ? 1 : 0), 10);
+
+    const updatePoolSkillRank = (poolKey, skillName, newRank, delta, maxSP, isGeneral = false) => {
+      setDraft(prev => {
+        const pool = prev[poolKey] || { skills: {}, traits: [], features: [] };
+        const currentSkills = { ...(pool.skills || {}) };
+        if (newRank > 0) {
+          currentSkills[skillName] = newRank;
+        } else {
+          delete currentSkills[skillName];
+        }
+        return {
+          ...prev,
+          [poolKey]: {
+            ...pool,
+            skills: currentSkills
+          }
+        };
       });
-
-      const filteredFeatures = dbData.features.filter(f => {
-        const matchesSearch = !featureSearchQuery.trim() ||
-          (f.name || '').toLowerCase().includes(featureSearchQuery.toLowerCase()) ||
-          (f.description || '').toLowerCase().includes(featureSearchQuery.toLowerCase());
-        const matchesCat = featureCategoryFilter === 'All' || f.category === featureCategoryFilter;
-        return matchesSearch && matchesCat;
-      });
-
-      return (
-        <div className={`p-4 rounded-xl border bg-slate-900/60 ${colorClass}`}>
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4">
-            <div>
-              <h4 className="font-bold text-base uppercase tracking-widest flex items-center gap-2">
-                <Layers size={16} /> {title}{sourceName ? `: ${sourceName}` : ''}
-              </h4>
-              <p className="text-xs opacity-75">
-                {isGeneral 
-                  ? `Spend remaining general Build Points (${bpRemaining} BP). Skills: 1 BP/rank, Features: 3 BP.`
-                  : `Allocate up to ${maxSkills} Free Skill Ranks & ${maxFeatures} Free Features/Traits.`}
-              </p>
-            </div>
-            {!isGeneral && (
-              <div className="flex gap-3 text-right shrink-0">
-                <span className="font-mono text-xs px-2.5 py-1 rounded bg-slate-950 border border-slate-700">
-                  <strong className={maxSkills - spentSkills > 0 ? 'text-cyan-400' : 'text-slate-400'}>{maxSkills - spentSkills}</strong> Ranks Left
-                </span>
-                <span className="font-mono text-xs px-2.5 py-1 rounded bg-slate-950 border border-slate-700">
-                  <strong className={maxFeatures - alloc.features.length > 0 ? 'text-amber-400' : 'text-slate-400'}>{maxFeatures - alloc.features.length}</strong> Feats Left
-                </span>
-              </div>
-            )}
-          </div>
-          
-          <div className="space-y-4">
-            {/* Skill Selector */}
-            <div>
-              <span className="text-xs font-bold uppercase block mb-1.5 opacity-80">Add Skill Ranks</span>
-              <div className="flex gap-2 mb-2">
-                <select 
-                  id={`select_${poolKey}`}
-                  className="flex-1 bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-white focus:border-cyan-500 outline-none"
-                >
-                  <option value="">-- Choose from all {dbData.skills.length} available skills --</option>
-                  {Object.entries(groupedSkillsForSelect).map(([grpName, skList]) => (
-                    <optgroup key={grpName} label={grpName} className="bg-slate-900 text-cyan-300 font-bold">
-                      {skList.map(s => (
-                        <option key={s.id || s.name} value={s.name} className="text-white font-normal">
-                          {s.name} ({s.group || 'Skill'})
-                        </option>
-                      ))}
-                    </optgroup>
-                  ))}
-                </select>
-                <button 
-                  onClick={() => {
-                    const sel = document.getElementById(`select_${poolKey}`);
-                    if (sel && sel.value) {
-                      if (!isGeneral && spentSkills >= maxSkills) {
-                        alert(`You have allocated all ${maxSkills} ranks in this background pool.`);
-                        return;
-                      }
-                      if (isGeneral && bpRemaining < 1) {
-                        alert('Not enough remaining BP to purchase additional skill ranks.');
-                        return;
-                      }
-                      const skName = sel.value;
-                      setDraft(prev => ({
-                        ...prev,
-                        [poolKey]: {
-                          ...prev[poolKey],
-                          skills: {
-                            ...prev[poolKey].skills,
-                            [skName]: (prev[poolKey].skills[skName] || 0) + 1
-                          }
-                        }
-                      }));
-                    }
-                  }}
-                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold rounded-lg border border-slate-600 transition-colors flex items-center gap-1 cursor-pointer"
-                >
-                  <Plus size={14} /> Add
-                </button>
-              </div>
-
-              {/* Display Chosen Skills in this pool */}
-              <div className="flex flex-wrap gap-2 min-h-[30px] p-2 bg-slate-950/70 rounded-lg border border-slate-800">
-                {Object.entries(alloc.skills || {}).length === 0 ? (
-                  <span className="text-[11px] text-slate-500 italic">No skill ranks assigned in this pool yet.</span>
-                ) : (
-                  Object.entries(alloc.skills).map(([skillName, rank]) => (
-                    <div key={skillName} className="flex items-center gap-2 bg-slate-900 px-3 py-1 rounded-md border border-slate-700 text-xs shadow-sm">
-                      <span className="text-slate-200 font-medium">{skillName}</span>
-                      <span className="font-bold text-cyan-400 font-mono">+{rank}</span>
-                      <div className="flex items-center gap-1 ml-1 border-l border-slate-700 pl-1.5">
-                        <button
-                          onClick={() => {
-                            if (!isGeneral && spentSkills >= maxSkills) return;
-                            if (isGeneral && bpRemaining < 1) return;
-                            setDraft(prev => ({
-                              ...prev,
-                              [poolKey]: {
-                                ...prev[poolKey],
-                                skills: { ...prev[poolKey].skills, [skillName]: rank + 1 }
-                              }
-                            }));
-                          }}
-                          className="text-cyan-400 hover:text-cyan-200 font-bold px-1"
-                        >+</button>
-                        <button
-                          onClick={() => {
-                            setDraft(prev => {
-                              const newSkills = { ...prev[poolKey].skills };
-                              if (newSkills[skillName] > 1) newSkills[skillName] -= 1;
-                              else delete newSkills[skillName];
-                              return { ...prev, [poolKey]: { ...prev[poolKey], skills: newSkills } };
-                            });
-                          }}
-                          className="text-red-400 hover:text-red-300 font-bold px-1"
-                        >-</button>
-                      </div>
-                    </div>
-                  ))
-                )}
-              </div>
-            </div>
-
-            {/* Feature Selector */}
-            <div className="border-t border-white/10 pt-3">
-              <div className="flex justify-between items-center mb-1.5">
-                <span className="text-xs font-bold uppercase opacity-80">
-                  Select {isGeneral ? 'Additional Features (3 BP each)' : `Free Features/Traits (${maxFeatures - alloc.features.length} remaining)`}
-                </span>
-              </div>
-              <div className="flex gap-2 mb-2">
-                <select 
-                  id={`feat_${poolKey}`}
-                  className="flex-1 bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-white focus:border-cyan-500 outline-none"
-                  disabled={!isGeneral && alloc.features.length >= maxFeatures}
-                >
-                  <option value="">-- Choose from all {dbData.features.length} available features --</option>
-                  {Object.entries(groupedFeaturesForSelect).map(([catName, featList]) => (
-                    <optgroup key={catName} label={catName} className="bg-slate-900 text-amber-300 font-bold">
-                      {featList.map(f => (
-                        <option key={f.id || f.name} value={f.name} className="text-white font-normal">
-                          {f.name} ({f.category || 'General'} - {f.cp !== undefined ? `${f.cp} BP` : '3 BP'})
-                        </option>
-                      ))}
-                    </optgroup>
-                  ))}
-                </select>
-                <button 
-                  disabled={!isGeneral && alloc.features.length >= maxFeatures}
-                  onClick={() => {
-                    const sel = document.getElementById(`feat_${poolKey}`);
-                    if (sel && sel.value) {
-                      const featName = sel.value;
-                      if (alloc.features.includes(featName)) {
-                        alert('This feature is already selected in this pool.');
-                        return;
-                      }
-                      if (!isGeneral && alloc.features.length >= maxFeatures) {
-                        alert(`You can only select up to ${maxFeatures} features in this pool.`);
-                        return;
-                      }
-                      if (isGeneral && bpRemaining < 3) {
-                        alert('Not enough remaining BP to purchase an additional feature (Cost: 3 BP).');
-                        return;
-                      }
-                      setDraft(prev => ({
-                        ...prev,
-                        [poolKey]: {
-                          ...prev[poolKey],
-                          features: [...prev[poolKey].features, featName]
-                        }
-                      }));
-                    }
-                  }}
-                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold rounded-lg border border-slate-600 transition-colors flex items-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
-                >
-                  <Plus size={14} /> Add
-                </button>
-              </div>
-
-              {/* Display Chosen Features */}
-              <div className="flex flex-wrap gap-2 min-h-[30px] p-2 bg-slate-950/70 rounded-lg border border-slate-800">
-                {alloc.features.length === 0 ? (
-                  <span className="text-[11px] text-slate-500 italic">No features selected in this pool yet.</span>
-                ) : (
-                  alloc.features.map(featName => {
-                    const detail = dbData.features.find(f => f.name === featName);
-                    return (
-                      <div key={featName} className="flex items-center gap-2 bg-slate-900 px-3 py-1 rounded-md border border-slate-700 text-xs shadow-sm">
-                        <Sparkles size={12} className="text-amber-400 shrink-0" />
-                        <span className="text-slate-200 font-medium" title={detail?.description || ''}>{featName}</span>
-                        <button 
-                          onClick={() => {
-                            setDraft(prev => ({
-                              ...prev,
-                              [poolKey]: {
-                                ...prev[poolKey],
-                                features: prev[poolKey].features.filter(f => f !== featName)
-                              }
-                            }));
-                          }}
-                          className="text-red-400 hover:text-red-300 ml-1 font-bold"
-                          title="Remove feature"
-                        ><X size={12}/></button>
-                      </div>
-                    );
-                  })
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      );
     };
+
+    const togglePoolTrait = (poolKey, traitName, traitObj, maxTraits, isGeneral = false) => {
+      setDraft(prev => {
+        const pool = prev[poolKey] || { skills: {}, traits: [], features: [] };
+        const currentTraits = [...(pool.traits || [])];
+        const exists = currentTraits.includes(traitName);
+        let nextTraits;
+        if (exists) {
+          nextTraits = currentTraits.filter(t => t !== traitName);
+        } else {
+          if (!isGeneral && currentTraits.length >= maxTraits) {
+            alert(`Maximum of ${maxTraits} traits already selected in this pool.`);
+            return prev;
+          }
+          if (isGeneral && bpRemaining < 1) {
+            alert('Not enough remaining CP to purchase an additional trait (Cost: 1 CP).');
+            return prev;
+          }
+          nextTraits = [...currentTraits, traitName];
+        }
+        return {
+          ...prev,
+          [poolKey]: {
+            ...pool,
+            traits: nextTraits
+          }
+        };
+      });
+    };
+
+    const removePoolTrait = (poolKey, traitName) => {
+      setDraft(prev => {
+        const pool = prev[poolKey] || { skills: {}, traits: [], features: [] };
+        const currentTraits = Array.isArray(pool.traits) ? pool.traits : [];
+        return {
+          ...prev,
+          [poolKey]: {
+            ...pool,
+            traits: currentTraits.filter(t => t !== traitName)
+          }
+        };
+      });
+    };
+
+    const togglePoolFeature = (poolKey, featName, featObj, maxFeats, isGeneral = false) => {
+      setDraft(prev => {
+        const pool = prev[poolKey] || { skills: {}, traits: [], features: [] };
+        const currentFeats = [...(pool.features || [])];
+        const exists = currentFeats.includes(featName);
+        let nextFeats;
+        if (exists) {
+          nextFeats = currentFeats.filter(f => f !== featName);
+        } else {
+          if (!isGeneral && currentFeats.length >= maxFeats) {
+            alert(`Maximum of ${maxFeats} features already selected in this pool.`);
+            return prev;
+          }
+          if (isGeneral && bpRemaining < 3) {
+            alert('Not enough remaining CP to purchase an additional feature (Cost: 3 CP).');
+            return prev;
+          }
+          nextFeats = [...currentFeats, featName];
+        }
+        return {
+          ...prev,
+          [poolKey]: {
+            ...pool,
+            features: nextFeats
+          }
+        };
+      });
+    };
+
+    const removePoolFeature = (poolKey, featName) => {
+      setDraft(prev => {
+        const pool = prev[poolKey] || { skills: {}, traits: [], features: [] };
+        const currentFeats = Array.isArray(pool.features) ? pool.features : [];
+        return {
+          ...prev,
+          [poolKey]: {
+            ...pool,
+            features: currentFeats.filter(f => f !== featName)
+          }
+        };
+      });
+    };
+
+    const allocateSpeciesAttribute = (attrId, delta, maxPoints) => {
+      setDraft(prev => {
+        const pool = prev.speciesAllocations || { skills: {}, traits: [], features: [], attributes: {} };
+        const currentAttrs = { ...(pool.attributes || {}) };
+        const currentVal = parseInt(currentAttrs[attrId] || 0, 10);
+        const totalSpent = Object.values(currentAttrs).reduce((acc, v) => acc + (parseInt(v, 10) || 0), 0);
+        if (delta > 0 && totalSpent >= maxPoints) {
+          alert(`All ${maxPoints} bonus attribute points have been allocated.`);
+          return prev;
+        }
+        if (delta < 0 && currentVal <= 0) return prev;
+        const newVal = currentVal + delta;
+        if (newVal > 0) currentAttrs[attrId] = newVal;
+        else delete currentAttrs[attrId];
+        return {
+          ...prev,
+          speciesAllocations: {
+            ...pool,
+            attributes: currentAttrs
+          }
+        };
+      });
+    };
+
+    const hasSpeciesPools = specAttrs > 0 || specTraits.length > 0 || specFeats.length > 0 || specSkills.length > 0 || (selectedSpeciesObj?.bonus_skills && parseInt(selectedSpeciesObj.bonus_skills, 10) > 0) || (selectedSpeciesObj?.bonus_features && parseInt(selectedSpeciesObj.bonus_features, 10) > 0);
 
     return (
       <div className="space-y-6 max-w-4xl mx-auto h-full flex flex-col">
         <div>
-          <h3 className="text-xl font-bold text-cyan-400">Skills & Features Allocation</h3>
+          <h3 className="text-xl font-bold text-cyan-400">Skills, Traits & Features Allocation</h3>
           <p className="text-sm text-slate-400">
-            Allocate your free background ranks (20 ranks & 2 traits each for Origin, Faction, and Occupation), plus spend any remaining BP on additional skills and features.
+            Allocate your free background ranks (20 SP & 2 traits each for Origin and Occupation, 20 SP & 2 benefits for Faction), spend species point pools, plus spend any remaining CP on additional skills, traits, and features.
           </p>
         </div>
+
         <div className="flex-1 overflow-y-auto space-y-4 pr-2">
-          {renderPoolSection('Origin Homeworld', draft['char-origin'] || 'General Origin', 'originAllocations', 'border-amber-500/50 text-amber-100', 20, 2)}
-          {renderPoolSection('Faction Allegiance', draft['char-faction'] || 'General Faction', 'factionAllocations', 'border-emerald-500/50 text-emerald-100', 20, 2)}
-          {renderPoolSection('Occupation Career', draft['char-occu'] || 'General Occupation', 'occuAllocations', 'border-purple-500/50 text-purple-100', 20, 2)}
-          {renderPoolSection('General Point Buy', 'Remaining Build Points', 'generalAllocations', 'border-cyan-500/50 text-cyan-100', 99, 99, true)}
+          {/* 1. Species Background Allocations (if available) */}
+          {hasSpeciesPools && (
+            <div className="p-4 rounded-xl border border-cyan-500/40 bg-slate-900/60 space-y-3">
+              <div className="flex items-center gap-2 border-b border-cyan-900/40 pb-2">
+                <Dna size={18} className="text-cyan-400" />
+                <h4 className="font-bold text-sm uppercase tracking-wider text-cyan-300">
+                  Species Background Pools: {draft['char-species'] || 'Selected Species'}
+                </h4>
+              </div>
+
+              {specAttrs > 0 && (
+                <AttributePoolPulldown
+                  title="Species Bonus Attribute Points"
+                  maxPoints={parseInt(specAttrs, 10)}
+                  allocatedAttrs={draft.speciesAllocations?.attributes || {}}
+                  onAllocate={(attrId, delta) => allocateSpeciesAttribute(attrId, delta, parseInt(specAttrs, 10))}
+                  allowedOptions={selectedSpeciesObj?.bonus_attribute_options}
+                  colorTheme="cyan"
+                />
+              )}
+
+              {(specTraits.length > 0 || specMaxTraits > 0) && (
+                <TraitMultiselectPulldown
+                  title="Species Trait Choices"
+                  categoryLabel="Species Trait"
+                  maxSelectable={specMaxTraits || 1}
+                  selectedTraits={draft.speciesAllocations?.traits || []}
+                  recommendedTraits={specTraits}
+                  allTraits={dbData.traits}
+                  onToggleTrait={(tName, tObj) => togglePoolTrait('speciesAllocations', tName, tObj, specMaxTraits || 1)}
+                  onRemoveTrait={(tName) => removePoolTrait('speciesAllocations', tName)}
+                  colorTheme="cyan"
+                />
+              )}
+
+              {(specFeats.length > 0 || specMaxFeats > 0) && (
+                <FeatureMultiselectPulldown
+                  title="Species Feature Choices"
+                  categoryLabel="Species Feature"
+                  maxSelectable={specMaxFeats || 1}
+                  selectedFeatures={draft.speciesAllocations?.features || []}
+                  recommendedFeatures={specFeats}
+                  allFeatures={dbData.features}
+                  onToggleFeature={(fName, fObj) => togglePoolFeature('speciesAllocations', fName, fObj, specMaxFeats || 1)}
+                  onRemoveFeature={(fName) => removePoolFeature('speciesAllocations', fName)}
+                  colorTheme="cyan"
+                />
+              )}
+
+              {(specSkills.length > 0 || selectedSpeciesObj?.bonus_skills > 0) && (
+                <SkillPoolRankPulldown
+                  title="Species Skill Pool"
+                  categoryLabel="Species Skill"
+                  maxSP={parseInt(selectedSpeciesObj?.bonus_skills || 20, 10)}
+                  allocatedSkills={draft.speciesAllocations?.skills || {}}
+                  recommendedSkills={specSkills}
+                  allSkills={dbData.skills}
+                  onUpdateRank={(sName, newRank, delta) => updatePoolSkillRank('speciesAllocations', sName, newRank, delta, parseInt(selectedSpeciesObj?.bonus_skills || 20, 10))}
+                  onRemoveSkill={(sName) => updatePoolSkillRank('speciesAllocations', sName, 0, 0, parseInt(selectedSpeciesObj?.bonus_skills || 20, 10))}
+                  colorTheme="cyan"
+                />
+              )}
+            </div>
+          )}
+
+          {/* 2. Origin Homeworld Allocations */}
+          <div className="p-4 rounded-xl border border-emerald-500/40 bg-slate-900/60 space-y-3">
+            <div className="flex items-center gap-2 border-b border-emerald-900/40 pb-2">
+              <BookOpen size={18} className="text-emerald-400" />
+              <h4 className="font-bold text-sm uppercase tracking-wider text-emerald-300">
+                Origin Homeworld Pool: {draft['char-origin'] || 'General Origin'}
+              </h4>
+            </div>
+
+            <SkillPoolRankPulldown
+              title="Society Skill Point Pool"
+              categoryLabel="Society Skill"
+              maxSP={parseInt(selectedOriginObj?.skill_points || 20, 10)}
+              allocatedSkills={draft.originAllocations?.skills || {}}
+              recommendedSkills={origSkills}
+              allSkills={dbData.skills}
+              onUpdateRank={(sName, newRank, delta) => updatePoolSkillRank('originAllocations', sName, newRank, delta, parseInt(selectedOriginObj?.skill_points || 20, 10))}
+              onRemoveSkill={(sName) => updatePoolSkillRank('originAllocations', sName, 0, 0, parseInt(selectedOriginObj?.skill_points || 20, 10))}
+              colorTheme="emerald"
+            />
+
+            <TraitMultiselectPulldown
+              title="Origin Homeworld Traits Pool"
+              categoryLabel="Origin Trait"
+              maxSelectable={origMaxTraits}
+              selectedTraits={draft.originAllocations?.traits || []}
+              recommendedTraits={origTraits}
+              allTraits={dbData.traits}
+              onToggleTrait={(tName, tObj) => togglePoolTrait('originAllocations', tName, tObj, origMaxTraits)}
+              onRemoveTrait={(tName) => removePoolTrait('originAllocations', tName)}
+              colorTheme="emerald"
+            />
+          </div>
+
+          {/* 3. Faction Allegiance Allocations */}
+          <div className="p-4 rounded-xl border border-purple-500/40 bg-slate-900/60 space-y-3">
+            <div className="flex items-center gap-2 border-b border-purple-900/40 pb-2">
+              <Shield size={18} className="text-purple-400" />
+              <h4 className="font-bold text-sm uppercase tracking-wider text-purple-300">
+                Faction Allegiance Pool: {draft['char-faction'] || 'General Faction'}
+              </h4>
+            </div>
+
+            <SkillPoolRankPulldown
+              title="Faction Skill Package Pool"
+              categoryLabel="Faction Skill"
+              maxSP={parseInt(selectedFactionObj?.skill_points || 20, 10)}
+              allocatedSkills={draft.factionAllocations?.skills || {}}
+              recommendedSkills={facSkills}
+              allSkills={dbData.skills}
+              onUpdateRank={(sName, newRank, delta) => updatePoolSkillRank('factionAllocations', sName, newRank, delta, parseInt(selectedFactionObj?.skill_points || 20, 10))}
+              onRemoveSkill={(sName) => updatePoolSkillRank('factionAllocations', sName, 0, 0, parseInt(selectedFactionObj?.skill_points || 20, 10))}
+              colorTheme="purple"
+            />
+
+            <FeatureMultiselectPulldown
+              title="Faction Features & Benefits Pool"
+              categoryLabel="Faction Feature"
+              maxSelectable={facMaxFeats}
+              selectedFeatures={draft.factionAllocations?.features || []}
+              recommendedFeatures={facFeats}
+              allFeatures={dbData.features}
+              onToggleFeature={(fName, fObj) => togglePoolFeature('factionAllocations', fName, fObj, facMaxFeats)}
+              onRemoveFeature={(fName) => removePoolFeature('factionAllocations', fName)}
+              colorTheme="purple"
+            />
+
+            {facMaxTraits > 0 && (
+              <TraitMultiselectPulldown
+                title="Faction Traits Pool"
+                categoryLabel="Faction Trait"
+                maxSelectable={facMaxTraits}
+                selectedTraits={draft.factionAllocations?.traits || []}
+                recommendedTraits={facTraits}
+                allTraits={dbData.traits}
+                onToggleTrait={(tName, tObj) => togglePoolTrait('factionAllocations', tName, tObj, facMaxTraits)}
+                onRemoveTrait={(tName) => removePoolTrait('factionAllocations', tName)}
+                colorTheme="purple"
+              />
+            )}
+          </div>
+
+          {/* 4. Occupation Career Allocations */}
+          <div className="p-4 rounded-xl border border-sky-500/40 bg-slate-900/60 space-y-3">
+            <div className="flex items-center gap-2 border-b border-sky-900/40 pb-2">
+              <Shield size={18} className="text-sky-400" />
+              <h4 className="font-bold text-sm uppercase tracking-wider text-sky-300">
+                Occupation Career Pool: {draft['char-occu'] || 'General Occupation'}
+              </h4>
+            </div>
+
+            <SkillPoolRankPulldown
+              title="Professional Skill Package Pool"
+              subtitle="Max Rank 11 • Recommended: Rank 6"
+              categoryLabel="Professional Skill"
+              maxSP={parseInt(selectedOccupationObj?.skill_points || 20, 10)}
+              allocatedSkills={draft.occuAllocations?.skills || {}}
+              recommendedSkills={occSkills}
+              allSkills={dbData.skills}
+              onUpdateRank={(sName, newRank, delta) => updatePoolSkillRank('occuAllocations', sName, newRank, delta, parseInt(selectedOccupationObj?.skill_points || 20, 10))}
+              onRemoveSkill={(sName) => updatePoolSkillRank('occuAllocations', sName, 0, 0, parseInt(selectedOccupationObj?.skill_points || 20, 10))}
+              colorTheme="sky"
+            />
+
+            <TraitMultiselectPulldown
+              title={`Occupation Career Traits Pool${draft['char-secondary-occu'] ? ' (Combined with Background)' : ''}`}
+              categoryLabel="Occupational Trait"
+              maxSelectable={occMaxTraits}
+              selectedTraits={draft.occuAllocations?.traits || []}
+              recommendedTraits={occTraits}
+              allTraits={dbData.traits}
+              onToggleTrait={(tName, tObj) => togglePoolTrait('occuAllocations', tName, tObj, occMaxTraits)}
+              onRemoveTrait={(tName) => removePoolTrait('occuAllocations', tName)}
+              colorTheme="sky"
+            />
+          </div>
+
+          {/* 5. General Point Buy Allocations */}
+          <div className="p-4 rounded-xl border border-cyan-500/40 bg-slate-900/60 space-y-3">
+            <div className="flex justify-between items-center border-b border-cyan-900/40 pb-2">
+              <div className="flex items-center gap-2">
+                <Layers size={18} className="text-cyan-400" />
+                <h4 className="font-bold text-sm uppercase tracking-wider text-cyan-300">
+                  General Point Buy (Open CP Budget)
+                </h4>
+              </div>
+              <span className="text-xs font-mono font-bold text-cyan-400">
+                {bpRemaining} CP Remaining
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <SkillPoolRankPulldown
+                title="Additional Skill Ranks (1 CP / Rank)"
+                categoryLabel="General Skill"
+                maxSP={Math.max(0, bpRemaining + Object.values(draft.generalAllocations?.skills || {}).reduce((a, b) => a + (parseInt(b, 10) || 0), 0))}
+                allocatedSkills={draft.generalAllocations?.skills || {}}
+                recommendedSkills={[]}
+                allSkills={dbData.skills}
+                onUpdateRank={(sName, newRank, delta) => updatePoolSkillRank('generalAllocations', sName, newRank, delta, 999, true)}
+                onRemoveSkill={(sName) => updatePoolSkillRank('generalAllocations', sName, 0, 0, 999, true)}
+                colorTheme="cyan"
+              />
+
+              <TraitMultiselectPulldown
+                title="Additional Traits (1 CP / Trait)"
+                categoryLabel="General Trait"
+                maxSelectable={99}
+                selectedTraits={draft.generalAllocations?.traits || []}
+                recommendedTraits={[]}
+                allTraits={dbData.traits}
+                onToggleTrait={(tName, tObj) => togglePoolTrait('generalAllocations', tName, tObj, 99, true)}
+                onRemoveTrait={(tName) => removePoolTrait('generalAllocations', tName)}
+                colorTheme="cyan"
+              />
+
+              <FeatureMultiselectPulldown
+                title="Additional Features & Perks (3 CP each)"
+                categoryLabel="General Feature"
+                maxSelectable={99}
+                selectedFeatures={draft.generalAllocations?.features || []}
+                recommendedFeatures={[]}
+                allFeatures={dbData.features}
+                onToggleFeature={(fName, fObj) => togglePoolFeature('generalAllocations', fName, fObj, 99, true)}
+                onRemoveFeature={(fName) => removePoolFeature('generalAllocations', fName)}
+                colorTheme="cyan"
+              />
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -1425,13 +1792,23 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
         summarySkills[n] = (summarySkills[n] || 0) + (parseInt(r, 10) || 0);
       });
     };
+    countSkills(draft.speciesAllocations);
     countSkills(draft.originAllocations);
     countSkills(draft.factionAllocations);
     countSkills(draft.occuAllocations);
     countSkills(draft.generalAllocations);
 
+    // Combine all traits
+    const summaryTraits = new Set();
+    draft.speciesAllocations?.traits?.forEach(t => summaryTraits.add(t));
+    draft.originAllocations?.traits?.forEach(t => summaryTraits.add(t));
+    draft.factionAllocations?.traits?.forEach(t => summaryTraits.add(t));
+    draft.occuAllocations?.traits?.forEach(t => summaryTraits.add(t));
+    draft.generalAllocations?.traits?.forEach(t => summaryTraits.add(t));
+
     // Combine all features
     const summaryFeatures = new Set();
+    draft.speciesAllocations?.features?.forEach(f => summaryFeatures.add(f));
     draft.originAllocations?.features?.forEach(f => summaryFeatures.add(f));
     draft.factionAllocations?.features?.forEach(f => summaryFeatures.add(f));
     draft.occuAllocations?.features?.forEach(f => summaryFeatures.add(f));
@@ -1467,11 +1844,21 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
             </div>
             <div>
               <span className="text-xs font-bold text-slate-500 block uppercase">Origin</span>
-              <span className="font-bold text-amber-300">{draft['char-origin'] || 'None'}</span>
+              <span className="font-bold text-amber-300 block">{draft['char-origin'] || 'None'}</span>
+              {draft['char-secondary-origin'] && (
+                <span className="text-[10px] text-amber-400 font-mono block">
+                  + {draft['char-secondary-origin']}
+                </span>
+              )}
             </div>
             <div>
               <span className="text-xs font-bold text-slate-500 block uppercase">Occupation</span>
-              <span className="font-bold text-purple-400">{draft['char-occu'] || 'None'}</span>
+              <span className="font-bold text-purple-400 block">{draft['char-occu'] || 'None'}</span>
+              {draft['char-secondary-occu'] && (
+                <span className="text-[10px] text-purple-300 font-mono block">
+                  + {draft['char-secondary-occu']}
+                </span>
+              )}
             </div>
           </div>
 
@@ -1506,18 +1893,36 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
             </div>
           </div>
 
+          {/* Allocated Traits Summary */}
+          <div className="border-b border-slate-800 pb-4">
+            <span className="text-xs font-bold text-slate-500 block mb-2 uppercase">
+              Acquired Traits ({summaryTraits.size})
+            </span>
+            <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto p-2 bg-slate-950 rounded-lg border border-slate-800">
+              {summaryTraits.size === 0 ? (
+                <span className="text-xs text-slate-500 italic">No traits selected.</span>
+              ) : (
+                Array.from(summaryTraits).map(tName => (
+                  <span key={tName} className="text-xs bg-slate-900 border border-cyan-500/40 px-2.5 py-1 rounded text-cyan-200 flex items-center gap-1">
+                    <Sparkles size={11} className="text-cyan-400" /> {tName}
+                  </span>
+                ))
+              )}
+            </div>
+          </div>
+
           {/* Allocated Features Summary */}
           <div className="border-b border-slate-800 pb-4">
             <span className="text-xs font-bold text-slate-500 block mb-2 uppercase">
-              Acquired Features & Traits ({summaryFeatures.size})
+              Acquired Features ({summaryFeatures.size})
             </span>
             <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto p-2 bg-slate-950 rounded-lg border border-slate-800">
               {summaryFeatures.size === 0 ? (
-                <span className="text-xs text-slate-500 italic">No traits selected.</span>
+                <span className="text-xs text-slate-500 italic">No features selected.</span>
               ) : (
                 Array.from(summaryFeatures).map(fName => (
-                  <span key={fName} className="text-xs bg-slate-900 border border-amber-500/40 px-2.5 py-1 rounded text-amber-200 flex items-center gap-1">
-                    <Sparkles size={11} className="text-amber-400" /> {fName}
+                  <span key={fName} className="text-xs bg-slate-900 border border-purple-500/40 px-2.5 py-1 rounded text-purple-200 flex items-center gap-1">
+                    <Sparkles size={11} className="text-purple-400" /> {fName}
                   </span>
                 ))
               )}
@@ -1527,17 +1932,17 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
           {/* Budget Display */}
           <div className="bg-slate-950 p-4 rounded-lg flex justify-between items-center border border-slate-800">
             <div>
-              <span className="font-bold text-slate-400 uppercase tracking-widest text-xs block">Remaining Build Points</span>
-              <span className="text-[11px] text-slate-500">Starting Budget: 150 BP</span>
+              <span className="font-bold text-slate-400 uppercase tracking-widest text-xs block">Remaining Character Points</span>
+              <span className="text-[11px] text-slate-500">Starting Budget: 150 CP</span>
             </div>
             <span className={`text-2xl font-black font-mono ${bpRemaining < 0 ? 'text-red-400' : 'text-emerald-400'}`}>
-              {bpRemaining} BP
+              {bpRemaining} CP
             </span>
           </div>
           
           {bpRemaining < 0 && (
             <div className="p-3 bg-red-950/30 border border-red-900 rounded text-red-400 text-xs font-bold text-center">
-              ⚠️ Warning: Your build exceeds the 150 BP starting pool by {Math.abs(bpRemaining)} BP. You can still finalize and balance it manually in the Persona Folio.
+              ⚠️ Warning: Your build exceeds the 150 CP starting pool by {Math.abs(bpRemaining)} CP. You can still finalize and balance it manually in the Persona Folio.
             </div>
           )}
         </div>
@@ -1580,7 +1985,7 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
                   ? 'bg-emerald-950/30 border-emerald-500/30 text-emerald-400' 
                   : 'bg-red-950/30 border-red-500/30 text-red-400'
               }`}>
-                {bpRemaining} BP
+                {bpRemaining} CP
               </span>
             </div>
           </div>

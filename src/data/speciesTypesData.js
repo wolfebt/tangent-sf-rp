@@ -44,7 +44,7 @@ export const DEFAULT_SPECIES_TYPES = [
     },
     "mechanic": "",
     "note": "",
-    "body": "# Aberration\n\n**Category**: Species Types (The Chassis)  \n**Build Point Cost**: 1 BP  \n\n## Description\nAberration chassis with innate biological and metaphysical adaptations.\n\n## Senses\n* Darkvision out to 60 feet. [1]\n\n## Immunities & Defenses\n* None\n\n## Physiology\n* Aberrations eat, sleep, and breathe."
+    "body": "# Aberration\n\n**Category**: Species Types (The Chassis)  \n**Build Point Cost**: 1 CP  \n\n## Description\nAberration chassis with innate biological and metaphysical adaptations.\n\n## Senses\n* Darkvision out to 60 feet. [1]\n\n## Immunities & Defenses\n* None\n\n## Physiology\n* Aberrations eat, sleep, and breathe."
   },
   {
     "id": "species_type-beast",
@@ -85,7 +85,7 @@ export const DEFAULT_SPECIES_TYPES = [
     },
     "mechanic": "",
     "note": "",
-    "body": "# Beast\n\n**Category**: Species Types (The Chassis)  \n**Build Point Cost**: 1 BP  \n\n## Description\nBeast chassis with innate biological and metaphysical adaptations.\n\n## Senses\n* Low-light vision. [1]\n\n## Immunities & Defenses\n* None\n\n## Physiology\n* Beasts eat, sleep, and breathe."
+    "body": "# Beast\n\n**Category**: Species Types (The Chassis)  \n**Build Point Cost**: 1 CP  \n\n## Description\nBeast chassis with innate biological and metaphysical adaptations.\n\n## Senses\n* Low-light vision. [1]\n\n## Immunities & Defenses\n* None\n\n## Physiology\n* Beasts eat, sleep, and breathe."
   },
   {
     "id": "species_type-dragon",
@@ -126,7 +126,7 @@ export const DEFAULT_SPECIES_TYPES = [
     },
     "mechanic": "",
     "note": "",
-    "body": "# Dragon\n\n**Category**: Species Types (The Chassis)  \n**Build Point Cost**: 5 BP  \n\n## Description\nDragon chassis with innate biological and metaphysical adaptations.\n\n## Senses\n* Darkvision 60 feet [1], Low-light vision [1].\n\n## Immunities & Defenses\n* Magical sleep and paralysis [3]\n\n## Physiology\n* Dragons breathe, eat, and sleep."
+    "body": "# Dragon\n\n**Category**: Species Types (The Chassis)  \n**Build Point Cost**: 5 CP  \n\n## Description\nDragon chassis with innate biological and metaphysical adaptations.\n\n## Senses\n* Darkvision 60 feet [1], Low-light vision [1].\n\n## Immunities & Defenses\n* Magical sleep and paralysis [3]\n\n## Physiology\n* Dragons breathe, eat, and sleep."
   },
   {
     "id": "species_type-elemental",
@@ -167,7 +167,7 @@ export const DEFAULT_SPECIES_TYPES = [
     },
     "mechanic": "",
     "note": "",
-    "body": "# Elemental\n\n**Category**: Species Types (The Chassis)  \n**Build Point Cost**: 13 BP  \n\n## Description\nElemental chassis with innate biological and metaphysical adaptations.\n\n## Senses\n* Darkvision out to 60 feet. [1]\n\n## Immunities & Defenses\n* Poison, sleep, paralysis, stunning, flanking [6]\n\n## Physiology\n* Pure energy/matter matrix."
+    "body": "# Elemental\n\n**Category**: Species Types (The Chassis)  \n**Build Point Cost**: 13 CP  \n\n## Description\nElemental chassis with innate biological and metaphysical adaptations.\n\n## Senses\n* Darkvision out to 60 feet. [1]\n\n## Immunities & Defenses\n* Poison, sleep, paralysis, stunning, flanking [6]\n\n## Physiology\n* Pure energy/matter matrix."
   },
   {
     "id": "species_type-entity",
@@ -208,7 +208,7 @@ export const DEFAULT_SPECIES_TYPES = [
     },
     "mechanic": "",
     "note": "",
-    "body": "# Entity\n\n**Category**: Species Types (The Chassis)  \n**Build Point Cost**: 24 BP  \n\n## Description\nEntity chassis with innate biological and metaphysical adaptations.\n\n## Senses\n* Darkvision and Ether Sight out to 60 feet. [1+2]\n\n## Immunities & Defenses\n* Reality distortion, biological needs, mortal aging.\n\n## Physiology\n* Transcendent precursor construct."
+    "body": "# Entity\n\n**Category**: Species Types (The Chassis)  \n**Build Point Cost**: 24 CP  \n\n## Description\nEntity chassis with innate biological and metaphysical adaptations.\n\n## Senses\n* Darkvision and Ether Sight out to 60 feet. [1+2]\n\n## Immunities & Defenses\n* Reality distortion, biological needs, mortal aging.\n\n## Physiology\n* Transcendent precursor construct."
   },
   {
     "id": "species_type-fey",
@@ -249,7 +249,7 @@ export const DEFAULT_SPECIES_TYPES = [
     },
     "mechanic": "",
     "note": "",
-    "body": "# Fey\n\n**Category**: Species Types (The Chassis)  \n**Build Point Cost**: 3 BP  \n\n## Description\nFey chassis with innate biological and metaphysical adaptations.\n\n## Senses\n* Low-light vision. [1]\n\n## Immunities & Defenses\n* None\n\n## Physiology\n* Fey breathe and eat, immune to sleep."
+    "body": "# Fey\n\n**Category**: Species Types (The Chassis)  \n**Build Point Cost**: 3 CP  \n\n## Description\nFey chassis with innate biological and metaphysical adaptations.\n\n## Senses\n* Low-light vision. [1]\n\n## Immunities & Defenses\n* None\n\n## Physiology\n* Fey breathe and eat, immune to sleep."
   },
   {
     "id": "species_type-humanoid",
@@ -290,7 +290,7 @@ export const DEFAULT_SPECIES_TYPES = [
     },
     "mechanic": "",
     "note": "",
-    "body": "# Humanoid\n\n**Category**: Species Types (The Chassis)  \n**Build Point Cost**: 0 BP  \n\n## Description\nHumanoid chassis with innate biological and metaphysical adaptations.\n\n## Senses\n* Standard visual and auditory range.\n\n## Immunities & Defenses\n* None\n\n## Physiology\n* Humanoids breathe, eat, and sleep."
+    "body": "# Humanoid\n\n**Category**: Species Types (The Chassis)  \n**Build Point Cost**: 0 CP  \n\n## Description\nHumanoid chassis with innate biological and metaphysical adaptations.\n\n## Senses\n* Standard visual and auditory range.\n\n## Immunities & Defenses\n* None\n\n## Physiology\n* Humanoids breathe, eat, and sleep."
   },
   {
     "id": "species_type-mythical",
@@ -331,7 +331,7 @@ export const DEFAULT_SPECIES_TYPES = [
     },
     "mechanic": "",
     "note": "",
-    "body": "# Mythical\n\n**Category**: Species Types (The Chassis)  \n**Build Point Cost**: 5 BP  \n\n## Description\nMythical chassis with innate biological and metaphysical adaptations.\n\n## Senses\n* Darkvision 60 feet and Low-light vision. [1+1]\n\n## Immunities & Defenses\n* Environmental extremes\n\n## Physiology\n* Mythicals do not eat, sleep, or breathe."
+    "body": "# Mythical\n\n**Category**: Species Types (The Chassis)  \n**Build Point Cost**: 5 CP  \n\n## Description\nMythical chassis with innate biological and metaphysical adaptations.\n\n## Senses\n* Darkvision 60 feet and Low-light vision. [1+1]\n\n## Immunities & Defenses\n* Environmental extremes\n\n## Physiology\n* Mythicals do not eat, sleep, or breathe."
   },
   {
     "id": "species_type-ooze",
@@ -372,7 +372,7 @@ export const DEFAULT_SPECIES_TYPES = [
     },
     "mechanic": "",
     "note": "",
-    "body": "# Ooze\n\n**Category**: Species Types (The Chassis)  \n**Build Point Cost**: 6 BP  \n\n## Description\nOoze chassis with innate biological and metaphysical adaptations.\n\n## Senses\n* Blindsight 30ft\n\n## Immunities & Defenses\n* Physical conditions and critical hits [3]\n\n## Physiology\n* Semi-solid amorphous form."
+    "body": "# Ooze\n\n**Category**: Species Types (The Chassis)  \n**Build Point Cost**: 6 CP  \n\n## Description\nOoze chassis with innate biological and metaphysical adaptations.\n\n## Senses\n* Blindsight 30ft\n\n## Immunities & Defenses\n* Physical conditions and critical hits [3]\n\n## Physiology\n* Semi-solid amorphous form."
   },
   {
     "id": "species_type-planar",
@@ -413,7 +413,7 @@ export const DEFAULT_SPECIES_TYPES = [
     },
     "mechanic": "",
     "note": "",
-    "body": "# Planar\n\n**Category**: Species Types (The Chassis)  \n**Build Point Cost**: 4 BP  \n\n## Description\nPlanar chassis with innate biological and metaphysical adaptations.\n\n## Senses\n* Darkvision 60 feet. [1]\n\n## Immunities & Defenses\n* Material plane specific effects [3]\n\n## Physiology\n* Planars breathe, eat, and sleep."
+    "body": "# Planar\n\n**Category**: Species Types (The Chassis)  \n**Build Point Cost**: 4 CP  \n\n## Description\nPlanar chassis with innate biological and metaphysical adaptations.\n\n## Senses\n* Darkvision 60 feet. [1]\n\n## Immunities & Defenses\n* Material plane specific effects [3]\n\n## Physiology\n* Planars breathe, eat, and sleep."
   },
   {
     "id": "species_type-spectral",
@@ -454,7 +454,7 @@ export const DEFAULT_SPECIES_TYPES = [
     },
     "mechanic": "",
     "note": "",
-    "body": "# Spectral\n\n**Category**: Species Types (The Chassis)  \n**Build Point Cost**: 18 BP  \n\n## Description\nSpectral chassis with innate biological and metaphysical adaptations.\n\n## Senses\n* Darkvision 60 feet, Ether Sight 60 feet.\n\n## Immunities & Defenses\n* Non-magical physical weapons, disease, poison.\n\n## Physiology\n* Incorporeal phase entity."
+    "body": "# Spectral\n\n**Category**: Species Types (The Chassis)  \n**Build Point Cost**: 18 CP  \n\n## Description\nSpectral chassis with innate biological and metaphysical adaptations.\n\n## Senses\n* Darkvision 60 feet, Ether Sight 60 feet.\n\n## Immunities & Defenses\n* Non-magical physical weapons, disease, poison.\n\n## Physiology\n* Incorporeal phase entity."
   },
   {
     "id": "species_type-synthetic",
@@ -495,7 +495,7 @@ export const DEFAULT_SPECIES_TYPES = [
     },
     "mechanic": "",
     "note": "",
-    "body": "# Synthetic\n\n**Category**: Species Types (The Chassis)  \n**Build Point Cost**: 15 BP  \n\n## Description\nSynthetic chassis with innate biological and metaphysical adaptations.\n\n## Senses\n* Low-light vision [1] and Darkvision 60 feet [1].\n\n## Immunities & Defenses\n* Asphyxiation, bleeding, critical hits, poison, biological disease, starvation, sleep [9]\n\n## Physiology\n* Requires repair, structure points, digitized mind."
+    "body": "# Synthetic\n\n**Category**: Species Types (The Chassis)  \n**Build Point Cost**: 15 CP  \n\n## Description\nSynthetic chassis with innate biological and metaphysical adaptations.\n\n## Senses\n* Low-light vision [1] and Darkvision 60 feet [1].\n\n## Immunities & Defenses\n* Asphyxiation, bleeding, critical hits, poison, biological disease, starvation, sleep [9]\n\n## Physiology\n* Requires repair, structure points, digitized mind."
   },
   {
     "id": "species_type-undead",
@@ -536,7 +536,7 @@ export const DEFAULT_SPECIES_TYPES = [
     },
     "mechanic": "",
     "note": "",
-    "body": "# Undead\n\n**Category**: Species Types (The Chassis)  \n**Build Point Cost**: 20 BP  \n\n## Description\nUndead species are once-living creatures animated by spiritual or supernatural forces. Undead are based on another corporeal creature type and may or may not retain its previous traits.\n\n## Senses\n* Darkvision 60 feet. [1]\n\n## Immunities\n* Mental Immunity [3]; Physical Immunity (bleed damage, death effects, disease, paralysis, poison, sleep effects, stunning) [3]; Metabolic Immunity (nonlethal damage, ability drain, energy drain, damage to Con/Dex/Str, exhaustion, fatigue) [3]; Fortitude save immunity [3].\n\n\n\n## Traits & Special Qualities\n* Negative Energy Affinity [2], Resurrection Limits [2]\n\n\n## Physiology\n* Undead do not breathe, eat, or sleep, unless they want to gain some beneficial effect from one of these activities. [3]\n\n## Mechanics & Rules\n* Darkvision 60 ft [1 BP]. Mental Immunity [3 BP]. Physical Immunity [3 BP]. Metabolic Immunity [3 BP]. Fortitude Immunity [3 BP]. Negative Energy Affinity (harmed by positive, healed by negative) [2 BP]. Resurrection Limits (immune to raise dead/reincarnate) [2 BP]. Physiology: Does not breathe, eat, or sleep [3 BP].\n* Common traits apply to any species of this type. Individual species will have specialized abilities and traits depending on developmental, environmental, and/or other factors."
+    "body": "# Undead\n\n**Category**: Species Types (The Chassis)  \n**Build Point Cost**: 20 CP  \n\n## Description\nUndead species are once-living creatures animated by spiritual or supernatural forces. Undead are based on another corporeal creature type and may or may not retain its previous traits.\n\n## Senses\n* Darkvision 60 feet. [1]\n\n## Immunities\n* Mental Immunity [3]; Physical Immunity (bleed damage, death effects, disease, paralysis, poison, sleep effects, stunning) [3]; Metabolic Immunity (nonlethal damage, ability drain, energy drain, damage to Con/Dex/Str, exhaustion, fatigue) [3]; Fortitude save immunity [3].\n\n\n\n## Traits & Special Qualities\n* Negative Energy Affinity [2], Resurrection Limits [2]\n\n\n## Physiology\n* Undead do not breathe, eat, or sleep, unless they want to gain some beneficial effect from one of these activities. [3]\n\n## Mechanics & Rules\n* Darkvision 60 ft [1 CP]. Mental Immunity [3 CP]. Physical Immunity [3 CP]. Metabolic Immunity [3 CP]. Fortitude Immunity [3 CP]. Negative Energy Affinity (harmed by positive, healed by negative) [2 CP]. Resurrection Limits (immune to raise dead/reincarnate) [2 CP]. Physiology: Does not breathe, eat, or sleep [3 CP].\n* Common traits apply to any species of this type. Individual species will have specialized abilities and traits depending on developmental, environmental, and/or other factors."
   },
   {
     "id": "species_type-verdant",
@@ -577,7 +577,7 @@ export const DEFAULT_SPECIES_TYPES = [
     },
     "mechanic": "",
     "note": "",
-    "body": "# Verdant\n\n**Category**: Species Types (The Chassis)  \n**Build Point Cost**: 9 BP  \n\n## Description\nVerdant chassis with innate biological and metaphysical adaptations.\n\n## Senses\n* Low-light vision. [1]\n\n## Immunities & Defenses\n* Mind-affecting effects, poison, sleep, paralysis [6]\n\n## Physiology\n* Photosynthetic / mineral nutrition, no sleep."
+    "body": "# Verdant\n\n**Category**: Species Types (The Chassis)  \n**Build Point Cost**: 9 CP  \n\n## Description\nVerdant chassis with innate biological and metaphysical adaptations.\n\n## Senses\n* Low-light vision. [1]\n\n## Immunities & Defenses\n* Mind-affecting effects, poison, sleep, paralysis [6]\n\n## Physiology\n* Photosynthetic / mineral nutrition, no sleep."
   }
 ];
 

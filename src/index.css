@@ -74,6 +74,14 @@ h1, h2, h3, h4, h5, h6 {
   border-color: var(--color-border-cyan);
 }
 
+.cyan-shadow-thin {
+  box-shadow: 0 0 6px rgba(34, 211, 238, 0.35) !important;
+}
+
+.cyan-shadow-thin:hover {
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.55) !important;
+}
+
 .sci-fi-glow-amber {
   box-shadow: var(--glow-amber);
   border-color: var(--color-border-amber);
@@ -158,6 +166,98 @@ h1, h2, h3, h4, h5, h6 {
 
 .tangent-title-pulse {
   animation: soft-pulse-edge 3s infinite ease-in-out;
+}
+
+/* Shifting White & Black Shadow Animations */
+@keyframes shiftWBShadowText {
+  0%, 100% {
+    text-shadow:
+      0 0 10px rgba(255, 255, 255, 0.9),
+      0 0 22px rgba(255, 255, 255, 0.5),
+      0 2px 5px rgba(0, 0, 0, 0.95),
+      0 6px 16px rgba(0, 0, 0, 0.9);
+  }
+  25% {
+    text-shadow:
+      -3px -3px 12px rgba(255, 255, 255, 0.8),
+      3px 4px 10px rgba(0, 0, 0, 1),
+      0 0 25px rgba(0, 0, 0, 0.95);
+  }
+  50% {
+    text-shadow:
+      0 0 4px rgba(255, 255, 255, 0.4),
+      0 0 18px rgba(0, 0, 0, 1),
+      0 0 32px rgba(0, 0, 0, 1),
+      0 4px 12px rgba(0, 0, 0, 0.95);
+  }
+  75% {
+    text-shadow:
+      3px 3px 14px rgba(255, 255, 255, 0.85),
+      -3px -4px 10px rgba(0, 0, 0, 1),
+      0 0 20px rgba(255, 255, 255, 0.4);
+  }
+}
+
+.shifting-wb-text-shadow {
+  animation: shiftWBShadowText 5s infinite ease-in-out;
+}
+
+@keyframes shiftWBShadowBox {
+  0%, 100% {
+    box-shadow:
+      0 0 20px rgba(255, 255, 255, 0.7),
+      0 0 40px rgba(255, 255, 255, 0.3),
+      0 8px 25px rgba(0, 0, 0, 0.95),
+      inset 0 0 15px rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.7);
+  }
+  25% {
+    box-shadow:
+      -4px -4px 22px rgba(255, 255, 255, 0.5),
+      4px 8px 30px rgba(0, 0, 0, 1),
+      0 0 20px rgba(0, 0, 0, 0.9),
+      inset -2px -2px 10px rgba(255, 255, 255, 0.15);
+    border-color: rgba(34, 211, 238, 0.6);
+  }
+  50% {
+    box-shadow:
+      0 0 30px rgba(0, 0, 0, 1),
+      0 12px 40px rgba(0, 0, 0, 1),
+      0 0 8px rgba(255, 255, 255, 0.35),
+      inset 0 0 15px rgba(0, 0, 0, 0.8);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+  75% {
+    box-shadow:
+      4px 4px 22px rgba(255, 255, 255, 0.6),
+      -4px -6px 25px rgba(0, 0, 0, 1),
+      0 0 25px rgba(0, 0, 0, 0.8),
+      inset 2px 2px 10px rgba(255, 255, 255, 0.2);
+    border-color: rgba(34, 211, 238, 0.6);
+  }
+}
+
+.shifting-wb-box-shadow {
+  animation: shiftWBShadowBox 5s infinite ease-in-out;
+}
+
+@keyframes shiftWBShadowDrop {
+  0%, 100% {
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.9)) drop-shadow(0 4px 12px rgba(0, 0, 0, 0.95));
+  }
+  25% {
+    filter: drop-shadow(-3px -3px 8px rgba(255, 255, 255, 0.7)) drop-shadow(3px 4px 14px rgba(0, 0, 0, 1));
+  }
+  50% {
+    filter: drop-shadow(0 0 18px rgba(0, 0, 0, 1)) drop-shadow(0 0 5px rgba(255, 255, 255, 0.4));
+  }
+  75% {
+    filter: drop-shadow(3px 3px 10px rgba(255, 255, 255, 0.8)) drop-shadow(-3px -3px 12px rgba(0, 0, 0, 1));
+  }
+}
+
+.shifting-wb-drop-shadow {
+  animation: shiftWBShadowDrop 5s infinite ease-in-out;
 }
 
 /* Mobile and Tablet Adaptation (< 768px) */

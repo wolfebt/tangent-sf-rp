@@ -20,7 +20,7 @@ description: Fey chassis.
 # Fey
 
 **Category**: Species Types (The Chassis)  
-**Build Point Cost**: 3 BP  
+**Character Point Cost**: 3 CP  
 
 ## Description
 Fey chassis with innate biological and metaphysical adaptations.

@@ -665,6 +665,13 @@ const FolioContainer = () => {
         onClose={() => setIsPreviewOpen(false)}
         characterData={characterData}
       />
+      <EconomyModal
+        isOpen={isEconomyOpen}
+        onClose={() => setIsEconomyOpen(false)}
+        characterData={characterData}
+        updateField={updateField}
+        economyBreakdown={economyBreakdown}
+      />
       <RosterModal
         isOpen={isRosterOpen}
         onClose={() => setIsRosterOpen(false)}

@@ -758,7 +758,7 @@ export const EconomatrixDashboard = ({ onOpenBuilder }) => {
                   <tr className="border-b border-slate-800 text-slate-400 text-[11px]">
                     <th className="py-2 px-3">WS Range</th>
                     <th className="py-2 px-3">Financial Status</th>
-                    <th className="py-2 px-3">BP Cost</th>
+                    <th className="py-2 px-3">CP Cost</th>
                     <th className="py-2 px-3">Purchasing Limit</th>
                     <th className="py-2 px-3">Est. Net Worth</th>
                     <th className="py-2 px-3">Lifestyle Description</th>
@@ -769,7 +769,7 @@ export const EconomatrixDashboard = ({ onOpenBuilder }) => {
                     <tr key={row.name} className="hover:bg-slate-800/30">
                       <td className="py-2 px-3 font-bold text-amber-300">WS {row.minWS}–{row.maxWS === 999 ? '80+' : row.maxWS}</td>
                       <td className="py-2 px-3 font-bold text-slate-200">{row.name}</td>
-                      <td className="py-2 px-3 text-cyan-300">{row.bpCost} BP</td>
+                      <td className="py-2 px-3 text-cyan-300">{row.bpCost ?? row.cpCost} CP</td>
                       <td className="py-2 px-3 font-bold text-emerald-300">{row.purchasingLimit}</td>
                       <td className="py-2 px-3 text-purple-300">{row.netWorth}</td>
                       <td className="py-2 px-3 text-[11px] text-slate-400">{row.lifestyle}</td>

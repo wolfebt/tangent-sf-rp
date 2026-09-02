@@ -191,8 +191,27 @@ export const FolioSidebar = ({
         })}
       </nav>
 
+      {/* Quick CP Audit Sidebar Trigger */}
+      <div className="pt-2 border-t border-slate-800/80 shrink-0">
+        <button
+          type="button"
+          onClick={() => {
+            AudioService.playTerminalBeep(1200, 0.03);
+            window.dispatchEvent(new CustomEvent('open-folio-economy'));
+          }}
+          className="w-full text-left px-3 py-2 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-between bg-amber-950/40 hover:bg-amber-900/70 text-amber-300 border border-amber-500/40 hover:border-amber-400 shadow-sm cursor-pointer"
+          title="Open Character Point (CP) Economy Audit Ledger"
+        >
+          <div className="flex items-center gap-2">
+            <span>💎</span>
+            <span>CP Audit</span>
+          </div>
+          <span className="text-[10px] text-amber-400 font-mono">Ledger</span>
+        </button>
+      </div>
+
       {/* Footer System Status */}
-      <div className="pt-2 border-t border-slate-800/80 text-[10px] text-slate-500 font-mono flex items-center justify-between shrink-0">
+      <div className="pt-1.5 text-[10px] text-slate-500 font-mono flex items-center justify-between shrink-0">
         <span className="flex items-center gap-1.5">
           <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
           FOLIO CORE

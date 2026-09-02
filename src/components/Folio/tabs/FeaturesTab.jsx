@@ -285,6 +285,13 @@ export const FeaturesTab = ({
   // CP Totals
   const totalStandardFeaturesCP = useMemo(() => {
     return standardFeatures.reduce((acc, feat) => {
+      const isSpecies = typeof feat === 'object' && (
+        feat.source === 'species' || 
+        feat.category === 'Species Inherent' || 
+        feat.category === 'Species' ||
+        feat.cp === 0
+      );
+      if (isSpecies) return acc;
       const cost = typeof feat === 'object' && feat.cp !== undefined ? parseInt(feat.cp, 10) : 3;
       return acc + (isNaN(cost) ? 3 : cost);
     }, 0);
@@ -500,6 +507,13 @@ export const FeaturesTab = ({
             <div className="space-y-5 max-h-[500px] overflow-y-auto pr-1">
               {groupedStandardFeatures.map((group) => {
                 const groupCPTotal = group.items.reduce((sum, item) => {
+                  const isSpecies = typeof item === 'object' && (
+                    item.source === 'species' || 
+                    item.category === 'Species Inherent' || 
+                    item.category === 'Species' ||
+                    item.cp === 0
+                  );
+                  if (isSpecies) return sum;
                   const cost = typeof item === 'object' && item.cp !== undefined ? parseInt(item.cp, 10) : 3;
                   return sum + (isNaN(cost) ? 3 : cost);
                 }, 0);
@@ -523,7 +537,17 @@ export const FeaturesTab = ({
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
                       {group.items.map((item) => {
                         const name = typeof item === 'object' ? (item.name || item.title) : item;
-                        const cpCost = typeof item === 'object' && item.cp !== undefined ? item.cp : 3;
+                        const isSpeciesGranted = typeof item === 'object' && (
+                          item.source === 'species' || 
+                          item.category === 'Species Inherent' || 
+                          item.category === 'Species' || 
+                          item.category === 'Species Trait' ||
+                          item.cp === 0
+                        );
+                        const standalone = typeof item === 'object' && item.standaloneCp !== undefined
+                          ? item.standaloneCp
+                          : ((typeof item === 'object' && item.bp !== undefined) ? item.bp : 3);
+                        const cpCostDisplay = isSpeciesGranted ? `0 [${standalone}] CP` : `${typeof item === 'object' && item.cp !== undefined ? item.cp : 3} CP`;
                         const desc = typeof item === 'object' ? (item.description || item.mechanic || item.summary || '') : '';
 
                         return (
@@ -536,8 +560,12 @@ export const FeaturesTab = ({
                                 <h4 className="font-semibold text-xs text-slate-100 leading-snug pr-1">
                                   {name}
                                 </h4>
-                                <span className="shrink-0 px-1.5 py-0.5 text-[10px] font-mono font-bold text-cyan-300 bg-cyan-950/80 border border-cyan-800/80 rounded">
-                                  {cpCost} CP
+                                <span className={`shrink-0 px-1.5 py-0.5 text-[10px] font-mono font-bold rounded ${
+                                  isSpeciesGranted 
+                                    ? 'text-cyan-300 bg-cyan-950/80 border border-cyan-500/50 shadow-sm'
+                                    : 'text-cyan-300 bg-cyan-950/80 border border-cyan-800/80'
+                                }`}>
+                                  {cpCostDisplay}
                                 </span>
                               </div>
                               {desc && (

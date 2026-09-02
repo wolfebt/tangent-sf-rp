@@ -136,7 +136,7 @@ export const AugmentationNodeConfigurator = ({
 
           <div className="px-2.5 py-1 rounded-lg border border-purple-500/30 bg-purple-500/10 text-purple-300 flex items-center gap-1.5">
             <Brain size={13} />
-            <span>BP Cost: <strong>{bpCost} BP</strong></span>
+            <span>CP Cost: <strong>{bpCost} CP</strong></span>
           </div>
 
           <div className="px-2.5 py-1 rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-300 flex items-center gap-1.5">
@@ -266,7 +266,7 @@ export const AugmentationNodeConfigurator = ({
                 </div>
                 <div className="text-[11px] text-slate-400 mb-2">{catDef.description}</div>
                 <div className="flex items-center gap-3 text-[10px] text-slate-300 border-t border-slate-800/80 pt-1.5">
-                  <span>Base BP: <strong>{catDef.defaultBP} BP</strong></span>
+                  <span>Base CP: <strong>{catDef.defaultBP} CP</strong></span>
                   <span>Base Nodes: <strong>{catDef.defaultNodes}</strong></span>
                   <span>TL: <strong>TL{catDef.tl}</strong></span>
                 </div>
@@ -324,7 +324,7 @@ export const AugmentationNodeConfigurator = ({
                     <div className="text-[11px] text-slate-400 mb-2">{pkgDef.description}</div>
                     <div className="space-y-1 text-[10px] text-slate-300 border-t border-slate-800/80 pt-1.5">
                       <div>Cost: <strong className="text-amber-300">{pkgDef.credits.toLocaleString()} Cr</strong></div>
-                      <div>Tolerance: <strong className="text-purple-300">{pkgDef.bpCost} BP</strong> | DR: <strong className="text-emerald-300">DR {pkgDef.dr}</strong></div>
+                      <div>Tolerance: <strong className="text-purple-300">{pkgDef.bpCost} CP</strong> | DR: <strong className="text-emerald-300">DR {pkgDef.dr}</strong></div>
                     </div>
                   </button>
                 );
@@ -355,7 +355,7 @@ export const AugmentationNodeConfigurator = ({
               </label>
             </div>
             <p className="text-[11px] text-slate-400">
-              External harnesses, battle gauntlets, and sabatons that host internal nodes without surgery (0 BP, half node capacity, requires Neural Interface Port).
+              External harnesses, battle gauntlets, and sabatons that host internal nodes without surgery (0 CP, half node capacity, requires Neural Interface Port).
             </p>
           </div>
         </div>

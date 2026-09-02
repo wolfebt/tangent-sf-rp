@@ -143,7 +143,7 @@ export const CommsCenterDrawer = ({ onClose, onOpenDrawer }) => {
       </div>
 
       {/* Main Dual Area: Sidebar + Chat Feed inside center drawer */}
-      <div className="flex-1 flex min-h-[380px] max-h-[460px] rounded-xl border border-slate-800 overflow-hidden bg-[#0d1117]/90 shadow-inner">
+      <div className="flex-1 flex min-h-[420px] max-h-[600px] rounded-xl border border-slate-800 overflow-hidden bg-[#0d1117]/90 shadow-inner">
         {/* Left Side: Channel Selector (width: ~200px) */}
         <div className="w-52 border-r border-slate-800 hidden md:block h-full">
           <ChannelSidebar

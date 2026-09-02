@@ -801,7 +801,7 @@ export const DBMItemModal = ({
                 )}
                 {(selectedItem?.costs?.bp !== undefined || selectedItem?.cp !== undefined || selectedItem?.bp_cost !== undefined || selectedItem?.bp !== undefined) && (
                   <span className="px-2.5 py-0.5 bg-cyan-950/90 border border-cyan-500/50 text-cyan-300 rounded-full text-xs font-mono font-bold flex items-center gap-1 shadow-sm">
-                    <span>⚡</span> {selectedItem?.costs?.bp ?? selectedItem.cp ?? selectedItem.bp ?? selectedItem.bp_cost} {selectedItem?.cp !== undefined ? 'CP' : 'BP'}
+                    <span>⚡</span> {selectedItem?.costs?.bp ?? selectedItem.cp ?? selectedItem.bp ?? selectedItem.bp_cost} CP
                   </span>
                 )}
                 {(selectedItem?.tech_level !== undefined || selectedItem?.tl !== undefined || selectedItem?.techLevel !== undefined) && (

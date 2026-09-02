@@ -20,7 +20,7 @@ description: Ooze chassis.
 # Ooze
 
 **Category**: Species Types (The Chassis)  
-**Build Point Cost**: 6 BP  
+**Character Point Cost**: 6 CP  
 
 ## Description
 Ooze chassis with innate biological and metaphysical adaptations.

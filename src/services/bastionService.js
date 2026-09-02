@@ -20,7 +20,7 @@ Always address the user as ARCHITECT (the Game Master / referee / universe creat
 Provide tactical, immersive, and structured RPG content grounded in the Tangent SFF RPG system guidelines:
 - Science Fantasy setting blending high technology (Tech Level 0-5), meta-abilities/psi (Meta Level 0-5), space exploration, cybernetics, alien species, factions, ancient relics, and tactical combat.
 - Archetype Framework: 100 canonical archetypes structured across 4 Spheres: Sentinels, Operatives, Visionaries, Savants.
-- Character Chassis: 150 BP allocation, three 20 SP background pools (Faction, Origin, Occupation), +1 increment advancement rule.
+- Character Chassis: 150 CP allocation, three 20 SP background pools (Faction, Origin, Occupation), +1 increment advancement rule.
 - Dual Resolution & Combat: 2d10 + Attribute + Skill vs. Target Number (11 + Defense). Called shots with 33.3% major wound trauma.
 - Economatrix: Cost = Base * (2^TL) * (1.5^ML).
 - Keep tone professional, analytical, sci-fi/fantasy immersive, and precise. Always reference canonical Omnicortex rules when applicable.`;
@@ -462,7 +462,7 @@ export function verifyFolioAssetHealth(item, categoryKey) {
   if (!item.costs || typeof item.costs !== 'object') {
     issues.push('Invalid costs map structure');
   } else {
-    if (isNaN(item.costs.bp)) issues.push('BP cost is NaN');
+    if (isNaN(item.costs.cp ?? item.costs.bp)) issues.push('CP/BP cost is NaN');
     if (isNaN(item.costs.credits)) issues.push('Credit cost is NaN');
     if (isNaN(item.costs.nodes)) issues.push('Nodes cost is NaN');
     if (isNaN(item.costs.sockets)) issues.push('Sockets cost is NaN');

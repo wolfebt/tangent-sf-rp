@@ -35,7 +35,7 @@ sockets:
 # Undead
 
 **Category**: Species Types (The Chassis)  
-**Build Point Cost**: 20 BP  
+**Character Point Cost**: 20 CP  
 
 ## Description
 Undead species are once-living creatures animated by spiritual or supernatural forces. Undead are based on another corporeal creature type and may or may not retain its previous traits.
@@ -56,5 +56,5 @@ Undead species are once-living creatures animated by spiritual or supernatural f
 * Undead do not breathe, eat, or sleep, unless they want to gain some beneficial effect from one of these activities. [3]
 
 ## Mechanics & Rules
-* Darkvision 60 ft [1 BP]. Mental Immunity [3 BP]. Physical Immunity [3 BP]. Metabolic Immunity [3 BP]. Fortitude Immunity [3 BP]. Negative Energy Affinity (harmed by positive, healed by negative) [2 BP]. Resurrection Limits (immune to raise dead/reincarnate) [2 BP]. Physiology: Does not breathe, eat, or sleep [3 BP].
+* Darkvision 60 ft [1 CP]. Mental Immunity [3 CP]. Physical Immunity [3 CP]. Metabolic Immunity [3 CP]. Fortitude Immunity [3 CP]. Negative Energy Affinity (harmed by positive, healed by negative) [2 CP]. Resurrection Limits (immune to raise dead/reincarnate) [2 CP]. Physiology: Does not breathe, eat, or sleep [3 CP].
 * Common traits apply to any species of this type. Individual species will have specialized abilities and traits depending on developmental, environmental, and/or other factors.

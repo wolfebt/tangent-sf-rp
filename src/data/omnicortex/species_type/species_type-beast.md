@@ -20,7 +20,7 @@ description: Beast chassis.
 # Beast
 
 **Category**: Species Types (The Chassis)  
-**Build Point Cost**: 1 BP  
+**Character Point Cost**: 1 CP  
 
 ## Description
 Beast chassis with innate biological and metaphysical adaptations.

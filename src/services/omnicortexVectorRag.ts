@@ -92,19 +92,19 @@ Cost (Credits) = Base_Cost * (2^TL) * (1.5^ML)
 - Status Degradation Entropy: At the start of each round, sustained spells roll a 1d10 check against DC (Spell Level + Rounds Active). On failure, the effect dissipates.`
   },
   {
-    id: 'rule-character-creation-150bp',
+    id: 'rule-character-creation-150cp',
     category: 'character_creation',
-    title: '150 Build Point (BP) Operative Creation Economy',
+    title: '150 Character Point (CP) Operative Creation Economy',
     citation: 'Operator Guide 1.01 Character Creation',
-    tags: ['150 bp', 'build points', 'character creation', 'skill pools', 'attributes', 'advancement'],
-    text: `Operatives in Tangent SFF RP are created using a strict 150 Build Point (BP) budget:
-- Attributes: 5 BP per +1 attribute rank above base 0.
-- Check Bonuses: 1 BP per +1 sub-attribute check score.
+    tags: ['150 cp', 'character points', '150 bp', 'build points', 'character creation', 'skill pools', 'attributes', 'advancement'],
+    text: `Operatives in Tangent SFF RP are created using a strict 150 Character Point (CP) budget:
+- Attributes: 5 CP per +1 attribute rank above base 0.
+- Check Bonuses: 1 CP per +1 sub-attribute check score.
 - Three 20-Point Background Skill Pools:
   1. Faction Skill Pool (20 SP)
   2. Origin Skill Pool (20 SP)
   3. Occupation Skill Pool (20 SP)
-- Hindrances & Flaws: Grant point rebates up to -20 BP back into the character pool.
+- Hindrances & Flaws: Grant point rebates up to -20 CP back into the character pool.
 - Increment Rule: Advancement is restricted to +1 point per attribute or skill rank per milestone award.`
   },
   {

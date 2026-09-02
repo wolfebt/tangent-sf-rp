@@ -11,11 +11,13 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
   const { groups, selectGroup } = useGroup();
   const [isSquadModalOpen, setIsSquadModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
-  const bottomRef = useRef(null);
+  const containerRef = useRef(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, loading]);
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }
+  }, [messages?.length, loading]);
 
   const isSquadChannel = activeChannel?.type === 'group' || !!activeChannel?.groupId;
   const linkedSquad = isSquadChannel 
@@ -103,7 +105,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
   };
 
   return (
-    <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 bg-[#0d1117]/80 backdrop-blur-sm select-text no-scrollbar">
+    <div ref={containerRef} className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 bg-[#0d1117]/80 backdrop-blur-sm select-text no-scrollbar">
       {/* Channel Header Banner */}
       {activeChannel && (
         <div className="pb-3 mb-2 border-b border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-mono">
@@ -234,8 +236,6 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
           </div>
         );
       })}
-
-      <div ref={bottomRef} />
 
       {/* Channel Configuration & Rename Modal */}
       <ChannelSettingsModal

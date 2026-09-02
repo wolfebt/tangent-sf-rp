@@ -6,12 +6,21 @@ import { useDBM } from '../../../context/DBMContext';
 import { extractCreatorInfo } from '../../../utils/creatorUtils';
 import { db } from '../../../firebase';
 import { collection, onSnapshot } from 'firebase/firestore';
-import { SPECIES_LINEAGES, DEFAULT_SPECIES } from '../../../data/speciesData';
+import { DEFAULT_SPECIES } from '../../../data/speciesData';
 import { DEFAULT_ARCHETYPES } from '../../../data/archetypesData';
-import { DEFAULT_OCCUPATIONS } from '../../../data/occupationsData';
+import { DEFAULT_OCCUPATIONS, COMMON_OCCUPATIONAL_TRAITS } from '../../../data/occupationsData';
 import { DEFAULT_ORIGINS } from '../../../data/originsData';
 import { DEFAULT_FACTIONS } from '../../../data/factionsData';
-import { ChevronDown, ChevronUp, Eye, X, BookOpen, Shield, Check, Sparkles } from 'lucide-react';
+import { DEFAULT_FEATURES } from '../../../data/featuresData';
+import { ALL_CANONICAL_TRAITS } from '../../../data/speciesTraitsData';
+import { ALL_CANONICAL_SKILLS } from '../../../data/skillsData';
+import {
+  AttributePoolPulldown,
+  FeatureMultiselectPulldown,
+  TraitMultiselectPulldown,
+  SkillPoolRankPulldown
+} from '../shared/IdentityPoolPulldown';
+import { ChevronDown, ChevronUp, Eye, X, BookOpen, Shield, Check, Sparkles, Dna } from 'lucide-react';
 import {
   formatHeightWithConversion,
   getHeightConversion,
@@ -128,7 +137,20 @@ const getDisadvantageActiveStatus = (disRef, characterData) => {
 };
 
 const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
-  const { characterData, updateField, applyArchetypeChassis, applySpeciesAdjustments, economyBreakdown, calculateFullSpeciesCost } = useFolio();
+  const { 
+    characterData, 
+    updateField, 
+    applyArchetypeChassis, 
+    applySpeciesAdjustments, 
+    economyBreakdown, 
+    calculateFullSpeciesCost,
+    allocatePoolSkillRank,
+    togglePoolTrait,
+    removePoolTrait,
+    togglePoolFeature,
+    removePoolFeature,
+    allocatePoolAttribute
+  } = useFolio();
   const dbm = useDBM();
 
   const [dbOptions, setDbOptions] = useState({});
@@ -144,7 +166,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
   };
 
   useEffect(() => {
-    const paths = ['species', 'occupations', 'origins', 'factions', 'archetypes'];
+    const paths = ['species', 'occupations', 'origins', 'factions', 'archetypes', 'skills', 'features', 'traits'];
     const unsubs = paths.map(path => {
       try {
         const colRef = collection(db, path);
@@ -224,6 +246,16 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     return list.find(o => (o.name || o.title || o.id || '').toLowerCase() === String(occName).toLowerCase()) || null;
   }, [characterData['char-occu'], dbOptions.occupations, dbm?.dbData?.occupations]);
 
+  // Selected Secondary / Background Occupation lookup (via Background Trait)
+  const selectedSecondaryOccupation = useMemo(() => {
+    const secOccName = characterData['char-secondary-occu'] || characterData['char-background-occu'] || characterData['char-occu-secondary'];
+    if (!secOccName) return null;
+    const list = (dbOptions.occupations && dbOptions.occupations.length > 0)
+      ? dbOptions.occupations
+      : ((dbm?.dbData?.occupations && dbm.dbData.occupations.length > 0) ? dbm.dbData.occupations : DEFAULT_OCCUPATIONS);
+    return list.find(o => (o.name || o.title || o.id || '').toLowerCase() === String(secOccName).toLowerCase()) || null;
+  }, [characterData['char-secondary-occu'], characterData['char-background-occu'], characterData['char-occu-secondary'], dbOptions.occupations, dbm?.dbData?.occupations]);
+
   // Selected Origin Object lookup
   const selectedOrigin = useMemo(() => {
     const origName = characterData['char-origin'];
@@ -233,6 +265,16 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
       : ((dbm?.dbData?.origins && dbm.dbData.origins.length > 0) ? dbm.dbData.origins : DEFAULT_ORIGINS);
     return list.find(o => (o.name || o.title || o.id || '').toLowerCase() === String(origName).toLowerCase()) || null;
   }, [characterData['char-origin'], dbOptions.origins, dbm?.dbData?.origins]);
+
+  // Selected Secondary Origin Object lookup (expands skill and trait options without adding points)
+  const selectedSecondaryOrigin = useMemo(() => {
+    const secName = characterData['char-secondary-origin'] || characterData['char-origin-secondary'];
+    if (!secName) return null;
+    const list = (dbOptions.origins && dbOptions.origins.length > 0)
+      ? dbOptions.origins
+      : ((dbm?.dbData?.origins && dbm.dbData.origins.length > 0) ? dbm.dbData.origins : DEFAULT_ORIGINS);
+    return list.find(o => (o.name || o.title || o.id || '').toLowerCase() === String(secName).toLowerCase()) || null;
+  }, [characterData['char-secondary-origin'], characterData['char-origin-secondary'], dbOptions.origins, dbm?.dbData?.origins]);
 
   // Selected Faction Object lookup
   const selectedFaction = useMemo(() => {
@@ -422,6 +464,109 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
             placeholder="Enter Character Concept..."
           />
 
+          <div className="grid grid-cols-2 gap-4">
+            <FolioInput
+              id="char-age"
+              label="Age"
+              value={characterData['char-age'] || ''}
+              onChange={updateField}
+              placeholder="28"
+            />
+
+            <FolioInput
+              id="char-gender"
+              label="Gender"
+              value={characterData['char-gender'] || ''}
+              onChange={updateField}
+              placeholder="Non-Binary / Female / Male"
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <FolioInput
+              id="char-height"
+              label="Height"
+              value={characterData['char-height'] || ''}
+              onChange={updateField}
+              onBlur={(id, val) => {
+                const formatted = formatHeightWithConversion(val);
+                if (formatted !== val) {
+                  updateField(id, formatted);
+                }
+              }}
+              placeholder="e.g. 5'11&quot; or 1.80m"
+              rightLabel={
+                (() => {
+                  const val = characterData['char-height'] || '';
+                  const conv = getHeightConversion(val);
+                  if (conv && !val.includes(`[${conv}]`)) {
+                    return `≈ [${conv}]`;
+                  }
+                  return null;
+                })()
+              }
+            />
+
+            <FolioInput
+              id="char-weight"
+              label="Weight"
+              value={characterData['char-weight'] || ''}
+              onChange={updateField}
+              onBlur={(id, val) => {
+                const formatted = formatWeightWithConversion(val);
+                if (formatted !== val) {
+                  updateField(id, formatted);
+                }
+              }}
+              placeholder="e.g. 180 lbs or 82kg"
+              rightLabel={
+                (() => {
+                  const val = characterData['char-weight'] || '';
+                  const conv = getWeightConversion(val);
+                  if (conv && !val.includes(`[${conv}]`)) {
+                    return `≈ [${conv}]`;
+                  }
+                  return null;
+                })()
+              }
+            />
+          </div>
+
+          <FolioInput
+            id="char-style"
+            label="Description / Style"
+            type="textarea"
+            value={characterData['char-style'] || ''}
+            onChange={updateField}
+            placeholder="Physical features, clothing style, distinctive markings..."
+          />
+
+          <FolioInput
+            id="char-motive"
+            label="Personality / Motive"
+            type="textarea"
+            value={characterData['char-motive'] || ''}
+            onChange={updateField}
+            placeholder="Personal goals, flaws, motivations, quirks..."
+          />
+
+          {/* Owner Handle Identification */}
+          {(() => {
+            const creatorInfo = extractCreatorInfo(characterData, typeof window !== 'undefined' ? localStorage.getItem('userHandle') : '');
+            const ownerHandle = creatorInfo.creatorTag || (typeof window !== 'undefined' ? localStorage.getItem('userHandle') : '') || 'Local Operative';
+            return (
+              <div className="pt-3 pb-1 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Owner Handle:</span>
+                <span className="px-2.5 py-1 bg-slate-900 border border-slate-700/80 text-cyan-300 rounded text-xs font-mono font-bold">
+                  @{ownerHandle.replace(/^@/, '')}
+                </span>
+              </div>
+            );
+          })()}
+        </div>
+
+        {/* Right Column: Selection Cards */}
+        <div className="space-y-4">
           {/* 1. Consolidated Archetype Card */}
           {(() => {
             const fieldId = 'char-archetype';
@@ -640,8 +785,11 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
             const isManual = Boolean(manualMode[fieldId]);
             const isExpanded = Boolean(expandedCards['species']);
             const inherentFeatures = extractNameList(selectedSpecies?.inherent_features);
-            const bonusFeatureChoices = extractNameList(selectedSpecies?.bonus_feature_choices);
+            const bonusFeatureChoices = extractNameList(selectedSpecies?.bonus_feature_choices || selectedSpecies?.recommended_features);
+            const bonusTraitChoices = extractNameList(selectedSpecies?.bonus_trait_choices || selectedSpecies?.recommended_traits || selectedSpecies?.traits);
             const bonusSkillChoices = extractNameList(selectedSpecies?.bonus_skill_choices);
+            const maxTraits = parseInt(selectedSpecies?.bonus_traits || (bonusTraitChoices.length > 0 ? 1 : 0), 10);
+            const maxFeats = parseInt(selectedSpecies?.bonus_features || (bonusFeatureChoices.length > 0 ? 1 : 0), 10);
             const attrMods = Array.isArray(selectedSpecies?.inherent_attribute_modifiers) ? selectedSpecies.inherent_attribute_modifiers : [];
             const skillBonuses = Array.isArray(selectedSpecies?.specific_skill_bonuses) ? selectedSpecies.specific_skill_bonuses : [];
             const speciesCost = economyBreakdown?.speciesCostBreakdown || (selectedSpecies ? calculateFullSpeciesCost?.(selectedSpecies, dbOptions) : null);
@@ -677,7 +825,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                     )}
                     {speciesCost && speciesCost.totalCost > 0 && (
                       <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase bg-purple-950/80 border border-purple-500/50 text-purple-300 shrink-0">
-                        {speciesCost.totalCost} BP
+                        {speciesCost.totalCost} CP
                       </span>
                     )}
                     {selectedSpecies?.parent_species && val && (
@@ -775,31 +923,31 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                             <span>🧬</span> Species Component Breakdown:
                           </span>
                           <span className="text-purple-200 font-bold px-2 py-0.5 rounded bg-purple-950/90 border border-purple-500/60">
-                            Total: {speciesCost.totalCost} BP (CP)
+                            Total: {speciesCost.totalCost} CP
                           </span>
                         </div>
                         <div className="flex flex-wrap gap-1.5 text-slate-300">
                           <span className="px-1.5 py-0.5 rounded bg-slate-950 border border-slate-800">
-                            Type: <strong className="text-purple-300">{speciesCost.breakdown.typeBP} BP</strong>
+                            Type: <strong className="text-purple-300">{speciesCost.breakdown.typeBP} CP</strong>
                           </span>
                           <span className="px-1.5 py-0.5 rounded bg-slate-950 border border-slate-800">
-                            Size: <strong className="text-purple-300">{speciesCost.breakdown.sizeBP} BP</strong>
+                            Size: <strong className="text-purple-300">{speciesCost.breakdown.sizeBP} CP</strong>
                           </span>
                           <span className="px-1.5 py-0.5 rounded bg-slate-950 border border-slate-800">
-                            Movement: <strong className="text-purple-300">{speciesCost.breakdown.movementBP} BP</strong>
+                            Movement: <strong className="text-purple-300">{speciesCost.breakdown.movementBP} CP</strong>
                           </span>
                           <span className="px-1.5 py-0.5 rounded bg-slate-950 border border-slate-800">
-                            Attributes: <strong className="text-purple-300">{speciesCost.breakdown.attributeBP >= 0 ? `+${speciesCost.breakdown.attributeBP}` : speciesCost.breakdown.attributeBP} BP</strong>
+                            Attributes: <strong className="text-purple-300">{speciesCost.breakdown.attributeBP >= 0 ? `+${speciesCost.breakdown.attributeBP}` : speciesCost.breakdown.attributeBP} CP</strong>
                           </span>
                           <span className="px-1.5 py-0.5 rounded bg-slate-950 border border-slate-800">
-                            Skills: <strong className="text-purple-300">{speciesCost.breakdown.skillsBP} BP</strong>
+                            Skills: <strong className="text-purple-300">{speciesCost.breakdown.skillsBP} CP</strong>
                           </span>
                           <span className="px-1.5 py-0.5 rounded bg-slate-950 border border-slate-800">
-                            Traits: <strong className="text-purple-300">{speciesCost.breakdown.traitsBP} BP</strong>
+                            Traits: <strong className="text-purple-300">{speciesCost.breakdown.traitsBP} CP</strong>
                           </span>
                           {speciesCost.breakdown.disadvantagesRefund > 0 && (
                             <span className="px-1.5 py-0.5 rounded bg-red-950/40 border border-red-800/60 text-red-300">
-                              Disadvantages: <strong>-{speciesCost.breakdown.disadvantagesRefund} BP</strong>
+                              Disadvantages: <strong>-{speciesCost.breakdown.disadvantagesRefund} CP</strong>
                             </span>
                           )}
                         </div>
@@ -867,53 +1015,68 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       </div>
                     )}
 
-                    {bonusFeatureChoices.length > 0 && (
-                      <div className="text-[10px] font-mono space-y-1">
-                        <span className="text-cyan-400 font-bold uppercase block">
-                          Bonus Feature Choices (Options & Selections):
-                        </span>
-                        <div className="flex flex-wrap gap-1.5">
-                          {bonusFeatureChoices.map(fName => {
-                            const acquired = getFeatureAcquiredStatus(fName, characterData);
-                            return (
-                              <span
-                                key={fName}
-                                className={`px-2 py-0.5 rounded text-[10px] font-mono border ${
-                                  acquired
-                                    ? 'bg-cyan-950/90 border-cyan-400 text-cyan-100 font-bold shadow-[0_0_8px_rgba(34,211,238,0.2)]'
-                                    : 'bg-slate-900/80 border-slate-800 text-slate-400'
-                                }`}
-                              >
-                                {fName} {acquired ? '✓' : ''}
-                              </span>
-                            );
-                          })}
-                        </div>
+                    {/* Interactive Species Bonus Attribute Pool */}
+                    {(selectedSpecies.bonus_attribute_points > 0 || selectedSpecies.bonus_attribute_choices > 0 || (Array.isArray(selectedSpecies.bonus_attribute_options) && selectedSpecies.bonus_attribute_options.length > 0)) && (
+                      <div className="pt-2 border-t border-cyan-900/40">
+                        <AttributePoolPulldown
+                          title="Species Bonus Attribute Pool"
+                          maxPoints={parseInt(selectedSpecies.bonus_attribute_points || selectedSpecies.bonus_attribute_choices || 1, 10)}
+                          allocatedAttrs={characterData.speciesAllocations?.attributes || {}}
+                          onAllocate={(attrId, delta) => allocatePoolAttribute && allocatePoolAttribute('speciesAllocations', attrId, delta, parseInt(selectedSpecies.bonus_attribute_points || selectedSpecies.bonus_attribute_choices || 1, 10))}
+                          allowedOptions={selectedSpecies.bonus_attribute_options}
+                          colorTheme="cyan"
+                        />
                       </div>
                     )}
 
-                    {bonusSkillChoices.length > 0 && (
-                      <div className="text-[10px] font-mono space-y-1">
-                        <span className="text-cyan-400 font-bold uppercase block">
-                          Species Skill Choices (Options & Selections):
-                        </span>
-                        <div className="flex flex-wrap gap-1.5">
-                          {bonusSkillChoices.map(skName => {
-                            const status = getSkillTrainingStatus(skName, characterData);
-                            return (
-                              <span
-                                key={skName}
-                                className={`px-2 py-0.5 rounded text-[10px] font-mono border ${
-                                  status.isTrained
-                                    ? 'bg-cyan-950/90 border-cyan-400 text-cyan-100 font-bold'
-                                    : 'bg-slate-900/80 border-slate-800 text-slate-400'
-                                }`}
-                              >
-                                {skName} {status.isTrained ? `[Rank ${status.rank}] ✓` : ''}
-                              </span>
-                            );
-                          })}
-                        </div>
+                    {/* Interactive Species Trait Choices Multiselect Pulldown */}
+                    {(bonusTraitChoices.length > 0 || maxTraits > 0) && (
+                      <div className="pt-2 border-t border-cyan-900/40">
+                        <TraitMultiselectPulldown
+                          title="Species Trait Choices Pool"
+                          categoryLabel="Species Trait"
+                          maxSelectable={maxTraits}
+                          selectedTraits={characterData.speciesAllocations?.traits || []}
+                          recommendedTraits={bonusTraitChoices}
+                          allTraits={dbOptions.traits?.length > 0 ? dbOptions.traits : ALL_CANONICAL_TRAITS}
+                          onToggleTrait={(tName, tObj) => togglePoolTrait && togglePoolTrait('speciesAllocations', tName, tObj, maxTraits)}
+                          onRemoveTrait={(tName) => removePoolTrait && removePoolTrait('speciesAllocations', tName)}
+                          colorTheme="cyan"
+                        />
+                      </div>
+                    )}
+
+                    {/* Interactive Species Feature Choices Multiselect Pulldown */}
+                    {(bonusFeatureChoices.length > 0 || maxFeats > 0) && (
+                      <div className="pt-2 border-t border-cyan-900/40">
+                        <FeatureMultiselectPulldown
+                          title="Species Feature Choices Pool"
+                          categoryLabel="Species Feature"
+                          maxSelectable={maxFeats}
+                          selectedFeatures={characterData.speciesAllocations?.features || []}
+                          recommendedFeatures={bonusFeatureChoices}
+                          allFeatures={dbOptions.features?.length > 0 ? dbOptions.features : DEFAULT_FEATURES}
+                          onToggleFeature={(fName, fObj) => togglePoolFeature && togglePoolFeature('speciesAllocations', fName, fObj, maxFeats)}
+                          onRemoveFeature={(fName) => removePoolFeature && removePoolFeature('speciesAllocations', fName)}
+                          colorTheme="cyan"
+                        />
+                      </div>
+                    )}
+
+                    {/* Interactive Species Skill Choices Rank Pulldown */}
+                    {(bonusSkillChoices.length > 0 || (selectedSpecies.bonus_skills && parseInt(selectedSpecies.bonus_skills, 10) > 0)) && (
+                      <div className="pt-2 border-t border-cyan-900/40">
+                        <SkillPoolRankPulldown
+                          title="Species Skill Point Pool"
+                          categoryLabel="Species Skill"
+                          maxSP={parseInt(selectedSpecies.bonus_skills || 20, 10)}
+                          allocatedSkills={characterData.speciesAllocations?.skills || {}}
+                          recommendedSkills={bonusSkillChoices}
+                          allSkills={dbOptions.skills?.length > 0 ? dbOptions.skills : ALL_CANONICAL_SKILLS}
+                          onUpdateRank={(sName, newRank, delta) => allocatePoolSkillRank && allocatePoolSkillRank('speciesAllocations', sName, newRank, delta, parseInt(selectedSpecies.bonus_skills || 20, 10))}
+                          onRemoveSkill={(sName) => allocatePoolSkillRank && allocatePoolSkillRank('speciesAllocations', sName, 0, 0, parseInt(selectedSpecies.bonus_skills || 20, 10))}
+                          colorTheme="cyan"
+                        />
                       </div>
                     )}
 
@@ -934,10 +1097,15 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
             const label = 'Occupation';
             const browsePath = 'occupations';
             const val = characterData[fieldId] || '';
+            const secOccVal = characterData['char-secondary-occu'] || '';
             const isManual = Boolean(manualMode[fieldId]);
             const isExpanded = Boolean(expandedCards['occupation']);
             const profSkills = extractNameList(selectedOccupation?.professional_skills || selectedOccupation?.skills);
-            const occTraits = extractNameList(selectedOccupation?.traits || selectedOccupation?.trait);
+
+            const commonTraitNames = COMMON_OCCUPATIONAL_TRAITS.map(t => t.name);
+            const primaryOccTraits = extractNameList(selectedOccupation?.traits || selectedOccupation?.trait);
+            const secondaryOccTraits = extractNameList(selectedSecondaryOccupation?.traits || selectedSecondaryOccupation?.trait);
+            const occTraits = Array.from(new Set([...primaryOccTraits, ...commonTraitNames, ...secondaryOccTraits]));
 
             return (
               <div className="bg-slate-950/90 border border-sky-500/40 rounded-lg overflow-hidden transition-all shadow-[0_0_10px_rgba(14,165,233,0.08)]">
@@ -960,9 +1128,16 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       {label}
                     </span>
                     {val ? (
-                      <span className="text-xs font-bold font-mono uppercase text-sky-400 truncate">
-                        {val}
-                      </span>
+                      <div className="flex items-center gap-1.5 truncate">
+                        <span className="text-xs font-bold font-mono uppercase text-sky-400 truncate">
+                          {val}
+                        </span>
+                        {secOccVal && (
+                          <span className="text-[10px] font-mono text-sky-300/80 truncate">
+                            (+ {secOccVal})
+                          </span>
+                        )}
+                      </div>
                     ) : (
                       <span className="text-xs font-mono text-slate-400/80 italic truncate">
                         None Selected
@@ -1056,54 +1231,89 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                 {/* Accordion Body */}
                 {selectedOccupation && isExpanded && (
                   <div className="p-3 border-t border-slate-800/80 space-y-2.5 text-xs bg-slate-950/60">
-                    {profSkills.length > 0 && (
-                      <div className="text-[10px] font-mono space-y-1">
-                        <span className="text-sky-400 font-bold uppercase block">
-                          Professional Skills (Options & Selections):
+                    {/* Optional Background Occupation (via Background Trait) */}
+                    <div className="p-2.5 rounded-lg bg-sky-950/30 border border-sky-500/30 flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <span className="text-[10px] font-mono font-bold uppercase text-sky-300 shrink-0">
+                          Background Occupation:
                         </span>
-                        <div className="flex flex-wrap gap-1.5">
-                          {profSkills.map(skName => {
-                            const status = getSkillTrainingStatus(skName, characterData);
-                            return (
-                              <span
-                                key={skName}
-                                className={`px-2 py-0.5 rounded text-[10px] font-mono border ${
-                                  status.isTrained
-                                    ? 'bg-sky-950/90 border-sky-400 text-sky-100 font-bold shadow-[0_0_8px_rgba(14,165,233,0.2)]'
-                                    : 'bg-slate-900/80 border-slate-800 text-slate-400'
-                                }`}
-                              >
-                                {skName} {status.isTrained ? `[Rank ${status.rank}] ✓` : ''}
-                              </span>
-                            );
-                          })}
-                        </div>
+                        {secOccVal ? (
+                          <span className="text-xs font-bold text-white truncate">
+                            {secOccVal}
+                          </span>
+                        ) : (
+                          <span className="text-[11px] text-slate-400 italic truncate">
+                            None (Select Background Trait to gain training from another profession)
+                          </span>
+                        )}
                       </div>
-                    )}
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        {onOpenSelectorModal && (
+                          <button
+                            type="button"
+                            onClick={() => onOpenSelectorModal('char-secondary-occu', 'Background Occupation', 'occupations')}
+                            className="px-2 py-0.5 rounded text-[9px] font-mono font-bold uppercase border bg-slate-900 hover:bg-slate-800 border-slate-700 text-sky-300 hover:text-sky-100 cursor-pointer"
+                          >
+                            {secOccVal ? 'Change' : '+ Add Background'}
+                          </button>
+                        )}
+                        {secOccVal && (
+                          <button
+                            type="button"
+                            onClick={() => updateField('char-secondary-occu', '')}
+                            className="p-1 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 transition-colors cursor-pointer"
+                            title="Remove background occupation"
+                          >
+                            <X className="w-3 h-3" />
+                          </button>
+                        )}
+                      </div>
+                    </div>
 
-                    {occTraits.length > 0 && (
-                      <div className="text-[10px] font-mono space-y-1">
-                        <span className="text-sky-400 font-bold uppercase block">
-                          Occupation Traits (Options & Selections):
-                        </span>
-                        <div className="flex flex-wrap gap-1.5">
-                          {occTraits.map(tRef => {
-                            const acquired = getFeatureAcquiredStatus(tRef, characterData);
-                            const tTitle = normalizeTraitName(tRef);
-                            return (
-                              <span
-                                key={tTitle}
-                                className={`px-2 py-0.5 rounded text-[10px] font-mono border ${
-                                  acquired
-                                    ? 'bg-emerald-950/90 border-emerald-400 text-emerald-100 font-bold shadow-[0_0_8px_rgba(16,185,129,0.2)]'
-                                    : 'bg-slate-900/80 border-slate-800 text-slate-400'
-                                }`}
-                              >
-                                {tTitle} {acquired ? '✓' : ''}
-                              </span>
-                            );
-                          })}
-                        </div>
+                    {/* Interactive Occupation Skill Point Pool */}
+                    <div className="pt-2 border-t border-sky-900/40">
+                      <SkillPoolRankPulldown
+                        title="Professional Skill Package Pool"
+                        subtitle="Max Rank 11 • Recommended: Rank 6"
+                        categoryLabel="Professional Skill"
+                        maxSP={parseInt(selectedOccupation.skill_points || 20, 10)}
+                        allocatedSkills={characterData.occuAllocations?.skills || {}}
+                        recommendedSkills={profSkills}
+                        allSkills={dbOptions.skills?.length > 0 ? dbOptions.skills : ALL_CANONICAL_SKILLS}
+                        onUpdateRank={(sName, newRank, delta) => allocatePoolSkillRank && allocatePoolSkillRank('occuAllocations', sName, newRank, delta, parseInt(selectedOccupation.skill_points || 20, 10))}
+                        onRemoveSkill={(sName) => allocatePoolSkillRank && allocatePoolSkillRank('occuAllocations', sName, 0, 0, parseInt(selectedOccupation.skill_points || 20, 10))}
+                        colorTheme="sky"
+                      />
+                    </div>
+
+                    {/* Interactive Occupation Career Traits Multiselect Pulldown */}
+                    <div className="pt-2 border-t border-sky-900/40">
+                      <TraitMultiselectPulldown
+                        title={`Occupation Career Traits Pool${secOccVal ? ' (Combined with Background)' : ''}`}
+                        categoryLabel="Occupational Trait"
+                        maxSelectable={parseInt(selectedOccupation.bonus_traits || selectedOccupation.bonus_features || 2, 10)}
+                        selectedTraits={characterData.occuAllocations?.traits || characterData.occuAllocations?.features || []}
+                        recommendedTraits={occTraits}
+                        allTraits={dbOptions.traits?.length > 0 ? dbOptions.traits : ALL_CANONICAL_TRAITS}
+                        onToggleTrait={(tName, tObj) => togglePoolTrait && togglePoolTrait('occuAllocations', tName, tObj, parseInt(selectedOccupation.bonus_traits || selectedOccupation.bonus_features || 2, 10))}
+                        onRemoveTrait={(tName) => removePoolTrait && removePoolTrait('occuAllocations', tName)}
+                        colorTheme="sky"
+                      />
+                    </div>
+
+                    {selectedOccupation.features && (
+                      <div className="pt-2 border-t border-sky-900/40">
+                        <FeatureMultiselectPulldown
+                          title="Recommended Features (-1 CP Discount)"
+                          categoryLabel="Occupation Feature"
+                          maxSelectable={parseInt(selectedOccupation.bonus_features || 1, 10)}
+                          selectedFeatures={characterData.occuAllocations?.features || []}
+                          recommendedFeatures={extractNameList(selectedOccupation.features)}
+                          allFeatures={dbOptions.features?.length > 0 ? dbOptions.features : DEFAULT_FEATURES}
+                          onToggleFeature={(fName, fObj) => togglePoolFeature && togglePoolFeature('occuAllocations', fName, fObj, parseInt(selectedOccupation.bonus_features || 1, 10))}
+                          onRemoveFeature={(fName) => removePoolFeature && removePoolFeature('occuAllocations', fName)}
+                          colorTheme="sky"
+                        />
                       </div>
                     )}
 
@@ -1124,10 +1334,24 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
             const label = 'Origin';
             const browsePath = 'origins';
             const val = characterData[fieldId] || '';
+            const secVal = characterData['char-secondary-origin'] || '';
             const isManual = Boolean(manualMode[fieldId]);
             const isExpanded = Boolean(expandedCards['origin']);
-            const socSkills = extractNameList(selectedOrigin?.society_skills);
-            const origTraits = extractNameList(selectedOrigin?.traits || selectedOrigin?.trait);
+
+            const socSkills = Array.from(new Set([
+              ...extractNameList(selectedOrigin?.society_skills),
+              ...extractNameList(selectedSecondaryOrigin?.society_skills)
+            ]));
+
+            const origTraits = Array.from(new Set([
+              ...extractNameList(selectedOrigin?.traits || selectedOrigin?.trait),
+              ...extractNameList(selectedSecondaryOrigin?.traits || selectedSecondaryOrigin?.trait)
+            ]));
+
+            const origFeatures = Array.from(new Set([
+              ...extractNameList(selectedOrigin?.features || selectedOrigin?.bonus_features),
+              ...extractNameList(selectedSecondaryOrigin?.features || selectedSecondaryOrigin?.bonus_features)
+            ]));
 
             return (
               <div className="bg-slate-950/90 border border-emerald-500/40 rounded-lg overflow-hidden transition-all shadow-[0_0_10px_rgba(16,185,129,0.08)]">
@@ -1150,9 +1374,16 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       {label}
                     </span>
                     {val ? (
-                      <span className="text-xs font-bold font-mono uppercase text-emerald-400 truncate">
-                        {val}
-                      </span>
+                      <div className="flex items-center gap-1.5 truncate">
+                        <span className="text-xs font-bold font-mono uppercase text-emerald-400 truncate">
+                          {val}
+                        </span>
+                        {secVal && (
+                          <span className="text-[10px] font-mono text-emerald-300/80 truncate">
+                            (+ {secVal})
+                          </span>
+                        )}
+                      </div>
                     ) : (
                       <span className="text-xs font-mono text-slate-400/80 italic truncate">
                         None Selected
@@ -1245,54 +1476,88 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                 {/* Accordion Body */}
                 {selectedOrigin && isExpanded && (
                   <div className="p-3 border-t border-slate-800/80 space-y-2.5 text-xs bg-slate-950/60">
-                    {socSkills.length > 0 && (
-                      <div className="text-[10px] font-mono space-y-1">
-                        <span className="text-emerald-400 font-bold uppercase block">
-                          Society Skills (Options & Selections):
+                    {/* Optional Secondary Origin Selector */}
+                    <div className="p-2.5 rounded-lg bg-emerald-950/30 border border-emerald-500/30 flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <span className="text-[10px] font-mono font-bold uppercase text-emerald-300 shrink-0">
+                          Secondary Origin:
                         </span>
-                        <div className="flex flex-wrap gap-1.5">
-                          {socSkills.map(skName => {
-                            const status = getSkillTrainingStatus(skName, characterData);
-                            return (
-                              <span
-                                key={skName}
-                                className={`px-2 py-0.5 rounded text-[10px] font-mono border ${
-                                  status.isTrained
-                                    ? 'bg-emerald-950/90 border-emerald-400 text-emerald-100 font-bold shadow-[0_0_8px_rgba(16,185,129,0.2)]'
-                                    : 'bg-slate-900/80 border-slate-800 text-slate-400'
-                                }`}
-                              >
-                                {skName} {status.isTrained ? `[Rank ${status.rank}] ✓` : ''}
-                              </span>
-                            );
-                          })}
-                        </div>
+                        {secVal ? (
+                          <span className="text-xs font-bold text-white truncate">
+                            {secVal}
+                          </span>
+                        ) : (
+                          <span className="text-[11px] text-slate-400 italic truncate">
+                            None (Expands skill & trait choices without extra points)
+                          </span>
+                        )}
                       </div>
-                    )}
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        {onOpenSelectorModal && (
+                          <button
+                            type="button"
+                            onClick={() => onOpenSelectorModal('char-secondary-origin', 'Secondary Origin', 'origins')}
+                            className="px-2 py-0.5 rounded text-[9px] font-mono font-bold uppercase border bg-slate-900 hover:bg-slate-800 border-slate-700 text-emerald-300 hover:text-emerald-100 cursor-pointer"
+                          >
+                            {secVal ? 'Change' : '+ Add Secondary'}
+                          </button>
+                        )}
+                        {secVal && (
+                          <button
+                            type="button"
+                            onClick={() => updateField('char-secondary-origin', '')}
+                            className="p-1 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 transition-colors cursor-pointer"
+                            title="Remove secondary origin"
+                          >
+                            <X className="w-3 h-3" />
+                          </button>
+                        )}
+                      </div>
+                    </div>
 
-                    {origTraits.length > 0 && (
-                      <div className="text-[10px] font-mono space-y-1">
-                        <span className="text-emerald-400 font-bold uppercase block">
-                          Homeworld Traits (Options & Selections):
-                        </span>
-                        <div className="flex flex-wrap gap-1.5">
-                          {origTraits.map(tRef => {
-                            const acquired = getFeatureAcquiredStatus(tRef, characterData);
-                            const tTitle = normalizeTraitName(tRef);
-                            return (
-                              <span
-                                key={tTitle}
-                                className={`px-2 py-0.5 rounded text-[10px] font-mono border ${
-                                  acquired
-                                    ? 'bg-cyan-950/90 border-cyan-400 text-cyan-100 font-bold shadow-[0_0_8px_rgba(34,211,238,0.2)]'
-                                    : 'bg-slate-900/80 border-slate-800 text-slate-400'
-                                }`}
-                              >
-                                {tTitle} {acquired ? '✓' : ''}
-                              </span>
-                            );
-                          })}
-                        </div>
+                    {/* Interactive Origin Society Skills Pool */}
+                    <div className="pt-2 border-t border-emerald-900/40">
+                      <SkillPoolRankPulldown
+                        title={`Society Skill Point Pool${secVal ? ' (Combined)' : ''}`}
+                        categoryLabel="Society Skill"
+                        maxSP={parseInt(selectedOrigin.skill_points || 20, 10)}
+                        allocatedSkills={characterData.originAllocations?.skills || {}}
+                        recommendedSkills={socSkills}
+                        allSkills={dbOptions.skills?.length > 0 ? dbOptions.skills : ALL_CANONICAL_SKILLS}
+                        onUpdateRank={(sName, newRank, delta) => allocatePoolSkillRank && allocatePoolSkillRank('originAllocations', sName, newRank, delta, parseInt(selectedOrigin.skill_points || 20, 10))}
+                        onRemoveSkill={(sName) => allocatePoolSkillRank && allocatePoolSkillRank('originAllocations', sName, 0, 0, parseInt(selectedOrigin.skill_points || 20, 10))}
+                        colorTheme="emerald"
+                      />
+                    </div>
+
+                    {/* Interactive Origin Homeworld Traits Multiselect Pulldown */}
+                    <div className="pt-2 border-t border-emerald-900/40">
+                      <TraitMultiselectPulldown
+                        title={`Origin Homeworld Traits Pool${secVal ? ' (Combined)' : ''}`}
+                        categoryLabel="Origin Trait"
+                        maxSelectable={parseInt(selectedOrigin.bonus_traits || selectedOrigin.bonus_features || 2, 10)}
+                        selectedTraits={characterData.originAllocations?.traits || characterData.originAllocations?.features || []}
+                        recommendedTraits={origTraits}
+                        allTraits={dbOptions.traits?.length > 0 ? dbOptions.traits : ALL_CANONICAL_TRAITS}
+                        onToggleTrait={(tName, tObj) => togglePoolTrait && togglePoolTrait('originAllocations', tName, tObj, parseInt(selectedOrigin.bonus_traits || selectedOrigin.bonus_features || 2, 10))}
+                        onRemoveTrait={(tName) => removePoolTrait && removePoolTrait('originAllocations', tName)}
+                        colorTheme="emerald"
+                      />
+                    </div>
+
+                    {origFeatures.length > 0 && (
+                      <div className="pt-2 border-t border-emerald-900/40">
+                        <FeatureMultiselectPulldown
+                          title="Origin Bonus Features"
+                          categoryLabel="Origin Feature"
+                          maxSelectable={parseInt(selectedOrigin.bonus_features || 1, 10)}
+                          selectedFeatures={characterData.originAllocations?.features || []}
+                          recommendedFeatures={origFeatures}
+                          allFeatures={dbOptions.features?.length > 0 ? dbOptions.features : DEFAULT_FEATURES}
+                          onToggleFeature={(fName, fObj) => togglePoolFeature && togglePoolFeature('originAllocations', fName, fObj, parseInt(selectedOrigin.bonus_features || 1, 10))}
+                          onRemoveFeature={(fName) => removePoolFeature && removePoolFeature('originAllocations', fName)}
+                          colorTheme="emerald"
+                        />
                       </div>
                     )}
 
@@ -1316,6 +1581,8 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
             const isManual = Boolean(manualMode[fieldId]);
             const isExpanded = Boolean(expandedCards['faction']);
             const pkgSkills = extractNameList(selectedFaction?.skill_package || selectedFaction?.skills);
+            const factionTraits = extractNameList(selectedFaction?.traits || selectedFaction?.trait);
+            const maxTraits = parseInt(selectedFaction?.bonus_traits || (factionTraits.length > 0 ? 1 : 0), 10);
 
             return (
               <div className="bg-slate-950/90 border border-purple-500/40 rounded-lg overflow-hidden transition-all shadow-[0_0_10px_rgba(168,85,247,0.08)]">
@@ -1440,55 +1707,50 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       </div>
                     )}
 
-                    {/* Faction Skill Package (Options & Selections) */}
-                    {pkgSkills.length > 0 && (
-                      <div className="text-[10px] font-mono space-y-1">
-                        <span className="text-purple-400 font-bold uppercase block">
-                          Faction Skill Package (Options & Selections):
-                        </span>
-                        <div className="flex flex-wrap gap-1.5">
-                          {pkgSkills.map(skName => {
-                            const status = getSkillTrainingStatus(skName, characterData);
-                            return (
-                              <span
-                                key={skName}
-                                className={`px-2 py-0.5 rounded text-[10px] font-mono border ${
-                                  status.isTrained
-                                    ? 'bg-purple-950/90 border-purple-400 text-purple-100 font-bold shadow-[0_0_8px_rgba(168,85,247,0.2)]'
-                                    : 'bg-slate-900/80 border-slate-800 text-slate-400'
-                                }`}
-                              >
-                                {skName} {status.isTrained ? `[Rank ${status.rank}] ✓` : ''}
-                              </span>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    )}
+                    {/* Interactive Faction Skill Point Pool */}
+                    <div className="pt-2 border-t border-purple-900/40">
+                      <SkillPoolRankPulldown
+                        title="Faction Skill Package Pool"
+                        categoryLabel="Faction Skill"
+                        maxSP={parseInt(selectedFaction.skill_points || 20, 10)}
+                        allocatedSkills={characterData.factionAllocations?.skills || {}}
+                        recommendedSkills={pkgSkills}
+                        allSkills={dbOptions.skills?.length > 0 ? dbOptions.skills : ALL_CANONICAL_SKILLS}
+                        onUpdateRank={(sName, newRank, delta) => allocatePoolSkillRank && allocatePoolSkillRank('factionAllocations', sName, newRank, delta, parseInt(selectedFaction.skill_points || 20, 10))}
+                        onRemoveSkill={(sName) => allocatePoolSkillRank && allocatePoolSkillRank('factionAllocations', sName, 0, 0, parseInt(selectedFaction.skill_points || 20, 10))}
+                        colorTheme="purple"
+                      />
+                    </div>
 
-                    {/* Benefits & Bonuses (Options & Selections) */}
-                    {factionBenefits.length > 0 && (
-                      <div className="text-[10px] font-mono space-y-1">
-                        <span className="text-emerald-400 font-bold uppercase block">
-                          Benefits & Bonuses (Options & Selections):
-                        </span>
-                        <div className="flex flex-wrap gap-1.5">
-                          {factionBenefits.map((ben, idx) => {
-                            const acquired = ben.startsWith('[Gained]') || getFeatureAcquiredStatus(ben, characterData);
-                            return (
-                              <span
-                                key={idx}
-                                className={`px-2 py-0.5 rounded text-[10px] font-mono border ${
-                                  acquired
-                                    ? 'bg-emerald-950/90 border-emerald-400 text-emerald-100 font-bold shadow-[0_0_8px_rgba(16,185,129,0.2)]'
-                                    : 'bg-slate-900/80 border-slate-800 text-slate-400'
-                                }`}
-                              >
-                                {ben} {acquired ? '✓' : ''}
-                              </span>
-                            );
-                          })}
-                        </div>
+                    {/* Interactive Faction Features & Benefits Multiselect Pulldown */}
+                    <div className="pt-2 border-t border-purple-900/40">
+                      <FeatureMultiselectPulldown
+                        title="Faction Features & Benefits Pool"
+                        categoryLabel="Faction Feature"
+                        maxSelectable={parseInt(selectedFaction.bonus_features || 2, 10)}
+                        selectedFeatures={characterData.factionAllocations?.features || []}
+                        recommendedFeatures={factionBenefits.length > 0 ? factionBenefits : (selectedFaction.features || selectedFaction.bonus_features || selectedFaction.benefits || [])}
+                        allFeatures={dbOptions.features?.length > 0 ? dbOptions.features : DEFAULT_FEATURES}
+                        onToggleFeature={(fName, fObj) => togglePoolFeature && togglePoolFeature('factionAllocations', fName, fObj, parseInt(selectedFaction.bonus_features || 2, 10))}
+                        onRemoveFeature={(fName) => removePoolFeature && removePoolFeature('factionAllocations', fName)}
+                        colorTheme="purple"
+                      />
+                    </div>
+
+                    {/* Interactive Faction Traits Multiselect Pulldown */}
+                    {maxTraits > 0 && (
+                      <div className="pt-2 border-t border-purple-900/40">
+                        <TraitMultiselectPulldown
+                          title="Faction Traits Pool"
+                          categoryLabel="Faction Trait"
+                          maxSelectable={maxTraits}
+                          selectedTraits={characterData.factionAllocations?.traits || []}
+                          recommendedTraits={factionTraits}
+                          allTraits={dbOptions.traits?.length > 0 ? dbOptions.traits : ALL_CANONICAL_TRAITS}
+                          onToggleTrait={(tName, tObj) => togglePoolTrait && togglePoolTrait('factionAllocations', tName, tObj, maxTraits)}
+                          onRemoveTrait={(tName) => removePoolTrait && removePoolTrait('factionAllocations', tName)}
+                          colorTheme="purple"
+                        />
                       </div>
                     )}
 
@@ -1525,109 +1787,6 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                     )}
                   </div>
                 )}
-              </div>
-            );
-          })()}
-        </div>
-
-        {/* Right Column */}
-        <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <FolioInput
-              id="char-age"
-              label="Age"
-              value={characterData['char-age'] || ''}
-              onChange={updateField}
-              placeholder="28"
-            />
-
-            <FolioInput
-              id="char-gender"
-              label="Gender"
-              value={characterData['char-gender'] || ''}
-              onChange={updateField}
-              placeholder="Non-Binary / Female / Male"
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <FolioInput
-              id="char-height"
-              label="Height"
-              value={characterData['char-height'] || ''}
-              onChange={updateField}
-              onBlur={(id, val) => {
-                const formatted = formatHeightWithConversion(val);
-                if (formatted !== val) {
-                  updateField(id, formatted);
-                }
-              }}
-              placeholder="e.g. 5'11&quot; or 1.80m"
-              rightLabel={
-                (() => {
-                  const val = characterData['char-height'] || '';
-                  const conv = getHeightConversion(val);
-                  if (conv && !val.includes(`[${conv}]`)) {
-                    return `≈ [${conv}]`;
-                  }
-                  return null;
-                })()
-              }
-            />
-
-            <FolioInput
-              id="char-weight"
-              label="Weight"
-              value={characterData['char-weight'] || ''}
-              onChange={updateField}
-              onBlur={(id, val) => {
-                const formatted = formatWeightWithConversion(val);
-                if (formatted !== val) {
-                  updateField(id, formatted);
-                }
-              }}
-              placeholder="e.g. 180 lbs or 82kg"
-              rightLabel={
-                (() => {
-                  const val = characterData['char-weight'] || '';
-                  const conv = getWeightConversion(val);
-                  if (conv && !val.includes(`[${conv}]`)) {
-                    return `≈ [${conv}]`;
-                  }
-                  return null;
-                })()
-              }
-            />
-          </div>
-
-          <FolioInput
-            id="char-style"
-            label="Description / Style"
-            type="textarea"
-            value={characterData['char-style'] || ''}
-            onChange={updateField}
-            placeholder="Physical features, clothing style, distinctive markings..."
-          />
-
-          <FolioInput
-            id="char-motive"
-            label="Personality / Motive"
-            type="textarea"
-            value={characterData['char-motive'] || ''}
-            onChange={updateField}
-            placeholder="Personal goals, flaws, motivations, quirks..."
-          />
-
-          {/* Owner Handle Identification */}
-          {(() => {
-            const creatorInfo = extractCreatorInfo(characterData, typeof window !== 'undefined' ? localStorage.getItem('userHandle') : '');
-            const ownerHandle = creatorInfo.creatorTag || (typeof window !== 'undefined' ? localStorage.getItem('userHandle') : '') || 'Local Operative';
-            return (
-              <div className="pt-3 pb-1 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Owner Handle:</span>
-                <span className="px-2.5 py-1 bg-slate-900 border border-slate-700/80 text-cyan-300 rounded text-xs font-mono font-bold">
-                  @{ownerHandle.replace(/^@/, '')}
-                </span>
               </div>
             );
           })()}

@@ -293,10 +293,10 @@ const VitalsDyingModal = ({ isOpen, onClose }) => {
                 <div className="bg-slate-950/70 p-3.5 rounded-lg border border-slate-800 space-y-1.5">
                   <div className="font-bold text-emerald-300 flex items-center justify-between">
                     <span>Starting Values &amp; Progression</span>
-                    <span className="text-[10px] font-mono text-amber-400 font-bold">1 BP = +5 Points</span>
+                    <span className="text-[10px] font-mono text-amber-400 font-bold">1 CP = +5 Points</span>
                   </div>
                   <p className="text-slate-300 text-[11.5px]">
-                    Characters begin with a baseline of <strong>30 points each</strong> in Vitality and Health. Both can be increased with Build Points (BP) at a rate of 5 points per 1 BP, with a suggested starting maximum of 60 points each.
+                    Characters begin with a baseline of <strong>30 points each</strong> in Vitality and Health. Both can be increased with Character Points (CP) at a rate of 5 points per 1 CP, with a suggested starting maximum of 60 points each.
                   </p>
                 </div>
               </div>

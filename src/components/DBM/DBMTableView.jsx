@@ -68,9 +68,10 @@ const formatCellValue = (val) => {
   }
   if (typeof val === 'object') {
     // Costs Map
-    if (val.bp !== undefined || val.credits !== undefined || val.nodes !== undefined) {
+    if (val.bp !== undefined || val.cp !== undefined || val.credits !== undefined || val.nodes !== undefined) {
       const parts = [];
-      if (val.bp !== undefined && val.bp !== 0) parts.push(`${val.bp} BP`);
+      const cpVal = val.cp ?? val.bp;
+      if (cpVal !== undefined && cpVal !== 0) parts.push(`${cpVal} CP`);
       if (val.credits !== undefined && val.credits !== 0) parts.push(`${Number(val.credits).toLocaleString()} Cr`);
       if (val.nodes !== undefined && val.nodes !== 0) parts.push(`${val.nodes} Nodes`);
       if (val.strain !== undefined && val.strain !== 0) parts.push(`${val.strain} Strain`);
