@@ -18,6 +18,7 @@ export interface StaticEntity {
   tech_level: number;
   armor_dr: number;
   size_modifier: number;
+  speed_ft?: number;
   species?: string;
   archetype?: string;
   is_persona?: boolean;

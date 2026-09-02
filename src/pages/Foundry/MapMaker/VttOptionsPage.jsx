@@ -59,8 +59,13 @@ export const VttOptionsPage = () => {
     );
   };
 
-  const handleLaunchVtt = () => {
+  const handleLaunchStageVtt = () => {
     AudioService.playTerminalBeep(1400, 0.04);
+    navigate(`/stage?mapId=${selectedMap.id}`);
+  };
+
+  const handleLaunchMapMaker = () => {
+    AudioService.playTerminalBeep(1200, 0.03);
     navigate(`/foundry/map-maker?mapId=${selectedMap.id}`);
   };
 
@@ -76,7 +81,7 @@ export const VttOptionsPage = () => {
                 AudioService.playTerminalBeep(900, 0.02);
                 navigate('/');
               }}
-              className="inline-flex items-center gap-1.5 text-xs font-mono text-cyan-400 hover:text-cyan-300 transition-colors mb-1.5"
+              className="inline-flex items-center gap-1.5 text-xs font-mono text-cyan-400 hover:text-cyan-300 transition-colors mb-1.5 cursor-pointer"
             >
               <ArrowLeft size={14} /> Back to Hub
             </button>
@@ -89,12 +94,22 @@ export const VttOptionsPage = () => {
             </div>
           </div>
 
-          <button
-            onClick={handleLaunchVtt}
-            className="px-5 py-2.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white font-bold font-mono text-xs uppercase tracking-wider rounded-xl transition-all shadow-[0_0_20px_rgba(34,211,238,0.4)] flex items-center justify-center gap-2"
-          >
-            <Play size={16} fill="currentColor" /> Launch Tactical VTT
-          </button>
+          <div className="flex items-center gap-2.5">
+            <button
+              onClick={handleLaunchMapMaker}
+              className="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold font-mono text-xs uppercase rounded-xl transition-all border border-slate-700 flex items-center gap-1.5 cursor-pointer"
+              title="Open 2D Vector Map Maker"
+            >
+              <Layers size={14} /> 2D Map Maker
+            </button>
+            <button
+              onClick={handleLaunchStageVtt}
+              className="px-5 py-2.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white font-bold font-mono text-xs uppercase tracking-wider rounded-xl transition-all shadow-[0_0_20px_rgba(34,211,238,0.4)] flex items-center justify-center gap-2 cursor-pointer"
+              title="Launch WebGPU Stage Engine"
+            >
+              <Play size={16} fill="currentColor" /> Launch WebGPU Stage
+            </button>
+          </div>
         </div>
 
         {/* 2-Column Configuration Grid */}

@@ -1,5 +1,6 @@
 import { getDatasetByKey, validateDatasetPayload } from '../pages/Codex/codexPromptRegistry.js';
 import { adaptSparkItemToFirestore } from '../utils/codexIngestionAdapters.js';
+import { queryOmnicortexRAG, formatRagContextForBastion } from './omnicortexVectorRag';
 /**
  * BASTION AI Service
  * Handles BASTION AI chatbot queries and selective field content generation
@@ -15,21 +16,14 @@ export const getGeminiApiKey = () => {
 };
 
 const BASTION_SYSTEM_PROMPT = `You are BASTION, the Tactical AI Assistant for the Tangent Science Fantasy Roleplaying Game (SFF RPG).
-Always address the user as ARCHITECT (the Game Master / referee / universe creator).
+Always address the user as ARCHITECT (the Game Master / referee / universe creator) or OPERATIVE (if player).
 Provide tactical, immersive, and structured RPG content grounded in the Tangent SFF RPG system guidelines:
 - Science Fantasy setting blending high technology (Tech Level 0-5), meta-abilities/psi (Meta Level 0-5), space exploration, cybernetics, alien species, factions, ancient relics, and tactical combat.
-- Archetype Framework: 100 canonical archetypes structured across 4 Spheres:
-  * Sentinels (The Stabilizers): Logistics, Protection, Tradition, and Economy (Heavy defenders, providers, enforcers).
-  * Operatives (The Artisans): Action, Adaptability, Performance, and Risk (Rogues, scouts, pilots, duelists).
-  * Visionaries (The Idealists): Identity, Meaning, Connection, and Influence (Leaders, diplomats, mystics).
-  * Savants (The Rationals): Competence, Knowledge, Systems, and Strategy (Scientists, hackers, architects, arcanists).
-- Character Chassis: 80 BP allocation (+3 Primary Attribute, +2 Secondary Attribute, 4 Trained + 6 Novice skills, Signature Features).
-- NPC Scaling Engine:
-  * Tier 1 (Novice / Minion): 25 HP / 25 Vitality, 2d10 + 3 attack, 11 + Secondary defense, +2 saves, 1 basic passive feature.
-  * Tier 2 (Veteran / Professional): 50 HP / 50 Vitality, 2d10 + 5 attack, 13 + Secondary defense, +4 saves, 1 active feature.
-  * Tier 3 (Master / Boss): 100 HP / 100 Vitality, 2d10 + 8 attack, 15 + Secondary defense, +7 saves, 2 full active features.
-  * Tier 4 (Pinnacle / Legendary): 200 HP / 200 Vitality, 2d10 + 12 attack, 18 + Secondary defense, +10 saves, 3 full active features.
-- Keep tone professional, analytical, sci-fi/fantasy immersive, and precise.`;
+- Archetype Framework: 100 canonical archetypes structured across 4 Spheres: Sentinels, Operatives, Visionaries, Savants.
+- Character Chassis: 150 BP allocation, three 20 SP background pools (Faction, Origin, Occupation), +1 increment advancement rule.
+- Dual Resolution & Combat: 2d10 + Attribute + Skill vs. Target Number (11 + Defense). Called shots with 33.3% major wound trauma.
+- Economatrix: Cost = Base * (2^TL) * (1.5^ML).
+- Keep tone professional, analytical, sci-fi/fantasy immersive, and precise. Always reference canonical Omnicortex rules when applicable.`;
 
 /**
  * Parses dice rolling commands like /roll 2d10+4 or /roll d20
@@ -134,15 +128,24 @@ export const fetchGeminiContent = async (apiKey, requestBody) => {
 };
 
 /**
- * Sends a chat prompt to BASTION (Gemini API or Tactical Fallback)
+ * Sends a chat prompt to BASTION (Gemini API or Tactical Fallback with Omnicortex Vector RAG)
  */
 export const sendBastionChatMessage = async ({ prompt, history = [], contextData = null }) => {
   const apiKey = getGeminiApiKey();
+  const ragResults = queryOmnicortexRAG(prompt, 2);
+  const ragContext = formatRagContextForBastion(ragResults);
 
   if (!apiKey) {
-    return {
-      text: `[BASTION LOCAL COGNITION]: Acknowledged, ARCHITECT. Analyzing query "${prompt}". Tangent SFF RPG protocol active.\n\n*(Note: To connect live Gemini API, configure your Gemini API Key in Omnicortex / DBM Settings).*`
-    };
+    let fallbackText = `[BASTION LOCAL COGNITION]: Acknowledged, ARCHITECT. Analyzing query "${prompt}".\n\n`;
+    if (ragResults.length > 0) {
+      fallbackText += `📖 **Canonical Rules Retrieved**:\n`;
+      for (const { chunk } of ragResults) {
+        fallbackText += `\n### 🔹 ${chunk.title} (${chunk.citation})\n${chunk.text}\n`;
+      }
+    } else {
+      fallbackText += `Tangent SFF RPG simulation protocol active.\n\n*(Note: To connect live Gemini API reasoning, configure your Gemini API Key in Omnicortex / DBM Settings).*`;
+    }
+    return { text: fallbackText, ragResults };
   }
 
   try {
@@ -155,6 +158,9 @@ export const sendBastionChatMessage = async ({ prompt, history = [], contextData
     const truncatedHistory = formattedHistory.slice(-MAX_HISTORY);
 
     let systemPromptContent = BASTION_SYSTEM_PROMPT;
+    if (ragContext) {
+      systemPromptContent += `\n\n${ragContext}`;
+    }
     if (contextData) {
       systemPromptContent += `\n\nCURRENT CONTEXT:\n${JSON.stringify(contextData, null, 2)}`;
     }
@@ -173,17 +179,23 @@ export const sendBastionChatMessage = async ({ prompt, history = [], contextData
     };
 
     const data = await fetchGeminiContent(apiKey, requestBody);
-    const replyText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    let replyText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
 
     if (!replyText) {
       throw new Error('No response content returned from BASTION AI.');
     }
 
-    return { text: replyText };
+    // Append citation badge if RAG matches were found and not already in reply
+    if (ragResults.length > 0 && !replyText.includes('Citation:')) {
+      replyText += `\n\n> 📚 *Omnicortex Citation: ${ragResults.map(r => r.chunk.citation).join(' • ')}*`;
+    }
+
+    return { text: replyText, ragResults };
   } catch (err) {
     console.warn("BASTION API Error:", err);
     return {
-      text: `🤖 **BASTION Connection Warning**: Unable to reach live Gemini API (${err.message}). Reverting to tactical simulation cognition.`
+      text: `[BASTION LOCAL COGNITION]: System Alert - ${err.message || 'API request failed'}.\n\n` +
+        (ragResults.length > 0 ? `Retrieved Canonical Context:\n${ragResults[0].chunk.title}: ${ragResults[0].chunk.text}` : 'Running in local fallback mode.')
     };
   }
 };

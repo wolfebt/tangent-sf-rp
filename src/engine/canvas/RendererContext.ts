@@ -111,6 +111,10 @@ export class RendererContext {
     return this.app;
   }
 
+  public getGPUDevice(): any {
+    return (this.app.renderer as any)?.gpu?.device || (this.app.renderer as any)?.device || null;
+  }
+
   public getIsWebGPU(): boolean {
     return this.isWebGPU;
   }
