@@ -227,6 +227,7 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                 AudioService.playTerminalBeep(900, 0.02);
                 onClose();
               }}
+              aria-label="Close settings"
               className="text-slate-400 hover:text-white text-xl font-bold leading-none p-1.5 rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
             >
               &times;
@@ -287,10 +288,11 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
 
                   {/* Public Handle */}
                   <div className="space-y-1.5">
-                    <label className="block text-[11px] font-mono font-bold text-cyan-400 uppercase tracking-wider">
+                    <label htmlFor="user-handle" className="block text-[11px] font-mono font-bold text-cyan-400 uppercase tracking-wider">
                       Public Handle / Callsign
                     </label>
                     <input
+                      id="user-handle"
                       type="text"
                       value={handle}
                       onChange={(e) => setHandle(e.target.value)}
@@ -304,10 +306,11 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
 
                   {/* Contact Info */}
                   <div className="space-y-1.5">
-                    <label className="block text-[11px] font-mono font-bold text-cyan-400 uppercase tracking-wider">
+                    <label htmlFor="contact-info" className="block text-[11px] font-mono font-bold text-cyan-400 uppercase tracking-wider">
                       Transmission Coordinates / Contact Info
                     </label>
                     <textarea
+                      id="contact-info"
                       rows={2}
                       value={contactInfo}
                       onChange={(e) => setContactInfo(e.target.value)}
