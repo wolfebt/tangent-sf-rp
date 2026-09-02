@@ -1,9 +1,16 @@
 ---
 id: movement-sprinter
-name: Sprinter
+name: Sprinter (+10 ft Run Speed)
 category: species_movement
-movement_type: Modification
-description: "Gain +10 foot racial bonus to speed when running. Ranked."
+classification: adjuster
+target_mode: Ground
+speed_modifier: 10
+is_additive: true
+is_ranked: true
+bp: 1
+description: >-
+  Gains a +10 foot bonus to speed when executing running or sprinting actions.
+  Ranked.
 costs:
   bp: 1
   credits: 0
@@ -12,32 +19,13 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-speed: 10
-is_ranked: true
-is_exclusive: false
-is_disadvantage: false
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
+# Sprinter (+10 ft Run Speed)
 
-# Sprinter
+**Category**: Species Movement (ADJUSTER)  
+**Target Mode**: Ground  
+**Cost**: +1 BP  
+**Speed Modifier**: +10 ft (Additive)  
 
-**Category**: Species Movement (Modification)  
-**Cost**: 1 BP  
-**Classification**: Modification (Ranked)  
-
-## Effect
-Gain +10 foot racial bonus to speed when running. Ranked.
-
-## Mechanics & Rules
-Gain a +10 foot racial bonus to movement speed when executing Running or Sprinting paces. May be purchased multiple times (Ranked).
+## Description
+Gains a +10 foot bonus to speed when executing running or sprinting actions. Ranked.

@@ -1,26 +1,57 @@
 ---
 id: species-shanor-base
-name: Sha'Nor
-title: Sha'Nor (Void Aberration)
+name: Sha'nor
+title: Sha'nor (Void Aberration)
 category: species
-parent_species: Sha'Nor
+parent_species: Sha'nor & Void Lineages
 type:
   - species_type-aberration
 size:
   - species_size-medium
 movement:
   - species_movement-flight
+speeds: Flight 60 ft
+reach: 5 ft
+senses: 'Darkvision out to 60 feet. [1]'
+immunities: None
+inherent_attribute_modifiers:
+  - attribute: Wisdom
+    bonus: 1
+bonus_attribute_points: 1
+specific_skill_bonuses:
+  - skill: Attune (Void)
+    bonus: 2
+bonus_skills: 10
+bonus_skill_choices:
+  - Attune
+  - Stealth
+  - Intimidation
+  - Discipline
+inherent_features:
+  - trait-ageless
+  - trait-alter-form-void-wisp-shadow-special-ability
+  - trait-awakened-void
+  - trait-fast-healing
+  - trait-immortal
+  - trait-non-typical-anatomy
+  - trait-regeneration-2-hp-rnd
+  - trait-semi-corporeal
+  - trait-telepathic-100ft
+  - trait-flight
+  - trait-vampiric-4-essence-drain-need
+bonus_features: []
+bonus_feature_choices:
+  - Void Stride
+  - Shadow Tendrils
+  - Mind Drain
+recommended_features:
+  - feature-void-stride
 stigma: 'Monstrous (-6), Xeno (-2)'
 tech_level: 4 (Void Siphons & Dark Matter Taps)
 meta_level: 5 (Void Reality-Warping)
 homeworld: The Abyssal Rift of Null-Space
-cp: 32
-description: >-
-  Sha'Nor are semi-corporeal shadow and void beings dwelling in cosmic rifts.
-  Immortal and telepathic, they sustain themselves on ambient essence and deep
-  void energy.
 costs:
-  bp: 32
+  bp: 30
   credits: 0
   nodes: 0
   sockets: 0
@@ -29,112 +60,16 @@ costs:
   ap: 0
 modifiers:
   - target: Wisdom
+    value: 1
     type: attribute
-    value: 1
     mode: inherent
-  - target: Any Attribute
-    type: attribute
-    value: 1
-    mode: bonus_pool
-  - target: Attune (Void)
-    type: skill
-    value: 2
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 10
-    mode: bonus_pool
-  - target: Attune
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Stealth
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Intimidation
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Discipline
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Ageless
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Alter Form (Void Wisp / Shadow - Special Ability)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Awakened (Void)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Fast Healing
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Immortal
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Non-Typical Anatomy
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Regeneration (2 HP/rnd)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Semi-Corporeal
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Telepathic (100ft)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Flight
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Vampiric (-4 Essence Drain need)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 2
-    mode: bonus_pool
-  - target: Void Stride
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Shadow Tendrils
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Mind Drain
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-void-stride
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+cp_cost: 30
+cp: 30
+bp: 30
+description: >-
+  Sha'nor are semi-corporeal shadow and void beings dwelling in cosmic rifts.
+  Immortal and telepathic, they sustain themselves on ambient essence and deep
+  void energy.
 ---
 # Sha'nor (Void Aberration)
 

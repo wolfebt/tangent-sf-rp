@@ -13,16 +13,16 @@ archetypes:
   - Cultural Ambassador
   - Corporate Administrator
 traits:
-  - trait-representative-analytical
-  - trait-representative-conflict-resolution
-  - trait-representative-creativity
-  - trait-representative-emotional-intelligence
-  - trait-representative-flexibility
-  - trait-representative-integrity
-  - trait-representative-languages
-  - trait-representative-negotiation
-  - trait-representative-networking
-  - trait-representative-time-management
+  - trait-analytical
+  - trait-conflict-resolution
+  - trait-creativity
+  - trait-emotional-intelligence
+  - trait-flexibility
+  - trait-integrity
+  - trait-languages
+  - trait-negotiation
+  - trait-networking
+  - trait-time-management
 description: >-
   A Representative's occupation could involve diplomacy, negotiation, and
   communication between various factions, planets, or organizations. They might

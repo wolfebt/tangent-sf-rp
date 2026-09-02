@@ -1,12 +1,9 @@
 ---
 id: trait-mentorship
 name: Mentorship
-category: traits
+trait_tier: Basic
 trait_type: Origin Trait
-origin_association: Enlightened
-description: >-
-  Patient pedagogical wisdom that accelerates the learning and focus of pupils
-  and companions.
+category: traits
 costs:
   bp: 1
   credits: 0
@@ -15,6 +12,9 @@ costs:
   strain: 0
   focus: 0
   ap: 0
+description: >-
+  Patient pedagogical wisdom that accelerates the learning and focus of pupils
+  and companions.
 modifiers: []
 modifications: []
 critical_details:
@@ -28,15 +28,12 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # Mentorship
 
-**Category**: Origin Traits  
-**Associated Origin**: Enlightened  
-**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait
+**Category**: TRAITS
+**Tier**: Basic
+**Type**: Origin Trait
+**BP Cost**: 1
 
 ## Description
 Patient pedagogical wisdom that accelerates the learning and focus of pupils and companions.
-
-## Mechanics & Benefits
-Allies studying or training under the character's direct instruction make Study checks with Advantage.

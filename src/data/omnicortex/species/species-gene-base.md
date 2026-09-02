@@ -3,97 +3,57 @@ id: species-gene-base
 name: Gen-E (Base Engineered Human)
 title: Gen-E (Standard Engineered Transhuman)
 category: species
-parent_species: Engineered Humans
+parent_species: Engineered Humans (Gen-E)
 type:
   - species_type-humanoid
 size:
   - species_size-medium
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 5 ft
+senses: Standard visual and auditory range.
+immunities: None
+inherent_attribute_modifiers: []
+bonus_attribute_points: 2
+specific_skill_bonuses:
+  - skill: Science (Genetics)
+    bonus: 1
+bonus_skills: 5
+bonus_skill_choices:
+  - Science
+  - Athletics
+  - Discipline
+  - Medicine
+inherent_features:
+  - trait-genetic-optimization-disease-immunity-retinal-filter
+  - trait-custom-gene-blueprint-1-free-feature
+bonus_features: []
+bonus_feature_choices:
+  - Metabolic Acceleration
+  - Neural Overclock
+  - Cellular Renewal
+recommended_features:
+  - feature-cellular-renewal
 stigma: None
 tech_level: 4 (Genetic Engineering & Gene-Splicing)
 meta_level: 1 (Cellular Potential)
 homeworld: Neo-Genesis Laboratories
-cp: 16
-description: >-
-  Gen-E transhumans are laboratory-engineered humans designed without congenital
-  defects, carrying optimized immune systems and modular genetic code.
 costs:
-  bp: 16
+  bp: 14
   credits: 0
   nodes: 0
   sockets: 0
   strain: 0
   focus: 0
   ap: 0
-modifiers:
-  - target: Any Attribute
-    type: attribute
-    value: 2
-    mode: bonus_pool
-  - target: Science (Genetics)
-    type: skill
-    value: 1
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 5
-    mode: bonus_pool
-  - target: Science
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Athletics
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Discipline
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Medicine
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: 'Genetic Optimization (Disease Immunity, Retinal Filter)'
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Custom Gene Blueprint (+1 Free Feature)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Metabolic Acceleration
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Neural Overclock
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Cellular Renewal
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-cellular-renewal
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+modifiers: []
+cp_cost: 14
+cp: 14
+bp: 14
+description: >-
+  Gen-E transhumans are laboratory-engineered humans designed without congenital
+  defects, carrying optimized immune systems and modular genetic code.
 ---
 # Gen-E (Standard Engineered Transhuman)
 

@@ -1,8 +1,15 @@
 ---
 id: movement-surge
-name: "Flying: Surge / Soar Pace"
+name: 'Flying: Surge / Soar Pace (4x Fly)'
 category: species_movement
-description: Maximum aerial surge requiring Acrobatics check (DC 10+) each minute to avoid fatigue.
+classification: pace
+target_mode: Flying
+multiplier: 4
+speed: 240
+bp: 0
+description: >-
+  Maximum aerial sprint (4x Fly) requiring Acrobatics check (DC 10+) each
+  minute.
 costs:
   bp: 0
   credits: 0
@@ -11,31 +18,12 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-speed: 240
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
+# Flying: Surge / Soar Pace (4x Fly)
 
-# Flying: Surge / Soar Pace
-
-**Category**: Movement Modes & Paces  
-**Movement Mode**: Flying  
-**Speed Multiplier**: 4x Flight (8x Walk, 5x with Soar)  
-**Medium Speed Baseline**: 240 ft / round  
+**Category**: Species Movement (PACE)  
+**Target Mode**: Flying  
+**Cost**: +0 BP  
 
 ## Description
-Maximum aerial surge requiring Acrobatics check (DC 10+) each minute to avoid fatigue.
-
-## Tactical Modifiers & Checks
-- **Action Penalty / Modifier**: -4 to subtle actions
-- **Required Check**: Acrobatics DC 10+
+Maximum aerial sprint (4x Fly) requiring Acrobatics check (DC 10+) each minute.

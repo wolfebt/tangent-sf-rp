@@ -1562,8 +1562,8 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-sm">
-      <div className="bg-[#0d1117] border border-cyan-500/30 rounded-xl shadow-2xl w-full max-w-5xl max-h-full h-[85vh] flex flex-col overflow-hidden ring-1 ring-white/10">
+    <div className="fixed inset-0 z-[200] flex items-start justify-center p-3 sm:p-4 md:p-6 pt-8 sm:pt-12 md:pt-14 pb-12 bg-black/80 backdrop-blur-md overflow-y-auto select-none font-sans">
+      <div className="bg-[#0d1117] border border-cyan-500/30 rounded-xl shadow-2xl w-full max-w-5xl max-h-[85vh] sm:max-h-[88vh] flex flex-col overflow-hidden ring-1 ring-white/10">
         
         {/* Header */}
         <div className="flex justify-between items-center p-4 border-b border-slate-800 bg-slate-900/50">

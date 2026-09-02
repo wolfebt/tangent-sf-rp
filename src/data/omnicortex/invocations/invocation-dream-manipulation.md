@@ -2,8 +2,8 @@
 id: invocation-dream-manipulation
 name: DREAM MANIPULATION
 category: invocations
-discipline: Entropy
-description: DREAM MANIPULATION invocation for Entropy reality manipulation.
+discipline: Mental
+description: DREAM MANIPULATION invocation for Mental reality manipulation.
 costs:
   bp: 0
   credits: 0
@@ -25,11 +25,10 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # DREAM MANIPULATION Invocation
 
 **Category**: Invocations  
-**Discipline**: Entropy
+**Discipline**: Mental
 
 ## Description & Ritual Details
 Classification: Mental (Projection) | Utility/Attack | \[Subconscious\] \[Illusion\]  

@@ -128,7 +128,7 @@ const getDisadvantageActiveStatus = (disRef, characterData) => {
 };
 
 const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
-  const { characterData, updateField, applyArchetypeChassis, applySpeciesAdjustments } = useFolio();
+  const { characterData, updateField, applyArchetypeChassis, applySpeciesAdjustments, economyBreakdown, calculateFullSpeciesCost } = useFolio();
   const dbm = useDBM();
 
   const [dbOptions, setDbOptions] = useState({});
@@ -644,6 +644,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
             const bonusSkillChoices = extractNameList(selectedSpecies?.bonus_skill_choices);
             const attrMods = Array.isArray(selectedSpecies?.inherent_attribute_modifiers) ? selectedSpecies.inherent_attribute_modifiers : [];
             const skillBonuses = Array.isArray(selectedSpecies?.specific_skill_bonuses) ? selectedSpecies.specific_skill_bonuses : [];
+            const speciesCost = economyBreakdown?.speciesCostBreakdown || (selectedSpecies ? calculateFullSpeciesCost?.(selectedSpecies, dbOptions) : null);
 
             return (
               <div className="bg-slate-950/90 border border-cyan-500/40 rounded-lg overflow-hidden transition-all shadow-[0_0_10px_rgba(34,211,238,0.08)]">
@@ -672,6 +673,11 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                     ) : (
                       <span className="text-xs font-mono text-slate-400/80 italic truncate">
                         None Selected <span className="text-cyan-500/70 hidden sm:inline">(Required)</span>
+                      </span>
+                    )}
+                    {speciesCost && speciesCost.totalCost > 0 && (
+                      <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase bg-purple-950/80 border border-purple-500/50 text-purple-300 shrink-0">
+                        {speciesCost.totalCost} BP
                       </span>
                     )}
                     {selectedSpecies?.parent_species && val && (
@@ -761,6 +767,45 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                 {/* Accordion Body */}
                 {selectedSpecies && isExpanded && (
                   <div className="p-3 border-t border-slate-800/80 space-y-2.5 text-xs bg-slate-950/60">
+                    {/* Species Component Cost Breakdown */}
+                    {speciesCost && (
+                      <div className="bg-slate-900/80 p-2.5 rounded-lg border border-purple-500/30 text-[10px] font-mono space-y-1.5">
+                        <div className="flex items-center justify-between">
+                          <span className="text-purple-300 font-bold uppercase flex items-center gap-1">
+                            <span>🧬</span> Species Component Breakdown:
+                          </span>
+                          <span className="text-purple-200 font-bold px-2 py-0.5 rounded bg-purple-950/90 border border-purple-500/60">
+                            Total: {speciesCost.totalCost} BP (CP)
+                          </span>
+                        </div>
+                        <div className="flex flex-wrap gap-1.5 text-slate-300">
+                          <span className="px-1.5 py-0.5 rounded bg-slate-950 border border-slate-800">
+                            Type: <strong className="text-purple-300">{speciesCost.breakdown.typeBP} BP</strong>
+                          </span>
+                          <span className="px-1.5 py-0.5 rounded bg-slate-950 border border-slate-800">
+                            Size: <strong className="text-purple-300">{speciesCost.breakdown.sizeBP} BP</strong>
+                          </span>
+                          <span className="px-1.5 py-0.5 rounded bg-slate-950 border border-slate-800">
+                            Movement: <strong className="text-purple-300">{speciesCost.breakdown.movementBP} BP</strong>
+                          </span>
+                          <span className="px-1.5 py-0.5 rounded bg-slate-950 border border-slate-800">
+                            Attributes: <strong className="text-purple-300">{speciesCost.breakdown.attributeBP >= 0 ? `+${speciesCost.breakdown.attributeBP}` : speciesCost.breakdown.attributeBP} BP</strong>
+                          </span>
+                          <span className="px-1.5 py-0.5 rounded bg-slate-950 border border-slate-800">
+                            Skills: <strong className="text-purple-300">{speciesCost.breakdown.skillsBP} BP</strong>
+                          </span>
+                          <span className="px-1.5 py-0.5 rounded bg-slate-950 border border-slate-800">
+                            Traits: <strong className="text-purple-300">{speciesCost.breakdown.traitsBP} BP</strong>
+                          </span>
+                          {speciesCost.breakdown.disadvantagesRefund > 0 && (
+                            <span className="px-1.5 py-0.5 rounded bg-red-950/40 border border-red-800/60 text-red-300">
+                              Disadvantages: <strong>-{speciesCost.breakdown.disadvantagesRefund} BP</strong>
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
                     <div className="flex flex-wrap gap-2 text-[10px] font-mono bg-slate-900/60 p-2 rounded border border-slate-800/80">
                       <div>
                         <span className="text-slate-500">Lineage:</span> <strong className="text-cyan-300">{selectedSpecies.parent_species || 'Species'}</strong>
@@ -1592,11 +1637,11 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
       {/* Comprehensive Full Database Entry Inspector Modal */}
       {inspectItem && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-3 sm:p-6 overflow-y-auto"
+          className="fixed inset-0 z-[250] flex items-start justify-center bg-black/85 backdrop-blur-md p-3 sm:p-6 pt-10 sm:pt-14 md:pt-16 pb-12 overflow-y-auto select-none font-sans"
           onClick={() => setInspectItem(null)}
         >
           <div 
-            className="bg-slate-900 border border-cyan-500/60 rounded-xl max-w-3xl w-full p-4 sm:p-6 shadow-2xl flex flex-col max-h-[90vh] text-slate-100 animate-in fade-in zoom-in-95 duration-150"
+            className="bg-slate-900 border border-cyan-500/60 rounded-xl max-w-3xl w-full p-4 sm:p-6 shadow-2xl flex flex-col max-h-[85vh] sm:max-h-[88vh] text-slate-100 animate-in fade-in zoom-in-95 duration-150"
             onClick={e => e.stopPropagation()}
           >
             {/* Header */}

@@ -10,16 +10,49 @@ size:
   - species_size-large
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 10 ft
+senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
+immunities: >-
+  Asphyxiation, bleeding, critical hits, poison, biological disease, starvation,
+  sleep [9]
+inherent_attribute_modifiers:
+  - attribute: Strength
+    bonus: 3
+  - attribute: Stamina
+    bonus: 3
+  - attribute: Intellect
+    bonus: -2
+  - attribute: Charisma
+    bonus: -2
+bonus_attribute_points: 0
+specific_skill_bonuses:
+  - skill: Combat (Melee)
+    bonus: 2
+bonus_skills: 10
+bonus_skill_choices:
+  - Combat
+  - Intimidation
+  - Athletics
+inherent_features:
+  - trait-synthetic-base-traits
+  - trait-large-size
+  - trait-stone-metal-alloy-body-dr-8
+  - trait-magic-core-power
+  - trait-spell-resistance-4-vs-magic
+bonus_features: []
+bonus_feature_choices:
+  - Runic Ward
+  - Earth Shaker
+  - Unstoppable Bulk
+recommended_features:
+  - feature-runic-ward
 stigma: Severe Synthetic (-4)
 tech_level: 2 (Arcane Masonry & Runic Seals)
 meta_level: 4 (Runic Core Animation)
 homeworld: Sanctum Vaults & Ancient Spire Ruins
-cp: 26
-description: >-
-  Constructed from enchanted alloys, granite, or obsidian and animated by arcane
-  runic cores, Golems are unstoppable heavy sentinels.
 costs:
-  bp: 26
+  bp: 70
   credits: 0
   nodes: 0
   sockets: 0
@@ -28,92 +61,39 @@ costs:
   ap: 0
 modifiers:
   - target: Strength
-    type: attribute
     value: 3
+    type: attribute
     mode: inherent
   - target: Stamina
-    type: attribute
     value: 3
+    type: attribute
     mode: inherent
   - target: Intellect
-    type: attribute
     value: -2
+    type: attribute
     mode: inherent
   - target: Charisma
-    type: attribute
     value: -2
+    type: attribute
     mode: inherent
-  - target: Combat (Melee)
-    type: skill
+  - target: Strength
     value: 2
-    mode: inherent
-  - target: General Skill Pool
+    type: attribute
+    mode: size_modifier
+  - target: Combat / Defense
+    value: -2
+    type: combat
+    mode: size_modifier
+  - target: Stealth
+    value: -4
     type: skill
-    value: 10
-    mode: bonus_pool
-  - target: Combat
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Intimidation
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Athletics
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Synthetic Base Traits
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Large Size
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Stone/Metal Alloy Body (DR 8/-)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Magic Core Power
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Spell Resistance (+4 vs Magic)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Runic Ward
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Earth Shaker
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Unstoppable Bulk
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-runic-ward
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+    mode: size_modifier
+cp_cost: 70
+cp: 70
+bp: 70
+description: >-
+  Constructed from enchanted alloys, granite, or obsidian and animated by arcane
+  runic cores, Golems are unstoppable heavy sentinels.
 ---
 # Golem (Arcane / Heavy Magitech Construct)
 

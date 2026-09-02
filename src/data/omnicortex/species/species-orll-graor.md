@@ -10,16 +10,43 @@ size:
   - species_size-large
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 10 ft
+senses: Standard visual and auditory range.
+immunities: None
+inherent_attribute_modifiers:
+  - attribute: Strength
+    bonus: 2
+  - attribute: Stamina
+    bonus: 2
+  - attribute: Charisma
+    bonus: -1
+bonus_attribute_points: 0
+specific_skill_bonuses:
+  - skill: Athletics
+    bonus: 1
+bonus_skills: 5
+bonus_skill_choices:
+  - Athletics
+  - Survival
+  - Combat
+inherent_features:
+  - trait-chloroplast-cells-sustained-by-sunlight-2-sta-in-sun
+  - trait-exoskeleton-dr-3
+  - trait-regenerative-sap
+bonus_features: []
+bonus_feature_choices:
+  - Sunlight Surge
+  - Bark Chitin
+  - Root Stance
+recommended_features:
+  - feature-sunlight-surge
 stigma: Xeno (-2)
 tech_level: 2 (Solar Bio-Crafting)
 meta_level: 1 (Solar Resonance)
 homeworld: Gra’or Sun Canopies
-cp: 20
-description: >-
-  A green-skinned, photosynthetic sub-species of Orll who generate nourishment
-  and cellular healing directly from sunlight.
 costs:
-  bp: 20
+  bp: 28
   credits: 0
   nodes: 0
   sockets: 0
@@ -28,80 +55,35 @@ costs:
   ap: 0
 modifiers:
   - target: Strength
-    type: attribute
     value: 2
+    type: attribute
     mode: inherent
   - target: Stamina
-    type: attribute
     value: 2
+    type: attribute
     mode: inherent
   - target: Charisma
-    type: attribute
     value: -1
+    type: attribute
     mode: inherent
-  - target: Athletics
+  - target: Strength
+    value: 2
+    type: attribute
+    mode: size_modifier
+  - target: Combat / Defense
+    value: -2
+    type: combat
+    mode: size_modifier
+  - target: Stealth
+    value: -4
     type: skill
-    value: 1
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 5
-    mode: bonus_pool
-  - target: Athletics
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Survival
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Combat
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: 'Chloroplast Cells (Sustained by sunlight, +2 STA in sun)'
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Exoskeleton (DR 3/-)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Regenerative Sap
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Sunlight Surge
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Bark Chitin
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Root Stance
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-sunlight-surge
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+    mode: size_modifier
+cp_cost: 28
+cp: 28
+bp: 28
+description: >-
+  A green-skinned, photosynthetic sub-species of Orll who generate nourishment
+  and cellular healing directly from sunlight.
 ---
 # Gra'or (Photosynthetic Orll Subspecies)
 

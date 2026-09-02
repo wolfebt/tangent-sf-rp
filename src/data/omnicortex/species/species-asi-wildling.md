@@ -3,7 +3,7 @@ id: species-asi-wildling
 name: Wildling
 title: Wildling (Koban Lineage)
 category: species
-parent_species: Asi
+parent_species: Asi (Fey Lineages)
 type:
   - species_type-fey
 size:
@@ -11,17 +11,42 @@ size:
 movement:
   - species_movement-bipedal
   - species_movement-climbing
+speeds: 'Ground 30 ft, Climb 30 ft'
+reach: 3 ft
+senses: 'Low-light vision. [1]'
+immunities: None
+inherent_attribute_modifiers: []
+bonus_attribute_points: 1
+specific_skill_bonuses:
+  - skill: Survival
+    bonus: 1
+  - skill: Animal Handling
+    bonus: 1
+bonus_skills: 0
+bonus_skill_choices:
+  - Survival
+  - Animal Handling
+  - Acrobatics
+  - Perception
+inherent_features:
+  - trait-asi-base-traits
+  - trait-animal-affinity
+  - trait-climber
+  - trait-alter-form-animal
+  - trait-awakened-nature
+bonus_features: []
+bonus_feature_choices:
+  - Beast Speech
+  - Wild Roar
+  - Keen Senses
+recommended_features:
+  - feature-beast-speech
 stigma: 'Animal (-2), Xeno (-2)'
 tech_level: 1 (Bone & Root Tools)
 meta_level: 3 (Symbiotic Totemism)
 homeworld: Untamed Wildlands
-cp: 17
-description: >-
-  Wildlings are feral offshoots of the Koban fey lineage who live in communion
-  with apex predators, shifting effortlessly into diverse mammalian forms to
-  hunt and forage.
 costs:
-  bp: 17
+  bp: 14
   credits: 0
   nodes: 0
   sockets: 0
@@ -29,85 +54,25 @@ costs:
   focus: 0
   ap: 0
 modifiers:
-  - target: Any Attribute
+  - target: Strength
+    value: -2
     type: attribute
-    value: 1
-    mode: bonus_pool
-  - target: Survival
+    mode: size_modifier
+  - target: Combat / Defense
+    value: 2
+    type: combat
+    mode: size_modifier
+  - target: Stealth
+    value: 4
     type: skill
-    value: 1
-    mode: inherent
-  - target: Animal Handling
-    type: skill
-    value: 1
-    mode: inherent
-  - target: Survival
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Animal Handling
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Acrobatics
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Perception
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Asi Base Traits
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Animal Affinity
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Climber
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Alter Form (Animal)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Awakened (Nature)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Beast Speech
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Wild Roar
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Keen Senses
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-beast-speech
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+    mode: size_modifier
+cp_cost: 14
+cp: 14
+bp: 14
+description: >-
+  Wildlings are feral offshoots of the Koban fey lineage who live in communion
+  with apex predators, shifting effortlessly into diverse mammalian forms to
+  hunt and forage.
 ---
 # Wildling (Koban Lineage)
 

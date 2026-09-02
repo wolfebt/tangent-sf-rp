@@ -1,1 +1,65 @@
-[]
+[
+  {
+    "id": "range-self-touch",
+    "name": "Self / Touch (-2 DC)",
+    "dcMod": -2,
+    "distance": "Touch / 0 ft",
+    "description": "Requires physical direct contact with the target or applies internally to the user."
+  },
+  {
+    "id": "range-close",
+    "name": "Close (25ft) (+0 DC)",
+    "dcMod": 0,
+    "distance": "25 ft + 5ft/2 Ranks",
+    "description": "Short tactical distance; ideal for standard room clearing and close combat."
+  },
+  {
+    "id": "range-medium",
+    "name": "Medium (100ft) (+2 DC)",
+    "dcMod": 2,
+    "distance": "100 ft + 10ft/Rank",
+    "description": "Standard mid-range engagement distance across streets and open fields."
+  },
+  {
+    "id": "range-long",
+    "name": "Long (400ft) (+5 DC)",
+    "dcMod": 5,
+    "distance": "400 ft + 40ft/Rank",
+    "description": "Long-range engagement distance across large battlefields and perimeter zones."
+  },
+  {
+    "id": "range-extreme",
+    "name": "Extreme / Sniper (1,000ft+) (+8 DC)",
+    "dcMod": 8,
+    "distance": "1,000+ ft",
+    "description": "Extreme long-range fire requiring dedicated optics or stabilized targeting mounts."
+  },
+  {
+    "id": "range-line-of-sight",
+    "name": "Line of Sight (+10 DC)",
+    "dcMod": 10,
+    "distance": "Visual Horizon",
+    "description": "Any visible target within uninterrupted visual line of sight."
+  },
+  {
+    "id": "range-planetary",
+    "name": "Planetary / Global (+15 DC)",
+    "dcMod": 15,
+    "distance": "Planetary Surface",
+    "description": "Reaches anywhere across the curvature of the planetary body via orbital relays."
+  },
+  {
+    "id": "range-interplanetary",
+    "name": "Interplanetary / System (+20 DC)",
+    "dcMod": 20,
+    "distance": "Star System",
+    "description": "Transmits across astronomical units within a local star system."
+  },
+  {
+    "id": "range-planar",
+    "name": "Planar / Dimensional (+25 DC)",
+    "dcMod": 25,
+    "distance": "Multiverse / Aether",
+    "description": "Crosses dimensional rifts and connects between parallel reality planes."
+  }
+]

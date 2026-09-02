@@ -1,10 +1,16 @@
 ---
 id: species_movement-glide
-name: "Gliding"
+name: Gliding
 category: species_movement
-type: "Flying"
-speed: 60
-description: "Patagial membranes or gliding sails. Moves 5 ft horizontally for every 1 ft of descent."
+classification: mode
+target_mode: Flying
+type: Flying
+base_speed: 30
+speed: 30
+bp: 0
+description: >-
+  Patagial membranes or gliding sails. Moves 30 ft/round horizontally while
+  descending 1 ft for every 5 ft traveled.
 costs:
   bp: 0
   credits: 0
@@ -13,24 +19,13 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
-
 # Gliding
 
-**Mode Type**: Flying  
-**Base Speed**: 60 ft / round  
+**Category**: Species Movement (MODE)  
+**Target Mode**: Flying  
+**Cost**: +0 BP  
+**Base Speed**: 30 ft / round  
 
 ## Description
-Patagial membranes or gliding sails. Moves 5 ft horizontally for every 1 ft of descent.
+Patagial membranes or gliding sails. Moves 30 ft/round horizontally while descending 1 ft for every 5 ft traveled.

@@ -8,10 +8,17 @@ import {
   SPECIES_TYPES,
   SPECIES_SIZES,
   SPECIES_MOVEMENT_MODES,
+  SPECIES_MOVEMENT_BASE_MODES,
+  SPECIES_MOVEMENT_ADJUSTERS,
+  SPECIES_MOVEMENT_GROUPS,
+  SPECIES_MOVEMENT_MODIFICATIONS,
   SPECIES_TRAITS_BASIC,
   SPECIES_TRAITS_ADVANCED,
   SPECIES_TRAITS_ELITE,
   SPECIES_DISADVANTAGES,
+  SPECIES_ATTRIBUTE_MODIFIERS,
+  SPECIES_SKILL_MODIFIERS,
+  SPECIES_COMPONENT_RULES,
   THREAT_TIER_CHASSIS,
   COMPETENCY_ROLES,
   DESIGNATIONS,
@@ -39,6 +46,8 @@ import {
   EXPERIENCE_RULES
 } from './tangentConstants.js';
 
+import { DEFAULT_SPECIES } from '../data/speciesData.js';
+
 import {
   calculateCreditValue,
   calculateMaterialCost,
@@ -47,117 +56,437 @@ import {
   getFinancialStatus
 } from './tangentEconEngine.js';
 
+/**
+ * Calculates additive movement speeds and derived tactical paces for a species or entity.
+ * Associates speed adjusters with their respective base modes (Ground, Flying, Swimming, Climbing, Burrowing).
+ * 
+ * @param {Array<string|object>} movementSelections - List of movement IDs/objects
+ * @param {string|object} [size='Medium'] - Size category
+ * @returns {object} Calculated additive speeds, formatted string, itemized breakdowns, and total movement BP
+ */
+export function calculateSpeciesSpeeds(movementSelections = ['normal'], size = 'Medium') {
+  const modesList = Array.isArray(movementSelections) ? movementSelections : [movementSelections];
+  const sizeMultiplier = typeof size === 'object' ? (size.speedMult || 1) : (SPECIES_SIZES[size]?.speedMult || 1);
+
+  const activeBaseModes = new Map(); // target_mode -> base mode def
+  const activeAdjusters = [];
+
+  for (const mItem of modesList) {
+    if (!mItem) continue;
+    const rawId = typeof mItem === 'object' ? (mItem.id || mItem.name) : String(mItem);
+    const cleanId = rawId.toLowerCase().replace(/^species_movement-/, '').replace(/^movement-/, '').replace(/-/g, '_');
+
+    // 1. Check BASE_MODES
+    const baseMatch = SPECIES_MOVEMENT_BASE_MODES.find(b => 
+      b.id === rawId || b.id === `species_movement-${cleanId}` || b.id === `movement-${cleanId}` ||
+      b.id === cleanId || b.name.toLowerCase() === rawId.toLowerCase()
+    );
+
+    // 2. Check ADJUSTERS
+    const adjMatch = SPECIES_MOVEMENT_ADJUSTERS.find(a => 
+      a.id === rawId || a.id === `species_movement-${cleanId}` || a.id === `movement-${cleanId}` ||
+      a.id === cleanId || a.name.toLowerCase() === rawId.toLowerCase()
+    );
+
+    if (baseMatch) {
+      const target = baseMatch.target_mode || 'Ground';
+      if (!activeBaseModes.has(target) || (baseMatch.base_speed || 0) > (activeBaseModes.get(target).base_speed || 0)) {
+        activeBaseModes.set(target, baseMatch);
+      }
+    } else if (adjMatch) {
+      activeAdjusters.push(adjMatch);
+    } else {
+      const fallback = SPECIES_MOVEMENT_MODES.find(f => f.id === rawId || f.id === cleanId || f.name.toLowerCase() === rawId.toLowerCase());
+      if (fallback) {
+        if (fallback.category === 'Mode' || fallback.base_speed !== undefined) {
+          activeBaseModes.set(fallback.target_mode || 'Ground', fallback);
+        } else {
+          activeAdjusters.push(fallback);
+        }
+      }
+    }
+  }
+
+  // Ensure default Ground mode if none specified
+  if (activeBaseModes.size === 0) {
+    activeBaseModes.set('Ground', SPECIES_MOVEMENT_BASE_MODES[0]);
+  }
+
+  const speeds = {};
+  const formattedParts = [];
+  const itemized = [];
+  let totalMovementBP = 0;
+
+  activeBaseModes.forEach((baseMode, targetMode) => {
+    let baseSpeed = Number(baseMode.base_speed || baseMode.speed || 30);
+    const modeBP = Number(baseMode.bp || 0);
+    totalMovementBP += modeBP;
+
+    // Filter adjusters targeting this mode
+    const modeAdjusters = activeAdjusters.filter(a => (a.target_mode || 'Ground') === targetMode);
+    let speedDelta = 0;
+    const appliedNotes = [];
+
+    modeAdjusters.forEach(adj => {
+      const delta = Number(adj.speed_modifier ?? adj.speedMod ?? 0);
+      speedDelta += delta;
+      const adjBP = Number(adj.bp || 0);
+      totalMovementBP += adjBP;
+      if (delta !== 0) {
+        appliedNotes.push(`${adj.name.replace(/\s*\(\+?\-?\d+\s*ft.*\)/i, '')} ${delta > 0 ? `+${delta}` : delta} ft`);
+      } else {
+        appliedNotes.push(adj.name);
+      }
+    });
+
+    let finalSpeed = Math.max(5, baseSpeed + speedDelta);
+    if (sizeMultiplier > 1 && (targetMode === 'Ground' || targetMode === 'Flying')) {
+      finalSpeed *= sizeMultiplier;
+    }
+
+    const key = targetMode.toLowerCase();
+    speeds[key] = finalSpeed;
+
+    const breakdownText = appliedNotes.length > 0 
+      ? ` (${baseMode.name.replace(/\s*\(.*\)/, '')} ${baseSpeed} ft + ${appliedNotes.join(', ')})`
+      : '';
+    formattedParts.push(`${targetMode} ${finalSpeed} ft${breakdownText}`);
+
+    itemized.push({
+      mode: targetMode,
+      id: baseMode.id,
+      name: baseMode.name,
+      baseSpeed,
+      speedDelta,
+      finalSpeed,
+      adjusters: modeAdjusters.map(a => ({ id: a.id, name: a.name, speedMod: a.speed_modifier ?? a.speedMod ?? 0, bp: a.bp })),
+      bp: modeBP + modeAdjusters.reduce((s, a) => s + Number(a.bp || 0), 0),
+      description: baseMode.description || ''
+    });
+  });
+
+  // Include general unassigned adjusters
+  const unassignedAdjusters = activeAdjusters.filter(a => !activeBaseModes.has(a.target_mode || 'Ground'));
+  unassignedAdjusters.forEach(ua => {
+    totalMovementBP += Number(ua.bp || 0);
+    itemized.push({
+      mode: ua.target_mode || 'General',
+      id: ua.id,
+      name: ua.name,
+      bp: Number(ua.bp || 0),
+      isUtility: true,
+      description: ua.description || ''
+    });
+  });
+
+  return {
+    speeds,
+    speedsFormatted: formattedParts.join(', '),
+    itemized,
+    totalMovementBP
+  };
+}
+
 // ═══════════════════════════════════════════════════════════
-// 1. SPECIES FORGE ENGINE (PLAN 23)
+// 1. SPECIES FORGE & BUILD ENGINE (PLAN 23 & CANONICAL CODEX)
 // ═══════════════════════════════════════════════════════════
 
 /**
  * Calculates total Build Points (BP) used and budget remaining for a Species.
+ * Handles both parameter objects and raw catalog/custom species documents.
  * 
  * @param {object} params
- * @param {string} [params.type] - Species type ID (Aberration, Beast, etc.)
- * @param {string} [params.size] - Size category ID (Diminutive to Huge)
- * @param {Array<string>} [params.movementModes] - Selected movement mode IDs
+ * @param {string|Array<string>} [params.type] - Species type ID (Aberration, Beast, etc.)
+ * @param {string|Array<string>} [params.size] - Size category ID (Diminutive to Huge)
+ * @param {Array<string|object>} [params.movementModes] - Selected movement mode IDs
  * @param {object} [params.attributes] - Attribute bonuses/penalties { str, agi, sta, int, wis, cha }
- * @param {number} [params.skillBundles] - Number of +5 Skill Point bundles (4 BP each)
- * @param {Array<string|object>} [params.traits] - Selected traits (Basic, Advanced, Elite)
+ * @param {number} [params.skillBundles] - Number of +5 Skill Point bundles (5 BP each)
+ * @param {Array<string|object>} [params.traits] - Selected traits (Basic 1 BP, Advanced 2 BP, Elite 4 BP)
  * @param {Array<string|object>} [params.disadvantages] - Selected disadvantages (refund BP)
  * @param {string} [params.budgetLevel] - Budget level ID ('Standard', 'Advanced', 'Monster')
- * @returns {object} Total BP breakdown and validation
+ * @returns {object} Total BP breakdown, itemized components, and budget validation
  */
-export function calculateSpeciesBP({
-  type = 'Humanoid',
-  size = 'Medium',
-  movementModes = ['normal'],
-  attributes = {},
-  skillBundles = 0,
-  traits = [],
-  disadvantages = [],
-  budgetLevel = 'Standard'
-} = {}) {
-  let bpTotal = 0;
+export function calculateSpeciesBP(params = {}) {
+  // Normalize parameters
+  let type = params.type || params.species_type || 'Humanoid';
+  let size = params.size || params.species_size || 'Medium';
+  let movementModes = params.movementModes || params.movement_modes || params.movement || ['normal'];
+  let attributes = {};
+  let skillBundles = params.skillBundles ?? params.skill_bundles ?? 0;
+  let traits = Array.isArray(params.traits) ? [...params.traits] : [];
+  let disadvantages = Array.isArray(params.disadvantages) ? [...params.disadvantages] : [];
+  let budgetLevel = params.budgetLevel || params.budget_level || 'Standard';
 
-  // 1. Species Type BP
-  const typeDef = SPECIES_TYPES[type] || SPECIES_TYPES.Humanoid;
-  const typeBP = Number(typeDef.bp || 0);
-  bpTotal += typeBP;
+  // Normalize type
+  if (Array.isArray(type) && type.length > 0) {
+    type = type[0];
+  }
+  if (typeof type === 'string') {
+    type = type.replace(/^species_type-/, '').trim();
+    type = type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
+  }
 
-  // 2. Size Category BP
-  const sizeDef = SPECIES_SIZES[size] || SPECIES_SIZES.Medium;
-  const sizeBP = Number(sizeDef.bp || 0);
-  bpTotal += sizeBP;
+  // Normalize size
+  if (Array.isArray(size) && size.length > 0) {
+    size = size[0];
+  }
+  if (typeof size === 'string') {
+    size = size.replace(/^species_size-/, '').trim();
+    size = size.charAt(0).toUpperCase() + size.slice(1).toLowerCase();
+  }
 
-  // 3. Movement Modes BP
-  let movementBP = 0;
-  if (Array.isArray(movementModes)) {
-    for (const modeId of movementModes) {
-      const mode = SPECIES_MOVEMENT_MODES.find(m => m.id === modeId || m.id === modeId?.id);
-      if (mode) {
-        movementBP += Number(mode.bp || 0);
-      }
+  // Normalize movement modes
+  if (!Array.isArray(movementModes)) {
+    movementModes = [movementModes];
+  }
+  movementModes = movementModes.map(m => {
+    if (typeof m === 'string') {
+      const clean = m.replace(/^species_movement-/, '').replace(/-trait$/, '').trim().toLowerCase();
+      if (clean === 'bipedal' || clean === 'normal' || clean === 'standard') return 'species_movement-bipedal';
+      if (clean === 'swim' || clean === 'swimming') return 'species_movement-swimming';
+      if (clean === 'burrow' || clean === 'burrowing') return 'movement-burrow-trait';
+      if (clean === 'climb' || clean === 'climber') return 'species_movement-climbing';
+      if (clean === 'fly' || clean === 'flight' || clean === 'flight_basic') return 'species_movement-flight';
+      if (clean === 'gliding' || clean === 'gliding_wings' || clean === 'gliding wings') return 'species_movement-glide';
+      return m;
+    }
+    return m?.id || 'species_movement-bipedal';
+  });
+
+  // Normalize attributes from object (supporting con/dex aliases and full names)
+  if (params.attributes && typeof params.attributes === 'object') {
+    Object.entries(params.attributes).forEach(([k, v]) => {
+      const key = String(k).toLowerCase();
+      const val = Number(v || 0);
+      if (key.startsWith('str')) attributes.str = (attributes.str || 0) + val;
+      else if (key.startsWith('agi') || key.startsWith('dex')) attributes.agi = (attributes.agi || 0) + val;
+      else if (key.startsWith('sta') || key.startsWith('con')) attributes.sta = (attributes.sta || 0) + val;
+      else if (key.startsWith('int')) attributes.int = (attributes.int || 0) + val;
+      else if (key.startsWith('wis')) attributes.wis = (attributes.wis || 0) + val;
+      else if (key.startsWith('cha')) attributes.cha = (attributes.cha || 0) + val;
+    });
+  }
+
+  // Support skill points directly
+  if (params.skillPoints || params.skill_points) {
+    const rawPoints = Number(params.skillPoints || params.skill_points);
+    if (!skillBundles) {
+      skillBundles = Math.floor(rawPoints / 5);
     }
   }
-  bpTotal += movementBP;
+
+  // Inherent attributes from species modifiers array
+  if (Array.isArray(params.inherent_attribute_modifiers)) {
+    params.inherent_attribute_modifiers.forEach(mod => {
+      const attr = String(mod.attribute || mod.attr || '').toLowerCase();
+      const bonus = Number(mod.bonus || mod.value || 0);
+      if (attr.startsWith('str')) attributes.str = (attributes.str || 0) + bonus;
+      else if (attr.startsWith('agi') || attr.startsWith('dex')) attributes.agi = (attributes.agi || 0) + bonus;
+      else if (attr.startsWith('sta') || attr.startsWith('con')) attributes.sta = (attributes.sta || 0) + bonus;
+      else if (attr.startsWith('int')) attributes.int = (attributes.int || 0) + bonus;
+      else if (attr.startsWith('wis')) attributes.wis = (attributes.wis || 0) + bonus;
+      else if (attr.startsWith('cha')) attributes.cha = (attributes.cha || 0) + bonus;
+    });
+  }
+
+  // Bonus attributes flat fields
+  if (params.bonus_str) attributes.str = (attributes.str || 0) + Number(params.bonus_str);
+  if (params.bonus_agi) attributes.agi = (attributes.agi || 0) + Number(params.bonus_agi);
+  if (params.bonus_sta) attributes.sta = (attributes.sta || 0) + Number(params.bonus_sta);
+  if (params.bonus_int) attributes.int = (attributes.int || 0) + Number(params.bonus_int);
+  if (params.bonus_wis) attributes.wis = (attributes.wis || 0) + Number(params.bonus_wis);
+  if (params.bonus_cha) attributes.cha = (attributes.cha || 0) + Number(params.bonus_cha);
+
+  // 1. Species Type BP (Multi-Type Support & Duplicate Trait Refund)
+  const rawTypes = Array.isArray(type) ? type : (type ? [type] : ['Humanoid']);
+  let grossTypeBP = 0;
+  let typeDuplicateRefundBP = 0;
+  const seenTypeTraits = new Set();
+  const itemizedTypes = [];
+
+  for (const tItem of rawTypes) {
+    const cleanTypeName = String(typeof tItem === 'object' ? (tItem?.name || tItem?.id) : tItem)
+      .replace(/^species_type-/, '')
+      .toLowerCase();
+    const typeDef = Object.values(SPECIES_TYPES).find(t => 
+      t.id.toLowerCase() === cleanTypeName || 
+      t.name.toLowerCase() === cleanTypeName
+    ) || SPECIES_TYPES.Humanoid;
+
+    const bpVal = Number(typeDef.bp || 0);
+    grossTypeBP += bpVal;
+    itemizedTypes.push({ id: typeDef.id, name: typeDef.name, bp: bpVal });
+
+    // Check for duplicate inherent traits between types
+    let rawTraits = [];
+    if (Array.isArray(typeDef.traits)) {
+      rawTraits = typeDef.traits;
+    } else if (typeof typeDef.traits === 'string' && typeDef.traits.trim()) {
+      rawTraits = typeDef.traits.split(',').map(s => s.trim()).filter(Boolean);
+    }
+
+    rawTraits.forEach(tr => {
+      const trKey = String(tr).toLowerCase().trim();
+      if (seenTypeTraits.has(trKey)) {
+        typeDuplicateRefundBP += 1; // Refund duplicate trait BP
+      } else {
+        seenTypeTraits.add(trKey);
+      }
+    });
+  }
+  const typeBP = Math.max(0, grossTypeBP - typeDuplicateRefundBP);
+
+  // 2. Size Category BP (Single Selection)
+  const singleSize = Array.isArray(size) ? size[0] : size;
+  const cleanSizeName = String(typeof singleSize === 'object' ? (singleSize?.name || singleSize?.id) : singleSize)
+    .replace(/^species_size-/, '')
+    .toLowerCase();
+  const sizeDef = Object.values(SPECIES_SIZES).find(s => 
+    s.id.toLowerCase() === cleanSizeName || 
+    s.name.toLowerCase() === cleanSizeName
+  ) || SPECIES_SIZES.Medium;
+  const sizeBP = Number(sizeDef.bp || 0);
+
+  // 3. Movement Modes & Additive Speed Adjusters BP
+  const speedData = calculateSpeciesSpeeds(movementModes, sizeDef);
+  const movementBP = speedData.totalMovementBP;
+  const itemizedMovement = speedData.itemized;
+  const calculatedSpeeds = speedData.speeds;
+  const speedsFormatted = speedData.speedsFormatted;
 
   // 4. Attribute Modifiers (1 point = 5 BP, -1 point = -5 BP refund)
   let attributeBP = 0;
-  if (attributes && typeof attributes === 'object') {
-    for (const attr of ['str', 'agi', 'sta', 'int', 'wis', 'cha']) {
-      const val = Number(attributes[attr] || 0);
-      attributeBP += val * 5;
+  const itemizedAttributes = [];
+  for (const attr of ['str', 'agi', 'sta', 'int', 'wis', 'cha']) {
+    const val = Number(attributes[attr] || 0);
+    if (val !== 0) {
+      const bpVal = val * 5;
+      attributeBP += bpVal;
+      itemizedAttributes.push({ attr: attr.toUpperCase(), value: val, bp: bpVal });
     }
   }
-  bpTotal += attributeBP;
 
-  // 5. Skill Points (Each +5 bundle costs 5 BP)
+  // 5. Skill Points (Each +5 bundle costs 5 BP / 1 BP per point)
   const skillsBP = Math.max(0, Number(skillBundles || 0)) * 5;
-  bpTotal += skillsBP;
 
   // 6. Traits Catalog (Basic 1 BP, Advanced 2 BP, Elite 4 BP)
   let traitsBP = 0;
+  const itemizedTraits = [];
   const allTraits = [...SPECIES_TRAITS_BASIC, ...SPECIES_TRAITS_ADVANCED, ...SPECIES_TRAITS_ELITE];
   if (Array.isArray(traits)) {
     for (const t of traits) {
       const traitId = typeof t === 'string' ? t : (t?.id || t?.code || t?.name);
       const cleanTraitId = (traitId || '').toString().toLowerCase().replace(/^trait-species-/, '').replace(/^trait-/, '').replace(/-/g, '_');
-      const found = allTraits.find(item => 
-        item.id === traitId || 
-        item.code === traitId ||
-        item.id === cleanTraitId ||
-        (item.name && item.name.toLowerCase() === traitId.toLowerCase())
-      );
+      const rawQuery = (traitId || '').toString().trim().toLowerCase();
+      const normQuery = rawQuery.replace(/[^a-z0-9]/g, '').replace(/options$/, 'opts').replace(/opts$/, 'opt');
+
+      // 1. Exact ID or Exact Name Match
+      let found = allTraits.find(item => {
+        if (!item) return false;
+        if (item.id === traitId || item.code === traitId || item.id === cleanTraitId) return true;
+        const itemName = (item.name || '').toLowerCase();
+        return itemName === rawQuery;
+      });
+
+      // 2. Normalized Name Match (handling Opts vs Options, punctuation differences)
+      if (!found) {
+        found = allTraits.find(item => {
+          if (!item || !item.name) return false;
+          const itemNorm = item.name.toLowerCase().replace(/[^a-z0-9]/g, '').replace(/options$/, 'opts').replace(/opts$/, 'opt');
+          return itemNorm === normQuery;
+        });
+      }
+
+      // 3. Substring / Prefix match (prefer longest name match to prevent 'Tail' swallowing 'Prehensile Tail')
+      if (!found) {
+        const candidates = allTraits.filter(item => {
+          if (!item || !item.name) return false;
+          const itemName = item.name.toLowerCase();
+          return itemName.includes(rawQuery) || rawQuery.includes(itemName);
+        });
+        if (candidates.length > 0) {
+          candidates.sort((a, b) => (b.name?.length || 0) - (a.name?.length || 0));
+          found = candidates[0];
+        }
+      }
+
       if (found) {
-        traitsBP += Number(found.bp || 1);
+        const bpVal = Number(found.bp || 1);
+        traitsBP += bpVal;
+        itemizedTraits.push({ id: found.id, name: found.name, bp: bpVal, tier: found.trait_tier || (found.bp === 4 ? 'Elite' : (found.bp === 2 ? 'Advanced' : 'Basic')), type: found.type });
       } else if (typeof t === 'object' && t.bp) {
-        traitsBP += Number(t.bp);
+        const bpVal = Number(t.bp);
+        traitsBP += bpVal;
+        itemizedTraits.push({ id: t.id || 'custom_trait', name: t.name || 'Custom Trait', bp: bpVal, tier: 'Custom', type: t.type || 'Physical' });
+      } else if (typeof t === 'string' && t.trim()) {
+        traitsBP += 1;
+        itemizedTraits.push({ id: cleanTraitId, name: t, bp: 1, tier: 'Basic', type: 'Physical' });
       }
     }
   }
-  bpTotal += traitsBP;
 
   // 7. Disadvantages (Reduce BP)
   let disadvantagesRefund = 0;
+  const itemizedDisadvantages = [];
   if (Array.isArray(disadvantages)) {
     for (const d of disadvantages) {
       const disId = typeof d === 'string' ? d : (d?.id || d?.code || d?.name);
       const cleanDisId = (disId || '').toString().toLowerCase().replace(/^disadvantage-species-/, '').replace(/^disadvantage-/, '').replace(/-/g, '_');
-      const found = SPECIES_DISADVANTAGES.find(item => 
-        item.id === disId || 
-        item.code === disId ||
-        item.id === cleanDisId ||
-        (item.name && item.name.toLowerCase() === disId.toLowerCase())
-      );
+      const rawQuery = (disId || '').toString().trim().toLowerCase();
+      const normQuery = rawQuery.replace(/[^a-z0-9]/g, '');
+
+      // 1. Exact ID or Exact Name Match
+      let found = SPECIES_DISADVANTAGES.find(item => {
+        if (!item) return false;
+        if (item.id === disId || item.code === disId || item.id === cleanDisId) return true;
+        const itemName = (item.name || '').toLowerCase();
+        return itemName === rawQuery;
+      });
+
+      // 2. Normalized Name Match
+      if (!found) {
+        found = SPECIES_DISADVANTAGES.find(item => {
+          if (!item || !item.name) return false;
+          const itemNorm = item.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+          return itemNorm === normQuery;
+        });
+      }
+
+      // 3. Substring match
+      if (!found) {
+        const candidates = SPECIES_DISADVANTAGES.filter(item => {
+          if (!item || !item.name) return false;
+          const itemName = item.name.toLowerCase();
+          return itemName.includes(rawQuery) || rawQuery.includes(itemName);
+        });
+        if (candidates.length > 0) {
+          candidates.sort((a, b) => (b.name?.length || 0) - (a.name?.length || 0));
+          found = candidates[0];
+        }
+      }
+
       if (found) {
-        disadvantagesRefund += Number(found.refundBP || Math.abs(found.costBP) || 0);
+        const refVal = Number(found.refundBP || Math.abs(found.costBP) || 0);
+        disadvantagesRefund += refVal;
+        itemizedDisadvantages.push({ id: found.id, name: found.name, refundBP: refVal, type: found.type });
       } else if (typeof d === 'object' && (d.refundBP || d.costBP)) {
-        disadvantagesRefund += Number(d.refundBP || Math.abs(d.costBP));
+        const refVal = Number(d.refundBP || Math.abs(d.costBP));
+        disadvantagesRefund += refVal;
+        itemizedDisadvantages.push({ id: d.id || 'custom_dis', name: d.name || 'Custom Disadvantage', refundBP: refVal, type: d.type || 'Physical' });
       }
     }
   }
-  bpTotal -= disadvantagesRefund;
 
-  // Ensure BP doesn't go below 0
-  const finalBPUsed = Math.max(0, bpTotal);
+  let calculatedNetBP = typeBP + sizeBP + movementBP + attributeBP + skillsBP + traitsBP - disadvantagesRefund;
+
+  // If explicit cost is given and calculated components were empty
+  if (params.costs?.bp !== undefined && calculatedNetBP === 0 && Number(params.costs.bp) > 0) {
+    calculatedNetBP = Number(params.costs.bp);
+  } else if (params.cp !== undefined && calculatedNetBP === 0 && Number(params.cp) > 0) {
+    calculatedNetBP = Number(params.cp);
+  }
+
+  const finalBPUsed = Math.max(0, calculatedNetBP);
   const budgetDef = SPECIES_BUDGET_LEVELS[budgetLevel] || SPECIES_BUDGET_LEVELS.Standard;
   const bpRemaining = budgetDef.maxBP - finalBPUsed;
   const isOverBudget = finalBPUsed > budgetDef.maxBP;
@@ -169,6 +498,8 @@ export function calculateSpeciesBP({
     budgetMin: budgetDef.minBP,
     budgetLevel,
     isOverBudget,
+    speeds: calculatedSpeeds,
+    speedsFormatted,
     breakdown: {
       typeBP,
       sizeBP,
@@ -177,7 +508,193 @@ export function calculateSpeciesBP({
       skillsBP,
       traitsBP,
       disadvantagesRefund
+    },
+    itemized: {
+      type: itemizedTypes.length === 1 ? itemizedTypes[0] : { id: itemizedTypes.map(t => t.id).join(', '), name: itemizedTypes.map(t => t.name).join(', '), bp: typeBP, types: itemizedTypes },
+      size: { id: sizeDef.id, name: sizeDef.name, bp: sizeBP },
+      movement: itemizedMovement,
+      speeds: calculatedSpeeds,
+      attributes: itemizedAttributes,
+      skills: { bundles: skillBundles, bp: skillsBP },
+      traits: itemizedTraits,
+      disadvantages: itemizedDisadvantages
     }
+  };
+}
+
+/**
+ * Calculates the full Build Point (BP) / Character Point (CP) cost of a species,
+ * resolving it against the canonical species database or evaluating its raw components.
+ * 
+ * @param {string|object} speciesInput - Species name, ID, or object
+ * @param {object} [dbData={}] - Database cache
+ * @returns {object} Comprehensive species cost and itemized breakdown
+ */
+export function calculateFullSpeciesCost(speciesInput, dbData = {}) {
+  if (!speciesInput) {
+    return {
+      speciesName: '',
+      totalCost: 0,
+      bp: 0,
+      cp: 0,
+      speeds: { ground: 30 },
+      speedsFormatted: 'Ground 30 ft',
+      breakdown: {
+        typeBP: 0,
+        sizeBP: 0,
+        movementBP: 0,
+        attributeBP: 0,
+        skillsBP: 0,
+        traitsBP: 0,
+        disadvantagesRefund: 0
+      },
+      itemizedList: [],
+      summaryText: 'No Species (0 BP)'
+    };
+  }
+
+  // Resolve species object
+  let speciesObj = speciesInput;
+  if (typeof speciesInput === 'string') {
+    const list = (dbData.species && dbData.species.length > 0) ? dbData.species : DEFAULT_SPECIES;
+    const query = speciesInput.trim().toLowerCase();
+    speciesObj = list.find(s => 
+      (s.name || '').toLowerCase() === query || 
+      (s.title || '').toLowerCase() === query || 
+      (s.id || '').toLowerCase() === query
+    ) || { name: speciesInput };
+  }
+
+  const speciesName = speciesObj.name || speciesObj.title || (typeof speciesInput === 'string' ? speciesInput : 'Unknown Species');
+
+  // Compute BP breakdown
+  const bpData = calculateSpeciesBP(speciesObj);
+
+  // If explicit cp/cost is specified in catalog, use document standard or computed total
+  const explicitCost = (speciesObj.costs?.bp !== undefined && speciesObj.costs?.bp !== null)
+    ? Number(speciesObj.costs.bp)
+    : ((speciesObj.cp !== undefined && speciesObj.cp !== null) ? Number(speciesObj.cp) : null);
+  const finalCost = explicitCost !== null && !isNaN(explicitCost) ? explicitCost : bpData.totalBPUsed;
+
+  const itemizedList = [];
+  if (bpData.breakdown.typeBP > 0) {
+    itemizedList.push({ category: 'Species Type', name: bpData.itemized.type.name, bp: bpData.breakdown.typeBP });
+  }
+  if (bpData.breakdown.sizeBP > 0) {
+    itemizedList.push({ category: 'Species Size', name: bpData.itemized.size.name, bp: bpData.breakdown.sizeBP });
+  }
+  if (bpData.breakdown.movementBP > 0) {
+    itemizedList.push({ category: 'Movement Modes', name: `${bpData.breakdown.movementBP} BP Modes`, bp: bpData.breakdown.movementBP });
+  }
+  if (bpData.breakdown.attributeBP !== 0) {
+    itemizedList.push({ category: 'Attribute Modifiers', name: `${bpData.breakdown.attributeBP >= 0 ? '+' : ''}${bpData.breakdown.attributeBP} BP`, bp: bpData.breakdown.attributeBP });
+  }
+  if (bpData.breakdown.skillsBP > 0) {
+    itemizedList.push({ category: 'Skill Points', name: `${bpData.breakdown.skillsBP} BP`, bp: bpData.breakdown.skillsBP });
+  }
+  if (bpData.breakdown.traitsBP > 0) {
+    itemizedList.push({ category: 'Species Traits', name: `${bpData.itemized.traits.length} Traits (${bpData.breakdown.traitsBP} BP)`, bp: bpData.breakdown.traitsBP });
+  }
+  if (bpData.breakdown.disadvantagesRefund > 0) {
+    itemizedList.push({ category: 'Disadvantages (Refund)', name: `-${bpData.breakdown.disadvantagesRefund} BP`, bp: -bpData.breakdown.disadvantagesRefund });
+  }
+
+  const summaryParts = [];
+  if (bpData.breakdown.typeBP) summaryParts.push(`Type: ${bpData.breakdown.typeBP} BP`);
+  if (bpData.breakdown.sizeBP) summaryParts.push(`Size: ${bpData.breakdown.sizeBP} BP`);
+  if (bpData.breakdown.movementBP) summaryParts.push(`Move: ${bpData.breakdown.movementBP} BP`);
+  if (bpData.breakdown.attributeBP) summaryParts.push(`Attr: ${bpData.breakdown.attributeBP} BP`);
+  if (bpData.breakdown.skillsBP) summaryParts.push(`Skills: ${bpData.breakdown.skillsBP} BP`);
+  if (bpData.breakdown.traitsBP) summaryParts.push(`Traits: ${bpData.breakdown.traitsBP} BP`);
+  if (bpData.breakdown.disadvantagesRefund) summaryParts.push(`Refund: -${bpData.breakdown.disadvantagesRefund} BP`);
+
+  return {
+    speciesName,
+    speciesObj,
+    totalCost: finalCost,
+    bp: finalCost,
+    cp: finalCost,
+    speeds: bpData.speeds,
+    speedsFormatted: bpData.speedsFormatted,
+    breakdown: bpData.breakdown,
+    itemized: bpData.itemized,
+    itemizedList,
+    summaryText: summaryParts.length > 0 ? summaryParts.join(' • ') : 'Standard (0 BP)',
+    isOverBudget: bpData.isOverBudget,
+    budgetLevel: bpData.budgetLevel
+  };
+}
+
+/**
+ * Returns the canonical dataset of all species components.
+ */
+export function getSpeciesComponentDataset() {
+  const typeList = Array.isArray(SPECIES_TYPES) ? SPECIES_TYPES : Object.values(SPECIES_TYPES || {});
+  const sizeList = Array.isArray(SPECIES_SIZES) ? SPECIES_SIZES : Object.values(SPECIES_SIZES || {});
+  const movementList = Array.isArray(SPECIES_MOVEMENT_MODES) ? SPECIES_MOVEMENT_MODES : Object.values(SPECIES_MOVEMENT_MODES || {});
+  const basicList = Array.isArray(SPECIES_TRAITS_BASIC) ? SPECIES_TRAITS_BASIC : [];
+  const advancedList = Array.isArray(SPECIES_TRAITS_ADVANCED) ? SPECIES_TRAITS_ADVANCED : [];
+  const eliteList = Array.isArray(SPECIES_TRAITS_ELITE) ? SPECIES_TRAITS_ELITE : [];
+  const allTraitsList = [...basicList, ...advancedList, ...eliteList];
+  const disList = Array.isArray(SPECIES_DISADVANTAGES) ? SPECIES_DISADVANTAGES : Object.values(SPECIES_DISADVANTAGES || {});
+
+  return {
+    types: typeList,
+    typesMap: SPECIES_TYPES,
+    sizes: sizeList,
+    sizesMap: SPECIES_SIZES,
+    baseMovement: SPECIES_MOVEMENT_BASE_MODES,
+    movementModifications: SPECIES_MOVEMENT_MODIFICATIONS,
+    movementModes: movementList,
+    attributeModifiers: SPECIES_ATTRIBUTE_MODIFIERS,
+    skillModifiers: SPECIES_SKILL_MODIFIERS,
+    basicTraits: basicList,
+    advancedTraits: advancedList,
+    eliteTraits: eliteList,
+    allTraits: allTraitsList,
+    traits: {
+      basic: basicList,
+      advanced: advancedList,
+      elite: eliteList,
+      all: allTraitsList
+    },
+    disadvantages: disList,
+    budgetLevels: SPECIES_BUDGET_LEVELS,
+    rules: SPECIES_COMPONENT_RULES
+  };
+}
+
+/**
+ * Validates a species build against canonical Tangent construction rules.
+ */
+export function validateSpeciesBuild(speciesData = {}) {
+  const bpData = calculateSpeciesBP(speciesData);
+  const issues = [];
+  const warnings = [];
+
+  if (bpData.isOverBudget) {
+    issues.push(`Total BP used (${bpData.totalBPUsed} BP) exceeds the ${bpData.budgetLevel} budget limit of ${bpData.budgetMax} BP.`);
+  }
+
+  // Check Attribute maximums during creation
+  const attrs = bpData.itemized.attributes;
+  attrs.forEach(a => {
+    if (a.value > 4) {
+      warnings.push(`${a.attr} modifier (+${a.value}) exceeds standard starting creation cap of +4.`);
+    }
+    if (a.value < -4) {
+      warnings.push(`${a.attr} penalty (${a.value}) exceeds standard starting penalty floor of -4.`);
+    }
+  });
+
+  return {
+    isValid: issues.length === 0,
+    totalBPUsed: bpData.totalBPUsed,
+    bpRemaining: bpData.bpRemaining,
+    budgetMax: bpData.budgetMax,
+    issues,
+    warnings,
+    breakdown: bpData.breakdown
   };
 }
 
@@ -239,6 +756,7 @@ export function computeSpeciesStats(formData) {
     computed_at: new Date().toISOString()
   };
 }
+
 
 // ═══════════════════════════════════════════════════════════
 // 2. MODULAR CHARACTER GENERATOR ENGINE (PLAN 24)

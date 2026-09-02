@@ -1,8 +1,15 @@
 ---
 id: movement-sprinting
-name: "Ground: Sprinting Pace"
+name: 'Ground: Sprinting Pace (6x Base)'
 category: species_movement
-description: Maximum land sprint requiring demanding Athletics check (DC 15+) each minute to avoid fatigue.
+classification: pace
+target_mode: Ground
+multiplier: 6
+speed: 180
+bp: 0
+description: >-
+  Maximum land sprint (6x Base Walk) requiring demanding Athletics check (DC
+  15+) each minute.
 costs:
   bp: 0
   credits: 0
@@ -11,31 +18,12 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-speed: 180
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
+# Ground: Sprinting Pace (6x Base)
 
-# Ground: Sprinting Pace
-
-**Category**: Movement Modes & Paces  
-**Movement Mode**: Ground  
-**Speed Multiplier**: 6x Base (7x with Runner)  
-**Medium Speed Baseline**: 180 ft / round  
+**Category**: Species Movement (PACE)  
+**Target Mode**: Ground  
+**Cost**: +0 BP  
 
 ## Description
-Maximum land sprint requiring demanding Athletics check (DC 15+) each minute to avoid fatigue.
-
-## Tactical Modifiers & Checks
-- **Action Penalty / Modifier**: -8 to subtle actions
-- **Required Check**: Athletics DC 15+
+Maximum land sprint (6x Base Walk) requiring demanding Athletics check (DC 15+) each minute.

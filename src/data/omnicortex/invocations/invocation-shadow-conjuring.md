@@ -2,8 +2,8 @@
 id: invocation-shadow-conjuring
 name: SHADOW CONJURING
 category: invocations
-discipline: Dimension
-description: SHADOW CONJURING invocation for Dimension reality manipulation.
+discipline: Illusion
+description: SHADOW CONJURING invocation for Illusion reality manipulation.
 costs:
   bp: 0
   credits: 0
@@ -25,11 +25,10 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # SHADOW CONJURING Invocation
 
 **Category**: Invocations  
-**Discipline**: Dimension
+**Discipline**: Illusion
 
 ## Description & Ritual Details
 Classification: Illusion (Shadow) | Utility/Attack | \[Summoning\] \[Quasi-Real\]  

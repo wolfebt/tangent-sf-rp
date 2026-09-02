@@ -1,9 +1,15 @@
 ---
 id: movement-leaper
-name: Leaper
+name: Leaper (Jump Mastery)
 category: species_movement
-movement_type: Modification
-description: "Always considered to have a running start when making Jump checks."
+classification: adjuster
+target_mode: Ground
+speed_modifier: 0
+is_additive: false
+bp: 1
+description: >-
+  Always considered to have a running start when making Jump and Athletics
+  checks.
 costs:
   bp: 1
   credits: 0
@@ -12,32 +18,12 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-speed: 0
-is_ranked: false
-is_exclusive: false
-is_disadvantage: false
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
+# Leaper (Jump Mastery)
 
-# Leaper
+**Category**: Species Movement (ADJUSTER)  
+**Target Mode**: Ground  
+**Cost**: +1 BP  
 
-**Category**: Species Movement (Modification)  
-**Cost**: 1 BP  
-**Classification**: Modification  
-
-## Effect
-Always considered to have a running start when making Jump checks.
-
-## Mechanics & Rules
-The character is always treated as having a running start for all Athletics Jump checks, even when jumping from a standstill.
+## Description
+Always considered to have a running start when making Jump and Athletics checks.

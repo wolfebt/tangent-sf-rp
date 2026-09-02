@@ -1,1 +1,50 @@
-[]
+[
+  {
+    "id": "society_synthetics_lvl_0",
+    "category": "society_synthetics",
+    "name": "Synthetics & AI Rights (Level 0: Primitive / Subsistence)",
+    "level": 0,
+    "sphere_key": "society_synthetics",
+    "description": "Level 0 development in Synthetics & AI Rights: Artificial intelligence, android rights, synthetic biology, and cybernetics. (Primitive / Subsistence)."
+  },
+  {
+    "id": "society_synthetics_lvl_1",
+    "category": "society_synthetics",
+    "name": "Synthetics & AI Rights (Level 1: Emerging / Industrial)",
+    "level": 1,
+    "sphere_key": "society_synthetics",
+    "description": "Level 1 development in Synthetics & AI Rights: Artificial intelligence, android rights, synthetic biology, and cybernetics. (Emerging / Industrial)."
+  },
+  {
+    "id": "society_synthetics_lvl_2",
+    "category": "society_synthetics",
+    "name": "Synthetics & AI Rights (Level 2: Modern / Planetary)",
+    "level": 2,
+    "sphere_key": "society_synthetics",
+    "description": "Level 2 development in Synthetics & AI Rights: Artificial intelligence, android rights, synthetic biology, and cybernetics. (Modern / Planetary)."
+  },
+  {
+    "id": "society_synthetics_lvl_3",
+    "category": "society_synthetics",
+    "name": "Synthetics & AI Rights (Level 3: Advanced / Stellar)",
+    "level": 3,
+    "sphere_key": "society_synthetics",
+    "description": "Level 3 development in Synthetics & AI Rights: Artificial intelligence, android rights, synthetic biology, and cybernetics. (Advanced / Stellar)."
+  },
+  {
+    "id": "society_synthetics_lvl_4",
+    "category": "society_synthetics",
+    "name": "Synthetics & AI Rights (Level 4: Mastered / Interstellar)",
+    "level": 4,
+    "sphere_key": "society_synthetics",
+    "description": "Level 4 development in Synthetics & AI Rights: Artificial intelligence, android rights, synthetic biology, and cybernetics. (Mastered / Interstellar)."
+  },
+  {
+    "id": "society_synthetics_lvl_5",
+    "category": "society_synthetics",
+    "name": "Synthetics & AI Rights (Level 5: Transcendent / Deific)",
+    "level": 5,
+    "sphere_key": "society_synthetics",
+    "description": "Level 5 development in Synthetics & AI Rights: Artificial intelligence, android rights, synthetic biology, and cybernetics. (Transcendent / Deific)."
+  }
+]

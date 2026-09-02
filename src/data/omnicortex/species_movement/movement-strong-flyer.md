@@ -2,8 +2,14 @@
 id: movement-strong-flyer
 name: Strong Flyer
 category: species_movement
-movement_type: Modification
-description: "Increase the Size category multiplier by 1 for Flying Speed."
+classification: adjuster
+target_mode: Flying
+speed_modifier: 0
+is_additive: false
+bp: 2
+description: >-
+  Increases the Size category multiplier by +1 for Flying Speed and load
+  capacity.
 costs:
   bp: 2
   credits: 0
@@ -12,32 +18,12 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-speed: 0
-is_ranked: false
-is_exclusive: false
-is_disadvantage: false
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
-
 # Strong Flyer
 
-**Category**: Species Movement (Modification)  
-**Cost**: 2 BP  
-**Classification**: Modification  
+**Category**: Species Movement (ADJUSTER)  
+**Target Mode**: Flying  
+**Cost**: +2 BP  
 
-## Effect
-Increase the Size category multiplier by 1 for Flying Speed.
-
-## Mechanics & Rules
-Increases the creature size category multiplier by +1 when calculating total aerial flying velocity.
+## Description
+Increases the Size category multiplier by +1 for Flying Speed and load capacity.

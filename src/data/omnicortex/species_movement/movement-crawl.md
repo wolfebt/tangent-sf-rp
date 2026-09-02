@@ -1,8 +1,15 @@
 ---
 id: movement-crawl
-name: "Ground: Crawl Pace"
+name: 'Ground: Crawl Pace (0.5x Base)'
 category: species_movement
-description: Low-profile crawling pace. Grants +2 bonus to stealth and inflicts Prone condition.
+classification: pace
+target_mode: Ground
+multiplier: 0.5
+speed: 15
+bp: 0
+description: >-
+  Low-profile crawling pace (1/2 Base Walk). Grants +2 to stealth; inflicts
+  Prone.
 costs:
   bp: 0
   credits: 0
@@ -11,31 +18,12 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-speed: 15
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
+# Ground: Crawl Pace (0.5x Base)
 
-# Ground: Crawl Pace
-
-**Category**: Movement Modes & Paces  
-**Movement Mode**: Ground  
-**Speed Multiplier**: 1/2x Base  
-**Medium Speed Baseline**: 15 ft / round  
+**Category**: Species Movement (PACE)  
+**Target Mode**: Ground  
+**Cost**: +0 BP  
 
 ## Description
-Low-profile crawling pace. Grants +2 bonus to stealth and inflicts Prone condition.
-
-## Tactical Modifiers & Checks
-- **Action Penalty / Modifier**: Prone condition
-- **Required Check**: None (+2 Stealth)
+Low-profile crawling pace (1/2 Base Walk). Grants +2 to stealth; inflicts Prone.

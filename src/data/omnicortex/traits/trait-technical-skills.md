@@ -1,12 +1,9 @@
 ---
 id: trait-technical-skills
 name: Technical Skills
-category: traits
+trait_tier: Basic
 trait_type: Origin Trait
-origin_association: General
-description: >-
-  Practical hands-on maintenance for hardware, wiring, and mechanical
-  assemblies.
+category: traits
 costs:
   bp: 1
   credits: 0
@@ -15,6 +12,9 @@ costs:
   strain: 0
   focus: 0
   ap: 0
+description: >-
+  Practical hands-on maintenance for hardware, wiring, and mechanical
+  assemblies.
 modifiers: []
 modifications: []
 critical_details:
@@ -28,15 +28,12 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # Technical Skills
 
-**Category**: Origin Traits  
-**Associated Origin**: General  
-**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait
+**Category**: TRAITS
+**Tier**: Basic
+**Type**: Origin Trait
+**BP Cost**: 1
 
 ## Description
 Practical hands-on maintenance for hardware, wiring, and mechanical assemblies.
-
-## Mechanics & Benefits
-+1 to Mechanical, Electrical, and Engineering skill checks.

@@ -1,8 +1,13 @@
 ---
 id: movement-treading
-name: "Swimming: Treading Pace"
+name: 'Swimming: Treading Pace (0.25x Swim)'
 category: species_movement
-description: Stationary or slow treading water to conserve stamina. Possible +2 bonus to actions.
+classification: pace
+target_mode: Swimming
+multiplier: 0.25
+speed: 7.5
+bp: 0
+description: Stationary or slow treading water to conserve stamina (+2 to concentration).
 costs:
   bp: 0
   credits: 0
@@ -11,31 +16,12 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-speed: 7.5
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
+# Swimming: Treading Pace (0.25x Swim)
 
-# Swimming: Treading Pace
-
-**Category**: Movement Modes & Paces  
-**Movement Mode**: Swimming  
-**Speed Multiplier**: 1/2x Swim or less  
-**Medium Speed Baseline**: 7.5 ft / round  
+**Category**: Species Movement (PACE)  
+**Target Mode**: Swimming  
+**Cost**: +0 BP  
 
 ## Description
-Stationary or slow treading water to conserve stamina. Possible +2 bonus to actions.
-
-## Tactical Modifiers & Checks
-- **Action Penalty / Modifier**: None (+2 to actions)
-- **Required Check**: Athletics (Swimming) DC 5+
+Stationary or slow treading water to conserve stamina (+2 to concentration).

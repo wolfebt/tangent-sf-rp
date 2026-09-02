@@ -1,7 +1,12 @@
 ---
 id: movement-burrow
-name: "Burrowing: Standard Burrow Pace"
+name: 'Burrowing: Standard Burrow Pace (0.375x Walk)'
 category: species_movement
+classification: pace
+target_mode: Burrowing
+multiplier: 0.375
+speed: 7.5
+bp: 0
 description: Standard subterranean displacement pace through soil or sand.
 costs:
   bp: 0
@@ -11,31 +16,12 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-speed: 7.5
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
+# Burrowing: Standard Burrow Pace (0.375x Walk)
 
-# Burrowing: Standard Burrow Pace
-
-**Category**: Movement Modes & Paces  
-**Movement Mode**: Burrowing  
-**Speed Multiplier**: 1/4x Base Walk  
-**Medium Speed Baseline**: 7.5 ft / round  
+**Category**: Species Movement (PACE)  
+**Target Mode**: Burrowing  
+**Cost**: +0 BP  
 
 ## Description
 Standard subterranean displacement pace through soil or sand.
-
-## Tactical Modifiers & Checks
-- **Action Penalty / Modifier**: None
-- **Required Check**: None / Substrate check

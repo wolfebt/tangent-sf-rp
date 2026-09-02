@@ -10,17 +10,50 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 5 ft
+senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
+immunities: >-
+  Asphyxiation, bleeding, critical hits, poison, biological disease, starvation,
+  sleep [9]
+inherent_attribute_modifiers:
+  - attribute: Intellect
+    bonus: 1
+  - attribute: Charisma
+    bonus: -1
+bonus_attribute_points: 2
+specific_skill_bonuses:
+  - skill: Computation
+    bonus: 2
+  - skill: Engineering
+    bonus: 1
+bonus_skills: 10
+bonus_skill_choices:
+  - Computation
+  - Engineering
+  - Science
+  - Technology
+  - Discipline
+inherent_features:
+  - >-
+    trait-synthetic-traits-immune-to-biological-needs-poison-asphyxiation-structure-points-resilient-design-dr-5-low-light-vision
+  - trait-digitized-mind-advantage-vs-mental-effects
+  - trait-robotic-strength-lifting-1-category-larger
+bonus_features: []
+bonus_feature_choices:
+  - Sub-Routine Matrix
+  - Integrated Scanner
+  - Overclock Burst
+  - Logic Engine
+recommended_features:
+  - feature-sub-routine-matrix
+  - feature-logic-engine
 stigma: None to Minor Synthetic (-1)
 tech_level: 4 (Optronic Cores & Piezoelectric Myomer)
 meta_level: 0 (Null)
 homeworld: Autonomous Foundry Stations
-cp: 27
-description: >-
-  Androids are synthetic humanoids constructed with optronic neural networks,
-  myomer musculature, and modular sub-systems. Immune to fatigue and disease,
-  they represent tireless efficiency.
 costs:
-  bp: 27
+  bp: 42
   credits: 0
   nodes: 0
   sockets: 0
@@ -29,102 +62,20 @@ costs:
   ap: 0
 modifiers:
   - target: Intellect
-    type: attribute
     value: 1
+    type: attribute
     mode: inherent
   - target: Charisma
-    type: attribute
     value: -1
-    mode: inherent
-  - target: Any Attribute
     type: attribute
-    value: 2
-    mode: bonus_pool
-  - target: Computation
-    type: skill
-    value: 2
     mode: inherent
-  - target: Engineering
-    type: skill
-    value: 1
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 10
-    mode: bonus_pool
-  - target: Computation
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Engineering
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Science
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Technology
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Discipline
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: >-
-      Synthetic Traits (Immune to Biological Needs/Poison/Asphyxiation,
-      Structure Points, Resilient Design DR 5/-, Low-Light Vision)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Digitized Mind (+Advantage vs Mental Effects)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Robotic Strength (Lifting 1 Category Larger)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Sub-Routine Matrix
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Integrated Scanner
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Overclock Burst
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Logic Engine
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-sub-routine-matrix
-    type: feature
-    value: 1
-    mode: recommended
-  - target: feature-logic-engine
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+cp_cost: 42
+cp: 42
+bp: 42
+description: >-
+  Androids are synthetic humanoids constructed with optronic neural networks,
+  myomer musculature, and modular sub-systems. Immune to fatigue and disease,
+  they represent tireless efficiency.
 ---
 # Android (Synthetic Humanoid)
 

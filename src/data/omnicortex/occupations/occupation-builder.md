@@ -14,21 +14,21 @@ archetypes:
   - Robotics Engineer
   - Matter Manipulator
 traits:
-  - trait-builder-adaptability
-  - trait-builder-attention-to-detail
-  - trait-builder-attention-to-safety
-  - trait-builder-business-acumen
-  - trait-builder-creativity
-  - trait-builder-environmental-awareness
-  - trait-builder-mecha-physics
-  - trait-builder-machine-affinity
-  - trait-builder-patience
-  - trait-builder-persistence
-  - trait-builder-problem-solving-skills
-  - trait-builder-teamwork
-  - trait-builder-technical-knowledge
-  - trait-builder-technological-aptitude
-  - trait-builder-time-management
+  - trait-adaptability
+  - trait-attention-to-detail
+  - trait-attention-to-safety
+  - trait-business-acumen
+  - trait-creativity
+  - trait-environmental-awareness
+  - trait-mecha-physics
+  - trait-machine-affinity
+  - trait-patience
+  - trait-persistence
+  - trait-problem-solving-skills
+  - trait-teamwork
+  - trait-technical-knowledge
+  - trait-technological-aptitude
+  - trait-time-management
 description: >-
   A builder character would be responsible for creating, repairing, and
   modifying various items, equipment, and structures. This character would have

@@ -2,8 +2,8 @@
 id: invocation-arcane-lock
 name: ARCANE LOCK
 category: invocations
-discipline: Entropy
-description: ARCANE LOCK invocation for Entropy reality manipulation.
+discipline: Matter
+description: ARCANE LOCK invocation for Matter reality manipulation.
 costs:
   bp: 0
   credits: 0
@@ -25,11 +25,10 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # ARCANE LOCK Invocation
 
 **Category**: Invocations  
-**Discipline**: Entropy
+**Discipline**: Matter
 
 ## Description & Ritual Details
 Classification: Matter (Enhancement) | Utility | \[Security\] \[Seal\]  

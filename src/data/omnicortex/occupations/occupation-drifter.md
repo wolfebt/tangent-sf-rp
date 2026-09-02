@@ -22,22 +22,22 @@ archetypes:
   - Bodyguard
   - Medical Specialist
 traits:
-  - trait-drifter-adaptability
-  - trait-drifter-adventurous-spirit
-  - trait-drifter-aggressiveness
-  - trait-drifter-caution
-  - trait-drifter-combat-training
-  - trait-drifter-fearlessness
-  - trait-drifter-jack-of-all-trades
-  - trait-drifter-loyalty
-  - trait-drifter-mobility
-  - trait-drifter-resourcefulness
-  - trait-drifter-scavenging
-  - trait-drifter-self-sufficiency
-  - trait-drifter-stalker
-  - trait-drifter-street-smarts
-  - trait-drifter-survival
-  - trait-drifter-unpredictability
+  - trait-adaptability
+  - trait-adventurous-spirit
+  - trait-aggressiveness
+  - trait-caution
+  - trait-combat-training
+  - trait-fearlessness
+  - trait-jack-of-all-trades
+  - trait-loyalty
+  - trait-mobility
+  - trait-resourcefulness
+  - trait-scavenging
+  - trait-self-sufficiency
+  - trait-stalker
+  - trait-street-smarts
+  - trait-survival
+  - trait-unpredictability
 description: >-
   A drifter is a person who travels from place to place, often without a fixed
   home or occupation. They may take on various temporary jobs or roles to

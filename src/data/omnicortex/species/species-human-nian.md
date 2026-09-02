@@ -3,23 +3,50 @@ id: species-human-nian
 name: Nian Human
 title: Nian Human (Armored Variant)
 category: species
-parent_species: Humans
+parent_species: Humans (Core & Variants)
 type:
   - species_type-humanoid
 size:
   - species_size-medium
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 5 ft
+senses: Standard visual and auditory range.
+immunities: None
+inherent_attribute_modifiers:
+  - attribute: Strength
+    bonus: 1
+  - attribute: Stamina
+    bonus: 1
+  - attribute: Charisma
+    bonus: -1
+bonus_attribute_points: 0
+specific_skill_bonuses:
+  - skill: Athletics
+    bonus: 1
+bonus_skills: 0
+bonus_skill_choices:
+  - Athletics
+  - Intimidation
+  - Combat (Brawling)
+inherent_features:
+  - trait-brutal-2-melee-damage
+  - trait-exoskeleton-partial-chitinous-plates-dr-2
+  - trait-pain-tolerance
+bonus_features: []
+bonus_feature_choices:
+  - Bone Spikes
+  - Furious Counter
+  - Unstoppable Momentum
+recommended_features:
+  - feature-brutal
 stigma: None
 tech_level: 3 (Ballistics & Heavy Exosuits)
 meta_level: 0 (Null)
 homeworld: Nia Frontier Badlands
-cp: 12
-description: >-
-  Hardened frontier humans whose bones and skin grew calcified armor plating in
-  response to hyper-abrasive mineral environments.
 costs:
-  bp: 12
+  bp: 16
   credits: 0
   nodes: 0
   sockets: 0
@@ -28,76 +55,23 @@ costs:
   ap: 0
 modifiers:
   - target: Strength
-    type: attribute
     value: 1
+    type: attribute
     mode: inherent
   - target: Stamina
-    type: attribute
     value: 1
+    type: attribute
     mode: inherent
   - target: Charisma
-    type: attribute
     value: -1
+    type: attribute
     mode: inherent
-  - target: Athletics
-    type: skill
-    value: 1
-    mode: inherent
-  - target: Athletics
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Intimidation
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Combat (Brawling)
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Brutal (+2 Melee Damage)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Exoskeleton (Partial Chitinous Plates DR 2/-)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Pain Tolerance
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Bone Spikes
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Furious Counter
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Unstoppable Momentum
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-brutal
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+cp_cost: 16
+cp: 16
+bp: 16
+description: >-
+  Hardened frontier humans whose bones and skin grew calcified armor plating in
+  response to hyper-abrasive mineral environments.
 ---
 # Nian Human (Armored Variant)
 
@@ -105,19 +79,20 @@ sockets:
 Hardened frontier humans whose bones and skin grew calcified armor plating in response to hyper-abrasive mineral environments.
 
 ## Core Identity
-- **Lineage**: Humans
+- **Lineage**: Humans (Core & Variants)
+- **Type**: species_type-humanoid
+- **Size**: species_size-medium
+- **Movement**: Ground 30 ft
 - **Homeworld**: Nia Frontier Badlands
 - **Tech Level**: 3 (Ballistics & Heavy Exosuits)
 - **Meta Level**: 0 (Null)
 - **Stigma**: None
 
 ## Mechanics & Statblock
-- **BP Cost**: 12 BP
-- **Size**: species_size-medium
-- **Movement**: species_movement-bipedal
-- **Ability Modifiers**: +1 Strength, +1 Stamina, -1 Charisma
-- **Bonus Skills**: None
-- **Inherent Features & Traits**: Brutal (+2 Melee Damage), Exoskeleton (Partial Chitinous Plates DR 2/-), Pain Tolerance
+- **BP Cost**: 16 BP
+- **Inherent Modifiers**: +1 Strength, +1 Stamina, -1 Charisma
+- **Bonus Skills**: +0 Skill Points
+- **Inherent Features**: Brutal (+2 Melee Damage), Exoskeleton (Partial Chitinous Plates DR 2/-), Pain Tolerance
 - **Recommended Features**: feature-brutal
 
 ## Roleplay & Society

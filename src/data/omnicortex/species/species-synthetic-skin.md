@@ -10,107 +10,58 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 5 ft
+senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
+immunities: >-
+  Asphyxiation, bleeding, critical hits, poison, biological disease, starvation,
+  sleep [9]
+inherent_attribute_modifiers: []
+bonus_attribute_points: 2
+specific_skill_bonuses:
+  - skill: Deception
+    bonus: 2
+  - skill: Insight
+    bonus: 1
+bonus_skills: 10
+bonus_skill_choices:
+  - Deception
+  - Insight
+  - Persuasion
+  - Stealth
+  - Technology
+inherent_features:
+  - trait-synthetic-base-traits
+  - trait-synthetic-flesh-shroud-indistinguishable-from-organic-to-casual-scans
+  - trait-alter-self-advanced-cellular-surface
+  - trait-thermal-simulation
+bonus_features: []
+bonus_feature_choices:
+  - Voice Mimicry
+  - Memory Tap
+  - Silent Hydraulics
+recommended_features:
+  - feature-voice-mimicry
 stigma: Secret (-6) / Severe if Exposed
 tech_level: 4 (Bio-Synthetic Weave & Organic Cloaking)
 meta_level: 1 (Neural Empathy)
 homeworld: Covert Black Labs
-cp: 28
-description: >-
-  Skins are advanced bio-synthetic androids covered in warm, synthetic flesh,
-  simulated vascular systems, and emotional emulators designed to pass as
-  natural organics.
 costs:
-  bp: 28
+  bp: 29
   credits: 0
   nodes: 0
   sockets: 0
   strain: 0
   focus: 0
   ap: 0
-modifiers:
-  - target: Any Attribute
-    type: attribute
-    value: 2
-    mode: bonus_pool
-  - target: Deception
-    type: skill
-    value: 2
-    mode: inherent
-  - target: Insight
-    type: skill
-    value: 1
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 10
-    mode: bonus_pool
-  - target: Deception
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Insight
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Persuasion
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Stealth
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Technology
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Synthetic Base Traits
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Synthetic Flesh Shroud (Indistinguishable from organic to casual scans)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Alter Self (Advanced Cellular Surface)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Thermal Simulation
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Voice Mimicry
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Memory Tap
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Silent Hydraulics
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-voice-mimicry
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+modifiers: []
+cp_cost: 29
+cp: 29
+bp: 29
+description: >-
+  Skins are advanced bio-synthetic androids covered in warm, synthetic flesh,
+  simulated vascular systems, and emotional emulators designed to pass as
+  natural organics.
 ---
 # Skin (Synthetic Replicant / Infiltrator)
 

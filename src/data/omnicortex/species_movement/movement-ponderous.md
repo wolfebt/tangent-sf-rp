@@ -1,9 +1,18 @@
 ---
 id: movement-ponderous
-name: Ponderous (Disadvantage)
+name: Ponderous (-20 ft Ground)
 category: species_movement
-movement_type: Modification
-description: "Base Speed -20 feet. (BP Gain) *"
+classification: adjuster
+target_mode: Ground
+speed_modifier: -20
+is_additive: true
+is_exclusive: true
+is_disadvantage: true
+bp: -4
+refundBP: 4
+description: >-
+  Reduces base Ground locomotion speed by -20 feet (Additive). Grants +4 BP
+  refund. Mutually exclusive with other ground speed adjusters.
 costs:
   bp: -4
   credits: 0
@@ -12,32 +21,13 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-speed: -20
-is_ranked: false
-is_exclusive: true
-is_disadvantage: true
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
+# Ponderous (-20 ft Ground)
 
-# Ponderous (Disadvantage)
+**Category**: Species Movement (ADJUSTER)  
+**Target Mode**: Ground  
+**Cost**: -4 BP  
+**Speed Modifier**: -20 ft (Additive)  
 
-**Category**: Species Movement (Modification)  
-**Cost**: +4 BP Gain (-4 BP)  
-**Classification**: Modification (* Mutually Exclusive Speed Trait) (Disadvantage)  
-
-## Effect
-Base Speed -20 feet. (BP Gain) *
-
-## Mechanics & Rules
-Decreases Base Speed by -20 feet (to 10 ft for Medium species) and refunds +4 Build Points (+4 BP Gain). Mutually exclusive with other base speed modifier traits (*).
+## Description
+Reduces base Ground locomotion speed by -20 feet (Additive). Grants +4 BP refund. Mutually exclusive with other ground speed adjusters.

@@ -1,12 +1,9 @@
 ---
 id: trait-street-fighting
 name: Street Fighting
-category: traits
+trait_tier: Basic
 trait_type: Origin Trait
-origin_association: Urban
-description: >-
-  Dirty fighting techniques optimized for claustrophobic alleys, elevator cabs,
-  and crowded subway cars.
+category: traits
 costs:
   bp: 1
   credits: 0
@@ -15,6 +12,9 @@ costs:
   strain: 0
   focus: 0
   ap: 0
+description: >-
+  Dirty fighting techniques optimized for claustrophobic alleys, elevator cabs,
+  and crowded subway cars.
 modifiers: []
 modifications: []
 critical_details:
@@ -28,15 +28,12 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # Street Fighting
 
-**Category**: Origin Traits  
-**Associated Origin**: Urban  
-**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait
+**Category**: TRAITS
+**Tier**: Basic
+**Type**: Origin Trait
+**BP Cost**: 1
 
 ## Description
 Dirty fighting techniques optimized for claustrophobic alleys, elevator cabs, and crowded subway cars.
-
-## Mechanics & Benefits
-+1 to Unarmed Combat and +1 to Combat Defense.

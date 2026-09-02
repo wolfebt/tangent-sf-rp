@@ -1,12 +1,9 @@
 ---
 id: trait-survival-skills
 name: Survival Skills
-category: traits
+trait_tier: Basic
 trait_type: Origin Trait
-origin_association: General
-description: >-
-  Honed instincts for foraging, navigating wilderness, and finding shelter in
-  hostile terrain.
+category: traits
 costs:
   bp: 1
   credits: 0
@@ -15,6 +12,9 @@ costs:
   strain: 0
   focus: 0
   ap: 0
+description: >-
+  Honed instincts for foraging, navigating wilderness, and finding shelter in
+  hostile terrain.
 modifiers: []
 modifications: []
 critical_details:
@@ -28,15 +28,12 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # Survival Skills
 
-**Category**: Origin Traits  
-**Associated Origin**: General  
-**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait
+**Category**: TRAITS
+**Tier**: Basic
+**Type**: Origin Trait
+**BP Cost**: 1
 
 ## Description
 Honed instincts for foraging, navigating wilderness, and finding shelter in hostile terrain.
-
-## Mechanics & Benefits
-+2 to Survival Skill checks.

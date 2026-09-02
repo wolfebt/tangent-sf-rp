@@ -1364,8 +1364,8 @@ export const CodexIngestionEngine = ({
           IN-PLACE REVISION MODAL
       ───────────────────────────────────────────────────────────────────────── */}
       {revisingItem && revisionForm && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+        <div className="fixed inset-0 z-[250] bg-black/85 backdrop-blur-md flex items-start justify-center p-3 sm:p-6 pt-10 sm:pt-14 md:pt-16 pb-12 overflow-y-auto select-none font-sans">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-3xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh] sm:max-h-[88vh]">
             
             {/* Modal Header */}
             <div className="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/80">
@@ -1720,8 +1720,8 @@ export const CodexIngestionEngine = ({
         const addedCount = diffRows.filter(r => r.status === 'added').length;
 
         return (
-          <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-            <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-4xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+          <div className="fixed inset-0 z-[250] bg-black/85 backdrop-blur-md flex items-start justify-center p-3 sm:p-6 pt-10 sm:pt-14 md:pt-16 pb-12 overflow-y-auto select-none font-sans">
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-4xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh] sm:max-h-[88vh]">
               
               {/* Diff Modal Header */}
               <div className="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/80">

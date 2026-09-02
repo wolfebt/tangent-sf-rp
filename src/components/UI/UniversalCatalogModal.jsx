@@ -31,7 +31,8 @@ import { DEFAULT_OCCUPATIONS } from '../../data/occupationsData';
 import { DEFAULT_ORIGINS } from '../../data/originsData';
 import { DEFAULT_FACTIONS } from '../../data/factionsData';
 import { DEFAULT_SPECIES_DISADVANTAGES } from '../../data/speciesDisadvantagesData';
-import { ALL_CANONICAL_TRAITS } from '../../data/speciesTraitsData';
+import { DEFAULT_SPECIES_TYPES } from '../../data/speciesTypesData';
+import { ALL_CANONICAL_TRAITS, SPECIES_TRAITS_BASIC, SPECIES_TRAITS_ADVANCED, SPECIES_TRAITS_ELITE } from '../../data/speciesTraitsData';
 import { DEFAULT_WEAPONRY } from '../../data/weaponryData';
 import { DEFAULT_ARMORING } from '../../data/armoringData';
 import { DEFAULT_AUGMENTATIONS } from '../../data/augmentationsData';
@@ -74,16 +75,23 @@ export const SKILL_GROUP_ITEMS = [
 const FALLBACK_CATALOG_DATA = {
   archetypes: DEFAULT_ARCHETYPES,
   species: DEFAULT_SPECIES,
+  species_type: DEFAULT_SPECIES_TYPES,
+  species_types: DEFAULT_SPECIES_TYPES,
   species_size: DEFAULT_SPECIES_SIZES,
   species_movement: DEFAULT_SPECIES_MOVEMENT,
   movement: DEFAULT_SPECIES_MOVEMENT,
   features: DEFAULT_FEATURES,
   traits: ALL_CANONICAL_TRAITS,
   trait: ALL_CANONICAL_TRAITS,
+  species_traits: ALL_CANONICAL_TRAITS,
+  species_traits_basic: SPECIES_TRAITS_BASIC,
+  species_traits_advanced: SPECIES_TRAITS_ADVANCED,
+  species_traits_elite: SPECIES_TRAITS_ELITE,
   skills: ALL_CANONICAL_SKILLS,
   disciplines: DEFAULT_DISCIPLINES,
   awakened: DEFAULT_DISCIPLINES,
   disadvantages: DEFAULT_SPECIES_DISADVANTAGES,
+  species_disadvantages: DEFAULT_SPECIES_DISADVANTAGES,
   augmentations: DEFAULT_AUGMENTATIONS,
   weaponry: DEFAULT_WEAPONRY,
   weapons: DEFAULT_WEAPONRY,
@@ -826,8 +834,8 @@ export const UniversalCatalogModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 pt-4 sm:pt-8 overflow-y-auto">
-      <div className={`bg-[#0d131f] border ${themeBorder} rounded-2xl w-full max-w-5xl ${themeGlow} text-slate-100 flex flex-col max-h-[90vh] overflow-hidden my-auto shadow-2xl transition-all`}>
+    <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 pt-10 sm:pt-14 md:pt-16 pb-12 overflow-y-auto select-none font-sans">
+      <div className={`bg-[#0d131f] border ${themeBorder} rounded-2xl w-full max-w-5xl ${themeGlow} text-slate-100 flex flex-col max-h-[85vh] sm:max-h-[88vh] overflow-hidden shadow-2xl transition-all`}>
         
         {/* MODAL HEADER */}
         <div className="px-5 py-3.5 bg-slate-950/90 border-b border-slate-800 flex justify-between items-center shrink-0">

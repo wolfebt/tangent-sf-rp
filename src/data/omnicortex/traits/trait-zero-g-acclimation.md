@@ -1,10 +1,9 @@
 ---
 id: trait-zero-g-acclimation
 name: Zero-G Acclimation
-category: traits
+trait_tier: Basic
 trait_type: Origin Trait
-origin_association: Spacer
-description: 'Total bodily familiarity with microgravity, spin gravity, and vacuum suits.'
+category: traits
 costs:
   bp: 1
   credits: 0
@@ -13,6 +12,7 @@ costs:
   strain: 0
   focus: 0
   ap: 0
+description: 'Total bodily familiarity with microgravity, spin gravity, and vacuum suits.'
 modifiers: []
 modifications: []
 critical_details:
@@ -26,15 +26,12 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # Zero-G Acclimation
 
-**Category**: Origin Traits  
-**Associated Origin**: Spacer  
-**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait
+**Category**: TRAITS
+**Tier**: Basic
+**Type**: Origin Trait
+**BP Cost**: 1
 
 ## Description
 Total bodily familiarity with microgravity, spin gravity, and vacuum suits.
-
-## Mechanics & Benefits
-Suffers no penalties when moving, fighting, or operating in Zero-G environments.

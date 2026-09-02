@@ -10,18 +10,54 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 5 ft
+senses: Standard visual and auditory range.
+immunities: None
+inherent_attribute_modifiers:
+  - attribute: Agility
+    bonus: 1
+  - attribute: Intellect
+    bonus: 1
+bonus_attribute_points: 0
+specific_skill_bonuses:
+  - skill: Knowledge (Arcane)
+    bonus: 2
+  - skill: Diplomacy
+    bonus: 1
+bonus_skills: 20
+bonus_skill_choices:
+  - Knowledge (Arcane)
+  - Diplomacy
+  - Attune
+  - Science
+  - Language
+inherent_features:
+  - trait-awakened-arcane
+  - trait-long-lived-600-years
+  - trait-sleepless-immune-to-sleep-effects
+bonus_features: []
+bonus_feature_choices:
+  - Acute Senses
+  - Adapted (Arboreal)
+  - Ageless
+  - Agile Maneuvers
+  - Combat Expertise
+  - Darksight
+  - Eidetic Memory
+  - Low Light Vision
+  - Martial Arts
+  - Sense Magic (30ft)
+recommended_features:
+  - feature-acute-senses
+  - feature-eidetic-memory
+  - feature-sense-magic
 stigma: Minor Xeno (-1)
 tech_level: '3 (Magi-Tech: Solar Sails, Crystalline Laminates, Aetherium Refinement)'
 meta_level: '4 (High Magic: The Flow)'
 homeworld: Altheria (The Gilded World)
-cp: 20
-description: >-
-  The Alterian Aeld (Celestines) are graceful, exceptionally long-lived
-  scholars, diplomats, and magi-tech pioneers. They harmonize technology with
-  arcane metaphysics, viewing magic as a rigorous science and operating with a
-  profound long-term perspective.
 costs:
-  bp: 20
+  bp: 26
   credits: 0
   nodes: 0
   sockets: 0
@@ -30,124 +66,21 @@ costs:
   ap: 0
 modifiers:
   - target: Agility
-    type: attribute
     value: 1
+    type: attribute
     mode: inherent
   - target: Intellect
+    value: 1
     type: attribute
-    value: 1
     mode: inherent
-  - target: Knowledge (Arcane)
-    type: skill
-    value: 2
-    mode: inherent
-  - target: Diplomacy
-    type: skill
-    value: 1
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 20
-    mode: bonus_pool
-  - target: Knowledge (Arcane)
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Diplomacy
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Attune
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Science
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Language
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Awakened (Arcane)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Long-Lived (600+ years)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Sleepless (Immune to Sleep Effects)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Acute Senses
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Adapted (Arboreal)
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Ageless
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Agile Maneuvers
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Combat Expertise
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Darksight
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Eidetic Memory
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Low Light Vision
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Martial Arts
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Sense Magic (30ft)
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-acute-senses
-    type: feature
-    value: 1
-    mode: recommended
-  - target: feature-eidetic-memory
-    type: feature
-    value: 1
-    mode: recommended
-  - target: feature-sense-magic
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+cp_cost: 26
+cp: 26
+bp: 26
+description: >-
+  The Alterian Aeld (Celestines) are graceful, exceptionally long-lived
+  scholars, diplomats, and magi-tech pioneers. They harmonize technology with
+  arcane metaphysics, viewing magic as a rigorous science and operating with a
+  profound long-term perspective.
 ---
 # Celestine (Alterian Aeld)
 

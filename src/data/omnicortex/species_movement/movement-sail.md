@@ -1,8 +1,13 @@
 ---
 id: movement-sail
-name: "Flying: Sail Pace"
+name: 'Flying: Sail Pace (2x Fly)'
 category: species_movement
-description: Hurried aerial cruise pace with a -2 penalty to subtle actions.
+classification: pace
+target_mode: Flying
+multiplier: 2
+speed: 120
+bp: 0
+description: Hurried aerial cruise pace (2x Fly) with a -2 penalty to subtle actions.
 costs:
   bp: 0
   credits: 0
@@ -11,31 +16,12 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-speed: 120
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
+# Flying: Sail Pace (2x Fly)
 
-# Flying: Sail Pace
-
-**Category**: Movement Modes & Paces  
-**Movement Mode**: Flying  
-**Speed Multiplier**: 2x Flight (4x Walk)  
-**Medium Speed Baseline**: 120 ft / round  
+**Category**: Species Movement (PACE)  
+**Target Mode**: Flying  
+**Cost**: +0 BP  
 
 ## Description
-Hurried aerial cruise pace with a -2 penalty to subtle actions.
-
-## Tactical Modifiers & Checks
-- **Action Penalty / Modifier**: -2 to subtlety/stealth/precision
-- **Required Check**: None
+Hurried aerial cruise pace (2x Fly) with a -2 penalty to subtle actions.

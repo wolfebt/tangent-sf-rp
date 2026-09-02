@@ -3,101 +3,58 @@ id: species-human-kheen
 name: Kheen Human
 title: Kheen Human (Aeld Hybrid)
 category: species
-parent_species: Humans
+parent_species: Humans (Core & Variants)
 type:
   - species_type-humanoid
 size:
   - species_size-medium
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 5 ft
+senses: Standard visual and auditory range.
+immunities: None
+inherent_attribute_modifiers: []
+bonus_attribute_points: 2
+specific_skill_bonuses:
+  - skill: Diplomacy
+    bonus: 1
+bonus_skills: 5
+bonus_skill_choices:
+  - Diplomacy
+  - Attune
+  - Perception
+  - Culture
+inherent_features:
+  - trait-low-light-vision
+  - trait-extended-lifespan-200-years
+  - trait-arcane-affinity
+bonus_features: []
+bonus_feature_choices:
+  - Silver Tongue
+  - Graceful Stride
+  - Focused Mind
+recommended_features:
+  - feature-graceful-stride
 stigma: None
 tech_level: 3 (Magi-Tech Synthesis)
 meta_level: 2 (Harmonic Weave)
 homeworld: Border Worlds & Conclave Embassies
-cp: 17
-description: >-
-  The Kheen represent stable human-aeld lineages who inherited elven aesthetic
-  grace and longevity while maintaining human versatility and adaptability.
 costs:
-  bp: 17
+  bp: 15
   credits: 0
   nodes: 0
   sockets: 0
   strain: 0
   focus: 0
   ap: 0
-modifiers:
-  - target: Any Attribute
-    type: attribute
-    value: 2
-    mode: bonus_pool
-  - target: Diplomacy
-    type: skill
-    value: 1
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 5
-    mode: bonus_pool
-  - target: Diplomacy
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Attune
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Perception
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Culture
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Low Light Vision
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Extended Lifespan (200 years)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Arcane Affinity
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Silver Tongue
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Graceful Stride
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Focused Mind
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-graceful-stride
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+modifiers: []
+cp_cost: 15
+cp: 15
+bp: 15
+description: >-
+  The Kheen represent stable human-aeld lineages who inherited elven aesthetic
+  grace and longevity while maintaining human versatility and adaptability.
 ---
 # Kheen Human (Aeld Hybrid)
 

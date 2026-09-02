@@ -2,8 +2,8 @@
 id: invocation-mind-probe
 name: MIND PROBE
 category: invocations
-discipline: Energy
-description: MIND PROBE invocation for Energy reality manipulation.
+discipline: Mental
+description: MIND PROBE invocation for Mental reality manipulation.
 costs:
   bp: 0
   credits: 0
@@ -25,11 +25,10 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # MIND PROBE Invocation
 
 **Category**: Invocations  
-**Discipline**: Energy
+**Discipline**: Mental
 
 ## Description & Ritual Details
 Classification: Mental (Sense) | Attack/Utility | \[Invasive\] \[Memory\]  

@@ -2,8 +2,8 @@
 id: invocation-nullify
 name: NULLIFY
 category: invocations
-discipline: Energy
-description: NULLIFY invocation for Energy reality manipulation.
+discipline: Entropy
+description: NULLIFY invocation for Entropy reality manipulation.
 costs:
   bp: 0
   credits: 0
@@ -25,11 +25,10 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # NULLIFY Invocation
 
 **Category**: Invocations  
-**Discipline**: Energy
+**Discipline**: Entropy
 
 ## Description & Ritual Details
 Classification: Entropy (Chaos) | Utility/Defense | \[Disruption\] \[Anti-Energy\]  

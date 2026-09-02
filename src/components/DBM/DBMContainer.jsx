@@ -6,6 +6,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import { useAuth } from '../../context/AuthContext';
 
 // Extracted Components
+import { DBMHeader } from './DBMHeader';
 import { DBMSidebar } from './DBMSidebar';
 import { DBMWikiView } from './DBMWikiView';
 import { DBMGuideView } from './DBMGuideView';
@@ -43,7 +44,8 @@ export const DBMContainer = () => {
     isSidebarOpen, setIsSidebarOpen,
     isBastionOpen, setIsBastionOpen,
     isArchitectModalOpen, setIsArchitectModalOpen,
-    handleExportMasterJSON, handleImportMasterJSON
+    handleExportMasterJSON, handleImportMasterJSON,
+    syncMasterSpeciesMatrix, syncCanonicalCompendium
   } = dbm;
 
   // Reset search term on category/subcategory change
@@ -437,6 +439,25 @@ export const DBMContainer = () => {
 
   return (
     <div className="flex flex-col h-full w-full bg-[#0d1117] text-slate-100 font-sans overflow-hidden">
+      {/* Omnicortex DBM System Header Bar */}
+      <DBMHeader
+        historyIndex={historyIndex}
+        historyLength={history ? history.length : 0}
+        handleBack={handleBack}
+        handleForward={handleForward}
+        isBastionOpen={isBastionOpen}
+        setIsBastionOpen={setIsBastionOpen}
+        handleExportMasterJSON={handleExportMasterJSON}
+        handleImportMasterJSON={handleImportMasterJSON}
+        syncMasterSpeciesMatrix={syncMasterSpeciesMatrix}
+        syncCanonicalCompendium={syncCanonicalCompendium}
+        navigateToCategory={navigateToCategory}
+        isSidebarOpen={isSidebarOpen}
+        setIsSidebarOpen={setIsSidebarOpen}
+        setIsSettingsOpen={setIsSettingsOpen}
+        onOpenArchitectModal={() => setIsArchitectModalOpen && setIsArchitectModalOpen(true)}
+      />
+
       {/* Mobile Sidebar Overlay Toggle */}
       <div 
         className={`fixed inset-0 z-40 bg-black/60 md:hidden ${isSidebarOpen ? 'block' : 'hidden'}`} 

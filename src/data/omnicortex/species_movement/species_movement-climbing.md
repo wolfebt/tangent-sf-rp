@@ -1,10 +1,16 @@
 ---
 id: species_movement-climbing
-name: "Innate Climbing"
+name: Innate Climbing
 category: species_movement
-type: "Climb"
+classification: mode
+target_mode: Climbing
+type: Climbing
+base_speed: 30
 speed: 30
-description: "Specialized anatomy (claws, micro-suckers, or prehensile limbs) granting an innate 30 ft climb speed without check penalties on standard surfaces."
+bp: 0
+description: >-
+  Specialized anatomy (claws, micro-suckers, or prehensile limbs) granting an
+  innate 30 ft climb speed without checks on standard surfaces.
 costs:
   bp: 0
   credits: 0
@@ -13,24 +19,13 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
-
 # Innate Climbing
 
-**Mode Type**: Climb  
+**Category**: Species Movement (MODE)  
+**Target Mode**: Climbing  
+**Cost**: +0 BP  
 **Base Speed**: 30 ft / round  
 
 ## Description
-Specialized anatomy (claws, micro-suckers, or prehensile limbs) granting an innate 30 ft climb speed without check penalties on standard surfaces.
+Specialized anatomy (claws, micro-suckers, or prehensile limbs) granting an innate 30 ft climb speed without checks on standard surfaces.

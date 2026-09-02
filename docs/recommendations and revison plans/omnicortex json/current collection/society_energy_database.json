@@ -1,1 +1,50 @@
-[]
+[
+  {
+    "id": "society_energy_lvl_0",
+    "category": "society_energy",
+    "name": "Energy & Power Generation (Level 0: Primitive / Subsistence)",
+    "level": 0,
+    "sphere_key": "society_energy",
+    "description": "Level 0 development in Energy & Power Generation: Power generation, fusion reactors, antimatter taps, and solar arrays. (Primitive / Subsistence)."
+  },
+  {
+    "id": "society_energy_lvl_1",
+    "category": "society_energy",
+    "name": "Energy & Power Generation (Level 1: Emerging / Industrial)",
+    "level": 1,
+    "sphere_key": "society_energy",
+    "description": "Level 1 development in Energy & Power Generation: Power generation, fusion reactors, antimatter taps, and solar arrays. (Emerging / Industrial)."
+  },
+  {
+    "id": "society_energy_lvl_2",
+    "category": "society_energy",
+    "name": "Energy & Power Generation (Level 2: Modern / Planetary)",
+    "level": 2,
+    "sphere_key": "society_energy",
+    "description": "Level 2 development in Energy & Power Generation: Power generation, fusion reactors, antimatter taps, and solar arrays. (Modern / Planetary)."
+  },
+  {
+    "id": "society_energy_lvl_3",
+    "category": "society_energy",
+    "name": "Energy & Power Generation (Level 3: Advanced / Stellar)",
+    "level": 3,
+    "sphere_key": "society_energy",
+    "description": "Level 3 development in Energy & Power Generation: Power generation, fusion reactors, antimatter taps, and solar arrays. (Advanced / Stellar)."
+  },
+  {
+    "id": "society_energy_lvl_4",
+    "category": "society_energy",
+    "name": "Energy & Power Generation (Level 4: Mastered / Interstellar)",
+    "level": 4,
+    "sphere_key": "society_energy",
+    "description": "Level 4 development in Energy & Power Generation: Power generation, fusion reactors, antimatter taps, and solar arrays. (Mastered / Interstellar)."
+  },
+  {
+    "id": "society_energy_lvl_5",
+    "category": "society_energy",
+    "name": "Energy & Power Generation (Level 5: Transcendent / Deific)",
+    "level": 5,
+    "sphere_key": "society_energy",
+    "description": "Level 5 development in Energy & Power Generation: Power generation, fusion reactors, antimatter taps, and solar arrays. (Transcendent / Deific)."
+  }
+]

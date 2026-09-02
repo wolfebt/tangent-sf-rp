@@ -1,11 +1,9 @@
 ---
 id: trait-background
 name: Background
-category: traits
+trait_tier: Basic
 trait_type: Common Occupational Trait
-description: >-
-  Select additional training from another secondary Occupation fitting
-  backstory.
+category: traits
 costs:
   bp: 1
   credits: 0
@@ -14,6 +12,9 @@ costs:
   strain: 0
   focus: 0
   ap: 0
+description: >-
+  Select additional training from another secondary Occupation fitting
+  backstory.
 modifiers: []
 modifications: []
 critical_details:
@@ -27,14 +28,12 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # Background
 
-**Category**: Common Occupational Traits  
-**Cost**: 1 CP (or free starting selection)
+**Category**: TRAITS
+**Tier**: Basic
+**Type**: Common Occupational Trait
+**BP Cost**: 1
 
 ## Description
 Select additional training from another secondary Occupation fitting backstory.
-
-## Mechanics & Benefits
-Gain one Trait from a chosen secondary Occupation.

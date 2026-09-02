@@ -1,27 +1,82 @@
 [
   {
+    "id": "mod-attack-plus-1",
+    "name": "+1 Attack Roll",
+    "target": "Attack",
     "value": 1,
-    "name": "Intellect +1",
-    "mechanic": "+1 Intellect Attribute",
-    "tags": [
-      "@Lanaran"
-    ],
-    "description": "a +1 bonus to the Intellect Attribute.",
-    "aspect": "attribute",
-    "id": "modifier_1786543756517",
-    "aspect_subtype": "Intellect",
-    "createdAt": "2026-08-12T14:09:16.517Z"
+    "type": "combat",
+    "description": "Grants +1 bonus on combat attack rolls."
   },
   {
-    "name": "Attribute +1",
-    "tags": [
-      "@Lanaran"
-    ],
-    "mechanic": "any attribute of users choice gains +1",
+    "id": "mod-attack-plus-2",
+    "name": "+2 Attack Roll",
+    "target": "Attack",
+    "value": 2,
+    "type": "combat",
+    "description": "Grants +2 bonus on combat attack rolls."
+  },
+  {
+    "id": "mod-defense-plus-1",
+    "name": "+1 Defense Roll",
+    "target": "Defense",
     "value": 1,
-    "id": "modifier_1786543824160",
-    "description": "a +1 to an Attribute of choice",
-    "aspect": "attribute",
-    "createdAt": "2026-08-12T14:10:24.160Z"
+    "type": "combat",
+    "description": "Grants +1 bonus on combat defense checks."
+  },
+  {
+    "id": "mod-defense-plus-2",
+    "name": "+2 Defense Roll",
+    "target": "Defense",
+    "value": 2,
+    "type": "combat",
+    "description": "Grants +2 bonus on combat defense checks."
+  },
+  {
+    "id": "mod-speed-plus-10",
+    "name": "+10 ft Speed",
+    "target": "Movement Speed",
+    "value": 10,
+    "type": "speed",
+    "description": "Increases ground movement speed by 10 feet per round."
+  },
+  {
+    "id": "mod-reach-plus-5",
+    "name": "+5 ft Reach",
+    "target": "Reach",
+    "value": 5,
+    "type": "combat",
+    "description": "Extends melee combat reach by 5 feet."
+  },
+  {
+    "id": "mod-dr-plus-2",
+    "name": "+2 Damage Resistance (DR)",
+    "target": "Damage Resistance",
+    "value": 2,
+    "type": "armor",
+    "description": "Absorbs 2 points of incoming physical/energy damage."
+  },
+  {
+    "id": "mod-sp-plus-5",
+    "name": "+5 Structure Points (SP)",
+    "target": "Structure Points",
+    "value": 5,
+    "type": "health",
+    "description": "Adds 5 bonus Structure Points to the chassis or module."
+  },
+  {
+    "id": "mod-init-plus-2",
+    "name": "+2 Initiative",
+    "target": "Initiative",
+    "value": 2,
+    "type": "combat",
+    "description": "Grants +2 bonus on combat initiative reaction checks."
+  },
+  {
+    "id": "mod-ap-minus-1",
+    "name": "-1 Action Point (AP) Cost",
+    "target": "Action Cost",
+    "value": -1,
+    "type": "action",
+    "description": "Reduces action point cost of specialized actions by 1."
   }
 ]

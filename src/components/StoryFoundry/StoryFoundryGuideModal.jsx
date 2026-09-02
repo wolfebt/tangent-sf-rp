@@ -179,11 +179,11 @@ export const StoryFoundryGuideModal = ({ isOpen, onClose, initialTab = 'overview
 
   return (
     <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 overflow-hidden animate-fade-in"
+      className="fixed inset-0 z-[200] flex items-start justify-center bg-black/85 backdrop-blur-md p-3 sm:p-6 pt-8 sm:pt-12 md:pt-14 pb-12 overflow-y-auto select-none font-sans animate-fade-in"
       onClick={onClose}
     >
       <div
-        className="relative bg-[#0d1117] border border-purple-500/50 rounded-2xl shadow-2xl shadow-black/80 w-full max-w-5xl h-[88vh] flex flex-col font-sans overflow-hidden"
+        className="relative bg-[#0d1117] border border-purple-500/50 rounded-2xl shadow-2xl shadow-black/80 w-full max-w-5xl max-h-[85vh] sm:max-h-[88vh] flex flex-col font-sans overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}

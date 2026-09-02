@@ -21,18 +21,18 @@ archetypes:
   - Slaver
   - Hacker
 traits:
-  - trait-criminal-aggressiveness
-  - trait-criminal-b-e
-  - trait-criminal-combat-training
-  - trait-criminal-deception
-  - trait-criminal-hacking
-  - trait-criminal-networking
-  - trait-criminal-resourcefulness
-  - trait-criminal-risk-taking
-  - trait-criminal-self-preservation
-  - trait-criminal-smooth
-  - trait-criminal-stalker
-  - trait-criminal-street-smarts
+  - trait-aggressiveness
+  - trait-b-e
+  - trait-combat-training
+  - trait-deception
+  - trait-hacking
+  - trait-networking
+  - trait-resourcefulness
+  - trait-risk-taking
+  - trait-self-preservation
+  - trait-smooth
+  - trait-stalker
+  - trait-street-smarts
 description: >-
   A Criminal is a character who engages in illegal activities for personal gain
   or as part of an organized group. This can include roles such as thieves, con

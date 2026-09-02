@@ -10,17 +10,47 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 5 ft
+senses: Standard visual and auditory range.
+immunities: None
+inherent_attribute_modifiers:
+  - attribute: Agility
+    bonus: 1
+bonus_attribute_points: 1
+specific_skill_bonuses:
+  - skill: Martial Arts
+    bonus: 1
+  - skill: Survival
+    bonus: 1
+bonus_skills: 5
+bonus_skill_choices:
+  - Martial Arts
+  - Survival
+  - Acrobatics
+  - Stealth
+  - Athletics
+inherent_features:
+  - >-
+    trait-auluran-base-traits-biotechnology-low-light-vision-prehensile-feet-tail-scent-nat-weapons
+  - trait-awakened-psychic
+  - trait-climber
+  - trait-martial-arts
+  - trait-quick-5ft-movement
+bonus_features: []
+bonus_feature_choices:
+  - Apex Predator
+  - Bio-Venom Spit
+  - Uncanny Balance
+  - Chitinous Plating
+recommended_features:
+  - feature-apex-predator
 stigma: Xeno (-2)
 tech_level: 3 (Bio-Tech Weapons & Neural Symbionts)
 meta_level: 2 (Bio-Psionics)
 homeworld: Aulura Prime (The Spore Arcologies)
-cp: 21
-description: >-
-  The Dar are the hunter and scout caste of the Auluran race. Feline, arboreal,
-  and biologically sophisticated, they wield living symbiote weapons and
-  prehensile limbs with lethal grace.
 costs:
-  bp: 21
+  bp: 15
   credits: 0
   nodes: 0
   sockets: 0
@@ -29,102 +59,16 @@ costs:
   ap: 0
 modifiers:
   - target: Agility
+    value: 1
     type: attribute
-    value: 1
     mode: inherent
-  - target: Any Attribute
-    type: attribute
-    value: 1
-    mode: bonus_pool
-  - target: Martial Arts
-    type: skill
-    value: 1
-    mode: inherent
-  - target: Survival
-    type: skill
-    value: 1
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 5
-    mode: bonus_pool
-  - target: Martial Arts
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Survival
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Acrobatics
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Stealth
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Athletics
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: >-
-      Auluran Base Traits (Biotechnology, Low Light Vision, Prehensile
-      Feet/Tail, Scent, Nat. Weapons)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Awakened (Psychic)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Climber
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Martial Arts
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Quick (+5ft Movement)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Apex Predator
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Bio-Venom Spit
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Uncanny Balance
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Chitinous Plating
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-apex-predator
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+cp_cost: 15
+cp: 15
+bp: 15
+description: >-
+  The Dar are the hunter and scout caste of the Auluran race. Feline, arboreal,
+  and biologically sophisticated, they wield living symbiote weapons and
+  prehensile limbs with lethal grace.
 ---
 # Dar (Auluran Hunter Caste)
 

@@ -30,11 +30,17 @@ import { confirmTypedDeletion } from '../../utils/confirmationUtils';
 import { FolioGuideModal } from './FolioGuideModal';
 import GuidedCreatorModal from './modals/GuidedCreatorModal';
 import { UserSettingsModal } from '../UserSettingsModal';
+import RosterCatalogView from './views/RosterCatalogView';
 
 const FolioContainer = () => {
   const navigate = useNavigate();
   const { currentUser, userHandle, confirmLogout, loginWithGoogle } = useAuth();
-  const [activeTab, setActiveTab] = useState('identity');
+  const [activeTab, setActiveTab] = useState(() => {
+    if (typeof window !== 'undefined' && window.location.search && window.location.search.includes('id=')) {
+      return 'identity';
+    }
+    return 'catalog';
+  });
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
@@ -509,6 +515,37 @@ const FolioContainer = () => {
 
         {/* Tab Content Display with ample padding to prevent viewport cutoff */}
         <div className="flex-1 overflow-y-auto relative p-3 sm:p-5 pb-24" onBlur={triggerSave}>
+          {activeTab === 'catalog' && (
+            <RosterCatalogView
+              personaRoster={personaRoster}
+              activeDocId={characterData['character-doc-id']}
+              onSelectCharacter={(docId) => {
+                switchRosterCharacter(docId);
+                setActiveTab('identity');
+              }}
+              onNewCharacter={() => {
+                handleNewCharacter();
+                setActiveTab('identity');
+              }}
+              onGuidedCreator={() => {
+                setIsGuidedCreatorOpen(true);
+              }}
+              onDuplicateCharacter={duplicateRosterCharacter}
+              onDeleteCharacter={deleteRosterCharacter}
+              onUpdateNote={updateRosterCharacterNote}
+              onToggleVisibility={togglePersonaVisibility}
+              onLoadPublicGallery={loadPublicPersonas}
+              publicCatalog={publicCatalog}
+              onSelectPublicPersona={(char) => {
+                handleLoadCloud(char.id);
+                setActiveTab('identity');
+              }}
+              onClonePublicPersona={(char) => {
+                clonePublicPersona(char);
+                setActiveTab('identity');
+              }}
+            />
+          )}
           {activeTab === 'identity' && (
             <IdentityTab
               onOpenSelectorModal={handleOpenSelectorModal}
@@ -627,6 +664,38 @@ const FolioContainer = () => {
         isOpen={isPreviewOpen}
         onClose={() => setIsPreviewOpen(false)}
         characterData={characterData}
+      />
+      <RosterModal
+        isOpen={isRosterOpen}
+        onClose={() => setIsRosterOpen(false)}
+        personaRoster={personaRoster}
+        activeDocId={characterData['character-doc-id']}
+        onSelectCharacter={(docId) => {
+          switchRosterCharacter(docId);
+          setActiveTab('identity');
+          setIsRosterOpen(false);
+        }}
+        onNewCharacter={() => {
+          handleNewCharacter();
+          setActiveTab('identity');
+          setIsRosterOpen(false);
+        }}
+        onDuplicateCharacter={duplicateRosterCharacter}
+        onDeleteCharacter={deleteRosterCharacter}
+        onUpdateNote={updateRosterCharacterNote}
+        onToggleVisibility={togglePersonaVisibility}
+        onLoadPublicGallery={loadPublicPersonas}
+        publicCatalog={publicCatalog}
+        onSelectPublicPersona={(char) => {
+          handleLoadCloud(char.id);
+          setActiveTab('identity');
+          setIsRosterOpen(false);
+        }}
+        onClonePublicPersona={(char) => {
+          clonePublicPersona(char);
+          setActiveTab('identity');
+          setIsRosterOpen(false);
+        }}
       />
       <BastionDrawer
         isOpen={isBastionOpen}

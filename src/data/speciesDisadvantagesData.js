@@ -1,7 +1,7 @@
 /**
  * Canonical Disadvantages Database for Tangent SF RP (Species & General Disadvantages)
  * Auto-generated from src/data/omnicortex/disadvantages/
- * Total Disadvantages: 32
+ * Total Disadvantages: 34
  */
 
 export const DEFAULT_SPECIES_DISADVANTAGES = [
@@ -656,6 +656,32 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "body": "# Obligation\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 BP  \n**Type**: Social\n\n## Description\nBound by contractual feudal duty, military service, syndicate blood oath, or patron servitude.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 BP)**: Weekly report-ins, minor tithes, or regular civic duty.\n- **Moderate (6 BP)**: Must perform dangerous missions on demand or surrender 25% of all earned revenue.\n- **Major (9 BP)**: Total servitude. The character is a sworn thrall, indentured slave, or sacred avatar with zero personal assets."
   },
   {
+    "id": "disadvantage-species-ponderous",
+    "code": "ponderous",
+    "name": "Ponderous (Disadvantage)",
+    "category": "disadvantages",
+    "disadvantage_type": "Species Disadvantage",
+    "classification": "Movement",
+    "type": "Movement",
+    "refundBP": 4,
+    "costBP": -4,
+    "costs": {
+      "bp": -4,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "prerequisite": "None",
+    "desc": "Base Speed -20 feet. (BP Gain) *",
+    "description": "Base Speed -20 feet. (BP Gain) *",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Ponderous (Disadvantage)\n\n**Category**: Species Disadvantages (BP Reduction)  \n**BP Refund**: +4 BP (Cost: -4 BP)  \n**Type**: Movement  \n\n## Description\nBase Speed -20 feet. (BP Gain) *\n\n## Mechanics & Severity\nThe species suffers a -20 foot penalty to their base ground movement speed (reducing standard 30 ft speed to 10 ft). Note: A species may only select one base speed modifier trait."
+  },
+  {
     "id": "disadvantage-poor",
     "code": "poor",
     "name": "Poor",
@@ -706,6 +732,32 @@ export const DEFAULT_SPECIES_DISADVANTAGES = [
     "mechanics": "",
     "modifiers": [],
     "body": "# Secret\n\n**Category**: Hindrances & Disadvantages  \n**BP Granted**: 3 / 6 / 9 BP  \n**Type**: Background / Social\n\n## Description\nHiding a dangerous truth or past crime that would result in public ruin, exile, or execution if exposed.\n\n## Mechanics & Severity\n### Tiers & Effects\n- **Minor (3 BP)**: Reputation damage or public embarrassment (e.g., forged academic degree).\n- **Moderate (6 BP)**: Legal prosecution, imprisonment, or exile (e.g., undercover enemy operative, escaped convict).\n- **Major (9 BP)**: Immediate death warrant or sector-wide manhunt (e.g., fugitive heir to fallen dynasty, wanted serial assassin)."
+  },
+  {
+    "id": "disadvantage-species-slow",
+    "code": "slow",
+    "name": "Slow (Disadvantage)",
+    "category": "disadvantages",
+    "disadvantage_type": "Species Disadvantage",
+    "classification": "Movement",
+    "type": "Movement",
+    "refundBP": 2,
+    "costBP": -2,
+    "costs": {
+      "bp": -2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "prerequisite": "None",
+    "desc": "Base Speed -10 feet. (BP Gain) *",
+    "description": "Base Speed -10 feet. (BP Gain) *",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Slow (Disadvantage)\n\n**Category**: Species Disadvantages (BP Reduction)  \n**BP Refund**: +2 BP (Cost: -2 BP)  \n**Type**: Movement  \n\n## Description\nBase Speed -10 feet. (BP Gain) *\n\n## Mechanics & Severity\nThe species suffers a -10 foot penalty to their base ground movement speed (reducing standard 30 ft speed to 20 ft). Note: A species may only select one base speed modifier trait."
   },
   {
     "id": "disadvantage-social-issues",

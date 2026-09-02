@@ -1,1 +1,50 @@
-[]
+[
+  {
+    "id": "society_architecture_lvl_0",
+    "category": "society_architecture",
+    "name": "Architecture & Habitats (Level 0: Primitive / Subsistence)",
+    "level": 0,
+    "sphere_key": "society_architecture",
+    "description": "Level 0 development in Architecture & Habitats: Urban engineering, habitat construction, dome architecture, and megastructures. (Primitive / Subsistence)."
+  },
+  {
+    "id": "society_architecture_lvl_1",
+    "category": "society_architecture",
+    "name": "Architecture & Habitats (Level 1: Emerging / Industrial)",
+    "level": 1,
+    "sphere_key": "society_architecture",
+    "description": "Level 1 development in Architecture & Habitats: Urban engineering, habitat construction, dome architecture, and megastructures. (Emerging / Industrial)."
+  },
+  {
+    "id": "society_architecture_lvl_2",
+    "category": "society_architecture",
+    "name": "Architecture & Habitats (Level 2: Modern / Planetary)",
+    "level": 2,
+    "sphere_key": "society_architecture",
+    "description": "Level 2 development in Architecture & Habitats: Urban engineering, habitat construction, dome architecture, and megastructures. (Modern / Planetary)."
+  },
+  {
+    "id": "society_architecture_lvl_3",
+    "category": "society_architecture",
+    "name": "Architecture & Habitats (Level 3: Advanced / Stellar)",
+    "level": 3,
+    "sphere_key": "society_architecture",
+    "description": "Level 3 development in Architecture & Habitats: Urban engineering, habitat construction, dome architecture, and megastructures. (Advanced / Stellar)."
+  },
+  {
+    "id": "society_architecture_lvl_4",
+    "category": "society_architecture",
+    "name": "Architecture & Habitats (Level 4: Mastered / Interstellar)",
+    "level": 4,
+    "sphere_key": "society_architecture",
+    "description": "Level 4 development in Architecture & Habitats: Urban engineering, habitat construction, dome architecture, and megastructures. (Mastered / Interstellar)."
+  },
+  {
+    "id": "society_architecture_lvl_5",
+    "category": "society_architecture",
+    "name": "Architecture & Habitats (Level 5: Transcendent / Deific)",
+    "level": 5,
+    "sphere_key": "society_architecture",
+    "description": "Level 5 development in Architecture & Habitats: Urban engineering, habitat construction, dome architecture, and megastructures. (Transcendent / Deific)."
+  }
+]

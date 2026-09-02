@@ -1,10 +1,9 @@
 ---
 id: trait-milspec-gear
 name: Milspec Gear
-category: traits
+trait_tier: Basic
 trait_type: Origin Trait
-origin_association: Militaristic
-description: 'Issued military-grade armor, sidearms, and tactical field gear.'
+category: traits
 costs:
   bp: 1
   credits: 0
@@ -13,6 +12,7 @@ costs:
   strain: 0
   focus: 0
   ap: 0
+description: 'Issued military-grade armor, sidearms, and tactical field gear.'
 modifiers: []
 modifications: []
 critical_details:
@@ -26,15 +26,12 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # Milspec Gear
 
-**Category**: Origin Traits  
-**Associated Origin**: Militaristic  
-**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait
+**Category**: TRAITS
+**Tier**: Basic
+**Type**: Origin Trait
+**BP Cost**: 1
 
 ## Description
 Issued military-grade armor, sidearms, and tactical field gear.
-
-## Mechanics & Benefits
-+2 Equipment allowance bonus during character creation.

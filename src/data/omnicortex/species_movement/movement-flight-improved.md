@@ -1,9 +1,14 @@
 ---
 id: movement-flight-improved
-name: Improved Flight Speed
+name: Improved Flight Speed (+10 ft Flight)
 category: species_movement
-movement_type: Modification
-description: "Increases base flight speed by 10 feet. Ranked."
+classification: adjuster
+target_mode: Flying
+speed_modifier: 10
+is_additive: true
+is_ranked: true
+bp: 1
+description: Increases base flight speed by +10 feet (Additive). Ranked.
 costs:
   bp: 1
   credits: 0
@@ -12,32 +17,13 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-speed: 10
-is_ranked: true
-is_exclusive: false
-is_disadvantage: false
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
+# Improved Flight Speed (+10 ft Flight)
 
-# Improved Flight Speed
+**Category**: Species Movement (ADJUSTER)  
+**Target Mode**: Flying  
+**Cost**: +1 BP  
+**Speed Modifier**: +10 ft (Additive)  
 
-**Category**: Species Movement (Modification)  
-**Cost**: 1 BP  
-**Classification**: Modification (Ranked)  
-
-## Effect
-Increases base flight speed by 10 feet. Ranked.
-
-## Mechanics & Rules
-Increases base flight speed by +10 feet per rank taken. May be purchased multiple times.
+## Description
+Increases base flight speed by +10 feet (Additive). Ranked.

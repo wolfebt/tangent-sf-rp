@@ -372,8 +372,8 @@ export default function CombatResolutionModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-in fade-in duration-200">
-      <div className="relative w-full max-w-4xl max-h-[92vh] bg-[#0f141c] border-2 border-amber-500/80 rounded-xl shadow-[0_0_40px_rgba(245,158,11,0.35)] flex flex-col overflow-hidden text-slate-100 font-sans">
+    <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 pt-8 sm:pt-12 md:pt-14 pb-12 overflow-y-auto select-none font-sans animate-in fade-in duration-200">
+      <div className="relative w-full max-w-4xl max-h-[85vh] sm:max-h-[88vh] bg-[#0f141c] border-2 border-amber-500/80 rounded-xl shadow-[0_0_40px_rgba(245,158,11,0.35)] flex flex-col overflow-hidden text-slate-100 font-sans">
         
         {/* Modal Header */}
         <div className="flex items-center justify-between px-5 py-3.5 bg-gradient-to-r from-amber-950/80 via-slate-900 to-slate-950 border-b border-amber-500/40 shrink-0">

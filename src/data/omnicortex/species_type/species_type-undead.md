@@ -3,7 +3,9 @@ id: species_type-undead
 name: Undead
 category: species_type
 description: >-
-  Undead species are once-living creatures animated by spiritual or supernatural forces. Undead are based on another corporeal creature type and may or may not retain its previous traits.
+  Undead species are once-living creatures animated by spiritual or supernatural
+  forces. Undead are based on another corporeal creature type and may or may not
+  retain its previous traits.
 costs:
   bp: 20
   credits: 0
@@ -12,8 +14,10 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-senses: "Darkvision 60 feet. [1]"
-physiology: "Undead do not breathe, eat, or sleep, unless they want to gain some beneficial effect from one of these activities. [3]"
+senses: 'Darkvision 60 feet. [1]'
+physiology: >-
+  Undead do not breathe, eat, or sleep, unless they want to gain some beneficial
+  effect from one of these activities. [3]
 modifiers: []
 modifications: []
 critical_details:

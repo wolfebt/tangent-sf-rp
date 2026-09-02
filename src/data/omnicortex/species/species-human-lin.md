@@ -3,7 +3,7 @@ id: species-human-lin
 name: Lin Human
 title: Lin Human (Arboreal Canopy Folk)
 category: species
-parent_species: Humans
+parent_species: Humans (Core & Variants)
 type:
   - species_type-humanoid
 size:
@@ -11,16 +11,45 @@ size:
 movement:
   - species_movement-bipedal
   - species_movement-climbing
+speeds: 'Ground 30 ft, Climb 30 ft'
+reach: 5 ft
+senses: Standard visual and auditory range.
+immunities: None
+inherent_attribute_modifiers:
+  - attribute: Intellect
+    bonus: 1
+bonus_attribute_points: 0
+specific_skill_bonuses:
+  - skill: Acrobatics
+    bonus: 1
+  - skill: Survival (Jungle)
+    bonus: 1
+bonus_skills: 10
+bonus_skill_choices:
+  - Acrobatics
+  - Survival
+  - Athletics
+  - Medicine (Herbal)
+  - Stealth
+inherent_features:
+  - trait-adapted-arboreal
+  - trait-awakened-nature-psychic
+  - trait-biotech-synergy
+  - trait-climber
+  - trait-prehensile-tail
+bonus_features: []
+bonus_feature_choices:
+  - Canopy Acrobat
+  - Plant Whisperer
+  - Natural Camouflage
+recommended_features:
+  - feature-climber
 stigma: Xeno (-2)
 tech_level: 2 (Living Vine Architecture)
 meta_level: 3 (Botanical Psionics)
 homeworld: Lin-Shur Canopies
-cp: 19
-description: >-
-  Tail-bearing canopy humans who merged their physiology with arboreal symbiotic
-  plants to navigate colossal alien forests.
 costs:
-  bp: 19
+  bp: 17
   credits: 0
   nodes: 0
   sockets: 0
@@ -29,92 +58,15 @@ costs:
   ap: 0
 modifiers:
   - target: Intellect
+    value: 1
     type: attribute
-    value: 1
     mode: inherent
-  - target: Acrobatics
-    type: skill
-    value: 1
-    mode: inherent
-  - target: Survival (Jungle)
-    type: skill
-    value: 1
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 10
-    mode: bonus_pool
-  - target: Acrobatics
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Survival
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Athletics
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Medicine (Herbal)
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Stealth
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Adapted (Arboreal)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Awakened (Nature/Psychic)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Biotech Synergy
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Climber
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Prehensile Tail
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Canopy Acrobat
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Plant Whisperer
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Natural Camouflage
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-climber
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+cp_cost: 17
+cp: 17
+bp: 17
+description: >-
+  Tail-bearing canopy humans who merged their physiology with arboreal symbiotic
+  plants to navigate colossal alien forests.
 ---
 # Lin Human (Arboreal Canopy Folk)
 

@@ -10,16 +10,45 @@ size:
   - species_size-large
 movement:
   - species_movement-slithering
+speeds: Slither 25 ft
+reach: 10 ft
+senses: Standard visual and auditory range.
+immunities: None
+inherent_attribute_modifiers:
+  - attribute: Strength
+    bonus: 1
+  - attribute: Agility
+    bonus: 1
+bonus_attribute_points: 0
+specific_skill_bonuses:
+  - skill: Athletics (Grapple)
+    bonus: 2
+  - skill: Intimidation
+    bonus: 1
+bonus_skills: 0
+bonus_skill_choices:
+  - Athletics
+  - Intimidation
+  - Combat
+  - Attune
+inherent_features:
+  - trait-large-size-12-18ft-serpentine-body-reach-10ft
+  - trait-awakened-serpentine-metaphysics
+  - trait-constriction-deals-double-damage-on-successful-grapple-hold
+  - trait-venomous-fangs-paralytic-poison-dc-15
+bonus_features: []
+bonus_feature_choices:
+  - Hypnotic Gaze
+  - Shed Skin (Escape Restraints)
+  - Thermal Pit Sense
+recommended_features:
+  - feature-constriction
 stigma: Severe Xeno (-4)
 tech_level: 3 (Heavy Tail-Mount Harnesses & Plasma Blasters)
 meta_level: 3 (Serpentine Sorcery)
 homeworld: Vass-Tor Dunes & Ruins
-cp: 22
-description: >-
-  Colossal 12-to-18 foot serpentine beings with humanoid upper torsos, wielding
-  crushing constriction power, heat-sensing pits, and venomous strikes.
 costs:
-  bp: 22
+  bp: 10
   credits: 0
   nodes: 0
   sockets: 0
@@ -28,84 +57,31 @@ costs:
   ap: 0
 modifiers:
   - target: Strength
-    type: attribute
     value: 1
+    type: attribute
     mode: inherent
   - target: Agility
+    value: 1
     type: attribute
-    value: 1
     mode: inherent
-  - target: Athletics (Grapple)
-    type: skill
+  - target: Strength
     value: 2
-    mode: inherent
-  - target: Intimidation
+    type: attribute
+    mode: size_modifier
+  - target: Combat / Defense
+    value: -2
+    type: combat
+    mode: size_modifier
+  - target: Stealth
+    value: -4
     type: skill
-    value: 1
-    mode: inherent
-  - target: Athletics
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Intimidation
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Combat
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Attune
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: 'Large Size (12-18ft serpentine body, Reach 10ft)'
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Awakened (Serpentine Metaphysics)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Constriction (Deals double damage on successful grapple hold)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Venomous Fangs (Paralytic Poison DC 15)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Hypnotic Gaze
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Shed Skin (Escape Restraints)
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Thermal Pit Sense
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-constriction
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+    mode: size_modifier
+cp_cost: 10
+cp: 10
+bp: 10
+description: >-
+  Colossal 12-to-18 foot serpentine beings with humanoid upper torsos, wielding
+  crushing constriction power, heat-sensing pits, and venomous strikes.
 ---
 # Vassoth (Serpentine Colossus)
 
@@ -114,18 +90,19 @@ Colossal 12-to-18 foot serpentine beings with humanoid upper torsos, wielding cr
 
 ## Core Identity
 - **Lineage**: Independent Xenotypes
+- **Type**: species_type-humanoid
+- **Size**: species_size-large
+- **Movement**: Slither 25 ft
 - **Homeworld**: Vass-Tor Dunes & Ruins
 - **Tech Level**: 3 (Heavy Tail-Mount Harnesses & Plasma Blasters)
 - **Meta Level**: 3 (Serpentine Sorcery)
 - **Stigma**: Severe Xeno (-4)
 
 ## Mechanics & Statblock
-- **BP Cost**: 22 BP
-- **Size**: species_size-large
-- **Movement**: species_movement-slithering
-- **Ability Modifiers**: +1 Strength, +1 Agility
-- **Bonus Skills**: None
-- **Inherent Features & Traits**: Large Size (12-18ft serpentine body, Reach 10ft), Awakened (Serpentine Metaphysics), Constriction (Deals double damage on successful grapple hold), Venomous Fangs (Paralytic Poison DC 15)
+- **BP Cost**: 10 BP
+- **Inherent Modifiers**: +1 Strength, +1 Agility
+- **Bonus Skills**: +0 Skill Points
+- **Inherent Features**: Large Size (12-18ft serpentine body, Reach 10ft), Awakened (Serpentine Metaphysics), Constriction (Deals double damage on successful grapple hold), Venomous Fangs (Paralytic Poison DC 15)
 - **Recommended Features**: feature-constriction
 
 ## Roleplay & Society

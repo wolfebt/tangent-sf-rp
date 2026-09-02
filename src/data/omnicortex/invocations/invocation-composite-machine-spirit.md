@@ -27,8 +27,8 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
+discipline: Mental + Energy
 ---
-
 # Machine Spirit Interface (Composite Invocation)
 
 **Category**: Composite Invocations  

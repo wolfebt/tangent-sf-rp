@@ -3,24 +3,51 @@ id: species-gene-janissary
 name: Janissary (Gen-E)
 title: Janissary (Syndicate Elite Enforcer)
 category: species
-parent_species: Engineered Humans
+parent_species: Engineered Humans (Gen-E)
 type:
   - species_type-humanoid
 size:
   - species_size-medium
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 5 ft
+senses: Standard visual and auditory range.
+immunities: None
+inherent_attribute_modifiers:
+  - attribute: Charisma
+    bonus: -1
+bonus_attribute_points: 2
+specific_skill_bonuses:
+  - skill: Combat (Firearms)
+    bonus: 2
+  - skill: Tactics
+    bonus: 2
+bonus_skills: 20
+bonus_skill_choices:
+  - Combat
+  - Tactics
+  - Athletics
+  - Discipline
+  - Stealth
+  - Perception
+inherent_features:
+  - trait-augmented-sub-dermal-targeter-adrenal-regulator
+  - trait-conditioned-mind-4-vs-fear
+  - trait-combat-specialization
+bonus_features: []
+bonus_feature_choices:
+  - Zero-Delay Reaction
+  - Covert Infiltration
+  - Precision Marksman
+recommended_features:
+  - feature-precision-marksman
 stigma: Xeno (-2)
 tech_level: 4 (Syndicate Black-Ops Tech)
 meta_level: 1 (Tactical Focus)
 homeworld: Syndicate Citadel Academies
-cp: 26
-description: >-
-  The Janissaries are precision-crafted corporate enforcers possessing
-  surgically implanted targeters, adrenal pumps, and uncompromising tactical
-  conditioning.
 costs:
-  bp: 26
+  bp: 30
   credits: 0
   nodes: 0
   sockets: 0
@@ -29,92 +56,16 @@ costs:
   ap: 0
 modifiers:
   - target: Charisma
-    type: attribute
     value: -1
-    mode: inherent
-  - target: Any Attribute
     type: attribute
-    value: 2
-    mode: bonus_pool
-  - target: Combat (Firearms)
-    type: skill
-    value: 2
     mode: inherent
-  - target: Tactics
-    type: skill
-    value: 2
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 20
-    mode: bonus_pool
-  - target: Combat
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Tactics
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Athletics
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Discipline
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Stealth
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Perception
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: 'Augmented (Sub-dermal Targeter, Adrenal Regulator)'
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Conditioned Mind (+4 vs Fear)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Combat Specialization
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Zero-Delay Reaction
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Covert Infiltration
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Precision Marksman
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-precision-marksman
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+cp_cost: 30
+cp: 30
+bp: 30
+description: >-
+  The Janissaries are precision-crafted corporate enforcers possessing
+  surgically implanted targeters, adrenal pumps, and uncompromising tactical
+  conditioning.
 ---
 # Janissary (Syndicate Elite Enforcer)
 
@@ -258,11 +209,3 @@ Longevity  (enhanced physiology)
 Reduced Sustenance (enhanced physiology)  
 Regeneration (enhanced physiology)  
 \+2 Features of choice
-
-
-## Extended Lore & Background
-
-Following this physical maturation, Janissary soldiers undergo an intense, virtual training regimen. Advanced neural interface systems directly link to their minds, bypassing traditional, slow learning and memorization. Complex skill sets—from advanced tactical combat and demolitions to cryptography and xenolinguistics—are directly 'programmed' into their neural architecture, creating a force with unparalleled immediate proficiency.
-
-A critical, intentional outcome of this forced development and programmed education is the complete omission of childhood and all traditional social developmental stages. While possessing the physical maturity and technical competence of a veteran soldier, Janissary entirely lack the nuanced social and emotional context essential for human interaction and non-combat critical decision-making. They possess no personal history, emotional attachments, or the moral framework typically developed through years of social experience. This developmental void results in highly efficient, emotionally detached, and singularly focused combat instruments. Though perfectly suited for the brutal, utilitarian demands of the battlefield, they remain fundamentally alien to natural human society.
-

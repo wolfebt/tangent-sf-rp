@@ -1,12 +1,9 @@
 ---
 id: trait-entertainment-skill
 name: Entertainment Skill
-category: traits
+trait_tier: Basic
 trait_type: Origin Trait
-origin_association: Leisure
-description: >-
-  Talent in performance arts, music, athletics, gaming, or high-stakes social
-  recreation.
+category: traits
 costs:
   bp: 1
   credits: 0
@@ -15,6 +12,9 @@ costs:
   strain: 0
   focus: 0
   ap: 0
+description: >-
+  Talent in performance arts, music, athletics, gaming, or high-stakes social
+  recreation.
 modifiers: []
 modifications: []
 critical_details:
@@ -28,15 +28,12 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # Entertainment Skill
 
-**Category**: Origin Traits  
-**Associated Origin**: Leisure  
-**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait
+**Category**: TRAITS
+**Tier**: Basic
+**Type**: Origin Trait
+**BP Cost**: 1
 
 ## Description
 Talent in performance arts, music, athletics, gaming, or high-stakes social recreation.
-
-## Mechanics & Benefits
-+2 to one chosen Non-Combat or Performance skill.

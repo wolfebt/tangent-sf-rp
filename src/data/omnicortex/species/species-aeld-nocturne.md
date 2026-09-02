@@ -10,17 +10,48 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 5 ft
+senses: Standard visual and auditory range.
+immunities: None
+inherent_attribute_modifiers:
+  - attribute: Intellect
+    bonus: 1
+  - attribute: Charisma
+    bonus: -1
+bonus_attribute_points: 1
+specific_skill_bonuses:
+  - skill: Discipline
+    bonus: 2
+  - skill: Stealth
+    bonus: 1
+bonus_skills: 10
+bonus_skill_choices:
+  - Discipline
+  - Stealth
+  - Science
+  - Knowledge (Void)
+  - Tactics
+inherent_features:
+  - trait-aeld-lineage-traits
+  - trait-dark-sight
+  - trait-cold-discipline
+  - trait-indomitable-will
+bonus_features: []
+bonus_feature_choices:
+  - Shadow Step
+  - Silent Caster
+  - Ruthless Focus
+  - Iron Mind
+recommended_features:
+  - feature-shadow-step
+  - feature-iron-mind
 stigma: 'Xeno (-2), Supremacist (-2)'
 tech_level: 4 (Void-Tech & Stealth Sub-systems)
 meta_level: 4 (Shadow Metaphysics & Telepathy)
 homeworld: Kovia (The Umbral Fortress)
-cp: 18
-description: >-
-  The Nocturne (Kovians) are a fiercely disciplined, subterranean and
-  void-dwelling elven faction. Prioritizing cold logic, genetic preservation,
-  and shadow-craft, they harbor deep skepticism toward outsiders.
 costs:
-  bp: 18
+  bp: 23
   credits: 0
   nodes: 0
   sockets: 0
@@ -29,104 +60,20 @@ costs:
   ap: 0
 modifiers:
   - target: Intellect
-    type: attribute
     value: 1
+    type: attribute
     mode: inherent
   - target: Charisma
-    type: attribute
     value: -1
-    mode: inherent
-  - target: Any Attribute
     type: attribute
-    value: 1
-    mode: bonus_pool
-  - target: Discipline
-    type: skill
-    value: 2
     mode: inherent
-  - target: Stealth
-    type: skill
-    value: 1
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 10
-    mode: bonus_pool
-  - target: Discipline
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Stealth
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Science
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Knowledge (Void)
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Tactics
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Aeld Lineage Traits
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Darksight
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Cold Discipline
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Indomitable Will
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Shadow Step
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Silent Caster
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Ruthless Focus
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Iron Mind
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-shadow-step
-    type: feature
-    value: 1
-    mode: recommended
-  - target: feature-iron-mind
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+cp_cost: 23
+cp: 23
+bp: 23
+description: >-
+  The Nocturne (Kovians) are a fiercely disciplined, subterranean and
+  void-dwelling elven faction. Prioritizing cold logic, genetic preservation,
+  and shadow-craft, they harbor deep skepticism toward outsiders.
 ---
 # Nocturne (Kovian Aeld)
 

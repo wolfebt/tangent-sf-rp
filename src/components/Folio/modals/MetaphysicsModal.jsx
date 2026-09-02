@@ -379,8 +379,8 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/85 backdrop-blur-md p-2 sm:p-6 overflow-y-auto">
-      <div className="bg-[#0c121e] border border-purple-500/40 rounded-2xl max-w-5xl w-full p-4 sm:p-7 shadow-[0_0_50px_rgba(168,85,247,0.2)] text-slate-100 space-y-5 my-4 sm:my-6">
+    <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/85 backdrop-blur-md p-2 sm:p-6 pt-10 sm:pt-14 pb-12 overflow-y-auto select-none font-sans">
+      <div className="bg-[#0c121e] border border-purple-500/40 rounded-2xl max-w-5xl w-full p-4 sm:p-7 shadow-[0_0_50px_rgba(168,85,247,0.2)] text-slate-100 space-y-5">
         
         {/* Modal Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-purple-900/60 pb-4">
@@ -1097,7 +1097,7 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
         {/* SUB-MODAL: BUILD INVOCATION FORM */}
         {/* ═══════════════════════════════════════════════════════════════════ */}
         {isBuildInvocationOpen && (
-          <div className="fixed inset-0 z-60 flex items-center justify-center bg-black/80 backdrop-blur-sm p-3">
+          <div className="fixed inset-0 z-[250] flex items-start justify-center bg-black/85 backdrop-blur-md p-3 pt-12 sm:pt-16 pb-12 overflow-y-auto select-none font-sans">
             <form onSubmit={handleSaveCustomInvocation} className="bg-[#0e1524] border border-purple-500/50 rounded-xl max-w-lg w-full p-5 space-y-3.5 shadow-2xl text-xs">
               <div className="flex justify-between items-center border-b border-slate-800 pb-2">
                 <h3 className="font-bold text-sm text-purple-300 uppercase tracking-wider flex items-center gap-1.5">
@@ -1221,7 +1221,7 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
         {/* SUB-MODAL: BUILD SPECIAL ABILITY FORM */}
         {/* ═══════════════════════════════════════════════════════════════════ */}
         {isBuildSpecialAbilityOpen && (
-          <div className="fixed inset-0 z-60 flex items-center justify-center bg-black/80 backdrop-blur-sm p-3">
+          <div className="fixed inset-0 z-[250] flex items-start justify-center bg-black/85 backdrop-blur-md p-3 pt-12 sm:pt-16 pb-12 overflow-y-auto select-none font-sans">
             <form onSubmit={handleSaveCustomSpecialAbility} className="bg-[#0e1524] border border-cyan-500/50 rounded-xl max-w-lg w-full p-5 space-y-3.5 shadow-2xl text-xs">
               <div className="flex justify-between items-center border-b border-slate-800 pb-2">
                 <h3 className="font-bold text-sm text-cyan-300 uppercase tracking-wider flex items-center gap-1.5">

@@ -1478,19 +1478,149 @@ export const SPECIES_BUDGET_LEVELS = {
 };
 
 export const SPECIES_TYPES = {
-  Humanoid: { id: 'Humanoid', name: 'Humanoid', bp: 0, senses: 'Standard', traits: 'None', physiology: 'Breathes, eats, and sleeps' },
-  Aberration: { id: 'Aberration', name: 'Aberration', bp: 1, senses: 'Darkvision 60ft [1]', traits: 'Alien mindset', physiology: 'Eats, sleeps, and breathes' },
-  Beast: { id: 'Beast', name: 'Beast', bp: 1, senses: 'Low-light vision [1]', traits: 'Animal instincts', physiology: 'Eats, sleeps, and breathes' },
-  Fey: { id: 'Fey', name: 'Fey', bp: 3, senses: 'Low-light vision [1]', traits: 'Sleepless [2]', physiology: 'Breathes and eats' },
-  Planar: { id: 'Planar', name: 'Planar', bp: 4, senses: 'Darkvision 60ft [1]', traits: 'Planar Origin [3]', physiology: 'Breathes, eats, and sleeps' },
-  Dragon: { id: 'Dragon', name: 'Dragon', bp: 5, senses: 'Darkvision 60ft [1], Low-light vision [1]', traits: 'Immunity to magical sleep & paralysis [3]', physiology: 'Breathes, eats, and sleeps' },
-  Mythical: { id: 'Mythical', name: 'Mythical', bp: 5, senses: 'Darkvision 60ft [1], Low-light vision [1]', traits: 'Non-breathing [3]', physiology: 'Does not eat, sleep, or breathe' },
-  Ooze: { id: 'Ooze', name: 'Ooze', bp: 6, senses: 'Blindsight 30ft', traits: 'Amorphous [3], Fortification (Immune to crits/flank) [3]', physiology: 'Semi-solid form' },
-  Verdant: { id: 'Verdant', name: 'Verdant (Plant)', bp: 9, senses: 'Low-light vision [1]', traits: 'Mental Immunity [3], Physical Immunity [3], Sleepless [2]', physiology: 'Breathes and eats, does not sleep' },
-  Elemental: { id: 'Elemental', name: 'Elemental', bp: 13, senses: 'Darkvision 60ft [1]', traits: 'Immunities (Poison, sleep, stun) [6], Fortification [3], Non-living [3]', physiology: 'Does not eat, sleep, or breathe' },
-  Synthetic: { id: 'Synthetic', bp: 15, name: 'Synthetic / Construct', senses: 'Low-light vision [1], Darkvision 60ft [1]', traits: 'Mental Immunity [3], Metabolic Immunity [3], Fortitude Immunity [3], Hardened Frame [2], Synthetic Strength [2], Repair Required [-3]', physiology: 'Does not breathe, eat, or sleep' },
-  Undead: { id: 'Undead', bp: 20, name: 'Undead', senses: 'Darkvision 60ft [1]', traits: 'Mental Immunity [3], Physical Immunity [3], Metabolic Immunity [3], Fortitude Immunity [3], Negative Energy Affinity [2], Resurrection Limits [2]', physiology: 'Does not breathe, eat, or sleep' },
-  Entity: { id: 'Entity', bp: 24, name: 'Incorporeal Entity', senses: 'Darkvision & Ether Sight 60ft [3]', traits: 'Incorporeal [3], Fortification [3], Mind Immunity [3], Metabolic Immunity [3], Planar [3], Physical Immunity [6]', physiology: 'Does not eat, sleep, or breathe' }
+  Humanoid: {
+    id: 'Humanoid',
+    name: 'Humanoid',
+    bp: 0,
+    description: 'Humanoid species have no special or supernatural abilities, but most can speak and have well-developed societies. Humanoids are usually Medium but Small and Large sized varieties are known.',
+    senses: 'Standard',
+    traits: 'None',
+    immunities: '',
+    fortification: '',
+    physiology: 'Humanoids breathe, eat, and sleep.'
+  },
+  Aberration: {
+    id: 'Aberration',
+    name: 'Aberration',
+    bp: 1,
+    description: 'Aberrations have a bizarre anatomy, strange abilities, an alien mindset, or any combination of the three.',
+    senses: 'Darkvision out to 60 feet. [1]',
+    traits: 'Alien mindset',
+    immunities: '',
+    fortification: '',
+    physiology: 'Aberrations eat, sleep, and breathe.'
+  },
+  Beast: {
+    id: 'Beast',
+    name: 'Beast',
+    bp: 1,
+    description: 'A living, nonhuman creature, usually perceived as an animal and/or non-intelligent. Beastkin are hybrids of the Beast type and have similar traits and are added to another corporeal type.',
+    senses: 'Low-light vision. [1]',
+    traits: 'Beastkin hybrid potential',
+    immunities: '',
+    fortification: '',
+    physiology: 'Beasts eat, sleep, and breathe.'
+  },
+  Fey: {
+    id: 'Fey',
+    name: 'Fey',
+    bp: 3,
+    description: 'A fey is a creature with supernatural abilities and connections to nature or to some other force or place. Feykin are hybrids of the Fey type and have similar traits and are added to another corporeal type.',
+    senses: 'Low-light vision. [1]',
+    traits: 'Sleepless [2]',
+    immunities: '',
+    fortification: '',
+    physiology: 'Fey breathe and eat.'
+  },
+  Planar: {
+    id: 'Planar',
+    name: 'Planar',
+    bp: 4,
+    description: 'A Planar is at least partially composed of the essence (but not necessarily the matter) of some plane other than the Material Plane. Planar creatures may have familiar forms of other types but may or may not have abilities to match.',
+    senses: 'Darkvision 60 feet. [1]',
+    traits: 'Planar Origin: Not a creature of the material plane and immune to effects which would pertain to similar creatures. [3]',
+    immunities: 'Immune to material plane specific effects [3]',
+    fortification: '',
+    physiology: 'Planars breathe, eat, and sleep.'
+  },
+  Dragon: {
+    id: 'Dragon',
+    name: 'Dragon',
+    bp: 5,
+    description: 'Dragons are intelligent reptilian creatures with metaphysical abilities. Dragonkin are hybrids of the dragon type and have similar traits and are added to another corporeal type.',
+    senses: 'Darkvision 60 feet [1], Low-light vision [1].',
+    traits: 'Dragonkin hybrid potential',
+    immunities: 'Magical sleep effects and paralysis effects. [3]',
+    fortification: '',
+    physiology: 'Dragons breathe, eat, and sleep.'
+  },
+  Mythical: {
+    id: 'Mythical',
+    name: 'Mythical',
+    bp: 5,
+    description: 'Beings that usually resemble beasts (or possibly other creature types), typically more intelligent and have special abilities or supernatural powers.',
+    senses: 'Darkvision out to 60 feet and low-light vision. [1+1]',
+    traits: 'Non-breathing / supernatural physiology [3]',
+    immunities: '',
+    fortification: '',
+    physiology: 'Mythicals do not eat, sleep, or breathe. [3]'
+  },
+  Ooze: {
+    id: 'Ooze',
+    name: 'Ooze',
+    bp: 6,
+    description: 'Oozes are gelatinous / semi-solid amorphous creatures also used to describe swarms of small creatures. Many oozes use blindsight or other non-visual senses to navigate.',
+    senses: 'Blindsight 30ft',
+    traits: 'Amorphous: Immune to all physical conditional effects due to the nature of their slippery form or base components. [3]',
+    immunities: 'Physical conditions [3]',
+    fortification: 'Not subject to critical hits or flanking. [3]',
+    physiology: 'Semi-solid amorphous form'
+  },
+  Verdant: {
+    id: 'Verdant',
+    name: 'Verdant (Plant)',
+    bp: 9,
+    description: 'This type encompasses vegetable creatures. Note that regular plants lack Wisdom and Charisma scores and are not creatures, but considered living objects. Verdant may be applied to another corporeal type for plant based creatures.',
+    senses: 'Low-light vision. [1]',
+    traits: 'Plant morphology',
+    immunities: 'Mental Immunity (Immune to all mind-affecting effects) [3], Physical Immunity (Immune to paralysis, poison, polymorph, sleep effects, and stunning) [3]',
+    fortification: '',
+    physiology: 'Verdants breathe and eat, but do not sleep (unless for beneficial effects/spell regain). [2]'
+  },
+  Elemental: {
+    id: 'Elemental',
+    name: 'Elemental',
+    bp: 13,
+    description: 'Elementalkin are hybrids of the Elemental type and have similar traits and are added to another corporeal type.',
+    senses: 'Darkvision out to 60 feet. [1]',
+    traits: 'Non-living [3]',
+    immunities: 'Poison, sleep effects, paralysis, and stunning. [3+3]',
+    fortification: 'Not subject to critical hits or flanking. [3]',
+    physiology: 'Elementals do not eat, sleep, or breathe. [3]'
+  },
+  Synthetic: {
+    id: 'Synthetic',
+    name: 'Synthetic / Construct',
+    bp: 15,
+    description: 'Animated objects or artificially created creatures. Synthetics designed to emulate another type may have its form but may or may not have abilities to match.',
+    senses: 'Low-light vision [1] and Darkvision 60 feet [1].',
+    traits: 'Hardened Frame: Bonus HP based on size (Tiny: —, Small: +10, Medium: +20, Large: +40, Huge: +80) [2], Synthetic Strength: Lift/Carry/Grapple as 1 size larger [2], Repair Required: Cannot heal damage on own [-3]',
+    immunities: 'Mental Immunity (Mind-affecting effects) [3], Metabolic Immunity (Ability damage/drain, fatigue, exhaustion, energy drain, nonlethal) [3], Fortitude Immunity (Effects requiring Fortitude save) [3]',
+    fortification: '',
+    physiology: 'Synthetics do not breathe, eat, or sleep, unless they want to gain some beneficial effect from one of these activities. [3]'
+  },
+  Undead: {
+    id: 'Undead',
+    name: 'Undead',
+    bp: 20,
+    description: 'Undead species are once-living creatures animated by spiritual or supernatural forces. Undead are based on another corporeal creature type and may or may not retain its previous traits.',
+    senses: 'Darkvision 60 feet. [1]',
+    traits: 'Negative Energy Affinity: Harmed by positive / healed by negative energy [2], Resurrection Limits: Immune to raise dead/reincarnate [2]',
+    immunities: 'Mental Immunity [3], Physical Immunity (Bleed, death, disease, paralysis, poison, sleep, stun) [3], Metabolic Immunity (Nonlethal, ability/energy drain, physical ability damage, exhaustion/fatigue) [3], Fortitude Immunity [3]',
+    fortification: '',
+    physiology: 'Undead do not breathe, eat, or sleep, unless they want to gain some beneficial effect from one of these activities. [3]'
+  },
+  Entity: {
+    id: 'Entity',
+    name: 'Incorporeal Entity',
+    bp: 24,
+    description: 'A non-corporeal being which may have never been alive - such as embodiments, essence, avatars and others.',
+    senses: 'Darkvision and Ether Sight out to 60 feet. [1+2]',
+    traits: 'Incorporeal: Immune to all physical conditional effects due to their incorporeal form [3], Planar: Not a creature of the material plane and immune to effects which would pertain to similar creatures [3]',
+    immunities: 'All mind-affecting effects [3]; bleed damage, death effects, disease, paralysis, poison, sleep effects, and stunning [3]; nonlethal damage, ability drain, or energy drain; damage to physical ability scores (Con, Dex, Str); exhaustion and fatigue effects [3]',
+    fortification: 'Not subject to critical hits or flanking. [3]',
+    physiology: 'Entities do not eat, sleep, or breathe. [3]'
+  }
 };
 
 export const SPECIES_SIZES = {
@@ -1503,33 +1633,83 @@ export const SPECIES_SIZES = {
 };
 
 export const SPECIES_MOVEMENT_BASE_MODES = [
-  { id: 'normal', name: 'Normal Speed', bp: 0, speed: 30, category: 'Mode', description: 'Base speed of 30 feet. Determines speed of other modes.' },
-  { id: 'climber', name: 'Climber', bp: 2, speed: 30, category: 'Mode', description: 'Base Climb Speed 30, and gain the +5 racial bonus on climbing checks.' },
-  { id: 'gliding', name: 'Gliding Wings', bp: 1, speed: 30, category: 'Mode', description: 'While in midair, move 5ft horizontal for every 1ft fall. Speed 30ft/rnd (60 diving).' },
-  { id: 'swim', name: 'Swim', bp: 2, speed: 30, category: 'Mode', description: 'Swim speed 30 feet. Gain +5 racial bonus on Swim checks.' },
-  { id: 'burrow', name: 'Burrow', bp: 2, speed: 20, category: 'Mode', description: 'Base Burrow Speed 20.' },
-  { id: 'flight_basic', name: 'Basic Flight', bp: 2, speed: 30, category: 'Mode', description: 'Base Fly Speed 30 (Poor Maneuverability).' }
+  { id: 'normal', name: 'Bipedal (Normal Speed)', bp: 0, speed: 30, base_speed: 30, target_mode: 'Ground', category: 'Mode', description: 'Base Ground locomotion speed of 30 ft/round.' },
+  { id: 'species_movement-bipedal', name: 'Bipedal Locomotion', bp: 0, speed: 30, base_speed: 30, target_mode: 'Ground', category: 'Mode', description: 'Standard upright two-legged locomotion (30 ft/round).' },
+  { id: 'species_movement-quadruped', name: 'Quadrupedal Locomotion', bp: 0, speed: 40, base_speed: 40, target_mode: 'Ground', category: 'Mode', description: 'Four-legged locomotion (40 ft/round, +4 stability).' },
+  { id: 'species_movement-slithering', name: 'Serpentine Slithering', bp: 0, speed: 25, base_speed: 25, target_mode: 'Ground', category: 'Mode', description: 'Limbless serpentine locomotion (25 ft/round).' },
+  { id: 'species_movement-treads', name: 'Treads & Tracks', bp: 0, speed: 30, base_speed: 30, target_mode: 'Ground', category: 'Mode', description: 'Continuous tracked locomotion for synthetic chassis (30 ft/round).' },
+  { id: 'flight_basic', name: 'Basic Flight', bp: 2, speed: 30, base_speed: 30, target_mode: 'Flying', category: 'Mode', description: 'Base Fly Speed 30 ft/round (Poor Maneuverability).' },
+  { id: 'species_movement-flight', name: 'True Flight', bp: 0, speed: 60, base_speed: 60, target_mode: 'Flying', category: 'Mode', description: 'Aerial flight speed 60 ft/round with standard maneuverability.' },
+  { id: 'gliding', name: 'Gliding Wings', bp: 1, speed: 30, base_speed: 30, target_mode: 'Flying', category: 'Mode', description: 'Aerodynamic glide 30 ft/round horizontally (60 diving).' },
+  { id: 'species_movement-glide', name: 'Gliding', bp: 0, speed: 30, base_speed: 30, target_mode: 'Flying', category: 'Mode', description: 'Patagial gliding membranes (30 ft/round).' },
+  { id: 'swim', name: 'Swim (Innate)', bp: 2, speed: 30, base_speed: 30, target_mode: 'Swimming', category: 'Mode', description: 'Innate Swim speed 30 ft and +5 racial bonus on Swim checks.' },
+  { id: 'species_movement-swimming', name: 'Aquatic Swimming', bp: 0, speed: 30, base_speed: 30, target_mode: 'Swimming', category: 'Mode', description: 'Hydrodynamic aquatic swimming (30 ft/round).' },
+  { id: 'climber', name: 'Climber', bp: 2, speed: 30, base_speed: 30, target_mode: 'Climbing', category: 'Mode', description: 'Base Climb Speed 30 ft, and +5 racial bonus on climbing checks.' },
+  { id: 'species_movement-climbing', name: 'Innate Climbing', bp: 0, speed: 30, base_speed: 30, target_mode: 'Climbing', category: 'Mode', description: 'Specialized anatomy granting innate 30 ft climb speed.' },
+  { id: 'burrow', name: 'Burrow', bp: 2, speed: 20, base_speed: 20, target_mode: 'Burrowing', category: 'Mode', description: 'Base Burrow Speed 20 ft through soil, sand, and unworked earth.' }
 ];
 
-export const SPECIES_MOVEMENT_MODIFICATIONS = [
-  { id: 'very_fast', name: 'Very Fast', bp: 4, speed: 50, speedMod: 20, isExclusive: true, category: 'Modification', description: 'Base Speed +20 feet. *' },
-  { id: 'fast', name: 'Fast', bp: 2, speed: 40, speedMod: 10, isExclusive: true, category: 'Modification', description: 'Base Speed +10 feet. *' },
-  { id: 'slow', name: 'Slow (Disadvantage)', bp: -2, refundBP: 2, speed: 20, speedMod: -10, isExclusive: true, isDisadvantage: true, category: 'Modification', description: 'Base Speed -10 feet. (BP Gain) *' },
-  { id: 'ponderous', name: 'Ponderous (Disadvantage)', bp: -4, refundBP: 4, speed: 10, speedMod: -20, isExclusive: true, isDisadvantage: true, category: 'Modification', description: 'Base Speed -20 feet. (BP Gain) *' },
-  { id: 'flight_improved', name: 'Improved Flight Speed', bp: 1, speedMod: 10, isRanked: true, category: 'Modification', description: 'Increases base flight speed by 10 feet. Ranked.' },
-  { id: 'flight_maneuver', name: 'Improved Maneuverability', bp: 1, isRanked: true, category: 'Modification', description: 'Maneuverability improves by 1 step (Clumsy > Poor > Average > Good > Perfect). Ranked.' },
-  { id: 'strong_flyer', name: 'Strong Flyer', bp: 2, category: 'Modification', description: 'Increase the Size category multiplier by 1 for Flying Speed.' },
-  { id: 'hauler', name: 'Hauler', bp: 1, category: 'Modification', description: 'Not encumbered by carrying a Heavy Load.' },
-  { id: 'marcher', name: 'Marcher', bp: 1, category: 'Modification', description: 'Fatigued ½ when moving at a regular pace.' },
-  { id: 'terrain_movement', name: 'Terrain Movement', bp: 1, category: 'Modification', description: 'Move through naturally difficult terrain (specific type) at normal speed.' },
-  { id: 'leaper', name: 'Leaper', bp: 1, category: 'Modification', description: 'Always considered to have a running start when making Jump checks.' },
-  { id: 'mountaineer', name: 'Mountaineer', bp: 1, category: 'Modification', description: 'Immune to altitude sickness, no defense loss on narrow/slippery surfaces.' },
-  { id: 'sprinter', name: 'Sprinter', bp: 1, speedMod: 10, isRanked: true, category: 'Modification', description: 'Gain +10 foot racial bonus to speed when running. Ranked.' }
+export const SPECIES_MOVEMENT_ADJUSTERS = [
+  // Ground Speed Adjusters
+  { id: 'very_fast', name: 'Very Fast (+20 ft Ground)', bp: 4, speedMod: 20, speed_modifier: 20, is_additive: true, isExclusive: true, target_mode: 'Ground', category: 'Modification', description: 'Base Ground Speed +20 feet (Additive). Mutually exclusive.' },
+  { id: 'fast', name: 'Fast (+10 ft Ground)', bp: 2, speedMod: 10, speed_modifier: 10, is_additive: true, isExclusive: true, target_mode: 'Ground', category: 'Modification', description: 'Base Ground Speed +10 feet (Additive). Mutually exclusive.' },
+  { id: 'slow', name: 'Slow (-10 ft Ground)', bp: -2, refundBP: 2, speedMod: -10, speed_modifier: -10, is_additive: true, isExclusive: true, isDisadvantage: true, target_mode: 'Ground', category: 'Modification', description: 'Base Ground Speed -10 feet (Additive, +2 BP Gain). Mutually exclusive.' },
+  { id: 'ponderous', name: 'Ponderous (-20 ft Ground)', bp: -4, refundBP: 4, speedMod: -20, speed_modifier: -20, is_additive: true, isExclusive: true, isDisadvantage: true, target_mode: 'Ground', category: 'Modification', description: 'Base Ground Speed -20 feet (Additive, +4 BP Gain). Mutually exclusive.' },
+  { id: 'sprinter', name: 'Sprinter (+10 ft Run Speed)', bp: 1, speedMod: 10, speed_modifier: 10, is_additive: true, isRanked: true, target_mode: 'Ground', category: 'Modification', description: 'Gain +10 foot bonus to speed when running or sprinting. Ranked.' },
+  { id: 'hauler', name: 'Hauler (Heavy Load)', bp: 1, target_mode: 'Ground', category: 'Modification', description: 'Not encumbered by carrying a Heavy Load.' },
+  { id: 'marcher', name: 'Marcher (Endurance Travel)', bp: 1, target_mode: 'Ground', category: 'Modification', description: 'Fatigued at 1/2 rate when moving overland at regular pace.' },
+  { id: 'terrain_movement', name: 'Terrain Movement', bp: 1, target_mode: 'Ground', category: 'Modification', description: 'Move through difficult terrain at full normal speed without penalty.' },
+  { id: 'leaper', name: 'Leaper', bp: 1, target_mode: 'Ground', category: 'Modification', description: 'Always considered to have a running start when making Jump checks.' },
+
+  // Flying Speed Adjusters
+  { id: 'flight_improved', name: 'Improved Flight Speed (+10 ft Flight)', bp: 1, speedMod: 10, speed_modifier: 10, is_additive: true, isRanked: true, target_mode: 'Flying', category: 'Modification', description: 'Increases base flight speed by +10 feet (Additive). Ranked.' },
+  { id: 'flight_maneuver', name: 'Improved Maneuverability', bp: 1, isRanked: true, target_mode: 'Flying', category: 'Modification', description: 'Maneuverability improves by 1 step. Ranked.' },
+  { id: 'strong_flyer', name: 'Strong Flyer', bp: 2, target_mode: 'Flying', category: 'Modification', description: 'Increase the Size category multiplier by +1 for Flying Speed.' },
+
+  // Swimming Speed Adjusters
+  { id: 'swim_improved', name: 'Enhanced Swim Speed (+10 ft Swim)', bp: 1, speedMod: 10, speed_modifier: 10, is_additive: true, isRanked: true, target_mode: 'Swimming', category: 'Modification', description: 'Increases base swimming speed by +10 feet (Additive). Ranked.' },
+
+  // Climbing Speed Adjusters
+  { id: 'climb_improved', name: 'Enhanced Climb Speed (+10 ft Climb)', bp: 1, speedMod: 10, speed_modifier: 10, is_additive: true, isRanked: true, target_mode: 'Climbing', category: 'Modification', description: 'Increases base climbing speed by +10 feet (Additive). Ranked.' },
+  { id: 'mountaineer', name: 'Mountaineer', bp: 1, target_mode: 'Climbing', category: 'Modification', description: 'Immune to altitude sickness; no defense loss on narrow/slippery surfaces.' },
+
+  // Burrowing Speed Adjusters
+  { id: 'burrow_improved', name: 'Enhanced Burrow Speed (+10 ft Burrow)', bp: 1, speedMod: 10, speed_modifier: 10, is_additive: true, isRanked: true, target_mode: 'Burrowing', category: 'Modification', description: 'Increases base burrowing speed by +10 feet (Additive). Ranked.' }
 ];
+
+export const SPECIES_MOVEMENT_MODIFICATIONS = SPECIES_MOVEMENT_ADJUSTERS;
+
+export const SPECIES_MOVEMENT_GROUPS = {
+  Ground: {
+    label: 'Ground Locomotion',
+    modes: SPECIES_MOVEMENT_BASE_MODES.filter(m => m.target_mode === 'Ground'),
+    adjusters: SPECIES_MOVEMENT_ADJUSTERS.filter(a => a.target_mode === 'Ground')
+  },
+  Flying: {
+    label: 'Flying Locomotion',
+    modes: SPECIES_MOVEMENT_BASE_MODES.filter(m => m.target_mode === 'Flying'),
+    adjusters: SPECIES_MOVEMENT_ADJUSTERS.filter(a => a.target_mode === 'Flying')
+  },
+  Swimming: {
+    label: 'Swimming Locomotion',
+    modes: SPECIES_MOVEMENT_BASE_MODES.filter(m => m.target_mode === 'Swimming'),
+    adjusters: SPECIES_MOVEMENT_ADJUSTERS.filter(a => a.target_mode === 'Swimming')
+  },
+  Climbing: {
+    label: 'Climbing Locomotion',
+    modes: SPECIES_MOVEMENT_BASE_MODES.filter(m => m.target_mode === 'Climbing'),
+    adjusters: SPECIES_MOVEMENT_ADJUSTERS.filter(a => a.target_mode === 'Climbing')
+  },
+  Burrowing: {
+    label: 'Burrowing Locomotion',
+    modes: SPECIES_MOVEMENT_BASE_MODES.filter(m => m.target_mode === 'Burrowing'),
+    adjusters: SPECIES_MOVEMENT_ADJUSTERS.filter(a => a.target_mode === 'Burrowing')
+  }
+};
 
 export const SPECIES_MOVEMENT_MODES = [
   ...SPECIES_MOVEMENT_BASE_MODES,
-  ...SPECIES_MOVEMENT_MODIFICATIONS
+  ...SPECIES_MOVEMENT_ADJUSTERS
 ];
 
 export const SPECIES_TRAITS_BASIC = [
@@ -1676,6 +1856,42 @@ export const SPECIES_DISADVANTAGES = [
   { id: 'sunlight_powerlessness', name: 'Sunlight Powerlessness', refundBP: 6, costBP: -6, type: 'Meta', description: 'Staggered/Helpless in direct sunlight. Req: Undead/Half-Undead.' },
   { id: 'vulnerable_to_sunlight', name: 'Vulnerable to Sunlight', refundBP: 4, costBP: -4, type: 'Meta', description: 'Take 1 Con damage per hour in sunlight. Req: Native to Darklands/Shadow.' }
 ];
+
+export const SPECIES_ATTRIBUTE_MODIFIERS = [
+  { id: 'improved_strength', name: 'Improved Strength', bp: 5, attribute: 'Strength', code: 'STR', value: 1, type: 'Attribute', effect: '+1 racial bonus to Strength.' },
+  { id: 'improved_agility', name: 'Improved Agility', bp: 5, attribute: 'Agility', code: 'AGI', value: 1, type: 'Attribute', effect: '+1 racial bonus to Agility.' },
+  { id: 'improved_constitution', name: 'Improved Constitution', alias: 'Improved Stamina', bp: 5, attribute: 'Stamina', code: 'STA', value: 1, type: 'Attribute', effect: '+1 racial bonus to Constitution (Stamina).' },
+  { id: 'improved_intellect', name: 'Improved Intellect', bp: 5, attribute: 'Intellect', code: 'INT', value: 1, type: 'Attribute', effect: '+1 racial bonus to Intellect.' },
+  { id: 'improved_wisdom', name: 'Improved Wisdom', bp: 5, attribute: 'Wisdom', code: 'WIS', value: 1, type: 'Attribute', effect: '+1 racial bonus to Wisdom.' },
+  { id: 'improved_charisma', name: 'Improved Charisma', bp: 5, attribute: 'Charisma', code: 'CHA', value: 1, type: 'Attribute', effect: '+1 racial bonus to Charisma.' },
+  { id: 'reduced_ability', name: 'Reduced Ability', bp: -5, refundBP: 5, value: -1, type: 'Attribute', effect: 'Penalties to Ability Scores (+5 BP refund per -1 to Ability Scores).' }
+];
+
+export const SPECIES_SKILL_MODIFIERS = [
+  { id: 'species_skill_bundle', name: 'Skill Points (+5)', bp: 5, value: 5, costPerPoint: 1, type: 'Skills', effect: '+5 Species Skill Points (Specific Skill Set or a Listed Group).' },
+  { id: 'species_skill_point', name: 'Skill Point (+1)', bp: 1, value: 1, costPerPoint: 1, type: 'Skills', effect: '+1 Species Skill Point.' }
+];
+
+export const SPECIES_COMPONENT_RULES = {
+  types: SPECIES_TYPES,
+  sizes: SPECIES_SIZES,
+  baseMovement: SPECIES_MOVEMENT_BASE_MODES,
+  movementModifications: SPECIES_MOVEMENT_MODIFICATIONS,
+  movementModes: SPECIES_MOVEMENT_MODES,
+  attributeModifiers: SPECIES_ATTRIBUTE_MODIFIERS,
+  skillModifiers: SPECIES_SKILL_MODIFIERS,
+  basicTraits: SPECIES_TRAITS_BASIC,
+  advancedTraits: SPECIES_TRAITS_ADVANCED,
+  eliteTraits: SPECIES_TRAITS_ELITE,
+  disadvantages: SPECIES_DISADVANTAGES,
+  budgetLevels: SPECIES_BUDGET_LEVELS,
+  attributeCostPerPoint: 5,
+  attributeRefundPerPenalty: 5,
+  skillCostPerPoint: 1,
+  skillBundleSize: 5,
+  skillBundleCost: 5
+};
+
 
 // ═══════════════════════════════════════════════════════════
 // MODULAR CHARACTER MATRIX CONSTANTS (PLAN 24)

@@ -1,12 +1,9 @@
 ---
 id: trait-open-mindedness
 name: Open-Mindedness
-category: traits
+trait_tier: Basic
 trait_type: Origin Trait
-origin_association: Enlightened
-description: >-
-  Philosophical tolerance that bridges deep cultural, religious, and alien
-  divides.
+category: traits
 costs:
   bp: 1
   credits: 0
@@ -15,6 +12,9 @@ costs:
   strain: 0
   focus: 0
   ap: 0
+description: >-
+  Philosophical tolerance that bridges deep cultural, religious, and alien
+  divides.
 modifiers: []
 modifications: []
 critical_details:
@@ -28,15 +28,12 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # Open-Mindedness
 
-**Category**: Origin Traits  
-**Associated Origin**: Enlightened  
-**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait
+**Category**: TRAITS
+**Tier**: Basic
+**Type**: Origin Trait
+**BP Cost**: 1
 
 ## Description
 Philosophical tolerance that bridges deep cultural, religious, and alien divides.
-
-## Mechanics & Benefits
-Reduce all social Stigma penalties between the character and others by the character's Wisdom score.

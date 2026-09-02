@@ -3,23 +3,50 @@ id: species-human-varen
 name: Varen (Gatekeeper)
 title: Varen (Warp Gatekeeper Human)
 category: species
-parent_species: Humans
+parent_species: Humans (Core & Variants)
 type:
   - species_type-humanoid
 size:
   - species_size-medium
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 5 ft
+senses: Standard visual and auditory range.
+immunities: None
+inherent_attribute_modifiers:
+  - attribute: Intellect
+    bonus: 1
+bonus_attribute_points: 1
+specific_skill_bonuses:
+  - skill: Attune (Dimension)
+    bonus: 2
+  - skill: Navigation (Astrogation)
+    bonus: 1
+bonus_skills: 10
+bonus_skill_choices:
+  - Attune
+  - Navigation
+  - Science (Astrophysics)
+  - Discipline
+inherent_features:
+  - trait-awakened-dimension-psychic
+  - trait-indomitable-will
+  - trait-teleportal-special-ability-short-jump
+  - trait-homing-special-ability-spatial-recall
+bonus_features: []
+bonus_feature_choices:
+  - Dimensional Tear
+  - Warp Sight
+  - Spatial Anchor
+recommended_features:
+  - feature-spatial-anchor
 stigma: None
 tech_level: 4 (FTL & Slipstream Gate Tech)
 meta_level: 4 (Spatial Metaphysics)
 homeworld: Varen Gate Arcologies
-cp: 22
-description: >-
-  Varen are spacefaring humans attuned to hyper-space corridors and ancient
-  gateway networks, possessing innate teleportation and spatial recall powers.
 costs:
-  bp: 22
+  bp: 20
   credits: 0
   nodes: 0
   sockets: 0
@@ -28,88 +55,15 @@ costs:
   ap: 0
 modifiers:
   - target: Intellect
+    value: 1
     type: attribute
-    value: 1
     mode: inherent
-  - target: Any Attribute
-    type: attribute
-    value: 1
-    mode: bonus_pool
-  - target: Attune (Dimension)
-    type: skill
-    value: 2
-    mode: inherent
-  - target: Navigation (Astrogation)
-    type: skill
-    value: 1
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 10
-    mode: bonus_pool
-  - target: Attune
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Navigation
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Science (Astrophysics)
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Discipline
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Awakened (Dimension/Psychic)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Indomitable Will
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Teleportal (Special Ability - Short Jump)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Homing (Special Ability - Spatial Recall)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Dimensional Tear
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Warp Sight
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Spatial Anchor
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-spatial-anchor
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+cp_cost: 20
+cp: 20
+bp: 20
+description: >-
+  Varen are spacefaring humans attuned to hyper-space corridors and ancient
+  gateway networks, possessing innate teleportation and spatial recall powers.
 ---
 # Varen (Warp Gatekeeper Human)
 

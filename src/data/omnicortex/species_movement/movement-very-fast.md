@@ -1,9 +1,16 @@
 ---
 id: movement-very-fast
-name: Very Fast
+name: Very Fast (+20 ft Ground)
 category: species_movement
-movement_type: Modification
-description: "Base Speed +20 feet. *"
+classification: adjuster
+target_mode: Ground
+speed_modifier: 20
+is_additive: true
+is_exclusive: true
+bp: 4
+description: >-
+  Increases base Ground locomotion speed by +20 feet (Additive). Mutually
+  exclusive with other ground speed adjusters.
 costs:
   bp: 4
   credits: 0
@@ -12,32 +19,13 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-speed: 20
-is_ranked: false
-is_exclusive: true
-is_disadvantage: false
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
+# Very Fast (+20 ft Ground)
 
-# Very Fast
+**Category**: Species Movement (ADJUSTER)  
+**Target Mode**: Ground  
+**Cost**: +4 BP  
+**Speed Modifier**: +20 ft (Additive)  
 
-**Category**: Species Movement (Modification)  
-**Cost**: 4 BP  
-**Classification**: Modification (* Mutually Exclusive Speed Trait)  
-
-## Effect
-Base Speed +20 feet. *
-
-## Mechanics & Rules
-Increases Base Speed by +20 feet (to 50 ft for Medium species). Mutually exclusive with other base speed modifier traits (*).
+## Description
+Increases base Ground locomotion speed by +20 feet (Additive). Mutually exclusive with other ground speed adjusters.

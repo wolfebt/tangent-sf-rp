@@ -2,6 +2,7 @@ export const categoryConfig = {
     compendium: {
         label: 'COMPENDIUM',
         viewType: 'wiki',
+        hideFromMenu: true,
         fields: {
             name: { type: 'text', required: true },
             entry_type: { 
@@ -21,13 +22,13 @@ export const categoryConfig = {
     species: {
         label: 'SPECIES',
         viewType: 'table',
-        directory_columns: ['name', 'parent_species', 'type', 'inherent_attribute_modifiers', 'stigma', 'homeworld', 'cp', 'description'],
+        directory_columns: ['name', 'parent_species', 'type', 'size', 'movement', 'inherent_attribute_modifiers', 'stigma', 'cp', 'description'],
         fields: {
-            name: { type: 'text', required: true },
+            name: { type: 'text', required: true, label: 'Name' },
             title: { type: 'text', label: 'Formal Title / Subspecies' },
             parent_species: { 
                 type: 'select', 
-                label: 'Parent Lineage / Taxon', 
+                label: 'Lineage', 
                 options: [
                     'Aeld',
                     'Asi (Fey Lineages)',
@@ -42,20 +43,102 @@ export const categoryConfig = {
                     'Independent'
                 ] 
             },
-            description: { type: 'textarea', aiEnabled: true, label: 'Summary Description' },
-            stigma: { type: 'text', label: 'Social Stigma & Reaction Penalty' },
-            homeworld: { type: 'text', label: 'Homeworld / Origin Planet' },
+            description: { type: 'textarea', aiEnabled: true, label: 'Description' },
+            stigma: { type: 'text', label: 'Social Stigma' },
+            homeworld: { type: 'text', label: 'Homeworld' },
             tech_level: { type: 'number', label: 'Tech Level (TL)' },
             meta_level: { type: 'number', label: 'Meta Level (ML)' },
-            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
-            type: { type: 'multiselect', source: 'species_type', manageable: true },
-            size: { type: 'multiselect', source: 'species_size', manageable: true },
-            movement: { type: 'multiselect', source: 'species_movement', manageable: true },
+            prerequisite: { type: 'multiselect', source: 'prerequisite', label: 'Prerequisites', manageable: true },
+            type: { type: 'multiselect', source: 'species_type', label: 'Type', manageable: true },
+            size: { type: 'select', source: 'species_size', label: 'Size', isMulti: false, manageable: true },
+            movement: { type: 'multiselect', source: 'species_movement', label: 'Movement', manageable: true },
             trait: { type: 'multiselect', source: 'trait', label: 'Traits', manageable: true },
-            modifiers: { type: 'modifiers_list', label: 'Universal Modifiers & Bonuses' },
-            cp: { type: 'number', label: 'Character Points (CP)', default: 0 },
-            body: { type: 'textarea', label: 'Full Lore, Sociological Profile & Visual Semiotics (Markdown)', aiEnabled: true },
-            note: { type: 'textarea', label: 'Architect / Design Notes' }
+            inherent_attribute_modifiers: { type: 'attribute_modifiers', label: 'Attribute Modifiers' },
+            specific_skill_bonuses: { type: 'skill_bonuses', label: 'Skill Bonuses' },
+            inherent_features: { type: 'multiselect', source: 'trait', label: 'Inherent Features' },
+            recommended_features: { type: 'multiselect', source: 'trait', label: 'Recommended Features' },
+            modifiers: { type: 'modifiers_list', label: 'Modifiers & Bonuses' },
+            cp: { type: 'number', label: 'Build Points (BP)', default: 0 },
+            body: { type: 'textarea', label: 'Full Lore & Profile (Markdown)', aiEnabled: true },
+            note: { type: 'textarea', label: 'Architect Notes' }
+        },
+        subcategories: {
+            species_type: { label: 'TYPES' },
+            species_size: { label: 'SIZES' },
+            species_movement: { label: 'MOVEMENTS' },
+            trait: { label: 'TRAITS' },
+            disadvantages: { label: 'DISADVANTAGES' }
+        }
+    },
+    species_type: {
+        label: 'TYPES',
+        viewType: 'table',
+        parent: 'species',
+        directory_columns: ['name', 'bp', 'senses', 'immunities', 'description'],
+        fields: {
+            name: { type: 'text', required: true, label: 'Type Name' },
+            bp: { type: 'number', label: 'Build Points (BP)', default: 0 },
+            senses: { type: 'text', label: 'Senses' },
+            immunities: { type: 'text', label: 'Immunities & Defenses' },
+            fortification: { type: 'text', label: 'Fortification' },
+            incorporeal: { type: 'text', label: 'Incorporeal' },
+            traits: { type: 'text', label: 'Inherent Traits' },
+            physiology: { type: 'text', label: 'Physiology' },
+            description: { type: 'textarea', aiEnabled: true, label: 'Description' },
+            mechanic: { type: 'textarea', label: 'Game Mechanics' },
+            note: { type: 'textarea', label: 'Architect Notes' }
+        }
+    },
+    species_size: {
+        label: 'SIZES',
+        viewType: 'table',
+        parent: 'species',
+        directory_columns: ['name', 'bp', 'scaling_display', 'strength_mod', 'combat_mod', 'stealth_mod', 'height_length_range', 'weight_range', 'description'],
+        fields: {
+            name: { type: 'text', required: true, label: 'Size Category' },
+            bp: { type: 'number', label: 'Build Points (BP)', default: 0 },
+            scaling: { type: 'number', label: 'Scaling Ratio' },
+            scaling_display: { type: 'text', label: 'Scaling Display' },
+            strength_mod: { type: 'number', label: 'Strength Modifier' },
+            combat_mod: { type: 'number', label: 'Combat Modifier' },
+            stealth_mod: { type: 'number', label: 'Stealth Modifier' },
+            height_length_range: { type: 'text', label: 'Height/Length Range' },
+            weight_range: { type: 'text', label: 'Weight Range' },
+            reach: { type: 'text', label: 'Reach' },
+            description: { type: 'textarea', aiEnabled: true, label: 'Description' },
+            mechanic: { type: 'textarea', label: 'Game Mechanics' },
+            note: { type: 'textarea', label: 'Architect Notes' }
+        }
+    },
+    species_movement: {
+        label: 'MOVEMENTS',
+        viewType: 'table',
+        parent: 'species',
+        directory_columns: ['name', 'bp', 'speed', 'description'],
+        fields: {
+            name: { type: 'text', required: true, label: 'Movement Mode' },
+            bp: { type: 'number', label: 'Build Points (BP)', default: 0 },
+            speed: { type: 'number', label: 'Speed (ft)' },
+            base_speed: { type: 'text', label: 'Speed Display / Pace' },
+            description: { type: 'textarea', aiEnabled: true, label: 'Description' },
+            mechanic: { type: 'textarea', label: 'Game Mechanics' },
+            note: { type: 'textarea', label: 'Architect Notes' }
+        }
+    },
+    trait: {
+        label: 'SPECIES TRAITS',
+        viewType: 'table',
+        parent: 'species',
+        directory_columns: ['name', 'bp', 'tier', 'type', 'description'],
+        fields: {
+            name: { type: 'text', required: true, label: 'Trait Name' },
+            bp: { type: 'number', label: 'Build Points (BP / CP)', default: 1 },
+            tier: { type: 'select', label: 'Trait Tier', options: ['Basic', 'Advanced', 'Elite'], default: 'Basic' },
+            type: { type: 'select', label: 'Category / Domain', options: ['Physical', 'Defensive', 'Trained', 'Sensory', 'Mental', 'Movement', 'Meta', 'General'] },
+            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
+            description: { type: 'textarea', aiEnabled: true, label: 'Description' },
+            mechanic: { type: 'textarea', label: 'Game Mechanics' },
+            note: { type: 'textarea', label: 'Architect Notes' }
         }
     },
     factions: {
@@ -188,7 +271,7 @@ export const categoryConfig = {
         directory_columns: ['name', 'type', 'description', 'cp'],
         fields: {
             name: { type:'text', required: true},
-            type: { type: 'select', options: ['ability', 'combat', 'meta', 'general', 'karma', 'skill', 'exotic', 'Special Ability'] },
+            type: { type: 'select', options: ['ability', 'combat', 'discipline', 'general', 'karma', 'skill', 'special', 'meta', 'exotic', 'Special Ability'] },
             description: { type:'textarea', aiEnabled: true},
             tech_level: { type: 'select', label: 'Tech Level', options: [0, 1, 2, 3, 4, 5] },
             meta_level: { type: 'select', label: 'Meta Level', options: [0, 1, 2, 3, 4, 5] },
@@ -199,68 +282,6 @@ export const categoryConfig = {
             note: { type: 'textarea' },
             multi: { type: 'boolean', label: 'Multi' },
             staged: { type: 'boolean', label: 'Staged' }
-        }
-    },
-    species_type: {
-        label: 'TYPES',
-        hideFromMenu: true,
-        directory_columns: ['name', 'description', 'modifier'],
-        fields: {
-            name: { type:'text', required: true},
-            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
-            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
-            description: { type:'textarea', aiEnabled: true},
-            mechanic: { type: 'textarea' },
-            note: { type: 'textarea' },
-            cp: { type: 'readonlytext', label: 'TOTAL CP'}
-        }
-    },
-    species_size: {
-        label: 'SIZES',
-        hideFromMenu: true,
-        directory_columns: ['name', 'scaling', 'height_length_range', 'weight_range', 'modifier'],
-        fields: {
-            name: { type:'text', required: true},
-            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
-            description: { type:'textarea', aiEnabled: true},
-            scaling: { type: 'number', label: 'Scaling' },
-            height_length_range: { type: 'text', label: 'Height/Length Range' },
-            weight_range: { type: 'text', label: 'Weight Range' },
-            reach: { type: 'text', label: 'Reach' },
-            mechanic: { type: 'textarea' },
-            note: { type: 'textarea' },
-            dc: { type: 'number', label: 'DC' },
-            cp: { type: 'readonlytext', label: 'TOTAL CP'}
-        }
-    },
-    species_movement: {
-        label: 'MOVEMENTS',
-        hideFromMenu: true,
-        directory_columns: ['name', 'description', 'cp'],
-        fields: {
-            name: { type:'text', required: true},
-            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
-            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
-            description: { type:'textarea', aiEnabled: true},
-            mechanic: { type: 'textarea' },
-            note: { type: 'textarea' },
-            cp: { type: 'readonlytext', label: 'TOTAL CP' }
-        }
-    },
-    trait: {
-        label: 'TRAITS',
-        hideFromMenu: true,
-        directory_columns: ['name', 'description', 'cp'],
-        fields: {
-            name: { type:'text', required: true},
-            prerequisite: { type: 'multiselect', source: 'prerequisite', manageable: true },
-            tech_level: { type: 'select', label: 'Tech Level', options: [0, 1, 2, 3, 4, 5] },
-            meta_level: { type: 'select', label: 'Meta Level', options: [0, 1, 2, 3, 4, 5] },
-            modifier: { type: 'multiselect', source: 'modifier', manageable: true },
-            description: { type:'textarea', aiEnabled: true},
-            mechanic: { type: 'textarea' },
-            note: { type: 'textarea' },
-            cp: { type: 'readonlytext', label: 'TOTAL CP' }
         }
     },
     augmentation_type: {

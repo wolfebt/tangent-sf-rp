@@ -27,8 +27,8 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
+discipline: Illusion + Dimension
 ---
-
 # Shadow Step Assault (Composite Invocation)
 
 **Category**: Composite Invocations  

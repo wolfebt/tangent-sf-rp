@@ -67,6 +67,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
   } = folio;
 
   const isDBM = location.pathname.startsWith('/dbm');
+  const isCompendium = location.pathname.startsWith('/compendium');
   const isCodex = location.pathname.startsWith('/codex');
   const isFolio = location.pathname.startsWith('/folio') || location.pathname.startsWith('/roster');
   const isFoundry = location.pathname.startsWith('/foundry') || location.pathname.startsWith('/story-foundry') || location.pathname.startsWith('/vtt-ops') || location.pathname.startsWith('/campaign-builder') || location.pathname.startsWith('/spectator') || location.pathname.startsWith('/stage') || location.pathname === '/vtt';
@@ -199,7 +200,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
   return (
     <>
       <header className="w-full bg-[#0d1117]/95 backdrop-blur-md border-b border-slate-800 px-2 sm:px-4 py-1.5 sm:py-2 flex items-center justify-between gap-2 sm:gap-3 z-[100] select-none shrink-0 font-sans shadow-md relative">
-        {/* Left Section: Mobile Menu Trigger & Logo */}
+        {/* Left Section: Mobile Drawer Trigger, Brand Logo & Primary Navigation Group */}
         <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           {/* Mobile Main Menu Drawer Toggle Button */}
           <button
@@ -220,7 +221,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
               id="dbm-mobile-menu-btn"
               onClick={() => setIsSidebarOpen && setIsSidebarOpen(prev => !prev)}
               className="md:hidden p-1.5 bg-slate-900 border border-emerald-500/40 rounded text-emerald-400 text-xs font-bold shrink-0"
-              title="Toggle Compendium Menu"
+              title="Toggle Omnicortex Category Menu"
             >
               &#9776;
             </button>
@@ -232,333 +233,130 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
             title="Return to Operations Hub"
             onClick={() => AudioService.playTerminalBeep(1100, 0.03)}
           >
-            <span className="text-[1.3rem] sm:text-[1.85rem] font-bold leading-none">TANGENT</span>
-            <span className="text-[0.6rem] sm:text-[0.8rem] leading-none whitespace-nowrap hidden xs:inline">SCIENCE FANTASY ROLEPLAY</span>
-            <span className="text-[0.6rem] leading-none whitespace-nowrap xs:hidden text-cyan-400/80">SF ROLEPLAY</span>
+            <span className="text-[1.2rem] sm:text-[1.65rem] font-bold leading-none">TANGENT</span>
+            <span className="text-[0.55rem] sm:text-[0.75rem] leading-none whitespace-nowrap hidden xs:inline">SF ROLEPLAY</span>
+            <span className="text-[0.55rem] leading-none whitespace-nowrap xs:hidden text-cyan-400/80">SF RP</span>
           </NavLink>
 
-          {/* DBM Undo / Redo navigation controls */}
-          {isDBM && handleBack && handleForward && (
-            <div className="hidden sm:flex items-center gap-1 bg-[#161b22] p-1 rounded-md border border-[#0D5C63]/40 ml-1 shrink-0">
-              <button
-                type="button"
-                onClick={handleBack}
-                disabled={!historyIndex || historyIndex === 0}
-                className="p-1 px-2 bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed rounded text-xs font-bold text-slate-300 transition-colors"
-                title="Back"
-              >
-                ◄
-              </button>
-              <button
-                type="button"
-                onClick={handleForward}
-                disabled={!history || historyIndex >= history.length - 1}
-                className="p-1 px-2 bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed rounded text-xs font-bold text-slate-300 transition-colors"
-                title="Forward"
-              >
-                ►
-              </button>
-            </div>
-          )}
-        </div>
-
-        {/* Center Section: Persistent Navigation Suite (Always in Title Bar) */}
-        <nav className="flex items-center justify-center gap-1 xs:gap-1.5 sm:gap-2 shrink-0 mx-auto">
-          {/* 1. FOLIO Button */}
-          <button
-            type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(1150, 0.03);
-              navigate('/folio');
-            }}
-            className={`px-2 xs:px-2.5 sm:px-3.5 py-1 xs:py-1.5 sm:py-2 rounded-lg sm:rounded-xl border sm:border-2 text-[10.5px] xs:text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1 xs:gap-1.5 sm:gap-2 cursor-pointer select-none ${
-              isFolio
-                ? 'bg-cyan-950/60 border-cyan-400 text-cyan-200 shadow-[0_0_15px_rgba(34,211,238,0.4)]'
-                : 'bg-slate-950/50 hover:bg-slate-900/90 border-slate-700/80 hover:border-cyan-400 text-slate-200 hover:text-cyan-300'
-            }`}
-            title="Open Persona Folio Character Sheet & Roster (/folio)"
-          >
-            <div className={`p-0.5 xs:p-1 rounded-md sm:rounded-lg border shrink-0 ${isFolio ? 'bg-cyan-500/25 border-cyan-400/60 text-cyan-300' : 'bg-cyan-500/10 border-cyan-500/30 text-cyan-400'}`}>
-              <Users size={14} className="sm:w-4 sm:h-4" />
-            </div>
-            <span>FOLIO</span>
-            {isFolio && <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse hidden sm:inline-block shadow-[0_0_8px_rgba(34,211,238,0.8)]" />}
-          </button>
-
-          {/* 2. OMNICORTEX Button */}
-          <button
-            type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(1150, 0.03);
-              navigate('/dbm');
-            }}
-            className={`px-2 xs:px-2.5 sm:px-3.5 py-1 xs:py-1.5 sm:py-2 rounded-lg sm:rounded-xl border sm:border-2 text-[10.5px] xs:text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1 xs:gap-1.5 sm:gap-2 cursor-pointer select-none ${
-              isDBM || isCodex
-                ? 'bg-emerald-950/60 border-emerald-400 text-emerald-200 shadow-[0_0_15px_rgba(52,211,153,0.4)]'
-                : 'bg-slate-950/50 hover:bg-slate-900/90 border-slate-700/80 hover:border-emerald-400 text-slate-200 hover:text-emerald-300'
-            }`}
-            title="Open Omnicortex Database Master Rules (/dbm)"
-          >
-            <div className={`p-0.5 xs:p-1 rounded-md sm:rounded-lg border shrink-0 ${isDBM || isCodex ? 'bg-emerald-500/25 border-emerald-400/60 text-emerald-300' : 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'}`}>
-              <Database size={14} className="sm:w-4 sm:h-4" />
-            </div>
-            <span className="hidden sm:inline">OMNICORTEX</span>
-            <span className="sm:hidden">OMNI</span>
-            {(isDBM || isCodex) && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse hidden sm:inline-block shadow-[0_0_8px_rgba(52,211,153,0.8)]" />}
-          </button>
-
-          {/* 3. STORY FOUNDRY Dropdown Button */}
-          <div className="relative shrink-0" ref={foundryMenuRef}>
+          {/* Primary Navigation Suite (Positioned on the Left) */}
+          <nav className="hidden md:flex items-center gap-1 sm:gap-1.5 shrink-0">
+            {/* 1. FOLIO Button */}
             <button
               type="button"
               onClick={() => {
-                AudioService.playTerminalBeep(1100, 0.03);
-                setIsFoundryMenuOpen(prev => !prev);
-                setIsCommsMenuOpen(false);
-                setIsDbmMenuOpen(false);
-                setIsFolioMenuOpen(false);
+                AudioService.playTerminalBeep(1150, 0.03);
+                navigate('/folio');
               }}
-              className={`px-2 xs:px-2.5 sm:px-3.5 py-1 xs:py-1.5 sm:py-2 rounded-lg sm:rounded-xl border sm:border-2 text-[10.5px] xs:text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1 xs:gap-1.5 sm:gap-2 cursor-pointer select-none ${
-                isFoundry
-                  ? 'bg-purple-950/60 border-purple-400 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.4)]'
-                  : 'bg-slate-950/50 hover:bg-slate-900/90 border-slate-700/80 hover:border-purple-400 text-slate-200 hover:text-purple-300'
+              className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1.5 cursor-pointer select-none ${
+                isFolio
+                  ? 'bg-cyan-950/70 border-cyan-400 text-cyan-200 shadow-[0_0_12px_rgba(34,211,238,0.35)]'
+                  : 'bg-slate-950/50 hover:bg-slate-900/90 border-slate-700/80 hover:border-cyan-400/70 text-slate-200 hover:text-cyan-300'
               }`}
-              title="Story Foundry VTT, Scenarios, Elements & AIME Studio Menu"
+              title="Open Persona Folio Operative Catalog & Sheet (/folio)"
             >
-              <div className={`p-0.5 xs:p-1 rounded-md sm:rounded-lg border shrink-0 ${isFoundry ? 'bg-purple-500/25 border-purple-400/60 text-purple-300' : 'bg-purple-500/10 border-purple-500/30 text-purple-400'}`}>
-                <Layers size={14} className="sm:w-4 sm:h-4" />
+              <div className={`p-0.5 rounded border shrink-0 ${isFolio ? 'bg-cyan-500/25 border-cyan-400/60 text-cyan-300' : 'bg-cyan-500/10 border-cyan-500/30 text-cyan-400'}`}>
+                <Users size={13} />
               </div>
-              <span className="hidden xs:inline">FOUNDRY</span>
-              <span className="xs:hidden">VTT</span>
-              <ChevronDown size={12} className={`text-purple-400 transition-transform duration-200 ${isFoundryMenuOpen ? 'rotate-180' : ''}`} />
+              <span>FOLIO</span>
+              {isFolio && <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse inline-block shadow-[0_0_6px_rgba(34,211,238,0.8)]" />}
             </button>
 
-            {isFoundryMenuOpen && (
-              <div
-                className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-72 bg-[#0e131f]/98 border border-purple-500/60 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.8),0_0_25px_rgba(168,85,247,0.25)] p-2 z-[110] flex flex-col gap-1 backdrop-blur-2xl animate-fadeIn"
-                onClick={() => setIsFoundryMenuOpen(false)}
-              >
-                <div className="px-3 py-1.5 text-[10px] font-mono font-bold text-purple-300 uppercase tracking-widest border-b border-slate-800/90 flex items-center justify-between">
-                  <span>Story Foundry Operations</span>
-                  <span className="w-2 h-2 rounded-full bg-purple-400 animate-ping" />
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    AudioService.playTerminalBeep(1200, 0.03);
-                    navigate('/stage');
-                  }}
-                  className="w-full text-left p-2.5 hover:bg-amber-950/60 rounded-xl text-xs font-mono text-slate-200 hover:text-amber-200 flex items-center justify-between transition-colors group cursor-pointer border border-amber-500/30 bg-amber-950/20"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <div className="p-1.5 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-300 group-hover:bg-amber-500/30 transition-colors">
-                      <Tv2 size={15} />
-                    </div>
-                    <div>
-                      <div className="font-bold text-amber-200 flex items-center gap-1.5">
-                        <span>THE STAGE VTT</span>
-                        <span className="px-1 py-0.5 bg-amber-500/30 text-amber-300 rounded text-[8px] font-mono">WEBGPU</span>
-                      </div>
-                      <div className="text-[9.5px] text-amber-400/80 font-mono">Tactical grid, LoS & Live Combat</div>
-                    </div>
-                  </div>
-                </button>
-
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    AudioService.playTerminalBeep(1200, 0.03);
-                    navigate('/foundry/story');
-                  }}
-                  className="w-full text-left p-2.5 hover:bg-purple-950/60 rounded-xl text-xs font-mono text-slate-200 hover:text-purple-200 flex items-center justify-between transition-colors group cursor-pointer"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <div className="p-1.5 rounded-lg bg-purple-500/15 border border-purple-500/30 text-purple-300 group-hover:bg-purple-500/25 transition-colors">
-                      <BookOpen size={15} />
-                    </div>
-                    <div>
-                      <div className="font-bold text-slate-100 group-hover:text-purple-200">Story Weaver</div>
-                      <div className="text-[9.5px] text-slate-400">Campaign Arc & Scenarios</div>
-                    </div>
-                  </div>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    AudioService.playTerminalBeep(1200, 0.03);
-                    navigate('/foundry/elements');
-                  }}
-                  className="w-full text-left p-2.5 hover:bg-purple-950/60 rounded-xl text-xs font-mono text-slate-200 hover:text-purple-200 flex items-center justify-between transition-colors group cursor-pointer"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <div className="p-1.5 rounded-lg bg-purple-500/15 border border-purple-500/30 text-purple-300 group-hover:bg-purple-500/25 transition-colors">
-                      <Hammer size={15} />
-                    </div>
-                    <div>
-                      <div className="font-bold text-slate-100 group-hover:text-purple-200">Element Forge</div>
-                      <div className="text-[9.5px] text-slate-400">Custom Gear & Blueprints</div>
-                    </div>
-                  </div>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    AudioService.playTerminalBeep(1200, 0.03);
-                    navigate('/foundry/aime');
-                  }}
-                  className="w-full text-left p-2.5 hover:bg-purple-950/60 rounded-xl text-xs font-mono text-slate-200 hover:text-purple-200 flex items-center justify-between transition-colors group cursor-pointer"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <div className="p-1.5 rounded-lg bg-purple-500/15 border border-purple-500/30 text-purple-300 group-hover:bg-purple-500/25 transition-colors">
-                      <Sparkles size={15} />
-                    </div>
-                    <div>
-                      <div className="font-bold text-slate-100 group-hover:text-purple-200">AIME Studio</div>
-                      <div className="text-[9.5px] text-purple-400/90 font-mono">AI Creative Engine</div>
-                    </div>
-                  </div>
-                </button>
-              </div>
-            )}
-          </div>
-
-          {/* 4. COMMS Dropdown Button */}
-          <div className="relative shrink-0" ref={commsMenuRef}>
+            {/* 2. OMNICORTEX Button */}
             <button
               type="button"
               onClick={() => {
-                AudioService.playTerminalBeep(1100, 0.03);
-                setIsCommsMenuOpen(prev => !prev);
-                setIsFoundryMenuOpen(false);
-                setIsDbmMenuOpen(false);
-                setIsFolioMenuOpen(false);
+                AudioService.playTerminalBeep(1150, 0.03);
+                navigate('/dbm');
               }}
-              className={`px-2 xs:px-2.5 sm:px-3.5 py-1 xs:py-1.5 sm:py-2 rounded-lg sm:rounded-xl border sm:border-2 text-[10.5px] xs:text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1 xs:gap-1.5 sm:gap-2 cursor-pointer select-none relative ${
-                isComms
-                  ? 'bg-amber-950/60 border-amber-400 text-amber-200 shadow-[0_0_15px_rgba(245,158,11,0.4)]'
-                  : 'bg-slate-950/50 hover:bg-slate-900/90 border-slate-700/80 hover:border-amber-400 text-slate-200 hover:text-amber-300'
+              className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1.5 cursor-pointer select-none ${
+                isDBM || isCodex
+                  ? 'bg-emerald-950/70 border-emerald-400 text-emerald-200 shadow-[0_0_12px_rgba(52,211,153,0.35)]'
+                  : 'bg-slate-950/50 hover:bg-slate-900/90 border-slate-700/80 hover:border-emerald-400/70 text-slate-200 hover:text-emerald-300'
               }`}
-              title="CommLink Relay, Floating Comms Dock & Dice Roller Menu"
+              title="Open Omnicortex Master Database (/dbm)"
             >
-              <div className={`p-0.5 xs:p-1 rounded-md sm:rounded-lg border shrink-0 ${isComms ? 'bg-amber-500/25 border-amber-400/60 text-amber-300' : 'bg-amber-500/10 border-amber-500/30 text-amber-400'}`}>
-                <Radio size={14} className="sm:w-4 sm:h-4" />
+              <div className={`p-0.5 rounded border shrink-0 ${isDBM || isCodex ? 'bg-emerald-500/25 border-emerald-400/60 text-emerald-300' : 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'}`}>
+                <Database size={13} />
+              </div>
+              <span>OMNICORTEX</span>
+              {(isDBM || isCodex) && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block shadow-[0_0_6px_rgba(52,211,153,0.8)]" />}
+            </button>
+
+            {/* 3. COMPENDIUM Button (Separated Wiki Window) */}
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1150, 0.03);
+                navigate('/compendium');
+              }}
+              className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1.5 cursor-pointer select-none ${
+                isCompendium
+                  ? 'bg-sky-950/70 border-sky-400 text-sky-200 shadow-[0_0_12px_rgba(56,189,248,0.35)]'
+                  : 'bg-slate-950/50 hover:bg-slate-900/90 border-slate-700/80 hover:border-sky-400/70 text-slate-200 hover:text-sky-300'
+              }`}
+              title="Open Compendium Lore & Rules Wiki (/compendium)"
+            >
+              <div className={`p-0.5 rounded border shrink-0 ${isCompendium ? 'bg-sky-500/25 border-sky-400/60 text-sky-300' : 'bg-sky-500/10 border-sky-500/30 text-sky-400'}`}>
+                <BookOpen size={13} />
+              </div>
+              <span>COMPENDIUM</span>
+              {isCompendium && <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse inline-block shadow-[0_0_6px_rgba(56,189,248,0.8)]" />}
+            </button>
+
+            {/* 4. FOUNDRY Button (Opens to Catalog/Dashboard) */}
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1150, 0.03);
+                navigate('/foundry');
+              }}
+              className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1.5 cursor-pointer select-none ${
+                isFoundry
+                  ? 'bg-purple-950/70 border-purple-400 text-purple-200 shadow-[0_0_12px_rgba(168,85,247,0.35)]'
+                  : 'bg-slate-950/50 hover:bg-slate-900/90 border-slate-700/80 hover:border-purple-400/70 text-slate-200 hover:text-purple-300'
+              }`}
+              title="Open Story Foundry Catalog & VTT Dashboard (/foundry)"
+            >
+              <div className={`p-0.5 rounded border shrink-0 ${isFoundry ? 'bg-purple-500/25 border-purple-400/60 text-purple-300' : 'bg-purple-500/10 border-purple-500/30 text-purple-400'}`}>
+                <Layers size={13} />
+              </div>
+              <span>FOUNDRY</span>
+              {isFoundry && <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse inline-block shadow-[0_0_6px_rgba(168,85,247,0.8)]" />}
+            </button>
+
+            {/* 5. COMMS Button */}
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1150, 0.03);
+                navigate('/comms');
+              }}
+              className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg border text-xs font-mono font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1.5 cursor-pointer select-none relative ${
+                isComms
+                  ? 'bg-amber-950/70 border-amber-400 text-amber-200 shadow-[0_0_12px_rgba(245,158,11,0.35)]'
+                  : 'bg-slate-950/50 hover:bg-slate-900/90 border-slate-700/80 hover:border-amber-400/70 text-slate-200 hover:text-amber-300'
+              }`}
+              title="Open CommLink Relay Matrix (/comms)"
+            >
+              <div className={`p-0.5 rounded border shrink-0 ${isComms ? 'bg-amber-500/25 border-amber-400/60 text-amber-300' : 'bg-amber-500/10 border-amber-500/30 text-amber-400'}`}>
+                <Radio size={13} />
               </div>
               <span>COMMS</span>
               {totalUnreadCount > 0 && (
-                <span className="w-3.5 h-3.5 sm:w-4 sm:h-4 bg-amber-500 text-black text-[8.5px] sm:text-[9px] font-mono font-bold rounded-full flex items-center justify-center animate-pulse">
+                <span className="w-3.5 h-3.5 bg-amber-500 text-black text-[8px] font-mono font-bold rounded-full flex items-center justify-center animate-pulse">
                   {totalUnreadCount}
                 </span>
               )}
-              <ChevronDown size={12} className={`text-amber-400 transition-transform duration-200 ${isCommsMenuOpen ? 'rotate-180' : ''}`} />
+              {isComms && totalUnreadCount === 0 && <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse inline-block shadow-[0_0_6px_rgba(245,158,11,0.8)]" />}
             </button>
+          </nav>
+        </div>
 
-            {isCommsMenuOpen && (
-              <div
-                className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-72 bg-[#0e131f]/98 border border-amber-500/60 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.8),0_0_25px_rgba(245,158,11,0.25)] p-2 z-[110] flex flex-col gap-1 backdrop-blur-2xl animate-fadeIn"
-                onClick={() => setIsCommsMenuOpen(false)}
-              >
-                <div className="px-3 py-1.5 text-[10px] font-mono font-bold text-amber-300 uppercase tracking-widest border-b border-slate-800/90 flex items-center justify-between">
-                  <span>CommLink Operations</span>
-                  <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    AudioService.playTerminalBeep(1200, 0.03);
-                    navigate('/comms');
-                  }}
-                  className="w-full text-left p-2.5 hover:bg-amber-950/60 rounded-xl text-xs font-mono text-slate-200 hover:text-amber-200 flex items-center justify-between transition-colors group cursor-pointer"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <div className="p-1.5 rounded-lg bg-amber-500/15 border border-amber-500/30 text-amber-300 group-hover:bg-amber-500/25 transition-colors">
-                      <MessageSquare size={15} />
-                    </div>
-                    <div>
-                      <div className="font-bold text-slate-100 group-hover:text-amber-200">CommLink Relay Matrix</div>
-                      <div className="text-[9.5px] text-amber-400/90 font-mono">Full Channels & Broadcast</div>
-                    </div>
-                  </div>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    AudioService.playTerminalBeep(1200, 0.03);
-                    if (onToggleCommsDock) {
-                      onToggleCommsDock();
-                    } else {
-                      toggleCommsDock();
-                    }
-                  }}
-                  className="w-full text-left p-2.5 hover:bg-amber-950/60 rounded-xl text-xs font-mono text-slate-200 hover:text-amber-200 flex items-center justify-between transition-colors group cursor-pointer"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <div className="p-1.5 rounded-lg bg-amber-500/15 border border-amber-500/30 text-amber-300 group-hover:bg-amber-500/25 transition-colors">
-                      <Radio size={15} />
-                    </div>
-                    <div>
-                      <div className="font-bold text-slate-100 group-hover:text-amber-200">Floating CommLink Tray</div>
-                      <div className="text-[9.5px] text-slate-400">Alt+C Dock Overlay</div>
-                    </div>
-                  </div>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    AudioService.playTerminalBeep(1200, 0.03);
-                    setIsSquadModalOpen(true);
-                  }}
-                  className="w-full text-left p-2.5 hover:bg-amber-950/60 rounded-xl text-xs font-mono text-slate-200 hover:text-amber-200 flex items-center justify-between transition-colors group cursor-pointer"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <div className="p-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 group-hover:bg-emerald-500/25 transition-colors">
-                      <Users size={15} />
-                    </div>
-                    <div>
-                      <div className="font-bold text-slate-100 group-hover:text-amber-200">Team &amp; Squad Management</div>
-                      <div className="text-[9.5px] text-emerald-400 font-mono">Party Roster, Invites &amp; VTT</div>
-                    </div>
-                  </div>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    AudioService.playTerminalBeep(1200, 0.03);
-                    if (onToggleDiceDock) {
-                      onToggleDiceDock();
-                    } else {
-                      window.dispatchEvent(new CustomEvent('toggle-dice-dock'));
-                    }
-                  }}
-                  className="w-full text-left p-2.5 hover:bg-amber-950/60 rounded-xl text-xs font-mono text-slate-200 hover:text-amber-200 flex items-center justify-between transition-colors group cursor-pointer"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <div className="p-1.5 rounded-lg bg-amber-500/15 border border-amber-500/30 text-amber-300 group-hover:bg-amber-500/25 transition-colors">
-                      <Dices size={15} />
-                    </div>
-                    <div>
-                      <div className="font-bold text-slate-100 group-hover:text-amber-200">Quick Dice Roller Tray</div>
-                      <div className="text-[9.5px] text-slate-400">Alt+D Dock Overlay</div>
-                    </div>
-                  </div>
-                </button>
-              </div>
-            )}
-          </div>
-        </nav>
-
-        {/* Right Section: Omnicortex/Folio/Codex Controls + User Account */}
-        <div className="flex items-center justify-end gap-1.5 sm:gap-2 shrink-0">
-          {/* Persona Folio Title Bar Controls */}
+        {/* Center Section: Dynamic Contextual Header Options for Active Page */}
+        <div className="flex-1 flex items-center justify-center gap-1.5 sm:gap-2.5 min-w-0 px-2 overflow-x-auto no-scrollbar">
+          {/* Dynamic Controls: PERSONA FOLIO */}
           {isFolio && (
-            <div className="flex items-center gap-1.5 sm:gap-2 pr-1.5 sm:pr-2 border-r border-slate-800 shrink-0">
+            <div className="flex items-center gap-1.5 sm:gap-2">
               {/* Real-time CP Budget Bar (Desktop) & Compact Badge (Mobile) */}
               {(() => {
                 const startingCP = parseInt(characterData?.['starting-cp'] || 150, 10);
@@ -569,12 +367,12 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
 
                 return (
                   <>
-                    {/* Desktop / Tablet Bar */}
+                    {/* Desktop Bar */}
                     <div
                       onClick={() => window.dispatchEvent(new CustomEvent('open-folio-economy'))}
-                      className={`hidden sm:flex cursor-pointer bg-slate-950 border rounded-lg px-2.5 py-1 flex-col min-w-[145px] sm:min-w-[160px] hover:border-cyan-400 transition-all ${
+                      className={`hidden lg:flex cursor-pointer bg-slate-950 border rounded-lg px-2.5 py-1 flex-col min-w-[130px] sm:min-w-[150px] hover:border-cyan-400 transition-all ${
                         isOver
-                          ? 'border-red-500 ring-2 ring-red-500/80 shadow-[0_0_15px_rgba(239,68,68,0.5)] animate-pulse'
+                          ? 'border-red-500 ring-2 ring-red-500/80 shadow-[0_0_12px_rgba(239,68,68,0.5)] animate-pulse'
                           : 'border-cyan-500/50 shadow-[0_0_8px_rgba(34,211,238,0.15)]'
                       }`}
                       title="Click to view detailed CP Economy & Point Pools breakdown"
@@ -591,16 +389,13 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                           style={{ width: `${percent}%` }}
                         />
                       </div>
-                      <span className={`text-[8px] text-right font-mono font-bold mt-0.5 ${isOver ? 'text-red-400' : 'text-slate-400'}`}>
-                        {isOver ? `OVER BUDGET (-${Math.abs(remainingCP)} CP)` : `${remainingCP} CP REMAINING`}
-                      </span>
                     </div>
 
-                    {/* Compact Mobile CP Badge */}
+                    {/* Compact CP Badge */}
                     <button
                       type="button"
                       onClick={() => window.dispatchEvent(new CustomEvent('open-folio-economy'))}
-                      className={`sm:hidden flex items-center gap-1.5 px-2 py-1 bg-slate-950 border rounded-lg font-mono text-[10px] cursor-pointer shrink-0 ${
+                      className={`lg:hidden flex items-center gap-1.5 px-2 py-1 bg-slate-950 border rounded-lg font-mono text-[10px] cursor-pointer shrink-0 ${
                         isOver
                           ? 'border-red-500 text-red-300 ring-1 ring-red-500/80 animate-pulse'
                           : 'border-cyan-500/40 text-cyan-300'
@@ -614,11 +409,11 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 );
               })()}
 
-              {/* Bastion AI Top Bar Access */}
+              {/* Bastion AI Trigger */}
               <button
                 type="button"
                 onClick={() => window.dispatchEvent(new CustomEvent('toggle-folio-bastion'))}
-                className="hidden xs:flex px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all items-center gap-1.5 cursor-pointer bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 shadow-[0_0_8px_rgba(34,211,238,0.2)] shrink-0"
+                className="px-2 sm:px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 shadow-[0_0_8px_rgba(34,211,238,0.2)] shrink-0"
                 title="Toggle BASTION AI (Rules assistant & character generator)"
               >
                 <span>🤖</span>
@@ -630,7 +425,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 <button
                   type="button"
                   onClick={() => setIsFolioMenuOpen(prev => !prev)}
-                  className="px-2 sm:px-3 py-1 sm:py-1.5 bg-[#161b22] hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 rounded-lg text-xs font-bold uppercase transition-colors flex items-center gap-1.5 shadow-sm"
+                  className="px-2 sm:px-2.5 py-1 bg-[#161b22] hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 rounded-lg text-xs font-bold uppercase transition-colors flex items-center gap-1.5 shadow-sm"
                   title="Folio System Tools & File Actions Menu"
                 >
                   <span className="hidden xs:inline">File Menu</span>
@@ -647,32 +442,32 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                       onClick={() => window.dispatchEvent(new CustomEvent('open-folio-roster'))}
                       className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-amber-300 uppercase font-bold rounded"
                     >
-                      Character Roster
+                      Operative Catalog
                     </button>
                     <button
                       onClick={() => handleOpenGuide('folio')}
                       className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-slate-200 uppercase font-bold rounded"
                     >
-                      User Guide & Manual
+                      User Guide &amp; Manual
                     </button>
                     <div className="border-t border-slate-800 my-0.5" />
                     <button
                       onClick={() => window.dispatchEvent(new CustomEvent('open-folio-new-character'))}
                       className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-slate-200 uppercase font-bold rounded"
                     >
-                      New Character (Manual)
+                      New Operative (Manual)
                     </button>
                     <button
                       onClick={() => window.dispatchEvent(new CustomEvent('open-folio-guided-creator'))}
                       className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-cyan-300 uppercase font-bold rounded"
                     >
-                      New Character (Guided)
+                      New Operative (Guided)
                     </button>
                     <button
                       onClick={() => window.dispatchEvent(new CustomEvent('open-folio-delete-character'))}
                       className="w-full text-left px-3 py-1.5 hover:bg-red-950/80 text-red-400 uppercase font-bold rounded"
                     >
-                      Delete Character
+                      Delete Operative
                     </button>
                     <button
                       onClick={() => window.dispatchEvent(new CustomEvent('open-folio-clear-character'))}
@@ -684,7 +479,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                       onClick={() => window.dispatchEvent(new CustomEvent('open-folio-preview'))}
                       className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-slate-200 uppercase font-bold rounded"
                     >
-                      Preview Sheet
+                      Preview Dossier
                     </button>
                     <div className="border-t border-slate-800 my-0.5" />
                     <button
@@ -712,45 +507,56 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
             </div>
           )}
 
-          {/* Omnicortex-specific Title Bar Controls */}
+          {/* Dynamic Controls: OMNICORTEX */}
           {isDBM && (
-            <div className="flex items-center gap-1.5 sm:gap-2 pr-1.5 sm:pr-2 border-r border-slate-800 shrink-0">
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              {/* DBM Undo / Redo controls */}
+              {handleBack && handleForward && (
+                <div className="flex items-center gap-1 bg-[#161b22] p-0.5 rounded-md border border-[#0D5C63]/40 shrink-0">
+                  <button
+                    type="button"
+                    onClick={handleBack}
+                    disabled={!historyIndex || historyIndex === 0}
+                    className="p-1 px-1.5 bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed rounded text-[11px] font-bold text-slate-300 transition-colors"
+                    title="Back"
+                  >
+                    ◄
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleForward}
+                    disabled={!history || historyIndex >= history.length - 1}
+                    className="p-1 px-1.5 bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed rounded text-[11px] font-bold text-slate-300 transition-colors"
+                    title="Forward"
+                  >
+                    ►
+                  </button>
+                </div>
+              )}
+
+              {/* Active Category Indicator */}
+              <div className="px-2 py-0.5 bg-emerald-950/60 border border-emerald-500/40 rounded-md text-[11px] font-mono text-emerald-300 font-bold uppercase hidden sm:block">
+                {activeCategory ? activeCategory.toUpperCase() : 'DATABASE'}
+              </div>
+
               {/* System Actions Dropdown Menu */}
               <div className="relative shrink-0" ref={dbmMenuRef}>
                 <button
                   type="button"
                   onClick={() => setIsDbmMenuOpen(prev => !prev)}
-                  className="px-2 sm:px-3 py-1 sm:py-1.5 bg-[#161b22] hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 rounded-lg text-xs font-bold uppercase transition-colors flex items-center gap-1.5 shadow-sm"
+                  className="px-2 sm:px-2.5 py-1 bg-[#161b22] hover:bg-slate-800 border border-emerald-500/40 text-emerald-300 rounded-lg text-xs font-bold uppercase transition-colors flex items-center gap-1.5 shadow-sm"
                   title="System Tools & Actions Menu"
                 >
                   <span>⚙️</span>
-                  <span className="hidden md:inline">System Tools</span>
-                  <span className="text-[10px] text-cyan-400">▼</span>
+                  <span className="hidden md:inline">Tools</span>
+                  <span className="text-[10px] text-emerald-400">▼</span>
                 </button>
 
                 {isDbmMenuOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-56 bg-[#161b22] border border-cyan-500/40 rounded-lg shadow-2xl p-2 z-50 flex flex-col gap-1.5 backdrop-blur-md">
+                  <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-56 bg-[#161b22] border border-emerald-500/40 rounded-lg shadow-2xl p-2 z-50 flex flex-col gap-1.5 backdrop-blur-md">
                     <div className="px-2 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-800 mb-0.5">
-                      System Options
+                      Omnicortex Options
                     </div>
-
-                    {/* Switch to Rules Codex */}
-                    <button
-                      type="button"
-                      onClick={() => {
-                        AudioService.playTerminalBeep(1100, 0.03);
-                        setIsDbmMenuOpen(false);
-                        navigate('/codex');
-                      }}
-                      className="w-full text-left px-3 py-2 bg-purple-950/40 hover:bg-purple-900/60 border border-purple-500/40 text-purple-200 rounded text-xs font-bold uppercase transition-colors flex items-center justify-between"
-                      title="Switch from Omnicortex DB to Rules Codex Matrices"
-                    >
-                      <div className="flex items-center gap-2">
-                        <span>📖</span>
-                        <span>Rules Codex</span>
-                      </div>
-                      <span className="text-[10px] text-purple-400 font-mono">Codex</span>
-                    </button>
 
                     {/* Bastion AI Assistant Toggle */}
                     <button
@@ -759,14 +565,14 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                         setIsBastionOpen && setIsBastionOpen(prev => !prev);
                         setIsDbmMenuOpen(false);
                       }}
-                      className="w-full text-left px-3 py-2 bg-cyan-950/40 hover:bg-cyan-900/60 border border-cyan-500/40 text-cyan-300 rounded text-xs font-bold uppercase transition-colors flex items-center justify-between"
+                      className="w-full text-left px-3 py-2 bg-emerald-950/40 hover:bg-emerald-900/60 border border-emerald-500/40 text-emerald-300 rounded text-xs font-bold uppercase transition-colors flex items-center justify-between"
                       title="Toggle BASTION AI (Rules assistant & entry generator)"
                     >
                       <div className="flex items-center gap-2">
                         <span>🤖</span>
                         <span>Bastion AI</span>
                       </div>
-                      <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${isBastionOpen ? 'bg-cyan-500/20 text-cyan-300' : 'bg-slate-700 text-slate-400'}`}>
+                      <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${isBastionOpen ? 'bg-emerald-500/20 text-emerald-300' : 'bg-slate-700 text-slate-400'}`}>
                         {isBastionOpen ? 'OPEN' : 'CLOSED'}
                       </span>
                     </button>
@@ -868,16 +674,129 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
             </div>
           )}
 
-          {/* Codex-specific Title Bar Controls */}
+          {/* Dynamic Controls: COMPENDIUM */}
+          {isCompendium && (
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <div className="px-2 py-0.5 bg-sky-950/60 border border-sky-500/40 rounded-md text-[11px] font-mono text-sky-300 font-bold uppercase hidden sm:block">
+                LORE &amp; RULES WIKI
+              </div>
+
+              {/* User Guide */}
+              <button
+                type="button"
+                onClick={() => handleOpenGuide('dbm')}
+                className="px-2 sm:px-2.5 py-1 bg-[#161b22] hover:bg-slate-800 border border-sky-500/40 text-sky-300 rounded-lg text-xs font-bold uppercase transition-colors flex items-center gap-1.5 shadow-sm cursor-pointer"
+                title="Compendium User Guide"
+              >
+                <span>📖</span>
+                <span className="hidden sm:inline">Guide</span>
+              </button>
+
+              {/* Sync Compendium to Cloud (Admin) */}
+              {isAdmin && syncCanonicalCompendium && (
+                <button
+                  type="button"
+                  onClick={syncCanonicalCompendium}
+                  className="px-2 sm:px-2.5 py-1 bg-sky-950/80 hover:bg-sky-900 border border-sky-400 text-sky-200 rounded-lg text-xs font-bold uppercase transition-colors flex items-center gap-1.5 shadow-[0_0_8px_rgba(56,189,248,0.3)] cursor-pointer"
+                  title="Sync Canonical Compendium to Cloud"
+                >
+                  <span>☁️</span>
+                  <span className="hidden sm:inline">Sync Cloud</span>
+                </button>
+              )}
+            </div>
+          )}
+
+          {/* Dynamic Controls: STORY FOUNDRY */}
+          {isFoundry && (
+            <div className="flex items-center gap-1 sm:gap-1.5">
+              <button
+                type="button"
+                onClick={() => { AudioService.playTerminalBeep(1100, 0.02); navigate('/foundry'); }}
+                className={`px-2 py-1 rounded-md text-[11px] font-mono font-bold uppercase transition-colors flex items-center gap-1 ${
+                  location.pathname === '/foundry' ? 'bg-purple-600 text-white shadow-sm' : 'bg-slate-900/80 text-slate-300 hover:text-purple-300 hover:bg-slate-800 border border-slate-700/60'
+                }`}
+                title="Foundry Catalog & Dashboard"
+              >
+                <span>📊</span>
+                <span className="hidden sm:inline">Catalog</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => { AudioService.playTerminalBeep(1100, 0.02); navigate('/stage'); }}
+                className={`px-2 py-1 rounded-md text-[11px] font-mono font-bold uppercase transition-colors flex items-center gap-1 ${
+                  isStage ? 'bg-amber-600 text-white shadow-sm' : 'bg-slate-900/80 text-amber-300 hover:text-amber-200 hover:bg-slate-800 border border-amber-500/40'
+                }`}
+                title="The Stage Tactical VTT"
+              >
+                <span>⚔️</span>
+                <span className="hidden sm:inline">Stage VTT</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => { AudioService.playTerminalBeep(1100, 0.02); navigate('/foundry/story'); }}
+                className={`px-2 py-1 rounded-md text-[11px] font-mono font-bold uppercase transition-colors flex items-center gap-1 ${
+                  location.pathname.includes('/story') ? 'bg-purple-600 text-white shadow-sm' : 'bg-slate-900/80 text-slate-300 hover:text-purple-300 hover:bg-slate-800 border border-slate-700/60'
+                }`}
+                title="Story Weaver Arc & Scenarios"
+              >
+                <span>📖</span>
+                <span className="hidden md:inline">Stories</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => { AudioService.playTerminalBeep(1100, 0.02); navigate('/foundry/elements'); }}
+                className={`px-2 py-1 rounded-md text-[11px] font-mono font-bold uppercase transition-colors flex items-center gap-1 ${
+                  location.pathname.includes('/elements') ? 'bg-purple-600 text-white shadow-sm' : 'bg-slate-900/80 text-slate-300 hover:text-purple-300 hover:bg-slate-800 border border-slate-700/60'
+                }`}
+                title="Element Forge Blueprints"
+              >
+                <span>🔨</span>
+                <span className="hidden md:inline">Elements</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => { AudioService.playTerminalBeep(1100, 0.02); navigate('/foundry/aime'); }}
+                className={`px-2 py-1 rounded-md text-[11px] font-mono font-bold uppercase transition-colors flex items-center gap-1 ${
+                  location.pathname.includes('/aime') ? 'bg-purple-600 text-white shadow-sm' : 'bg-slate-900/80 text-slate-300 hover:text-purple-300 hover:bg-slate-800 border border-slate-700/60'
+                }`}
+                title="AIME Creative Engine"
+              >
+                <span>✨</span>
+                <span className="hidden md:inline">AIME</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => { AudioService.playTerminalBeep(1100, 0.02); navigate('/foundry/map-maker'); }}
+                className={`px-2 py-1 rounded-md text-[11px] font-mono font-bold uppercase transition-colors flex items-center gap-1 ${
+                  location.pathname.includes('/map-maker') ? 'bg-purple-600 text-white shadow-sm' : 'bg-slate-900/80 text-slate-300 hover:text-purple-300 hover:bg-slate-800 border border-slate-700/60'
+                }`}
+                title="Tactical Map Maker"
+              >
+                <span>🗺️</span>
+                <span className="hidden md:inline">Maps</span>
+              </button>
+            </div>
+          )}
+
+          {/* Dynamic Controls: CODEX */}
           {isCodex && (
-            <div className="flex items-center gap-1.5 sm:gap-2 pr-1.5 sm:pr-2 border-r border-slate-800 shrink-0">
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <div className="px-2 py-0.5 bg-purple-950/60 border border-purple-500/40 rounded-md text-[11px] font-mono text-purple-300 font-bold uppercase hidden sm:block">
+                RULES CODEX
+              </div>
               <button
                 type="button"
                 onClick={() => {
                   AudioService.playTerminalBeep(1100, 0.03);
                   navigate('/dbm');
                 }}
-                className="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider bg-cyan-950/80 hover:bg-cyan-900 text-cyan-200 border border-cyan-500/60 shadow-[0_0_8px_rgba(34,211,238,0.25)] transition-all flex items-center gap-1.5 cursor-pointer shrink-0"
+                className="px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider bg-cyan-950/80 hover:bg-cyan-900 text-cyan-200 border border-cyan-500/60 shadow-[0_0_8px_rgba(34,211,238,0.25)] transition-all flex items-center gap-1.5 cursor-pointer shrink-0"
                 title="Switch from Rules Codex to Omnicortex Database"
               >
                 <span>🌐</span>
@@ -885,6 +804,97 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
               </button>
             </div>
           )}
+
+          {/* Dynamic Controls: COMMS */}
+          {isComms && (
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1200, 0.03);
+                  setIsSquadModalOpen(true);
+                }}
+                className="px-2 sm:px-2.5 py-1 bg-emerald-950/60 hover:bg-emerald-900/80 border border-emerald-500/40 text-emerald-300 rounded-lg text-xs font-bold uppercase transition-colors flex items-center gap-1.5 shadow-sm cursor-pointer"
+                title="Team & Squad Management"
+              >
+                <Users size={13} />
+                <span className="hidden sm:inline">Squads</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1200, 0.03);
+                  if (onToggleCommsDock) {
+                    onToggleCommsDock();
+                  } else {
+                    toggleCommsDock();
+                  }
+                }}
+                className="px-2 sm:px-2.5 py-1 bg-[#161b22] hover:bg-slate-800 border border-amber-500/40 text-amber-300 rounded-lg text-xs font-bold uppercase transition-colors flex items-center gap-1.5 shadow-sm cursor-pointer"
+                title="Toggle Floating CommLink Tray (Alt+C)"
+              >
+                <Radio size={13} />
+                <span className="hidden sm:inline">Tray (Alt+C)</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1200, 0.03);
+                  if (onToggleDiceDock) {
+                    onToggleDiceDock();
+                  } else {
+                    window.dispatchEvent(new CustomEvent('toggle-dice-dock'));
+                  }
+                }}
+                className="px-2 sm:px-2.5 py-1 bg-[#161b22] hover:bg-slate-800 border border-amber-500/40 text-amber-300 rounded-lg text-xs font-bold uppercase transition-colors flex items-center gap-1.5 shadow-sm cursor-pointer"
+                title="Toggle Quick Dice Roller Tray (Alt+D)"
+              >
+                <Dices size={13} />
+                <span className="hidden sm:inline">Dice (Alt+D)</span>
+              </button>
+            </div>
+          )}
+
+          {/* Dynamic Controls: DASHBOARD / DEFAULT */}
+          {!isFolio && !isDBM && !isCompendium && !isFoundry && !isCodex && !isComms && (
+            <div className="hidden sm:flex items-center gap-2 text-slate-400 font-mono text-xs">
+              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+              <span>OPERATIONS HUB</span>
+            </div>
+          )}
+        </div>
+
+        {/* Right Section: SFX, Command Palette & User Account */}
+        <div className="flex items-center justify-end gap-1.5 sm:gap-2 shrink-0">
+          {/* Audio SFX Mute/Unmute Toggle */}
+          <button
+            type="button"
+            onClick={toggleAudio}
+            className={`p-1.5 sm:p-2 rounded-lg border transition-colors cursor-pointer ${
+              isAudioMuted
+                ? 'bg-slate-900 border-slate-700 text-slate-500 hover:text-slate-300'
+                : 'bg-slate-900/80 border-cyan-500/40 text-cyan-300 hover:text-white shadow-sm'
+            }`}
+            title={isAudioMuted ? 'Unmute Interface SFX' : 'Mute Interface SFX'}
+          >
+            {isAudioMuted ? <VolumeX size={15} /> : <Volume2 size={15} />}
+          </button>
+
+          {/* Global Command Palette Trigger */}
+          <button
+            type="button"
+            onClick={() => {
+              AudioService.playTerminalBeep(1200, 0.02);
+              onOpenCommandPalette && onOpenCommandPalette();
+            }}
+            className="p-1.5 sm:px-2 sm:py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white text-xs font-mono transition-colors shadow-sm cursor-pointer flex items-center gap-1.5"
+            title="Global Command Palette (Ctrl+K)"
+          >
+            <Command size={14} className="text-cyan-400" />
+            <span className="hidden xl:inline text-[10px] text-slate-400 font-bold">Ctrl+K</span>
+          </button>
 
           {/* User Account Menu with Functional Cloud Sync Status */}
           {currentUser ? (
@@ -934,7 +944,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
             <button
               type="button"
               onClick={loginWithGoogle}
-              className="px-2.5 sm:px-3.5 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-[0_0_15px_rgba(34,211,238,0.3)] flex items-center gap-1.5 font-mono"
+              className="px-2.5 sm:px-3.5 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-[0_0_15px_rgba(34,211,238,0.3)] flex items-center gap-1.5 font-mono cursor-pointer"
             >
               <Key size={13} /> <span className="hidden xs:inline">Login</span>
             </button>
@@ -1007,7 +1017,23 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                     </div>
                     <div className="text-left">
                       <div className="font-bold text-xs">Omnicortex Database</div>
-                      <div className="text-[10px] text-slate-400">Master Compendium</div>
+                      <div className="text-[10px] text-slate-400">RPG System Entities & Reference</div>
+                    </div>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => { navigate('/compendium'); setIsMobileNavOpen(false); }}
+                    className={`w-full p-2.5 rounded-xl border flex items-center gap-3 transition-colors cursor-pointer ${
+                      isCompendium ? 'bg-sky-950/60 border-sky-400 text-sky-200 shadow-[0_0_15px_rgba(56,189,248,0.3)]' : 'bg-slate-900/60 border-slate-800 text-slate-200 hover:bg-slate-800'
+                    }`}
+                  >
+                    <div className="p-1.5 rounded-lg bg-sky-500/20 text-sky-300">
+                      <BookOpen size={16} />
+                    </div>
+                    <div className="text-left">
+                      <div className="font-bold text-xs">Compendium Wiki</div>
+                      <div className="text-[10px] text-slate-400">Lore, Rules & Game Mechanics</div>
                     </div>
                   </button>
 

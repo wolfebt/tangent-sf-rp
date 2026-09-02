@@ -1,1 +1,72 @@
-[]
+[
+  {
+    "id": "prereq-might-2",
+    "name": "Might 2+ (STR)",
+    "type": "Attribute",
+    "value": "STR >= 2",
+    "description": "Requires physical Strength attribute score of 2 or higher."
+  },
+  {
+    "id": "prereq-reflex-2",
+    "name": "Reflex 2+ (AGI)",
+    "type": "Attribute",
+    "value": "AGI >= 2",
+    "description": "Requires Agility attribute score of 2 or higher."
+  },
+  {
+    "id": "prereq-fortitude-2",
+    "name": "Fortitude 2+ (STA)",
+    "type": "Attribute",
+    "value": "STA >= 2",
+    "description": "Requires Stamina attribute score of 2 or higher."
+  },
+  {
+    "id": "prereq-reason-2",
+    "name": "Reason 2+ (INT)",
+    "type": "Attribute",
+    "value": "INT >= 2",
+    "description": "Requires Intellect attribute score of 2 or higher."
+  },
+  {
+    "id": "prereq-willpower-2",
+    "name": "Willpower 2+ (WIS)",
+    "type": "Attribute",
+    "value": "WIS >= 2",
+    "description": "Requires Wisdom attribute score of 2 or higher."
+  },
+  {
+    "id": "prereq-presence-2",
+    "name": "Presence 2+ (CHA)",
+    "type": "Attribute",
+    "value": "CHA >= 2",
+    "description": "Requires Charisma attribute score of 2 or higher."
+  },
+  {
+    "id": "prereq-attune-2",
+    "name": "Attune 2+ (Meta)",
+    "type": "Skill",
+    "value": "Attune >= 2",
+    "description": "Requires Attune skill rank of 2 or higher to channel metaphysics."
+  },
+  {
+    "id": "prereq-firearms-3",
+    "name": "Firearms 3+ (Combat)",
+    "type": "Skill",
+    "value": "Firearms >= 3",
+    "description": "Requires Firearms skill rank of 3 or higher."
+  },
+  {
+    "id": "prereq-cybernetic-chassis",
+    "name": "Cybernetic Chassis",
+    "type": "Feature",
+    "value": "Chassis == Synthetic/Augmented",
+    "description": "Requires the character to possess synthetic chassis or augmented body parts."
+  },
+  {
+    "id": "prereq-awakened",
+    "name": "Awakened Feature",
+    "type": "Feature",
+    "value": "HasFeature(Awakened)",
+    "description": "Requires the Awakened feature to manifest supernatural abilities."
+  }
+]

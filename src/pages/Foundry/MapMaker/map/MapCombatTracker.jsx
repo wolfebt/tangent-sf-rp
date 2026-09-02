@@ -1533,7 +1533,7 @@ const MapCombatTracker = ({
 
       {/* Individual AP Award Popover Modal */}
       {selectedHeroForAp && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-3">
+        <div className="fixed inset-0 z-[250] flex items-start justify-center bg-black/85 backdrop-blur-md p-3 sm:p-6 pt-16 pb-12 overflow-y-auto select-none font-sans">
           <div className="bg-[#121824] border border-emerald-500/80 rounded-xl max-w-sm w-full p-4 shadow-[0_0_25px_rgba(16,185,129,0.3)] text-slate-100 space-y-3 font-sans">
             <div className="flex justify-between items-center border-b border-emerald-900/60 pb-2">
               <h4 className="text-xs font-bold uppercase tracking-wider text-emerald-300 flex items-center gap-1.5">
@@ -1593,7 +1593,7 @@ const MapCombatTracker = ({
 
       {/* GM Party Awards Modal */}
       {showPartyAwardsModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-3">
+        <div className="fixed inset-0 z-[250] flex items-start justify-center bg-black/85 backdrop-blur-md p-3 sm:p-6 pt-16 pb-12 overflow-y-auto select-none font-sans">
           <div className="bg-[#121824] border border-cyan-500/80 rounded-xl max-w-md w-full p-4 shadow-[0_0_25px_rgba(6,182,212,0.3)] text-slate-100 space-y-3 font-sans">
             <div className="flex justify-between items-center border-b border-cyan-900/60 pb-2">
               <h4 className="text-xs font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">

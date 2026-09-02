@@ -10,16 +10,45 @@ size:
   - species_size-medium
 movement:
   - species_movement-flight
+speeds: Flight 60 ft
+reach: 5 ft
+senses: Standard visual and auditory range.
+immunities: None
+inherent_attribute_modifiers:
+  - attribute: Intellect
+    bonus: 2
+bonus_attribute_points: 0
+specific_skill_bonuses:
+  - skill: Discipline
+    bonus: 2
+  - skill: Attune
+    bonus: 1
+bonus_skills: 10
+bonus_skill_choices:
+  - Discipline
+  - Attune
+  - Science
+  - Diplomacy
+  - Philosophy
+inherent_features:
+  - trait-awakened-psychic
+  - trait-telepathic-150ft
+  - trait-adaptive-aspects
+  - trait-flight-telekinetic-levitation-30ft
+  - trait-bioluminescent-body-glow
+bonus_features: []
+bonus_feature_choices:
+  - Psychic Barrier
+  - Calming Aura
+  - Telekinetic Wave
+recommended_features:
+  - feature-psychic-barrier
 stigma: 'Xeno (-2), Luminescent (-1)'
 tech_level: 4 (Psi-Amplifier Holo-Suits)
 meta_level: 4 (High Psionics)
 homeworld: Mondis Floating Arcologies
-cp: 27
-description: >-
-  Slender, glowing humanoids whose feet never touch the ground, communicating
-  exclusively via harmonic telepathy and telekinetic flight.
 costs:
-  bp: 27
+  bp: 24
   credits: 0
   nodes: 0
   sockets: 0
@@ -28,92 +57,15 @@ costs:
   ap: 0
 modifiers:
   - target: Intellect
+    value: 2
     type: attribute
-    value: 2
     mode: inherent
-  - target: Discipline
-    type: skill
-    value: 2
-    mode: inherent
-  - target: Attune
-    type: skill
-    value: 1
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 10
-    mode: bonus_pool
-  - target: Discipline
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Attune
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Science
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Diplomacy
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Philosophy
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Awakened (Psychic)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Telepathic (150ft)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Adaptive Aspects
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Flight (Telekinetic Levitation 30ft)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Bioluminescent Body Glow
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Psychic Barrier
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Calming Aura
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Telekinetic Wave
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-psychic-barrier
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+cp_cost: 24
+cp: 24
+bp: 24
+description: >-
+  Slender, glowing humanoids whose feet never touch the ground, communicating
+  exclusively via harmonic telepathy and telekinetic flight.
 ---
 # Mondi (Psionic Luminous Entity)
 

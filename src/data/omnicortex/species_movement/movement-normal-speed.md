@@ -1,9 +1,16 @@
 ---
 id: movement-normal-speed
-name: Normal Speed
+name: Normal Speed (Baseline 30 ft)
 category: species_movement
-movement_type: Mode
-description: "Base speed of 30 feet. Determines speed of other modes."
+classification: mode
+target_mode: Ground
+type: Ground
+base_speed: 30
+speed: 30
+bp: 0
+description: >-
+  Standard baseline speed of 30 feet. Determines derived speed of all other
+  locomotion modes.
 costs:
   bp: 0
   credits: 0
@@ -12,32 +19,13 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-speed: 30
-is_ranked: false
-is_exclusive: false
-is_disadvantage: false
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
+# Normal Speed (Baseline 30 ft)
 
-# Normal Speed
+**Category**: Species Movement (MODE)  
+**Target Mode**: Ground  
+**Cost**: +0 BP  
+**Base Speed**: 30 ft / round  
 
-**Category**: Species Movement (Mode)  
-**Cost**: 0 BP  
-**Classification**: Mode  
-
-## Effect
-Base speed of 30 feet. Determines speed of other modes.
-
-## Mechanics & Rules
-Provides the standard medium humanoid walking baseline (30 ft / round). All secondary modes (fly, swim, climb, burrow) derive base rates from this score.
+## Description
+Standard baseline speed of 30 feet. Determines derived speed of all other locomotion modes.

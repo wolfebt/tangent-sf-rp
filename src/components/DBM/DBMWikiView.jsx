@@ -322,7 +322,7 @@ export const DBMWikiView = ({
     <div className="flex-1 flex bg-slate-900 border border-slate-800 rounded-xl overflow-hidden h-full relative shadow-xl">
       {/* Mobile / Narrow View Full Article Modal Overlay */}
       {selectedArticleId && activeArticle && (
-        <div className="fixed inset-0 z-50 bg-[#0d1117]/98 backdrop-blur-md flex flex-col overflow-hidden font-sans p-3 sm:p-6 md:hidden">
+        <div className="fixed inset-0 z-[200] bg-[#0d1117]/98 backdrop-blur-md flex flex-col overflow-hidden font-sans p-3 sm:p-6 pt-12 md:hidden">
           <div className="bg-[#0d1117] border border-cyan-500/50 rounded-xl w-full h-full shadow-[0_0_30px_rgba(0,0,0,0.9)] overflow-hidden flex flex-col">
             {/* Mobile Modal Header */}
             <div className="p-4 bg-slate-950 border-b border-cyan-900/60 flex justify-between items-center shrink-0">

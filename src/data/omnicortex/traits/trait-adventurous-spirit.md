@@ -1,12 +1,9 @@
 ---
 id: trait-adventurous-spirit
 name: Adventurous Spirit
-category: traits
+trait_tier: Basic
 trait_type: Origin Trait
-origin_association: Colony
-description: >-
-  Fearless enthusiasm for venturing beyond established perimeter fences into
-  uncharted wilds.
+category: traits
 costs:
   bp: 1
   credits: 0
@@ -15,6 +12,9 @@ costs:
   strain: 0
   focus: 0
   ap: 0
+description: >-
+  Fearless enthusiasm for venturing beyond established perimeter fences into
+  uncharted wilds.
 modifiers: []
 modifications: []
 critical_details:
@@ -28,15 +28,12 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # Adventurous Spirit
 
-**Category**: Origin Traits  
-**Associated Origin**: Colony  
-**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait
+**Category**: TRAITS
+**Tier**: Basic
+**Type**: Origin Trait
+**BP Cost**: 1
 
 ## Description
 Fearless enthusiasm for venturing beyond established perimeter fences into uncharted wilds.
-
-## Mechanics & Benefits
-Once per day, make a chosen exploration or wilderness check with Advantage.

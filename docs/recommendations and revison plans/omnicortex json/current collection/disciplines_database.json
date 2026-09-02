@@ -1,194 +1,80 @@
 [
   {
-    "name": "Chaos Focus",
-    "updatedAt": "2026-08-23T10:56:50.617Z",
-    "id": "discipline-chaos",
-    "description": "Accelerating decay, breaking molecular bonds, inflicting curses, and channeling lethal negative energy.",
-    "category": "disciplines",
-    "body": "# Chaos Focus (Entropy)\n\nAccelerating decay, breaking molecular bonds, inflicting curses, and channeling lethal negative energy.\n\n### Mechanics\n- **Parent Discipline**: Entropy\n- **Damage**: `2d6 per Discipline Stage + 1d6 per Invocation Rank` (Necrotic / Chaos damage; ignores non-magical hardness and armor DR).\n- **Curse**: Inflicts Disadvantage on target rolls for 1 round per Rank (Will save negates).",
-    "discipline": "Entropy"
-  },
-  {
-    "discipline": "Energy",
-    "name": "Elemental Focus",
-    "updatedAt": "2026-08-23T10:56:50.616Z",
-    "id": "discipline-elemental",
-    "category": "disciplines",
-    "description": "The conjuration and projection of raw thermodynamic and acoustic energies: Fire, Cold, Lightning, Sonic, and Acid.",
-    "body": "# Elemental Focus (Energy)\n\nThe conjuration and projection of raw thermodynamic and acoustic energies: Fire, Cold, Lightning, Sonic, and Acid.\n\n### Mechanics\n- **Parent Discipline**: Energy\n- **Damage**: `1d6 per Discipline Stage + 1d6 per Invocation Rank`.\n- **Critical Status Effects**: Pyro (lingering burn), Cryo (freeze/snare), Voltic (electric stun), Sonic (concussive stun), Corrosive (dissolve DR)."
-  },
-  {
-    "updatedAt": "2026-08-23T10:56:50.616Z",
-    "name": "Enhancement Focus",
-    "description": "Reinforcing structural integrity, hardening natural armor, sharpening blades, and boosting biological attributes.",
-    "id": "discipline-enhancement",
-    "body": "# Enhancement Focus (Matter)\n\nReinforcing structural integrity, hardening natural armor, sharpening blades, and boosting biological attributes.\n\n### Mechanics\n- **Parent Discipline**: Matter\n- **Hardening / Barkskin**: Grants `+1 DR per 3 Ranks` to armor or natural skin.\n- **Physical Boost**: Grants `+2` to Strength, Agility, or Stamina for 1 min/Rank.",
-    "discipline": "Matter",
-    "category": "disciplines"
-  },
-  {
-    "body": "# Force Focus (Energy)\n\nThe telekinetic manipulation of kinetic vectors, force fields, and invisible concussive constructs.\n\n### Mechanics\n- **Parent Discipline**: Energy\n- **Damage**: `1d8 per Discipline Stage + 1d8 per Invocation Rank` (Force damage).\n- **Telekinesis**: Lift and throw weight equal to `25 lbs x Rank`.\n- **Force Field**: Grants Temporary Health equal to `5 x Rank`.",
-    "category": "disciplines",
-    "discipline": "Energy",
-    "id": "discipline-force",
-    "description": "The telekinetic manipulation of kinetic vectors, force fields, and invisible concussive constructs.",
-    "updatedAt": "2026-08-23T10:56:50.616Z",
-    "name": "Force Focus"
-  },
-  {
-    "name": "Order Focus",
-    "discipline": "Entropy",
-    "updatedAt": "2026-08-23T10:56:50.615Z",
-    "category": "disciplines",
-    "description": "Restoring biological patterns, cellular healing, critical stabilization, and abjuration wards.",
-    "body": "# Order Focus (Entropy)\n\nRestoring biological patterns, cellular healing, critical stabilization, and abjuration wards.\n\n### Mechanics\n- **Parent Discipline**: Entropy\n- **Healing**: `2d6 per Discipline Stage + 1d6 per Invocation Rank` (Restores Health / Vitality).\n- **Stabilize**: Immediate reaction prevents death when character reaches 0 HP.\n- **Restoration**: Cleanses poisons, diseases, and status conditions based on severity DC.",
-    "id": "discipline-order"
-  },
-  {
-    "body": "# Phantasm Focus (Illusion)\n\nPure sensory deception: holographic glamer, active invisibility, auditory dampening, and phantom scenes.\n\n### Mechanics\n- **Parent Discipline**: Illusion\n- **Disbelief**: Target making a successful Will save sees through and negates the illusion entirely.\n- **Invisibility**: Bends light around subject (1 min/Rank); attacking breaks concealment.",
-    "id": "discipline-phantasm",
-    "updatedAt": "2026-08-23T10:56:50.615Z",
-    "discipline": "Illusion",
-    "category": "disciplines",
-    "description": "Pure sensory deception: holographic glamer, active invisibility, auditory dampening, and phantom scenes.",
-    "name": "Phantasm Focus"
-  },
-  {
-    "body": "# Projection Focus (Mental)\n\nSending telepathic thoughts, psionic domination commands, neural mind blasts, and altering memories.\n\n### Mechanics\n- **Parent Discipline**: Mental\n- **Range**: Extended (`100ft x Rank`).\n- **Mind Blast**: Inflicts `1d6 Psychic damage per Rank` + Stun condition (Will save for half).\n- **Domination**: Forces target to obey verbal commands (Will save negates).",
-    "discipline": "Mental",
-    "id": "discipline-projection",
-    "updatedAt": "2026-08-23T10:56:50.615Z",
-    "description": "Sending telepathic thoughts, psionic domination commands, neural mind blasts, and altering memories.",
-    "category": "disciplines",
-    "name": "Projection Focus"
-  },
-  {
-    "category": "disciplines",
-    "body": "# Sense Focus (Mental)\n\nReceiving extrasensory information: clairvoyance, remote viewing, surface thought reading, and precognitive glimpses.\n\n### Mechanics\n- **Parent Discipline**: Mental\n- **Precognition**: Grants Advantage on an upcoming Initiative roll or specific Defense check.\n- **Clairvoyance**: Projects sight and hearing to any known location within range.",
-    "id": "discipline-sense",
-    "name": "Sense Focus",
-    "description": "Receiving extrasensory information: clairvoyance, remote viewing, surface thought reading, and precognitive glimpses.",
-    "updatedAt": "2026-08-23T10:56:50.615Z",
-    "discipline": "Mental"
-  },
-  {
-    "name": "Shadow Focus",
-    "category": "disciplines",
-    "id": "discipline-shadow",
-    "discipline": "Illusion",
-    "updatedAt": "2026-08-23T10:56:50.614Z",
-    "body": "# Shadow Focus (Illusion)\n\nInfusing sensory illusions with quasi-real matter drawn from the Shadow Plane.\n\n### Mechanics\n- **Parent Discipline**: Illusion\n- **Quasi-Reality**: Even when disbelieved via Will save, Shadow illusions retain 20% reality, solid impact, and damage.\n- **Shadow Conjuration**: Duplicates other summon or evocation spells at 50% power.",
-    "description": "Infusing sensory illusions with quasi-real matter drawn from the Shadow Plane."
-  },
-  {
-    "category": "disciplines",
-    "description": "The dimensional art of calling forth creatures, objects, and spatial matter across coordinates and planes.",
-    "id": "discipline-summoning",
-    "name": "Summoning Focus",
-    "discipline": "Dimension",
-    "body": "# Summoning Focus (Dimension)\n\nThe dimensional art of calling forth creatures, objects, and spatial matter across coordinates and planes.\n\n### Mechanics\n- **Parent Discipline**: Dimension\n- **Duration**: 1 Round per Discipline Rank (Sustained). Spending 1 Karma Point extends duration to 1 Minute per Rank.\n- **Summon Creature**: Summons entities with Build Point (BP) budget equal to `10 + (Invocation Rank x 5)`.\n- **Create Object**: Manifests items of Simple complexity (CR 0); higher ranks increase complexity and Tech Level.",
-    "updatedAt": "2026-08-23T10:56:50.614Z"
-  },
-  {
-    "updatedAt": "2026-08-23T10:56:50.614Z",
-    "category": "disciplines",
-    "name": "Teleport Focus",
-    "id": "discipline-teleport",
-    "body": "# Teleport Focus (Dimension)\n\nInstantaneous physical relocation across space without traversing intervening terrain.\n\n### Mechanics\n- **Parent Discipline**: Dimension\n- **Familiarity DC**: Very Familiar (DC 5), Seen Once (DC 15), Description Only (DC 25), Blind / Unknown (DC 30).\n- **Tactical Blink**: Move `10ft + 5ft/Rank` as a Move Action without provoking Attacks of Opportunity.",
-    "discipline": "Dimension",
-    "description": "Instantaneous physical relocation across space without traversing intervening terrain."
-  },
-  {
-    "body": "# Transmutation Focus (Matter)\n\nChanging one physical substance into another, state changes (solid/liquid/gas), petrification, and biological polymorphing.\n\n### Mechanics\n- **Parent Discipline**: Matter\n- **Polymorph**: Subject takes on the physical stat array of a beast or alternate species.\n- **Petrification**: Fortitude save vs turning to stone; partial success inflicts Slowed condition.",
-    "id": "discipline-transmutation",
-    "discipline": "Matter",
-    "updatedAt": "2026-08-23T10:56:50.614Z",
-    "category": "disciplines",
-    "description": "Changing one physical substance into another, state changes (solid/liquid/gas), petrification, and biological polymorphing.",
-    "name": "Transmutation Focus"
-  },
-  {
-    "discipline_skills": [],
-    "updatedAt": "2026-08-12T01:15:09.341Z",
-    "modifier": [],
-    "tags": [
-      "@Lanaran"
-    ],
-    "name": "Light",
-    "id": "entry_1786497309341",
-    "prerequisite": [],
-    "description": ""
-  },
-  {
     "id": "metafocus-dimension",
-    "body": "# Dimension Discipline\n\n**Category**: Metafocus Disciplines  \n**Associated Skills**: Summoning, Teleport\n\n## Description\nManipulating spatial coordinates, folding space, opening wormholes, and conjuring objects or entities across dimensional boundaries.",
+    "name": "Dimension Discipline",
+    "category": "disciplines",
+    "discipline": "Dimension",
     "metafocus_skills": [
       "Summoning",
       "Teleport"
     ],
-    "category": "disciplines",
-    "updatedAt": "2026-08-23T10:56:50.614Z",
     "description": "Manipulating spatial coordinates, folding space, opening wormholes, and conjuring objects or entities across dimensional boundaries.",
-    "name": "Dimension Discipline"
+    "body": "# Dimension Discipline\n\n**Category**: Metafocus Disciplines  \n**Associated Skills**: Summoning, Teleport\n\n## Description\nManipulating spatial coordinates, folding space, opening wormholes, and conjuring objects or entities across dimensional boundaries.",
+    "updatedAt": "2026-08-23T10:56:50.614Z"
   },
   {
     "id": "metafocus-energy",
-    "body": "# Energy Discipline\n\n**Category**: Metafocus Disciplines  \n**Associated Skills**: Elemental, Force\n\n## Description\nHarnessing kinetic vectors, telekinesis, hard-light force barriers, thermodynamics (pyro/cryo), electricity, and sound.",
-    "description": "Harnessing kinetic vectors, telekinesis, hard-light force barriers, thermodynamics (pyro/cryo), electricity, and sound.",
+    "name": "Energy Discipline",
+    "category": "disciplines",
+    "discipline": "Energy",
     "metafocus_skills": [
       "Elemental",
       "Force"
     ],
-    "category": "disciplines",
-    "name": "Energy Discipline",
+    "description": "Harnessing kinetic vectors, telekinesis, hard-light force barriers, thermodynamics (pyro/cryo), electricity, and sound.",
+    "body": "# Energy Discipline\n\n**Category**: Metafocus Disciplines  \n**Associated Skills**: Elemental, Force\n\n## Description\nHarnessing kinetic vectors, telekinesis, hard-light force barriers, thermodynamics (pyro/cryo), electricity, and sound.",
     "updatedAt": "2026-08-23T10:56:50.614Z"
   },
   {
     "id": "metafocus-entropy",
+    "name": "Entropy Discipline",
     "category": "disciplines",
-    "body": "# Entropy Discipline\n\n**Category**: Metafocus Disciplines  \n**Associated Skills**: Chaos, Order\n\n## Description\nGoverning probability, organic healing, cellular regeneration, life control, restoration, decay, and probability flux.",
+    "discipline": "Entropy",
     "metafocus_skills": [
       "Chaos",
       "Order"
     ],
-    "updatedAt": "2026-08-23T10:56:50.613Z",
-    "name": "Entropy Discipline",
-    "description": "Governing probability, organic healing, cellular regeneration, life control, restoration, decay, and probability flux."
+    "description": "Governing probability, organic healing, cellular regeneration, life control, restoration, decay, and probability flux.",
+    "body": "# Entropy Discipline\n\n**Category**: Metafocus Disciplines  \n**Associated Skills**: Chaos, Order\n\n## Description\nGoverning probability, organic healing, cellular regeneration, life control, restoration, decay, and probability flux.",
+    "updatedAt": "2026-08-23T10:56:50.613Z"
   },
   {
-    "category": "disciplines",
-    "updatedAt": "2026-08-23T10:56:50.613Z",
     "id": "metafocus-illusion",
     "name": "Illusion Discipline",
+    "category": "disciplines",
+    "discipline": "Illusion",
     "metafocus_skills": [
       "Phantasm",
       "Shadow"
     ],
     "description": "Sensory manipulation, holographic phantasms, invisibility, sensory deception, and solidifying umbral matter.",
-    "body": "# Illusion Discipline\n\n**Category**: Metafocus Disciplines  \n**Associated Skills**: Phantasm, Shadow\n\n## Description\nSensory manipulation, holographic phantasms, invisibility, sensory deception, and solidifying umbral matter."
+    "body": "# Illusion Discipline\n\n**Category**: Metafocus Disciplines  \n**Associated Skills**: Phantasm, Shadow\n\n## Description\nSensory manipulation, holographic phantasms, invisibility, sensory deception, and solidifying umbral matter.",
+    "updatedAt": "2026-08-23T10:56:50.613Z"
   },
   {
-    "updatedAt": "2026-08-23T10:56:50.613Z",
-    "description": "Molecular reshaping, chemical transmutation, hardening physical objects, augmenting biological strength, and weapon forging.",
-    "name": "Matter Discipline",
     "id": "metafocus-matter",
+    "name": "Matter Discipline",
+    "category": "disciplines",
+    "discipline": "Matter",
     "metafocus_skills": [
       "Enhancement",
       "Transmutation"
     ],
-    "category": "disciplines",
-    "body": "# Matter Discipline\n\n**Category**: Metafocus Disciplines  \n**Associated Skills**: Enhancement, Transmutation\n\n## Description\nMolecular reshaping, chemical transmutation, hardening physical objects, augmenting biological strength, and weapon forging."
+    "description": "Molecular reshaping, chemical transmutation, hardening physical objects, augmenting biological strength, and weapon forging.",
+    "body": "# Matter Discipline\n\n**Category**: Metafocus Disciplines  \n**Associated Skills**: Enhancement, Transmutation\n\n## Description\nMolecular reshaping, chemical transmutation, hardening physical objects, augmenting biological strength, and weapon forging.",
+    "updatedAt": "2026-08-23T10:56:50.613Z"
   },
   {
-    "updatedAt": "2026-08-23T10:56:50.613Z",
-    "description": "Telepathic broadcasting, memory scanning, aura detection, clairvoyance, psychic shielding, and mental domination.",
+    "id": "metafocus-mental",
+    "name": "Mental Discipline",
+    "category": "disciplines",
+    "discipline": "Mental",
     "metafocus_skills": [
       "Projection",
       "Sense"
     ],
+    "description": "Telepathic broadcasting, memory scanning, aura detection, clairvoyance, psychic shielding, and mental domination.",
     "body": "# Mental Discipline\n\n**Category**: Metafocus Disciplines  \n**Associated Skills**: Projection, Sense\n\n## Description\nTelepathic broadcasting, memory scanning, aura detection, clairvoyance, psychic shielding, and mental domination.",
-    "name": "Mental Discipline",
-    "category": "disciplines",
-    "id": "metafocus-mental"
+    "updatedAt": "2026-08-23T10:56:50.613Z"
   }
 ]

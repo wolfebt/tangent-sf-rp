@@ -15,19 +15,19 @@ archetypes:
   - Urban Scout
   - Wilderness Scout
 traits:
-  - trait-scout-adaptability
-  - trait-scout-camouflage
-  - trait-scout-combat-training
-  - trait-scout-curiosity
-  - trait-scout-independence
-  - trait-scout-keen-observation
-  - trait-scout-navigation
-  - trait-scout-physical-fitness
-  - trait-scout-pilot
-  - trait-scout-resourcefulness
-  - trait-scout-stalker
-  - trait-scout-survival-skills
-  - trait-scout-terrain-expert
+  - trait-adaptability
+  - trait-camouflage
+  - trait-combat-training
+  - trait-curiosity
+  - trait-independence
+  - trait-keen-observation
+  - trait-navigation
+  - trait-physical-fitness
+  - trait-pilot
+  - trait-resourcefulness
+  - trait-stalker
+  - trait-survival-skills
+  - trait-terrain-expert
 description: >-
   A Scout focuses on exploration, survival, and gathering information in various
   environments. Scouts are often skilled in piloting, navigation, and

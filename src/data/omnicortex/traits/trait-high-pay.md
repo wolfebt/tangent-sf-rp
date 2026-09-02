@@ -1,9 +1,9 @@
 ---
 id: trait-high-pay
 name: High Pay
-category: traits
+trait_tier: Basic
 trait_type: Common Occupational Trait
-description: Higher compensation and retainer fees for elite vocational service.
+category: traits
 costs:
   bp: 1
   credits: 0
@@ -12,6 +12,7 @@ costs:
   strain: 0
   focus: 0
   ap: 0
+description: Higher compensation and retainer fees for elite vocational service.
 modifiers: []
 modifications: []
 critical_details:
@@ -25,14 +26,12 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # High Pay
 
-**Category**: Common Occupational Traits  
-**Cost**: 1 CP (or free starting selection)
+**Category**: TRAITS
+**Tier**: Basic
+**Type**: Common Occupational Trait
+**BP Cost**: 1
 
 ## Description
 Higher compensation and retainer fees for elite vocational service.
-
-## Mechanics & Benefits
-+2 to Wealth Score.

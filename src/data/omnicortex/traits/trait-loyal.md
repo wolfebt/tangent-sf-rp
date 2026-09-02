@@ -1,12 +1,9 @@
 ---
 id: trait-loyal
 name: Loyal
-category: traits
+trait_tier: Basic
 trait_type: Origin Trait
-origin_association: Militaristic
-description: >-
-  Unwavering commitment that rejects subversion, psychological coercion, and
-  bribery.
+category: traits
 costs:
   bp: 1
   credits: 0
@@ -15,6 +12,9 @@ costs:
   strain: 0
   focus: 0
   ap: 0
+description: >-
+  Unwavering commitment that rejects subversion, psychological coercion, and
+  bribery.
 modifiers: []
 modifications: []
 critical_details:
@@ -28,15 +28,12 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # Loyal
 
-**Category**: Origin Traits  
-**Associated Origin**: Militaristic  
-**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait
+**Category**: TRAITS
+**Tier**: Basic
+**Type**: Origin Trait
+**BP Cost**: 1
 
 ## Description
 Unwavering commitment that rejects subversion, psychological coercion, and bribery.
-
-## Mechanics & Benefits
-Resistance checks against Domination and Mind-Control effects are made with Advantage.

@@ -3,24 +3,50 @@ id: species-human-cyberform
 name: Cyberform Human
 title: Cyberform Human (Transhuman Cyborg)
 category: species
-parent_species: Humans
+parent_species: Humans (Core & Variants)
 type:
   - species_type-humanoid
 size:
   - species_size-medium
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 5 ft
+senses: Standard visual and auditory range.
+immunities: None
+inherent_attribute_modifiers:
+  - attribute: Intellect
+    bonus: 2
+bonus_attribute_points: 0
+specific_skill_bonuses:
+  - skill: Technology
+    bonus: 2
+  - skill: Hacking
+    bonus: 1
+bonus_skills: 10
+bonus_skill_choices:
+  - Technology
+  - Hacking
+  - Science
+  - Piloting
+  - Engineering
+inherent_features:
+  - trait-augmented-sub-dermal-body-comp-pico-surgeons-smart-link
+  - trait-bodyform-acclimation-0-cyber-strain
+  - trait-companion-integrated-sub-ai-assistant
+bonus_features: []
+bonus_feature_choices:
+  - Hardwired Reflexes
+  - Neural Firewall
+  - Direct Interface Tap
+recommended_features:
+  - feature-neural-firewall
 stigma: 'Xeno (-2), Augmented (-4)'
 tech_level: 4 (Advanced Cybernetics & Neural Sockets)
 meta_level: 0 (Null / Technological Optimization)
 homeworld: Cygnus Arcologies & Orbital Rings
-cp: 26
-description: >-
-  Cyberforms are transhumans who have replaced upwards of 60% of their organic
-  bodies with cybernetic augmentations, internal processors, and sub-dermal
-  nano-repair hives.
 costs:
-  bp: 26
+  bp: 17
   credits: 0
   nodes: 0
   sockets: 0
@@ -29,84 +55,16 @@ costs:
   ap: 0
 modifiers:
   - target: Intellect
+    value: 2
     type: attribute
-    value: 2
     mode: inherent
-  - target: Technology
-    type: skill
-    value: 2
-    mode: inherent
-  - target: Hacking
-    type: skill
-    value: 1
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 10
-    mode: bonus_pool
-  - target: Technology
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Hacking
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Science
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Piloting
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Engineering
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: 'Augmented (Sub-dermal Body Comp, Pico-Surgeons, Smart Link)'
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Bodyform Acclimation (0 Cyber-Strain)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Companion (Integrated Sub-AI Assistant)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Hardwired Reflexes
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Neural Firewall
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Direct Interface Tap
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-neural-firewall
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+cp_cost: 17
+cp: 17
+bp: 17
+description: >-
+  Cyberforms are transhumans who have replaced upwards of 60% of their organic
+  bodies with cybernetic augmentations, internal processors, and sub-dermal
+  nano-repair hives.
 ---
 # Cyberform Human (Transhuman Cyborg)
 
@@ -150,13 +108,3 @@ Immortality
 Regeneration (Fast Heal gained from PicoSurgeons)  
 Synthetic Options  
 Technologist
-
-
-## Extended Lore & Background
-
-Have strong belief in governmental transparency and communal information while having personal privacy between individuals. The Network’s management council is composed of actual Synthetic Intellects and digitally converted Cyberforms, with constant communication from personal Body Computers. This allows the system to be highly efficient in maintaining the world’s infrastructure, transportation, logistics, communications, education, archives, etc. with the priority of ALL of its people’s needs, wants, and well being.
-
-Originally was an Impyrium colony detached from politics and following the Code as shown by the Mekan.  Without the contact of other factions the society has become unique. Strong Transhumanistic beliefs throughout the entire culture with prominent augmentations, body replacements and some even becoming digital entities capable of changing bodies as needed or residing in the network.
-
-Androids are not manufactured by these people as they are pre Syndicate and any Synthetics they currently work with are Sentient Intellects and Machines, who do not suffer any stigma with Cyberform Humans.
-

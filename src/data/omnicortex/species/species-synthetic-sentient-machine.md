@@ -11,16 +11,49 @@ size:
 movement:
   - species_movement-bipedal
   - species_movement-treads
+speeds: 'Ground 30 ft, 30 ft'
+reach: 5 ft
+senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
+immunities: >-
+  Asphyxiation, bleeding, critical hits, poison, biological disease, starvation,
+  sleep [9]
+inherent_attribute_modifiers:
+  - attribute: Strength
+    bonus: 2
+  - attribute: Stamina
+    bonus: 1
+  - attribute: Charisma
+    bonus: -2
+bonus_attribute_points: 0
+specific_skill_bonuses:
+  - skill: Repair
+    bonus: 1
+  - skill: Athletics
+    bonus: 1
+bonus_skills: 10
+bonus_skill_choices:
+  - Repair
+  - Athletics
+  - Engineering
+  - Combat (Heavy)
+inherent_features:
+  - trait-synthetic-base-traits
+  - trait-reinforced-chassis-dr-6
+  - trait-heavy-industrial-motors
+  - trait-direct-usb-data-jack
+bonus_features: []
+bonus_feature_choices:
+  - Hydraulic Piston Slam
+  - Battery Surge
+  - Tireless Labor
+recommended_features:
+  - feature-reinforced-chassis
 stigma: Synthetic (-4)
 tech_level: 3 (Industrial Heavy Mechanics)
 meta_level: 0 (Null)
 homeworld: Free Machine Colonies & Labor Outposts
-cp: 23
-description: >-
-  Industrial and labor droids that achieved spontaneous consciousness through
-  neural lattice cascade errors or rogue updates, forging their own culture.
 costs:
-  bp: 23
+  bp: 45
   credits: 0
   nodes: 0
   sockets: 0
@@ -29,92 +62,23 @@ costs:
   ap: 0
 modifiers:
   - target: Strength
-    type: attribute
     value: 2
+    type: attribute
     mode: inherent
   - target: Stamina
-    type: attribute
     value: 1
+    type: attribute
     mode: inherent
   - target: Charisma
-    type: attribute
     value: -2
+    type: attribute
     mode: inherent
-  - target: Repair
-    type: skill
-    value: 1
-    mode: inherent
-  - target: Athletics
-    type: skill
-    value: 1
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 10
-    mode: bonus_pool
-  - target: Repair
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Athletics
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Engineering
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Combat (Heavy)
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Synthetic Base Traits
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Reinforced Chassis (DR 6/-)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Heavy Industrial Motors
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Direct USB/Data Jack
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Hydraulic Piston Slam
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Battery Surge
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Tireless Labor
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-reinforced-chassis
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+cp_cost: 45
+cp: 45
+bp: 45
+description: >-
+  Industrial and labor droids that achieved spontaneous consciousness through
+  neural lattice cascade errors or rogue updates, forging their own culture.
 ---
 # Sentient Machine (Awakened Industrial Bot)
 

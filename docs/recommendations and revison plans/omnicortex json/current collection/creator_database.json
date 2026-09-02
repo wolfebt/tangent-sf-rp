@@ -1,1 +1,62 @@
-[]
+[
+  {
+    "id": "creator-terran-dynamics",
+    "name": "Terran Dynamics",
+    "faction": "Coalition of Earth",
+    "description": "Industrial megacorp specializing in reliable, rugged ballistic firearms and combat gear."
+  },
+  {
+    "id": "creator-nova-forge",
+    "name": "Nova Forge Armaments",
+    "faction": "The Syndicate",
+    "description": "Cutting-edge corporate manufacturer of laser systems, smart-link tech, and sleek armor."
+  },
+  {
+    "id": "creator-apex-synthetic",
+    "name": "Apex Synthetic Labs",
+    "faction": "Synthetics",
+    "description": "Pioneers in high-density cybernetics, android chassis, and neural processor cores."
+  },
+  {
+    "id": "creator-aeld-ascendancy",
+    "name": "Aeld Ascendancy Fabricators",
+    "faction": "Aeld Ascendancy",
+    "description": "Artisans of living wood-ceramic composites, elegant sun-glaives, and solar-charged tech."
+  },
+  {
+    "id": "creator-asi-bio-weavers",
+    "name": "Asi Bio-Weavers",
+    "faction": "Asi Enclaves",
+    "description": "Masters of organic bioware, living chitin weaves, and metaphysical growth conduits."
+  },
+  {
+    "id": "creator-kitin-forges",
+    "name": "Kitin Chitin Forges",
+    "faction": "Kitin Collective",
+    "description": "Producers of layered bio-metallic chitin plates and biological acid projectile weaponry."
+  },
+  {
+    "id": "creator-shanor-voidsmiths",
+    "name": "Sha’nor Voidsmiths",
+    "faction": "Sha’nor Dominion",
+    "description": "Esoteric blacksmiths forging weapons infused with void-entropy and dark energy."
+  },
+  {
+    "id": "creator-varen-gatekeeper",
+    "name": "Varen Gatekeeper Works",
+    "faction": "Varen Enclaves",
+    "description": "Ancient guardians crafting dimensional displacement fields and heavy barrier systems."
+  },
+  {
+    "id": "creator-risakin-heavy",
+    "name": "Risakin Heavy Industrial",
+    "faction": "Risakin",
+    "description": "Producers of massive titan-scale hydraulic weapons and heavy structural frames."
+  },
+  {
+    "id": "creator-free-droid",
+    "name": "Free Droid Union",
+    "faction": "Sentient Machines",
+    "description": "Open-source modular electronics, custom jury-rigged scrap chassis, and repair kits."
+  }
+]

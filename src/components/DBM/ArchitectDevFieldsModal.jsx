@@ -211,8 +211,8 @@ export const ArchitectDevFieldsModal = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-3 sm:p-6 overflow-hidden">
-      <div className="bg-[#090d16] border border-amber-500/40 rounded-2xl w-full max-w-6xl h-[92vh] flex flex-col shadow-[0_0_50px_rgba(245,158,11,0.15)] overflow-hidden">
+    <div className="fixed inset-0 z-[250] flex items-start justify-center bg-black/85 backdrop-blur-md p-3 sm:p-6 pt-8 sm:pt-12 md:pt-14 pb-12 overflow-y-auto select-none font-sans">
+      <div className="bg-[#090d16] border border-amber-500/40 rounded-2xl w-full max-w-6xl max-h-[88vh] flex flex-col shadow-[0_0_50px_rgba(245,158,11,0.15)] overflow-hidden">
         
         {/* MODAL HEADER */}
         <div className="bg-[#0e1422] px-6 py-4 border-b border-amber-500/30 flex items-center justify-between shrink-0">

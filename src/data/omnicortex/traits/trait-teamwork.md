@@ -1,12 +1,9 @@
 ---
 id: trait-teamwork
 name: Teamwork
-category: traits
+trait_tier: Basic
 trait_type: Origin Trait
-origin_association: Industrial
-description: >-
-  Practiced coordination in gang work, shift labor, and complex multi-person
-  tasks.
+category: traits
 costs:
   bp: 1
   credits: 0
@@ -15,6 +12,9 @@ costs:
   strain: 0
   focus: 0
   ap: 0
+description: >-
+  Practiced coordination in gang work, shift labor, and complex multi-person
+  tasks.
 modifiers: []
 modifications: []
 critical_details:
@@ -28,15 +28,12 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # Teamwork
 
-**Category**: Origin Traits  
-**Associated Origin**: Industrial  
-**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait
+**Category**: TRAITS
+**Tier**: Basic
+**Type**: Origin Trait
+**BP Cost**: 1
 
 ## Description
 Practiced coordination in gang work, shift labor, and complex multi-person tasks.
-
-## Mechanics & Benefits
-Adds an additional +1 bonus whenever providing or receiving the Aid action.

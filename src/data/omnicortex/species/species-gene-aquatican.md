@@ -3,7 +3,7 @@ id: species-gene-aquatican
 name: Aquatican (Gen-E)
 title: Aquatican (Syndicate Pelagic Operative)
 category: species
-parent_species: Engineered Humans
+parent_species: Engineered Humans (Gen-E)
 type:
   - species_type-humanoid
 size:
@@ -11,98 +11,52 @@ size:
 movement:
   - species_movement-bipedal
   - species_movement-swimming
+speeds: 'Ground 30 ft, Swim 30 ft'
+reach: 5 ft
+senses: Standard visual and auditory range.
+immunities: None
+inherent_attribute_modifiers: []
+bonus_attribute_points: 1
+specific_skill_bonuses:
+  - skill: Athletics (Swimming)
+    bonus: 2
+bonus_skills: 5
+bonus_skill_choices:
+  - Athletics
+  - Stealth
+  - Survival
+  - Sabotage
+inherent_features:
+  - trait-adapted-deep-ocean
+  - trait-amphibious
+  - trait-natural-swim-speed-40ft
+  - trait-hydrodynamic-skin
+bonus_features: []
+bonus_feature_choices:
+  - Pressure Sovereign
+  - Sub-aquatic Sonar
+  - Cold Blood Control
+recommended_features:
+  - feature-pressure-sovereign
 stigma: Aquatic Xeno (-3)
 tech_level: 4 (Deep Trench Tech)
 meta_level: 1 (Echo Resonance)
 homeworld: Syndicate Marine Arcologies
-cp: 17
-description: >-
-  Syndicate-engineered pelagic operatives bred for underwater sabotage, deep-sea
-  mining security, and submerged salvage.
 costs:
-  bp: 17
+  bp: 14
   credits: 0
   nodes: 0
   sockets: 0
   strain: 0
   focus: 0
   ap: 0
-modifiers:
-  - target: Any Attribute
-    type: attribute
-    value: 1
-    mode: bonus_pool
-  - target: Athletics (Swimming)
-    type: skill
-    value: 2
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 5
-    mode: bonus_pool
-  - target: Athletics
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Stealth
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Survival
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Sabotage
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Adapted (Deep Ocean)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Amphibious
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Natural Swim Speed (40ft)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Hydrodynamic Skin
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Pressure Sovereign
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Sub-aquatic Sonar
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Cold Blood Control
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-pressure-sovereign
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+modifiers: []
+cp_cost: 14
+cp: 14
+bp: 14
+description: >-
+  Syndicate-engineered pelagic operatives bred for underwater sabotage, deep-sea
+  mining security, and submerged salvage.
 ---
 # Aquatican (Syndicate Pelagic Operative)
 
@@ -146,11 +100,3 @@ Favored Environment (Aquatic)
 Fortitude Resistance  
 Low Light Vision  
 Quick line
-
-
-## Extended Lore & Background
-
-This engineered lineage possesses several noticeable aquatic traits that distinguish them from baseline humans. Physically, they exhibit larger eyes, granting superior vision in low-light, watery environments. Their skin often features silvery scales that provide a degree of protection and aid in hydrodynamic movement. A clear predatory adaptation is their set of pointed teeth. Most notably, they possess full webbing on their fingers and toes, a trait that necessitates the use of custom gloves and boots for comfortable and practical use of standard human technology and environments.
-
-Genetically, they bear a striking resemblance to their source population, the Aquarians, sharing a deep genetic ancestry. However, the Syndicate's engineering eliminated key weaknesses present in the original Aquarian genome. Consequently, the Aquatic Humans of Aquatica have no issues with diet; unlike some naturally evolved aquatic species, they are not constrained by a limited food source. Furthermore, many of their population are carnivores, reflecting a more opportunistic and robust metabolism. Crucially, they are completely unaffected by the Tiburon Syndrome, a debilitating affliction that plagues many of their Aquarian kin, making them a genetically superior and more resilient operative for the Syndicate.
-

@@ -3,22 +3,46 @@ id: species-human-base
 name: Human (Base)
 title: Human (Standard Baseline)
 category: species
-parent_species: Humans
+parent_species: Humans (Core & Variants)
 type:
   - species_type-humanoid
 size:
   - species_size-medium
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 5 ft
+senses: Standard visual and auditory range.
+immunities: None
+inherent_attribute_modifiers: []
+bonus_attribute_points: 0
+specific_skill_bonuses: []
+bonus_skills: 10
+bonus_skill_choices:
+  - Physical Skills
+  - Mental Skills
+  - Persuasion
+  - Streetwise
+  - Technology
+  - Athletics
+inherent_features:
+  - trait-adaptability
+  - trait-broad-horizons-1-feature-at-creation
+bonus_features: []
+bonus_feature_choices:
+  - Endurance
+  - Resourceful
+  - Fast Learner
+  - Versatile
+  - Jack of All Trades
+recommended_features:
+  - feature-adaptability
+  - feature-endurance
+  - feature-resourceful
 stigma: None (Galactic Baseline)
 tech_level: 3 (Standard Interstellar Fusion & Ballistics)
 meta_level: 1 (Variable / Latent Potential)
 homeworld: 'Earth / Sol System (and 1,000+ colony worlds)'
-cp: 10
-description: >-
-  Humans are the adaptable, ubiquitous baseline of the known galaxy. Driven by
-  restless ambition and resilience, their versatility allows them to thrive in
-  any environment and master any discipline.
 costs:
   bp: 10
   credits: 0
@@ -27,90 +51,14 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-modifiers:
-  - target: General Skill Pool
-    type: skill
-    value: 10
-    mode: bonus_pool
-  - target: Physical Skills
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Mental Skills
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Persuasion
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Streetwise
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Technology
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Athletics
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Adaptability
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Broad Horizons (+1 Feature at Creation)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Endurance
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Resourceful
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Fast Learner
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Versatile
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Jack of All Trades
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-adaptability
-    type: feature
-    value: 1
-    mode: recommended
-  - target: feature-endurance
-    type: feature
-    value: 1
-    mode: recommended
-  - target: feature-resourceful
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+modifiers: []
+cp_cost: 10
+cp: 10
+bp: 10
+description: >-
+  Humans are the adaptable, ubiquitous baseline of the known galaxy. Driven by
+  restless ambition and resilience, their versatility allows them to thrive in
+  any environment and master any discipline.
 ---
 # Human (Standard Baseline)
 

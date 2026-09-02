@@ -540,8 +540,8 @@ const MapToolbar = ({
 
       {/* Cast / Spectator Modal */}
       {isCastModalOpen && createPortal(
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="w-full max-w-lg bg-[#0d1117] border border-emerald-500/50 rounded-2xl p-6 shadow-[0_0_35px_rgba(16,185,129,0.25)] flex flex-col gap-4">
+        <div className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-md flex items-start justify-center p-3 sm:p-6 pt-10 sm:pt-14 pb-12 overflow-y-auto select-none font-sans">
+          <div className="w-full max-w-lg bg-[#0d1117] border border-emerald-500/50 rounded-2xl p-6 shadow-[0_0_35px_rgba(16,185,129,0.25)] flex flex-col gap-4 max-h-[85vh] sm:max-h-[88vh] overflow-hidden">
             <div className="flex items-center justify-between pb-3 border-b border-slate-800">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-lg bg-emerald-950 border border-emerald-500/50 flex items-center justify-center text-emerald-300">

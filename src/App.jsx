@@ -15,6 +15,7 @@ import { ErrorBoundary } from './components/UI/ErrorBoundary';
 const Dashboard = lazy(() => import('./pages/Home'));
 const Home = Dashboard;
 const CodexApp = lazy(() => import('./pages/Codex/CodexApp'));
+const Compendium = lazy(() => import('./pages/Compendium'));
 const DBM = lazy(() => import('./pages/DBM'));
 const Folio = lazy(() => import('./pages/Folio'));
 const FoundryApp = lazy(() => import('./pages/Foundry/FoundryApp'));
@@ -97,6 +98,8 @@ export function App() {
                           <Route path="/chat" element={<CommsPage />} />
                           <Route path="/codex" element={<CodexApp />} />
                           <Route path="/codex/*" element={<CodexApp />} />
+                          <Route path="/compendium" element={<Compendium />} />
+                          <Route path="/compendium/*" element={<Compendium />} />
                           <Route path="/dbm" element={<DBM />} />
                           <Route path="/folio" element={<Folio />} />
                           <Route path="/roster" element={<Folio />} />

@@ -1,17 +1,17 @@
 /**
  * Canonical Traits Database for Tangent SF RP (Species, Occupational, and Origin Traits)
  * Auto-generated from src/data/omnicortex/traits/
- * Total Traits: 349
- *  - Species Basic: 42
- *  - Species Advanced: 58
+ * Total Traits: 286
+ *  - Species Basic: 54
+ *  - Species Advanced: 57
  *  - Species Elite: 24
- *  - Occupational Traits: 162
+ *  - Occupational Traits: 88
  *  - Origin Traits: 63
  */
 
 export const SPECIES_TRAITS_BASIC = [
   {
-    "id": "trait-species-adapted",
+    "id": "trait-adapted",
     "name": "Adapted",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -31,12 +31,37 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "No penalties or Damage from one set environment type. Multiple.",
     "description": "No penalties or Damage from one set environment type. Multiple.",
-    "mechanics": "The species suffers no penalties or environmental damage from one designated environmental condition or terrain hazard (such as extreme heat, extreme cold, toxic atmospheric dust, radiation, vacuum/low pressure, or high pressure). This trait may be selected multiple times for different environment types.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Adapted\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Physical  \n\n## Description\nNo penalties or Damage from one set environment type. Multiple.\n\n## Mechanics & Benefits\nThe species suffers no penalties or environmental damage from one designated environmental condition or terrain hazard (such as extreme heat, extreme cold, toxic atmospheric dust, radiation, vacuum/low pressure, or high pressure). This trait may be selected multiple times for different environment types."
+    "body": "# Adapted\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nNo penalties or Damage from one set environment type. Multiple."
   },
   {
-    "id": "trait-species-alter-form-basic",
+    "id": "trait-aggressiveness",
+    "name": "Aggressiveness",
+    "category": "traits",
+    "trait_type": "Combat",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Decisive tactical aggression in combat, granting +1 bonus to intimidation and breach actions.",
+    "description": "Decisive tactical aggression in combat, granting +1 bonus to intimidation and breach actions.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Aggressiveness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Combat\n**BP Cost**: 1\n\n## Description\nDecisive tactical aggression in combat, granting +1 bonus to intimidation and breach actions."
+  },
+  {
+    "id": "trait-alter-form-basic",
     "name": "Alter Form (Basic)",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -56,12 +81,12 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "Base Category, Change Appearance only (+5 to Disguise).",
     "description": "Base Category, Change Appearance only (+5 to Disguise).",
-    "mechanics": "The character can alter superficial facial features, skin tone, hair color, and vocal pitch at will within their base morphological category. Grants a +5 circumstance bonus on Disguise checks to pass as a different individual. Does not grant new appendages or alter size category.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Alter Form (Basic)\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Physical  \n\n## Description\nBase Category, Change Appearance only (+5 to Disguise).\n\n## Mechanics & Benefits\nThe character can alter superficial facial features, skin tone, hair color, and vocal pitch at will within their base morphological category. Grants a +5 circumstance bonus on Disguise checks to pass as a different individual. Does not grant new appendages or alter size category."
+    "body": "# Alter Form (Basic)\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nBase Category, Change Appearance only (+5 to Disguise)."
   },
   {
-    "id": "trait-species-amphibious",
+    "id": "trait-amphibious",
     "name": "Amphibious",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -81,18 +106,18 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "Breathe Air and Water equally well, +10 to Swim Speed.",
     "description": "Breathe Air and Water equally well, +10 to Swim Speed.",
-    "mechanics": "Can breathe both air and water indefinitely without drowning or suffocation risk. Adds an innate +10 ft bonus to Swim Speed and grants the ability to operate submerged without standard underwater check penalties.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Amphibious\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Physical  \n\n## Description\nBreathe Air and Water equally well, +10 to Swim Speed.\n\n## Mechanics & Benefits\nCan breathe both air and water indefinitely without drowning or suffocation risk. Adds an innate +10 ft bonus to Swim Speed and grants the ability to operate submerged without standard underwater check penalties."
+    "body": "# Amphibious\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nBreathe Air and Water equally well, +10 to Swim Speed."
   },
   {
-    "id": "trait-species-bonded-terrain",
+    "id": "trait-bonded-terrain",
     "name": "Bonded Terrain",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Defensive",
-    "type": "Defensive",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -106,18 +131,18 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "+2 dodge bonus to AC when in a specific terrain type.",
     "description": "+2 dodge bonus to AC when in a specific terrain type.",
-    "mechanics": "Select one specific terrain type (Forest/Jungle, Arctic/Tundra, Desert, Mountain/Rocky, Aquatic/Swamp, Urban/Arcology, Subterranean, or Void/Zero-G). While operating within that terrain, the character gains a permanent +2 dodge bonus to Armor Class (AC) and Defense.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Bonded Terrain\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Defensive  \n\n## Description\n+2 dodge bonus to AC when in a specific terrain type.\n\n## Mechanics & Benefits\nSelect one specific terrain type (Forest/Jungle, Arctic/Tundra, Desert, Mountain/Rocky, Aquatic/Swamp, Urban/Arcology, Subterranean, or Void/Zero-G). While operating within that terrain, the character gains a permanent +2 dodge bonus to Armor Class (AC) and Defense."
+    "body": "# Bonded Terrain\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+2 dodge bonus to AC when in a specific terrain type."
   },
   {
-    "id": "trait-species-bonus-feature",
+    "id": "trait-bonus-feature",
     "name": "Bonus Feature",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Trained",
-    "type": "Trained",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -131,12 +156,37 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "Members of this race select one extra feature of their choice.",
     "description": "Members of this race select one extra feature of their choice.",
-    "mechanics": "Members of this species select one additional General or Trained Feature at character creation for which they meet the prerequisites.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Bonus Feature\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Trained  \n\n## Description\nMembers of this race select one extra feature of their choice.\n\n## Mechanics & Benefits\nMembers of this species select one additional General or Trained Feature at character creation for which they meet the prerequisites."
+    "body": "# Bonus Feature\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nMembers of this race select one extra feature of their choice."
   },
   {
-    "id": "trait-species-camouflage",
+    "id": "trait-business-acumen",
+    "name": "Business Acumen",
+    "category": "traits",
+    "trait_type": "Mental",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Keen understanding of market dynamics, trade valuation, credit arbitration, and contract law.",
+    "description": "Keen understanding of market dynamics, trade valuation, credit arbitration, and contract law.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Business Acumen\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Mental\n**BP Cost**: 1\n\n## Description\nKeen understanding of market dynamics, trade valuation, credit arbitration, and contract law."
+  },
+  {
+    "id": "trait-camouflage",
     "name": "Camouflage",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -156,18 +206,18 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "Choose a favored terrain type. +4 bonus on Stealth checks within that terrain.",
     "description": "Choose a favored terrain type. +4 bonus on Stealth checks within that terrain.",
-    "mechanics": "The species' epidermal pigmentation or chromatophoric cells naturally blend into one chosen terrain type (e.g., Jungle, Desert, Snow/Ice, Urban Concrete, Deep Space/Void). Grants a +4 racial bonus on all Stealth checks while operating within that favored terrain.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Camouflage\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Physical  \n\n## Description\nChoose a favored terrain type. +4 bonus on Stealth checks within that terrain.\n\n## Mechanics & Benefits\nThe species' epidermal pigmentation or chromatophoric cells naturally blend into one chosen terrain type (e.g., Jungle, Desert, Snow/Ice, Urban Concrete, Deep Space/Void). Grants a +4 racial bonus on all Stealth checks while operating within that favored terrain."
+    "body": "# Camouflage\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nChoose a favored terrain type. +4 bonus on Stealth checks within that terrain."
   },
   {
-    "id": "trait-species-cats-luck",
+    "id": "trait-cat-s-luck",
     "name": "Cat's Luck",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Defensive",
-    "type": "Defensive",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -181,18 +231,18 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "Once per Long Rest make a Reflex Check at Advantage.",
     "description": "Once per Long Rest make a Reflex Check at Advantage.",
-    "mechanics": "Once per Long Rest, when subjected to a hazard, trap, or area attack requiring a Reflex saving throw, the character may choose to make the check with Advantage (rolling twice and taking the higher result).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Cat's Luck\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Defensive  \n\n## Description\nOnce per Long Rest make a Reflex Check at Advantage.\n\n## Mechanics & Benefits\nOnce per Long Rest, when subjected to a hazard, trap, or area attack requiring a Reflex saving throw, the character may choose to make the check with Advantage (rolling twice and taking the higher result)."
+    "body": "# Cat's Luck\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nOnce per Long Rest make a Reflex Check at Advantage."
   },
   {
-    "id": "trait-species-cave-dweller",
+    "id": "trait-cave-dweller",
     "name": "Cave Dweller",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Trained",
-    "type": "Trained",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -206,18 +256,68 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "+4 bonus on Survival checks made underground.",
     "description": "+4 bonus on Survival checks made underground.",
-    "mechanics": "Innate subterranean orientation and cavern familiarity grant a +4 racial bonus on all Survival, Navigation, and Spelunking checks made underground or in enclosed tunnel networks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Cave Dweller\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Trained  \n\n## Description\n+4 bonus on Survival checks made underground.\n\n## Mechanics & Benefits\nInnate subterranean orientation and cavern familiarity grant a +4 racial bonus on all Survival, Navigation, and Spelunking checks made underground or in enclosed tunnel networks."
+    "body": "# Cave Dweller\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+4 bonus on Survival checks made underground."
   },
   {
-    "id": "trait-species-craftsman",
+    "id": "trait-charismatic",
+    "name": "Charismatic",
+    "category": "traits",
+    "trait_type": "Social",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Natural charm and magnetism that puts strangers at ease and bolsters leadership checks.",
+    "description": "Natural charm and magnetism that puts strangers at ease and bolsters leadership checks.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Charismatic\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Social\n**BP Cost**: 1\n\n## Description\nNatural charm and magnetism that puts strangers at ease and bolsters leadership checks."
+  },
+  {
+    "id": "trait-combat-training",
+    "name": "Combat Training",
+    "category": "traits",
+    "trait_type": "Combat",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Extensive formal training in tactical firearms, CQB weapon drills, and battlefield maneuvering.",
+    "description": "Extensive formal training in tactical firearms, CQB weapon drills, and battlefield maneuvering.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Combat Training\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Combat\n**BP Cost**: 2\n\n## Description\nExtensive formal training in tactical firearms, CQB weapon drills, and battlefield maneuvering."
+  },
+  {
+    "id": "trait-craftsman",
     "name": "Craftsman",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Trained",
-    "type": "Trained",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -231,18 +331,43 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "+2 to Specific Vocation.",
     "description": "+2 to Specific Vocation.",
-    "mechanics": "Choose one specific Vocation or Crafting skill (e.g., Metallurgy, Weaponsmithing, Cybernetics, Architecture, Electronics, Stonework). Gains a permanent +2 racial bonus to all checks with the chosen vocation.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Craftsman\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Trained  \n\n## Description\n+2 to Specific Vocation.\n\n## Mechanics & Benefits\nChoose one specific Vocation or Crafting skill (e.g., Metallurgy, Weaponsmithing, Cybernetics, Architecture, Electronics, Stonework). Gains a permanent +2 racial bonus to all checks with the chosen vocation."
+    "body": "# Craftsman\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+2 to Specific Vocation."
   },
   {
-    "id": "trait-species-digitigrade-ungulated",
+    "id": "trait-creativity",
+    "name": "Creativity",
+    "category": "traits",
+    "trait_type": "Mental",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Ingenious problem solving and out-of-the-box thinking when crafting, engineering, or improvising solutions.",
+    "description": "Ingenious problem solving and out-of-the-box thinking when crafting, engineering, or improvising solutions.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Creativity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Mental\n**BP Cost**: 1\n\n## Description\nIngenious problem solving and out-of-the-box thinking when crafting, engineering, or improvising solutions."
+  },
+  {
+    "id": "trait-digitigrade-ungulated",
     "name": "Digitigrade / Ungulated",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Movement",
-    "type": "Movement",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -256,12 +381,12 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "+10 Movement Speed and +4 Stability, Special pants and Boots needed.",
     "description": "+10 Movement Speed and +4 Stability, Special pants and Boots needed.",
-    "mechanics": "Walking on toes, hooves, or extended tarsals provides exceptional springing leverage. Grants +10 ft base Movement Speed and a +4 racial Stability bonus against Trip, Bull Rush, and Knockdown attempts. Requires custom-tailored legwear, pants, and specialized boots.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Digitigrade / Ungulated\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Movement  \n\n## Description\n+10 Movement Speed and +4 Stability, Special pants and Boots needed.\n\n## Mechanics & Benefits\nWalking on toes, hooves, or extended tarsals provides exceptional springing leverage. Grants +10 ft base Movement Speed and a +4 racial Stability bonus against Trip, Bull Rush, and Knockdown attempts. Requires custom-tailored legwear, pants, and specialized boots."
+    "body": "# Digitigrade / Ungulated\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+10 Movement Speed and +4 Stability, Special pants and Boots needed."
   },
   {
-    "id": "trait-species-draconic",
+    "id": "trait-draconic",
     "name": "Draconic",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -281,18 +406,18 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "Access to purchase various Dragon Traits",
     "description": "Access to purchase various Dragon Traits",
-    "mechanics": "Unlocks biological and metaphysical lineage access to purchase Draconic Traits (Dragon Might, Dragon Mind, Dragon Senses, Dragon Breath, Dragon Wings, Dragon Form) during character progression or species customization.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Draconic\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Physical  \n\n## Description\nAccess to purchase various Dragon Traits\n\n## Mechanics & Benefits\nUnlocks biological and metaphysical lineage access to purchase Draconic Traits (Dragon Might, Dragon Mind, Dragon Senses, Dragon Breath, Dragon Wings, Dragon Form) during character progression or species customization."
+    "body": "# Draconic\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nAccess to purchase various Dragon Traits"
   },
   {
-    "id": "trait-species-emissary",
+    "id": "trait-emissary",
     "name": "Emissary",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Social",
-    "type": "Social",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -306,12 +431,12 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "Once per day make a check at advantage for Bluff or Diplomacy.",
     "description": "Once per day make a check at advantage for Bluff or Diplomacy.",
-    "mechanics": "Once per day (refreshing after a Long Rest), when making a Bluff (Deception) or Diplomacy (Persuasion) check during diplomatic exchanges or high-stakes negotiations, the character may make the roll with Advantage.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Emissary\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Social  \n\n## Description\nOnce per day make a check at advantage for Bluff or Diplomacy.\n\n## Mechanics & Benefits\nOnce per day (refreshing after a Long Rest), when making a Bluff (Deception) or Diplomacy (Persuasion) check during diplomatic exchanges or high-stakes negotiations, the character may make the roll with Advantage."
+    "body": "# Emissary\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nOnce per day make a check at advantage for Bluff or Diplomacy."
   },
   {
-    "id": "trait-species-exoskeleton-partial",
+    "id": "trait-exoskeleton-partial",
     "name": "Exoskeleton (Partial)",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -331,18 +456,18 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "DR (Strength +2) x2: Str 2, Concealable - Leathery or Scaled.",
     "description": "DR (Strength +2) x2: Str 2, Concealable - Leathery or Scaled.",
-    "mechanics": "Provides natural leathery, chitinous, or scaled epidermal plating. Grants Damage Resistance formula DR = (Strength + 2) × 2, requiring minimum Strength 2. The plating is concealable beneath standard clothing and light armor.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Exoskeleton (Partial)\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Physical  \n\n## Description\nDR (Strength +2) x2: Str 2, Concealable - Leathery or Scaled.\n\n## Mechanics & Benefits\nProvides natural leathery, chitinous, or scaled epidermal plating. Grants Damage Resistance formula DR = (Strength + 2) × 2, requiring minimum Strength 2. The plating is concealable beneath standard clothing and light armor."
+    "body": "# Exoskeleton (Partial)\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nDR (Strength +2) x2: Str 2, Concealable - Leathery or Scaled."
   },
   {
-    "id": "trait-species-focused-study",
+    "id": "trait-focused-study",
     "name": "Focused Study",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Trained",
-    "type": "Trained",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -356,12 +481,12 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "Gain Skill Focus in a skill of their choice.",
     "description": "Gain Skill Focus in a skill of their choice.",
-    "mechanics": "Members of this species gain Skill Focus in one chosen Skill (+3 bonus, or +6 at 10 ranks), reflecting cultural discipline or neural specialization.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Focused Study\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Trained  \n\n## Description\nGain Skill Focus in a skill of their choice.\n\n## Mechanics & Benefits\nMembers of this species gain Skill Focus in one chosen Skill (+3 bonus, or +6 at 10 ranks), reflecting cultural discipline or neural specialization."
+    "body": "# Focused Study\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nGain Skill Focus in a skill of their choice."
   },
   {
-    "id": "trait-species-frenzy",
+    "id": "trait-frenzy",
     "name": "Frenzy",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -381,18 +506,18 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "1/day, whenever taking damage, fly into frenzy for 1 min (+2 Con/Str, –2 AC).",
     "description": "1/day, whenever taking damage, fly into frenzy for 1 min (+2 Con/Str, –2 AC).",
-    "mechanics": "Once per day, upon suffering damage in combat, the character may enter a battle frenzy lasting for 1 minute (10 combat rounds). While frenzied, gain a +2 bonus to Strength and Stamina (Con), but suffer a –2 penalty to Armor Class (AC).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Frenzy\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Physical  \n\n## Description\n1/day, whenever taking damage, fly into frenzy for 1 min (+2 Con/Str, –2 AC).\n\n## Mechanics & Benefits\nOnce per day, upon suffering damage in combat, the character may enter a battle frenzy lasting for 1 minute (10 combat rounds). While frenzied, gain a +2 bonus to Strength and Stamina (Con), but suffer a –2 penalty to Armor Class (AC)."
+    "body": "# Frenzy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n1/day, whenever taking damage, fly into frenzy for 1 min (+2 Con/Str, –2 AC)."
   },
   {
-    "id": "trait-species-greedy-eye",
+    "id": "trait-greedy-eye",
     "name": "Greedy Eye",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Trained",
-    "type": "Trained",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -406,18 +531,18 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "+4 bonus on all Appraise checks.",
     "description": "+4 bonus on all Appraise checks.",
-    "mechanics": "An acute instinct for material worth, precious metals, gems, and trade goods grants a permanent +4 racial bonus on all Appraise, Valuation, and Barter assessment checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Greedy Eye\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Trained  \n\n## Description\n+4 bonus on all Appraise checks.\n\n## Mechanics & Benefits\nAn acute instinct for material worth, precious metals, gems, and trade goods grants a permanent +4 racial bonus on all Appraise, Valuation, and Barter assessment checks."
+    "body": "# Greedy Eye\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+4 bonus on all Appraise checks."
   },
   {
-    "id": "trait-species-hardy",
+    "id": "trait-hardy",
     "name": "Hardy",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Defensive",
-    "type": "Defensive",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -431,18 +556,18 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "+2 racial bonus on saving throws against poison, spells, and spell-like abilities.",
     "description": "+2 racial bonus on saving throws against poison, spells, and spell-like abilities.",
-    "mechanics": "Cellular and metaphysical resilience grants a +2 racial bonus on all saving throws against poisons, chemical toxins, spells, and spell-like abilities.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Hardy\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Defensive  \n\n## Description\n+2 racial bonus on saving throws against poison, spells, and spell-like abilities.\n\n## Mechanics & Benefits\nCellular and metaphysical resilience grants a +2 racial bonus on all saving throws against poisons, chemical toxins, spells, and spell-like abilities."
+    "body": "# Hardy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+2 racial bonus on saving throws against poison, spells, and spell-like abilities."
   },
   {
-    "id": "trait-species-healthy",
+    "id": "trait-healthy",
     "name": "Healthy",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Defensive",
-    "type": "Defensive",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -456,18 +581,18 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "+4 bonus on Fortitude saves against disease and poison",
     "description": "+4 bonus on Fortitude saves against disease and poison",
-    "mechanics": "Exceptional biological immune response and liver filtration grant a +4 racial bonus on all Fortitude saving throws against bacterial diseases, viral pathogens, biological infections, and poisons.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Healthy\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Defensive  \n\n## Description\n+4 bonus on Fortitude saves against disease and poison\n\n## Mechanics & Benefits\nExceptional biological immune response and liver filtration grant a +4 racial bonus on all Fortitude saving throws against bacterial diseases, viral pathogens, biological infections, and poisons."
+    "body": "# Healthy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+4 bonus on Fortitude saves against disease and poison"
   },
   {
-    "id": "trait-species-integrated",
+    "id": "trait-integrated",
     "name": "Integrated",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Social",
-    "type": "Social",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -481,18 +606,18 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "+1 bonus on Bluff, Disguise, and Knowledge (local) checks.",
     "description": "+1 bonus on Bluff, Disguise, and Knowledge (local) checks.",
-    "mechanics": "Easily blends into multi-species settlements, cosmopolitan stations, and alien societies. Grants a permanent +1 racial bonus on Bluff, Disguise, and Knowledge (Local / Streetwise) checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Integrated\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Social  \n\n## Description\n+1 bonus on Bluff, Disguise, and Knowledge (local) checks.\n\n## Mechanics & Benefits\nEasily blends into multi-species settlements, cosmopolitan stations, and alien societies. Grants a permanent +1 racial bonus on Bluff, Disguise, and Knowledge (Local / Streetwise) checks."
+    "body": "# Integrated\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+1 bonus on Bluff, Disguise, and Knowledge (local) checks."
   },
   {
-    "id": "trait-species-low-light-vision",
+    "id": "trait-low-light-vision",
     "name": "Low Light Vision",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Sensory",
-    "type": "Sensory",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -506,18 +631,18 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "See twice as well in low light, Improved Spectrum Vision (lower IR and UV).",
     "description": "See twice as well in low light, Improved Spectrum Vision (lower IR and UV).",
-    "mechanics": "Tapetum lucidum or expanded photoreceptor range allows the creature to see twice as far as a baseline human in starlight, moonlight, torchlight, and dim conditions. Expands optical spectrum into near-IR and near-UV bands, retaining color and detail in dim lighting.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Low Light Vision\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Sensory  \n\n## Description\nSee twice as well in low light, Improved Spectrum Vision (lower IR and UV).\n\n## Mechanics & Benefits\nTapetum lucidum or expanded photoreceptor range allows the creature to see twice as far as a baseline human in starlight, moonlight, torchlight, and dim conditions. Expands optical spectrum into near-IR and near-UV bands, retaining color and detail in dim lighting."
+    "body": "# Low Light Vision\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nSee twice as well in low light, Improved Spectrum Vision (lower IR and UV)."
   },
   {
-    "id": "trait-species-lucky-lesser",
+    "id": "trait-lucky-lesser",
     "name": "Lucky, Lesser",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Defensive",
-    "type": "Defensive",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -531,18 +656,18 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "+1 racial bonus on all saving throws.",
     "description": "+1 racial bonus on all saving throws.",
-    "mechanics": "An innate karmic fortune or subconscious survival reflex grants a permanent +1 racial bonus across all saving throws (Fortitude, Reflex, Willpower).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Lucky, Lesser\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Defensive  \n\n## Description\n+1 racial bonus on all saving throws.\n\n## Mechanics & Benefits\nAn innate karmic fortune or subconscious survival reflex grants a permanent +1 racial bonus across all saving throws (Fortitude, Reflex, Willpower)."
+    "body": "# Lucky, Lesser\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+1 racial bonus on all saving throws."
   },
   {
-    "id": "trait-species-natural-armor",
+    "id": "trait-natural-armor",
     "name": "Natural Armor",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Defensive",
-    "type": "Defensive",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -556,12 +681,62 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "+2 natural armor bonus.",
     "description": "+2 natural armor bonus.",
-    "mechanics": "Dense dermis, thick hide, or reinforced subdermal fascia grants a permanent +2 Natural Armor bonus to Armor Class (AC), which stacks with manufactured armor plating.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Natural Armor\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Defensive  \n\n## Description\n+2 natural armor bonus.\n\n## Mechanics & Benefits\nDense dermis, thick hide, or reinforced subdermal fascia grants a permanent +2 Natural Armor bonus to Armor Class (AC), which stacks with manufactured armor plating."
+    "body": "# Natural Armor\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+2 natural armor bonus."
   },
   {
-    "id": "trait-species-patagia",
+    "id": "trait-negotiation",
+    "name": "Negotiation",
+    "category": "traits",
+    "trait_type": "Social",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Adept at bargaining, contract dispute resolution, diplomacy, and finding mutually agreeable compromise.",
+    "description": "Adept at bargaining, contract dispute resolution, diplomacy, and finding mutually agreeable compromise.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Negotiation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Social\n**BP Cost**: 1\n\n## Description\nAdept at bargaining, contract dispute resolution, diplomacy, and finding mutually agreeable compromise."
+  },
+  {
+    "id": "trait-networking",
+    "name": "Networking",
+    "category": "traits",
+    "trait_type": "Social",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "A wide network of professional and informal contacts across industries, syndicates, and governments for information and resource gathering.",
+    "description": "A wide network of professional and informal contacts across industries, syndicates, and governments for information and resource gathering.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Networking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Social\n**BP Cost**: 2\n\n## Description\nA wide network of professional and informal contacts across industries, syndicates, and governments for information and resource gathering."
+  },
+  {
+    "id": "trait-patagia",
     "name": "Patagia",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -581,12 +756,62 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "Gliding speed of 2x Ground speed, uses Acrobatics skill. Special Top Clothing.",
     "description": "Gliding speed of 2x Ground speed, uses Acrobatics skill. Special Top Clothing.",
-    "mechanics": "Membranous flaps of skin between wrists and ankles allow the character to glide through the air at a speed equal to 2× base Ground speed (60 ft/round for Medium creatures). For every 5 ft moved horizontally, descent is 1 ft. Uses the Acrobatics skill for aerial maneuvers. Requires modified shirts, jackets, and top garments.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Patagia\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Physical  \n\n## Description\nGliding speed of 2x Ground speed, uses Acrobatics skill. Special Top Clothing.\n\n## Mechanics & Benefits\nMembranous flaps of skin between wrists and ankles allow the character to glide through the air at a speed equal to 2× base Ground speed (60 ft/round for Medium creatures). For every 5 ft moved horizontally, descent is 1 ft. Uses the Acrobatics skill for aerial maneuvers. Requires modified shirts, jackets, and top garments."
+    "body": "# Patagia\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nGliding speed of 2x Ground speed, uses Acrobatics skill. Special Top Clothing."
   },
   {
-    "id": "trait-species-reach",
+    "id": "trait-patience",
+    "name": "Patience",
+    "category": "traits",
+    "trait_type": "Mental",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Methodical and disciplined mental focus that excels during extended research, stakeouts, and precision crafting.",
+    "description": "Methodical and disciplined mental focus that excels during extended research, stakeouts, and precision crafting.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Patience\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Mental\n**BP Cost**: 1\n\n## Description\nMethodical and disciplined mental focus that excels during extended research, stakeouts, and precision crafting."
+  },
+  {
+    "id": "trait-physical-fitness",
+    "name": "Physical Fitness",
+    "category": "traits",
+    "trait_type": "Physical",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Superior cardiovascular endurance, stamina, and physical conditioning, granting bonuses on long-distance athletics checks.",
+    "description": "Superior cardiovascular endurance, stamina, and physical conditioning, granting bonuses on long-distance athletics checks.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Physical Fitness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Physical\n**BP Cost**: 1\n\n## Description\nSuperior cardiovascular endurance, stamina, and physical conditioning, granting bonuses on long-distance athletics checks."
+  },
+  {
+    "id": "trait-reach",
     "name": "Reach",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -606,12 +831,12 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "Reach of 10 feet.",
     "description": "Reach of 10 feet.",
-    "mechanics": "Elongated limbs, extensible joints, or flexible appendages provide a natural 10-foot melee reach. Allows threatening adjacent and 10-foot squares without stepping forward.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Reach\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Physical  \n\n## Description\nReach of 10 feet.\n\n## Mechanics & Benefits\nElongated limbs, extensible joints, or flexible appendages provide a natural 10-foot melee reach. Allows threatening adjacent and 10-foot squares without stepping forward."
+    "body": "# Reach\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nReach of 10 feet."
   },
   {
-    "id": "trait-species-reduced-sustenance",
+    "id": "trait-reduced-sustenance",
     "name": "Reduced Sustenance",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -631,12 +856,12 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "Eat and drink half typical.",
     "description": "Eat and drink half typical.",
-    "mechanics": "Highly efficient digestive and metabolic systems allow the character to survive indefinitely on half the food and water rations required by standard humanoid baselines.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Reduced Sustenance\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Physical  \n\n## Description\nEat and drink half typical.\n\n## Mechanics & Benefits\nHighly efficient digestive and metabolic systems allow the character to survive indefinitely on half the food and water rations required by standard humanoid baselines."
+    "body": "# Reduced Sustenance\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nEat and drink half typical."
   },
   {
-    "id": "trait-species-relentless",
+    "id": "trait-relentless",
     "name": "Relentless",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -656,18 +881,18 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "+2 bonus on combat maneuver checks made to bull rush or overrun an opponent.",
     "description": "+2 bonus on combat maneuver checks made to bull rush or overrun an opponent.",
-    "mechanics": "Dense musculoskeletal alignment and unstoppable forward kinetic momentum grant a +2 bonus on combat maneuver checks when executing Bull Rush or Overrun maneuvers.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Relentless\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Physical  \n\n## Description\n+2 bonus on combat maneuver checks made to bull rush or overrun an opponent.\n\n## Mechanics & Benefits\nDense musculoskeletal alignment and unstoppable forward kinetic momentum grant a +2 bonus on combat maneuver checks when executing Bull Rush or Overrun maneuvers."
+    "body": "# Relentless\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+2 bonus on combat maneuver checks made to bull rush or overrun an opponent."
   },
   {
-    "id": "trait-species-runner",
+    "id": "trait-runner",
     "name": "Runner",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Movement",
-    "type": "Movement",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -681,12 +906,12 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "+4 racial bonus on saves to avoid fatigue/exhaustion/ill effects from running",
     "description": "+4 racial bonus on saves to avoid fatigue/exhaustion/ill effects from running",
-    "mechanics": "Cardiovascular endurance and oxygen-rich bloodstream grant a +4 racial bonus on all Fortitude saves and Constitution checks made to avoid fatigue, exhaustion, heat exhaustion, or muscle damage from sustained running, sprinting, or forced marches.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Runner\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Movement  \n\n## Description\n+4 racial bonus on saves to avoid fatigue/exhaustion/ill effects from running\n\n## Mechanics & Benefits\nCardiovascular endurance and oxygen-rich bloodstream grant a +4 racial bonus on all Fortitude saves and Constitution checks made to avoid fatigue, exhaustion, heat exhaustion, or muscle damage from sustained running, sprinting, or forced marches."
+    "body": "# Runner\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+4 racial bonus on saves to avoid fatigue/exhaustion/ill effects from running"
   },
   {
-    "id": "trait-species-scent",
+    "id": "trait-scent",
     "name": "Scent",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -706,18 +931,18 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "Identify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).",
     "description": "Identify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).",
-    "mechanics": "Possesses an analytical olfactory organ capable of detecting creatures within 30 ft (60 ft upwind, 15 ft downwind) by scent alone. Grants a +4 racial bonus on Survival checks to Track targets by scent and on Medicine/Diagnosis checks to detect pheromones, illness, poisons, or biochemical shifts.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Scent\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Physical  \n\n## Description\nIdentify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).\n\n## Mechanics & Benefits\nPossesses an analytical olfactory organ capable of detecting creatures within 30 ft (60 ft upwind, 15 ft downwind) by scent alone. Grants a +4 racial bonus on Survival checks to Track targets by scent and on Medicine/Diagnosis checks to detect pheromones, illness, poisons, or biochemical shifts."
+    "body": "# Scent\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nIdentify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell)."
   },
   {
-    "id": "trait-species-shadow-affinity",
+    "id": "trait-shadow-affinity",
     "name": "Shadow Affinity",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -731,18 +956,18 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "Gain +5 to Stealth when in Shadowy or Dim area.",
     "description": "Gain +5 to Stealth when in Shadowy or Dim area.",
-    "mechanics": "Innate metaphysical or light-absorbing dermal harmony with obscurity grants a +5 circumstance bonus on Stealth checks whenever operating within shadowy, dim, or poorly illuminated areas.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Shadow Affinity\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Meta  \n\n## Description\nGain +5 to Stealth when in Shadowy or Dim area.\n\n## Mechanics & Benefits\nInnate metaphysical or light-absorbing dermal harmony with obscurity grants a +5 circumstance bonus on Stealth checks whenever operating within shadowy, dim, or poorly illuminated areas."
+    "body": "# Shadow Affinity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nGain +5 to Stealth when in Shadowy or Dim area."
   },
   {
-    "id": "trait-species-shadow-blending",
+    "id": "trait-shadow-blending",
     "name": "Shadow Blending",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -756,18 +981,18 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "Attacks made against members in dim light have 30% miss chance.",
     "description": "Attacks made against members in dim light have 30% miss chance.",
-    "mechanics": "Ambient darkness clings to and distorts the silhouette of the creature. Any attacks made against the character in dim light or darkness suffer a 30% miss chance due to visual distortion and concealment (does not stack with total invisibility).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Shadow Blending\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Meta  \n\n## Description\nAttacks made against members in dim light have 30% miss chance.\n\n## Mechanics & Benefits\nAmbient darkness clings to and distorts the silhouette of the creature. Any attacks made against the character in dim light or darkness suffer a 30% miss chance due to visual distortion and concealment (does not stack with total invisibility)."
+    "body": "# Shadow Blending\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nAttacks made against members in dim light have 30% miss chance."
   },
   {
-    "id": "trait-species-shards-of-the-past",
+    "id": "trait-shards-of-the-past",
     "name": "Shards of the Past",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -781,18 +1006,18 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "Pick two skills. Gain +2 racial bonus on both. Represents past lives.",
     "description": "Pick two skills. Gain +2 racial bonus on both. Represents past lives.",
-    "mechanics": "Subconscious ancestral memories, reincarnation echoes, or genetic data traces surface in the mind. Choose any two skills at character creation; the character gains a permanent +2 racial bonus on both skills.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Shards of the Past\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Meta  \n\n## Description\nPick two skills. Gain +2 racial bonus on both. Represents past lives.\n\n## Mechanics & Benefits\nSubconscious ancestral memories, reincarnation echoes, or genetic data traces surface in the mind. Choose any two skills at character creation; the character gains a permanent +2 racial bonus on both skills."
+    "body": "# Shards of the Past\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nPick two skills. Gain +2 racial bonus on both. Represents past lives."
   },
   {
-    "id": "trait-species-silent-hunter",
+    "id": "trait-silent-hunter",
     "name": "Silent Hunter",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Movement",
-    "type": "Movement",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -806,18 +1031,18 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "Reduce Stealth penalty for moving by 5 / Stealth checks while running at –20",
     "description": "Reduce Stealth penalty for moving by 5 / Stealth checks while running at –20",
-    "mechanics": "Padded footfalls and hydrodynamic/aerodynamic motion dampen sound. Reduces the standard Stealth check penalty for moving at full speed by 5, and reduces the penalty for making Stealth checks while running to –20 (instead of automatic failure).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Silent Hunter\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Movement  \n\n## Description\nReduce Stealth penalty for moving by 5 / Stealth checks while running at –20\n\n## Mechanics & Benefits\nPadded footfalls and hydrodynamic/aerodynamic motion dampen sound. Reduces the standard Stealth check penalty for moving at full speed by 5, and reduces the penalty for making Stealth checks while running to –20 (instead of automatic failure)."
+    "body": "# Silent Hunter\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nReduce Stealth penalty for moving by 5 / Stealth checks while running at –20"
   },
   {
-    "id": "trait-species-silver-tongued",
+    "id": "trait-silver-tongued",
     "name": "Silver Tongued",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Social",
-    "type": "Social",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -831,18 +1056,18 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "+2 bonus on Diplomacy and Bluff. Can shift attitude up to three steps.",
     "description": "+2 bonus on Diplomacy and Bluff. Can shift attitude up to three steps.",
-    "mechanics": "Masterful cadence, vocal harmonics, and social charisma grant a +2 racial bonus on all Diplomacy and Bluff checks. When using Diplomacy to influence NPC attitudes, successful checks can shift attitude up to three steps (e.g., Hostile to Indifferent) rather than the standard two.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Silver Tongued\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Social  \n\n## Description\n+2 bonus on Diplomacy and Bluff. Can shift attitude up to three steps.\n\n## Mechanics & Benefits\nMasterful cadence, vocal harmonics, and social charisma grant a +2 racial bonus on all Diplomacy and Bluff checks. When using Diplomacy to influence NPC attitudes, successful checks can shift attitude up to three steps (e.g., Hostile to Indifferent) rather than the standard two."
+    "body": "# Silver Tongued\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+2 bonus on Diplomacy and Bluff. Can shift attitude up to three steps."
   },
   {
-    "id": "trait-species-skill-bonus",
+    "id": "trait-skill-bonus",
     "name": "Skill Bonus",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Trained",
-    "type": "Trained",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -856,18 +1081,18 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "Gain +2 racial bonus to divide amongst noted skills.",
     "description": "Gain +2 racial bonus to divide amongst noted skills.",
-    "mechanics": "Grants a +2 racial skill bonus that may be divided among one or two designated species skills (+2 to one skill, or +1 to two skills) at character creation.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Skill Bonus\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Trained  \n\n## Description\nGain +2 racial bonus to divide amongst noted skills.\n\n## Mechanics & Benefits\nGrants a +2 racial skill bonus that may be divided among one or two designated species skills (+2 to one skill, or +1 to two skills) at character creation."
+    "body": "# Skill Bonus\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nGain +2 racial bonus to divide amongst noted skills."
   },
   {
-    "id": "trait-species-sneaky",
+    "id": "trait-sneaky",
     "name": "Sneaky",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Trained",
-    "type": "Trained",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -881,18 +1106,18 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "+2 racial bonus on Stealth checks.",
     "description": "+2 racial bonus on Stealth checks.",
-    "mechanics": "Natural instinct for staying low, hugging shadows, and moving without creaking floorboards or rustling foliage grants a permanent +2 racial bonus on all Stealth checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Sneaky\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Trained  \n\n## Description\n+2 racial bonus on Stealth checks.\n\n## Mechanics & Benefits\nNatural instinct for staying low, hugging shadows, and moving without creaking floorboards or rustling foliage grants a permanent +2 racial bonus on all Stealth checks."
+    "body": "# Sneaky\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+2 racial bonus on Stealth checks."
   },
   {
-    "id": "trait-species-sociable",
+    "id": "trait-sociable",
     "name": "Sociable",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Social",
-    "type": "Social",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -906,18 +1131,18 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "Diplomacy check to change attitude fails by 5 or more, try again within 24 hours.",
     "description": "Diplomacy check to change attitude fails by 5 or more, try again within 24 hours.",
-    "mechanics": "Disarming demeanor and empathetic conversational recovery prevent social faux pas from becoming permanent grudges. If a Diplomacy check to influence attitude fails by 5 or more, the character may retry the check with that target within 24 hours rather than being locked out.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Sociable\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Social  \n\n## Description\nDiplomacy check to change attitude fails by 5 or more, try again within 24 hours.\n\n## Mechanics & Benefits\nDisarming demeanor and empathetic conversational recovery prevent social faux pas from becoming permanent grudges. If a Diplomacy check to influence attitude fails by 5 or more, the character may retry the check with that target within 24 hours rather than being locked out."
+    "body": "# Sociable\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nDiplomacy check to change attitude fails by 5 or more, try again within 24 hours."
   },
   {
-    "id": "trait-species-stable-footed",
+    "id": "trait-stable-footed",
     "name": "Stable Footed",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Defensive",
-    "type": "Defensive",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -931,18 +1156,18 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "+4 racial Stability bonus while standing on the ground.",
     "description": "+4 racial Stability bonus while standing on the ground.",
-    "mechanics": "Low center of gravity, gripping foot pads, or dense ground anchoring grants a +4 racial Stability bonus to resist Bull Rush, Trip, Reposition, and Overrun combat maneuvers while standing firmly on solid ground.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Stable Footed\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Defensive  \n\n## Description\n+4 racial Stability bonus while standing on the ground.\n\n## Mechanics & Benefits\nLow center of gravity, gripping foot pads, or dense ground anchoring grants a +4 racial Stability bonus to resist Bull Rush, Trip, Reposition, and Overrun combat maneuvers while standing firmly on solid ground."
+    "body": "# Stable Footed\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+4 racial Stability bonus while standing on the ground."
   },
   {
-    "id": "trait-species-stalker",
+    "id": "trait-stalker",
     "name": "Stalker",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Trained",
-    "type": "Trained",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -956,18 +1181,18 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "Gain +2 bonus to Perception and Stealth checks versus one target.",
     "description": "Gain +2 bonus to Perception and Stealth checks versus one target.",
-    "mechanics": "When hunting, pursuing, or observing a single designated quarry or target, the character gains a +2 circumstance bonus on all Perception (Awareness) and Stealth checks directed against or involving that target.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Stalker\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Trained  \n\n## Description\nGain +2 bonus to Perception and Stealth checks versus one target.\n\n## Mechanics & Benefits\nWhen hunting, pursuing, or observing a single designated quarry or target, the character gains a +2 circumstance bonus on all Perception (Awareness) and Stealth checks directed against or involving that target."
+    "body": "# Stalker\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nGain +2 bonus to Perception and Stealth checks versus one target."
   },
   {
-    "id": "trait-species-static-bonus-feat",
+    "id": "trait-static-bonus-feat",
     "name": "Static Bonus Feat",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Trained",
-    "type": "Trained",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -981,12 +1206,37 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "Choose one feat with no prerequisites. All members gain this feat as a bonus feat.",
     "description": "Choose one feat with no prerequisites. All members gain this feat as a bonus feat.",
-    "mechanics": "The species' culture or universal biology instills a foundational discipline. Choose one standard feat with no prerequisites at species creation; all members of this species gain that feat as a permanent bonus feat.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Static Bonus Feat\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Trained  \n\n## Description\nChoose one feat with no prerequisites. All members gain this feat as a bonus feat.\n\n## Mechanics & Benefits\nThe species' culture or universal biology instills a foundational discipline. Choose one standard feat with no prerequisites at species creation; all members of this species gain that feat as a permanent bonus feat."
+    "body": "# Static Bonus Feat\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nChoose one feat with no prerequisites. All members gain this feat as a bonus feat."
   },
   {
-    "id": "trait-species-tail",
+    "id": "trait-street-smarts",
+    "name": "Street Smarts",
+    "category": "traits",
+    "trait_type": "Social",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Familiarity with underworld hierarchy, shadow markets, slang, and avoiding law enforcement radar.",
+    "description": "Familiarity with underworld hierarchy, shadow markets, slang, and avoiding law enforcement radar.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Street Smarts\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Social\n**BP Cost**: 1\n\n## Description\nFamiliarity with underworld hierarchy, shadow markets, slang, and avoiding law enforcement radar."
+  },
+  {
+    "id": "trait-tail",
     "name": "Tail",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -1006,18 +1256,43 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "+2 to Trip and Balance Checks and usable as a Club.",
     "description": "+2 to Trip and Balance Checks and usable as a Club.",
-    "mechanics": "Possesses a muscular, flexible tail that acts as a counterweight. Grants a +2 racial bonus on Balance (Acrobatics) and Trip combat maneuver checks, and can be swung as a natural bludgeoning weapon dealing 1d6 + Str kinetic damage (treated as a Club).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Tail\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Physical  \n\n## Description\n+2 to Trip and Balance Checks and usable as a Club.\n\n## Mechanics & Benefits\nPossesses a muscular, flexible tail that acts as a counterweight. Grants a +2 racial bonus on Balance (Acrobatics) and Trip combat maneuver checks, and can be swung as a natural bludgeoning weapon dealing 1d6 + Str kinetic damage (treated as a Club)."
+    "body": "# Tail\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+2 to Trip and Balance Checks and usable as a Club."
   },
   {
-    "id": "trait-species-urbanite",
+    "id": "trait-time-management",
+    "name": "Time Management",
+    "category": "traits",
+    "trait_type": "Mental",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Mastery of operational logistics, prioritizing tasks, and maximizing productivity during downtime.",
+    "description": "Mastery of operational logistics, prioritizing tasks, and maximizing productivity during downtime.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Time Management\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Mental\n**BP Cost**: 1\n\n## Description\nMastery of operational logistics, prioritizing tasks, and maximizing productivity during downtime."
+  },
+  {
+    "id": "trait-urbanite",
     "name": "Urbanite",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Social",
-    "type": "Social",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -1031,18 +1306,43 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "+2 racial bonus on Diplomacy and Sense Motive checks.",
     "description": "+2 racial bonus on Diplomacy and Sense Motive checks.",
-    "mechanics": "Instinctively understands crowded arcologies, hive cities, underworld signals, and street dynamics. Grants a permanent +2 racial bonus on Diplomacy and Sense Motive (Empathy/Insight) checks in urban environments.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Urbanite\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Social  \n\n## Description\n+2 racial bonus on Diplomacy and Sense Motive checks.\n\n## Mechanics & Benefits\nInstinctively understands crowded arcologies, hive cities, underworld signals, and street dynamics. Grants a permanent +2 racial bonus on Diplomacy and Sense Motive (Empathy/Insight) checks in urban environments."
+    "body": "# Urbanite\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+2 racial bonus on Diplomacy and Sense Motive checks."
   },
   {
-    "id": "trait-species-water-sense",
+    "id": "trait-versatility",
+    "name": "Versatility",
+    "category": "traits",
+    "trait_type": "General",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Adaptable skill set allowing the character to perform a wide variety of tasks without specialized tools or preparation.",
+    "description": "Adaptable skill set allowing the character to perform a wide variety of tasks without specialized tools or preparation.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Versatility\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: General\n**BP Cost**: 2\n\n## Description\nAdaptable skill set allowing the character to perform a wide variety of tasks without specialized tools or preparation."
+  },
+  {
+    "id": "trait-water-sense",
     "name": "Water-Sense",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Sensory",
-    "type": "Sensory",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -1056,14 +1356,14 @@ export const SPECIES_TRAITS_BASIC = [
     "is_ranked": false,
     "desc": "Blindsense 30 feet against creatures touching the same body of water.",
     "description": "Blindsense 30 feet against creatures touching the same body of water.",
-    "mechanics": "Electro-receptors or lateral lines along the body detect micro-vibrations and electrical currents in liquid. Grants Blindsense out to a range of 30 feet against any creature or submerged object touching or moving through the same contiguous body of water.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Water-Sense\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Sensory  \n\n## Description\nBlindsense 30 feet against creatures touching the same body of water.\n\n## Mechanics & Benefits\nElectro-receptors or lateral lines along the body detect micro-vibrations and electrical currents in liquid. Grants Blindsense out to a range of 30 feet against any creature or submerged object touching or moving through the same contiguous body of water."
+    "body": "# Water-Sense\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nBlindsense 30 feet against creatures touching the same body of water."
   }
 ];
 export const SPECIES_TRAITS_ADVANCED = [
   {
-    "id": "trait-species-adaptive-features",
+    "id": "trait-adaptive-features",
     "name": "Adaptive Features",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -1080,21 +1380,21 @@ export const SPECIES_TRAITS_ADVANCED = [
       "focus": 0,
       "ap": 0
     },
-    "is_ranked": true,
+    "is_ranked": false,
     "desc": "May change between specific features during a Light Rest. Ranked.",
     "description": "May change between specific features during a Light Rest. Ranked.",
-    "mechanics": "The character possesses plastic biological structures allowing them to swap one chosen physical feature for another designated feature from their species list during a Light Rest. May be taken multiple times (Ranked) to allow additional swappable feature slots.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Adaptive Features\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical (Ranked)  \n\n## Description\nMay change between specific features during a Light Rest. Ranked.\n\n## Mechanics & Benefits\nThe character possesses plastic biological structures allowing them to swap one chosen physical feature for another designated feature from their species list during a Light Rest. May be taken multiple times (Ranked) to allow additional swappable feature slots."
+    "body": "# Adaptive Features\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nMay change between specific features during a Light Rest. Ranked."
   },
   {
-    "id": "trait-species-adaptive-skill-set",
+    "id": "trait-adaptive-skill-set",
     "name": "Adaptive Skill Set",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Trained",
-    "type": "Trained",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -1105,15 +1405,15 @@ export const SPECIES_TRAITS_ADVANCED = [
       "focus": 0,
       "ap": 0
     },
-    "is_ranked": true,
+    "is_ranked": false,
     "desc": "4 point bonus allotted in a pool. Ranked.",
     "description": "4 point bonus allotted in a pool. Ranked.",
-    "mechanics": "Grants a flexible 4-point pool of skill bonuses that can be reassigned across trained skills during a Light Rest or preparation period. May be purchased multiple times (Ranked) to expand the pool by +4 points per rank.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Adaptive Skill Set\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Trained (Ranked)  \n\n## Description\n4 point bonus allotted in a pool. Ranked.\n\n## Mechanics & Benefits\nGrants a flexible 4-point pool of skill bonuses that can be reassigned across trained skills during a Light Rest or preparation period. May be purchased multiple times (Ranked) to expand the pool by +4 points per rank."
+    "body": "# Adaptive Skill Set\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\n4 point bonus allotted in a pool. Ranked."
   },
   {
-    "id": "trait-species-additional-limbs",
+    "id": "trait-additional-limbs",
     "name": "Additional Limbs",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -1133,12 +1433,12 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Another pair of prehensile limbs; Arms, Tentacles or other.",
     "description": "Another pair of prehensile limbs; Arms, Tentacles or other.",
-    "mechanics": "The creature possesses an additional pair of functional prehensile limbs (arms, tentacles, or secondary manipulators). Allows holding additional objects, weapons, or gear, though standard multi-weapon attack limits and action economy still apply.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Additional Limbs\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nAnother pair of prehensile limbs; Arms, Tentacles or other.\n\n## Mechanics & Benefits\nThe creature possesses an additional pair of functional prehensile limbs (arms, tentacles, or secondary manipulators). Allows holding additional objects, weapons, or gear, though standard multi-weapon attack limits and action economy still apply."
+    "body": "# Additional Limbs\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nAnother pair of prehensile limbs; Arms, Tentacles or other."
   },
   {
-    "id": "trait-species-ageless",
+    "id": "trait-ageless",
     "name": "Ageless",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -1158,18 +1458,18 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Does not suffer penalties nor show any signs of aging.",
     "description": "Does not suffer penalties nor show any signs of aging.",
-    "mechanics": "Immune to cellular senescence, aging debuffs, and physical attribute decay over time. The character cannot die of old age and does not show visual signs of deterioration.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Ageless\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nDoes not suffer penalties nor show any signs of aging.\n\n## Mechanics & Benefits\nImmune to cellular senescence, aging debuffs, and physical attribute decay over time. The character cannot die of old age and does not show visual signs of deterioration."
+    "body": "# Ageless\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nDoes not suffer penalties nor show any signs of aging."
   },
   {
-    "id": "trait-species-all-around-vision",
+    "id": "trait-all-around-vision",
     "name": "All-Around Vision",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Sensory",
-    "type": "Sensory",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -1183,12 +1483,12 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "+4 racial bonus on Perception checks and immune to flanking.",
     "description": "+4 racial bonus on Perception checks and immune to flanking.",
-    "mechanics": "Multiple eyes, compound optical arrays, or wide optical placement grant a 360-degree field of view. Provides a permanent +4 racial bonus on Perception (Awareness) checks and complete immunity to being flanked in tactical combat.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# All-Around Vision\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Sensory  \n\n## Description\n+4 racial bonus on Perception checks and immune to flanking.\n\n## Mechanics & Benefits\nMultiple eyes, compound optical arrays, or wide optical placement grant a 360-degree field of view. Provides a permanent +4 racial bonus on Perception (Awareness) checks and complete immunity to being flanked in tactical combat."
+    "body": "# All-Around Vision\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\n+4 racial bonus on Perception checks and immune to flanking."
   },
   {
-    "id": "trait-species-alter-form-adv",
+    "id": "trait-alter-form-adv",
     "name": "Alter Form (Adv)",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -1208,12 +1508,12 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Base Category, Change Appearance (+5 Disguise)/gender/adjust minor traits.",
     "description": "Base Category, Change Appearance (+5 Disguise)/gender/adjust minor traits.",
-    "mechanics": "The character can fluidly alter their physical appearance, apparent biological sex/gender, vocal pitch, fingerprint patterns, and minor racial characteristics within their base morphological category. Grants a +5 circumstance bonus on Disguise checks and can mimic specific individuals with familiarity.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Alter Form (Adv)\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nBase Category, Change Appearance (+5 Disguise)/gender/adjust minor traits.\n\n## Mechanics & Benefits\nThe character can fluidly alter their physical appearance, apparent biological sex/gender, vocal pitch, fingerprint patterns, and minor racial characteristics within their base morphological category. Grants a +5 circumstance bonus on Disguise checks and can mimic specific individuals with familiarity."
+    "body": "# Alter Form (Adv)\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nBase Category, Change Appearance (+5 Disguise)/gender/adjust minor traits."
   },
   {
-    "id": "trait-species-alternate-form",
+    "id": "trait-alternate-form",
     "name": "Alternate Form",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -1233,12 +1533,12 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "An additional ‘Natural’ Form.",
     "description": "An additional ‘Natural’ Form.",
-    "mechanics": "The species possesses a distinct second permanent biological shape (such as an animal form, biform beast state, or combat chassis). Shifting between forms takes a standard action; gear and equipment adapt or merge as appropriate.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Alternate Form\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nAn additional ‘Natural’ Form.\n\n## Mechanics & Benefits\nThe species possesses a distinct second permanent biological shape (such as an animal form, biform beast state, or combat chassis). Shifting between forms takes a standard action; gear and equipment adapt or merge as appropriate."
+    "body": "# Alternate Form\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nAn additional ‘Natural’ Form."
   },
   {
-    "id": "trait-species-aquatic-strength",
+    "id": "trait-aquatic-strength",
     "name": "Aquatic Strength",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -1258,18 +1558,18 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "+1 size category for Combat, Strength or other checks while in water.",
     "description": "+1 size category for Combat, Strength or other checks while in water.",
-    "mechanics": "Exceptional hydraulic leverage and fin power treat the character as 1 size category larger for combat maneuvers (Grapple, Bull Rush, Trip, Overrun) and all Strength-based checks while fully submerged in water.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Aquatic Strength\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\n+1 size category for Combat, Strength or other checks while in water.\n\n## Mechanics & Benefits\nExceptional hydraulic leverage and fin power treat the character as 1 size category larger for combat maneuvers (Grapple, Bull Rush, Trip, Overrun) and all Strength-based checks while fully submerged in water."
+    "body": "# Aquatic Strength\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\n+1 size category for Combat, Strength or other checks while in water."
   },
   {
-    "id": "trait-species-aquatic",
+    "id": "trait-aquatic",
     "name": "Aquatic",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Movement",
-    "type": "Movement",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -1283,12 +1583,12 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "+4 racial bonus on Swim checks and may take 10 on swimming checks.",
     "description": "+4 racial bonus on Swim checks and may take 10 on swimming checks.",
-    "mechanics": "Streamlined hydrodynamic physiology grants a +4 racial bonus on all Athletics (Swimming) checks and allows the character to Take 10 on any swim check even when rushed, distracted, or under combat duress.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Aquatic\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Movement  \n\n## Description\n+4 racial bonus on Swim checks and may take 10 on swimming checks.\n\n## Mechanics & Benefits\nStreamlined hydrodynamic physiology grants a +4 racial bonus on all Athletics (Swimming) checks and allows the character to Take 10 on any swim check even when rushed, distracted, or under combat duress."
+    "body": "# Aquatic\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\n+4 racial bonus on Swim checks and may take 10 on swimming checks."
   },
   {
-    "id": "trait-species-autotroph",
+    "id": "trait-autotroph",
     "name": "Autotroph",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -1308,18 +1608,18 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Does not require food/drink, may eat/digest elixirs for effects.",
     "description": "Does not require food/drink, may eat/digest elixirs for effects.",
-    "mechanics": "Generates complex biochemical energy directly through photosynthesis, radiation absorption, or chemosynthesis, eliminating all standard food and water requirements. Can still voluntarily consume and digest ingestible elixirs, potions, or medical compounds for their effects.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Autotroph\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nDoes not require food/drink, may eat/digest elixirs for effects.\n\n## Mechanics & Benefits\nGenerates complex biochemical energy directly through photosynthesis, radiation absorption, or chemosynthesis, eliminating all standard food and water requirements. Can still voluntarily consume and digest ingestible elixirs, potions, or medical compounds for their effects."
+    "body": "# Autotroph\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nDoes not require food/drink, may eat/digest elixirs for effects."
   },
   {
-    "id": "trait-species-blind-sense",
+    "id": "trait-blind-sense",
     "name": "Blind Sense",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Sensory",
-    "type": "Sensory",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -1333,12 +1633,12 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Sense unseen objects in a 30 ft Radius or Cone of 60 ft.",
     "description": "Sense unseen objects in a 30 ft Radius or Cone of 60 ft.",
-    "mechanics": "Echolocation, sensory whiskers, or pressure sensors allow pinpointing the location of unseen creatures and objects within a 30 ft radius or a 60 ft directional cone. Total darkness and invisibility do not conceal targets within this range, though concealment penalties on attack rolls still apply unless converted to Blindsight.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Blind Sense\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Sensory  \n\n## Description\nSense unseen objects in a 30 ft Radius or Cone of 60 ft.\n\n## Mechanics & Benefits\nEcholocation, sensory whiskers, or pressure sensors allow pinpointing the location of unseen creatures and objects within a 30 ft radius or a 60 ft directional cone. Total darkness and invisibility do not conceal targets within this range, though concealment penalties on attack rolls still apply unless converted to Blindsight."
+    "body": "# Blind Sense\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nSense unseen objects in a 30 ft Radius or Cone of 60 ft."
   },
   {
-    "id": "trait-species-bodyform-adaptation",
+    "id": "trait-bodyform-adaptation",
     "name": "Bodyform Adaptation",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -1358,12 +1658,12 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Physiology shifts to be compatible with the new environment.",
     "description": "Physiology shifts to be compatible with the new environment.",
-    "mechanics": "Upon entering a new biome or harsh atmospheric zone, the character's physiology adapts over 10 minutes to grant environmental immunity (vacuum sealing, thermal regulation, or pressure resistance) for the duration of exposure.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Bodyform Adaptation\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nPhysiology shifts to be compatible with the new environment.\n\n## Mechanics & Benefits\nUpon entering a new biome or harsh atmospheric zone, the character's physiology adapts over 10 minutes to grant environmental immunity (vacuum sealing, thermal regulation, or pressure resistance) for the duration of exposure."
+    "body": "# Bodyform Adaptation\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nPhysiology shifts to be compatible with the new environment."
   },
   {
-    "id": "trait-species-bodyform-appendages",
+    "id": "trait-bodyform-appendages",
     "name": "Bodyform Appendages",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -1383,12 +1683,12 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Shapechange to gain additional limbs (2 arms, legs, tentacles, wings, or fins).",
     "description": "Shapechange to gain additional limbs (2 arms, legs, tentacles, wings, or fins).",
-    "mechanics": "Cellular shapeshifting allows protruding 2 additional functional limbs (arms, legs, tentacles, wings, or fins) on demand. Provides appropriate locomotion or grasping bonuses while deployed.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Bodyform Appendages\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nShapechange to gain additional limbs (2 arms, legs, tentacles, wings, or fins).\n\n## Mechanics & Benefits\nCellular shapeshifting allows protruding 2 additional functional limbs (arms, legs, tentacles, wings, or fins) on demand. Provides appropriate locomotion or grasping bonuses while deployed."
+    "body": "# Bodyform Appendages\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nShapechange to gain additional limbs (2 arms, legs, tentacles, wings, or fins)."
   },
   {
-    "id": "trait-species-bodyform-armor-options",
+    "id": "trait-bodyform-armor-options",
     "name": "Bodyform Armor Options",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -1405,15 +1705,15 @@ export const SPECIES_TRAITS_ADVANCED = [
       "focus": 0,
       "ap": 0
     },
-    "is_ranked": true,
+    "is_ranked": false,
     "desc": "Upgraded Bodyform Armor, +1 option slot. Ranked.",
     "description": "Upgraded Bodyform Armor, +1 option slot. Ranked.",
-    "mechanics": "Upgrades Bodyform Armor with 1 additional defensive customization slot per rank (such as energy refraction, reactive spikes, thermal dampening, or environmental sealing). Ranked.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Bodyform Armor Options\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical (Ranked)  \n\n## Description\nUpgraded Bodyform Armor, +1 option slot. Ranked.\n\n## Mechanics & Benefits\nUpgrades Bodyform Armor with 1 additional defensive customization slot per rank (such as energy refraction, reactive spikes, thermal dampening, or environmental sealing). Ranked."
+    "body": "# Bodyform Armor Options\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nUpgraded Bodyform Armor, +1 option slot. Ranked."
   },
   {
-    "id": "trait-species-bodyform-armor",
+    "id": "trait-bodyform-armor",
     "name": "Bodyform Armor",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -1433,12 +1733,12 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Shapechange to gain a protective layer.",
     "description": "Shapechange to gain a protective layer.",
-    "mechanics": "The character can morph dermal layers into hardened chitin, dermal bone, or dense keratinous plating on demand, providing a +4 Natural DR / Armor bonus.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Bodyform Armor\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nShapechange to gain a protective layer.\n\n## Mechanics & Benefits\nThe character can morph dermal layers into hardened chitin, dermal bone, or dense keratinous plating on demand, providing a +4 Natural DR / Armor bonus."
+    "body": "# Bodyform Armor\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nShapechange to gain a protective layer."
   },
   {
-    "id": "trait-species-bodyform-mutation",
+    "id": "trait-bodyform-mutation",
     "name": "Bodyform Mutation",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -1455,15 +1755,15 @@ export const SPECIES_TRAITS_ADVANCED = [
       "focus": 0,
       "ap": 0
     },
-    "is_ranked": true,
+    "is_ranked": false,
     "desc": "Adjust to a Racial Trait of which prerequisites are possessed. Ranked.",
     "description": "Adjust to a Racial Trait of which prerequisites are possessed. Ranked.",
-    "mechanics": "Allows temporary morphological adaptation to express any standard racial trait for which prerequisites are met. Lasts until the next rest. May be purchased multiple times (Ranked).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Bodyform Mutation\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical (Ranked)  \n\n## Description\nAdjust to a Racial Trait of which prerequisites are possessed. Ranked.\n\n## Mechanics & Benefits\nAllows temporary morphological adaptation to express any standard racial trait for which prerequisites are met. Lasts until the next rest. May be purchased multiple times (Ranked)."
+    "body": "# Bodyform Mutation\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nAdjust to a Racial Trait of which prerequisites are possessed. Ranked."
   },
   {
-    "id": "trait-species-bodyform-sizing",
+    "id": "trait-bodyform-sizing",
     "name": "Bodyform Sizing",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -1483,12 +1783,12 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Shapechange to alter size category 1 step up or down.",
     "description": "Shapechange to alter size category 1 step up or down.",
-    "mechanics": "The character can expand or compress cellular mass to shift 1 size category larger or smaller (e.g., Medium to Large or Medium to Small), adjusting reach, space, and size combat modifiers accordingly.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Bodyform Sizing\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nShapechange to alter size category 1 step up or down.\n\n## Mechanics & Benefits\nThe character can expand or compress cellular mass to shift 1 size category larger or smaller (e.g., Medium to Large or Medium to Small), adjusting reach, space, and size combat modifiers accordingly."
+    "body": "# Bodyform Sizing\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nShapechange to alter size category 1 step up or down."
   },
   {
-    "id": "trait-species-bodyform-structure",
+    "id": "trait-bodyform-structure",
     "name": "Bodyform Structure",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -1505,15 +1805,15 @@ export const SPECIES_TRAITS_ADVANCED = [
       "focus": 0,
       "ap": 0
     },
-    "is_ranked": true,
+    "is_ranked": false,
     "desc": "Adjust Physical Abilities in equal trade. Once per day for the entire day. Ranked.",
     "description": "Adjust Physical Abilities in equal trade. Once per day for the entire day. Ranked.",
-    "mechanics": "Once per day, the character can redistribute physical ability points in an equal 1-for-1 trade (e.g., –2 Agility for +2 Strength) for 24 hours. Ranked.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Bodyform Structure\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical (Ranked)  \n\n## Description\nAdjust Physical Abilities in equal trade. Once per day for the entire day. Ranked.\n\n## Mechanics & Benefits\nOnce per day, the character can redistribute physical ability points in an equal 1-for-1 trade (e.g., –2 Agility for +2 Strength) for 24 hours. Ranked."
+    "body": "# Bodyform Structure\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nAdjust Physical Abilities in equal trade. Once per day for the entire day. Ranked."
   },
   {
-    "id": "trait-species-bodyform-weapon-options",
+    "id": "trait-bodyform-weapon-options",
     "name": "Bodyform Weapon Options",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -1530,15 +1830,15 @@ export const SPECIES_TRAITS_ADVANCED = [
       "focus": 0,
       "ap": 0
     },
-    "is_ranked": true,
+    "is_ranked": false,
     "desc": "Upgraded Bodyform Weapons, +1 option slot. Ranked.",
     "description": "Upgraded Bodyform Weapons, +1 option slot. Ranked.",
-    "mechanics": "Adds 1 upgrade option slot per rank to Bodyform Weapons (such as reach extension, serrated bleed effect, venom canal, or armor-piercing density). Ranked.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Bodyform Weapon Options\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical (Ranked)  \n\n## Description\nUpgraded Bodyform Weapons, +1 option slot. Ranked.\n\n## Mechanics & Benefits\nAdds 1 upgrade option slot per rank to Bodyform Weapons (such as reach extension, serrated bleed effect, venom canal, or armor-piercing density). Ranked."
+    "body": "# Bodyform Weapon Options\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nUpgraded Bodyform Weapons, +1 option slot. Ranked."
   },
   {
-    "id": "trait-species-bodyform-weapons",
+    "id": "trait-bodyform-weapons",
     "name": "Bodyform Weapons",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -1558,12 +1858,12 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Shapechange to gain ‘Natural Weaponry’ based on Size",
     "description": "Shapechange to gain ‘Natural Weaponry’ based on Size",
-    "mechanics": "Allows extruding bone blades, talons, stingers, or maces dealing natural melee damage scaled to size category (1d6 for Medium, 1d8 for Large) with chosen damage type (slashing, piercing, or blunt).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Bodyform Weapons\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nShapechange to gain ‘Natural Weaponry’ based on Size\n\n## Mechanics & Benefits\nAllows extruding bone blades, talons, stingers, or maces dealing natural melee damage scaled to size category (1d6 for Medium, 1d8 for Large) with chosen damage type (slashing, piercing, or blunt)."
+    "body": "# Bodyform Weapons\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nShapechange to gain ‘Natural Weaponry’ based on Size"
   },
   {
-    "id": "trait-species-brutal",
+    "id": "trait-brutal",
     "name": "Brutal",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -1583,12 +1883,12 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Growths/Spurs doubling Str damage bonus to natural damage (Lethal).",
     "description": "Growths/Spurs doubling Str damage bonus to natural damage (Lethal).",
-    "mechanics": "Hardened bone spurs, jagged carapaces, or dense knuckles double the character's Strength modifier bonus when calculating damage for natural weapon and unarmed strikes (all damage is Lethal).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Brutal\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nGrowths/Spurs doubling Str damage bonus to natural damage (Lethal).\n\n## Mechanics & Benefits\nHardened bone spurs, jagged carapaces, or dense knuckles double the character's Strength modifier bonus when calculating damage for natural weapon and unarmed strikes (all damage is Lethal)."
+    "body": "# Brutal\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nGrowths/Spurs doubling Str damage bonus to natural damage (Lethal)."
   },
   {
-    "id": "trait-species-chameleon",
+    "id": "trait-chameleon",
     "name": "Chameleon",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -1608,12 +1908,12 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Changes color, +5 Stealth or may take 10 on Stealth checks.",
     "description": "Changes color, +5 Stealth or may take 10 on Stealth checks.",
-    "mechanics": "Chromatophores across the epidermis adjust skin color and patterns in real-time to match surroundings. Grants a +5 racial bonus on Stealth checks or the option to Take 10 on Stealth even when observed or moving.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Chameleon\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nChanges color, +5 Stealth or may take 10 on Stealth checks.\n\n## Mechanics & Benefits\nChromatophores across the epidermis adjust skin color and patterns in real-time to match surroundings. Grants a +5 racial bonus on Stealth checks or the option to Take 10 on Stealth even when observed or moving."
+    "body": "# Chameleon\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nChanges color, +5 Stealth or may take 10 on Stealth checks."
   },
   {
-    "id": "trait-species-chloroplast",
+    "id": "trait-chloroplast",
     "name": "Chloroplast",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -1633,12 +1933,12 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Gain sustenance from and Double Healing rate while in daylight equivalent light.",
     "description": "Gain sustenance from and Double Healing rate while in daylight equivalent light.",
-    "mechanics": "Photosynthetic organelles generate full metabolic sustenance from sunlight and double natural recovery rates of Health and Vitality whenever resting in daylight-equivalent illumination.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Chloroplast\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nGain sustenance from and Double Healing rate while in daylight equivalent light.\n\n## Mechanics & Benefits\nPhotosynthetic organelles generate full metabolic sustenance from sunlight and double natural recovery rates of Health and Vitality whenever resting in daylight-equivalent illumination."
+    "body": "# Chloroplast\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nGain sustenance from and Double Healing rate while in daylight equivalent light."
   },
   {
-    "id": "trait-species-constriction",
+    "id": "trait-constriction",
     "name": "Constriction",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -1658,43 +1958,18 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Grants Improved and Greater Grapple, Crushing damage is 2x Unarmed.",
     "description": "Grants Improved and Greater Grapple, Crushing damage is 2x Unarmed.",
-    "mechanics": "Powerful serpentine muscles grant the benefits of Improved and Greater Grapple. When maintaining a successful grapple, deal crushing kinetic damage equal to 2× standard Unarmed Strike damage + Strength modifier.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Constriction\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nGrants Improved and Greater Grapple, Crushing damage is 2x Unarmed.\n\n## Mechanics & Benefits\nPowerful serpentine muscles grant the benefits of Improved and Greater Grapple. When maintaining a successful grapple, deal crushing kinetic damage equal to 2× standard Unarmed Strike damage + Strength modifier."
+    "body": "# Constriction\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nGrants Improved and Greater Grapple, Crushing damage is 2x Unarmed."
   },
   {
-    "id": "trait-species-curiosity",
-    "name": "Curiosity",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Trained",
-    "type": "Trained",
-    "bp": 2,
-    "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "+4 bonus on Diplomacy checks to gather information, and Knowledge checks.",
-    "description": "+4 bonus on Diplomacy checks to gather information, and Knowledge checks.",
-    "mechanics": "Inquisitive neural wiring and academic drive grant a permanent +4 racial bonus on Diplomacy checks made to gather information and on all Knowledge (Academic/Lore) checks.",
-    "modifiers": [],
-    "body": "# Curiosity\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Trained  \n\n## Description\n+4 bonus on Diplomacy checks to gather information, and Knowledge checks.\n\n## Mechanics & Benefits\nInquisitive neural wiring and academic drive grant a permanent +4 racial bonus on Diplomacy checks made to gather information and on all Knowledge (Academic/Lore) checks."
-  },
-  {
-    "id": "trait-species-dark-sight",
+    "id": "trait-dark-sight",
     "name": "Dark Sight",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Sensory",
-    "type": "Sensory",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -1708,18 +1983,18 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Clear vision in all levels of Light or Darkness (UV, seeing luminescence).",
     "description": "Clear vision in all levels of Light or Darkness (UV, seeing luminescence).",
-    "mechanics": "Flawless visual perception across complete darkness, total absence of light, UV bands, and bioluminescent signatures without penalties out to 60 feet.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Dark Sight\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Sensory  \n\n## Description\nClear vision in all levels of Light or Darkness (UV, seeing luminescence).\n\n## Mechanics & Benefits\nFlawless visual perception across complete darkness, total absence of light, UV bands, and bioluminescent signatures without penalties out to 60 feet."
+    "body": "# Dark Sight\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nClear vision in all levels of Light or Darkness (UV, seeing luminescence)."
   },
   {
-    "id": "trait-species-defensive-training",
+    "id": "trait-defensive-training",
     "name": "Defensive Training",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Defensive",
-    "type": "Defensive",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -1733,18 +2008,18 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "+2 dodge bonus to Defense.",
     "description": "+2 dodge bonus to Defense.",
-    "mechanics": "Instinctive body dodging, evasive kinetic posturing, and predictive footing grant a permanent +2 dodge bonus to Defense (AC).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Defensive Training\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Defensive  \n\n## Description\n+2 dodge bonus to Defense.\n\n## Mechanics & Benefits\nInstinctive body dodging, evasive kinetic posturing, and predictive footing grant a permanent +2 dodge bonus to Defense (AC)."
+    "body": "# Defensive Training\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\n+2 dodge bonus to Defense."
   },
   {
-    "id": "trait-species-dragon-eyes",
+    "id": "trait-dragon-eyes",
     "name": "Dragon Eyes",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Sensory",
-    "type": "Sensory",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -1758,18 +2033,18 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Choose from Low-Light Vision line (Dark, Ether, Thermal). Multiple.",
     "description": "Choose from Low-Light Vision line (Dark, Ether, Thermal). Multiple.",
-    "mechanics": "Draconic optic structures allow selecting one enhanced sensory vision mode (Dark Sight, Ether Sight, or Thermal Sight). May be selected multiple times for different vision modes.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Dragon Eyes\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Sensory  \n\n## Description\nChoose from Low-Light Vision line (Dark, Ether, Thermal). Multiple.\n\n## Mechanics & Benefits\nDraconic optic structures allow selecting one enhanced sensory vision mode (Dark Sight, Ether Sight, or Thermal Sight). May be selected multiple times for different vision modes."
+    "body": "# Dragon Eyes\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nChoose from Low-Light Vision line (Dark, Ether, Thermal). Multiple."
   },
   {
-    "id": "trait-species-dragon-form",
+    "id": "trait-dragon-form",
     "name": "Dragon Form",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -1783,12 +2058,12 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Alternate Form of a Large size Dragon",
     "description": "Alternate Form of a Large size Dragon",
-    "mechanics": "The character can assume an Alternate Form of a Large-sized Draconic entity with natural claws/bite (1d8 damage), leathery wings, and enhanced natural armor (+4 DR).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Dragon Form\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Meta  \n\n## Description\nAlternate Form of a Large size Dragon\n\n## Mechanics & Benefits\nThe character can assume an Alternate Form of a Large-sized Draconic entity with natural claws/bite (1d8 damage), leathery wings, and enhanced natural armor (+4 DR)."
+    "body": "# Dragon Form\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nAlternate Form of a Large size Dragon"
   },
   {
-    "id": "trait-species-dragon-might",
+    "id": "trait-dragon-might",
     "name": "Dragon Might",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -1808,12 +2083,12 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Lift Objects and Grapple as if 1 size category larger. Req: Dragonkin, Str 4.",
     "description": "Lift Objects and Grapple as if 1 size category larger. Req: Dragonkin, Str 4.",
-    "mechanics": "Requirements: Dragonkin lineage, Strength 4+. Tremendous draconic muscle density allows lifting, carrying, shoving, and grappling as if 1 size category larger.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Dragon Might\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nLift Objects and Grapple as if 1 size category larger. Req: Dragonkin, Str 4.\n\n## Mechanics & Benefits\nRequirements: Dragonkin lineage, Strength 4+. Tremendous draconic muscle density allows lifting, carrying, shoving, and grappling as if 1 size category larger."
+    "body": "# Dragon Might\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nLift Objects and Grapple as if 1 size category larger. Req: Dragonkin, Str 4."
   },
   {
-    "id": "trait-species-dragon-mind",
+    "id": "trait-dragon-mind",
     "name": "Dragon Mind",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -1833,18 +2108,18 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Make any Mental Resistance checks with Advantage. Req: Dragonkin, Wis 2.",
     "description": "Make any Mental Resistance checks with Advantage. Req: Dragonkin, Wis 2.",
-    "mechanics": "Requirements: Dragonkin lineage, Wisdom 2+. Fierce mental fortitude and draconic pride grant Advantage on all Mental Resistance, Willpower, and psychic intrusion checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Dragon Mind\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nMake any Mental Resistance checks with Advantage. Req: Dragonkin, Wis 2.\n\n## Mechanics & Benefits\nRequirements: Dragonkin lineage, Wisdom 2+. Fierce mental fortitude and draconic pride grant Advantage on all Mental Resistance, Willpower, and psychic intrusion checks."
+    "body": "# Dragon Mind\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nMake any Mental Resistance checks with Advantage. Req: Dragonkin, Wis 2."
   },
   {
-    "id": "trait-species-dragon-senses",
+    "id": "trait-dragon-senses",
     "name": "Dragon Senses",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Sensory",
-    "type": "Sensory",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -1858,12 +2133,12 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Make Awareness Checks with Advantage. Req: Dragonkin, Awareness 11.",
     "description": "Make Awareness Checks with Advantage. Req: Dragonkin, Awareness 11.",
-    "mechanics": "Requirements: Dragonkin lineage, Awareness score 11+. Superior predator tracking and spatial alertness grant Advantage on all Perception/Awareness checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Dragon Senses\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Sensory  \n\n## Description\nMake Awareness Checks with Advantage. Req: Dragonkin, Awareness 11.\n\n## Mechanics & Benefits\nRequirements: Dragonkin lineage, Awareness score 11+. Superior predator tracking and spatial alertness grant Advantage on all Perception/Awareness checks."
+    "body": "# Dragon Senses\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nMake Awareness Checks with Advantage. Req: Dragonkin, Awareness 11."
   },
   {
-    "id": "trait-species-energy-resist",
+    "id": "trait-energy-resist",
     "name": "Energy Resist",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -1880,15 +2155,15 @@ export const SPECIES_TRAITS_ADVANCED = [
       "focus": 0,
       "ap": 0
     },
-    "is_ranked": true,
+    "is_ranked": false,
     "desc": "DR 10 vs Chosen Type (Pyro, Cryo, Sonic, Voltic, Corrosive). Multiple/Ranked.",
     "description": "DR 10 vs Chosen Type (Pyro, Cryo, Sonic, Voltic, Corrosive). Multiple/Ranked.",
-    "mechanics": "Dense cellular shielding grants DR 10 against one chosen energy damage type (Thermal/Pyro, Cryo, Voltic, Sonic, or Corrosive). May be taken multiple times for different types or ranked to increase DR by +10 per rank.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Energy Resist\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical (Ranked)  \n\n## Description\nDR 10 vs Chosen Type (Pyro, Cryo, Sonic, Voltic, Corrosive). Multiple/Ranked.\n\n## Mechanics & Benefits\nDense cellular shielding grants DR 10 against one chosen energy damage type (Thermal/Pyro, Cryo, Voltic, Sonic, or Corrosive). May be taken multiple times for different types or ranked to increase DR by +10 per rank."
+    "body": "# Energy Resist\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nDR 10 vs Chosen Type (Pyro, Cryo, Sonic, Voltic, Corrosive). Multiple/Ranked."
   },
   {
-    "id": "trait-species-exoskeleton-light",
+    "id": "trait-exoskeleton-light",
     "name": "Exoskeleton (Light)",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -1908,12 +2183,12 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "DR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating.",
     "description": "DR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating.",
-    "mechanics": "Hardened chitinous plates or heavy overlapping scales grant Damage Resistance formula DR = (Strength + 2) × 3, requiring minimum Strength 3. Noticeable anatomy requiring custom-fitted clothing.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Exoskeleton (Light)\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nDR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating.\n\n## Mechanics & Benefits\nHardened chitinous plates or heavy overlapping scales grant Damage Resistance formula DR = (Strength + 2) × 3, requiring minimum Strength 3. Noticeable anatomy requiring custom-fitted clothing."
+    "body": "# Exoskeleton (Light)\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nDR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating."
   },
   {
-    "id": "trait-species-fast-heal",
+    "id": "trait-fast-heal",
     "name": "Fast Heal",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -1933,18 +2208,18 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Daily Recovery of Health and Vitality during a Light Rest (repeatable).",
     "description": "Daily Recovery of Health and Vitality during a Light Rest (repeatable).",
-    "mechanics": "Accelerated cellular mitosis allows recovering 10% maximum Health and Vitality during a short Light Rest (15 minutes) once per day in addition to standard rest benefits.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Fast Heal\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nDaily Recovery of Health and Vitality during a Light Rest (repeatable).\n\n## Mechanics & Benefits\nAccelerated cellular mitosis allows recovering 10% maximum Health and Vitality during a short Light Rest (15 minutes) once per day in addition to standard rest benefits."
+    "body": "# Fast Heal\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nDaily Recovery of Health and Vitality during a Light Rest (repeatable)."
   },
   {
-    "id": "trait-species-fey-affinity",
+    "id": "trait-fey-affinity",
     "name": "Fey Affinity",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -1958,18 +2233,18 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Animals treat character as Trusting & Neutral, Friendly.",
     "description": "Animals treat character as Trusting & Neutral, Friendly.",
-    "mechanics": "An innate harmonic aura causes non-hostile natural beasts and creatures to treat the character as friendly, trusting, and non-threatening by default.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Fey Affinity\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Meta  \n\n## Description\nAnimals treat character as Trusting & Neutral, Friendly.\n\n## Mechanics & Benefits\nAn innate harmonic aura causes non-hostile natural beasts and creatures to treat the character as friendly, trusting, and non-threatening by default."
+    "body": "# Fey Affinity\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nAnimals treat character as Trusting & Neutral, Friendly."
   },
   {
-    "id": "trait-species-fiend-affinity",
+    "id": "trait-fiend-affinity",
     "name": "Fiend Affinity",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -1983,18 +2258,18 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Animals treat character as a Predator & Dangerous, Wary.",
     "description": "Animals treat character as a Predator & Dangerous, Wary.",
-    "mechanics": "An apex predatory aura causes wild animals and lesser beasts to instinctively recognize the character as a dangerous predator, making them wary and hesitant to initiate attack.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Fiend Affinity\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Meta  \n\n## Description\nAnimals treat character as a Predator & Dangerous, Wary.\n\n## Mechanics & Benefits\nAn apex predatory aura causes wild animals and lesser beasts to instinctively recognize the character as a dangerous predator, making them wary and hesitant to initiate attack."
+    "body": "# Fiend Affinity\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nAnimals treat character as a Predator & Dangerous, Wary."
   },
   {
-    "id": "trait-species-gifted-linguist",
+    "id": "trait-gifted-linguist",
     "name": "Gifted Linguist",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Trained",
-    "type": "Trained",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -2008,18 +2283,18 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "+4 racial bonus on Linguistics checks.",
     "description": "+4 racial bonus on Linguistics checks.",
-    "mechanics": "Advanced neuro-linguistic processing grants a +4 racial bonus on all Linguistics, Decryption, and Language Translation checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Gifted Linguist\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Trained  \n\n## Description\n+4 racial bonus on Linguistics checks.\n\n## Mechanics & Benefits\nAdvanced neuro-linguistic processing grants a +4 racial bonus on all Linguistics, Decryption, and Language Translation checks."
+    "body": "# Gifted Linguist\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\n+4 racial bonus on Linguistics checks."
   },
   {
-    "id": "trait-species-hive-connection",
+    "id": "trait-hive-connection",
     "name": "Hive Connection",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -2033,12 +2308,12 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Allows members to mentally share information on different levels (Special).",
     "description": "Allows members to mentally share information on different levels (Special).",
-    "mechanics": "Sub-etheric neural linkage allows sharing sensory observations, tactical telemetry, and emotional states instantaneously with other linked hive or clutch members within 1 mile.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Hive Connection\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Meta  \n\n## Description\nAllows members to mentally share information on different levels (Special).\n\n## Mechanics & Benefits\nSub-etheric neural linkage allows sharing sensory observations, tactical telemetry, and emotional states instantaneously with other linked hive or clutch members within 1 mile."
+    "body": "# Hive Connection\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nAllows members to mentally share information on different levels (Special)."
   },
   {
-    "id": "trait-species-longevity",
+    "id": "trait-longevity",
     "name": "Longevity",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -2058,18 +2333,18 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Effectively doubles age categories.",
     "description": "Effectively doubles age categories.",
-    "mechanics": "Robust cellular repair mechanisms double the duration of all chronological life stages and age thresholds (e.g., lifespan extended to 2× standard species baseline).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Longevity\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nEffectively doubles age categories.\n\n## Mechanics & Benefits\nRobust cellular repair mechanisms double the duration of all chronological life stages and age thresholds (e.g., lifespan extended to 2× standard species baseline)."
+    "body": "# Longevity\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nEffectively doubles age categories."
   },
   {
-    "id": "trait-species-lucky-greater",
+    "id": "trait-lucky-greater",
     "name": "Lucky, Greater",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -2083,18 +2358,18 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "+2 racial bonus on all saving throws.",
     "description": "+2 racial bonus on all saving throws.",
-    "mechanics": "Potent metaphysical fortune grants a permanent +2 racial bonus across all saving throws (Fortitude, Reflex, and Willpower).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Lucky, Greater\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Meta  \n\n## Description\n+2 racial bonus on all saving throws.\n\n## Mechanics & Benefits\nPotent metaphysical fortune grants a permanent +2 racial bonus across all saving throws (Fortitude, Reflex, and Willpower)."
+    "body": "# Lucky, Greater\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\n+2 racial bonus on all saving throws."
   },
   {
-    "id": "trait-species-master-tinker",
+    "id": "trait-master-tinker",
     "name": "Master Tinker",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Trained",
-    "type": "Trained",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -2108,18 +2383,18 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "+2 bonus on Disable Device and Engineering.",
     "description": "+2 bonus on Disable Device and Engineering.",
-    "mechanics": "Instinctive mechanical aptitude grants a permanent +2 racial bonus on all Engineering, Electronics, and Disable Device skill checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Master Tinker\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Trained  \n\n## Description\n+2 bonus on Disable Device and Engineering.\n\n## Mechanics & Benefits\nInstinctive mechanical aptitude grants a permanent +2 racial bonus on all Engineering, Electronics, and Disable Device skill checks."
+    "body": "# Master Tinker\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\n+2 bonus on Disable Device and Engineering."
   },
   {
-    "id": "trait-species-mind-speech",
+    "id": "trait-mind-speech",
     "name": "Mind Speech",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -2130,21 +2405,21 @@ export const SPECIES_TRAITS_ADVANCED = [
       "focus": 0,
       "ap": 0
     },
-    "is_ranked": true,
+    "is_ranked": false,
     "desc": "Telepathic Communication to one subject within 500 ft. Ranked.",
     "description": "Telepathic Communication to one subject within 500 ft. Ranked.",
-    "mechanics": "Direct psionic communication to any designated sentient subject within 500 feet. Does not require shared spoken language. May be ranked to expand range (+500 ft per rank).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Mind Speech\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Meta (Ranked)  \n\n## Description\nTelepathic Communication to one subject within 500 ft. Ranked.\n\n## Mechanics & Benefits\nDirect psionic communication to any designated sentient subject within 500 feet. Does not require shared spoken language. May be ranked to expand range (+500 ft per rank)."
+    "body": "# Mind Speech\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nTelepathic Communication to one subject within 500 ft. Ranked."
   },
   {
-    "id": "trait-species-natural-weapons",
+    "id": "trait-natural-weapons",
     "name": "Natural Weapons",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Combat",
-    "type": "Combat",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -2158,18 +2433,18 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "A Claw, Fang, Horn or other attack form.",
     "description": "A Claw, Fang, Horn or other attack form.",
-    "mechanics": "Possesses biological claws, fangs, horns, or tail spikes dealing 1d6 + Strength kinetic damage (Lethal) with primary attack readiness.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Natural Weapons\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Combat  \n\n## Description\nA Claw, Fang, Horn or other attack form.\n\n## Mechanics & Benefits\nPossesses biological claws, fangs, horns, or tail spikes dealing 1d6 + Strength kinetic damage (Lethal) with primary attack readiness."
+    "body": "# Natural Weapons\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nA Claw, Fang, Horn or other attack form."
   },
   {
-    "id": "trait-species-powerful-charge",
+    "id": "trait-powerful-charge",
     "name": "Powerful Charge",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Combat",
-    "type": "Combat",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -2183,12 +2458,12 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Charge deals twice the number of damage dice plus 1-1/2 times Str bonus.",
     "description": "Charge deals twice the number of damage dice plus 1-1/2 times Str bonus.",
-    "mechanics": "When executing a Charge action, the character deals double weapon damage dice plus 1.5× Strength modifier upon a successful hit.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Powerful Charge\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Combat  \n\n## Description\nCharge deals twice the number of damage dice plus 1-1/2 times Str bonus.\n\n## Mechanics & Benefits\nWhen executing a Charge action, the character deals double weapon damage dice plus 1.5× Strength modifier upon a successful hit."
+    "body": "# Powerful Charge\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nCharge deals twice the number of damage dice plus 1-1/2 times Str bonus."
   },
   {
-    "id": "trait-species-prehensile-limbs",
+    "id": "trait-prehensile-limbs",
     "name": "Prehensile Limbs",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -2208,12 +2483,12 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Fully Prehensile tentacles/off-hands/limbs, make certain checks with Advantage.",
     "description": "Fully Prehensile tentacles/off-hands/limbs, make certain checks with Advantage.",
-    "mechanics": "Fully prehensile tentacles or versatile extra limbs grant Advantage on Grapple maintenance, manual manipulation under zero gravity, and complex device rigging.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Prehensile Limbs\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nFully Prehensile tentacles/off-hands/limbs, make certain checks with Advantage.\n\n## Mechanics & Benefits\nFully prehensile tentacles or versatile extra limbs grant Advantage on Grapple maintenance, manual manipulation under zero gravity, and complex device rigging."
+    "body": "# Prehensile Limbs\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nFully Prehensile tentacles/off-hands/limbs, make certain checks with Advantage."
   },
   {
-    "id": "trait-species-prehensile-tail",
+    "id": "trait-prehensile-tail",
     "name": "Prehensile Tail",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -2233,18 +2508,18 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "+2 to Climbing and Balance checks and usable as an off-hand. Special Pants.",
     "description": "+2 to Climbing and Balance checks and usable as an off-hand. Special Pants.",
-    "mechanics": "A fully articulated, muscular tail grants a +2 bonus on Climbing and Balance checks and can grasp objects, retrieve items, or wield light tools as an off-hand limb. Requires tailored pants.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Prehensile Tail\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\n+2 to Climbing and Balance checks and usable as an off-hand. Special Pants.\n\n## Mechanics & Benefits\nA fully articulated, muscular tail grants a +2 bonus on Climbing and Balance checks and can grasp objects, retrieve items, or wield light tools as an off-hand limb. Requires tailored pants."
+    "body": "# Prehensile Tail\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\n+2 to Climbing and Balance checks and usable as an off-hand. Special Pants."
   },
   {
-    "id": "trait-species-quadruped",
+    "id": "trait-quadruped",
     "name": "Quadruped",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Movement",
-    "type": "Movement",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -2258,12 +2533,12 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Four legged, +4 Stability, +10 movement speed. Special Accommodations.",
     "description": "Four legged, +4 Stability, +10 movement speed. Special Accommodations.",
-    "mechanics": "Four-legged locomotion grants +10 ft base movement speed and a +4 racial Stability bonus against Trip and Bull Rush attempts. Requires customized armor and vehicle mount accommodations.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Quadruped\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Movement  \n\n## Description\nFour legged, +4 Stability, +10 movement speed. Special Accommodations.\n\n## Mechanics & Benefits\nFour-legged locomotion grants +10 ft base movement speed and a +4 racial Stability bonus against Trip and Bull Rush attempts. Requires customized armor and vehicle mount accommodations."
+    "body": "# Quadruped\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nFour legged, +4 Stability, +10 movement speed. Special Accommodations."
   },
   {
-    "id": "trait-species-quick-reactions",
+    "id": "trait-quick-reactions",
     "name": "Quick Reactions",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -2283,18 +2558,18 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Use double Agility score to calculate base Initiative. Req: Racial Agility +1.",
     "description": "Use double Agility score to calculate base Initiative. Req: Racial Agility +1.",
-    "mechanics": "Requirements: Racial Agility +1. High-speed neural synaptic firing allows using 2× Agility score when determining base Initiative in combat.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Quick Reactions\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nUse double Agility score to calculate base Initiative. Req: Racial Agility +1.\n\n## Mechanics & Benefits\nRequirements: Racial Agility +1. High-speed neural synaptic firing allows using 2× Agility score when determining base Initiative in combat."
+    "body": "# Quick Reactions\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nUse double Agility score to calculate base Initiative. Req: Racial Agility +1."
   },
   {
-    "id": "trait-species-resistant",
+    "id": "trait-resistant",
     "name": "Resistant",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Defensive",
-    "type": "Defensive",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -2308,18 +2583,18 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "+2 racial bonus on saving throws against mind-affecting effects and poison.",
     "description": "+2 racial bonus on saving throws against mind-affecting effects and poison.",
-    "mechanics": "Dual biochemical and neural filtering grants a +2 racial bonus on saving throws against mind-affecting metaphysical spells, psychic illusions, and biological poisons.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Resistant\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Defensive  \n\n## Description\n+2 racial bonus on saving throws against mind-affecting effects and poison.\n\n## Mechanics & Benefits\nDual biochemical and neural filtering grants a +2 racial bonus on saving throws against mind-affecting metaphysical spells, psychic illusions, and biological poisons."
+    "body": "# Resistant\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\n+2 racial bonus on saving throws against mind-affecting effects and poison."
   },
   {
-    "id": "trait-species-rock-throwing",
+    "id": "trait-rock-throwing",
     "name": "Rock Throwing",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Combat",
-    "type": "Combat",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -2333,12 +2608,12 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Range increment 60ft. Damage 2d6 + 1.5 Str. Req: Large.",
     "description": "Range increment 60ft. Damage 2d6 + 1.5 Str. Req: Large.",
-    "mechanics": "Requirements: Large size category or larger. The creature can hurl boulders, heavy debris, or structural blocks with a 60 ft range increment, dealing 2d6 + 1.5× Strength kinetic damage.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Rock Throwing\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Combat  \n\n## Description\nRange increment 60ft. Damage 2d6 + 1.5 Str. Req: Large.\n\n## Mechanics & Benefits\nRequirements: Large size category or larger. The creature can hurl boulders, heavy debris, or structural blocks with a 60 ft range increment, dealing 2d6 + 1.5× Strength kinetic damage."
+    "body": "# Rock Throwing\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nRange increment 60ft. Damage 2d6 + 1.5 Str. Req: Large."
   },
   {
-    "id": "trait-species-sleepless",
+    "id": "trait-sleepless",
     "name": "Sleepless",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -2358,18 +2633,18 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Does not require sleep, may rest to regain metaphysical energy.",
     "description": "Does not require sleep, may rest to regain metaphysical energy.",
-    "mechanics": "The character does not enter unconscious sleep and is immune to sleep-inducing effects. A period of 4 hours of calm meditation or recharge satisfies all rest and metaphysical energy recovery requirements.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Sleepless\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nDoes not require sleep, may rest to regain metaphysical energy.\n\n## Mechanics & Benefits\nThe character does not enter unconscious sleep and is immune to sleep-inducing effects. A period of 4 hours of calm meditation or recharge satisfies all rest and metaphysical energy recovery requirements."
+    "body": "# Sleepless\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nDoes not require sleep, may rest to regain metaphysical energy."
   },
   {
-    "id": "trait-species-swarming",
+    "id": "trait-swarming",
     "name": "Swarming",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Combat",
-    "type": "Combat",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -2383,12 +2658,12 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Two members can share same square. If attacking same foe, considered flanking.",
     "description": "Two members can share same square. If attacking same foe, considered flanking.",
-    "mechanics": "Up to two members of this species can occupy the exact same 5-foot tactical square. When both attack the same opponent in melee, they are automatically considered to be flanking that target.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Swarming\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Combat  \n\n## Description\nTwo members can share same square. If attacking same foe, considered flanking.\n\n## Mechanics & Benefits\nUp to two members of this species can occupy the exact same 5-foot tactical square. When both attack the same opponent in melee, they are automatically considered to be flanking that target."
+    "body": "# Swarming\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nTwo members can share same square. If attacking same foe, considered flanking."
   },
   {
-    "id": "trait-species-synthetic-armor-options",
+    "id": "trait-synthetic-armor-options",
     "name": "Synthetic Armor Options",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -2408,12 +2683,12 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Armor and Armor Upgrades available as Augmentations. Req: Synthetic, TL2.",
     "description": "Armor and Armor Upgrades available as Augmentations. Req: Synthetic, TL2.",
-    "mechanics": "Requirements: Synthetic chassis type, Tech Level 2+. Manufactured armor plating and modular armor chassis upgrades can be installed directly as cybernetic augmentations without surgical strain penalties.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Synthetic Armor Options\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nArmor and Armor Upgrades available as Augmentations. Req: Synthetic, TL2.\n\n## Mechanics & Benefits\nRequirements: Synthetic chassis type, Tech Level 2+. Manufactured armor plating and modular armor chassis upgrades can be installed directly as cybernetic augmentations without surgical strain penalties."
+    "body": "# Synthetic Armor Options\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nArmor and Armor Upgrades available as Augmentations. Req: Synthetic, TL2."
   },
   {
-    "id": "trait-species-synthetic-weapon-options",
+    "id": "trait-synthetic-weapon-options",
     "name": "Synthetic Weapon Options",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -2433,18 +2708,18 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Weapons and Weapon Upgrades available as Augmentations. Req: Synthetic, TL2.",
     "description": "Weapons and Weapon Upgrades available as Augmentations. Req: Synthetic, TL2.",
-    "mechanics": "Requirements: Synthetic chassis type, Tech Level 2+. Integrated weapon hardpoints and weapon modules can be directly integrated into chassis arms and compartments.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Synthetic Weapon Options\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nWeapons and Weapon Upgrades available as Augmentations. Req: Synthetic, TL2.\n\n## Mechanics & Benefits\nRequirements: Synthetic chassis type, Tech Level 2+. Integrated weapon hardpoints and weapon modules can be directly integrated into chassis arms and compartments."
+    "body": "# Synthetic Weapon Options\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nWeapons and Weapon Upgrades available as Augmentations. Req: Synthetic, TL2."
   },
   {
-    "id": "trait-species-thermal-sight",
+    "id": "trait-thermal-sight",
     "name": "Thermal Sight",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Sensory",
-    "type": "Sensory",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -2458,18 +2733,18 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "See Infra-Red/heat patterns, track passage of a warm target without light.",
     "description": "See Infra-Red/heat patterns, track passage of a warm target without light.",
-    "mechanics": "Infrared pit organs or thermal optics allow detecting heat signatures, warm conduits, and residual thermal footprints in absolute darkness, granting a +4 bonus to track warm-bodied creatures.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Thermal Sight\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Sensory  \n\n## Description\nSee Infra-Red/heat patterns, track passage of a warm target without light.\n\n## Mechanics & Benefits\nInfrared pit organs or thermal optics allow detecting heat signatures, warm conduits, and residual thermal footprints in absolute darkness, granting a +4 bonus to track warm-bodied creatures."
+    "body": "# Thermal Sight\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nSee Infra-Red/heat patterns, track passage of a warm target without light."
   },
   {
-    "id": "trait-species-treespeech",
+    "id": "trait-treespeech",
     "name": "Treespeech",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -2483,12 +2758,12 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Ability to converse with plants.",
     "description": "Ability to converse with plants.",
-    "mechanics": "Innate biophilic resonance allows communicating telepathically with flora, ancient trees, and fungal networks to perceive past events, terrain hazards, or creature passage.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Treespeech\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Meta  \n\n## Description\nAbility to converse with plants.\n\n## Mechanics & Benefits\nInnate biophilic resonance allows communicating telepathically with flora, ancient trees, and fungal networks to perceive past events, terrain hazards, or creature passage."
+    "body": "# Treespeech\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nAbility to converse with plants."
   },
   {
-    "id": "trait-species-venom",
+    "id": "trait-venom",
     "name": "Venom",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -2508,14 +2783,14 @@ export const SPECIES_TRAITS_ADVANCED = [
     "is_ranked": false,
     "desc": "Hemotoxic (Str/Sta) / Neurotoxic (Agility/Sensory) / Cytotoxic (Tissue Corrosive)",
     "description": "Hemotoxic (Str/Sta) / Neurotoxic (Agility/Sensory) / Cytotoxic (Tissue Corrosive)",
-    "mechanics": "Injected via natural weapons or fangs. Choose one toxin profile at creation: Hemotoxic (deals Stamina damage and fatigue), Neurotoxic (deals Agility damage and slows), or Cytotoxic (deals ongoing Corrosive damage). Target must succeed on a Fortitude save (DC 10 + 1/2 Level + Sta mod) or suffer toxin effects.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Venom\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nHemotoxic (Str/Sta) / Neurotoxic (Agility/Sensory) / Cytotoxic (Tissue Corrosive)\n\n## Mechanics & Benefits\nInjected via natural weapons or fangs. Choose one toxin profile at creation: Hemotoxic (deals Stamina damage and fatigue), Neurotoxic (deals Agility damage and slows), or Cytotoxic (deals ongoing Corrosive damage). Target must succeed on a Fortitude save (DC 10 + 1/2 Level + Sta mod) or suffer toxin effects."
+    "body": "# Venom\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nHemotoxic (Str/Sta) / Neurotoxic (Agility/Sensory) / Cytotoxic (Tissue Corrosive)"
   }
 ];
 export const SPECIES_TRAITS_ELITE = [
   {
-    "id": "trait-species-alter-form-elite",
+    "id": "trait-alter-form-elite",
     "name": "Alter Form (Elite)",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -2535,18 +2810,18 @@ export const SPECIES_TRAITS_ELITE = [
     "is_ranked": false,
     "desc": "Base Category, Change Appearance (+10 Disguise)/gender/adjust minor traits.",
     "description": "Base Category, Change Appearance (+10 Disguise)/gender/adjust minor traits.",
-    "mechanics": "Masterful biological shapeshifting allows full structural reconfiguration of facial geometry, vocal registers, retinal patterns, skeletal density, and biological sex across humanoid profiles. Grants a +10 circumstance bonus on Disguise checks and can replicate known individuals with absolute cellular fidelity.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Alter Form (Elite)\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Physical  \n\n## Description\nBase Category, Change Appearance (+10 Disguise)/gender/adjust minor traits.\n\n## Mechanics & Benefits\nMasterful biological shapeshifting allows full structural reconfiguration of facial geometry, vocal registers, retinal patterns, skeletal density, and biological sex across humanoid profiles. Grants a +10 circumstance bonus on Disguise checks and can replicate known individuals with absolute cellular fidelity."
+    "body": "# Alter Form (Elite)\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nBase Category, Change Appearance (+10 Disguise)/gender/adjust minor traits."
   },
   {
-    "id": "trait-species-blind-sight",
+    "id": "trait-blind-sight",
     "name": "Blind Sight",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Elite",
-    "classification": "Sensory",
-    "type": "Sensory",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 4,
     "costs": {
       "bp": 4,
@@ -2560,12 +2835,12 @@ export const SPECIES_TRAITS_ELITE = [
     "is_ranked": false,
     "desc": "Accurately target unseen objects in a 30 ft Radius or 60 ft Cone.",
     "description": "Accurately target unseen objects in a 30 ft Radius or 60 ft Cone.",
-    "mechanics": "Total sensory spatial awareness using acoustic sonar, electro-magnetic field resonance, or ambient psychic echoes. The character can accurately target and interact with unseen, obscured, or invisible objects and creatures in a 30-foot radius or 60-foot cone with zero concealment miss chance.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Blind Sight\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Sensory  \n\n## Description\nAccurately target unseen objects in a 30 ft Radius or 60 ft Cone.\n\n## Mechanics & Benefits\nTotal sensory spatial awareness using acoustic sonar, electro-magnetic field resonance, or ambient psychic echoes. The character can accurately target and interact with unseen, obscured, or invisible objects and creatures in a 30-foot radius or 60-foot cone with zero concealment miss chance."
+    "body": "# Blind Sight\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nAccurately target unseen objects in a 30 ft Radius or 60 ft Cone."
   },
   {
-    "id": "trait-species-bodyform-heavy-armor",
+    "id": "trait-bodyform-heavy-armor",
     "name": "Bodyform Heavy Armor",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -2585,18 +2860,18 @@ export const SPECIES_TRAITS_ELITE = [
     "is_ranked": false,
     "desc": "Shapechange to gain a heavy protective layer (Doubles Bodyform Armor bonus to DR).",
     "description": "Shapechange to gain a heavy protective layer (Doubles Bodyform Armor bonus to DR).",
-    "mechanics": "Dense calcified dermal plates and subcutaneous composite shielding double the Damage Resistance (DR) bonus provided by Bodyform Armor (granting +8 Natural DR / Armor).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Bodyform Heavy Armor\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Physical  \n\n## Description\nShapechange to gain a heavy protective layer (Doubles Bodyform Armor bonus to DR).\n\n## Mechanics & Benefits\nDense calcified dermal plates and subcutaneous composite shielding double the Damage Resistance (DR) bonus provided by Bodyform Armor (granting +8 Natural DR / Armor)."
+    "body": "# Bodyform Heavy Armor\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nShapechange to gain a heavy protective layer (Doubles Bodyform Armor bonus to DR)."
   },
   {
-    "id": "trait-species-dragon-apotheosis",
+    "id": "trait-dragon-apotheosis",
     "name": "Dragon Apotheosis",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Elite",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 4,
     "costs": {
       "bp": 4,
@@ -2610,18 +2885,18 @@ export const SPECIES_TRAITS_ELITE = [
     "is_ranked": false,
     "desc": "Gain Type Specific Ability and access to Advanced Dragon Abilities. Req: Dragon Form.",
     "description": "Gain Type Specific Ability and access to Advanced Dragon Abilities. Req: Dragon Form.",
-    "mechanics": "Requirements: Dragon Form trait. Ascends into true dragon lineage, unlocking an elemental affinity special ability (Immunity, Aura, or Elemental Mastery) and full access to ancient wyrm metaphysical techniques.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Dragon Apotheosis\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Meta  \n\n## Description\nGain Type Specific Ability and access to Advanced Dragon Abilities. Req: Dragon Form.\n\n## Mechanics & Benefits\nRequirements: Dragon Form trait. Ascends into true dragon lineage, unlocking an elemental affinity special ability (Immunity, Aura, or Elemental Mastery) and full access to ancient wyrm metaphysical techniques."
+    "body": "# Dragon Apotheosis\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nGain Type Specific Ability and access to Advanced Dragon Abilities. Req: Dragon Form."
   },
   {
-    "id": "trait-species-dragon-breath",
+    "id": "trait-dragon-breath",
     "name": "Dragon Breath",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Elite",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 4,
     "costs": {
       "bp": 4,
@@ -2635,18 +2910,18 @@ export const SPECIES_TRAITS_ELITE = [
     "is_ranked": false,
     "desc": "Breath Weapon - 30 ft Cone or 60 ft Line of Energy [Str x d8 in Dmg].",
     "description": "Breath Weapon - 30 ft Cone or 60 ft Line of Energy [Str x d8 in Dmg].",
-    "mechanics": "Exhales an elemental tempest in a 30-foot cone or 60-foot line dealing Strength score × 1d8 elemental damage (Pyro, Cryo, Voltic, Sonic, or Corrosive). Targets may attempt a Reflex save (DC 10 + 1/2 Level + Sta mod) for half damage. Usable every 1d4 rounds.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Dragon Breath\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Meta  \n\n## Description\nBreath Weapon - 30 ft Cone or 60 ft Line of Energy [Str x d8 in Dmg].\n\n## Mechanics & Benefits\nExhales an elemental tempest in a 30-foot cone or 60-foot line dealing Strength score × 1d8 elemental damage (Pyro, Cryo, Voltic, Sonic, or Corrosive). Targets may attempt a Reflex save (DC 10 + 1/2 Level + Sta mod) for half damage. Usable every 1d4 rounds."
+    "body": "# Dragon Breath\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nBreath Weapon - 30 ft Cone or 60 ft Line of Energy [Str x d8 in Dmg]."
   },
   {
-    "id": "trait-species-dragon-wings",
+    "id": "trait-dragon-wings",
     "name": "Dragon Wings",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Elite",
-    "classification": "Movement",
-    "type": "Movement",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 4,
     "costs": {
       "bp": 4,
@@ -2660,18 +2935,18 @@ export const SPECIES_TRAITS_ELITE = [
     "is_ranked": false,
     "desc": "Grow Leathery Wings - Fly Speed of 3x Ground Speed. Req: Dragonkin, Exoskeleton.",
     "description": "Grow Leathery Wings - Fly Speed of 3x Ground Speed. Req: Dragonkin, Exoskeleton.",
-    "mechanics": "Requirements: Dragonkin lineage, Exoskeleton trait. Massive leathery, scaled wings sprout from the shoulder blades, granting a true Fly Speed equal to 3× base Ground Speed (90 ft/round for Medium) with Good maneuverability.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Dragon Wings\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Movement  \n\n## Description\nGrow Leathery Wings - Fly Speed of 3x Ground Speed. Req: Dragonkin, Exoskeleton.\n\n## Mechanics & Benefits\nRequirements: Dragonkin lineage, Exoskeleton trait. Massive leathery, scaled wings sprout from the shoulder blades, granting a true Fly Speed equal to 3× base Ground Speed (90 ft/round for Medium) with Good maneuverability."
+    "body": "# Dragon Wings\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nGrow Leathery Wings - Fly Speed of 3x Ground Speed. Req: Dragonkin, Exoskeleton."
   },
   {
-    "id": "trait-species-energized-breath",
+    "id": "trait-energized-breath",
     "name": "Energized Breath",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Elite",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 4,
     "costs": {
       "bp": 4,
@@ -2685,18 +2960,18 @@ export const SPECIES_TRAITS_ELITE = [
     "is_ranked": false,
     "desc": "Focus energy into breath weapon to roll damage at advantage, 1/2 damage is magic.",
     "description": "Focus energy into breath weapon to roll damage at advantage, 1/2 damage is magic.",
-    "mechanics": "Chunnels metaphysical force through the breath weapon gland. The character rolls breath weapon damage dice with Advantage (take higher results), and 50% of the total damage bypasses conventional physical and energy shields as pure metaphysical/magical force.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Energized Breath\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Meta  \n\n## Description\nFocus energy into breath weapon to roll damage at advantage, 1/2 damage is magic.\n\n## Mechanics & Benefits\nChunnels metaphysical force through the breath weapon gland. The character rolls breath weapon damage dice with Advantage (take higher results), and 50% of the total damage bypasses conventional physical and energy shields as pure metaphysical/magical force."
+    "body": "# Energized Breath\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nFocus energy into breath weapon to roll damage at advantage, 1/2 damage is magic."
   },
   {
-    "id": "trait-species-energy-absorption",
+    "id": "trait-energy-absorption",
     "name": "Energy Absorption",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Elite",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 4,
     "costs": {
       "bp": 4,
@@ -2707,15 +2982,15 @@ export const SPECIES_TRAITS_ELITE = [
       "focus": 0,
       "ap": 0
     },
-    "is_ranked": true,
+    "is_ranked": false,
     "desc": "Heals 20% of damage ignored. Ranked. Req: Energy Immunity.",
     "description": "Heals 20% of damage ignored. Ranked. Req: Energy Immunity.",
-    "mechanics": "Requirements: Energy Immunity trait. Whenever subjected to the designated energy damage type, the character converts 20% of the absorbed damage directly into restored Health and Vitality per rank. Ranked.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Energy Absorption\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Meta (Ranked)  \n\n## Description\nHeals 20% of damage ignored. Ranked. Req: Energy Immunity.\n\n## Mechanics & Benefits\nRequirements: Energy Immunity trait. Whenever subjected to the designated energy damage type, the character converts 20% of the absorbed damage directly into restored Health and Vitality per rank. Ranked."
+    "body": "# Energy Absorption\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nHeals 20% of damage ignored. Ranked. Req: Energy Immunity."
   },
   {
-    "id": "trait-species-energy-immunity",
+    "id": "trait-energy-immunity",
     "name": "Energy Immunity",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -2735,18 +3010,18 @@ export const SPECIES_TRAITS_ELITE = [
     "is_ranked": false,
     "desc": "Completely Immune to specific Energy Damage. Req: Sta 2, DR 20 vs specific Energy.",
     "description": "Completely Immune to specific Energy Damage. Req: Sta 2, DR 20 vs specific Energy.",
-    "mechanics": "Requirements: Stamina 2+, DR 20 vs specific energy type. Complete molecular and harmonic immunity to one designated energy damage type (Thermal/Pyro, Cryo, Voltic, Sonic, or Corrosive). Suffers 0 damage from that energy type under all conditions.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Energy Immunity\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Physical  \n\n## Description\nCompletely Immune to specific Energy Damage. Req: Sta 2, DR 20 vs specific Energy.\n\n## Mechanics & Benefits\nRequirements: Stamina 2+, DR 20 vs specific energy type. Complete molecular and harmonic immunity to one designated energy damage type (Thermal/Pyro, Cryo, Voltic, Sonic, or Corrosive). Suffers 0 damage from that energy type under all conditions."
+    "body": "# Energy Immunity\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nCompletely Immune to specific Energy Damage. Req: Sta 2, DR 20 vs specific Energy."
   },
   {
-    "id": "trait-species-ether-sight",
+    "id": "trait-ether-sight",
     "name": "Ether Sight",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Elite",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 4,
     "costs": {
       "bp": 4,
@@ -2760,12 +3035,12 @@ export const SPECIES_TRAITS_ELITE = [
     "is_ranked": false,
     "desc": "See the Invisible, Phased (other-dimensional energies) and Bioluminescence Auras.",
     "description": "See the Invisible, Phased (other-dimensional energies) and Bioluminescence Auras.",
-    "mechanics": "Perceives across metaphysical, astral, and dimensional bandwidths. Clearly sees invisible beings, phased or ethereal entities, dimensional rifts, and ambient metaphysical auras with perfect clarity.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Ether Sight\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Meta  \n\n## Description\nSee the Invisible, Phased (other-dimensional energies) and Bioluminescence Auras.\n\n## Mechanics & Benefits\nPerceives across metaphysical, astral, and dimensional bandwidths. Clearly sees invisible beings, phased or ethereal entities, dimensional rifts, and ambient metaphysical auras with perfect clarity."
+    "body": "# Ether Sight\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nSee the Invisible, Phased (other-dimensional energies) and Bioluminescence Auras."
   },
   {
-    "id": "trait-species-exoskeleton-heavy",
+    "id": "trait-exoskeleton-heavy",
     "name": "Exoskeleton (Heavy)",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -2785,18 +3060,18 @@ export const SPECIES_TRAITS_ELITE = [
     "is_ranked": false,
     "desc": "DR (Strength +2) x4: Str 4, Obvious, Special Clothing - Heavy Plating or Shell.",
     "description": "DR (Strength +2) x4: Str 4, Obvious, Special Clothing - Heavy Plating or Shell.",
-    "mechanics": "Massive hardened carapace, mineralized exoskeleton, or reinforced shell plates grant Damage Resistance formula DR = (Strength + 2) × 4, requiring minimum Strength 4. Highly prominent anatomy requiring specialized industrial-grade clothing and armor accommodation.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Exoskeleton (Heavy)\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Physical  \n\n## Description\nDR (Strength +2) x4: Str 4, Obvious, Special Clothing - Heavy Plating or Shell.\n\n## Mechanics & Benefits\nMassive hardened carapace, mineralized exoskeleton, or reinforced shell plates grant Damage Resistance formula DR = (Strength + 2) × 4, requiring minimum Strength 4. Highly prominent anatomy requiring specialized industrial-grade clothing and armor accommodation."
+    "body": "# Exoskeleton (Heavy)\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nDR (Strength +2) x4: Str 4, Obvious, Special Clothing - Heavy Plating or Shell."
   },
   {
-    "id": "trait-species-flight",
+    "id": "trait-flight",
     "name": "Flight",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Elite",
-    "classification": "Movement",
-    "type": "Movement",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 4,
     "costs": {
       "bp": 4,
@@ -2810,18 +3085,18 @@ export const SPECIES_TRAITS_ELITE = [
     "is_ranked": false,
     "desc": "Flight Speed of 2x Ground Speed and Average Maneuverability, uses Acrobatics skill.",
     "description": "Flight Speed of 2x Ground Speed and Average Maneuverability, uses Acrobatics skill.",
-    "mechanics": "True aerial flight through biological wings, anti-gravitic organelles, or kinetic levitation. Grants a Fly Speed equal to 2× Ground Speed (60 ft/round for Medium) with Average maneuverability, using Acrobatics for aerial checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Flight\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Movement  \n\n## Description\nFlight Speed of 2x Ground Speed and Average Maneuverability, uses Acrobatics skill.\n\n## Mechanics & Benefits\nTrue aerial flight through biological wings, anti-gravitic organelles, or kinetic levitation. Grants a Fly Speed equal to 2× Ground Speed (60 ft/round for Medium) with Average maneuverability, using Acrobatics for aerial checks."
+    "body": "# Flight\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nFlight Speed of 2x Ground Speed and Average Maneuverability, uses Acrobatics skill."
   },
   {
-    "id": "trait-species-hexapedal",
+    "id": "trait-hexapedal",
     "name": "Hexapedal",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Elite",
-    "classification": "Movement",
-    "type": "Movement",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 4,
     "costs": {
       "bp": 4,
@@ -2835,18 +3110,18 @@ export const SPECIES_TRAITS_ELITE = [
     "is_ranked": false,
     "desc": "Six legged, +8 Stability, +20 movement speed. Special Accommodations.",
     "description": "Six legged, +8 Stability, +20 movement speed. Special Accommodations.",
-    "mechanics": "Six-legged locomotion provides extraordinary terrestrial power and low-center anchoring. Grants +20 ft base movement speed and a +8 racial Stability bonus against Trip, Bull Rush, and Knockdown attempts. Requires custom vehicular seats and multi-legged armor.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Hexapedal\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Movement  \n\n## Description\nSix legged, +8 Stability, +20 movement speed. Special Accommodations.\n\n## Mechanics & Benefits\nSix-legged locomotion provides extraordinary terrestrial power and low-center anchoring. Grants +20 ft base movement speed and a +8 racial Stability bonus against Trip, Bull Rush, and Knockdown attempts. Requires custom vehicular seats and multi-legged armor."
+    "body": "# Hexapedal\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nSix legged, +8 Stability, +20 movement speed. Special Accommodations."
   },
   {
-    "id": "trait-species-immortal",
+    "id": "trait-immortal",
     "name": "Immortal",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Elite",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 4,
     "costs": {
       "bp": 4,
@@ -2860,12 +3135,12 @@ export const SPECIES_TRAITS_ELITE = [
     "is_ranked": false,
     "desc": "Cannot die of Natural Causes, nor suffer damage from Poisons/Diseases. Req: Ageless.",
     "description": "Cannot die of Natural Causes, nor suffer damage from Poisons/Diseases. Req: Ageless.",
-    "mechanics": "Requirements: Ageless trait. Perpetual bio-energetic renewal prevents death from natural causes or old age. The character is completely immune to non-magical and biological diseases, pathogens, venoms, and chemical poisons.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Immortal\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Meta  \n\n## Description\nCannot die of Natural Causes, nor suffer damage from Poisons/Diseases. Req: Ageless.\n\n## Mechanics & Benefits\nRequirements: Ageless trait. Perpetual bio-energetic renewal prevents death from natural causes or old age. The character is completely immune to non-magical and biological diseases, pathogens, venoms, and chemical poisons."
+    "body": "# Immortal\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nCannot die of Natural Causes, nor suffer damage from Poisons/Diseases. Req: Ageless."
   },
   {
-    "id": "trait-species-nimble-appendages",
+    "id": "trait-nimble-appendages",
     "name": "Nimble Appendages",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -2885,18 +3160,18 @@ export const SPECIES_TRAITS_ELITE = [
     "is_ranked": false,
     "desc": "Usable as ‘main-hand’ with no penalties. Req: Additional Limbs/Tail.",
     "description": "Usable as ‘main-hand’ with no penalties. Req: Additional Limbs/Tail.",
-    "mechanics": "Requirements: Additional Limbs or Prehensile Tail trait. Complete neuro-muscular bilateral ambidexterity allows secondary limbs and prehensile tails to operate with full main-hand precision, suffering zero off-hand penalties on attack rolls, weapon handling, or complex technological operations.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Nimble Appendages\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Physical  \n\n## Description\nUsable as ‘main-hand’ with no penalties. Req: Additional Limbs/Tail.\n\n## Mechanics & Benefits\nRequirements: Additional Limbs or Prehensile Tail trait. Complete neuro-muscular bilateral ambidexterity allows secondary limbs and prehensile tails to operate with full main-hand precision, suffering zero off-hand penalties on attack rolls, weapon handling, or complex technological operations."
+    "body": "# Nimble Appendages\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nUsable as ‘main-hand’ with no penalties. Req: Additional Limbs/Tail."
   },
   {
-    "id": "trait-species-non-living",
+    "id": "trait-non-living",
     "name": "Non-Living",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Elite",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 4,
     "costs": {
       "bp": 4,
@@ -2910,12 +3185,12 @@ export const SPECIES_TRAITS_ELITE = [
     "is_ranked": false,
     "desc": "Undead, Elementals and others not classified as Living by normal standards.",
     "description": "Undead, Elementals and others not classified as Living by normal standards.",
-    "mechanics": "The entity does not possess a biological metabolism (Undead, Pure Energy Elemental, or Metaphysical Construct). Immune to suffocation, starvation, thirst, exhaustion, bleed effects, biological disease, and non-magical poison. Does not possess a biological pulse or nervous system.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Non-Living\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Meta  \n\n## Description\nUndead, Elementals and others not classified as Living by normal standards.\n\n## Mechanics & Benefits\nThe entity does not possess a biological metabolism (Undead, Pure Energy Elemental, or Metaphysical Construct). Immune to suffocation, starvation, thirst, exhaustion, bleed effects, biological disease, and non-magical poison. Does not possess a biological pulse or nervous system."
+    "body": "# Non-Living\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nUndead, Elementals and others not classified as Living by normal standards."
   },
   {
-    "id": "trait-species-regeneration",
+    "id": "trait-regeneration",
     "name": "Regeneration",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -2935,18 +3210,18 @@ export const SPECIES_TRAITS_ELITE = [
     "is_ranked": false,
     "desc": "Will regrow lost Limbs and Organs with recovery of Health.",
     "description": "Will regrow lost Limbs and Organs with recovery of Health.",
-    "mechanics": "Incredible cellular stem-cell proliferation allows regrowing severed limbs, destroyed sensory organs, and ruptured internal vitals over 2d6 days as Health is recovered. Regenerates 1 Health per combat round while conscious.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Regeneration\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Physical  \n\n## Description\nWill regrow lost Limbs and Organs with recovery of Health.\n\n## Mechanics & Benefits\nIncredible cellular stem-cell proliferation allows regrowing severed limbs, destroyed sensory organs, and ruptured internal vitals over 2d6 days as Health is recovered. Regenerates 1 Health per combat round while conscious."
+    "body": "# Regeneration\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nWill regrow lost Limbs and Organs with recovery of Health."
   },
   {
-    "id": "trait-species-self-revivifying",
+    "id": "trait-self-revivifying",
     "name": "Self Revivifying",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Elite",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 4,
     "costs": {
       "bp": 4,
@@ -2960,18 +3235,18 @@ export const SPECIES_TRAITS_ELITE = [
     "is_ranked": false,
     "desc": "1/day attempt to resurrect. Cost: 1 Karma, Con Check Diff 20. Req: Immortal.",
     "description": "1/day attempt to resurrect. Cost: 1 Karma, Con Check Diff 20. Req: Immortal.",
-    "mechanics": "Requirements: Immortal trait. Once per day, upon death, the character may spend 1 Karma Point to attempt self-resurrection by making a Constitution check (DC 20). On a success, the body revives with 1 Health after 1 hour.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Self Revivifying\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Meta  \n\n## Description\n1/day attempt to resurrect. Cost: 1 Karma, Con Check Diff 20. Req: Immortal.\n\n## Mechanics & Benefits\nRequirements: Immortal trait. Once per day, upon death, the character may spend 1 Karma Point to attempt self-resurrection by making a Constitution check (DC 20). On a success, the body revives with 1 Health after 1 hour."
+    "body": "# Self Revivifying\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\n1/day attempt to resurrect. Cost: 1 Karma, Con Check Diff 20. Req: Immortal."
   },
   {
-    "id": "trait-species-semi-corporeal",
+    "id": "trait-semi-corporeal",
     "name": "Semi-Corporeal",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Elite",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 4,
     "costs": {
       "bp": 4,
@@ -2985,12 +3260,12 @@ export const SPECIES_TRAITS_ELITE = [
     "is_ranked": false,
     "desc": "DR30 vs physical, able to Phase through solid matter, Solidify at will.",
     "description": "DR30 vs physical, able to Phase through solid matter, Solidify at will.",
-    "mechanics": "The character's body exists in a quantum phase-state. Grants DR 30 against non-magical physical kinetic attacks, and allows phasing through solid physical obstacles (walls, bulkheads, barriers) at half movement speed, solidifying or phasing at will as a free action.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Semi-Corporeal\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Meta  \n\n## Description\nDR30 vs physical, able to Phase through solid matter, Solidify at will.\n\n## Mechanics & Benefits\nThe character's body exists in a quantum phase-state. Grants DR 30 against non-magical physical kinetic attacks, and allows phasing through solid physical obstacles (walls, bulkheads, barriers) at half movement speed, solidifying or phasing at will as a free action."
+    "body": "# Semi-Corporeal\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nDR30 vs physical, able to Phase through solid matter, Solidify at will."
   },
   {
-    "id": "trait-species-synthetic-aux-core",
+    "id": "trait-synthetic-aux-core",
     "name": "Synthetic Aux Core",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -3010,12 +3285,12 @@ export const SPECIES_TRAITS_ELITE = [
     "is_ranked": false,
     "desc": "Revivification without loss of Karma/Exp. Not traumatic. Req: Synthetic, TL4.",
     "description": "Revivification without loss of Karma/Exp. Not traumatic. Req: Synthetic, TL4.",
-    "mechanics": "Requirements: Synthetic chassis type, Tech Level 4+. Redundant quantum neural backup core allows non-traumatic memory recovery and instant system reboot upon fatal chassis destruction without loss of Karma or Experience points.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Synthetic Aux Core\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Physical  \n\n## Description\nRevivification without loss of Karma/Exp. Not traumatic. Req: Synthetic, TL4.\n\n## Mechanics & Benefits\nRequirements: Synthetic chassis type, Tech Level 4+. Redundant quantum neural backup core allows non-traumatic memory recovery and instant system reboot upon fatal chassis destruction without loss of Karma or Experience points."
+    "body": "# Synthetic Aux Core\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nRevivification without loss of Karma/Exp. Not traumatic. Req: Synthetic, TL4."
   },
   {
-    "id": "trait-species-synthetic-exotic-opt",
+    "id": "trait-synthetic-exotic-opt",
     "name": "Synthetic Exotic Opt",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -3035,12 +3310,12 @@ export const SPECIES_TRAITS_ELITE = [
     "is_ranked": false,
     "desc": "Synthetic version of a Racial Trait or Special Feature. Req: Synthetic, Multiple.",
     "description": "Synthetic version of a Racial Trait or Special Feature. Req: Synthetic, Multiple.",
-    "mechanics": "Requirements: Synthetic chassis type. The synthetic entity integrates a high-tech synthetic emulator mimicking an organic racial trait or esoteric feature. May be taken multiple times for different replicated features.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Synthetic Exotic Opt\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Physical  \n\n## Description\nSynthetic version of a Racial Trait or Special Feature. Req: Synthetic, Multiple.\n\n## Mechanics & Benefits\nRequirements: Synthetic chassis type. The synthetic entity integrates a high-tech synthetic emulator mimicking an organic racial trait or esoteric feature. May be taken multiple times for different replicated features."
+    "body": "# Synthetic Exotic Opt\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nSynthetic version of a Racial Trait or Special Feature. Req: Synthetic, Multiple."
   },
   {
-    "id": "trait-species-synthetic-tech-assim",
+    "id": "trait-synthetic-tech-assim",
     "name": "Synthetic Tech Assim",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -3060,18 +3335,18 @@ export const SPECIES_TRAITS_ELITE = [
     "is_ranked": false,
     "desc": "Able to absorb, power and use technological devices. Req: Synthetic, TL5.",
     "description": "Able to absorb, power and use technological devices. Req: Synthetic, TL5.",
-    "mechanics": "Requirements: Synthetic chassis type, Tech Level 5+. Nanotech absorption matrix allows physically assimilating, powering, and operating handheld tools, weapons, and computing devices directly into the chassis.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Synthetic Tech Assim\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Physical  \n\n## Description\nAble to absorb, power and use technological devices. Req: Synthetic, TL5.\n\n## Mechanics & Benefits\nRequirements: Synthetic chassis type, Tech Level 5+. Nanotech absorption matrix allows physically assimilating, powering, and operating handheld tools, weapons, and computing devices directly into the chassis."
+    "body": "# Synthetic Tech Assim\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nAble to absorb, power and use technological devices. Req: Synthetic, TL5."
   },
   {
-    "id": "trait-species-vampiric-power",
+    "id": "trait-vampiric-power",
     "name": "Vampiric Power",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Elite",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 4,
     "costs": {
       "bp": 4,
@@ -3085,18 +3360,18 @@ export const SPECIES_TRAITS_ELITE = [
     "is_ranked": false,
     "desc": "Gain point in Physical Ability per 2 points of Sta drained (Lethal at 3+Sta).",
     "description": "Gain point in Physical Ability per 2 points of Sta drained (Lethal at 3+Sta).",
-    "mechanics": "Upon successfully draining biological or metaphysical vitality from a living target in melee, gain +1 temporary point in a Physical Ability score for every 2 points of Stamina drained (becomes lethal vitality damage if 3+ Stamina is drained). Temporary bonuses last 1 hour.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Vampiric Power\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Meta  \n\n## Description\nGain point in Physical Ability per 2 points of Sta drained (Lethal at 3+Sta).\n\n## Mechanics & Benefits\nUpon successfully draining biological or metaphysical vitality from a living target in melee, gain +1 temporary point in a Physical Ability score for every 2 points of Stamina drained (becomes lethal vitality damage if 3+ Stamina is drained). Temporary bonuses last 1 hour."
+    "body": "# Vampiric Power\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nGain point in Physical Ability per 2 points of Sta drained (Lethal at 3+Sta)."
   },
   {
-    "id": "trait-species-wyrm-senses",
+    "id": "trait-wyrm-senses",
     "name": "Wyrm Senses",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Elite",
-    "classification": "Sensory",
-    "type": "Sensory",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 4,
     "costs": {
       "bp": 4,
@@ -3110,15 +3385,15 @@ export const SPECIES_TRAITS_ELITE = [
     "is_ranked": false,
     "desc": "Take Features from any Acute Sense Line. Req: Dragon Apotheosis.",
     "description": "Take Features from any Acute Sense Line. Req: Dragon Apotheosis.",
-    "mechanics": "Requirements: Dragon Apotheosis trait. Ancient wyrm sensory transcendence grants immediate access to acquire any feature from the Acute Sense lines (Acute Hearing, Scent, Thermal, Micro-Vision) at a –1 BP discount.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Wyrm Senses\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Sensory  \n\n## Description\nTake Features from any Acute Sense Line. Req: Dragon Apotheosis.\n\n## Mechanics & Benefits\nRequirements: Dragon Apotheosis trait. Ancient wyrm sensory transcendence grants immediate access to acquire any feature from the Acute Sense lines (Acute Hearing, Scent, Thermal, Micro-Vision) at a –1 BP discount."
+    "body": "# Wyrm Senses\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nTake Features from any Acute Sense Line. Req: Dragon Apotheosis."
   }
 ];
 export const OCCUPATIONAL_TRAITS = [
   {
-    "id": "trait-adept-enhanced-abilities",
-    "name": "Enhanced Abilities",
+    "id": "trait-analytical",
+    "name": "Analytical",
     "category": "traits",
     "trait_type": "Occupational Trait",
     "trait_tier": "Basic",
@@ -3135,15 +3410,15 @@ export const OCCUPATIONAL_TRAITS = [
       "ap": 0
     },
     "is_ranked": false,
-    "desc": "Adepts may be able to temporarily enhance their physical or mental abilities to go beyond what is considered normal for their species or race.",
-    "description": "Adepts may be able to temporarily enhance their physical or mental abilities to go beyond what is considered normal for their species or race.",
-    "mechanics": "Able to spend a Karma Point to increase any one Ability Score by 1 point for 1 Minute, multiple points spent will increase a different Ability or the same.",
+    "desc": "Ability to analyze data and information to make informed decisions",
+    "description": "Ability to analyze data and information to make informed decisions",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Enhanced Abilities\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Adept  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAdepts may be able to temporarily enhance their physical or mental abilities to go beyond what is considered normal for their species or race.\n\n## Mechanics & Benefits\nAble to spend a Karma Point to increase any one Ability Score by 1 point for 1 Minute, multiple points spent will increase a different Ability or the same."
+    "body": "# Analytical\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAbility to analyze data and information to make informed decisions"
   },
   {
-    "id": "trait-adept-heightened-senses",
-    "name": "Heightened Senses",
+    "id": "trait-appraisal",
+    "name": "Appraisal",
     "category": "traits",
     "trait_type": "Occupational Trait",
     "trait_tier": "Basic",
@@ -3160,15 +3435,15 @@ export const OCCUPATIONAL_TRAITS = [
       "ap": 0
     },
     "is_ranked": false,
-    "desc": "Adepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras.",
-    "description": "Adepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras.",
-    "mechanics": "Gains access to purchase Sensory Features \\- Night Vision Line, Scent, Acute Senses and Sense Features (still must be purchased but Considered Recommended)",
+    "desc": "Merchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices.",
+    "description": "Merchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Heightened Senses\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Adept  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAdepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras.\n\n## Mechanics & Benefits\nGains access to purchase Sensory Features \\- Night Vision Line, Scent, Acute Senses and Sense Features (still must be purchased but Considered Recommended)"
+    "body": "# Appraisal\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nMerchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices."
   },
   {
-    "id": "trait-adept-martial-arts-mastery",
-    "name": "Martial Arts Mastery",
+    "id": "trait-attention-to-safety",
+    "name": "Attention to Safety",
     "category": "traits",
     "trait_type": "Occupational Trait",
     "trait_tier": "Basic",
@@ -3185,15 +3460,15 @@ export const OCCUPATIONAL_TRAITS = [
       "ap": 0
     },
     "is_ranked": false,
-    "desc": "Many adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics.",
-    "description": "Many adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics.",
-    "mechanics": "\\+2 Unarmed Combat",
+    "desc": "Awareness of safety protocols and ensuring that their creations are safe to use",
+    "description": "Awareness of safety protocols and ensuring that their creations are safe to use",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Martial Arts Mastery\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Adept  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMany adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics.\n\n## Mechanics & Benefits\n\\+2 Unarmed Combat"
+    "body": "# Attention to Safety\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAwareness of safety protocols and ensuring that their creations are safe to use"
   },
   {
-    "id": "trait-adept-mastery-of-a-discipline",
-    "name": "Mastery of a Discipline",
+    "id": "trait-b-e",
+    "name": "B&E",
     "category": "traits",
     "trait_type": "Occupational Trait",
     "trait_tier": "Basic",
@@ -3210,536 +3485,11 @@ export const OCCUPATIONAL_TRAITS = [
       "ap": 0
     },
     "is_ranked": false,
-    "desc": "Adepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively.",
-    "description": "Adepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively.",
-    "mechanics": "\\+2 to a Metafocus Discipline",
+    "desc": "Experience with breaking and entering into secure locations",
+    "description": "Experience with breaking and entering into secure locations",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Mastery of a Discipline\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Adept  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAdepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively.\n\n## Mechanics & Benefits\n\\+2 to a Metafocus Discipline"
-  },
-  {
-    "id": "trait-adept-mystical-or-spiritual-connection",
-    "name": "Mystical or Spiritual Connection",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Adepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world.",
-    "description": "Adepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world.",
-    "mechanics": "\\+1 Attune and \\+1 Insight",
-    "modifiers": [],
-    "body": "# Mystical or Spiritual Connection\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Adept  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAdepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world.\n\n## Mechanics & Benefits\n\\+1 Attune and \\+1 Insight"
-  },
-  {
-    "id": "trait-adept-resourcefulness",
-    "name": "Resourcefulness",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Adepts are often resourceful characters who can think on their feet and find creative solutions to problems. They may have a knack for improvisation and using their environment to their advantage.",
-    "description": "Adepts are often resourceful characters who can think on their feet and find creative solutions to problems. They may have a knack for improvisation and using their environment to their advantage.",
-    "mechanics": "Once per Day make a Skill Check of choice at Advantage",
-    "modifiers": [],
-    "body": "# Resourcefulness\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Adept  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAdepts are often resourceful characters who can think on their feet and find creative solutions to problems. They may have a knack for improvisation and using their environment to their advantage.\n\n## Mechanics & Benefits\nOnce per Day make a Skill Check of choice at Advantage"
-  },
-  {
-    "id": "trait-adept-special-ability",
-    "name": "Special Ability",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Adepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.   May be taken multiple times for a different Special Ability.",
-    "description": "Adepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.   May be taken multiple times for a different Special Ability.",
-    "mechanics": "Special Ability at level 1 (which are afterwards improved as a skill)",
-    "modifiers": [],
-    "body": "# Special Ability\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Adept  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAdepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.   May be taken multiple times for a different Special Ability.\n\n## Mechanics & Benefits\nSpecial Ability at level 1 (which are afterwards improved as a skill)"
-  },
-  {
-    "id": "trait-adept-special-equipment",
-    "name": "Special Equipment",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Adepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties.",
-    "description": "Adepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties.",
-    "mechanics": "\\+2 Equipment",
-    "modifiers": [],
-    "body": "# Special Equipment\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Adept  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAdepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties.\n\n## Mechanics & Benefits\n\\+2 Equipment"
-  },
-  {
-    "id": "trait-adept-specialized-skills",
-    "name": "Specialized Skills",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Adepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession.",
-    "description": "Adepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession.",
-    "mechanics": "\\+2 to a Skill of Choice",
-    "modifiers": [],
-    "body": "# Specialized Skills\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Adept  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAdepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession.\n\n## Mechanics & Benefits\n\\+2 to a Skill of Choice"
-  },
-  {
-    "id": "trait-adept-versatility",
-    "name": "Versatility",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Adepts are often versatile characters who can adapt to different situations. They may have a wide range of skills and abilities that allow them to handle various challenges and tasks.   *+1 to Karma Point* #",
-    "description": "Adepts are often versatile characters who can adapt to different situations. They may have a wide range of skills and abilities that allow them to handle various challenges and tasks.   *+1 to Karma Point* #",
-    "mechanics": "Adepts are often versatile characters who can adapt to different situations. They may have a wide range of skills and abilities that allow them to handle various challenges and tasks.  \n*\\+1 to Karma Point*\n\n#",
-    "modifiers": [],
-    "body": "# Versatility\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Adept  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAdepts are often versatile characters who can adapt to different situations. They may have a wide range of skills and abilities that allow them to handle various challenges and tasks.   *\\+1 to Karma Point* #\n\n## Mechanics & Benefits\nAdepts are often versatile characters who can adapt to different situations. They may have a wide range of skills and abilities that allow them to handle various challenges and tasks.  \n*\\+1 to Karma Point*\n\n#"
-  },
-  {
-    "id": "trait-agent-adaptability",
-    "name": "Adaptability",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Improvisation, problem-solving, and quick thinking",
-    "description": "Improvisation, problem-solving, and quick thinking",
-    "mechanics": "\\+2 to a specific Skill Check, may change assigned Skill daily",
-    "modifiers": [],
-    "body": "# Adaptability\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Agent  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nImprovisation, problem-solving, and quick thinking\n\n## Mechanics & Benefits\n\\+2 to a specific Skill Check, may change assigned Skill daily"
-  },
-  {
-    "id": "trait-agent-combat-skills",
-    "name": "Combat Skills",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Combat and proficiency with firearms and weapons",
-    "description": "Combat and proficiency with firearms and weapons",
-    "mechanics": "\\+2 to a Combat Skill of Choice",
-    "modifiers": [],
-    "body": "# Combat Skills\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Agent  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nCombat and proficiency with firearms and weapons\n\n## Mechanics & Benefits\n\\+2 to a Combat Skill of Choice"
-  },
-  {
-    "id": "trait-agent-deception",
-    "name": "Deception",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Disguise, impersonation, and deception",
-    "description": "Disguise, impersonation, and deception",
-    "mechanics": "\\+2 Disguise and Cover Checks",
-    "modifiers": [],
-    "body": "# Deception\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Agent  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nDisguise, impersonation, and deception\n\n## Mechanics & Benefits\n\\+2 Disguise and Cover Checks"
-  },
-  {
-    "id": "trait-agent-guile",
-    "name": "Guile",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Good at devising clever solutions",
-    "description": "Good at devising clever solutions",
-    "mechanics": "\\+1 Karma Point",
-    "modifiers": [],
-    "body": "# Guile\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Agent  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nGood at devising clever solutions\n\n## Mechanics & Benefits\n\\+1 Karma Point"
-  },
-  {
-    "id": "trait-agent-investigation",
-    "name": "Investigation",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Gathering information, analyzing data, and conducting surveillance",
-    "description": "Gathering information, analyzing data, and conducting surveillance",
-    "mechanics": "\\+2 Investigation and Gather Information",
-    "modifiers": [],
-    "body": "# Investigation\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Agent  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nGathering information, analyzing data, and conducting surveillance\n\n## Mechanics & Benefits\n\\+2 Investigation and Gather Information"
-  },
-  {
-    "id": "trait-agent-languages",
-    "name": "Languages",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Fluency in multiple languages",
-    "description": "Fluency in multiple languages",
-    "mechanics": "\\+2 Linguistic Knowledge",
-    "modifiers": [],
-    "body": "# Languages\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Agent  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nFluency in multiple languages\n\n## Mechanics & Benefits\n\\+2 Linguistic Knowledge"
-  },
-  {
-    "id": "trait-agent-mental-resilience",
-    "name": "Mental Resilience",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Withstand psychological challenges",
-    "description": "Withstand psychological challenges",
-    "mechanics": "\\+2 Willpower Checks",
-    "modifiers": [],
-    "body": "# Mental Resilience\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Agent  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nWithstand psychological challenges\n\n## Mechanics & Benefits\n\\+2 Willpower Checks"
-  },
-  {
-    "id": "trait-agent-networking",
-    "name": "Networking",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Gathering information, acquiring resources, and gaining assistance",
-    "description": "Gathering information, acquiring resources, and gaining assistance",
-    "mechanics": "Gather Information checks at Advantage",
-    "modifiers": [],
-    "body": "# Networking\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Agent  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nGathering information, acquiring resources, and gaining assistance\n\n## Mechanics & Benefits\nGather Information checks at Advantage"
-  },
-  {
-    "id": "trait-agent-persuasion",
-    "name": "Persuasion",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Convincing others to cooperate, negotiation, deception, and diplomacy",
-    "description": "Convincing others to cooperate, negotiation, deception, and diplomacy",
-    "mechanics": "\\+1 Manipulation Skills and Etiquette Checks",
-    "modifiers": [],
-    "body": "# Persuasion\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Agent  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nConvincing others to cooperate, negotiation, deception, and diplomacy\n\n## Mechanics & Benefits\n\\+1 Manipulation Skills and Etiquette Checks"
-  },
-  {
-    "id": "trait-agent-physical-fitness",
-    "name": "Physical Fitness",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Endurance and strength",
-    "description": "Endurance and strength",
-    "mechanics": "\\+1 Might and Fortitude Checks",
-    "modifiers": [],
-    "body": "# Physical Fitness\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Agent  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nEndurance and strength\n\n## Mechanics & Benefits\n\\+1 Might and Fortitude Checks"
-  },
-  {
-    "id": "trait-agent-quick-thinking",
-    "name": "Quick Thinking",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Think on their feet, make split-second decisions, and adapt to rapidly changing situations",
-    "description": "Think on their feet, make split-second decisions, and adapt to rapidly changing situations",
-    "mechanics": "\\+2 Initiative",
-    "modifiers": [],
-    "body": "# Quick Thinking\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Agent  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nThink on their feet, make split-second decisions, and adapt to rapidly changing situations\n\n## Mechanics & Benefits\n\\+2 Initiative"
-  },
-  {
-    "id": "trait-agent-stealth",
-    "name": "Stealth",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Operating covertly, sneaking, hiding, and remaining undetected",
-    "description": "Operating covertly, sneaking, hiding, and remaining undetected",
-    "mechanics": "\\+2 Stealth",
-    "modifiers": [],
-    "body": "# Stealth\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Agent  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nOperating covertly, sneaking, hiding, and remaining undetected\n\n## Mechanics & Benefits\n\\+2 Stealth"
-  },
-  {
-    "id": "trait-agent-survival-skills",
-    "name": "Survival Skills",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Scavenging for resources, navigating dangerous environments, and adapting to harsh conditions",
-    "description": "Scavenging for resources, navigating dangerous environments, and adapting to harsh conditions",
-    "mechanics": "\\+2 Survival",
-    "modifiers": [],
-    "body": "# Survival Skills\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Agent  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nScavenging for resources, navigating dangerous environments, and adapting to harsh conditions\n\n## Mechanics & Benefits\n\\+2 Survival"
-  },
-  {
-    "id": "trait-agent-technology",
-    "name": "Technology",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Familiarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons",
-    "description": "Familiarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons",
-    "mechanics": "\\+2 Technology Knowledge",
-    "modifiers": [],
-    "body": "# Technology\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Agent  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nFamiliarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons\n\n## Mechanics & Benefits\n\\+2 Technology Knowledge"
-  },
-  {
-    "id": "trait-agent-travel",
-    "name": "Travel",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Piloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain   *+2 Piloting and Navigation*  #",
-    "description": "Piloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain   *+2 Piloting and Navigation*  #",
-    "mechanics": "Piloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain  \n*\\+2 Piloting and Navigation* \n\n#",
-    "modifiers": [],
-    "body": "# Travel\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Agent  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPiloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain   *\\+2 Piloting and Navigation*  #\n\n## Mechanics & Benefits\nPiloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain  \n*\\+2 Piloting and Navigation* \n\n#"
+    "body": "# B&E\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nExperience with breaking and entering into secure locations"
   },
   {
     "id": "trait-background",
@@ -3762,1012 +3512,12 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Select additional training from another secondary Occupation fitting backstory.",
     "description": "Select additional training from another secondary Occupation fitting backstory.",
-    "mechanics": "Gain one Trait from a chosen secondary Occupation.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Background\n\n**Category**: Common Occupational Traits  \n**Cost**: 1 CP (or free starting selection)\n\n## Description\nSelect additional training from another secondary Occupation fitting backstory.\n\n## Mechanics & Benefits\nGain one Trait from a chosen secondary Occupation."
+    "body": "# Background\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Common Occupational Trait\n**BP Cost**: 1\n\n## Description\nSelect additional training from another secondary Occupation fitting backstory."
   },
   {
-    "id": "trait-builder-adaptability",
-    "name": "Adaptability",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Ability to adjust their approach based on the specific needs of each project",
-    "description": "Ability to adjust their approach based on the specific needs of each project",
-    "mechanics": "\\+2 to a specific Skill Check, may change assigned Skill daily",
-    "modifiers": [],
-    "body": "# Adaptability\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Builder  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to adjust their approach based on the specific needs of each project\n\n## Mechanics & Benefits\n\\+2 to a specific Skill Check, may change assigned Skill daily"
-  },
-  {
-    "id": "trait-builder-attention-to-detail",
-    "name": "Attention to Detail",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Meticulous and detail-oriented",
-    "description": "Meticulous and detail-oriented",
-    "mechanics": "Mastercrafting Checks made at Advantage",
-    "modifiers": [],
-    "body": "# Attention to Detail\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Builder  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMeticulous and detail-oriented\n\n## Mechanics & Benefits\nMastercrafting Checks made at Advantage"
-  },
-  {
-    "id": "trait-builder-attention-to-safety",
-    "name": "Attention to Safety",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Awareness of safety protocols and ensuring that their creations are safe to use",
-    "description": "Awareness of safety protocols and ensuring that their creations are safe to use",
-    "mechanics": "Prototyping Checks gain a \\+4 bonus",
-    "modifiers": [],
-    "body": "# Attention to Safety\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Builder  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAwareness of safety protocols and ensuring that their creations are safe to use\n\n## Mechanics & Benefits\nPrototyping Checks gain a \\+4 bonus"
-  },
-  {
-    "id": "trait-builder-business-acumen",
-    "name": "Business Acumen",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Ability to handle financial and administrative aspects of their profession",
-    "description": "Ability to handle financial and administrative aspects of their profession",
-    "mechanics": "\\+2 Administration Knowledge",
-    "modifiers": [],
-    "body": "# Business Acumen\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Builder  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to handle financial and administrative aspects of their profession\n\n## Mechanics & Benefits\n\\+2 Administration Knowledge"
-  },
-  {
-    "id": "trait-builder-creativity",
-    "name": "Creativity",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Creative mindset and ability to think outside the box",
-    "description": "Creative mindset and ability to think outside the box",
-    "mechanics": "\\+1 Karma",
-    "modifiers": [],
-    "body": "# Creativity\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Builder  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nCreative mindset and ability to think outside the box\n\n## Mechanics & Benefits\n\\+1 Karma"
-  },
-  {
-    "id": "trait-builder-environmental-awareness",
-    "name": "Environmental Awareness",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Awareness of environmental factors that could impact construction",
-    "description": "Awareness of environmental factors that could impact construction",
-    "mechanics": "\\+2 Alertness",
-    "modifiers": [],
-    "body": "# Environmental Awareness\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Builder  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAwareness of environmental factors that could impact construction\n\n## Mechanics & Benefits\n\\+2 Alertness"
-  },
-  {
-    "id": "trait-builder-machine-affinity",
-    "name": "Machine Affinity",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Natural aptitude for working with machinery and tools",
-    "description": "Natural aptitude for working with machinery and tools",
-    "mechanics": "Additional \\+1 from Equipment Bonus and \\+2 Technology (Knowledge)",
-    "modifiers": [],
-    "body": "# Machine Affinity\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Builder  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nNatural aptitude for working with machinery and tools\n\n## Mechanics & Benefits\nAdditional \\+1 from Equipment Bonus and \\+2 Technology (Knowledge)"
-  },
-  {
-    "id": "trait-builder-mecha-physics",
-    "name": "Mecha-Physics",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Comprehensive understanding of physics",
-    "description": "Comprehensive understanding of physics",
-    "mechanics": "\\+2 to Engineering",
-    "modifiers": [],
-    "body": "# Mecha-Physics\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Builder  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nComprehensive understanding of physics\n\n## Mechanics & Benefits\n\\+2 to Engineering"
-  },
-  {
-    "id": "trait-builder-patience",
-    "name": "Patience",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Patience and willingness to put in the necessary time and effort",
-    "description": "Patience and willingness to put in the necessary time and effort",
-    "mechanics": "Meticulous skill check bonus is increased by 1 per stage",
-    "modifiers": [],
-    "body": "# Patience\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Builder  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPatience and willingness to put in the necessary time and effort\n\n## Mechanics & Benefits\nMeticulous skill check bonus is increased by 1 per stage"
-  },
-  {
-    "id": "trait-builder-persistence",
-    "name": "Persistence",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Ability to persevere through challenges",
-    "description": "Ability to persevere through challenges",
-    "mechanics": "\\+1 Willpower Checks",
-    "modifiers": [],
-    "body": "# Persistence\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Builder  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to persevere through challenges\n\n## Mechanics & Benefits\n\\+1 Willpower Checks"
-  },
-  {
-    "id": "trait-builder-problem-solving-skills",
-    "name": "Problem-Solving Skills",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Strong analytical and problem-solving skills",
-    "description": "Strong analytical and problem-solving skills",
-    "mechanics": "\\+2 Logic Checks",
-    "modifiers": [],
-    "body": "# Problem-Solving Skills\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Builder  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nStrong analytical and problem-solving skills\n\n## Mechanics & Benefits\n\\+2 Logic Checks"
-  },
-  {
-    "id": "trait-builder-teamwork",
-    "name": "Teamwork",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Ability to work well with others",
-    "description": "Ability to work well with others",
-    "mechanics": "\\+1 to Aid",
-    "modifiers": [],
-    "body": "# Teamwork\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Builder  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to work well with others\n\n## Mechanics & Benefits\n\\+1 to Aid"
-  },
-  {
-    "id": "trait-builder-technical-knowledge",
-    "name": "Technical Knowledge",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Deep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques",
-    "description": "Deep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques",
-    "mechanics": "\\+2 Vocation Skill",
-    "modifiers": [],
-    "body": "# Technical Knowledge\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Builder  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nDeep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques\n\n## Mechanics & Benefits\n\\+2 Vocation Skill"
-  },
-  {
-    "id": "trait-builder-technological-aptitude",
-    "name": "Technological Aptitude",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Natural aptitude for understanding and operating advanced technology",
-    "description": "Natural aptitude for understanding and operating advanced technology",
-    "mechanics": "\\+2 Technology Knowledge",
-    "modifiers": [],
-    "body": "# Technological Aptitude\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Builder  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nNatural aptitude for understanding and operating advanced technology\n\n## Mechanics & Benefits\n\\+2 Technology Knowledge"
-  },
-  {
-    "id": "trait-builder-time-management",
-    "name": "Time Management",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Excellent time management skills",
-    "description": "Excellent time management skills",
-    "mechanics": "Reduce Rush modifiers to Skill checks by 2",
-    "modifiers": [],
-    "body": "# Time Management\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Builder  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nExcellent time management skills\n\n## Mechanics & Benefits\nReduce Rush modifiers to Skill checks by 2"
-  },
-  {
-    "id": "trait-citizen-adaptability",
-    "name": "Adaptability",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Can adapt to changing circumstances and environments.",
-    "description": "Can adapt to changing circumstances and environments.",
-    "mechanics": "\\+2 to a specific Skill Check, may change assigned Skill daily",
-    "modifiers": [],
-    "body": "# Adaptability\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Citizen  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nCan adapt to changing circumstances and environments.\n\n## Mechanics & Benefits\n\\+2 to a specific Skill Check, may change assigned Skill daily"
-  },
-  {
-    "id": "trait-citizen-communication",
-    "name": "Communication",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Effective communicators, able to convey complex ideas and information clearly and persuasively.",
-    "description": "Effective communicators, able to convey complex ideas and information clearly and persuasively.",
-    "mechanics": "\\+2 Diplomacy",
-    "modifiers": [],
-    "body": "# Communication\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Citizen  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nEffective communicators, able to convey complex ideas and information clearly and persuasively.\n\n## Mechanics & Benefits\n\\+2 Diplomacy"
-  },
-  {
-    "id": "trait-citizen-ethical-awareness",
-    "name": "Ethical awareness",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "May have a strong sense of ethics and corporate responsibility.",
-    "description": "May have a strong sense of ethics and corporate responsibility.",
-    "mechanics": "\\+2 to any Manipulation checks when taking an Ethical side",
-    "modifiers": [],
-    "body": "# Ethical awareness\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Citizen  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMay have a strong sense of ethics and corporate responsibility.\n\n## Mechanics & Benefits\n\\+2 to any Manipulation checks when taking an Ethical side"
-  },
-  {
-    "id": "trait-citizen-financial-expertise",
-    "name": "Financial expertise",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Strong understanding of financial management, budgeting, and investment strategies.",
-    "description": "Strong understanding of financial management, budgeting, and investment strategies.",
-    "mechanics": "\\+2 Wealth",
-    "modifiers": [],
-    "body": "# Financial expertise\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Citizen  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nStrong understanding of financial management, budgeting, and investment strategies.\n\n## Mechanics & Benefits\n\\+2 Wealth"
-  },
-  {
-    "id": "trait-citizen-high-social-standing",
-    "name": "High social standing",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Often have a high social standing, which grants them access to better resources, connections, and opportunities.",
-    "description": "Often have a high social standing, which grants them access to better resources, connections, and opportunities.",
-    "mechanics": "\\+2 Manipulation Checks when dealing with the Upper Class",
-    "modifiers": [],
-    "body": "# High social standing\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Citizen  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nOften have a high social standing, which grants them access to better resources, connections, and opportunities.\n\n## Mechanics & Benefits\n\\+2 Manipulation Checks when dealing with the Upper Class"
-  },
-  {
-    "id": "trait-citizen-management",
-    "name": "Management",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Experienced in managing teams, projects, and resources.",
-    "description": "Experienced in managing teams, projects, and resources.",
-    "mechanics": "\\+2 Administration",
-    "modifiers": [],
-    "body": "# Management\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Citizen  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nExperienced in managing teams, projects, and resources.\n\n## Mechanics & Benefits\n\\+2 Administration"
-  },
-  {
-    "id": "trait-citizen-negotiation",
-    "name": "Negotiation",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Adept at negotiating deals, contracts, and agreements.",
-    "description": "Adept at negotiating deals, contracts, and agreements.",
-    "mechanics": "\\+1 all Manipulation Skills",
-    "modifiers": [],
-    "body": "# Negotiation\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Citizen  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAdept at negotiating deals, contracts, and agreements.\n\n## Mechanics & Benefits\n\\+1 all Manipulation Skills"
-  },
-  {
-    "id": "trait-citizen-networking",
-    "name": "Networking",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Wide network of contacts and connections within their industry and beyond.",
-    "description": "Wide network of contacts and connections within their industry and beyond.",
-    "mechanics": "Gather Information checks at Advantage",
-    "modifiers": [],
-    "body": "# Networking\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Citizen  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nWide network of contacts and connections within their industry and beyond.\n\n## Mechanics & Benefits\nGather Information checks at Advantage"
-  },
-  {
-    "id": "trait-citizen-problem-solving",
-    "name": "Problem-solving",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Skilled at identifying problems, analyzing their root causes, and developing creative solutions.",
-    "description": "Skilled at identifying problems, analyzing their root causes, and developing creative solutions.",
-    "mechanics": "Once per Day may reroll a Mental Skill Check",
-    "modifiers": [],
-    "body": "# Problem-solving\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Citizen  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nSkilled at identifying problems, analyzing their root causes, and developing creative solutions.\n\n## Mechanics & Benefits\nOnce per Day may reroll a Mental Skill Check"
-  },
-  {
-    "id": "trait-citizen-strategic-thinking",
-    "name": "Strategic thinking",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Skilled at developing long-term plans and strategies to achieve their goals.",
-    "description": "Skilled at developing long-term plans and strategies to achieve their goals.",
-    "mechanics": "\\+1 Karma Point",
-    "modifiers": [],
-    "body": "# Strategic thinking\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Citizen  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nSkilled at developing long-term plans and strategies to achieve their goals.\n\n## Mechanics & Benefits\n\\+1 Karma Point"
-  },
-  {
-    "id": "trait-criminal-aggressiveness",
-    "name": "Aggressiveness",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Criminals may be more prone to violence and aggression than the average person",
-    "description": "Criminals may be more prone to violence and aggression than the average person",
-    "mechanics": "\\+2 Intimidation",
-    "modifiers": [],
-    "body": "# Aggressiveness\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Criminal  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nCriminals may be more prone to violence and aggression than the average person\n\n## Mechanics & Benefits\n\\+2 Intimidation"
-  },
-  {
-    "id": "trait-criminal-b-e",
-    "name": "B&E",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Experience with breaking and entering into secure locations",
-    "description": "Experience with breaking and entering into secure locations",
-    "mechanics": "\\+2 all checks to the Infiltration of a physical location",
-    "modifiers": [],
-    "body": "# B\\&E\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Criminal  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nExperience with breaking and entering into secure locations\n\n## Mechanics & Benefits\n\\+2 all checks to the Infiltration of a physical location"
-  },
-  {
-    "id": "trait-criminal-combat-training",
-    "name": "Combat Training",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Criminals may have experience with hand-to-hand combat or the use of weapons",
-    "description": "Criminals may have experience with hand-to-hand combat or the use of weapons",
-    "mechanics": "\\+2 to a Combat Skill of choice",
-    "modifiers": [],
-    "body": "# Combat Training\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Criminal  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nCriminals may have experience with hand-to-hand combat or the use of weapons\n\n## Mechanics & Benefits\n\\+2 to a Combat Skill of choice"
-  },
-  {
-    "id": "trait-criminal-deception",
-    "name": "Deception",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Criminals are often skilled at lying and manipulating others to get what they want",
-    "description": "Criminals are often skilled at lying and manipulating others to get what they want",
-    "mechanics": "\\+1 Manipulation Skills",
-    "modifiers": [],
-    "body": "# Deception\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Criminal  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nCriminals are often skilled at lying and manipulating others to get what they want\n\n## Mechanics & Benefits\n\\+1 Manipulation Skills"
-  },
-  {
-    "id": "trait-criminal-hacking",
-    "name": "Hacking",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Experience with hacking into computer systems and stealing information",
-    "description": "Experience with hacking into computer systems and stealing information",
-    "mechanics": "\\+2 all checks to the Infiltration of a digital domain",
-    "modifiers": [],
-    "body": "# Hacking\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Criminal  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nExperience with hacking into computer systems and stealing information\n\n## Mechanics & Benefits\n\\+2 all checks to the Infiltration of a digital domain"
-  },
-  {
-    "id": "trait-criminal-networking",
-    "name": "Networking",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Criminals may have a network of contacts and associates that they can call upon for assistance",
-    "description": "Criminals may have a network of contacts and associates that they can call upon for assistance",
-    "mechanics": "Gather Information checks at Advantage",
-    "modifiers": [],
-    "body": "# Networking\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Criminal  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nCriminals may have a network of contacts and associates that they can call upon for assistance\n\n## Mechanics & Benefits\nGather Information checks at Advantage"
-  },
-  {
-    "id": "trait-criminal-resourcefulness",
-    "name": "Resourcefulness",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Criminals may have a knack at finding creative solutions to problems, especially those related to their criminal activities and should be able to improvise and adapt to changing circumstances",
-    "description": "Criminals may have a knack at finding creative solutions to problems, especially those related to their criminal activities and should be able to improvise and adapt to changing circumstances",
-    "mechanics": "Once per Day make a Skill Check of choice at Advantage",
-    "modifiers": [],
-    "body": "# Resourcefulness\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Criminal  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nCriminals may have a knack at finding creative solutions to problems, especially those related to their criminal activities and should be able to improvise and adapt to changing circumstances\n\n## Mechanics & Benefits\nOnce per Day make a Skill Check of choice at Advantage"
-  },
-  {
-    "id": "trait-criminal-risk-taking",
-    "name": "Risk-taking",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Criminals may be more willing to take risks and engage in dangerous behavior",
-    "description": "Criminals may be more willing to take risks and engage in dangerous behavior",
-    "mechanics": "\\+1 Karma Point",
-    "modifiers": [],
-    "body": "# Risk-taking\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Criminal  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nCriminals may be more willing to take risks and engage in dangerous behavior\n\n## Mechanics & Benefits\n\\+1 Karma Point"
-  },
-  {
-    "id": "trait-criminal-self-preservation",
-    "name": "Self-preservation",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Criminals may be skilled at protecting themselves and avoiding capture by law enforcement",
-    "description": "Criminals may be skilled at protecting themselves and avoiding capture by law enforcement",
-    "mechanics": "\\+1 Karma Point",
-    "modifiers": [],
-    "body": "# Self-preservation\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Criminal  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nCriminals may be skilled at protecting themselves and avoiding capture by law enforcement\n\n## Mechanics & Benefits\n\\+1 Karma Point"
-  },
-  {
-    "id": "trait-criminal-smooth",
-    "name": "Smooth",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Criminals may be charming and persuasive, able to talk their way out of difficult situations",
-    "description": "Criminals may be charming and persuasive, able to talk their way out of difficult situations",
-    "mechanics": "\\+2 Bluff",
-    "modifiers": [],
-    "body": "# Smooth\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Criminal  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nCriminals may be charming and persuasive, able to talk their way out of difficult situations\n\n## Mechanics & Benefits\n\\+2 Bluff"
-  },
-  {
-    "id": "trait-criminal-stalker",
-    "name": "Stalker",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Skilled at moving quietly and avoiding detection",
-    "description": "Skilled at moving quietly and avoiding detection",
-    "mechanics": "May take 10 on Stealth Checks",
-    "modifiers": [],
-    "body": "# Stalker\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Criminal  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nSkilled at moving quietly and avoiding detection\n\n## Mechanics & Benefits\nMay take 10 on Stealth Checks"
-  },
-  {
-    "id": "trait-criminal-street-smarts",
-    "name": "Street smarts",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Criminals may have a deep understanding of the criminal underworld and how to navigate it   *+2 Streetwise* #",
-    "description": "Criminals may have a deep understanding of the criminal underworld and how to navigate it   *+2 Streetwise* #",
-    "mechanics": "Criminals may have a deep understanding of the criminal underworld and how to navigate it  \n*\\+2 Streetwise*\n\n#",
-    "modifiers": [],
-    "body": "# Street smarts\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Criminal  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nCriminals may have a deep understanding of the criminal underworld and how to navigate it   *\\+2 Streetwise* #\n\n## Mechanics & Benefits\nCriminals may have a deep understanding of the criminal underworld and how to navigate it  \n*\\+2 Streetwise*\n\n#"
-  },
-  {
-    "id": "trait-drifter-adaptability",
-    "name": "Adaptability",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Often adaptable and able to adjust to new environments and situations quickly",
-    "description": "Often adaptable and able to adjust to new environments and situations quickly",
-    "mechanics": "\\+2 to a specific Skill Check, may change assigned Skill daily",
-    "modifiers": [],
-    "body": "# Adaptability\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nOften adaptable and able to adjust to new environments and situations quickly\n\n## Mechanics & Benefits\n\\+2 to a specific Skill Check, may change assigned Skill daily"
-  },
-  {
-    "id": "trait-drifter-adventurous-spirit",
-    "name": "Adventurous Spirit",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Strong sense of adventure and are always seeking new experiences and challenges",
-    "description": "Strong sense of adventure and are always seeking new experiences and challenges",
-    "mechanics": "Regain a Karma Point on the first encounter when dealing with something new \\- creature, area, technology, etc.",
-    "modifiers": [],
-    "body": "# Adventurous Spirit\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nStrong sense of adventure and are always seeking new experiences and challenges\n\n## Mechanics & Benefits\nRegain a Karma Point on the first encounter when dealing with something new \\- creature, area, technology, etc."
-  },
-  {
-    "id": "trait-drifter-aggressiveness",
-    "name": "Aggressiveness",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Exhibit aggressive behavior and are not afraid to use violence to achieve their goals",
-    "description": "Exhibit aggressive behavior and are not afraid to use violence to achieve their goals",
-    "mechanics": "\\+2 Intimidate",
-    "modifiers": [],
-    "body": "# Aggressiveness\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nExhibit aggressive behavior and are not afraid to use violence to achieve their goals\n\n## Mechanics & Benefits\n\\+2 Intimidate"
-  },
-  {
-    "id": "trait-drifter-caution",
+    "id": "trait-caution",
     "name": "Caution",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -4787,13 +3537,13 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Cautious and prefer to avoid unnecessary risks, especially when dealing with others",
     "description": "Cautious and prefer to avoid unnecessary risks, especially when dealing with others",
-    "mechanics": "\\+2 Insight",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Caution\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nCautious and prefer to avoid unnecessary risks, especially when dealing with others\n\n## Mechanics & Benefits\n\\+2 Insight"
+    "body": "# Caution\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nCautious and prefer to avoid unnecessary risks, especially when dealing with others"
   },
   {
-    "id": "trait-drifter-combat-training",
-    "name": "Combat Training",
+    "id": "trait-communication",
+    "name": "Communication",
     "category": "traits",
     "trait_type": "Occupational Trait",
     "trait_tier": "Basic",
@@ -4810,339 +3560,14 @@ export const OCCUPATIONAL_TRAITS = [
       "ap": 0
     },
     "is_ranked": false,
-    "desc": "Skilled with firearms and other weapons, making them formidable opponents in combat",
-    "description": "Skilled with firearms and other weapons, making them formidable opponents in combat",
-    "mechanics": "\\+2 Combat Skill of choice",
+    "desc": "Effective communicators, able to convey complex ideas and information clearly and persuasively.",
+    "description": "Effective communicators, able to convey complex ideas and information clearly and persuasively.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Combat Training\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nSkilled with firearms and other weapons, making them formidable opponents in combat\n\n## Mechanics & Benefits\n\\+2 Combat Skill of choice"
+    "body": "# Communication\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nEffective communicators, able to convey complex ideas and information clearly and persuasively."
   },
   {
-    "id": "trait-drifter-fearlessness",
-    "name": "Fearlessness",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Seem fearless and willing to take risks in order to achieve their goals",
-    "description": "Seem fearless and willing to take risks in order to achieve their goals",
-    "mechanics": "\\+1 Karma Point",
-    "modifiers": [],
-    "body": "# Fearlessness\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nSeem fearless and willing to take risks in order to achieve their goals\n\n## Mechanics & Benefits\n\\+1 Karma Point"
-  },
-  {
-    "id": "trait-drifter-jack-of-all-trades",
-    "name": "Jack-of-All-Trades",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Possess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group",
-    "description": "Possess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group",
-    "mechanics": "May use any skill without formal training",
-    "modifiers": [],
-    "body": "# Jack-of-All-Trades\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPossess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group\n\n## Mechanics & Benefits\nMay use any skill without formal training"
-  },
-  {
-    "id": "trait-drifter-loyalty",
-    "name": "Loyalty",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "While they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups",
-    "description": "While they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups",
-    "mechanics": "Domination and Mind-Control Resistance Checks are made at Advantage",
-    "modifiers": [],
-    "body": "# Loyalty\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nWhile they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups\n\n## Mechanics & Benefits\nDomination and Mind-Control Resistance Checks are made at Advantage"
-  },
-  {
-    "id": "trait-drifter-mobility",
-    "name": "Mobility",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Often on the move, traveling from place to place and exploring new territories",
-    "description": "Often on the move, traveling from place to place and exploring new territories",
-    "mechanics": "\\+2 Equipment (Vehicle)",
-    "modifiers": [],
-    "body": "# Mobility\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nOften on the move, traveling from place to place and exploring new territories\n\n## Mechanics & Benefits\n\\+2 Equipment (Vehicle)"
-  },
-  {
-    "id": "trait-drifter-resourcefulness",
-    "name": "Resourcefulness",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Skilled at finding ways to survive and thrive in difficult situations",
-    "description": "Skilled at finding ways to survive and thrive in difficult situations",
-    "mechanics": "Once per Day make a Skill Check of choice at Advantage",
-    "modifiers": [],
-    "body": "# Resourcefulness\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nSkilled at finding ways to survive and thrive in difficult situations\n\n## Mechanics & Benefits\nOnce per Day make a Skill Check of choice at Advantage"
-  },
-  {
-    "id": "trait-drifter-scavenging",
-    "name": "Scavenging",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Excel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources",
-    "description": "Excel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources",
-    "mechanics": "\\+2 Salvage checks",
-    "modifiers": [],
-    "body": "# Scavenging\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nExcel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources\n\n## Mechanics & Benefits\n\\+2 Salvage checks"
-  },
-  {
-    "id": "trait-drifter-self-sufficiency",
-    "name": "Self-sufficiency",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Often self-sufficient and able to take care of themselves without relying on others",
-    "description": "Often self-sufficient and able to take care of themselves without relying on others",
-    "mechanics": "\\+1 Karma Point",
-    "modifiers": [],
-    "body": "# Self-sufficiency\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nOften self-sufficient and able to take care of themselves without relying on others\n\n## Mechanics & Benefits\n\\+1 Karma Point"
-  },
-  {
-    "id": "trait-drifter-stalker",
-    "name": "Stalker",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Possess stealthy skills, allowing them to move silently and go unnoticed when necessary",
-    "description": "Possess stealthy skills, allowing them to move silently and go unnoticed when necessary",
-    "mechanics": "May take 10 on Stealth Checks",
-    "modifiers": [],
-    "body": "# Stalker\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPossess stealthy skills, allowing them to move silently and go unnoticed when necessary\n\n## Mechanics & Benefits\nMay take 10 on Stealth Checks"
-  },
-  {
-    "id": "trait-drifter-street-smarts",
-    "name": "Street Smarts",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Streetwise and have a keen understanding of the urban landscape, including knowing where to find resources, contacts, and information",
-    "description": "Streetwise and have a keen understanding of the urban landscape, including knowing where to find resources, contacts, and information",
-    "mechanics": "\\+2 Streetwise",
-    "modifiers": [],
-    "body": "# Street Smarts\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nStreetwise and have a keen understanding of the urban landscape, including knowing where to find resources, contacts, and information\n\n## Mechanics & Benefits\n\\+2 Streetwise"
-  },
-  {
-    "id": "trait-drifter-survival",
-    "name": "Survival",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Ability to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter",
-    "description": "Ability to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter",
-    "mechanics": "\\+2 Survival",
-    "modifiers": [],
-    "body": "# Survival\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter\n\n## Mechanics & Benefits\n\\+2 Survival"
-  },
-  {
-    "id": "trait-drifter-unpredictability",
-    "name": "Unpredictability",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Unpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries   *+2 Initiative* #",
-    "description": "Unpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries   *+2 Initiative* #",
-    "mechanics": "Unpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries  \n*\\+2 Initiative*\n\n#",
-    "modifiers": [],
-    "body": "# Unpredictability\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nUnpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries   *\\+2 Initiative* #\n\n## Mechanics & Benefits\nUnpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries  \n*\\+2 Initiative*\n\n#"
-  },
-  {
-    "id": "trait-entertainer-adaptable",
-    "name": "Adaptable",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Able to adjust performances to suit different audiences",
-    "description": "Able to adjust performances to suit different audiences",
-    "mechanics": "\\+2 to a specific Skill Check, may change assigned Skill daily",
-    "modifiers": [],
-    "body": "# Adaptable\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Entertainer  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAble to adjust performances to suit different audiences\n\n## Mechanics & Benefits\n\\+2 to a specific Skill Check, may change assigned Skill daily"
-  },
-  {
-    "id": "trait-entertainer-charismatic",
-    "name": "Charismatic",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Outgoing and charming",
-    "description": "Outgoing and charming",
-    "mechanics": "May take 10 on Diplomacy",
-    "modifiers": [],
-    "body": "# Charismatic\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Entertainer  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nOutgoing and charming\n\n## Mechanics & Benefits\nMay take 10 on Diplomacy"
-  },
-  {
-    "id": "trait-entertainer-confident",
+    "id": "trait-confident",
     "name": "Confident",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -5162,12 +3587,87 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Comfortable in the spotlight",
     "description": "Comfortable in the spotlight",
-    "mechanics": "\\+2 Willpower",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Confident\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Entertainer  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nComfortable in the spotlight\n\n## Mechanics & Benefits\n\\+2 Willpower"
+    "body": "# Confident\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nComfortable in the spotlight"
   },
   {
-    "id": "trait-entertainer-creative",
+    "id": "trait-conflict-resolution",
+    "name": "Conflict resolution",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Ability to resolve conflicts effectively and find solutions that satisfy all parties involved",
+    "description": "Ability to resolve conflicts effectively and find solutions that satisfy all parties involved",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Conflict resolution\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAbility to resolve conflicts effectively and find solutions that satisfy all parties involved"
+  },
+  {
+    "id": "trait-continuous-learning",
+    "name": "Continuous Learning",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Has a thirst for knowledge and is committed to lifelong learning.",
+    "description": "Has a thirst for knowledge and is committed to lifelong learning.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Continuous Learning\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nHas a thirst for knowledge and is committed to lifelong learning."
+  },
+  {
+    "id": "trait-cool",
+    "name": "Cool",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Able to remain calm and focused even in high-pressure situations",
+    "description": "Able to remain calm and focused even in high-pressure situations",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Cool\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAble to remain calm and focused even in high-pressure situations"
+  },
+  {
+    "id": "trait-creative",
     "name": "Creative",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -5187,12 +3687,162 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Skilled at coming up with new ideas",
     "description": "Skilled at coming up with new ideas",
-    "mechanics": "\\+1 Karma Point",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Creative\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Entertainer  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nSkilled at coming up with new ideas\n\n## Mechanics & Benefits\n\\+1 Karma Point"
+    "body": "# Creative\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nSkilled at coming up with new ideas"
   },
   {
-    "id": "trait-entertainer-energetic",
+    "id": "trait-critical-thinking",
+    "name": "Critical thinking",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Possess strong critical thinking skills.",
+    "description": "Possess strong critical thinking skills.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Critical thinking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nPossess strong critical thinking skills."
+  },
+  {
+    "id": "trait-cultural-awareness",
+    "name": "Cultural Awareness",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Merchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds.",
+    "description": "Merchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Cultural Awareness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nMerchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds."
+  },
+  {
+    "id": "trait-cunning",
+    "name": "Cunning",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Rely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies",
+    "description": "Rely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Cunning\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nRely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies"
+  },
+  {
+    "id": "trait-deception",
+    "name": "Deception",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Disguise, impersonation, and deception",
+    "description": "Disguise, impersonation, and deception",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Deception\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nDisguise, impersonation, and deception"
+  },
+  {
+    "id": "trait-discipline",
+    "name": "Discipline",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Disciplined and able to follow orders without question, even in high-pressure situations",
+    "description": "Disciplined and able to follow orders without question, even in high-pressure situations",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Discipline\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nDisciplined and able to follow orders without question, even in high-pressure situations"
+  },
+  {
+    "id": "trait-emotional-intelligence",
+    "name": "Emotional intelligence",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Ability to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states",
+    "description": "Ability to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Emotional intelligence\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAbility to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states"
+  },
+  {
+    "id": "trait-energetic",
     "name": "Energetic",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -5212,12 +3862,112 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "High levels of energy and enthusiasm",
     "description": "High levels of energy and enthusiasm",
-    "mechanics": "\\+1 Karma Point",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Energetic\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Entertainer  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nHigh levels of energy and enthusiasm\n\n## Mechanics & Benefits\n\\+1 Karma Point"
+    "body": "# Energetic\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nHigh levels of energy and enthusiasm"
   },
   {
-    "id": "trait-entertainer-fans",
+    "id": "trait-enhanced-abilities",
+    "name": "Enhanced Abilities",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Adepts may be able to temporarily enhance their physical or mental abilities to go beyond what is considered normal for their species or race.",
+    "description": "Adepts may be able to temporarily enhance their physical or mental abilities to go beyond what is considered normal for their species or race.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Enhanced Abilities\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAdepts may be able to temporarily enhance their physical or mental abilities to go beyond what is considered normal for their species or race."
+  },
+  {
+    "id": "trait-ethical-awareness",
+    "name": "Ethical awareness",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "May have a strong sense of ethics and corporate responsibility.",
+    "description": "May have a strong sense of ethics and corporate responsibility.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Ethical awareness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nMay have a strong sense of ethics and corporate responsibility."
+  },
+  {
+    "id": "trait-ethical-conduct",
+    "name": "Ethical conduct",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Adheres to ethical standards in research and work.",
+    "description": "Adheres to ethical standards in research and work.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Ethical conduct\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAdheres to ethical standards in research and work."
+  },
+  {
+    "id": "trait-expertise",
+    "name": "Expertise",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "In-depth knowledge and experience in a particular area",
+    "description": "In-depth knowledge and experience in a particular area",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Expertise\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nIn-depth knowledge and experience in a particular area"
+  },
+  {
+    "id": "trait-fans",
     "name": "Fans",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -5237,12 +3987,37 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Has a loyal following of fans",
     "description": "Has a loyal following of fans",
-    "mechanics": "\\+2 Wealth and \\+1 Manipulations with Fans",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Fans\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Entertainer  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nHas a loyal following of fans\n\n## Mechanics & Benefits\n\\+2 Wealth and \\+1 Manipulations with Fans"
+    "body": "# Fans\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nHas a loyal following of fans"
   },
   {
-    "id": "trait-entertainer-fellow-artists",
+    "id": "trait-fearlessness",
+    "name": "Fearlessness",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Seem fearless and willing to take risks in order to achieve their goals",
+    "description": "Seem fearless and willing to take risks in order to achieve their goals",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Fearlessness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nSeem fearless and willing to take risks in order to achieve their goals"
+  },
+  {
+    "id": "trait-fellow-artists",
     "name": "Fellow Artists",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -5262,12 +4037,62 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Has close relationships with other performers",
     "description": "Has close relationships with other performers",
-    "mechanics": "Gather Information checks made at Advantage when dealing with the entertainment scene",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Fellow Artists\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Entertainer  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nHas close relationships with other performers\n\n## Mechanics & Benefits\nGather Information checks made at Advantage when dealing with the entertainment scene"
+    "body": "# Fellow Artists\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nHas close relationships with other performers"
   },
   {
-    "id": "trait-entertainer-freedom",
+    "id": "trait-financial-expertise",
+    "name": "Financial expertise",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Strong understanding of financial management, budgeting, and investment strategies.",
+    "description": "Strong understanding of financial management, budgeting, and investment strategies.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Financial expertise\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nStrong understanding of financial management, budgeting, and investment strategies."
+  },
+  {
+    "id": "trait-flexibility",
+    "name": "Flexibility",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Ability to adapt to changing circumstances and adjust plans and strategies as needed",
+    "description": "Ability to adapt to changing circumstances and adjust plans and strategies as needed",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Flexibility\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAbility to adapt to changing circumstances and adjust plans and strategies as needed"
+  },
+  {
+    "id": "trait-freedom",
     "name": "Freedom",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -5287,12 +4112,12 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Values independence and self-expression",
     "description": "Values independence and self-expression",
-    "mechanics": "Domination and Mind-Control Resistance Checks are made at Advantage",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Freedom\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Entertainer  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nValues independence and self-expression\n\n## Mechanics & Benefits\nDomination and Mind-Control Resistance Checks are made at Advantage"
+    "body": "# Freedom\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nValues independence and self-expression"
   },
   {
-    "id": "trait-entertainer-fun",
+    "id": "trait-fun",
     "name": "Fun",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -5312,13 +4137,13 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Values having a good time and making others happy",
     "description": "Values having a good time and making others happy",
-    "mechanics": "Regain a Karma Point when a crowd enjoys your performance",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Fun\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Entertainer  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nValues having a good time and making others happy\n\n## Mechanics & Benefits\nRegain a Karma Point when a crowd enjoys your performance"
+    "body": "# Fun\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nValues having a good time and making others happy"
   },
   {
-    "id": "trait-entertainer-venues",
-    "name": "Venues",
+    "id": "trait-guile",
+    "name": "Guile",
     "category": "traits",
     "trait_type": "Occupational Trait",
     "trait_tier": "Basic",
@@ -5335,11 +4160,61 @@ export const OCCUPATIONAL_TRAITS = [
       "ap": 0
     },
     "is_ranked": false,
-    "desc": "Has strong ties to certain performance venues   *+2 Equipment (Hideout) and +1 Wealth* #",
-    "description": "Has strong ties to certain performance venues   *+2 Equipment (Hideout) and +1 Wealth* #",
-    "mechanics": "Has strong ties to certain performance venues  \n*\\+2 Equipment (Hideout) and \\+1 Wealth*\n\n#",
+    "desc": "Good at devising clever solutions",
+    "description": "Good at devising clever solutions",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Venues\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Entertainer  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nHas strong ties to certain performance venues   *\\+2 Equipment (Hideout) and \\+1 Wealth* #\n\n## Mechanics & Benefits\nHas strong ties to certain performance venues  \n*\\+2 Equipment (Hideout) and \\+1 Wealth*\n\n#"
+    "body": "# Guile\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nGood at devising clever solutions"
+  },
+  {
+    "id": "trait-hacking",
+    "name": "Hacking",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Experience with hacking into computer systems and stealing information",
+    "description": "Experience with hacking into computer systems and stealing information",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Hacking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nExperience with hacking into computer systems and stealing information"
+  },
+  {
+    "id": "trait-heightened-senses",
+    "name": "Heightened Senses",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Adepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras.",
+    "description": "Adepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Heightened Senses\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAdepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras."
   },
   {
     "id": "trait-high-pay",
@@ -5362,13 +4237,13 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Higher compensation and retainer fees for elite vocational service.",
     "description": "Higher compensation and retainer fees for elite vocational service.",
-    "mechanics": "+2 to Wealth Score.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# High Pay\n\n**Category**: Common Occupational Traits  \n**Cost**: 1 CP (or free starting selection)\n\n## Description\nHigher compensation and retainer fees for elite vocational service.\n\n## Mechanics & Benefits\n+2 to Wealth Score."
+    "body": "# High Pay\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Common Occupational Trait\n**BP Cost**: 1\n\n## Description\nHigher compensation and retainer fees for elite vocational service."
   },
   {
-    "id": "trait-merchant-adaptability",
-    "name": "Adaptability",
+    "id": "trait-high-social-standing",
+    "name": "High social standing",
     "category": "traits",
     "trait_type": "Occupational Trait",
     "trait_tier": "Basic",
@@ -5385,15 +4260,15 @@ export const OCCUPATIONAL_TRAITS = [
       "ap": 0
     },
     "is_ranked": false,
-    "desc": "Merchants are adaptable and can quickly adjust their strategies to changing market conditions. They can thrive in different environments and make the most of any situation.",
-    "description": "Merchants are adaptable and can quickly adjust their strategies to changing market conditions. They can thrive in different environments and make the most of any situation.",
-    "mechanics": "\\+2 to a specific Skill Check, may change assigned Skill daily",
+    "desc": "Often have a high social standing, which grants them access to better resources, connections, and opportunities.",
+    "description": "Often have a high social standing, which grants them access to better resources, connections, and opportunities.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Adaptability\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Merchant  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMerchants are adaptable and can quickly adjust their strategies to changing market conditions. They can thrive in different environments and make the most of any situation.\n\n## Mechanics & Benefits\n\\+2 to a specific Skill Check, may change assigned Skill daily"
+    "body": "# High social standing\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nOften have a high social standing, which grants them access to better resources, connections, and opportunities."
   },
   {
-    "id": "trait-merchant-appraisal",
-    "name": "Appraisal",
+    "id": "trait-integrity",
+    "name": "Integrity",
     "category": "traits",
     "trait_type": "Occupational Trait",
     "trait_tier": "Basic",
@@ -5410,15 +4285,15 @@ export const OCCUPATIONAL_TRAITS = [
       "ap": 0
     },
     "is_ranked": false,
-    "desc": "Merchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices.",
-    "description": "Merchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices.",
-    "mechanics": "\\+2 to any Appraisal check",
+    "desc": "Honest and trustworthy, able to maintain a high level of integrity in their work",
+    "description": "Honest and trustworthy, able to maintain a high level of integrity in their work",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Appraisal\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Merchant  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMerchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices.\n\n## Mechanics & Benefits\n\\+2 to any Appraisal check"
+    "body": "# Integrity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nHonest and trustworthy, able to maintain a high level of integrity in their work"
   },
   {
-    "id": "trait-merchant-business-acumen",
-    "name": "Business Acumen",
+    "id": "trait-investigation",
+    "name": "Investigation",
     "category": "traits",
     "trait_type": "Occupational Trait",
     "trait_tier": "Basic",
@@ -5435,15 +4310,15 @@ export const OCCUPATIONAL_TRAITS = [
       "ap": 0
     },
     "is_ranked": false,
-    "desc": "Merchants have a keen understanding of economics and market trends. They know how to identify profitable opportunities and make wise investments.",
-    "description": "Merchants have a keen understanding of economics and market trends. They know how to identify profitable opportunities and make wise investments.",
-    "mechanics": "\\+2 Merchant Vocation",
+    "desc": "Gathering information, analyzing data, and conducting surveillance",
+    "description": "Gathering information, analyzing data, and conducting surveillance",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Business Acumen\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Merchant  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMerchants have a keen understanding of economics and market trends. They know how to identify profitable opportunities and make wise investments.\n\n## Mechanics & Benefits\n\\+2 Merchant Vocation"
+    "body": "# Investigation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nGathering information, analyzing data, and conducting surveillance"
   },
   {
-    "id": "trait-merchant-charismatic",
-    "name": "Charismatic",
+    "id": "trait-jack-of-all-trades",
+    "name": "Jack-of-All-Trades",
     "category": "traits",
     "trait_type": "Occupational Trait",
     "trait_tier": "Basic",
@@ -5460,15 +4335,15 @@ export const OCCUPATIONAL_TRAITS = [
       "ap": 0
     },
     "is_ranked": false,
-    "desc": "Merchants possess charisma and charm, making them persuasive and likable. They can easily win over potential customers and build long-lasting relationships.",
-    "description": "Merchants possess charisma and charm, making them persuasive and likable. They can easily win over potential customers and build long-lasting relationships.",
-    "mechanics": "May take 10 on Diplomacy",
+    "desc": "Possess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group",
+    "description": "Possess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Charismatic\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Merchant  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMerchants possess charisma and charm, making them persuasive and likable. They can easily win over potential customers and build long-lasting relationships.\n\n## Mechanics & Benefits\nMay take 10 on Diplomacy"
+    "body": "# Jack-of-All-Trades\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nPossess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group"
   },
   {
-    "id": "trait-merchant-cultural-awareness",
-    "name": "Cultural Awareness",
+    "id": "trait-keen-observation",
+    "name": "Keen Observation",
     "category": "traits",
     "trait_type": "Occupational Trait",
     "trait_tier": "Basic",
@@ -5485,14 +4360,39 @@ export const OCCUPATIONAL_TRAITS = [
       "ap": 0
     },
     "is_ranked": false,
-    "desc": "Merchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds.",
-    "description": "Merchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds.",
-    "mechanics": "\\+2 Culture Knowledge",
+    "desc": "Scouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings.",
+    "description": "Scouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Cultural Awareness\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Merchant  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMerchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds.\n\n## Mechanics & Benefits\n\\+2 Culture Knowledge"
+    "body": "# Keen Observation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nScouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings."
   },
   {
-    "id": "trait-merchant-linguistics",
+    "id": "trait-languages",
+    "name": "Languages",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Fluency in multiple languages",
+    "description": "Fluency in multiple languages",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Languages\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nFluency in multiple languages"
+  },
+  {
+    "id": "trait-linguistics",
     "name": "Linguistics",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -5512,12 +4412,12 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Merchants often possess linguistic skills, enabling them to communicate with customers and suppliers who speak different languages. This skill can help them expand their reach and negotiate better deals.",
     "description": "Merchants often possess linguistic skills, enabling them to communicate with customers and suppliers who speak different languages. This skill can help them expand their reach and negotiate better deals.",
-    "mechanics": "\\+2 Linguistic Knowledge",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Linguistics\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Merchant  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMerchants often possess linguistic skills, enabling them to communicate with customers and suppliers who speak different languages. This skill can help them expand their reach and negotiate better deals.\n\n## Mechanics & Benefits\n\\+2 Linguistic Knowledge"
+    "body": "# Linguistics\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nMerchants often possess linguistic skills, enabling them to communicate with customers and suppliers who speak different languages. This skill can help them expand their reach and negotiate better deals."
   },
   {
-    "id": "trait-merchant-logistics",
+    "id": "trait-logistics",
     "name": "Logistics",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -5537,13 +4437,13 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Merchants have a strong understanding of logistics and supply chain management. They can efficiently transport goods, manage inventory, and optimize distribution to maximize efficiency and minimize costs.",
     "description": "Merchants have a strong understanding of logistics and supply chain management. They can efficiently transport goods, manage inventory, and optimize distribution to maximize efficiency and minimize costs.",
-    "mechanics": "\\+2 Wealth Checks",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Logistics\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Merchant  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMerchants have a strong understanding of logistics and supply chain management. They can efficiently transport goods, manage inventory, and optimize distribution to maximize efficiency and minimize costs.\n\n## Mechanics & Benefits\n\\+2 Wealth Checks"
+    "body": "# Logistics\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nMerchants have a strong understanding of logistics and supply chain management. They can efficiently transport goods, manage inventory, and optimize distribution to maximize efficiency and minimize costs."
   },
   {
-    "id": "trait-merchant-negotiation",
-    "name": "Negotiation",
+    "id": "trait-loyalty",
+    "name": "Loyalty",
     "category": "traits",
     "trait_type": "Occupational Trait",
     "trait_tier": "Basic",
@@ -5560,15 +4460,15 @@ export const OCCUPATIONAL_TRAITS = [
       "ap": 0
     },
     "is_ranked": false,
-    "desc": "Merchants excel at bargaining and negotiating deals. They have the ability to persuade others and get the best prices for their goods or services.",
-    "description": "Merchants excel at bargaining and negotiating deals. They have the ability to persuade others and get the best prices for their goods or services.",
-    "mechanics": "\\+1 all Manipulation Skills",
+    "desc": "While they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups",
+    "description": "While they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Negotiation\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Merchant  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMerchants excel at bargaining and negotiating deals. They have the ability to persuade others and get the best prices for their goods or services.\n\n## Mechanics & Benefits\n\\+1 all Manipulation Skills"
+    "body": "# Loyalty\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nWhile they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups"
   },
   {
-    "id": "trait-merchant-networking",
-    "name": "Networking",
+    "id": "trait-machine-affinity",
+    "name": "Machine Affinity",
     "category": "traits",
     "trait_type": "Occupational Trait",
     "trait_tier": "Basic",
@@ -5585,14 +4485,364 @@ export const OCCUPATIONAL_TRAITS = [
       "ap": 0
     },
     "is_ranked": false,
-    "desc": "Merchants have a wide network of contacts and connections. They know the right people to get information, find buyers or sellers, and establish lucrative partnerships.",
-    "description": "Merchants have a wide network of contacts and connections. They know the right people to get information, find buyers or sellers, and establish lucrative partnerships.",
-    "mechanics": "Gather Information checks at Advantage",
+    "desc": "Natural aptitude for working with machinery and tools",
+    "description": "Natural aptitude for working with machinery and tools",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Networking\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Merchant  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMerchants have a wide network of contacts and connections. They know the right people to get information, find buyers or sellers, and establish lucrative partnerships.\n\n## Mechanics & Benefits\nGather Information checks at Advantage"
+    "body": "# Machine Affinity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nNatural aptitude for working with machinery and tools"
   },
   {
-    "id": "trait-merchant-product-knowledge",
+    "id": "trait-martial-arts-mastery",
+    "name": "Martial Arts Mastery",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Many adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics.",
+    "description": "Many adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Martial Arts Mastery\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nMany adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics."
+  },
+  {
+    "id": "trait-mastery-of-a-discipline",
+    "name": "Mastery of a Discipline",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Adepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively.",
+    "description": "Adepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Mastery of a Discipline\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAdepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively."
+  },
+  {
+    "id": "trait-mecha-physics",
+    "name": "Mecha-Physics",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Comprehensive understanding of physics",
+    "description": "Comprehensive understanding of physics",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Mecha-Physics\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nComprehensive understanding of physics"
+  },
+  {
+    "id": "trait-mental-resilience",
+    "name": "Mental Resilience",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Withstand psychological challenges",
+    "description": "Withstand psychological challenges",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Mental Resilience\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nWithstand psychological challenges"
+  },
+  {
+    "id": "trait-metacognition",
+    "name": "Metacognition",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Aware of own cognitive abilities and strategies.",
+    "description": "Aware of own cognitive abilities and strategies.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Metacognition\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAware of own cognitive abilities and strategies."
+  },
+  {
+    "id": "trait-mobility",
+    "name": "Mobility",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Often on the move, traveling from place to place and exploring new territories",
+    "description": "Often on the move, traveling from place to place and exploring new territories",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Mobility\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nOften on the move, traveling from place to place and exploring new territories"
+  },
+  {
+    "id": "trait-mystical-or-spiritual-connection",
+    "name": "Mystical or Spiritual Connection",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Adepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world.",
+    "description": "Adepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Mystical or Spiritual Connection\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAdepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world."
+  },
+  {
+    "id": "trait-navigation",
+    "name": "Navigation",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Scouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively.",
+    "description": "Scouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Navigation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nScouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively."
+  },
+  {
+    "id": "trait-observant",
+    "name": "Observant",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Alert and observant, constantly scanning the area for potential threats",
+    "description": "Alert and observant, constantly scanning the area for potential threats",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Observant\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAlert and observant, constantly scanning the area for potential threats"
+  },
+  {
+    "id": "trait-persuasion",
+    "name": "Persuasion",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Convincing others to cooperate, negotiation, deception, and diplomacy",
+    "description": "Convincing others to cooperate, negotiation, deception, and diplomacy",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Persuasion\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nConvincing others to cooperate, negotiation, deception, and diplomacy"
+  },
+  {
+    "id": "trait-physical-and-mental-resilience",
+    "name": "Physical and mental resilience",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Ability to endure harsh conditions or high-stress situations",
+    "description": "Ability to endure harsh conditions or high-stress situations",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Physical and mental resilience\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAbility to endure harsh conditions or high-stress situations"
+  },
+  {
+    "id": "trait-physical-prowess",
+    "name": "Physical Prowess",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Physically fit and strong, can endure long periods of physical activity and combat",
+    "description": "Physically fit and strong, can endure long periods of physical activity and combat",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Physical Prowess\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nPhysically fit and strong, can endure long periods of physical activity and combat"
+  },
+  {
+    "id": "trait-pilot",
+    "name": "Pilot",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Most field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations.",
+    "description": "Most field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Pilot\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nMost field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations."
+  },
+  {
+    "id": "trait-problem-solving-skills",
+    "name": "Problem-Solving Skills",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Strong analytical and problem-solving skills",
+    "description": "Strong analytical and problem-solving skills",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Problem-Solving Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nStrong analytical and problem-solving skills"
+  },
+  {
+    "id": "trait-product-knowledge",
     "name": "Product Knowledge",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -5612,59 +4862,9 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Merchants have in-depth knowledge about the products they sell. They understand their features, benefits, and potential uses, allowing them to effectively market and sell their goods.",
     "description": "Merchants have in-depth knowledge about the products they sell. They understand their features, benefits, and potential uses, allowing them to effectively market and sell their goods.",
-    "mechanics": "\\+2 to a Knowledge or Vocation Skill",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Product Knowledge\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Merchant  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMerchants have in-depth knowledge about the products they sell. They understand their features, benefits, and potential uses, allowing them to effectively market and sell their goods.\n\n## Mechanics & Benefits\n\\+2 to a Knowledge or Vocation Skill"
-  },
-  {
-    "id": "trait-merchant-resourcefulness",
-    "name": "Resourcefulness",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Merchants are resourceful and can find creative solutions to problems. They can adapt to unexpected situations, overcome obstacles, and turn challenges into opportunities.",
-    "description": "Merchants are resourceful and can find creative solutions to problems. They can adapt to unexpected situations, overcome obstacles, and turn challenges into opportunities.",
-    "mechanics": "Once per Day make a Skill Check of choice at Advantage",
-    "modifiers": [],
-    "body": "# Resourcefulness\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Merchant  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMerchants are resourceful and can find creative solutions to problems. They can adapt to unexpected situations, overcome obstacles, and turn challenges into opportunities.\n\n## Mechanics & Benefits\nOnce per Day make a Skill Check of choice at Advantage"
-  },
-  {
-    "id": "trait-merchant-risk-management",
-    "name": "Risk Management",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Merchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.   *+1 Karma Point* #",
-    "description": "Merchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.   *+1 Karma Point* #",
-    "mechanics": "Merchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.  \n*\\+1 Karma Point*\n\n#",
-    "modifiers": [],
-    "body": "# Risk Management\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Merchant  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMerchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.   *\\+1 Karma Point* #\n\n## Mechanics & Benefits\nMerchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.  \n*\\+1 Karma Point*\n\n#"
+    "body": "# Product Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nMerchants have in-depth knowledge about the products they sell. They understand their features, benefits, and potential uses, allowing them to effectively market and sell their goods."
   },
   {
     "id": "trait-professionalism",
@@ -5687,13 +4887,13 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Recognized industry standing and professional reliability.",
     "description": "Recognized industry standing and professional reliability.",
-    "mechanics": "+2 to Reputation Score.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Professionalism\n\n**Category**: Common Occupational Traits  \n**Cost**: 1 CP (or free starting selection)\n\n## Description\nRecognized industry standing and professional reliability.\n\n## Mechanics & Benefits\n+2 to Reputation Score."
+    "body": "# Professionalism\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Common Occupational Trait\n**BP Cost**: 1\n\n## Description\nRecognized industry standing and professional reliability."
   },
   {
-    "id": "trait-representative-analytical",
-    "name": "Analytical",
+    "id": "trait-quick-thinking",
+    "name": "Quick Thinking",
     "category": "traits",
     "trait_type": "Occupational Trait",
     "trait_tier": "Basic",
@@ -5710,1039 +4910,14 @@ export const OCCUPATIONAL_TRAITS = [
       "ap": 0
     },
     "is_ranked": false,
-    "desc": "Ability to analyze data and information to make informed decisions",
-    "description": "Ability to analyze data and information to make informed decisions",
-    "mechanics": "\\+2 Alertness",
+    "desc": "Think on their feet, make split-second decisions, and adapt to rapidly changing situations",
+    "description": "Think on their feet, make split-second decisions, and adapt to rapidly changing situations",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Analytical\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Representative  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to analyze data and information to make informed decisions\n\n## Mechanics & Benefits\n\\+2 Alertness"
+    "body": "# Quick Thinking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nThink on their feet, make split-second decisions, and adapt to rapidly changing situations"
   },
   {
-    "id": "trait-representative-conflict-resolution",
-    "name": "Conflict resolution",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Ability to resolve conflicts effectively and find solutions that satisfy all parties involved",
-    "description": "Ability to resolve conflicts effectively and find solutions that satisfy all parties involved",
-    "mechanics": "\\+2 Diplomacy",
-    "modifiers": [],
-    "body": "# Conflict resolution\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Representative  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to resolve conflicts effectively and find solutions that satisfy all parties involved\n\n## Mechanics & Benefits\n\\+2 Diplomacy"
-  },
-  {
-    "id": "trait-representative-creativity",
-    "name": "Creativity",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Ability to think creatively and develop innovative solutions to complex problems",
-    "description": "Ability to think creatively and develop innovative solutions to complex problems",
-    "mechanics": "\\+1 Karma",
-    "modifiers": [],
-    "body": "# Creativity\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Representative  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to think creatively and develop innovative solutions to complex problems\n\n## Mechanics & Benefits\n\\+1 Karma"
-  },
-  {
-    "id": "trait-representative-emotional-intelligence",
-    "name": "Emotional intelligence",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Ability to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states",
-    "description": "Ability to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states",
-    "mechanics": "\\+2 Insight",
-    "modifiers": [],
-    "body": "# Emotional intelligence\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Representative  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states\n\n## Mechanics & Benefits\n\\+2 Insight"
-  },
-  {
-    "id": "trait-representative-flexibility",
-    "name": "Flexibility",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Ability to adapt to changing circumstances and adjust plans and strategies as needed",
-    "description": "Ability to adapt to changing circumstances and adjust plans and strategies as needed",
-    "mechanics": "\\+2 to a specific Skill Check, may change assigned Skill daily",
-    "modifiers": [],
-    "body": "# Flexibility\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Representative  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to adapt to changing circumstances and adjust plans and strategies as needed\n\n## Mechanics & Benefits\n\\+2 to a specific Skill Check, may change assigned Skill daily"
-  },
-  {
-    "id": "trait-representative-integrity",
-    "name": "Integrity",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Honest and trustworthy, able to maintain a high level of integrity in their work",
-    "description": "Honest and trustworthy, able to maintain a high level of integrity in their work",
-    "mechanics": "\\+1 Karma",
-    "modifiers": [],
-    "body": "# Integrity\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Representative  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nHonest and trustworthy, able to maintain a high level of integrity in their work\n\n## Mechanics & Benefits\n\\+1 Karma"
-  },
-  {
-    "id": "trait-representative-languages",
-    "name": "Languages",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Ability to speak multiple languages and communicate effectively with people from different cultures and backgrounds",
-    "description": "Ability to speak multiple languages and communicate effectively with people from different cultures and backgrounds",
-    "mechanics": "\\+2 Language",
-    "modifiers": [],
-    "body": "# Languages\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Representative  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to speak multiple languages and communicate effectively with people from different cultures and backgrounds\n\n## Mechanics & Benefits\n\\+2 Language"
-  },
-  {
-    "id": "trait-representative-negotiation",
-    "name": "Negotiation",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Skilled negotiator, able to find common ground with others and reach mutually beneficial agreements",
-    "description": "Skilled negotiator, able to find common ground with others and reach mutually beneficial agreements",
-    "mechanics": "\\+1 all Manipulation Skills",
-    "modifiers": [],
-    "body": "# Negotiation\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Representative  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nSkilled negotiator, able to find common ground with others and reach mutually beneficial agreements\n\n## Mechanics & Benefits\n\\+1 all Manipulation Skills"
-  },
-  {
-    "id": "trait-representative-networking",
-    "name": "Networking",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Ability to build strong relationships with others, including politicians, businesspeople, and other diplomats",
-    "description": "Ability to build strong relationships with others, including politicians, businesspeople, and other diplomats",
-    "mechanics": "Gather Information checks at Advantage",
-    "modifiers": [],
-    "body": "# Networking\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Representative  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to build strong relationships with others, including politicians, businesspeople, and other diplomats\n\n## Mechanics & Benefits\nGather Information checks at Advantage"
-  },
-  {
-    "id": "trait-representative-time-management",
-    "name": "Time Management",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Ability to manage time effectively and prioritize tasks to ensure that they are completed on time",
-    "description": "Ability to manage time effectively and prioritize tasks to ensure that they are completed on time",
-    "mechanics": "Reduce Rush modifier to Skill check by 2",
-    "modifiers": [],
-    "body": "# Time Management\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Representative  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to manage time effectively and prioritize tasks to ensure that they are completed on time\n\n## Mechanics & Benefits\nReduce Rush modifier to Skill check by 2"
-  },
-  {
-    "id": "trait-scholar-adaptability",
-    "name": "Adaptability",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Open to new ideas, willing to learn and adapt.",
-    "description": "Open to new ideas, willing to learn and adapt.",
-    "mechanics": "\\+2 to a specific Skill Check, may change assigned Skill daily",
-    "modifiers": [],
-    "body": "# Adaptability\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scholar  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nOpen to new ideas, willing to learn and adapt.\n\n## Mechanics & Benefits\n\\+2 to a specific Skill Check, may change assigned Skill daily"
-  },
-  {
-    "id": "trait-scholar-attention-to-detail",
-    "name": "Attention to detail",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Meticulous in observations, measurements, and data analysis.",
-    "description": "Meticulous in observations, measurements, and data analysis.",
-    "mechanics": "\\+2 Alertness",
-    "modifiers": [],
-    "body": "# Attention to detail\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scholar  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMeticulous in observations, measurements, and data analysis.\n\n## Mechanics & Benefits\n\\+2 Alertness"
-  },
-  {
-    "id": "trait-scholar-collaboration",
-    "name": "Collaboration",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Able to effectively communicate and work with colleagues.",
-    "description": "Able to effectively communicate and work with colleagues.",
-    "mechanics": "additional \\+1 to Aid bonuses",
-    "modifiers": [],
-    "body": "# Collaboration\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scholar  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAble to effectively communicate and work with colleagues.\n\n## Mechanics & Benefits\nadditional \\+1 to Aid bonuses"
-  },
-  {
-    "id": "trait-scholar-continuous-learning",
-    "name": "Continuous Learning",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Has a thirst for knowledge and is committed to lifelong learning.",
-    "description": "Has a thirst for knowledge and is committed to lifelong learning.",
-    "mechanics": "All Learning Checks are made at Advantage",
-    "modifiers": [],
-    "body": "# Continuous Learning\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scholar  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nHas a thirst for knowledge and is committed to lifelong learning.\n\n## Mechanics & Benefits\nAll Learning Checks are made at Advantage"
-  },
-  {
-    "id": "trait-scholar-critical-thinking",
-    "name": "Critical thinking",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Possess strong critical thinking skills.",
-    "description": "Possess strong critical thinking skills.",
-    "mechanics": "\\+1 Karma Point",
-    "modifiers": [],
-    "body": "# Critical thinking\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scholar  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPossess strong critical thinking skills.\n\n## Mechanics & Benefits\n\\+1 Karma Point"
-  },
-  {
-    "id": "trait-scholar-ethical-conduct",
-    "name": "Ethical conduct",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Adheres to ethical standards in research and work.",
-    "description": "Adheres to ethical standards in research and work.",
-    "mechanics": "\\+2 to any Manipulation checks when taking an Ethical side",
-    "modifiers": [],
-    "body": "# Ethical conduct\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scholar  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAdheres to ethical standards in research and work.\n\n## Mechanics & Benefits\n\\+2 to any Manipulation checks when taking an Ethical side"
-  },
-  {
-    "id": "trait-scholar-metacognition",
-    "name": "Metacognition",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Aware of own cognitive abilities and strategies.",
-    "description": "Aware of own cognitive abilities and strategies.",
-    "mechanics": "\\+1 to Logic and Willpower Checks",
-    "modifiers": [],
-    "body": "# Metacognition\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scholar  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAware of own cognitive abilities and strategies.\n\n## Mechanics & Benefits\n\\+1 to Logic and Willpower Checks"
-  },
-  {
-    "id": "trait-scholar-patience",
-    "name": "Patience",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Understands that scientific research and discovery often require patience.",
-    "description": "Understands that scientific research and discovery often require patience.",
-    "mechanics": "Additional \\+1 bonus per stage of time for Meticulous Skill Checks",
-    "modifiers": [],
-    "body": "# Patience\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scholar  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nUnderstands that scientific research and discovery often require patience.\n\n## Mechanics & Benefits\nAdditional \\+1 bonus per stage of time for Meticulous Skill Checks"
-  },
-  {
-    "id": "trait-scholar-problem-solving",
-    "name": "Problem-solving",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Adept at identifying and solving problems.",
-    "description": "Adept at identifying and solving problems.",
-    "mechanics": "Once per Day may reroll a Mental Skill Check",
-    "modifiers": [],
-    "body": "# Problem-solving\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scholar  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAdept at identifying and solving problems.\n\n## Mechanics & Benefits\nOnce per Day may reroll a Mental Skill Check"
-  },
-  {
-    "id": "trait-scholar-technological-innovation",
-    "name": "Technological innovation",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Able to create, adapt, and improve technology in novel ways.",
-    "description": "Able to create, adapt, and improve technology in novel ways.",
-    "mechanics": "Knowledge (Technology) checks made at Advantage.",
-    "modifiers": [],
-    "body": "# Technological innovation\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scholar  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAble to create, adapt, and improve technology in novel ways.\n\n## Mechanics & Benefits\nKnowledge (Technology) checks made at Advantage."
-  },
-  {
-    "id": "trait-scout-adaptability",
-    "name": "Adaptability",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Scouts are adaptable and can quickly adjust to changing circumstances. They can handle unexpected challenges and find alternative solutions.",
-    "description": "Scouts are adaptable and can quickly adjust to changing circumstances. They can handle unexpected challenges and find alternative solutions.",
-    "mechanics": "\\+2 to a specific Skill Check, may change assigned Skill daily",
-    "modifiers": [],
-    "body": "# Adaptability\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scout  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nScouts are adaptable and can quickly adjust to changing circumstances. They can handle unexpected challenges and find alternative solutions.\n\n## Mechanics & Benefits\n\\+2 to a specific Skill Check, may change assigned Skill daily"
-  },
-  {
-    "id": "trait-scout-camouflage",
-    "name": "Camouflage",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Scouts are adept at moving silently and remaining undetected. They know how to blend into their surroundings and use camouflage techniques to avoid detection.",
-    "description": "Scouts are adept at moving silently and remaining undetected. They know how to blend into their surroundings and use camouflage techniques to avoid detection.",
-    "mechanics": "May use Stealth at normal movement speed",
-    "modifiers": [],
-    "body": "# Camouflage\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scout  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nScouts are adept at moving silently and remaining undetected. They know how to blend into their surroundings and use camouflage techniques to avoid detection.\n\n## Mechanics & Benefits\nMay use Stealth at normal movement speed"
-  },
-  {
-    "id": "trait-scout-combat-training",
-    "name": "Combat Training",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Scouts are proficient in combat, making them skilled with various types of weapons.",
-    "description": "Scouts are proficient in combat, making them skilled with various types of weapons.",
-    "mechanics": "\\+2 to a Combat Skill of choice",
-    "modifiers": [],
-    "body": "# Combat Training\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scout  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nScouts are proficient in combat, making them skilled with various types of weapons.\n\n## Mechanics & Benefits\n\\+2 to a Combat Skill of choice"
-  },
-  {
-    "id": "trait-scout-curiosity",
-    "name": "Curiosity",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Explorer type Scouts have a natural curiosity and thirst for knowledge. They are driven to discover new places, species, and phenomena.",
-    "description": "Explorer type Scouts have a natural curiosity and thirst for knowledge. They are driven to discover new places, species, and phenomena.",
-    "mechanics": "Regain a Karma Point on the first encounter when dealing with something new \\- creature, area, technology, etc.",
-    "modifiers": [],
-    "body": "# Curiosity\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scout  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nExplorer type Scouts have a natural curiosity and thirst for knowledge. They are driven to discover new places, species, and phenomena.\n\n## Mechanics & Benefits\nRegain a Karma Point on the first encounter when dealing with something new \\- creature, area, technology, etc."
-  },
-  {
-    "id": "trait-scout-independence",
-    "name": "Independence",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Scouts are self-reliant and comfortable with solitude. They are capable of working alone and making decisions without relying on others.",
-    "description": "Scouts are self-reliant and comfortable with solitude. They are capable of working alone and making decisions without relying on others.",
-    "mechanics": "\\+1 Karma Point",
-    "modifiers": [],
-    "body": "# Independence\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scout  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nScouts are self-reliant and comfortable with solitude. They are capable of working alone and making decisions without relying on others.\n\n## Mechanics & Benefits\n\\+1 Karma Point"
-  },
-  {
-    "id": "trait-scout-keen-observation",
-    "name": "Keen Observation",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Scouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings.",
-    "description": "Scouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings.",
-    "mechanics": "Take 10 on Alertness Checks",
-    "modifiers": [],
-    "body": "# Keen Observation\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scout  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nScouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings.\n\n## Mechanics & Benefits\nTake 10 on Alertness Checks"
-  },
-  {
-    "id": "trait-scout-navigation",
-    "name": "Navigation",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Scouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively.",
-    "description": "Scouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively.",
-    "mechanics": "\\+2 Navigation (Knowledge)",
-    "modifiers": [],
-    "body": "# Navigation\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scout  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nScouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively.\n\n## Mechanics & Benefits\n\\+2 Navigation (Knowledge)"
-  },
-  {
-    "id": "trait-scout-physical-fitness",
-    "name": "Physical Fitness",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Scouts possess a high level of physical fitness to endure the demands of exploration and survive in challenging environments.",
-    "description": "Scouts possess a high level of physical fitness to endure the demands of exploration and survive in challenging environments.",
-    "mechanics": "\\+1 Might and Reflex Checks",
-    "modifiers": [],
-    "body": "# Physical Fitness\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scout  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nScouts possess a high level of physical fitness to endure the demands of exploration and survive in challenging environments.\n\n## Mechanics & Benefits\n\\+1 Might and Reflex Checks"
-  },
-  {
-    "id": "trait-scout-pilot",
-    "name": "Pilot",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Most field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations.",
-    "description": "Most field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations.",
-    "mechanics": "\\+2 Pilot and Navigation",
-    "modifiers": [],
-    "body": "# Pilot\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scout  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMost field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations.\n\n## Mechanics & Benefits\n\\+2 Pilot and Navigation"
-  },
-  {
-    "id": "trait-scout-resourcefulness",
-    "name": "Resourcefulness",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Scouts are known for their resourcefulness and ability to adapt to different situations. They can think on their feet and come up with creative solutions to challenges they encounter.",
-    "description": "Scouts are known for their resourcefulness and ability to adapt to different situations. They can think on their feet and come up with creative solutions to challenges they encounter.",
-    "mechanics": "Once per Day make a Skill Check of choice at Advantage",
-    "modifiers": [],
-    "body": "# Resourcefulness\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scout  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nScouts are known for their resourcefulness and ability to adapt to different situations. They can think on their feet and come up with creative solutions to challenges they encounter.\n\n## Mechanics & Benefits\nOnce per Day make a Skill Check of choice at Advantage"
-  },
-  {
-    "id": "trait-scout-stalker",
-    "name": "Stalker",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "The scout is able to stay out of sight with ease.",
-    "description": "The scout is able to stay out of sight with ease.",
-    "mechanics": "May take 10 on Stealth Checks",
-    "modifiers": [],
-    "body": "# Stalker\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scout  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nThe scout is able to stay out of sight with ease.\n\n## Mechanics & Benefits\nMay take 10 on Stealth Checks"
-  },
-  {
-    "id": "trait-scout-survival-skills",
-    "name": "Survival Skills",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "The ability to survive in hostile environments is a primary characteristic of a scout. They are not easily deterred by the lack of creature comforts and are skilled at eking out their next meal and finding shelter.",
-    "description": "The ability to survive in hostile environments is a primary characteristic of a scout. They are not easily deterred by the lack of creature comforts and are skilled at eking out their next meal and finding shelter.",
-    "mechanics": "\\+2 Survival",
-    "modifiers": [],
-    "body": "# Survival Skills\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scout  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nThe ability to survive in hostile environments is a primary characteristic of a scout. They are not easily deterred by the lack of creature comforts and are skilled at eking out their next meal and finding shelter.\n\n## Mechanics & Benefits\n\\+2 Survival"
-  },
-  {
-    "id": "trait-scout-terrain-expert",
-    "name": "Terrain Expert",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Scouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.   *+2 to Stealth, Survival and Defense in chosen Terrain* #",
-    "description": "Scouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.   *+2 to Stealth, Survival and Defense in chosen Terrain* #",
-    "mechanics": "Scouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.  \n*\\+2 to Stealth, Survival and Defense in chosen Terrain*\n\n#",
-    "modifiers": [],
-    "body": "# Terrain Expert\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scout  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nScouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.   *\\+2 to Stealth, Survival and Defense in chosen Terrain* #\n\n## Mechanics & Benefits\nScouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.  \n*\\+2 to Stealth, Survival and Defense in chosen Terrain*\n\n#"
-  },
-  {
-    "id": "trait-soldier-adaptable",
-    "name": "Adaptable",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Able to adapt to new situations quickly and can think on their feet",
-    "description": "Able to adapt to new situations quickly and can think on their feet",
-    "mechanics": "\\+2 to a specific Skill Check, may change assigned Skill daily",
-    "modifiers": [],
-    "body": "# Adaptable\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAble to adapt to new situations quickly and can think on their feet\n\n## Mechanics & Benefits\n\\+2 to a specific Skill Check, may change assigned Skill daily"
-  },
-  {
-    "id": "trait-soldier-attention-to-detail",
-    "name": "Attention to Detail",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Pay attention to details and are able to spot potential threats before they become a problem",
-    "description": "Pay attention to details and are able to spot potential threats before they become a problem",
-    "mechanics": "\\+2 Alertness",
-    "modifiers": [],
-    "body": "# Attention to Detail\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPay attention to details and are able to spot potential threats before they become a problem\n\n## Mechanics & Benefits\n\\+2 Alertness"
-  },
-  {
-    "id": "trait-soldier-combat-training",
-    "name": "Combat Training",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Extensive training in combat tactics, weapons handling, and hand-to-hand combat",
-    "description": "Extensive training in combat tactics, weapons handling, and hand-to-hand combat",
-    "mechanics": "\\+2 Combat Skill of choice",
-    "modifiers": [],
-    "body": "# Combat Training\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nExtensive training in combat tactics, weapons handling, and hand-to-hand combat\n\n## Mechanics & Benefits\n\\+2 Combat Skill of choice"
-  },
-  {
-    "id": "trait-soldier-cool",
-    "name": "Cool",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Able to remain calm and focused even in high-pressure situations",
-    "description": "Able to remain calm and focused even in high-pressure situations",
-    "mechanics": "\\+2 Willpower",
-    "modifiers": [],
-    "body": "# Cool\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAble to remain calm and focused even in high-pressure situations\n\n## Mechanics & Benefits\n\\+2 Willpower"
-  },
-  {
-    "id": "trait-soldier-cunning",
-    "name": "Cunning",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Rely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies",
-    "description": "Rely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies",
-    "mechanics": "Additional \\+1 to appropriate maneuvers from having Edge",
-    "modifiers": [],
-    "body": "# Cunning\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nRely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies\n\n## Mechanics & Benefits\nAdditional \\+1 to appropriate maneuvers from having Edge"
-  },
-  {
-    "id": "trait-soldier-discipline",
-    "name": "Discipline",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Disciplined and able to follow orders without question, even in high-pressure situations",
-    "description": "Disciplined and able to follow orders without question, even in high-pressure situations",
-    "mechanics": "\\+2 Soldier Vocation",
-    "modifiers": [],
-    "body": "# Discipline\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nDisciplined and able to follow orders without question, even in high-pressure situations\n\n## Mechanics & Benefits\n\\+2 Soldier Vocation"
-  },
-  {
-    "id": "trait-soldier-loyal",
-    "name": "Loyal",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Fiercely loyal to their comrades and their mission",
-    "description": "Fiercely loyal to their comrades and their mission",
-    "mechanics": "Domination and Mind-Control Resistance Checks are made at Advantage",
-    "modifiers": [],
-    "body": "# Loyal\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nFiercely loyal to their comrades and their mission\n\n## Mechanics & Benefits\nDomination and Mind-Control Resistance Checks are made at Advantage"
-  },
-  {
-    "id": "trait-soldier-observant",
-    "name": "Observant",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Alert and observant, constantly scanning the area for potential threats",
-    "description": "Alert and observant, constantly scanning the area for potential threats",
-    "mechanics": "May take 10 on Alertness Checks",
-    "modifiers": [],
-    "body": "# Observant\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAlert and observant, constantly scanning the area for potential threats\n\n## Mechanics & Benefits\nMay take 10 on Alertness Checks"
-  },
-  {
-    "id": "trait-soldier-physical-prowess",
-    "name": "Physical Prowess",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Physically fit and strong, can endure long periods of physical activity and combat",
-    "description": "Physically fit and strong, can endure long periods of physical activity and combat",
-    "mechanics": "\\+1 Might and Fortitude Checks",
-    "modifiers": [],
-    "body": "# Physical Prowess\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPhysically fit and strong, can endure long periods of physical activity and combat\n\n## Mechanics & Benefits\n\\+1 Might and Fortitude Checks"
-  },
-  {
-    "id": "trait-soldier-rapid-response",
+    "id": "trait-rapid-response",
     "name": "Rapid Response",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -6762,12 +4937,12 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Able to respond quickly to threats and can act decisively in high-pressure situations",
     "description": "Able to respond quickly to threats and can act decisively in high-pressure situations",
-    "mechanics": "\\+2 Initiative",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Rapid Response\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAble to respond quickly to threats and can act decisively in high-pressure situations\n\n## Mechanics & Benefits\n\\+2 Initiative"
+    "body": "# Rapid Response\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAble to respond quickly to threats and can act decisively in high-pressure situations"
   },
   {
-    "id": "trait-soldier-resourceful",
+    "id": "trait-resourceful",
     "name": "Resourceful",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -6787,13 +4962,13 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Able to make weapons out of anything and can adapt to new situations quickly",
     "description": "Able to make weapons out of anything and can adapt to new situations quickly",
-    "mechanics": "Once per Day make a Skill Check of choice at Advantage",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Resourceful\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAble to make weapons out of anything and can adapt to new situations quickly\n\n## Mechanics & Benefits\nOnce per Day make a Skill Check of choice at Advantage"
+    "body": "# Resourceful\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAble to make weapons out of anything and can adapt to new situations quickly"
   },
   {
-    "id": "trait-soldier-stalker",
-    "name": "Stalker",
+    "id": "trait-risk-management",
+    "name": "Risk Management",
     "category": "traits",
     "trait_type": "Occupational Trait",
     "trait_tier": "Basic",
@@ -6810,15 +4985,15 @@ export const OCCUPATIONAL_TRAITS = [
       "ap": 0
     },
     "is_ranked": false,
-    "desc": "Skilled in stealth and able to move without detection",
-    "description": "Skilled in stealth and able to move without detection",
-    "mechanics": "May take 10 on Stealth Checks",
+    "desc": "Merchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.   *+1 Karma Point* #",
+    "description": "Merchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.   *+1 Karma Point* #",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Stalker\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nSkilled in stealth and able to move without detection\n\n## Mechanics & Benefits\nMay take 10 on Stealth Checks"
+    "body": "# Risk Management\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nMerchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.   *+1 Karma Point* #"
   },
   {
-    "id": "trait-soldier-strategic",
-    "name": "Strategic",
+    "id": "trait-scavenging",
+    "name": "Scavenging",
     "category": "traits",
     "trait_type": "Occupational Trait",
     "trait_tier": "Basic",
@@ -6835,14 +5010,239 @@ export const OCCUPATIONAL_TRAITS = [
       "ap": 0
     },
     "is_ranked": false,
-    "desc": "Experienced in planning and executing missions, skilled at analyzing the battlefield and making strategic decisions",
-    "description": "Experienced in planning and executing missions, skilled at analyzing the battlefield and making strategic decisions",
-    "mechanics": "\\+1 Karma Point",
+    "desc": "Excel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources",
+    "description": "Excel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Strategic\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nExperienced in planning and executing missions, skilled at analyzing the battlefield and making strategic decisions\n\n## Mechanics & Benefits\n\\+1 Karma Point"
+    "body": "# Scavenging\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nExcel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources"
   },
   {
-    "id": "trait-soldier-team-oriented",
+    "id": "trait-self-preservation",
+    "name": "Self-preservation",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Criminals may be skilled at protecting themselves and avoiding capture by law enforcement",
+    "description": "Criminals may be skilled at protecting themselves and avoiding capture by law enforcement",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Self-preservation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nCriminals may be skilled at protecting themselves and avoiding capture by law enforcement"
+  },
+  {
+    "id": "trait-self-sufficiency",
+    "name": "Self-sufficiency",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Often self-sufficient and able to take care of themselves without relying on others",
+    "description": "Often self-sufficient and able to take care of themselves without relying on others",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Self-sufficiency\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nOften self-sufficient and able to take care of themselves without relying on others"
+  },
+  {
+    "id": "trait-smooth",
+    "name": "Smooth",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Criminals may be charming and persuasive, able to talk their way out of difficult situations",
+    "description": "Criminals may be charming and persuasive, able to talk their way out of difficult situations",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Smooth\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nCriminals may be charming and persuasive, able to talk their way out of difficult situations"
+  },
+  {
+    "id": "trait-special-ability",
+    "name": "Special Ability",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Adepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.   May be taken multiple times for a different Special Ability.",
+    "description": "Adepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.   May be taken multiple times for a different Special Ability.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Special Ability\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAdepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.   May be taken multiple times for a different Special Ability."
+  },
+  {
+    "id": "trait-special-equipment",
+    "name": "Special Equipment",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Adepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties.",
+    "description": "Adepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Special Equipment\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAdepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties."
+  },
+  {
+    "id": "trait-specialized-skills",
+    "name": "Specialized Skills",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Adepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession.",
+    "description": "Adepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Specialized Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAdepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession."
+  },
+  {
+    "id": "trait-stealth",
+    "name": "Stealth",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Operating covertly, sneaking, hiding, and remaining undetected",
+    "description": "Operating covertly, sneaking, hiding, and remaining undetected",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Stealth\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nOperating covertly, sneaking, hiding, and remaining undetected"
+  },
+  {
+    "id": "trait-strategic-thinking",
+    "name": "Strategic thinking",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Skilled at developing long-term plans and strategies to achieve their goals.",
+    "description": "Skilled at developing long-term plans and strategies to achieve their goals.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Strategic thinking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nSkilled at developing long-term plans and strategies to achieve their goals."
+  },
+  {
+    "id": "trait-survival",
+    "name": "Survival",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Ability to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter",
+    "description": "Ability to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Survival\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAbility to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter"
+  },
+  {
+    "id": "trait-team-oriented",
     "name": "Team-Oriented",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -6862,212 +5262,12 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Able to work in teams and coordinate their efforts to achieve their objectives",
     "description": "Able to work in teams and coordinate their efforts to achieve their objectives",
-    "mechanics": "additional \\+1 to Aid bonuses",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Team-Oriented\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAble to work in teams and coordinate their efforts to achieve their objectives\n\n## Mechanics & Benefits\nadditional \\+1 to Aid bonuses"
+    "body": "# Team-Oriented\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAble to work in teams and coordinate their efforts to achieve their objectives"
   },
   {
-    "id": "trait-soldier-versatile",
-    "name": "Versatile",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Able to operate in a variety of environments, including underwater and in zero-gravity",
-    "description": "Able to operate in a variety of environments, including underwater and in zero-gravity",
-    "mechanics": "\\+1 Karma Point",
-    "modifiers": [],
-    "body": "# Versatile\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAble to operate in a variety of environments, including underwater and in zero-gravity\n\n## Mechanics & Benefits\n\\+1 Karma Point"
-  },
-  {
-    "id": "trait-soldier-well-equipped",
-    "name": "Well-Equipped",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Equipped with the latest technology and weaponry   *+2 Equipment* #",
-    "description": "Equipped with the latest technology and weaponry   *+2 Equipment* #",
-    "mechanics": "Equipped with the latest technology and weaponry  \n*\\+2 Equipment*\n\n#",
-    "modifiers": [],
-    "body": "# Well-Equipped\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nEquipped with the latest technology and weaponry   *\\+2 Equipment* #\n\n## Mechanics & Benefits\nEquipped with the latest technology and weaponry  \n*\\+2 Equipment*\n\n#"
-  },
-  {
-    "id": "trait-specialist-adaptability",
-    "name": "Adaptability",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Ability to quickly learn and adapt to new technologies, environments, or situations",
-    "description": "Ability to quickly learn and adapt to new technologies, environments, or situations",
-    "mechanics": "\\+2 to a specific Skill Check, may change assigned Skill daily",
-    "modifiers": [],
-    "body": "# Adaptability\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Specialist  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to quickly learn and adapt to new technologies, environments, or situations\n\n## Mechanics & Benefits\n\\+2 to a specific Skill Check, may change assigned Skill daily"
-  },
-  {
-    "id": "trait-specialist-expertise",
-    "name": "Expertise",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "In-depth knowledge and experience in a particular area",
-    "description": "In-depth knowledge and experience in a particular area",
-    "mechanics": "\\+2 to a Skill Specialization of choice",
-    "modifiers": [],
-    "body": "# Expertise\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Specialist  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nIn-depth knowledge and experience in a particular area\n\n## Mechanics & Benefits\n\\+2 to a Skill Specialization of choice"
-  },
-  {
-    "id": "trait-specialist-leadership",
-    "name": "Leadership",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Ability to lead a team or make critical decisions",
-    "description": "Ability to lead a team or make critical decisions",
-    "mechanics": "\\+2 Leadership",
-    "modifiers": [],
-    "body": "# Leadership\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Specialist  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to lead a team or make critical decisions\n\n## Mechanics & Benefits\n\\+2 Leadership"
-  },
-  {
-    "id": "trait-specialist-physical-and-mental-resilience",
-    "name": "Physical and mental resilience",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Ability to endure harsh conditions or high-stress situations",
-    "description": "Ability to endure harsh conditions or high-stress situations",
-    "mechanics": "\\+1 Willpower and Fortitude",
-    "modifiers": [],
-    "body": "# Physical and mental resilience\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Specialist  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to endure harsh conditions or high-stress situations\n\n## Mechanics & Benefits\n\\+1 Willpower and Fortitude"
-  },
-  {
-    "id": "trait-specialist-problem-solving",
-    "name": "Problem-Solving",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Ability to solve complex problems and overcome obstacles",
-    "description": "Ability to solve complex problems and overcome obstacles",
-    "mechanics": "Once per Day may reroll a Mental Skill Check",
-    "modifiers": [],
-    "body": "# Problem-Solving\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Specialist  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to solve complex problems and overcome obstacles\n\n## Mechanics & Benefits\nOnce per Day may reroll a Mental Skill Check"
-  },
-  {
-    "id": "trait-specialist-resourcefulness",
-    "name": "Resourcefulness",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Ability to make the most out of limited resources",
-    "description": "Ability to make the most out of limited resources",
-    "mechanics": "Once per Day make a Skill Check of choice at Advantage",
-    "modifiers": [],
-    "body": "# Resourcefulness\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Specialist  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to make the most out of limited resources\n\n## Mechanics & Benefits\nOnce per Day make a Skill Check of choice at Advantage"
-  },
-  {
-    "id": "trait-specialist-team-player",
+    "id": "trait-team-player",
     "name": "Team Player",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -7087,12 +5287,87 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Ability to communicate effectively and collaborate with others",
     "description": "Ability to communicate effectively and collaborate with others",
-    "mechanics": "additional \\+1 to Aid bonuses",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Team Player\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Specialist  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to communicate effectively and collaborate with others\n\n## Mechanics & Benefits\nadditional \\+1 to Aid bonuses"
+    "body": "# Team Player\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAbility to communicate effectively and collaborate with others"
   },
   {
-    "id": "trait-specialist-technological-proficiency",
+    "id": "trait-technical-knowledge",
+    "name": "Technical Knowledge",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Deep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques",
+    "description": "Deep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Technical Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nDeep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques"
+  },
+  {
+    "id": "trait-technological-aptitude",
+    "name": "Technological Aptitude",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Natural aptitude for understanding and operating advanced technology",
+    "description": "Natural aptitude for understanding and operating advanced technology",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Technological Aptitude\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nNatural aptitude for understanding and operating advanced technology"
+  },
+  {
+    "id": "trait-technological-innovation",
+    "name": "Technological innovation",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Able to create, adapt, and improve technology in novel ways.",
+    "description": "Able to create, adapt, and improve technology in novel ways.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Technological innovation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAble to create, adapt, and improve technology in novel ways."
+  },
+  {
+    "id": "trait-technological-proficiency",
     "name": "Technological proficiency",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -7112,13 +5387,13 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Proficiency in advanced technology",
     "description": "Proficiency in advanced technology",
-    "mechanics": "Additional \\+1 from Equipment Bonus and \\+2 Technology (Knowledge)",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Technological proficiency\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Specialist  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nProficiency in advanced technology\n\n## Mechanics & Benefits\nAdditional \\+1 from Equipment Bonus and \\+2 Technology (Knowledge)"
+    "body": "# Technological proficiency\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nProficiency in advanced technology"
   },
   {
-    "id": "trait-specialist-versatility",
-    "name": "Versatility",
+    "id": "trait-technology",
+    "name": "Technology",
     "category": "traits",
     "trait_type": "Occupational Trait",
     "trait_tier": "Basic",
@@ -7135,11 +5410,36 @@ export const OCCUPATIONAL_TRAITS = [
       "ap": 0
     },
     "is_ranked": false,
-    "desc": "Ability to fulfill multiple roles within a team",
-    "description": "Ability to fulfill multiple roles within a team",
-    "mechanics": "\\+1 to Karma Pool maximum",
+    "desc": "Familiarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons",
+    "description": "Familiarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Versatility\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Specialist  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to fulfill multiple roles within a team\n\n## Mechanics & Benefits\n\\+1 to Karma Pool maximum"
+    "body": "# Technology\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nFamiliarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons"
+  },
+  {
+    "id": "trait-terrain-expert",
+    "name": "Terrain Expert",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Scouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.   *+2 to Stealth, Survival and Defense in chosen Terrain* #",
+    "description": "Scouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.   *+2 to Stealth, Survival and Defense in chosen Terrain* #",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Terrain Expert\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nScouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.   *+2 to Stealth, Survival and Defense in chosen Terrain* #"
   },
   {
     "id": "trait-trade-tools",
@@ -7162,9 +5462,134 @@ export const OCCUPATIONAL_TRAITS = [
     "is_ranked": false,
     "desc": "Standard occupational gear, specialized toolkits, and field equipment.",
     "description": "Standard occupational gear, specialized toolkits, and field equipment.",
-    "mechanics": "+2 Equipment allowance bonus during character creation.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Trade Tools\n\n**Category**: Common Occupational Traits  \n**Cost**: 1 CP (or free starting selection)\n\n## Description\nStandard occupational gear, specialized toolkits, and field equipment.\n\n## Mechanics & Benefits\n+2 Equipment allowance bonus during character creation."
+    "body": "# Trade Tools\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Common Occupational Trait\n**BP Cost**: 1\n\n## Description\nStandard occupational gear, specialized toolkits, and field equipment."
+  },
+  {
+    "id": "trait-travel",
+    "name": "Travel",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Piloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain   *+2 Piloting and Navigation*  #",
+    "description": "Piloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain   *+2 Piloting and Navigation*  #",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Travel\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nPiloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain   *+2 Piloting and Navigation*  #"
+  },
+  {
+    "id": "trait-unpredictability",
+    "name": "Unpredictability",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Unpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries   *+2 Initiative* #",
+    "description": "Unpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries   *+2 Initiative* #",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Unpredictability\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nUnpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries   *+2 Initiative* #"
+  },
+  {
+    "id": "trait-venues",
+    "name": "Venues",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Has strong ties to certain performance venues   *+2 Equipment (Hideout) and +1 Wealth* #",
+    "description": "Has strong ties to certain performance venues   *+2 Equipment (Hideout) and +1 Wealth* #",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Venues\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nHas strong ties to certain performance venues   *+2 Equipment (Hideout) and +1 Wealth* #"
+  },
+  {
+    "id": "trait-versatile",
+    "name": "Versatile",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Able to operate in a variety of environments, including underwater and in zero-gravity",
+    "description": "Able to operate in a variety of environments, including underwater and in zero-gravity",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Versatile\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAble to operate in a variety of environments, including underwater and in zero-gravity"
+  },
+  {
+    "id": "trait-well-equipped",
+    "name": "Well-Equipped",
+    "category": "traits",
+    "trait_type": "Occupational Trait",
+    "trait_tier": "Basic",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 1,
+    "costs": {
+      "bp": 1,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "Equipped with the latest technology and weaponry   *+2 Equipment* #",
+    "description": "Equipped with the latest technology and weaponry   *+2 Equipment* #",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Well-Equipped\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nEquipped with the latest technology and weaponry   *+2 Equipment* #"
   }
 ];
 export const ORIGIN_TRAITS = [
@@ -7189,9 +5614,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Quickly adjusts to new environments, changing protocols, and unexpected physical conditions.",
     "description": "Quickly adjusts to new environments, changing protocols, and unexpected physical conditions.",
-    "mechanics": "+2 bonus to a specific chosen Skill check; may reassign the chosen skill daily.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Adaptability\n\n**Category**: Origin Traits  \n**Associated Origin**: General  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nQuickly adjusts to new environments, changing protocols, and unexpected physical conditions.\n\n## Mechanics & Benefits\n+2 bonus to a specific chosen Skill check; may reassign the chosen skill daily."
+    "body": "# Adaptability\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nQuickly adjusts to new environments, changing protocols, and unexpected physical conditions."
   },
   {
     "id": "trait-adventurous-spirit",
@@ -7214,9 +5639,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Fearless enthusiasm for venturing beyond established perimeter fences into uncharted wilds.",
     "description": "Fearless enthusiasm for venturing beyond established perimeter fences into uncharted wilds.",
-    "mechanics": "Once per day, make a chosen exploration or wilderness check with Advantage.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Adventurous Spirit\n\n**Category**: Origin Traits  \n**Associated Origin**: Colony  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nFearless enthusiasm for venturing beyond established perimeter fences into uncharted wilds.\n\n## Mechanics & Benefits\nOnce per day, make a chosen exploration or wilderness check with Advantage."
+    "body": "# Adventurous Spirit\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nFearless enthusiasm for venturing beyond established perimeter fences into uncharted wilds."
   },
   {
     "id": "trait-analytical-thinking",
@@ -7239,9 +5664,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Systematic data deconstruction, statistical pattern recognition, and logical analysis.",
     "description": "Systematic data deconstruction, statistical pattern recognition, and logical analysis.",
-    "mechanics": "+2 to Logic checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Analytical Thinking\n\n**Category**: Origin Traits  \n**Associated Origin**: Research  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nSystematic data deconstruction, statistical pattern recognition, and logical analysis.\n\n## Mechanics & Benefits\n+2 to Logic checks."
+    "body": "# Analytical Thinking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nSystematic data deconstruction, statistical pattern recognition, and logical analysis."
   },
   {
     "id": "trait-animal-husbandry",
@@ -7264,9 +5689,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Expertise in raising and caring for livestock, understanding animal behavior and nutrition.",
     "description": "Expertise in raising and caring for livestock, understanding animal behavior and nutrition.",
-    "mechanics": "+2 to Animal Handling checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Animal Husbandry\n\n**Category**: Origin Traits  \n**Associated Origin**: Agricultural  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nExpertise in raising and caring for livestock, understanding animal behavior and nutrition.\n\n## Mechanics & Benefits\n+2 to Animal Handling checks."
+    "body": "# Animal Husbandry\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nExpertise in raising and caring for livestock, understanding animal behavior and nutrition."
   },
   {
     "id": "trait-aquatic-construction",
@@ -7289,9 +5714,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Skilled in engineering watertight hulls, flotilla moorings, and submerged habitats.",
     "description": "Skilled in engineering watertight hulls, flotilla moorings, and submerged habitats.",
-    "mechanics": "+2 to all Marine and Underwater Construction checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Aquatic Construction\n\n**Category**: Origin Traits  \n**Associated Origin**: Aquatic  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nSkilled in engineering watertight hulls, flotilla moorings, and submerged habitats.\n\n## Mechanics & Benefits\n+2 to all Marine and Underwater Construction checks."
+    "body": "# Aquatic Construction\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nSkilled in engineering watertight hulls, flotilla moorings, and submerged habitats."
   },
   {
     "id": "trait-attention-to-detail",
@@ -7314,9 +5739,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Meticulous observation that spots minute anomalies, data flaws, and sensory inconsistencies.",
     "description": "Meticulous observation that spots minute anomalies, data flaws, and sensory inconsistencies.",
-    "mechanics": "+2 to Alertness checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Attention to Detail\n\n**Category**: Origin Traits  \n**Associated Origin**: Research  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMeticulous observation that spots minute anomalies, data flaws, and sensory inconsistencies.\n\n## Mechanics & Benefits\n+2 to Alertness checks."
+    "body": "# Attention to Detail\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nMeticulous observation that spots minute anomalies, data flaws, and sensory inconsistencies."
   },
   {
     "id": "trait-botanical-knowledge",
@@ -7339,9 +5764,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Extensive knowledge of plants, crops, and agricultural cultivation techniques.",
     "description": "Extensive knowledge of plants, crops, and agricultural cultivation techniques.",
-    "mechanics": "+2 to Botany and Plant Science checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Botanical Knowledge\n\n**Category**: Origin Traits  \n**Associated Origin**: Agricultural  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nExtensive knowledge of plants, crops, and agricultural cultivation techniques.\n\n## Mechanics & Benefits\n+2 to Botany and Plant Science checks."
+    "body": "# Botanical Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nExtensive knowledge of plants, crops, and agricultural cultivation techniques."
   },
   {
     "id": "trait-collaboration",
@@ -7364,9 +5789,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Peer-review synergy and interdisciplinary communication across research teams.",
     "description": "Peer-review synergy and interdisciplinary communication across research teams.",
-    "mechanics": "Adds an additional +1 bonus to all Aid checks granted to or received from collaborators.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Collaboration\n\n**Category**: Origin Traits  \n**Associated Origin**: Research  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPeer-review synergy and interdisciplinary communication across research teams.\n\n## Mechanics & Benefits\nAdds an additional +1 bonus to all Aid checks granted to or received from collaborators."
+    "body": "# Collaboration\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nPeer-review synergy and interdisciplinary communication across research teams."
   },
   {
     "id": "trait-combat-skills",
@@ -7389,9 +5814,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Brutal self-defense instincts developed against predatory wildlife and raiders.",
     "description": "Brutal self-defense instincts developed against predatory wildlife and raiders.",
-    "mechanics": "+2 to one chosen Combat Skill.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Combat Skills\n\n**Category**: Origin Traits  \n**Associated Origin**: Hostile  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nBrutal self-defense instincts developed against predatory wildlife and raiders.\n\n## Mechanics & Benefits\n+2 to one chosen Combat Skill."
+    "body": "# Combat Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nBrutal self-defense instincts developed against predatory wildlife and raiders."
   },
   {
     "id": "trait-combat-trained",
@@ -7414,9 +5839,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Standard military drills covering marksmanship, close-quarters combat, and fireteam movement.",
     "description": "Standard military drills covering marksmanship, close-quarters combat, and fireteam movement.",
-    "mechanics": "+2 to one chosen Combat Skill.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Combat Trained\n\n**Category**: Origin Traits  \n**Associated Origin**: Militaristic  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nStandard military drills covering marksmanship, close-quarters combat, and fireteam movement.\n\n## Mechanics & Benefits\n+2 to one chosen Combat Skill."
+    "body": "# Combat Trained\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nStandard military drills covering marksmanship, close-quarters combat, and fireteam movement."
   },
   {
     "id": "trait-community-building",
@@ -7439,9 +5864,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Values community solidarity and possesses skills in building and maintaining relationships among local groups.",
     "description": "Values community solidarity and possesses skills in building and maintaining relationships among local groups.",
-    "mechanics": "Once per day, may reroll a failed Social Skill check.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Community Building\n\n**Category**: Origin Traits  \n**Associated Origin**: Agricultural  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nValues community solidarity and possesses skills in building and maintaining relationships among local groups.\n\n## Mechanics & Benefits\nOnce per day, may reroll a failed Social Skill check."
+    "body": "# Community Building\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nValues community solidarity and possesses skills in building and maintaining relationships among local groups."
   },
   {
     "id": "trait-contacts",
@@ -7464,9 +5889,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Extensive rolodex of street informants, corporate fixers, bar owners, and dockworkers.",
     "description": "Extensive rolodex of street informants, corporate fixers, bar owners, and dockworkers.",
-    "mechanics": "Gather Information checks are made with Advantage.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Contacts\n\n**Category**: Origin Traits  \n**Associated Origin**: Urban  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nExtensive rolodex of street informants, corporate fixers, bar owners, and dockworkers.\n\n## Mechanics & Benefits\nGather Information checks are made with Advantage."
+    "body": "# Contacts\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nExtensive rolodex of street informants, corporate fixers, bar owners, and dockworkers."
   },
   {
     "id": "trait-curiosity",
@@ -7489,9 +5914,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "An insatiable drive to explore the unknown, analyze anomalous phenomena, and investigate new discoveries.",
     "description": "An insatiable drive to explore the unknown, analyze anomalous phenomena, and investigate new discoveries.",
-    "mechanics": "Regain 1 Karma Point on the first encounter when analyzing something entirely new in a session.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Curiosity\n\n**Category**: Origin Traits  \n**Associated Origin**: General  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAn insatiable drive to explore the unknown, analyze anomalous phenomena, and investigate new discoveries.\n\n## Mechanics & Benefits\nRegain 1 Karma Point on the first encounter when analyzing something entirely new in a session."
+    "body": "# Curiosity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nAn insatiable drive to explore the unknown, analyze anomalous phenomena, and investigate new discoveries."
   },
   {
     "id": "trait-diplomacy",
@@ -7514,9 +5939,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Skill in negotiation, de-escalating tensions, and maintaining formal alliances.",
     "description": "Skill in negotiation, de-escalating tensions, and maintaining formal alliances.",
-    "mechanics": "+2 to Diplomacy checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Diplomacy\n\n**Category**: Origin Traits  \n**Associated Origin**: General  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nSkill in negotiation, de-escalating tensions, and maintaining formal alliances.\n\n## Mechanics & Benefits\n+2 to Diplomacy checks."
+    "body": "# Diplomacy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nSkill in negotiation, de-escalating tensions, and maintaining formal alliances."
   },
   {
     "id": "trait-disciplined",
@@ -7539,9 +5964,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Conditioned obedience to command structures and flawless execution of standard operating procedures.",
     "description": "Conditioned obedience to command structures and flawless execution of standard operating procedures.",
-    "mechanics": "+2 to Soldier Vocation checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Disciplined\n\n**Category**: Origin Traits  \n**Associated Origin**: Militaristic  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nConditioned obedience to command structures and flawless execution of standard operating procedures.\n\n## Mechanics & Benefits\n+2 to Soldier Vocation checks."
+    "body": "# Disciplined\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nConditioned obedience to command structures and flawless execution of standard operating procedures."
   },
   {
     "id": "trait-empathy",
@@ -7564,9 +5989,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Intuitive emotional resonance that perceives the underlying drives and moods of sapient beings and creatures.",
     "description": "Intuitive emotional resonance that perceives the underlying drives and moods of sapient beings and creatures.",
-    "mechanics": "+2 to Insight and +2 to Handle Animal checks when interacting peacefully.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Empathy\n\n**Category**: Origin Traits  \n**Associated Origin**: General  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nIntuitive emotional resonance that perceives the underlying drives and moods of sapient beings and creatures.\n\n## Mechanics & Benefits\n+2 to Insight and +2 to Handle Animal checks when interacting peacefully."
+    "body": "# Empathy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nIntuitive emotional resonance that perceives the underlying drives and moods of sapient beings and creatures."
   },
   {
     "id": "trait-entertainment-skill",
@@ -7589,9 +6014,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Talent in performance arts, music, athletics, gaming, or high-stakes social recreation.",
     "description": "Talent in performance arts, music, athletics, gaming, or high-stakes social recreation.",
-    "mechanics": "+2 to one chosen Non-Combat or Performance skill.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Entertainment Skill\n\n**Category**: Origin Traits  \n**Associated Origin**: Leisure  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nTalent in performance arts, music, athletics, gaming, or high-stakes social recreation.\n\n## Mechanics & Benefits\n+2 to one chosen Non-Combat or Performance skill."
+    "body": "# Entertainment Skill\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nTalent in performance arts, music, athletics, gaming, or high-stakes social recreation."
   },
   {
     "id": "trait-environmental-awareness",
@@ -7614,9 +6039,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Attuned to ambient shifts in barometric pressure, water currents, temperature, and atmospheric toxicity.",
     "description": "Attuned to ambient shifts in barometric pressure, water currents, temperature, and atmospheric toxicity.",
-    "mechanics": "+2 to Alertness checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Environmental Awareness\n\n**Category**: Origin Traits  \n**Associated Origin**: Aquatic  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAttuned to ambient shifts in barometric pressure, water currents, temperature, and atmospheric toxicity.\n\n## Mechanics & Benefits\n+2 to Alertness checks."
+    "body": "# Environmental Awareness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nAttuned to ambient shifts in barometric pressure, water currents, temperature, and atmospheric toxicity."
   },
   {
     "id": "trait-green-thumb",
@@ -7639,9 +6064,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Natural talent for nurturing plants and making them thrive even in harsh soil.",
     "description": "Natural talent for nurturing plants and making them thrive even in harsh soil.",
-    "mechanics": "Checks involving cultivating, nurturing, and healing plants are made with Advantage.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Green Thumb\n\n**Category**: Origin Traits  \n**Associated Origin**: Agricultural  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nNatural talent for nurturing plants and making them thrive even in harsh soil.\n\n## Mechanics & Benefits\nChecks involving cultivating, nurturing, and healing plants are made with Advantage."
+    "body": "# Green Thumb\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nNatural talent for nurturing plants and making them thrive even in harsh soil."
   },
   {
     "id": "trait-honor-bound",
@@ -7664,9 +6089,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Devotion to comrades and code of duty; willing to endure hardship for the unit.",
     "description": "Devotion to comrades and code of duty; willing to endure hardship for the unit.",
-    "mechanics": "Once per day, make a check with Advantage, provided the action directly protects or aids an ally.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Honor-Bound\n\n**Category**: Origin Traits  \n**Associated Origin**: Militaristic  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nDevotion to comrades and code of duty; willing to endure hardship for the unit.\n\n## Mechanics & Benefits\nOnce per day, make a check with Advantage, provided the action directly protects or aids an ally."
+    "body": "# Honor-Bound\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nDevotion to comrades and code of duty; willing to endure hardship for the unit."
   },
   {
     "id": "trait-independence",
@@ -7689,9 +6114,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Self-reliant problem solving in the cold vacuum where help is light-years away.",
     "description": "Self-reliant problem solving in the cold vacuum where help is light-years away.",
-    "mechanics": "+1 permanent Karma Point to maximum pool.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Independence\n\n**Category**: Origin Traits  \n**Associated Origin**: Spacer  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nSelf-reliant problem solving in the cold vacuum where help is light-years away.\n\n## Mechanics & Benefits\n+1 permanent Karma Point to maximum pool."
+    "body": "# Independence\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nSelf-reliant problem solving in the cold vacuum where help is light-years away."
   },
   {
     "id": "trait-intellectualism",
@@ -7714,9 +6139,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Formal academic pedagogy and comprehensive theoretical mastery in advanced sciences.",
     "description": "Formal academic pedagogy and comprehensive theoretical mastery in advanced sciences.",
-    "mechanics": "+2 to Academics and +2 to one Mental Skill Specialization.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Intellectualism\n\n**Category**: Origin Traits  \n**Associated Origin**: Research  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nFormal academic pedagogy and comprehensive theoretical mastery in advanced sciences.\n\n## Mechanics & Benefits\n+2 to Academics and +2 to one Mental Skill Specialization."
+    "body": "# Intellectualism\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nFormal academic pedagogy and comprehensive theoretical mastery in advanced sciences."
   },
   {
     "id": "trait-intuition",
@@ -7739,9 +6164,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "A preternatural sixth sense for impending ambushes, environmental collapses, and traps.",
     "description": "A preternatural sixth sense for impending ambushes, environmental collapses, and traps.",
-    "mechanics": "Once per day, reroll any one failed Perception or Alertness check.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Intuition\n\n**Category**: Origin Traits  \n**Associated Origin**: Hostile  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nA preternatural sixth sense for impending ambushes, environmental collapses, and traps.\n\n## Mechanics & Benefits\nOnce per day, reroll any one failed Perception or Alertness check."
+    "body": "# Intuition\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nA preternatural sixth sense for impending ambushes, environmental collapses, and traps."
   },
   {
     "id": "trait-leadership",
@@ -7764,9 +6189,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Inspirational command presence that organizes groups and rallies morale.",
     "description": "Inspirational command presence that organizes groups and rallies morale.",
-    "mechanics": "+2 to Leadership checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Leadership\n\n**Category**: Origin Traits  \n**Associated Origin**: General  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nInspirational command presence that organizes groups and rallies morale.\n\n## Mechanics & Benefits\n+2 to Leadership checks."
+    "body": "# Leadership\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nInspirational command presence that organizes groups and rallies morale."
   },
   {
     "id": "trait-lifestyle-preferences",
@@ -7789,9 +6214,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Refined aesthetic tastes and familiarity with high-society etiquette and luxury commerce.",
     "description": "Refined aesthetic tastes and familiarity with high-society etiquette and luxury commerce.",
-    "mechanics": "+1 to Wealth score and +1 to Diplomacy checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Lifestyle Preferences\n\n**Category**: Origin Traits  \n**Associated Origin**: Leisure  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nRefined aesthetic tastes and familiarity with high-society etiquette and luxury commerce.\n\n## Mechanics & Benefits\n+1 to Wealth score and +1 to Diplomacy checks."
+    "body": "# Lifestyle Preferences\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nRefined aesthetic tastes and familiarity with high-society etiquette and luxury commerce."
   },
   {
     "id": "trait-loyal",
@@ -7814,9 +6239,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Unwavering commitment that rejects subversion, psychological coercion, and bribery.",
     "description": "Unwavering commitment that rejects subversion, psychological coercion, and bribery.",
-    "mechanics": "Resistance checks against Domination and Mind-Control effects are made with Advantage.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Loyal\n\n**Category**: Origin Traits  \n**Associated Origin**: Militaristic  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nUnwavering commitment that rejects subversion, psychological coercion, and bribery.\n\n## Mechanics & Benefits\nResistance checks against Domination and Mind-Control effects are made with Advantage."
+    "body": "# Loyal\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nUnwavering commitment that rejects subversion, psychological coercion, and bribery."
   },
   {
     "id": "trait-management",
@@ -7839,9 +6264,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Skill in organizing resort logistics, hospitality staff, entertainment venues, and guest services.",
     "description": "Skill in organizing resort logistics, hospitality staff, entertainment venues, and guest services.",
-    "mechanics": "+1 to Wealth score and +1 to Leadership checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Management\n\n**Category**: Origin Traits  \n**Associated Origin**: Leisure  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nSkill in organizing resort logistics, hospitality staff, entertainment venues, and guest services.\n\n## Mechanics & Benefits\n+1 to Wealth score and +1 to Leadership checks."
+    "body": "# Management\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nSkill in organizing resort logistics, hospitality staff, entertainment venues, and guest services."
   },
   {
     "id": "trait-mechanical-aptitude",
@@ -7864,9 +6289,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Innate comprehension of heavy machinery, hydraulics, conveyor grids, and turbines.",
     "description": "Innate comprehension of heavy machinery, hydraulics, conveyor grids, and turbines.",
-    "mechanics": "+1 to Mechanical, Electrical, and Engineering checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Mechanical Aptitude\n\n**Category**: Origin Traits  \n**Associated Origin**: Industrial  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nInnate comprehension of heavy machinery, hydraulics, conveyor grids, and turbines.\n\n## Mechanics & Benefits\n+1 to Mechanical, Electrical, and Engineering checks."
+    "body": "# Mechanical Aptitude\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nInnate comprehension of heavy machinery, hydraulics, conveyor grids, and turbines."
   },
   {
     "id": "trait-mental-toughness",
@@ -7889,9 +6314,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Psychological resilience against isolation, sensory deprivation, fear, and pain.",
     "description": "Psychological resilience against isolation, sensory deprivation, fear, and pain.",
-    "mechanics": "+2 to Willpower checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Mental Toughness\n\n**Category**: Origin Traits  \n**Associated Origin**: Hostile  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPsychological resilience against isolation, sensory deprivation, fear, and pain.\n\n## Mechanics & Benefits\n+2 to Willpower checks."
+    "body": "# Mental Toughness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nPsychological resilience against isolation, sensory deprivation, fear, and pain."
   },
   {
     "id": "trait-mentorship",
@@ -7914,9 +6339,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Patient pedagogical wisdom that accelerates the learning and focus of pupils and companions.",
     "description": "Patient pedagogical wisdom that accelerates the learning and focus of pupils and companions.",
-    "mechanics": "Allies studying or training under the character's direct instruction make Study checks with Advantage.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Mentorship\n\n**Category**: Origin Traits  \n**Associated Origin**: Enlightened  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPatient pedagogical wisdom that accelerates the learning and focus of pupils and companions.\n\n## Mechanics & Benefits\nAllies studying or training under the character's direct instruction make Study checks with Advantage."
+    "body": "# Mentorship\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nPatient pedagogical wisdom that accelerates the learning and focus of pupils and companions."
   },
   {
     "id": "trait-milspec-gear",
@@ -7939,9 +6364,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Issued military-grade armor, sidearms, and tactical field gear.",
     "description": "Issued military-grade armor, sidearms, and tactical field gear.",
-    "mechanics": "+2 Equipment allowance bonus during character creation.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Milspec Gear\n\n**Category**: Origin Traits  \n**Associated Origin**: Militaristic  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nIssued military-grade armor, sidearms, and tactical field gear.\n\n## Mechanics & Benefits\n+2 Equipment allowance bonus during character creation."
+    "body": "# Milspec Gear\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nIssued military-grade armor, sidearms, and tactical field gear."
   },
   {
     "id": "trait-non-combat-focus",
@@ -7964,9 +6389,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Concentrated mastery in civic vocations, gourmet culinary arts, or fine craftsmanship.",
     "description": "Concentrated mastery in civic vocations, gourmet culinary arts, or fine craftsmanship.",
-    "mechanics": "+2 to one chosen Vocation skill.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Non-Combat Focus\n\n**Category**: Origin Traits  \n**Associated Origin**: Leisure  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nConcentrated mastery in civic vocations, gourmet culinary arts, or fine craftsmanship.\n\n## Mechanics & Benefits\n+2 to one chosen Vocation skill."
+    "body": "# Non-Combat Focus\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nConcentrated mastery in civic vocations, gourmet culinary arts, or fine craftsmanship."
   },
   {
     "id": "trait-open-mindedness",
@@ -7989,9 +6414,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Philosophical tolerance that bridges deep cultural, religious, and alien divides.",
     "description": "Philosophical tolerance that bridges deep cultural, religious, and alien divides.",
-    "mechanics": "Reduce all social Stigma penalties between the character and others by the character's Wisdom score.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Open-Mindedness\n\n**Category**: Origin Traits  \n**Associated Origin**: Enlightened  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPhilosophical tolerance that bridges deep cultural, religious, and alien divides.\n\n## Mechanics & Benefits\nReduce all social Stigma penalties between the character and others by the character's Wisdom score."
+    "body": "# Open-Mindedness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nPhilosophical tolerance that bridges deep cultural, religious, and alien divides."
   },
   {
     "id": "trait-optimistic",
@@ -8014,9 +6439,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "An unshakeable positive demeanor that inspires resilience in bleak moments.",
     "description": "An unshakeable positive demeanor that inspires resilience in bleak moments.",
-    "mechanics": "+1 permanent Karma Point to maximum pool.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Optimistic\n\n**Category**: Origin Traits  \n**Associated Origin**: Leisure  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAn unshakeable positive demeanor that inspires resilience in bleak moments.\n\n## Mechanics & Benefits\n+1 permanent Karma Point to maximum pool."
+    "body": "# Optimistic\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nAn unshakeable positive demeanor that inspires resilience in bleak moments."
   },
   {
     "id": "trait-peaceful-nature",
@@ -8039,9 +6464,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Radiates serene composure that disarms hostility and calms tense standoffs.",
     "description": "Radiates serene composure that disarms hostility and calms tense standoffs.",
-    "mechanics": "+2 to Diplomacy checks during peaceful mediation and truce negotiations.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Peaceful Nature\n\n**Category**: Origin Traits  \n**Associated Origin**: Enlightened  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nRadiates serene composure that disarms hostility and calms tense standoffs.\n\n## Mechanics & Benefits\n+2 to Diplomacy checks during peaceful mediation and truce negotiations."
+    "body": "# Peaceful Nature\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nRadiates serene composure that disarms hostility and calms tense standoffs."
   },
   {
     "id": "trait-persistence",
@@ -8064,9 +6489,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Tireless determination that runs countless trials until a breakthrough is achieved.",
     "description": "Tireless determination that runs countless trials until a breakthrough is achieved.",
-    "mechanics": "+1 permanent Karma Point to maximum pool.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Persistence\n\n**Category**: Origin Traits  \n**Associated Origin**: Research  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nTireless determination that runs countless trials until a breakthrough is achieved.\n\n## Mechanics & Benefits\n+1 permanent Karma Point to maximum pool."
+    "body": "# Persistence\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nTireless determination that runs countless trials until a breakthrough is achieved."
   },
   {
     "id": "trait-physical-endurance",
@@ -8089,9 +6514,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "High tolerance for atmospheric toxins, extreme temperatures, and caloric deprivation.",
     "description": "High tolerance for atmospheric toxins, extreme temperatures, and caloric deprivation.",
-    "mechanics": "+2 to Fortitude checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Physical Endurance\n\n**Category**: Origin Traits  \n**Associated Origin**: Hostile  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nHigh tolerance for atmospheric toxins, extreme temperatures, and caloric deprivation.\n\n## Mechanics & Benefits\n+2 to Fortitude checks."
+    "body": "# Physical Endurance\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nHigh tolerance for atmospheric toxins, extreme temperatures, and caloric deprivation."
   },
   {
     "id": "trait-physical-strength",
@@ -8114,9 +6539,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Musculoskeletal conditioning built through rigorous manual labor and heavy lifting.",
     "description": "Musculoskeletal conditioning built through rigorous manual labor and heavy lifting.",
-    "mechanics": "+2 to Might checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Physical Strength\n\n**Category**: Origin Traits  \n**Associated Origin**: Industrial  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMusculoskeletal conditioning built through rigorous manual labor and heavy lifting.\n\n## Mechanics & Benefits\n+2 to Might checks."
+    "body": "# Physical Strength\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nMusculoskeletal conditioning built through rigorous manual labor and heavy lifting."
   },
   {
     "id": "trait-pilot-skills",
@@ -8139,9 +6564,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Practiced control of specialized terrain, atmospheric, or orbital transport craft.",
     "description": "Practiced control of specialized terrain, atmospheric, or orbital transport craft.",
-    "mechanics": "+2 to Piloting checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Pilot Skills\n\n**Category**: Origin Traits  \n**Associated Origin**: General  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPracticed control of specialized terrain, atmospheric, or orbital transport craft.\n\n## Mechanics & Benefits\n+2 to Piloting checks."
+    "body": "# Pilot Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nPracticed control of specialized terrain, atmospheric, or orbital transport craft."
   },
   {
     "id": "trait-practicality",
@@ -8164,9 +6589,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Focuses on utilitarian efficiency, cutting through abstract theories to deliver results.",
     "description": "Focuses on utilitarian efficiency, cutting through abstract theories to deliver results.",
-    "mechanics": "+2 to Logic checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Practicality\n\n**Category**: Origin Traits  \n**Associated Origin**: Industrial  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nFocuses on utilitarian efficiency, cutting through abstract theories to deliver results.\n\n## Mechanics & Benefits\n+2 to Logic checks."
+    "body": "# Practicality\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nFocuses on utilitarian efficiency, cutting through abstract theories to deliver results."
   },
   {
     "id": "trait-problem-solving",
@@ -8189,9 +6614,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Exceptional critical thinking and analytical troubleshooting under duress.",
     "description": "Exceptional critical thinking and analytical troubleshooting under duress.",
-    "mechanics": "Once per day, may reroll a failed Mental Skill check.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Problem Solving\n\n**Category**: Origin Traits  \n**Associated Origin**: General  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nExceptional critical thinking and analytical troubleshooting under duress.\n\n## Mechanics & Benefits\nOnce per day, may reroll a failed Mental Skill check."
+    "body": "# Problem Solving\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nExceptional critical thinking and analytical troubleshooting under duress."
   },
   {
     "id": "trait-resource-management",
@@ -8214,9 +6639,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Meticulous rationing of food, water, battery cells, and structural spare parts.",
     "description": "Meticulous rationing of food, water, battery cells, and structural spare parts.",
-    "mechanics": "Wealth and requisition checks for basic survival resources are made with Advantage.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Resource Management\n\n**Category**: Origin Traits  \n**Associated Origin**: Colony  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMeticulous rationing of food, water, battery cells, and structural spare parts.\n\n## Mechanics & Benefits\nWealth and requisition checks for basic survival resources are made with Advantage."
+    "body": "# Resource Management\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nMeticulous rationing of food, water, battery cells, and structural spare parts."
   },
   {
     "id": "trait-resourcefulness",
@@ -8239,9 +6664,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Makes the most of scarce tools, improvising creative solutions under pressure.",
     "description": "Makes the most of scarce tools, improvising creative solutions under pressure.",
-    "mechanics": "Once per day, make a chosen Skill Check with Advantage.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Resourcefulness\n\n**Category**: Origin Traits  \n**Associated Origin**: General  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMakes the most of scarce tools, improvising creative solutions under pressure.\n\n## Mechanics & Benefits\nOnce per day, make a chosen Skill Check with Advantage."
+    "body": "# Resourcefulness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nMakes the most of scarce tools, improvising creative solutions under pressure."
   },
   {
     "id": "trait-risk-taking",
@@ -8264,9 +6689,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Willingness to gamble on razor-thin safety margins to accomplish difficult goals.",
     "description": "Willingness to gamble on razor-thin safety margins to accomplish difficult goals.",
-    "mechanics": "+1 permanent Karma Point to maximum pool.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Risk-Taking\n\n**Category**: Origin Traits  \n**Associated Origin**: Industrial  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nWillingness to gamble on razor-thin safety margins to accomplish difficult goals.\n\n## Mechanics & Benefits\n+1 permanent Karma Point to maximum pool."
+    "body": "# Risk-Taking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nWillingness to gamble on razor-thin safety margins to accomplish difficult goals."
   },
   {
     "id": "trait-scientific-knowledge",
@@ -8289,9 +6714,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Practical applied science in xenobiology, geology, and atmospheric terraforming.",
     "description": "Practical applied science in xenobiology, geology, and atmospheric terraforming.",
-    "mechanics": "+2 to Science Knowledge checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Scientific Knowledge\n\n**Category**: Origin Traits  \n**Associated Origin**: Colony  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPractical applied science in xenobiology, geology, and atmospheric terraforming.\n\n## Mechanics & Benefits\n+2 to Science Knowledge checks."
+    "body": "# Scientific Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nPractical applied science in xenobiology, geology, and atmospheric terraforming."
   },
   {
     "id": "trait-sea-piloting",
@@ -8314,9 +6739,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Mastery over hydrofoils, submersibles, surface skiffs, and massive oceanic platforms.",
     "description": "Mastery over hydrofoils, submersibles, surface skiffs, and massive oceanic platforms.",
-    "mechanics": "+2 to all Seacraft Operation checks (Submersibles, Hovercraft, Speedboats, and Flotilla Barges).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Sea Piloting\n\n**Category**: Origin Traits  \n**Associated Origin**: Aquatic  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMastery over hydrofoils, submersibles, surface skiffs, and massive oceanic platforms.\n\n## Mechanics & Benefits\n+2 to all Seacraft Operation checks (Submersibles, Hovercraft, Speedboats, and Flotilla Barges)."
+    "body": "# Sea Piloting\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nMastery over hydrofoils, submersibles, surface skiffs, and massive oceanic platforms."
   },
   {
     "id": "trait-shared-wisdom",
@@ -8339,9 +6764,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Offers profound insight that elevates the actions of comrades.",
     "description": "Offers profound insight that elevates the actions of comrades.",
-    "mechanics": "Any check to Aid, Guide, or Instruct another character is made with Advantage.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Shared Wisdom\n\n**Category**: Origin Traits  \n**Associated Origin**: Enlightened  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nOffers profound insight that elevates the actions of comrades.\n\n## Mechanics & Benefits\nAny check to Aid, Guide, or Instruct another character is made with Advantage."
+    "body": "# Shared Wisdom\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nOffers profound insight that elevates the actions of comrades."
   },
   {
     "id": "trait-smooth-talking",
@@ -8364,9 +6789,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Charismatic conversational flow that disarms suspicion and charms conversational partners.",
     "description": "Charismatic conversational flow that disarms suspicion and charms conversational partners.",
-    "mechanics": "+2 to Etiquette and Bluff checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Smooth Talking\n\n**Category**: Origin Traits  \n**Associated Origin**: Leisure  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nCharismatic conversational flow that disarms suspicion and charms conversational partners.\n\n## Mechanics & Benefits\n+2 to Etiquette and Bluff checks."
+    "body": "# Smooth Talking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nCharismatic conversational flow that disarms suspicion and charms conversational partners."
   },
   {
     "id": "trait-social-skills",
@@ -8389,9 +6814,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Navigates dense cultural melting pots, high-rise galas, and underground speakeasies with ease.",
     "description": "Navigates dense cultural melting pots, high-rise galas, and underground speakeasies with ease.",
-    "mechanics": "+1 to all Social Manipulation skills and +1 to Culture Knowledge.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Social Skills\n\n**Category**: Origin Traits  \n**Associated Origin**: Urban  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nNavigates dense cultural melting pots, high-rise galas, and underground speakeasies with ease.\n\n## Mechanics & Benefits\n+1 to all Social Manipulation skills and +1 to Culture Knowledge."
+    "body": "# Social Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nNavigates dense cultural melting pots, high-rise galas, and underground speakeasies with ease."
   },
   {
     "id": "trait-specialized-knowledge",
@@ -8414,9 +6839,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Deep technical expertise in metallurgy, industrial chemistry, or structural fabrication.",
     "description": "Deep technical expertise in metallurgy, industrial chemistry, or structural fabrication.",
-    "mechanics": "+2 to a chosen Vocation Specialization.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Specialized Knowledge\n\n**Category**: Origin Traits  \n**Associated Origin**: Industrial  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nDeep technical expertise in metallurgy, industrial chemistry, or structural fabrication.\n\n## Mechanics & Benefits\n+2 to a chosen Vocation Specialization."
+    "body": "# Specialized Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nDeep technical expertise in metallurgy, industrial chemistry, or structural fabrication."
   },
   {
     "id": "trait-spiritual-awareness",
@@ -8439,9 +6864,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Attuned to metaphysical resonances, ley conduits, and unseen psychic currents.",
     "description": "Attuned to metaphysical resonances, ley conduits, and unseen psychic currents.",
-    "mechanics": "+1 to Attune and +1 to one chosen Metafocus Discipline skill.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Spiritual Awareness\n\n**Category**: Origin Traits  \n**Associated Origin**: Enlightened  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAttuned to metaphysical resonances, ley conduits, and unseen psychic currents.\n\n## Mechanics & Benefits\n+1 to Attune and +1 to one chosen Metafocus Discipline skill."
+    "body": "# Spiritual Awareness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nAttuned to metaphysical resonances, ley conduits, and unseen psychic currents."
   },
   {
     "id": "trait-strategic",
@@ -8464,9 +6889,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Battlefield tactical assessment and mission operation planning.",
     "description": "Battlefield tactical assessment and mission operation planning.",
-    "mechanics": "Allies executing the character's prepared battle plan receive a collective bonus pool equal to the character's Intellect score + 2.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Strategic\n\n**Category**: Origin Traits  \n**Associated Origin**: Militaristic  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nBattlefield tactical assessment and mission operation planning.\n\n## Mechanics & Benefits\nAllies executing the character's prepared battle plan receive a collective bonus pool equal to the character's Intellect score + 2."
+    "body": "# Strategic\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nBattlefield tactical assessment and mission operation planning."
   },
   {
     "id": "trait-street-fighting",
@@ -8489,9 +6914,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Dirty fighting techniques optimized for claustrophobic alleys, elevator cabs, and crowded subway cars.",
     "description": "Dirty fighting techniques optimized for claustrophobic alleys, elevator cabs, and crowded subway cars.",
-    "mechanics": "+1 to Unarmed Combat and +1 to Combat Defense.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Street Fighting\n\n**Category**: Origin Traits  \n**Associated Origin**: Urban  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nDirty fighting techniques optimized for claustrophobic alleys, elevator cabs, and crowded subway cars.\n\n## Mechanics & Benefits\n+1 to Unarmed Combat and +1 to Combat Defense."
+    "body": "# Street Fighting\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nDirty fighting techniques optimized for claustrophobic alleys, elevator cabs, and crowded subway cars."
   },
   {
     "id": "trait-streetwise",
@@ -8514,9 +6939,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Knows who controls each block, how to evade gang tolls, and where to fence hot cargo.",
     "description": "Knows who controls each block, how to evade gang tolls, and where to fence hot cargo.",
-    "mechanics": "+2 to Streetwise checks (increases to +3 in character's home city).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Streetwise\n\n**Category**: Origin Traits  \n**Associated Origin**: Urban  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nKnows who controls each block, how to evade gang tolls, and where to fence hot cargo.\n\n## Mechanics & Benefits\n+2 to Streetwise checks (increases to +3 in character's home city)."
+    "body": "# Streetwise\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nKnows who controls each block, how to evade gang tolls, and where to fence hot cargo."
   },
   {
     "id": "trait-studious",
@@ -8539,9 +6964,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Deep immersion in research databases, academic journals, and historical archives.",
     "description": "Deep immersion in research databases, academic journals, and historical archives.",
-    "mechanics": "+2 to one chosen Knowledge skill.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Studious\n\n**Category**: Origin Traits  \n**Associated Origin**: Research  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nDeep immersion in research databases, academic journals, and historical archives.\n\n## Mechanics & Benefits\n+2 to one chosen Knowledge skill."
+    "body": "# Studious\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nDeep immersion in research databases, academic journals, and historical archives."
   },
   {
     "id": "trait-survival-skills",
@@ -8564,9 +6989,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Honed instincts for foraging, navigating wilderness, and finding shelter in hostile terrain.",
     "description": "Honed instincts for foraging, navigating wilderness, and finding shelter in hostile terrain.",
-    "mechanics": "+2 to Survival Skill checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Survival Skills\n\n**Category**: Origin Traits  \n**Associated Origin**: General  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nHoned instincts for foraging, navigating wilderness, and finding shelter in hostile terrain.\n\n## Mechanics & Benefits\n+2 to Survival Skill checks."
+    "body": "# Survival Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nHoned instincts for foraging, navigating wilderness, and finding shelter in hostile terrain."
   },
   {
     "id": "trait-sustainable-practices",
@@ -8589,9 +7014,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Deep understanding of ecological balance, crop rotation, and water conservation.",
     "description": "Deep understanding of ecological balance, crop rotation, and water conservation.",
-    "mechanics": "+2 to all Agriculture-based checks in a prepared grow zone and when preparing new soil.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Sustainable Practices\n\n**Category**: Origin Traits  \n**Associated Origin**: Agricultural  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nDeep understanding of ecological balance, crop rotation, and water conservation.\n\n## Mechanics & Benefits\n+2 to all Agriculture-based checks in a prepared grow zone and when preparing new soil."
+    "body": "# Sustainable Practices\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nDeep understanding of ecological balance, crop rotation, and water conservation."
   },
   {
     "id": "trait-teamwork",
@@ -8614,9 +7039,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Practiced coordination in gang work, shift labor, and complex multi-person tasks.",
     "description": "Practiced coordination in gang work, shift labor, and complex multi-person tasks.",
-    "mechanics": "Adds an additional +1 bonus whenever providing or receiving the Aid action.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Teamwork\n\n**Category**: Origin Traits  \n**Associated Origin**: Industrial  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPracticed coordination in gang work, shift labor, and complex multi-person tasks.\n\n## Mechanics & Benefits\nAdds an additional +1 bonus whenever providing or receiving the Aid action."
+    "body": "# Teamwork\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nPracticed coordination in gang work, shift labor, and complex multi-person tasks."
   },
   {
     "id": "trait-tech-savvy",
@@ -8639,9 +7064,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Intimate familiarity with consumer neural nets, public datagrids, and ubiquitous urban tech.",
     "description": "Intimate familiarity with consumer neural nets, public datagrids, and ubiquitous urban tech.",
-    "mechanics": "+2 to Computer and Technology Knowledge checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Tech-Savvy\n\n**Category**: Origin Traits  \n**Associated Origin**: Urban  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nIntimate familiarity with consumer neural nets, public datagrids, and ubiquitous urban tech.\n\n## Mechanics & Benefits\n+2 to Computer and Technology Knowledge checks."
+    "body": "# Tech-Savvy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nIntimate familiarity with consumer neural nets, public datagrids, and ubiquitous urban tech."
   },
   {
     "id": "trait-technical-skills",
@@ -8664,9 +7089,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Practical hands-on maintenance for hardware, wiring, and mechanical assemblies.",
     "description": "Practical hands-on maintenance for hardware, wiring, and mechanical assemblies.",
-    "mechanics": "+1 to Mechanical, Electrical, and Engineering skill checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Technical Skills\n\n**Category**: Origin Traits  \n**Associated Origin**: General  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPractical hands-on maintenance for hardware, wiring, and mechanical assemblies.\n\n## Mechanics & Benefits\n+1 to Mechanical, Electrical, and Engineering skill checks."
+    "body": "# Technical Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nPractical hands-on maintenance for hardware, wiring, and mechanical assemblies."
   },
   {
     "id": "trait-toughness",
@@ -8689,9 +7114,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Physical endurance and psychological grit hardened by harsh living conditions.",
     "description": "Physical endurance and psychological grit hardened by harsh living conditions.",
-    "mechanics": "+1 to Fortitude and Willpower checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Toughness\n\n**Category**: Origin Traits  \n**Associated Origin**: General  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPhysical endurance and psychological grit hardened by harsh living conditions.\n\n## Mechanics & Benefits\n+1 to Fortitude and Willpower checks."
+    "body": "# Toughness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nPhysical endurance and psychological grit hardened by harsh living conditions."
   },
   {
     "id": "trait-urban-survival",
@@ -8714,9 +7139,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Parkour roof-running, subway tunneling, and vanishing into thick metropolitan crowds.",
     "description": "Parkour roof-running, subway tunneling, and vanishing into thick metropolitan crowds.",
-    "mechanics": "+2 to Athletics and Stealth checks when in urban or developed municipal zones.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Urban Survival\n\n**Category**: Origin Traits  \n**Associated Origin**: Urban  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nParkour roof-running, subway tunneling, and vanishing into thick metropolitan crowds.\n\n## Mechanics & Benefits\n+2 to Athletics and Stealth checks when in urban or developed municipal zones."
+    "body": "# Urban Survival\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nParkour roof-running, subway tunneling, and vanishing into thick metropolitan crowds."
   },
   {
     "id": "trait-zero-g-acclimation",
@@ -8739,9 +7164,9 @@ export const ORIGIN_TRAITS = [
     "is_ranked": false,
     "desc": "Total bodily familiarity with microgravity, spin gravity, and vacuum suits.",
     "description": "Total bodily familiarity with microgravity, spin gravity, and vacuum suits.",
-    "mechanics": "Suffers no penalties when moving, fighting, or operating in Zero-G environments.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Zero-G Acclimation\n\n**Category**: Origin Traits  \n**Associated Origin**: Spacer  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nTotal bodily familiarity with microgravity, spin gravity, and vacuum suits.\n\n## Mechanics & Benefits\nSuffers no penalties when moving, fighting, or operating in Zero-G environments."
+    "body": "# Zero-G Acclimation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nTotal bodily familiarity with microgravity, spin gravity, and vacuum suits."
   }
 ];
 
@@ -8767,262 +7192,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Quickly adjusts to new environments, changing protocols, and unexpected physical conditions.",
     "description": "Quickly adjusts to new environments, changing protocols, and unexpected physical conditions.",
-    "mechanics": "+2 bonus to a specific chosen Skill check; may reassign the chosen skill daily.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Adaptability\n\n**Category**: Origin Traits  \n**Associated Origin**: General  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nQuickly adjusts to new environments, changing protocols, and unexpected physical conditions.\n\n## Mechanics & Benefits\n+2 bonus to a specific chosen Skill check; may reassign the chosen skill daily."
+    "body": "# Adaptability\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nQuickly adjusts to new environments, changing protocols, and unexpected physical conditions."
   },
   {
-    "id": "trait-agent-adaptability",
-    "name": "Adaptability",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Improvisation, problem-solving, and quick thinking",
-    "description": "Improvisation, problem-solving, and quick thinking",
-    "mechanics": "\\+2 to a specific Skill Check, may change assigned Skill daily",
-    "modifiers": [],
-    "body": "# Adaptability\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Agent  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nImprovisation, problem-solving, and quick thinking\n\n## Mechanics & Benefits\n\\+2 to a specific Skill Check, may change assigned Skill daily"
-  },
-  {
-    "id": "trait-builder-adaptability",
-    "name": "Adaptability",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Ability to adjust their approach based on the specific needs of each project",
-    "description": "Ability to adjust their approach based on the specific needs of each project",
-    "mechanics": "\\+2 to a specific Skill Check, may change assigned Skill daily",
-    "modifiers": [],
-    "body": "# Adaptability\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Builder  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to adjust their approach based on the specific needs of each project\n\n## Mechanics & Benefits\n\\+2 to a specific Skill Check, may change assigned Skill daily"
-  },
-  {
-    "id": "trait-citizen-adaptability",
-    "name": "Adaptability",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Can adapt to changing circumstances and environments.",
-    "description": "Can adapt to changing circumstances and environments.",
-    "mechanics": "\\+2 to a specific Skill Check, may change assigned Skill daily",
-    "modifiers": [],
-    "body": "# Adaptability\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Citizen  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nCan adapt to changing circumstances and environments.\n\n## Mechanics & Benefits\n\\+2 to a specific Skill Check, may change assigned Skill daily"
-  },
-  {
-    "id": "trait-drifter-adaptability",
-    "name": "Adaptability",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Often adaptable and able to adjust to new environments and situations quickly",
-    "description": "Often adaptable and able to adjust to new environments and situations quickly",
-    "mechanics": "\\+2 to a specific Skill Check, may change assigned Skill daily",
-    "modifiers": [],
-    "body": "# Adaptability\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nOften adaptable and able to adjust to new environments and situations quickly\n\n## Mechanics & Benefits\n\\+2 to a specific Skill Check, may change assigned Skill daily"
-  },
-  {
-    "id": "trait-merchant-adaptability",
-    "name": "Adaptability",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Merchants are adaptable and can quickly adjust their strategies to changing market conditions. They can thrive in different environments and make the most of any situation.",
-    "description": "Merchants are adaptable and can quickly adjust their strategies to changing market conditions. They can thrive in different environments and make the most of any situation.",
-    "mechanics": "\\+2 to a specific Skill Check, may change assigned Skill daily",
-    "modifiers": [],
-    "body": "# Adaptability\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Merchant  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMerchants are adaptable and can quickly adjust their strategies to changing market conditions. They can thrive in different environments and make the most of any situation.\n\n## Mechanics & Benefits\n\\+2 to a specific Skill Check, may change assigned Skill daily"
-  },
-  {
-    "id": "trait-scholar-adaptability",
-    "name": "Adaptability",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Open to new ideas, willing to learn and adapt.",
-    "description": "Open to new ideas, willing to learn and adapt.",
-    "mechanics": "\\+2 to a specific Skill Check, may change assigned Skill daily",
-    "modifiers": [],
-    "body": "# Adaptability\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scholar  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nOpen to new ideas, willing to learn and adapt.\n\n## Mechanics & Benefits\n\\+2 to a specific Skill Check, may change assigned Skill daily"
-  },
-  {
-    "id": "trait-scout-adaptability",
-    "name": "Adaptability",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Scouts are adaptable and can quickly adjust to changing circumstances. They can handle unexpected challenges and find alternative solutions.",
-    "description": "Scouts are adaptable and can quickly adjust to changing circumstances. They can handle unexpected challenges and find alternative solutions.",
-    "mechanics": "\\+2 to a specific Skill Check, may change assigned Skill daily",
-    "modifiers": [],
-    "body": "# Adaptability\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scout  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nScouts are adaptable and can quickly adjust to changing circumstances. They can handle unexpected challenges and find alternative solutions.\n\n## Mechanics & Benefits\n\\+2 to a specific Skill Check, may change assigned Skill daily"
-  },
-  {
-    "id": "trait-specialist-adaptability",
-    "name": "Adaptability",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Ability to quickly learn and adapt to new technologies, environments, or situations",
-    "description": "Ability to quickly learn and adapt to new technologies, environments, or situations",
-    "mechanics": "\\+2 to a specific Skill Check, may change assigned Skill daily",
-    "modifiers": [],
-    "body": "# Adaptability\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Specialist  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to quickly learn and adapt to new technologies, environments, or situations\n\n## Mechanics & Benefits\n\\+2 to a specific Skill Check, may change assigned Skill daily"
-  },
-  {
-    "id": "trait-entertainer-adaptable",
-    "name": "Adaptable",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Able to adjust performances to suit different audiences",
-    "description": "Able to adjust performances to suit different audiences",
-    "mechanics": "\\+2 to a specific Skill Check, may change assigned Skill daily",
-    "modifiers": [],
-    "body": "# Adaptable\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Entertainer  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAble to adjust performances to suit different audiences\n\n## Mechanics & Benefits\n\\+2 to a specific Skill Check, may change assigned Skill daily"
-  },
-  {
-    "id": "trait-soldier-adaptable",
-    "name": "Adaptable",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Able to adapt to new situations quickly and can think on their feet",
-    "description": "Able to adapt to new situations quickly and can think on their feet",
-    "mechanics": "\\+2 to a specific Skill Check, may change assigned Skill daily",
-    "modifiers": [],
-    "body": "# Adaptable\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAble to adapt to new situations quickly and can think on their feet\n\n## Mechanics & Benefits\n\\+2 to a specific Skill Check, may change assigned Skill daily"
-  },
-  {
-    "id": "trait-species-adapted",
+    "id": "trait-adapted",
     "name": "Adapted",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -9042,12 +7217,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "No penalties or Damage from one set environment type. Multiple.",
     "description": "No penalties or Damage from one set environment type. Multiple.",
-    "mechanics": "The species suffers no penalties or environmental damage from one designated environmental condition or terrain hazard (such as extreme heat, extreme cold, toxic atmospheric dust, radiation, vacuum/low pressure, or high pressure). This trait may be selected multiple times for different environment types.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Adapted\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Physical  \n\n## Description\nNo penalties or Damage from one set environment type. Multiple.\n\n## Mechanics & Benefits\nThe species suffers no penalties or environmental damage from one designated environmental condition or terrain hazard (such as extreme heat, extreme cold, toxic atmospheric dust, radiation, vacuum/low pressure, or high pressure). This trait may be selected multiple times for different environment types."
+    "body": "# Adapted\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nNo penalties or Damage from one set environment type. Multiple."
   },
   {
-    "id": "trait-species-adaptive-features",
+    "id": "trait-adaptive-features",
     "name": "Adaptive Features",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -9064,21 +7239,21 @@ export const ALL_CANONICAL_TRAITS = [
       "focus": 0,
       "ap": 0
     },
-    "is_ranked": true,
+    "is_ranked": false,
     "desc": "May change between specific features during a Light Rest. Ranked.",
     "description": "May change between specific features during a Light Rest. Ranked.",
-    "mechanics": "The character possesses plastic biological structures allowing them to swap one chosen physical feature for another designated feature from their species list during a Light Rest. May be taken multiple times (Ranked) to allow additional swappable feature slots.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Adaptive Features\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical (Ranked)  \n\n## Description\nMay change between specific features during a Light Rest. Ranked.\n\n## Mechanics & Benefits\nThe character possesses plastic biological structures allowing them to swap one chosen physical feature for another designated feature from their species list during a Light Rest. May be taken multiple times (Ranked) to allow additional swappable feature slots."
+    "body": "# Adaptive Features\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nMay change between specific features during a Light Rest. Ranked."
   },
   {
-    "id": "trait-species-adaptive-skill-set",
+    "id": "trait-adaptive-skill-set",
     "name": "Adaptive Skill Set",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Trained",
-    "type": "Trained",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -9089,15 +7264,15 @@ export const ALL_CANONICAL_TRAITS = [
       "focus": 0,
       "ap": 0
     },
-    "is_ranked": true,
+    "is_ranked": false,
     "desc": "4 point bonus allotted in a pool. Ranked.",
     "description": "4 point bonus allotted in a pool. Ranked.",
-    "mechanics": "Grants a flexible 4-point pool of skill bonuses that can be reassigned across trained skills during a Light Rest or preparation period. May be purchased multiple times (Ranked) to expand the pool by +4 points per rank.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Adaptive Skill Set\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Trained (Ranked)  \n\n## Description\n4 point bonus allotted in a pool. Ranked.\n\n## Mechanics & Benefits\nGrants a flexible 4-point pool of skill bonuses that can be reassigned across trained skills during a Light Rest or preparation period. May be purchased multiple times (Ranked) to expand the pool by +4 points per rank."
+    "body": "# Adaptive Skill Set\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\n4 point bonus allotted in a pool. Ranked."
   },
   {
-    "id": "trait-species-additional-limbs",
+    "id": "trait-additional-limbs",
     "name": "Additional Limbs",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -9117,9 +7292,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Another pair of prehensile limbs; Arms, Tentacles or other.",
     "description": "Another pair of prehensile limbs; Arms, Tentacles or other.",
-    "mechanics": "The creature possesses an additional pair of functional prehensile limbs (arms, tentacles, or secondary manipulators). Allows holding additional objects, weapons, or gear, though standard multi-weapon attack limits and action economy still apply.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Additional Limbs\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nAnother pair of prehensile limbs; Arms, Tentacles or other.\n\n## Mechanics & Benefits\nThe creature possesses an additional pair of functional prehensile limbs (arms, tentacles, or secondary manipulators). Allows holding additional objects, weapons, or gear, though standard multi-weapon attack limits and action economy still apply."
+    "body": "# Additional Limbs\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nAnother pair of prehensile limbs; Arms, Tentacles or other."
   },
   {
     "id": "trait-adventurous-spirit",
@@ -9142,37 +7317,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Fearless enthusiasm for venturing beyond established perimeter fences into uncharted wilds.",
     "description": "Fearless enthusiasm for venturing beyond established perimeter fences into uncharted wilds.",
-    "mechanics": "Once per day, make a chosen exploration or wilderness check with Advantage.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Adventurous Spirit\n\n**Category**: Origin Traits  \n**Associated Origin**: Colony  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nFearless enthusiasm for venturing beyond established perimeter fences into uncharted wilds.\n\n## Mechanics & Benefits\nOnce per day, make a chosen exploration or wilderness check with Advantage."
+    "body": "# Adventurous Spirit\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nFearless enthusiasm for venturing beyond established perimeter fences into uncharted wilds."
   },
   {
-    "id": "trait-drifter-adventurous-spirit",
-    "name": "Adventurous Spirit",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Strong sense of adventure and are always seeking new experiences and challenges",
-    "description": "Strong sense of adventure and are always seeking new experiences and challenges",
-    "mechanics": "Regain a Karma Point on the first encounter when dealing with something new \\- creature, area, technology, etc.",
-    "modifiers": [],
-    "body": "# Adventurous Spirit\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nStrong sense of adventure and are always seeking new experiences and challenges\n\n## Mechanics & Benefits\nRegain a Karma Point on the first encounter when dealing with something new \\- creature, area, technology, etc."
-  },
-  {
-    "id": "trait-species-ageless",
+    "id": "trait-ageless",
     "name": "Ageless",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -9192,15 +7342,15 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Does not suffer penalties nor show any signs of aging.",
     "description": "Does not suffer penalties nor show any signs of aging.",
-    "mechanics": "Immune to cellular senescence, aging debuffs, and physical attribute decay over time. The character cannot die of old age and does not show visual signs of deterioration.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Ageless\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nDoes not suffer penalties nor show any signs of aging.\n\n## Mechanics & Benefits\nImmune to cellular senescence, aging debuffs, and physical attribute decay over time. The character cannot die of old age and does not show visual signs of deterioration."
+    "body": "# Ageless\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nDoes not suffer penalties nor show any signs of aging."
   },
   {
-    "id": "trait-criminal-aggressiveness",
+    "id": "trait-aggressiveness",
     "name": "Aggressiveness",
     "category": "traits",
-    "trait_type": "Occupational Trait",
+    "trait_type": "Combat",
     "trait_tier": "Basic",
     "classification": "Physical",
     "type": "Physical",
@@ -9215,45 +7365,20 @@ export const ALL_CANONICAL_TRAITS = [
       "ap": 0
     },
     "is_ranked": false,
-    "desc": "Criminals may be more prone to violence and aggression than the average person",
-    "description": "Criminals may be more prone to violence and aggression than the average person",
-    "mechanics": "\\+2 Intimidation",
+    "desc": "Decisive tactical aggression in combat, granting +1 bonus to intimidation and breach actions.",
+    "description": "Decisive tactical aggression in combat, granting +1 bonus to intimidation and breach actions.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Aggressiveness\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Criminal  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nCriminals may be more prone to violence and aggression than the average person\n\n## Mechanics & Benefits\n\\+2 Intimidation"
+    "body": "# Aggressiveness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Combat\n**BP Cost**: 1\n\n## Description\nDecisive tactical aggression in combat, granting +1 bonus to intimidation and breach actions."
   },
   {
-    "id": "trait-drifter-aggressiveness",
-    "name": "Aggressiveness",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Exhibit aggressive behavior and are not afraid to use violence to achieve their goals",
-    "description": "Exhibit aggressive behavior and are not afraid to use violence to achieve their goals",
-    "mechanics": "\\+2 Intimidate",
-    "modifiers": [],
-    "body": "# Aggressiveness\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nExhibit aggressive behavior and are not afraid to use violence to achieve their goals\n\n## Mechanics & Benefits\n\\+2 Intimidate"
-  },
-  {
-    "id": "trait-species-all-around-vision",
+    "id": "trait-all-around-vision",
     "name": "All-Around Vision",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Sensory",
-    "type": "Sensory",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -9267,12 +7392,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "+4 racial bonus on Perception checks and immune to flanking.",
     "description": "+4 racial bonus on Perception checks and immune to flanking.",
-    "mechanics": "Multiple eyes, compound optical arrays, or wide optical placement grant a 360-degree field of view. Provides a permanent +4 racial bonus on Perception (Awareness) checks and complete immunity to being flanked in tactical combat.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# All-Around Vision\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Sensory  \n\n## Description\n+4 racial bonus on Perception checks and immune to flanking.\n\n## Mechanics & Benefits\nMultiple eyes, compound optical arrays, or wide optical placement grant a 360-degree field of view. Provides a permanent +4 racial bonus on Perception (Awareness) checks and complete immunity to being flanked in tactical combat."
+    "body": "# All-Around Vision\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\n+4 racial bonus on Perception checks and immune to flanking."
   },
   {
-    "id": "trait-species-alter-form-adv",
+    "id": "trait-alter-form-adv",
     "name": "Alter Form (Adv)",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -9292,12 +7417,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Base Category, Change Appearance (+5 Disguise)/gender/adjust minor traits.",
     "description": "Base Category, Change Appearance (+5 Disguise)/gender/adjust minor traits.",
-    "mechanics": "The character can fluidly alter their physical appearance, apparent biological sex/gender, vocal pitch, fingerprint patterns, and minor racial characteristics within their base morphological category. Grants a +5 circumstance bonus on Disguise checks and can mimic specific individuals with familiarity.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Alter Form (Adv)\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nBase Category, Change Appearance (+5 Disguise)/gender/adjust minor traits.\n\n## Mechanics & Benefits\nThe character can fluidly alter their physical appearance, apparent biological sex/gender, vocal pitch, fingerprint patterns, and minor racial characteristics within their base morphological category. Grants a +5 circumstance bonus on Disguise checks and can mimic specific individuals with familiarity."
+    "body": "# Alter Form (Adv)\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nBase Category, Change Appearance (+5 Disguise)/gender/adjust minor traits."
   },
   {
-    "id": "trait-species-alter-form-basic",
+    "id": "trait-alter-form-basic",
     "name": "Alter Form (Basic)",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -9317,12 +7442,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Base Category, Change Appearance only (+5 to Disguise).",
     "description": "Base Category, Change Appearance only (+5 to Disguise).",
-    "mechanics": "The character can alter superficial facial features, skin tone, hair color, and vocal pitch at will within their base morphological category. Grants a +5 circumstance bonus on Disguise checks to pass as a different individual. Does not grant new appendages or alter size category.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Alter Form (Basic)\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Physical  \n\n## Description\nBase Category, Change Appearance only (+5 to Disguise).\n\n## Mechanics & Benefits\nThe character can alter superficial facial features, skin tone, hair color, and vocal pitch at will within their base morphological category. Grants a +5 circumstance bonus on Disguise checks to pass as a different individual. Does not grant new appendages or alter size category."
+    "body": "# Alter Form (Basic)\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nBase Category, Change Appearance only (+5 to Disguise)."
   },
   {
-    "id": "trait-species-alter-form-elite",
+    "id": "trait-alter-form-elite",
     "name": "Alter Form (Elite)",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -9342,12 +7467,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Base Category, Change Appearance (+10 Disguise)/gender/adjust minor traits.",
     "description": "Base Category, Change Appearance (+10 Disguise)/gender/adjust minor traits.",
-    "mechanics": "Masterful biological shapeshifting allows full structural reconfiguration of facial geometry, vocal registers, retinal patterns, skeletal density, and biological sex across humanoid profiles. Grants a +10 circumstance bonus on Disguise checks and can replicate known individuals with absolute cellular fidelity.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Alter Form (Elite)\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Physical  \n\n## Description\nBase Category, Change Appearance (+10 Disguise)/gender/adjust minor traits.\n\n## Mechanics & Benefits\nMasterful biological shapeshifting allows full structural reconfiguration of facial geometry, vocal registers, retinal patterns, skeletal density, and biological sex across humanoid profiles. Grants a +10 circumstance bonus on Disguise checks and can replicate known individuals with absolute cellular fidelity."
+    "body": "# Alter Form (Elite)\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nBase Category, Change Appearance (+10 Disguise)/gender/adjust minor traits."
   },
   {
-    "id": "trait-species-alternate-form",
+    "id": "trait-alternate-form",
     "name": "Alternate Form",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -9367,12 +7492,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "An additional ‘Natural’ Form.",
     "description": "An additional ‘Natural’ Form.",
-    "mechanics": "The species possesses a distinct second permanent biological shape (such as an animal form, biform beast state, or combat chassis). Shifting between forms takes a standard action; gear and equipment adapt or merge as appropriate.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Alternate Form\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nAn additional ‘Natural’ Form.\n\n## Mechanics & Benefits\nThe species possesses a distinct second permanent biological shape (such as an animal form, biform beast state, or combat chassis). Shifting between forms takes a standard action; gear and equipment adapt or merge as appropriate."
+    "body": "# Alternate Form\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nAn additional ‘Natural’ Form."
   },
   {
-    "id": "trait-species-amphibious",
+    "id": "trait-amphibious",
     "name": "Amphibious",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -9392,12 +7517,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Breathe Air and Water equally well, +10 to Swim Speed.",
     "description": "Breathe Air and Water equally well, +10 to Swim Speed.",
-    "mechanics": "Can breathe both air and water indefinitely without drowning or suffocation risk. Adds an innate +10 ft bonus to Swim Speed and grants the ability to operate submerged without standard underwater check penalties.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Amphibious\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Physical  \n\n## Description\nBreathe Air and Water equally well, +10 to Swim Speed.\n\n## Mechanics & Benefits\nCan breathe both air and water indefinitely without drowning or suffocation risk. Adds an innate +10 ft bonus to Swim Speed and grants the ability to operate submerged without standard underwater check penalties."
+    "body": "# Amphibious\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nBreathe Air and Water equally well, +10 to Swim Speed."
   },
   {
-    "id": "trait-representative-analytical",
+    "id": "trait-analytical",
     "name": "Analytical",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -9417,9 +7542,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Ability to analyze data and information to make informed decisions",
     "description": "Ability to analyze data and information to make informed decisions",
-    "mechanics": "\\+2 Alertness",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Analytical\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Representative  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to analyze data and information to make informed decisions\n\n## Mechanics & Benefits\n\\+2 Alertness"
+    "body": "# Analytical\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAbility to analyze data and information to make informed decisions"
   },
   {
     "id": "trait-analytical-thinking",
@@ -9442,9 +7567,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Systematic data deconstruction, statistical pattern recognition, and logical analysis.",
     "description": "Systematic data deconstruction, statistical pattern recognition, and logical analysis.",
-    "mechanics": "+2 to Logic checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Analytical Thinking\n\n**Category**: Origin Traits  \n**Associated Origin**: Research  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nSystematic data deconstruction, statistical pattern recognition, and logical analysis.\n\n## Mechanics & Benefits\n+2 to Logic checks."
+    "body": "# Analytical Thinking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nSystematic data deconstruction, statistical pattern recognition, and logical analysis."
   },
   {
     "id": "trait-animal-husbandry",
@@ -9467,12 +7592,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Expertise in raising and caring for livestock, understanding animal behavior and nutrition.",
     "description": "Expertise in raising and caring for livestock, understanding animal behavior and nutrition.",
-    "mechanics": "+2 to Animal Handling checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Animal Husbandry\n\n**Category**: Origin Traits  \n**Associated Origin**: Agricultural  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nExpertise in raising and caring for livestock, understanding animal behavior and nutrition.\n\n## Mechanics & Benefits\n+2 to Animal Handling checks."
+    "body": "# Animal Husbandry\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nExpertise in raising and caring for livestock, understanding animal behavior and nutrition."
   },
   {
-    "id": "trait-merchant-appraisal",
+    "id": "trait-appraisal",
     "name": "Appraisal",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -9492,18 +7617,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Merchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices.",
     "description": "Merchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices.",
-    "mechanics": "\\+2 to any Appraisal check",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Appraisal\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Merchant  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMerchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices.\n\n## Mechanics & Benefits\n\\+2 to any Appraisal check"
+    "body": "# Appraisal\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nMerchants have the ability to accurately assess the value of items, whether it's rare artifacts, technology, or resources. They can quickly determine the worth of goods and negotiate fair prices."
   },
   {
-    "id": "trait-species-aquatic",
+    "id": "trait-aquatic",
     "name": "Aquatic",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Movement",
-    "type": "Movement",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -9517,9 +7642,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "+4 racial bonus on Swim checks and may take 10 on swimming checks.",
     "description": "+4 racial bonus on Swim checks and may take 10 on swimming checks.",
-    "mechanics": "Streamlined hydrodynamic physiology grants a +4 racial bonus on all Athletics (Swimming) checks and allows the character to Take 10 on any swim check even when rushed, distracted, or under combat duress.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Aquatic\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Movement  \n\n## Description\n+4 racial bonus on Swim checks and may take 10 on swimming checks.\n\n## Mechanics & Benefits\nStreamlined hydrodynamic physiology grants a +4 racial bonus on all Athletics (Swimming) checks and allows the character to Take 10 on any swim check even when rushed, distracted, or under combat duress."
+    "body": "# Aquatic\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\n+4 racial bonus on Swim checks and may take 10 on swimming checks."
   },
   {
     "id": "trait-aquatic-construction",
@@ -9542,12 +7667,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Skilled in engineering watertight hulls, flotilla moorings, and submerged habitats.",
     "description": "Skilled in engineering watertight hulls, flotilla moorings, and submerged habitats.",
-    "mechanics": "+2 to all Marine and Underwater Construction checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Aquatic Construction\n\n**Category**: Origin Traits  \n**Associated Origin**: Aquatic  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nSkilled in engineering watertight hulls, flotilla moorings, and submerged habitats.\n\n## Mechanics & Benefits\n+2 to all Marine and Underwater Construction checks."
+    "body": "# Aquatic Construction\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nSkilled in engineering watertight hulls, flotilla moorings, and submerged habitats."
   },
   {
-    "id": "trait-species-aquatic-strength",
+    "id": "trait-aquatic-strength",
     "name": "Aquatic Strength",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -9567,34 +7692,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "+1 size category for Combat, Strength or other checks while in water.",
     "description": "+1 size category for Combat, Strength or other checks while in water.",
-    "mechanics": "Exceptional hydraulic leverage and fin power treat the character as 1 size category larger for combat maneuvers (Grapple, Bull Rush, Trip, Overrun) and all Strength-based checks while fully submerged in water.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Aquatic Strength\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\n+1 size category for Combat, Strength or other checks while in water.\n\n## Mechanics & Benefits\nExceptional hydraulic leverage and fin power treat the character as 1 size category larger for combat maneuvers (Grapple, Bull Rush, Trip, Overrun) and all Strength-based checks while fully submerged in water."
-  },
-  {
-    "id": "trait-scholar-attention-to-detail",
-    "name": "Attention to detail",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Meticulous in observations, measurements, and data analysis.",
-    "description": "Meticulous in observations, measurements, and data analysis.",
-    "mechanics": "\\+2 Alertness",
-    "modifiers": [],
-    "body": "# Attention to detail\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scholar  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMeticulous in observations, measurements, and data analysis.\n\n## Mechanics & Benefits\n\\+2 Alertness"
+    "body": "# Aquatic Strength\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\n+1 size category for Combat, Strength or other checks while in water."
   },
   {
     "id": "trait-attention-to-detail",
@@ -9617,62 +7717,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Meticulous observation that spots minute anomalies, data flaws, and sensory inconsistencies.",
     "description": "Meticulous observation that spots minute anomalies, data flaws, and sensory inconsistencies.",
-    "mechanics": "+2 to Alertness checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Attention to Detail\n\n**Category**: Origin Traits  \n**Associated Origin**: Research  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMeticulous observation that spots minute anomalies, data flaws, and sensory inconsistencies.\n\n## Mechanics & Benefits\n+2 to Alertness checks."
+    "body": "# Attention to Detail\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nMeticulous observation that spots minute anomalies, data flaws, and sensory inconsistencies."
   },
   {
-    "id": "trait-builder-attention-to-detail",
-    "name": "Attention to Detail",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Meticulous and detail-oriented",
-    "description": "Meticulous and detail-oriented",
-    "mechanics": "Mastercrafting Checks made at Advantage",
-    "modifiers": [],
-    "body": "# Attention to Detail\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Builder  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMeticulous and detail-oriented\n\n## Mechanics & Benefits\nMastercrafting Checks made at Advantage"
-  },
-  {
-    "id": "trait-soldier-attention-to-detail",
-    "name": "Attention to Detail",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Pay attention to details and are able to spot potential threats before they become a problem",
-    "description": "Pay attention to details and are able to spot potential threats before they become a problem",
-    "mechanics": "\\+2 Alertness",
-    "modifiers": [],
-    "body": "# Attention to Detail\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPay attention to details and are able to spot potential threats before they become a problem\n\n## Mechanics & Benefits\n\\+2 Alertness"
-  },
-  {
-    "id": "trait-builder-attention-to-safety",
+    "id": "trait-attention-to-safety",
     "name": "Attention to Safety",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -9692,12 +7742,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Awareness of safety protocols and ensuring that their creations are safe to use",
     "description": "Awareness of safety protocols and ensuring that their creations are safe to use",
-    "mechanics": "Prototyping Checks gain a \\+4 bonus",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Attention to Safety\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Builder  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAwareness of safety protocols and ensuring that their creations are safe to use\n\n## Mechanics & Benefits\nPrototyping Checks gain a \\+4 bonus"
+    "body": "# Attention to Safety\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAwareness of safety protocols and ensuring that their creations are safe to use"
   },
   {
-    "id": "trait-species-autotroph",
+    "id": "trait-autotroph",
     "name": "Autotroph",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -9717,12 +7767,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Does not require food/drink, may eat/digest elixirs for effects.",
     "description": "Does not require food/drink, may eat/digest elixirs for effects.",
-    "mechanics": "Generates complex biochemical energy directly through photosynthesis, radiation absorption, or chemosynthesis, eliminating all standard food and water requirements. Can still voluntarily consume and digest ingestible elixirs, potions, or medical compounds for their effects.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Autotroph\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nDoes not require food/drink, may eat/digest elixirs for effects.\n\n## Mechanics & Benefits\nGenerates complex biochemical energy directly through photosynthesis, radiation absorption, or chemosynthesis, eliminating all standard food and water requirements. Can still voluntarily consume and digest ingestible elixirs, potions, or medical compounds for their effects."
+    "body": "# Autotroph\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nDoes not require food/drink, may eat/digest elixirs for effects."
   },
   {
-    "id": "trait-criminal-b-e",
+    "id": "trait-b-e",
     "name": "B&E",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -9742,9 +7792,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Experience with breaking and entering into secure locations",
     "description": "Experience with breaking and entering into secure locations",
-    "mechanics": "\\+2 all checks to the Infiltration of a physical location",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# B\\&E\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Criminal  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nExperience with breaking and entering into secure locations\n\n## Mechanics & Benefits\n\\+2 all checks to the Infiltration of a physical location"
+    "body": "# B&E\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nExperience with breaking and entering into secure locations"
   },
   {
     "id": "trait-background",
@@ -9767,18 +7817,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Select additional training from another secondary Occupation fitting backstory.",
     "description": "Select additional training from another secondary Occupation fitting backstory.",
-    "mechanics": "Gain one Trait from a chosen secondary Occupation.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Background\n\n**Category**: Common Occupational Traits  \n**Cost**: 1 CP (or free starting selection)\n\n## Description\nSelect additional training from another secondary Occupation fitting backstory.\n\n## Mechanics & Benefits\nGain one Trait from a chosen secondary Occupation."
+    "body": "# Background\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Common Occupational Trait\n**BP Cost**: 1\n\n## Description\nSelect additional training from another secondary Occupation fitting backstory."
   },
   {
-    "id": "trait-species-blind-sense",
+    "id": "trait-blind-sense",
     "name": "Blind Sense",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Sensory",
-    "type": "Sensory",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -9792,18 +7842,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Sense unseen objects in a 30 ft Radius or Cone of 60 ft.",
     "description": "Sense unseen objects in a 30 ft Radius or Cone of 60 ft.",
-    "mechanics": "Echolocation, sensory whiskers, or pressure sensors allow pinpointing the location of unseen creatures and objects within a 30 ft radius or a 60 ft directional cone. Total darkness and invisibility do not conceal targets within this range, though concealment penalties on attack rolls still apply unless converted to Blindsight.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Blind Sense\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Sensory  \n\n## Description\nSense unseen objects in a 30 ft Radius or Cone of 60 ft.\n\n## Mechanics & Benefits\nEcholocation, sensory whiskers, or pressure sensors allow pinpointing the location of unseen creatures and objects within a 30 ft radius or a 60 ft directional cone. Total darkness and invisibility do not conceal targets within this range, though concealment penalties on attack rolls still apply unless converted to Blindsight."
+    "body": "# Blind Sense\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nSense unseen objects in a 30 ft Radius or Cone of 60 ft."
   },
   {
-    "id": "trait-species-blind-sight",
+    "id": "trait-blind-sight",
     "name": "Blind Sight",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Elite",
-    "classification": "Sensory",
-    "type": "Sensory",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 4,
     "costs": {
       "bp": 4,
@@ -9817,12 +7867,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Accurately target unseen objects in a 30 ft Radius or 60 ft Cone.",
     "description": "Accurately target unseen objects in a 30 ft Radius or 60 ft Cone.",
-    "mechanics": "Total sensory spatial awareness using acoustic sonar, electro-magnetic field resonance, or ambient psychic echoes. The character can accurately target and interact with unseen, obscured, or invisible objects and creatures in a 30-foot radius or 60-foot cone with zero concealment miss chance.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Blind Sight\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Sensory  \n\n## Description\nAccurately target unseen objects in a 30 ft Radius or 60 ft Cone.\n\n## Mechanics & Benefits\nTotal sensory spatial awareness using acoustic sonar, electro-magnetic field resonance, or ambient psychic echoes. The character can accurately target and interact with unseen, obscured, or invisible objects and creatures in a 30-foot radius or 60-foot cone with zero concealment miss chance."
+    "body": "# Blind Sight\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nAccurately target unseen objects in a 30 ft Radius or 60 ft Cone."
   },
   {
-    "id": "trait-species-bodyform-adaptation",
+    "id": "trait-bodyform-adaptation",
     "name": "Bodyform Adaptation",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -9842,12 +7892,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Physiology shifts to be compatible with the new environment.",
     "description": "Physiology shifts to be compatible with the new environment.",
-    "mechanics": "Upon entering a new biome or harsh atmospheric zone, the character's physiology adapts over 10 minutes to grant environmental immunity (vacuum sealing, thermal regulation, or pressure resistance) for the duration of exposure.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Bodyform Adaptation\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nPhysiology shifts to be compatible with the new environment.\n\n## Mechanics & Benefits\nUpon entering a new biome or harsh atmospheric zone, the character's physiology adapts over 10 minutes to grant environmental immunity (vacuum sealing, thermal regulation, or pressure resistance) for the duration of exposure."
+    "body": "# Bodyform Adaptation\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nPhysiology shifts to be compatible with the new environment."
   },
   {
-    "id": "trait-species-bodyform-appendages",
+    "id": "trait-bodyform-appendages",
     "name": "Bodyform Appendages",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -9867,12 +7917,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Shapechange to gain additional limbs (2 arms, legs, tentacles, wings, or fins).",
     "description": "Shapechange to gain additional limbs (2 arms, legs, tentacles, wings, or fins).",
-    "mechanics": "Cellular shapeshifting allows protruding 2 additional functional limbs (arms, legs, tentacles, wings, or fins) on demand. Provides appropriate locomotion or grasping bonuses while deployed.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Bodyform Appendages\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nShapechange to gain additional limbs (2 arms, legs, tentacles, wings, or fins).\n\n## Mechanics & Benefits\nCellular shapeshifting allows protruding 2 additional functional limbs (arms, legs, tentacles, wings, or fins) on demand. Provides appropriate locomotion or grasping bonuses while deployed."
+    "body": "# Bodyform Appendages\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nShapechange to gain additional limbs (2 arms, legs, tentacles, wings, or fins)."
   },
   {
-    "id": "trait-species-bodyform-armor",
+    "id": "trait-bodyform-armor",
     "name": "Bodyform Armor",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -9892,12 +7942,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Shapechange to gain a protective layer.",
     "description": "Shapechange to gain a protective layer.",
-    "mechanics": "The character can morph dermal layers into hardened chitin, dermal bone, or dense keratinous plating on demand, providing a +4 Natural DR / Armor bonus.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Bodyform Armor\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nShapechange to gain a protective layer.\n\n## Mechanics & Benefits\nThe character can morph dermal layers into hardened chitin, dermal bone, or dense keratinous plating on demand, providing a +4 Natural DR / Armor bonus."
+    "body": "# Bodyform Armor\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nShapechange to gain a protective layer."
   },
   {
-    "id": "trait-species-bodyform-armor-options",
+    "id": "trait-bodyform-armor-options",
     "name": "Bodyform Armor Options",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -9914,15 +7964,15 @@ export const ALL_CANONICAL_TRAITS = [
       "focus": 0,
       "ap": 0
     },
-    "is_ranked": true,
+    "is_ranked": false,
     "desc": "Upgraded Bodyform Armor, +1 option slot. Ranked.",
     "description": "Upgraded Bodyform Armor, +1 option slot. Ranked.",
-    "mechanics": "Upgrades Bodyform Armor with 1 additional defensive customization slot per rank (such as energy refraction, reactive spikes, thermal dampening, or environmental sealing). Ranked.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Bodyform Armor Options\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical (Ranked)  \n\n## Description\nUpgraded Bodyform Armor, +1 option slot. Ranked.\n\n## Mechanics & Benefits\nUpgrades Bodyform Armor with 1 additional defensive customization slot per rank (such as energy refraction, reactive spikes, thermal dampening, or environmental sealing). Ranked."
+    "body": "# Bodyform Armor Options\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nUpgraded Bodyform Armor, +1 option slot. Ranked."
   },
   {
-    "id": "trait-species-bodyform-heavy-armor",
+    "id": "trait-bodyform-heavy-armor",
     "name": "Bodyform Heavy Armor",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -9942,12 +7992,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Shapechange to gain a heavy protective layer (Doubles Bodyform Armor bonus to DR).",
     "description": "Shapechange to gain a heavy protective layer (Doubles Bodyform Armor bonus to DR).",
-    "mechanics": "Dense calcified dermal plates and subcutaneous composite shielding double the Damage Resistance (DR) bonus provided by Bodyform Armor (granting +8 Natural DR / Armor).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Bodyform Heavy Armor\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Physical  \n\n## Description\nShapechange to gain a heavy protective layer (Doubles Bodyform Armor bonus to DR).\n\n## Mechanics & Benefits\nDense calcified dermal plates and subcutaneous composite shielding double the Damage Resistance (DR) bonus provided by Bodyform Armor (granting +8 Natural DR / Armor)."
+    "body": "# Bodyform Heavy Armor\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nShapechange to gain a heavy protective layer (Doubles Bodyform Armor bonus to DR)."
   },
   {
-    "id": "trait-species-bodyform-mutation",
+    "id": "trait-bodyform-mutation",
     "name": "Bodyform Mutation",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -9964,15 +8014,15 @@ export const ALL_CANONICAL_TRAITS = [
       "focus": 0,
       "ap": 0
     },
-    "is_ranked": true,
+    "is_ranked": false,
     "desc": "Adjust to a Racial Trait of which prerequisites are possessed. Ranked.",
     "description": "Adjust to a Racial Trait of which prerequisites are possessed. Ranked.",
-    "mechanics": "Allows temporary morphological adaptation to express any standard racial trait for which prerequisites are met. Lasts until the next rest. May be purchased multiple times (Ranked).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Bodyform Mutation\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical (Ranked)  \n\n## Description\nAdjust to a Racial Trait of which prerequisites are possessed. Ranked.\n\n## Mechanics & Benefits\nAllows temporary morphological adaptation to express any standard racial trait for which prerequisites are met. Lasts until the next rest. May be purchased multiple times (Ranked)."
+    "body": "# Bodyform Mutation\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nAdjust to a Racial Trait of which prerequisites are possessed. Ranked."
   },
   {
-    "id": "trait-species-bodyform-sizing",
+    "id": "trait-bodyform-sizing",
     "name": "Bodyform Sizing",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -9992,12 +8042,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Shapechange to alter size category 1 step up or down.",
     "description": "Shapechange to alter size category 1 step up or down.",
-    "mechanics": "The character can expand or compress cellular mass to shift 1 size category larger or smaller (e.g., Medium to Large or Medium to Small), adjusting reach, space, and size combat modifiers accordingly.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Bodyform Sizing\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nShapechange to alter size category 1 step up or down.\n\n## Mechanics & Benefits\nThe character can expand or compress cellular mass to shift 1 size category larger or smaller (e.g., Medium to Large or Medium to Small), adjusting reach, space, and size combat modifiers accordingly."
+    "body": "# Bodyform Sizing\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nShapechange to alter size category 1 step up or down."
   },
   {
-    "id": "trait-species-bodyform-structure",
+    "id": "trait-bodyform-structure",
     "name": "Bodyform Structure",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -10014,15 +8064,15 @@ export const ALL_CANONICAL_TRAITS = [
       "focus": 0,
       "ap": 0
     },
-    "is_ranked": true,
+    "is_ranked": false,
     "desc": "Adjust Physical Abilities in equal trade. Once per day for the entire day. Ranked.",
     "description": "Adjust Physical Abilities in equal trade. Once per day for the entire day. Ranked.",
-    "mechanics": "Once per day, the character can redistribute physical ability points in an equal 1-for-1 trade (e.g., –2 Agility for +2 Strength) for 24 hours. Ranked.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Bodyform Structure\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical (Ranked)  \n\n## Description\nAdjust Physical Abilities in equal trade. Once per day for the entire day. Ranked.\n\n## Mechanics & Benefits\nOnce per day, the character can redistribute physical ability points in an equal 1-for-1 trade (e.g., –2 Agility for +2 Strength) for 24 hours. Ranked."
+    "body": "# Bodyform Structure\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nAdjust Physical Abilities in equal trade. Once per day for the entire day. Ranked."
   },
   {
-    "id": "trait-species-bodyform-weapon-options",
+    "id": "trait-bodyform-weapon-options",
     "name": "Bodyform Weapon Options",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -10039,15 +8089,15 @@ export const ALL_CANONICAL_TRAITS = [
       "focus": 0,
       "ap": 0
     },
-    "is_ranked": true,
+    "is_ranked": false,
     "desc": "Upgraded Bodyform Weapons, +1 option slot. Ranked.",
     "description": "Upgraded Bodyform Weapons, +1 option slot. Ranked.",
-    "mechanics": "Adds 1 upgrade option slot per rank to Bodyform Weapons (such as reach extension, serrated bleed effect, venom canal, or armor-piercing density). Ranked.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Bodyform Weapon Options\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical (Ranked)  \n\n## Description\nUpgraded Bodyform Weapons, +1 option slot. Ranked.\n\n## Mechanics & Benefits\nAdds 1 upgrade option slot per rank to Bodyform Weapons (such as reach extension, serrated bleed effect, venom canal, or armor-piercing density). Ranked."
+    "body": "# Bodyform Weapon Options\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nUpgraded Bodyform Weapons, +1 option slot. Ranked."
   },
   {
-    "id": "trait-species-bodyform-weapons",
+    "id": "trait-bodyform-weapons",
     "name": "Bodyform Weapons",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -10067,18 +8117,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Shapechange to gain ‘Natural Weaponry’ based on Size",
     "description": "Shapechange to gain ‘Natural Weaponry’ based on Size",
-    "mechanics": "Allows extruding bone blades, talons, stingers, or maces dealing natural melee damage scaled to size category (1d6 for Medium, 1d8 for Large) with chosen damage type (slashing, piercing, or blunt).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Bodyform Weapons\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nShapechange to gain ‘Natural Weaponry’ based on Size\n\n## Mechanics & Benefits\nAllows extruding bone blades, talons, stingers, or maces dealing natural melee damage scaled to size category (1d6 for Medium, 1d8 for Large) with chosen damage type (slashing, piercing, or blunt)."
+    "body": "# Bodyform Weapons\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nShapechange to gain ‘Natural Weaponry’ based on Size"
   },
   {
-    "id": "trait-species-bonded-terrain",
+    "id": "trait-bonded-terrain",
     "name": "Bonded Terrain",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Defensive",
-    "type": "Defensive",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -10092,18 +8142,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "+2 dodge bonus to AC when in a specific terrain type.",
     "description": "+2 dodge bonus to AC when in a specific terrain type.",
-    "mechanics": "Select one specific terrain type (Forest/Jungle, Arctic/Tundra, Desert, Mountain/Rocky, Aquatic/Swamp, Urban/Arcology, Subterranean, or Void/Zero-G). While operating within that terrain, the character gains a permanent +2 dodge bonus to Armor Class (AC) and Defense.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Bonded Terrain\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Defensive  \n\n## Description\n+2 dodge bonus to AC when in a specific terrain type.\n\n## Mechanics & Benefits\nSelect one specific terrain type (Forest/Jungle, Arctic/Tundra, Desert, Mountain/Rocky, Aquatic/Swamp, Urban/Arcology, Subterranean, or Void/Zero-G). While operating within that terrain, the character gains a permanent +2 dodge bonus to Armor Class (AC) and Defense."
+    "body": "# Bonded Terrain\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+2 dodge bonus to AC when in a specific terrain type."
   },
   {
-    "id": "trait-species-bonus-feature",
+    "id": "trait-bonus-feature",
     "name": "Bonus Feature",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Trained",
-    "type": "Trained",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -10117,9 +8167,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Members of this race select one extra feature of their choice.",
     "description": "Members of this race select one extra feature of their choice.",
-    "mechanics": "Members of this species select one additional General or Trained Feature at character creation for which they meet the prerequisites.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Bonus Feature\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Trained  \n\n## Description\nMembers of this race select one extra feature of their choice.\n\n## Mechanics & Benefits\nMembers of this species select one additional General or Trained Feature at character creation for which they meet the prerequisites."
+    "body": "# Bonus Feature\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nMembers of this race select one extra feature of their choice."
   },
   {
     "id": "trait-botanical-knowledge",
@@ -10142,12 +8192,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Extensive knowledge of plants, crops, and agricultural cultivation techniques.",
     "description": "Extensive knowledge of plants, crops, and agricultural cultivation techniques.",
-    "mechanics": "+2 to Botany and Plant Science checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Botanical Knowledge\n\n**Category**: Origin Traits  \n**Associated Origin**: Agricultural  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nExtensive knowledge of plants, crops, and agricultural cultivation techniques.\n\n## Mechanics & Benefits\n+2 to Botany and Plant Science checks."
+    "body": "# Botanical Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nExtensive knowledge of plants, crops, and agricultural cultivation techniques."
   },
   {
-    "id": "trait-species-brutal",
+    "id": "trait-brutal",
     "name": "Brutal",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -10167,15 +8217,15 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Growths/Spurs doubling Str damage bonus to natural damage (Lethal).",
     "description": "Growths/Spurs doubling Str damage bonus to natural damage (Lethal).",
-    "mechanics": "Hardened bone spurs, jagged carapaces, or dense knuckles double the character's Strength modifier bonus when calculating damage for natural weapon and unarmed strikes (all damage is Lethal).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Brutal\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nGrowths/Spurs doubling Str damage bonus to natural damage (Lethal).\n\n## Mechanics & Benefits\nHardened bone spurs, jagged carapaces, or dense knuckles double the character's Strength modifier bonus when calculating damage for natural weapon and unarmed strikes (all damage is Lethal)."
+    "body": "# Brutal\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nGrowths/Spurs doubling Str damage bonus to natural damage (Lethal)."
   },
   {
-    "id": "trait-builder-business-acumen",
+    "id": "trait-business-acumen",
     "name": "Business Acumen",
     "category": "traits",
-    "trait_type": "Occupational Trait",
+    "trait_type": "Mental",
     "trait_tier": "Basic",
     "classification": "Physical",
     "type": "Physical",
@@ -10190,64 +8240,14 @@ export const ALL_CANONICAL_TRAITS = [
       "ap": 0
     },
     "is_ranked": false,
-    "desc": "Ability to handle financial and administrative aspects of their profession",
-    "description": "Ability to handle financial and administrative aspects of their profession",
-    "mechanics": "\\+2 Administration Knowledge",
+    "desc": "Keen understanding of market dynamics, trade valuation, credit arbitration, and contract law.",
+    "description": "Keen understanding of market dynamics, trade valuation, credit arbitration, and contract law.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Business Acumen\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Builder  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to handle financial and administrative aspects of their profession\n\n## Mechanics & Benefits\n\\+2 Administration Knowledge"
+    "body": "# Business Acumen\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Mental\n**BP Cost**: 1\n\n## Description\nKeen understanding of market dynamics, trade valuation, credit arbitration, and contract law."
   },
   {
-    "id": "trait-merchant-business-acumen",
-    "name": "Business Acumen",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Merchants have a keen understanding of economics and market trends. They know how to identify profitable opportunities and make wise investments.",
-    "description": "Merchants have a keen understanding of economics and market trends. They know how to identify profitable opportunities and make wise investments.",
-    "mechanics": "\\+2 Merchant Vocation",
-    "modifiers": [],
-    "body": "# Business Acumen\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Merchant  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMerchants have a keen understanding of economics and market trends. They know how to identify profitable opportunities and make wise investments.\n\n## Mechanics & Benefits\n\\+2 Merchant Vocation"
-  },
-  {
-    "id": "trait-scout-camouflage",
-    "name": "Camouflage",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Scouts are adept at moving silently and remaining undetected. They know how to blend into their surroundings and use camouflage techniques to avoid detection.",
-    "description": "Scouts are adept at moving silently and remaining undetected. They know how to blend into their surroundings and use camouflage techniques to avoid detection.",
-    "mechanics": "May use Stealth at normal movement speed",
-    "modifiers": [],
-    "body": "# Camouflage\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scout  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nScouts are adept at moving silently and remaining undetected. They know how to blend into their surroundings and use camouflage techniques to avoid detection.\n\n## Mechanics & Benefits\nMay use Stealth at normal movement speed"
-  },
-  {
-    "id": "trait-species-camouflage",
+    "id": "trait-camouflage",
     "name": "Camouflage",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -10267,18 +8267,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Choose a favored terrain type. +4 bonus on Stealth checks within that terrain.",
     "description": "Choose a favored terrain type. +4 bonus on Stealth checks within that terrain.",
-    "mechanics": "The species' epidermal pigmentation or chromatophoric cells naturally blend into one chosen terrain type (e.g., Jungle, Desert, Snow/Ice, Urban Concrete, Deep Space/Void). Grants a +4 racial bonus on all Stealth checks while operating within that favored terrain.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Camouflage\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Physical  \n\n## Description\nChoose a favored terrain type. +4 bonus on Stealth checks within that terrain.\n\n## Mechanics & Benefits\nThe species' epidermal pigmentation or chromatophoric cells naturally blend into one chosen terrain type (e.g., Jungle, Desert, Snow/Ice, Urban Concrete, Deep Space/Void). Grants a +4 racial bonus on all Stealth checks while operating within that favored terrain."
+    "body": "# Camouflage\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nChoose a favored terrain type. +4 bonus on Stealth checks within that terrain."
   },
   {
-    "id": "trait-species-cats-luck",
+    "id": "trait-cat-s-luck",
     "name": "Cat's Luck",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Defensive",
-    "type": "Defensive",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -10292,12 +8292,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Once per Long Rest make a Reflex Check at Advantage.",
     "description": "Once per Long Rest make a Reflex Check at Advantage.",
-    "mechanics": "Once per Long Rest, when subjected to a hazard, trap, or area attack requiring a Reflex saving throw, the character may choose to make the check with Advantage (rolling twice and taking the higher result).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Cat's Luck\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Defensive  \n\n## Description\nOnce per Long Rest make a Reflex Check at Advantage.\n\n## Mechanics & Benefits\nOnce per Long Rest, when subjected to a hazard, trap, or area attack requiring a Reflex saving throw, the character may choose to make the check with Advantage (rolling twice and taking the higher result)."
+    "body": "# Cat's Luck\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nOnce per Long Rest make a Reflex Check at Advantage."
   },
   {
-    "id": "trait-drifter-caution",
+    "id": "trait-caution",
     "name": "Caution",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -10317,18 +8317,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Cautious and prefer to avoid unnecessary risks, especially when dealing with others",
     "description": "Cautious and prefer to avoid unnecessary risks, especially when dealing with others",
-    "mechanics": "\\+2 Insight",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Caution\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nCautious and prefer to avoid unnecessary risks, especially when dealing with others\n\n## Mechanics & Benefits\n\\+2 Insight"
+    "body": "# Caution\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nCautious and prefer to avoid unnecessary risks, especially when dealing with others"
   },
   {
-    "id": "trait-species-cave-dweller",
+    "id": "trait-cave-dweller",
     "name": "Cave Dweller",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Trained",
-    "type": "Trained",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -10342,12 +8342,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "+4 bonus on Survival checks made underground.",
     "description": "+4 bonus on Survival checks made underground.",
-    "mechanics": "Innate subterranean orientation and cavern familiarity grant a +4 racial bonus on all Survival, Navigation, and Spelunking checks made underground or in enclosed tunnel networks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Cave Dweller\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Trained  \n\n## Description\n+4 bonus on Survival checks made underground.\n\n## Mechanics & Benefits\nInnate subterranean orientation and cavern familiarity grant a +4 racial bonus on all Survival, Navigation, and Spelunking checks made underground or in enclosed tunnel networks."
+    "body": "# Cave Dweller\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+4 bonus on Survival checks made underground."
   },
   {
-    "id": "trait-species-chameleon",
+    "id": "trait-chameleon",
     "name": "Chameleon",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -10367,15 +8367,15 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Changes color, +5 Stealth or may take 10 on Stealth checks.",
     "description": "Changes color, +5 Stealth or may take 10 on Stealth checks.",
-    "mechanics": "Chromatophores across the epidermis adjust skin color and patterns in real-time to match surroundings. Grants a +5 racial bonus on Stealth checks or the option to Take 10 on Stealth even when observed or moving.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Chameleon\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nChanges color, +5 Stealth or may take 10 on Stealth checks.\n\n## Mechanics & Benefits\nChromatophores across the epidermis adjust skin color and patterns in real-time to match surroundings. Grants a +5 racial bonus on Stealth checks or the option to Take 10 on Stealth even when observed or moving."
+    "body": "# Chameleon\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nChanges color, +5 Stealth or may take 10 on Stealth checks."
   },
   {
-    "id": "trait-entertainer-charismatic",
+    "id": "trait-charismatic",
     "name": "Charismatic",
     "category": "traits",
-    "trait_type": "Occupational Trait",
+    "trait_type": "Social",
     "trait_tier": "Basic",
     "classification": "Physical",
     "type": "Physical",
@@ -10390,39 +8390,14 @@ export const ALL_CANONICAL_TRAITS = [
       "ap": 0
     },
     "is_ranked": false,
-    "desc": "Outgoing and charming",
-    "description": "Outgoing and charming",
-    "mechanics": "May take 10 on Diplomacy",
+    "desc": "Natural charm and magnetism that puts strangers at ease and bolsters leadership checks.",
+    "description": "Natural charm and magnetism that puts strangers at ease and bolsters leadership checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Charismatic\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Entertainer  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nOutgoing and charming\n\n## Mechanics & Benefits\nMay take 10 on Diplomacy"
+    "body": "# Charismatic\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Social\n**BP Cost**: 1\n\n## Description\nNatural charm and magnetism that puts strangers at ease and bolsters leadership checks."
   },
   {
-    "id": "trait-merchant-charismatic",
-    "name": "Charismatic",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Merchants possess charisma and charm, making them persuasive and likable. They can easily win over potential customers and build long-lasting relationships.",
-    "description": "Merchants possess charisma and charm, making them persuasive and likable. They can easily win over potential customers and build long-lasting relationships.",
-    "mechanics": "May take 10 on Diplomacy",
-    "modifiers": [],
-    "body": "# Charismatic\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Merchant  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMerchants possess charisma and charm, making them persuasive and likable. They can easily win over potential customers and build long-lasting relationships.\n\n## Mechanics & Benefits\nMay take 10 on Diplomacy"
-  },
-  {
-    "id": "trait-species-chloroplast",
+    "id": "trait-chloroplast",
     "name": "Chloroplast",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -10442,9 +8417,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Gain sustenance from and Double Healing rate while in daylight equivalent light.",
     "description": "Gain sustenance from and Double Healing rate while in daylight equivalent light.",
-    "mechanics": "Photosynthetic organelles generate full metabolic sustenance from sunlight and double natural recovery rates of Health and Vitality whenever resting in daylight-equivalent illumination.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Chloroplast\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nGain sustenance from and Double Healing rate while in daylight equivalent light.\n\n## Mechanics & Benefits\nPhotosynthetic organelles generate full metabolic sustenance from sunlight and double natural recovery rates of Health and Vitality whenever resting in daylight-equivalent illumination."
+    "body": "# Chloroplast\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nGain sustenance from and Double Healing rate while in daylight equivalent light."
   },
   {
     "id": "trait-collaboration",
@@ -10467,59 +8442,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Peer-review synergy and interdisciplinary communication across research teams.",
     "description": "Peer-review synergy and interdisciplinary communication across research teams.",
-    "mechanics": "Adds an additional +1 bonus to all Aid checks granted to or received from collaborators.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Collaboration\n\n**Category**: Origin Traits  \n**Associated Origin**: Research  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPeer-review synergy and interdisciplinary communication across research teams.\n\n## Mechanics & Benefits\nAdds an additional +1 bonus to all Aid checks granted to or received from collaborators."
-  },
-  {
-    "id": "trait-scholar-collaboration",
-    "name": "Collaboration",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Able to effectively communicate and work with colleagues.",
-    "description": "Able to effectively communicate and work with colleagues.",
-    "mechanics": "additional \\+1 to Aid bonuses",
-    "modifiers": [],
-    "body": "# Collaboration\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scholar  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAble to effectively communicate and work with colleagues.\n\n## Mechanics & Benefits\nadditional \\+1 to Aid bonuses"
-  },
-  {
-    "id": "trait-agent-combat-skills",
-    "name": "Combat Skills",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Combat and proficiency with firearms and weapons",
-    "description": "Combat and proficiency with firearms and weapons",
-    "mechanics": "\\+2 to a Combat Skill of Choice",
-    "modifiers": [],
-    "body": "# Combat Skills\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Agent  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nCombat and proficiency with firearms and weapons\n\n## Mechanics & Benefits\n\\+2 to a Combat Skill of Choice"
+    "body": "# Collaboration\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nPeer-review synergy and interdisciplinary communication across research teams."
   },
   {
     "id": "trait-combat-skills",
@@ -10542,9 +8467,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Brutal self-defense instincts developed against predatory wildlife and raiders.",
     "description": "Brutal self-defense instincts developed against predatory wildlife and raiders.",
-    "mechanics": "+2 to one chosen Combat Skill.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Combat Skills\n\n**Category**: Origin Traits  \n**Associated Origin**: Hostile  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nBrutal self-defense instincts developed against predatory wildlife and raiders.\n\n## Mechanics & Benefits\n+2 to one chosen Combat Skill."
+    "body": "# Combat Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nBrutal self-defense instincts developed against predatory wildlife and raiders."
   },
   {
     "id": "trait-combat-trained",
@@ -10567,21 +8492,21 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Standard military drills covering marksmanship, close-quarters combat, and fireteam movement.",
     "description": "Standard military drills covering marksmanship, close-quarters combat, and fireteam movement.",
-    "mechanics": "+2 to one chosen Combat Skill.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Combat Trained\n\n**Category**: Origin Traits  \n**Associated Origin**: Militaristic  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nStandard military drills covering marksmanship, close-quarters combat, and fireteam movement.\n\n## Mechanics & Benefits\n+2 to one chosen Combat Skill."
+    "body": "# Combat Trained\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nStandard military drills covering marksmanship, close-quarters combat, and fireteam movement."
   },
   {
-    "id": "trait-criminal-combat-training",
+    "id": "trait-combat-training",
     "name": "Combat Training",
     "category": "traits",
-    "trait_type": "Occupational Trait",
+    "trait_type": "Combat",
     "trait_tier": "Basic",
     "classification": "Physical",
     "type": "Physical",
-    "bp": 1,
+    "bp": 2,
     "costs": {
-      "bp": 1,
+      "bp": 2,
       "credits": 0,
       "nodes": 0,
       "sockets": 0,
@@ -10590,89 +8515,14 @@ export const ALL_CANONICAL_TRAITS = [
       "ap": 0
     },
     "is_ranked": false,
-    "desc": "Criminals may have experience with hand-to-hand combat or the use of weapons",
-    "description": "Criminals may have experience with hand-to-hand combat or the use of weapons",
-    "mechanics": "\\+2 to a Combat Skill of choice",
+    "desc": "Extensive formal training in tactical firearms, CQB weapon drills, and battlefield maneuvering.",
+    "description": "Extensive formal training in tactical firearms, CQB weapon drills, and battlefield maneuvering.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Combat Training\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Criminal  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nCriminals may have experience with hand-to-hand combat or the use of weapons\n\n## Mechanics & Benefits\n\\+2 to a Combat Skill of choice"
+    "body": "# Combat Training\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Combat\n**BP Cost**: 2\n\n## Description\nExtensive formal training in tactical firearms, CQB weapon drills, and battlefield maneuvering."
   },
   {
-    "id": "trait-drifter-combat-training",
-    "name": "Combat Training",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Skilled with firearms and other weapons, making them formidable opponents in combat",
-    "description": "Skilled with firearms and other weapons, making them formidable opponents in combat",
-    "mechanics": "\\+2 Combat Skill of choice",
-    "modifiers": [],
-    "body": "# Combat Training\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nSkilled with firearms and other weapons, making them formidable opponents in combat\n\n## Mechanics & Benefits\n\\+2 Combat Skill of choice"
-  },
-  {
-    "id": "trait-scout-combat-training",
-    "name": "Combat Training",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Scouts are proficient in combat, making them skilled with various types of weapons.",
-    "description": "Scouts are proficient in combat, making them skilled with various types of weapons.",
-    "mechanics": "\\+2 to a Combat Skill of choice",
-    "modifiers": [],
-    "body": "# Combat Training\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scout  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nScouts are proficient in combat, making them skilled with various types of weapons.\n\n## Mechanics & Benefits\n\\+2 to a Combat Skill of choice"
-  },
-  {
-    "id": "trait-soldier-combat-training",
-    "name": "Combat Training",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Extensive training in combat tactics, weapons handling, and hand-to-hand combat",
-    "description": "Extensive training in combat tactics, weapons handling, and hand-to-hand combat",
-    "mechanics": "\\+2 Combat Skill of choice",
-    "modifiers": [],
-    "body": "# Combat Training\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nExtensive training in combat tactics, weapons handling, and hand-to-hand combat\n\n## Mechanics & Benefits\n\\+2 Combat Skill of choice"
-  },
-  {
-    "id": "trait-citizen-communication",
+    "id": "trait-communication",
     "name": "Communication",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -10692,9 +8542,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Effective communicators, able to convey complex ideas and information clearly and persuasively.",
     "description": "Effective communicators, able to convey complex ideas and information clearly and persuasively.",
-    "mechanics": "\\+2 Diplomacy",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Communication\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Citizen  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nEffective communicators, able to convey complex ideas and information clearly and persuasively.\n\n## Mechanics & Benefits\n\\+2 Diplomacy"
+    "body": "# Communication\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nEffective communicators, able to convey complex ideas and information clearly and persuasively."
   },
   {
     "id": "trait-community-building",
@@ -10717,12 +8567,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Values community solidarity and possesses skills in building and maintaining relationships among local groups.",
     "description": "Values community solidarity and possesses skills in building and maintaining relationships among local groups.",
-    "mechanics": "Once per day, may reroll a failed Social Skill check.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Community Building\n\n**Category**: Origin Traits  \n**Associated Origin**: Agricultural  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nValues community solidarity and possesses skills in building and maintaining relationships among local groups.\n\n## Mechanics & Benefits\nOnce per day, may reroll a failed Social Skill check."
+    "body": "# Community Building\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nValues community solidarity and possesses skills in building and maintaining relationships among local groups."
   },
   {
-    "id": "trait-entertainer-confident",
+    "id": "trait-confident",
     "name": "Confident",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -10742,12 +8592,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Comfortable in the spotlight",
     "description": "Comfortable in the spotlight",
-    "mechanics": "\\+2 Willpower",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Confident\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Entertainer  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nComfortable in the spotlight\n\n## Mechanics & Benefits\n\\+2 Willpower"
+    "body": "# Confident\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nComfortable in the spotlight"
   },
   {
-    "id": "trait-representative-conflict-resolution",
+    "id": "trait-conflict-resolution",
     "name": "Conflict resolution",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -10767,12 +8617,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Ability to resolve conflicts effectively and find solutions that satisfy all parties involved",
     "description": "Ability to resolve conflicts effectively and find solutions that satisfy all parties involved",
-    "mechanics": "\\+2 Diplomacy",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Conflict resolution\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Representative  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to resolve conflicts effectively and find solutions that satisfy all parties involved\n\n## Mechanics & Benefits\n\\+2 Diplomacy"
+    "body": "# Conflict resolution\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAbility to resolve conflicts effectively and find solutions that satisfy all parties involved"
   },
   {
-    "id": "trait-species-constriction",
+    "id": "trait-constriction",
     "name": "Constriction",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -10792,9 +8642,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Grants Improved and Greater Grapple, Crushing damage is 2x Unarmed.",
     "description": "Grants Improved and Greater Grapple, Crushing damage is 2x Unarmed.",
-    "mechanics": "Powerful serpentine muscles grant the benefits of Improved and Greater Grapple. When maintaining a successful grapple, deal crushing kinetic damage equal to 2× standard Unarmed Strike damage + Strength modifier.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Constriction\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nGrants Improved and Greater Grapple, Crushing damage is 2x Unarmed.\n\n## Mechanics & Benefits\nPowerful serpentine muscles grant the benefits of Improved and Greater Grapple. When maintaining a successful grapple, deal crushing kinetic damage equal to 2× standard Unarmed Strike damage + Strength modifier."
+    "body": "# Constriction\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nGrants Improved and Greater Grapple, Crushing damage is 2x Unarmed."
   },
   {
     "id": "trait-contacts",
@@ -10817,12 +8667,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Extensive rolodex of street informants, corporate fixers, bar owners, and dockworkers.",
     "description": "Extensive rolodex of street informants, corporate fixers, bar owners, and dockworkers.",
-    "mechanics": "Gather Information checks are made with Advantage.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Contacts\n\n**Category**: Origin Traits  \n**Associated Origin**: Urban  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nExtensive rolodex of street informants, corporate fixers, bar owners, and dockworkers.\n\n## Mechanics & Benefits\nGather Information checks are made with Advantage."
+    "body": "# Contacts\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nExtensive rolodex of street informants, corporate fixers, bar owners, and dockworkers."
   },
   {
-    "id": "trait-scholar-continuous-learning",
+    "id": "trait-continuous-learning",
     "name": "Continuous Learning",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -10842,12 +8692,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Has a thirst for knowledge and is committed to lifelong learning.",
     "description": "Has a thirst for knowledge and is committed to lifelong learning.",
-    "mechanics": "All Learning Checks are made at Advantage",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Continuous Learning\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scholar  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nHas a thirst for knowledge and is committed to lifelong learning.\n\n## Mechanics & Benefits\nAll Learning Checks are made at Advantage"
+    "body": "# Continuous Learning\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nHas a thirst for knowledge and is committed to lifelong learning."
   },
   {
-    "id": "trait-soldier-cool",
+    "id": "trait-cool",
     "name": "Cool",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -10867,18 +8717,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Able to remain calm and focused even in high-pressure situations",
     "description": "Able to remain calm and focused even in high-pressure situations",
-    "mechanics": "\\+2 Willpower",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Cool\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAble to remain calm and focused even in high-pressure situations\n\n## Mechanics & Benefits\n\\+2 Willpower"
+    "body": "# Cool\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAble to remain calm and focused even in high-pressure situations"
   },
   {
-    "id": "trait-species-craftsman",
+    "id": "trait-craftsman",
     "name": "Craftsman",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Trained",
-    "type": "Trained",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -10892,12 +8742,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "+2 to Specific Vocation.",
     "description": "+2 to Specific Vocation.",
-    "mechanics": "Choose one specific Vocation or Crafting skill (e.g., Metallurgy, Weaponsmithing, Cybernetics, Architecture, Electronics, Stonework). Gains a permanent +2 racial bonus to all checks with the chosen vocation.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Craftsman\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Trained  \n\n## Description\n+2 to Specific Vocation.\n\n## Mechanics & Benefits\nChoose one specific Vocation or Crafting skill (e.g., Metallurgy, Weaponsmithing, Cybernetics, Architecture, Electronics, Stonework). Gains a permanent +2 racial bonus to all checks with the chosen vocation."
+    "body": "# Craftsman\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+2 to Specific Vocation."
   },
   {
-    "id": "trait-entertainer-creative",
+    "id": "trait-creative",
     "name": "Creative",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -10917,15 +8767,15 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Skilled at coming up with new ideas",
     "description": "Skilled at coming up with new ideas",
-    "mechanics": "\\+1 Karma Point",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Creative\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Entertainer  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nSkilled at coming up with new ideas\n\n## Mechanics & Benefits\n\\+1 Karma Point"
+    "body": "# Creative\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nSkilled at coming up with new ideas"
   },
   {
-    "id": "trait-builder-creativity",
+    "id": "trait-creativity",
     "name": "Creativity",
     "category": "traits",
-    "trait_type": "Occupational Trait",
+    "trait_type": "Mental",
     "trait_tier": "Basic",
     "classification": "Physical",
     "type": "Physical",
@@ -10940,39 +8790,14 @@ export const ALL_CANONICAL_TRAITS = [
       "ap": 0
     },
     "is_ranked": false,
-    "desc": "Creative mindset and ability to think outside the box",
-    "description": "Creative mindset and ability to think outside the box",
-    "mechanics": "\\+1 Karma",
+    "desc": "Ingenious problem solving and out-of-the-box thinking when crafting, engineering, or improvising solutions.",
+    "description": "Ingenious problem solving and out-of-the-box thinking when crafting, engineering, or improvising solutions.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Creativity\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Builder  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nCreative mindset and ability to think outside the box\n\n## Mechanics & Benefits\n\\+1 Karma"
+    "body": "# Creativity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Mental\n**BP Cost**: 1\n\n## Description\nIngenious problem solving and out-of-the-box thinking when crafting, engineering, or improvising solutions."
   },
   {
-    "id": "trait-representative-creativity",
-    "name": "Creativity",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Ability to think creatively and develop innovative solutions to complex problems",
-    "description": "Ability to think creatively and develop innovative solutions to complex problems",
-    "mechanics": "\\+1 Karma",
-    "modifiers": [],
-    "body": "# Creativity\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Representative  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to think creatively and develop innovative solutions to complex problems\n\n## Mechanics & Benefits\n\\+1 Karma"
-  },
-  {
-    "id": "trait-scholar-critical-thinking",
+    "id": "trait-critical-thinking",
     "name": "Critical thinking",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -10992,12 +8817,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Possess strong critical thinking skills.",
     "description": "Possess strong critical thinking skills.",
-    "mechanics": "\\+1 Karma Point",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Critical thinking\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scholar  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPossess strong critical thinking skills.\n\n## Mechanics & Benefits\n\\+1 Karma Point"
+    "body": "# Critical thinking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nPossess strong critical thinking skills."
   },
   {
-    "id": "trait-merchant-cultural-awareness",
+    "id": "trait-cultural-awareness",
     "name": "Cultural Awareness",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -11017,12 +8842,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Merchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds.",
     "description": "Merchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds.",
-    "mechanics": "\\+2 Culture Knowledge",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Cultural Awareness\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Merchant  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMerchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds.\n\n## Mechanics & Benefits\n\\+2 Culture Knowledge"
+    "body": "# Cultural Awareness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nMerchants are culturally aware and sensitive. They understand different customs, traditions, and etiquette, allowing them to navigate diverse markets and build relationships with customers from various backgrounds."
   },
   {
-    "id": "trait-soldier-cunning",
+    "id": "trait-cunning",
     "name": "Cunning",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -11042,9 +8867,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Rely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies",
     "description": "Rely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies",
-    "mechanics": "Additional \\+1 to appropriate maneuvers from having Edge",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Cunning\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nRely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies\n\n## Mechanics & Benefits\nAdditional \\+1 to appropriate maneuvers from having Edge"
+    "body": "# Cunning\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nRely on their wits and cunning to achieve their objectives, often using deception and misdirection to outsmart their enemies"
   },
   {
     "id": "trait-curiosity",
@@ -11067,68 +8892,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "An insatiable drive to explore the unknown, analyze anomalous phenomena, and investigate new discoveries.",
     "description": "An insatiable drive to explore the unknown, analyze anomalous phenomena, and investigate new discoveries.",
-    "mechanics": "Regain 1 Karma Point on the first encounter when analyzing something entirely new in a session.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Curiosity\n\n**Category**: Origin Traits  \n**Associated Origin**: General  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAn insatiable drive to explore the unknown, analyze anomalous phenomena, and investigate new discoveries.\n\n## Mechanics & Benefits\nRegain 1 Karma Point on the first encounter when analyzing something entirely new in a session."
+    "body": "# Curiosity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nAn insatiable drive to explore the unknown, analyze anomalous phenomena, and investigate new discoveries."
   },
   {
-    "id": "trait-scout-curiosity",
-    "name": "Curiosity",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Explorer type Scouts have a natural curiosity and thirst for knowledge. They are driven to discover new places, species, and phenomena.",
-    "description": "Explorer type Scouts have a natural curiosity and thirst for knowledge. They are driven to discover new places, species, and phenomena.",
-    "mechanics": "Regain a Karma Point on the first encounter when dealing with something new \\- creature, area, technology, etc.",
-    "modifiers": [],
-    "body": "# Curiosity\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scout  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nExplorer type Scouts have a natural curiosity and thirst for knowledge. They are driven to discover new places, species, and phenomena.\n\n## Mechanics & Benefits\nRegain a Karma Point on the first encounter when dealing with something new \\- creature, area, technology, etc."
-  },
-  {
-    "id": "trait-species-curiosity",
-    "name": "Curiosity",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Trained",
-    "type": "Trained",
-    "bp": 2,
-    "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "+4 bonus on Diplomacy checks to gather information, and Knowledge checks.",
-    "description": "+4 bonus on Diplomacy checks to gather information, and Knowledge checks.",
-    "mechanics": "Inquisitive neural wiring and academic drive grant a permanent +4 racial bonus on Diplomacy checks made to gather information and on all Knowledge (Academic/Lore) checks.",
-    "modifiers": [],
-    "body": "# Curiosity\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Trained  \n\n## Description\n+4 bonus on Diplomacy checks to gather information, and Knowledge checks.\n\n## Mechanics & Benefits\nInquisitive neural wiring and academic drive grant a permanent +4 racial bonus on Diplomacy checks made to gather information and on all Knowledge (Academic/Lore) checks."
-  },
-  {
-    "id": "trait-species-dark-sight",
+    "id": "trait-dark-sight",
     "name": "Dark Sight",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Sensory",
-    "type": "Sensory",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -11142,12 +8917,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Clear vision in all levels of Light or Darkness (UV, seeing luminescence).",
     "description": "Clear vision in all levels of Light or Darkness (UV, seeing luminescence).",
-    "mechanics": "Flawless visual perception across complete darkness, total absence of light, UV bands, and bioluminescent signatures without penalties out to 60 feet.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Dark Sight\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Sensory  \n\n## Description\nClear vision in all levels of Light or Darkness (UV, seeing luminescence).\n\n## Mechanics & Benefits\nFlawless visual perception across complete darkness, total absence of light, UV bands, and bioluminescent signatures without penalties out to 60 feet."
+    "body": "# Dark Sight\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nClear vision in all levels of Light or Darkness (UV, seeing luminescence)."
   },
   {
-    "id": "trait-agent-deception",
+    "id": "trait-deception",
     "name": "Deception",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -11167,15 +8942,40 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Disguise, impersonation, and deception",
     "description": "Disguise, impersonation, and deception",
-    "mechanics": "\\+2 Disguise and Cover Checks",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Deception\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Agent  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nDisguise, impersonation, and deception\n\n## Mechanics & Benefits\n\\+2 Disguise and Cover Checks"
+    "body": "# Deception\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nDisguise, impersonation, and deception"
   },
   {
-    "id": "trait-criminal-deception",
-    "name": "Deception",
+    "id": "trait-defensive-training",
+    "name": "Defensive Training",
     "category": "traits",
-    "trait_type": "Occupational Trait",
+    "trait_type": "Species Trait",
+    "trait_tier": "Advanced",
+    "classification": "Physical",
+    "type": "Physical",
+    "bp": 2,
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "desc": "+2 dodge bonus to Defense.",
+    "description": "+2 dodge bonus to Defense.",
+    "mechanics": "",
+    "modifiers": [],
+    "body": "# Defensive Training\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\n+2 dodge bonus to Defense."
+  },
+  {
+    "id": "trait-digitigrade-ungulated",
+    "name": "Digitigrade / Ungulated",
+    "category": "traits",
+    "trait_type": "Species Trait",
     "trait_tier": "Basic",
     "classification": "Physical",
     "type": "Physical",
@@ -11190,61 +8990,11 @@ export const ALL_CANONICAL_TRAITS = [
       "ap": 0
     },
     "is_ranked": false,
-    "desc": "Criminals are often skilled at lying and manipulating others to get what they want",
-    "description": "Criminals are often skilled at lying and manipulating others to get what they want",
-    "mechanics": "\\+1 Manipulation Skills",
-    "modifiers": [],
-    "body": "# Deception\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Criminal  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nCriminals are often skilled at lying and manipulating others to get what they want\n\n## Mechanics & Benefits\n\\+1 Manipulation Skills"
-  },
-  {
-    "id": "trait-species-defensive-training",
-    "name": "Defensive Training",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Advanced",
-    "classification": "Defensive",
-    "type": "Defensive",
-    "bp": 2,
-    "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "+2 dodge bonus to Defense.",
-    "description": "+2 dodge bonus to Defense.",
-    "mechanics": "Instinctive body dodging, evasive kinetic posturing, and predictive footing grant a permanent +2 dodge bonus to Defense (AC).",
-    "modifiers": [],
-    "body": "# Defensive Training\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Defensive  \n\n## Description\n+2 dodge bonus to Defense.\n\n## Mechanics & Benefits\nInstinctive body dodging, evasive kinetic posturing, and predictive footing grant a permanent +2 dodge bonus to Defense (AC)."
-  },
-  {
-    "id": "trait-species-digitigrade-ungulated",
-    "name": "Digitigrade / Ungulated",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Movement",
-    "type": "Movement",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
     "desc": "+10 Movement Speed and +4 Stability, Special pants and Boots needed.",
     "description": "+10 Movement Speed and +4 Stability, Special pants and Boots needed.",
-    "mechanics": "Walking on toes, hooves, or extended tarsals provides exceptional springing leverage. Grants +10 ft base Movement Speed and a +4 racial Stability bonus against Trip, Bull Rush, and Knockdown attempts. Requires custom-tailored legwear, pants, and specialized boots.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Digitigrade / Ungulated\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Movement  \n\n## Description\n+10 Movement Speed and +4 Stability, Special pants and Boots needed.\n\n## Mechanics & Benefits\nWalking on toes, hooves, or extended tarsals provides exceptional springing leverage. Grants +10 ft base Movement Speed and a +4 racial Stability bonus against Trip, Bull Rush, and Knockdown attempts. Requires custom-tailored legwear, pants, and specialized boots."
+    "body": "# Digitigrade / Ungulated\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+10 Movement Speed and +4 Stability, Special pants and Boots needed."
   },
   {
     "id": "trait-diplomacy",
@@ -11267,12 +9017,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Skill in negotiation, de-escalating tensions, and maintaining formal alliances.",
     "description": "Skill in negotiation, de-escalating tensions, and maintaining formal alliances.",
-    "mechanics": "+2 to Diplomacy checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Diplomacy\n\n**Category**: Origin Traits  \n**Associated Origin**: General  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nSkill in negotiation, de-escalating tensions, and maintaining formal alliances.\n\n## Mechanics & Benefits\n+2 to Diplomacy checks."
+    "body": "# Diplomacy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nSkill in negotiation, de-escalating tensions, and maintaining formal alliances."
   },
   {
-    "id": "trait-soldier-discipline",
+    "id": "trait-discipline",
     "name": "Discipline",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -11292,9 +9042,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Disciplined and able to follow orders without question, even in high-pressure situations",
     "description": "Disciplined and able to follow orders without question, even in high-pressure situations",
-    "mechanics": "\\+2 Soldier Vocation",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Discipline\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nDisciplined and able to follow orders without question, even in high-pressure situations\n\n## Mechanics & Benefits\n\\+2 Soldier Vocation"
+    "body": "# Discipline\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nDisciplined and able to follow orders without question, even in high-pressure situations"
   },
   {
     "id": "trait-disciplined",
@@ -11317,12 +9067,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Conditioned obedience to command structures and flawless execution of standard operating procedures.",
     "description": "Conditioned obedience to command structures and flawless execution of standard operating procedures.",
-    "mechanics": "+2 to Soldier Vocation checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Disciplined\n\n**Category**: Origin Traits  \n**Associated Origin**: Militaristic  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nConditioned obedience to command structures and flawless execution of standard operating procedures.\n\n## Mechanics & Benefits\n+2 to Soldier Vocation checks."
+    "body": "# Disciplined\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nConditioned obedience to command structures and flawless execution of standard operating procedures."
   },
   {
-    "id": "trait-species-draconic",
+    "id": "trait-draconic",
     "name": "Draconic",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -11342,18 +9092,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Access to purchase various Dragon Traits",
     "description": "Access to purchase various Dragon Traits",
-    "mechanics": "Unlocks biological and metaphysical lineage access to purchase Draconic Traits (Dragon Might, Dragon Mind, Dragon Senses, Dragon Breath, Dragon Wings, Dragon Form) during character progression or species customization.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Draconic\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Physical  \n\n## Description\nAccess to purchase various Dragon Traits\n\n## Mechanics & Benefits\nUnlocks biological and metaphysical lineage access to purchase Draconic Traits (Dragon Might, Dragon Mind, Dragon Senses, Dragon Breath, Dragon Wings, Dragon Form) during character progression or species customization."
+    "body": "# Draconic\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nAccess to purchase various Dragon Traits"
   },
   {
-    "id": "trait-species-dragon-apotheosis",
+    "id": "trait-dragon-apotheosis",
     "name": "Dragon Apotheosis",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Elite",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 4,
     "costs": {
       "bp": 4,
@@ -11367,18 +9117,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Gain Type Specific Ability and access to Advanced Dragon Abilities. Req: Dragon Form.",
     "description": "Gain Type Specific Ability and access to Advanced Dragon Abilities. Req: Dragon Form.",
-    "mechanics": "Requirements: Dragon Form trait. Ascends into true dragon lineage, unlocking an elemental affinity special ability (Immunity, Aura, or Elemental Mastery) and full access to ancient wyrm metaphysical techniques.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Dragon Apotheosis\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Meta  \n\n## Description\nGain Type Specific Ability and access to Advanced Dragon Abilities. Req: Dragon Form.\n\n## Mechanics & Benefits\nRequirements: Dragon Form trait. Ascends into true dragon lineage, unlocking an elemental affinity special ability (Immunity, Aura, or Elemental Mastery) and full access to ancient wyrm metaphysical techniques."
+    "body": "# Dragon Apotheosis\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nGain Type Specific Ability and access to Advanced Dragon Abilities. Req: Dragon Form."
   },
   {
-    "id": "trait-species-dragon-breath",
+    "id": "trait-dragon-breath",
     "name": "Dragon Breath",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Elite",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 4,
     "costs": {
       "bp": 4,
@@ -11392,18 +9142,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Breath Weapon - 30 ft Cone or 60 ft Line of Energy [Str x d8 in Dmg].",
     "description": "Breath Weapon - 30 ft Cone or 60 ft Line of Energy [Str x d8 in Dmg].",
-    "mechanics": "Exhales an elemental tempest in a 30-foot cone or 60-foot line dealing Strength score × 1d8 elemental damage (Pyro, Cryo, Voltic, Sonic, or Corrosive). Targets may attempt a Reflex save (DC 10 + 1/2 Level + Sta mod) for half damage. Usable every 1d4 rounds.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Dragon Breath\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Meta  \n\n## Description\nBreath Weapon - 30 ft Cone or 60 ft Line of Energy [Str x d8 in Dmg].\n\n## Mechanics & Benefits\nExhales an elemental tempest in a 30-foot cone or 60-foot line dealing Strength score × 1d8 elemental damage (Pyro, Cryo, Voltic, Sonic, or Corrosive). Targets may attempt a Reflex save (DC 10 + 1/2 Level + Sta mod) for half damage. Usable every 1d4 rounds."
+    "body": "# Dragon Breath\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nBreath Weapon - 30 ft Cone or 60 ft Line of Energy [Str x d8 in Dmg]."
   },
   {
-    "id": "trait-species-dragon-eyes",
+    "id": "trait-dragon-eyes",
     "name": "Dragon Eyes",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Sensory",
-    "type": "Sensory",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -11417,18 +9167,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Choose from Low-Light Vision line (Dark, Ether, Thermal). Multiple.",
     "description": "Choose from Low-Light Vision line (Dark, Ether, Thermal). Multiple.",
-    "mechanics": "Draconic optic structures allow selecting one enhanced sensory vision mode (Dark Sight, Ether Sight, or Thermal Sight). May be selected multiple times for different vision modes.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Dragon Eyes\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Sensory  \n\n## Description\nChoose from Low-Light Vision line (Dark, Ether, Thermal). Multiple.\n\n## Mechanics & Benefits\nDraconic optic structures allow selecting one enhanced sensory vision mode (Dark Sight, Ether Sight, or Thermal Sight). May be selected multiple times for different vision modes."
+    "body": "# Dragon Eyes\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nChoose from Low-Light Vision line (Dark, Ether, Thermal). Multiple."
   },
   {
-    "id": "trait-species-dragon-form",
+    "id": "trait-dragon-form",
     "name": "Dragon Form",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -11442,12 +9192,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Alternate Form of a Large size Dragon",
     "description": "Alternate Form of a Large size Dragon",
-    "mechanics": "The character can assume an Alternate Form of a Large-sized Draconic entity with natural claws/bite (1d8 damage), leathery wings, and enhanced natural armor (+4 DR).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Dragon Form\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Meta  \n\n## Description\nAlternate Form of a Large size Dragon\n\n## Mechanics & Benefits\nThe character can assume an Alternate Form of a Large-sized Draconic entity with natural claws/bite (1d8 damage), leathery wings, and enhanced natural armor (+4 DR)."
+    "body": "# Dragon Form\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nAlternate Form of a Large size Dragon"
   },
   {
-    "id": "trait-species-dragon-might",
+    "id": "trait-dragon-might",
     "name": "Dragon Might",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -11467,12 +9217,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Lift Objects and Grapple as if 1 size category larger. Req: Dragonkin, Str 4.",
     "description": "Lift Objects and Grapple as if 1 size category larger. Req: Dragonkin, Str 4.",
-    "mechanics": "Requirements: Dragonkin lineage, Strength 4+. Tremendous draconic muscle density allows lifting, carrying, shoving, and grappling as if 1 size category larger.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Dragon Might\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nLift Objects and Grapple as if 1 size category larger. Req: Dragonkin, Str 4.\n\n## Mechanics & Benefits\nRequirements: Dragonkin lineage, Strength 4+. Tremendous draconic muscle density allows lifting, carrying, shoving, and grappling as if 1 size category larger."
+    "body": "# Dragon Might\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nLift Objects and Grapple as if 1 size category larger. Req: Dragonkin, Str 4."
   },
   {
-    "id": "trait-species-dragon-mind",
+    "id": "trait-dragon-mind",
     "name": "Dragon Mind",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -11492,18 +9242,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Make any Mental Resistance checks with Advantage. Req: Dragonkin, Wis 2.",
     "description": "Make any Mental Resistance checks with Advantage. Req: Dragonkin, Wis 2.",
-    "mechanics": "Requirements: Dragonkin lineage, Wisdom 2+. Fierce mental fortitude and draconic pride grant Advantage on all Mental Resistance, Willpower, and psychic intrusion checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Dragon Mind\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nMake any Mental Resistance checks with Advantage. Req: Dragonkin, Wis 2.\n\n## Mechanics & Benefits\nRequirements: Dragonkin lineage, Wisdom 2+. Fierce mental fortitude and draconic pride grant Advantage on all Mental Resistance, Willpower, and psychic intrusion checks."
+    "body": "# Dragon Mind\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nMake any Mental Resistance checks with Advantage. Req: Dragonkin, Wis 2."
   },
   {
-    "id": "trait-species-dragon-senses",
+    "id": "trait-dragon-senses",
     "name": "Dragon Senses",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Sensory",
-    "type": "Sensory",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -11517,18 +9267,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Make Awareness Checks with Advantage. Req: Dragonkin, Awareness 11.",
     "description": "Make Awareness Checks with Advantage. Req: Dragonkin, Awareness 11.",
-    "mechanics": "Requirements: Dragonkin lineage, Awareness score 11+. Superior predator tracking and spatial alertness grant Advantage on all Perception/Awareness checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Dragon Senses\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Sensory  \n\n## Description\nMake Awareness Checks with Advantage. Req: Dragonkin, Awareness 11.\n\n## Mechanics & Benefits\nRequirements: Dragonkin lineage, Awareness score 11+. Superior predator tracking and spatial alertness grant Advantage on all Perception/Awareness checks."
+    "body": "# Dragon Senses\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nMake Awareness Checks with Advantage. Req: Dragonkin, Awareness 11."
   },
   {
-    "id": "trait-species-dragon-wings",
+    "id": "trait-dragon-wings",
     "name": "Dragon Wings",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Elite",
-    "classification": "Movement",
-    "type": "Movement",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 4,
     "costs": {
       "bp": 4,
@@ -11542,18 +9292,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Grow Leathery Wings - Fly Speed of 3x Ground Speed. Req: Dragonkin, Exoskeleton.",
     "description": "Grow Leathery Wings - Fly Speed of 3x Ground Speed. Req: Dragonkin, Exoskeleton.",
-    "mechanics": "Requirements: Dragonkin lineage, Exoskeleton trait. Massive leathery, scaled wings sprout from the shoulder blades, granting a true Fly Speed equal to 3× base Ground Speed (90 ft/round for Medium) with Good maneuverability.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Dragon Wings\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Movement  \n\n## Description\nGrow Leathery Wings - Fly Speed of 3x Ground Speed. Req: Dragonkin, Exoskeleton.\n\n## Mechanics & Benefits\nRequirements: Dragonkin lineage, Exoskeleton trait. Massive leathery, scaled wings sprout from the shoulder blades, granting a true Fly Speed equal to 3× base Ground Speed (90 ft/round for Medium) with Good maneuverability."
+    "body": "# Dragon Wings\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nGrow Leathery Wings - Fly Speed of 3x Ground Speed. Req: Dragonkin, Exoskeleton."
   },
   {
-    "id": "trait-species-emissary",
+    "id": "trait-emissary",
     "name": "Emissary",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Social",
-    "type": "Social",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -11567,12 +9317,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Once per day make a check at advantage for Bluff or Diplomacy.",
     "description": "Once per day make a check at advantage for Bluff or Diplomacy.",
-    "mechanics": "Once per day (refreshing after a Long Rest), when making a Bluff (Deception) or Diplomacy (Persuasion) check during diplomatic exchanges or high-stakes negotiations, the character may make the roll with Advantage.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Emissary\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Social  \n\n## Description\nOnce per day make a check at advantage for Bluff or Diplomacy.\n\n## Mechanics & Benefits\nOnce per day (refreshing after a Long Rest), when making a Bluff (Deception) or Diplomacy (Persuasion) check during diplomatic exchanges or high-stakes negotiations, the character may make the roll with Advantage."
+    "body": "# Emissary\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nOnce per day make a check at advantage for Bluff or Diplomacy."
   },
   {
-    "id": "trait-representative-emotional-intelligence",
+    "id": "trait-emotional-intelligence",
     "name": "Emotional intelligence",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -11592,9 +9342,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Ability to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states",
     "description": "Ability to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states",
-    "mechanics": "\\+2 Insight",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Emotional intelligence\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Representative  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states\n\n## Mechanics & Benefits\n\\+2 Insight"
+    "body": "# Emotional intelligence\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAbility to understand and manage their own emotions effectively, and read the emotions of others and respond appropriately to different emotional states"
   },
   {
     "id": "trait-empathy",
@@ -11617,12 +9367,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Intuitive emotional resonance that perceives the underlying drives and moods of sapient beings and creatures.",
     "description": "Intuitive emotional resonance that perceives the underlying drives and moods of sapient beings and creatures.",
-    "mechanics": "+2 to Insight and +2 to Handle Animal checks when interacting peacefully.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Empathy\n\n**Category**: Origin Traits  \n**Associated Origin**: General  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nIntuitive emotional resonance that perceives the underlying drives and moods of sapient beings and creatures.\n\n## Mechanics & Benefits\n+2 to Insight and +2 to Handle Animal checks when interacting peacefully."
+    "body": "# Empathy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nIntuitive emotional resonance that perceives the underlying drives and moods of sapient beings and creatures."
   },
   {
-    "id": "trait-entertainer-energetic",
+    "id": "trait-energetic",
     "name": "Energetic",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -11642,18 +9392,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "High levels of energy and enthusiasm",
     "description": "High levels of energy and enthusiasm",
-    "mechanics": "\\+1 Karma Point",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Energetic\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Entertainer  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nHigh levels of energy and enthusiasm\n\n## Mechanics & Benefits\n\\+1 Karma Point"
+    "body": "# Energetic\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nHigh levels of energy and enthusiasm"
   },
   {
-    "id": "trait-species-energized-breath",
+    "id": "trait-energized-breath",
     "name": "Energized Breath",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Elite",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 4,
     "costs": {
       "bp": 4,
@@ -11667,18 +9417,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Focus energy into breath weapon to roll damage at advantage, 1/2 damage is magic.",
     "description": "Focus energy into breath weapon to roll damage at advantage, 1/2 damage is magic.",
-    "mechanics": "Chunnels metaphysical force through the breath weapon gland. The character rolls breath weapon damage dice with Advantage (take higher results), and 50% of the total damage bypasses conventional physical and energy shields as pure metaphysical/magical force.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Energized Breath\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Meta  \n\n## Description\nFocus energy into breath weapon to roll damage at advantage, 1/2 damage is magic.\n\n## Mechanics & Benefits\nChunnels metaphysical force through the breath weapon gland. The character rolls breath weapon damage dice with Advantage (take higher results), and 50% of the total damage bypasses conventional physical and energy shields as pure metaphysical/magical force."
+    "body": "# Energized Breath\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nFocus energy into breath weapon to roll damage at advantage, 1/2 damage is magic."
   },
   {
-    "id": "trait-species-energy-absorption",
+    "id": "trait-energy-absorption",
     "name": "Energy Absorption",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Elite",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 4,
     "costs": {
       "bp": 4,
@@ -11689,15 +9439,15 @@ export const ALL_CANONICAL_TRAITS = [
       "focus": 0,
       "ap": 0
     },
-    "is_ranked": true,
+    "is_ranked": false,
     "desc": "Heals 20% of damage ignored. Ranked. Req: Energy Immunity.",
     "description": "Heals 20% of damage ignored. Ranked. Req: Energy Immunity.",
-    "mechanics": "Requirements: Energy Immunity trait. Whenever subjected to the designated energy damage type, the character converts 20% of the absorbed damage directly into restored Health and Vitality per rank. Ranked.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Energy Absorption\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Meta (Ranked)  \n\n## Description\nHeals 20% of damage ignored. Ranked. Req: Energy Immunity.\n\n## Mechanics & Benefits\nRequirements: Energy Immunity trait. Whenever subjected to the designated energy damage type, the character converts 20% of the absorbed damage directly into restored Health and Vitality per rank. Ranked."
+    "body": "# Energy Absorption\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nHeals 20% of damage ignored. Ranked. Req: Energy Immunity."
   },
   {
-    "id": "trait-species-energy-immunity",
+    "id": "trait-energy-immunity",
     "name": "Energy Immunity",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -11717,12 +9467,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Completely Immune to specific Energy Damage. Req: Sta 2, DR 20 vs specific Energy.",
     "description": "Completely Immune to specific Energy Damage. Req: Sta 2, DR 20 vs specific Energy.",
-    "mechanics": "Requirements: Stamina 2+, DR 20 vs specific energy type. Complete molecular and harmonic immunity to one designated energy damage type (Thermal/Pyro, Cryo, Voltic, Sonic, or Corrosive). Suffers 0 damage from that energy type under all conditions.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Energy Immunity\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Physical  \n\n## Description\nCompletely Immune to specific Energy Damage. Req: Sta 2, DR 20 vs specific Energy.\n\n## Mechanics & Benefits\nRequirements: Stamina 2+, DR 20 vs specific energy type. Complete molecular and harmonic immunity to one designated energy damage type (Thermal/Pyro, Cryo, Voltic, Sonic, or Corrosive). Suffers 0 damage from that energy type under all conditions."
+    "body": "# Energy Immunity\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nCompletely Immune to specific Energy Damage. Req: Sta 2, DR 20 vs specific Energy."
   },
   {
-    "id": "trait-species-energy-resist",
+    "id": "trait-energy-resist",
     "name": "Energy Resist",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -11739,15 +9489,15 @@ export const ALL_CANONICAL_TRAITS = [
       "focus": 0,
       "ap": 0
     },
-    "is_ranked": true,
+    "is_ranked": false,
     "desc": "DR 10 vs Chosen Type (Pyro, Cryo, Sonic, Voltic, Corrosive). Multiple/Ranked.",
     "description": "DR 10 vs Chosen Type (Pyro, Cryo, Sonic, Voltic, Corrosive). Multiple/Ranked.",
-    "mechanics": "Dense cellular shielding grants DR 10 against one chosen energy damage type (Thermal/Pyro, Cryo, Voltic, Sonic, or Corrosive). May be taken multiple times for different types or ranked to increase DR by +10 per rank.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Energy Resist\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical (Ranked)  \n\n## Description\nDR 10 vs Chosen Type (Pyro, Cryo, Sonic, Voltic, Corrosive). Multiple/Ranked.\n\n## Mechanics & Benefits\nDense cellular shielding grants DR 10 against one chosen energy damage type (Thermal/Pyro, Cryo, Voltic, Sonic, or Corrosive). May be taken multiple times for different types or ranked to increase DR by +10 per rank."
+    "body": "# Energy Resist\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nDR 10 vs Chosen Type (Pyro, Cryo, Sonic, Voltic, Corrosive). Multiple/Ranked."
   },
   {
-    "id": "trait-adept-enhanced-abilities",
+    "id": "trait-enhanced-abilities",
     "name": "Enhanced Abilities",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -11767,9 +9517,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Adepts may be able to temporarily enhance their physical or mental abilities to go beyond what is considered normal for their species or race.",
     "description": "Adepts may be able to temporarily enhance their physical or mental abilities to go beyond what is considered normal for their species or race.",
-    "mechanics": "Able to spend a Karma Point to increase any one Ability Score by 1 point for 1 Minute, multiple points spent will increase a different Ability or the same.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Enhanced Abilities\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Adept  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAdepts may be able to temporarily enhance their physical or mental abilities to go beyond what is considered normal for their species or race.\n\n## Mechanics & Benefits\nAble to spend a Karma Point to increase any one Ability Score by 1 point for 1 Minute, multiple points spent will increase a different Ability or the same."
+    "body": "# Enhanced Abilities\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAdepts may be able to temporarily enhance their physical or mental abilities to go beyond what is considered normal for their species or race."
   },
   {
     "id": "trait-entertainment-skill",
@@ -11792,34 +9542,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Talent in performance arts, music, athletics, gaming, or high-stakes social recreation.",
     "description": "Talent in performance arts, music, athletics, gaming, or high-stakes social recreation.",
-    "mechanics": "+2 to one chosen Non-Combat or Performance skill.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Entertainment Skill\n\n**Category**: Origin Traits  \n**Associated Origin**: Leisure  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nTalent in performance arts, music, athletics, gaming, or high-stakes social recreation.\n\n## Mechanics & Benefits\n+2 to one chosen Non-Combat or Performance skill."
-  },
-  {
-    "id": "trait-builder-environmental-awareness",
-    "name": "Environmental Awareness",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Awareness of environmental factors that could impact construction",
-    "description": "Awareness of environmental factors that could impact construction",
-    "mechanics": "\\+2 Alertness",
-    "modifiers": [],
-    "body": "# Environmental Awareness\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Builder  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAwareness of environmental factors that could impact construction\n\n## Mechanics & Benefits\n\\+2 Alertness"
+    "body": "# Entertainment Skill\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nTalent in performance arts, music, athletics, gaming, or high-stakes social recreation."
   },
   {
     "id": "trait-environmental-awareness",
@@ -11842,18 +9567,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Attuned to ambient shifts in barometric pressure, water currents, temperature, and atmospheric toxicity.",
     "description": "Attuned to ambient shifts in barometric pressure, water currents, temperature, and atmospheric toxicity.",
-    "mechanics": "+2 to Alertness checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Environmental Awareness\n\n**Category**: Origin Traits  \n**Associated Origin**: Aquatic  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAttuned to ambient shifts in barometric pressure, water currents, temperature, and atmospheric toxicity.\n\n## Mechanics & Benefits\n+2 to Alertness checks."
+    "body": "# Environmental Awareness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nAttuned to ambient shifts in barometric pressure, water currents, temperature, and atmospheric toxicity."
   },
   {
-    "id": "trait-species-ether-sight",
+    "id": "trait-ether-sight",
     "name": "Ether Sight",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Elite",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 4,
     "costs": {
       "bp": 4,
@@ -11867,12 +9592,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "See the Invisible, Phased (other-dimensional energies) and Bioluminescence Auras.",
     "description": "See the Invisible, Phased (other-dimensional energies) and Bioluminescence Auras.",
-    "mechanics": "Perceives across metaphysical, astral, and dimensional bandwidths. Clearly sees invisible beings, phased or ethereal entities, dimensional rifts, and ambient metaphysical auras with perfect clarity.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Ether Sight\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Meta  \n\n## Description\nSee the Invisible, Phased (other-dimensional energies) and Bioluminescence Auras.\n\n## Mechanics & Benefits\nPerceives across metaphysical, astral, and dimensional bandwidths. Clearly sees invisible beings, phased or ethereal entities, dimensional rifts, and ambient metaphysical auras with perfect clarity."
+    "body": "# Ether Sight\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nSee the Invisible, Phased (other-dimensional energies) and Bioluminescence Auras."
   },
   {
-    "id": "trait-citizen-ethical-awareness",
+    "id": "trait-ethical-awareness",
     "name": "Ethical awareness",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -11892,12 +9617,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "May have a strong sense of ethics and corporate responsibility.",
     "description": "May have a strong sense of ethics and corporate responsibility.",
-    "mechanics": "\\+2 to any Manipulation checks when taking an Ethical side",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Ethical awareness\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Citizen  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMay have a strong sense of ethics and corporate responsibility.\n\n## Mechanics & Benefits\n\\+2 to any Manipulation checks when taking an Ethical side"
+    "body": "# Ethical awareness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nMay have a strong sense of ethics and corporate responsibility."
   },
   {
-    "id": "trait-scholar-ethical-conduct",
+    "id": "trait-ethical-conduct",
     "name": "Ethical conduct",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -11917,12 +9642,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Adheres to ethical standards in research and work.",
     "description": "Adheres to ethical standards in research and work.",
-    "mechanics": "\\+2 to any Manipulation checks when taking an Ethical side",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Ethical conduct\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scholar  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAdheres to ethical standards in research and work.\n\n## Mechanics & Benefits\n\\+2 to any Manipulation checks when taking an Ethical side"
+    "body": "# Ethical conduct\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAdheres to ethical standards in research and work."
   },
   {
-    "id": "trait-species-exoskeleton-heavy",
+    "id": "trait-exoskeleton-heavy",
     "name": "Exoskeleton (Heavy)",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -11942,12 +9667,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "DR (Strength +2) x4: Str 4, Obvious, Special Clothing - Heavy Plating or Shell.",
     "description": "DR (Strength +2) x4: Str 4, Obvious, Special Clothing - Heavy Plating or Shell.",
-    "mechanics": "Massive hardened carapace, mineralized exoskeleton, or reinforced shell plates grant Damage Resistance formula DR = (Strength + 2) × 4, requiring minimum Strength 4. Highly prominent anatomy requiring specialized industrial-grade clothing and armor accommodation.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Exoskeleton (Heavy)\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Physical  \n\n## Description\nDR (Strength +2) x4: Str 4, Obvious, Special Clothing - Heavy Plating or Shell.\n\n## Mechanics & Benefits\nMassive hardened carapace, mineralized exoskeleton, or reinforced shell plates grant Damage Resistance formula DR = (Strength + 2) × 4, requiring minimum Strength 4. Highly prominent anatomy requiring specialized industrial-grade clothing and armor accommodation."
+    "body": "# Exoskeleton (Heavy)\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nDR (Strength +2) x4: Str 4, Obvious, Special Clothing - Heavy Plating or Shell."
   },
   {
-    "id": "trait-species-exoskeleton-light",
+    "id": "trait-exoskeleton-light",
     "name": "Exoskeleton (Light)",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -11967,12 +9692,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "DR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating.",
     "description": "DR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating.",
-    "mechanics": "Hardened chitinous plates or heavy overlapping scales grant Damage Resistance formula DR = (Strength + 2) × 3, requiring minimum Strength 3. Noticeable anatomy requiring custom-fitted clothing.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Exoskeleton (Light)\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nDR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating.\n\n## Mechanics & Benefits\nHardened chitinous plates or heavy overlapping scales grant Damage Resistance formula DR = (Strength + 2) × 3, requiring minimum Strength 3. Noticeable anatomy requiring custom-fitted clothing."
+    "body": "# Exoskeleton (Light)\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nDR (Strength +2) x3: Str 3, Noticeable, Special Clothing - Heavy Scales or Plating."
   },
   {
-    "id": "trait-species-exoskeleton-partial",
+    "id": "trait-exoskeleton-partial",
     "name": "Exoskeleton (Partial)",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -11992,12 +9717,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "DR (Strength +2) x2: Str 2, Concealable - Leathery or Scaled.",
     "description": "DR (Strength +2) x2: Str 2, Concealable - Leathery or Scaled.",
-    "mechanics": "Provides natural leathery, chitinous, or scaled epidermal plating. Grants Damage Resistance formula DR = (Strength + 2) × 2, requiring minimum Strength 2. The plating is concealable beneath standard clothing and light armor.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Exoskeleton (Partial)\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Physical  \n\n## Description\nDR (Strength +2) x2: Str 2, Concealable - Leathery or Scaled.\n\n## Mechanics & Benefits\nProvides natural leathery, chitinous, or scaled epidermal plating. Grants Damage Resistance formula DR = (Strength + 2) × 2, requiring minimum Strength 2. The plating is concealable beneath standard clothing and light armor."
+    "body": "# Exoskeleton (Partial)\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nDR (Strength +2) x2: Str 2, Concealable - Leathery or Scaled."
   },
   {
-    "id": "trait-specialist-expertise",
+    "id": "trait-expertise",
     "name": "Expertise",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -12017,12 +9742,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "In-depth knowledge and experience in a particular area",
     "description": "In-depth knowledge and experience in a particular area",
-    "mechanics": "\\+2 to a Skill Specialization of choice",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Expertise\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Specialist  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nIn-depth knowledge and experience in a particular area\n\n## Mechanics & Benefits\n\\+2 to a Skill Specialization of choice"
+    "body": "# Expertise\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nIn-depth knowledge and experience in a particular area"
   },
   {
-    "id": "trait-entertainer-fans",
+    "id": "trait-fans",
     "name": "Fans",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -12042,12 +9767,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Has a loyal following of fans",
     "description": "Has a loyal following of fans",
-    "mechanics": "\\+2 Wealth and \\+1 Manipulations with Fans",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Fans\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Entertainer  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nHas a loyal following of fans\n\n## Mechanics & Benefits\n\\+2 Wealth and \\+1 Manipulations with Fans"
+    "body": "# Fans\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nHas a loyal following of fans"
   },
   {
-    "id": "trait-species-fast-heal",
+    "id": "trait-fast-heal",
     "name": "Fast Heal",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -12067,12 +9792,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Daily Recovery of Health and Vitality during a Light Rest (repeatable).",
     "description": "Daily Recovery of Health and Vitality during a Light Rest (repeatable).",
-    "mechanics": "Accelerated cellular mitosis allows recovering 10% maximum Health and Vitality during a short Light Rest (15 minutes) once per day in addition to standard rest benefits.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Fast Heal\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nDaily Recovery of Health and Vitality during a Light Rest (repeatable).\n\n## Mechanics & Benefits\nAccelerated cellular mitosis allows recovering 10% maximum Health and Vitality during a short Light Rest (15 minutes) once per day in addition to standard rest benefits."
+    "body": "# Fast Heal\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nDaily Recovery of Health and Vitality during a Light Rest (repeatable)."
   },
   {
-    "id": "trait-drifter-fearlessness",
+    "id": "trait-fearlessness",
     "name": "Fearlessness",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -12092,12 +9817,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Seem fearless and willing to take risks in order to achieve their goals",
     "description": "Seem fearless and willing to take risks in order to achieve their goals",
-    "mechanics": "\\+1 Karma Point",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Fearlessness\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nSeem fearless and willing to take risks in order to achieve their goals\n\n## Mechanics & Benefits\n\\+1 Karma Point"
+    "body": "# Fearlessness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nSeem fearless and willing to take risks in order to achieve their goals"
   },
   {
-    "id": "trait-entertainer-fellow-artists",
+    "id": "trait-fellow-artists",
     "name": "Fellow Artists",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -12117,18 +9842,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Has close relationships with other performers",
     "description": "Has close relationships with other performers",
-    "mechanics": "Gather Information checks made at Advantage when dealing with the entertainment scene",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Fellow Artists\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Entertainer  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nHas close relationships with other performers\n\n## Mechanics & Benefits\nGather Information checks made at Advantage when dealing with the entertainment scene"
+    "body": "# Fellow Artists\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nHas close relationships with other performers"
   },
   {
-    "id": "trait-species-fey-affinity",
+    "id": "trait-fey-affinity",
     "name": "Fey Affinity",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -12142,18 +9867,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Animals treat character as Trusting & Neutral, Friendly.",
     "description": "Animals treat character as Trusting & Neutral, Friendly.",
-    "mechanics": "An innate harmonic aura causes non-hostile natural beasts and creatures to treat the character as friendly, trusting, and non-threatening by default.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Fey Affinity\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Meta  \n\n## Description\nAnimals treat character as Trusting & Neutral, Friendly.\n\n## Mechanics & Benefits\nAn innate harmonic aura causes non-hostile natural beasts and creatures to treat the character as friendly, trusting, and non-threatening by default."
+    "body": "# Fey Affinity\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nAnimals treat character as Trusting & Neutral, Friendly."
   },
   {
-    "id": "trait-species-fiend-affinity",
+    "id": "trait-fiend-affinity",
     "name": "Fiend Affinity",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -12167,12 +9892,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Animals treat character as a Predator & Dangerous, Wary.",
     "description": "Animals treat character as a Predator & Dangerous, Wary.",
-    "mechanics": "An apex predatory aura causes wild animals and lesser beasts to instinctively recognize the character as a dangerous predator, making them wary and hesitant to initiate attack.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Fiend Affinity\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Meta  \n\n## Description\nAnimals treat character as a Predator & Dangerous, Wary.\n\n## Mechanics & Benefits\nAn apex predatory aura causes wild animals and lesser beasts to instinctively recognize the character as a dangerous predator, making them wary and hesitant to initiate attack."
+    "body": "# Fiend Affinity\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nAnimals treat character as a Predator & Dangerous, Wary."
   },
   {
-    "id": "trait-citizen-financial-expertise",
+    "id": "trait-financial-expertise",
     "name": "Financial expertise",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -12192,12 +9917,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Strong understanding of financial management, budgeting, and investment strategies.",
     "description": "Strong understanding of financial management, budgeting, and investment strategies.",
-    "mechanics": "\\+2 Wealth",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Financial expertise\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Citizen  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nStrong understanding of financial management, budgeting, and investment strategies.\n\n## Mechanics & Benefits\n\\+2 Wealth"
+    "body": "# Financial expertise\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nStrong understanding of financial management, budgeting, and investment strategies."
   },
   {
-    "id": "trait-representative-flexibility",
+    "id": "trait-flexibility",
     "name": "Flexibility",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -12217,18 +9942,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Ability to adapt to changing circumstances and adjust plans and strategies as needed",
     "description": "Ability to adapt to changing circumstances and adjust plans and strategies as needed",
-    "mechanics": "\\+2 to a specific Skill Check, may change assigned Skill daily",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Flexibility\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Representative  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to adapt to changing circumstances and adjust plans and strategies as needed\n\n## Mechanics & Benefits\n\\+2 to a specific Skill Check, may change assigned Skill daily"
+    "body": "# Flexibility\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAbility to adapt to changing circumstances and adjust plans and strategies as needed"
   },
   {
-    "id": "trait-species-flight",
+    "id": "trait-flight",
     "name": "Flight",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Elite",
-    "classification": "Movement",
-    "type": "Movement",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 4,
     "costs": {
       "bp": 4,
@@ -12242,18 +9967,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Flight Speed of 2x Ground Speed and Average Maneuverability, uses Acrobatics skill.",
     "description": "Flight Speed of 2x Ground Speed and Average Maneuverability, uses Acrobatics skill.",
-    "mechanics": "True aerial flight through biological wings, anti-gravitic organelles, or kinetic levitation. Grants a Fly Speed equal to 2× Ground Speed (60 ft/round for Medium) with Average maneuverability, using Acrobatics for aerial checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Flight\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Movement  \n\n## Description\nFlight Speed of 2x Ground Speed and Average Maneuverability, uses Acrobatics skill.\n\n## Mechanics & Benefits\nTrue aerial flight through biological wings, anti-gravitic organelles, or kinetic levitation. Grants a Fly Speed equal to 2× Ground Speed (60 ft/round for Medium) with Average maneuverability, using Acrobatics for aerial checks."
+    "body": "# Flight\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nFlight Speed of 2x Ground Speed and Average Maneuverability, uses Acrobatics skill."
   },
   {
-    "id": "trait-species-focused-study",
+    "id": "trait-focused-study",
     "name": "Focused Study",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Trained",
-    "type": "Trained",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -12267,12 +9992,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Gain Skill Focus in a skill of their choice.",
     "description": "Gain Skill Focus in a skill of their choice.",
-    "mechanics": "Members of this species gain Skill Focus in one chosen Skill (+3 bonus, or +6 at 10 ranks), reflecting cultural discipline or neural specialization.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Focused Study\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Trained  \n\n## Description\nGain Skill Focus in a skill of their choice.\n\n## Mechanics & Benefits\nMembers of this species gain Skill Focus in one chosen Skill (+3 bonus, or +6 at 10 ranks), reflecting cultural discipline or neural specialization."
+    "body": "# Focused Study\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nGain Skill Focus in a skill of their choice."
   },
   {
-    "id": "trait-entertainer-freedom",
+    "id": "trait-freedom",
     "name": "Freedom",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -12292,12 +10017,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Values independence and self-expression",
     "description": "Values independence and self-expression",
-    "mechanics": "Domination and Mind-Control Resistance Checks are made at Advantage",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Freedom\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Entertainer  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nValues independence and self-expression\n\n## Mechanics & Benefits\nDomination and Mind-Control Resistance Checks are made at Advantage"
+    "body": "# Freedom\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nValues independence and self-expression"
   },
   {
-    "id": "trait-species-frenzy",
+    "id": "trait-frenzy",
     "name": "Frenzy",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -12317,12 +10042,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "1/day, whenever taking damage, fly into frenzy for 1 min (+2 Con/Str, –2 AC).",
     "description": "1/day, whenever taking damage, fly into frenzy for 1 min (+2 Con/Str, –2 AC).",
-    "mechanics": "Once per day, upon suffering damage in combat, the character may enter a battle frenzy lasting for 1 minute (10 combat rounds). While frenzied, gain a +2 bonus to Strength and Stamina (Con), but suffer a –2 penalty to Armor Class (AC).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Frenzy\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Physical  \n\n## Description\n1/day, whenever taking damage, fly into frenzy for 1 min (+2 Con/Str, –2 AC).\n\n## Mechanics & Benefits\nOnce per day, upon suffering damage in combat, the character may enter a battle frenzy lasting for 1 minute (10 combat rounds). While frenzied, gain a +2 bonus to Strength and Stamina (Con), but suffer a –2 penalty to Armor Class (AC)."
+    "body": "# Frenzy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n1/day, whenever taking damage, fly into frenzy for 1 min (+2 Con/Str, –2 AC)."
   },
   {
-    "id": "trait-entertainer-fun",
+    "id": "trait-fun",
     "name": "Fun",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -12342,18 +10067,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Values having a good time and making others happy",
     "description": "Values having a good time and making others happy",
-    "mechanics": "Regain a Karma Point when a crowd enjoys your performance",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Fun\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Entertainer  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nValues having a good time and making others happy\n\n## Mechanics & Benefits\nRegain a Karma Point when a crowd enjoys your performance"
+    "body": "# Fun\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nValues having a good time and making others happy"
   },
   {
-    "id": "trait-species-gifted-linguist",
+    "id": "trait-gifted-linguist",
     "name": "Gifted Linguist",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Trained",
-    "type": "Trained",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -12367,18 +10092,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "+4 racial bonus on Linguistics checks.",
     "description": "+4 racial bonus on Linguistics checks.",
-    "mechanics": "Advanced neuro-linguistic processing grants a +4 racial bonus on all Linguistics, Decryption, and Language Translation checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Gifted Linguist\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Trained  \n\n## Description\n+4 racial bonus on Linguistics checks.\n\n## Mechanics & Benefits\nAdvanced neuro-linguistic processing grants a +4 racial bonus on all Linguistics, Decryption, and Language Translation checks."
+    "body": "# Gifted Linguist\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\n+4 racial bonus on Linguistics checks."
   },
   {
-    "id": "trait-species-greedy-eye",
+    "id": "trait-greedy-eye",
     "name": "Greedy Eye",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Trained",
-    "type": "Trained",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -12392,9 +10117,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "+4 bonus on all Appraise checks.",
     "description": "+4 bonus on all Appraise checks.",
-    "mechanics": "An acute instinct for material worth, precious metals, gems, and trade goods grants a permanent +4 racial bonus on all Appraise, Valuation, and Barter assessment checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Greedy Eye\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Trained  \n\n## Description\n+4 bonus on all Appraise checks.\n\n## Mechanics & Benefits\nAn acute instinct for material worth, precious metals, gems, and trade goods grants a permanent +4 racial bonus on all Appraise, Valuation, and Barter assessment checks."
+    "body": "# Greedy Eye\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+4 bonus on all Appraise checks."
   },
   {
     "id": "trait-green-thumb",
@@ -12417,12 +10142,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Natural talent for nurturing plants and making them thrive even in harsh soil.",
     "description": "Natural talent for nurturing plants and making them thrive even in harsh soil.",
-    "mechanics": "Checks involving cultivating, nurturing, and healing plants are made with Advantage.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Green Thumb\n\n**Category**: Origin Traits  \n**Associated Origin**: Agricultural  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nNatural talent for nurturing plants and making them thrive even in harsh soil.\n\n## Mechanics & Benefits\nChecks involving cultivating, nurturing, and healing plants are made with Advantage."
+    "body": "# Green Thumb\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nNatural talent for nurturing plants and making them thrive even in harsh soil."
   },
   {
-    "id": "trait-agent-guile",
+    "id": "trait-guile",
     "name": "Guile",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -12442,12 +10167,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Good at devising clever solutions",
     "description": "Good at devising clever solutions",
-    "mechanics": "\\+1 Karma Point",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Guile\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Agent  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nGood at devising clever solutions\n\n## Mechanics & Benefits\n\\+1 Karma Point"
+    "body": "# Guile\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nGood at devising clever solutions"
   },
   {
-    "id": "trait-criminal-hacking",
+    "id": "trait-hacking",
     "name": "Hacking",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -12467,18 +10192,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Experience with hacking into computer systems and stealing information",
     "description": "Experience with hacking into computer systems and stealing information",
-    "mechanics": "\\+2 all checks to the Infiltration of a digital domain",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Hacking\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Criminal  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nExperience with hacking into computer systems and stealing information\n\n## Mechanics & Benefits\n\\+2 all checks to the Infiltration of a digital domain"
+    "body": "# Hacking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nExperience with hacking into computer systems and stealing information"
   },
   {
-    "id": "trait-species-hardy",
+    "id": "trait-hardy",
     "name": "Hardy",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Defensive",
-    "type": "Defensive",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -12492,18 +10217,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "+2 racial bonus on saving throws against poison, spells, and spell-like abilities.",
     "description": "+2 racial bonus on saving throws against poison, spells, and spell-like abilities.",
-    "mechanics": "Cellular and metaphysical resilience grants a +2 racial bonus on all saving throws against poisons, chemical toxins, spells, and spell-like abilities.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Hardy\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Defensive  \n\n## Description\n+2 racial bonus on saving throws against poison, spells, and spell-like abilities.\n\n## Mechanics & Benefits\nCellular and metaphysical resilience grants a +2 racial bonus on all saving throws against poisons, chemical toxins, spells, and spell-like abilities."
+    "body": "# Hardy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+2 racial bonus on saving throws against poison, spells, and spell-like abilities."
   },
   {
-    "id": "trait-species-healthy",
+    "id": "trait-healthy",
     "name": "Healthy",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Defensive",
-    "type": "Defensive",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -12517,12 +10242,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "+4 bonus on Fortitude saves against disease and poison",
     "description": "+4 bonus on Fortitude saves against disease and poison",
-    "mechanics": "Exceptional biological immune response and liver filtration grant a +4 racial bonus on all Fortitude saving throws against bacterial diseases, viral pathogens, biological infections, and poisons.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Healthy\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Defensive  \n\n## Description\n+4 bonus on Fortitude saves against disease and poison\n\n## Mechanics & Benefits\nExceptional biological immune response and liver filtration grant a +4 racial bonus on all Fortitude saving throws against bacterial diseases, viral pathogens, biological infections, and poisons."
+    "body": "# Healthy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+4 bonus on Fortitude saves against disease and poison"
   },
   {
-    "id": "trait-adept-heightened-senses",
+    "id": "trait-heightened-senses",
     "name": "Heightened Senses",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -12542,18 +10267,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Adepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras.",
     "description": "Adepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras.",
-    "mechanics": "Gains access to purchase Sensory Features \\- Night Vision Line, Scent, Acute Senses and Sense Features (still must be purchased but Considered Recommended)",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Heightened Senses\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Adept  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAdepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras.\n\n## Mechanics & Benefits\nGains access to purchase Sensory Features \\- Night Vision Line, Scent, Acute Senses and Sense Features (still must be purchased but Considered Recommended)"
+    "body": "# Heightened Senses\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAdepts may have enhanced senses, allowing them to perceive the world in ways that others cannot. This could include heightened vision, hearing, smell, or even the ability to sense energy or auras."
   },
   {
-    "id": "trait-species-hexapedal",
+    "id": "trait-hexapedal",
     "name": "Hexapedal",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Elite",
-    "classification": "Movement",
-    "type": "Movement",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 4,
     "costs": {
       "bp": 4,
@@ -12567,9 +10292,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Six legged, +8 Stability, +20 movement speed. Special Accommodations.",
     "description": "Six legged, +8 Stability, +20 movement speed. Special Accommodations.",
-    "mechanics": "Six-legged locomotion provides extraordinary terrestrial power and low-center anchoring. Grants +20 ft base movement speed and a +8 racial Stability bonus against Trip, Bull Rush, and Knockdown attempts. Requires custom vehicular seats and multi-legged armor.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Hexapedal\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Movement  \n\n## Description\nSix legged, +8 Stability, +20 movement speed. Special Accommodations.\n\n## Mechanics & Benefits\nSix-legged locomotion provides extraordinary terrestrial power and low-center anchoring. Grants +20 ft base movement speed and a +8 racial Stability bonus against Trip, Bull Rush, and Knockdown attempts. Requires custom vehicular seats and multi-legged armor."
+    "body": "# Hexapedal\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nSix legged, +8 Stability, +20 movement speed. Special Accommodations."
   },
   {
     "id": "trait-high-pay",
@@ -12592,12 +10317,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Higher compensation and retainer fees for elite vocational service.",
     "description": "Higher compensation and retainer fees for elite vocational service.",
-    "mechanics": "+2 to Wealth Score.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# High Pay\n\n**Category**: Common Occupational Traits  \n**Cost**: 1 CP (or free starting selection)\n\n## Description\nHigher compensation and retainer fees for elite vocational service.\n\n## Mechanics & Benefits\n+2 to Wealth Score."
+    "body": "# High Pay\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Common Occupational Trait\n**BP Cost**: 1\n\n## Description\nHigher compensation and retainer fees for elite vocational service."
   },
   {
-    "id": "trait-citizen-high-social-standing",
+    "id": "trait-high-social-standing",
     "name": "High social standing",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -12617,18 +10342,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Often have a high social standing, which grants them access to better resources, connections, and opportunities.",
     "description": "Often have a high social standing, which grants them access to better resources, connections, and opportunities.",
-    "mechanics": "\\+2 Manipulation Checks when dealing with the Upper Class",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# High social standing\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Citizen  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nOften have a high social standing, which grants them access to better resources, connections, and opportunities.\n\n## Mechanics & Benefits\n\\+2 Manipulation Checks when dealing with the Upper Class"
+    "body": "# High social standing\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nOften have a high social standing, which grants them access to better resources, connections, and opportunities."
   },
   {
-    "id": "trait-species-hive-connection",
+    "id": "trait-hive-connection",
     "name": "Hive Connection",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -12642,9 +10367,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Allows members to mentally share information on different levels (Special).",
     "description": "Allows members to mentally share information on different levels (Special).",
-    "mechanics": "Sub-etheric neural linkage allows sharing sensory observations, tactical telemetry, and emotional states instantaneously with other linked hive or clutch members within 1 mile.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Hive Connection\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Meta  \n\n## Description\nAllows members to mentally share information on different levels (Special).\n\n## Mechanics & Benefits\nSub-etheric neural linkage allows sharing sensory observations, tactical telemetry, and emotional states instantaneously with other linked hive or clutch members within 1 mile."
+    "body": "# Hive Connection\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nAllows members to mentally share information on different levels (Special)."
   },
   {
     "id": "trait-honor-bound",
@@ -12667,18 +10392,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Devotion to comrades and code of duty; willing to endure hardship for the unit.",
     "description": "Devotion to comrades and code of duty; willing to endure hardship for the unit.",
-    "mechanics": "Once per day, make a check with Advantage, provided the action directly protects or aids an ally.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Honor-Bound\n\n**Category**: Origin Traits  \n**Associated Origin**: Militaristic  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nDevotion to comrades and code of duty; willing to endure hardship for the unit.\n\n## Mechanics & Benefits\nOnce per day, make a check with Advantage, provided the action directly protects or aids an ally."
+    "body": "# Honor-Bound\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nDevotion to comrades and code of duty; willing to endure hardship for the unit."
   },
   {
-    "id": "trait-species-immortal",
+    "id": "trait-immortal",
     "name": "Immortal",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Elite",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 4,
     "costs": {
       "bp": 4,
@@ -12692,9 +10417,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Cannot die of Natural Causes, nor suffer damage from Poisons/Diseases. Req: Ageless.",
     "description": "Cannot die of Natural Causes, nor suffer damage from Poisons/Diseases. Req: Ageless.",
-    "mechanics": "Requirements: Ageless trait. Perpetual bio-energetic renewal prevents death from natural causes or old age. The character is completely immune to non-magical and biological diseases, pathogens, venoms, and chemical poisons.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Immortal\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Meta  \n\n## Description\nCannot die of Natural Causes, nor suffer damage from Poisons/Diseases. Req: Ageless.\n\n## Mechanics & Benefits\nRequirements: Ageless trait. Perpetual bio-energetic renewal prevents death from natural causes or old age. The character is completely immune to non-magical and biological diseases, pathogens, venoms, and chemical poisons."
+    "body": "# Immortal\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nCannot die of Natural Causes, nor suffer damage from Poisons/Diseases. Req: Ageless."
   },
   {
     "id": "trait-independence",
@@ -12717,15 +10442,15 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Self-reliant problem solving in the cold vacuum where help is light-years away.",
     "description": "Self-reliant problem solving in the cold vacuum where help is light-years away.",
-    "mechanics": "+1 permanent Karma Point to maximum pool.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Independence\n\n**Category**: Origin Traits  \n**Associated Origin**: Spacer  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nSelf-reliant problem solving in the cold vacuum where help is light-years away.\n\n## Mechanics & Benefits\n+1 permanent Karma Point to maximum pool."
+    "body": "# Independence\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nSelf-reliant problem solving in the cold vacuum where help is light-years away."
   },
   {
-    "id": "trait-scout-independence",
-    "name": "Independence",
+    "id": "trait-integrated",
+    "name": "Integrated",
     "category": "traits",
-    "trait_type": "Occupational Trait",
+    "trait_type": "Species Trait",
     "trait_tier": "Basic",
     "classification": "Physical",
     "type": "Physical",
@@ -12740,39 +10465,14 @@ export const ALL_CANONICAL_TRAITS = [
       "ap": 0
     },
     "is_ranked": false,
-    "desc": "Scouts are self-reliant and comfortable with solitude. They are capable of working alone and making decisions without relying on others.",
-    "description": "Scouts are self-reliant and comfortable with solitude. They are capable of working alone and making decisions without relying on others.",
-    "mechanics": "\\+1 Karma Point",
-    "modifiers": [],
-    "body": "# Independence\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scout  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nScouts are self-reliant and comfortable with solitude. They are capable of working alone and making decisions without relying on others.\n\n## Mechanics & Benefits\n\\+1 Karma Point"
-  },
-  {
-    "id": "trait-species-integrated",
-    "name": "Integrated",
-    "category": "traits",
-    "trait_type": "Species Trait",
-    "trait_tier": "Basic",
-    "classification": "Social",
-    "type": "Social",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
     "desc": "+1 bonus on Bluff, Disguise, and Knowledge (local) checks.",
     "description": "+1 bonus on Bluff, Disguise, and Knowledge (local) checks.",
-    "mechanics": "Easily blends into multi-species settlements, cosmopolitan stations, and alien societies. Grants a permanent +1 racial bonus on Bluff, Disguise, and Knowledge (Local / Streetwise) checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Integrated\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Social  \n\n## Description\n+1 bonus on Bluff, Disguise, and Knowledge (local) checks.\n\n## Mechanics & Benefits\nEasily blends into multi-species settlements, cosmopolitan stations, and alien societies. Grants a permanent +1 racial bonus on Bluff, Disguise, and Knowledge (Local / Streetwise) checks."
+    "body": "# Integrated\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+1 bonus on Bluff, Disguise, and Knowledge (local) checks."
   },
   {
-    "id": "trait-representative-integrity",
+    "id": "trait-integrity",
     "name": "Integrity",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -12792,9 +10492,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Honest and trustworthy, able to maintain a high level of integrity in their work",
     "description": "Honest and trustworthy, able to maintain a high level of integrity in their work",
-    "mechanics": "\\+1 Karma",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Integrity\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Representative  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nHonest and trustworthy, able to maintain a high level of integrity in their work\n\n## Mechanics & Benefits\n\\+1 Karma"
+    "body": "# Integrity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nHonest and trustworthy, able to maintain a high level of integrity in their work"
   },
   {
     "id": "trait-intellectualism",
@@ -12817,9 +10517,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Formal academic pedagogy and comprehensive theoretical mastery in advanced sciences.",
     "description": "Formal academic pedagogy and comprehensive theoretical mastery in advanced sciences.",
-    "mechanics": "+2 to Academics and +2 to one Mental Skill Specialization.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Intellectualism\n\n**Category**: Origin Traits  \n**Associated Origin**: Research  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nFormal academic pedagogy and comprehensive theoretical mastery in advanced sciences.\n\n## Mechanics & Benefits\n+2 to Academics and +2 to one Mental Skill Specialization."
+    "body": "# Intellectualism\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nFormal academic pedagogy and comprehensive theoretical mastery in advanced sciences."
   },
   {
     "id": "trait-intuition",
@@ -12842,12 +10542,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "A preternatural sixth sense for impending ambushes, environmental collapses, and traps.",
     "description": "A preternatural sixth sense for impending ambushes, environmental collapses, and traps.",
-    "mechanics": "Once per day, reroll any one failed Perception or Alertness check.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Intuition\n\n**Category**: Origin Traits  \n**Associated Origin**: Hostile  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nA preternatural sixth sense for impending ambushes, environmental collapses, and traps.\n\n## Mechanics & Benefits\nOnce per day, reroll any one failed Perception or Alertness check."
+    "body": "# Intuition\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nA preternatural sixth sense for impending ambushes, environmental collapses, and traps."
   },
   {
-    "id": "trait-agent-investigation",
+    "id": "trait-investigation",
     "name": "Investigation",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -12867,12 +10567,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Gathering information, analyzing data, and conducting surveillance",
     "description": "Gathering information, analyzing data, and conducting surveillance",
-    "mechanics": "\\+2 Investigation and Gather Information",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Investigation\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Agent  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nGathering information, analyzing data, and conducting surveillance\n\n## Mechanics & Benefits\n\\+2 Investigation and Gather Information"
+    "body": "# Investigation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nGathering information, analyzing data, and conducting surveillance"
   },
   {
-    "id": "trait-drifter-jack-of-all-trades",
+    "id": "trait-jack-of-all-trades",
     "name": "Jack-of-All-Trades",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -12892,12 +10592,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Possess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group",
     "description": "Possess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group",
-    "mechanics": "May use any skill without formal training",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Jack-of-All-Trades\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPossess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group\n\n## Mechanics & Benefits\nMay use any skill without formal training"
+    "body": "# Jack-of-All-Trades\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nPossess a wide range of skills and knowledge, allowing them to adapt to various situations and fill multiple roles within a group"
   },
   {
-    "id": "trait-scout-keen-observation",
+    "id": "trait-keen-observation",
     "name": "Keen Observation",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -12917,12 +10617,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Scouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings.",
     "description": "Scouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings.",
-    "mechanics": "Take 10 on Alertness Checks",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Keen Observation\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scout  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nScouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings.\n\n## Mechanics & Benefits\nTake 10 on Alertness Checks"
+    "body": "# Keen Observation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nScouts have a keen eye and sharp mind, allowing them to solve mysteries, observe new species, and recognize important details in their surroundings."
   },
   {
-    "id": "trait-agent-languages",
+    "id": "trait-languages",
     "name": "Languages",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -12942,34 +10642,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Fluency in multiple languages",
     "description": "Fluency in multiple languages",
-    "mechanics": "\\+2 Linguistic Knowledge",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Languages\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Agent  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nFluency in multiple languages\n\n## Mechanics & Benefits\n\\+2 Linguistic Knowledge"
-  },
-  {
-    "id": "trait-representative-languages",
-    "name": "Languages",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Ability to speak multiple languages and communicate effectively with people from different cultures and backgrounds",
-    "description": "Ability to speak multiple languages and communicate effectively with people from different cultures and backgrounds",
-    "mechanics": "\\+2 Language",
-    "modifiers": [],
-    "body": "# Languages\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Representative  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to speak multiple languages and communicate effectively with people from different cultures and backgrounds\n\n## Mechanics & Benefits\n\\+2 Language"
+    "body": "# Languages\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nFluency in multiple languages"
   },
   {
     "id": "trait-leadership",
@@ -12992,34 +10667,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Inspirational command presence that organizes groups and rallies morale.",
     "description": "Inspirational command presence that organizes groups and rallies morale.",
-    "mechanics": "+2 to Leadership checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Leadership\n\n**Category**: Origin Traits  \n**Associated Origin**: General  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nInspirational command presence that organizes groups and rallies morale.\n\n## Mechanics & Benefits\n+2 to Leadership checks."
-  },
-  {
-    "id": "trait-specialist-leadership",
-    "name": "Leadership",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Ability to lead a team or make critical decisions",
-    "description": "Ability to lead a team or make critical decisions",
-    "mechanics": "\\+2 Leadership",
-    "modifiers": [],
-    "body": "# Leadership\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Specialist  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to lead a team or make critical decisions\n\n## Mechanics & Benefits\n\\+2 Leadership"
+    "body": "# Leadership\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nInspirational command presence that organizes groups and rallies morale."
   },
   {
     "id": "trait-lifestyle-preferences",
@@ -13042,12 +10692,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Refined aesthetic tastes and familiarity with high-society etiquette and luxury commerce.",
     "description": "Refined aesthetic tastes and familiarity with high-society etiquette and luxury commerce.",
-    "mechanics": "+1 to Wealth score and +1 to Diplomacy checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Lifestyle Preferences\n\n**Category**: Origin Traits  \n**Associated Origin**: Leisure  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nRefined aesthetic tastes and familiarity with high-society etiquette and luxury commerce.\n\n## Mechanics & Benefits\n+1 to Wealth score and +1 to Diplomacy checks."
+    "body": "# Lifestyle Preferences\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nRefined aesthetic tastes and familiarity with high-society etiquette and luxury commerce."
   },
   {
-    "id": "trait-merchant-linguistics",
+    "id": "trait-linguistics",
     "name": "Linguistics",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -13067,12 +10717,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Merchants often possess linguistic skills, enabling them to communicate with customers and suppliers who speak different languages. This skill can help them expand their reach and negotiate better deals.",
     "description": "Merchants often possess linguistic skills, enabling them to communicate with customers and suppliers who speak different languages. This skill can help them expand their reach and negotiate better deals.",
-    "mechanics": "\\+2 Linguistic Knowledge",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Linguistics\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Merchant  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMerchants often possess linguistic skills, enabling them to communicate with customers and suppliers who speak different languages. This skill can help them expand their reach and negotiate better deals.\n\n## Mechanics & Benefits\n\\+2 Linguistic Knowledge"
+    "body": "# Linguistics\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nMerchants often possess linguistic skills, enabling them to communicate with customers and suppliers who speak different languages. This skill can help them expand their reach and negotiate better deals."
   },
   {
-    "id": "trait-merchant-logistics",
+    "id": "trait-logistics",
     "name": "Logistics",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -13092,12 +10742,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Merchants have a strong understanding of logistics and supply chain management. They can efficiently transport goods, manage inventory, and optimize distribution to maximize efficiency and minimize costs.",
     "description": "Merchants have a strong understanding of logistics and supply chain management. They can efficiently transport goods, manage inventory, and optimize distribution to maximize efficiency and minimize costs.",
-    "mechanics": "\\+2 Wealth Checks",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Logistics\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Merchant  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMerchants have a strong understanding of logistics and supply chain management. They can efficiently transport goods, manage inventory, and optimize distribution to maximize efficiency and minimize costs.\n\n## Mechanics & Benefits\n\\+2 Wealth Checks"
+    "body": "# Logistics\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nMerchants have a strong understanding of logistics and supply chain management. They can efficiently transport goods, manage inventory, and optimize distribution to maximize efficiency and minimize costs."
   },
   {
-    "id": "trait-species-longevity",
+    "id": "trait-longevity",
     "name": "Longevity",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -13117,18 +10767,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Effectively doubles age categories.",
     "description": "Effectively doubles age categories.",
-    "mechanics": "Robust cellular repair mechanisms double the duration of all chronological life stages and age thresholds (e.g., lifespan extended to 2× standard species baseline).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Longevity\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nEffectively doubles age categories.\n\n## Mechanics & Benefits\nRobust cellular repair mechanisms double the duration of all chronological life stages and age thresholds (e.g., lifespan extended to 2× standard species baseline)."
+    "body": "# Longevity\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nEffectively doubles age categories."
   },
   {
-    "id": "trait-species-low-light-vision",
+    "id": "trait-low-light-vision",
     "name": "Low Light Vision",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Sensory",
-    "type": "Sensory",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -13142,9 +10792,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "See twice as well in low light, Improved Spectrum Vision (lower IR and UV).",
     "description": "See twice as well in low light, Improved Spectrum Vision (lower IR and UV).",
-    "mechanics": "Tapetum lucidum or expanded photoreceptor range allows the creature to see twice as far as a baseline human in starlight, moonlight, torchlight, and dim conditions. Expands optical spectrum into near-IR and near-UV bands, retaining color and detail in dim lighting.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Low Light Vision\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Sensory  \n\n## Description\nSee twice as well in low light, Improved Spectrum Vision (lower IR and UV).\n\n## Mechanics & Benefits\nTapetum lucidum or expanded photoreceptor range allows the creature to see twice as far as a baseline human in starlight, moonlight, torchlight, and dim conditions. Expands optical spectrum into near-IR and near-UV bands, retaining color and detail in dim lighting."
+    "body": "# Low Light Vision\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nSee twice as well in low light, Improved Spectrum Vision (lower IR and UV)."
   },
   {
     "id": "trait-loyal",
@@ -13167,37 +10817,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Unwavering commitment that rejects subversion, psychological coercion, and bribery.",
     "description": "Unwavering commitment that rejects subversion, psychological coercion, and bribery.",
-    "mechanics": "Resistance checks against Domination and Mind-Control effects are made with Advantage.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Loyal\n\n**Category**: Origin Traits  \n**Associated Origin**: Militaristic  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nUnwavering commitment that rejects subversion, psychological coercion, and bribery.\n\n## Mechanics & Benefits\nResistance checks against Domination and Mind-Control effects are made with Advantage."
+    "body": "# Loyal\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nUnwavering commitment that rejects subversion, psychological coercion, and bribery."
   },
   {
-    "id": "trait-soldier-loyal",
-    "name": "Loyal",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Fiercely loyal to their comrades and their mission",
-    "description": "Fiercely loyal to their comrades and their mission",
-    "mechanics": "Domination and Mind-Control Resistance Checks are made at Advantage",
-    "modifiers": [],
-    "body": "# Loyal\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nFiercely loyal to their comrades and their mission\n\n## Mechanics & Benefits\nDomination and Mind-Control Resistance Checks are made at Advantage"
-  },
-  {
-    "id": "trait-drifter-loyalty",
+    "id": "trait-loyalty",
     "name": "Loyalty",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -13217,18 +10842,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "While they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups",
     "description": "While they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups",
-    "mechanics": "Domination and Mind-Control Resistance Checks are made at Advantage",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Loyalty\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nWhile they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups\n\n## Mechanics & Benefits\nDomination and Mind-Control Resistance Checks are made at Advantage"
+    "body": "# Loyalty\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nWhile they may appear to be loners, drifters/vagabonds can develop strong bonds of loyalty with a select few individuals or groups"
   },
   {
-    "id": "trait-species-lucky-greater",
+    "id": "trait-lucky-greater",
     "name": "Lucky, Greater",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -13242,18 +10867,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "+2 racial bonus on all saving throws.",
     "description": "+2 racial bonus on all saving throws.",
-    "mechanics": "Potent metaphysical fortune grants a permanent +2 racial bonus across all saving throws (Fortitude, Reflex, and Willpower).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Lucky, Greater\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Meta  \n\n## Description\n+2 racial bonus on all saving throws.\n\n## Mechanics & Benefits\nPotent metaphysical fortune grants a permanent +2 racial bonus across all saving throws (Fortitude, Reflex, and Willpower)."
+    "body": "# Lucky, Greater\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\n+2 racial bonus on all saving throws."
   },
   {
-    "id": "trait-species-lucky-lesser",
+    "id": "trait-lucky-lesser",
     "name": "Lucky, Lesser",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Defensive",
-    "type": "Defensive",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -13267,12 +10892,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "+1 racial bonus on all saving throws.",
     "description": "+1 racial bonus on all saving throws.",
-    "mechanics": "An innate karmic fortune or subconscious survival reflex grants a permanent +1 racial bonus across all saving throws (Fortitude, Reflex, Willpower).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Lucky, Lesser\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Defensive  \n\n## Description\n+1 racial bonus on all saving throws.\n\n## Mechanics & Benefits\nAn innate karmic fortune or subconscious survival reflex grants a permanent +1 racial bonus across all saving throws (Fortitude, Reflex, Willpower)."
+    "body": "# Lucky, Lesser\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+1 racial bonus on all saving throws."
   },
   {
-    "id": "trait-builder-machine-affinity",
+    "id": "trait-machine-affinity",
     "name": "Machine Affinity",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -13292,34 +10917,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Natural aptitude for working with machinery and tools",
     "description": "Natural aptitude for working with machinery and tools",
-    "mechanics": "Additional \\+1 from Equipment Bonus and \\+2 Technology (Knowledge)",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Machine Affinity\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Builder  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nNatural aptitude for working with machinery and tools\n\n## Mechanics & Benefits\nAdditional \\+1 from Equipment Bonus and \\+2 Technology (Knowledge)"
-  },
-  {
-    "id": "trait-citizen-management",
-    "name": "Management",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Experienced in managing teams, projects, and resources.",
-    "description": "Experienced in managing teams, projects, and resources.",
-    "mechanics": "\\+2 Administration",
-    "modifiers": [],
-    "body": "# Management\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Citizen  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nExperienced in managing teams, projects, and resources.\n\n## Mechanics & Benefits\n\\+2 Administration"
+    "body": "# Machine Affinity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nNatural aptitude for working with machinery and tools"
   },
   {
     "id": "trait-management",
@@ -13342,12 +10942,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Skill in organizing resort logistics, hospitality staff, entertainment venues, and guest services.",
     "description": "Skill in organizing resort logistics, hospitality staff, entertainment venues, and guest services.",
-    "mechanics": "+1 to Wealth score and +1 to Leadership checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Management\n\n**Category**: Origin Traits  \n**Associated Origin**: Leisure  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nSkill in organizing resort logistics, hospitality staff, entertainment venues, and guest services.\n\n## Mechanics & Benefits\n+1 to Wealth score and +1 to Leadership checks."
+    "body": "# Management\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nSkill in organizing resort logistics, hospitality staff, entertainment venues, and guest services."
   },
   {
-    "id": "trait-adept-martial-arts-mastery",
+    "id": "trait-martial-arts-mastery",
     "name": "Martial Arts Mastery",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -13367,18 +10967,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Many adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics.",
     "description": "Many adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics.",
-    "mechanics": "\\+2 Unarmed Combat",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Martial Arts Mastery\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Adept  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMany adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics.\n\n## Mechanics & Benefits\n\\+2 Unarmed Combat"
+    "body": "# Martial Arts Mastery\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nMany adepts are highly skilled in martial arts, using their physical prowess and combat techniques to overcome opponents. They may have trained in various styles and have a deep understanding of the body's mechanics."
   },
   {
-    "id": "trait-species-master-tinker",
+    "id": "trait-master-tinker",
     "name": "Master Tinker",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Trained",
-    "type": "Trained",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -13392,12 +10992,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "+2 bonus on Disable Device and Engineering.",
     "description": "+2 bonus on Disable Device and Engineering.",
-    "mechanics": "Instinctive mechanical aptitude grants a permanent +2 racial bonus on all Engineering, Electronics, and Disable Device skill checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Master Tinker\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Trained  \n\n## Description\n+2 bonus on Disable Device and Engineering.\n\n## Mechanics & Benefits\nInstinctive mechanical aptitude grants a permanent +2 racial bonus on all Engineering, Electronics, and Disable Device skill checks."
+    "body": "# Master Tinker\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\n+2 bonus on Disable Device and Engineering."
   },
   {
-    "id": "trait-adept-mastery-of-a-discipline",
+    "id": "trait-mastery-of-a-discipline",
     "name": "Mastery of a Discipline",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -13417,12 +11017,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Adepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively.",
     "description": "Adepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively.",
-    "mechanics": "\\+2 to a Metafocus Discipline",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Mastery of a Discipline\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Adept  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAdepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively.\n\n## Mechanics & Benefits\n\\+2 to a Metafocus Discipline"
+    "body": "# Mastery of a Discipline\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAdepts may specialize in a specific discipline or school of thought. They have honed their abilities within this discipline and can utilize them more effectively."
   },
   {
-    "id": "trait-builder-mecha-physics",
+    "id": "trait-mecha-physics",
     "name": "Mecha-Physics",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -13442,9 +11042,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Comprehensive understanding of physics",
     "description": "Comprehensive understanding of physics",
-    "mechanics": "\\+2 to Engineering",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Mecha-Physics\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Builder  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nComprehensive understanding of physics\n\n## Mechanics & Benefits\n\\+2 to Engineering"
+    "body": "# Mecha-Physics\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nComprehensive understanding of physics"
   },
   {
     "id": "trait-mechanical-aptitude",
@@ -13467,12 +11067,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Innate comprehension of heavy machinery, hydraulics, conveyor grids, and turbines.",
     "description": "Innate comprehension of heavy machinery, hydraulics, conveyor grids, and turbines.",
-    "mechanics": "+1 to Mechanical, Electrical, and Engineering checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Mechanical Aptitude\n\n**Category**: Origin Traits  \n**Associated Origin**: Industrial  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nInnate comprehension of heavy machinery, hydraulics, conveyor grids, and turbines.\n\n## Mechanics & Benefits\n+1 to Mechanical, Electrical, and Engineering checks."
+    "body": "# Mechanical Aptitude\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nInnate comprehension of heavy machinery, hydraulics, conveyor grids, and turbines."
   },
   {
-    "id": "trait-agent-mental-resilience",
+    "id": "trait-mental-resilience",
     "name": "Mental Resilience",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -13492,9 +11092,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Withstand psychological challenges",
     "description": "Withstand psychological challenges",
-    "mechanics": "\\+2 Willpower Checks",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Mental Resilience\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Agent  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nWithstand psychological challenges\n\n## Mechanics & Benefits\n\\+2 Willpower Checks"
+    "body": "# Mental Resilience\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nWithstand psychological challenges"
   },
   {
     "id": "trait-mental-toughness",
@@ -13517,9 +11117,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Psychological resilience against isolation, sensory deprivation, fear, and pain.",
     "description": "Psychological resilience against isolation, sensory deprivation, fear, and pain.",
-    "mechanics": "+2 to Willpower checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Mental Toughness\n\n**Category**: Origin Traits  \n**Associated Origin**: Hostile  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPsychological resilience against isolation, sensory deprivation, fear, and pain.\n\n## Mechanics & Benefits\n+2 to Willpower checks."
+    "body": "# Mental Toughness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nPsychological resilience against isolation, sensory deprivation, fear, and pain."
   },
   {
     "id": "trait-mentorship",
@@ -13542,12 +11142,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Patient pedagogical wisdom that accelerates the learning and focus of pupils and companions.",
     "description": "Patient pedagogical wisdom that accelerates the learning and focus of pupils and companions.",
-    "mechanics": "Allies studying or training under the character's direct instruction make Study checks with Advantage.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Mentorship\n\n**Category**: Origin Traits  \n**Associated Origin**: Enlightened  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPatient pedagogical wisdom that accelerates the learning and focus of pupils and companions.\n\n## Mechanics & Benefits\nAllies studying or training under the character's direct instruction make Study checks with Advantage."
+    "body": "# Mentorship\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nPatient pedagogical wisdom that accelerates the learning and focus of pupils and companions."
   },
   {
-    "id": "trait-scholar-metacognition",
+    "id": "trait-metacognition",
     "name": "Metacognition",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -13567,9 +11167,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Aware of own cognitive abilities and strategies.",
     "description": "Aware of own cognitive abilities and strategies.",
-    "mechanics": "\\+1 to Logic and Willpower Checks",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Metacognition\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scholar  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAware of own cognitive abilities and strategies.\n\n## Mechanics & Benefits\n\\+1 to Logic and Willpower Checks"
+    "body": "# Metacognition\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAware of own cognitive abilities and strategies."
   },
   {
     "id": "trait-milspec-gear",
@@ -13592,18 +11192,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Issued military-grade armor, sidearms, and tactical field gear.",
     "description": "Issued military-grade armor, sidearms, and tactical field gear.",
-    "mechanics": "+2 Equipment allowance bonus during character creation.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Milspec Gear\n\n**Category**: Origin Traits  \n**Associated Origin**: Militaristic  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nIssued military-grade armor, sidearms, and tactical field gear.\n\n## Mechanics & Benefits\n+2 Equipment allowance bonus during character creation."
+    "body": "# Milspec Gear\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nIssued military-grade armor, sidearms, and tactical field gear."
   },
   {
-    "id": "trait-species-mind-speech",
+    "id": "trait-mind-speech",
     "name": "Mind Speech",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -13614,15 +11214,15 @@ export const ALL_CANONICAL_TRAITS = [
       "focus": 0,
       "ap": 0
     },
-    "is_ranked": true,
+    "is_ranked": false,
     "desc": "Telepathic Communication to one subject within 500 ft. Ranked.",
     "description": "Telepathic Communication to one subject within 500 ft. Ranked.",
-    "mechanics": "Direct psionic communication to any designated sentient subject within 500 feet. Does not require shared spoken language. May be ranked to expand range (+500 ft per rank).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Mind Speech\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Meta (Ranked)  \n\n## Description\nTelepathic Communication to one subject within 500 ft. Ranked.\n\n## Mechanics & Benefits\nDirect psionic communication to any designated sentient subject within 500 feet. Does not require shared spoken language. May be ranked to expand range (+500 ft per rank)."
+    "body": "# Mind Speech\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nTelepathic Communication to one subject within 500 ft. Ranked."
   },
   {
-    "id": "trait-drifter-mobility",
+    "id": "trait-mobility",
     "name": "Mobility",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -13642,12 +11242,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Often on the move, traveling from place to place and exploring new territories",
     "description": "Often on the move, traveling from place to place and exploring new territories",
-    "mechanics": "\\+2 Equipment (Vehicle)",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Mobility\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nOften on the move, traveling from place to place and exploring new territories\n\n## Mechanics & Benefits\n\\+2 Equipment (Vehicle)"
+    "body": "# Mobility\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nOften on the move, traveling from place to place and exploring new territories"
   },
   {
-    "id": "trait-adept-mystical-or-spiritual-connection",
+    "id": "trait-mystical-or-spiritual-connection",
     "name": "Mystical or Spiritual Connection",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -13667,18 +11267,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Adepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world.",
     "description": "Adepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world.",
-    "mechanics": "\\+1 Attune and \\+1 Insight",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Mystical or Spiritual Connection\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Adept  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAdepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world.\n\n## Mechanics & Benefits\n\\+1 Attune and \\+1 Insight"
+    "body": "# Mystical or Spiritual Connection\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAdepts may have a deep connection to mystical or spiritual forces. They may draw power from these sources having a heightened awareness of the unseen world."
   },
   {
-    "id": "trait-species-natural-armor",
+    "id": "trait-natural-armor",
     "name": "Natural Armor",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Defensive",
-    "type": "Defensive",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -13692,18 +11292,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "+2 natural armor bonus.",
     "description": "+2 natural armor bonus.",
-    "mechanics": "Dense dermis, thick hide, or reinforced subdermal fascia grants a permanent +2 Natural Armor bonus to Armor Class (AC), which stacks with manufactured armor plating.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Natural Armor\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Defensive  \n\n## Description\n+2 natural armor bonus.\n\n## Mechanics & Benefits\nDense dermis, thick hide, or reinforced subdermal fascia grants a permanent +2 Natural Armor bonus to Armor Class (AC), which stacks with manufactured armor plating."
+    "body": "# Natural Armor\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+2 natural armor bonus."
   },
   {
-    "id": "trait-species-natural-weapons",
+    "id": "trait-natural-weapons",
     "name": "Natural Weapons",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Combat",
-    "type": "Combat",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -13717,12 +11317,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "A Claw, Fang, Horn or other attack form.",
     "description": "A Claw, Fang, Horn or other attack form.",
-    "mechanics": "Possesses biological claws, fangs, horns, or tail spikes dealing 1d6 + Strength kinetic damage (Lethal) with primary attack readiness.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Natural Weapons\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Combat  \n\n## Description\nA Claw, Fang, Horn or other attack form.\n\n## Mechanics & Benefits\nPossesses biological claws, fangs, horns, or tail spikes dealing 1d6 + Strength kinetic damage (Lethal) with primary attack readiness."
+    "body": "# Natural Weapons\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nA Claw, Fang, Horn or other attack form."
   },
   {
-    "id": "trait-scout-navigation",
+    "id": "trait-navigation",
     "name": "Navigation",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -13742,15 +11342,15 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Scouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively.",
     "description": "Scouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively.",
-    "mechanics": "\\+2 Navigation (Knowledge)",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Navigation\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scout  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nScouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively.\n\n## Mechanics & Benefits\n\\+2 Navigation (Knowledge)"
+    "body": "# Navigation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nScouts have excellent navigational skills, both in space and on planetary surfaces. They can plot courses, read maps, and use navigational tools effectively."
   },
   {
-    "id": "trait-citizen-negotiation",
+    "id": "trait-negotiation",
     "name": "Negotiation",
     "category": "traits",
-    "trait_type": "Occupational Trait",
+    "trait_type": "Social",
     "trait_tier": "Basic",
     "classification": "Physical",
     "type": "Physical",
@@ -13765,73 +11365,23 @@ export const ALL_CANONICAL_TRAITS = [
       "ap": 0
     },
     "is_ranked": false,
-    "desc": "Adept at negotiating deals, contracts, and agreements.",
-    "description": "Adept at negotiating deals, contracts, and agreements.",
-    "mechanics": "\\+1 all Manipulation Skills",
+    "desc": "Adept at bargaining, contract dispute resolution, diplomacy, and finding mutually agreeable compromise.",
+    "description": "Adept at bargaining, contract dispute resolution, diplomacy, and finding mutually agreeable compromise.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Negotiation\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Citizen  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAdept at negotiating deals, contracts, and agreements.\n\n## Mechanics & Benefits\n\\+1 all Manipulation Skills"
+    "body": "# Negotiation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Social\n**BP Cost**: 1\n\n## Description\nAdept at bargaining, contract dispute resolution, diplomacy, and finding mutually agreeable compromise."
   },
   {
-    "id": "trait-merchant-negotiation",
-    "name": "Negotiation",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Merchants excel at bargaining and negotiating deals. They have the ability to persuade others and get the best prices for their goods or services.",
-    "description": "Merchants excel at bargaining and negotiating deals. They have the ability to persuade others and get the best prices for their goods or services.",
-    "mechanics": "\\+1 all Manipulation Skills",
-    "modifiers": [],
-    "body": "# Negotiation\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Merchant  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMerchants excel at bargaining and negotiating deals. They have the ability to persuade others and get the best prices for their goods or services.\n\n## Mechanics & Benefits\n\\+1 all Manipulation Skills"
-  },
-  {
-    "id": "trait-representative-negotiation",
-    "name": "Negotiation",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Skilled negotiator, able to find common ground with others and reach mutually beneficial agreements",
-    "description": "Skilled negotiator, able to find common ground with others and reach mutually beneficial agreements",
-    "mechanics": "\\+1 all Manipulation Skills",
-    "modifiers": [],
-    "body": "# Negotiation\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Representative  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nSkilled negotiator, able to find common ground with others and reach mutually beneficial agreements\n\n## Mechanics & Benefits\n\\+1 all Manipulation Skills"
-  },
-  {
-    "id": "trait-agent-networking",
+    "id": "trait-networking",
     "name": "Networking",
     "category": "traits",
-    "trait_type": "Occupational Trait",
+    "trait_type": "Social",
     "trait_tier": "Basic",
     "classification": "Physical",
     "type": "Physical",
-    "bp": 1,
+    "bp": 2,
     "costs": {
-      "bp": 1,
+      "bp": 2,
       "credits": 0,
       "nodes": 0,
       "sockets": 0,
@@ -13840,114 +11390,14 @@ export const ALL_CANONICAL_TRAITS = [
       "ap": 0
     },
     "is_ranked": false,
-    "desc": "Gathering information, acquiring resources, and gaining assistance",
-    "description": "Gathering information, acquiring resources, and gaining assistance",
-    "mechanics": "Gather Information checks at Advantage",
+    "desc": "A wide network of professional and informal contacts across industries, syndicates, and governments for information and resource gathering.",
+    "description": "A wide network of professional and informal contacts across industries, syndicates, and governments for information and resource gathering.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Networking\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Agent  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nGathering information, acquiring resources, and gaining assistance\n\n## Mechanics & Benefits\nGather Information checks at Advantage"
+    "body": "# Networking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Social\n**BP Cost**: 2\n\n## Description\nA wide network of professional and informal contacts across industries, syndicates, and governments for information and resource gathering."
   },
   {
-    "id": "trait-citizen-networking",
-    "name": "Networking",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Wide network of contacts and connections within their industry and beyond.",
-    "description": "Wide network of contacts and connections within their industry and beyond.",
-    "mechanics": "Gather Information checks at Advantage",
-    "modifiers": [],
-    "body": "# Networking\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Citizen  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nWide network of contacts and connections within their industry and beyond.\n\n## Mechanics & Benefits\nGather Information checks at Advantage"
-  },
-  {
-    "id": "trait-criminal-networking",
-    "name": "Networking",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Criminals may have a network of contacts and associates that they can call upon for assistance",
-    "description": "Criminals may have a network of contacts and associates that they can call upon for assistance",
-    "mechanics": "Gather Information checks at Advantage",
-    "modifiers": [],
-    "body": "# Networking\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Criminal  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nCriminals may have a network of contacts and associates that they can call upon for assistance\n\n## Mechanics & Benefits\nGather Information checks at Advantage"
-  },
-  {
-    "id": "trait-merchant-networking",
-    "name": "Networking",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Merchants have a wide network of contacts and connections. They know the right people to get information, find buyers or sellers, and establish lucrative partnerships.",
-    "description": "Merchants have a wide network of contacts and connections. They know the right people to get information, find buyers or sellers, and establish lucrative partnerships.",
-    "mechanics": "Gather Information checks at Advantage",
-    "modifiers": [],
-    "body": "# Networking\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Merchant  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMerchants have a wide network of contacts and connections. They know the right people to get information, find buyers or sellers, and establish lucrative partnerships.\n\n## Mechanics & Benefits\nGather Information checks at Advantage"
-  },
-  {
-    "id": "trait-representative-networking",
-    "name": "Networking",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Ability to build strong relationships with others, including politicians, businesspeople, and other diplomats",
-    "description": "Ability to build strong relationships with others, including politicians, businesspeople, and other diplomats",
-    "mechanics": "Gather Information checks at Advantage",
-    "modifiers": [],
-    "body": "# Networking\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Representative  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to build strong relationships with others, including politicians, businesspeople, and other diplomats\n\n## Mechanics & Benefits\nGather Information checks at Advantage"
-  },
-  {
-    "id": "trait-species-nimble-appendages",
+    "id": "trait-nimble-appendages",
     "name": "Nimble Appendages",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -13967,9 +11417,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Usable as ‘main-hand’ with no penalties. Req: Additional Limbs/Tail.",
     "description": "Usable as ‘main-hand’ with no penalties. Req: Additional Limbs/Tail.",
-    "mechanics": "Requirements: Additional Limbs or Prehensile Tail trait. Complete neuro-muscular bilateral ambidexterity allows secondary limbs and prehensile tails to operate with full main-hand precision, suffering zero off-hand penalties on attack rolls, weapon handling, or complex technological operations.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Nimble Appendages\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Physical  \n\n## Description\nUsable as ‘main-hand’ with no penalties. Req: Additional Limbs/Tail.\n\n## Mechanics & Benefits\nRequirements: Additional Limbs or Prehensile Tail trait. Complete neuro-muscular bilateral ambidexterity allows secondary limbs and prehensile tails to operate with full main-hand precision, suffering zero off-hand penalties on attack rolls, weapon handling, or complex technological operations."
+    "body": "# Nimble Appendages\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nUsable as ‘main-hand’ with no penalties. Req: Additional Limbs/Tail."
   },
   {
     "id": "trait-non-combat-focus",
@@ -13992,18 +11442,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Concentrated mastery in civic vocations, gourmet culinary arts, or fine craftsmanship.",
     "description": "Concentrated mastery in civic vocations, gourmet culinary arts, or fine craftsmanship.",
-    "mechanics": "+2 to one chosen Vocation skill.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Non-Combat Focus\n\n**Category**: Origin Traits  \n**Associated Origin**: Leisure  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nConcentrated mastery in civic vocations, gourmet culinary arts, or fine craftsmanship.\n\n## Mechanics & Benefits\n+2 to one chosen Vocation skill."
+    "body": "# Non-Combat Focus\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nConcentrated mastery in civic vocations, gourmet culinary arts, or fine craftsmanship."
   },
   {
-    "id": "trait-species-non-living",
+    "id": "trait-non-living",
     "name": "Non-Living",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Elite",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 4,
     "costs": {
       "bp": 4,
@@ -14017,12 +11467,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Undead, Elementals and others not classified as Living by normal standards.",
     "description": "Undead, Elementals and others not classified as Living by normal standards.",
-    "mechanics": "The entity does not possess a biological metabolism (Undead, Pure Energy Elemental, or Metaphysical Construct). Immune to suffocation, starvation, thirst, exhaustion, bleed effects, biological disease, and non-magical poison. Does not possess a biological pulse or nervous system.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Non-Living\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Meta  \n\n## Description\nUndead, Elementals and others not classified as Living by normal standards.\n\n## Mechanics & Benefits\nThe entity does not possess a biological metabolism (Undead, Pure Energy Elemental, or Metaphysical Construct). Immune to suffocation, starvation, thirst, exhaustion, bleed effects, biological disease, and non-magical poison. Does not possess a biological pulse or nervous system."
+    "body": "# Non-Living\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nUndead, Elementals and others not classified as Living by normal standards."
   },
   {
-    "id": "trait-soldier-observant",
+    "id": "trait-observant",
     "name": "Observant",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -14042,9 +11492,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Alert and observant, constantly scanning the area for potential threats",
     "description": "Alert and observant, constantly scanning the area for potential threats",
-    "mechanics": "May take 10 on Alertness Checks",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Observant\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAlert and observant, constantly scanning the area for potential threats\n\n## Mechanics & Benefits\nMay take 10 on Alertness Checks"
+    "body": "# Observant\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAlert and observant, constantly scanning the area for potential threats"
   },
   {
     "id": "trait-open-mindedness",
@@ -14067,9 +11517,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Philosophical tolerance that bridges deep cultural, religious, and alien divides.",
     "description": "Philosophical tolerance that bridges deep cultural, religious, and alien divides.",
-    "mechanics": "Reduce all social Stigma penalties between the character and others by the character's Wisdom score.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Open-Mindedness\n\n**Category**: Origin Traits  \n**Associated Origin**: Enlightened  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPhilosophical tolerance that bridges deep cultural, religious, and alien divides.\n\n## Mechanics & Benefits\nReduce all social Stigma penalties between the character and others by the character's Wisdom score."
+    "body": "# Open-Mindedness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nPhilosophical tolerance that bridges deep cultural, religious, and alien divides."
   },
   {
     "id": "trait-optimistic",
@@ -14092,12 +11542,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "An unshakeable positive demeanor that inspires resilience in bleak moments.",
     "description": "An unshakeable positive demeanor that inspires resilience in bleak moments.",
-    "mechanics": "+1 permanent Karma Point to maximum pool.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Optimistic\n\n**Category**: Origin Traits  \n**Associated Origin**: Leisure  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAn unshakeable positive demeanor that inspires resilience in bleak moments.\n\n## Mechanics & Benefits\n+1 permanent Karma Point to maximum pool."
+    "body": "# Optimistic\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nAn unshakeable positive demeanor that inspires resilience in bleak moments."
   },
   {
-    "id": "trait-species-patagia",
+    "id": "trait-patagia",
     "name": "Patagia",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -14117,15 +11567,15 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Gliding speed of 2x Ground speed, uses Acrobatics skill. Special Top Clothing.",
     "description": "Gliding speed of 2x Ground speed, uses Acrobatics skill. Special Top Clothing.",
-    "mechanics": "Membranous flaps of skin between wrists and ankles allow the character to glide through the air at a speed equal to 2× base Ground speed (60 ft/round for Medium creatures). For every 5 ft moved horizontally, descent is 1 ft. Uses the Acrobatics skill for aerial maneuvers. Requires modified shirts, jackets, and top garments.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Patagia\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Physical  \n\n## Description\nGliding speed of 2x Ground speed, uses Acrobatics skill. Special Top Clothing.\n\n## Mechanics & Benefits\nMembranous flaps of skin between wrists and ankles allow the character to glide through the air at a speed equal to 2× base Ground speed (60 ft/round for Medium creatures). For every 5 ft moved horizontally, descent is 1 ft. Uses the Acrobatics skill for aerial maneuvers. Requires modified shirts, jackets, and top garments."
+    "body": "# Patagia\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nGliding speed of 2x Ground speed, uses Acrobatics skill. Special Top Clothing."
   },
   {
-    "id": "trait-builder-patience",
+    "id": "trait-patience",
     "name": "Patience",
     "category": "traits",
-    "trait_type": "Occupational Trait",
+    "trait_type": "Mental",
     "trait_tier": "Basic",
     "classification": "Physical",
     "type": "Physical",
@@ -14140,36 +11590,11 @@ export const ALL_CANONICAL_TRAITS = [
       "ap": 0
     },
     "is_ranked": false,
-    "desc": "Patience and willingness to put in the necessary time and effort",
-    "description": "Patience and willingness to put in the necessary time and effort",
-    "mechanics": "Meticulous skill check bonus is increased by 1 per stage",
+    "desc": "Methodical and disciplined mental focus that excels during extended research, stakeouts, and precision crafting.",
+    "description": "Methodical and disciplined mental focus that excels during extended research, stakeouts, and precision crafting.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Patience\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Builder  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPatience and willingness to put in the necessary time and effort\n\n## Mechanics & Benefits\nMeticulous skill check bonus is increased by 1 per stage"
-  },
-  {
-    "id": "trait-scholar-patience",
-    "name": "Patience",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Understands that scientific research and discovery often require patience.",
-    "description": "Understands that scientific research and discovery often require patience.",
-    "mechanics": "Additional \\+1 bonus per stage of time for Meticulous Skill Checks",
-    "modifiers": [],
-    "body": "# Patience\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scholar  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nUnderstands that scientific research and discovery often require patience.\n\n## Mechanics & Benefits\nAdditional \\+1 bonus per stage of time for Meticulous Skill Checks"
+    "body": "# Patience\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Mental\n**BP Cost**: 1\n\n## Description\nMethodical and disciplined mental focus that excels during extended research, stakeouts, and precision crafting."
   },
   {
     "id": "trait-peaceful-nature",
@@ -14192,34 +11617,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Radiates serene composure that disarms hostility and calms tense standoffs.",
     "description": "Radiates serene composure that disarms hostility and calms tense standoffs.",
-    "mechanics": "+2 to Diplomacy checks during peaceful mediation and truce negotiations.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Peaceful Nature\n\n**Category**: Origin Traits  \n**Associated Origin**: Enlightened  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nRadiates serene composure that disarms hostility and calms tense standoffs.\n\n## Mechanics & Benefits\n+2 to Diplomacy checks during peaceful mediation and truce negotiations."
-  },
-  {
-    "id": "trait-builder-persistence",
-    "name": "Persistence",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Ability to persevere through challenges",
-    "description": "Ability to persevere through challenges",
-    "mechanics": "\\+1 Willpower Checks",
-    "modifiers": [],
-    "body": "# Persistence\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Builder  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to persevere through challenges\n\n## Mechanics & Benefits\n\\+1 Willpower Checks"
+    "body": "# Peaceful Nature\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nRadiates serene composure that disarms hostility and calms tense standoffs."
   },
   {
     "id": "trait-persistence",
@@ -14242,12 +11642,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Tireless determination that runs countless trials until a breakthrough is achieved.",
     "description": "Tireless determination that runs countless trials until a breakthrough is achieved.",
-    "mechanics": "+1 permanent Karma Point to maximum pool.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Persistence\n\n**Category**: Origin Traits  \n**Associated Origin**: Research  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nTireless determination that runs countless trials until a breakthrough is achieved.\n\n## Mechanics & Benefits\n+1 permanent Karma Point to maximum pool."
+    "body": "# Persistence\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nTireless determination that runs countless trials until a breakthrough is achieved."
   },
   {
-    "id": "trait-agent-persuasion",
+    "id": "trait-persuasion",
     "name": "Persuasion",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -14267,12 +11667,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Convincing others to cooperate, negotiation, deception, and diplomacy",
     "description": "Convincing others to cooperate, negotiation, deception, and diplomacy",
-    "mechanics": "\\+1 Manipulation Skills and Etiquette Checks",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Persuasion\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Agent  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nConvincing others to cooperate, negotiation, deception, and diplomacy\n\n## Mechanics & Benefits\n\\+1 Manipulation Skills and Etiquette Checks"
+    "body": "# Persuasion\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nConvincing others to cooperate, negotiation, deception, and diplomacy"
   },
   {
-    "id": "trait-specialist-physical-and-mental-resilience",
+    "id": "trait-physical-and-mental-resilience",
     "name": "Physical and mental resilience",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -14292,9 +11692,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Ability to endure harsh conditions or high-stress situations",
     "description": "Ability to endure harsh conditions or high-stress situations",
-    "mechanics": "\\+1 Willpower and Fortitude",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Physical and mental resilience\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Specialist  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to endure harsh conditions or high-stress situations\n\n## Mechanics & Benefits\n\\+1 Willpower and Fortitude"
+    "body": "# Physical and mental resilience\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAbility to endure harsh conditions or high-stress situations"
   },
   {
     "id": "trait-physical-endurance",
@@ -14317,15 +11717,15 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "High tolerance for atmospheric toxins, extreme temperatures, and caloric deprivation.",
     "description": "High tolerance for atmospheric toxins, extreme temperatures, and caloric deprivation.",
-    "mechanics": "+2 to Fortitude checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Physical Endurance\n\n**Category**: Origin Traits  \n**Associated Origin**: Hostile  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nHigh tolerance for atmospheric toxins, extreme temperatures, and caloric deprivation.\n\n## Mechanics & Benefits\n+2 to Fortitude checks."
+    "body": "# Physical Endurance\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nHigh tolerance for atmospheric toxins, extreme temperatures, and caloric deprivation."
   },
   {
-    "id": "trait-agent-physical-fitness",
+    "id": "trait-physical-fitness",
     "name": "Physical Fitness",
     "category": "traits",
-    "trait_type": "Occupational Trait",
+    "trait_type": "Physical",
     "trait_tier": "Basic",
     "classification": "Physical",
     "type": "Physical",
@@ -14340,39 +11740,14 @@ export const ALL_CANONICAL_TRAITS = [
       "ap": 0
     },
     "is_ranked": false,
-    "desc": "Endurance and strength",
-    "description": "Endurance and strength",
-    "mechanics": "\\+1 Might and Fortitude Checks",
+    "desc": "Superior cardiovascular endurance, stamina, and physical conditioning, granting bonuses on long-distance athletics checks.",
+    "description": "Superior cardiovascular endurance, stamina, and physical conditioning, granting bonuses on long-distance athletics checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Physical Fitness\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Agent  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nEndurance and strength\n\n## Mechanics & Benefits\n\\+1 Might and Fortitude Checks"
+    "body": "# Physical Fitness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Physical\n**BP Cost**: 1\n\n## Description\nSuperior cardiovascular endurance, stamina, and physical conditioning, granting bonuses on long-distance athletics checks."
   },
   {
-    "id": "trait-scout-physical-fitness",
-    "name": "Physical Fitness",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Scouts possess a high level of physical fitness to endure the demands of exploration and survive in challenging environments.",
-    "description": "Scouts possess a high level of physical fitness to endure the demands of exploration and survive in challenging environments.",
-    "mechanics": "\\+1 Might and Reflex Checks",
-    "modifiers": [],
-    "body": "# Physical Fitness\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scout  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nScouts possess a high level of physical fitness to endure the demands of exploration and survive in challenging environments.\n\n## Mechanics & Benefits\n\\+1 Might and Reflex Checks"
-  },
-  {
-    "id": "trait-soldier-physical-prowess",
+    "id": "trait-physical-prowess",
     "name": "Physical Prowess",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -14392,9 +11767,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Physically fit and strong, can endure long periods of physical activity and combat",
     "description": "Physically fit and strong, can endure long periods of physical activity and combat",
-    "mechanics": "\\+1 Might and Fortitude Checks",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Physical Prowess\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPhysically fit and strong, can endure long periods of physical activity and combat\n\n## Mechanics & Benefits\n\\+1 Might and Fortitude Checks"
+    "body": "# Physical Prowess\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nPhysically fit and strong, can endure long periods of physical activity and combat"
   },
   {
     "id": "trait-physical-strength",
@@ -14417,12 +11792,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Musculoskeletal conditioning built through rigorous manual labor and heavy lifting.",
     "description": "Musculoskeletal conditioning built through rigorous manual labor and heavy lifting.",
-    "mechanics": "+2 to Might checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Physical Strength\n\n**Category**: Origin Traits  \n**Associated Origin**: Industrial  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMusculoskeletal conditioning built through rigorous manual labor and heavy lifting.\n\n## Mechanics & Benefits\n+2 to Might checks."
+    "body": "# Physical Strength\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nMusculoskeletal conditioning built through rigorous manual labor and heavy lifting."
   },
   {
-    "id": "trait-scout-pilot",
+    "id": "trait-pilot",
     "name": "Pilot",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -14442,9 +11817,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Most field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations.",
     "description": "Most field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations.",
-    "mechanics": "\\+2 Pilot and Navigation",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Pilot\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scout  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMost field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations.\n\n## Mechanics & Benefits\n\\+2 Pilot and Navigation"
+    "body": "# Pilot\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nMost field scouts are pilots, as they need to navigate and operate spacecraft or other vehicles during their explorations."
   },
   {
     "id": "trait-pilot-skills",
@@ -14467,18 +11842,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Practiced control of specialized terrain, atmospheric, or orbital transport craft.",
     "description": "Practiced control of specialized terrain, atmospheric, or orbital transport craft.",
-    "mechanics": "+2 to Piloting checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Pilot Skills\n\n**Category**: Origin Traits  \n**Associated Origin**: General  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPracticed control of specialized terrain, atmospheric, or orbital transport craft.\n\n## Mechanics & Benefits\n+2 to Piloting checks."
+    "body": "# Pilot Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nPracticed control of specialized terrain, atmospheric, or orbital transport craft."
   },
   {
-    "id": "trait-species-powerful-charge",
+    "id": "trait-powerful-charge",
     "name": "Powerful Charge",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Combat",
-    "type": "Combat",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -14492,9 +11867,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Charge deals twice the number of damage dice plus 1-1/2 times Str bonus.",
     "description": "Charge deals twice the number of damage dice plus 1-1/2 times Str bonus.",
-    "mechanics": "When executing a Charge action, the character deals double weapon damage dice plus 1.5× Strength modifier upon a successful hit.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Powerful Charge\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Combat  \n\n## Description\nCharge deals twice the number of damage dice plus 1-1/2 times Str bonus.\n\n## Mechanics & Benefits\nWhen executing a Charge action, the character deals double weapon damage dice plus 1.5× Strength modifier upon a successful hit."
+    "body": "# Powerful Charge\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nCharge deals twice the number of damage dice plus 1-1/2 times Str bonus."
   },
   {
     "id": "trait-practicality",
@@ -14517,12 +11892,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Focuses on utilitarian efficiency, cutting through abstract theories to deliver results.",
     "description": "Focuses on utilitarian efficiency, cutting through abstract theories to deliver results.",
-    "mechanics": "+2 to Logic checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Practicality\n\n**Category**: Origin Traits  \n**Associated Origin**: Industrial  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nFocuses on utilitarian efficiency, cutting through abstract theories to deliver results.\n\n## Mechanics & Benefits\n+2 to Logic checks."
+    "body": "# Practicality\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nFocuses on utilitarian efficiency, cutting through abstract theories to deliver results."
   },
   {
-    "id": "trait-species-prehensile-limbs",
+    "id": "trait-prehensile-limbs",
     "name": "Prehensile Limbs",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -14542,12 +11917,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Fully Prehensile tentacles/off-hands/limbs, make certain checks with Advantage.",
     "description": "Fully Prehensile tentacles/off-hands/limbs, make certain checks with Advantage.",
-    "mechanics": "Fully prehensile tentacles or versatile extra limbs grant Advantage on Grapple maintenance, manual manipulation under zero gravity, and complex device rigging.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Prehensile Limbs\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nFully Prehensile tentacles/off-hands/limbs, make certain checks with Advantage.\n\n## Mechanics & Benefits\nFully prehensile tentacles or versatile extra limbs grant Advantage on Grapple maintenance, manual manipulation under zero gravity, and complex device rigging."
+    "body": "# Prehensile Limbs\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nFully Prehensile tentacles/off-hands/limbs, make certain checks with Advantage."
   },
   {
-    "id": "trait-species-prehensile-tail",
+    "id": "trait-prehensile-tail",
     "name": "Prehensile Tail",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -14567,9 +11942,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "+2 to Climbing and Balance checks and usable as an off-hand. Special Pants.",
     "description": "+2 to Climbing and Balance checks and usable as an off-hand. Special Pants.",
-    "mechanics": "A fully articulated, muscular tail grants a +2 bonus on Climbing and Balance checks and can grasp objects, retrieve items, or wield light tools as an off-hand limb. Requires tailored pants.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Prehensile Tail\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\n+2 to Climbing and Balance checks and usable as an off-hand. Special Pants.\n\n## Mechanics & Benefits\nA fully articulated, muscular tail grants a +2 bonus on Climbing and Balance checks and can grasp objects, retrieve items, or wield light tools as an off-hand limb. Requires tailored pants."
+    "body": "# Prehensile Tail\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\n+2 to Climbing and Balance checks and usable as an off-hand. Special Pants."
   },
   {
     "id": "trait-problem-solving",
@@ -14592,87 +11967,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Exceptional critical thinking and analytical troubleshooting under duress.",
     "description": "Exceptional critical thinking and analytical troubleshooting under duress.",
-    "mechanics": "Once per day, may reroll a failed Mental Skill check.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Problem Solving\n\n**Category**: Origin Traits  \n**Associated Origin**: General  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nExceptional critical thinking and analytical troubleshooting under duress.\n\n## Mechanics & Benefits\nOnce per day, may reroll a failed Mental Skill check."
+    "body": "# Problem Solving\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nExceptional critical thinking and analytical troubleshooting under duress."
   },
   {
-    "id": "trait-citizen-problem-solving",
-    "name": "Problem-solving",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Skilled at identifying problems, analyzing their root causes, and developing creative solutions.",
-    "description": "Skilled at identifying problems, analyzing their root causes, and developing creative solutions.",
-    "mechanics": "Once per Day may reroll a Mental Skill Check",
-    "modifiers": [],
-    "body": "# Problem-solving\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Citizen  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nSkilled at identifying problems, analyzing their root causes, and developing creative solutions.\n\n## Mechanics & Benefits\nOnce per Day may reroll a Mental Skill Check"
-  },
-  {
-    "id": "trait-scholar-problem-solving",
-    "name": "Problem-solving",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Adept at identifying and solving problems.",
-    "description": "Adept at identifying and solving problems.",
-    "mechanics": "Once per Day may reroll a Mental Skill Check",
-    "modifiers": [],
-    "body": "# Problem-solving\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scholar  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAdept at identifying and solving problems.\n\n## Mechanics & Benefits\nOnce per Day may reroll a Mental Skill Check"
-  },
-  {
-    "id": "trait-specialist-problem-solving",
-    "name": "Problem-Solving",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Ability to solve complex problems and overcome obstacles",
-    "description": "Ability to solve complex problems and overcome obstacles",
-    "mechanics": "Once per Day may reroll a Mental Skill Check",
-    "modifiers": [],
-    "body": "# Problem-Solving\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Specialist  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to solve complex problems and overcome obstacles\n\n## Mechanics & Benefits\nOnce per Day may reroll a Mental Skill Check"
-  },
-  {
-    "id": "trait-builder-problem-solving-skills",
+    "id": "trait-problem-solving-skills",
     "name": "Problem-Solving Skills",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -14692,12 +11992,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Strong analytical and problem-solving skills",
     "description": "Strong analytical and problem-solving skills",
-    "mechanics": "\\+2 Logic Checks",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Problem-Solving Skills\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Builder  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nStrong analytical and problem-solving skills\n\n## Mechanics & Benefits\n\\+2 Logic Checks"
+    "body": "# Problem-Solving Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nStrong analytical and problem-solving skills"
   },
   {
-    "id": "trait-merchant-product-knowledge",
+    "id": "trait-product-knowledge",
     "name": "Product Knowledge",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -14717,9 +12017,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Merchants have in-depth knowledge about the products they sell. They understand their features, benefits, and potential uses, allowing them to effectively market and sell their goods.",
     "description": "Merchants have in-depth knowledge about the products they sell. They understand their features, benefits, and potential uses, allowing them to effectively market and sell their goods.",
-    "mechanics": "\\+2 to a Knowledge or Vocation Skill",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Product Knowledge\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Merchant  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMerchants have in-depth knowledge about the products they sell. They understand their features, benefits, and potential uses, allowing them to effectively market and sell their goods.\n\n## Mechanics & Benefits\n\\+2 to a Knowledge or Vocation Skill"
+    "body": "# Product Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nMerchants have in-depth knowledge about the products they sell. They understand their features, benefits, and potential uses, allowing them to effectively market and sell their goods."
   },
   {
     "id": "trait-professionalism",
@@ -14742,18 +12042,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Recognized industry standing and professional reliability.",
     "description": "Recognized industry standing and professional reliability.",
-    "mechanics": "+2 to Reputation Score.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Professionalism\n\n**Category**: Common Occupational Traits  \n**Cost**: 1 CP (or free starting selection)\n\n## Description\nRecognized industry standing and professional reliability.\n\n## Mechanics & Benefits\n+2 to Reputation Score."
+    "body": "# Professionalism\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Common Occupational Trait\n**BP Cost**: 1\n\n## Description\nRecognized industry standing and professional reliability."
   },
   {
-    "id": "trait-species-quadruped",
+    "id": "trait-quadruped",
     "name": "Quadruped",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Movement",
-    "type": "Movement",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -14767,12 +12067,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Four legged, +4 Stability, +10 movement speed. Special Accommodations.",
     "description": "Four legged, +4 Stability, +10 movement speed. Special Accommodations.",
-    "mechanics": "Four-legged locomotion grants +10 ft base movement speed and a +4 racial Stability bonus against Trip and Bull Rush attempts. Requires customized armor and vehicle mount accommodations.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Quadruped\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Movement  \n\n## Description\nFour legged, +4 Stability, +10 movement speed. Special Accommodations.\n\n## Mechanics & Benefits\nFour-legged locomotion grants +10 ft base movement speed and a +4 racial Stability bonus against Trip and Bull Rush attempts. Requires customized armor and vehicle mount accommodations."
+    "body": "# Quadruped\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nFour legged, +4 Stability, +10 movement speed. Special Accommodations."
   },
   {
-    "id": "trait-species-quick-reactions",
+    "id": "trait-quick-reactions",
     "name": "Quick Reactions",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -14792,12 +12092,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Use double Agility score to calculate base Initiative. Req: Racial Agility +1.",
     "description": "Use double Agility score to calculate base Initiative. Req: Racial Agility +1.",
-    "mechanics": "Requirements: Racial Agility +1. High-speed neural synaptic firing allows using 2× Agility score when determining base Initiative in combat.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Quick Reactions\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nUse double Agility score to calculate base Initiative. Req: Racial Agility +1.\n\n## Mechanics & Benefits\nRequirements: Racial Agility +1. High-speed neural synaptic firing allows using 2× Agility score when determining base Initiative in combat."
+    "body": "# Quick Reactions\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nUse double Agility score to calculate base Initiative. Req: Racial Agility +1."
   },
   {
-    "id": "trait-agent-quick-thinking",
+    "id": "trait-quick-thinking",
     "name": "Quick Thinking",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -14817,12 +12117,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Think on their feet, make split-second decisions, and adapt to rapidly changing situations",
     "description": "Think on their feet, make split-second decisions, and adapt to rapidly changing situations",
-    "mechanics": "\\+2 Initiative",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Quick Thinking\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Agent  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nThink on their feet, make split-second decisions, and adapt to rapidly changing situations\n\n## Mechanics & Benefits\n\\+2 Initiative"
+    "body": "# Quick Thinking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nThink on their feet, make split-second decisions, and adapt to rapidly changing situations"
   },
   {
-    "id": "trait-soldier-rapid-response",
+    "id": "trait-rapid-response",
     "name": "Rapid Response",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -14842,12 +12142,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Able to respond quickly to threats and can act decisively in high-pressure situations",
     "description": "Able to respond quickly to threats and can act decisively in high-pressure situations",
-    "mechanics": "\\+2 Initiative",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Rapid Response\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAble to respond quickly to threats and can act decisively in high-pressure situations\n\n## Mechanics & Benefits\n\\+2 Initiative"
+    "body": "# Rapid Response\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAble to respond quickly to threats and can act decisively in high-pressure situations"
   },
   {
-    "id": "trait-species-reach",
+    "id": "trait-reach",
     "name": "Reach",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -14867,12 +12167,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Reach of 10 feet.",
     "description": "Reach of 10 feet.",
-    "mechanics": "Elongated limbs, extensible joints, or flexible appendages provide a natural 10-foot melee reach. Allows threatening adjacent and 10-foot squares without stepping forward.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Reach\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Physical  \n\n## Description\nReach of 10 feet.\n\n## Mechanics & Benefits\nElongated limbs, extensible joints, or flexible appendages provide a natural 10-foot melee reach. Allows threatening adjacent and 10-foot squares without stepping forward."
+    "body": "# Reach\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nReach of 10 feet."
   },
   {
-    "id": "trait-species-reduced-sustenance",
+    "id": "trait-reduced-sustenance",
     "name": "Reduced Sustenance",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -14892,12 +12192,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Eat and drink half typical.",
     "description": "Eat and drink half typical.",
-    "mechanics": "Highly efficient digestive and metabolic systems allow the character to survive indefinitely on half the food and water rations required by standard humanoid baselines.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Reduced Sustenance\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Physical  \n\n## Description\nEat and drink half typical.\n\n## Mechanics & Benefits\nHighly efficient digestive and metabolic systems allow the character to survive indefinitely on half the food and water rations required by standard humanoid baselines."
+    "body": "# Reduced Sustenance\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nEat and drink half typical."
   },
   {
-    "id": "trait-species-regeneration",
+    "id": "trait-regeneration",
     "name": "Regeneration",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -14917,12 +12217,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Will regrow lost Limbs and Organs with recovery of Health.",
     "description": "Will regrow lost Limbs and Organs with recovery of Health.",
-    "mechanics": "Incredible cellular stem-cell proliferation allows regrowing severed limbs, destroyed sensory organs, and ruptured internal vitals over 2d6 days as Health is recovered. Regenerates 1 Health per combat round while conscious.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Regeneration\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Physical  \n\n## Description\nWill regrow lost Limbs and Organs with recovery of Health.\n\n## Mechanics & Benefits\nIncredible cellular stem-cell proliferation allows regrowing severed limbs, destroyed sensory organs, and ruptured internal vitals over 2d6 days as Health is recovered. Regenerates 1 Health per combat round while conscious."
+    "body": "# Regeneration\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nWill regrow lost Limbs and Organs with recovery of Health."
   },
   {
-    "id": "trait-species-relentless",
+    "id": "trait-relentless",
     "name": "Relentless",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -14942,18 +12242,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "+2 bonus on combat maneuver checks made to bull rush or overrun an opponent.",
     "description": "+2 bonus on combat maneuver checks made to bull rush or overrun an opponent.",
-    "mechanics": "Dense musculoskeletal alignment and unstoppable forward kinetic momentum grant a +2 bonus on combat maneuver checks when executing Bull Rush or Overrun maneuvers.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Relentless\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Physical  \n\n## Description\n+2 bonus on combat maneuver checks made to bull rush or overrun an opponent.\n\n## Mechanics & Benefits\nDense musculoskeletal alignment and unstoppable forward kinetic momentum grant a +2 bonus on combat maneuver checks when executing Bull Rush or Overrun maneuvers."
+    "body": "# Relentless\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+2 bonus on combat maneuver checks made to bull rush or overrun an opponent."
   },
   {
-    "id": "trait-species-resistant",
+    "id": "trait-resistant",
     "name": "Resistant",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Defensive",
-    "type": "Defensive",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -14967,9 +12267,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "+2 racial bonus on saving throws against mind-affecting effects and poison.",
     "description": "+2 racial bonus on saving throws against mind-affecting effects and poison.",
-    "mechanics": "Dual biochemical and neural filtering grants a +2 racial bonus on saving throws against mind-affecting metaphysical spells, psychic illusions, and biological poisons.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Resistant\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Defensive  \n\n## Description\n+2 racial bonus on saving throws against mind-affecting effects and poison.\n\n## Mechanics & Benefits\nDual biochemical and neural filtering grants a +2 racial bonus on saving throws against mind-affecting metaphysical spells, psychic illusions, and biological poisons."
+    "body": "# Resistant\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\n+2 racial bonus on saving throws against mind-affecting effects and poison."
   },
   {
     "id": "trait-resource-management",
@@ -14992,12 +12292,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Meticulous rationing of food, water, battery cells, and structural spare parts.",
     "description": "Meticulous rationing of food, water, battery cells, and structural spare parts.",
-    "mechanics": "Wealth and requisition checks for basic survival resources are made with Advantage.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Resource Management\n\n**Category**: Origin Traits  \n**Associated Origin**: Colony  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMeticulous rationing of food, water, battery cells, and structural spare parts.\n\n## Mechanics & Benefits\nWealth and requisition checks for basic survival resources are made with Advantage."
+    "body": "# Resource Management\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nMeticulous rationing of food, water, battery cells, and structural spare parts."
   },
   {
-    "id": "trait-soldier-resourceful",
+    "id": "trait-resourceful",
     "name": "Resourceful",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -15017,109 +12317,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Able to make weapons out of anything and can adapt to new situations quickly",
     "description": "Able to make weapons out of anything and can adapt to new situations quickly",
-    "mechanics": "Once per Day make a Skill Check of choice at Advantage",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Resourceful\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAble to make weapons out of anything and can adapt to new situations quickly\n\n## Mechanics & Benefits\nOnce per Day make a Skill Check of choice at Advantage"
-  },
-  {
-    "id": "trait-adept-resourcefulness",
-    "name": "Resourcefulness",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Adepts are often resourceful characters who can think on their feet and find creative solutions to problems. They may have a knack for improvisation and using their environment to their advantage.",
-    "description": "Adepts are often resourceful characters who can think on their feet and find creative solutions to problems. They may have a knack for improvisation and using their environment to their advantage.",
-    "mechanics": "Once per Day make a Skill Check of choice at Advantage",
-    "modifiers": [],
-    "body": "# Resourcefulness\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Adept  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAdepts are often resourceful characters who can think on their feet and find creative solutions to problems. They may have a knack for improvisation and using their environment to their advantage.\n\n## Mechanics & Benefits\nOnce per Day make a Skill Check of choice at Advantage"
-  },
-  {
-    "id": "trait-criminal-resourcefulness",
-    "name": "Resourcefulness",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Criminals may have a knack at finding creative solutions to problems, especially those related to their criminal activities and should be able to improvise and adapt to changing circumstances",
-    "description": "Criminals may have a knack at finding creative solutions to problems, especially those related to their criminal activities and should be able to improvise and adapt to changing circumstances",
-    "mechanics": "Once per Day make a Skill Check of choice at Advantage",
-    "modifiers": [],
-    "body": "# Resourcefulness\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Criminal  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nCriminals may have a knack at finding creative solutions to problems, especially those related to their criminal activities and should be able to improvise and adapt to changing circumstances\n\n## Mechanics & Benefits\nOnce per Day make a Skill Check of choice at Advantage"
-  },
-  {
-    "id": "trait-drifter-resourcefulness",
-    "name": "Resourcefulness",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Skilled at finding ways to survive and thrive in difficult situations",
-    "description": "Skilled at finding ways to survive and thrive in difficult situations",
-    "mechanics": "Once per Day make a Skill Check of choice at Advantage",
-    "modifiers": [],
-    "body": "# Resourcefulness\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nSkilled at finding ways to survive and thrive in difficult situations\n\n## Mechanics & Benefits\nOnce per Day make a Skill Check of choice at Advantage"
-  },
-  {
-    "id": "trait-merchant-resourcefulness",
-    "name": "Resourcefulness",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Merchants are resourceful and can find creative solutions to problems. They can adapt to unexpected situations, overcome obstacles, and turn challenges into opportunities.",
-    "description": "Merchants are resourceful and can find creative solutions to problems. They can adapt to unexpected situations, overcome obstacles, and turn challenges into opportunities.",
-    "mechanics": "Once per Day make a Skill Check of choice at Advantage",
-    "modifiers": [],
-    "body": "# Resourcefulness\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Merchant  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMerchants are resourceful and can find creative solutions to problems. They can adapt to unexpected situations, overcome obstacles, and turn challenges into opportunities.\n\n## Mechanics & Benefits\nOnce per Day make a Skill Check of choice at Advantage"
+    "body": "# Resourceful\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAble to make weapons out of anything and can adapt to new situations quickly"
   },
   {
     "id": "trait-resourcefulness",
@@ -15142,62 +12342,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Makes the most of scarce tools, improvising creative solutions under pressure.",
     "description": "Makes the most of scarce tools, improvising creative solutions under pressure.",
-    "mechanics": "Once per day, make a chosen Skill Check with Advantage.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Resourcefulness\n\n**Category**: Origin Traits  \n**Associated Origin**: General  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMakes the most of scarce tools, improvising creative solutions under pressure.\n\n## Mechanics & Benefits\nOnce per day, make a chosen Skill Check with Advantage."
+    "body": "# Resourcefulness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nMakes the most of scarce tools, improvising creative solutions under pressure."
   },
   {
-    "id": "trait-scout-resourcefulness",
-    "name": "Resourcefulness",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Scouts are known for their resourcefulness and ability to adapt to different situations. They can think on their feet and come up with creative solutions to challenges they encounter.",
-    "description": "Scouts are known for their resourcefulness and ability to adapt to different situations. They can think on their feet and come up with creative solutions to challenges they encounter.",
-    "mechanics": "Once per Day make a Skill Check of choice at Advantage",
-    "modifiers": [],
-    "body": "# Resourcefulness\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scout  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nScouts are known for their resourcefulness and ability to adapt to different situations. They can think on their feet and come up with creative solutions to challenges they encounter.\n\n## Mechanics & Benefits\nOnce per Day make a Skill Check of choice at Advantage"
-  },
-  {
-    "id": "trait-specialist-resourcefulness",
-    "name": "Resourcefulness",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Ability to make the most out of limited resources",
-    "description": "Ability to make the most out of limited resources",
-    "mechanics": "Once per Day make a Skill Check of choice at Advantage",
-    "modifiers": [],
-    "body": "# Resourcefulness\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Specialist  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to make the most out of limited resources\n\n## Mechanics & Benefits\nOnce per Day make a Skill Check of choice at Advantage"
-  },
-  {
-    "id": "trait-merchant-risk-management",
+    "id": "trait-risk-management",
     "name": "Risk Management",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -15217,34 +12367,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Merchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.   *+1 Karma Point* #",
     "description": "Merchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.   *+1 Karma Point* #",
-    "mechanics": "Merchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.  \n*\\+1 Karma Point*\n\n#",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Risk Management\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Merchant  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMerchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.   *\\+1 Karma Point* #\n\n## Mechanics & Benefits\nMerchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.  \n*\\+1 Karma Point*\n\n#"
-  },
-  {
-    "id": "trait-criminal-risk-taking",
-    "name": "Risk-taking",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Criminals may be more willing to take risks and engage in dangerous behavior",
-    "description": "Criminals may be more willing to take risks and engage in dangerous behavior",
-    "mechanics": "\\+1 Karma Point",
-    "modifiers": [],
-    "body": "# Risk-taking\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Criminal  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nCriminals may be more willing to take risks and engage in dangerous behavior\n\n## Mechanics & Benefits\n\\+1 Karma Point"
+    "body": "# Risk Management\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nMerchants are skilled at assessing and managing risks. They can anticipate potential challenges and develop contingency plans to mitigate losses.   *+1 Karma Point* #"
   },
   {
     "id": "trait-risk-taking",
@@ -15267,18 +12392,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Willingness to gamble on razor-thin safety margins to accomplish difficult goals.",
     "description": "Willingness to gamble on razor-thin safety margins to accomplish difficult goals.",
-    "mechanics": "+1 permanent Karma Point to maximum pool.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Risk-Taking\n\n**Category**: Origin Traits  \n**Associated Origin**: Industrial  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nWillingness to gamble on razor-thin safety margins to accomplish difficult goals.\n\n## Mechanics & Benefits\n+1 permanent Karma Point to maximum pool."
+    "body": "# Risk-Taking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nWillingness to gamble on razor-thin safety margins to accomplish difficult goals."
   },
   {
-    "id": "trait-species-rock-throwing",
+    "id": "trait-rock-throwing",
     "name": "Rock Throwing",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Combat",
-    "type": "Combat",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -15292,18 +12417,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Range increment 60ft. Damage 2d6 + 1.5 Str. Req: Large.",
     "description": "Range increment 60ft. Damage 2d6 + 1.5 Str. Req: Large.",
-    "mechanics": "Requirements: Large size category or larger. The creature can hurl boulders, heavy debris, or structural blocks with a 60 ft range increment, dealing 2d6 + 1.5× Strength kinetic damage.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Rock Throwing\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Combat  \n\n## Description\nRange increment 60ft. Damage 2d6 + 1.5 Str. Req: Large.\n\n## Mechanics & Benefits\nRequirements: Large size category or larger. The creature can hurl boulders, heavy debris, or structural blocks with a 60 ft range increment, dealing 2d6 + 1.5× Strength kinetic damage."
+    "body": "# Rock Throwing\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nRange increment 60ft. Damage 2d6 + 1.5 Str. Req: Large."
   },
   {
-    "id": "trait-species-runner",
+    "id": "trait-runner",
     "name": "Runner",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Movement",
-    "type": "Movement",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -15317,12 +12442,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "+4 racial bonus on saves to avoid fatigue/exhaustion/ill effects from running",
     "description": "+4 racial bonus on saves to avoid fatigue/exhaustion/ill effects from running",
-    "mechanics": "Cardiovascular endurance and oxygen-rich bloodstream grant a +4 racial bonus on all Fortitude saves and Constitution checks made to avoid fatigue, exhaustion, heat exhaustion, or muscle damage from sustained running, sprinting, or forced marches.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Runner\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Movement  \n\n## Description\n+4 racial bonus on saves to avoid fatigue/exhaustion/ill effects from running\n\n## Mechanics & Benefits\nCardiovascular endurance and oxygen-rich bloodstream grant a +4 racial bonus on all Fortitude saves and Constitution checks made to avoid fatigue, exhaustion, heat exhaustion, or muscle damage from sustained running, sprinting, or forced marches."
+    "body": "# Runner\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+4 racial bonus on saves to avoid fatigue/exhaustion/ill effects from running"
   },
   {
-    "id": "trait-drifter-scavenging",
+    "id": "trait-scavenging",
     "name": "Scavenging",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -15342,12 +12467,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Excel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources",
     "description": "Excel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources",
-    "mechanics": "\\+2 Salvage checks",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Scavenging\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nExcel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources\n\n## Mechanics & Benefits\n\\+2 Salvage checks"
+    "body": "# Scavenging\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nExcel at scavenging and salvaging useful items from abandoned places or wreckage, making the most out of limited resources"
   },
   {
-    "id": "trait-species-scent",
+    "id": "trait-scent",
     "name": "Scent",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -15367,9 +12492,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Identify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).",
     "description": "Identify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).",
-    "mechanics": "Possesses an analytical olfactory organ capable of detecting creatures within 30 ft (60 ft upwind, 15 ft downwind) by scent alone. Grants a +4 racial bonus on Survival checks to Track targets by scent and on Medicine/Diagnosis checks to detect pheromones, illness, poisons, or biochemical shifts.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Scent\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Physical  \n\n## Description\nIdentify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell).\n\n## Mechanics & Benefits\nPossesses an analytical olfactory organ capable of detecting creatures within 30 ft (60 ft upwind, 15 ft downwind) by scent alone. Grants a +4 racial bonus on Survival checks to Track targets by scent and on Medicine/Diagnosis checks to detect pheromones, illness, poisons, or biochemical shifts."
+    "body": "# Scent\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nIdentify by smell, +4 to Track and Medical Diagnosis (as Analytical Sense of Smell)."
   },
   {
     "id": "trait-scientific-knowledge",
@@ -15392,9 +12517,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Practical applied science in xenobiology, geology, and atmospheric terraforming.",
     "description": "Practical applied science in xenobiology, geology, and atmospheric terraforming.",
-    "mechanics": "+2 to Science Knowledge checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Scientific Knowledge\n\n**Category**: Origin Traits  \n**Associated Origin**: Colony  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPractical applied science in xenobiology, geology, and atmospheric terraforming.\n\n## Mechanics & Benefits\n+2 to Science Knowledge checks."
+    "body": "# Scientific Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nPractical applied science in xenobiology, geology, and atmospheric terraforming."
   },
   {
     "id": "trait-sea-piloting",
@@ -15417,18 +12542,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Mastery over hydrofoils, submersibles, surface skiffs, and massive oceanic platforms.",
     "description": "Mastery over hydrofoils, submersibles, surface skiffs, and massive oceanic platforms.",
-    "mechanics": "+2 to all Seacraft Operation checks (Submersibles, Hovercraft, Speedboats, and Flotilla Barges).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Sea Piloting\n\n**Category**: Origin Traits  \n**Associated Origin**: Aquatic  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nMastery over hydrofoils, submersibles, surface skiffs, and massive oceanic platforms.\n\n## Mechanics & Benefits\n+2 to all Seacraft Operation checks (Submersibles, Hovercraft, Speedboats, and Flotilla Barges)."
+    "body": "# Sea Piloting\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nMastery over hydrofoils, submersibles, surface skiffs, and massive oceanic platforms."
   },
   {
-    "id": "trait-species-self-revivifying",
+    "id": "trait-self-revivifying",
     "name": "Self Revivifying",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Elite",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 4,
     "costs": {
       "bp": 4,
@@ -15442,12 +12567,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "1/day attempt to resurrect. Cost: 1 Karma, Con Check Diff 20. Req: Immortal.",
     "description": "1/day attempt to resurrect. Cost: 1 Karma, Con Check Diff 20. Req: Immortal.",
-    "mechanics": "Requirements: Immortal trait. Once per day, upon death, the character may spend 1 Karma Point to attempt self-resurrection by making a Constitution check (DC 20). On a success, the body revives with 1 Health after 1 hour.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Self Revivifying\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Meta  \n\n## Description\n1/day attempt to resurrect. Cost: 1 Karma, Con Check Diff 20. Req: Immortal.\n\n## Mechanics & Benefits\nRequirements: Immortal trait. Once per day, upon death, the character may spend 1 Karma Point to attempt self-resurrection by making a Constitution check (DC 20). On a success, the body revives with 1 Health after 1 hour."
+    "body": "# Self Revivifying\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\n1/day attempt to resurrect. Cost: 1 Karma, Con Check Diff 20. Req: Immortal."
   },
   {
-    "id": "trait-criminal-self-preservation",
+    "id": "trait-self-preservation",
     "name": "Self-preservation",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -15467,12 +12592,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Criminals may be skilled at protecting themselves and avoiding capture by law enforcement",
     "description": "Criminals may be skilled at protecting themselves and avoiding capture by law enforcement",
-    "mechanics": "\\+1 Karma Point",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Self-preservation\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Criminal  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nCriminals may be skilled at protecting themselves and avoiding capture by law enforcement\n\n## Mechanics & Benefits\n\\+1 Karma Point"
+    "body": "# Self-preservation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nCriminals may be skilled at protecting themselves and avoiding capture by law enforcement"
   },
   {
-    "id": "trait-drifter-self-sufficiency",
+    "id": "trait-self-sufficiency",
     "name": "Self-sufficiency",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -15492,18 +12617,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Often self-sufficient and able to take care of themselves without relying on others",
     "description": "Often self-sufficient and able to take care of themselves without relying on others",
-    "mechanics": "\\+1 Karma Point",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Self-sufficiency\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nOften self-sufficient and able to take care of themselves without relying on others\n\n## Mechanics & Benefits\n\\+1 Karma Point"
+    "body": "# Self-sufficiency\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nOften self-sufficient and able to take care of themselves without relying on others"
   },
   {
-    "id": "trait-species-semi-corporeal",
+    "id": "trait-semi-corporeal",
     "name": "Semi-Corporeal",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Elite",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 4,
     "costs": {
       "bp": 4,
@@ -15517,18 +12642,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "DR30 vs physical, able to Phase through solid matter, Solidify at will.",
     "description": "DR30 vs physical, able to Phase through solid matter, Solidify at will.",
-    "mechanics": "The character's body exists in a quantum phase-state. Grants DR 30 against non-magical physical kinetic attacks, and allows phasing through solid physical obstacles (walls, bulkheads, barriers) at half movement speed, solidifying or phasing at will as a free action.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Semi-Corporeal\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Meta  \n\n## Description\nDR30 vs physical, able to Phase through solid matter, Solidify at will.\n\n## Mechanics & Benefits\nThe character's body exists in a quantum phase-state. Grants DR 30 against non-magical physical kinetic attacks, and allows phasing through solid physical obstacles (walls, bulkheads, barriers) at half movement speed, solidifying or phasing at will as a free action."
+    "body": "# Semi-Corporeal\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nDR30 vs physical, able to Phase through solid matter, Solidify at will."
   },
   {
-    "id": "trait-species-shadow-affinity",
+    "id": "trait-shadow-affinity",
     "name": "Shadow Affinity",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -15542,18 +12667,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Gain +5 to Stealth when in Shadowy or Dim area.",
     "description": "Gain +5 to Stealth when in Shadowy or Dim area.",
-    "mechanics": "Innate metaphysical or light-absorbing dermal harmony with obscurity grants a +5 circumstance bonus on Stealth checks whenever operating within shadowy, dim, or poorly illuminated areas.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Shadow Affinity\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Meta  \n\n## Description\nGain +5 to Stealth when in Shadowy or Dim area.\n\n## Mechanics & Benefits\nInnate metaphysical or light-absorbing dermal harmony with obscurity grants a +5 circumstance bonus on Stealth checks whenever operating within shadowy, dim, or poorly illuminated areas."
+    "body": "# Shadow Affinity\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nGain +5 to Stealth when in Shadowy or Dim area."
   },
   {
-    "id": "trait-species-shadow-blending",
+    "id": "trait-shadow-blending",
     "name": "Shadow Blending",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -15567,18 +12692,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Attacks made against members in dim light have 30% miss chance.",
     "description": "Attacks made against members in dim light have 30% miss chance.",
-    "mechanics": "Ambient darkness clings to and distorts the silhouette of the creature. Any attacks made against the character in dim light or darkness suffer a 30% miss chance due to visual distortion and concealment (does not stack with total invisibility).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Shadow Blending\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Meta  \n\n## Description\nAttacks made against members in dim light have 30% miss chance.\n\n## Mechanics & Benefits\nAmbient darkness clings to and distorts the silhouette of the creature. Any attacks made against the character in dim light or darkness suffer a 30% miss chance due to visual distortion and concealment (does not stack with total invisibility)."
+    "body": "# Shadow Blending\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nAttacks made against members in dim light have 30% miss chance."
   },
   {
-    "id": "trait-species-shards-of-the-past",
+    "id": "trait-shards-of-the-past",
     "name": "Shards of the Past",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -15592,9 +12717,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Pick two skills. Gain +2 racial bonus on both. Represents past lives.",
     "description": "Pick two skills. Gain +2 racial bonus on both. Represents past lives.",
-    "mechanics": "Subconscious ancestral memories, reincarnation echoes, or genetic data traces surface in the mind. Choose any two skills at character creation; the character gains a permanent +2 racial bonus on both skills.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Shards of the Past\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Meta  \n\n## Description\nPick two skills. Gain +2 racial bonus on both. Represents past lives.\n\n## Mechanics & Benefits\nSubconscious ancestral memories, reincarnation echoes, or genetic data traces surface in the mind. Choose any two skills at character creation; the character gains a permanent +2 racial bonus on both skills."
+    "body": "# Shards of the Past\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nPick two skills. Gain +2 racial bonus on both. Represents past lives."
   },
   {
     "id": "trait-shared-wisdom",
@@ -15617,18 +12742,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Offers profound insight that elevates the actions of comrades.",
     "description": "Offers profound insight that elevates the actions of comrades.",
-    "mechanics": "Any check to Aid, Guide, or Instruct another character is made with Advantage.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Shared Wisdom\n\n**Category**: Origin Traits  \n**Associated Origin**: Enlightened  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nOffers profound insight that elevates the actions of comrades.\n\n## Mechanics & Benefits\nAny check to Aid, Guide, or Instruct another character is made with Advantage."
+    "body": "# Shared Wisdom\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nOffers profound insight that elevates the actions of comrades."
   },
   {
-    "id": "trait-species-silent-hunter",
+    "id": "trait-silent-hunter",
     "name": "Silent Hunter",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Movement",
-    "type": "Movement",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -15642,18 +12767,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Reduce Stealth penalty for moving by 5 / Stealth checks while running at –20",
     "description": "Reduce Stealth penalty for moving by 5 / Stealth checks while running at –20",
-    "mechanics": "Padded footfalls and hydrodynamic/aerodynamic motion dampen sound. Reduces the standard Stealth check penalty for moving at full speed by 5, and reduces the penalty for making Stealth checks while running to –20 (instead of automatic failure).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Silent Hunter\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Movement  \n\n## Description\nReduce Stealth penalty for moving by 5 / Stealth checks while running at –20\n\n## Mechanics & Benefits\nPadded footfalls and hydrodynamic/aerodynamic motion dampen sound. Reduces the standard Stealth check penalty for moving at full speed by 5, and reduces the penalty for making Stealth checks while running to –20 (instead of automatic failure)."
+    "body": "# Silent Hunter\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nReduce Stealth penalty for moving by 5 / Stealth checks while running at –20"
   },
   {
-    "id": "trait-species-silver-tongued",
+    "id": "trait-silver-tongued",
     "name": "Silver Tongued",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Social",
-    "type": "Social",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -15667,18 +12792,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "+2 bonus on Diplomacy and Bluff. Can shift attitude up to three steps.",
     "description": "+2 bonus on Diplomacy and Bluff. Can shift attitude up to three steps.",
-    "mechanics": "Masterful cadence, vocal harmonics, and social charisma grant a +2 racial bonus on all Diplomacy and Bluff checks. When using Diplomacy to influence NPC attitudes, successful checks can shift attitude up to three steps (e.g., Hostile to Indifferent) rather than the standard two.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Silver Tongued\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Social  \n\n## Description\n+2 bonus on Diplomacy and Bluff. Can shift attitude up to three steps.\n\n## Mechanics & Benefits\nMasterful cadence, vocal harmonics, and social charisma grant a +2 racial bonus on all Diplomacy and Bluff checks. When using Diplomacy to influence NPC attitudes, successful checks can shift attitude up to three steps (e.g., Hostile to Indifferent) rather than the standard two."
+    "body": "# Silver Tongued\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+2 bonus on Diplomacy and Bluff. Can shift attitude up to three steps."
   },
   {
-    "id": "trait-species-skill-bonus",
+    "id": "trait-skill-bonus",
     "name": "Skill Bonus",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Trained",
-    "type": "Trained",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -15692,12 +12817,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Gain +2 racial bonus to divide amongst noted skills.",
     "description": "Gain +2 racial bonus to divide amongst noted skills.",
-    "mechanics": "Grants a +2 racial skill bonus that may be divided among one or two designated species skills (+2 to one skill, or +1 to two skills) at character creation.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Skill Bonus\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Trained  \n\n## Description\nGain +2 racial bonus to divide amongst noted skills.\n\n## Mechanics & Benefits\nGrants a +2 racial skill bonus that may be divided among one or two designated species skills (+2 to one skill, or +1 to two skills) at character creation."
+    "body": "# Skill Bonus\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nGain +2 racial bonus to divide amongst noted skills."
   },
   {
-    "id": "trait-species-sleepless",
+    "id": "trait-sleepless",
     "name": "Sleepless",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -15717,12 +12842,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Does not require sleep, may rest to regain metaphysical energy.",
     "description": "Does not require sleep, may rest to regain metaphysical energy.",
-    "mechanics": "The character does not enter unconscious sleep and is immune to sleep-inducing effects. A period of 4 hours of calm meditation or recharge satisfies all rest and metaphysical energy recovery requirements.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Sleepless\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nDoes not require sleep, may rest to regain metaphysical energy.\n\n## Mechanics & Benefits\nThe character does not enter unconscious sleep and is immune to sleep-inducing effects. A period of 4 hours of calm meditation or recharge satisfies all rest and metaphysical energy recovery requirements."
+    "body": "# Sleepless\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nDoes not require sleep, may rest to regain metaphysical energy."
   },
   {
-    "id": "trait-criminal-smooth",
+    "id": "trait-smooth",
     "name": "Smooth",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -15742,9 +12867,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Criminals may be charming and persuasive, able to talk their way out of difficult situations",
     "description": "Criminals may be charming and persuasive, able to talk their way out of difficult situations",
-    "mechanics": "\\+2 Bluff",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Smooth\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Criminal  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nCriminals may be charming and persuasive, able to talk their way out of difficult situations\n\n## Mechanics & Benefits\n\\+2 Bluff"
+    "body": "# Smooth\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nCriminals may be charming and persuasive, able to talk their way out of difficult situations"
   },
   {
     "id": "trait-smooth-talking",
@@ -15767,18 +12892,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Charismatic conversational flow that disarms suspicion and charms conversational partners.",
     "description": "Charismatic conversational flow that disarms suspicion and charms conversational partners.",
-    "mechanics": "+2 to Etiquette and Bluff checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Smooth Talking\n\n**Category**: Origin Traits  \n**Associated Origin**: Leisure  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nCharismatic conversational flow that disarms suspicion and charms conversational partners.\n\n## Mechanics & Benefits\n+2 to Etiquette and Bluff checks."
+    "body": "# Smooth Talking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nCharismatic conversational flow that disarms suspicion and charms conversational partners."
   },
   {
-    "id": "trait-species-sneaky",
+    "id": "trait-sneaky",
     "name": "Sneaky",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Trained",
-    "type": "Trained",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -15792,18 +12917,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "+2 racial bonus on Stealth checks.",
     "description": "+2 racial bonus on Stealth checks.",
-    "mechanics": "Natural instinct for staying low, hugging shadows, and moving without creaking floorboards or rustling foliage grants a permanent +2 racial bonus on all Stealth checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Sneaky\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Trained  \n\n## Description\n+2 racial bonus on Stealth checks.\n\n## Mechanics & Benefits\nNatural instinct for staying low, hugging shadows, and moving without creaking floorboards or rustling foliage grants a permanent +2 racial bonus on all Stealth checks."
+    "body": "# Sneaky\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+2 racial bonus on Stealth checks."
   },
   {
-    "id": "trait-species-sociable",
+    "id": "trait-sociable",
     "name": "Sociable",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Social",
-    "type": "Social",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -15817,9 +12942,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Diplomacy check to change attitude fails by 5 or more, try again within 24 hours.",
     "description": "Diplomacy check to change attitude fails by 5 or more, try again within 24 hours.",
-    "mechanics": "Disarming demeanor and empathetic conversational recovery prevent social faux pas from becoming permanent grudges. If a Diplomacy check to influence attitude fails by 5 or more, the character may retry the check with that target within 24 hours rather than being locked out.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Sociable\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Social  \n\n## Description\nDiplomacy check to change attitude fails by 5 or more, try again within 24 hours.\n\n## Mechanics & Benefits\nDisarming demeanor and empathetic conversational recovery prevent social faux pas from becoming permanent grudges. If a Diplomacy check to influence attitude fails by 5 or more, the character may retry the check with that target within 24 hours rather than being locked out."
+    "body": "# Sociable\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nDiplomacy check to change attitude fails by 5 or more, try again within 24 hours."
   },
   {
     "id": "trait-social-skills",
@@ -15842,12 +12967,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Navigates dense cultural melting pots, high-rise galas, and underground speakeasies with ease.",
     "description": "Navigates dense cultural melting pots, high-rise galas, and underground speakeasies with ease.",
-    "mechanics": "+1 to all Social Manipulation skills and +1 to Culture Knowledge.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Social Skills\n\n**Category**: Origin Traits  \n**Associated Origin**: Urban  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nNavigates dense cultural melting pots, high-rise galas, and underground speakeasies with ease.\n\n## Mechanics & Benefits\n+1 to all Social Manipulation skills and +1 to Culture Knowledge."
+    "body": "# Social Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nNavigates dense cultural melting pots, high-rise galas, and underground speakeasies with ease."
   },
   {
-    "id": "trait-adept-special-ability",
+    "id": "trait-special-ability",
     "name": "Special Ability",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -15867,12 +12992,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Adepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.   May be taken multiple times for a different Special Ability.",
     "description": "Adepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.   May be taken multiple times for a different Special Ability.",
-    "mechanics": "Special Ability at level 1 (which are afterwards improved as a skill)",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Special Ability\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Adept  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAdepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.   May be taken multiple times for a different Special Ability.\n\n## Mechanics & Benefits\nSpecial Ability at level 1 (which are afterwards improved as a skill)"
+    "body": "# Special Ability\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAdepts may have access to unique powers or techniques that set them apart from other characters. These could include energy manipulation, telekinesis, elemental control, or advanced hacking abilities.   May be taken multiple times for a different Special Ability."
   },
   {
-    "id": "trait-adept-special-equipment",
+    "id": "trait-special-equipment",
     "name": "Special Equipment",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -15892,9 +13017,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Adepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties.",
     "description": "Adepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties.",
-    "mechanics": "\\+2 Equipment",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Special Equipment\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Adept  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAdepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties.\n\n## Mechanics & Benefits\n\\+2 Equipment"
+    "body": "# Special Equipment\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAdepts may have access to specialized equipment or tools that enhance their abilities. This could include advanced weapons, cybernetic enhancements, or artifacts with unique properties."
   },
   {
     "id": "trait-specialized-knowledge",
@@ -15917,12 +13042,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Deep technical expertise in metallurgy, industrial chemistry, or structural fabrication.",
     "description": "Deep technical expertise in metallurgy, industrial chemistry, or structural fabrication.",
-    "mechanics": "+2 to a chosen Vocation Specialization.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Specialized Knowledge\n\n**Category**: Origin Traits  \n**Associated Origin**: Industrial  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nDeep technical expertise in metallurgy, industrial chemistry, or structural fabrication.\n\n## Mechanics & Benefits\n+2 to a chosen Vocation Specialization."
+    "body": "# Specialized Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nDeep technical expertise in metallurgy, industrial chemistry, or structural fabrication."
   },
   {
-    "id": "trait-adept-specialized-skills",
+    "id": "trait-specialized-skills",
     "name": "Specialized Skills",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -15942,9 +13067,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Adepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession.",
     "description": "Adepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession.",
-    "mechanics": "\\+2 to a Skill of Choice",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Specialized Skills\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Adept  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAdepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession.\n\n## Mechanics & Benefits\n\\+2 to a Skill of Choice"
+    "body": "# Specialized Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAdepts are often highly skilled in specific areas, such as combat, technology, or mystical arts. They may have extensive training and knowledge in their chosen field, allowing them to excel in their profession."
   },
   {
     "id": "trait-spiritual-awareness",
@@ -15967,18 +13092,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Attuned to metaphysical resonances, ley conduits, and unseen psychic currents.",
     "description": "Attuned to metaphysical resonances, ley conduits, and unseen psychic currents.",
-    "mechanics": "+1 to Attune and +1 to one chosen Metafocus Discipline skill.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Spiritual Awareness\n\n**Category**: Origin Traits  \n**Associated Origin**: Enlightened  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAttuned to metaphysical resonances, ley conduits, and unseen psychic currents.\n\n## Mechanics & Benefits\n+1 to Attune and +1 to one chosen Metafocus Discipline skill."
+    "body": "# Spiritual Awareness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nAttuned to metaphysical resonances, ley conduits, and unseen psychic currents."
   },
   {
-    "id": "trait-species-stable-footed",
+    "id": "trait-stable-footed",
     "name": "Stable Footed",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Defensive",
-    "type": "Defensive",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -15992,118 +13117,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "+4 racial Stability bonus while standing on the ground.",
     "description": "+4 racial Stability bonus while standing on the ground.",
-    "mechanics": "Low center of gravity, gripping foot pads, or dense ground anchoring grants a +4 racial Stability bonus to resist Bull Rush, Trip, Reposition, and Overrun combat maneuvers while standing firmly on solid ground.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Stable Footed\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Defensive  \n\n## Description\n+4 racial Stability bonus while standing on the ground.\n\n## Mechanics & Benefits\nLow center of gravity, gripping foot pads, or dense ground anchoring grants a +4 racial Stability bonus to resist Bull Rush, Trip, Reposition, and Overrun combat maneuvers while standing firmly on solid ground."
+    "body": "# Stable Footed\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+4 racial Stability bonus while standing on the ground."
   },
   {
-    "id": "trait-criminal-stalker",
-    "name": "Stalker",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Skilled at moving quietly and avoiding detection",
-    "description": "Skilled at moving quietly and avoiding detection",
-    "mechanics": "May take 10 on Stealth Checks",
-    "modifiers": [],
-    "body": "# Stalker\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Criminal  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nSkilled at moving quietly and avoiding detection\n\n## Mechanics & Benefits\nMay take 10 on Stealth Checks"
-  },
-  {
-    "id": "trait-drifter-stalker",
-    "name": "Stalker",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Possess stealthy skills, allowing them to move silently and go unnoticed when necessary",
-    "description": "Possess stealthy skills, allowing them to move silently and go unnoticed when necessary",
-    "mechanics": "May take 10 on Stealth Checks",
-    "modifiers": [],
-    "body": "# Stalker\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPossess stealthy skills, allowing them to move silently and go unnoticed when necessary\n\n## Mechanics & Benefits\nMay take 10 on Stealth Checks"
-  },
-  {
-    "id": "trait-scout-stalker",
-    "name": "Stalker",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "The scout is able to stay out of sight with ease.",
-    "description": "The scout is able to stay out of sight with ease.",
-    "mechanics": "May take 10 on Stealth Checks",
-    "modifiers": [],
-    "body": "# Stalker\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scout  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nThe scout is able to stay out of sight with ease.\n\n## Mechanics & Benefits\nMay take 10 on Stealth Checks"
-  },
-  {
-    "id": "trait-soldier-stalker",
-    "name": "Stalker",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Skilled in stealth and able to move without detection",
-    "description": "Skilled in stealth and able to move without detection",
-    "mechanics": "May take 10 on Stealth Checks",
-    "modifiers": [],
-    "body": "# Stalker\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nSkilled in stealth and able to move without detection\n\n## Mechanics & Benefits\nMay take 10 on Stealth Checks"
-  },
-  {
-    "id": "trait-species-stalker",
+    "id": "trait-stalker",
     "name": "Stalker",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Trained",
-    "type": "Trained",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -16117,18 +13142,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Gain +2 bonus to Perception and Stealth checks versus one target.",
     "description": "Gain +2 bonus to Perception and Stealth checks versus one target.",
-    "mechanics": "When hunting, pursuing, or observing a single designated quarry or target, the character gains a +2 circumstance bonus on all Perception (Awareness) and Stealth checks directed against or involving that target.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Stalker\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Trained  \n\n## Description\nGain +2 bonus to Perception and Stealth checks versus one target.\n\n## Mechanics & Benefits\nWhen hunting, pursuing, or observing a single designated quarry or target, the character gains a +2 circumstance bonus on all Perception (Awareness) and Stealth checks directed against or involving that target."
+    "body": "# Stalker\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nGain +2 bonus to Perception and Stealth checks versus one target."
   },
   {
-    "id": "trait-species-static-bonus-feat",
+    "id": "trait-static-bonus-feat",
     "name": "Static Bonus Feat",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Trained",
-    "type": "Trained",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -16142,12 +13167,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Choose one feat with no prerequisites. All members gain this feat as a bonus feat.",
     "description": "Choose one feat with no prerequisites. All members gain this feat as a bonus feat.",
-    "mechanics": "The species' culture or universal biology instills a foundational discipline. Choose one standard feat with no prerequisites at species creation; all members of this species gain that feat as a permanent bonus feat.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Static Bonus Feat\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Trained  \n\n## Description\nChoose one feat with no prerequisites. All members gain this feat as a bonus feat.\n\n## Mechanics & Benefits\nThe species' culture or universal biology instills a foundational discipline. Choose one standard feat with no prerequisites at species creation; all members of this species gain that feat as a permanent bonus feat."
+    "body": "# Static Bonus Feat\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nChoose one feat with no prerequisites. All members gain this feat as a bonus feat."
   },
   {
-    "id": "trait-agent-stealth",
+    "id": "trait-stealth",
     "name": "Stealth",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -16167,34 +13192,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Operating covertly, sneaking, hiding, and remaining undetected",
     "description": "Operating covertly, sneaking, hiding, and remaining undetected",
-    "mechanics": "\\+2 Stealth",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Stealth\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Agent  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nOperating covertly, sneaking, hiding, and remaining undetected\n\n## Mechanics & Benefits\n\\+2 Stealth"
-  },
-  {
-    "id": "trait-soldier-strategic",
-    "name": "Strategic",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Experienced in planning and executing missions, skilled at analyzing the battlefield and making strategic decisions",
-    "description": "Experienced in planning and executing missions, skilled at analyzing the battlefield and making strategic decisions",
-    "mechanics": "\\+1 Karma Point",
-    "modifiers": [],
-    "body": "# Strategic\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nExperienced in planning and executing missions, skilled at analyzing the battlefield and making strategic decisions\n\n## Mechanics & Benefits\n\\+1 Karma Point"
+    "body": "# Stealth\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nOperating covertly, sneaking, hiding, and remaining undetected"
   },
   {
     "id": "trait-strategic",
@@ -16217,12 +13217,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Battlefield tactical assessment and mission operation planning.",
     "description": "Battlefield tactical assessment and mission operation planning.",
-    "mechanics": "Allies executing the character's prepared battle plan receive a collective bonus pool equal to the character's Intellect score + 2.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Strategic\n\n**Category**: Origin Traits  \n**Associated Origin**: Militaristic  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nBattlefield tactical assessment and mission operation planning.\n\n## Mechanics & Benefits\nAllies executing the character's prepared battle plan receive a collective bonus pool equal to the character's Intellect score + 2."
+    "body": "# Strategic\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nBattlefield tactical assessment and mission operation planning."
   },
   {
-    "id": "trait-citizen-strategic-thinking",
+    "id": "trait-strategic-thinking",
     "name": "Strategic thinking",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -16242,9 +13242,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Skilled at developing long-term plans and strategies to achieve their goals.",
     "description": "Skilled at developing long-term plans and strategies to achieve their goals.",
-    "mechanics": "\\+1 Karma Point",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Strategic thinking\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Citizen  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nSkilled at developing long-term plans and strategies to achieve their goals.\n\n## Mechanics & Benefits\n\\+1 Karma Point"
+    "body": "# Strategic thinking\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nSkilled at developing long-term plans and strategies to achieve their goals."
   },
   {
     "id": "trait-street-fighting",
@@ -16267,40 +13267,15 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Dirty fighting techniques optimized for claustrophobic alleys, elevator cabs, and crowded subway cars.",
     "description": "Dirty fighting techniques optimized for claustrophobic alleys, elevator cabs, and crowded subway cars.",
-    "mechanics": "+1 to Unarmed Combat and +1 to Combat Defense.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Street Fighting\n\n**Category**: Origin Traits  \n**Associated Origin**: Urban  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nDirty fighting techniques optimized for claustrophobic alleys, elevator cabs, and crowded subway cars.\n\n## Mechanics & Benefits\n+1 to Unarmed Combat and +1 to Combat Defense."
+    "body": "# Street Fighting\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nDirty fighting techniques optimized for claustrophobic alleys, elevator cabs, and crowded subway cars."
   },
   {
-    "id": "trait-criminal-street-smarts",
-    "name": "Street smarts",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Criminals may have a deep understanding of the criminal underworld and how to navigate it   *+2 Streetwise* #",
-    "description": "Criminals may have a deep understanding of the criminal underworld and how to navigate it   *+2 Streetwise* #",
-    "mechanics": "Criminals may have a deep understanding of the criminal underworld and how to navigate it  \n*\\+2 Streetwise*\n\n#",
-    "modifiers": [],
-    "body": "# Street smarts\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Criminal  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nCriminals may have a deep understanding of the criminal underworld and how to navigate it   *\\+2 Streetwise* #\n\n## Mechanics & Benefits\nCriminals may have a deep understanding of the criminal underworld and how to navigate it  \n*\\+2 Streetwise*\n\n#"
-  },
-  {
-    "id": "trait-drifter-street-smarts",
+    "id": "trait-street-smarts",
     "name": "Street Smarts",
     "category": "traits",
-    "trait_type": "Occupational Trait",
+    "trait_type": "Social",
     "trait_tier": "Basic",
     "classification": "Physical",
     "type": "Physical",
@@ -16315,11 +13290,11 @@ export const ALL_CANONICAL_TRAITS = [
       "ap": 0
     },
     "is_ranked": false,
-    "desc": "Streetwise and have a keen understanding of the urban landscape, including knowing where to find resources, contacts, and information",
-    "description": "Streetwise and have a keen understanding of the urban landscape, including knowing where to find resources, contacts, and information",
-    "mechanics": "\\+2 Streetwise",
+    "desc": "Familiarity with underworld hierarchy, shadow markets, slang, and avoiding law enforcement radar.",
+    "description": "Familiarity with underworld hierarchy, shadow markets, slang, and avoiding law enforcement radar.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Street Smarts\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nStreetwise and have a keen understanding of the urban landscape, including knowing where to find resources, contacts, and information\n\n## Mechanics & Benefits\n\\+2 Streetwise"
+    "body": "# Street Smarts\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Social\n**BP Cost**: 1\n\n## Description\nFamiliarity with underworld hierarchy, shadow markets, slang, and avoiding law enforcement radar."
   },
   {
     "id": "trait-streetwise",
@@ -16342,9 +13317,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Knows who controls each block, how to evade gang tolls, and where to fence hot cargo.",
     "description": "Knows who controls each block, how to evade gang tolls, and where to fence hot cargo.",
-    "mechanics": "+2 to Streetwise checks (increases to +3 in character's home city).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Streetwise\n\n**Category**: Origin Traits  \n**Associated Origin**: Urban  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nKnows who controls each block, how to evade gang tolls, and where to fence hot cargo.\n\n## Mechanics & Benefits\n+2 to Streetwise checks (increases to +3 in character's home city)."
+    "body": "# Streetwise\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nKnows who controls each block, how to evade gang tolls, and where to fence hot cargo."
   },
   {
     "id": "trait-studious",
@@ -16367,12 +13342,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Deep immersion in research databases, academic journals, and historical archives.",
     "description": "Deep immersion in research databases, academic journals, and historical archives.",
-    "mechanics": "+2 to one chosen Knowledge skill.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Studious\n\n**Category**: Origin Traits  \n**Associated Origin**: Research  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nDeep immersion in research databases, academic journals, and historical archives.\n\n## Mechanics & Benefits\n+2 to one chosen Knowledge skill."
+    "body": "# Studious\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nDeep immersion in research databases, academic journals, and historical archives."
   },
   {
-    "id": "trait-drifter-survival",
+    "id": "trait-survival",
     "name": "Survival",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -16392,59 +13367,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Ability to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter",
     "description": "Ability to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter",
-    "mechanics": "\\+2 Survival",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Survival\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter\n\n## Mechanics & Benefits\n\\+2 Survival"
-  },
-  {
-    "id": "trait-agent-survival-skills",
-    "name": "Survival Skills",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Scavenging for resources, navigating dangerous environments, and adapting to harsh conditions",
-    "description": "Scavenging for resources, navigating dangerous environments, and adapting to harsh conditions",
-    "mechanics": "\\+2 Survival",
-    "modifiers": [],
-    "body": "# Survival Skills\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Agent  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nScavenging for resources, navigating dangerous environments, and adapting to harsh conditions\n\n## Mechanics & Benefits\n\\+2 Survival"
-  },
-  {
-    "id": "trait-scout-survival-skills",
-    "name": "Survival Skills",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "The ability to survive in hostile environments is a primary characteristic of a scout. They are not easily deterred by the lack of creature comforts and are skilled at eking out their next meal and finding shelter.",
-    "description": "The ability to survive in hostile environments is a primary characteristic of a scout. They are not easily deterred by the lack of creature comforts and are skilled at eking out their next meal and finding shelter.",
-    "mechanics": "\\+2 Survival",
-    "modifiers": [],
-    "body": "# Survival Skills\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scout  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nThe ability to survive in hostile environments is a primary characteristic of a scout. They are not easily deterred by the lack of creature comforts and are skilled at eking out their next meal and finding shelter.\n\n## Mechanics & Benefits\n\\+2 Survival"
+    "body": "# Survival\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAbility to survive in harsh environments, such as deserts or post-apocalyptic wastelands, by finding food, water, and shelter"
   },
   {
     "id": "trait-survival-skills",
@@ -16467,9 +13392,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Honed instincts for foraging, navigating wilderness, and finding shelter in hostile terrain.",
     "description": "Honed instincts for foraging, navigating wilderness, and finding shelter in hostile terrain.",
-    "mechanics": "+2 to Survival Skill checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Survival Skills\n\n**Category**: Origin Traits  \n**Associated Origin**: General  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nHoned instincts for foraging, navigating wilderness, and finding shelter in hostile terrain.\n\n## Mechanics & Benefits\n+2 to Survival Skill checks."
+    "body": "# Survival Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nHoned instincts for foraging, navigating wilderness, and finding shelter in hostile terrain."
   },
   {
     "id": "trait-sustainable-practices",
@@ -16492,18 +13417,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Deep understanding of ecological balance, crop rotation, and water conservation.",
     "description": "Deep understanding of ecological balance, crop rotation, and water conservation.",
-    "mechanics": "+2 to all Agriculture-based checks in a prepared grow zone and when preparing new soil.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Sustainable Practices\n\n**Category**: Origin Traits  \n**Associated Origin**: Agricultural  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nDeep understanding of ecological balance, crop rotation, and water conservation.\n\n## Mechanics & Benefits\n+2 to all Agriculture-based checks in a prepared grow zone and when preparing new soil."
+    "body": "# Sustainable Practices\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nDeep understanding of ecological balance, crop rotation, and water conservation."
   },
   {
-    "id": "trait-species-swarming",
+    "id": "trait-swarming",
     "name": "Swarming",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Combat",
-    "type": "Combat",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -16517,12 +13442,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Two members can share same square. If attacking same foe, considered flanking.",
     "description": "Two members can share same square. If attacking same foe, considered flanking.",
-    "mechanics": "Up to two members of this species can occupy the exact same 5-foot tactical square. When both attack the same opponent in melee, they are automatically considered to be flanking that target.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Swarming\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Combat  \n\n## Description\nTwo members can share same square. If attacking same foe, considered flanking.\n\n## Mechanics & Benefits\nUp to two members of this species can occupy the exact same 5-foot tactical square. When both attack the same opponent in melee, they are automatically considered to be flanking that target."
+    "body": "# Swarming\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nTwo members can share same square. If attacking same foe, considered flanking."
   },
   {
-    "id": "trait-species-synthetic-armor-options",
+    "id": "trait-synthetic-armor-options",
     "name": "Synthetic Armor Options",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -16542,12 +13467,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Armor and Armor Upgrades available as Augmentations. Req: Synthetic, TL2.",
     "description": "Armor and Armor Upgrades available as Augmentations. Req: Synthetic, TL2.",
-    "mechanics": "Requirements: Synthetic chassis type, Tech Level 2+. Manufactured armor plating and modular armor chassis upgrades can be installed directly as cybernetic augmentations without surgical strain penalties.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Synthetic Armor Options\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nArmor and Armor Upgrades available as Augmentations. Req: Synthetic, TL2.\n\n## Mechanics & Benefits\nRequirements: Synthetic chassis type, Tech Level 2+. Manufactured armor plating and modular armor chassis upgrades can be installed directly as cybernetic augmentations without surgical strain penalties."
+    "body": "# Synthetic Armor Options\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nArmor and Armor Upgrades available as Augmentations. Req: Synthetic, TL2."
   },
   {
-    "id": "trait-species-synthetic-aux-core",
+    "id": "trait-synthetic-aux-core",
     "name": "Synthetic Aux Core",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -16567,12 +13492,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Revivification without loss of Karma/Exp. Not traumatic. Req: Synthetic, TL4.",
     "description": "Revivification without loss of Karma/Exp. Not traumatic. Req: Synthetic, TL4.",
-    "mechanics": "Requirements: Synthetic chassis type, Tech Level 4+. Redundant quantum neural backup core allows non-traumatic memory recovery and instant system reboot upon fatal chassis destruction without loss of Karma or Experience points.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Synthetic Aux Core\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Physical  \n\n## Description\nRevivification without loss of Karma/Exp. Not traumatic. Req: Synthetic, TL4.\n\n## Mechanics & Benefits\nRequirements: Synthetic chassis type, Tech Level 4+. Redundant quantum neural backup core allows non-traumatic memory recovery and instant system reboot upon fatal chassis destruction without loss of Karma or Experience points."
+    "body": "# Synthetic Aux Core\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nRevivification without loss of Karma/Exp. Not traumatic. Req: Synthetic, TL4."
   },
   {
-    "id": "trait-species-synthetic-exotic-opt",
+    "id": "trait-synthetic-exotic-opt",
     "name": "Synthetic Exotic Opt",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -16592,12 +13517,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Synthetic version of a Racial Trait or Special Feature. Req: Synthetic, Multiple.",
     "description": "Synthetic version of a Racial Trait or Special Feature. Req: Synthetic, Multiple.",
-    "mechanics": "Requirements: Synthetic chassis type. The synthetic entity integrates a high-tech synthetic emulator mimicking an organic racial trait or esoteric feature. May be taken multiple times for different replicated features.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Synthetic Exotic Opt\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Physical  \n\n## Description\nSynthetic version of a Racial Trait or Special Feature. Req: Synthetic, Multiple.\n\n## Mechanics & Benefits\nRequirements: Synthetic chassis type. The synthetic entity integrates a high-tech synthetic emulator mimicking an organic racial trait or esoteric feature. May be taken multiple times for different replicated features."
+    "body": "# Synthetic Exotic Opt\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nSynthetic version of a Racial Trait or Special Feature. Req: Synthetic, Multiple."
   },
   {
-    "id": "trait-species-synthetic-tech-assim",
+    "id": "trait-synthetic-tech-assim",
     "name": "Synthetic Tech Assim",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -16617,12 +13542,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Able to absorb, power and use technological devices. Req: Synthetic, TL5.",
     "description": "Able to absorb, power and use technological devices. Req: Synthetic, TL5.",
-    "mechanics": "Requirements: Synthetic chassis type, Tech Level 5+. Nanotech absorption matrix allows physically assimilating, powering, and operating handheld tools, weapons, and computing devices directly into the chassis.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Synthetic Tech Assim\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Physical  \n\n## Description\nAble to absorb, power and use technological devices. Req: Synthetic, TL5.\n\n## Mechanics & Benefits\nRequirements: Synthetic chassis type, Tech Level 5+. Nanotech absorption matrix allows physically assimilating, powering, and operating handheld tools, weapons, and computing devices directly into the chassis."
+    "body": "# Synthetic Tech Assim\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nAble to absorb, power and use technological devices. Req: Synthetic, TL5."
   },
   {
-    "id": "trait-species-synthetic-weapon-options",
+    "id": "trait-synthetic-weapon-options",
     "name": "Synthetic Weapon Options",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -16642,12 +13567,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Weapons and Weapon Upgrades available as Augmentations. Req: Synthetic, TL2.",
     "description": "Weapons and Weapon Upgrades available as Augmentations. Req: Synthetic, TL2.",
-    "mechanics": "Requirements: Synthetic chassis type, Tech Level 2+. Integrated weapon hardpoints and weapon modules can be directly integrated into chassis arms and compartments.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Synthetic Weapon Options\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nWeapons and Weapon Upgrades available as Augmentations. Req: Synthetic, TL2.\n\n## Mechanics & Benefits\nRequirements: Synthetic chassis type, Tech Level 2+. Integrated weapon hardpoints and weapon modules can be directly integrated into chassis arms and compartments."
+    "body": "# Synthetic Weapon Options\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nWeapons and Weapon Upgrades available as Augmentations. Req: Synthetic, TL2."
   },
   {
-    "id": "trait-species-tail",
+    "id": "trait-tail",
     "name": "Tail",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -16667,12 +13592,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "+2 to Trip and Balance Checks and usable as a Club.",
     "description": "+2 to Trip and Balance Checks and usable as a Club.",
-    "mechanics": "Possesses a muscular, flexible tail that acts as a counterweight. Grants a +2 racial bonus on Balance (Acrobatics) and Trip combat maneuver checks, and can be swung as a natural bludgeoning weapon dealing 1d6 + Str kinetic damage (treated as a Club).",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Tail\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Physical  \n\n## Description\n+2 to Trip and Balance Checks and usable as a Club.\n\n## Mechanics & Benefits\nPossesses a muscular, flexible tail that acts as a counterweight. Grants a +2 racial bonus on Balance (Acrobatics) and Trip combat maneuver checks, and can be swung as a natural bludgeoning weapon dealing 1d6 + Str kinetic damage (treated as a Club)."
+    "body": "# Tail\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+2 to Trip and Balance Checks and usable as a Club."
   },
   {
-    "id": "trait-specialist-team-player",
+    "id": "trait-team-player",
     "name": "Team Player",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -16692,12 +13617,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Ability to communicate effectively and collaborate with others",
     "description": "Ability to communicate effectively and collaborate with others",
-    "mechanics": "additional \\+1 to Aid bonuses",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Team Player\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Specialist  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to communicate effectively and collaborate with others\n\n## Mechanics & Benefits\nadditional \\+1 to Aid bonuses"
+    "body": "# Team Player\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAbility to communicate effectively and collaborate with others"
   },
   {
-    "id": "trait-soldier-team-oriented",
+    "id": "trait-team-oriented",
     "name": "Team-Oriented",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -16717,34 +13642,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Able to work in teams and coordinate their efforts to achieve their objectives",
     "description": "Able to work in teams and coordinate their efforts to achieve their objectives",
-    "mechanics": "additional \\+1 to Aid bonuses",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Team-Oriented\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAble to work in teams and coordinate their efforts to achieve their objectives\n\n## Mechanics & Benefits\nadditional \\+1 to Aid bonuses"
-  },
-  {
-    "id": "trait-builder-teamwork",
-    "name": "Teamwork",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Ability to work well with others",
-    "description": "Ability to work well with others",
-    "mechanics": "\\+1 to Aid",
-    "modifiers": [],
-    "body": "# Teamwork\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Builder  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to work well with others\n\n## Mechanics & Benefits\n\\+1 to Aid"
+    "body": "# Team-Oriented\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAble to work in teams and coordinate their efforts to achieve their objectives"
   },
   {
     "id": "trait-teamwork",
@@ -16767,9 +13667,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Practiced coordination in gang work, shift labor, and complex multi-person tasks.",
     "description": "Practiced coordination in gang work, shift labor, and complex multi-person tasks.",
-    "mechanics": "Adds an additional +1 bonus whenever providing or receiving the Aid action.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Teamwork\n\n**Category**: Origin Traits  \n**Associated Origin**: Industrial  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPracticed coordination in gang work, shift labor, and complex multi-person tasks.\n\n## Mechanics & Benefits\nAdds an additional +1 bonus whenever providing or receiving the Aid action."
+    "body": "# Teamwork\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nPracticed coordination in gang work, shift labor, and complex multi-person tasks."
   },
   {
     "id": "trait-tech-savvy",
@@ -16792,12 +13692,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Intimate familiarity with consumer neural nets, public datagrids, and ubiquitous urban tech.",
     "description": "Intimate familiarity with consumer neural nets, public datagrids, and ubiquitous urban tech.",
-    "mechanics": "+2 to Computer and Technology Knowledge checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Tech-Savvy\n\n**Category**: Origin Traits  \n**Associated Origin**: Urban  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nIntimate familiarity with consumer neural nets, public datagrids, and ubiquitous urban tech.\n\n## Mechanics & Benefits\n+2 to Computer and Technology Knowledge checks."
+    "body": "# Tech-Savvy\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nIntimate familiarity with consumer neural nets, public datagrids, and ubiquitous urban tech."
   },
   {
-    "id": "trait-builder-technical-knowledge",
+    "id": "trait-technical-knowledge",
     "name": "Technical Knowledge",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -16817,9 +13717,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Deep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques",
     "description": "Deep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques",
-    "mechanics": "\\+2 Vocation Skill",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Technical Knowledge\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Builder  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nDeep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques\n\n## Mechanics & Benefits\n\\+2 Vocation Skill"
+    "body": "# Technical Knowledge\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nDeep understanding of the technical aspects of their craft, including knowledge of materials, tools, and techniques"
   },
   {
     "id": "trait-technical-skills",
@@ -16842,12 +13742,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Practical hands-on maintenance for hardware, wiring, and mechanical assemblies.",
     "description": "Practical hands-on maintenance for hardware, wiring, and mechanical assemblies.",
-    "mechanics": "+1 to Mechanical, Electrical, and Engineering skill checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Technical Skills\n\n**Category**: Origin Traits  \n**Associated Origin**: General  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPractical hands-on maintenance for hardware, wiring, and mechanical assemblies.\n\n## Mechanics & Benefits\n+1 to Mechanical, Electrical, and Engineering skill checks."
+    "body": "# Technical Skills\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nPractical hands-on maintenance for hardware, wiring, and mechanical assemblies."
   },
   {
-    "id": "trait-builder-technological-aptitude",
+    "id": "trait-technological-aptitude",
     "name": "Technological Aptitude",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -16867,12 +13767,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Natural aptitude for understanding and operating advanced technology",
     "description": "Natural aptitude for understanding and operating advanced technology",
-    "mechanics": "\\+2 Technology Knowledge",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Technological Aptitude\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Builder  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nNatural aptitude for understanding and operating advanced technology\n\n## Mechanics & Benefits\n\\+2 Technology Knowledge"
+    "body": "# Technological Aptitude\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nNatural aptitude for understanding and operating advanced technology"
   },
   {
-    "id": "trait-scholar-technological-innovation",
+    "id": "trait-technological-innovation",
     "name": "Technological innovation",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -16892,12 +13792,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Able to create, adapt, and improve technology in novel ways.",
     "description": "Able to create, adapt, and improve technology in novel ways.",
-    "mechanics": "Knowledge (Technology) checks made at Advantage.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Technological innovation\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scholar  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAble to create, adapt, and improve technology in novel ways.\n\n## Mechanics & Benefits\nKnowledge (Technology) checks made at Advantage."
+    "body": "# Technological innovation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAble to create, adapt, and improve technology in novel ways."
   },
   {
-    "id": "trait-specialist-technological-proficiency",
+    "id": "trait-technological-proficiency",
     "name": "Technological proficiency",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -16917,12 +13817,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Proficiency in advanced technology",
     "description": "Proficiency in advanced technology",
-    "mechanics": "Additional \\+1 from Equipment Bonus and \\+2 Technology (Knowledge)",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Technological proficiency\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Specialist  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nProficiency in advanced technology\n\n## Mechanics & Benefits\nAdditional \\+1 from Equipment Bonus and \\+2 Technology (Knowledge)"
+    "body": "# Technological proficiency\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nProficiency in advanced technology"
   },
   {
-    "id": "trait-agent-technology",
+    "id": "trait-technology",
     "name": "Technology",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -16942,12 +13842,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Familiarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons",
     "description": "Familiarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons",
-    "mechanics": "\\+2 Technology Knowledge",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Technology\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Agent  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nFamiliarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons\n\n## Mechanics & Benefits\n\\+2 Technology Knowledge"
+    "body": "# Technology\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nFamiliarity with advanced technologies, including hacking, surveillance equipment, and advanced weapons"
   },
   {
-    "id": "trait-scout-terrain-expert",
+    "id": "trait-terrain-expert",
     "name": "Terrain Expert",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -16967,18 +13867,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Scouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.   *+2 to Stealth, Survival and Defense in chosen Terrain* #",
     "description": "Scouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.   *+2 to Stealth, Survival and Defense in chosen Terrain* #",
-    "mechanics": "Scouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.  \n*\\+2 to Stealth, Survival and Defense in chosen Terrain*\n\n#",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Terrain Expert\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Scout  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nScouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.   *\\+2 to Stealth, Survival and Defense in chosen Terrain* #\n\n## Mechanics & Benefits\nScouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.  \n*\\+2 to Stealth, Survival and Defense in chosen Terrain*\n\n#"
+    "body": "# Terrain Expert\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nScouts have knacks that allow them to improve their efficiency in specific terrains, which may be taken multiple times for different terrain types.   *+2 to Stealth, Survival and Defense in chosen Terrain* #"
   },
   {
-    "id": "trait-species-thermal-sight",
+    "id": "trait-thermal-sight",
     "name": "Thermal Sight",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Sensory",
-    "type": "Sensory",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -16992,15 +13892,15 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "See Infra-Red/heat patterns, track passage of a warm target without light.",
     "description": "See Infra-Red/heat patterns, track passage of a warm target without light.",
-    "mechanics": "Infrared pit organs or thermal optics allow detecting heat signatures, warm conduits, and residual thermal footprints in absolute darkness, granting a +4 bonus to track warm-bodied creatures.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Thermal Sight\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Sensory  \n\n## Description\nSee Infra-Red/heat patterns, track passage of a warm target without light.\n\n## Mechanics & Benefits\nInfrared pit organs or thermal optics allow detecting heat signatures, warm conduits, and residual thermal footprints in absolute darkness, granting a +4 bonus to track warm-bodied creatures."
+    "body": "# Thermal Sight\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nSee Infra-Red/heat patterns, track passage of a warm target without light."
   },
   {
-    "id": "trait-builder-time-management",
+    "id": "trait-time-management",
     "name": "Time Management",
     "category": "traits",
-    "trait_type": "Occupational Trait",
+    "trait_type": "Mental",
     "trait_tier": "Basic",
     "classification": "Physical",
     "type": "Physical",
@@ -17015,36 +13915,11 @@ export const ALL_CANONICAL_TRAITS = [
       "ap": 0
     },
     "is_ranked": false,
-    "desc": "Excellent time management skills",
-    "description": "Excellent time management skills",
-    "mechanics": "Reduce Rush modifiers to Skill checks by 2",
+    "desc": "Mastery of operational logistics, prioritizing tasks, and maximizing productivity during downtime.",
+    "description": "Mastery of operational logistics, prioritizing tasks, and maximizing productivity during downtime.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Time Management\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Builder  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nExcellent time management skills\n\n## Mechanics & Benefits\nReduce Rush modifiers to Skill checks by 2"
-  },
-  {
-    "id": "trait-representative-time-management",
-    "name": "Time Management",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Ability to manage time effectively and prioritize tasks to ensure that they are completed on time",
-    "description": "Ability to manage time effectively and prioritize tasks to ensure that they are completed on time",
-    "mechanics": "Reduce Rush modifier to Skill check by 2",
-    "modifiers": [],
-    "body": "# Time Management\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Representative  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to manage time effectively and prioritize tasks to ensure that they are completed on time\n\n## Mechanics & Benefits\nReduce Rush modifier to Skill check by 2"
+    "body": "# Time Management\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Mental\n**BP Cost**: 1\n\n## Description\nMastery of operational logistics, prioritizing tasks, and maximizing productivity during downtime."
   },
   {
     "id": "trait-toughness",
@@ -17067,9 +13942,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Physical endurance and psychological grit hardened by harsh living conditions.",
     "description": "Physical endurance and psychological grit hardened by harsh living conditions.",
-    "mechanics": "+1 to Fortitude and Willpower checks.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Toughness\n\n**Category**: Origin Traits  \n**Associated Origin**: General  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPhysical endurance and psychological grit hardened by harsh living conditions.\n\n## Mechanics & Benefits\n+1 to Fortitude and Willpower checks."
+    "body": "# Toughness\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nPhysical endurance and psychological grit hardened by harsh living conditions."
   },
   {
     "id": "trait-trade-tools",
@@ -17092,12 +13967,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Standard occupational gear, specialized toolkits, and field equipment.",
     "description": "Standard occupational gear, specialized toolkits, and field equipment.",
-    "mechanics": "+2 Equipment allowance bonus during character creation.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Trade Tools\n\n**Category**: Common Occupational Traits  \n**Cost**: 1 CP (or free starting selection)\n\n## Description\nStandard occupational gear, specialized toolkits, and field equipment.\n\n## Mechanics & Benefits\n+2 Equipment allowance bonus during character creation."
+    "body": "# Trade Tools\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Common Occupational Trait\n**BP Cost**: 1\n\n## Description\nStandard occupational gear, specialized toolkits, and field equipment."
   },
   {
-    "id": "trait-agent-travel",
+    "id": "trait-travel",
     "name": "Travel",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -17117,18 +13992,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Piloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain   *+2 Piloting and Navigation*  #",
     "description": "Piloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain   *+2 Piloting and Navigation*  #",
-    "mechanics": "Piloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain  \n*\\+2 Piloting and Navigation* \n\n#",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Travel\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Agent  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nPiloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain   *\\+2 Piloting and Navigation*  #\n\n## Mechanics & Benefits\nPiloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain  \n*\\+2 Piloting and Navigation* \n\n#"
+    "body": "# Travel\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nPiloting spacecraft, driving ground vehicles, and navigating through unfamiliar terrain   *+2 Piloting and Navigation*  #"
   },
   {
-    "id": "trait-species-treespeech",
+    "id": "trait-treespeech",
     "name": "Treespeech",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Advanced",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 2,
     "costs": {
       "bp": 2,
@@ -17142,12 +14017,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Ability to converse with plants.",
     "description": "Ability to converse with plants.",
-    "mechanics": "Innate biophilic resonance allows communicating telepathically with flora, ancient trees, and fungal networks to perceive past events, terrain hazards, or creature passage.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Treespeech\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Meta  \n\n## Description\nAbility to converse with plants.\n\n## Mechanics & Benefits\nInnate biophilic resonance allows communicating telepathically with flora, ancient trees, and fungal networks to perceive past events, terrain hazards, or creature passage."
+    "body": "# Treespeech\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nAbility to converse with plants."
   },
   {
-    "id": "trait-drifter-unpredictability",
+    "id": "trait-unpredictability",
     "name": "Unpredictability",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -17167,9 +14042,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Unpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries   *+2 Initiative* #",
     "description": "Unpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries   *+2 Initiative* #",
-    "mechanics": "Unpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries  \n*\\+2 Initiative*\n\n#",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Unpredictability\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Drifter  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nUnpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries   *\\+2 Initiative* #\n\n## Mechanics & Benefits\nUnpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries  \n*\\+2 Initiative*\n\n#"
+    "body": "# Unpredictability\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nUnpredictable in their actions and decisions, making them both intriguing allies and formidable adversaries   *+2 Initiative* #"
   },
   {
     "id": "trait-urban-survival",
@@ -17192,18 +14067,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Parkour roof-running, subway tunneling, and vanishing into thick metropolitan crowds.",
     "description": "Parkour roof-running, subway tunneling, and vanishing into thick metropolitan crowds.",
-    "mechanics": "+2 to Athletics and Stealth checks when in urban or developed municipal zones.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Urban Survival\n\n**Category**: Origin Traits  \n**Associated Origin**: Urban  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nParkour roof-running, subway tunneling, and vanishing into thick metropolitan crowds.\n\n## Mechanics & Benefits\n+2 to Athletics and Stealth checks when in urban or developed municipal zones."
+    "body": "# Urban Survival\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nParkour roof-running, subway tunneling, and vanishing into thick metropolitan crowds."
   },
   {
-    "id": "trait-species-urbanite",
+    "id": "trait-urbanite",
     "name": "Urbanite",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Social",
-    "type": "Social",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -17217,18 +14092,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "+2 racial bonus on Diplomacy and Sense Motive checks.",
     "description": "+2 racial bonus on Diplomacy and Sense Motive checks.",
-    "mechanics": "Instinctively understands crowded arcologies, hive cities, underworld signals, and street dynamics. Grants a permanent +2 racial bonus on Diplomacy and Sense Motive (Empathy/Insight) checks in urban environments.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Urbanite\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Social  \n\n## Description\n+2 racial bonus on Diplomacy and Sense Motive checks.\n\n## Mechanics & Benefits\nInstinctively understands crowded arcologies, hive cities, underworld signals, and street dynamics. Grants a permanent +2 racial bonus on Diplomacy and Sense Motive (Empathy/Insight) checks in urban environments."
+    "body": "# Urbanite\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\n+2 racial bonus on Diplomacy and Sense Motive checks."
   },
   {
-    "id": "trait-species-vampiric-power",
+    "id": "trait-vampiric-power",
     "name": "Vampiric Power",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Elite",
-    "classification": "Meta",
-    "type": "Meta",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 4,
     "costs": {
       "bp": 4,
@@ -17242,12 +14117,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Gain point in Physical Ability per 2 points of Sta drained (Lethal at 3+Sta).",
     "description": "Gain point in Physical Ability per 2 points of Sta drained (Lethal at 3+Sta).",
-    "mechanics": "Upon successfully draining biological or metaphysical vitality from a living target in melee, gain +1 temporary point in a Physical Ability score for every 2 points of Stamina drained (becomes lethal vitality damage if 3+ Stamina is drained). Temporary bonuses last 1 hour.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Vampiric Power\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Meta  \n\n## Description\nGain point in Physical Ability per 2 points of Sta drained (Lethal at 3+Sta).\n\n## Mechanics & Benefits\nUpon successfully draining biological or metaphysical vitality from a living target in melee, gain +1 temporary point in a Physical Ability score for every 2 points of Stamina drained (becomes lethal vitality damage if 3+ Stamina is drained). Temporary bonuses last 1 hour."
+    "body": "# Vampiric Power\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nGain point in Physical Ability per 2 points of Sta drained (Lethal at 3+Sta)."
   },
   {
-    "id": "trait-species-venom",
+    "id": "trait-venom",
     "name": "Venom",
     "category": "traits",
     "trait_type": "Species Trait",
@@ -17267,12 +14142,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Hemotoxic (Str/Sta) / Neurotoxic (Agility/Sensory) / Cytotoxic (Tissue Corrosive)",
     "description": "Hemotoxic (Str/Sta) / Neurotoxic (Agility/Sensory) / Cytotoxic (Tissue Corrosive)",
-    "mechanics": "Injected via natural weapons or fangs. Choose one toxin profile at creation: Hemotoxic (deals Stamina damage and fatigue), Neurotoxic (deals Agility damage and slows), or Cytotoxic (deals ongoing Corrosive damage). Target must succeed on a Fortitude save (DC 10 + 1/2 Level + Sta mod) or suffer toxin effects.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Venom\n\n**Category**: Species Traits (Advanced)  \n**Cost**: 2 BP  \n**Type**: Physical  \n\n## Description\nHemotoxic (Str/Sta) / Neurotoxic (Agility/Sensory) / Cytotoxic (Tissue Corrosive)\n\n## Mechanics & Benefits\nInjected via natural weapons or fangs. Choose one toxin profile at creation: Hemotoxic (deals Stamina damage and fatigue), Neurotoxic (deals Agility damage and slows), or Cytotoxic (deals ongoing Corrosive damage). Target must succeed on a Fortitude save (DC 10 + 1/2 Level + Sta mod) or suffer toxin effects."
+    "body": "# Venom\n\n**Category**: TRAITS\n**Tier**: Advanced\n**Type**: Species Trait\n**BP Cost**: 2\n\n## Description\nHemotoxic (Str/Sta) / Neurotoxic (Agility/Sensory) / Cytotoxic (Tissue Corrosive)"
   },
   {
-    "id": "trait-entertainer-venues",
+    "id": "trait-venues",
     "name": "Venues",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -17292,12 +14167,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Has strong ties to certain performance venues   *+2 Equipment (Hideout) and +1 Wealth* #",
     "description": "Has strong ties to certain performance venues   *+2 Equipment (Hideout) and +1 Wealth* #",
-    "mechanics": "Has strong ties to certain performance venues  \n*\\+2 Equipment (Hideout) and \\+1 Wealth*\n\n#",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Venues\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Entertainer  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nHas strong ties to certain performance venues   *\\+2 Equipment (Hideout) and \\+1 Wealth* #\n\n## Mechanics & Benefits\nHas strong ties to certain performance venues  \n*\\+2 Equipment (Hideout) and \\+1 Wealth*\n\n#"
+    "body": "# Venues\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nHas strong ties to certain performance venues   *+2 Equipment (Hideout) and +1 Wealth* #"
   },
   {
-    "id": "trait-soldier-versatile",
+    "id": "trait-versatile",
     "name": "Versatile",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -17317,21 +14192,21 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Able to operate in a variety of environments, including underwater and in zero-gravity",
     "description": "Able to operate in a variety of environments, including underwater and in zero-gravity",
-    "mechanics": "\\+1 Karma Point",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Versatile\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAble to operate in a variety of environments, including underwater and in zero-gravity\n\n## Mechanics & Benefits\n\\+1 Karma Point"
+    "body": "# Versatile\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nAble to operate in a variety of environments, including underwater and in zero-gravity"
   },
   {
-    "id": "trait-adept-versatility",
+    "id": "trait-versatility",
     "name": "Versatility",
     "category": "traits",
-    "trait_type": "Occupational Trait",
+    "trait_type": "General",
     "trait_tier": "Basic",
     "classification": "Physical",
     "type": "Physical",
-    "bp": 1,
+    "bp": 2,
     "costs": {
-      "bp": 1,
+      "bp": 2,
       "credits": 0,
       "nodes": 0,
       "sockets": 0,
@@ -17340,45 +14215,20 @@ export const ALL_CANONICAL_TRAITS = [
       "ap": 0
     },
     "is_ranked": false,
-    "desc": "Adepts are often versatile characters who can adapt to different situations. They may have a wide range of skills and abilities that allow them to handle various challenges and tasks.   *+1 to Karma Point* #",
-    "description": "Adepts are often versatile characters who can adapt to different situations. They may have a wide range of skills and abilities that allow them to handle various challenges and tasks.   *+1 to Karma Point* #",
-    "mechanics": "Adepts are often versatile characters who can adapt to different situations. They may have a wide range of skills and abilities that allow them to handle various challenges and tasks.  \n*\\+1 to Karma Point*\n\n#",
+    "desc": "Adaptable skill set allowing the character to perform a wide variety of tasks without specialized tools or preparation.",
+    "description": "Adaptable skill set allowing the character to perform a wide variety of tasks without specialized tools or preparation.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Versatility\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Adept  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAdepts are often versatile characters who can adapt to different situations. They may have a wide range of skills and abilities that allow them to handle various challenges and tasks.   *\\+1 to Karma Point* #\n\n## Mechanics & Benefits\nAdepts are often versatile characters who can adapt to different situations. They may have a wide range of skills and abilities that allow them to handle various challenges and tasks.  \n*\\+1 to Karma Point*\n\n#"
+    "body": "# Versatility\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: General\n**BP Cost**: 2\n\n## Description\nAdaptable skill set allowing the character to perform a wide variety of tasks without specialized tools or preparation."
   },
   {
-    "id": "trait-specialist-versatility",
-    "name": "Versatility",
-    "category": "traits",
-    "trait_type": "Occupational Trait",
-    "trait_tier": "Basic",
-    "classification": "Physical",
-    "type": "Physical",
-    "bp": 1,
-    "costs": {
-      "bp": 1,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 0,
-      "focus": 0,
-      "ap": 0
-    },
-    "is_ranked": false,
-    "desc": "Ability to fulfill multiple roles within a team",
-    "description": "Ability to fulfill multiple roles within a team",
-    "mechanics": "\\+1 to Karma Pool maximum",
-    "modifiers": [],
-    "body": "# Versatility\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Specialist  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nAbility to fulfill multiple roles within a team\n\n## Mechanics & Benefits\n\\+1 to Karma Pool maximum"
-  },
-  {
-    "id": "trait-species-water-sense",
+    "id": "trait-water-sense",
     "name": "Water-Sense",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Basic",
-    "classification": "Sensory",
-    "type": "Sensory",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 1,
     "costs": {
       "bp": 1,
@@ -17392,12 +14242,12 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Blindsense 30 feet against creatures touching the same body of water.",
     "description": "Blindsense 30 feet against creatures touching the same body of water.",
-    "mechanics": "Electro-receptors or lateral lines along the body detect micro-vibrations and electrical currents in liquid. Grants Blindsense out to a range of 30 feet against any creature or submerged object touching or moving through the same contiguous body of water.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Water-Sense\n\n**Category**: Species Traits (Basic)  \n**Cost**: 1 BP  \n**Type**: Sensory  \n\n## Description\nBlindsense 30 feet against creatures touching the same body of water.\n\n## Mechanics & Benefits\nElectro-receptors or lateral lines along the body detect micro-vibrations and electrical currents in liquid. Grants Blindsense out to a range of 30 feet against any creature or submerged object touching or moving through the same contiguous body of water."
+    "body": "# Water-Sense\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Species Trait\n**BP Cost**: 1\n\n## Description\nBlindsense 30 feet against creatures touching the same body of water."
   },
   {
-    "id": "trait-soldier-well-equipped",
+    "id": "trait-well-equipped",
     "name": "Well-Equipped",
     "category": "traits",
     "trait_type": "Occupational Trait",
@@ -17417,18 +14267,18 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Equipped with the latest technology and weaponry   *+2 Equipment* #",
     "description": "Equipped with the latest technology and weaponry   *+2 Equipment* #",
-    "mechanics": "Equipped with the latest technology and weaponry  \n*\\+2 Equipment*\n\n#",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Well-Equipped\n\n**Category**: Occupational Traits  \n**Associated Occupation**: Soldier  \n**Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nEquipped with the latest technology and weaponry   *\\+2 Equipment* #\n\n## Mechanics & Benefits\nEquipped with the latest technology and weaponry  \n*\\+2 Equipment*\n\n#"
+    "body": "# Well-Equipped\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Occupational Trait\n**BP Cost**: 1\n\n## Description\nEquipped with the latest technology and weaponry   *+2 Equipment* #"
   },
   {
-    "id": "trait-species-wyrm-senses",
+    "id": "trait-wyrm-senses",
     "name": "Wyrm Senses",
     "category": "traits",
     "trait_type": "Species Trait",
     "trait_tier": "Elite",
-    "classification": "Sensory",
-    "type": "Sensory",
+    "classification": "Physical",
+    "type": "Physical",
     "bp": 4,
     "costs": {
       "bp": 4,
@@ -17442,9 +14292,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Take Features from any Acute Sense Line. Req: Dragon Apotheosis.",
     "description": "Take Features from any Acute Sense Line. Req: Dragon Apotheosis.",
-    "mechanics": "Requirements: Dragon Apotheosis trait. Ancient wyrm sensory transcendence grants immediate access to acquire any feature from the Acute Sense lines (Acute Hearing, Scent, Thermal, Micro-Vision) at a –1 BP discount.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Wyrm Senses\n\n**Category**: Species Traits (Elite)  \n**Cost**: 4 BP  \n**Type**: Sensory  \n\n## Description\nTake Features from any Acute Sense Line. Req: Dragon Apotheosis.\n\n## Mechanics & Benefits\nRequirements: Dragon Apotheosis trait. Ancient wyrm sensory transcendence grants immediate access to acquire any feature from the Acute Sense lines (Acute Hearing, Scent, Thermal, Micro-Vision) at a –1 BP discount."
+    "body": "# Wyrm Senses\n\n**Category**: TRAITS\n**Tier**: Elite\n**Type**: Species Trait\n**BP Cost**: 4\n\n## Description\nTake Features from any Acute Sense Line. Req: Dragon Apotheosis."
   },
   {
     "id": "trait-zero-g-acclimation",
@@ -17467,9 +14317,9 @@ export const ALL_CANONICAL_TRAITS = [
     "is_ranked": false,
     "desc": "Total bodily familiarity with microgravity, spin gravity, and vacuum suits.",
     "description": "Total bodily familiarity with microgravity, spin gravity, and vacuum suits.",
-    "mechanics": "Suffers no penalties when moving, fighting, or operating in Zero-G environments.",
+    "mechanics": "",
     "modifiers": [],
-    "body": "# Zero-G Acclimation\n\n**Category**: Origin Traits  \n**Associated Origin**: Spacer  \n**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait\n\n## Description\nTotal bodily familiarity with microgravity, spin gravity, and vacuum suits.\n\n## Mechanics & Benefits\nSuffers no penalties when moving, fighting, or operating in Zero-G environments."
+    "body": "# Zero-G Acclimation\n\n**Category**: TRAITS\n**Tier**: Basic\n**Type**: Origin Trait\n**BP Cost**: 1\n\n## Description\nTotal bodily familiarity with microgravity, spin gravity, and vacuum suits."
   }
 ];
 

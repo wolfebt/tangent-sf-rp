@@ -1,1 +1,62 @@
-[]
+[
+  {
+    "id": "class-melee-slash",
+    "name": "Melee (Slashing)",
+    "description": "Edged hand-to-hand weapons including swords, combat knives, axes, and energy blades."
+  },
+  {
+    "id": "class-melee-blunt",
+    "name": "Melee (Blunt)",
+    "description": "Impact hand-to-hand weapons including warhammers, batons, maces, and shock clubs."
+  },
+  {
+    "id": "class-melee-pierce",
+    "name": "Melee (Piercing)",
+    "description": "Thrusting hand-to-hand weapons including spears, rapiers, daggers, and lances."
+  },
+  {
+    "id": "class-ranged-ballistic",
+    "name": "Ranged (Ballistic)",
+    "description": "Firearms utilizing chemical propellant or magnetic acceleration to launch physical slugs."
+  },
+  {
+    "id": "class-heavy-ballistic",
+    "name": "Heavy (Ballistic)",
+    "description": "Crew-served or mounted projectile weapons including heavy machine guns and auto-cannons."
+  },
+  {
+    "id": "class-ranged-energy",
+    "name": "Ranged (Energy)",
+    "description": "Direct-fire laser carbines, plasma pistols, particle blasters, and arc throwers."
+  },
+  {
+    "id": "class-heavy-energy",
+    "name": "Heavy (Energy)",
+    "description": "Vehicle or platform mounted plasma cannons, siege lasers, and singularity projectors."
+  },
+  {
+    "id": "class-armor-light",
+    "name": "Light Armor",
+    "description": "Flexible ballistic vests and light armoring offering mobility without agility penalties."
+  },
+  {
+    "id": "class-armor-medium",
+    "name": "Medium Armor",
+    "description": "Reinforced carapace plates and composite suits offering balanced battlefield defense."
+  },
+  {
+    "id": "class-armor-heavy",
+    "name": "Heavy Armor",
+    "description": "Full-body powered plate and exosuits offering maximum physical and energy DR."
+  },
+  {
+    "id": "class-armor-void",
+    "name": "Sealed Void Suit",
+    "description": "Hermetically pressurized atmospheric suit designed for space walks and toxic planets."
+  },
+  {
+    "id": "class-armor-hazard",
+    "name": "Hazard Suit",
+    "description": "Specialized chemical, radiation, and biological isolation suit for industrial disaster zones."
+  }
+]

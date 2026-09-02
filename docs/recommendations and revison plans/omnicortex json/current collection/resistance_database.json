@@ -1,1 +1,52 @@
-[]
+[
+  {
+    "id": "res-kinetic",
+    "name": "Kinetic Resistance",
+    "description": "Reduces damage from ballistic bullets, slashing blades, and crushing bludgeons."
+  },
+  {
+    "id": "res-energy",
+    "name": "Energy / Laser Resistance",
+    "description": "Deflects and dissipates coherent light, blasters, and directed-energy beams."
+  },
+  {
+    "id": "res-thermal",
+    "name": "Thermal / Fire Resistance",
+    "description": "Insulates against superheated plasma, incendiary munitions, and open flame."
+  },
+  {
+    "id": "res-cryo",
+    "name": "Cryo / Cold Resistance",
+    "description": "Thermal barriers preventing freeze damage, hypothermia, and brittle fracture."
+  },
+  {
+    "id": "res-voltic",
+    "name": "Voltic / EMP Resistance",
+    "description": "Faraday lining that insulates synthetic chassis and cybernetics from electrical shock."
+  },
+  {
+    "id": "res-corrosive",
+    "name": "Corrosive / Acid Resistance",
+    "description": "Chemically inert coating preventing chemical dissolution and lingering burn."
+  },
+  {
+    "id": "res-sonic",
+    "name": "Sonic Resistance",
+    "description": "Dampening foam and acoustic baffles that neutralize vibrational frequencies."
+  },
+  {
+    "id": "res-psychic",
+    "name": "Metaphysical / Psychic Resistance",
+    "description": "Psi-shielding and lead-crystal lattice that protects the mind from mental attacks."
+  },
+  {
+    "id": "res-environmental",
+    "name": "Environmental Seal (Vacuum/Toxin)",
+    "description": "Full hermetic life-support seal protecting against vacuum, zero pressure, and bio-hazards."
+  },
+  {
+    "id": "res-radiation",
+    "name": "Radiation Shielding",
+    "description": "Dense lead and magnetic shielding protecting against cosmic rays and fallout."
+  }
+]

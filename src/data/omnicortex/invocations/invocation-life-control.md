@@ -2,8 +2,8 @@
 id: invocation-life-control
 name: LIFE CONTROL
 category: invocations
-discipline: Energy
-description: LIFE CONTROL invocation for Energy reality manipulation.
+discipline: Entropy
+description: LIFE CONTROL invocation for Entropy reality manipulation.
 costs:
   bp: 0
   credits: 0
@@ -25,11 +25,10 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # LIFE CONTROL Invocation
 
 **Category**: Invocations  
-**Discipline**: Energy
+**Discipline**: Entropy
 
 ## Description & Ritual Details
 Classification: Entropy (Order) | Utility/Healing | \[Vitality\] \[Transfer\]  

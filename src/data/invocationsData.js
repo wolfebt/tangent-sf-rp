@@ -9,7 +9,7 @@ export const DEFAULT_INVOCATIONS = [
     "id": "invocation-composite-accelerated-decay",
     "name": "Accelerated Decay",
     "category": "invocations",
-    "discipline": "Metaphysics",
+    "discipline": "Entropy + Dimension",
     "level": 1,
     "range": "30 ft",
     "duration": "Instantaneous",
@@ -31,7 +31,7 @@ export const DEFAULT_INVOCATIONS = [
     "id": "invocation-acute-senses",
     "name": "ACUTE SENSES",
     "category": "invocations",
-    "discipline": "Matter",
+    "discipline": "Mental",
     "level": 1,
     "range": "30 ft",
     "duration": "Instantaneous",
@@ -46,8 +46,8 @@ export const DEFAULT_INVOCATIONS = [
       "ap": 2
     },
     "modifiers": [],
-    "description": "ACUTE SENSES invocation for Matter reality manipulation.",
-    "body": "# ACUTE SENSES Invocation\n\n**Category**: Invocations  \n**Discipline**: Matter\n\n## Description & Ritual Details\nClassification: Mental (Sense) | Buff | \\[Perception\\] \\[Enhancement\\]  \nParameters:\n* **Base Difficulty:** 10  \n* **Time:** Standard Action  \n* **Range:** Personal  \n* **Area:** Self  \n* **Duration:** Hours/Level  \n* **Resistance:** None\nEffect Description:  \nHeightens the caster's natural senses (Sight, Hearing, Smell).  \n**Scaling Function:**\n* **Magnitude:** Bonus to Awareness/Perception Checks \\= \\+2 per Stage.\n###"
+    "description": "ACUTE SENSES invocation for Mental reality manipulation.",
+    "body": "# ACUTE SENSES Invocation\n\n**Category**: Invocations  \n**Discipline**: Mental\n\n## Description & Ritual Details\nClassification: Mental (Sense) | Buff | \\[Perception\\] \\[Enhancement\\]  \nParameters:\n* **Base Difficulty:** 10  \n* **Time:** Standard Action  \n* **Range:** Personal  \n* **Area:** Self  \n* **Duration:** Hours/Level  \n* **Resistance:** None\nEffect Description:  \nHeightens the caster's natural senses (Sight, Hearing, Smell).  \n**Scaling Function:**\n* **Magnitude:** Bonus to Awareness/Perception Checks \\= \\+2 per Stage.\n###"
   },
   {
     "id": "invocation-aid",
@@ -185,7 +185,7 @@ export const DEFAULT_INVOCATIONS = [
     "id": "invocation-analyze-structure",
     "name": "ANALYZE STRUCTURE",
     "category": "invocations",
-    "discipline": "Energy",
+    "discipline": "Matter",
     "level": 1,
     "range": "30 ft",
     "duration": "Instantaneous",
@@ -200,8 +200,8 @@ export const DEFAULT_INVOCATIONS = [
       "ap": 2
     },
     "modifiers": [],
-    "description": "ANALYZE STRUCTURE invocation for Energy reality manipulation.",
-    "body": "# ANALYZE STRUCTURE Invocation\n\n**Category**: Invocations  \n**Discipline**: Energy\n\n## Description & Ritual Details\nClassification: Matter (Transmutation) | Sensory | \\[Cantrip\\] \\[Analysis\\]  \nParameters:\n* **Base Difficulty:** 5  \n* **Time:** Swift Action  \n* **Range:** Touch/Sight  \n* **Area:** Single Object  \n* **Duration:** Instantaneous  \n* **Resistance:** None\nEffect Description:  \nAnalyzes an object's physical structure and elemental composition. Determines weak points, alloy mixtures, and purity.\n###"
+    "description": "ANALYZE STRUCTURE invocation for Matter reality manipulation.",
+    "body": "# ANALYZE STRUCTURE Invocation\n\n**Category**: Invocations  \n**Discipline**: Matter\n\n## Description & Ritual Details\nClassification: Matter (Transmutation) | Sensory | \\[Cantrip\\] \\[Analysis\\]  \nParameters:\n* **Base Difficulty:** 5  \n* **Time:** Swift Action  \n* **Range:** Touch/Sight  \n* **Area:** Single Object  \n* **Duration:** Instantaneous  \n* **Resistance:** None\nEffect Description:  \nAnalyzes an object's physical structure and elemental composition. Determines weak points, alloy mixtures, and purity.\n###"
   },
   {
     "id": "invocation-animate-object",
@@ -229,7 +229,7 @@ export const DEFAULT_INVOCATIONS = [
     "id": "invocation-arcane-lock",
     "name": "ARCANE LOCK",
     "category": "invocations",
-    "discipline": "Entropy",
+    "discipline": "Matter",
     "level": 1,
     "range": "30 ft",
     "duration": "Instantaneous",
@@ -244,8 +244,8 @@ export const DEFAULT_INVOCATIONS = [
       "ap": 2
     },
     "modifiers": [],
-    "description": "ARCANE LOCK invocation for Entropy reality manipulation.",
-    "body": "# ARCANE LOCK Invocation\n\n**Category**: Invocations  \n**Discipline**: Entropy\n\n## Description & Ritual Details\nClassification: Matter (Enhancement) | Utility | \\[Security\\] \\[Seal\\]  \nParameters:\n* **Base Difficulty:** 10  \n* **Time:** Standard Action  \n* **Range:** Touch  \n* **Area:** Door, Chest, or Portal  \n* **Duration:** Permanent (until dispelled/broken)  \n* **Resistance:** None (DC to break)\nEffect Description:  \nMagically secures an object, fusing the materials at the molecular level.  \n**Scaling Function:**\n* **Security:** Break/Lockpick DC increases by \\+5 per Stage.  \n* **Integrity:** Object gains \\+10 Hardness per Stage.\n###"
+    "description": "ARCANE LOCK invocation for Matter reality manipulation.",
+    "body": "# ARCANE LOCK Invocation\n\n**Category**: Invocations  \n**Discipline**: Matter\n\n## Description & Ritual Details\nClassification: Matter (Enhancement) | Utility | \\[Security\\] \\[Seal\\]  \nParameters:\n* **Base Difficulty:** 10  \n* **Time:** Standard Action  \n* **Range:** Touch  \n* **Area:** Door, Chest, or Portal  \n* **Duration:** Permanent (until dispelled/broken)  \n* **Resistance:** None (DC to break)\nEffect Description:  \nMagically secures an object, fusing the materials at the molecular level.  \n**Scaling Function:**\n* **Security:** Break/Lockpick DC increases by \\+5 per Stage.  \n* **Integrity:** Object gains \\+10 Hardness per Stage.\n###"
   },
   {
     "id": "invocation-banishment",
@@ -449,7 +449,7 @@ export const DEFAULT_INVOCATIONS = [
     "id": "invocation-chaotic-blast",
     "name": "CHAOTIC BLAST",
     "category": "invocations",
-    "discipline": "Energy",
+    "discipline": "Entropy",
     "level": 1,
     "range": "30 ft",
     "duration": "Instantaneous",
@@ -464,8 +464,8 @@ export const DEFAULT_INVOCATIONS = [
       "ap": 2
     },
     "modifiers": [],
-    "description": "CHAOTIC BLAST invocation for Energy reality manipulation.",
-    "body": "# CHAOTIC BLAST Invocation\n\n**Category**: Invocations  \n**Discipline**: Energy\n\n## Description & Ritual Details\nClassification: Entropy (Chaos) | Attack | \\[Evocation\\] \\[Raw Chaos\\]  \nParameters:\n* **Base Difficulty:** 15  \n* **Time:** Standard Action  \n* **Range:** Short  \n* **Area:** 20ft Burst  \n* **Duration:** Instantaneous  \n* **Resistance:** Reflex (Half)\nEffect Description:  \nAn explosion of multicolored, discordent energy.  \n**Scaling Function:**\n* **Damage:** 2d6 Chaos Damage per Stage.  \n* **Wild:** On a Crit, adds a random effect (Knockdown, Blind, or \\+1d6 Dmg).\n## \n## \n## **ORDER INVOCATIONS**\nParent Skill: Entropy  \nSpecialization: Order  \nDescription: Manipulation and repairing patterns of most anything. Utilizes Positive Energy.  \nStandard Range: Short.  \nBase Healing: 2d6 healed per Stage (Novice, Trained, Expert, Master, Pinnacle) \\+ 1d per Level of Invocation used.  \nNote: If dealing with Undead or Negative Energy creatures, inverse the Damage/Heal effects.\n###"
+    "description": "CHAOTIC BLAST invocation for Entropy reality manipulation.",
+    "body": "# CHAOTIC BLAST Invocation\n\n**Category**: Invocations  \n**Discipline**: Entropy\n\n## Description & Ritual Details\nClassification: Entropy (Chaos) | Attack | \\[Evocation\\] \\[Raw Chaos\\]  \nParameters:\n* **Base Difficulty:** 15  \n* **Time:** Standard Action  \n* **Range:** Short  \n* **Area:** 20ft Burst  \n* **Duration:** Instantaneous  \n* **Resistance:** Reflex (Half)\nEffect Description:  \nAn explosion of multicolored, discordent energy.  \n**Scaling Function:**\n* **Damage:** 2d6 Chaos Damage per Stage.  \n* **Wild:** On a Crit, adds a random effect (Knockdown, Blind, or \\+1d6 Dmg).\n## \n## \n## **ORDER INVOCATIONS**\nParent Skill: Entropy  \nSpecialization: Order  \nDescription: Manipulation and repairing patterns of most anything. Utilizes Positive Energy.  \nStandard Range: Short.  \nBase Healing: 2d6 healed per Stage (Novice, Trained, Expert, Master, Pinnacle) \\+ 1d per Level of Invocation used.  \nNote: If dealing with Undead or Negative Energy creatures, inverse the Damage/Heal effects.\n###"
   },
   {
     "id": "invocation-charm",
@@ -603,7 +603,7 @@ export const DEFAULT_INVOCATIONS = [
     "id": "invocation-confusion",
     "name": "CONFUSION",
     "category": "invocations",
-    "discipline": "Entropy",
+    "discipline": "Mental",
     "level": 1,
     "range": "30 ft",
     "duration": "Instantaneous",
@@ -618,8 +618,8 @@ export const DEFAULT_INVOCATIONS = [
       "ap": 2
     },
     "modifiers": [],
-    "description": "CONFUSION invocation for Entropy reality manipulation.",
-    "body": "# CONFUSION Invocation\n\n**Category**: Invocations  \n**Discipline**: Entropy\n\n## Description & Ritual Details\nClassification: Mental (Projection) | Debuff | \\[Chaos\\] \\[Disorient\\]  \nParameters:\n* **Base Difficulty:** 18  \n* **Time:** Standard Action  \n* **Range:** Extended  \n* **Area:** 20ft Radius  \n* **Duration:** Rounds/Level  \n* **Resistance:** Will Save (Negates)\nEffect Description:  \nScrambles the victims' thought patterns, causing erratic behavior.  \n**Scaling Function:**\n* **Duration:** 1 Round per Stage.  \n* **Severity:** Save DC increases by \\+1 per Stage.\n###"
+    "description": "CONFUSION invocation for Mental reality manipulation.",
+    "body": "# CONFUSION Invocation\n\n**Category**: Invocations  \n**Discipline**: Mental\n\n## Description & Ritual Details\nClassification: Mental (Projection) | Debuff | \\[Chaos\\] \\[Disorient\\]  \nParameters:\n* **Base Difficulty:** 18  \n* **Time:** Standard Action  \n* **Range:** Extended  \n* **Area:** 20ft Radius  \n* **Duration:** Rounds/Level  \n* **Resistance:** Will Save (Negates)\nEffect Description:  \nScrambles the victims' thought patterns, causing erratic behavior.  \n**Scaling Function:**\n* **Duration:** 1 Round per Stage.  \n* **Severity:** Save DC increases by \\+1 per Stage.\n###"
   },
   {
     "id": "invocation-conjure-sustenance",
@@ -647,7 +647,7 @@ export const DEFAULT_INVOCATIONS = [
     "id": "invocation-composite-construct-intelligence",
     "name": "Construct Intelligence",
     "category": "invocations",
-    "discipline": "Metaphysics",
+    "discipline": "Mental + Energy",
     "level": 1,
     "range": "30 ft",
     "duration": "Instantaneous",
@@ -735,7 +735,7 @@ export const DEFAULT_INVOCATIONS = [
     "id": "invocation-cull",
     "name": "CULL",
     "category": "invocations",
-    "discipline": "Energy",
+    "discipline": "Entropy",
     "level": 1,
     "range": "30 ft",
     "duration": "Instantaneous",
@@ -750,14 +750,14 @@ export const DEFAULT_INVOCATIONS = [
       "ap": 2
     },
     "modifiers": [],
-    "description": "CULL invocation for Energy reality manipulation.",
-    "body": "# CULL Invocation\n\n**Category**: Invocations  \n**Discipline**: Energy\n\n## Description & Ritual Details\nClassification: Entropy (Chaos) | Attack | \\[Minor\\] \\[Negative Energy\\]  \nParameters:\n* **Base Difficulty:** 10  \n* **Time:** Standard Action (At Will)  \n* **Range:** Touch  \n* **Area:** Single Creature  \n* **Duration:** Instantaneous  \n* **Resistance:** None\nEffect Description:  \nCauses 1 point of negative energy damage. If the target is near death (0 Vitality or wounded), it hastens their demise.  \n**Scaling Function:**\n* **Severity:** Increases to 1d4 damage at higher Stages against dying targets.\n###"
+    "description": "CULL invocation for Entropy reality manipulation.",
+    "body": "# CULL Invocation\n\n**Category**: Invocations  \n**Discipline**: Entropy\n\n## Description & Ritual Details\nClassification: Entropy (Chaos) | Attack | \\[Minor\\] \\[Negative Energy\\]  \nParameters:\n* **Base Difficulty:** 10  \n* **Time:** Standard Action (At Will)  \n* **Range:** Touch  \n* **Area:** Single Creature  \n* **Duration:** Instantaneous  \n* **Resistance:** None\nEffect Description:  \nCauses 1 point of negative energy damage. If the target is near death (0 Vitality or wounded), it hastens their demise.  \n**Scaling Function:**\n* **Severity:** Increases to 1d4 damage at higher Stages against dying targets.\n###"
   },
   {
     "id": "invocation-cure",
     "name": "CURE",
     "category": "invocations",
-    "discipline": "Energy",
+    "discipline": "Entropy",
     "level": 1,
     "range": "30 ft",
     "duration": "Instantaneous",
@@ -772,8 +772,8 @@ export const DEFAULT_INVOCATIONS = [
       "ap": 2
     },
     "modifiers": [],
-    "description": "CURE invocation for Energy reality manipulation.",
-    "body": "# CURE Invocation\n\n**Category**: Invocations  \n**Discipline**: Energy\n\n## Description & Ritual Details\nClassification: Entropy (Order) | Healing | \\[Restoration\\] \\[Positive Energy\\]  \nParameters:\n* **Base Difficulty:** 12  \n* **Time:** Standard Action  \n* **Range:** Short  \n* **Area:** Single Creature  \n* **Duration:** Instantaneous  \n* **Resistance:** Will (Harmless) / Fortitude (if Undead)\nEffect Description:  \nChannels positive energy to knit flesh and heal physical damage.  \n**Scaling Function:**\n* **Healing:** 2d6 Health recovered per Stage.  \n* **Bonus:** Adds \\+1 healing per die at Stage 3+.\n###"
+    "description": "CURE invocation for Entropy reality manipulation.",
+    "body": "# CURE Invocation\n\n**Category**: Invocations  \n**Discipline**: Entropy\n\n## Description & Ritual Details\nClassification: Entropy (Order) | Healing | \\[Restoration\\] \\[Positive Energy\\]  \nParameters:\n* **Base Difficulty:** 12  \n* **Time:** Standard Action  \n* **Range:** Short  \n* **Area:** Single Creature  \n* **Duration:** Instantaneous  \n* **Resistance:** Will (Harmless) / Fortitude (if Undead)\nEffect Description:  \nChannels positive energy to knit flesh and heal physical damage.  \n**Scaling Function:**\n* **Healing:** 2d6 Health recovered per Stage.  \n* **Bonus:** Adds \\+1 healing per die at Stage 3+.\n###"
   },
   {
     "id": "invocation-curse",
@@ -801,7 +801,7 @@ export const DEFAULT_INVOCATIONS = [
     "id": "invocation-darkness",
     "name": "DARKNESS",
     "category": "invocations",
-    "discipline": "Entropy",
+    "discipline": "Illusion",
     "level": 1,
     "range": "30 ft",
     "duration": "Instantaneous",
@@ -816,8 +816,8 @@ export const DEFAULT_INVOCATIONS = [
       "ap": 2
     },
     "modifiers": [],
-    "description": "DARKNESS invocation for Entropy reality manipulation.",
-    "body": "# DARKNESS Invocation\n\n**Category**: Invocations  \n**Discipline**: Entropy\n\n## Description & Ritual Details\nClassification: Illusion (Shadow) | Environmental | \\[Obscurement\\] \\[Negative Light\\]  \nParameters:\n* **Base Difficulty:** 12  \n* **Time:** Standard Action  \n* **Range:** Close  \n* **Area:** 20ft Radius  \n* **Duration:** 1 Round per Stage  \n* **Resistance:** None\nEffect Description:  \nFills an area with supernatural shadow that blocks normal and low-light vision.  \n**Scaling Function:**\n* **Integrity:** At Stage 3+, blocks Darkvision. At Stage 5, blocks Digital Sensors.  \n* **Area:** Radius \\= 20ft per Stage.\n###"
+    "description": "DARKNESS invocation for Illusion reality manipulation.",
+    "body": "# DARKNESS Invocation\n\n**Category**: Invocations  \n**Discipline**: Illusion\n\n## Description & Ritual Details\nClassification: Illusion (Shadow) | Environmental | \\[Obscurement\\] \\[Negative Light\\]  \nParameters:\n* **Base Difficulty:** 12  \n* **Time:** Standard Action  \n* **Range:** Close  \n* **Area:** 20ft Radius  \n* **Duration:** 1 Round per Stage  \n* **Resistance:** None\nEffect Description:  \nFills an area with supernatural shadow that blocks normal and low-light vision.  \n**Scaling Function:**\n* **Integrity:** At Stage 3+, blocks Darkvision. At Stage 5, blocks Digital Sensors.  \n* **Area:** Radius \\= 20ft per Stage.\n###"
   },
   {
     "id": "invocation-demiplane",
@@ -977,7 +977,7 @@ export const DEFAULT_INVOCATIONS = [
     "id": "invocation-dream-manipulation",
     "name": "DREAM MANIPULATION",
     "category": "invocations",
-    "discipline": "Entropy",
+    "discipline": "Mental",
     "level": 1,
     "range": "30 ft",
     "duration": "Instantaneous",
@@ -992,8 +992,8 @@ export const DEFAULT_INVOCATIONS = [
       "ap": 2
     },
     "modifiers": [],
-    "description": "DREAM MANIPULATION invocation for Entropy reality manipulation.",
-    "body": "# DREAM MANIPULATION Invocation\n\n**Category**: Invocations  \n**Discipline**: Entropy\n\n## Description & Ritual Details\nClassification: Mental (Projection) | Utility/Attack | \\[Subconscious\\] \\[Illusion\\]  \nParameters:\n* **Base Difficulty:** 20  \n* **Time:** 1 Minute  \n* **Range:** Unlimited (Known Target)  \n* **Area:** Target's Mind  \n* **Duration:** Sleep Cycle  \n* **Resistance:** Will Save (Negates)\nEffect Description:  \nAlters a sleeping creature's dreams. Can send messages or inflict nightmares.  \n**Scaling Function:**\n* **Damage:** Nightmares deal 1d6 Psychic Damage per Stage (prevents healing).  \n* **Complexity:** Detail level of dreamscape scales with Stage.\n###"
+    "description": "DREAM MANIPULATION invocation for Mental reality manipulation.",
+    "body": "# DREAM MANIPULATION Invocation\n\n**Category**: Invocations  \n**Discipline**: Mental\n\n## Description & Ritual Details\nClassification: Mental (Projection) | Utility/Attack | \\[Subconscious\\] \\[Illusion\\]  \nParameters:\n* **Base Difficulty:** 20  \n* **Time:** 1 Minute  \n* **Range:** Unlimited (Known Target)  \n* **Area:** Target's Mind  \n* **Duration:** Sleep Cycle  \n* **Resistance:** Will Save (Negates)\nEffect Description:  \nAlters a sleeping creature's dreams. Can send messages or inflict nightmares.  \n**Scaling Function:**\n* **Damage:** Nightmares deal 1d6 Psychic Damage per Stage (prevents healing).  \n* **Complexity:** Detail level of dreamscape scales with Stage.\n###"
   },
   {
     "id": "invocation-elasticity",
@@ -1131,7 +1131,7 @@ export const DEFAULT_INVOCATIONS = [
     "id": "invocation-exorcism",
     "name": "EXORCISM",
     "category": "invocations",
-    "discipline": "Dimension",
+    "discipline": "Entropy",
     "level": 1,
     "range": "30 ft",
     "duration": "Instantaneous",
@@ -1146,8 +1146,8 @@ export const DEFAULT_INVOCATIONS = [
       "ap": 2
     },
     "modifiers": [],
-    "description": "EXORCISM invocation for Dimension reality manipulation.",
-    "body": "# EXORCISM Invocation\n\n**Category**: Invocations  \n**Discipline**: Dimension\n\n## Description & Ritual Details\nClassification: Entropy (Order) | Attack/Utility | \\[Banishment\\] \\[Spirit\\]  \nParameters:\n* **Base Difficulty:** 20  \n* **Time:** Full Round Action (Maintained)  \n* **Range:** Short  \n* **Area:** Single Creature (Possessed)  \n* **Duration:** Instantaneous (after success)  \n* **Resistance:** Will Save (Possessor)\nEffect Description:  \nDrives out possessing spirits, demons, or entities.  \n**Scaling Function:**\n* **Power:** Damage to Spirit \\= 2d6 per Stage (Force/Holy).  \n* **Severity:** Save DC increases by \\+1 per Stage.\n# **Dimension Invocations**\n# **Dimension Invocations**\nThe following Invocations belong to the **Dimension Discipline**. They rely on the Attune skill for accuracy and DC setting, and the specific Discipline Skill (Dimension: Summoning or Dimension: Teleport) for shaping, duration, and effect resolution.\n## \n## \n## **SUMMONING INVOCATIONS**\nParent Skill: Dimension  \nSpecialization: Summoning  \nDescription: The ability to call forth creatures, objects, or materials from other locations or planes of existence, as well as manipulating the local dimensional fabric to restrain or alter time.\n###"
+    "description": "EXORCISM invocation for Entropy reality manipulation.",
+    "body": "# EXORCISM Invocation\n\n**Category**: Invocations  \n**Discipline**: Entropy\n\n## Description & Ritual Details\nClassification: Entropy (Order) | Attack/Utility | \\[Banishment\\] \\[Spirit\\]  \nParameters:\n* **Base Difficulty:** 20  \n* **Time:** Full Round Action (Maintained)  \n* **Range:** Short  \n* **Area:** Single Creature (Possessed)  \n* **Duration:** Instantaneous (after success)  \n* **Resistance:** Will Save (Possessor)\nEffect Description:  \nDrives out possessing spirits, demons, or entities.  \n**Scaling Function:**\n* **Power:** Damage to Spirit \\= 2d6 per Stage (Force/Holy).  \n* **Severity:** Save DC increases by \\+1 per Stage.\n# **Dimension Invocations**\n# **Dimension Invocations**\nThe following Invocations belong to the **Dimension Discipline**. They rely on the Attune skill for accuracy and DC setting, and the specific Discipline Skill (Dimension: Summoning or Dimension: Teleport) for shaping, duration, and effect resolution.\n## \n## \n## **SUMMONING INVOCATIONS**\nParent Skill: Dimension  \nSpecialization: Summoning  \nDescription: The ability to call forth creatures, objects, or materials from other locations or planes of existence, as well as manipulating the local dimensional fabric to restrain or alter time.\n###"
   },
   {
     "id": "invocation-facade",
@@ -1219,7 +1219,7 @@ export const DEFAULT_INVOCATIONS = [
     "id": "invocation-composite-flesh-crafting",
     "name": "Flesh Crafting",
     "category": "invocations",
-    "discipline": "Metaphysics",
+    "discipline": "Matter + Entropy",
     "level": 1,
     "range": "30 ft",
     "duration": "Instantaneous",
@@ -1505,7 +1505,7 @@ export const DEFAULT_INVOCATIONS = [
     "id": "invocation-grafting",
     "name": "GRAFTING",
     "category": "invocations",
-    "discipline": "Entropy",
+    "discipline": "Matter",
     "level": 1,
     "range": "30 ft",
     "duration": "Instantaneous",
@@ -1520,8 +1520,8 @@ export const DEFAULT_INVOCATIONS = [
       "ap": 2
     },
     "modifiers": [],
-    "description": "GRAFTING invocation for Entropy reality manipulation.",
-    "body": "# GRAFTING Invocation\n\n**Category**: Invocations  \n**Discipline**: Entropy\n\n## Description & Ritual Details\nClassification: Matter (Transmutation) | Healing/Utility | \\[Fusion\\] \\[Modification\\]  \nParameters:\n* **Base Difficulty:** 20  \n* **Time:** 1 Hour (Ritual)  \n* **Range:** Touch  \n* **Area:** Single Creature  \n* **Duration:** Permanent  \n* **Resistance:** Fortitude (Negates)\nEffect Description:  \nAttaches or integrates a foreign object or limb onto a living body.  \n**Scaling Function:**\n* **Complexity:** Reduces Rejection Penalty/Damage by 2 per Stage.  \n* **Utility:** Allows grafting of higher TL items (TL 3 \\-\\> TL 4 \\-\\> TL 5\\) per Stage.\n###"
+    "description": "GRAFTING invocation for Matter reality manipulation.",
+    "body": "# GRAFTING Invocation\n\n**Category**: Invocations  \n**Discipline**: Matter\n\n## Description & Ritual Details\nClassification: Matter (Transmutation) | Healing/Utility | \\[Fusion\\] \\[Modification\\]  \nParameters:\n* **Base Difficulty:** 20  \n* **Time:** 1 Hour (Ritual)  \n* **Range:** Touch  \n* **Area:** Single Creature  \n* **Duration:** Permanent  \n* **Resistance:** Fortitude (Negates)\nEffect Description:  \nAttaches or integrates a foreign object or limb onto a living body.  \n**Scaling Function:**\n* **Complexity:** Reduces Rejection Penalty/Damage by 2 per Stage.  \n* **Utility:** Allows grafting of higher TL items (TL 3 \\-\\> TL 4 \\-\\> TL 5\\) per Stage.\n###"
   },
   {
     "id": "invocation-haste",
@@ -1615,7 +1615,7 @@ export const DEFAULT_INVOCATIONS = [
     "id": "invocation-life-control",
     "name": "LIFE CONTROL",
     "category": "invocations",
-    "discipline": "Energy",
+    "discipline": "Entropy",
     "level": 1,
     "range": "30 ft",
     "duration": "Instantaneous",
@@ -1630,14 +1630,14 @@ export const DEFAULT_INVOCATIONS = [
       "ap": 2
     },
     "modifiers": [],
-    "description": "LIFE CONTROL invocation for Energy reality manipulation.",
-    "body": "# LIFE CONTROL Invocation\n\n**Category**: Invocations  \n**Discipline**: Energy\n\n## Description & Ritual Details\nClassification: Entropy (Order) | Utility/Healing | \\[Vitality\\] \\[Transfer\\]  \nParameters:\n* **Base Difficulty:** 18  \n* **Time:** Standard Action  \n* **Range:** Short  \n* **Area:** Single Creature  \n* **Duration:** Concentration  \n* **Resistance:** Will (Negates)\nEffect Description:  \nManipulates the flow of life energy. Transfer HP or bolster Vitality.  \n**Scaling Function:**\n* **Magnitude:** Max HP Transferred \\= 5 x Stage.  \n* **Efficiency:** At Stage 3, transfer is 1:1 (no loss).\n###"
+    "description": "LIFE CONTROL invocation for Entropy reality manipulation.",
+    "body": "# LIFE CONTROL Invocation\n\n**Category**: Invocations  \n**Discipline**: Entropy\n\n## Description & Ritual Details\nClassification: Entropy (Order) | Utility/Healing | \\[Vitality\\] \\[Transfer\\]  \nParameters:\n* **Base Difficulty:** 18  \n* **Time:** Standard Action  \n* **Range:** Short  \n* **Area:** Single Creature  \n* **Duration:** Concentration  \n* **Resistance:** Will (Negates)\nEffect Description:  \nManipulates the flow of life energy. Transfer HP or bolster Vitality.  \n**Scaling Function:**\n* **Magnitude:** Max HP Transferred \\= 5 x Stage.  \n* **Efficiency:** At Stage 3, transfer is 1:1 (no loss).\n###"
   },
   {
     "id": "invocation-composite-life-transfer",
     "name": "Life Transfer",
     "category": "invocations",
-    "discipline": "Metaphysics",
+    "discipline": "Matter + Entropy",
     "level": 1,
     "range": "30 ft",
     "duration": "Instantaneous",
@@ -1703,7 +1703,7 @@ export const DEFAULT_INVOCATIONS = [
     "id": "invocation-composite-living-spell",
     "name": "Living Spell Construct",
     "category": "invocations",
-    "discipline": "Metaphysics",
+    "discipline": "Matter + Energy",
     "level": 1,
     "range": "30 ft",
     "duration": "Instantaneous",
@@ -1747,7 +1747,7 @@ export const DEFAULT_INVOCATIONS = [
     "id": "invocation-composite-machine-spirit",
     "name": "Machine Spirit Interface",
     "category": "invocations",
-    "discipline": "Metaphysics",
+    "discipline": "Mental + Energy",
     "level": 1,
     "range": "30 ft",
     "duration": "Instantaneous",
@@ -1813,7 +1813,7 @@ export const DEFAULT_INVOCATIONS = [
     "id": "invocation-mind-probe",
     "name": "MIND PROBE",
     "category": "invocations",
-    "discipline": "Energy",
+    "discipline": "Mental",
     "level": 1,
     "range": "30 ft",
     "duration": "Instantaneous",
@@ -1828,8 +1828,8 @@ export const DEFAULT_INVOCATIONS = [
       "ap": 2
     },
     "modifiers": [],
-    "description": "MIND PROBE invocation for Energy reality manipulation.",
-    "body": "# MIND PROBE Invocation\n\n**Category**: Invocations  \n**Discipline**: Energy\n\n## Description & Ritual Details\nClassification: Mental (Sense) | Attack/Utility | \\[Invasive\\] \\[Memory\\]  \nParameters:\n* **Base Difficulty:** 20  \n* **Time:** Full Round Action (Maintained)  \n* **Range:** Touch or Close  \n* **Area:** Single Creature  \n* **Duration:** Concentration  \n* **Resistance:** Will Save (Negates)\nEffect Description:  \nForces entry into the deep mind to read buried memories and secrets.  \n**Scaling Function:**\n* **Depth:** Age of memory accessible \\= 1 Year per Stage (Stage 5 \\= Ancient/Repressed).  \n* **Damage:** Inflicts 1d4 Psychic Damage to target per round of probing.\n###"
+    "description": "MIND PROBE invocation for Mental reality manipulation.",
+    "body": "# MIND PROBE Invocation\n\n**Category**: Invocations  \n**Discipline**: Mental\n\n## Description & Ritual Details\nClassification: Mental (Sense) | Attack/Utility | \\[Invasive\\] \\[Memory\\]  \nParameters:\n* **Base Difficulty:** 20  \n* **Time:** Full Round Action (Maintained)  \n* **Range:** Touch or Close  \n* **Area:** Single Creature  \n* **Duration:** Concentration  \n* **Resistance:** Will Save (Negates)\nEffect Description:  \nForces entry into the deep mind to read buried memories and secrets.  \n**Scaling Function:**\n* **Depth:** Age of memory accessible \\= 1 Year per Stage (Stage 5 \\= Ancient/Repressed).  \n* **Damage:** Inflicts 1d4 Psychic Damage to target per round of probing.\n###"
   },
   {
     "id": "invocation-mirage",
@@ -1857,7 +1857,7 @@ export const DEFAULT_INVOCATIONS = [
     "id": "invocation-morph",
     "name": "MORPH",
     "category": "invocations",
-    "discipline": "Energy",
+    "discipline": "Matter",
     "level": 1,
     "range": "30 ft",
     "duration": "Instantaneous",
@@ -1872,14 +1872,14 @@ export const DEFAULT_INVOCATIONS = [
       "ap": 2
     },
     "modifiers": [],
-    "description": "MORPH invocation for Energy reality manipulation.",
-    "body": "# MORPH Invocation\n\n**Category**: Invocations  \n**Discipline**: Energy\n\n## Description & Ritual Details\nClassification: Matter (Transmutation) | Utility | \\[Polymorph\\] \\[Disguise\\]  \nParameters:\n* **Base Difficulty:** 20  \n* **Time:** Standard Action  \n* **Range:** Self  \n* **Area:** Personal  \n* **Duration:** 1 Minute per Stage  \n* **Resistance:** None\nEffect Description:  \nTransforms the caster physically into another form (humanoid, animal, or object).  \n**Scaling Function:**\n* **Complexity:** Allowed Forms expand per Stage (Humanoid \\-\\> Beast \\-\\> Object \\-\\> Elemental).  \n* **Features:** Gains 1 Trait of the new form per Stage (e.g., Scent, Swim Speed) up to the BP limit (5 BP/Stage).\n###"
+    "description": "MORPH invocation for Matter reality manipulation.",
+    "body": "# MORPH Invocation\n\n**Category**: Invocations  \n**Discipline**: Matter\n\n## Description & Ritual Details\nClassification: Matter (Transmutation) | Utility | \\[Polymorph\\] \\[Disguise\\]  \nParameters:\n* **Base Difficulty:** 20  \n* **Time:** Standard Action  \n* **Range:** Self  \n* **Area:** Personal  \n* **Duration:** 1 Minute per Stage  \n* **Resistance:** None\nEffect Description:  \nTransforms the caster physically into another form (humanoid, animal, or object).  \n**Scaling Function:**\n* **Complexity:** Allowed Forms expand per Stage (Humanoid \\-\\> Beast \\-\\> Object \\-\\> Elemental).  \n* **Features:** Gains 1 Trait of the new form per Stage (e.g., Scent, Swim Speed) up to the BP limit (5 BP/Stage).\n###"
   },
   {
     "id": "invocation-mutation",
     "name": "MUTATION",
     "category": "invocations",
-    "discipline": "Energy",
+    "discipline": "Matter",
     "level": 1,
     "range": "30 ft",
     "duration": "Instantaneous",
@@ -1894,8 +1894,8 @@ export const DEFAULT_INVOCATIONS = [
       "ap": 2
     },
     "modifiers": [],
-    "description": "MUTATION invocation for Energy reality manipulation.",
-    "body": "# MUTATION Invocation\n\n**Category**: Invocations  \n**Discipline**: Energy\n\n## Description & Ritual Details\nClassification: Matter (Transmutation) | Buff/Utility | \\[Alteration\\] \\[Biology\\]  \nParameters:\n* **Base Difficulty:** 18  \n* **Time:** Standard Action  \n* **Range:** Touch  \n* **Area:** Single Creature  \n* **Duration:** 1 Minute per Stage  \n* **Resistance:** Fortitude (Negates)\nEffect Description:  \nAlters the physical form to produce a specific biological enhancement (gills, claws).  \n**Scaling Function:**\n* **Magnitude:** Natural Weapon Damage \\= 1d6 per Stage.  \n* **Quantity:** Number of Mutations \\= 1 per Stage (Max 5 BP worth per Stage).\n# **Mental Invocations**\n# **Mental Invocations**\nThe following Invocations belong to the **Mental Discipline**. They rely on the Attune skill for accuracy and DC setting, and the specific Discipline Skill (Mental: Projection or Mental: Sense) for shaping, intensity, and effect resolution.\n## \n## \n## **PROJECTION INVOCATIONS**\nParent Skill: Mental  \nSpecialization: Projection  \nDescription: Cause others to sense, feel, or think differently. The active output of psychic energy to affect minds and nervous systems.  \nStandard Range: Extended.\n* *Stage 1:* 100 ft  \n* *Stage 2:* 500 ft  \n* *Stage 3:* 2,500 ft  \n* *Stage 4:* 12,500 ft  \n* *Stage 5:* 62,500 ft (\\~12 miles)\n###"
+    "description": "MUTATION invocation for Matter reality manipulation.",
+    "body": "# MUTATION Invocation\n\n**Category**: Invocations  \n**Discipline**: Matter\n\n## Description & Ritual Details\nClassification: Matter (Transmutation) | Buff/Utility | \\[Alteration\\] \\[Biology\\]  \nParameters:\n* **Base Difficulty:** 18  \n* **Time:** Standard Action  \n* **Range:** Touch  \n* **Area:** Single Creature  \n* **Duration:** 1 Minute per Stage  \n* **Resistance:** Fortitude (Negates)\nEffect Description:  \nAlters the physical form to produce a specific biological enhancement (gills, claws).  \n**Scaling Function:**\n* **Magnitude:** Natural Weapon Damage \\= 1d6 per Stage.  \n* **Quantity:** Number of Mutations \\= 1 per Stage (Max 5 BP worth per Stage).\n# **Mental Invocations**\n# **Mental Invocations**\nThe following Invocations belong to the **Mental Discipline**. They rely on the Attune skill for accuracy and DC setting, and the specific Discipline Skill (Mental: Projection or Mental: Sense) for shaping, intensity, and effect resolution.\n## \n## \n## **PROJECTION INVOCATIONS**\nParent Skill: Mental  \nSpecialization: Projection  \nDescription: Cause others to sense, feel, or think differently. The active output of psychic energy to affect minds and nervous systems.  \nStandard Range: Extended.\n* *Stage 1:* 100 ft  \n* *Stage 2:* 500 ft  \n* *Stage 3:* 2,500 ft  \n* *Stage 4:* 12,500 ft  \n* *Stage 5:* 62,500 ft (\\~12 miles)\n###"
   },
   {
     "id": "invocation-nauseate",
@@ -1945,28 +1945,6 @@ export const DEFAULT_INVOCATIONS = [
     "id": "invocation-nullify",
     "name": "NULLIFY",
     "category": "invocations",
-    "discipline": "Energy",
-    "level": 1,
-    "range": "30 ft",
-    "duration": "Instantaneous",
-    "area": "Single Target",
-    "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 2,
-      "focus": 1,
-      "ap": 2
-    },
-    "modifiers": [],
-    "description": "NULLIFY invocation for Energy reality manipulation.",
-    "body": "# NULLIFY Invocation\n\n**Category**: Invocations  \n**Discipline**: Energy\n\n## Description & Ritual Details\nClassification: Entropy (Chaos) | Utility/Defense | \\[Disruption\\] \\[Anti-Energy\\]  \nParameters:\n* **Base Difficulty:** 18  \n* **Time:** Reaction or Standard Action  \n* **Range:** Short  \n* **Area:** Single Effect  \n* **Duration:** Instantaneous  \n* **Resistance:** Opposed Check\nEffect Description:  \nNegates the effects of a specific environmental, elemental, or metaphysical condition.  \n**Scaling Function:**\n* **Power:** Nullify Bonus \\= \\+2 to Dispel Check per Stage.  \n* **Area:** At Stage 3+, can target a 10ft radius area.\n###"
-  },
-  {
-    "id": "invocation-obscure",
-    "name": "OBSCURE",
-    "category": "invocations",
     "discipline": "Entropy",
     "level": 1,
     "range": "30 ft",
@@ -1982,8 +1960,30 @@ export const DEFAULT_INVOCATIONS = [
       "ap": 2
     },
     "modifiers": [],
-    "description": "OBSCURE invocation for Entropy reality manipulation.",
-    "body": "# OBSCURE Invocation\n\n**Category**: Invocations  \n**Discipline**: Entropy\n\n## Description & Ritual Details\nClassification: Illusion (Phantasm) | Debuff | \\[Sensory\\] \\[Deprivation\\]  \nParameters:\n* **Base Difficulty:** 15  \n* **Time:** Standard Action  \n* **Range:** Medium  \n* **Area:** Single Creature  \n* **Duration:** 1 Minute per Stage  \n* **Resistance:** Will Save (Negates)\nEffect Description:  \nDulls or completely blocks a specific sense (Sight, Hearing, Smell) of a target.  \n**Scaling Function:**\n* **Severity:** Number of Senses blocked \\= 1 per Stage.  \n* **Power:** At Stage 3+, can blind special senses (Radar/Thermo).\n## \n## \n## **SHADOW INVOCATIONS**\nParent Skill: Illusion  \nSpecialization: Shadow  \nDescription: Conjuration of solid creatures and items from ether. May look realistic or not.  \nStandard Range: Close.  \nStandard Duration: 1 Round per Level (Stage). Spend 1 Karma Point to increase to 1 Minute per Level.  \nObject Limits:\n* **Size:** Up to 2 ft per Skill Level (Stage) per side.  \n* **Weight:** Up to 10 lbs x (Stage squared).\n###"
+    "description": "NULLIFY invocation for Entropy reality manipulation.",
+    "body": "# NULLIFY Invocation\n\n**Category**: Invocations  \n**Discipline**: Entropy\n\n## Description & Ritual Details\nClassification: Entropy (Chaos) | Utility/Defense | \\[Disruption\\] \\[Anti-Energy\\]  \nParameters:\n* **Base Difficulty:** 18  \n* **Time:** Reaction or Standard Action  \n* **Range:** Short  \n* **Area:** Single Effect  \n* **Duration:** Instantaneous  \n* **Resistance:** Opposed Check\nEffect Description:  \nNegates the effects of a specific environmental, elemental, or metaphysical condition.  \n**Scaling Function:**\n* **Power:** Nullify Bonus \\= \\+2 to Dispel Check per Stage.  \n* **Area:** At Stage 3+, can target a 10ft radius area.\n###"
+  },
+  {
+    "id": "invocation-obscure",
+    "name": "OBSCURE",
+    "category": "invocations",
+    "discipline": "Illusion",
+    "level": 1,
+    "range": "30 ft",
+    "duration": "Instantaneous",
+    "area": "Single Target",
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 2,
+      "focus": 1,
+      "ap": 2
+    },
+    "modifiers": [],
+    "description": "OBSCURE invocation for Illusion reality manipulation.",
+    "body": "# OBSCURE Invocation\n\n**Category**: Invocations  \n**Discipline**: Illusion\n\n## Description & Ritual Details\nClassification: Illusion (Phantasm) | Debuff | \\[Sensory\\] \\[Deprivation\\]  \nParameters:\n* **Base Difficulty:** 15  \n* **Time:** Standard Action  \n* **Range:** Medium  \n* **Area:** Single Creature  \n* **Duration:** 1 Minute per Stage  \n* **Resistance:** Will Save (Negates)\nEffect Description:  \nDulls or completely blocks a specific sense (Sight, Hearing, Smell) of a target.  \n**Scaling Function:**\n* **Severity:** Number of Senses blocked \\= 1 per Stage.  \n* **Power:** At Stage 3+, can blind special senses (Radar/Thermo).\n## \n## \n## **SHADOW INVOCATIONS**\nParent Skill: Illusion  \nSpecialization: Shadow  \nDescription: Conjuration of solid creatures and items from ether. May look realistic or not.  \nStandard Range: Close.  \nStandard Duration: 1 Round per Level (Stage). Spend 1 Karma Point to increase to 1 Minute per Level.  \nObject Limits:\n* **Size:** Up to 2 ft per Skill Level (Stage) per side.  \n* **Weight:** Up to 10 lbs x (Stage squared).\n###"
   },
   {
     "id": "invocation-pain",
@@ -2077,7 +2077,7 @@ export const DEFAULT_INVOCATIONS = [
     "id": "invocation-composite-plasma-forging",
     "name": "Plasma Forging",
     "category": "invocations",
-    "discipline": "Metaphysics",
+    "discipline": "Matter + Energy",
     "level": 1,
     "range": "30 ft",
     "duration": "Instantaneous",
@@ -2140,8 +2140,8 @@ export const DEFAULT_INVOCATIONS = [
     "body": "# PROJECTED IMAGE Invocation\n\n**Category**: Invocations  \n**Discipline**: Illusion\n\n## Description & Ritual Details\nClassification: Illusion (Phantasm) | Defense | \\[Decoy\\] \\[Duplicate\\]  \nParameters:\n* **Base Difficulty:** 15  \n* **Time:** Standard Action  \n* **Range:** Medium  \n* **Area:** Self or Target  \n* **Duration:** 1 Minute per Stage  \n* **Resistance:** Will Save (Disbelief)\nEffect Description:  \nCreates illusory duplicates of the caster that mimic their movements, making it difficult for enemies to determine the true target.  \n**Scaling Function:**\n* **Magnitude:** Number of Images \\= 1 per Stage.  \n* **Defense:** Each image grants a 10% Miss Chance (Max 50%).\n###"
   },
   {
-    "id": "invocation-protection",
-    "name": "PROTECTION",
+    "id": "invocation-protection-entropy",
+    "name": "PROTECTION (Entropy)",
     "category": "invocations",
     "discipline": "Entropy",
     "level": 1,
@@ -2159,7 +2159,29 @@ export const DEFAULT_INVOCATIONS = [
     },
     "modifiers": [],
     "description": "PROTECTION invocation for Entropy reality manipulation.",
-    "body": "# PROTECTION Invocation\n\n**Category**: Invocations  \n**Discipline**: Entropy\n\n## Description & Ritual Details\nClassification: Entropy (Order) | Defense | \\[Buff\\] \\[Resistance\\]  \nParameters:\n* **Base Difficulty:** 12  \n* **Time:** Standard Action  \n* **Range:** Short  \n* **Area:** Single Creature  \n* **Duration:** Scene  \n* **Resistance:** None\nEffect Description:  \nGrants resistance to specific alignments or metaphysical influences.  \n**Scaling Function:**\n* **Integrity:** Bonus to AC/Saves \\= \\+1 per Stage.  \n* **Duration:** 10 Minutes per Stage.\n###"
+    "body": "# PROTECTION (Entropy) Invocation\n\n**Category**: Invocations  \n**Discipline**: Entropy\n\n## Description & Ritual Details\nClassification: Entropy (Order) | Defense | [Buff] [Resistance]  \nParameters:\n* **Base Difficulty:** 12  \n* **Time:** Standard Action  \n* **Range:** Short  \n* **Area:** Single Creature  \n* **Duration:** Scene  \n* **Resistance:** None\nEffect Description:  \nGrants resistance to specific alignments or metaphysical influences.  \n**Scaling Function:**\n* **Integrity:** Bonus to AC/Saves = +1 per Stage.  \n* **Duration:** 10 Minutes per Stage.\n###"
+  },
+  {
+    "id": "invocation-protection-matter",
+    "name": "PROTECTION (Matter)",
+    "category": "invocations",
+    "discipline": "Matter",
+    "level": 1,
+    "range": "30 ft",
+    "duration": "Instantaneous",
+    "area": "Single Target",
+    "costs": {
+      "bp": 2,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 2,
+      "focus": 1,
+      "ap": 2
+    },
+    "modifiers": [],
+    "description": "PROTECTION invocation for Matter reality manipulation.",
+    "body": "# PROTECTION (Matter) Invocation\n\n**Category**: Invocations  \n**Discipline**: Matter\n\n## Description & Ritual Details\nClassification: Matter (Enhancement) | Defense | [Warding] [Specific]  \nParameters:\n* **Base Difficulty:** 12  \n* **Time:** Standard Action  \n* **Range:** Touch  \n* **Area:** Single Creature  \n* **Duration:** 1 Minute per Stage  \n* **Resistance:** None\nEffect Description:  \nProvides defensive enhancements tailored to a specific ethos, hazard, or damage type.  \n**Scaling Function:**\n* **Magnitude:** Bonus to Defense and Saves = +1 per Stage.  \n* **Absorption:** Grants Resistance 5 to chosen element per Stage.\n###"
   },
   {
     "id": "invocation-reduce",
@@ -2209,7 +2231,7 @@ export const DEFAULT_INVOCATIONS = [
     "id": "invocation-reinforced-item",
     "name": "REINFORCED ITEM",
     "category": "invocations",
-    "discipline": "Energy",
+    "discipline": "Matter",
     "level": 1,
     "range": "30 ft",
     "duration": "Instantaneous",
@@ -2224,8 +2246,8 @@ export const DEFAULT_INVOCATIONS = [
       "ap": 2
     },
     "modifiers": [],
-    "description": "REINFORCED ITEM invocation for Energy reality manipulation.",
-    "body": "# REINFORCED ITEM Invocation\n\n**Category**: Invocations  \n**Discipline**: Energy\n\n## Description & Ritual Details\nClassification: Matter (Enhancement) | Utility | \\[Minor\\] \\[Buff\\]  \nParameters:\n* **Base Difficulty:** 10  \n* **Time:** Standard Action  \n* **Range:** Touch (Personal Item)  \n* **Area:** Single Object  \n* **Duration:** Scene  \n* **Resistance:** None\n**Effect Description:** A chosen personal item is improved by 5% per Enhancement Skill Rank. This can manifest as increased Toughness (Structure/Hardness), Damage output, or general efficiency.\n###"
+    "description": "REINFORCED ITEM invocation for Matter reality manipulation.",
+    "body": "# REINFORCED ITEM Invocation\n\n**Category**: Invocations  \n**Discipline**: Matter\n\n## Description & Ritual Details\nClassification: Matter (Enhancement) | Utility | \\[Minor\\] \\[Buff\\]  \nParameters:\n* **Base Difficulty:** 10  \n* **Time:** Standard Action  \n* **Range:** Touch (Personal Item)  \n* **Area:** Single Object  \n* **Duration:** Scene  \n* **Resistance:** None\n**Effect Description:** A chosen personal item is improved by 5% per Enhancement Skill Rank. This can manifest as increased Toughness (Structure/Hardness), Damage output, or general efficiency.\n###"
   },
   {
     "id": "invocation-remove-curse",
@@ -2253,7 +2275,7 @@ export const DEFAULT_INVOCATIONS = [
     "id": "invocation-resistance",
     "name": "RESISTANCE",
     "category": "invocations",
-    "discipline": "Energy",
+    "discipline": "Matter",
     "level": 1,
     "range": "30 ft",
     "duration": "Instantaneous",
@@ -2268,8 +2290,8 @@ export const DEFAULT_INVOCATIONS = [
       "ap": 2
     },
     "modifiers": [],
-    "description": "RESISTANCE invocation for Energy reality manipulation.",
-    "body": "# RESISTANCE Invocation\n\n**Category**: Invocations  \n**Discipline**: Energy\n\n## Description & Ritual Details\nClassification: Matter (Enhancement) | Defense | \\[Hardening\\] \\[Elemental\\]  \nParameters:\n* **Base Difficulty:** 15  \n* **Time:** Standard Action  \n* **Range:** Touch  \n* **Area:** Single Creature  \n* **Duration:** 1 Minute per Stage  \n* **Resistance:** None\nEffect Description:  \nGrants damage resistance (DR) against a specific environmental hazard or energy type.  \n**Scaling Function:**\n* **Integrity:** Energy Resistance \\= 5 x Stage.\n###"
+    "description": "RESISTANCE invocation for Matter reality manipulation.",
+    "body": "# RESISTANCE Invocation\n\n**Category**: Invocations  \n**Discipline**: Matter\n\n## Description & Ritual Details\nClassification: Matter (Enhancement) | Defense | \\[Hardening\\] \\[Elemental\\]  \nParameters:\n* **Base Difficulty:** 15  \n* **Time:** Standard Action  \n* **Range:** Touch  \n* **Area:** Single Creature  \n* **Duration:** 1 Minute per Stage  \n* **Resistance:** None\nEffect Description:  \nGrants damage resistance (DR) against a specific environmental hazard or energy type.  \n**Scaling Function:**\n* **Integrity:** Energy Resistance \\= 5 x Stage.\n###"
   },
   {
     "id": "invocation-restoration",
@@ -2341,7 +2363,7 @@ export const DEFAULT_INVOCATIONS = [
     "id": "invocation-shadow-assault",
     "name": "SHADOW ASSAULT",
     "category": "invocations",
-    "discipline": "Energy",
+    "discipline": "Illusion",
     "level": 1,
     "range": "30 ft",
     "duration": "Instantaneous",
@@ -2356,14 +2378,14 @@ export const DEFAULT_INVOCATIONS = [
       "ap": 2
     },
     "modifiers": [],
-    "description": "SHADOW ASSAULT invocation for Energy reality manipulation.",
-    "body": "# SHADOW ASSAULT Invocation\n\n**Category**: Invocations  \n**Discipline**: Energy\n\n## Description & Ritual Details\nClassification: Illusion (Shadow) | Attack | \\[Evocation\\] \\[Cold\\]  \nParameters:\n* **Base Difficulty:** 15  \n* **Time:** Standard Action  \n* **Range:** Close  \n* **Area:** Single Target or Burst  \n* **Duration:** Instantaneous  \n* **Resistance:** Reflex (Half) & Will (Disbelief)\nEffect Description:  \nEvokes a blast of roiling shadow energy that mimics a physical attack.  \n**Scaling Function:**\n* **Damage:** 1d6 Shadow Damage per Stage.  \n* **Debuff:** Targets taking damage are Entangled (Shadows cling) for 1 round per Stage.\n# **Matter Invocations**\n# **Matter Invocations**\nThe following Invocations belong to the **Matter Discipline**. They rely on the Attune skill for accuracy and DC setting, and the specific Discipline Skill (Matter: Enhancement or Matter: Transmutation) for shaping, complexity, and effect resolution.\n## \n## \n## **ENHANCEMENT INVOCATIONS**\nParent Skill: Matter  \nSpecialization: Enhancement  \nDescription: Improving the pattern of something. The reinforcement and optimization of existing physical properties.  \nStandard Duration: 1 Minute per Level (Stage).  \nStandard Effect: Add up to 5 Build Points (BP) worth of traits, stats, or features to a target per Stage.\n###"
+    "description": "SHADOW ASSAULT invocation for Illusion reality manipulation.",
+    "body": "# SHADOW ASSAULT Invocation\n\n**Category**: Invocations  \n**Discipline**: Illusion\n\n## Description & Ritual Details\nClassification: Illusion (Shadow) | Attack | \\[Evocation\\] \\[Cold\\]  \nParameters:\n* **Base Difficulty:** 15  \n* **Time:** Standard Action  \n* **Range:** Close  \n* **Area:** Single Target or Burst  \n* **Duration:** Instantaneous  \n* **Resistance:** Reflex (Half) & Will (Disbelief)\nEffect Description:  \nEvokes a blast of roiling shadow energy that mimics a physical attack.  \n**Scaling Function:**\n* **Damage:** 1d6 Shadow Damage per Stage.  \n* **Debuff:** Targets taking damage are Entangled (Shadows cling) for 1 round per Stage.\n# **Matter Invocations**\n# **Matter Invocations**\nThe following Invocations belong to the **Matter Discipline**. They rely on the Attune skill for accuracy and DC setting, and the specific Discipline Skill (Matter: Enhancement or Matter: Transmutation) for shaping, complexity, and effect resolution.\n## \n## \n## **ENHANCEMENT INVOCATIONS**\nParent Skill: Matter  \nSpecialization: Enhancement  \nDescription: Improving the pattern of something. The reinforcement and optimization of existing physical properties.  \nStandard Duration: 1 Minute per Level (Stage).  \nStandard Effect: Add up to 5 Build Points (BP) worth of traits, stats, or features to a target per Stage.\n###"
   },
   {
     "id": "invocation-shadow-conjuring",
     "name": "SHADOW CONJURING",
     "category": "invocations",
-    "discipline": "Dimension",
+    "discipline": "Illusion",
     "level": 1,
     "range": "30 ft",
     "duration": "Instantaneous",
@@ -2378,14 +2400,14 @@ export const DEFAULT_INVOCATIONS = [
       "ap": 2
     },
     "modifiers": [],
-    "description": "SHADOW CONJURING invocation for Dimension reality manipulation.",
-    "body": "# SHADOW CONJURING Invocation\n\n**Category**: Invocations  \n**Discipline**: Dimension\n\n## Description & Ritual Details\nClassification: Illusion (Shadow) | Utility/Attack | \\[Summoning\\] \\[Quasi-Real\\]  \nParameters:\n* **Base Difficulty:** 18  \n* **Time:** Standard Action  \n* **Range:** Close  \n* **Area:** Object or Creature  \n* **Duration:** 1 Round per Stage (or 1 Min/Stage with KP)  \n* **Resistance:** Will (Disbelief)\nEffect Description:  \nConjures a solid creature or item from ether. Creatures act as a temporary Companion (see Bestiary rules).  \n**Scaling Function:**\n* **Size:** Max Dimensions \\= 2ft per Stage per side.  \n* **Weight:** Max Weight \\= 10 lbs x (Stage squared).  \n* **Reality:** Percentage of real HP/Damage \\= 20% x Stage.\n###"
+    "description": "SHADOW CONJURING invocation for Illusion reality manipulation.",
+    "body": "# SHADOW CONJURING Invocation\n\n**Category**: Invocations  \n**Discipline**: Illusion\n\n## Description & Ritual Details\nClassification: Illusion (Shadow) | Utility/Attack | \\[Summoning\\] \\[Quasi-Real\\]  \nParameters:\n* **Base Difficulty:** 18  \n* **Time:** Standard Action  \n* **Range:** Close  \n* **Area:** Object or Creature  \n* **Duration:** 1 Round per Stage (or 1 Min/Stage with KP)  \n* **Resistance:** Will (Disbelief)\nEffect Description:  \nConjures a solid creature or item from ether. Creatures act as a temporary Companion (see Bestiary rules).  \n**Scaling Function:**\n* **Size:** Max Dimensions \\= 2ft per Stage per side.  \n* **Weight:** Max Weight \\= 10 lbs x (Stage squared).  \n* **Reality:** Percentage of real HP/Damage \\= 20% x Stage.\n###"
   },
   {
     "id": "invocation-composite-shadow-step-assault",
     "name": "Shadow Step Assault",
     "category": "invocations",
-    "discipline": "Metaphysics",
+    "discipline": "Illusion + Dimension",
     "level": 1,
     "range": "30 ft",
     "duration": "Instantaneous",
@@ -2495,7 +2517,7 @@ export const DEFAULT_INVOCATIONS = [
     "id": "invocation-composite-labyrinth",
     "name": "Spatial Labyrinth",
     "category": "invocations",
-    "discipline": "Metaphysics",
+    "discipline": "Illusion + Dimension",
     "level": 1,
     "range": "30 ft",
     "duration": "Instantaneous",
@@ -2825,7 +2847,7 @@ export const DEFAULT_INVOCATIONS = [
     "id": "invocation-composite-temporal-stasis",
     "name": "Temporal Stasis",
     "category": "invocations",
-    "discipline": "Metaphysics",
+    "discipline": "Entropy + Dimension",
     "level": 1,
     "range": "30 ft",
     "duration": "Instantaneous",
@@ -2847,7 +2869,7 @@ export const DEFAULT_INVOCATIONS = [
     "id": "invocation-touch-of-death",
     "name": "TOUCH OF DEATH",
     "category": "invocations",
-    "discipline": "Energy",
+    "discipline": "Entropy",
     "level": 1,
     "range": "30 ft",
     "duration": "Instantaneous",
@@ -2862,8 +2884,8 @@ export const DEFAULT_INVOCATIONS = [
       "ap": 2
     },
     "modifiers": [],
-    "description": "TOUCH OF DEATH invocation for Energy reality manipulation.",
-    "body": "# TOUCH OF DEATH Invocation\n\n**Category**: Invocations  \n**Discipline**: Energy\n\n## Description & Ritual Details\nClassification: Entropy (Chaos) | Attack | \\[Necrotic\\] \\[Lethal\\]  \nParameters:\n* **Base Difficulty:** 25  \n* **Time:** Standard Action  \n* **Range:** Touch  \n* **Area:** Single Creature  \n* **Duration:** Instantaneous  \n* **Resistance:** Fortitude (Partial/Negates Death)\nEffect Description:  \nChannels pure entropic energy into a living being, attempting to instantly sever their life force.  \n**Scaling Function:**\n* **Damage:** 2d6 Negative Energy Damage per Stage.  \n* **Lethality:** Death Threshold (HP) \\= 10 x Stage. If target HP is below threshold, save or die.\n###"
+    "description": "TOUCH OF DEATH invocation for Entropy reality manipulation.",
+    "body": "# TOUCH OF DEATH Invocation\n\n**Category**: Invocations  \n**Discipline**: Entropy\n\n## Description & Ritual Details\nClassification: Entropy (Chaos) | Attack | \\[Necrotic\\] \\[Lethal\\]  \nParameters:\n* **Base Difficulty:** 25  \n* **Time:** Standard Action  \n* **Range:** Touch  \n* **Area:** Single Creature  \n* **Duration:** Instantaneous  \n* **Resistance:** Fortitude (Partial/Negates Death)\nEffect Description:  \nChannels pure entropic energy into a living being, attempting to instantly sever their life force.  \n**Scaling Function:**\n* **Damage:** 2d6 Negative Energy Damage per Stage.  \n* **Lethality:** Death Threshold (HP) \\= 10 x Stage. If target HP is below threshold, save or die.\n###"
   },
   {
     "id": "invocation-vanish-objects",
@@ -2932,28 +2954,6 @@ export const DEFAULT_INVOCATIONS = [
     "body": "# VISIONS Invocation\n\n**Category**: Invocations  \n**Discipline**: Mental\n\n## Description & Ritual Details\nClassification: Mental (Sense) | Sensory | \\[Minor\\] \\[Precognition\\]  \nParameters:\n* **Base Difficulty:** 10  \n* **Time:** Standard Action (At Will)  \n* **Range:** Personal  \n* **Area:** Self  \n* **Duration:** Instantaneous  \n* **Resistance:** None\nEffect Description:  \nBrief flashes of insight regarding the immediate future or distant events. Grants a \\+2 Bonus to the next Initiative roll or Surprise check.\n###"
   },
   {
-    "id": "invocation-visual-and-sensory-guidelines-for-metaphysics",
-    "name": "VISUAL AND SENSORY GUIDELINES FOR METAPHYSICS",
-    "category": "invocations",
-    "discipline": "Dimension",
-    "level": 1,
-    "range": "30 ft",
-    "duration": "Instantaneous",
-    "area": "Single Target",
-    "costs": {
-      "bp": 2,
-      "credits": 0,
-      "nodes": 0,
-      "sockets": 0,
-      "strain": 2,
-      "focus": 1,
-      "ap": 2
-    },
-    "modifiers": [],
-    "description": "VISUAL AND SENSORY GUIDELINES FOR METAPHYSICS invocation for Dimension reality manipulation.",
-    "body": "# VISUAL AND SENSORY GUIDELINES FOR METAPHYSICS Invocation\n\n**Category**: Invocations  \n**Discipline**: Dimension\n\n## Description & Ritual Details\nIn the Tangent Universe, the \"Meta\" is not a single uniform force. It is shaped by the mind and culture of the wielder. A *Thermal Lance* cast by a Mekan logic-priest looks fundamentally different from one cast by a Draconian Sorcerer.  \nThis guide expands on the sensory signatures—Visuals, Audio, and Texture—of the various Meta manifestations.\n## \n## **I. PSYCHIC MANIFESTATIONS (The Mind)**\n*Root Discipline: Mental, Dimension, Energy (Force)*  \nPsychic power is the imposition of Will upon Reality. It often bypasses the \"laws\" of physics by simply rewriting local probability.\n### \n### **A. CONTROLLED (Logic / Telekinetic)**\n**Archetypes:** The Mekan, The Analyst, The Tactician.\n* **Concept:** The mind as a computer or architect. Energy is efficient, wasted on nothing.  \n* **Visuals:**  \n  * **Defined Geometrics:** Effects manifest as perfect shapes—hexagons, fractals, or grids.  \n  * **Hard Light:** Shields and projectiles look like solid glass or laser-cut crystal. No smoke, no trail.  \n  * **Manifestation:** A telekinetic shield appears as a honeycomb wall of force; a mental blast is a perfect spear of light.  \n* **Palette:**  \n  * **Electric Cyan:** The color of raw data.  \n  * **Circuitry Black:** Negative space that looks like printed lines.  \n  * **Neon Orange:** Warning/Combat mode indicators.  \n* **Sensory:**  \n  * *Audio:* High-pitched electronic whines, server hums, the sound of glass snapping.  \n  * *Texture:* Smooth, frictionless, cold static.\n### \n### **B. FOCUSED (Discipline / Telepathic)**\n**Archetypes:** The Impyrium Centurion, The Monk, The Judge.\n* **Concept:** The mind as a lens. Power is gathered and projected in a singular, overwhelming vector.  \n* **Visuals:**  \n  * **Lines & Beams:** Energy moves in straight, unwavering lines.  \n  * **Solid Color:** No gradients. The energy is dense and opaque (e.g., a sword of pure white energy).  \n  * **Manifestation:** A \"Command\" spell manifests as a heavy, crushing weight on the air itself; a \"Scan\" looks like a flat plane of light passing over an object.  \n* **Palette:**  \n  * **Solar White:** Blindingly bright and pure.  \n  * **Royal Purple:** Deep, regal, associated with high-level gravity manipulation.  \n  * **Gold:** Used for \"Aura\" effects and defensive wards.  \n* **Sensory:**  \n  * *Audio:* A deep, resonating thrum (like a massive bell), absolute silence.  \n  * *Texture:* Heavy, oppressive, warm (like sunlight).\n### \n### **C. WILD (Empathic / Raw)**\n**Archetypes:** The Wild Talent, The Mondi, The Feral Psychic.\n* **Concept:** The mind as a storm. Power leaks, bleeds, and reacts to emotion rather than calculation.  \n* **Visuals:**  \n  * **Smoky Transitions:** Reality looks like watercolor paint bleeding into water. Edges blur.  \n  * **Melting Colors:** Colors shift rapidly based on the user's emotion (Red=Anger, Blue=Calm).  \n  * **Distortion:** Heat hazes, oil-slick rainbows, air warping around the user.  \n* **Palette:**  \n  * **Bruised Violet:** The color of raw psychic force.  \n  * **Magenta:** Intense emotional output.  \n  * **Pearlescent:** Shifting, undefined colors.  \n* **Sensory:**  \n  * *Audio:* Whispering voices, static white noise, a heartbeat sound.  \n  * *Texture:* Viscous, humid, \"pins and needles\" sensation.\n## \n## \n## **II. MAGIC MANIFESTATIONS (The Weave)**\n*Root Discipline: Energy (Elemental), Matter, Illusion*  \nMagic is the hacking of the universe's source code using ancient formulas, rituals, or tools.\n### \n### **A. ARCANE (High Magic / Tech-Magic)**\n**Archetypes:** The Alterian Arcanist, The Scholar, The Artificer.\n* **Concept:** Magic as Science. It is complex, formulaic, and elegant.  \n* **Visuals:**  \n  * **Runes & Sigils:** Glowing equations float in the air around the caster.  \n  * **Filigree:** Spells manifest as intricate silver or gold wireframes before filling with energy.  \n  * **Constellations:** Points of light connecting to form the spell structure.  \n* **Palette:**  \n  * **Platinum Silver:** The standard for neutral arcane energy.  \n  * **Sapphire Blue:** Used for information and transport magic.  \n  * **Starlight:** Cold, distant white points.  \n* **Sensory:**  \n  * *Audio:* Crystalline chimes, the sound of turning pages, resonant harmonics.  \n  * *Texture:* Sharp, metallic, ozone smell (like a lightning strike).\n### \n### **B. NATURE (Primal / Verdant)**\n**Archetypes:** The Thorn, The Auluran Shaman, The Druid.\n* **Concept:** Magic as Life. It grows, consumes, and cycles.  \n* **Visuals:**  \n  * **Motes & Spores:** The air fills with glowing dust or pollen.  \n  * **Haze:** Bioluminescent mists that obscure the caster.  \n  * **Rapid Growth:** Spectral vines or roots visible within the energy.  \n* **Palette:**  \n  * **Toxic Green:** For acids and poisons.  \n  * **Amber:** For preservation and shielding.  \n  * **Sickly Yellow:** For decay and entropy.  \n* **Sensory:**  \n  * *Audio:* Rustling leaves, snapping branches, the chittering of insects.  \n  * *Texture:* Humid, sticky, organic, smell of loam and rain.\n### \n### **C. VOID (Entropic / Eldritch)**\n**Archetypes:** The Sha'Nor, The Necromancer, The Warlock.\n* **Concept:** Magic as Absence. It deletes reality.  \n* **Visuals:**  \n  * **Negative Space:** Effects look like \"holes\" in the world where light cannot exist.  \n  * **Cracks:** Reality fractures like broken glass around the effect.  \n  * **Shadow Smoke:** Inky, fluid darkness that moves against the wind.  \n* **Palette:**  \n  * **Vantablack:** Absolute absence of light.  \n  * **Cold Grey:** The color of ash.  \n  * **Invisible Distortion:** Only visible by how it bends light behind it.  \n* **Sensory:**  \n  * *Audio:* The sound of ice cracking, a vacuum sucking in air, unnerving silence.  \n  * *Texture:* Freezing cold, numbing, \"wrongness.\"\n## \n## \n## **III. DIVINE MANIFESTATIONS (The Will)**\n*Root Discipline: Entropy (Order/Chaos), Energy (Radiant)*  \nDivine power is not about figuring out the universe (Arcane) or bending it (Psychic); it is about *commanding* it through conviction.\n### \n### **A. CELESTIAL (The Light / Order)**\n**Archetypes:** The Ascendancy Judge, The Paladin, The Healer.\n* **Concept:** Authority. The power is undeniable and overwhelming.  \n* **Visuals:**  \n  * **Ethereal Rays:** Pillars of light descending from above.  \n  * **Halos:** Rings of energy forming behind the head or around the hands.  \n  * **Weightlessness:** Objects and debris float gently around the user.  \n* **Palette:**  \n  * **Burnished Gold:** Warm, metallic, heavy.  \n  * **Blinding White:** Too bright to look at directly.  \n  * **Sky Blue:** Peaceful, restorative energy.  \n* **Sensory:**  \n  * *Audio:* Choir-like harmonics, a single clear trumpet note, thunder.  \n  * *Texture:* Warm, solid, comforting.\n### \n### **B. INFERNAL (The Flame / Chaos)**\n**Archetypes:** The Cultist, The Destroyer, The Anarchist.\n* **Concept:** Corruption. The power burns and taints what it touches.  \n* **Visuals:**  \n  * **Shadow Flame:** Fire that produces darkness instead of light.  \n  * **Jagged Arcs:** Lightning that moves in erratic, aggressive patterns.  \n  * **Corrosion:** Surfaces touched by the energy instantly rust or rot.  \n* **Palette:**  \n  * **Blood Red:** Deep, visceral crimson.  \n  * **Sulfur Yellow:** Sickly and bright.  \n  * **Charcoal:** Burnt edges and ash.  \n* **Sensory:**  \n  * *Audio:* Screaming metal, roaring fire, discordant screeching.  \n  * *Texture:* Burning heat, gritty ash, nauseating.\n## \n## \n## **IV. DISCIPLINE-SPECIFIC COLORATIONS**\n*Quick reference for standard energy signatures.*\n| DISCIPLINE | PRIMARY COLOR | SECONDARY COLOR | TEXTURE/FORM |\n| ----- | :---: | :---: | ----- |\n| **Dimension** | Deep Indigo | Void Black | Warping, folding, portals, rifts. |\n| **Energy (Fire)** | Orange/Red | White Hot | Flickering, consuming, plasma-like. |\n| **Energy (Force)** | Transparent | Pale Blue | Distortion waves, solid impact walls. |\n| **Energy (Elec)** | Blue/White | Violet | Jagged arcs, stroboscopic flashes. |\n| **Energy (Cold)** | Glacial Blue | Frost White | Crystalline growth, mist, brittle snapping. |\n| **Energy (Sonic)** | Transparent | Silver Ripples | Distortion waves, vibration blur, shattering glass. |\n| **Energy (Corrosive)** | Sickly Yellow | Smoking Grey | Bubbling liquid, dissolving matter, toxic fumes. |\n| **Entropy (Chaos)** | Sickly Green | Grey/Black | Rusting, decaying, mist, smoke. |\n| **Entropy (Order)** | Geometric Gold | Crystal White | Perfect lattices, interlocking shields. |\n| **Entropy (Healing)** | Vibrant Life Green | Soft Gold | Rapid cell growth, knitting flesh, warm pulse. |\n| **Illusion** | Shimmering | Oil-Slick | Mirrored surfaces, haze, glitches. |\n| **Matter** | Earth Tones | Metallic Sheen | Solidification, density, transmutation. |\n| **Mental** | Pink/Magenta | Cyan | Ripples, pulses, glowing eyes. |\n# **Entropy Invocations**\n# **Entropy Invocations**\nThe following Invocations belong to the **Entropy Discipline**. They rely on the Attune skill for accuracy and DC setting, and the specific Discipline Skill (Entropy: Chaos or Entropy: Order) for shaping, intensity, and effect resolution.\n## \n## \n## **CHAOS INVOCATIONS**\nParent Skill: Entropy  \nSpecialization: Chaos  \nDescription: Amplification of entropic forces and damaging to most everything. Utilizes Negative Energy.  \nStandard Range: Short.  \nBase Damage: 2d6 per Stage (Novice, Trained, Expert, Master, Pinnacle) \\+ 1d per Level of Invocation used.  \nEffect: Most armors are ignored or harmed by Entropic Effects.\n###"
-  },
-  {
     "id": "invocation-vital-sight",
     "name": "VITAL SIGHT",
     "category": "invocations",
@@ -3001,7 +3001,7 @@ export const DEFAULT_INVOCATIONS = [
     "id": "invocation-wound",
     "name": "WOUND",
     "category": "invocations",
-    "discipline": "Energy",
+    "discipline": "Entropy",
     "level": 1,
     "range": "30 ft",
     "duration": "Instantaneous",
@@ -3016,8 +3016,8 @@ export const DEFAULT_INVOCATIONS = [
       "ap": 2
     },
     "modifiers": [],
-    "description": "WOUND invocation for Energy reality manipulation.",
-    "body": "# WOUND Invocation\n\n**Category**: Invocations  \n**Discipline**: Energy\n\n## Description & Ritual Details\nClassification: Entropy (Chaos) | Attack | \\[Necrotic\\] \\[Bio-Degradation\\]  \nParameters:\n* **Base Difficulty:** 12  \n* **Time:** Standard Action  \n* **Range:** Short  \n* **Area:** Single Creature  \n* **Duration:** Instantaneous  \n* **Resistance:** Fortitude (Half)\nEffect Description:  \nAccelerates the decay of cells and tissue, inflicting open wounds.  \n**Scaling Function:**\n* **Damage:** 2d6 Negative Energy Damage per Stage.  \n* **Debuff:** Inflicts Bleeding (1 dmg/round) per Stage.\n###"
+    "description": "WOUND invocation for Entropy reality manipulation.",
+    "body": "# WOUND Invocation\n\n**Category**: Invocations  \n**Discipline**: Entropy\n\n## Description & Ritual Details\nClassification: Entropy (Chaos) | Attack | \\[Necrotic\\] \\[Bio-Degradation\\]  \nParameters:\n* **Base Difficulty:** 12  \n* **Time:** Standard Action  \n* **Range:** Short  \n* **Area:** Single Creature  \n* **Duration:** Instantaneous  \n* **Resistance:** Fortitude (Half)\nEffect Description:  \nAccelerates the decay of cells and tissue, inflicting open wounds.  \n**Scaling Function:**\n* **Damage:** 2d6 Negative Energy Damage per Stage.  \n* **Debuff:** Inflicts Bleeding (1 dmg/round) per Stage.\n###"
   }
 ];
 export const getInvocationById = (id) => DEFAULT_INVOCATIONS.find(i => i.id === id);

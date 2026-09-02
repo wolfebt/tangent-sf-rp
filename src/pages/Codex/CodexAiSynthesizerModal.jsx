@@ -50,8 +50,8 @@ export const CodexAiSynthesizerModal = ({
   const Icon = matrix.icon;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto select-none font-sans">
-      <div className="w-full max-w-2xl bg-[#0b1019] border border-cyan-500/40 rounded-2xl p-6 shadow-[0_0_40px_rgba(6,182,212,0.2)] flex flex-col gap-4 text-slate-100 animate-fade-in">
+    <div className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-md flex items-start justify-center p-3 sm:p-6 pt-8 sm:pt-12 md:pt-14 pb-12 overflow-y-auto select-none font-sans">
+      <div className="w-full max-w-2xl bg-[#0b1019] border border-cyan-500/40 rounded-2xl p-6 shadow-[0_0_40px_rgba(6,182,212,0.2)] flex flex-col gap-4 text-slate-100 max-h-[85vh] sm:max-h-[88vh] overflow-hidden animate-fade-in">
         
         {/* Header */}
         <div className="flex items-center justify-between pb-3 border-b border-slate-800">

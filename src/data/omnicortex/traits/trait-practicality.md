@@ -1,12 +1,9 @@
 ---
 id: trait-practicality
 name: Practicality
-category: traits
+trait_tier: Basic
 trait_type: Origin Trait
-origin_association: Industrial
-description: >-
-  Focuses on utilitarian efficiency, cutting through abstract theories to
-  deliver results.
+category: traits
 costs:
   bp: 1
   credits: 0
@@ -15,6 +12,9 @@ costs:
   strain: 0
   focus: 0
   ap: 0
+description: >-
+  Focuses on utilitarian efficiency, cutting through abstract theories to
+  deliver results.
 modifiers: []
 modifications: []
 critical_details:
@@ -28,15 +28,12 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # Practicality
 
-**Category**: Origin Traits  
-**Associated Origin**: Industrial  
-**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait
+**Category**: TRAITS
+**Tier**: Basic
+**Type**: Origin Trait
+**BP Cost**: 1
 
 ## Description
 Focuses on utilitarian efficiency, cutting through abstract theories to deliver results.
-
-## Mechanics & Benefits
-+2 to Logic checks.

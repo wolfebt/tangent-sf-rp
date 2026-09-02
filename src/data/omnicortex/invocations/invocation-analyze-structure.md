@@ -2,8 +2,8 @@
 id: invocation-analyze-structure
 name: ANALYZE STRUCTURE
 category: invocations
-discipline: Energy
-description: ANALYZE STRUCTURE invocation for Energy reality manipulation.
+discipline: Matter
+description: ANALYZE STRUCTURE invocation for Matter reality manipulation.
 costs:
   bp: 0
   credits: 0
@@ -25,11 +25,10 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # ANALYZE STRUCTURE Invocation
 
 **Category**: Invocations  
-**Discipline**: Energy
+**Discipline**: Matter
 
 ## Description & Ritual Details
 Classification: Matter (Transmutation) | Sensory | \[Cantrip\] \[Analysis\]  

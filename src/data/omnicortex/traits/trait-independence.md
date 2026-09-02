@@ -1,12 +1,9 @@
 ---
 id: trait-independence
 name: Independence
-category: traits
+trait_tier: Basic
 trait_type: Origin Trait
-origin_association: Spacer
-description: >-
-  Self-reliant problem solving in the cold vacuum where help is light-years
-  away.
+category: traits
 costs:
   bp: 1
   credits: 0
@@ -15,6 +12,9 @@ costs:
   strain: 0
   focus: 0
   ap: 0
+description: >-
+  Self-reliant problem solving in the cold vacuum where help is light-years
+  away.
 modifiers: []
 modifications: []
 critical_details:
@@ -28,15 +28,12 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # Independence
 
-**Category**: Origin Traits  
-**Associated Origin**: Spacer  
-**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait
+**Category**: TRAITS
+**Tier**: Basic
+**Type**: Origin Trait
+**BP Cost**: 1
 
 ## Description
 Self-reliant problem solving in the cold vacuum where help is light-years away.
-
-## Mechanics & Benefits
-+1 permanent Karma Point to maximum pool.

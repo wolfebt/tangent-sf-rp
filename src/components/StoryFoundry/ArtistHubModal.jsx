@@ -99,8 +99,8 @@ Format your response in two distinct sections:
   };
 
   const modalContent = (
-    <div className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto font-sans select-none animate-fadeIn">
-      <div className="w-full max-w-3xl bg-[#0d1117] border border-purple-500/70 rounded-2xl shadow-[0_0_50px_rgba(168,85,247,0.35)] flex flex-col max-h-[88vh] overflow-hidden my-auto">
+    <div className="fixed inset-0 z-[200] bg-black/85 backdrop-blur-md flex items-start justify-center p-3 sm:p-6 pt-8 sm:pt-12 md:pt-14 pb-12 overflow-y-auto font-sans select-none animate-fadeIn">
+      <div className="w-full max-w-3xl bg-[#0d1117] border border-purple-500/70 rounded-2xl shadow-[0_0_50px_rgba(168,85,247,0.35)] flex flex-col max-h-[85vh] sm:max-h-[88vh] overflow-hidden">
         
         {/* Modal Header */}
         <div className="flex items-center justify-between px-6 py-4 bg-[#161b22] border-b border-purple-500/30 shrink-0">

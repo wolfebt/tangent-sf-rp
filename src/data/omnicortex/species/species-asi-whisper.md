@@ -3,7 +3,7 @@ id: species-asi-whisper
 name: Whisper
 title: Whisper (Wisp Shifter)
 category: species
-parent_species: Asi
+parent_species: Asi (Fey Lineages)
 type:
   - species_type-fey
 size:
@@ -11,17 +11,42 @@ size:
 movement:
   - species_movement-bipedal
   - species_movement-flight
+speeds: 'Ground 30 ft, Flight 60 ft'
+reach: 5 ft
+senses: 'Low-light vision. [1]'
+immunities: None
+inherent_attribute_modifiers:
+  - attribute: Charisma
+    bonus: 1
+bonus_attribute_points: 0
+specific_skill_bonuses:
+  - skill: Stealth
+    bonus: 2
+bonus_skills: 0
+bonus_skill_choices:
+  - Stealth
+  - Attune
+  - Insight
+  - Investigation
+inherent_features:
+  - trait-asi-base-traits
+  - trait-alter-form-wisp-orb-form-special-ability
+  - trait-awakened-nature
+  - trait-silent-step
+  - trait-flight-in-wisp-form
+bonus_features: []
+bonus_feature_choices:
+  - Invisibility
+  - Ethereal Jaunt
+  - Luminescent Flash
+recommended_features:
+  - feature-ethereal-jaunt
 stigma: Fey (-2)
 tech_level: 3 (Optical Mirage Tech)
 meta_level: 4 (Ethereal Illusion)
 homeworld: The Shrouded Veil
-cp: 18
-description: >-
-  Whispers are enigmatic beings able to dissolve into glowing spheres of soft
-  light or manifest as ghostly humanoid silhouettes. They pass through locks and
-  sensory grids undetected.
 costs:
-  bp: 18
+  bp: 14
   credits: 0
   nodes: 0
   sockets: 0
@@ -30,80 +55,16 @@ costs:
   ap: 0
 modifiers:
   - target: Charisma
+    value: 1
     type: attribute
-    value: 1
     mode: inherent
-  - target: Stealth
-    type: skill
-    value: 2
-    mode: inherent
-  - target: Stealth
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Attune
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Insight
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Investigation
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Asi Base Traits
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Alter Form (Wisp / Orb Form - Special Ability)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Awakened (Nature)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Silent Step
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Flight (in Wisp Form)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Invisibility
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Ethereal Jaunt
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Luminescent Flash
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-ethereal-jaunt
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+cp_cost: 14
+cp: 14
+bp: 14
+description: >-
+  Whispers are enigmatic beings able to dissolve into glowing spheres of soft
+  light or manifest as ghostly humanoid silhouettes. They pass through locks and
+  sensory grids undetected.
 ---
 # Whisper (Wisp Shifter)
 

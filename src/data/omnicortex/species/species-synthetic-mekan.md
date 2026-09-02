@@ -10,16 +10,46 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 5 ft
+senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
+immunities: >-
+  Asphyxiation, bleeding, critical hits, poison, biological disease, starvation,
+  sleep [9]
+inherent_attribute_modifiers:
+  - attribute: Intellect
+    bonus: 2
+bonus_attribute_points: 0
+specific_skill_bonuses:
+  - skill: Technology
+    bonus: 2
+  - skill: Engineering
+    bonus: 2
+bonus_skills: 10
+bonus_skill_choices:
+  - Technology
+  - Engineering
+  - Hacking
+  - Discipline
+inherent_features:
+  - trait-synthetic-base-traits
+  - trait-double-adaptive-aspects
+  - trait-telepathic-technopathic-network
+  - trait-tech-assimilation-integrates-alien-gear-instantly
+  - trait-technokinesis-special-ability
+bonus_features: []
+bonus_feature_choices:
+  - Machine Overcharge
+  - Nanite Swarm Shield
+  - Hardware Cannibalize
+recommended_features:
+  - feature-technokinesis
 stigma: Severe Synthetic (-4)
 tech_level: 4 (Adaptive Nanite Reconfiguration)
 meta_level: 3 (Technomancy)
 homeworld: Mekan Forge Worlds
-cp: 35
-description: >-
-  Mekan are self-evolving nanite and modular machines capable of assimilating,
-  repurposing, and technokinetically manipulating electronic systems.
 costs:
-  bp: 35
+  bp: 32
   credits: 0
   nodes: 0
   sockets: 0
@@ -28,88 +58,15 @@ costs:
   ap: 0
 modifiers:
   - target: Intellect
+    value: 2
     type: attribute
-    value: 2
     mode: inherent
-  - target: Technology
-    type: skill
-    value: 2
-    mode: inherent
-  - target: Engineering
-    type: skill
-    value: 2
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 10
-    mode: bonus_pool
-  - target: Technology
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Engineering
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Hacking
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Discipline
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Synthetic Base Traits
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Double Adaptive Aspects
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Telepathic / Technopathic Network
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Tech Assimilation (Integrates Alien Gear instantly)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Technokinesis (Special Ability)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 2
-    mode: bonus_pool
-  - target: Machine Overcharge
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Nanite Swarm Shield
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Hardware Cannibalize
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-technokinesis
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+cp_cost: 32
+cp: 32
+bp: 32
+description: >-
+  Mekan are self-evolving nanite and modular machines capable of assimilating,
+  repurposing, and technokinetically manipulating electronic systems.
 ---
 # Mekan (Technopathic Assimilator)
 

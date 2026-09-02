@@ -1,12 +1,9 @@
 ---
 id: trait-intuition
 name: Intuition
-category: traits
+trait_tier: Basic
 trait_type: Origin Trait
-origin_association: Hostile
-description: >-
-  A preternatural sixth sense for impending ambushes, environmental collapses,
-  and traps.
+category: traits
 costs:
   bp: 1
   credits: 0
@@ -15,6 +12,9 @@ costs:
   strain: 0
   focus: 0
   ap: 0
+description: >-
+  A preternatural sixth sense for impending ambushes, environmental collapses,
+  and traps.
 modifiers: []
 modifications: []
 critical_details:
@@ -28,15 +28,12 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # Intuition
 
-**Category**: Origin Traits  
-**Associated Origin**: Hostile  
-**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait
+**Category**: TRAITS
+**Tier**: Basic
+**Type**: Origin Trait
+**BP Cost**: 1
 
 ## Description
 A preternatural sixth sense for impending ambushes, environmental collapses, and traps.
-
-## Mechanics & Benefits
-Once per day, reroll any one failed Perception or Alertness check.

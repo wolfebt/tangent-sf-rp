@@ -1,1 +1,42 @@
-[]
+[
+  {
+    "id": "mode-semi-auto",
+    "name": "Semi-Automatic (1 Shot)",
+    "description": "Fires one precise projectile per attack action, maximizing accuracy."
+  },
+  {
+    "id": "mode-burst",
+    "name": "3-Round Burst",
+    "description": "Fires a rapid 3-round burst, granting +2 to strike against a single target."
+  },
+  {
+    "id": "mode-full-auto",
+    "name": "Full Automatic",
+    "description": "Continuous automatic fire capable of laying down area suppression or multi-target sweeps."
+  },
+  {
+    "id": "mode-overcharge",
+    "name": "Overcharge Mode",
+    "description": "Draws double power to add +1d8 extra damage, generating heat."
+  },
+  {
+    "id": "mode-stun",
+    "name": "Stun / Non-Lethal Setting",
+    "description": "Toggles weapon output to electrical non-lethal subdual damage."
+  },
+  {
+    "id": "mode-precision",
+    "name": "Precision Aim Mode",
+    "description": "Requires a steady stance; grants +4 accuracy and +1 Penetration on next shot."
+  },
+  {
+    "id": "mode-scatter",
+    "name": "Scatter / Wide Spread",
+    "description": "Toggles muzzle choke to hit all targets in a 10ft frontal cone."
+  },
+  {
+    "id": "mode-brace",
+    "name": "Defensive Brace",
+    "description": "Armor locks joints in place, granting +4 DR and immunity to knockdown at the cost of movement."
+  }
+]

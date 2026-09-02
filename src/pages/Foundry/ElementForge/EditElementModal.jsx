@@ -136,8 +136,8 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/80 backdrop-blur-md p-4 pt-4 sm:pt-6 overflow-y-auto font-sans text-slate-200">
-      <div className="bg-[#161b22] border border-cyan-500/70 rounded-2xl w-full max-w-4xl h-[88vh] flex flex-col shadow-2xl overflow-hidden relative">
+    <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 pt-8 sm:pt-12 md:pt-14 pb-12 overflow-y-auto select-none font-sans text-slate-200">
+      <div className="bg-[#161b22] border border-cyan-500/70 rounded-2xl w-full max-w-4xl max-h-[85vh] sm:max-h-[88vh] flex flex-col shadow-2xl overflow-hidden relative">
         
         {/* Header */}
         <div className="px-6 py-4 bg-[#0d1117] border-b border-[#0D5C63]/60 flex items-center justify-between">
@@ -166,7 +166,7 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
         <form onSubmit={handleSubmit} className="flex-1 flex flex-col overflow-hidden relative">
           {/* Type Change Confirmation Overlay */}
           {showTypeConfirm && (
-            <div className="absolute inset-0 z-50 flex items-start justify-center bg-black/80 backdrop-blur-sm p-4 pt-10 overflow-y-auto">
+            <div className="absolute inset-0 z-[250] flex items-start justify-center bg-black/85 backdrop-blur-md p-4 pt-16 pb-12 overflow-y-auto">
               <div className="bg-[#161b22] border border-amber-500/70 rounded-2xl p-6 max-w-md w-full shadow-[0_0_30px_rgba(245,158,11,0.2)] flex flex-col gap-4 text-center">
                 <div className="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-400 border border-amber-500/40 flex items-center justify-center text-2xl mx-auto shadow-md">
                   ⚠️

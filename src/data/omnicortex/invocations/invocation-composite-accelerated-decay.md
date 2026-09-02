@@ -27,8 +27,8 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
+discipline: Entropy + Dimension
 ---
-
 # Accelerated Decay (Composite Invocation)
 
 **Category**: Composite Invocations  

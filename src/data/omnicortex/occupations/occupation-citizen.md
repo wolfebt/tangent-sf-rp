@@ -18,16 +18,16 @@ archetypes:
   - Bureaucrat
   - Corporate Drone
 traits:
-  - trait-citizen-adaptability
-  - trait-citizen-communication
-  - trait-citizen-ethical-awareness
-  - trait-citizen-financial-expertise
-  - trait-citizen-high-social-standing
-  - trait-citizen-management
-  - trait-citizen-negotiation
-  - trait-citizen-networking
-  - trait-citizen-problem-solving
-  - trait-citizen-strategic-thinking
+  - trait-adaptability
+  - trait-communication
+  - trait-ethical-awareness
+  - trait-financial-expertise
+  - trait-high-social-standing
+  - trait-management
+  - trait-negotiation
+  - trait-networking
+  - trait-problem-solving
+  - trait-strategic-thinking
 description: >-
   A Citizen is an individual living within a diverse and interconnected society,
   spanning multiple planets or star systems. They may have various roles and

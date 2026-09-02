@@ -1,10 +1,16 @@
 ---
 id: species_movement-bipedal
-name: "Bipedal Locomotion"
+name: Bipedal Locomotion
 category: species_movement
-type: "Ground"
+classification: mode
+target_mode: Ground
+type: Ground
+base_speed: 30
 speed: 30
-description: "Standard upright two-legged locomotion. Baseline walking speed of 30 ft per combat round (6 seconds)."
+bp: 0
+description: >-
+  Standard upright two-legged locomotion. Baseline walking speed of 30 ft per
+  combat round (6 seconds).
 costs:
   bp: 0
   credits: 0
@@ -13,23 +19,12 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
-
 # Bipedal Locomotion
 
-**Mode Type**: Ground  
+**Category**: Species Movement (MODE)  
+**Target Mode**: Ground  
+**Cost**: +0 BP  
 **Base Speed**: 30 ft / round  
 
 ## Description

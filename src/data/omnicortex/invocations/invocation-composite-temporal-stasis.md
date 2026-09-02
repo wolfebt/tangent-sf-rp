@@ -27,8 +27,8 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
+discipline: Entropy + Dimension
 ---
-
 # Temporal Stasis (Composite Invocation)
 
 **Category**: Composite Invocations  

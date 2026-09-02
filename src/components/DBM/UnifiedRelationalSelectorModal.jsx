@@ -32,9 +32,11 @@ export const FEATURE_CATEGORY_ITEMS = [
   { id: 'cat_general_features', name: 'General Features', type: 'Category Group', description: 'Player may choose any feature classified under General features.' },
   { id: 'cat_combat_features', name: 'Combat Features', type: 'Category Group', description: 'Player may choose any feature classified under Combat features.' },
   { id: 'cat_ability_features', name: 'Ability Features', type: 'Category Group', description: 'Player may choose any feature classified under Ability features.' },
-  { id: 'cat_meta_features', name: 'Meta Features', type: 'Category Group', description: 'Player may choose any feature classified under Meta features.' },
+  { id: 'cat_discipline_features', name: 'Discipline Features', type: 'Category Group', description: 'Player may choose any feature classified under Discipline features.' },
+  { id: 'cat_meta_features', name: 'Meta Features', type: 'Category Group', description: 'Player may choose any feature classified under Meta / Discipline features.' },
   { id: 'cat_karma_features', name: 'Karma Features', type: 'Category Group', description: 'Player may choose any feature classified under Karma features.' },
   { id: 'cat_skill_features', name: 'Skill Features', type: 'Category Group', description: 'Player may choose any feature classified under Skill features.' },
+  { id: 'cat_special_features', name: 'Special Features', type: 'Category Group', description: 'Player may choose any feature classified under Special features.' },
   { id: 'cat_exotic_features', name: 'Exotic Features', type: 'Category Group', description: 'Player may choose any feature classified under Exotic features.' },
   { id: 'cat_special_abilities', name: 'Special Abilities', type: 'Category Group', description: 'Player may choose any feature classified under Special Abilities.' }
 ];
@@ -400,8 +402,8 @@ export const UnifiedRelationalSelectorModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/80 backdrop-blur-md p-4 pt-4 sm:pt-6 overflow-y-auto">
-      <div className="bg-slate-900 border border-cyan-500/50 rounded-xl w-full max-w-2xl max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
+    <div className="fixed inset-0 z-[250] flex items-start justify-center bg-black/85 backdrop-blur-md p-3 sm:p-4 md:p-6 pt-10 sm:pt-14 md:pt-16 pb-12 overflow-y-auto select-none font-sans">
+      <div className="bg-slate-900 border border-cyan-500/50 rounded-xl w-full max-w-2xl max-h-[85vh] sm:max-h-[88vh] flex flex-col shadow-2xl overflow-hidden">
         {/* Header */}
         <div className="bg-slate-950 px-5 py-4 border-b border-slate-800 flex justify-between items-center shrink-0">
           <div>
@@ -413,15 +415,8 @@ export const UnifiedRelationalSelectorModal = ({
           <div className="flex items-center gap-2">
             <button
               type="button"
-              onClick={handleOpenBuildManage}
-              className="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-bold uppercase transition-colors shadow flex items-center gap-1 cursor-pointer z-10"
-            >
-              ✨ + Build Record
-            </button>
-            <button
-              type="button"
               onClick={onClose}
-              className="text-slate-400 hover:text-white font-bold ml-2 text-lg cursor-pointer"
+              className="text-slate-400 hover:text-white font-bold text-lg p-1.5 rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
             >
               ✕
             </button>

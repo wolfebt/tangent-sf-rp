@@ -3,24 +3,53 @@ id: species-asi-fey-base
 name: Fey (Base)
 title: Fey (Base Asi)
 category: species
-parent_species: Asi
+parent_species: Asi (Fey Lineages)
 type:
   - species_type-fey
 size:
   - species_size-diminutive
 movement:
   - species_movement-flight
+speeds: Flight 60 ft
+reach: 1 ft
+senses: 'Low-light vision. [1]'
+immunities: None
+inherent_attribute_modifiers:
+  - attribute: Charisma
+    bonus: 1
+bonus_attribute_points: 0
+specific_skill_bonuses:
+  - skill: Attune
+    bonus: 2
+  - skill: Perception
+    bonus: 1
+bonus_skills: 10
+bonus_skill_choices:
+  - Attune
+  - Perception
+  - Trickery
+  - Performance
+  - Stealth
+inherent_features:
+  - trait-asi-base-traits
+  - trait-diminutive-size-4-stealth-4-might
+  - trait-awakened-nature
+  - trait-flight-gossamer-wings-30ft
+bonus_features: []
+bonus_feature_choices:
+  - Glamour Weaving
+  - Invisibility Aura
+  - Pixie Dust Spark
+  - Nature Communion
+recommended_features:
+  - feature-glamour-weaving
+  - feature-invisibility-aura
 stigma: 'Fae (-2), Xeno (-2)'
 tech_level: 1 (Enchanted Flora)
 meta_level: 5 (High Fey Metaphysics)
 homeworld: The Feywild Reliquary
-cp: 23
-description: >-
-  Base Fey are diminutive, winged beings of pure elemental and natural
-  resonance. Mischievous, radiant, and immortal, they navigate mortal
-  civilizations with wonder and cryptic intentions.
 costs:
-  bp: 23
+  bp: 27
   credits: 0
   nodes: 0
   sockets: 0
@@ -29,96 +58,28 @@ costs:
   ap: 0
 modifiers:
   - target: Charisma
+    value: 1
     type: attribute
-    value: 1
     mode: inherent
-  - target: Attune
-    type: skill
-    value: 2
-    mode: inherent
-  - target: Perception
-    type: skill
-    value: 1
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 10
-    mode: bonus_pool
-  - target: Attune
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Perception
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Trickery
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Performance
-    type: skill
-    value: 1
-    mode: choice_pool
+  - target: Strength
+    value: -8
+    type: attribute
+    mode: size_modifier
+  - target: Combat / Defense
+    value: 8
+    type: combat
+    mode: size_modifier
   - target: Stealth
+    value: 12
     type: skill
-    value: 1
-    mode: choice_pool
-  - target: Asi Base Traits
-    type: feature
-    value: 1
-    mode: inherent
-  - target: 'Diminutive Size (+4 Stealth, -4 Might)'
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Awakened (Nature)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: 'Flight (Gossamer Wings, 30ft)'
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Glamour Weaving
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Invisibility Aura
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Pixie Dust Spark
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Nature Communion
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-glamour-weaving
-    type: feature
-    value: 1
-    mode: recommended
-  - target: feature-invisibility-aura
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+    mode: size_modifier
+cp_cost: 27
+cp: 27
+bp: 27
+description: >-
+  Base Fey are diminutive, winged beings of pure elemental and natural
+  resonance. Mischievous, radiant, and immortal, they navigate mortal
+  civilizations with wonder and cryptic intentions.
 ---
 # Fey (Base Asi)
 

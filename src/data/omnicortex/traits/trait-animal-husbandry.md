@@ -1,12 +1,9 @@
 ---
 id: trait-animal-husbandry
 name: Animal Husbandry
-category: traits
+trait_tier: Basic
 trait_type: Origin Trait
-origin_association: Agricultural
-description: >-
-  Expertise in raising and caring for livestock, understanding animal behavior
-  and nutrition.
+category: traits
 costs:
   bp: 1
   credits: 0
@@ -15,6 +12,9 @@ costs:
   strain: 0
   focus: 0
   ap: 0
+description: >-
+  Expertise in raising and caring for livestock, understanding animal behavior
+  and nutrition.
 modifiers: []
 modifications: []
 critical_details:
@@ -28,15 +28,12 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # Animal Husbandry
 
-**Category**: Origin Traits  
-**Associated Origin**: Agricultural  
-**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait
+**Category**: TRAITS
+**Tier**: Basic
+**Type**: Origin Trait
+**BP Cost**: 1
 
 ## Description
 Expertise in raising and caring for livestock, understanding animal behavior and nutrition.
-
-## Mechanics & Benefits
-+2 to Animal Handling checks.

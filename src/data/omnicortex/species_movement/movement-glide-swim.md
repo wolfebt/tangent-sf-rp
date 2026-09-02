@@ -1,8 +1,13 @@
 ---
 id: movement-glide-swim
-name: "Swimming: Glide Pace"
+name: 'Swimming: Glide Pace (2x Swim)'
 category: species_movement
-description: Hurried swimming pace with a -2 penalty to subtle actions.
+classification: pace
+target_mode: Swimming
+multiplier: 2
+speed: 60
+bp: 0
+description: Hurried swim stroke (2x Swim) with -2 penalty to stealth.
 costs:
   bp: 0
   credits: 0
@@ -11,31 +16,12 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-speed: 30
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
+# Swimming: Glide Pace (2x Swim)
 
-# Swimming: Glide Pace
-
-**Category**: Movement Modes & Paces  
-**Movement Mode**: Swimming  
-**Speed Multiplier**: 2x Swim (1x Walk)  
-**Medium Speed Baseline**: 30 ft / round  
+**Category**: Species Movement (PACE)  
+**Target Mode**: Swimming  
+**Cost**: +0 BP  
 
 ## Description
-Hurried swimming pace with a -2 penalty to subtle actions.
-
-## Tactical Modifiers & Checks
-- **Action Penalty / Modifier**: -2 to subtle actions
-- **Required Check**: Athletics (Swimming) DC 10+
+Hurried swim stroke (2x Swim) with -2 penalty to stealth.

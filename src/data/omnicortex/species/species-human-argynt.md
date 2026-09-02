@@ -3,24 +3,49 @@ id: species-human-argynt
 name: Argynt Human
 title: Argynt Human (Heavy Gravity Variant)
 category: species
-parent_species: Humans
+parent_species: Humans (Core & Variants)
 type:
   - species_type-humanoid
 size:
   - species_size-medium
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 5 ft
+senses: Standard visual and auditory range.
+immunities: None
+inherent_attribute_modifiers:
+  - attribute: Intellect
+    bonus: 1
+bonus_attribute_points: 0
+specific_skill_bonuses:
+  - skill: Science
+    bonus: 1
+  - skill: Engineering
+    bonus: 1
+bonus_skills: 5
+bonus_skill_choices:
+  - Science
+  - Engineering
+  - Medicine
+  - Athletics
+inherent_features:
+  - trait-improved-great-fortitude-4-vs-poison-disease
+  - trait-dense-skeletal-structure
+  - trait-radiation-tolerance
+bonus_features: []
+bonus_feature_choices:
+  - Silver Skin DR
+  - Toxic Neutralization
+  - Tireless
+recommended_features:
+  - feature-improved-great-fortitude
 stigma: Blue Skin (-1)
 tech_level: 3 (Industrial Heavy Tech)
 meta_level: 2 (Electrochemical Psionics)
 homeworld: Argynt-9 (High Radiation World)
-cp: 13
-description: >-
-  Distinguished by their distinctive silvery-blue skin resulting from colloidal
-  mineral assimilation, Argynts are resilient human colonists adapted to harsh,
-  radiation-heavy worlds.
 costs:
-  bp: 13
+  bp: 10
   credits: 0
   nodes: 0
   sockets: 0
@@ -29,80 +54,16 @@ costs:
   ap: 0
 modifiers:
   - target: Intellect
+    value: 1
     type: attribute
-    value: 1
     mode: inherent
-  - target: Science
-    type: skill
-    value: 1
-    mode: inherent
-  - target: Engineering
-    type: skill
-    value: 1
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 5
-    mode: bonus_pool
-  - target: Science
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Engineering
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Medicine
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Athletics
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Improved Great Fortitude (+4 vs Poison/Disease)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Dense Skeletal Structure
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Radiation Tolerance
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Silver Skin DR
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Toxic Neutralization
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Tireless
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-improved-great-fortitude
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+cp_cost: 10
+cp: 10
+bp: 10
+description: >-
+  Distinguished by their distinctive silvery-blue skin resulting from colloidal
+  mineral assimilation, Argynts are resilient human colonists adapted to harsh,
+  radiation-heavy worlds.
 ---
 # Argynt Human (Heavy Gravity Variant)
 
@@ -143,12 +104,3 @@ Longevity
 Reduced Sustenance  
 Rugged  
 Self Sufficient
-
-
-## Extended Lore & Background
-
-Remarkably, the native inhabitants survived this environmental poisoning. Their unique biological structure absorbed a significant quantity of this particulate matter. This involuntary biological integration did not kill them; instead, it fundamentally altered their physiology. Their descendants, the modern Argynts, exhibit prominent and stable genetic traits stemming from this deep mineral absorption.
-
-These traits include the characteristic blueing of their skin, a visible manifestation of trace silver deposits. More significantly, they possess an incredible and almost unparalleled resilience to pathogens. Their internal systems are so thoroughly integrated with the compounds that they have an inherent, systemic defense against virtually all forms of bacteria, viruses, and general infections. The common diseases that plague other human populations are largely ineffective against Argynts, granting them remarkably long lifespans and robust health.  
-Furthermore, the absorbed Aetherium, the powerful meta-material, has subtly but profoundly influenced their neurological and spiritual development. Argynts display a strong and inherent predisposition toward developing magical skills. Whether through innate psychic ability, ritualistic spellcasting, or technologically-augmented magical manipulation, a significantly higher percentage of their population manifests these powers compared to other human subspecies. This has led to Argynt communities often becoming centers for arcane study, metaphysical research, and the practice of high-level magic. Their blend of physical durability and magical potential makes them a unique and formidable presence in the wider human diaspora.
-

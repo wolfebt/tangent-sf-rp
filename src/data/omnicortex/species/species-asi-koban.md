@@ -3,24 +3,49 @@ id: species-asi-koban
 name: Koban
 title: Koban (Shifter Fey)
 category: species
-parent_species: Asi
+parent_species: Asi (Fey Lineages)
 type:
   - species_type-fey
 size:
   - species_size-small
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 3 ft
+senses: 'Low-light vision. [1]'
+immunities: None
+inherent_attribute_modifiers: []
+bonus_attribute_points: 1
+specific_skill_bonuses:
+  - skill: Stealth
+    bonus: 1
+  - skill: Survival
+    bonus: 1
+bonus_skills: 0
+bonus_skill_choices:
+  - Stealth
+  - Survival
+  - Athletics
+  - Trickery
+inherent_features:
+  - trait-asi-base-traits
+  - trait-small-medium-size-shift
+  - trait-climber
+  - trait-alter-form-humanoid
+  - trait-awakened-nature
+bonus_features: []
+bonus_feature_choices:
+  - Scent Camouflage
+  - Pounce
+  - Shadow Lurker
+recommended_features:
+  - feature-shadow-lurker
 stigma: 'Animal (-2), Xeno (-2)'
 tech_level: 2 (Primal Tools)
 meta_level: 3 (Metamorphic Nature)
 homeworld: Sylvanna Enclaves
-cp: 16
-description: >-
-  Koban are small, versatile shifter fey who can blend into humanoid crowds or
-  vanish into wilderness thickets by adopting localized animal and humanoid
-  silhouettes.
 costs:
-  bp: 16
+  bp: 12
   credits: 0
   nodes: 0
   sockets: 0
@@ -28,85 +53,25 @@ costs:
   focus: 0
   ap: 0
 modifiers:
-  - target: Any Attribute
+  - target: Strength
+    value: -2
     type: attribute
-    value: 1
-    mode: bonus_pool
+    mode: size_modifier
+  - target: Combat / Defense
+    value: 2
+    type: combat
+    mode: size_modifier
   - target: Stealth
+    value: 4
     type: skill
-    value: 1
-    mode: inherent
-  - target: Survival
-    type: skill
-    value: 1
-    mode: inherent
-  - target: Stealth
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Survival
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Athletics
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Trickery
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Asi Base Traits
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Small / Medium Size Shift
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Climber
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Alter Form (Humanoid)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Awakened (Nature)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Scent Camouflage
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Pounce
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Shadow Lurker
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-shadow-lurker
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+    mode: size_modifier
+cp_cost: 12
+cp: 12
+bp: 12
+description: >-
+  Koban are small, versatile shifter fey who can blend into humanoid crowds or
+  vanish into wilderness thickets by adopting localized animal and humanoid
+  silhouettes.
 ---
 # Koban (Shifter Fey)
 
@@ -240,19 +205,3 @@ Telekinesis
 **Recommended Features:** 
 
 *Diminutive Size (-8 Str, \+8 Dex, \+8 Combat, \+12 Stealth)*
-
-
-## Extended Lore & Background
-
-Unlike the chaotic nature of some Fey, Koban are often calm and observant. However, they possess a powerful, innate defense mechanism: the ability to assume the form of a specific Medium-sized humanoid. This "Guise" is unique to each Koban and acts as their interface with the larger galaxy, allowing them to travel, trade, and negotiate without being dismissed as mere animals.
-
-Society & Psychology: Koban culture is deeply spiritual and inextricably linked to the Meta (the Force/Magic). They view technology with skepticism, relying instead on their connection to the energies of the universe. To a Koban, a blaster is a crude tool compared to the elegance of a telekinetic push or a mind trick.
-
-They are often underestimated. In their fey form, they appear harmless and cute; in their humanoid form, they appear unassuming. They use this to their advantage, acting as spies, diplomats, or guardians who reveal their true nature only when necessary.
-
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-
-The most notable difference, however, lies in their ability to shape-shift. Where the Koban transition into a lithe, graceful humanoid form, these beings take on a natural animal guise. This shift is not merely a superficial change but a deep, spiritual integration with the chosen creature's essence. This grants them the physical prowess, instincts, and sensory perception of the animal they embody—be it the swift silence of a fox, the keen sight of an owl, or the grounded strength of a deer.
-
-Consequently, these Kin are profoundly attuned to the wild spaces they inhabit. Their connection to nature is not just a preference but a deep, symbiotic bond. They possess an innate, almost telepathic affinity for all creatures, able to soothe panicked beasts, understand the subtle warnings of the birds, and track the movements of the forest inhabitants with uncanny accuracy. They often act as silent guardians of the wilderness, their dual nature—Fey spirit and animal form—making them both a part of the environment and its watchful protector.
-

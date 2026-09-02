@@ -1,1 +1,52 @@
-[]
+[
+  {
+    "id": "gear_cat-electronics",
+    "name": "Electronics & Computing",
+    "description": "Cyberdecks, data pads, scanners, holocams, neural interfaces, and hacking tools."
+  },
+  {
+    "id": "gear_cat-survival",
+    "name": "Survival & Environmental",
+    "description": "Rations, water scrubbers, respirators, tents, flares, climbing gear, and hazard suits."
+  },
+  {
+    "id": "gear_cat-medical",
+    "name": "Medical & Pharmaceuticals",
+    "description": "Medkits, trauma stims, antitoxins, cellular regenerators, biogel, and surgical kits."
+  },
+  {
+    "id": "gear_cat-tools",
+    "name": "Tools & Engineering",
+    "description": "Plasma torches, multi-wrenches, diagnostic pads, repair nano-paste, and work benches."
+  },
+  {
+    "id": "gear_cat-comms",
+    "name": "Communications & Sensor",
+    "description": "Sub-space transceivers, comm-chips, radar dishes, acoustic probes, and beacon buoys."
+  },
+  {
+    "id": "gear_cat-power",
+    "name": "Power & Energy Cells",
+    "description": "Micro-cells, standard power packs, fusion batteries, solar blankets, and generators."
+  },
+  {
+    "id": "gear_cat-tactical",
+    "name": "Tactical & Field Gear",
+    "description": "Holsters, ammo pouches, grappling hooks, tactical webbing, and night-vision goggles."
+  },
+  {
+    "id": "gear_cat-explosives",
+    "name": "Explosives & Demolitions",
+    "description": "Frag grenades, breach charges, thermal detonators, EMP mines, and detonator cords."
+  },
+  {
+    "id": "gear_cat-meta-tech",
+    "name": "Meta-Tech Devices",
+    "description": "Aetheric resonators, psi-focus crystals, warding seals, and metaphysical conduits."
+  },
+  {
+    "id": "gear_cat-containers",
+    "name": "Containers & Storage",
+    "description": "Lockboxes, tactical backpacks, magnetized crates, and vacuum-sealed cargo pods."
+  }
+]

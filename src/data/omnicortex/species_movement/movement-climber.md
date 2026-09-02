@@ -2,8 +2,15 @@
 id: movement-climber
 name: Climber
 category: species_movement
-movement_type: Mode
-description: "Base Climb Speed 30, and gain the +5 racial bonus on climbing checks."
+classification: mode
+target_mode: Climbing
+type: Climbing
+base_speed: 30
+speed: 30
+bp: 2
+description: >-
+  Innate climbing adaptations granting Base Climb Speed 30 ft and +5 racial
+  bonus on climbing checks.
 costs:
   bp: 2
   credits: 0
@@ -12,32 +19,13 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-speed: 30
-is_ranked: false
-is_exclusive: false
-is_disadvantage: false
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
-
 # Climber
 
-**Category**: Species Movement (Mode)  
-**Cost**: 2 BP  
-**Classification**: Mode  
+**Category**: Species Movement (MODE)  
+**Target Mode**: Climbing  
+**Cost**: +2 BP  
+**Base Speed**: 30 ft / round  
 
-## Effect
-Base Climb Speed 30, and gain the +5 racial bonus on climbing checks.
-
-## Mechanics & Rules
-Grants an innate Base Climb Speed of 30 ft per round and a permanent +5 racial bonus on all Athletics (Climbing) checks.
+## Description
+Innate climbing adaptations granting Base Climb Speed 30 ft and +5 racial bonus on climbing checks.

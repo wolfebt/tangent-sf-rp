@@ -2,8 +2,8 @@
 id: invocation-obscure
 name: OBSCURE
 category: invocations
-discipline: Entropy
-description: OBSCURE invocation for Entropy reality manipulation.
+discipline: Illusion
+description: OBSCURE invocation for Illusion reality manipulation.
 costs:
   bp: 0
   credits: 0
@@ -25,11 +25,10 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # OBSCURE Invocation
 
 **Category**: Invocations  
-**Discipline**: Entropy
+**Discipline**: Illusion
 
 ## Description & Ritual Details
 Classification: Illusion (Phantasm) | Debuff | \[Sensory\] \[Deprivation\]  

@@ -1,1 +1,82 @@
-[]
+[
+  {
+    "id": "mat-hide-bone",
+    "name": "Hide & Bone (TL 0)",
+    "tl": 0,
+    "drPercent": 25,
+    "spMult": 0.25,
+    "description": "Primitive natural hides, cured sinew, and carved bone plating. Degrades under sustained impact."
+  },
+  {
+    "id": "mat-steel",
+    "name": "Iron & Steel Plate (TL 1)",
+    "tl": 1,
+    "drPercent": 50,
+    "spMult": 0.5,
+    "description": "Forged high-carbon steel plates. Heavy mass imposes minor agility check penalties."
+  },
+  {
+    "id": "mat-kevlar-ceramic",
+    "name": "Kevlar & Ceramic Alloy (TL 2)",
+    "tl": 2,
+    "drPercent": 75,
+    "spMult": 1,
+    "description": "Modern ballistic synthetic weave with strike-face ceramic tiles. Standard kinetic resistance."
+  },
+  {
+    "id": "mat-plasteel",
+    "name": "Plasteel & Impact Gel (TL 3)",
+    "tl": 3,
+    "drPercent": 100,
+    "spMult": 1.5,
+    "description": "Standard space-age composite. Lightweight, hermetically sealed, with non-Newtonian impact gel buffers."
+  },
+  {
+    "id": "mat-nanocarbon",
+    "name": "Nanocarbon & Phase-Shift (TL 4)",
+    "tl": 4,
+    "drPercent": 125,
+    "spMult": 2,
+    "description": "Molecularly aligned carbon nanotubes with self-repairing lattice (regenerates 1 SP/hour)."
+  },
+  {
+    "id": "mat-polymatter",
+    "name": "Polymatter & Hard-Light (TL 5)",
+    "tl": 5,
+    "drPercent": 150,
+    "spMult": 2.5,
+    "description": "Precursor programmable matter and solid photonic lattices. Weightless and morphic."
+  },
+  {
+    "id": "mat-aether-glass",
+    "name": "Aether-Infused Glass",
+    "tl": 4,
+    "drPercent": 110,
+    "spMult": 1.8,
+    "description": "Resonant crystalline silica that conducts metaphysical energies and deflects psychic trauma."
+  },
+  {
+    "id": "mat-chitin-composite",
+    "name": "Chitin Composite",
+    "tl": 3,
+    "drPercent": 105,
+    "spMult": 1.6,
+    "description": "Kitin-inspired bio-ceramic exoskeleton plating with self-knitting biological fibers."
+  },
+  {
+    "id": "mat-void-titanium",
+    "name": "Void-Toughened Titanium",
+    "tl": 4,
+    "drPercent": 135,
+    "spMult": 2.2,
+    "description": "Tempered in the high-gravity vacuum of deep space void rifts, highly resistant to radiation."
+  },
+  {
+    "id": "mat-adamantine",
+    "name": "Adamantine Alloy",
+    "tl": 5,
+    "drPercent": 160,
+    "spMult": 3,
+    "description": "Ultra-dense celestial metal that renders armor impervious to critical sundering."
+  }
+]

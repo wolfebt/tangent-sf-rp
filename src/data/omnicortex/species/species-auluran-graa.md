@@ -10,17 +10,43 @@ size:
   - species_size-large
 movement:
   - species_movement-quadruped
+speeds: Ground 40 ft
+reach: 10 ft
+senses: 'Low-light vision. [1]'
+immunities: None
+inherent_attribute_modifiers:
+  - attribute: Agility
+    bonus: 1
+bonus_attribute_points: 2
+specific_skill_bonuses:
+  - skill: Athletics
+    bonus: 2
+bonus_skills: 0
+bonus_skill_choices:
+  - Athletics
+  - Intimidation
+  - Combat (Natural)
+inherent_features:
+  - trait-auluran-base-traits
+  - trait-large-size
+  - trait-armless-4-penalty-to-manipulation
+  - trait-quick-speed
+  - trait-martial-arts
+  - trait-quadruped-speed-40ft
+bonus_features: []
+bonus_feature_choices:
+  - Crushing Jaw
+  - Thick Hide (DR 4/-)
+  - Savage Charge
+recommended_features:
+  - feature-crushing-jaw
+  - feature-savage-charge
 stigma: 'Animal (-2), Xeno (-2)'
 tech_level: 2 (Symbiotic Harnesses)
 meta_level: 1 (Pheromone Network)
 homeworld: Aulura Prime
-cp: 20
-description: >-
-  The Graa are massive quadrupedal Auluran juggernauts. Lacking fine
-  manipulative hands, they make up for it with crushing jaw power, thick hide,
-  and devastating combat charges.
 costs:
-  bp: 20
+  bp: 19
   credits: 0
   nodes: 0
   sockets: 0
@@ -29,88 +55,28 @@ costs:
   ap: 0
 modifiers:
   - target: Agility
+    value: 1
     type: attribute
-    value: 1
     mode: inherent
-  - target: Any Attribute
+  - target: Strength
+    value: 2
     type: attribute
-    value: 2
-    mode: bonus_pool
-  - target: Athletics
+    mode: size_modifier
+  - target: Combat / Defense
+    value: -2
+    type: combat
+    mode: size_modifier
+  - target: Stealth
+    value: -4
     type: skill
-    value: 2
-    mode: inherent
-  - target: Athletics
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Intimidation
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Combat (Natural)
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Auluran Base Traits
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Large Size
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Armless (-4 penalty to manipulation)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Quick Speed
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Martial Arts
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Quadruped (Speed 40ft)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Crushing Jaw
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Thick Hide (DR 4/-)
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Savage Charge
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-crushing-jaw
-    type: feature
-    value: 1
-    mode: recommended
-  - target: feature-savage-charge
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+    mode: size_modifier
+cp_cost: 19
+cp: 19
+bp: 19
+description: >-
+  The Graa are massive quadrupedal Auluran juggernauts. Lacking fine
+  manipulative hands, they make up for it with crushing jaw power, thick hide,
+  and devastating combat charges.
 ---
 # Graa (Auluran Heavy Beast Caste)
 

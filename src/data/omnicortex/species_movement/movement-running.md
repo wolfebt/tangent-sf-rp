@@ -1,8 +1,15 @@
 ---
 id: movement-running
-name: "Ground: Running Pace"
+name: 'Ground: Running Pace (4x Base)'
 category: species_movement
-description: Fast running pace requiring Athletics check (DC 10+) each minute to avoid fatigue.
+classification: pace
+target_mode: Ground
+multiplier: 4
+speed: 120
+bp: 0
+description: >-
+  Fast running pace (4x Base Walk) requiring Athletics check (DC 10+) each
+  minute.
 costs:
   bp: 0
   credits: 0
@@ -11,31 +18,12 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-speed: 120
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
+# Ground: Running Pace (4x Base)
 
-# Ground: Running Pace
-
-**Category**: Movement Modes & Paces  
-**Movement Mode**: Ground  
-**Speed Multiplier**: 4x Base (5x with Runner)  
-**Medium Speed Baseline**: 120 ft / round  
+**Category**: Species Movement (PACE)  
+**Target Mode**: Ground  
+**Cost**: +0 BP  
 
 ## Description
-Fast running pace requiring Athletics check (DC 10+) each minute to avoid fatigue.
-
-## Tactical Modifiers & Checks
-- **Action Penalty / Modifier**: -4 to subtle actions
-- **Required Check**: Athletics DC 10+
+Fast running pace (4x Base Walk) requiring Athletics check (DC 10+) each minute.

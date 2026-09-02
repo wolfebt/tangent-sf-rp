@@ -21,15 +21,15 @@ archetypes:
   - Gamer
   - Artist
 traits:
-  - trait-specialist-adaptability
-  - trait-specialist-expertise
-  - trait-specialist-leadership
-  - trait-specialist-physical-and-mental-resilience
-  - trait-specialist-problem-solving
-  - trait-specialist-resourcefulness
-  - trait-specialist-team-player
-  - trait-specialist-technological-proficiency
-  - trait-specialist-versatility
+  - trait-adaptability
+  - trait-expertise
+  - trait-leadership
+  - trait-physical-and-mental-resilience
+  - trait-problem-solving
+  - trait-resourcefulness
+  - trait-team-player
+  - trait-technological-proficiency
+  - trait-versatility
 description: >-
   A Specialist focuses on a specific area of expertise, providing unique skills
   and abilities that make them valuable to their team in various situations. A

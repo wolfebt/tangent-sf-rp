@@ -3,24 +3,46 @@ id: species-human-changeling
 name: Changeling (Doppelganger Hybrid)
 title: Changeling (Human-Aeld Hybrid)
 category: species
-parent_species: Humans
+parent_species: Humans (Core & Variants)
 type:
   - species_type-humanoid
 size:
   - species_size-medium
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 5 ft
+senses: Standard visual and auditory range.
+immunities: None
+inherent_attribute_modifiers:
+  - attribute: Charisma
+    bonus: 1
+bonus_attribute_points: 0
+specific_skill_bonuses:
+  - skill: Deception
+    bonus: 2
+bonus_skills: 5
+bonus_skill_choices:
+  - Deception
+  - Insight
+  - Persuasion
+  - Stealth
+inherent_features:
+  - trait-alter-form-minor-facial-skin-hair-shift
+  - trait-intuitive-empathy
+bonus_features: []
+bonus_feature_choices:
+  - Voice Mimicry
+  - Pheromone Mask
+  - Social Chameleon
+recommended_features:
+  - feature-voice-mimicry
 stigma: Shifter (-2)
 tech_level: 3 (Cosmetic Synthesis)
 meta_level: 2 (Empathic Resonance)
 homeworld: Various Cosmopolitan Stations
-cp: 12
-description: >-
-  Changelings are human-aeld hybrids carrying dormant shifter alleles. They can
-  subtly alter their facial structure, voice, and eye pigments to adopt distinct
-  personas.
 costs:
-  bp: 12
+  bp: 10
   credits: 0
   nodes: 0
   sockets: 0
@@ -29,72 +51,16 @@ costs:
   ap: 0
 modifiers:
   - target: Charisma
+    value: 1
     type: attribute
-    value: 1
     mode: inherent
-  - target: Deception
-    type: skill
-    value: 2
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 5
-    mode: bonus_pool
-  - target: Deception
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Insight
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Persuasion
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Stealth
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Alter Form (Minor - Facial/Skin/Hair Shift)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Intuitive Empathy
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Voice Mimicry
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Pheromone Mask
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Social Chameleon
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-voice-mimicry
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+cp_cost: 10
+cp: 10
+bp: 10
+description: >-
+  Changelings are human-aeld hybrids carrying dormant shifter alleles. They can
+  subtly alter their facial structure, voice, and eye pigments to adopt distinct
+  personas.
 ---
 # Changeling (Human-Aeld Hybrid)
 

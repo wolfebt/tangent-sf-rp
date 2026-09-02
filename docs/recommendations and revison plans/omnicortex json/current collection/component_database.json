@@ -1,1 +1,62 @@
-[]
+[
+  {
+    "id": "comp-optical-sight",
+    "name": "Optical Sight / Reflex Scope",
+    "sockets": 1,
+    "description": "Red-dot holographic sight providing +1 to strike at close engagement ranges."
+  },
+  {
+    "id": "comp-high-capacity-mag",
+    "name": "High-Capacity Magazine",
+    "sockets": 1,
+    "description": "Expanded magazine well increasing total ammunition capacity by 50%."
+  },
+  {
+    "id": "comp-suppressor",
+    "name": "Suppressor / Muzzle Brake",
+    "sockets": 1,
+    "description": "Dampens muzzle blast, adding +10 Stealth DC to detect firearm discharges."
+  },
+  {
+    "id": "comp-reinforced-barrel",
+    "name": "Reinforced Heavy Barrel",
+    "sockets": 1,
+    "description": "Heavy-profile barrel with +20% effective range and increased heat tolerance."
+  },
+  {
+    "id": "comp-gyro-stabilizer",
+    "name": "Gyro-Stabilizer",
+    "sockets": 2,
+    "description": "Internal counter-weight gyros that eliminate movement penalties when firing heavy weapons."
+  },
+  {
+    "id": "comp-kinetic-buffer",
+    "name": "Kinetic Recoil Buffer",
+    "sockets": 1,
+    "description": "Hydraulic stock buffer reducing automatic fire penalties by 2 points."
+  },
+  {
+    "id": "comp-heat-sink",
+    "name": "Extended Heat Sinks",
+    "sockets": 1,
+    "description": "Thermal dissipation fins allowing energy weapons to sustain continuous fire."
+  },
+  {
+    "id": "comp-neural-jack",
+    "name": "Neural Interface Ghost-Jack",
+    "sockets": 1,
+    "description": "Direct neural interface providing +2 to strike and weapon telemetry in HUD."
+  },
+  {
+    "id": "comp-smart-link",
+    "name": "Smart-Link Sensor",
+    "sockets": 0,
+    "description": "Wireless data-feed to smart eyewear enabling accurate blind-fire around corners."
+  },
+  {
+    "id": "comp-overcharge-cap",
+    "name": "Overcharge Capacitor",
+    "sockets": 2,
+    "description": "Allows weapon to supercharge single shots for +1 bonus damage die."
+  }
+]

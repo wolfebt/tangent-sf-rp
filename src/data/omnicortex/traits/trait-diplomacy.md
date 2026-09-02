@@ -1,12 +1,9 @@
 ---
 id: trait-diplomacy
 name: Diplomacy
-category: traits
+trait_tier: Basic
 trait_type: Origin Trait
-origin_association: General
-description: >-
-  Skill in negotiation, de-escalating tensions, and maintaining formal
-  alliances.
+category: traits
 costs:
   bp: 1
   credits: 0
@@ -15,6 +12,9 @@ costs:
   strain: 0
   focus: 0
   ap: 0
+description: >-
+  Skill in negotiation, de-escalating tensions, and maintaining formal
+  alliances.
 modifiers: []
 modifications: []
 critical_details:
@@ -28,15 +28,12 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # Diplomacy
 
-**Category**: Origin Traits  
-**Associated Origin**: General  
-**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait
+**Category**: TRAITS
+**Tier**: Basic
+**Type**: Origin Trait
+**BP Cost**: 1
 
 ## Description
 Skill in negotiation, de-escalating tensions, and maintaining formal alliances.
-
-## Mechanics & Benefits
-+2 to Diplomacy checks.

@@ -1,1 +1,92 @@
-[]
+[
+  {
+    "id": "loc-head",
+    "name": "Head / Cranium",
+    "maxNodes": 10,
+    "maxSockets": 1,
+    "baseSP": 20,
+    "isHardened": true,
+    "description": "Neural processors, sensory optics, hearing suites, cranial armor, and comm-mesh nodes."
+  },
+  {
+    "id": "loc-torso",
+    "name": "Torso / Core",
+    "maxNodes": 50,
+    "maxSockets": 5,
+    "baseSP": 100,
+    "isHardened": true,
+    "description": "Core chassis, cardiopulmonary systems, dermal plating, internal power generators, and metabolic regulators."
+  },
+  {
+    "id": "loc-left-arm",
+    "name": "Left Arm",
+    "maxNodes": 30,
+    "maxSockets": 3,
+    "baseSP": 30,
+    "isHardened": false,
+    "description": "Hand, forearm, shoulder servo, concealed tools, weapon hardpoints, and smart-link interfaces."
+  },
+  {
+    "id": "loc-right-arm",
+    "name": "Right Arm",
+    "maxNodes": 30,
+    "maxSockets": 3,
+    "baseSP": 30,
+    "isHardened": false,
+    "description": "Hand, forearm, shoulder servo, weapon mounts, recoil compensators, and manipulator tools."
+  },
+  {
+    "id": "loc-left-leg",
+    "name": "Left Leg",
+    "maxNodes": 40,
+    "maxSockets": 4,
+    "baseSP": 40,
+    "isHardened": false,
+    "description": "Foot, ankle, shin, thigh, hydraulic jump boosters, kinetic dampeners, and speed servomotors."
+  },
+  {
+    "id": "loc-right-leg",
+    "name": "Right Leg",
+    "maxNodes": 40,
+    "maxSockets": 4,
+    "baseSP": 40,
+    "isHardened": false,
+    "description": "Foot, ankle, shin, thigh, hydraulic jump boosters, kinetic dampeners, and speed servomotors."
+  },
+  {
+    "id": "loc-systemic",
+    "name": "Full Body / Systemic",
+    "maxNodes": 200,
+    "maxSockets": 20,
+    "baseSP": 260,
+    "isHardened": false,
+    "description": "System-wide vascular networks, full-body nano-colonies, and total synthetic chassis replacements."
+  },
+  {
+    "id": "loc-tail",
+    "name": "Tail / Auxiliary Appendage",
+    "maxNodes": 20,
+    "maxSockets": 2,
+    "baseSP": 20,
+    "isHardened": false,
+    "description": "Prehensile tail, stinger mechanism, balancing gyro, or third manipulator arm."
+  },
+  {
+    "id": "loc-wings",
+    "name": "Wings / Flight Assembly",
+    "maxNodes": 30,
+    "maxSockets": 3,
+    "baseSP": 30,
+    "isHardened": false,
+    "description": "Retractable glider wings, micro-thrusters, anti-grav levitation vanes, and atmospheric repulsors."
+  },
+  {
+    "id": "loc-subdermal",
+    "name": "Subdermal Sheath / Vascular",
+    "maxNodes": 50,
+    "maxSockets": 5,
+    "baseSP": 50,
+    "isHardened": false,
+    "description": "Subcutaneous protective sheath, subdermal armor weave, vascular nanites, and pigment shift layers."
+  }
+]

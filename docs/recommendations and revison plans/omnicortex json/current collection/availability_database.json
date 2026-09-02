@@ -1,1 +1,42 @@
-[]
+[
+  {
+    "id": "avail-common",
+    "name": "Common",
+    "description": "Widely available in any standard civilian shop or colony outpost without restriction."
+  },
+  {
+    "id": "avail-standard",
+    "name": "Standard",
+    "description": "Standard commercial equipment available across all major ports and trade hubs."
+  },
+  {
+    "id": "avail-restricted",
+    "name": "Restricted",
+    "description": "Requires an operator license, corporate charter, or security clearance to purchase."
+  },
+  {
+    "id": "avail-military",
+    "name": "Military Requisition",
+    "description": "Issued exclusively to government military branches and state security forces."
+  },
+  {
+    "id": "avail-rare",
+    "name": "Rare",
+    "description": "Limited production runs or artisan crafted; found only in specialized boutique markets."
+  },
+  {
+    "id": "avail-black-market",
+    "name": "Black Market",
+    "description": "Illegal contraband and shadow syndicate tech procured via underworld connections."
+  },
+  {
+    "id": "avail-prototype",
+    "name": "Prototype / Experimental",
+    "description": "One-of-a-kind classified laboratory test items not in mass production."
+  },
+  {
+    "id": "avail-artifact",
+    "name": "Artifact / Relic",
+    "description": "Ancient precursor deific relic or unique historical treasure of immense power."
+  }
+]

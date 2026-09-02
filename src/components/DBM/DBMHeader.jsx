@@ -187,6 +187,44 @@ export const DBMHeader = ({
 
               <div className="border-t border-slate-800 my-1"></div>
 
+              {/* Sync Species Matrix to Cloud */}
+              <button
+                onClick={() => {
+                  syncMasterSpeciesMatrix && syncMasterSpeciesMatrix();
+                  setIsMenuOpen(false);
+                }}
+                disabled={!isAdmin}
+                className={`w-full text-left px-3 py-2 rounded text-xs font-bold uppercase transition-colors flex items-center gap-2 ${
+                  isAdmin
+                    ? 'bg-blue-950/40 hover:bg-blue-900/60 border border-blue-500/40 text-blue-300'
+                    : 'bg-slate-800/30 text-slate-600 border border-slate-800 cursor-not-allowed'
+                }`}
+                title={isAdmin ? "Sync Canonical Species Matrix (Types, Sizes, Speeds, Traits, Disadvantages, Species) to Cloud" : "Requires Admin privileges"}
+              >
+                <span>🧬</span>
+                <span>Sync Species Matrix</span>
+              </button>
+
+              {/* Sync Compendium to Cloud */}
+              <button
+                onClick={() => {
+                  syncCanonicalCompendium && syncCanonicalCompendium();
+                  setIsMenuOpen(false);
+                }}
+                disabled={!isAdmin}
+                className={`w-full text-left px-3 py-2 rounded text-xs font-bold uppercase transition-colors flex items-center gap-2 ${
+                  isAdmin
+                    ? 'bg-purple-950/40 hover:bg-purple-900/60 border border-purple-500/40 text-purple-300'
+                    : 'bg-slate-800/30 text-slate-600 border border-slate-800 cursor-not-allowed'
+                }`}
+                title={isAdmin ? "Sync Canonical Compendium Articles to Cloud" : "Requires Admin privileges"}
+              >
+                <span>📚</span>
+                <span>Sync Compendium</span>
+              </button>
+
+              <div className="border-t border-slate-800 my-1"></div>
+
               {/* Master Export */}
               <button
                 onClick={() => {

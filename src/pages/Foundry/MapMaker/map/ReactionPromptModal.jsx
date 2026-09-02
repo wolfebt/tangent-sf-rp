@@ -96,8 +96,8 @@ const ReactionPromptModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 select-none animate-fadeIn">
-      <div className="bg-[#141824] border border-amber-500/70 rounded-xl p-5 w-full max-w-xl shadow-[0_0_50px_rgba(245,158,11,0.3)] text-white flex flex-col gap-4 max-h-[90vh] overflow-hidden">
+    <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 pt-8 sm:pt-12 md:pt-14 pb-12 overflow-y-auto select-none font-sans animate-fadeIn">
+      <div className="bg-[#141824] border border-amber-500/70 rounded-xl p-5 w-full max-w-xl shadow-[0_0_50px_rgba(245,158,11,0.3)] text-white flex flex-col gap-4 max-h-[85vh] sm:max-h-[88vh] overflow-hidden">
         {/* Header */}
         <div className="flex justify-between items-start pb-3 border-b border-amber-500/40">
           <div className="flex items-center gap-3">

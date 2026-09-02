@@ -27,7 +27,9 @@ import {
   applyOriginTransition,
   applyFactionTransition,
   applyIdentityFieldTransition,
-  resolveCatalogItem
+  resolveCatalogItem,
+  calculateFullSpeciesCost,
+  getSpeciesComponentDataset
 } from '../engines/tangentEntityEngines';
 import { DEATH_AND_DYING_RULES, EXPERIENCE_RULES } from '../engines/tangentConstants';
 import { executeRestCycle, resetDailyRests, getSpeciesRestProfile } from '../engines/tangentRestEngine';
@@ -1903,22 +1905,41 @@ export const FolioProvider = ({ children }) => {
     ];
 
     let identityCost = 0;
+    let speciesCostBreakdown = null;
+
     identityEntries.forEach(({ key, label }) => {
       const val = characterData[key];
       if (val) {
-        const name = typeof val === 'object' ? (val.name || val.title || '') : val;
-        if (name && name.trim()) {
-          const cost = getItemCP(val, 0);
-          const hasExplicitCP = typeof val === 'object' && (val.cp !== undefined || val.cost !== undefined || val.cost_cp !== undefined);
-          if (cost !== 0 || hasExplicitCP) {
-            identityCost += cost;
+        if (key === 'char-species') {
+          const spCost = calculateFullSpeciesCost(val, dbData);
+          speciesCostBreakdown = spCost;
+          if (spCost.totalCost !== 0 || (typeof val === 'object' && (val.cp !== undefined || val.bp !== undefined))) {
+            identityCost += spCost.totalCost;
             itemizedList.push({
-              category: label,
-              item: name,
-              val: 'Identity Selection',
-              costVal: cost,
-              cost: `${cost} CP`
+              category: 'Species',
+              item: spCost.speciesName,
+              val: spCost.summaryText,
+              costVal: spCost.totalCost,
+              cost: `${spCost.totalCost} CP`,
+              breakdown: spCost.breakdown,
+              itemized: spCost.itemized
             });
+          }
+        } else {
+          const name = typeof val === 'object' ? (val.name || val.title || '') : val;
+          if (name && name.trim()) {
+            const cost = getItemCP(val, 0);
+            const hasExplicitCP = typeof val === 'object' && (val.cp !== undefined || val.cost !== undefined || val.cost_cp !== undefined);
+            if (cost !== 0 || hasExplicitCP) {
+              identityCost += cost;
+              itemizedList.push({
+                category: label,
+                item: name,
+                val: 'Identity Selection',
+                costVal: cost,
+                cost: `${cost} CP`
+              });
+            }
           }
         }
       }
@@ -2225,9 +2246,10 @@ export const FolioProvider = ({ children }) => {
       specialAbilitiesCost,
       awakenedCost,
       identityPools,
+      speciesCostBreakdown,
       itemizedList
     };
-  }, [characterData, derivedStats, computedModifiers.identityPools]);
+  }, [characterData, derivedStats, computedModifiers.identityPools, dbData]);
 
   const updateRosterCharacterNote = useCallback(async (docId, noteText) => {
     const updatedNotes = [{ text: noteText }];
@@ -3032,6 +3054,8 @@ export const FolioProvider = ({ children }) => {
         enabledMovementModes,
         applyArchetypeChassis,
         applySpeciesAdjustments,
+        calculateFullSpeciesCost,
+        speciesComponentData: getSpeciesComponentDataset(),
         applyOccupationAdjustments,
         applyOriginAdjustments,
         applyFactionAdjustments,

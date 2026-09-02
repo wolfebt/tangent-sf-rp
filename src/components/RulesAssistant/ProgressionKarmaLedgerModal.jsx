@@ -54,8 +54,8 @@ export default function ProgressionKarmaLedgerModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-in fade-in duration-200">
-      <div className="relative w-full max-w-4xl max-h-[90vh] bg-[#0d121c] border-2 border-emerald-500/70 rounded-2xl shadow-[0_0_45px_rgba(16,185,129,0.3)] flex flex-col overflow-hidden text-slate-100 font-sans">
+    <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 pt-8 sm:pt-12 md:pt-14 pb-12 overflow-y-auto select-none font-sans animate-in fade-in duration-200">
+      <div className="relative w-full max-w-4xl max-h-[85vh] sm:max-h-[88vh] bg-[#0d121c] border-2 border-emerald-500/70 rounded-2xl shadow-[0_0_45px_rgba(16,185,129,0.3)] flex flex-col overflow-hidden text-slate-100 font-sans">
         
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-emerald-950/80 via-slate-900 to-slate-950 border-b border-emerald-500/40 shrink-0">

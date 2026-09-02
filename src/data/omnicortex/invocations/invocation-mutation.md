@@ -2,8 +2,8 @@
 id: invocation-mutation
 name: MUTATION
 category: invocations
-discipline: Energy
-description: MUTATION invocation for Energy reality manipulation.
+discipline: Matter
+description: MUTATION invocation for Matter reality manipulation.
 costs:
   bp: 0
   credits: 0
@@ -25,11 +25,10 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # MUTATION Invocation
 
 **Category**: Invocations  
-**Discipline**: Energy
+**Discipline**: Matter
 
 ## Description & Ritual Details
 Classification: Matter (Transmutation) | Buff/Utility | \[Alteration\] \[Biology\]  

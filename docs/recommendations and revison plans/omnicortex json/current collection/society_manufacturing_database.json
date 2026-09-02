@@ -1,1 +1,50 @@
-[]
+[
+  {
+    "id": "society_manufacturing_lvl_0",
+    "category": "society_manufacturing",
+    "name": "Manufacturing & Industry (Level 0: Primitive / Subsistence)",
+    "level": 0,
+    "sphere_key": "society_manufacturing",
+    "description": "Level 0 development in Manufacturing & Industry: Industrial automated fabrication, nano-forges, mass production, and orbital yards. (Primitive / Subsistence)."
+  },
+  {
+    "id": "society_manufacturing_lvl_1",
+    "category": "society_manufacturing",
+    "name": "Manufacturing & Industry (Level 1: Emerging / Industrial)",
+    "level": 1,
+    "sphere_key": "society_manufacturing",
+    "description": "Level 1 development in Manufacturing & Industry: Industrial automated fabrication, nano-forges, mass production, and orbital yards. (Emerging / Industrial)."
+  },
+  {
+    "id": "society_manufacturing_lvl_2",
+    "category": "society_manufacturing",
+    "name": "Manufacturing & Industry (Level 2: Modern / Planetary)",
+    "level": 2,
+    "sphere_key": "society_manufacturing",
+    "description": "Level 2 development in Manufacturing & Industry: Industrial automated fabrication, nano-forges, mass production, and orbital yards. (Modern / Planetary)."
+  },
+  {
+    "id": "society_manufacturing_lvl_3",
+    "category": "society_manufacturing",
+    "name": "Manufacturing & Industry (Level 3: Advanced / Stellar)",
+    "level": 3,
+    "sphere_key": "society_manufacturing",
+    "description": "Level 3 development in Manufacturing & Industry: Industrial automated fabrication, nano-forges, mass production, and orbital yards. (Advanced / Stellar)."
+  },
+  {
+    "id": "society_manufacturing_lvl_4",
+    "category": "society_manufacturing",
+    "name": "Manufacturing & Industry (Level 4: Mastered / Interstellar)",
+    "level": 4,
+    "sphere_key": "society_manufacturing",
+    "description": "Level 4 development in Manufacturing & Industry: Industrial automated fabrication, nano-forges, mass production, and orbital yards. (Mastered / Interstellar)."
+  },
+  {
+    "id": "society_manufacturing_lvl_5",
+    "category": "society_manufacturing",
+    "name": "Manufacturing & Industry (Level 5: Transcendent / Deific)",
+    "level": 5,
+    "sphere_key": "society_manufacturing",
+    "description": "Level 5 development in Manufacturing & Industry: Industrial automated fabrication, nano-forges, mass production, and orbital yards. (Transcendent / Deific)."
+  }
+]

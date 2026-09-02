@@ -1,8 +1,15 @@
 ---
 id: movement-excavation
-name: "Burrowing: Excavation Pace"
+name: 'Burrowing: Excavation Pace (0.1875x Walk)'
 category: species_movement
-description: Reinforced excavation for pit traps, underground bunkers, and permanent subterranean structures.
+classification: pace
+target_mode: Burrowing
+multiplier: 0.1875
+speed: 3.75
+bp: 0
+description: >-
+  Careful reinforced excavation for permanent subterranean bunkers or
+  fortresses.
 costs:
   bp: 0
   credits: 0
@@ -11,31 +18,12 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-speed: 3.75
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
+# Burrowing: Excavation Pace (0.1875x Walk)
 
-# Burrowing: Excavation Pace
-
-**Category**: Movement Modes & Paces  
-**Movement Mode**: Burrowing  
-**Speed Multiplier**: 1/8x Base Walk  
-**Medium Speed Baseline**: 3.75 ft / round  
+**Category**: Species Movement (PACE)  
+**Target Mode**: Burrowing  
+**Cost**: +0 BP  
 
 ## Description
-Reinforced excavation for pit traps, underground bunkers, and permanent subterranean structures.
-
-## Tactical Modifiers & Checks
-- **Action Penalty / Modifier**: Half burrow speed
-- **Required Check**: Engineering / Mining check
+Careful reinforced excavation for permanent subterranean bunkers or fortresses.

@@ -1,8 +1,13 @@
 ---
 id: movement-swim
-name: "Swimming: Swim Pace"
+name: 'Swimming: Swim Pace (1x Swim)'
 category: species_movement
-description: Standard aquatic swimming speed.
+classification: pace
+target_mode: Swimming
+multiplier: 1
+speed: 30
+bp: 0
+description: Standard aquatic swimming cruise pace.
 costs:
   bp: 0
   credits: 0
@@ -11,31 +16,12 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-speed: 15
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
+# Swimming: Swim Pace (1x Swim)
 
-# Swimming: Swim Pace
-
-**Category**: Movement Modes & Paces  
-**Movement Mode**: Swimming  
-**Speed Multiplier**: 1x Swim (1/2x Walk)  
-**Medium Speed Baseline**: 15 ft / round  
+**Category**: Species Movement (PACE)  
+**Target Mode**: Swimming  
+**Cost**: +0 BP  
 
 ## Description
-Standard aquatic swimming speed.
-
-## Tactical Modifiers & Checks
-- **Action Penalty / Modifier**: None
-- **Required Check**: None
+Standard aquatic swimming cruise pace.

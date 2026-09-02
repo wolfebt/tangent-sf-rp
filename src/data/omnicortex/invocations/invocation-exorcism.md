@@ -2,8 +2,8 @@
 id: invocation-exorcism
 name: EXORCISM
 category: invocations
-discipline: Dimension
-description: EXORCISM invocation for Dimension reality manipulation.
+discipline: Entropy
+description: EXORCISM invocation for Entropy reality manipulation.
 costs:
   bp: 0
   credits: 0
@@ -25,11 +25,10 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # EXORCISM Invocation
 
 **Category**: Invocations  
-**Discipline**: Dimension
+**Discipline**: Entropy
 
 ## Description & Ritual Details
 Classification: Entropy (Order) | Attack/Utility | \[Banishment\] \[Spirit\]  

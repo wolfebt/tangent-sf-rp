@@ -1,8 +1,13 @@
 ---
 id: movement-fast-descent
-name: "Climbing: Fast Descent Pace"
+name: 'Climbing: Fast Descent Pace (4x Walk)'
 category: species_movement
-description: Rapid controlled vertical descent without injury.
+classification: pace
+target_mode: Climbing
+multiplier: 4
+speed: 120
+bp: 0
+description: Rapid controlled vertical slide or abseil descent (4x Walk).
 costs:
   bp: 0
   credits: 0
@@ -11,31 +16,12 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-speed: 120
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
+# Climbing: Fast Descent Pace (4x Walk)
 
-# Climbing: Fast Descent Pace
-
-**Category**: Movement Modes & Paces  
-**Movement Mode**: Climbing  
-**Speed Multiplier**: 4x Base Walk  
-**Medium Speed Baseline**: 120 ft / round  
+**Category**: Species Movement (PACE)  
+**Target Mode**: Climbing  
+**Cost**: +0 BP  
 
 ## Description
-Rapid controlled vertical descent without injury.
-
-## Tactical Modifiers & Checks
-- **Action Penalty / Modifier**: -4 to actions
-- **Required Check**: DC 20 Athletics (Climbing) or -10 penalty
+Rapid controlled vertical slide or abseil descent (4x Walk).

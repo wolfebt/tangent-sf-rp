@@ -114,8 +114,8 @@ const InteractiveObjectModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-[#0f172a] border border-cyan-500/60 rounded-xl shadow-[0_0_30px_rgba(6,182,212,0.25)] w-full max-w-lg overflow-hidden flex flex-col text-slate-200 font-sans animate-in fade-in zoom-in-95 duration-150">
+    <div className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-md flex items-start justify-center p-3 sm:p-6 pt-8 sm:pt-12 md:pt-14 pb-12 overflow-y-auto select-none font-sans">
+      <div className="bg-[#0f172a] border border-cyan-500/60 rounded-xl shadow-[0_0_30px_rgba(6,182,212,0.25)] w-full max-w-lg max-h-[85vh] sm:max-h-[88vh] overflow-hidden flex flex-col text-slate-200 font-sans animate-in fade-in zoom-in-95 duration-150">
         {/* Header */}
         <div className="px-4 py-3 bg-gradient-to-r from-cyan-950/80 via-slate-900 to-slate-900 border-b border-cyan-500/40 flex items-center justify-between">
           <div className="flex items-center gap-2">

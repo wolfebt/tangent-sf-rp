@@ -1,12 +1,9 @@
 ---
 id: trait-physical-strength
 name: Physical Strength
-category: traits
+trait_tier: Basic
 trait_type: Origin Trait
-origin_association: Industrial
-description: >-
-  Musculoskeletal conditioning built through rigorous manual labor and heavy
-  lifting.
+category: traits
 costs:
   bp: 1
   credits: 0
@@ -15,6 +12,9 @@ costs:
   strain: 0
   focus: 0
   ap: 0
+description: >-
+  Musculoskeletal conditioning built through rigorous manual labor and heavy
+  lifting.
 modifiers: []
 modifications: []
 critical_details:
@@ -28,15 +28,12 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # Physical Strength
 
-**Category**: Origin Traits  
-**Associated Origin**: Industrial  
-**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait
+**Category**: TRAITS
+**Tier**: Basic
+**Type**: Origin Trait
+**BP Cost**: 1
 
 ## Description
 Musculoskeletal conditioning built through rigorous manual labor and heavy lifting.
-
-## Mechanics & Benefits
-+2 to Might checks.

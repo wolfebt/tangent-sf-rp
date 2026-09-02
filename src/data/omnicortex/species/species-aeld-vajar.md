@@ -10,123 +10,60 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 5 ft
+senses: Standard visual and auditory range.
+immunities: None
+inherent_attribute_modifiers: []
+bonus_attribute_points: 2
+specific_skill_bonuses:
+  - skill: Survival
+    bonus: 2
+  - skill: Athletics
+    bonus: 1
+bonus_skills: 10
+bonus_skill_choices:
+  - Survival
+  - Athletics
+  - Perception
+  - Animal Handling
+  - Attune (Nature)
+inherent_features:
+  - trait-awakened-nature
+  - trait-ageless
+  - trait-immune-to-sleep
+  - trait-alter-form-adv-animal
+  - trait-animalistic-mutation
+bonus_features: []
+bonus_feature_choices:
+  - Primal Scent
+  - Predator Instinct
+  - Fast Healing
+  - Climbing Claws
+  - Fleet of Foot
+recommended_features:
+  - feature-primal-scent
+  - feature-fast-healing
 stigma: 'Feral (-4), Xeno (-2)'
 tech_level: 2 (Biomimetic Crafting)
 meta_level: 4 (Primal Shamanism & Biomorphism)
 homeworld: Vajara Prime (The Untamed Jungle)
-cp: 21
-description: >-
-  Vajar are feral, nature-attuned Aeld who rejected urbanization for deep forest
-  symbiotic living. They wield shapeshifting and animalistic biomodifications
-  with fierce territorial pride.
 costs:
-  bp: 21
+  bp: 19
   credits: 0
   nodes: 0
   sockets: 0
   strain: 0
   focus: 0
   ap: 0
-modifiers:
-  - target: Any Attribute
-    type: attribute
-    value: 2
-    mode: bonus_pool
-  - target: Survival
-    type: skill
-    value: 2
-    mode: inherent
-  - target: Athletics
-    type: skill
-    value: 1
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 10
-    mode: bonus_pool
-  - target: Survival
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Athletics
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Perception
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Animal Handling
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Attune (Nature)
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Awakened (Nature)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Ageless
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Immune to Sleep
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Alter Form (Adv. Animal)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Animalistic Mutation
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Primal Scent
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Predator Instinct
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Fast Healing
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Climbing Claws
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Fleet of Foot
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-primal-scent
-    type: feature
-    value: 1
-    mode: recommended
-  - target: feature-fast-healing
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+modifiers: []
+cp_cost: 19
+cp: 19
+bp: 19
+description: >-
+  Vajar are feral, nature-attuned Aeld who rejected urbanization for deep forest
+  symbiotic living. They wield shapeshifting and animalistic biomodifications
+  with fierce territorial pride.
 ---
 # Vajar (Wilder Aeld)
 

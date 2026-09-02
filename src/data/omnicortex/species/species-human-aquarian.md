@@ -3,7 +3,7 @@ id: species-human-aquarian
 name: Aquarian Human
 title: Aquarian Human (Water Variant)
 category: species
-parent_species: Humans
+parent_species: Humans (Core & Variants)
 type:
   - species_type-humanoid
 size:
@@ -11,99 +11,54 @@ size:
 movement:
   - species_movement-bipedal
   - species_movement-swimming
+speeds: 'Ground 30 ft, Swim 30 ft'
+reach: 5 ft
+senses: Standard visual and auditory range.
+immunities: None
+inherent_attribute_modifiers: []
+bonus_attribute_points: 1
+specific_skill_bonuses:
+  - skill: Athletics (Swimming)
+    bonus: 2
+bonus_skills: 0
+bonus_skill_choices:
+  - Athletics
+  - Survival
+  - Navigation
+  - Science (Oceanography)
+inherent_features:
+  - trait-adapted-aquatic
+  - trait-amphibious-gills-lungs
+  - trait-aquatic-strength-2-in-water
+  - trait-specialized-senses-underwater-vision-sonar
+  - trait-natural-swim-speed-30ft
+bonus_features: []
+bonus_feature_choices:
+  - Pressure Tolerance
+  - Bioluminescence
+  - Cold Water Immunity
+recommended_features:
+  - feature-pressure-tolerance
 stigma: Aquatic Xeno (-3)
 tech_level: 3 (Sub-Surface Habitats & Hydro-Drives)
 meta_level: 1 (Oceanic Echo)
 homeworld: Thalassa (Ocean World)
-cp: 17
-description: >-
-  Aquarians are oceanic-adapted humans with gill slits, webbed digits, and
-  pressurized vascular systems suited for pelagic trenches and coastal orbital
-  habitats.
 costs:
-  bp: 17
+  bp: 11
   credits: 0
   nodes: 0
   sockets: 0
   strain: 0
   focus: 0
   ap: 0
-modifiers:
-  - target: Any Attribute
-    type: attribute
-    value: 1
-    mode: bonus_pool
-  - target: Athletics (Swimming)
-    type: skill
-    value: 2
-    mode: inherent
-  - target: Athletics
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Survival
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Navigation
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Science (Oceanography)
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Adapted (Aquatic)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Amphibious (Gills & Lungs)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Aquatic Strength (+2 in water)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Specialized Senses (Underwater Vision/Sonar)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Natural Swim Speed (30ft)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Pressure Tolerance
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Bioluminescence
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Cold Water Immunity
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-pressure-tolerance
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+modifiers: []
+cp_cost: 11
+cp: 11
+bp: 11
+description: >-
+  Aquarians are oceanic-adapted humans with gill slits, webbed digits, and
+  pressurized vascular systems suited for pelagic trenches and coastal orbital
+  habitats.
 ---
 # Aquarian Human (Water Variant)
 
@@ -193,11 +148,3 @@ Runner
 Scent  
 Self Sufficient  
 Swimmer
-
-
-## Extended Lore & Background
-
-Aquatic Humans possess several key physiological adaptations suited to their watery environment. Their skin is covered in fine, almost imperceptible scales that aid in hydrodynamics and offer a slight defense against environmental pressures. When submerged, their skin often takes on a subtle, natural bluish tint, which provides a degree of camouflage within the planet's deep, cerulean oceans. Their eyes are noteworthy, featuring unusually large pupils that maximize light capture in the dimmer, deeper regions of Aquarius, granting them exceptional underwater vision. Furthermore, they exhibit partial webbing—approximately halfway—on both their fingers and toes, significantly enhancing their propulsion and maneuverability through the water. These traits mark them as a species intrinsically linked to, and perfectly evolved for, the aquatic realm.
-
-\*Tiburon Syndrome \- Taboo to eat mammals / red meat (fish and fowl are acceptable) induces growth in the R-Brain and changes in physical appearance \- taking a more feral appearance and with increased aggression, claws grow out on fingers and toes and an increased hunger (double to triple meat consumption \- possibly lead to cannibalism). Gains Scent ability but may berserk at the smell of blood (Rage \- Will save (DC 15\) to fight)
-

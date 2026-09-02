@@ -1,8 +1,13 @@
 ---
 id: movement-fast-ascent
-name: "Climbing: Fast Ascent Pace"
+name: 'Climbing: Fast Ascent Pace (2x Walk)'
 category: species_movement
-description: High-speed vertical ascent at double walking speed with -10 penalty to check.
+classification: pace
+target_mode: Climbing
+multiplier: 2
+speed: 60
+bp: 0
+description: High-speed vertical sprint (2x Walk) with -10 penalty to check.
 costs:
   bp: 0
   credits: 0
@@ -11,31 +16,12 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-speed: 60
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
+# Climbing: Fast Ascent Pace (2x Walk)
 
-# Climbing: Fast Ascent Pace
-
-**Category**: Movement Modes & Paces  
-**Movement Mode**: Climbing  
-**Speed Multiplier**: 2x Base Walk  
-**Medium Speed Baseline**: 60 ft / round  
+**Category**: Species Movement (PACE)  
+**Target Mode**: Climbing  
+**Cost**: +0 BP  
 
 ## Description
-High-speed vertical ascent at double walking speed with -10 penalty to check.
-
-## Tactical Modifiers & Checks
-- **Action Penalty / Modifier**: -4 to subtle actions
-- **Required Check**: Athletics (Climbing) at -10 penalty
+High-speed vertical sprint (2x Walk) with -10 penalty to check.

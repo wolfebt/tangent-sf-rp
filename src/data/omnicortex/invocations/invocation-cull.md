@@ -2,8 +2,8 @@
 id: invocation-cull
 name: CULL
 category: invocations
-discipline: Energy
-description: CULL invocation for Energy reality manipulation.
+discipline: Entropy
+description: CULL invocation for Entropy reality manipulation.
 costs:
   bp: 0
   credits: 0
@@ -25,11 +25,10 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # CULL Invocation
 
 **Category**: Invocations  
-**Discipline**: Energy
+**Discipline**: Entropy
 
 ## Description & Ritual Details
 Classification: Entropy (Chaos) | Attack | \[Minor\] \[Negative Energy\]  

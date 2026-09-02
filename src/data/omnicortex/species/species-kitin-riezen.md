@@ -10,16 +10,42 @@ size:
   - species_size-large
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 10 ft
+senses: 'Darkvision out to 60 feet. [1]'
+immunities: None
+inherent_attribute_modifiers:
+  - attribute: Agility
+    bonus: 2
+bonus_attribute_points: 0
+specific_skill_bonuses:
+  - skill: Perception
+    bonus: 2
+bonus_skills: 0
+bonus_skill_choices:
+  - Perception
+  - Intimidation
+  - Combat
+inherent_features:
+  - trait-kitin-base-traits
+  - trait-blindsight-60ft
+  - trait-exoskeleton-dr-4
+  - trait-fast-healing-regeneration
+  - trait-telepathic-hive-node
+  - trait-swarm-entity-resistant-to-single-target-attacks
+bonus_features: []
+bonus_feature_choices:
+  - Swarm Split
+  - Devouring Cloud
+  - Bio-Electric Shock
+recommended_features:
+  - feature-swarm-split
 stigma: 'Monstrous (-4), Xeno (-2)'
 tech_level: 3 (Swarm Bio-Mass)
 meta_level: 4 (Collective Psionic Core)
 homeworld: Kitin Deep Nests
-cp: 31
-description: >-
-  Riezen are colossal aggregate swarm entities composed of millions of
-  synchronized micro-arthropods behaving as a unified conscious giant.
 costs:
-  bp: 31
+  bp: 15
   credits: 0
   nodes: 0
   sockets: 0
@@ -28,80 +54,27 @@ costs:
   ap: 0
 modifiers:
   - target: Agility
+    value: 2
     type: attribute
+    mode: inherent
+  - target: Strength
     value: 2
-    mode: inherent
-  - target: Perception
+    type: attribute
+    mode: size_modifier
+  - target: Combat / Defense
+    value: -2
+    type: combat
+    mode: size_modifier
+  - target: Stealth
+    value: -4
     type: skill
-    value: 2
-    mode: inherent
-  - target: Perception
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Intimidation
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Combat
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Kitin Base Traits
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Blindsight (60ft)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Exoskeleton (DR 4/-)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Fast Healing / Regeneration
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Telepathic Hive Node
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Swarm Entity (Resistant to Single-Target Attacks)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 2
-    mode: bonus_pool
-  - target: Swarm Split
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Devouring Cloud
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Bio-Electric Shock
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-swarm-split
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+    mode: size_modifier
+cp_cost: 15
+cp: 15
+bp: 15
+description: >-
+  Riezen are colossal aggregate swarm entities composed of millions of
+  synchronized micro-arthropods behaving as a unified conscious giant.
 ---
 # Riezen (Kitin Swarm Colossus)
 

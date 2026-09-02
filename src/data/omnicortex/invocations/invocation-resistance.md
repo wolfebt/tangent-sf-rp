@@ -2,8 +2,8 @@
 id: invocation-resistance
 name: RESISTANCE
 category: invocations
-discipline: Energy
-description: RESISTANCE invocation for Energy reality manipulation.
+discipline: Matter
+description: RESISTANCE invocation for Matter reality manipulation.
 costs:
   bp: 0
   credits: 0
@@ -25,11 +25,10 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # RESISTANCE Invocation
 
 **Category**: Invocations  
-**Discipline**: Energy
+**Discipline**: Matter
 
 ## Description & Ritual Details
 Classification: Matter (Enhancement) | Defense | \[Hardening\] \[Elemental\]  

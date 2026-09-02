@@ -2,8 +2,8 @@
 id: invocation-confusion
 name: CONFUSION
 category: invocations
-discipline: Entropy
-description: CONFUSION invocation for Entropy reality manipulation.
+discipline: Mental
+description: CONFUSION invocation for Mental reality manipulation.
 costs:
   bp: 0
   credits: 0
@@ -25,11 +25,10 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # CONFUSION Invocation
 
 **Category**: Invocations  
-**Discipline**: Entropy
+**Discipline**: Mental
 
 ## Description & Ritual Details
 Classification: Mental (Projection) | Debuff | \[Chaos\] \[Disorient\]  

@@ -3,6 +3,9 @@ import assert from 'node:assert';
 
 import {
   calculateSpeciesBP,
+  calculateFullSpeciesCost,
+  getSpeciesComponentDataset,
+  validateSpeciesBuild,
   calculateSpeciesCombatModifiers,
   computeSpeciesStats,
   calculateThreatTierStats,
@@ -25,7 +28,7 @@ import {
 describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
 
   // ═══════════════════════════════════════════════════════════
-  // 1. SPECIES FORGE ENGINE (PLAN 23)
+  // 1. SPECIES FORGE ENGINE & BUILD RULES
   // ═══════════════════════════════════════════════════════════
   describe('Species Forge Engine', () => {
     it('calculates standard default humanoid BP cost correctly (0 BP used, 20 max)', () => {
@@ -61,6 +64,379 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
       assert.strictEqual(result.breakdown.disadvantagesRefund, 2);
     });
 
+    it('accurately prices all 42 basic species traits at exactly 1 BP each', () => {
+      const basicTraitsList = [
+        'Adapted',
+        'Alter Form (Basic)',
+        'Amphibious',
+        'Bonded Terrain',
+        'Bonus Feature',
+        'Camouflage',
+        "Cat's Luck",
+        'Cave Dweller',
+        'Craftsman',
+        'Digitigrade / Ungulated',
+        'Draconic',
+        'Emissary',
+        'Exoskeleton (Partial)',
+        'Focused Study',
+        'Frenzy',
+        'Greedy Eye',
+        'Hardy',
+        'Healthy',
+        'Integrated',
+        'Low Light Vision',
+        'Lucky, Lesser',
+        'Natural Armor',
+        'Patagia',
+        'Reach',
+        'Reduced Sustenance',
+        'Relentless',
+        'Runner',
+        'Scent',
+        'Shadow Affinity',
+        'Shadow Blending',
+        'Shards of the Past',
+        'Silent Hunter',
+        'Silver Tongued',
+        'Skill Bonus',
+        'Sneaky',
+        'Sociable',
+        'Stable Footed',
+        'Stalker',
+        'Static Bonus Feat',
+        'Tail',
+        'Urbanite',
+        'Water-Sense'
+      ];
+
+      assert.strictEqual(basicTraitsList.length, 42);
+
+      basicTraitsList.forEach(traitName => {
+        const result = calculateSpeciesBP({
+          type: 'Humanoid', // 0 BP
+          size: 'Medium', // 0 BP
+          traits: [traitName]
+        });
+        assert.strictEqual(result.totalBPUsed, 1, `Trait "${traitName}" should cost exactly 1 BP`);
+        assert.strictEqual(result.breakdown.traitsBP, 1);
+      });
+    });
+
+    it('accurately prices all 58 advanced species traits at exactly 2 BP each', () => {
+      const advancedTraitsList = [
+        'Adaptive Features',
+        'Adaptive Skill Set',
+        'Additional Limbs',
+        'Ageless',
+        'All-Around Vision',
+        'Alter Form (Adv)',
+        'Alternate Form',
+        'Aquatic',
+        'Aquatic Strength',
+        'Autotroph',
+        'Blind Sense',
+        'Bodyform Appendages',
+        'Bodyform Armor',
+        'Bodyform Armor Opts',
+        'Bodyform Adaptation',
+        'Bodyform Mutation',
+        'Bodyform Sizing',
+        'Bodyform Structure',
+        'Bodyform Weapons',
+        'Bodyform Weapon Opts',
+        'Brutal',
+        'Chameleon',
+        'Chloroplast',
+        'Constriction',
+        'Curiosity',
+        'Dark Sight',
+        'Defensive Training',
+        'Dragon Eyes',
+        'Dragon Form',
+        'Dragon Might',
+        'Dragon Mind',
+        'Dragon Senses',
+        'Energy Resist',
+        'Exoskeleton (Light)',
+        'Fast Heal',
+        'Fey Affinity',
+        'Fiend Affinity',
+        'Gifted Linguist',
+        'Hive Connection',
+        'Longevity',
+        'Lucky, Greater',
+        'Master Tinker',
+        'Mind Speech',
+        'Natural Weapons',
+        'Powerful Charge',
+        'Prehensile Tail',
+        'Prehensile Limbs',
+        'Quadruped',
+        'Quick Reactions',
+        'Resistant',
+        'Rock Throwing',
+        'Sleepless',
+        'Swarming',
+        'Synthetic Armor Opts',
+        'Synthetic Weapon Opts',
+        'Thermal Sight',
+        'Treespeech',
+        'Venom'
+      ];
+
+      assert.strictEqual(advancedTraitsList.length, 58);
+
+      advancedTraitsList.forEach(traitName => {
+        const result = calculateSpeciesBP({
+          type: 'Humanoid', // 0 BP
+          size: 'Medium', // 0 BP
+          traits: [traitName]
+        });
+        assert.strictEqual(result.totalBPUsed, 2, `Advanced Trait "${traitName}" should cost exactly 2 BP`);
+        assert.strictEqual(result.breakdown.traitsBP, 2);
+        assert.strictEqual(result.itemized.traits[0].tier, 'Advanced');
+      });
+    });
+
+    it('accurately prices all 24 elite species traits at exactly 4 BP each', () => {
+      const eliteTraitsList = [
+        'Alter Form (Elite)',
+        'Blind Sight',
+        'Bodyform Heavy Armor',
+        'Dragon Apotheosis',
+        'Dragon Breath',
+        'Dragon Wings',
+        'Energized Breath',
+        'Energy Absorption',
+        'Energy Immunity',
+        'Ether Sight',
+        'Exoskeleton (Heavy)',
+        'Flight',
+        'Hexapedal',
+        'Immortal',
+        'Nimble Appendages',
+        'Non-Living',
+        'Regeneration',
+        'Self Revivifying',
+        'Semi-Corporeal',
+        'Synthetic Aux Core',
+        'Synthetic Exotic Opt',
+        'Synthetic Tech Assim',
+        'Vampiric Power',
+        'Wyrm Senses'
+      ];
+
+      assert.strictEqual(eliteTraitsList.length, 24);
+
+      eliteTraitsList.forEach(traitName => {
+        const result = calculateSpeciesBP({
+          type: 'Humanoid', // 0 BP
+          size: 'Medium', // 0 BP
+          traits: [traitName]
+        });
+        assert.strictEqual(result.totalBPUsed, 4, `Elite Trait "${traitName}" should cost exactly 4 BP`);
+        assert.strictEqual(result.breakdown.traitsBP, 4);
+        assert.strictEqual(result.itemized.traits[0].tier, 'Elite');
+      });
+    });
+
+    it('accurately prices all 13 canonical species type chassis', () => {
+      const typeExpectedCosts = {
+        Humanoid: 0,
+        Aberration: 1,
+        Beast: 1,
+        Fey: 3,
+        Planar: 4,
+        Dragon: 5,
+        Mythical: 5,
+        Ooze: 6,
+        Verdant: 9,
+        Elemental: 13,
+        Synthetic: 15,
+        Undead: 20,
+        Entity: 24
+      };
+
+      Object.entries(typeExpectedCosts).forEach(([typeName, expectedBP]) => {
+        const result = calculateSpeciesBP({
+          type: typeName,
+          size: 'Medium',
+          traits: []
+        });
+        assert.strictEqual(result.breakdown.typeBP, expectedBP, `Type "${typeName}" should cost ${expectedBP} BP`);
+      });
+    });
+
+    it('accurately prices size categories and combat scaling', () => {
+      const sizeExpectedCosts = {
+        Medium: 0,
+        Small: 2,
+        Large: 2,
+        Tiny: 4,
+        Huge: 4,
+        Diminutive: 6
+      };
+
+      Object.entries(sizeExpectedCosts).forEach(([sizeName, expectedBP]) => {
+        const result = calculateSpeciesBP({
+          type: 'Humanoid',
+          size: sizeName
+        });
+        assert.strictEqual(result.breakdown.sizeBP, expectedBP, `Size "${sizeName}" should cost ${expectedBP} BP`);
+      });
+    });
+
+    it('accurately prices all 19 movement modes, speeds, and modifications', () => {
+      const movementList = [
+        { name: 'Normal Speed', expectedBP: 0 },
+        { name: 'Very Fast', expectedBP: 4 },
+        { name: 'Fast', expectedBP: 2 },
+        { name: 'Slow', expectedBP: -2 },
+        { name: 'Ponderous', expectedBP: -4 },
+        { name: 'Climber', expectedBP: 2 },
+        { name: 'Gliding Wings', expectedBP: 1 },
+        { name: 'Leaper', expectedBP: 1 },
+        { name: 'Mountaineer', expectedBP: 1 },
+        { name: 'Sprinter', expectedBP: 1 },
+        { name: 'Swim', expectedBP: 2 },
+        { name: 'Terrain Movement', expectedBP: 1 },
+        { name: 'Burrow', expectedBP: 2 },
+        { name: 'Basic Flight', expectedBP: 2 },
+        { name: 'Improved Flight Speed', expectedBP: 1 },
+        { name: 'Improved Maneuverability', expectedBP: 1 },
+        { name: 'Strong Flyer', expectedBP: 2 },
+        { name: 'Hauler', expectedBP: 1 },
+        { name: 'Marcher', expectedBP: 1 }
+      ];
+
+      assert.strictEqual(movementList.length, 19);
+
+      movementList.forEach(({ name, expectedBP }) => {
+        const result = calculateSpeciesBP({
+          type: 'Humanoid', // 0 BP
+          size: 'Medium', // 0 BP
+          movementModes: [name]
+        });
+        assert.strictEqual(result.breakdown.movementBP, expectedBP, `Movement item "${name}" should cost ${expectedBP} BP`);
+      });
+    });
+
+    it('accurately prices all species attribute modifiers (+5 BP each, -5 BP penalty) and skill points (5 BP per +5 bundle / 1 BP per point)', () => {
+      // Test individual +1 attributes at 5 BP each
+      const attributes = [
+        { name: 'Strength', input: { str: 1 } },
+        { name: 'Agility', input: { agi: 1 } },
+        { name: 'Constitution / Stamina', input: { sta: 1 } },
+        { name: 'Intellect', input: { int: 1 } },
+        { name: 'Wisdom', input: { wis: 1 } },
+        { name: 'Charisma', input: { cha: 1 } }
+      ];
+
+      attributes.forEach(({ name, input }) => {
+        const result = calculateSpeciesBP({
+          type: 'Humanoid', // 0 BP
+          size: 'Medium', // 0 BP
+          attributes: input
+        });
+        assert.strictEqual(result.totalBPUsed, 5, `Improved ${name} (+1) should cost exactly 5 BP`);
+        assert.strictEqual(result.breakdown.attributeBP, 5);
+      });
+
+      // Test alias inputs (con, dex)
+      const conResult = calculateSpeciesBP({ attributes: { con: 1 } });
+      assert.strictEqual(conResult.breakdown.attributeBP, 5);
+
+      const dexResult = calculateSpeciesBP({ attributes: { dex: 1 } });
+      assert.strictEqual(dexResult.breakdown.attributeBP, 5);
+
+      // Test Reduced Ability (-1 penalty = -5 BP refund)
+      const penaltyResult = calculateSpeciesBP({
+        type: 'Humanoid',
+        size: 'Medium',
+        attributes: { str: 2, int: -1 } // (2 * 5) + (-1 * 5) = 5 BP
+      });
+      assert.strictEqual(penaltyResult.totalBPUsed, 5);
+      assert.strictEqual(penaltyResult.breakdown.attributeBP, 5);
+
+      // Test Skill Points (+5 bundle = 5 BP)
+      const skillBundleResult = calculateSpeciesBP({
+        skillBundles: 1
+      });
+      assert.strictEqual(skillBundleResult.totalBPUsed, 5);
+      assert.strictEqual(skillBundleResult.breakdown.skillsBP, 5);
+
+      const skillPointsResult = calculateSpeciesBP({
+        skill_points: 10
+      });
+      assert.strictEqual(skillPointsResult.totalBPUsed, 10);
+      assert.strictEqual(skillPointsResult.breakdown.skillsBP, 10);
+    });
+
+    it('calculates full species cost and breakdown from catalog documents via calculateFullSpeciesCost', () => {
+      const celestineCost = calculateFullSpeciesCost('Celestine (Alterian)');
+      assert.strictEqual(celestineCost.totalCost, 20);
+      assert.ok(celestineCost.itemizedList.length > 0);
+      assert.ok(celestineCost.summaryText.length > 0);
+
+      const baseHumanCost = calculateFullSpeciesCost('Human (Base)');
+      assert.strictEqual(baseHumanCost.totalCost, 10);
+
+      const defaultHumanoid = calculateFullSpeciesCost({ type: 'Humanoid', size: 'Medium' });
+      assert.strictEqual(defaultHumanoid.totalCost, 0);
+
+      const customSpecies = {
+        name: 'Zephyr Raptor',
+        species_type: 'Beast', // 1 BP
+        size: 'Large', // 2 BP
+        movement_modes: ['normal', 'flight_basic'], // 0 + 2 = 2 BP
+        attributes: { str: 2, agi: 2 }, // (2 + 2) * 5 = 20 BP
+        traits: ['Scent', 'Runner'], // 1 + 1 = 2 BP
+        disadvantages: ['light_sensitivity'] // -2 BP
+      };
+      // Total = 1 + 2 + 2 + 20 + 2 - 2 = 25 BP
+      const customCost = calculateFullSpeciesCost(customSpecies);
+      assert.strictEqual(customCost.totalCost, 25);
+      assert.strictEqual(customCost.breakdown.typeBP, 1);
+      assert.strictEqual(customCost.breakdown.sizeBP, 2);
+      assert.strictEqual(customCost.breakdown.movementBP, 2);
+      assert.strictEqual(customCost.breakdown.attributeBP, 20);
+      assert.strictEqual(customCost.breakdown.traitsBP, 2);
+      assert.strictEqual(customCost.breakdown.disadvantagesRefund, 2);
+    });
+
+    it('validates species construction compliance with validateSpeciesBuild', () => {
+      const validBuild = validateSpeciesBuild({
+        type: 'Humanoid',
+        size: 'Medium',
+        traits: ['Hardy', 'Healthy'],
+        budgetLevel: 'Standard'
+      });
+      assert.strictEqual(validBuild.isValid, true);
+      assert.strictEqual(validBuild.issues.length, 0);
+
+      const overBudgetBuild = validateSpeciesBuild({
+        type: 'Entity', // 24 BP
+        size: 'Huge', // 4 BP
+        attributes: { str: 4, agi: 4 }, // 40 BP
+        budgetLevel: 'Standard' // max 20 BP
+      });
+      assert.strictEqual(overBudgetBuild.isValid, false);
+      assert.ok(overBudgetBuild.issues.length > 0);
+    });
+
+    it('returns complete component dataset via getSpeciesComponentDataset', () => {
+      const dataset = getSpeciesComponentDataset();
+      assert.ok(dataset.types);
+      assert.ok(dataset.sizes);
+      assert.ok(dataset.movementModes);
+      assert.strictEqual(dataset.basicTraits.length, 42);
+      assert.ok(dataset.advancedTraits.length > 0);
+      assert.ok(dataset.eliteTraits.length > 0);
+      assert.ok(dataset.disadvantages.length > 0);
+      assert.ok(dataset.rules);
+    });
+
     it('flags over-budget species configurations', () => {
       const result = calculateSpeciesBP({
         type: 'Dragon', // +5 BP
@@ -74,20 +450,66 @@ describe('Tangent SF RP — Phase 4 Entity Calculation Engines', () => {
       assert.strictEqual(result.bpRemaining, -14);
     });
 
-    it('resolves size combat and stealth modifiers correctly', () => {
-      const medium = calculateSpeciesCombatModifiers('Medium');
-      assert.strictEqual(medium.defMod, 0);
-      assert.strictEqual(medium.stealthMod, 0);
+    it('resolves size combat, attribute, stealth, stability, damage, and mobility modifiers correctly across all 6 sizes', () => {
+      const diminutive = calculateSpeciesCombatModifiers('Diminutive');
+      assert.strictEqual(diminutive.strMod, -8);
+      assert.strictEqual(diminutive.agiMod, 8);
+      assert.strictEqual(diminutive.combatMod, 8);
+      assert.strictEqual(diminutive.defMod, 8);
+      assert.strictEqual(diminutive.stealthMod, 12);
+      assert.strictEqual(diminutive.stabilityMod, -16);
+      assert.strictEqual(diminutive.dmgDieStep, -3);
+      assert.strictEqual(diminutive.speedMod, -10);
 
       const tiny = calculateSpeciesCombatModifiers('Tiny');
+      assert.strictEqual(tiny.strMod, -4);
+      assert.strictEqual(tiny.agiMod, 4);
       assert.strictEqual(tiny.combatMod, 4);
       assert.strictEqual(tiny.defMod, 4);
       assert.strictEqual(tiny.stealthMod, 8);
+      assert.strictEqual(tiny.stabilityMod, -8);
+      assert.strictEqual(tiny.dmgDieStep, -2);
+      assert.strictEqual(tiny.speedMod, -10);
+
+      const small = calculateSpeciesCombatModifiers('Small');
+      assert.strictEqual(small.strMod, -2);
+      assert.strictEqual(small.agiMod, 2);
+      assert.strictEqual(small.combatMod, 2);
+      assert.strictEqual(small.defMod, 2);
+      assert.strictEqual(small.stealthMod, 4);
+      assert.strictEqual(small.stabilityMod, -4);
+      assert.strictEqual(small.dmgDieStep, -1);
+      assert.strictEqual(small.speedMod, -5);
+
+      const medium = calculateSpeciesCombatModifiers('Medium');
+      assert.strictEqual(medium.strMod, 0);
+      assert.strictEqual(medium.agiMod, 0);
+      assert.strictEqual(medium.combatMod, 0);
+      assert.strictEqual(medium.defMod, 0);
+      assert.strictEqual(medium.stealthMod, 0);
+      assert.strictEqual(medium.stabilityMod, 0);
+      assert.strictEqual(medium.dmgDieStep, 0);
+      assert.strictEqual(medium.speedMod, 0);
+
+      const large = calculateSpeciesCombatModifiers('Large');
+      assert.strictEqual(large.strMod, 2);
+      assert.strictEqual(large.agiMod, -2);
+      assert.strictEqual(large.combatMod, -2);
+      assert.strictEqual(large.defMod, -2);
+      assert.strictEqual(large.stealthMod, -4);
+      assert.strictEqual(large.stabilityMod, 4);
+      assert.strictEqual(large.dmgDiceMult, 2);
+      assert.strictEqual(large.speedMult, 2);
 
       const huge = calculateSpeciesCombatModifiers('Huge');
+      assert.strictEqual(huge.strMod, 4);
+      assert.strictEqual(huge.agiMod, -4);
       assert.strictEqual(huge.combatMod, -4);
       assert.strictEqual(huge.defMod, -4);
-      assert.strictEqual(huge.strMod, 4);
+      assert.strictEqual(huge.stealthMod, -8);
+      assert.strictEqual(huge.stabilityMod, 8);
+      assert.strictEqual(huge.dmgDiceMult, 5);
+      assert.strictEqual(huge.speedMult, 5);
     });
 
     it('generates full persistent metadata in computeSpeciesStats', () => {

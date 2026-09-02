@@ -10,17 +10,46 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 5 ft
+senses: Standard visual and auditory range.
+immunities: None
+inherent_attribute_modifiers:
+  - attribute: Intellect
+    bonus: 1
+bonus_attribute_points: 0
+specific_skill_bonuses:
+  - skill: Combat (Melee)
+    bonus: 1
+  - skill: Attune
+    bonus: 1
+bonus_skills: 10
+bonus_skill_choices:
+  - Combat (Melee)
+  - Intimidation
+  - Attune
+  - Survival
+  - History
+inherent_features:
+  - trait-aeld-lineage-traits
+  - trait-dragonkin-heritage-scales-dr-2
+  - trait-natural-weapon-claws-bite
+bonus_features: []
+bonus_feature_choices:
+  - Energy Breath
+  - Dragon Fear
+  - Thermal Resistance
+  - Mighty Surge
+  - Combat Specialization
+recommended_features:
+  - feature-energy-breath
+  - feature-mighty-surge
 stigma: 'Dragonkin (-4), Xeno (-2)'
 tech_level: 3 (Forge-Tech & Arcane Metallurgy)
 meta_level: 3 (Draconic Sorcery)
 homeworld: Drakon Prime
-cp: 22
-description: >-
-  Draconians bridge ancient elven grace with the primal draconic essence.
-  Scaled, proud, and martial, they serve as warrior-philosophers and guardians
-  of sacred flame.
 costs:
-  bp: 22
+  bp: 13
   credits: 0
   nodes: 0
   sockets: 0
@@ -29,96 +58,16 @@ costs:
   ap: 0
 modifiers:
   - target: Intellect
+    value: 1
     type: attribute
-    value: 1
     mode: inherent
-  - target: Combat (Melee)
-    type: skill
-    value: 1
-    mode: inherent
-  - target: Attune
-    type: skill
-    value: 1
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 10
-    mode: bonus_pool
-  - target: Combat (Melee)
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Intimidation
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Attune
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Survival
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: History
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Aeld Lineage Traits
-    type: feature
-    value: 1
-    mode: inherent
-  - target: 'Dragonkin Heritage (Scales, DR 2/-)'
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Natural Weapon (Claws/Bite)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Energy Breath
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Dragon Fear
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Thermal Resistance
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Mighty Surge
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Combat Specialization
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-energy-breath
-    type: feature
-    value: 1
-    mode: recommended
-  - target: feature-mighty-surge
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+cp_cost: 13
+cp: 13
+bp: 13
+description: >-
+  Draconians bridge ancient elven grace with the primal draconic essence.
+  Scaled, proud, and martial, they serve as warrior-philosophers and guardians
+  of sacred flame.
 ---
 # Draconian (Scaled Aeld)
 

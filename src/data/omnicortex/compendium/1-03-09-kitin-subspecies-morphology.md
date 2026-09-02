@@ -10,7 +10,7 @@ tl: 3
 ml: 1
 cost: 15
 tags: ["compendium","volume-1","species","kitin","arthropod"]
-updatedAt: "2026-09-01T20:54:33.509Z"
+updatedAt: "2026-09-02T09:16:58.895Z"
 costs:
   bp: 0
   credits: 0

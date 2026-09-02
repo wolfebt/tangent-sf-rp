@@ -62,8 +62,8 @@ const StatusGemsModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/70 backdrop-blur-sm p-4 pt-6 sm:pt-10 overflow-y-auto select-none">
-      <div className="bg-[#161b22] border border-[#0D5C63] rounded-xl p-5 w-[460px] shadow-[0_0_30px_rgba(0,0,0,0.8)] text-white flex flex-col gap-4 max-h-[90vh] overflow-hidden">
+    <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-4 pt-10 sm:pt-14 pb-12 overflow-y-auto select-none font-sans">
+      <div className="bg-[#161b22] border border-[#0D5C63] rounded-xl p-5 w-[460px] shadow-[0_0_30px_rgba(0,0,0,0.8)] text-white flex flex-col gap-4 max-h-[85vh] sm:max-h-[88vh] overflow-hidden">
         {/* Modal Header */}
         <div className="flex justify-between items-center pb-3 border-b border-[#0D5C63]/60">
           <div className="flex items-center gap-2">

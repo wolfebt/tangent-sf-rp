@@ -1,1 +1,50 @@
-[]
+[
+  {
+    "id": "society_commerce_lvl_0",
+    "category": "society_commerce",
+    "name": "Commerce & Economy (Level 0: Primitive / Subsistence)",
+    "level": 0,
+    "sphere_key": "society_commerce",
+    "description": "Level 0 development in Commerce & Economy: Economic models, banking networks, trade routes, currency, and resource exchange. (Primitive / Subsistence)."
+  },
+  {
+    "id": "society_commerce_lvl_1",
+    "category": "society_commerce",
+    "name": "Commerce & Economy (Level 1: Emerging / Industrial)",
+    "level": 1,
+    "sphere_key": "society_commerce",
+    "description": "Level 1 development in Commerce & Economy: Economic models, banking networks, trade routes, currency, and resource exchange. (Emerging / Industrial)."
+  },
+  {
+    "id": "society_commerce_lvl_2",
+    "category": "society_commerce",
+    "name": "Commerce & Economy (Level 2: Modern / Planetary)",
+    "level": 2,
+    "sphere_key": "society_commerce",
+    "description": "Level 2 development in Commerce & Economy: Economic models, banking networks, trade routes, currency, and resource exchange. (Modern / Planetary)."
+  },
+  {
+    "id": "society_commerce_lvl_3",
+    "category": "society_commerce",
+    "name": "Commerce & Economy (Level 3: Advanced / Stellar)",
+    "level": 3,
+    "sphere_key": "society_commerce",
+    "description": "Level 3 development in Commerce & Economy: Economic models, banking networks, trade routes, currency, and resource exchange. (Advanced / Stellar)."
+  },
+  {
+    "id": "society_commerce_lvl_4",
+    "category": "society_commerce",
+    "name": "Commerce & Economy (Level 4: Mastered / Interstellar)",
+    "level": 4,
+    "sphere_key": "society_commerce",
+    "description": "Level 4 development in Commerce & Economy: Economic models, banking networks, trade routes, currency, and resource exchange. (Mastered / Interstellar)."
+  },
+  {
+    "id": "society_commerce_lvl_5",
+    "category": "society_commerce",
+    "name": "Commerce & Economy (Level 5: Transcendent / Deific)",
+    "level": 5,
+    "sphere_key": "society_commerce",
+    "description": "Level 5 development in Commerce & Economy: Economic models, banking networks, trade routes, currency, and resource exchange. (Transcendent / Deific)."
+  }
+]

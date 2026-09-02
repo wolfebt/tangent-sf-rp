@@ -1,10 +1,16 @@
 ---
 id: species_movement-flight
-name: "True Flight"
+name: True Flight
 category: species_movement
-type: "Flying"
+classification: mode
+target_mode: Flying
+type: Flying
+base_speed: 60
 speed: 60
-description: "Aerial wings, antigrav impellers, or metaphysical levitation. Base flight speed 60 ft/round (double walking speed)."
+bp: 0
+description: >-
+  Aerial wings, antigrav impellers, or metaphysical levitation. Base flight
+  speed of 60 ft/round with standard maneuverability.
 costs:
   bp: 0
   credits: 0
@@ -13,24 +19,13 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
-
 # True Flight
 
-**Mode Type**: Flying  
+**Category**: Species Movement (MODE)  
+**Target Mode**: Flying  
+**Cost**: +0 BP  
 **Base Speed**: 60 ft / round  
 
 ## Description
-Aerial wings, antigrav impellers, or metaphysical levitation. Base flight speed 60 ft/round (double walking speed).
+Aerial wings, antigrav impellers, or metaphysical levitation. Base flight speed of 60 ft/round with standard maneuverability.

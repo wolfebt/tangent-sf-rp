@@ -1,11 +1,98 @@
 [
   {
-    "tags": [
-      "@Lanaran"
-    ],
-    "name": "fire",
-    "description": "",
-    "id": "entry_1786497272113",
-    "updatedAt": "2026-08-12T01:14:38.825Z"
+    "id": "effect-kinetic-bludgeon",
+    "name": "Kinetic (Bludgeoning)",
+    "type": "Physical",
+    "description": "Crushing impact trauma. Subject to standard physical Armor Damage Resistance (DR)."
+  },
+  {
+    "id": "effect-kinetic-pierce",
+    "name": "Kinetic (Piercing)",
+    "type": "Physical",
+    "description": "High-velocity puncturing force optimized for armor penetration."
+  },
+  {
+    "id": "effect-kinetic-slash",
+    "name": "Kinetic (Slashing)",
+    "type": "Physical",
+    "description": "Severing and lacerating physical edge damage capable of inflicting deep bleeding wounds."
+  },
+  {
+    "id": "effect-force",
+    "name": "Force / Aether",
+    "type": "Metaphysical",
+    "description": "Pure condensed kinetic pressure that bypasses 50% of target physical Armor DR."
+  },
+  {
+    "id": "effect-pyro",
+    "name": "Thermal (Pyro / Fire)",
+    "type": "Energy",
+    "description": "Superheated plasma and combustion. Triggers secondary burning status effects."
+  },
+  {
+    "id": "effect-cryo",
+    "name": "Thermal (Cryo / Cold)",
+    "type": "Energy",
+    "description": "Sub-zero thermal drain. Triggers frostbite, slow, and brittle structure effects."
+  },
+  {
+    "id": "effect-voltic",
+    "name": "Voltic (Electrical / EMP)",
+    "type": "Energy",
+    "description": "High-voltage ionization. Deals extra damage to synthetic chassis and disrupts electronics."
+  },
+  {
+    "id": "effect-sonic",
+    "name": "Sonic / Resonant",
+    "type": "Energy",
+    "description": "Harmonic vibrational trauma that bypasses rigid armor plates to shatter internal organs."
+  },
+  {
+    "id": "effect-corrosive",
+    "name": "Corrosive (Acid / Chemical)",
+    "type": "Chemical",
+    "description": "Degrades armor Structure Points and inflicts lingering damage over time."
+  },
+  {
+    "id": "effect-radiant",
+    "name": "Radiant (Light / Solar)",
+    "type": "Energy",
+    "description": "Coherent photons and holy solar energy capable of blinding targets and purging corruptions."
+  },
+  {
+    "id": "effect-void",
+    "name": "Void (Graviton / Entropy)",
+    "type": "Metaphysical",
+    "description": "Dark energy and spatial compression that pulls targets and crushes matter."
+  },
+  {
+    "id": "effect-psychic",
+    "name": "Psychic / Psionic",
+    "type": "Metaphysical",
+    "description": "Direct mental shockwave attacking neural pathways, bypassing all physical armor."
+  },
+  {
+    "id": "effect-disintegration",
+    "name": "Disintegration",
+    "type": "Exotic",
+    "description": "Breaks atomic bonds directly, dissolving matter into ash upon reaching 0 SP."
+  },
+  {
+    "id": "effect-temporal",
+    "name": "Temporal / Chrono",
+    "type": "Metaphysical",
+    "description": "Alters local time-flow, inflicting stasis, slowing reactions, or rapid cellular aging."
+  },
+  {
+    "id": "effect-spatial",
+    "name": "Spatial / Warp",
+    "type": "Metaphysical",
+    "description": "Rips local dimensional geometry to teleport, displace, or shear physical objects."
+  },
+  {
+    "id": "effect-biological",
+    "name": "Biological (Toxin / Disease)",
+    "type": "Biological",
+    "description": "Neurotoxins, hemotoxins, and cellular mutagens requiring Fortitude saves."
   }
 ]

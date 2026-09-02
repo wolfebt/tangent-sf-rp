@@ -1,9 +1,16 @@
 ---
 id: movement-fast
-name: Fast
+name: Fast (+10 ft Ground)
 category: species_movement
-movement_type: Modification
-description: "Base Speed +10 feet. *"
+classification: adjuster
+target_mode: Ground
+speed_modifier: 10
+is_additive: true
+is_exclusive: true
+bp: 2
+description: >-
+  Increases base Ground locomotion speed by +10 feet (Additive). Mutually
+  exclusive with other ground speed adjusters.
 costs:
   bp: 2
   credits: 0
@@ -12,32 +19,13 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-speed: 10
-is_ranked: false
-is_exclusive: true
-is_disadvantage: false
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
+# Fast (+10 ft Ground)
 
-# Fast
+**Category**: Species Movement (ADJUSTER)  
+**Target Mode**: Ground  
+**Cost**: +2 BP  
+**Speed Modifier**: +10 ft (Additive)  
 
-**Category**: Species Movement (Modification)  
-**Cost**: 2 BP  
-**Classification**: Modification (* Mutually Exclusive Speed Trait)  
-
-## Effect
-Base Speed +10 feet. *
-
-## Mechanics & Rules
-Increases Base Speed by +10 feet (to 40 ft for Medium species). Mutually exclusive with other base speed modifier traits (*).
+## Description
+Increases base Ground locomotion speed by +10 feet (Additive). Mutually exclusive with other ground speed adjusters.

@@ -2,8 +2,8 @@
 id: invocation-shadow-assault
 name: SHADOW ASSAULT
 category: invocations
-discipline: Energy
-description: SHADOW ASSAULT invocation for Energy reality manipulation.
+discipline: Illusion
+description: SHADOW ASSAULT invocation for Illusion reality manipulation.
 costs:
   bp: 0
   credits: 0
@@ -25,11 +25,10 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # SHADOW ASSAULT Invocation
 
 **Category**: Invocations  
-**Discipline**: Energy
+**Discipline**: Illusion
 
 ## Description & Ritual Details
 Classification: Illusion (Shadow) | Attack | \[Evocation\] \[Cold\]  

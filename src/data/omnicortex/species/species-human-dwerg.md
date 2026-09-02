@@ -3,23 +3,50 @@ id: species-human-dwerg
 name: Dwerg Human
 title: Dwerg Human (Forge Folk)
 category: species
-parent_species: Humans
+parent_species: Humans (Core & Variants)
 type:
   - species_type-humanoid
 size:
   - species_size-medium
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 5 ft
+senses: Standard visual and auditory range.
+immunities: None
+inherent_attribute_modifiers:
+  - attribute: Strength
+    bonus: 1
+  - attribute: Stamina
+    bonus: 1
+bonus_attribute_points: 0
+specific_skill_bonuses:
+  - skill: Craft (Metallurgy)
+    bonus: 2
+bonus_skills: 10
+bonus_skill_choices:
+  - Craft
+  - Engineering
+  - Athletics
+  - Science (Geology)
+  - Combat (Heavy)
+inherent_features:
+  - trait-mighty-surge-1-encounter-bonus-to-str-sta-checks
+  - trait-dense-musculature
+  - trait-poison-resistance
+bonus_features: []
+bonus_feature_choices:
+  - Master Smith
+  - Subterranean Instinct
+  - Unyielding Stance
+recommended_features:
+  - feature-mighty-surge
 stigma: Minor Xeno (-1)
 tech_level: 3 (Heavy Metallurgy & Kinetic Forges)
 meta_level: 1 (Earth / Mineral Resonance)
 homeworld: Nidavellir Asteroid Belt
-cp: 17
-description: >-
-  Stocky, broad-shouldered heavy-world humans renowned for foundry work,
-  starship armor plating, and asteroid mining.
 costs:
-  bp: 17
+  bp: 18
   credits: 0
   nodes: 0
   sockets: 0
@@ -28,84 +55,19 @@ costs:
   ap: 0
 modifiers:
   - target: Strength
-    type: attribute
     value: 1
+    type: attribute
     mode: inherent
   - target: Stamina
+    value: 1
     type: attribute
-    value: 1
     mode: inherent
-  - target: Craft (Metallurgy)
-    type: skill
-    value: 2
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 10
-    mode: bonus_pool
-  - target: Craft
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Engineering
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Athletics
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Science (Geology)
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Combat (Heavy)
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Mighty Surge (1/Encounter bonus to STR/STA checks)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Dense Musculature
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Poison Resistance
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Master Smith
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Subterranean Instinct
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Unyielding Stance
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-mighty-surge
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+cp_cost: 18
+cp: 18
+bp: 18
+description: >-
+  Stocky, broad-shouldered heavy-world humans renowned for foundry work,
+  starship armor plating, and asteroid mining.
 ---
 # Dwerg Human (Forge Folk)
 
@@ -146,9 +108,3 @@ Low Light Vision line
 Methodical  
 Rugged  
 Skill Focus line
-
-
-## Extended Lore & Background
-
-The most noticeable result of this evolution is their dense, compact physique and markedly shorter-than-average stature. While classified as Medium size in general terms, their typical height is around 5 feet, giving them a "Stocky" build. Despite this reduced height, their bone density and muscular mass are significantly increased, leading to a body weight comparable to, or sometimes exceeding, that of a baseline human of average height. This combination of short stature and high mass contributes to an exceptionally low center of gravity, granting them superior stability, balance, and physical resilience. Their circulatory and skeletal systems are also uniquely adapted to withstand high-stress environments.
-

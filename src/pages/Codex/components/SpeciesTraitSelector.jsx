@@ -19,6 +19,8 @@ import {
   SPECIES_SIZES, 
   SPECIES_MOVEMENT_MODES, 
   SPECIES_MOVEMENT_BASE_MODES,
+  SPECIES_MOVEMENT_ADJUSTERS,
+  SPECIES_MOVEMENT_GROUPS,
   SPECIES_MOVEMENT_MODIFICATIONS,
   SPECIES_TRAITS_BASIC, 
   SPECIES_TRAITS_ADVANCED, 
@@ -100,16 +102,23 @@ export const SpeciesTraitSelector = ({ formData = {}, onChange }) => {
   };
 
   const toggleMovementMode = (modeId) => {
-    const exists = selectedModes.includes(modeId);
+    const exists = selectedModes.some(m => (typeof m === 'string' ? m : m?.id) === modeId);
     let updated;
     if (exists) {
-      updated = selectedModes.filter(m => m !== modeId);
-      if (updated.length === 0) updated = ['normal'];
+      updated = selectedModes.filter(m => (typeof m === 'string' ? m : m?.id) !== modeId);
+      if (updated.length === 0) updated = ['species_movement-bipedal'];
     } else {
-      updated = [...selectedModes, modeId];
+      const isExclusiveGround = ['fast', 'very_fast', 'slow', 'ponderous', 'movement-fast', 'movement-very-fast', 'movement-slow', 'movement-ponderous'].includes(modeId);
+      if (isExclusiveGround) {
+        const exclusiveIds = new Set(['fast', 'very_fast', 'slow', 'ponderous', 'movement-fast', 'movement-very-fast', 'movement-slow', 'movement-ponderous']);
+        updated = selectedModes.filter(m => !exclusiveIds.has(typeof m === 'string' ? m : m?.id));
+        updated.push(modeId);
+      } else {
+        updated = [...selectedModes, modeId];
+      }
     }
     onChange('movement_modes', updated);
-    onChange('movement', updated[0] || 'normal');
+    onChange('movement', updated[0] || 'species_movement-bipedal');
   };
 
   // Trait list based on tier
@@ -466,94 +475,145 @@ export const SpeciesTraitSelector = ({ formData = {}, onChange }) => {
         </div>
       )}
 
-      {/* Tab 3: Movement Modes & Modifications */}
+      {/* Tab 3: Movement Modes & Additive Speed Adjusters */}
       {activeTab === 'movement' && (
         <div className="space-y-4 max-h-80 overflow-y-auto pr-1">
-          {/* Base Movement Modes */}
-          <div>
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-bold text-purple-300 uppercase tracking-wider">
-                1. Base Movement Modes
-              </span>
-              <span className="text-[10px] text-slate-400">Primary Locomotion Chassis</span>
+          {/* Active Speed Calculation Summary Banner */}
+          <div className="p-3 bg-purple-950/40 border border-purple-500/40 rounded-xl flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Zap size={15} className="text-purple-400" />
+              <div>
+                <span className="text-[10px] text-purple-300 font-bold uppercase tracking-wider block">
+                  Active Calculated Speeds (Additive)
+                </span>
+                <span className="text-xs font-bold text-slate-100 font-mono">
+                  {bpData.speedsFormatted || 'Ground 30 ft'}
+                </span>
+              </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              {SPECIES_MOVEMENT_BASE_MODES.map(mode => {
-                const isSelected = selectedModes.includes(mode.id);
-                return (
-                  <button
-                    key={mode.id}
-                    type="button"
-                    onClick={() => toggleMovementMode(mode.id)}
-                    className={`p-2.5 rounded-xl border text-left transition-all flex items-center justify-between ${
-                      isSelected 
-                        ? 'bg-purple-950/60 border-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.2)]' 
-                        : 'bg-slate-950/60 border-slate-800 hover:border-purple-500/40'
-                    }`}
-                  >
-                    <div>
-                      <span className="text-xs font-bold text-slate-100 block">{mode.name}</span>
-                      <span className="text-[10px] text-slate-400">{mode.description}</span>
-                    </div>
-                    <div className="text-right shrink-0 ml-2">
-                      <span className={`text-[11px] font-bold font-mono px-2 py-0.5 rounded ${
-                        mode.bp > 0 ? 'bg-purple-500/20 text-purple-300' : 'bg-slate-800 text-slate-400'
-                      }`}>
-                        {mode.bp > 0 ? `+${mode.bp} BP` : '0 BP'}
-                      </span>
-                    </div>
-                  </button>
-                );
-              })}
+            <div className="text-right">
+              <span className="text-[10px] text-slate-400 block">Total Movement BP</span>
+              <span className="text-xs font-bold text-purple-300 font-mono">
+                {bpData.breakdown.movementBP > 0 ? `+${bpData.breakdown.movementBP}` : bpData.breakdown.movementBP} BP
+              </span>
             </div>
           </div>
 
-          {/* Species Movement Modifications */}
-          <div>
-            <div className="flex items-center justify-between mb-2 pt-2 border-t border-slate-800">
-              <span className="text-xs font-bold text-amber-300 uppercase tracking-wider">
-                2. Species Movement Modifications
-              </span>
-              <span className="text-[10px] text-slate-400">* Mutually Exclusive Base Speed Traits</span>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              {SPECIES_MOVEMENT_MODIFICATIONS.map(mod => {
-                const isSelected = selectedModes.includes(mod.id);
-                return (
-                  <button
-                    key={mod.id}
-                    type="button"
-                    onClick={() => toggleMovementMode(mod.id)}
-                    className={`p-2.5 rounded-xl border text-left transition-all flex items-center justify-between ${
-                      isSelected 
-                        ? (mod.bp < 0 ? 'bg-emerald-950/60 border-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.2)]' : 'bg-purple-950/60 border-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.2)]')
-                        : 'bg-slate-950/60 border-slate-800 hover:border-purple-500/40'
-                    }`}
-                  >
-                    <div>
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-xs font-bold text-slate-100">{mod.name}</span>
-                        {mod.isRanked && (
-                          <span className="text-[9px] px-1 py-0.2 bg-blue-500/20 text-blue-300 rounded font-mono">Ranked</span>
-                        )}
-                        {mod.isExclusive && (
-                          <span className="text-[9px] px-1 py-0.2 bg-amber-500/20 text-amber-300 rounded font-mono">*Speed</span>
-                        )}
-                      </div>
-                      <span className="text-[10px] text-slate-400">{mod.description}</span>
-                    </div>
-                    <div className="text-right shrink-0 ml-2">
-                      <span className={`text-[11px] font-bold font-mono px-2 py-0.5 rounded ${
-                        mod.bp > 0 ? 'bg-purple-500/20 text-purple-300' : (mod.bp < 0 ? 'bg-emerald-500/20 text-emerald-300' : 'bg-slate-800 text-slate-400')
-                      }`}>
-                        {mod.bp > 0 ? `+${mod.bp} BP` : (mod.bp < 0 ? `${mod.bp} BP` : '0 BP')}
+          {/* Grouped Locomotion Families (Modes + Associated Adjusters) */}
+          {Object.entries(SPECIES_MOVEMENT_GROUPS).map(([groupKey, group]) => {
+            const hasActiveModeInGroup = group.modes.some(m => selectedModes.includes(m.id));
+            return (
+              <div key={groupKey} className="p-3 bg-slate-950/60 border border-slate-800 rounded-xl space-y-3">
+                {/* Family Header */}
+                <div className="flex items-center justify-between border-b border-slate-800/80 pb-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-purple-300 uppercase tracking-wider">
+                      {group.label}
+                    </span>
+                    {hasActiveModeInGroup && (
+                      <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">
+                        Active
                       </span>
+                    )}
+                  </div>
+                  <span className="text-[10px] text-slate-400">
+                    {group.modes.length} Modes • {group.adjusters.length} Adjusters
+                  </span>
+                </div>
+
+                {/* Base Modes for this family */}
+                <div>
+                  <span className="text-[10px] text-slate-400 font-bold uppercase block mb-1.5">
+                    Base Modes
+                  </span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {group.modes.map(mode => {
+                      const isSelected = selectedModes.includes(mode.id);
+                      return (
+                        <button
+                          key={mode.id}
+                          type="button"
+                          onClick={() => toggleMovementMode(mode.id)}
+                          className={`p-2.5 rounded-lg border text-left transition-all flex items-center justify-between ${
+                            isSelected 
+                              ? 'bg-purple-950/80 border-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.2)]' 
+                              : 'bg-slate-900/60 border-slate-800 hover:border-purple-500/40'
+                          }`}
+                        >
+                          <div>
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-xs font-bold text-slate-100">{mode.name}</span>
+                              <span className="text-[9px] px-1 py-0.2 bg-purple-500/20 text-purple-300 rounded font-mono">
+                                {mode.base_speed || mode.speed || 30} ft
+                              </span>
+                            </div>
+                            <span className="text-[10px] text-slate-400 block mt-0.5">{mode.description}</span>
+                          </div>
+                          <div className="text-right shrink-0 ml-2">
+                            <span className={`text-[11px] font-bold font-mono px-2 py-0.5 rounded ${
+                              mode.bp > 0 ? 'bg-purple-500/20 text-purple-300' : 'bg-slate-800 text-slate-400'
+                            }`}>
+                              {mode.bp > 0 ? `+${mode.bp} BP` : '0 BP'}
+                            </span>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Associated Speed & Mobility Adjusters for this family */}
+                {group.adjusters.length > 0 && (
+                  <div>
+                    <span className="text-[10px] text-amber-300 font-bold uppercase block mb-1.5">
+                      Associated Speed Adjusters (Additive to {groupKey})
+                    </span>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {group.adjusters.map(adj => {
+                        const isSelected = selectedModes.includes(adj.id);
+                        return (
+                          <button
+                            key={adj.id}
+                            type="button"
+                            onClick={() => toggleMovementMode(adj.id)}
+                            className={`p-2 rounded-lg border text-left transition-all flex items-center justify-between ${
+                              isSelected 
+                                ? (adj.bp < 0 ? 'bg-emerald-950/60 border-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.2)]' : 'bg-amber-950/50 border-amber-400 shadow-[0_0_10px_rgba(245,158,11,0.2)]')
+                                : 'bg-slate-900/60 border-slate-800 hover:border-amber-500/40'
+                            }`}
+                          >
+                            <div>
+                              <div className="flex items-center gap-1.5">
+                                <span className="text-xs font-bold text-slate-100">{adj.name}</span>
+                                {adj.speed_modifier !== undefined && adj.speed_modifier !== 0 && (
+                                  <span className={`text-[9px] px-1 py-0.2 rounded font-mono font-bold ${
+                                    adj.speed_modifier > 0 ? 'bg-emerald-500/20 text-emerald-300' : 'bg-red-500/20 text-red-300'
+                                  }`}>
+                                    {adj.speed_modifier > 0 ? `+${adj.speed_modifier} ft` : `${adj.speed_modifier} ft`}
+                                  </span>
+                                )}
+                                {adj.isExclusive && (
+                                  <span className="text-[9px] px-1 py-0.2 bg-amber-500/20 text-amber-300 rounded font-mono">*Exclusive</span>
+                                )}
+                              </div>
+                              <span className="text-[10px] text-slate-400 block mt-0.5">{adj.description}</span>
+                            </div>
+                            <div className="text-right shrink-0 ml-2">
+                              <span className={`text-[11px] font-bold font-mono px-2 py-0.5 rounded ${
+                                adj.bp > 0 ? 'bg-purple-500/20 text-purple-300' : (adj.bp < 0 ? 'bg-emerald-500/20 text-emerald-300' : 'bg-slate-800 text-slate-400')
+                              }`}>
+                                {adj.bp > 0 ? `+${adj.bp} BP` : (adj.bp < 0 ? `${adj.bp} BP` : '0 BP')}
+                              </span>
+                            </div>
+                          </button>
+                        );
+                      })}
                     </div>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       )}
 

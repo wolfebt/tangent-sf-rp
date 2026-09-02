@@ -101,8 +101,8 @@ export const CreateChannelModal = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-fade-in select-none">
-      <div className="bg-[#0f141d] border border-cyan-500/40 rounded-2xl w-full max-w-lg overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.9)] flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 pt-8 sm:pt-12 md:pt-14 pb-12 overflow-y-auto select-none font-sans animate-fade-in">
+      <div className="bg-[#0f141d] border border-cyan-500/40 rounded-2xl w-full max-w-lg overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.9)] flex flex-col max-h-[85vh] sm:max-h-[88vh]">
         {/* Modal Header */}
         <div className="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/60">
           <div className="flex items-center gap-2">

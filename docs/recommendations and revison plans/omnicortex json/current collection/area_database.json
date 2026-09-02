@@ -1,1 +1,68 @@
-[]
+[
+  {
+    "id": "area-single-target",
+    "name": "Single Target (+0 DC)",
+    "dcMod": 0,
+    "description": "Affects exactly one targeted creature or individual object with pinpoint precision."
+  },
+  {
+    "id": "area-line-ray",
+    "name": "Line / Ray (5ft wide) (+0 DC)",
+    "dcMod": 0,
+    "description": "Projects a narrow 5-foot-wide linear beam or projectile path along the line of fire."
+  },
+  {
+    "id": "area-small-burst",
+    "name": "Small Burst (10ft Radius) (+2 DC)",
+    "dcMod": 2,
+    "description": "Expands into a 10-foot radius sphere covering a standard room, doorway, or vehicle interior."
+  },
+  {
+    "id": "area-medium-burst",
+    "name": "Medium Burst (20ft Radius) (+5 DC)",
+    "dcMod": 5,
+    "description": "Detonates in a 20-foot radius sphere covering an entire hall, street intersection, or squad formation."
+  },
+  {
+    "id": "area-cone",
+    "name": "Cone / Emanation (+5 DC)",
+    "dcMod": 5,
+    "description": "Spreads outward from the caster hands or muzzle in a widening cone equal to range length."
+  },
+  {
+    "id": "area-large-burst",
+    "name": "Large Burst (50ft+ Radius) (+10 DC)",
+    "dcMod": 10,
+    "description": "Massive battlefield detonation blanketing an entire district or facility wing."
+  },
+  {
+    "id": "area-wall",
+    "name": "Wall / Barrier (+5 DC)",
+    "dcMod": 5,
+    "description": "Manifests a continuous physical or energy barrier up to 10ft high by 30ft long."
+  },
+  {
+    "id": "area-cylinder",
+    "name": "Cylinder / Pillar (+5 DC)",
+    "dcMod": 5,
+    "description": "Calls down a 10ft radius, 40ft high vertical pillar of energy or gravitational force."
+  },
+  {
+    "id": "area-selective",
+    "name": "Selective Shaping (+5 DC)",
+    "dcMod": 5,
+    "description": "Allows the user to sculpt the area of effect, carving out safe zones for allies."
+  },
+  {
+    "id": "area-aura",
+    "name": "Aura / Pulse (+3 DC)",
+    "dcMod": 3,
+    "description": "Radiates in a continuous 10-foot emanation surrounding the user as they move."
+  },
+  {
+    "id": "area-chain",
+    "name": "Chain / Arcing (+4 DC)",
+    "dcMod": 4,
+    "description": "Arcs from the primary target to up to 3 secondary targets within 15 feet."
+  }
+]

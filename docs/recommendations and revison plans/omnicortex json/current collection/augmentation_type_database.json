@@ -1,1 +1,90 @@
-[]
+[
+  {
+    "id": "aug_type-sensory",
+    "name": "Sensory Modifications",
+    "tl": 3,
+    "bp": 2,
+    "nodes": 2,
+    "description": "Nightvision, radar/sonar, teleoptics, acoustic enhancers, bug detectors, and multispectral vision suites."
+  },
+  {
+    "id": "aug_type-neural",
+    "name": "Brain & Neural Mods",
+    "tl": 3,
+    "bp": 2,
+    "nodes": 2,
+    "description": "Neural processors, ghost jacks, skill circuitry, reflex co-processors, memory buffers, and cyber-occult links."
+  },
+  {
+    "id": "aug_type-bioware",
+    "name": "TL4 Enhanced (Bioware)",
+    "tl": 4,
+    "bp": 2,
+    "nodes": 5,
+    "description": "Seamless biological and cellular enhancement. Immune to Massive Damage disablement; naturally regenerates 1 SP/hour."
+  },
+  {
+    "id": "aug_type-nanotech",
+    "name": "TL5 Advanced (Nanotech)",
+    "tl": 5,
+    "bp": 1,
+    "nodes": 3,
+    "description": "Half BP cost (min 1). Morphic, weightless reality-warping nanotechnology and sub-atomic cell manipulation."
+  },
+  {
+    "id": "aug_type-fbc",
+    "name": "Full Body Conversion (FBC)",
+    "tl": 3,
+    "bp": 10,
+    "nodes": 200,
+    "description": "Total synthetic chassis conversion replacing 100% of organic biology (200 Nodes, 260 Structure Points)."
+  },
+  {
+    "id": "aug_type-wearable",
+    "name": "Pseudo-Cybernetics (Wearable)",
+    "tl": 3,
+    "bp": 0,
+    "nodes": 10,
+    "description": "External modular harnesses, gauntlets, and exo-rigs hosting internal node modifications without biological strain."
+  },
+  {
+    "id": "aug_type-metaphysical",
+    "name": "Metaphysical Augmentation",
+    "tl": 4,
+    "bp": 2,
+    "nodes": 10,
+    "description": "Imbued occult tattoos, psi-crystal nodes, resonance conduits, and cyber-metaphysical channeling sockets."
+  },
+  {
+    "id": "aug_type-dermal",
+    "name": "Dermal Plating & Subdermal Armor",
+    "tl": 3,
+    "bp": 2,
+    "nodes": 4,
+    "description": "Subdermal ballistic weaves, kinetic mesh, composite skull plates, and subcutaneous energy absorption grids."
+  },
+  {
+    "id": "aug_type-musculoskeletal",
+    "name": "Musculoskeletal & Cyber-Limbs",
+    "tl": 3,
+    "bp": 3,
+    "nodes": 6,
+    "description": "Myomer muscle replacements, reinforced titanium skeleton, hydraulic jump servos, and strength-enhancing servos."
+  },
+  {
+    "id": "aug_type-internal-organs",
+    "name": "Internal Organ Replacements",
+    "tl": 3,
+    "bp": 2,
+    "nodes": 3,
+    "description": "Synthetic secondary heart, toxic filtration liver, metabolic regulators, and cybernetic lungs."
+  },
+  {
+    "id": "aug_type-weapon-mounts",
+    "name": "Concealed Weapon Mounts",
+    "tl": 3,
+    "bp": 1,
+    "nodes": 2,
+    "description": "Internal chassis compartments, pop-up forearm blades, palm pulse emitters, and sub-dermal dart launchers."
+  }
+]

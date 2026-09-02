@@ -1,8 +1,15 @@
 ---
 id: movement-slow-crawl
-name: "Ground: Slow Crawl Pace"
+name: 'Ground: Slow Crawl Pace (0.25x Base)'
 category: species_movement
-description: Deliberate stealth crawling pace. Grants +4 bonus to stealth and inflicts Prone condition.
+classification: pace
+target_mode: Ground
+multiplier: 0.25
+speed: 7.5
+bp: 0
+description: >-
+  Deliberate stealth crawl (1/4 Base Walk). Grants +4 to stealth; inflicts
+  Prone.
 costs:
   bp: 0
   credits: 0
@@ -11,31 +18,12 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-speed: 7.5
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
+# Ground: Slow Crawl Pace (0.25x Base)
 
-# Ground: Slow Crawl Pace
-
-**Category**: Movement Modes & Paces  
-**Movement Mode**: Ground  
-**Speed Multiplier**: 1/4x Base  
-**Medium Speed Baseline**: 7.5 ft / round  
+**Category**: Species Movement (PACE)  
+**Target Mode**: Ground  
+**Cost**: +0 BP  
 
 ## Description
-Deliberate stealth crawling pace. Grants +4 bonus to stealth and inflicts Prone condition.
-
-## Tactical Modifiers & Checks
-- **Action Penalty / Modifier**: Prone condition
-- **Required Check**: None (+4 Stealth)
+Deliberate stealth crawl (1/4 Base Walk). Grants +4 to stealth; inflicts Prone.

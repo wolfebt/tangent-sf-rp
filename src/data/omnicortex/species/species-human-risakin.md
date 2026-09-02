@@ -3,23 +3,49 @@ id: species-human-risakin
 name: Risakin (Giant Folk)
 title: Risakin (Heavy-World Giant)
 category: species
-parent_species: Humans
+parent_species: Humans (Core & Variants)
 type:
   - species_type-humanoid
 size:
   - species_size-large
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 10 ft
+senses: Standard visual and auditory range.
+immunities: None
+inherent_attribute_modifiers:
+  - attribute: Strength
+    bonus: 2
+  - attribute: Stamina
+    bonus: 2
+bonus_attribute_points: 0
+specific_skill_bonuses:
+  - skill: Athletics
+    bonus: 2
+bonus_skills: 10
+bonus_skill_choices:
+  - Athletics
+  - Intimidation
+  - Combat (Heavy Weapons)
+  - Survival
+inherent_features:
+  - trait-large-size-8-10ft-reach-10ft
+  - trait-massive-bulk-dr-3
+  - trait-colossal-carrying-capacity
+bonus_features: []
+bonus_feature_choices:
+  - Crushing Blow
+  - Titan Endurance
+  - Ground Slam
+recommended_features:
+  - feature-crushing-blow
 stigma: 'Xeno (-2), Giant (-2)'
 tech_level: 3 (Heavy Industrial Hydraulic Rigging)
 meta_level: 0 (Physical Dominance)
 homeworld: Risak (Super-Earth)
-cp: 26
-description: >-
-  Towering 8-to-10 foot humans from super-heavy gravity worlds whose massive
-  musculature and skeletal density render them natural juggernauts.
 costs:
-  bp: 26
+  bp: 27
   credits: 0
   nodes: 0
   sockets: 0
@@ -28,80 +54,31 @@ costs:
   ap: 0
 modifiers:
   - target: Strength
-    type: attribute
     value: 2
+    type: attribute
     mode: inherent
   - target: Stamina
+    value: 2
     type: attribute
+    mode: inherent
+  - target: Strength
     value: 2
-    mode: inherent
-  - target: Athletics
+    type: attribute
+    mode: size_modifier
+  - target: Combat / Defense
+    value: -2
+    type: combat
+    mode: size_modifier
+  - target: Stealth
+    value: -4
     type: skill
-    value: 2
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 10
-    mode: bonus_pool
-  - target: Athletics
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Intimidation
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Combat (Heavy Weapons)
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Survival
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: 'Large Size (8-10ft, Reach 10ft)'
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Massive Bulk (DR 3/-)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Colossal Carrying Capacity
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 2
-    mode: bonus_pool
-  - target: Crushing Blow
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Titan Endurance
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Ground Slam
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-crushing-blow
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+    mode: size_modifier
+cp_cost: 27
+cp: 27
+bp: 27
+description: >-
+  Towering 8-to-10 foot humans from super-heavy gravity worlds whose massive
+  musculature and skeletal density render them natural juggernauts.
 ---
 # Risakin (Heavy-World Giant)
 

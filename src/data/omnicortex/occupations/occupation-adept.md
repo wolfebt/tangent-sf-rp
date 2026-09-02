@@ -15,16 +15,16 @@ archetypes:
   - Priest
   - Shaman
 traits:
-  - trait-adept-enhanced-abilities
-  - trait-adept-heightened-senses
-  - trait-adept-martial-arts-mastery
-  - trait-adept-mastery-of-a-discipline
-  - trait-adept-mystical-or-spiritual-connection
-  - trait-adept-resourcefulness
-  - trait-adept-special-equipment
-  - trait-adept-special-ability
-  - trait-adept-specialized-skills
-  - trait-adept-versatility
+  - trait-enhanced-abilities
+  - trait-heightened-senses
+  - trait-martial-arts-mastery
+  - trait-mastery-of-a-discipline
+  - trait-mystical-or-spiritual-connection
+  - trait-resourcefulness
+  - trait-special-equipment
+  - trait-special-ability
+  - trait-specialized-skills
+  - trait-versatility
 description: >-
   An adept is a person who has developed their skills and abilities to a high
   level in a particular area. This can be achieved through a combination of

@@ -1,9 +1,9 @@
 ---
 id: trait-professionalism
 name: Professionalism
-category: traits
+trait_tier: Basic
 trait_type: Common Occupational Trait
-description: Recognized industry standing and professional reliability.
+category: traits
 costs:
   bp: 1
   credits: 0
@@ -12,6 +12,7 @@ costs:
   strain: 0
   focus: 0
   ap: 0
+description: Recognized industry standing and professional reliability.
 modifiers: []
 modifications: []
 critical_details:
@@ -25,14 +26,12 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # Professionalism
 
-**Category**: Common Occupational Traits  
-**Cost**: 1 CP (or free starting selection)
+**Category**: TRAITS
+**Tier**: Basic
+**Type**: Common Occupational Trait
+**BP Cost**: 1
 
 ## Description
 Recognized industry standing and professional reliability.
-
-## Mechanics & Benefits
-+2 to Reputation Score.

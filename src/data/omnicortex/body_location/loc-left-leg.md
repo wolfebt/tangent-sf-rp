@@ -1,0 +1,38 @@
+---
+id: loc-left-leg
+name: Left Leg
+maxNodes: 40
+maxSockets: 4
+baseSP: 40
+isHardened: false
+description: >-
+  Foot, ankle, shin, thigh, hydraulic jump boosters, kinetic dampeners, and
+  speed servomotors.
+category: body_location
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
+---
+# Left Leg
+
+**Category**: BODY LOCATION
+
+## Description
+Foot, ankle, shin, thigh, hydraulic jump boosters, kinetic dampeners, and speed servomotors.

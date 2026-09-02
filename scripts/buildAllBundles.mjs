@@ -10,6 +10,7 @@ const scriptsDir = path.join(projectRoot, 'scripts');
 
 const buildSteps = [
   { name: 'Species', script: 'syncOmnicortexSpecies.mjs' },
+  { name: 'Species Types', script: 'syncOmnicortexSpeciesTypes.mjs' },
   { name: 'Features', script: 'syncOmnicortexFeatures.mjs' },
   { name: 'Traits', script: 'syncSpeciesTraits.mjs' },
   { name: 'Disadvantages', script: 'syncSpeciesDisadvantages.mjs' },

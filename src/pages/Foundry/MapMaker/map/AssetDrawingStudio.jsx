@@ -1461,8 +1461,8 @@ export default function AssetDrawingStudio({
 
       {/* Procedural Synthesizer Modal */}
       {showGeneratorModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-          <div className="bg-[#161b22] border border-[#0D5C63] rounded-xl w-full max-w-md p-5 shadow-2xl text-slate-100 flex flex-col gap-4">
+        <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 pt-10 sm:pt-14 pb-12 overflow-y-auto select-none font-sans">
+          <div className="bg-[#161b22] border border-[#0D5C63] rounded-xl w-full max-w-md p-5 shadow-2xl text-slate-100 flex flex-col gap-4 max-h-[85vh] sm:max-h-[88vh] overflow-hidden">
             <div className="flex items-center justify-between border-b border-[#0D5C63]/40 pb-2">
               <h3 className="text-sm font-bold uppercase text-[#22d3ee] tracking-wider flex items-center gap-2">
                 <span>✨</span> Procedural Texture Synthesizer

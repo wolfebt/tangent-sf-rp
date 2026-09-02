@@ -3,102 +3,61 @@ id: species-human-draconic
 name: Draconic Human
 title: Draconic Human (Dragonkin Bloodline)
 category: species
-parent_species: Humans
+parent_species: Humans (Core & Variants)
 type:
   - species_type-humanoid
 size:
   - species_size-medium
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 5 ft
+senses: Standard visual and auditory range.
+immunities: None
+inherent_attribute_modifiers: []
+bonus_attribute_points: 1
+specific_skill_bonuses:
+  - skill: Intimidation
+    bonus: 1
+  - skill: Athletics
+    bonus: 1
+bonus_skills: 0
+bonus_skill_choices:
+  - Intimidation
+  - Athletics
+  - Combat
+  - Leadership
+inherent_features:
+  - trait-dragonkin-traits-partial-scales-dr-1-heat-resistance
+  - trait-status-dynasty-ties
+  - trait-fiery-resolve
+bonus_features: []
+bonus_feature_choices:
+  - Thermal Breath
+  - Dragon Eye Sight
+  - Noble Bearing
+recommended_features:
+  - feature-thermal-breath
 stigma: Draconic (-2)
 tech_level: 3 (Dracon Dynasty Imperial Tech)
 meta_level: 2 (Elemental Fire)
 homeworld: Dracon Dynasty Capitals
-cp: 16
-description: >-
-  Humans bearing the nobility mark and genetic legacy of the Dracon Dynasty.
-  They possess patchworks of iridescent scales, heat tolerance, and commanding
-  social presence.
 costs:
-  bp: 16
+  bp: 10
   credits: 0
   nodes: 0
   sockets: 0
   strain: 0
   focus: 0
   ap: 0
-modifiers:
-  - target: Any Attribute
-    type: attribute
-    value: 1
-    mode: bonus_pool
-  - target: Intimidation
-    type: skill
-    value: 1
-    mode: inherent
-  - target: Athletics
-    type: skill
-    value: 1
-    mode: inherent
-  - target: Intimidation
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Athletics
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Combat
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Leadership
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: 'Dragonkin Traits (Partial Scales DR 1/-, Heat Resistance)'
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Status (Dynasty Ties)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Fiery Resolve
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Thermal Breath
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Dragon Eye Sight
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Noble Bearing
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-thermal-breath
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+modifiers: []
+cp_cost: 10
+cp: 10
+bp: 10
+description: >-
+  Humans bearing the nobility mark and genetic legacy of the Dracon Dynasty.
+  They possess patchworks of iridescent scales, heat tolerance, and commanding
+  social presence.
 ---
 # Draconic Human (Dragonkin Bloodline)
 

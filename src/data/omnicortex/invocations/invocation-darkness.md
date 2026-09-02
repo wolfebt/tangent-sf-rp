@@ -2,8 +2,8 @@
 id: invocation-darkness
 name: DARKNESS
 category: invocations
-discipline: Entropy
-description: DARKNESS invocation for Entropy reality manipulation.
+discipline: Illusion
+description: DARKNESS invocation for Illusion reality manipulation.
 costs:
   bp: 0
   credits: 0
@@ -25,11 +25,10 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # DARKNESS Invocation
 
 **Category**: Invocations  
-**Discipline**: Entropy
+**Discipline**: Illusion
 
 ## Description & Ritual Details
 Classification: Illusion (Shadow) | Environmental | \[Obscurement\] \[Negative Light\]  

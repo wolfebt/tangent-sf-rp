@@ -2,8 +2,8 @@
 id: invocation-touch-of-death
 name: TOUCH OF DEATH
 category: invocations
-discipline: Energy
-description: TOUCH OF DEATH invocation for Energy reality manipulation.
+discipline: Entropy
+description: TOUCH OF DEATH invocation for Entropy reality manipulation.
 costs:
   bp: 0
   credits: 0
@@ -25,11 +25,10 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # TOUCH OF DEATH Invocation
 
 **Category**: Invocations  
-**Discipline**: Energy
+**Discipline**: Entropy
 
 ## Description & Ritual Details
 Classification: Entropy (Chaos) | Attack | \[Necrotic\] \[Lethal\]  

@@ -2,8 +2,8 @@
 id: invocation-grafting
 name: GRAFTING
 category: invocations
-discipline: Entropy
-description: GRAFTING invocation for Entropy reality manipulation.
+discipline: Matter
+description: GRAFTING invocation for Matter reality manipulation.
 costs:
   bp: 0
   credits: 0
@@ -25,11 +25,10 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # GRAFTING Invocation
 
 **Category**: Invocations  
-**Discipline**: Entropy
+**Discipline**: Matter
 
 ## Description & Ritual Details
 Classification: Matter (Transmutation) | Healing/Utility | \[Fusion\] \[Modification\]  

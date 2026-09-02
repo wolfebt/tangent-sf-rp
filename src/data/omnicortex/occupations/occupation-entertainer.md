@@ -16,16 +16,16 @@ archetypes:
   - Actor
   - Courtesan
 traits:
-  - trait-entertainer-adaptable
-  - trait-entertainer-charismatic
-  - trait-entertainer-confident
-  - trait-entertainer-creative
-  - trait-entertainer-energetic
-  - trait-entertainer-fans
-  - trait-entertainer-fellow-artists
-  - trait-entertainer-freedom
-  - trait-entertainer-fun
-  - trait-entertainer-venues
+  - trait-adaptability
+  - trait-charismatic
+  - trait-confident
+  - trait-creative
+  - trait-energetic
+  - trait-fans
+  - trait-fellow-artists
+  - trait-freedom
+  - trait-fun
+  - trait-venues
 description: >-
   Entertainers might perform in various forms of art, such as music, dance,
   acting, or even virtual reality experiences. They could use advanced

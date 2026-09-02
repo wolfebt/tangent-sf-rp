@@ -10,16 +10,38 @@ size:
   - species_size-large
 movement:
   - species_movement-flight
+speeds: Flight 60 ft
+reach: 10 ft
+senses: 'Darkvision out to 60 feet. [1]'
+immunities: None
+inherent_attribute_modifiers:
+  - attribute: Intellect
+    bonus: 4
+bonus_attribute_points: 6
+specific_skill_bonuses:
+  - skill: Discipline
+    bonus: 4
+bonus_skills: 40
+bonus_skill_choices:
+  - All Categories
+inherent_features:
+  - trait-progenitor-heritage-base
+  - trait-large-size
+  - trait-absolute-mental-fortitude
+  - trait-matter-reshaping-special-ability
+bonus_features: []
+bonus_feature_choices:
+  - Temporal Fold
+  - Dimensional Sever
+  - Universal Translation
+recommended_features:
+  - feature-temporal-fold
 stigma: 'Deific (-6), Xeno (-2)'
 tech_level: 5 (Exotic Precursor Tech)
 meta_level: 6 (Deific Metaphysics)
 homeworld: Extragalactic Citadel of Void
-cp: 95
-description: >-
-  U’Nonn are ancient primordial progenitors who command matter and energy
-  directly through pure thought and deific metaphysical matrices.
 costs:
-  bp: 95
+  bp: 81
   credits: 0
   nodes: 0
   sockets: 0
@@ -28,72 +50,27 @@ costs:
   ap: 0
 modifiers:
   - target: Intellect
-    type: attribute
     value: 4
-    mode: inherent
-  - target: Any Attribute
     type: attribute
-    value: 6
-    mode: bonus_pool
-  - target: Discipline
+    mode: inherent
+  - target: Strength
+    value: 2
+    type: attribute
+    mode: size_modifier
+  - target: Combat / Defense
+    value: -2
+    type: combat
+    mode: size_modifier
+  - target: Stealth
+    value: -4
     type: skill
-    value: 4
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 40
-    mode: bonus_pool
-  - target: All Categories
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Progenitor Heritage Base
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Large Size
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Absolute Mental Fortitude
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Matter Reshaping (Special Ability)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 3
-    mode: bonus_pool
-  - target: Temporal Fold
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Dimensional Sever
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Universal Translation
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-temporal-fold
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+    mode: size_modifier
+cp_cost: 81
+cp: 81
+bp: 81
+description: >-
+  U’Nonn are ancient primordial progenitors who command matter and energy
+  directly through pure thought and deific metaphysical matrices.
 ---
 # U’Nonn (Ancient Reality Shaper)
 

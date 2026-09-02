@@ -11,114 +11,57 @@ size:
 movement:
   - species_movement-bipedal
   - species_movement-swimming
+speeds: 'Ground 30 ft, Swim 30 ft'
+reach: 5 ft
+senses: 'Darkvision out to 60 feet. [1]'
+immunities: None
+inherent_attribute_modifiers: []
+bonus_attribute_points: 0
+specific_skill_bonuses:
+  - skill: Stealth (Camouflage)
+    bonus: 2
+bonus_skills: 5
+bonus_skill_choices:
+  - Stealth
+  - Science
+  - Medicine
+  - Athletics
+inherent_features:
+  - trait-adapted-deep-sea-pelagic
+  - trait-awakened-psychic
+  - trait-amphibious
+  - trait-biotech-affinity
+  - trait-chameleon-skin-4-stealth
+  - trait-fast-healing
+  - trait-tentacles-4-prehensile-grasping-limbs
+  - trait-quick-movement
+  - trait-regeneration-3-hp-rnd
+bonus_features: []
+bonus_feature_choices:
+  - Ink Cloud Blast
+  - Tentacle Grapple
+  - Neural Drain
+recommended_features:
+  - feature-chameleon-skin
 stigma: Xeno (-2)
 tech_level: 4 (Bio-Organic Submersibles & Neural Syringes)
 meta_level: 3 (Aquatic Psionics)
 homeworld: Sefalia Ocean Trench Capitals
-cp: 25
-description: >-
-  Tentacled cephalopod humanoids from abyssal trenches possessing dynamic
-  chromatophore skin, rapid limb regeneration, and formidable intellects.
 costs:
-  bp: 25
+  bp: 14
   credits: 0
   nodes: 0
   sockets: 0
   strain: 0
   focus: 0
   ap: 0
-modifiers:
-  - target: Stealth (Camouflage)
-    type: skill
-    value: 2
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 5
-    mode: bonus_pool
-  - target: Stealth
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Science
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Medicine
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Athletics
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Adapted (Deep Sea / Pelagic)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Awakened (Psychic)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Amphibious
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Biotech Affinity
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Chameleon Skin (+4 Stealth)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Fast Healing
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Tentacles (4 Prehensile Grasping Limbs)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Quick Movement
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Regeneration (3 HP/rnd)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Ink Cloud Blast
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Tentacle Grapple
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Neural Drain
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-chameleon-skin
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+modifiers: []
+cp_cost: 14
+cp: 14
+bp: 14
+description: >-
+  Tentacled cephalopod humanoids from abyssal trenches possessing dynamic
+  chromatophore skin, rapid limb regeneration, and formidable intellects.
 ---
 # Sefalin (Cephalopod Aberration)
 
@@ -127,18 +70,19 @@ Tentacled cephalopod humanoids from abyssal trenches possessing dynamic chromato
 
 ## Core Identity
 - **Lineage**: Independent Xenotypes
+- **Type**: species_type-aberration
+- **Size**: species_size-medium
+- **Movement**: Ground 30 ft, Swim 30 ft
 - **Homeworld**: Sefalia Ocean Trench Capitals
 - **Tech Level**: 4 (Bio-Organic Submersibles & Neural Syringes)
 - **Meta Level**: 3 (Aquatic Psionics)
 - **Stigma**: Xeno (-2)
 
 ## Mechanics & Statblock
-- **BP Cost**: 25 BP
-- **Size**: species_size-medium
-- **Movement**: species_movement-bipedal, species_movement-swimming
-- **Ability Modifiers**: None
+- **BP Cost**: 14 BP
+- **Inherent Modifiers**: None
 - **Bonus Skills**: +5 Skill Points
-- **Inherent Features & Traits**: Adapted (Deep Sea / Pelagic), Awakened (Psychic), Amphibious, Biotech Affinity, Chameleon Skin (+4 Stealth), Fast Healing, Tentacles (4 Prehensile Grasping Limbs), Quick Movement, Regeneration (3 HP/rnd)
+- **Inherent Features**: Adapted (Deep Sea / Pelagic), Awakened (Psychic), Amphibious, Biotech Affinity, Chameleon Skin (+4 Stealth), Fast Healing, Tentacles (4 Prehensile Grasping Limbs), Quick Movement, Regeneration (3 HP/rnd)
 - **Recommended Features**: feature-chameleon-skin
 
 ## Roleplay & Society

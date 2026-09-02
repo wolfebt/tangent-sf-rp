@@ -2,8 +2,8 @@
 id: invocation-wound
 name: WOUND
 category: invocations
-discipline: Energy
-description: WOUND invocation for Energy reality manipulation.
+discipline: Entropy
+description: WOUND invocation for Entropy reality manipulation.
 costs:
   bp: 0
   credits: 0
@@ -25,11 +25,10 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # WOUND Invocation
 
 **Category**: Invocations  
-**Discipline**: Energy
+**Discipline**: Entropy
 
 ## Description & Ritual Details
 Classification: Entropy (Chaos) | Attack | \[Necrotic\] \[Bio-Degradation\]  

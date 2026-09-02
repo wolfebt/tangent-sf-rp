@@ -1,10 +1,16 @@
 ---
 id: species_movement-quadruped
-name: "Quadrupedal Locomotion"
+name: Quadrupedal Locomotion
 category: species_movement
-type: "Ground"
+classification: mode
+target_mode: Ground
+type: Ground
+base_speed: 40
 speed: 40
-description: "Four-legged locomotion providing stability and enhanced ground speed (+10 ft bonus over humanoid baseline)."
+bp: 0
+description: >-
+  Four-legged locomotion providing natural stability (+4 vs trip/knockdown) and
+  enhanced baseline ground speed of 40 ft/round.
 costs:
   bp: 0
   credits: 0
@@ -13,24 +19,13 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
-
 # Quadrupedal Locomotion
 
-**Mode Type**: Ground  
+**Category**: Species Movement (MODE)  
+**Target Mode**: Ground  
+**Cost**: +0 BP  
 **Base Speed**: 40 ft / round  
 
 ## Description
-Four-legged locomotion providing stability and enhanced ground speed (+10 ft bonus over humanoid baseline).
+Four-legged locomotion providing natural stability (+4 vs trip/knockdown) and enhanced baseline ground speed of 40 ft/round.

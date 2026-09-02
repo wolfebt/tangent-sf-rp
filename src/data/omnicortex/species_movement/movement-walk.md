@@ -1,8 +1,13 @@
 ---
 id: movement-walk
-name: "Ground: Walk Pace"
+name: 'Ground: Walk Pace (1x Base)'
 category: species_movement
-description: Default baseline movement pace for all ground locomotion.
+classification: pace
+target_mode: Ground
+multiplier: 1
+speed: 30
+bp: 0
+description: Default baseline movement pace for all ground locomotion (1x Base Walk).
 costs:
   bp: 0
   credits: 0
@@ -11,31 +16,12 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-speed: 30
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
+# Ground: Walk Pace (1x Base)
 
-# Ground: Walk Pace
-
-**Category**: Movement Modes & Paces  
-**Movement Mode**: Ground  
-**Speed Multiplier**: 1x Base  
-**Medium Speed Baseline**: 30 ft / round  
+**Category**: Species Movement (PACE)  
+**Target Mode**: Ground  
+**Cost**: +0 BP  
 
 ## Description
-Default baseline movement pace for all ground locomotion.
-
-## Tactical Modifiers & Checks
-- **Action Penalty / Modifier**: None
-- **Required Check**: None
+Default baseline movement pace for all ground locomotion (1x Base Walk).

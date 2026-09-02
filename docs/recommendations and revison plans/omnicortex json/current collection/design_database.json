@@ -1,1 +1,42 @@
-[]
+[
+  {
+    "id": "design-bullpup",
+    "name": "Bullpup Configuration",
+    "description": "Action behind trigger; maintains full barrel length in a compact, CQB-ready profile."
+  },
+  {
+    "id": "design-heavy-frame",
+    "name": "Heavy Frame",
+    "description": "Reinforced receiver with integrated thermal heat sinks and recoil buffers."
+  },
+  {
+    "id": "design-compact",
+    "name": "Compact / Concealed",
+    "description": "Miniaturized frame with folding stock designed for covert personal defense."
+  },
+  {
+    "id": "design-modular-chassis",
+    "name": "Modular Chassis",
+    "description": "Standardized rail system allowing rapid swapping of barrels, calibers, and optics."
+  },
+  {
+    "id": "design-reinforced-exo",
+    "name": "Reinforced Exoskeleton",
+    "description": "External hydraulic articulation frame that augments physical carrying capacity."
+  },
+  {
+    "id": "design-micro-platform",
+    "name": "Micro-Platform",
+    "description": "Sub-compact form factor optimized for tiny drones or wrist-mounted modules."
+  },
+  {
+    "id": "design-precursor-matrix",
+    "name": "Precursor Matrix",
+    "description": "Ancient architectural geometry that channels ambient metaphysical energy."
+  },
+  {
+    "id": "design-biomechanical",
+    "name": "Bio-Mechanical Hybrid",
+    "description": "Chassis integrating synthetic titanium servos with living organic muscle fibers."
+  }
+]

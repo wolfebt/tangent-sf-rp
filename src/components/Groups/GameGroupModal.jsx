@@ -291,8 +291,8 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
   });
 
   const modalContent = (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-3 sm:p-5 animate-fade-in select-none">
-      <div className="bg-[#0b0f17] border border-cyan-500/40 rounded-2xl w-full max-w-4xl overflow-hidden shadow-[0_0_60px_rgba(0,0,0,0.9)] flex flex-col h-[90vh] max-h-[820px]">
+    <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/85 backdrop-blur-md p-3 sm:p-5 pt-8 sm:pt-12 md:pt-14 pb-12 overflow-y-auto animate-fade-in select-none font-sans">
+      <div className="bg-[#0b0f17] border border-cyan-500/40 rounded-2xl w-full max-w-4xl overflow-hidden shadow-[0_0_60px_rgba(0,0,0,0.9)] flex flex-col max-h-[85vh] sm:max-h-[88vh]">
         
         {/* Top Header Banner */}
         <div className="p-4 border-b border-slate-800 bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-cyan-950/40 flex items-center justify-between">
@@ -961,7 +961,7 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
       {/* Enlarged QR Code Modal */}
       {showEnlargedQr && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4 animate-fade-in"
+          className="fixed inset-0 z-[250] flex items-start justify-center bg-black/90 backdrop-blur-md p-4 pt-16 pb-12 overflow-y-auto animate-fade-in font-sans"
           onClick={() => setShowEnlargedQr(false)}
         >
           <div 

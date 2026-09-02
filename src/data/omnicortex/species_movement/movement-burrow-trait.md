@@ -1,9 +1,16 @@
 ---
 id: movement-burrow-trait
-name: Burrow
+name: Innate Burrowing
 category: species_movement
-movement_type: Mode
-description: "Base Burrow Speed 20."
+classification: mode
+target_mode: Burrowing
+type: Burrowing
+base_speed: 20
+speed: 20
+bp: 2
+description: >-
+  Excavator claws or subterranean body shape granting Base Burrow Speed 20 ft
+  through soil, sand, and unworked earth.
 costs:
   bp: 2
   credits: 0
@@ -12,32 +19,13 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-speed: 20
-is_ranked: false
-is_exclusive: false
-is_disadvantage: false
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
+# Innate Burrowing
 
-# Burrow
+**Category**: Species Movement (MODE)  
+**Target Mode**: Burrowing  
+**Cost**: +2 BP  
+**Base Speed**: 20 ft / round  
 
-**Category**: Species Movement (Mode)  
-**Cost**: 2 BP  
-**Classification**: Mode  
-
-## Effect
-Base Burrow Speed 20.
-
-## Mechanics & Rules
-Grants an innate Base Burrow Speed of 20 feet per round through loose soil, sand, and unworked earth.
+## Description
+Excavator claws or subterranean body shape granting Base Burrow Speed 20 ft through soil, sand, and unworked earth.

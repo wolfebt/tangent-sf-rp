@@ -391,7 +391,7 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
 
       {/* Delete Confirmation Overlay */}
       {deleteConfirmDocId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+        <div className="fixed inset-0 z-[250] flex items-start justify-center bg-black/85 backdrop-blur-md p-4 pt-16 pb-12 overflow-y-auto select-none font-sans">
           <div className="bg-slate-900 border border-red-500/70 rounded-xl max-w-md w-full p-5 text-slate-100 space-y-3 shadow-2xl">
             <h3 className="text-sm font-bold font-mono uppercase text-red-400 flex items-center gap-2">
               <Trash2 size={16} /> Confirm Persona Deletion

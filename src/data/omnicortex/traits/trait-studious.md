@@ -1,12 +1,9 @@
 ---
 id: trait-studious
 name: Studious
-category: traits
+trait_tier: Basic
 trait_type: Origin Trait
-origin_association: Research
-description: >-
-  Deep immersion in research databases, academic journals, and historical
-  archives.
+category: traits
 costs:
   bp: 1
   credits: 0
@@ -15,6 +12,9 @@ costs:
   strain: 0
   focus: 0
   ap: 0
+description: >-
+  Deep immersion in research databases, academic journals, and historical
+  archives.
 modifiers: []
 modifications: []
 critical_details:
@@ -28,15 +28,12 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # Studious
 
-**Category**: Origin Traits  
-**Associated Origin**: Research  
-**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait
+**Category**: TRAITS
+**Tier**: Basic
+**Type**: Origin Trait
+**BP Cost**: 1
 
 ## Description
 Deep immersion in research databases, academic journals, and historical archives.
-
-## Mechanics & Benefits
-+2 to one chosen Knowledge skill.

@@ -18,8 +18,8 @@ export const CodexIngestionModal = ({
   const DatasetIcon = dataset?.icon || Database;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-hidden select-none font-sans animate-fade-in">
-      <div className="w-full max-w-7xl h-[92vh] max-h-[950px] bg-[#070a12] border border-cyan-500/40 rounded-2xl shadow-[0_0_50px_rgba(6,182,212,0.25)] flex flex-col overflow-hidden text-slate-100">
+    <div className="fixed inset-0 z-[250] bg-black/85 backdrop-blur-md flex items-start justify-center p-2 sm:p-4 md:p-6 pt-6 sm:pt-10 md:pt-12 pb-8 overflow-y-auto select-none font-sans animate-fade-in">
+      <div className="w-full max-w-7xl max-h-[88vh] sm:max-h-[90vh] bg-[#070a12] border border-cyan-500/40 rounded-2xl shadow-[0_0_50px_rgba(6,182,212,0.25)] flex flex-col overflow-hidden text-slate-100">
         
         {/* Modal Top Chrome */}
         <div className="px-5 py-3.5 bg-slate-950/90 border-b border-slate-800 flex items-center justify-between shrink-0">

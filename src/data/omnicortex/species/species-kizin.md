@@ -10,16 +10,47 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 5 ft
+senses: Standard visual and auditory range.
+immunities: None
+inherent_attribute_modifiers:
+  - attribute: Intellect
+    bonus: 1
+  - attribute: Agility
+    bonus: 1
+bonus_attribute_points: 0
+specific_skill_bonuses:
+  - skill: Stealth
+    bonus: 2
+  - skill: Investigation
+    bonus: 1
+bonus_skills: 5
+bonus_skill_choices:
+  - Stealth
+  - Investigation
+  - Technology
+  - Perception
+  - Acrobatics
+inherent_features:
+  - trait-digitigrade
+  - trait-low-light-vision
+  - trait-acute-scent
+  - trait-silent-stride
+  - trait-retractable-claws
+bonus_features: []
+bonus_feature_choices:
+  - Ambush Reflex
+  - Nimble Leap
+  - Inquisitive Mind
+recommended_features:
+  - feature-ambush-reflex
 stigma: Xeno (-2)
 tech_level: 3 (Sensory Scanners & Covert Tech)
 meta_level: 2 (Intuitive Psionics)
 homeworld: Kizina Enclaves
-cp: 16
-description: >-
-  Sleek feline humanoids known for sharp intellects, stealth, curiosity, and
-  forensic deductive abilities.
 costs:
-  bp: 16
+  bp: 15
   credits: 0
   nodes: 0
   sockets: 0
@@ -28,96 +59,19 @@ costs:
   ap: 0
 modifiers:
   - target: Intellect
-    type: attribute
     value: 1
+    type: attribute
     mode: inherent
   - target: Agility
+    value: 1
     type: attribute
-    value: 1
     mode: inherent
-  - target: Stealth
-    type: skill
-    value: 2
-    mode: inherent
-  - target: Investigation
-    type: skill
-    value: 1
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 5
-    mode: bonus_pool
-  - target: Stealth
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Investigation
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Technology
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Perception
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Acrobatics
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Digitigrade
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Low Light Vision
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Acute Scent
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Silent Stride
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Retractable Claws
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Ambush Reflex
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Nimble Leap
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Inquisitive Mind
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-ambush-reflex
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+cp_cost: 15
+cp: 15
+bp: 15
+description: >-
+  Sleek feline humanoids known for sharp intellects, stealth, curiosity, and
+  forensic deductive abilities.
 ---
 # Kizin (Feline Scout)
 
@@ -166,13 +120,3 @@ Stealthy
 Quick  
 Uncanny Sense (Scent)  
 Uncanny Sense (Hearing)
-
-
-## Extended Lore & Background
-
-Physically, they possess the cunning and sharp features often associated with foxes, though rendered in a bipedal form. Their bodies are typically lean and agile, built for swift movement and quick reflexes. Their coat colors can vary widely, ranging from earthy reds and browns to more exotic whites, blacks, and dappled patterns, often with lighter fur marking their chests and the tips of their tails.
-
-Beyond their physical characteristics, Kizin are renowned for their high intelligence. They possess sharp minds, a knack for puzzles, and a rapid ability to learn and adapt, making them excellent strategists, engineers, and scholars in their own right. This mental acuity, however, is often closely linked to their most defining trait: an insatiable, overwhelming over-curiosity.
-
-While they are frequently perceived as mischievous, this reputation stems less from an inclination toward deliberate harm or villainy, and more from their profound need to investigate, disassemble, and understand the world around them. A Kizin's "prank" is rarely malicious; it is far more likely a poorly considered experiment, a consequence of wanting to know *what happens if* they tamper with a mechanism, unlock a door, or simply follow a fascinating secret down a troublesome path. Their nature, therefore, is fundamentally one of discovery and exploration, often prioritizing new knowledge or experiences above social etiquette or personal safety.
-

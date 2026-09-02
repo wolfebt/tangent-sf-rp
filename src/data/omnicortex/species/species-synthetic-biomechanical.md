@@ -10,16 +10,44 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 5 ft
+senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
+immunities: >-
+  Asphyxiation, bleeding, critical hits, poison, biological disease, starvation,
+  sleep [9]
+inherent_attribute_modifiers:
+  - attribute: Charisma
+    bonus: -2
+bonus_attribute_points: 2
+specific_skill_bonuses:
+  - skill: Science (Bio-Engineering)
+    bonus: 2
+bonus_skills: 20
+bonus_skill_choices:
+  - Science
+  - Engineering
+  - Medicine
+  - Athletics
+  - Discipline
+inherent_features:
+  - trait-synthetic-base-traits
+  - trait-adaptive-aspects-rapid-evolutionary-resistance
+  - trait-self-healing-bio-circuits
+  - trait-hybrid-metabolism-fuel-or-food
+bonus_features: []
+bonus_feature_choices:
+  - Chitin Plating
+  - Bio-Electric Arc
+  - Neural Overclock
+recommended_features:
+  - feature-chitin-plating
 stigma: Xeno (-2)
 tech_level: 4 (Biomechanical Synthesis)
 meta_level: 2 (Cyber-Psionics)
 homeworld: Bio-Mech Nexus Habitats
-cp: 32
-description: >-
-  Biomechanical synthetics fuse vat-grown organic muscle and vascular organs
-  with titanium endoskeletons and optronic neural processors.
 costs:
-  bp: 32
+  bp: 51
   credits: 0
   nodes: 0
   sockets: 0
@@ -28,88 +56,15 @@ costs:
   ap: 0
 modifiers:
   - target: Charisma
-    type: attribute
     value: -2
-    mode: inherent
-  - target: Any Attribute
     type: attribute
-    value: 2
-    mode: bonus_pool
-  - target: Science (Bio-Engineering)
-    type: skill
-    value: 2
     mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 20
-    mode: bonus_pool
-  - target: Science
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Engineering
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Medicine
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Athletics
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Discipline
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Synthetic Base Traits
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Adaptive Aspects (Rapid Evolutionary Resistance)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Self-Healing Bio-Circuits
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Hybrid Metabolism (Fuel or Food)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Chitin Plating
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Bio-Electric Arc
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Neural Overclock
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-chitin-plating
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+cp_cost: 51
+cp: 51
+bp: 51
+description: >-
+  Biomechanical synthetics fuse vat-grown organic muscle and vascular organs
+  with titanium endoskeletons and optronic neural processors.
 ---
 # Biomechanical (Cyber-Organic Hybrid)
 

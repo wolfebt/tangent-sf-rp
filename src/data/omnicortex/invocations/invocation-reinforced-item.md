@@ -2,8 +2,8 @@
 id: invocation-reinforced-item
 name: REINFORCED ITEM
 category: invocations
-discipline: Energy
-description: REINFORCED ITEM invocation for Energy reality manipulation.
+discipline: Matter
+description: REINFORCED ITEM invocation for Matter reality manipulation.
 costs:
   bp: 0
   credits: 0
@@ -25,11 +25,10 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # REINFORCED ITEM Invocation
 
 **Category**: Invocations  
-**Discipline**: Energy
+**Discipline**: Matter
 
 ## Description & Ritual Details
 Classification: Matter (Enhancement) | Utility | \[Minor\] \[Buff\]  

@@ -1,1 +1,50 @@
-[]
+[
+  {
+    "id": "society_devices_lvl_0",
+    "category": "society_devices",
+    "name": "Devices & Apparatus (Level 0: Primitive / Subsistence)",
+    "level": 0,
+    "sphere_key": "society_devices",
+    "description": "Level 0 development in Devices & Apparatus: Consumer electronics, personal computing, sensors, tools, and apparatus. (Primitive / Subsistence)."
+  },
+  {
+    "id": "society_devices_lvl_1",
+    "category": "society_devices",
+    "name": "Devices & Apparatus (Level 1: Emerging / Industrial)",
+    "level": 1,
+    "sphere_key": "society_devices",
+    "description": "Level 1 development in Devices & Apparatus: Consumer electronics, personal computing, sensors, tools, and apparatus. (Emerging / Industrial)."
+  },
+  {
+    "id": "society_devices_lvl_2",
+    "category": "society_devices",
+    "name": "Devices & Apparatus (Level 2: Modern / Planetary)",
+    "level": 2,
+    "sphere_key": "society_devices",
+    "description": "Level 2 development in Devices & Apparatus: Consumer electronics, personal computing, sensors, tools, and apparatus. (Modern / Planetary)."
+  },
+  {
+    "id": "society_devices_lvl_3",
+    "category": "society_devices",
+    "name": "Devices & Apparatus (Level 3: Advanced / Stellar)",
+    "level": 3,
+    "sphere_key": "society_devices",
+    "description": "Level 3 development in Devices & Apparatus: Consumer electronics, personal computing, sensors, tools, and apparatus. (Advanced / Stellar)."
+  },
+  {
+    "id": "society_devices_lvl_4",
+    "category": "society_devices",
+    "name": "Devices & Apparatus (Level 4: Mastered / Interstellar)",
+    "level": 4,
+    "sphere_key": "society_devices",
+    "description": "Level 4 development in Devices & Apparatus: Consumer electronics, personal computing, sensors, tools, and apparatus. (Mastered / Interstellar)."
+  },
+  {
+    "id": "society_devices_lvl_5",
+    "category": "society_devices",
+    "name": "Devices & Apparatus (Level 5: Transcendent / Deific)",
+    "level": 5,
+    "sphere_key": "society_devices",
+    "description": "Level 5 development in Devices & Apparatus: Consumer electronics, personal computing, sensors, tools, and apparatus. (Transcendent / Deific)."
+  }
+]

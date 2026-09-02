@@ -27,8 +27,8 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
+discipline: Illusion + Dimension
 ---
-
 # Spatial Labyrinth (Composite Invocation)
 
 **Category**: Composite Invocations  

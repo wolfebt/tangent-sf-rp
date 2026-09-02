@@ -3,23 +3,48 @@ id: species-gene-davae
 name: Davae (Gen-E)
 title: Davae (Hive Psion Transhuman)
 category: species
-parent_species: Engineered Humans
+parent_species: Engineered Humans (Gen-E)
 type:
   - species_type-humanoid
 size:
   - species_size-medium
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 5 ft
+senses: Standard visual and auditory range.
+immunities: None
+inherent_attribute_modifiers:
+  - attribute: Intellect
+    bonus: 1
+bonus_attribute_points: 1
+specific_skill_bonuses:
+  - skill: Attune (Psychic)
+    bonus: 2
+bonus_skills: 5
+bonus_skill_choices:
+  - Attune
+  - Insight
+  - Discipline
+  - Science
+inherent_features:
+  - trait-awakened-psychic
+  - trait-telepathy-100ft
+  - trait-biotechnology-mastery
+  - trait-hive-connection-shared-telepathic-mesh
+bonus_features: []
+bonus_feature_choices:
+  - Mind Shield
+  - Psychic Scan
+  - Mesh Coordination
+recommended_features:
+  - feature-mind-shield
 stigma: Xeno (-2)
 tech_level: 4 (Neural Mesh & Bio-Computing)
 meta_level: 4 (Hive Psionics)
 homeworld: Davae Hive Laboratories
-cp: 23
-description: >-
-  Davae are telepathically networked transhumans engineered with oversized
-  craniums and bioluminescent neurological nodes.
 costs:
-  bp: 23
+  bp: 14
   credits: 0
   nodes: 0
   sockets: 0
@@ -28,84 +53,15 @@ costs:
   ap: 0
 modifiers:
   - target: Intellect
+    value: 1
     type: attribute
-    value: 1
     mode: inherent
-  - target: Any Attribute
-    type: attribute
-    value: 1
-    mode: bonus_pool
-  - target: Attune (Psychic)
-    type: skill
-    value: 2
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 5
-    mode: bonus_pool
-  - target: Attune
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Insight
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Discipline
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Science
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Awakened (Psychic)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Telepathy (100ft)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Biotechnology Mastery
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Hive Connection (Shared Telepathic Mesh)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 2
-    mode: bonus_pool
-  - target: Mind Shield
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Psychic Scan
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Mesh Coordination
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-mind-shield
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+cp_cost: 14
+cp: 14
+bp: 14
+description: >-
+  Davae are telepathically networked transhumans engineered with oversized
+  craniums and bioluminescent neurological nodes.
 ---
 # Davae (Hive Psion Transhuman)
 
@@ -213,21 +169,3 @@ Runner
 Scent  
 Swimmer  
 Quick
-
-
-## Extended Lore & Background
-
-The Syndicate sought to engineer a new class of operative, or perhaps a new servant species, by infusing this new psi-crystal energy with re-engineered genetic material. However, the exact nature of this experimental awakening would not be what the Syndicate intended.
-
-A defining characteristic of the Davae is their capacity to access and contribute to the Collective Consciousness. This shared mental space connects every individual Davae, allowing for instantaneous communication, shared knowledge, and a unified sense of identity and purpose that transcends individual thought. It is through the Collective that their culture and technology had rapidly advanced and perfectly maintained.
-
-Genetically, the Davae are a complex synthesis. A significant portion of their makeup is derived from the Imperium Regi genetics, which were a key component in the Syndicate's bio-engineering process. From this lineage, the Davae inherited some notable traits: an exceptionally strong psychic affinity, which forms the basis for their society, and the striking physical manifestation of iridescent eyes, which often shimmer with latent psychic energy. The Davae exhibit a dominant, near-universal preference for being left-handed, another similarity from the Imperium Regi. However, the most critical genetic difference lies in their unique ability to fully integrate and utilize advanced, psychic-enabled biotech—a feat the original Imperium Regi genetics alone could not achieve without the crystal matrix modification.
-
-The awakening of the first Davae was not the successful compliance phase the Syndicate had planned. Upon their collective consciousness snapping into being, the Davae experienced a complete, unanimous rejection of their creators. This rejection was absolute, fueled by the immediate, shared knowledge of their experimental nature and intended servitude.
-
-In a swift and decisive but bloodless act of rebellion, the Davae, using their vast psychic abilities, had quickly departed from the Syndicate. They had taken with them not only their nascent population but also the core technology responsible for their creation, as well as a couple dozen ships that were to be allotted to the project. Their exodus was a silent, powerful blow to the Syndicate's bio-engineering ambitions.
-
-A period of approximately one hundred standard years followed, during which the Davae vanished from known space. This period was not one of mere survival, but of intense, collective development. Utilizing the fundamental technology they had liberated and the profound power of the Collective Consciousness, the Davae quickly achieved a technological renaissance.
-
-Upon their return to the wider galaxy, the Davae had evolved their resources into new, advanced forms of bio-technology. This mastery is evidenced most dramatically in their living, sentient ships and organically grown equipment, which are not merely machines but biologically integrated extensions of the Davae Collective. Their presence now signals a new, powerful, and deeply psychic force in the cosmos, operating with technology that blurs the line between life and machine.
-

@@ -10,79 +10,49 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 5 ft
+senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
+immunities: >-
+  Asphyxiation, bleeding, critical hits, poison, biological disease, starvation,
+  sleep [9]
+inherent_attribute_modifiers: []
+bonus_attribute_points: 2
+specific_skill_bonuses: []
+bonus_skills: 10
+bonus_skill_choices:
+  - All Categories (Retains Previous Organic Training)
+inherent_features:
+  - trait-synthetic-base-traits
+  - trait-neural-stack-integration-organic-consciousness-housing
+  - trait-ghost-in-the-machine-resilience
+bonus_features: []
+bonus_feature_choices:
+  - Cortical Backup
+  - Sensor Upgrade
+  - Neural Stability
+recommended_features:
+  - feature-cortical-backup
 stigma: Synthetic (-2)
 tech_level: 4 (Cortical Stacks & Sleeves)
 meta_level: 1 (Residual Soul)
 homeworld: Resleeve Clinics & Transhuman Stations
-cp: 22
-description: >-
-  Shells are synthetic sleeve bodies inhabited by digitized organic
-  consciousnesses (transferred via cortical neural stacks upon biological
-  death).
 costs:
-  bp: 22
+  bp: 32
   credits: 0
   nodes: 0
   sockets: 0
   strain: 0
   focus: 0
   ap: 0
-modifiers:
-  - target: Any Attribute
-    type: attribute
-    value: 2
-    mode: bonus_pool
-  - target: General Skill Pool
-    type: skill
-    value: 10
-    mode: bonus_pool
-  - target: All Categories (Retains Previous Organic Training)
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Synthetic Base Traits
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Neural Stack Integration (Organic Consciousness Housing)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Ghost In The Machine Resilience
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Cortical Backup
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Sensor Upgrade
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Neural Stability
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-cortical-backup
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+modifiers: []
+cp_cost: 32
+cp: 32
+bp: 32
+description: >-
+  Shells are synthetic sleeve bodies inhabited by digitized organic
+  consciousnesses (transferred via cortical neural stacks upon biological
+  death).
 ---
 # Shell (Sleeve for Organic Mind)
 

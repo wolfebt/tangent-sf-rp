@@ -1,1 +1,52 @@
-[]
+[
+  {
+    "id": "target-self",
+    "name": "Self Only",
+    "description": "The power or module functions exclusively on the user chassis."
+  },
+  {
+    "id": "target-single-creature",
+    "name": "Single Creature",
+    "description": "Targets any single biological or synthetic entity within range."
+  },
+  {
+    "id": "target-willing",
+    "name": "Willing Creature",
+    "description": "Requires the target voluntary consent; fails automatically against resistant minds."
+  },
+  {
+    "id": "target-hostile",
+    "name": "Unwilling / Hostile Creature",
+    "description": "Direct offensive targeting requiring defense check vs Attune/Skill DC."
+  },
+  {
+    "id": "target-point-in-space",
+    "name": "Point in Space",
+    "description": "A designated coordinate in three-dimensional space for area origins or portals."
+  },
+  {
+    "id": "target-object",
+    "name": "Object / Construct",
+    "description": "Targets inanimate hardware, structural modules, weapons, or vehicles."
+  },
+  {
+    "id": "target-area-surface",
+    "name": "Area / Surface",
+    "description": "Covers a physical wall, floor, bulkhead, or planetary terrain zone."
+  },
+  {
+    "id": "target-mind",
+    "name": "Mind / Consciousness",
+    "description": "Targets neural architecture, ego matrices, or organic brains directly."
+  },
+  {
+    "id": "target-spirit",
+    "name": "Spirit / Soul",
+    "description": "Targets the metaphysical lodestar, aura, or essence signature of a creature."
+  },
+  {
+    "id": "target-electronic",
+    "name": "Electronic Device / AI Core",
+    "description": "Targets computer systems, comms relays, cyberdecks, or synthetic logic circuits."
+  }
+]

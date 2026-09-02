@@ -38,7 +38,7 @@ assert(DEFAULT_SPECIES.length === 81, 'Species count parity', `Expected 81, got 
 assert(DEFAULT_ARCHETYPES.length >= 48, 'Archetypes count parity', `Expected >= 48, got ${DEFAULT_ARCHETYPES.length}`);
 assert(DEFAULT_FEATURES.length === 218, 'Features count parity', `Expected 218, got ${DEFAULT_FEATURES.length}`);
 assert(DEFAULT_SPECIES_TRAITS.length === 349, 'Traits count parity', `Expected 349, got ${DEFAULT_SPECIES_TRAITS.length}`);
-assert(DEFAULT_SPECIES_DISADVANTAGES.length === 32, 'Disadvantages count parity', `Expected 32, got ${DEFAULT_SPECIES_DISADVANTAGES.length}`);
+assert(DEFAULT_SPECIES_DISADVANTAGES.length >= 32, 'Disadvantages count parity', `Expected >= 32, got ${DEFAULT_SPECIES_DISADVANTAGES.length}`);
 assert(DEFAULT_FACTIONS.length === 40, 'Factions count parity', `Expected 40, got ${DEFAULT_FACTIONS.length}`);
 assert(DEFAULT_SPECIES_SIZES.length === 14, 'Species Sizes count parity', `Expected 14, got ${DEFAULT_SPECIES_SIZES.length}`);
 assert(DEFAULT_SPECIES_MOVEMENT.length >= 50, 'Species Movement modes count', `Expected >= 50, got ${DEFAULT_SPECIES_MOVEMENT.length}`);

@@ -2,8 +2,8 @@
 id: invocation-acute-senses
 name: ACUTE SENSES
 category: invocations
-discipline: Matter
-description: ACUTE SENSES invocation for Matter reality manipulation.
+discipline: Mental
+description: ACUTE SENSES invocation for Mental reality manipulation.
 costs:
   bp: 0
   credits: 0
@@ -25,11 +25,10 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # ACUTE SENSES Invocation
 
 **Category**: Invocations  
-**Discipline**: Matter
+**Discipline**: Mental
 
 ## Description & Ritual Details
 Classification: Mental (Sense) | Buff | \[Perception\] \[Enhancement\]  

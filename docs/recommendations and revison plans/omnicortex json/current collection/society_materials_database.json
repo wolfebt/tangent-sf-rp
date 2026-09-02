@@ -1,1 +1,50 @@
-[]
+[
+  {
+    "id": "society_materials_lvl_0",
+    "category": "society_materials",
+    "name": "Materials & Metallurgy (Level 0: Primitive / Subsistence)",
+    "level": 0,
+    "sphere_key": "society_materials",
+    "description": "Level 0 development in Materials & Metallurgy: Material science, meta-materials, molecular metallurgy, and high-density plating. (Primitive / Subsistence)."
+  },
+  {
+    "id": "society_materials_lvl_1",
+    "category": "society_materials",
+    "name": "Materials & Metallurgy (Level 1: Emerging / Industrial)",
+    "level": 1,
+    "sphere_key": "society_materials",
+    "description": "Level 1 development in Materials & Metallurgy: Material science, meta-materials, molecular metallurgy, and high-density plating. (Emerging / Industrial)."
+  },
+  {
+    "id": "society_materials_lvl_2",
+    "category": "society_materials",
+    "name": "Materials & Metallurgy (Level 2: Modern / Planetary)",
+    "level": 2,
+    "sphere_key": "society_materials",
+    "description": "Level 2 development in Materials & Metallurgy: Material science, meta-materials, molecular metallurgy, and high-density plating. (Modern / Planetary)."
+  },
+  {
+    "id": "society_materials_lvl_3",
+    "category": "society_materials",
+    "name": "Materials & Metallurgy (Level 3: Advanced / Stellar)",
+    "level": 3,
+    "sphere_key": "society_materials",
+    "description": "Level 3 development in Materials & Metallurgy: Material science, meta-materials, molecular metallurgy, and high-density plating. (Advanced / Stellar)."
+  },
+  {
+    "id": "society_materials_lvl_4",
+    "category": "society_materials",
+    "name": "Materials & Metallurgy (Level 4: Mastered / Interstellar)",
+    "level": 4,
+    "sphere_key": "society_materials",
+    "description": "Level 4 development in Materials & Metallurgy: Material science, meta-materials, molecular metallurgy, and high-density plating. (Mastered / Interstellar)."
+  },
+  {
+    "id": "society_materials_lvl_5",
+    "category": "society_materials",
+    "name": "Materials & Metallurgy (Level 5: Transcendent / Deific)",
+    "level": 5,
+    "sphere_key": "society_materials",
+    "description": "Level 5 development in Materials & Metallurgy: Material science, meta-materials, molecular metallurgy, and high-density plating. (Transcendent / Deific)."
+  }
+]

@@ -19,18 +19,18 @@ archetypes:
   - Arms Dealer
   - Pawnbroker
 traits:
-  - trait-merchant-adaptability
-  - trait-merchant-appraisal
-  - trait-merchant-business-acumen
-  - trait-merchant-charismatic
-  - trait-merchant-cultural-awareness
-  - trait-merchant-linguistics
-  - trait-merchant-logistics
-  - trait-merchant-negotiation
-  - trait-merchant-networking
-  - trait-merchant-product-knowledge
-  - trait-merchant-resourcefulness
-  - trait-merchant-risk-management
+  - trait-adaptability
+  - trait-appraisal
+  - trait-business-acumen
+  - trait-charismatic
+  - trait-cultural-awareness
+  - trait-linguistics
+  - trait-logistics
+  - trait-negotiation
+  - trait-networking
+  - trait-product-knowledge
+  - trait-resourcefulness
+  - trait-risk-management
 description: >-
   A merchant's occupation would involve trading, negotiating, and exploring
   uncharted regions of space for profit and adventure. As a merchant, the

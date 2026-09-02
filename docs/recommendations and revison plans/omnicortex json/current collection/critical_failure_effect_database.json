@@ -1,1 +1,42 @@
-[]
+[
+  {
+    "id": "crit_fail-jammed",
+    "name": "Weapon Jammed",
+    "description": "The firearm mechanism or actuator jams; requires 1 full Action to clear."
+  },
+  {
+    "id": "crit_fail-misfire",
+    "name": "Weapon Misfire / Self Damage",
+    "description": "The weapon backfires, dealing half base damage directly to the user."
+  },
+  {
+    "id": "crit_fail-overheat",
+    "name": "Energy Overheat / Venting",
+    "description": "Energy cell or barrel vents superheated gas; weapon cannot fire for 1 round."
+  },
+  {
+    "id": "crit_fail-prone",
+    "name": "Loss of Balance / Prone",
+    "description": "User trips or overextends, falling prone in their current hex."
+  },
+  {
+    "id": "crit_fail-fumble",
+    "name": "Fumble / Drop Weapon",
+    "description": "User loses their grip, dropping the weapon 5 feet away."
+  },
+  {
+    "id": "crit_fail-meta-backlash",
+    "name": "Meta Backlash (The Burn)",
+    "description": "Metaphysical feedback inflicts 1d6 unpreventable damage directly to user Health."
+  },
+  {
+    "id": "crit_fail-power-depleted",
+    "name": "Power Cell Depleted",
+    "description": "Battery or capacitor burns out instantly, requiring a fresh reload."
+  },
+  {
+    "id": "crit_fail-disoriented",
+    "name": "Disoriented (-2 to Next Roll)",
+    "description": "Sudden sensory disorientation imposes -2 on the user next turn action."
+  }
+]

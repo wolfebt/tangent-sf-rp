@@ -1,8 +1,167 @@
 [
   {
-    "createdAt": "2026-07-26T13:22:56.992Z",
-    "id": "species_type_1785072176992",
+    "id": "species_type-humanoid",
     "name": "Humanoid",
-    "description": ""
+    "bp": 0,
+    "senses": "Standard visual and auditory range.",
+    "immunities": "None",
+    "physiology": "Humanoids breathe, eat, and sleep.",
+    "traits": []
+  },
+  {
+    "id": "species_type-aberration",
+    "name": "Aberration",
+    "bp": 1,
+    "senses": "Darkvision out to 60 feet. [1]",
+    "immunities": "None",
+    "physiology": "Aberrations eat, sleep, and breathe.",
+    "traits": [
+      "Darkvision 60ft",
+      "Alien Mind"
+    ]
+  },
+  {
+    "id": "species_type-beast",
+    "name": "Beast",
+    "bp": 1,
+    "senses": "Low-light vision. [1]",
+    "immunities": "None",
+    "physiology": "Beasts eat, sleep, and breathe.",
+    "traits": [
+      "Low-Light Vision",
+      "Beastkin Affinity"
+    ]
+  },
+  {
+    "id": "species_type-fey",
+    "name": "Fey",
+    "bp": 3,
+    "senses": "Low-light vision. [1]",
+    "immunities": "None",
+    "physiology": "Fey breathe and eat, immune to sleep.",
+    "traits": [
+      "Low-Light Vision",
+      "Sleepless"
+    ]
+  },
+  {
+    "id": "species_type-planar",
+    "name": "Planar",
+    "bp": 4,
+    "senses": "Darkvision 60 feet. [1]",
+    "immunities": "Material plane specific effects [3]",
+    "physiology": "Planars breathe, eat, and sleep.",
+    "traits": [
+      "Darkvision 60ft",
+      "Planar Origin"
+    ]
+  },
+  {
+    "id": "species_type-dragon",
+    "name": "Dragon",
+    "bp": 5,
+    "senses": "Darkvision 60 feet [1], Low-light vision [1].",
+    "immunities": "Magical sleep and paralysis [3]",
+    "physiology": "Dragons breathe, eat, and sleep.",
+    "traits": [
+      "Darkvision 60ft",
+      "Low-Light Vision",
+      "Dragonkin Traits"
+    ]
+  },
+  {
+    "id": "species_type-mythical",
+    "name": "Mythical",
+    "bp": 5,
+    "senses": "Darkvision 60 feet and Low-light vision. [1+1]",
+    "immunities": "Environmental extremes",
+    "physiology": "Mythicals do not eat, sleep, or breathe.",
+    "traits": [
+      "Darkvision 60ft",
+      "Low-Light Vision",
+      "Mythical Essence"
+    ]
+  },
+  {
+    "id": "species_type-ooze",
+    "name": "Ooze",
+    "bp": 6,
+    "senses": "Blindsight 30ft",
+    "immunities": "Physical conditions and critical hits [3]",
+    "physiology": "Semi-solid amorphous form.",
+    "traits": [
+      "Blindsight 30ft",
+      "Amorphous"
+    ]
+  },
+  {
+    "id": "species_type-verdant",
+    "name": "Verdant",
+    "bp": 9,
+    "senses": "Low-light vision. [1]",
+    "immunities": "Mind-affecting effects, poison, sleep, paralysis [6]",
+    "physiology": "Photosynthetic / mineral nutrition, no sleep.",
+    "traits": [
+      "Low-Light Vision",
+      "Verdant Biology",
+      "Immune to Sleep"
+    ]
+  },
+  {
+    "id": "species_type-elemental",
+    "name": "Elemental",
+    "bp": 13,
+    "senses": "Darkvision out to 60 feet. [1]",
+    "immunities": "Poison, sleep, paralysis, stunning, flanking [6]",
+    "physiology": "Pure energy/matter matrix.",
+    "traits": [
+      "Darkvision 60ft",
+      "Elemental Form"
+    ]
+  },
+  {
+    "id": "species_type-synthetic",
+    "name": "Synthetic",
+    "bp": 15,
+    "senses": "Low-light vision [1] and Darkvision 60 feet [1].",
+    "immunities": "Asphyxiation, bleeding, critical hits, poison, biological disease, starvation, sleep [9]",
+    "physiology": "Requires repair, structure points, digitized mind.",
+    "traits": [
+      "Low-Light Vision",
+      "Darkvision 60ft",
+      "Immune to Biology",
+      "DR 5/-",
+      "Digitized Mind",
+      "Robotic Strength"
+    ]
+  },
+  {
+    "id": "species_type-spectral",
+    "name": "Spectral",
+    "bp": 18,
+    "senses": "Darkvision 60 feet, Ether Sight 60 feet.",
+    "immunities": "Non-magical physical weapons, disease, poison.",
+    "physiology": "Incorporeal phase entity.",
+    "traits": [
+      "Darkvision 60ft",
+      "Ether Sight",
+      "Incorporeal",
+      "Phasing"
+    ]
+  },
+  {
+    "id": "species_type-entity",
+    "name": "Entity",
+    "bp": 24,
+    "senses": "Darkvision and Ether Sight out to 60 feet. [1+2]",
+    "immunities": "Reality distortion, biological needs, mortal aging.",
+    "physiology": "Transcendent precursor construct.",
+    "traits": [
+      "Darkvision 60ft",
+      "Ether Sight",
+      "Cosmic Attunement",
+      "Immortal",
+      "Ageless"
+    ]
   }
 ]

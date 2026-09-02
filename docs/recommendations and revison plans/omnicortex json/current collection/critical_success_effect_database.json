@@ -1,1 +1,42 @@
-[]
+[
+  {
+    "id": "crit_succ-double-damage",
+    "name": "Double Base Damage",
+    "description": "All base weapon damage dice are doubled before applying bonuses."
+  },
+  {
+    "id": "crit_succ-max-damage",
+    "name": "Maximum Variable Damage",
+    "description": "All damage dice roll their maximum possible numeric values automatically."
+  },
+  {
+    "id": "crit_succ-free-action",
+    "name": "Free Action Refund",
+    "description": "The action cost of this invocation or attack is fully refunded, granting an immediate bonus action."
+  },
+  {
+    "id": "crit_succ-elemental-surge",
+    "name": "Lingering Elemental Surge",
+    "description": "Ignites a lingering elemental hazard dealing 1d6 damage in the target hex for 3 rounds."
+  },
+  {
+    "id": "crit_succ-instant-pin",
+    "name": "Instant Pin / Grapple",
+    "description": "Target is immediately restrained and pinned without requiring a secondary grapple roll."
+  },
+  {
+    "id": "crit_succ-overwhelming-ap",
+    "name": "Overwhelming Penetration (Ignore All DR)",
+    "description": "The attack completely punches through all armor, ignoring 100% of the target DR."
+  },
+  {
+    "id": "crit_succ-extended-duration",
+    "name": "Extended Duration (x2)",
+    "description": "The duration of the buff or hazard is doubled without additional resource cost."
+  },
+  {
+    "id": "crit_succ-resource-refund",
+    "name": "Resource / Focus Refund",
+    "description": "Refunds all spent Essence, Focus, or ammunition expended during the action."
+  }
+]

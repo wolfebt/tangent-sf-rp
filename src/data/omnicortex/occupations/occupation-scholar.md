@@ -19,16 +19,16 @@ archetypes:
   - Archaeologist
   - Cosmologist
 traits:
-  - trait-scholar-adaptability
-  - trait-scholar-attention-to-detail
-  - trait-scholar-collaboration
-  - trait-scholar-continuous-learning
-  - trait-scholar-critical-thinking
-  - trait-scholar-ethical-conduct
-  - trait-scholar-metacognition
-  - trait-scholar-patience
-  - trait-scholar-problem-solving
-  - trait-scholar-technological-innovation
+  - trait-adaptability
+  - trait-attention-to-detail
+  - trait-collaboration
+  - trait-continuous-learning
+  - trait-critical-thinking
+  - trait-ethical-conduct
+  - trait-metacognition
+  - trait-patience
+  - trait-problem-solving
+  - trait-technological-innovation
 description: >-
   A Scholar is a character who specializes in academic pursuits, research, and
   study. They possess a comprehensive education in a range of scientific

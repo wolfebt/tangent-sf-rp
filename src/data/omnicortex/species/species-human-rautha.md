@@ -3,23 +3,55 @@ id: species-human-rautha
 name: Rautha Human
 title: Rautha Human (Predator Variant)
 category: species
-parent_species: Humans
+parent_species: Humans (Core & Variants)
 type:
   - species_type-humanoid
 size:
   - species_size-medium
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 5 ft
+senses: Standard visual and auditory range.
+immunities: None
+inherent_attribute_modifiers:
+  - attribute: Agility
+    bonus: 2
+  - attribute: Stamina
+    bonus: 2
+bonus_attribute_points: 0
+specific_skill_bonuses:
+  - skill: Acrobatics
+    bonus: 1
+  - skill: Perception
+    bonus: 1
+bonus_skills: 10
+bonus_skill_choices:
+  - Acrobatics
+  - Perception
+  - Stealth
+  - Survival
+  - Athletics
+inherent_features:
+  - trait-fast-10ft-movement
+  - trait-jumper-5ft-vertical
+  - trait-low-light-vision
+  - trait-prehensile-tail
+  - trait-acute-scent
+bonus_features: []
+bonus_feature_choices:
+  - Pounce Strike
+  - Feral Agility
+  - Lightning Sprint
+recommended_features:
+  - feature-fast
+  - feature-jumper
 stigma: Xeno (-2)
 tech_level: 3 (Bio-Scanners & Lightweight Stealth Armor)
 meta_level: 2 (Predator Sense)
 homeworld: Rautha Prime
-cp: 26
-description: >-
-  Feline-influenced human transhumans bred for high-speed reconnaissance, urban
-  parkour, and stealth operations.
 costs:
-  bp: 26
+  bp: 27
   credits: 0
   nodes: 0
   sockets: 0
@@ -28,100 +60,19 @@ costs:
   ap: 0
 modifiers:
   - target: Agility
-    type: attribute
     value: 2
+    type: attribute
     mode: inherent
   - target: Stamina
-    type: attribute
     value: 2
+    type: attribute
     mode: inherent
-  - target: Acrobatics
-    type: skill
-    value: 1
-    mode: inherent
-  - target: Perception
-    type: skill
-    value: 1
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 10
-    mode: bonus_pool
-  - target: Acrobatics
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Perception
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Stealth
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Survival
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Athletics
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Fast (+10ft Movement)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Jumper (+5ft Vertical)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Low Light Vision
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Prehensile Tail
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Acute Scent
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Pounce Strike
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Feral Agility
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Lightning Sprint
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-fast
-    type: feature
-    value: 1
-    mode: recommended
-  - target: feature-jumper
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+cp_cost: 27
+cp: 27
+bp: 27
+description: >-
+  Feline-influenced human transhumans bred for high-speed reconnaissance, urban
+  parkour, and stealth operations.
 ---
 # Rautha Human (Predator Variant)
 
@@ -159,13 +110,3 @@ Prehensile Tail
 Scent
 
 **Recommended Features:**
-
-
-## Extended Lore & Background
-
-The most visually striking rodentia-like features include a set of sharp, elongated incisors, indicative of their evolutionary divergence, and a highly versatile prehensile tail. This tail is an extension of the caudal vertebrae, affording it a substantial degree of strength and control, and is frequently employed for balance, climbing, and even as a fifth limb for grasping objects. Its surface is covered in a fine layer of scales and sparse, almost imperceptible hair, giving it a tactile yet durable quality. The tail's coloration is observed to vary, spanning a spectrum from pale pink to deeper brown hues, and it is a defining characteristic that often matches the length of the individual's body.
-
-Beyond these external traits, the Rautha possess highly developed sensory organs that contribute significantly to their survival and interaction with their environment. Their sense of smell is exceptionally keen, allowing them to track scents over long distances and detect subtle changes in the air, a vital asset for foraging, navigation, and defense. Furthermore, they are endowed with low-light vision, enabling effective navigation and hunting in nocturnal or dimly lit settings where other human subspecies would struggle.
-
-Genetically, the Rautha subspecies maintains a demonstrable, though distant, relationship with the Lin human subspecies, suggesting a common ancestral lineage from which the two diverged and developed their respective specialized traits. This genetic link remains a subject of ongoing anthropological and biological study.
-

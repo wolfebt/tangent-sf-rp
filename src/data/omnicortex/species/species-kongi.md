@@ -11,14 +11,43 @@ size:
 movement:
   - species_movement-bipedal
   - species_movement-climbing
+speeds: 'Ground 30 ft, Climb 30 ft'
+reach: 10 ft
+senses: Standard visual and auditory range.
+immunities: None
+inherent_attribute_modifiers:
+  - attribute: Strength
+    bonus: 2
+  - attribute: Agility
+    bonus: 1
+bonus_attribute_points: 0
+specific_skill_bonuses:
+  - skill: Athletics
+    bonus: 2
+bonus_skills: 0
+bonus_skill_choices:
+  - Athletics
+  - Intimidation
+  - Combat
+  - Engineering (Heavy)
+inherent_features:
+  - trait-climber
+  - trait-low-light-vision
+  - trait-mighty-surge-bonus-str-athletics
+  - trait-prehensile-tail-feet
+  - trait-acute-scent
+  - trait-climb-speed-30ft
+bonus_features: []
+bonus_feature_choices:
+  - Brachiation Mastery
+  - Chest Beat Roar
+  - Grip of Iron
+recommended_features:
+  - feature-mighty-surge
 stigma: Minor Xeno (-1)
 tech_level: 3 (Heavy Rigging & Mining Plasma Tools)
 meta_level: 1 (Primal Strength)
 homeworld: Kongo- Prime Mega-Jungle
-cp: 21
-description: >-
-  Powerful simian beings combining immense upper-body strength with prehensile
-  four-limb dexterity and climbing speed.
 costs:
   bp: 21
   credits: 0
@@ -29,88 +58,31 @@ costs:
   ap: 0
 modifiers:
   - target: Strength
-    type: attribute
     value: 2
+    type: attribute
     mode: inherent
   - target: Agility
+    value: 1
     type: attribute
-    value: 1
     mode: inherent
-  - target: Athletics
-    type: skill
+  - target: Strength
     value: 2
-    mode: inherent
-  - target: Athletics
+    type: attribute
+    mode: size_modifier
+  - target: Combat / Defense
+    value: -2
+    type: combat
+    mode: size_modifier
+  - target: Stealth
+    value: -4
     type: skill
-    value: 1
-    mode: choice_pool
-  - target: Intimidation
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Combat
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Engineering (Heavy)
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Climber
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Low Light Vision
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Mighty Surge (Bonus STR/Athletics)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Prehensile Tail & Feet
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Acute Scent
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Climb Speed (30ft)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Brachiation Mastery
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Chest Beat Roar
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Grip of Iron
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-mighty-surge
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+    mode: size_modifier
+cp_cost: 21
+cp: 21
+bp: 21
+description: >-
+  Powerful simian beings combining immense upper-body strength with prehensile
+  four-limb dexterity and climbing speed.
 ---
 # Kongi (Simian Juggernaut)
 

@@ -1,1 +1,50 @@
-[]
+[
+  {
+    "id": "society_education_lvl_0",
+    "category": "society_education",
+    "name": "Education & Archives (Level 0: Primitive / Subsistence)",
+    "level": 0,
+    "sphere_key": "society_education",
+    "description": "Level 0 development in Education & Archives: Knowledge institutions, neural archives, apprenticeships, and academies. (Primitive / Subsistence)."
+  },
+  {
+    "id": "society_education_lvl_1",
+    "category": "society_education",
+    "name": "Education & Archives (Level 1: Emerging / Industrial)",
+    "level": 1,
+    "sphere_key": "society_education",
+    "description": "Level 1 development in Education & Archives: Knowledge institutions, neural archives, apprenticeships, and academies. (Emerging / Industrial)."
+  },
+  {
+    "id": "society_education_lvl_2",
+    "category": "society_education",
+    "name": "Education & Archives (Level 2: Modern / Planetary)",
+    "level": 2,
+    "sphere_key": "society_education",
+    "description": "Level 2 development in Education & Archives: Knowledge institutions, neural archives, apprenticeships, and academies. (Modern / Planetary)."
+  },
+  {
+    "id": "society_education_lvl_3",
+    "category": "society_education",
+    "name": "Education & Archives (Level 3: Advanced / Stellar)",
+    "level": 3,
+    "sphere_key": "society_education",
+    "description": "Level 3 development in Education & Archives: Knowledge institutions, neural archives, apprenticeships, and academies. (Advanced / Stellar)."
+  },
+  {
+    "id": "society_education_lvl_4",
+    "category": "society_education",
+    "name": "Education & Archives (Level 4: Mastered / Interstellar)",
+    "level": 4,
+    "sphere_key": "society_education",
+    "description": "Level 4 development in Education & Archives: Knowledge institutions, neural archives, apprenticeships, and academies. (Mastered / Interstellar)."
+  },
+  {
+    "id": "society_education_lvl_5",
+    "category": "society_education",
+    "name": "Education & Archives (Level 5: Transcendent / Deific)",
+    "level": 5,
+    "sphere_key": "society_education",
+    "description": "Level 5 development in Education & Archives: Knowledge institutions, neural archives, apprenticeships, and academies. (Transcendent / Deific)."
+  }
+]

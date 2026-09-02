@@ -1,10 +1,9 @@
 ---
 id: trait-problem-solving
 name: Problem Solving
-category: traits
+trait_tier: Basic
 trait_type: Origin Trait
-origin_association: General
-description: Exceptional critical thinking and analytical troubleshooting under duress.
+category: traits
 costs:
   bp: 1
   credits: 0
@@ -13,6 +12,7 @@ costs:
   strain: 0
   focus: 0
   ap: 0
+description: Exceptional critical thinking and analytical troubleshooting under duress.
 modifiers: []
 modifications: []
 critical_details:
@@ -26,15 +26,12 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # Problem Solving
 
-**Category**: Origin Traits  
-**Associated Origin**: General  
-**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait
+**Category**: TRAITS
+**Tier**: Basic
+**Type**: Origin Trait
+**BP Cost**: 1
 
 ## Description
 Exceptional critical thinking and analytical troubleshooting under duress.
-
-## Mechanics & Benefits
-Once per day, may reroll a failed Mental Skill check.

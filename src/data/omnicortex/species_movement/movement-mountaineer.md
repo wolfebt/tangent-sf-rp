@@ -1,9 +1,15 @@
 ---
 id: movement-mountaineer
-name: Mountaineer
+name: Mountaineer (Slope Stability)
 category: species_movement
-movement_type: Modification
-description: "Immune to altitude sickness, no defense loss on narrow/slippery surfaces."
+classification: adjuster
+target_mode: Climbing
+speed_modifier: 0
+is_additive: false
+bp: 1
+description: >-
+  Immune to altitude sickness and suffers no defense penalties on narrow or
+  slippery vertical surfaces.
 costs:
   bp: 1
   credits: 0
@@ -12,32 +18,12 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-speed: 0
-is_ranked: false
-is_exclusive: false
-is_disadvantage: false
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
+# Mountaineer (Slope Stability)
 
-# Mountaineer
+**Category**: Species Movement (ADJUSTER)  
+**Target Mode**: Climbing  
+**Cost**: +1 BP  
 
-**Category**: Species Movement (Modification)  
-**Cost**: 1 BP  
-**Classification**: Modification  
-
-## Effect
-Immune to altitude sickness, no defense loss on narrow/slippery surfaces.
-
-## Mechanics & Rules
-Complete immunity to high-altitude hypoxia/sickness and suffers no Defense or Reflex penalties when balancing on narrow, icy, or precarious vertical surfaces.
+## Description
+Immune to altitude sickness and suffers no defense penalties on narrow or slippery vertical surfaces.

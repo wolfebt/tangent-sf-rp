@@ -1,8 +1,13 @@
 ---
 id: movement-diving
-name: "Flying: Diving Pace"
+name: 'Flying: Diving Pace (8x Fly)'
 category: species_movement
-description: High-speed descent maneuver for tactical engagement.
+classification: pace
+target_mode: Flying
+multiplier: 8
+speed: 480
+bp: 0
+description: High-speed tactical descent (8x Fly) for precision dive attacks.
 costs:
   bp: 0
   credits: 0
@@ -11,31 +16,12 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-speed: 480
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
+# Flying: Diving Pace (8x Fly)
 
-# Flying: Diving Pace
-
-**Category**: Movement Modes & Paces  
-**Movement Mode**: Flying  
-**Speed Multiplier**: 2x Current Speed (9x with Soar)  
-**Medium Speed Baseline**: 480 ft / round  
+**Category**: Species Movement (PACE)  
+**Target Mode**: Flying  
+**Cost**: +0 BP  
 
 ## Description
-High-speed descent maneuver for tactical engagement.
-
-## Tactical Modifiers & Checks
-- **Action Penalty / Modifier**: -4 to actions
-- **Required Check**: Acrobatics DC 15+
+High-speed tactical descent (8x Fly) for precision dive attacks.

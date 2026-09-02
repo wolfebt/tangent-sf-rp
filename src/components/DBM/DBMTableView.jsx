@@ -5,6 +5,32 @@ import { useDBM } from '../../context/DBMContext';
 import { SPECIES_LINEAGES } from '../../data/speciesData';
 
 /**
+ * Clean up relational IDs and snake_cased strings to human-readable names
+ */
+const formatRelationalString = (str) => {
+  if (typeof str !== 'string') return String(str);
+  if (str.startsWith('species_type-')) {
+    return str.replace('species_type-', '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  }
+  if (str.startsWith('species_size-')) {
+    return str.replace('species_size-', '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  }
+  if (str.startsWith('species_movement-')) {
+    return str.replace('species_movement-', '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  }
+  if (str.startsWith('trait-species-')) {
+    return str.replace('trait-species-', '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  }
+  if (str.startsWith('trait-')) {
+    return str.replace('trait-', '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  }
+  if (str.includes('_') && !str.includes(' ')) {
+    return str.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  }
+  return str;
+};
+
+/**
  * Format any field value for display in table rows
  */
 const formatCellValue = (val) => {
@@ -37,7 +63,7 @@ const formatCellValue = (val) => {
         }
         return item.name || item.skill || item.attribute || item.title || item.id || JSON.stringify(item);
       }
-      return String(item);
+      return formatRelationalString(item);
     }).join(', ');
   }
   if (typeof val === 'object') {
@@ -61,7 +87,7 @@ const formatCellValue = (val) => {
     }
     return val.name || val.title || val.id || JSON.stringify(val);
   }
-  return String(val);
+  return formatRelationalString(val);
 };
 
 const CatalogVirtualRow = ({ item, visibleColumns, handleOpenItem, isAdmin }) => {

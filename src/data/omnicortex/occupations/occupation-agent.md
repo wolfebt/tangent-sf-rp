@@ -16,21 +16,21 @@ archetypes:
   - Psionic Operative
   - Bounty Hunter
 traits:
-  - trait-agent-adaptability
-  - trait-agent-combat-skills
-  - trait-agent-deception
-  - trait-agent-guile
-  - trait-agent-investigation
-  - trait-agent-languages
-  - trait-agent-mental-resilience
-  - trait-agent-networking
-  - trait-agent-persuasion
-  - trait-agent-physical-fitness
-  - trait-agent-quick-thinking
-  - trait-agent-stealth
-  - trait-agent-survival-skills
-  - trait-agent-technology
-  - trait-agent-travel
+  - trait-adaptability
+  - trait-combat-skills
+  - trait-deception
+  - trait-guile
+  - trait-investigation
+  - trait-languages
+  - trait-mental-resilience
+  - trait-networking
+  - trait-persuasion
+  - trait-physical-fitness
+  - trait-quick-thinking
+  - trait-stealth
+  - trait-survival-skills
+  - trait-technology
+  - trait-travel
 description: >-
   An agent is a skilled operative who specializes in espionage, intelligence
   gathering, and covert missions. They often work for governments, corporations,

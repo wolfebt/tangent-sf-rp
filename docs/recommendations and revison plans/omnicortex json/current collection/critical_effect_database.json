@@ -1,1 +1,62 @@
-[]
+[
+  {
+    "id": "crit-stunned",
+    "name": "Stunned (1 Round)",
+    "description": "Target loses their next turn of actions and suffers -4 to all defenses."
+  },
+  {
+    "id": "crit-bleed",
+    "name": "Bleed (1d6 / round)",
+    "description": "Inflicts persistent bleeding damage at the start of each turn until treated with Medical DC 15."
+  },
+  {
+    "id": "crit-disarmed",
+    "name": "Disarmed",
+    "description": "Target held weapon or item is knocked 15 feet away into an adjacent hex."
+  },
+  {
+    "id": "crit-knockdown",
+    "name": "Knocked Prone",
+    "description": "Target is slammed into the ground, must spend movement to stand up."
+  },
+  {
+    "id": "crit-armor-sunder",
+    "name": "Armor Sundered (-2 DR)",
+    "description": "Permanently reduces the target equipped armor DR by 2 points until repaired."
+  },
+  {
+    "id": "crit-severe-fracture",
+    "name": "Severe Fracture (-2 Checks)",
+    "description": "Broken bone or shattered joint; target suffers -2 to all physical attribute checks."
+  },
+  {
+    "id": "crit-blinding",
+    "name": "Blinding Flash",
+    "description": "Target is completely blinded for 1d4 rounds, suffering 50% miss chance on all attacks."
+  },
+  {
+    "id": "crit-amputation",
+    "name": "Amputation / Dismemberment",
+    "description": "A targeted limb is severed or mangled beyond function (requires cybernetic replacement)."
+  },
+  {
+    "id": "crit-weapon-destroyed",
+    "name": "Weapon Destroyed",
+    "description": "The opponent parrying weapon or tool suffers immediate structural catastrophic failure."
+  },
+  {
+    "id": "crit-internal-hemorrhage",
+    "name": "Internal Hemorrhage",
+    "description": "Internal organ damage; target suffers -2 Stamina and 1d8 ongoing damage."
+  },
+  {
+    "id": "crit-system-shutdown",
+    "name": "System Shutdown / EMP Lock",
+    "description": "Synthetic chassis or cybernetics freeze for 1 round, immobilizing the target."
+  },
+  {
+    "id": "crit-vulnerable",
+    "name": "Vulnerable (+4 Incoming Attacks)",
+    "description": "Target defenses are completely compromised; next attack against them gains +4 to hit."
+  }
+]

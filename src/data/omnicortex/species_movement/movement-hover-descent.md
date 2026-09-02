@@ -1,8 +1,13 @@
 ---
 id: movement-hover-descent
-name: "Flying: Hover & Controlled Descent"
+name: 'Flying: Hover & Controlled Descent (0.5x Fly)'
 category: species_movement
-description: Stationary or slow descent enabling precise observation and stable targeting.
+classification: pace
+target_mode: Flying
+multiplier: 0.5
+speed: 30
+bp: 0
+description: Stationary hover or slow vertical descent enabling stable targeting.
 costs:
   bp: 0
   credits: 0
@@ -11,31 +16,12 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-speed: 30
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
+# Flying: Hover & Controlled Descent (0.5x Fly)
 
-# Flying: Hover & Controlled Descent
-
-**Category**: Movement Modes & Paces  
-**Movement Mode**: Flying  
-**Speed Multiplier**: 1/2x Flight or less  
-**Medium Speed Baseline**: 30 ft / round  
+**Category**: Species Movement (PACE)  
+**Target Mode**: Flying  
+**Cost**: +0 BP  
 
 ## Description
-Stationary or slow descent enabling precise observation and stable targeting.
-
-## Tactical Modifiers & Checks
-- **Action Penalty / Modifier**: None
-- **Required Check**: Acrobatics DC 15+
+Stationary hover or slow vertical descent enabling stable targeting.

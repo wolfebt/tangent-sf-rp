@@ -105,8 +105,8 @@ export const ExperienceCodexModal = ({
   })).filter(cat => cat.items.length > 0);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/80 backdrop-blur-sm p-3 sm:p-6 overflow-y-auto">
-      <div className="bg-[#0e1422] border border-emerald-500/40 rounded-2xl max-w-4xl w-full p-5 sm:p-7 shadow-[0_0_40px_rgba(16,185,129,0.15)] text-slate-100 space-y-6 my-6 font-sans">
+    <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 pt-10 sm:pt-14 pb-12 overflow-y-auto select-none font-sans">
+      <div className="bg-[#0e1422] border border-emerald-500/40 rounded-2xl max-w-4xl w-full p-5 sm:p-7 shadow-[0_0_40px_rgba(16,185,129,0.15)] text-slate-100 space-y-6 font-sans">
         
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-emerald-900/60 pb-4">

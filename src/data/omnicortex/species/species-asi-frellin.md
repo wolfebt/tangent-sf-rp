@@ -3,24 +3,57 @@ id: species-asi-frellin
 name: Frellin
 title: Frellin (Avian Fey)
 category: species
-parent_species: Asi
+parent_species: Asi (Fey Lineages)
 type:
   - species_type-fey
 size:
   - species_size-tiny
 movement:
   - species_movement-flight
+speeds: Flight 60 ft
+reach: 2 ft
+senses: 'Low-light vision. [1]'
+immunities: None
+inherent_attribute_modifiers:
+  - attribute: Intellect
+    bonus: 1
+  - attribute: Charisma
+    bonus: 1
+bonus_attribute_points: 0
+specific_skill_bonuses:
+  - skill: Alertness
+    bonus: 2
+  - skill: Communication
+    bonus: 1
+bonus_skills: 10
+bonus_skill_choices:
+  - Alertness
+  - Communication
+  - Science
+  - Navigation
+  - Attune
+inherent_features:
+  - trait-asi-base-traits
+  - trait-tiny-size
+  - trait-awakened-arcane
+  - trait-telepathy-special-ability
+  - trait-flight-winged-40ft
+  - trait-dark-sight
+bonus_features: []
+bonus_feature_choices:
+  - Aerial Acrobatics
+  - Sonic Trill
+  - Mind Link
+  - Far-Sight
+recommended_features:
+  - feature-mind-link
+  - feature-far-sight
 stigma: 'Animal (-2), Xeno (-2)'
 tech_level: 3 (Crystal Transceivers)
 meta_level: 4 (Aero-Psionics & Telepathy)
 homeworld: Aethel-Crest (The Floating Archipelago)
-cp: 27
-description: >-
-  Frellin are feathered, telepathic avian fey of tiny stature. Renowned scouts,
-  messengers, and navigators, they read wind currents and psychic frequencies
-  with equal precision.
 costs:
-  bp: 27
+  bp: 31
   credits: 0
   nodes: 0
   sockets: 0
@@ -29,108 +62,32 @@ costs:
   ap: 0
 modifiers:
   - target: Intellect
-    type: attribute
     value: 1
+    type: attribute
     mode: inherent
   - target: Charisma
+    value: 1
     type: attribute
-    value: 1
     mode: inherent
-  - target: Alertness
+  - target: Strength
+    value: -4
+    type: attribute
+    mode: size_modifier
+  - target: Combat / Defense
+    value: 4
+    type: combat
+    mode: size_modifier
+  - target: Stealth
+    value: 8
     type: skill
-    value: 2
-    mode: inherent
-  - target: Communication
-    type: skill
-    value: 1
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 10
-    mode: bonus_pool
-  - target: Alertness
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Communication
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Science
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Navigation
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Attune
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Asi Base Traits
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Tiny Size
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Awakened (Arcane)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Telepathy (Special Ability)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: 'Flight (Winged, 40ft)'
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Darksight
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Aerial Acrobatics
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Sonic Trill
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Mind Link
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Far-Sight
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-mind-link
-    type: feature
-    value: 1
-    mode: recommended
-  - target: feature-far-sight
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+    mode: size_modifier
+cp_cost: 31
+cp: 31
+bp: 31
+description: >-
+  Frellin are feathered, telepathic avian fey of tiny stature. Renowned scouts,
+  messengers, and navigators, they read wind currents and psychic frequencies
+  with equal precision.
 ---
 # Frellin (Avian Fey)
 
@@ -174,18 +131,3 @@ Regeneration
 
 Main deity is Shal’Vir the Scripted Fate  
 Hatched from fruit rich in magic
-
-
-## Extended Lore & Background
-
-Main deity is Shal’Vir the Scripted Fate  
-Hatched from fruit rich in magic
-
-
-
-## Extended Lore & Background
-
-A most prominent and defining characteristic is their prehensile tail. This appendage is a highly evolved extension of the caudal vertebrae, covered in fine fur, and serves as a powerful and dexterous fifth limb. The tail is often impressive in length, frequently matching the entire length of the body, and its fur color is generally congruent with the individual's hair and overall body fur coloration. This tail is integral to their movement, balance, and fine manipulation within their arboreal or nature-integrated environments.
-
-Societally, this group is highly advanced, but their technology is anchored in principles of environmental harmony and deep biological understanding. Their civilization is characterized by the widespread implementation of advanced Green Bio-Technology. A cornerstone of their societal infrastructure is the prominent and sophisticated use of Programmed Botany—the deliberate, technical manipulation and cultivation of plant life for architectural, industrial, and functional purposes. This is coupled with a mastery of other Nature-Based Technologies, resulting in a culture where technology and the natural world are seamlessly interwoven, with minimal ecological footprint and maximum symbiotic efficiency.
-

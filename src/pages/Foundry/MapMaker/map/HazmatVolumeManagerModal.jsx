@@ -94,8 +94,8 @@ const HazmatVolumeManagerModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-[#0f172a] border border-amber-500/60 rounded-xl shadow-[0_0_30px_rgba(245,158,11,0.25)] w-full max-w-2xl overflow-hidden flex flex-col text-slate-200 font-sans animate-in fade-in zoom-in-95 duration-150">
+    <div className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-md flex items-start justify-center p-3 sm:p-6 pt-8 sm:pt-12 md:pt-14 pb-12 overflow-y-auto select-none font-sans">
+      <div className="bg-[#0f172a] border border-amber-500/60 rounded-xl shadow-[0_0_30px_rgba(245,158,11,0.25)] w-full max-w-2xl max-h-[85vh] sm:max-h-[88vh] overflow-hidden flex flex-col text-slate-200 font-sans animate-in fade-in zoom-in-95 duration-150">
         {/* Header */}
         <div className="px-4 py-3 bg-gradient-to-r from-amber-950/80 via-slate-900 to-slate-900 border-b border-amber-500/40 flex items-center justify-between">
           <div className="flex items-center gap-2">

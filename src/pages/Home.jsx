@@ -74,7 +74,7 @@ const Home = () => {
       {/* ── Mobile Slide-Out Backdrop ── */}
       {isMobile && isMobileDrawerOpen && (
         <div
-          className="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 transition-opacity duration-300"
+          className="fixed inset-0 bg-black/75 backdrop-blur-sm z-[150] transition-opacity duration-300"
           onClick={(e) => { e.stopPropagation(); setIsMobileDrawerOpen(false); }}
         />
       )}
@@ -82,7 +82,7 @@ const Home = () => {
       {/* ── Mobile Slide-Out Drawer Panel ── */}
       {isMobile && (
         <div
-          className={`fixed top-0 left-0 bottom-0 w-[90%] max-w-[360px] bg-[#0b0f17]/98 border-r border-cyan-500/30 backdrop-blur-2xl p-4 z-50 flex flex-col justify-between shadow-[0_0_40px_rgba(0,0,0,0.9)] transition-transform duration-300 ease-out overflow-y-auto ${
+          className={`fixed top-0 left-0 bottom-0 w-[90%] max-w-[360px] bg-[#0b0f17]/98 border-r border-cyan-500/30 backdrop-blur-2xl p-4 z-[150] flex flex-col justify-between shadow-[0_0_40px_rgba(0,0,0,0.9)] transition-transform duration-300 ease-out overflow-y-auto ${
             isMobileDrawerOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
           onClick={(e) => e.stopPropagation()}

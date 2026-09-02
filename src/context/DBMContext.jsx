@@ -22,6 +22,30 @@ import { DEFAULT_AUGMENTATIONS } from '../data/augmentationsData';
 import { DEFAULT_INVOCATIONS } from '../data/invocationsData';
 import { DEFAULT_SPECIES_SIZES } from '../data/speciesSizeData';
 import { DEFAULT_SPECIES_MOVEMENT } from '../data/speciesMovementData';
+import {
+  DEFAULT_AUGMENTATION_TYPES,
+  DEFAULT_BODY_LOCATIONS,
+  DEFAULT_AREA_PATTERNS,
+  DEFAULT_EFFECT_TYPES,
+  DEFAULT_RANGES,
+  DEFAULT_TARGET_SPECIFICATIONS,
+  DEFAULT_CRITICAL_EFFECTS,
+  DEFAULT_CRITICAL_SUCCESS_EFFECTS,
+  DEFAULT_CRITICAL_FAILURE_EFFECTS,
+  DEFAULT_MATERIALS,
+  DEFAULT_RESISTANCES,
+  DEFAULT_MODES,
+  DEFAULT_SPECIALS,
+  DEFAULT_AVAILABILITY,
+  DEFAULT_GEAR_CATEGORIES,
+  DEFAULT_CLASSIFICATIONS,
+  DEFAULT_CREATORS,
+  DEFAULT_DESIGNS,
+  DEFAULT_COMPONENTS,
+  DEFAULT_PREREQUISITES,
+  DEFAULT_MODIFIERS,
+  DEFAULT_SOCIETAL_ENTRIES
+} from '../data/supportingCatalogsData';
 
 const DBMContext = createContext(null);
 
@@ -65,6 +89,55 @@ const filterInitialData = (dataList) => {
   return (dataList || []).filter(item => !isOmnicortexDeleted(item, tombstones));
 };
 
+const getFallbackSeedForCategory = (catK) => {
+  if (catK === 'compendium' || catK === 'rules_codex') return compendiumSeedData;
+  if (catK === 'archetypes') return DEFAULT_ARCHETYPES;
+  if (catK === 'species') return DEFAULT_SPECIES;
+  if (catK === 'species_type') return DEFAULT_SPECIES_TYPES;
+  if (catK === 'species_size') return DEFAULT_SPECIES_SIZES;
+  if (catK === 'species_movement') return DEFAULT_SPECIES_MOVEMENT;
+  if (catK === 'occupations') return DEFAULT_OCCUPATIONS;
+  if (catK === 'origins') return DEFAULT_ORIGINS;
+  if (catK === 'factions') return DEFAULT_FACTIONS;
+  if (catK === 'features') return DEFAULT_FEATURES;
+  if (catK === 'traits' || catK === 'trait') return ALL_CANONICAL_TRAITS;
+  if (catK === 'skills') return ALL_CANONICAL_SKILLS;
+  if (catK === 'disadvantages') return DEFAULT_SPECIES_DISADVANTAGES;
+  if (catK === 'weaponry') return DEFAULT_WEAPONRY;
+  if (catK === 'armoring') return DEFAULT_ARMORING;
+  if (catK === 'augmentations') return DEFAULT_AUGMENTATIONS;
+  if (catK === 'invocations') return DEFAULT_INVOCATIONS;
+
+  // Supporting & Developer Reference Categories
+  if (catK === 'augmentation_type') return DEFAULT_AUGMENTATION_TYPES;
+  if (catK === 'body_location') return DEFAULT_BODY_LOCATIONS;
+  if (catK === 'area') return DEFAULT_AREA_PATTERNS;
+  if (catK === 'effect') return DEFAULT_EFFECT_TYPES;
+  if (catK === 'range') return DEFAULT_RANGES;
+  if (catK === 'target') return DEFAULT_TARGET_SPECIFICATIONS;
+  if (catK === 'critical_effect') return DEFAULT_CRITICAL_EFFECTS;
+  if (catK === 'critical_success_effect') return DEFAULT_CRITICAL_SUCCESS_EFFECTS;
+  if (catK === 'critical_failure_effect') return DEFAULT_CRITICAL_FAILURE_EFFECTS;
+  if (catK === 'material') return DEFAULT_MATERIALS;
+  if (catK === 'resistance') return DEFAULT_RESISTANCES;
+  if (catK === 'mode') return DEFAULT_MODES;
+  if (catK === 'special') return DEFAULT_SPECIALS;
+  if (catK === 'availability') return DEFAULT_AVAILABILITY;
+  if (catK === 'gear_category') return DEFAULT_GEAR_CATEGORIES;
+  if (catK === 'classification') return DEFAULT_CLASSIFICATIONS;
+  if (catK === 'creator') return DEFAULT_CREATORS;
+  if (catK === 'design') return DEFAULT_DESIGNS;
+  if (catK === 'component') return DEFAULT_COMPONENTS;
+  if (catK === 'prerequisite' || catK === 'prerequisites') return DEFAULT_PREREQUISITES;
+  if (catK === 'modifier' || catK === 'modifiers') return DEFAULT_MODIFIERS;
+  if (catK.startsWith('society_')) {
+    return DEFAULT_SOCIETAL_ENTRIES.filter(e => e.category === catK || e.sphere_key === catK);
+  }
+  if (catK === 'societies') return DEFAULT_SOCIETAL_ENTRIES;
+
+  return [];
+};
+
 export const DBMProvider = ({ children }) => {
   const [dbData, setDbData] = useState(() => ({
     compendium: filterInitialData(compendiumSeedData),
@@ -84,7 +157,29 @@ export const DBMProvider = ({ children }) => {
     weaponry: filterInitialData(DEFAULT_WEAPONRY),
     armoring: filterInitialData(DEFAULT_ARMORING),
     augmentations: filterInitialData(DEFAULT_AUGMENTATIONS),
-    invocations: filterInitialData(DEFAULT_INVOCATIONS)
+    invocations: filterInitialData(DEFAULT_INVOCATIONS),
+    augmentation_type: filterInitialData(DEFAULT_AUGMENTATION_TYPES),
+    body_location: filterInitialData(DEFAULT_BODY_LOCATIONS),
+    area: filterInitialData(DEFAULT_AREA_PATTERNS),
+    effect: filterInitialData(DEFAULT_EFFECT_TYPES),
+    range: filterInitialData(DEFAULT_RANGES),
+    target: filterInitialData(DEFAULT_TARGET_SPECIFICATIONS),
+    critical_effect: filterInitialData(DEFAULT_CRITICAL_EFFECTS),
+    critical_success_effect: filterInitialData(DEFAULT_CRITICAL_SUCCESS_EFFECTS),
+    critical_failure_effect: filterInitialData(DEFAULT_CRITICAL_FAILURE_EFFECTS),
+    material: filterInitialData(DEFAULT_MATERIALS),
+    resistance: filterInitialData(DEFAULT_RESISTANCES),
+    mode: filterInitialData(DEFAULT_MODES),
+    special: filterInitialData(DEFAULT_SPECIALS),
+    availability: filterInitialData(DEFAULT_AVAILABILITY),
+    gear_category: filterInitialData(DEFAULT_GEAR_CATEGORIES),
+    classification: filterInitialData(DEFAULT_CLASSIFICATIONS),
+    creator: filterInitialData(DEFAULT_CREATORS),
+    design: filterInitialData(DEFAULT_DESIGNS),
+    component: filterInitialData(DEFAULT_COMPONENTS),
+    prerequisite: filterInitialData(DEFAULT_PREREQUISITES),
+    modifier: filterInitialData(DEFAULT_MODIFIERS),
+    societies: filterInitialData(DEFAULT_SOCIETAL_ENTRIES)
   }));
   const [currentUser, setCurrentUser] = useState(auth?.currentUser || null);
   const [isLoading, setIsLoading] = useState(true);
@@ -148,23 +243,7 @@ export const DBMProvider = ({ children }) => {
             
             // If collection is completely unpopulated in Firestore, fall back to seed data only if not deleted
             if (items.length === 0 && snapshot.docs.length === 0) {
-              let fallbackSeeds = [];
-              if (catK === 'compendium' || catK === 'rules_codex') fallbackSeeds = compendiumSeedData;
-              else if (catK === 'archetypes') fallbackSeeds = DEFAULT_ARCHETYPES;
-              else if (catK === 'species') fallbackSeeds = DEFAULT_SPECIES;
-              else if (catK === 'species_type') fallbackSeeds = DEFAULT_SPECIES_TYPES;
-              else if (catK === 'occupations') fallbackSeeds = DEFAULT_OCCUPATIONS;
-              else if (catK === 'origins') fallbackSeeds = DEFAULT_ORIGINS;
-              else if (catK === 'factions') fallbackSeeds = DEFAULT_FACTIONS;
-              else if (catK === 'features') fallbackSeeds = DEFAULT_FEATURES;
-              else if (catK === 'traits' || catK === 'trait') fallbackSeeds = ALL_CANONICAL_TRAITS;
-              else if (catK === 'skills') fallbackSeeds = ALL_CANONICAL_SKILLS;
-              else if (catK === 'disadvantages') fallbackSeeds = DEFAULT_SPECIES_DISADVANTAGES;
-              else if (catK === 'weaponry') fallbackSeeds = DEFAULT_WEAPONRY;
-              else if (catK === 'armoring') fallbackSeeds = DEFAULT_ARMORING;
-              else if (catK === 'augmentations') fallbackSeeds = DEFAULT_AUGMENTATIONS;
-              else if (catK === 'invocations') fallbackSeeds = DEFAULT_INVOCATIONS;
-
+              const fallbackSeeds = getFallbackSeedForCategory(catK);
               items = fallbackSeeds.filter(s => !isOmnicortexDeleted(s, tombstones));
             }
 
@@ -177,21 +256,8 @@ export const DBMProvider = ({ children }) => {
           (err) => {
             console.warn(`[DBMContext] Listener notice for collection "${catK}":`, err.message);
             const tombstones = getOmnicortexTombstones();
-            if (catK === 'compendium' || catK === 'rules_codex') {
-              setDbData(prev => ({ ...prev, [catK]: compendiumSeedData.filter(s => !isOmnicortexDeleted(s, tombstones)) }));
-            } else if (catK === 'archetypes') {
-              setDbData(prev => ({ ...prev, [catK]: DEFAULT_ARCHETYPES.filter(s => !isOmnicortexDeleted(s, tombstones)) }));
-            } else if (catK === 'species') {
-              setDbData(prev => ({ ...prev, [catK]: DEFAULT_SPECIES.filter(s => !isOmnicortexDeleted(s, tombstones)) }));
-            } else if (catK === 'species_type') {
-              setDbData(prev => ({ ...prev, [catK]: DEFAULT_SPECIES_TYPES.filter(s => !isOmnicortexDeleted(s, tombstones)) }));
-            } else if (catK === 'occupations') {
-              setDbData(prev => ({ ...prev, [catK]: DEFAULT_OCCUPATIONS.filter(s => !isOmnicortexDeleted(s, tombstones)) }));
-            } else if (catK === 'origins') {
-              setDbData(prev => ({ ...prev, [catK]: DEFAULT_ORIGINS.filter(s => !isOmnicortexDeleted(s, tombstones)) }));
-            } else if (catK === 'factions') {
-              setDbData(prev => ({ ...prev, [catK]: DEFAULT_FACTIONS.filter(s => !isOmnicortexDeleted(s, tombstones)) }));
-            }
+            const fallbackSeeds = getFallbackSeedForCategory(catK);
+            setDbData(prev => ({ ...prev, [catK]: fallbackSeeds.filter(s => !isOmnicortexDeleted(s, tombstones)) }));
             pendingCount--;
             if (pendingCount <= 0) {
               setIsLoading(false);
@@ -201,21 +267,8 @@ export const DBMProvider = ({ children }) => {
         unsubs.push(unsubRef);
       } catch (e) {
         console.warn(`[DBMContext] Init error on collection "${catK}":`, e);
-        if (catK === 'compendium' || catK === 'rules_codex') {
-          setDbData(prev => ({ ...prev, [catK]: compendiumSeedData }));
-        } else if (catK === 'archetypes') {
-          setDbData(prev => ({ ...prev, [catK]: DEFAULT_ARCHETYPES }));
-        } else if (catK === 'species') {
-          setDbData(prev => ({ ...prev, [catK]: DEFAULT_SPECIES }));
-        } else if (catK === 'species_type') {
-          setDbData(prev => ({ ...prev, [catK]: DEFAULT_SPECIES_TYPES }));
-        } else if (catK === 'occupations') {
-          setDbData(prev => ({ ...prev, [catK]: DEFAULT_OCCUPATIONS }));
-        } else if (catK === 'origins') {
-          setDbData(prev => ({ ...prev, [catK]: DEFAULT_ORIGINS }));
-        } else if (catK === 'factions') {
-          setDbData(prev => ({ ...prev, [catK]: DEFAULT_FACTIONS }));
-        }
+        const fallbackSeeds = getFallbackSeedForCategory(catK);
+        setDbData(prev => ({ ...prev, [catK]: fallbackSeeds }));
         pendingCount--;
         if (pendingCount <= 0) {
           setIsLoading(false);
@@ -287,6 +340,94 @@ export const DBMProvider = ({ children }) => {
         type: 'error',
         title: 'Sync Failed',
         text: err.message || 'Could not sync species to Firestore.'
+      });
+      return false;
+    }
+  }, [showToast]);
+
+  // Sync Master Species Matrix (Types, Sizes, Movements, Traits, Disadvantages, Species) to Firestore Cloud
+  const syncMasterSpeciesMatrix = useCallback(async () => {
+    try {
+      showToast({
+        type: 'info',
+        title: 'Syncing Species Matrix...',
+        text: 'Syncing complete Canonical Species Matrix (Types, Sizes, Movement, Traits, Disadvantages, Species) to cloud...'
+      });
+
+      const operations = [];
+
+      // 1. Species Types
+      DEFAULT_SPECIES_TYPES.forEach(item => {
+        operations.push({
+          ref: doc(db, 'species_type', item.id),
+          data: { ...item, updatedAt: new Date().toISOString() },
+          merge: true
+        });
+      });
+
+      // 2. Species Sizes
+      DEFAULT_SPECIES_SIZES.forEach(item => {
+        operations.push({
+          ref: doc(db, 'species_size', item.id),
+          data: { ...item, updatedAt: new Date().toISOString() },
+          merge: true
+        });
+      });
+
+      // 3. Species Movement
+      DEFAULT_SPECIES_MOVEMENT.forEach(item => {
+        operations.push({
+          ref: doc(db, 'species_movement', item.id),
+          data: { ...item, updatedAt: new Date().toISOString() },
+          merge: true
+        });
+      });
+
+      // 4. Species Traits (sync to both 'trait' and 'traits' collections)
+      ALL_CANONICAL_TRAITS.forEach(item => {
+        operations.push({
+          ref: doc(db, 'trait', item.id),
+          data: { ...item, updatedAt: new Date().toISOString() },
+          merge: true
+        });
+        operations.push({
+          ref: doc(db, 'traits', item.id),
+          data: { ...item, updatedAt: new Date().toISOString() },
+          merge: true
+        });
+      });
+
+      // 5. Species Disadvantages
+      DEFAULT_SPECIES_DISADVANTAGES.forEach(item => {
+        operations.push({
+          ref: doc(db, 'disadvantages', item.id),
+          data: { ...item, updatedAt: new Date().toISOString() },
+          merge: true
+        });
+      });
+
+      // 6. Species
+      DEFAULT_SPECIES.forEach(item => {
+        operations.push({
+          ref: doc(db, 'species', item.id),
+          data: { ...item, updatedAt: new Date().toISOString() },
+          merge: true
+        });
+      });
+
+      await commitChunkedBatches(operations, 450);
+      showToast({
+        type: 'success',
+        title: 'Species Matrix Synced',
+        text: `Successfully synced ${operations.length} species matrix records to Firestore Cloud!`
+      });
+      return true;
+    } catch (err) {
+      console.error('[DBMContext] syncMasterSpeciesMatrix failed:', err);
+      showToast({
+        type: 'error',
+        title: 'Sync Failed',
+        text: err.message || 'Could not sync species matrix to Firestore.'
       });
       return false;
     }
@@ -621,9 +762,9 @@ export const DBMProvider = ({ children }) => {
   }, [importJSON, showToast]);
 
   // Omnicortex Navigation History & Global State
-  const [activeCategory, setActiveCategory] = useState('compendium');
+  const [activeCategory, setActiveCategory] = useState('species');
   const [activeSubcategory, setActiveSubcategory] = useState(null);
-  const [history, setHistory] = useState(['compendium']);
+  const [history, setHistory] = useState(['species']);
   const [historyIndex, setHistoryIndex] = useState(0);
 
   // Sidebar Menu Drawer State (Open by default)
@@ -688,6 +829,7 @@ export const DBMProvider = ({ children }) => {
       importJSON,
       syncCanonicalCompendium,
       syncCanonicalSpecies,
+      syncMasterSpeciesMatrix,
       handleExportMasterJSON,
       handleImportMasterJSON,
       activeCategory,

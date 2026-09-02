@@ -10,17 +10,46 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 5 ft
+senses: Standard visual and auditory range.
+immunities: None
+inherent_attribute_modifiers:
+  - attribute: Charisma
+    bonus: 1
+bonus_attribute_points: 0
+specific_skill_bonuses:
+  - skill: Deception
+    bonus: 2
+  - skill: Insight
+    bonus: 1
+bonus_skills: 5
+bonus_skill_choices:
+  - Deception
+  - Insight
+  - Stealth
+  - Streetwise
+  - Persuasion
+inherent_features:
+  - trait-aeld-lineage-traits
+  - trait-alter-form-humanoid-special-ability
+  - trait-sense-alignment-intent
+bonus_features: []
+bonus_feature_choices:
+  - Actor
+  - Chameleon
+  - Quick Disguise
+  - Silver Tongue
+  - Uncanny Instincts
+recommended_features:
+  - feature-chameleon
+  - feature-actor
 stigma: 'Shifter (-2), Xeno (-2)'
 tech_level: 3 (Adaptive Technology)
 meta_level: 3 (Metamorphic Psionics)
 homeworld: Nomadic / Diaspora
-cp: 16
-description: >-
-  Doppelgangers are an enigmatic elven offshoot possessing mutable cellular
-  matrices. They can alter their physical form to mimic other humanoids
-  perfectly, operating as intelligence operatives, infiltrators, and observers.
 costs:
-  bp: 16
+  bp: 10
   credits: 0
   nodes: 0
   sockets: 0
@@ -29,96 +58,16 @@ costs:
   ap: 0
 modifiers:
   - target: Charisma
+    value: 1
     type: attribute
-    value: 1
     mode: inherent
-  - target: Deception
-    type: skill
-    value: 2
-    mode: inherent
-  - target: Insight
-    type: skill
-    value: 1
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 5
-    mode: bonus_pool
-  - target: Deception
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Insight
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Stealth
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Streetwise
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Persuasion
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Aeld Lineage Traits
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Alter Form (Humanoid - Special Ability)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Sense Alignment/Intent
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Actor
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Chameleon
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Quick Disguise
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Silver Tongue
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Uncanny Instincts
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-chameleon
-    type: feature
-    value: 1
-    mode: recommended
-  - target: feature-actor
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+cp_cost: 10
+cp: 10
+bp: 10
+description: >-
+  Doppelgangers are an enigmatic elven offshoot possessing mutable cellular
+  matrices. They can alter their physical form to mimic other humanoids
+  perfectly, operating as intelligence operatives, infiltrators, and observers.
 ---
 # Doppelganger (Shifter Aeld)
 

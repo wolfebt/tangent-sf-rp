@@ -1,12 +1,9 @@
 ---
 id: trait-tech-savvy
 name: Tech-Savvy
-category: traits
+trait_tier: Basic
 trait_type: Origin Trait
-origin_association: Urban
-description: >-
-  Intimate familiarity with consumer neural nets, public datagrids, and
-  ubiquitous urban tech.
+category: traits
 costs:
   bp: 1
   credits: 0
@@ -15,6 +12,9 @@ costs:
   strain: 0
   focus: 0
   ap: 0
+description: >-
+  Intimate familiarity with consumer neural nets, public datagrids, and
+  ubiquitous urban tech.
 modifiers: []
 modifications: []
 critical_details:
@@ -28,15 +28,12 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # Tech-Savvy
 
-**Category**: Origin Traits  
-**Associated Origin**: Urban  
-**Acquisition Cost**: Free (1 of 2 starting traits) or 1 CP per additional trait
+**Category**: TRAITS
+**Tier**: Basic
+**Type**: Origin Trait
+**BP Cost**: 1
 
 ## Description
 Intimate familiarity with consumer neural nets, public datagrids, and ubiquitous urban tech.
-
-## Mechanics & Benefits
-+2 to Computer and Technology Knowledge checks.

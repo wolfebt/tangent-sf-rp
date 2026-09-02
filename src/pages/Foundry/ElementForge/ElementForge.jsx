@@ -277,8 +277,8 @@ Output Format: Provide structured markdown with rich sections, atmospheric read-
 
       {/* Scenario Guide Synthesis Modal */}
       {isScenarioGuideModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
-          <div className="w-full max-w-2xl bg-[#0d1117] border border-cyan-500/50 rounded-2xl p-6 shadow-[0_0_35px_rgba(6,182,212,0.25)] flex flex-col gap-4">
+        <div className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-md flex items-start justify-center p-3 sm:p-6 pt-8 sm:pt-12 md:pt-14 pb-12 overflow-y-auto select-none font-sans">
+          <div className="w-full max-w-2xl bg-[#0d1117] border border-cyan-500/50 rounded-2xl p-6 shadow-[0_0_35px_rgba(6,182,212,0.25)] flex flex-col gap-4 max-h-[85vh] sm:max-h-[88vh] overflow-hidden">
             
             {/* Header */}
             <div className="flex items-center justify-between pb-3 border-b border-slate-800">

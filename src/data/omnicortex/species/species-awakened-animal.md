@@ -10,95 +10,54 @@ size:
   - species_size-medium
 movement:
   - species_movement-quadruped
+speeds: Ground 40 ft
+reach: 5 ft
+senses: 'Low-light vision. [1]'
+immunities: None
+inherent_attribute_modifiers: []
+bonus_attribute_points: 2
+specific_skill_bonuses:
+  - skill: Perception
+    bonus: 2
+  - skill: Survival
+    bonus: 2
+bonus_skills: 0
+bonus_skill_choices:
+  - Perception
+  - Survival
+  - Athletics
+  - Stealth
+inherent_features:
+  - trait-animal-physiology-natural-weapons-scent-low-light
+  - trait-awakened-consciousness-human-level-sentience
+  - trait-vocal-synthesizer-telepathic-collar
+bonus_features: []
+bonus_feature_choices:
+  - Keen Senses
+  - Pounce
+  - Thick Fur DR
+recommended_features:
+  - feature-keen-senses
 stigma: Beast (-4)
 tech_level: 2 (Adapted Gear)
 meta_level: 2 (Primal Sentience)
 homeworld: Uplift Habitats & Nature Sanctuaries
-cp: 15
-description: >-
-  Uplifted canines, felines, ursines, and avians granted full sapience and
-  tactical communication through cybernetic collars or bio-genetic uplift
-  programs.
 costs:
-  bp: 15
+  bp: 10
   credits: 0
   nodes: 0
   sockets: 0
   strain: 0
   focus: 0
   ap: 0
-modifiers:
-  - target: Any Attribute
-    type: attribute
-    value: 2
-    mode: bonus_pool
-  - target: Perception
-    type: skill
-    value: 2
-    mode: inherent
-  - target: Survival
-    type: skill
-    value: 2
-    mode: inherent
-  - target: Perception
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Survival
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Athletics
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Stealth
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: 'Animal Physiology (Natural Weapons, Scent, Low-Light)'
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Awakened Consciousness (Human-level sentience)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Vocal Synthesizer / Telepathic Collar
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Keen Senses
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Pounce
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Thick Fur DR
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-keen-senses
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+modifiers: []
+cp_cost: 10
+cp: 10
+bp: 10
+description: >-
+  Uplifted canines, felines, ursines, and avians granted full sapience and
+  tactical communication through cybernetic collars or bio-genetic uplift
+  programs.
 ---
 # Awakened Animal (Uplifted Beast)
 
@@ -156,21 +115,3 @@ Stigma (Animal)
 * **Composition:** Cinematic composition, rule of thirds, anamorphic bokeh, \--ar 16:9 \--v 6.0.
 
 **NEGATIVE PROMPT TOKENS:** outlines, black lines, borders, ink strokes, contour lines, hatching, cross-hatching, line art, line weight, illustration, cartoon, sketch, 3d render, gradient mesh, fuzzy, blurry, messy, watermark, text, anime, cel shaded, toon shading, hard edges, capes, banners, extra fabric, excess cables, distorted hands, plastic skin, waxy texture, airbrushed, smooth, doll-like.
-
-
-## Extended Lore & Background
-
-An Awakened Animal is a creature that has undergone a profound transformation, gaining not only sentience—the capacity to feel, perceive, and be conscious—but also sapience, meaning it is self-aware, capable of complex intelligent thought, abstract reasoning, and communication. This process elevates the creature far beyond its natural state, granting it an intellect comparable to or exceeding that of a human or other traditional sentient species.
-
-This radical awakening is not a common biological occurrence but typically results from powerful external influences. These triggers are varied and often steeped in the supernatural or the cutting edge of science. Exposure to potent magical energies, such as residual power from an ancient ritual, a direct and targeted spell, or prolonged proximity to a potent magical nexus, is a frequent cause. Divine intervention, whether a direct blessing, a reward from a deity, or an incidental effect of a celestial event, can also grant this gift. Finally, advanced technological enhancements, including neurological implants, experimental genetic therapies, or exposure to highly specialized artificial intelligences, serve as a modern avenue for this transformation.
-
-Awakened animals characteristically retain their foundational physical form, instincts, and inherent traits of their original species. A bear, for example, remains physically powerful and may still feel the urge to hibernate, but it now processes these urges through a sapient mind. The most significant changes are cognitive and behavioral. They gain the ability to understand and interact with other sentient beings on a sophisticated level, moving past simple conditioning or instinctual responses. Crucially, they may develop comprehensive language skills—often gaining the ability to speak the common tongue, or communicate through advanced telepathy or sign language—allowing them to participate in dialogue, debate, and diplomacy. They begin to form their own unique philosophies, moral codes, and religious or spiritual beliefs. Furthermore, they develop long-term goals, personal ambitions, and vocational pursuits that extend far beyond the basic survival needs of their animal lineage, such as seeking knowledge, establishing a business, becoming an artist, or even engaging in political action.
-
-The process of awakening is a deeply transformative psychological experience. The animal's newfound intelligence fundamentally reshapes its personality and worldview. This transition is often tumultuous. Many awakened animals face a complex internal struggle as they attempt to reconcile their primal, instinctual heritage—the deep, ancient programming of their species—with their highly developed, rational minds. This internal conflict can lead to unique psychological profiles; some may become highly philosophical or melancholic, while others may be driven to reject their animal past entirely.
-
-Conversely, some awakened animals embrace their unique dual nature. They find ways to synergize their animal strengths, senses, and instincts with their human-level intelligence, allowing them to thrive in ways that neither their base species nor standard sentient beings can. They often carve out unique niches in society, acting as mediators between the wild and civilization, or using their natural camouflage, speed, or strength in highly strategic ways. Their existence often presents a challenge to the societal structures of traditional sentient races, forcing communities to confront questions of citizenship, rights, and the very definition of sentience.
-
-Animal Body (Features and Disadvantages)  
-Typical PC Ability Scores  
-Stigma (Animal)
-

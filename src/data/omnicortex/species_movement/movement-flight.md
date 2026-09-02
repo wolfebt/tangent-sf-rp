@@ -1,8 +1,13 @@
 ---
 id: movement-flight
-name: "Flying: Flight Pace"
+name: 'Flying: Flight Pace (1x Fly)'
 category: species_movement
-description: Standard flying speed. Default pace for winged, thruster-equipped, or levitating creatures.
+classification: pace
+target_mode: Flying
+multiplier: 1
+speed: 60
+bp: 0
+description: Standard flying cruise pace (1x Fly).
 costs:
   bp: 0
   credits: 0
@@ -11,31 +16,12 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-speed: 60
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
+# Flying: Flight Pace (1x Fly)
 
-# Flying: Flight Pace
-
-**Category**: Movement Modes & Paces  
-**Movement Mode**: Flying  
-**Speed Multiplier**: 1x Flight (2x Walk)  
-**Medium Speed Baseline**: 60 ft / round  
+**Category**: Species Movement (PACE)  
+**Target Mode**: Flying  
+**Cost**: +0 BP  
 
 ## Description
-Standard flying speed. Default pace for winged, thruster-equipped, or levitating creatures.
-
-## Tactical Modifiers & Checks
-- **Action Penalty / Modifier**: None
-- **Required Check**: None
+Standard flying cruise pace (1x Fly).

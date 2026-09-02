@@ -1,9 +1,15 @@
 ---
 id: movement-marcher
-name: Marcher
+name: Marcher (Long-Distance Efficiency)
 category: species_movement
-movement_type: Modification
-description: "Fatigued ½ when moving at a regular pace."
+classification: adjuster
+target_mode: Ground
+speed_modifier: 0
+is_additive: false
+bp: 1
+description: >-
+  Fatigued at 1/2 normal rate when moving at a regular travel pace over overland
+  distances.
 costs:
   bp: 1
   credits: 0
@@ -12,32 +18,12 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-speed: 0
-is_ranked: false
-is_exclusive: false
-is_disadvantage: false
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
+# Marcher (Long-Distance Efficiency)
 
-# Marcher
+**Category**: Species Movement (ADJUSTER)  
+**Target Mode**: Ground  
+**Cost**: +1 BP  
 
-**Category**: Species Movement (Modification)  
-**Cost**: 1 BP  
-**Classification**: Modification  
-
-## Effect
-Fatigued ½ when moving at a regular pace.
-
-## Mechanics & Rules
-Reduces fatigue check frequency by half (50%) when traveling at standard overland marching pace.
+## Description
+Fatigued at 1/2 normal rate when moving at a regular travel pace over overland distances.

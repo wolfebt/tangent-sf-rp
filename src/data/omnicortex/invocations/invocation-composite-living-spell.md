@@ -27,8 +27,8 @@ sockets:
   used: 0
   tier: Socket
   allocated: []
+discipline: Matter + Energy
 ---
-
 # Living Spell Construct (Composite Invocation)
 
 **Category**: Composite Invocations  

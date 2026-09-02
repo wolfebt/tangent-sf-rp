@@ -202,9 +202,9 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
 
   return (
     <>
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-md p-3 sm:p-6 overflow-y-auto">
+      <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 pt-10 sm:pt-14 pb-12 overflow-y-auto select-none font-sans">
         <div 
-          className="bg-[#0d1117] border-2 border-cyan-500/50 rounded-2xl w-full max-w-2xl shadow-[0_0_50px_rgba(0,0,0,0.9)] overflow-hidden flex flex-col font-sans select-none animate-fadeIn"
+          className="bg-[#0d1117] border-2 border-cyan-500/50 rounded-2xl w-full max-w-2xl max-h-[85vh] sm:max-h-[88vh] shadow-[0_0_50px_rgba(0,0,0,0.9)] overflow-hidden flex flex-col font-sans select-none animate-fadeIn"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}

@@ -15,22 +15,22 @@ archetypes:
   - Special Forces
   - Empowered
 traits:
-  - trait-soldier-adaptable
-  - trait-soldier-attention-to-detail
-  - trait-soldier-combat-training
-  - trait-soldier-cool
-  - trait-soldier-cunning
-  - trait-soldier-discipline
-  - trait-soldier-loyal
-  - trait-soldier-observant
-  - trait-soldier-physical-prowess
-  - trait-soldier-rapid-response
-  - trait-soldier-resourceful
-  - trait-soldier-stalker
-  - trait-soldier-strategic
-  - trait-soldier-team-oriented
-  - trait-soldier-versatile
-  - trait-soldier-well-equipped
+  - trait-adaptability
+  - trait-attention-to-detail
+  - trait-combat-training
+  - trait-cool
+  - trait-cunning
+  - trait-discipline
+  - trait-loyal
+  - trait-observant
+  - trait-physical-prowess
+  - trait-rapid-response
+  - trait-resourceful
+  - trait-stalker
+  - trait-strategic
+  - trait-team-oriented
+  - trait-versatile
+  - trait-well-equipped
 description: >-
   A Soldier can be described as a highly trained and versatile combatant,
   skilled in various forms of warfare and tactics. They are often responsible

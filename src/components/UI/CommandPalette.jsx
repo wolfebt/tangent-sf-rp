@@ -232,7 +232,7 @@ export const CommandPalette = ({ isOpen, onClose, onDiceRolled }) => {
 
   return (
     <div 
-      className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-start justify-center pt-20 sm:pt-24 px-4 select-none font-sans"
+      className="fixed inset-0 z-[300] bg-black/80 backdrop-blur-md flex items-start justify-center pt-20 sm:pt-24 px-4 select-none font-sans"
       onClick={onClose}
     >
       <div 

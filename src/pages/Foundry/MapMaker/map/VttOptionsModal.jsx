@@ -42,8 +42,8 @@ const VttOptionsModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 select-none animate-fadeIn">
-      <div className="bg-[#0b121d] border border-cyan-500/70 rounded-xl p-5 w-full max-w-2xl shadow-[0_0_50px_rgba(6,182,212,0.3)] text-white flex flex-col gap-4 max-h-[92vh] overflow-hidden">
+    <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/85 backdrop-blur-md p-3 sm:p-6 pt-8 sm:pt-12 md:pt-14 pb-12 overflow-y-auto select-none font-sans animate-fadeIn">
+      <div className="bg-[#0b121d] border border-cyan-500/70 rounded-xl p-5 w-full max-w-2xl shadow-[0_0_50px_rgba(6,182,212,0.3)] text-white flex flex-col gap-4 max-h-[85vh] sm:max-h-[88vh] overflow-hidden">
         {/* Header */}
         <div className="flex justify-between items-center pb-3 border-b border-cyan-500/40">
           <div className="flex items-center gap-3">

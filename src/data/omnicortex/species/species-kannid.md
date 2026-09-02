@@ -10,16 +10,46 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 5 ft
+senses: Standard visual and auditory range.
+immunities: None
+inherent_attribute_modifiers:
+  - attribute: Agility
+    bonus: 1
+  - attribute: Stamina
+    bonus: 1
+bonus_attribute_points: 0
+specific_skill_bonuses:
+  - skill: Alertness
+    bonus: 2
+  - skill: Survival (Tracking)
+    bonus: 2
+bonus_skills: 0
+bonus_skill_choices:
+  - Alertness
+  - Survival
+  - Athletics
+  - Combat
+  - Intimidation
+inherent_features:
+  - trait-digitigrade
+  - trait-quick-5ft-movement
+  - trait-uncanny-senses-acute-scent-hearing-4
+  - trait-pack-tactics-2-to-hit-when-flanking
+bonus_features: []
+bonus_feature_choices:
+  - Apex Tracker
+  - Bite Attack
+  - Howl of Morale
+recommended_features:
+  - feature-pack-tactics
 stigma: Xeno (-2)
 tech_level: 3 (Standard Infantry Gear & Tracking Arrays)
 meta_level: 1 (Pack Empathy)
 homeworld: Kannis-4 Steppes
-cp: 17
-description: >-
-  Canid humanoids prized across the galaxy as elite trackers, loyal bodyguards,
-  law enforcers, and close-quarters assault specialists.
 costs:
-  bp: 17
+  bp: 10
   credits: 0
   nodes: 0
   sockets: 0
@@ -28,88 +58,19 @@ costs:
   ap: 0
 modifiers:
   - target: Agility
-    type: attribute
     value: 1
+    type: attribute
     mode: inherent
   - target: Stamina
+    value: 1
     type: attribute
-    value: 1
     mode: inherent
-  - target: Alertness
-    type: skill
-    value: 2
-    mode: inherent
-  - target: Survival (Tracking)
-    type: skill
-    value: 2
-    mode: inherent
-  - target: Alertness
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Survival
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Athletics
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Combat
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Intimidation
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Digitigrade
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Quick (+5ft Movement)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Uncanny Senses (Acute Scent & Hearing +4)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Pack Tactics (+2 to hit when flanking)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Apex Tracker
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Bite Attack
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Howl of Morale
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-pack-tactics
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+cp_cost: 10
+cp: 10
+bp: 10
+description: >-
+  Canid humanoids prized across the galaxy as elite trackers, loyal bodyguards,
+  law enforcers, and close-quarters assault specialists.
 ---
 # Kannid (Canine Humanoid)
 

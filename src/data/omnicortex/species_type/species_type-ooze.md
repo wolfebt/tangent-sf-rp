@@ -2,8 +2,8 @@
 id: species_type-ooze
 name: Ooze
 category: species_type
-description: >-
-  Oozes are gelatinous / semi-solid amorphous creatures also used to describe swarms of small creatures. Many oozes use blindsight or other non-visual senses to navigate.
+bp: 6
+cp: 6
 costs:
   bp: 6
   credits: 0
@@ -12,47 +12,24 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-senses: "Blindsight or non-visual sensory navigation."
-physiology: "Amorphous semi-solid or swarm-based form."
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+senses: Blindsight 30ft
+immunities: 'Physical conditions and critical hits [3]'
+physiology: Semi-solid amorphous form.
+description: Ooze chassis.
 ---
-
 # Ooze
 
 **Category**: Species Types (The Chassis)  
 **Build Point Cost**: 6 BP  
 
 ## Description
-Oozes are gelatinous / semi-solid amorphous creatures also used to describe swarms of small creatures. Many oozes use blindsight or other non-visual senses to navigate.
+Ooze chassis with innate biological and metaphysical adaptations.
 
 ## Senses
-* Blindsight or non-visual sensory navigation.
+* Blindsight 30ft
 
-## Immunities
-* Immune to all physical conditional effects due to slippery/amorphous form. [3]
-
-## Fortification
-* Not subject to critical hits or flanking. [3]
-
-
-## Traits & Special Qualities
-* Amorphous composition
-
+## Immunities & Defenses
+* Physical conditions and critical hits [3]
 
 ## Physiology
-* Amorphous semi-solid or swarm-based form.
-
-## Mechanics & Rules
-* Amorphous: Immune to all physical conditional effects due to slippery form/base components [3 BP]. Fortification: Not subject to critical hits or flanking [3 BP]. Often utilizes blindsight/non-visual senses.
-* Common traits apply to any species of this type. Individual species will have specialized abilities and traits depending on developmental, environmental, and/or other factors.
+* Semi-solid amorphous form.

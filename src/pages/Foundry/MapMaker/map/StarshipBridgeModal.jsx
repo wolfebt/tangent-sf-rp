@@ -197,8 +197,8 @@ export default function StarshipBridgeModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 animate-in fade-in duration-200">
-      <div className="relative w-full max-w-5xl max-h-[92vh] bg-[#0c1017] border-2 border-cyan-500/80 rounded-2xl shadow-[0_0_50px_rgba(6,182,212,0.3)] flex flex-col overflow-hidden text-slate-100 font-sans">
+    <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/85 backdrop-blur-md p-3 sm:p-6 pt-8 sm:pt-12 md:pt-14 pb-12 overflow-y-auto select-none font-sans animate-in fade-in duration-200">
+      <div className="relative w-full max-w-5xl max-h-[85vh] sm:max-h-[88vh] bg-[#0c1017] border-2 border-cyan-500/80 rounded-2xl shadow-[0_0_50px_rgba(6,182,212,0.3)] flex flex-col overflow-hidden text-slate-100 font-sans">
         
         {/* Modal Header */}
         <div className="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-cyan-950/80 via-slate-900 to-slate-950 border-b border-cyan-500/40 shrink-0">

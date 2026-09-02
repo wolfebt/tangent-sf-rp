@@ -2,8 +2,8 @@
 id: invocation-morph
 name: MORPH
 category: invocations
-discipline: Energy
-description: MORPH invocation for Energy reality manipulation.
+discipline: Matter
+description: MORPH invocation for Matter reality manipulation.
 costs:
   bp: 0
   credits: 0
@@ -25,11 +25,10 @@ sockets:
   tier: Socket
   allocated: []
 ---
-
 # MORPH Invocation
 
 **Category**: Invocations  
-**Discipline**: Energy
+**Discipline**: Matter
 
 ## Description & Ritual Details
 Classification: Matter (Transmutation) | Utility | \[Polymorph\] \[Disguise\]  

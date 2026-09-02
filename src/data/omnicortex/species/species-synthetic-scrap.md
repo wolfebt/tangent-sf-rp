@@ -10,16 +10,45 @@ size:
   - species_size-medium
 movement:
   - species_movement-bipedal
+speeds: Ground 30 ft
+reach: 5 ft
+senses: 'Low-light vision [1] and Darkvision 60 feet [1].'
+immunities: >-
+  Asphyxiation, bleeding, critical hits, poison, biological disease, starvation,
+  sleep [9]
+inherent_attribute_modifiers:
+  - attribute: Charisma
+    bonus: -2
+bonus_attribute_points: 3
+specific_skill_bonuses:
+  - skill: Engineering (Salvage)
+    bonus: 2
+  - skill: Repair
+    bonus: 2
+bonus_skills: 10
+bonus_skill_choices:
+  - Engineering
+  - Repair
+  - Combat (Improvised)
+  - Streetwise
+inherent_features:
+  - trait-synthetic-base-traits
+  - trait-heavy-augmentation-slots-3-free-cyber-slots
+  - trait-field-self-repair-protocol
+  - trait-scrap-plating-dr-6
+bonus_features: []
+bonus_feature_choices:
+  - Weapon Hardpoint Mount
+  - Overcharged Capacitor
+  - EMP Hardening
+recommended_features:
+  - feature-weapon-hardpoint-mount
 stigma: Synthetic (-2)
 tech_level: 3 (Salvage & Reclaimed Hardware)
 meta_level: 0 (Null)
 homeworld: Junk Worlds & Scrapyard Moons
-cp: 26
-description: >-
-  Scraps are self-assembled, autonomous synthetic beings constructed from
-  recycled chassis, discarded starship components, and industrial hulls.
 costs:
-  bp: 26
+  bp: 47
   credits: 0
   nodes: 0
   sockets: 0
@@ -28,88 +57,15 @@ costs:
   ap: 0
 modifiers:
   - target: Charisma
-    type: attribute
     value: -2
-    mode: inherent
-  - target: Any Attribute
     type: attribute
-    value: 3
-    mode: bonus_pool
-  - target: Engineering (Salvage)
-    type: skill
-    value: 2
     mode: inherent
-  - target: Repair
-    type: skill
-    value: 2
-    mode: inherent
-  - target: General Skill Pool
-    type: skill
-    value: 10
-    mode: bonus_pool
-  - target: Engineering
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Repair
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Combat (Improvised)
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Streetwise
-    type: skill
-    value: 1
-    mode: choice_pool
-  - target: Synthetic Base Traits
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Heavy Augmentation Slots (3 Free Cyber Slots)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Field Self-Repair Protocol
-    type: feature
-    value: 1
-    mode: inherent
-  - target: Scrap Plating (DR 6/-)
-    type: feature
-    value: 1
-    mode: inherent
-  - target: General Feature Pool
-    type: feature
-    value: 1
-    mode: bonus_pool
-  - target: Weapon Hardpoint Mount
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: Overcharged Capacitor
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: EMP Hardening
-    type: feature
-    value: 1
-    mode: choice_pool
-  - target: feature-weapon-hardpoint-mount
-    type: feature
-    value: 1
-    mode: recommended
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
+cp_cost: 47
+cp: 47
+bp: 47
+description: >-
+  Scraps are self-assembled, autonomous synthetic beings constructed from
+  recycled chassis, discarded starship components, and industrial hulls.
 ---
 # Scrap (Kit-Bashed Autonomous Frame)
 

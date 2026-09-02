@@ -1,9 +1,13 @@
 ---
 id: movement-hauler
-name: Hauler
+name: Hauler (Heavy Load Mobility)
 category: species_movement
-movement_type: Modification
-description: "Not encumbered by carrying a Heavy Load."
+classification: adjuster
+target_mode: Ground
+speed_modifier: 0
+is_additive: false
+bp: 1
+description: Not encumbered or slowed by carrying a Heavy Load.
 costs:
   bp: 1
   credits: 0
@@ -12,32 +16,12 @@ costs:
   strain: 0
   focus: 0
   ap: 0
-speed: 0
-is_ranked: false
-is_exclusive: false
-is_disadvantage: false
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
+# Hauler (Heavy Load Mobility)
 
-# Hauler
+**Category**: Species Movement (ADJUSTER)  
+**Target Mode**: Ground  
+**Cost**: +1 BP  
 
-**Category**: Species Movement (Modification)  
-**Cost**: 1 BP  
-**Classification**: Modification  
-
-## Effect
-Not encumbered by carrying a Heavy Load.
-
-## Mechanics & Rules
-The character ignores encumbrance movement speed penalties and Agility check debuffs when carrying a Heavy Load.
+## Description
+Not encumbered or slowed by carrying a Heavy Load.

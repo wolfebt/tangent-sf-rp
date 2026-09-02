@@ -69,11 +69,11 @@ export const ComprehensiveUserGuideModal = ({ isOpen, onClose, initialTab = 'hub
 
   return (
     <div 
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-2 sm:p-4 md:p-6 overflow-hidden animate-fade-in"
+      className="fixed inset-0 z-[200] flex items-start justify-center bg-black/85 backdrop-blur-md p-2 sm:p-4 md:p-6 pt-6 sm:pt-10 md:pt-12 pb-8 overflow-y-auto select-none font-sans animate-fade-in"
       onClick={onClose}
     >
       <div 
-        className="relative bg-[#0b0f17] border border-cyan-500/40 rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.9),0_0_20px_rgba(34,211,238,0.2)] w-full max-w-7xl h-[92vh] flex flex-col font-sans overflow-hidden text-slate-200"
+        className="relative bg-[#0b0f17] border border-cyan-500/40 rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.9),0_0_20px_rgba(34,211,238,0.2)] w-full max-w-7xl max-h-[88vh] sm:max-h-[90vh] flex flex-col font-sans overflow-hidden text-slate-200"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Header Bar */}
