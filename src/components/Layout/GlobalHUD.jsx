@@ -212,8 +212,8 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
             <span className="text-[0.55rem] sm:text-[0.7rem] leading-none whitespace-nowrap text-cyan-400/80">SF RP</span>
           </NavLink>
 
-          {/* Primary Navigation Suite (Positioned on the Left, Always Visible) */}
-          <nav className="flex items-center gap-1 sm:gap-1.5 shrink-0">
+          {/* Primary Navigation Suite (Positioned on the Left, Always Showing Full Labels) */}
+          <nav className="flex items-center gap-1.5 sm:gap-2 shrink-0 flex-nowrap">
             {/* 1. FOLIO Button */}
             <button
               type="button"
@@ -221,18 +221,18 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 AudioService.playTerminalBeep(1150, 0.03);
                 navigate('/folio');
               }}
-              className={`px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg border text-[11px] sm:text-xs font-mono font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1 sm:gap-1.5 cursor-pointer select-none ${
+              className={`px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border sm:border-2 text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-2 cursor-pointer select-none whitespace-nowrap ${
                 isFolio
-                  ? 'bg-cyan-950/70 border-cyan-400 text-cyan-200 shadow-[0_0_12px_rgba(34,211,238,0.35)]'
-                  : 'bg-slate-950/50 hover:bg-slate-900/90 border-slate-700/80 hover:border-cyan-400/70 text-slate-200 hover:text-cyan-300'
+                  ? 'bg-cyan-950/70 border-cyan-400 text-cyan-200 shadow-[0_0_15px_rgba(34,211,238,0.4)]'
+                  : 'bg-slate-950/60 hover:bg-slate-900/90 border-slate-700/80 hover:border-cyan-400 text-slate-200 hover:text-cyan-300'
               }`}
               title="Open Persona Folio Operative Catalog & Sheet (/folio)"
             >
-              <div className={`p-0.5 rounded border shrink-0 ${isFolio ? 'bg-cyan-500/25 border-cyan-400/60 text-cyan-300' : 'bg-cyan-500/10 border-cyan-500/30 text-cyan-400'}`}>
-                <Users size={13} />
+              <div className={`p-1 rounded-md sm:rounded-lg border shrink-0 ${isFolio ? 'bg-cyan-500/25 border-cyan-400/60 text-cyan-300' : 'bg-cyan-500/10 border-cyan-500/30 text-cyan-400'}`}>
+                <Users size={14} className="sm:w-4 sm:h-4" />
               </div>
-              <span className="hidden xs:inline">FOLIO</span>
-              {isFolio && <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse inline-block shadow-[0_0_6px_rgba(34,211,238,0.8)]" />}
+              <span>FOLIO</span>
+              {isFolio && <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse inline-block shadow-[0_0_8px_rgba(34,211,238,0.8)]" />}
             </button>
 
             {/* 2. OMNICORTEX Button */}
@@ -242,19 +242,18 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 AudioService.playTerminalBeep(1150, 0.03);
                 navigate('/dbm');
               }}
-              className={`px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg border text-[11px] sm:text-xs font-mono font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1 sm:gap-1.5 cursor-pointer select-none ${
+              className={`px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border sm:border-2 text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-2 cursor-pointer select-none whitespace-nowrap ${
                 isDBM || isCodex
-                  ? 'bg-emerald-950/70 border-emerald-400 text-emerald-200 shadow-[0_0_12px_rgba(52,211,153,0.35)]'
-                  : 'bg-slate-950/50 hover:bg-slate-900/90 border-slate-700/80 hover:border-emerald-400/70 text-slate-200 hover:text-emerald-300'
+                  ? 'bg-emerald-950/70 border-emerald-400 text-emerald-200 shadow-[0_0_15px_rgba(52,211,153,0.4)]'
+                  : 'bg-slate-950/60 hover:bg-slate-900/90 border-slate-700/80 hover:border-emerald-400 text-slate-200 hover:text-emerald-300'
               }`}
               title="Open Omnicortex Master Database (/dbm)"
             >
-              <div className={`p-0.5 rounded border shrink-0 ${isDBM || isCodex ? 'bg-emerald-500/25 border-emerald-400/60 text-emerald-300' : 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'}`}>
-                <Database size={13} />
+              <div className={`p-1 rounded-md sm:rounded-lg border shrink-0 ${isDBM || isCodex ? 'bg-emerald-500/25 border-emerald-400/60 text-emerald-300' : 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'}`}>
+                <Database size={14} className="sm:w-4 sm:h-4" />
               </div>
-              <span className="hidden md:inline">OMNICORTEX</span>
-              <span className="md:hidden hidden xs:inline">OMNI</span>
-              {(isDBM || isCodex) && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block shadow-[0_0_6px_rgba(52,211,153,0.8)]" />}
+              <span>OMNICORTEX</span>
+              {(isDBM || isCodex) && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block shadow-[0_0_8px_rgba(52,211,153,0.8)]" />}
             </button>
 
             {/* 3. COMPENDIUM Button (Separated Wiki Window) */}
@@ -264,19 +263,18 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 AudioService.playTerminalBeep(1150, 0.03);
                 navigate('/compendium');
               }}
-              className={`px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg border text-[11px] sm:text-xs font-mono font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1 sm:gap-1.5 cursor-pointer select-none ${
+              className={`px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border sm:border-2 text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-2 cursor-pointer select-none whitespace-nowrap ${
                 isCompendium
-                  ? 'bg-sky-950/70 border-sky-400 text-sky-200 shadow-[0_0_12px_rgba(56,189,248,0.35)]'
-                  : 'bg-slate-950/50 hover:bg-slate-900/90 border-slate-700/80 hover:border-sky-400/70 text-slate-200 hover:text-sky-300'
+                  ? 'bg-sky-950/70 border-sky-400 text-sky-200 shadow-[0_0_15px_rgba(56,189,248,0.4)]'
+                  : 'bg-slate-950/60 hover:bg-slate-900/90 border-slate-700/80 hover:border-sky-400 text-slate-200 hover:text-sky-300'
               }`}
               title="Open Compendium Lore & Rules Wiki (/compendium)"
             >
-              <div className={`p-0.5 rounded border shrink-0 ${isCompendium ? 'bg-sky-500/25 border-sky-400/60 text-sky-300' : 'bg-sky-500/10 border-sky-500/30 text-sky-400'}`}>
-                <BookOpen size={13} />
+              <div className={`p-1 rounded-md sm:rounded-lg border shrink-0 ${isCompendium ? 'bg-sky-500/25 border-sky-400/60 text-sky-300' : 'bg-sky-500/10 border-sky-500/30 text-sky-400'}`}>
+                <BookOpen size={14} className="sm:w-4 sm:h-4" />
               </div>
-              <span className="hidden md:inline">COMPENDIUM</span>
-              <span className="md:hidden hidden xs:inline">COMP</span>
-              {isCompendium && <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse inline-block shadow-[0_0_6px_rgba(56,189,248,0.8)]" />}
+              <span>COMPENDIUM</span>
+              {isCompendium && <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse inline-block shadow-[0_0_8px_rgba(56,189,248,0.8)]" />}
             </button>
 
             {/* 4. FOUNDRY Button (Opens to Catalog/Dashboard) */}
@@ -286,18 +284,18 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 AudioService.playTerminalBeep(1150, 0.03);
                 navigate('/foundry');
               }}
-              className={`px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg border text-[11px] sm:text-xs font-mono font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1 sm:gap-1.5 cursor-pointer select-none ${
+              className={`px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border sm:border-2 text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-2 cursor-pointer select-none whitespace-nowrap ${
                 isFoundry
-                  ? 'bg-purple-950/70 border-purple-400 text-purple-200 shadow-[0_0_12px_rgba(168,85,247,0.35)]'
-                  : 'bg-slate-950/50 hover:bg-slate-900/90 border-slate-700/80 hover:border-purple-400/70 text-slate-200 hover:text-purple-300'
+                  ? 'bg-purple-950/70 border-purple-400 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.4)]'
+                  : 'bg-slate-950/60 hover:bg-slate-900/90 border-slate-700/80 hover:border-purple-400 text-slate-200 hover:text-purple-300'
               }`}
               title="Open Story Foundry Catalog & VTT Dashboard (/foundry)"
             >
-              <div className={`p-0.5 rounded border shrink-0 ${isFoundry ? 'bg-purple-500/25 border-purple-400/60 text-purple-300' : 'bg-purple-500/10 border-purple-500/30 text-purple-400'}`}>
-                <Layers size={13} />
+              <div className={`p-1 rounded-md sm:rounded-lg border shrink-0 ${isFoundry ? 'bg-purple-500/25 border-purple-400/60 text-purple-300' : 'bg-purple-500/10 border-purple-500/30 text-purple-400'}`}>
+                <Layers size={14} className="sm:w-4 sm:h-4" />
               </div>
-              <span className="hidden xs:inline">FOUNDRY</span>
-              {isFoundry && <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse inline-block shadow-[0_0_6px_rgba(168,85,247,0.8)]" />}
+              <span>FOUNDRY</span>
+              {isFoundry && <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse inline-block shadow-[0_0_8px_rgba(168,85,247,0.8)]" />}
             </button>
 
             {/* 5. COMMS Button */}
@@ -307,23 +305,23 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 AudioService.playTerminalBeep(1150, 0.03);
                 navigate('/comms');
               }}
-              className={`px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg border text-[11px] sm:text-xs font-mono font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1 sm:gap-1.5 cursor-pointer select-none relative ${
+              className={`px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-lg sm:rounded-xl border sm:border-2 text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-2 cursor-pointer select-none relative whitespace-nowrap ${
                 isComms
-                  ? 'bg-amber-950/70 border-amber-400 text-amber-200 shadow-[0_0_12px_rgba(245,158,11,0.35)]'
-                  : 'bg-slate-950/50 hover:bg-slate-900/90 border-slate-700/80 hover:border-amber-400/70 text-slate-200 hover:text-amber-300'
+                  ? 'bg-amber-950/70 border-amber-400 text-amber-200 shadow-[0_0_15px_rgba(245,158,11,0.4)]'
+                  : 'bg-slate-950/60 hover:bg-slate-900/90 border-slate-700/80 hover:border-amber-400 text-slate-200 hover:text-amber-300'
               }`}
               title="Open CommLink Relay Matrix (/comms)"
             >
-              <div className={`p-0.5 rounded border shrink-0 ${isComms ? 'bg-amber-500/25 border-amber-400/60 text-amber-300' : 'bg-amber-500/10 border-amber-500/30 text-amber-400'}`}>
-                <Radio size={13} />
+              <div className={`p-1 rounded-md sm:rounded-lg border shrink-0 ${isComms ? 'bg-amber-500/25 border-amber-400/60 text-amber-300' : 'bg-amber-500/10 border-amber-500/30 text-amber-400'}`}>
+                <Radio size={14} className="sm:w-4 sm:h-4" />
               </div>
-              <span className="hidden xs:inline">COMMS</span>
+              <span>COMMS</span>
               {totalUnreadCount > 0 && (
-                <span className="w-3.5 h-3.5 bg-amber-500 text-black text-[8px] font-mono font-bold rounded-full flex items-center justify-center animate-pulse">
+                <span className="w-4 h-4 bg-amber-500 text-black text-[9px] font-mono font-bold rounded-full flex items-center justify-center animate-pulse">
                   {totalUnreadCount}
                 </span>
               )}
-              {isComms && totalUnreadCount === 0 && <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse inline-block shadow-[0_0_6px_rgba(245,158,11,0.8)]" />}
+              {isComms && totalUnreadCount === 0 && <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse inline-block shadow-[0_0_8px_rgba(245,158,11,0.8)]" />}
             </button>
           </nav>
         </div>
