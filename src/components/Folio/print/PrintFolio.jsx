@@ -127,7 +127,7 @@ const PrintFolio = ({ characterData, isScreenPreview = false }) => {
 
   // Helper to render skill row
   const renderSkillRow = (skillName, prefix) => {
-    const slug = skillName.toLowerCase().replace(/[^a-z0-0]+/g, '-');
+    const slug = skillName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
     const fullId = `skill-${prefix}-${slug}`;
     const rank = getNum(`${fullId}-rank`, 0);
     const mod = getNum(`${fullId}-mod`, 0);

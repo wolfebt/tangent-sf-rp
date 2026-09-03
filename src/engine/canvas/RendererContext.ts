@@ -26,31 +26,11 @@ export class RendererContext {
     this.canvasRef = canvas;
 
     try {
-      // 1. Check for WebGPU support before initializing PixiJS
-      if (typeof navigator !== 'undefined' && 'gpu' in navigator && (navigator as any).gpu) {
-        try {
-          const adapter = await (navigator as any).gpu.requestAdapter({
-            powerPreference: 'high-performance',
-          });
-
-          if (adapter) {
-            console.log(`[RendererContext] WebGPU adapter acquired: ${adapter.name || 'Discrete/Integrated GPU'}`);
-            this.isWebGPU = true;
-            this.setupDeviceLossRecovery(adapter);
-          } else {
-            console.warn('[RendererContext] navigator.gpu exists, but no suitable adapter found.');
-          }
-        } catch (e) {
-          console.warn('[RendererContext] WebGPU adapter request error; proceeding with fallback:', e);
-        }
-      }
-
-      // 2. Boot the engine. PixiJS v8 prefers WebGPU if available and 'preference' is set.
+      // Boot the engine with PixiJS v8 preferring WebGPU
       await this.app.init({
         canvas: this.canvasRef,
         resizeTo: typeof window !== 'undefined' ? window : undefined,
         preference: 'webgpu',
-        powerPreference: 'high-performance',
         antialias: false, // Disabled for crisp tactical grid sharpness and maximum compute performance
         resolution: typeof window !== 'undefined' ? (window.devicePixelRatio || 1) : 1,
         autoDensity: true,
@@ -62,6 +42,7 @@ export class RendererContext {
       if (this.app.renderer?.name?.toLowerCase().includes('webgpu')) {
         console.log('[RendererContext] WebGPU Graphics Pipeline successfully initialized on the Stage.');
         this.isWebGPU = true;
+        this.setupDeviceLossRecovery();
       } else {
         console.log(`[RendererContext] Stage running on fallback renderer: ${this.app.renderer?.name}`);
         this.isWebGPU = false;
@@ -73,18 +54,17 @@ export class RendererContext {
   }
 
   /**
-   * Hooks into the WebGPU device lost event to prevent the app from dying if the OS suspends the GPU.
+   * Hooks into the active WebGPU device lost event to prevent the app from dying if the OS suspends the GPU.
    */
-  private setupDeviceLossRecovery(adapter: any) {
-    if (!adapter?.requestDevice) return;
-    
-    adapter.requestDevice().then((device: any) => {
-      device?.lost?.then((info: any) => {
-        console.error(`[RendererContext] WebGPU Device Lost: ${info?.reason}. Attempting Stage recovery...`);
-        if (info?.reason !== 'destroyed') {
-          this.rebuildContext();
-        }
-      });
+  private setupDeviceLossRecovery() {
+    const device = this.getGPUDevice();
+    if (!device?.lost) return;
+
+    device.lost.then((info: any) => {
+      console.error(`[RendererContext] WebGPU Device Lost: ${info?.reason}. Attempting Stage recovery...`);
+      if (info?.reason !== 'destroyed') {
+        this.rebuildContext();
+      }
     }).catch((err: any) => {
       console.warn('[RendererContext] Failed to bind device loss listener:', err);
     });

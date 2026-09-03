@@ -391,4 +391,111 @@ describe('Tangent SF RP — Folio CP Economy & Species Package Asset Accounting'
     });
   });
 
+  describe('Technology Level (TL) Economy Accounting', () => {
+    it('treats TL3 as baseline with 0 CP cost', () => {
+      const char = { 'starting-cp': 150, 'tech-level': 3 };
+      const breakdown = computeEconomyBreakdown(char);
+      assert.strictEqual(breakdown.techLevelCost, 0);
+      assert.strictEqual(breakdown.spentCP, 0);
+      assert.strictEqual(breakdown.remainingCP, 150);
+
+      const item = breakdown.itemizedList.find(i => i.category === 'Technology Level');
+      assert.ok(item);
+      assert.strictEqual(item.costVal, 0);
+      assert.strictEqual(item.cost, '0 CP');
+    });
+
+    it('charges +10 CP for TL4 (Advanced)', () => {
+      const char = { 'starting-cp': 150, 'tech-level': 4 };
+      const breakdown = computeEconomyBreakdown(char);
+      assert.strictEqual(breakdown.techLevelCost, 10);
+      assert.strictEqual(breakdown.spentCP, 10);
+      assert.strictEqual(breakdown.remainingCP, 140);
+
+      const item = breakdown.itemizedList.find(i => i.category === 'Technology Level');
+      assert.ok(item);
+      assert.strictEqual(item.costVal, 10);
+      assert.strictEqual(item.cost, '10 CP');
+    });
+
+    it('charges +20 CP for TL5 (Theoretical)', () => {
+      const char = { 'starting-cp': 150, 'tech-level': 5 };
+      const breakdown = computeEconomyBreakdown(char);
+      assert.strictEqual(breakdown.techLevelCost, 20);
+      assert.strictEqual(breakdown.spentCP, 20);
+      assert.strictEqual(breakdown.remainingCP, 130);
+
+      const item = breakdown.itemizedList.find(i => i.category === 'Technology Level');
+      assert.ok(item);
+      assert.strictEqual(item.costVal, 20);
+      assert.strictEqual(item.cost, '20 CP');
+    });
+
+    it('refunds -10 CP for TL2 (Industrial)', () => {
+      const char = { 'starting-cp': 150, 'tech-level': 2 };
+      const breakdown = computeEconomyBreakdown(char);
+      assert.strictEqual(breakdown.techLevelCost, -10);
+      assert.strictEqual(breakdown.spentCP, -10);
+      assert.strictEqual(breakdown.remainingCP, 160);
+
+      const item = breakdown.itemizedList.find(i => i.category === 'Technology Level');
+      assert.ok(item);
+      assert.strictEqual(item.costVal, -10);
+      assert.strictEqual(item.cost, '-10 CP');
+    });
+
+    it('refunds -20 CP for TL1 (Primitive)', () => {
+      const char = { 'starting-cp': 150, 'tech-level': 1 };
+      const breakdown = computeEconomyBreakdown(char);
+      assert.strictEqual(breakdown.techLevelCost, -20);
+      assert.strictEqual(breakdown.spentCP, -20);
+      assert.strictEqual(breakdown.remainingCP, 170);
+
+      const item = breakdown.itemizedList.find(i => i.category === 'Technology Level');
+      assert.ok(item);
+      assert.strictEqual(item.costVal, -20);
+      assert.strictEqual(item.cost, '-20 CP');
+    });
+  });
+
+  describe('Augmentation Base Cost Accounting', () => {
+    it('charges 1 CP per augmentation by default per rulebook', () => {
+      const char = {
+        'starting-cp': 150,
+        'augmentations': [
+          { name: 'Subdermal Plating' },
+          { name: 'Ocular HUD' }
+        ]
+      };
+      const breakdown = computeEconomyBreakdown(char);
+      assert.strictEqual(breakdown.augmentationsCost, 2);
+      assert.strictEqual(breakdown.spentCP, 2);
+      assert.strictEqual(breakdown.remainingCP, 148);
+
+      const item1 = breakdown.itemizedList.find(i => i.item === 'Subdermal Plating');
+      assert.ok(item1);
+      assert.strictEqual(item1.costVal, 1);
+      assert.strictEqual(item1.cost, '1 CP');
+    });
+
+    it('respects explicit cp cost or granted flag on augmentations', () => {
+      const char = {
+        'starting-cp': 150,
+        'augmentations': [
+          { name: 'Heavy Cybernetic Arm', cp: 3 },
+          { name: 'Inherent Neural Bus', isGranted: true }
+        ]
+      };
+      const breakdown = computeEconomyBreakdown(char);
+      assert.strictEqual(breakdown.augmentationsCost, 3);
+      assert.strictEqual(breakdown.spentCP, 3);
+
+      const granted = breakdown.itemizedList.find(i => i.item === 'Inherent Neural Bus');
+      assert.ok(granted);
+      assert.strictEqual(granted.costVal, 0);
+      assert.strictEqual(granted.cost, '0 CP');
+    });
+  });
+
 });
+

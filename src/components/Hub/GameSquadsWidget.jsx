@@ -17,10 +17,19 @@ import { useChat } from '../../context/ChatContext';
 import { AudioService } from '../../services/audioService';
 import { GameGroupModal } from '../Groups/GameGroupModal';
 import { CreateGroupModal } from '../Groups/CreateGroupModal';
+import { TeamInviteConfirmationModal } from '../Groups/TeamInviteConfirmationModal';
 
 export const GameSquadsWidget = ({ onOpenSquadsDrawer }) => {
   const navigate = useNavigate();
-  const { groups, activeGroup, selectGroup, pendingInvites } = useGroup();
+  const { 
+    groups, 
+    activeGroup, 
+    selectGroup, 
+    pendingInvites,
+    reviewingInvite,
+    openInviteConfirmation,
+    closeInviteConfirmation 
+  } = useGroup();
   const { selectChannel } = useChat();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -80,10 +89,18 @@ export const GameSquadsWidget = ({ onOpenSquadsDrawer }) => {
             </span>
           </div>
           {inviteCount > 0 ? (
-            <span className="px-1.5 py-0.2 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 font-mono text-[8px] font-bold flex items-center gap-1 animate-pulse">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                if (pendingInvites[0]) openInviteConfirmation(pendingInvites[0]);
+              }}
+              className="px-2 py-0.5 rounded-full bg-amber-500/20 hover:bg-amber-500/35 border border-amber-500/50 text-amber-300 font-mono text-[8px] font-bold flex items-center gap-1 animate-pulse transition-all cursor-pointer shadow-[0_0_10px_rgba(245,158,11,0.2)]"
+              title="Click to review pending team invitation"
+            >
               <UserPlus size={9} />
-              <span>{inviteCount} INVITES</span>
-            </span>
+              <span>{inviteCount} INVITES (REVIEW)</span>
+            </button>
           ) : (
             <span className="px-1.5 py-0.2 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-[8px] font-bold flex items-center gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
@@ -239,6 +256,12 @@ export const GameSquadsWidget = ({ onOpenSquadsDrawer }) => {
             setIsModalOpen(true);
           }
         }}
+      />
+
+      <TeamInviteConfirmationModal
+        isOpen={!!reviewingInvite}
+        onClose={closeInviteConfirmation}
+        invite={reviewingInvite}
       />
     </div>
   );

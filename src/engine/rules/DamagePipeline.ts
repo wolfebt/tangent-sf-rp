@@ -1,9 +1,13 @@
 /**
  * @file DamagePipeline.ts
- * @description Stage 5.5: Armor caps, penetration, and localized trauma.
- * Resolves Tangent's damage mathematics: calculates net DR from layered 
- * armor (using the max rule), applies Armor Penetration (AP), and automatically 
- * flags Disabled Limbs if the 33.3% single-strike threshold is breached.
+ * @description Canonical Tangent SF RP Damage & Trauma Pipeline.
+ * Strictly adheres to docs/game rules/operator/3.00 COMBAT.md:
+ * - Total Damage = (Raw Damage) - (Target Armor DR + Target CON Mod)
+ * - Specialized damage types: Force (ignores 1/2 Armor DR), Spectral/Mental (ignores physical DR), Concussive (ignores 1/2 DR, splits between Vitality and Health)
+ * - Limb damage thresholds: 1/3rd Health = Disabled (Stamina Save DC 10 + damage), 2/3rds = Destroyed
+ * - Synthetic limbs: 50% more damage capacity before Disabled/Destroyed (no Stamina check)
+ * - 0 Health: The Mortality State (Unconscious, Incapacitated, Bleeding Out 1 Stability Dmg/round)
+ * - Stability Points = Constitution Score + 5 (Dead ONLY when Stability Points <= 0)
  */
 
 import type { FusedToken } from '../state/VolatileSharder.ts';
@@ -11,61 +15,152 @@ import type { FusedToken } from '../state/VolatileSharder.ts';
 export interface DamagePayload {
   rawDamage: number;
   armorPenetration: number;
-  damageType: string;
+  damageType: string; // 'kinetic' | 'force' | 'energy' | 'concussive' | 'corrosive' | 'spectral' | 'mental' | etc.
   isCalledShot: boolean;
-  targetLocation?: 'head' | 'torso' | 'arm_left' | 'arm_right' | 'leg_left' | 'leg_right';
+  targetLocation?: 'head' | 'torso' | 'arm_left' | 'arm_right' | 'leg_left' | 'leg_right' | 'tentacle' | 'wing';
+  isSyntheticLimb?: boolean;
 }
 
 export interface DamageResult {
-  netDamage: number;
+  rawDamage: number;
   effectiveDR: number;
+  conModSoak: number;
+  netDamage: number;
+  vitalityDamage: number;
+  healthDamage: number;
   appliedStatuses: string[];
+  requiresStaminaCheck: boolean;
+  staminaCheckDC: number;
+  entersMortalityState: boolean;
   isDead: boolean;
+  stabilityPointsRemaining?: number;
+  limbStatus?: 'normal' | 'disabled' | 'destroyed';
 }
 
 export class DamagePipeline {
-  private readonly MAJOR_WOUND_THRESHOLD = 0.333; // 33.3% of Max HP in a single strike
+  private readonly DISABLED_LIMB_THRESHOLD = 1 / 3; // 33.3% of Max Health
+  private readonly DESTROYED_LIMB_THRESHOLD = 2 / 3; // 66.7% of Max Health
 
   /**
-   * Resolves an incoming attack payload against a target's stats.
-   * Enforces the layered armor Max rule (Math.max of active layers).
+   * Resolves an incoming attack payload against a target token per 3.00 COMBAT.md.
    */
-  public resolveStrike(payload: DamagePayload, target: FusedToken, activeArmorLayers: number[] = []): DamageResult {
+  public resolveStrike(
+    payload: DamagePayload,
+    target: FusedToken,
+    activeArmorLayers: number[] = [],
+    targetConMod: number = 0,
+    targetConScore: number = 10,
+    currentStabilityPoints?: number
+  ): DamageResult {
     const statuses: string[] = [];
-    
+    const dmgType = (payload.damageType || 'kinetic').toLowerCase();
+
     // 1. Calculate highest active Armor layer
-    const highestDR = activeArmorLayers.length > 0 ? Math.max(...activeArmorLayers) : target.armor_dr;
+    let highestDR = activeArmorLayers.length > 0 ? Math.max(...activeArmorLayers) : (target.armor_dr || 0);
 
-    // 2. Apply Armor Penetration (AP cannot reduce DR below 0)
-    const effectiveDR = Math.max(0, highestDR - payload.armorPenetration);
+    // 2. Special damage type interactions with Armor DR
+    if (dmgType === 'spectral' || dmgType === 'phase' || dmgType === 'mental' || dmgType === 'psyche') {
+      // Bypasses physical Armor DR entirely
+      highestDR = 0;
+    } else if (dmgType === 'force') {
+      // Force damage ignores 1/2 of Target's Armor DR
+      highestDR = Math.floor(highestDR / 2);
+    } else if (dmgType === 'concussive' || dmgType === 'impact') {
+      // Concussive damage typically ignores half or more of target DR
+      highestDR = Math.floor(highestDR / 2);
+    }
 
-    // 3. Calculate Net Damage
-    const netDamage = Math.max(0, payload.rawDamage - effectiveDR);
+    // 3. Apply Armor Penetration (AP cannot reduce DR below 0)
+    const effectiveDR = Math.max(0, highestDR - (payload.armorPenetration || 0));
 
-    // 4. Check for Major Wounds / Called Shot thresholds
-    if (netDamage > 0 && target.base_hp > 0) {
-      const damageRatio = netDamage / target.base_hp;
+    // 4. Calculate Net Damage after Armor DR AND target Constitution modifier
+    // Formula: (Damage) - (Target Armor DR + Target CON Mod) = Total Damage
+    const conModSoak = Math.max(0, targetConMod);
+    const totalMitigation = effectiveDR + conModSoak;
+    const netDamage = Math.max(0, payload.rawDamage - totalMitigation);
 
-      if (damageRatio >= this.MAJOR_WOUND_THRESHOLD) {
-        if (payload.isCalledShot && payload.targetLocation) {
-          statuses.push(`status_disabled_${payload.targetLocation}`);
-        } else {
-          statuses.push('status_trauma_internal');
+    // 5. Vitality vs Health Damage Routing
+    let vitalityDamage = 0;
+    let healthDamage = netDamage;
+
+    if (dmgType === 'concussive' || dmgType === 'impact') {
+      // Concussive damage is divided equally between Vitality and Health if target attempts to reduce damage
+      vitalityDamage = Math.floor(netDamage / 2);
+      healthDamage = netDamage - vitalityDamage;
+    }
+
+    // 6. Limb Damage & Trauma Threshold Evaluation
+    let requiresStaminaCheck = false;
+    let staminaCheckDC = 0;
+    let limbStatus: 'normal' | 'disabled' | 'destroyed' = 'normal';
+
+    const maxHp = target.base_hp || 30;
+    if (payload.isCalledShot && payload.targetLocation && maxHp > 0) {
+      // Synthetic limbs take 50% more damage before being Disabled or Destroyed
+      const synthMultiplier = payload.isSyntheticLimb ? 1.5 : 1.0;
+      const disabledThreshold = maxHp * this.DISABLED_LIMB_THRESHOLD * synthMultiplier;
+      const destroyedThreshold = maxHp * this.DESTROYED_LIMB_THRESHOLD * synthMultiplier;
+
+      if (netDamage >= destroyedThreshold) {
+        limbStatus = 'destroyed';
+        statuses.push(`status_destroyed_${payload.targetLocation}`);
+        if (payload.targetLocation === 'head') {
+          statuses.push('status_brain_death_risk');
         }
+      } else if (netDamage >= disabledThreshold) {
+        limbStatus = 'disabled';
+        statuses.push(`status_disabled_${payload.targetLocation}`);
+        
+        // Biological limbs get a Stamina check (DC = 10 + damage taken) to keep using it
+        if (!payload.isSyntheticLimb) {
+          requiresStaminaCheck = true;
+          staminaCheckDC = 10 + netDamage;
+        }
+      }
+    } else if (netDamage >= (maxHp * this.DISABLED_LIMB_THRESHOLD)) {
+      // Massive internal trauma
+      statuses.push('status_trauma_internal');
+    }
+
+    // 7. Mortality State (0 Hit Points) Evaluation
+    // Per 3.00 COMBAT.md: Reaching 0 HP does NOT mean instant death!
+    // Target falls Prone, is Incapacitated & enters Bleeding Out (1 Stability Damage/turn).
+    // Stability Points = Constitution Score + 5.
+    // Death occurs ONLY when Stability Points reach 0!
+    const remainingHp = (target.current_hp || maxHp) - healthDamage;
+    let entersMortalityState = false;
+    let isDead = false;
+    const maxStability = Math.max(5, targetConScore + 5);
+    let stabilityPointsRemaining = currentStabilityPoints !== undefined ? currentStabilityPoints : maxStability;
+
+    if (remainingHp <= 0) {
+      entersMortalityState = true;
+      statuses.push('status_unconscious', 'status_incapacitated', 'status_prone', 'status_bleeding_out');
+
+      // If damage spills beyond 0 HP into negative, excess reduces stability points
+      const excessDamage = Math.abs(remainingHp);
+      stabilityPointsRemaining = Math.max(0, stabilityPointsRemaining - excessDamage);
+
+      if (stabilityPointsRemaining <= 0) {
+        isDead = true;
+        statuses.push('status_dead');
       }
     }
 
-    // 5. Check Lethality
-    const isDead = (target.current_hp - netDamage) <= 0;
-    if (isDead) {
-      statuses.push('status_dead');
-    }
-
     return {
-      netDamage,
+      rawDamage: payload.rawDamage,
       effectiveDR,
-      appliedStatuses: statuses,
-      isDead
+      conModSoak,
+      netDamage,
+      vitalityDamage,
+      healthDamage,
+      appliedStatuses: Array.from(new Set(statuses)),
+      requiresStaminaCheck,
+      staminaCheckDC,
+      entersMortalityState,
+      isDead,
+      stabilityPointsRemaining,
+      limbStatus
     };
   }
 
@@ -75,7 +170,11 @@ export class DamagePipeline {
   public generateStatePatch(targetId: string, result: DamageResult): Record<string, any> {
     return {
       id: targetId,
-      hp_delta: -result.netDamage,
+      hp_delta: -result.healthDamage,
+      vitality_delta: -result.vitalityDamage,
+      enters_mortality: result.entersMortalityState,
+      stability_points: result.stabilityPointsRemaining,
+      is_dead: result.isDead,
       new_conditions: result.appliedStatuses
     };
   }

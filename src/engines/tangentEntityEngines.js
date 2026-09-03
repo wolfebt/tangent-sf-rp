@@ -2194,6 +2194,31 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
     });
   }
 
+  // 1b. Technology Level (TL3 = 0 CP Baseline; TL4 = +10 CP; TL5 = +20 CP; TL2 = -10 CP; TL1 = -20 CP)
+  const rawTL = characterData['tech-level'] !== undefined && characterData['tech-level'] !== null && characterData['tech-level'] !== ''
+    ? parseInt(characterData['tech-level'], 10)
+    : 3;
+  const techLevel = isNaN(rawTL) ? 3 : rawTL;
+  let techLevelCost = 0;
+  if (techLevel !== 3) {
+    techLevelCost = (techLevel - 3) * 10;
+  }
+
+  const tlLabels = {
+    1: 'TL1 - Primitive (-20 CP Refund)',
+    2: 'TL2 - Industrial (-10 CP Refund)',
+    3: 'TL3 - Spacefaring Standard (0 CP Baseline)',
+    4: 'TL4 - Advanced (+10 CP)',
+    5: 'TL5 - Theoretical (+20 CP)'
+  };
+  itemizedList.push({
+    category: 'Technology Level',
+    item: `Tech Level ${techLevel}`,
+    val: tlLabels[techLevel] || `Tech Level ${techLevel} (${techLevelCost >= 0 ? '+' : ''}${techLevelCost} CP)`,
+    costVal: techLevelCost,
+    cost: techLevelCost === 0 ? '0 CP' : (techLevelCost > 0 ? `${techLevelCost} CP` : `-${Math.abs(techLevelCost)} CP`)
+  });
+
   // 2. Primary Attributes & Species/Pool Granted Attribute Modifiers
   let primaryAttrCost = 0;
   const primaryAttrs = [
@@ -2631,17 +2656,19 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
     });
   });
 
-  // 11. Augmentations
+  // 11. Augmentations (Per rules: 1 BP base per augmentation unless granted or overridden)
   let augmentationsCost = 0;
   const augmentationsList = Array.isArray(characterData.augmentations) ? characterData.augmentations : [];
   augmentationsList.forEach((aug) => {
     const name = typeof aug === 'object' ? (aug.name || 'Unnamed Augmentation') : aug;
-    const cost = getItemCP(aug, 0);
+    const isGranted = typeof aug === 'object' && (aug.isGranted === true || aug.source === 'species' || aug.source === 'archetype');
+    const defaultCost = isGranted ? 0 : 1;
+    const cost = getItemCP(aug, defaultCost);
     augmentationsCost += cost;
     itemizedList.push({
-      category: 'Augmentation',
+      category: isGranted ? 'Granted Augmentation' : 'Augmentation',
       item: name,
-      val: (typeof aug === 'object' && aug.type) ? aug.type : 'Cyberware',
+      val: isGranted ? 'Granted Chassis/Archetype Augmentation (0 CP)' : ((typeof aug === 'object' && aug.type) ? aug.type : 'Cyberware (1 CP Base)'),
       costVal: cost,
       cost: `${cost} CP`
     });
@@ -2804,6 +2831,7 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
   // Calculate Total Spent CP
   const spentCP = (
     identityCost +
+    techLevelCost +
     primaryAttrCost +
     subAttrCost +
     featuresCost +
@@ -2845,6 +2873,9 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
     specialAbilitiesCost,
     awakenedCost,
     invocationsCost,
+    augmentationsCost,
+    techLevel,
+    techLevelCost,
     identityPools,
     speciesCostBreakdown,
     itemizedList

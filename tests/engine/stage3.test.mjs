@@ -80,3 +80,50 @@ test('Stage 3.3 - 3.6: WGSL Shader Constants Availability', () => {
   assert.ok(ELEMENTAL_FLUID_WGSL.includes('calculate_normal'), 'Elemental fluid shader valid');
   assert.ok(BOIDS_SWARM_WGSL.includes('rule1_scale'), 'Boids swarm shader valid');
 });
+
+test('Stage 3.7: Automated Raycast Cover & Line of Sight Calculation', () => {
+  const bvh = new BVHBuilder();
+
+  // Create a barrier wall at X = 200, spanning Y = 0 to 100
+  const walls = [
+    { id: 'cover-low-wall', p1: { x: 200, y: 0 }, p2: { x: 200, y: 100 }, isDynamic: false }
+  ];
+  bvh.build(walls);
+
+  // 1. Clear Line of Sight: Attacker at (100, 200) -> Target at (300, 200) (wall is between Y=0..100)
+  const clearLoS = bvh.calculateLineOfSightCover({ x: 100, y: 200 }, { x: 300, y: 200 }, 20);
+  assert.equal(clearLoS.coverType, 'none');
+  assert.equal(clearLoS.coverMod, 0);
+
+  // 2. Total Cover: Attacker at (100, 50) -> Target at (300, 50) (wall directly blocks all 3 rays)
+  const blockedLoS = bvh.calculateLineOfSightCover({ x: 100, y: 50 }, { x: 300, y: 50 }, 20);
+  assert.equal(blockedLoS.coverType, 'total');
+  assert.equal(blockedLoS.coverMod, -100);
+
+  // 3. Partial Cover: Target edge clips near Y = 100
+  const partialLoS = bvh.calculateLineOfSightCover({ x: 100, y: 95 }, { x: 300, y: 115 }, 20);
+  assert.ok(partialLoS.coverType === 'half' || partialLoS.coverType === 'three_quarters');
+  assert.ok(partialLoS.coverMod === -2 || partialLoS.coverMod === -5);
+});
+
+test('Stage 3.8: In-Situ Architect Design Mode Dynamic BVH Mutation (addWall & removeWall)', () => {
+  const bvh = new BVHBuilder();
+  bvh.build([]);
+
+  // 1. Initial empty BVH should have clear line of sight
+  const initialLoS = bvh.calculateLineOfSightCover({ x: 100, y: 200 }, { x: 300, y: 200 }, 20);
+  assert.equal(initialLoS.coverType, 'none');
+
+  // 2. Architect drops a concrete wall between the combatants at runtime
+  bvh.addWall({ id: 'live-architect-bulkhead', p1: { x: 200, y: 150 }, p2: { x: 200, y: 250 }, isDynamic: false });
+  const updatedLoS = bvh.calculateLineOfSightCover({ x: 100, y: 200 }, { x: 300, y: 200 }, 20);
+  assert.equal(updatedLoS.coverType, 'total', 'Dynamic wall instantly occludes LoS');
+  assert.equal(updatedLoS.coverMod, -100);
+
+  // 3. Architect removes the wall
+  bvh.removeWall('live-architect-bulkhead');
+  const clearedLoS = bvh.calculateLineOfSightCover({ x: 100, y: 200 }, { x: 300, y: 200 }, 20);
+  assert.equal(clearedLoS.coverType, 'none', 'Wall removal instantly restores clear LoS');
+});
+
+

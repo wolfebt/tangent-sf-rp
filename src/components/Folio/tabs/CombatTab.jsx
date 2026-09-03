@@ -4,16 +4,66 @@ import { useDice } from '../../../context/DiceContext';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { rollDice } from '../../../services/diceService';
 import { AudioService } from '../../../services/audioService';
-import { Crosshair, Shield, Plus, Dices, Sparkles, X, Zap } from 'lucide-react';
+import { Crosshair, Shield, Plus, Dices, Sparkles, X, Zap, Heart, Activity } from 'lucide-react';
 import FolioTooltip from '../shared/FolioTooltip';
 import { createAttackFromWeapon, createArmorFromItem } from '../../../utils/combatUtils';
 
 export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
-  const { characterData, updateField, derivedStats, getAttrTotal } = useFolio();
+  const {
+    characterData,
+    updateField,
+    derivedStats,
+    getAttrTotal,
+    applyCharacterDamage,
+    updateCharacterHealth,
+    updateCharacterVitality
+  } = useFolio();
   const { openDiceRoller } = useDice();
 
   const [combatView, setCombatView] = useState('all'); // 'all' | 'offensive' | 'defensive'
   const [latestDamageRoll, setLatestDamageRoll] = useState(null);
+  const [triageAmount, setTriageAmount] = useState(5);
+  const [triageType, setTriageType] = useState('lethal'); // 'lethal' | 'nonlethal' | 'crit' | 'concussive'
+  const [triageFeedback, setTriageFeedback] = useState(null);
+
+  const curHealth = parseInt(characterData.current_health ?? characterData.health ?? 30, 10);
+  const maxHealth = parseInt(characterData.health || 30, 10);
+  const curVitality = parseInt(characterData.current_vitality ?? characterData.vitality ?? 30, 10);
+  const maxVitality = parseInt(characterData.vitality || 30, 10);
+  const isDead = characterData.is_dead || false;
+  const atDeathsDoor = !isDead && (characterData.is_at_deaths_door || (curHealth <= 0 && curVitality <= 0));
+  const isIncapacitated = !isDead && !atDeathsDoor && curHealth <= 0;
+
+  const handleApplyDamage = async (amount, type = triageType) => {
+    const dmg = parseInt(amount, 10);
+    if (!dmg || dmg <= 0) return;
+    const res = await applyCharacterDamage(characterData['character-doc-id'] || characterData.id, {
+      incomingDamage: dmg,
+      isNonLethal: type === 'nonlethal',
+      isCritical: type === 'crit',
+      isConcussive: type === 'concussive',
+      attemptedReduction: true
+    });
+    AudioService.playCombatHit(type === 'crit');
+    if (res) {
+      setTriageFeedback(`Suffered ${dmg} ${type} dmg (-${res.vitalityDamage} VIT, -${res.healthDamage} HP). Absorbed ${res.damageAbsorbed}.`);
+    }
+  };
+
+  const handleHeal = (amount, target = 'vitality') => {
+    const pts = parseInt(amount, 10);
+    if (!pts || pts <= 0) return;
+    if (target === 'vitality') {
+      const nextVit = Math.min(maxVitality, curVitality + pts);
+      updateCharacterVitality(characterData['character-doc-id'] || characterData.id, nextVit);
+      setTriageFeedback(`Healed +${pts} Vitality (${nextVit}/${maxVitality})`);
+    } else {
+      const nextHp = Math.min(maxHealth, curHealth + pts);
+      updateCharacterHealth(characterData['character-doc-id'] || characterData.id, nextHp);
+      setTriageFeedback(`Healed +${pts} Health (${nextHp}/${maxHealth})`);
+    }
+    AudioService.playPointSpendSound();
+  };
 
   const handleRollDamage = (damageExpr, weaponName) => {
     if (!damageExpr) return;
@@ -276,16 +326,154 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
               </div>
             </div>
           </div>
-          <button
-            type="button"
-            onClick={() => setLatestDamageRoll(null)}
-            className="text-slate-400 hover:text-white text-xs px-2 py-1 cursor-pointer"
-            title="Dismiss Roll"
-          >
-            ✕
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => handleApplyDamage(latestDamageRoll.total, latestDamageRoll.isCritSuccess ? 'crit' : 'lethal')}
+              className="px-2.5 py-1 bg-red-600 hover:bg-red-500 text-white rounded text-[10px] font-mono font-bold uppercase tracking-wider border border-red-400 shadow-sm cursor-pointer transition-colors"
+              title="Apply this roll damage to hero using Tangent soak mechanics"
+            >
+              Apply {latestDamageRoll.total} Dmg
+            </button>
+            <button
+              type="button"
+              onClick={() => setLatestDamageRoll(null)}
+              className="text-slate-400 hover:text-white text-xs px-2 py-1 cursor-pointer"
+              title="Dismiss Roll"
+            >
+              ✕
+            </button>
+          </div>
         </div>
       )}
+
+      {/* Tactical Vitals & Field Triage Panel */}
+      <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-3.5 space-y-3 shadow-md">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-2">
+          <div className="flex items-center gap-2">
+            <Heart size={15} className="text-rose-400" />
+            <span className="text-xs font-bold font-mono uppercase tracking-wider text-slate-200">
+              Tactical Vitals &amp; Field Triage
+            </span>
+            {isDead ? (
+              <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase bg-red-950 border border-red-500 text-red-300">
+                ⚰️ Deceased
+              </span>
+            ) : atDeathsDoor ? (
+              <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase bg-rose-950 border border-rose-500 text-rose-300 animate-pulse">
+                💀 Death's Door ({characterData?.death_clock ?? 1}r)
+              </span>
+            ) : isIncapacitated ? (
+              <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase bg-amber-950 border border-amber-500 text-amber-300">
+                🛌 Incapacitated
+              </span>
+            ) : (
+              <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase bg-emerald-950 border border-emerald-500 text-emerald-300">
+                ✓ Combat Active
+              </span>
+            )}
+          </div>
+
+          {triageFeedback && (
+            <span className="text-[11px] font-mono text-cyan-300 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-800/60">
+              {triageFeedback}
+            </span>
+          )}
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 items-center">
+          {/* Vitals Telemetry Gauges */}
+          <div className="grid grid-cols-2 gap-2">
+            <div className="bg-slate-900/90 border border-slate-800 rounded-lg p-2 flex items-center justify-between">
+              <div>
+                <div className="text-[9px] font-mono font-bold uppercase text-slate-400">Health (Lethal)</div>
+                <div className="text-base font-mono font-bold text-slate-100">
+                  {curHealth} <span className="text-[10px] text-slate-500 font-normal">/ {maxHealth}</span>
+                </div>
+              </div>
+              <div className="flex gap-1">
+                <button
+                  type="button"
+                  onClick={() => handleHeal(5, 'health')}
+                  className="px-1.5 py-0.5 bg-emerald-950 hover:bg-emerald-900 border border-emerald-700/60 text-emerald-300 rounded text-[10px] font-mono font-bold cursor-pointer"
+                  title="Heal +5 Health"
+                >
+                  +5
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleHeal(maxHealth, 'health')}
+                  className="px-1.5 py-0.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-[10px] font-mono cursor-pointer"
+                  title="Full Health Restore"
+                >
+                  Max
+                </button>
+              </div>
+            </div>
+
+            <div className="bg-slate-900/90 border border-slate-800 rounded-lg p-2 flex items-center justify-between">
+              <div>
+                <div className="text-[9px] font-mono font-bold uppercase text-cyan-400">Vitality (Buffer)</div>
+                <div className="text-base font-mono font-bold text-cyan-300">
+                  {curVitality} <span className="text-[10px] text-slate-500 font-normal">/ {maxVitality}</span>
+                </div>
+              </div>
+              <div className="flex gap-1">
+                <button
+                  type="button"
+                  onClick={() => handleHeal(5, 'vitality')}
+                  className="px-1.5 py-0.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-700/60 text-cyan-300 rounded text-[10px] font-mono font-bold cursor-pointer"
+                  title="Heal +5 Vitality"
+                >
+                  +5
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleHeal(maxVitality, 'vitality')}
+                  className="px-1.5 py-0.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-[10px] font-mono cursor-pointer"
+                  title="Full Vitality Restore"
+                >
+                  Max
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Quick Damage / Soak Triage Controller */}
+          <div className="flex flex-wrap items-center gap-2 justify-end">
+            <div className="flex items-center gap-1 bg-slate-900 px-2 py-1 rounded-lg border border-slate-800">
+              <span className="text-[10px] font-mono text-slate-400 uppercase">Dmg:</span>
+              <input
+                type="number"
+                min="1"
+                max="999"
+                value={triageAmount}
+                onChange={e => setTriageAmount(e.target.value)}
+                className="w-14 bg-slate-950 border border-slate-700 rounded px-1.5 py-0.5 text-xs font-mono text-slate-100 outline-none text-center"
+              />
+            </div>
+
+            <select
+              value={triageType}
+              onChange={e => setTriageType(e.target.value)}
+              className="bg-slate-900 border border-slate-700 text-slate-200 text-xs font-mono rounded px-2 py-1 outline-none cursor-pointer"
+            >
+              <option value="lethal">Lethal Trauma</option>
+              <option value="nonlethal">Non-Lethal</option>
+              <option value="crit">Critical Hit (Bypass Vit)</option>
+              <option value="concussive">Concussive (Double Soak)</option>
+            </select>
+
+            <button
+              type="button"
+              onClick={() => handleApplyDamage(triageAmount, triageType)}
+              className="px-3 py-1 bg-rose-700 hover:bg-rose-600 text-white rounded text-xs font-mono font-bold uppercase tracking-wider border border-rose-500 cursor-pointer transition-colors shadow-sm"
+            >
+              Apply Damage
+            </button>
+          </div>
+        </div>
+      </div>
 
       {/* 1. OFFENSIVE CAPABILITIES BLOCK */}
       {(combatView === 'all' || combatView === 'offensive') && (

@@ -10,15 +10,17 @@ import {
   Building2, 
   Layers, 
   ArrowRight,
-  Boxes
+  Boxes,
+  Scale
 } from 'lucide-react';
+import { scaleCarryingCapacity } from '../../../engines/tangentScalingEngine';
 
 export const PropertyHubView = ({ 
   onSelectSection,
   onOpenSelectorModal,
   onOpenAssetModal
 }) => {
-  const { characterData } = useFolio();
+  const { characterData, getAttrTotal, derivedStats } = useFolio();
 
   const getArray = (key, altKey) => {
     let val = characterData[key];
@@ -50,6 +52,30 @@ export const PropertyHubView = ({
     architectureList.length +
     otherList.length
   );
+
+  const sumWeight = (list) => {
+    return (list || []).reduce((acc, item) => {
+      if (typeof item === 'object' && item !== null) {
+        const wt = parseFloat(item.weight ?? item.wt ?? item.mass ?? 0) || 0;
+        const qty = parseInt(item.qty ?? item.quantity ?? 1, 10) || 1;
+        return acc + (wt * qty);
+      }
+      return acc;
+    }, 0);
+  };
+
+  const carriedWeight = useMemo(() => {
+    const total = sumWeight(weaponryList) + sumWeight(armoringList) + sumWeight(gearList) + sumWeight(otherList);
+    return Math.round(total * 10) / 10;
+  }, [weaponryList, armoringList, gearList, otherList]);
+
+  const strScore = getAttrTotal ? getAttrTotal('attr-strength') : parseInt(characterData['attr-strength'] || 0, 10);
+  const sizeKey = characterData['char-size'] || derivedStats?.size || 'Medium';
+  const baseMaxCapacity = (Math.max(0, strScore) + 2) * 50; // 100 lbs base at STR 0
+  const maxCapacity = scaleCarryingCapacity(baseMaxCapacity, sizeKey);
+  const lightCapacity = Math.round(maxCapacity * 0.5);
+  const isOverburdened = carriedWeight > maxCapacity;
+  const isEncumbered = carriedWeight > lightCapacity && !isOverburdened;
 
   const handleCardClick = (targetTab) => {
     AudioService.playTerminalBeep(1100, 0.02);
@@ -179,6 +205,21 @@ export const PropertyHubView = ({
           <span className="px-3 py-1 rounded-lg bg-cyan-950/60 border border-cyan-500/50 text-cyan-200 font-mono text-xs font-bold flex items-center gap-1.5 shadow-[0_0_10px_rgba(34,211,238,0.15)]">
             <span className="text-cyan-400">Domains:</span>
             <span>6 Categories Active</span>
+          </span>
+
+          <span className={`px-3 py-1 rounded-lg border font-mono text-xs font-bold flex items-center gap-1.5 ${
+            isOverburdened
+              ? 'bg-red-950/80 border-red-500/60 text-red-300 shadow-[0_0_10px_rgba(239,68,68,0.2)]'
+              : isEncumbered
+              ? 'bg-amber-950/80 border-amber-500/60 text-amber-300 shadow-[0_0_10px_rgba(245,158,11,0.2)]'
+              : 'bg-slate-900/90 border-slate-700/80 text-emerald-300'
+          }`}>
+            <Scale size={13} className={isOverburdened ? 'text-red-400' : isEncumbered ? 'text-amber-400' : 'text-emerald-400'} />
+            <span>Load:</span>
+            <span className="text-white">{carriedWeight} / {maxCapacity} lbs</span>
+            <span className="text-[10px] uppercase font-normal opacity-80">
+              ({isOverburdened ? 'Overburdened' : isEncumbered ? 'Encumbered' : 'Unencumbered'})
+            </span>
           </span>
         </div>
       </div>

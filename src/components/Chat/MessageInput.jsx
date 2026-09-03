@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { Send, Dices, Shield, User, HelpCircle, Sparkles, BookOpen } from 'lucide-react';
+import { Send, Dices, Shield, User, HelpCircle, Sparkles, BookOpen, ChevronRight, X } from 'lucide-react';
 import { useChat } from '../../context/ChatContext';
 import { useFolio } from '../../context/FolioContext';
 import { useAuth } from '../../context/AuthContext';
 import { AudioService } from '../../services/audioService';
+import { rollDice } from '../../services/diceService';
 
 export const MessageInput = ({ isCompact = false }) => {
   const { 
     sendMessage, 
+    sendDiceRoll,
     speakingMode, 
     setSpeakingMode, 
     selectedPersona, 
@@ -18,7 +20,9 @@ export const MessageInput = ({ isCompact = false }) => {
 
   const [text, setText] = useState('');
   const [isDiceModalOpen, setIsDiceModalOpen] = useState(false);
-  const [diceExpr, setDiceExpr] = useState('2d10+2');
+  const [diceExpr, setDiceExpr] = useState('2d10');
+  const [rollAdvantage, setRollAdvantage] = useState('norm'); // 'norm' | 'adv' | 'dis'
+  const [rollLabel, setRollLabel] = useState('');
 
   const allPersonas = personaRoster || roster || [];
 
@@ -44,45 +48,25 @@ export const MessageInput = ({ isCompact = false }) => {
   };
 
   const handleQuickDiceRoll = (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     if (!diceExpr.trim()) return;
 
-    // Quick parse simple expression like XdY+Z
     try {
-      const match = diceExpr.match(/(\d+)d(\d+)(?:\+([0-9]+))?/i);
-      if (match) {
-        const count = parseInt(match[1], 10);
-        const sides = parseInt(match[2], 10);
-        const mod = match[3] ? parseInt(match[3], 10) : 0;
+      const rollResult = rollDice(diceExpr.trim(), {
+        advantage: rollAdvantage === 'adv',
+        disadvantage: rollAdvantage === 'dis'
+      });
 
-        const rolls = [];
-        let sum = 0;
-        for (let i = 0; i < count; i++) {
-          const r = Math.floor(Math.random() * sides) + 1;
-          rolls.push(r);
-          sum += r;
-        }
-        const total = sum + mod;
-        const isCritical = rolls.every(r => r === sides) && count > 1;
-        const isFumble = rolls.every(r => r === 1) && count > 1;
-
-        sendMessage('', {
-          type: 'dice_roll',
-          metadata: {
-            expression: diceExpr,
-            rolls,
-            modifier: mod,
-            result: total,
-            isCritical,
-            isFumble
-          }
-        });
-        setIsDiceModalOpen(false);
-      } else {
-        alert('Format: e.g. 2d10 or 2d10+4');
+      if (rollLabel.trim()) {
+        rollResult.label = rollLabel.trim();
       }
+
+      sendDiceRoll(rollResult);
+      setIsDiceModalOpen(false);
+      setRollLabel('');
     } catch (err) {
       console.error('Dice parse error:', err);
+      alert('Invalid dice expression format. Examples: 2d10, 2d10+4, 1d20, 4d6k3');
     }
   };
 
@@ -172,28 +156,105 @@ export const MessageInput = ({ isCompact = false }) => {
 
       {/* Quick Dice Roll Inline Popover */}
       {isDiceModalOpen && (
-        <form onSubmit={handleQuickDiceRoll} className="mb-2 p-2 rounded-lg bg-slate-900 border border-amber-500/40 flex items-center gap-2">
-          <span className="text-[11px] font-mono text-amber-300">EXPR:</span>
-          <input
-            type="text"
-            value={diceExpr}
-            onChange={(e) => setDiceExpr(e.target.value)}
-            placeholder="e.g. 2d10+4"
-            className="flex-1 px-2 py-1 bg-slate-950 border border-slate-700 rounded text-xs font-mono text-slate-100 focus:outline-none focus:border-amber-500"
-          />
-          <button
-            type="submit"
-            className="px-3 py-1 bg-amber-600 hover:bg-amber-500 text-black font-bold text-xs rounded font-mono transition-colors"
-          >
-            BROADCAST ROLL
-          </button>
-          <button
-            type="button"
-            onClick={() => setIsDiceModalOpen(false)}
-            className="px-2 py-1 bg-slate-800 text-slate-400 hover:text-white text-xs rounded font-mono"
-          >
-            ✕
-          </button>
+        <form onSubmit={handleQuickDiceRoll} className="mb-2 p-3 rounded-xl bg-slate-900 border border-amber-500/50 shadow-lg space-y-2.5 animate-fade-in font-mono text-xs">
+          <div className="flex items-center justify-between pb-1.5 border-b border-slate-800">
+            <div className="flex items-center gap-1.5 text-amber-400 font-bold">
+              <Dices size={14} />
+              <span>TANGENT TACTICAL DICE ENGINE</span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setIsDiceModalOpen(false)}
+              className="p-1 rounded bg-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer"
+            >
+              <X size={13} />
+            </button>
+          </div>
+
+          {/* Quick presets & formula input */}
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="text-[10px] text-slate-400">Presets:</span>
+            {['2d10', '2d10+2', '2d10+4', '1d20', '1d100'].map(preset => (
+              <button
+                key={preset}
+                type="button"
+                onClick={() => setDiceExpr(preset)}
+                className={`px-2 py-0.5 rounded text-[10px] font-bold border transition-colors cursor-pointer ${
+                  diceExpr === preset 
+                    ? 'bg-amber-500/20 text-amber-300 border-amber-500/60' 
+                    : 'bg-slate-950 text-slate-400 border-slate-800 hover:border-slate-700'
+                }`}
+              >
+                {preset}
+              </button>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div>
+              <span className="text-[10px] text-slate-400 block mb-1">DICE FORMULA:</span>
+              <input
+                type="text"
+                value={diceExpr}
+                onChange={(e) => setDiceExpr(e.target.value)}
+                placeholder="e.g. 2d10+4, 1d20, 4d6k3"
+                className="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded-lg text-xs font-mono text-slate-100 focus:outline-none focus:border-amber-500"
+              />
+            </div>
+            <div>
+              <span className="text-[10px] text-slate-400 block mb-1">ACTION / SKILL REASON (OPTIONAL):</span>
+              <input
+                type="text"
+                value={rollLabel}
+                onChange={(e) => setRollLabel(e.target.value)}
+                placeholder="e.g. Plasma Rifle shot, Stealth check"
+                className="w-full px-2.5 py-1.5 bg-slate-950 border border-slate-700 rounded-lg text-xs font-mono text-slate-100 focus:outline-none focus:border-amber-500"
+              />
+            </div>
+          </div>
+
+          {/* Advantage / Disadvantage controls & Roll button */}
+          <div className="flex items-center justify-between gap-2 pt-1 flex-wrap sm:flex-nowrap">
+            <div className="flex items-center bg-slate-950 p-0.5 rounded-lg border border-slate-800 text-[10px]">
+              <button
+                type="button"
+                onClick={() => setRollAdvantage('norm')}
+                className={`px-2 py-1 rounded transition-colors cursor-pointer ${
+                  rollAdvantage === 'norm' ? 'bg-slate-800 text-white font-bold' : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                Normal
+              </button>
+              <button
+                type="button"
+                onClick={() => setRollAdvantage('adv')}
+                className={`px-2 py-1 rounded transition-colors cursor-pointer ${
+                  rollAdvantage === 'adv' ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 font-bold' : 'text-slate-400 hover:text-emerald-300'
+                }`}
+                title="Advantage: Roll twice, take higher"
+              >
+                Advantage ("I Got This")
+              </button>
+              <button
+                type="button"
+                onClick={() => setRollAdvantage('dis')}
+                className={`px-2 py-1 rounded transition-colors cursor-pointer ${
+                  rollAdvantage === 'dis' ? 'bg-red-950/80 text-red-300 border border-red-500/40 font-bold' : 'text-slate-400 hover:text-red-300'
+                }`}
+                title="Disadvantage: Roll twice, take lower"
+              >
+                Disadvantage ("Negative Karma")
+              </button>
+            </div>
+
+            <button
+              type="submit"
+              className="px-4 py-1.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-bold text-xs rounded-lg font-mono transition-all shadow-[0_0_15px_rgba(245,158,11,0.3)] cursor-pointer flex items-center gap-1.5 shrink-0 ml-auto"
+            >
+              <Dices size={13} />
+              <span>TRANSMIT ROLL</span>
+            </button>
+          </div>
         </form>
       )}
 

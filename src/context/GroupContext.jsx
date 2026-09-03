@@ -1,4 +1,4 @@
-﻿import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { useAuth } from './AuthContext';
 import { useFolio } from './FolioContext';
 import { GroupService } from '../services/groupService';
@@ -21,6 +21,8 @@ export const GroupProvider = ({ children }) => {
   const [groups, setGroups] = useState([]);
   const [activeGroupId, setActiveGroupId] = useState(null);
   const [pendingInvites, setPendingInvites] = useState([]);
+  const [outgoingInvites, setOutgoingInvites] = useState([]);
+  const [reviewingInvite, setReviewingInvite] = useState(null);
   const [loadingGroups, setLoadingGroups] = useState(true);
 
   // Subscribe to user groups
@@ -41,7 +43,7 @@ export const GroupProvider = ({ children }) => {
     };
   }, [currentUser]);
 
-  // Subscribe to incoming pending invites
+  // Subscribe to incoming pending invites for current user
   useEffect(() => {
     if (!currentUser) {
       setPendingInvites([]);
@@ -49,7 +51,6 @@ export const GroupProvider = ({ children }) => {
     }
 
     const unsubscribe = GroupService.subscribeToIncomingInvites(currentUser, (invites) => {
-      // Play chirp if new invite arrives
       if (invites.length > pendingInvites.length && invites.length > 0) {
         AudioService.playTerminalBeep(1400, 0.05);
       }
@@ -65,9 +66,35 @@ export const GroupProvider = ({ children }) => {
     return groups.find(g => g.id === activeGroupId) || (groups.length > 0 ? groups[0] : null);
   }, [groups, activeGroupId]);
 
+  // Subscribe to outgoing pending invites if current user is GM / creator of active group
+  useEffect(() => {
+    if (!activeGroup || !currentUser || activeGroup.creatorId !== currentUser.uid) {
+      setOutgoingInvites([]);
+      return;
+    }
+
+    const unsubscribe = GroupService.subscribeToGroupOutgoingInvites(activeGroup.id, (invites) => {
+      setOutgoingInvites(invites);
+    });
+
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
+  }, [activeGroup?.id, currentUser]);
+
   const selectGroup = useCallback((groupId) => {
     AudioService.playTerminalBeep(1100, 0.02);
     setActiveGroupId(groupId);
+  }, []);
+
+  // Modal inspection triggers for invite confirmation
+  const openInviteConfirmation = useCallback((invite) => {
+    AudioService.playTerminalBeep(1200, 0.03);
+    setReviewingInvite(invite);
+  }, []);
+
+  const closeInviteConfirmation = useCallback(() => {
+    setReviewingInvite(null);
   }, []);
 
   // Create a new Game Group
@@ -83,7 +110,6 @@ export const GroupProvider = ({ children }) => {
   }) => {
     if (!currentUser) throw new Error('You must be logged in to create a game group.');
     
-    // Default to active persona if none explicitly passed
     const chosenPersona = persona || activePersona || (personaRoster?.[0] || roster?.[0]);
     
     AudioService.playTerminalBeep(1450, 0.04);
@@ -119,10 +145,32 @@ export const GroupProvider = ({ children }) => {
     });
   }, [groups, activeGroup, currentUser]);
 
-  // Accept Invite
+  // Revoke an outgoing invite (GM action)
+  const revokeInvite = useCallback(async ({ inviteId }) => {
+    if (!inviteId) return;
+    AudioService.playTerminalBeep(950, 0.03);
+    await GroupService.revokeInvite({ inviteId });
+    setOutgoingInvites(prev => prev.filter(i => i.id !== inviteId));
+  }, []);
+
+  // Discharge / Kick a member from active group (GM action)
+  const kickMember = useCallback(async ({ groupId, userId }) => {
+    if (!groupId || !userId) return;
+    AudioService.playTerminalBeep(900, 0.04);
+    await GroupService.kickMember({ groupId, userId });
+  }, []);
+
+  // Update member role (GM action)
+  const updateMemberRole = useCallback(async ({ groupId, userId, role }) => {
+    if (!groupId || !userId || !role) return;
+    AudioService.playTerminalBeep(1200, 0.02);
+    await GroupService.updateMemberRole({ groupId, userId, role });
+  }, []);
+
+  // Accept Invite with explicit selected persona
   const acceptInvite = useCallback(async (inviteId, groupId, persona) => {
     const chosenPersona = persona || activePersona || (personaRoster?.[0] || roster?.[0]);
-    AudioService.playTerminalBeep(1500, 0.04);
+    AudioService.playTerminalBeep(1500, 0.05);
     await GroupService.respondToInvite({
       inviteId,
       groupId,
@@ -130,6 +178,7 @@ export const GroupProvider = ({ children }) => {
       currentUser,
       persona: chosenPersona
     });
+    setReviewingInvite(null);
     if (groupId) {
       setActiveGroupId(groupId);
     }
@@ -144,6 +193,7 @@ export const GroupProvider = ({ children }) => {
       accept: false,
       currentUser
     });
+    setReviewingInvite(null);
   }, [currentUser]);
 
   // Join Group via Code
@@ -207,9 +257,16 @@ export const GroupProvider = ({ children }) => {
     activeGroupId,
     selectGroup,
     pendingInvites,
+    outgoingInvites,
+    reviewingInvite,
+    openInviteConfirmation,
+    closeInviteConfirmation,
     loadingGroups,
     createGroup,
     sendInvite,
+    revokeInvite,
+    kickMember,
+    updateMemberRole,
     acceptInvite,
     declineInvite,
     joinByCode,

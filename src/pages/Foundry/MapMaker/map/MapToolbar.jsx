@@ -451,6 +451,21 @@ const MapToolbar = ({
         <span className="hidden md:inline">Cast / Spectator</span>
       </button>
 
+      {/* Deploy to The Stage Button */}
+      <button
+        type="button"
+        onClick={() => {
+          AudioService.playTerminalBeep(1400, 0.05);
+          window.location.href = `/stage?mapId=${activeMapId || currentMap?.id || ''}`;
+        }}
+        className="px-3.5 py-1 bg-gradient-to-r from-purple-950 via-cyan-950 to-slate-900 hover:from-purple-900 hover:to-cyan-900 border border-cyan-400 text-cyan-300 rounded text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1.5 h-8 shadow-[0_0_12px_rgba(6,182,212,0.4)] cursor-pointer"
+        title="Deploy Active Map to The Stage (Next-Gen WebGPU Tactical Simulation Engine)"
+      >
+        <span className="text-amber-400 font-bold">⚔️</span>
+        <span>THE STAGE</span>
+        <ExternalLink size={12} className="text-cyan-400" />
+      </button>
+
       {/* Omnicortex Asset Compendium Button */}
       <button
         type="button"

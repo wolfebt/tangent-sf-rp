@@ -116,6 +116,10 @@ export class HazardParticleSimulator {
     return this.activeHazards;
   }
 
+  public getHazardFields(): HazardField[] {
+    return this.activeHazards;
+  }
+
   private spawnParticlesForHazard(hazard: HazardField, count: number) {
     for (let i = 0; i < count; i++) {
       if (this.particles.length >= this.maxParticles) break;

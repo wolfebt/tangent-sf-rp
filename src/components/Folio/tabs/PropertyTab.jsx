@@ -14,8 +14,10 @@ import {
   Plus, 
   Dices, 
   Trash2, 
-  Edit3 
+  Edit3,
+  Scale
 } from 'lucide-react';
+import { scaleCarryingCapacity } from '../../../engines/tangentScalingEngine';
 
 const PROPERTY_CONFIG = {
   weaponry: {
@@ -81,7 +83,7 @@ export const PropertyTab = ({
   onBackToHub,
   onNavigate
 }) => {
-  const { characterData, updateField } = useFolio();
+  const { characterData, updateField, getAttrTotal, derivedStats } = useFolio();
   const { openDiceRoller } = useDice();
 
   const getArray = (key, altKey) => {
@@ -98,6 +100,32 @@ export const PropertyTab = ({
     }
     return [];
   };
+
+  const sumWeight = (list) => {
+    return (list || []).reduce((acc, item) => {
+      if (typeof item === 'object' && item !== null) {
+        const wt = parseFloat(item.weight ?? item.wt ?? item.mass ?? 0) || 0;
+        const qty = parseInt(item.qty ?? item.quantity ?? 1, 10) || 1;
+        return acc + (wt * qty);
+      }
+      return acc;
+    }, 0);
+  };
+
+  const weaponryList = getArray('weapons', 'weaponry');
+  const armoringList = getArray('armoring', 'armor');
+  const gearList = getArray('gear', 'equipment');
+  const otherList = getArray('other', 'misc');
+
+  const carriedWeight = Math.round((sumWeight(weaponryList) + sumWeight(armoringList) + sumWeight(gearList) + sumWeight(otherList)) * 10) / 10;
+  const strScore = getAttrTotal ? getAttrTotal('attr-strength') : parseInt(characterData['attr-strength'] || 0, 10);
+  const sizeKey = characterData['char-size'] || derivedStats?.size || 'Medium';
+  const baseMaxCapacity = (Math.max(0, strScore) + 2) * 50; // 100 lbs base at STR 0
+  const maxCapacity = scaleCarryingCapacity(baseMaxCapacity, sizeKey);
+  const lightCapacity = Math.round(maxCapacity * 0.5);
+  const loadPercent = Math.min(100, Math.round((carriedWeight / Math.max(1, maxCapacity)) * 100));
+  const isOverburdened = carriedWeight > maxCapacity;
+  const isEncumbered = carriedWeight > lightCapacity && !isOverburdened;
 
   const handleRollDamage = (damageExpr, weaponName) => {
     if (!damageExpr) return;
@@ -374,6 +402,64 @@ export const PropertyTab = ({
           <p className="text-xs text-slate-400">
             Armaments, defenses, technical gear, vehicle hangars, bases &amp; architectural real estate
           </p>
+        </div>
+      </div>
+
+      {/* Operative Carrying Capacity & Encumbrance Status Card */}
+      <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-3.5 space-y-2.5 shadow-md">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <Scale size={16} className="text-cyan-400" />
+            <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-200">
+              Carrying Capacity &amp; Encumbrance Load
+            </span>
+            <span className="text-[10px] font-mono text-slate-400">
+              (STR +{strScore} • {sizeKey} Chassis)
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            {isOverburdened ? (
+              <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-red-950 border border-red-500 text-red-300 animate-pulse">
+                ⚠️ Overburdened (-2 Reflex, Half Speed)
+              </span>
+            ) : isEncumbered ? (
+              <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-amber-950 border border-amber-500 text-amber-300">
+                ⚖️ Encumbered (-1 Reflex)
+              </span>
+            ) : (
+              <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-emerald-950 border border-emerald-500 text-emerald-300">
+                ✓ Unencumbered
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* Visual Encumbrance Progress Meter */}
+        <div className="space-y-1">
+          <div className="flex justify-between text-[11px] font-mono">
+            <span className="text-slate-300">
+              Carried Gear: <strong className={isOverburdened ? 'text-red-400' : isEncumbered ? 'text-amber-300' : 'text-cyan-300'}>{carriedWeight} lbs</strong>
+            </span>
+            <span className="text-slate-400">
+              Light: {lightCapacity} lbs • Max: <strong className="text-slate-200">{maxCapacity} lbs</strong>
+            </span>
+          </div>
+
+          <div className="w-full h-2 rounded-full bg-slate-900 border border-slate-800 overflow-hidden relative">
+            {/* 50% Threshold Marker */}
+            <div className="absolute top-0 bottom-0 left-1/2 w-[1px] bg-slate-700 z-10" title="50% Light Load Limit" />
+            <div
+              className={`h-full transition-all duration-300 ${
+                isOverburdened
+                  ? 'bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.6)]'
+                  : isEncumbered
+                  ? 'bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.5)]'
+                  : 'bg-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.4)]'
+              }`}
+              style={{ width: `${loadPercent}%` }}
+            />
+          </div>
         </div>
       </div>
 

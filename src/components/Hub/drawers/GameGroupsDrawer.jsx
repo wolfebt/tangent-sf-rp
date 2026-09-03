@@ -23,6 +23,7 @@ import { useFolio } from '../../../context/FolioContext';
 import { AudioService } from '../../../services/audioService';
 import { CreateGroupModal } from '../../Groups/CreateGroupModal';
 import { GameGroupModal } from '../../Groups/GameGroupModal';
+import { TeamInviteConfirmationModal } from '../../Groups/TeamInviteConfirmationModal';
 
 export const GameGroupsDrawer = ({ onClose }) => {
   const navigate = useNavigate();
@@ -31,8 +32,9 @@ export const GameGroupsDrawer = ({ onClose }) => {
     activeGroup, 
     selectGroup, 
     pendingInvites, 
-    acceptInvite, 
-    declineInvite, 
+    reviewingInvite,
+    openInviteConfirmation,
+    closeInviteConfirmation,
     joinByCode 
   } = useGroup();
   const { selectChannel } = useChat();
@@ -218,15 +220,16 @@ export const GameGroupsDrawer = ({ onClose }) => {
                   <div className="flex items-center gap-1.5">
                     <button
                       type="button"
-                      onClick={() => handleAcceptInvite(inv)}
-                      className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded font-bold text-[11px] transition-colors"
+                      onClick={() => openInviteConfirmation(inv)}
+                      className="px-2.5 py-1 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-lg font-bold text-[11px] transition-all flex items-center gap-1 shadow-sm cursor-pointer"
                     >
-                      Accept
+                      <Check size={12} />
+                      <span>Review &amp; Confirm</span>
                     </button>
                     <button
                       type="button"
-                      onClick={() => handleDeclineInvite(inv)}
-                      className="px-2.5 py-1 bg-slate-800 hover:bg-red-900 text-slate-300 hover:text-white rounded text-[11px] transition-colors"
+                      onClick={() => openInviteConfirmation(inv)}
+                      className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-red-300 rounded-lg text-[11px] font-bold transition-colors cursor-pointer"
                     >
                       Decline
                     </button>
@@ -358,6 +361,12 @@ export const GameGroupsDrawer = ({ onClose }) => {
         isOpen={isGroupModalOpen}
         initialTab={groupModalTab}
         onClose={() => setIsGroupModalOpen(false)}
+      />
+
+      <TeamInviteConfirmationModal
+        isOpen={!!reviewingInvite}
+        onClose={closeInviteConfirmation}
+        invite={reviewingInvite}
       />
     </div>
   );

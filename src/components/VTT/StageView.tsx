@@ -7,7 +7,8 @@
  * turn tracker, and floats the Glass-Cockpit HUD overlay with full tactical tools.
  */
 
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { 
   RendererContext, 
   LayerCompositor, 
@@ -26,12 +27,18 @@ import {
   CombatArbitrator,
   SkillRank,
   SizeCategory,
+  RangeCategory,
   DamagePipeline,
   DiceASTParser,
-  EssenceTracker
+  EssenceTracker,
+  BVHBuilder,
+  type WallSegment
 } from '../../engine/index.ts';
 import { DashboardOverlay } from '../../engine/ui/DashboardOverlay.tsx';
 import { useFolio } from '../../context/FolioContext';
+import { useCampaign } from '../../context/CampaignContext';
+import { TokenRadialMenu } from './TokenRadialMenu';
+import { ArchitectDesignPalette, type PaletteItem } from './ArchitectDesignPalette';
 import { HazardParticleSimulator, type HazardType, type HazardField } from '../../engine/physics/HazardParticleSimulator.ts';
 import { Graphics, Container, Text, TextStyle } from 'pixi.js';
 import { 
@@ -45,13 +52,16 @@ import {
   Lock, 
   Unlock, 
   Box, 
-  Zap,
-  Copy,
-  Check,
-  ZoomIn,
-  ZoomOut,
-  RotateCcw,
-  Clock
+  Zap, 
+  Copy, 
+  Check, 
+  ZoomIn, 
+  ZoomOut, 
+  RotateCcw, 
+  Clock, 
+  MapPin, 
+  Bot,
+  Hammer
 } from 'lucide-react';
 import { AudioService } from '../../services/audioService';
 
@@ -69,12 +79,30 @@ export const StageView: React.FC<StageViewProps> = ({
   const chunkManagerRef = useRef<FrustumChunkManager | null>(null);
   const coordEngineRef = useRef<CoordinateEngine>(new CoordinateEngine(GridType.Square, 70, GridScaleTier.Encounter));
   const interactiveObjMgrRef = useRef<InteractiveObjectManager>(new InteractiveObjectManager());
+  const bvhBuilderRef = useRef<BVHBuilder>(new BVHBuilder());
   const combatArbRef = useRef<CombatArbitrator>(new CombatArbitrator());
   const damagePipeRef = useRef<DamagePipeline>(new DamagePipeline());
   const diceParserRef = useRef<DiceASTParser>(new DiceASTParser());
   const essenceTrackerRef = useRef<EssenceTracker>(new EssenceTracker());
   const hazardSimulatorRef = useRef<HazardParticleSimulator | null>(null);
   const remoteCursorsContainerRef = useRef<Container | null>(null);
+
+  // Campaign Context and Search Params Integration
+  const [searchParams, setSearchParams] = useSearchParams();
+  const mapIdParam = searchParams.get('mapId');
+  const { universeState, activeMapId, updateMap } = useCampaign();
+  const [currentMapId, setCurrentMapId] = useState<string>(mapIdParam || activeMapId || '');
+
+  const availableMaps = universeState?.maps || [];
+  const currentMap = availableMaps.find((m: any) => m.id === currentMapId) || availableMaps[0] || null;
+
+  // In-Situ Architect Design Mode & Simulation Control States
+  const [isDesignModeActive, setIsDesignModeActive] = useState<boolean>(false);
+  const [isSimulationPaused, setIsSimulationPaused] = useState<boolean>(false);
+  const [selectedStamp, setSelectedStamp] = useState<PaletteItem | null>(null);
+  const [gridSnap, setGridSnap] = useState<boolean>(true);
+  const [localWalls, setLocalWalls] = useState<WallSegment[]>([]);
+  const [localObjects, setLocalObjects] = useState<SceneInteractiveObject[]>([]);
 
   // Folio Context integration
   const { personaRoster, roster } = useFolio();
@@ -90,6 +118,17 @@ export const StageView: React.FC<StageViewProps> = ({
   const [torchRadiusFt, setTorchRadiusFt] = useState(30);
   const [gridOverlayContainer, setGridOverlayContainer] = useState<Container | null>(null);
   const [moveRulerContainer, setMoveRulerContainer] = useState<Container | null>(null);
+
+  // Contextual Token Radial Menu State
+  const [radialMenuState, setRadialMenuState] = useState<{
+    isOpen: boolean;
+    position: { x: number; y: number };
+    token: any;
+  }>({
+    isOpen: false,
+    position: { x: 0, y: 0 },
+    token: null
+  });
 
   // Environmental FX & Dynamic Lighting States
   const [isDynamicLightingEnabled, setIsDynamicLightingEnabled] = useState<boolean>(true);
@@ -116,7 +155,7 @@ export const StageView: React.FC<StageViewProps> = ({
   ]);
   const [attackWeapon, setAttackWeapon] = useState<'kinetic' | 'plasma' | 'laser' | 'emp'>('plasma');
   const [attackMapStep, setAttackMapStep] = useState<number>(0);
-  const [customDiceExpr, setCustomDiceExpr] = useState<string>('2d20kh1 + @armor_dr');
+  const [customDiceExpr, setCustomDiceExpr] = useState<string>('2d10 + @armor_dr');
   const [selectedObjectModal, setSelectedObjectModal] = useState<SceneInteractiveObject | null>(null);
 
   // Turn Tracker States
@@ -141,9 +180,77 @@ export const StageView: React.FC<StageViewProps> = ({
 
   const effectiveSpeedFt = getEffectiveSpeed(selectedToken);
 
-  // Initialize sample tokens and map objects into VolatileSharder on mount
+  // Ingest Campaign Map (Walls into BVH, Objects into InteractiveObjMgr, Tokens into VolatileSharder)
   useEffect(() => {
     const store = useEngineStore.getState();
+
+    if (currentMap) {
+      setCombatLog(prev => [
+        `[MAP SYNC] Synchronized with Campaign Map: "${currentMap.title || currentMap.name || 'Tactical Sector'}" [${currentMap.type || 'Sector'}].`,
+        ...prev.slice(0, 8)
+      ]);
+
+      // 1. Ingest Walls & Bulkheads into BVH spatial tree & local state
+      if (Array.isArray(currentMap.walls) && currentMap.walls.length > 0) {
+        const bvhWalls: WallSegment[] = currentMap.walls.map((w: any) => ({
+          id: w.id || `wall-${Math.random()}`,
+          p1: w.p1 || { x: w.x1 || 0, y: w.y1 || 0 },
+          p2: w.p2 || { x: w.x2 || 100, y: w.y2 || 100 },
+          isDynamic: Boolean(w.isDoor || w.wallType?.includes('door') || w.wallType?.includes('bulkhead')),
+          isOpen: w.doorState === 'open',
+          isTransparent: Boolean(w.isTransparent || w.wallType?.includes('window') || w.wallType?.includes('glass'))
+        }));
+        bvhBuilderRef.current.build(bvhWalls);
+        setLocalWalls(bvhWalls);
+      } else {
+        setLocalWalls([]);
+      }
+
+      // 2. Ingest Interactive Map Objects into local state
+      if (Array.isArray(currentMap.objects) && currentMap.objects.length > 0) {
+        const sceneObjects: SceneInteractiveObject[] = currentMap.objects.map((obj: any) => ({
+          id: obj.id,
+          name: obj.name || obj.label || obj.type || 'Object',
+          type: (obj.type || 'terminal') as any,
+          x: obj.x || 100,
+          y: obj.y || 100,
+          storyElementId: obj.storyElementId || obj.id
+        }));
+        interactiveObjMgrRef.current.loadObjects(sceneObjects);
+        setLocalObjects(sceneObjects);
+      } else {
+        setLocalObjects([]);
+      }
+
+      // 3. Ingest Map Tokens
+      if (Array.isArray(currentMap.tokens) && currentMap.tokens.length > 0) {
+        const staticBatch: StaticEntity[] = currentMap.tokens.map((t: any) => ({
+          id: t.id,
+          name: t.name || t.label || 'Operative',
+          base_hp: t.base_hp || t.hp?.max || 35,
+          tech_level: t.tech_level || 3,
+          armor_dr: t.armor_dr || t.dr || 10,
+          size_modifier: t.size_modifier || 0,
+          speed_ft: t.speed_ft || 30,
+          species: t.species || 'Human',
+          archetype: t.archetype || 'Operative',
+          is_persona: t.is_persona !== false
+        }));
+        store.loadStaticEntitiesBatch(staticBatch);
+        currentMap.tokens.forEach((t: any) => {
+          store.updatePosition(t.id, t.x || 140, t.y || 140);
+        });
+
+        if (currentMap.tokens[0]?.id) {
+          setSelectedTokenId(currentMap.tokens[0].id);
+        }
+        if (currentMap.tokens[1]?.id) {
+          setTargetTokenId(currentMap.tokens[1].id);
+        }
+      }
+    }
+
+    // Fallback: If no tokens loaded, spawn standard tactical baseline squad
     if (Object.keys(store.staticData).length === 0) {
       store.loadStaticEntitiesBatch([
         {
@@ -200,37 +307,214 @@ export const StageView: React.FC<StageViewProps> = ({
       store.updatePosition('op-kaelen', 140, 210);
       store.updatePosition('mech-vanguard', 420, 280);
       store.updatePosition('drone-scout', 490, 140);
-    }
 
-    // Sample interactive objects on the Stage
-    const sampleObjects: SceneInteractiveObject[] = [
-      {
-        id: 'bulkhead-alpha',
-        name: 'Airlock Security Bulkhead',
-        type: 'bulkhead',
-        x: 280,
-        y: 140,
-        storyElementId: 'clue-airlock-breach'
-      },
-      {
-        id: 'terminal-nexus',
-        name: 'Mainframe Datapad',
-        type: 'terminal',
-        x: 350,
-        y: 210,
-        storyElementId: 'log-classified-data'
-      },
-      {
-        id: 'crate-omega',
-        name: 'Omnicortex Munitions Crate',
-        type: 'loot_container',
-        x: 210,
-        y: 350,
-        storyElementId: 'gear-plasma-grenades'
+      const sampleObjects: SceneInteractiveObject[] = [
+        {
+          id: 'bulkhead-alpha',
+          name: 'Airlock Security Bulkhead',
+          type: 'bulkhead',
+          x: 280,
+          y: 140,
+          storyElementId: 'clue-airlock-breach'
+        },
+        {
+          id: 'terminal-nexus',
+          name: 'Mainframe Datapad',
+          type: 'terminal',
+          x: 350,
+          y: 210,
+          storyElementId: 'log-classified-data'
+        },
+        {
+          id: 'crate-omega',
+          name: 'Omnicortex Munitions Crate',
+          type: 'loot_container',
+          x: 210,
+          y: 350,
+          storyElementId: 'gear-plasma-grenades'
+        }
+      ];
+      interactiveObjMgrRef.current.loadObjects(sampleObjects);
+      setLocalObjects(sampleObjects);
+
+      // Default sample walls for obstacle testing
+      const defaultWalls: WallSegment[] = [
+        { id: 'sample-bulkhead', p1: { x: 280, y: 70 }, p2: { x: 280, y: 210 }, isDynamic: true, isOpen: false },
+        { id: 'sample-cover-crate', p1: { x: 300, y: 300 }, p2: { x: 300, y: 380 }, isDynamic: false }
+      ];
+      bvhBuilderRef.current.build(defaultWalls);
+      setLocalWalls(defaultWalls);
+    }
+  }, [currentMap]);
+
+  // Render Walls & Bulkheads onto the Stage
+  useEffect(() => {
+    const compositor = layerCompositorRef.current;
+    if (!compositor) return;
+
+    const wallLayer = compositor.getLayer(ZLayer.UnderlayDebris);
+    if (!wallLayer) return;
+
+    wallLayer.removeChildren();
+
+    const g = new Graphics();
+    localWalls.forEach(wall => {
+      const isDoor = wall.isDynamic;
+      const isOpen = wall.isOpen;
+      const isWindow = (wall as any).isTransparent;
+
+      const strokeColor = isDoor 
+        ? (isOpen ? 0x10b981 : 0xf59e0b) 
+        : isWindow 
+          ? 0x38bdf8 
+          : 0x06b6d4;
+
+      g.moveTo(wall.p1.x, wall.p1.y);
+      g.lineTo(wall.p2.x, wall.p2.y);
+      g.stroke({ 
+        width: isDoor ? 5 : isWindow ? 3 : 4, 
+        color: strokeColor, 
+        alpha: isOpen ? 0.4 : 0.95 
+      });
+
+      // End caps
+      g.circle(wall.p1.x, wall.p1.y, 3.5);
+      g.fill({ color: strokeColor });
+      g.circle(wall.p2.x, wall.p2.y, 3.5);
+      g.fill({ color: strokeColor });
+    });
+
+    wallLayer.addChild(g);
+  }, [localWalls]);
+
+  // Deploy Item from Architect Design Palette onto the Stage
+  const deployArchitectItem = (item: PaletteItem, targetX: number, targetY: number) => {
+    AudioService.playTerminalBeep(1350, 0.03);
+
+    if (item.type === 'wall') {
+      const newWallId = `wall-${Date.now()}`;
+      const newWall: WallSegment = {
+        id: newWallId,
+        p1: { x: targetX, y: targetY },
+        p2: { x: targetX + (item.defaultProps?.length || 70), y: targetY },
+        isDynamic: Boolean(item.defaultProps?.isDynamic),
+        isOpen: false,
+        isTransparent: Boolean(item.defaultProps?.isTransparent)
+      };
+      bvhBuilderRef.current.addWall(newWall);
+      const updatedWalls = [...localWalls, newWall];
+      setLocalWalls(updatedWalls);
+      if (currentMap && updateMap) {
+        updateMap(currentMap.id, { walls: updatedWalls });
       }
-    ];
-    interactiveObjMgrRef.current.loadObjects(sampleObjects);
-  }, []);
+
+      setCombatLog(prev => [
+        `[ARCHITECT] Placed ${item.label} at (${targetX}, ${targetY}). BVH tree rebuilt.`,
+        ...prev.slice(0, 8)
+      ]);
+    } else if (item.type === 'object') {
+      const newObjId = `obj-${Date.now()}`;
+      const newObj: SceneInteractiveObject = {
+        id: newObjId,
+        name: item.defaultProps?.name || item.label,
+        type: (item.subType || 'terminal') as any,
+        x: targetX,
+        y: targetY,
+        storyElementId: item.defaultProps?.storyElementId || `story-${Date.now()}`
+      };
+      interactiveObjMgrRef.current.loadObjects([...interactiveObjMgrRef.current.getAllObjects(), newObj]);
+      const updatedObjects = [...localObjects, newObj];
+      setLocalObjects(updatedObjects);
+      if (currentMap && updateMap) {
+        updateMap(currentMap.id, { objects: updatedObjects });
+      }
+
+      setCombatLog(prev => [
+        `[ARCHITECT] Placed interactive object "${newObj.name}" at (${targetX}, ${targetY}).`,
+        ...prev.slice(0, 8)
+      ]);
+    } else if (item.type === 'hazard') {
+      if (hazardSimulatorRef.current) {
+        const newHazard: HazardField = {
+          id: `hazard-${Date.now()}`,
+          x: targetX,
+          y: targetY,
+          radius: item.defaultProps?.radius || 75,
+          type: (item.defaultProps?.hazardType || 'plasma_fire') as HazardType,
+          intensity: 1.0
+        };
+        hazardSimulatorRef.current.addHazardField(newHazard);
+        setHazardCount(hazardSimulatorRef.current.getActiveHazards().length);
+      }
+      setCombatLog(prev => [
+        `[ARCHITECT] Created ${item.label} zone at (${targetX}, ${targetY}).`,
+        ...prev.slice(0, 8)
+      ]);
+    } else if (item.type === 'prop') {
+      const newWallId = `cover-${Date.now()}`;
+      const newWall: WallSegment = {
+        id: newWallId,
+        p1: { x: targetX, y: targetY },
+        p2: { x: targetX + 50, y: targetY + 20 },
+        isDynamic: false,
+        isOpen: false
+      };
+      bvhBuilderRef.current.addWall(newWall);
+      const updatedWalls = [...localWalls, newWall];
+      setLocalWalls(updatedWalls);
+      if (currentMap && updateMap) {
+        updateMap(currentMap.id, { walls: updatedWalls });
+      }
+
+      setCombatLog(prev => [
+        `[ARCHITECT] Placed ${item.label} [${item.defaultProps?.coverType || 'Cover'}] at (${targetX}, ${targetY}).`,
+        ...prev.slice(0, 8)
+      ]);
+    } else if (item.type === 'token') {
+      const newTokId = `tok-${Date.now()}`;
+      const newTok: StaticEntity = {
+        id: newTokId,
+        name: item.label,
+        base_hp: item.defaultProps?.base_hp || 35,
+        tech_level: item.defaultProps?.tech_level || 3,
+        armor_dr: item.defaultProps?.armor_dr || 10,
+        size_modifier: item.defaultProps?.size_modifier || 0,
+        speed_ft: item.defaultProps?.speed_ft || 30,
+        species: item.subType === 'drone' ? 'Automaton' : item.subType === 'mech' ? 'Mecha' : 'Human',
+        archetype: item.label,
+        is_persona: Boolean(item.defaultProps?.is_persona)
+      };
+      useEngineStore.getState().loadStaticEntitiesBatch([newTok]);
+      useEngineStore.getState().updatePosition(newTokId, targetX, targetY);
+
+      if (currentMap && updateMap) {
+        const existingTokens = currentMap.tokens || [];
+        updateMap(currentMap.id, {
+          tokens: [...existingTokens, { ...newTok, x: targetX, y: targetY }]
+        });
+      }
+
+      setCombatLog(prev => [
+        `[ARCHITECT] Spawned ${item.label} at (${targetX}, ${targetY}).`,
+        ...prev.slice(0, 8)
+      ]);
+    }
+  };
+
+  const handleToggleDesignMode = () => {
+    setIsDesignModeActive(prev => {
+      const next = !prev;
+      setIsSimulationPaused(next); // Pause simulation during design mode, unpause when exiting
+      AudioService.playTerminalBeep(next ? 1500 : 900, 0.04);
+      setCombatLog(p => [
+        next
+          ? `[ARCHITECT MODE] In-situ map design mode active. Tactical simulation paused.`
+          : `[ARCHITECT MODE] Resumed live tactical simulation. All assets synchronized.`,
+        ...p.slice(0, 8)
+      ]);
+      return next;
+    });
+  };
 
   // Initialize PixiJS WebGPU Canvas & Compositor
   useEffect(() => {
@@ -243,7 +527,12 @@ export const StageView: React.FC<StageViewProps> = ({
 
     const initRenderer = async () => {
       await renderer.initialize(canvas);
-      if (isDestroyed) return;
+      if (isDestroyed) {
+        hazardSimulatorRef.current?.destroy();
+        renderer.destroy();
+        rendererContextRef.current = null;
+        return;
+      }
 
       const app = renderer.getApp();
       const compositor = new LayerCompositor(app);
@@ -303,6 +592,7 @@ export const StageView: React.FC<StageViewProps> = ({
       isDestroyed = true;
       hazardSimulatorRef.current?.destroy();
       renderer.destroy();
+      rendererContextRef.current = null;
     };
   }, []);
 
@@ -356,62 +646,85 @@ export const StageView: React.FC<StageViewProps> = ({
     if (!moveRulerContainer || !selectedToken) return;
 
     moveRulerContainer.removeChildren();
-    if (!isMoveModeActive) return;
 
     const g = new Graphics();
     const cellSizePx = coordEngineRef.current.getCellSizePx();
     const speedRadiusPx = (effectiveSpeedFt / 5) * cellSizePx;
     const sprintRadiusPx = speedRadiusPx * 2;
 
-    // 1. Draw Base Movement Radius (Cyan)
+    // 1. Draw Base Movement Radius (Cyan/Green for 1 Action)
     g.circle(selectedToken.x, selectedToken.y, speedRadiusPx);
-    g.stroke({ width: 2, color: 0x06b6d4, alpha: 0.6 });
-    g.fill({ color: 0x06b6d4, alpha: 0.08 });
+    g.stroke({ width: 2, color: 0x10b981, alpha: isMoveModeActive ? 0.75 : 0.35 });
+    g.fill({ color: 0x10b981, alpha: isMoveModeActive ? 0.08 : 0.03 });
 
-    // 2. Draw Sprint Radius (Amber/Gold dashed)
+    // 2. Draw Sprint Radius (Amber/Gold dashed for 2 Actions)
     g.circle(selectedToken.x, selectedToken.y, sprintRadiusPx);
-    g.stroke({ width: 1.5, color: 0xf59e0b, alpha: 0.35 });
-    g.fill({ color: 0xf59e0b, alpha: 0.03 });
+    g.stroke({ width: 1.5, color: 0xf59e0b, alpha: isMoveModeActive ? 0.6 : 0.25 });
+    g.fill({ color: 0xf59e0b, alpha: isMoveModeActive ? 0.04 : 0.015 });
 
-    // 3. Draw Distance Vector to Mouse Cursor
-    const dx = mouseWorldPos.x - selectedToken.x;
-    const dy = mouseWorldPos.y - selectedToken.y;
-    const distPx = Math.sqrt(dx * dx + dy * dy);
-    const distFt = Math.round((distPx / cellSizePx) * 5);
-    const distCells = Math.round(distPx / cellSizePx);
+    if (isMoveModeActive) {
+      // 3. Draw Distance Vector to Mouse Cursor
+      const dx = mouseWorldPos.x - selectedToken.x;
+      const dy = mouseWorldPos.y - selectedToken.y;
+      const distPx = Math.sqrt(dx * dx + dy * dy);
+      const distFt = Math.round((distPx / cellSizePx) * 5);
+      const distCells = Math.round(distPx / cellSizePx);
 
-    const isWithinBase = distFt <= effectiveSpeedFt;
-    const isWithinSprint = distFt <= (effectiveSpeedFt * 2);
-    const vectorColor = isWithinBase ? 0x10b981 : isWithinSprint ? 0xf59e0b : 0xef4444;
+      const isWithinBase = distFt <= effectiveSpeedFt;
+      const isWithinSprint = distFt <= (effectiveSpeedFt * 2);
+      const actionCost = isWithinBase ? 1 : isWithinSprint ? 2 : Math.ceil(distFt / effectiveSpeedFt);
 
-    g.moveTo(selectedToken.x, selectedToken.y);
-    g.lineTo(mouseWorldPos.x, mouseWorldPos.y);
-    g.stroke({ width: 2.5, color: vectorColor, alpha: 0.85 });
+      // Check if path intersects any hazard fields
+      const intersectsHazard = (hazardSimulatorRef.current?.getHazardFields?.() || []).some((h: any) => {
+        const midX = (selectedToken.x + mouseWorldPos.x) / 2;
+        const midY = (selectedToken.y + mouseWorldPos.y) / 2;
+        return Math.hypot(h.x - midX, h.y - midY) <= (h.radius || 70);
+      });
 
-    // Target waypoint marker
-    g.circle(mouseWorldPos.x, mouseWorldPos.y, 6);
-    g.fill({ color: vectorColor, alpha: 0.9 });
-    g.stroke({ width: 2, color: 0xffffff });
+      const vectorColor = intersectsHazard 
+        ? 0xef4444 
+        : isWithinBase 
+          ? 0x10b981 
+          : isWithinSprint 
+            ? 0xf59e0b 
+            : 0xef4444;
 
-    moveRulerContainer.addChild(g);
+      g.moveTo(selectedToken.x, selectedToken.y);
+      g.lineTo(mouseWorldPos.x, mouseWorldPos.y);
+      g.stroke({ width: 2.5, color: vectorColor, alpha: 0.9 });
 
-    // Dynamic Distance Text Label
-    const textStyle = new TextStyle({
-      fontFamily: 'monospace',
-      fontSize: 11,
-      fill: vectorColor === 0x10b981 ? 0x6ee7b7 : vectorColor === 0xf59e0b ? 0xfcd34d : 0xfca5a5,
-      fontWeight: 'bold',
-      align: 'center'
-    });
+      // Target waypoint marker
+      g.circle(mouseWorldPos.x, mouseWorldPos.y, 6);
+      g.fill({ color: vectorColor, alpha: 0.9 });
+      g.stroke({ width: 2, color: 0xffffff });
 
-    const distLabel = new Text({
-      text: `${distFt} FT (${distCells} CELLS) ${isWithinBase ? '[NORMAL]' : isWithinSprint ? '[SPRINT]' : '[OUT OF RANGE]'}`,
-      style: textStyle
-    });
-    distLabel.x = (selectedToken.x + mouseWorldPos.x) / 2;
-    distLabel.y = (selectedToken.y + mouseWorldPos.y) / 2 - 14;
-    distLabel.anchor.set(0.5, 0.5);
-    moveRulerContainer.addChild(distLabel);
+      moveRulerContainer.addChild(g);
+
+      // Dynamic Distance & Action Cost Label
+      const textStyle = new TextStyle({
+        fontFamily: 'monospace',
+        fontSize: 11,
+        fill: vectorColor === 0x10b981 ? 0x6ee7b7 : vectorColor === 0xf59e0b ? 0xfcd34d : 0xfca5a5,
+        fontWeight: 'bold',
+        align: 'center'
+      });
+
+      let labelText = `${distFt} FT (${distCells} CELLS) • [${actionCost} ACTION${actionCost > 1 ? 'S' : ''}${isWithinSprint && !isWithinBase ? ' - SPRINT' : ''}]`;
+      if (intersectsHazard) {
+        labelText += ' ⚠️ HAZARD CROSSING!';
+      }
+
+      const distLabel = new Text({
+        text: labelText,
+        style: textStyle
+      });
+      distLabel.x = (selectedToken.x + mouseWorldPos.x) / 2;
+      distLabel.y = (selectedToken.y + mouseWorldPos.y) / 2 - 14;
+      distLabel.anchor.set(0.5, 0.5);
+      moveRulerContainer.addChild(distLabel);
+    } else {
+      moveRulerContainer.addChild(g);
+    }
 
   }, [moveRulerContainer, selectedToken, isMoveModeActive, mouseWorldPos, effectiveSpeedFt]);
 
@@ -461,7 +774,7 @@ export const StageView: React.FC<StageViewProps> = ({
     });
   }, [tokens]);
 
-  // Render Tokens on the Stage
+  // Render Tokens on the Stage with Canonical Action Pips and Mortality Indicators
   useEffect(() => {
     const compositor = layerCompositorRef.current;
     if (!compositor) return;
@@ -488,13 +801,18 @@ export const StageView: React.FC<StageViewProps> = ({
       const g = new Graphics();
       const isSelected = token.id === selectedTokenId;
       const isTarget = token.id === targetTokenId;
-      const fillColor = token.is_persona ? 0x06b6d4 : 0x8b5cf6; // Cyan for Persona, Purple for Mecha
+      const isDowned = token.current_hp <= 0;
+      const fillColor = isDowned 
+        ? 0xef4444 
+        : token.is_persona 
+          ? 0x06b6d4 
+          : 0x8b5cf6; // Cyan for Persona, Purple for Mecha, Red if Downed
 
       // Volumetric Size radius
       const radius = 22 + (token.size_modifier || 0) * 8;
 
       g.circle(0, 0, radius);
-      g.fill({ color: fillColor, alpha: 0.85 });
+      g.fill({ color: fillColor, alpha: isDowned ? 0.6 : 0.85 });
 
       if (isSelected) {
         g.stroke({ width: 3.5, color: 0xfacc15 }); // Gold ring for selected
@@ -516,14 +834,58 @@ export const StageView: React.FC<StageViewProps> = ({
 
       container.addChild(g);
 
-      // Label & HP
+      // Render Canonical Action Pips based on Skill Rank (Rank 0=1 full, 1-5=1, 6-10=2, 11-15=3, etc.)
+      const skillRank = (token as any).skill_rank ?? 8;
+      const actionTier = combatArbRef.current.getActionTier(skillRank);
+      const actionCount = actionTier.actionsCount;
+      const pipsG = new Graphics();
+      const pipsSpacing = 7;
+      const startX = -((actionCount - 1) * pipsSpacing) / 2;
+      for (let p = 0; p < actionCount; p++) {
+        const px = startX + p * pipsSpacing;
+        const py = -radius - 12;
+        pipsG.poly([px, py - 3, px + 3, py, px, py + 3, px - 3, py]);
+        pipsG.fill({ color: 0x06b6d4, alpha: 0.95 });
+        pipsG.stroke({ width: 0.8, color: 0xffffff });
+      }
+      container.addChild(pipsG);
+
+      // If in Mortality State (0 HP), render Bleeding Out Warning
+      if (isDowned) {
+        const mortG = new Graphics();
+        mortG.circle(0, 0, radius + 4);
+        mortG.stroke({ width: 2.5, color: 0xf59e0b, alpha: 0.9 });
+        container.addChild(mortG);
+
+        const mortText = new Text({
+          text: `BLEEDING OUT`,
+          style: new TextStyle({ fontFamily: 'monospace', fontSize: 8.5, fill: 0xf59e0b, fontWeight: 'bold' })
+        });
+        mortText.anchor.set(0.5, 2.7);
+        container.addChild(mortText);
+      }
+
+      // Name & HP Label
       const label = new Text({ text: `${token.name} (${token.current_hp} HP)`, style });
       label.anchor.set(0.5, -1.8);
       container.addChild(label);
 
-      container.on('pointerdown', (e) => {
+      // Interaction listeners: Left click select, Shift click target, Right click open radial menu
+      container.on('pointerdown', (e: any) => {
         e.stopPropagation();
-        if (e.buttons === 2 || e.shiftKey) {
+        if (e.button === 2 || e.buttons === 2) {
+          // Open Contextual Token Radial Menu!
+          setSelectedTokenId(token.id);
+          const canvasBounds = canvasRef.current?.getBoundingClientRect();
+          const screenX = canvasBounds ? canvasBounds.left + token.x * zoom + pan.x : token.x;
+          const screenY = canvasBounds ? canvasBounds.top + token.y * zoom + pan.y : token.y;
+          setRadialMenuState({
+            isOpen: true,
+            position: { x: screenX, y: screenY },
+            token
+          });
+          AudioService.playTerminalBeep(1350, 0.04);
+        } else if (e.shiftKey) {
           setTargetTokenId(token.id);
           AudioService.playTerminalBeep(950, 0.03);
         } else {
@@ -534,7 +896,7 @@ export const StageView: React.FC<StageViewProps> = ({
 
       tokenLayer.addChild(container);
     });
-  }, [tokens, selectedTokenId, targetTokenId, isVisionEnabled, torchRadiusFt]);
+  }, [tokens, selectedTokenId, targetTokenId, isVisionEnabled, torchRadiusFt, zoom, pan]);
 
   // Convert Screen Mouse Coordinates to World Coordinates (accounting for Pan & Zoom)
   const screenToWorld = useCallback((clientX: number, clientY: number) => {
@@ -572,16 +934,62 @@ export const StageView: React.FC<StageViewProps> = ({
     setIsDraggingPan(false);
   };
 
-  // Handle Mouse Wheel Zoom
-  const handleCanvasWheel = (e: React.WheelEvent<HTMLCanvasElement>) => {
+  // Non-passive Wheel listener to allow smooth zoom without page scroll
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      const zoomFactor = e.deltaY < 0 ? 1.1 : 0.9;
+      setZoom(prev => Math.max(0.4, Math.min(2.5, prev * zoomFactor)));
+    };
+
+    canvas.addEventListener('wheel', onWheel, { passive: false });
+    return () => {
+      canvas.removeEventListener('wheel', onWheel);
+    };
+  }, []);
+
+  // Drag and drop event handlers for Architect Design Mode
+  const handleCanvasDragOver = (e: React.DragEvent<HTMLCanvasElement>) => {
     e.preventDefault();
-    const zoomFactor = e.deltaY < 0 ? 1.1 : 0.9;
-    setZoom(prev => Math.max(0.4, Math.min(2.5, prev * zoomFactor)));
+    e.dataTransfer.dropEffect = 'copy';
   };
 
-  // Handle Stage Canvas Pointer Click (Snap & Move Token)
+  const handleCanvasDrop = (e: React.DragEvent<HTMLCanvasElement>) => {
+    e.preventDefault();
+    if (!isDesignModeActive) return;
+
+    try {
+      const rawData = e.dataTransfer.getData('application/json');
+      if (!rawData) return;
+      const item: PaletteItem = JSON.parse(rawData);
+      const worldPos = screenToWorld(e.clientX, e.clientY);
+
+      const targetX = gridSnap ? Math.round(worldPos.x / 70) * 70 : Math.round(worldPos.x);
+      const targetY = gridSnap ? Math.round(worldPos.y / 70) * 70 : Math.round(worldPos.y);
+
+      deployArchitectItem(item, targetX, targetY);
+    } catch (err) {
+      console.warn('Failed to parse dropped architect item:', err);
+    }
+  };
+
+  // Handle Stage Canvas Pointer Click (Snap & Move Token or Stamp Asset)
   const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (isDraggingPan || !selectedTokenId) return;
+    if (isDraggingPan) return;
+
+    // 1. If in Architect Design Mode and a Stamp is armed, place it!
+    if (isDesignModeActive && selectedStamp) {
+      const worldPos = screenToWorld(e.clientX, e.clientY);
+      const targetX = gridSnap ? Math.round(worldPos.x / 70) * 70 : Math.round(worldPos.x);
+      const targetY = gridSnap ? Math.round(worldPos.y / 70) * 70 : Math.round(worldPos.y);
+      deployArchitectItem(selectedStamp, targetX, targetY);
+      return;
+    }
+
+    if (!selectedTokenId) return;
 
     const worldPos = screenToWorld(e.clientX, e.clientY);
     const engine = coordEngineRef.current;
@@ -678,7 +1086,7 @@ export const StageView: React.FC<StageViewProps> = ({
     if (!container) return;
 
     container.removeChildren();
-    if (!isMultiplayerSimActive) return;
+    if (!isMultiplayerSimActive || isSimulationPaused) return;
 
     const peers = [
       { id: 'peer-vex', name: 'Operative Vex', color: 0x10b981, baseX: 450, baseY: 300 },
@@ -720,8 +1128,80 @@ export const StageView: React.FC<StageViewProps> = ({
     };
   }, [isMultiplayerSimActive]);
 
-  // Called Shot Limb Penalties & Trauma Thresholds
+  // Proximity detection for Contextual Token Radial Menu
+  const downedAllyNearby = useMemo(() => {
+    if (!selectedToken) return null;
+    return tokens.find(t => 
+      t.id !== selectedToken.id && 
+      t.current_hp <= 0 && 
+      Math.hypot(t.x - selectedToken.x, t.y - selectedToken.y) <= 120
+    ) || null;
+  }, [selectedToken, tokens]);
+
+  const nearbyInteractiveObj = useMemo(() => {
+    if (!selectedToken) return null;
+    return interactiveObjMgrRef.current.getAllObjects().find(o => 
+      Math.hypot(o.x - selectedToken.x, o.y - selectedToken.y) <= 120
+    ) || null;
+  }, [selectedToken]);
+
+  const isPointBlankTarget = useMemo(() => {
+    if (!selectedToken || !targetToken) return false;
+    const distPx = Math.hypot(targetToken.x - selectedToken.x, targetToken.y - selectedToken.y);
+    return (distPx / 70) * 5 <= 5;
+  }, [selectedToken, targetToken]);
+
+  // Handle Action Selected from Token Radial Menu
+  const handleRadialSelectAction = (actionId: string) => {
+    if (!selectedToken) return;
+
+    if (actionId === 'strike') {
+      handleExecuteCombatStrike();
+    } else if (actionId === 'move') {
+      setIsMoveModeActive(prev => !prev);
+    } else if (actionId === 'stance') {
+      const stances: Array<'normal' | 'guard' | 'overcharge' | 'aim'> = ['normal', 'guard', 'aim', 'overcharge'];
+      const nextIdx = (stances.indexOf(activeStance) + 1) % stances.length;
+      setActiveStance(stances[nextIdx]);
+      setCombatLog(prev => [
+        `[STANCE] ${selectedToken.name} shifted stance to ${stances[nextIdx].toUpperCase()}.`,
+        ...prev.slice(0, 8)
+      ]);
+    } else if (actionId === 'stabilize') {
+      if (downedAllyNearby) {
+        const d1 = Math.floor(Math.random() * 10) + 1;
+        const d2 = Math.floor(Math.random() * 10) + 1;
+        const medRoll = d1 + d2 + 4;
+        if (medRoll >= 15) {
+          useEngineStore.getState().toggleCondition(downedAllyNearby.id, 'status_stabilized');
+          useEngineStore.getState().applyDamage(downedAllyNearby.id, -1);
+          setCombatLog(prev => [
+            `[FIRST AID SUCCESS] ${selectedToken.name} stabilized ${downedAllyNearby.name} (Roll: ${d1}+${d2}+4 = ${medRoll} vs DC 15). Bleeding out halted!`,
+            ...prev.slice(0, 8)
+          ]);
+        } else {
+          setCombatLog(prev => [
+            `[FIRST AID FAILED] ${selectedToken.name} attempted to stabilize ${downedAllyNearby.name} (Roll: ${medRoll} vs DC 15).`,
+            ...prev.slice(0, 8)
+          ]);
+        }
+      }
+    } else if (actionId === 'interact') {
+      if (nearbyInteractiveObj) {
+        handleToggleBulkhead(nearbyInteractiveObj.id);
+      }
+    } else if (actionId === 'folio') {
+      setActiveTab('spawner');
+    }
+  };
+
+  // Canonical Called Shot Limb Penalties & Trauma Thresholds per 3.00 COMBAT.md with Automated Raycast Cover
   const handleExecuteCombatStrike = () => {
+    if (isSimulationPaused) {
+      alert('Tactical Simulation is paused while in Architect Design Mode. Click Resume Sim in the banner to continue live combat.');
+      return;
+    }
+
     if (!selectedToken || !targetToken) {
       alert('Select an Attacker and a Target on The Stage.');
       return;
@@ -729,34 +1209,94 @@ export const StageView: React.FC<StageViewProps> = ({
 
     AudioService.playTerminalBeep(1400, 0.05);
 
-    // Limb difficulty mod
-    const limbMod = targetedLimb === 'head' ? -2 : targetedLimb === 'arms' ? -2 : targetedLimb === 'optics' ? -3 : targetedLimb === 'legs' ? -1 : 0;
+    // 1. Distance & Point-Blank Evaluation (70px per 5ft cell)
+    const dx = targetToken.x - selectedToken.x;
+    const dy = targetToken.y - selectedToken.y;
+    const distPx = Math.sqrt(dx * dx + dy * dy);
+    const distFt = Math.round((distPx / 70) * 5);
+    const isPointBlank = distFt <= 5;
+    const rangeCat = isPointBlank 
+      ? RangeCategory.PointBlank 
+      : distFt <= 30 
+        ? RangeCategory.Short 
+        : distFt <= 60 
+          ? RangeCategory.Medium 
+          : RangeCategory.Long;
+
+    // 2. Automated Raycast Cover Calculation via BVH Spatial Tree
+    const targetRad = 22 + (targetToken.size_modifier || 0) * 8;
+    const coverCheck = bvhBuilderRef.current.calculateLineOfSightCover(
+      { x: selectedToken.x, y: selectedToken.y },
+      { x: targetToken.x, y: targetToken.y },
+      targetRad
+    );
+
+    if (coverCheck.coverType === 'total') {
+      setCombatLog(prev => [
+        `[COMBAT BLOCKED] Line of Sight obstructed by ${coverCheck.occludingWalls.length} wall(s)! Attack cannot proceed.`,
+        ...prev.slice(0, 8)
+      ]);
+      AudioService.playTerminalBeep(450, 0.04);
+      return;
+    }
+
+    // 3. Canonical Called Shot penalties per 3.00 COMBAT.md: Torso -1, Head -2, Arms -2, Legs -2, Optics -3
+    const limbMod = targetedLimb === 'head' ? -2 : targetedLimb === 'arms' ? -2 : targetedLimb === 'optics' ? -3 : targetedLimb === 'legs' ? -2 : -1;
     const stanceBonus = activeStance === 'aim' ? 2 : 0;
 
-    // 1. Calculate to-hit with MAP & Volumetric sizing
+    // 4. Calculate to-hit package with canonical MAP, Volumetric sizing, and Range
     const toHit = combatArbRef.current.buildToHitPackage(
       14 + limbMod + stanceBonus,
       SkillRank.Expert,
       attackMapStep,
       SizeCategory.Medium,
       targetToken.size_modifier > 0 ? SizeCategory.Large : SizeCategory.Medium,
-      1.0
+      1.0,
+      rangeCat,
+      { isAiming: activeStance === 'aim', aimRounds: 1 }
     );
 
-    // 2. Roll Attack Dice (1d20 + modifiers)
-    const attackRoll = Math.floor(Math.random() * 20) + 1;
-    const isHit = attackRoll >= (8 - limbMod - stanceBonus);
+    // Apply automated cover modifier directly
+    toHit.finalTarget += coverCheck.coverMod;
+
+    // 5. Roll 2d10 Attack Dice per canonical 3.00 COMBAT.md
+    const d1 = Math.floor(Math.random() * 10) + 1;
+    const d2 = Math.floor(Math.random() * 10) + 1;
+    const isDoubleTens = d1 === 10 && d2 === 10;
+    const isDoubleOnes = d1 === 1 && d2 === 1;
+    const critAttackBonus = isDoubleTens ? 30 : (isDoubleOnes ? -10 : 0);
+    const totalAttack = d1 + d2 + toHit.finalTarget + critAttackBonus;
+
+    // Unopposed Defense DC (CR 15 average baseline for Medium target at Short range)
+    const targetDefenseDC = combatArbRef.current.calculateUnopposedDC(
+      targetToken.size_modifier > 0 ? SizeCategory.Large : SizeCategory.Medium,
+      rangeCat
+    );
+
+    // Canonical Rule: DEFENDER WINS ALL TIES!
+    const isHit = totalAttack > targetDefenseDC && !isDoubleOnes;
 
     if (!isHit) {
       setCombatLog(prev => [
-        `[COMBAT MISS] ${selectedToken.name} targeted ${targetedLimb.toUpperCase()} of ${targetToken.name} with ${attackWeapon.toUpperCase()}. Roll: ${attackRoll} (Target DC: ${toHit.finalTarget}) -> MISSED.`,
+        `[COMBAT MISS] ${selectedToken.name} targeted ${targetedLimb.toUpperCase()} of ${targetToken.name} with ${attackWeapon.toUpperCase()}. 2d10 Roll: ${d1}+${d2}=${d1+d2} (Total Attack: ${totalAttack} vs DC ${targetDefenseDC} - Defender Wins Ties). [Cover: ${coverCheck.coverType.toUpperCase()}]`,
         ...prev.slice(0, 8)
       ]);
       return;
     }
 
-    // 3. Resolve Damage Pipeline
-    const baseDamage = attackWeapon === 'plasma' ? 32 : attackWeapon === 'emp' ? 24 : 18;
+    // 6. Resolve Damage Pipeline (Point Blank rolls ballistic/energy damage with Advantage)
+    let baseDamage = attackWeapon === 'plasma' ? 32 : attackWeapon === 'emp' ? 24 : 18;
+    if (isDoubleTens) baseDamage *= 2; // Natural 20 doubles weapon damage dice
+
+    // Advantage on damage if Point-Blank: roll two dice and take highest
+    if (isPointBlank && (attackWeapon === 'kinetic' || attackWeapon === 'plasma' || attackWeapon === 'laser')) {
+      const v1 = Math.floor(Math.random() * 8) + 1;
+      const v2 = Math.floor(Math.random() * 8) + 1;
+      baseDamage += Math.max(v1, v2);
+    } else {
+      baseDamage += Math.floor(Math.random() * 8) + 1;
+    }
+
     const stanceDmg = activeStance === 'overcharge' ? 6 : 0;
     const ap = attackWeapon === 'plasma' ? 6 : attackWeapon === 'laser' ? 4 : 2;
 
@@ -772,19 +1312,30 @@ export const StageView: React.FC<StageViewProps> = ({
         targetLocation: targetLoc as any
       },
       targetToken,
-      [targetToken.armor_dr || 10]
+      [targetToken.armor_dr || 10],
+      (targetToken as any).con_mod || 2,
+      (targetToken as any).constitution || 12
     );
 
     // Apply Damage to Volatile Store
-    useEngineStore.getState().applyDamage(targetToken.id, strikeResult.netDamage);
+    useEngineStore.getState().applyDamage(targetToken.id, strikeResult.healthDamage);
 
     // Apply Trauma Conditions if threshold was breached
     strikeResult.appliedStatuses.forEach(status => {
       useEngineStore.getState().toggleCondition(targetToken.id, status);
     });
 
+    let logMsg = `[COMBAT HIT] ${selectedToken.name} struck ${targetedLimb.toUpperCase()} of ${targetToken.name} for ${strikeResult.netDamage} NET DMG (${strikeResult.effectiveDR} DR + ${strikeResult.conModSoak} CON Soak) [Cover: ${coverCheck.coverType.toUpperCase()}].`;
+    if (strikeResult.entersMortalityState) {
+      logMsg += strikeResult.isDead
+        ? ` 💀 TARGET EXPIRED!`
+        : ` ⚠️ MORTALITY STATE: Bleeding Out (${strikeResult.stabilityPointsRemaining} Stability Points)!`;
+    } else if (strikeResult.appliedStatuses.length > 0) {
+      logMsg += ` TRAUMA: ${strikeResult.appliedStatuses.join(', ')}`;
+    }
+
     setCombatLog(prev => [
-      `[COMBAT HIT] ${selectedToken.name} struck ${targetedLimb.toUpperCase()} of ${targetToken.name} for ${strikeResult.netDamage} NET DMG (${strikeResult.effectiveDR} DR). ${strikeResult.appliedStatuses.length > 0 ? 'TRAUMA: ' + strikeResult.appliedStatuses.join(', ') : ''}`,
+      logMsg,
       ...prev.slice(0, 8)
     ]);
   };
@@ -931,10 +1482,33 @@ export const StageView: React.FC<StageViewProps> = ({
         onMouseMove={handleCanvasMouseMove}
         onMouseDown={handleCanvasMouseDown}
         onMouseUp={handleCanvasMouseUp}
-        onWheel={handleCanvasWheel}
+        onDragOver={handleCanvasDragOver}
+        onDrop={handleCanvasDrop}
         onContextMenu={(e) => e.preventDefault()}
-        className={`w-full h-full block ${isMoveModeActive ? 'cursor-crosshair' : isDraggingPan ? 'cursor-grabbing' : 'cursor-default'}`}
+        className={`w-full h-full block ${isDesignModeActive ? 'cursor-crosshair' : isMoveModeActive ? 'cursor-crosshair' : isDraggingPan ? 'cursor-grabbing' : 'cursor-default'}`}
       />
+
+      {/* ── TOP CENTER: Architect Design Mode Active Banner ── */}
+      {isDesignModeActive && (
+        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[115] bg-gradient-to-r from-amber-950 via-slate-900 to-amber-950 border-2 border-amber-500 rounded-2xl px-5 py-2 shadow-[0_0_30px_rgba(245,158,11,0.5)] backdrop-blur-xl flex items-center gap-3">
+          <div className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping" />
+          <div>
+            <span className="font-mono text-xs font-bold text-amber-300 tracking-wider block">
+              🛠️ ARCHITECT DESIGN MODE // SIMULATION PAUSED
+            </span>
+            <span className="font-mono text-[9px] text-amber-400/80">
+              Drag & drop assets or click-stamp. Changes instantly sync to Campaign Context & BVH.
+            </span>
+          </div>
+          <button
+            onClick={handleToggleDesignMode}
+            className="px-3 py-1.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-mono text-xs font-bold uppercase rounded-xl transition-all shadow-md flex items-center gap-1.5 cursor-pointer ml-2"
+          >
+            <span>⚔️</span>
+            <span>RESUME SIM</span>
+          </button>
+        </div>
+      )}
 
       {/* ── Glass-Cockpit HUD React Overlay ── */}
       <DashboardOverlay
@@ -977,6 +1551,45 @@ export const StageView: React.FC<StageViewProps> = ({
         className="absolute top-4 right-4 flex items-center gap-1.5 p-1.5 bg-slate-900/90 backdrop-blur-md border border-slate-700/80 rounded-xl shadow-2xl z-[110]"
         style={{ pointerEvents: 'auto' }}
       >
+        {/* Toggle In-Situ Architect Design Mode Button */}
+        <button
+          onClick={handleToggleDesignMode}
+          className={`px-3 py-1 text-xs font-mono font-bold rounded-lg border transition-all flex items-center gap-1.5 cursor-pointer ${
+            isDesignModeActive
+              ? 'bg-amber-500 text-black border-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.5)]'
+              : 'bg-slate-800 text-amber-300 hover:bg-slate-750 border-amber-500/50 hover:border-amber-400'
+          }`}
+          title="Toggle In-Situ Architect Design Mode (Pause Sim, Drag & Drop Map Assets)"
+        >
+          <Hammer size={12} />
+          <span>{isDesignModeActive ? 'DESIGNING' : 'DESIGN MODE'}</span>
+        </button>
+
+        {/* Campaign Map Selector */}
+        {availableMaps.length > 0 && (
+          <div className="flex items-center gap-1 pr-1 border-r border-slate-700/80">
+            <span className="text-[10px] font-mono text-cyan-400 font-bold px-1 flex items-center gap-1">
+              <MapPin size={12} /> MAP:
+            </span>
+            <select
+              value={currentMapId}
+              onChange={(e) => {
+                setCurrentMapId(e.target.value);
+                setSearchParams({ mapId: e.target.value });
+                AudioService.playTerminalBeep(1100, 0.03);
+              }}
+              className="bg-slate-800 text-cyan-300 font-mono text-xs px-2 py-1 rounded border border-cyan-800/60 focus:outline-none font-bold cursor-pointer max-w-[130px] truncate"
+              title="Switch Active Campaign Map"
+            >
+              {availableMaps.map((m: any) => (
+                <option key={m.id} value={m.id}>
+                  {m.title || m.name || 'Untitled Map'}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
         <span className="text-[10px] font-mono text-amber-400 font-bold px-1.5 flex items-center gap-1">
           <Compass size={12} /> SCALE:
         </span>
@@ -1190,6 +1803,79 @@ export const StageView: React.FC<StageViewProps> = ({
                     </button>
                   ))}
                 </div>
+              </div>
+
+              {/* AIME Tactical AI Co-Pilot Telemetry Card */}
+              <div className="bg-slate-950/90 p-2.5 rounded-xl border border-cyan-500/40 space-y-1.5 shadow-[0_0_15px_rgba(6,182,212,0.15)]">
+                <div className="flex items-center justify-between text-[10.5px]">
+                  <span className="font-bold text-cyan-300 flex items-center gap-1">
+                    <Bot size={13} className="text-cyan-400" /> AIME TACTICAL CO-PILOT
+                  </span>
+                  <span className="text-[8.5px] px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-400 font-mono border border-cyan-800 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" /> LIVE TELEMETRY
+                  </span>
+                </div>
+
+                {selectedToken && targetToken ? (() => {
+                  const dx = targetToken.x - selectedToken.x;
+                  const dy = targetToken.y - selectedToken.y;
+                  const distFt = Math.round((Math.hypot(dx, dy) / 70) * 5);
+                  const isPointBlank = distFt <= 5;
+                  const coverCheck = bvhBuilderRef.current.calculateLineOfSightCover(
+                    { x: selectedToken.x, y: selectedToken.y },
+                    { x: targetToken.x, y: targetToken.y },
+                    22 + (targetToken.size_modifier || 0) * 8
+                  );
+
+                  return (
+                    <div className="space-y-1 text-[9.5px]">
+                      <div className="flex justify-between text-slate-300">
+                        <span>Range: <strong className="text-amber-300 font-mono">{distFt} FT</strong> ({isPointBlank ? 'POINT-BLANK' : distFt <= 30 ? 'SHORT' : distFt <= 60 ? 'MEDIUM' : 'LONG'})</span>
+                        <span className={`font-bold ${coverCheck.coverType === 'none' ? 'text-emerald-400' : coverCheck.coverType === 'half' ? 'text-amber-400' : coverCheck.coverType === 'three_quarters' ? 'text-orange-400' : 'text-red-400'}`}>
+                          LoS: {coverCheck.coverType.toUpperCase()} ({coverCheck.coverMod} DC)
+                        </span>
+                      </div>
+
+                      {isPointBlank && (
+                        <div className="p-1 rounded bg-amber-950/70 border border-amber-500/50 text-amber-300 flex items-center gap-1 font-bold">
+                          <span>🎯</span> Point-Blank Advantage (+5 Strike, Advantage on Dmg)
+                        </div>
+                      )}
+
+                      {coverCheck.coverType !== 'none' && coverCheck.coverType !== 'total' && (
+                        <div className="p-1 rounded bg-slate-900 border border-slate-700 text-slate-300 flex items-center gap-1">
+                          <span>🛡️</span> Obstacles detected: {coverCheck.coverType === 'half' ? 'Half Cover (+2 Def)' : '3/4 Cover (+5 Def)'}
+                        </div>
+                      )}
+
+                      {coverCheck.coverType === 'total' && (
+                        <div className="p-1 rounded bg-red-950/80 border border-red-500 text-red-300 flex items-center gap-1 font-bold">
+                          <span>🚫</span> Line of Sight blocked by physical wall.
+                        </div>
+                      )}
+
+                      {targetToken.armor_dr >= 15 && (
+                        <div className="p-1 rounded bg-purple-950/70 border border-purple-500/50 text-purple-300 flex items-center gap-1">
+                          <span>💡</span> High Armor DR ({targetToken.armor_dr}). Recommend Force / EMP shockwave.
+                        </div>
+                      )}
+
+                      {targetToken.current_hp <= 0 && (
+                        <div className="p-1 rounded bg-red-950/80 border border-red-500 text-red-300 flex items-center gap-1 font-bold animate-pulse">
+                          <span>⚠️</span> TARGET IN MORTALITY STATE: Bleeding Out!
+                        </div>
+                      )}
+
+                      {downedAllyNearby && (
+                        <div className="p-1 rounded bg-emerald-950/80 border border-emerald-500 text-emerald-300 flex items-center gap-1 font-bold animate-pulse">
+                          <span>🩹</span> Allied {downedAllyNearby.name} adjacent at 0 HP. First Aid available!
+                        </div>
+                      )}
+                    </div>
+                  );
+                })() : (
+                  <span className="text-[9.5px] text-slate-500 italic block">Select Attacker and Target to engage AIME tactical telemetry.</span>
+                )}
               </div>
 
               {/* Execute Attack Button */}
@@ -1500,8 +2186,37 @@ export const StageView: React.FC<StageViewProps> = ({
           </div>
         </div>
       )}
+      {/* ── Contextual Token Radial Action Wheel ── */}
+      <TokenRadialMenu
+        isOpen={radialMenuState.isOpen}
+        onClose={() => setRadialMenuState(prev => ({ ...prev, isOpen: false }))}
+        position={radialMenuState.position}
+        token={radialMenuState.token}
+        targetToken={targetToken}
+        isAdjacentToMortalityAlly={Boolean(downedAllyNearby)}
+        mortalityAllyName={downedAllyNearby?.name || 'Allied Operative'}
+        isAdjacentToInteractiveObj={Boolean(nearbyInteractiveObj)}
+        interactiveObjName={nearbyInteractiveObj?.name || 'Bulkhead / Terminal'}
+        isPointBlankRange={isPointBlankTarget}
+        onSelectAction={handleRadialSelectAction}
+      />
+
+      {/* ── In-Situ Architect Design Drawer & Asset Palette ── */}
+      <ArchitectDesignPalette
+        isOpen={isDesignModeActive}
+        onClose={() => handleToggleDesignMode()}
+        selectedStamp={selectedStamp}
+        onSelectStamp={setSelectedStamp}
+        gridSnap={gridSnap}
+        onToggleGridSnap={() => setGridSnap(prev => !prev)}
+        activeMapTitle={currentMap?.title || currentMap?.name || 'Tactical Sector'}
+        wallsCount={localWalls.length}
+        objectsCount={localObjects.length}
+        hazardsCount={hazardCount}
+      />
     </div>
   );
 };
 
 export default StageView;
+

@@ -12,7 +12,6 @@ import FeaturesTab from './tabs/FeaturesTab';
 import AbilitiesTab from './tabs/AbilitiesTab';
 import CombatTab from './tabs/CombatTab';
 import PropertyTab from './tabs/PropertyTab';
-import CombatGearTab from './tabs/CombatGearTab';
 import NarrativeTab from './tabs/NarrativeTab';
 import OtherTab from './tabs/OtherTab';
 import MetaphysicsModal from './modals/MetaphysicsModal';
@@ -700,25 +699,6 @@ const FolioContainer = () => {
       </div>
 
       {/* Modals & Drawers */}
-      <RosterModal
-        isOpen={isRosterOpen}
-        onClose={() => setIsRosterOpen(false)}
-        personaRoster={personaRoster}
-        activeDocId={characterData['character-doc-id']}
-        onSelectCharacter={switchRosterCharacter}
-        onNewCharacter={handleNewCharacter}
-        onDuplicateCharacter={duplicateRosterCharacter}
-        onDeleteCharacter={deleteRosterCharacter}
-        onUpdateNote={updateRosterCharacterNote}
-        onToggleVisibility={togglePersonaVisibility}
-        onLoadPublicGallery={loadPublicPersonas}
-        publicCatalog={publicCatalog}
-        onSelectPublicPersona={(userUid, docId) => {
-          window.history.pushState({}, '', `${window.location.pathname}?user=${userUid}&id=${docId}`);
-          window.location.reload();
-        }}
-        onClonePublicPersona={clonePublicPersona}
-      />
       <EconomyModal
         isOpen={isEconomyOpen}
         onClose={() => setIsEconomyOpen(false)}

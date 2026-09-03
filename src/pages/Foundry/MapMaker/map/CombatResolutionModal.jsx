@@ -32,12 +32,12 @@ import { SessionJournal } from '../../../../services/sessionRecapService';
  * Standard Tangent Hit Locations with canonical d100 range and damage multipliers
  */
 export const HIT_LOCATIONS = [
-  { id: 'head', label: 'Head', range: [1, 10], multiplier: 1.5, penalty: -4, desc: 'Critical vulnerability (1.5x Dmg)' },
-  { id: 'left_arm', label: 'Left Arm', range: [11, 20], multiplier: 1.0, penalty: -2, desc: 'Secondary weapon / shield mount' },
-  { id: 'right_arm', label: 'Right Arm', range: [21, 30], multiplier: 1.0, penalty: -2, desc: 'Primary weapon arm' },
-  { id: 'torso', label: 'Torso', range: [31, 70], multiplier: 1.0, penalty: 0, desc: 'Center of mass / vital organ casing' },
-  { id: 'left_leg', label: 'Left Leg', range: [71, 85], multiplier: 1.0, penalty: -2, desc: 'Locomotion / stance anchor' },
-  { id: 'right_leg', label: 'Right Leg', range: [86, 100], multiplier: 1.0, penalty: -2, desc: 'Locomotion / stance anchor' }
+  { id: 'head', label: 'Head', range: [1, 10], multiplier: 1.0, penalty: -2, savingThrow: 'Reason or KO/Stunned (fail by 10+ Unconscious)', desc: 'Cranium & Sensory (-2 Called Shot)' },
+  { id: 'left_arm', label: 'Left Arm', range: [11, 20], multiplier: 1.0, penalty: -2, savingThrow: 'Reflex or Disarmed (fail by 10+ Crippled)', desc: 'Secondary weapon / shield mount (-2 Called Shot)' },
+  { id: 'right_arm', label: 'Right Arm', range: [21, 30], multiplier: 1.0, penalty: -2, savingThrow: 'Reflex or Disarmed (fail by 10+ Crippled)', desc: 'Primary weapon arm (-2 Called Shot)' },
+  { id: 'torso', label: 'Torso', range: [31, 70], multiplier: 1.0, penalty: -1, savingThrow: 'Fortitude or Winded -2 actions (fail by 10+ Incapacitated)', desc: 'Center of mass (-1 Called Shot)' },
+  { id: 'left_leg', label: 'Left Leg', range: [71, 85], multiplier: 1.0, penalty: -2, savingThrow: 'Might or Hobbled 1/2 speed (fail by 10+ Crippled)', desc: 'Locomotion / stance anchor (-2 Called Shot)' },
+  { id: 'right_leg', label: 'Right Leg', range: [86, 100], multiplier: 1.0, penalty: -2, savingThrow: 'Might or Hobbled 1/2 speed (fail by 10+ Crippled)', desc: 'Locomotion / stance anchor (-2 Called Shot)' }
 ];
 
 export const WEAPON_PRESETS = [
@@ -121,8 +121,8 @@ export default function CombatResolutionModal({
 
   // Synchronize target token stats (Toughness, Defense DC, DR)
   const targetToughness = targetToken?.stamina || targetToken?.toughness || targetHero?.stats?.sta || 2;
-  const targetBaseDefDC = targetToken?.defenseDc || targetHero?.vitals?.defense || 12;
-  const effectiveDefenseDC = Math.max(8, targetBaseDefDC + targetCover + targetStance);
+  const targetBaseDefDC = targetToken?.defenseDc || targetHero?.vitals?.defense || 15; // Canonical CR 15 average baseline
+  const effectiveDefenseDC = Math.max(5, targetBaseDefDC + targetCover + targetStance);
 
   // Sync weapon preset selection
   const handleSelectPreset = (presetId) => {
@@ -139,8 +139,8 @@ export default function CombatResolutionModal({
   const handleExecuteResolution = () => {
     AudioService.playDiceRollSound();
 
-    // 1. Attack Roll on 2d10
-    const totalAttackMod = attackSkillMod + attackAttributeMod + situationalMod + (isAiming ? 2 : 0) + (isPointBlank ? 2 : 0) + (locationMode === 'targeted' ? (HIT_LOCATIONS.find(l => l.id === selectedLocationId)?.penalty || 0) : 0);
+    // 1. Attack Roll on 2d10 (Point Blank grants +5 Strike per 3.00 COMBAT.md)
+    const totalAttackMod = attackSkillMod + attackAttributeMod + situationalMod + (isAiming ? 2 : 0) + (isPointBlank ? 5 : 0) + (locationMode === 'targeted' ? (HIT_LOCATIONS.find(l => l.id === selectedLocationId)?.penalty || 0) : 0);
     const attackRoll = rollDice(`2d10+${totalAttackMod}`, {
       advantage: advantageMode === 'advantage',
       disadvantage: advantageMode === 'disadvantage',
@@ -156,12 +156,12 @@ export default function CombatResolutionModal({
       finalLocation = HIT_LOCATIONS.find(l => locRollNum >= l.range[0] && locRollNum <= l.range[1]) || HIT_LOCATIONS[3];
     }
 
-    // 3. Margin of Success (MoS) & Hit Evaluation
+    // 3. Margin of Success (MoS) & Hit Evaluation (Defender wins all ties per 3.00 COMBAT.md)
     const margin = attackRoll.total - effectiveDefenseDC;
     const isDoubleTens = attackRoll.isCritSuccess;
     const isDoubleOnes = attackRoll.isCritFail;
     const isCritHit = isDoubleTens || margin >= 10;
-    const isHit = !isDoubleOnes && margin >= 0;
+    const isHit = !isDoubleOnes && margin > 0; // Defender wins all ties!
 
     // 4. Damage Roll & Armor Penetration
     let rawDamage = 0;
@@ -177,8 +177,10 @@ export default function CombatResolutionModal({
     let triggersDeathClock = false;
 
     if (isHit) {
-      dmgRollObj = rollDice(attackDiceExpression);
-      rawDamage = Math.max(1, Math.round(dmgRollObj.total * (isCritHit ? 1.5 : 1.0) * finalLocation.multiplier));
+      // Point Blank rolls damage with Advantage for ballistic & energy weapons per 3.00 COMBAT.md
+      dmgRollObj = rollDice(attackDiceExpression, { advantage: isPointBlank });
+      const critMultiplier = isDoubleTens ? 2.0 : 1.0; // Natural 20 doubles weapon damage dice
+      rawDamage = Math.max(1, Math.round(dmgRollObj.total * critMultiplier * finalLocation.multiplier));
 
       // Calculate Target Armor DR at this location
       const baseLocationDR = targetToken?.dr || targetHero?.armorDR?.[finalLocation.id] || targetHero?.armorDR?.torso || 2;

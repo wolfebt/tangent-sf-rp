@@ -188,7 +188,8 @@ const CoreStatsTab = () => {
     economyBreakdown,
     deathAndDyingRules,
     isInActiveGame,
-    isGMConfirmed
+    isGMConfirmed,
+    updateCharacterVitality
   } = useFolio();
 
   const { openDiceRoller } = useDice();
@@ -385,6 +386,17 @@ const CoreStatsTab = () => {
                               <span className={isSub ? 'text-slate-300 text-xs hover:text-cyan-300 transition-colors' : 'text-cyan-400 font-bold text-xs hover:text-cyan-200 transition-colors'}>
                                 {attr.name}
                               </span>
+                              {!isSub && (
+                                <span className="text-[9px] font-mono text-slate-500 font-normal">
+                                  {rawBase > 4 ? (
+                                    <span className="text-amber-400 font-bold" title="Exceeds standard creation cap (+4); requires species or augmentation modifiers">
+                                      (+{rawBase} &gt; +4 Cap)
+                                    </span>
+                                  ) : (
+                                    '(Cap +4)'
+                                  )}
+                                </span>
+                              )}
                             </div>
                           </FolioTooltip>
                         </td>
@@ -733,6 +745,23 @@ const CoreStatsTab = () => {
                         </button>
                       </div>
                       <span className="text-[9px] text-slate-400 font-sans">d20 Advantage / Reroll Reserve</span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (currentKarma <= 0) return;
+                          spendKarma(1);
+                          const maxVit = parseInt(characterData.vitality || 30, 10);
+                          const curVit = parseInt(characterData.current_vitality ?? characterData.vitality ?? 30, 10);
+                          const restoreAmount = Math.round(maxVit * 0.5);
+                          const nextVit = Math.min(maxVit, curVit + restoreAmount);
+                          updateCharacterVitality(characterData['character-doc-id'] || characterData.id, nextVit);
+                        }}
+                        disabled={currentKarma <= 0}
+                        className="mt-1 py-0.5 px-1.5 bg-cyan-950/90 hover:bg-cyan-900 disabled:opacity-40 disabled:cursor-not-allowed border border-cyan-500/50 text-cyan-200 rounded text-[9.5px] font-mono font-bold flex items-center justify-center gap-1 cursor-pointer transition-colors shadow-sm"
+                        title="Spend 1 Karma to invoke Second Wind: Instantly restore 50% max Vitality"
+                      >
+                        <span>💨</span> Second Wind (+50% Vit)
+                      </button>
                     </div>
                   </FolioTooltip>
                 );

@@ -2493,12 +2493,12 @@ export const FolioProvider = ({ children }) => {
   }, [characterData]);
 
   const updateCharacterHealth = useCallback(async (heroId, newHealth) => {
-    if (!heroId) return;
+    const targetId = heroId || characterData['character-doc-id'] || characterData.id;
     const clampedHealth = Math.max(0, parseInt(newHealth, 10) || 0);
 
     setPersonaRoster(prev => {
       const updated = prev.map(c => {
-        if (c['character-doc-id'] === heroId || c.id === heroId) {
+        if (targetId && (c['character-doc-id'] === targetId || c.id === targetId)) {
           return {
             ...c,
             current_health: clampedHealth,
@@ -2512,18 +2512,16 @@ export const FolioProvider = ({ children }) => {
       return updated;
     });
 
-    if (characterData['character-doc-id'] === heroId || characterData.id === heroId) {
-      setCharacterData(prev => ({
-        ...prev,
-        current_health: clampedHealth,
-        current_hp: clampedHealth
-      }));
-    }
+    setCharacterData(prev => ({
+      ...prev,
+      current_health: clampedHealth,
+      current_hp: clampedHealth
+    }));
 
     const user = auth.currentUser;
-    if (user) {
+    if (user && targetId) {
       try {
-        const docRef = doc(db, `users/${user.uid}/personas`, heroId);
+        const docRef = doc(db, `users/${user.uid}/personas`, targetId);
         const snapshot = await getDoc(docRef);
         if (snapshot.exists()) {
           const existingData = snapshot.data();
@@ -2536,12 +2534,12 @@ export const FolioProvider = ({ children }) => {
   }, [characterData]);
 
   const updateCharacterVitality = useCallback(async (heroId, newVitality) => {
-    if (!heroId) return;
+    const targetId = heroId || characterData['character-doc-id'] || characterData.id;
     const clampedVitality = Math.max(0, parseInt(newVitality, 10) || 0);
 
     setPersonaRoster(prev => {
       const updated = prev.map(c => {
-        if (c['character-doc-id'] === heroId || c.id === heroId) {
+        if (targetId && (c['character-doc-id'] === targetId || c.id === targetId)) {
           return {
             ...c,
             current_vitality: clampedVitality,
@@ -2554,17 +2552,15 @@ export const FolioProvider = ({ children }) => {
       return updated;
     });
 
-    if (characterData['character-doc-id'] === heroId || characterData.id === heroId) {
-      setCharacterData(prev => ({
-        ...prev,
-        current_vitality: clampedVitality
-      }));
-    }
+    setCharacterData(prev => ({
+      ...prev,
+      current_vitality: clampedVitality
+    }));
 
     const user = auth.currentUser;
-    if (user) {
+    if (user && targetId) {
       try {
-        const docRef = doc(db, `users/${user.uid}/personas`, heroId);
+        const docRef = doc(db, `users/${user.uid}/personas`, targetId);
         const snapshot = await getDoc(docRef);
         if (snapshot.exists()) {
           const existingData = snapshot.data();
@@ -2577,12 +2573,12 @@ export const FolioProvider = ({ children }) => {
   }, [characterData]);
 
   const updateCharacterStructure = useCallback(async (heroId, newStructure) => {
-    if (!heroId) return;
+    const targetId = heroId || characterData['character-doc-id'] || characterData.id;
     const clampedStructure = Math.max(0, parseInt(newStructure, 10) || 0);
 
     setPersonaRoster(prev => {
       const updated = prev.map(c => {
-        if (c['character-doc-id'] === heroId || c.id === heroId) {
+        if (targetId && (c['character-doc-id'] === targetId || c.id === targetId)) {
           return {
             ...c,
             current_structure: clampedStructure,
@@ -2595,17 +2591,15 @@ export const FolioProvider = ({ children }) => {
       return updated;
     });
 
-    if (characterData['character-doc-id'] === heroId || characterData.id === heroId) {
-      setCharacterData(prev => ({
-        ...prev,
-        current_structure: clampedStructure
-      }));
-    }
+    setCharacterData(prev => ({
+      ...prev,
+      current_structure: clampedStructure
+    }));
 
     const user = auth.currentUser;
-    if (user) {
+    if (user && targetId) {
       try {
-        const docRef = doc(db, `users/${user.uid}/personas`, heroId);
+        const docRef = doc(db, `users/${user.uid}/personas`, targetId);
         const snapshot = await getDoc(docRef);
         if (snapshot.exists()) {
           const existingData = snapshot.data();
@@ -2625,8 +2619,8 @@ export const FolioProvider = ({ children }) => {
     attemptedReduction = true,
     armorDR = 0
   } = {}) => {
-    const target = (personaRoster || []).find(c => c['character-doc-id'] === heroId || c.id === heroId) ||
-      (characterData['character-doc-id'] === heroId || characterData.id === heroId ? characterData : null);
+    const targetId = heroId || characterData['character-doc-id'] || characterData.id;
+    const target = (personaRoster || []).find(c => targetId && (c['character-doc-id'] === targetId || c.id === targetId)) || characterData;
     if (!target) return null;
 
     const staTotal = target['attr-stamina'] ? parseInt(target['attr-stamina'], 10) : 0;

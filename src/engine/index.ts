@@ -57,7 +57,8 @@ export type { Rect } from './cartography/BSPDeckplanGenerator.ts';
 // Stage 5: Tangent SF RP Rules Execution & Damage Pipelines
 export { CharacterBuilder, MECHANICS_DB } from './rules/CharacterBuilder.ts';
 export type { CharacterDraft, AttributeStats, SpeciesRule } from './rules/CharacterBuilder.ts';
-export { CombatArbitrator, SkillRank, SizeCategory } from './rules/CombatArbitrator.ts';
+export { CombatArbitrator, SkillRank, SizeCategory, RangeCategory } from './rules/CombatArbitrator.ts';
+export type { ActionEconomyTier, RangeConfig } from './rules/CombatArbitrator.ts';
 export { DamagePipeline } from './rules/DamagePipeline.ts';
 export type { DamagePayload, DamageResult } from './rules/DamagePipeline.ts';
 export { MechaSocketManager, TechLevel } from './rules/MechaSocketManager.ts';

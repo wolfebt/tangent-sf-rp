@@ -28,7 +28,8 @@ import {
   QrCode,
   ExternalLink,
   Smartphone,
-  Download
+  Download,
+  Clock
 } from 'lucide-react';
 import { useGroup } from '../../context/GroupContext';
 import { useChat } from '../../context/ChatContext';
@@ -43,6 +44,10 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
   const { 
     activeGroup, 
     sendInvite, 
+    outgoingInvites = [],
+    revokeInvite,
+    kickMember,
+    updateMemberRole,
     leaveGroup, 
     deleteGroup, 
     updateGroup, 
@@ -495,6 +500,62 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
                           </div>
                         </div>
                       </div>
+
+                      {/* Member Controls (GM Role change / Discharge & Player Persona Quick-swap) */}
+                      <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between gap-2 text-[10px] font-mono">
+                        {isGM && m.userId !== currentUser?.uid ? (
+                          <div className="flex items-center justify-between w-full gap-2">
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-slate-500 uppercase text-[9px]">Role:</span>
+                              <select
+                                value={m.role || 'Player'}
+                                onChange={(e) => updateMemberRole({ groupId: activeGroup.id, userId: m.userId, role: e.target.value })}
+                                className="bg-slate-950 border border-slate-700 rounded px-1.5 py-0.5 text-cyan-300 font-mono text-[9.5px] focus:outline-none cursor-pointer"
+                              >
+                                <option value="Player">Operative (Player)</option>
+                                <option value="Co-GM">Co-Architect (Co-GM)</option>
+                                <option value="Spectator">Observer (Spectator)</option>
+                              </select>
+                            </div>
+
+                            <button
+                              type="button"
+                              onClick={() => {
+                                if (window.confirm(`Discharge @${m.handle || 'Operative'} from fireteam "${activeGroup.name}"?`)) {
+                                  kickMember({ groupId: activeGroup.id, userId: m.userId });
+                                }
+                              }}
+                              className="px-2 py-0.5 rounded bg-slate-800 hover:bg-red-950 text-slate-400 hover:text-red-300 border border-slate-700 hover:border-red-500/40 text-[9.5px] font-bold transition-all cursor-pointer flex items-center gap-1"
+                              title="Discharge Operative from Fireteam"
+                            >
+                              <Trash2 size={10} />
+                              <span>Discharge</span>
+                            </button>
+                          </div>
+                        ) : m.userId === currentUser?.uid ? (
+                          <div className="flex items-center justify-between w-full gap-1">
+                            <span className="text-cyan-400 font-bold text-[9.5px]">Your Active Persona</span>
+                            {allPersonas.length > 1 && (
+                              <select
+                                value={currentMember?.persona?.id || ''}
+                                onChange={(e) => handleSelectOperativePersona(e.target.value)}
+                                className="bg-slate-950 border border-cyan-500/40 rounded px-1.5 py-0.5 text-cyan-300 font-mono text-[9px] focus:outline-none cursor-pointer"
+                              >
+                                {allPersonas.map(p => {
+                                  const pid = p['character-doc-id'] || p.id;
+                                  const pname = p['char-name'] || p.name || 'Operative';
+                                  return <option key={pid} value={pid}>{pname}</option>;
+                                })}
+                              </select>
+                            )}
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-1.5 text-slate-500 text-[9.5px]">
+                            <span>Status: Deployed Operative</span>
+                            {m.role && m.role !== 'Player' && <span className="text-purple-300 font-bold">[{m.role}]</span>}
+                          </div>
+                        )}
+                      </div>
                     </div>
                   );
                 })}
@@ -660,6 +721,54 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
                   </div>
                 </div>
               </div>
+
+              {/* Dispatched Outgoing Invitations Tracker (GM control) */}
+              {outgoingInvites.length > 0 && (
+                <div className="p-4 rounded-xl bg-amber-950/25 border border-amber-500/40 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Clock size={16} className="text-amber-400" />
+                      <span className="font-bold text-slate-100 uppercase tracking-wider text-xs">
+                        DISPATCHED INVITATIONS ({outgoingInvites.length} PENDING)
+                      </span>
+                    </div>
+                    <span className="text-[10px] text-amber-300 font-bold px-2 py-0.5 rounded bg-amber-950/80 border border-amber-500/40 animate-pulse">
+                      AWAITING OPERATIVE ACCEPTANCE
+                    </span>
+                  </div>
+
+                  <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
+                    {outgoingInvites.map(inv => (
+                      <div
+                        key={inv.id}
+                        className="p-2.5 rounded-lg bg-slate-950 border border-slate-800 flex items-center justify-between gap-3"
+                      >
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          <div className="w-7 h-7 rounded-lg bg-amber-500/15 border border-amber-500/40 text-amber-300 flex items-center justify-center font-bold text-xs shrink-0">
+                            @
+                          </div>
+                          <div className="min-w-0">
+                            <span className="font-bold text-slate-200 text-xs block truncate">@{inv.toUserHandle}</span>
+                            <span className="text-[9.5px] text-slate-500 block">
+                              Dispatched {new Date(inv.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} • Code: {activeGroup.inviteCode}
+                            </span>
+                          </div>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => revokeInvite({ inviteId: inv.id })}
+                          className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-red-950 text-slate-300 hover:text-red-300 border border-slate-700 hover:border-red-500/50 text-[10px] font-bold transition-all flex items-center gap-1 cursor-pointer shrink-0"
+                          title="Revoke and cancel this invitation"
+                        >
+                          <X size={11} />
+                          <span>Revoke</span>
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Direct Invite Dispatch Form */}
               <div className="space-y-3">

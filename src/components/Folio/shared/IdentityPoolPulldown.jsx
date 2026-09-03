@@ -850,6 +850,16 @@ export const FeatureMultiselectPulldown = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen]);
 
+  // If maxSelectable is 0 or nil and nothing is selected, do not render
+  if ((!maxSelectable || maxSelectable <= 0) && (!selectedFeatures || selectedFeatures.length === 0)) {
+    return null;
+  }
+  // If recommended options are explicitly empty/nil and nothing is selected, do not render
+  const hasFeatureOptions = (recommendedFeatures && (!Array.isArray(recommendedFeatures) || recommendedFeatures.length > 0));
+  if (!hasFeatureOptions && (!selectedFeatures || selectedFeatures.length === 0) && maxSelectable < 50) {
+    return null;
+  }
+
   return (
     <div className="space-y-1.5" ref={dropdownRef}>
       <div className="flex items-center justify-between">
@@ -1174,6 +1184,15 @@ export const TraitMultiselectPulldown = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen]);
 
+  // If maxSelectable is 0 or nil and nothing is selected, do not render
+  if ((!maxSelectable || maxSelectable <= 0) && (!selectedTraits || selectedTraits.length === 0)) {
+    return null;
+  }
+  const hasTraitOptions = (recommendedTraits && (!Array.isArray(recommendedTraits) || recommendedTraits.length > 0));
+  if (!hasTraitOptions && (!selectedTraits || selectedTraits.length === 0) && maxSelectable < 50) {
+    return null;
+  }
+
   return (
     <div className="space-y-1.5" ref={dropdownRef}>
       <div className="flex items-center justify-between">
@@ -1466,6 +1485,15 @@ export const SkillPoolRankPulldown = ({
     }
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen]);
+
+  // If maxSP is 0 or nil and nothing is allocated, do not render
+  if ((!maxSP || maxSP <= 0) && (!allocatedSkills || Object.keys(allocatedSkills).length === 0)) {
+    return null;
+  }
+  const hasSkillOptions = (recommendedSkills && (!Array.isArray(recommendedSkills) || recommendedSkills.length > 0));
+  if (!hasSkillOptions && (!allocatedSkills || Object.keys(allocatedSkills).length === 0) && maxSP < 50) {
+    return null;
+  }
 
   return (
     <div className="space-y-1.5" ref={dropdownRef}>

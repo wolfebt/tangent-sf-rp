@@ -54,31 +54,73 @@ test('Stage 5.3: CharacterBuilder 150 BP Persona DAG & Parity Caps', () => {
   assert.equal(builder.validateDependencies(['cyber_arm'], validReqs), true, 'Valid tree allowed');
 });
 
-test('Stage 5.4: CombatArbitrator Multiple Attack Penalties (MAP) & Size Modifiers', () => {
+test('Stage 5.4: CombatArbitrator Canonical 3.00 COMBAT.md Rules (MAP, Actions, Size, Opposed Ties)', () => {
   const arb = new CombatArbitrator();
 
-  // Untrained: 0, -10, -20
-  assert.equal(arb.calculateMAP(SkillRank.Untrained, 0), 0);
-  assert.equal(arb.calculateMAP(SkillRank.Untrained, 1), -10);
-  assert.equal(arb.calculateMAP(SkillRank.Untrained, 2), -20);
+  // Canonical Action Tiers per 3.00 COMBAT.md:
+  // Rank 0: Full Round action only
+  const rank0 = arb.getActionTier(0);
+  assert.equal(rank0.isFullRoundOnly, true);
+  assert.equal(rank0.actionsCount, 1);
+  assert.equal(rank0.focusBonus, 0);
 
-  // Pinnacle: 0, -2, -4
-  assert.equal(arb.calculateMAP(SkillRank.Pinnacle, 1), -2);
-  assert.equal(arb.calculateMAP(SkillRank.Pinnacle, 2), -4);
+  // Rank 3 (Novice): 1 action at base, +2 focus
+  const rank3 = arb.getActionTier(3);
+  assert.equal(rank3.actionsCount, 1);
+  assert.equal(rank3.focusBonus, 2);
 
-  // Size Modifiers: Attacker Medium (0) vs MegaColossal (16) -> +16 bonus
-  assert.equal(arb.calculateSizeModifier(SizeCategory.Medium, SizeCategory.MegaColossal), 16);
+  // Rank 8 (Professional/Trained): 2 actions, +3 focus
+  const rank8 = arb.getActionTier(8);
+  assert.equal(rank8.actionsCount, 2);
+  assert.equal(rank8.focusBonus, 3);
+  assert.deepEqual(rank8.actionPenalties, [0, -5]);
 
-  // Size Modifiers: Attacker Colossal (8) vs Medium (0) -> -8 penalty
-  assert.equal(arb.calculateSizeModifier(SizeCategory.Colossal, SizeCategory.Medium), -8);
+  // Rank 14 (Expert): 3 actions, +4 focus
+  const rank14 = arb.getActionTier(14);
+  assert.equal(rank14.actionsCount, 3);
+  assert.equal(rank14.focusBonus, 4);
+  assert.deepEqual(rank14.actionPenalties, [0, -5, -10]);
 
-  // To-Hit Package
-  const pkg = arb.buildToHitPackage(15, SkillRank.Expert, 1, SizeCategory.Medium, SizeCategory.Large, 0.7);
-  // Base 15 + MAP (-3) + Size (+1) + Half Cover (-2) = 11
-  assert.equal(pkg.finalTarget, 11);
+  // Rank 28 (Pinnacle): 6 actions, +7 focus
+  const rank28 = arb.getActionTier(28);
+  assert.equal(rank28.actionsCount, 6);
+  assert.equal(rank28.focusBonus, 7);
+  assert.deepEqual(rank28.actionPenalties, [0, -5, -10, -15, -20, -25]);
+
+  // Subsequent Action Penalties (calculateMAP):
+  // 1st action: 0, 2nd: -5, 3rd: -10, 4th: -15, 5th: -20, 6th: -25
+  assert.equal(arb.calculateMAP(0, 0), 0);
+  assert.equal(arb.calculateMAP(0, 1), -5);
+  assert.equal(arb.calculateMAP(0, 2), -10);
+  assert.equal(arb.calculateMAP(0, 3), -15);
+  assert.equal(arb.calculateMAP(0, 4), -20);
+  assert.equal(arb.calculateMAP(0, 5), -25);
+
+  // Canonical Size Scale:
+  // Attacker Medium (0) vs Colossal (+16) -> +16 bonus (easier to hit)
+  assert.equal(arb.calculateSizeModifier(SizeCategory.Medium, SizeCategory.Colossal), 16);
+  // Attacker Colossal (+16) vs Medium (0) -> -16 penalty
+  assert.equal(arb.calculateSizeModifier(SizeCategory.Colossal, SizeCategory.Medium), -16);
+  // Diminutive (-8) vs Medium (0) -> -8 penalty to hit Diminutive target
+  assert.equal(arb.calculateSizeModifier(SizeCategory.Medium, SizeCategory.Diminutive), -8);
+
+  // Opposed Roll: DEFENDER WINS ALL TIES!
+  const tie = arb.resolveOpposedRoll(18, 18);
+  assert.equal(tie.isHit, false);
+  assert.equal(tie.winner, 'defender');
+
+  const win = arb.resolveOpposedRoll(19, 18);
+  assert.equal(win.isHit, true);
+  assert.equal(win.winner, 'attacker');
+
+  // Unopposed DC calculation: Base DC 15
+  assert.equal(arb.calculateUnopposedDC(SizeCategory.Medium, 'short'), 15);
+  assert.equal(arb.calculateUnopposedDC(SizeCategory.Large, 'short'), 13); // Large (+2) makes DC easier (15 - 2 = 13)
+  assert.equal(arb.calculateUnopposedDC(SizeCategory.Small, 'short'), 17); // Small (-2) makes DC harder (15 - (-2) = 17)
+  assert.equal(arb.calculateUnopposedDC(SizeCategory.Medium, 'medium'), 20); // Medium range DC 20
 });
 
-test('Stage 5.5: DamagePipeline Armor DR Max Rule, AP, and Major Wound Thresholds', () => {
+test('Stage 5.5: DamagePipeline Canonical 3.00 COMBAT.md Rules (CON Soak, Force 1/2 DR, Mortality State, Limbs)', () => {
   const pipeline = new DamagePipeline();
 
   const mockTarget = {
@@ -94,42 +136,60 @@ test('Stage 5.5: DamagePipeline Armor DR Max Rule, AP, and Major Wound Threshold
     is_selected: false
   };
 
-  // 1. Layered Armor: [20, 15] -> effective highest is 20
-  // Attack rawDamage 35, AP 5 -> effective DR 15 -> Net Damage = 20
+  // 1. Layered Armor [20, 15] -> 20. Raw Damage 35, AP 5 -> effective DR 15.
+  // Target CON Mod = 3 -> total mitigation = 15 + 3 = 18. Net Damage = 35 - 18 = 17.
   const strike1 = pipeline.resolveStrike({
     rawDamage: 35,
     armorPenetration: 5,
     damageType: 'kinetic',
     isCalledShot: false
-  }, mockTarget, [20, 15]);
+  }, mockTarget, [20, 15], 3); // targetConMod = 3
 
   assert.equal(strike1.effectiveDR, 15);
-  assert.equal(strike1.netDamage, 20);
-  // Net damage 20 >= 33.3% of 30 (10) -> causes internal trauma
+  assert.equal(strike1.conModSoak, 3);
+  assert.equal(strike1.netDamage, 17);
+  // Net damage 17 >= 33.3% of 30 (10) -> causes internal trauma
   assert.ok(strike1.appliedStatuses.includes('status_trauma_internal'));
 
-  // 2. Called Shot to Left Arm over 33% threshold
+  // 2. Force Damage: Ignores 1/2 of Armor DR (highest DR 10 -> 5)
+  const strikeForce = pipeline.resolveStrike({
+    rawDamage: 20,
+    armorPenetration: 0,
+    damageType: 'force',
+    isCalledShot: false
+  }, mockTarget, [10], 2);
+  assert.equal(strikeForce.effectiveDR, 5); // 10 / 2 = 5
+  assert.equal(strikeForce.netDamage, 13); // 20 - (5 + 2) = 13
+
+  // 3. Called Shot to Left Arm over 33.3% threshold (10 DMG on 30 HP)
   const strikeCalled = pipeline.resolveStrike({
     rawDamage: 25,
     armorPenetration: 0,
     damageType: 'plasma',
     isCalledShot: true,
     targetLocation: 'arm_left'
-  }, mockTarget, [10]);
+  }, mockTarget, [10], 0);
 
-  // Net 15 >= 10 -> disables left arm
+  // Net 15 >= 10 -> disables left arm, triggers Stamina check
   assert.ok(strikeCalled.appliedStatuses.includes('status_disabled_arm_left'));
+  assert.equal(strikeCalled.requiresStaminaCheck, true);
+  assert.equal(strikeCalled.staminaCheckDC, 25); // 10 + 15 damage = 25
 
-  // 3. Lethal Strike
-  const strikeLethal = pipeline.resolveStrike({
-    rawDamage: 100,
-    armorPenetration: 50,
-    damageType: 'heavy_particle',
+  // 4. Mortality State: 0 HP does NOT trigger instant death!
+  // It triggers Unconscious, Incapacitated, Bleeding Out, with Stability Points = CON Score + 5
+  const strikeDown = pipeline.resolveStrike({
+    rawDamage: 40,
+    armorPenetration: 0,
+    damageType: 'kinetic',
     isCalledShot: false
-  }, mockTarget, [10]);
+  }, mockTarget, [0], 0, 12); // conScore = 12
 
-  assert.equal(strikeLethal.isDead, true);
-  assert.ok(strikeLethal.appliedStatuses.includes('status_dead'));
+  assert.equal(strikeDown.entersMortalityState, true);
+  assert.equal(strikeDown.isDead, false); // Still in Mortality State, not dead!
+  assert.ok(strikeDown.appliedStatuses.includes('status_unconscious'));
+  assert.ok(strikeDown.appliedStatuses.includes('status_bleeding_out'));
+  // Stability points max is 12 + 5 = 17. 40 damage on 30 HP leaves -10 excess, reducing stability to 7
+  assert.equal(strikeDown.stabilityPointsRemaining, 7);
 });
 
 test('Stage 5.6: MechaSocketManager Cellular Rejection & EMP Immunity', () => {

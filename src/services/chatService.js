@@ -99,19 +99,44 @@ export const ChatService = {
       });
     }
 
-    const channelsRef = collection(db, 'channels');
-    return onSnapshot(channelsRef, (snapshot) => {
-      const allChannels = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-      const userChannels = allChannels.filter(ch => {
-        if (ch.isPublic) return true;
-        if (Array.isArray(ch.members) && ch.members.includes(currentUser.uid)) return true;
-        if (ch.createdById === currentUser.uid) return true;
-        return false;
+    // Two safe queries combined in memory: public channels + channels user is a member of
+    let publicList = [];
+    let memberList = [];
+
+    const emitCombined = () => {
+      const map = new Map();
+      [...publicList, ...memberList].forEach(ch => {
+        map.set(ch.id, ch);
       });
-      callback(userChannels);
+      callback(Array.from(map.values()));
+    };
+
+    const qPublic = query(
+      collection(db, 'channels'),
+      where('isPublic', '==', true)
+    );
+    const unsubPublic = onSnapshot(qPublic, (snap) => {
+      publicList = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      emitCombined();
     }, (err) => {
-      console.warn('[ChatService] Error listening to user channels:', err);
+      console.warn('[ChatService] Error listening to public channels:', err);
     });
+
+    const qMember = query(
+      collection(db, 'channels'),
+      where('members', 'array-contains', currentUser.uid)
+    );
+    const unsubMember = onSnapshot(qMember, (snap) => {
+      memberList = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      emitCombined();
+    }, (err) => {
+      console.warn('[ChatService] Error listening to member channels:', err);
+    });
+
+    return () => {
+      if (unsubPublic) unsubPublic();
+      if (unsubMember) unsubMember();
+    };
   },
 
   // Subscribe to live messages in a specific channel

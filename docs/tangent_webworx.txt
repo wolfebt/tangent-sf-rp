@@ -5,8 +5,6 @@ lets work out a full implementation plan for the following foundry revison
 - we need to consolidate the element forge into the scenerio app in a tab page to consolidate the story module components
 
 
-lets work out a full implementation plan for the following vtt revison -
-- we need to fully revise the mapnmaker / VTT into a singular interact dynamic platform to fully consider the game rules and have an intelligent user friendly design with our wide range of capabilities and possible improvements.  review the plans in \docs\recommendations and revison plans\vtt plans for my indepth ideation of the vtt platform and component to review for implementation or inspiration.
 
 - the persona will need to be set before it can be used in the vtt, so we will have a development phase of the character and a lock option which will then allow it to join the vtt. this is to enable (on the player side a ready status and allows the vtt (ie GM) to sent the character xp,karme, status condition updates, damage, heals, etc for a dynamic and interactive persona integration with the map system and game mechanics.) - setting the character will lockout player modification on that folio (will still have the clone option for possible variants), character may be unlocked with an override by player but if active in a game any modification will be fully tracked (with an optional message/note, ) for gm review, with accept, refuse or adjust (and reply with suggestions in message to player to adjust, as the gm will NOT have any edit or delete option of the persona folio)
 

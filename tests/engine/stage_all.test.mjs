@@ -121,7 +121,7 @@ test('E2E Pipeline: Unified Next-Gen VTT Simulation on The Stage', async () => {
   // 4. STAGE 5: Combat & Damage Resolution
   const combatArb = new CombatArbitrator();
   const toHit = combatArb.buildToHitPackage(16, SkillRank.Expert, 0, SizeCategory.Medium, SizeCategory.Large, 1.0);
-  assert.equal(toHit.finalTarget, 17); // 16 + 0 + 1 + 0 = 17
+  assert.equal(toHit.finalTarget, 20); // 16 (base) + 0 (map) + 2 (focus bonus) + 2 (size mod) = 20
 
   const damagePipeline = new DamagePipeline();
   const strikeResult = damagePipeline.resolveStrike({

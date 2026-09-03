@@ -558,8 +558,9 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
                 const occTraits = Array.from(new Set([...primaryOccTraits, ...commonTraitNames, ...secondaryOccTraits]));
 
                 const occFeats = extractNameList(occuObj?.features || occuObj?.recommended_features || occuObj?.bonus_features);
-                const maxSP = parseInt(occuObj?.skill_points || 20, 10);
-                const maxTraits = parseInt(occuObj?.bonus_traits || occuObj?.bonus_features || 2, 10);
+                const maxSP = parseInt(occuObj?.skill_points ?? (profSkills.length > 0 ? 20 : 0), 10);
+                const maxTraits = parseInt(occuObj?.bonus_traits || occuObj?.bonus_features || (occTraits.length > 0 ? 2 : 0), 10);
+                const occMaxFeats = parseInt(occuObj?.bonus_features || (occFeats.length > 0 ? 1 : 0), 10);
                 const activeMods = identityPools.occupation?.activeModifiers || [];
 
                 return (
@@ -589,43 +590,47 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
                     <div className="space-y-3 flex-1">
                       {isSelected ? (
                         <>
-                          <SkillPoolRankPulldown
-                            title="Professional Skill Package Pool"
-                            subtitle="Max Rank 11 • Recommended: Rank 6"
-                            categoryLabel="Professional Skill"
-                            maxSP={maxSP}
-                            allocatedSkills={characterData?.occuAllocations?.skills || {}}
-                            recommendedSkills={profSkills}
-                            allSkills={dbData?.skills?.length > 0 ? dbData.skills : ALL_CANONICAL_SKILLS}
-                            onUpdateRank={(sName, newRank, delta) => allocatePoolSkillRank && allocatePoolSkillRank('occuAllocations', sName, newRank, delta, maxSP)}
-                            onRemoveSkill={(sName) => allocatePoolSkillRank && allocatePoolSkillRank('occuAllocations', sName, 0, 0, maxSP)}
-                            colorTheme="sky"
-                          />
-
-                          <div className="pt-2 border-t border-sky-900/30">
-                            <TraitMultiselectPulldown
-                              title={`Occupation Career Traits Pool${secOccName ? ' (Combined with Background)' : ''}`}
-                              categoryLabel="Occupational Trait"
-                              maxSelectable={maxTraits}
-                              selectedTraits={characterData?.occuAllocations?.traits || []}
-                              recommendedTraits={occTraits}
-                              allTraits={allTraitsMerged}
-                              onToggleTrait={(tName, tObj) => togglePoolTrait && togglePoolTrait('occuAllocations', tName, tObj, maxTraits)}
-                              onRemoveTrait={(tName) => removePoolTrait && removePoolTrait('occuAllocations', tName)}
+                          {(profSkills.length > 0 && maxSP > 0) && (
+                            <SkillPoolRankPulldown
+                              title="Professional Skill Package Pool"
+                              subtitle="Max Rank 11 • Recommended: Rank 6"
+                              categoryLabel="Professional Skill"
+                              maxSP={maxSP}
+                              allocatedSkills={characterData?.occuAllocations?.skills || {}}
+                              recommendedSkills={profSkills}
+                              allSkills={dbData?.skills?.length > 0 ? dbData.skills : ALL_CANONICAL_SKILLS}
+                              onUpdateRank={(sName, newRank, delta) => allocatePoolSkillRank && allocatePoolSkillRank('occuAllocations', sName, newRank, delta, maxSP)}
+                              onRemoveSkill={(sName) => allocatePoolSkillRank && allocatePoolSkillRank('occuAllocations', sName, 0, 0, maxSP)}
                               colorTheme="sky"
                             />
-                          </div>
+                          )}
 
-                          {occFeats.length > 0 && (
+                          {maxTraits > 0 && (
+                            <div className="pt-2 border-t border-sky-900/30">
+                              <TraitMultiselectPulldown
+                                title={`Occupation Career Traits Pool${secOccName ? ' (Combined with Background)' : ''}`}
+                                categoryLabel="Occupational Trait"
+                                maxSelectable={maxTraits}
+                                selectedTraits={characterData?.occuAllocations?.traits || []}
+                                recommendedTraits={occTraits}
+                                allTraits={allTraitsMerged}
+                                onToggleTrait={(tName, tObj) => togglePoolTrait && togglePoolTrait('occuAllocations', tName, tObj, maxTraits)}
+                                onRemoveTrait={(tName) => removePoolTrait && removePoolTrait('occuAllocations', tName)}
+                                colorTheme="sky"
+                              />
+                            </div>
+                          )}
+
+                          {(occFeats.length > 0 && occMaxFeats > 0) && (
                             <div className="pt-2 border-t border-sky-900/30">
                               <FeatureMultiselectPulldown
                                 title="Occupation Feature Choices Pool (0 CP Supplemental)"
                                 categoryLabel="Occupation Feature"
-                                maxSelectable={parseInt(occuObj?.bonus_features || 1, 10)}
+                                maxSelectable={occMaxFeats}
                                 selectedFeatures={characterData?.occuAllocations?.features || []}
                                 recommendedFeatures={occFeats}
                                 allFeatures={dbData?.features?.length > 0 ? dbData.features : DEFAULT_FEATURES}
-                                onToggleFeature={(fName, fObj) => togglePoolFeature && togglePoolFeature('occuAllocations', fName, fObj, parseInt(occuObj?.bonus_features || 1, 10))}
+                                onToggleFeature={(fName, fObj) => togglePoolFeature && togglePoolFeature('occuAllocations', fName, fObj, occMaxFeats)}
                                 onRemoveFeature={(fName) => removePoolFeature && removePoolFeature('occuAllocations', fName)}
                                 colorTheme="sky"
                               />
@@ -674,8 +679,9 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
                 const secondaryOrigFeats = extractNameList(secondaryOriginObj?.features || secondaryOriginObj?.bonus_features);
                 const origFeats = Array.from(new Set([...primaryOrigFeats, ...secondaryOrigFeats]));
 
-                const maxSP = parseInt(originObj?.skill_points || 20, 10);
-                const maxTraits = parseInt(originObj?.bonus_traits || originObj?.bonus_features || 2, 10);
+                const maxSP = parseInt(originObj?.skill_points ?? (socSkills.length > 0 ? 20 : 0), 10);
+                const maxTraits = parseInt(originObj?.bonus_traits || originObj?.bonus_features || (origTraits.length > 0 ? 2 : 0), 10);
+                const origMaxFeats = parseInt(originObj?.bonus_features || 0, 10);
                 const activeMods = identityPools.origin?.activeModifiers || [];
 
                 return (
@@ -705,42 +711,46 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
                     <div className="space-y-3 flex-1">
                       {isSelected ? (
                         <>
-                          <SkillPoolRankPulldown
-                            title="Society Skill Point Pool"
-                            categoryLabel="Society Skill"
-                            maxSP={maxSP}
-                            allocatedSkills={characterData?.originAllocations?.skills || {}}
-                            recommendedSkills={socSkills}
-                            allSkills={dbData?.skills?.length > 0 ? dbData.skills : ALL_CANONICAL_SKILLS}
-                            onUpdateRank={(sName, newRank, delta) => allocatePoolSkillRank && allocatePoolSkillRank('originAllocations', sName, newRank, delta, maxSP)}
-                            onRemoveSkill={(sName) => allocatePoolSkillRank && allocatePoolSkillRank('originAllocations', sName, 0, 0, maxSP)}
-                            colorTheme="emerald"
-                          />
-
-                          <div className="pt-2 border-t border-emerald-900/30">
-                            <TraitMultiselectPulldown
-                              title="Origin Homeworld Traits Pool"
-                              categoryLabel="Origin Trait"
-                              maxSelectable={maxTraits}
-                              selectedTraits={characterData?.originAllocations?.traits || []}
-                              recommendedTraits={origTraits}
-                              allTraits={allTraitsMerged}
-                              onToggleTrait={(tName, tObj) => togglePoolTrait && togglePoolTrait('originAllocations', tName, tObj, maxTraits)}
-                              onRemoveTrait={(tName) => removePoolTrait && removePoolTrait('originAllocations', tName)}
+                          {(socSkills.length > 0 && maxSP > 0) && (
+                            <SkillPoolRankPulldown
+                              title="Society Skill Point Pool"
+                              categoryLabel="Society Skill"
+                              maxSP={maxSP}
+                              allocatedSkills={characterData?.originAllocations?.skills || {}}
+                              recommendedSkills={socSkills}
+                              allSkills={dbData?.skills?.length > 0 ? dbData.skills : ALL_CANONICAL_SKILLS}
+                              onUpdateRank={(sName, newRank, delta) => allocatePoolSkillRank && allocatePoolSkillRank('originAllocations', sName, newRank, delta, maxSP)}
+                              onRemoveSkill={(sName) => allocatePoolSkillRank && allocatePoolSkillRank('originAllocations', sName, 0, 0, maxSP)}
                               colorTheme="emerald"
                             />
-                          </div>
+                          )}
 
-                          {origFeats.length > 0 && (
+                          {maxTraits > 0 && (
+                            <div className="pt-2 border-t border-emerald-900/30">
+                              <TraitMultiselectPulldown
+                                title="Origin Homeworld Traits Pool"
+                                categoryLabel="Origin Trait"
+                                maxSelectable={maxTraits}
+                                selectedTraits={characterData?.originAllocations?.traits || []}
+                                recommendedTraits={origTraits}
+                                allTraits={allTraitsMerged}
+                                onToggleTrait={(tName, tObj) => togglePoolTrait && togglePoolTrait('originAllocations', tName, tObj, maxTraits)}
+                                onRemoveTrait={(tName) => removePoolTrait && removePoolTrait('originAllocations', tName)}
+                                colorTheme="emerald"
+                              />
+                            </div>
+                          )}
+
+                          {(origFeats.length > 0 && origMaxFeats > 0) && (
                             <div className="pt-2 border-t border-emerald-900/30">
                               <FeatureMultiselectPulldown
                                 title="Origin Bonus Features"
                                 categoryLabel="Origin Feature"
-                                maxSelectable={parseInt(originObj?.bonus_features || 1, 10)}
+                                maxSelectable={origMaxFeats}
                                 selectedFeatures={characterData?.originAllocations?.features || []}
                                 recommendedFeatures={origFeats}
                                 allFeatures={dbData?.features?.length > 0 ? dbData.features : DEFAULT_FEATURES}
-                                onToggleFeature={(fName, fObj) => togglePoolFeature && togglePoolFeature('originAllocations', fName, fObj, parseInt(originObj?.bonus_features || 1, 10))}
+                                onToggleFeature={(fName, fObj) => togglePoolFeature && togglePoolFeature('originAllocations', fName, fObj, origMaxFeats)}
                                 onRemoveFeature={(fName) => removePoolFeature && removePoolFeature('originAllocations', fName)}
                                 colorTheme="emerald"
                               />
@@ -779,8 +789,8 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
                 const pkgSkills = extractNameList(factionObj?.skill_package || factionObj?.skills);
                 const factionBenefits = extractNameList(factionObj?.features || factionObj?.bonus_features || factionObj?.benefits);
                 const factionTraits = extractNameList(factionObj?.traits || factionObj?.trait);
-                const maxSP = parseInt(factionObj?.skill_points || 20, 10);
-                const maxFeats = parseInt(factionObj?.bonus_features || 2, 10);
+                const maxSP = parseInt(factionObj?.skill_points || (pkgSkills.length > 0 ? 20 : 0), 10);
+                const maxFeats = parseInt(factionObj?.bonus_features || (factionBenefits.length > 0 ? 1 : 0), 10);
                 const maxTraits = parseInt(factionObj?.bonus_traits || (factionTraits.length > 0 ? 1 : 0), 10);
                 const activeMods = identityPools.faction?.activeModifiers || [];
 
@@ -810,31 +820,35 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
                             </div>
                           )}
 
-                          <SkillPoolRankPulldown
-                            title="Faction Skill Package Pool"
-                            categoryLabel="Faction Skill"
-                            maxSP={maxSP}
-                            allocatedSkills={characterData?.factionAllocations?.skills || {}}
-                            recommendedSkills={pkgSkills}
-                            allSkills={dbData?.skills?.length > 0 ? dbData.skills : ALL_CANONICAL_SKILLS}
-                            onUpdateRank={(sName, newRank, delta) => allocatePoolSkillRank && allocatePoolSkillRank('factionAllocations', sName, newRank, delta, maxSP)}
-                            onRemoveSkill={(sName) => allocatePoolSkillRank && allocatePoolSkillRank('factionAllocations', sName, 0, 0, maxSP)}
-                            colorTheme="purple"
-                          />
-
-                          <div className="pt-2 border-t border-purple-900/30">
-                            <FeatureMultiselectPulldown
-                              title="Faction Features & Benefits Pool"
-                              categoryLabel="Faction Feature"
-                              maxSelectable={maxFeats}
-                              selectedFeatures={characterData?.factionAllocations?.features || []}
-                              recommendedFeatures={factionBenefits}
-                              allFeatures={dbData?.features?.length > 0 ? dbData.features : DEFAULT_FEATURES}
-                              onToggleFeature={(fName, fObj) => togglePoolFeature && togglePoolFeature('factionAllocations', fName, fObj, maxFeats)}
-                              onRemoveFeature={(fName) => removePoolFeature && removePoolFeature('factionAllocations', fName)}
+                          {(pkgSkills.length > 0 && maxSP > 0) && (
+                            <SkillPoolRankPulldown
+                              title="Faction Skill Package Pool"
+                              categoryLabel="Faction Skill"
+                              maxSP={maxSP}
+                              allocatedSkills={characterData?.factionAllocations?.skills || {}}
+                              recommendedSkills={pkgSkills}
+                              allSkills={dbData?.skills?.length > 0 ? dbData.skills : ALL_CANONICAL_SKILLS}
+                              onUpdateRank={(sName, newRank, delta) => allocatePoolSkillRank && allocatePoolSkillRank('factionAllocations', sName, newRank, delta, maxSP)}
+                              onRemoveSkill={(sName) => allocatePoolSkillRank && allocatePoolSkillRank('factionAllocations', sName, 0, 0, maxSP)}
                               colorTheme="purple"
                             />
-                          </div>
+                          )}
+
+                          {(factionBenefits.length > 0 && maxFeats > 0) && (
+                            <div className="pt-2 border-t border-purple-900/30">
+                              <FeatureMultiselectPulldown
+                                title="Faction Features & Benefits Pool"
+                                categoryLabel="Faction Feature"
+                                maxSelectable={maxFeats}
+                                selectedFeatures={characterData?.factionAllocations?.features || []}
+                                recommendedFeatures={factionBenefits}
+                                allFeatures={dbData?.features?.length > 0 ? dbData.features : DEFAULT_FEATURES}
+                                onToggleFeature={(fName, fObj) => togglePoolFeature && togglePoolFeature('factionAllocations', fName, fObj, maxFeats)}
+                                onRemoveFeature={(fName) => removePoolFeature && removePoolFeature('factionAllocations', fName)}
+                                colorTheme="purple"
+                              />
+                            </div>
+                          )}
 
                           {maxTraits > 0 && (
                             <div className="pt-2 border-t border-purple-900/30">
@@ -889,8 +903,8 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
                 const specFeats = extractNameList(speciesObj?.bonus_feature_choices || speciesObj?.recommended_features);
                 const specTraits = extractNameList(speciesObj?.bonus_trait_choices || speciesObj?.recommended_traits || speciesObj?.traits);
                 const specSkills = extractNameList(speciesObj?.bonus_skill_choices);
-                const specMaxSkills = parseInt(speciesObj?.bonus_skills || speciesObj?.bonus_skill_points || (specSkills.length > 0 ? 10 : 0), 10);
-                const specMaxFeats = parseInt(speciesObj?.bonus_features || speciesObj?.bonus_feature_points || (specFeats.length > 0 ? 1 : 0), 10);
+                const specMaxSkills = parseInt(speciesObj?.bonus_skills || speciesObj?.bonus_skill_points || 0, 10);
+                const specMaxFeats = parseInt(speciesObj?.bonus_features || speciesObj?.bonus_feature_points || 0, 10);
                 const specMaxTraits = parseInt(speciesObj?.bonus_traits || (specTraits.length > 0 ? 1 : 0), 10);
                 const activeMods = identityPools.species?.activeModifiers || [];
                 const inherentTraits = extractNameList(speciesObj?.inherent_features);
@@ -933,16 +947,16 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
                           )}
 
                           {/* Species Traits Choices Pulldown */}
-                          {(specTraits.length > 0 || specMaxTraits > 0) && (
+                          {(specTraits.length > 0 && specMaxTraits > 0) && (
                             <div className="pt-2 border-t border-cyan-900/30">
                               <TraitMultiselectPulldown
                                 title="Species Trait Choices"
                                 categoryLabel="Species Trait"
-                                maxSelectable={specMaxTraits || 1}
+                                maxSelectable={specMaxTraits}
                                 selectedTraits={characterData?.speciesAllocations?.traits || []}
                                 recommendedTraits={specTraits}
                                 allTraits={allTraitsMerged}
-                                onToggleTrait={(tName, tObj) => togglePoolTrait && togglePoolTrait('speciesAllocations', tName, tObj, specMaxTraits || 1)}
+                                onToggleTrait={(tName, tObj) => togglePoolTrait && togglePoolTrait('speciesAllocations', tName, tObj, specMaxTraits)}
                                 onRemoveTrait={(tName) => removePoolTrait && removePoolTrait('speciesAllocations', tName)}
                                 colorTheme="cyan"
                               />
@@ -950,16 +964,16 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
                           )}
 
                           {/* Species Feature Choices Pulldown */}
-                          {(specFeats.length > 0 || specMaxFeats > 0) && (
+                          {(specFeats.length > 0 && specMaxFeats > 0) && (
                             <div className="pt-2 border-t border-cyan-900/30">
                               <FeatureMultiselectPulldown
                                 title="Species Feature Choices"
                                 categoryLabel="Species Feature"
-                                maxSelectable={specMaxFeats || 1}
+                                maxSelectable={specMaxFeats}
                                 selectedFeatures={characterData?.speciesAllocations?.features || []}
                                 recommendedFeatures={specFeats}
                                 allFeatures={dbData?.features?.length > 0 ? dbData.features : DEFAULT_FEATURES}
-                                onToggleFeature={(fName, fObj) => togglePoolFeature && togglePoolFeature('speciesAllocations', fName, fObj, specMaxFeats || 1)}
+                                onToggleFeature={(fName, fObj) => togglePoolFeature && togglePoolFeature('speciesAllocations', fName, fObj, specMaxFeats)}
                                 onRemoveFeature={(fName) => removePoolFeature && removePoolFeature('speciesAllocations', fName)}
                                 colorTheme="cyan"
                               />
@@ -967,17 +981,17 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
                           )}
 
                           {/* Species Skill Pool Pulldown */}
-                          {(specSkills.length > 0 || specMaxSkills > 0) && (
+                          {(specSkills.length > 0 && specMaxSkills > 0) && (
                             <div className="pt-2 border-t border-cyan-900/30">
                               <SkillPoolRankPulldown
                                 title="Species Skill Pool"
                                 categoryLabel="Species Skill"
-                                maxSP={specMaxSkills || 10}
+                                maxSP={specMaxSkills}
                                 allocatedSkills={characterData?.speciesAllocations?.skills || {}}
                                 recommendedSkills={specSkills}
                                 allSkills={dbData?.skills?.length > 0 ? dbData.skills : ALL_CANONICAL_SKILLS}
-                                onUpdateRank={(sName, newRank, delta) => allocatePoolSkillRank && allocatePoolSkillRank('speciesAllocations', sName, newRank, delta, specMaxSkills || 10)}
-                                onRemoveSkill={(sName) => allocatePoolSkillRank && allocatePoolSkillRank('speciesAllocations', sName, 0, 0, specMaxSkills || 10)}
+                                onUpdateRank={(sName, newRank, delta) => allocatePoolSkillRank && allocatePoolSkillRank('speciesAllocations', sName, newRank, delta, specMaxSkills)}
+                                onRemoveSkill={(sName) => allocatePoolSkillRank && allocatePoolSkillRank('speciesAllocations', sName, 0, 0, specMaxSkills)}
                                 colorTheme="cyan"
                               />
                             </div>

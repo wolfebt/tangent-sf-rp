@@ -17,6 +17,7 @@ import {
 } from 'firebase/firestore';
 import { db } from '../firebase';
 import { StorageService } from './storageService';
+import { ChatService } from './chatService';
 
 // Helper to generate a random 6-character alphanumeric invite code
 const generateInviteCode = () => {
@@ -145,44 +146,70 @@ export const GroupService = {
 
   // 2. Subscribe to all game groups for the current user (as owner, GM, or player member)
   subscribeToUserGroups(currentUser, callback) {
-    if (!currentUser) {
+    if (!currentUser || !db) {
+      if (db) {
+        try {
+          const q = query(collection(db, 'game_groups'), where('isPublic', '==', true));
+          return onSnapshot(q, (snapshot) => {
+            const pubGroups = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+            StorageService.setItem('tangent_game_groups', pubGroups);
+            callback(pubGroups);
+          }, () => {
+            StorageService.getItem('tangent_game_groups').then(cached => callback(Array.isArray(cached) ? cached : []));
+          });
+        } catch (e) {
+          // Fallback to local
+        }
+      }
       StorageService.getItem('tangent_game_groups').then(cached => {
         callback(Array.isArray(cached) ? cached : []);
       });
       return () => {};
     }
 
-    if (!db) {
-      StorageService.getItem('tangent_game_groups').then(cached => {
-        callback(Array.isArray(cached) ? cached : []);
-      });
-      return () => {};
-    }
+    // Two safe queries combined in memory: public groups + user's member groups
+    let publicGroups = [];
+    let memberGroups = [];
 
-    const groupsRef = collection(db, 'game_groups');
-    const unsub = onSnapshot(groupsRef, (snapshot) => {
-      const allGroups = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-      const userGroups = allGroups.filter(g => {
-        if (g.creatorId === currentUser.uid) return true;
-        if (Array.isArray(g.members) && g.members.includes(currentUser.uid)) return true;
-        if (g.isPublic) return true;
-        return false;
+    const emitCombined = () => {
+      const map = new Map();
+      [...publicGroups, ...memberGroups].forEach(g => {
+        map.set(g.id, g);
       });
+      const combined = Array.from(map.values());
+      StorageService.setItem('tangent_game_groups', combined);
+      callback(combined);
+    };
 
-      // Update storage cache
-      StorageService.setItem('tangent_game_groups', userGroups);
-      callback(userGroups);
+    const qPublic = query(
+      collection(db, 'game_groups'),
+      where('isPublic', '==', true)
+    );
+    const unsubPublic = onSnapshot(qPublic, (snapshot) => {
+      publicGroups = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+      emitCombined();
     }, (err) => {
-      console.warn('[GroupService] Error listening to user groups:', err);
-      StorageService.getItem('tangent_game_groups').then(cached => {
-        callback(Array.isArray(cached) ? cached : []);
-      });
+      console.warn('[GroupService] Error listening to public groups:', err);
     });
 
-    return unsub;
+    const qMember = query(
+      collection(db, 'game_groups'),
+      where('members', 'array-contains', currentUser.uid)
+    );
+    const unsubMember = onSnapshot(qMember, (snapshot) => {
+      memberGroups = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+      emitCombined();
+    }, (err) => {
+      console.warn('[GroupService] Error listening to member groups:', err);
+    });
+
+    return () => {
+      if (unsubPublic) unsubPublic();
+      if (unsubMember) unsubMember();
+    };
   },
 
-  // 3. Send direct in-app invite to another user
+  // 3. Send direct in-app invite to another user with rich metadata & parent DM provisioning
   async sendGroupInvite({
     groupId,
     groupName,
@@ -197,17 +224,50 @@ export const GroupService = {
     const inviteId = `invite_${groupId}_${targetUserId}_${Date.now()}`;
     const inviterHandle = currentUser.displayName || currentUser.email || 'Operative';
 
+    // Retrieve group snapshot to embed rich metadata in the invite
+    let groupMeta = {
+      name: groupName || 'Game Squad',
+      description: '',
+      campaignTitle: '',
+      status: 'Recruiting',
+      maxMembers: 6,
+      currentMembersCount: 1,
+      creatorHandle: inviterHandle
+    };
+
+    if (db) {
+      try {
+        const groupRef = doc(db, 'game_groups', groupId);
+        const gSnap = await getDoc(groupRef);
+        if (gSnap.exists()) {
+          const gData = gSnap.data();
+          groupMeta = {
+            name: gData.name || groupName || 'Game Squad',
+            description: gData.description || '',
+            campaignTitle: gData.campaignTitle || '',
+            status: gData.status || 'Recruiting',
+            maxMembers: gData.maxMembers || 6,
+            currentMembersCount: (gData.members || []).length,
+            creatorHandle: gData.creatorHandle || inviterHandle
+          };
+        }
+      } catch (err) {
+        console.warn('[GroupService] Failed to snapshot group metadata for invite:', err);
+      }
+    }
+
     const inviteData = {
       id: inviteId,
       groupId: groupId,
-      groupName: groupName || 'Game Squad',
+      groupName: groupMeta.name,
       channelId: channelId || `group_chan_${groupId}`,
       fromUserId: currentUser.uid,
       fromUserHandle: inviterHandle,
       toUserId: targetUserId,
       toUserHandle: targetUserHandle || 'Operator',
-      status: 'pending', // 'pending' | 'accepted' | 'declined'
-      createdAt: new Date().toISOString()
+      status: 'pending', // 'pending' | 'accepted' | 'declined' | 'revoked'
+      createdAt: new Date().toISOString(),
+      groupMetadata: groupMeta
     };
 
     // Save to local cache
@@ -224,12 +284,17 @@ export const GroupService = {
         const inviteRef = doc(db, 'group_invites', inviteId);
         await setDoc(inviteRef, inviteData);
 
-        // Post an automated DM notification if possible
+        // Ensure parent DM channel document exists prior to writing transmission
         try {
+          await ChatService.getOrCreateDirectMessageChannel(currentUser, {
+            uid: targetUserId,
+            userHandle: targetUserHandle || 'Operator'
+          });
+
           const notifChannelId = `dm_${[currentUser.uid, targetUserId].sort().join('_')}`;
           const notifRef = collection(db, 'channels', notifChannelId, 'messages');
           await addDoc(notifRef, {
-            text: `[SQUAD INVITATION] You have been invited to join "${groupName}" by @${inviterHandle}. Check your Game Squads drawer to accept.`,
+            text: `[SQUAD INVITATION] You have been invited to join fireteam "${groupMeta.name}" by @${inviterHandle}. Check your Game Squads drawer to review and confirm.`,
             type: 'system',
             senderId: 'system',
             senderHandle: 'SYSTEM RELAY',
@@ -237,7 +302,7 @@ export const GroupService = {
             createdLocalAt: new Date().toISOString()
           });
         } catch (e) {
-          // Ignored
+          console.warn('[GroupService] DM invite message delivery fallback:', e);
         }
       } catch (err) {
         console.warn('[GroupService] Firestore invite write fallback to local cache:', err);
@@ -495,7 +560,7 @@ export const GroupService = {
     }
   },
 
-  // 8. Update Group details (name, description, status, campaignId)
+  // 8. Update Group details (name, description, status, campaignId) and sync tied-in channel
   async updateGroup(groupId, updates) {
     if (!groupId) return;
     if (db) {
@@ -504,10 +569,189 @@ export const GroupService = {
         ...updates,
         updatedAt: new Date().toISOString()
       });
+
+      // Synchronize tied-in squad channel if name or description changed
+      if (updates.name || updates.description !== undefined) {
+        try {
+          const snap = await getDoc(groupRef);
+          if (snap.exists()) {
+            const data = snap.data();
+            const channelId = data.channelId || `group_chan_${groupId}`;
+            const channelRef = doc(db, 'channels', channelId);
+            const channelUpdates = {
+              updatedAt: serverTimestamp()
+            };
+            if (updates.name) {
+              channelUpdates.displayName = `🛡️ ${updates.name.trim()}`;
+              channelUpdates.groupName = updates.name.trim();
+            }
+            if (updates.description !== undefined) {
+              channelUpdates.topic = updates.description.trim() || `Tied-in Squad frequency for Game Group: ${updates.name || data.name}`;
+            }
+            await updateDoc(channelRef, channelUpdates).catch(() => {});
+          }
+        } catch (e) {
+          console.warn('[GroupService] Tied-in channel sync failed:', e);
+        }
+      }
     }
   },
 
-  // 9. Leave Group
+  // 9. Subscribe to outgoing pending invites for a specific group (GM monitoring)
+  subscribeToGroupOutgoingInvites(groupId, callback) {
+    if (!groupId) {
+      callback([]);
+      return () => {};
+    }
+
+    const deliverLocalFallback = async () => {
+      try {
+        const cached = (await StorageService.getItem('tangent_group_invites')) || [];
+        const groupInvites = cached.filter(i => i.groupId === groupId && i.status === 'pending');
+        callback(groupInvites);
+      } catch (e) {
+        callback([]);
+      }
+    };
+
+    if (!db) {
+      deliverLocalFallback();
+      return () => {};
+    }
+
+    try {
+      const q = query(
+        collection(db, 'group_invites'),
+        where('groupId', '==', groupId),
+        where('status', '==', 'pending')
+      );
+
+      const unsub = onSnapshot(q, (snapshot) => {
+        const invites = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+        callback(invites);
+      }, (err) => {
+        console.warn('[GroupService] Error listening to outgoing invites, using cache:', err);
+        deliverLocalFallback();
+      });
+
+      return unsub;
+    } catch (err) {
+      deliverLocalFallback();
+      return () => {};
+    }
+  },
+
+  // 10. Revoke a pending invite (GM action)
+  async revokeInvite({ inviteId }) {
+    if (!inviteId) return;
+
+    if (db) {
+      try {
+        const inviteRef = doc(db, 'group_invites', inviteId);
+        await updateDoc(inviteRef, {
+          status: 'revoked',
+          revokedAt: new Date().toISOString()
+        });
+      } catch (err) {
+        console.warn('[GroupService] Firestore revoke invite fallback:', err);
+      }
+    }
+
+    try {
+      const cached = (await StorageService.getItem('tangent_group_invites')) || [];
+      const updated = cached.map(i => i.id === inviteId ? { ...i, status: 'revoked' } : i);
+      await StorageService.setItem('tangent_group_invites', updated);
+    } catch (e) {
+      // Ignored
+    }
+  },
+
+  // 11. Discharge / Kick a member from the group (GM action)
+  async kickMember({ groupId, userId }) {
+    if (!groupId || !userId) return;
+
+    if (db) {
+      try {
+        const groupRef = doc(db, 'game_groups', groupId);
+        const groupSnap = await getDoc(groupRef);
+        if (groupSnap.exists()) {
+          const data = groupSnap.data();
+          const updatedMembers = (data.members || []).filter(id => id !== userId);
+          const updatedDetails = { ...(data.memberDetails || {}) };
+          delete updatedDetails[userId];
+
+          await updateDoc(groupRef, {
+            members: updatedMembers,
+            memberDetails: updatedDetails,
+            updatedAt: new Date().toISOString()
+          });
+
+          if (data.channelId) {
+            const channelRef = doc(db, 'channels', data.channelId);
+            await updateDoc(channelRef, {
+              members: arrayRemove(userId)
+            }).catch(() => {});
+          }
+        }
+      } catch (err) {
+        console.warn('[GroupService] Failed to discharge member:', err);
+      }
+    }
+
+    try {
+      const cached = (await StorageService.getItem('tangent_game_groups')) || [];
+      const updated = cached.map(g => {
+        if (g.id === groupId) {
+          const mems = (g.members || []).filter(id => id !== userId);
+          const details = { ...(g.memberDetails || {}) };
+          delete details[userId];
+          return { ...g, members: mems, memberDetails: details };
+        }
+        return g;
+      });
+      await StorageService.setItem('tangent_game_groups', updated);
+    } catch (e) {
+      // Ignored
+    }
+  },
+
+  // 12. Update a member's operational role (GM, Co-GM, Player, Spectator)
+  async updateMemberRole({ groupId, userId, role }) {
+    if (!groupId || !userId || !role) return;
+
+    if (db) {
+      try {
+        const groupRef = doc(db, 'game_groups', groupId);
+        await updateDoc(groupRef, {
+          [`memberDetails.${userId}.role`]: role,
+          updatedAt: new Date().toISOString()
+        });
+      } catch (err) {
+        console.warn('[GroupService] Failed to update member role:', err);
+      }
+    }
+
+    try {
+      const cached = (await StorageService.getItem('tangent_game_groups')) || [];
+      const updated = cached.map(g => {
+        if (g.id === groupId && g.memberDetails?.[userId]) {
+          return {
+            ...g,
+            memberDetails: {
+              ...g.memberDetails,
+              [userId]: { ...g.memberDetails[userId], role }
+            }
+          };
+        }
+        return g;
+      });
+      await StorageService.setItem('tangent_game_groups', updated);
+    } catch (e) {
+      // Ignored
+    }
+  },
+
+  // 13. Leave Group
   async leaveGroup({ groupId, userId }) {
     if (!groupId || !userId) return;
     if (db) {
@@ -535,7 +779,7 @@ export const GroupService = {
     }
   },
 
-  // 10. Delete Group (Creator or Admin)
+  // 14. Delete Group (Creator or Admin)
   async deleteGroup({ groupId }) {
     if (!groupId) return;
     if (db) {

@@ -87,8 +87,10 @@ const VitalsDyingModal = ({ isOpen, onClose }) => {
 
   if (!isOpen) return null;
 
-  const curHealth = parseInt(characterData.health || 30, 10);
-  const curVitality = parseInt(characterData.vitality || 30, 10);
+  const maxHealth = parseInt(characterData.health || 30, 10);
+  const maxVitality = parseInt(characterData.vitality || 30, 10);
+  const curHealth = parseInt(characterData.current_health ?? characterData.health ?? 30, 10);
+  const curVitality = parseInt(characterData.current_vitality ?? characterData.vitality ?? 30, 10);
   const staminaScore = getAttrTotal('attr-stamina') || 0;
   const toughness = derivedStats?.toughness ?? staminaScore;
   const isSynthetic = derivedStats?.isSynthetic || false;
@@ -150,7 +152,7 @@ const VitalsDyingModal = ({ isOpen, onClose }) => {
             <div className="bg-slate-900/70 p-2 rounded-lg border border-slate-800">
               <div className="text-[10px] font-sans text-slate-400 font-bold uppercase">Health (Lethal)</div>
               <div className={`text-lg font-bold ${curHealth <= 0 ? 'text-rose-400' : 'text-slate-100'}`}>
-                {curHealth}
+                {curHealth} <span className="text-xs font-normal text-slate-500">/ {maxHealth}</span>
               </div>
               <div className="text-[9px] font-sans text-slate-500">Physical Trauma</div>
             </div>
@@ -158,7 +160,7 @@ const VitalsDyingModal = ({ isOpen, onClose }) => {
             <div className="bg-slate-900/70 p-2 rounded-lg border border-slate-800">
               <div className="text-[10px] font-sans text-cyan-300 font-bold uppercase">Vitality (Buffer)</div>
               <div className={`text-lg font-bold ${curVitality <= 0 ? 'text-rose-400' : 'text-cyan-300'}`}>
-                {curVitality}
+                {curVitality} <span className="text-xs font-normal text-slate-500">/ {maxVitality}</span>
               </div>
               <div className="text-[9px] font-sans text-slate-500">Non-Lethal Cushion</div>
             </div>

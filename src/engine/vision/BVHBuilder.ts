@@ -16,6 +16,7 @@ export interface WallSegment {
   p2: Point2D;
   isDynamic?: boolean; // e.g. doors/bulkheads that can open, close, breach, or seal
   isOpen?: boolean;    // When open, the wall is non-occluding
+  isTransparent?: boolean; // When transparent (e.g. glass windows), non-occluding for visual LoS
 }
 
 export interface AABB {
@@ -76,8 +77,8 @@ export class BVHBuilder {
       return;
     }
     
-    // Filter out active open doors from occluding tree
-    const activeWalls = walls.filter(w => !w.isOpen);
+    // Filter out active open doors and transparent windows from occluding tree
+    const activeWalls = walls.filter(w => !w.isOpen && !w.isTransparent);
     if (activeWalls.length === 0) {
       this.root = null;
       return;
@@ -100,6 +101,22 @@ export class BVHBuilder {
     if (changed) {
       this.build(this.rawWalls);
     }
+  }
+
+  /**
+   * Adds a new wall segment dynamically and rebuilds the spatial tree.
+   */
+  public addWall(wall: WallSegment) {
+    this.rawWalls.push(wall);
+    this.build(this.rawWalls);
+  }
+
+  /**
+   * Removes a wall segment by id and rebuilds the spatial tree.
+   */
+  public removeWall(wallId: string) {
+    this.rawWalls = this.rawWalls.filter(w => w.id !== wallId);
+    this.build(this.rawWalls);
   }
 
   /**
@@ -196,5 +213,98 @@ export class BVHBuilder {
 
   public getRawWalls(): WallSegment[] {
     return this.rawWalls;
+  }
+
+  /**
+   * Checks whether two 2D line segments intersect.
+   */
+  public static segmentsIntersect(a: Point2D, b: Point2D, c: Point2D, d: Point2D): boolean {
+    const ccw = (p1: Point2D, p2: Point2D, p3: Point2D) =>
+      (p3.y - p1.y) * (p2.x - p1.x) > (p2.y - p1.y) * (p3.x - p1.x);
+    return ccw(a, c, d) !== ccw(b, c, d) && ccw(a, b, c) !== ccw(a, b, d);
+  }
+
+  /**
+   * Finds all active occluding walls that intersect a ray from p1 to p2.
+   */
+  public queryRayOcclusions(p1: Point2D, p2: Point2D): WallSegment[] {
+    // 1. Get candidate walls using AABB of the ray
+    const queryAABB: AABB = {
+      minX: Math.min(p1.x, p2.x) - 1,
+      minY: Math.min(p1.y, p2.y) - 1,
+      maxX: Math.max(p1.x, p2.x) + 1,
+      maxY: Math.max(p1.y, p2.y) + 1
+    };
+
+    const candidates: WallSegment[] = [];
+    if (this.root) {
+      this.traverse(this.root, queryAABB, candidates);
+    }
+
+    // 2. Perform exact segment intersection tests
+    return candidates.filter(w => !w.isOpen && BVHBuilder.segmentsIntersect(p1, p2, w.p1, w.p2));
+  }
+
+  /**
+   * Automatically calculates Line of Sight Cover per 3.00 COMBAT.md:
+   * Casts 3 rays (center, left flank, right flank) from attacker to target.
+   * - 0 rays blocked: No Cover (0 modifier)
+   * - 1 ray blocked: Half Cover (-2 to attack / +2 to defense)
+   * - 2 rays blocked: Three-Quarters Cover (-5 to attack / +5 to defense)
+   * - All 3 rays blocked: Total Concealment (-100 to attack)
+   */
+  public calculateLineOfSightCover(
+    attacker: Point2D,
+    target: Point2D,
+    targetRadius: number = 22
+  ): {
+    coverType: 'none' | 'half' | 'three_quarters' | 'total';
+    coverMod: number;
+    rayHitsCount: number;
+    occludingWalls: WallSegment[];
+  } {
+    // Normal vector perpendicular to line from attacker to target
+    const dx = target.x - attacker.x;
+    const dy = target.y - attacker.y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    
+    if (dist === 0) {
+      return { coverType: 'none', coverMod: 0, rayHitsCount: 0, occludingWalls: [] };
+    }
+
+    const nx = -dy / dist;
+    const ny = dx / dist;
+
+    // 3 target points: Center, Left, Right
+    const targetPoints: Point2D[] = [
+      { x: target.x, y: target.y },
+      { x: target.x + nx * targetRadius, y: target.y + ny * targetRadius },
+      { x: target.x - nx * targetRadius, y: target.y - ny * targetRadius }
+    ];
+
+    let blockedRays = 0;
+    const allOccluding: WallSegment[] = [];
+
+    targetPoints.forEach(tp => {
+      const occlusions = this.queryRayOcclusions(attacker, tp);
+      if (occlusions.length > 0) {
+        blockedRays++;
+        occlusions.forEach(w => {
+          if (!allOccluding.some(existing => existing.id === w.id)) {
+            allOccluding.push(w);
+          }
+        });
+      }
+    });
+
+    if (blockedRays === 0) {
+      return { coverType: 'none', coverMod: 0, rayHitsCount: 0, occludingWalls: [] };
+    } else if (blockedRays === 1) {
+      return { coverType: 'half', coverMod: -2, rayHitsCount: 1, occludingWalls: allOccluding };
+    } else if (blockedRays === 2) {
+      return { coverType: 'three_quarters', coverMod: -5, rayHitsCount: 2, occludingWalls: allOccluding };
+    } else {
+      return { coverType: 'total', coverMod: -100, rayHitsCount: 3, occludingWalls: allOccluding };
+    }
   }
 }
