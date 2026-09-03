@@ -2613,17 +2613,19 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
     }
   });
 
-  // 10. Invocations
+  // 10. Invocations (1 CP Skill Specialization adding to relative meta skill)
   let invocationsCost = 0;
   const invocationsList = Array.isArray(characterData.invocations) ? characterData.invocations : [];
   invocationsList.forEach((inv) => {
     const name = typeof inv === 'object' ? (inv.name || 'Unnamed Invocation') : inv;
-    const cost = getItemCP(inv, 0);
+    const cost = getItemCP(inv, 1);
+    const rank = typeof inv === 'object' && inv.rank !== undefined ? Math.max(1, parseInt(inv.rank, 10)) : 1;
+    const metaSkillName = typeof inv === 'object' ? (inv.subSkill || inv.discipline || 'Meta Skill') : 'Meta Skill';
     invocationsCost += cost;
     itemizedList.push({
       category: 'Invocation',
       item: name,
-      val: 'Spell / Ritual',
+      val: `1 CP Specialization (+${rank} to ${metaSkillName})`,
       costVal: cost,
       cost: `${cost} CP`
     });
@@ -2842,6 +2844,7 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
     disadvantageRefund,
     specialAbilitiesCost,
     awakenedCost,
+    invocationsCost,
     identityPools,
     speciesCostBreakdown,
     itemizedList

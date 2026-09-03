@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useFolio } from '../../context/FolioContext';
+import { useDice } from '../../context/DiceContext';
+import { Dices } from 'lucide-react';
 import FolioSidebar from './FolioSidebar';
 import IdentityTab from './tabs/IdentityTab';
 import CoreStatsTab from './tabs/CoreStatsTab';
@@ -27,6 +29,7 @@ import BastionDrawer from './BastionDrawer';
 import PrintFolio from './print/PrintFolio';
 import { attachCreatorTag } from '../../utils/creatorUtils';
 import { confirmTypedDeletion } from '../../utils/confirmationUtils';
+import { resolveMetaSkillForInvocation } from '../../utils/metaphysicsUtils';
 import { FolioGuideModal } from './FolioGuideModal';
 import GuidedCreatorModal from './modals/GuidedCreatorModal';
 import { UserSettingsModal } from '../UserSettingsModal';
@@ -35,6 +38,7 @@ import RosterCatalogView from './views/RosterCatalogView';
 const FolioContainer = () => {
   const navigate = useNavigate();
   const { currentUser, userHandle, confirmLogout, loginWithGoogle } = useAuth();
+  const { openDiceRoller } = useDice();
   const [activeTab, setActiveTab] = useState(() => {
     if (typeof window !== 'undefined' && window.location.search && window.location.search.includes('id=')) {
       return 'identity';
@@ -175,6 +179,33 @@ const FolioContainer = () => {
         description: taggedData.description || taggedData.desc || ''
       };
       handleAddItem('features', item);
+    } else if (key === 'invocations') {
+      const rawObj = typeof taggedData === 'object' ? taggedData : { name: taggedData };
+      const resolved = resolveMetaSkillForInvocation(rawObj);
+      const newInv = {
+        ...rawObj,
+        id: rawObj.id || `inv_${Date.now()}`,
+        name: rawObj.name || rawObj.title || 'Invocation',
+        category: 'invocations',
+        type: 'Invocation',
+        discipline: rawObj.discipline || resolved.discipline,
+        subSkill: rawObj.subSkill || resolved.subSkill,
+        baseSkillId: rawObj.baseSkillId || resolved.baseSkillId,
+        rank: Math.min(10, Math.max(1, parseInt(rawObj.rank || 1, 10))),
+        cp: 1,
+        mod: parseInt(rawObj.mod || 0, 10)
+      };
+      if (index !== null && index !== undefined && index >= 0) {
+        handleUpdateItem('invocations', index, newInv);
+      } else {
+        const currentInvs = Array.isArray(characterData.invocations) ? characterData.invocations : [];
+        const exists = currentInvs.some(i => (typeof i === 'object' ? (i.name || i.title) : i).toLowerCase() === newInv.name.toLowerCase());
+        if (exists) {
+          alert(`Invocation "${newInv.name}" is already known.`);
+        } else {
+          handleAddItem('invocations', newInv);
+        }
+      }
     } else if (index !== null && index !== undefined && index >= 0) {
       handleUpdateItem(key, index, taggedData);
     } else {
@@ -269,6 +300,30 @@ const FolioContainer = () => {
         description: typeof value === 'object' ? (value.description || value.desc || '') : ''
       };
       handleAddItem('features', item);
+    } else if (key === 'invocations') {
+      const rawObj = typeof value === 'object' ? value : { name: value };
+      const resolved = resolveMetaSkillForInvocation(rawObj);
+      const newInv = {
+        ...rawObj,
+        id: rawObj.id || `inv_${Date.now()}`,
+        name: rawObj.name || rawObj.title || 'Invocation',
+        category: 'invocations',
+        type: 'Invocation',
+        discipline: rawObj.discipline || resolved.discipline,
+        subSkill: rawObj.subSkill || resolved.subSkill,
+        baseSkillId: rawObj.baseSkillId || resolved.baseSkillId,
+        rank: Math.min(10, Math.max(1, parseInt(rawObj.rank || 1, 10))),
+        cp: 1,
+        mod: parseInt(rawObj.mod || 0, 10)
+      };
+      const itemObj = attachCreatorTag(newInv, userHandle, currentUser);
+      const currentInvs = Array.isArray(characterData.invocations) ? characterData.invocations : [];
+      const exists = currentInvs.some(i => (typeof i === 'object' ? (i.name || i.title) : i).toLowerCase() === newInv.name.toLowerCase());
+      if (exists) {
+        alert(`Invocation "${newInv.name}" is already known by this operative.`);
+      } else {
+        handleAddItem('invocations', itemObj);
+      }
     } else {
       const rawObj = typeof value === 'object' 
         ? { id: value.id || `item_${Date.now()}`, ...value, name: value.name || value.title, description: value.description || '', cp: value.cp || 0, category: value.category || '' } 
@@ -376,9 +431,20 @@ const FolioContainer = () => {
             <span>&#9776;</span>
             <span className="uppercase font-mono">Sections</span>
           </button>
-          <span className="text-xs font-mono font-bold text-amber-400 uppercase truncate">
-            {characterData['char-name'] || 'UNNAMED OPERATIVE'}
-          </span>
+          <div className="flex items-center gap-2 min-w-0">
+            <button
+              type="button"
+              onClick={() => openDiceRoller({ label: `${characterData['char-name'] || 'Operative'} Check`, characterName: characterData['char-name'] || 'Operative' })}
+              className="px-2 py-0.5 bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 rounded text-[11px] font-mono font-bold flex items-center gap-1 shadow-sm shrink-0 cursor-pointer"
+              title="Open Dice Tray"
+            >
+              <Dices size={12} className="text-cyan-400" />
+              <span>Dice</span>
+            </button>
+            <span className="text-xs font-mono font-bold text-amber-400 uppercase truncate">
+              {characterData['char-name'] || 'UNNAMED OPERATIVE'}
+            </span>
+          </div>
         </div>
 
         {/* Public Read-Only Banner */}

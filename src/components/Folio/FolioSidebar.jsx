@@ -18,9 +18,11 @@ import {
   BookOpen, 
   FileText,
   ChevronDown,
-  ChevronRight
+  ChevronRight,
+  Dices
 } from 'lucide-react';
 import { AudioService } from '../../services/audioService';
+import { useDice } from '../../context/DiceContext';
 
 const NAVIGATION_ITEMS = [
   { id: 'identity', label: 'Identity', icon: User },
@@ -63,6 +65,7 @@ export const FolioSidebar = ({
   onOpenAugmentationsCatalog,
   onOpenMetaphysicsModal 
 }) => {
+  const { openDiceRoller } = useDice();
   // Expansion state for parents with children
   const [expandedSections, setExpandedSections] = useState({
     features: true,
@@ -189,8 +192,24 @@ export const FolioSidebar = ({
         })}
       </nav>
 
-      {/* Quick CP Audit Sidebar Trigger */}
-      <div className="pt-2 border-t border-slate-800/80 shrink-0">
+      {/* Quick Launch Buttons: Dice Roller & CP Audit */}
+      <div className="pt-2 border-t border-slate-800/80 shrink-0 space-y-1.5">
+        <button
+          type="button"
+          onClick={() => {
+            AudioService.playTerminalBeep(1400, 0.03);
+            openDiceRoller({ label: `${charName || 'Operative'} Check`, characterName: charName || 'Operative' });
+          }}
+          className="w-full text-left px-3 py-2 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-between bg-cyan-950/40 hover:bg-cyan-900/70 text-cyan-300 border border-cyan-500/40 hover:border-cyan-400 shadow-sm cursor-pointer"
+          title="Open Tangent Dice Tray"
+        >
+          <div className="flex items-center gap-2">
+            <Dices size={14} className="text-cyan-400" />
+            <span>Dice Tray</span>
+          </div>
+          <span className="text-[10px] text-cyan-400 font-mono">2d10</span>
+        </button>
+
         <button
           type="button"
           onClick={() => {

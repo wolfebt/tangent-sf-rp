@@ -171,16 +171,19 @@ export const ChatProvider = ({ children }) => {
     await ChatService.sendMessage(activeChannelId, payload);
   }, [activeChannelId, currentUser, userHandle, speakingMode, selectedPersona]);
 
-  // Send a dice roll transmission to the active channel
-  const sendDiceRoll = useCallback(async (diceRollData) => {
-    if (!activeChannelId) return;
+  // Send a dice roll transmission to the active or specified channel
+  const sendDiceRoll = useCallback(async (diceRollData, targetChannelId = null) => {
+    const channelId = targetChannelId || activeChannelId;
+    if (!channelId) return;
 
     const senderHandle = userHandle || currentUser?.displayName || currentUser?.email || 'Operator';
     const isIC = speakingMode === 'IC' && selectedPersona;
     const displayName = isIC ? (selectedPersona.name || selectedPersona.identity?.name || senderHandle) : senderHandle;
 
+    const checkLabel = diceRollData.label ? `${diceRollData.label} ` : '';
+    const advTag = diceRollData.isAdvantage ? ' [Advantage]' : diceRollData.isDisadvantage ? ' [Disadvantage]' : '';
     const payload = {
-      text: `${displayName} rolled ${diceRollData.expression || 'dice'}: ${diceRollData.total ?? diceRollData.result}`,
+      text: `${displayName} rolled ${checkLabel}(${diceRollData.expression || 'dice'})${advTag}: ${diceRollData.total ?? diceRollData.result}`,
       type: 'dice_roll',
       senderId: currentUser?.uid || 'anon',
       senderHandle: displayName,
@@ -196,7 +199,7 @@ export const ChatProvider = ({ children }) => {
     };
 
     AudioService.playTerminalBeep(1550, 0.04);
-    await ChatService.sendMessage(activeChannelId, payload);
+    await ChatService.sendMessage(channelId, payload);
   }, [activeChannelId, currentUser, userHandle, speakingMode, selectedPersona]);
 
   // Start or open a 1-on-1 Direct Message with target user

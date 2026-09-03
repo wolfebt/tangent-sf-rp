@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useFolio } from '../../../context/FolioContext';
+import { useDice } from '../../../context/DiceContext';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { rollDice } from '../../../services/diceService';
 import { AudioService } from '../../../services/audioService';
@@ -8,6 +9,7 @@ import FolioTooltip from '../shared/FolioTooltip';
 
 export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
   const { characterData, updateField, derivedStats, getAttrTotal } = useFolio();
+  const { openDiceRoller } = useDice();
 
   const [combatView, setCombatView] = useState('all'); // 'all' | 'offensive' | 'defensive'
   const [latestDamageRoll, setLatestDamageRoll] = useState(null);
@@ -253,20 +255,61 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                   onChange={(e) => updateAttack(idx, 'name', e.target.value)}
                   className="col-span-3 bg-slate-900 border border-slate-700 focus:border-amber-400 rounded px-2.5 py-1.5 text-slate-100 outline-none font-medium"
                 />
-                <input
-                  type="text"
-                  placeholder="Check Score"
-                  value={att.score || ''}
-                  onChange={(e) => updateAttack(idx, 'score', e.target.value)}
-                  className="col-span-2 text-center bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded px-1.5 py-1.5 text-cyan-300 font-mono font-bold outline-none"
-                />
-                <input
-                  type="text"
-                  placeholder="Damage Formula"
-                  value={att.damage || ''}
-                  onChange={(e) => updateAttack(idx, 'damage', e.target.value)}
-                  className="col-span-2 text-center bg-slate-900 border border-slate-700 focus:border-amber-400 rounded px-2 py-1.5 text-amber-300 font-mono font-bold outline-none"
-                />
+                <div className="col-span-2 flex items-center gap-1">
+                  <input
+                    type="text"
+                    placeholder="Check Score"
+                    value={att.score || ''}
+                    onChange={(e) => updateAttack(idx, 'score', e.target.value)}
+                    className="w-full text-center bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded px-1 py-1.5 text-cyan-300 font-mono font-bold outline-none text-xs"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const scoreVal = parseInt(att.score || 0, 10);
+                      openDiceRoller({
+                        label: `${att.name || 'Weapon'} Attack Check`,
+                        baseModifier: scoreVal,
+                        expression: `2d10${scoreVal !== 0 ? (scoreVal > 0 ? `+${scoreVal}` : `${scoreVal}`) : ''}`,
+                        rollMode: 'normal',
+                        characterName: characterData['char-name'] || 'Operative'
+                      });
+                    }}
+                    className="p-1 bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-500/50 hover:border-cyan-400 text-cyan-300 rounded transition-all shrink-0 cursor-pointer"
+                    title={`Roll Attack Check (2d10 + ${att.score || 0})`}
+                  >
+                    <Dices size={13} />
+                  </button>
+                </div>
+
+                <div className="col-span-2 flex items-center gap-1">
+                  <input
+                    type="text"
+                    placeholder="Damage Formula"
+                    value={att.damage || ''}
+                    onChange={(e) => updateAttack(idx, 'damage', e.target.value)}
+                    className="w-full text-center bg-slate-900 border border-slate-700 focus:border-amber-400 rounded px-1 py-1.5 text-amber-300 font-mono font-bold outline-none text-xs"
+                  />
+                  {att.damage && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        openDiceRoller({
+                          label: `${att.name || 'Weapon'} Damage`,
+                          expression: att.damage,
+                          baseModifier: 0,
+                          rollMode: 'normal',
+                          characterName: characterData['char-name'] || 'Operative'
+                        });
+                      }}
+                      className="p-1 bg-amber-950/90 hover:bg-amber-900 border border-amber-500/50 hover:border-amber-400 text-amber-300 rounded transition-all shrink-0 cursor-pointer"
+                      title={`Roll Damage (${att.damage})`}
+                    >
+                      <span className="text-xs">💥</span>
+                    </button>
+                  )}
+                </div>
+
                 <input
                   type="text"
                   placeholder="Damage Type"
@@ -281,23 +324,49 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                   onChange={(e) => updateAttack(idx, 'notes', e.target.value)}
                   className="col-span-1 bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded px-2 py-1.5 text-slate-400 outline-none truncate"
                 />
-                <div className="col-span-2 flex items-center justify-end gap-1.5">
+                <div className="col-span-2 flex items-center justify-end gap-1">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const scoreVal = parseInt(att.score || 0, 10);
+                      openDiceRoller({
+                        label: `${att.name || 'Weapon'} Attack Check`,
+                        baseModifier: scoreVal,
+                        expression: `2d10${scoreVal !== 0 ? (scoreVal > 0 ? `+${scoreVal}` : `${scoreVal}`) : ''}`,
+                        rollMode: 'normal',
+                        characterName: characterData['char-name'] || 'Operative'
+                      });
+                    }}
+                    className="px-1.5 py-1 bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 rounded text-[10px] font-bold font-mono transition-colors shadow-sm active:scale-95 cursor-pointer flex items-center gap-0.5"
+                    title={`Roll Attack Check (2d10 + ${att.score || 0})`}
+                  >
+                    <Dices size={10} className="text-cyan-400" />
+                    <span>Check</span>
+                  </button>
                   {att.damage && (
                     <button
                       type="button"
-                      onClick={() => handleRollDamage(att.damage, att.name)}
-                      className="px-2 py-1 bg-amber-600 hover:bg-amber-500 text-white rounded text-[11px] font-bold font-mono transition-colors shadow-sm active:scale-95 cursor-pointer flex items-center gap-1"
+                      onClick={() => {
+                        openDiceRoller({
+                          label: `${att.name || 'Weapon'} Damage`,
+                          expression: att.damage,
+                          baseModifier: 0,
+                          rollMode: 'normal',
+                          characterName: characterData['char-name'] || 'Operative'
+                        });
+                      }}
+                      className="px-1.5 py-1 bg-amber-600 hover:bg-amber-500 text-white rounded text-[10px] font-bold font-mono transition-colors shadow-sm active:scale-95 cursor-pointer flex items-center gap-0.5"
                       title={`Roll damage formula (${att.damage})`}
                     >
-                      <span>🎲</span>
-                      <span>Roll</span>
+                      <span>💥</span>
+                      <span>Dmg</span>
                     </button>
                   )}
                   {onOpenAssetModal && (
                     <button
                       type="button"
                       onClick={() => onOpenAssetModal('attacks', 'Attack Weapon', 'edit', idx, att)}
-                      className="text-slate-400 hover:text-cyan-300 p-1 cursor-pointer"
+                      className="text-slate-400 hover:text-cyan-300 p-0.5 cursor-pointer text-xs"
                       title="Full asset edit & DB sync"
                     >
                       ✏️
@@ -306,7 +375,7 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                   <button
                     type="button"
                     onClick={() => removeAttack(idx)}
-                    className="text-slate-500 hover:text-red-400 font-bold text-sm px-1 cursor-pointer"
+                    className="text-slate-500 hover:text-red-400 font-bold text-sm px-0.5 cursor-pointer"
                   >
                     &times;
                   </button>

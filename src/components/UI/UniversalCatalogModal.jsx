@@ -127,6 +127,7 @@ const FEATURE_CAT_ORDER = ['combat', 'meta', 'ability', 'karma', 'skill', 'gener
 const WEAPON_TYPE_ORDER = ['melee', 'sidearm', 'small arms', 'rifle', 'longarm', 'heavy', 'energy', 'exotic', 'unarmed'];
 const ARMOR_CLASS_ORDER = ['light', 'medium', 'heavy', 'powered', 'shield', 'exotic'];
 const SKILL_GROUP_ORDER = ['physical', 'mental', 'social', 'combat', 'meta'];
+const INVOCATION_DISCIPLINE_ORDER = ['entropy', 'dimension', 'energy', 'illusion', 'matter', 'mental', 'composite'];
 
 const EMPTY_ARRAY = [];
 
@@ -149,6 +150,10 @@ const getRank = (val, orderList) => {
  */
 export const getItemCategory = (item, canonicalColKey) => {
   if (!item) return 'Standard';
+
+  if (canonicalColKey === 'invocations') {
+    return item.discipline || item.school || item.type || 'General';
+  }
 
   if (canonicalColKey === 'species') {
     const parent = item.parent_species;
@@ -479,8 +484,22 @@ export const UniversalCatalogModal = ({
 
       // External explicit category filter
       if (filterCategory) {
-        const filterTarget = String(filterCategory).toLowerCase();
-        if (itemCat.toLowerCase() !== filterTarget && rawCat.toLowerCase() !== filterTarget) {
+        const filterTarget = String(filterCategory).toLowerCase().trim();
+        const itemCatLower = itemCat.toLowerCase();
+        const rawCatLower = rawCat.toLowerCase();
+        const discLower = String(item.discipline || '').toLowerCase();
+        const subSkillLower = String(item.subSkill || '').toLowerCase();
+
+        const matchesFilter = (
+          itemCatLower === filterTarget ||
+          rawCatLower === filterTarget ||
+          discLower === filterTarget ||
+          discLower.includes(filterTarget) ||
+          subSkillLower === filterTarget ||
+          subSkillLower.includes(filterTarget)
+        );
+
+        if (!matchesFilter) {
           return false;
         }
       }
@@ -814,6 +833,16 @@ export const UniversalCatalogModal = ({
         </div>
       );
     }
+    if (canonicalColKey === 'invocations') {
+      return (
+        <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono text-slate-300">
+          <span className="px-1.5 py-0.5 rounded bg-purple-950/80 border border-purple-800/60 text-purple-300 font-bold">1 CP</span>
+          {item.discipline && <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-purple-300 font-semibold">{item.discipline}</span>}
+          {item.range && <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-400">Range: {item.range}</span>}
+          {item.duration && <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-400">{item.duration}</span>}
+        </div>
+      );
+    }
     if (canonicalColKey === 'features' || canonicalColKey === 'disadvantages') {
       return (
         <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono text-slate-300">
@@ -857,6 +886,7 @@ export const UniversalCatalogModal = ({
                canonicalColKey === 'factions' ? <Building2 className="w-4 h-4" /> :
                canonicalColKey === 'augmentations' ? <Cpu className="w-4 h-4" /> :
                canonicalColKey === 'disciplines' ? <Sparkles className="w-4 h-4" /> :
+               canonicalColKey === 'invocations' ? <Zap className="w-4 h-4 text-purple-300" /> :
                <Sparkles className="w-4 h-4" />}
             </div>
             <div>

@@ -5,6 +5,7 @@ import { DBMProvider } from './context/DBMContext';
 import { FolioProvider } from './context/FolioContext';
 import { GroupProvider } from './context/GroupContext';
 import { ChatProvider } from './context/ChatContext';
+import { DiceProvider } from './context/DiceContext';
 import { GlobalHUD } from './components/Layout/GlobalHUD';
 import { DiceRollerDock } from './components/UI/DiceRollerDock';
 import { CommLinkDock } from './components/UI/CommLinkDock';
@@ -77,63 +78,65 @@ export function App() {
           <FolioProvider>
             <GroupProvider>
               <ChatProvider>
-                <div className="h-screen h-dvh w-screen bg-[#0d1117] flex flex-col font-sans overflow-hidden text-slate-100 select-none">
-                  {/* Persistent Global HUD (Height: 52px on sub-routes) */}
-                  <GlobalHUD
-                    onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
-                    onToggleDiceDock={() => setIsDiceDockOpen(prev => !prev)}
-                    isDiceDockOpen={isDiceDockOpen}
-                    onToggleCommsDock={() => setIsCommsDockOpen(prev => !prev)}
-                    isCommsDockOpen={isCommsDockOpen}
-                  />
+                <DiceProvider>
+                  <div className="h-screen h-dvh w-screen bg-[#0d1117] flex flex-col font-sans overflow-hidden text-slate-100 select-none">
+                    {/* Persistent Global HUD (Height: 52px on sub-routes) */}
+                    <GlobalHUD
+                      onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
+                      onToggleDiceDock={() => setIsDiceDockOpen(prev => !prev)}
+                      isDiceDockOpen={isDiceDockOpen}
+                      onToggleCommsDock={() => setIsCommsDockOpen(prev => !prev)}
+                      isCommsDockOpen={isCommsDockOpen}
+                    />
 
-                  {/* Main Routed Area */}
-                  <main className="flex-1 w-full overflow-hidden relative">
-                    <ErrorBoundary>
-                      <Suspense fallback={<PageLoader />}>
-                        <Routes>
-                          <Route path="/" element={<Dashboard />} />
-                          <Route path="/dashboard" element={<Dashboard />} />
-                          <Route path="/comms" element={<CommsPage />} />
-                          <Route path="/chat" element={<CommsPage />} />
-                          <Route path="/codex" element={<CodexApp />} />
-                          <Route path="/codex/*" element={<CodexApp />} />
-                          <Route path="/compendium" element={<Compendium />} />
-                          <Route path="/compendium/*" element={<Compendium />} />
-                          <Route path="/dbm" element={<DBM />} />
-                          <Route path="/folio" element={<Folio />} />
-                          <Route path="/roster" element={<Folio />} />
-                          <Route path="/vtt-ops" element={<VttOptionsPage />} />
-                          <Route path="/stage" element={<StageView />} />
-                          <Route path="/vtt" element={<StageView />} />
-                          <Route path="/foundry/vtt-options" element={<VttOptionsPage />} />
-                          <Route path="/foundry/view/:mapId" element={<PlayerSpectatorView />} />
-                          <Route path="/foundry/spectator/:mapId" element={<PlayerSpectatorView />} />
-                          <Route path="/spectator/:mapId" element={<PlayerSpectatorView />} />
-                          <Route path="/foundry/*" element={<FoundryApp />} />
-                          <Route path="/story-foundry" element={<FoundryApp />} />
-                          <Route path="/campaign-builder" element={<FoundryApp />} />
-                        </Routes>
-                      </Suspense>
-                    </ErrorBoundary>
-                  </main>
+                    {/* Main Routed Area */}
+                    <main className="flex-1 w-full overflow-hidden relative">
+                      <ErrorBoundary>
+                        <Suspense fallback={<PageLoader />}>
+                          <Routes>
+                            <Route path="/" element={<Dashboard />} />
+                            <Route path="/dashboard" element={<Dashboard />} />
+                            <Route path="/comms" element={<CommsPage />} />
+                            <Route path="/chat" element={<CommsPage />} />
+                            <Route path="/codex" element={<CodexApp />} />
+                            <Route path="/codex/*" element={<CodexApp />} />
+                            <Route path="/compendium" element={<Compendium />} />
+                            <Route path="/compendium/*" element={<Compendium />} />
+                            <Route path="/dbm" element={<DBM />} />
+                            <Route path="/folio" element={<Folio />} />
+                            <Route path="/roster" element={<Folio />} />
+                            <Route path="/vtt-ops" element={<VttOptionsPage />} />
+                            <Route path="/stage" element={<StageView />} />
+                            <Route path="/vtt" element={<StageView />} />
+                            <Route path="/foundry/vtt-options" element={<VttOptionsPage />} />
+                            <Route path="/foundry/view/:mapId" element={<PlayerSpectatorView />} />
+                            <Route path="/foundry/spectator/:mapId" element={<PlayerSpectatorView />} />
+                            <Route path="/spectator/:mapId" element={<PlayerSpectatorView />} />
+                            <Route path="/foundry/*" element={<FoundryApp />} />
+                            <Route path="/story-foundry" element={<FoundryApp />} />
+                            <Route path="/campaign-builder" element={<FoundryApp />} />
+                          </Routes>
+                        </Suspense>
+                      </ErrorBoundary>
+                    </main>
 
-                  {/* Persistent Overlay Docks & Command Palette */}
-                  <DiceRollerDock
-                    isOpen={isDiceDockOpen}
-                    onClose={() => setIsDiceDockOpen(false)}
-                  />
+                    {/* Persistent Overlay Docks & Command Palette */}
+                    <DiceRollerDock
+                      isOpen={isDiceDockOpen}
+                      onClose={() => setIsDiceDockOpen(false)}
+                    />
 
-                  <CommLinkDock
-                    isOpen={isCommsDockOpen}
-                    onClose={() => setIsCommsDockOpen(false)}
-                  />
-                  
-                  <CommandPalette
-                    isOpen={isCommandPaletteOpen}
-                    onClose={() => setIsCommandPaletteOpen(false)}
-                  />
-                </div>
+                    <CommLinkDock
+                      isOpen={isCommsDockOpen}
+                      onClose={() => setIsCommsDockOpen(false)}
+                    />
+                    
+                    <CommandPalette
+                      isOpen={isCommandPaletteOpen}
+                      onClose={() => setIsCommandPaletteOpen(false)}
+                    />
+                  </div>
+                </DiceProvider>
               </ChatProvider>
             </GroupProvider>
           </FolioProvider>

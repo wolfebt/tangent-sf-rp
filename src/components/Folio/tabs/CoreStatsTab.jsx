@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import FolioInput from '../shared/FolioInput';
 import FolioTooltip from '../shared/FolioTooltip';
 import { useFolio } from '../../../context/FolioContext';
+import { useDice } from '../../../context/DiceContext';
+import { Dices } from 'lucide-react';
 import DiscreetFateOverrideModal from '../modals/DiscreetFateOverrideModal';
 import PerceptionEssenceMovementModal from '../modals/PerceptionEssenceMovementModal';
 import PerceptionRulesModal from '../modals/PerceptionRulesModal';
@@ -188,6 +190,8 @@ const CoreStatsTab = () => {
     isInActiveGame,
     isGMConfirmed
   } = useFolio();
+
+  const { openDiceRoller } = useDice();
 
   const isStatsLocked = isInActiveGame && !isGMConfirmed;
 
@@ -404,9 +408,43 @@ const CoreStatsTab = () => {
                           </span>
                         </td>
                         <td className="py-0.5 px-1.5 text-center">
-                          <span className={`text-xs font-bold font-mono ${isSub ? 'text-amber-300' : 'text-cyan-300'}`}>
-                            {total > 0 && !isSub ? `+${total}` : total}
-                          </span>
+                          <div className="flex items-center justify-center gap-1.5">
+                            <span className={`text-xs font-bold font-mono ${isSub ? 'text-amber-300' : 'text-cyan-300'}`}>
+                              {total > 0 && !isSub ? `+${total}` : total}
+                            </span>
+                            {isSub ? (
+                              <button
+                                type="button"
+                                onClick={() => openDiceRoller({
+                                  label: `${attr.name} Check (${attr.code})`,
+                                  baseModifier: total,
+                                  expression: `2d10${total !== 0 ? (total > 0 ? `+${total}` : `${total}`) : ''}`,
+                                  rollMode: 'normal',
+                                  characterName: characterData['char-name'] || 'Operative'
+                                })}
+                                className="px-1.5 py-0.5 rounded bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 hover:border-amber-400 text-amber-300 hover:text-white text-[10px] font-mono font-bold transition-all shadow-sm cursor-pointer flex items-center gap-0.5 shrink-0"
+                                title={`Roll ${attr.name} Check (2d10 + ${total})`}
+                              >
+                                <Dices size={11} className="text-amber-400" />
+                                <span>Roll</span>
+                              </button>
+                            ) : (
+                              <button
+                                type="button"
+                                onClick={() => openDiceRoller({
+                                  label: `${attr.name} Check (${attr.code})`,
+                                  baseModifier: total,
+                                  expression: `2d10${total !== 0 ? (total > 0 ? `+${total}` : `${total}`) : ''}`,
+                                  rollMode: 'normal',
+                                  characterName: characterData['char-name'] || 'Operative'
+                                })}
+                                className="p-1 rounded bg-slate-900/60 hover:bg-cyan-950 border border-slate-800 hover:border-cyan-500/50 text-slate-500 hover:text-cyan-300 transition-colors cursor-pointer shrink-0"
+                                title={`Roll ${attr.name} Check (2d10 + ${total})`}
+                              >
+                                <Dices size={10} />
+                              </button>
+                            )}
+                          </div>
                         </td>
                         <td className="py-1 px-2 text-[10px] text-slate-400 font-sans hidden sm:table-cell max-w-[180px] truncate" title={attr.desc}>
                           {attr.desc}
@@ -481,6 +519,23 @@ const CoreStatsTab = () => {
                   <span className="text-[10px] uppercase font-bold text-cyan-300">Default</span>
                   <span className="text-sm font-bold font-mono text-cyan-200">{alertPerception}</span>
                   <span className="text-[8.5px] text-cyan-400/80 font-mono">+{alertnessRank + alertnessMod} Alert</span>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openDiceRoller({
+                        label: 'Perception Check (Alertness)',
+                        baseModifier: alertPerception,
+                        expression: `2d10${alertPerception !== 0 ? (alertPerception > 0 ? `+${alertPerception}` : `${alertPerception}`) : ''}`,
+                        rollMode: 'normal',
+                        characterName: characterData['char-name'] || 'Operative'
+                      });
+                    }}
+                    className="mt-1 py-0.5 px-1 bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 rounded text-[9px] font-mono font-bold flex items-center justify-center gap-1 cursor-pointer transition-colors"
+                    title={`Roll Default Perception Check (2d10 + ${alertPerception})`}
+                  >
+                    <Dices size={10} /> Roll
+                  </button>
                 </div>
               </FolioTooltip>
 
@@ -496,6 +551,23 @@ const CoreStatsTab = () => {
                   <span className="text-[10px] uppercase font-bold text-amber-400">Meta</span>
                   <span className="text-sm font-bold font-mono text-amber-300">{metaPerception}</span>
                   <span className="text-[8.5px] text-amber-400/80 font-mono">+{attuneRank + attuneMod} Attune</span>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openDiceRoller({
+                        label: 'Metaphysical Perception Check (Attune)',
+                        baseModifier: metaPerception,
+                        expression: `2d10${metaPerception !== 0 ? (metaPerception > 0 ? `+${metaPerception}` : `${metaPerception}`) : ''}`,
+                        rollMode: 'normal',
+                        characterName: characterData['char-name'] || 'Operative'
+                      });
+                    }}
+                    className="mt-1 py-0.5 px-1 bg-amber-950/90 hover:bg-amber-900 border border-amber-500/50 text-amber-300 rounded text-[9px] font-mono font-bold flex items-center justify-center gap-1 cursor-pointer transition-colors"
+                    title={`Roll Metaphysical Perception Check (2d10 + ${metaPerception})`}
+                  >
+                    <Dices size={10} /> Roll
+                  </button>
                 </div>
               </FolioTooltip>
 
@@ -511,6 +583,23 @@ const CoreStatsTab = () => {
                   <span className="text-[10px] uppercase font-bold text-emerald-400">Social</span>
                   <span className="text-sm font-bold font-mono text-emerald-300">{socialPerception}</span>
                   <span className="text-[8.5px] text-emerald-400/80 font-mono">+{insightRank + insightMod} Insight</span>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openDiceRoller({
+                        label: 'Social Perception Check (Insight)',
+                        baseModifier: socialPerception,
+                        expression: `2d10${socialPerception !== 0 ? (socialPerception > 0 ? `+${socialPerception}` : `${socialPerception}`) : ''}`,
+                        rollMode: 'normal',
+                        characterName: characterData['char-name'] || 'Operative'
+                      });
+                    }}
+                    className="mt-1 py-0.5 px-1 bg-emerald-950/90 hover:bg-emerald-900 border border-emerald-500/50 text-emerald-300 rounded text-[9px] font-mono font-bold flex items-center justify-center gap-1 cursor-pointer transition-colors"
+                    title={`Roll Social Perception Check (2d10 + ${socialPerception})`}
+                  >
+                    <Dices size={10} /> Roll
+                  </button>
                 </div>
               </FolioTooltip>
 
@@ -526,6 +615,23 @@ const CoreStatsTab = () => {
                   <span className="text-[10px] uppercase font-bold text-blue-400">Tech</span>
                   <span className="text-sm font-bold font-mono text-blue-300">{techPerception}</span>
                   <span className="text-[8.5px] text-blue-400/80 font-mono">+{techRank + techMod} Tech</span>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openDiceRoller({
+                        label: 'Technical Perception Check (Technology)',
+                        baseModifier: techPerception,
+                        expression: `2d10${techPerception !== 0 ? (techPerception > 0 ? `+${techPerception}` : `${techPerception}`) : ''}`,
+                        rollMode: 'normal',
+                        characterName: characterData['char-name'] || 'Operative'
+                      });
+                    }}
+                    className="mt-1 py-0.5 px-1 bg-blue-950/90 hover:bg-blue-900 border border-blue-500/50 text-blue-300 rounded text-[9px] font-mono font-bold flex items-center justify-center gap-1 cursor-pointer transition-colors"
+                    title={`Roll Technical Perception Check (2d10 + ${techPerception})`}
+                  >
+                    <Dices size={10} /> Roll
+                  </button>
                 </div>
               </FolioTooltip>
             </div>
@@ -863,7 +969,24 @@ const CoreStatsTab = () => {
                     <label className="text-xs font-bold uppercase tracking-wider text-cyan-400">
                       Initiative
                     </label>
-                    <span className="text-lg font-bold text-amber-400 font-mono">{initiativeTotal}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg font-bold text-amber-400 font-mono">{initiativeTotal}</span>
+                      <button
+                        type="button"
+                        onClick={() => openDiceRoller({
+                          label: 'Initiative Check',
+                          baseModifier: initiativeTotal,
+                          expression: `2d10${initiativeTotal !== 0 ? (initiativeTotal > 0 ? `+${initiativeTotal}` : `${initiativeTotal}`) : ''}`,
+                          rollMode: 'normal',
+                          characterName: characterData['char-name'] || 'Operative'
+                        })}
+                        className="px-2 py-0.5 rounded bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 hover:border-amber-400 text-amber-300 hover:text-white text-[10px] font-mono font-bold transition-all shadow-sm cursor-pointer flex items-center gap-1 shrink-0"
+                        title={`Roll Initiative Check (2d10 + ${initiativeTotal})`}
+                      >
+                        <Dices size={12} className="text-amber-400" />
+                        <span>Roll</span>
+                      </button>
+                    </div>
                   </div>
                 </FolioTooltip>
 

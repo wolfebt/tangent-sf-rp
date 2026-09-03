@@ -1,7 +1,8 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useFolio } from '../../../context/FolioContext';
+import { useDice } from '../../../context/DiceContext';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
-import { Sparkles, AlertTriangle, Cpu, Zap, Plus, Edit3, Trash2, Check, Lock, BookOpen } from 'lucide-react';
+import { Sparkles, AlertTriangle, Cpu, Zap, Plus, Edit3, Trash2, Check, Lock, BookOpen, Dices } from 'lucide-react';
 import { METAPHYSICAL_DISCIPLINES } from '../../../data/skillsData';
 import FolioTooltip from '../shared/FolioTooltip';
 
@@ -11,7 +12,8 @@ export const FeaturesTab = ({
   activeSection = 'all', 
   onOpenMetaphysicsModal 
 }) => {
-  const { characterData, updateField, handleAddItem, handleUpdateItem } = useFolio();
+  const { characterData, updateField, handleAddItem, handleUpdateItem, handleDeleteItem } = useFolio();
+  const { openDiceRoller } = useDice();
   const [selectedSubTab, setSelectedSubTab] = useState(activeSection || 'all');
 
   // Synchronize internal subtab state when parent activeSection changes
@@ -304,6 +306,40 @@ export const FeaturesTab = ({
       return acc + (isNaN(cost) ? 3 : cost);
     }, 0);
   }, [awakenedList]);
+
+  // Learned Invocations list from characterData.invocations
+  const learnedInvocations = useMemo(() => {
+    return getItemList('invocations').map((inv, idx) => ({
+      ...(typeof inv === 'object' ? inv : { name: inv }),
+      sourceIndex: idx
+    }));
+  }, [characterData.invocations]);
+
+  // Map learned invocations by discipline (supports composite disciplines e.g. "Entropy + Dimension")
+  const invocationsByDiscipline = useMemo(() => {
+    const map = {};
+    learnedInvocations.forEach((inv) => {
+      const disc = (inv.discipline || '').toLowerCase();
+      METAPHYSICAL_DISCIPLINES.forEach((d) => {
+        const dNameLower = d.name.toLowerCase();
+        if (disc.includes(dNameLower)) {
+          if (!map[dNameLower]) map[dNameLower] = [];
+          map[dNameLower].push(inv);
+        }
+      });
+    });
+    return map;
+  }, [learnedInvocations]);
+
+  // Invocations cost 1 CP each (as skill specializations)
+  const totalInvocationsCP = useMemo(() => {
+    return learnedInvocations.reduce((sum, inv) => {
+      const cp = inv.cp !== undefined ? parseInt(inv.cp, 10) : 1;
+      return sum + (isNaN(cp) ? 1 : cp);
+    }, 0);
+  }, [learnedInvocations]);
+
+  const totalMetaphysicsCP = totalAwakenedCP + totalInvocationsCP;
 
   const totalAugmentationsCP = useMemo(() => {
     return augmentationsList.reduce((acc, aug) => {
@@ -660,12 +696,15 @@ export const FeaturesTab = ({
                 Awakening a discipline costs 3 CP, unlocking the discipline and its 2 paired skills. The first awakened feature also unlocks the Attune skill.
               </p>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <span className="px-2.5 py-1 bg-purple-950/80 border border-purple-800 text-purple-300 text-xs font-mono font-bold rounded">
-                {awakenedList.length} Awakened
+                {awakenedList.length} Awakened ({totalAwakenedCP} CP)
+              </span>
+              <span className="px-2.5 py-1 bg-purple-950/80 border border-purple-800 text-purple-300 text-xs font-mono font-bold rounded">
+                {learnedInvocations.length} Invocations ({totalInvocationsCP} CP)
               </span>
               <span className="px-2.5 py-1 bg-amber-950/80 border border-amber-800 text-amber-300 text-xs font-mono font-bold rounded">
-                {totalAwakenedCP} CP Total
+                {totalMetaphysicsCP} CP Total
               </span>
             </div>
           </div>
@@ -675,6 +714,7 @@ export const FeaturesTab = ({
             {METAPHYSICAL_DISCIPLINES.map((disc) => {
               const isAwakened = isDisciplineAwakened(disc.name);
               const pairedSkillNames = disc.skills.map(s => s.name).join(', ');
+              const cardInvocations = invocationsByDiscipline[disc.name.toLowerCase()] || [];
 
               return (
                 <div
@@ -733,6 +773,107 @@ export const FeaturesTab = ({
                         {pairedSkillNames}
                       </span>
                     </div>
+
+                    {/* Invocations Section on Discipline Card */}
+                    <div className="mt-3 pt-2.5 border-t border-purple-900/40 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-mono uppercase font-bold text-purple-300 flex items-center gap-1.5">
+                          <Zap className="w-3 h-3 text-purple-400" />
+                          Invocations ({cardInvocations.length})
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => onOpenSelectorModal('invocations', `${disc.name} Invocations Catalog (Omnicortex)`, 'invocations', disc.name)}
+                          className="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-900/60 hover:bg-purple-800 border border-purple-500/60 text-purple-200 transition-colors flex items-center gap-1 cursor-pointer"
+                          title={`Browse Omnicortex Invocations for ${disc.name}`}
+                        >
+                          <Plus className="w-3 h-3 text-purple-300" />
+                          <span>+ Invocations</span>
+                        </button>
+                      </div>
+
+                      {/* Learned Invocations List for this Discipline */}
+                      {cardInvocations.length > 0 ? (
+                        <div className="space-y-1.5 max-h-40 overflow-y-auto pr-1">
+                          {cardInvocations.map((inv) => {
+                            const invRank = Math.min(10, Math.max(1, parseInt(inv.rank || 1, 10)));
+                            const subName = inv.subSkill || disc.skills[0]?.name || 'Focus';
+                            const pairedSkill = disc.skills.find(s => s.name.toLowerCase() === subName.toLowerCase()) || disc.skills[0];
+                            const skillRank = parseInt(characterData[`skill-${pairedSkill.id}-rank`] || 0, 10);
+                            const attrVal = parseInt(characterData['attr-wisdom'] || 0, 10);
+                            const attrMod = Math.floor(attrVal / 2);
+                            const invTotal = skillRank + attrMod + invRank + (parseInt(inv.mod || 0, 10));
+
+                            return (
+                              <div
+                                key={inv.id || inv.name}
+                                className="flex items-center justify-between p-1.5 rounded bg-purple-950/70 border border-purple-900/50 hover:border-purple-700/60 text-xs transition-colors group"
+                              >
+                                <div className="flex items-center gap-1.5 min-w-0">
+                                  <FolioTooltip
+                                    title={inv.name}
+                                    badge={`${disc.name} (${subName})`}
+                                    badgeColor="purple"
+                                    description={inv.description || inv.body}
+                                    formula={`Skill: ${subName} (+${invRank} rank, DC ${inv.baseDC || 15})`}
+                                    cost="1 CP"
+                                    tags={[disc.name, subName, 'Invocation']}
+                                    showInfoIcon={false}
+                                  >
+                                    <span className="font-bold text-slate-200 truncate cursor-help group-hover:text-purple-300">
+                                      {inv.name}
+                                    </span>
+                                  </FolioTooltip>
+                                  <span className="px-1 py-0.2 text-[9px] font-mono bg-purple-900/80 border border-purple-700/70 text-purple-300 rounded shrink-0">
+                                    {subName} +{invRank}
+                                  </span>
+                                  <span className="px-1 py-0.2 text-[9px] font-mono bg-amber-950/70 border border-amber-800 text-amber-300 rounded shrink-0">
+                                    1 CP
+                                  </span>
+                                </div>
+
+                                <div className="flex items-center gap-1 shrink-0 ml-1">
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      openDiceRoller({
+                                        mode: 'check',
+                                        mod: invTotal,
+                                        label: `${disc.name}: ${inv.name} Invocation Check (${subName})`,
+                                        tags: ['invocation', disc.name.toLowerCase(), subName.toLowerCase()]
+                                      });
+                                    }}
+                                    className="p-1 rounded bg-purple-900/80 hover:bg-purple-700 text-purple-200 border border-purple-600 transition-colors cursor-pointer"
+                                    title={`Roll ${inv.name} Check (2d10 + ${invTotal})`}
+                                  >
+                                    <Dices className="w-3 h-3 text-purple-300" />
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      confirmTypedDeletion({
+                                        title: `Remove Invocation: ${inv.name}`,
+                                        message: `Are you sure you want to remove the ${inv.name} invocation? This will refund 1 CP.`,
+                                        expectedConfirmation: inv.name,
+                                        onConfirm: () => handleDeleteItem('invocations', inv.sourceIndex)
+                                      });
+                                    }}
+                                    className="p-1 rounded hover:bg-red-950 text-slate-500 hover:text-red-400 transition-colors cursor-pointer"
+                                    title="Remove Invocation"
+                                  >
+                                    <Trash2 className="w-3 h-3" />
+                                  </button>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      ) : (
+                        <div className="py-2 text-center text-[10.5px] font-mono text-slate-500 bg-slate-950/40 rounded border border-slate-900/80">
+                          0 Invocations learned (1 CP each)
+                        </div>
+                      )}
+                    </div>
                   </div>
 
                   <div className="pt-3 mt-3 border-t border-slate-800/80 flex items-center justify-between">
@@ -763,8 +904,17 @@ export const FeaturesTab = ({
             })}
           </div>
 
-          {/* Action Bar for Metaphysics Modal Launcher */}
-          <div className="flex justify-center pt-2">
+          {/* Action Bar for Omnicortex Invocations & Metaphysics Codex */}
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <button
+              type="button"
+              onClick={() => onOpenSelectorModal('invocations', 'Omnicortex Invocations Catalog', 'invocations')}
+              className="py-2 px-5 bg-purple-950/90 hover:bg-purple-900 border border-purple-500/80 text-purple-200 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-[0_0_12px_rgba(168,85,247,0.25)] cursor-pointer"
+            >
+              <Zap className="w-4 h-4 text-purple-400" />
+              <span>+ Browse All Invocations (Omnicortex)</span>
+            </button>
+
             <button
               type="button"
               onClick={() => {
@@ -774,10 +924,10 @@ export const FeaturesTab = ({
                   onOpenSelectorModal('disciplines', 'Awakened Disciplines', 'disciplines');
                 }
               }}
-              className="py-2 px-6 bg-purple-950/90 hover:bg-purple-900 border border-purple-600 text-purple-200 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-[0_0_10px_rgba(168,85,247,0.25)] cursor-pointer"
+              className="py-2 px-5 bg-slate-900 hover:bg-slate-800 border border-purple-900/60 text-slate-300 hover:text-white rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <BookOpen className="w-4 h-4 text-purple-400" />
-              <span>Launch Metaphysics Codex &amp; Invocations</span>
+              <span>Launch Metaphysics Codex</span>
             </button>
           </div>
         </div>

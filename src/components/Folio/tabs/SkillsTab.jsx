@@ -1,7 +1,10 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { useFolio } from '../../../context/FolioContext';
+import { useDice } from '../../../context/DiceContext';
+import { Dices, Zap, Plus } from 'lucide-react';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { DEFAULT_SKILLS } from '../../../data/skillsData';
+import { resolveMetaSkillForInvocation } from '../../../utils/metaphysicsUtils';
 import FolioTooltip from '../shared/FolioTooltip';
 
 const ATTRIBUTE_OPTIONS = [
@@ -117,6 +120,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
     isInActiveGame,
     isGMConfirmed
   } = useFolio();
+  const { openDiceRoller } = useDice();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategoryTab, setActiveCategoryTab] = useState('all');
   const [showTrainedOnly, setShowTrainedOnly] = useState(false);
@@ -359,12 +363,15 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
     return map;
   }, [allAvailableSkills]);
 
-  // Map specializations by baseSkillId
+  // Map specializations and learned Invocations by baseSkillId
   const specializationsByBaseSkill = useMemo(() => {
     const map = {};
     const specs = Array.isArray(characterData?.specializations) ? characterData.specializations : [];
+    const seenIds = new Set();
+
     specs.forEach((s) => {
       if (!s || typeof s !== 'object' || !s.baseSkillId) return;
+      seenIds.add(s.id);
       if (!map[s.baseSkillId]) map[s.baseSkillId] = [];
       map[s.baseSkillId].push(s);
       const cleanBaseId = s.baseSkillId.replace(/^[a-z]+-/, '');
@@ -373,8 +380,79 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
         map[cleanBaseId].push(s);
       }
     });
+
+    // Sub-list learned Invocations under the appropriate meta skill
+    const invs = Array.isArray(characterData?.invocations) ? characterData.invocations : [];
+    invs.forEach((inv) => {
+      if (!inv) return;
+      const invObj = typeof inv === 'object' ? inv : { name: String(inv) };
+      const resolved = resolveMetaSkillForInvocation(invObj);
+      const baseSkillId = invObj.baseSkillId || resolved.baseSkillId;
+      const id = invObj.id || `inv_${invObj.name}`;
+
+      if (seenIds.has(id)) return;
+      seenIds.add(id);
+
+      const invSpecItem = {
+        id,
+        name: invObj.name || invObj.title || 'Invocation',
+        baseSkillId,
+        rank: Math.min(10, Math.max(1, parseInt(invObj.rank || 1, 10))),
+        mod: parseInt(invObj.mod || 0, 10),
+        isInvocation: true,
+        sourceInvocation: invObj,
+        discipline: invObj.discipline || resolved.discipline,
+        subSkill: invObj.subSkill || resolved.subSkill,
+        baseDC: invObj.baseDC || 15,
+        description: invObj.description || invObj.body || '',
+        cp: invObj.cp !== undefined ? parseInt(invObj.cp, 10) : 1
+      };
+
+      if (!map[baseSkillId]) map[baseSkillId] = [];
+      map[baseSkillId].push(invSpecItem);
+
+      const cleanBaseId = baseSkillId.replace(/^[a-z]+-/, '');
+      if (cleanBaseId !== baseSkillId) {
+        if (!map[cleanBaseId]) map[cleanBaseId] = [];
+        map[cleanBaseId].push(invSpecItem);
+      }
+    });
+
     return map;
-  }, [characterData?.specializations]);
+  }, [characterData?.specializations, characterData?.invocations]);
+
+  // Unified update handler for standard Specializations & Invocations
+  const handleUpdateSpecOrInv = useCallback((spec, field, value) => {
+    if (spec.isInvocation) {
+      const currentInvs = Array.isArray(characterData?.invocations) ? [...characterData.invocations] : [];
+      const idx = currentInvs.findIndex(i => (typeof i === 'object' ? (i.id === spec.id || i.name === spec.name) : i === spec.name));
+      if (idx >= 0) {
+        const oldObj = typeof currentInvs[idx] === 'object' ? currentInvs[idx] : { name: currentInvs[idx] };
+        currentInvs[idx] = {
+          ...oldObj,
+          [field]: field === 'rank' ? Math.min(10, Math.max(1, parseInt(value, 10) || 1)) : parseInt(value, 10) || 0
+        };
+        updateField('invocations', currentInvs);
+      }
+    } else {
+      handleUpdateSpecialization(spec.id, field, value);
+    }
+  }, [characterData?.invocations, updateField, handleUpdateSpecialization]);
+
+  // Unified delete handler for standard Specializations & Invocations
+  const handleDeleteSpecOrInv = useCallback((spec) => {
+    if (spec.isInvocation) {
+      if (confirmTypedDeletion(spec.name, 'invocation')) {
+        const currentInvs = Array.isArray(characterData?.invocations) ? [...characterData.invocations] : [];
+        const updated = currentInvs.filter(i => (typeof i === 'object' ? (i.id !== spec.id && i.name !== spec.name) : i !== spec.name));
+        updateField('invocations', updated);
+      }
+    } else {
+      if (confirmTypedDeletion(spec.name, 'specialization')) {
+        handleDeleteSpecialization(spec.id);
+      }
+    }
+  }, [characterData?.invocations, updateField, handleDeleteSpecialization]);
 
   // Dynamic Skill Counts per category tab
   const categoryCounts = useMemo(() => {
@@ -567,20 +645,36 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                 </span>
               )}
             </div>
-            {isCustom && !isLocked && (
-              <button
-                type="button"
-                onClick={() => {
-                  if (confirmTypedDeletion(skill.name, 'custom skill')) {
-                    handleDeleteSkill(skill.id);
-                  }
-                }}
-                className="text-red-400/60 hover:text-red-400 font-bold px-1 text-xs shrink-0"
-                title="Delete Custom Skill"
-              >
-                &times;
-              </button>
-            )}
+            <div className="flex items-center gap-1 shrink-0">
+              {(skill.group === 'meta' || skill.id.startsWith('meta-')) && !isLocked && onOpenSelectorModal && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onOpenSelectorModal('invocations', `${skill.name} Invocations (Omnicortex)`, 'invocations', skill.discipline || skill.name);
+                  }}
+                  className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-purple-950/90 hover:bg-purple-900 border border-purple-800 hover:border-purple-500 text-purple-300 hover:text-purple-100 transition-colors flex items-center gap-0.5 cursor-pointer shadow-sm"
+                  title={`Browse Omnicortex Invocations for ${skill.name}`}
+                >
+                  <Zap size={9} className="text-purple-400" />
+                  <span>+ Inv</span>
+                </button>
+              )}
+              {isCustom && !isLocked && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (confirmTypedDeletion(skill.name, 'custom skill')) {
+                      handleDeleteSkill(skill.id);
+                    }
+                  }}
+                  className="text-red-400/60 hover:text-red-400 font-bold px-1 text-xs shrink-0 cursor-pointer"
+                  title="Delete Custom Skill"
+                >
+                  &times;
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Rank Input (Max Level 20) */}
@@ -633,10 +727,34 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
             {mod}
           </span>
 
-          {/* Total Base Skill Score */}
-          <span className={`col-span-2 text-center font-mono font-bold ${isLocked ? 'text-slate-600' : 'text-cyan-300'}`}>
-            {baseSkillTotal}
-          </span>
+          {/* Total Base Skill Score & Roll Trigger */}
+          <div className="col-span-2 flex items-center justify-center gap-1.5">
+            <span className={`font-mono font-bold ${isLocked ? 'text-slate-600' : 'text-cyan-300'}`}>
+              {baseSkillTotal}
+            </span>
+            <button
+              type="button"
+              disabled={isLocked}
+              onClick={() => {
+                if (isLocked) return;
+                openDiceRoller({
+                  label: `${skill.name} Check`,
+                  baseModifier: baseSkillTotal,
+                  expression: `2d10${baseSkillTotal !== 0 ? (baseSkillTotal > 0 ? `+${baseSkillTotal}` : `${baseSkillTotal}`) : ''}`,
+                  rollMode: 'normal',
+                  characterName: characterData['char-name'] || 'Operative'
+                });
+              }}
+              className={`p-1 rounded transition-all flex items-center justify-center cursor-pointer ${
+                isLocked
+                  ? 'opacity-40 cursor-not-allowed text-slate-600'
+                  : 'bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 hover:border-cyan-400 text-cyan-300 hover:text-white shadow-sm'
+              }`}
+              title={isLocked ? lockMessage : `Roll ${skill.name} Check (2d10 + ${baseSkillTotal})`}
+            >
+              <Dices size={11} />
+            </button>
+          </div>
         </div>
 
         {/* Mobile View (< 640px) */}
@@ -680,6 +798,29 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
               }`}>
                 Score: {baseSkillTotal}
               </span>
+              <button
+                type="button"
+                disabled={isLocked}
+                onClick={() => {
+                  if (isLocked) return;
+                  openDiceRoller({
+                    label: `${skill.name} Check`,
+                    baseModifier: baseSkillTotal,
+                    expression: `2d10${baseSkillTotal !== 0 ? (baseSkillTotal > 0 ? `+${baseSkillTotal}` : `${baseSkillTotal}`) : ''}`,
+                    rollMode: 'normal',
+                    characterName: characterData['char-name'] || 'Operative'
+                  });
+                }}
+                className={`px-1.5 py-0.5 rounded text-[11px] font-mono font-bold flex items-center gap-0.5 cursor-pointer ${
+                  isLocked
+                    ? 'opacity-40 cursor-not-allowed bg-slate-900 border border-slate-800 text-slate-600'
+                    : 'bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300'
+                }`}
+                title={isLocked ? lockMessage : `Roll ${skill.name} Check (2d10 + ${baseSkillTotal})`}
+              >
+                <Dices size={11} />
+                <span>Roll</span>
+              </button>
               {isCustom && !isLocked && (
                 <button
                   type="button"
@@ -754,44 +895,62 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
           </div>
         </div>
 
-        {/* Linked Specializations List */}
+        {/* Linked Specializations & Invocations List */}
         {linkedSpecs.map((spec) => {
           const specRank = Math.min(10, Math.max(0, parseInt(spec.rank || 0, 10)));
           const specMod = parseInt(spec.mod || 0, 10);
           const specTotal = baseSkillTotal + specRank + specMod;
           const isMetaSkill = skill.group === 'meta' || skill.id.startsWith('meta-');
+          const isInvocation = spec.isInvocation || (isMetaSkill && spec.category === 'invocations');
 
           return (
             <React.Fragment key={spec.id}>
               {/* Desktop / Tablet View (>= 640px) */}
               <div
-                className={`folio-skill-row-desktop ml-6 pl-2.5 border-l-2 ${isMetaSkill ? 'border-purple-500/60 bg-purple-950/20 hover:bg-purple-900/30 border-purple-900/30' : 'border-amber-500/60 bg-amber-950/20 hover:bg-amber-900/30 border-amber-900/30'} grid-cols-12 items-center gap-2 py-1 px-2 rounded transition-colors text-xs border`}
+                className={`folio-skill-row-desktop ml-6 pl-2.5 border-l-2 ${
+                  isInvocation
+                    ? 'border-purple-500/80 bg-purple-950/30 hover:bg-purple-900/40 border-purple-900/40'
+                    : isMetaSkill
+                    ? 'border-purple-500/60 bg-purple-950/20 hover:bg-purple-900/30 border-purple-900/30'
+                    : 'border-amber-500/60 bg-amber-950/20 hover:bg-amber-900/30 border-amber-900/30'
+                } grid-cols-12 items-center gap-2 py-1 px-2 rounded transition-colors text-xs border`}
               >
-                {/* Specialization Name & Base Skill Ref */}
+                {/* Specialization / Invocation Name & Base Skill Ref */}
                 <div className="col-span-4 flex flex-col justify-center overflow-hidden">
                   <div className="flex items-center gap-1 truncate">
-                    <span className={`text-[9px] font-bold uppercase tracking-wider ${isMetaSkill ? 'text-purple-400 font-mono' : 'text-amber-400/90'} shrink-0`}>
-                      {isMetaSkill ? 'EVOCATION:' : 'SPEC:'}
+                    <span className={`text-[9px] font-bold uppercase tracking-wider ${
+                      isInvocation
+                        ? 'text-purple-300 font-mono flex items-center gap-0.5'
+                        : isMetaSkill
+                        ? 'text-purple-400 font-mono'
+                        : 'text-amber-400/90'
+                    } shrink-0`}>
+                      {isInvocation ? <><Zap size={9} className="text-purple-400" />INVOCATION:</> : isMetaSkill ? 'EVOCATION:' : 'SPEC:'}
                     </span>
                     <FolioTooltip
                       title={spec.name}
-                      badge={isMetaSkill ? 'Metaphysical Evocation' : 'Skill Specialization'}
-                      badgeColor={isMetaSkill ? 'purple' : 'amber'}
-                      description={isMetaSkill
+                      badge={isInvocation ? 'Metaphysical Invocation (1 CP)' : isMetaSkill ? 'Metaphysical Evocation' : 'Skill Specialization'}
+                      badgeColor="purple"
+                      description={isInvocation
+                        ? (spec.description || `Specialized invocation formula for ${skill.name}. Adds +${specRank} bonus directly to the base discipline score.`)
+                        : isMetaSkill
                         ? `Specialized evocation technique for ${skill.name}. Adds +${specRank} bonus directly to the base discipline score.`
                         : `Focused specialized niche of ${skill.name}. Adds +${specRank} bonus directly to the base skill roll.`
                       }
-                      formula={`Spec Total (${specTotal}) = Base Skill (${baseSkillTotal}) + Rank (${specRank}) + Mod (${specMod})`}
-                      tags={['Max Rank: 10', `Base: ${skill.name}`]}
+                      formula={isInvocation
+                        ? `Invocation Total (${specTotal}) = Base Skill (${baseSkillTotal}) + Rank (${specRank}) + Mod (${specMod}) vs DC ${spec.baseDC || 15}`
+                        : `Spec Total (${specTotal}) = Base Skill (${baseSkillTotal}) + Rank (${specRank}) + Mod (${specMod})`
+                      }
+                      tags={isInvocation ? ['1 CP', 'Invocation', `Base: ${skill.name}`, `DC: ${spec.baseDC || 15}`] : ['Max Rank: 10', `Base: ${skill.name}`]}
                       showInfoIcon={true}
                     >
-                      <span className={`font-semibold ${isMetaSkill ? 'text-purple-200 hover:text-purple-100' : 'text-amber-200 hover:text-amber-100'} truncate transition-colors`}>
+                      <span className={`font-semibold ${isMetaSkill || isInvocation ? 'text-purple-200 hover:text-purple-100' : 'text-amber-200 hover:text-amber-100'} truncate transition-colors`}>
                         {spec.name}
                       </span>
                     </FolioTooltip>
                   </div>
                   <span className="text-[9px] text-slate-400 font-mono truncate">
-                    {isMetaSkill ? 'Discipline: ' : 'Base: '}<span className="text-slate-300">{skill.name}</span> ({baseSkillTotal})
+                    {isInvocation ? 'Discipline Skill: ' : isMetaSkill ? 'Discipline: ' : 'Base: '}<span className="text-slate-300">{skill.name}</span> ({baseSkillTotal})
                   </span>
                 </div>
 
@@ -799,17 +958,17 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                 <div className="col-span-2 flex items-center justify-center">
                   <input
                     type="number"
-                    min="0"
+                    min="1"
                     max="10"
                     disabled={isLocked}
                     value={specRank}
-                    onChange={(e) => !isLocked && handleUpdateSpecialization(spec.id, 'rank', e.target.value)}
-                    className={`w-full text-center bg-slate-950 border ${isLocked ? 'border-slate-800 text-slate-600 cursor-not-allowed' : (isMetaSkill ? 'border-purple-800/60 focus:border-purple-400 text-purple-200' : 'border-amber-800/60 focus:border-amber-400 text-amber-200')} rounded py-0.5 outline-none text-xs font-bold`}
+                    onChange={(e) => !isLocked && handleUpdateSpecOrInv(spec, 'rank', e.target.value)}
+                    className={`w-full text-center bg-slate-950 border ${isLocked ? 'border-slate-800 text-slate-600 cursor-not-allowed' : (isMetaSkill || isInvocation ? 'border-purple-800/60 focus:border-purple-400 text-purple-200' : 'border-amber-800/60 focus:border-amber-400 text-amber-200')} rounded py-0.5 outline-none text-xs font-bold`}
                   />
                 </div>
 
                 {/* Linked Label / Indicator */}
-                <span className={`col-span-3 text-center text-[10px] font-mono ${isMetaSkill ? 'text-purple-400/80' : 'text-amber-400/80'} truncate`}>
+                <span className={`col-span-3 text-center text-[10px] font-mono ${isMetaSkill || isInvocation ? 'text-purple-400/80' : 'text-amber-400/80'} truncate`}>
                   +{specRank} to Base
                 </span>
 
@@ -818,24 +977,46 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                   type="number"
                   disabled={isLocked}
                   value={specMod}
-                  onChange={(e) => !isLocked && handleUpdateSpecialization(spec.id, 'mod', e.target.value)}
-                  className={`col-span-1 text-center bg-slate-950 border ${isLocked ? 'border-slate-800 text-slate-600 cursor-not-allowed' : (isMetaSkill ? 'border-purple-900/40 focus:border-purple-400' : 'border-amber-900/40 focus:border-amber-400')} rounded py-0.5 text-slate-300 outline-none text-xs font-mono`}
+                  onChange={(e) => !isLocked && handleUpdateSpecOrInv(spec, 'mod', e.target.value)}
+                  className={`col-span-1 text-center bg-slate-950 border ${isLocked ? 'border-slate-800 text-slate-600 cursor-not-allowed' : (isMetaSkill || isInvocation ? 'border-purple-900/40 focus:border-purple-400' : 'border-amber-900/40 focus:border-amber-400')} rounded py-0.5 text-slate-300 outline-none text-xs font-mono`}
                 />
 
-                {/* Specialization Total Score */}
-                <div className="col-span-2 flex items-center justify-between pl-1">
-                  <span className={`font-mono font-bold ${isLocked ? 'text-slate-600' : (isMetaSkill ? 'text-purple-300' : 'text-amber-300')} text-center w-full`}>
-                    {isLocked ? 0 : specTotal}
-                  </span>
+                {/* Specialization Total Score & Roll Trigger */}
+                <div className="col-span-2 flex items-center justify-between pl-1 gap-1">
+                  <div className="flex items-center gap-1 w-full justify-center">
+                    <span className={`font-mono font-bold ${isLocked ? 'text-slate-600' : (isMetaSkill || isInvocation ? 'text-purple-300' : 'text-amber-300')}`}>
+                      {isLocked ? 0 : specTotal}
+                    </span>
+                    <button
+                      type="button"
+                      disabled={isLocked}
+                      onClick={() => {
+                        if (isLocked) return;
+                        openDiceRoller({
+                          label: `${skill.name}: ${spec.name} (${isInvocation ? 'Invocation' : isMetaSkill ? 'Evocation' : 'Specialization'})`,
+                          baseModifier: specTotal,
+                          expression: `2d10${specTotal !== 0 ? (specTotal > 0 ? `+${specTotal}` : `${specTotal}`) : ''}`,
+                          rollMode: 'normal',
+                          characterName: characterData['char-name'] || 'Operative'
+                        });
+                      }}
+                      className={`p-1 rounded transition-all flex items-center justify-center cursor-pointer ${
+                        isLocked
+                          ? 'opacity-40 cursor-not-allowed text-slate-600'
+                          : isMetaSkill || isInvocation
+                          ? 'bg-purple-950/80 hover:bg-purple-900 border border-purple-500/50 hover:border-purple-400 text-purple-300 hover:text-white shadow-sm'
+                          : 'bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 hover:border-amber-400 text-amber-300 hover:text-white shadow-sm'
+                      }`}
+                      title={isLocked ? lockMessage : `Roll ${spec.name} Check (2d10 + ${specTotal})`}
+                    >
+                      <Dices size={11} />
+                    </button>
+                  </div>
                   <button
                     type="button"
-                    onClick={() => {
-                      if (confirmTypedDeletion(spec.name, 'specialization')) {
-                        handleDeleteSpecialization(spec.id);
-                      }
-                    }}
-                    className="text-red-400/60 hover:text-red-400 font-bold px-1 text-xs shrink-0"
-                    title={isMetaSkill ? "Delete Evocation" : "Delete Specialization"}
+                    onClick={() => handleDeleteSpecOrInv(spec)}
+                    className="text-red-400/60 hover:text-red-400 font-bold px-1 text-xs shrink-0 cursor-pointer"
+                    title={isInvocation ? "Delete Invocation" : isMetaSkill ? "Delete Evocation" : "Delete Specialization"}
                   >
                     &times;
                   </button>
@@ -845,27 +1026,42 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
               {/* Mobile Spec View (< 640px) */}
               <div
                 className={`folio-skill-row-mobile ml-3 pl-2.5 border-l-2 ${
-                  isMetaSkill ? 'border-purple-500/60 bg-purple-950/20 border-purple-900/30' : 'border-amber-500/60 bg-amber-950/20 border-amber-900/30'
+                  isInvocation
+                    ? 'border-purple-500/80 bg-purple-950/30 border-purple-900/40'
+                    : isMetaSkill
+                    ? 'border-purple-500/60 bg-purple-950/20 border-purple-900/30'
+                    : 'border-amber-500/60 bg-amber-950/20 border-amber-900/30'
                 } p-2 rounded transition-colors text-xs border flex-col gap-1.5`}
               >
                 <div className="flex items-center justify-between gap-1.5">
                   <div className="flex items-center gap-1 min-w-0">
-                    <span className={`text-[9px] font-bold uppercase tracking-wider ${isMetaSkill ? 'text-purple-400 font-mono' : 'text-amber-400/90'} shrink-0`}>
-                      {isMetaSkill ? 'EVOC:' : 'SPEC:'}
+                    <span className={`text-[9px] font-bold uppercase tracking-wider ${
+                      isInvocation
+                        ? 'text-purple-300 font-mono flex items-center gap-0.5'
+                        : isMetaSkill
+                        ? 'text-purple-400 font-mono'
+                        : 'text-amber-400/90'
+                    } shrink-0`}>
+                      {isInvocation ? <><Zap size={9} className="text-purple-400" />INVOC:</> : isMetaSkill ? 'EVOC:' : 'SPEC:'}
                     </span>
                     <FolioTooltip
                       title={spec.name}
-                      badge={isMetaSkill ? 'Metaphysical Evocation' : 'Skill Specialization'}
-                      badgeColor={isMetaSkill ? 'purple' : 'amber'}
-                      description={isMetaSkill
+                      badge={isInvocation ? 'Metaphysical Invocation (1 CP)' : isMetaSkill ? 'Metaphysical Evocation' : 'Skill Specialization'}
+                      badgeColor="purple"
+                      description={isInvocation
+                        ? (spec.description || `Specialized invocation formula for ${skill.name}. Adds +${specRank} bonus directly to the base discipline score.`)
+                        : isMetaSkill
                         ? `Specialized evocation technique for ${skill.name}. Adds +${specRank} bonus directly to the base discipline score.`
                         : `Focused specialized niche of ${skill.name}. Adds +${specRank} bonus directly to the base skill roll.`
                       }
-                      formula={`Spec Total (${specTotal}) = Base Skill (${baseSkillTotal}) + Rank (${specRank}) + Mod (${specMod})`}
-                      tags={['Max Rank: 10', `Base: ${skill.name}`]}
+                      formula={isInvocation
+                        ? `Invocation Total (${specTotal}) = Base Skill (${baseSkillTotal}) + Rank (${specRank}) + Mod (${specMod}) vs DC ${spec.baseDC || 15}`
+                        : `Spec Total (${specTotal}) = Base Skill (${baseSkillTotal}) + Rank (${specRank}) + Mod (${specMod})`
+                      }
+                      tags={isInvocation ? ['1 CP', 'Invocation', `Base: ${skill.name}`] : ['Max Rank: 10', `Base: ${skill.name}`]}
                       showInfoIcon={true}
                     >
-                      <span className={`font-semibold ${isMetaSkill ? 'text-purple-200 hover:text-purple-100' : 'text-amber-200 hover:text-amber-100'} truncate transition-colors`}>
+                      <span className={`font-semibold ${isMetaSkill || isInvocation ? 'text-purple-200 hover:text-purple-100' : 'text-amber-200 hover:text-amber-100'} truncate transition-colors`}>
                         {spec.name}
                       </span>
                     </FolioTooltip>
@@ -873,19 +1069,40 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
 
                   <div className="flex items-center gap-1.5 shrink-0">
                     <span className={`px-2 py-0.5 rounded font-mono font-bold text-xs ${
-                      isLocked ? 'bg-slate-800 text-slate-500' : (isMetaSkill ? 'bg-purple-950 border border-purple-500/50 text-purple-200' : 'bg-amber-950 border border-amber-500/50 text-amber-200')
+                      isLocked ? 'bg-slate-800 text-slate-500' : (isMetaSkill || isInvocation ? 'bg-purple-950 border border-purple-500/50 text-purple-200' : 'bg-amber-950 border border-amber-500/50 text-amber-200')
                     }`}>
                       {isLocked ? 0 : specTotal}
                     </span>
                     <button
                       type="button"
+                      disabled={isLocked}
                       onClick={() => {
-                        if (confirmTypedDeletion(spec.name, 'specialization')) {
-                          handleDeleteSpecialization(spec.id);
-                        }
+                        if (isLocked) return;
+                        openDiceRoller({
+                          label: `${skill.name}: ${spec.name} (${isInvocation ? 'Invocation' : isMetaSkill ? 'Evocation' : 'Specialization'})`,
+                          baseModifier: specTotal,
+                          expression: `2d10${specTotal !== 0 ? (specTotal > 0 ? `+${specTotal}` : `${specTotal}`) : ''}`,
+                          rollMode: 'normal',
+                          characterName: characterData['char-name'] || 'Operative'
+                        });
                       }}
-                      className="text-red-400/60 hover:text-red-400 font-bold p-1 text-sm shrink-0"
-                      title={isMetaSkill ? "Delete Evocation" : "Delete Specialization"}
+                      className={`px-1.5 py-0.5 rounded text-[11px] font-mono font-bold flex items-center gap-0.5 cursor-pointer ${
+                        isLocked
+                          ? 'opacity-40 cursor-not-allowed bg-slate-900 border border-slate-800 text-slate-600'
+                          : isMetaSkill || isInvocation
+                          ? 'bg-purple-950/80 hover:bg-purple-900 border border-purple-500/50 text-purple-300'
+                          : 'bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 text-amber-300'
+                      }`}
+                      title={isLocked ? lockMessage : `Roll ${spec.name} Check (2d10 + ${specTotal})`}
+                    >
+                      <Dices size={11} />
+                      <span>Roll</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteSpecOrInv(spec)}
+                      className="text-red-400/60 hover:text-red-400 font-bold p-1 text-sm shrink-0 cursor-pointer"
+                      title={isInvocation ? "Delete Invocation" : isMetaSkill ? "Delete Evocation" : "Delete Specialization"}
                     >
                       &times;
                     </button>
@@ -896,16 +1113,16 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                   <span className="text-slate-400 text-[10px]">Rank:</span>
                   <input
                     type="number"
-                    min="0"
+                    min="1"
                     max="10"
                     disabled={isLocked}
                     value={specRank}
-                    onChange={(e) => !isLocked && handleUpdateSpecialization(spec.id, 'rank', e.target.value)}
+                    onChange={(e) => !isLocked && handleUpdateSpecOrInv(spec, 'rank', e.target.value)}
                     className={`w-12 text-center bg-slate-950 border ${
-                      isLocked ? 'border-slate-800 text-slate-600 cursor-not-allowed' : (isMetaSkill ? 'border-purple-800/60 text-purple-200' : 'border-amber-800/60 text-amber-200')
+                      isLocked ? 'border-slate-800 text-slate-600 cursor-not-allowed' : (isMetaSkill || isInvocation ? 'border-purple-800/60 text-purple-200' : 'border-amber-800/60 text-amber-200')
                     } rounded py-0.5 outline-none font-bold`}
                   />
-                  <span className={`text-[10px] ${isMetaSkill ? 'text-purple-400/80' : 'text-amber-400/80'}`}>
+                  <span className={`text-[10px] ${isMetaSkill || isInvocation ? 'text-purple-400/80' : 'text-amber-400/80'}`}>
                     +{specRank} to Base
                   </span>
                   {specMod !== 0 && (
@@ -962,9 +1179,22 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
               </span>
             )}
           </div>
-          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-950 text-slate-400 border border-slate-800">
-            {skillsList.length} {skillsList.length === 1 ? 'skill' : 'skills'}
-          </span>
+          <div className="flex items-center gap-1.5">
+            {isMetaCategory && onOpenSelectorModal && (
+              <button
+                type="button"
+                onClick={() => onOpenSelectorModal('invocations', `${groupTitle} Invocations (Omnicortex)`, 'invocations', isDiscipline ? groupTitle : null)}
+                className="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-950/80 hover:bg-purple-900 border border-purple-800 hover:border-purple-600 text-purple-300 transition-colors flex items-center gap-1 cursor-pointer shadow-sm"
+                title={`Browse Omnicortex Invocations for ${groupTitle}`}
+              >
+                <Zap size={10} className="text-purple-400" />
+                <span>+ Invocations</span>
+              </button>
+            )}
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-950 text-slate-400 border border-slate-800">
+              {skillsList.length} {skillsList.length === 1 ? 'skill' : 'skills'}
+            </span>
+          </div>
         </div>
 
         {/* Column Table Header (Desktop Only) */}

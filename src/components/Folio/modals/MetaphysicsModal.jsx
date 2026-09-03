@@ -20,10 +20,13 @@ import {
   Edit3 
 } from 'lucide-react';
 import { useFolio } from '../../../context/FolioContext';
+import { useDice } from '../../../context/DiceContext';
 import { METAPHYSICAL_DISCIPLINES } from '../../../data/skillsData';
 import { rollDice } from '../../../services/diceService';
 import { AudioService } from '../../../services/audioService';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
+import { DEFAULT_INVOCATIONS } from '../../../data/invocationsData';
+import { resolveMetaSkillForInvocation } from '../../../utils/metaphysicsUtils';
 
 // Canonical Invocations seeds for offline catalog browsing
 const CANONICAL_INVOCATIONS = [
@@ -64,6 +67,47 @@ const CANONICAL_INVOCATIONS = [
   { id: 'inv-empathy-probe', name: 'Synaptic Probe', discipline: 'Mental', subSkill: 'Sense', baseDC: 14, time: '1 Action', range: '30 ft', area: '1 Creature', duration: 'Concentration (1 min)', resistance: 'Willpower', damage: 'Read Memories', description: 'Surreptitiously probes surface thoughts, immediate emotional state, hidden motives, and recent memories.', scaling: 'Bypasses mental shields of CR + 2 per Invocation level.' }
 ];
 
+// Unified catalog combining rich seed stats and the full 137 Omnicortex database
+const ALL_CATALOG_INVOCATIONS = (() => {
+  const map = new Map();
+  CANONICAL_INVOCATIONS.forEach(inv => {
+    const resolved = resolveMetaSkillForInvocation(inv);
+    map.set(inv.name.toLowerCase(), {
+      ...inv,
+      baseSkillId: inv.baseSkillId || resolved.baseSkillId,
+      subSkill: inv.subSkill || resolved.subSkill,
+      discipline: inv.discipline || resolved.discipline,
+      cp: 1
+    });
+  });
+
+  DEFAULT_INVOCATIONS.forEach(inv => {
+    const key = (inv.name || inv.title || '').toLowerCase();
+    if (!map.has(key)) {
+      const resolved = resolveMetaSkillForInvocation(inv);
+      map.set(key, {
+        id: inv.id,
+        name: inv.name,
+        discipline: inv.discipline || resolved.discipline,
+        subSkill: inv.subSkill || resolved.subSkill,
+        baseSkillId: inv.baseSkillId || resolved.baseSkillId,
+        baseDC: inv.baseDC || 15,
+        time: inv.time || inv.castingTime || '1 Action',
+        range: inv.range || 'Touch',
+        area: inv.area || 'Single Target',
+        duration: inv.duration || 'Instantaneous',
+        resistance: inv.resistance || inv.save || 'None',
+        damage: inv.damage || 'Effect',
+        description: inv.description || (inv.body ? (inv.body.split('\n\n')[1] || inv.body.slice(0, 140)) : 'Omnicortex reality manipulation formula.'),
+        scaling: inv.scaling || '+1d6 per Invocation level.',
+        cp: 1
+      });
+    }
+  });
+
+  return Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name));
+})();
+
 export const MetaphysicsModal = ({ isOpen, onClose }) => {
   const { 
     characterData, 
@@ -73,6 +117,7 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
     getAttrTotal,
     economyBreakdown 
   } = useFolio();
+  const { openDiceRoller } = useDice();
 
   const [activeTab, setActiveTab] = useState('disciplines'); // 'disciplines' | 'invocations' | 'special_abilities'
   const [selectedDisciplineId, setSelectedDisciplineId] = useState('all');
@@ -265,33 +310,33 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
   // Roll Invocation check
   const handleRollInvocation = (inv) => {
     const calc = calculateInvocationScore(inv);
-    const rollResult = rollDice(`2d10+${calc.totalScore}`, {
-      characterName: characterData['char-name'] || 'Operative',
-      label: `${inv.name} Metaphysics Check`
+    openDiceRoller({
+      label: `${inv.name} Metaphysics Check`,
+      baseModifier: calc.totalScore,
+      expression: `2d10${calc.totalScore !== 0 ? (calc.totalScore > 0 ? `+${calc.totalScore}` : `${calc.totalScore}`) : ''}`,
+      targetNumber: inv.baseDC || 15,
+      rollMode: 'normal',
+      characterName: characterData['char-name'] || 'Operative'
     });
-
-    AudioService.playDiceRollSound();
-    if (rollResult.isCritSuccess) {
-      AudioService.playCriticalChime(true);
-    } else if (rollResult.isCritFail) {
-      AudioService.playCriticalChime(false);
-    }
-
-    setLatestRoll(rollResult);
   };
 
   // Learn / Add Invocation to Character
   const handleLearnInvocation = (inv) => {
-    const existingIdx = knownInvocations.findIndex(k => k.name.toLowerCase() === inv.name.toLowerCase());
+    const existingIdx = knownInvocations.findIndex(k => (k.name || '').toLowerCase() === (inv.name || '').toLowerCase());
     if (existingIdx >= 0) {
       alert(`Invocation "${inv.name}" is already known by this operative.`);
       return;
     }
+    const resolved = resolveMetaSkillForInvocation(inv);
     const newInv = {
       ...inv,
-      id: `inv_${Date.now()}`,
+      id: inv.id || `inv_${Date.now()}`,
       rank: 1,
-      cp: 1
+      cp: 1,
+      discipline: inv.discipline || resolved.discipline,
+      subSkill: inv.subSkill || resolved.subSkill,
+      baseSkillId: inv.baseSkillId || resolved.baseSkillId,
+      mod: 0
     };
     updateField('invocations', [...knownInvocations, newInv]);
     AudioService.playTerminalBeep(1200, 0.03);
@@ -918,12 +963,12 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
             {/* Catalog Listing */}
             <div className="space-y-3">
               <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
-                <span>📚</span> Canonical Invocations Catalog
+                <span>📚</span> Canonical Invocations Catalog ({ALL_CATALOG_INVOCATIONS.length} Omnicortex Formulas)
               </h3>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {CANONICAL_INVOCATIONS
-                  .filter(inv => selectedDisciplineId === 'all' || inv.discipline.toLowerCase() === selectedDisciplineId.toLowerCase())
+                {ALL_CATALOG_INVOCATIONS
+                  .filter(inv => selectedDisciplineId === 'all' || (inv.discipline || '').toLowerCase().includes(selectedDisciplineId.toLowerCase()))
                   .map(inv => {
                     const calc = calculateInvocationScore(inv);
                     const isKnown = knownInvocations.some(k => k.name.toLowerCase() === inv.name.toLowerCase());
@@ -1076,9 +1121,13 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
                         <button
                           type="button"
                           onClick={() => {
-                            const res = rollDice(abil.damage, { characterName: characterData['char-name'] || 'Hero', label: `${abil.name} Activation` });
-                            AudioService.playDiceRollSound();
-                            setLatestRoll(res);
+                            openDiceRoller({
+                              label: `${abil.name} Activation`,
+                              expression: abil.damage,
+                              baseModifier: 0,
+                              rollMode: 'normal',
+                              characterName: characterData['char-name'] || 'Operative'
+                            });
                           }}
                           className="px-2.5 py-1 bg-amber-600 hover:bg-amber-500 text-white rounded text-[11px] font-mono font-bold flex items-center gap-1 cursor-pointer"
                         >
