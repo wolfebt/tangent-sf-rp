@@ -837,10 +837,11 @@ export const FeaturesTab = ({
                                     type="button"
                                     onClick={() => {
                                       openDiceRoller({
-                                        mode: 'check',
-                                        mod: invTotal,
+                                        baseModifier: invTotal,
+                                        expression: `2d10${invTotal !== 0 ? (invTotal > 0 ? `+${invTotal}` : `${invTotal}`) : ''}`,
                                         label: `${disc.name}: ${inv.name} Invocation Check (${subName})`,
-                                        tags: ['invocation', disc.name.toLowerCase(), subName.toLowerCase()]
+                                        characterName: characterData['char-name'] || 'Operative',
+                                        autoRoll: true
                                       });
                                     }}
                                     className="p-1 rounded bg-purple-900/80 hover:bg-purple-700 text-purple-200 border border-purple-600 transition-colors cursor-pointer"

@@ -407,18 +407,6 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 <span className="sm:hidden">Catalog</span>
               </button>
 
-              {/* Explicit BP Audit / CP Economy Button */}
-              <button
-                type="button"
-                onClick={() => window.dispatchEvent(new CustomEvent('open-folio-economy'))}
-                className="px-2 sm:px-2.5 py-1 rounded-lg text-xs font-bold font-mono uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer bg-amber-950/70 hover:bg-amber-900/90 text-amber-300 border border-amber-500/50 cyan-shadow-thin shrink-0"
-                title="Open Build Point (BP) & CP Economy Audit Ledger"
-              >
-                <span>💎</span>
-                <span className="hidden sm:inline">BP Audit</span>
-                <span className="sm:hidden">Audit</span>
-              </button>
-
               {/* Bastion AI Trigger */}
               <button
                 type="button"
@@ -448,13 +436,6 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                     className="absolute right-0 top-full mt-2 w-56 bg-[#161b22] border border-cyan-500/50 rounded-lg shadow-2xl p-1.5 z-50 text-xs flex flex-col gap-1 backdrop-blur-md"
                     onClick={() => setIsFolioMenuOpen(false)}
                   >
-                    <button
-                      onClick={() => window.dispatchEvent(new CustomEvent('open-folio-economy'))}
-                      className="w-full text-left px-3 py-1.5 hover:bg-amber-950/80 text-amber-300 uppercase font-bold rounded flex items-center justify-between"
-                    >
-                      <span>BP / CP Economy Audit</span>
-                      <span>💎</span>
-                    </button>
                     <button
                       onClick={() => handleOpenGuide('folio')}
                       className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-slate-200 uppercase font-bold rounded"

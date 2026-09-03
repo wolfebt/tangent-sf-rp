@@ -38,7 +38,7 @@ import RosterCatalogView from './views/RosterCatalogView';
 const FolioContainer = () => {
   const navigate = useNavigate();
   const { currentUser, userHandle, confirmLogout, loginWithGoogle } = useAuth();
-  const { openDiceRoller } = useDice();
+  const { openDiceRoller, isDiceOpen, closeDiceRoller } = useDice();
   const [activeTab, setActiveTab] = useState(() => {
     if (typeof window !== 'undefined' && window.location.search && window.location.search.includes('id=')) {
       return 'identity';
@@ -434,11 +434,21 @@ const FolioContainer = () => {
           <div className="flex items-center gap-2 min-w-0">
             <button
               type="button"
-              onClick={() => openDiceRoller({ label: `${characterData['char-name'] || 'Operative'} Check`, characterName: characterData['char-name'] || 'Operative' })}
-              className="px-2 py-0.5 bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 rounded text-[11px] font-mono font-bold flex items-center gap-1 shadow-sm shrink-0 cursor-pointer"
-              title="Open Dice Tray"
+              onClick={() => {
+                if (isDiceOpen) {
+                  closeDiceRoller();
+                } else {
+                  openDiceRoller({ label: `${characterData['char-name'] || 'Operative'} Check`, characterName: characterData['char-name'] || 'Operative', autoRoll: false });
+                }
+              }}
+              className={`px-2 py-0.5 border rounded text-[11px] font-mono font-bold flex items-center gap-1 shadow-sm shrink-0 cursor-pointer ${
+                isDiceOpen
+                  ? 'bg-amber-950 border-amber-500/80 text-amber-300 shadow-[0_0_8px_rgba(245,158,11,0.3)]'
+                  : 'bg-cyan-950/80 hover:bg-cyan-900 border-cyan-500/50 text-cyan-300'
+              }`}
+              title={isDiceOpen ? "Close Dice Tray" : "Open Dice Tray"}
             >
-              <Dices size={12} className="text-cyan-400" />
+              <Dices size={12} className={isDiceOpen ? 'text-amber-400' : 'text-cyan-400'} />
               <span>Dice</span>
             </button>
             <span className="text-xs font-mono font-bold text-amber-400 uppercase truncate">
@@ -737,13 +747,6 @@ const FolioContainer = () => {
         onClose={() => setIsPreviewOpen(false)}
         characterData={characterData}
       />
-      <EconomyModal
-        isOpen={isEconomyOpen}
-        onClose={() => setIsEconomyOpen(false)}
-        characterData={characterData}
-        updateField={updateField}
-        economyBreakdown={economyBreakdown}
-      />
       <RosterModal
         isOpen={isRosterOpen}
         onClose={() => setIsRosterOpen(false)}
@@ -758,6 +761,9 @@ const FolioContainer = () => {
           handleNewCharacter();
           setActiveTab('identity');
           setIsRosterOpen(false);
+        }}
+        onGuidedCreator={() => {
+          setIsGuidedCreatorOpen(true);
         }}
         onDuplicateCharacter={duplicateRosterCharacter}
         onDeleteCharacter={deleteRosterCharacter}
@@ -787,6 +793,9 @@ const FolioContainer = () => {
       <GuidedCreatorModal
         isOpen={isGuidedCreatorOpen}
         onClose={() => setIsGuidedCreatorOpen(false)}
+        onCharacterCreated={() => {
+          setActiveTab('identity');
+        }}
       />
       <UserSettingsModal
         isOpen={isSettingsOpen}

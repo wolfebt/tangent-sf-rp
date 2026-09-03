@@ -144,7 +144,7 @@ const fetchCollectionWithFallback = async (primaryPath, fallbackPath) => {
   return [];
 };
 
-const GuidedCreatorModal = ({ isOpen, onClose }) => {
+const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
   const { applyGuidedCharacter } = useFolio();
   const [currentStep, setCurrentStep] = useState(0);
   const [draft, setDraft] = useState(INITIAL_DRAFT);
@@ -335,7 +335,7 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
     if (currentStep > 0) setCurrentStep(c => c - 1);
   };
 
-  const handleFinish = () => {
+  const handleFinish = async () => {
     // Combine all allocated skill ranks
     const combinedSkills = {};
     const skillAttrMap = {};
@@ -458,8 +458,11 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
 
     const finalFeaturesList = Array.from(combinedFeaturesMap.values());
 
+    const docId = draft['character-doc-id'] || `char_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+
     // Generate fully normalized sheet payload for the Persona Folio
     const payload = {
+      'character-doc-id': docId,
       // Basic Identity Fields
       'char-name': draft['char-name']?.trim() || 'Unnamed Operative',
       'char-concept': draft['char-concept']?.trim() || '',
@@ -488,17 +491,17 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
 
       // Primary Core Attributes (0 to +4 base + allocated species bonus points)
       'attr-strength': (draft.strength || 0) + (parseInt(draft.speciesAllocations?.attributes?.['attr-strength'] || 0, 10)),
-      'attr-might': 0,
+      'attr-might': parseInt(draft.speciesAllocations?.attributes?.['attr-might'] || 0, 10),
       'attr-agility': (draft.agility || 0) + (parseInt(draft.speciesAllocations?.attributes?.['attr-agility'] || 0, 10)),
-      'attr-reflex': 0,
+      'attr-reflex': parseInt(draft.speciesAllocations?.attributes?.['attr-reflex'] || 0, 10),
       'attr-stamina': (draft.stamina || 0) + (parseInt(draft.speciesAllocations?.attributes?.['attr-stamina'] || 0, 10)),
-      'attr-fortitude': 0,
+      'attr-fortitude': parseInt(draft.speciesAllocations?.attributes?.['attr-fortitude'] || 0, 10),
       'attr-intellect': (draft.intellect || 0) + (parseInt(draft.speciesAllocations?.attributes?.['attr-intellect'] || 0, 10)),
-      'attr-logic': 0,
+      'attr-logic': parseInt(draft.speciesAllocations?.attributes?.['attr-logic'] || 0, 10),
       'attr-wisdom': (draft.wisdom || 0) + (parseInt(draft.speciesAllocations?.attributes?.['attr-wisdom'] || 0, 10)),
-      'attr-will': 0,
+      'attr-will': parseInt(draft.speciesAllocations?.attributes?.['attr-will'] || 0, 10),
       'attr-charisma': (draft.charisma || 0) + (parseInt(draft.speciesAllocations?.attributes?.['attr-charisma'] || 0, 10)),
-      'attr-etiquette': 0,
+      'attr-etiquette': parseInt(draft.speciesAllocations?.attributes?.['attr-etiquette'] || 0, 10),
 
       // Allocations metadata
       speciesAllocations: draft.speciesAllocations || { skills: {}, traits: [], features: [], attributes: {} },
@@ -542,8 +545,12 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
       payload[`skill-${cleanId}-name`] = sName;
     });
 
-    if (applyGuidedCharacter(payload)) {
+    const success = await applyGuidedCharacter(payload);
+    if (success) {
       onClose();
+      if (onCharacterCreated) {
+        onCharacterCreated(docId);
+      }
       setTimeout(() => {
         setCurrentStep(0);
         setDraft(INITIAL_DRAFT);

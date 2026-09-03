@@ -24,6 +24,7 @@ export const DiceProvider = ({ children }) => {
   });
 
   const openDiceRoller = useCallback((config = {}) => {
+    const rollId = config.rollId || `${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
     setDiceConfig(prev => {
       const baseMod = config.baseModifier !== undefined ? Number(config.baseModifier) || 0 : (config.modifier !== undefined ? Number(config.modifier) || 0 : 0);
       const adHocMod = config.adHocModifier !== undefined ? Number(config.adHocModifier) || 0 : 0;
@@ -44,7 +45,10 @@ export const DiceProvider = ({ children }) => {
         targetNumber: config.targetNumber !== undefined ? config.targetNumber : '',
         rollMode: config.rollMode || 'normal',
         characterName: config.characterName || prev.characterName || 'Operative',
-        targetChannelId: config.targetChannelId || null
+        targetChannelId: config.targetChannelId || null,
+        autoRoll: config.autoRoll !== undefined ? !!config.autoRoll : false,
+        rollId,
+        timestamp: Date.now()
       };
     });
     setIsDiceOpen(true);

@@ -65,7 +65,7 @@ export const FolioSidebar = ({
   onOpenAugmentationsCatalog,
   onOpenMetaphysicsModal 
 }) => {
-  const { openDiceRoller } = useDice();
+  const { openDiceRoller, isDiceOpen, closeDiceRoller } = useDice();
   // Expansion state for parents with children
   const [expandedSections, setExpandedSections] = useState({
     features: true,
@@ -192,38 +192,32 @@ export const FolioSidebar = ({
         })}
       </nav>
 
-      {/* Quick Launch Buttons: Dice Roller & CP Audit */}
+      {/* Quick Launch Buttons: Dice Roller */}
       <div className="pt-2 border-t border-slate-800/80 shrink-0 space-y-1.5">
         <button
           type="button"
           onClick={() => {
             AudioService.playTerminalBeep(1400, 0.03);
-            openDiceRoller({ label: `${charName || 'Operative'} Check`, characterName: charName || 'Operative' });
+            if (isDiceOpen) {
+              closeDiceRoller();
+            } else {
+              openDiceRoller({ label: `${charName || 'Operative'} Check`, characterName: charName || 'Operative', autoRoll: false });
+            }
           }}
-          className="w-full text-left px-3 py-2 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-between bg-cyan-950/40 hover:bg-cyan-900/70 text-cyan-300 border border-cyan-500/40 hover:border-cyan-400 shadow-sm cursor-pointer"
-          title="Open Tangent Dice Tray"
+          className={`w-full text-left px-3 py-2 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-between cursor-pointer ${
+            isDiceOpen
+              ? 'bg-amber-950/60 text-amber-300 border border-amber-500/80 shadow-[0_0_12px_rgba(245,158,11,0.3)]'
+              : 'bg-cyan-950/40 hover:bg-cyan-900/70 text-cyan-300 border border-cyan-500/40 hover:border-cyan-400 shadow-sm'
+          }`}
+          title={isDiceOpen ? "Close Dice Tray" : "Open Tangent Dice Tray"}
         >
           <div className="flex items-center gap-2">
-            <Dices size={14} className="text-cyan-400" />
+            <Dices size={14} className={isDiceOpen ? 'text-amber-400' : 'text-cyan-400'} />
             <span>Dice Tray</span>
           </div>
-          <span className="text-[10px] text-cyan-400 font-mono">2d10</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => {
-            AudioService.playTerminalBeep(1200, 0.03);
-            window.dispatchEvent(new CustomEvent('open-folio-economy'));
-          }}
-          className="w-full text-left px-3 py-2 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-between bg-amber-950/40 hover:bg-amber-900/70 text-amber-300 border border-amber-500/40 hover:border-amber-400 shadow-sm cursor-pointer"
-          title="Open Character Point (CP) Economy Audit Ledger"
-        >
-          <div className="flex items-center gap-2">
-            <span>💎</span>
-            <span>CP Audit</span>
-          </div>
-          <span className="text-[10px] text-amber-400 font-mono">Ledger</span>
+          <span className={`text-[10px] font-mono font-bold ${isDiceOpen ? 'text-amber-400' : 'text-cyan-400'}`}>
+            {isDiceOpen ? 'ACTIVE' : '2d10'}
+          </span>
         </button>
       </div>
 

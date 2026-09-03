@@ -420,7 +420,8 @@ const CoreStatsTab = () => {
                                   baseModifier: total,
                                   expression: `2d10${total !== 0 ? (total > 0 ? `+${total}` : `${total}`) : ''}`,
                                   rollMode: 'normal',
-                                  characterName: characterData['char-name'] || 'Operative'
+                                  characterName: characterData['char-name'] || 'Operative',
+                                  autoRoll: true
                                 })}
                                 className="px-1.5 py-0.5 rounded bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 hover:border-amber-400 text-amber-300 hover:text-white text-[10px] font-mono font-bold transition-all shadow-sm cursor-pointer flex items-center gap-0.5 shrink-0"
                                 title={`Roll ${attr.name} Check (2d10 + ${total})`}
@@ -436,7 +437,8 @@ const CoreStatsTab = () => {
                                   baseModifier: total,
                                   expression: `2d10${total !== 0 ? (total > 0 ? `+${total}` : `${total}`) : ''}`,
                                   rollMode: 'normal',
-                                  characterName: characterData['char-name'] || 'Operative'
+                                  characterName: characterData['char-name'] || 'Operative',
+                                  autoRoll: true
                                 })}
                                 className="p-1 rounded bg-slate-900/60 hover:bg-cyan-950 border border-slate-800 hover:border-cyan-500/50 text-slate-500 hover:text-cyan-300 transition-colors cursor-pointer shrink-0"
                                 title={`Roll ${attr.name} Check (2d10 + ${total})`}
@@ -528,7 +530,8 @@ const CoreStatsTab = () => {
                         baseModifier: alertPerception,
                         expression: `2d10${alertPerception !== 0 ? (alertPerception > 0 ? `+${alertPerception}` : `${alertPerception}`) : ''}`,
                         rollMode: 'normal',
-                        characterName: characterData['char-name'] || 'Operative'
+                        characterName: characterData['char-name'] || 'Operative',
+                        autoRoll: true
                       });
                     }}
                     className="mt-1 py-0.5 px-1 bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 rounded text-[9px] font-mono font-bold flex items-center justify-center gap-1 cursor-pointer transition-colors"
@@ -560,7 +563,8 @@ const CoreStatsTab = () => {
                         baseModifier: metaPerception,
                         expression: `2d10${metaPerception !== 0 ? (metaPerception > 0 ? `+${metaPerception}` : `${metaPerception}`) : ''}`,
                         rollMode: 'normal',
-                        characterName: characterData['char-name'] || 'Operative'
+                        characterName: characterData['char-name'] || 'Operative',
+                        autoRoll: true
                       });
                     }}
                     className="mt-1 py-0.5 px-1 bg-amber-950/90 hover:bg-amber-900 border border-amber-500/50 text-amber-300 rounded text-[9px] font-mono font-bold flex items-center justify-center gap-1 cursor-pointer transition-colors"
@@ -592,7 +596,8 @@ const CoreStatsTab = () => {
                         baseModifier: socialPerception,
                         expression: `2d10${socialPerception !== 0 ? (socialPerception > 0 ? `+${socialPerception}` : `${socialPerception}`) : ''}`,
                         rollMode: 'normal',
-                        characterName: characterData['char-name'] || 'Operative'
+                        characterName: characterData['char-name'] || 'Operative',
+                        autoRoll: true
                       });
                     }}
                     className="mt-1 py-0.5 px-1 bg-emerald-950/90 hover:bg-emerald-900 border border-emerald-500/50 text-emerald-300 rounded text-[9px] font-mono font-bold flex items-center justify-center gap-1 cursor-pointer transition-colors"
@@ -624,7 +629,8 @@ const CoreStatsTab = () => {
                         baseModifier: techPerception,
                         expression: `2d10${techPerception !== 0 ? (techPerception > 0 ? `+${techPerception}` : `${techPerception}`) : ''}`,
                         rollMode: 'normal',
-                        characterName: characterData['char-name'] || 'Operative'
+                        characterName: characterData['char-name'] || 'Operative',
+                        autoRoll: true
                       });
                     }}
                     className="mt-1 py-0.5 px-1 bg-blue-950/90 hover:bg-blue-900 border border-blue-500/50 text-blue-300 rounded text-[9px] font-mono font-bold flex items-center justify-center gap-1 cursor-pointer transition-colors"
@@ -978,7 +984,8 @@ const CoreStatsTab = () => {
                           baseModifier: initiativeTotal,
                           expression: `2d10${initiativeTotal !== 0 ? (initiativeTotal > 0 ? `+${initiativeTotal}` : `${initiativeTotal}`) : ''}`,
                           rollMode: 'normal',
-                          characterName: characterData['char-name'] || 'Operative'
+                          characterName: characterData['char-name'] || 'Operative',
+                          autoRoll: true
                         })}
                         className="px-2 py-0.5 rounded bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 hover:border-amber-400 text-amber-300 hover:text-white text-[10px] font-mono font-bold transition-all shadow-sm cursor-pointer flex items-center gap-1 shrink-0"
                         title={`Roll Initiative Check (2d10 + ${initiativeTotal})`}

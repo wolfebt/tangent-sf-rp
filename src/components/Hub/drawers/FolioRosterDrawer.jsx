@@ -4,7 +4,7 @@ import { useFolio } from '../../../context/FolioContext';
 import { extractCreatorInfo } from '../../../utils/creatorUtils';
 import { AudioService } from '../../../services/audioService';
 import { 
-  Users, X, Plus, Search, Copy, Check, Trash2, 
+  Users, X, Plus, Sparkles, Search, Copy, Check, Trash2, 
   ChevronRight, ArrowUpRight 
 } from 'lucide-react';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
@@ -95,6 +95,21 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
         </div>
 
         <div className="flex items-center gap-2">
+          <button
+            onClick={() => {
+              AudioService.playTerminalBeep(1200, 0.03);
+              if (onOpenSheet) onOpenSheet();
+              else if (onOpenDrawer) onOpenDrawer('persona-sheet');
+              else navigate('/folio');
+              setTimeout(() => {
+                window.dispatchEvent(new CustomEvent('open-folio-guided-creator'));
+              }, 100);
+            }}
+            className="px-3 py-1.5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white rounded-lg text-xs font-mono font-bold uppercase shadow transition-all flex items-center gap-1.5 cursor-pointer"
+          >
+            <Sparkles size={14} /> Guided Creator
+          </button>
+
           <button
             onClick={() => {
               AudioService.playTerminalBeep(1300, 0.03);

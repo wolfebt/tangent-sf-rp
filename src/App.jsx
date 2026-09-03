@@ -35,7 +35,6 @@ const PageLoader = () => (
 );
 
 export function App() {
-  const [isDiceDockOpen, setIsDiceDockOpen] = useState(false);
   const [isCommsDockOpen, setIsCommsDockOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
 
@@ -45,7 +44,7 @@ export function App() {
       // Alt+D or Option+D for dice dock
       if (e.altKey && (e.key?.toLowerCase() === 'd' || e.code === 'KeyD')) {
         e.preventDefault();
-        setIsDiceDockOpen(prev => !prev);
+        window.dispatchEvent(new CustomEvent('toggle-dice-dock'));
       }
       // Alt+C or Option+C for comms dock
       if (e.altKey && (e.key?.toLowerCase() === 'c' || e.code === 'KeyC')) {
@@ -59,14 +58,11 @@ export function App() {
       }
     };
 
-    const handleCustomToggleDice = () => setIsDiceDockOpen(prev => !prev);
     const handleCustomToggleComms = () => setIsCommsDockOpen(prev => !prev);
-    window.addEventListener('toggle-dice-dock', handleCustomToggleDice);
     window.addEventListener('toggle-comms-dock', handleCustomToggleComms);
     window.addEventListener('keydown', handleGlobalKeys);
     return () => {
       window.removeEventListener('keydown', handleGlobalKeys);
-      window.removeEventListener('toggle-dice-dock', handleCustomToggleDice);
       window.removeEventListener('toggle-comms-dock', handleCustomToggleComms);
     };
   }, []);
@@ -83,8 +79,7 @@ export function App() {
                     {/* Persistent Global HUD (Height: 52px on sub-routes) */}
                     <GlobalHUD
                       onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
-                      onToggleDiceDock={() => setIsDiceDockOpen(prev => !prev)}
-                      isDiceDockOpen={isDiceDockOpen}
+                      onToggleDiceDock={() => window.dispatchEvent(new CustomEvent('toggle-dice-dock'))}
                       onToggleCommsDock={() => setIsCommsDockOpen(prev => !prev)}
                       isCommsDockOpen={isCommsDockOpen}
                     />
@@ -121,10 +116,7 @@ export function App() {
                     </main>
 
                     {/* Persistent Overlay Docks & Command Palette */}
-                    <DiceRollerDock
-                      isOpen={isDiceDockOpen}
-                      onClose={() => setIsDiceDockOpen(false)}
-                    />
+                    <DiceRollerDock />
 
                     <CommLinkDock
                       isOpen={isCommsDockOpen}

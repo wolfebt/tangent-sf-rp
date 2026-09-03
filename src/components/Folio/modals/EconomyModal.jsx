@@ -11,6 +11,7 @@ import { ALL_CANONICAL_SKILLS } from '../../../data/skillsData';
 import { ALL_CANONICAL_TRAITS } from '../../../data/speciesTraitsData';
 import { DEFAULT_FEATURES } from '../../../data/featuresData';
 import { DEFAULT_SPECIES } from '../../../data/speciesData';
+import { DEFAULT_FACTIONS } from '../../../data/factionsData';
 import { COMMON_OCCUPATIONAL_TRAITS } from '../../../data/occupationsData';
 import { resolveCatalogItem } from '../../../engines/tangentIdentityEngine';
 import { BookOpen, Shield, Dna, Layers, Sparkles } from 'lucide-react';
@@ -85,6 +86,11 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
     return resolveCatalogItem('occupations', secOccName, dbData) || 
       (dbData?.occupations || []).find(oc => (oc.name || oc.id || '').toLowerCase() === String(secOccName).toLowerCase());
   }, [characterData?.['char-secondary-occu'], characterData?.['char-background-occu'], characterData?.['char-occu-secondary'], dbData]);
+
+  const factionObj = useMemo(() => {
+    return resolveCatalogItem('factions', characterData?.['char-faction'], dbData) || 
+      (dbData?.factions || DEFAULT_FACTIONS).find(f => (f.name || f.id || '').toLowerCase() === (characterData?.['char-faction'] || '').toLowerCase());
+  }, [characterData?.['char-faction'], dbData]);
 
   const allTraitsMerged = useMemo(() => {
     const map = new Map();

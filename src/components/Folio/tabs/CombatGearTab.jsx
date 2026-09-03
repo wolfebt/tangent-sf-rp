@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useFolio } from '../../../context/FolioContext';
+import { useDice } from '../../../context/DiceContext';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { rollDice } from '../../../services/diceService';
 import { AudioService } from '../../../services/audioService';
@@ -15,6 +16,7 @@ const PROPERTY_TABS = [
 
 const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
   const { characterData, updateField } = useFolio();
+  const { openDiceRoller } = useDice();
 
   const [combatTab, setCombatTab] = useState('offensive'); // 'offensive' | 'defensive'
   const [propertyTab, setPropertyTab] = useState('gear'); // 'gear' | 'weapons' | 'armor' | 'mecha' | 'other'
@@ -22,21 +24,14 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
 
   const handleRollDamage = (damageExpr, weaponName) => {
     if (!damageExpr) return;
-    const rollResult = rollDice(damageExpr, {
-      characterName: characterData['char-name'] || 'Hero',
-      label: `${weaponName || 'Weapon'} Damage`
+    openDiceRoller({
+      label: `${weaponName || 'Weapon'} Damage`,
+      expression: damageExpr,
+      baseModifier: 0,
+      rollMode: 'normal',
+      characterName: characterData['char-name'] || 'Operative',
+      autoRoll: true
     });
-
-    AudioService.playDiceRollSound();
-    if (rollResult.isCritSuccess) {
-      AudioService.playCriticalChime(true);
-    } else if (rollResult.isCritFail) {
-      AudioService.playCriticalChime(false);
-    } else {
-      AudioService.playCombatHit(false);
-    }
-
-    setLatestDamageRoll(rollResult);
   };
 
 

@@ -1,8 +1,3 @@
-folio
-the file menu is not working no pull down
-skills page is not listing the skills
-move the button for operative catalog to the title bar (remove from the file menu and from the menu list above identity)
-
 
 ---------------------------------------------------------
 

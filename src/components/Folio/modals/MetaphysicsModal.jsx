@@ -316,7 +316,8 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
       expression: `2d10${calc.totalScore !== 0 ? (calc.totalScore > 0 ? `+${calc.totalScore}` : `${calc.totalScore}`) : ''}`,
       targetNumber: inv.baseDC || 15,
       rollMode: 'normal',
-      characterName: characterData['char-name'] || 'Operative'
+      characterName: characterData['char-name'] || 'Operative',
+      autoRoll: true
     });
   };
 
@@ -1126,7 +1127,8 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
                               expression: abil.damage,
                               baseModifier: 0,
                               rollMode: 'normal',
-                              characterName: characterData['char-name'] || 'Operative'
+                              characterName: characterData['char-name'] || 'Operative',
+                              autoRoll: true
                             });
                           }}
                           className="px-2.5 py-1 bg-amber-600 hover:bg-amber-500 text-white rounded text-[11px] font-mono font-bold flex items-center gap-1 cursor-pointer"

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useFolio } from '../../../context/FolioContext';
+import { useDice } from '../../../context/DiceContext';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { rollDice } from '../../../services/diceService';
 import { AudioService } from '../../../services/audioService';
@@ -75,6 +76,7 @@ const PROPERTY_CONFIG = {
 
 export const PropertyTab = ({ activeSection = 'gear', onOpenSelectorModal, onOpenAssetModal }) => {
   const { characterData, updateField } = useFolio();
+  const { openDiceRoller } = useDice();
 
   const getArray = (key, altKey) => {
     let val = characterData[key];
@@ -93,19 +95,14 @@ export const PropertyTab = ({ activeSection = 'gear', onOpenSelectorModal, onOpe
 
   const handleRollDamage = (damageExpr, weaponName) => {
     if (!damageExpr) return;
-    const rollResult = rollDice(damageExpr, {
-      characterName: characterData['char-name'] || 'Hero',
-      label: `${weaponName || 'Weapon'} Damage`
+    openDiceRoller({
+      label: `${weaponName || 'Weapon'} Damage`,
+      expression: damageExpr,
+      baseModifier: 0,
+      rollMode: 'normal',
+      characterName: characterData['char-name'] || 'Operative',
+      autoRoll: true
     });
-
-    AudioService.playDiceRollSound();
-    if (rollResult.isCritSuccess) {
-      AudioService.playCriticalChime(true);
-    } else if (rollResult.isCritFail) {
-      AudioService.playCriticalChime(false);
-    } else {
-      AudioService.playCombatHit(false);
-    }
   };
 
   // Determine sections to render: if activeSection is specified and valid, show that section. If 'all', show all.

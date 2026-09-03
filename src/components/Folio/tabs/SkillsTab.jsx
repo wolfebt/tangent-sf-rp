@@ -742,7 +742,8 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                   baseModifier: baseSkillTotal,
                   expression: `2d10${baseSkillTotal !== 0 ? (baseSkillTotal > 0 ? `+${baseSkillTotal}` : `${baseSkillTotal}`) : ''}`,
                   rollMode: 'normal',
-                  characterName: characterData['char-name'] || 'Operative'
+                  characterName: characterData['char-name'] || 'Operative',
+                  autoRoll: true
                 });
               }}
               className={`p-1 rounded transition-all flex items-center justify-center cursor-pointer ${
@@ -808,7 +809,8 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                     baseModifier: baseSkillTotal,
                     expression: `2d10${baseSkillTotal !== 0 ? (baseSkillTotal > 0 ? `+${baseSkillTotal}` : `${baseSkillTotal}`) : ''}`,
                     rollMode: 'normal',
-                    characterName: characterData['char-name'] || 'Operative'
+                    characterName: characterData['char-name'] || 'Operative',
+                    autoRoll: true
                   });
                 }}
                 className={`px-1.5 py-0.5 rounded text-[11px] font-mono font-bold flex items-center gap-0.5 cursor-pointer ${
@@ -997,7 +999,8 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                           baseModifier: specTotal,
                           expression: `2d10${specTotal !== 0 ? (specTotal > 0 ? `+${specTotal}` : `${specTotal}`) : ''}`,
                           rollMode: 'normal',
-                          characterName: characterData['char-name'] || 'Operative'
+                          characterName: characterData['char-name'] || 'Operative',
+                          autoRoll: true
                         });
                       }}
                       className={`p-1 rounded transition-all flex items-center justify-center cursor-pointer ${
@@ -1083,7 +1086,8 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                           baseModifier: specTotal,
                           expression: `2d10${specTotal !== 0 ? (specTotal > 0 ? `+${specTotal}` : `${specTotal}`) : ''}`,
                           rollMode: 'normal',
-                          characterName: characterData['char-name'] || 'Operative'
+                          characterName: characterData['char-name'] || 'Operative',
+                          autoRoll: true
                         });
                       }}
                       className={`px-1.5 py-0.5 rounded text-[11px] font-mono font-bold flex items-center gap-0.5 cursor-pointer ${

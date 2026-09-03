@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Dices, X, Target, RotateCcw, Radio, Shield, Users, Globe, Hash, Sparkles, Scale } from 'lucide-react';
 import { rollDice } from '../../services/diceService';
 import { AudioService } from '../../services/audioService';
@@ -42,6 +42,8 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
   const [rollMode, setRollMode] = useState('normal'); // 'normal', 'advantage', 'disadvantage'
   const [characterName, setCharacterName] = useState('Operative');
 
+  const lastAutoRollIdRef = useRef(null);
+
   // Synchronize when diceConfig changes from an external trigger (stat/skill/offensive ability click)
   useEffect(() => {
     if (!diceConfig) return;
@@ -57,12 +59,22 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
     if (diceConfig.characterName) setCharacterName(diceConfig.characterName);
 
     // Compute expression from formula or base + ad-hoc modifier
-    if (diceConfig.expression) {
-      setCustomExpr(diceConfig.expression);
-    } else {
+    let expr = diceConfig.expression;
+    if (!expr) {
       const totalMod = bMod + aMod;
-      const expr = totalMod !== 0 ? `2d10${totalMod > 0 ? '+' : ''}${totalMod}` : '2d10';
-      setCustomExpr(expr);
+      expr = totalMod !== 0 ? `2d10${totalMod > 0 ? '+' : ''}${totalMod}` : '2d10';
+    }
+    setCustomExpr(expr);
+
+    // Auto-roll if requested and this roll event is fresh
+    if (diceConfig.autoRoll && diceConfig.rollId && diceConfig.rollId !== lastAutoRollIdRef.current) {
+      lastAutoRollIdRef.current = diceConfig.rollId;
+      handleRoll(expr, diceConfig.rollMode, {
+        ...diceConfig,
+        expression: expr,
+        baseModifier: bMod,
+        adHocModifier: aMod
+      });
     }
   }, [diceConfig]);
 
@@ -103,15 +115,22 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
     }
   };
 
-  const handleRoll = async (expr = customExpr, overrideMode = null) => {
-    const mode = overrideMode || rollMode;
-    const tn = targetNumber ? parseInt(targetNumber, 10) : null;
+  const handleRoll = async (expr = customExpr, overrideMode = null, overrideConfig = null) => {
+    const mode = overrideMode || overrideConfig?.rollMode || rollMode;
+    const tn = overrideConfig?.targetNumber !== undefined
+      ? (overrideConfig.targetNumber ? parseInt(overrideConfig.targetNumber, 10) : null)
+      : (targetNumber ? parseInt(targetNumber, 10) : null);
+    const cName = overrideConfig?.characterName || characterName || 'Operative';
+    const cLabel = overrideConfig?.label || checkLabel || (mode === 'advantage' ? 'Advantage ("I Got This")' : mode === 'disadvantage' ? 'Disadvantage (Negative Karma)' : 'Tactical Check');
+    const bMod = overrideConfig?.baseModifier !== undefined ? Number(overrideConfig.baseModifier) || 0 : baseModifier;
+    const aMod = overrideConfig?.adHocModifier !== undefined ? Number(overrideConfig.adHocModifier) || 0 : adHocModifier;
+
     const result = rollDice(expr, {
       targetNumber: tn,
       advantage: mode === 'advantage',
       disadvantage: mode === 'disadvantage',
-      characterName: characterName || 'Operative',
-      label: checkLabel || (mode === 'advantage' ? 'Advantage ("I Got This")' : mode === 'disadvantage' ? 'Disadvantage (Negative Karma)' : 'Tactical Check')
+      characterName: cName,
+      label: cLabel
     });
 
     AudioService.playDiceRollSound();
@@ -123,15 +142,15 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
 
     if (broadcastToChat && sendDiceRoll) {
       try {
-        const targetChan = selectedChannelId || activeChannelId;
+        const targetChan = overrideConfig?.targetChannelId || selectedChannelId || activeChannelId;
         await sendDiceRoll({
-          label: checkLabel,
+          label: cLabel,
           expression: result.expression,
           total: result.total,
           rolls: result.rolls.map(r => r.value),
           modifier: result.modifier,
-          adHocModifier: adHocModifier,
-          baseModifier: baseModifier,
+          adHocModifier: aMod,
+          baseModifier: bMod,
           isCritical: result.isCritSuccess,
           isFumble: result.isCritFail,
           isAdvantage: result.isAdvantage,

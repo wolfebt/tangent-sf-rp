@@ -36,6 +36,7 @@ import {
 import { DEATH_AND_DYING_RULES, EXPERIENCE_RULES } from '../engines/tangentConstants';
 import { executeRestCycle, resetDailyRests, getSpeciesRestProfile } from '../engines/tangentRestEngine';
 import { ALL_CANONICAL_SKILLS } from '../data/skillsData';
+import { createAttackFromWeapon, createArmorFromItem } from '../utils/combatUtils';
 
 const ATTR_NAME_TO_ID = {
   strength: 'attr-strength',
@@ -1202,12 +1203,18 @@ export const FolioProvider = ({ children }) => {
     // Optimistic local update
     setPersonaRoster(prev => {
       const idx = prev.findIndex(c => c['character-doc-id'] === docId);
+      let next;
       if (idx >= 0) {
-        const next = [...prev];
+        next = [...prev];
         next[idx] = updatedData;
-        return next;
+      } else {
+        next = [updatedData, ...prev];
       }
-      return [...prev, updatedData];
+      StorageService.setItem('personaRoster', next);
+      try {
+        localStorage.setItem('personaRoster', JSON.stringify(next));
+      } catch (e) {}
+      return next;
     });
 
     if (updatedData.isPublic) {
@@ -1217,7 +1224,8 @@ export const FolioProvider = ({ children }) => {
       });
     }
 
-    updateField('character-doc-id', docId);
+    characterDataRef.current = updatedData;
+    setCharacterData(updatedData);
 
     // Persist to Firestore
     if (user) {
@@ -1977,17 +1985,73 @@ export const FolioProvider = ({ children }) => {
     });
   }, []);
 
-  // Add Item Handler
-  // Add Item Handler
+  // Add Item Handler with automatic synchronization between Inventory and Active Combat
   const handleAddItem = useCallback((key, item) => {
     setCharacterData((prev) => {
       const currentList = Array.isArray(prev[key]) ? prev[key] : [];
-      return {
-        ...prev,
+      const updates = {
         [key]: [...currentList, item]
       };
+
+      // 1. Weaponry to Active Offensive Attacks synchronization
+      if (['weapons', 'weaponry', 'guns', 'melee'].includes(key)) {
+        const currentAttacks = Array.isArray(prev.attacks) ? [...prev.attacks] : [];
+        const itemName = (typeof item === 'object' ? (item.name || item.title) : String(item || '')).trim().toLowerCase();
+        const itemId = typeof item === 'object' ? item.id : null;
+        const alreadyInAttacks = currentAttacks.some(a => {
+          if (itemId && (a.weaponId === itemId || a.id === itemId || a.id === `atk_${itemId}`)) return true;
+          return itemName && (a.name || '').trim().toLowerCase() === itemName;
+        });
+
+        if (!alreadyInAttacks) {
+          const newAttack = createAttackFromWeapon(item, prev, getAttrTotal);
+          updates.attacks = [...currentAttacks, newAttack];
+        }
+      }
+
+      // 2. Armoring to Active Defensive Armor synchronization
+      if (['armoring', 'armor', 'defenses', 'shields'].includes(key)) {
+        const currentArmors = Array.isArray(prev.armor) ? [...prev.armor] : [];
+        const itemName = (typeof item === 'object' ? (item.name || item.title) : String(item || '')).trim().toLowerCase();
+        const itemId = typeof item === 'object' ? item.id : null;
+        const alreadyInArmor = currentArmors.some(a => {
+          if (itemId && (a.armorId === itemId || a.id === itemId || a.id === `armor_${itemId}`)) return true;
+          return itemName && (a.name || '').trim().toLowerCase() === itemName;
+        });
+
+        if (!alreadyInArmor) {
+          const newArmor = createArmorFromItem(item);
+          updates.armor = [...currentArmors, newArmor];
+        }
+      }
+
+      // 3. Attacks to Weaponry reverse synchronization
+      if (key === 'attacks') {
+        const currentWeapons = Array.isArray(prev.weapons) ? [...prev.weapons] : [];
+        const itemName = (typeof item === 'object' ? (item.name || item.title) : String(item || '')).trim().toLowerCase();
+        const alreadyInWeapons = currentWeapons.some(w => (w.name || w.title || '').trim().toLowerCase() === itemName);
+        if (!alreadyInWeapons && itemName) {
+          const newWeapon = {
+            id: (typeof item === 'object' && item.weaponId) ? item.weaponId : `weapon_${Date.now()}`,
+            name: typeof item === 'object' ? (item.name || 'Weapon') : String(item),
+            category: 'weaponry',
+            damage: typeof item === 'object' ? (item.damage || '') : '',
+            damage_type: typeof item === 'object' ? (item.type || '') : '',
+            score: typeof item === 'object' ? (item.score || '') : '',
+            notes: typeof item === 'object' ? (item.notes || '') : '',
+            cp: typeof item === 'object' ? (item.cp || 0) : 0,
+            qty: 1
+          };
+          updates.weapons = [...currentWeapons, newWeapon];
+        }
+      }
+
+      return {
+        ...prev,
+        ...updates
+      };
     });
-  }, []);
+  }, [getAttrTotal]);
 
   // Omnicortex DBM Cross-Module Item Importer: Add Item to Inventory
   const addItemToInventory = useCallback((item) => {
@@ -2216,15 +2280,42 @@ export const FolioProvider = ({ children }) => {
     const newName = window.prompt("Enter character name:", "Unnamed Operative");
     if (newName === null) return;
     const user = auth.currentUser;
+    const docId = `char_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
     const raw = {
       ...DEFAULT_CHARACTER,
       'char-name': newName || 'Unnamed Operative',
-      'character-doc-id': `char_${Date.now()}`
+      'character-doc-id': docId,
+      ownerUid: user ? user.uid : 'local',
+      updatedAt: new Date().toISOString()
     };
     const newChar = attachCreatorTag(raw, localStorage.getItem('userHandle'), user);
+    characterDataRef.current = newChar;
     setCharacterData(newChar);
-    StorageService.removeItem('personaFolioData');
-    sessionStorage.removeItem('personaFolioData');
+    setIsReadOnly(false);
+
+    StorageService.setItem('personaFolioData', newChar);
+    try {
+      sessionStorage.setItem('personaFolioData', JSON.stringify(newChar));
+      localStorage.setItem('personaFolioData', JSON.stringify(newChar));
+    } catch (e) {}
+
+    setPersonaRoster(prev => {
+      const next = [newChar, ...prev.filter(c => c['character-doc-id'] !== docId)];
+      StorageService.setItem('personaRoster', next);
+      try {
+        localStorage.setItem('personaRoster', JSON.stringify(next));
+      } catch (e) {}
+      return next;
+    });
+
+    if (user) {
+      try {
+        const docRef = doc(db, `users/${user.uid}/personas`, docId);
+        setDoc(docRef, newChar).catch(err => {
+          console.warn('Firestore new character save error:', err);
+        });
+      } catch (err) {}
+    }
   }, []);
 
   // Local Save JSON
@@ -2271,10 +2362,66 @@ export const FolioProvider = ({ children }) => {
   };
 
 
-  const applyGuidedCharacter = (draftData) => {
+  const applyGuidedCharacter = async (draftData) => {
     try {
-      const validatedData = characterSchema.parse(draftData);
+      const user = auth.currentUser;
+      const userHandle = typeof window !== 'undefined' ? localStorage.getItem('userHandle') : '';
+      const docId = draftData['character-doc-id'] || `char_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+
+      const fullData = attachCreatorTag({
+        ...DEFAULT_CHARACTER,
+        ...draftData,
+        'character-doc-id': docId,
+        ownerUid: user ? user.uid : 'local',
+        updatedAt: new Date().toISOString()
+      }, userHandle, user);
+
+      const validatedData = characterSchema.parse(fullData);
+
+      // Set active character in state and ref
+      characterDataRef.current = validatedData;
       setCharacterData(validatedData);
+      setIsReadOnly(false);
+
+      // Persist active character locally
+      StorageService.setItem('personaFolioData', validatedData);
+      try {
+        sessionStorage.setItem('personaFolioData', JSON.stringify(validatedData));
+        localStorage.setItem('personaFolioData', JSON.stringify(validatedData));
+      } catch (e) {}
+
+      // Add or update in persona roster state and local caches
+      setPersonaRoster(prev => {
+        const idx = prev.findIndex(c => c['character-doc-id'] === docId);
+        let updated;
+        if (idx >= 0) {
+          updated = [...prev];
+          updated[idx] = validatedData;
+        } else {
+          updated = [validatedData, ...prev];
+        }
+        StorageService.setItem('personaRoster', updated);
+        try {
+          localStorage.setItem('personaRoster', JSON.stringify(updated));
+        } catch (e) {}
+        return updated;
+      });
+
+      // Persist to Firestore if authenticated
+      if (user) {
+        try {
+          const docRef = doc(db, `users/${user.uid}/personas`, docId);
+          await setDoc(docRef, validatedData);
+          setCloudSaveStatus('saved');
+          setLastSavedTime(new Date());
+        } catch (err) {
+          console.warn('Failed to save guided character to Firestore:', err);
+          setCloudSaveStatus('error');
+        }
+      } else {
+        setCloudSaveStatus('offline');
+      }
+
       return true;
     } catch (err) {
       console.error("Invalid guided character data:", err);
