@@ -85,7 +85,7 @@ export const ComprehensiveUserGuideModal = ({ isOpen, onClose, initialTab = 'hub
             <div className="min-w-0">
               <div className="flex items-center gap-2">
                 <span className="text-[10px] font-mono font-bold uppercase tracking-widest px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-500/30">
-                  TANGENT SFF RP v2.0
+                  TANGENT SFF RP v2.5+
                 </span>
                 <span className="text-slate-600 hidden sm:inline">•</span>
                 <span className="text-xs text-slate-400 font-mono hidden sm:inline">OFFICIAL OPERATOR MANUAL</span>
@@ -307,8 +307,11 @@ const HubGuideSection = ({ onCopy, copiedSnippet }) => (
     <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-5 space-y-3">
       <h3 className="text-sm font-bold text-white uppercase tracking-wide font-mono flex items-center gap-2">
         <Zap size={16} className="text-amber-400" />
-        Persistent Global HUD Features
+        Persistent Global HUD (52px Ergonomics)
       </h3>
+      <p className="text-slate-300 text-xs leading-relaxed">
+        The standardized 52px HUD persists across all views, seamlessly bridging navigation between Operations Hub (<code className="text-cyan-300 font-mono">/</code>), Persona Folio (<code className="text-cyan-300 font-mono">/folio</code>), Compendium Suite (<code className="text-emerald-300 font-mono">/compendium</code>), Omnicortex DBM (<code className="text-teal-300 font-mono">/dbm</code>), Codex (<code className="text-amber-300 font-mono">/codex</code>), Tactical Stage VTT (<code className="text-sky-300 font-mono">/stage</code> / <code className="text-sky-300 font-mono">/vtt</code>), Story Foundry (<code className="text-purple-300 font-mono">/foundry</code>), and CommLink (<code className="text-blue-300 font-mono">/comms</code>).
+      </p>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
         <div className="bg-slate-950 p-3 rounded-lg border border-slate-800">
           <div className="text-cyan-300 font-bold font-mono uppercase mb-1">Omni-Search (`Ctrl+K`)</div>
@@ -316,11 +319,11 @@ const HubGuideSection = ({ onCopy, copiedSnippet }) => (
         </div>
         <div className="bg-slate-950 p-3 rounded-lg border border-slate-800">
           <div className="text-amber-300 font-bold font-mono uppercase mb-1">Dice Tray Dock (`Alt+D`)</div>
-          <p className="text-slate-400 text-[11px]">Collapsible polyhedral dice roller dock supporting complex expressions and in-chat broadcast.</p>
+          <p className="text-slate-400 text-[11px]">Global polyhedral dice dock powered by DiceContext with AST expression parsing and channel broadcasting.</p>
         </div>
         <div className="bg-slate-950 p-3 rounded-lg border border-slate-800">
-          <div className="text-emerald-300 font-bold font-mono uppercase mb-1">Sci-Fi Audio Synthesizer</div>
-          <p className="text-slate-400 text-[11px]">Procedural Web Audio API sound effects for button clicks, dice tumbles, and critical fanfares with mute toggle.</p>
+          <div className="text-emerald-300 font-bold font-mono uppercase mb-1">Comms Dock (`Alt+C`)</div>
+          <p className="text-slate-400 text-[11px]">Persistent sliding transmission tray for instant party chat, squad coordination, and verified dice cards.</p>
         </div>
       </div>
     </div>
@@ -338,7 +341,7 @@ const FolioGuideSection = () => (
         2. Persona Folio & Operative Sheet Architecture
       </h3>
       <p>
-        The <strong className="text-white">Persona Folio (`/folio`)</strong> is the official digital character manager and sheet engine for Tangent Science Fantasy. It implements the rigid <strong className="text-cyan-300">150 Character Point (CP)</strong> economy, automated derived vitals, 7 detailed tabs, a 31-field deep Narrative writer powered by Bastion AI, and cloud-synced roster management.
+        The <strong className="text-white">Persona Folio (`/folio`)</strong> is the official digital operative manager for Tangent Science Fantasy. Powered by an enterprise Hub-and-Spoke architecture, it enforces the strict <strong className="text-cyan-300">150 Build Point (BP)</strong> economy, automated derived vitals with universal tooltips, intelligent combat attack/defense derivation, and VTT state locking for live multiplayer games.
       </p>
     </div>
 
@@ -347,16 +350,16 @@ const FolioGuideSection = () => (
         💎 Character Point (CP/BP) Economy & Background Pools
       </h4>
       <ul className="list-disc pl-5 text-xs space-y-1 text-slate-300">
-        <li><strong>Starting Budget:</strong> Default <strong className="text-cyan-300 font-mono">150 BP/CP</strong>. GMs can adjust the budget limit in campaign settings.</li>
-        <li><strong>Three Dedicated 20 SP Pools:</strong> In addition to the 150 BP starting budget, characters receive <strong>20 Faction SP</strong>, <strong>20 Origin SP</strong>, and <strong>20 Occupation SP</strong> to assign to their background proficiencies.</li>
-        <li><strong>Legality Enforcement:</strong> When total expenditures exceed budget, the header displays a pulsating red <strong className="text-red-400 font-mono">ILLEGAL BUILD</strong> badge. Clicking the CP bar opens the complete line-item breakdown.</li>
-        <li><strong>CP Allocations:</strong> Core stats (5 BP / +1), check bonuses (1 BP / +1), skills, positive features, and augmentations cost CP. Flaws grant CP rebates.</li>
+        <li><strong>Starting Budget:</strong> Default <strong className="text-cyan-300 font-mono">150 BP/CP</strong>. GMs can customize this limit for high-powered campaigns.</li>
+        <li><strong>Three Dedicated 20 SP Pools:</strong> In addition to the 150 BP starting budget, characters receive <strong>20 Faction SP</strong>, <strong>20 Origin SP</strong>, and <strong>20 Occupation SP</strong> managed through dedicated dropdown selectors (<code className="text-cyan-300 font-mono">IdentityPoolPulldown.jsx</code>) to prevent pool dilution.</li>
+        <li><strong>Legality Enforcement:</strong> When total expenditures exceed budget, the header flashes an <strong className="text-red-400 font-mono">ILLEGAL BUILD</strong> badge. Clicking opens the full line-item ledger (<code className="text-cyan-300 font-mono">EconomyModal.jsx</code>).</li>
+        <li><strong>Point Allocations:</strong> Core stats (5 BP / +1), check bonuses (1 BP / +1), skills, perks, and augmentations cost points; hindrances grant rebates.</li>
       </ul>
     </div>
 
     <div className="space-y-3">
       <h4 className="text-white font-bold text-sm font-mono uppercase tracking-wider">
-        The 7 Folio Tabs Explained
+        The Folio Tabs & Hub-and-Spoke Architecture
       </h4>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
@@ -365,7 +368,7 @@ const FolioGuideSection = () => (
             <span>🪪</span> 1. IDENTITY TAB
           </div>
           <p className="text-slate-300 text-[11px]">
-            Operative name, species selection (with automated biological trait modifiers), origin archetype, background occupation, physical metrics (age, height, weight), portrait image URL/upload, and augmentation slots.
+            Operative name, portrait URL, species selection (with automated trait modifiers), origin archetype, background occupation, physical metrics, augmentation slots, and one-click <strong>Archetype 80 CP Chassis</strong> pre-builds (+3 Primary Attr, +2 Secondary Attr, core skills).
           </p>
         </div>
 
@@ -374,7 +377,7 @@ const FolioGuideSection = () => (
             <span>📊</span> 2. CORE STATS & DERIVED VITALS
           </div>
           <p className="text-slate-300 text-[11px]">
-            The 6 primary attributes (STR, AGI, STA, INT, WIS, CHA) and sub-attributes (Might, Reflex, Fortitude, Logic, Will, Etiquette). Automatically computes <strong className="text-white">Health (30 + Fortitude)</strong>, <strong className="text-white">Vitality (30 + Will)</strong>, Toughness (STA score), Defense value, and STR-based carry capacity.
+            The 6 primary attributes and sub-attributes. Features <strong>Universal FolioTooltips</strong> revealing exact formulas: <strong className="text-white">Health (30 + Fortitude)</strong>, <strong className="text-white">Vitality (30 + Will)</strong>, Toughness (STA score), Defense value, and STR-based carry capacity.
           </p>
         </div>
 
@@ -383,34 +386,52 @@ const FolioGuideSection = () => (
             <span>🎯</span> 3. SKILLS & SPECIALIZATIONS
           </div>
           <p className="text-slate-300 text-[11px]">
-            Trained proficiencies categorized across Combat, Tech, Social, Psionic, and Science. Tracks Ranks (<span className="text-slate-400 font-mono">Novice → Expert → Master → Legend</span>), linked attribute modifiers, and precision Specialization bonuses.
+            Categorized across Combat, Physical, Mental Knowledge, Mental Vocation, Social, and Metafocus. Tracks Ranks (<span className="text-slate-400 font-mono">Novice → Expert → Master → Legend</span>), linked attribute synergy bonuses, and specialized proficiencies.
           </p>
         </div>
 
         <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-3.5 space-y-1.5">
           <div className="font-bold text-purple-300 font-mono flex items-center gap-1.5">
-            <span>⚡</span> 4. ABILITIES, FEATURES & FLAWS
+            <span>✨</span> 4. FEATURES HUB VIEW
           </div>
           <p className="text-slate-300 text-[11px]">
-            Positive traits, species gifts, meta-tech powers, psychic disciplines, and hindrances. Includes custom ability builder and rulebook reference lookup.
+            Central command dashboard managing four dedicated sub-views: <strong className="text-white">Standard Features</strong> (perks/feats with CP tracking), <strong className="text-white">Metaphysics / Awakened</strong> (invocations), <strong className="text-white">Augmentations</strong> (cyberware/bioware with Stigma stepping), and <strong className="text-white">Hindrances</strong> (flaws with CP rebates).
           </p>
         </div>
 
         <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-3.5 space-y-1.5">
           <div className="font-bold text-red-300 font-mono flex items-center gap-1.5">
-            <span>⚔️</span> 5. COMBAT LOADOUT & GEAR
+            <span>⚔️</span> 5. ACTIVE COMBAT TAB
           </div>
           <p className="text-slate-300 text-[11px]">
-            Offensive weaponry (Damage formula, Rate of Fire, Range, Skill type, Ammo), defensive suits (Armor Resistance, Coverage areas), equipment inventory, and encumbrance tracking.
+            Powered by <strong>combatUtils.js</strong>. Automatically maps weapon inventory into active offensive attacks, dynamically deriving check bonuses (<code className="text-cyan-300 font-mono">Skill Rank + floor(Attr / 2)</code>) based on weapon keywords (Melee, Ballistic, Energy, Heavy), compiling tactical strike notes, and configuring armor DR suites.
+          </p>
+        </div>
+
+        <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-3.5 space-y-1.5">
+          <div className="font-bold text-sky-300 font-mono flex items-center gap-1.5">
+            <span>💼</span> 6. PROPERTY HUB VIEW
+          </div>
+          <p className="text-slate-300 text-[11px]">
+            Logistical command overview tracking total credit valuation and encumbrance across six sub-sections: <strong className="text-white">Weaponry</strong>, <strong className="text-white">Armoring</strong>, <strong className="text-white">Gear & Tools</strong>, <strong className="text-white">Mecha & Vehicles</strong>, <strong className="text-white">Architecture & Real Estate</strong>, and <strong className="text-white">Other Logistics</strong>.
           </p>
         </div>
 
         <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-3.5 space-y-1.5">
           <div className="font-bold text-blue-300 font-mono flex items-center gap-1.5">
-            <span>📝</span> 6. 31-FIELD NARRATIVE STORY WRITER
+            <span>📝</span> 7. 31-FIELD NARRATIVE STORY WRITER
           </div>
           <p className="text-slate-300 text-[11px]">
             Four sub-tabs (<strong className="text-white">Biography, Psychology, Factions, Logistics</strong>) with 31 distinct character fields and <strong>🤖 BASTION AI Auto-Writer</strong> to generate or refine rich backstory snippets in real-time.
+          </p>
+        </div>
+
+        <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-3.5 space-y-1.5">
+          <div className="font-bold text-slate-300 font-mono flex items-center gap-1.5">
+            <span>📁</span> 8. MISSION NOTES & LOGS
+          </div>
+          <p className="text-slate-300 text-[11px]">
+            Freeform field mission journals, starship share tracking, syndicates and NPC contacts, and custom debriefing logs.
           </p>
         </div>
       </div>
@@ -418,20 +439,20 @@ const FolioGuideSection = () => (
 
     <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-4 space-y-2">
       <h4 className="text-cyan-400 font-bold text-xs uppercase font-mono tracking-wider flex items-center gap-1.5">
-        🚀 Guided Creator Wizard, Persona Bridge & Roster Management
+        🚀 VTT State Locking, Guided Creator & Roster Management
       </h4>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
         <div className="bg-slate-950 p-3 rounded-lg border border-slate-800">
-          <div className="font-bold text-white mb-1">🧙 Guided Creator Wizard</div>
-          <p className="text-slate-400 text-[11px]">An 8-step walkthrough taking players from concept, species lineage, origin, occupation, attributes, and starting gear to a fully validated character sheet.</p>
+          <div className="font-bold text-amber-300 mb-1">🔒 VTT Active Game Locking</div>
+          <p className="text-slate-400 text-[11px]">Operators lock their sheet when joining a game session. This enables the GM/Architect to remotely stream XP/AP, Karma, status conditions, damage, and heals without player collision. Player emergency edits are tracked and flagged for GM review.</p>
         </div>
         <div className="bg-slate-950 p-3 rounded-lg border border-slate-800">
-          <div className="font-bold text-cyan-300 mb-1">🌉 Persona Bridge Sync</div>
-          <p className="text-slate-400 text-[11px]">Real-time synchronization utility linking Folio operative stats directly to Map Maker battlemap tokens and CommLink chat identities.</p>
+          <div className="font-bold text-cyan-300 mb-1">🧙 Guided Creator Wizard</div>
+          <p className="text-slate-400 text-[11px]">An 8-step wizard walking players through Concept, Species, Origin, Faction, Occupation, Attributes, Skills, and Gear to produce fully legal builds.</p>
         </div>
         <div className="bg-slate-950 p-3 rounded-lg border border-slate-800">
           <div className="font-bold text-emerald-300 mb-1">📇 Roster & Cloud Sync</div>
-          <p className="text-slate-400 text-[11px]">Store unlimited characters in your authenticated Google Cloud account, clone operatives, generate public read-only share links, or export standalone JSON files.</p>
+          <p className="text-slate-400 text-[11px]">Store unlimited characters in authenticated Google Cloud Firestore, clone operatives, duplicate sheets, generate public read-only URLs, or export standalone JSON files.</p>
         </div>
       </div>
     </div>
@@ -439,18 +460,38 @@ const FolioGuideSection = () => (
 );
 
 /* =========================================================================
-   3. OMNICORTEX DBM GUIDE
+   3. COMPENDIUM SUITE & OMNICORTEX DBM GUIDE
    ========================================================================= */
 const DbmGuideSection = () => (
   <div className="space-y-6">
     <div className="bg-slate-900/60 border border-emerald-500/30 rounded-2xl p-5 sm:p-6 space-y-3">
       <h3 className="text-base font-bold text-emerald-300 uppercase tracking-wide font-mono flex items-center gap-2">
         <Database size={18} />
-        3. Omnicortex Master Compendium & DBM Operations
+        3. Compendium Suite (`/compendium`) & Omnicortex DBM (`/dbm`)
       </h3>
       <p>
-        The <strong className="text-white">Omnicortex (`/dbm`)</strong> is the central relational rules codex and compendium of Tangent SFF RP. Organized into distinct architectural subdomains, it indexes all canon items, biological lineages, occupational backgrounds, combat arms, powers, and modifier tables with live search, relational selectors, and JSON portability.
+        The <strong className="text-white">Compendium Suite (`/compendium`)</strong> and <strong className="text-white">Omnicortex DBM (`/dbm`)</strong> form the definitive rules reference and relational database of Tangent SFF RP. It indexes 65+ comprehensive rules volumes and all canonical items, lineages, occupational backgrounds, weaponry, and invocations with instant multi-attribute search and client-side Semantic Vector RAG.
       </p>
+    </div>
+
+    <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-4 space-y-2">
+      <h4 className="text-emerald-400 font-bold text-xs uppercase font-mono tracking-wider flex items-center gap-1.5">
+        📚 Three Compendium Viewing Modes (`CompendiumApp.jsx`)
+      </h4>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800">
+          <div className="font-bold text-cyan-300 mb-1">📖 1. Rules Wiki (`rules`)</div>
+          <p className="text-slate-400 text-[11px]">Searchable reading of 65+ standardized compendium volumes covering Architect reference manuals, combat rules, metaphysics, and movement codices.</p>
+        </div>
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800">
+          <div className="font-bold text-emerald-300 mb-1">🗂️ 2. Omnicortex Catalog (`omnicortex`)</div>
+          <p className="text-slate-400 text-[11px]">Database browser for items, weaponry, armor, species, and traits with multi-filters for Category, Tech Level (TL0–TL5), Discipline, and BP cost.</p>
+        </div>
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800">
+          <div className="font-bold text-amber-300 mb-1">📑 3. Side-by-Side Split (`split`)</div>
+          <p className="text-slate-400 text-[11px]">Dual-pane layout displaying the Rules Wiki side-by-side with database catalogs for instant cross-referencing during game prep or tactical sessions.</p>
+        </div>
+      </div>
     </div>
 
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
@@ -464,7 +505,7 @@ const DbmGuideSection = () => (
         { cat: 'Invocations', icon: '✨', desc: 'Disciplines (Energy, Entropy, Matter, Mental, Dimension, Illusion).' },
         { cat: 'Occupations & Origins', icon: '💼', desc: 'Career backgrounds, homeworld habitats & starting packages.' },
         { cat: 'Species & Lineages', icon: '🧬', desc: 'Biological species profiles, synthetic chassis & alien types.' },
-        { cat: 'Traits & Disadvantages', icon: '⚡', desc: 'Granular species traits (Basic, Advanced, Elite) & flaw rebates.' },
+        { cat: 'Standardized Traits', icon: '⚡', desc: '150+ granular trait markdown files (Basic, Advanced, Elite).' },
         { cat: 'Rules & Compendium', icon: '📜', desc: 'Core mechanics, combat systems, movement & advancement manuals.' },
         { cat: 'Prerequisites & Modifiers', icon: '🔑', desc: 'Requirement ladders and global combat condition modifiers.' },
       ].map(c => (
@@ -480,11 +521,10 @@ const DbmGuideSection = () => (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
       <div className="bg-slate-900/60 border border-cyan-500/30 rounded-xl p-4 space-y-2">
         <h4 className="text-cyan-300 font-bold uppercase font-mono tracking-wider">
-          🛡️ Game Mode vs. ⚙️ Architect Dev Mode
+          🔍 Client-Side Semantic Vector RAG (`omnicortexVectorRag.ts`)
         </h4>
         <p className="text-slate-300 text-[11px]">
-          <strong>Game Mode (Read-Only):</strong> Streamlined view for fast reference during live game sessions. Prevents accidental record modifications.<br />
-          <strong>Architect Dev Mode:</strong> Unlocks direct item editing, schema customization, field additions, and entry creation for Game Masters and Administrators.
+          Generates semantic embeddings over rules and items directly in the browser. Powers <strong>BASTION AI</strong> with grounded, verifiable citations to answer complex mechanics questions with zero hallucination.
         </p>
       </div>
 
@@ -781,18 +821,50 @@ const StoryFoundryGuideSection = () => (
 );
 
 /* =========================================================================
-   6. TACTICAL MAP MAKER & VTT GUIDE
+   6. TACTICAL MAP MAKER & NEXT-GEN VTT SIMULATION ENGINE GUIDE
    ========================================================================= */
 const MapMakerGuideSection = () => (
   <div className="space-y-6">
     <div className="bg-slate-900/60 border border-cyan-500/30 rounded-2xl p-5 sm:p-6 space-y-3">
       <h3 className="text-base font-bold text-cyan-300 uppercase tracking-wide font-mono flex items-center gap-2">
         <Map size={18} />
-        6. Tactical Map Maker & Virtual Tabletop (VTT)
+        6. Tactical Map Maker (`/foundry/map-maker`) & Next-Gen VTT Simulation Engine (`/stage` / `/vtt`)
       </h3>
       <p>
-        The <strong className="text-white">Tactical Map Maker (`/foundry/map-maker`)</strong> is a high-performance battlemap canvas powered by React Konva for spatial tactical combat, regional overland maps, token summoning, fog-of-war, initiative tracking, and real-time player spectator broadcasting.
+        Tangent SFF RP features a dual Virtual Tabletop ecosystem: the rapid-authoring <strong className="text-white">Tactical Map Maker (`/foundry/map-maker`)</strong> powered by React Konva and the enterprise <strong className="text-white">Next-Gen Simulation Engine (`/stage` / `/vtt`)</strong> driven by WebGPU shaders, dynamic particle physics, LiveKit WebRTC, and CRDT synchronization.
       </p>
+    </div>
+
+    <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-4 space-y-3">
+      <h4 className="text-cyan-400 font-bold text-xs uppercase font-mono tracking-wider flex items-center gap-1.5">
+        ⚡ Next-Gen Engine Architecture (Stages 1–6 at `/stage`)
+      </h4>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+          <div className="font-bold text-cyan-300 font-mono">1. Coordinate Engine</div>
+          <p className="text-slate-400 text-[11px]">Native math projection for Square (5ft), Pointy/Flat Hex, Isometric, and Geodesic spherical planetary grids (<code className="text-cyan-400 font-mono">CoordinateEngine.ts</code>).</p>
+        </div>
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+          <div className="font-bold text-emerald-300 font-mono">2. WebGPU Renderer</div>
+          <p className="text-slate-400 text-[11px]">Hardware-accelerated viewport rendering with frustum chunking (<code className="text-emerald-400 font-mono">FrustumChunkManager.ts</code>), multi-layer compositing, and canvas fallback.</p>
+        </div>
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+          <div className="font-bold text-amber-300 font-mono">3. WGSL Compute Vision</div>
+          <p className="text-slate-400 text-[11px]">Bounding Volume Hierarchy (<code className="text-amber-400 font-mono">BVHBuilder.ts</code>) powering real-time Raycast Line-of-Sight and Signed Distance Field CSG Fog of War.</p>
+        </div>
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+          <div className="font-bold text-purple-300 font-mono">4. Hazard Particle Physics</div>
+          <p className="text-slate-400 text-[11px]">Dynamic compute simulation of spreading fire, toxic gases, radiation leaks, vacuum decompression venting, and ambient boids flocking.</p>
+        </div>
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+          <div className="font-bold text-blue-300 font-mono">5. LiveKit & Yjs Sync</div>
+          <p className="text-slate-400 text-[11px]">Distance-attenuated spatial WebRTC audio/video (<code className="text-blue-400 font-mono">LiveKitClient.ts</code>) paired with Yjs CRDT shared state and sub-ms volatile cursor sharding.</p>
+        </div>
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+          <div className="font-bold text-pink-300 font-mono">6. Procedural Astrogation</div>
+          <p className="text-slate-400 text-[11px]">Generates procedural star systems, planetary orbits, and BSP modular starship deckplans with sandboxed QuickJS script triggers.</p>
+        </div>
+      </div>
     </div>
 
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
@@ -822,8 +894,8 @@ const MapMakerGuideSection = () => (
       </div>
 
       <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-3.5 space-y-1">
-        <div className="font-bold text-pink-300 font-mono uppercase">💎 Status Gems & Fog of War</div>
-        <p className="text-slate-400 text-[11px]">Attach visual condition gems (Stunned, Burning, Concealed, Exhausted) to token bases, with paintable fog-of-war to shroud unexplored rooms.</p>
+        <div className="font-bold text-pink-300 font-mono uppercase">💎 Status Gems & Spectator View</div>
+        <p className="text-slate-400 text-[11px]">Attach visual condition gems to token bases. Project a clean player-facing feed via <code className="text-pink-300 font-mono">/spectator/:mapId</code> hiding GM secret layers.</p>
       </div>
     </div>
   </div>
@@ -911,11 +983,31 @@ const UtilitiesGuideSection = () => (
     <div className="bg-slate-900/60 border border-yellow-500/30 rounded-2xl p-5 sm:p-6 space-y-3">
       <h3 className="text-base font-bold text-yellow-300 uppercase tracking-wide font-mono flex items-center gap-2">
         <Dices size={18} />
-        9. Global Utilities, Hotkeys & Audio Synthesizer
+        9. Global Dice Architecture, AST Parser & System Hotkeys
       </h3>
       <p>
-        Tangent SFF RP is engineered with global ergonomic docks, zero-dependency procedural audio synthesis, spotlight omni-search, and high-speed keyboard shortcuts accessible on all routes.
+        Tangent SFF RP is engineered with a centralized <strong className="text-white">DiceContext</strong>, an enterprise <strong className="text-white">Abstract Syntax Tree (AST) Dice Parser (`DiceASTParser.ts`)</strong>, zero-dependency procedural Web Audio synthesis, spotlight omni-search, and high-speed keyboard shortcuts accessible on all routes.
       </p>
+    </div>
+
+    <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-5 space-y-3">
+      <h4 className="text-amber-400 font-bold text-xs uppercase font-mono tracking-wider flex items-center gap-1.5">
+        🎲 AST Dice Formula Expression Engine (`DiceASTParser.ts`)
+      </h4>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+          <div className="font-bold text-cyan-300 font-mono">Standard Polyhedrals</div>
+          <p className="text-slate-400 text-[11px]">Supports one-click or typed formulas: <code className="text-cyan-300 font-mono">2d10+5</code>, <code className="text-cyan-300 font-mono">4d6-2</code>, <code className="text-cyan-300 font-mono">1d100</code> with arithmetic evaluation.</p>
+        </div>
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+          <div className="font-bold text-amber-300 font-mono">Keep & Explode (`k` / `!`)</div>
+          <p className="text-slate-400 text-[11px]">Keep highest or lowest dice (<code className="text-amber-300 font-mono">4d6k3</code>) and exploding maximum rolls (<code className="text-amber-300 font-mono">1d10!</code>) for dramatic critical hits.</p>
+        </div>
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+          <div className="font-bold text-emerald-300 font-mono">Advantage / Disadvantage</div>
+          <p className="text-slate-400 text-[11px]">Toggle Advantage or Disadvantage with automated higher/lower selection and instant broadcast to squad chat and VTT logs.</p>
+        </div>
+      </div>
     </div>
 
     <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-5 space-y-3">
@@ -939,7 +1031,7 @@ const UtilitiesGuideSection = () => (
             </tr>
             <tr>
               <td className="py-2"><kbd className="px-2 py-0.5 bg-slate-800 text-amber-300 rounded border border-slate-700">Alt + D</kbd></td>
-              <td>Toggle Floating Polyhedral Dice Roller Dock</td>
+              <td>Toggle Centralized Polyhedral Dice Roller Dock (AST Parser)</td>
               <td>Global</td>
             </tr>
             <tr>
@@ -1462,6 +1554,53 @@ const RulesGuideSection = () => (
             </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+
+    {/* Section 10: The Metaphysics Triad & Invocations Engine */}
+    <div className="bg-slate-900/50 border border-cyan-900/50 rounded-xl p-4 sm:p-5 space-y-4">
+      <div className="flex justify-between items-center border-b border-slate-800 pb-2">
+        <h4 className="text-purple-400 font-bold uppercase font-mono tracking-wider text-xs flex items-center gap-2">
+          <span>🔮</span> The Metaphysics Triad & Invocations Engine (`metaphysicsUtils.js`)
+        </h4>
+        <span className="text-[10px] font-mono text-purple-300 font-semibold">
+          Attunement → Disciplines → Invocations
+        </span>
+      </div>
+
+      <p className="text-slate-300 text-xs leading-relaxed">
+        Metaphysics operates via a codified three-tier hierarchy: <strong className="text-cyan-300">Attunement</strong> determines baseline channeling capacity, <strong className="text-purple-300">Disciplines</strong> govern specific mastery domains, and <strong className="text-amber-300">Invocations</strong> define discrete manifestation parameters (Cast DC, Essence cost, AOE template, Duration).
+      </p>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 text-xs">
+        {[
+          { name: 'Dimension', sub: 'Summoning, Teleport', skill: 'meta-summoning', desc: 'Rift gateways, phase shifting, portal anchoring, spatial dilation.' },
+          { name: 'Energy', sub: 'Elemental, Force', skill: 'meta-elemental', desc: 'Plasma projection, kinetic shielding, arc lighting, thermodynamic shifts.' },
+          { name: 'Entropy', sub: 'Chaos, Order', skill: 'meta-chaos', desc: 'Decay acceleration, temporal stasis, probability distortion, life transfer.' },
+          { name: 'Illusion', sub: 'Phantasm, Shadow', skill: 'meta-phantasm', desc: 'Holographic sensory fabrication, shadow cloaking, phantom terrors.' },
+          { name: 'Matter', sub: 'Enhancement, Transmutation', skill: 'meta-enhancement', desc: 'Molecular restructuring, flesh crafting, telekinetic density hardening.' },
+          { name: 'Mental', sub: 'Projection, Sense', skill: 'meta-projection', desc: 'Telepathic relays, neural shockwaves, machine spirit interfacing.' },
+        ].map(d => (
+          <div key={d.name} className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+            <div className="flex justify-between items-center">
+              <span className="font-bold text-white font-mono">{d.name}</span>
+              <span className="text-[10px] px-1.5 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-800 font-mono">
+                {d.skill}
+              </span>
+            </div>
+            <div className="text-[10px] font-mono text-cyan-300">Sub-Skills: {d.sub}</div>
+            <p className="text-slate-400 text-[10.5px] leading-relaxed">{d.desc}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="bg-slate-950/80 p-3 rounded-lg border border-purple-900/40 space-y-1 text-xs">
+        <div className="text-[11px] font-bold text-slate-200 uppercase font-mono">
+          ⚡ Composite Invocations Matrix Resolver
+        </div>
+        <p className="text-[11px] text-slate-400">
+          Complex multi-discipline invocations (e.g., <em className="text-amber-300">Accelerated Decay</em>, <em className="text-cyan-300">Construct Intelligence</em>, <em className="text-emerald-300">Flesh Crafting</em>, <em className="text-purple-300">Shadow Step Assault</em>, <em className="text-sky-300">Spatial Labyrinth</em>) are automatically mapped by <code className="text-cyan-300 font-mono">metaphysicsUtils.js</code> to their primary requisite meta-skills and disciplines for seamless roll resolution.
+        </p>
       </div>
     </div>
   </div>
