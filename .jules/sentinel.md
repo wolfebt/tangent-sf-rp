@@ -1,0 +1,1 @@
+- Secure Firestore Shared Collections: For shared collections where creation is allowed, write rules must check the creator's email/UID against the document properties instead of simply `isAuthenticated()`, and ensure `isAdmin()` overrides where admins can perform actions without being the document owner. Ownership is best checked by email (`ownerEmail`) due to handle mutability.
