@@ -3,6 +3,7 @@ import { useFolio } from '../../../context/FolioContext';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { Sparkles, AlertTriangle, Cpu, Zap, Plus, Edit3, Trash2, Check, Lock, BookOpen } from 'lucide-react';
 import { METAPHYSICAL_DISCIPLINES } from '../../../data/skillsData';
+import FolioTooltip from '../shared/FolioTooltip';
 
 export const FeaturesTab = ({ 
   onOpenSelectorModal, 
@@ -549,6 +550,13 @@ export const FeaturesTab = ({
                           : ((typeof item === 'object' && item.bp !== undefined) ? item.bp : 3);
                         const cpCostDisplay = isSpeciesGranted ? `0 [${standalone}] CP` : `${typeof item === 'object' && item.cp !== undefined ? item.cp : 3} CP`;
                         const desc = typeof item === 'object' ? (item.description || item.mechanic || item.summary || '') : '';
+                        const featCategory = typeof item === 'object' ? (item.category || item.type || group.type || 'Feature') : (group.type || 'Feature');
+                        const featPrereq = typeof item === 'object' ? (item.prerequisites || item.prereq || '') : '';
+                        const featMechanic = typeof item === 'object' ? (item.mechanic || '') : '';
+                        const featBadgeColor = featCategory.toLowerCase().includes('combat') ? 'rose' :
+                          featCategory.toLowerCase().includes('ability') ? 'amber' :
+                          featCategory.toLowerCase().includes('karma') ? 'purple' :
+                          featCategory.toLowerCase().includes('skill') ? 'emerald' : 'cyan';
 
                         return (
                           <div
@@ -557,9 +565,25 @@ export const FeaturesTab = ({
                           >
                             <div>
                               <div className="flex items-start justify-between gap-1.5 mb-1">
-                                <h4 className="font-semibold text-xs text-slate-100 leading-snug pr-1">
-                                  {name}
-                                </h4>
+                                <FolioTooltip
+                                  title={name}
+                                  badge={featCategory}
+                                  badgeColor={featBadgeColor}
+                                  description={desc || 'Operative feature.'}
+                                  formula={featMechanic || undefined}
+                                  prerequisites={featPrereq || undefined}
+                                  cost={cpCostDisplay}
+                                  tags={[
+                                    typeof item === 'object' && item.is_ranked ? 'Ranked' : null,
+                                    typeof item === 'object' && item.is_multiple ? 'Multiple' : null,
+                                    isSpeciesGranted ? 'Species Inherent' : null
+                                  ].filter(Boolean)}
+                                  showInfoIcon={true}
+                                >
+                                  <h4 className="font-semibold text-xs text-slate-100 hover:text-cyan-300 leading-snug pr-1 transition-colors">
+                                    {name}
+                                  </h4>
+                                </FolioTooltip>
                                 <span className={`shrink-0 px-1.5 py-0.5 text-[10px] font-mono font-bold rounded ${
                                   isSpeciesGranted 
                                     ? 'text-cyan-300 bg-cyan-950/80 border border-cyan-500/50 shadow-sm'
@@ -665,14 +689,25 @@ export const FeaturesTab = ({
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex items-center gap-2">
                         <span className="text-xl">{disc.icon}</span>
-                        <div>
-                          <h4 className="font-bold text-xs text-slate-100 uppercase tracking-wide">
-                            {disc.name}
-                          </h4>
-                          <span className="text-[10px] font-mono text-purple-300/80">
-                            3 CP Feature
-                          </span>
-                        </div>
+                        <FolioTooltip
+                          title={`Awakened: ${disc.name}`}
+                          badge="Metaphysics Discipline"
+                          badgeColor="purple"
+                          description={disc.description}
+                          formula={`Unlocks skills: ${pairedSkillNames} & Attune`}
+                          cost="3 CP"
+                          tags={['Metaphysics', 'Code Resonance', 'Void Channeling']}
+                          showInfoIcon={true}
+                        >
+                          <div>
+                            <h4 className="font-bold text-xs text-slate-100 uppercase tracking-wide hover:text-purple-300 transition-colors">
+                              {disc.name}
+                            </h4>
+                            <span className="text-[10px] font-mono text-purple-300/80">
+                              3 CP Feature
+                            </span>
+                          </div>
+                        </FolioTooltip>
                       </div>
 
                       <span
@@ -795,9 +830,19 @@ export const FeaturesTab = ({
                   >
                     <div>
                       <div className="flex items-start justify-between gap-1.5 mb-1">
-                        <h4 className="font-semibold text-xs text-slate-100 leading-snug pr-1">
-                          {name}
-                        </h4>
+                        <FolioTooltip
+                          title={name}
+                          badge={location || 'Augmentation'}
+                          badgeColor="amber"
+                          description={desc || 'Prosthetic hardware, neural cyberware, or bio-mod implant.'}
+                          cost={`${cpCost} CP`}
+                          tags={['Augmentation', location]}
+                          showInfoIcon={true}
+                        >
+                          <h4 className="font-semibold text-xs text-slate-100 hover:text-amber-300 leading-snug pr-1 transition-colors cursor-help">
+                            {name}
+                          </h4>
+                        </FolioTooltip>
                         <span className="shrink-0 px-1.5 py-0.5 text-[10px] font-mono font-bold text-amber-300 bg-amber-950/80 border border-amber-800/80 rounded">
                           {cpCost} CP
                         </span>
@@ -922,9 +967,19 @@ export const FeaturesTab = ({
                           >
                             <div>
                               <div className="flex items-start justify-between gap-1.5 mb-1">
-                                <h4 className="font-semibold text-xs text-slate-100 leading-snug pr-1">
-                                  {name}
-                                </h4>
+                                <FolioTooltip
+                                  title={name}
+                                  badge={group.type || 'Hindrance'}
+                                  badgeColor="rose"
+                                  description={desc || 'Operative handicap, social flaw, or physical penalty.'}
+                                  cost={`-${refundCp} CP Refund`}
+                                  tags={['Hindrance', 'CP Refund']}
+                                  showInfoIcon={true}
+                                >
+                                  <h4 className="font-semibold text-xs text-slate-100 hover:text-rose-300 leading-snug pr-1 transition-colors cursor-help">
+                                    {name}
+                                  </h4>
+                                </FolioTooltip>
                                 <span className="shrink-0 px-1.5 py-0.5 text-[10px] font-mono font-bold text-emerald-400 bg-slate-900 border border-slate-700/80 rounded">
                                   -{refundCp} CP
                                 </span>

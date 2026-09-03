@@ -28,6 +28,7 @@ export const DEFAULT_SKILLS = {
       title: 'Knowledges',
       skills: [
         { name: 'Appraisal', id: 'mental-appraisal', group: 'mental', baseAttr: 'attr-intellect', description: 'Assessing the monetary, historical, or technological value of goods.' },
+        { name: 'Arcane', id: 'mental-arcane', group: 'mental', baseAttr: 'attr-intellect', description: 'Arcane theory, esoteric lore, magical traditions, runes, and occult phenomena.' },
         { name: 'Business', id: 'mental-business', group: 'mental', baseAttr: 'attr-intellect', description: 'Commerce, corporate finance, market economics, and enterprise management.' },
         { name: 'Computers', id: 'mental-computers', group: 'mental', baseAttr: 'attr-intellect', description: 'Hacking, programming, software engineering, and computer system security.' },
         { name: 'Culture', id: 'mental-culture', group: 'mental', baseAttr: 'attr-intellect', description: 'Customs, languages, etiquette, and social structures of diverse species and worlds.' },

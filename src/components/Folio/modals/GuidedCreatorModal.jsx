@@ -371,7 +371,7 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
       if (t.id) traitDetailMap.set(t.id.toLowerCase(), t);
     });
 
-    const addTraitsFromPool = (pool, categoryLabel) => {
+    const addTraitsFromPool = (pool, categoryLabel, isGranted = true, source = 'general') => {
       (pool?.traits || []).forEach(tName => {
         const cleanName = typeof tName === 'object' ? (tName.name || tName.id) : String(tName);
         if (!combinedTraitsMap.has(cleanName)) {
@@ -383,18 +383,23 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
             trait_type: detail.trait_type || categoryLabel,
             trait_tier: detail.trait_tier || detail.tier || 'Basic',
             classification: detail.classification || 'Physical',
+            source,
             description: detail.description || detail.desc || detail.mechanics || '',
-            bp: detail.bp !== undefined ? detail.bp : 1
+            bp: isGranted ? 0 : (detail.bp !== undefined ? detail.bp : 1),
+            standaloneBp: detail.bp !== undefined ? detail.bp : 1,
+            cp: isGranted ? 0 : (detail.cp !== undefined ? detail.cp : 1),
+            standaloneCp: detail.cp !== undefined ? detail.cp : 1,
+            isGranted
           });
         }
       });
     };
 
-    addTraitsFromPool(draft.speciesAllocations, 'Species Trait');
-    addTraitsFromPool(draft.originAllocations, 'Origin Trait');
-    addTraitsFromPool(draft.factionAllocations, 'Faction Trait');
-    addTraitsFromPool(draft.occuAllocations, 'Occupation Trait');
-    addTraitsFromPool(draft.generalAllocations, 'General Trait');
+    addTraitsFromPool(draft.speciesAllocations, 'Species Trait', true, 'species');
+    addTraitsFromPool(draft.originAllocations, 'Origin Trait', true, 'origin');
+    addTraitsFromPool(draft.factionAllocations, 'Faction Trait', true, 'faction');
+    addTraitsFromPool(draft.occuAllocations, 'Occupation Trait', true, 'occupation');
+    addTraitsFromPool(draft.generalAllocations, 'General Trait', false, 'general');
 
     // Add Inherent Species Traits if present
     if (selectedSpeciesObj && Array.isArray(selectedSpeciesObj.inherent_features)) {
@@ -425,7 +430,7 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
       if (f.id) featDetailMap.set(f.id.toLowerCase(), f);
     });
 
-    const addFeatsFromPool = (pool, categoryLabel) => {
+    const addFeatsFromPool = (pool, categoryLabel, isGranted = true, source = 'general') => {
       (pool?.features || []).forEach(fName => {
         const cleanName = typeof fName === 'object' ? (fName.name || fName.id) : String(fName);
         if (!combinedFeaturesMap.has(cleanName)) {
@@ -434,19 +439,22 @@ const GuidedCreatorModal = ({ isOpen, onClose }) => {
             id: detail.id || `feat_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
             name: cleanName,
             category: detail.category || categoryLabel,
+            source,
             description: detail.description || '',
             mechanic: detail.mechanic || '',
-            cp: detail.cp !== undefined ? detail.cp : 3
+            cp: isGranted ? 0 : (detail.cp !== undefined ? detail.cp : 3),
+            standaloneCp: detail.cp !== undefined ? detail.cp : 3,
+            isGranted
           });
         }
       });
     };
 
-    addFeatsFromPool(draft.speciesAllocations, 'Species Feature');
-    addFeatsFromPool(draft.originAllocations, 'Origin Feature');
-    addFeatsFromPool(draft.factionAllocations, 'Faction Feature');
-    addFeatsFromPool(draft.occuAllocations, 'Occupation Feature');
-    addFeatsFromPool(draft.generalAllocations, 'General Feature');
+    addFeatsFromPool(draft.speciesAllocations, 'Species Feature', true, 'species');
+    addFeatsFromPool(draft.originAllocations, 'Origin Feature', true, 'origin');
+    addFeatsFromPool(draft.factionAllocations, 'Faction Feature', true, 'faction');
+    addFeatsFromPool(draft.occuAllocations, 'Occupation Feature', true, 'occupation');
+    addFeatsFromPool(draft.generalAllocations, 'General Feature', false, 'general');
 
     const finalFeaturesList = Array.from(combinedFeaturesMap.values());
 

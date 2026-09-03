@@ -30,7 +30,8 @@ import {
   resolveCatalogItem,
   calculateFullSpeciesCost,
   getSpeciesComponentDataset,
-  formatGrantedCost
+  formatGrantedCost,
+  computeEconomyBreakdown
 } from '../engines/tangentEntityEngines';
 import { DEATH_AND_DYING_RULES, EXPERIENCE_RULES } from '../engines/tangentConstants';
 import { executeRestCycle, resetDailyRests, getSpeciesRestProfile } from '../engines/tangentRestEngine';
@@ -72,6 +73,13 @@ export const SUB_TO_PRIMARY_ATTR = {
   'attr-will': 'attr-wisdom',
   'attr-willpower': 'attr-wisdom',
   'attr-etiquette': 'attr-charisma'
+};
+
+export const normalizeTraitName = (trait) => {
+  if (!trait) return '';
+  const raw = typeof trait === 'object' ? (trait.name || trait.title || trait.id || '') : String(trait);
+  const cleaned = raw.replace(/^(trait|feature|hindrance|disadvantage)-/i, '').replace(/[-_]/g, ' ').trim();
+  return cleaned.replace(/\b\w/g, c => c.toUpperCase());
 };
 
 const FolioContext = createContext(null);
@@ -165,6 +173,78 @@ export const isFolioPersonaDeleted = (docId, tombstones = null) => {
   return new Set(list).has(docId.toString().trim());
 };
 
+// Clean up and migrate legacy compound or phantom category skill keys
+export const sanitizeCharacterSkills = (charData) => {
+  if (!charData || typeof charData !== 'object') return charData;
+  const result = { ...charData };
+
+  // Phantom category header keys to remove
+  const PHANTOM_KEYS = [
+    'skill-knowledge-rank', 'skill-knowledge-name', 'skill-knowledge-base', 'skill-knowledge-mod', 'skill-knowledge-group', 'skill-knowledge-subcategory',
+    'skill-knowledges-rank', 'skill-knowledges-name', 'skill-knowledges-base', 'skill-knowledges-mod', 'skill-knowledges-group', 'skill-knowledges-subcategory',
+    'skill-vocation-rank', 'skill-vocation-name', 'skill-vocation-base', 'skill-vocation-mod', 'skill-vocation-group', 'skill-vocation-subcategory',
+    'skill-vocations-rank', 'skill-vocations-name', 'skill-vocations-base', 'skill-vocations-mod', 'skill-vocations-group', 'skill-vocations-subcategory',
+    'skill-discipline-rank', 'skill-discipline-name', 'skill-discipline-base', 'skill-discipline-mod', 'skill-discipline-group', 'skill-discipline-subcategory',
+    'skill-disciplines-rank', 'skill-disciplines-name', 'skill-disciplines-base', 'skill-disciplines-mod', 'skill-disciplines-group', 'skill-disciplines-subcategory',
+    'skill-metafocus-rank', 'skill-metafocus-name', 'skill-metafocus-base', 'skill-metafocus-mod', 'skill-metafocus-group', 'skill-metafocus-subcategory',
+    'skill-mind-rank', 'skill-mind-name', 'skill-mind-base', 'skill-mind-mod', 'skill-mind-group', 'skill-mind-subcategory',
+    'skill-energy-rank', 'skill-energy-name', 'skill-energy-base', 'skill-energy-mod', 'skill-energy-group', 'skill-energy-subcategory',
+    'skill-entropy-rank', 'skill-entropy-name', 'skill-entropy-base', 'skill-entropy-mod', 'skill-entropy-group', 'skill-entropy-subcategory',
+    'skill-matter-rank', 'skill-matter-name', 'skill-matter-base', 'skill-matter-mod', 'skill-matter-group', 'skill-matter-subcategory',
+    'skill-dimension-rank', 'skill-dimension-name', 'skill-dimension-base', 'skill-dimension-mod', 'skill-dimension-group', 'skill-dimension-subcategory',
+    'skill-illusion-rank', 'skill-illusion-name', 'skill-illusion-base', 'skill-illusion-mod', 'skill-illusion-group', 'skill-illusion-subcategory',
+  ];
+
+  PHANTOM_KEYS.forEach(k => {
+    delete result[k];
+  });
+
+  // Check all keys in result for legacy compound keys like skill-knowledge-*-rank or skill-vocation-*-rank
+  Object.keys(result).forEach(key => {
+    if (key.startsWith('skill-') && key.endsWith('-rank')) {
+      const rawId = key.replace('skill-', '').replace('-rank', '');
+      
+      // Match against canonical skills if it starts with knowledge- or vocation-
+      if (rawId.startsWith('knowledge-') || rawId.startsWith('vocation-')) {
+        const innerName = rawId.replace(/^(knowledge|vocation)-/, '');
+        const canon = ALL_CANONICAL_SKILLS.find(s => {
+          const n = (s.name || '').toLowerCase();
+          const clean = n.replace(/[^a-z0-9]/g, '');
+          const idClean = (s.id || '').replace(/^[a-z]+-/, '').replace(/[^a-z0-9]/g, '');
+          const innerClean = innerName.replace(/[^a-z0-9]/g, '');
+          return clean === innerClean || idClean === innerClean;
+        });
+
+        if (canon) {
+          const rankVal = parseInt(result[key], 10) || 0;
+          const targetCanonRankKey = `skill-${canon.id}-rank`;
+          const targetCanonNameKey = `skill-${canon.id}-name`;
+          const targetCanonBaseKey = `skill-${canon.id}-base`;
+          const targetCanonGroupKey = `skill-${canon.id}-group`;
+          const targetCanonSubKey = `skill-${canon.id}-subcategory`;
+
+          if (rankVal > 0) {
+            result[targetCanonRankKey] = Math.max(result[targetCanonRankKey] || 0, rankVal);
+            result[targetCanonNameKey] = canon.name;
+            result[targetCanonBaseKey] = canon.baseAttr;
+            result[targetCanonGroupKey] = canon.group;
+            result[targetCanonSubKey] = canon.subcategory;
+          }
+          // Remove compound knowledge/vocation key
+          delete result[key];
+          delete result[`skill-${rawId}-name`];
+          delete result[`skill-${rawId}-base`];
+          delete result[`skill-${rawId}-group`];
+          delete result[`skill-${rawId}-subcategory`];
+          delete result[`skill-${rawId}-mod`];
+        }
+      }
+    }
+  });
+
+  return result;
+};
+
 export const FolioProvider = ({ children }) => {
   // Master Character Form State initialized from localStorage/sessionStorage if available
   const [characterData, setCharacterData] = useState(() => {
@@ -174,7 +254,7 @@ export const FolioProvider = ({ children }) => {
       if (saved) {
         const parsed = characterSchema.parse(JSON.parse(saved));
         if (!isFolioPersonaDeleted(parsed['character-doc-id'], tombstones)) {
-          return parsed;
+          return sanitizeCharacterSkills(parsed);
         }
       }
     } catch (e) {
@@ -1153,7 +1233,7 @@ export const FolioProvider = ({ children }) => {
   const switchRosterCharacter = useCallback((docId) => {
     const found = personaRoster.find(c => c['character-doc-id'] === docId);
     if (found) {
-      setCharacterData(found);
+      setCharacterData(sanitizeCharacterSkills(found));
       setIsReadOnly(false);
     }
   }, [personaRoster]);
@@ -1301,7 +1381,7 @@ export const FolioProvider = ({ children }) => {
     // 3. Reset or switch characterData if the active character is being deleted
     if (characterData['character-doc-id'] === targetId) {
       if (updatedRoster.length > 0) {
-        const nextChar = updatedRoster[0];
+        const nextChar = sanitizeCharacterSkills(updatedRoster[0]);
         characterDataRef.current = nextChar;
         setCharacterData(nextChar);
         StorageService.setItem('personaFolioData', nextChar);
@@ -1574,9 +1654,46 @@ export const FolioProvider = ({ children }) => {
   // Identity Pool Allocation Helpers (Skills, Features, Attributes)
   const allocatePoolSkillRank = useCallback((poolKey, skillName, newRank, delta, maxSP = 20) => {
     if (!skillName || !poolKey) return;
+    const sNameLower = skillName.trim().toLowerCase();
+
+    // Guard: Prevent bare category headers from ever being allocated as trainable skills
+    const CATEGORY_NAMES = new Set([
+      'knowledge', 'knowledges', 'vocation', 'vocations', 'discipline', 'disciplines', 'metafocus',
+      'skill', 'skills', 'general', 'physical', 'mental', 'social', 'combat', 'meta'
+    ]);
+    if (CATEGORY_NAMES.has(sNameLower)) {
+      return;
+    }
+
+    // Extract inner skill name from compound patterns: "Knowledge (Survival)", "Vocation (Handler)", "Knowledge (Arcane)", etc.
+    let innerName = skillName;
+    const parenMatch = skillName.match(/^([^(]+)\(([^)]+)\)$/);
+    if (parenMatch) {
+      innerName = parenMatch[2].trim();
+    } else {
+      innerName = skillName.replace(/^(knowledge|vocation|discipline|metafocus)\s*[-:]?\s*/i, '').trim();
+    }
     const cleanId = skillName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-    const rankKey = `skill-${cleanId}-rank`;
-    const nameKey = `skill-${cleanId}-name`;
+    const innerCleanId = innerName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const innerNameLower = innerName.toLowerCase();
+    
+    // Find canonical skill definition to map group-prefixed ID (e.g., physical-acrobatics, mental-survival, mental-handler, mental-arcane)
+    const canonSkill = ALL_CANONICAL_SKILLS.find(s => {
+      const n = (s.name || '').toLowerCase();
+      const idWithoutPrefix = (s.id || '').replace(/^[a-z]+-/, '');
+      return n === sNameLower || s.id === cleanId || idWithoutPrefix === cleanId ||
+             n === innerNameLower || s.id === innerCleanId || idWithoutPrefix === innerCleanId;
+    });
+
+    const canonicalId = canonSkill?.id || innerCleanId || cleanId;
+    const canonRankKey = `skill-${canonicalId}-rank`;
+    const canonBaseKey = `skill-${canonicalId}-base`;
+    const canonGroupKey = `skill-${canonicalId}-group`;
+    const canonSubKey = `skill-${canonicalId}-subcategory`;
+    const canonNameKey = `skill-${canonicalId}-name`;
+
+    const legacyRankKey = `skill-${cleanId}-rank`;
+    const legacyNameKey = `skill-${cleanId}-name`;
 
     setCharacterData(prev => {
       const pool = prev[poolKey] || { skills: {}, features: [] };
@@ -1591,18 +1708,32 @@ export const FolioProvider = ({ children }) => {
         delete currentSkills[skillName];
       }
 
-      const currentGlobalRank = parseInt(prev[rankKey] || 0, 10);
+      const currentGlobalRank = parseInt(prev[canonRankKey] ?? prev[legacyRankKey] ?? 0, 10);
       const newGlobalRank = Math.min(20, Math.max(0, currentGlobalRank + actualDelta));
 
-      return {
+      const updates = {
         ...prev,
         [poolKey]: {
           ...pool,
           skills: currentSkills
         },
-        [rankKey]: newGlobalRank,
-        [nameKey]: prev[nameKey] || skillName
+        [canonRankKey]: newGlobalRank,
+        [canonNameKey]: canonSkill?.name || prev[canonNameKey] || innerName || skillName,
+        [legacyRankKey]: newGlobalRank,
+        [legacyNameKey]: canonSkill?.name || prev[legacyNameKey] || innerName || skillName
       };
+
+      if (canonSkill?.baseAttr && !prev[canonBaseKey]) {
+        updates[canonBaseKey] = canonSkill.baseAttr;
+      }
+      if (canonSkill?.group && !prev[canonGroupKey]) {
+        updates[canonGroupKey] = canonSkill.group;
+      }
+      if (canonSkill?.subcategory && !prev[canonSubKey]) {
+        updates[canonSubKey] = canonSkill.subcategory;
+      }
+
+      return updates;
     });
   }, []);
 
@@ -1617,6 +1748,7 @@ export const FolioProvider = ({ children }) => {
 
       let updatedPoolTraits;
       let updatedGlobalTraits = Array.isArray(prev.traits) ? [...prev.traits] : [];
+      let updatedGlobalFeatures = Array.isArray(prev.features) ? [...prev.features] : [];
 
       if (isAlreadySelected) {
         updatedPoolTraits = currentTraits.filter(t => normalizeTraitName(t).toLowerCase() !== cleanTitle.toLowerCase() && String(t).toLowerCase() !== traitName.toLowerCase());
@@ -1624,24 +1756,43 @@ export const FolioProvider = ({ children }) => {
           const tName = typeof t === 'object' ? (t.name || t.title || t.id) : String(t);
           return normalizeTraitName(tName).toLowerCase() !== cleanTitle.toLowerCase() && tName.toLowerCase() !== traitName.toLowerCase();
         });
+        updatedGlobalFeatures = updatedGlobalFeatures.filter(f => {
+          const fName = typeof f === 'object' ? (f.name || f.title || f.id) : String(f);
+          return normalizeTraitName(fName).toLowerCase() !== cleanTitle.toLowerCase() && fName.toLowerCase() !== traitName.toLowerCase();
+        });
       } else {
         if (currentTraits.length >= maxTraits) {
           alert(`Maximum of ${maxTraits} traits already selected in this pool.`);
           return prev;
         }
+        const isGrantedPool = ['speciesAllocations', 'occuAllocations', 'originAllocations', 'factionAllocations'].includes(poolKey);
         updatedPoolTraits = [...currentTraits, cleanTitle];
         const newTraitObj = {
           id: traitDetail.id || `trait_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
           name: cleanTitle,
-          category: traitDetail.category || traitDetail.trait_type || (poolKey === 'originAllocations' ? 'Origin Trait' : poolKey === 'occuAllocations' ? 'Occupation Trait' : 'Species Trait'),
-          trait_type: traitDetail.trait_type || (poolKey === 'originAllocations' ? 'Origin Trait' : poolKey === 'occuAllocations' ? 'Occupational Trait' : 'Species Trait'),
+          category: traitDetail.category || traitDetail.trait_type || (poolKey === 'originAllocations' ? 'Origin Trait' : poolKey === 'occuAllocations' ? 'Occupation Trait' : poolKey === 'factionAllocations' ? 'Faction Trait' : 'Species Trait'),
+          trait_type: traitDetail.trait_type || (poolKey === 'originAllocations' ? 'Origin Trait' : poolKey === 'occuAllocations' ? 'Occupational Trait' : poolKey === 'factionAllocations' ? 'Faction Trait' : 'Species Trait'),
           trait_tier: traitDetail.trait_tier || traitDetail.tier || 'Basic',
           classification: traitDetail.classification || 'Physical',
-          source: poolKey.replace('Allocations', ''),
+          source: poolKey === 'occuAllocations' ? 'occupation' : poolKey === 'originAllocations' ? 'origin' : poolKey === 'factionAllocations' ? 'faction' : poolKey === 'speciesAllocations' ? 'species' : poolKey.replace('Allocations', ''),
           description: traitDetail.description || traitDetail.desc || traitDetail.mechanics || '',
-          bp: traitDetail.bp !== undefined ? traitDetail.bp : 1
+          bp: isGrantedPool ? 0 : (traitDetail.bp !== undefined ? traitDetail.bp : 1),
+          standaloneBp: traitDetail.bp !== undefined ? traitDetail.bp : 1,
+          cp: isGrantedPool ? 0 : (traitDetail.cp !== undefined ? traitDetail.cp : 1),
+          standaloneCp: traitDetail.cp !== undefined ? traitDetail.cp : (traitDetail.bp !== undefined ? traitDetail.bp : 1),
+          isGranted: isGrantedPool
         };
         updatedGlobalTraits.push(newTraitObj);
+        updatedGlobalFeatures.push(newTraitObj);
+      }
+
+      const extraFields = {};
+      if (poolKey === 'occuAllocations') {
+        extraFields['char-occu-traits'] = updatedPoolTraits;
+        extraFields.occu_traits = updatedPoolTraits;
+      } else if (poolKey === 'originAllocations') {
+        extraFields['char-origin-traits'] = updatedPoolTraits;
+        extraFields.origin_traits = updatedPoolTraits;
       }
 
       return {
@@ -1650,7 +1801,9 @@ export const FolioProvider = ({ children }) => {
           ...pool,
           traits: updatedPoolTraits
         },
-        traits: updatedGlobalTraits
+        traits: updatedGlobalTraits,
+        features: updatedGlobalFeatures,
+        ...extraFields
       };
     });
   }, []);
@@ -1670,13 +1823,30 @@ export const FolioProvider = ({ children }) => {
         return normalizeTraitName(tName).toLowerCase() !== cleanTitle.toLowerCase() && tName.toLowerCase() !== traitName.toLowerCase();
       });
 
+      const currentGlobalFeatures = Array.isArray(prev.features) ? prev.features : [];
+      const updatedGlobalFeatures = currentGlobalFeatures.filter(f => {
+        const fName = typeof f === 'object' ? (f.name || f.title || f.id) : String(f);
+        return normalizeTraitName(fName).toLowerCase() !== cleanTitle.toLowerCase() && fName.toLowerCase() !== traitName.toLowerCase();
+      });
+
+      const extraFields = {};
+      if (poolKey === 'occuAllocations') {
+        extraFields['char-occu-traits'] = updatedPoolTraits;
+        extraFields.occu_traits = updatedPoolTraits;
+      } else if (poolKey === 'originAllocations') {
+        extraFields['char-origin-traits'] = updatedPoolTraits;
+        extraFields.origin_traits = updatedPoolTraits;
+      }
+
       return {
         ...prev,
         [poolKey]: {
           ...pool,
           traits: updatedPoolTraits
         },
-        traits: updatedGlobalTraits
+        traits: updatedGlobalTraits,
+        features: updatedGlobalFeatures,
+        ...extraFields
       };
     });
   }, []);
@@ -1704,14 +1874,17 @@ export const FolioProvider = ({ children }) => {
           alert(`Maximum of ${maxFeatures} features already selected in this pool.`);
           return prev;
         }
+        const isGrantedPool = ['speciesAllocations', 'occuAllocations', 'originAllocations', 'factionAllocations'].includes(poolKey);
         updatedPoolFeats = [...currentFeats, cleanTitle];
         const newFeatObj = {
           id: featureDetail.id || `feat_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
           name: cleanTitle,
-          category: featureDetail.category || (poolKey === 'factionAllocations' ? 'Faction Feature' : poolKey === 'speciesAllocations' ? 'Species Feature' : 'General Feature'),
-          source: poolKey.replace('Allocations', ''),
+          category: featureDetail.category || (poolKey === 'factionAllocations' ? 'Faction Feature' : poolKey === 'speciesAllocations' ? 'Species Feature' : poolKey === 'occuAllocations' ? 'Occupation Feature' : poolKey === 'originAllocations' ? 'Origin Feature' : 'General Feature'),
+          source: poolKey === 'occuAllocations' ? 'occupation' : poolKey === 'originAllocations' ? 'origin' : poolKey === 'factionAllocations' ? 'faction' : poolKey === 'speciesAllocations' ? 'species' : poolKey.replace('Allocations', ''),
           description: featureDetail.description || featureDetail.mechanic || '',
-          cp: featureDetail.cp !== undefined ? featureDetail.cp : 3
+          cp: isGrantedPool ? 0 : (featureDetail.cp !== undefined ? featureDetail.cp : 3),
+          standaloneCp: featureDetail.cp !== undefined ? featureDetail.cp : 3,
+          isGranted: isGrantedPool
         };
         updatedGlobalFeats.push(newFeatObj);
       }
@@ -2137,608 +2310,11 @@ export const FolioProvider = ({ children }) => {
 
   // Comprehensive Character Point & Pool Economy Calculation
   const economyBreakdown = useMemo(() => {
-    const startingCP = parseInt(characterData['starting-cp'] || 150, 10);
-    const itemizedList = [];
-
-    // Helper for safe CP extraction
-    const getItemCP = (item, defaultCost = 0) => {
-      if (typeof item === 'object' && item !== null) {
-        if (item.cp !== undefined && item.cp !== null && item.cp !== '') {
-          return parseInt(item.cp, 10) || 0;
-        }
-        if (item.cost !== undefined && item.cost !== null && item.cost !== '') {
-          return parseInt(item.cost, 10) || 0;
-        }
-        if (item.cost_cp !== undefined && item.cost_cp !== null && item.cost_cp !== '') {
-          return parseInt(item.cost_cp, 10) || 0;
-        }
-      }
-      if (typeof item === 'number') return item;
-      return defaultCost;
-    };
-
-    // 1. Identity Selections (Species, Occupation, Origin, Faction, Archetype)
-    let identityCost = 0;
-    let speciesCostBreakdown = null;
-
-    // Species Package
-    const speciesRaw = characterData['char-species'];
-    if (speciesRaw) {
-      const spCost = calculateFullSpeciesCost(speciesRaw, dbData);
-      speciesCostBreakdown = spCost;
-      identityCost += spCost.totalCost;
-      itemizedList.push({
-        category: 'Species Package',
-        item: spCost.speciesName || String(speciesRaw),
-        val: spCost.summaryText || `${spCost.totalCost} CP Package`,
-        costVal: spCost.totalCost,
-        cost: `${spCost.totalCost} CP`,
-        breakdown: spCost.breakdown,
-        itemized: spCost.itemized
-      });
-    } else {
-      itemizedList.push({
-        category: 'Species Package',
-        item: 'None Selected',
-        val: '0 CP Baseline',
-        costVal: 0,
-        cost: '0 CP'
-      });
-    }
-
-    // Other Identity selections (Archetype, Occupation, Origin, Faction)
-    const otherIdentities = [
-      { key: 'char-archetype', label: 'Archetype', defaultVal: 'Archetype Chassis (80 CP Blueprint)' },
-      { key: 'char-occu', label: 'Occupation', defaultVal: 'Career Package (20 SP Pool)' },
-      { key: 'char-origin', label: 'Origin', defaultVal: 'Homeworld Package (20 SP Pool)' },
-      { key: 'char-faction', label: 'Faction', defaultVal: 'Allegiance Package (20 SP Pool)' }
-    ];
-
-    otherIdentities.forEach(({ key, label, defaultVal }) => {
-      const val = characterData[key];
-      const name = typeof val === 'object' ? (val.name || val.title || '') : String(val || '');
-      const cost = val ? getItemCP(val, 0) : 0;
-      identityCost += cost;
-      itemizedList.push({
-        category: label,
-        item: name || 'None Selected',
-        val: name ? (typeof val === 'object' && val.summary ? val.summary : defaultVal) : 'Optional Selection',
-        costVal: cost,
-        cost: `${cost} CP`
-      });
+    return computeEconomyBreakdown(characterData, {
+      derivedStats,
+      dbData,
+      identityPools: computedModifiers.identityPools
     });
-
-    // Secondary Origin & Occupation if present
-    const secOrigin = characterData['char-secondary-origin'] || characterData['char-origin-secondary'];
-    if (secOrigin) {
-      itemizedList.push({
-        category: 'Secondary Origin',
-        item: String(secOrigin),
-        val: 'Expanded Homeworld Heritage (0 CP)',
-        costVal: 0,
-        cost: '0 CP'
-      });
-    }
-    const secOccu = characterData['char-secondary-occu'] || characterData['char-background-occu'] || characterData['char-occu-secondary'];
-    if (secOccu) {
-      itemizedList.push({
-        category: 'Secondary Occupation',
-        item: String(secOccu),
-        val: 'Dual Career Background (0 CP)',
-        costVal: 0,
-        cost: '0 CP'
-      });
-    }
-
-    // 2. Primary Attributes & Species Granted Attribute Modifiers
-    let primaryAttrCost = 0;
-    const primaryAttrs = [
-      { name: 'Strength', id: 'attr-strength', code: 'STR' },
-      { name: 'Agility', id: 'attr-agility', code: 'AGI' },
-      { name: 'Stamina', id: 'attr-stamina', code: 'STA' },
-      { name: 'Intellect', id: 'attr-intellect', code: 'INT' },
-      { name: 'Wisdom', id: 'attr-wisdom', code: 'WIS' },
-      { name: 'Charisma', id: 'attr-charisma', code: 'CHA' }
-    ];
-
-    // Track purchased attribute points
-    primaryAttrs.forEach(({ name, id }) => {
-      const val = parseInt(characterData[id] || 0, 10);
-      const cost = val * 5;
-      primaryAttrCost += cost;
-      itemizedList.push({
-        category: 'Primary Attr',
-        item: `${name} (Purchased)`,
-        val: val > 0 ? `${val} Purchased Point${val > 1 ? 's' : ''}` : '0 Base Purchased',
-        costVal: cost,
-        cost: `${cost} CP`
-      });
-    });
-
-    // Inherent Attribute Modifiers granted by Species Package
-    if (speciesCostBreakdown?.itemized?.attributes && Array.isArray(speciesCostBreakdown.itemized.attributes)) {
-      speciesCostBreakdown.itemized.attributes.forEach(attrMod => {
-        const attrCode = (attrMod.attr || '').toUpperCase();
-        const attrObj = primaryAttrs.find(p => p.code === attrCode || p.name.toUpperCase() === attrCode) || { name: attrMod.attr };
-        const bonus = attrMod.value || 1;
-        const standalone = Math.abs(attrMod.bp !== undefined ? attrMod.bp : (bonus * 5));
-        itemizedList.push({
-          category: 'Species Granted Attr',
-          item: `${attrObj.name} (${bonus > 0 ? `+${bonus}` : bonus})`,
-          val: `Granted by ${speciesCostBreakdown.speciesName} (Included in Package)`,
-          costVal: 0,
-          cost: formatGrantedCost(0, standalone, 'CP'),
-          standaloneCost: standalone
-        });
-      });
-    }
-
-    // 3. Attribute Checks / Sub-Attributes (Base = Primary * 2 + 2; 1 CP per purchased point above/below base)
-    let subAttrCost = 0;
-    const subAttrs = [
-      { name: 'Might', id: 'attr-might', primaryId: 'attr-strength' },
-      { name: 'Reflex', id: 'attr-reflex', primaryId: 'attr-agility' },
-      { name: 'Fortitude', id: 'attr-fortitude', primaryId: 'attr-stamina' },
-      { name: 'Reason', id: 'attr-logic', aliasId: 'attr-reason', primaryId: 'attr-intellect' },
-      { name: 'Willpower', id: 'attr-will', aliasId: 'attr-willpower', primaryId: 'attr-wisdom' },
-      { name: 'Etiquette', id: 'attr-etiquette', primaryId: 'attr-charisma' }
-    ];
-
-    subAttrs.forEach(({ name, id, aliasId, primaryId }) => {
-      const pVal = parseInt(characterData[primaryId] || 0, 10);
-      const calculatedBase = (pVal * 2) + 2;
-
-      const hasExplicitVal = (characterData[id] !== undefined && characterData[id] !== null && characterData[id] !== '') ||
-                            (aliasId && characterData[aliasId] !== undefined && characterData[aliasId] !== null && characterData[aliasId] !== '');
-      const rawVal = characterData[id] !== undefined && characterData[id] !== null && characterData[id] !== ''
-        ? parseInt(characterData[id], 10)
-        : (aliasId ? parseInt(characterData[aliasId], 10) : 0);
-
-      const val = (hasExplicitVal && rawVal !== 0 && !isNaN(rawVal)) ? rawVal : calculatedBase;
-      const extra = val - calculatedBase;
-
-      if (extra !== 0) {
-        const cost = extra * 1;
-        subAttrCost += cost;
-        itemizedList.push({
-          category: 'Attribute Check',
-          item: `${name} (${extra >= 0 ? '+' : ''}${extra})`,
-          val: `${extra >= 0 ? '+' : ''}${extra} rel. Base (${calculatedBase})`,
-          costVal: cost,
-          cost: `${cost} CP`
-        });
-      } else {
-        itemizedList.push({
-          category: 'Attribute Check',
-          item: `${name} (Base)`,
-          val: `Base Check Score (${calculatedBase})`,
-          costVal: 0,
-          cost: '0 CP'
-        });
-      }
-    });
-
-    // 4. Movement Modes & Species Locomotion
-    const groundWalk = characterData['move-walk'] !== undefined && characterData['move-walk'] !== null && characterData['move-walk'] !== ''
-      ? parseInt(characterData['move-walk'], 10)
-      : 30;
-    itemizedList.push({
-      category: 'Movement Mode',
-      item: `Ground Walk (${groundWalk} ft)`,
-      val: 'Standard Ground Locomotion',
-      costVal: 0,
-      cost: '0 CP'
-    });
-
-    const otherMovementKeys = [
-      { key: 'move-swim', name: 'Swim', baseBP: 2 },
-      { key: 'move-climb', name: 'Climb', baseBP: 2 },
-      { key: 'move-fly', name: 'Fly', baseBP: 4 },
-      { key: 'move-burrow', name: 'Burrow', baseBP: 2 },
-      { key: 'move-flicker', name: 'Flicker', baseBP: 2 }
-    ];
-
-    otherMovementKeys.forEach(({ key, name, baseBP }) => {
-      const spd = parseInt(characterData[key] || 0, 10);
-      if (spd > 0) {
-        const isFromSpecies = speciesCostBreakdown && (
-          (speciesCostBreakdown.speeds && speciesCostBreakdown.speeds[name.toLowerCase()] > 0) ||
-          (speciesCostBreakdown.breakdown?.movementBP > 0) ||
-          (Array.isArray(speciesCostBreakdown.speciesObj?.movement) && speciesCostBreakdown.speciesObj.movement.some(m => String(m).toLowerCase().includes(name.toLowerCase())))
-        );
-        if (isFromSpecies) {
-          itemizedList.push({
-            category: 'Species Movement',
-            item: `${name} (${spd} ft)`,
-            val: `Granted by ${speciesCostBreakdown.speciesName} (Included in Package)`,
-            costVal: 0,
-            cost: formatGrantedCost(0, baseBP, 'CP'),
-            standaloneCost: baseBP
-          });
-        } else {
-          itemizedList.push({
-            category: 'Movement Mode',
-            item: `${name} (${spd} ft)`,
-            val: `${name} Locomotion Mode`,
-            costVal: 0,
-            cost: '0 CP'
-          });
-        }
-      }
-    });
-
-    // 5. Hindrances / Disadvantages (Yields CP Refunds unless from Species Package)
-    let disadvantageRefund = 0;
-    const hindrancesList = (Array.isArray(characterData.hindrances) && characterData.hindrances.length > 0)
-      ? characterData.hindrances
-      : (Array.isArray(characterData.disadvantages) ? characterData.disadvantages : []);
-
-    hindrancesList.forEach((dis) => {
-      const name = typeof dis === 'object' ? (dis.name || dis.title || 'Unnamed Hindrance') : String(dis);
-      const isSpeciesDis = typeof dis === 'object' && (
-        dis.source === 'species' || 
-        dis.category === 'Species Disadvantage' || 
-        dis.category === 'Species' ||
-        (speciesCostBreakdown?.itemized?.disadvantages?.some(sd => (sd.name || '').toLowerCase() === name.toLowerCase()))
-      );
-
-      if (isSpeciesDis) {
-        const refVal = typeof dis === 'object' ? (dis.refundBP || dis.bp || 3) : 3;
-        itemizedList.push({
-          category: 'Species Disadvantage',
-          item: name,
-          val: `Inherent to ${speciesCostBreakdown?.speciesName || 'Species'} (Refund included in species cost)`,
-          costVal: 0,
-          cost: formatGrantedCost(0, -Math.abs(refVal), 'CP'),
-          standaloneCost: -Math.abs(refVal)
-        });
-      } else {
-        const cpVal = getItemCP(dis, 3);
-        disadvantageRefund += cpVal;
-        itemizedList.push({
-          category: 'Hindrance',
-          item: name,
-          val: 'Character Hindrance Refund',
-          costVal: -cpVal,
-          cost: `-${cpVal} CP`
-        });
-      }
-    });
-
-    // 6. Features & Perks (Standard 3 CP; Occupation Recommended Features get -1 CP discount = 2 CP; Species Features = 0 [standalone])
-    let featuresCost = 0;
-    const occuName = characterData['char-occu'];
-    const occuItem = occuName ? resolveCatalogItem('occupations', occuName, dbData) : null;
-    const occuRecFeatNames = new Set(
-      (Array.isArray(occuItem?.recommended_features) ? occuItem.recommended_features : (Array.isArray(occuItem?.features) ? occuItem.features : []))
-        .map(f => (typeof f === 'object' ? (f.name || f.title || f.id || '') : String(f)).toLowerCase().trim())
-    );
-
-    const features = Array.isArray(characterData.features) ? characterData.features : [];
-    features.forEach((feat) => {
-      const name = typeof feat === 'object' ? (feat.name || feat.title || 'Unnamed Feature') : String(feat);
-      const cleanName = name.toLowerCase().trim();
-      const isSpeciesFeat = typeof feat === 'object' && (
-        feat.source === 'species' ||
-        feat.category === 'Species Inherent' ||
-        feat.category === 'Species' ||
-        feat.category === 'Species Trait' ||
-        (speciesCostBreakdown?.itemized?.traits?.some(st => (st.name || '').toLowerCase() === cleanName))
-      );
-
-      if (isSpeciesFeat) {
-        const standalone = (typeof feat === 'object' && feat.standaloneCp !== undefined)
-          ? feat.standaloneCp
-          : ((typeof feat === 'object' && feat.bp !== undefined) ? feat.bp : 3);
-        itemizedList.push({
-          category: 'Species Inherent Feature',
-          item: name,
-          val: `Granted by ${speciesCostBreakdown?.speciesName || 'Species'} (Included in Package)`,
-          costVal: 0,
-          cost: formatGrantedCost(0, standalone, 'CP'),
-          standaloneCost: standalone
-        });
-      } else {
-        const isOccuRecommended = occuRecFeatNames.has(cleanName);
-        const defaultCost = isOccuRecommended ? 2 : 3;
-        const cost = getItemCP(feat, defaultCost);
-        featuresCost += cost;
-        itemizedList.push({
-          category: isOccuRecommended ? 'Recommended Feature' : 'Feature',
-          item: name,
-          val: isOccuRecommended ? 'Occupation Recommended (-1 CP Discount)' : ((typeof feat === 'object' && feat.type) ? feat.type : 'Perk'),
-          costVal: cost,
-          cost: `${cost} CP`
-        });
-      }
-    });
-
-    // 7. Traits (characterData.traits)
-    let traitsCost = 0;
-    const traitsList = Array.isArray(characterData.traits) ? characterData.traits : [];
-    traitsList.forEach((trait) => {
-      const name = typeof trait === 'object' ? (trait.name || trait.title || 'Unnamed Trait') : String(trait);
-      const isSpeciesTrait = typeof trait === 'object' && (
-        trait.source === 'species' ||
-        trait.category === 'Species Inherent' ||
-        trait.category === 'Species' ||
-        trait.category === 'Species Trait'
-      );
-
-      if (isSpeciesTrait) {
-        const standalone = (typeof trait === 'object' && trait.bp !== undefined)
-          ? trait.bp
-          : ((typeof trait === 'object' && trait.standaloneCp !== undefined) ? trait.standaloneCp : 1);
-        itemizedList.push({
-          category: 'Species Trait',
-          item: name,
-          val: `Inherent to ${speciesCostBreakdown?.speciesName || 'Species'} (Included in Package)`,
-          costVal: 0,
-          cost: formatGrantedCost(0, standalone, 'CP'),
-          standaloneCost: standalone
-        });
-      } else {
-        const cost = getItemCP(trait, 1);
-        traitsCost += cost;
-        itemizedList.push({
-          category: 'Trait',
-          item: name,
-          val: (typeof trait === 'object' && trait.type) ? trait.type : 'Trait Purchase',
-          costVal: cost,
-          cost: `${cost} CP`
-        });
-      }
-    });
-
-    // 8. Special Abilities
-    let specialAbilitiesCost = 0;
-    const specAbilities = Array.isArray(characterData.special_abilities) ? characterData.special_abilities : [];
-    specAbilities.forEach((sa) => {
-      const name = typeof sa === 'object' ? (sa.name || 'Unnamed Ability') : sa;
-      const isSpeciesSA = typeof sa === 'object' && (sa.source === 'species' || sa.category?.includes('Species'));
-      if (isSpeciesSA) {
-        itemizedList.push({
-          category: 'Species Special Ability',
-          item: name,
-          val: `Granted by ${speciesCostBreakdown?.speciesName || 'Species'} (Included in Package)`,
-          costVal: 0,
-          cost: formatGrantedCost(0, 5, 'CP'),
-          standaloneCost: 5
-        });
-      } else {
-        const cost = getItemCP(sa, 5);
-        specialAbilitiesCost += cost;
-        itemizedList.push({
-          category: 'Special Ability',
-          item: name,
-          val: 'Innate Power',
-          costVal: cost,
-          cost: `${cost} CP`
-        });
-      }
-    });
-
-    // 9. Awakened Disciplines
-    let awakenedCost = 0;
-    const awakenedList = Array.isArray(characterData.awakened) ? characterData.awakened : [];
-    awakenedList.forEach((awk) => {
-      const name = typeof awk === 'object' ? (awk.name || 'Unnamed Discipline') : awk;
-      const isSpeciesAwk = typeof awk === 'object' && (awk.source === 'species' || awk.category?.includes('Species'));
-      if (isSpeciesAwk) {
-        itemizedList.push({
-          category: 'Species Awakened Discipline',
-          item: name,
-          val: `Granted by ${speciesCostBreakdown?.speciesName || 'Species'} (Included in Package)`,
-          costVal: 0,
-          cost: formatGrantedCost(0, 3, 'CP'),
-          standaloneCost: 3
-        });
-      } else {
-        const cost = getItemCP(awk, 5);
-        awakenedCost += cost;
-        itemizedList.push({
-          category: 'Awakened Discipline',
-          item: name,
-          val: 'Magic Domain',
-          costVal: cost,
-          cost: `${cost} CP`
-        });
-      }
-    });
-
-    // 10. Invocations
-    let invocationsCost = 0;
-    const invocationsList = Array.isArray(characterData.invocations) ? characterData.invocations : [];
-    invocationsList.forEach((inv) => {
-      const name = typeof inv === 'object' ? (inv.name || 'Unnamed Invocation') : inv;
-      const cost = getItemCP(inv, 0);
-      invocationsCost += cost;
-      itemizedList.push({
-        category: 'Invocation',
-        item: name,
-        val: 'Spell / Ritual',
-        costVal: cost,
-        cost: `${cost} CP`
-      });
-    });
-
-    // 11. Augmentations
-    let augmentationsCost = 0;
-    const augmentationsList = Array.isArray(characterData.augmentations) ? characterData.augmentations : [];
-    augmentationsList.forEach((aug) => {
-      const name = typeof aug === 'object' ? (aug.name || 'Unnamed Augmentation') : aug;
-      const cost = getItemCP(aug, 0);
-      augmentationsCost += cost;
-      itemizedList.push({
-        category: 'Augmentation',
-        item: name,
-        val: (typeof aug === 'object' && aug.type) ? aug.type : 'Cyberware',
-        costVal: cost,
-        cost: `${cost} CP`
-      });
-    });
-
-    // 12. Personal Property / Gear / Weapons / Armor / Mecha / Other
-    let equipmentCost = 0;
-    const equipCategories = [
-      { key: 'gear', category: 'Gear' },
-      { key: 'weapons', category: 'Weaponry' },
-      { key: 'armor', category: 'Armoring' },
-      { key: 'mecha', category: 'Mecha' },
-      { key: 'other', category: 'Other Property' }
-    ];
-
-    equipCategories.forEach(({ key, category }) => {
-      const list = Array.isArray(characterData[key]) ? characterData[key] : [];
-      list.forEach((item) => {
-        const name = typeof item === 'object' ? (item.name || 'Unnamed Item') : item;
-        const cost = getItemCP(item, 0);
-        equipmentCost += cost;
-        itemizedList.push({
-          category,
-          item: name,
-          val: 'Item Purchase',
-          costVal: cost,
-          cost: `${cost} CP`
-        });
-      });
-    });
-
-    // 13. Skills: Species Granted Bonuses & General Point Buy
-    // Inherent Skill Bonuses from Species Package
-    if (speciesCostBreakdown?.speciesObj?.specific_skill_bonuses && Array.isArray(speciesCostBreakdown.speciesObj.specific_skill_bonuses)) {
-      speciesCostBreakdown.speciesObj.specific_skill_bonuses.forEach(b => {
-        const sName = typeof b === 'object' ? (b.skill || b.name || '') : String(b).split(/[:+(]/)[0].trim();
-        const sBonus = typeof b === 'object' ? (b.bonus ?? b.value ?? 1) : 1;
-        if (sName) {
-          itemizedList.push({
-            category: 'Species Skill Bonus',
-            item: `${sName} (+${sBonus})`,
-            val: `Granted by ${speciesCostBreakdown.speciesName} (Included in Package)`,
-            costVal: 0,
-            cost: formatGrantedCost(0, sBonus, 'CP'),
-            standaloneCost: sBonus
-          });
-        }
-      });
-    }
-
-    let skillRanksCost = 0;
-    Object.keys(characterData).forEach((key) => {
-      if (key.startsWith('skill-') && key.endsWith('-rank')) {
-        const rawRank = parseInt(characterData[key] || 0, 10);
-        const rank = Math.min(20, Math.max(0, rawRank)); // Max level 20 cap
-        if (rank > 0) {
-          const skillId = key.replace('skill-', '').replace('-rank', '');
-          const storedName = characterData[`skill-${skillId}-name`];
-          const skillName = storedName || skillId.replace(/-/g, ' ');
-          const cost = rank * 1; // 1 CP per rank default
-          skillRanksCost += cost;
-          itemizedList.push({
-            category: 'Skill Rank',
-            item: skillName,
-            val: `${rank} Ranks`,
-            costVal: cost,
-            cost: `${cost} CP`
-          });
-        }
-      }
-    });
-
-    let specializationRanksCost = 0;
-    const specializations = Array.isArray(characterData.specializations) ? characterData.specializations : [];
-    specializations.forEach((spec) => {
-      const rawRank = typeof spec === 'object' ? parseInt(spec.rank || 0, 10) : 0;
-      const rank = Math.min(10, Math.max(0, rawRank)); // Max level 10 cap
-      if (rank > 0) {
-        const specName = typeof spec === 'object' ? (spec.name || 'Unnamed Spec') : 'Unnamed Spec';
-        const cost = typeof spec === 'object' && spec.cp !== undefined ? parseInt(spec.cp, 10) : rank * 1;
-        specializationRanksCost += cost;
-        itemizedList.push({
-          category: 'Specialization',
-          item: specName,
-          val: `${rank} Levels`,
-          costVal: cost,
-          cost: `${cost} CP`
-        });
-      }
-    });
-
-    // 14. Purchased Stats Cost (Health & Vitality)
-    let purchasedStatsCost = 0;
-    if (derivedStats.purchasedHealth > 0) {
-      const cost = Math.ceil(derivedStats.purchasedHealth / 5);
-      purchasedStatsCost += cost;
-      itemizedList.push({
-        category: 'Purchased Stat',
-        item: 'Bonus Health',
-        val: `+${derivedStats.purchasedHealth} Health`,
-        costVal: cost,
-        cost: `${cost} CP`
-      });
-    }
-
-    if (derivedStats.purchasedVitality > 0) {
-      const cost = Math.ceil(derivedStats.purchasedVitality / 5);
-      purchasedStatsCost += cost;
-      itemizedList.push({
-        category: 'Purchased Stat',
-        item: 'Bonus Vitality',
-        val: `+${derivedStats.purchasedVitality} Vitality`,
-        costVal: cost,
-        cost: `${cost} CP`
-      });
-    }
-
-    // Calculate Total Spent CP
-    const spentCP = (
-      identityCost +
-      primaryAttrCost +
-      subAttrCost +
-      featuresCost +
-      traitsCost +
-      specialAbilitiesCost +
-      awakenedCost +
-      invocationsCost +
-      augmentationsCost +
-      equipmentCost +
-      skillRanksCost +
-      specializationRanksCost +
-      purchasedStatsCost -
-      disadvantageRefund
-    );
-
-    const earnedAP = Math.max(0, parseInt(characterData.earned_ap || 0, 10));
-    const experienceDebt = Math.max(0, parseInt(characterData.experience_debt || 0, 10));
-    const totalBudget = startingCP + earnedAP;
-    const remainingCP = totalBudget - spentCP;
-    const availableAP = Math.max(0, earnedAP - Math.max(0, spentCP - startingCP));
-
-    const identityPools = computedModifiers.identityPools;
-
-    return {
-      startingCP,
-      earnedAP,
-      totalBudget,
-      spentCP,
-      remainingCP,
-      availableAP,
-      experienceDebt,
-      experienceAwards: Array.isArray(characterData.experience_awards) ? characterData.experience_awards : [],
-      experienceSpends: Array.isArray(characterData.experience_spends) ? characterData.experience_spends : [],
-      primaryAttrCost,
-      subAttrCost,
-      skillRanksCost,
-      specializationRanksCost,
-      featuresCost,
-      traitsCost,
-      disadvantageRefund,
-      specialAbilitiesCost,
-      awakenedCost,
-      identityPools,
-      speciesCostBreakdown,
-      itemizedList
-    };
   }, [characterData, derivedStats, computedModifiers.identityPools, dbData]);
 
   const updateRosterCharacterNote = useCallback(async (docId, noteText) => {

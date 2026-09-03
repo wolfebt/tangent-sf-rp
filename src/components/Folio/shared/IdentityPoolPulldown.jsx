@@ -291,7 +291,11 @@ export const expandSkillGroupPatterns = (recommendedSkills = [], allSkills = ALL
       }
     });
 
-    if (!matchedGroup && expandedItemsMap.size === 0) {
+    const CATEGORY_NAMES = new Set([
+      'knowledge', 'knowledges', 'vocation', 'vocations', 'discipline', 'disciplines', 'metafocus',
+      'skill', 'skills', 'general', 'physical', 'mental', 'social', 'combat', 'meta'
+    ]);
+    if (!matchedGroup && expandedItemsMap.size === 0 && !CATEGORY_NAMES.has(lower)) {
       expandedItemsMap.set(cleanStr.toLowerCase(), {
         id: `skill_${cleanStr.toLowerCase().replace(/\s+/g, '_')}`,
         name: cleanStr,
@@ -434,7 +438,9 @@ export const expandFeatureGroupPatterns = (recommendedFeatures = [], allFeatures
  * Intelligent Trait Pattern Expander: Expands group expressions into specific trait lists.
  */
 export const expandTraitGroupPatterns = (recommendedTraits = [], allTraits = ALL_CANONICAL_TRAITS) => {
-  const catalog = allTraits?.length > 0 ? allTraits : ALL_CANONICAL_TRAITS;
+  const catalog = (allTraits && allTraits.length >= ALL_CANONICAL_TRAITS.length)
+    ? allTraits
+    : Array.from(new Map([...ALL_CANONICAL_TRAITS, ...(allTraits || [])].map(t => [t.id || t.name, t])).values());
   const nameToTraitMap = new Map();
   catalog.forEach(t => {
     const tName = (t.name || t.title || '').trim();
@@ -499,10 +505,10 @@ export const expandTraitGroupPatterns = (recommendedTraits = [], allTraits = ALL
       }
     });
 
-    if (!matchedGroup && expandedItemsMap.size === 0) {
-      expandedItemsMap.set(cleanStr.toLowerCase(), {
-        id: `trait_${cleanStr.toLowerCase().replace(/\s+/g, '_')}`,
-        name: cleanStr,
+    if (!matchedGroup && !expandedItemsMap.has(cleanNorm) && !expandedItemsMap.has(lower)) {
+      expandedItemsMap.set(cleanNorm, {
+        id: `trait_${cleanNorm.replace(/\s+/g, '_')}`,
+        name: normalizeTraitName(cleanStr) || cleanStr,
         category: 'traits',
         groupLabel: 'Custom',
         sourceTag: 'Custom'
@@ -1086,7 +1092,14 @@ export const TraitMultiselectPulldown = ({
   const theme = THEME_STYLES[colorTheme] || THEME_STYLES.emerald;
   const dropdownRef = useRef(null);
 
-  const traitCatalog = allTraits?.length > 0 ? allTraits : ALL_CANONICAL_TRAITS;
+  const traitCatalog = useMemo(() => {
+    if (!allTraits || allTraits.length === 0) return ALL_CANONICAL_TRAITS;
+    if (allTraits.length >= ALL_CANONICAL_TRAITS.length) return allTraits;
+    const map = new Map();
+    ALL_CANONICAL_TRAITS.forEach(t => map.set(t.id || t.name, t));
+    allTraits.forEach(t => map.set(t.id || t.name, { ...(map.get(t.id || t.name) || {}), ...t }));
+    return Array.from(map.values());
+  }, [allTraits]);
 
   // Normalize selected traits
   const selectedNormSet = useMemo(() => {

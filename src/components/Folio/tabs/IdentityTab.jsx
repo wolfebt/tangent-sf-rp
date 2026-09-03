@@ -166,7 +166,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
   };
 
   useEffect(() => {
-    const paths = ['species', 'occupations', 'origins', 'factions', 'archetypes', 'skills', 'features', 'traits'];
+    const paths = ['species', 'occupations', 'origins', 'factions', 'archetypes', 'skills', 'features', 'traits', 'trait'];
     const unsubs = paths.map(path => {
       try {
         const colRef = collection(db, path);
@@ -219,6 +219,38 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
       });
     }
   }, [characterData, dbOptions]);
+
+  // Comprehensive Trait Catalog (Canonical baseline + DBM custom + Firestore cloud)
+  const allCanonicalAndDbTraits = useMemo(() => {
+    const map = new Map();
+    ALL_CANONICAL_TRAITS.forEach(t => {
+      const idKey = (t.id || '').toLowerCase();
+      const normKey = normalizeTraitName(t.name || t.title || '').toLowerCase();
+      if (idKey) map.set(idKey, t);
+      if (normKey) map.set(normKey, t);
+    });
+    const dbmTraits = (dbm?.dbData?.trait || dbm?.dbData?.traits || []);
+    if (Array.isArray(dbmTraits)) {
+      dbmTraits.forEach(t => {
+        if (!t) return;
+        const idKey = (t.id || '').toLowerCase();
+        const normKey = normalizeTraitName(t.name || t.title || '').toLowerCase();
+        const merged = { ...(map.get(idKey) || map.get(normKey) || {}), ...t };
+        if (idKey) map.set(idKey, merged);
+        if (normKey) map.set(normKey, merged);
+      });
+    }
+    const cloudTraits = [...(dbOptions.traits || []), ...(dbOptions.trait || [])];
+    cloudTraits.forEach(t => {
+      if (!t) return;
+      const idKey = (t.id || '').toLowerCase();
+      const normKey = normalizeTraitName(t.name || t.title || '').toLowerCase();
+      const merged = { ...(map.get(idKey) || map.get(normKey) || {}), ...t };
+      if (idKey) map.set(idKey, merged);
+      if (normKey) map.set(normKey, merged);
+    });
+    return Array.from(new Set(map.values()));
+  }, [dbOptions.traits, dbOptions.trait, dbm?.dbData?.trait, dbm?.dbData?.traits]);
 
   // Selected Archetype Object lookup
   const selectedArchetype = useMemo(() => {
@@ -316,6 +348,9 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
       explicit.split(',').forEach(t => chosen.add(normalizeTraitName(t.trim())));
     }
 
+    if (Array.isArray(characterData.occuAllocations?.traits)) {
+      characterData.occuAllocations.traits.forEach(t => chosen.add(normalizeTraitName(t)));
+    }
     if (Array.isArray(characterData.occuAllocations?.features)) {
       characterData.occuAllocations.features.forEach(t => chosen.add(normalizeTraitName(t)));
     }
@@ -353,6 +388,9 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
       explicit.split(',').forEach(t => chosen.add(normalizeTraitName(t.trim())));
     }
 
+    if (Array.isArray(characterData.originAllocations?.traits)) {
+      characterData.originAllocations.traits.forEach(t => chosen.add(normalizeTraitName(t)));
+    }
     if (Array.isArray(characterData.originAllocations?.features)) {
       characterData.originAllocations.features.forEach(t => chosen.add(normalizeTraitName(t)));
     }
@@ -1038,7 +1076,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                           maxSelectable={maxTraits}
                           selectedTraits={characterData.speciesAllocations?.traits || []}
                           recommendedTraits={bonusTraitChoices}
-                          allTraits={dbOptions.traits?.length > 0 ? dbOptions.traits : ALL_CANONICAL_TRAITS}
+                          allTraits={allCanonicalAndDbTraits}
                           onToggleTrait={(tName, tObj) => togglePoolTrait && togglePoolTrait('speciesAllocations', tName, tObj, maxTraits)}
                           onRemoveTrait={(tName) => removePoolTrait && removePoolTrait('speciesAllocations', tName)}
                           colorTheme="cyan"
@@ -1292,9 +1330,9 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                         title={`Occupation Career Traits Pool${secOccVal ? ' (Combined with Background)' : ''}`}
                         categoryLabel="Occupational Trait"
                         maxSelectable={parseInt(selectedOccupation.bonus_traits || selectedOccupation.bonus_features || 2, 10)}
-                        selectedTraits={characterData.occuAllocations?.traits || characterData.occuAllocations?.features || []}
+                        selectedTraits={characterData.occuAllocations?.traits || []}
                         recommendedTraits={occTraits}
-                        allTraits={dbOptions.traits?.length > 0 ? dbOptions.traits : ALL_CANONICAL_TRAITS}
+                        allTraits={allCanonicalAndDbTraits}
                         onToggleTrait={(tName, tObj) => togglePoolTrait && togglePoolTrait('occuAllocations', tName, tObj, parseInt(selectedOccupation.bonus_traits || selectedOccupation.bonus_features || 2, 10))}
                         onRemoveTrait={(tName) => removePoolTrait && removePoolTrait('occuAllocations', tName)}
                         colorTheme="sky"
@@ -1304,7 +1342,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                     {selectedOccupation.features && (
                       <div className="pt-2 border-t border-sky-900/40">
                         <FeatureMultiselectPulldown
-                          title="Recommended Features (-1 CP Discount)"
+                          title="Occupation Feature Choices Pool (0 CP Supplemental)"
                           categoryLabel="Occupation Feature"
                           maxSelectable={parseInt(selectedOccupation.bonus_features || 1, 10)}
                           selectedFeatures={characterData.occuAllocations?.features || []}
@@ -1536,9 +1574,9 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                         title={`Origin Homeworld Traits Pool${secVal ? ' (Combined)' : ''}`}
                         categoryLabel="Origin Trait"
                         maxSelectable={parseInt(selectedOrigin.bonus_traits || selectedOrigin.bonus_features || 2, 10)}
-                        selectedTraits={characterData.originAllocations?.traits || characterData.originAllocations?.features || []}
+                        selectedTraits={characterData.originAllocations?.traits || []}
                         recommendedTraits={origTraits}
-                        allTraits={dbOptions.traits?.length > 0 ? dbOptions.traits : ALL_CANONICAL_TRAITS}
+                        allTraits={allCanonicalAndDbTraits}
                         onToggleTrait={(tName, tObj) => togglePoolTrait && togglePoolTrait('originAllocations', tName, tObj, parseInt(selectedOrigin.bonus_traits || selectedOrigin.bonus_features || 2, 10))}
                         onRemoveTrait={(tName) => removePoolTrait && removePoolTrait('originAllocations', tName)}
                         colorTheme="emerald"
@@ -1746,7 +1784,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                           maxSelectable={maxTraits}
                           selectedTraits={characterData.factionAllocations?.traits || []}
                           recommendedTraits={factionTraits}
-                          allTraits={dbOptions.traits?.length > 0 ? dbOptions.traits : ALL_CANONICAL_TRAITS}
+                          allTraits={allCanonicalAndDbTraits}
                           onToggleTrait={(tName, tObj) => togglePoolTrait && togglePoolTrait('factionAllocations', tName, tObj, maxTraits)}
                           onRemoveTrait={(tName) => removePoolTrait && removePoolTrait('factionAllocations', tName)}
                           colorTheme="purple"

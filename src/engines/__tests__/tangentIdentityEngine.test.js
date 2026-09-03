@@ -113,7 +113,7 @@ describe('Tangent SF RP — Identity Transition & Trait Synchronization Engine',
   it('correctly transitions Occupation: cleans old traits and updates allocations', () => {
     const withAgent = applyOccupationTransition(sampleBaseCharacter, 'Agent');
     assert.strictEqual(withAgent['char-occu'], 'Agent');
-    assert.deepStrictEqual(withAgent.occuAllocations, { skills: {}, features: [] });
+    assert.deepStrictEqual(withAgent.occuAllocations, { skills: {}, traits: [], features: [] });
 
     // Switch to Adept
     const withAdept = applyOccupationTransition(withAgent, 'Adept');
@@ -127,7 +127,7 @@ describe('Tangent SF RP — Identity Transition & Trait Synchronization Engine',
   it('correctly transitions Origin: cleans old homeworld traits and updates allocations', () => {
     const withAquatic = applyOriginTransition(sampleBaseCharacter, 'Aquatic');
     assert.strictEqual(withAquatic['char-origin'], 'Aquatic');
-    assert.deepStrictEqual(withAquatic.originAllocations, { skills: {}, features: [] });
+    assert.deepStrictEqual(withAquatic.originAllocations, { skills: {}, traits: [], features: [] });
 
     // Switch to Agricultural
     const withAgri = applyOriginTransition(withAquatic, 'Agricultural');

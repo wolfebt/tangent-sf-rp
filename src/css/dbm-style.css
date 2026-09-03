@@ -15,11 +15,6 @@
     --border-cyan: var(--color-accent-cyan);
 }
 
-/* Utility Classes */
-.hidden {
-    display: none !important;
-}
-
 /* General Body Styles */
 body {
     background-color: var(--dark-bg);

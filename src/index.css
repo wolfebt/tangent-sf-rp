@@ -93,6 +93,25 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-text-fill-color: transparent;
 }
 
+/* Folio Skill Row Responsive Display Helpers */
+.folio-skill-row-desktop {
+  display: none !important;
+}
+@media (min-width: 640px) {
+  .folio-skill-row-desktop {
+    display: grid !important;
+  }
+}
+
+.folio-skill-row-mobile {
+  display: flex !important;
+}
+@media (min-width: 640px) {
+  .folio-skill-row-mobile {
+    display: none !important;
+  }
+}
+
 /* Base App Layout */
 .app-container {
   display: flex;

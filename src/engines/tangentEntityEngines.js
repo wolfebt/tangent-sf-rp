@@ -56,6 +56,11 @@ import {
   getFinancialStatus
 } from './tangentEconEngine.js';
 
+import {
+  resolveCatalogItem,
+  normalizeTraitString
+} from './tangentIdentityEngine.js';
+
 /**
  * Calculates additive movement speeds and derived tactical paces for a species or entity.
  * Associates speed adjusters with their respective base modes (Ground, Flying, Swimming, Climbing, Burrowing).
@@ -2077,5 +2082,770 @@ export {
   resolveCatalogItem,
   normalizeTraitString
 } from './tangentIdentityEngine.js';
+
+/**
+ * Computes comprehensive character point (CP) economy breakdown, ensuring that all
+ * attribute modifiers, features, skills, and traits picked from selection pools granted
+ * from Species, Occupation, Origin, or Faction are never charged CP in the 150 CP pool.
+ *
+ * @param {object} characterData - Current persona sheet data
+ * @param {object} [options={}] - Calculation options
+ * @param {object} [options.derivedStats={}] - Derived stats including purchased health/vitality
+ * @param {object} [options.dbData={}] - Ingested database cache
+ * @param {object} [options.identityPools=null] - Precomputed identity pools metadata
+ * @returns {object} Full economy metrics and itemized accounting
+ */
+export function computeEconomyBreakdown(characterData = {}, options = {}) {
+  const { derivedStats = {}, dbData = {}, identityPools = null } = options;
+  const startingCP = parseInt(characterData['starting-cp'] || 150, 10);
+  const itemizedList = [];
+
+  // Helper for safe CP extraction
+  const getItemCP = (item, defaultCost = 0) => {
+    if (typeof item === 'object' && item !== null) {
+      if (item.cp !== undefined && item.cp !== null && item.cp !== '') {
+        return parseInt(item.cp, 10) || 0;
+      }
+      if (item.cost !== undefined && item.cost !== null && item.cost !== '') {
+        return parseInt(item.cost, 10) || 0;
+      }
+      if (item.cost_cp !== undefined && item.cost_cp !== null && item.cost_cp !== '') {
+        return parseInt(item.cost_cp, 10) || 0;
+      }
+    }
+    if (typeof item === 'number') return item;
+    return defaultCost;
+  };
+
+  const normTrait = (t) => normalizeTraitString(t).toLowerCase().trim();
+
+  // 1. Identity Selections (Species, Occupation, Origin, Faction, Archetype)
+  let identityCost = 0;
+  let speciesCostBreakdown = null;
+
+  // Species Package
+  const speciesRaw = characterData['char-species'];
+  if (speciesRaw) {
+    const spCost = calculateFullSpeciesCost(speciesRaw, dbData);
+    speciesCostBreakdown = spCost;
+    identityCost += spCost.totalCost;
+    itemizedList.push({
+      category: 'Species Package',
+      item: spCost.speciesName || String(speciesRaw),
+      val: spCost.summaryText || `${spCost.totalCost} CP Package`,
+      costVal: spCost.totalCost,
+      cost: `${spCost.totalCost} CP`,
+      breakdown: spCost.breakdown,
+      itemized: spCost.itemized
+    });
+  } else {
+    itemizedList.push({
+      category: 'Species Package',
+      item: 'None Selected',
+      val: '0 CP Baseline',
+      costVal: 0,
+      cost: '0 CP'
+    });
+  }
+
+  // Other Identity selections (Archetype, Occupation, Origin, Faction)
+  const otherIdentities = [
+    { key: 'char-archetype', label: 'Archetype', defaultVal: 'Archetype Chassis (80 CP Blueprint)' },
+    { key: 'char-occu', label: 'Occupation', defaultVal: 'Career Package (20 SP Pool - Supplemental)' },
+    { key: 'char-origin', label: 'Origin', defaultVal: 'Homeworld Package (20 SP Pool - Supplemental)' },
+    { key: 'char-faction', label: 'Faction', defaultVal: 'Allegiance Package (20 SP Pool - Supplemental)' }
+  ];
+
+  otherIdentities.forEach(({ key, label, defaultVal }) => {
+    const val = characterData[key];
+    const name = typeof val === 'object' ? (val.name || val.title || '') : String(val || '');
+    // Origin, Occupation, and Faction are supplemental and separate from the 150 CP pool. They cost 0 CP.
+    const isSupplemental = ['char-occu', 'char-origin', 'char-faction'].includes(key);
+    const cost = isSupplemental ? 0 : (val ? getItemCP(val, 0) : 0);
+    identityCost += cost;
+    itemizedList.push({
+      category: label,
+      item: name || 'None Selected',
+      val: name ? (typeof val === 'object' && val.summary ? val.summary : defaultVal) : 'Optional Selection',
+      costVal: cost,
+      cost: `${cost} CP`
+    });
+  });
+
+  // Secondary Origin & Occupation if present
+  const secOrigin = characterData['char-secondary-origin'] || characterData['char-origin-secondary'];
+  if (secOrigin) {
+    itemizedList.push({
+      category: 'Secondary Origin',
+      item: String(secOrigin),
+      val: 'Expanded Homeworld Heritage (0 CP Supplemental)',
+      costVal: 0,
+      cost: '0 CP'
+    });
+  }
+  const secOccu = characterData['char-secondary-occu'] || characterData['char-background-occu'] || characterData['char-occu-secondary'];
+  if (secOccu) {
+    itemizedList.push({
+      category: 'Secondary Occupation',
+      item: String(secOccu),
+      val: 'Dual Career Background (0 CP Supplemental)',
+      costVal: 0,
+      cost: '0 CP'
+    });
+  }
+
+  // 2. Primary Attributes & Species/Pool Granted Attribute Modifiers
+  let primaryAttrCost = 0;
+  const primaryAttrs = [
+    { name: 'Strength', id: 'attr-strength', code: 'STR' },
+    { name: 'Agility', id: 'attr-agility', code: 'AGI' },
+    { name: 'Stamina', id: 'attr-stamina', code: 'STA' },
+    { name: 'Intellect', id: 'attr-intellect', code: 'INT' },
+    { name: 'Wisdom', id: 'attr-wisdom', code: 'WIS' },
+    { name: 'Charisma', id: 'attr-charisma', code: 'CHA' }
+  ];
+
+  const identityPoolAttrKeys = [
+    { key: 'speciesAllocations', label: 'Species Pool' },
+    { key: 'occuAllocations', label: 'Occupation Pool' },
+    { key: 'originAllocations', label: 'Origin Pool' },
+    { key: 'factionAllocations', label: 'Faction Pool' }
+  ];
+
+  // Track purchased attribute points & deduct points granted from identity pools
+  primaryAttrs.forEach(({ name, id }) => {
+    const totalVal = parseInt(characterData[id] || 0, 10);
+
+    let totalGrantedPoolPts = 0;
+    identityPoolAttrKeys.forEach(({ key: pKey, label: pLabel }) => {
+      const pPts = parseInt(characterData[pKey]?.attributes?.[id] || 0, 10);
+      if (pPts > 0) {
+        totalGrantedPoolPts += pPts;
+        itemizedList.push({
+          category: 'Granted Attr Mod',
+          item: `${name} (+${pPts})`,
+          val: `Granted by ${pLabel} (0 CP Included/Supplemental)`,
+          costVal: 0,
+          cost: formatGrantedCost(0, pPts * 5, 'CP'),
+          standaloneCost: pPts * 5
+        });
+      }
+    });
+
+    const purchasedPoints = Math.max(0, totalVal - totalGrantedPoolPts);
+    const cost = purchasedPoints * 5;
+    primaryAttrCost += cost;
+    itemizedList.push({
+      category: 'Primary Attr',
+      item: `${name} (Purchased)`,
+      val: purchasedPoints > 0 ? `${purchasedPoints} Purchased Point${purchasedPoints > 1 ? 's' : ''}` : '0 Base Purchased',
+      costVal: cost,
+      cost: `${cost} CP`
+    });
+  });
+
+  // Inherent Attribute Modifiers granted by Species Package
+  if (speciesCostBreakdown?.itemized?.attributes && Array.isArray(speciesCostBreakdown.itemized.attributes)) {
+    speciesCostBreakdown.itemized.attributes.forEach(attrMod => {
+      const attrCode = (attrMod.attr || '').toUpperCase();
+      const attrObj = primaryAttrs.find(p => p.code === attrCode || p.name.toUpperCase() === attrCode) || { name: attrMod.attr };
+      const bonus = attrMod.value || 1;
+      const standalone = Math.abs(attrMod.bp !== undefined ? attrMod.bp : (bonus * 5));
+      itemizedList.push({
+        category: 'Species Granted Attr',
+        item: `${attrObj.name} (${bonus > 0 ? `+${bonus}` : bonus})`,
+        val: `Granted by ${speciesCostBreakdown.speciesName} (Included in Package)`,
+        costVal: 0,
+        cost: formatGrantedCost(0, standalone, 'CP'),
+        standaloneCost: standalone
+      });
+    });
+  }
+
+  // 3. Attribute Checks / Sub-Attributes (Base = Primary * 2 + 2; 1 CP per purchased point above/below base)
+  let subAttrCost = 0;
+  const subAttrs = [
+    { name: 'Might', id: 'attr-might', primaryId: 'attr-strength' },
+    { name: 'Reflex', id: 'attr-reflex', primaryId: 'attr-agility' },
+    { name: 'Fortitude', id: 'attr-fortitude', primaryId: 'attr-stamina' },
+    { name: 'Reason', id: 'attr-logic', aliasId: 'attr-reason', primaryId: 'attr-intellect' },
+    { name: 'Willpower', id: 'attr-will', aliasId: 'attr-willpower', primaryId: 'attr-wisdom' },
+    { name: 'Etiquette', id: 'attr-etiquette', primaryId: 'attr-charisma' }
+  ];
+
+  subAttrs.forEach(({ name, id, aliasId, primaryId }) => {
+    const pVal = parseInt(characterData[primaryId] || 0, 10);
+    const calculatedBase = (pVal * 2) + 2;
+
+    const hasExplicitVal = (characterData[id] !== undefined && characterData[id] !== null && characterData[id] !== '') ||
+                          (aliasId && characterData[aliasId] !== undefined && characterData[aliasId] !== null && characterData[aliasId] !== '');
+    const rawVal = characterData[id] !== undefined && characterData[id] !== null && characterData[id] !== ''
+      ? parseInt(characterData[id], 10)
+      : (aliasId ? parseInt(characterData[aliasId], 10) : 0);
+
+    const val = (hasExplicitVal && rawVal !== 0 && !isNaN(rawVal)) ? rawVal : calculatedBase;
+    const extra = val - calculatedBase;
+
+    if (extra !== 0) {
+      const cost = extra * 1;
+      subAttrCost += cost;
+      itemizedList.push({
+        category: 'Attribute Check',
+        item: `${name} (${extra >= 0 ? '+' : ''}${extra})`,
+        val: `${extra >= 0 ? '+' : ''}${extra} rel. Base (${calculatedBase})`,
+        costVal: cost,
+        cost: `${cost} CP`
+      });
+    } else {
+      itemizedList.push({
+        category: 'Attribute Check',
+        item: `${name} (Base)`,
+        val: `Base Check Score (${calculatedBase})`,
+        costVal: 0,
+        cost: '0 CP'
+      });
+    }
+  });
+
+  // 4. Movement Modes & Species Locomotion
+  const groundWalk = characterData['move-walk'] !== undefined && characterData['move-walk'] !== null && characterData['move-walk'] !== ''
+    ? parseInt(characterData['move-walk'], 10)
+    : 30;
+  itemizedList.push({
+    category: 'Movement Mode',
+    item: `Ground Walk (${groundWalk} ft)`,
+    val: 'Standard Ground Locomotion',
+    costVal: 0,
+    cost: '0 CP'
+  });
+
+  const otherMovementKeys = [
+    { key: 'move-swim', name: 'Swim', baseBP: 2 },
+    { key: 'move-climb', name: 'Climb', baseBP: 2 },
+    { key: 'move-fly', name: 'Fly', baseBP: 4 },
+    { key: 'move-burrow', name: 'Burrow', baseBP: 2 },
+    { key: 'move-flicker', name: 'Flicker', baseBP: 2 }
+  ];
+
+  otherMovementKeys.forEach(({ key, name, baseBP }) => {
+    const spd = parseInt(characterData[key] || 0, 10);
+    if (spd > 0) {
+      const isFromSpecies = speciesCostBreakdown && (
+        (speciesCostBreakdown.speeds && speciesCostBreakdown.speeds[name.toLowerCase()] > 0) ||
+        (speciesCostBreakdown.breakdown?.movementBP > 0) ||
+        (Array.isArray(speciesCostBreakdown.speciesObj?.movement) && speciesCostBreakdown.speciesObj.movement.some(m => String(m).toLowerCase().includes(name.toLowerCase())))
+      );
+      if (isFromSpecies) {
+        itemizedList.push({
+          category: 'Species Movement',
+          item: `${name} (${spd} ft)`,
+          val: `Granted by ${speciesCostBreakdown.speciesName} (Included in Package)`,
+          costVal: 0,
+          cost: formatGrantedCost(0, baseBP, 'CP'),
+          standaloneCost: baseBP
+        });
+      } else {
+        itemizedList.push({
+          category: 'Movement Mode',
+          item: `${name} (${spd} ft)`,
+          val: `${name} Locomotion Mode`,
+          costVal: 0,
+          cost: '0 CP'
+        });
+      }
+    }
+  });
+
+  // 5. Hindrances / Disadvantages (Yields CP Refunds unless from Species Package)
+  let disadvantageRefund = 0;
+  const hindrancesList = (Array.isArray(characterData.hindrances) && characterData.hindrances.length > 0)
+    ? characterData.hindrances
+    : (Array.isArray(characterData.disadvantages) ? characterData.disadvantages : []);
+
+  hindrancesList.forEach((dis) => {
+    const name = typeof dis === 'object' ? (dis.name || dis.title || 'Unnamed Hindrance') : String(dis);
+    const isSpeciesDis = typeof dis === 'object' && (
+      dis.source === 'species' || 
+      dis.category === 'Species Disadvantage' || 
+      dis.category === 'Species' ||
+      (speciesCostBreakdown?.itemized?.disadvantages?.some(sd => (sd.name || '').toLowerCase() === name.toLowerCase()))
+    );
+    const isFactionDis = typeof dis === 'object' && (
+      dis.source === 'faction' ||
+      dis.category === 'Faction Hindrance' ||
+      dis.category === 'Faction Disadvantage' ||
+      dis.category === 'Faction'
+    );
+
+    if (isSpeciesDis) {
+      const refVal = typeof dis === 'object' ? (dis.refundBP || dis.bp || 3) : 3;
+      itemizedList.push({
+        category: 'Species Disadvantage',
+        item: name,
+        val: `Inherent to ${speciesCostBreakdown?.speciesName || 'Species'} (Refund included in species cost)`,
+        costVal: 0,
+        cost: formatGrantedCost(0, -Math.abs(refVal), 'CP'),
+        standaloneCost: -Math.abs(refVal)
+      });
+    } else {
+      const defaultRefund = (typeof dis === 'object' && (dis.refundBP || dis.bp)) ? (dis.refundBP || dis.bp) : 3;
+      const cpVal = getItemCP(dis, defaultRefund);
+      disadvantageRefund += cpVal;
+      itemizedList.push({
+        category: isFactionDis ? 'Faction Hindrance' : 'Hindrance',
+        item: name,
+        val: isFactionDis ? 'Faction Allegiance Restriction (CP Refund)' : 'Character Hindrance Refund',
+        costVal: -cpVal,
+        cost: `-${cpVal} CP`
+      });
+    }
+  });
+
+  // 6. Features & Perks (Standard 3 CP; Occupation Recommended Features get -1 CP discount = 2 CP; Identity Granted Features = 0 CP [standalone])
+  let featuresCost = 0;
+  const occuName = characterData['char-occu'];
+  const occuItem = occuName ? resolveCatalogItem('occupations', occuName, dbData) : null;
+  const occuRecFeatNames = new Set(
+    (Array.isArray(occuItem?.recommended_features) ? occuItem.recommended_features : (Array.isArray(occuItem?.features) ? occuItem.features : []))
+      .map(f => (typeof f === 'object' ? (f.name || f.title || f.id || '') : String(f)).toLowerCase().trim())
+  );
+
+  const speciesPoolFeats = new Set((characterData.speciesAllocations?.features || []).map(f => normTrait(typeof f === 'object' ? (f.name || f.title || f.id) : f)));
+  const occuPoolFeats = new Set((characterData.occuAllocations?.features || []).map(f => normTrait(typeof f === 'object' ? (f.name || f.title || f.id) : f)));
+  const originPoolFeats = new Set((characterData.originAllocations?.features || []).map(f => normTrait(typeof f === 'object' ? (f.name || f.title || f.id) : f)));
+  const factionPoolFeats = new Set((characterData.factionAllocations?.features || []).map(f => normTrait(typeof f === 'object' ? (f.name || f.title || f.id) : f)));
+
+  const poolTraitNames = new Set([
+    ...(characterData.speciesAllocations?.traits || []),
+    ...(characterData.occuAllocations?.traits || []),
+    ...(characterData.originAllocations?.traits || []),
+    ...(characterData.factionAllocations?.traits || [])
+  ].map(t => normTrait(typeof t === 'object' ? (t.name || t.title || t.id) : t)));
+
+  const features = Array.isArray(characterData.features) ? characterData.features : [];
+  features.forEach((feat) => {
+    const name = typeof feat === 'object' ? (feat.name || feat.title || 'Unnamed Feature') : String(feat);
+    const cleanName = normTrait(name);
+    const fCat = typeof feat === 'object' ? (feat.category || '') : '';
+    const fSource = typeof feat === 'object' ? (feat.source || '') : '';
+    const isExplicitlyGranted = typeof feat === 'object' && (feat.isGranted === true || feat.cp === 0);
+
+    const isFromSpecies = speciesPoolFeats.has(cleanName) || fSource === 'species' || fCat.includes('Species') || (speciesCostBreakdown?.itemized?.traits?.some(st => normTrait(st.name) === cleanName));
+    const isFromOccu = occuPoolFeats.has(cleanName) || fSource === 'occupation' || fSource === 'occu' || fCat.includes('Occupation');
+    const isFromOrigin = originPoolFeats.has(cleanName) || fSource === 'origin' || fCat.includes('Origin');
+    const isFromFaction = factionPoolFeats.has(cleanName) || fSource === 'faction' || fCat.includes('Faction');
+    const isPoolTrait = poolTraitNames.has(cleanName);
+
+    const isGrantedIdentityFeat = isFromSpecies || isFromOccu || isFromOrigin || isFromFaction || isPoolTrait || isExplicitlyGranted;
+
+    if (isGrantedIdentityFeat) {
+      const standalone = (typeof feat === 'object' && (feat.standaloneCp !== undefined || feat.standaloneBp !== undefined))
+        ? (feat.standaloneCp !== undefined ? feat.standaloneCp : feat.standaloneBp)
+        : ((typeof feat === 'object' && feat.cp) ? feat.cp : ((typeof feat === 'object' && feat.cost) ? feat.cost : 3));
+
+      let categoryLabel = 'Species Inherent Feature';
+      let sourceName = speciesCostBreakdown?.speciesName || 'Species';
+      if (isFromSpecies) {
+        categoryLabel = 'Species Granted Feature';
+        sourceName = speciesCostBreakdown?.speciesName || 'Species';
+      } else if (isFromOccu) {
+        categoryLabel = 'Occupation Granted Feature';
+        sourceName = 'Occupation';
+      } else if (isFromOrigin) {
+        categoryLabel = 'Origin Granted Feature';
+        sourceName = 'Origin';
+      } else if (isFromFaction) {
+        categoryLabel = 'Faction Granted Feature';
+        sourceName = 'Faction';
+      } else if (isPoolTrait) {
+        categoryLabel = 'Identity Granted Trait';
+        sourceName = 'Identity Pool';
+      }
+
+      itemizedList.push({
+        category: categoryLabel,
+        item: name,
+        val: `Granted by ${sourceName} (0 CP Included/Supplemental)`,
+        costVal: 0,
+        cost: formatGrantedCost(0, standalone, 'CP'),
+        standaloneCost: standalone
+      });
+    } else {
+      const isOccuRecommended = occuRecFeatNames.has(cleanName);
+      const defaultCost = isOccuRecommended ? 2 : 3;
+      const cost = getItemCP(feat, defaultCost);
+      featuresCost += cost;
+      itemizedList.push({
+        category: isOccuRecommended ? 'Recommended Feature' : 'Feature',
+        item: name,
+        val: isOccuRecommended ? 'Occupation Recommended (-1 CP Discount)' : ((typeof feat === 'object' && feat.type) ? feat.type : 'Perk'),
+        costVal: cost,
+        cost: `${cost} CP`
+      });
+    }
+  });
+
+  // 7. Traits (characterData.traits)
+  let traitsCost = 0;
+  const speciesPoolTraits = new Set((characterData.speciesAllocations?.traits || []).map(t => normTrait(typeof t === 'object' ? (t.name || t.title || t.id) : t)));
+  const occuPoolTraits = new Set([
+    ...(characterData.occuAllocations?.traits || []),
+    ...(Array.isArray(characterData['char-occu-traits']) ? characterData['char-occu-traits'] : []),
+    ...(Array.isArray(characterData.occu_traits) ? characterData.occu_traits : [])
+  ].map(t => normTrait(typeof t === 'object' ? (t.name || t.title || t.id) : t)));
+  const originPoolTraits = new Set([
+    ...(characterData.originAllocations?.traits || []),
+    ...(Array.isArray(characterData['char-origin-traits']) ? characterData['char-origin-traits'] : []),
+    ...(Array.isArray(characterData.origin_traits) ? characterData.origin_traits : [])
+  ].map(t => normTrait(typeof t === 'object' ? (t.name || t.title || t.id) : t)));
+  const factionPoolTraits = new Set((characterData.factionAllocations?.traits || []).map(t => normTrait(typeof t === 'object' ? (t.name || t.title || t.id) : t)));
+
+  const traitsList = Array.isArray(characterData.traits) ? characterData.traits : [];
+  traitsList.forEach((trait) => {
+    const name = typeof trait === 'object' ? (trait.name || trait.title || 'Unnamed Trait') : String(trait);
+    const cleanName = normTrait(name);
+    const tCat = typeof trait === 'object' ? (trait.category || '') : '';
+    const tSource = typeof trait === 'object' ? (trait.source || '') : '';
+    const isExplicitlyGranted = typeof trait === 'object' && (trait.isGranted === true || trait.cp === 0);
+
+    const isFromSpecies = speciesPoolTraits.has(cleanName) || tSource === 'species' || tCat.includes('Species');
+    const isFromOccu = occuPoolTraits.has(cleanName) || tSource === 'occupation' || tSource === 'occu' || tCat.includes('Occupation');
+    const isFromOrigin = originPoolTraits.has(cleanName) || tSource === 'origin' || tCat.includes('Origin');
+    const isFromFaction = factionPoolTraits.has(cleanName) || tSource === 'faction' || tCat.includes('Faction');
+
+    const isGrantedTrait = isFromSpecies || isFromOccu || isFromOrigin || isFromFaction || isExplicitlyGranted;
+
+    if (isGrantedTrait) {
+      const standalone = (typeof trait === 'object' && (trait.standaloneBp !== undefined || trait.standaloneCp !== undefined))
+        ? (trait.standaloneBp !== undefined ? trait.standaloneBp : trait.standaloneCp)
+        : ((typeof trait === 'object' && trait.bp) ? trait.bp : 1);
+
+      let categoryLabel = 'Species Trait';
+      let sourceName = speciesCostBreakdown?.speciesName || 'Species';
+      if (isFromSpecies) {
+        categoryLabel = 'Species Trait';
+        sourceName = speciesCostBreakdown?.speciesName || 'Species';
+      } else if (isFromOccu) {
+        categoryLabel = 'Occupation Trait';
+        sourceName = 'Occupation';
+      } else if (isFromOrigin) {
+        categoryLabel = 'Origin Trait';
+        sourceName = 'Origin';
+      } else if (isFromFaction) {
+        categoryLabel = 'Faction Trait';
+        sourceName = 'Faction';
+      }
+
+      itemizedList.push({
+        category: categoryLabel,
+        item: name,
+        val: `Granted by ${sourceName} (0 CP Included/Supplemental)`,
+        costVal: 0,
+        cost: formatGrantedCost(0, standalone, 'CP'),
+        standaloneCost: standalone
+      });
+    } else {
+      const cost = getItemCP(trait, 1);
+      traitsCost += cost;
+      itemizedList.push({
+        category: 'Trait',
+        item: name,
+        val: (typeof trait === 'object' && trait.type) ? trait.type : 'Trait Purchase',
+        costVal: cost,
+        cost: `${cost} CP`
+      });
+    }
+  });
+
+  // 8. Special Abilities
+  let specialAbilitiesCost = 0;
+  const specAbilities = Array.isArray(characterData.special_abilities) ? characterData.special_abilities : [];
+  specAbilities.forEach((sa) => {
+    const name = typeof sa === 'object' ? (sa.name || 'Unnamed Ability') : sa;
+    const isSpeciesSA = typeof sa === 'object' && (sa.source === 'species' || sa.category?.includes('Species'));
+    if (isSpeciesSA) {
+      itemizedList.push({
+        category: 'Species Special Ability',
+        item: name,
+        val: `Granted by ${speciesCostBreakdown?.speciesName || 'Species'} (Included in Package)`,
+        costVal: 0,
+        cost: formatGrantedCost(0, 5, 'CP'),
+        standaloneCost: 5
+      });
+    } else {
+      const cost = getItemCP(sa, 5);
+      specialAbilitiesCost += cost;
+      itemizedList.push({
+        category: 'Special Ability',
+        item: name,
+        val: 'Innate Power',
+        costVal: cost,
+        cost: `${cost} CP`
+      });
+    }
+  });
+
+  // 9. Awakened Disciplines
+  let awakenedCost = 0;
+  const awakenedList = Array.isArray(characterData.awakened) ? characterData.awakened : [];
+  awakenedList.forEach((awk) => {
+    const name = typeof awk === 'object' ? (awk.name || 'Unnamed Discipline') : awk;
+    const isSpeciesAwk = typeof awk === 'object' && (awk.source === 'species' || awk.category?.includes('Species'));
+    if (isSpeciesAwk) {
+      itemizedList.push({
+        category: 'Species Awakened Discipline',
+        item: name,
+        val: `Granted by ${speciesCostBreakdown?.speciesName || 'Species'} (Included in Package)`,
+        costVal: 0,
+        cost: formatGrantedCost(0, 3, 'CP'),
+        standaloneCost: 3
+      });
+    } else {
+      const cost = getItemCP(awk, 5);
+      awakenedCost += cost;
+      itemizedList.push({
+        category: 'Awakened Discipline',
+        item: name,
+        val: 'Magic Domain',
+        costVal: cost,
+        cost: `${cost} CP`
+      });
+    }
+  });
+
+  // 10. Invocations
+  let invocationsCost = 0;
+  const invocationsList = Array.isArray(characterData.invocations) ? characterData.invocations : [];
+  invocationsList.forEach((inv) => {
+    const name = typeof inv === 'object' ? (inv.name || 'Unnamed Invocation') : inv;
+    const cost = getItemCP(inv, 0);
+    invocationsCost += cost;
+    itemizedList.push({
+      category: 'Invocation',
+      item: name,
+      val: 'Spell / Ritual',
+      costVal: cost,
+      cost: `${cost} CP`
+    });
+  });
+
+  // 11. Augmentations
+  let augmentationsCost = 0;
+  const augmentationsList = Array.isArray(characterData.augmentations) ? characterData.augmentations : [];
+  augmentationsList.forEach((aug) => {
+    const name = typeof aug === 'object' ? (aug.name || 'Unnamed Augmentation') : aug;
+    const cost = getItemCP(aug, 0);
+    augmentationsCost += cost;
+    itemizedList.push({
+      category: 'Augmentation',
+      item: name,
+      val: (typeof aug === 'object' && aug.type) ? aug.type : 'Cyberware',
+      costVal: cost,
+      cost: `${cost} CP`
+    });
+  });
+
+  // 12. Personal Property / Gear / Weapons / Armor / Mecha / Other
+  let equipmentCost = 0;
+  const equipCategories = [
+    { key: 'gear', category: 'Gear' },
+    { key: 'weapons', category: 'Weaponry' },
+    { key: 'armor', category: 'Armoring' },
+    { key: 'mecha', category: 'Mecha' },
+    { key: 'other', category: 'Other Property' }
+  ];
+
+  equipCategories.forEach(({ key, category }) => {
+    const list = Array.isArray(characterData[key]) ? characterData[key] : [];
+    list.forEach((item) => {
+      const name = typeof item === 'object' ? (item.name || 'Unnamed Item') : item;
+      const cost = getItemCP(item, 0);
+      equipmentCost += cost;
+      itemizedList.push({
+        category,
+        item: name,
+        val: 'Item Purchase',
+        costVal: cost,
+        cost: `${cost} CP`
+      });
+    });
+  });
+
+  // 13. Skills: Species Granted Bonuses & General Point Buy
+  if (speciesCostBreakdown?.speciesObj?.specific_skill_bonuses && Array.isArray(speciesCostBreakdown.speciesObj.specific_skill_bonuses)) {
+    speciesCostBreakdown.speciesObj.specific_skill_bonuses.forEach(b => {
+      const sName = typeof b === 'object' ? (b.skill || b.name || '') : String(b).split(/[:+(]/)[0].trim();
+      const sBonus = typeof b === 'object' ? (b.bonus ?? b.value ?? 1) : 1;
+      if (sName) {
+        itemizedList.push({
+          category: 'Species Skill Bonus',
+          item: `${sName} (+${sBonus})`,
+          val: `Granted by ${speciesCostBreakdown.speciesName} (Included in Package)`,
+          costVal: 0,
+          cost: formatGrantedCost(0, sBonus, 'CP'),
+          standaloneCost: sBonus
+        });
+      }
+    });
+  }
+
+  let skillRanksCost = 0;
+  const getPoolSkillRank = (pool, sId, sName) => {
+    if (!pool || !pool.skills) return 0;
+    const targetNormId = sId.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const targetNormName = (sName || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    for (const [sKey, sRank] of Object.entries(pool.skills)) {
+      const kNorm = sKey.toLowerCase().replace(/[^a-z0-9]/g, '');
+      if (kNorm === targetNormId || kNorm === targetNormName) {
+        return parseInt(sRank, 10) || 0;
+      }
+    }
+    return 0;
+  };
+
+  Object.keys(characterData).forEach((key) => {
+    if (key.startsWith('skill-') && key.endsWith('-rank')) {
+      const rawRank = parseInt(characterData[key] || 0, 10);
+      const rank = Math.min(20, Math.max(0, rawRank)); // Max level 20 cap
+      if (rank > 0) {
+        const skillId = key.replace('skill-', '').replace('-rank', '');
+        const storedName = characterData[`skill-${skillId}-name`];
+        const skillName = storedName || skillId.replace(/-/g, ' ');
+
+        const specRanks = getPoolSkillRank(characterData.speciesAllocations, skillId, skillName);
+        const occuRanks = getPoolSkillRank(characterData.occuAllocations, skillId, skillName);
+        const origRanks = getPoolSkillRank(characterData.originAllocations, skillId, skillName);
+        const facRanks = getPoolSkillRank(characterData.factionAllocations, skillId, skillName);
+
+        const totalGrantedPoolRanks = specRanks + occuRanks + origRanks + facRanks;
+        const effectiveGrantedRanks = Math.min(rank, totalGrantedPoolRanks);
+        const purchasedRanks = Math.max(0, rank - effectiveGrantedRanks);
+
+        [
+          { ranks: specRanks, label: 'Species Granted Skill', source: 'Species' },
+          { ranks: occuRanks, label: 'Occupation Granted Skill', source: 'Occupation' },
+          { ranks: origRanks, label: 'Origin Granted Skill', source: 'Origin' },
+          { ranks: facRanks, label: 'Faction Granted Skill', source: 'Faction' }
+        ].forEach(({ ranks, label, source }) => {
+          if (ranks > 0) {
+            itemizedList.push({
+              category: label,
+              item: `${skillName} (+${ranks} Rank${ranks > 1 ? 's' : ''})`,
+              val: `Granted by ${source} Package (0 CP Included/Supplemental)`,
+              costVal: 0,
+              cost: formatGrantedCost(0, ranks, 'CP'),
+              standaloneCost: ranks
+            });
+          }
+        });
+
+        if (purchasedRanks > 0) {
+          const cost = purchasedRanks * 1; // 1 CP per rank default
+          skillRanksCost += cost;
+          itemizedList.push({
+            category: 'Skill Rank',
+            item: skillName,
+            val: `${purchasedRanks} Purchased Rank${purchasedRanks > 1 ? 's' : ''}`,
+            costVal: cost,
+            cost: `${cost} CP`
+          });
+        }
+      }
+    }
+  });
+
+  let specializationRanksCost = 0;
+  const specializations = Array.isArray(characterData.specializations) ? characterData.specializations : [];
+  specializations.forEach((spec) => {
+    const rawRank = typeof spec === 'object' ? parseInt(spec.rank || 0, 10) : 0;
+    const rank = Math.min(10, Math.max(0, rawRank)); // Max level 10 cap
+    if (rank > 0) {
+      const specName = typeof spec === 'object' ? (spec.name || 'Unnamed Spec') : 'Unnamed Spec';
+      const cost = typeof spec === 'object' && spec.cp !== undefined ? parseInt(spec.cp, 10) : rank * 1;
+      specializationRanksCost += cost;
+      itemizedList.push({
+        category: 'Specialization',
+        item: specName,
+        val: `${rank} Levels`,
+        costVal: cost,
+        cost: `${cost} CP`
+      });
+    }
+  });
+
+  // 14. Purchased Stats Cost (Health & Vitality)
+  let purchasedStatsCost = 0;
+  if (derivedStats.purchasedHealth > 0) {
+    const cost = Math.ceil(derivedStats.purchasedHealth / 5);
+    purchasedStatsCost += cost;
+    itemizedList.push({
+      category: 'Purchased Stat',
+      item: 'Bonus Health',
+      val: `+${derivedStats.purchasedHealth} Health`,
+      costVal: cost,
+      cost: `${cost} CP`
+    });
+  }
+
+  if (derivedStats.purchasedVitality > 0) {
+    const cost = Math.ceil(derivedStats.purchasedVitality / 5);
+    purchasedStatsCost += cost;
+    itemizedList.push({
+      category: 'Purchased Stat',
+      item: 'Bonus Vitality',
+      val: `+${derivedStats.purchasedVitality} Vitality`,
+      costVal: cost,
+      cost: `${cost} CP`
+    });
+  }
+
+  // Calculate Total Spent CP
+  const spentCP = (
+    identityCost +
+    primaryAttrCost +
+    subAttrCost +
+    featuresCost +
+    traitsCost +
+    specialAbilitiesCost +
+    awakenedCost +
+    invocationsCost +
+    augmentationsCost +
+    equipmentCost +
+    skillRanksCost +
+    specializationRanksCost +
+    purchasedStatsCost -
+    disadvantageRefund
+  );
+
+  const earnedAP = Math.max(0, parseInt(characterData.earned_ap || 0, 10));
+  const experienceDebt = Math.max(0, parseInt(characterData.experience_debt || 0, 10));
+  const totalBudget = startingCP + earnedAP;
+  const remainingCP = totalBudget - spentCP;
+  const availableAP = Math.max(0, earnedAP - Math.max(0, spentCP - startingCP));
+
+  return {
+    startingCP,
+    earnedAP,
+    totalBudget,
+    spentCP,
+    remainingCP,
+    availableAP,
+    experienceDebt,
+    experienceAwards: Array.isArray(characterData.experience_awards) ? characterData.experience_awards : [],
+    experienceSpends: Array.isArray(characterData.experience_spends) ? characterData.experience_spends : [],
+    primaryAttrCost,
+    subAttrCost,
+    skillRanksCost,
+    specializationRanksCost,
+    featuresCost,
+    traitsCost,
+    disadvantageRefund,
+    specialAbilitiesCost,
+    awakenedCost,
+    identityPools,
+    speciesCostBreakdown,
+    itemizedList
+  };
+}
 
 

@@ -339,9 +339,15 @@ export const UniversalCatalogModal = ({
       return;
     }
 
-    // Otherwise initiate real-time Firestore subscription
+    // Otherwise initiate real-time Firestore subscription with instant fallback pre-seeding
     let isMounted = true;
-    setLoading(true);
+    const initialFallback = FALLBACK_CATALOG_DATA[canonicalColKey];
+    if (initialFallback && initialFallback.length > 0) {
+      setCloudItems(initialFallback);
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
 
     let unsub = () => {};
     try {

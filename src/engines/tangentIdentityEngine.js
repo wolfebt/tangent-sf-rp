@@ -173,10 +173,23 @@ export const applySpeciesTransition = (characterData, newSpeciesInput, dbData = 
       const sBonus = typeof b === 'object' ? (b.bonus ?? b.value ?? 1) : 1;
       if (sName) {
         const cleanId = sName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-        const key = `skill-${cleanId}-mod`;
-        if (updated[key] !== undefined) {
-          const currentMod = parseInt(updated[key] || 0, 10);
-          updated[key] = Math.max(0, currentMod - sBonus);
+        const sNameLower = sName.trim().toLowerCase();
+        const canonSkill = ALL_CANONICAL_SKILLS.find(s => {
+          const n = (s.name || '').toLowerCase();
+          const idWithoutPrefix = (s.id || '').replace(/^[a-z]+-/, '');
+          return n === sNameLower || s.id === cleanId || idWithoutPrefix === cleanId;
+        });
+        const canonicalId = canonSkill?.id || cleanId;
+        const canonKey = `skill-${canonicalId}-mod`;
+        const legacyKey = `skill-${cleanId}-mod`;
+
+        if (updated[canonKey] !== undefined) {
+          const currentMod = parseInt(updated[canonKey] || 0, 10);
+          updated[canonKey] = Math.max(0, currentMod - sBonus);
+        }
+        if (canonKey !== legacyKey && updated[legacyKey] !== undefined) {
+          const currentMod = parseInt(updated[legacyKey] || 0, 10);
+          updated[legacyKey] = Math.max(0, currentMod - sBonus);
         }
       }
     });
@@ -264,8 +277,20 @@ export const applySpeciesTransition = (characterData, newSpeciesInput, dbData = 
         const sBonus = typeof b === 'object' ? (b.bonus ?? b.value ?? 1) : 1;
         if (sName) {
           const cleanId = sName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-          const key = `skill-${cleanId}-mod`;
-          updated[key] = (parseInt(updated[key] || 0, 10)) + sBonus;
+          const sNameLower = sName.trim().toLowerCase();
+          const canonSkill = ALL_CANONICAL_SKILLS.find(s => {
+            const n = (s.name || '').toLowerCase();
+            const idWithoutPrefix = (s.id || '').replace(/^[a-z]+-/, '');
+            return n === sNameLower || s.id === cleanId || idWithoutPrefix === cleanId;
+          });
+          const canonicalId = canonSkill?.id || cleanId;
+          const canonKey = `skill-${canonicalId}-mod`;
+          const legacyKey = `skill-${cleanId}-mod`;
+
+          updated[canonKey] = (parseInt(updated[canonKey] || 0, 10)) + sBonus;
+          if (canonKey !== legacyKey) {
+            updated[legacyKey] = (parseInt(updated[legacyKey] || 0, 10)) + sBonus;
+          }
         }
       });
     }
@@ -474,7 +499,7 @@ export const applyOccupationTransition = (characterData, newOccupationInput, dbD
   updated.features = filteredFeatures;
   updated['char-occu-traits'] = [];
   updated.occu_traits = [];
-  updated.occuAllocations = { skills: {}, features: [] };
+  updated.occuAllocations = { skills: {}, traits: [], features: [] };
 
   return updated;
 };
@@ -526,7 +551,7 @@ export const applyOriginTransition = (characterData, newOriginInput, dbData = {}
   updated.features = filteredFeatures;
   updated['char-origin-traits'] = [];
   updated.origin_traits = [];
-  updated.originAllocations = { skills: {}, features: [] };
+  updated.originAllocations = { skills: {}, traits: [], features: [] };
 
   return updated;
 };
@@ -637,13 +662,16 @@ export const applyFactionTransition = (characterData, newFactionInput, dbData = 
       rawHind.forEach(h => {
         const hName = typeof h === 'object' ? (h.name || h.title || h.id) : String(h);
         if (hName) {
+          const refundVal = (typeof h === 'object' && (h.cp !== undefined ? h.cp : (h.refundBP !== undefined ? h.refundBP : (h.bp !== undefined ? h.bp : 3)))) || 3;
           newDisadvantagesToAdd.push({
             id: `dis_fac_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
             name: normalizeTraitString(hName),
             category: 'Faction Hindrance',
             source: 'faction',
             sourceName: newFactionName,
-            bp: 3,
+            bp: refundVal,
+            cp: refundVal,
+            refundBP: refundVal,
             description: typeof h === 'object' ? (h.description || `Faction allegiance restriction of ${newFactionName}.`) : `Faction restriction of ${newFactionName}.`
           });
         }
@@ -653,7 +681,7 @@ export const applyFactionTransition = (characterData, newFactionInput, dbData = 
 
   updated.features = [...filteredFeatures, ...newFeaturesToAdd];
   updated.disadvantages = [...filteredDisadvantages, ...newDisadvantagesToAdd];
-  updated.factionAllocations = { skills: {}, features: [] };
+  updated.factionAllocations = { skills: {}, traits: [], features: [] };
 
   return updated;
 };

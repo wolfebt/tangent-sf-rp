@@ -336,7 +336,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
         </div>
 
         {/* Center Section: Dynamic Contextual Header Options for Active Page */}
-        <div className="flex-1 flex items-center justify-center gap-1.5 sm:gap-2.5 min-w-0 px-2 overflow-x-auto no-scrollbar">
+        <div className="flex-1 flex items-center justify-center gap-1.5 sm:gap-2.5 min-w-0 px-2 overflow-visible relative">
           {/* Dynamic Controls: PERSONA FOLIO */}
           {isFolio && (
             <div className="flex items-center gap-1.5 sm:gap-2">
@@ -392,6 +392,21 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 );
               })()}
 
+              {/* Operative Catalog Navigation Trigger */}
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1150, 0.03);
+                  window.dispatchEvent(new CustomEvent('open-folio-catalog'));
+                }}
+                className="px-2 sm:px-2.5 py-1 rounded-lg text-xs font-bold font-mono uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 cyan-shadow-thin shrink-0"
+                title="Open Operative Catalog & Persona Roster"
+              >
+                <Users size={13} className="text-cyan-400" />
+                <span className="hidden sm:inline">Operative Catalog</span>
+                <span className="sm:hidden">Catalog</span>
+              </button>
+
               {/* Explicit BP Audit / CP Economy Button */}
               <button
                 type="button"
@@ -439,12 +454,6 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                     >
                       <span>BP / CP Economy Audit</span>
                       <span>💎</span>
-                    </button>
-                    <button
-                      onClick={() => window.dispatchEvent(new CustomEvent('open-folio-roster'))}
-                      className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-cyan-300 uppercase font-bold rounded"
-                    >
-                      Operative Catalog
                     </button>
                     <button
                       onClick={() => handleOpenGuide('folio')}
@@ -913,36 +922,8 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
           )}
         </div>
 
-        {/* Right Section: SFX, Command Palette & User Account */}
+        {/* Right Section: User Account & Settings */}
         <div className="flex items-center justify-end gap-1.5 sm:gap-2 shrink-0">
-          {/* Audio SFX Mute/Unmute Toggle */}
-          <button
-            type="button"
-            onClick={toggleAudio}
-            className={`p-1.5 sm:p-2 rounded-lg border transition-colors cursor-pointer cyan-shadow-thin ${
-              isAudioMuted
-                ? 'bg-slate-900 border-slate-700 text-slate-500 hover:text-slate-300'
-                : 'bg-slate-900/80 border-cyan-500/40 text-cyan-300 hover:text-white'
-            }`}
-            title={isAudioMuted ? 'Unmute Interface SFX' : 'Mute Interface SFX'}
-          >
-            {isAudioMuted ? <VolumeX size={15} /> : <Volume2 size={15} />}
-          </button>
-
-          {/* Global Command Palette Trigger */}
-          <button
-            type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(1200, 0.02);
-              onOpenCommandPalette && onOpenCommandPalette();
-            }}
-            className="p-1.5 sm:px-2 sm:py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white text-xs font-mono transition-colors cursor-pointer flex items-center gap-1.5 cyan-shadow-thin"
-            title="Global Command Palette (Ctrl+K)"
-          >
-            <Command size={14} className="text-cyan-400" />
-            <span className="hidden xl:inline text-[10px] text-slate-400 font-bold">Ctrl+K</span>
-          </button>
-
           {/* User Account Menu with Functional Cloud Sync Status */}
           {currentUser ? (
             <div className="flex items-center gap-1 sm:gap-1.5 pl-1 sm:pl-1.5">

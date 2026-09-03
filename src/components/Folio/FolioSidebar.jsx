@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { 
   User, 
-  Users,
   Activity, 
   Award, 
   Sparkles, 
@@ -24,7 +23,6 @@ import {
 import { AudioService } from '../../services/audioService';
 
 const NAVIGATION_ITEMS = [
-  { id: 'catalog', label: 'Operative Catalog', icon: Users },
   { id: 'identity', label: 'Identity', icon: User },
   { id: 'core-stats', label: 'Core Stats', icon: Activity },
   { id: 'skills', label: 'Skills', icon: Award },

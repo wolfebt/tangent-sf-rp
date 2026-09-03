@@ -2,6 +2,7 @@ import React, { useState, useMemo, useCallback } from 'react';
 import { useFolio } from '../../../context/FolioContext';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { DEFAULT_SKILLS } from '../../../data/skillsData';
+import FolioTooltip from '../shared/FolioTooltip';
 
 const ATTRIBUTE_OPTIONS = [
   { value: 'attr-strength', label: 'STR' },
@@ -118,16 +119,98 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
   } = useFolio();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategoryTab, setActiveCategoryTab] = useState('all');
+  const [showTrainedOnly, setShowTrainedOnly] = useState(false);
 
   const isStatsLocked = isInActiveGame && !isGMConfirmed;
 
-  const getNum = useCallback((id) => parseInt(characterData[id] || 0, 10), [characterData]);
+  const getNum = useCallback((id) => parseInt(characterData?.[id] || 0, 10), [characterData]);
+
+  // Universal skill rank resolver supporting canonical key, legacy non-prefixed key, allocation pools, and structured arrays
+  const getSkillRank = useCallback((skill) => {
+    if (!skill || !characterData) return 0;
+    const sId = typeof skill === 'object' ? (skill.id || '') : String(skill);
+    const sName = typeof skill === 'object' ? (skill.name || '') : '';
+    const cleanId = sId.replace(/^[a-z]+-/, '');
+    const cleanName = sName.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+    // 1. Direct canonical key (e.g. skill-physical-acrobatics-rank)
+    if (characterData[`skill-${sId}-rank`] !== undefined) {
+      const val = parseInt(characterData[`skill-${sId}-rank`], 10);
+      if (!isNaN(val) && val > 0) return Math.min(20, Math.max(0, val));
+    }
+
+    // 2. Legacy / non-prefixed key (e.g. skill-acrobatics-rank)
+    if (cleanId && characterData[`skill-${cleanId}-rank`] !== undefined) {
+      const val = parseInt(characterData[`skill-${cleanId}-rank`], 10);
+      if (!isNaN(val) && val > 0) return Math.min(20, Math.max(0, val));
+    }
+
+    // 3. Check identity allocation pools (species, occu, origin, faction, general)
+    const pools = [
+      characterData?.speciesAllocations?.skills,
+      characterData?.occuAllocations?.skills,
+      characterData?.originAllocations?.skills,
+      characterData?.factionAllocations?.skills,
+      characterData?.generalAllocations?.skills
+    ];
+    let poolTotal = 0;
+    pools.forEach(p => {
+      if (!p || typeof p !== 'object') return;
+      Object.entries(p).forEach(([k, v]) => {
+        const cleanK = k.toLowerCase().replace(/[^a-z0-9]/g, '');
+        if ((cleanName && cleanK === cleanName) || (cleanId && cleanK === cleanId.replace(/[^a-z0-9]/g, ''))) {
+          poolTotal += parseInt(v, 10) || 0;
+        }
+      });
+    });
+    if (poolTotal > 0) return Math.min(20, Math.max(0, poolTotal));
+
+    // 4. Check characterData.skills if structured array or object
+    if (Array.isArray(characterData?.skills)) {
+      const match = characterData.skills.find(item => {
+        if (!item) return false;
+        const n = (typeof item === 'object' ? (item.name || item.id || '') : String(item)).toLowerCase().replace(/[^a-z0-9]/g, '');
+        return (cleanName && n === cleanName) || (cleanId && n === cleanId.replace(/[^a-z0-9]/g, ''));
+      });
+      if (match) {
+        const val = typeof match === 'object' ? (match.rank ?? match.value ?? 1) : 1;
+        return Math.min(20, Math.max(0, parseInt(val, 10) || 0));
+      }
+    } else if (characterData?.skills && typeof characterData.skills === 'object') {
+      for (const [k, v] of Object.entries(characterData.skills)) {
+        const cleanK = k.toLowerCase().replace(/[^a-z0-9]/g, '');
+        if ((cleanName && cleanK === cleanName) || (cleanId && cleanK === cleanId.replace(/[^a-z0-9]/g, ''))) {
+          const val = typeof v === 'object' ? (v.rank ?? v.value ?? 1) : parseInt(v, 10) || 1;
+          return Math.min(20, Math.max(0, val));
+        }
+      }
+    }
+
+    return 0;
+  }, [characterData]);
+
+  // Universal skill modifier resolver supporting canonical key and legacy non-prefixed key
+  const getSkillMod = useCallback((skill) => {
+    if (!skill || !characterData) return 0;
+    const sId = typeof skill === 'object' ? (skill.id || '') : String(skill);
+    const cleanId = sId.replace(/^[a-z]+-/, '');
+
+    const canonMod = parseInt(characterData[`skill-${sId}-mod`], 10);
+    if (!isNaN(canonMod) && canonMod !== 0) return canonMod;
+
+    const legacyMod = parseInt(characterData[`skill-${cleanId}-mod`], 10);
+    if (!isNaN(legacyMod) && legacyMod !== 0) return legacyMod;
+
+    return 0;
+  }, [characterData]);
 
   // Helper to calculate total for a regular skill (rank max 20)
-  const getSkillTotal = useCallback((skillId) => {
-    const rank = Math.min(20, Math.max(0, getNum(`skill-${skillId}-rank`)));
-    const mod = getNum(`skill-${skillId}-mod`);
-    const baseAttrKey = characterData[`skill-${skillId}-base`] || '';
+  const getSkillTotal = useCallback((skill) => {
+    const sId = typeof skill === 'object' ? (skill.id || '') : String(skill);
+    const cleanId = sId.replace(/^[a-z]+-/, '');
+    const rank = getSkillRank(skill);
+    const mod = getSkillMod(skill);
+    const baseAttrKey = characterData?.[`skill-${sId}-base`] || characterData?.[`skill-${cleanId}-base`] || (typeof skill === 'object' ? skill.baseAttr : '') || '';
 
     let baseAttrVal = 0;
     if (baseAttrKey) {
@@ -137,7 +220,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
     }
 
     return rank + baseAttrVal + mod;
-  }, [characterData, getNum]);
+  }, [characterData, getNum, getSkillRank, getSkillMod]);
 
   // Collect default skill IDs set to detect custom skills
   const defaultSkillIds = useMemo(() => {
@@ -153,19 +236,83 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
   // Dynamically map custom skills added by user by group and subcategory
   const customSkillsBySubcategory = useMemo(() => {
     const result = {};
+    if (!characterData || typeof characterData !== 'object') return result;
+
+    const BANNED_CUSTOM_IDS = new Set([
+      'knowledge', 'knowledges', 'vocation', 'vocations', 'discipline', 'disciplines', 'metafocus',
+      'skill', 'skills', 'general', 'physical', 'mental', 'social', 'combat', 'meta'
+    ]);
+
+    const META_DISCIPLINE_KEYS = {
+      dimension: 'Dimension',
+      energy: 'Energy',
+      entropy: 'Entropy',
+      illusion: 'Illusion',
+      matter: 'Matter',
+      mental: 'Mental',
+      mind: 'Mental'
+    };
+
     Object.keys(characterData).forEach((key) => {
       if (key.startsWith('skill-') && key.endsWith('-rank')) {
         const id = key.replace('skill-', '').replace('-rank', '');
-        if (!defaultSkillIds.has(id)) {
-          const parts = id.split('-');
-          const group = ['physical', 'mental', 'social', 'combat', 'meta'].includes(parts[0]) ? parts[0] : 'mental';
-          const subcategory = characterData[`skill-${id}-subcategory`] || 'General';
-          const storedName = characterData[`skill-${id}-name`];
-          const name = storedName || parts.slice(1).map((p) => p.charAt(0).toUpperCase() + p.slice(1)).join(' ') || id;
-          const mapKey = `${group}|${subcategory}`;
-          if (!result[mapKey]) result[mapKey] = [];
-          result[mapKey].push({ name, id, group, subcategory });
+        const cleanIdLower = id.toLowerCase();
+
+        // 1. Exclude bare category header names
+        if (BANNED_CUSTOM_IDS.has(cleanIdLower)) return;
+
+        // 2. Check if this is a canonical skill or legacy stripped ID
+        const isCanonicalOrLegacy = defaultSkillIds.has(id) || Array.from(defaultSkillIds).some(did => did.replace(/^[a-z]+-/, '') === id);
+        if (isCanonicalOrLegacy) return;
+
+        // 3. Determine Group & Subcategory
+        const parts = id.split('-');
+        let group = ['physical', 'mental', 'social', 'combat', 'meta'].includes(parts[0]) ? parts[0] : null;
+        let subcategory = characterData[`skill-${id}-subcategory`];
+
+        if (!group) {
+          if (id.startsWith('knowledge-') || subcategory?.toLowerCase() === 'knowledges') {
+            group = 'mental';
+            subcategory = 'Knowledges';
+          } else if (id.startsWith('vocation-') || subcategory?.toLowerCase() === 'vocations') {
+            group = 'mental';
+            subcategory = 'Vocations';
+          } else if (id.startsWith('meta-') || META_DISCIPLINE_KEYS[cleanIdLower] || cleanIdLower === 'attune') {
+            group = 'meta';
+            subcategory = META_DISCIPLINE_KEYS[cleanIdLower] || (cleanIdLower === 'attune' ? 'General' : 'Disciplines');
+          } else {
+            group = 'mental';
+            subcategory = subcategory || 'General';
+          }
+        } else if (group === 'meta') {
+          subcategory = subcategory || META_DISCIPLINE_KEYS[cleanIdLower.replace('meta-', '')] || 'Disciplines';
+        } else if (group === 'mental') {
+          if (id.startsWith('mental-knowledge-') || subcategory?.toLowerCase() === 'knowledges') {
+            subcategory = 'Knowledges';
+          } else if (id.startsWith('mental-vocation-') || subcategory?.toLowerCase() === 'vocations') {
+            subcategory = 'Vocations';
+          } else {
+            subcategory = subcategory || 'General';
+          }
+        } else {
+          subcategory = subcategory || 'General';
         }
+
+        // Exclude meta disciplines or attune if somehow labeled under mental group
+        if (META_DISCIPLINE_KEYS[cleanIdLower] || cleanIdLower === 'attune') {
+          group = 'meta';
+          subcategory = META_DISCIPLINE_KEYS[cleanIdLower] || 'General';
+        }
+
+        const storedName = characterData[`skill-${id}-name`];
+        const name = storedName || parts.slice(1).map((p) => p.charAt(0).toUpperCase() + p.slice(1)).join(' ') || id;
+        
+        // Final sanity check: if the name is literally a category name, exclude it
+        if (BANNED_CUSTOM_IDS.has(name.toLowerCase().trim())) return;
+
+        const mapKey = `${group}|${subcategory}`;
+        if (!result[mapKey]) result[mapKey] = [];
+        result[mapKey].push({ name, id, group, subcategory });
       }
     });
     return result;
@@ -181,7 +328,9 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
             id: s.id,
             name: s.name,
             group: catKey,
-            total: getSkillTotal(s.id)
+            description: s.description,
+            baseAttr: s.baseAttr,
+            total: getSkillTotal(s)
           });
         });
       });
@@ -192,12 +341,14 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
           id: s.id,
           name: s.name,
           group: s.group,
-          total: getSkillTotal(s.id)
+          description: characterData?.[`skill-${s.id}-description`] || characterData?.[`skill-${s.id}-desc`] || 'Custom operative skill.',
+          baseAttr: characterData?.[`skill-${s.id}-base`] || 'attr-intellect',
+          total: getSkillTotal(s)
         });
       });
     });
     return list;
-  }, [customSkillsBySubcategory, getSkillTotal]);
+  }, [customSkillsBySubcategory, getSkillTotal, characterData]);
 
   // Lookup map for skill names and totals by ID
   const skillLookup = useMemo(() => {
@@ -211,14 +362,19 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
   // Map specializations by baseSkillId
   const specializationsByBaseSkill = useMemo(() => {
     const map = {};
-    const specs = Array.isArray(characterData.specializations) ? characterData.specializations : [];
+    const specs = Array.isArray(characterData?.specializations) ? characterData.specializations : [];
     specs.forEach((s) => {
-      if (!s.baseSkillId) return;
+      if (!s || typeof s !== 'object' || !s.baseSkillId) return;
       if (!map[s.baseSkillId]) map[s.baseSkillId] = [];
       map[s.baseSkillId].push(s);
+      const cleanBaseId = s.baseSkillId.replace(/^[a-z]+-/, '');
+      if (cleanBaseId !== s.baseSkillId) {
+        if (!map[cleanBaseId]) map[cleanBaseId] = [];
+        map[cleanBaseId].push(s);
+      }
     });
     return map;
-  }, [characterData.specializations]);
+  }, [characterData?.specializations]);
 
   // Dynamic Skill Counts per category tab
   const categoryCounts = useMemo(() => {
@@ -248,10 +404,13 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
         }
         const combinedSkills = [...g.skills, ...customSubSkills];
         combinedSkills.forEach((s) => {
+          const sRank = getSkillRank(s);
+          if (showTrainedOnly && sRank === 0) return;
+
           if (!q) {
             count++;
           } else {
-            const specMatches = (specializationsByBaseSkill[s.id] || []).some(spec => spec.name.toLowerCase().includes(q));
+            const specMatches = (specializationsByBaseSkill[s.id] || []).some(spec => spec && spec.name && spec.name.toLowerCase().includes(q));
             if (s.name.toLowerCase().includes(q) || (g.title && g.title.toLowerCase().includes(q)) || specMatches) {
               count++;
             }
@@ -263,6 +422,9 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
         const [grp, sub] = mapKey.split('|');
         if (grp === catKey && !standardSubcategoryTitles.has(sub)) {
           customSkillsBySubcategory[mapKey].forEach((s) => {
+            const sRank = getSkillRank(s);
+            if (showTrainedOnly && sRank === 0) return;
+
             if (!q || s.name.toLowerCase().includes(q)) {
               count++;
             }
@@ -275,21 +437,22 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
     });
 
     return counts;
-  }, [searchQuery, customSkillsBySubcategory, specializationsByBaseSkill]);
+  }, [searchQuery, customSkillsBySubcategory, specializationsByBaseSkill, showTrainedOnly, getSkillRank]);
 
   // Set of unlocked Metafocus discipline names (lowercase) from purchased features/awakened items
   const unlockedDisciplines = useMemo(() => {
     const unlocked = new Set();
-    const featuresList = Array.isArray(characterData.features) ? characterData.features : [];
-    const awakenedList = Array.isArray(characterData.awakened) ? characterData.awakened : [];
+    const featuresList = Array.isArray(characterData?.features) ? characterData.features : [];
+    const awakenedList = Array.isArray(characterData?.awakened) ? characterData.awakened : [];
     const allFeats = [...featuresList, ...awakenedList];
 
     allFeats.forEach((feat) => {
+      if (!feat) return;
       const featName = (typeof feat === 'object' ? (feat.name || feat.title || '') : String(feat)).toLowerCase();
       const featType = (typeof feat === 'object' ? (feat.type || feat.category || '') : '').toLowerCase();
       const featId = (typeof feat === 'object' ? (feat.id || '') : '').toLowerCase();
 
-      const isAwakened = featType.includes('awakened') || featName.includes('awakened') || featId.includes('awakened') || (Array.isArray(characterData.awakened) && characterData.awakened.includes(feat));
+      const isAwakened = featType.includes('awakened') || featName.includes('awakened') || featId.includes('awakened') || (Array.isArray(characterData?.awakened) && characterData.awakened.includes(feat));
 
       if (isAwakened) {
         if (featName.includes('dimension') || featId.endsWith('_dim') || featId.endsWith('-dim') || featId === 'dimension') {
@@ -314,7 +477,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
     });
 
     return unlocked;
-  }, [characterData.features, characterData.awakened]);
+  }, [characterData?.features, characterData?.awakened]);
 
   const hasAnyAwakened = unlockedDisciplines.size > 0;
 
@@ -336,6 +499,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
     const isAttune = skill.id === 'meta-attune';
     const discKey = getDisciplineForSkill(skill);
     const isDisciplineSkill = (skill.group === 'meta' || skill.id.startsWith('meta-')) && !isAttune && Boolean(discKey);
+    const cleanId = skill.id.replace(/^[a-z]+-/, '');
 
     // Locking rules:
     // 1. Attune is locked unless character has ANY awakened feature
@@ -356,17 +520,23 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
       }
     }
 
-    const rank = isLocked ? 0 : Math.min(20, Math.max(0, getNum(`skill-${skill.id}-rank`)));
-    const mod = getNum(`skill-${skill.id}-mod`);
-    const baseAttr = characterData[`skill-${skill.id}-base`] || (skill.baseAttr || 'attr-wisdom');
-    const baseSkillTotal = isLocked ? 0 : getSkillTotal(skill.id);
-    const linkedSpecs = specializationsByBaseSkill[skill.id] || [];
+    const rank = isLocked ? 0 : Math.min(20, Math.max(0, getSkillRank(skill)));
+    const mod = getSkillMod(skill);
+    const baseAttr = characterData?.[`skill-${skill.id}-base`] || characterData?.[`skill-${cleanId}-base`] || (skill.baseAttr || 'attr-wisdom');
+    const baseSkillTotal = isLocked ? 0 : getSkillTotal(skill);
+    const linkedSpecs = specializationsByBaseSkill[skill.id] || specializationsByBaseSkill[cleanId] || [];
+
+    const skillDesc = skill.description || skillLookup[skill.id]?.description || characterData?.[`skill-${skill.id}-description`] || characterData?.[`skill-${cleanId}-description`] || characterData?.[`skill-${skill.id}-desc`] || 'Trained operative skill.';
+    const baseAttrObj = ATTRIBUTE_OPTIONS.find(o => o.value === baseAttr);
+    const baseAttrLabel = baseAttrObj?.label || (baseAttr ? baseAttr.replace('attr-', '').toUpperCase() : 'WIS');
+    const groupName = skill.group ? (skill.group.charAt(0).toUpperCase() + skill.group.slice(1)) : 'Operative';
+    const badgeColor = skill.group === 'physical' ? 'emerald' : skill.group === 'mental' ? 'blue' : skill.group === 'social' ? 'cyan' : skill.group === 'combat' ? 'amber' : 'purple';
 
     return (
       <div key={skill.id} className="space-y-1.5">
         {/* Desktop / Tablet Grid View (>= 640px) */}
         <div
-          className={`hidden sm:grid grid-cols-12 items-center gap-2 py-1 px-2 rounded transition-colors text-xs border ${
+          className={`folio-skill-row-desktop grid-cols-12 items-center gap-2 py-1 px-2 rounded transition-colors text-xs border ${
             isLocked
               ? 'bg-slate-950/40 opacity-60 border-slate-800/60'
               : 'bg-slate-900/50 hover:bg-slate-800/60 border-slate-800/40'
@@ -375,9 +545,19 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
         >
           <div className="col-span-4 flex items-center justify-between pr-1 overflow-hidden">
             <div className="flex items-center gap-1.5 truncate">
-              <span className={`font-medium ${isLocked ? 'text-slate-500' : 'text-slate-200'} truncate`} title={skill.name}>
-                {skill.name}
-              </span>
+              <FolioTooltip
+                title={skill.name}
+                badge={`${groupName} Skill`}
+                badgeColor={badgeColor}
+                description={isLocked ? `${lockMessage}. ${skillDesc}` : skillDesc}
+                formula={`Total (${baseSkillTotal}) = Rank (${rank}) + Base ${baseAttrLabel} + Mod (${mod})`}
+                tags={['Max Rank: 20', `Base: ${baseAttrLabel}`, groupName.toUpperCase()]}
+                showInfoIcon={true}
+              >
+                <span className={`font-medium ${isLocked ? 'text-slate-500' : 'text-slate-200 hover:text-cyan-300'} truncate transition-colors`}>
+                  {skill.name}
+                </span>
+              </FolioTooltip>
               {isLocked && (
                 <span
                   className="text-[9px] font-mono font-bold text-amber-400/90 bg-amber-950/70 border border-amber-900/60 px-1.5 py-0.2 rounded shrink-0"
@@ -410,7 +590,12 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
             max="20"
             disabled={isLocked || isStatsLocked}
             value={rank}
-            onChange={(e) => !isLocked && !isStatsLocked && updateField(`skill-${skill.id}-rank`, Math.min(20, Math.max(0, parseInt(e.target.value, 10) || 0)))}
+            onChange={(e) => {
+              if (isLocked || isStatsLocked) return;
+              const val = Math.min(20, Math.max(0, parseInt(e.target.value, 10) || 0));
+              updateField(`skill-${skill.id}-rank`, val);
+              if (cleanId !== skill.id) updateField(`skill-${cleanId}-rank`, val);
+            }}
             title={isStatsLocked ? 'Skill rank locked during active game session. Request GM AP update.' : isLocked ? lockMessage : undefined}
             className={`col-span-2 text-center bg-slate-950 border ${
               isLocked || isStatsLocked 
@@ -423,7 +608,11 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
           <select
             value={baseAttr}
             disabled={isLocked || isStatsLocked}
-            onChange={(e) => !isLocked && !isStatsLocked && updateField(`skill-${skill.id}-base`, e.target.value)}
+            onChange={(e) => {
+              if (isLocked || isStatsLocked) return;
+              updateField(`skill-${skill.id}-base`, e.target.value);
+              if (cleanId !== skill.id) updateField(`skill-${cleanId}-base`, e.target.value);
+            }}
             title={isStatsLocked ? 'Skill base attribute locked during active game session.' : undefined}
             className={`col-span-3 bg-slate-950 border ${
               isLocked || isStatsLocked 
@@ -452,7 +641,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
 
         {/* Mobile View (< 640px) */}
         <div
-          className={`sm:hidden flex flex-col gap-1.5 p-2 rounded transition-colors text-xs border ${
+          className={`folio-skill-row-mobile flex-col gap-1.5 p-2 rounded transition-colors text-xs border ${
             isLocked
               ? 'bg-slate-950/40 opacity-60 border-slate-800/60'
               : 'bg-slate-900/60 hover:bg-slate-800/60 border-slate-800/60'
@@ -462,9 +651,19 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
           {/* Top Line: Name + Status + Delete + Total Badge */}
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-1.5 min-w-0">
-              <span className={`font-semibold ${isLocked ? 'text-slate-500' : 'text-slate-100'} truncate`} title={skill.name}>
-                {skill.name}
-              </span>
+              <FolioTooltip
+                title={skill.name}
+                badge={`${groupName} Skill`}
+                badgeColor={badgeColor}
+                description={isLocked ? `${lockMessage}. ${skillDesc}` : skillDesc}
+                formula={`Total (${baseSkillTotal}) = Rank (${rank}) + Base ${baseAttrLabel} + Mod (${mod})`}
+                tags={['Max Rank: 20', `Base: ${baseAttrLabel}`, groupName.toUpperCase()]}
+                showInfoIcon={true}
+              >
+                <span className={`font-semibold ${isLocked ? 'text-slate-500' : 'text-slate-100 hover:text-cyan-300'} truncate transition-colors`}>
+                  {skill.name}
+                </span>
+              </FolioTooltip>
               {isLocked && (
                 <span
                   className="text-[9px] font-mono font-bold text-amber-400/90 bg-amber-950/70 border border-amber-900/60 px-1.5 py-0.2 rounded shrink-0"
@@ -508,7 +707,12 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                 max="20"
                 disabled={isLocked || isStatsLocked}
                 value={rank}
-                onChange={(e) => !isLocked && !isStatsLocked && updateField(`skill-${skill.id}-rank`, Math.min(20, Math.max(0, parseInt(e.target.value, 10) || 0)))}
+                onChange={(e) => {
+                  if (isLocked || isStatsLocked) return;
+                  const val = Math.min(20, Math.max(0, parseInt(e.target.value, 10) || 0));
+                  updateField(`skill-${skill.id}-rank`, val);
+                  if (cleanId !== skill.id) updateField(`skill-${cleanId}-rank`, val);
+                }}
                 className={`w-12 text-center bg-slate-950 border ${
                   isLocked || isStatsLocked 
                     ? 'border-slate-800 text-slate-600 cursor-not-allowed opacity-75' 
@@ -522,7 +726,11 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
               <select
                 value={baseAttr}
                 disabled={isLocked || isStatsLocked}
-                onChange={(e) => !isLocked && !isStatsLocked && updateField(`skill-${skill.id}-base`, e.target.value)}
+                onChange={(e) => {
+                  if (isLocked || isStatsLocked) return;
+                  updateField(`skill-${skill.id}-base`, e.target.value);
+                  if (cleanId !== skill.id) updateField(`skill-${cleanId}-base`, e.target.value);
+                }}
                 className={`flex-1 bg-slate-950 border ${
                   isLocked || isStatsLocked 
                     ? 'border-slate-800 text-slate-600 cursor-not-allowed opacity-75' 
@@ -557,7 +765,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
             <React.Fragment key={spec.id}>
               {/* Desktop / Tablet View (>= 640px) */}
               <div
-                className={`hidden sm:grid ml-6 pl-2.5 border-l-2 ${isMetaSkill ? 'border-purple-500/60 bg-purple-950/20 hover:bg-purple-900/30 border-purple-900/30' : 'border-amber-500/60 bg-amber-950/20 hover:bg-amber-900/30 border-amber-900/30'} grid-cols-12 items-center gap-2 py-1 px-2 rounded transition-colors text-xs border`}
+                className={`folio-skill-row-desktop ml-6 pl-2.5 border-l-2 ${isMetaSkill ? 'border-purple-500/60 bg-purple-950/20 hover:bg-purple-900/30 border-purple-900/30' : 'border-amber-500/60 bg-amber-950/20 hover:bg-amber-900/30 border-amber-900/30'} grid-cols-12 items-center gap-2 py-1 px-2 rounded transition-colors text-xs border`}
               >
                 {/* Specialization Name & Base Skill Ref */}
                 <div className="col-span-4 flex flex-col justify-center overflow-hidden">
@@ -565,9 +773,22 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                     <span className={`text-[9px] font-bold uppercase tracking-wider ${isMetaSkill ? 'text-purple-400 font-mono' : 'text-amber-400/90'} shrink-0`}>
                       {isMetaSkill ? 'EVOCATION:' : 'SPEC:'}
                     </span>
-                    <span className={`font-semibold ${isMetaSkill ? 'text-purple-200' : 'text-amber-200'} truncate`} title={spec.name}>
-                      {spec.name}
-                    </span>
+                    <FolioTooltip
+                      title={spec.name}
+                      badge={isMetaSkill ? 'Metaphysical Evocation' : 'Skill Specialization'}
+                      badgeColor={isMetaSkill ? 'purple' : 'amber'}
+                      description={isMetaSkill
+                        ? `Specialized evocation technique for ${skill.name}. Adds +${specRank} bonus directly to the base discipline score.`
+                        : `Focused specialized niche of ${skill.name}. Adds +${specRank} bonus directly to the base skill roll.`
+                      }
+                      formula={`Spec Total (${specTotal}) = Base Skill (${baseSkillTotal}) + Rank (${specRank}) + Mod (${specMod})`}
+                      tags={['Max Rank: 10', `Base: ${skill.name}`]}
+                      showInfoIcon={true}
+                    >
+                      <span className={`font-semibold ${isMetaSkill ? 'text-purple-200 hover:text-purple-100' : 'text-amber-200 hover:text-amber-100'} truncate transition-colors`}>
+                        {spec.name}
+                      </span>
+                    </FolioTooltip>
                   </div>
                   <span className="text-[9px] text-slate-400 font-mono truncate">
                     {isMetaSkill ? 'Discipline: ' : 'Base: '}<span className="text-slate-300">{skill.name}</span> ({baseSkillTotal})
@@ -623,18 +844,31 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
 
               {/* Mobile Spec View (< 640px) */}
               <div
-                className={`sm:hidden ml-3 pl-2.5 border-l-2 ${
+                className={`folio-skill-row-mobile ml-3 pl-2.5 border-l-2 ${
                   isMetaSkill ? 'border-purple-500/60 bg-purple-950/20 border-purple-900/30' : 'border-amber-500/60 bg-amber-950/20 border-amber-900/30'
-                } p-2 rounded transition-colors text-xs border flex flex-col gap-1.5`}
+                } p-2 rounded transition-colors text-xs border flex-col gap-1.5`}
               >
                 <div className="flex items-center justify-between gap-1.5">
                   <div className="flex items-center gap-1 min-w-0">
                     <span className={`text-[9px] font-bold uppercase tracking-wider ${isMetaSkill ? 'text-purple-400 font-mono' : 'text-amber-400/90'} shrink-0`}>
                       {isMetaSkill ? 'EVOC:' : 'SPEC:'}
                     </span>
-                    <span className={`font-semibold ${isMetaSkill ? 'text-purple-200' : 'text-amber-200'} truncate`} title={spec.name}>
-                      {spec.name}
-                    </span>
+                    <FolioTooltip
+                      title={spec.name}
+                      badge={isMetaSkill ? 'Metaphysical Evocation' : 'Skill Specialization'}
+                      badgeColor={isMetaSkill ? 'purple' : 'amber'}
+                      description={isMetaSkill
+                        ? `Specialized evocation technique for ${skill.name}. Adds +${specRank} bonus directly to the base discipline score.`
+                        : `Focused specialized niche of ${skill.name}. Adds +${specRank} bonus directly to the base skill roll.`
+                      }
+                      formula={`Spec Total (${specTotal}) = Base Skill (${baseSkillTotal}) + Rank (${specRank}) + Mod (${specMod})`}
+                      tags={['Max Rank: 10', `Base: ${skill.name}`]}
+                      showInfoIcon={true}
+                    >
+                      <span className={`font-semibold ${isMetaSkill ? 'text-purple-200 hover:text-purple-100' : 'text-amber-200 hover:text-amber-100'} truncate transition-colors`}>
+                        {spec.name}
+                      </span>
+                    </FolioTooltip>
                   </div>
 
                   <div className="flex items-center gap-1.5 shrink-0">
@@ -734,7 +968,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
         </div>
 
         {/* Column Table Header (Desktop Only) */}
-        <div className="hidden sm:grid grid-cols-12 text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2 border-b border-slate-800/60 pb-1">
+        <div className="folio-skill-row-desktop grid-cols-12 text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2 border-b border-slate-800/60 pb-1">
           <span className="col-span-4">Skill / Specialization</span>
           <span className="col-span-2 text-center">Rank</span>
           <span className="col-span-3 text-center">Attr / Base</span>
@@ -777,8 +1011,10 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
       const combinedSkills = [...g.skills, ...customSubSkills];
 
       const matchingSkills = combinedSkills.filter((s) => {
+        const sRank = getSkillRank(s);
+        if (showTrainedOnly && sRank === 0) return false;
         if (!q) return true;
-        const specMatches = (specializationsByBaseSkill[s.id] || []).some(spec => spec.name.toLowerCase().includes(q));
+        const specMatches = (specializationsByBaseSkill[s.id] || []).some(spec => spec && spec.name && spec.name.toLowerCase().includes(q));
         return s.name.toLowerCase().includes(q) || (g.title && g.title.toLowerCase().includes(q)) || specMatches;
       });
 
@@ -791,6 +1027,8 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
       const [grp, sub] = mapKey.split('|');
       if (grp === cat.key && !standardSubcategoryTitles.has(sub)) {
         customSkillsBySubcategory[mapKey].forEach((s) => {
+          const sRank = getSkillRank(s);
+          if (showTrainedOnly && sRank === 0) return;
           if (!q || s.name.toLowerCase().includes(q)) {
             unmappedCustomSkills.push(s);
           }
@@ -889,6 +1127,22 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
             )}
           </div>
 
+          {/* Trained Only Filter Toggle */}
+          <button
+            type="button"
+            onClick={() => setShowTrainedOnly(prev => !prev)}
+            className={`px-3 py-1.5 rounded text-xs font-bold font-mono transition-all flex items-center gap-1.5 shrink-0 cursor-pointer border ${
+              showTrainedOnly
+                ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
+                : 'bg-slate-900/80 text-slate-400 hover:text-slate-200 border-slate-700'
+            }`}
+            title="Filter to only show skills with trained ranks (> 0)"
+          >
+            <span>🎯</span>
+            <span className="hidden sm:inline">{showTrainedOnly ? 'Trained Only' : 'All Skills'}</span>
+            <span className="sm:hidden">{showTrainedOnly ? 'Trained' : 'All'}</span>
+          </button>
+
           {/* Consolidated Action Button */}
           <button
             type="button"
@@ -957,20 +1211,42 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
         </div>
       )}
 
-      {/* Empty Search State */}
-      {searchQuery && categoryCounts[activeCategoryTab] === 0 && (
+      {/* Empty Search / Filter State */}
+      {categoryCounts[activeCategoryTab] === 0 && (
         <div className="p-8 text-center bg-slate-900/40 border border-slate-800 rounded-lg space-y-2">
           <p className="text-sm font-semibold text-slate-400">
-            No skills matching <span className="text-cyan-300">"{searchQuery}"</span> found in{' '}
-            <span className="text-amber-300">
-              {activeCategoryTab === 'all' ? 'All Skills' : CATEGORY_CONFIG_MAP[activeCategoryTab]?.title || activeCategoryTab}
-            </span>.
+            {showTrainedOnly ? (
+              <>
+                No trained skills (&gt; 0 rank) found in{' '}
+                <span className="text-amber-300">
+                  {activeCategoryTab === 'all' ? 'All Skills' : CATEGORY_CONFIG_MAP[activeCategoryTab]?.title || activeCategoryTab}
+                </span>.
+              </>
+            ) : searchQuery ? (
+              <>
+                No skills matching <span className="text-cyan-300">"{searchQuery}"</span> found in{' '}
+                <span className="text-amber-300">
+                  {activeCategoryTab === 'all' ? 'All Skills' : CATEGORY_CONFIG_MAP[activeCategoryTab]?.title || activeCategoryTab}
+                </span>.
+              </>
+            ) : (
+              'No skills found.'
+            )}
           </p>
+          {showTrainedOnly && (
+            <button
+              type="button"
+              onClick={() => setShowTrainedOnly(false)}
+              className="text-xs text-cyan-400 hover:text-cyan-300 underline font-bold"
+            >
+              Switch to All Skills Catalog
+            </button>
+          )}
           {activeCategoryTab !== 'all' && categoryCounts.all > 0 && (
             <button
               type="button"
               onClick={() => setActiveCategoryTab('all')}
-              className="text-xs text-cyan-400 hover:text-cyan-300 underline font-bold"
+              className="text-xs text-cyan-400 hover:text-cyan-300 underline font-bold ml-3"
             >
               View results in All Skills ({categoryCounts.all} matches)
             </button>

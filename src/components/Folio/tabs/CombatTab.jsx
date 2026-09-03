@@ -4,6 +4,7 @@ import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { rollDice } from '../../../services/diceService';
 import { AudioService } from '../../../services/audioService';
 import { Crosshair, Shield, Plus, Dices, Sparkles, X, Zap } from 'lucide-react';
+import FolioTooltip from '../shared/FolioTooltip';
 
 export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
   const { characterData, updateField, derivedStats, getAttrTotal } = useFolio();
@@ -166,9 +167,19 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
           <div className="flex items-center gap-2">
             <span className="text-xl">⚔️</span>
             <div>
-              <h3 className="text-sm font-bold uppercase tracking-widest text-amber-400">
-                Active Offensive Capabilities
-              </h3>
+              <FolioTooltip
+                title="Offensive Capabilities"
+                badge="Combat Actions"
+                badgeColor="amber"
+                description="Configured weaponry, ballistic firearms, melee blades, and tactical strike options available to your operative."
+                formula="Hit Check vs Defense • Damage dice rolled on hit"
+                tags={['Weapons', 'Damage Rolls', 'Critical Hits']}
+                showInfoIcon={true}
+              >
+                <h3 className="text-sm font-bold uppercase tracking-widest text-amber-400 hover:text-amber-300 transition-colors cursor-help">
+                  Active Offensive Capabilities
+                </h3>
+              </FolioTooltip>
               <p className="text-[11px] text-slate-400">
                 Melee strikes, ballistic firearms, energy ordnance, and combat martial maneuvers
               </p>
@@ -197,6 +208,34 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
             </button>
           </div>
         </div>
+
+        {/* Table Column Headers */}
+        {attacks.length > 0 && (
+          <div className="hidden sm:grid grid-cols-12 gap-2 px-2.5 text-[10px] font-mono uppercase font-bold text-slate-400 border-b border-slate-800/80 pb-1">
+            <span className="col-span-3">Weapon / Attack</span>
+            <div className="col-span-2 text-center">
+              <FolioTooltip title="Attack Check Score" badge="Hit Check" badgeColor="cyan" description="Governing combat skill + base attribute + situational modifiers rolled vs target defense." asWrapper={false}>
+                <span className="text-cyan-400 cursor-help hover:underline">Check Score ⓘ</span>
+              </FolioTooltip>
+            </div>
+            <div className="col-span-2 text-center">
+              <FolioTooltip title="Damage Formula" badge="Dice Roll" badgeColor="amber" description="Dice notation rolled upon hitting the target (e.g. 2d6+3, 1d10). Click the roll button to test." asWrapper={false}>
+                <span className="text-amber-400 cursor-help hover:underline">Damage ⓘ</span>
+              </FolioTooltip>
+            </div>
+            <div className="col-span-2">
+              <FolioTooltip title="Damage Type" badge="Category" badgeColor="rose" description="Damage category (Kinetic, Ballistic, Energy, Plasma, Metaphysical, Sonic, Thermal, Cryo) matched against armor resistances." asWrapper={false}>
+                <span className="cursor-help hover:underline">Type ⓘ</span>
+              </FolioTooltip>
+            </div>
+            <div className="col-span-1">
+              <FolioTooltip title="Tactical Weapon Notes" badge="Properties" badgeColor="slate" description="Weapon traits such as Armor Piercing (AP), Burst Fire, Reach, Autofire, Stun, or Range increments." asWrapper={false}>
+                <span className="cursor-help hover:underline truncate">Notes ⓘ</span>
+              </FolioTooltip>
+            </div>
+            <span className="col-span-2 text-right">Actions</span>
+          </div>
+        )}
 
         {/* Attacks Table */}
         <div className="space-y-2 max-h-80 overflow-y-auto pr-1">
@@ -284,9 +323,19 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
           <div className="flex items-center gap-2">
             <span className="text-xl">🛡️</span>
             <div>
-              <h3 className="text-sm font-bold uppercase tracking-widest text-emerald-400">
-                Active Defensive Capabilities
-              </h3>
+              <FolioTooltip
+                title="Defensive Capabilities"
+                badge="Damage Mitigation"
+                badgeColor="emerald"
+                description="Equipped armor suits, ballistic shields, kinetic force fields, and physiological resistances reducing incoming wound damage."
+                formula="Net Damage = Incoming Damage - (Armor DR + Toughness)"
+                tags={['Armor DR', 'Toughness', 'Shields']}
+                showInfoIcon={true}
+              >
+                <h3 className="text-sm font-bold uppercase tracking-widest text-emerald-400 hover:text-emerald-300 transition-colors cursor-help">
+                  Active Defensive Capabilities
+                </h3>
+              </FolioTooltip>
               <p className="text-[11px] text-slate-400">
                 Body armor, ballistic shields, kinetic force fields, energy screens &amp; physiological resistances
               </p>
@@ -315,6 +364,29 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
             </button>
           </div>
         </div>
+
+        {/* Table Column Headers */}
+        {armors.length > 0 && (
+          <div className="hidden sm:grid grid-cols-12 gap-2 px-2.5 text-[10px] font-mono uppercase font-bold text-slate-400 border-b border-slate-800/80 pb-1">
+            <span className="col-span-3">Armor / Shield</span>
+            <div className="col-span-2 text-center">
+              <FolioTooltip title="Damage Resistance (DR)" badge="Absorption" badgeColor="emerald" description="Damage Reduction points subtracted directly from incoming damage before applying to Vitality or Health." asWrapper={false}>
+                <span className="text-emerald-400 cursor-help hover:underline">Resist / DR ⓘ</span>
+              </FolioTooltip>
+            </div>
+            <div className="col-span-2">
+              <FolioTooltip title="Armor Class & Type" badge="Classification" badgeColor="cyan" description="Armor type: Rigid Plate, Ballistic Mesh, Powered Armor, Kinetic Screen, Energy Shield, or Natural Hide." asWrapper={false}>
+                <span className="cursor-help hover:underline">Armor Type ⓘ</span>
+              </FolioTooltip>
+            </div>
+            <div className="col-span-3">
+              <FolioTooltip title="Tactical Defense Notes" badge="Properties" badgeColor="slate" description="Specialized protections such as Environmental Seals, EMP Hardening, Thermal Insulators, or Stealth Coating." asWrapper={false}>
+                <span className="cursor-help hover:underline truncate">Notes ⓘ</span>
+              </FolioTooltip>
+            </div>
+            <span className="col-span-2 text-right">Actions</span>
+          </div>
+        )}
 
         {/* Armor Table */}
         <div className="space-y-2 max-h-80 overflow-y-auto pr-1">

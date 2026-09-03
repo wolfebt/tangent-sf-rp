@@ -3,7 +3,8 @@ import assert from 'node:assert';
 import { 
   formatGrantedCost,
   calculateFullSpeciesCost,
-  calculateSpeciesBP
+  calculateSpeciesBP,
+  computeEconomyBreakdown
 } from '../tangentEntityEngines.js';
 import { applySpeciesTransition } from '../tangentIdentityEngine.js';
 import { DEFAULT_SPECIES } from '../../data/speciesData.js';
@@ -134,6 +135,259 @@ describe('Tangent SF RP — Folio CP Economy & Species Package Asset Accounting'
       const gear = char.gear[0];
       assert.strictEqual(gear.cp, 0);
       assert.strictEqual(formatGrantedCost(0, 0, 'CP'), '0 CP');
+    });
+  });
+
+  describe('Identity Selection Pools & Supplemental Packages (0 CP Exemptions)', () => {
+    it('does not charge CP for Occupation, Origin, or Faction identity packages', () => {
+      const char = {
+        'starting-cp': 150,
+        'char-occu': 'Bounty Hunter',
+        'char-origin': 'Frontier World',
+        'char-faction': 'Syndicate Compact'
+      };
+
+      const breakdown = computeEconomyBreakdown(char);
+      // Occupation, Origin, Faction are supplemental (0 CP each)
+      assert.strictEqual(breakdown.spentCP, 0);
+      assert.strictEqual(breakdown.remainingCP, 150);
+
+      const occuItem = breakdown.itemizedList.find(i => i.category === 'Occupation');
+      assert.ok(occuItem);
+      assert.strictEqual(occuItem.costVal, 0);
+      assert.strictEqual(occuItem.cost, '0 CP');
+
+      const originItem = breakdown.itemizedList.find(i => i.category === 'Origin');
+      assert.ok(originItem);
+      assert.strictEqual(originItem.costVal, 0);
+      assert.strictEqual(originItem.cost, '0 CP');
+
+      const factionItem = breakdown.itemizedList.find(i => i.category === 'Faction');
+      assert.ok(factionItem);
+      assert.strictEqual(factionItem.costVal, 0);
+      assert.strictEqual(factionItem.cost, '0 CP');
+    });
+
+    it('does not charge CP for attribute modifiers allocated from identity selection pools', () => {
+      const char = {
+        'starting-cp': 150,
+        // Character has 1 point in Strength and 1 in Agility
+        'attr-strength': 1,
+        'attr-agility': 1,
+        // Both points came from selection pools (Species and Occupation)
+        'speciesAllocations': {
+          attributes: {
+            'attr-strength': 1
+          }
+        },
+        'occuAllocations': {
+          attributes: {
+            'attr-agility': 1
+          }
+        }
+      };
+
+      const breakdown = computeEconomyBreakdown(char);
+      // Both points are granted by pools, so primaryAttrCost must be 0!
+      assert.strictEqual(breakdown.primaryAttrCost, 0);
+      assert.strictEqual(breakdown.spentCP, 0);
+      assert.strictEqual(breakdown.remainingCP, 150);
+
+      // Verify itemized list has granted attribute modifiers with 0 CP cost
+      const strGranted = breakdown.itemizedList.find(i => i.category === 'Granted Attr Mod' && i.item.includes('Strength'));
+      assert.ok(strGranted);
+      assert.strictEqual(strGranted.costVal, 0);
+      assert.strictEqual(strGranted.cost, '0 [5] CP');
+
+      const agiGranted = breakdown.itemizedList.find(i => i.category === 'Granted Attr Mod' && i.item.includes('Agility'));
+      assert.ok(agiGranted);
+      assert.strictEqual(agiGranted.costVal, 0);
+      assert.strictEqual(agiGranted.cost, '0 [5] CP');
+    });
+
+    it('only charges CP for attribute points purchased BEYOND pool allocations', () => {
+      const char = {
+        'starting-cp': 150,
+        // Total 3 Strength (1 from pool + 2 purchased via Point Buy)
+        'attr-strength': 3,
+        'speciesAllocations': {
+          attributes: {
+            'attr-strength': 1
+          }
+        }
+      };
+
+      const breakdown = computeEconomyBreakdown(char);
+      // 1 granted = 0 CP; 2 purchased = 2 * 5 = 10 CP
+      assert.strictEqual(breakdown.primaryAttrCost, 10);
+      assert.strictEqual(breakdown.spentCP, 10);
+      assert.strictEqual(breakdown.remainingCP, 140);
+
+      const strPurchased = breakdown.itemizedList.find(i => i.category === 'Primary Attr' && i.item.includes('Strength'));
+      assert.ok(strPurchased);
+      assert.strictEqual(strPurchased.costVal, 10);
+      assert.strictEqual(strPurchased.cost, '10 CP');
+      assert.strictEqual(strPurchased.val, '2 Purchased Points');
+    });
+
+    it('does not charge CP for skill ranks allocated from identity pools (up to 60 ranks total across packages)', () => {
+      const char = {
+        'starting-cp': 150,
+        // 5 ranks in Athletics, 5 in Stealth, 5 in Persuasion, 5 in Navigation
+        'skill-athletics-rank': 5,
+        'skill-stealth-rank': 5,
+        'skill-persuasion-rank': 5,
+        'skill-navigation-rank': 5,
+        'occuAllocations': {
+          skills: {
+            athletics: 5
+          }
+        },
+        'originAllocations': {
+          skills: {
+            stealth: 5
+          }
+        },
+        'factionAllocations': {
+          skills: {
+            persuasion: 5
+          }
+        },
+        'speciesAllocations': {
+          skills: {
+            navigation: 5
+          }
+        }
+      };
+
+      const breakdown = computeEconomyBreakdown(char);
+      // All 20 ranks across the 4 skills were granted from selection pools: 0 CP charged
+      assert.strictEqual(breakdown.skillRanksCost, 0);
+      assert.strictEqual(breakdown.spentCP, 0);
+      assert.strictEqual(breakdown.remainingCP, 150);
+
+      // Verify itemized entries
+      const athGranted = breakdown.itemizedList.find(i => i.category === 'Occupation Granted Skill' && i.item.includes('athletics'));
+      assert.ok(athGranted);
+      assert.strictEqual(athGranted.costVal, 0);
+      assert.strictEqual(athGranted.cost, '0 [5] CP');
+    });
+
+    it('charges only for skill ranks purchased beyond pool granted ranks', () => {
+      const char = {
+        'starting-cp': 150,
+        // Firearms: 7 ranks total (5 granted by occupation, 2 purchased by point buy)
+        'skill-firearms-rank': 7,
+        'skill-firearms-name': 'Firearms',
+        'occuAllocations': {
+          skills: {
+            firearms: 5
+          }
+        }
+      };
+
+      const breakdown = computeEconomyBreakdown(char);
+      // 5 ranks granted = 0 CP; 2 purchased = 2 CP
+      assert.strictEqual(breakdown.skillRanksCost, 2);
+      assert.strictEqual(breakdown.spentCP, 2);
+      assert.strictEqual(breakdown.remainingCP, 148);
+
+      const purchasedFirearms = breakdown.itemizedList.find(i => i.category === 'Skill Rank' && i.item === 'Firearms');
+      assert.ok(purchasedFirearms);
+      assert.strictEqual(purchasedFirearms.costVal, 2);
+      assert.strictEqual(purchasedFirearms.cost, '2 CP');
+      assert.strictEqual(purchasedFirearms.val, '2 Purchased Ranks');
+    });
+
+    it('does not charge CP for traits and features selected from identity pools', () => {
+      const char = {
+        'starting-cp': 150,
+        'traits': [
+          { name: 'Cold Blooded', category: 'Occupation Trait', source: 'occupation', bp: 0, standaloneBp: 1 },
+          { name: 'Nomadic Heritage', category: 'Origin Trait', source: 'origin', bp: 0, standaloneBp: 1 },
+          { name: 'Syndicate Loyalty', category: 'Faction Trait', source: 'faction', bp: 0, standaloneBp: 1 }
+        ],
+        'features': [
+          { name: 'Underworld Contact', category: 'Occupation Feature', source: 'occupation', cp: 0, standaloneCp: 3 },
+          { name: 'Faction Privilege', category: 'Faction Feature', source: 'faction', cp: 0, standaloneCp: 3 }
+        ],
+        'occuAllocations': {
+          traits: ['Cold Blooded'],
+          features: ['Underworld Contact']
+        },
+        'originAllocations': {
+          traits: ['Nomadic Heritage']
+        },
+        'factionAllocations': {
+          traits: ['Syndicate Loyalty'],
+          features: ['Faction Privilege']
+        }
+      };
+
+      const breakdown = computeEconomyBreakdown(char);
+      assert.strictEqual(breakdown.traitsCost, 0);
+      assert.strictEqual(breakdown.featuresCost, 0);
+      assert.strictEqual(breakdown.spentCP, 0);
+      assert.strictEqual(breakdown.remainingCP, 150);
+
+      // Verify itemized accounting
+      const coldBlooded = breakdown.itemizedList.find(i => i.item === 'Cold Blooded');
+      assert.ok(coldBlooded);
+      assert.strictEqual(coldBlooded.costVal, 0);
+      assert.strictEqual(coldBlooded.cost, '0 [1] CP');
+
+      const contact = breakdown.itemizedList.find(i => i.item === 'Underworld Contact');
+      assert.ok(contact);
+      assert.strictEqual(contact.costVal, 0);
+      assert.strictEqual(contact.cost, '0 [3] CP');
+    });
+
+    it('allows Faction hindrances to effect the character primary CP pool with a refund to balance additional purchases', () => {
+      // Scenario A: Unspent refund inherits into primary pool (150 + 3 = 153 CP available)
+      const charWithHindrance = {
+        'starting-cp': 150,
+        'char-faction': 'Syndicate Compact',
+        'disadvantages': [
+          {
+            name: 'Blood Debt',
+            category: 'Faction Hindrance',
+            source: 'faction',
+            bp: 3,
+            cp: 3,
+            refundBP: 3
+          }
+        ]
+      };
+
+      const breakdownA = computeEconomyBreakdown(charWithHindrance);
+      assert.strictEqual(breakdownA.disadvantageRefund, 3);
+      assert.strictEqual(breakdownA.spentCP, -3);
+      assert.strictEqual(breakdownA.remainingCP, 153);
+
+      const itemA = breakdownA.itemizedList.find(i => i.item === 'Blood Debt');
+      assert.ok(itemA);
+      assert.strictEqual(itemA.category, 'Faction Hindrance');
+      assert.strictEqual(itemA.costVal, -3);
+      assert.strictEqual(itemA.cost, '-3 CP');
+
+      // Scenario B: Balances out with an additional purchased feature (3 CP feature - 3 CP hindrance = 0 net spent CP)
+      const charBalanced = {
+        ...charWithHindrance,
+        'features': [
+          {
+            name: 'Heavy Weapons Training',
+            category: 'General Feature',
+            source: 'general',
+            cp: 3
+          }
+        ]
+      };
+
+      const breakdownB = computeEconomyBreakdown(charBalanced);
+      assert.strictEqual(breakdownB.featuresCost, 3);
+      assert.strictEqual(breakdownB.disadvantageRefund, 3);
+      assert.strictEqual(breakdownB.spentCP, 0);
+      assert.strictEqual(breakdownB.remainingCP, 150);
     });
   });
 

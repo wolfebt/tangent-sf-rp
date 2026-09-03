@@ -26,6 +26,13 @@ const extractNameList = (raw) => {
   }).filter(Boolean);
 };
 
+const normalizeTraitName = (trait) => {
+  if (!trait) return '';
+  const raw = typeof trait === 'object' ? (trait.name || trait.title || trait.id || '') : String(trait);
+  const cleaned = raw.replace(/^(trait|feature)-/i, '').replace(/[-_]/g, ' ').trim();
+  return cleaned.replace(/\b\w/g, c => c.toUpperCase());
+};
+
 const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBreakdown }) => {
   const [activeTab, setActiveTab] = useState('pools'); // 'pools' | 'itemized' | 'experience'
   const {
@@ -79,10 +86,25 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
       (dbData?.occupations || []).find(oc => (oc.name || oc.id || '').toLowerCase() === String(secOccName).toLowerCase());
   }, [characterData?.['char-secondary-occu'], characterData?.['char-background-occu'], characterData?.['char-occu-secondary'], dbData]);
 
-  const factionObj = useMemo(() => {
-    return resolveCatalogItem('factions', characterData?.['char-faction'], dbData) || 
-      (dbData?.factions || []).find(f => (f.name || f.id || '').toLowerCase() === (characterData?.['char-faction'] || '').toLowerCase());
-  }, [characterData?.['char-faction'], dbData]);
+  const allTraitsMerged = useMemo(() => {
+    const map = new Map();
+    ALL_CANONICAL_TRAITS.forEach(t => {
+      const idKey = (t.id || '').toLowerCase();
+      const normKey = normalizeTraitName(t.name || t.title || '').toLowerCase();
+      if (idKey) map.set(idKey, t);
+      if (normKey) map.set(normKey, t);
+    });
+    const extraTraits = [...(dbData?.traits || []), ...(dbData?.trait || [])];
+    extraTraits.forEach(t => {
+      if (!t) return;
+      const idKey = (t.id || '').toLowerCase();
+      const normKey = normalizeTraitName(t.name || t.title || '').toLowerCase();
+      const merged = { ...(map.get(idKey) || map.get(normKey) || {}), ...t };
+      if (idKey) map.set(idKey, merged);
+      if (normKey) map.set(normKey, merged);
+    });
+    return Array.from(new Set(map.values()));
+  }, [dbData?.traits, dbData?.trait]);
 
   if (!isOpen || !economyBreakdown) return null;
 
@@ -579,9 +601,9 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
                               title={`Occupation Career Traits Pool${secOccName ? ' (Combined with Background)' : ''}`}
                               categoryLabel="Occupational Trait"
                               maxSelectable={maxTraits}
-                              selectedTraits={characterData?.occuAllocations?.traits || characterData?.occuAllocations?.features || []}
+                              selectedTraits={characterData?.occuAllocations?.traits || []}
                               recommendedTraits={occTraits}
-                              allTraits={dbData?.traits?.length > 0 ? dbData.traits : (dbData?.trait?.length > 0 ? dbData.trait : ALL_CANONICAL_TRAITS)}
+                              allTraits={allTraitsMerged}
                               onToggleTrait={(tName, tObj) => togglePoolTrait && togglePoolTrait('occuAllocations', tName, tObj, maxTraits)}
                               onRemoveTrait={(tName) => removePoolTrait && removePoolTrait('occuAllocations', tName)}
                               colorTheme="sky"
@@ -591,7 +613,7 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
                           {occFeats.length > 0 && (
                             <div className="pt-2 border-t border-sky-900/30">
                               <FeatureMultiselectPulldown
-                                title="Recommended Features (-1 CP Discount)"
+                                title="Occupation Feature Choices Pool (0 CP Supplemental)"
                                 categoryLabel="Occupation Feature"
                                 maxSelectable={parseInt(occuObj?.bonus_features || 1, 10)}
                                 selectedFeatures={characterData?.occuAllocations?.features || []}
@@ -694,9 +716,9 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
                               title="Origin Homeworld Traits Pool"
                               categoryLabel="Origin Trait"
                               maxSelectable={maxTraits}
-                              selectedTraits={characterData?.originAllocations?.traits || characterData?.originAllocations?.features || []}
+                              selectedTraits={characterData?.originAllocations?.traits || []}
                               recommendedTraits={origTraits}
-                              allTraits={dbData?.traits?.length > 0 ? dbData.traits : (dbData?.trait?.length > 0 ? dbData.trait : ALL_CANONICAL_TRAITS)}
+                              allTraits={allTraitsMerged}
                               onToggleTrait={(tName, tObj) => togglePoolTrait && togglePoolTrait('originAllocations', tName, tObj, maxTraits)}
                               onRemoveTrait={(tName) => removePoolTrait && removePoolTrait('originAllocations', tName)}
                               colorTheme="emerald"
@@ -816,7 +838,7 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
                                 maxSelectable={maxTraits}
                                 selectedTraits={characterData?.factionAllocations?.traits || []}
                                 recommendedTraits={factionTraits}
-                                allTraits={dbData?.traits?.length > 0 ? dbData.traits : (dbData?.trait?.length > 0 ? dbData.trait : ALL_CANONICAL_TRAITS)}
+                                allTraits={allTraitsMerged}
                                 onToggleTrait={(tName, tObj) => togglePoolTrait && togglePoolTrait('factionAllocations', tName, tObj, maxTraits)}
                                 onRemoveTrait={(tName) => removePoolTrait && removePoolTrait('factionAllocations', tName)}
                                 colorTheme="purple"
@@ -913,7 +935,7 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
                                 maxSelectable={specMaxTraits || 1}
                                 selectedTraits={characterData?.speciesAllocations?.traits || []}
                                 recommendedTraits={specTraits}
-                                allTraits={dbData?.traits?.length > 0 ? dbData.traits : (dbData?.trait?.length > 0 ? dbData.trait : ALL_CANONICAL_TRAITS)}
+                                allTraits={allTraitsMerged}
                                 onToggleTrait={(tName, tObj) => togglePoolTrait && togglePoolTrait('speciesAllocations', tName, tObj, specMaxTraits || 1)}
                                 onRemoveTrait={(tName) => removePoolTrait && removePoolTrait('speciesAllocations', tName)}
                                 colorTheme="cyan"
@@ -1032,7 +1054,7 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
                   maxSelectable={99}
                   selectedTraits={characterData?.generalAllocations?.traits || []}
                   recommendedTraits={[]}
-                  allTraits={dbData?.traits?.length > 0 ? dbData.traits : (dbData?.trait?.length > 0 ? dbData.trait : ALL_CANONICAL_TRAITS)}
+                  allTraits={allTraitsMerged}
                   onToggleTrait={(tName, tObj) => togglePoolTrait && togglePoolTrait('generalAllocations', tName, tObj, 99)}
                   onRemoveTrait={(tName) => removePoolTrait && removePoolTrait('generalAllocations', tName)}
                   colorTheme="cyan"

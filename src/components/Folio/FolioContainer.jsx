@@ -294,6 +294,10 @@ const FolioContainer = () => {
   useEffect(() => {
     const handleOpenEconomy = () => setIsEconomyOpen(true);
     const handleToggleBastion = () => setIsBastionOpen(prev => !prev);
+    const handleOpenCatalog = () => {
+      setActiveTab('catalog');
+      setIsSidebarOpen(false);
+    };
     const handleOpenRoster = () => setIsRosterOpen(true);
     const handleOpenGuide = () => setIsGuideOpen(true);
     const handleOpenNewChar = () => setIsConfirmOpen(true);
@@ -305,6 +309,7 @@ const FolioContainer = () => {
 
     window.addEventListener('open-folio-economy', handleOpenEconomy);
     window.addEventListener('toggle-folio-bastion', handleToggleBastion);
+    window.addEventListener('open-folio-catalog', handleOpenCatalog);
     window.addEventListener('open-folio-roster', handleOpenRoster);
     window.addEventListener('open-folio-guide', handleOpenGuide);
     window.addEventListener('open-folio-new-character', handleOpenNewChar);
@@ -317,6 +322,7 @@ const FolioContainer = () => {
     return () => {
       window.removeEventListener('open-folio-economy', handleOpenEconomy);
       window.removeEventListener('toggle-folio-bastion', handleToggleBastion);
+      window.removeEventListener('open-folio-catalog', handleOpenCatalog);
       window.removeEventListener('open-folio-roster', handleOpenRoster);
       window.removeEventListener('open-folio-guide', handleOpenGuide);
       window.removeEventListener('open-folio-new-character', handleOpenNewChar);
