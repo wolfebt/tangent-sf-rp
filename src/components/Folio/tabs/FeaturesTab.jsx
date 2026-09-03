@@ -10,7 +10,9 @@ export const FeaturesTab = ({
   onOpenSelectorModal, 
   onOpenAssetModal, 
   activeSection = 'all', 
-  onOpenMetaphysicsModal 
+  onOpenMetaphysicsModal,
+  onBackToHub,
+  onNavigate
 }) => {
   const { characterData, updateField, handleAddItem, handleUpdateItem, handleDeleteItem } = useFolio();
   const { openDiceRoller } = useDice();
@@ -418,9 +420,27 @@ export const FeaturesTab = ({
       {/* Sub-Tab Navigation Header Bar */}
       <div className="flex flex-wrap items-center justify-between border-b border-cyan-900/60 pb-2.5 gap-3">
         <div className="flex flex-wrap items-center gap-1 sm:gap-1.5">
+          {onBackToHub && (
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1100, 0.02);
+                onBackToHub();
+              }}
+              className="px-2.5 py-1.5 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer bg-slate-900 border border-cyan-500/50 text-cyan-300 hover:bg-cyan-950 hover:border-cyan-400 shadow-sm mr-1"
+              title="Return to Features Selection Hub"
+            >
+              <span>◀</span>
+              <span>Hub</span>
+            </button>
+          )}
+
           <button
             type="button"
-            onClick={() => setSelectedSubTab('all')}
+            onClick={() => {
+              setSelectedSubTab('all');
+              if (onNavigate) onNavigate('features-standard');
+            }}
             className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer ${
               selectedSubTab === 'all'
                 ? 'bg-cyan-950 border border-cyan-500 text-cyan-200 shadow-[0_0_10px_rgba(34,211,238,0.2)]'
@@ -432,7 +452,10 @@ export const FeaturesTab = ({
 
           <button
             type="button"
-            onClick={() => setSelectedSubTab('features')}
+            onClick={() => {
+              setSelectedSubTab('features');
+              if (onNavigate) onNavigate('features-standard');
+            }}
             className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
               selectedSubTab === 'features' || selectedSubTab === 'features-standard'
                 ? 'bg-cyan-950 border border-cyan-500 text-cyan-200 shadow-[0_0_10px_rgba(34,211,238,0.2)]'
@@ -448,7 +471,10 @@ export const FeaturesTab = ({
 
           <button
             type="button"
-            onClick={() => setSelectedSubTab('metaphysics')}
+            onClick={() => {
+              setSelectedSubTab('metaphysics');
+              if (onNavigate) onNavigate('features-metaphysics');
+            }}
             className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
               selectedSubTab === 'metaphysics' || selectedSubTab === 'features-metaphysics' || selectedSubTab === 'awakened' || selectedSubTab === 'features-awakened'
                 ? 'bg-purple-950 border border-purple-500 text-purple-200 shadow-[0_0_10px_rgba(168,85,247,0.2)]'
@@ -464,7 +490,10 @@ export const FeaturesTab = ({
 
           <button
             type="button"
-            onClick={() => setSelectedSubTab('augmentations')}
+            onClick={() => {
+              setSelectedSubTab('augmentations');
+              if (onNavigate) onNavigate('features-augmentations');
+            }}
             className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
               selectedSubTab === 'augmentations' || selectedSubTab === 'features-augmentations'
                 ? 'bg-amber-950 border border-amber-500 text-amber-200 shadow-[0_0_10px_rgba(245,158,11,0.2)]'
@@ -480,7 +509,10 @@ export const FeaturesTab = ({
 
           <button
             type="button"
-            onClick={() => setSelectedSubTab('hindrances')}
+            onClick={() => {
+              setSelectedSubTab('hindrances');
+              if (onNavigate) onNavigate('features-hindrances');
+            }}
             className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
               selectedSubTab === 'hindrances' || selectedSubTab === 'features-hindrances'
                 ? 'bg-red-950 border border-red-500 text-red-200 shadow-[0_0_10px_rgba(239,68,68,0.2)]'

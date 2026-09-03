@@ -34,6 +34,8 @@ import { FolioGuideModal } from './FolioGuideModal';
 import GuidedCreatorModal from './modals/GuidedCreatorModal';
 import { UserSettingsModal } from '../UserSettingsModal';
 import RosterCatalogView from './views/RosterCatalogView';
+import FeaturesHubView from './views/FeaturesHubView';
+import PropertyHubView from './views/PropertyHubView';
 
 const FolioContainer = () => {
   const navigate = useNavigate();
@@ -643,15 +645,24 @@ const FolioContainer = () => {
               onOpenSelectorModal={handleOpenSelectorModal}
             />
           )}
-          {(activeTab === 'features' || activeTab === 'abilities' || activeTab.startsWith('features-')) && (
+          {activeTab === 'features' && (
+            <FeaturesHubView
+              onSelectSection={(tabId) => setActiveTab(tabId)}
+              onOpenMetaphysicsModal={() => setIsMetaphysicsOpen(true)}
+              onOpenSelectorModal={handleOpenSelectorModal}
+              onOpenAssetModal={handleOpenAssetModal}
+            />
+          )}
+          {(activeTab.startsWith('features-') || activeTab === 'abilities') && (
             <FeaturesTab
               activeSection={
                 activeTab === 'features-hindrances' ? 'hindrances' :
                 activeTab === 'features-augmentations' ? 'augmentations' :
                 activeTab === 'features-metaphysics' || activeTab === 'features-awakened' ? 'metaphysics' :
-                activeTab === 'features-standard' ? 'features' :
-                'all'
+                'features'
               }
+              onBackToHub={() => setActiveTab('features')}
+              onNavigate={(tabId) => setActiveTab(tabId)}
               onOpenSelectorModal={handleOpenSelectorModal}
               onOpenAssetModal={handleOpenAssetModal}
               onOpenMetaphysicsModal={() => setIsMetaphysicsOpen(true)}
@@ -663,9 +674,18 @@ const FolioContainer = () => {
               onOpenAssetModal={handleOpenAssetModal}
             />
           )}
-          {(activeTab === 'property' || activeTab.startsWith('property-') || activeTab === 'combat-gear') && (
+          {activeTab === 'property' && (
+            <PropertyHubView
+              onSelectSection={(tabId) => setActiveTab(tabId)}
+              onOpenSelectorModal={handleOpenSelectorModal}
+              onOpenAssetModal={handleOpenAssetModal}
+            />
+          )}
+          {(activeTab.startsWith('property-') || activeTab === 'combat-gear') && (
             <PropertyTab
-              activeSection={activeTab.startsWith('property-') ? activeTab.replace('property-', '') : 'gear'}
+              activeSection={activeTab === 'combat-gear' ? 'gear' : activeTab.replace('property-', '')}
+              onBackToHub={() => setActiveTab('property')}
+              onNavigate={(tabId) => setActiveTab(tabId)}
               onOpenSelectorModal={handleOpenSelectorModal}
               onOpenAssetModal={handleOpenAssetModal}
             />

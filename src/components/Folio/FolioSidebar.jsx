@@ -83,13 +83,12 @@ export const FolioSidebar = ({
   const handleSelectNav = (item) => {
     AudioService.playTerminalBeep(1100, 0.02);
 
-    if (item.id === 'property') {
-      setActiveTab('property-gear');
-    } else if (item.id === 'features') {
-      setActiveTab('features-standard');
-    } else {
-      setActiveTab(item.id);
+    // Auto-expand section if collapsed when landing on hub
+    if (item.children && !expandedSections[item.id]) {
+      setExpandedSections(prev => ({ ...prev, [item.id]: true }));
     }
+
+    setActiveTab(item.id);
   };
 
   const handleSelectChild = (child, parentId) => {
@@ -141,6 +140,11 @@ export const FolioSidebar = ({
                 </div>
 
                 <div className="flex items-center gap-1.5">
+                  {activeTab === item.id && hasChildren && (
+                    <span className="px-1.5 py-0.2 rounded font-mono text-[9px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                      HUB
+                    </span>
+                  )}
                   {isParentActive && !hasChildren && (
                     <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_6px_rgba(34,211,238,0.8)]" />
                   )}

@@ -74,7 +74,13 @@ const PROPERTY_CONFIG = {
   }
 };
 
-export const PropertyTab = ({ activeSection = 'gear', onOpenSelectorModal, onOpenAssetModal }) => {
+export const PropertyTab = ({ 
+  activeSection = 'gear', 
+  onOpenSelectorModal, 
+  onOpenAssetModal,
+  onBackToHub,
+  onNavigate
+}) => {
   const { characterData, updateField } = useFolio();
   const { openDiceRoller } = useDice();
 
@@ -307,6 +313,55 @@ export const PropertyTab = ({ activeSection = 'gear', onOpenSelectorModal, onOpe
 
   return (
     <div className="tab-panel active p-4 space-y-6 pb-20 max-w-6xl mx-auto">
+      {/* Property Category Navigation Bar */}
+      <div className="flex flex-wrap items-center justify-between border-b border-cyan-900/60 pb-2.5 gap-2.5">
+        <div className="flex flex-wrap items-center gap-1 sm:gap-1.5">
+          {onBackToHub && (
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1100, 0.02);
+                onBackToHub();
+              }}
+              className="px-2.5 py-1.5 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer bg-slate-900 border border-cyan-500/50 text-cyan-300 hover:bg-cyan-950 hover:border-cyan-400 shadow-sm mr-1"
+              title="Return to Personal Property Hub"
+            >
+              <span>◀</span>
+              <span>Hub</span>
+            </button>
+          )}
+
+          {Object.entries(PROPERTY_CONFIG).map(([secKey, cfg]) => {
+            const isSecActive = activeSection === secKey;
+            const count = getArray(cfg.key, cfg.altKey).length;
+
+            return (
+              <button
+                key={secKey}
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1200, 0.02);
+                  if (onNavigate) onNavigate(`property-${secKey}`);
+                }}
+                className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                  isSecActive
+                    ? 'bg-cyan-950 border border-cyan-500 text-cyan-200 shadow-[0_0_10px_rgba(34,211,238,0.2)]'
+                    : 'bg-slate-900/60 border border-slate-800 text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                <span>{cfg.icon}</span>
+                <span>{cfg.title}</span>
+                {count > 0 && (
+                  <span className="px-1.5 py-0.2 rounded bg-slate-950 text-[10px] text-cyan-300 font-mono">
+                    {count}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Property Overview Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-cyan-900/60 pb-3">
         <div>
