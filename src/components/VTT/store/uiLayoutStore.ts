@@ -25,7 +25,8 @@ export type CockpitTab =
   | 'inventory' 
   | 'notes' 
   | 'inspector' 
-  | 'multiselect';
+  | 'multiselect'
+  | 'aime';
 
 export type UserVttRole = 'player' | 'gm';
 
@@ -82,6 +83,8 @@ export interface UILayoutState extends VttLayoutPreferences {
   setLeftCollapsed: (collapsed: boolean) => void;
   toggleRightCollapse: () => void;
   setRightCollapsed: (collapsed: boolean) => void;
+  isRightPanelOpen: boolean;
+  setIsRightPanelOpen: (open: boolean) => void;
   toggleZenMode: () => void;
   setZenMode: (zen: boolean) => void;
   setLeftWidth: (width: number) => void;
@@ -122,6 +125,15 @@ export const useUILayoutStore = create<UILayoutState>()(
       setRightCollapsed: (collapsed) => set((draft) => {
         draft.isRightCollapsed = collapsed;
         savePrefs({ isRightCollapsed: collapsed });
+      }),
+
+      get isRightPanelOpen() {
+        return !this.isRightCollapsed;
+      },
+
+      setIsRightPanelOpen: (open: boolean) => set((draft) => {
+        draft.isRightCollapsed = !open;
+        savePrefs({ isRightCollapsed: !open });
       }),
 
       toggleZenMode: () => set((draft) => {

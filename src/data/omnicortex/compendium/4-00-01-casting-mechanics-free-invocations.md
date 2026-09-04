@@ -41,7 +41,7 @@ Practitioners of Metaphysics can manipulate reality through two distinct methodo
 
 ## 1. The Potency Calculation Formula
 
-$$\text{Potency Score} = [\text{Key Ability} + \text{Discipline Skill Level} + \text{Invocation Level} + 10 \text{ (or } d20 \text{)}]$$
+$$\text{Potency Score} = [\text{Key Ability} + \text{Discipline Skill Level} + \text{Invocation Level} + 10 \text{ (or } 2d10 \text{)}]$$
 
 - **Attune Check**: Used to determine the Difficulty of the Resistance of an Effect or the Evasion of an Attack.
 - **Discipline Check**: Used to determine the severity of Effects and/or Damage.
@@ -74,7 +74,7 @@ $$\text{Potency Score} = [\text{Key Ability} + \text{Discipline Skill Level} + \
 
 ## Game Mechanics Rules
 ```
-CodifiedPotency = KeyMod + DisciplineRank + InvocationLevel + 10 (or d20)
+CodifiedPotency = KeyMod + DisciplineRank + InvocationLevel + 10 (or 2d10)
 InternalizedStrain = floor(FailureMargin / 5) * 1 NonLethal HP
 EnergySurge = Attune <= 0 -> EssenceCost * 2
 ```

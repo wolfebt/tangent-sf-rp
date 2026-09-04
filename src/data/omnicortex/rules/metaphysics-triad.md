@@ -85,7 +85,7 @@ The **Key Ability** is chosen at Awakening and determines the "flavor" of the so
 
 ## 4. The Potency Calculation Formula
 
-$$\text{Potency} = [\text{Key Ability} + \text{Discipline Skill Level} + \text{Invocation Level} + 10 \text{ (or } d20 \text{)}]$$
+$$\text{Potency} = [\text{Key Ability} + \text{Discipline Skill Level} + \text{Invocation Level} + 10 \text{ (or } 2d10 \text{)}]$$
 
 - **Attune Check**: Used to determine the Difficulty of the Resistance of an Effect or the Evasion of an Attack.
 - **Discipline Check**: Used to determine the severity of Effects and/or Damage.

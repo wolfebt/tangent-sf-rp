@@ -24,6 +24,11 @@ export const useMapCanvasEvents = ({
   selectedObjectType,
   selectedWallType = 'solid',
   doorLockDc = 14,
+  // Dynamic Light properties
+  selectedLightColor = '#f59e0b',
+  selectedLightRadius = 180,
+  selectedLightAnimation = 'flicker',
+  lights = [],
   tokenType,
   tokenLabelInput,
   tokenOmnicortexData,
@@ -74,7 +79,7 @@ export const useMapCanvasEvents = ({
     if (e.evt.button === 0 && currentMap) {
       const pos = e.target.getStage().getRelativePointerPosition();
 
-      if (['pencil', 'terrain', 'fog', 'object', 'token', 'text', 'wall'].includes(activeTool)) {
+      if (['pencil', 'terrain', 'fog', 'object', 'token', 'text', 'wall', 'hazard', 'light'].includes(activeTool)) {
         recordHistory();
       }
 
@@ -108,6 +113,34 @@ export const useMapCanvasEvents = ({
       } else if (activeTool === 'fog') {
         setIsDrawing(true);
         updateMap(activeMapId, { fog: [...fog, { id: uuidv4(), points: [pos.x, pos.y] }] });
+      } else if (activeTool === 'hazard') {
+        const hazardObj = {
+          id: uuidv4(),
+          type: selectedObjectType?.id || 'plasma_hazard',
+          label: selectedObjectType?.label || 'Hazard Zone',
+          color: selectedObjectType?.color || '#f97316',
+          shape: selectedObjectType?.shape || 'circle',
+          radius: selectedObjectType?.radius || 35,
+          width: selectedObjectType?.width || 70,
+          height: selectedObjectType?.height || 70,
+          hazard: selectedObjectType?.hazard || selectedObjectType?.label || 'Environmental Hazard',
+          category: 'Hazards',
+          desc: selectedObjectType?.desc || '',
+          x: pos.x,
+          y: pos.y
+        };
+        updateMap(activeMapId, { objects: [...objects, hazardObj] });
+      } else if (activeTool === 'light') {
+        const newLight = {
+          id: uuidv4(),
+          x: pos.x,
+          y: pos.y,
+          radius: selectedLightRadius || 180,
+          color: selectedLightColor || '#f59e0b',
+          animation: selectedLightAnimation || 'flicker',
+          brightness: 0.8
+        };
+        updateMap(activeMapId, { lights: [...lights, newLight] });
       } else if (activeTool === 'object') {
         const newObj = {
           id: uuidv4(),

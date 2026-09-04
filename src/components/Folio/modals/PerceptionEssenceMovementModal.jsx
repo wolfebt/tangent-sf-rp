@@ -83,7 +83,7 @@ const LOCAL_DAMAGE_ROUTING_TIERS = [
     icon: '⚡',
     color: 'purple',
     summary: 'Natural 20s, critical exploits, pinpoint strikes',
-    description: 'Critical strikes bypass the target\'s Vitality buffer entirely, inflicting direct lethal damage straight to Health. Excess damage beyond 0 Health goes to Vitality.'
+    description: 'Critical strikes bypass the target\'s Vitality buffer entirely, inflicting direct lethal damage straight to Health. If the attack was non-lethal, it remains non-lethal, absorbing through Vitality first before overflowing into Health as lethal. Excess damage beyond 0 Health goes to Vitality.'
   },
   {
     type: 'Concussive Damage',
@@ -589,7 +589,7 @@ const PerceptionEssenceMovementModal = ({
                     Whenever an Attribute increases, its corresponding sub-attribute check base score automatically shifts by twice that amount. A character with an Attribute of 0 has a base check score of 2. An Attribute of +3 gives a base score of 8.
                   </p>
                   <div className="text-[11px] text-slate-400 border-t border-slate-800/80 pt-2 font-mono">
-                    Roll Expression: <span className="text-emerald-300 font-bold">d20 + Total Score + Circumstance Modifiers</span>
+                    Roll Expression: <span className="text-emerald-300 font-bold">2d10 + Total Score + Circumstance Modifiers</span>
                   </div>
                 </div>
 
@@ -794,16 +794,16 @@ const PerceptionEssenceMovementModal = ({
                 {/* Toughness Rule */}
                 <div className="bg-slate-950 p-3.5 rounded-lg border border-slate-800 space-y-1.5">
                   <div className="flex justify-between items-center font-bold">
-                    <span className="text-emerald-300">Toughness Wound Soak</span>
+                    <span className="text-emerald-300">Stamina Natural DR (Toughness)</span>
                     <code className="text-[11px] font-mono text-emerald-400 bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">
-                      Stamina Ability Score
+                      Stamina Score
                     </code>
                   </div>
                   <p className="text-slate-300 text-[11px] leading-relaxed">
-                    Toughness represents innate bodily density and tissue resilience. Derived directly from the hero's <strong>Stamina Ability Score</strong>, it absorbs incoming lethal/wound damage point-for-point before Health is degraded.
+                    All character Stamina is a natural damage reduction (DR) and automatically reduces all incoming damage which penetrates the character's defenses, minimum of 1 point.
                   </p>
                   <div className="text-[10px] text-slate-400 font-mono border-t border-slate-800/80 pt-1.5">
-                    Soak Value: <strong className="text-emerald-300">+{toughness} Damage Absorbed per Attack</strong>
+                    Natural DR: <strong className="text-emerald-300">+{toughness} DR (Min 1 penetrating damage)</strong>
                   </div>
                 </div>
               </div>

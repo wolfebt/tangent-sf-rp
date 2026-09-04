@@ -49,7 +49,7 @@ Proficiency with handheld close-quarters weaponry, from simple clubs and combat 
 
 ### Mechanics & Rules
 - **Governing Attribute**: Strength (Standard) or Agility (with Features like *Weapon Finesse*).
-- **Standard Attack Roll**: `d20 + Melee Rank + Strength Mod vs. Target Defense`.
+- **Standard Attack Roll**: `2d10 + Melee Rank + Strength Mod vs. Target Defense`.
 - **Damage**: Weapon Base Damage Dice + Strength Modifier.
 - **Reach Weapons**: Polearms and extended hafted weapons allow melee attacks from 10ft away.
 

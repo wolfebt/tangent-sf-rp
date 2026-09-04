@@ -1474,11 +1474,18 @@ export function calculateVitalityHealthPools({
   vitalityBP = 0,
   healthBP = 0,
   isSynthetic = false,
-  staminaScore = 0
+  staminaScore = undefined
 } = {}) {
-  const baseVitality = VITALITY_HEALTH_STRUCTURE_RULES.startingBaseVitality + (Math.max(0, Number(vitalityBP || 0)) * 5);
-  const baseHealth = VITALITY_HEALTH_STRUCTURE_RULES.startingBaseHealth + (Math.max(0, Number(healthBP || 0)) * 5);
-  const toughness = calculateBaseToughness(staminaScore);
+  const hasStaminaCap = staminaScore !== undefined && staminaScore !== null;
+  const maxIncrease = hasStaminaCap ? Math.max(0, Number(staminaScore) * 5) : Infinity;
+  const requestedVitalityBonus = Math.max(0, Number(vitalityBP || 0)) * 5;
+  const requestedHealthBonus = Math.max(0, Number(healthBP || 0)) * 5;
+  const purchasedVitality = hasStaminaCap ? Math.min(requestedVitalityBonus, maxIncrease) : requestedVitalityBonus;
+  const purchasedHealth = hasStaminaCap ? Math.min(requestedHealthBonus, maxIncrease) : requestedHealthBonus;
+
+  const baseVitality = VITALITY_HEALTH_STRUCTURE_RULES.startingBaseVitality + purchasedVitality;
+  const baseHealth = VITALITY_HEALTH_STRUCTURE_RULES.startingBaseHealth + purchasedHealth;
+  const toughness = calculateBaseToughness(staminaScore || 0);
 
   if (isSynthetic) {
     const structurePoints = baseVitality + baseHealth;
@@ -1491,10 +1498,12 @@ export function calculateVitalityHealthPools({
       maxStructure: structurePoints,
       toughness,
       isSynthetic: true,
-      purchasedVitality: Math.max(0, Number(vitalityBP || 0)) * 5,
-      purchasedHealth: Math.max(0, Number(healthBP || 0)) * 5,
-      vitalityBPCost: Math.max(0, Number(vitalityBP || 0)),
-      healthBPCost: Math.max(0, Number(healthBP || 0)),
+      purchasedVitality,
+      purchasedHealth,
+      maxVitalityIncrease: maxIncrease,
+      maxHealthIncrease: maxIncrease,
+      vitalityBPCost: Math.ceil(purchasedVitality / 5),
+      healthBPCost: Math.ceil(purchasedHealth / 5),
       suggestedMax: VITALITY_HEALTH_STRUCTURE_RULES.suggestedStartingMax
     };
   }
@@ -1508,10 +1517,12 @@ export function calculateVitalityHealthPools({
     maxStructure: 0,
     toughness,
     isSynthetic: false,
-    purchasedVitality: Math.max(0, Number(vitalityBP || 0)) * 5,
-    purchasedHealth: Math.max(0, Number(healthBP || 0)) * 5,
-    vitalityBPCost: Math.max(0, Number(vitalityBP || 0)),
-    healthBPCost: Math.max(0, Number(healthBP || 0)),
+    purchasedVitality,
+    purchasedHealth,
+    maxVitalityIncrease: maxIncrease,
+    maxHealthIncrease: maxIncrease,
+    vitalityBPCost: Math.ceil(purchasedVitality / 5),
+    healthBPCost: Math.ceil(purchasedHealth / 5),
     suggestedMax: VITALITY_HEALTH_STRUCTURE_RULES.suggestedStartingMax
   };
 }
@@ -1603,15 +1614,63 @@ export function applyDamageToEntity({
   deathClockCurrent = undefined
 } = {}) {
   const rawDmg = Math.max(0, Number(incomingDamage) || 0);
+  const armorDRVal = Math.max(0, Number(armorDR) || 0);
+  const damageAfterDefenses = Math.max(0, rawDmg - armorDRVal);
+
   const effectiveToughness = (toughness !== undefined && toughness !== null)
     ? Math.max(0, Number(toughness) || 0)
     : Math.max(0, Number(staminaScore) || 0);
-  const totalReduction = Math.max(0, Number(armorDR) || 0) + effectiveToughness;
-  const netDamage = Math.max(0, rawDmg - totalReduction);
+
+  // Canonical rule: All character Stamina is a natural damage reduction (DR)
+  // and automatically reduces all incoming damage which penetrates the characters defenses, minimum of 1 point.
+  let netDamage = 0;
+  if (damageAfterDefenses > 0) {
+    if (effectiveToughness > 0) {
+      netDamage = Math.max(1, damageAfterDefenses - effectiveToughness);
+    } else {
+      netDamage = damageAfterDefenses;
+    }
+  } else {
+    // Defenses completely deflected the attack; 0 damage penetrates
+    netDamage = 0;
+  }
+
   const damageSoaked = rawDmg - netDamage;
   const sta = Math.max(1, Number(staminaScore) || 1);
 
   if (isSynthetic) {
+    // Synthetics and constructs of most types use structure which is the total of both health
+    // and vitality scores and are also immune to nonlethal damage as well as other immunities.
+    if (isNonLethal) {
+      return {
+        newVitality: 0,
+        newHealth: 0,
+        newStructure: currentStructure,
+        damageSoaked: rawDmg,
+        netDamage: 0,
+        spillover: 0,
+        excessToVitality: 0,
+        incapacitated: false,
+        unconscious: false,
+        prone: false,
+        droppedHeldItems: false,
+        atDeathsDoor: false,
+        isAtDeathsDoor: false,
+        comatose: false,
+        isComatose: false,
+        deathClock: null,
+        deathClockRemaining: null,
+        deathClockMax: null,
+        massiveDamageDeath: false,
+        instantDeath: false,
+        dead: false,
+        isDead: false,
+        conditions: [],
+        isSynthetic: true,
+        isNonLethalImmune: true
+      };
+    }
+
     // Structure damage directly, no Vitality buffer
     const newStructure = Math.max(0, currentStructure - netDamage);
     const destroyed = newStructure <= 0;
@@ -2644,7 +2703,7 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
   invocationsList.forEach((inv) => {
     const name = typeof inv === 'object' ? (inv.name || 'Unnamed Invocation') : inv;
     const cost = getItemCP(inv, 1);
-    const rank = typeof inv === 'object' && inv.rank !== undefined ? Math.max(1, parseInt(inv.rank, 10)) : 1;
+    const rank = typeof inv === 'object' && inv.rank !== undefined ? Math.min(10, Math.max(1, parseInt(inv.rank, 10))) : 1;
     const metaSkillName = typeof inv === 'object' ? (inv.subSkill || inv.discipline || 'Meta Skill') : 'Meta Skill';
     invocationsCost += cost;
     itemizedList.push({

@@ -147,9 +147,9 @@ graph TD
 2. **Core Stats & Vitals (`CoreStatsTab.jsx`)**:
    - The 6 core attributes (STR, AGI, STA, INT, WIS, CHA) and sub-attributes (Might, Reflex, Fortitude, Reason, Willpower, Etiquette).
    - **Universal Tooltips (`FolioTooltip.jsx`)**: Hovering over any card reveals dynamic calculation breakdowns:
-     - **Health Pool**: Structural integrity ($30 + \text{Fortitude}$).
-     - **Vitality Pool**: Stamina, poise, and energy buffer ($30 + \text{Willpower}$).
-     - **Base Toughness**: Stamina score (direct damage soak).
+     - **Health Pool**: Structural integrity (Base $30$, increased by $+5$ per $1\text{ CP}$ up to a maximum of $5 \times \text{Stamina}$).
+     - **Vitality Pool**: Stamina, poise, and energy buffer (Base $30$, increased by $+5$ per $1\text{ CP}$ up to a maximum of $5 \times \text{Stamina}$).
+     - **Base Toughness (Natural DR)**: Stamina score (reduces penetrating damage down to a minimum of 1 point).
      - **Defense Value**: Reaction and armor evasion threshold.
      - **Carry Capacity**: STR-based encumbrance thresholds.
 3. **Skills & Specializations (`SkillsTab.jsx`)**:
@@ -169,7 +169,7 @@ graph TD
      - *Energy Arms* (Laser, Plasma, Ion): `combat-energy` + `attr-reflex`.
      - *Heavy Weapons* (Artillery, Cannons): `combat-heavy-weapons` + `attr-might`.
      - *Primitive Ranged* (Bows, Slings): `combat-ranged` + `attr-reflex`.
-     - Attack Check Formula: $\text{Attack Bonus} = \text{Skill Rank} + \lfloor\text{Governing Attribute} / 2\rfloor$.
+     - Attack Check Formula: $\text{Attack Bonus} = \text{Skill Rank} + \text{Governing Attribute}$ (strictly never halved).
    - **Tactical Weapon Notes**: Automatically compiles Range, RoF, Ammo Capacity, and tactical traits into inline strike cards.
    - **Active Defensive Capabilities**: Armor suits and forcefields translate into active defenses with Damage Reduction (DR) and coverage zones.
 6. **Property Hub View (`PropertyHubView.jsx` & `PropertyTab.jsx`)**:
@@ -403,7 +403,7 @@ Check Roll = 2d10 + Skill Rank / Check Score + Linked Attribute Mod + Situationa
 
 ### 10.2 Core Attributes & Attribute Checks
 $$\text{Base Check Score} = 2 + (\text{Attribute Score} \times 2)$$
-$$\text{Check Roll} = \text{d}20 + \text{Base Check Score} + \text{Modifiers}$$
+$$\text{Check Roll} = 2\text{d}10 + \text{Base Check Score} + \text{Modifiers}$$
 
 | Attribute | Linked Check | Primary Application |
 | :--- | :--- | :--- |
@@ -422,10 +422,10 @@ $$\text{Base Perception} = \text{Intellect} + \text{Wisdom}$$
 - **Technical Perception** (`Perception + Technology`): Interpreting electronic sensors, locating hardware vulnerabilities, and detecting counter-measures.
 
 ### 10.4 Vitality, Health, Structure & Damage Soak
-- **Vitality Pool ($30 + \text{Willpower}$)**: Tracks **Non-Lethal Damage Capacity**, environmental stress, fatigue damage, subdual strikes, and mental/sensory exhaustion. Once Vitality reaches 0, excess non-lethal exhaustion spills into Health (causing incapacitation).
-- **Health Pool ($30 + \text{Fortitude}$)**: Tracks **Lethal Damage Capacity** such as cuts, burns, bullet trauma, shrapnel, and physical wounds. Lethal attacks damage Health directly. When Health reaches 0, the operative collapses and initiates their Death Clock.
-- **Structure Pool (Synthetics, Mecha & Objects)**: Synthetics possess no biological nervous system and have a unified **Structure Pool**. **Synthetics are completely IMMUNE to non-lethal damage**. All lethal damage applies directly to Structure.
-- **Base Toughness ($\text{Stamina Score}$)**: Inherent physiological damage soak deducted from physical impacts.
+- **Vitality Pool (Base $30$, $+5/\text{CP}$, max $5 \times \text{STA}$)**: Tracks **Non-Lethal Damage Capacity**, environmental stress, fatigue damage, subdual strikes, and mental/sensory exhaustion. Once Vitality reaches 0, excess non-lethal exhaustion spills into Health (causing lethal damage).
+- **Health Pool (Base $30$, $+5/\text{CP}$, max $5 \times \text{STA}$)**: Tracks **Lethal Damage Capacity** such as cuts, burns, bullet trauma, shrapnel, and physical wounds. Lethal attacks damage Health directly. When Health reaches 0, the operative collapses and initiates their Death Clock.
+- **Structure Pool (Synthetics, Mecha & Objects)**: Synthetics possess no biological nervous system and have a unified **Structure Pool** ($\text{Structure} = \text{Health} + \text{Vitality}$). **Synthetics are completely IMMUNE to non-lethal damage**. All lethal damage applies directly to Structure.
+- **Base Toughness ($\text{Stamina Score}$)**: Inherent natural DR deducted from penetrating damage down to a minimum of 1 point (if armor absorbs the full hit, 0 damage penetrates).
 - **Armor Damage Reduction (DR)**: Absorbs damage prior to pool subtraction based on hit location coverage.
 
 ### 10.5 Death Clock, Massive Damage & Revivification

@@ -9,7 +9,7 @@ import { Sparkles, Palette, BookOpen, Plus, Search, Wand2, X, Trash2 } from 'luc
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import DOMPurify from 'dompurify';
 
-export const ElementForge = () => {
+export const ElementForge = ({ onBackToStory }) => {
   const navigate = useNavigate();
   const { elementsCatalog, updateSavedElement, deleteSavedElement, saveElementToCloud } = useCampaign();
   
@@ -68,7 +68,20 @@ Additional Context / Specific Directives: "${guideContext.trim() || 'High sci-fi
 Output Format: Provide structured markdown with rich sections, atmospheric read-aloud boxes, GM secrets, stat notes, and tactical hooks.`;
 
     try {
-      const generatedMarkdown = await generateContent({ prompt });
+      const context = {
+        projectName: 'ElementForge Compendium',
+        activeNode: {
+          type: selectedGuideModule.elementType || activeType,
+          title: guideTitle.trim(),
+          fields: {
+            category: selectedGuideModule.category,
+            guideModule: selectedGuideModule.name
+          }
+        },
+        guidanceGems: guideContext.trim() || 'High sci-fi / cyberpunk science fantasy RPG tone',
+        customCatalog: elementsCatalog || []
+      };
+      const generatedMarkdown = await generateContent({ prompt, context });
       const newElem = {
         id: `elem_sg_${Date.now()}`,
         title: guideTitle.trim(),
@@ -142,6 +155,17 @@ Output Format: Provide structured markdown with rich sections, atmospheric read-
         {/* Header Bar */}
         <div className="flex flex-wrap justify-between items-center mb-6 shrink-0 bg-slate-900/40 backdrop-blur-md p-5 rounded-2xl border border-slate-800/80 shadow-lg gap-4">
           <div className="flex items-center gap-3">
+            {onBackToStory && (
+              <button
+                type="button"
+                onClick={onBackToStory}
+                className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 rounded-xl text-xs font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer shadow-sm"
+                title="Return to Story Scenarios Canvas"
+              >
+                <span>←</span>
+                <span>Story Canvas</span>
+              </button>
+            )}
             <span className={`text-xs px-3 py-1.5 rounded-full font-bold uppercase tracking-wider ${getTypePillStyle(activeType)}`}>
               {activeType}
             </span>

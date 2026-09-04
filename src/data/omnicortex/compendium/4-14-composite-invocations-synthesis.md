@@ -81,7 +81,7 @@ Composite Invocations require ranks in multiple Disciplines and represent the pi
 
 ## Game Mechanics Rules
 ```
-CompositePotency = KeyAbilityMod + LowestRequisiteSkillRank + InvocationLevel + 10 (or d20)
+CompositePotency = KeyAbilityMod + LowestRequisiteSkillRank + InvocationLevel + 10 (or 2d10)
 ```
 
 ## Gameplay Instructions

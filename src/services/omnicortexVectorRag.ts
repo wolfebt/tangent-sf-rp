@@ -1,13 +1,15 @@
 /**
  * @file omnicortexVectorRag.ts
- * @description Stage 3.3: Canonical Omnicortex Vector RAG Retrieval-Augmented Generation Engine.
+ * @description Canonical Omnicortex Vector RAG (Retrieval-Augmented Generation) Engine.
  * Provides high-speed semantic vector embeddings, cosine similarity search,
- * and rule context injection for BASTION AI and the CommLink tactical assistant.
+ * keyword/tag boosting, and canonical rules/lore context injection for BASTION and AIME.
  */
+
+import compendiumSeed from '../data/compendiumSeed.json';
 
 export interface RuleChunk {
   id: string;
-  category: 'combat' | 'economatrix' | 'udu' | 'metaphysics' | 'character_creation' | 'planetary' | 'bestiary';
+  category: 'combat' | 'economatrix' | 'udu' | 'metaphysics' | 'character_creation' | 'planetary' | 'bestiary' | 'factions' | 'species' | 'lore';
   title: string;
   citation: string;
   text: string;
@@ -16,15 +18,15 @@ export interface RuleChunk {
 }
 
 /**
- * Canonical rules compendium chunks for Tangent SFF RP
+ * High-priority foundational rules compendium chunks for Tangent SFF RP
  */
-export const CANONICAL_RULES_COMPENDIUM: RuleChunk[] = [
+export const CANONICAL_FOUNDATIONAL_CHUNKS: RuleChunk[] = [
   {
     id: 'rule-combat-dual-resolution',
     category: 'combat',
     title: 'Dual Resolution & Target Number Architecture',
     citation: 'Omnicortex 3.00 Combat Matrix',
-    tags: ['combat', 'dice', 'target number', '2d10', 'resolution', 'margin of success'],
+    tags: ['combat', 'dice', 'target number', '2d10', 'resolution', 'margin of success', 'attack', 'defense'],
     text: `TANGENT uses a Dual-Resolution mechanic:
 - Core Action Checks: 2d10 + Attribute Modifier + Skill Rank vs. Target Number (TN / DC).
 - Target Number formula: Baseline TN = 11 + Secondary Defense / Resistance Rating.
@@ -37,7 +39,7 @@ export const CANONICAL_RULES_COMPENDIUM: RuleChunk[] = [
     category: 'combat',
     title: 'Called Shots & 33.3% Major Wound Trauma',
     citation: 'Omnicortex 3.02 Damage & Wound Pipeline',
-    tags: ['called shot', 'limb targeting', 'trauma', 'major wound', 'head', 'arms', 'legs', 'optics'],
+    tags: ['called shot', 'limb targeting', 'trauma', 'major wound', 'head', 'arms', 'legs', 'optics', 'injury'],
     text: `Called Shots allow operators to target specific anatomy with specialized modifiers and trauma outcomes:
 - Torso (Center Mass): +0 modifier, standard damage.
 - Head (Disorient): -2 to hit. If net damage >= 33.3% max HP, inflicts Disoriented (-2 to all mental/action rolls).
@@ -50,7 +52,7 @@ export const CANONICAL_RULES_COMPENDIUM: RuleChunk[] = [
     category: 'combat',
     title: 'Tactical Combat Stances',
     citation: 'Omnicortex 3.05 Tactical Movement & Stances',
-    tags: ['stances', 'guard', 'aim', 'overcharge', 'defense'],
+    tags: ['stances', 'guard', 'aim', 'overcharge', 'defense', 'tactics'],
     text: `Operators can assume tactical stances at the start of their turn:
 - 🛡️ GUARD (+2 Armor DR): Focus on defensive posture, increasing armor absorption DR by +2 until start of next turn.
 - 🎯 AIM (+2 To-Hit): Sights locked onto target, granting +2 bonus to the next attack roll this round.
@@ -61,7 +63,7 @@ export const CANONICAL_RULES_COMPENDIUM: RuleChunk[] = [
     category: 'economatrix',
     title: 'Economatrix Unified Cost Equation',
     citation: 'Codex 2.00 Economatrix Matrix',
-    tags: ['economatrix', 'pricing', 'cost', 'tech level', 'meta level', 'crafting'],
+    tags: ['economatrix', 'pricing', 'cost', 'tech level', 'meta level', 'crafting', 'credits', 'value'],
     text: `The Universal Economic Unified Theory (EUT) determines item value using the dual-exponential equation:
 Cost (Credits) = Base_Cost * (2^TL) * (1.5^ML)
 - TL: Tech Level (0 to 5+). Every +1 TL doubles manufacturing baseline value.
@@ -69,34 +71,50 @@ Cost (Credits) = Base_Cost * (2^TL) * (1.5^ML)
 - 7-Tier Crafting Timetable: Tier 1 (1 hour) up to Tier 7 (Megastructure / Months).`
   },
   {
+    id: 'rule-tech-levels-spectrum',
+    category: 'economatrix',
+    title: 'Tech Level (TL 0–5) Classifications & Aesthetics',
+    citation: 'Omnicortex 2.01 Technology Spectrum',
+    tags: ['tech level', 'tl', 'hard-light', 'nanotech', 'cybernetics', 'slug-throwers', 'energy'],
+    text: `Tech Levels (TL 0–5) define equipment sophistication and visual/sound aesthetics:
+- TL 0 (Primitive / Archaic): Forged metals, ballistic gunpowder, mechanical springs, raw ceramics.
+- TL 1 (Industrial / Mechanical): Combustion engines, standard rifling, heavy hydraulic plating.
+- TL 2 (Advanced Electronic): Micro-circuitry, early railguns, optical HUDs, Kevlar/Titanium weaves.
+- TL 3 (Interstellar / Cybernetic): Standard galactic baseline. Plasma accelerators, cyber-implants, shields, neural jacks.
+- TL 4 (Nanotech / Hard-Light): Photonic mandalas, shape-memory smart-matter, quantum repeaters, cold fusion cells.
+- TL 5 (Progenitor / Precursor): Dimensional folding, dark energy manipulation, self-repairing monoliths.`
+  },
+  {
+    id: 'rule-metaphysics-levels',
+    category: 'metaphysics',
+    title: 'Meta Level (ML 0–5) Reality Manipulation',
+    citation: 'Omnicortex 4.01 Metaphysics & Psionics',
+    tags: ['meta level', 'ml', 'sorcery', 'psionics', 'magic', 'essence', 'aether', 'powers'],
+    text: `Meta Levels (ML 0–5) quantify psionic, arcane, and reality-altering frequency:
+- ML 0 (Mundane / Inert): Zero metaphysical sensitivity or aether resonance.
+- ML 1 (Latent / Awakened): Minor telekinesis, sensory empathy, instinctual premonitions.
+- ML 2 (Adept / Discipline): Active bio-kinetic shielding, thermal channeling, telepathic speech.
+- ML 3 (Master / Sorcerer): Gravimetric pulses, illusions, temporal dilation, essence-woven barriers.
+- ML 4 (High Sorcery / Metamagic): Continental warp fields, molecular transmutation, hard-light spellweaves.
+- ML 5 (Cosmic / Divine): Planetary reality shifts, chronometer resets, planar convergence.`
+  },
+  {
     id: 'rule-udu-engine',
     category: 'udu',
     title: 'Unified Difficulty Units (UDU) & Volumetric Scaling',
     citation: 'Codex 5.00 UDU Matrix',
-    tags: ['udu', 'difficulty units', 'scaling', 'size tier', 'volumetric'],
+    tags: ['udu', 'difficulty units', 'scaling', 'size tier', 'volumetric', 'hardness', 'threshold'],
     text: `Unified Difficulty Units (UDU) standardize physical tasks and craft complexity:
 - Size Tiers: Fine (1), Diminutive (2), Tiny (3), Small (4), Medium (5), Large (6), Huge (7), Gargantuan (8), Colossal (9).
 - Structural Integrity = Volume * Material Density Multiplier.
 - Hardness & Damage Threshold: Attacks dealing less than target Hardness are completely deflected (0 net damage).`
   },
   {
-    id: 'rule-metaphysics-essence',
-    category: 'metaphysics',
-    title: 'Metaphysics, Invocations & Sustained Essence Tax',
-    citation: 'Omnicortex 4.00 Metaphysics Compendium',
-    tags: ['metaphysics', 'invocations', 'essence', 'sustained', 'degradation', 'magic', 'psi'],
-    text: `Metaphysical Invocations draw from the operator's Essence pool:
-- Cantrips (Rank 0): 0 Essence cost, infinite casting.
-- Tier 1-5 Spells: Consume 2 to 10 Essence points.
-- Sustained Effects: Deduct 1 Essence per round maintained from the caster's chronometer pool.
-- Status Degradation Entropy: At the start of each round, sustained spells roll a 1d10 check against DC (Spell Level + Rounds Active). On failure, the effect dissipates.`
-  },
-  {
     id: 'rule-character-creation-150cp',
     category: 'character_creation',
     title: '150 Character Point (CP) Operative Creation Economy',
     citation: 'Operator Guide 1.01 Character Creation',
-    tags: ['150 cp', 'character points', '150 bp', 'build points', 'character creation', 'skill pools', 'attributes', 'advancement'],
+    tags: ['150 cp', 'character points', '150 bp', 'build points', 'character creation', 'skill pools', 'attributes'],
     text: `Operatives in Tangent SFF RP are created using a strict 150 Character Point (CP) budget:
 - Attributes: 5 CP per +1 attribute rank above base 0.
 - Check Bonuses: 1 CP per +1 sub-attribute check score.
@@ -112,7 +130,7 @@ Cost (Credits) = Base_Cost * (2^TL) * (1.5^ML)
     category: 'planetary',
     title: 'Universal World Profiles (UWP) & 16-Domain Radar',
     citation: 'Architect Guide 99. Planetary Design Matrix',
-    tags: ['planetary', 'uwp', 'civilization', 'radar', 'gravity', 'atmosphere', 'astrogation'],
+    tags: ['planetary', 'uwp', 'civilization', 'radar', 'gravity', 'atmosphere', 'astrogation', 'world'],
     text: `Planetary systems are codified using Universal World Profiles:
 - Code: Star Type - Planet Class - Size - Atmosphere - Hydrographics - Population - Tech Level - Law Level.
 - Locomotion Hazards: Zero-G environments require Reflex checks (DC 14) during sudden directional thruster bursts.
@@ -121,7 +139,52 @@ Cost (Credits) = Base_Cost * (2^TL) * (1.5^ML)
 ];
 
 /**
- * Computes a lightweight fast pseudo-embedding vector for text similarity
+ * Builds dynamic compendium chunks from compendiumSeed.json
+ */
+function buildCompendiumChunks(): RuleChunk[] {
+  if (!Array.isArray(compendiumSeed)) return [];
+
+  return compendiumSeed.map((item: any) => {
+    let cat: RuleChunk['category'] = 'lore';
+    const p = (item.parent || '').toLowerCase();
+    const t = Array.isArray(item.tags) ? item.tags.join(' ').toLowerCase() : '';
+
+    if (p.includes('combat') || t.includes('combat')) cat = 'combat';
+    else if (p.includes('metaphysics') || t.includes('metaphysics')) cat = 'metaphysics';
+    else if (p.includes('economatrix') || t.includes('economatrix')) cat = 'economatrix';
+    else if (p.includes('faction') || t.includes('faction')) cat = 'factions';
+    else if (p.includes('origin') || p.includes('occupation') || p.includes('skill') || p.includes('character')) cat = 'character_creation';
+    else if (p.includes('world') || p.includes('bestiary')) cat = 'planetary';
+
+    // Strip markdown formatting for cleaner vector indexing
+    const cleanDesc = (item.description || '').replace(/[#*_`~\[\]]/g, ' ').replace(/\s+/g, ' ').trim();
+    const cleanMech = (item.mechanic || '').replace(/[#*_`~\[\]]/g, ' ').replace(/\s+/g, ' ').trim();
+
+    let text = `${item.name}\n`;
+    if (cleanMech) text += `Rules Mechanics: ${cleanMech}\n`;
+    if (cleanDesc) text += `Description & Lore: ${cleanDesc.slice(0, 450)}\n`;
+    if (item.tl !== undefined && item.tl !== null) text += `Tech Level: TL ${item.tl} | `;
+    if (item.ml !== undefined && item.ml !== null) text += `Meta Level: ML ${item.ml}`;
+
+    return {
+      id: `compendium-${item.id || item.name}`,
+      category: cat,
+      title: item.name || 'Untitled Article',
+      citation: item.parent || 'Omnicortex Compendium',
+      text: text.trim(),
+      tags: [...(Array.isArray(item.tags) ? item.tags : []), item.name, item.parent || '', cat].filter(Boolean)
+    };
+  });
+}
+
+// Combine Foundational Rules with Compendium Seed Articles
+export const CANONICAL_RULES_COMPENDIUM: RuleChunk[] = [
+  ...CANONICAL_FOUNDATIONAL_CHUNKS,
+  ...buildCompendiumChunks()
+];
+
+/**
+ * Computes a fast normalized pseudo-embedding term frequency vector for text similarity
  */
 function computeTermVector(text: string, vocabulary: string[]): number[] {
   const words = text.toLowerCase().replace(/[^a-z0-9_\-\s]/g, ' ').split(/\s+/).filter(Boolean);
@@ -168,7 +231,7 @@ const VOCABULARY = Array.from(new Set(
   ALL_TEXT.toLowerCase().replace(/[^a-z0-9_\-\s]/g, ' ').split(/\s+/).filter(w => w.length > 2)
 ));
 
-// Pre-embed all canonical chunks
+// Pre-embed all chunks on startup
 for (const chunk of CANONICAL_RULES_COMPENDIUM) {
   const fullText = `${chunk.title} ${chunk.tags.join(' ')} ${chunk.text}`;
   chunk.embedding = computeTermVector(fullText, VOCABULARY);
@@ -180,28 +243,69 @@ export interface RagSearchResult {
 }
 
 /**
- * Queries the Omnicortex Vector RAG index for the top most relevant rule chunks
+ * Detects domain intent keywords to intelligently boost related categories
  */
-export function queryOmnicortexRAG(query: string, topK: number = 2): RagSearchResult[] {
+function detectIntentCategories(query: string): string[] {
+  const q = query.toLowerCase();
+  const categories: string[] = [];
+
+  if (q.match(/\b(combat|fight|shot|shoot|attack|damage|wound|called shot|weapon|armor|strike|defense)\b/)) {
+    categories.push('combat');
+  }
+  if (q.match(/\b(psi|sorcery|magic|metaphysic|spell|invocation|essence|aether|psionic)\b/)) {
+    categories.push('metaphysics');
+  }
+  if (q.match(/\b(faction|polity|enclave|syndicate|diplomacy|politic|treaty|war|alliance|empire)\b/)) {
+    categories.push('factions');
+  }
+  if (q.match(/\b(cost|price|craft|economatrix|credit|market|buy|sell|tech level)\b/)) {
+    categories.push('economatrix');
+  }
+  if (q.match(/\b(species|alien|synthetic|lineage|heritage|trait|stigma)\b/)) {
+    categories.push('species');
+  }
+
+  return categories;
+}
+
+/**
+ * Queries the Omnicortex Vector RAG index for the top most relevant rule and lore chunks
+ */
+export function queryOmnicortexRAG(query: string, topK: number = 3, categoryFilter?: string): RagSearchResult[] {
   if (!query || !query.trim()) {
     return [];
   }
 
   const queryVector = computeTermVector(query, VOCABULARY);
+  const detectedCategories = detectIntentCategories(query);
+  const lowerQuery = query.toLowerCase();
   const results: RagSearchResult[] = [];
 
   for (const chunk of CANONICAL_RULES_COMPENDIUM) {
     if (!chunk.embedding) continue;
-    
+    if (categoryFilter && chunk.category !== categoryFilter) continue;
+
     // Base vector cosine similarity
     let score = cosineSimilarity(queryVector, chunk.embedding);
 
-    // Boost score if keyword tags match directly
-    const lowerQuery = query.toLowerCase();
+    // Boost score if keyword tags match query directly
     for (const tag of chunk.tags) {
-      if (lowerQuery.includes(tag)) {
-        score += 0.25;
+      if (lowerQuery.includes(tag.toLowerCase())) {
+        score += 0.22;
       }
+    }
+
+    // Boost if title words match query
+    const titleWords = chunk.title.toLowerCase().split(/\s+/);
+    for (const tw of titleWords) {
+      if (tw.length > 3 && lowerQuery.includes(tw)) {
+        score += 0.15;
+      }
+    }
+
+    // Domain intent category boost
+    if (detectedCategories.includes(chunk.category)) {
+      score += 0.12;
     }
 
     if (score > 0.05) {
@@ -227,3 +331,26 @@ export function formatRagContextForBastion(ragResults: RagSearchResult[]): strin
   }
   return context;
 }
+
+/**
+ * Formats retrieved RAG chunks into a sensory narrative guidance block for AIME
+ */
+export function formatRagContextForAIME(ragResults: RagSearchResult[]): string {
+  if (!ragResults || ragResults.length === 0) return '';
+
+  let context = '[CANONICAL OMNICORTEX RULES & WORLD LAWS]:\n';
+  for (const { chunk } of ragResults) {
+    context += `• ${chunk.title} (${chunk.citation}):\n  ${chunk.text.replace(/\n/g, '\n  ')}\n`;
+  }
+
+  context += `\n[NARRATIVE TRANSMUTATION DIRECTIVE]:\nDo not recite dice formulas or dry numerical mechanics. Transmute these canonical rules, Tech Levels (TL), Meta Levels (ML), called shots, and trauma thresholds into visceral sights, sounds, tactile resistance, and tactical decisions.`;
+
+  return context;
+}
+
+export default {
+  CANONICAL_RULES_COMPENDIUM,
+  queryOmnicortexRAG,
+  formatRagContextForBastion,
+  formatRagContextForAIME
+};

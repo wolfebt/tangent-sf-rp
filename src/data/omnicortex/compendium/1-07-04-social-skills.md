@@ -73,9 +73,9 @@ Social skills govern social engineering, political maneuvering, leadership, inti
 
 ## Game Mechanics Rules
 ```
-Diplomacy = d20 + DiplomacyRank + CharismaMod vs Target DC
-Deception = d20 + DeceptionRank + CharismaMod vs Investigation
-Intimidation = d20 + IntimidateRank + Charisma/Strength vs Will Save
+Diplomacy = 2d10 + DiplomacyRank + CharismaMod vs Target DC
+Deception = 2d10 + DeceptionRank + CharismaMod vs Investigation
+Intimidation = 2d10 + IntimidateRank + Charisma/Strength vs Will Save
 ```
 
 ## Gameplay Instructions

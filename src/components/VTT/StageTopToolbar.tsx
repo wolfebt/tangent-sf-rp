@@ -28,10 +28,13 @@ import {
   ImageIcon,
   Eye,
   EyeOff,
-  Check
+  Check,
+  Map,
+  ExternalLink
 } from 'lucide-react';
 import { GridScaleTier, GridType } from '../../engine/index.ts';
 import { AudioService } from '../../services/audioService';
+import { useUILayoutStore } from './store/uiLayoutStore';
 
 export interface StageTopToolbarProps {
   currentMap?: any;
@@ -107,6 +110,13 @@ export const StageTopToolbar: React.FC<StageTopToolbarProps> = ({
   isZenMode = false,
   onToggleZenMode
 }) => {
+  const { 
+    activeCockpitTab, 
+    setActiveCockpitTab, 
+    isRightPanelOpen, 
+    setIsRightPanelOpen 
+  } = useUILayoutStore();
+
   const [isProjectMenuOpen, setIsProjectMenuOpen] = useState(false);
   const [isGridMenuOpen, setIsGridMenuOpen] = useState(false);
   const [isNewMapModalOpen, setIsNewMapModalOpen] = useState(false);
@@ -330,6 +340,22 @@ export const StageTopToolbar: React.FC<StageTopToolbarProps> = ({
                   <Layers size={13} className="text-cyan-400" />
                   <span>Compositor Layers Manager</span>
                 </button>
+
+                {/* Direct Link to 2D Foundry Map Maker */}
+                <a
+                  href={`/foundry/map-maker?mapId=${activeMapId || ''}`}
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1300, 0.04);
+                    setIsProjectMenuOpen(false);
+                  }}
+                  className="w-full text-left px-3.5 py-1.5 hover:bg-cyan-950/70 text-cyan-300 hover:text-cyan-100 flex items-center justify-between transition-colors cursor-pointer border-t border-slate-800"
+                >
+                  <div className="flex items-center gap-2">
+                    <Map size={13} className="text-cyan-400" />
+                    <span>Open in 2D Map Maker</span>
+                  </div>
+                  <ExternalLink size={11} className="text-slate-500" />
+                </a>
               </div>
             </div>
           )}
@@ -570,6 +596,24 @@ export const StageTopToolbar: React.FC<StageTopToolbarProps> = ({
           <span className="text-[10px] hidden md:inline">
             {isMultiplayerSimActive ? 'PEERS (3)' : 'LOCAL'}
           </span>
+        </button>
+
+        {/* AIME Tactical Co-Pilot Trigger */}
+        <button
+          onClick={() => {
+            AudioService.playTerminalBeep(1400, 0.03);
+            setIsRightPanelOpen(true);
+            setActiveCockpitTab('aime');
+          }}
+          className={`px-2.5 py-1 rounded-xl border text-xs font-mono transition-all cursor-pointer shadow-sm flex items-center gap-1.5 ${
+            isRightPanelOpen && activeCockpitTab === 'aime'
+              ? 'bg-amber-950/80 border-amber-500/80 text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.4)]'
+              : 'bg-slate-900 border-slate-700/80 text-amber-400 hover:bg-slate-800'
+          }`}
+          title="Toggle AIME Tactical Co-Pilot (Sensory Descriptions, Tactical Barks & Rules Transmutation)"
+        >
+          <Sparkles size={13} className="text-amber-400 animate-pulse" />
+          <span className="hidden md:inline font-bold">AIME</span>
         </button>
 
         {/* Layers Panel Opener */}

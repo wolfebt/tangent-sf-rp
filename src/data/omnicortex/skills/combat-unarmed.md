@@ -48,7 +48,7 @@ Fighting without artificial weaponry, utilizing the body for brawling, martial a
 
 ### Mechanics & Rules
 - **Governing Attribute**: Strength (Power & Grappling) or Agility (Striking Speed & Precision).
-- **Standard Attack Roll**: `d20 + Unarmed Rank + Str/Agi Mod vs. Target Defense`.
+- **Standard Attack Roll**: `2d10 + Unarmed Rank + Str/Agi Mod vs. Target Defense`.
 - **Damage**: `1d4 + Strength Mod` (scales with Species natural traits or martial features).
 - **Non-Lethal Damage**: May deal non-lethal / stun damage without penalty.
 - **Grappling**: Used for opposed grapple, hold, and submission checks.

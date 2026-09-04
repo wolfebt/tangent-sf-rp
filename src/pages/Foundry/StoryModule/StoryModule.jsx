@@ -1,16 +1,39 @@
-import React, { useState, useEffect } from 'react';
+﻿/**
+ * @file StoryModule.jsx
+ * @description Master Unified Story & Worldbuilding Module.
+ * Consolidates the Story Drafting Canvas, full-screen Element Editor & Forge,
+ * OSR Two-Page Control Panel Studio, and Fiction Manuscript Studio into a single unified workspace.
+ */
+
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { 
+  BookOpen, 
+  Box, 
+  LayoutGrid, 
+  Feather, 
+  FolderOpen 
+} from 'lucide-react';
 import ScenarioPane from './ScenarioPane';
+import ElementForge from '../ElementForge/ElementForge';
+import ControlPanelStudio from './workspaces/ControlPanelStudio';
+import ManuscriptStudio from './workspaces/ManuscriptStudio';
 import FoundryLauncherModal from '../../../components/StoryFoundry/FoundryLauncherModal';
 import { useStory } from '../../../context/CampaignContext';
 
-export default function StoryModule() {
+export default function StoryModule({ defaultView = 'scenarios' }) {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const storyIdParam = searchParams.get('storyId');
-  const { openStory } = useStory();
+  const viewParam = searchParams.get('view');
+  const { openStory, universeState, elementsCatalog } = useStory();
 
-  // Story Project catalog modal - closed by default so selected story renders directly
+  // Mode switcher state: 'scenarios' | 'elements' | 'control-panel' | 'manuscript'
+  const [activeView, setActiveView] = useState(() => {
+    return viewParam || defaultView || 'scenarios';
+  });
+
+  // Story Project catalog modal
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
 
   useEffect(() => {
@@ -19,16 +42,159 @@ export default function StoryModule() {
     }
   }, [storyIdParam, openStory]);
 
+  useEffect(() => {
+    if (viewParam && viewParam !== activeView) {
+      setActiveView(viewParam);
+    }
+  }, [viewParam]);
+
+  const handleSwitchView = (newView) => {
+    setActiveView(newView);
+    const newParams = new URLSearchParams(searchParams);
+    if (newView === 'scenarios') {
+      newParams.delete('view');
+    } else {
+      newParams.set('view', newView);
+    }
+    setSearchParams(newParams, { replace: true });
+  };
+
+  // Find active scenario node for format studios
+  const activeNode = useMemo(() => {
+    const scenarios = universeState?.scenarios || [];
+    const activeId = universeState?.activeScenarioId;
+
+    const findNode = (nodes) => {
+      if (!Array.isArray(nodes)) return null;
+      for (const n of nodes) {
+        if (n.id === activeId) return n;
+        if (n.children && n.children.length > 0) {
+          const found = findNode(n.children);
+          if (found) return found;
+        }
+      }
+      return null;
+    };
+
+    return findNode(scenarios) || scenarios[0] || null;
+  }, [universeState]);
+
   return (
     <div className="flex flex-col h-full w-full bg-[#0d1117] text-slate-100 overflow-hidden font-sans relative">
-      {/* Main Workspace Area */}
+      {/* ── CONSOLIDATED STUDIO & MODE NAVIGATION BAR ── */}
+      <nav className="h-10 px-4 bg-[#0a0d14] border-b border-slate-800/80 flex items-center justify-between gap-3 shrink-0 select-none z-30">
+        <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none font-mono text-xs">
+          {/* View 1: Scenarios & Story Canvas */}
+          <button
+            type="button"
+            onClick={() => handleSwitchView('scenarios')}
+            className={`px-3 py-1 rounded-lg font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
+              activeView === 'scenarios'
+                ? 'bg-cyan-950/80 text-cyan-300 border border-cyan-500/60 shadow-[0_0_10px_rgba(6,182,212,0.3)]'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+            }`}
+            title="Interactive Story Outline & Rich-Text Manuscript Canvas"
+          >
+            <BookOpen size={13} className="text-cyan-400" />
+            <span>Scenarios</span>
+          </button>
+
+          {/* View 2: Consolidated Element Editor & Forge */}
+          <button
+            type="button"
+            onClick={() => handleSwitchView('elements')}
+            className={`px-3 py-1 rounded-lg font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
+              activeView === 'elements'
+                ? 'bg-amber-950/80 text-amber-300 border border-amber-500/60 shadow-[0_0_10px_rgba(245,158,11,0.3)]'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+            }`}
+            title="Consolidated Element Forge & Compendium Database"
+          >
+            <Box size={13} className="text-amber-400" />
+            <span>Element Editor</span>
+            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-300">
+              {elementsCatalog?.length || 0}
+            </span>
+          </button>
+
+          {/* View 3: OSR Two-Page Control Panel Studio */}
+          <button
+            type="button"
+            onClick={() => handleSwitchView('control-panel')}
+            className={`px-3 py-1 rounded-lg font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
+              activeView === 'control-panel'
+                ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-500/60 shadow-[0_0_10px_rgba(16,185,129,0.3)]'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+            }`}
+            title="OSR 2-Page Control Panel Spread with Read-Alouds and Threat Matrices"
+          >
+            <LayoutGrid size={13} className="text-emerald-400" />
+            <span>Control Panel</span>
+          </button>
+
+          {/* View 4: Minimalist Manuscript Studio */}
+          <button
+            type="button"
+            onClick={() => handleSwitchView('manuscript')}
+            className={`px-3 py-1 rounded-lg font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
+              activeView === 'manuscript'
+                ? 'bg-purple-950/80 text-purple-300 border border-purple-500/60 shadow-[0_0_10px_rgba(168,85,247,0.3)]'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+            }`}
+            title="Minimalist Fiction Manuscript Studio with Word Count and POV Lock"
+          >
+            <Feather size={13} className="text-purple-400" />
+            <span>Manuscript Studio</span>
+          </button>
+        </div>
+
+        {/* Global Roster Launcher */}
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setIsCatalogOpen(true)}
+            className="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700/80 rounded-lg text-xs font-mono font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer"
+            title="Open Story Project Catalog & Roster"
+          >
+            <FolderOpen size={13} className="text-amber-400" />
+            <span className="hidden sm:inline">Story Roster</span>
+          </button>
+        </div>
+      </nav>
+
+      {/* ── MAIN WORKSPACE VIEWPORT ── */}
       <div className="flex-1 overflow-hidden relative">
-        <ScenarioPane 
-          onOpenCatalog={() => setIsCatalogOpen(true)}
-          onSwitchTab={(tab) => {
-            if (tab === 'map') navigate('/map-maker');
-          }} 
-        />
+        {/* VIEW 1: SCENARIOS & CANVAS */}
+        {activeView === 'scenarios' && (
+          <ScenarioPane 
+            onOpenCatalog={() => setIsCatalogOpen(true)}
+            onSwitchView={handleSwitchView}
+            onSwitchTab={(tab) => {
+              if (tab === 'map') navigate('/map-maker');
+            }} 
+          />
+        )}
+
+        {/* VIEW 2: CONSOLIDATED ELEMENT FORGE */}
+        {activeView === 'elements' && (
+          <ElementForge 
+            onBackToStory={() => handleSwitchView('scenarios')}
+          />
+        )}
+
+        {/* VIEW 3: OSR CONTROL PANEL STUDIO */}
+        {activeView === 'control-panel' && (
+          <ControlPanelStudio 
+            activeNode={activeNode}
+          />
+        )}
+
+        {/* VIEW 4: FICTION MANUSCRIPT STUDIO */}
+        {activeView === 'manuscript' && (
+          <ManuscriptStudio 
+            activeNode={activeNode}
+          />
+        )}
       </div>
 
       {/* Story Project Catalog / Dashboard Modal */}
@@ -40,4 +206,3 @@ export default function StoryModule() {
     </div>
   );
 }
-

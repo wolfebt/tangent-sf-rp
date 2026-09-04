@@ -12,16 +12,18 @@ export const MAP_TYPES = [
 ];
 
 export const SIDEBAR_TOOLS = [
-  { id: 'select', label: 'Select / Move' },
-  { id: 'wall', label: 'Wall & Door' },
-  { id: 'ruler', label: 'Waypoint Ruler' },
-  { id: 'terrain', label: 'Terrain Brush' },
-  { id: 'object', label: 'Place Object' },
-  { id: 'pencil', label: 'Freehand Draw' },
-  { id: 'token', label: 'Unit / Portal' },
-  { id: 'text', label: 'Text Label' },
-  { id: 'fog', label: 'Fog of War' },
-  { id: 'eraser', label: 'Eraser' }
+  { id: 'select', label: 'Select / Move', icon: 'Pointer' },
+  { id: 'wall', label: 'Wall & Door', icon: 'Shield' },
+  { id: 'terrain', label: 'Terrain Brush', icon: 'Paintbrush' },
+  { id: 'object', label: 'Place Object / Prop', icon: 'Box' },
+  { id: 'hazard', label: 'Environmental Hazard', icon: 'Flame' },
+  { id: 'light', label: 'Dynamic Lighting', icon: 'Sun' },
+  { id: 'token', label: 'Unit / Portal', icon: 'Users' },
+  { id: 'pencil', label: 'Freehand Draw', icon: 'Edit3' },
+  { id: 'text', label: 'Text Label', icon: 'Type' },
+  { id: 'ruler', label: 'Waypoint Ruler', icon: 'Compass' },
+  { id: 'fog', label: 'Fog of War', icon: 'EyeOff' },
+  { id: 'eraser', label: 'Eraser', icon: 'Eraser' }
 ];
 
 export const PENCIL_COLORS = ['#ef4444', '#3b82f6', '#10b981', '#f59e0b', '#a855f7', '#ffffff', '#000000'];

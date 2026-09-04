@@ -63,7 +63,10 @@ export default function AIMEChatBox({ onClose, contextData, activeNode: propActi
   const effectiveContext = React.useMemo(() => {
     if (contextData) {
       if (typeof contextData === 'string') return contextData;
-      return contextData;
+      return {
+        ...contextData,
+        customCatalog: storyContext?.elementsCatalog || []
+      };
     }
     return {
       projectName,
@@ -77,9 +80,10 @@ export default function AIMEChatBox({ onClose, contextData, activeNode: propActi
       guidanceGems: guidanceGemsText || 'Standard',
       outline: universeState?.creativeState?.storyOutline || '',
       sceneBeats: universeState?.creativeState?.sceneBeats || '',
-      draft: universeState?.creativeState?.storyDraft || ''
+      draft: universeState?.creativeState?.storyDraft || '',
+      customCatalog: storyContext?.elementsCatalog || []
     };
-  }, [contextData, projectName, activeNode, guidanceGemsText, universeState]);
+  }, [contextData, projectName, activeNode, guidanceGemsText, universeState, storyContext?.elementsCatalog]);
 
   const [messages, setMessages] = useState([
     {
@@ -248,16 +252,23 @@ export default function AIMEChatBox({ onClose, contextData, activeNode: propActi
       {(!isMinimized || isDocked) && (
         <>
           {/* Active Context Banner */}
-          <div className="bg-[#161b22] px-3.5 py-1.5 border-b border-slate-800 flex items-center justify-between text-[10px] text-slate-300 shrink-0">
-            <div className="flex items-center gap-1.5 truncate max-w-[80%]">
+          <div className="bg-[#161b22] px-3.5 py-1.5 border-b border-slate-800 flex items-center justify-between text-[10px] text-slate-300 shrink-0 gap-2">
+            <div className="flex items-center gap-1.5 truncate max-w-[70%]">
               <span className="text-amber-400 font-bold shrink-0">📍 FOCUS:</span>
               <span className="text-slate-400 font-mono">[{activeType}]</span>
               <span className="font-semibold text-cyan-200 truncate">{activeTitle}</span>
             </div>
-            <span className="text-[9px] text-emerald-400 font-mono shrink-0 flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block animate-ping" />
-              LIVE
-            </span>
+            <div className="flex items-center gap-2 shrink-0">
+              {(activeNode?.fields?.['char-faction'] || activeNode?.fields?.['linkedFaction'] || activeNode?.fields?.['char-species']) && (
+                <span className="text-[9px] text-cyan-300 font-mono px-1.5 py-0.5 bg-cyan-950/80 border border-cyan-500/40 rounded truncate max-w-[120px] hidden sm:inline" title="Omnicortex Lore Linked">
+                  ⚡ {activeNode?.fields?.['char-faction'] || activeNode?.fields?.['linkedFaction'] || activeNode?.fields?.['char-species']}
+                </span>
+              )}
+              <span className="text-[9px] text-emerald-400 font-mono shrink-0 flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block animate-ping" />
+                LIVE
+              </span>
+            </div>
           </div>
 
           {/* Messages Feed */}

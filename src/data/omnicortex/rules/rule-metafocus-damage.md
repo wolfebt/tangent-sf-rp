@@ -34,7 +34,7 @@ sockets:
 ## 1. The Potency & Severity Calculation
 The potency of any metaphysical effect is calculated as follows:
 
-$$\text{Potency Score} = [\text{Key Ability} + \text{Discipline Skill Level} + \text{Invocation Level} + 10 \text{ (or } d20 \text{)}]$$
+$$\text{Potency Score} = [\text{Key Ability} + \text{Discipline Skill Level} + \text{Invocation Level} + 10 \text{ (or } 2d10 \text{)}]$$
 
 - **Attune Check**: Used to determine the Difficulty of the Resistance of an Effect or the Evasion of an Attack.
 - **Discipline Check**: Used to determine the severity of Effects and/or Damage.

@@ -67,7 +67,7 @@ Knowledge skills represent formal education, specialized scientific disciplines,
 
 ## Game Mechanics Rules
 ```
-KnowledgeCheck = d20 + KnowledgeRank + IntellectMod vs DC
+KnowledgeCheck = 2d10 + KnowledgeRank + IntellectMod vs DC
 ```
 
 ## Gameplay Instructions

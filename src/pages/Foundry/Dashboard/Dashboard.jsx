@@ -8,18 +8,18 @@ const modules = [
   {
     id: 'story',
     title: 'Story Module',
-    description: 'Enter the gameplay environment and weave your narrative.',
+    description: 'Enter the gameplay environment, weave your narrative, and manage integrated world elements.',
     icon: <BookOpen size={32} />,
     path: '/foundry/story',
     color: 'var(--accent-primary)',
   },
   {
-    id: 'elements',
-    title: 'Element Editor',
-    description: 'Design and manage your database of species, origins, and lore.',
-    icon: <Database size={32} />,
-    path: '/foundry/elements',
-    color: 'var(--accent-green-dark)',
+    id: 'map-maker',
+    title: 'Map Maker',
+    description: 'Craft dynamic tactical maps, grid alignments, and terrain for your encounters.',
+    icon: <Map size={32} />,
+    path: '/foundry/map-maker',
+    color: '#34EBF7',
   },
   {
     id: 'stage',
@@ -28,22 +28,6 @@ const modules = [
     icon: <Map size={32} />,
     path: '/stage',
     color: '#f59e0b',
-  },
-  {
-    id: 'map-maker',
-    title: 'Map Maker',
-    description: 'Craft dynamic maps for your scenarios and encounters.',
-    icon: <Map size={32} />,
-    path: '/foundry/map-maker',
-    color: '#34EBF7',
-  },
-  {
-    id: 'aime',
-    title: 'AIME',
-    description: 'Consult the Artificial Intellect Master Entity for creative generation.',
-    icon: <Sparkles size={32} />,
-    path: '/foundry/aime',
-    color: 'var(--accent-cyan-dark)',
   }
 ];
 
@@ -165,7 +149,7 @@ const Dashboard = () => {
             {modules.map((mod) => (
               <div 
                 key={mod.id} 
-                className="module-card glass-pane"
+                className={`module-card glass-pane ${mod.id === 'stage' ? 'module-card-vtt' : ''}`}
                 onClick={() => navigate(mod.path)}
               >
                 <div className="card-icon" style={{ color: mod.color, background: 'rgba(255, 255, 255, 0.05)', border: `1px solid ${mod.color}` }}>

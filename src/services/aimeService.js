@@ -1,4 +1,6 @@
 import { getGeminiApiKey, fetchGeminiContent, parseRollCommand } from './bastionService';
+import { hydrateElementEntities } from './entityHydrator';
+import { queryOmnicortexRAG, formatRagContextForAIME } from './omnicortexVectorRag';
 
 export { parseRollCommand };
 
@@ -7,32 +9,81 @@ Your primary role is to act as an immersive creative writing assistant, lore syn
 
 OMNICORTEX & BASTION RULES INTEGRATION:
 - While you focus primarily on narrative flow, thematic resonance, character interiority, and evocative worldbuilding, you have direct access to consult BASTION's tactical cognition and the canonical OMNICORTEX rules/compendium database.
-- When the ARCHITECT asks about in-game mechanics, species, factions, origins, skills, equipment, weapons, armor, psi disciplines, Tech Levels (TL 0-5), Meta Levels (ML 0-5), or system rules, check with and incorporate BASTION/OMNICORTEX mechanics into your narrative responses.
-- Ground your creative suggestions in the Tangent SFF RPG setting: blending high-tech science fiction (TL 0-5) with meta-abilities/psionics (ML 0-5), space exploration, cybernetics, alien species, factions, ancient relics, and tactical combat.
+- Ground your creative suggestions in the Tangent SFF RPG setting: blending high-tech science fiction (Tech Levels 0-5) with meta-abilities/psionics (Meta Levels 0-5), space exploration, cybernetics, alien species, factions, ancient relics, and tactical combat.
 - Respect the ARCHITECT's active Guidance Gems, Current Story Element, and Campaign Context.
-- Always address the user as ARCHITECT.`;
+- Always address the user as ARCHITECT.
 
-function formatContext(context) {
+NARRATIVE TRANSMUTATION OF RPG MECHANICS:
+- Tech Levels (TL 0–5): Depict equipment with period-accurate tactile aesthetics and soundscapes:
+  * TL 0-1: Primitive/Industrial. Gunpowder smoke, brass casings, physical springs, heavy iron plating.
+  * TL 2-3: Advanced/Interstellar. Kinetic railguns, titanium/ceramic ballistic weaves, optical HUD feeds, cyber-jacks.
+  * TL 4: Nanotech/Hard-Light. Crystalline hums, photonic barriers, shape-memory smart alloys, zero-recoil pulses.
+  * TL 5: Precursor. Dimensional warping, silent gravitational shifts, reality-phasing architecture.
+- Meta Levels (ML 0–5): Metaphysical invocations and psionics generate sensory atmosphere: ozone stench, localized barometric drops, chronometer flickering, shimmering aether afterimages.
+- Called Shots & 33.3% Trauma: When an attack targets specific anatomy (Head, Arms, Legs, Optics) or crosses the 33.3% damage threshold, depict physical anatomical trauma, sensory disorientation, loss of footing, or weapon drops rather than abstract hit point reductions.
+- Dual Resolution & Margins of Success: High margins of success reflect decisive tactical superiority and kinetic momentum; near-failures depict desperate recovery with complications.
+- Factions & Lineages: Ground NPC motivations and dialogue in their driving mandates, cultural stigmas, and ideological rifts.`;
+
+export function formatContext(context, promptQuery = '') {
   if (!context) return '';
   if (typeof context === 'string') return context.trim();
   try {
     let out = '';
     if (context.projectName) out += `Campaign/Project: "${context.projectName}"\n`;
+    
+    // Active Scenario Node
     if (context.activeNode) {
       out += `Active Story Element: [${context.activeNode.type || 'Element'}] "${context.activeNode.title || 'Untitled'}"\n`;
       if (context.activeNode.content) {
         // Strip HTML tags for clean context prompt
         const cleanContent = context.activeNode.content.replace(/<[^>]*>?/gm, ' ').replace(/\s+/g, ' ').trim();
-        out += `Element Content Summary: ${cleanContent.slice(0, 1000)}\n`;
+        out += `Element Content Summary: ${cleanContent.slice(0, 800)}\n`;
       }
       if (context.activeNode.fields && Object.keys(context.activeNode.fields).length > 0) {
         out += `Element Custom Fields: ${JSON.stringify(context.activeNode.fields)}\n`;
       }
+
+      // Tier 1: Hydrate Relational Entity References (Species, Factions, Origins, Occupations, Weapons)
+      try {
+        const customCatalog = context.customCatalog || [];
+        const { summary: entitySummary } = hydrateElementEntities(context.activeNode, customCatalog);
+        if (entitySummary) {
+          out += `\n${entitySummary}\n`;
+        }
+      } catch (e) {
+        console.warn('Entity hydration skipped in formatContext:', e);
+      }
     }
+
     if (context.guidanceGems) out += `Active Guidance Gems: ${context.guidanceGems}\n`;
-    if (context.outline) out += `Story Outline Preview: ${context.outline.slice(0, 600)}\n`;
-    if (context.sceneBeats) out += `Scene Beats Preview: ${context.sceneBeats.slice(0, 600)}\n`;
-    if (context.draft) out += `Draft Preview: ${context.draft.slice(0, 600)}\n`;
+    if (context.outline) out += `Story Outline Preview: ${context.outline.slice(0, 500)}\n`;
+    if (context.sceneBeats) out += `Scene Beats Preview: ${context.sceneBeats.slice(0, 500)}\n`;
+    if (context.draft) out += `Draft Preview: ${context.draft.slice(0, 500)}\n`;
+
+    // Tier 2: Retrieve Canonical Omnicortex Rules & Setting Chunks via Vector RAG
+    try {
+      const searchTerms = [
+        promptQuery,
+        context.activeNode?.title,
+        context.activeNode?.type,
+        context.guidanceGems,
+        context.activeNode?.fields?.['char-faction'],
+        context.activeNode?.fields?.['char-species']
+      ].filter(Boolean).join(' ');
+
+      if (searchTerms.trim()) {
+        const ragResults = queryOmnicortexRAG(searchTerms, 3);
+        if (ragResults && ragResults.length > 0) {
+          const ragBlock = formatRagContextForAIME(ragResults);
+          if (ragBlock) {
+            out += `\n${ragBlock}\n`;
+          }
+        }
+      }
+    } catch (e) {
+      console.warn('Omnicortex RAG query skipped in formatContext:', e);
+    }
+
     return out.trim();
   } catch (e) {
     return String(context);
@@ -41,7 +92,7 @@ function formatContext(context) {
 
 export async function generateContent({ prompt, context = "", model = "gemini-3.6-flash", apiKey = "" }) {
   const activeKey = apiKey || getGeminiApiKey();
-  const formattedCtx = formatContext(context);
+  const formattedCtx = formatContext(context, prompt);
 
   if (!activeKey) {
     return `[AIME LOCAL COGNITION]: Acknowledged, ARCHITECT. Consulting local BASTION tactical heuristics and OMNICORTEX lore records for "${prompt}".\n\n*(Note: To connect live Gemini API streaming, configure your Gemini API Key in Settings).*`;
@@ -69,7 +120,7 @@ export async function generateContent({ prompt, context = "", model = "gemini-3.
 
 export async function streamContent({ prompt, context = "", model = "gemini-3.6-flash", apiKey = "", onChunk }) {
   const activeKey = apiKey || getGeminiApiKey();
-  const formattedCtx = formatContext(context);
+  const formattedCtx = formatContext(context, prompt);
 
   if (!activeKey) {
     const fallback = `[AIME LOCAL COGNITION]: Acknowledged, ARCHITECT. Synthesizing narrative for "${prompt}" under local OMNICORTEX guidelines.\n\n*(To connect live streaming AI, add your Gemini API Key in Settings).*`;
@@ -142,11 +193,11 @@ export async function streamContent({ prompt, context = "", model = "gemini-3.6-
 
 export async function streamChatContent({ messages, context = "", model = "gemini-3.6-flash", apiKey = "", onChunk }) {
   const activeKey = apiKey || getGeminiApiKey();
-  const formattedCtx = formatContext(context);
+  const lastUserMsg = messages && messages.length > 0 ? messages[messages.length - 1]?.content : '';
+  const formattedCtx = formatContext(context, lastUserMsg);
 
   if (!activeKey) {
-    const lastMsg = messages[messages.length - 1]?.content || '';
-    const fallback = `[AIME LOCAL COGNITION]: Acknowledged, ARCHITECT. Analyzing query "${lastMsg}" with local BASTION tactical heuristics and OMNICORTEX rules knowledge.\n\n*Target Context:* ${formattedCtx ? formattedCtx.slice(0, 120) + '...' : 'General Story Foundry'}\n\n*(Note: To connect live Gemini API streaming, configure your Gemini API Key in Settings).*`;
+    const fallback = `[AIME LOCAL COGNITION]: Acknowledged, ARCHITECT. Analyzing query "${lastUserMsg}" with local BASTION tactical heuristics and OMNICORTEX rules knowledge.\n\n*Target Context:* ${formattedCtx ? formattedCtx.slice(0, 120) + '...' : 'General Story Foundry'}\n\n*(Note: To connect live Gemini API streaming, configure your Gemini API Key in Settings).*`;
     if (onChunk) onChunk(fallback);
     return;
   }
@@ -220,3 +271,11 @@ export async function streamChatContent({ messages, context = "", model = "gemin
   }
 }
 
+export default {
+  AIME_SYSTEM_PROMPT,
+  formatContext,
+  generateContent,
+  streamContent,
+  streamChatContent,
+  parseRollCommand
+};

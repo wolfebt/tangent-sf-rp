@@ -33,7 +33,8 @@ export default function AIME() {
     getActiveGemsText,
     addStory,
     updateLinkedElements,
-    triggerStorySave 
+    triggerStorySave,
+    elementsCatalog
   } = useStory();
 
   const creativeState = universeState.creativeState || { gems: [], storyCards: [], storyOutline: '', sceneBeats: '', storyDraft: '', linkedElements: [], customGems: {} };
@@ -52,6 +53,21 @@ export default function AIME() {
   };
 
   const flatElements = universeState?.scenarios ? getAllElements(universeState.scenarios) : [];
+
+  const getWeaverContext = (stageLabel, additionalInfo = {}) => {
+    const activeElement = flatElements && flatElements.length > 0 ? flatElements[0] : null;
+    return {
+      projectName: universeState?.projectName || 'Tangent Universe',
+      activeNode: activeElement,
+      guidanceGems: getActiveGemsText() || 'Standard',
+      outline: creativeState?.storyOutline || '',
+      sceneBeats: creativeState?.sceneBeats || '',
+      draft: creativeState?.storyDraft || '',
+      customCatalog: elementsCatalog || [],
+      stageLabel,
+      ...additionalInfo
+    };
+  };
 
   // Gems state for custom inputs per category
   const [customInputs, setCustomInputs] = useState({});
@@ -344,7 +360,7 @@ Format output strictly as JSON array of objects:
 ]`;
 
     try {
-      const result = await generateContent({ prompt });
+      const result = await generateContent({ prompt, context: getWeaverContext('Brainstorm') });
       const cleanJson = result.replace(/```json/g, '').replace(/```/g, '').trim();
       const cards = JSON.parse(cleanJson);
       updateStoryCards(cards);
@@ -367,7 +383,7 @@ Guidance Gems: ${getActiveGemsText() || 'None'}
 Formatting: Provide a markdown list of 5 key narrative acts/chapters with dramatic stakes.`;
 
     try {
-      const outlineText = await generateContent({ prompt });
+      const outlineText = await generateContent({ prompt, context: getWeaverContext('Outline', { card }) });
       updateOutline(outlineText);
       setStage(2);
     } catch (err) {
@@ -388,7 +404,7 @@ Guidance Gems: ${getActiveGemsText() || 'None'}
 Format: Return a bullet point to append to the outline.`;
 
     try {
-      const beat = await generateContent({ prompt });
+      const beat = await generateContent({ prompt, context: getWeaverContext('SuggestBeat') });
       const updated = (creativeState.storyOutline || '') + `\n- ${beat.trim()}`;
       updateOutline(updated);
     } catch (err) {
@@ -410,7 +426,7 @@ Guidance Gems: ${getActiveGemsText() || 'None'}
 Formatting: Provide a markdown list of detailed scene beats, focusing on character actions, emotional shifts, and sensory details.`;
 
     try {
-      const beatsText = await generateContent({ prompt });
+      const beatsText = await generateContent({ prompt, context: getWeaverContext('SceneBeats') });
       updateSceneBeats(beatsText);
     } catch (err) {
       alert(`Scene beats generation failed: ${err.message}`);
@@ -439,6 +455,7 @@ Style Instructions: Immersive, vivid sensory details, sharp character dialogue, 
       let draftText = '# Story Draft\n\n';
       await streamContent({
         prompt: prompt,
+        context: getWeaverContext('Draft'),
         onChunk: (chunk) => {
           draftText += chunk;
           updateDraft(draftText);
@@ -468,6 +485,7 @@ Style Instructions: Immersive, vivid sensory details, sharp character dialogue, 
       let draftText = creativeState.storyDraft + '\n\n';
       await streamContent({
         prompt: prompt,
+        context: getWeaverContext('NextScene'),
         onChunk: (chunk) => {
           draftText += chunk;
           updateDraft(draftText);
@@ -494,6 +512,7 @@ Style Instructions: Match the tone, immersive, vivid sensory details, sharp char
       let draftText = creativeState.storyDraft + ' ';
       await streamContent({
         prompt: prompt,
+        context: getWeaverContext('Continue'),
         onChunk: (chunk) => {
           draftText += chunk;
           updateDraft(draftText);
@@ -526,7 +545,7 @@ Context Outline: ${creativeState.storyOutline ? creativeState.storyOutline.subst
 Format Instructions: Respond ONLY with the revised or generated text. Do not include introductory phrases like "Here is the rewrite". Use Markdown if applicable.`;
 
     try {
-      const result = await generateContent({ prompt });
+      const result = await generateContent({ prompt, context: getWeaverContext('InlineEdit', { selectedText }) });
       const cleanResult = result.trim();
 
       let activeQuill = null;

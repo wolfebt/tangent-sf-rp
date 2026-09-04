@@ -49,7 +49,7 @@ Characters are defined by **6 Primary Attributes**, each paired with a dedicated
 ## Game Mechanics Rules
 ```
 Attribute Modifier Range: -5 to +10
-Sub-Attribute Check = d20 + Sub-Attribute Bonus + Relevant Skill Rank
+Sub-Attribute Check = 2d10 + Sub-Attribute Bonus + Relevant Skill Rank
 ```
 
 ## Gameplay Instructions

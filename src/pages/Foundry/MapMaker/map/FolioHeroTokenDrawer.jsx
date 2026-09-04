@@ -40,7 +40,7 @@ export const FolioHeroTokenDrawer = ({
     const currentVitality = hero.current_vitality !== undefined && hero.current_vitality !== null
       ? parseInt(hero.current_vitality, 10)
       : maxVitality;
-    const defense = parseInt(hero.derived_defense || (hero['attr-reflex'] ? Math.floor(parseInt(hero['attr-reflex'], 10) / 2) + 10 : 12), 10);
+    const defense = parseInt(hero.derived_defense || (hero['attr-reflex'] ? parseInt(hero['attr-reflex'], 10) + 10 : 12), 10);
     const actionPoints = parseInt(hero.derived_ap || 3, 10);
     const agility = parseInt(hero['attr-agility'] || hero.attr_agility || 10, 10);
     const speciesStr = String(hero['char-species'] || hero.species || '').toLowerCase();

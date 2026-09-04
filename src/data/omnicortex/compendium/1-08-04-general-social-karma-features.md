@@ -44,7 +44,7 @@ General, social, and karma features grant economic power, planetary fame, lucky 
 | **Wealth (High Capital)** | Character Creation | **+4 bonus** to starting and permanent Wealth score. | Ranked |
 | **High Status / Rank** | Level 1 | Recognized diplomatic rank, noble nobility, or military officer status. | Ranked |
 | **Underworld Connections**| Streetwise 3 | Access to illicit black market weapons, fences, and safehouses across all starports. | Standard |
-| **Good Karma / Lucky** | Character Creation | Gain **+2 Karma Points** per session; spend 1 point to reroll any failed d20 check. | Ranked |
+| **Good Karma / Lucky** | Character Creation | Gain **+2 Karma Points** per session; spend 1 point to reroll any failed 2d10 check. | Ranked |
 | **Indomitable Spirit** | Wisdom 3 | Once per session, automatically succeed on a death or stabilization saving throw. | Standard |
 | **Silver Tongue** | Charisma 3 | +2 on all Deception and Diplomacy checks during high-stakes negotiations. | Standard |
 | **Jack of All Trades** | Intellect 3 | Can make untrained skill checks in all skills without suffering the untrained penalty. | Standard |
@@ -52,7 +52,7 @@ General, social, and karma features grant economic power, planetary fame, lucky 
 
 ## Game Mechanics Rules
 ```
-Lucky: Spend 1 Karma Point -> Reroll any d20 check, take new result
+Lucky: Spend 1 Karma Point -> Reroll any 2d10 check, take new result
 Wealth: +4 Wealth per stage
 ```
 

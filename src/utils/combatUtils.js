@@ -123,16 +123,16 @@ export const calculateDefaultAttackScore = (weapon, characterData = {}, getAttrT
     }
   }
 
-  // Retrieve attribute modifier or total
+  // Retrieve attribute modifier or total (Attribute score is NEVER halved: Skill + Attribute)
   let attrBonus = 0;
   if (typeof getAttrTotal === 'function') {
     const primaryAttr = governingAttr === 'attr-reflex' ? 'attr-agility' : 'attr-strength';
     const subVal = getAttrTotal(governingAttr) || 0;
     const primVal = getAttrTotal(primaryAttr) || 0;
-    attrBonus = Math.floor((subVal || primVal || 0) / 2);
+    attrBonus = subVal || primVal || 0;
   } else {
     const rawVal = parseInt(characterData[governingAttr] || characterData['attr-agility'] || characterData['attr-strength'] || 0, 10);
-    attrBonus = Math.floor(rawVal / 2);
+    attrBonus = rawVal;
   }
 
   const total = skillRank + attrBonus;

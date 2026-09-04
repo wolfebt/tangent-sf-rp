@@ -59,7 +59,7 @@ Ability features enhance your core saving throws, physical resilience, and cogni
 ## Game Mechanics Rules
 ```
 Ranked Bonus: +2 per stage purchased (Max 5 stages)
-Advantage: Roll 2d20, take higher result
+Advantage: Roll 2d10 with Advantage, take higher result
 ```
 
 ## Gameplay Instructions

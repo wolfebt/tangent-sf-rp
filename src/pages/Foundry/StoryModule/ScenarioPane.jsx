@@ -14,6 +14,9 @@ import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { StoryFoundryGuideModal } from '../../../components/StoryFoundry/StoryFoundryGuideModal';
 import { UserSettingsModal } from '../../../components/UserSettingsModal';
 import AIMEChatBox from '../AIME/AIMEChatBox';
+import InSituElementDrawer from './InSituElementDrawer';
+import EditElementModal from '../ElementForge/EditElementModal';
+
 
 // Helper to get breadcrumb location path for an element
 const getBreadcrumbPath = (nodes, targetId, currentPath = []) => {
@@ -854,7 +857,7 @@ const ElementImageUploader = ({ activeNode, updateStory }) => {
   );
 };
 
-const ScenarioPane = ({ onSwitchTab, onOpenCatalog }) => {
+const ScenarioPane = ({ onSwitchTab, onSwitchView, onOpenCatalog }) => {
   const navigate = useNavigate();
   const { 
     universeState, 
@@ -881,7 +884,10 @@ const ScenarioPane = ({ onSwitchTab, onOpenCatalog }) => {
     pullUniverseFromCloud,
     cloudSyncStatus,
     lastCloudSavedAt,
-    getActiveGemsText
+    getActiveGemsText,
+    elementsCatalog,
+    updateSavedElement,
+    deleteSavedElement
   } = useStory();
 
   const { currentUser, userHandle } = useAuth();
@@ -893,6 +899,10 @@ const ScenarioPane = ({ onSwitchTab, onOpenCatalog }) => {
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isAimeChatOpen, setIsAimeChatOpen] = useState(false);
+  const [isElementDrawerOpen, setIsElementDrawerOpen] = useState(false);
+  const [activeDrawerElementId, setActiveDrawerElementId] = useState(null);
+  const [isEditElementModalOpen, setIsEditElementModalOpen] = useState(false);
+  const [editingModalElement, setEditingModalElement] = useState(null);
 
   const storyFileInputRef = useRef(null);
   const scenarioFileInputRef = useRef(null);
@@ -976,6 +986,22 @@ const ScenarioPane = ({ onSwitchTab, onOpenCatalog }) => {
     if (activeScenarioId) {
       updateStory(activeScenarioId, { title: e.target.value });
     }
+  };
+
+  const handleInsertMention = (elem) => {
+    if (!elem) return;
+    const cleanTitle = (elem.title || 'Untitled').replace(/["'<>]/g, '');
+    const chipHtml = `<span class="tangent-entity-chip bg-cyan-900/60 text-cyan-300 px-1.5 py-0.5 rounded border border-cyan-500/40 font-semibold" data-entity-id="${elem.id}" data-entity-type="${elem.type || 'Custom'}">@${cleanTitle}</span>&nbsp;`;
+    const updatedContent = localContent ? `${localContent} ${chipHtml}` : chipHtml;
+    setLocalContent(updatedContent);
+    if (activeScenarioId) {
+      const currentLinked = Array.isArray(activeNode?.linkedElements) ? activeNode.linkedElements : [];
+      updateStory(activeScenarioId, { 
+        content: updatedContent,
+        linkedElements: Array.from(new Set([...currentLinked, elem.id]))
+      });
+    }
+    setActiveDrawerElementId(elem.id);
   };
 
   const handleOpenAddModal = (targetParentId = null) => {
@@ -1592,6 +1618,35 @@ const ScenarioPane = ({ onSwitchTab, onOpenCatalog }) => {
               <span className="hidden sm:inline">AIME</span>
             </button>
           </div>
+
+          {/* In-Situ Worldbuilding Elements Drawer Toggle & Full Editor Switcher */}
+          <div className="flex items-center gap-1.5 border-l border-slate-700/80 pl-2 sm:pl-3">
+            <button
+              type="button"
+              onClick={() => setIsElementDrawerOpen(prev => !prev)}
+              className={`px-2.5 sm:px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
+                isElementDrawerOpen
+                  ? 'bg-purple-900/90 text-purple-200 border border-purple-400 shadow-[0_0_12px_rgba(192,132,252,0.4)]'
+                  : 'bg-gradient-to-r from-purple-950 to-indigo-950 hover:from-purple-900 hover:to-indigo-900 text-purple-300 border border-purple-500/50 shadow-sm'
+              }`}
+              title="Toggle In-Situ Worldbuilding Elements Drawer (Personas, Factions, Items, Lore)"
+            >
+              <span>🧩</span>
+              <span className="hidden sm:inline">Elements ({elementsCatalog?.length || 0})</span>
+            </button>
+
+            {onSwitchView && (
+              <button
+                type="button"
+                onClick={() => onSwitchView('elements')}
+                className="px-2 sm:px-2.5 py-1.5 rounded text-xs font-bold uppercase tracking-wider bg-slate-800 hover:bg-slate-700 text-purple-300 hover:text-white border border-slate-700 transition-colors cursor-pointer flex items-center gap-1"
+                title="Open Full Element Forge & Database inside Story Module"
+              >
+                <span>🗂️</span>
+                <span className="hidden md:inline">Full Editor</span>
+              </button>
+            )}
+          </div>
         </div>
       </header>
 
@@ -1636,8 +1691,9 @@ const ScenarioPane = ({ onSwitchTab, onOpenCatalog }) => {
         onImport={(e, parentId) => handleImportElementFile(e, parentId)}
       />
 
-      <Split
-        sizes={[35, 65]}
+      <div className="flex-1 flex w-full h-full overflow-hidden relative">
+        <Split
+          sizes={[35, 65]}
         minSize={[280, 250]}
         expandToMin={false}
         gutterSize={8}
@@ -1760,6 +1816,46 @@ const ScenarioPane = ({ onSwitchTab, onOpenCatalog }) => {
               {/* Universal Element Image Asset Uploader */}
               <ElementImageUploader activeNode={activeNode} updateStory={updateStory} />
 
+              {/* Linked Worldbuilding Elements Pill Bar */}
+              <div className="px-3 py-2 bg-slate-950/80 border-b border-slate-800 flex items-center justify-between text-xs flex-wrap gap-2 shrink-0">
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1">
+                    <span>🧩</span> Linked Entities:
+                  </span>
+                  {(!activeNode.linkedElements || activeNode.linkedElements.length === 0) ? (
+                    <span className="text-[11px] text-slate-500 italic">No entities linked yet</span>
+                  ) : (
+                    activeNode.linkedElements.map(elemId => {
+                      const elem = (elementsCatalog || []).find(e => e.id === elemId);
+                      if (!elem) return null;
+                      return (
+                        <span
+                          key={elem.id}
+                          onClick={() => {
+                            setActiveDrawerElementId(elem.id);
+                            setIsElementDrawerOpen(true);
+                          }}
+                          className={`text-[10px] px-2 py-0.5 rounded border cursor-pointer font-medium hover:scale-105 transition-transform flex items-center gap-1 ${getTypePillStyle(elem.type)}`}
+                          title="Click to inspect in In-Situ Element Drawer"
+                        >
+                          <span>{elem.title || 'Untitled'}</span>
+                        </span>
+                      );
+                    })
+                  )}
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setIsElementDrawerOpen(prev => !prev)}
+                    className="text-[11px] text-purple-300 hover:text-purple-200 hover:underline flex items-center gap-1 font-semibold"
+                  >
+                    <span>{isElementDrawerOpen ? 'Hide Drawer' : 'Inspect Elements ❯'}</span>
+                  </button>
+                </div>
+              </div>
+
               {/* Type-Specific Structured Input Fields Editor */}
               <ElementFieldsEditor activeNode={activeNode} updateStory={updateStory} />
 
@@ -1879,6 +1975,35 @@ const ScenarioPane = ({ onSwitchTab, onOpenCatalog }) => {
         </div>
       </Split>
 
+      {/* In-Situ Worldbuilding Element Drawer (3rd Column) */}
+      {isElementDrawerOpen && (
+        <InSituElementDrawer
+          isOpen={isElementDrawerOpen}
+          onClose={() => setIsElementDrawerOpen(false)}
+          elementsCatalog={elementsCatalog || []}
+          activeElementId={activeDrawerElementId}
+          onSelectElement={(id) => setActiveDrawerElementId(id)}
+          onOpenFullEditor={(elem) => {
+            setEditingModalElement(elem);
+            setIsEditElementModalOpen(true);
+          }}
+          onOpenFullForge={() => onSwitchView && onSwitchView('elements')}
+          onCreateElement={() => {
+            setEditingModalElement({
+              id: uuidv4(),
+              type: 'Persona',
+              title: 'New World Element',
+              fields: {},
+              content: ''
+            });
+            setIsEditElementModalOpen(true);
+          }}
+          onInsertMention={(elem) => handleInsertMention(elem)}
+          currentSceneLinkedIds={activeNode?.linkedElements || []}
+        />
+      )}
+      </div>
+
       {/* Floating / Docked Movable AIME Co-Pilot Chat Window */}
       {isAimeChatOpen && (
         <AIMEChatBox
@@ -1896,7 +2021,34 @@ const ScenarioPane = ({ onSwitchTab, onOpenCatalog }) => {
             guidanceGems: typeof getActiveGemsText === 'function' ? getActiveGemsText() : '',
             outline: universeState.creativeState?.storyOutline || '',
             sceneBeats: universeState.creativeState?.sceneBeats || '',
-            draft: universeState.creativeState?.storyDraft || ''
+            draft: universeState.creativeState?.storyDraft || '',
+            customCatalog: elementsCatalog || []
+          }}
+        />
+      )}
+
+      {/* Full Element Forge Modal inside Story Module */}
+      {isEditElementModalOpen && (
+        <EditElementModal
+          isOpen={isEditElementModalOpen}
+          onClose={() => {
+            setIsEditElementModalOpen(false);
+            setEditingModalElement(null);
+          }}
+          element={editingModalElement}
+          onSave={(savedElem) => {
+            if (typeof updateSavedElement === 'function' && savedElem?.id) {
+              updateSavedElement(savedElem.id, savedElem);
+            }
+            setIsEditElementModalOpen(false);
+            setEditingModalElement(null);
+          }}
+          onDelete={(elementId) => {
+            if (typeof deleteSavedElement === 'function' && elementId) {
+              deleteSavedElement(elementId);
+            }
+            setIsEditElementModalOpen(false);
+            setEditingModalElement(null);
           }}
         />
       )}

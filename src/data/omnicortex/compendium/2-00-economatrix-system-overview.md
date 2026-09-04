@@ -59,7 +59,7 @@ The Tangent Economatrix bridges abstract **Wealth Scores (WS)** representing sus
 ## Game Mechanics Rules
 ```
 Liquid Credits: Transactional currency for purchasing equipment, bribes, black market mods.
-Wealth Score Check: d20 + Wealth Score vs Requisition DC to requisition gear on credit.
+Wealth Score Check: 2d10 + Wealth Score vs Requisition DC to requisition gear on credit.
 ```
 
 ## Gameplay Instructions

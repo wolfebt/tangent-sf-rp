@@ -127,7 +127,7 @@ export const ATTRIBUTE_CHECKS = {
     costPerPoint: 1, // 1 BP per +1 point to increase separately
     baseFormula: '2 + (Strength × 2)',
     description: 'Tests of raw physical power. Lifting heavy objects, bending bars, prying open doors, breaking chains, smashing walls.',
-    example: 'Strength +3 vs metal bar CR 15: Base score 8 (2 + 2×3). Needs 7+ on d20.'
+    example: 'Strength +3 vs metal bar CR 15: Base score 8 (2 + 2×3). Needs 7+ on 2d10.'
   },
   Reflex: {
     id: 'attr-reflex',
@@ -138,7 +138,7 @@ export const ATTRIBUTE_CHECKS = {
     costPerPoint: 1,
     baseFormula: '2 + (Agility × 2)',
     description: 'Reacting swiftly and precisely. Dodging area attacks/explosions, catching falling objects, intercepting moving targets, acrobatic feats.',
-    example: 'Agility +3 vs explosion CR 15: Base score 8 (2 + 2×3). Needs 7+ on d20.'
+    example: 'Agility +3 vs explosion CR 15: Base score 8 (2 + 2×3). Needs 7+ on 2d10.'
   },
   Fortitude: {
     id: 'attr-fortitude',
@@ -149,7 +149,7 @@ export const ATTRIBUTE_CHECKS = {
     costPerPoint: 1,
     baseFormula: '2 + (Stamina × 2)',
     description: 'Enduring hardships and toxins. Resisting poisons, venoms, and diseases; coping with extreme environments; pushing through exhaustion and fatigue.',
-    example: 'Stamina +4 vs neurotoxin CR 18: Base score 10 (2 + 2×4). Needs 8+ on d20.'
+    example: 'Stamina +4 vs neurotoxin CR 18: Base score 10 (2 + 2×4). Needs 8+ on 2d10.'
   },
   Reason: {
     id: 'attr-reason',
@@ -161,7 +161,7 @@ export const ATTRIBUTE_CHECKS = {
     costPerPoint: 1,
     baseFormula: '2 + (Intellect × 2)',
     description: 'Logical deduction and problem-solving. Cracking riddles, deciphering cryptic codes and languages, comprehending dense technical manuals.',
-    example: 'Intellect +4 vs riddle CR 20: Base score 10 (2 + 2×4). Needs 10+ on d20.'
+    example: 'Intellect +4 vs riddle CR 20: Base score 10 (2 + 2×4). Needs 10+ on 2d10.'
   },
   Willpower: {
     id: 'attr-willpower',
@@ -173,7 +173,7 @@ export const ATTRIBUTE_CHECKS = {
     costPerPoint: 1,
     baseFormula: '2 + (Wisdom × 2)',
     description: 'Mental fortitude and resilience. Resisting terror/fear, breaking free from mind control or psychic manipulation, maintaining deep focus under stress.',
-    example: 'Wisdom +5 vs psychic suggestion CR 15: Base score 12 (2 + 2×5). Needs 3+ on d20.'
+    example: 'Wisdom +5 vs psychic suggestion CR 15: Base score 12 (2 + 2×5). Needs 3+ on 2d10.'
   },
   Etiquette: {
     id: 'attr-etiquette',
@@ -184,7 +184,7 @@ export const ATTRIBUTE_CHECKS = {
     costPerPoint: 1,
     baseFormula: '2 + (Charisma × 2)',
     description: 'Navigating social situations with tact. Haggling and high-stakes negotiation, fitting into high society or underworld gatherings, de-escalating disputes.',
-    example: 'Charisma +5 at diplomatic reception CR 15: Base score 12 (2 + 2×5). Needs 3+ on d20.'
+    example: 'Charisma +5 at diplomatic reception CR 15: Base score 12 (2 + 2×5). Needs 3+ on 2d10.'
   }
 };
 
@@ -2435,17 +2435,24 @@ export const VITALITY_HEALTH_STRUCTURE_RULES = {
   startingBaseHealth: 30,
   cpCostPer5Points: 1, // 1 CP = +5 points in either Vitality or Health
   bpCostPer5Points: 1, // backward compatibility alias
+  maxCpIncreaseMultiplier: 5, // Maximum increase is 5 x Stamina score for each pool
   suggestedStartingMax: 60,
-  toughnessSource: 'Stamina Ability Score', // Point-for-point wound reduction
+  toughnessSource: 'Stamina Ability Score', // Point-for-point natural damage reduction (DR)
+  naturalDRRule: 'All character Stamina is a natural damage reduction (DR) and automatically reduces all incoming damage which penetrates the characters defenses, minimum of 1 point.',
   nonStandardPhysiologies: ['Synthetic', 'Mecha', 'Construct', 'Elemental', 'Golem', 'Ooze', 'Undead'],
+  maxSkillRank: 20,
+  maxSpecializationRank: 10,
+  maxInvocationRank: 10,
   descriptions: {
     systemRule: "In Tangent, a character's ability to endure and recover from damage is represented by Vitality and Health (or Structure for Synthetics and others with non-typical physiology). Tangent does NOT use HP.",
-    staminaScore: "While the Stamina Ability Score does not directly grant extra Vitality or Health points, it will determine the character’s base Toughness to reduce the damage taken from wounds, point for point, making characters more resilient overall.",
-    startingValuesAndMax: "Characters begin with a base of 30 points in both Vitality and Health. These can be increased by spending Character Points (CP) during character creation at a rate of 5 in either Vitality or Health for 1 CP, with a suggested maximum of 60 each. Structure is calculated by combining the character's Vitality and Health for characters with non-typical anatomy such as Synthetics, Oozes, Undead, etc.",
+    staminaScore: "All character Stamina is a natural damage reduction (DR) and automatically reduces all incoming damage which penetrates the character's defenses, minimum of 1 point.",
+    startingValuesAndMax: "Characters begin with a base of 30 points in both Vitality and Health. Base Vitality is not modified by Willpower, and base Health is not modified by Fortitude. Both pools may be increased by spending Character Points (CP) at a rate of 5 points per 1 CP, with a maximum increase of 5 × Stamina score. Structure is calculated by combining the character's Vitality and Health scores for Synthetics and constructs.",
     concussiveDamage: "Concussive Damage is unique in that it is Heavily Traumatic but dispersed over the entire body. This damage can be divided equally between Vitality and Health if the character attempts to reduce the damage, regardless of whether the attempt is successful. This reflects the potential for both non-lethal and lethal injuries from falls, explosions, crashes, etc. This does not include any additional damage taken for what they may fall into such as spikes, debris, lava, etc.",
-    vitality: "Vitality represents stamina, luck, and minor bruising. This is a track of nonlethal damage. It acts as a buffer, absorbing damage from sources like pummeling, exhaustion, fatigue, and other forms of harm that are not immediately life-threatening. Only when a character's Vitality is completely depleted does non-lethal damage become life-threatening and start to affect their Health. The starting score of 30 is increased by 5 points per 1 CP.",
-    health: "Health represents physical trauma and structural integrity. It is lost from lethal damage or after Vitality is depleted. Damage to Health comes from weapons, severe injuries, and other lethal sources. When a character's Health reaches zero, they are Incapacitated (falling Unconscious immediately, dropping anything they are holding, and falling Prone; any excess damage is applied to Vitality if any remains). If Health is 0 and Vitality is depleted (0), the character enters the Death's Door state. The starting score of 30 is increased by 5 points per 1 CP.",
-    structure: "This attribute applies to objects, constructs, and creatures with non-standard anatomies, such as Synthetics, mecha, elementals, golems, oozes, and undead. It measures their structural integrity and functions similarly to Health, but without the Vitality buffer. Damage to Structure can impair functionality, reduce effectiveness, or ultimately lead to destruction. Calculate Vitality and Health scores and combine for Structure score."
+    vitality: "Vitality represents stamina, luck, and non-lethal damage capacity. It acts as a buffer, absorbing damage from sources like pummeling, subdual strikes, and physical/mental fatigue. The starting base is 30 (not modified by Willpower), increased by 5 points per 1 CP up to a maximum increase of 5 × Stamina score. There is separate damage tracking for lethal (Health) and non-lethal damage (Vitality); once non-lethal damage exceeds the Vitality score, it is considered lethal and affects Health.",
+    health: "Health represents physical trauma, bodily tissue, and structural life force. It is lost directly from lethal attacks or when non-lethal damage overflows depleted Vitality. The starting base is 30 (not modified by Fortitude), increased by 5 points per 1 CP up to a maximum increase of 5 × Stamina score. When a character's Health reaches zero, they are Incapacitated (falling Unconscious immediately, dropping anything held, and falling Prone). If Health is 0 and Vitality is depleted (0), the character enters the Death's Door state.",
+    structure: "Synthetics and constructs of most types use Structure, which is the total of both Health and Vitality scores. They are completely immune to non-lethal damage as well as other biological immunities (poisons, diseases, suffocation, mental stress).",
+    criticalHits: "Critical hits affect damage (increasing damage dealt via damage multipliers or additional dice), but do not necessarily make an attack lethal if the attack was non-lethal.",
+    skillCaps: "Most skills have a maximum rank of 20. Specializations and invocations max at rank 10."
   }
 };
 
@@ -2455,12 +2462,12 @@ export const VITALITY_HEALTH_STRUCTURE_RULES = {
 
 export const DEATH_AND_DYING_RULES = {
   HEALTH_VS_VITALITY: {
-    vitality: "Vitality represents stamina, luck, and minor bruising. This is a track of nonlethal damage.",
-    health: "Health represents physical trauma and structural integrity. It is lost from lethal damage or after Vitality is depleted.",
+    vitality: "Vitality represents stamina, poise, and non-lethal damage capacity.",
+    health: "Health represents physical trauma, organ integrity, and lethal damage capacity.",
     damageRouting: {
-      nonlethal: "Nonlethal damage damages Vitality directly. Only after Vitality is completely depleted does excess nonlethal damage spill into Health.",
+      nonlethal: "Non-lethal damage damages Vitality directly. Once non-lethal damage exceeds the Vitality score, it is considered lethal and affects Health.",
       lethal: "Lethal damage damages Health directly. Any excess damage beyond 0 Health is applied to Vitality (if any remains).",
-      criticalHits: "Critical Hits inflict direct lethal damage to Health, bypassing the Vitality buffer. Any excess damage beyond 0 Health is applied to Vitality (if any remains)."
+      criticalHits: "Critical hits affect the damage dealt (doubling dice or multiplying damage), but do not necessarily make an attack lethal if non-lethal. Non-lethal attacks remain non-lethal, absorbing through Vitality first and only affecting Health if non-lethal damage exceeds Vitality."
     }
   },
   THRESHOLD_OF_DEATH: {

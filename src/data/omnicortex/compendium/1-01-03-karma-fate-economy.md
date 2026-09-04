@@ -43,7 +43,7 @@ sockets:
 - **Base Pool:** Every character starts with **3 Karma Points** (can be augmented by Luck attributes and features).
 - **Session Refresh:** Karma fully refreshes to its maximum pool at the beginning of each game session.
 - **Spending Karma:**
-  - **Heroic Reroll (1 Karma):** Reroll any failed d20 check (must keep the second result).
+  - **Heroic Reroll (1 Karma):** Reroll any failed 2d10 check (must keep the second result).
   - **Defy Death (2 Karma):** Automatically succeed on a fatal Mortal Wound stabilization check.
   - **Surge Action (1 Karma):** Gain +1 bonus Action in a tactical combat round.
   - **Narrative Twist (1 Karma):** Introduce a plausible favorable detail to the immediate scene with Architect consent.

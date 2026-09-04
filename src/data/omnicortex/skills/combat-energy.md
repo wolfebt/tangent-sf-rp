@@ -49,7 +49,7 @@ Proficiency with handheld directed-energy weapons discharging coherent light, io
 
 ### Mechanics & Rules
 - **Governing Attribute**: Agility
-- **Standard Attack Roll**: `d20 + Energy Rank + Agility Mod vs. Target Defense`.
+- **Standard Attack Roll**: `2d10 + Energy Rank + Agility Mod vs. Target Defense`.
 - **Critical Status Effects**:
   - **Pyro (Plasma)**: Burns target for 1/2 damage on following round.
   - **Cryo (Icer)**: Freezes target (Slow/Snare condition).

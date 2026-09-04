@@ -47,7 +47,7 @@ The operation, maintenance, and precision firing of kinetic firearms and project
 
 ### Mechanics & Rules
 - **Governing Attribute**: Agility
-- **Standard Attack Roll**: `d20 + Ballistic Rank + Agility Mod vs. Target Defense`.
+- **Standard Attack Roll**: `2d10 + Ballistic Rank + Agility Mod vs. Target Defense`.
 - **Burst Fire (Short)**: Controlled 3-round burst grants **+1 Bonus to Strike**.
 - **Auto-Fire (Long Burst)**: Firing 10+ rounds imposes **-1 Recoil Penalty** per 10 rounds fired. For every point the attack roll exceeds target Defense, 1 additional round hits (up to total shots fired), dealing **+1d damage** per extra hit if initial hit penetrates target DR.
 

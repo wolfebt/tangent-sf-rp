@@ -76,10 +76,10 @@ Physical skills govern gross and fine motor control, bodily power, vehicle opera
 
 ## Game Mechanics Rules
 ```
-Acrobatics = d20 + AcrobaticsRank + AgilityMod
-Athletics = d20 + AthleticsRank + StrengthMod
-Piloting = d20 + PilotingRank + AgilityMod
-Stealth = d20 + StealthRank + AgilityMod vs Alertness
+Acrobatics = 2d10 + AcrobaticsRank + AgilityMod
+Athletics = 2d10 + AthleticsRank + StrengthMod
+Piloting = 2d10 + PilotingRank + AgilityMod
+Stealth = 2d10 + StealthRank + AgilityMod vs Alertness
 ```
 
 ## Gameplay Instructions

@@ -76,14 +76,18 @@ export function resolveAutonomousAttack(attackerToken, targetToken, actionPlan =
     const attackerAbilityDmg = parseInt(attackerToken.strMod || attackerToken.agiMod || 2, 10);
     rawDamage = baseWpnDmg + variableDmg + burstDmg + attackerAbilityDmg;
 
-    // Armor DR & Target CON Mod Soak
+    // Armor DR & Target Stamina Natural DR Soak
     let targetDr = parseInt(targetToken.armorDr || targetToken.dr || 2, 10);
     if (actionPlan.damageType === 'force') {
       targetDr = Math.floor(targetDr / 2); // Force damage ignores 1/2 of Armor DR
     }
-    const targetConMod = parseInt(targetToken.conMod || targetToken.staMod || targetToken.toughness || 1, 10);
-    const totalSoak = targetDr + targetConMod;
-    effectiveDamage = Math.max(0, rawDamage - totalSoak);
+    const damageAfterDefenses = Math.max(0, rawDamage - targetDr);
+    const targetStaDR = parseInt(targetToken.stamina || targetToken.toughness || targetToken.staMod || targetToken.conMod || 1, 10);
+    if (damageAfterDefenses > 0) {
+      effectiveDamage = Math.max(1, damageAfterDefenses - Math.max(0, targetStaDR));
+    } else {
+      effectiveDamage = 0;
+    }
 
     // Hit Location Saving Throw & Status Effect Evaluation
     if (effectiveDamage > 0) {

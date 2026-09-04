@@ -41,7 +41,7 @@ Skills in Tangent represent formal education, physical conditioning, tradecraft,
 
 ## The Skill Check Formula
 
-$$\text{Skill Check} = d20 + \text{Skill Rank} + \text{Associated Attribute Mod} + \text{Situational Modifiers}$$
+$$\text{Skill Check} = 2d10 + \text{Skill Rank} + \text{Associated Attribute Mod} + \text{Situational Modifiers}$$
 
 ---
 
@@ -73,12 +73,12 @@ $$\text{Skill Check} = d20 + \text{Skill Rank} + \text{Associated Attribute Mod}
 
 ## Game Mechanics Rules
 ```
-SkillCheck = d20 + SkillRank + AttributeMod + SituationalMod vs DC
+SkillCheck = 2d10 + SkillRank + AttributeMod + SituationalMod vs DC
 Creation Cap: Rank 6 recommended, Rank 11 maximum
 ```
 
 ## Gameplay Instructions
-To perform a skill check: roll d20, add your skill rank and attribute modifier, and compare against the Architect's DC.
+To perform a skill check: roll 2d10, add your skill rank and attribute modifier, and compare against the Architect's DC.
 
 ## Designer Notes
 Opposed checks resolve against the opponent's active skill check. Defender wins all ties.

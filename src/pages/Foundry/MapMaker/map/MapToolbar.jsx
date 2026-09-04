@@ -4,12 +4,17 @@ import { useCampaign } from '../../../../context/CampaignContext';
 import { useAuth } from '../../../../context/AuthContext';
 import { extractCreatorInfo } from '../../../../utils/creatorUtils';
 import { ArtistHubModal } from '../../../../components/StoryFoundry/ArtistHubModal';
-import { Tv, Palette, Copy, Check, ExternalLink, X, Compass, Shield } from 'lucide-react';
+import { 
+  Tv, Palette, Copy, Check, ExternalLink, X, Compass, Shield,
+  Globe, FolderOpen, Save, Download, Camera, Sparkles, Upload,
+  Layers, ChevronDown, FilePlus, Trash2, Grid, Sun, Radio, Play, Hammer
+} from 'lucide-react';
+import { AudioService } from '../../../../services/audioService';
 
 const MapToolbar = ({
   setIsModalOpen,
-  undoStack,
-  redoStack,
+  undoStack = [],
+  redoStack = [],
   handleUndo,
   handleRedo,
   gridMode,
@@ -48,7 +53,9 @@ const MapToolbar = ({
   onAddNewMapTab,
   onDeleteMapTab,
   isVttDrawerOpen,
-  onToggleVttDrawer
+  onToggleVttDrawer,
+  onOpenHazmatModal,
+  onOpenUnderlayModal
 }) => {
   const { universeState, activeMapId, setActiveMapId, updateMap } = useCampaign();
 
@@ -89,79 +96,435 @@ const MapToolbar = ({
   const currentMap = universeState.maps.find(m => m.id === activeMapId);
 
   return (
-    <div className="relative z-20 bg-[#161b22]/95 border-b border-[#0D5C63]/60 px-3 py-1.5 flex items-center gap-2 select-none shadow-md backdrop-blur-md flex-wrap">
+    <div className="relative z-30 bg-slate-950/95 border-b border-cyan-500/30 px-3 py-1.5 flex items-center justify-between gap-2 select-none shadow-xl backdrop-blur-xl flex-wrap font-mono">
+      
+      {/* ── ZONE A: MAP & PROJECT HUB (Left) ── */}
+      <div className="flex items-center gap-2 flex-wrap">
+        {/* Brand Indicator */}
+        <div className="flex items-center gap-1.5 mr-1 font-mono shrink-0">
+          <div className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
+          <span className="text-cyan-400 font-bold text-xs tracking-widest uppercase hidden lg:inline">
+            MAP MAKER
+          </span>
+        </div>
 
-      {/* FILE Menu Dropdown */}
-      <div className="relative" ref={fileMenuRef}>
+        {/* Sector Switcher Pill */}
+        <div className="flex items-center gap-1 bg-slate-900 border border-slate-700/80 rounded-xl px-2 py-1 shadow-sm">
+          <Globe size={13} className="text-cyan-400 shrink-0" />
+          <select
+            value={activeMapId}
+            onChange={(e) => {
+              AudioService.playTerminalBeep(1100, 0.02);
+              setActiveMapId(e.target.value);
+            }}
+            className="bg-transparent text-xs font-mono text-slate-100 focus:outline-none cursor-pointer max-w-[130px] sm:max-w-[170px] truncate"
+            title="Switch Active Sector Map"
+          >
+            {(universeState.maps || []).map((m) => (
+              <option key={m.id} value={m.id} className="bg-slate-900 text-slate-100">
+                {m.title || m.name || 'Untitled Sector'}
+              </option>
+            ))}
+          </select>
+
+          <button
+            onClick={() => {
+              AudioService.playTerminalBeep(1200, 0.03);
+              setIsModalOpen(true);
+            }}
+            className="p-1 hover:bg-slate-800 text-cyan-400 hover:text-cyan-300 rounded-lg transition-colors cursor-pointer"
+            title="Create New Tactical Map"
+          >
+            <FilePlus size={13} />
+          </button>
+
+          {onDeleteActiveMap && (
+            <button
+              onClick={() => {
+                AudioService.playTerminalBeep(800, 0.03);
+                onDeleteActiveMap();
+              }}
+              className="p-1 hover:bg-red-950/60 text-slate-500 hover:text-red-400 rounded-lg transition-colors cursor-pointer"
+              title="Delete Active Map"
+            >
+              <Trash2 size={13} />
+            </button>
+          )}
+        </div>
+
+        {/* Categorized Project & Tools Menu */}
+        <div className="relative" ref={fileMenuRef}>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsFileMenuOpen(prev => !prev);
+              setIsGridMenuOpen(false);
+              setIsViewMenuOpen(false);
+            }}
+            className="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700/80 rounded-xl text-xs font-mono font-bold tracking-wider transition-colors flex items-center gap-1.5 cursor-pointer shadow-sm"
+          >
+            <FolderOpen size={12} className="text-cyan-400" />
+            <span>PROJECT</span>
+            <ChevronDown size={11} className={`text-slate-400 transition-transform ${isFileMenuOpen ? 'rotate-180' : ''}`} />
+          </button>
+
+          {isFileMenuOpen && (
+            <div className="absolute left-0 mt-1.5 w-64 bg-slate-900/98 border border-cyan-500/40 rounded-2xl shadow-2xl py-2 z-50 backdrop-blur-2xl text-xs font-mono divide-y divide-slate-800 animate-in fade-in slide-in-from-top-2 duration-150">
+              {/* Group 1: File Storage & Export */}
+              <div className="py-1">
+                <div className="px-3 py-1 text-[10px] uppercase font-bold text-cyan-400/70 tracking-wider">
+                  File I/O & Export
+                </div>
+                {onSaveMapToFile && (
+                  <button
+                    onClick={() => {
+                      AudioService.playTerminalBeep(1200, 0.03);
+                      setIsFileMenuOpen(false);
+                      onSaveMapToFile();
+                    }}
+                    className="w-full text-left px-3.5 py-1.5 hover:bg-cyan-950/60 text-slate-200 hover:text-white flex items-center gap-2 transition-colors cursor-pointer"
+                  >
+                    <Save size={13} className="text-cyan-400" />
+                    <span>Save Map File (.json)</span>
+                  </button>
+                )}
+                {onLoadMapFromFile && (
+                  <button
+                    onClick={() => {
+                      AudioService.playTerminalBeep(1200, 0.03);
+                      setIsFileMenuOpen(false);
+                      onLoadMapFromFile();
+                    }}
+                    className="w-full text-left px-3.5 py-1.5 hover:bg-cyan-950/60 text-slate-200 hover:text-white flex items-center gap-2 transition-colors cursor-pointer"
+                  >
+                    <Download size={13} className="text-cyan-400" />
+                    <span>Load Map File (.json)</span>
+                  </button>
+                )}
+                <button
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1200, 0.03);
+                    setIsFileMenuOpen(false);
+                    onExportPNG();
+                  }}
+                  className="w-full text-left px-3.5 py-1.5 hover:bg-cyan-950/60 text-slate-200 hover:text-white flex items-center gap-2 transition-colors cursor-pointer"
+                >
+                  <Camera size={13} className="text-amber-400" />
+                  <span>Export Image (PNG)</span>
+                </button>
+              </div>
+
+              {/* Group 2: Generators & Importers */}
+              <div className="py-1">
+                <div className="px-3 py-1 text-[10px] uppercase font-bold text-emerald-400/70 tracking-wider">
+                  Generators & Importers
+                </div>
+                {onOpenLandmassGenerator && (
+                  <button
+                    onClick={() => {
+                      AudioService.playTerminalBeep(1200, 0.03);
+                      setIsFileMenuOpen(false);
+                      onOpenLandmassGenerator();
+                    }}
+                    className="w-full text-left px-3.5 py-1.5 hover:bg-emerald-950/60 text-emerald-300 hover:text-emerald-200 flex items-center gap-2 transition-colors cursor-pointer"
+                  >
+                    <Sparkles size={13} className="text-emerald-400" />
+                    <span>Procedural Landmass Gen</span>
+                  </button>
+                )}
+                {onOpenUvttImport && (
+                  <button
+                    onClick={() => {
+                      AudioService.playTerminalBeep(1200, 0.03);
+                      setIsFileMenuOpen(false);
+                      onOpenUvttImport();
+                    }}
+                    className="w-full text-left px-3.5 py-1.5 hover:bg-cyan-950/60 text-cyan-300 hover:text-cyan-200 flex items-center gap-2 transition-colors cursor-pointer"
+                  >
+                    <Upload size={13} className="text-cyan-400" />
+                    <span>Import Universal VTT (.uvtt)</span>
+                  </button>
+                )}
+              </div>
+
+              {/* Group 3: Catalogs & Reset */}
+              <div className="py-1">
+                <div className="px-3 py-1 text-[10px] uppercase font-bold text-amber-400/70 tracking-wider">
+                  Catalogs & Manual
+                </div>
+                {onOpenAssetManager && (
+                  <button
+                    onClick={() => {
+                      AudioService.playTerminalBeep(1200, 0.03);
+                      setIsFileMenuOpen(false);
+                      onOpenAssetManager();
+                    }}
+                    className="w-full text-left px-3.5 py-1.5 hover:bg-amber-950/60 text-amber-300 hover:text-amber-200 flex items-center gap-2 transition-colors cursor-pointer"
+                  >
+                    <FolderOpen size={13} className="text-amber-400" />
+                    <span>Asset & Texture Catalog</span>
+                  </button>
+                )}
+                {onOpenGuide && (
+                  <button
+                    onClick={() => {
+                      AudioService.playTerminalBeep(1200, 0.03);
+                      setIsFileMenuOpen(false);
+                      onOpenGuide();
+                    }}
+                    className="w-full text-left px-3.5 py-1.5 hover:bg-slate-800 text-slate-200 hover:text-white flex items-center gap-2 transition-colors cursor-pointer"
+                  >
+                    <Compass size={13} className="text-cyan-400" />
+                    <span>Map Maker User Guide</span>
+                  </button>
+                )}
+                <button
+                  onClick={() => {
+                    AudioService.playTerminalBeep(800, 0.04);
+                    setIsFileMenuOpen(false);
+                    onClearMap();
+                  }}
+                  className="w-full text-left px-3.5 py-1.5 hover:bg-red-950/60 text-red-400 hover:text-red-200 flex items-center gap-2 transition-colors cursor-pointer"
+                >
+                  <Trash2 size={13} />
+                  <span>Clear Map Canvas</span>
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Undo / Redo */}
+        <div className="flex items-center gap-1 border-l border-slate-800 pl-2">
+          <button
+            onClick={handleUndo}
+            disabled={!undoStack || undoStack.length === 0}
+            className={`px-2 py-1 rounded-lg border text-xs transition-colors cursor-pointer ${
+              undoStack && undoStack.length > 0
+                ? 'bg-slate-900 border-slate-700 text-slate-200 hover:bg-slate-800 hover:text-cyan-300 shadow-sm'
+                : 'bg-slate-950 border-slate-900 text-slate-600 cursor-not-allowed'
+            }`}
+            title="Undo (Ctrl+Z)"
+          >
+            ↩ Undo
+          </button>
+          <button
+            onClick={handleRedo}
+            disabled={!redoStack || redoStack.length === 0}
+            className={`px-2 py-1 rounded-lg border text-xs transition-colors cursor-pointer ${
+              redoStack && redoStack.length > 0
+                ? 'bg-slate-900 border-slate-700 text-slate-200 hover:bg-slate-800 hover:text-cyan-300 shadow-sm'
+                : 'bg-slate-950 border-slate-900 text-slate-600 cursor-not-allowed'
+            }`}
+            title="Redo (Ctrl+Y)"
+          >
+            ↪ Redo
+          </button>
+        </div>
+      </div>
+
+      {/* ── ZONE B: MODE & DEPLOY TO VTT (Center) ── */}
+      <div className="flex items-center bg-slate-900/90 border border-slate-800 rounded-2xl p-0.5 shadow-inner gap-1">
+        <div className="px-3 py-1 rounded-xl text-xs font-mono font-bold uppercase flex items-center gap-1.5 bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-sm">
+          <Hammer size={12} className="text-amber-400" />
+          <span>2D Cartography Studio</span>
+        </div>
+
+        {/* Prominent Direct Deploy to The Stage VTT Button */}
+        <a
+          href={`/stage?mapId=${activeMapId || currentMap?.id || ''}`}
+          onClick={() => AudioService.playTerminalBeep(1400, 0.05)}
+          className="px-3.5 py-1 bg-gradient-to-r from-purple-900 via-cyan-900 to-slate-900 hover:from-purple-800 hover:to-cyan-800 border border-cyan-400 text-cyan-200 hover:text-white rounded-xl text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_12px_rgba(6,182,212,0.4)] cursor-pointer"
+          title="Launch this Map into The Stage (Next-Gen WebGPU VTT Simulation Engine)"
+        >
+          <Play size={12} fill="currentColor" className="text-amber-400" />
+          <span>Deploy to The Stage</span>
+          <ExternalLink size={11} className="text-cyan-300 ml-0.5" />
+        </a>
+      </div>
+
+      {/* ── ZONE C: CONTROLS, QUICK DRAWERS & TOOLS (Right) ── */}
+      <div className="flex items-center gap-1.5 flex-wrap">
+        {/* Grid Geometry Dropdown */}
+        <div className="relative" ref={gridMenuRef}>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsGridMenuOpen(prev => !prev);
+              setIsFileMenuOpen(false);
+              setIsViewMenuOpen(false);
+            }}
+            className="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700/80 rounded-xl text-xs font-mono font-bold tracking-wider transition-colors flex items-center gap-1.5 cursor-pointer shadow-sm"
+          >
+            <Grid size={13} className="text-cyan-400" />
+            <span className="hidden sm:inline">GRID</span>
+            <span className="text-[10px] text-cyan-400/80 uppercase">({gridMode})</span>
+            <ChevronDown size={11} className={`text-slate-400 transition-transform ${isGridMenuOpen ? 'rotate-180' : ''}`} />
+          </button>
+          {isGridMenuOpen && (
+            <div className="absolute right-0 mt-1.5 w-40 bg-slate-900/98 border border-cyan-500/40 rounded-xl shadow-2xl py-1 z-50 backdrop-blur-xl text-xs">
+              {[
+                { id: 'hex', label: 'Hexagonal' },
+                { id: 'square', label: 'Square Grid' },
+                { id: 'none', label: 'No Grid (Free)' }
+              ].map((mode) => (
+                <button
+                  key={mode.id}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setGridMode(mode.id);
+                    setIsGridMenuOpen(false);
+                  }}
+                  className={`w-full px-3 py-1.5 text-xs text-left font-bold flex items-center justify-between transition-colors uppercase tracking-wider ${
+                    gridMode === mode.id
+                      ? 'bg-cyan-950 text-[#22d3ee]'
+                      : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+                  }`}
+                >
+                  <span>{mode.label}</span>
+                  {gridMode === mode.id && <span className="text-cyan-400 font-bold">✓</span>}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* View / Panels Dropdown */}
+        <div className="relative" ref={viewMenuRef}>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsViewMenuOpen(prev => !prev);
+              setIsFileMenuOpen(false);
+              setIsGridMenuOpen(false);
+            }}
+            className="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700/80 rounded-xl text-xs font-mono font-bold tracking-wider transition-colors flex items-center gap-1.5 cursor-pointer shadow-sm"
+          >
+            <Layers size={13} className="text-cyan-400" />
+            <span className="hidden sm:inline">PANELS</span>
+            <ChevronDown size={11} className={`text-slate-400 transition-transform ${isViewMenuOpen ? 'rotate-180' : ''}`} />
+          </button>
+          {isViewMenuOpen && (
+            <div className="absolute right-0 mt-1.5 w-56 bg-slate-900/98 border border-cyan-500/40 rounded-xl shadow-2xl py-1 z-50 backdrop-blur-xl text-xs">
+              <div className="px-3 py-1 text-[10px] uppercase font-bold text-slate-400 border-b border-slate-800 tracking-wider">
+                Toggle Workspace Overlays
+              </div>
+              {[
+                { id: 'tools', label: 'Design Palette', active: showToolsPanel, toggle: () => setShowToolsPanel(prev => !prev), icon: '🛠️' },
+                { id: 'settings', label: 'Tool Options', active: showSettingsPanel, toggle: () => setShowSettingsPanel(prev => !prev), icon: '⚙️' },
+                { id: 'layers', label: 'Compositor Layers', active: showLayersPanel, toggle: () => setShowLayersPanel(prev => !prev), icon: '🥞' },
+                { id: 'combat', label: 'Combat Tracker', active: showCombatTracker, toggle: () => setShowCombatTracker?.(prev => !prev), icon: '⚔️' },
+                { id: 'key', label: 'Map Key & Index', active: showKeyPanel, toggle: () => setShowKeyPanel?.(prev => !prev), icon: '🗺️' },
+                { id: 'metadata', label: 'Scale Properties', active: showMetadataPanel, toggle: () => setShowMetadataPanel?.(prev => !prev), icon: '🌐' }
+              ].map((item) => (
+                <button
+                  key={item.id}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    item.toggle();
+                  }}
+                  className={`w-full px-3 py-1.5 text-xs text-left font-bold flex items-center justify-between transition-colors uppercase tracking-wider ${
+                    item.active
+                      ? 'bg-cyan-950/80 text-[#22d3ee]'
+                      : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+                  }`}
+                >
+                  <span className="flex items-center gap-2 pointer-events-none">
+                    <span>{item.icon}</span>
+                    <span>{item.label}</span>
+                  </span>
+                  <span className={`text-xs pointer-events-none ${item.active ? 'text-cyan-400 font-bold' : 'text-slate-600'}`}>
+                    {item.active ? '✓' : '✗'}
+                  </span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Omnicortex Compendium Trigger */}
         <button
           type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsFileMenuOpen(prev => !prev);
-            setIsMapMenuOpen(false);
-            setIsGridMenuOpen(false);
-            setIsViewMenuOpen(false);
-          }}
-          className="px-3.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 hover:border-[#22d3ee] rounded text-xs uppercase font-bold tracking-wider transition-colors flex items-center gap-1.5 h-8 cursor-pointer shadow-[0_0_8px_rgba(34,211,238,0.15)]"
+          onClick={() => setShowOmnicortexDrawer?.(prev => !prev)}
+          className={`px-2.5 py-1 border rounded-xl text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1.5 h-8 cursor-pointer ${
+            showOmnicortexDrawer
+              ? 'bg-cyan-600 border-cyan-400 text-black shadow-[0_0_15px_rgba(6,182,212,0.4)]'
+              : 'bg-slate-900 hover:bg-slate-800 border-slate-700/80 text-cyan-300'
+          }`}
+          title="Open Omnicortex Codex (Bestiary, Equipment, Hazards, Vehicles)"
         >
-          <span>File Menu</span>
-          <span className="text-[10px] text-slate-400 pointer-events-none">▼</span>
+          <span>🧠</span>
+          <span className="hidden md:inline">Omnicortex</span>
         </button>
-        {isFileMenuOpen && (
-          <div className="absolute left-0 mt-1.5 w-56 bg-[#161b22] border border-[#0D5C63] rounded-lg shadow-2xl py-1 z-50 backdrop-blur-xl text-xs">
-            {onOpenAssetManager && (
-              <button
-                onClick={() => { onOpenAssetManager(); setIsFileMenuOpen(false); }}
-                className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-amber-300 uppercase font-bold flex items-center gap-2 transition-colors cursor-pointer"
-              >
-                <span>📁</span> Map Catalog & Assets
-              </button>
-            )}
-            {onOpenGuide && (
-              <button
-                onClick={() => { onOpenGuide(); setIsFileMenuOpen(false); }}
-                className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-slate-200 uppercase font-bold flex items-center gap-2 transition-colors cursor-pointer"
-              >
-                <span>📖</span> User Guide & Manual
-              </button>
-            )}
 
-            <div className="border-t border-[#0D5C63]/40 my-1" />
+        {/* Folio Hero Spawner Trigger */}
+        <button
+          type="button"
+          onClick={() => setShowHeroDrawer?.(prev => !prev)}
+          className={`px-2.5 py-1 border rounded-xl text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1.5 h-8 cursor-pointer ${
+            showHeroDrawer
+              ? 'bg-amber-600 border-amber-400 text-black shadow-[0_0_15px_rgba(245,158,11,0.4)]'
+              : 'bg-slate-900 hover:bg-slate-800 border-slate-700/80 text-amber-300'
+          }`}
+          title="Open Folio Hero & Squad Spawner Drawer"
+        >
+          <span>📜</span>
+          <span className="hidden md:inline">Folio Heroes</span>
+        </button>
 
-            {onSaveMapToFile && (
-              <button
-                onClick={() => { onSaveMapToFile(); setIsFileMenuOpen(false); }}
-                className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-amber-300 uppercase font-bold flex items-center gap-2 transition-colors cursor-pointer"
-              >
-                <span>💾</span> Save Map to File
-              </button>
-            )}
-            {onLoadMapFromFile && (
-              <button
-                onClick={() => { onLoadMapFromFile(); setIsFileMenuOpen(false); }}
-                className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-amber-300 uppercase font-bold flex items-center gap-2 transition-colors cursor-pointer"
-              >
-                <span>📥</span> Load Map from File
-              </button>
-            )}
-            {onOpenUvttImport && (
-              <button
-                onClick={() => { onOpenUvttImport(); setIsFileMenuOpen(false); }}
-                className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-cyan-300 uppercase font-bold flex items-center gap-2 transition-colors cursor-pointer border-t border-[#0D5C63]/30"
-              >
-                <span>🧭</span> Import Universal VTT (.dd2vtt)
-              </button>
-            )}
+        {/* Unified VTT Tactical Console Drawer Button */}
+        <button
+          type="button"
+          onClick={onToggleVttDrawer}
+          className={`px-2.5 py-1 border rounded-xl text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1.5 h-8 cursor-pointer ${
+            isVttDrawerOpen
+              ? 'bg-emerald-600 border-emerald-400 text-black shadow-[0_0_15px_rgba(16,185,129,0.4)]'
+              : 'bg-slate-900 hover:bg-slate-800 border-slate-700/80 text-emerald-300'
+          }`}
+          title="Open Unified Tactical VTT Command Drawer (Grid, Teams, Hazards, Pings)"
+        >
+          <span>🎮</span>
+          <span className="hidden md:inline">VTT Console</span>
+        </button>
 
-            <div className="border-t border-[#0D5C63]/40 my-1" />
+        {/* Live Spectator / Cast Button */}
+        <button
+          type="button"
+          onClick={() => setIsCastModalOpen(true)}
+          className="p-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-emerald-400 rounded-xl transition-all cursor-pointer"
+          title="Live Player Spectator Screen (TV / Dual Monitor Casting)"
+        >
+          <Tv size={14} />
+        </button>
 
-            <button
-              onClick={() => { onExportPNG(); setIsFileMenuOpen(false); }}
-              className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-cyan-300 uppercase font-bold flex items-center gap-2 transition-colors cursor-pointer"
-            >
-              <span>📸</span> Export Image (PNG)
-            </button>
-          </div>
+        {/* Artist Hub Button */}
+        <button
+          type="button"
+          onClick={() => setIsArtistHubOpen(true)}
+          className="p-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-purple-400 rounded-xl transition-all cursor-pointer"
+          title="Artist Hub Visual Prompt Synthesis"
+        >
+          <Palette size={14} />
+        </button>
+
+        {/* Reset Camera */}
+        <button
+          type="button"
+          onClick={onResetView}
+          className="px-2 py-1 bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700/80 rounded-xl text-xs font-bold transition-colors cursor-pointer"
+          title="Reset Camera View to Origin"
+        >
+          🎯
+        </button>
+
+        {selectedId && (
+          <button 
+            className="px-2.5 py-1 bg-red-900 hover:bg-red-800 border border-red-600 text-white text-xs font-bold uppercase rounded-xl tracking-wider transition-colors cursor-pointer" 
+            onClick={() => eraseElement(selectedId)}
+          >
+            Delete
+          </button>
         )}
       </div>
 

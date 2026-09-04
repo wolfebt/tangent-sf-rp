@@ -1,3 +1,9 @@
+the map maker is in need of a sever overhaul to represent all of the components we have acces to and link to th vtt.
+in similar form and layout lets try to harmonize and match the vtt format.
+
+analyze this rp game engine and evaluate the rules of the game, such as attributes used, skill system, feature system, combat system, etc.
+rules in the compendium and the omnicortex should align with the files in the rules folders of operater an architect
+
 
 ---------------------------------------------------------
 

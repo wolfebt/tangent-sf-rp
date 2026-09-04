@@ -14,7 +14,8 @@ import {
   Cpu, 
   FileText, 
   Swords,
-  ExternalLink
+  ExternalLink,
+  Sparkles
 } from 'lucide-react';
 import { useFolio } from '../../../context/FolioContext';
 import { useUILayoutStore } from '../store/uiLayoutStore';
@@ -23,6 +24,7 @@ import type { CalledShotLocation } from './TangentActionDeck';
 import { MechaCompanionDeck } from './MechaCompanionDeck';
 import { GMInspector } from './GMInspector';
 import { PopoutPortal } from './PopoutPortal';
+import { AimeCockpitDeck } from './AimeCockpitDeck';
 
 export const CockpitPanel: React.FC = () => {
   const { 
@@ -207,6 +209,19 @@ export const CockpitPanel: React.FC = () => {
 
         <button
           type="button"
+          onClick={() => setActiveCockpitTab('aime')}
+          className={`px-2.5 py-1 rounded-md text-[11px] font-bold uppercase transition-colors cursor-pointer flex items-center gap-1 ${
+            activeCockpitTab === 'aime'
+              ? 'bg-amber-950/80 text-amber-300 border border-amber-500/50'
+              : 'text-slate-400 hover:text-slate-200'
+          }`}
+        >
+          <Sparkles size={11} className="text-amber-400" />
+          <span>AIME</span>
+        </button>
+
+        <button
+          type="button"
           onClick={() => setActiveCockpitTab('notes')}
           className={`px-2.5 py-1 rounded-md text-[11px] font-bold uppercase transition-colors cursor-pointer flex items-center gap-1 ${
             activeCockpitTab === 'notes'
@@ -243,6 +258,11 @@ export const CockpitPanel: React.FC = () => {
         {/* TAB 3: GM DYNAMIC INSPECTOR & MULTI-ENTITY BATCH CONTROLS */}
         {activeCockpitTab === 'inspector' && (
           <GMInspector />
+        )}
+
+        {/* TAB 4: AIME CO-PILOT DECK (Sensory Read-Aloud, Tactical Barks, Transmutation) */}
+        {activeCockpitTab === 'aime' && (
+          <AimeCockpitDeck />
         )}
 
         {/* TAB 4: PERSISTED FIELD NOTES */}

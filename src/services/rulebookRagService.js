@@ -27,9 +27,12 @@ export const RULEBOOK_CORPUS = [
     keywords: ['vitality', 'health', 'structure', 'synthetic', 'damage', 'lethal', 'non-lethal', 'nonlethal', 'fatigue', 'stress', 'cuts', 'burns'],
     summary: 'Vitality tracks non-lethal stress/fatigue; Health tracks lethal trauma; Synthetics use Structure and are immune to non-lethal damage.',
     content: `Tangent SF RP strictly differentiates non-lethal wear from lethal trauma:
-- **🔵 Vitality Pool (30 + Willpower):** Measures non-lethal damage capacity, environmental stress, sensory shock, and physical/mental fatigue. Overflow beyond 0 spills into Health.
-- **🔴 Health Pool (30 + Fortitude):** Measures lethal trauma capacity (bullet wounds, cuts, burns, shrapnel, and penetrating injuries). Reducing Health to 0 initiates the Death Clock.
-- **🤖 Structure Pool (Synthetics & Mecha):** Synthetics, androids, and vehicles have no biological nervous system. They possess a single unified Structure Pool (equal to Vitality + Health) and are **completely IMMUNE to non-lethal damage**.`
+- **🔵 Vitality Pool (Base 30 + 5/CP, max +5×STA):** Measures non-lethal damage capacity, environmental stress, sensory shock, and physical/mental fatigue (not modified by Willpower). Overflow beyond 0 spills into Health as lethal damage.
+- **🔴 Health Pool (Base 30 + 5/CP, max +5×STA):** Measures lethal trauma capacity (bullet wounds, cuts, burns, shrapnel, and penetrating injuries) (not modified by Fortitude). Reducing Health to 0 initiates the Death Clock.
+- **🤖 Structure Pool (Synthetics & Mecha):** Synthetics, androids, constructs, and vehicles possess a unified Structure Pool (equal to Vitality + Health combined) and are **completely IMMUNE to non-lethal damage** as well as biological toxins and suffocation.
+- **🛡️ Stamina Natural DR:** All character Stamina is a natural damage reduction (DR) and automatically reduces all incoming damage which penetrates defenses, down to a minimum of 1 point.
+- **⚡ Critical Hits & Non-Lethal:** Critical hits amplify damage dealt, but do not convert a non-lethal attack into a lethal one.
+- **📊 Skill & Trait Caps:** Most skills have a maximum rank of 20; specializations and invocations max at rank 10.`
   },
   {
     id: 'massive_damage_death_clock',

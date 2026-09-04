@@ -43,7 +43,7 @@ The **Discipline of Entropy** governs the breakdown of systems, molecular decay,
 
 ### Level 1 Invocations
 - **Decay Touch:** Inflict rapid cellular corrosion dealing **2d6 Necrotic damage** and degrading target armor DR by 2.
-- **Jinx (Probability Curse):** Impose a **-3 penalty** on target's next two d20 rolls (Will save resists).
+- **Jinx (Probability Curse):** Impose a **-3 penalty** on target's next two 2d10 rolls (Will save resists).
 - **Disrupt Circuitry:** Cause an electronic weapon or cyber-limb to malfunction for 1 round.
 
 ### Level 2 Invocations

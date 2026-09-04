@@ -83,8 +83,8 @@ const PrintFolio = ({ characterData, isScreenPreview = false }) => {
   // Secondary Vitals & Perception
   const combatInitiativeMod = folioCtx?.computedModifiers?.combatMods?.['initiative-mod'] || 0;
   const initiative = reflexTotal + getNum('initiative-mod') + combatInitiativeMod;
-  const health = characterData['health'] ?? 30;
-  const vitality = characterData['vitality'] ?? 30;
+  const health = characterData['health'] ?? (folioCtx?.derivedStats?.health ?? (30 + fortTotal));
+  const vitality = characterData['vitality'] ?? (folioCtx?.derivedStats?.vitality ?? (30 + willTotal));
   const karma = characterData['karma'] ?? 3;
   const toughness = folioCtx?.derivedStats?.toughness ?? staTotal;
   const speciesStr = String(characterData['char-species'] || '').toLowerCase();

@@ -14,6 +14,29 @@ import {
   getObjectsForScale,
   getCategoriesForScale
 } from './MapAssetCatalog';
+import {
+  MousePointer,
+  Shield,
+  DoorClosed,
+  Eye,
+  Paintbrush,
+  Sparkles,
+  Flame,
+  Sun,
+  Box,
+  Layers,
+  Terminal,
+  FolderOpen,
+  Upload,
+  Globe,
+  Users,
+  Compass,
+  Edit3,
+  Type,
+  ChevronLeft,
+  ChevronRight,
+  Package
+} from 'lucide-react';
 
 const MapToolsPanel = ({
   showToolsPanel, setShowToolsPanel,
@@ -42,13 +65,25 @@ const MapToolsPanel = ({
   setRulerAvailableAp,
   activeSensorMode = 'standard_optical',
   setActiveSensorMode,
+  // Lighting options
+  selectedLightColor = '#f59e0b',
+  setSelectedLightColor,
+  selectedLightRadius = 180,
+  setSelectedLightRadius,
+  selectedLightAnimation = 'flicker',
+  setSelectedLightAnimation,
+  // Studio Drawer Launchers
   onOpenAssetManager,
   onOpenHeroDrawer,
-  onOpenOmnicortexDrawer
+  onOpenOmnicortexDrawer,
+  onOpenLandmassGenerator,
+  onOpenUvttImport,
+  onOpenLayersPanel
 }) => {
   const [selectedCatalogScale, setSelectedCatalogScale] = useState(currentMapScale);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
+  const [isDrawerCollapsed, setIsDrawerCollapsed] = useState(false);
 
   useEffect(() => {
     if (currentMapScale) {
@@ -118,6 +153,110 @@ const MapToolsPanel = ({
             <span className="text-[10px] text-slate-400 italic mt-1">
               Click and drag on the canvas to place wall and barrier segments.
             </span>
+          </div>
+        );
+
+      case 'hazard':
+        return (
+          <div className="flex flex-col gap-2.5">
+            <span className="text-[10px] uppercase text-orange-400 font-bold tracking-wider flex items-center gap-1.5">
+              <Flame size={12} className="text-orange-400" />
+              <span>Environmental Hazards:</span>
+            </span>
+            <div className="grid grid-cols-1 gap-1.5">
+              {[
+                { id: 'hazard_plasma', label: 'Plasma Eruption', desc: '4d10 thermal burst hazard zone', color: '#f97316' },
+                { id: 'hazard_gas', label: 'Corrosive Acid Gas', desc: 'Dissolves armor & forces Stamina saves', color: '#10b981' },
+                { id: 'hazard_void', label: 'Void Mist Anomaly', desc: 'Slows movement and jams sensors', color: '#8b5cf6' },
+                { id: 'hazard_radiation', label: 'Ionizing Radiation', desc: 'Persistent vitality degradation zone', color: '#eab308' }
+              ].map(h => (
+                <button
+                  key={h.id}
+                  onClick={() => {
+                    setSelectedObjectType({
+                      id: h.id,
+                      label: h.label,
+                      color: h.color,
+                      shape: 'circle',
+                      radius: 35,
+                      hazard: h.label,
+                      category: 'Hazards',
+                      desc: h.desc
+                    });
+                  }}
+                  className={`py-2 px-2.5 text-xs rounded border text-left transition-all ${
+                    selectedObjectType?.id === h.id
+                      ? 'border-orange-400 bg-orange-950/80 text-orange-200 shadow-[0_0_10px_rgba(249,115,22,0.4)]'
+                      : 'border-slate-800 bg-[#0d1117]/80 text-slate-300 hover:border-orange-500/50 hover:text-white'
+                  }`}
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: h.color }} />
+                    <span className="font-bold">{h.label}</span>
+                  </div>
+                  <div className="text-[10px] text-slate-400 mt-0.5">{h.desc}</div>
+                </button>
+              ))}
+            </div>
+            <span className="text-[10px] text-slate-400 italic">Click on map canvas to stamp environmental hazard zone.</span>
+          </div>
+        );
+
+      case 'light':
+        return (
+          <div className="flex flex-col gap-2.5">
+            <span className="text-[10px] uppercase text-amber-400 font-bold tracking-wider flex items-center gap-1.5">
+              <Sun size={12} className="text-amber-400" />
+              <span>Dynamic Light Source:</span>
+            </span>
+            <div className="bg-[#0d1117] border border-slate-800 p-2.5 rounded-lg flex flex-col gap-2">
+              <div className="flex justify-between items-center text-xs">
+                <span className="text-amber-300 font-bold uppercase text-[10px]">Light Radius:</span>
+                <span className="text-amber-200 font-mono font-bold">{selectedLightRadius}px</span>
+              </div>
+              <input
+                type="range"
+                min="50"
+                max="500"
+                step="25"
+                value={selectedLightRadius}
+                onChange={e => setSelectedLightRadius?.(Number(e.target.value))}
+                className="accent-amber-400 w-full cursor-pointer h-1.5 bg-[#161b22] rounded-lg"
+              />
+              <div className="flex justify-between items-center text-xs mt-1">
+                <span className="text-slate-400 uppercase text-[10px] font-bold">Animation:</span>
+                <select
+                  value={selectedLightAnimation}
+                  onChange={e => setSelectedLightAnimation?.(e.target.value)}
+                  className="bg-slate-900 border border-slate-700 text-xs text-amber-300 rounded p-1"
+                >
+                  <option value="none">Static Steady</option>
+                  <option value="flicker">Flicker Torch</option>
+                  <option value="pulse">Pulse Glow</option>
+                  <option value="strobe">Strobe Alert</option>
+                </select>
+              </div>
+            </div>
+            <div className="grid grid-cols-4 gap-1.5">
+              {[
+                { color: '#f59e0b', label: 'Torch' },
+                { color: '#38bdf8', label: 'Cyan' },
+                { color: '#ef4444', label: 'Alarm' },
+                { color: '#10b981', label: 'Bio' }
+              ].map(c => (
+                <button
+                  key={c.color}
+                  onClick={() => setSelectedLightColor?.(c.color)}
+                  className={`py-1 rounded border text-[10px] font-bold text-center transition-all ${
+                    selectedLightColor === c.color ? 'border-white text-white scale-105' : 'border-slate-800 text-slate-400'
+                  }`}
+                  style={{ backgroundColor: `${c.color}22`, borderColor: selectedLightColor === c.color ? c.color : undefined }}
+                >
+                  {c.label}
+                </button>
+              ))}
+            </div>
+            <span className="text-[10px] text-slate-400 italic">Click on map canvas to position dynamic point light emitter.</span>
           </div>
         );
 
@@ -547,67 +686,156 @@ const MapToolsPanel = ({
   };
 
   return (
-    <>
-      {/* Floating Toolbox: TOOLS */}
-      {showToolsPanel && (
-        <DraggablePanel id="tools" className="absolute top-4 left-4 z-30 w-44 bg-[#161b22]/90 backdrop-blur-md border border-[#0D5C63]/80 rounded-lg shadow-[0_0_15px_rgba(0,0,0,0.6)] p-3 flex flex-col gap-2 select-none">
-          <div className="drag-handle cursor-grab active:cursor-grabbing flex justify-between items-center pb-1.5 border-b border-[#0D5C63]/50 mb-1">
-            <h3 className="sci-fi-title-text font-bold text-xs uppercase tracking-wider drop-shadow-[0_0_5px_rgba(34,211,238,0.4)] flex items-center gap-1.5 pointer-events-none">
-              🛠️ Tools
-            </h3>
-            <button
-              onClick={() => setShowToolsPanel(false)}
-              className="text-slate-400 hover:text-red-400 text-sm font-bold leading-none px-1"
-              title="Close Tools Box"
-            >
-              ×
-            </button>
-          </div>
-          <div className="flex flex-col gap-1.5 max-h-[calc(100vh-220px)] overflow-y-auto pr-0.5">
-            {SIDEBAR_TOOLS.map((t) => (
+    <aside className="h-full shrink-0 flex z-30 select-none font-sans" aria-label="Map Studio Tools">
+      {/* 48px Vertical Icon Rail Matching VTT ModuleCatalogRail */}
+      <nav
+        className="w-12 shrink-0 h-full border-r border-slate-800/80 bg-[#090d13] flex flex-col items-center py-2.5 gap-1.5 z-20"
+        aria-label="Map Tools Rail"
+      >
+        {/* Core Tools */}
+        <div className="flex flex-col items-center gap-1.5 flex-1 overflow-y-auto scrollbar-none w-full px-1">
+          {SIDEBAR_TOOLS.map((t) => {
+            const isActive = activeTool === t.id;
+            return (
               <button
                 key={t.id}
+                type="button"
                 onClick={() => {
                   setActiveTool(t.id);
-                  setShowSettingsPanel(true);
+                  if (isDrawerCollapsed) setIsDrawerCollapsed(false);
                 }}
-                className={`w-full text-left py-2 px-3 rounded text-xs font-semibold transition-all border ${
-                  activeTool === t.id
-                    ? 'bg-cyan-950/90 border-[#22d3ee] text-[#22d3ee] shadow-[0_0_10px_rgba(34,211,238,0.3)] font-bold'
-                    : 'bg-[#0d1117]/70 border-[#0D5C63]/40 text-slate-300 hover:border-[#22d3ee]/60 hover:text-white'
+                className={`relative w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-150 cursor-pointer group ${
+                  isActive
+                    ? 'bg-slate-800 text-cyan-300 border border-cyan-500/50 shadow-[0_0_10px_rgba(34,211,238,0.25)]'
+                    : 'text-slate-500 hover:text-slate-200 hover:bg-slate-900'
                 }`}
+                title={t.label}
               >
-                {t.label}
-              </button>
-            ))}
-          </div>
-        </DraggablePanel>
-      )}
+                {t.id === 'wall' && <Shield size={18} />}
+                {t.id === 'terrain' && <Paintbrush size={18} />}
+                {t.id === 'object' && <Box size={18} />}
+                {t.id === 'hazard' && <Flame size={18} />}
+                {t.id === 'light' && <Sun size={18} />}
+                {t.id === 'token' && <Users size={18} />}
+                {t.id === 'pencil' && <Edit3 size={18} />}
+                {t.id === 'text' && <Type size={18} />}
+                {t.id === 'ruler' && <Compass size={18} />}
+                {t.id === 'fog' && <Eye size={18} />}
+                {t.id === 'eraser' && <Sparkles size={18} />}
+                {t.id === 'select' && <MousePointer size={18} />}
 
-      {/* Floating Toolbox: TOOL SETTINGS */}
-      {showSettingsPanel && (
-        <DraggablePanel
-          id="tool_settings"
-          className={`absolute top-4 ${showToolsPanel ? 'left-52' : 'left-4'} z-30 hover:z-40 focus-within:z-40 w-64 bg-[#161b22]/90 backdrop-blur-md border border-[#0D5C63]/80 rounded-lg shadow-[0_0_15px_rgba(0,0,0,0.6)] p-3 flex flex-col gap-2 select-none transition-all`}
-        >
-          <div className="drag-handle cursor-grab active:cursor-grabbing flex justify-between items-center pb-1.5 border-b border-[#0D5C63]/50 mb-1">
-            <h3 className="sci-fi-title-text font-bold text-xs uppercase tracking-wider drop-shadow-[0_0_5px_rgba(34,211,238,0.4)] flex items-center gap-1.5 pointer-events-none">
-              ⚙️ Settings
-            </h3>
+                {/* Active Left Indicator Bar */}
+                {isActive && (
+                  <span className="absolute -left-1 top-1.5 bottom-1.5 w-1 rounded-r bg-cyan-400" />
+                )}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Separator */}
+        <div className="w-6 h-px bg-slate-800 my-1 shrink-0" />
+
+        {/* Studio Drawer Shortcuts */}
+        <div className="flex flex-col items-center gap-1.5 shrink-0 px-1">
+          {onOpenHeroDrawer && (
             <button
-              onClick={() => setShowSettingsPanel(false)}
-              className="text-slate-400 hover:text-red-400 text-sm font-bold leading-none px-1"
-              title="Close Settings Box"
+              type="button"
+              onClick={onOpenHeroDrawer}
+              className="w-9 h-9 rounded-lg flex items-center justify-center text-amber-400 hover:bg-amber-950/40 hover:text-amber-300 border border-transparent hover:border-amber-500/40 transition-all cursor-pointer"
+              title="Folio Heroes Roster"
             >
-              ×
+              <Users size={17} />
             </button>
+          )}
+
+          {onOpenOmnicortexDrawer && (
+            <button
+              type="button"
+              onClick={onOpenOmnicortexDrawer}
+              className="w-9 h-9 rounded-lg flex items-center justify-center text-cyan-400 hover:bg-cyan-950/40 hover:text-cyan-300 border border-transparent hover:border-cyan-500/40 transition-all cursor-pointer"
+              title="Omnicortex Codex"
+            >
+              <Terminal size={17} />
+            </button>
+          )}
+
+          {onOpenLandmassGenerator && (
+            <button
+              type="button"
+              onClick={onOpenLandmassGenerator}
+              className="w-9 h-9 rounded-lg flex items-center justify-center text-emerald-400 hover:bg-emerald-950/40 hover:text-emerald-300 border border-transparent hover:border-emerald-500/40 transition-all cursor-pointer"
+              title="Procedural Landmass Gen"
+            >
+              <Globe size={17} />
+            </button>
+          )}
+
+          {onOpenUvttImport && (
+            <button
+              type="button"
+              onClick={onOpenUvttImport}
+              className="w-9 h-9 rounded-lg flex items-center justify-center text-purple-400 hover:bg-purple-950/40 hover:text-purple-300 border border-transparent hover:border-purple-500/40 transition-all cursor-pointer"
+              title="Import Universal VTT"
+            >
+              <Upload size={17} />
+            </button>
+          )}
+
+          {onOpenLayersPanel && (
+            <button
+              type="button"
+              onClick={onOpenLayersPanel}
+              className="w-9 h-9 rounded-lg flex items-center justify-center text-sky-400 hover:bg-sky-950/40 hover:text-sky-300 border border-transparent hover:border-sky-500/40 transition-all cursor-pointer"
+              title="Compositor Layers"
+            >
+              <Layers size={17} />
+            </button>
+          )}
+        </div>
+      </nav>
+
+      {/* Docked Collapsible Drawer Column */}
+      <div
+        className={`h-full border-r border-slate-800/80 bg-[#0c1017] transition-all duration-200 flex flex-col overflow-hidden ${
+          isDrawerCollapsed ? 'w-0 border-r-0' : 'w-72 sm:w-80'
+        }`}
+      >
+        {/* Drawer Header with collapse toggle */}
+        <div className="h-11 px-3 border-b border-slate-800/80 bg-[#0a0e14] flex items-center justify-between shrink-0">
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-xs font-bold text-slate-200 uppercase tracking-wider capitalize">
+              {SIDEBAR_TOOLS.find(t => t.id === activeTool)?.label || activeTool}
+            </span>
           </div>
-          <div className="max-h-[calc(100vh-220px)] overflow-y-auto pr-0.5">
-            {renderToolSubPanel()}
-          </div>
-        </DraggablePanel>
+          <button
+            type="button"
+            onClick={() => setIsDrawerCollapsed(true)}
+            className="w-6 h-6 rounded flex items-center justify-center text-slate-500 hover:text-slate-200 hover:bg-slate-800 transition-colors cursor-pointer"
+            title="Collapse Panel"
+          >
+            <ChevronLeft size={15} />
+          </button>
+        </div>
+
+        {/* Drawer Scrollable Content */}
+        <div className="flex-1 overflow-y-auto p-3 text-slate-200 scrollbar-thin">
+          {renderToolSubPanel()}
+        </div>
+      </div>
+
+      {/* Floating Toggle Tab when collapsed */}
+      {isDrawerCollapsed && (
+        <button
+          type="button"
+          onClick={() => setIsDrawerCollapsed(false)}
+          className="relative top-3 z-30 w-6 h-8 bg-slate-900/90 border border-l-0 border-slate-700 text-cyan-400 rounded-r-md flex items-center justify-center hover:bg-slate-800 transition-all cursor-pointer shadow-md"
+          title="Expand Tool Options"
+        >
+          <ChevronRight size={15} />
+        </button>
       )}
-    </>
+    </aside>
   );
 };
 

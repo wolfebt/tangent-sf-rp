@@ -67,9 +67,42 @@ export type { MechaChassis, Augmentation } from './rules/MechaSocketManager.ts';
 // Stage 6: UI Glass-Cockpit HUD, Dice AST & Scripting
 export { DashboardOverlay } from './ui/DashboardOverlay.tsx';
 export type { DashboardOverlayProps } from './ui/DashboardOverlay.tsx';
+export { ResponsiveGridConfig, RESPONSIVE_BREAKPOINTS, RESPONSIVE_COLS, COCKPIT_LAYOUT_PRESETS, WIDGET_CONSTRAINTS } from './ui/layout/ResponsiveGridConfig.ts';
+export type { WidgetLayoutItem, LayoutPresetType } from './ui/layout/ResponsiveGridConfig.ts';
+export { FirestoreProfileSync } from './ui/layout/FirestoreProfileSync.ts';
+export type { UserLayoutProfile } from './ui/layout/FirestoreProfileSync.ts';
+export { WidgetErrorBoundary } from './ui/WidgetErrorBoundary.tsx';
+export { WidgetRegistry } from './ui/WidgetRegistry.tsx';
+export type { IWidgetDefinition, WidgetCategory } from './ui/WidgetRegistry.tsx';
+export { ContextActionBar } from './ui/widgets/ContextActionBar.tsx';
+export { CombatTrackerWidget } from './ui/widgets/CombatTrackerWidget.tsx';
+export { MechaFoundryWidget } from './ui/widgets/MechaFoundryWidget.tsx';
 export { DiceASTParser } from './math/DiceASTParser.ts';
 export type { ASTNode } from './math/DiceASTParser.ts';
 export { QuickJSSandbox } from './scripting/QuickJSSandbox.ts';
 export type { SandboxRequest, SandboxResponse } from './scripting/QuickJSSandbox.ts';
 export { EssenceTracker } from './rules/EssenceTracker.ts';
 export type { OngoingSpellEffect } from './rules/EssenceTracker.ts';
+
+// Stage 7: Dual-Agent AI Ecosystem & Vision Auto-Walling
+export { VertexAIGateway } from './ai/VertexAIGateway.ts';
+export type { AIRequestOptions, AIGatewayResponse } from './ai/VertexAIGateway.ts';
+export { BastionAgent, BastionRulesAgent } from './ai/BastionAgent.ts';
+export type { BastionValidationResult } from './ai/BastionAgent.ts';
+export { AimeAgent, AimeNarrativeAgent } from './ai/AimeAgent.ts';
+export type { GroundingContext, ChatMessage } from './ai/AimeAgent.ts';
+export { DBMFunctionRegistry } from './ai/DBMFunctionRegistry.ts';
+export type { FunctionCallDefinition, ToolCallInvocation } from './ai/DBMFunctionRegistry.ts';
+export { MapWallingProcessor } from './ai/MapWallingProcessor.ts';
+export type { AutoWallRequest, DetectedWall, AutoWallResponse } from './ai/MapWallingProcessor.ts';
+
+// Stage 8: Schema Normalization & Migration Adapters
+export { sanitizeRichText, enforceInteger, adaptLegacyElement, validateAdaptedElement } from './migration/tangentSchemaAdapters.js';
+export { HIERARCHY_TIERS, TIER_DEFINITIONS, getFieldTier, sortFieldsByHierarchy } from './migration/categoryConfig.js';
+export { runMigration } from './migration/migrate_omnicortex_schema.mjs';
+
+// Stage 9: Publishing Compilers & Foundry VTT Exporter
+export { PagedPdfCompiler } from './compilers/PagedPdfCompiler.ts';
+export type { ScenarioExportNode, CompileOptions } from './compilers/PagedPdfCompiler.ts';
+export { FoundryVttJsonExporter } from './compilers/FoundryVttJsonExporter.ts';
+export type { FoundryExportPayload, FoundryCompendiumPack } from './compilers/FoundryVttJsonExporter.ts';

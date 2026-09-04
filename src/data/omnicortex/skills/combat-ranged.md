@@ -46,7 +46,7 @@ The skill of using muscle-powered projectile weapons and thrown implements to st
 
 ### Mechanics & Rules
 - **Governing Attribute**: Agility
-- **Standard Attack Roll**: `d20 + Ranged Rank + Agility Mod vs. Target Defense`.
+- **Standard Attack Roll**: `2d10 + Ranged Rank + Agility Mod vs. Target Defense`.
 - **Damage**: Weapon Base Damage Dice. (Strength modifier added to Thrown weapons, and composite bows up to weapon rating).
 - **Range Increments**: Attacking beyond the weapon's base range increment imposes a cumulative `-2` penalty per increment.
 

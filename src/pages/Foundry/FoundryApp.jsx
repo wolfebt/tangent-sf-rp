@@ -1,4 +1,4 @@
-﻿import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import AppShell from '../../components/Layout/AppShell';
 import { CampaignProvider, useCampaign } from '../../context/CampaignContext';
@@ -21,7 +21,7 @@ const FoundryAppInner = () => {
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="story" element={<StoryModule />} />
-          <Route path="elements" element={<ElementForge />} />
+          <Route path="elements" element={<StoryModule defaultView="elements" />} />
           <Route path="map-maker" element={<MapMaker />} />
           <Route path="vtt-options" element={<VttOptionsPage />} />
           <Route path="aime" element={<AIME />} />

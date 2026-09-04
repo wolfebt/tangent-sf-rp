@@ -377,7 +377,7 @@ const FolioGuideSection = () => (
             <span>📊</span> 2. CORE STATS & DERIVED VITALS
           </div>
           <p className="text-slate-300 text-[11px]">
-            The 6 primary attributes and sub-attributes. Features <strong>Universal FolioTooltips</strong> revealing exact formulas: <strong className="text-white">Health (30 + Fortitude)</strong>, <strong className="text-white">Vitality (30 + Will)</strong>, Toughness (STA score), Defense value, and STR-based carry capacity.
+            The 6 primary attributes and sub-attributes. Features <strong>Universal FolioTooltips</strong> revealing exact formulas: <strong className="text-white">Health (Base 30 + 5/CP, max +5×STA)</strong>, <strong className="text-white">Vitality (Base 30 + 5/CP, max +5×STA)</strong>, Natural DR (STA score, min 1 point), Defense value, and STR-based carry capacity.
           </p>
         </div>
 
@@ -404,7 +404,7 @@ const FolioGuideSection = () => (
             <span>⚔️</span> 5. ACTIVE COMBAT TAB
           </div>
           <p className="text-slate-300 text-[11px]">
-            Powered by <strong>combatUtils.js</strong>. Automatically maps weapon inventory into active offensive attacks, dynamically deriving check bonuses (<code className="text-cyan-300 font-mono">Skill Rank + floor(Attr / 2)</code>) based on weapon keywords (Melee, Ballistic, Energy, Heavy), compiling tactical strike notes, and configuring armor DR suites.
+            Powered by <strong>combatUtils.js</strong>. Automatically maps weapon inventory into active offensive attacks, dynamically deriving check bonuses (<code className="text-cyan-300 font-mono">Skill Rank + Linked Attribute</code> — never halved) based on weapon keywords (Melee, Ballistic, Energy, Heavy), compiling tactical strike notes, and configuring armor DR suites.
           </p>
         </div>
 
@@ -867,35 +867,61 @@ const MapMakerGuideSection = () => (
       </div>
     </div>
 
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
-      <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-3.5 space-y-1">
-        <div className="font-bold text-cyan-300 font-mono uppercase">🎯 Multi-Grid Canvas</div>
-        <p className="text-slate-400 text-[11px]">Supports Square (5ft/1.5m), Hexagonal (pointy/flat topped), and Isometric grids with smooth pan/zoom and snapping.</p>
+    <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-4 space-y-3">
+      <h4 className="text-cyan-400 font-bold text-xs uppercase font-mono tracking-wider flex items-center gap-1.5">
+        ⚡ Tripartite Stage VTT Layout (`/stage` / `/vtt`)
+      </h4>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+          <div className="font-bold text-cyan-300 font-mono">1. Left: Catalog Rail & Outliner</div>
+          <p className="text-slate-400 text-[11px] leading-relaxed">
+            <code className="text-cyan-400 font-mono">ModuleCatalogRail.tsx</code> &amp; <code className="text-cyan-400 font-mono">CatalogOutliner.tsx</code>. Hierarchical tree of all active entities (PCs, Hostile Threats, Neutral NPCs, Interactive Props, Dynamic Lights, Hazard Volumes). Features instant text search (<code className="text-cyan-400 font-mono">CatalogSearchFilter.tsx</code>), visibility eye toggles, lock toggles, and camera centering.
+          </p>
+        </div>
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+          <div className="font-bold text-emerald-300 font-mono">2. Center: WebGPU Viewport & Stage</div>
+          <p className="text-slate-400 text-[11px] leading-relaxed">
+            <code className="text-emerald-400 font-mono">TripartiteStageView.tsx</code> &amp; <code className="text-emerald-400 font-mono">StageView.tsx</code>. WebGPU frustum chunking (<code className="text-emerald-400 font-mono">FrustumChunkManager.ts</code>), WGSL raycast Line-of-Sight &amp; CSG Fog (<code className="text-amber-400 font-mono">BVHBuilder.ts</code>), fluid hazard particles, multi-scene breadcrumbs (<code className="text-emerald-400 font-mono">StageBreadcrumbTabs.tsx</code>), floating vitals pills (<code className="text-cyan-300 font-mono">TokenContextualPill.tsx</code>), and in-stage design palette (<code className="text-emerald-400 font-mono">ArchitectDesignPalette.tsx</code>).
+          </p>
+        </div>
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+          <div className="font-bold text-purple-300 font-mono">3. Right: Master Cockpit Dock</div>
+          <p className="text-slate-400 text-[11px] leading-relaxed">
+            <code className="text-purple-400 font-mono">CockpitPanel.tsx</code>. 5 specialized decks: <strong className="text-white">TangentActionDeck</strong> (3-AP combat &amp; strikes), <strong className="text-white">GMInspector</strong> (stats override &amp; vision), <strong className="text-white">MechaCompanionDeck</strong> (vehicle SP, heat, hardpoints), <strong className="text-white">AimeCockpitDeck</strong> (in-VTT AI co-pilot), <strong className="text-white">MultiSelectCard</strong> (batch operations), and <strong className="text-white">PopoutPortal</strong> (multi-monitor popout).
+          </p>
+        </div>
       </div>
+    </div>
 
-      <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-3.5 space-y-1">
-        <div className="font-bold text-emerald-300 font-mono uppercase">🎨 Terrain & Biome Painting</div>
-        <p className="text-slate-400 text-[11px]">Paint textured biomes (sci-fi metallic decks, wasteland sands, toxic marshes, neon cities) or generate random procedural landmasses.</p>
-      </div>
-
-      <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-3.5 space-y-1">
-        <div className="font-bold text-amber-300 font-mono uppercase">👥 Folio Token Drawer</div>
-        <p className="text-slate-400 text-[11px]">Collapsible side drawer providing one-click drag-and-drop summoning of operative tokens directly from your Persona Folio roster with live vitals.</p>
-      </div>
-
-      <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-3.5 space-y-1">
-        <div className="font-bold text-purple-300 font-mono uppercase">⚔️ Initiative Tracker & Combat Log</div>
-        <p className="text-slate-400 text-[11px]">Manage round sequences, initiative order, active engagement ranges, and synchronized combat turns across players and NPCs.</p>
-      </div>
-
-      <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-3.5 space-y-1">
-        <div className="font-bold text-red-300 font-mono uppercase">💥 Floating Combat Text</div>
-        <p className="text-slate-400 text-[11px]">Animated scrolling combat numbers displaying damage dealt, armor absorption, health recovered, and critical hits directly over tokens.</p>
-      </div>
-
-      <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-3.5 space-y-1">
-        <div className="font-bold text-pink-300 font-mono uppercase">💎 Status Gems & Spectator View</div>
-        <p className="text-slate-400 text-[11px]">Attach visual condition gems to token bases. Project a clean player-facing feed via <code className="text-pink-300 font-mono">/spectator/:mapId</code> hiding GM secret layers.</p>
+    <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-4 space-y-3">
+      <h4 className="text-cyan-400 font-bold text-xs uppercase font-mono tracking-wider flex items-center gap-1.5">
+        🗺️ Tactical Map Maker Authoring Tools (`/foundry/map-maker`)
+      </h4>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+          <div className="font-bold text-cyan-300 font-mono">9-Layer Compositor Panel</div>
+          <p className="text-slate-400 text-[11px]">Grid, Underlay Blueprint, Floor Tile/Terrain, Props, Walls/Occlusion, Hazards, Tokens, Lighting/Fog, and GM Secret Layer (<code className="text-cyan-400 font-mono">MapLayersPanel.jsx</code>).</p>
+        </div>
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+          <div className="font-bold text-emerald-300 font-mono">Biome & Terrain Brushes</div>
+          <p className="text-slate-400 text-[11px]">Brush radius, opacity, and textured biomes (Steel Decking, Volcanic Basalt, Rust Sand, Neon Pavement, Toxic Sludge) (<code className="text-emerald-400 font-mono">MapToolsPanel.jsx</code>).</p>
+        </div>
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+          <div className="font-bold text-amber-300 font-mono">Folio Hero & Asset Drawers</div>
+          <p className="text-slate-400 text-[11px]">One-click drag-and-drop spawning of Folio operatives (<code className="text-amber-400 font-mono">FolioHeroTokenDrawer.jsx</code>) and Omnicortex database items (<code className="text-amber-400 font-mono">OmnicortexAssetDrawer.jsx</code>).</p>
+        </div>
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+          <div className="font-bold text-red-300 font-mono">Combat & Hit Location Modal</div>
+          <p className="text-slate-400 text-[11px]">Automated 2d10 attack check, 7 hit locations (Head, Torso, Arms, Legs, Vitals), armor DR soak, wound allocation, and floating damage numbers (<code className="text-red-400 font-mono">CombatResolutionModal.jsx</code>).</p>
+        </div>
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+          <div className="font-bold text-purple-300 font-mono">AoE & Hazmat Volume Modals</div>
+          <p className="text-slate-400 text-[11px]">Blast, cone, and line templates with saving throws (<code className="text-purple-400 font-mono">AoEResolutionModal.jsx</code>); spreading toxic gas, fire, and decompression (<code className="text-purple-400 font-mono">HazmatVolumeManagerModal.jsx</code>).</p>
+        </div>
+        <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-1">
+          <div className="font-bold text-pink-300 font-mono">UVTT Import & Calibration</div>
+          <p className="text-slate-400 text-[11px]">Import Dungeondraft .dd2vtt files with automated wall and light extraction (<code className="text-pink-400 font-mono">UvttImportModal.jsx</code>), and 3-point grid alignment (<code className="text-pink-400 font-mono">MapUnderlayCalibrationModal.jsx</code>).</p>
+        </div>
       </div>
     </div>
   </div>
@@ -1321,7 +1347,7 @@ const RulesGuideSection = () => (
           <span>❤️</span> Vitality, Health, Toughness &amp; Damage Resolution
         </h4>
         <span className="text-[10px] font-mono text-cyan-300 font-semibold">
-          Vitality: 30 + Will • Health: 30 + Fortitude
+          Vitality: Base 30 • Health: Base 30 (Max Increase: 5 × STA)
         </span>
       </div>
 
@@ -1331,10 +1357,10 @@ const RulesGuideSection = () => (
             🛡️ Vitality vs. Physical Health
           </div>
           <p className="text-slate-300 text-[11px] leading-relaxed">
-            <strong className="text-cyan-300">Vitality</strong> represents stamina, reflex avoidance, minor bruising, and luck. It is depleted first. <strong className="text-rose-400">Health</strong> represents deep physical tissue, structural integrity, and organ function. Health is damaged only when Vitality reaches 0, or directly via Critical Hits and Armor-Piercing weapons.
+            <strong className="text-cyan-300">Vitality</strong> represents stamina, reflex poise, and non-lethal stress capacity. It is depleted first by non-lethal strikes. Once non-lethal damage exceeds Vitality, it spills into Health as lethal damage. <strong className="text-rose-400">Health</strong> represents deep physical tissue, structural integrity, and lethal damage capacity. Critical hits affect damage without necessarily converting non-lethal attacks to lethal. Synthetics use Structure (Vitality + Health) and are immune to non-lethal damage.
           </p>
           <div className="text-[10.5px] font-mono text-emerald-300 border-t border-slate-800/80 pt-1.5">
-            Base Toughness: Stamina Score (direct damage soak from physical hits)
+            Natural DR: Stamina Score (reduces all damage penetrating defenses, minimum 1 point)
           </div>
         </div>
 

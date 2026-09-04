@@ -189,8 +189,20 @@ export default function CombatResolutionModal({
 
       // Remaining damage after armor
       const damageAfterArmor = Math.max(0, rawDamage - soakedByArmor);
-      soakedByToughness = Math.min(damageAfterArmor, targetToughness);
-      netDamage = Math.max(0, damageAfterArmor - soakedByToughness);
+      // Canonical rule: All character Stamina is a natural damage reduction (DR)
+      // and automatically reduces all incoming damage which penetrates the characters defenses, minimum of 1 point.
+      if (damageAfterArmor > 0) {
+        if (targetToughness > 0) {
+          netDamage = Math.max(1, damageAfterArmor - targetToughness);
+          soakedByToughness = damageAfterArmor - netDamage;
+        } else {
+          netDamage = damageAfterArmor;
+          soakedByToughness = 0;
+        }
+      } else {
+        netDamage = 0;
+        soakedByToughness = 0;
+      }
 
       // Canonical Damage Routing Rules:
       // - LETHAL DAMAGE: Cuts, burns, high trauma -> Damages HEALTH directly (or STRUCTURE for Synthetics)

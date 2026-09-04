@@ -66,7 +66,7 @@ Combat skills determine offensive weapon accuracy, melee technique, and heavy ar
 
 ## Game Mechanics Rules
 ```
-AttackCheck = d20 + CombatSkillRank + AttributeMod + WeaponBonus vs Target Defense
+AttackCheck = 2d10 + CombatSkillRank + AttributeMod + WeaponBonus vs Target Defense
 Action Economy: Higher Skill Ranks unlock up to 6 attacks per round (see 3.00.01)
 ```
 

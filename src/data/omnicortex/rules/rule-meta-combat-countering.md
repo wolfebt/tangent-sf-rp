@@ -36,7 +36,7 @@ Combat involving metaphysical manifestations follows precise attack and counter-
 
 ## 1. The Attack Roll
 - **Attack Check**: **Attune** is used for the Attack Roll:
-  $$\text{Meta Attack Roll} = d20 + \text{Attune Rank} + \text{Key Ability Mod} + \text{Situational Modifiers}$$
+  $$\text{Meta Attack Roll} = 2d10 + \text{Attune Rank} + \text{Key Ability Mod} + \text{Situational Modifiers}$$
 - **Target Defense**: The defender opposes the attack using standard combat defenses (Reflex / Evasion / Will / Fortitude depending on whether the effect is a projectile, psychic blast, or bio-curse).
 - **Potency Resolution**: Damage, range, and secondary conditions are determined by the active Metafocus Skill and Invocation.
 

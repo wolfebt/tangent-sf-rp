@@ -46,7 +46,7 @@ The metaphysical discipline governing telepathy, psionic force, neural influence
 ### Core Rules & Mechanics
 - **Governing Attribute**: Selected at Awakening (Intellect for Reason/Arcane, Wisdom for Intuition/Faith, Charisma for Dominance/Inherent).
 - **Potency Formula**:
-  $$\text{Potency} = [\text{Key Ability Mod} + \text{Discipline Skill Level} + \text{Invocation Level} + 10 \text{ (or } d20 \text{)}]$$
+  $$\text{Potency} = [\text{Key Ability Mod} + \text{Discipline Skill Level} + \text{Invocation Level} + 10 \text{ (or } 2d10 \text{)}]$$
 - **Damage & Scaling**: 1d6 per Stage achieved with check (Psionic damage bypassing physical armor DR).
 - **Essence Pool Contribution**: Ranks in this discipline's focus skills contribute directly to the character's **Essence Pool** (Breadth component).
 - **Sensory Manifestation**:

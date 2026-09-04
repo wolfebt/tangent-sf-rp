@@ -1040,9 +1040,12 @@ export const FolioProvider = ({ children }) => {
 
     const magicLevel = parseInt(characterData['magic-level'] || 1, 10);
 
-    // Canonical Tangent starting base values: 30 Vitality and 30 Health
+    // Canonical Tangent starting base values: Base 30 for Health, Base 30 for Vitality
+    // Vitality pool is not modified by Willpower. Health pool is not modified by Fortitude.
+    // Both are increased by 5 points per 1 CP with a maximum increase of 5 x Stamina score.
     const baseHealth = 30;
     const baseVitality = 30;
+    const maxStatIncrease = Math.max(0, staminaBase * 5);
     
     // Canonical Tangent starting Karma: 3 points by default
     const baseKarma = 3;
@@ -1075,20 +1078,20 @@ export const FolioProvider = ({ children }) => {
 
     const maxKarma = Math.max(0, baseKarma + karmicBlessingBonus - hindranceKarmaPenalty);
 
-    // Suggested maximum at character creation is 60 each
-    const maxAllowed = 60;
+    // Suggested maximum at character creation accommodates baseline + purchases
+    const maxAllowed = 120;
     
     const currentHealth = parseInt(characterData['health'], 10);
     const currentVitality = parseInt(characterData['vitality'], 10);
 
     let purchasedHealth = 0;
     if (!isNaN(currentHealth) && currentHealth > baseHealth) {
-      purchasedHealth = currentHealth - baseHealth;
+      purchasedHealth = Math.min(currentHealth - baseHealth, maxStatIncrease);
     }
 
     let purchasedVitality = 0;
     if (!isNaN(currentVitality) && currentVitality > baseVitality) {
-      purchasedVitality = currentVitality - baseVitality;
+      purchasedVitality = Math.min(currentVitality - baseVitality, maxStatIncrease);
     }
 
     // Structure is calculated by combining Vitality and Health for non-typical anatomies
@@ -1104,7 +1107,9 @@ export const FolioProvider = ({ children }) => {
       speciesStr.includes('elemental') ||
       archetypeStr.includes('synthetic');
 
-    const totalStructure = (isNaN(currentHealth) ? baseHealth : currentHealth) + (isNaN(currentVitality) ? baseVitality : currentVitality);
+    const effectiveHealth = baseHealth + purchasedHealth;
+    const effectiveVitality = baseVitality + purchasedVitality;
+    const totalStructure = effectiveHealth + effectiveVitality;
 
     const speciesRestProfile = getSpeciesRestProfile(characterData);
     const lightRestsToday = parseInt(characterData.light_rests_today || 0, 10);
@@ -1112,8 +1117,13 @@ export const FolioProvider = ({ children }) => {
     return {
       health: baseHealth,
       vitality: baseVitality,
-      maxHealth: isNaN(currentHealth) ? baseHealth : Math.max(baseHealth, currentHealth),
-      maxVitality: isNaN(currentVitality) ? baseVitality : Math.max(baseVitality, currentVitality),
+      stamina: staminaBase,
+      staminaDR: staminaBase,
+      maxStatIncrease,
+      fortitude,
+      will,
+      maxHealth: effectiveHealth,
+      maxVitality: effectiveVitality,
       karma: maxKarma,
       maxKarma,
       maxKarmaDebt,

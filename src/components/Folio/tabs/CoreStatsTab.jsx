@@ -284,8 +284,12 @@ const CoreStatsTab = () => {
 
   const handleStatChange = (id, val) => {
     let newVal = parseInt(val, 10) || 0;
-    if (newVal > derivedStats.maxAllowed) {
-      newVal = derivedStats.maxAllowed;
+    const minVal = id === 'health' ? (derivedStats?.health || 30) : id === 'vitality' ? (derivedStats?.vitality || 30) : 0;
+    if (newVal < minVal) {
+      newVal = minVal;
+    }
+    if (newVal > (derivedStats?.maxAllowed || 120)) {
+      newVal = derivedStats?.maxAllowed || 120;
     }
     updateField(id, newVal);
   };
@@ -1027,18 +1031,18 @@ const CoreStatsTab = () => {
                 </FolioTooltip>
 
                 <FolioTooltip
-                  title="Toughness"
-                  badge="Damage Buffer"
+                  title="Natural DR (Toughness)"
+                  badge="Stamina DR"
                   badgeColor="emerald"
-                  description="Physical damage mitigation derived from Stamina. Directly reduces incoming lethal and non-lethal wound damage point-for-point."
-                  formula={`Toughness = Stamina Total (${derivedStats?.toughness ?? 0})`}
-                  tags={['Stamina', 'Damage Reduction', 'Armor Buffer']}
+                  description="All character Stamina is a natural damage reduction (DR) and automatically reduces all incoming damage which penetrates the character's defenses, minimum of 1 point."
+                  formula={`Natural DR = Stamina Total (${derivedStats?.stamina ?? derivedStats?.toughness ?? 0})`}
+                  tags={['Stamina', 'Natural DR', 'Min 1 Point']}
                 >
-                  <div className="flex items-center justify-between bg-slate-800/60 px-3 py-2.5 rounded border border-emerald-900/40 min-h-[52px] w-full hover:border-emerald-400 transition-colors" title="Stamina Ability Score determines base Toughness, reducing wound damage point-for-point">
+                  <div className="flex items-center justify-between bg-slate-800/60 px-3 py-2.5 rounded border border-emerald-900/40 min-h-[52px] w-full hover:border-emerald-400 transition-colors" title="All character Stamina is a natural damage reduction (DR) and automatically reduces all incoming damage which penetrates defenses, minimum of 1 point.">
                     <label className="text-xs font-bold uppercase tracking-wider text-emerald-400">
-                      Toughness
+                      Natural DR (STA)
                     </label>
-                    <span className="text-lg font-bold text-emerald-300 font-mono">+{derivedStats?.toughness ?? 0}</span>
+                    <span className="text-lg font-bold text-emerald-300 font-mono">+{derivedStats?.stamina ?? derivedStats?.toughness ?? 0}</span>
                   </div>
                 </FolioTooltip>
               </div>
@@ -1047,24 +1051,24 @@ const CoreStatsTab = () => {
               <div className="space-y-2.5">
                 <FolioTooltip
                   title="Vitality (Non-Lethal)"
-                  badge="Stamina & Guard"
+                  badge="Non-Lethal Capacity"
                   badgeColor="cyan"
-                  description="Combat guard, dodging stamina, and superficial bruises before taking real tissue damage. Absorbs damage before Health."
-                  formula={`Base: 30 + Purchased: ${derivedStats.purchasedVitality || 0}`}
-                  cost="1 AP/CP = +10 Vit"
-                  tags={['Non-Lethal', 'Stamina', 'Guard']}
+                  description="Combat poise, dodging stamina, and non-lethal stress buffer. Absorbs non-lethal damage directly. When non-lethal damage exceeds Vitality, excess spills into Health as lethal damage."
+                  formula={`Base: 30 + Purchased: ${derivedStats?.purchasedVitality || 0} (Max Increase: ${derivedStats?.maxStatIncrease ?? ((derivedStats?.stamina || 0) * 5)})`}
+                  cost="1 CP = +5 Vitality (Max: 5 × STA)"
+                  tags={['Non-Lethal', 'Vitality Buffer', 'Base 30']}
                 >
                   <div className="flex flex-col relative group w-full">
                     <FolioInput
                       id="vitality"
                       label="Vitality (Non-Lethal)"
                       type="number"
-                      value={getNum('vitality', 30)}
+                      value={getNum('vitality', derivedStats?.vitality || 30)}
                       onChange={handleStatChange}
                       labelColor="text-slate-300"
-                      inputClassName={`px-3 py-1.5 text-sm font-mono border ${derivedStats.purchasedVitality > 0 ? 'bg-indigo-950 border-indigo-500/50' : 'bg-slate-900 border-slate-700'}`}
+                      inputClassName={`px-3 py-1.5 text-sm font-mono border ${derivedStats?.purchasedVitality > 0 ? 'bg-indigo-950 border-indigo-500/50' : 'bg-slate-900 border-slate-700'}`}
                     />
-                    {derivedStats.purchasedVitality > 0 && (
+                    {derivedStats?.purchasedVitality > 0 && (
                       <div className="absolute top-0 right-0 text-[9px] font-bold text-indigo-300 bg-indigo-900/80 px-1.5 py-0.5 rounded-bl">
                         +{derivedStats.purchasedVitality} (Purchased)
                       </div>
@@ -1076,22 +1080,22 @@ const CoreStatsTab = () => {
                   title="Health (Lethal)"
                   badge="Physical Integrity"
                   badgeColor="rose"
-                  description="Core bodily tissue and organ integrity. Depleted by lethal strikes and bleed-through. Falling to 0 results in Incapacitation or Dying."
-                  formula={`Base: 30 + Purchased: ${derivedStats.purchasedHealth || 0}`}
-                  cost="1 AP/CP = +5 Health"
-                  tags={['Lethal', 'Bleeding Out', 'Vitals']}
+                  description="Core bodily tissue and organ integrity. Depleted directly by lethal strikes or when non-lethal damage overflows depleted Vitality. Falling to 0 results in Incapacitation or Dying."
+                  formula={`Base: 30 + Purchased: ${derivedStats?.purchasedHealth || 0} (Max Increase: ${derivedStats?.maxStatIncrease ?? ((derivedStats?.stamina || 0) * 5)})`}
+                  cost="1 CP = +5 Health (Max: 5 × STA)"
+                  tags={['Lethal', 'Physical Integrity', 'Base 30']}
                 >
                   <div className="flex flex-col relative group w-full">
                     <FolioInput
                       id="health"
                       label="Health (Lethal)"
                       type="number"
-                      value={getNum('health', 30)}
+                      value={getNum('health', derivedStats?.health || 30)}
                       onChange={handleStatChange}
                       labelColor="text-slate-300"
-                      inputClassName={`px-3 py-1.5 text-sm font-mono border ${derivedStats.purchasedHealth > 0 ? 'bg-indigo-950 border-indigo-500/50' : 'bg-slate-900 border-slate-700'}`}
+                      inputClassName={`px-3 py-1.5 text-sm font-mono border ${derivedStats?.purchasedHealth > 0 ? 'bg-indigo-950 border-indigo-500/50' : 'bg-slate-900 border-slate-700'}`}
                     />
-                    {derivedStats.purchasedHealth > 0 && (
+                    {derivedStats?.purchasedHealth > 0 && (
                       <div className="absolute top-0 right-0 text-[9px] font-bold text-indigo-300 bg-indigo-900/80 px-1.5 py-0.5 rounded-bl">
                         +{derivedStats.purchasedHealth} (Purchased)
                       </div>

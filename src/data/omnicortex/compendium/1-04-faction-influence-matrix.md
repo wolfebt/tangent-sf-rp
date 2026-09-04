@@ -59,7 +59,7 @@ Factions in Tangent range from local criminal syndicates to galaxy-spanning inte
 
 ## Game Mechanics Rules
 ```
-Faction Standing Check: d20 + Charisma + Faction Reputation Rank vs DC 15.
+Faction Standing Check: 2d10 + Charisma + Faction Reputation Rank vs DC 15.
 Bespoke Requisition: High faction standing grants a 20% discount on military hardware.
 ```
 

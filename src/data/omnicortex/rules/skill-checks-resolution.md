@@ -3,7 +3,7 @@ id: skill-checks-resolution
 name: Skill Checks & Difficulty Resolution
 category: rules
 summary: >-
-  The d20 resolution formula, Challenge Rating ladder, opposed checks, and
+  The 2d10 resolution formula, Challenge Rating ladder, opposed checks, and
   Taking 10/20.
 costs:
   bp: 0
@@ -31,7 +31,7 @@ sockets:
 
 ## The Core Skill Check Formula
 ```
-Check Result = d20 + Skill Rank + Governing Ability Score Modifier + Situational Modifiers
+Check Result = 2d10 + Skill Rank + Governing Ability Score Modifier + Situational Modifiers
 ```
 If the Check Result meets or exceeds the target Challenge Rating (CR) or Difficulty Class (DC), the action succeeds.
 
@@ -46,5 +46,5 @@ If the Check Result meets or exceeds the target Challenge Rating (CR) or Difficu
 - **Miraculous (DC 35+)**: Defying probability (convincing a fanatic to surrender).
 
 ## Taking 10 and Taking 20
-- **Taking 10**: In non-stressful situations, take a fixed result of 10 instead of rolling d20.
+- **Taking 10**: In non-stressful situations, take a fixed result of 10 instead of rolling 2d10.
 - **Taking 20**: When facing no immediate danger and multiple attempts carry no penalty, take 20 (representing 20x time expenditure).

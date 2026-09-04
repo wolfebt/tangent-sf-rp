@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Stage, Layer, Rect, Circle, Text as KonvaText, Line, RegularPolygon, Image as KonvaImage, Group } from 'react-konva';
 import { useCampaign, formatExportFilename } from '../../../context/CampaignContext';
 import { v4 as uuidv4 } from 'uuid';
@@ -210,8 +211,14 @@ const MapPane = ({ mapExportPngRef }) => {
   const [textColor, setTextColor] = useState(TEXT_COLORS[0]);
   const [textSize, setTextSize] = useState(24);
   const [fogEnabled, setFogEnabled] = useState(false);
+  // Dynamic Light Tool State
+  const [selectedLightColor, setSelectedLightColor] = useState('#f59e0b');
+  const [selectedLightRadius, setSelectedLightRadius] = useState(180);
+  const [selectedLightAnimation, setSelectedLightAnimation] = useState('flicker');
   const [isUvttModalOpen, setIsUvttModalOpen] = useState(false);
   const [radialMenuState, setRadialMenuState] = useState({ isOpen: false, position: { x: 0, y: 0 }, token: null });
+
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const {
     universeState,
@@ -227,6 +234,28 @@ const MapPane = ({ mapExportPngRef }) => {
     updateCustomObject,
     deleteCustomObject
   } = useCampaign();
+
+  // Bi-directional synchronization with ?mapId= URL parameter
+  useEffect(() => {
+    const urlMapId = searchParams.get('mapId');
+    if (urlMapId && urlMapId !== activeMapId) {
+      const exists = universeState?.maps?.some(m => m.id === urlMapId);
+      if (exists) {
+        setActiveMapId(urlMapId);
+      }
+    }
+  }, [searchParams, universeState?.maps]);
+
+  useEffect(() => {
+    if (activeMapId && searchParams.get('mapId') !== activeMapId) {
+      setSearchParams(prev => {
+        const next = new URLSearchParams(prev);
+        next.set('mapId', activeMapId);
+        return next;
+      }, { replace: true });
+    }
+  }, [activeMapId]);
+
   const [selectedId, setSelectedId] = useState(null);
 
   // VTT Tactical Role, Teams, System Options & Ping State
@@ -355,10 +384,11 @@ const MapPane = ({ mapExportPngRef }) => {
   const objects = currentMap?.objects || [];
   const texts = currentMap?.texts || [];
   const walls = currentMap?.walls || [];
+  const lights = currentMap?.lights || [];
   const fog = currentMap?.fog || [];
   const mapLayers = currentMap?.layers || DEFAULT_LAYERS;
   const { undoStack, redoStack, recordHistory, handleUndo, handleRedo } = useMapHistory({
-    currentMap, lines, tokens, terrains, objects, texts, walls, fog, mapLayers, updateMap, activeMapId
+    currentMap, lines, tokens, terrains, objects, texts, walls, lights, fog, mapLayers, updateMap, activeMapId
   });
 
   const {
@@ -369,9 +399,10 @@ const MapPane = ({ mapExportPngRef }) => {
     zoomBy, panBy
   } = useMapCanvasEvents({
     currentMap, activeMapId, updateMap, recordHistory,
-    activeTool, lines, terrains, walls, fog, objects, tokens, texts,
+    activeTool, lines, terrains, walls, fog, objects, tokens, texts, lights,
     pencilColor, pencilWidth, selectedTerrain, terrainWidth, selectedObjectType,
     selectedWallType, doorLockDc,
+    selectedLightColor, selectedLightRadius, selectedLightAnimation,
     tokenType, tokenLabelInput, tokenOmnicortexData, textLabelInput, textColor, textSize
   });
 
@@ -582,7 +613,7 @@ const MapPane = ({ mapExportPngRef }) => {
       const maxVitality = parseInt(item.maxVitality || curVitality, 10);
       const curStructure = parseInt(item.structure || curHealth + curVitality, 10);
       const maxStructure = parseInt(item.maxStructure || curStructure, 10);
-      const derivedInit = item.agility ? Math.floor((parseInt(item.agility, 10) - 10) / 2) : (item.initiative || 10);
+      const derivedInit = item.agility ? parseInt(item.agility, 10) : (item.initiative || 10);
 
       const newUnitToken = {
         id: `token_omnicortex_${item.id || Date.now()}_${Math.floor(Math.random()*1000)}`,
@@ -658,7 +689,7 @@ const MapPane = ({ mapExportPngRef }) => {
         const canvasX = (mouseX - position.x) / scale;
         const canvasY = (mouseY - position.y) / scale;
 
-        const derivedInitiative = data.agility ? Math.floor((data.agility - 10) / 2) : 10;
+        const derivedInitiative = data.agility ? parseInt(data.agility, 10) : 10;
         const curHealth = data.currentHealth !== undefined ? data.currentHealth : (data.maxHealth || data.currentHp || 30);
         const maxHealth = data.maxHealth || data.maxHp || 30;
         const curVitality = data.currentVitality !== undefined ? data.currentVitality : (data.maxVitality || 30);
@@ -731,7 +762,7 @@ const MapPane = ({ mapExportPngRef }) => {
 
     const centerX = (-position.x + stageSize.width / 2) / scale;
     const centerY = (-position.y + stageSize.height / 2) / scale;
-    const derivedInitiative = data.agility ? Math.floor((data.agility - 10) / 2) : 10;
+    const derivedInitiative = data.agility ? parseInt(data.agility, 10) : 10;
     const curHealth = data.currentHealth !== undefined ? data.currentHealth : (data.maxHealth || data.currentHp || 30);
     const maxHealth = data.maxHealth || data.maxHp || 30;
     const curVitality = data.currentVitality !== undefined ? data.currentVitality : (data.maxVitality || 30);
@@ -942,6 +973,7 @@ const MapPane = ({ mapExportPngRef }) => {
       terrains: terrains.filter(t => t.id !== id),
       walls: walls.filter(w => w.id !== id),
       objects: objects.filter(item => item.id !== id),
+      lights: lights.filter(item => item.id !== id),
       texts: texts.filter(item => item.id !== id),
       fog: fog.filter(item => item.id !== id)
     });
@@ -950,7 +982,7 @@ const MapPane = ({ mapExportPngRef }) => {
 
   const handleClearMap = () => {
     recordHistory();
-    updateMap(activeMapId, { lines: [], terrains: [], walls: [], objects: [], texts: [], fog: [] });
+    updateMap(activeMapId, { lines: [], terrains: [], walls: [], objects: [], lights: [], texts: [], fog: [] });
   };
 
   const handleExportPNG = () => {
@@ -1496,8 +1528,8 @@ const MapPane = ({ mapExportPngRef }) => {
         );
       })()}
 
-      {/* Canvas + Floating Toolboxes Container */}
-      <div className="flex-1 overflow-hidden relative">
+      {/* Studio Work Area: Docked VTT Left Menu + Canvas Container */}
+      <div className="flex-1 flex overflow-hidden relative">
 
         <MapToolsPanel
           showToolsPanel={showToolsPanel} setShowToolsPanel={setShowToolsPanel}
@@ -1522,9 +1554,15 @@ const MapPane = ({ mapExportPngRef }) => {
           fogEnabled={fogEnabled} setFogEnabled={setFogEnabled}
           currentMapScale={currentMap?.type || 'Planetary'}
           customAssets={universeState.customAssets || { terrains: [], objects: [] }}
+          selectedLightColor={selectedLightColor} setSelectedLightColor={setSelectedLightColor}
+          selectedLightRadius={selectedLightRadius} setSelectedLightRadius={setSelectedLightRadius}
+          selectedLightAnimation={selectedLightAnimation} setSelectedLightAnimation={setSelectedLightAnimation}
           onOpenAssetManager={() => setIsAssetManagerOpen(true)}
           onOpenHeroDrawer={() => setShowHeroDrawer(true)}
           onOpenOmnicortexDrawer={() => setShowOmnicortexDrawer(true)}
+          onOpenLandmassGenerator={() => setIsLandmassModalOpen(true)}
+          onOpenUvttImport={() => setIsUvttModalOpen(true)}
+          onOpenLayersPanel={() => setShowLayersPanel(true)}
         />
 
         <MapLayersPanel
@@ -1629,7 +1667,7 @@ const MapPane = ({ mapExportPngRef }) => {
             e.dataTransfer.dropEffect = 'copy';
           }}
           onDrop={handleStageDrop}
-          className={`w-full h-full relative ${activeTool === 'select' ? 'cursor-grab active:cursor-grabbing' : (activeTool === 'eraser' ? 'cursor-pointer' : 'cursor-crosshair')}`}
+          className={`flex-1 h-full min-w-0 relative ${activeTool === 'select' ? 'cursor-grab active:cursor-grabbing' : (activeTool === 'eraser' ? 'cursor-pointer' : 'cursor-crosshair')}`}
         >
           <FloatingCombatText activeFloats={activeFloats} />
 
@@ -1788,6 +1826,57 @@ const MapPane = ({ mapExportPngRef }) => {
                   )}
                 </Layer>
               )}
+
+              {/* Layer 2.75: Dynamic Lights & Ambient Luminance Emitters */}
+              <Layer id="layer_lights">
+                {lights.map((lt) => (
+                  <Group
+                    key={lt.id}
+                    x={lt.x}
+                    y={lt.y}
+                    draggable={activeTool === 'select' && !isLayerLocked('layer_objects')}
+                    onClick={() => {
+                      if (activeTool === 'eraser') eraseElement(lt.id);
+                      else if (activeTool === 'select') setSelectedId(lt.id);
+                    }}
+                    onDragEnd={(e) => {
+                      const nextLights = produce(lights, draft => {
+                        const idx = draft.findIndex(item => item.id === lt.id);
+                        if (idx !== -1) {
+                          draft[idx].x = e.target.x();
+                          draft[idx].y = e.target.y();
+                        }
+                      });
+                      updateMap(activeMapId, { lights: nextLights });
+                    }}
+                  >
+                    {/* Outer ambient glow halo */}
+                    <Circle
+                      radius={lt.radius || 180}
+                      fill={lt.color || '#f59e0b'}
+                      opacity={lt.id === selectedId ? 0.28 : 0.18}
+                      listening={false}
+                    />
+                    {/* Inner illumination ring */}
+                    <Circle
+                      radius={(lt.radius || 180) * 0.45}
+                      fill={lt.color || '#f59e0b'}
+                      opacity={0.35}
+                      listening={false}
+                    />
+                    {/* Emitter source center point */}
+                    <Circle
+                      radius={10}
+                      fill="#ffffff"
+                      stroke={lt.color || '#f59e0b'}
+                      strokeWidth={3}
+                      shadowColor={lt.color || '#f59e0b'}
+                      shadowBlur={12}
+                      shadowOpacity={0.9}
+                    />
+                  </Group>
+                ))}
+              </Layer>
 
               {/* Layer 3: Annotations, Tokens, Units & Tactical Radar Pings */}
               <Layer id="layer_entities">

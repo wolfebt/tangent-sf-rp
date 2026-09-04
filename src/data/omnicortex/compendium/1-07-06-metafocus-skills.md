@@ -64,7 +64,7 @@ Characters possessing Rank 1+ in any Discipline skill can execute minor non-dama
 ## Game Mechanics Rules
 ```
 Spell Resistance DC = 10 + KeyAbilityMod + AttuneRank + InvocationLevel
-Discipline Check = d20 + DisciplineRank + KeyAbilityMod (determines severity & damage)
+Discipline Check = 2d10 + DisciplineRank + KeyAbilityMod (determines severity & damage)
 ```
 
 ## Gameplay Instructions

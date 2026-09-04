@@ -51,7 +51,7 @@ Role-Playing Games in Tangent provide a collaborative narrative experience where
 
 ## Game Mechanics Rules
 ```
-Check Formula: d20 + Skill Rank + Attribute Mod + Situational Modifiers vs DC
+Check Formula: 2d10 + Skill Rank + Attribute Mod + Situational Modifiers vs DC
 Degree of Success: Success by 5+ grants Critical Impact; Failure by 5+ incurs Complications
 ```
 

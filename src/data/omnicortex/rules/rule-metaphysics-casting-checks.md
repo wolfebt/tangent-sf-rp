@@ -49,7 +49,7 @@ Metaphysical actions are resolved through the distinct interplay of the **Attune
 - **Bonus**: Invocation Levels are added directly to the Discipline Skill checks they are based on *(Invocations are considered Discipline Specializations)*.
 - **Operational Safety**: The user effectively **"Takes 10"** by default on the Discipline check:
   $$\text{Default Potency} = \text{Key Ability Mod} + \text{Discipline Skill Level} + \text{Invocation Level} + 10$$
-- A roll (using $d20$ instead of 10) may still be voluntarily attempted if a higher result is desired.
+- A roll (using $2d10$ instead of 10) may still be voluntarily attempted if a higher result is desired.
 
 ---
 
