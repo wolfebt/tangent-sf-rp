@@ -1,4 +1,8 @@
 
+map maker menu bar is cluttered and needs reworked and organized in an intelligent form
+
+
+combat rules update
 aiming bonus up to half the attack skill (including specialization or invocation).
 a target with no defense (ambush, immobile, coup de grace, etc) will suffer additional damage equal to half the amount of what the attack succeeded by.
 ---------------------------------------------------------

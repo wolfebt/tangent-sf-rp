@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file migrate_omnicortex_schema.mjs
  * @description Stage 8 Omnicortex & Folio Data Migration CLI Runner.
  * Executes chunked batch commits (<= 500 writes) with exponential backoff,
@@ -117,8 +117,8 @@ export async function runMigration(documents, options = { dryRun: false, verbose
 }
 
 // CLI entrypoint execution when run via `node migrate_omnicortex_schema.mjs`
-if (process.argv[1]?.endsWith('migrate_omnicortex_schema.mjs')) {
-  const isDryRun = process.argv.includes('--dry-run');
+if (typeof process !== 'undefined' && process?.argv?.[1]?.endsWith('migrate_omnicortex_schema.mjs')) {
+  const isDryRun = process?.argv?.includes('--dry-run') ?? false;
   // Sample test run with 150 simulated legacy documents
   const mockDocs = Array.from({ length: 150 }).map((_, i) => ({
     id: `legacy-${i + 1}`,
