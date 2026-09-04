@@ -1,0 +1,3 @@
+## 2024-05-30 - [Memoizing Virtualized Lists]
+**Learning:** Virtualized lists often pass inline functions for rendering items (like `renderItem`). Using `React.memo` on the underlying row components prevents massive re-renders when the parent components update or the user scrolls (which triggers state updates in the parent). Wait, actually, the virtualized list component `VirtualizedList` evaluates `renderItem(item, index)` on scroll. Since `actualIndex` changes the top position of the div wrapper, but the `renderItem` returns a component tree, `React.memo` efficiently bails out.
+**Action:** Always wrap row components in `React.memo` when rendering virtualized lists or large tables.

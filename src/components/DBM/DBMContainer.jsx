@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { categoryConfig } from './categoryConfig';
 import { db } from '../../firebase';
@@ -227,13 +227,14 @@ export const DBMContainer = () => {
   }, [currentItems, filterTypes, filterSubtypes, filterTLs, filterMLs, filterTags, searchTerm, sortField, sortAsc]);
 
   // Entry Management Logic
-  const handleOpenItem = (item, edit = isAdmin) => {
+  const handleOpenItem = useCallback((item, edit = isAdmin) => {
     setSelectedItem(item);
     setEditFormData(item ? { ...item } : { name: '', description: '' });
-    // In Dev Mode (isAdmin), directly open in Manage mode. Non-admins open in read-only View mode.
     setIsEditMode(isAdmin ? true : false);
     setIsEntryModalOpen(true);
-  };
+  }, [isAdmin]);
+
+// In Dev Mode (isAdmin), directly open in Manage mode. Non-admins open in read-only View mode.
 
   const handleCreateNew = async () => {
     if (!isAdmin) {
