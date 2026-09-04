@@ -8,6 +8,7 @@
 import React, { useState, useRef } from 'react';
 import { StageBreadcrumbTabs } from './StageBreadcrumbTabs';
 import { TokenContextualPill } from './TokenContextualPill';
+import { StageSplitView, type SplitTabType } from './StageSplitView';
 import StageView from '../StageView';
 import type { StageViewProps } from '../StageView';
 import { useCampaign } from '../../../context/CampaignContext';
@@ -26,6 +27,8 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
 }) => {
   const { universeState, activeMapId, setActiveMapId, updateMap } = useCampaign();
   const [isDraggingOver, setIsDraggingOver] = useState(false);
+  const [isSplitOpen, setIsSplitOpen] = useState(false);
+  const [activeSplitTab, setActiveSplitTab] = useState<SplitTabType>('folio');
   const viewportRef = useRef<HTMLDivElement>(null);
 
   // Handle Drag & Drop Token Spawning directly onto The Stage
@@ -61,6 +64,7 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
       const newId = `${data.id || 'token'}-${Date.now()}`;
       const staticToken = {
         id: newId,
+        character_doc_id: data.id || data.heroId || data['character-doc-id'],
         name: data.name || data.title || 'Operative',
         base_hp: data.hp || 35,
         tech_level: data.tech_level || 3,
@@ -93,7 +97,10 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
   };
 
   return (
-    <div className="relative w-full h-full flex flex-col bg-[#050811] overflow-hidden select-none">
+    <div 
+      className="relative w-full h-full flex flex-col bg-[#050811] overflow-hidden select-none"
+      onContextMenu={(e) => e.preventDefault()}
+    >
       {/* Two-Tiered Breadcrumb & Scene Tab Bar */}
       <StageBreadcrumbTabs
         currentMapId={activeMapId || ''}
@@ -102,34 +109,46 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
         }}
         onOpenMapMaker={onOpenMapMaker}
         onOpenUnderlayModal={onOpenUnderlayModal}
+        isSplitOpen={isSplitOpen}
+        onToggleSplit={() => {
+          setIsSplitOpen(prev => !prev);
+          AudioService.playTerminalBeep(!isSplitOpen ? 1100 : 700, 0.04);
+        }}
       />
 
-      {/* Center WebGPU / Pixi Stage Canvas Viewport Dropzone */}
-      <div 
-        ref={viewportRef}
-        onDragOver={handleDragOver}
-        onDragEnter={handleDragEnter}
-        onDragLeave={handleDragLeave}
-        onDrop={handleDrop}
-        className={`relative flex-1 w-full h-full overflow-hidden transition-all ${
-          isDraggingOver ? 'ring-2 ring-inset ring-cyan-400 bg-cyan-950/10' : ''
-        }`}
+      {/* Center WebGPU / Pixi Stage Canvas Viewport Dropzone inside Split View */}
+      <StageSplitView
+        isOpen={isSplitOpen}
+        onClose={() => setIsSplitOpen(false)}
+        activeTab={activeSplitTab}
+        onSelectTab={setActiveSplitTab}
       >
-        <StageView {...stageProps} />
+        <div 
+          ref={viewportRef}
+          onDragOver={handleDragOver}
+          onDragEnter={handleDragEnter}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}
+          className={`relative w-full h-full overflow-hidden transition-all ${
+            isDraggingOver ? 'ring-2 ring-inset ring-cyan-400 bg-cyan-950/10' : ''
+          }`}
+        >
+          <StageView {...stageProps} />
 
-        {/* Drop Target HUD Banner */}
-        {isDraggingOver && (
-          <div className="absolute inset-0 pointer-events-none flex items-center justify-center bg-cyan-950/20 backdrop-blur-[1px] z-50 animate-pulse">
-            <div className="px-5 py-2.5 rounded-xl border border-cyan-400/80 bg-slate-950/90 shadow-[0_0_30px_rgba(34,211,238,0.4)] text-cyan-300 font-mono text-sm tracking-wider flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping" />
-              DROP TO DEPLOY TOKEN TO STAGE COORDINATES
+          {/* Drop Target HUD Banner */}
+          {isDraggingOver && (
+            <div className="absolute inset-0 pointer-events-none flex items-center justify-center bg-cyan-950/20 backdrop-blur-[1px] z-50 animate-pulse">
+              <div className="px-5 py-2.5 rounded-xl border border-cyan-400/80 bg-slate-950/90 shadow-[0_0_30px_rgba(34,211,238,0.4)] text-cyan-300 font-mono text-sm tracking-wider flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping" />
+                DROP TO DEPLOY TOKEN TO STAGE COORDINATES
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Floating Contextual Action Pill (Fitts's Law on-canvas token HUD) */}
-        <TokenContextualPill />
-      </div>
+          {/* Floating Contextual Action Pill (Fitts's Law on-canvas token HUD) */}
+          <TokenContextualPill />
+        </div>
+      </StageSplitView>
     </div>
   );
 };

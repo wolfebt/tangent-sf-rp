@@ -72,6 +72,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
     const newId = `${entity.id}-${Date.now()}`;
     const staticToken = {
       id: newId,
+      character_doc_id: entity.id,
       name: entity.name,
       base_hp: entity.hp || 30,
       tech_level: 3,

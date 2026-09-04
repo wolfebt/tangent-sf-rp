@@ -13,35 +13,30 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import {
-  useEngineStore,
-  selectFusedToken,
-  selectAllFusedTokens,
-  CoordinateEngine,
-  GridType,
-  GridScaleTier,
-  TANGENT_BASE_CELL_FT,
-  TANGENT_BASE_MOVEMENT_FT,
-  FrustumChunkManager,
-  GCMonitor,
-  BVHBuilder,
-  WGSLComputeContext,
-  FUSED_VISION_WGSL,
-  InteractiveObjectManager,
-  NVectorCalculator,
-  AstrogationGenerator,
-  BSPDeckplanGenerator,
-  CharacterBuilder,
-  CombatArbitrator,
-  SkillRank,
-  SizeCategory,
-  DamagePipeline,
-  MechaSocketManager,
-  TechLevel,
-  DiceASTParser,
-  QuickJSSandbox,
-  EssenceTracker
-} from '../../src/engine/index.ts';
+import { useEngineStore, selectFusedToken, selectAllFusedTokens } from '../../src/engine/state/VolatileSharder.ts';
+import { 
+  CoordinateEngine, 
+  GridType, 
+  GridScaleTier, 
+  TANGENT_BASE_CELL_FT, 
+  TANGENT_BASE_MOVEMENT_FT 
+} from '../../src/engine/math/CoordinateEngine.ts';
+import { FrustumChunkManager } from '../../src/engine/canvas/FrustumChunkManager.ts';
+import { GCMonitor } from '../../src/engine/memory/GCMonitor.ts';
+import { BVHBuilder } from '../../src/engine/vision/BVHBuilder.ts';
+import { WGSLComputeContext } from '../../src/engine/vision/WGSLComputeContext.ts';
+import { FUSED_VISION_WGSL } from '../../src/engine/vision/shaders/fused_vision.wgsl.ts';
+import { InteractiveObjectManager } from '../../src/engine/assets/InteractiveObjectManager.ts';
+import { NVectorCalculator } from '../../src/engine/cartography/NVectorCalculator.ts';
+import { AstrogationGenerator } from '../../src/engine/cartography/AstrogationGenerator.ts';
+import { BSPDeckplanGenerator } from '../../src/engine/cartography/BSPDeckplanGenerator.ts';
+import { CharacterBuilder } from '../../src/engine/rules/CharacterBuilder.ts';
+import { CombatArbitrator, SkillRank, SizeCategory } from '../../src/engine/rules/CombatArbitrator.ts';
+import { DamagePipeline } from '../../src/engine/rules/DamagePipeline.ts';
+import { MechaSocketManager, TechLevel } from '../../src/engine/rules/MechaSocketManager.ts';
+import { DiceASTParser } from '../../src/engine/math/DiceASTParser.ts';
+import { QuickJSSandbox } from '../../src/engine/scripting/QuickJSSandbox.ts';
+import { EssenceTracker } from '../../src/engine/rules/EssenceTracker.ts';
 
 test('E2E Pipeline: Unified Next-Gen VTT Simulation on The Stage', async () => {
   console.log('[E2E Test] Starting full pipeline verification...');

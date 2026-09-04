@@ -36,7 +36,7 @@ const DEFAULT_UNIVERSE_STATE = {
       id: 'elem_default_overview',
       title: 'Universe Overview',
       type: 'Scenario',
-      content: '<p>Welcome to Tangent Story Foundry. Build your world using interactive elements.</p>',
+      content: '',
       children: []
     }
   ],

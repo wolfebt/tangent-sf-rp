@@ -16,27 +16,11 @@ export const InteractiveStoryStudio = ({ activeNode }) => {
   const { roster } = useFolio();
 
   // Active Series / Volume / Chapter tracker
-  const [selectedVolume, setSelectedVolume] = useState('Volume I: The Perimeter Breach');
-  const [chapterTitle, setChapterTitle] = useState(activeNode?.title || 'Chapter 1: The Derelict Station');
+  const [selectedVolume, setSelectedVolume] = useState('Volume 1');
+  const [chapterTitle, setChapterTitle] = useState(activeNode?.title || 'Chapter 1');
 
-  // Interactive Story Beats Feed
-  const [beats, setBeats] = useState([
-    {
-      id: 'beat_init_1',
-      beatIndex: 1,
-      content: 'The airlock hiss dies into the hollow hum of auxiliary reactor coils. Your boots strike frosted durasteel deckplates, kicking up crystallised coolant dust that catches the cyan flicker of dying emergency luminaires. Ahead, the corridor splits: to the starboard, an illuminated security bulkhead marked SECTOR-7; to the port, a decommissioned maintenance duct whispering with low-frequency airflow.',
-      gate: {
-        prompt: 'How do you proceed past the junction?',
-        options: [
-          { id: 'opt_1', text: 'Approach the starboard security console and slice into the local subnet.', skill: 'Tech (DC 13)' },
-          { id: 'opt_2', text: 'Pry open the port maintenance conduit and slip through the utility ducts.', skill: 'Agility / Stealth (DC 12)' },
-          { id: 'opt_3', text: 'Ready carbines and broadcast an encrypted ping on the station comm-channel.', skill: 'Tactical (Perception DC 14)' }
-        ],
-        chosenOption: null
-      },
-      timestamp: new Date().toISOString()
-    }
-  ]);
+  // Interactive Story Beats Feed (starts empty without mock data)
+  const [beats, setBeats] = useState([]);
 
   // Current Input & Interactive Decision State
   const [customActionInput, setCustomActionInput] = useState('');
@@ -234,51 +218,8 @@ Option 3: (action description)
       lines: [],
       terrains: [],
       walls: [],
-      objects: [
-        {
-          id: `obj_terminal_${Date.now()}`,
-          label: 'Data Terminal',
-          type: 'terminal',
-          shape: 'rect',
-          color: '#22d3ee',
-          x: 400,
-          y: 400,
-          width: 50,
-          height: 50
-        },
-        {
-          id: `obj_trap_${Date.now()}`,
-          label: 'Proximity Plasma Trap',
-          type: 'hazard',
-          isTrap: true,
-          shape: 'circle',
-          color: '#ef4444',
-          x: 550,
-          y: 400,
-          radius: 35,
-          saveDc: 14
-        }
-      ],
-      tokens: [
-        {
-          id: `token_npc_${Date.now()}`,
-          label: 'Station Sentry',
-          type: 'hostile',
-          x: 650,
-          y: 400,
-          radius: 35,
-          fill: '#ef4444',
-          health: { current: 25, max: 25 },
-          vitality: { current: 15, max: 15 },
-          initiative: 12,
-          script: {
-            type: 'sentry',
-            visionRangePx: 250,
-            facingAngleDeg: 180,
-            alertBark: 'Intruder detected in laboratory sector!'
-          }
-        }
-      ],
+      objects: [],
+      tokens: [],
       texts: [
         {
           id: `txt_${Date.now()}`,
@@ -433,6 +374,16 @@ Option 3: (action description)
 
         {/* Scrollable Story Beats Stream */}
         <div className="flex-1 overflow-y-auto p-6 md:p-10 space-y-6 scrollbar-thin">
+          {beats.length === 0 && !activeStreamingText && (
+            <div className="max-w-md mx-auto text-center py-20 text-slate-500 space-y-3 font-mono text-xs">
+              <BookOpen size={36} className="mx-auto text-slate-600 opacity-60" />
+              <p className="text-slate-400 font-bold uppercase tracking-wider">No Story Beats Yet</p>
+              <p className="text-slate-500 text-[11px] leading-relaxed">
+                Connect lore elements from the left panel and submit an opening action prompt below to start drafting narrative beats.
+              </p>
+            </div>
+          )}
+
           {beats.map((beat, idx) => (
             <div
               key={beat.id}

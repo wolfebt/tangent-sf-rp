@@ -5,8 +5,8 @@ import { AudioService } from '../../../../services/audioService';
 export const AdventurePrintModal = ({
   isOpen,
   onClose,
-  storyTitle = 'The Derelict Station',
-  volumeTitle = 'Volume I',
+  storyTitle = 'Untitled Adventure',
+  volumeTitle = 'Volume 1',
   beats = [],
   manuscriptContent = ''
 }) => {

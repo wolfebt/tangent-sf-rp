@@ -60,6 +60,19 @@ export const specializationItemSchema = z.union([
   z.string()
 ]);
 
+export const trackedModificationSchema = z.object({
+  id: z.string().optional(),
+  timestamp: z.string().optional(),
+  field: z.string().optional().default(''),
+  fieldLabel: z.string().optional().default(''),
+  oldValue: z.any().optional(),
+  newValue: z.any().optional(),
+  playerNote: z.string().optional().default(''),
+  status: z.enum(['pending', 'accepted', 'refused', 'adjusted']).optional().default('pending'),
+  gmFeedback: z.string().nullable().optional().default(''),
+  reviewedAt: z.string().nullable().optional()
+}).passthrough();
+
 export const characterSchema = z.object({
   'character-doc-id': z.string().optional(),
   isPublic: z.boolean().optional().default(false),
@@ -176,6 +189,17 @@ export const characterSchema = z.object({
   architecture: z.array(inventoryItemSchema).optional().default([]),
   other: z.array(inventoryItemSchema).optional().default([]),
   specializations: z.array(specializationItemSchema).optional().default([]),
-  notes: z.array(noteItemSchema).optional().default([{ text: '' }])
+  notes: z.array(noteItemSchema).optional().default([{ text: '' }]),
+
+  // Persona Lifecycle & VTT Readiness Lock
+  folio_phase: z.enum(['development', 'locked']).optional().default('development'),
+  is_locked: z.boolean().optional().default(false),
+  is_ready_for_vtt: z.boolean().optional().default(false),
+  locked_at: z.string().nullable().optional().default(null),
+  allow_player_override: z.boolean().optional().default(true),
+  player_override: z.boolean().optional().default(false),
+  override_at: z.string().nullable().optional().default(null),
+  active_conditions: z.array(z.string()).optional().default([]),
+  tracked_modifications: z.array(trackedModificationSchema).optional().default([])
 }).catchall(z.any()); // Pass through any dynamically added keys (like skill-*-rank)
 

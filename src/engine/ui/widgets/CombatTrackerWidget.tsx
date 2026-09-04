@@ -11,9 +11,11 @@ import {
   Flame, 
   Sparkles, 
   ChevronRight,
-  Activity
+  Activity,
+  Users
 } from 'lucide-react';
 import { AudioService } from '../../../services/audioService';
+import { useEngineStore, selectAllFusedTokens } from '../../index';
 
 export interface Combatant {
   id: string;
@@ -35,47 +37,8 @@ export interface CombatTrackerWidgetProps {
   className?: string;
 }
 
-const DEFAULT_COMBATANTS: Combatant[] = [
-  {
-    id: 'c-1',
-    name: 'Operative Jax',
-    initiative: 18,
-    currentHp: 28,
-    maxHp: 28,
-    currentAp: 4,
-    maxAp: 4,
-    isNpc: false,
-    hasSustainedEssence: true,
-    conditions: ['Aegis Barrier']
-  },
-  {
-    id: 'c-2',
-    name: 'Scythe Vanguard Elite',
-    initiative: 15,
-    currentHp: 22,
-    maxHp: 22,
-    currentAp: 4,
-    maxAp: 4,
-    isNpc: true,
-    hasSustainedEssence: false,
-    conditions: ['Overcharged Rails']
-  },
-  {
-    id: 'c-3',
-    name: 'Tech-Acolyte Kaelen',
-    initiative: 11,
-    currentHp: 19,
-    maxHp: 19,
-    currentAp: 4,
-    maxAp: 4,
-    isNpc: false,
-    hasSustainedEssence: false,
-    conditions: []
-  }
-];
-
 export const CombatTrackerWidget: React.FC<CombatTrackerWidgetProps> = ({
-  initialCombatants = DEFAULT_COMBATANTS,
+  initialCombatants = [],
   onRoundAdvance,
   onDegradationTick,
   className = ''
@@ -145,6 +108,33 @@ export const CombatTrackerWidget: React.FC<CombatTrackerWidgetProps> = ({
     setCurrentTurnIndex(0);
   };
 
+  // Sync active tokens from VolatileSharder engine state
+  const handleSyncMapTokens = () => {
+    const fusedTokens = selectAllFusedTokens(useEngineStore.getState());
+    if (fusedTokens.length === 0) {
+      AudioService.playCriticalChime(false);
+      return;
+    }
+
+    const syncedCombatants: Combatant[] = fusedTokens.map((t) => ({
+      id: t.id,
+      name: t.name || 'Operative',
+      initiative: Math.floor(Math.random() * 20) + 1,
+      currentHp: t.current_hp ?? t.base_hp ?? 30,
+      maxHp: t.base_hp ?? 30,
+      currentAp: 4,
+      maxAp: 4,
+      isNpc: !t.is_persona,
+      hasSustainedEssence: false,
+      conditions: []
+    }));
+
+    syncedCombatants.sort((a, b) => b.initiative - a.initiative);
+    setCombatants(syncedCombatants);
+    setCurrentTurnIndex(0);
+    AudioService.playCriticalChime(true);
+  };
+
   return (
     <div className={`p-3 bg-slate-900/95 backdrop-blur-md border border-red-500/40 rounded-2xl shadow-2xl font-mono text-xs text-slate-200 flex flex-col gap-2.5 ${className}`}>
       {/* Header: Round & Phase Tracker */}
@@ -157,6 +147,15 @@ export const CombatTrackerWidget: React.FC<CombatTrackerWidgetProps> = ({
         </div>
 
         <div className="flex items-center gap-1.5">
+          <button
+            type="button"
+            onClick={handleSyncMapTokens}
+            className="p-1 rounded-lg bg-slate-950 border border-slate-800 hover:text-emerald-300 hover:border-emerald-500/50 transition-colors cursor-pointer flex items-center gap-1 text-[10px]"
+            title="Sync All Active Map Tokens from Canvas"
+          >
+            <Users size={11} />
+            <span className="hidden sm:inline">Sync Map</span>
+          </button>
           <button
             type="button"
             onClick={handleRerollInitiative}

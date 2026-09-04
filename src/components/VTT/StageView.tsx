@@ -444,101 +444,6 @@ export const StageView: React.FC<StageViewProps> = ({
         setAtmosphericWeather(currentMap.atmosphericWeather);
       }
     }
-
-    // Fallback: If no tokens loaded, spawn standard tactical baseline squad
-    if (Object.keys(store.staticData).length === 0) {
-      store.loadStaticEntitiesBatch([
-        {
-          id: 'op-jax',
-          name: 'Operative Jax',
-          base_hp: 45,
-          tech_level: 3,
-          armor_dr: 15,
-          size_modifier: 0,
-          speed_ft: 40,
-          species: 'Alterian',
-          archetype: 'Infiltrator',
-          is_persona: true
-        },
-        {
-          id: 'op-kaelen',
-          name: 'Dr. Kaelen',
-          base_hp: 35,
-          tech_level: 4,
-          armor_dr: 10,
-          size_modifier: 0,
-          speed_ft: 30,
-          species: 'Cyborg Human',
-          archetype: 'Cyber-Medic',
-          is_persona: true
-        },
-        {
-          id: 'mech-vanguard',
-          name: 'Vanguard Assault Mech',
-          base_hp: 120,
-          tech_level: 4,
-          armor_dr: 35,
-          size_modifier: 2,
-          speed_ft: 25,
-          species: 'Mecha / Omnicortex Gear',
-          archetype: 'Heavy Combat Chassis',
-          is_persona: false
-        },
-        {
-          id: 'drone-scout',
-          name: 'Recon Drone',
-          base_hp: 20,
-          tech_level: 3,
-          armor_dr: 5,
-          size_modifier: -1,
-          speed_ft: 45,
-          species: 'Automaton / Drone',
-          archetype: 'Tactical Recon',
-          is_persona: false
-        }
-      ]);
-
-      store.updatePosition('op-jax', 140, 140);
-      store.updatePosition('op-kaelen', 140, 210);
-      store.updatePosition('mech-vanguard', 420, 280);
-      store.updatePosition('drone-scout', 490, 140);
-
-      const sampleObjects: SceneInteractiveObject[] = [
-        {
-          id: 'bulkhead-alpha',
-          name: 'Airlock Security Bulkhead',
-          type: 'bulkhead',
-          x: 280,
-          y: 140,
-          storyElementId: 'clue-airlock-breach'
-        },
-        {
-          id: 'terminal-nexus',
-          name: 'Mainframe Datapad',
-          type: 'terminal',
-          x: 350,
-          y: 210,
-          storyElementId: 'log-classified-data'
-        },
-        {
-          id: 'crate-omega',
-          name: 'Omnicortex Munitions Crate',
-          type: 'loot_container',
-          x: 210,
-          y: 350,
-          storyElementId: 'gear-plasma-grenades'
-        }
-      ];
-      interactiveObjMgrRef.current.loadObjects(sampleObjects);
-      setLocalObjects(sampleObjects);
-
-      const defaultWalls: WallSegment[] = [
-        { id: 'sample-bulkhead', p1: { x: 280, y: 70 }, p2: { x: 280, y: 210 }, isDynamic: true, isOpen: false },
-        { id: 'sample-cover-crate', p1: { x: 300, y: 300 }, p2: { x: 300, y: 380 }, isDynamic: false }
-      ];
-      bvhBuilderRef.current.build(defaultWalls);
-      setLocalWalls(defaultWalls);
-    }
   }, [currentMap]);
 
   // ── Render Walls & Bulkheads onto the Stage ──
@@ -1729,6 +1634,7 @@ export const StageView: React.FC<StageViewProps> = ({
       container.on('pointerdown', (e: any) => {
         e.stopPropagation();
         if (e.button === 2 || e.buttons === 2) {
+          e.nativeEvent?.preventDefault?.();
           setSelectedTokenId(token.id);
           const canvasBounds = canvasRef.current?.getBoundingClientRect();
           const screenX = canvasBounds ? canvasBounds.left + token.x * zoom + pan.x : token.x;
@@ -1768,6 +1674,11 @@ export const StageView: React.FC<StageViewProps> = ({
     setMouseWorldPos(worldPos);
 
     if (isDraggingPan) {
+      // If mouse buttons are no longer pressed, release pan to avoid sticky cursor
+      if (e.buttons === 0) {
+        setIsDraggingPan(false);
+        return;
+      }
       const dx = e.clientX - dragStartPos.x;
       const dy = e.clientY - dragStartPos.y;
       setPan(prev => ({ x: prev.x + dx, y: prev.y + dy }));
@@ -2270,19 +2181,33 @@ export const StageView: React.FC<StageViewProps> = ({
     }
   };
 
-  // Smooth Zoom with Mouse Wheel
+  // Smooth Zoom with Mouse Wheel & Global Drag Safety
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
+      // Ignore wheel click / middle click or zero/negligible delta to prevent zoom jump on click
+      if ((e.buttons & 4) || !e.deltaY || Math.abs(e.deltaY) < 1) return;
       const zoomFactor = e.deltaY < 0 ? 1.1 : 0.9;
       setZoom(prev => Math.max(0.4, Math.min(2.5, prev * zoomFactor)));
     };
 
+    // Global listener ensures map never sticks to cursor if mouse leaves canvas or context menu closes
+    const handleGlobalMouseUp = () => {
+      setIsDraggingPan(false);
+      setIsMarqueeActive(false);
+      setIsDrawingToolActive(false);
+    };
+
+    window.addEventListener('mouseup', handleGlobalMouseUp);
+    window.addEventListener('blur', handleGlobalMouseUp);
     canvas.addEventListener('wheel', onWheel, { passive: false });
+
     return () => {
+      window.removeEventListener('mouseup', handleGlobalMouseUp);
+      window.removeEventListener('blur', handleGlobalMouseUp);
       canvas.removeEventListener('wheel', onWheel);
     };
   }, []);
@@ -2964,7 +2889,10 @@ export const StageView: React.FC<StageViewProps> = ({
   const currentScaleConfig = GRID_SCALE_CONFIGS[scaleTier];
 
   return (
-    <div className="relative w-full h-full bg-[#050811] overflow-hidden select-none flex flex-col">
+    <div 
+      className="relative w-full h-full bg-[#050811] overflow-hidden select-none flex flex-col"
+      onContextMenu={(e) => e.preventDefault()}
+    >
       {/* ── TOP GLASS-COCKPIT TOOLBAR (Map Switching, JSON Save/Load, Undo/Redo, Mode Switch) ── */}
       <StageTopToolbar
         currentMap={currentMap}

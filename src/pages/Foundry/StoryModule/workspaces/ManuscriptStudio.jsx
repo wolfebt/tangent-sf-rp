@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file ManuscriptStudio.jsx
  * @description Fiction Manuscript Studio for Story Foundry.
  * Minimalist writing environment featuring live word count, reading time,
@@ -23,11 +23,10 @@ export default function ManuscriptStudio({
   onSaveDraft 
 }) {
   const [content, setContent] = useState(
-    activeNode?.content ||
-    'The air grew thin as Jax cycled the secondary airlock. Beyond the observation port, the shattered fragments of the Coriolis Station drifted across the void like crystalline dust.'
+    activeNode?.content || ''
   );
 
-  const [activePov, setActivePov] = useState('Jax (Operative)');
+  const [activePov, setActivePov] = useState(activeNode?.fields?.pov || '');
   const [copied, setCopied] = useState(false);
 
   // Compute live word count & reading time
@@ -67,7 +66,7 @@ export default function ManuscriptStudio({
           <div className="flex items-center gap-1 bg-slate-900 px-2.5 py-1 rounded-xl border border-slate-800 text-[11px]">
             <UserCheck size={12} className="text-purple-400" />
             <span className="text-slate-500">POV:</span>
-            <span className="font-bold text-purple-300">{activePov}</span>
+            <span className="font-bold text-purple-300">{activePov || 'Unassigned'}</span>
           </div>
 
           {/* Copy Button */}

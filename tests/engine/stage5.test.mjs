@@ -7,7 +7,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { CharacterBuilder } from '../../src/engine/rules/CharacterBuilder.ts';
-import { CombatArbitrator, SkillRank, SizeCategory } from '../../src/engine/rules/CombatArbitrator.ts';
+import { CombatArbitrator, SkillRank, SizeCategory, RangeCategory } from '../../src/engine/rules/CombatArbitrator.ts';
 import { DamagePipeline } from '../../src/engine/rules/DamagePipeline.ts';
 import { MechaSocketManager, TechLevel } from '../../src/engine/rules/MechaSocketManager.ts';
 
@@ -118,6 +118,11 @@ test('Stage 5.4: CombatArbitrator Canonical 3.00 COMBAT.md Rules (MAP, Actions, 
   assert.equal(arb.calculateUnopposedDC(SizeCategory.Large, 'short'), 13); // Large (+2) makes DC easier (15 - 2 = 13)
   assert.equal(arb.calculateUnopposedDC(SizeCategory.Small, 'short'), 17); // Small (-2) makes DC harder (15 - (-2) = 17)
   assert.equal(arb.calculateUnopposedDC(SizeCategory.Medium, 'medium'), 20); // Medium range DC 20
+
+  // Canonical Aiming Bonus cap: Up to 1/2 effective attack skill (including specialization and invocation)
+  // attackScore = 6, spec = 2 -> effective skill = 8. Max aim bonus is floor(8 / 2) = 4.
+  const toHitPkg = arb.buildToHitPackage(6, SkillRank.Trained, 0, SizeCategory.Medium, SizeCategory.Medium, 1.0, RangeCategory.Short, { specializationBonus: 2 });
+  assert.equal(toHitPkg.maxAimBonus, 4);
 });
 
 test('Stage 5.5: DamagePipeline Canonical 3.00 COMBAT.md Rules (CON Soak, Force 1/2 DR, Mortality State, Limbs)', () => {
@@ -175,7 +180,20 @@ test('Stage 5.5: DamagePipeline Canonical 3.00 COMBAT.md Rules (CON Soak, Force 
   assert.equal(strikeCalled.requiresStaminaCheck, true);
   assert.equal(strikeCalled.staminaCheckDC, 25); // 10 + 15 damage = 25
 
-  // 4. Mortality State: 0 HP does NOT trigger instant death!
+  // 4. Defenseless target: ambush / immobile / coup de grâce gets floor(margin / 2) bonus raw damage
+  const strikeDefenseless = pipeline.resolveStrike({
+    rawDamage: 10,
+    armorPenetration: 0,
+    damageType: 'kinetic',
+    isCalledShot: false,
+    isTargetDefenseless: true,
+    attackMargin: 8 // floor(8 / 2) = +4 bonus damage
+  }, mockTarget, [0], 0);
+
+  assert.equal(strikeDefenseless.defenselessBonusDamage, 4);
+  assert.equal(strikeDefenseless.netDamage, 14); // 10 + 4 = 14
+
+  // 5. Mortality State: 0 HP does NOT trigger instant death!
   // It triggers Unconscious, Incapacitated, Bleeding Out, with Stability Points = CON Score + 5
   const strikeDown = pipeline.resolveStrike({
     rawDamage: 40,

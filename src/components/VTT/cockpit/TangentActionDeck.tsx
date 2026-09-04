@@ -6,7 +6,7 @@
  * tactical combat maneuvers, and Essence invocations.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { 
   Crosshair, 
   Zap, 
@@ -21,6 +21,8 @@ import {
 } from 'lucide-react';
 import { useEngineStore, selectAllFusedTokens } from '../../../engine/index';
 import { AudioService } from '../../../services/audioService';
+import { useFolio } from '../../../context/FolioContext';
+import { useDice } from '../../../context/DiceContext';
 
 export type CalledShotLocation = 'head' | 'torso' | 'limbs' | 'chassis';
 
@@ -159,6 +161,9 @@ export const TangentActionDeck: React.FC<TangentActionDeckProps> = ({
 }) => {
   const fusedTokens = useEngineStore(selectAllFusedTokens);
   const selectedToken = fusedTokens.find(t => t.is_selected) || null;
+  const folio = (useFolio() || {}) as any;
+  const { characterData } = folio;
+  const { openDiceRoller } = useDice();
 
   const [activeDeckTab, setActiveDeckTab] = useState<'weapons' | 'tactics' | 'essence'>('weapons');
   const [currentEssence, setCurrentEssence] = useState<number>(10);
@@ -168,6 +173,27 @@ export const TangentActionDeck: React.FC<TangentActionDeckProps> = ({
     damage: number;
     targetName: string;
   } | null>(null);
+
+  // Derive active weapons from folio characterData.attacks if present, otherwise fallback to DEFAULT_WEAPONS
+  const folioAttacks = useMemo<WeaponAction[]>(() => {
+    let rawAttacks = characterData?.attacks;
+    if (typeof rawAttacks === 'string') {
+      try { rawAttacks = JSON.parse(rawAttacks); } catch { rawAttacks = []; }
+    }
+    if (Array.isArray(rawAttacks) && rawAttacks.length > 0) {
+      return rawAttacks.map((a: any, idx: number) => ({
+        id: a.id || `folio-atk-${idx}`,
+        name: a.name || `Weapon #${idx + 1}`,
+        apCost: parseInt(a.apCost || a.ap || 2, 10) || 2,
+        damageDice: a.damage || '2d10',
+        damageType: (a.type || 'kinetic').toLowerCase() as any,
+        range: a.range || 'Standard',
+        special: a.notes || undefined,
+        baseModifier: parseInt(a.score || 0, 10) || 0
+      }));
+    }
+    return DEFAULT_WEAPONS;
+  }, [characterData?.attacks]);
 
   // Called Shot Modifiers based on Tangent SF RP Rules
   const CALLED_SHOT_CONFIGS: Record<CalledShotLocation, { label: string; hitMod: string; effect: string; color: string }> = {
@@ -206,8 +232,21 @@ export const TangentActionDeck: React.FC<TangentActionDeckProps> = ({
 
     onConsumeAp(wpn.apCost);
 
-    // Calculate rolled damage
-    // Base formula 2d10 -> average ~11 + bonus
+    // Roll interactive dice check in DiceRollerDock with autoRoll
+    const attackScore = wpn.baseModifier;
+    const calledShotPenalty = calledShotTarget === 'head' ? -4 : calledShotTarget === 'limbs' ? -2 : calledShotTarget === 'chassis' ? -3 : 0;
+    const effectiveToHitMod = attackScore + calledShotPenalty;
+
+    openDiceRoller({
+      label: `${wpn.name} Strike [${calledShotTarget.toUpperCase()}]`,
+      baseModifier: effectiveToHitMod,
+      expression: `2d10${effectiveToHitMod !== 0 ? (effectiveToHitMod > 0 ? `+${effectiveToHitMod}` : `${effectiveToHitMod}`) : ''}`,
+      rollMode: 'normal',
+      characterName: characterData?.['char-name'] || characterData?.name || 'Operative',
+      autoRoll: true
+    });
+
+    // Calculate damage preview
     const roll1 = Math.floor(Math.random() * 10) + 1;
     const roll2 = Math.floor(Math.random() * 10) + 1;
     let rawDamage = roll1 + roll2 + wpn.baseModifier;
@@ -227,7 +266,7 @@ export const TangentActionDeck: React.FC<TangentActionDeckProps> = ({
       useEngineStore.getState().applyDamage(selectedToken.id, netDamage);
 
       setLastCombatResult({
-        text: `${wpn.name} [${calledShotTarget.toUpperCase()}]: Rolled ${rawDamage} vs DR ${targetDr} -> ${netDamage} Net Dmg!`,
+        text: `${wpn.name} [${calledShotTarget.toUpperCase()}]: Fired ${wpn.damageDice} vs DR ${targetDr} -> ${netDamage} Net Dmg!`,
         damage: netDamage,
         targetName: selectedToken.name || selectedToken.id
       });
@@ -421,7 +460,7 @@ export const TangentActionDeck: React.FC<TangentActionDeckProps> = ({
       {/* ===================================================================== */}
       {activeDeckTab === 'weapons' && (
         <div className="space-y-1.5">
-          {DEFAULT_WEAPONS.map((wpn) => {
+          {folioAttacks.map((wpn: WeaponAction) => {
             const canAfford = currentAp >= wpn.apCost;
             return (
               <div

@@ -19,10 +19,14 @@ export interface DamagePayload {
   isCalledShot: boolean;
   targetLocation?: 'head' | 'torso' | 'arm_left' | 'arm_right' | 'leg_left' | 'leg_right' | 'tentacle' | 'wing';
   isSyntheticLimb?: boolean;
+  isTargetDefenseless?: boolean;
+  attackMargin?: number;
+  defenselessBonusDamage?: number;
 }
 
 export interface DamageResult {
   rawDamage: number;
+  defenselessBonusDamage: number;
   effectiveDR: number;
   conModSoak: number;
   netDamage: number;
@@ -55,6 +59,15 @@ export class DamagePipeline {
     const statuses: string[] = [];
     const dmgType = (payload.damageType || 'kinetic').toLowerCase();
 
+    // 0. Calculate defenseless target extra damage (half of success margin per rules)
+    const defenselessBonus = payload.defenselessBonusDamage !== undefined
+      ? payload.defenselessBonusDamage
+      : ((payload.isTargetDefenseless && payload.attackMargin && payload.attackMargin > 0)
+        ? Math.floor(payload.attackMargin / 2)
+        : 0);
+
+    const totalRawDamage = payload.rawDamage + defenselessBonus;
+
     // 1. Calculate highest active Armor layer
     let highestDR = activeArmorLayers.length > 0 ? Math.max(...activeArmorLayers) : (target.armor_dr || 0);
 
@@ -77,7 +90,7 @@ export class DamagePipeline {
     // Formula: (Damage) - (Target Armor DR + Target CON Mod) = Total Damage
     const conModSoak = Math.max(0, targetConMod);
     const totalMitigation = effectiveDR + conModSoak;
-    const netDamage = Math.max(0, payload.rawDamage - totalMitigation);
+    const netDamage = Math.max(0, totalRawDamage - totalMitigation);
 
     // 5. Vitality vs Health Damage Routing
     let vitalityDamage = 0;
@@ -149,6 +162,7 @@ export class DamagePipeline {
 
     return {
       rawDamage: payload.rawDamage,
+      defenselessBonusDamage: defenselessBonus,
       effectiveDR,
       conModSoak,
       netDamage,

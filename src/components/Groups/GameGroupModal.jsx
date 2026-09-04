@@ -80,6 +80,7 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
   const [editDesc, setEditDesc] = useState('');
   const [editStatus, setEditStatus] = useState('Recruiting');
   const [editStoryId, setEditStoryId] = useState('');
+  const [editAllowPlayerOverride, setEditAllowPlayerOverride] = useState(true);
 
   useEffect(() => {
     if (activeGroup) {
@@ -87,6 +88,7 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
       setEditDesc(activeGroup.description || '');
       setEditStatus(activeGroup.status || 'Recruiting');
       setEditStoryId(activeGroup.campaignId || '');
+      setEditAllowPlayerOverride(activeGroup.allowPlayerOverride !== false);
     }
   }, [activeGroup]);
 
@@ -251,7 +253,8 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
       description: editDesc.trim(),
       status: editStatus,
       campaignId: editStoryId || null,
-      campaignTitle: selectedStory?.projectName || selectedStory?.title || activeGroup.campaignTitle || ''
+      campaignTitle: selectedStory?.projectName || selectedStory?.title || activeGroup.campaignTitle || '',
+      allowPlayerOverride: editAllowPlayerOverride
     });
     alert('Team configuration updated successfully.');
   };
@@ -1022,6 +1025,38 @@ export const GameGroupModal = ({ isOpen, onClose, initialTab = 'roster' }) => {
                           <option key={s.id} value={s.id}>{s.projectName || s.title}</option>
                         ))}
                       </select>
+                    </div>
+                  </div>
+
+                  {/* GM Policy: Player Persona Override Toggle */}
+                  <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs uppercase font-bold text-amber-400 flex items-center gap-1.5">
+                        <Shield size={14} /> Player Persona Override Policy
+                      </span>
+                      <span className={`text-[10px] font-mono px-2 py-0.5 rounded font-bold ${
+                        editAllowPlayerOverride 
+                          ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/50' 
+                          : 'bg-red-950 text-red-300 border border-red-500/50'
+                      }`}>
+                        {editAllowPlayerOverride ? 'ALLOWED (TRACKED)' : 'DISALLOWED (LOCKED)'}
+                      </span>
+                    </div>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Allow operatives to use <strong>Player Override</strong> on their locked character folios during active sessions. When enabled, player modifications are recorded in the audit queue for GM review. When disabled, player overrides are blocked.
+                    </p>
+                    <div className="flex items-center gap-2 pt-1">
+                      <button
+                        type="button"
+                        onClick={() => setEditAllowPlayerOverride(prev => !prev)}
+                        className={`py-1.5 px-3 rounded-lg font-mono text-xs font-bold border transition-all cursor-pointer flex items-center gap-2 ${
+                          editAllowPlayerOverride
+                            ? 'bg-emerald-950/80 hover:bg-emerald-900 border-emerald-500 text-emerald-200'
+                            : 'bg-red-950/80 hover:bg-red-900 border-red-500 text-red-200'
+                        }`}
+                      >
+                        <span>{editAllowPlayerOverride ? '✓ Player Override Allowed' : '✕ Player Override Disallowed'}</span>
+                      </button>
                     </div>
                   </div>
 

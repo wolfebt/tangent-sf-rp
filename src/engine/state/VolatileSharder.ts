@@ -22,6 +22,7 @@ export interface StaticEntity {
   species?: string;
   archetype?: string;
   is_persona?: boolean;
+  character_doc_id?: string;
 }
 
 // Data pulled from WebRTC/LiveKit/Yjs (Volatile Stage Session Data)

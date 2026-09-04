@@ -15,7 +15,8 @@ import {
   Layers,
   Settings,
   Plus,
-  X
+  X,
+  Columns
 } from 'lucide-react';
 import { useCampaign } from '../../../context/CampaignContext';
 import { v4 as uuidv4 } from 'uuid';
@@ -25,13 +26,17 @@ export interface StageBreadcrumbTabsProps {
   onSelectMap: (mapId: string) => void;
   onOpenMapMaker?: () => void;
   onOpenUnderlayModal?: () => void;
+  isSplitOpen?: boolean;
+  onToggleSplit?: () => void;
 }
 
 export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
   currentMapId,
   onSelectMap,
   onOpenMapMaker,
-  onOpenUnderlayModal
+  onOpenUnderlayModal,
+  isSplitOpen = false,
+  onToggleSplit
 }) => {
   const { universeState, setActiveMapId, addMap, updateMap, deleteMap } = useCampaign();
   const [editingTabId, setEditingTabId] = useState<string | null>(null);
@@ -147,6 +152,22 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
             >
               <Layers size={10} />
               <span>Studio</span>
+            </button>
+          )}
+
+          {onToggleSplit && (
+            <button
+              type="button"
+              onClick={onToggleSplit}
+              className={`px-2 py-0.5 rounded text-[10.5px] transition-colors flex items-center gap-1 cursor-pointer font-mono font-bold border ${
+                isSplitOpen
+                  ? 'bg-amber-950/90 text-amber-300 border-amber-500/60 shadow-[0_0_10px_rgba(245,158,11,0.25)]'
+                  : 'bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border-slate-800'
+              }`}
+              title="Toggle Resizable Split Workspace (Folio, Roster, Story Tree, Bestiary)"
+            >
+              <Columns size={10} />
+              <span>Split View</span>
             </button>
           )}
         </div>

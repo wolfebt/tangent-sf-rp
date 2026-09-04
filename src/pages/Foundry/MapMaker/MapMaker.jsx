@@ -1836,6 +1836,9 @@ const MapPane = ({ mapExportPngRef }) => {
             e.dataTransfer.dropEffect = 'copy';
           }}
           onDrop={handleStageDrop}
+          onContextMenu={(e) => {
+            e.preventDefault();
+          }}
           className={`flex-1 h-full min-w-0 relative ${activeTool === 'select' ? 'cursor-grab active:cursor-grabbing' : (activeTool === 'eraser' ? 'cursor-pointer' : 'cursor-crosshair')}`}
         >
           <FloatingCombatText activeFloats={activeFloats} />
@@ -1883,6 +1886,9 @@ const MapPane = ({ mapExportPngRef }) => {
               ref={stageRef}
               width={stageSize.width}
               height={stageSize.height}
+              onContextMenu={(e) => {
+                e.evt?.preventDefault?.();
+              }}
               onWheel={handleWheel}
               onMouseDown={(e) => {
                 const clickedOnEmpty = e.target === e.target.getStage() || e.target.name() === 'bgRect';

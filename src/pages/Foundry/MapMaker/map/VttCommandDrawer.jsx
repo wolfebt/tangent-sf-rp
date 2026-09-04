@@ -509,6 +509,47 @@ const VttCommandDrawer = ({
                 </div>
               </div>
             </div>
+
+            {/* GM Policy: Player Persona Override Toggle */}
+            <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] uppercase font-bold text-amber-400 flex items-center gap-1.5">
+                  <Shield size={12} /> Player Override Policy
+                </span>
+                <span className={`text-[9px] font-mono px-1.5 py-0.2 rounded font-bold ${
+                  currentRoster.allowPlayerOverride !== false 
+                    ? 'bg-emerald-950 text-emerald-300 border border-emerald-500/50' 
+                    : 'bg-red-950 text-red-300 border border-red-500/50'
+                }`}>
+                  {currentRoster.allowPlayerOverride !== false ? 'ALLOWED' : 'LOCKED'}
+                </span>
+              </div>
+              <p className="text-[10.5px] text-slate-400 leading-snug">
+                Determine if players may unlock and modify their set folios during this live tactical session.
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(currentRoster.allowPlayerOverride !== false ? 900 : 1200, 0.05);
+                  const nextVal = currentRoster.allowPlayerOverride === false;
+                  const updated = {
+                    ...currentRoster,
+                    allowPlayerOverride: nextVal
+                  };
+                  if (onUpdateTeamRoster) onUpdateTeamRoster(updated);
+                  if (onBroadcastMessage) {
+                    onBroadcastMessage(`[GM POLICY]: Player persona override is now ${nextVal ? 'ALLOWED (tracked)' : 'DISALLOWED (locked)'}.`);
+                  }
+                }}
+                className={`w-full py-1.5 rounded font-mono text-[10px] font-bold border transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                  currentRoster.allowPlayerOverride !== false
+                    ? 'bg-emerald-950/80 hover:bg-emerald-900 border-emerald-500 text-emerald-200'
+                    : 'bg-red-950/80 hover:bg-red-900 border-red-500 text-red-200'
+                }`}
+              >
+                <span>{currentRoster.allowPlayerOverride !== false ? '✓ Player Override Allowed' : '✕ Player Override Disallowed'}</span>
+              </button>
+            </div>
           </div>
         )}
 

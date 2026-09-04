@@ -79,6 +79,12 @@ export const FolioHeroTokenDrawer = ({
   };
 
   const handleDragStart = (e, hero) => {
+    const isReady = Boolean(hero.is_locked || hero.is_ready_for_vtt || hero.folio_phase === 'locked');
+    if (!isReady) {
+      e.preventDefault();
+      alert(`⚠️ Operative "${hero['char-name'] || 'Hero'}" is in Development Phase.\n\nYou must Lock & Set the Persona in Persona Folio (/folio) before it can be deployed to the VTT.`);
+      return;
+    }
     const stats = extractHeroStats(hero);
     const tokenPayload = {
       type: 'folio_hero_token',
@@ -90,6 +96,11 @@ export const FolioHeroTokenDrawer = ({
   };
 
   const handleSpawnClick = (hero) => {
+    const isReady = Boolean(hero.is_locked || hero.is_ready_for_vtt || hero.folio_phase === 'locked');
+    if (!isReady) {
+      alert(`⚠️ Operative "${hero['char-name'] || 'Hero'}" is in Development Phase.\n\nYou must Lock & Set the Persona in Persona Folio (/folio) before it can be deployed to the VTT.`);
+      return;
+    }
     if (onSummonToken) {
       AudioService.playTerminalBeep(1100, 0.05);
       const stats = extractHeroStats(hero);
@@ -236,28 +247,46 @@ export const FolioHeroTokenDrawer = ({
                   const stats = extractHeroStats(hero);
                   const concept = hero['char-concept'] || hero.concept || hero['char-species'] || '';
                   const avatar = hero.avatarUrl || hero.imageUrl;
+                  const isReady = Boolean(hero.is_locked || hero.is_ready_for_vtt || hero.folio_phase === 'locked');
 
                   return (
                     <div
                       key={stats.heroId}
-                      draggable
+                      draggable={isReady}
                       onDragStart={(e) => handleDragStart(e, hero)}
-                      className="p-2 rounded-lg bg-[#0d1117]/85 hover:bg-cyan-950/60 border border-slate-800 hover:border-cyan-500/60 cursor-grab active:cursor-grabbing transition-all flex items-center justify-between group shadow-sm"
-                      title="Drag onto Canvas or click Spawn"
+                      className={`p-2 rounded-lg border transition-all flex items-center justify-between group shadow-sm ${
+                        isReady
+                          ? 'bg-[#0d1117]/85 hover:bg-cyan-950/60 border-slate-800 hover:border-cyan-500/60 cursor-grab active:cursor-grabbing'
+                          : 'bg-[#121620]/60 border-amber-900/40 opacity-80 cursor-not-allowed'
+                      }`}
+                      title={isReady ? "Drag onto Canvas or click Spawn" : "Persona in Development: Lock & Set in /folio to enable VTT deployment"}
                     >
                       <div className="flex items-center gap-2 min-w-0 pr-1">
                         {avatar ? (
-                          <div className="w-8 h-8 rounded-full overflow-hidden border border-cyan-400/50 shrink-0 bg-slate-900">
+                          <div className={`w-8 h-8 rounded-full overflow-hidden border shrink-0 bg-slate-900 ${isReady ? 'border-cyan-400/50' : 'border-amber-500/40'}`}>
                             <img src={avatar} alt={stats.name} className="w-full h-full object-cover" />
                           </div>
                         ) : (
-                          <div className="w-8 h-8 rounded-full bg-slate-800 border border-cyan-500/40 flex items-center justify-center text-xs font-bold text-cyan-300 shrink-0 shadow-inner">
+                          <div className={`w-8 h-8 rounded-full border flex items-center justify-center text-xs font-bold shrink-0 shadow-inner ${
+                            isReady ? 'bg-slate-800 border-cyan-500/40 text-cyan-300' : 'bg-slate-900 border-amber-500/40 text-amber-300'
+                          }`}>
                             {stats.name.charAt(0).toUpperCase()}
                           </div>
                         )}
                         <div className="min-w-0">
-                          <div className="text-xs font-bold text-slate-200 group-hover:text-cyan-300 transition-colors truncate">
-                            {stats.name}
+                          <div className="flex items-center gap-1.5 truncate">
+                            <span className="text-xs font-bold text-slate-200 group-hover:text-cyan-300 transition-colors truncate">
+                              {stats.name}
+                            </span>
+                            {isReady ? (
+                              <span className="px-1.5 py-0.2 rounded text-[9px] font-mono font-bold bg-emerald-950/80 border border-emerald-500/60 text-emerald-300">
+                                READY
+                              </span>
+                            ) : (
+                              <span className="px-1.5 py-0.2 rounded text-[9px] font-mono font-bold bg-amber-950/80 border border-amber-500/60 text-amber-300 flex items-center gap-0.5">
+                                🔒 DEV
+                              </span>
+                            )}
                           </div>
                           <div className="text-[10px] text-slate-400 font-mono truncate flex items-center gap-1">
                             {stats.isSynthetic ? (
@@ -273,17 +302,28 @@ export const FolioHeroTokenDrawer = ({
                         </div>
                       </div>
 
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleSpawnClick(hero);
-                        }}
-                        className="px-2 py-1 bg-cyan-950 hover:bg-cyan-800 text-[#22d3ee] border border-cyan-500/50 rounded text-[10px] font-mono font-bold uppercase transition-all shrink-0 hover:shadow-[0_0_8px_rgba(34,211,238,0.4)]"
-                        title="Summon Hero to Map Canvas"
-                      >
-                        + SPAWN
-                      </button>
+                      {isReady ? (
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleSpawnClick(hero);
+                          }}
+                          className="px-2 py-1 bg-cyan-950 hover:bg-cyan-800 text-[#22d3ee] border border-cyan-500/50 rounded text-[10px] font-mono font-bold uppercase transition-all shrink-0 hover:shadow-[0_0_8px_rgba(34,211,238,0.4)] cursor-pointer"
+                          title="Summon Hero to Map Canvas"
+                        >
+                          + SPAWN
+                        </button>
+                      ) : (
+                        <a
+                          href="/folio"
+                          onClick={(e) => e.stopPropagation()}
+                          className="px-2 py-1 bg-amber-950/60 hover:bg-amber-900/80 text-amber-300 border border-amber-500/40 rounded text-[9.5px] font-mono font-bold uppercase transition-all shrink-0 flex items-center gap-0.5"
+                          title="Open Folio to Lock and Set character for VTT"
+                        >
+                          SET IN FOLIO →
+                        </a>
+                      )}
                     </div>
                   );
                 })

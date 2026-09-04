@@ -117,23 +117,64 @@ export class CombatArbitrator {
    * Rule: Attacker ability + combat skill vs Defender agility + defense skill.
    * CRITICAL CANONICAL RULE: "DEFENDER WINS ALL TIES".
    */
-  public resolveOpposedRoll(attackerTotal: number, defenderTotal: number): {
+  public resolveOpposedRoll(
+    attackerTotal: number, 
+    defenderTotal: number,
+    options: { isTargetDefenseless?: boolean } = {}
+  ): {
     isHit: boolean;
     margin: number;
     winner: 'attacker' | 'defender';
+    defenselessBonusDamage: number;
   } {
     const margin = attackerTotal - defenderTotal;
     // Defender wins all ties!
     const isHit = margin > 0;
+    const defenselessBonusDamage = (options.isTargetDefenseless && isHit) ? Math.floor(margin / 2) : 0;
     return {
       isHit,
       margin,
-      winner: isHit ? 'attacker' : 'defender'
+      winner: isHit ? 'attacker' : 'defender',
+      defenselessBonusDamage
     };
   }
 
   /**
    * Resolves an Unopposed Combat Roll (target surprised, still, or not defending).
+   * Base DC is CR 15 (Average for typical Medium target at Short range).
+   */
+  public resolveUnopposedRoll(
+    attackerTotal: number,
+    dc: number,
+    options: { isTargetDefenseless?: boolean } = {}
+  ): {
+    isHit: boolean;
+    margin: number;
+    winner: 'attacker' | 'target';
+    defenselessBonusDamage: number;
+  } {
+    const margin = attackerTotal - dc;
+    const isHit = margin > 0;
+    const defenselessBonusDamage = (options.isTargetDefenseless && isHit) ? Math.floor(margin / 2) : 0;
+    return {
+      isHit,
+      margin,
+      winner: isHit ? 'attacker' : 'target',
+      defenselessBonusDamage
+    };
+  }
+
+  /**
+   * Evaluates extra damage for defenseless targets (ambush, immobile, coup de grace, etc).
+   * Canonical rule: Target with no defense suffers additional damage equal to half the amount of what the attack succeeded by.
+   */
+  public calculateDefenselessBonusDamage(attackMargin: number, isTargetDefenseless: boolean = false): number {
+    if (!isTargetDefenseless || attackMargin <= 0) return 0;
+    return Math.floor(attackMargin / 2);
+  }
+
+  /**
+   * Calculates Unopposed DC for a target.
    * Base DC is CR 15 (Average for typical Medium target at Short range).
    */
   public calculateUnopposedDC(
@@ -239,6 +280,9 @@ export class CombatArbitrator {
       isFlanking?: boolean;
       hasHighGround?: boolean;
       isSneakAttack?: boolean;
+      specializationBonus?: number;
+      invocationBonus?: number;
+      isTargetDefenseless?: boolean;
     } = {}
   ): {
     finalTarget: number;
@@ -253,6 +297,8 @@ export class CombatArbitrator {
     flankingBonus: number;
     sneakAttackPenalty: number;
     advantageOnDamage: boolean;
+    isTargetDefenseless: boolean;
+    maxAimBonus: number;
   } {
     const tier = this.getActionTier(skillRank);
     const mapPenalty = this.calculateMAP(skillRank, attackIndex);
@@ -262,7 +308,9 @@ export class CombatArbitrator {
     const rangeConfig = RANGE_CONFIGS[range] || RANGE_CONFIGS[RangeCategory.Short];
     const rangeMod = rangeConfig.modifier;
 
-    const maxAimBonus = Math.max(2, Math.floor(skillRank / 2));
+    // Aiming bonus: up to half the effective attack skill (including specialization & invocation)
+    const effectiveAttackSkill = baseSkill + (options.specializationBonus || 0) + (options.invocationBonus || 0);
+    const maxAimBonus = Math.max(2, Math.floor(effectiveAttackSkill / 2));
     const aimBonus = options.isAiming ? Math.min(maxAimBonus, (options.aimRounds || 1) * 2) : 0;
 
     const chargeMod = options.isCharging ? -2 : 0;
@@ -270,7 +318,7 @@ export class CombatArbitrator {
     const flankingBonus = options.isFlanking ? 2 : 0;
     const sneakAttackPenalty = options.isSneakAttack ? -5 : 0;
 
-    const finalTarget = baseSkill + mapPenalty + focusBonus + sizeMod + coverMod + rangeMod + aimBonus + chargeMod + highGroundBonus + flankingBonus + sneakAttackPenalty;
+    const finalTarget = effectiveAttackSkill + mapPenalty + focusBonus + sizeMod + coverMod + rangeMod + aimBonus + chargeMod + highGroundBonus + flankingBonus + sneakAttackPenalty;
 
     return {
       finalTarget,
@@ -284,7 +332,9 @@ export class CombatArbitrator {
       highGroundBonus,
       flankingBonus,
       sneakAttackPenalty,
-      advantageOnDamage: rangeConfig.advantageOnDamage || Boolean(options.isSneakAttack)
+      advantageOnDamage: rangeConfig.advantageOnDamage || Boolean(options.isSneakAttack),
+      isTargetDefenseless: Boolean(options.isTargetDefenseless),
+      maxAimBonus
     };
   }
 }

@@ -49,6 +49,7 @@ export const CANONICAL_TEAMS = [
 export const createDefaultTeamRoster = () => {
   return {
     teams: [...CANONICAL_TEAMS],
+    allowPlayerOverride: true, // GM policy: whether players can engage player override on locked folios during active game
     // Map userId -> { role: string, teamId: string, assignedTokenIds: string[] }
     userAssignments: {
       gm_host: {
@@ -57,6 +58,16 @@ export const createDefaultTeamRoster = () => {
         assignedTokenIds: []
       }
     }
+  };
+};
+
+/**
+ * Sets whether player override is allowed for operatives in the VTT / Team session.
+ */
+export const setAllowPlayerOverride = (roster, allowed) => {
+  return {
+    ...roster,
+    allowPlayerOverride: Boolean(allowed)
   };
 };
 

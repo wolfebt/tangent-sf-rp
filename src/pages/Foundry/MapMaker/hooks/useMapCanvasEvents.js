@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { produce } from 'immer';
 import { getTextureUrlFromColor } from '../map/MapTextures';
@@ -46,9 +46,24 @@ export const useMapCanvasEvents = ({
   const [rulerWaypoints, setRulerWaypoints] = useState([]);
   const [rulerPointer, setRulerPointer] = useState(null);
 
+  // Global safety listener to release panning/drawing if mouse leaves canvas or context menu opens
+  useEffect(() => {
+    const handleGlobalRelease = () => {
+      setIsPanning(false);
+      setIsDrawing(false);
+    };
+    window.addEventListener('mouseup', handleGlobalRelease);
+    window.addEventListener('blur', handleGlobalRelease);
+    return () => {
+      window.removeEventListener('mouseup', handleGlobalRelease);
+      window.removeEventListener('blur', handleGlobalRelease);
+    };
+  }, []);
+
   const handleWheel = (e) => {
     e.evt.preventDefault();
-    if (!e.evt.deltaY || Math.abs(e.evt.deltaY) < 0.1) return;
+    // Ignore wheel click / middle click or zero/negligible delta to prevent zoom jump on click
+    if ((e.evt.buttons & 4) || !e.evt.deltaY || Math.abs(e.evt.deltaY) < 1) return;
     const scaleBy = 1.1;
     const stage = e.target.getStage();
     const oldScale = stage.scaleX();
@@ -189,6 +204,10 @@ export const useMapCanvasEvents = ({
 
   const handleMouseMove = (e) => {
     if (isPanning) {
+      if (e.evt.buttons === 0) {
+        setIsPanning(false);
+        return;
+      }
       e.evt.preventDefault();
       setPosition({ x: e.evt.clientX - panStart.x, y: e.evt.clientY - panStart.y });
       return;

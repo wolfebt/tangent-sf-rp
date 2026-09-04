@@ -306,3 +306,26 @@ h1, h2, h3, h4, h5, h6 {
     scrollbar-width: none;
   }
 }
+
+/* React-Split Resizable Gutter Styling */
+.split-horizontal {
+  display: flex;
+  flex-direction: row;
+}
+
+.gutter.gutter-horizontal {
+  background-color: #0d131f;
+  border-left: 1px solid rgba(34, 211, 238, 0.2);
+  border-right: 1px solid rgba(34, 211, 238, 0.2);
+  cursor: col-resize;
+  transition: background-color 0.2s, border-color 0.2s;
+  position: relative;
+}
+
+.gutter.gutter-horizontal:hover,
+.gutter.gutter-horizontal:active {
+  background-color: #083344;
+  border-color: rgba(34, 211, 238, 0.8);
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.4);
+}
+

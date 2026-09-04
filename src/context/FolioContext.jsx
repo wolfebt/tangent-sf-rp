@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback, useEffect, useMemo } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect, useMemo, useRef } from 'react';
 import { characterSchema } from '../components/Folio/schema';
 import { db, auth } from '../firebase';
 import { collection, doc, setDoc, getDoc, getDocs, onSnapshot, deleteDoc, collectionGroup, query, where } from 'firebase/firestore';
@@ -141,7 +141,16 @@ const DEFAULT_CHARACTER = {
   architecture: [],
   other: [],
   specializations: [],
-  notes: [{ text: '' }]
+  notes: [{ text: '' }],
+  // Persona Lifecycle & VTT Ready Lock
+  folio_phase: 'development',
+  is_locked: false,
+  is_ready_for_vtt: false,
+  locked_at: null,
+  player_override: false,
+  override_at: null,
+  active_conditions: [],
+  tracked_modifications: []
 };
 
 const FOLIO_TOMBSTONES_KEY = 'folio_deleted_personas';
@@ -263,6 +272,11 @@ export const FolioProvider = ({ children }) => {
     }
     return attachCreatorTag(DEFAULT_CHARACTER, typeof window !== 'undefined' ? localStorage.getItem('userHandle') : '');
   });
+
+  const characterDataRef = useRef(characterData);
+  useEffect(() => {
+    characterDataRef.current = characterData;
+  }, [characterData]);
 
   const dbContext = useDBM() || {};
   const dbData = dbContext.dbData || {};
@@ -411,11 +425,6 @@ export const FolioProvider = ({ children }) => {
   }, []);
 
   // EVENT-DRIVEN CLOUD SAVE
-  const characterDataRef = React.useRef(characterData);
-  useEffect(() => {
-    characterDataRef.current = characterData;
-  }, [characterData]);
-
   const saveTimeoutRef = React.useRef(null);
   
   const triggerSave = useCallback((immediate = false) => {
@@ -1549,6 +1558,383 @@ export const FolioProvider = ({ children }) => {
     setInActiveGame(!isInActiveGame, details);
   }, [isInActiveGame, setInActiveGame]);
 
+  // ═══════════════════════════════════════════════════════════
+  // PERSONA LIFECYCLE, VTT READINESS & PLAYER OVERRIDE ENGINE
+  // ═══════════════════════════════════════════════════════════
+
+  const isLocked = useMemo(() => {
+    return Boolean(characterData?.is_locked || characterData?.folio_phase === 'locked');
+  }, [characterData?.is_locked, characterData?.folio_phase]);
+
+  const folioPhase = useMemo(() => {
+    if (characterData?.folio_phase) return characterData.folio_phase;
+    return characterData?.is_locked ? 'locked' : 'development';
+  }, [characterData?.folio_phase, characterData?.is_locked]);
+
+  const isReadyForVTT = useMemo(() => {
+    return Boolean(isLocked || characterData?.is_ready_for_vtt);
+  }, [isLocked, characterData?.is_ready_for_vtt]);
+
+  const allowPlayerOverride = useMemo(() => {
+    // If active game explicitly disallows override, or characterData has allow_player_override: false
+    if (characterData?.allow_player_override === false) return false;
+    if (activeGameSession?.allowPlayerOverride === false) return false;
+    return true;
+  }, [characterData?.allow_player_override, activeGameSession?.allowPlayerOverride]);
+
+  const isPlayerOverride = useMemo(() => {
+    return Boolean(characterData?.player_override);
+  }, [characterData?.player_override]);
+
+  const isFolioLockedOut = useMemo(() => {
+    return Boolean(isLocked && !isPlayerOverride);
+  }, [isLocked, isPlayerOverride]);
+
+  // Lock persona into set state (Ready for VTT)
+  const lockPersona = useCallback((skipValidation = false) => {
+    const charName = (characterData['char-name'] || '').trim();
+    if (!skipValidation) {
+      if (!charName) {
+        alert('Cannot lock persona: An Operative Name is required before setting character for VTT deployment.');
+        return false;
+      }
+      const startingCP = parseInt(characterData['starting-cp'] || 150, 10);
+      const spentCP = economyBreakdown?.spentCP || 0;
+      if (spentCP > startingCP) {
+        const proceed = window.confirm(`⚠️ CP DEFICIT WARNING: Character has spent ${spentCP} CP out of ${startingCP} CP (Deficit of -${spentCP - startingCP} CP).\n\nDo you want to lock this Persona anyway for VTT play?`);
+        if (!proceed) return false;
+      }
+    }
+
+    const now = new Date().toISOString();
+    const updated = {
+      ...characterData,
+      folio_phase: 'locked',
+      is_locked: true,
+      is_ready_for_vtt: true,
+      locked_at: now,
+      player_override: false,
+      updatedAt: now
+    };
+
+    setCharacterData(updated);
+    setPersonaRoster(prev => prev.map(c => {
+      if (c['character-doc-id'] === characterData['character-doc-id']) {
+        return {
+          ...c,
+          folio_phase: 'locked',
+          is_locked: true,
+          is_ready_for_vtt: true,
+          locked_at: now,
+          player_override: false,
+          updatedAt: now
+        };
+      }
+      return c;
+    }));
+
+    AudioService.playCriticalChime(true);
+    triggerSave(false);
+    return true;
+  }, [characterData, economyBreakdown?.spentCP, triggerSave]);
+
+  // Unlock persona (or enter Player Override if in an active game)
+  const unlockPersona = useCallback((forcePlayerOverride = false) => {
+    const now = new Date().toISOString();
+    if (isInActiveGame || forcePlayerOverride) {
+      // Guard: Check if GM has disallowed player override during live session
+      if (!allowPlayerOverride) {
+        alert('Player Override Disallowed: The Lead GM or Team Manager has locked player overrides for this session. Direct sheet modifications are disabled.');
+        return false;
+      }
+
+      // Enter Player Override mode during active session: tracked modifications will be logged
+      const updated = {
+        ...characterData,
+        player_override: true,
+        override_at: now,
+        updatedAt: now
+      };
+      setCharacterData(updated);
+      setPersonaRoster(prev => prev.map(c => {
+        if (c['character-doc-id'] === characterData['character-doc-id']) {
+          return {
+            ...c,
+            player_override: true,
+            override_at: now,
+            updatedAt: now
+          };
+        }
+        return c;
+      }));
+      AudioService.playTerminalBeep(1200, 0.05);
+      triggerSave(false);
+      return true;
+    } else {
+      // Full unlock back to development phase (not in active game)
+      const updated = {
+        ...characterData,
+        folio_phase: 'development',
+        is_locked: false,
+        is_ready_for_vtt: false,
+        locked_at: null,
+        player_override: false,
+        override_at: null,
+        updatedAt: now
+      };
+      setCharacterData(updated);
+      setPersonaRoster(prev => prev.map(c => {
+        if (c['character-doc-id'] === characterData['character-doc-id']) {
+          return {
+            ...c,
+            folio_phase: 'development',
+            is_locked: false,
+            is_ready_for_vtt: false,
+            locked_at: null,
+            player_override: false,
+            override_at: null,
+            updatedAt: now
+          };
+        }
+        return c;
+      }));
+      AudioService.playTerminalBeep(900, 0.05);
+      triggerSave(false);
+    }
+  }, [characterData, isInActiveGame, triggerSave]);
+
+  // Clone Variant: branch a new editable draft without modifying the locked character
+  const clonePersonaVariant = useCallback(async () => {
+    const baseName = characterData['char-name'] || 'Operative';
+    const newDocId = `char_${Date.now()}`;
+    const variantClone = {
+      ...characterData,
+      'character-doc-id': newDocId,
+      'char-name': `${baseName} (Variant)`,
+      folio_phase: 'development',
+      is_locked: false,
+      is_ready_for_vtt: false,
+      locked_at: null,
+      player_override: false,
+      override_at: null,
+      inActiveGame: false,
+      activeGameSession: null,
+      activeGameId: null,
+      tracked_modifications: [],
+      updatedAt: new Date().toISOString()
+    };
+
+    const updatedRoster = [...personaRoster, variantClone];
+    setPersonaRoster(updatedRoster);
+    StorageService.setItem('personaRoster', updatedRoster);
+    try {
+      localStorage.setItem('personaRoster', JSON.stringify(updatedRoster));
+    } catch (e) {}
+
+    // Switch active persona to new variant
+    setCharacterData(variantClone);
+    StorageService.setItem('personaFolioData', variantClone);
+    try {
+      sessionStorage.setItem('personaFolioData', JSON.stringify(variantClone));
+      localStorage.setItem('personaFolioData', JSON.stringify(variantClone));
+    } catch (e) {}
+
+    const user = auth.currentUser;
+    if (user) {
+      try {
+        const docRef = doc(db, `users/${user.uid}/personas`, newDocId);
+        await setDoc(docRef, variantClone);
+      } catch (err) {
+        console.warn('Firestore variant save fallback:', err.message);
+      }
+    }
+
+    AudioService.playCriticalChime(true);
+    alert(`Successfully branched variant: "${variantClone['char-name']}" into your operative roster!`);
+  }, [characterData, personaRoster]);
+
+  // Record a tracked modification during player override
+  const recordTrackedModification = useCallback((field, oldValue, newValue, playerNote = '', fieldLabel = '') => {
+    const modEntry = {
+      id: `mod_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
+      timestamp: new Date().toISOString(),
+      field,
+      fieldLabel: fieldLabel || field,
+      oldValue,
+      newValue,
+      playerNote: playerNote || '',
+      status: 'pending',
+      gmFeedback: '',
+      reviewedAt: null
+    };
+
+    setCharacterData(prev => {
+      const existing = Array.isArray(prev.tracked_modifications) ? prev.tracked_modifications : [];
+      return {
+        ...prev,
+        [field]: newValue,
+        tracked_modifications: [modEntry, ...existing],
+        updatedAt: new Date().toISOString()
+      };
+    });
+
+    setPersonaRoster(prev => prev.map(c => {
+      if (c['character-doc-id'] === characterData['character-doc-id']) {
+        const existing = Array.isArray(c.tracked_modifications) ? c.tracked_modifications : [];
+        return {
+          ...c,
+          [field]: newValue,
+          tracked_modifications: [modEntry, ...existing],
+          updatedAt: new Date().toISOString()
+        };
+      }
+      return c;
+    }));
+
+    triggerSave(false);
+    return modEntry;
+  }, [characterData, triggerSave]);
+
+  // Review a tracked modification (GM Review: accept, refuse, adjust)
+  const reviewTrackedModification = useCallback((targetCharId, modId, reviewAction, gmFeedback = '') => {
+    const now = new Date().toISOString();
+
+    setPersonaRoster(prev => prev.map(c => {
+      const cId = c['character-doc-id'] || c.id;
+      if (cId === targetCharId) {
+        const existingMods = Array.isArray(c.tracked_modifications) ? c.tracked_modifications : [];
+        const updatedMods = existingMods.map(m => {
+          if (m.id === modId) {
+            return {
+              ...m,
+              status: reviewAction,
+              gmFeedback: gmFeedback || m.gmFeedback || '',
+              reviewedAt: now
+            };
+          }
+          return m;
+        });
+        return {
+          ...c,
+          tracked_modifications: updatedMods,
+          updatedAt: now
+        };
+      }
+      return c;
+    }));
+
+    if (characterData['character-doc-id'] === targetCharId || characterData.id === targetCharId) {
+      setCharacterData(prev => {
+        const existingMods = Array.isArray(prev.tracked_modifications) ? prev.tracked_modifications : [];
+        const updatedMods = existingMods.map(m => {
+          if (m.id === modId) {
+            return {
+              ...m,
+              status: reviewAction,
+              gmFeedback: gmFeedback || m.gmFeedback || '',
+              reviewedAt: now
+            };
+          }
+          return m;
+        });
+        return {
+          ...prev,
+          tracked_modifications: updatedMods,
+          updatedAt: now
+        };
+      });
+    }
+
+    triggerSave(false);
+  }, [characterData, triggerSave]);
+
+  // Revert a refused or pending modification
+  const revertTrackedModification = useCallback((modId) => {
+    const targetMod = (characterData.tracked_modifications || []).find(m => m.id === modId);
+    if (!targetMod) return;
+
+    const { field, oldValue } = targetMod;
+
+    setCharacterData(prev => {
+      const updatedMods = (prev.tracked_modifications || []).filter(m => m.id !== modId);
+      return {
+        ...prev,
+        [field]: oldValue,
+        tracked_modifications: updatedMods,
+        updatedAt: new Date().toISOString()
+      };
+    });
+
+    setPersonaRoster(prev => prev.map(c => {
+      if (c['character-doc-id'] === characterData['character-doc-id']) {
+        const updatedMods = (c.tracked_modifications || []).filter(m => m.id !== modId);
+        return {
+          ...c,
+          [field]: oldValue,
+          tracked_modifications: updatedMods,
+          updatedAt: new Date().toISOString()
+        };
+      }
+      return c;
+    }));
+
+    triggerSave(false);
+    AudioService.playTerminalBeep(900, 0.05);
+  }, [characterData, triggerSave]);
+
+  // Sync VTT status conditions
+  const applyVTTStatusConditions = useCallback((heroId, conditions) => {
+    const condArray = Array.isArray(conditions) ? conditions : [];
+
+    setPersonaRoster(prev => prev.map(c => {
+      const cId = c['character-doc-id'] || c.id;
+      if (cId === heroId) {
+        return {
+          ...c,
+          active_conditions: condArray,
+          updatedAt: new Date().toISOString()
+        };
+      }
+      return c;
+    }));
+
+    if (characterData['character-doc-id'] === heroId || characterData.id === heroId) {
+      setCharacterData(prev => ({
+        ...prev,
+        active_conditions: condArray,
+        updatedAt: new Date().toISOString()
+      }));
+    }
+  }, [characterData]);
+
+  // GM sets allow_player_override for a specific persona or all personas
+  const setPersonaAllowPlayerOverride = useCallback((heroId, allowed) => {
+    const isAllowed = Boolean(allowed);
+    setPersonaRoster(prev => prev.map(c => {
+      const cId = c['character-doc-id'] || c.id;
+      if (!heroId || cId === heroId) {
+        return {
+          ...c,
+          allow_player_override: isAllowed,
+          // If revoked while in override, turn off player_override
+          player_override: isAllowed ? c.player_override : false,
+          updatedAt: new Date().toISOString()
+        };
+      }
+      return c;
+    }));
+
+    if (!heroId || characterData['character-doc-id'] === heroId || characterData.id === heroId) {
+      setCharacterData(prev => ({
+        ...prev,
+        allow_player_override: isAllowed,
+        player_override: isAllowed ? prev.player_override : false,
+        updatedAt: new Date().toISOString()
+      }));
+    }
+    triggerSave(false);
+  }, [characterData, triggerSave]);
+
   // List of protected game statistics
   const isProtectedGameStat = useCallback((key) => {
     if (!key || typeof key !== 'string') return false;
@@ -1581,22 +1967,30 @@ export const FolioProvider = ({ children }) => {
     });
   }, []);
 
-  // Field updater with primary attribute auto-sync to sub-attributes & Active Game Lockdown
-  const updateField = useCallback((key, value) => {
-    // If character is in an active game session and the field is a protected game stat without GM confirmation
-    if (isInActiveGame && !isGMConfirmed && isProtectedGameStat(key)) {
-      console.warn(`[Folio Integrity Lock]: Cannot alter game statistic "${key}" while persona is in an active game without GM confirmation.`);
-      alert(`🔒 ACTIVE GAME INTEGRITY LOCK: Game statistic "${key}" cannot be altered while the persona is in an active game session.\n\nTo modify game statistics, apply changes via GM Experience (AP) awards, Karma adjustments, VTT Combat Vitals, or request a GM confirmed override.`);
+  // Field updater with primary attribute auto-sync to sub-attributes, Lockout, and Active Game Tracking
+  const updateField = useCallback((key, value, playerNote = '') => {
+    // 1. Guard against modifications when locked out
+    if (isFolioLockedOut) {
+      console.warn(`[Folio Locked]: Cannot alter "${key}" while persona is locked.`);
+      alert(`🔒 PERSONA LOCKED: Character sheet is locked for VTT deployment.\n\nTo modify, click "Player Override" to enable tracked edits, or "Clone Variant" to branch an editable draft.`);
       return;
     }
 
-    // If updating identity selection (species, archetype, occupation, origin, faction), automatically transition traits & modifications
+    // 2. If in active game session under Player Override, track the modification for GM review
+    if (isInActiveGame && characterData?.player_override) {
+      const oldVal = characterDataRef.current?.[key];
+      if (oldVal !== value) {
+        recordTrackedModification(key, oldVal, value, playerNote, key);
+      }
+    }
+
+    // 3. If updating identity selection (species, archetype, occupation, origin, faction), automatically transition traits & modifications
     if (['char-species', 'char-archetype', 'char-occu', 'char-origin', 'char-faction'].includes(key)) {
       setCharacterData((prev) => applyIdentityFieldTransition(prev, key, value, dbData));
       return;
     }
 
-    // If updating a skill rank, clamp max to 20
+    // 4. If updating a skill rank, clamp max to 20
     if (typeof key === 'string' && key.startsWith('skill-') && key.endsWith('-rank')) {
       const clampedVal = Math.min(20, Math.max(0, parseInt(value, 10) || 0));
       setCharacterData((prev) => ({
@@ -1606,7 +2000,7 @@ export const FolioProvider = ({ children }) => {
       return;
     }
 
-    // If updating a primary attribute, automatically shift the base of its paired sub-attribute
+    // 5. If updating a primary attribute, automatically shift the base of its paired sub-attribute
     if (PRIMARY_TO_SUB_ATTR[key]) {
       const subKey = PRIMARY_TO_SUB_ATTR[key];
       const newPrimaryVal = parseInt(value, 10) || 0;
@@ -1632,7 +2026,7 @@ export const FolioProvider = ({ children }) => {
       ...prev,
       [key]: value
     }));
-  }, [isInActiveGame, isGMConfirmed, isProtectedGameStat, dbData]);
+  }, [isFolioLockedOut, isInActiveGame, characterData?.player_override, recordTrackedModification, dbData]);
 
   // 80 CP Archetype Pre-build Application Engine
   const applyArchetypeChassis = useCallback((archetypeInput) => {
@@ -2506,9 +2900,20 @@ export const FolioProvider = ({ children }) => {
     const targetId = heroId || characterData['character-doc-id'] || characterData.id;
     const clampedHealth = Math.max(0, parseInt(newHealth, 10) || 0);
 
+    const matchesTarget = (c) => {
+      if (!c || !targetId) return false;
+      const cId = c['character-doc-id'] || c.id;
+      if (cId === targetId || c.id === targetId) return true;
+      if (typeof targetId === 'string' && cId && targetId.startsWith(cId + '-')) return true;
+      return false;
+    };
+
+    let matchedDocId = targetId;
+
     setPersonaRoster(prev => {
       const updated = prev.map(c => {
-        if (targetId && (c['character-doc-id'] === targetId || c.id === targetId)) {
+        if (matchesTarget(c)) {
+          matchedDocId = c['character-doc-id'] || c.id || targetId;
           return {
             ...c,
             current_health: clampedHealth,
@@ -2522,16 +2927,20 @@ export const FolioProvider = ({ children }) => {
       return updated;
     });
 
-    setCharacterData(prev => ({
-      ...prev,
-      current_health: clampedHealth,
-      current_hp: clampedHealth
-    }));
+    const isActive = !heroId || characterData['character-doc-id'] === targetId || characterData.id === targetId || targetId === 'active' || (typeof targetId === 'string' && characterData['character-doc-id'] && targetId.startsWith(characterData['character-doc-id'] + '-'));
+    if (isActive) {
+      setCharacterData(prev => ({
+        ...prev,
+        current_health: clampedHealth,
+        current_hp: clampedHealth
+      }));
+    }
 
     const user = auth.currentUser;
-    if (user && targetId) {
+    const persistentId = matchedDocId !== 'active' ? matchedDocId : (characterData['character-doc-id'] || characterData.id);
+    if (user && persistentId) {
       try {
-        const docRef = doc(db, `users/${user.uid}/personas`, targetId);
+        const docRef = doc(db, `users/${user.uid}/personas`, persistentId);
         const snapshot = await getDoc(docRef);
         if (snapshot.exists()) {
           const existingData = snapshot.data();
@@ -2547,9 +2956,20 @@ export const FolioProvider = ({ children }) => {
     const targetId = heroId || characterData['character-doc-id'] || characterData.id;
     const clampedVitality = Math.max(0, parseInt(newVitality, 10) || 0);
 
+    const matchesTarget = (c) => {
+      if (!c || !targetId) return false;
+      const cId = c['character-doc-id'] || c.id;
+      if (cId === targetId || c.id === targetId) return true;
+      if (typeof targetId === 'string' && cId && targetId.startsWith(cId + '-')) return true;
+      return false;
+    };
+
+    let matchedDocId = targetId;
+
     setPersonaRoster(prev => {
       const updated = prev.map(c => {
-        if (targetId && (c['character-doc-id'] === targetId || c.id === targetId)) {
+        if (matchesTarget(c)) {
+          matchedDocId = c['character-doc-id'] || c.id || targetId;
           return {
             ...c,
             current_vitality: clampedVitality,
@@ -2562,15 +2982,19 @@ export const FolioProvider = ({ children }) => {
       return updated;
     });
 
-    setCharacterData(prev => ({
-      ...prev,
-      current_vitality: clampedVitality
-    }));
+    const isActive = !heroId || characterData['character-doc-id'] === targetId || characterData.id === targetId || targetId === 'active' || (typeof targetId === 'string' && characterData['character-doc-id'] && targetId.startsWith(characterData['character-doc-id'] + '-'));
+    if (isActive) {
+      setCharacterData(prev => ({
+        ...prev,
+        current_vitality: clampedVitality
+      }));
+    }
 
     const user = auth.currentUser;
-    if (user && targetId) {
+    const persistentId = matchedDocId !== 'active' ? matchedDocId : (characterData['character-doc-id'] || characterData.id);
+    if (user && persistentId) {
       try {
-        const docRef = doc(db, `users/${user.uid}/personas`, targetId);
+        const docRef = doc(db, `users/${user.uid}/personas`, persistentId);
         const snapshot = await getDoc(docRef);
         if (snapshot.exists()) {
           const existingData = snapshot.data();
@@ -2845,29 +3269,44 @@ export const FolioProvider = ({ children }) => {
     return result;
   }, [personaRoster, characterData]);
 
-  const awardExperience = useCallback(async (heroId, awardDetails = {}) => {
+  const awardExperience = useCallback(async (heroId, awardDetails = {}, maybeReason) => {
     const targetId = heroId || characterData['character-doc-id'] || characterData.id || 'active';
-    const target = (personaRoster || []).find(c => c['character-doc-id'] === targetId || c.id === targetId) ||
-      (characterData['character-doc-id'] === targetId || characterData.id === targetId ? characterData : null);
+    const matchesTarget = (c) => {
+      if (!c || !targetId) return false;
+      const cId = c['character-doc-id'] || c.id;
+      if (cId === targetId || c.id === targetId) return true;
+      if (typeof targetId === 'string' && cId && targetId.startsWith(cId + '-')) return true;
+      return false;
+    };
+
+    const target = (personaRoster || []).find(matchesTarget) ||
+      (matchesTarget(characterData) || targetId === 'active' ? characterData : null);
     if (!target) return null;
 
-    const result = applyExperienceAward(target, awardDetails);
+    const matchedDocId = target['character-doc-id'] || target.id || targetId;
+
+    // Normalize awardDetails if passed as (heroId, amount, reason)
+    const normalizedAward = (typeof awardDetails === 'number')
+      ? { amount: awardDetails, reason: maybeReason || 'Experience Award' }
+      : awardDetails;
+
+    const result = applyExperienceAward(target, normalizedAward);
     const updatedData = { ...result.updatedData, updatedAt: new Date().toISOString() };
 
     setPersonaRoster(prev => {
-      const updated = prev.map(c => (c['character-doc-id'] === targetId || c.id === targetId) ? updatedData : c);
+      const updated = prev.map(c => matchesTarget(c) ? { ...c, ...updatedData } : c);
       StorageService.setItem('personaRoster', updated);
       return updated;
     });
 
-    if (characterData['character-doc-id'] === targetId || characterData.id === targetId || targetId === 'active') {
+    if (matchesTarget(characterData) || targetId === 'active') {
       setCharacterData(prev => ({ ...prev, ...updatedData }));
     }
 
     const user = auth.currentUser;
-    if (user && targetId && targetId !== 'active') {
+    if (user && matchedDocId && matchedDocId !== 'active') {
       try {
-        const docRef = doc(db, `users/${user.uid}/personas`, targetId);
+        const docRef = doc(db, `users/${user.uid}/personas`, matchedDocId);
         const snapshot = await getDoc(docRef);
         if (snapshot.exists()) {
           await setDoc(docRef, { ...snapshot.data(), ...updatedData });
@@ -3083,15 +3522,25 @@ export const FolioProvider = ({ children }) => {
 
   const updateCharacterKarma = useCallback(async (heroId, newKarma) => {
     const targetId = heroId || characterData['character-doc-id'] || characterData.id || 'active';
-    const target = (personaRoster || []).find(c => c['character-doc-id'] === targetId || c.id === targetId) ||
-      (characterData['character-doc-id'] === targetId || characterData.id === targetId || targetId === 'active' ? characterData : null);
+    const matchesTarget = (c) => {
+      if (!c || !targetId) return false;
+      const cId = c['character-doc-id'] || c.id;
+      if (cId === targetId || c.id === targetId) return true;
+      if (typeof targetId === 'string' && cId && targetId.startsWith(cId + '-')) return true;
+      return false;
+    };
+
+    const target = (personaRoster || []).find(matchesTarget) ||
+      (matchesTarget(characterData) || targetId === 'active' ? characterData : null);
     if (!target) return null;
 
+    const matchedDocId = target['character-doc-id'] || target.id || targetId;
+
     const charisma = parseInt(target['attr-charisma'] || target.attr_charisma || 10, 10);
-    const maxKarmaDebt = (targetId === (characterData['character-doc-id'] || characterData.id || 'active'))
+    const maxKarmaDebt = (matchesTarget(characterData) || targetId === 'active')
       ? derivedStats.maxKarmaDebt
       : Math.max(1, charisma + 1);
-    const maxKarma = (targetId === (characterData['character-doc-id'] || characterData.id || 'active'))
+    const maxKarma = (matchesTarget(characterData) || targetId === 'active')
       ? derivedStats.maxKarma
       : Math.max(0, parseInt(target.maxKarma || 3, 10));
 
@@ -3099,7 +3548,7 @@ export const FolioProvider = ({ children }) => {
 
     setPersonaRoster(prev => {
       const updated = prev.map(c => {
-        if (c['character-doc-id'] === targetId || c.id === targetId) {
+        if (matchesTarget(c)) {
           return {
             ...c,
             karma: clampedKarma,
@@ -3112,7 +3561,7 @@ export const FolioProvider = ({ children }) => {
       return updated;
     });
 
-    if (characterData['character-doc-id'] === targetId || characterData.id === targetId || targetId === 'active') {
+    if (matchesTarget(characterData) || targetId === 'active') {
       setCharacterData(prev => ({
         ...prev,
         karma: clampedKarma
@@ -3120,9 +3569,9 @@ export const FolioProvider = ({ children }) => {
     }
 
     const user = auth.currentUser;
-    if (user && targetId && targetId !== 'active') {
+    if (user && matchedDocId && matchedDocId !== 'active') {
       try {
-        const docRef = doc(db, `users/${user.uid}/personas`, targetId);
+        const docRef = doc(db, `users/${user.uid}/personas`, matchedDocId);
         const snapshot = await getDoc(docRef);
         if (snapshot.exists()) {
           await setDoc(docRef, { ...snapshot.data(), karma: clampedKarma, updatedAt: new Date().toISOString() });
@@ -3328,7 +3777,21 @@ export const FolioProvider = ({ children }) => {
         publicCatalog,
         togglePersonaVisibility,
         clonePublicPersona,
-        loadPublicPersonas,
+        isLocked,
+        folioPhase,
+        isReadyForVTT,
+        allowPlayerOverride,
+        isPlayerOverride,
+        isFolioLockedOut,
+        lockPersona,
+        unlockPersona,
+        clonePersonaVariant,
+        recordTrackedModification,
+        reviewTrackedModification,
+        revertTrackedModification,
+        applyVTTStatusConditions,
+        setPersonaAllowPlayerOverride,
+        trackedModifications: characterData.tracked_modifications || [],
         applyGuidedCharacter,
         dbData
       }}

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file ControlPanelStudio.jsx
  * @description OSR Two-Page Control Panel Workspace for Tangent SF RP.
  * Enforces high-scannability 2-column layout, boxed sensory read-alouds,
@@ -24,23 +24,19 @@ export default function ControlPanelStudio({
   onExecuteRoll
 }) {
   const [readAloud, setReadAloud] = useState(
-    activeNode?.fields?.readAloud ||
-    'The airlock vents cold nitrogen into the corridor. Flickering amber emergency strobes illuminate scorched hull plating and severed conduit cables swinging from the bulkhead ceiling.'
+    activeNode?.fields?.readAloud || ''
   );
 
   const [bulletPoints, setBulletPoints] = useState(
-    activeNode?.fields?.bulletPoints || [
-      'Bulkhead Blast Door: Heavy reinforced titanium [Athletics DC 16] to pry open manually or [Tech DC 14] to bypass servo control.',
-      'Atmospheric Decompression: Hull breach hazard ticking every round. [Reflex DC 15] or suffer 1d6 kinetic puncture damage.',
-      'Encrypted Comm Console: Contains flight logs of the fallen syndicate freighter. Requires [Intellect DC 13] to decipher encryption.'
-    ]
+    activeNode?.fields?.bulletPoints || []
   );
 
   const [threats, setThreats] = useState(
-    activeNode?.fields?.threats || [
-      { name: 'Scythe Vanguard Sentinel', tier: 'High Threat', hp: 28, dr: '6 Kin / 4 Eng', attack: '2d10+4 Plasma Carbine' },
-      { name: 'Automated Sentry Drone', tier: 'Medium Threat', hp: 14, dr: '4 Kin / 2 Eng', attack: '1d12+2 Rotary Laser' }
-    ]
+    activeNode?.fields?.threats || []
+  );
+
+  const [gmSecrets, setGmSecrets] = useState(
+    activeNode?.fields?.gmSecrets || activeNode?.fields?.complications || ''
   );
 
   const handleRollCheck = (dcText) => {
@@ -93,22 +89,28 @@ export default function ControlPanelStudio({
             </div>
 
             <div className="space-y-2">
-              {bulletPoints.map((bp, index) => (
-                <div 
-                  key={index}
-                  className="p-2 rounded-xl bg-slate-950/70 border border-slate-800/80 text-xs text-slate-300 flex items-start justify-between gap-2"
-                >
-                  <span className="font-sans leading-relaxed">{bp}</span>
-                  <button
-                    type="button"
-                    onClick={() => handleRollCheck(bp.slice(0, 30))}
-                    className="p-1 rounded bg-slate-900 hover:bg-cyan-950 border border-slate-700 hover:border-cyan-400 text-cyan-300 transition-colors shrink-0 cursor-pointer"
-                    title="Execute test roll for this DC"
-                  >
-                    <Dices size={12} />
-                  </button>
+              {bulletPoints.length === 0 ? (
+                <div className="p-3 rounded-xl bg-slate-950/40 border border-slate-800/60 text-xs text-slate-500 italic font-mono">
+                  No tactical bullet points configured for this scenario.
                 </div>
-              ))}
+              ) : (
+                bulletPoints.map((bp, index) => (
+                  <div 
+                    key={index}
+                    className="p-2 rounded-xl bg-slate-950/70 border border-slate-800/80 text-xs text-slate-300 flex items-start justify-between gap-2"
+                  >
+                    <span className="font-sans leading-relaxed">{bp}</span>
+                    <button
+                      type="button"
+                      onClick={() => handleRollCheck(bp.slice(0, 30))}
+                      className="p-1 rounded bg-slate-900 hover:bg-cyan-950 border border-slate-700 hover:border-cyan-400 text-cyan-300 transition-colors shrink-0 cursor-pointer"
+                      title="Execute test roll for this DC"
+                    >
+                      <Dices size={12} />
+                    </button>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         </div>
@@ -123,24 +125,30 @@ export default function ControlPanelStudio({
             </div>
 
             <div className="space-y-2.5">
-              {threats.map((threat, index) => (
-                <div 
-                  key={index}
-                  className="p-3 rounded-xl bg-red-950/20 border border-red-500/30 font-mono text-xs space-y-1.5 break-inside-avoid shadow-sm"
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-slate-100">{threat.name}</span>
-                    <span className="text-[10px] px-1.5 py-0.5 rounded bg-red-950 text-red-300 border border-red-500/40">
-                      {threat.tier}
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-2 gap-2 text-[10px] pt-1 text-slate-400">
-                    <div>HP: <span className="text-emerald-400 font-bold">{threat.hp}</span></div>
-                    <div>DR: <span className="text-cyan-300 font-bold">{threat.dr}</span></div>
-                    <div className="col-span-2">ATTACK: <span className="text-amber-300">{threat.attack}</span></div>
-                  </div>
+              {threats.length === 0 ? (
+                <div className="p-3 rounded-xl bg-red-950/10 border border-red-500/20 text-xs text-slate-500 italic font-mono">
+                  No threat matrix entities assigned to this scenario.
                 </div>
-              ))}
+              ) : (
+                threats.map((threat, index) => (
+                  <div 
+                    key={index}
+                    className="p-3 rounded-xl bg-red-950/20 border border-red-500/30 font-mono text-xs space-y-1.5 break-inside-avoid shadow-sm"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-slate-100">{threat.name}</span>
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-red-950 text-red-300 border border-red-500/40">
+                        {threat.tier}
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 text-[10px] pt-1 text-slate-400">
+                      <div>HP: <span className="text-emerald-400 font-bold">{threat.hp}</span></div>
+                      <div>DR: <span className="text-cyan-300 font-bold">{threat.dr}</span></div>
+                      <div className="col-span-2">ATTACK: <span className="text-amber-300">{threat.attack}</span></div>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
           </div>
 
@@ -150,9 +158,12 @@ export default function ControlPanelStudio({
               <HelpCircle size={14} className="text-purple-400" />
               <span>CLASSIFIED GM DISCOVERY / COMPLICATION</span>
             </div>
-            <p className="text-xs text-purple-200/90 font-sans italic leading-relaxed">
-              If the operatives trigger an unsuppressed kinetic weapon discharge, the acoustic reverberation alerts the patrol in Sub-Level 3. Reinforcements arrive in 3 combat rounds.
-            </p>
+            <textarea
+              value={gmSecrets}
+              onChange={(e) => setGmSecrets(e.target.value)}
+              placeholder="Author hidden GM secrets, trigger conditions, reinforcements, or room complications..."
+              className="w-full h-20 p-2.5 bg-slate-950/90 border border-purple-500/30 rounded-xl font-sans italic text-xs text-purple-200 placeholder-slate-600 focus:outline-none focus:border-purple-500/60 resize-none leading-relaxed"
+            />
           </div>
         </div>
       </div>
