@@ -1,8 +1,8 @@
-﻿/**
+/**
  * @file StoryModule.jsx
- * @description Master Unified Story & Worldbuilding Module.
+ * @description Adventure Development Environment (ADE) - Master Unified Story & Narrative Suite.
  * Consolidates the Story Drafting Canvas, full-screen Element Editor & Forge,
- * OSR Two-Page Control Panel Studio, and Fiction Manuscript Studio into a single unified workspace.
+ * Granular Interactive Story Mode, OSR Two-Page Control Panel Studio, and Fiction Manuscript Studio.
  */
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -12,12 +12,16 @@ import {
   Box, 
   LayoutGrid, 
   Feather, 
-  FolderOpen 
+  FolderOpen,
+  Sparkles,
+  Printer
 } from 'lucide-react';
 import ScenarioPane from './ScenarioPane';
 import ElementForge from '../ElementForge/ElementForge';
 import ControlPanelStudio from './workspaces/ControlPanelStudio';
 import ManuscriptStudio from './workspaces/ManuscriptStudio';
+import InteractiveStoryStudio from './workspaces/InteractiveStoryStudio';
+import AdventurePrintModal from './workspaces/AdventurePrintModal';
 import FoundryLauncherModal from '../../../components/StoryFoundry/FoundryLauncherModal';
 import { useStory } from '../../../context/CampaignContext';
 
@@ -28,13 +32,14 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
   const viewParam = searchParams.get('view');
   const { openStory, universeState, elementsCatalog } = useStory();
 
-  // Mode switcher state: 'scenarios' | 'elements' | 'control-panel' | 'manuscript'
+  // Mode switcher state: 'scenarios' | 'elements' | 'interactive' | 'control-panel' | 'manuscript'
   const [activeView, setActiveView] = useState(() => {
     return viewParam || defaultView || 'scenarios';
   });
 
-  // Story Project catalog modal
+  // Story Project catalog modal & Print modal
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
+  const [isPrintModalOpen, setIsPrintModalOpen] = useState(false);
 
   useEffect(() => {
     if (storyIdParam) {
@@ -84,6 +89,14 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
       {/* ── CONSOLIDATED STUDIO & MODE NAVIGATION BAR ── */}
       <nav className="h-10 px-4 bg-[#0a0d14] border-b border-slate-800/80 flex items-center justify-between gap-3 shrink-0 select-none z-30">
         <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none font-mono text-xs">
+          {/* Brand Indicator */}
+          <div className="flex items-center gap-1.5 mr-2 font-mono shrink-0">
+            <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+            <span className="text-cyan-400 font-bold text-xs tracking-wider uppercase hidden xl:inline">
+              ADE
+            </span>
+          </div>
+
           {/* View 1: Scenarios & Story Canvas */}
           <button
             type="button"
@@ -117,7 +130,22 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
             </span>
           </button>
 
-          {/* View 3: OSR Two-Page Control Panel Studio */}
+          {/* View 3: Granular Interactive Story Studio */}
+          <button
+            type="button"
+            onClick={() => handleSwitchView('interactive')}
+            className={`px-3 py-1 rounded-lg font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
+              activeView === 'interactive'
+                ? 'bg-cyan-950/90 text-cyan-300 border border-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.4)]'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+            }`}
+            title="Granular Interactive Story Mode with Gated 1-2 Paragraph AI Beats & Decision Gates"
+          >
+            <Sparkles size={13} className="text-amber-400 animate-pulse" />
+            <span>Interactive Story</span>
+          </button>
+
+          {/* View 4: OSR Two-Page Control Panel Studio */}
           <button
             type="button"
             onClick={() => handleSwitchView('control-panel')}
@@ -132,7 +160,7 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
             <span>Control Panel</span>
           </button>
 
-          {/* View 4: Minimalist Manuscript Studio */}
+          {/* View 5: Minimalist Manuscript Studio */}
           <button
             type="button"
             onClick={() => handleSwitchView('manuscript')}
@@ -148,16 +176,26 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
           </button>
         </div>
 
-        {/* Global Roster Launcher */}
-        <div className="flex items-center gap-2">
+        {/* Global Action Launchers */}
+        <div className="flex items-center gap-2 font-mono text-xs">
+          <button
+            type="button"
+            onClick={() => setIsPrintModalOpen(true)}
+            className="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 text-cyan-300 hover:text-white border border-slate-700/80 rounded-lg font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer"
+            title="Print Fiction Book or OSR Adventure Module"
+          >
+            <Printer size={13} className="text-cyan-400" />
+            <span className="hidden md:inline">Print & Publish</span>
+          </button>
+
           <button
             type="button"
             onClick={() => setIsCatalogOpen(true)}
-            className="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700/80 rounded-lg text-xs font-mono font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer"
+            className="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700/80 rounded-lg font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer"
             title="Open Story Project Catalog & Roster"
           >
             <FolderOpen size={13} className="text-amber-400" />
-            <span className="hidden sm:inline">Story Roster</span>
+            <span className="hidden sm:inline">ADE Roster</span>
           </button>
         </div>
       </nav>
@@ -182,14 +220,21 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
           />
         )}
 
-        {/* VIEW 3: OSR CONTROL PANEL STUDIO */}
+        {/* VIEW 3: GRANULAR INTERACTIVE STORY STUDIO */}
+        {activeView === 'interactive' && (
+          <InteractiveStoryStudio 
+            activeNode={activeNode}
+          />
+        )}
+
+        {/* VIEW 4: OSR CONTROL PANEL STUDIO */}
         {activeView === 'control-panel' && (
           <ControlPanelStudio 
             activeNode={activeNode}
           />
         )}
 
-        {/* VIEW 4: FICTION MANUSCRIPT STUDIO */}
+        {/* VIEW 5: FICTION MANUSCRIPT STUDIO */}
         {activeView === 'manuscript' && (
           <ManuscriptStudio 
             activeNode={activeNode}
@@ -202,6 +247,13 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
         isOpen={isCatalogOpen} 
         onClose={() => setIsCatalogOpen(false)} 
         initialTab="stories"
+      />
+
+      {/* Print & Publishing Modal */}
+      <AdventurePrintModal
+        isOpen={isPrintModalOpen}
+        onClose={() => setIsPrintModalOpen(false)}
+        storyTitle={activeNode?.title || 'ADE Adventure'}
       />
     </div>
   );

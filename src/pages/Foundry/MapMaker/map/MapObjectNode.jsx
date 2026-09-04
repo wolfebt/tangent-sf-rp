@@ -274,13 +274,39 @@ export const MapObjectNode = ({
               cornerRadius={3}
             />
             <Text
-              text={hasHazard ? '⚠️ Hazard' : '💎 Resource'}
+              text={hasHazard ? (shapeProps.trapState ? `⚠️ ${shapeProps.trapState.toUpperCase()}` : '⚠️ Hazard') : '💎 Resource'}
               fontSize={8}
               fontStyle="bold"
               fill="#ffffff"
               align="center"
               width={80}
               x={-40}
+              y={2}
+            />
+          </Group>
+        )}
+
+        {/* Story Module ADE Element Badge */}
+        {(shapeProps.isStoryElement || shapeProps.storyElementType) && !isLODOut && (
+          <Group y={radius + 4}>
+            <Rect
+              x={-45}
+              y={0}
+              width={90}
+              height={14}
+              fill="rgba(8, 51, 68, 0.95)"
+              stroke="#06b6d4"
+              strokeWidth={1}
+              cornerRadius={3}
+            />
+            <Text
+              text={`📖 ${shapeProps.storyElementType || 'ADE Element'}`}
+              fontSize={8}
+              fontStyle="bold"
+              fill="#67e8f9"
+              align="center"
+              width={90}
+              x={-45}
               y={2}
             />
           </Group>
@@ -296,7 +322,7 @@ export const MapObjectNode = ({
             align="center"
             width={120}
             offsetX={60}
-            offsetY={-radius - (hasHazard || hasResource ? 20 : (hasScaleTarget ? 8 : 12))}
+            offsetY={-radius - (hasHazard || hasResource || shapeProps.isStoryElement ? 20 : (hasScaleTarget ? 8 : 12))}
             shadowColor="#000000"
             shadowBlur={4}
           />
@@ -570,6 +596,30 @@ export const TokenNode = ({ shapeProps, isSelected, isActiveTurn, onSelect, onCh
                 strokeWidth={1}
               />
             ))}
+          </Group>
+        )}
+
+        {/* Autonomous NPC Script Badge */}
+        {shapeProps.script && shapeProps.script.type && (
+          <Group x={radius - 6} y={radius - 6}>
+            <Circle
+              radius={9}
+              fill="#0f172a"
+              stroke="#06b6d4"
+              strokeWidth={1.5}
+            />
+            <Text
+              text={
+                shapeProps.script.type === 'patrol' ? '🚶' :
+                shapeProps.script.type === 'sentry' ? '👁️' :
+                shapeProps.script.type === 'ambush' ? '🥷' : '🤖'
+              }
+              fontSize={9}
+              align="center"
+              width={16}
+              offsetX={8}
+              offsetY={4.5}
+            />
           </Group>
         )}
 

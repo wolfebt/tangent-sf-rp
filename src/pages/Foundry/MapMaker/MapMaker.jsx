@@ -30,6 +30,10 @@ import LandmassGeneratorModal from './map/LandmassGeneratorModal';
 import MapAssetManagerModal from './map/MapAssetManagerModal';
 import FolioHeroTokenDrawer from './map/FolioHeroTokenDrawer';
 import OmnicortexAssetDrawer from './map/OmnicortexAssetDrawer';
+import StoryElementsDrawer from './map/StoryElementsDrawer';
+import StoryElementModal from './map/StoryElementModal';
+import ReactiveAutomationConsole from './map/ReactiveAutomationConsole';
+import { evaluateTrapTriggers } from '../../../services/reactiveVttService';
 import { DBMItemModal } from '../../../components/DBM/DBMItemModal';
 import FloatingCombatText from './map/FloatingCombatText';
 import { StoryFoundryGuideModal } from '../../../components/StoryFoundry/StoryFoundryGuideModal';
@@ -179,6 +183,10 @@ const MapPane = ({ mapExportPngRef }) => {
   const [showLayersPanel, setShowLayersPanel] = useState(true);
   const [showHeroDrawer, setShowHeroDrawer] = useState(false);
   const [showOmnicortexDrawer, setShowOmnicortexDrawer] = useState(false);
+  const [showStoryDrawer, setShowStoryDrawer] = useState(false);
+  const [showAutomationConsole, setShowAutomationConsole] = useState(false);
+  const [inspectingStoryElement, setInspectingStoryElement] = useState(null);
+  const [isAutomationActive, setIsAutomationActive] = useState(true);
   const [inspectingOmnicortexItem, setInspectingOmnicortexItem] = useState(null);
   const [showCombatTracker, setShowCombatTracker] = useState(false);
   const [showMetadataPanel, setShowMetadataPanel] = useState(false);
@@ -671,6 +679,108 @@ const MapPane = ({ mapExportPngRef }) => {
     }
   };
 
+  const handleSummonStoryElement = (element, targetPos = null) => {
+    if (!currentMap || !element) return;
+
+    const posX = targetPos?.x !== undefined ? targetPos.x : Math.round((-position.x + stageSize.width / 2) / scale);
+    const posY = targetPos?.y !== undefined ? targetPos.y : Math.round((-position.y + stageSize.height / 2) / scale);
+
+    const type = element.type || 'Scene';
+    recordHistory();
+
+    if (type === 'Persona') {
+      const curHealth = parseInt(element['health'] || element.health || 25, 10);
+      const curVitality = parseInt(element['vitality'] || element.vitality || 20, 10);
+      const newNpcToken = {
+        id: `token_persona_${element.id || Date.now()}_${Math.floor(Math.random()*1000)}`,
+        type: 'npc',
+        storyElementId: element.id,
+        storyElementType: 'Persona',
+        linkedStoryElement: element,
+        label: element['char-name'] || element.name || element.title || 'NPC Persona',
+        avatarUrl: element.avatarUrl || null,
+        x: posX,
+        y: posY,
+        radius: 35,
+        fill: '#a855f7',
+        layerId: 'layer_tokens',
+        health: { current: curHealth, max: curHealth },
+        vitality: { current: curVitality, max: curVitality },
+        defense: parseInt(element.defense || 12, 10),
+        actionPoints: 3,
+        initiative: 11,
+        conditions: [],
+        script: {
+          type: 'dialogue_bark',
+          alertBark: element.voice || element.mannerisms || 'Greetings, operative.'
+        }
+      };
+      updateMap(activeMapId, { tokens: [...tokens, newNpcToken] });
+      AudioService.playTerminalBeep(1100, 0.1);
+      triggerFloatingCombatText(targetPos ? (posX * scale + position.x) : stageSize.width / 2, targetPos ? (posY * scale + position.y) : stageSize.height / 2, `+ ${newNpcToken.label}`, 'heal');
+    } else if (type === 'Hazard' || type === 'Trap' || type === 'hazard') {
+      const newTrap = {
+        id: `obj_trap_${element.id || Date.now()}_${Math.floor(Math.random()*1000)}`,
+        type: 'hazard',
+        isTrap: true,
+        trapType: element.trapType || 'proximity_plasma_mine',
+        trapState: 'armed',
+        storyElementId: element.id,
+        storyElementType: 'Hazard',
+        linkedStoryElement: element,
+        label: element.name || element.title || 'Reactive Trap',
+        color: '#ef4444',
+        shape: 'circle',
+        x: posX - 25,
+        y: posY - 25,
+        radius: 30,
+        width: 60,
+        height: 60,
+        saveDc: element.dc || 14,
+        damageDice: element.damage || '2d10',
+        baseDamage: 14,
+        hazard: 'plasma',
+        layerId: 'layer_objects'
+      };
+      updateMap(activeMapId, { objects: [...objects, newTrap] });
+      AudioService.playCombatHit(false);
+      triggerFloatingCombatText(targetPos ? (posX * scale + position.x) : stageSize.width / 2, targetPos ? (posY * scale + position.y) : stageSize.height / 2, `+ Trap: ${newTrap.label}`, 'crit_fail');
+    } else {
+      const glyphColors = {
+        Scene: '#f43f5e',
+        Clue: '#f59e0b',
+        Handout: '#38bdf8',
+        Item: '#10b981',
+        Encounter: '#ef4444',
+        Faction: '#6366f1',
+        Technology: '#d946ef',
+        World: '#0ea5e9'
+      };
+      const nodeColor = glyphColors[type] || '#22d3ee';
+      const newStoryObject = {
+        id: `obj_ade_${element.id || Date.now()}_${Math.floor(Math.random()*1000)}`,
+        type: 'story_element',
+        isStoryElement: true,
+        storyElementType: type,
+        storyElementId: element.id,
+        linkedStoryElement: element,
+        label: element.name || element.title || `${type} Node`,
+        color: nodeColor,
+        shape: type === 'Clue' || type === 'Item' ? 'star' : (type === 'Scene' ? 'circle' : 'rect'),
+        x: posX - 25,
+        y: posY - 25,
+        width: 50,
+        height: 50,
+        radius: 25,
+        layerId: 'layer_objects',
+        isInteractive: true
+      };
+      updateMap(activeMapId, { objects: [...objects, newStoryObject] });
+      AudioService.playTerminalBeep(920, 0.08);
+      triggerFloatingCombatText(targetPos ? (posX * scale + position.x) : stageSize.width / 2, targetPos ? (posY * scale + position.y) : stageSize.height / 2, `+ ${newStoryObject.label}`, 'heal');
+    }
+  };
+
   const handleStageDrop = (e) => {
     e.preventDefault();
     const raw = e.dataTransfer.getData('application/json');
@@ -678,7 +788,15 @@ const MapPane = ({ mapExportPngRef }) => {
 
     try {
       const data = JSON.parse(raw);
-      if (data.type === 'folio_hero_token') {
+      if (data.type === 'story_element') {
+        if (!currentMap) return;
+        const rect = containerRef.current.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+        const canvasX = (mouseX - position.x) / scale;
+        const canvasY = (mouseY - position.y) / scale;
+        handleSummonStoryElement(data.element, { x: Math.round(canvasX), y: Math.round(canvasY) });
+      } else if (data.type === 'folio_hero_token') {
         if (!currentMap) return;
 
         const rect = containerRef.current.getBoundingClientRect();
@@ -1029,6 +1147,11 @@ const MapPane = ({ mapExportPngRef }) => {
    * Traverse to Child Scale Map on Node Double Click
    */
   const handleObjectDoubleClick = (obj) => {
+    if (obj.isStoryElement || obj.linkedStoryElement || obj.storyElementType || obj.isTrap) {
+      setInspectingStoryElement(obj.linkedStoryElement || obj);
+      return;
+    }
+
     if (!obj.scaleTarget) return;
 
     // Check if a linked child map already exists for this object
@@ -1560,6 +1683,10 @@ const MapPane = ({ mapExportPngRef }) => {
           onOpenAssetManager={() => setIsAssetManagerOpen(true)}
           onOpenHeroDrawer={() => setShowHeroDrawer(true)}
           onOpenOmnicortexDrawer={() => setShowOmnicortexDrawer(true)}
+          showStoryDrawer={showStoryDrawer}
+          setShowStoryDrawer={setShowStoryDrawer}
+          showAutomationConsole={showAutomationConsole}
+          setShowAutomationConsole={setShowAutomationConsole}
           onOpenLandmassGenerator={() => setIsLandmassModalOpen(true)}
           onOpenUvttImport={() => setIsUvttModalOpen(true)}
           onOpenLayersPanel={() => setShowLayersPanel(true)}
@@ -1587,6 +1714,48 @@ const MapPane = ({ mapExportPngRef }) => {
           setShowDrawer={setShowOmnicortexDrawer}
           onSummonAsset={(item, cat) => handleSummonOmnicortexAsset(item, cat)}
         />
+
+        <StoryElementsDrawer
+          showDrawer={showStoryDrawer}
+          setShowDrawer={setShowStoryDrawer}
+          onSummonElement={(element) => handleSummonStoryElement(element)}
+          onInspectElement={(element) => setInspectingStoryElement(element)}
+        />
+
+        <ReactiveAutomationConsole
+          isOpen={showAutomationConsole}
+          onClose={() => setShowAutomationConsole(false)}
+          tokens={tokens}
+          objects={objects}
+          onUpdateTokens={(next) => {
+            recordHistory();
+            updateMap(activeMapId, { tokens: next });
+          }}
+          onUpdateObjects={(next) => {
+            recordHistory();
+            updateMap(activeMapId, { objects: next });
+          }}
+          onTriggerFloatingText={triggerFloatingCombatText}
+          isAutomationActive={isAutomationActive}
+          onToggleAutomation={() => setIsAutomationActive(prev => !prev)}
+        />
+
+        {inspectingStoryElement && (
+          <StoryElementModal
+            isOpen={!!inspectingStoryElement}
+            onClose={() => setInspectingStoryElement(null)}
+            element={inspectingStoryElement}
+            mapObjectNode={objects.find(o => o.id === inspectingStoryElement.id || o.storyElementId === inspectingStoryElement.id)}
+            onUpdateMapObject={(objId, updates) => {
+              recordHistory();
+              const nextObjs = objects.map(o => o.id === objId ? { ...o, ...updates } : o);
+              updateMap(activeMapId, { objects: nextObjs });
+            }}
+            onTriggerFloatingText={triggerFloatingCombatText}
+            scale={scale}
+            position={position}
+          />
+        )}
 
         <MapCombatTracker
           tokens={tokens}
@@ -1930,6 +2099,22 @@ const MapPane = ({ mapExportPngRef }) => {
                               if (index !== -1) draft[index] = newAttrs;
                             });
                             updateMap(activeMapId, { tokens: nextTokens });
+
+                            // Autonomous Reactive Traps & Hazards Detection
+                            if (isAutomationActive && (token.x !== newAttrs.x || token.y !== newAttrs.y)) {
+                              const triggered = evaluateTrapTriggers(newAttrs, objects, tokens);
+                              triggered.forEach(evt => {
+                                triggerFloatingCombatText(
+                                  (newAttrs.x || 0) * scale + position.x,
+                                  (newAttrs.y || 0) * scale + position.y,
+                                  evt.isAlarm ? '🚨 ALARM TRIPPED!' : `💥 -${evt.damage} DAMAGE (TRAP)`,
+                                  evt.isAlarm ? 'crit_fail' : 'damage'
+                                );
+                                if (evt.damage > 0) {
+                                  handleUpdateTokenHealth(newAttrs.id, Math.max(0, (newAttrs.health?.current || 30) - evt.damage), true, evt.damage);
+                                }
+                              });
+                            }
                           }}
                         />
                       </Group>

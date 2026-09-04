@@ -7,8 +7,8 @@ import './Dashboard.css';
 const modules = [
   {
     id: 'story',
-    title: 'Story Module',
-    description: 'Enter the gameplay environment, weave your narrative, and manage integrated world elements.',
+    title: 'Adventure Development Environment (ADE)',
+    description: 'Craft fictional narratives from short stories to novel series, run granular interactive gated story beats, and compile tactical adventure modules.',
     icon: <BookOpen size={32} />,
     path: '/foundry/story',
     color: 'var(--accent-primary)',

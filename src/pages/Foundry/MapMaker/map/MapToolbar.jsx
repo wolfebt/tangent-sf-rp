@@ -31,6 +31,10 @@ const MapToolbar = ({
   setShowHeroDrawer,
   showOmnicortexDrawer,
   setShowOmnicortexDrawer,
+  showStoryDrawer,
+  setShowStoryDrawer,
+  showAutomationConsole,
+  setShowAutomationConsole,
   showCombatTracker,
   setShowCombatTracker,
   showMetadataPanel,
@@ -443,6 +447,21 @@ const MapToolbar = ({
           )}
         </div>
 
+        {/* ADE Story Elements Trigger */}
+        <button
+          type="button"
+          onClick={() => setShowStoryDrawer?.(prev => !prev)}
+          className={`px-2.5 py-1 border rounded-xl text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1.5 h-8 cursor-pointer ${
+            showStoryDrawer
+              ? 'bg-purple-600 border-purple-400 text-black shadow-[0_0_15px_rgba(168,85,247,0.4)]'
+              : 'bg-slate-900 hover:bg-slate-800 border-slate-700/80 text-purple-300'
+          }`}
+          title="Open ADE Story Elements Drawer (Scenes, Personas, Clues, Traps, Handouts)"
+        >
+          <span>📖</span>
+          <span className="hidden md:inline">ADE Elements</span>
+        </button>
+
         {/* Omnicortex Compendium Trigger */}
         <button
           type="button"
@@ -471,6 +490,21 @@ const MapToolbar = ({
         >
           <span>📜</span>
           <span className="hidden md:inline">Folio Heroes</span>
+        </button>
+
+        {/* Autonomous Reactive VTT Cockpit */}
+        <button
+          type="button"
+          onClick={() => setShowAutomationConsole?.(prev => !prev)}
+          className={`px-2.5 py-1 border rounded-xl text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1.5 h-8 cursor-pointer ${
+            showAutomationConsole
+              ? 'bg-orange-600 border-orange-400 text-black shadow-[0_0_15px_rgba(249,115,22,0.4)]'
+              : 'bg-slate-900 hover:bg-slate-800 border-slate-700/80 text-orange-300'
+          }`}
+          title="Open Reactive Automation & Script Cockpit (Traps, Patrols, Sentries)"
+        >
+          <span>🤖</span>
+          <span className="hidden md:inline">Automation</span>
         </button>
 
         {/* Unified VTT Tactical Console Drawer Button */}

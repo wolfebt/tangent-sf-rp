@@ -20,6 +20,7 @@ const FoundryAppInner = () => {
       <AppShell>
         <Routes>
           <Route path="/" element={<Dashboard />} />
+          <Route path="ade" element={<StoryModule />} />
           <Route path="story" element={<StoryModule />} />
           <Route path="elements" element={<StoryModule defaultView="elements" />} />
           <Route path="map-maker" element={<MapMaker />} />
