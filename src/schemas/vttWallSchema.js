@@ -92,3 +92,68 @@ export const doesWallBlockVision = (wall, sensorMode = 'standard_optical') => {
   }
   return true;
 };
+
+/**
+ * Creates 4 connected wall segments forming an enclosed rectangular room
+ */
+export const createRoomWalls = (x, y, width, height, type = WALL_TYPES.SOLID, options = {}) => {
+  const minX = Math.round(Math.min(x, x + width));
+  const maxX = Math.round(Math.max(x, x + width));
+  const minY = Math.round(Math.min(y, y + height));
+  const maxY = Math.round(Math.max(y, y + height));
+
+  const pTopLeft = { x: minX, y: minY };
+  const pTopRight = { x: maxX, y: minY };
+  const pBottomRight = { x: maxX, y: maxY };
+  const pBottomLeft = { x: minX, y: maxY };
+
+  return [
+    createWallSegment(pTopLeft, pTopRight, type, { ...options, label: `${options.label || 'Chamber'} (North)` }),
+    createWallSegment(pTopRight, pBottomRight, type, { ...options, label: `${options.label || 'Chamber'} (East)` }),
+    createWallSegment(pBottomRight, pBottomLeft, type, { ...options, label: `${options.label || 'Chamber'} (South)` }),
+    createWallSegment(pBottomLeft, pTopLeft, type, { ...options, label: `${options.label || 'Chamber'} (West)` })
+  ];
+};
+
+/**
+ * Constrains an endpoint coordinate to step-angle increments relative to startPoint (e.g. 15, 45, 90 deg)
+ */
+export const snapPointToAngle = (startPoint, currentPoint, angleStepDeg = 15) => {
+  const dx = currentPoint.x - startPoint.x;
+  const dy = currentPoint.y - startPoint.y;
+  const dist = Math.hypot(dx, dy);
+  if (dist < 2) return currentPoint;
+
+  const currentAngleRad = Math.atan2(dy, dx);
+  const currentAngleDeg = (currentAngleRad * 180) / Math.PI;
+  const snappedAngleDeg = Math.round(currentAngleDeg / angleStepDeg) * angleStepDeg;
+  const snappedAngleRad = (snappedAngleDeg * Math.PI) / 180;
+
+  return {
+    x: Math.round(startPoint.x + dist * Math.cos(snappedAngleRad)),
+    y: Math.round(startPoint.y + dist * Math.sin(snappedAngleRad))
+  };
+};
+
+/**
+ * Finds the nearest endpoint among existing wall segments for vertex snapping/welding
+ */
+export const findNearestWallVertex = (point, walls = [], snapThreshold = 18) => {
+  let closest = null;
+  let minDist = snapThreshold;
+
+  for (const w of walls) {
+    const d1 = Math.hypot(point.x - w.p1.x, point.y - w.p1.y);
+    if (d1 < minDist) {
+      minDist = d1;
+      closest = { x: w.p1.x, y: w.p1.y, wallId: w.id, vertex: 'p1' };
+    }
+    const d2 = Math.hypot(point.x - w.p2.x, point.y - w.p2.y);
+    if (d2 < minDist) {
+      minDist = d2;
+      closest = { x: w.p2.x, y: w.p2.y, wallId: w.id, vertex: 'p2' };
+    }
+  }
+
+  return closest ? { x: closest.x, y: closest.y } : null;
+};

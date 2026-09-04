@@ -53,6 +53,8 @@ export interface EngineState {
   applyDamage: (id: string, netDamage: number) => void;
   healHP: (id: string, amount: number) => void;
   toggleCondition: (id: string, condition: string) => void;
+  toggleHidden: (id: string) => void;
+  setElevation: (id: string, elevation: number) => void;
   setSelection: (id: string, isSelected: boolean) => void;
   clearSelection: () => void;
   removeEntity: (id: string) => void;
@@ -131,6 +133,20 @@ export const useEngineStore = create<EngineState>()(
           const idx = token.active_conditions.indexOf(condition);
           if (idx === -1) token.active_conditions.push(condition);
           else token.active_conditions.splice(idx, 1);
+        }
+      }),
+
+      toggleHidden: (id) => set((draft) => {
+        const token = draft.ephemeralData[id];
+        if (token) {
+          token.is_hidden = !token.is_hidden;
+        }
+      }),
+
+      setElevation: (id, elevation) => set((draft) => {
+        const token = draft.ephemeralData[id];
+        if (token) {
+          token.elevation_ft = elevation;
         }
       }),
 

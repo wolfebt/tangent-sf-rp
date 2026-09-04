@@ -104,10 +104,10 @@ export const VttOptionsPage = () => {
             </button>
             <button
               onClick={handleLaunchStageVtt}
-              className="px-5 py-2.5 bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400 text-white font-bold font-mono text-xs uppercase tracking-wider rounded-xl transition-all shadow-[0_0_20px_rgba(34,211,238,0.4)] flex items-center justify-center gap-2 cursor-pointer"
-              title="Launch WebGPU Stage Engine"
+              className="px-5 py-2.5 bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-600 hover:from-cyan-500 hover:to-emerald-500 text-white font-bold font-mono text-xs uppercase tracking-wider rounded-xl transition-all shadow-[0_0_25px_rgba(34,211,238,0.5)] flex items-center justify-center gap-2 cursor-pointer border border-cyan-400/40"
+              title="Launch WebGPU Stage Engine with In-Situ Architect Design Studio"
             >
-              <Play size={16} fill="currentColor" /> Launch WebGPU Stage
+              <Play size={16} fill="currentColor" /> Launch WebGPU Stage & Architect Studio
             </button>
           </div>
         </div>

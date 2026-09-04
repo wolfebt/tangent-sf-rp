@@ -23,7 +23,7 @@ const FoundryApp = lazy(() => import('./pages/Foundry/FoundryApp'));
 const VttOptionsPage = lazy(() => import('./pages/Foundry/MapMaker/VttOptionsPage'));
 const PlayerSpectatorView = lazy(() => import('./pages/Foundry/MapMaker/PlayerSpectatorView'));
 const CommsPage = lazy(() => import('./pages/CommsPage'));
-const StageView = lazy(() => import('./components/VTT/StageView'));
+const StageView = lazy(() => import('./components/VTT/TripartiteStageView'));
 
 const PageLoader = () => (
   <div className="flex-1 flex items-center justify-center bg-[#0d1117] text-cyan-400 font-mono text-sm tracking-wider h-full w-full">

@@ -65,6 +65,7 @@ export { MechaSocketManager, TechLevel } from './rules/MechaSocketManager.ts';
 export type { MechaChassis, Augmentation } from './rules/MechaSocketManager.ts';
 
 // Stage 6: UI Glass-Cockpit HUD, Dice AST & Scripting
+export { DashboardOverlay } from './ui/DashboardOverlay.tsx';
 export type { DashboardOverlayProps } from './ui/DashboardOverlay.tsx';
 export { DiceASTParser } from './math/DiceASTParser.ts';
 export type { ASTNode } from './math/DiceASTParser.ts';

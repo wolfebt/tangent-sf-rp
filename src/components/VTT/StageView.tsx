@@ -1,10 +1,13 @@
 /**
  * @file StageView.tsx
- * @description Next-Gen Tangent VTT Stage Viewport.
+ * @description Next-Gen Tangent VTT Stage Viewport with Integrated 2D Map Maker & Cartography Studio.
  * Renders the WebGPU canvas ('The Stage'), orchestrates 8-layer compositor,
  * multi-tier grid coordinate engine (dynamic movement speed & ruler),
  * live Persona Folio & Bestiary spawner, Called Shot trauma pipeline,
  * turn tracker, and floats the Glass-Cockpit HUD overlay with full tactical tools.
+ * Seamlessly integrates procedural landmass generation, UVTT file import,
+ * interactive point-to-point wall drawing, organic/hex terrain painting,
+ * tactical sketch annotations, asset catalog manager, and undo/redo history.
  */
 
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
@@ -32,38 +35,54 @@ import {
   DiceASTParser,
   EssenceTracker,
   BVHBuilder,
-  type WallSegment
+  type WallSegment,
+  DashboardOverlay
 } from '../../engine/index.ts';
-import { DashboardOverlay } from '../../engine/ui/DashboardOverlay.tsx';
-import { useFolio } from '../../context/FolioContext';
-import { useCampaign } from '../../context/CampaignContext';
+import { useCampaign, formatExportFilename } from '../../context/CampaignContext';
 import { TokenRadialMenu } from './TokenRadialMenu';
-import { ArchitectDesignPalette, type PaletteItem } from './ArchitectDesignPalette';
+import { 
+  ArchitectDesignPalette, 
+  type PaletteItem, 
+  type ArchitectDesignTool,
+  BIOME_OPTIONS 
+} from './ArchitectDesignPalette';
+import { StageTopToolbar } from './StageTopToolbar';
 import { HazardParticleSimulator, type HazardType, type HazardField } from '../../engine/physics/HazardParticleSimulator.ts';
-import { Graphics, Container, Text, TextStyle } from 'pixi.js';
+import { Graphics, Container, Text, TextStyle, Sprite } from 'pixi.js';
+import { 
+  LightSourceManager, 
+  type SceneLightSource, 
+  type AtmosphericWeatherType, 
+  ATMOSPHERIC_PRESETS,
+  type LightAnimationType 
+} from '../../engine/vision/LightSourceManager';
 import { 
   Crosshair, 
-  Eye, 
-  EyeOff, 
   Dices, 
   Users, 
-  Compass, 
-  Terminal, 
-  Lock, 
-  Unlock, 
   Box, 
-  Zap, 
-  Copy, 
-  Check, 
-  ZoomIn, 
-  ZoomOut, 
-  RotateCcw, 
   Clock, 
-  MapPin, 
   Bot,
-  Hammer
+  Minus,
+  ChevronLeft
 } from 'lucide-react';
 import { AudioService } from '../../services/audioService';
+import { createTacticalPing, filterExpiredPings } from '../../services/mapPingService';
+import { DEFAULT_LAYERS } from '../../pages/Foundry/MapMaker/map/MapConstants';
+import { useMapHistory } from '../../pages/Foundry/MapMaker/hooks/useMapHistory';
+
+// Map Maker Modals & Drawers
+import LandmassGeneratorModal from '../../pages/Foundry/MapMaker/map/LandmassGeneratorModal.jsx';
+import { UvttImportModal } from '../../pages/Foundry/MapMaker/map/UvttImportModal.jsx';
+import MapAssetManagerModal from '../../pages/Foundry/MapMaker/map/MapAssetManagerModal.jsx';
+import MapUnderlayCalibrationModal from '../../pages/Foundry/MapMaker/map/MapUnderlayCalibrationModal.jsx';
+import { FolioHeroTokenDrawer } from '../../pages/Foundry/MapMaker/map/FolioHeroTokenDrawer.jsx';
+import { OmnicortexAssetDrawer } from '../../pages/Foundry/MapMaker/map/OmnicortexAssetDrawer.jsx';
+import InteractiveObjectModal from '../../pages/Foundry/MapMaker/map/InteractiveObjectModal.jsx';
+import HazmatVolumeManagerModal from '../../pages/Foundry/MapMaker/map/HazmatVolumeManagerModal.jsx';
+import MapLayersPanel from '../../pages/Foundry/MapMaker/map/MapLayersPanel.jsx';
+import { createRoomWalls, snapPointToAngle, findNearestWallVertex } from '../../schemas/vttWallSchema.js';
+import { v4 as uuidv4 } from 'uuid';
 
 export interface StageViewProps {
   campaignId?: string;
@@ -87,10 +106,35 @@ export const StageView: React.FC<StageViewProps> = ({
   const hazardSimulatorRef = useRef<HazardParticleSimulator | null>(null);
   const remoteCursorsContainerRef = useRef<Container | null>(null);
 
+  // Dedicated Stage Graphics Containers for Map Maker Design Layers
+  const terrainsContainerRef = useRef<Container | null>(null);
+  const linesContainerRef = useRef<Container | null>(null);
+  const textsContainerRef = useRef<Container | null>(null);
+  const wallPreviewContainerRef = useRef<Container | null>(null);
+  const pingsContainerRef = useRef<Container | null>(null);
+  const transformGizmoContainerRef = useRef<Container | null>(null);
+  const lightsContainerRef = useRef<Container | null>(null);
+  const atmosphereOverlayRef = useRef<Container | null>(null);
+  const underlayContainerRef = useRef<Container | null>(null);
+  const lightSourceMgrRef = useRef<LightSourceManager>(new LightSourceManager());
+
   // Campaign Context and Search Params Integration
   const [searchParams, setSearchParams] = useSearchParams();
   const mapIdParam = searchParams.get('mapId');
-  const { universeState, activeMapId, updateMap } = useCampaign();
+  const { 
+    universeState, 
+    activeMapId, 
+    setActiveMapId, 
+    addMap, 
+    updateMap, 
+    deleteMap,
+    addCustomTerrain,
+    updateCustomTerrain,
+    deleteCustomTerrain,
+    addCustomObject,
+    updateCustomObject,
+    deleteCustomObject
+  } = useCampaign();
   const [currentMapId, setCurrentMapId] = useState<string>(mapIdParam || activeMapId || '');
 
   const availableMaps = universeState?.maps || [];
@@ -99,14 +143,91 @@ export const StageView: React.FC<StageViewProps> = ({
   // In-Situ Architect Design Mode & Simulation Control States
   const [isDesignModeActive, setIsDesignModeActive] = useState<boolean>(false);
   const [isSimulationPaused, setIsSimulationPaused] = useState<boolean>(false);
+  const [isTacticalConsoleCollapsed, setIsTacticalConsoleCollapsed] = useState<boolean>(false);
+  const [isZenMode, setIsZenMode] = useState<boolean>(false);
+  const [activeDesignTool, setActiveDesignTool] = useState<ArchitectDesignTool>('select');
   const [selectedStamp, setSelectedStamp] = useState<PaletteItem | null>(null);
   const [gridSnap, setGridSnap] = useState<boolean>(true);
   const [localWalls, setLocalWalls] = useState<WallSegment[]>([]);
   const [localObjects, setLocalObjects] = useState<SceneInteractiveObject[]>([]);
+  const [localLights, setLocalLights] = useState<SceneLightSource[]>([]);
 
-  // Folio Context integration
-  const { personaRoster, roster } = useFolio();
-  const allFolioOperatives: any[] = (personaRoster as any[]) || (roster as any[]) || [];
+  // Multi-Asset Selection & Transform Gizmo States
+  const [selectedAssetIds, setSelectedAssetIds] = useState<string[]>([]);
+  const [isMarqueeActive, setIsMarqueeActive] = useState<boolean>(false);
+  const [marqueeStart, setMarqueeStart] = useState<{ x: number; y: number } | null>(null);
+  const [marqueeCurrent, setMarqueeCurrent] = useState<{ x: number; y: number } | null>(null);
+
+  // Geometric Wall Construction Modes ('single' | 'chain' | 'room')
+  const [wallConstructionMode, setWallConstructionMode] = useState<'single' | 'chain' | 'room'>('single');
+  const [wallChainPoints, setWallChainPoints] = useState<{ x: number; y: number }[]>([]);
+
+  // Design Tool Sub-options
+  const [selectedWallType, setSelectedWallType] = useState<string>('solid');
+  const [doorLockDc, setDoorLockDc] = useState<number>(14);
+  const [selectedTerrainId, setSelectedTerrainId] = useState<string>('grassland');
+  const [terrainBrushWidth, setTerrainBrushWidth] = useState<number>(30);
+  const [terrainRenderMode, setTerrainRenderMode] = useState<'organic' | 'hex'>('organic');
+  const [pencilColor, setPencilColor] = useState<string>('#22d3ee');
+  const [pencilWidth, setPencilWidth] = useState<number>(4);
+  const [textLabelInput, setTextLabelInput] = useState<string>('Sector Alpha');
+  const [textColor, setTextColor] = useState<string>('#22d3ee');
+  const [textSize, setTextSize] = useState<number>(20);
+  const [rulerAvailableAp, setRulerAvailableAp] = useState<number>(4);
+
+  // Lighting & Atmospheric States
+  const [selectedLightColor, setSelectedLightColor] = useState<string>('#f59e0b');
+  const [selectedLightRadius, setSelectedLightRadius] = useState<number>(180);
+  const [selectedLightAnimation, setSelectedLightAnimation] = useState<LightAnimationType>('flicker');
+  const [atmosphericWeather, setAtmosphericWeather] = useState<AtmosphericWeatherType>('clear');
+
+  // Randomization Jitter States
+  const [randomizeRotation, setRandomizeRotation] = useState<boolean>(false);
+  const [randomizeScale, setRandomizeScale] = useState<boolean>(false);
+
+  // Interactive Canvas Drawing States
+  const [isDrawingToolActive, setIsDrawingToolActive] = useState<boolean>(false);
+  const [wallDrawStart, setWallDrawStart] = useState<{ x: number; y: number } | null>(null);
+  const [wallDrawCurrent, setWallDrawCurrent] = useState<{ x: number; y: number } | null>(null);
+  const [currentStrokePoints, setCurrentStrokePoints] = useState<number[]>([]);
+
+  // Map Maker Modal Launcher States
+  const [isLandmassModalOpen, setIsLandmassModalOpen] = useState<boolean>(false);
+  const [isUvttModalOpen, setIsUvttModalOpen] = useState<boolean>(false);
+  const [isAssetManagerOpen, setIsAssetManagerOpen] = useState<boolean>(false);
+  const [isUnderlayModalOpen, setIsUnderlayModalOpen] = useState<boolean>(false);
+  const [underlayConfig, setUnderlayConfig] = useState<{
+    url: string;
+    opacity: number;
+    scale: number;
+    offsetX: number;
+    offsetY: number;
+    visible: boolean;
+  } | null>(null);
+  const [isHeroDrawerOpen, setIsHeroDrawerOpen] = useState<boolean>(false);
+  const [isOmnicortexDrawerOpen, setIsOmnicortexDrawerOpen] = useState<boolean>(false);
+  const [isHazmatModalOpen, setIsHazmatModalOpen] = useState<boolean>(false);
+  const [isLayersPanelOpen, setIsLayersPanelOpen] = useState<boolean>(false);
+  const [inspectingInteractiveObj, setInspectingInteractiveObj] = useState<any | null>(null);
+
+  // Tactical Radar Pings
+  const [activePings, setActivePings] = useState<any[]>([]);
+
+  // Undo / Redo History Integration
+  const { undoStack, redoStack, recordHistory, handleUndo, handleRedo, lastActionDescription } = useMapHistory({
+    currentMap,
+    lines: currentMap?.lines || [],
+    tokens: currentMap?.tokens || [],
+    terrains: currentMap?.terrains || [],
+    objects: currentMap?.objects || localObjects,
+    texts: currentMap?.texts || [],
+    walls: currentMap?.walls || localWalls,
+    lights: currentMap?.lights || localLights,
+    fog: currentMap?.fog || [],
+    mapLayers: currentMap?.layers || DEFAULT_LAYERS,
+    updateMap,
+    activeMapId: currentMap?.id || ''
+  });
 
   // Viewport & Coordinate States
   const [scaleTier, setScaleTier] = useState<GridScaleTier>(GridScaleTier.Encounter);
@@ -114,8 +235,8 @@ export const StageView: React.FC<StageViewProps> = ({
   const [selectedTokenId, setSelectedTokenId] = useState<string | null>('op-jax');
   const [targetTokenId, setTargetTokenId] = useState<string | null>('mech-vanguard');
   const [isGridVisible, setIsGridVisible] = useState(true);
-  const [isVisionEnabled, setIsVisionEnabled] = useState(true);
-  const [torchRadiusFt, setTorchRadiusFt] = useState(30);
+  const isVisionEnabled = true;
+  const torchRadiusFt = 30;
   const [gridOverlayContainer, setGridOverlayContainer] = useState<Container | null>(null);
   const [moveRulerContainer, setMoveRulerContainer] = useState<Container | null>(null);
 
@@ -156,13 +277,11 @@ export const StageView: React.FC<StageViewProps> = ({
   const [attackWeapon, setAttackWeapon] = useState<'kinetic' | 'plasma' | 'laser' | 'emp'>('plasma');
   const [attackMapStep, setAttackMapStep] = useState<number>(0);
   const [customDiceExpr, setCustomDiceExpr] = useState<string>('2d10 + @armor_dr');
-  const [selectedObjectModal, setSelectedObjectModal] = useState<SceneInteractiveObject | null>(null);
 
   // Turn Tracker States
   const [roundNumber, setRoundNumber] = useState<number>(1);
   const [currentTurnIndex, setCurrentTurnIndex] = useState<number>(0);
   const [initiativeScores, setInitiativeScores] = useState<Record<string, number>>({});
-  const [copiedLink, setCopiedLink] = useState(false);
 
   const tokens = useEngineStore(selectAllFusedTokens);
   const selectedToken = tokens.find(t => t.id === selectedTokenId) || null;
@@ -179,6 +298,64 @@ export const StageView: React.FC<StageViewProps> = ({
   }, []);
 
   const effectiveSpeedFt = getEffectiveSpeed(selectedToken);
+
+  // Ping Auto-Decay Timer
+  useEffect(() => {
+    if (activePings.length === 0) return;
+    const interval = setInterval(() => {
+      setActivePings(prev => filterExpiredPings(prev));
+    }, 800);
+    return () => clearInterval(interval);
+  }, [activePings.length]);
+
+  // Handle map selection
+  const handleSelectMap = (mapId: string) => {
+    setCurrentMapId(mapId);
+    if (setActiveMapId) setActiveMapId(mapId);
+    setSearchParams({ mapId });
+    AudioService.playTerminalBeep(1200, 0.03);
+  };
+
+  // Handle new map creation
+  const handleAddNewMap = (title: string, mapType: string) => {
+    const newId = uuidv4();
+    const newMap = {
+      id: newId,
+      title: title || 'New Sector Map',
+      name: title || 'New Sector Map',
+      type: mapType || 'Tactical',
+      gridMode: gridType === GridType.Square ? 'square' : 'hex',
+      lines: [],
+      tokens: [],
+      terrains: [],
+      objects: [],
+      texts: [],
+      walls: [],
+      fog: [],
+      layers: DEFAULT_LAYERS
+    };
+    if (addMap) addMap(newMap);
+    handleSelectMap(newId);
+    AudioService.playCriticalChime(true);
+    setCombatLog(prev => [
+      `[MAP] Created and loaded new sector: "${newMap.title}" [${newMap.type}].`,
+      ...prev.slice(0, 8)
+    ]);
+  };
+
+  // Handle map deletion
+  const handleDeleteCurrentMap = () => {
+    if (!currentMap) return;
+    const targetTitle = currentMap.title || currentMap.name || 'Untitled Map';
+    if (window.confirm(`Are you sure you want to delete tactical sector map "${targetTitle}"?`)) {
+      if (deleteMap) deleteMap(currentMap.id);
+      const nextMap = availableMaps.find((m: any) => m.id !== currentMap.id);
+      if (nextMap) {
+        handleSelectMap(nextMap.id);
+      }
+      AudioService.playTerminalBeep(800, 0.05);
+    }
+  };
 
   // Ingest Campaign Map (Walls into BVH, Objects into InteractiveObjMgr, Tokens into VolatileSharder)
   useEffect(() => {
@@ -247,6 +424,24 @@ export const StageView: React.FC<StageViewProps> = ({
         if (currentMap.tokens[1]?.id) {
           setTargetTokenId(currentMap.tokens[1].id);
         }
+      }
+
+      // 4. Ingest Dynamic Lights into LightSourceManager & local state
+      if (Array.isArray(currentMap.lights) && currentMap.lights.length > 0) {
+        currentMap.lights.forEach((l: any) => lightSourceMgrRef.current.addLight(l));
+        setLocalLights(currentMap.lights);
+      } else {
+        setLocalLights([]);
+      }
+
+      // 5. Ingest Blueprint Underlay Configuration
+      if (currentMap.underlay) {
+        setUnderlayConfig(currentMap.underlay);
+      }
+
+      // 6. Ingest Global Atmospheric Weather
+      if (currentMap.atmosphericWeather) {
+        setAtmosphericWeather(currentMap.atmosphericWeather);
       }
     }
 
@@ -337,7 +532,6 @@ export const StageView: React.FC<StageViewProps> = ({
       interactiveObjMgrRef.current.loadObjects(sampleObjects);
       setLocalObjects(sampleObjects);
 
-      // Default sample walls for obstacle testing
       const defaultWalls: WallSegment[] = [
         { id: 'sample-bulkhead', p1: { x: 280, y: 70 }, p2: { x: 280, y: 210 }, isDynamic: true, isOpen: false },
         { id: 'sample-cover-crate', p1: { x: 300, y: 300 }, p2: { x: 300, y: 380 }, isDynamic: false }
@@ -347,7 +541,7 @@ export const StageView: React.FC<StageViewProps> = ({
     }
   }, [currentMap]);
 
-  // Render Walls & Bulkheads onto the Stage
+  // ── Render Walls & Bulkheads onto the Stage ──
   useEffect(() => {
     const compositor = layerCompositorRef.current;
     if (!compositor) return;
@@ -387,9 +581,560 @@ export const StageView: React.FC<StageViewProps> = ({
     wallLayer.addChild(g);
   }, [localWalls]);
 
-  // Deploy Item from Architect Design Palette onto the Stage
+  // ── Render Terrains (Hex Tiles & Organic Polygons) onto BackgroundMap Layer ──
+  useEffect(() => {
+    const container = terrainsContainerRef.current;
+    if (!container) return;
+    container.removeChildren();
+
+    const terrains = currentMap?.terrains || [];
+    if (terrains.length === 0) return;
+
+    const g = new Graphics();
+    terrains.forEach((t: any) => {
+      let colorHex = 0x14532d;
+      if (t.color) {
+        if (typeof t.color === 'string') {
+          colorHex = parseInt(t.color.replace('#', '0x'), 16) || 0x14532d;
+        } else if (typeof t.color === 'number') {
+          colorHex = t.color;
+        }
+      }
+
+      if (t.renderType === 'hexTile' && t.x !== undefined && t.y !== undefined) {
+        const radius = t.radius || 40;
+        const sides = 6;
+        const pts: number[] = [];
+        for (let i = 0; i < sides; i++) {
+          const angle = (i * Math.PI) / 3;
+          pts.push(t.x + radius * Math.cos(angle), t.y + radius * Math.sin(angle));
+        }
+        g.poly(pts);
+        g.fill({ color: colorHex, alpha: 0.85 });
+        g.stroke({ width: 1, color: 0x000000, alpha: 0.3 });
+      } else if (t.points && t.points.length >= 4) {
+        if (t.closed || t.renderType === 'polygon') {
+          g.poly(t.points);
+          g.fill({ color: colorHex, alpha: 0.85 });
+          g.stroke({ width: t.strokeWidth || 2, color: colorHex, alpha: 0.95 });
+        } else {
+          g.moveTo(t.points[0], t.points[1]);
+          for (let i = 2; i < t.points.length; i += 2) {
+            g.lineTo(t.points[i], t.points[i+1]);
+          }
+          g.stroke({ width: t.strokeWidth || 30, color: colorHex, cap: 'round', join: 'round', alpha: 0.85 });
+        }
+      }
+    });
+
+    container.addChild(g);
+  }, [currentMap?.terrains]);
+
+  // ── Render Freehand Tactical Pencil Lines onto UnderlayDebris Layer ──
+  useEffect(() => {
+    const container = linesContainerRef.current;
+    if (!container) return;
+    container.removeChildren();
+
+    const lines = currentMap?.lines || [];
+    if (lines.length === 0) return;
+
+    const g = new Graphics();
+    lines.forEach((l: any) => {
+      if (l.points && l.points.length >= 4) {
+        const colorHex = l.color 
+          ? (typeof l.color === 'string' ? parseInt(l.color.replace('#', '0x'), 16) || 0x22d3ee : l.color)
+          : 0x22d3ee;
+        g.moveTo(l.points[0], l.points[1]);
+        for (let i = 2; i < l.points.length; i += 2) {
+          g.lineTo(l.points[i], l.points[i+1]);
+        }
+        g.stroke({ width: l.strokeWidth || 4, color: colorHex, cap: 'round', join: 'round', alpha: 0.9 });
+      }
+    });
+
+    container.addChild(g);
+  }, [currentMap?.lines]);
+
+  // ── Render Text Labels onto ForegroundUI Layer ──
+  useEffect(() => {
+    const container = textsContainerRef.current;
+    if (!container) return;
+    container.removeChildren();
+
+    const texts = currentMap?.texts || [];
+    if (texts.length === 0) return;
+
+    texts.forEach((t: any) => {
+      const textNode = new Container();
+      textNode.x = t.x || 100;
+      textNode.y = t.y || 100;
+
+      const style = new TextStyle({
+        fontFamily: 'monospace',
+        fontSize: t.fontSize || 16,
+        fill: t.fill || '#22d3ee',
+        fontWeight: 'bold'
+      });
+
+      const pixiText = new Text({ text: t.text || 'Label', style });
+      pixiText.anchor.set(0.5, 0.5);
+
+      const bg = new Graphics();
+      const padX = 8;
+      const padY = 4;
+      const w = pixiText.width + padX * 2;
+      const h = pixiText.height + padY * 2;
+      bg.roundRect(-w / 2, -h / 2, w, h, 6);
+      bg.fill({ color: 0x050811, alpha: 0.75 });
+      bg.stroke({ width: 1, color: 0x06b6d4, alpha: 0.5 });
+
+      textNode.addChild(bg);
+      textNode.addChild(pixiText);
+      container.addChild(textNode);
+    });
+  }, [currentMap?.texts]);
+
+  // ── Render Dynamic Drawing Preview (Live Wall Drag Line or Live Brush Stroke) ──
+  useEffect(() => {
+    const container = wallPreviewContainerRef.current;
+    if (!container) return;
+    container.removeChildren();
+
+    if (!isDrawingToolActive || !isDesignModeActive) return;
+
+    const g = new Graphics();
+    if (activeDesignTool === 'wall' && wallDrawStart && wallDrawCurrent) {
+      const isDoor = selectedWallType === 'door';
+      const isWindow = selectedWallType === 'window';
+      const color = isDoor ? 0xf59e0b : isWindow ? 0x38bdf8 : 0x06b6d4;
+
+      if (wallConstructionMode === 'room') {
+        const minX = Math.min(wallDrawStart.x, wallDrawCurrent.x);
+        const maxX = Math.max(wallDrawStart.x, wallDrawCurrent.x);
+        const minY = Math.min(wallDrawStart.y, wallDrawCurrent.y);
+        const maxY = Math.max(wallDrawStart.y, wallDrawCurrent.y);
+        const w = maxX - minX;
+        const h = maxY - minY;
+
+        g.rect(minX, minY, w, h);
+        g.fill({ color, alpha: 0.08 });
+        g.stroke({ width: 3.5, color, alpha: 0.95 });
+
+        // Draw 4 corner points
+        [[minX, minY], [maxX, minY], [maxX, maxY], [minX, maxY]].forEach(([cx, cy]) => {
+          g.circle(cx, cy, 4.5);
+          g.fill({ color: 0xffffff });
+          g.stroke({ width: 1.5, color });
+        });
+      } else {
+        // Single or Chain wall segment
+        g.moveTo(wallDrawStart.x, wallDrawStart.y);
+        g.lineTo(wallDrawCurrent.x, wallDrawCurrent.y);
+        g.stroke({ width: 4, color, alpha: 0.9 });
+
+        g.circle(wallDrawStart.x, wallDrawStart.y, 5);
+        g.fill({ color: 0xffffff });
+        g.circle(wallDrawCurrent.x, wallDrawCurrent.y, 5);
+        g.fill({ color });
+
+        // Draw previously chained vertices
+        if (wallChainPoints.length > 1) {
+          g.moveTo(wallChainPoints[0].x, wallChainPoints[0].y);
+          for (let i = 1; i < wallChainPoints.length; i++) {
+            g.lineTo(wallChainPoints[i].x, wallChainPoints[i].y);
+          }
+          g.stroke({ width: 3.5, color, alpha: 0.6 });
+        }
+      }
+    } else if ((activeDesignTool === 'terrain' || activeDesignTool === 'pencil') && currentStrokePoints.length >= 4) {
+      const color = activeDesignTool === 'pencil' 
+        ? (typeof pencilColor === 'string' ? parseInt(pencilColor.replace('#', '0x'), 16) || 0x22d3ee : pencilColor)
+        : 0x10b981;
+      const strokeW = activeDesignTool === 'pencil' ? pencilWidth : terrainBrushWidth;
+
+      g.moveTo(currentStrokePoints[0], currentStrokePoints[1]);
+      for (let i = 2; i < currentStrokePoints.length; i += 2) {
+        g.lineTo(currentStrokePoints[i], currentStrokePoints[i+1]);
+      }
+      g.stroke({ width: strokeW, color, cap: 'round', join: 'round', alpha: 0.8 });
+    }
+
+    container.addChild(g);
+  }, [isDrawingToolActive, isDesignModeActive, activeDesignTool, wallDrawStart, wallDrawCurrent, currentStrokePoints, selectedWallType, pencilColor, pencilWidth, terrainBrushWidth]);
+
+  // ── Render Animated Tactical Radar Pings ──
+  useEffect(() => {
+    const container = pingsContainerRef.current;
+    if (!container) return;
+    container.removeChildren();
+
+    if (activePings.length === 0) return;
+
+    const g = new Graphics();
+    const now = Date.now();
+    activePings.forEach((p: any) => {
+      const elapsed = (now - p.timestamp) / 1000;
+      if (elapsed < 4.0) {
+        const progress = elapsed / 4.0;
+        const radius = 15 + progress * 80;
+        const alpha = (1 - progress) * 0.9;
+        const color = p.color 
+          ? (typeof p.color === 'string' ? parseInt(p.color.replace('#', '0x'), 16) || 0x06b6d4 : p.color)
+          : 0x06b6d4;
+
+        g.circle(p.x, p.y, radius);
+        g.stroke({ width: 2, color, alpha });
+
+        g.circle(p.x, p.y, 5);
+        g.fill({ color, alpha });
+      }
+    });
+
+    container.addChild(g);
+  }, [activePings]);
+
+  // ── Render Transform Gizmo & Marquee Selection on ForegroundUI ──
+  useEffect(() => {
+    const container = transformGizmoContainerRef.current;
+    if (!container) return;
+    container.removeChildren();
+
+    const g = new Graphics();
+
+    // 1. Draw Marquee Selection Box
+    if (isMarqueeActive && marqueeStart && marqueeCurrent) {
+      const minX = Math.min(marqueeStart.x, marqueeCurrent.x);
+      const maxX = Math.max(marqueeStart.x, marqueeCurrent.x);
+      const minY = Math.min(marqueeStart.y, marqueeCurrent.y);
+      const maxY = Math.max(marqueeStart.y, marqueeCurrent.y);
+      const w = maxX - minX;
+      const h = maxY - minY;
+
+      g.rect(minX, minY, w, h);
+      g.fill({ color: 0x06b6d4, alpha: 0.12 });
+      g.stroke({ width: 1.5, color: 0x22d3ee, alpha: 0.95 });
+    }
+
+    // 2. Draw Bounding Box & Transform Gizmo on Selected Assets
+    if (selectedAssetIds.length > 0) {
+      // Find all selected items (objects, tokens, walls)
+      const selectedObjs = localObjects.filter(o => selectedAssetIds.includes(o.id));
+      const selectedToks = tokens.filter(t => selectedAssetIds.includes(t.id));
+      const selectedW = localWalls.filter(w => selectedAssetIds.includes(w.id));
+
+      const points: { x: number; y: number }[] = [];
+      selectedObjs.forEach(o => {
+        points.push({ x: o.x - 20, y: o.y - 20 }, { x: o.x + 20, y: o.y + 20 });
+      });
+      selectedToks.forEach(t => {
+        const rad = 25;
+        points.push({ x: t.x - rad, y: t.y - rad }, { x: t.x + rad, y: t.y + rad });
+      });
+      selectedW.forEach(w => {
+        points.push(w.p1, w.p2);
+      });
+
+      if (points.length > 0) {
+        let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+        points.forEach(p => {
+          minX = Math.min(minX, p.x);
+          maxX = Math.max(maxX, p.x);
+          minY = Math.min(minY, p.y);
+          maxY = Math.max(maxY, p.y);
+        });
+
+        // Add 8px margin
+        minX -= 8;
+        minY -= 8;
+        maxX += 8;
+        maxY += 8;
+        const boxW = maxX - minX;
+        const boxH = maxY - minY;
+
+        // Bounding Rectangle
+        g.rect(minX, minY, boxW, boxH);
+        g.stroke({ width: 1.5, color: 0x38bdf8, alpha: 0.9 });
+
+        // 8 Scale Handles
+        const handles = [
+          [minX, minY], [minX + boxW / 2, minY], [maxX, minY],
+          [maxX, minY + boxH / 2],
+          [maxX, maxY], [minX + boxW / 2, maxY], [minX, maxY],
+          [minX, minY + boxH / 2]
+        ];
+        handles.forEach(([hx, hy]) => {
+          g.rect(hx - 3.5, hy - 3.5, 7, 7);
+          g.fill({ color: 0xffffff });
+          g.stroke({ width: 1.5, color: 0x0284c7 });
+        });
+
+        // Rotation Stem Anchor
+        const stemX = minX + boxW / 2;
+        const stemY = minY - 24;
+        g.moveTo(minX + boxW / 2, minY);
+        g.lineTo(stemX, stemY);
+        g.stroke({ width: 1.5, color: 0x38bdf8, alpha: 0.8 });
+
+        g.circle(stemX, stemY, 5);
+        g.fill({ color: 0x38bdf8 });
+        g.stroke({ width: 1.5, color: 0xffffff });
+
+        // Asset Count Badge
+        if (selectedAssetIds.length > 1) {
+          const badgeStyle = new TextStyle({
+            fontFamily: 'monospace',
+            fontSize: 10,
+            fill: 0x38bdf8,
+            fontWeight: 'bold'
+          });
+          const badgeText = new Text({
+            text: `${selectedAssetIds.length} ASSETS SELECTED`,
+            style: badgeStyle
+          });
+          badgeText.x = minX;
+          badgeText.y = minY - 16;
+          container.addChild(badgeText);
+        }
+      }
+    }
+
+    container.addChild(g);
+  }, [selectedAssetIds, isMarqueeActive, marqueeStart, marqueeCurrent, localObjects, tokens, localWalls]);
+
+  // ── Render Dynamic Light Sources on the Stage ──
+  useEffect(() => {
+    const container = lightsContainerRef.current;
+    if (!container) return;
+    container.removeChildren();
+
+    if (localLights.length === 0) return;
+
+    localLights.forEach(light => {
+      const lightNode = new Container();
+      lightNode.x = light.x;
+      lightNode.y = light.y;
+
+      const colorHex = typeof light.color === 'string' 
+        ? parseInt(light.color.replace('#', '0x'), 16) || 0xf59e0b 
+        : light.color;
+
+      const g = new Graphics();
+      // Outer subtle falloff halo
+      g.circle(0, 0, light.radius);
+      g.fill({ color: colorHex, alpha: 0.12 });
+      g.stroke({ width: 1, color: colorHex, alpha: 0.25 });
+
+      // Mid intensity circle
+      g.circle(0, 0, light.radius * 0.5);
+      g.fill({ color: colorHex, alpha: 0.2 });
+
+      // Central core bulb
+      g.circle(0, 0, 8);
+      g.fill({ color: 0xffffff });
+      g.stroke({ width: 2, color: colorHex });
+
+      lightNode.addChild(g);
+      container.addChild(lightNode);
+    });
+  }, [localLights]);
+
+  // ── Render Atmospheric Weather Tint Overlay ──
+  useEffect(() => {
+    const container = atmosphereOverlayRef.current;
+    if (!container) return;
+    container.removeChildren();
+
+    const preset = ATMOSPHERIC_PRESETS[atmosphericWeather] || ATMOSPHERIC_PRESETS.clear;
+    if (preset.tintAlpha <= 0 && preset.fogDensity <= 0) return;
+
+    const g = new Graphics();
+    const width = 3840;
+    const height = 2160;
+    g.rect(0, 0, width, height);
+    g.fill({ color: preset.tintHex, alpha: preset.tintAlpha });
+
+    container.addChild(g);
+  }, [atmosphericWeather]);
+
+  // ── Render Background Blueprint Underlay ──
+  useEffect(() => {
+    const container = underlayContainerRef.current;
+    if (!container) return;
+    container.removeChildren();
+
+    if (!underlayConfig?.url || !underlayConfig.visible) return;
+
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.src = underlayConfig.url;
+    img.onload = () => {
+      if (!underlayContainerRef.current) return;
+      underlayContainerRef.current.removeChildren();
+
+      try {
+        const sprite = Sprite.from(img);
+        sprite.x = underlayConfig.offsetX || 0;
+        sprite.y = underlayConfig.offsetY || 0;
+        sprite.scale.set(underlayConfig.scale || 1.0);
+        sprite.alpha = underlayConfig.opacity ?? 0.45;
+        underlayContainerRef.current.addChild(sprite);
+      } catch (err) {
+        console.warn('Failed to render underlay sprite:', err);
+      }
+    };
+  }, [underlayConfig]);
+
+  // ── Batch Multi-Asset Selection Actions ──
+  const handleBatchDelete = useCallback(() => {
+    if (selectedAssetIds.length === 0) return;
+    recordHistory(`Delete ${selectedAssetIds.length} Assets`);
+
+    const nextObjects = localObjects.filter(o => !selectedAssetIds.includes(o.id));
+    const nextWalls = localWalls.filter(w => !selectedAssetIds.includes(w.id));
+    const nextLights = localLights.filter(l => !selectedAssetIds.includes(l.id));
+    const nextTexts = (currentMap?.texts || []).filter((t: any) => !selectedAssetIds.includes(t.id));
+    const nextLines = (currentMap?.lines || []).filter((l: any) => !selectedAssetIds.includes(l.id));
+    const nextTerrains = (currentMap?.terrains || []).filter((t: any) => !selectedAssetIds.includes(t.id));
+
+    setLocalObjects(nextObjects);
+    setLocalWalls(nextWalls);
+    setLocalLights(nextLights);
+    interactiveObjMgrRef.current.loadObjects(nextObjects);
+    bvhBuilderRef.current.build(nextWalls);
+
+    if (currentMap && updateMap) {
+      updateMap(currentMap.id, {
+        objects: nextObjects,
+        walls: nextWalls,
+        lights: nextLights,
+        texts: nextTexts,
+        lines: nextLines,
+        terrains: nextTerrains
+      });
+    }
+
+    AudioService.playTerminalBeep(700, 0.04);
+    setCombatLog(prev => [`[BATCH DELETE] Purged ${selectedAssetIds.length} assets from sector.`, ...prev.slice(0, 8)]);
+    setSelectedAssetIds([]);
+  }, [selectedAssetIds, localObjects, localWalls, localLights, currentMap, updateMap, recordHistory]);
+
+  const handleBatchDuplicate = useCallback(() => {
+    if (selectedAssetIds.length === 0) return;
+    recordHistory(`Duplicate ${selectedAssetIds.length} Assets`);
+
+    const offset = gridSnap ? 70 : 25;
+    const newSelectedIds: string[] = [];
+
+    // Duplicate Objects
+    const clonedObjects: SceneInteractiveObject[] = [];
+    localObjects.forEach(o => {
+      if (selectedAssetIds.includes(o.id)) {
+        const newId = `obj-${Date.now()}-${Math.floor(Math.random()*1000)}`;
+        clonedObjects.push({
+          ...o,
+          id: newId,
+          name: `${o.name} (Copy)`,
+          x: o.x + offset,
+          y: o.y + offset
+        });
+        newSelectedIds.push(newId);
+      }
+    });
+
+    // Duplicate Walls
+    const clonedWalls: WallSegment[] = [];
+    localWalls.forEach(w => {
+      if (selectedAssetIds.includes(w.id)) {
+        const newId = `wall-${Date.now()}-${Math.floor(Math.random()*1000)}`;
+        clonedWalls.push({
+          ...w,
+          id: newId,
+          p1: { x: w.p1.x + offset, y: w.p1.y + offset },
+          p2: { x: w.p2.x + offset, y: w.p2.y + offset }
+        });
+        newSelectedIds.push(newId);
+      }
+    });
+
+    // Duplicate Lights
+    const clonedLights: SceneLightSource[] = [];
+    localLights.forEach(l => {
+      if (selectedAssetIds.includes(l.id)) {
+        const newId = `light-${Date.now()}-${Math.floor(Math.random()*1000)}`;
+        clonedLights.push({
+          ...l,
+          id: newId,
+          x: l.x + offset,
+          y: l.y + offset
+        });
+        newSelectedIds.push(newId);
+      }
+    });
+
+    const nextObjects = [...localObjects, ...clonedObjects];
+    const nextWalls = [...localWalls, ...clonedWalls];
+    const nextLights = [...localLights, ...clonedLights];
+
+    setLocalObjects(nextObjects);
+    setLocalWalls(nextWalls);
+    setLocalLights(nextLights);
+    interactiveObjMgrRef.current.loadObjects(nextObjects);
+    clonedWalls.forEach(w => bvhBuilderRef.current.addWall(w));
+
+    if (currentMap && updateMap) {
+      updateMap(currentMap.id, {
+        objects: nextObjects,
+        walls: nextWalls,
+        lights: nextLights
+      });
+    }
+    setSelectedAssetIds(newSelectedIds);
+    AudioService.playCriticalChime(true);
+    setCombatLog(prev => [`[DUPLICATE] Cloned ${newSelectedIds.length} assets with +${offset}px offset.`, ...prev.slice(0, 8)]);
+  }, [selectedAssetIds, localObjects, localWalls, localLights, gridSnap, currentMap, updateMap, recordHistory]);
+
+  const handleBatchNudge = useCallback((dx: number, dy: number) => {
+    if (selectedAssetIds.length === 0) return;
+
+    const nextObjects = localObjects.map(o => selectedAssetIds.includes(o.id) ? { ...o, x: o.x + dx, y: o.y + dy } : o);
+    const nextWalls = localWalls.map(w => selectedAssetIds.includes(w.id) ? {
+      ...w,
+      p1: { x: w.p1.x + dx, y: w.p1.y + dy },
+      p2: { x: w.p2.x + dx, y: w.p2.y + dy }
+    } : w);
+    const nextLights = localLights.map(l => selectedAssetIds.includes(l.id) ? { ...l, x: l.x + dx, y: l.y + dy } : l);
+
+    setLocalObjects(nextObjects);
+    setLocalWalls(nextWalls);
+    setLocalLights(nextLights);
+    interactiveObjMgrRef.current.loadObjects(nextObjects);
+    bvhBuilderRef.current.build(nextWalls);
+
+    if (currentMap && updateMap) {
+      updateMap(currentMap.id, { objects: nextObjects, walls: nextWalls, lights: nextLights });
+    }
+  }, [selectedAssetIds, localObjects, localWalls, localLights, currentMap, updateMap]);
+
+  const handleDeselectAll = useCallback(() => {
+    setSelectedAssetIds([]);
+    AudioService.playTerminalBeep(900, 0.02);
+  }, []);
+
+  // ── Deploy Item from Architect Design Palette onto the Stage ──
   const deployArchitectItem = (item: PaletteItem, targetX: number, targetY: number) => {
+    recordHistory(`Deploy ${item.label}`);
     AudioService.playTerminalBeep(1350, 0.03);
+
+    // Calculate natural scatter jitter
+    let targetRotation = 0;
+    let targetScale = 1.0;
+    if (randomizeRotation) {
+      targetRotation = Math.round((Math.random() - 0.5) * 30);
+    }
+    if (randomizeScale) {
+      targetScale = Number((0.85 + Math.random() * 0.3).toFixed(2));
+    }
 
     if (item.type === 'wall') {
       const newWallId = `wall-${Date.now()}`;
@@ -422,6 +1167,9 @@ export const StageView: React.FC<StageViewProps> = ({
         y: targetY,
         storyElementId: item.defaultProps?.storyElementId || `story-${Date.now()}`
       };
+      (newObj as any).rotation = targetRotation;
+      (newObj as any).scale = targetScale;
+
       interactiveObjMgrRef.current.loadObjects([...interactiveObjMgrRef.current.getAllObjects(), newObj]);
       const updatedObjects = [...localObjects, newObj];
       setLocalObjects(updatedObjects);
@@ -430,7 +1178,7 @@ export const StageView: React.FC<StageViewProps> = ({
       }
 
       setCombatLog(prev => [
-        `[ARCHITECT] Placed interactive object "${newObj.name}" at (${targetX}, ${targetY}).`,
+        `[ARCHITECT] Placed interactive object "${newObj.name}" at (${targetX}, ${targetY})${randomizeRotation || randomizeScale ? ` [Rot: ${targetRotation}°, Scale: ${targetScale}x]` : ''}.`,
         ...prev.slice(0, 8)
       ]);
     } else if (item.type === 'hazard') {
@@ -498,13 +1246,37 @@ export const StageView: React.FC<StageViewProps> = ({
         `[ARCHITECT] Spawned ${item.label} at (${targetX}, ${targetY}).`,
         ...prev.slice(0, 8)
       ]);
+    } else if (item.type === 'light') {
+      const newLightId = `light-${Date.now()}`;
+      const newLight: SceneLightSource = {
+        id: newLightId,
+        x: targetX,
+        y: targetY,
+        radius: item.defaultProps?.radius || selectedLightRadius,
+        color: item.defaultProps?.color || selectedLightColor,
+        intensity: 1.0,
+        falloff: 'smooth',
+        animation: (item.defaultProps?.animation || selectedLightAnimation) as LightAnimationType,
+        castShadows: true,
+        label: item.label || 'Light Fixture'
+      };
+      lightSourceMgrRef.current.addLight(newLight);
+      const nextLights = [...localLights, newLight];
+      setLocalLights(nextLights);
+      if (currentMap && updateMap) {
+        updateMap(currentMap.id, { lights: nextLights });
+      }
+      setCombatLog(prev => [
+        `[ARCHITECT] Deployed ${newLight.label} at (${targetX}, ${targetY}).`,
+        ...prev.slice(0, 8)
+      ]);
     }
   };
 
   const handleToggleDesignMode = () => {
     setIsDesignModeActive(prev => {
       const next = !prev;
-      setIsSimulationPaused(next); // Pause simulation during design mode, unpause when exiting
+      setIsSimulationPaused(next);
       AudioService.playTerminalBeep(next ? 1500 : 900, 0.04);
       setCombatLog(p => [
         next
@@ -516,7 +1288,7 @@ export const StageView: React.FC<StageViewProps> = ({
     });
   };
 
-  // Initialize PixiJS WebGPU Canvas & Compositor
+  // ── Initialize PixiJS WebGPU Canvas & Compositor ──
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -541,17 +1313,71 @@ export const StageView: React.FC<StageViewProps> = ({
       const chunkMgr = new FrustumChunkManager();
       chunkManagerRef.current = chunkMgr;
 
-      // Create Grid Overlay Graphics Container
+      // 0. Blueprint Underlay Container (ZLayer.BackgroundMap)
+      const underlayContainer = new Container();
+      underlayContainer.label = 'UnderlayBlueprint';
+      compositor.addToLayer(underlayContainer, ZLayer.BackgroundMap);
+      underlayContainerRef.current = underlayContainer;
+
+      // 1. Terrains Container (ZLayer.BackgroundMap)
+      const terrainContainer = new Container();
+      terrainContainer.label = 'TerrainLayer';
+      compositor.addToLayer(terrainContainer, ZLayer.BackgroundMap);
+      terrainsContainerRef.current = terrainContainer;
+
+      // 2. Grid Overlay Container (ZLayer.BackgroundMap)
       const gridContainer = new Container();
       gridContainer.label = 'GridOverlay';
       compositor.addToLayer(gridContainer, ZLayer.BackgroundMap);
       setGridOverlayContainer(gridContainer);
 
-      // Create Movement & Waypoint Ruler Graphics Container
+      // 3. Pencil Lines Container (ZLayer.UnderlayDebris)
+      const linesContainer = new Container();
+      linesContainer.label = 'PencilLinesLayer';
+      compositor.addToLayer(linesContainer, ZLayer.UnderlayDebris);
+      linesContainerRef.current = linesContainer;
+
+      // 4. Movement Ruler Container (ZLayer.DynamicFX)
       const rulerContainer = new Container();
       rulerContainer.label = 'MovementRuler';
       compositor.addToLayer(rulerContainer, ZLayer.DynamicFX);
       setMoveRulerContainer(rulerContainer);
+
+      // 5. Dynamic Drawing & Wall Preview Container (ZLayer.DynamicFX)
+      const drawPreviewContainer = new Container();
+      drawPreviewContainer.label = 'DynamicDrawPreview';
+      compositor.addToLayer(drawPreviewContainer, ZLayer.DynamicFX);
+      wallPreviewContainerRef.current = drawPreviewContainer;
+
+      // 6. Tactical Radar Pings Container (ZLayer.DynamicFX)
+      const pingsContainer = new Container();
+      pingsContainer.label = 'TacticalPings';
+      compositor.addToLayer(pingsContainer, ZLayer.DynamicFX);
+      pingsContainerRef.current = pingsContainer;
+
+      // 7. Dynamic Lights Container (ZLayer.DynamicFX)
+      const lightsContainer = new Container();
+      lightsContainer.label = 'DynamicLightsLayer';
+      compositor.addToLayer(lightsContainer, ZLayer.DynamicFX);
+      lightsContainerRef.current = lightsContainer;
+
+      // 8. Atmospheric Weather Overlay Container (ZLayer.DynamicFX)
+      const atmoContainer = new Container();
+      atmoContainer.label = 'AtmosphericWeatherOverlay';
+      compositor.addToLayer(atmoContainer, ZLayer.DynamicFX);
+      atmosphereOverlayRef.current = atmoContainer;
+
+      // 9. Text Labels Container (ZLayer.ForegroundUI)
+      const textsContainer = new Container();
+      textsContainer.label = 'TextLabelsLayer';
+      compositor.addToLayer(textsContainer, ZLayer.ForegroundUI);
+      textsContainerRef.current = textsContainer;
+
+      // 10. Transform Gizmo & Marquee Selection Container (ZLayer.ForegroundUI)
+      const gizmoContainer = new Container();
+      gizmoContainer.label = 'TransformGizmoLayer';
+      compositor.addToLayer(gizmoContainer, ZLayer.ForegroundUI);
+      transformGizmoContainerRef.current = gizmoContainer;
 
       // Initialize Hazard Particle Simulator & Dynamic Lighting on Stage
       const fxLayer = compositor.getLayer(ZLayer.DynamicFX);
@@ -574,6 +1400,7 @@ export const StageView: React.FC<StageViewProps> = ({
 
       // PixiJS Ticker Animation Loop for Particle Fields & Dynamic Lighting
       app.ticker.add((ticker) => {
+        const timeSec = performance.now() / 1000;
         const currentTokens = selectAllFusedTokens(useEngineStore.getState());
         const lightEmitters = currentTokens.map((t: FusedToken) => ({
           x: t.x,
@@ -582,6 +1409,21 @@ export const StageView: React.FC<StageViewProps> = ({
           color: t.is_persona ? 0x22d3ee : 0xa855f7,
           intensity: 1.0
         }));
+
+        // Include placed point lights
+        const sceneLights = lightSourceMgrRef.current.getAllLights();
+        sceneLights.forEach(sl => {
+          const animIntensity = lightSourceMgrRef.current.getAnimatedIntensity(sl, timeSec);
+          const colorHex = typeof sl.color === 'string' ? parseInt(sl.color.replace('#', '0x'), 16) || 0xf59e0b : sl.color;
+          lightEmitters.push({
+            x: sl.x,
+            y: sl.y,
+            radius: sl.radius,
+            color: colorHex,
+            intensity: animIntensity
+          });
+        });
+
         hazardSimulatorRef.current?.update(ticker.deltaTime, lightEmitters);
       });
     };
@@ -632,6 +1474,22 @@ export const StageView: React.FC<StageViewProps> = ({
         graphics.moveTo(0, y);
         graphics.lineTo(width, y);
       }
+    } else {
+      // Hex grid rendering
+      const hexRadius = cellSize / 1.5;
+      for (let y = 0; y <= height; y += hexRadius * 1.5) {
+        const isOdd = Math.floor(y / (hexRadius * 1.5)) % 2 === 1;
+        const xOffset = isOdd ? (hexRadius * Math.sqrt(3)) / 2 : 0;
+        for (let x = xOffset; x <= width; x += hexRadius * Math.sqrt(3)) {
+          const sides = 6;
+          const pts: number[] = [];
+          for (let i = 0; i < sides; i++) {
+            const angle = (i * Math.PI) / 3;
+            pts.push(x + hexRadius * Math.cos(angle), y + hexRadius * Math.sin(angle));
+          }
+          graphics.poly(pts);
+        }
+      }
     }
 
     gridOverlayContainer.addChild(graphics);
@@ -662,7 +1520,7 @@ export const StageView: React.FC<StageViewProps> = ({
     g.stroke({ width: 1.5, color: 0xf59e0b, alpha: isMoveModeActive ? 0.6 : 0.25 });
     g.fill({ color: 0xf59e0b, alpha: isMoveModeActive ? 0.04 : 0.015 });
 
-    if (isMoveModeActive) {
+    if (isMoveModeActive || activeDesignTool === 'ruler') {
       // 3. Draw Distance Vector to Mouse Cursor
       const dx = mouseWorldPos.x - selectedToken.x;
       const dy = mouseWorldPos.y - selectedToken.y;
@@ -674,7 +1532,6 @@ export const StageView: React.FC<StageViewProps> = ({
       const isWithinSprint = distFt <= (effectiveSpeedFt * 2);
       const actionCost = isWithinBase ? 1 : isWithinSprint ? 2 : Math.ceil(distFt / effectiveSpeedFt);
 
-      // Check if path intersects any hazard fields
       const intersectsHazard = (hazardSimulatorRef.current?.getHazardFields?.() || []).some((h: any) => {
         const midX = (selectedToken.x + mouseWorldPos.x) / 2;
         const midY = (selectedToken.y + mouseWorldPos.y) / 2;
@@ -709,9 +1566,9 @@ export const StageView: React.FC<StageViewProps> = ({
         align: 'center'
       });
 
-      let labelText = `${distFt} FT (${distCells} CELLS) • [${actionCost} ACTION${actionCost > 1 ? 'S' : ''}${isWithinSprint && !isWithinBase ? ' - SPRINT' : ''}]`;
+      let labelText = `${distFt} FT (${distCells} CELLS) • [${actionCost} AP / ${rulerAvailableAp} MAX${isWithinSprint && !isWithinBase ? ' - SPRINT' : ''}]`;
       if (intersectsHazard) {
-        labelText += ' ⚠️ HAZARD CROSSING!';
+        labelText += ' ⚠️ HAZARD!';
       }
 
       const distLabel = new Text({
@@ -725,8 +1582,7 @@ export const StageView: React.FC<StageViewProps> = ({
     } else {
       moveRulerContainer.addChild(g);
     }
-
-  }, [moveRulerContainer, selectedToken, isMoveModeActive, mouseWorldPos, effectiveSpeedFt]);
+  }, [moveRulerContainer, selectedToken, isMoveModeActive, mouseWorldPos, effectiveSpeedFt, activeDesignTool, rulerAvailableAp]);
 
   // Render Interactive Objects on the Stage
   useEffect(() => {
@@ -772,9 +1628,9 @@ export const StageView: React.FC<StageViewProps> = ({
 
       objLayer.addChild(container);
     });
-  }, [tokens]);
+  }, [tokens, localObjects]);
 
-  // Render Tokens on the Stage with Canonical Action Pips and Mortality Indicators
+  // Render Tokens on the Stage with Action Pips & Mortality Indicators
   useEffect(() => {
     const compositor = layerCompositorRef.current;
     if (!compositor) return;
@@ -806,23 +1662,22 @@ export const StageView: React.FC<StageViewProps> = ({
         ? 0xef4444 
         : token.is_persona 
           ? 0x06b6d4 
-          : 0x8b5cf6; // Cyan for Persona, Purple for Mecha, Red if Downed
+          : 0x8b5cf6;
 
-      // Volumetric Size radius
       const radius = 22 + (token.size_modifier || 0) * 8;
 
       g.circle(0, 0, radius);
       g.fill({ color: fillColor, alpha: isDowned ? 0.6 : 0.85 });
 
       if (isSelected) {
-        g.stroke({ width: 3.5, color: 0xfacc15 }); // Gold ring for selected
+        g.stroke({ width: 3.5, color: 0xfacc15 });
       } else if (isTarget) {
-        g.stroke({ width: 3.5, color: 0xef4444 }); // Red ring for target
+        g.stroke({ width: 3.5, color: 0xef4444 });
       } else {
         g.stroke({ width: 1.5, color: 0xffffff });
       }
 
-      // Flashlight / Vision cone indicator if selected and vision is active
+      // Flashlight indicator
       if (isSelected && isVisionEnabled) {
         const torchPx = (torchRadiusFt / 5) * 70;
         const torchG = new Graphics();
@@ -834,7 +1689,7 @@ export const StageView: React.FC<StageViewProps> = ({
 
       container.addChild(g);
 
-      // Render Canonical Action Pips based on Skill Rank (Rank 0=1 full, 1-5=1, 6-10=2, 11-15=3, etc.)
+      // Render Action Pips based on Skill Rank
       const skillRank = (token as any).skill_rank ?? 8;
       const actionTier = combatArbRef.current.getActionTier(skillRank);
       const actionCount = actionTier.actionsCount;
@@ -850,7 +1705,7 @@ export const StageView: React.FC<StageViewProps> = ({
       }
       container.addChild(pipsG);
 
-      // If in Mortality State (0 HP), render Bleeding Out Warning
+      // Bleeding out state
       if (isDowned) {
         const mortG = new Graphics();
         mortG.circle(0, 0, radius + 4);
@@ -870,11 +1725,10 @@ export const StageView: React.FC<StageViewProps> = ({
       label.anchor.set(0.5, -1.8);
       container.addChild(label);
 
-      // Interaction listeners: Left click select, Shift click target, Right click open radial menu
+      // Pointer listeners
       container.on('pointerdown', (e: any) => {
         e.stopPropagation();
         if (e.button === 2 || e.buttons === 2) {
-          // Open Contextual Token Radial Menu!
           setSelectedTokenId(token.id);
           const canvasBounds = canvasRef.current?.getBoundingClientRect();
           const screenX = canvasBounds ? canvasBounds.left + token.x * zoom + pan.x : token.x;
@@ -898,7 +1752,7 @@ export const StageView: React.FC<StageViewProps> = ({
     });
   }, [tokens, selectedTokenId, targetTokenId, isVisionEnabled, torchRadiusFt, zoom, pan]);
 
-  // Convert Screen Mouse Coordinates to World Coordinates (accounting for Pan & Zoom)
+  // Convert Screen Mouse Coordinates to World Coordinates
   const screenToWorld = useCallback((clientX: number, clientY: number) => {
     const rect = canvasRef.current?.getBoundingClientRect();
     if (!rect) return { x: 0, y: 0 };
@@ -908,7 +1762,7 @@ export const StageView: React.FC<StageViewProps> = ({
     };
   }, [pan, zoom]);
 
-  // Handle Canvas Pointer Move (Distance Ruler tracking & Middle/Right Drag Pan)
+  // Canvas Mouse Move
   const handleCanvasMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const worldPos = screenToWorld(e.clientX, e.clientY);
     setMouseWorldPos(worldPos);
@@ -918,40 +1772,480 @@ export const StageView: React.FC<StageViewProps> = ({
       const dy = e.clientY - dragStartPos.y;
       setPan(prev => ({ x: prev.x + dx, y: prev.y + dy }));
       setDragStartPos({ x: e.clientX, y: e.clientY });
+      return;
+    }
+
+    if (isMarqueeActive && isDesignModeActive) {
+      setMarqueeCurrent(worldPos);
+      return;
+    }
+
+    if (isDrawingToolActive && isDesignModeActive) {
+      if (activeDesignTool === 'wall' && wallDrawStart) {
+        let snapped = gridSnap ? coordEngineRef.current.snapPixelToGrid(worldPos) : worldPos;
+        if (e.shiftKey) {
+          snapped = snapPointToAngle(wallDrawStart, snapped, 15);
+        }
+        setWallDrawCurrent(snapped);
+      } else if (activeDesignTool === 'terrain' || activeDesignTool === 'pencil') {
+        setCurrentStrokePoints(prev => [...prev, worldPos.x, worldPos.y]);
+      }
     }
   };
 
+  // Canvas Mouse Down
   const handleCanvasMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    // Middle-click (1) or Right-click (2) initiates pan drag
     if (e.button === 1 || (e.button === 2 && !e.shiftKey)) {
       e.preventDefault();
       setIsDraggingPan(true);
       setDragStartPos({ x: e.clientX, y: e.clientY });
+      return;
+    }
+
+    if (e.button === 0) {
+      const worldPos = screenToWorld(e.clientX, e.clientY);
+      const engine = coordEngineRef.current;
+      let snapped = gridSnap ? engine.snapPixelToGrid(worldPos) : worldPos;
+
+      if (isDesignModeActive) {
+        if (activeDesignTool === 'select') {
+          // Check if user clicked an interactive object, token, wall, or light
+          const hitObj = localObjects.find(o => Math.hypot(o.x - worldPos.x, o.y - worldPos.y) <= 30);
+          const hitToken = tokens.find(t => Math.hypot(t.x - worldPos.x, t.y - worldPos.y) <= 30);
+          const hitWall = localWalls.find(w => {
+            const d1 = Math.hypot(worldPos.x - w.p1.x, worldPos.y - w.p1.y);
+            const d2 = Math.hypot(worldPos.x - w.p2.x, worldPos.y - w.p2.y);
+            return d1 <= 20 || d2 <= 20;
+          });
+          const hitLight = localLights.find(l => Math.hypot(l.x - worldPos.x, l.y - worldPos.y) <= 25);
+
+          const hitId = hitObj?.id || hitToken?.id || hitWall?.id || hitLight?.id;
+
+          if (hitId) {
+            if (e.shiftKey) {
+              setSelectedAssetIds(prev => prev.includes(hitId) ? prev.filter(id => id !== hitId) : [...prev, hitId]);
+            } else {
+              setSelectedAssetIds([hitId]);
+            }
+            AudioService.playTerminalBeep(1200, 0.02);
+          } else {
+            // Clicked on empty ground: start Marquee selection box
+            if (!e.shiftKey) {
+              setSelectedAssetIds([]);
+            }
+            setIsMarqueeActive(true);
+            setMarqueeStart(worldPos);
+            setMarqueeCurrent(worldPos);
+          }
+          return;
+        } else if (activeDesignTool === 'wall') {
+          recordHistory('Draw Wall');
+          setIsDrawingToolActive(true);
+
+          // Magnetic endpoint snap
+          const vertexSnap = findNearestWallVertex(snapped, localWalls, 20);
+          const startPt = vertexSnap || snapped;
+
+          setWallDrawStart(startPt);
+          setWallDrawCurrent(startPt);
+          AudioService.playTerminalBeep(1100, 0.02);
+          return;
+        } else if (activeDesignTool === 'terrain') {
+          recordHistory('Paint Terrain');
+          setIsDrawingToolActive(true);
+          setCurrentStrokePoints([worldPos.x, worldPos.y]);
+          return;
+        } else if (activeDesignTool === 'fill') {
+          // Room Flooring Fill Bucket
+          recordHistory('Fill Room Floor');
+          const biome = BIOME_OPTIONS.find(b => b.id === selectedTerrainId);
+          // Detect surrounding walls within 400px
+          const nearbyWalls = localWalls.filter(w => 
+            Math.min(Math.hypot(w.p1.x - snapped.x, w.p1.y - snapped.y), Math.hypot(w.p2.x - snapped.x, w.p2.y - snapped.y)) <= 400
+          );
+
+          let minX = snapped.x - 70;
+          let maxX = snapped.x + 70;
+          let minY = snapped.y - 70;
+          let maxY = snapped.y + 70;
+
+          if (nearbyWalls.length >= 4) {
+            const xs = nearbyWalls.flatMap(w => [w.p1.x, w.p2.x]);
+            const ys = nearbyWalls.flatMap(w => [w.p1.y, w.p2.y]);
+            const lefts = xs.filter(x => x <= snapped.x);
+            const rights = xs.filter(x => x >= snapped.x);
+            const tops = ys.filter(y => y <= snapped.y);
+            const bottoms = ys.filter(y => y >= snapped.y);
+
+            if (lefts.length && rights.length && tops.length && bottoms.length) {
+              minX = Math.max(...lefts);
+              maxX = Math.min(...rights);
+              minY = Math.max(...tops);
+              maxY = Math.min(...bottoms);
+            }
+          }
+
+          const fillPoints = [
+            minX, minY,
+            maxX, minY,
+            maxX, maxY,
+            minX, maxY
+          ];
+
+          const newFloor = {
+            id: uuidv4(),
+            points: fillPoints,
+            color: biome?.color || '#0f172a',
+            strokeWidth: 2,
+            renderType: 'polygon',
+            closed: true,
+            biomeType: selectedTerrainId,
+            terrainTypeId: selectedTerrainId,
+            label: `${biome?.label || 'Chamber'} Floor`
+          };
+
+          const updatedTerrains = [...(currentMap?.terrains || []), newFloor];
+          if (currentMap && updateMap) {
+            updateMap(currentMap.id, { terrains: updatedTerrains });
+          }
+          AudioService.playCriticalChime(true);
+          setCombatLog(prev => [
+            `[FLOOR FILL] Generated ${biome?.label || 'Decking'} floor polygon inside chamber (${Math.round(maxX - minX)}x${Math.round(maxY - minY)}px).`,
+            ...prev.slice(0, 8)
+          ]);
+          return;
+        } else if (activeDesignTool === 'light') {
+          recordHistory('Place Light Source');
+          const newLight: SceneLightSource = {
+            id: `light-${Date.now()}`,
+            x: snapped.x,
+            y: snapped.y,
+            radius: selectedLightRadius,
+            color: selectedLightColor,
+            intensity: 1.0,
+            falloff: 'smooth',
+            animation: selectedLightAnimation,
+            castShadows: true,
+            label: `Light (${selectedLightAnimation})`
+          };
+          lightSourceMgrRef.current.addLight(newLight);
+          const nextLights = [...localLights, newLight];
+          setLocalLights(nextLights);
+          if (currentMap && updateMap) {
+            updateMap(currentMap.id, { lights: nextLights });
+          }
+          AudioService.playTerminalBeep(1400, 0.04);
+          setCombatLog(prev => [
+            `[LIGHT SOURCE] Deployed ${selectedLightAnimation} fixture at (${Math.round(snapped.x)}, ${Math.round(snapped.y)}) [Radius: ${selectedLightRadius}px].`,
+            ...prev.slice(0, 8)
+          ]);
+          return;
+        } else if (activeDesignTool === 'pencil') {
+          recordHistory('Draw Sketch Line');
+          setIsDrawingToolActive(true);
+          setCurrentStrokePoints([worldPos.x, worldPos.y]);
+          return;
+        } else if (activeDesignTool === 'text') {
+          recordHistory('Place Text Label');
+          const newText = {
+            id: uuidv4(),
+            text: textLabelInput || 'Sector Alpha',
+            fill: textColor,
+            fontSize: textSize,
+            x: snapped.x,
+            y: snapped.y
+          };
+          const updatedTexts = [...(currentMap?.texts || []), newText];
+          if (currentMap && updateMap) {
+            updateMap(currentMap.id, { texts: updatedTexts });
+          }
+          AudioService.playTerminalBeep(1250, 0.03);
+          setCombatLog(prev => [
+            `[TEXT] Placed label "${newText.text}" at (${Math.round(snapped.x)}, ${Math.round(snapped.y)}).`,
+            ...prev.slice(0, 8)
+          ]);
+          return;
+        } else if (activeDesignTool === 'eraser') {
+          handleEraseAt(worldPos);
+          return;
+        } else if (activeDesignTool === 'object' || activeDesignTool === 'hazard' || activeDesignTool === 'token') {
+          if (selectedStamp) {
+            deployArchitectItem(selectedStamp, snapped.x, snapped.y);
+            return;
+          }
+        }
+      }
     }
   };
 
+  // Canvas Mouse Up
   const handleCanvasMouseUp = () => {
-    setIsDraggingPan(false);
+    if (isDraggingPan) {
+      setIsDraggingPan(false);
+    }
+
+    if (isMarqueeActive && isDesignModeActive) {
+      setIsMarqueeActive(false);
+      if (marqueeStart && marqueeCurrent) {
+        const minX = Math.min(marqueeStart.x, marqueeCurrent.x);
+        const maxX = Math.max(marqueeStart.x, marqueeCurrent.x);
+        const minY = Math.min(marqueeStart.y, marqueeCurrent.y);
+        const maxY = Math.max(marqueeStart.y, marqueeCurrent.y);
+
+        // Find enclosed objects, tokens, walls, and lights
+        const enclosedObjIds = localObjects.filter(o => o.x >= minX && o.x <= maxX && o.y >= minY && o.y <= maxY).map(o => o.id);
+        const enclosedTokIds = tokens.filter(t => t.x >= minX && t.x <= maxX && t.y >= minY && t.y <= maxY).map(t => t.id);
+        const enclosedWallIds = localWalls.filter(w => 
+          (w.p1.x >= minX && w.p1.x <= maxX && w.p1.y >= minY && w.p1.y <= maxY) ||
+          (w.p2.x >= minX && w.p2.x <= maxX && w.p2.y >= minY && w.p2.y <= maxY)
+        ).map(w => w.id);
+        const enclosedLightIds = localLights.filter(l => l.x >= minX && l.x <= maxX && l.y >= minY && l.y <= maxY).map(l => l.id);
+
+        const allEnclosed = Array.from(new Set([...enclosedObjIds, ...enclosedTokIds, ...enclosedWallIds, ...enclosedLightIds]));
+        setSelectedAssetIds(allEnclosed);
+        if (allEnclosed.length > 0) {
+          AudioService.playTerminalBeep(1300, 0.03);
+          setCombatLog(prev => [`[SELECTION] Selected ${allEnclosed.length} assets.`, ...prev.slice(0, 8)]);
+        }
+      }
+      setMarqueeStart(null);
+      setMarqueeCurrent(null);
+      return;
+    }
+
+    if (isDrawingToolActive && isDesignModeActive) {
+      setIsDrawingToolActive(false);
+
+      if (activeDesignTool === 'wall' && wallDrawStart && wallDrawCurrent) {
+        if (wallConstructionMode === 'room') {
+          const roomWidth = wallDrawCurrent.x - wallDrawStart.x;
+          const roomHeight = wallDrawCurrent.y - wallDrawStart.y;
+          if (Math.abs(roomWidth) >= 30 && Math.abs(roomHeight) >= 30) {
+            const newRoomWalls = createRoomWalls(
+              wallDrawStart.x,
+              wallDrawStart.y,
+              roomWidth,
+              roomHeight,
+              selectedWallType,
+              { hackDc: doorLockDc, label: 'Chamber' }
+            );
+            newRoomWalls.forEach((rw: WallSegment) => bvhBuilderRef.current.addWall(rw));
+            const updatedWalls = [...localWalls, ...newRoomWalls];
+            setLocalWalls(updatedWalls);
+            if (currentMap && updateMap) {
+              updateMap(currentMap.id, { walls: updatedWalls });
+            }
+            AudioService.playCriticalChime(true);
+            setCombatLog(prev => [
+              `[ROOM TOOL] Created 4-wall chamber enclosure (${Math.abs(Math.round(roomWidth))}x${Math.abs(Math.round(roomHeight))}px).`,
+              ...prev.slice(0, 8)
+            ]);
+          }
+        } else {
+          // Single or Chain segment
+          const dist = Math.hypot(wallDrawCurrent.x - wallDrawStart.x, wallDrawCurrent.y - wallDrawStart.y);
+          if (dist >= 15) {
+            const newWallId = `wall-${Date.now()}`;
+            const isDoor = selectedWallType === 'door';
+            const isWindow = selectedWallType === 'window';
+            const isEthereal = selectedWallType === 'ethereal';
+            const newWall: WallSegment = {
+              id: newWallId,
+              p1: { x: wallDrawStart.x, y: wallDrawStart.y },
+              p2: { x: wallDrawCurrent.x, y: wallDrawCurrent.y },
+              isDynamic: isDoor,
+              isOpen: false,
+              isTransparent: isWindow || isEthereal
+            };
+            (newWall as any).wallType = selectedWallType;
+            (newWall as any).lockDc = doorLockDc;
+
+            bvhBuilderRef.current.addWall(newWall);
+            const updatedWalls = [...localWalls, newWall];
+            setLocalWalls(updatedWalls);
+            if (currentMap && updateMap) {
+              updateMap(currentMap.id, { walls: updatedWalls });
+            }
+            AudioService.playTerminalBeep(1350, 0.04);
+            setCombatLog(prev => [
+              `[WALL DRAW] Created ${selectedWallType.toUpperCase()} segment from (${Math.round(wallDrawStart.x)}, ${Math.round(wallDrawStart.y)}) to (${Math.round(wallDrawCurrent.x)}, ${Math.round(wallDrawCurrent.y)}).`,
+              ...prev.slice(0, 8)
+            ]);
+
+            if (wallConstructionMode === 'chain') {
+              // Keep chain active with previous endpoint as next start point
+              setWallChainPoints(prev => [...prev, wallDrawCurrent]);
+              setWallDrawStart(wallDrawCurrent);
+              setIsDrawingToolActive(true);
+              return;
+            }
+          }
+        }
+        setWallDrawStart(null);
+        setWallDrawCurrent(null);
+      } else if (activeDesignTool === 'terrain' && currentStrokePoints.length >= 4) {
+        const biome = BIOME_OPTIONS.find(b => b.id === selectedTerrainId);
+        const newTerrain = {
+          id: uuidv4(),
+          points: currentStrokePoints,
+          color: biome?.color || '#14532d',
+          strokeWidth: terrainBrushWidth,
+          renderType: terrainRenderMode === 'hex' ? 'hexTile' : 'polygon',
+          closed: terrainRenderMode === 'hex',
+          biomeType: selectedTerrainId,
+          terrainTypeId: selectedTerrainId,
+          label: biome?.label || 'Terrain'
+        };
+        const updatedTerrains = [...(currentMap?.terrains || []), newTerrain];
+        if (currentMap && updateMap) {
+          updateMap(currentMap.id, { terrains: updatedTerrains });
+        }
+        setCurrentStrokePoints([]);
+        AudioService.playTerminalBeep(1200, 0.03);
+        setCombatLog(prev => [
+          `[TERRAIN] Painted ${biome?.label || 'Terrain'} stroke (${currentStrokePoints.length / 2} nodes).`,
+          ...prev.slice(0, 8)
+        ]);
+      } else if (activeDesignTool === 'pencil' && currentStrokePoints.length >= 4) {
+        const newLine = {
+          id: uuidv4(),
+          points: currentStrokePoints,
+          color: pencilColor,
+          strokeWidth: pencilWidth
+        };
+        const updatedLines = [...(currentMap?.lines || []), newLine];
+        if (currentMap && updateMap) {
+          updateMap(currentMap.id, { lines: updatedLines });
+        }
+        setCurrentStrokePoints([]);
+        AudioService.playTerminalBeep(1100, 0.02);
+      }
+    }
   };
 
-  // Non-passive Wheel listener to allow smooth zoom without page scroll
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+  // Canvas Click (Token Movement & Stamp Placement)
+  const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (isDraggingPan || isDrawingToolActive) return;
 
-    const onWheel = (e: WheelEvent) => {
-      e.preventDefault();
-      const zoomFactor = e.deltaY < 0 ? 1.1 : 0.9;
-      setZoom(prev => Math.max(0.4, Math.min(2.5, prev * zoomFactor)));
-    };
+    if (isDesignModeActive) {
+      if (selectedStamp) {
+        const worldPos = screenToWorld(e.clientX, e.clientY);
+        const snapped = gridSnap ? coordEngineRef.current.snapPixelToGrid(worldPos) : worldPos;
+        deployArchitectItem(selectedStamp, snapped.x, snapped.y);
+        return;
+      }
+      return;
+    }
 
-    canvas.addEventListener('wheel', onWheel, { passive: false });
-    return () => {
-      canvas.removeEventListener('wheel', onWheel);
-    };
-  }, []);
+    if (!selectedTokenId) return;
 
-  // Drag and drop event handlers for Architect Design Mode
+    const worldPos = screenToWorld(e.clientX, e.clientY);
+    const engine = coordEngineRef.current;
+    const snapped = engine.snapPixelToGrid(worldPos);
+
+    useEngineStore.getState().updatePosition(selectedTokenId, snapped.x, snapped.y);
+    AudioService.playTerminalBeep(1100, 0.02);
+
+    if (isMoveModeActive) {
+      setIsMoveModeActive(false);
+      setCombatLog(prev => [
+        `[MOVE] ${selectedToken?.name || 'Operative'} relocated to coordinates (${snapped.x}, ${snapped.y}).`,
+        ...prev.slice(0, 8)
+      ]);
+    }
+  };
+
+  // Tactical Eraser Implementation
+  const handleEraseAt = (pos: { x: number; y: number }) => {
+    recordHistory();
+
+    // 1. Check interactive objects
+    const objHit = localObjects.find(o => Math.hypot(o.x - pos.x, o.y - pos.y) <= 35);
+    if (objHit) {
+      const updatedObjects = localObjects.filter(o => o.id !== objHit.id);
+      setLocalObjects(updatedObjects);
+      interactiveObjMgrRef.current.loadObjects(updatedObjects);
+      if (currentMap && updateMap) {
+        updateMap(currentMap.id, { objects: updatedObjects });
+      }
+      AudioService.playTerminalBeep(850, 0.05);
+      setCombatLog(prev => [`[ERASER] Removed object "${objHit.name}"`, ...prev.slice(0, 8)]);
+      return;
+    }
+
+    // 2. Check walls
+    const wallHit = localWalls.find(w => {
+      const l2 = Math.hypot(w.p2.x - w.p1.x, w.p2.y - w.p1.y) ** 2;
+      if (l2 === 0) return Math.hypot(pos.x - w.p1.x, pos.y - w.p1.y) <= 25;
+      let t = ((pos.x - w.p1.x) * (w.p2.x - w.p1.x) + (pos.y - w.p1.y) * (w.p2.y - w.p1.y)) / l2;
+      t = Math.max(0, Math.min(1, t));
+      const projX = w.p1.x + t * (w.p2.x - w.p1.x);
+      const projY = w.p1.y + t * (w.p2.y - w.p1.y);
+      return Math.hypot(pos.x - projX, pos.y - projY) <= 25;
+    });
+
+    if (wallHit) {
+      const updatedWalls = localWalls.filter(w => w.id !== wallHit.id);
+      setLocalWalls(updatedWalls);
+      bvhBuilderRef.current.build(updatedWalls);
+      if (currentMap && updateMap) {
+        updateMap(currentMap.id, { walls: updatedWalls });
+      }
+      AudioService.playTerminalBeep(850, 0.05);
+      setCombatLog(prev => [`[ERASER] Demolished wall segment [${wallHit.id}]`, ...prev.slice(0, 8)]);
+      return;
+    }
+
+    // 3. Check texts
+    const textHit = (currentMap?.texts || []).find((t: any) => Math.hypot(t.x - pos.x, t.y - pos.y) <= 35);
+    if (textHit) {
+      const updatedTexts = (currentMap?.texts || []).filter((t: any) => t.id !== textHit.id);
+      if (currentMap && updateMap) {
+        updateMap(currentMap.id, { texts: updatedTexts });
+      }
+      AudioService.playTerminalBeep(850, 0.05);
+      setCombatLog(prev => [`[ERASER] Removed text label "${textHit.text}"`, ...prev.slice(0, 8)]);
+      return;
+    }
+
+    // 4. Check lines
+    const lineHit = (currentMap?.lines || []).find((l: any) => {
+      if (!l.points) return false;
+      for (let i = 0; i < l.points.length; i += 2) {
+        if (Math.hypot(l.points[i] - pos.x, l.points[i+1] - pos.y) <= 25) return true;
+      }
+      return false;
+    });
+    if (lineHit) {
+      const updatedLines = (currentMap?.lines || []).filter((l: any) => l.id !== lineHit.id);
+      if (currentMap && updateMap) {
+        updateMap(currentMap.id, { lines: updatedLines });
+      }
+      AudioService.playTerminalBeep(850, 0.05);
+      setCombatLog(prev => [`[ERASER] Erased sketch line`, ...prev.slice(0, 8)]);
+      return;
+    }
+
+    // 5. Check terrains
+    const terrainHit = (currentMap?.terrains || []).find((t: any) => {
+      if (t.x !== undefined && t.y !== undefined && Math.hypot(t.x - pos.x, t.y - pos.y) <= 40) return true;
+      if (!t.points) return false;
+      for (let i = 0; i < t.points.length; i += 2) {
+        if (Math.hypot(t.points[i] - pos.x, t.points[i+1] - pos.y) <= 30) return true;
+      }
+      return false;
+    });
+    if (terrainHit) {
+      const updatedTerrains = (currentMap?.terrains || []).filter((t: any) => t.id !== terrainHit.id);
+      if (currentMap && updateMap) {
+        updateMap(currentMap.id, { terrains: updatedTerrains });
+      }
+      AudioService.playTerminalBeep(850, 0.05);
+      setCombatLog(prev => [`[ERASER] Erased terrain polygon`, ...prev.slice(0, 8)]);
+    }
+  };
+
+  // Drag & drop handlers
   const handleCanvasDragOver = (e: React.DragEvent<HTMLCanvasElement>) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'copy';
@@ -976,39 +2270,25 @@ export const StageView: React.FC<StageViewProps> = ({
     }
   };
 
-  // Handle Stage Canvas Pointer Click (Snap & Move Token or Stamp Asset)
-  const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (isDraggingPan) return;
+  // Smooth Zoom with Mouse Wheel
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
-    // 1. If in Architect Design Mode and a Stamp is armed, place it!
-    if (isDesignModeActive && selectedStamp) {
-      const worldPos = screenToWorld(e.clientX, e.clientY);
-      const targetX = gridSnap ? Math.round(worldPos.x / 70) * 70 : Math.round(worldPos.x);
-      const targetY = gridSnap ? Math.round(worldPos.y / 70) * 70 : Math.round(worldPos.y);
-      deployArchitectItem(selectedStamp, targetX, targetY);
-      return;
-    }
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      const zoomFactor = e.deltaY < 0 ? 1.1 : 0.9;
+      setZoom(prev => Math.max(0.4, Math.min(2.5, prev * zoomFactor)));
+    };
 
-    if (!selectedTokenId) return;
-
-    const worldPos = screenToWorld(e.clientX, e.clientY);
-    const engine = coordEngineRef.current;
-    const snapped = engine.snapPixelToGrid(worldPos);
-
-    useEngineStore.getState().updatePosition(selectedTokenId, snapped.x, snapped.y);
-    AudioService.playTerminalBeep(1100, 0.02);
-
-    if (isMoveModeActive) {
-      setIsMoveModeActive(false);
-      setCombatLog(prev => [
-        `[MOVE] ${selectedToken?.name || 'Operative'} relocated to coordinates (${snapped.x}, ${snapped.y}).`,
-        ...prev.slice(0, 8)
-      ]);
-    }
-  };
+    canvas.addEventListener('wheel', onWheel, { passive: false });
+    return () => {
+      canvas.removeEventListener('wheel', onWheel);
+    };
+  }, []);
 
   const handleObjectClick = (obj: SceneInteractiveObject) => {
-    setSelectedObjectModal(obj);
+    setInspectingInteractiveObj(obj);
     AudioService.playTerminalBeep(1300, 0.04);
   };
 
@@ -1021,11 +2301,11 @@ export const StageView: React.FC<StageViewProps> = ({
         `[OBJECT] ${selectedToken?.name || 'Operative'} toggled ${objId} => ${res.data.isOpen ? 'OPEN' : 'SEALED'}`,
         ...prev.slice(0, 8)
       ]);
-      setSelectedObjectModal(null);
+      setInspectingInteractiveObj(null);
     }
   };
 
-  // Environmental Hazard and Dynamic Lighting Handlers
+  // Environmental Hazard & Lighting Handlers
   const handleToggleDynamicLighting = () => {
     setIsDynamicLightingEnabled(prev => {
       const next = !prev;
@@ -1080,6 +2360,225 @@ export const StageView: React.FC<StageViewProps> = ({
     });
   };
 
+  // Drop Tactical Radar Ping
+  const handleDropTacticalPing = (pingType: string = 'move') => {
+    const px = mouseWorldPos.x;
+    const py = mouseWorldPos.y;
+    const newPing = createTacticalPing(px, py, pingType, null, 'Architect', null);
+    setActivePings(prev => [...prev, newPing]);
+    AudioService.playTerminalBeep(newPing.soundFreq, 0.1);
+  };
+
+  // Save map JSON file
+  const handleSaveMapJson = () => {
+    if (!currentMap) return;
+    const payload = {
+      type: 'TangentMap',
+      version: '1.0',
+      map: {
+        ...currentMap,
+        walls: localWalls,
+        objects: localObjects
+      }
+    };
+    const jsonStr = JSON.stringify(payload, null, 2);
+    const blob = new Blob([jsonStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = formatExportFilename(currentMap.title || currentMap.name || 'map', 'tactical_map', 'json');
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    AudioService.playCriticalChime(true);
+  };
+
+  // Load map JSON file
+  const handleLoadMapJson = (file: File) => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const data = JSON.parse(event.target?.result as string);
+        const mapToLoad = data.type === 'TangentMap' && data.map ? data.map : (data.id && (data.title || data.name) ? data : null);
+        if (mapToLoad) {
+          const mapId = uuidv4();
+          const newMap = { ...mapToLoad, id: mapId };
+          if (addMap) addMap(newMap);
+          handleSelectMap(mapId);
+          AudioService.playCriticalChime(true);
+        } else {
+          alert('Invalid Tangent Map JSON format.');
+        }
+      } catch (e) {
+        console.error(e);
+        alert('Failed to parse map file.');
+      }
+    };
+    reader.readAsText(file);
+  };
+
+  // Export Viewport Snapshot (PNG)
+  const handleExportPng = () => {
+    if (!canvasRef.current) return;
+    const dataUrl = canvasRef.current.toDataURL('image/png');
+    const a = document.createElement('a');
+    a.href = dataUrl;
+    a.download = `${(currentMap?.title || 'stage_viewport').toLowerCase().replace(/\s+/g, '_')}_snapshot.png`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    AudioService.playCriticalChime(true);
+  };
+
+  // Commit Procedural Landmass
+  const handleCommitLandmass = ({ terrains, objects, replaceExisting }: any) => {
+    recordHistory();
+    const existingTerrains = replaceExisting ? [] : (currentMap?.terrains || []);
+    const existingObjects = replaceExisting ? [] : (currentMap?.objects || []);
+    const updatedTerrains = [...existingTerrains, ...terrains];
+    const updatedObjects = [...existingObjects, ...objects];
+
+    if (currentMap && updateMap) {
+      updateMap(currentMap.id, {
+        terrains: updatedTerrains,
+        objects: updatedObjects
+      });
+    }
+
+    setLocalObjects(updatedObjects.map((obj: any) => ({
+      id: obj.id,
+      name: obj.name || obj.label || 'Terrain Feature',
+      type: (obj.type || 'prop') as any,
+      x: obj.x || 100,
+      y: obj.y || 100,
+      storyElementId: obj.id
+    })));
+
+    AudioService.playCriticalChime(true);
+    setCombatLog(prev => [
+      `[LANDMASS] Generated procedural world (${terrains.length} terrains, ${objects.length} scatters).`,
+      ...prev.slice(0, 8)
+    ]);
+  };
+
+  // Commit UVTT Import
+  const handleImportCompleteUvtt = (importedMap: any) => {
+    recordHistory();
+    if (importedMap) {
+      const mapId = uuidv4();
+      const formattedMap = {
+        ...importedMap,
+        id: mapId
+      };
+      if (addMap) addMap(formattedMap);
+      handleSelectMap(mapId);
+      AudioService.playCriticalChime(true);
+      setCombatLog(prev => [
+        `[UVTT IMPORT] Ingested battlemap "${formattedMap.title || 'UVTT Battlemap'}" (${(formattedMap.walls || []).length} walls).`,
+        ...prev.slice(0, 8)
+      ]);
+    }
+  };
+
+  // Summon Hero Token from Folio
+  const handleSummonHeroToken = (heroPayload: any) => {
+    recordHistory();
+    const spawnX = Math.round(mouseWorldPos.x || 200);
+    const spawnY = Math.round(mouseWorldPos.y || 200);
+    const newTokId = heroPayload.heroId || `hero-${Date.now()}`;
+
+    const newTok: StaticEntity = {
+      id: newTokId,
+      name: heroPayload.name || 'Hero Operative',
+      base_hp: heroPayload.maxHealth || 35,
+      tech_level: 3,
+      armor_dr: heroPayload.toughness || 10,
+      size_modifier: 0,
+      speed_ft: 35,
+      species: 'Human',
+      archetype: 'Operative',
+      is_persona: true
+    };
+
+    useEngineStore.getState().loadStaticEntitiesBatch([newTok]);
+    useEngineStore.getState().updatePosition(newTokId, spawnX, spawnY);
+
+    if (currentMap && updateMap) {
+      updateMap(currentMap.id, {
+        tokens: [...(currentMap.tokens || []), { ...newTok, x: spawnX, y: spawnY }]
+      });
+    }
+
+    AudioService.playCriticalChime(true);
+    setCombatLog(prev => [`[FOLIO HERO] Summoned ${newTok.name} at (${spawnX}, ${spawnY}).`, ...prev.slice(0, 8)]);
+  };
+
+  // Summon Omnicortex Asset
+  const handleSummonOmnicortexAsset = (assetData: any) => {
+    recordHistory();
+    const spawnX = Math.round(mouseWorldPos.x || 250);
+    const spawnY = Math.round(mouseWorldPos.y || 250);
+
+    if (assetData._categoryKey === 'bestiary' || assetData.hp || assetData.dr) {
+      const newTokId = `codex-${assetData.id || Date.now()}`;
+      const newTok: StaticEntity = {
+        id: newTokId,
+        name: assetData._resolvedName || assetData.name || 'Codex Unit',
+        base_hp: assetData.hp || 30,
+        tech_level: assetData.techLevel || 3,
+        armor_dr: assetData.dr || 8,
+        size_modifier: assetData.sizeModifier || 0,
+        speed_ft: assetData.speed || 30,
+        species: assetData.species || 'Creature / Adversary',
+        archetype: assetData.archetype || 'Adversary',
+        is_persona: false
+      };
+      useEngineStore.getState().loadStaticEntitiesBatch([newTok]);
+      useEngineStore.getState().updatePosition(newTokId, spawnX, spawnY);
+
+      if (currentMap && updateMap) {
+        updateMap(currentMap.id, {
+          tokens: [...(currentMap.tokens || []), { ...newTok, x: spawnX, y: spawnY }]
+        });
+      }
+    } else {
+      const newObjId = `item-${assetData.id || Date.now()}`;
+      const newObj: SceneInteractiveObject = {
+        id: newObjId,
+        name: assetData._resolvedName || assetData.name || 'Item Cache',
+        type: 'loot_container',
+        x: spawnX,
+        y: spawnY,
+        storyElementId: assetData.id
+      };
+      const updatedObjects = [...localObjects, newObj];
+      setLocalObjects(updatedObjects);
+      interactiveObjMgrRef.current.loadObjects(updatedObjects);
+      if (currentMap && updateMap) {
+        updateMap(currentMap.id, { objects: updatedObjects });
+      }
+    }
+
+    AudioService.playCriticalChime(true);
+    setCombatLog(prev => [`[OMNICORTEX] Deployed ${assetData._resolvedName || assetData.name} at (${spawnX}, ${spawnY}).`, ...prev.slice(0, 8)]);
+  };
+
+  // Layers panel callbacks
+  const toggleLayerVisibility = (layerId: string) => {
+    if (!currentMap || !updateMap) return;
+    const layers = currentMap.layers || DEFAULT_LAYERS;
+    const updated = layers.map((l: any) => l.id === layerId ? { ...l, visible: !l.visible } : l);
+    updateMap(currentMap.id, { layers: updated });
+  };
+
+  const toggleLayerLock = (layerId: string) => {
+    if (!currentMap || !updateMap) return;
+    const layers = currentMap.layers || DEFAULT_LAYERS;
+    const updated = layers.map((l: any) => l.id === layerId ? { ...l, locked: !l.locked } : l);
+    updateMap(currentMap.id, { layers: updated });
+  };
+
   // Multiplayer Remote Cursors Simulation & Render on Stage
   useEffect(() => {
     const container = remoteCursorsContainerRef.current;
@@ -1110,12 +2609,10 @@ export const StageView: React.FC<StageViewProps> = ({
         const curX = peer.baseX + Math.sin(frame + offset) * 70;
         const curY = peer.baseY + Math.cos(frame * 0.7 + offset) * 45;
 
-        // Draw pointer cursor arrow
         g.poly([curX, curY, curX + 16, curY + 12, curX + 8, curY + 14, curX + 12, curY + 22, curX + 8, curY + 24, curX + 4, curY + 16, curX, curY + 18]);
         g.fill({ color: peer.color, alpha: 0.9 });
         g.stroke({ width: 1.5, color: 0xffffff });
 
-        // Draw Nameplate badge
         g.roundRect(curX + 18, curY + 4, peer.name.length * 7 + 10, 16, 4);
         g.fill({ color: 0x0f172a, alpha: 0.85 });
         g.stroke({ width: 1, color: peer.color, alpha: 0.7 });
@@ -1126,7 +2623,7 @@ export const StageView: React.FC<StageViewProps> = ({
       clearInterval(interval);
       container.removeChildren();
     };
-  }, [isMultiplayerSimActive]);
+  }, [isMultiplayerSimActive, isSimulationPaused]);
 
   // Proximity detection for Contextual Token Radial Menu
   const downedAllyNearby = useMemo(() => {
@@ -1195,7 +2692,82 @@ export const StageView: React.FC<StageViewProps> = ({
     }
   };
 
-  // Canonical Called Shot Limb Penalties & Trauma Thresholds per 3.00 COMBAT.md with Automated Raycast Cover
+  // Global Keyboard Shortcuts for Architect & Tactical Stage
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Ignore if user is typing in an input field
+      const target = e.target as HTMLElement;
+      if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')) {
+        return;
+      }
+
+      // 1. Delete Selected Assets (Delete / Backspace)
+      if ((e.key === 'Delete' || e.key === 'Backspace') && selectedAssetIds.length > 0) {
+        e.preventDefault();
+        handleBatchDelete();
+        return;
+      }
+
+      // 2. Duplicate Selected Assets (Ctrl+D / Cmd+D)
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'd' && selectedAssetIds.length > 0) {
+        e.preventDefault();
+        handleBatchDuplicate();
+        return;
+      }
+
+      // 3. Arrow Keys Nudge Selected Assets
+      if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key) && selectedAssetIds.length > 0) {
+        e.preventDefault();
+        const step = e.shiftKey ? (gridSnap ? 70 : 20) : (gridSnap ? 10 : 2);
+        const dx = e.key === 'ArrowLeft' ? -step : e.key === 'ArrowRight' ? step : 0;
+        const dy = e.key === 'ArrowUp' ? -step : e.key === 'ArrowDown' ? step : 0;
+        handleBatchNudge(dx, dy);
+        return;
+      }
+
+      // 4. Escape to Clear Selection
+      if (e.key === 'Escape' && selectedAssetIds.length > 0) {
+        e.preventDefault();
+        handleDeselectAll();
+        return;
+      }
+
+      // 5. Finalize Wall Chain (Enter or Escape)
+      if ((e.key === 'Enter' || e.key === 'Escape') && wallConstructionMode === 'chain' && wallChainPoints.length > 0) {
+        e.preventDefault();
+        setWallChainPoints([]);
+        setWallDrawStart(null);
+        setWallDrawCurrent(null);
+        setIsDrawingToolActive(false);
+        AudioService.playTerminalBeep(1200, 0.03);
+        setCombatLog(prev => [`[WALL CHAIN] Finalized polyline wall chain.`, ...prev.slice(0, 8)]);
+        return;
+      }
+
+      // 6. Tool Shortcuts (M, G, V, W, T, P, L, F, E)
+      if (!e.ctrlKey && !e.metaKey && !e.altKey) {
+        if (e.key.toLowerCase() === 'm') {
+          handleToggleDesignMode();
+        } else if (e.key.toLowerCase() === 'g') {
+          setGridSnap(prev => !prev);
+          AudioService.playTerminalBeep(1000, 0.02);
+        } else if (isDesignModeActive) {
+          if (e.key.toLowerCase() === 'v') setActiveDesignTool('select');
+          else if (e.key.toLowerCase() === 'w') setActiveDesignTool('wall');
+          else if (e.key.toLowerCase() === 't') setActiveDesignTool('terrain');
+          else if (e.key.toLowerCase() === 'f') setActiveDesignTool('fill');
+          else if (e.key.toLowerCase() === 'p') setActiveDesignTool('pencil');
+          else if (e.key.toLowerCase() === 'l') setActiveDesignTool('light');
+          else if (e.key.toLowerCase() === 'e') setActiveDesignTool('eraser');
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedAssetIds, gridSnap, isDesignModeActive, wallConstructionMode, wallChainPoints, handleBatchDelete, handleBatchDuplicate, handleBatchNudge, handleDeselectAll]);
+
+  // Called Shot Limb Penalties & Trauma Thresholds
   const handleExecuteCombatStrike = () => {
     if (isSimulationPaused) {
       alert('Tactical Simulation is paused while in Architect Design Mode. Click Resume Sim in the banner to continue live combat.');
@@ -1209,7 +2781,6 @@ export const StageView: React.FC<StageViewProps> = ({
 
     AudioService.playTerminalBeep(1400, 0.05);
 
-    // 1. Distance & Point-Blank Evaluation (70px per 5ft cell)
     const dx = targetToken.x - selectedToken.x;
     const dy = targetToken.y - selectedToken.y;
     const distPx = Math.sqrt(dx * dx + dy * dy);
@@ -1223,7 +2794,6 @@ export const StageView: React.FC<StageViewProps> = ({
           ? RangeCategory.Medium 
           : RangeCategory.Long;
 
-    // 2. Automated Raycast Cover Calculation via BVH Spatial Tree
     const targetRad = 22 + (targetToken.size_modifier || 0) * 8;
     const coverCheck = bvhBuilderRef.current.calculateLineOfSightCover(
       { x: selectedToken.x, y: selectedToken.y },
@@ -1240,11 +2810,9 @@ export const StageView: React.FC<StageViewProps> = ({
       return;
     }
 
-    // 3. Canonical Called Shot penalties per 3.00 COMBAT.md: Torso -1, Head -2, Arms -2, Legs -2, Optics -3
     const limbMod = targetedLimb === 'head' ? -2 : targetedLimb === 'arms' ? -2 : targetedLimb === 'optics' ? -3 : targetedLimb === 'legs' ? -2 : -1;
     const stanceBonus = activeStance === 'aim' ? 2 : 0;
 
-    // 4. Calculate to-hit package with canonical MAP, Volumetric sizing, and Range
     const toHit = combatArbRef.current.buildToHitPackage(
       14 + limbMod + stanceBonus,
       SkillRank.Expert,
@@ -1256,10 +2824,8 @@ export const StageView: React.FC<StageViewProps> = ({
       { isAiming: activeStance === 'aim', aimRounds: 1 }
     );
 
-    // Apply automated cover modifier directly
     toHit.finalTarget += coverCheck.coverMod;
 
-    // 5. Roll 2d10 Attack Dice per canonical 3.00 COMBAT.md
     const d1 = Math.floor(Math.random() * 10) + 1;
     const d2 = Math.floor(Math.random() * 10) + 1;
     const isDoubleTens = d1 === 10 && d2 === 10;
@@ -1267,13 +2833,11 @@ export const StageView: React.FC<StageViewProps> = ({
     const critAttackBonus = isDoubleTens ? 30 : (isDoubleOnes ? -10 : 0);
     const totalAttack = d1 + d2 + toHit.finalTarget + critAttackBonus;
 
-    // Unopposed Defense DC (CR 15 average baseline for Medium target at Short range)
     const targetDefenseDC = combatArbRef.current.calculateUnopposedDC(
       targetToken.size_modifier > 0 ? SizeCategory.Large : SizeCategory.Medium,
       rangeCat
     );
 
-    // Canonical Rule: DEFENDER WINS ALL TIES!
     const isHit = totalAttack > targetDefenseDC && !isDoubleOnes;
 
     if (!isHit) {
@@ -1284,11 +2848,9 @@ export const StageView: React.FC<StageViewProps> = ({
       return;
     }
 
-    // 6. Resolve Damage Pipeline (Point Blank rolls ballistic/energy damage with Advantage)
     let baseDamage = attackWeapon === 'plasma' ? 32 : attackWeapon === 'emp' ? 24 : 18;
-    if (isDoubleTens) baseDamage *= 2; // Natural 20 doubles weapon damage dice
+    if (isDoubleTens) baseDamage *= 2;
 
-    // Advantage on damage if Point-Blank: roll two dice and take highest
     if (isPointBlank && (attackWeapon === 'kinetic' || attackWeapon === 'plasma' || attackWeapon === 'laser')) {
       const v1 = Math.floor(Math.random() * 8) + 1;
       const v2 = Math.floor(Math.random() * 8) + 1;
@@ -1299,7 +2861,6 @@ export const StageView: React.FC<StageViewProps> = ({
 
     const stanceDmg = activeStance === 'overcharge' ? 6 : 0;
     const ap = attackWeapon === 'plasma' ? 6 : attackWeapon === 'laser' ? 4 : 2;
-
     const isCalled = targetedLimb !== 'torso';
     const targetLoc = targetedLimb === 'head' ? 'head' : targetedLimb === 'arms' ? 'arm_right' : targetedLimb === 'legs' ? 'leg_right' : 'torso';
 
@@ -1317,10 +2878,8 @@ export const StageView: React.FC<StageViewProps> = ({
       (targetToken as any).constitution || 12
     );
 
-    // Apply Damage to Volatile Store
     useEngineStore.getState().applyDamage(targetToken.id, strikeResult.healthDamage);
 
-    // Apply Trauma Conditions if threshold was breached
     strikeResult.appliedStatuses.forEach(status => {
       useEngineStore.getState().toggleCondition(targetToken.id, status);
     });
@@ -1353,61 +2912,7 @@ export const StageView: React.FC<StageViewProps> = ({
     }
   };
 
-  // Spawn Custom Entity from Bestiary or Persona Folio
-  const handleSpawnEntity = (type: 'persona' | 'mecha' | 'preset', presetData?: Partial<StaticEntity>) => {
-    const id = `${type}-${Date.now()}`;
-    const name = presetData?.name || (type === 'persona' ? 'Operative Cadet' : 'Siege Walker');
-    
-    useEngineStore.getState().loadStaticEntity({
-      id,
-      name,
-      base_hp: presetData?.base_hp ?? (type === 'persona' ? 40 : 100),
-      tech_level: presetData?.tech_level ?? 3,
-      armor_dr: presetData?.armor_dr ?? (type === 'persona' ? 12 : 30),
-      size_modifier: presetData?.size_modifier ?? (type === 'persona' ? 0 : 2),
-      speed_ft: presetData?.speed_ft ?? (type === 'persona' ? 30 : 25),
-      species: presetData?.species ?? (type === 'persona' ? 'Human' : 'Mecha / Omnicortex Gear'),
-      archetype: presetData?.archetype ?? (type === 'persona' ? 'Rookie Operative' : 'Assault Chassis'),
-      is_persona: type === 'persona'
-    });
-    
-    useEngineStore.getState().updatePosition(id, 280, 280);
-    setSelectedTokenId(id);
-    AudioService.playTerminalBeep(1100, 0.03);
-    setCombatLog(prev => [`[SPAWN] Deployed ${name} to The Stage.`, ...prev.slice(0, 8)]);
-  };
-
-  // Deploy real Character from Persona Folio
-  const handleDeployFolioCharacter = (char: any) => {
-    const docId = char['character-doc-id'] || char.id || `folio-${Date.now()}`;
-    const name = char['char-name'] || 'Persona Operative';
-    const hp = parseInt(char['char-vitality-max'] || char['vitality'] || 45, 10);
-    const dr = parseInt(char['char-armor-dr'] || 12, 10);
-    const tl = parseInt(char['tech-level'] || 3, 10);
-    const speed = parseInt(char['char-speed'] || 30, 10);
-    const species = typeof char['char-species'] === 'object' ? char['char-species']?.name : char['char-species'] || 'Human';
-    const occu = typeof char['char-occu'] === 'object' ? char['char-occu']?.name : char['char-occu'] || 'Operative';
-
-    useEngineStore.getState().loadStaticEntity({
-      id: docId,
-      name,
-      base_hp: hp,
-      tech_level: tl,
-      armor_dr: dr,
-      size_modifier: 0,
-      speed_ft: speed,
-      species,
-      archetype: occu,
-      is_persona: true
-    });
-
-    useEngineStore.getState().updatePosition(docId, 210, 210);
-    setSelectedTokenId(docId);
-    AudioService.playTerminalBeep(1300, 0.04);
-    setCombatLog(prev => [`[FOLIO DEPLOY] Synchronized ${name} (${species} ${occu}) from Persona Folio.`, ...prev.slice(0, 8)]);
-  };
-
-  // Advance Initiative Turn & Trigger Essence Sustained Degradation
+  // Turn Progression
   const handleNextTurn = () => {
     if (tokens.length === 0) return;
     AudioService.playTerminalBeep(1050, 0.03);
@@ -1417,7 +2922,6 @@ export const StageView: React.FC<StageViewProps> = ({
     setSelectedTokenId(tokens[nextIndex].id);
 
     if (nextIndex === 0) {
-      // New Round Trigger: Run Degradation Entropy Protocol
       const nextRound = roundNumber + 1;
       setRoundNumber(nextRound);
       essenceTrackerRef.current.processRoundDegradation([]);
@@ -1445,778 +2949,631 @@ export const StageView: React.FC<StageViewProps> = ({
     setCombatLog(prev => [`[INITIATIVE] Roster initiative rolled for ${tokens.length} combatants.`, ...prev.slice(0, 8)]);
   };
 
-  const handleCopySpectatorLink = () => {
-    const url = `${window.location.origin}/spectator/${campaignId || 'tactical-zone'}`;
-    AudioService.playTerminalBeep(1200, 0.03);
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(url).then(() => {
-        setCopiedLink(true);
-        setTimeout(() => setCopiedLink(false), 2500);
-      });
-    } else {
-      prompt('Spectator Stream URL:', url);
-    }
-  };
-
   const handleScaleChange = (newTier: GridScaleTier) => {
     setScaleTier(newTier);
     coordEngineRef.current.setScaleTier(newTier);
     redrawGrid();
   };
 
-  const handleGridTypeToggle = () => {
-    const nextType = gridType === GridType.Square ? GridType.HexFlatTop : GridType.Square;
-    setGridType(nextType);
-    coordEngineRef.current.setGridType(nextType);
+  const handleGridTypeToggle = (newType: GridType) => {
+    setGridType(newType);
+    coordEngineRef.current.setGridType(newType);
     redrawGrid();
   };
 
   const currentScaleConfig = GRID_SCALE_CONFIGS[scaleTier];
 
   return (
-    <div className="relative w-full h-full bg-[#050811] overflow-hidden select-none">
-      {/* ── WebGPU / WebGL Stage Canvas with Pan & Zoom ── */}
-      <canvas
-        ref={canvasRef}
-        onClick={handleCanvasClick}
-        onMouseMove={handleCanvasMouseMove}
-        onMouseDown={handleCanvasMouseDown}
-        onMouseUp={handleCanvasMouseUp}
-        onDragOver={handleCanvasDragOver}
-        onDrop={handleCanvasDrop}
-        onContextMenu={(e) => e.preventDefault()}
-        className={`w-full h-full block ${isDesignModeActive ? 'cursor-crosshair' : isMoveModeActive ? 'cursor-crosshair' : isDraggingPan ? 'cursor-grabbing' : 'cursor-default'}`}
-      />
-
-      {/* ── TOP CENTER: Architect Design Mode Active Banner ── */}
-      {isDesignModeActive && (
-        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[115] bg-gradient-to-r from-amber-950 via-slate-900 to-amber-950 border-2 border-amber-500 rounded-2xl px-5 py-2 shadow-[0_0_30px_rgba(245,158,11,0.5)] backdrop-blur-xl flex items-center gap-3">
-          <div className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping" />
-          <div>
-            <span className="font-mono text-xs font-bold text-amber-300 tracking-wider block">
-              🛠️ ARCHITECT DESIGN MODE // SIMULATION PAUSED
-            </span>
-            <span className="font-mono text-[9px] text-amber-400/80">
-              Drag & drop assets or click-stamp. Changes instantly sync to Campaign Context & BVH.
-            </span>
-          </div>
-          <button
-            onClick={handleToggleDesignMode}
-            className="px-3 py-1.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-mono text-xs font-bold uppercase rounded-xl transition-all shadow-md flex items-center gap-1.5 cursor-pointer ml-2"
-          >
-            <span>⚔️</span>
-            <span>RESUME SIM</span>
-          </button>
-        </div>
-      )}
-
-      {/* ── Glass-Cockpit HUD React Overlay ── */}
-      <DashboardOverlay
-        campaignName={`THE STAGE | ${campaignId.toUpperCase()} | ${currentScaleConfig.displayLabel}`}
-        selectedTokenId={selectedTokenId}
-        onSelectTokenId={(id) => setSelectedTokenId(id)}
-        isMoveModeActive={isMoveModeActive}
-        onInitiateMove={() => {
-          setIsMoveModeActive(prev => !prev);
-          AudioService.playTerminalBeep(1100, 0.03);
-        }}
-        onInitiateAttack={() => {
-          setActiveTab('combat');
-          AudioService.playTerminalBeep(1300, 0.03);
-        }}
-        onInitiateScan={() => {
-          AudioService.playTerminalBeep(1250, 0.04);
-          setCombatLog(prev => [
-            `[SENSOR SCAN] Sensor cone detected ${tokens.length} active signatures within ${torchRadiusFt}ft LoS.`,
-            ...prev.slice(0, 8)
-          ]);
-        }}
-        onToggleGuard={() => {
-          setActiveStance(prev => prev === 'guard' ? 'normal' : 'guard');
-          AudioService.playTerminalBeep(900, 0.03);
-        }}
-        activeStance={activeStance}
-        effectiveSpeedFt={effectiveSpeedFt}
+    <div className="relative w-full h-full bg-[#050811] overflow-hidden select-none flex flex-col">
+      {/* ── TOP GLASS-COCKPIT TOOLBAR (Map Switching, JSON Save/Load, Undo/Redo, Mode Switch) ── */}
+      <StageTopToolbar
+        currentMap={currentMap}
+        availableMaps={availableMaps}
+        activeMapId={currentMapId}
+        onSelectMap={handleSelectMap}
+        onAddNewMap={handleAddNewMap}
+        onDeleteCurrentMap={handleDeleteCurrentMap}
+        isDesignModeActive={isDesignModeActive}
+        onToggleDesignMode={handleToggleDesignMode}
+        canUndo={undoStack.length > 0}
+        canRedo={redoStack.length > 0}
+        onUndo={handleUndo}
+        onRedo={handleRedo}
+        lastActionDescription={lastActionDescription}
+        onSaveMapJson={handleSaveMapJson}
+        onLoadMapJson={handleLoadMapJson}
+        onExportPng={handleExportPng}
+        onOpenUvttModal={() => setIsUvttModalOpen(true)}
+        onOpenLandmassModal={() => setIsLandmassModalOpen(true)}
+        onOpenAssetManager={() => setIsAssetManagerOpen(true)}
+        onOpenLayersPanel={() => setIsLayersPanelOpen(true)}
+        onOpenUnderlayModal={() => setIsUnderlayModalOpen(true)}
+        isGridVisible={isGridVisible}
+        onToggleGridVisible={() => setIsGridVisible(prev => !prev)}
+        gridSnap={gridSnap}
+        onToggleGridSnap={() => setGridSnap(prev => !prev)}
+        gridType={gridType}
+        onChangeGridType={handleGridTypeToggle}
+        scaleTier={scaleTier}
+        onChangeScaleTier={handleScaleChange}
         isDynamicLightingEnabled={isDynamicLightingEnabled}
         onToggleDynamicLighting={handleToggleDynamicLighting}
-        onSpawnHazard={handleSpawnHazard}
-        onClearHazards={handleClearHazards}
-        hazardCount={hazardCount}
         isMultiplayerSimActive={isMultiplayerSimActive}
         onToggleMultiplayerSim={handleToggleMultiplayerSim}
+        isZenMode={isZenMode}
+        onToggleZenMode={() => setIsZenMode(prev => !prev)}
       />
 
-      {/* ── TOP RIGHT: Multi-Tier Scale, Zoom & Viewport Bar ── */}
-      <div 
-        className="absolute top-4 right-4 flex items-center gap-1.5 p-1.5 bg-slate-900/90 backdrop-blur-md border border-slate-700/80 rounded-xl shadow-2xl z-[110]"
-        style={{ pointerEvents: 'auto' }}
-      >
-        {/* Toggle In-Situ Architect Design Mode Button */}
-        <button
-          onClick={handleToggleDesignMode}
-          className={`px-3 py-1 text-xs font-mono font-bold rounded-lg border transition-all flex items-center gap-1.5 cursor-pointer ${
-            isDesignModeActive
-              ? 'bg-amber-500 text-black border-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.5)]'
-              : 'bg-slate-800 text-amber-300 hover:bg-slate-750 border-amber-500/50 hover:border-amber-400'
+      {/* ── MAIN VIEWPORT AREA ── */}
+      <div className="relative flex-1 w-full h-full overflow-hidden">
+        {/* WebGPU / WebGL Stage Canvas */}
+        <canvas
+          ref={canvasRef}
+          onClick={handleCanvasClick}
+          onMouseMove={handleCanvasMouseMove}
+          onMouseDown={handleCanvasMouseDown}
+          onMouseUp={handleCanvasMouseUp}
+          onDoubleClick={() => handleDropTacticalPing('target')}
+          onDragOver={handleCanvasDragOver}
+          onDrop={handleCanvasDrop}
+          onContextMenu={(e) => e.preventDefault()}
+          className={`w-full h-full block ${
+            isDesignModeActive 
+              ? (activeDesignTool === 'eraser' ? 'cursor-not-allowed' : 'cursor-crosshair') 
+              : isMoveModeActive 
+                ? 'cursor-crosshair' 
+                : isDraggingPan 
+                  ? 'cursor-grabbing' 
+                  : 'cursor-default'
           }`}
-          title="Toggle In-Situ Architect Design Mode (Pause Sim, Drag & Drop Map Assets)"
-        >
-          <Hammer size={12} />
-          <span>{isDesignModeActive ? 'DESIGNING' : 'DESIGN MODE'}</span>
-        </button>
+        />
 
-        {/* Campaign Map Selector */}
-        {availableMaps.length > 0 && (
-          <div className="flex items-center gap-1 pr-1 border-r border-slate-700/80">
-            <span className="text-[10px] font-mono text-cyan-400 font-bold px-1 flex items-center gap-1">
-              <MapPin size={12} /> MAP:
-            </span>
-            <select
-              value={currentMapId}
-              onChange={(e) => {
-                setCurrentMapId(e.target.value);
-                setSearchParams({ mapId: e.target.value });
-                AudioService.playTerminalBeep(1100, 0.03);
-              }}
-              className="bg-slate-800 text-cyan-300 font-mono text-xs px-2 py-1 rounded border border-cyan-800/60 focus:outline-none font-bold cursor-pointer max-w-[130px] truncate"
-              title="Switch Active Campaign Map"
+        {/* ── TOP CENTER: Architect Design Mode Active Banner ── */}
+        {isDesignModeActive && !isZenMode && (
+          <div className="absolute top-3 left-1/2 -translate-x-1/2 z-[115] bg-gradient-to-r from-amber-950 via-slate-900 to-amber-950 border-2 border-amber-500 rounded-2xl px-4 py-1.5 shadow-[0_0_30px_rgba(245,158,11,0.5)] backdrop-blur-xl flex items-center gap-3">
+            <div className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping" />
+            <div>
+              <span className="font-mono text-xs font-bold text-amber-300 tracking-wider block">
+                🛠️ ARCHITECT DESIGN MODE // {activeDesignTool.toUpperCase()} TOOL ARMED
+              </span>
+              <span className="font-mono text-[9px] text-amber-400/80">
+                Draw walls, paint biomes, sketch tactics, place story objects. BVH & Campaign synced.
+              </span>
+            </div>
+            <button
+              onClick={handleToggleDesignMode}
+              className="px-2.5 py-1 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-mono text-xs font-bold uppercase rounded-xl transition-all shadow-md flex items-center gap-1.5 cursor-pointer ml-1"
             >
-              {availableMaps.map((m: any) => (
-                <option key={m.id} value={m.id}>
-                  {m.title || m.name || 'Untitled Map'}
-                </option>
-              ))}
-            </select>
+              <span>⚔️</span>
+              <span>RESUME SIM</span>
+            </button>
           </div>
         )}
 
-        <span className="text-[10px] font-mono text-amber-400 font-bold px-1.5 flex items-center gap-1">
-          <Compass size={12} /> SCALE:
-        </span>
-        <select
-          value={scaleTier}
-          onChange={(e) => handleScaleChange(e.target.value as GridScaleTier)}
-          className="bg-slate-800 text-amber-300 font-mono text-xs px-2 py-1 rounded border border-slate-700 focus:outline-none focus:border-amber-500 font-bold cursor-pointer"
-        >
-          <option value={GridScaleTier.Encounter}>Encounter (5 ft base)</option>
-          <option value={GridScaleTier.Overland}>Overland (50 ft)</option>
-          <option value={GridScaleTier.Planetary}>Planetary (10 km)</option>
-          <option value={GridScaleTier.Interplanetary}>Interplanetary (10k km)</option>
-          <option value={GridScaleTier.StarSystem}>Star System (1 AU)</option>
-          <option value={GridScaleTier.Sector}>Sector (1 LY)</option>
-        </select>
+        {/* ── Glass-Cockpit HUD React Overlay ── */}
+        <DashboardOverlay
+          campaignName={`THE STAGE | ${campaignId.toUpperCase()} | ${currentScaleConfig.displayLabel}`}
+          selectedTokenId={selectedTokenId}
+          onSelectTokenId={(id: string) => setSelectedTokenId(id)}
+          isMoveModeActive={isMoveModeActive}
+          onInitiateMove={() => {
+            setIsMoveModeActive(prev => !prev);
+            AudioService.playTerminalBeep(1100, 0.03);
+          }}
+          onInitiateAttack={() => {
+            setActiveTab('combat');
+            AudioService.playTerminalBeep(1300, 0.03);
+          }}
+          onInitiateScan={() => {
+            AudioService.playTerminalBeep(1250, 0.04);
+            setCombatLog(prev => [
+              `[SENSOR SCAN] Sensor cone detected ${tokens.length} active signatures within ${torchRadiusFt}ft LoS.`,
+              ...prev.slice(0, 8)
+            ]);
+          }}
+          onToggleGuard={() => {
+            setActiveStance(prev => prev === 'guard' ? 'normal' : 'guard');
+            AudioService.playTerminalBeep(900, 0.03);
+          }}
+          activeStance={activeStance}
+          effectiveSpeedFt={effectiveSpeedFt}
+          isDynamicLightingEnabled={isDynamicLightingEnabled}
+          onToggleDynamicLighting={handleToggleDynamicLighting}
+          onSpawnHazard={handleSpawnHazard}
+          onClearHazards={handleClearHazards}
+          hazardCount={hazardCount}
+          isMultiplayerSimActive={isMultiplayerSimActive}
+          onToggleMultiplayerSim={handleToggleMultiplayerSim}
+          isDesignModeActive={isDesignModeActive}
+          isZenMode={isZenMode}
+        />
 
-        <button
-          onClick={handleGridTypeToggle}
-          className="px-2 py-1 text-xs font-mono font-bold text-slate-200 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded transition-colors cursor-pointer"
-          title="Toggle Hex or Square Grid"
-        >
-          {gridType === GridType.Square ? 'HEX' : 'SQUARE'}
-        </button>
-
-        <button
-          onClick={() => setIsGridVisible(!isGridVisible)}
-          className={`px-2 py-1 text-xs font-mono font-bold rounded border transition-colors cursor-pointer ${
-            isGridVisible 
-              ? 'bg-amber-950/60 text-amber-300 border-amber-800/60' 
-              : 'bg-slate-800 text-slate-400 border-slate-700'
-          }`}
-          title="Toggle Grid Visibility"
-        >
-          GRID
-        </button>
-
-        <button
-          onClick={() => setIsVisionEnabled(!isVisionEnabled)}
-          className={`px-2 py-1 text-xs font-mono font-bold rounded border transition-colors flex items-center gap-1 cursor-pointer ${
-            isVisionEnabled 
-              ? 'bg-cyan-950/60 text-cyan-300 border-cyan-800/60' 
-              : 'bg-slate-800 text-slate-400 border-slate-700'
-          }`}
-          title="Toggle Dynamic Vision & Fog"
-        >
-          {isVisionEnabled ? <Eye size={12} /> : <EyeOff size={12} />}
-          <span>VISION</span>
-        </button>
-
-        {isVisionEnabled && (
-          <select
-            value={torchRadiusFt}
-            onChange={(e) => setTorchRadiusFt(parseInt(e.target.value, 10))}
-            className="bg-slate-800 text-yellow-300 font-mono text-xs px-1.5 py-1 rounded border border-slate-700 focus:outline-none cursor-pointer"
-            title="Torch & Line-of-Sight Radius"
-          >
-            <option value={15}>15 ft Torch</option>
-            <option value={30}>30 ft Torch</option>
-            <option value={60}>60 ft Light</option>
-            <option value={120}>120 ft Sensor</option>
-          </select>
-        )}
-
-        <div className="h-5 w-px bg-slate-700 mx-0.5" />
-
-        {/* Zoom Controls */}
-        <button
-          onClick={() => setZoom(prev => Math.min(2.5, prev + 0.15))}
-          className="p-1 text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded transition-colors cursor-pointer"
-          title="Zoom In"
-        >
-          <ZoomIn size={13} />
-        </button>
-        <button
-          onClick={() => setZoom(prev => Math.max(0.4, prev - 0.15))}
-          className="p-1 text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded transition-colors cursor-pointer"
-          title="Zoom Out"
-        >
-          <ZoomOut size={13} />
-        </button>
-        <button
-          onClick={() => { setZoom(1.0); setPan({ x: 0, y: 0 }); }}
-          className="p-1 text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded transition-colors cursor-pointer"
-          title="Reset Camera (100%)"
-        >
-          <RotateCcw size={13} />
-        </button>
-      </div>
-
-      {/* ── RIGHT DOCKABLE TACTICAL COMMAND CONSOLE ── */}
-      <aside 
-        className="absolute top-16 right-4 w-88 max-w-[360px] bg-slate-900/90 backdrop-blur-xl border border-slate-700/80 rounded-2xl shadow-2xl text-slate-200 z-[110] flex flex-col overflow-hidden"
-        style={{ pointerEvents: 'auto' }}
-      >
-        {/* Tab Headers */}
-        <div className="flex items-center border-b border-slate-800 bg-slate-950/70 p-1 text-[10.5px] font-mono font-bold">
-          <button
-            onClick={() => setActiveTab('combat')}
-            className={`flex-1 py-1.5 rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer ${
-              activeTab === 'combat' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40' : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            <Crosshair size={12} /> COMBAT
-          </button>
-          <button
-            onClick={() => setActiveTab('spawner')}
-            className={`flex-1 py-1.5 rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer ${
-              activeTab === 'spawner' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40' : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            <Users size={12} /> SPAWN
-          </button>
-          <button
-            onClick={() => setActiveTab('turns')}
-            className={`flex-1 py-1.5 rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer ${
-              activeTab === 'turns' ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40' : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            <Clock size={12} /> TURNS
-          </button>
-          <button
-            onClick={() => setActiveTab('objects')}
-            className={`flex-1 py-1.5 rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer ${
-              activeTab === 'objects' ? 'bg-blue-500/20 text-blue-300 border border-blue-500/40' : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            <Box size={12} /> OBJECTS
-          </button>
-          <button
-            onClick={() => setActiveTab('dice')}
-            className={`flex-1 py-1.5 rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer ${
-              activeTab === 'dice' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'text-slate-400 hover:text-slate-200'
-            }`}
-          >
-            <Dices size={12} /> DICE
-          </button>
-        </div>
-
-        {/* Tab Content */}
-        <div className="p-3 space-y-3 font-mono text-xs max-h-[380px] overflow-y-auto">
-          {/* 1. COMBAT TAB */}
-          {activeTab === 'combat' && (
-            <div className="space-y-2.5">
-              <div className="bg-slate-950/60 p-2 rounded-xl border border-slate-800 space-y-1">
-                <div className="flex justify-between items-center text-[10px] text-slate-400">
-                  <span>ATTACKER (CLICK)</span>
-                  <span className="text-cyan-400 font-bold">{selectedToken?.name || 'NONE'}</span>
-                </div>
-                <div className="flex justify-between items-center text-[10px] text-slate-400">
-                  <span>TARGET (SHIFT-CLICK)</span>
-                  <span className="text-red-400 font-bold">{targetToken?.name || 'NONE'}</span>
-                </div>
+        {/* ── RIGHT DOCKABLE TACTICAL COMMAND CONSOLE (Play Mode Only) ── */}
+        {!isDesignModeActive && !isZenMode && (
+          isTacticalConsoleCollapsed ? (
+            <button
+              onClick={() => {
+                AudioService.playTerminalBeep(1100, 0.02);
+                setIsTacticalConsoleCollapsed(false);
+              }}
+              className="absolute top-4 right-4 z-[110] px-3 py-1.5 bg-slate-900/95 backdrop-blur-xl border border-cyan-500/50 rounded-xl shadow-2xl font-mono text-xs text-cyan-300 font-bold flex items-center gap-2 hover:bg-slate-800 transition-all cursor-pointer select-none animate-in fade-in duration-150"
+              title="Expand Tactical Command Console"
+            >
+              <Crosshair size={13} className="text-amber-400" />
+              <span>CONSOLE</span>
+              <ChevronLeft size={13} className="text-slate-400" />
+            </button>
+          ) : (
+            <aside 
+              className="absolute top-4 right-4 w-88 max-w-[360px] bg-slate-900/90 backdrop-blur-xl border border-slate-700/80 rounded-2xl shadow-2xl text-slate-200 z-[110] flex flex-col overflow-hidden animate-in fade-in duration-150"
+              style={{ pointerEvents: 'auto' }}
+            >
+              {/* Tab Headers */}
+              <div className="flex items-center border-b border-slate-800 bg-slate-950/70 p-1 text-[10.5px] font-mono font-bold">
+                <button
+                  onClick={() => setActiveTab('combat')}
+                  className={`flex-1 py-1.5 rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer ${
+                    activeTab === 'combat' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40' : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  <Crosshair size={12} /> COMBAT
+                </button>
+                <button
+                  onClick={() => setActiveTab('spawner')}
+                  className={`flex-1 py-1.5 rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer ${
+                    activeTab === 'spawner' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40' : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  <Users size={12} /> UNITS
+                </button>
+                <button
+                  onClick={() => setActiveTab('turns')}
+                  className={`flex-1 py-1.5 rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer ${
+                    activeTab === 'turns' ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40' : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  <Clock size={12} /> TURNS
+                </button>
+                <button
+                  onClick={() => setActiveTab('objects')}
+                  className={`flex-1 py-1.5 rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer ${
+                    activeTab === 'objects' ? 'bg-blue-500/20 text-blue-300 border border-blue-500/40' : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  <Box size={12} /> PROPS
+                </button>
+                <button
+                  onClick={() => setActiveTab('dice')}
+                  className={`flex-1 py-1.5 rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer ${
+                    activeTab === 'dice' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  <Dices size={12} /> DICE
+                </button>
+                <button
+                  onClick={() => {
+                    AudioService.playTerminalBeep(900, 0.02);
+                    setIsTacticalConsoleCollapsed(true);
+                  }}
+                  className="p-1 text-slate-400 hover:text-white rounded hover:bg-slate-800 transition-colors ml-0.5 cursor-pointer"
+                  title="Minimize Console"
+                >
+                  <Minus size={13} />
+                </button>
               </div>
 
-              {/* Weapon & MAP Step */}
-              <div className="grid grid-cols-2 gap-1.5 text-[11px]">
-                <div>
-                  <span className="text-[9px] text-slate-400 block mb-1">WEAPON TYPE</span>
-                  <select
-                    value={attackWeapon}
-                    onChange={(e) => setAttackWeapon(e.target.value as any)}
-                    className="w-full bg-slate-800 text-amber-300 p-1 rounded border border-slate-700"
-                  >
-                    <option value="kinetic">TL3 Kinetic Rifle</option>
-                    <option value="plasma">TL4 Heavy Plasma</option>
-                    <option value="laser">TL4 Laser Array</option>
-                    <option value="emp">TL3 EMP Shockwave</option>
-                  </select>
+          {/* Tab Content */}
+          <div className="p-3 space-y-3 font-mono text-xs max-h-[380px] overflow-y-auto">
+            {/* 1. COMBAT TAB */}
+            {activeTab === 'combat' && (
+              <div className="space-y-2.5">
+                <div className="bg-slate-950/60 p-2 rounded-xl border border-slate-800 space-y-1">
+                  <div className="flex justify-between items-center text-[10px] text-slate-400">
+                    <span>ATTACKER</span>
+                    <span className="text-cyan-400 font-bold">{selectedToken?.name || 'NONE'}</span>
+                  </div>
+                  <div className="flex justify-between items-center text-[10px] text-slate-400">
+                    <span>TARGET</span>
+                    <span className="text-red-400 font-bold">{targetToken?.name || 'NONE'}</span>
+                  </div>
                 </div>
-                <div>
-                  <span className="text-[9px] text-slate-400 block mb-1">MAP LADDER</span>
-                  <select
-                    value={attackMapStep}
-                    onChange={(e) => setAttackMapStep(parseInt(e.target.value, 10))}
-                    className="w-full bg-slate-800 text-amber-300 p-1 rounded border border-slate-700"
-                  >
-                    <option value={0}>1st Attack (+0 MAP)</option>
-                    <option value={1}>2nd Attack (-5 MAP)</option>
-                    <option value={2}>3rd Attack (-10 MAP)</option>
-                  </select>
-                </div>
-              </div>
 
-              {/* Called Shot Limb Targeting */}
-              <div>
-                <span className="text-[9px] text-slate-400 block mb-1 flex items-center justify-between">
-                  <span>CALLED SHOT (33.3% TRAUMA)</span>
-                  <span className="text-[8.5px] text-amber-400">
-                    {targetedLimb === 'torso' ? 'Center Mass (Normal)' : `${targetedLimb.toUpperCase()} Target`}
-                  </span>
-                </span>
-                <div className="grid grid-cols-5 gap-1 text-[9.5px]">
-                  {[
-                    { id: 'torso', label: 'Torso', desc: 'Standard' },
-                    { id: 'head', label: 'Head', desc: 'Disorient' },
-                    { id: 'arms', label: 'Arms', desc: 'Disarm' },
-                    { id: 'legs', label: 'Legs', desc: 'Half Spd' },
-                    { id: 'optics', label: 'Optics', desc: 'Blind' }
-                  ].map(limb => (
-                    <button
-                      key={limb.id}
-                      onClick={() => setTargetedLimb(limb.id as any)}
-                      className={`p-1 rounded border text-center transition-colors cursor-pointer ${
-                        targetedLimb === limb.id 
-                          ? 'bg-amber-500/25 text-amber-300 border-amber-400 font-bold' 
-                          : 'bg-slate-950 text-slate-400 border-slate-800 hover:border-slate-700'
-                      }`}
-                      title={limb.desc}
+                <div className="grid grid-cols-2 gap-1.5 text-[11px]">
+                  <div>
+                    <span className="text-[9px] text-slate-400 block mb-1">WEAPON</span>
+                    <select
+                      value={attackWeapon}
+                      onChange={(e) => setAttackWeapon(e.target.value as any)}
+                      className="w-full bg-slate-800 text-amber-300 p-1 rounded border border-slate-700"
                     >
-                      {limb.label}
-                    </button>
+                      <option value="kinetic">TL3 Kinetic Rifle</option>
+                      <option value="plasma">TL4 Heavy Plasma</option>
+                      <option value="laser">TL4 Laser Array</option>
+                      <option value="emp">TL3 EMP Shockwave</option>
+                    </select>
+                  </div>
+                  <div>
+                    <span className="text-[9px] text-slate-400 block mb-1">MAP LADDER</span>
+                    <select
+                      value={attackMapStep}
+                      onChange={(e) => setAttackMapStep(parseInt(e.target.value, 10))}
+                      className="w-full bg-slate-800 text-amber-300 p-1 rounded border border-slate-700"
+                    >
+                      <option value={0}>1st Attack (+0 MAP)</option>
+                      <option value={1}>2nd Attack (-5 MAP)</option>
+                      <option value={2}>3rd Attack (-10 MAP)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <span className="text-[9px] text-slate-400 block mb-1">CALLED SHOT</span>
+                  <div className="grid grid-cols-5 gap-1 text-[9.5px]">
+                    {[
+                      { id: 'torso', label: 'Torso' },
+                      { id: 'head', label: 'Head' },
+                      { id: 'arms', label: 'Arms' },
+                      { id: 'legs', label: 'Legs' },
+                      { id: 'optics', label: 'Optics' }
+                    ].map(limb => (
+                      <button
+                        key={limb.id}
+                        onClick={() => setTargetedLimb(limb.id as any)}
+                        className={`p-1 rounded border text-center transition-colors cursor-pointer ${
+                          targetedLimb === limb.id 
+                            ? 'bg-amber-500/25 text-amber-300 border-amber-400 font-bold' 
+                            : 'bg-slate-950 text-slate-400 border-slate-800 hover:border-slate-700'
+                        }`}
+                      >
+                        {limb.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <button
+                  onClick={handleExecuteCombatStrike}
+                  className="w-full py-2 bg-gradient-to-r from-red-600 to-amber-600 hover:from-red-500 hover:to-amber-500 text-white font-bold rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <Crosshair size={14} /> EXECUTE ATTACK
+                </button>
+              </div>
+            )}
+
+            {/* 2. SPAWNER TAB */}
+            {activeTab === 'spawner' && (
+              <div className="space-y-2">
+                <span className="text-[10px] text-slate-400 uppercase font-bold block">Quick Spawners:</span>
+                <div className="grid grid-cols-2 gap-1.5">
+                  <button
+                    onClick={() => setIsHeroDrawerOpen(true)}
+                    className="p-2 bg-slate-950 hover:bg-slate-800 border border-cyan-500/40 rounded-xl text-left transition-colors cursor-pointer"
+                  >
+                    <div className="text-cyan-400 font-bold text-xs flex items-center gap-1">
+                      <Users size={12} /> Folio Heroes
+                    </div>
+                    <p className="text-[10px] text-slate-400">Roster Operatives</p>
+                  </button>
+                  <button
+                    onClick={() => setIsOmnicortexDrawerOpen(true)}
+                    className="p-2 bg-slate-950 hover:bg-slate-800 border border-purple-500/40 rounded-xl text-left transition-colors cursor-pointer"
+                  >
+                    <div className="text-purple-400 font-bold text-xs flex items-center gap-1">
+                      <Bot size={12} /> Bestiary
+                    </div>
+                    <p className="text-[10px] text-slate-400">Codex Units</p>
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* 3. TURNS TAB */}
+            {activeTab === 'turns' && (
+              <div className="space-y-2">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="text-purple-400 font-bold">ROUND {roundNumber}</span>
+                  <button
+                    onClick={handleRollAllInitiative}
+                    className="px-2 py-0.5 bg-slate-800 hover:bg-slate-700 text-purple-300 rounded border border-purple-700 text-[10px]"
+                  >
+                    Roll All
+                  </button>
+                </div>
+                <div className="space-y-1 max-h-40 overflow-y-auto pr-1">
+                  {tokens.map((t, idx) => (
+                    <div
+                      key={t.id}
+                      onClick={() => setSelectedTokenId(t.id)}
+                      className={`p-1.5 rounded border flex items-center justify-between text-[11px] cursor-pointer ${
+                        idx === currentTurnIndex 
+                          ? 'bg-purple-950/80 border-purple-500 text-purple-200' 
+                          : 'bg-slate-950 border-slate-800 text-slate-400'
+                      }`}
+                    >
+                      <span className="truncate">{t.name}</span>
+                      <span className="font-bold">{initiativeScores[t.id] ?? '-'}</span>
+                    </div>
+                  ))}
+                </div>
+                <button
+                  onClick={handleNextTurn}
+                  className="w-full py-1.5 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-lg transition-colors cursor-pointer"
+                >
+                  NEXT COMBATANT
+                </button>
+              </div>
+            )}
+
+            {/* 4. OBJECTS TAB */}
+            {activeTab === 'objects' && (
+              <div className="space-y-1.5">
+                <span className="text-[10px] text-slate-400 uppercase font-bold block">Interactive Map Objects:</span>
+                <div className="space-y-1 max-h-44 overflow-y-auto pr-1">
+                  {localObjects.map(obj => (
+                    <div
+                      key={obj.id}
+                      onClick={() => handleObjectClick(obj)}
+                      className="p-1.5 bg-slate-950 border border-slate-800 hover:border-cyan-500 rounded-lg flex items-center justify-between cursor-pointer"
+                    >
+                      <span className="truncate text-[11px] text-cyan-300">{obj.name}</span>
+                      <span className="text-[9px] uppercase px-1.5 py-0.2 bg-slate-800 text-slate-400 rounded">
+                        {obj.type}
+                      </span>
+                    </div>
                   ))}
                 </div>
               </div>
+            )}
 
-              {/* AIME Tactical AI Co-Pilot Telemetry Card */}
-              <div className="bg-slate-950/90 p-2.5 rounded-xl border border-cyan-500/40 space-y-1.5 shadow-[0_0_15px_rgba(6,182,212,0.15)]">
-                <div className="flex items-center justify-between text-[10.5px]">
-                  <span className="font-bold text-cyan-300 flex items-center gap-1">
-                    <Bot size={13} className="text-cyan-400" /> AIME TACTICAL CO-PILOT
-                  </span>
-                  <span className="text-[8.5px] px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-400 font-mono border border-cyan-800 flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" /> LIVE TELEMETRY
-                  </span>
-                </div>
-
-                {selectedToken && targetToken ? (() => {
-                  const dx = targetToken.x - selectedToken.x;
-                  const dy = targetToken.y - selectedToken.y;
-                  const distFt = Math.round((Math.hypot(dx, dy) / 70) * 5);
-                  const isPointBlank = distFt <= 5;
-                  const coverCheck = bvhBuilderRef.current.calculateLineOfSightCover(
-                    { x: selectedToken.x, y: selectedToken.y },
-                    { x: targetToken.x, y: targetToken.y },
-                    22 + (targetToken.size_modifier || 0) * 8
-                  );
-
-                  return (
-                    <div className="space-y-1 text-[9.5px]">
-                      <div className="flex justify-between text-slate-300">
-                        <span>Range: <strong className="text-amber-300 font-mono">{distFt} FT</strong> ({isPointBlank ? 'POINT-BLANK' : distFt <= 30 ? 'SHORT' : distFt <= 60 ? 'MEDIUM' : 'LONG'})</span>
-                        <span className={`font-bold ${coverCheck.coverType === 'none' ? 'text-emerald-400' : coverCheck.coverType === 'half' ? 'text-amber-400' : coverCheck.coverType === 'three_quarters' ? 'text-orange-400' : 'text-red-400'}`}>
-                          LoS: {coverCheck.coverType.toUpperCase()} ({coverCheck.coverMod} DC)
-                        </span>
-                      </div>
-
-                      {isPointBlank && (
-                        <div className="p-1 rounded bg-amber-950/70 border border-amber-500/50 text-amber-300 flex items-center gap-1 font-bold">
-                          <span>🎯</span> Point-Blank Advantage (+5 Strike, Advantage on Dmg)
-                        </div>
-                      )}
-
-                      {coverCheck.coverType !== 'none' && coverCheck.coverType !== 'total' && (
-                        <div className="p-1 rounded bg-slate-900 border border-slate-700 text-slate-300 flex items-center gap-1">
-                          <span>🛡️</span> Obstacles detected: {coverCheck.coverType === 'half' ? 'Half Cover (+2 Def)' : '3/4 Cover (+5 Def)'}
-                        </div>
-                      )}
-
-                      {coverCheck.coverType === 'total' && (
-                        <div className="p-1 rounded bg-red-950/80 border border-red-500 text-red-300 flex items-center gap-1 font-bold">
-                          <span>🚫</span> Line of Sight blocked by physical wall.
-                        </div>
-                      )}
-
-                      {targetToken.armor_dr >= 15 && (
-                        <div className="p-1 rounded bg-purple-950/70 border border-purple-500/50 text-purple-300 flex items-center gap-1">
-                          <span>💡</span> High Armor DR ({targetToken.armor_dr}). Recommend Force / EMP shockwave.
-                        </div>
-                      )}
-
-                      {targetToken.current_hp <= 0 && (
-                        <div className="p-1 rounded bg-red-950/80 border border-red-500 text-red-300 flex items-center gap-1 font-bold animate-pulse">
-                          <span>⚠️</span> TARGET IN MORTALITY STATE: Bleeding Out!
-                        </div>
-                      )}
-
-                      {downedAllyNearby && (
-                        <div className="p-1 rounded bg-emerald-950/80 border border-emerald-500 text-emerald-300 flex items-center gap-1 font-bold animate-pulse">
-                          <span>🩹</span> Allied {downedAllyNearby.name} adjacent at 0 HP. First Aid available!
-                        </div>
-                      )}
-                    </div>
-                  );
-                })() : (
-                  <span className="text-[9.5px] text-slate-500 italic block">Select Attacker and Target to engage AIME tactical telemetry.</span>
-                )}
-              </div>
-
-              {/* Execute Attack Button */}
-              <button
-                onClick={handleExecuteCombatStrike}
-                className="w-full py-2.5 bg-gradient-to-r from-amber-600 to-red-600 hover:from-amber-500 hover:to-red-500 text-black font-bold uppercase rounded-xl transition-all shadow-lg flex items-center justify-center gap-1.5 cursor-pointer"
-              >
-                <Zap size={14} />
-                <span>RESOLVE STRIKE & WOUNDS</span>
-              </button>
-            </div>
-          )}
-
-          {/* 2. SPAWNER TAB (Persona Folio & Bestiary) */}
-          {activeTab === 'spawner' && (
-            <div className="space-y-3">
-              {/* Persona Folio Live Characters */}
-              <div>
-                <div className="flex items-center justify-between text-[10px] text-cyan-400 font-bold uppercase pb-1 border-b border-slate-800 mb-1.5">
-                  <span>Persona Folio Roster</span>
-                  <span>{allFolioOperatives.length} Available</span>
-                </div>
-                {allFolioOperatives.length === 0 ? (
-                  <p className="text-[10px] text-slate-500 italic">No saved operatives in Folio roster.</p>
-                ) : (
-                  <div className="space-y-1.5 max-h-[140px] overflow-y-auto pr-1">
-                    {allFolioOperatives.map((char: any) => {
-                      const id = char['character-doc-id'] || char.id;
-                      const name = char['char-name'] || 'Operative';
-                      const species = typeof char['char-species'] === 'object' ? char['char-species']?.name : char['char-species'] || 'Human';
-                      return (
-                        <div key={id} className="p-1.5 bg-slate-950/80 border border-slate-800 rounded-lg flex items-center justify-between gap-1.5">
-                          <div className="min-w-0">
-                            <span className="text-slate-200 text-[10.5px] font-bold block truncate">{name}</span>
-                            <span className="text-slate-500 text-[9px]">{species} • {char['tech-level'] || 'TL3'}</span>
-                          </div>
-                          <button
-                            onClick={() => handleDeployFolioCharacter(char)}
-                            className="px-2 py-1 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 rounded text-[9.5px] font-bold uppercase shrink-0 cursor-pointer"
-                          >
-                            Deploy
-                          </button>
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-
-              {/* Bestiary & Tactical Quick Presets */}
-              <div>
-                <span className="text-[10px] text-amber-400 font-bold uppercase block pb-1 border-b border-slate-800 mb-1.5">
-                  Bestiary & Threat Presets
-                </span>
-                <div className="grid grid-cols-2 gap-1.5 text-[9.5px]">
-                  <button
-                    onClick={() => handleSpawnEntity('persona', { name: 'Alterian Infiltrator', base_hp: 45, armor_dr: 15, speed_ft: 40, tech_level: 3, archetype: 'Infiltrator' })}
-                    className="p-1.5 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-cyan-300 rounded-lg text-left cursor-pointer"
-                  >
-                    <span className="font-bold block text-[10px]">Alterian Infiltrator</span>
-                    <span className="text-slate-500 text-[8.5px]">40ft • DR15 • TL3</span>
-                  </button>
-                  <button
-                    onClick={() => handleSpawnEntity('persona', { name: 'Cyber-Medic', base_hp: 35, armor_dr: 10, speed_ft: 30, tech_level: 4, archetype: 'Cyber-Medic' })}
-                    className="p-1.5 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-cyan-300 rounded-lg text-left cursor-pointer"
-                  >
-                    <span className="font-bold block text-[10px]">Cyber-Medic</span>
-                    <span className="text-slate-500 text-[8.5px]">30ft • DR10 • TL4</span>
-                  </button>
-                  <button
-                    onClick={() => handleSpawnEntity('mecha', { name: 'Vanguard Assault Mech', base_hp: 120, armor_dr: 35, speed_ft: 25, size_modifier: 2, tech_level: 4 })}
-                    className="p-1.5 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-purple-300 rounded-lg text-left cursor-pointer"
-                  >
-                    <span className="font-bold block text-[10px]">Vanguard Mech</span>
-                    <span className="text-slate-500 text-[8.5px]">25ft • DR35 • Size +2</span>
-                  </button>
-                  <button
-                    onClick={() => handleSpawnEntity('preset', { name: 'Kitin Drone Swarm', base_hp: 30, armor_dr: 8, speed_ft: 35, tech_level: 2, archetype: 'Alien Swarm' })}
-                    className="p-1.5 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-red-300 rounded-lg text-left cursor-pointer"
-                  >
-                    <span className="font-bold block text-[10px]">Kitin Swarm</span>
-                    <span className="text-slate-500 text-[8.5px]">35ft • DR8 • Swarm</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* 3. TURNS & INITIATIVE TAB */}
-          {activeTab === 'turns' && (
-            <div className="space-y-2.5">
-              <div className="flex items-center justify-between bg-slate-950/60 p-2 rounded-xl border border-slate-800">
-                <div>
-                  <span className="text-[10px] text-slate-400 block">TACTICAL ROUND</span>
-                  <span className="text-sm font-bold text-amber-400">ROUND {roundNumber}</span>
-                </div>
-                <div className="flex gap-1.5">
-                  <button
-                    onClick={handleRollAllInitiative}
-                    className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded text-[10px] font-bold cursor-pointer"
-                  >
-                    Roll Init
-                  </button>
-                  <button
-                    onClick={handleNextTurn}
-                    className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white rounded text-[10px] font-bold uppercase cursor-pointer"
-                  >
-                    Next Turn ►
-                  </button>
-                </div>
-              </div>
-
-              {/* Initiative Ladder List */}
-              <div className="space-y-1.5 max-h-[220px] overflow-y-auto pr-1">
-                {tokens.map((tok, idx) => {
-                  const isCurrent = idx === currentTurnIndex;
-                  return (
-                    <div 
-                      key={tok.id}
-                      onClick={() => {
-                        setSelectedTokenId(tok.id);
-                        setCurrentTurnIndex(idx);
-                      }}
-                      className={`p-2 rounded-lg border flex items-center justify-between cursor-pointer transition-colors ${
-                        isCurrent 
-                          ? 'bg-purple-950/70 border-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.4)]' 
-                          : 'bg-slate-950/50 border-slate-800 hover:border-slate-700'
-                      }`}
-                    >
-                      <div className="flex items-center gap-2">
-                        <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-bold ${
-                          isCurrent ? 'bg-purple-500 text-white' : 'bg-slate-800 text-slate-400'
-                        }`}>
-                          {idx + 1}
-                        </span>
-                        <div>
-                          <span className={`text-xs font-bold block ${isCurrent ? 'text-purple-200' : 'text-slate-300'}`}>
-                            {tok.name}
-                          </span>
-                          <span className="text-[9px] text-slate-500">
-                            {tok.current_hp}/{tok.base_hp} HP • DR {tok.armor_dr} • {getEffectiveSpeed(tok)}ft
-                          </span>
-                        </div>
-                      </div>
-                      <span className="text-[10px] font-mono font-bold text-amber-400">
-                        {initiativeScores[tok.id] ? `INIT ${initiativeScores[tok.id]}` : `TL${tok.tech_level || 3}`}
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* 4. OBJECTS TAB */}
-          {activeTab === 'objects' && (
-            <div className="space-y-2">
-              <span className="text-[10px] text-slate-400 block">STORY FOUNDRY MAP ELEMENTS</span>
-              <div className="space-y-1.5">
-                {interactiveObjMgrRef.current.getAllObjects().map(obj => {
-                  const state = interactiveObjMgrRef.current.getObject(obj.id);
-                  return (
-                    <div 
-                      key={obj.id}
-                      onClick={() => handleObjectClick(obj)}
-                      className="p-2 bg-slate-950/60 hover:bg-slate-800 border border-slate-800 rounded-lg flex items-center justify-between cursor-pointer transition-colors"
-                    >
-                      <div className="flex items-center gap-2">
-                        {obj.type === 'bulkhead' ? <Lock size={13} className="text-amber-400" /> : <Terminal size={13} className="text-cyan-400" />}
-                        <span className="text-slate-200 text-[11px] font-bold">{obj.name}</span>
-                      </div>
-                      <span className="text-[9px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">
-                        {obj.type === 'bulkhead' ? (state?.isOpen ? 'OPEN' : 'LOCKED') : 'READY'}
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* 5. DICE TAB */}
-          {activeTab === 'dice' && (
-            <div className="space-y-2">
-              <span className="text-[10px] text-slate-400 block">DICE AST & MACRO RUNNER</span>
-              <div className="flex gap-1.5">
+            {/* 5. DICE TAB */}
+            {activeTab === 'dice' && (
+              <div className="space-y-2">
+                <span className="text-[10px] text-slate-400 uppercase font-bold block">AST Dice Evaluator:</span>
                 <input
                   type="text"
                   value={customDiceExpr}
                   onChange={(e) => setCustomDiceExpr(e.target.value)}
-                  className="flex-1 bg-slate-950 text-emerald-300 px-2 py-1 rounded border border-slate-700 text-xs focus:outline-none"
-                  placeholder="e.g. 2d20kh1 + @armor_dr"
+                  className="w-full bg-slate-950 border border-slate-700 rounded p-1.5 text-xs text-emerald-300"
                 />
                 <button
                   onClick={handleRollCustomDice}
-                  className="px-3 bg-emerald-600 hover:bg-emerald-500 text-black font-bold rounded text-xs cursor-pointer"
+                  className="w-full py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg transition-colors cursor-pointer"
                 >
-                  ROLL
+                  ROLL FORMULA
                 </button>
               </div>
-
-              {/* Quick dice shortcuts */}
-              <div className="grid grid-cols-4 gap-1 pt-1">
-                {['1d20', '1d100', '1d10!', '2d6+4'].map(dice => (
-                  <button
-                    key={dice}
-                    onClick={() => {
-                      setCustomDiceExpr(dice);
-                      diceParserRef.current.evaluateExpression(dice);
-                    }}
-                    className="p-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-[10px] cursor-pointer"
-                  >
-                    {dice}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Live Stage Combat & Event Log with Spectator Sharing Link */}
-        <div className="border-t border-slate-800 bg-slate-950/90 p-2 space-y-1.5 font-mono text-[10px]">
-          <div className="flex items-center justify-between pb-1 border-b border-slate-850">
-            <span className="text-slate-400 font-bold uppercase text-[9.5px]">Live Telemetry Log</span>
-            <div className="flex gap-1">
-              <button
-                onClick={handleCopySpectatorLink}
-                className="px-1.5 py-0.5 bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/40 text-emerald-300 rounded text-[8.5px] font-bold flex items-center gap-1 cursor-pointer"
-                title="Copy Live Spectator Link for Remote Players"
-              >
-                {copiedLink ? <Check size={10} /> : <Copy size={10} />}
-                <span>{copiedLink ? 'COPIED' : 'SPECTATOR'}</span>
-              </button>
-              <button
-                onClick={() => setCombatLog([])}
-                className="px-1.5 py-0.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white rounded text-[8.5px] cursor-pointer"
-                title="Clear Event Log"
-              >
-                CLEAR
-              </button>
-            </div>
+            )}
           </div>
-          <div className="max-h-[90px] overflow-y-auto space-y-1 text-slate-400 text-[9.5px]">
-            {combatLog.map((log, index) => (
-              <div key={index} className="leading-tight">
-                {log}
-              </div>
+
+          {/* Tactical Combat Log */}
+          <div className="bg-slate-950/80 p-2 border-t border-slate-800 text-[9.5px] font-mono text-slate-400 space-y-1 max-h-28 overflow-y-auto">
+            {combatLog.map((log, i) => (
+              <div key={i} className="leading-tight">{log}</div>
             ))}
           </div>
-        </div>
-      </aside>
-
-      {/* ── INTERACTIVE OBJECT DIALOG MODAL ── */}
-      {selectedObjectModal && (
-        <div 
-          className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[200] flex items-center justify-center p-4"
-          onClick={() => setSelectedObjectModal(null)}
-        >
-          <div 
-            className="bg-slate-900 border-2 border-cyan-500/60 rounded-2xl p-5 max-w-md w-full shadow-2xl text-slate-200 font-mono space-y-4 animate-scaleUp"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-              <div className="flex items-center gap-2">
-                {selectedObjectModal.type === 'bulkhead' ? <Lock className="text-amber-400" /> : <Terminal className="text-cyan-400" />}
-                <h3 className="font-bold text-sm text-cyan-300">{selectedObjectModal.name}</h3>
-              </div>
-              <button 
-                onClick={() => setSelectedObjectModal(null)}
-                className="text-slate-400 hover:text-white cursor-pointer"
-              >
-                ✕
-              </button>
-            </div>
-
-            <p className="text-xs text-slate-300">
-              {selectedObjectModal.type === 'bulkhead' 
-                ? 'High-security blast bulkhead. Toggling this will update line-of-sight raycasting and acoustic occlusion on The Stage.' 
-                : 'Encrypted mainframe terminal linked to Story Foundry narrative clues.'}
-            </p>
-
-            <div className="flex justify-end gap-2 pt-2">
-              <button
-                onClick={() => setSelectedObjectModal(null)}
-                className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs cursor-pointer"
-              >
-                DISMISS
-              </button>
-              {selectedObjectModal.type === 'bulkhead' ? (
-                <button
-                  onClick={() => handleToggleBulkhead(selectedObjectModal.id)}
-                  className="px-4 py-1.5 bg-amber-500 hover:bg-amber-400 text-black font-bold rounded-lg text-xs flex items-center gap-1.5 cursor-pointer"
-                >
-                  <Unlock size={14} /> TOGGLE BULKHEAD
-                </button>
-              ) : (
-                <button
-                  onClick={() => {
-                    setCombatLog(prev => [`[TERMINAL] Sliced ${selectedObjectModal.name}: Unlocked clue [${selectedObjectModal.storyElementId}]`, ...prev.slice(0, 8)]);
-                    setSelectedObjectModal(null);
-                  }}
-                  className="px-4 py-1.5 bg-cyan-500 hover:bg-cyan-400 text-black font-bold rounded-lg text-xs flex items-center gap-1.5 cursor-pointer"
-                >
-                  <Terminal size={14} /> SLICE DATAPAD
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
+        </aside>
+        )
       )}
-      {/* ── Contextual Token Radial Action Wheel ── */}
-      <TokenRadialMenu
-        isOpen={radialMenuState.isOpen}
-        onClose={() => setRadialMenuState(prev => ({ ...prev, isOpen: false }))}
-        position={radialMenuState.position}
-        token={radialMenuState.token}
-        targetToken={targetToken}
-        isAdjacentToMortalityAlly={Boolean(downedAllyNearby)}
-        mortalityAllyName={downedAllyNearby?.name || 'Allied Operative'}
-        isAdjacentToInteractiveObj={Boolean(nearbyInteractiveObj)}
-        interactiveObjName={nearbyInteractiveObj?.name || 'Bulkhead / Terminal'}
-        isPointBlankRange={isPointBlankTarget}
-        onSelectAction={handleRadialSelectAction}
+
+        {/* ── Contextual Token Radial Action Wheel ── */}
+        <TokenRadialMenu
+          isOpen={radialMenuState.isOpen}
+          onClose={() => setRadialMenuState(prev => ({ ...prev, isOpen: false }))}
+          position={radialMenuState.position}
+          token={radialMenuState.token}
+          targetToken={targetToken}
+          isAdjacentToMortalityAlly={Boolean(downedAllyNearby)}
+          mortalityAllyName={downedAllyNearby?.name || 'Allied Operative'}
+          isAdjacentToInteractiveObj={Boolean(nearbyInteractiveObj)}
+          interactiveObjName={nearbyInteractiveObj?.name || 'Bulkhead / Terminal'}
+          isPointBlankRange={isPointBlankTarget}
+          onSelectAction={handleRadialSelectAction}
+        />
+
+        {/* ── IN-SITU ARCHITECT DESIGN STUDIO & ASSET PALETTE ── */}
+        <ArchitectDesignPalette
+          isOpen={isDesignModeActive && !isZenMode}
+          onClose={() => handleToggleDesignMode()}
+          activeTool={activeDesignTool}
+          setActiveTool={setActiveDesignTool}
+          selectedStamp={selectedStamp}
+          onSelectStamp={setSelectedStamp}
+          gridSnap={gridSnap}
+          onToggleGridSnap={() => setGridSnap(prev => !prev)}
+          activeMapTitle={currentMap?.title || currentMap?.name || 'Tactical Sector'}
+          wallsCount={localWalls.length}
+          objectsCount={localObjects.length}
+          hazardsCount={hazardCount}
+          terrainsCount={(currentMap?.terrains || []).length}
+          linesCount={(currentMap?.lines || []).length}
+          textsCount={(currentMap?.texts || []).length}
+          lightsCount={localLights.length}
+          selectedWallType={selectedWallType}
+          setSelectedWallType={setSelectedWallType}
+          doorLockDc={doorLockDc}
+          setDoorLockDc={setDoorLockDc}
+          wallConstructionMode={wallConstructionMode}
+          setWallConstructionMode={setWallConstructionMode}
+          selectedAssetIds={selectedAssetIds}
+          onBatchDelete={handleBatchDelete}
+          onBatchDuplicate={handleBatchDuplicate}
+          onBatchNudge={handleBatchNudge}
+          onDeselectAll={handleDeselectAll}
+          randomizeRotation={randomizeRotation}
+          setRandomizeRotation={setRandomizeRotation}
+          randomizeScale={randomizeScale}
+          setRandomizeScale={setRandomizeScale}
+          atmosphericWeather={atmosphericWeather}
+          setAtmosphericWeather={(w) => {
+            setAtmosphericWeather(w);
+            if (currentMap && updateMap) {
+              updateMap(currentMap.id, { atmosphericWeather: w });
+            }
+          }}
+          selectedLightColor={selectedLightColor}
+          setSelectedLightColor={setSelectedLightColor}
+          selectedLightRadius={selectedLightRadius}
+          setSelectedLightRadius={setSelectedLightRadius}
+          selectedLightAnimation={selectedLightAnimation}
+          setSelectedLightAnimation={setSelectedLightAnimation}
+          selectedTerrainId={selectedTerrainId}
+          setSelectedTerrainId={setSelectedTerrainId}
+          terrainBrushWidth={terrainBrushWidth}
+          setTerrainBrushWidth={setTerrainBrushWidth}
+          terrainRenderMode={terrainRenderMode}
+          setTerrainRenderMode={setTerrainRenderMode}
+          pencilColor={pencilColor}
+          setPencilColor={setPencilColor}
+          pencilWidth={pencilWidth}
+          setPencilWidth={setPencilWidth}
+          textLabelInput={textLabelInput}
+          setTextLabelInput={setTextLabelInput}
+          textColor={textColor}
+          setTextColor={setTextColor}
+          textSize={textSize}
+          setTextSize={setTextSize}
+          rulerAvailableAp={rulerAvailableAp}
+          setRulerAvailableAp={setRulerAvailableAp}
+          onOpenLandmassModal={() => setIsLandmassModalOpen(true)}
+          onOpenUvttModal={() => setIsUvttModalOpen(true)}
+          onOpenAssetManager={() => setIsAssetManagerOpen(true)}
+          onOpenHeroDrawer={() => setIsHeroDrawerOpen(true)}
+          onOpenOmnicortexDrawer={() => setIsOmnicortexDrawerOpen(true)}
+          onOpenHazmatModal={() => setIsHazmatModalOpen(true)}
+          onOpenLayersPanel={() => setIsLayersPanelOpen(true)}
+          onOpenUnderlayModal={() => setIsUnderlayModalOpen(true)}
+        />
+      </div>
+
+      {/* ── MODALS INTEGRATION ── */}
+
+      {/* 1. Procedural Landmass Generator Modal */}
+      <LandmassGeneratorModal
+        isOpen={isLandmassModalOpen}
+        onClose={() => setIsLandmassModalOpen(false)}
+        onCommitLandmass={handleCommitLandmass}
+        defaultRenderMode={terrainRenderMode}
       />
 
-      {/* ── In-Situ Architect Design Drawer & Asset Palette ── */}
-      <ArchitectDesignPalette
-        isOpen={isDesignModeActive}
-        onClose={() => handleToggleDesignMode()}
-        selectedStamp={selectedStamp}
-        onSelectStamp={setSelectedStamp}
-        gridSnap={gridSnap}
-        onToggleGridSnap={() => setGridSnap(prev => !prev)}
-        activeMapTitle={currentMap?.title || currentMap?.name || 'Tactical Sector'}
-        wallsCount={localWalls.length}
-        objectsCount={localObjects.length}
-        hazardsCount={hazardCount}
+      {/* 2. Universal VTT (.uvtt) Importer Modal */}
+      <UvttImportModal
+        isOpen={isUvttModalOpen}
+        onClose={() => setIsUvttModalOpen(false)}
+        onImportComplete={handleImportCompleteUvtt}
+      />
+
+      {/* 3. Map Asset & Texture Manager Modal */}
+      <MapAssetManagerModal
+        isOpen={isAssetManagerOpen}
+        onClose={() => setIsAssetManagerOpen(false)}
+        customAssets={universeState?.customAssets || { terrains: [], objects: [] }}
+        onAddCustomTerrain={addCustomTerrain}
+        onUpdateCustomTerrain={updateCustomTerrain}
+        onDeleteCustomTerrain={deleteCustomTerrain}
+        onAddCustomObject={addCustomObject}
+        onUpdateCustomObject={updateCustomObject}
+        onDeleteCustomObject={deleteCustomObject}
+        currentScale={currentMap?.type || 'Tactical'}
+      />
+
+      {/* 4. Folio Hero Token Drawer */}
+      <FolioHeroTokenDrawer
+        showDrawer={isHeroDrawerOpen}
+        setShowDrawer={setIsHeroDrawerOpen}
+        onSummonToken={handleSummonHeroToken}
+      />
+
+      {/* 5. Omnicortex Asset Drawer */}
+      <OmnicortexAssetDrawer
+        showDrawer={isOmnicortexDrawerOpen}
+        setShowDrawer={setIsOmnicortexDrawerOpen}
+        onSummonAsset={handleSummonOmnicortexAsset}
+      />
+
+      {/* 6. Interactive Object Configurator Modal */}
+      <InteractiveObjectModal
+        objectNode={inspectingInteractiveObj}
+        isOpen={Boolean(inspectingInteractiveObj)}
+        onClose={() => setInspectingInteractiveObj(null)}
+        onUpdateObject={(id: string, updated: any) => {
+          recordHistory();
+          const updatedObjects = localObjects.map(o => o.id === id ? { ...o, ...updated } : o);
+          setLocalObjects(updatedObjects);
+          interactiveObjMgrRef.current.loadObjects(updatedObjects);
+          if (currentMap && updateMap) {
+            updateMap(currentMap.id, { objects: updatedObjects });
+          }
+          setInspectingInteractiveObj(null);
+        }}
+        onDeleteObject={(id: string) => {
+          recordHistory();
+          const updatedObjects = localObjects.filter(o => o.id !== id);
+          setLocalObjects(updatedObjects);
+          interactiveObjMgrRef.current.loadObjects(updatedObjects);
+          if (currentMap && updateMap) {
+            updateMap(currentMap.id, { objects: updatedObjects });
+          }
+          setInspectingInteractiveObj(null);
+        }}
+        onUpdateTokenHealth={() => {}}
+        onUpdateTokenVitality={() => {}}
+        onUpdateTokenStructure={() => {}}
+        onTriggerFloatingText={() => {}}
+      />
+
+      {/* 7. Hazmat Volume Manager Modal */}
+      <HazmatVolumeManagerModal
+        isOpen={isHazmatModalOpen}
+        onClose={() => setIsHazmatModalOpen(false)}
+        hazardZones={(hazardSimulatorRef.current?.getActiveHazards() as any) || []}
+        onAddHazardZone={(hz: any) => {
+          hazardSimulatorRef.current?.addHazardField(hz);
+          setHazardCount(hazardSimulatorRef.current?.getActiveHazards().length || 0);
+        }}
+        onUpdateHazardZone={() => {}}
+        onDeleteHazardZone={() => {}}
+        onUpdateTokenHealth={() => {}}
+        onUpdateTokenVitality={() => {}}
+        onUpdateTokenStructure={() => {}}
+        onUpdateTokenConditions={() => {}}
+        onTriggerFloatingText={() => {}}
+      />
+
+      {/* 8. Map Layers Manager Panel */}
+      <MapLayersPanel
+        showLayersPanel={isLayersPanelOpen}
+        setShowLayersPanel={setIsLayersPanelOpen}
+        mapLayers={currentMap?.layers || DEFAULT_LAYERS}
+        toggleLayerVisibility={toggleLayerVisibility}
+        toggleLayerLock={toggleLayerLock}
+        deleteCustomLayer={() => {}}
+        newLayerNameInput=""
+        setNewLayerNameInput={() => {}}
+        addCustomLayer={() => {}}
+      />
+
+      {/* 9. Background Blueprint Underlay Calibration Modal */}
+      <MapUnderlayCalibrationModal
+        isOpen={isUnderlayModalOpen}
+        onClose={() => setIsUnderlayModalOpen(false)}
+        currentUnderlay={underlayConfig}
+        onApplyUnderlay={(cfg: any) => {
+          recordHistory('Apply Blueprint Underlay');
+          setUnderlayConfig(cfg);
+          if (currentMap && updateMap) {
+            updateMap(currentMap.id, { underlay: cfg });
+          }
+        }}
+        onClearUnderlay={() => {
+          recordHistory('Clear Blueprint Underlay');
+          setUnderlayConfig(null);
+          if (currentMap && updateMap) {
+            updateMap(currentMap.id, { underlay: null });
+          }
+        }}
       />
     </div>
   );
 };
 
 export default StageView;
-

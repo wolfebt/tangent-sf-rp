@@ -1,44 +1,75 @@
 import { useState, useEffect, useCallback } from 'react';
 
-export const useMapHistory = ({ currentMap, lines, tokens, terrains, objects, texts, walls = [], fog, mapLayers, updateMap, activeMapId }) => {
+export const useMapHistory = ({ currentMap, lines, tokens, terrains, objects, texts, walls = [], lights = [], fog, mapLayers, updateMap, activeMapId }) => {
   const [undoStack, setUndoStack] = useState([]);
   const [redoStack, setRedoStack] = useState([]);
+  const [lastActionDescription, setLastActionDescription] = useState('Initial Sector State');
 
-  const recordHistory = useCallback(() => {
+  const recordHistory = useCallback((actionDescription = 'Edit Sector') => {
     if (!currentMap) return;
     const snapshot = {
-      lines,
-      tokens,
-      terrains,
-      objects,
-      texts,
-      walls,
-      fog,
-      layers: mapLayers
+      lines: lines || [],
+      tokens: tokens || [],
+      terrains: terrains || [],
+      objects: objects || [],
+      texts: texts || [],
+      walls: walls || [],
+      lights: lights || [],
+      fog: fog || [],
+      layers: mapLayers,
+      description: actionDescription,
+      timestamp: Date.now()
     };
-    setUndoStack(prev => [...prev.slice(-30), snapshot]);
+    setUndoStack(prev => [...prev.slice(-50), snapshot]);
     setRedoStack([]);
-  }, [currentMap, lines, tokens, terrains, objects, texts, walls, fog, mapLayers]);
+    setLastActionDescription(actionDescription);
+  }, [currentMap, lines, tokens, terrains, objects, texts, walls, lights, fog, mapLayers]);
 
   const handleUndo = useCallback(() => {
     if (undoStack.length === 0 || !currentMap) return;
     const previousState = undoStack[undoStack.length - 1];
-    const currentSnapshot = { lines, tokens, terrains, objects, texts, walls, fog, layers: mapLayers };
+    const currentSnapshot = { 
+      lines: lines || [], 
+      tokens: tokens || [], 
+      terrains: terrains || [], 
+      objects: objects || [], 
+      texts: texts || [], 
+      walls: walls || [], 
+      lights: lights || [], 
+      fog: fog || [], 
+      layers: mapLayers,
+      description: lastActionDescription,
+      timestamp: Date.now()
+    };
     
     setRedoStack(prev => [...prev, currentSnapshot]);
     setUndoStack(prev => prev.slice(0, prev.length - 1));
+    setLastActionDescription(previousState.description || 'Undo');
     updateMap(activeMapId, previousState);
-  }, [undoStack, currentMap, lines, tokens, terrains, objects, texts, walls, fog, mapLayers, updateMap, activeMapId]);
+  }, [undoStack, currentMap, lines, tokens, terrains, objects, texts, walls, lights, fog, mapLayers, updateMap, activeMapId, lastActionDescription]);
 
   const handleRedo = useCallback(() => {
     if (redoStack.length === 0 || !currentMap) return;
     const nextState = redoStack[redoStack.length - 1];
-    const currentSnapshot = { lines, tokens, terrains, objects, texts, walls, fog, layers: mapLayers };
+    const currentSnapshot = { 
+      lines: lines || [], 
+      tokens: tokens || [], 
+      terrains: terrains || [], 
+      objects: objects || [], 
+      texts: texts || [], 
+      walls: walls || [], 
+      lights: lights || [], 
+      fog: fog || [], 
+      layers: mapLayers,
+      description: lastActionDescription,
+      timestamp: Date.now()
+    };
     
     setUndoStack(prev => [...prev, currentSnapshot]);
     setRedoStack(prev => prev.slice(0, prev.length - 1));
+    setLastActionDescription(nextState.description || 'Redo');
     updateMap(activeMapId, nextState);
-  }, [redoStack, currentMap, lines, tokens, terrains, objects, texts, walls, fog, mapLayers, updateMap, activeMapId]);
+  }, [redoStack, currentMap, lines, tokens, terrains, objects, texts, walls, lights, fog, mapLayers, updateMap, activeMapId, lastActionDescription]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -58,5 +89,5 @@ export const useMapHistory = ({ currentMap, lines, tokens, terrains, objects, te
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleUndo, handleRedo]);
 
-  return { undoStack, redoStack, recordHistory, handleUndo, handleRedo };
+  return { undoStack, redoStack, recordHistory, handleUndo, handleRedo, lastActionDescription };
 };
