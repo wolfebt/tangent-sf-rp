@@ -39,8 +39,6 @@ export const CockpitPanel: React.FC = () => {
 
   // Tangent Rules State
   const [calledShotTarget, setCalledShotTarget] = useState<CalledShotLocation>('torso');
-  const [currentAp, setCurrentAp] = useState<number>(4);
-  const maxAp = 4; // Tangent baseline AP
 
   // Popout state for multi-monitor native window
   const [isPoppedOut, setIsPoppedOut] = useState<boolean>(false);
@@ -55,10 +53,32 @@ export const CockpitPanel: React.FC = () => {
     localStorage.setItem('tangent_vtt_notes', val);
   };
 
-  const hpCurrent = character?.['hit-points']?.current ?? 28;
-  const hpMax = character?.['hit-points']?.max ?? 28;
-  const kineticDr = character?.['armor-dr']?.kinetic ?? 6;
+  // Canonical Tangent Survival & Defensive Pools per 3.00 COMBAT.md
+  const isSynthetic = Boolean(
+    character?.is_synthetic ||
+    character?.species?.toLowerCase()?.includes('synthetic') ||
+    character?.species?.toLowerCase()?.includes('construct') ||
+    character?.species?.toLowerCase()?.includes('automata')
+  );
+
+  const vitalityCurrent = character?.vitality?.current ?? character?.['hit-points']?.current ?? 30;
+  const vitalityMax = character?.vitality?.max ?? character?.base_vitality ?? 30;
+
+  const healthCurrent = character?.health?.current ?? character?.base_health ?? 30;
+  const healthMax = character?.health?.max ?? character?.base_health ?? 30;
+
+  const structureCurrent = character?.structure?.current ?? character?.base_structure ?? 60;
+  const structureMax = character?.structure?.max ?? character?.base_structure ?? 60;
+
+  const staminaScore = character?.attributes?.sta ?? character?.attributes?.con ?? 0;
+  const staminaDr = character?.stamina_dr ?? Math.max(0, staminaScore);
+  const stabilityCurrent = character?.stability_points ?? Math.max(5, staminaScore + 5);
+  const stabilityMax = Math.max(5, staminaScore + 5);
+
+  const kineticDr = character?.['armor-dr']?.kinetic ?? character?.armor_dr ?? 6;
   const energyDr = character?.['armor-dr']?.energy ?? 4;
+  const agilityScore = character?.attributes?.agi ?? character?.attributes?.dex ?? 0;
+  const walkSpeed = Math.max(15, 30 + agilityScore * 5);
   const characterName = character?.name || 'Operative Echo';
 
   const cockpitContent = (
@@ -120,35 +140,83 @@ export const CockpitPanel: React.FC = () => {
       </div>
 
       {/* ========================================================================= */}
-      {/* ACTION VITALS BAR: Pinned HP, Armor DR, AP & Trauma Tracker               */}
+      {/* ACTION VITALS BAR: Dual Vitality/Health or Structure, STA DR & Pace       */}
       {/* ========================================================================= */}
       <div className="p-2.5 border-b border-slate-800/80 bg-[#0a0e14] shrink-0 space-y-2">
         {/* Name & Identity */}
         <div className="flex items-center justify-between text-xs font-mono">
           <span className="font-bold text-slate-100 truncate">{characterName}</span>
-          <span className="text-[10px] text-amber-400 bg-amber-950/60 px-1.5 py-0.5 rounded border border-amber-500/40">
-            AP: {currentAp} / {maxAp}
+          <span className="text-[10px] text-cyan-300 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-500/40">
+            PACE: {walkSpeed}ft
           </span>
         </div>
 
-        {/* HP Bar */}
-        <div>
-          <div className="flex justify-between text-[10px] font-mono mb-0.5">
-            <span className="text-slate-400 flex items-center gap-1">
-              <Heart size={10} className="text-red-400" /> VITALITY:
-            </span>
-            <span className="text-slate-200 font-bold">{hpCurrent} / {hpMax} HP</span>
+        {/* Dynamic Survival Pools: Structure for Synthetics vs Dual Vitality & Health for Organics */}
+        {isSynthetic ? (
+          <div>
+            <div className="flex justify-between text-[10px] font-mono mb-0.5">
+              <span className="text-amber-400 flex items-center gap-1 font-bold">
+                <Cpu size={10} /> STRUCTURE:
+              </span>
+              <span className="text-slate-200 font-bold">{structureCurrent} / {structureMax} SP</span>
+            </div>
+            <div className="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden border border-slate-800">
+              <div 
+                className="h-full bg-gradient-to-r from-amber-600 to-yellow-400 transition-all duration-300"
+                style={{ width: `${Math.min(100, Math.max(0, (structureCurrent / structureMax) * 100))}%` }}
+              />
+            </div>
           </div>
-          <div className="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden border border-slate-800">
-            <div 
-              className="h-full bg-gradient-to-r from-red-600 to-amber-500 transition-all duration-300"
-              style={{ width: `${Math.min(100, (hpCurrent / hpMax) * 100)}%` }}
-            />
-          </div>
-        </div>
+        ) : (
+          <div className="space-y-1.5">
+            {/* Vitality Pool (Fast Recovery, Non-lethal buffer) */}
+            <div>
+              <div className="flex justify-between text-[10px] font-mono mb-0.5">
+                <span className="text-cyan-400 flex items-center gap-1">
+                  <Activity size={10} /> VITALITY (Buffer):
+                </span>
+                <span className="text-cyan-200 font-bold">{vitalityCurrent} / {vitalityMax} VP</span>
+              </div>
+              <div className="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden border border-slate-800">
+                <div 
+                  className="h-full bg-gradient-to-r from-cyan-600 to-sky-400 transition-all duration-300"
+                  style={{ width: `${Math.min(100, Math.max(0, (vitalityCurrent / vitalityMax) * 100))}%` }}
+                />
+              </div>
+            </div>
 
-        {/* Armor DR & AP Quick Counters */}
-        <div className="grid grid-cols-3 gap-1.5 pt-0.5 text-[10px] font-mono">
+            {/* Health Pool (Slow Recovery, Lethal bleedout trigger) */}
+            <div>
+              <div className="flex justify-between text-[10px] font-mono mb-0.5">
+                <span className="text-rose-400 flex items-center gap-1">
+                  <Heart size={10} /> HEALTH (Lethal):
+                </span>
+                <span className="text-rose-200 font-bold">{healthCurrent} / {healthMax} HP</span>
+              </div>
+              <div className="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden border border-slate-800">
+                <div 
+                  className={`h-full transition-all duration-300 ${
+                    healthCurrent <= 0 
+                      ? 'bg-rose-900 animate-pulse' 
+                      : 'bg-gradient-to-r from-red-600 to-rose-500'
+                  }`}
+                  style={{ width: `${Math.min(100, Math.max(0, (healthCurrent / healthMax) * 100))}%` }}
+                />
+              </div>
+            </div>
+
+            {/* Mortality State Alert */}
+            {healthCurrent <= 0 && (
+              <div className="text-[10px] font-mono text-red-400 bg-red-950/80 border border-red-500/60 rounded px-1.5 py-0.5 flex items-center justify-between">
+                <span className="font-bold uppercase tracking-wider animate-pulse">Mortality: Bleeding Out</span>
+                <span>Stability: {stabilityCurrent} / {stabilityMax}</span>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Defensive & Kinetic Quick Counters */}
+        <div className="grid grid-cols-4 gap-1.5 pt-0.5 text-[10px] font-mono">
           <div className="p-1.5 rounded bg-slate-950 border border-slate-800 flex flex-col items-center">
             <span className="text-slate-500">KIN DR</span>
             <span className="font-bold text-cyan-300">{kineticDr}</span>
@@ -158,8 +226,12 @@ export const CockpitPanel: React.FC = () => {
             <span className="font-bold text-sky-300">{energyDr}</span>
           </div>
           <div className="p-1.5 rounded bg-slate-950 border border-slate-800 flex flex-col items-center">
-            <span className="text-slate-500">TRAUMA</span>
-            <span className="font-bold text-red-400">0/3</span>
+            <span className="text-slate-500">STA SOAK</span>
+            <span className="font-bold text-emerald-400">+{staminaDr}</span>
+          </div>
+          <div className="p-1.5 rounded bg-slate-950 border border-slate-800 flex flex-col items-center">
+            <span className="text-slate-500">STABILITY</span>
+            <span className="font-bold text-amber-300">{stabilityCurrent}</span>
           </div>
         </div>
       </div>
@@ -238,13 +310,9 @@ export const CockpitPanel: React.FC = () => {
       {/* COCKPIT TAB BODY                                                          */}
       {/* ========================================================================= */}
       <div className="flex-1 overflow-y-auto p-2.5 space-y-2.5 scrollbar-thin">
-        {/* TAB 1: TANGENT ACTION DECK (4 AP, Called Shots, Weapons, Tactics, Essence) */}
+        {/* TAB 1: TANGENT ACTION DECK (Skill Actions, Called Shots, Defenses, Tactics, Essence) */}
         {(activeCockpitTab === 'vitals' || activeCockpitTab === 'actions') && (
           <TangentActionDeck
-            currentAp={currentAp}
-            maxAp={maxAp}
-            onConsumeAp={(amount) => setCurrentAp(prev => Math.max(0, Math.min(maxAp, prev - amount)))}
-            onResetAp={() => setCurrentAp(maxAp)}
             calledShotTarget={calledShotTarget}
             onSetCalledShotTarget={setCalledShotTarget}
           />

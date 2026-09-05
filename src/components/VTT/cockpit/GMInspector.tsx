@@ -24,7 +24,8 @@ import {
   Lock,
   Unlock,
   AlertTriangle,
-  FileText
+  FileText,
+  Cpu
 } from 'lucide-react';
 import { useEngineStore, selectAllFusedTokens } from '../../../engine/index';
 import { MultiSelectCard } from './MultiSelectCard';
@@ -53,6 +54,8 @@ export const GMInspector: React.FC = () => {
   const { 
     personaRoster = [], 
     updateCharacterHealth, 
+    updateCharacterVitality,
+    updateCharacterStructure,
     awardExperience, 
     awardCharacterKarma, 
     applyVTTStatusConditions,
@@ -84,23 +87,48 @@ export const GMInspector: React.FC = () => {
   }, 0);
 
   // Single Token Actions
-  const handleApplyDamage = (amount: number) => {
+  const handleApplyDamage = (amount: number, isLethal: boolean = true) => {
     if (!currentToken) return;
-    useEngineStore.getState().applyDamage(currentToken.id, amount);
-    if (currentToken.is_persona && updateCharacterHealth) {
-      const nextHp = Math.max(0, currentToken.current_hp - amount);
-      updateCharacterHealth(resolvedHeroId, nextHp);
+    useEngineStore.getState().applyDamage(currentToken.id, amount, isLethal);
+    if (currentToken.is_persona) {
+      const eph = useEngineStore.getState().ephemeralData[currentToken.id];
+      const isSyn = !!currentToken.is_synthetic || (currentToken.species?.toLowerCase().includes('synthetic') ?? false);
+      if (isSyn && updateCharacterStructure && eph?.current_structure !== undefined) {
+        updateCharacterStructure(resolvedHeroId, eph.current_structure);
+      } else {
+        if (updateCharacterVitality && eph?.current_vitality !== undefined) {
+          updateCharacterVitality(resolvedHeroId, eph.current_vitality);
+        }
+        if (updateCharacterHealth && eph?.current_health !== undefined) {
+          updateCharacterHealth(resolvedHeroId, eph.current_health);
+        }
+      }
     }
     AudioService.playCriticalChime(true);
   };
 
-  const handleApplyHeal = (amount: number) => {
+  const handleApplyHeal = (amount: number, pool: 'vitality' | 'health' | 'structure' = 'vitality') => {
     if (!currentToken) return;
-    useEngineStore.getState().healHP(currentToken.id, amount);
-    if (currentToken.is_persona && updateCharacterHealth) {
-      const maxHp = currentToken.base_hp || 30;
-      const nextHp = Math.min(maxHp, currentToken.current_hp + amount);
-      updateCharacterHealth(resolvedHeroId, nextHp);
+    if (pool === 'vitality') {
+      useEngineStore.getState().healVitality(currentToken.id, amount);
+      if (currentToken.is_persona && updateCharacterVitality) {
+        const eph = useEngineStore.getState().ephemeralData[currentToken.id];
+        updateCharacterVitality(resolvedHeroId, eph?.current_vitality ?? 0);
+      }
+    } else if (pool === 'health') {
+      useEngineStore.getState().healHealth(currentToken.id, amount);
+      if (currentToken.is_persona && updateCharacterHealth) {
+        const eph = useEngineStore.getState().ephemeralData[currentToken.id];
+        updateCharacterHealth(resolvedHeroId, eph?.current_health ?? 0);
+      }
+    } else if (pool === 'structure') {
+      useEngineStore.getState().healStructure(currentToken.id, amount);
+      if (currentToken.is_persona && updateCharacterStructure) {
+        const eph = useEngineStore.getState().ephemeralData[currentToken.id];
+        updateCharacterStructure(resolvedHeroId, eph?.current_structure ?? 0);
+      }
+    } else {
+      useEngineStore.getState().healHP(currentToken.id, amount);
     }
     AudioService.playTerminalBeep();
   };
@@ -174,7 +202,14 @@ export const GMInspector: React.FC = () => {
   // Case 2: Single Token Selected -> Detailed Inspection Card
   if (currentToken) {
     const isHidden = !!currentToken.is_hidden;
-    const hpRatio = Math.max(0, Math.min(1, currentToken.current_hp / (currentToken.base_hp || 1)));
+    const isSynthetic = !!currentToken.is_synthetic || (currentToken.species?.toLowerCase().includes('synthetic') ?? false);
+    const vitalityMax = currentToken.base_vitality ?? 30;
+    const vitalityCurrent = currentToken.current_vitality ?? vitalityMax;
+    const healthMax = currentToken.base_health ?? currentToken.base_hp ?? 30;
+    const healthCurrent = currentToken.current_health ?? currentToken.current_hp ?? healthMax;
+    const structureMax = currentToken.base_structure ?? 60;
+    const structureCurrent = currentToken.current_structure ?? structureMax;
+    const stabilityCurrent = currentToken.stability_points ?? 10;
 
     return (
       <div className="space-y-2.5 font-mono text-xs select-none">
@@ -290,57 +325,181 @@ export const GMInspector: React.FC = () => {
             </div>
           )}
 
-          {/* Vitality & HP Bar */}
-          <div>
-            <div className="flex justify-between text-[10.5px] mb-0.5">
-              <span className="text-slate-400 flex items-center gap-1">
-                <Heart size={11} className="text-red-400" /> HP:
-              </span>
-              <span className="font-bold text-slate-200">
-                {currentToken.current_hp} / {currentToken.base_hp}
-              </span>
-            </div>
-            <div className="w-full bg-slate-950 h-2 rounded-full overflow-hidden border border-slate-800">
-              <div 
-                className={`h-full transition-all duration-300 ${
-                  hpRatio > 0.5 ? 'bg-gradient-to-r from-emerald-500 to-amber-500' : 'bg-gradient-to-r from-amber-500 to-red-600'
-                }`}
-                style={{ width: `${hpRatio * 100}%` }}
-              />
-            </div>
-          </div>
+          {/* Survival Pools: Structure for Synthetics vs Dual Vitality & Health for Organics */}
+          {isSynthetic ? (
+            <div className="space-y-1.5">
+              <div>
+                <div className="flex justify-between text-[10.5px] mb-0.5">
+                  <span className="text-amber-400 flex items-center gap-1 font-bold">
+                    <Cpu size={11} /> STRUCTURE:
+                  </span>
+                  <span className="font-bold text-amber-200">
+                    {structureCurrent} / {structureMax} SP
+                  </span>
+                </div>
+                <div className="w-full bg-slate-950 h-2 rounded-full overflow-hidden border border-slate-800">
+                  <div 
+                    className="h-full bg-gradient-to-r from-amber-600 to-yellow-400 transition-all duration-300"
+                    style={{ width: `${Math.min(100, Math.max(0, (structureCurrent / structureMax) * 100))}%` }}
+                  />
+                </div>
+              </div>
 
-          {/* Damage & Heal Quick Buttons */}
-          <div className="flex items-center gap-1.5 pt-1">
-            <button
-              type="button"
-              onClick={() => handleApplyDamage(5)}
-              className="flex-1 py-1 rounded bg-red-950/40 hover:bg-red-900/50 border border-red-500/40 text-red-300 font-bold transition-all text-center cursor-pointer"
-            >
-              -5 HP
-            </button>
-            <button
-              type="button"
-              onClick={() => handleApplyDamage(1)}
-              className="px-2.5 py-1 rounded bg-red-950/30 hover:bg-red-900/40 border border-red-500/30 text-red-400 font-bold transition-all text-center cursor-pointer"
-            >
-              -1
-            </button>
-            <button
-              type="button"
-              onClick={() => handleApplyHeal(1)}
-              className="px-2.5 py-1 rounded bg-emerald-950/30 hover:bg-emerald-900/40 border border-emerald-500/30 text-emerald-400 font-bold transition-all text-center cursor-pointer"
-            >
-              +1
-            </button>
-            <button
-              type="button"
-              onClick={() => handleApplyHeal(5)}
-              className="flex-1 py-1 rounded bg-emerald-950/40 hover:bg-emerald-900/50 border border-emerald-500/40 text-emerald-300 font-bold transition-all text-center cursor-pointer"
-            >
-              +5 HP
-            </button>
-          </div>
+              {/* Synthetic Structure Quick Controls */}
+              <div className="flex items-center gap-1.5 pt-0.5">
+                <button
+                  type="button"
+                  onClick={() => handleApplyDamage(5, true)}
+                  className="flex-1 py-1 rounded bg-red-950/40 hover:bg-red-900/50 border border-red-500/40 text-red-300 font-bold transition-all text-center cursor-pointer"
+                  title="Apply 5 structural damage"
+                >
+                  -5 SP
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleApplyDamage(1, true)}
+                  className="px-2.5 py-1 rounded bg-red-950/30 hover:bg-red-900/40 border border-red-500/30 text-red-400 font-bold transition-all text-center cursor-pointer"
+                  title="Apply 1 structural damage"
+                >
+                  -1
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleApplyHeal(1, 'structure')}
+                  className="px-2.5 py-1 rounded bg-amber-950/30 hover:bg-amber-900/40 border border-amber-500/30 text-amber-300 font-bold transition-all text-center cursor-pointer"
+                  title="Repair 1 SP"
+                >
+                  +1
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleApplyHeal(5, 'structure')}
+                  className="flex-1 py-1 rounded bg-amber-950/40 hover:bg-amber-900/50 border border-amber-500/40 text-amber-200 font-bold transition-all text-center cursor-pointer"
+                  title="Repair 5 SP"
+                >
+                  +5 SP
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {/* Vitality Bar (Buffer) */}
+              <div>
+                <div className="flex justify-between text-[10.5px] mb-0.5">
+                  <span className="text-cyan-400 flex items-center gap-1">
+                    <Activity size={11} /> VITALITY (Buffer):
+                  </span>
+                  <span className="font-bold text-cyan-200">
+                    {vitalityCurrent} / {vitalityMax} VP
+                  </span>
+                </div>
+                <div className="w-full bg-slate-950 h-2 rounded-full overflow-hidden border border-slate-800">
+                  <div 
+                    className="h-full bg-gradient-to-r from-cyan-600 to-sky-400 transition-all duration-300"
+                    style={{ width: `${Math.min(100, Math.max(0, (vitalityCurrent / vitalityMax) * 100))}%` }}
+                  />
+                </div>
+              </div>
+
+              {/* Health Bar (Lethal) */}
+              <div>
+                <div className="flex justify-between text-[10.5px] mb-0.5">
+                  <span className="text-rose-400 flex items-center gap-1">
+                    <Heart size={11} /> HEALTH (Lethal):
+                  </span>
+                  <span className="font-bold text-rose-200">
+                    {healthCurrent} / {healthMax} HP
+                  </span>
+                </div>
+                <div className="w-full bg-slate-950 h-2 rounded-full overflow-hidden border border-slate-800">
+                  <div 
+                    className={`h-full transition-all duration-300 ${
+                      healthCurrent <= 0 
+                        ? 'bg-rose-900 animate-pulse' 
+                        : 'bg-gradient-to-r from-red-600 to-rose-500'
+                    }`}
+                    style={{ width: `${Math.min(100, Math.max(0, (healthCurrent / healthMax) * 100))}%` }}
+                  />
+                </div>
+              </div>
+
+              {/* Mortality / Bleedout Alert */}
+              {healthCurrent <= 0 && (
+                <div className="text-[10px] font-mono text-red-400 bg-red-950/80 border border-red-500/60 rounded px-2 py-1 flex items-center justify-between">
+                  <span className="flex items-center gap-1 font-bold">
+                    <AlertTriangle size={11} className="text-red-400 animate-pulse" />
+                    BLEEDING OUT (Incapacitated)
+                  </span>
+                  <span className="text-red-200 font-bold">Stability: {stabilityCurrent} (-1/rnd)</span>
+                </div>
+              )}
+
+              {/* Damage & Heal Quick Buttons */}
+              <div className="space-y-1 pt-0.5">
+                <div className="flex items-center gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => handleApplyDamage(5, true)}
+                    className="flex-1 py-1 rounded bg-red-950/50 hover:bg-red-900/60 border border-red-500/50 text-red-300 font-bold transition-all text-center cursor-pointer text-[10.5px]"
+                    title="Apply 5 lethal damage (soaks into VP buffer, excess penetrates to HP)"
+                  >
+                    -5 Lethal
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleApplyDamage(1, true)}
+                    className="px-2.5 py-1 rounded bg-red-950/40 hover:bg-red-900/50 border border-red-500/40 text-red-400 font-bold transition-all text-center cursor-pointer text-[10.5px]"
+                    title="Apply 1 lethal damage"
+                  >
+                    -1
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleApplyDamage(5, false)}
+                    className="flex-1 py-1 rounded bg-amber-950/40 hover:bg-amber-900/50 border border-amber-500/40 text-amber-300 font-bold transition-all text-center cursor-pointer text-[10.5px]"
+                    title="Apply 5 non-lethal damage (Vitality only, never lethal)"
+                  >
+                    -5 Non-Lethal
+                  </button>
+                </div>
+
+                <div className="flex items-center gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => handleApplyHeal(5, 'vitality')}
+                    className="flex-1 py-0.5 rounded bg-cyan-950/40 hover:bg-cyan-900/50 border border-cyan-500/40 text-cyan-300 font-bold transition-all text-center cursor-pointer text-[10px]"
+                    title="Restore 5 Vitality Points"
+                  >
+                    +5 VP
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleApplyHeal(1, 'vitality')}
+                    className="px-2 py-0.5 rounded bg-cyan-950/30 hover:bg-cyan-900/40 border border-cyan-500/30 text-cyan-400 font-bold transition-all text-center cursor-pointer text-[10px]"
+                    title="Restore 1 Vitality Point"
+                  >
+                    +1 VP
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleApplyHeal(1, 'health')}
+                    className="px-2 py-0.5 rounded bg-rose-950/30 hover:bg-rose-900/40 border border-rose-500/30 text-rose-400 font-bold transition-all text-center cursor-pointer text-[10px]"
+                    title="Restore 1 Health Point"
+                  >
+                    +1 HP
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleApplyHeal(5, 'health')}
+                    className="flex-1 py-0.5 rounded bg-rose-950/40 hover:bg-rose-900/50 border border-rose-500/40 text-rose-300 font-bold transition-all text-center cursor-pointer text-[10px]"
+                    title="Restore 5 Health Points"
+                  >
+                    +5 HP
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Persona Dedicated Mechanics: AP Awards & Karma Controls */}
           {currentToken.is_persona && (

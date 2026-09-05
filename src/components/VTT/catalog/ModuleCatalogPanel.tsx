@@ -35,14 +35,22 @@ export const ModuleCatalogPanel: React.FC<ModuleCatalogPanelProps> = ({
     const storyCards = universeState?.creativeState?.storyCards || [];
     const customItems = (universeState as any)?.customItems || [];
 
+    let customAssetsCount = 0;
+    try {
+      customAssetsCount = JSON.parse(localStorage.getItem('tangent_vtt_custom_assets') || '[]').length;
+    } catch {}
+
+    const rosterCount = folio?.personaRoster?.length || (character?.name ? 1 : 0);
+
     return {
       scenes: maps.length,
       story: scenarios.length + (storyCards.length > 0 ? 1 : 0),
-      personae: character?.name ? 1 + (universeState?.factions?.length || 0) : (universeState?.factions?.length || 0),
+      personae: rosterCount,
       encounters: scenarios.reduce((acc: number, s: any) => acc + (s.encounters?.length || 0), 0) || 3,
-      factions: universeState?.factions?.length || 3,
+      factions: universeState?.factions?.length || 2,
       lore: (storyCards.length || 0) + (universeState?.lore?.length || 0) || 2,
-      armory: customItems.length || 4
+      armory: customItems.length || 2,
+      assets: customAssetsCount
     };
   }, [universeState, folio]);
 

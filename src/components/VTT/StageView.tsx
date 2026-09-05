@@ -1433,9 +1433,16 @@ export const StageView: React.FC<StageViewProps> = ({
       const distFt = Math.round((distPx / cellSizePx) * 5);
       const distCells = Math.round(distPx / cellSizePx);
 
-      const isWithinBase = distFt <= effectiveSpeedFt;
-      const isWithinSprint = distFt <= (effectiveSpeedFt * 2);
-      const actionCost = isWithinBase ? 1 : isWithinSprint ? 2 : Math.ceil(distFt / effectiveSpeedFt);
+      const isWalk = distFt <= effectiveSpeedFt;
+      const isJog = distFt <= (effectiveSpeedFt * 2);
+      const isRun = distFt <= (effectiveSpeedFt * 3);
+      const isSprint = distFt <= (effectiveSpeedFt * 4);
+
+      let paceLabel = 'WALK PACE';
+      if (!isWalk && isJog) paceLabel = 'JOG PACE';
+      else if (!isJog && isRun) paceLabel = 'RUN PACE';
+      else if (!isRun && isSprint) paceLabel = 'SPRINT PACE';
+      else if (!isSprint) paceLabel = 'EXCEEDS SPRINT PACE';
 
       const intersectsHazard = (hazardSimulatorRef.current?.getHazardFields?.() || []).some((h: any) => {
         const midX = (selectedToken.x + mouseWorldPos.x) / 2;
@@ -1445,11 +1452,13 @@ export const StageView: React.FC<StageViewProps> = ({
 
       const vectorColor = intersectsHazard 
         ? 0xef4444 
-        : isWithinBase 
+        : isWalk 
           ? 0x10b981 
-          : isWithinSprint 
-            ? 0xf59e0b 
-            : 0xef4444;
+          : isJog 
+            ? 0x06b6d4 
+            : isSprint 
+              ? 0xf59e0b 
+              : 0xef4444;
 
       g.moveTo(selectedToken.x, selectedToken.y);
       g.lineTo(mouseWorldPos.x, mouseWorldPos.y);
@@ -1466,12 +1475,12 @@ export const StageView: React.FC<StageViewProps> = ({
       const textStyle = new TextStyle({
         fontFamily: 'monospace',
         fontSize: 11,
-        fill: vectorColor === 0x10b981 ? 0x6ee7b7 : vectorColor === 0xf59e0b ? 0xfcd34d : 0xfca5a5,
+        fill: vectorColor === 0x10b981 ? 0x6ee7b7 : vectorColor === 0x06b6d4 ? 0x67e8f9 : vectorColor === 0xf59e0b ? 0xfcd34d : 0xfca5a5,
         fontWeight: 'bold',
         align: 'center'
       });
 
-      let labelText = `${distFt} FT (${distCells} CELLS) • [${actionCost} AP / ${rulerAvailableAp} MAX${isWithinSprint && !isWithinBase ? ' - SPRINT' : ''}]`;
+      let labelText = `${distFt} FT (${distCells} CELLS) • [${paceLabel}]`;
       if (intersectsHazard) {
         labelText += ' ⚠️ HAZARD!';
       }
@@ -1562,7 +1571,10 @@ export const StageView: React.FC<StageViewProps> = ({
       const g = new Graphics();
       const isSelected = token.id === selectedTokenId;
       const isTarget = token.id === targetTokenId;
-      const isDowned = token.current_hp <= 0;
+      const isSynthetic = !!token.is_synthetic || (token.species?.toLowerCase().includes('synthetic') ?? false);
+      const isDowned = isSynthetic 
+        ? (token.current_structure ?? token.base_structure ?? 60) <= 0
+        : (token.current_health ?? token.current_hp ?? 30) <= 0;
       const fillColor = isDowned 
         ? 0xef4444 
         : token.is_persona 
@@ -1594,6 +1606,42 @@ export const StageView: React.FC<StageViewProps> = ({
 
       container.addChild(g);
 
+      // Render Dual Vitality & Health mini-bars (or Structure for synthetics)
+      const barsG = new Graphics();
+      const barWidth = Math.max(34, radius * 1.5);
+      const barHeight = 2.5;
+      const barY = -radius - 7;
+
+      if (isSynthetic) {
+        const sCur = token.current_structure ?? token.base_structure ?? 60;
+        const sMax = token.base_structure ?? 60;
+        const sRatio = Math.max(0, Math.min(1, sCur / sMax));
+        barsG.rect(-barWidth / 2, barY, barWidth, barHeight + 1);
+        barsG.fill({ color: 0x1e293b, alpha: 0.8 });
+        barsG.rect(-barWidth / 2, barY, barWidth * sRatio, barHeight + 1);
+        barsG.fill({ color: 0xf59e0b, alpha: 0.95 });
+      } else {
+        const vCur = token.current_vitality ?? token.base_vitality ?? 30;
+        const vMax = token.base_vitality ?? 30;
+        const vRatio = Math.max(0, Math.min(1, vCur / vMax));
+        const hCur = token.current_health ?? token.current_hp ?? 30;
+        const hMax = token.base_health ?? token.base_hp ?? 30;
+        const hRatio = Math.max(0, Math.min(1, hCur / hMax));
+
+        // VP Bar (Cyan)
+        barsG.rect(-barWidth / 2, barY - 3.5, barWidth, barHeight);
+        barsG.fill({ color: 0x1e293b, alpha: 0.8 });
+        barsG.rect(-barWidth / 2, barY - 3.5, barWidth * vRatio, barHeight);
+        barsG.fill({ color: 0x06b6d4, alpha: 0.95 });
+
+        // HP Bar (Rose)
+        barsG.rect(-barWidth / 2, barY, barWidth, barHeight);
+        barsG.fill({ color: 0x1e293b, alpha: 0.8 });
+        barsG.rect(-barWidth / 2, barY, barWidth * hRatio, barHeight);
+        barsG.fill({ color: hCur <= 0 ? 0x991b1b : 0xf43f5e, alpha: 0.95 });
+      }
+      container.addChild(barsG);
+
       // Render Action Pips based on Skill Rank
       const skillRank = (token as any).skill_rank ?? 8;
       const actionTier = combatArbRef.current.getActionTier(skillRank);
@@ -1603,7 +1651,7 @@ export const StageView: React.FC<StageViewProps> = ({
       const startX = -((actionCount - 1) * pipsSpacing) / 2;
       for (let p = 0; p < actionCount; p++) {
         const px = startX + p * pipsSpacing;
-        const py = -radius - 12;
+        const py = -radius - 14;
         pipsG.poly([px, py - 3, px + 3, py, px, py + 3, px - 3, py]);
         pipsG.fill({ color: 0x06b6d4, alpha: 0.95 });
         pipsG.stroke({ width: 0.8, color: 0xffffff });
@@ -1618,15 +1666,18 @@ export const StageView: React.FC<StageViewProps> = ({
         container.addChild(mortG);
 
         const mortText = new Text({
-          text: `BLEEDING OUT`,
+          text: isSynthetic ? `STRUCTURE COMPROMISED` : `BLEEDING OUT`,
           style: new TextStyle({ fontFamily: 'monospace', fontSize: 8.5, fill: 0xf59e0b, fontWeight: 'bold' })
         });
         mortText.anchor.set(0.5, 2.7);
         container.addChild(mortText);
       }
 
-      // Name & HP Label
-      const label = new Text({ text: `${token.name} (${token.current_hp} HP)`, style });
+      // Name & Vitals Label
+      const vitHealthText = isSynthetic
+        ? `${token.current_structure ?? 60} SP`
+        : `${token.current_vitality ?? 30} VP | ${token.current_health ?? token.current_hp ?? 30} HP`;
+      const label = new Text({ text: `${token.name} (${vitHealthText})`, style });
       label.anchor.set(0.5, -1.8);
       container.addChild(label);
 

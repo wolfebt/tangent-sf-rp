@@ -7,11 +7,13 @@
 
 export interface AttributeStats {
   str: number; 
-  dex: number; 
-  con: number;
+  agi: number; // Agility
+  sta: number; // Stamina
   int: number; 
   wis: number; 
   cha: number;
+  dex?: number; // Legacy alias for agi
+  con?: number; // Legacy alias for sta
 }
 
 export interface CharacterDraft {
@@ -24,15 +26,15 @@ export interface CharacterDraft {
 
 export interface SpeciesRule {
   bp_cost: number;
-  parity_cap: Record<keyof AttributeStats, number>;
+  parity_cap: Record<string, number>;
 }
 
 export const MECHANICS_DB = {
   species: {
-    'human': { bp_cost: 0, parity_cap: { str: 4, dex: 4, con: 4, int: 4, wis: 4, cha: 4 } },
-    'alterian': { bp_cost: 5, parity_cap: { str: 3, dex: 5, con: 3, int: 5, wis: 4, cha: 4 } },
-    'krogan_analog': { bp_cost: 10, parity_cap: { str: 5, dex: 3, con: 5, int: 3, wis: 3, cha: 2 } },
-    'synth_android': { bp_cost: 15, parity_cap: { str: 5, dex: 4, con: 5, int: 5, wis: 3, cha: 1 } }
+    'human': { bp_cost: 0, parity_cap: { str: 4, agi: 4, sta: 4, int: 4, wis: 4, cha: 4, dex: 4, con: 4 } },
+    'alterian': { bp_cost: 17, parity_cap: { str: 3, agi: 5, sta: 3, int: 5, wis: 4, cha: 4, dex: 5, con: 3 } },
+    'krogan_analog': { bp_cost: 10, parity_cap: { str: 5, agi: 3, sta: 5, int: 3, wis: 3, cha: 2, dex: 3, con: 5 } },
+    'synth_android': { bp_cost: 15, parity_cap: { str: 5, agi: 4, sta: 5, int: 5, wis: 3, cha: 1, dex: 4, con: 5 } }
   } as Record<string, SpeciesRule>,
   hindrances: {
     'blind': { bp_yield: 15 },
@@ -70,11 +72,13 @@ export class CharacterBuilder {
 
     // 2. Validate Attribute Parity (+4/+5 Caps)
     for (const [attr, value] of Object.entries(draft.attributes)) {
-      const cap = species.parity_cap[attr as keyof AttributeStats] ?? 4;
-      if (value > cap) {
+      if (attr === 'dex' && draft.attributes.agi !== undefined) continue;
+      if (attr === 'con' && draft.attributes.sta !== undefined) continue;
+      const cap = species.parity_cap[attr] ?? 4;
+      if (value !== undefined && value > cap) {
         errors.push(`Attribute Parity Violation: ${attr.toUpperCase()} (${value}) exceeds species cap of +${cap}.`);
       }
-      if (value > 0) spentBP += (value * 5); 
+      if (value !== undefined && value > 0) spentBP += (value * 5); 
     }
 
     // 3. Calculate Hindrance Arbitrage

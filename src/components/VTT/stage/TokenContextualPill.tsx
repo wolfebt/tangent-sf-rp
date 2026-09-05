@@ -1,13 +1,12 @@
 /**
  * @file TokenContextualPill.tsx
  * @description Floating On-Canvas Contextual Action Pill for Selected Tokens.
- * Implements Fitts's Law optimization: provides immediate adjustments for Hit Points,
- * Action Points, Conditions, Elevation, and Player Visibility directly on the stage.
+ * Implements Fitts's Law optimization: provides immediate adjustments for dual Vitality & Health,
+ * synthetic Structure Points (SP), Conditions, Elevation, and Player Visibility directly on the stage.
  */
 
 import React, { useState } from 'react';
 import { 
-  Heart, 
   Eye, 
   EyeOff, 
   ArrowUp, 
@@ -17,7 +16,9 @@ import {
   ShieldAlert, 
   Target, 
   Zap,
-  Activity
+  Activity,
+  Cpu,
+  AlertTriangle
 } from 'lucide-react';
 import { useEngineStore, selectAllFusedTokens } from '../../../engine/index';
 import type { FusedToken } from '../../../engine/index';
@@ -36,14 +37,31 @@ export const TokenContextualPill: React.FC = () => {
 
   if (!selectedToken) return null;
 
-  const { id, name, current_hp, base_hp, elevation_ft = 0, active_conditions = [], is_hidden } = selectedToken;
+  const { id, name, elevation_ft = 0, active_conditions = [], is_hidden } = selectedToken;
 
-  const handleDamage = (amount: number) => {
-    useEngineStore.getState().applyDamage(id, amount);
+  const isSynthetic = !!selectedToken.is_synthetic || (selectedToken.species?.toLowerCase().includes('synthetic') ?? false);
+  const vitCurrent = selectedToken.current_vitality ?? selectedToken.base_vitality ?? 30;
+  const vitMax = selectedToken.base_vitality ?? 30;
+  const hpCurrent = selectedToken.current_health ?? selectedToken.current_hp ?? selectedToken.base_hp ?? 30;
+  const hpMax = selectedToken.base_health ?? selectedToken.base_hp ?? 30;
+  const structCurrent = selectedToken.current_structure ?? selectedToken.base_structure ?? 60;
+  const structMax = selectedToken.base_structure ?? 60;
+  const stabilityPoints = selectedToken.stability_points ?? 10;
+
+  const handleDamage = (amount: number, isLethal: boolean = true) => {
+    useEngineStore.getState().applyDamage(id, amount, isLethal);
   };
 
-  const handleHeal = (amount: number) => {
-    useEngineStore.getState().healHP(id, amount);
+  const handleHealVitality = (amount: number) => {
+    useEngineStore.getState().healVitality(id, amount);
+  };
+
+  const handleHealHealth = (amount: number) => {
+    useEngineStore.getState().healHealth(id, amount);
+  };
+
+  const handleHealStructure = (amount: number) => {
+    useEngineStore.getState().healStructure(id, amount);
   };
 
   const handleToggleCondition = (condition: string) => {
@@ -63,7 +81,9 @@ export const TokenContextualPill: React.FC = () => {
     useEngineStore.getState().clearSelection();
   };
 
-  const hpPercent = Math.min(100, Math.max(0, (current_hp / base_hp) * 100));
+  const vitPercent = Math.min(100, Math.max(0, (vitCurrent / vitMax) * 100));
+  const hpPercent = Math.min(100, Math.max(0, (hpCurrent / hpMax) * 100));
+  const structPercent = Math.min(100, Math.max(0, (structCurrent / structMax) * 100));
 
   return (
     <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1.5 p-1.5 bg-[#0b1017]/95 border border-cyan-500/50 rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.8),0_0_12px_rgba(34,211,238,0.25)] backdrop-blur-md text-xs font-mono select-none pointer-events-auto animate-in fade-in zoom-in-95 duration-150">
@@ -73,60 +93,133 @@ export const TokenContextualPill: React.FC = () => {
         <span className="font-bold truncate max-w-[110px]">{name}</span>
       </div>
 
-      {/* HP Quick Adjustment Group */}
-      <div className="flex items-center bg-slate-950/80 rounded-xl border border-slate-800 p-0.5">
-        <button
-          type="button"
-          onClick={() => handleDamage(5)}
-          className="px-1.5 py-0.5 rounded-lg hover:bg-red-950/60 text-red-400 hover:text-red-300 transition-colors font-bold text-[10.5px]"
-          title="Apply -5 Damage"
-        >
-          -5
-        </button>
-        <button
-          type="button"
-          onClick={() => handleDamage(1)}
-          className="px-1.5 py-0.5 rounded-lg hover:bg-red-950/60 text-red-400 hover:text-red-300 transition-colors font-bold text-[10.5px]"
-          title="Apply -1 Damage"
-        >
-          -1
-        </button>
+      {/* Dynamic Survival Bars & Quick Adjustments */}
+      {isSynthetic ? (
+        <div className="flex items-center bg-slate-950/80 rounded-xl border border-slate-800 p-0.5">
+          <button
+            type="button"
+            onClick={() => handleDamage(5, true)}
+            className="px-1.5 py-0.5 rounded-lg hover:bg-red-950/60 text-red-400 hover:text-red-300 transition-colors font-bold text-[10.5px]"
+            title="Apply -5 Structural Damage"
+          >
+            -5
+          </button>
+          <button
+            type="button"
+            onClick={() => handleDamage(1, true)}
+            className="px-1.5 py-0.5 rounded-lg hover:bg-red-950/60 text-red-400 hover:text-red-300 transition-colors font-bold text-[10.5px]"
+            title="Apply -1 Structural Damage"
+          >
+            -1
+          </button>
 
-        {/* HP Bar & Number */}
-        <div className="px-2 flex flex-col items-center justify-center min-w-[72px]">
-          <div className="flex items-center gap-1 text-[10.5px]">
-            <Heart size={9} className="text-red-400 fill-red-400" />
-            <span className={`font-bold ${current_hp <= base_hp * 0.3 ? 'text-red-400' : 'text-slate-100'}`}>
-              {current_hp}/{base_hp}
-            </span>
+          {/* SP Bar & Number */}
+          <div className="px-2 flex flex-col items-center justify-center min-w-[80px]">
+            <div className="flex items-center gap-1 text-[10px]">
+              <Cpu size={10} className="text-amber-400" />
+              <span className="font-bold text-amber-300">
+                {structCurrent}/{structMax} SP
+              </span>
+            </div>
+            <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden mt-0.5">
+              <div 
+                className="h-full bg-gradient-to-r from-amber-600 to-yellow-400 transition-all duration-200"
+                style={{ width: `${structPercent}%` }}
+              />
+            </div>
           </div>
-          <div className="w-full bg-slate-800 h-1 rounded-full overflow-hidden mt-0.5">
-            <div 
-              className={`h-full transition-all duration-200 ${
-                hpPercent > 50 ? 'bg-cyan-400' : hpPercent > 25 ? 'bg-amber-400' : 'bg-red-500'
-              }`}
-              style={{ width: `${hpPercent}%` }}
-            />
+
+          <button
+            type="button"
+            onClick={() => handleHealStructure(1)}
+            className="px-1.5 py-0.5 rounded-lg hover:bg-amber-950/60 text-amber-400 hover:text-amber-300 transition-colors font-bold text-[10.5px]"
+            title="Repair +1 SP"
+          >
+            +1
+          </button>
+          <button
+            type="button"
+            onClick={() => handleHealStructure(5)}
+            className="px-1.5 py-0.5 rounded-lg hover:bg-amber-950/60 text-amber-400 hover:text-amber-300 transition-colors font-bold text-[10.5px]"
+            title="Repair +5 SP"
+          >
+            +5
+          </button>
+        </div>
+      ) : (
+        <div className="flex items-center bg-slate-950/80 rounded-xl border border-slate-800 p-0.5 gap-0.5">
+          <button
+            type="button"
+            onClick={() => handleDamage(5, true)}
+            className="px-1.5 py-0.5 rounded-lg hover:bg-red-950/60 text-red-400 hover:text-red-300 transition-colors font-bold text-[10px]"
+            title="Apply -5 Lethal Damage"
+          >
+            -5
+          </button>
+          <button
+            type="button"
+            onClick={() => handleDamage(1, true)}
+            className="px-1.5 py-0.5 rounded-lg hover:bg-red-950/60 text-red-400 hover:text-red-300 transition-colors font-bold text-[10px]"
+            title="Apply -1 Lethal Damage"
+          >
+            -1
+          </button>
+
+          {/* Dual Vitality & Health Bars */}
+          <div className="px-2 flex flex-col items-center justify-center min-w-[90px] gap-0.5">
+            {/* Vitality Bar */}
+            <div className="w-full flex items-center justify-between text-[9px] text-cyan-300 font-bold">
+              <span>VP</span>
+              <span>{vitCurrent}/{vitMax}</span>
+            </div>
+            <div className="w-full bg-slate-800 h-1 rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-cyan-400 transition-all duration-200"
+                style={{ width: `${vitPercent}%` }}
+              />
+            </div>
+
+            {/* Health Bar */}
+            <div className="w-full flex items-center justify-between text-[9px] text-rose-300 font-bold mt-0.5">
+              <span>HP</span>
+              <span>{hpCurrent}/{hpMax}</span>
+            </div>
+            <div className="w-full bg-slate-800 h-1 rounded-full overflow-hidden">
+              <div 
+                className={`h-full transition-all duration-200 ${
+                  hpCurrent <= 0 ? 'bg-rose-900 animate-pulse' : 'bg-rose-500'
+                }`}
+                style={{ width: `${hpPercent}%` }}
+              />
+            </div>
+
+            {hpCurrent <= 0 && (
+              <div className="text-[8.5px] text-red-400 font-bold flex items-center gap-0.5 animate-pulse">
+                <AlertTriangle size={8} /> Bleedout ({stabilityPoints} stab)
+              </div>
+            )}
+          </div>
+
+          <div className="flex flex-col gap-0.5">
+            <button
+              type="button"
+              onClick={() => handleHealVitality(5)}
+              className="px-1 py-0.2 rounded hover:bg-cyan-950/60 text-cyan-400 hover:text-cyan-300 font-bold text-[9px]"
+              title="Restore +5 Vitality (VP)"
+            >
+              +5 VP
+            </button>
+            <button
+              type="button"
+              onClick={() => handleHealHealth(5)}
+              className="px-1 py-0.2 rounded hover:bg-rose-950/60 text-rose-400 hover:text-rose-300 font-bold text-[9px]"
+              title="Restore +5 Health (HP)"
+            >
+              +5 HP
+            </button>
           </div>
         </div>
-
-        <button
-          type="button"
-          onClick={() => handleHeal(1)}
-          className="px-1.5 py-0.5 rounded-lg hover:bg-emerald-950/60 text-emerald-400 hover:text-emerald-300 transition-colors font-bold text-[10.5px]"
-          title="Heal +1 HP"
-        >
-          +1
-        </button>
-        <button
-          type="button"
-          onClick={() => handleHeal(5)}
-          className="px-1.5 py-0.5 rounded-lg hover:bg-emerald-950/60 text-emerald-400 hover:text-emerald-300 transition-colors font-bold text-[10.5px]"
-          title="Heal +5 HP"
-        >
-          +5
-        </button>
-      </div>
+      )}
 
       {/* Elevation Controls */}
       <div className="flex items-center bg-slate-950/80 rounded-xl border border-slate-800 px-1 py-0.5 gap-0.5">

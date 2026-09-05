@@ -16,7 +16,8 @@ export type CatalogCategory =
   | 'encounters' 
   | 'factions' 
   | 'lore' 
-  | 'armory';
+  | 'armory'
+  | 'assets';
 
 export type CockpitTab = 
   | 'vitals' 

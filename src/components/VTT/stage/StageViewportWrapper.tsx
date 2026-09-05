@@ -53,6 +53,69 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
     setIsDraggingOver(false);
 
     try {
+      // 1. Check if files were dropped from OS desktop / file explorer
+      if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+        const file = e.dataTransfer.files[0];
+        if (file && (file.type.startsWith('image/') || /\.(png|jpe?g|webp|svg)$/i.test(file.name))) {
+          const reader = new FileReader();
+          reader.onload = (loadEvt) => {
+            const dataUrl = loadEvt.target?.result as string;
+            if (!dataUrl) return;
+
+            const rect = viewportRef.current?.getBoundingClientRect();
+            const dropX = rect ? Math.max(20, Math.round(e.clientX - rect.left)) : 350;
+            const dropY = rect ? Math.max(20, Math.round(e.clientY - rect.top)) : 350;
+
+            const isMap = window.confirm(
+              `Asset Ingestion: "${file.name}"\n\nClick [OK] to deploy as Battlemap Background.\nClick [Cancel] to spawn as an Actor Token at (${dropX}, ${dropY}).`
+            );
+
+            if (isMap) {
+              const currentMap = universeState?.maps?.find((m: any) => m.id === activeMapId);
+              if (currentMap && updateMap) {
+                updateMap(currentMap.id, {
+                  background_url: dataUrl,
+                  name: currentMap.name || file.name.replace(/\.[^/.]+$/, '')
+                });
+                AudioService.playCriticalChime(true);
+              }
+            } else {
+              const newId = `token-${Date.now()}`;
+              const tokenName = file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
+              const staticToken = {
+                id: newId,
+                name: tokenName,
+                image_url: dataUrl,
+                base_hp: 30,
+                base_vitality: 30,
+                base_health: 30,
+                tech_level: 3,
+                armor_dr: 6,
+                stamina_dr: 2,
+                speed_ft: 30,
+                size_modifier: 0,
+                is_persona: false
+              };
+              useEngineStore.getState().loadStaticEntity(staticToken);
+              useEngineStore.getState().updatePosition(newId, dropX, dropY);
+              useEngineStore.getState().clearSelection();
+              useEngineStore.getState().setSelection(newId, true);
+
+              const currentMap = universeState?.maps?.find((m: any) => m.id === activeMapId);
+              if (currentMap && updateMap) {
+                updateMap(currentMap.id, {
+                  tokens: [...(currentMap.tokens || []), { ...staticToken, x: dropX, y: dropY }]
+                });
+              }
+              AudioService.playCriticalChime(true);
+            }
+          };
+          reader.readAsDataURL(file);
+          return;
+        }
+      }
+
+      // 2. Process JSON drag-and-drop from Module Catalog or Folio
       const rawPayload = e.dataTransfer.getData('application/json');
       if (!rawPayload) return;
 
@@ -62,15 +125,21 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
       const dropY = rect ? Math.max(20, Math.round(e.clientY - rect.top)) : 350;
 
       const newId = `${data.id || 'token'}-${Date.now()}`;
+      const isSyn = !!data.isSynthetic || String(data.species || '').toLowerCase().includes('synthetic');
       const staticToken = {
         id: newId,
         character_doc_id: data.id || data.heroId || data['character-doc-id'],
         name: data.name || data.title || 'Operative',
-        base_hp: data.hp || 35,
+        base_hp: data.health || data.hp || 30,
+        base_vitality: data.vitality || 30,
+        base_health: data.health || data.hp || 30,
+        base_structure: data.structure || 60,
+        is_synthetic: isSyn,
         tech_level: data.tech_level || 3,
-        armor_dr: data.dr || 8,
+        armor_dr: data.dr || data.armor_dr || 8,
+        stamina_dr: data.stamina_dr || 2,
         size_modifier: 0,
-        speed_ft: 30,
+        speed_ft: data.speed_ft || 30,
         species: data.species || 'Human',
         archetype: data.archetype || 'Operative',
         is_persona: data.type === 'character' || !!data.isPersona

@@ -5,7 +5,7 @@
  * providing search filtering, visibility toggles, and drag-and-drop handles.
  */
 
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { 
   Map, 
   BookOpen, 
@@ -16,7 +16,10 @@ import {
   Package, 
   Flame, 
   Key, 
-  Sparkles
+  Sparkles,
+  Upload,
+  Trash2,
+  FolderOpen
 } from 'lucide-react';
 import { CatalogNodeItem } from './CatalogNodeItem';
 import { useCampaign } from '../../../context/CampaignContext';
@@ -43,8 +46,76 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
   // Data sources
   const maps = universeState?.maps || [];
   const scenarios = universeState?.scenarios || [];
-  const character = folio?.characterData;
   const storyCards = universeState?.creativeState?.storyCards || [];
+  const personaRoster: any[] = (folio?.personaRoster && folio.personaRoster.length > 0) 
+    ? folio.personaRoster 
+    : (folio?.characterData?.name ? [folio.characterData] : []);
+
+  // Custom Assets Media Library State
+  const [customAssets, setCustomAssets] = useState<Array<{ id: string; name: string; url: string; date: string }>>(() => {
+    try {
+      const stored = localStorage.getItem('tangent_vtt_custom_assets');
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    Array.from(files).forEach(file => {
+      if (!file.type.startsWith('image/') && !/\.(png|jpe?g|webp|svg)$/i.test(file.name)) return;
+      const reader = new FileReader();
+      reader.onload = (loadEvt) => {
+        const url = loadEvt.target?.result as string;
+        if (!url) return;
+        const newAsset = {
+          id: `asset-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
+          name: file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' '),
+          url,
+          date: new Date().toLocaleDateString()
+        };
+        setCustomAssets(prev => {
+          const next = [newAsset, ...prev];
+          try {
+            localStorage.setItem('tangent_vtt_custom_assets', JSON.stringify(next));
+          } catch (e) {
+            console.warn('LocalStorage quota reached for assets, kept in memory');
+          }
+          return next;
+        });
+        AudioService.playCriticalChime(true);
+      };
+      reader.readAsDataURL(file);
+    });
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
+  const handleDeleteAsset = (assetId: string) => {
+    setCustomAssets(prev => {
+      const next = prev.filter(a => a.id !== assetId);
+      try {
+        localStorage.setItem('tangent_vtt_custom_assets', JSON.stringify(next));
+      } catch {}
+      return next;
+    });
+    AudioService.playTerminalBeep(800, 0.04);
+  };
+
+  const handleSetMapBackground = (assetUrl: string, assetName: string) => {
+    const currentMap = maps.find((m: any) => m.id === activeMapId);
+    if (currentMap && updateMap) {
+      updateMap(currentMap.id, {
+        background_url: assetUrl,
+        name: currentMap.name || assetName
+      });
+      AudioService.playCriticalChime(true);
+    }
+  };
 
   // Filter helper supporting text search and tag filters
   const matchesSearch = (text: string, tagType?: string) => {
@@ -63,23 +134,35 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
   const handleDeployToken = (entity: {
     id: string;
     name: string;
+    vitality?: number;
+    health?: number;
+    structure?: number;
     hp?: number;
     dr?: number;
+    stamina_dr?: number;
     species?: string;
     archetype?: string;
     isPersona?: boolean;
+    imageUrl?: string;
   }) => {
     const newId = `${entity.id}-${Date.now()}`;
+    const isSyn = String(entity.species || '').toLowerCase().includes('synthetic') || String(entity.species || '').toLowerCase().includes('mecha');
     const staticToken = {
       id: newId,
       character_doc_id: entity.id,
       name: entity.name,
-      base_hp: entity.hp || 30,
+      image_url: entity.imageUrl,
+      base_hp: entity.health || entity.hp || 30,
+      base_vitality: entity.vitality || 30,
+      base_health: entity.health || entity.hp || 30,
+      base_structure: entity.structure || 60,
+      is_synthetic: isSyn,
       tech_level: 3,
       armor_dr: entity.dr || 6,
+      stamina_dr: entity.stamina_dr || 2,
       size_modifier: 0,
       speed_ft: 30,
-      species: entity.species || 'Human',
+      species: entity.species || (isSyn ? 'Synthetic' : 'Human'),
       archetype: entity.archetype || 'Operative',
       is_persona: !!entity.isPersona
     };
@@ -87,6 +170,8 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
     useEngineStore.getState().loadStaticEntity(staticToken);
     // Deploy at default stage center
     useEngineStore.getState().updatePosition(newId, 350, 350);
+    useEngineStore.getState().clearSelection();
+    useEngineStore.getState().setSelection(newId, true);
 
     // Persist to current map tokens in CampaignContext
     const currentMap = maps.find((m: any) => m.id === activeMapId);
@@ -218,42 +303,70 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
         <div className="space-y-1">
           <div className="text-[10px] font-mono uppercase tracking-wider text-slate-500 px-1 mb-1 flex items-center justify-between">
             <span>Hero Operatives & Squad</span>
-            <span className="text-emerald-400 font-bold">1</span>
+            <span className="text-emerald-400 font-bold">{personaRoster.length}</span>
           </div>
 
-          {character && character.name ? (
-            <CatalogNodeItem
-              id={character['character-doc-id'] || 'active-hero'}
-              title={character.name}
-              subtitle={`${character.species || 'Human'} &bull; ${character.archetype || 'Operator'} &bull; ${character['hit-points']?.max || 30} HP`}
-              badge="HERO"
-              icon={<Users size={14} />}
-              iconColor="text-emerald-400"
-              dragPayload={{
-                type: 'hero',
-                id: character['character-doc-id'] || 'active-hero',
-                name: character.name,
-                hp: character['hit-points']?.max || 30,
-                dr: character['armor-dr']?.kinetic || 8,
-                species: character.species,
-                archetype: character.archetype,
-                isPersona: true
-              }}
-              onSpawn={() => handleDeployToken({
-                id: character['character-doc-id'] || 'hero',
-                name: character.name,
-                hp: character['hit-points']?.max || 30,
-                dr: character['armor-dr']?.kinetic || 8,
-                species: character.species,
-                archetype: character.archetype,
-                isPersona: true
-              })}
-              isVisibleToPlayers={true}
-            />
-          ) : (
+          {personaRoster.length === 0 ? (
             <div className="p-3 text-center text-xs text-slate-500 font-mono border border-dashed border-slate-800 rounded-xl">
-              No character loaded from Persona Folio (/folio).
+              No operative loaded from Persona Folio (/folio).
             </div>
+          ) : (
+            personaRoster
+              .filter((p: any) => matchesSearch(p.name || p['char-name'] || ''))
+              .map((p: any, idx: number) => {
+                const pId = p['character-doc-id'] || p.id || `hero-${idx}`;
+                const pName = p.name || p['char-name'] || 'Operative';
+                const pSpecies = p.species || p['char-species'] || 'Human';
+                const pArchetype = p.archetype || p['char-archetype'] || 'Operator';
+                const isSyn = String(pSpecies).toLowerCase().includes('synthetic');
+                const vit = p.vitality ?? p.base_vitality ?? 30;
+                const hp = p.health ?? p['hit-points']?.max ?? 30;
+                const struct = p.structure?.max ?? p.base_structure ?? 60;
+                const dr = p['armor-dr']?.kinetic ?? p.armor_dr ?? 8;
+                const img = p.portrait_url || p.image_url || p.avatar;
+
+                const sub = isSyn 
+                  ? `${pSpecies} • ${pArchetype} • ${struct} SP`
+                  : `${pSpecies} • ${pArchetype} • ${vit} VP / ${hp} HP`;
+
+                return (
+                  <CatalogNodeItem
+                    key={pId}
+                    id={pId}
+                    title={pName}
+                    subtitle={sub}
+                    badge="HERO"
+                    icon={<Users size={14} />}
+                    iconColor="text-emerald-400"
+                    dragPayload={{
+                      type: 'hero',
+                      id: pId,
+                      name: pName,
+                      vitality: vit,
+                      health: hp,
+                      structure: struct,
+                      dr,
+                      species: pSpecies,
+                      archetype: pArchetype,
+                      imageUrl: img,
+                      isPersona: true
+                    }}
+                    onSpawn={() => handleDeployToken({
+                      id: pId,
+                      name: pName,
+                      vitality: vit,
+                      health: hp,
+                      structure: struct,
+                      dr,
+                      species: pSpecies,
+                      archetype: pArchetype,
+                      imageUrl: img,
+                      isPersona: true
+                    })}
+                    isVisibleToPlayers={true}
+                  />
+                );
+              })
           )}
         </div>
       )}
@@ -286,7 +399,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
           <CatalogNodeItem
             id="enc-security-squad"
             title="Synthetix Guard Drone"
-            subtitle="Adversary &bull; 25 HP &bull; Armor DR 6 &bull; TL 4"
+            subtitle="Adversary &bull; 45 SP &bull; Armor DR 6 &bull; TL 4"
             badge="NPC"
             icon={<Swords size={14} />}
             iconColor="text-red-400"
@@ -294,17 +407,17 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
               type: 'npc',
               id: 'drone-guard',
               name: 'Synthetix Guard Drone',
-              hp: 25,
+              structure: 45,
               dr: 6,
-              species: 'Automaton',
+              species: 'Synthetic',
               archetype: 'Security'
             }}
             onSpawn={() => handleDeployToken({
               id: 'drone-guard',
               name: 'Synthetix Guard Drone',
-              hp: 25,
+              structure: 45,
               dr: 6,
-              species: 'Automaton',
+              species: 'Synthetic',
               archetype: 'Security'
             })}
             isVisibleToPlayers={false}
@@ -313,7 +426,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
           <CatalogNodeItem
             id="enc-elite-vanguard"
             title="Centauri Vanguard Mech"
-            subtitle="Heavy Chassis &bull; 80 HP &bull; Armor DR 16 &bull; TL 6"
+            subtitle="Heavy Chassis &bull; 120 SP &bull; Armor DR 16 &bull; TL 6"
             badge="BOSS"
             icon={<Shield size={14} />}
             iconColor="text-purple-400"
@@ -321,7 +434,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
               type: 'npc',
               id: 'centauri-mech',
               name: 'Centauri Vanguard Mech',
-              hp: 80,
+              structure: 120,
               dr: 16,
               species: 'Mecha',
               archetype: 'Assault'
@@ -329,7 +442,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
             onSpawn={() => handleDeployToken({
               id: 'centauri-mech',
               name: 'Centauri Vanguard Mech',
-              hp: 80,
+              structure: 120,
               dr: 16,
               species: 'Mecha',
               archetype: 'Assault'
@@ -420,7 +533,7 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
           <CatalogNodeItem
             id="arm-carbine"
             title="Centauri Plasma Carbine"
-            subtitle="Weapon &bull; 2 AP &bull; 2d10+4 Thermal &bull; Range: Med"
+            subtitle="Weapon &bull; Longarms &bull; 2d10+4 Thermal &bull; Range: Med"
             badge="WEAPON"
             icon={<Package size={14} />}
             iconColor="text-indigo-400"
@@ -448,6 +561,125 @@ export const CatalogOutliner: React.FC<CatalogOutlinerProps> = ({
             }}
             isVisibleToPlayers={true}
           />
+        </div>
+      )}
+
+      {/* ===================================================================== */}
+      {/* 8. ASSETS & MEDIA LIBRARY TAXONOMY                                    */}
+      {/* ===================================================================== */}
+      {activeCategory === 'assets' && (
+        <div className="space-y-2">
+          <div className="flex items-center justify-between px-1">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-slate-500">
+              Media & Custom Assets
+            </span>
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              className="px-2 py-1 rounded bg-teal-950/80 hover:bg-teal-900 border border-teal-500/50 text-teal-300 font-mono text-[10px] font-bold transition-all cursor-pointer flex items-center gap-1 shadow-sm"
+              title="Upload PNG, JPG, WEBP, or SVG images from local disk"
+            >
+              <Upload size={11} /> Upload Asset
+            </button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              multiple
+              className="hidden"
+              onChange={handleFileUpload}
+            />
+          </div>
+
+          {/* Quick Drop Zone Hint */}
+          <div className="p-2 text-center rounded-lg border border-dashed border-teal-500/30 bg-teal-950/20 text-[10px] text-teal-300/80 font-mono">
+            Drop images directly onto The Stage or upload here.
+          </div>
+
+          {/* Asset List */}
+          {customAssets.length === 0 ? (
+            <div className="p-4 text-center text-xs font-mono text-slate-500 border border-dashed border-slate-800 rounded-xl space-y-1">
+              <FolderOpen size={20} className="mx-auto text-slate-600 mb-1" />
+              <div>No custom media uploaded yet.</div>
+              <p className="text-[10px] text-slate-600">
+                Click [Upload Asset] above to import battlemaps, tokens, and props.
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-1.5">
+              {customAssets
+                .filter(a => matchesSearch(a.name))
+                .map(asset => (
+                  <div
+                    key={asset.id}
+                    draggable
+                    onDragStart={(e) => {
+                      e.dataTransfer.setData('application/json', JSON.stringify({
+                        id: asset.id,
+                        name: asset.name,
+                        imageUrl: asset.url,
+                        hp: 30,
+                        vitality: 30,
+                        health: 30,
+                        dr: 6
+                      }));
+                      e.dataTransfer.effectAllowed = 'copy';
+                    }}
+                    className="p-2 rounded-xl bg-slate-950 border border-slate-800 hover:border-teal-500/50 transition-all flex items-center justify-between gap-2 group cursor-grab active:cursor-grabbing"
+                  >
+                    <div className="flex items-center gap-2 min-w-0">
+                      <img 
+                        src={asset.url} 
+                        alt={asset.name} 
+                        className="w-8 h-8 rounded-lg object-cover border border-slate-700 shrink-0 bg-slate-900" 
+                      />
+                      <div className="truncate">
+                        <div className="font-bold text-slate-200 truncate text-[11px] font-mono">
+                          {asset.name}
+                        </div>
+                        <div className="text-[9px] text-slate-500 font-mono">
+                          Uploaded {asset.date}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-1 shrink-0">
+                      <button
+                        type="button"
+                        onClick={() => handleDeployToken({
+                          id: asset.id,
+                          name: asset.name,
+                          imageUrl: asset.url,
+                          vitality: 30,
+                          health: 30,
+                          dr: 6
+                        })}
+                        className="px-1.5 py-0.5 rounded bg-slate-900 hover:bg-slate-800 text-teal-300 border border-teal-500/30 text-[9.5px] font-mono font-bold transition-colors cursor-pointer"
+                        title="Spawn as token onto Stage"
+                      >
+                        + Token
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleSetMapBackground(asset.url, asset.name)}
+                        className="px-1.5 py-0.5 rounded bg-slate-900 hover:bg-slate-800 text-cyan-300 border border-cyan-500/30 text-[9.5px] font-mono font-bold transition-colors cursor-pointer"
+                        title="Set as active battlemap background"
+                      >
+                        Set Map
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteAsset(asset.id)}
+                        className="p-1 rounded text-slate-500 hover:text-red-400 hover:bg-red-950/40 transition-colors cursor-pointer"
+                        title="Delete asset"
+                      >
+                        <Trash2 size={11} />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+            </div>
+          )}
         </div>
       )}
     </div>

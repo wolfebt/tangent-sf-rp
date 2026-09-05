@@ -1,0 +1,13 @@
+ADE
+we have lost all of the gems for various selections, mood, genre, pov, theme, etc (from the aime app)
+
+any interaction with either ai should have a status spinner / thinking notification while working
+
+no activity when trying to enter an action in the decision gate
+
+integrate the control panel components into the scenarios section, we dont need this page one consolidated
+
+integrate the manuscript studio into the scenerio section as a tabbed and connected page.
+
+for the ADE we will need a project file to keep all information and components of the development in an md file to be a source of truth for the ai reference
+

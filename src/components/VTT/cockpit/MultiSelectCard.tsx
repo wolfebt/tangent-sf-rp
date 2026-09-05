@@ -63,7 +63,13 @@ export const MultiSelectCard: React.FC<MultiSelectCardProps> = ({
   // Mass Heal
   const handleApplyBatchHeal = () => {
     selectedIds.forEach(id => {
-      useEngineStore.getState().healHP(id, batchAmount);
+      const t = tokens.find(tok => tok.id === id);
+      if (t?.is_synthetic) {
+        useEngineStore.getState().healStructure(id, batchAmount);
+      } else {
+        useEngineStore.getState().healVitality(id, batchAmount);
+        useEngineStore.getState().healHealth(id, batchAmount);
+      }
     });
     AudioService.playTerminalBeep();
   };
@@ -130,7 +136,15 @@ export const MultiSelectCard: React.FC<MultiSelectCardProps> = ({
                 <span className="truncate font-bold">{t.name || t.id}</span>
               </div>
               <div className="flex items-center gap-2 text-[10px] shrink-0 text-slate-400">
-                <span>{t.current_hp} / {t.base_hp} HP</span>
+                {t.is_synthetic ? (
+                  <span className="text-amber-400">{t.current_structure ?? t.base_structure ?? 60} SP</span>
+                ) : (
+                  <span>
+                    <span className="text-cyan-400">{t.current_vitality ?? t.base_vitality ?? 30} VP</span>
+                    <span className="mx-1 text-slate-600">/</span>
+                    <span className="text-rose-400">{t.current_health ?? t.current_hp} HP</span>
+                  </span>
+                )}
                 <span>DR {t.armor_dr}</span>
               </div>
             </div>

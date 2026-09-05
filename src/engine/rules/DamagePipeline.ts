@@ -22,16 +22,19 @@ export interface DamagePayload {
   isTargetDefenseless?: boolean;
   attackMargin?: number;
   defenselessBonusDamage?: number;
+  isLethal?: boolean; // false for non-lethal attacks (e.g. subdual, stun, pummeling)
 }
 
 export interface DamageResult {
   rawDamage: number;
   defenselessBonusDamage: number;
   effectiveDR: number;
-  conModSoak: number;
+  conModSoak: number; // Retained for compatibility (Stamina Natural DR soak)
+  staminaDRSoak?: number;
   netDamage: number;
   vitalityDamage: number;
   healthDamage: number;
+  structureDamage?: number;
   appliedStatuses: string[];
   requiresStaminaCheck: boolean;
   staminaCheckDC: number;
@@ -52,8 +55,8 @@ export class DamagePipeline {
     payload: DamagePayload,
     target: FusedToken,
     activeArmorLayers: number[] = [],
-    targetConMod: number = 0,
-    targetConScore: number = 10,
+    targetStaminaMod: number = 0,
+    targetStaminaScore: number = 0,
     currentStabilityPoints?: number
   ): DamageResult {
     const statuses: string[] = [];
@@ -86,20 +89,65 @@ export class DamagePipeline {
     // 3. Apply Armor Penetration (AP cannot reduce DR below 0)
     const effectiveDR = Math.max(0, highestDR - (payload.armorPenetration || 0));
 
-    // 4. Calculate Net Damage after Armor DR AND target Constitution modifier
-    // Formula: (Damage) - (Target Armor DR + Target CON Mod) = Total Damage
-    const conModSoak = Math.max(0, targetConMod);
-    const totalMitigation = effectiveDR + conModSoak;
-    const netDamage = Math.max(0, totalRawDamage - totalMitigation);
+    // 4. Canonical Damage Soak per 3.00 COMBAT.md:
+    // "Armor Damage Reduction (DR) reduces damage first. Any remaining damage that penetrates armor
+    // is then reduced by the character's natural Stamina DR, down to a minimum of 1 point (if armor absorbs
+    // the entire blow, damage is 0)."
+    const penetratingArmor = Math.max(0, totalRawDamage - effectiveDR);
+    let staminaNaturalSoak = 0;
+    let netDamage = 0;
 
-    // 5. Vitality vs Health Damage Routing
+    const naturalDR = Math.max(0, target.stamina_dr ?? targetStaminaMod);
+
+    if (penetratingArmor > 0) {
+      netDamage = Math.max(1, penetratingArmor - naturalDR);
+      staminaNaturalSoak = penetratingArmor - netDamage;
+    } else {
+      netDamage = 0;
+      staminaNaturalSoak = 0;
+    }
+
+    const conModSoak = staminaNaturalSoak;
+
+    // 5. Vitality vs Health vs Structure Damage Routing
     let vitalityDamage = 0;
-    let healthDamage = netDamage;
+    let healthDamage = 0;
+    let structureDamage = 0;
 
-    if (dmgType === 'concussive' || dmgType === 'impact') {
-      // Concussive damage is divided equally between Vitality and Health if target attempts to reduce damage
+    const isSynthetic = Boolean(
+      target.is_synthetic ||
+      target.species?.toLowerCase().includes('synthetic') ||
+      target.species?.toLowerCase().includes('automaton') ||
+      target.species?.toLowerCase().includes('mecha') ||
+      target.species?.toLowerCase().includes('construct')
+    );
+
+    const isLethal = payload.isLethal !== false;
+
+    if (isSynthetic) {
+      // Synthetics/Constructs use Structure; immune to non-lethal damage
+      if (isLethal) {
+        structureDamage = netDamage;
+        healthDamage = netDamage;
+      }
+    } else if (dmgType === 'concussive' || dmgType === 'impact') {
+      // Concussive damage is divided equally between Vitality and Health
       vitalityDamage = Math.floor(netDamage / 2);
       healthDamage = netDamage - vitalityDamage;
+    } else if (!isLethal) {
+      // Non-lethal damage applies to Vitality first
+      const curVit = target.current_vitality ?? target.base_vitality ?? 30;
+      if (netDamage <= curVit) {
+        vitalityDamage = netDamage;
+        healthDamage = 0;
+      } else {
+        vitalityDamage = curVit;
+        healthDamage = netDamage - curVit; // Excess spills over as lethal damage
+      }
+    } else {
+      // Lethal damage applies directly to Health
+      healthDamage = netDamage;
+      vitalityDamage = 0;
     }
 
     // 6. Limb Damage & Trauma Threshold Evaluation
@@ -107,10 +155,10 @@ export class DamagePipeline {
     let staminaCheckDC = 0;
     let limbStatus: 'normal' | 'disabled' | 'destroyed' = 'normal';
 
-    const maxHp = target.base_hp || 30;
+    const maxHp = target.base_health || target.base_hp || 30;
     if (payload.isCalledShot && payload.targetLocation && maxHp > 0) {
       // Synthetic limbs take 50% more damage before being Disabled or Destroyed
-      const synthMultiplier = payload.isSyntheticLimb ? 1.5 : 1.0;
+      const synthMultiplier = payload.isSyntheticLimb || isSynthetic ? 1.5 : 1.0;
       const disabledThreshold = maxHp * this.DISABLED_LIMB_THRESHOLD * synthMultiplier;
       const destroyedThreshold = maxHp * this.DESTROYED_LIMB_THRESHOLD * synthMultiplier;
 
@@ -125,7 +173,7 @@ export class DamagePipeline {
         statuses.push(`status_disabled_${payload.targetLocation}`);
         
         // Biological limbs get a Stamina check (DC = 10 + damage taken) to keep using it
-        if (!payload.isSyntheticLimb) {
+        if (!payload.isSyntheticLimb && !isSynthetic) {
           requiresStaminaCheck = true;
           staminaCheckDC = 10 + netDamage;
         }
@@ -135,15 +183,18 @@ export class DamagePipeline {
       statuses.push('status_trauma_internal');
     }
 
-    // 7. Mortality State (0 Hit Points) Evaluation
-    // Per 3.00 COMBAT.md: Reaching 0 HP does NOT mean instant death!
+    // 7. Mortality State (0 Hit Points / Health) Evaluation
+    // Per 3.00 COMBAT.md: Reaching 0 Health does NOT mean instant death!
     // Target falls Prone, is Incapacitated & enters Bleeding Out (1 Stability Damage/turn).
-    // Stability Points = Constitution Score + 5.
+    // Stability Points = Stamina / Constitution Score + 5.
     // Death occurs ONLY when Stability Points reach 0!
-    const remainingHp = (target.current_hp || maxHp) - healthDamage;
+    const currentHealth = isSynthetic 
+      ? (target.current_structure ?? target.current_hp ?? 45)
+      : (target.current_health ?? target.current_hp ?? maxHp);
+    const remainingHp = currentHealth - healthDamage;
     let entersMortalityState = false;
     let isDead = false;
-    const maxStability = Math.max(5, targetConScore + 5);
+    const maxStability = Math.max(5, targetStaminaScore + 5);
     let stabilityPointsRemaining = currentStabilityPoints !== undefined ? currentStabilityPoints : maxStability;
 
     if (remainingHp <= 0) {
@@ -165,9 +216,11 @@ export class DamagePipeline {
       defenselessBonusDamage: defenselessBonus,
       effectiveDR,
       conModSoak,
+      staminaDRSoak: staminaNaturalSoak,
       netDamage,
       vitalityDamage,
       healthDamage,
+      structureDamage,
       appliedStatuses: Array.from(new Set(statuses)),
       requiresStaminaCheck,
       staminaCheckDC,

@@ -12,7 +12,8 @@ import {
   Swords, 
   Shield, 
   Scroll, 
-  Package 
+  Package,
+  FolderOpen 
 } from 'lucide-react';
 import { useUILayoutStore } from '../store/uiLayoutStore';
 import type { CatalogCategory } from '../store/uiLayoutStore';
@@ -83,6 +84,13 @@ export const ModuleCatalogRail: React.FC<ModuleCatalogRailProps> = ({
       icon: <Package size={18} />, 
       color: 'text-indigo-400',
       badgeCount: categoryCounts.armory
+    },
+    {
+      id: 'assets',
+      label: 'Assets & Media Library',
+      icon: <FolderOpen size={18} />,
+      color: 'text-teal-400',
+      badgeCount: categoryCounts.assets
     }
   ];
 

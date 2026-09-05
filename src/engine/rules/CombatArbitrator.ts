@@ -35,6 +35,8 @@ export interface ActionEconomyTier {
   actionPenalties: number[]; // e.g. [0, -5, -10]
 }
 
+export type SkillActionTier = ActionEconomyTier;
+
 export const ACTION_ECONOMY_TIERS: ActionEconomyTier[] = [
   { rankMin: 0, rankMax: 0, title: 'Untrained', actionsCount: 1, isFullRoundOnly: true, focusBonus: 0, actionPenalties: [0] },
   { rankMin: 1, rankMax: 5, title: 'Novice / Studied', actionsCount: 1, isFullRoundOnly: false, focusBonus: 2, actionPenalties: [0] },
@@ -110,6 +112,19 @@ export class CombatArbitrator {
     if (attackIndex <= 0) return 0;
     const penaltySteps = [0, -5, -10, -15, -20, -25];
     return penaltySteps[attackIndex] !== undefined ? penaltySteps[attackIndex] : -25;
+  }
+
+  /**
+   * Calculates penalty for consecutive Active Defenses (Dodge/Parry/Block) in the same combat round.
+   * Per 3.00 COMBAT.md: Active defenses can be performed up to Defense Skill Rank actions per round.
+   * Reaction 0: 0 penalty
+   * Reaction 1: -5 penalty
+   * Reaction 2: -10 penalty
+   * Reaction 3: -15 penalty, etc.
+   */
+  public calculateDefensePenalty(reactionIndex: number): number {
+    if (reactionIndex <= 0) return 0;
+    return -5 * reactionIndex;
   }
 
   /**
@@ -280,6 +295,7 @@ export class CombatArbitrator {
       isFlanking?: boolean;
       hasHighGround?: boolean;
       isSneakAttack?: boolean;
+      isCalledShot?: boolean;
       specializationBonus?: number;
       invocationBonus?: number;
       isTargetDefenseless?: boolean;
@@ -296,6 +312,7 @@ export class CombatArbitrator {
     highGroundBonus: number;
     flankingBonus: number;
     sneakAttackPenalty: number;
+    calledShotPenalty: number;
     advantageOnDamage: boolean;
     isTargetDefenseless: boolean;
     maxAimBonus: number;
@@ -317,8 +334,9 @@ export class CombatArbitrator {
     const highGroundBonus = options.hasHighGround ? 2 : 0;
     const flankingBonus = options.isFlanking ? 2 : 0;
     const sneakAttackPenalty = options.isSneakAttack ? -5 : 0;
+    const calledShotPenalty = options.isCalledShot ? -5 : 0;
 
-    const finalTarget = effectiveAttackSkill + mapPenalty + focusBonus + sizeMod + coverMod + rangeMod + aimBonus + chargeMod + highGroundBonus + flankingBonus + sneakAttackPenalty;
+    const finalTarget = effectiveAttackSkill + mapPenalty + focusBonus + sizeMod + coverMod + rangeMod + aimBonus + chargeMod + highGroundBonus + flankingBonus + sneakAttackPenalty + calledShotPenalty;
 
     return {
       finalTarget,
@@ -332,6 +350,7 @@ export class CombatArbitrator {
       highGroundBonus,
       flankingBonus,
       sneakAttackPenalty,
+      calledShotPenalty,
       advantageOnDamage: rangeConfig.advantageOnDamage || Boolean(options.isSneakAttack),
       isTargetDefenseless: Boolean(options.isTargetDefenseless),
       maxAimBonus
