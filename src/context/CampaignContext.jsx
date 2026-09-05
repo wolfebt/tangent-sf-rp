@@ -537,7 +537,7 @@ export const StoryProvider = ({ children }) => {
       window.history.replaceState({ path: cleanUrl }, '', cleanUrl);
     }
 
-    alert(`Successfully cloned "${source.projectName}" to your Story Foundry catalog!`);
+    alert(`Successfully cloned "${source.projectName}" to your ADE Studio catalog!`);
   }, [universeState, currentUser]);
 
   // Actual Cloud Persistence Worker

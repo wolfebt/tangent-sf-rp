@@ -542,8 +542,8 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                       >
                         <span className="text-purple-400">🎭</span>
                         <div>
-                          <div className="font-bold text-slate-200 text-[11px]">Story Foundry</div>
-                          <div className="text-[9px] text-slate-500">Campaigns &amp; Nodes</div>
+                          <div className="font-bold text-slate-200 text-[11px]">ADE Studio</div>
+                          <div className="text-[9px] text-slate-500">Adventure Development &amp; Scenarios</div>
                         </div>
                       </button>
 

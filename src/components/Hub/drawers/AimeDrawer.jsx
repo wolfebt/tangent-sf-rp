@@ -27,7 +27,7 @@ export const AimeDrawer = ({ onClose, onOpenDrawer }) => {
         <div>
           <div className="flex items-center gap-2">
             <span className="px-2 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/30 text-[10px] font-mono text-cyan-400 font-bold uppercase">
-              STORY FOUNDRY
+              ADE STUDIO
             </span>
             <span className="text-slate-600 font-mono">•</span>
             <span className="text-slate-400 font-mono text-xs">ARTIFICIAL INTELLECT MASTER ENTITY</span>

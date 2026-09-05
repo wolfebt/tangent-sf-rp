@@ -33,7 +33,7 @@ export const GUIDE_TABS = [
   { id: 'folio', label: 'Persona Folio & Roster', icon: Users, badge: 'Hero Manager', color: '#06b6d4' },
   { id: 'dbm', label: 'Omnicortex DBM', icon: Database, badge: 'Rules Compendium', color: '#10b981' },
   { id: 'codex', label: 'Codex & Economatrix', icon: Sparkles, badge: 'Matrix Suite', color: '#f59e0b' },
-  { id: 'story', label: 'Story Foundry & Weaver', icon: Layers, badge: 'Narrative Engine', color: '#a855f7' },
+  { id: 'story', label: 'ADE Studio & Scenarios', icon: Layers, badge: 'Adventure Engine', color: '#a855f7' },
   { id: 'maps', label: 'Tactical Map Maker & VTT', icon: Map, badge: 'Virtual Tabletop', color: '#38bdf8' },
   { id: 'aime', label: 'AIME & Element Forge', icon: Cpu, badge: 'AI & Lore Forge', color: '#ec4899' },
   { id: 'comms', label: 'CommLink Relay', icon: Radio, badge: 'Comms & Dispatch', color: '#3b82f6' },
@@ -272,7 +272,7 @@ const HubGuideSection = ({ onCopy, copiedSnippet }) => (
           <Activity size={15} /> Active Campaign & Squad Operations
         </h4>
         <p className="text-xs text-slate-300">
-          The <strong className="text-white">CampaignOpsWidget</strong> displays the active campaign title, scenario hierarchy count, sector map count, and direct link to Story Foundry. The <strong className="text-white">GameSquadsWidget</strong> tracks multiplayer parties, active squads, invite join codes (<code className="text-amber-300 font-mono">?join=GRP-XXXXXX</code>), and squad roster synchronization.
+          The <strong className="text-white">CampaignOpsWidget</strong> displays the active campaign title, scenario hierarchy count, sector map count, and direct link to ADE Studio. The <strong className="text-white">GameSquadsWidget</strong> tracks multiplayer parties, active squads, invite join codes (<code className="text-amber-300 font-mono">?join=GRP-XXXXXX</code>), and squad roster synchronization.
         </p>
       </div>
 
@@ -310,7 +310,7 @@ const HubGuideSection = ({ onCopy, copiedSnippet }) => (
         Persistent Global HUD (52px Ergonomics)
       </h3>
       <p className="text-slate-300 text-xs leading-relaxed">
-        The standardized 52px HUD persists across all views, seamlessly bridging navigation between Operations Hub (<code className="text-cyan-300 font-mono">/</code>), Persona Folio (<code className="text-cyan-300 font-mono">/folio</code>), Compendium Suite (<code className="text-emerald-300 font-mono">/compendium</code>), Omnicortex DBM (<code className="text-teal-300 font-mono">/dbm</code>), Codex (<code className="text-amber-300 font-mono">/codex</code>), Tactical Stage VTT (<code className="text-sky-300 font-mono">/stage</code> / <code className="text-sky-300 font-mono">/vtt</code>), Story Foundry (<code className="text-purple-300 font-mono">/foundry</code>), and CommLink (<code className="text-blue-300 font-mono">/comms</code>).
+        The standardized 52px HUD persists across all views, seamlessly bridging navigation between Operations Hub (<code className="text-cyan-300 font-mono">/</code>), Persona Folio (<code className="text-cyan-300 font-mono">/folio</code>), Compendium Suite (<code className="text-emerald-300 font-mono">/compendium</code>), Omnicortex DBM (<code className="text-teal-300 font-mono">/dbm</code>), Codex (<code className="text-amber-300 font-mono">/codex</code>), Tactical Stage VTT (<code className="text-sky-300 font-mono">/stage</code> / <code className="text-sky-300 font-mono">/vtt</code>), ADE Studio (<code className="text-purple-300 font-mono">/foundry</code> or <code className="text-purple-300 font-mono">/ade</code>), and CommLink (<code className="text-blue-300 font-mono">/comms</code>).
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
         <div className="bg-slate-950 p-3 rounded-lg border border-slate-800">
@@ -779,17 +779,17 @@ const CodexGuideSection = ({ onCopy, copiedSnippet }) => (
 );
 
 /* =========================================================================
-   5. STORY FOUNDRY & STORY WEAVER GUIDE
+   5. ADE STUDIO & SCENARIOS GUIDE
    ========================================================================= */
 const StoryFoundryGuideSection = () => (
   <div className="space-y-6">
     <div className="bg-slate-900/60 border border-purple-500/30 rounded-2xl p-5 sm:p-6 space-y-3">
       <h3 className="text-base font-bold text-purple-300 uppercase tracking-wide font-mono flex items-center gap-2">
         <Layers size={18} />
-        5. Story Foundry & Story Weaver Scenario Engine
+        5. ADE Studio &amp; Scenario Engine
       </h3>
       <p>
-        The <strong className="text-white">Story Foundry (`/foundry`)</strong> is an integrated campaign builder combining hierarchical tree scenario management, rich text element editing, relational links, and offline-first cloud syncing with automatic conflict resolution.
+        The <strong className="text-white">ADE Studio (`/foundry` or `/ade`)</strong> is an integrated adventure and campaign builder combining hierarchical tree scenario management, rich text element editing, relational links, and offline-first cloud syncing with automatic conflict resolution.
       </p>
     </div>
 
@@ -962,7 +962,7 @@ const AimeGuideSection = () => (
           Create schema-driven world lore for Characters, Locations, Factions, Relics, and Historical Events with custom attributes and automated Omnicortex rules cross-referencing.
         </p>
         <p className="text-slate-400 text-[11px]">
-          <strong>Movable AIME Co-Pilot:</strong> Click ✨ AIME Co-Pilot in Story Foundry to open a floating, draggable chat assistant that checks rules with Bastion AI and executes <code className="text-amber-300 font-mono">/roll 2d10+4</code> directly.
+          <strong>Movable AIME Co-Pilot:</strong> Click ✨ AIME Co-Pilot in ADE Studio to open a floating, draggable chat assistant that checks rules with Bastion AI and executes <code className="text-amber-300 font-mono">/roll 2d10+4</code> directly.
         </p>
       </div>
     </div>

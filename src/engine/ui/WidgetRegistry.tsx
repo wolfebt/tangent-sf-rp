@@ -190,14 +190,14 @@ class UniversalWidgetRegistry {
       minSize: { minW: 4, minH: 6 }
     });
 
-    // 10. Story Foundry Guide
+    // 10. ADE Studio Guide
     this.register({
       id: 'foundry_guide',
-      title: 'Story Foundry System Guide',
+      title: 'ADE Studio System Guide',
       description: 'Interactive architectural manual, system mechanics, and quick reference.',
       category: 'story',
       icon: HelpCircle,
-      component: wrapLazyWidget(LazyStoryFoundryGuide, 'foundry_guide', 'Story Foundry Guide'),
+      component: wrapLazyWidget(LazyStoryFoundryGuide, 'foundry_guide', 'ADE Studio Guide'),
       defaultSize: { w: 6, h: 9 },
       minSize: { minW: 4, minH: 6 }
     });

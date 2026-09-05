@@ -108,6 +108,10 @@ export function App() {
                             <Route path="/foundry/spectator/:mapId" element={<PlayerSpectatorView />} />
                             <Route path="/spectator/:mapId" element={<PlayerSpectatorView />} />
                             <Route path="/foundry/*" element={<FoundryApp />} />
+                            <Route path="/ade/*" element={<FoundryApp />} />
+                            <Route path="/ade" element={<FoundryApp />} />
+                            <Route path="/ade-studio/*" element={<FoundryApp />} />
+                            <Route path="/ade-studio" element={<FoundryApp />} />
                             <Route path="/story-foundry" element={<FoundryApp />} />
                             <Route path="/campaign-builder" element={<FoundryApp />} />
                           </Routes>

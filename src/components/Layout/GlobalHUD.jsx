@@ -207,7 +207,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
     if (path.includes('/map-maker')) return 'TACTICAL MAPS & VTT';
     if (path.includes('/aime')) return 'AIME CREATIVE ENGINE';
     if (path.includes('/vtt-options') || path.startsWith('/vtt-ops')) return 'VTT OPERATIONS';
-    if (path.startsWith('/foundry') || path.startsWith('/campaign-builder')) return 'STORY FOUNDRY';
+    if (path.startsWith('/foundry') || path.startsWith('/campaign-builder') || path.startsWith('/ade')) return 'ADE STUDIO';
     return null;
   };
 
@@ -294,7 +294,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
               {(isDBM || isCodex) && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block shadow-[0_0_6px_rgba(52,211,153,0.8)]" />}
             </button>
 
-            {/* 4. FOUNDRY Button (Opens to Catalog/Dashboard) */}
+            {/* 4. ADE STUDIO Button (Opens to Catalog/Dashboard) */}
             <button
               type="button"
               onClick={() => {
@@ -306,12 +306,12 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                   ? 'bg-purple-950/70 border-purple-400 text-purple-200'
                   : 'bg-slate-950/60 hover:bg-slate-900/90 border-slate-700/80 hover:border-purple-400 text-slate-200 hover:text-purple-300'
               }`}
-              title="Open Story Foundry Catalog & VTT Dashboard (/foundry)"
+              title="Open ADE Studio Catalog & VTT Dashboard (/foundry)"
             >
               <div className={`p-0.5 rounded border shrink-0 ${isFoundry ? 'bg-purple-500/25 border-purple-400/60 text-purple-300' : 'bg-purple-500/10 border-purple-500/30 text-purple-400'}`}>
                 <Layers size={12} className="sm:w-3.5 sm:h-3.5" />
               </div>
-              <span>FOUNDRY</span>
+              <span>ADE STUDIO</span>
               {isFoundry && <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse inline-block shadow-[0_0_6px_rgba(168,85,247,0.8)]" />}
             </button>
 
@@ -617,7 +617,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                       className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-cyan-300 uppercase font-bold rounded flex items-center justify-between"
                     >
                       <span>Export Story Element</span>
-                      <span className="text-[10px] text-cyan-400 font-mono">Foundry</span>
+                      <span className="text-[10px] text-cyan-400 font-mono">ADE Studio</span>
                     </button>
                   </div>
                 )}
@@ -870,7 +870,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
             </div>
           )}
 
-          {/* Dynamic Controls: STORY FOUNDRY */}
+          {/* Dynamic Controls: ADE STUDIO */}
           {isFoundry && (
             <div className="flex items-center gap-1 sm:gap-1.5">
               <button
@@ -879,7 +879,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 className={`px-2 py-1 rounded-md text-[11px] font-mono font-bold uppercase transition-colors flex items-center gap-1 cyan-shadow-thin ${
                   location.pathname === '/foundry' ? 'bg-purple-600 text-white' : 'bg-slate-900/80 text-slate-300 hover:text-purple-300 hover:bg-slate-800 border border-slate-700/60'
                 }`}
-                title="Foundry Catalog & Dashboard"
+                title="ADE Studio Catalog & Dashboard"
               >
                 <span>📊</span>
                 <span className="hidden sm:inline">Catalog</span>
@@ -1212,9 +1212,9 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                   </button>
                 </div>
 
-                {/* 3. Story Foundry */}
+                {/* 3. ADE Studio */}
                 <div className="space-y-1 pt-2 border-t border-slate-800/80">
-                  <span className="text-[9px] uppercase tracking-widest text-purple-400 font-bold block px-1">Story Foundry</span>
+                  <span className="text-[9px] uppercase tracking-widest text-purple-400 font-bold block px-1">ADE Studio</span>
                   <div className="grid grid-cols-3 gap-1.5">
                     <button
                       type="button"

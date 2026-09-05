@@ -190,8 +190,8 @@ export const TopNavBar = ({
         onClick={() => onSelectDrawer('omnicortex')}
       />
 
-      {/* ── FOUNDRY block (purple) ── */}
-      <GroupBlock title="STORY FOUNDRY" color="purple" isAnyActive={foundryAnyActive}>
+      {/* ── ADE STUDIO block (purple) ── */}
+      <GroupBlock title="ADE STUDIO" color="purple" isAnyActive={foundryAnyActive}>
         <SubPill
           label="VTT"
           icon={Tv2}

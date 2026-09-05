@@ -298,7 +298,7 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
             </div>
             <div>
               <h2 className="text-sm sm:text-base font-bold uppercase tracking-wider text-cyan-300">
-                Story Foundry Launcher & Catalog
+                ADE Studio Launcher & Catalog
               </h2>
               <p className="text-[10px] sm:text-[11px] text-slate-400 font-mono">
                 Manage story project files & standalone story element libraries

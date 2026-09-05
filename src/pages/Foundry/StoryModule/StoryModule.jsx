@@ -1,21 +1,13 @@
 /**
  * @file StoryModule.jsx
  * @description Adventure Development Environment (ADE) - Master Unified Story & Narrative Suite.
- * Consolidates the Story Drafting Canvas, full-screen Element Editor & Forge,
- * Granular Interactive Story Mode, OSR Two-Page Control Panel Studio, and Fiction Manuscript Studio.
+ * Uses ADETopToolbar with a 3-zone glass-cockpit layout aligned with Map Maker and The Stage VTT.
+ * Consolidates Scenario Drafting, full-screen Element Editor & Forge, Granular Interactive Story Mode,
+ * OSR Two-Page Control Panel, and Fiction Manuscript Studio.
  */
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { 
-  BookOpen, 
-  Box, 
-  LayoutGrid, 
-  Feather, 
-  FolderOpen,
-  Sparkles,
-  Printer
-} from 'lucide-react';
 import ScenarioPane from './ScenarioPane';
 import ElementForge from '../ElementForge/ElementForge';
 import ControlPanelStudio from './workspaces/ControlPanelStudio';
@@ -23,28 +15,52 @@ import ManuscriptStudio from './workspaces/ManuscriptStudio';
 import InteractiveStoryStudio from './workspaces/InteractiveStoryStudio';
 import AdventurePrintModal from './workspaces/AdventurePrintModal';
 import FoundryLauncherModal from '../../../components/StoryFoundry/FoundryLauncherModal';
+import { StoryFoundryGuideModal } from '../../../components/StoryFoundry/StoryFoundryGuideModal';
+import { UserSettingsModal } from '../../../components/UserSettingsModal';
+import AIMEChatBox from '../AIME/AIMEChatBox';
+import InSituElementDrawer from './InSituElementDrawer';
+import EditElementModal from '../ElementForge/EditElementModal';
 import AIME from '../AIME/AIME';
 import GuidanceGemsModal from './GuidanceGemsModal';
 import ScratchbookModal from './ScratchbookModal';
+import ADETopToolbar from './ADETopToolbar';
 import { useStory } from '../../../context/CampaignContext';
+import { useAuth } from '../../../context/AuthContext';
+import { exportElementMarkdown, exportElementPDF } from './exportUtils';
+import { generateScratchbookMarkdown } from './scratchbookService';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function StoryModule({ defaultView = 'scenarios' }) {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const storyIdParam = searchParams.get('storyId');
   const viewParam = searchParams.get('view');
-  const { openStory, universeState, elementsCatalog } = useStory();
+  const { openStory, universeState, elementsCatalog, getActiveGemsText, updateSavedElement, deleteSavedElement } = useStory();
+  const { currentUser, userHandle } = useAuth();
 
-  // Mode switcher state: 'scenarios' | 'elements' | 'interactive' | 'control-panel' | 'manuscript'
+  // Mode switcher state: 'scenarios' | 'elements' | 'interactive' | 'aime' | 'control-panel' | 'manuscript'
   const [activeView, setActiveView] = useState(() => {
     return viewParam || defaultView || 'scenarios';
   });
 
-  // Story Project catalog modal & Print modal
+  // Scenario workspace tab: 'canvas' | 'control-panel' | 'manuscript'
+  const [scenarioWorkspaceTab, setScenarioWorkspaceTab] = useState('canvas');
+  const [isTreeExpanded, setIsTreeExpanded] = useState(true);
+
+  // Modals state
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
   const [isPrintModalOpen, setIsPrintModalOpen] = useState(false);
   const [isGemsOpen, setIsGemsOpen] = useState(false);
   const [isScratchbookOpen, setIsScratchbookOpen] = useState(false);
+  const [isGuideOpen, setIsGuideOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
+  // In-Situ Drawers
+  const [isAimeChatOpen, setIsAimeChatOpen] = useState(false);
+  const [isElementDrawerOpen, setIsElementDrawerOpen] = useState(false);
+  const [activeDrawerElementId, setActiveDrawerElementId] = useState(null);
+  const [isEditElementModalOpen, setIsEditElementModalOpen] = useState(false);
+  const [editingModalElement, setEditingModalElement] = useState(null);
 
   useEffect(() => {
     if (storyIdParam) {
@@ -90,139 +106,53 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
   }, [universeState]);
 
   return (
-    <div className="flex flex-col h-full w-full bg-[#0d1117] text-slate-100 overflow-hidden font-sans relative">
-      {/* ── CONSOLIDATED STUDIO & MODE NAVIGATION BAR ── */}
-      <nav className="h-10 px-4 bg-[#0a0d14] border-b border-slate-800/80 flex items-center justify-between gap-3 shrink-0 select-none z-30">
-        <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none font-mono text-xs">
-          {/* Brand Indicator */}
-          <div className="flex items-center gap-1.5 mr-2 font-mono shrink-0">
-            <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-            <span className="text-cyan-400 font-bold text-xs tracking-wider uppercase hidden xl:inline">
-              ADE
-            </span>
-          </div>
-
-          {/* View 1: Scenarios, Control Panel & Manuscript Canvas */}
-          <button
-            type="button"
-            onClick={() => handleSwitchView('scenarios')}
-            className={`px-3 py-1 rounded-lg font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
-              activeView === 'scenarios'
-                ? 'bg-cyan-950/80 text-cyan-300 border border-cyan-500/60 shadow-[0_0_10px_rgba(6,182,212,0.3)]'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
-            }`}
-            title="Consolidated Scenario Outline, OSR Control Panel Deck, & Connected Manuscript Studio"
-          >
-            <BookOpen size={13} className="text-cyan-400" />
-            <span>Scenarios</span>
-          </button>
-
-          {/* View 2: AIME Creative Studio */}
-          <button
-            type="button"
-            onClick={() => handleSwitchView('aime')}
-            className={`px-3 py-1 rounded-lg font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
-              activeView === 'aime'
-                ? 'bg-cyan-950/90 text-cyan-300 border border-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.4)]'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
-            }`}
-            title="AIME Creative Studio: 4-Stage Narrative Weaver, Outlining, & Prose Drafts"
-          >
-            <Sparkles size={13} className="text-amber-400 animate-pulse" />
-            <span>AIME Studio</span>
-          </button>
-
-          {/* View 3: Granular Interactive Story Studio */}
-          <button
-            type="button"
-            onClick={() => handleSwitchView('interactive')}
-            className={`px-3 py-1 rounded-lg font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
-              activeView === 'interactive'
-                ? 'bg-indigo-950/90 text-indigo-300 border border-indigo-400 shadow-[0_0_12px_rgba(99,102,241,0.4)]'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
-            }`}
-            title="Granular Interactive Story Mode with Gated 1-2 Paragraph AI Beats & Decision Gates"
-          >
-            <Feather size={13} className="text-indigo-400" />
-            <span>Interactive Story</span>
-          </button>
-
-          {/* View 4: Consolidated Element Editor & Forge */}
-          <button
-            type="button"
-            onClick={() => handleSwitchView('elements')}
-            className={`px-3 py-1 rounded-lg font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
-              activeView === 'elements'
-                ? 'bg-amber-950/80 text-amber-300 border border-amber-500/60 shadow-[0_0_10px_rgba(245,158,11,0.3)]'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
-            }`}
-            title="Consolidated Element Forge & Compendium Database"
-          >
-            <Box size={13} className="text-amber-400" />
-            <span>Element Editor</span>
-            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-300">
-              {elementsCatalog?.length || 0}
-            </span>
-          </button>
-        </div>
-
-        {/* Global Action Launchers */}
-        <div className="flex items-center gap-2 font-mono text-xs">
-          <button
-            type="button"
-            onClick={() => setIsGemsOpen(true)}
-            className="px-2.5 py-1 bg-amber-950/70 hover:bg-amber-900/80 text-amber-300 border border-amber-500/50 rounded-lg font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer"
-            title="Configure Guidance Gems (Mood, Genre, Tone, POV, etc.)"
-          >
-            <span>💎</span>
-            <span className="hidden md:inline">Gems</span>
-            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-300 font-mono">
-              {(universeState?.creativeState?.gems || []).length}
-            </span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setIsScratchbookOpen(true)}
-            className="px-2.5 py-1 bg-emerald-950/70 hover:bg-emerald-900/80 text-emerald-300 border border-emerald-500/50 rounded-lg font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer"
-            title="Open Project Scratchbook & Elements Used Document (.md)"
-          >
-            <span>📓</span>
-            <span className="hidden md:inline">Scratchbook</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setIsPrintModalOpen(true)}
-            className="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 text-cyan-300 hover:text-white border border-slate-700/80 rounded-lg font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer"
-            title="Print Fiction Book or OSR Adventure Module"
-          >
-            <Printer size={13} className="text-cyan-400" />
-            <span className="hidden md:inline">Print & Publish</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setIsCatalogOpen(true)}
-            className="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700/80 rounded-lg font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer"
-            title="Open Story Project Catalog & Roster"
-          >
-            <FolderOpen size={13} className="text-amber-400" />
-            <span className="hidden sm:inline">ADE Roster</span>
-          </button>
-        </div>
-      </nav>
+    <div className="flex flex-col h-full w-full bg-[#0d1117] text-slate-100 overflow-hidden font-sans relative select-none">
+      {/* ── UNIFIED 3-ZONE GLASS-COCKPIT ADE TOOLBAR ── */}
+      <ADETopToolbar
+        activeView={activeView}
+        onSwitchView={handleSwitchView}
+        isGemsOpen={isGemsOpen}
+        onToggleGems={setIsGemsOpen}
+        isScratchbookOpen={isScratchbookOpen}
+        onToggleScratchbook={setIsScratchbookOpen}
+        isPrintModalOpen={isPrintModalOpen}
+        onTogglePrintModal={setIsPrintModalOpen}
+        isCatalogOpen={isCatalogOpen}
+        onToggleCatalog={setIsCatalogOpen}
+        isGuideOpen={isGuideOpen}
+        onToggleGuide={setIsGuideOpen}
+        isSettingsOpen={isSettingsOpen}
+        onToggleSettings={setIsSettingsOpen}
+        isAimeChatOpen={isAimeChatOpen}
+        onToggleAimeChat={setIsAimeChatOpen}
+        isElementDrawerOpen={isElementDrawerOpen}
+        onToggleElementDrawer={setIsElementDrawerOpen}
+        scenarioWorkspaceTab={scenarioWorkspaceTab}
+        onSelectScenarioWorkspaceTab={setScenarioWorkspaceTab}
+        isTreeExpanded={isTreeExpanded}
+        onToggleTreeExpanded={() => setIsTreeExpanded(prev => !prev)}
+        activeNode={activeNode}
+        onExportMarkdown={() => exportElementMarkdown(activeNode, universeState)}
+        onExportPDF={() => exportElementPDF(activeNode, universeState, userHandle, currentUser)}
+      />
 
       {/* ── MAIN WORKSPACE VIEWPORT ── */}
-      <div className="flex-1 overflow-hidden relative">
+      <div className="flex-1 flex overflow-hidden relative">
         {/* VIEW 1: SCENARIOS & CANVAS */}
         {activeView === 'scenarios' && (
-          <ScenarioPane 
+          <ScenarioPane
             onOpenCatalog={() => setIsCatalogOpen(true)}
             onSwitchView={handleSwitchView}
             onSwitchTab={(tab) => {
               if (tab === 'map') navigate('/map-maker');
-            }} 
+            }}
+            scenarioWorkspaceTab={scenarioWorkspaceTab}
+            onSelectScenarioWorkspaceTab={setScenarioWorkspaceTab}
+            isTreeExpanded={isTreeExpanded}
+            onToggleTreeExpanded={() => setIsTreeExpanded(prev => !prev)}
+            onOpenGems={() => setIsGemsOpen(true)}
+            onOpenScratchbook={() => setIsScratchbookOpen(true)}
+            onOpenPrintModal={() => setIsPrintModalOpen(true)}
           />
         )}
 
@@ -233,37 +163,114 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
 
         {/* VIEW 3: CONSOLIDATED ELEMENT FORGE */}
         {activeView === 'elements' && (
-          <ElementForge 
+          <ElementForge
             onBackToStory={() => handleSwitchView('scenarios')}
           />
         )}
 
         {/* VIEW 4: GRANULAR INTERACTIVE STORY STUDIO */}
         {activeView === 'interactive' && (
-          <InteractiveStoryStudio 
+          <InteractiveStoryStudio
             activeNode={activeNode}
           />
         )}
 
         {/* LEGACY COMPATIBILITY: CONTROL PANEL */}
         {activeView === 'control-panel' && (
-          <ControlPanelStudio 
+          <ControlPanelStudio
             activeNode={activeNode}
           />
         )}
 
         {/* LEGACY COMPATIBILITY: MANUSCRIPT */}
         {activeView === 'manuscript' && (
-          <ManuscriptStudio 
+          <ManuscriptStudio
             activeNode={activeNode}
+          />
+        )}
+
+        {/* In-Situ Worldbuilding Element Drawer (Docked 3rd Column) */}
+        {isElementDrawerOpen && (
+          <InSituElementDrawer
+            isOpen={isElementDrawerOpen}
+            onClose={() => setIsElementDrawerOpen(false)}
+            elementsCatalog={elementsCatalog || []}
+            activeElementId={activeDrawerElementId}
+            onSelectElement={(id) => setActiveDrawerElementId(id)}
+            onOpenFullEditor={(elem) => {
+              setEditingModalElement(elem);
+              setIsEditElementModalOpen(true);
+            }}
+            onOpenFullForge={() => handleSwitchView('elements')}
+            onCreateElement={() => {
+              setEditingModalElement({
+                id: uuidv4(),
+                type: 'Persona',
+                title: 'New World Element',
+                fields: {},
+                content: ''
+              });
+              setIsEditElementModalOpen(true);
+            }}
+            currentSceneLinkedIds={activeNode?.linkedElements || []}
           />
         )}
       </div>
 
+      {/* Floating / Docked Movable AIME Co-Pilot Chat Window */}
+      {isAimeChatOpen && (
+        <AIMEChatBox
+          onClose={() => setIsAimeChatOpen(false)}
+          activeNode={activeNode}
+          contextData={{
+            projectName: universeState?.projectName || 'Tangent Universe',
+            activeNode: activeNode ? {
+              id: activeNode.id,
+              title: activeNode.title,
+              type: activeNode.type,
+              content: activeNode.content,
+              fields: activeNode.fields
+            } : null,
+            guidanceGems: typeof getActiveGemsText === 'function' ? getActiveGemsText() : '',
+            outline: universeState?.creativeState?.storyOutline || '',
+            sceneBeats: universeState?.creativeState?.sceneBeats || '',
+            draft: universeState?.creativeState?.storyDraft || '',
+            customCatalog: elementsCatalog || [],
+            scratchbook: generateScratchbookMarkdown(universeState, elementsCatalog)
+          }}
+        />
+      )}
+
+      {/* Full Element Forge Modal inside Story Module */}
+      {isEditElementModalOpen && (
+        <EditElementModal
+          isOpen={isEditElementModalOpen}
+          onClose={() => {
+            setIsEditElementModalOpen(false);
+            setEditingModalElement(null);
+          }}
+          element={editingModalElement}
+          onSave={(savedElem) => {
+            if (typeof updateSavedElement === 'function' && savedElem?.id) {
+              updateSavedElement(savedElem.id, savedElem);
+            }
+            setIsEditElementModalOpen(false);
+            setEditingModalElement(null);
+          }}
+          onDelete={(elementId) => {
+            if (typeof deleteSavedElement === 'function' && elementId) {
+              deleteSavedElement(elementId);
+            }
+            setIsEditElementModalOpen(false);
+            setEditingModalElement(null);
+          }}
+        />
+      )}
+
       {/* Story Project Catalog / Dashboard Modal */}
-      <FoundryLauncherModal 
-        isOpen={isCatalogOpen} 
-        onClose={() => setIsCatalogOpen(false)} 
+      <FoundryLauncherModal
+        isOpen={isCatalogOpen}
+        onClose={() => setIsCatalogOpen(false)}
         initialTab="stories"
       />
 
@@ -271,7 +278,7 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
       <AdventurePrintModal
         isOpen={isPrintModalOpen}
         onClose={() => setIsPrintModalOpen(false)}
-        storyTitle={activeNode?.title || 'ADE Adventure'}
+        storyTitle={universeState?.projectName || activeNode?.title || 'ADE Adventure'}
       />
 
       {/* Guidance Gems Configuration Modal */}
@@ -287,6 +294,22 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
         <ScratchbookModal
           isOpen={isScratchbookOpen}
           onClose={() => setIsScratchbookOpen(false)}
+        />
+      )}
+
+      {/* ADE Master User Guide Modal */}
+      {isGuideOpen && (
+        <StoryFoundryGuideModal
+          isOpen={isGuideOpen}
+          onClose={() => setIsGuideOpen(false)}
+        />
+      )}
+
+      {/* User Settings & Identity Modal */}
+      {isSettingsOpen && (
+        <UserSettingsModal
+          isOpen={isSettingsOpen}
+          onClose={() => setIsSettingsOpen(false)}
         />
       )}
     </div>

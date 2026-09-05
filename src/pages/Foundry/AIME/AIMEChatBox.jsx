@@ -55,7 +55,7 @@ export default function AIMEChatBox({ onClose, contextData, activeNode: propActi
 
   // Active Context Label & Details
   const projectName = universeState?.projectName || 'Tangent Universe';
-  const activeTitle = activeNode?.title || 'Story Foundry Workspace';
+  const activeTitle = activeNode?.title || 'ADE Studio Workspace';
   const activeType = activeNode?.type || 'Campaign';
   const guidanceGemsText = getActiveGemsText ? getActiveGemsText() : '';
 

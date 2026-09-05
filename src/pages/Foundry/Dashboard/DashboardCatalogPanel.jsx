@@ -259,7 +259,7 @@ export const DashboardCatalogPanel = () => {
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee]" />
             <h2 className="text-xs font-bold uppercase tracking-wider text-slate-200 font-mono">
-              Foundry Catalog & Feed
+              ADE Studio Catalog & Feed
             </h2>
           </div>
 

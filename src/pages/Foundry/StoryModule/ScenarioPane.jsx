@@ -862,7 +862,18 @@ const ElementImageUploader = ({ activeNode, updateStory }) => {
   );
 };
 
-const ScenarioPane = ({ onSwitchTab, onSwitchView, onOpenCatalog }) => {
+const ScenarioPane = ({ 
+  onSwitchTab, 
+  onSwitchView, 
+  onOpenCatalog,
+  scenarioWorkspaceTab: propWorkspaceTab,
+  onSelectScenarioWorkspaceTab: propSetWorkspaceTab,
+  isTreeExpanded = true,
+  onToggleTreeExpanded,
+  onOpenGems,
+  onOpenScratchbook,
+  onOpenPrintModal
+}) => {
   const navigate = useNavigate();
   const { 
     universeState, 
@@ -900,60 +911,16 @@ const ScenarioPane = ({ onSwitchTab, onSwitchView, onOpenCatalog }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalParentId, setModalParentId] = useState(null);
   const [localContent, setLocalContent] = useState('');
-  const [isFileMenuOpen, setIsFileMenuOpen] = useState(false);
-  const [isGuideOpen, setIsGuideOpen] = useState(false);
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [isAimeChatOpen, setIsAimeChatOpen] = useState(false);
-  const [isElementDrawerOpen, setIsElementDrawerOpen] = useState(false);
   const [activeDrawerElementId, setActiveDrawerElementId] = useState(null);
   const [isEditElementModalOpen, setIsEditElementModalOpen] = useState(false);
   const [editingModalElement, setEditingModalElement] = useState(null);
-  const [scenarioWorkspaceTab, setScenarioWorkspaceTab] = useState('canvas'); // 'canvas' | 'manuscript'
-  const [isGemsModalOpen, setIsGemsModalOpen] = useState(false);
-  const [isScratchbookModalOpen, setIsScratchbookModalOpen] = useState(false);
+  const [localWorkspaceTab, setLocalWorkspaceTab] = useState('canvas'); // 'canvas' | 'manuscript'
 
-  const storyFileInputRef = useRef(null);
+  const scenarioWorkspaceTab = propWorkspaceTab || localWorkspaceTab;
+  const setScenarioWorkspaceTab = propSetWorkspaceTab || setLocalWorkspaceTab;
+
   const scenarioFileInputRef = useRef(null);
   const mapFileInputRef = useRef(null);
-
-  const onStoryFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      handleLoadStory(file);
-    }
-    e.target.value = '';
-  };
-
-  const handleNewStoryAction = () => {
-    setIsFileMenuOpen(false);
-    const name = prompt("Enter title for new Story Module:", "New Story Module");
-    if (name && name.trim()) {
-      createNewStory(name.trim());
-    }
-  };
-
-  const handleDeleteStoryAction = () => {
-    setIsFileMenuOpen(false);
-    const currentTitle = universeState.projectName || 'Untitled Story';
-    if (confirmTypedDeletion(currentTitle, 'story module project')) {
-      if (universeState.id) {
-        deleteStoryProject(universeState.id);
-      }
-      createNewStory("New Story Module");
-    }
-  };
-
-  const handleClearStoryAction = () => {
-    setIsFileMenuOpen(false);
-    const currentTitle = universeState.projectName || 'Untitled Story';
-    if (confirmTypedDeletion(currentTitle, 'story element content')) {
-      setUniverseState(prev => ({
-        ...prev,
-        scenarios: []
-      }));
-      setActiveScenarioId(null);
-    }
-  };
 
   let activeNode = null;
   const findNode = (nodes) => {
@@ -1415,288 +1382,7 @@ const ScenarioPane = ({ onSwitchTab, onSwitchView, onOpenCatalog }) => {
         }
       `}</style>
 
-      {/* Sub-Header & Actions Bar */}
-      <header className="bg-[#0d1117] border-b border-[#0D5C63]/50 p-2.5 px-4 sm:px-6 flex items-center justify-between backdrop-blur-md gap-3 relative z-40 shrink-0">
-        {/* Left: Story Name & Creator Tag */}
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
-            <h2 id="story-module-title-header" className="text-xs sm:text-sm font-bold font-mono text-cyan-400 uppercase tracking-wider drop-shadow-[0_0_8px_rgba(34,211,238,0.3)] shrink-0">
-              Story:
-            </h2>
-            <input 
-              type="text" 
-              value={universeState.projectName || ''}
-              onChange={(e) => updateProjectName(e.target.value)}
-              className="bg-slate-900 text-xs font-bold font-mono text-amber-400 uppercase tracking-wider drop-shadow-[0_0_8px_rgba(245,158,11,0.3)] hover:text-white px-2 py-1 rounded outline-none truncate max-w-[160px] sm:max-w-xs transition-colors border border-slate-700 focus:border-amber-500"
-              placeholder="UNNAMED STORY"
-              title="Click to rename Story Module"
-            />
-            {(() => {
-              const creatorInfo = extractCreatorInfo(universeState, userHandle, currentUser);
-              return (
-                <div className="flex items-center gap-1.5 ml-1">
-                  <span className="px-2 py-0.5 bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 rounded text-xs font-mono font-bold flex items-center gap-1 shadow-sm" title="Original Creator">
-                    <span>🏷️</span>
-                    <span>{creatorInfo.creatorTag}</span>
-                  </span>
-                  {creatorInfo.contributorTags && creatorInfo.contributorTags.length > 0 && (
-                    <span className="px-2 py-0.5 bg-amber-950/80 border border-amber-500/40 text-amber-300 rounded text-[11px] font-mono font-bold" title={`Contributors: ${creatorInfo.contributorTags.join(', ')}`}>
-                      Contrib: {creatorInfo.contributorTags.join(', ')}
-                    </span>
-                  )}
-                </div>
-              );
-            })()}
-          </div>
-        </div>
 
-        {/* Right / Actions Bar */}
-        <div className="flex items-center gap-2 sm:gap-3">
-          {/* Hidden Story File Input */}
-          <input
-            type="file"
-            accept=".json"
-            ref={storyFileInputRef}
-            style={{ display: 'none' }}
-            onChange={onStoryFileChange}
-          />
-
-          {/* File Menu Dropdown */}
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() => setIsFileMenuOpen(!isFileMenuOpen)}
-              className="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-1 cursor-pointer"
-            >
-              <span>File Menu</span>
-              <span className="text-[10px]">▼</span>
-            </button>
-
-            {isFileMenuOpen && (
-              <div
-                className="absolute right-0 mt-1 w-56 bg-slate-900 border border-cyan-500/60 rounded-lg shadow-xl py-1 z-50 text-xs"
-                onClick={() => setIsFileMenuOpen(false)}
-              >
-                {onOpenCatalog && (
-                  <button
-                    onClick={onOpenCatalog}
-                    className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-amber-300 uppercase font-bold flex items-center gap-2"
-                  >
-                    <span>📁</span> Story Catalog & Roster
-                  </button>
-                )}
-                <button
-                  onClick={() => setIsGuideOpen(true)}
-                  className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-slate-200 uppercase font-bold flex items-center gap-2"
-                >
-                  <span>📖</span> User Guide & Manual
-                </button>
-
-                <div className="border-t border-slate-800 my-1" />
-
-                <button
-                  onClick={handleNewStoryAction}
-                  className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-slate-200 uppercase font-bold flex items-center gap-2"
-                >
-                  <span>➕</span> New Story Module
-                </button>
-                <button
-                  onClick={handleDeleteStoryAction}
-                  className="w-full text-left px-4 py-2 hover:bg-red-950/80 text-red-400 uppercase font-bold flex items-center gap-2"
-                >
-                  <span>🗑️</span> Delete Story Module
-                </button>
-                <button
-                  onClick={handleClearStoryAction}
-                  className="w-full text-left px-4 py-2 hover:bg-slate-800 text-slate-400 uppercase font-bold flex items-center gap-2"
-                >
-                  <span>🧹</span> Clear Story Elements
-                </button>
-
-                <div className="border-t border-slate-800 my-1" />
-
-                <button
-                  onClick={handleSaveStory}
-                  className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-amber-300 uppercase font-bold flex items-center gap-2"
-                >
-                  <span>💾</span> Save Story to File
-                </button>
-                <button
-                  onClick={() => storyFileInputRef.current?.click()}
-                  className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-amber-300 uppercase font-bold flex items-center gap-2"
-                >
-                  <span>📥</span> Load Story from File
-                </button>
-
-                <div className="border-t border-slate-800 my-1" />
-
-                <button
-                  onClick={() => handleExportMarkdown(activeNode || universeState.scenarios[0])}
-                  disabled={universeState.scenarios.length === 0}
-                  className={`w-full text-left px-4 py-2 uppercase font-bold flex items-center gap-2 ${
-                    universeState.scenarios.length === 0 
-                      ? 'opacity-40 cursor-not-allowed text-slate-500' 
-                      : 'hover:bg-cyan-950 text-cyan-300'
-                  }`}
-                >
-                  <span>📝</span> Export Markdown (.md)
-                </button>
-                <button
-                  onClick={() => handleExportPDF(activeNode || universeState.scenarios[0])}
-                  disabled={universeState.scenarios.length === 0}
-                  className={`w-full text-left px-4 py-2 uppercase font-bold flex items-center gap-2 ${
-                    universeState.scenarios.length === 0 
-                      ? 'opacity-40 cursor-not-allowed text-slate-500' 
-                      : 'hover:bg-cyan-950 text-cyan-300'
-                  }`}
-                >
-                  <span>🖨️</span> Export Printable PDF
-                </button>
-
-                {currentUser && (
-                  <>
-                    <div className="border-t border-slate-800 my-1" />
-                    <button
-                      onClick={() => pushUniverseToCloud({ showSuccessAlert: true, force: true })}
-                      className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-cyan-400 uppercase font-bold flex items-center gap-2"
-                    >
-                      <span>☁️</span> Push to Cloud DB
-                    </button>
-                    <button
-                      onClick={() => pullUniverseFromCloud()}
-                      className="w-full text-left px-4 py-2 hover:bg-cyan-950 text-cyan-400 uppercase font-bold flex items-center gap-2"
-                    >
-                      <span>🌐</span> Pull from Cloud DB
-                    </button>
-                  </>
-                )}
-              </div>
-            )}
-          </div>
-
-          {/* User Auth Tag / Indicator */}
-          {currentUser ? (
-            <div className="flex items-center gap-2 bg-slate-800/80 px-3 py-1 rounded border border-slate-700">
-              <span
-                className={`w-2 h-2 rounded-full shrink-0 ${
-                  cloudSyncStatus === 'syncing'
-                    ? 'bg-amber-400 animate-ping'
-                    : cloudSyncStatus === 'synced'
-                    ? 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]'
-                    : cloudSyncStatus === 'error'
-                    ? 'bg-red-500 shadow-[0_0_6px_rgba(239,68,68,0.8)] animate-pulse'
-                    : 'bg-slate-500'
-                }`}
-                title={
-                  cloudSyncStatus === 'syncing'
-                    ? 'Syncing Cloud...'
-                    : cloudSyncStatus === 'synced'
-                    ? lastCloudSavedAt ? `Cloud Synced at ${lastCloudSavedAt}` : 'Cloud Synced'
-                    : cloudSyncStatus === 'error'
-                    ? 'Cloud Sync Error'
-                    : 'Local Mode'
-                }
-              />
-              <span className="text-xs text-cyan-300 font-mono font-bold" title={currentUser.email || ''}>
-                {userHandle ? `@${userHandle}` : (currentUser.displayName || currentUser.email)}
-              </span>
-              <button
-                onClick={() => setIsSettingsOpen(true)}
-                className="text-xs text-slate-400 hover:text-cyan-300 transition-colors"
-                title="User Settings & Identity"
-              >
-                ⚙️
-              </button>
-            </div>
-          ) : null}
-
-          {/* Guidance Gems & Scratchbook Master Quick Triggers */}
-          <div className="flex items-center gap-1.5 border-l border-slate-700/80 pl-2 sm:pl-3">
-            <button
-              type="button"
-              onClick={() => setIsGemsModalOpen(true)}
-              className="px-2.5 sm:px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer bg-amber-950/70 hover:bg-amber-900/80 text-amber-300 border border-amber-500/50 shadow-sm"
-              title="Configure Guidance Gems (Mood, Genre, Tone, Pacing, POV, Theme, Conflict, Setting)"
-            >
-              <span>💎</span>
-              <span className="hidden sm:inline">Gems</span>
-              <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-300 font-mono">
-                {(universeState?.creativeState?.gems || []).length}
-              </span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setIsScratchbookModalOpen(true)}
-              className="px-2.5 sm:px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer bg-emerald-950/70 hover:bg-emerald-900/80 text-emerald-300 border border-emerald-500/50 shadow-sm"
-              title="Open Project Scratchbook & Elements Used Document (.md)"
-            >
-              <span>📓</span>
-              <span className="hidden sm:inline">Scratchbook</span>
-            </button>
-          </div>
-
-          {/* AI Co-Pilot (AIME) Top Bar Access */}
-          <div className="flex items-center gap-1.5 border-l border-slate-700/80 pl-2 sm:pl-3">
-            <button
-              type="button"
-              onClick={() => setIsAimeChatOpen(prev => !prev)}
-              className={`px-2.5 sm:px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
-                isAimeChatOpen
-                  ? 'bg-cyan-900/90 text-cyan-200 border border-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.4)]'
-                  : 'bg-gradient-to-r from-cyan-950 to-indigo-950 hover:from-cyan-900 hover:to-indigo-900 text-cyan-300 border border-cyan-500/50 shadow-sm'
-              }`}
-              title="Toggle AIME Co-Pilot (Story, lore & creative writing assistant)"
-            >
-              <span>✨</span>
-              <span className="hidden sm:inline">AIME</span>
-            </button>
-          </div>
-
-          {/* In-Situ Worldbuilding Elements Drawer Toggle & Full Editor Switcher */}
-          <div className="flex items-center gap-1.5 border-l border-slate-700/80 pl-2 sm:pl-3">
-            <button
-              type="button"
-              onClick={() => setIsElementDrawerOpen(prev => !prev)}
-              className={`px-2.5 sm:px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
-                isElementDrawerOpen
-                  ? 'bg-purple-900/90 text-purple-200 border border-purple-400 shadow-[0_0_12px_rgba(192,132,252,0.4)]'
-                  : 'bg-gradient-to-r from-purple-950 to-indigo-950 hover:from-purple-900 hover:to-indigo-900 text-purple-300 border border-purple-500/50 shadow-sm'
-              }`}
-              title="Toggle In-Situ Worldbuilding Elements Drawer (Personas, Factions, Items, Lore)"
-            >
-              <span>🧩</span>
-              <span className="hidden sm:inline">Elements ({elementsCatalog?.length || 0})</span>
-            </button>
-
-            {onSwitchView && (
-              <button
-                type="button"
-                onClick={() => onSwitchView('elements')}
-                className="px-2 sm:px-2.5 py-1.5 rounded text-xs font-bold uppercase tracking-wider bg-slate-800 hover:bg-slate-700 text-purple-300 hover:text-white border border-slate-700 transition-colors cursor-pointer flex items-center gap-1"
-                title="Open Full Element Forge & Database inside Story Module"
-              >
-                <span>🗂️</span>
-                <span className="hidden md:inline">Full Editor</span>
-              </button>
-            )}
-          </div>
-        </div>
-      </header>
-
-      {/* Guide Modal */}
-      <StoryFoundryGuideModal 
-        isOpen={isGuideOpen} 
-        onClose={() => setIsGuideOpen(false)} 
-      />
-
-      {/* User Settings Modal */}
-      {isSettingsOpen && (
-        <UserSettingsModal 
-          isOpen={isSettingsOpen} 
-          onClose={() => setIsSettingsOpen(false)} 
-        />
-      )}
 
       {isStoryReadOnly && (
         <div className="bg-amber-950/90 border-b border-amber-500/50 px-4 py-2 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-amber-200 shrink-0 shadow-lg z-20">
@@ -1727,32 +1413,42 @@ const ScenarioPane = ({ onSwitchTab, onSwitchView, onOpenCatalog }) => {
 
       <div className="flex-1 flex w-full h-full overflow-hidden relative">
         <Split
-          sizes={[35, 65]}
-        minSize={[280, 250]}
-        expandToMin={false}
-        gutterSize={8}
-        gutterAlign="center"
-        snapOffset={30}
-        dragInterval={1}
-        direction="horizontal"
-        cursor="col-resize"
-        className="flex-1 flex w-full h-full split-horizontal"
-      >
-        {/* Left Sidebar: Contents Tree */}
-        <div className="h-full flex flex-col bg-slate-900 border-r border-slate-800 min-w-0">
-          <div className="p-2.5 border-b border-slate-800 flex justify-between items-center bg-slate-950/60 shrink-0 gap-2">
-            <div className="flex items-center gap-2 min-w-0">
-              <span className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest">Story Elements</span>
+          sizes={isTreeExpanded ? [32, 68] : [0, 100]}
+          minSize={isTreeExpanded ? [260, 300] : [0, 300]}
+          expandToMin={false}
+          gutterSize={isTreeExpanded ? 8 : 0}
+          gutterAlign="center"
+          snapOffset={30}
+          dragInterval={1}
+          direction="horizontal"
+          cursor="col-resize"
+          className="flex-1 flex w-full h-full split-horizontal"
+        >
+          {/* Left Sidebar: Contents Tree */}
+          <div className={`h-full flex flex-col bg-slate-900 border-r border-slate-800 min-w-0 ${!isTreeExpanded ? 'hidden' : ''}`}>
+            <div className="p-2.5 border-b border-slate-800 flex justify-between items-center bg-slate-950/60 shrink-0 gap-2">
+              <div className="flex items-center gap-1.5 min-w-0">
+                {onToggleTreeExpanded && (
+                  <button
+                    type="button"
+                    onClick={onToggleTreeExpanded}
+                    className="text-slate-500 hover:text-cyan-400 p-0.5 rounded cursor-pointer text-xs"
+                    title="Collapse Outliner Tree"
+                  >
+                    ◀
+                  </button>
+                )}
+                <span className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest">Story Elements</span>
+              </div>
+              <div className="flex items-center gap-1.5 flex-wrap justify-end">
+                <button 
+                  onClick={() => handleOpenAddModal(activeScenarioId)}
+                  className="px-2.5 py-1 bg-amber-600/30 hover:bg-amber-600/50 border border-amber-500/50 text-amber-400 hover:text-amber-300 text-[10px] font-bold rounded uppercase transition-colors flex items-center gap-1"
+                >
+                  <span>+</span> Add Element
+                </button>
+              </div>
             </div>
-            <div className="flex items-center gap-1.5 flex-wrap justify-end">
-              <button 
-                onClick={() => handleOpenAddModal(activeScenarioId)}
-                className="px-2.5 py-1 bg-amber-600/30 hover:bg-amber-600/50 border border-amber-500/50 text-amber-400 hover:text-amber-300 text-[10px] font-bold rounded uppercase transition-colors flex items-center gap-1"
-              >
-                <span>+</span> Add Element
-              </button>
-            </div>
-          </div>
           <div className="flex-1 overflow-auto py-2 px-1">
             {universeState.scenarios.length === 0 ? (
               <div className="text-slate-500 text-xs text-center italic mt-10 p-4">
@@ -1865,24 +1561,28 @@ const ScenarioPane = ({ onSwitchTab, onSwitchView, onOpenCatalog }) => {
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setIsGemsModalOpen(true)}
-                    className="px-2 py-0.5 bg-amber-950/50 hover:bg-amber-950 border border-amber-500/40 text-amber-300 rounded text-[11px] font-bold uppercase tracking-wider transition-all flex items-center gap-1"
-                    title="Configure Guidance Gems (Mood, Genre, Tone, POV, etc.)"
-                  >
-                    <span>💎</span>
-                    <span>Gems</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setIsScratchbookModalOpen(true)}
-                    className="px-2 py-0.5 bg-emerald-950/50 hover:bg-emerald-950 border border-emerald-500/40 text-emerald-300 rounded text-[11px] font-bold uppercase tracking-wider transition-all flex items-center gap-1"
-                    title="Open Project Scratchbook & Elements Used"
-                  >
-                    <span>📓</span>
-                    <span>Scratchbook</span>
-                  </button>
+                  {onOpenGems && (
+                    <button
+                      type="button"
+                      onClick={onOpenGems}
+                      className="px-2 py-0.5 bg-amber-950/50 hover:bg-amber-950 border border-amber-500/40 text-amber-300 rounded text-[11px] font-bold uppercase tracking-wider transition-all flex items-center gap-1 cursor-pointer"
+                      title="Configure Guidance Gems (Mood, Genre, Tone, POV, etc.)"
+                    >
+                      <span>💎</span>
+                      <span>Gems</span>
+                    </button>
+                  )}
+                  {onOpenScratchbook && (
+                    <button
+                      type="button"
+                      onClick={onOpenScratchbook}
+                      className="px-2 py-0.5 bg-emerald-950/50 hover:bg-emerald-950 border border-emerald-500/40 text-emerald-300 rounded text-[11px] font-bold uppercase tracking-wider transition-all flex items-center gap-1 cursor-pointer"
+                      title="Open Project Scratchbook & Elements Used"
+                    >
+                      <span>📓</span>
+                      <span>Scratchbook</span>
+                    </button>
+                  )}
                 </div>
               </div>
 
@@ -2081,58 +1781,7 @@ const ScenarioPane = ({ onSwitchTab, onSwitchView, onOpenCatalog }) => {
     </div>
   </Split>
 
-      {/* In-Situ Worldbuilding Element Drawer (3rd Column) */}
-      {isElementDrawerOpen && (
-        <InSituElementDrawer
-          isOpen={isElementDrawerOpen}
-          onClose={() => setIsElementDrawerOpen(false)}
-          elementsCatalog={elementsCatalog || []}
-          activeElementId={activeDrawerElementId}
-          onSelectElement={(id) => setActiveDrawerElementId(id)}
-          onOpenFullEditor={(elem) => {
-            setEditingModalElement(elem);
-            setIsEditElementModalOpen(true);
-          }}
-          onOpenFullForge={() => onSwitchView && onSwitchView('elements')}
-          onCreateElement={() => {
-            setEditingModalElement({
-              id: uuidv4(),
-              type: 'Persona',
-              title: 'New World Element',
-              fields: {},
-              content: ''
-            });
-            setIsEditElementModalOpen(true);
-          }}
-          onInsertMention={(elem) => handleInsertMention(elem)}
-          currentSceneLinkedIds={activeNode?.linkedElements || []}
-        />
-      )}
       </div>
-
-      {/* Floating / Docked Movable AIME Co-Pilot Chat Window */}
-      {isAimeChatOpen && (
-        <AIMEChatBox
-          onClose={() => setIsAimeChatOpen(false)}
-          activeNode={activeNode}
-          contextData={{
-            projectName: universeState.projectName || 'Tangent Universe',
-            activeNode: activeNode ? {
-              id: activeNode.id,
-              title: activeNode.title,
-              type: activeNode.type,
-              content: activeNode.content,
-              fields: activeNode.fields
-            } : null,
-            guidanceGems: typeof getActiveGemsText === 'function' ? getActiveGemsText() : '',
-            outline: universeState.creativeState?.storyOutline || '',
-            sceneBeats: universeState.creativeState?.sceneBeats || '',
-            draft: universeState.creativeState?.storyDraft || '',
-            customCatalog: elementsCatalog || [],
-            scratchbook: generateScratchbookMarkdown(universeState, elementsCatalog)
-          }}
-        />
-      )}
 
       {/* Full Element Forge Modal inside Story Module */}
       {isEditElementModalOpen && (
@@ -2159,25 +1808,8 @@ const ScenarioPane = ({ onSwitchTab, onSwitchView, onOpenCatalog }) => {
           }}
         />
       )}
-
-      {/* Guidance Gems Configuration Modal */}
-      {isGemsModalOpen && (
-        <GuidanceGemsModal
-          isOpen={isGemsModalOpen}
-          onClose={() => setIsGemsModalOpen(false)}
-        />
-      )}
-
-      {/* Project Scratchbook & Elements Used Modal */}
-      {isScratchbookModalOpen && (
-        <ScratchbookModal
-          isOpen={isScratchbookModalOpen}
-          onClose={() => setIsScratchbookModalOpen(false)}
-        />
-      )}
     </div>
   );
 };
 
 export default ScenarioPane;
-

@@ -121,7 +121,7 @@ export const RosterModal = ({
         <div className="bg-slate-950 px-6 py-4 border-b border-slate-800 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 shrink-0">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] text-cyan-400 font-bold uppercase tracking-widest">STORY FOUNDRY</span>
+              <span className="text-[10px] text-cyan-400 font-bold uppercase tracking-widest">ADE STUDIO</span>
               <span className="px-1.5 py-0.5 bg-cyan-950 text-cyan-300 border border-cyan-700/60 rounded text-[9px] font-mono uppercase font-bold">
                 OPERATIVE CATALOG
               </span>

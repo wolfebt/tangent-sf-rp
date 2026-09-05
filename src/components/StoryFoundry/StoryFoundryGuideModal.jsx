@@ -17,7 +17,7 @@ const CONTENT = {
   overview: (
     <div className="space-y-4 text-slate-300 text-sm leading-relaxed">
       <p>
-        The <strong className="text-purple-300 font-mono">Story Foundry</strong> is the unified narrative development suite and Virtual Tabletop for Tangent Science Fantasy Roleplay.
+        The <strong className="text-purple-300 font-mono">ADE Studio</strong> (Adventure Development Environment) is the unified narrative development suite and Virtual Tabletop for Tangent Science Fantasy Roleplay.
       </p>
       <div className="bg-slate-800/60 border border-purple-500/30 rounded-xl p-4 space-y-2">
         <h4 className="text-purple-400 font-bold uppercase text-xs font-mono tracking-wider">Five Integrated Sub-Modules</h4>
@@ -152,7 +152,7 @@ const CONTENT = {
   'aime-copilot': (
     <div className="space-y-4 text-slate-300 text-sm leading-relaxed">
       <p>
-        <strong className="text-pink-300 font-mono">AIME Co-Pilot</strong> is a draggable, movable AI assistant that checks rules with Bastion AI and rolls dice via <code className="text-amber-300 font-mono">/roll 2d10+4</code> directly from any view in Story Foundry.
+        <strong className="text-pink-300 font-mono">AIME Co-Pilot</strong> is a draggable, movable AI assistant that checks rules with Bastion AI and rolls dice via <code className="text-amber-300 font-mono">/roll 2d10+4</code> directly from any view in ADE Studio.
       </p>
     </div>
   ),
@@ -160,7 +160,7 @@ const CONTENT = {
   cloud: (
     <div className="space-y-4 text-slate-300 text-sm leading-relaxed">
       <p>
-        Story Foundry includes <strong className="text-cyan-300 font-mono">debounced 1.5s Firestore syncing</strong> with timestamp conflict detection to protect story data.
+        ADE Studio includes <strong className="text-cyan-300 font-mono">debounced 1.5s Firestore syncing</strong> with timestamp conflict detection to protect story data.
       </p>
     </div>
   ),
@@ -194,10 +194,10 @@ export const StoryFoundryGuideModal = ({ isOpen, onClose, initialTab = 'overview
             </div>
             <div>
               <div className="text-[10px] font-mono font-bold text-purple-400 uppercase tracking-widest">
-                STORY FOUNDRY
+                ADE STUDIO
               </div>
               <div className="text-sm font-bold text-white uppercase font-mono">
-                Campaign &amp; VTT User Guide
+                Adventure Development &amp; VTT User Guide
               </div>
             </div>
           </div>

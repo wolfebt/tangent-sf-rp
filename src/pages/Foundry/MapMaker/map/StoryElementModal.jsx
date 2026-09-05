@@ -120,7 +120,7 @@ export const StoryElementModal = ({
                 </span>
               </div>
               <p className="text-[10px] text-slate-400 font-mono">
-                Interactive Narrative Element • Linked to Story Foundry & Tactical Grid
+                Interactive Narrative Element • Linked to ADE Studio &amp; Tactical Grid
               </p>
             </div>
           </div>

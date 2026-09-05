@@ -120,7 +120,7 @@ export const DBMItemTransferBar = ({ item, categoryKey }) => {
     const targetScenario = (activeScenarioId && scenarios.find(s => s.id === activeScenarioId)) || scenarios[0];
 
     if (!targetScenario) {
-      alert('No active story scenario found in Story Foundry. Please create or open a story scenario first.');
+      alert('No active story scenario found in ADE Studio. Please create or open a story scenario first.');
       return;
     }
 
@@ -191,7 +191,7 @@ export const DBMItemTransferBar = ({ item, categoryKey }) => {
           type="button"
           onClick={handleAddToScenarioLoot}
           className="flex-1 sm:flex-none py-1.5 px-3 bg-amber-600/90 hover:bg-amber-500 text-white font-bold text-xs rounded-lg flex items-center justify-center gap-1.5 transition-all shadow-md active:scale-95 cursor-pointer"
-          title={`Add ${item.name} to the active Story Foundry scenario reward chest`}
+          title={`Add ${item.name} to the active ADE Studio scenario reward chest`}
         >
           <Gem size={14} />
           <span>Add to Scenario Loot</span>

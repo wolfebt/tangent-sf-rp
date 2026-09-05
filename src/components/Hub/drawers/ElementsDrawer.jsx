@@ -39,7 +39,7 @@ export const ElementsDrawer = ({ onClose, onOpenDrawer }) => {
         <div>
           <div className="flex items-center gap-2">
             <span className="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-[10px] font-mono text-emerald-400 font-bold uppercase">
-              STORY FOUNDRY
+              ADE STUDIO
             </span>
             <span className="text-slate-600 font-mono">•</span>
             <span className="text-slate-400 font-mono text-xs">DATABASE MANAGER</span>

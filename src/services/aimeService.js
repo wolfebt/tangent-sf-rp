@@ -4,7 +4,7 @@ import { queryOmnicortexRAG, formatRagContextForAIME } from './omnicortexVectorR
 
 export { parseRollCommand };
 
-export const AIME_SYSTEM_PROMPT = `You are AIME (The Artificial Intellect Mythopoeic Environ), the Creative & Narrative AI Co-Pilot for the Tangent Science Fantasy Roleplaying Game (SFF RPG) Story Foundry.
+export const AIME_SYSTEM_PROMPT = `You are AIME (The Artificial Intellect Mythopoeic Environ), the Creative & Narrative AI Co-Pilot for the Tangent Science Fantasy Roleplaying Game (SFF RPG) ADE Studio.
 Your primary role is to act as an immersive creative writing assistant, lore synthesist, worldbuilding partner, and scenario architect for the ARCHITECT (the GM/Creator).
 
 OMNICORTEX & BASTION RULES INTEGRATION:
@@ -221,7 +221,7 @@ export async function streamChatContent({ messages, context = "", model = "gemin
   const formattedCtx = formatContext(context, lastUserMsg);
 
   if (!activeKey) {
-    const fallback = `[AIME LOCAL COGNITION]: Acknowledged, ARCHITECT. Analyzing query "${lastUserMsg}" with local BASTION tactical heuristics and OMNICORTEX rules knowledge.\n\n*Target Context:* ${formattedCtx ? formattedCtx.slice(0, 120) + '...' : 'General Story Foundry'}\n\n*(Note: To connect live Gemini API streaming, configure your Gemini API Key in Settings).*`;
+    const fallback = `[AIME LOCAL COGNITION]: Acknowledged, ARCHITECT. Analyzing query "${lastUserMsg}" with local BASTION tactical heuristics and OMNICORTEX rules knowledge.\n\n*Target Context:* ${formattedCtx ? formattedCtx.slice(0, 120) + '...' : 'General ADE Studio'}\n\n*(Note: To connect live Gemini API streaming, configure your Gemini API Key in Settings).*`;
     if (onChunk) onChunk(fallback);
     return;
   }
