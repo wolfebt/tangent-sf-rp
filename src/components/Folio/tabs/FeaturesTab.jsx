@@ -2,9 +2,10 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { useFolio } from '../../../context/FolioContext';
 import { useDice } from '../../../context/DiceContext';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
-import { Sparkles, AlertTriangle, Cpu, Zap, Plus, Edit3, Trash2, Check, Lock, BookOpen, Dices } from 'lucide-react';
+import { Sparkles, AlertTriangle, Cpu, Zap, Plus, Edit3, Trash2, Check, Lock, BookOpen, Dices, Search } from 'lucide-react';
 import { METAPHYSICAL_DISCIPLINES } from '../../../data/skillsData';
 import FolioTooltip from '../shared/FolioTooltip';
+import { checkPrerequisite } from '../../../utils/prerequisiteEvaluator';
 
 export const FeaturesTab = ({ 
   onOpenSelectorModal, 
@@ -17,6 +18,10 @@ export const FeaturesTab = ({
   const { characterData, updateField, handleAddItem, handleUpdateItem, handleDeleteItem } = useFolio();
   const { openDiceRoller } = useDice();
   const [selectedSubTab, setSelectedSubTab] = useState(activeSection || 'all');
+  const [metaInnerTab, setMetaInnerTab] = useState('disciplines'); // 'disciplines' | 'invocations'
+  const [metaSearchQuery, setMetaSearchQuery] = useState('');
+  const [metaTypeFilter, setMetaTypeFilter] = useState('all');
+  const [metaDisciplineFilter, setMetaDisciplineFilter] = useState('all');
 
   // Synchronize internal subtab state when parent activeSection changes
   useEffect(() => {
@@ -341,7 +346,64 @@ export const FeaturesTab = ({
     }, 0);
   }, [learnedInvocations]);
 
-  const totalMetaphysicsCP = totalAwakenedCP + totalInvocationsCP;
+  // Character Special Abilities list
+  const characterSpecialAbilities = useMemo(() => {
+    return getItemList('special_abilities').map((abil, idx) => ({
+      ...(typeof abil === 'object' ? abil : { name: abil }),
+      sourceIndex: idx,
+      powerType: 'special_ability'
+    }));
+  }, [characterData.special_abilities]);
+
+  const totalSpecialAbilitiesCP = useMemo(() => {
+    return characterSpecialAbilities.reduce((sum, abil) => {
+      const cp = abil.cp !== undefined ? parseInt(abil.cp, 10) : 5;
+      return sum + (isNaN(cp) ? 5 : cp);
+    }, 0);
+  }, [characterSpecialAbilities]);
+
+  // Combined Character Powers (Invocations + Special Abilities)
+  const characterPowers = useMemo(() => {
+    const invs = learnedInvocations.map(inv => ({ ...inv, powerType: 'invocation' }));
+    const abs = characterSpecialAbilities.map(abil => ({ ...abil, powerType: 'special_ability' }));
+    return [...invs, ...abs];
+  }, [learnedInvocations, characterSpecialAbilities]);
+
+  const filteredCharacterPowers = useMemo(() => {
+    return characterPowers.filter(p => {
+      if (metaTypeFilter === 'invocations' && p.powerType !== 'invocation') return false;
+      if (metaTypeFilter === 'special_abilities' && p.powerType !== 'special_ability') return false;
+
+      if (metaDisciplineFilter !== 'all') {
+        const disc = (p.discipline || '').toLowerCase();
+        if (!disc.includes(metaDisciplineFilter.toLowerCase())) return false;
+      }
+
+      if (metaSearchQuery.trim()) {
+        const q = metaSearchQuery.toLowerCase();
+        const matchName = (p.name || '').toLowerCase().includes(q);
+        const matchDesc = (p.description || p.body || '').toLowerCase().includes(q);
+        const matchDisc = (p.discipline || '').toLowerCase().includes(q);
+        const matchSub = (p.subSkill || '').toLowerCase().includes(q);
+        const matchDmg = (p.damage || '').toLowerCase().includes(q);
+        if (!matchName && !matchDesc && !matchDisc && !matchSub && !matchDmg) return false;
+      }
+
+      return true;
+    });
+  }, [characterPowers, metaTypeFilter, metaDisciplineFilter, metaSearchQuery]);
+
+  const handleUpdateInvocationRank = (idx, newRank) => {
+    const raw = getItemList('invocations');
+    const clamped = Math.min(10, Math.max(1, parseInt(newRank, 10) || 1));
+    const updated = [...raw];
+    if (updated[idx]) {
+      updated[idx] = typeof updated[idx] === 'object' ? { ...updated[idx], rank: clamped } : { name: updated[idx], rank: clamped };
+      updateField('invocations', updated);
+    }
+  };
+
+  const totalMetaphysicsCP = totalAwakenedCP + totalInvocationsCP + totalSpecialAbilitiesCP;
 
   const totalAugmentationsCP = useMemo(() => {
     return augmentationsList.reduce((acc, aug) => {
@@ -626,10 +688,17 @@ export const FeaturesTab = ({
                           featCategory.toLowerCase().includes('karma') ? 'purple' :
                           featCategory.toLowerCase().includes('skill') ? 'emerald' : 'cyan';
 
+                        const prereqResult = checkPrerequisite(item, characterData, 'features');
+                        const isPrereqUnmet = prereqResult.hasPrerequisite && !prereqResult.isPossessed;
+
                         return (
                           <div
                             key={`${item.sourceList}_${item.sourceIndex}`}
-                            className="bg-slate-950/80 border border-slate-800 hover:border-cyan-800/70 rounded-lg p-3 shadow-sm flex flex-col justify-between transition-all group relative"
+                            className={`border rounded-lg p-3 shadow-sm flex flex-col justify-between transition-all group relative ${
+                              isPrereqUnmet
+                                ? 'bg-slate-950/70 border-dashed border-rose-900/60 opacity-60 grayscale-[70%] hover:opacity-100 hover:grayscale-0'
+                                : 'bg-slate-950/80 border-slate-800 hover:border-cyan-800/70'
+                            }`}
                           >
                             <div>
                               <div className="flex items-start justify-between gap-1.5 mb-1">
@@ -639,7 +708,9 @@ export const FeaturesTab = ({
                                   badgeColor={featBadgeColor}
                                   description={desc || 'Operative feature.'}
                                   formula={featMechanic || undefined}
-                                  prerequisites={featPrereq || undefined}
+                                  prerequisites={featPrereq || prereqResult.prerequisiteText || undefined}
+                                  prerequisiteMet={!isPrereqUnmet}
+                                  prerequisiteUnmetReasons={prereqResult.unmetReasons}
                                   cost={cpCostDisplay}
                                   tags={[
                                     typeof item === 'object' && item.is_ranked ? 'Ranked' : null,
@@ -648,9 +719,19 @@ export const FeaturesTab = ({
                                   ].filter(Boolean)}
                                   showInfoIcon={true}
                                 >
-                                  <h4 className="font-semibold text-xs text-slate-100 hover:text-cyan-300 leading-snug pr-1 transition-colors">
-                                    {name}
-                                  </h4>
+                                  <div className="flex items-center gap-1.5">
+                                    <h4 className={`font-semibold text-xs leading-snug pr-1 transition-colors ${
+                                      isPrereqUnmet ? 'text-slate-400 hover:text-rose-300' : 'text-slate-100 hover:text-cyan-300'
+                                    }`}>
+                                      {name}
+                                    </h4>
+                                    {isPrereqUnmet && (
+                                      <span className="inline-flex items-center gap-0.5 px-1.5 py-0.2 rounded text-[9px] font-mono uppercase tracking-wider bg-rose-950/80 border border-rose-800/80 text-rose-300" title={`Missing: ${prereqResult.unmetReasons.join(', ')}`}>
+                                        <Lock className="w-2.5 h-2.5" />
+                                        <span>Prereq Missing</span>
+                                      </span>
+                                    )}
+                                  </div>
                                 </FolioTooltip>
                                 <span className={`shrink-0 px-1.5 py-0.5 text-[10px] font-mono font-bold rounded ${
                                   isSpeciesGranted 
@@ -741,9 +822,54 @@ export const FeaturesTab = ({
             </div>
           </div>
 
-          {/* 6 Canonical Disciplines Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
-            {METAPHYSICAL_DISCIPLINES.map((disc) => {
+          {/* Section Inner Tabs: Disciplines vs Invocations */}
+          <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-950/80 p-1.5 rounded-xl border border-purple-950/80">
+            <div className="flex items-center gap-1.5">
+              <button
+                type="button"
+                onClick={() => setMetaInnerTab('disciplines')}
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-2 cursor-pointer ${
+                  metaInnerTab === 'disciplines'
+                    ? 'bg-purple-950 text-purple-200 border border-purple-500/70 shadow-[0_0_12px_rgba(168,85,247,0.25)]'
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
+                }`}
+              >
+                <span>🔮</span>
+                <span>Awakened Disciplines ({awakenedList.length}/6)</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setMetaInnerTab('invocations')}
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-2 cursor-pointer ${
+                  metaInnerTab === 'invocations'
+                    ? 'bg-purple-950 text-purple-200 border border-purple-500/70 shadow-[0_0_12px_rgba(168,85,247,0.25)]'
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
+                }`}
+              >
+                <span>📜</span>
+                <span>Invocations &amp; Special Abilities ({characterPowers.length})</span>
+              </button>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  if (onOpenMetaphysicsModal) onOpenMetaphysicsModal();
+                }}
+                className="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 border border-purple-500/50 text-purple-200 hover:text-white rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+              >
+                <BookOpen size={12} className="text-purple-400" />
+                <span>Launch Full Codex</span>
+              </button>
+            </div>
+          </div>
+
+          {/* TAB 1: Consolidated Disciplines List-Type Layout */}
+          {metaInnerTab === 'disciplines' && (
+            <div className="space-y-2.5">
+              {METAPHYSICAL_DISCIPLINES.map((disc) => {
               const isAwakened = isDisciplineAwakened(disc.name);
               const pairedSkillNames = disc.skills.map(s => s.name).join(', ');
               const cardInvocations = invocationsByDiscipline[disc.name.toLowerCase()] || [];
@@ -751,16 +877,23 @@ export const FeaturesTab = ({
               return (
                 <div
                   key={disc.id}
-                  className={`rounded-xl p-3.5 border transition-all flex flex-col justify-between ${
+                  className={`rounded-xl p-3 sm:p-4 border transition-all flex flex-col lg:flex-row lg:items-center justify-between gap-3.5 ${
                     isAwakened
-                      ? 'bg-purple-950/40 border-purple-500/70 shadow-[0_0_15px_rgba(168,85,247,0.15)] ring-1 ring-purple-500/30'
-                      : 'bg-slate-950/80 border-slate-800/80 hover:border-slate-700'
+                      ? 'bg-purple-950/30 border-purple-500/60 shadow-[0_0_16px_rgba(168,85,247,0.12)] ring-1 ring-purple-500/30'
+                      : 'bg-slate-950/70 border-slate-800/90 hover:border-slate-700/80'
                   }`}
                 >
-                  <div className="space-y-2">
-                    <div className="flex items-start justify-between gap-2">
+                  {/* Left: Discipline Identity & Description */}
+                  <div className="flex items-start gap-3 min-w-[260px] lg:max-w-xs xl:max-w-sm">
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl border shrink-0 ${
+                      isAwakened 
+                        ? 'bg-purple-950/90 border-purple-500/50 text-purple-200 shadow-inner' 
+                        : 'bg-slate-900 border-slate-800 text-slate-400'
+                    }`}>
+                      {disc.icon}
+                    </div>
+                    <div className="space-y-0.5">
                       <div className="flex items-center gap-2">
-                        <span className="text-xl">{disc.icon}</span>
                         <FolioTooltip
                           title={`Awakened: ${disc.name}`}
                           badge="Metaphysics Discipline"
@@ -768,36 +901,31 @@ export const FeaturesTab = ({
                           description={disc.description}
                           formula={`Unlocks skills: ${pairedSkillNames} & Attune`}
                           cost="3 CP"
-                          tags={['Metaphysics', 'Code Resonance', 'Void Channeling']}
+                          tags={['Metaphysics', 'Void Channeling']}
                           showInfoIcon={true}
                         >
-                          <div>
-                            <h4 className="font-bold text-xs text-slate-100 uppercase tracking-wide hover:text-purple-300 transition-colors">
-                              {disc.name}
-                            </h4>
-                            <span className="text-[10px] font-mono text-purple-300/80">
-                              3 CP Feature
-                            </span>
-                          </div>
+                          <h4 className="font-bold text-xs text-slate-100 uppercase tracking-wide hover:text-purple-300 transition-colors">
+                            {disc.name}
+                          </h4>
                         </FolioTooltip>
-                      </div>
-
-                      <span
-                        className={`px-2 py-0.5 rounded text-[9.5px] font-mono font-bold uppercase border ${
+                        <span className={`px-2 py-0.5 rounded text-[9.5px] font-mono font-bold uppercase tracking-wider border ${
                           isAwakened
                             ? 'bg-purple-900/90 border-purple-400 text-purple-100 shadow-sm'
                             : 'bg-slate-900 border-slate-800 text-slate-500'
                         }`}
-                      >
-                        {isAwakened ? '✨ Awakened' : '🔒 Dormant'}
-                      </span>
+                        >
+                          {isAwakened ? '✨ Awakened' : '🔒 Dormant'}
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-slate-300/90 leading-relaxed line-clamp-2">
+                        {disc.description}
+                      </p>
                     </div>
+                  </div>
 
-                    <p className="text-[11px] text-slate-300/90 leading-relaxed line-clamp-2">
-                      {disc.description}
-                    </p>
-
-                    <div className="p-2 rounded bg-slate-900/70 border border-slate-800 text-[10.5px] font-mono">
+                  {/* Middle: Paired Skills & Invocations Counter */}
+                  <div className="flex-1 flex flex-wrap sm:flex-nowrap items-center gap-2 bg-slate-900/80 p-2 sm:p-2.5 rounded-xl border border-slate-800/90">
+                    <div className="flex-1 min-w-[130px] p-1.5 rounded-lg bg-slate-950/70 border border-slate-850 text-[10.5px] font-mono">
                       <span className="text-slate-400 block text-[9.5px] uppercase font-bold text-cyan-400/90 mb-0.5">
                         Paired Skills:
                       </span>
@@ -806,114 +934,31 @@ export const FeaturesTab = ({
                       </span>
                     </div>
 
-                    {/* Invocations Section on Discipline Card */}
-                    <div className="mt-3 pt-2.5 border-t border-purple-900/40 space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-mono uppercase font-bold text-purple-300 flex items-center gap-1.5">
-                          <Zap className="w-3 h-3 text-purple-400" />
-                          Invocations ({cardInvocations.length})
-                        </span>
-                        <button
-                          type="button"
-                          onClick={() => onOpenSelectorModal('invocations', `${disc.name} Invocations Catalog (Omnicortex)`, 'invocations', disc.name)}
-                          className="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-900/60 hover:bg-purple-800 border border-purple-500/60 text-purple-200 transition-colors flex items-center gap-1 cursor-pointer"
-                          title={`Browse Omnicortex Invocations for ${disc.name}`}
-                        >
-                          <Plus className="w-3 h-3 text-purple-300" />
-                          <span>+ Invocations</span>
-                        </button>
-                      </div>
-
-                      {/* Learned Invocations List for this Discipline */}
-                      {cardInvocations.length > 0 ? (
-                        <div className="space-y-1.5 max-h-40 overflow-y-auto pr-1">
-                          {cardInvocations.map((inv) => {
-                            const invRank = Math.min(10, Math.max(1, parseInt(inv.rank || 1, 10)));
-                            const subName = inv.subSkill || disc.skills[0]?.name || 'Focus';
-                            const pairedSkill = disc.skills.find(s => s.name.toLowerCase() === subName.toLowerCase()) || disc.skills[0];
-                            const skillRank = parseInt(characterData[`skill-${pairedSkill.id}-rank`] || 0, 10);
-                            const attrVal = parseInt(characterData['attr-wisdom'] || 0, 10);
-                            const attrMod = Math.floor(attrVal / 2);
-                            const invTotal = skillRank + attrMod + invRank + (parseInt(inv.mod || 0, 10));
-
-                            return (
-                              <div
-                                key={inv.id || inv.name}
-                                className="flex items-center justify-between p-1.5 rounded bg-purple-950/70 border border-purple-900/50 hover:border-purple-700/60 text-xs transition-colors group"
-                              >
-                                <div className="flex items-center gap-1.5 min-w-0">
-                                  <FolioTooltip
-                                    title={inv.name}
-                                    badge={`${disc.name} (${subName})`}
-                                    badgeColor="purple"
-                                    description={inv.description || inv.body}
-                                    formula={`Skill: ${subName} (+${invRank} rank, DC ${inv.baseDC || 15})`}
-                                    cost="1 CP"
-                                    tags={[disc.name, subName, 'Invocation']}
-                                    showInfoIcon={false}
-                                  >
-                                    <span className="font-bold text-slate-200 truncate cursor-help group-hover:text-purple-300">
-                                      {inv.name}
-                                    </span>
-                                  </FolioTooltip>
-                                  <span className="px-1 py-0.2 text-[9px] font-mono bg-purple-900/80 border border-purple-700/70 text-purple-300 rounded shrink-0">
-                                    {subName} +{invRank}
-                                  </span>
-                                  <span className="px-1 py-0.2 text-[9px] font-mono bg-amber-950/70 border border-amber-800 text-amber-300 rounded shrink-0">
-                                    1 CP
-                                  </span>
-                                </div>
-
-                                <div className="flex items-center gap-1 shrink-0 ml-1">
-                                  <button
-                                    type="button"
-                                    onClick={() => {
-                                      openDiceRoller({
-                                        baseModifier: invTotal,
-                                        expression: `2d10${invTotal !== 0 ? (invTotal > 0 ? `+${invTotal}` : `${invTotal}`) : ''}`,
-                                        label: `${disc.name}: ${inv.name} Invocation Check (${subName})`,
-                                        characterName: characterData['char-name'] || 'Operative',
-                                        autoRoll: true
-                                      });
-                                    }}
-                                    className="p-1 rounded bg-purple-900/80 hover:bg-purple-700 text-purple-200 border border-purple-600 transition-colors cursor-pointer"
-                                    title={`Roll ${inv.name} Check (2d10 + ${invTotal})`}
-                                  >
-                                    <Dices className="w-3 h-3 text-purple-300" />
-                                  </button>
-                                  <button
-                                    type="button"
-                                    onClick={() => {
-                                      confirmTypedDeletion({
-                                        title: `Remove Invocation: ${inv.name}`,
-                                        message: `Are you sure you want to remove the ${inv.name} invocation? This will refund 1 CP.`,
-                                        expectedConfirmation: inv.name,
-                                        onConfirm: () => handleDeleteItem('invocations', inv.sourceIndex)
-                                      });
-                                    }}
-                                    className="p-1 rounded hover:bg-red-950 text-slate-500 hover:text-red-400 transition-colors cursor-pointer"
-                                    title="Remove Invocation"
-                                  >
-                                    <Trash2 className="w-3 h-3" />
-                                  </button>
-                                </div>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      ) : (
-                        <div className="py-2 text-center text-[10.5px] font-mono text-slate-500 bg-slate-950/40 rounded border border-slate-900/80">
-                          0 Invocations learned (1 CP each)
-                        </div>
-                      )}
+                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-950/70 border border-slate-850">
+                      <span className="text-[10.5px] font-mono text-slate-400">
+                        Invocations: <strong className="text-purple-300">{cardInvocations.length}</strong>
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => onOpenSelectorModal('invocations', `${disc.name} Invocations Catalog (Omnicortex)`, 'invocations', disc.name)}
+                        className="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-900/60 hover:bg-purple-800 border border-purple-500/60 text-purple-200 transition-colors flex items-center gap-1 cursor-pointer"
+                        title={`Browse Invocations for ${disc.name}`}
+                      >
+                        <Plus className="w-3 h-3 text-purple-300" />
+                        <span>Add</span>
+                      </button>
                     </div>
                   </div>
 
-                  <div className="pt-3 mt-3 border-t border-slate-800/80 flex items-center justify-between">
+                  {/* Right: Cost & Awaken Toggle Action */}
+                  <div className="flex items-center justify-between lg:justify-end gap-3 shrink-0 pt-2 lg:pt-0 border-t lg:border-t-0 border-slate-850">
+                    <span className="text-[11px] font-mono text-slate-400">
+                      Cost: <strong className="text-amber-300">3 CP</strong>
+                    </span>
                     <button
                       type="button"
                       onClick={() => handleToggleAwakenedDiscipline(disc)}
-                      className={`w-full py-1.5 px-3 rounded-lg text-xs font-mono font-bold uppercase transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                      className={`py-1.5 px-3.5 rounded-lg text-xs font-mono font-bold uppercase transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm ${
                         isAwakened
                           ? 'bg-purple-900/80 hover:bg-red-950 border border-purple-500 hover:border-red-600 text-purple-100 hover:text-red-200'
                           : 'bg-purple-950 hover:bg-purple-900 border border-purple-700/80 text-purple-300 shadow-[0_0_8px_rgba(168,85,247,0.2)]'
@@ -927,7 +972,7 @@ export const FeaturesTab = ({
                       ) : (
                         <>
                           <Plus className="w-3.5 h-3.5 text-purple-400" />
-                          <span>Awaken Discipline (3 CP)</span>
+                          <span>Awaken (3 CP)</span>
                         </>
                       )}
                     </button>
@@ -935,34 +980,343 @@ export const FeaturesTab = ({
                 </div>
               );
             })}
-          </div>
+            </div>
+          )}
 
-          {/* Action Bar for Omnicortex Invocations & Metaphysics Codex */}
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-            <button
-              type="button"
-              onClick={() => onOpenSelectorModal('invocations', 'Omnicortex Invocations Catalog', 'invocations')}
-              className="py-2 px-5 bg-purple-950/90 hover:bg-purple-900 border border-purple-500/80 text-purple-200 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-[0_0_12px_rgba(168,85,247,0.25)] cursor-pointer"
-            >
-              <Zap className="w-4 h-4 text-purple-400" />
-              <span>+ Browse All Invocations (Omnicortex)</span>
-            </button>
+          {/* TAB 2: CATALOG OF THE CHARACTER'S INVOCATIONS & SPECIAL ABILITIES */}
+          {metaInnerTab === 'invocations' && (
+            <div className="bg-slate-950/80 border border-purple-900/60 rounded-xl p-4 sm:p-5 space-y-4 shadow-inner">
+            {/* Catalog Header */}
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-purple-950 pb-3">
+              <div>
+                <h3 className="text-sm font-bold uppercase tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-fuchsia-200 to-cyan-200 flex items-center gap-2">
+                  <span>📋</span> Character Powers Catalog ({characterPowers.length} Active)
+                </h3>
+                <p className="text-[11px] text-slate-400 mt-0.5">
+                  Manifest of all codified invocations and inherent special abilities acquired by this operative.
+                </p>
+              </div>
 
-            <button
-              type="button"
-              onClick={() => {
-                if (onOpenMetaphysicsModal) {
-                  onOpenMetaphysicsModal();
-                } else {
-                  onOpenSelectorModal('disciplines', 'Awakened Disciplines', 'disciplines');
-                }
-              }}
-              className="py-2 px-5 bg-slate-900 hover:bg-slate-800 border border-purple-900/60 text-slate-300 hover:text-white rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer"
-            >
-              <BookOpen className="w-4 h-4 text-purple-400" />
-              <span>Launch Metaphysics Codex</span>
-            </button>
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => onOpenSelectorModal('invocations', 'Omnicortex Invocations Catalog', 'invocations')}
+                  className="px-2.5 py-1 bg-purple-950 hover:bg-purple-900 border border-purple-500/70 text-purple-200 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 cursor-pointer shadow-sm"
+                >
+                  <Plus size={12} />
+                  <span>+ Add Invocation</span>
+                </button>
+
+                {onOpenAssetModal && (
+                  <button
+                    type="button"
+                    onClick={() => onOpenAssetModal('special_abilities', 'Special Ability', 'add')}
+                    className="px-2.5 py-1 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/70 text-cyan-200 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 cursor-pointer shadow-sm"
+                  >
+                    <Plus size={12} />
+                    <span>+ Add Special Ability</span>
+                  </button>
+                )}
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (onOpenMetaphysicsModal) onOpenMetaphysicsModal();
+                  }}
+                  className="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 border border-purple-500/50 text-purple-200 hover:text-white rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 cursor-pointer shadow-sm"
+                >
+                  <BookOpen size={12} className="text-purple-400" />
+                  <span>Launch Codex</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Search & Filter Bar */}
+            <div className="bg-slate-900/70 p-2.5 rounded-xl border border-slate-800 flex flex-wrap items-center justify-between gap-3">
+              <div className="flex flex-wrap items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => setMetaTypeFilter('all')}
+                  className={`px-2.5 py-1 rounded text-xs font-bold transition-all cursor-pointer ${
+                    metaTypeFilter === 'all'
+                      ? 'bg-purple-950 text-purple-200 border border-purple-500/60 shadow-sm'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  All Powers ({characterPowers.length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setMetaTypeFilter('invocations')}
+                  className={`px-2.5 py-1 rounded text-xs font-bold transition-all flex items-center gap-1 cursor-pointer ${
+                    metaTypeFilter === 'invocations'
+                      ? 'bg-purple-950 text-purple-200 border border-purple-500/60 shadow-sm'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  <span>📜</span>
+                  <span>Invocations ({learnedInvocations.length})</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setMetaTypeFilter('special_abilities')}
+                  className={`px-2.5 py-1 rounded text-xs font-bold transition-all flex items-center gap-1 cursor-pointer ${
+                    metaTypeFilter === 'special_abilities'
+                      ? 'bg-cyan-950 text-cyan-200 border border-cyan-500/60 shadow-sm'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  <span>⚡</span>
+                  <span>Special Abilities ({characterSpecialAbilities.length})</span>
+                </button>
+              </div>
+
+              <div className="flex items-center gap-2 flex-1 sm:flex-initial">
+                <select
+                  value={metaDisciplineFilter}
+                  onChange={(e) => setMetaDisciplineFilter(e.target.value)}
+                  className="bg-slate-950 border border-slate-700 text-slate-300 text-xs rounded-lg px-2.5 py-1 outline-none font-mono"
+                >
+                  <option value="all">All Disciplines</option>
+                  {METAPHYSICAL_DISCIPLINES.map(d => (
+                    <option key={d.id} value={d.name}>{d.name}</option>
+                  ))}
+                </select>
+
+                <div className="relative flex-1 sm:w-56">
+                  <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500" />
+                  <input
+                    type="text"
+                    value={metaSearchQuery}
+                    onChange={(e) => setMetaSearchQuery(e.target.value)}
+                    placeholder="Search powers & abilities..."
+                    className="w-full bg-slate-950 border border-slate-700 rounded-lg pl-8 pr-2.5 py-1 text-xs text-slate-200 placeholder-slate-500 outline-none focus:border-purple-500/50"
+                  />
+                  {metaSearchQuery && (
+                    <button
+                      type="button"
+                      onClick={() => setMetaSearchQuery('')}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs"
+                    >
+                      &times;
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Catalog Items Grid */}
+            {filteredCharacterPowers.length === 0 ? (
+              <div className="text-center py-8 border border-dashed border-slate-800 rounded-xl space-y-2 bg-slate-950/40">
+                <span className="text-2xl">🔮</span>
+                <div className="text-xs text-slate-300 font-bold">
+                  {metaSearchQuery || metaTypeFilter !== 'all' || metaDisciplineFilter !== 'all'
+                    ? 'No matching powers found'
+                    : 'No Invocations or Special Abilities acquired'}
+                </div>
+                <p className="text-[11px] text-slate-500 max-w-sm mx-auto">
+                  Browse the Omnicortex Invocations library or add inherent special abilities.
+                </p>
+                <div className="flex items-center justify-center gap-2 pt-1">
+                  <button
+                    type="button"
+                    onClick={() => onOpenSelectorModal('invocations', 'Omnicortex Invocations Catalog', 'invocations')}
+                    className="px-3 py-1 bg-purple-950 hover:bg-purple-900 border border-purple-500/60 text-purple-200 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 cursor-pointer"
+                  >
+                    <Zap size={12} className="text-purple-300" />
+                    <span>Browse Omnicortex Invocations</span>
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {filteredCharacterPowers.map((power, pIdx) => {
+                  const isInv = power.powerType === 'invocation';
+                  const invRank = Math.min(10, Math.max(1, parseInt(power.rank || 1, 10)));
+                  const discName = power.discipline || 'Metaphysics';
+                  const subName = power.subSkill || 'Focus';
+                  const disciplineObj = METAPHYSICAL_DISCIPLINES.find(d => d.name.toLowerCase() === discName.toLowerCase());
+                  const pairedSkill = disciplineObj?.skills.find(s => s.name.toLowerCase() === subName.toLowerCase()) || disciplineObj?.skills[0];
+                  const skillRank = pairedSkill ? parseInt(characterData[`skill-${pairedSkill.id}-rank`] || 0, 10) : 0;
+                  const attrVal = parseInt(characterData['attr-wisdom'] || 0, 10);
+                  const attrMod = Math.floor(attrVal / 2);
+                  const invTotal = skillRank + attrMod + invRank + (parseInt(power.mod || 0, 10));
+
+                  const prereqResult = checkPrerequisite(power, characterData, isInv ? 'invocations' : 'special_abilities');
+                  const isPrereqUnmet = prereqResult.hasPrerequisite && !prereqResult.isPossessed;
+
+                  return (
+                    <div
+                      key={power.id || `${power.powerType}_${pIdx}`}
+                      className={`border rounded-xl p-3.5 space-y-2.5 flex flex-col justify-between transition-all ${
+                        isPrereqUnmet
+                          ? 'bg-slate-950/70 border-dashed border-rose-900/60 opacity-60 grayscale-[70%] hover:opacity-100 hover:grayscale-0'
+                          : isInv
+                          ? 'bg-slate-950/80 border-purple-900/60 hover:border-purple-700/70'
+                          : 'bg-slate-950/80 border-cyan-900/60 hover:border-cyan-700/70'
+                      }`}
+                    >
+                      <div className="space-y-2">
+                        <div className="flex justify-between items-start gap-2">
+                          <div>
+                            <div className="flex items-center gap-1.5 mb-1">
+                              <span className={`px-2 py-0.2 text-[9.5px] font-mono font-bold uppercase rounded border ${
+                                isInv
+                                  ? 'bg-purple-950 text-purple-300 border-purple-800'
+                                  : 'bg-cyan-950 text-cyan-300 border-cyan-800'
+                              }`}>
+                                {isInv ? `📜 Invocation (Lvl ${invRank})` : '⚡ Special Ability'}
+                              </span>
+                              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-slate-900 text-slate-400 border border-slate-800">
+                                {discName} {subName ? `(${subName})` : ''}
+                              </span>
+                              {isPrereqUnmet && (
+                                <span className="inline-flex items-center gap-0.5 px-1.5 py-0.2 rounded text-[9px] font-mono uppercase tracking-wider bg-rose-950/80 border border-rose-800/80 text-rose-300" title={`Missing: ${prereqResult.unmetReasons.join(', ')}`}>
+                                  <Lock className="w-2.5 h-2.5" />
+                                  <span>Prereq Missing</span>
+                                </span>
+                              )}
+                            </div>
+                            <FolioTooltip
+                              title={power.name}
+                              prerequisites={prereqResult.prerequisiteText}
+                              prerequisiteMet={!isPrereqUnmet}
+                              prerequisiteUnmetReasons={prereqResult.unmetReasons}
+                              description={power.description || power.body}
+                              tags={[discName, subName].filter(Boolean)}
+                            >
+                              <h4 className={`font-bold text-xs cursor-pointer ${
+                                isPrereqUnmet ? 'text-slate-400 hover:text-rose-300' : isInv ? 'text-purple-100 hover:text-purple-300' : 'text-cyan-100 hover:text-cyan-300'
+                              }`}>
+                                {power.name}
+                              </h4>
+                            </FolioTooltip>
+                          </div>
+
+                          <div className="flex items-center gap-1 shrink-0">
+                            {isInv ? (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  openDiceRoller({
+                                    baseModifier: invTotal,
+                                    expression: `2d10${invTotal !== 0 ? (invTotal > 0 ? `+${invTotal}` : `${invTotal}`) : ''}`,
+                                    label: `${discName}: ${power.name} Check`,
+                                    characterName: characterData['char-name'] || 'Operative',
+                                    autoRoll: true
+                                  });
+                                }}
+                                className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white rounded text-xs font-mono font-bold flex items-center gap-1 shadow-sm cursor-pointer transition-all active:scale-95"
+                                title={`Roll 2d10 + ${invTotal} vs DC ${power.baseDC || 15}`}
+                              >
+                                <Dices className="w-3 h-3 text-purple-200" />
+                                <span>+{invTotal}</span>
+                              </button>
+                            ) : (
+                              power.damage ? (
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    openDiceRoller({
+                                      baseModifier: 0,
+                                      expression: power.damage,
+                                      label: `${power.name} Activation`,
+                                      characterName: characterData['char-name'] || 'Operative',
+                                      autoRoll: true
+                                    });
+                                  }}
+                                  className="px-2.5 py-1 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-mono font-bold flex items-center gap-1 shadow-sm cursor-pointer transition-all active:scale-95"
+                                >
+                                  <Dices className="w-3 h-3 text-amber-200" />
+                                  <span>{power.damage}</span>
+                                </button>
+                              ) : (
+                                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800">
+                                  Inherent
+                                </span>
+                              )
+                            )}
+
+                            <button
+                              type="button"
+                              onClick={() => {
+                                if (isInv) {
+                                  confirmTypedDeletion({
+                                    title: `Remove Invocation: ${power.name}`,
+                                    message: `Are you sure you want to remove ${power.name}?`,
+                                    expectedConfirmation: power.name,
+                                    onConfirm: () => handleDeleteItem('invocations', power.sourceIndex)
+                                  });
+                                } else {
+                                  confirmTypedDeletion({
+                                    title: `Remove Special Ability: ${power.name}`,
+                                    message: `Are you sure you want to remove ${power.name}?`,
+                                    expectedConfirmation: power.name,
+                                    onConfirm: () => handleDeleteItem('special_abilities', power.sourceIndex)
+                                  });
+                                }
+                              }}
+                              className="p-1 text-slate-500 hover:text-red-400 rounded hover:bg-slate-900 transition-colors cursor-pointer"
+                              title="Remove Power"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        </div>
+
+                        {(power.description || power.body) && (
+                          <p className="text-[11px] text-slate-300 leading-relaxed line-clamp-2">
+                            {power.description || power.body}
+                          </p>
+                        )}
+
+                        <div className="grid grid-cols-2 gap-1 text-[10px] font-mono text-slate-400 bg-slate-900/60 p-1.5 rounded border border-slate-850">
+                          <div>Time: <span className="text-slate-200">{power.time || '1 Action'}</span></div>
+                          <div>Range: <span className="text-slate-200">{power.range || 'Touch'}</span></div>
+                          <div>Duration: <span className="text-slate-200">{power.duration || 'Instant'}</span></div>
+                          <div>Save: <span className="text-amber-300">{power.resistance || 'None'}</span></div>
+                        </div>
+                      </div>
+
+                      <div className="pt-2 border-t border-slate-850 flex items-center justify-between text-xs">
+                        {isInv ? (
+                          <div className="flex items-center gap-1.5 font-mono text-xs">
+                            <span className="text-[10px] text-slate-400">Lvl:</span>
+                            <div className="flex items-center gap-1">
+                              <button
+                                type="button"
+                                onClick={() => handleUpdateInvocationRank(power.sourceIndex, invRank - 1)}
+                                className="w-5 h-5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center font-bold text-xs cursor-pointer"
+                              >
+                                -
+                              </button>
+                              <span className="font-bold text-amber-300 px-1">{invRank}</span>
+                              <button
+                                type="button"
+                                onClick={() => handleUpdateInvocationRank(power.sourceIndex, invRank + 1)}
+                                className="w-5 h-5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center font-bold text-xs cursor-pointer"
+                              >
+                                +
+                              </button>
+                            </div>
+                          </div>
+                        ) : (
+                          <span className="text-[10px] font-mono text-slate-400">
+                            Cost: <strong className="text-amber-300">{power.cp || 5} CP</strong>
+                          </span>
+                        )}
+
+                        <span className="text-[10px] font-mono text-slate-400">
+                          {isInv ? `DC ${power.baseDC || 15} • 1 CP` : 'Inherent Trait'}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
+          )}
         </div>
       )}
 

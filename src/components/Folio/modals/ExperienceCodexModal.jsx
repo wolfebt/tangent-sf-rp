@@ -114,7 +114,7 @@ export const ExperienceCodexModal = ({
             <div className="flex items-center gap-2">
               <span className="text-2xl">🎖️</span>
               <h2 className="text-lg sm:text-xl font-black uppercase tracking-wider text-emerald-300">
-                Experience, Award Points (AP) &amp; Progression Codex
+                Advancement Points (AP) &amp; Progression Codex
               </h2>
             </div>
             <p className="text-xs text-slate-400">
@@ -151,7 +151,7 @@ export const ExperienceCodexModal = ({
             </div>
           </div>
           <div className="space-y-0.5">
-            <span className="text-[10px] uppercase tracking-wider text-slate-400">Experience Debt</span>
+            <span className="text-[10px] uppercase tracking-wider text-slate-400">Advancement Debt</span>
             <div className={`text-base font-bold ${experienceDebt > 0 ? 'text-rose-400' : 'text-slate-500'}`}>
               {experienceDebt > 0 ? `-${experienceDebt} AP (Trauma)` : 'None (0 AP)'}
             </div>
@@ -165,7 +165,7 @@ export const ExperienceCodexModal = ({
               { id: 'core', label: 'Core System & Increment Rule' },
               { id: 'awards', label: 'GM Award Pacing' },
               { id: 'costs', label: 'Advancement Costs Table' },
-              { id: 'debt', label: 'Experience Debt' }
+              { id: 'debt', label: 'Advancement Debt' }
             ].map(tab => (
               <button
                 key={tab.id}
@@ -204,8 +204,8 @@ export const ExperienceCodexModal = ({
                   <span>CRITICAL CANON: The Increment Rule</span>
                 </div>
                 <p className="text-amber-100/90 text-xs leading-relaxed">
-                  Abilities, skills, or other traits may <strong>ONLY HAVE A 1 POINT INCREMENT OF ANY SCORE PER EXPERIENCE AWARD</strong>.
-                  A player cannot dump multiple Award Points into a single skill or trait in a single transaction.
+                  Abilities, skills, or other traits may <strong>ONLY HAVE A 1 POINT INCREMENT OF ANY SCORE PER ADVANCEMENT AWARD</strong>.
+                  A player cannot dump multiple Advancement Points into a single skill or trait in a single transaction.
                 </p>
                 <div className="p-2.5 rounded bg-black/40 border border-amber-500/30 text-[11px] font-mono text-amber-200/90">
                   Example: If granted 3 AP after a chapter, a character can increase Technology (+1), Stealth (+1), and buy a Specialization (+1), but CANNOT increase Technology by +3 all at once.
@@ -218,7 +218,7 @@ export const ExperienceCodexModal = ({
                     <span>⚖️</span> 1 AP = 1 CP Direct Exchange
                   </h4>
                   <p className="text-slate-400 text-xs">
-                    Award Points (AP) represent the experiential growth earned by characters in active play. They function identically to Character Points (CP) from character creation, on a direct 1-for-1 basis.
+                    Advancement Points (AP) represent the experiential growth earned by characters in active play. They function identically to Character Points (CP) from character creation, on a direct 1-for-1 basis.
                   </p>
                 </div>
 
@@ -237,7 +237,7 @@ export const ExperienceCodexModal = ({
                   <span>🎮</span> GM Award Workflow in VTT
                 </h4>
                 <p className="text-slate-400 text-xs">
-                  In Tangent SF RP, experience is primarily granted by the Game Master during and after sessions inside the VTT Tactical Environment. Awards immediately cascade to the Persona Folio and sync across the cloud.
+                  In Tangent SF RP, advancement points are primarily granted by the Game Master during and after sessions inside the VTT Tactical Environment. Awards immediately cascade to the Persona Folio and sync across the cloud.
                 </p>
               </div>
 
@@ -248,7 +248,7 @@ export const ExperienceCodexModal = ({
           {activeTab === 'awards' && (
             <div className="space-y-3">
               <div className="text-xs text-slate-400 mb-2">
-                Official Architect guidelines for granting experience pacing throughout a campaign:
+                Official Architect guidelines for granting advancement points pacing throughout a campaign:
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {AWARD_GUIDELINES.map((guide, idx) => (
@@ -302,7 +302,7 @@ export const ExperienceCodexModal = ({
             </div>
           )}
 
-          {/* TAB 4: Experience Debt & The High Cost of Dying */}
+          {/* TAB 4: Advancement Debt & The High Cost of Dying */}
           {activeTab === 'debt' && (
             <div className="space-y-4 text-xs text-slate-300 leading-relaxed">
               <div className="bg-rose-950/40 border border-rose-600/70 rounded-xl p-4 space-y-2">
@@ -312,7 +312,7 @@ export const ExperienceCodexModal = ({
                 </div>
                 <p className="text-rose-100/90 text-xs leading-relaxed">
                   A character who survives Death's Door through emergency revivification or miraculous medical intervention suffers intense biological and psychological shock.
-                  Canonically, revivification imposes an immediate <strong>-5 Experience Debt</strong> penalty and causes the complete loss of all current Karma.
+                  Canonically, revivification imposes an immediate <strong>-5 AP Debt</strong> penalty and causes the complete loss of all current Karma.
                 </p>
               </div>
 
@@ -320,14 +320,14 @@ export const ExperienceCodexModal = ({
                 <div className="bg-slate-950/60 p-3.5 rounded-xl border border-slate-800 space-y-2">
                   <h4 className="font-bold text-amber-300 text-sm">Automatic Repayment</h4>
                   <p className="text-slate-400 text-xs">
-                    Future Award Points granted by the GM automatically pay down Experience Debt on a 1-for-1 basis before new traits, skills, or attributes can be advanced.
+                    Future Advancement Points (AP) granted by the GM automatically pay down AP Debt on a 1-for-1 basis before new traits, skills, or attributes can be advanced.
                   </p>
                 </div>
 
                 <div className="bg-slate-950/60 p-3.5 rounded-xl border border-slate-800 space-y-2">
                   <h4 className="font-bold text-cyan-300 text-sm">Manual Settlement</h4>
                   <p className="text-slate-400 text-xs">
-                    Players may elect to settle Experience Debt voluntarily by expending unspent AP in the Discreet Fate &amp; AP modal or reducing an existing trait in consultation with the GM.
+                    Players may elect to settle AP Debt voluntarily by expending unspent AP in the Discreet Fate &amp; AP modal or reducing an existing trait in consultation with the GM.
                   </p>
                 </div>
               </div>

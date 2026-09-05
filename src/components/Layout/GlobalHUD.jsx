@@ -24,7 +24,11 @@ import {
   Hash,
   Menu,
   X,
-  Command
+  Command,
+  Save,
+  Lock,
+  Unlock,
+  Copy
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useChat } from '../../context/ChatContext';
@@ -66,8 +70,16 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
     computeSpentCP,
     cloudSaveStatus,
     lastSavedTime,
+    saveCurrentToRoster,
     handleSaveLocal,
-    handleExportAsStoryElement
+    handleExportAsStoryElement,
+    isLocked,
+    isPlayerOverride,
+    allowPlayerOverride,
+    lockPersona,
+    unlockPersona,
+    clonePersonaVariant,
+    isInActiveGame
   } = folio;
 
   const isDBM = location.pathname.startsWith('/dbm');
@@ -399,12 +411,11 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                   AudioService.playTerminalBeep(1150, 0.03);
                   window.dispatchEvent(new CustomEvent('open-folio-catalog'));
                 }}
-                className="px-2 sm:px-2.5 py-1 rounded-lg text-xs font-bold font-mono uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 cyan-shadow-thin shrink-0"
-                title="Open Operative Catalog & Persona Roster"
+                className="px-2 sm:px-2.5 py-1 rounded-lg text-xs font-bold font-mono uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 cyan-shadow-thin shrink-0 max-w-[140px] sm:max-w-[200px]"
+                title={characterData?.['char-name'] ? `Operative: ${characterData['char-name']} (Click to switch operative or open catalog)` : "Open Operative Catalog & Persona Roster"}
               >
-                <Users size={13} className="text-cyan-400" />
-                <span className="hidden sm:inline">Operative Catalog</span>
-                <span className="sm:hidden">Catalog</span>
+                <Users size={13} className="text-cyan-400 shrink-0" />
+                <span className="truncate">{characterData?.['char-name'] || 'Operative Catalog'}</span>
               </button>
 
               {/* Bastion AI Trigger */}
@@ -416,6 +427,25 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
               >
                 <span>🤖</span>
                 <span className="hidden sm:inline">BASTION</span>
+              </button>
+
+              {/* Direct Save Folio Button */}
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1200, 0.03);
+                  window.dispatchEvent(new CustomEvent('trigger-folio-save'));
+                }}
+                className="px-2 sm:px-2.5 py-1 rounded-lg text-xs font-bold font-mono uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border border-emerald-500/50 cyan-shadow-thin shrink-0"
+                title="Save current persona sheet to Operative Roster and Cloud Storage"
+              >
+                <Save size={13} className="text-emerald-400" />
+                <span className="hidden sm:inline">
+                  {cloudSaveStatus === 'saving' ? 'Saving...' : 'Save'}
+                </span>
+                {cloudSaveStatus === 'saved' && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]" />
+                )}
               </button>
 
               {/* Folio File Menu Dropdown */}
@@ -436,6 +466,102 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                     className="absolute right-0 top-full mt-2 w-56 bg-[#161b22] border border-cyan-500/50 rounded-lg shadow-2xl p-1.5 z-50 text-xs flex flex-col gap-1 backdrop-blur-md"
                     onClick={() => setIsFolioMenuOpen(false)}
                   >
+                    {/* Primary Folio Actions: Save, Lock/Unlock for VTT, Clone Variant */}
+                    <button
+                      onClick={() => {
+                        AudioService.playTerminalBeep(1200, 0.03);
+                        window.dispatchEvent(new CustomEvent('trigger-folio-save'));
+                      }}
+                      className="w-full text-left px-3 py-1.5 hover:bg-emerald-950/80 text-emerald-300 uppercase font-bold rounded flex items-center justify-between"
+                      title="Save current persona sheet to Operative Roster and Cloud Storage"
+                    >
+                      <span className="flex items-center gap-1.5">
+                        <Save size={13} className="text-emerald-400" />
+                        <span>Save Folio</span>
+                      </span>
+                      <span className="text-[10px] text-emerald-400 font-mono">
+                        {cloudSaveStatus === 'saving' ? 'Saving...' : cloudSaveStatus === 'saved' ? 'Saved' : 'Ready'}
+                      </span>
+                    </button>
+
+                    {!isLocked ? (
+                      <button
+                        onClick={() => {
+                          AudioService.playTerminalBeep(1100, 0.03);
+                          if (lockPersona) lockPersona();
+                        }}
+                        className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-cyan-300 uppercase font-bold rounded flex items-center gap-1.5"
+                        title="Lock and set persona ready for VTT deployment"
+                      >
+                        <Lock size={13} className="text-cyan-400" />
+                        <span>Lock &amp; Set for VTT</span>
+                      </button>
+                    ) : !isPlayerOverride ? (
+                      !isInActiveGame ? (
+                        <button
+                          onClick={() => {
+                            AudioService.playTerminalBeep(1100, 0.03);
+                            if (unlockPersona) {
+                              unlockPersona();
+                            }
+                          }}
+                          className="w-full text-left px-3 py-1.5 hover:bg-amber-950/80 text-amber-300 uppercase font-bold rounded flex items-center gap-1.5"
+                          title="Unlock folio to return to Development Phase"
+                        >
+                          <Unlock size={13} className="text-amber-400" />
+                          <span>Unlock Sheet (Edit Mode)</span>
+                        </button>
+                      ) : allowPlayerOverride ? (
+                        <button
+                          onClick={() => {
+                            AudioService.playTerminalBeep(1100, 0.03);
+                            const reason = prompt("Enter player reason/note for this sheet modification override during active VTT session (optional, logged for GM review):");
+                            if (reason !== null && unlockPersona) {
+                              unlockPersona(reason);
+                            }
+                          }}
+                          className="w-full text-left px-3 py-1.5 hover:bg-amber-950/80 text-amber-300 uppercase font-bold rounded flex items-center gap-1.5"
+                          title="Unlock folio via player override to make changes during active VTT session"
+                        >
+                          <Unlock size={13} className="text-amber-400" />
+                          <span>Player Override (Unlock)</span>
+                        </button>
+                      ) : (
+                        <div
+                          className="w-full text-left px-3 py-1.5 text-slate-500 uppercase font-bold rounded flex items-center gap-1.5 opacity-60 cursor-not-allowed"
+                          title="Player Override is disabled by the GM for this session. Direct sheet modifications are locked."
+                        >
+                          <Lock size={13} className="text-slate-500" />
+                          <span>Locked (Override Disallowed)</span>
+                        </div>
+                      )
+                    ) : (
+                      <button
+                        onClick={() => {
+                          AudioService.playTerminalBeep(1100, 0.03);
+                          if (lockPersona) lockPersona();
+                        }}
+                        className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-cyan-200 uppercase font-bold rounded flex items-center gap-1.5"
+                        title="Lock sheet again and return to Set/Locked status"
+                      >
+                        <Lock size={13} className="text-cyan-400" />
+                        <span>Relock Sheet for VTT</span>
+                      </button>
+                    )}
+
+                    <button
+                      onClick={() => {
+                        AudioService.playTerminalBeep(1100, 0.03);
+                        if (clonePersonaVariant) clonePersonaVariant();
+                      }}
+                      className="w-full text-left px-3 py-1.5 hover:bg-slate-800 text-slate-200 uppercase font-bold rounded flex items-center gap-1.5"
+                      title="Branch an unlocked development variant of this persona without modifying the set version"
+                    >
+                      <Copy size={13} className="text-cyan-400" />
+                      <span>Clone Variant</span>
+                    </button>
+
+                    <div className="border-t border-slate-800 my-0.5" />
                     <button
                       onClick={() => handleOpenGuide('folio')}
                       className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-slate-200 uppercase font-bold rounded"

@@ -5,6 +5,8 @@ import { useFolio } from '../../../context/FolioContext';
 import { useDice } from '../../../context/DiceContext';
 import { Dices } from 'lucide-react';
 import DiscreetFateOverrideModal from '../modals/DiscreetFateOverrideModal';
+import KarmaCodexModal from '../modals/KarmaCodexModal';
+import ExperienceCodexModal from '../modals/ExperienceCodexModal';
 import PerceptionEssenceMovementModal from '../modals/PerceptionEssenceMovementModal';
 import PerceptionRulesModal from '../modals/PerceptionRulesModal';
 import MovementRulesModal from '../modals/MovementRulesModal';
@@ -197,6 +199,8 @@ const CoreStatsTab = () => {
   const isStatsLocked = isInActiveGame && !isGMConfirmed;
 
   const [isFateOverrideOpen, setIsFateOverrideOpen] = useState(false);
+  const [isKarmaCodexOpen, setIsKarmaCodexOpen] = useState(false);
+  const [isExperienceCodexOpen, setIsExperienceCodexOpen] = useState(false);
   const [isCoreRulesModalOpen, setIsCoreRulesModalOpen] = useState(false);
   const [isPerceptionRulesOpen, setIsPerceptionRulesOpen] = useState(false);
   const [isMovementRulesOpen, setIsMovementRulesOpen] = useState(false);
@@ -684,18 +688,27 @@ const CoreStatsTab = () => {
               <div className="flex flex-wrap items-center gap-1.5 ml-auto">
                 <button
                   type="button"
+                  onClick={() => setIsKarmaCodexOpen(true)}
+                  className="px-2.5 py-1 rounded bg-purple-950 hover:bg-purple-900 border border-purple-500/50 text-[10px] font-bold text-purple-300 transition-colors flex items-center gap-1 shadow-sm cursor-pointer"
+                  title="Open Karma Codex & Ledger"
+                >
+                  <span>☸️</span> Karma Codex
+                </button>
+
+                <button
+                  type="button"
                   onClick={() => openRulesModal('karma')}
                   className="px-2.5 py-1 rounded bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/50 text-[10px] font-bold text-cyan-300 transition-colors flex items-center gap-1 shadow-sm cursor-pointer"
                   title="Open canonical Karma & Fate Rules Codex"
                 >
-                  <span>📖</span> Karma Rules
+                  <span>📖</span> Rules
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setIsFateOverrideOpen(true)}
                   className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-cyan-500/60 text-[10px] font-bold text-slate-300 hover:text-cyan-200 transition-colors flex items-center gap-1 cursor-pointer"
-                  title="Open discreet override modal for Karma, Plot Points, and Experience"
+                  title="Open discreet override modal for Karma, Plot Points, and Advancement Points"
                 >
                   <span>⚙️</span> Overrides
                 </button>
@@ -1386,22 +1399,22 @@ const CoreStatsTab = () => {
             </div>
           </div>
 
-          {/* Experience Block */}
+          {/* Advancement Points (AP) Block */}
           <div className="bg-slate-900/60 border border-emerald-900/50 rounded-lg p-3.5 space-y-3">
             <div className="flex flex-wrap justify-between items-center border-b border-emerald-900/60 pb-2 gap-2">
               <div className="flex items-center gap-2">
                 <span className="text-base">🎖️</span>
                 <FolioTooltip
-                  title="Experience & Award Points"
+                  title="Advancement Points (AP)"
                   badge="Heroic Advancement"
                   badgeColor="emerald"
-                  description="System of character progression. Award Points (AP) are converted 1:1 into Character Points (CP) to buy attribute points, skills, and features."
+                  description="System of character progression. Advancement Points (AP) are converted 1:1 into Character Points (CP) to buy attribute points, skills, and features."
                   formula="1 AP = 1 CP"
                   tags={['Advancement', 'AP', 'CP']}
                   showInfoIcon={true}
                 >
                   <h3 className="text-sm font-bold uppercase tracking-wider text-emerald-400 hover:text-emerald-300 transition-colors">
-                    Experience
+                    Advancement Points
                   </h3>
                 </FolioTooltip>
                 <span className="text-[10px] font-mono text-slate-400 hidden sm:inline">
@@ -1412,25 +1425,34 @@ const CoreStatsTab = () => {
               <div className="flex flex-wrap items-center gap-1.5 ml-auto">
                 <button
                   type="button"
-                  onClick={() => openRulesModal('experience')}
+                  onClick={() => setIsExperienceCodexOpen(true)}
                   className="px-2.5 py-1 rounded bg-emerald-950 hover:bg-emerald-900 border border-emerald-500/50 text-[10px] font-bold text-emerald-300 transition-colors flex items-center gap-1 shadow-sm cursor-pointer"
-                  title="Open canonical Experience, AP & Advancement Rules Codex"
+                  title="Open Advancement Points (AP) Codex & Progression Ledger"
                 >
-                  <span>📖</span> XP Rules
+                  <span>✨</span> AP Codex
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => openRulesModal('experience')}
+                  className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-emerald-500/60 text-[10px] font-bold text-slate-300 hover:text-emerald-200 transition-colors flex items-center gap-1 shadow-sm cursor-pointer"
+                  title="Open canonical Advancement Rules Codex"
+                >
+                  <span>📖</span> Rules
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setIsFateOverrideOpen(true)}
                   className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-emerald-500/60 text-[10px] font-bold text-slate-300 hover:text-emerald-200 transition-colors flex items-center gap-1 cursor-pointer"
-                  title="Open discreet override modal for Karma, Plot Points, and Experience"
+                  title="Open discreet override modal for Karma, Plot Points, and Advancement Points"
                 >
                   <span>⚙️</span> Overrides
                 </button>
               </div>
             </div>
 
-            {/* Experience Telemetry Grid */}
+            {/* Advancement Telemetry Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center font-mono">
               {(() => {
                 const earnedAP = Number(characterData?.earned_ap || 0);
@@ -1441,10 +1463,10 @@ const CoreStatsTab = () => {
                 return (
                   <>
                     <FolioTooltip
-                      title="Earned Award Points"
+                      title="Earned Advancement Points"
                       badge="Lifetime Total"
                       badgeColor="emerald"
-                      description="Total career Award Points awarded by the GM for session attendance, roleplay, and mission completions."
+                      description="Total career Advancement Points awarded by the GM for session attendance, roleplay, and mission completions."
                       formula={`Total: +${earnedAP} AP`}
                     >
                       <div className="p-2 rounded border bg-slate-800/50 border-emerald-700/60 text-center flex flex-col justify-between w-full hover:border-emerald-400 transition-colors">
@@ -1455,10 +1477,10 @@ const CoreStatsTab = () => {
                     </FolioTooltip>
 
                     <FolioTooltip
-                      title="Available Award Points"
+                      title="Available Advancement Points"
                       badge="Advancement Capital"
                       badgeColor="cyan"
-                      description="Unspent Award Points ready to be invested into attributes (5 AP), skills (1 AP), or features (3 AP)."
+                      description="Unspent Advancement Points ready to be invested into attributes (5 AP), skills (1 AP), or features (3 AP)."
                       formula={`Available: ${availableAP} AP`}
                     >
                       <div className="p-2 rounded border bg-slate-800/50 border-cyan-700/60 text-center flex flex-col justify-between w-full hover:border-cyan-400 transition-colors">
@@ -1469,10 +1491,10 @@ const CoreStatsTab = () => {
                     </FolioTooltip>
 
                     <FolioTooltip
-                      title="Spent Award Points"
+                      title="Spent Advancement Points"
                       badge="Invested Progression"
                       badgeColor="slate"
-                      description="Total Award Points allocated towards character growth across attributes, skills, and traits."
+                      description="Total Advancement Points allocated towards character growth across attributes, skills, and traits."
                       formula={`Invested: ${spentAP} AP`}
                     >
                       <div className="p-2 rounded border bg-slate-800/50 border-slate-700 text-center flex flex-col justify-between w-full hover:border-slate-500 transition-colors">
@@ -1483,7 +1505,7 @@ const CoreStatsTab = () => {
                     </FolioTooltip>
 
                     <FolioTooltip
-                      title="Experience Debt"
+                      title="Advancement Debt"
                       badge="Mortality Penalty"
                       badgeColor="rose"
                       description="Debt incurred when an operative undergoes emergency Revivification from death. Future earned AP will automatically repay debt first."
@@ -1494,7 +1516,7 @@ const CoreStatsTab = () => {
                           ? 'bg-rose-950/40 border-rose-500/60 text-rose-300 hover:border-rose-400' 
                           : 'bg-slate-800/50 border-slate-700 text-slate-400 hover:border-slate-500'
                       }`}>
-                        <span className="text-[10px] uppercase font-bold text-slate-400">XP Debt</span>
+                        <span className="text-[10px] uppercase font-bold text-slate-400">AP Debt</span>
                         <span className={`text-base font-black ${debt > 0 ? 'text-rose-400' : 'text-slate-500'}`}>
                           {debt > 0 ? `-${debt}` : '0'}
                         </span>
@@ -1508,18 +1530,18 @@ const CoreStatsTab = () => {
               })()}
             </div>
 
-            {/* Experience Debt Action Banner if Debt > 0 */}
+            {/* Advancement Debt Action Banner if Debt > 0 */}
             {(characterData?.experience_debt || 0) > 0 && (
               <div className="p-2 rounded bg-rose-950/30 border border-rose-800/40 flex items-center justify-between gap-2 text-xs">
                 <span className="text-rose-300 text-[11px]">
-                  ⚠️ <strong>XP Debt Active (-{characterData.experience_debt}):</strong> Future earned AP automatically settles debt before converting to available AP.
+                  ⚠️ <strong>AP Debt Active (-{characterData.experience_debt}):</strong> Future earned AP automatically settles debt before converting to available AP.
                 </span>
                 {(economyBreakdown?.availableAP ?? characterData?.earned_ap ?? 0) > 0 && (
                   <button
                     type="button"
                     onClick={() => payExperienceDebt(1)}
                     className="px-2 py-0.5 bg-rose-900 hover:bg-rose-800 text-rose-100 rounded text-[10px] font-bold border border-rose-600 transition-colors shrink-0 cursor-pointer"
-                    title="Pay 1 AP towards Experience Debt"
+                    title="Pay 1 AP towards AP Debt"
                   >
                     Pay 1 AP
                   </button>
@@ -1561,13 +1583,23 @@ const CoreStatsTab = () => {
         derivedStats={derivedStats}
       />
 
-      {/* Dedicated Movement Rules Modal */}
-      <MovementRulesModal
-        isOpen={isMovementRulesOpen}
-        onClose={() => setIsMovementRulesOpen(false)}
-        characterData={characterData}
-        getAttrTotal={getAttrTotal}
-        derivedStats={derivedStats}
+      {/* Consolidated Karma Codex Modal */}
+      <KarmaCodexModal
+        isOpen={isKarmaCodexOpen}
+        onClose={() => setIsKarmaCodexOpen(false)}
+        charismaScore={getAttrTotal('attr-charisma')}
+        currentKarma={getNum('karma', derivedStats?.maxKarma ?? 3)}
+        maxKarma={derivedStats?.maxKarma ?? 3}
+        plotPoints={getNum('plot-points', 0)}
+      />
+
+      {/* Consolidated Advancement Points (AP) Codex Modal */}
+      <ExperienceCodexModal
+        isOpen={isExperienceCodexOpen}
+        onClose={() => setIsExperienceCodexOpen(false)}
+        earnedAP={Number(characterData?.earned_ap || 0)}
+        availableAP={economyBreakdown?.availableAP ?? Number(characterData?.earned_ap || 0)}
+        experienceDebt={Number(characterData?.experience_debt || 0)}
       />
 
     </div>

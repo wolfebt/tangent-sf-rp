@@ -444,7 +444,7 @@ const FolioGuideSection = () => (
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
         <div className="bg-slate-950 p-3 rounded-lg border border-slate-800">
           <div className="font-bold text-amber-300 mb-1">🔒 VTT Active Game Locking</div>
-          <p className="text-slate-400 text-[11px]">Operators lock their sheet when joining a game session. This enables the GM/Architect to remotely stream XP/AP, Karma, status conditions, damage, and heals without player collision. Player emergency edits are tracked and flagged for GM review.</p>
+          <p className="text-slate-400 text-[11px]">Operators lock their sheet when joining a game session. This enables the GM/Architect to remotely stream AP, Karma, status conditions, damage, and heals without player collision. Player emergency edits are tracked and flagged for GM review.</p>
         </div>
         <div className="bg-slate-950 p-3 rounded-lg border border-slate-800">
           <div className="font-bold text-cyan-300 mb-1">🧙 Guided Creator Wizard</div>
@@ -1285,7 +1285,7 @@ const RulesGuideSection = () => (
           <span>⚠️</span> The Increment Rule (CRITICAL)
         </div>
         <p className="text-[11px] text-slate-300 leading-relaxed">
-          Award Points are spent in the exact same manner as Build Points in character creation, on a 1-for-1 basis, except that <strong className="text-amber-200">abilities, skills, or other traits may ONLY HAVE A 1 POINT INCREMENT OF ANY SCORE PER EXPERIENCE AWARD</strong>. A player cannot dump 10 AP into a single skill instantly.
+          Advancement Points are spent in the exact same manner as Build Points in character creation, on a 1-for-1 basis, except that <strong className="text-amber-200">abilities, skills, or other traits may ONLY HAVE A 1 POINT INCREMENT OF ANY SCORE PER ADVANCEMENT AWARD</strong>. A player cannot dump 10 AP into a single skill instantly.
         </p>
       </div>
 

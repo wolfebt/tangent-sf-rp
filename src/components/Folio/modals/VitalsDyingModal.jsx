@@ -68,7 +68,7 @@ const MORTALITY_STAGES = [
     status: 'Permanently Dead',
     color: 'red',
     icon: '⚰️',
-    details: 'The biological life or artificial core has expired. Return requires high-tier Metaphysics or TL5 tech, incurring "The High Cost of Dying" (-All Karma, -5 XP Debt).'
+    details: 'The biological life or artificial core has expired. Return requires high-tier Metaphysics or TL5 tech, incurring "The High Cost of Dying" (-All Karma, -5 AP Debt).'
   }
 ];
 
@@ -196,7 +196,7 @@ const VitalsDyingModal = ({ isOpen, onClose }) => {
           {(atDeathsDoor || isDead || isIncapacitated) && (
             <div className="pt-2 border-t border-slate-800 flex flex-wrap items-center justify-between gap-2 text-xs">
               <div className="text-slate-300 text-[11px]">
-                {isDead && <span className="text-red-400">Hero is deceased. Revivification invokes The High Cost of Dying (-All Karma, -5 XP Debt).</span>}
+                {isDead && <span className="text-red-400">Hero is deceased. Revivification invokes The High Cost of Dying (-All Karma, -5 AP Debt).</span>}
                 {atDeathsDoor && <span className="text-rose-300">Hero is Comatose at Death's Door! Apply Medicine DC 15 check or healing tech.</span>}
                 {isIncapacitated && <span className="text-amber-300">Hero is unconscious at 0 Health, but buffered by remaining Vitality.</span>}
               </div>
@@ -224,13 +224,13 @@ const VitalsDyingModal = ({ isOpen, onClose }) => {
                   <button
                     type="button"
                     onClick={() => {
-                      if (window.confirm("Perform Revivification? 'The High Cost of Dying' applies: Character loses ALL remaining Karma Points and suffers a -5 Experience Debt.")) {
+                      if (window.confirm("Perform Revivification? 'The High Cost of Dying' applies: Character loses ALL remaining Karma Points and suffers a -5 AP Debt.")) {
                         revivifyCharacter();
                       }
                     }}
                     className="px-2.5 py-1 bg-red-900 hover:bg-red-800 text-white rounded text-[10.5px] font-bold uppercase tracking-wider border border-red-500 transition-colors cursor-pointer"
                   >
-                    ⚡ Revivify Character (-5 XP Debt)
+                    ⚡ Revivify Character (-5 AP Debt)
                   </button>
                 )}
               </div>

@@ -1,11 +1,12 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { useFolio } from '../../../context/FolioContext';
 import { useDice } from '../../../context/DiceContext';
-import { Dices, Zap, Plus } from 'lucide-react';
+import { Dices, Zap, Plus, Lock } from 'lucide-react';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { DEFAULT_SKILLS } from '../../../data/skillsData';
 import { resolveMetaSkillForInvocation } from '../../../utils/metaphysicsUtils';
 import FolioTooltip from '../shared/FolioTooltip';
+import { checkPrerequisite } from '../../../utils/prerequisiteEvaluator';
 
 const ATTRIBUTE_OPTIONS = [
   { value: 'attr-strength', label: 'STR' },
@@ -334,6 +335,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
             group: catKey,
             description: s.description,
             baseAttr: s.baseAttr,
+            rank: getSkillRank(s),
             total: getSkillTotal(s)
           });
         });
@@ -347,12 +349,13 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
           group: s.group,
           description: characterData?.[`skill-${s.id}-description`] || characterData?.[`skill-${s.id}-desc`] || 'Custom operative skill.',
           baseAttr: characterData?.[`skill-${s.id}-base`] || 'attr-intellect',
+          rank: getSkillRank(s),
           total: getSkillTotal(s)
         });
       });
     });
     return list;
-  }, [customSkillsBySubcategory, getSkillTotal, characterData]);
+  }, [customSkillsBySubcategory, getSkillTotal, getSkillRank, characterData]);
 
   // Lookup map for skill names and totals by ID
   const skillLookup = useMemo(() => {
@@ -900,17 +903,26 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
         {/* Linked Specializations & Invocations List */}
         {linkedSpecs.map((spec) => {
           const specRank = Math.min(10, Math.max(0, parseInt(spec.rank || 0, 10)));
-          const specMod = parseInt(spec.mod || 0, 10);
+const specMod = parseInt(spec.mod || 0, 10);
           const specTotal = baseSkillTotal + specRank + specMod;
           const isMetaSkill = skill.group === 'meta' || skill.id.startsWith('meta-');
           const isInvocation = spec.isInvocation || (isMetaSkill && spec.category === 'invocations');
+
+          const prereqResult = checkPrerequisite(
+            { ...spec, skillId: skill.id, skillName: skill.name, baseSkillRank: rank },
+            characterData,
+            isInvocation ? 'invocations' : 'specializations'
+          );
+          const isPrereqUnmet = prereqResult.hasPrerequisite && !prereqResult.isPossessed;
 
           return (
             <React.Fragment key={spec.id}>
               {/* Desktop / Tablet View (>= 640px) */}
               <div
                 className={`folio-skill-row-desktop ml-6 pl-2.5 border-l-2 ${
-                  isInvocation
+                  isPrereqUnmet
+                    ? 'border-rose-900/60 bg-slate-950/80 border-dashed border-rose-900/50 opacity-60 grayscale-[70%] hover:opacity-100 hover:grayscale-0'
+                    : isInvocation
                     ? 'border-purple-500/80 bg-purple-950/30 hover:bg-purple-900/40 border-purple-900/40'
                     : isMetaSkill
                     ? 'border-purple-500/60 bg-purple-950/20 hover:bg-purple-900/30 border-purple-900/30'
@@ -932,7 +944,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                     <FolioTooltip
                       title={spec.name}
                       badge={isInvocation ? 'Metaphysical Invocation (1 CP)' : isMetaSkill ? 'Metaphysical Evocation' : 'Skill Specialization'}
-                      badgeColor="purple"
+                      badgeColor={isPrereqUnmet ? 'rose' : 'purple'}
                       description={isInvocation
                         ? (spec.description || `Specialized invocation formula for ${skill.name}. Adds +${specRank} bonus directly to the base discipline score.`)
                         : isMetaSkill
@@ -943,11 +955,20 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                         ? `Invocation Total (${specTotal}) = Base Skill (${baseSkillTotal}) + Rank (${specRank}) + Mod (${specMod}) vs DC ${spec.baseDC || 15}`
                         : `Spec Total (${specTotal}) = Base Skill (${baseSkillTotal}) + Rank (${specRank}) + Mod (${specMod})`
                       }
+                      prerequisites={prereqResult.prerequisiteText || (isInvocation ? `Awakened (${spec.discipline || skill.name})` : `Trained ${skill.name} (Rank >= 1)`)}
+                      prerequisiteMet={!isPrereqUnmet}
+                      prerequisiteUnmetReasons={prereqResult.unmetReasons}
                       tags={isInvocation ? ['1 CP', 'Invocation', `Base: ${skill.name}`, `DC: ${spec.baseDC || 15}`] : ['Max Rank: 10', `Base: ${skill.name}`]}
                       showInfoIcon={true}
                     >
-                      <span className={`font-semibold ${isMetaSkill || isInvocation ? 'text-purple-200 hover:text-purple-100' : 'text-amber-200 hover:text-amber-100'} truncate transition-colors`}>
-                        {spec.name}
+                      <span className={`font-semibold ${isPrereqUnmet ? 'text-slate-400 hover:text-rose-300' : isMetaSkill || isInvocation ? 'text-purple-200 hover:text-purple-100' : 'text-amber-200 hover:text-amber-100'} truncate transition-colors flex items-center gap-1`}>
+                        <span>{spec.name}</span>
+                        {isPrereqUnmet && (
+                          <span className="inline-flex items-center gap-0.5 px-1 py-0.2 rounded text-[8.5px] font-mono uppercase bg-rose-950/90 border border-rose-800 text-rose-300">
+                            <Lock className="w-2.5 h-2.5" />
+                            <span>Missing Prereq</span>
+                          </span>
+                        )}
                       </span>
                     </FolioTooltip>
                   </div>
@@ -958,55 +979,50 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
 
                 {/* Specialization Level / Rank Input (Max Level 10) */}
                 <div className="col-span-2 flex items-center justify-center">
-                  <input
-                    type="number"
-                    min="1"
-                    max="10"
-                    disabled={isLocked}
-                    value={specRank}
-                    onChange={(e) => !isLocked && handleUpdateSpecOrInv(spec, 'rank', e.target.value)}
-                    className={`w-full text-center bg-slate-950 border ${isLocked ? 'border-slate-800 text-slate-600 cursor-not-allowed' : (isMetaSkill || isInvocation ? 'border-purple-800/60 focus:border-purple-400 text-purple-200' : 'border-amber-800/60 focus:border-amber-400 text-amber-200')} rounded py-0.5 outline-none text-xs font-bold`}
-                  />
+                  <div className="flex items-center gap-1">
+                    <button
+                      type="button"
+                      onClick={() => handleUpdateSpecOrInvRank(spec, specRank - 1)}
+                      className="w-5 h-5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center font-bold text-xs cursor-pointer select-none"
+                    >
+                      -
+                    </button>
+                    <span className="w-6 text-center font-mono font-bold text-amber-300">
+                      {specRank}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => handleUpdateSpecOrInvRank(spec, specRank + 1)}
+                      className="w-5 h-5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center font-bold text-xs cursor-pointer select-none"
+                    >
+                      +
+                    </button>
+                  </div>
                 </div>
 
-                {/* Linked Label / Indicator */}
-                <span className={`col-span-3 text-center text-[10px] font-mono ${isMetaSkill || isInvocation ? 'text-purple-400/80' : 'text-amber-400/80'} truncate`}>
-                  +{specRank} to Base
-                </span>
+                {/* Mod Display */}
+                <div className="col-span-2 flex items-center justify-center">
+                  <span className="font-mono text-xs text-slate-400">
+                    {specMod !== 0 ? (specMod > 0 ? `+${specMod}` : specMod) : '—'}
+                  </span>
+                </div>
 
-                {/* Spec Mod Input */}
-                <input
-                  type="number"
-                  disabled={isLocked}
-                  value={specMod}
-                  onChange={(e) => !isLocked && handleUpdateSpecOrInv(spec, 'mod', e.target.value)}
-                  className={`col-span-1 text-center bg-slate-950 border ${isLocked ? 'border-slate-800 text-slate-600 cursor-not-allowed' : (isMetaSkill || isInvocation ? 'border-purple-900/40 focus:border-purple-400' : 'border-amber-900/40 focus:border-amber-400')} rounded py-0.5 text-slate-300 outline-none text-xs font-mono`}
-                />
-
-                {/* Specialization Total Score & Roll Trigger */}
-                <div className="col-span-2 flex items-center justify-between pl-1 gap-1">
-                  <div className="flex items-center gap-1 w-full justify-center">
-                    <span className={`font-mono font-bold ${isLocked ? 'text-slate-600' : (isMetaSkill || isInvocation ? 'text-purple-300' : 'text-amber-300')}`}>
+                {/* Total & Roll Action */}
+                <div className="col-span-4 flex items-center justify-end gap-1.5">
+                  <div className="flex items-center gap-1">
+                    <span className={`px-2 py-0.5 rounded font-mono font-bold text-xs ${
+                      isLocked ? 'bg-slate-800 text-slate-500' : (isMetaSkill || isInvocation ? 'bg-purple-950 border border-purple-500/50 text-purple-200' : 'bg-amber-950 border border-amber-500/50 text-amber-200')
+                    }`}>
                       {isLocked ? 0 : specTotal}
                     </span>
                     <button
                       type="button"
+                      onClick={() => handleRollSpec(spec, skill, specTotal)}
                       disabled={isLocked}
-                      onClick={() => {
-                        if (isLocked) return;
-                        openDiceRoller({
-                          label: `${skill.name}: ${spec.name} (${isInvocation ? 'Invocation' : isMetaSkill ? 'Evocation' : 'Specialization'})`,
-                          baseModifier: specTotal,
-                          expression: `2d10${specTotal !== 0 ? (specTotal > 0 ? `+${specTotal}` : `${specTotal}`) : ''}`,
-                          rollMode: 'normal',
-                          characterName: characterData['char-name'] || 'Operative',
-                          autoRoll: true
-                        });
-                      }}
-                      className={`p-1 rounded transition-all flex items-center justify-center cursor-pointer ${
+                      className={`p-1 rounded cursor-pointer transition-colors ${
                         isLocked
-                          ? 'opacity-40 cursor-not-allowed text-slate-600'
-                          : isMetaSkill || isInvocation
+                          ? 'bg-slate-800 text-slate-600 border border-slate-700 cursor-not-allowed'
+                          : isInvocation
                           ? 'bg-purple-950/80 hover:bg-purple-900 border border-purple-500/50 hover:border-purple-400 text-purple-300 hover:text-white shadow-sm'
                           : 'bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 hover:border-amber-400 text-amber-300 hover:text-white shadow-sm'
                       }`}
@@ -1014,22 +1030,24 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                     >
                       <Dices size={11} />
                     </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteSpecOrInv(spec)}
+                      className="text-red-400/60 hover:text-red-400 font-bold px-1 text-xs shrink-0 cursor-pointer"
+                      title={isInvocation ? "Delete Invocation" : isMetaSkill ? "Delete Evocation" : "Delete Specialization"}
+                    >
+                      &times;
+                    </button>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => handleDeleteSpecOrInv(spec)}
-                    className="text-red-400/60 hover:text-red-400 font-bold px-1 text-xs shrink-0 cursor-pointer"
-                    title={isInvocation ? "Delete Invocation" : isMetaSkill ? "Delete Evocation" : "Delete Specialization"}
-                  >
-                    &times;
-                  </button>
                 </div>
               </div>
 
               {/* Mobile Spec View (< 640px) */}
               <div
                 className={`folio-skill-row-mobile ml-3 pl-2.5 border-l-2 ${
-                  isInvocation
+                  isPrereqUnmet
+                    ? 'border-rose-900/60 bg-slate-950/80 border-dashed border-rose-900/50 opacity-60 grayscale-[70%] hover:opacity-100 hover:grayscale-0'
+                    : isInvocation
                     ? 'border-purple-500/80 bg-purple-950/30 border-purple-900/40'
                     : isMetaSkill
                     ? 'border-purple-500/60 bg-purple-950/20 border-purple-900/30'
@@ -1050,7 +1068,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                     <FolioTooltip
                       title={spec.name}
                       badge={isInvocation ? 'Metaphysical Invocation (1 CP)' : isMetaSkill ? 'Metaphysical Evocation' : 'Skill Specialization'}
-                      badgeColor="purple"
+                      badgeColor={isPrereqUnmet ? 'rose' : 'purple'}
                       description={isInvocation
                         ? (spec.description || `Specialized invocation formula for ${skill.name}. Adds +${specRank} bonus directly to the base discipline score.`)
                         : isMetaSkill
@@ -1061,11 +1079,20 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                         ? `Invocation Total (${specTotal}) = Base Skill (${baseSkillTotal}) + Rank (${specRank}) + Mod (${specMod}) vs DC ${spec.baseDC || 15}`
                         : `Spec Total (${specTotal}) = Base Skill (${baseSkillTotal}) + Rank (${specRank}) + Mod (${specMod})`
                       }
+                      prerequisites={prereqResult.prerequisiteText || (isInvocation ? `Awakened (${spec.discipline || skill.name})` : `Trained ${skill.name} (Rank >= 1)`)}
+                      prerequisiteMet={!isPrereqUnmet}
+                      prerequisiteUnmetReasons={prereqResult.unmetReasons}
                       tags={isInvocation ? ['1 CP', 'Invocation', `Base: ${skill.name}`] : ['Max Rank: 10', `Base: ${skill.name}`]}
                       showInfoIcon={true}
                     >
-                      <span className={`font-semibold ${isMetaSkill || isInvocation ? 'text-purple-200 hover:text-purple-100' : 'text-amber-200 hover:text-amber-100'} truncate transition-colors`}>
-                        {spec.name}
+                      <span className={`font-semibold ${isPrereqUnmet ? 'text-slate-400 hover:text-rose-300' : isMetaSkill || isInvocation ? 'text-purple-200 hover:text-purple-100' : 'text-amber-200 hover:text-amber-100'} truncate transition-colors flex items-center gap-1`}>
+                        <span>{spec.name}</span>
+                        {isPrereqUnmet && (
+                          <span className="inline-flex items-center gap-0.5 px-1 py-0.2 rounded text-[8.5px] font-mono uppercase bg-rose-950/90 border border-rose-800 text-rose-300">
+                            <Lock className="w-2.5 h-2.5" />
+                            <span>Missing</span>
+                          </span>
+                        )}
                       </span>
                     </FolioTooltip>
                   </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useFolio } from '../../../context/FolioContext';
 import { UniversalCatalogModal } from '../../UI/UniversalCatalogModal';
 
 /**
@@ -7,6 +8,7 @@ import { UniversalCatalogModal } from '../../UI/UniversalCatalogModal';
  * with Clean Table & High-Tech Cards dual view modes and integrated entry building.
  */
 const CustomSelectorModal = ({ isOpen, onClose, modalConfig, onSelectItem, onOpenAssetModal }) => {
+  const { characterData } = useFolio();
   if (!isOpen || !modalConfig) return null;
 
   const { title = 'Entry', browsePath = 'equipment', filterCategory, filterCategoryExclude, key } = modalConfig;
@@ -29,6 +31,7 @@ const CustomSelectorModal = ({ isOpen, onClose, modalConfig, onSelectItem, onOpe
       onClose={onClose}
       title={title}
       collectionKey={browsePath}
+      characterData={characterData}
       onSelectItem={handleSelect}
       onOpenManageModal={handleOpenManageModal}
       allowBuild={Boolean(onOpenAssetModal)}

@@ -18,8 +18,12 @@ import {
   ChevronRight,
   Briefcase,
   Globe,
-  Building2
+  Building2,
+  Lock,
+  AlertTriangle
 } from 'lucide-react';
+import FolioTooltip from '../Folio/shared/FolioTooltip';
+import { checkPrerequisite } from '../../utils/prerequisiteEvaluator';
 import { db } from '../../firebase';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { useDBM } from '../../context/DBMContext';
@@ -260,7 +264,8 @@ export const UniversalCatalogModal = ({
   filterCategory = null,
   filterCategoryExclude = null,
   themeColor = null, // 'cyan' | 'amber' | 'emerald' | 'purple' | 'blue'
-  includeCategoryGroups = false
+  includeCategoryGroups = false,
+  characterData = null
 }) => {
   // Global DBM context for pre-synced database records
   const dbm = useDBM();
@@ -1092,6 +1097,8 @@ export const UniversalCatalogModal = ({
                 <tbody className="divide-y divide-slate-800/60">
                   {processedItems.map((item, idx) => {
                     const isSelected = isItemSelected(item);
+                    const prereqResult = checkPrerequisite(item, characterData, canonicalColKey);
+                    const isPrereqUnmet = prereqResult.hasPrerequisite && !prereqResult.isPossessed;
 
                     return (
                       <tr
@@ -1100,6 +1107,8 @@ export const UniversalCatalogModal = ({
                         className={`transition-colors cursor-pointer group ${
                           isSelected
                             ? 'bg-cyan-950/60 border-l-4 border-l-cyan-400'
+                            : isPrereqUnmet
+                            ? 'opacity-60 grayscale-[80%] hover:grayscale-0 hover:opacity-100 bg-slate-950/80 hover:bg-slate-900/50'
                             : 'hover:bg-cyan-950/30'
                         }`}
                       >
@@ -1116,29 +1125,45 @@ export const UniversalCatalogModal = ({
 
                         {/* Name & Gem */}
                         <td className="py-3 px-4">
-                          <div className="flex items-center gap-2">
-                            <span className={`w-2 h-2 rounded-full ${isSelected ? 'bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,1)]' : 'bg-slate-600'} shrink-0`} />
-                            <div>
-                              <div className="font-bold text-slate-100 group-hover:text-cyan-300 transition-colors">
-                                {item.name || item.title || item.id}
+                          <FolioTooltip
+                            title={item.name || item.title || item.id}
+                            prerequisites={prereqResult.prerequisiteText}
+                            prerequisiteMet={!isPrereqUnmet}
+                            prerequisiteUnmetReasons={prereqResult.unmetReasons}
+                            mechanics={item.mechanics || item.mechanic || item.rules}
+                            description={item.description || item.summary || item.flavor || item.desc}
+                            tags={item.category ? [item.category] : []}
+                          >
+                            <div className="flex items-center gap-2">
+                              <span className={`w-2 h-2 rounded-full ${isSelected ? 'bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,1)]' : isPrereqUnmet ? 'bg-amber-600/70' : 'bg-slate-600'} shrink-0`} />
+                              <div>
+                                <div className={`font-bold flex items-center gap-1.5 transition-colors ${isPrereqUnmet ? 'text-slate-400 group-hover:text-slate-200' : 'text-slate-100 group-hover:text-cyan-300'}`}>
+                                  <span>{item.name || item.title || item.id}</span>
+                                  {isPrereqUnmet && (
+                                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.2 rounded text-[9px] font-mono uppercase tracking-wider bg-rose-950/80 border border-rose-800/80 text-rose-300" title={`Missing: ${prereqResult.unmetReasons.join(', ')}`}>
+                                      <Lock className="w-2.5 h-2.5" />
+                                      <span>Prereq Missing</span>
+                                    </span>
+                                  )}
+                                </div>
+                                {canonicalColKey === 'species' && item.parent_species && (
+                                  <div className="text-[10px] text-cyan-400/80 font-mono">
+                                    Lineage: {item.parent_species}
+                                  </div>
+                                )}
+                                {item.sphere && (
+                                  <div className="text-[10px] text-purple-400 font-mono">
+                                    {item.sphere}
+                                  </div>
+                                )}
+                                {item.school && (
+                                  <div className="text-[10px] text-cyan-400/80 font-mono">
+                                    {item.school}
+                                  </div>
+                                )}
                               </div>
-                              {canonicalColKey === 'species' && item.parent_species && (
-                                <div className="text-[10px] text-cyan-400/80 font-mono">
-                                  Lineage: {item.parent_species}
-                                </div>
-                              )}
-                              {item.sphere && (
-                                <div className="text-[10px] text-purple-400 font-mono">
-                                  {item.sphere}
-                                </div>
-                              )}
-                              {item.school && (
-                                <div className="text-[10px] text-cyan-400/80 font-mono">
-                                  {item.school}
-                                </div>
-                              )}
                             </div>
-                          </div>
+                          </FolioTooltip>
                         </td>
 
                         {/* Category / Type */}
@@ -1186,10 +1211,12 @@ export const UniversalCatalogModal = ({
                               className={`px-3 py-1 rounded text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
                                 isSelected
                                   ? 'bg-cyan-500 text-slate-950 font-black shadow-[0_0_10px_rgba(34,211,238,0.5)]'
+                                  : isPrereqUnmet
+                                  ? 'bg-slate-900/90 border border-rose-900/60 text-slate-400 hover:text-slate-200 hover:border-rose-500/60'
                                   : 'bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 group-hover:shadow-[0_0_8px_rgba(34,211,238,0.2)]'
                               }`}
                             >
-                              {isSelected ? 'Selected' : 'Select'}
+                              {isSelected ? 'Selected' : isPrereqUnmet ? 'Select (Missing Prereq)' : 'Select'}
                             </button>
                           </div>
                         </td>
@@ -1206,6 +1233,8 @@ export const UniversalCatalogModal = ({
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
               {processedItems.map((item, idx) => {
                 const isSelected = isItemSelected(item);
+                const prereqResult = checkPrerequisite(item, characterData, canonicalColKey);
+                const isPrereqUnmet = prereqResult.hasPrerequisite && !prereqResult.isPossessed;
 
                 return (
                   <div
@@ -1214,6 +1243,8 @@ export const UniversalCatalogModal = ({
                     className={`relative rounded-xl border p-4 transition-all duration-200 cursor-pointer flex flex-col justify-between group overflow-hidden ${
                       isSelected
                         ? 'bg-slate-900/90 border-2 border-cyan-400 shadow-[0_0_20px_rgba(34,211,238,0.3)]'
+                        : isPrereqUnmet
+                        ? 'opacity-65 grayscale-[70%] hover:grayscale-0 hover:opacity-100 bg-slate-950/80 border-dashed border-rose-900/60 hover:border-rose-500/70 hover:shadow-[0_0_16px_rgba(244,63,94,0.2)]'
                         : 'bg-slate-900/40 hover:bg-slate-900/90 border-slate-800 hover:border-cyan-500/70 hover:shadow-[0_0_18px_rgba(34,211,238,0.25)]'
                     }`}
                   >
@@ -1231,6 +1262,12 @@ export const UniversalCatalogModal = ({
                         <span className="px-2 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-800/60 text-[10px] font-mono text-cyan-300 uppercase tracking-wide">
                           {getItemCategory(item, canonicalColKey)}
                         </span>
+                        {isPrereqUnmet && (
+                          <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[9px] font-mono uppercase tracking-wide bg-rose-950/90 border border-rose-800/80 text-rose-300" title={`Missing: ${prereqResult.unmetReasons.join(', ')}`}>
+                            <Lock className="w-2.5 h-2.5" />
+                            <span>Missing Prereq</span>
+                          </span>
+                        )}
                       </div>
 
                       {item.tech_level !== undefined ? (
@@ -1248,11 +1285,21 @@ export const UniversalCatalogModal = ({
                       ) : null}
                     </div>
 
-                    {/* Card Title */}
+                    {/* Card Title wrapped with FolioTooltip */}
                     <div className="mb-2">
-                      <h4 className="font-bold text-sm text-slate-100 group-hover:text-cyan-300 transition-colors line-clamp-1">
-                        {item.name || item.title || item.id}
-                      </h4>
+                      <FolioTooltip
+                        title={item.name || item.title || item.id}
+                        prerequisites={prereqResult.prerequisiteText}
+                        prerequisiteMet={!isPrereqUnmet}
+                        prerequisiteUnmetReasons={prereqResult.unmetReasons}
+                        mechanics={item.mechanics || item.mechanic || item.rules}
+                        description={item.description || item.summary || item.flavor || item.desc}
+                        tags={item.category ? [item.category] : []}
+                      >
+                        <h4 className={`font-bold text-sm line-clamp-1 transition-colors ${isPrereqUnmet ? 'text-slate-400 group-hover:text-slate-100' : 'text-slate-100 group-hover:text-cyan-300'}`}>
+                          {item.name || item.title || item.id}
+                        </h4>
+                      </FolioTooltip>
                       {item.sphere && (
                         <p className="text-[10px] text-purple-400 font-mono line-clamp-1 mt-0.5">
                           {item.sphere}
@@ -1308,6 +1355,8 @@ export const UniversalCatalogModal = ({
                           className={`px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 cursor-pointer ${
                             isSelected
                               ? 'bg-cyan-500 text-slate-950 font-black shadow-[0_0_12px_rgba(34,211,238,0.6)]'
+                              : isPrereqUnmet
+                              ? 'bg-slate-950/90 hover:bg-slate-900 border border-rose-900/60 text-slate-400 hover:text-slate-200'
                               : 'bg-cyan-950/90 group-hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300'
                           }`}
                         >
@@ -1318,7 +1367,7 @@ export const UniversalCatalogModal = ({
                             </>
                           ) : (
                             <>
-                              <span>Select</span>
+                              <span>{isPrereqUnmet ? 'Select' : 'Select'}</span>
                               <ChevronRight className="w-3.5 h-3.5" />
                             </>
                           )}

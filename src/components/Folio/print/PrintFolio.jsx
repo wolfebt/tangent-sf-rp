@@ -317,7 +317,7 @@ const PrintFolio = ({ characterData, isScreenPreview = false }) => {
                   <span className="font-bold">WEALTH:</span> <span className="font-mono font-bold">{getStr('wealth-rating', 'Lvl 0')}</span>
                 </div>
                 <div className="border border-black p-0.5">
-                  <span className="font-bold">XP DEBT:</span> <span className="font-mono font-bold">{getNum('experience_debt', 0) > 0 ? `-${getNum('experience_debt')}` : '0'}</span>
+                  <span className="font-bold">AP DEBT:</span> <span className="font-mono font-bold">{getNum('experience_debt', 0) > 0 ? `-${getNum('experience_debt')}` : '0'}</span>
                 </div>
               </div>
 

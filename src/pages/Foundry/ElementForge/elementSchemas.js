@@ -292,7 +292,7 @@ export const SCENARIO_GUIDE_MODULES = [
     category: 'Tactical',
     elementType: 'Encounter',
     icon: '⚔️',
-    promptTemplate: 'Design a tactical Combat & Trap Encounter titled "{title}". Include terrain features, cover, environmental hazards, enemy statblocks, tactics, and XP/CP rewards.'
+    promptTemplate: 'Design a tactical Combat & Trap Encounter titled "{title}". Include terrain features, cover, environmental hazards, enemy statblocks, tactics, and AP/CP rewards.'
   },
   {
     id: 'sg_npc',

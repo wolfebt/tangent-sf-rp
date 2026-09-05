@@ -211,13 +211,27 @@ const AddSkillModal = ({
                   onChange={(e) => setBaseSkillId(e.target.value)}
                   className="bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded px-3 py-2 text-sm text-slate-100 outline-none max-h-40"
                 >
-                  {availableSkills.map((s) => (
-                    <option key={s.id} value={s.id}>
-                      {s.group ? `[${s.group.toUpperCase()}] ` : ''}{s.name} (Total: {s.total})
-                    </option>
-                  ))}
+                  {availableSkills.map((s) => {
+                    const isUntrained = s.rank !== undefined && s.rank < 1;
+                    return (
+                      <option 
+                        key={s.id} 
+                        value={s.id}
+                        className={isUntrained ? 'text-slate-500 bg-slate-950 italic' : 'text-slate-100 bg-slate-900'}
+                      >
+                        {s.group ? `[${s.group.toUpperCase()}] ` : ''}{s.name} (Total: {s.total}){isUntrained ? ' — ⚠️ [Untrained - Prereq Missing]' : ''}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
+
+              {/* Warning if selected base skill is untrained */}
+              {availableSkills.find((s) => s.id === baseSkillId)?.rank !== undefined && availableSkills.find((s) => s.id === baseSkillId)?.rank < 1 && (
+                <div className="px-3 py-1.5 bg-rose-950/70 border border-rose-500/50 rounded text-[11px] text-rose-300 font-mono">
+                  ⚠️ <span className="font-bold">Prerequisite Not Met:</span> Specializations require the linked base skill to be trained with at least 1 rank.
+                </div>
+              )}
 
               {/* Metafocus Evocation Notice if linked to Meta skill */}
               {availableSkills.find((s) => s.id === baseSkillId)?.group === 'meta' && (

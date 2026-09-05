@@ -126,7 +126,7 @@ const LOCAL_MORTALITY_STAGES = [
     status: 'Permanently Dead',
     color: 'red',
     icon: '⚰️',
-    details: 'The biological life or artificial core has expired. Return requires high-tier Metaphysics or TL5 tech, incurring "The High Cost of Dying" (-All Karma, -5 XP Debt).'
+    details: 'The biological life or artificial core has expired. Return requires high-tier Metaphysics or TL5 tech, incurring "The High Cost of Dying" (-All Karma, -5 AP Debt).'
   }
 ];
 
@@ -726,7 +726,7 @@ const PerceptionEssenceMovementModal = ({
               {(atDeathsDoor || isDead || isIncapacitated) && (
                 <div className="pt-2 border-t border-slate-800 flex flex-wrap items-center justify-between gap-2 text-xs">
                   <div className="text-slate-300 text-[11px]">
-                    {isDead && <span className="text-red-400">Hero is deceased. Revivification invokes The High Cost of Dying (-All Karma, -5 XP Debt).</span>}
+                    {isDead && <span className="text-red-400">Hero is deceased. Revivification invokes The High Cost of Dying (-All Karma, -5 AP Debt).</span>}
                     {atDeathsDoor && <span className="text-rose-300">Hero is Comatose at Death's Door! Apply Medicine DC 15 check or healing tech.</span>}
                     {isIncapacitated && <span className="text-amber-300">Hero is unconscious at 0 Health, but buffered by remaining Vitality.</span>}
                   </div>
@@ -754,13 +754,13 @@ const PerceptionEssenceMovementModal = ({
                       <button
                         type="button"
                         onClick={() => {
-                          if (window.confirm("Perform Revivification? Character loses ALL Karma and suffers -5 XP Debt.")) {
+                          if (window.confirm("Perform Revivification? Character loses ALL Karma and suffers -5 AP Debt.")) {
                             revivifyCharacter();
                           }
                         }}
                         className="px-2.5 py-1 bg-red-900 hover:bg-red-800 text-red-100 rounded text-[10.5px] font-bold uppercase tracking-wider border border-red-500 transition-colors cursor-pointer"
                       >
-                        ⚡ Revivify (-5 XP Debt)
+                        ⚡ Revivify (-5 AP Debt)
                       </button>
                     )}
                   </div>
@@ -1119,15 +1119,15 @@ const PerceptionEssenceMovementModal = ({
         )}
 
         {/* ═══════════════════════════════════════════════════════════════════ */}
-        {/* TAB 5: EXPERIENCE & AP */}
+        {/* TAB 5: ADVANCEMENT POINTS (AP) */}
         {/* ═══════════════════════════════════════════════════════════════════ */}
         {activeTab === 'experience' && (
           <div className="space-y-6">
-            {/* Live Hero Experience Telemetry */}
+            {/* Live Hero Advancement Telemetry */}
             <div className="bg-slate-950/80 border border-amber-500/40 rounded-xl p-4 space-y-3">
               <div className="flex flex-wrap justify-between items-center gap-2">
                 <span className="text-xs font-bold uppercase tracking-wider text-amber-300 flex items-center gap-1.5">
-                  <Award size={14} /> Hero Experience &amp; Progression Telemetry
+                  <Award size={14} /> Hero Advancement &amp; Progression Telemetry
                 </span>
                 <span className="text-xs font-mono px-2 py-0.5 rounded bg-amber-950 border border-amber-600/50 text-amber-300 font-bold">
                   1 AP = 1 CP • Increment Rule: Max +1 per Event

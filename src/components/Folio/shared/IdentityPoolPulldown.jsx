@@ -1,8 +1,9 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
-import { ChevronDown, ChevronUp, Check, Plus, Minus, X, Search, Sparkles, Layers, Info, Shield, Dna, BookOpen, Filter } from 'lucide-react';
+import { ChevronDown, ChevronUp, Check, Plus, Minus, X, Search, Sparkles, Layers, Info, Shield, Dna, BookOpen, Filter, Lock } from 'lucide-react';
 import { ALL_CANONICAL_TRAITS } from '../../../data/speciesTraitsData';
 import { DEFAULT_FEATURES, FEATURE_CATEGORIES } from '../../../data/featuresData';
 import { ALL_CANONICAL_SKILLS } from '../../../data/skillsData';
+import { checkPrerequisite } from '../../../utils/prerequisiteEvaluator';
 
 const PRIMARY_ATTRIBUTES = [
   { id: 'attr-strength', name: 'Strength', short: 'STR', category: 'Physical' },
@@ -782,7 +783,8 @@ export const FeatureMultiselectPulldown = ({
   onToggleFeature,
   onRemoveFeature,
   colorTheme = 'amber',
-  subtitle = ''
+  subtitle = '',
+  characterData = null
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -1019,6 +1021,9 @@ export const FeatureMultiselectPulldown = ({
                 const desc = typeof feat === 'object' ? (feat.description || feat.mechanic || '') : '';
                 const cat = typeof feat === 'object' ? (feat.category || feat.groupLabel || categoryLabel) : categoryLabel;
 
+                const prereqResult = checkPrerequisite(feat, characterData, 'features');
+                const isPrereqUnmet = prereqResult.hasPrerequisite && !prereqResult.isPossessed;
+
                 return (
                   <div
                     key={cleanTitle || fName}
@@ -1036,19 +1041,27 @@ export const FeatureMultiselectPulldown = ({
                     className={`p-2 rounded-lg border text-xs cursor-pointer transition-all flex items-start justify-between gap-2 ${
                       isSelected
                         ? 'bg-amber-950/60 border-amber-400/80 text-amber-100 shadow-[0_0_10px_rgba(245,158,11,0.15)]'
-                        : isAtCapacity
+                        : isPrereqUnmet
+                          ? 'bg-slate-950/70 border-dashed border-rose-900/60 opacity-60 grayscale-[70%] text-slate-400 hover:opacity-100 hover:grayscale-0'
+                          : isAtCapacity
                           ? 'bg-slate-900/40 border-slate-800/80 text-slate-400 hover:border-slate-700'
                           : 'bg-slate-900/70 border-slate-800 text-slate-300 hover:border-slate-600 hover:bg-slate-800/70'
                     }`}
                   >
                     <div className="space-y-0.5 flex-1 min-w-0">
                       <div className="flex items-center gap-1.5 flex-wrap">
-                        <span className={`font-bold truncate ${isSelected ? 'text-amber-200' : 'text-slate-200'}`}>
+                        <span className={`font-bold truncate ${isSelected ? 'text-amber-200' : isPrereqUnmet ? 'text-slate-400' : 'text-slate-200'}`}>
                           {cleanTitle}
                         </span>
                         {cat && (
                           <span className="text-[9px] px-1.5 py-0.2 rounded font-mono bg-slate-950 border border-slate-800 text-slate-400">
                             {cat}
+                          </span>
+                        )}
+                        {isPrereqUnmet && (
+                          <span className="inline-flex items-center gap-0.5 px-1.5 py-0.2 rounded text-[8.5px] font-mono uppercase bg-rose-950/90 border border-rose-800 text-rose-300" title={`Missing: ${prereqResult.unmetReasons.join(', ')}`}>
+                            <Lock className="w-2.5 h-2.5" />
+                            <span>Missing Prereq: {prereqResult.unmetReasons.join(', ')}</span>
                           </span>
                         )}
                       </div>

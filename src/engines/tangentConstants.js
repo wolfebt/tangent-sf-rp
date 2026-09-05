@@ -1330,7 +1330,7 @@ export const ARCHITECTURE_FACILITIES = [
   { id: 'luxury_suite', name: 'Luxury Suite', category: 'Living & Social', tl: 3, dc: 25, modules: 4, function: 'High-status (2,000 sq ft). +1 Morale.' },
   { id: 'mess_hall', name: 'Mess Hall', category: 'Living & Social', tl: 1, dc: 12, modules: 2, function: 'Kitchen/Seating for 40.' },
   { id: 'lounge_bar', name: 'Lounge / Bar', category: 'Living & Social', tl: 1, dc: 12, modules: 2, function: 'Social hub. +2 Diplomacy/Gather Info.' },
-  { id: 'holodeck', name: 'Holodeck', category: 'Living & Social', tl: 4, dc: 35, modules: 2, function: 'Hard-light sim room. Training XP bonus.' },
+  { id: 'holodeck', name: 'Holodeck', category: 'Living & Social', tl: 4, dc: 35, modules: 2, function: 'Hard-light sim room. Training AP bonus.' },
   { id: 'sanctuary_shrine', name: 'Sanctuary / Shrine', category: 'Living & Social', tl: 1, dc: 10, modules: 1, function: 'Meditation space. +1 Willpower after rest.' },
 
   // 9.5 Vocation, Core & Logistics

@@ -258,7 +258,7 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
                 : 'border-transparent text-slate-400 hover:text-slate-200'
             }`}
           >
-            <span>🎖️</span> Experience &amp; AP ({earnedAP} AP)
+            <span>🎖️</span> Advancement Points (AP) ({earnedAP} AP)
           </button>
           <button
             type="button"
@@ -284,7 +284,7 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
           </button>
         </div>
 
-        {/* TAB 1: EXPERIENCE & AWARD POINTS (AP) */}
+        {/* TAB 1: ADVANCEMENT POINTS (AP) */}
         {activeTab === 'experience' && (
           <div className="space-y-4 overflow-y-auto pr-1 flex-1">
             
@@ -294,18 +294,18 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
                 <span>⚠️</span> The Increment Rule (CRITICAL CANON RULE)
               </div>
               <p className="text-[11.5px] text-slate-300 leading-relaxed">
-                <strong>Exchange Rate:</strong> 1 Award Point (AP) = 1 Character Point (CP). Points are spent exactly like CP during creation, except that <strong className="text-amber-200">abilities, skills, or other traits may ONLY have a 1-point increment of any score per experience award event</strong>. A player cannot dump 10 AP into a single skill instantly.
+                <strong>Exchange Rate:</strong> 1 Advancement Point (AP) = 1 Character Point (CP). Points are spent exactly like CP during creation, except that <strong className="text-amber-200">abilities, skills, or other traits may ONLY have a 1-point increment of any score per advancement award event</strong>. A player cannot dump 10 AP into a single skill instantly.
               </p>
             </div>
 
-            {/* Experience Debt Banner (If Active) */}
+            {/* Advancement Debt Banner (If Active) */}
             {experienceDebt > 0 && (
               <div className="bg-rose-950/50 border border-rose-500/60 rounded-lg p-3 flex flex-wrap items-center justify-between gap-3 text-rose-200 shadow-sm">
                 <div className="flex items-center gap-2.5">
                   <span className="text-xl">💀</span>
                   <div>
                     <div className="text-xs font-bold font-mono uppercase text-rose-300 flex items-center gap-2">
-                      <span>Experience Debt Active</span>
+                      <span>Advancement Debt Active</span>
                       <span className="bg-rose-900 border border-rose-500 px-1.5 py-0.2 rounded font-black text-rose-100">
                         -{experienceDebt} AP
                       </span>
@@ -334,11 +334,11 @@ const EconomyModal = ({ isOpen, onClose, characterData, updateField, economyBrea
               </div>
             )}
 
-            {/* Award Experience Tool (GM & Session Award Panel) */}
+            {/* Award Advancement Points Tool (GM & Session Award Panel) */}
             <div className="bg-slate-950/80 border border-cyan-900/60 rounded-lg p-4 space-y-3">
               <div className="flex justify-between items-center border-b border-slate-800 pb-2">
                 <h4 className="text-xs font-bold uppercase tracking-wider text-cyan-300 flex items-center gap-1.5">
-                  <span>🎖️</span> Award Experience Points (GM Tool)
+                  <span>🎖️</span> Award Advancement Points (GM Tool)
                 </h4>
                 <span className="text-[10px] font-mono text-slate-400">
                   Pacing: 1-3 AP / session • 5-10 AP / chapter

@@ -6,6 +6,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { attachCreatorTag } from '../utils/creatorUtils';
 import { useDBM } from './DBMContext';
 import { StorageService } from '../services/storageService';
+import { AudioService } from '../services/audioService';
 import { 
   isStoryElementData, 
   convertPersonaElementToFolio, 
@@ -264,13 +265,20 @@ export const FolioProvider = ({ children }) => {
       if (saved) {
         const parsed = characterSchema.parse(JSON.parse(saved));
         if (!isFolioPersonaDeleted(parsed['character-doc-id'], tombstones)) {
+          if (!parsed['character-doc-id']) {
+            parsed['character-doc-id'] = `char_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+          }
           return sanitizeCharacterSkills(parsed);
         }
       }
     } catch (e) {
       console.warn('Could not parse saved persona data:', e);
     }
-    return attachCreatorTag(DEFAULT_CHARACTER, typeof window !== 'undefined' ? localStorage.getItem('userHandle') : '');
+    const freshDocId = `char_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+    return attachCreatorTag({
+      ...DEFAULT_CHARACTER,
+      'character-doc-id': freshDocId
+    }, typeof window !== 'undefined' ? localStorage.getItem('userHandle') : '');
   });
 
   const characterDataRef = useRef(characterData);
@@ -437,29 +445,62 @@ export const FolioProvider = ({ children }) => {
 
     const executeSave = async () => {
       const user = auth.currentUser;
-      if (!user) {
-        setCloudSaveStatus('offline');
+      const currentData = characterDataRef.current;
+      let docId = currentData['character-doc-id'];
+      
+      // Ensure character has a valid document ID
+      if (!docId) {
+        docId = `char_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+        currentData['character-doc-id'] = docId;
+        characterDataRef.current = { ...currentData, 'character-doc-id': docId };
+        setCharacterData(prev => ({ ...prev, 'character-doc-id': docId }));
+      }
+
+      // Do not save if character has been deleted
+      if (isFolioPersonaDeleted(docId)) {
         return;
       }
 
-      const currentData = characterDataRef.current;
-      const docId = currentData['character-doc-id'];
-      
-      // Do not save if character has been deleted or has no document ID
-      if (!docId || isFolioPersonaDeleted(docId)) {
+      const rawData = {
+        ...currentData,
+        'character-doc-id': docId,
+        ownerUid: user ? user.uid : 'local',
+        updatedAt: new Date().toISOString()
+      };
+      const updatedData = attachCreatorTag(rawData, localStorage.getItem('userHandle'), user);
+
+      // Always persist to local cache & roster state so changes are NEVER lost
+      StorageService.setItem('personaFolioData', updatedData);
+      try {
+        sessionStorage.setItem('personaFolioData', JSON.stringify(updatedData));
+        localStorage.setItem('personaFolioData', JSON.stringify(updatedData));
+      } catch (e) {}
+
+      setPersonaRoster(prev => {
+        const idx = prev.findIndex(c => c['character-doc-id'] === docId);
+        let next;
+        if (idx >= 0) {
+          next = [...prev];
+          next[idx] = updatedData;
+        } else {
+          next = [updatedData, ...prev];
+        }
+        StorageService.setItem('personaRoster', next);
+        try {
+          localStorage.setItem('personaRoster', JSON.stringify(next));
+        } catch (e) {}
+        return next;
+      });
+
+      if (!user) {
+        setCloudSaveStatus('offline');
+        setLastSavedTime(new Date());
         return;
       }
 
       setCloudSaveStatus('saving');
 
       try {
-        const rawData = {
-          ...currentData,
-          'character-doc-id': docId,
-          updatedAt: new Date().toISOString()
-        };
-        const updatedData = attachCreatorTag(rawData, localStorage.getItem('userHandle'), user);
-
         const docRef = doc(db, `users/${user.uid}/personas`, docId);
         await setDoc(docRef, updatedData);
 
@@ -1206,11 +1247,11 @@ export const FolioProvider = ({ children }) => {
     });
   }, [derivedStats.health, derivedStats.vitality, derivedStats.structure, derivedStats.maxKarma]);
 
-  // Roster Management Actions
+  // Roster Management Actions: Save current sheet to roster and cloud
   const saveCurrentToRoster = useCallback(async () => {
     const user = auth.currentUser;
     const name = characterData['char-name'] || 'Unnamed Operative';
-    const docId = characterData['character-doc-id'] || `char_${Date.now()}`;
+    const docId = characterData['character-doc-id'] || `char_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
     const rawData = {
       ...characterData,
       'character-doc-id': docId,
@@ -1218,6 +1259,13 @@ export const FolioProvider = ({ children }) => {
       updatedAt: new Date().toISOString()
     };
     const updatedData = attachCreatorTag(rawData, localStorage.getItem('userHandle'), user);
+
+    // Save to StorageService and localStorage
+    StorageService.setItem('personaFolioData', updatedData);
+    try {
+      sessionStorage.setItem('personaFolioData', JSON.stringify(updatedData));
+      localStorage.setItem('personaFolioData', JSON.stringify(updatedData));
+    } catch (e) {}
 
     // Optimistic local update
     setPersonaRoster(prev => {
@@ -1246,15 +1294,28 @@ export const FolioProvider = ({ children }) => {
     characterDataRef.current = updatedData;
     setCharacterData(updatedData);
 
-    // Persist to Firestore
+    // Persist to Firestore if authenticated
     if (user) {
+      setCloudSaveStatus('saving');
       try {
         const docRef = doc(db, `users/${user.uid}/personas`, docId);
         await setDoc(docRef, updatedData);
+        setCloudSaveStatus('saved');
+        setLastSavedTime(new Date());
       } catch (err) {
         console.warn('Firestore roster save failed (local update applied):', err.message);
+        setCloudSaveStatus('error');
       }
+    } else {
+      setCloudSaveStatus('offline');
+      setLastSavedTime(new Date());
     }
+
+    try {
+      AudioService.playTerminalBeep(1400, 0.04);
+    } catch (e) {}
+
+    return { success: true, docId, name };
   }, [characterData]);
 
   const switchRosterCharacter = useCallback((docId) => {
@@ -1590,58 +1651,11 @@ export const FolioProvider = ({ children }) => {
     return Boolean(isLocked && !isPlayerOverride);
   }, [isLocked, isPlayerOverride]);
 
-  // Lock persona into set state (Ready for VTT)
-  const lockPersona = useCallback((skipValidation = false) => {
-    const charName = (characterData['char-name'] || '').trim();
-    if (!skipValidation) {
-      if (!charName) {
-        alert('Cannot lock persona: An Operative Name is required before setting character for VTT deployment.');
-        return false;
-      }
-      const startingCP = parseInt(characterData['starting-cp'] || 150, 10);
-      const spentCP = economyBreakdown?.spentCP || 0;
-      if (spentCP > startingCP) {
-        const proceed = window.confirm(`⚠️ CP DEFICIT WARNING: Character has spent ${spentCP} CP out of ${startingCP} CP (Deficit of -${spentCP - startingCP} CP).\n\nDo you want to lock this Persona anyway for VTT play?`);
-        if (!proceed) return false;
-      }
-    }
-
-    const now = new Date().toISOString();
-    const updated = {
-      ...characterData,
-      folio_phase: 'locked',
-      is_locked: true,
-      is_ready_for_vtt: true,
-      locked_at: now,
-      player_override: false,
-      updatedAt: now
-    };
-
-    setCharacterData(updated);
-    setPersonaRoster(prev => prev.map(c => {
-      if (c['character-doc-id'] === characterData['character-doc-id']) {
-        return {
-          ...c,
-          folio_phase: 'locked',
-          is_locked: true,
-          is_ready_for_vtt: true,
-          locked_at: now,
-          player_override: false,
-          updatedAt: now
-        };
-      }
-      return c;
-    }));
-
-    AudioService.playCriticalChime(true);
-    triggerSave(false);
-    return true;
-  }, [characterData, economyBreakdown?.spentCP, triggerSave]);
-
   // Unlock persona (or enter Player Override if in an active game)
-  const unlockPersona = useCallback((forcePlayerOverride = false) => {
+  const unlockPersona = useCallback((forcePlayerOverride = false, overrideReason = '') => {
     const now = new Date().toISOString();
-    if (isInActiveGame || forcePlayerOverride) {
+    const reasonText = typeof forcePlayerOverride === 'string' ? forcePlayerOverride : (overrideReason || '');
+    if (isInActiveGame || (forcePlayerOverride && typeof forcePlayerOverride !== 'string')) {
       // Guard: Check if GM has disallowed player override during live session
       if (!allowPlayerOverride) {
         alert('Player Override Disallowed: The Lead GM or Team Manager has locked player overrides for this session. Direct sheet modifications are disabled.');
@@ -1652,6 +1666,7 @@ export const FolioProvider = ({ children }) => {
       const updated = {
         ...characterData,
         player_override: true,
+        player_override_reason: reasonText || characterData?.player_override_reason || '',
         override_at: now,
         updatedAt: now
       };
@@ -1661,6 +1676,7 @@ export const FolioProvider = ({ children }) => {
           return {
             ...c,
             player_override: true,
+            player_override_reason: reasonText || c?.player_override_reason || '',
             override_at: now,
             updatedAt: now
           };
@@ -1972,7 +1988,10 @@ export const FolioProvider = ({ children }) => {
     // 1. Guard against modifications when locked out
     if (isFolioLockedOut) {
       console.warn(`[Folio Locked]: Cannot alter "${key}" while persona is locked.`);
-      alert(`🔒 PERSONA LOCKED: Character sheet is locked for VTT deployment.\n\nTo modify, click "Player Override" to enable tracked edits, or "Clone Variant" to branch an editable draft.`);
+      const actionMsg = isInActiveGame
+        ? 'To modify during an active session, click "Player Override" in the File Menu to enable tracked edits.'
+        : 'To modify, click "Unlock Sheet" in the File Menu to return to Development Mode.';
+      alert(`🔒 PERSONA LOCKED: Character sheet is locked for VTT readiness.\n\n${actionMsg}`);
       return;
     }
 
@@ -1987,6 +2006,7 @@ export const FolioProvider = ({ children }) => {
     // 3. If updating identity selection (species, archetype, occupation, origin, faction), automatically transition traits & modifications
     if (['char-species', 'char-archetype', 'char-occu', 'char-origin', 'char-faction'].includes(key)) {
       setCharacterData((prev) => applyIdentityFieldTransition(prev, key, value, dbData));
+      triggerSave();
       return;
     }
 
@@ -1997,6 +2017,7 @@ export const FolioProvider = ({ children }) => {
         ...prev,
         [key]: clampedVal
       }));
+      triggerSave();
       return;
     }
 
@@ -2019,6 +2040,7 @@ export const FolioProvider = ({ children }) => {
           [subKey]: newSubVal
         };
       });
+      triggerSave();
       return;
     }
 
@@ -2026,7 +2048,8 @@ export const FolioProvider = ({ children }) => {
       ...prev,
       [key]: value
     }));
-  }, [isFolioLockedOut, isInActiveGame, characterData?.player_override, recordTrackedModification, dbData]);
+    triggerSave();
+  }, [isFolioLockedOut, isInActiveGame, characterData?.player_override, recordTrackedModification, dbData, triggerSave]);
 
   // 80 CP Archetype Pre-build Application Engine
   const applyArchetypeChassis = useCallback((archetypeInput) => {
@@ -2455,7 +2478,8 @@ export const FolioProvider = ({ children }) => {
         ...updates
       };
     });
-  }, [getAttrTotal]);
+    triggerSave();
+  }, [getAttrTotal, triggerSave]);
 
   // Omnicortex DBM Cross-Module Item Importer: Add Item to Inventory
   const addItemToInventory = useCallback((item) => {
@@ -2536,7 +2560,8 @@ export const FolioProvider = ({ children }) => {
         ...updates
       };
     });
-  }, []);
+    triggerSave();
+  }, [triggerSave]);
 
   // Omnicortex DBM Cross-Module Power Importer: Add Ability / Power
   const addAbility = useCallback((ability) => {
@@ -2578,7 +2603,8 @@ export const FolioProvider = ({ children }) => {
         [targetKey]: currentList
       };
     });
-  }, []);
+    triggerSave();
+  }, [triggerSave]);
 
 
   // Update Item Handler (by index)
@@ -2595,7 +2621,8 @@ export const FolioProvider = ({ children }) => {
         [key]: currentList
       };
     });
-  }, []);
+    triggerSave();
+  }, [triggerSave]);
 
   // Add Custom Skill Handler (max level 20)
   const handleAddSkill = useCallback((skill) => {
@@ -2608,7 +2635,8 @@ export const FolioProvider = ({ children }) => {
       [`skill-${skill.id}-group`]: skill.group,
       [`skill-${skill.id}-subcategory`]: skill.subcategory || 'General'
     }));
-  }, []);
+    triggerSave();
+  }, [triggerSave]);
 
   // Delete Custom Skill Handler
   const handleDeleteSkill = useCallback((skillId) => {
@@ -2625,7 +2653,8 @@ export const FolioProvider = ({ children }) => {
       }
       return next;
     });
-  }, []);
+    triggerSave();
+  }, [triggerSave]);
 
   // Specialization Handlers (max level 10)
   const handleAddSpecialization = useCallback((spec) => {
@@ -2645,7 +2674,8 @@ export const FolioProvider = ({ children }) => {
         specializations: [...current, newSpec]
       };
     });
-  }, []);
+    triggerSave();
+  }, [triggerSave]);
 
   // Specialization Handlers (max level 10)
   const handleUpdateSpecialization = useCallback((specId, field, value) => {
@@ -2667,7 +2697,8 @@ export const FolioProvider = ({ children }) => {
         })
       };
     });
-  }, []);
+    triggerSave();
+  }, [triggerSave]);
 
   const handleDeleteSpecialization = useCallback((specId) => {
     setCharacterData((prev) => {
@@ -2677,7 +2708,8 @@ export const FolioProvider = ({ children }) => {
         specializations: current.filter((s) => s.id !== specId)
       };
     });
-  }, []);
+    triggerSave();
+  }, [triggerSave]);
 
   // Reset / New Character
   const handleNewCharacter = useCallback(() => {
@@ -2824,6 +2856,7 @@ export const FolioProvider = ({ children }) => {
         }
       } else {
         setCloudSaveStatus('offline');
+        setLastSavedTime(new Date());
       }
 
       return true;
@@ -2867,6 +2900,54 @@ export const FolioProvider = ({ children }) => {
       identityPools: computedModifiers.identityPools
     });
   }, [characterData, derivedStats, computedModifiers.identityPools, dbData]);
+
+  // Lock persona into set state (Ready for VTT)
+  const lockPersona = useCallback((skipValidation = false) => {
+    const charName = (characterData['char-name'] || '').trim();
+    if (!skipValidation) {
+      if (!charName) {
+        alert('Cannot lock persona: An Operative Name is required before setting character for VTT deployment.');
+        return false;
+      }
+      const startingCP = parseInt(characterData['starting-cp'] || 150, 10);
+      const spentCP = economyBreakdown?.spentCP || 0;
+      if (spentCP > startingCP) {
+        const proceed = window.confirm(`⚠️ CP DEFICIT WARNING: Character has spent ${spentCP} CP out of ${startingCP} CP (Deficit of -${spentCP - startingCP} CP).\n\nDo you want to lock this Persona anyway for VTT play?`);
+        if (!proceed) return false;
+      }
+    }
+
+    const now = new Date().toISOString();
+    const updated = {
+      ...characterData,
+      folio_phase: 'locked',
+      is_locked: true,
+      is_ready_for_vtt: true,
+      locked_at: now,
+      player_override: false,
+      updatedAt: now
+    };
+
+    setCharacterData(updated);
+    setPersonaRoster(prev => prev.map(c => {
+      if (c['character-doc-id'] === characterData['character-doc-id']) {
+        return {
+          ...c,
+          folio_phase: 'locked',
+          is_locked: true,
+          is_ready_for_vtt: true,
+          locked_at: now,
+          player_override: false,
+          updatedAt: now
+        };
+      }
+      return c;
+    }));
+
+    AudioService.playCriticalChime(true);
+    triggerSave(false);
+    return true;
+  }, [characterData, economyBreakdown?.spentCP, triggerSave]);
 
   const updateRosterCharacterNote = useCallback(async (docId, noteText) => {
     const updatedNotes = [{ text: noteText }];

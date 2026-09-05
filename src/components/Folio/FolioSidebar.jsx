@@ -19,12 +19,18 @@ import {
   FileText,
   ChevronDown,
   ChevronRight,
-  Dices
+  Dices,
+  Users,
+  Save,
+  Wrench,
+  Lock
 } from 'lucide-react';
 import { AudioService } from '../../services/audioService';
 import { useDice } from '../../context/DiceContext';
+import { useFolio } from '../../context/FolioContext';
 
 const NAVIGATION_ITEMS = [
+  { id: 'catalog', label: 'Operative Catalog', icon: Users },
   { id: 'identity', label: 'Identity', icon: User },
   { id: 'core-stats', label: 'Core Stats', icon: Activity },
   { id: 'skills', label: 'Skills', icon: Award },
@@ -63,9 +69,12 @@ export const FolioSidebar = ({
   charName, 
   onOpenRoster,
   onOpenAugmentationsCatalog,
-  onOpenMetaphysicsModal 
+  onOpenMetaphysicsModal,
+  onSave,
+  saveStatus
 }) => {
   const { openDiceRoller, isDiceOpen, closeDiceRoller } = useDice();
+  const { isLocked, isPlayerOverride } = useFolio() || {};
   // Expansion state for parents with children
   const [expandedSections, setExpandedSections] = useState({
     features: true,
@@ -137,6 +146,23 @@ export const FolioSidebar = ({
                     <Icon size={14} />
                   </div>
                   <span className="truncate uppercase text-[11px] font-semibold">{item.label}</span>
+                  {item.id === 'identity' && (
+                    (isLocked && !isPlayerOverride) ? (
+                      <span 
+                        className="p-1 rounded bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 flex items-center justify-center shrink-0 shadow-[0_0_6px_rgba(6,182,212,0.3)]"
+                        title="Dossier Locked & Set for VTT"
+                      >
+                        <Lock size={11} className="text-cyan-400" />
+                      </span>
+                    ) : (
+                      <span 
+                        className="p-1 rounded bg-amber-950/80 border border-amber-500/40 text-amber-300 flex items-center justify-center shrink-0 shadow-[0_0_6px_rgba(245,158,11,0.25)]"
+                        title="Development Phase (Draft) - Editing Unlocked"
+                      >
+                        <Wrench size={11} className="text-amber-400" />
+                      </span>
+                    )
+                  )}
                 </div>
 
                 <div className="flex items-center gap-1.5">
@@ -196,8 +222,37 @@ export const FolioSidebar = ({
         })}
       </nav>
 
-      {/* Quick Launch Buttons: Dice Roller */}
+      {/* Quick Launch Buttons: Save Dossier & Dice Roller */}
       <div className="pt-2 border-t border-slate-800/80 shrink-0 space-y-1.5">
+        {onSave && (
+          <button
+            type="button"
+            onClick={() => {
+              AudioService.playTerminalBeep(1200, 0.03);
+              onSave();
+            }}
+            className="w-full text-left px-3 py-2 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-between cursor-pointer bg-emerald-950/40 hover:bg-emerald-900/60 text-emerald-300 border border-emerald-500/50 hover:border-emerald-400 shadow-sm"
+            title="Save current persona sheet to Roster and Cloud"
+          >
+            <div className="flex items-center gap-2">
+              <Save size={14} className="text-emerald-400" />
+              <span>Save Dossier</span>
+            </div>
+            <span className="text-[10px] font-mono font-bold text-emerald-400 flex items-center gap-1">
+              {saveStatus === 'saving' ? (
+                'SAVING...'
+              ) : saveStatus === 'saved' ? (
+                <>
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_4px_rgba(52,211,153,0.8)]" />
+                  SAVED
+                </>
+              ) : (
+                'SAVE'
+              )}
+            </span>
+          </button>
+        )}
+
         <button
           type="button"
           onClick={() => {

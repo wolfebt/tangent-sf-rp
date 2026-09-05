@@ -254,7 +254,7 @@ export const DiscreetFateOverrideModal = ({
                 : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
             }`}
           >
-            🎖️ Experience &amp; AP
+            🎖️ Advancement Points (AP)
           </button>
           <button
             type="button"
@@ -450,7 +450,7 @@ export const DiscreetFateOverrideModal = ({
           </div>
         )}
 
-        {/* Tab 2: Experience & AP Overrides */}
+        {/* Tab 2: Advancement Points & AP Overrides */}
         {activeTab === 'experience' && (
           <div className="space-y-4">
             <div className="flex justify-between items-center bg-slate-900/60 border border-emerald-900/40 px-3 py-2 rounded-lg text-xs">
@@ -460,7 +460,7 @@ export const DiscreetFateOverrideModal = ({
                 onClick={() => setIsExperienceCodexOpen(true)}
                 className="px-2.5 py-1 rounded bg-emerald-950 hover:bg-emerald-900 text-emerald-300 border border-emerald-500/50 text-[11px] font-bold transition-colors flex items-center gap-1 cursor-pointer shrink-0"
               >
-                <span>📖</span> Complete Experience Codex
+                <span>📖</span> Complete AP Codex
               </button>
             </div>
 
@@ -468,7 +468,7 @@ export const DiscreetFateOverrideModal = ({
               <div className="bg-rose-950/60 border border-rose-600/80 p-3 rounded-lg text-xs text-rose-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
                 <div>
                   <div className="font-bold flex items-center gap-1.5 text-rose-300">
-                    <span>⚠️</span> Experience Debt: -{experienceDebt} XP
+                    <span>⚠️</span> AP Debt: -{experienceDebt} AP
                   </div>
                   <div className="text-[11px] text-rose-300/80">
                     Mortality / Revivification trauma incurred from Death's Door survival.
@@ -486,7 +486,7 @@ export const DiscreetFateOverrideModal = ({
 
             <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-3.5 space-y-3">
               <div className="flex justify-between items-center text-xs font-bold text-slate-300">
-                <span>Award Points (AP) &amp; Campaign Budget</span>
+                <span>Advancement Points (AP) &amp; Campaign Budget</span>
                 <span className="text-[10px] font-mono text-emerald-400">1 AP = 1 Character Point</span>
               </div>
 
@@ -523,11 +523,11 @@ export const DiscreetFateOverrideModal = ({
             {/* Recent Awards Log */}
             <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-3.5 space-y-2">
               <div className="text-xs font-bold text-slate-300">
-                Recent Experience Awards Log
+                Recent Advancement Awards Log
               </div>
               {recentAwards.length === 0 ? (
                 <div className="text-[11px] text-slate-500 italic py-2">
-                  No experience awards recorded yet. Awards granted by the GM in the VTT will appear here.
+                  No advancement awards recorded yet. Awards granted by the GM in the VTT will appear here.
                 </div>
               ) : (
                 <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">

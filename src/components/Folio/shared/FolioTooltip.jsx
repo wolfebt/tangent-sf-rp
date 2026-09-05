@@ -30,6 +30,8 @@ export const FolioTooltip = ({
   description,
   formula,
   prerequisites,
+  prerequisiteMet = true,
+  prerequisiteUnmetReasons = null,
   cost,
   tags = [],
   position = 'auto',
@@ -236,8 +238,27 @@ export const FolioTooltip = ({
 
         {/* Prerequisites */}
         {prerequisites && (
-          <div className="text-[10px] text-amber-300/90 font-mono bg-amber-950/40 px-2 py-0.5 rounded border border-amber-900/40">
-            <span className="font-bold text-amber-400">Prereq:</span> {prerequisites}
+          <div className={`text-[10.5px] font-mono px-2 py-1 rounded border ${
+            prerequisiteMet === false
+              ? 'bg-rose-950/80 text-rose-200 border-rose-500/70 shadow-[0_0_10px_rgba(244,63,94,0.25)]'
+              : 'bg-amber-950/40 text-amber-300/90 border-amber-900/40'
+          }`}>
+            <div className="flex items-center gap-1 font-bold">
+              {prerequisiteMet === false ? (
+                <span className="text-rose-400 flex items-center gap-1">
+                  <span>⚠️</span>
+                  <span>Prerequisite (Not Possessed):</span>
+                </span>
+              ) : (
+                <span className="text-amber-400">Prereq:</span>
+              )}
+            </div>
+            <div className="text-[10.5px] text-slate-200 mt-0.5">{prerequisites}</div>
+            {prerequisiteMet === false && prerequisiteUnmetReasons && (
+              <div className="text-[9.5px] text-rose-300 font-sans italic mt-1 border-t border-rose-900/50 pt-0.5">
+                Missing: {Array.isArray(prerequisiteUnmetReasons) ? prerequisiteUnmetReasons.join('; ') : String(prerequisiteUnmetReasons)}
+              </div>
+            )}
           </div>
         )}
 

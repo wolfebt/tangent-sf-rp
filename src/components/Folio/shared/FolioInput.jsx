@@ -1,4 +1,5 @@
 import React from 'react';
+import { useFolio } from '../../../context/FolioContext';
 
 const FolioInput = ({
   id,
@@ -18,8 +19,12 @@ const FolioInput = ({
   readOnly = false,
   title = ''
 }) => {
+  const folio = useFolio();
+  const isSheetLocked = Boolean(folio?.isLocked && !folio?.isPlayerOverride);
+  const isInputDisabled = disabled || readOnly || isSheetLocked;
+
   const handleChange = (e) => {
-    if (disabled || readOnly) return;
+    if (isInputDisabled) return;
     let val = e.target.value;
     if (type === 'number') {
       val = parseInt(val, 10) || 0;
@@ -28,23 +33,56 @@ const FolioInput = ({
   };
 
   const handleBlur = (e) => {
-    if (onBlur && !disabled && !readOnly) {
+    if (onBlur && !isInputDisabled) {
       onBlur(id, e.target.value);
     }
   };
 
-  const isInputDisabled = disabled || readOnly;
-  const baseStyles = isInputDisabled
-    ? 'bg-slate-950/70 border border-slate-800/80 rounded text-slate-400 cursor-not-allowed opacity-75 select-none transition-colors w-full font-mono'
-    : 'focus:border-cyan-400 rounded text-slate-100 outline-none transition-colors w-full';
+  const isEmpty = value === '' || value === null || value === undefined;
+
+  // When locked and not overridden, show clean read-only text with no box borders or background
+  if (isInputDisabled) {
+    return (
+      <div className={containerClassName} title={title}>
+        {label && (
+          <div className="flex justify-between items-center mb-0.5">
+            <label htmlFor={id} className={`${labelSize} font-bold uppercase tracking-wider text-slate-400 block flex items-center gap-1`}>
+              {label}
+            </label>
+            {rightLabel && (
+              <span className="text-[10px] font-mono text-cyan-400/80">
+                {rightLabel}
+              </span>
+            )}
+          </div>
+        )}
+        <div 
+          id={id}
+          className={`py-1 text-sm font-sans text-slate-100 select-text whitespace-pre-wrap min-h-[1.5rem] flex items-center ${type === 'textarea' ? 'items-start pt-1' : ''}`}
+        >
+          {!isEmpty ? (
+            <span>{value}</span>
+          ) : (
+            <span className="text-slate-600 italic text-xs font-mono">None</span>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // Dev mode: proper field boxes for user entry with soft shadow on empty fields
+  const emptyShadowStyle = isEmpty
+    ? 'shadow-[inset_0_2px_6px_rgba(0,0,0,0.6),0_0_10px_rgba(6,182,212,0.18)] border-cyan-700/60 focus:shadow-[0_0_14px_rgba(6,182,212,0.35)]'
+    : 'border-cyan-900/80 shadow-sm';
+
+  const baseStyles = `focus:border-cyan-400 rounded text-slate-100 outline-none transition-all duration-200 w-full ${emptyShadowStyle}`;
 
   return (
     <div className={containerClassName} title={title}>
       {label && (
         <div className="flex justify-between items-center mb-1">
-          <label htmlFor={id} className={`${labelSize} font-bold uppercase tracking-wider ${isInputDisabled ? 'text-slate-500' : labelColor} block flex items-center gap-1`}>
+          <label htmlFor={id} className={`${labelSize} font-bold uppercase tracking-wider ${labelColor} block flex items-center gap-1`}>
             {label}
-            {isInputDisabled && <span className="text-[10px] text-amber-500/80" title="Locked during active game or read-only mode">🔒</span>}
           </label>
           {rightLabel && (
             <span className="text-[10px] font-mono text-cyan-300/80">
@@ -58,11 +96,9 @@ const FolioInput = ({
         <textarea
           id={id}
           rows={rows}
-          value={value}
+          value={value || ''}
           onChange={handleChange}
           onBlur={handleBlur}
-          disabled={disabled}
-          readOnly={readOnly}
           className={`${baseStyles} resize-none ${inputClassName}`}
           placeholder={placeholder}
         />
@@ -70,11 +106,9 @@ const FolioInput = ({
         <input
           type={type}
           id={id}
-          value={value}
+          value={value ?? ''}
           onChange={handleChange}
           onBlur={handleBlur}
-          disabled={disabled}
-          readOnly={readOnly}
           className={`${baseStyles} ${inputClassName}`}
           placeholder={placeholder}
         />
@@ -84,3 +118,4 @@ const FolioInput = ({
 };
 
 export default React.memo(FolioInput);
+

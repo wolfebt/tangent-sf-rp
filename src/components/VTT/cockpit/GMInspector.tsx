@@ -124,7 +124,7 @@ export const GMInspector: React.FC = () => {
 
   const handleAwardXP = () => {
     if (!currentToken) return;
-    const input = window.prompt(`Award XP (AP) to ${currentToken.name}:`, "2");
+    const input = window.prompt(`Award Advancement Points (AP) to ${currentToken.name}:`, "2");
     if (!input) return;
     const amount = parseInt(input, 10);
     if (isNaN(amount) || amount <= 0) return;
@@ -132,7 +132,7 @@ export const GMInspector: React.FC = () => {
     if (awardExperience) {
       awardExperience(resolvedHeroId, { amount, reason: reason || 'Tactical Award' });
       AudioService.playCriticalChime(true);
-      alert(`Awarded ${amount} XP (AP) to ${currentToken.name}!`);
+      alert(`Awarded ${amount} AP to ${currentToken.name}!`);
     }
   };
 
@@ -342,7 +342,7 @@ export const GMInspector: React.FC = () => {
             </button>
           </div>
 
-          {/* Persona Dedicated Mechanics: XP Awards & Karma Controls */}
+          {/* Persona Dedicated Mechanics: AP Awards & Karma Controls */}
           {currentToken.is_persona && (
             <div className="pt-2 border-t border-slate-800/80 space-y-1.5">
               <div className="text-[10px] text-slate-400 uppercase tracking-wider flex items-center justify-between">
@@ -358,9 +358,9 @@ export const GMInspector: React.FC = () => {
                   type="button"
                   onClick={handleAwardXP}
                   className="py-1 px-2 rounded bg-purple-950/60 hover:bg-purple-900/80 border border-purple-500/50 text-purple-300 font-bold text-[10.5px] flex items-center justify-center gap-1 transition-all cursor-pointer"
-                  title="Award XP (AP) to hero persona sheet"
+                  title="Award Advancement Points (AP) to hero persona sheet"
                 >
-                  <Award size={12} /> Award XP
+                  <Award size={12} /> Award AP
                 </button>
 
                 <div className="flex items-center gap-1 bg-slate-950 p-0.5 rounded border border-slate-800">

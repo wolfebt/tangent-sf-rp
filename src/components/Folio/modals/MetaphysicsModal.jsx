@@ -17,7 +17,15 @@ import {
   Copy, 
   Wand2, 
   Trash2, 
-  Edit3 
+  Edit3,
+  Filter,
+  List,
+  Grid,
+  Info,
+  ChevronRight,
+  ArrowRight,
+  AlertCircle,
+  Lock
 } from 'lucide-react';
 import { useFolio } from '../../../context/FolioContext';
 import { useDice } from '../../../context/DiceContext';
@@ -27,6 +35,8 @@ import { AudioService } from '../../../services/audioService';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { DEFAULT_INVOCATIONS } from '../../../data/invocationsData';
 import { resolveMetaSkillForInvocation } from '../../../utils/metaphysicsUtils';
+import FolioTooltip from '../shared/FolioTooltip';
+import { checkPrerequisite } from '../../../utils/prerequisiteEvaluator';
 
 // Canonical Invocations seeds for offline catalog browsing
 const CANONICAL_INVOCATIONS = [
@@ -67,6 +77,138 @@ const CANONICAL_INVOCATIONS = [
   { id: 'inv-empathy-probe', name: 'Synaptic Probe', discipline: 'Mental', subSkill: 'Sense', baseDC: 14, time: '1 Action', range: '30 ft', area: '1 Creature', duration: 'Concentration (1 min)', resistance: 'Willpower', damage: 'Read Memories', description: 'Surreptitiously probes surface thoughts, immediate emotional state, hidden motives, and recent memories.', scaling: 'Bypasses mental shields of CR + 2 per Invocation level.' }
 ];
 
+// Canonical Inherent Special Abilities for Omnicortex Catalog
+const CANONICAL_SPECIAL_ABILITIES = [
+  {
+    id: 'spec-breath-weapon',
+    name: 'Draconic Thermal Breath',
+    discipline: 'Energy',
+    subSkill: 'Elemental',
+    time: '1 Action',
+    range: 'Self',
+    area: '30 ft Cone',
+    duration: 'Instantaneous',
+    resistance: 'Reflex (Half)',
+    damage: '3d8 Fire Damage',
+    description: 'Exhales a devastating torrent of superheated dragon-fire or plasma directly from biological glandular chambers or cybernetic thermocores.',
+    scaling: '+1d8 Fire damage per 2 CP allocated.',
+    cp: 5,
+    isInherent: true
+  },
+  {
+    id: 'spec-sonic-cannon',
+    name: 'Cybernetic Sonic Scream',
+    discipline: 'Energy',
+    subSkill: 'Force',
+    time: '1 Action',
+    range: '60 ft Line',
+    area: '5 ft Wide Beam',
+    duration: 'Instantaneous',
+    resistance: 'Fortitude (Save)',
+    damage: '2d10 Concussive + Deafened',
+    description: 'Fires high-amplitude sonic resonance through throat implants, pulverizing armor bulkheads and disorienting synaptic targets.',
+    scaling: 'Stuns targets for 1 round on critical hits.',
+    cp: 5,
+    isInherent: true
+  },
+  {
+    id: 'spec-phase-shift',
+    name: 'Spatial Phase Shift',
+    discipline: 'Dimension',
+    subSkill: 'Teleport',
+    time: 'Bonus Action',
+    range: '40 ft',
+    area: 'Self',
+    duration: 'Instantaneous',
+    resistance: 'None',
+    damage: 'Tactical Reposition',
+    description: 'Inherent dimensional anomaly allowing instantaneous micro-teleportation across tactical lines without traversing physical obstacle planes.',
+    scaling: 'Increases shift distance by +10 ft per 2 CP allocated.',
+    cp: 5,
+    isInherent: true
+  },
+  {
+    id: 'spec-synaptic-emp',
+    name: 'Synaptic EMP Surge',
+    discipline: 'Mental',
+    subSkill: 'Projection',
+    time: '1 Action',
+    range: 'Self',
+    area: '20 ft Radius',
+    duration: '1 Round',
+    resistance: 'Will / Tech Save',
+    damage: '2d6 Ion + Cyber Shutdown',
+    description: 'Emits a localized electromagnetic and neural shockwave that disables unshielded electronics, drones, and enemy neural cyberware.',
+    scaling: '+10 ft blast radius per 2 CP allocated.',
+    cp: 5,
+    isInherent: true
+  },
+  {
+    id: 'spec-biomorphic-claws',
+    name: 'Biomorphic Monomolecular Claws',
+    discipline: 'Matter',
+    subSkill: 'Enhancement',
+    time: 'Bonus Action (Stance)',
+    range: 'Melee',
+    area: 'Personal',
+    duration: 'Sustained',
+    resistance: 'None',
+    damage: '2d8 Slashing (AP 4)',
+    description: 'Extends carbon-nanotube reinforced talons or biomechanical blades capable of cleanly piercing standard ballistic plating.',
+    scaling: '+1 Strike and +2 Armor Piercing per 2 CP allocated.',
+    cp: 5,
+    isInherent: true
+  },
+  {
+    id: 'spec-regenerative-surge',
+    name: 'Rapid Cellular Regeneration',
+    discipline: 'Entropy',
+    subSkill: 'Order',
+    time: 'Reaction',
+    range: 'Self',
+    area: 'Personal',
+    duration: 'Instantaneous',
+    resistance: 'None',
+    damage: 'Heals 2d8+Con Vitality',
+    description: 'Triggered metabolic acceleration that rapidly knits severed flesh, closes bleed wounds, and purges toxic contaminants.',
+    scaling: 'Can be triggered 1 additional time per encounter per 2 CP allocated.',
+    cp: 5,
+    isInherent: true
+  },
+  {
+    id: 'spec-chameleon-shroud',
+    name: 'Adaptive Optical Camouflage',
+    discipline: 'Illusion',
+    subSkill: 'Phantasm',
+    time: '1 Action',
+    range: 'Self',
+    area: 'Personal',
+    duration: '10 Minutes',
+    resistance: 'Perception opposed',
+    damage: '+6 Stealth / Concealment',
+    description: 'Dynamic chromatophore skin or light-bending thermoptic skin weave that renders the operative nearly indistinguishable from their surroundings.',
+    scaling: 'Grants full Invisibility while stationary.',
+    cp: 5,
+    isInherent: true
+  },
+  {
+    id: 'spec-gravimetric-anchor',
+    name: 'Gravimetric Density Anchor',
+    discipline: 'Matter',
+    subSkill: 'Transmutation',
+    time: 'Reaction',
+    range: 'Self',
+    area: 'Personal',
+    duration: '1 Minute',
+    resistance: 'None',
+    damage: 'Knockback Immunity + 4 DR',
+    description: 'Locks molecular mass to the planetary gravity matrix, completely preventing knockback, forced movement, and trip maneuvers.',
+    scaling: 'Grants +2 additional DR against explosive concussive damage.',
+    cp: 5,
+    isInherent: true
+  }
+];
+
 // Unified catalog combining rich seed stats and the full 137 Omnicortex database
 const ALL_CATALOG_INVOCATIONS = (() => {
   const map = new Map();
@@ -77,7 +219,8 @@ const ALL_CATALOG_INVOCATIONS = (() => {
       baseSkillId: inv.baseSkillId || resolved.baseSkillId,
       subSkill: inv.subSkill || resolved.subSkill,
       discipline: inv.discipline || resolved.discipline,
-      cp: 1
+      cp: 1,
+      powerType: 'invocation'
     });
   });
 
@@ -100,7 +243,8 @@ const ALL_CATALOG_INVOCATIONS = (() => {
         damage: inv.damage || 'Effect',
         description: inv.description || (inv.body ? (inv.body.split('\n\n')[1] || inv.body.slice(0, 140)) : 'Omnicortex reality manipulation formula.'),
         scaling: inv.scaling || '+1d6 per Invocation level.',
-        cp: 1
+        cp: 1,
+        powerType: 'invocation'
       });
     }
   });
@@ -113,21 +257,31 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
     characterData, 
     updateField, 
     handleAddItem, 
-    handleUpdateItem, 
-    getAttrTotal,
-    economyBreakdown 
+    getAttrTotal
   } = useFolio();
   const { openDiceRoller } = useDice();
 
-  const [activeTab, setActiveTab] = useState('disciplines'); // 'disciplines' | 'invocations' | 'special_abilities'
-  const [selectedDisciplineId, setSelectedDisciplineId] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [governingAttr, setGoverningAttr] = useState('attr-intellect'); // 'attr-intellect' | 'attr-wisdom' | 'attr-charisma'
+  // Navigation Tabs: 'disciplines' | 'character_catalog' | 'omnicortex_catalog'
+  const [activeTab, setActiveTab] = useState('disciplines');
+
+  // Character Catalog Sub-filters & Search
+  const [catalogSearch, setCatalogSearch] = useState('');
+  const [catalogTypeFilter, setCatalogTypeFilter] = useState('all'); // 'all' | 'invocations' | 'special_abilities'
+  const [catalogDisciplineFilter, setCatalogDisciplineFilter] = useState('all');
+
+  // Omnicortex Catalog Sub-filters & Search
+  const [omnicortexSearch, setOmnicortexSearch] = useState('');
+  const [omnicortexTypeFilter, setOmnicortexTypeFilter] = useState('all'); // 'all' | 'invocations' | 'special_abilities'
+  const [omnicortexDisciplineFilter, setOmnicortexDisciplineFilter] = useState('all');
+
+  // Tradition / Governing Attribute
+  const [governingAttr, setGoverningAttr] = useState('attr-intellect');
   const [latestRoll, setLatestRoll] = useState(null);
 
-  // Custom Build Modal Sub-States
-  const [isBuildInvocationOpen, setIsBuildInvocationOpen] = useState(false);
-  const [isBuildSpecialAbilityOpen, setIsBuildSpecialAbilityOpen] = useState(false);
+  // Custom Build & Edit Form State
+  const [isBuildModalOpen, setIsBuildModalOpen] = useState(false);
+  const [buildModalMode, setBuildModalMode] = useState('create_invocation'); // 'create_invocation' | 'create_special_ability' | 'edit_invocation' | 'edit_special_ability'
+  const [editingTargetIndex, setEditingTargetIndex] = useState(null);
   const [customForm, setCustomForm] = useState({
     name: '',
     discipline: 'Entropy',
@@ -142,7 +296,8 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
     description: '',
     scaling: '',
     rank: 1,
-    cp: 3
+    cp: 1,
+    isInherent: false
   });
 
   if (!isOpen) return null;
@@ -264,7 +419,6 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
       });
       updateField('awakened', updated);
 
-      // Remove from features if present
       if (Array.isArray(characterData.features)) {
         const updatedFeats = characterData.features.filter(f => {
           const n = typeof f === 'object' ? (f.name || '') : String(f);
@@ -273,7 +427,6 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
         updateField('features', updatedFeats);
       }
     } else {
-      // Purchase Awakened
       const newItem = {
         id: `awakened_${disc.id}_${Date.now()}`,
         name: `Awakened: ${disc.name}`,
@@ -286,14 +439,12 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
       updateField('awakened', [...awakenedList, newItem]);
       handleAddItem('features', newItem);
 
-      // Automatically ensure Attune skill is active
       if (getNum('skill-meta-attune-rank', 0) === 0) {
         updateField('skill-meta-attune-rank', 1);
         updateField('skill-meta-attune-name', 'Attune');
         updateField('skill-meta-attune-group', 'meta');
       }
 
-      // Initialize the 2 associated discipline skills
       disc.skills.forEach(s => {
         if (getNum(`skill-${s.id}-rank`, 0) === 0) {
           updateField(`skill-${s.id}-rank`, 1);
@@ -343,6 +494,25 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
     AudioService.playTerminalBeep(1200, 0.03);
   };
 
+  // Add Special Ability to Character
+  const handleAddSpecialAbility = (abil) => {
+    const existingIdx = specialAbilities.findIndex(a => (a.name || '').toLowerCase() === (abil.name || '').toLowerCase());
+    if (existingIdx >= 0) {
+      alert(`Special Ability "${abil.name}" is already possessed by this operative.`);
+      return;
+    }
+    const newAbil = {
+      ...abil,
+      id: abil.id || `spec_abil_${Date.now()}`,
+      category: 'Special Ability',
+      type: 'Special Ability',
+      cp: abil.cp || 5,
+      isInherent: true
+    };
+    updateField('special_abilities', [...specialAbilities, newAbil]);
+    AudioService.playTerminalBeep(1300, 0.04);
+  };
+
   // Remove known Invocation
   const handleRemoveKnownInvocation = (idx) => {
     const target = knownInvocations[idx];
@@ -360,7 +530,7 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
     updateField('invocations', updated);
   };
 
-  // Repurpose Invocation as Special Ability
+  // Repurpose Invocation as Inherent Special Ability
   const handleRepurposeToSpecialAbility = (inv) => {
     const newAbility = {
       id: `spec_abil_${Date.now()}`,
@@ -382,7 +552,33 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
       isInherent: true
     };
     updateField('special_abilities', [...specialAbilities, newAbility]);
-    setActiveTab('special_abilities');
+    setActiveTab('character_catalog');
+    setCatalogTypeFilter('special_abilities');
+    AudioService.playCriticalChime(true);
+  };
+
+  // Codify Special Ability as Codified Invocation
+  const handleCodifyToInvocation = (abil) => {
+    const newInv = {
+      id: `inv_${Date.now()}`,
+      name: abil.name.replace('(Inherent)', '').trim(),
+      discipline: abil.discipline || 'Energy',
+      subSkill: abil.subSkill || 'Elemental',
+      baseDC: abil.baseDC || 15,
+      time: abil.time || '1 Action',
+      range: abil.range || 'Touch',
+      area: abil.area || 'Single Target',
+      duration: abil.duration || 'Instantaneous',
+      resistance: abil.resistance || 'None',
+      damage: abil.damage || 'Effect',
+      description: abil.description || '',
+      scaling: abil.scaling || '+1d6 per Invocation level.',
+      rank: 1,
+      cp: 1
+    };
+    updateField('invocations', [...knownInvocations, newInv]);
+    setActiveTab('character_catalog');
+    setCatalogTypeFilter('invocations');
     AudioService.playCriticalChime(true);
   };
 
@@ -395,41 +591,191 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
     updateField('special_abilities', updated);
   };
 
-  // Save Custom Invocation Build
-  const handleSaveCustomInvocation = (e) => {
+  // Open Edit Form for Invocation
+  const handleOpenEditInvocation = (inv, idx) => {
+    setCustomForm({
+      name: inv.name || '',
+      discipline: inv.discipline || 'Entropy',
+      subSkill: inv.subSkill || 'Chaos',
+      baseDC: inv.baseDC || 15,
+      time: inv.time || '1 Action',
+      range: inv.range || '30 ft',
+      area: inv.area || 'Single Target',
+      duration: inv.duration || 'Instantaneous',
+      resistance: inv.resistance || 'None',
+      damage: inv.damage || '',
+      description: inv.description || '',
+      scaling: inv.scaling || '',
+      rank: inv.rank || 1,
+      cp: inv.cp || 1,
+      isInherent: false
+    });
+    setEditingTargetIndex(idx);
+    setBuildModalMode('edit_invocation');
+    setIsBuildModalOpen(true);
+  };
+
+  // Open Edit Form for Special Ability
+  const handleOpenEditSpecialAbility = (abil, idx) => {
+    setCustomForm({
+      name: abil.name || '',
+      discipline: abil.discipline || 'Energy',
+      subSkill: abil.subSkill || 'Force',
+      baseDC: abil.baseDC || 15,
+      time: abil.time || '1 Action',
+      range: abil.range || '30 ft',
+      area: abil.area || 'Single Target',
+      duration: abil.duration || 'Instantaneous',
+      resistance: abil.resistance || 'None',
+      damage: abil.damage || '',
+      description: abil.description || '',
+      scaling: abil.scaling || '',
+      rank: 1,
+      cp: abil.cp || 5,
+      isInherent: true
+    });
+    setEditingTargetIndex(idx);
+    setBuildModalMode('edit_special_ability');
+    setIsBuildModalOpen(true);
+  };
+
+  // Save Build or Edit Form
+  const handleSaveCustomForm = (e) => {
     e.preventDefault();
     if (!customForm.name.trim()) return;
-    const newInv = {
-      ...customForm,
-      id: `custom_inv_${Date.now()}`
-    };
-    updateField('invocations', [...knownInvocations, newInv]);
-    setIsBuildInvocationOpen(false);
+
+    if (buildModalMode === 'create_invocation') {
+      const newInv = {
+        ...customForm,
+        id: `custom_inv_${Date.now()}`
+      };
+      updateField('invocations', [...knownInvocations, newInv]);
+    } else if (buildModalMode === 'edit_invocation' && editingTargetIndex !== null) {
+      const updated = [...knownInvocations];
+      updated[editingTargetIndex] = {
+        ...updated[editingTargetIndex],
+        ...customForm
+      };
+      updateField('invocations', updated);
+    } else if (buildModalMode === 'create_special_ability') {
+      const newAbil = {
+        ...customForm,
+        id: `custom_abil_${Date.now()}`,
+        type: 'Special Ability',
+        category: 'Special Ability',
+        isInherent: true
+      };
+      updateField('special_abilities', [...specialAbilities, newAbil]);
+    } else if (buildModalMode === 'edit_special_ability' && editingTargetIndex !== null) {
+      const updated = [...specialAbilities];
+      updated[editingTargetIndex] = {
+        ...updated[editingTargetIndex],
+        ...customForm,
+        type: 'Special Ability',
+        category: 'Special Ability',
+        isInherent: true
+      };
+      updateField('special_abilities', updated);
+    }
+
+    setIsBuildModalOpen(false);
+    setEditingTargetIndex(null);
     AudioService.playCriticalChime(true);
   };
 
-  // Save Custom Special Ability Build
-  const handleSaveCustomSpecialAbility = (e) => {
-    e.preventDefault();
-    if (!customForm.name.trim()) return;
-    const newAbil = {
-      ...customForm,
-      id: `custom_abil_${Date.now()}`,
-      type: 'Special Ability',
-      category: 'Special Ability',
-      isInherent: true
-    };
-    updateField('special_abilities', [...specialAbilities, newAbil]);
-    setIsBuildSpecialAbilityOpen(false);
-    AudioService.playCriticalChime(true);
-  };
+  // ═══════════════════════════════════════════════════════════════════════════
+  // COMBINED CHARACTER'S INVOCATIONS & SPECIAL ABILITIES CATALOG
+  // ═══════════════════════════════════════════════════════════════════════════
+  const characterPowers = useMemo(() => {
+    const invs = knownInvocations.map((inv, idx) => ({
+      ...inv,
+      powerType: 'invocation',
+      originalIndex: idx
+    }));
+    const abs = specialAbilities.map((abil, idx) => ({
+      ...abil,
+      powerType: 'special_ability',
+      originalIndex: idx
+    }));
+    return [...invs, ...abs];
+  }, [knownInvocations, specialAbilities]);
+
+  const filteredCharacterPowers = useMemo(() => {
+    return characterPowers.filter(p => {
+      // Type filter
+      if (catalogTypeFilter === 'invocations' && p.powerType !== 'invocation') return false;
+      if (catalogTypeFilter === 'special_abilities' && p.powerType !== 'special_ability') return false;
+
+      // Discipline filter
+      if (catalogDisciplineFilter !== 'all') {
+        const disc = (p.discipline || '').toLowerCase();
+        if (!disc.includes(catalogDisciplineFilter.toLowerCase())) return false;
+      }
+
+      // Search query
+      if (catalogSearch.trim()) {
+        const q = catalogSearch.toLowerCase();
+        const matchName = (p.name || '').toLowerCase().includes(q);
+        const matchDesc = (p.description || '').toLowerCase().includes(q);
+        const matchDisc = (p.discipline || '').toLowerCase().includes(q);
+        const matchSub = (p.subSkill || '').toLowerCase().includes(q);
+        const matchDmg = (p.damage || '').toLowerCase().includes(q);
+        if (!matchName && !matchDesc && !matchDisc && !matchSub && !matchDmg) return false;
+      }
+
+      return true;
+    });
+  }, [characterPowers, catalogTypeFilter, catalogDisciplineFilter, catalogSearch]);
+
+  const totalCharacterCP = useMemo(() => {
+    const invCP = knownInvocations.reduce((acc, inv) => acc + (parseInt(inv.cp, 10) || 1), 0);
+    const abilCP = specialAbilities.reduce((acc, a) => acc + (parseInt(a.cp, 10) || 5), 0);
+    return { invCP, abilCP, total: invCP + abilCP };
+  }, [knownInvocations, specialAbilities]);
+
+  // Combined Omnicortex Catalog (Invocations + Canonical Special Abilities)
+  const combinedOmnicortexCatalog = useMemo(() => {
+    const invocations = ALL_CATALOG_INVOCATIONS.map(inv => ({
+      ...inv,
+      powerType: 'invocation'
+    }));
+    const abilities = CANONICAL_SPECIAL_ABILITIES.map(abil => ({
+      ...abil,
+      powerType: 'special_ability'
+    }));
+    return [...invocations, ...abilities];
+  }, []);
+
+  const filteredOmnicortexCatalog = useMemo(() => {
+    return combinedOmnicortexCatalog.filter(item => {
+      if (omnicortexTypeFilter === 'invocations' && item.powerType !== 'invocation') return false;
+      if (omnicortexTypeFilter === 'special_abilities' && item.powerType !== 'special_ability') return false;
+
+      if (omnicortexDisciplineFilter !== 'all') {
+        const disc = (item.discipline || '').toLowerCase();
+        if (!disc.includes(omnicortexDisciplineFilter.toLowerCase())) return false;
+      }
+
+      if (omnicortexSearch.trim()) {
+        const q = omnicortexSearch.toLowerCase();
+        const matchName = (item.name || '').toLowerCase().includes(q);
+        const matchDesc = (item.description || '').toLowerCase().includes(q);
+        const matchDisc = (item.discipline || '').toLowerCase().includes(q);
+        const matchSub = (item.subSkill || '').toLowerCase().includes(q);
+        const matchDmg = (item.damage || '').toLowerCase().includes(q);
+        if (!matchName && !matchDesc && !matchDisc && !matchSub && !matchDmg) return false;
+      }
+
+      return true;
+    });
+  }, [combinedOmnicortexCatalog, omnicortexTypeFilter, omnicortexDisciplineFilter, omnicortexSearch]);
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/85 backdrop-blur-md p-2 sm:p-6 pt-10 sm:pt-14 pb-12 overflow-y-auto select-none font-sans">
-      <div className="bg-[#0c121e] border border-purple-500/40 rounded-2xl max-w-5xl w-full p-4 sm:p-7 shadow-[0_0_50px_rgba(168,85,247,0.2)] text-slate-100 space-y-5">
+    <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/85 backdrop-blur-md p-2 sm:p-6 pt-8 sm:pt-12 pb-12 overflow-y-auto select-none font-sans">
+      <div className="bg-[#0c121e] border border-purple-500/40 rounded-2xl max-w-5xl w-full p-4 sm:p-6 shadow-[0_0_50px_rgba(168,85,247,0.2)] text-slate-100 space-y-4">
         
         {/* Modal Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-purple-900/60 pb-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-purple-900/60 pb-3.5">
           <div className="space-y-1">
             <div className="flex items-center gap-2.5">
               <span className="text-2xl p-1.5 bg-purple-950/80 rounded-lg border border-purple-500/40 text-purple-300">
@@ -440,7 +786,7 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
                   Metaphysics, Invocations &amp; Special Abilities
                 </h2>
                 <p className="text-xs text-slate-400">
-                  Awakened Disciplines, 12 Core Focus Skills, Invocation Formulas &amp; Inherent Powers
+                  Awakened Disciplines, 12 Core Focus Skills, Inherent Abilities &amp; Character Catalog
                 </p>
               </div>
             </div>
@@ -507,9 +853,9 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
         )}
 
         {/* Tradition / Governing Mental Attribute Configurator */}
-        <div className="bg-slate-950/80 border border-purple-900/50 rounded-xl p-3.5 flex flex-wrap items-center justify-between gap-3">
+        <div className="bg-slate-950/80 border border-purple-900/50 rounded-xl p-3 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <span className="text-sm font-bold text-purple-300 uppercase tracking-wider flex items-center gap-1.5">
+            <span className="text-xs font-bold text-purple-300 uppercase tracking-wider flex items-center gap-1.5">
               <span>🧠</span> Tradition Governing Attribute:
             </span>
             <div className="flex items-center gap-1 bg-slate-900 p-1 rounded-lg border border-slate-800">
@@ -522,7 +868,7 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
                   key={attr.id}
                   type="button"
                   onClick={() => setGoverningAttr(attr.id)}
-                  className={`px-2.5 py-1 rounded text-xs font-mono font-bold transition-all cursor-pointer ${
+                  className={`px-2 py-0.5 rounded text-xs font-mono font-bold transition-all cursor-pointer ${
                     governingAttr === attr.id
                       ? 'bg-purple-950 text-purple-200 border border-purple-500/60 shadow-sm'
                       : 'text-slate-400 hover:text-slate-200'
@@ -600,7 +946,7 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
               <span className="text-slate-600">•</span>
               <span title="Attune Skill Rank">Conduit (Attune): <strong className="text-purple-300">+{attuneRank}</strong></span>
               <span className="text-slate-600">•</span>
-              <span title="Sum of ranks across all known Discipline focus skills">Breadth (Disciplines): <strong className="text-cyan-300">+{totalDisciplineRanks}</strong></span>
+              <span title="Sum of ranks across all known Discipline focus skills">Breadth: <strong className="text-cyan-300">+{totalDisciplineRanks}</strong></span>
             </div>
           </div>
 
@@ -624,26 +970,10 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
               <span>🔥 <strong>THE BURN ACTIVE:</strong> Essence Pool depleted! Each point of Essence needed deals <strong>2 points of direct Health damage</strong> (bypasses DR &amp; Stamina).</span>
             </div>
           )}
-
-          {/* Tactical Quick Reference Strip */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 pt-1 text-[10px] font-mono text-slate-400">
-            <div className="bg-slate-900/60 px-2 py-1 rounded border border-slate-800">
-              <span className="text-slate-500">Take 10 Potency:</span> <span className="text-amber-300 font-bold">Key + Skill + Inv + 10</span>
-            </div>
-            <div className="bg-slate-900/60 px-2 py-1 rounded border border-slate-800">
-              <span className="text-slate-500">Base Costs:</span> <span className="text-purple-300 font-bold">DC 5–10: 0 | DC 15: 1 | DC 20: 2</span>
-            </div>
-            <div className="bg-slate-900/60 px-2 py-1 rounded border border-slate-800">
-              <span className="text-slate-500">Ranges:</span> <span className="text-cyan-300 font-bold">Melee +5 | Close 0 | Med -5 | Lng -10</span>
-            </div>
-            <div className="bg-slate-900/60 px-2 py-1 rounded border border-slate-800">
-              <span className="text-slate-500">Countering:</span> <span className="text-emerald-300 font-bold">Step 1: Attune → Step 2: Focus</span>
-            </div>
-          </div>
         </div>
 
         {/* 3 Main Navigation Tabs */}
-        <div className="grid grid-cols-3 gap-2 bg-slate-950/90 p-1.5 rounded-xl border border-slate-800">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-slate-950/90 p-1.5 rounded-xl border border-slate-800">
           <button
             type="button"
             onClick={() => setActiveTab('disciplines')}
@@ -659,137 +989,176 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
 
           <button
             type="button"
-            onClick={() => setActiveTab('invocations')}
+            onClick={() => {
+              setActiveTab('character_catalog');
+              setCatalogTypeFilter('all');
+            }}
             className={`py-2 px-3 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
-              activeTab === 'invocations'
+              activeTab === 'character_catalog' || activeTab === 'invocations' || activeTab === 'special_abilities'
                 ? 'bg-purple-950 text-purple-200 border border-purple-500/60 shadow-[0_0_15px_rgba(168,85,247,0.2)]'
                 : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
             }`}
           >
-            <span>📜</span>
-            <span>Invocations Catalog ({knownInvocations.length} Known)</span>
+            <span>📋</span>
+            <span>Character's Catalog ({characterPowers.length} Active Powers)</span>
           </button>
 
           <button
             type="button"
-            onClick={() => setActiveTab('special_abilities')}
+            onClick={() => setActiveTab('omnicortex_catalog')}
             className={`py-2 px-3 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
-              activeTab === 'special_abilities'
+              activeTab === 'omnicortex_catalog'
                 ? 'bg-purple-950 text-purple-200 border border-purple-500/60 shadow-[0_0_15px_rgba(168,85,247,0.2)]'
                 : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
             }`}
           >
-            <span>⚡</span>
-            <span>Special Abilities ({specialAbilities.length} Inherent)</span>
+            <span>📚</span>
+            <span>Omnicortex Catalog ({combinedOmnicortexCatalog.length} Formulas)</span>
           </button>
         </div>
 
         {/* ═══════════════════════════════════════════════════════════════════ */}
-        {/* TAB 1: DISCIPLINES & AWAKENED FEATURE */}
+        {/* TAB 1: CONSOLIDATED DISCIPLINES & AWAKENED FEATURE (LIST LAYOUT)  */}
         {/* ═══════════════════════════════════════════════════════════════════ */}
         {activeTab === 'disciplines' && (
-          <div className="space-y-4">
-            <div className="bg-slate-900/60 border border-purple-900/40 rounded-xl p-4 text-xs text-slate-300 leading-relaxed">
-              <strong className="text-purple-300">Awakened Feature Mechanics:</strong> Purchasing the Awakened feature for a discipline (3 CP / 5 AP) unlocks access to the <strong className="text-amber-300">Attune</strong> skill as well as the <strong className="text-cyan-300">2 Associated Discipline Skills</strong>. These skills are leveled up to 20 ranks just like standard skills to increase invocation potency and check scores.
+          <div className="space-y-3.5">
+            <div className="bg-slate-900/60 border border-purple-900/40 rounded-xl p-3.5 text-xs text-slate-300 leading-relaxed flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div>
+                <strong className="text-purple-300">Awakened Feature Mechanics:</strong> Awakening a discipline costs 3 CP, unlocking the discipline and its 2 paired focus skills. The Attune conduit skill applies to all awakened reality manipulation.
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                <span className="px-2.5 py-1 rounded bg-purple-950/80 border border-purple-700/60 text-purple-300 font-mono text-[11px] font-bold">
+                  {awakenedList.length} of 6 Awakened
+                </span>
+              </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+            {/* Consolidated List-Type Layout */}
+            <div className="space-y-2.5">
               {METAPHYSICAL_DISCIPLINES.map(disc => {
                 const isAwakened = isDisciplineAwakened(disc.name);
 
                 return (
                   <div 
                     key={disc.id}
-                    className={`rounded-xl p-4 border flex flex-col justify-between transition-all ${
+                    className={`rounded-xl p-3 sm:p-4 border transition-all flex flex-col lg:flex-row lg:items-center justify-between gap-3.5 ${
                       isAwakened
-                        ? 'bg-purple-950/40 border-purple-500/70 shadow-[0_0_20px_rgba(168,85,247,0.15)] ring-1 ring-purple-500/40'
-                        : 'bg-slate-950/60 border-slate-800 hover:border-slate-700'
+                        ? 'bg-purple-950/30 border-purple-500/60 shadow-[0_0_16px_rgba(168,85,247,0.12)] ring-1 ring-purple-500/30'
+                        : 'bg-slate-950/60 border-slate-800/90 hover:border-slate-700/80'
                     }`}
                   >
-                    <div className="space-y-2.5">
-                      <div className="flex justify-between items-start gap-2">
-                        <div className="flex items-center gap-2">
-                          <span className="text-2xl">{disc.icon}</span>
-                          <div>
-                            <h4 className="font-bold text-sm text-slate-100">{disc.name}</h4>
-                            <span className="text-[10px] font-mono text-purple-400 uppercase">Core Discipline</span>
-                          </div>
-                        </div>
-
-                        <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase ${
-                          isAwakened 
-                            ? 'bg-emerald-950 border border-emerald-500/60 text-emerald-300' 
-                            : 'bg-slate-900 border border-slate-800 text-slate-500'
-                        }`}>
-                          {isAwakened ? 'Awakened' : 'Dormant'}
-                        </span>
+                    {/* Left: Discipline Identity & Tagline */}
+                    <div className="flex items-start gap-3 min-w-[260px] lg:max-w-xs xl:max-w-sm">
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl border shrink-0 ${
+                        isAwakened 
+                          ? 'bg-purple-950/90 border-purple-500/50 text-purple-200 shadow-inner' 
+                          : 'bg-slate-900 border-slate-800 text-slate-400'
+                      }`}>
+                        {disc.icon}
                       </div>
-
-                      <p className="text-[11px] text-slate-400 leading-relaxed line-clamp-2">
-                        {disc.description}
-                      </p>
-
-                      {/* Associated Skills Section */}
-                      <div className="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800 space-y-2">
-                        <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                          Associated Skills (Max 20 Ranks):
+                      <div className="space-y-0.5">
+                        <div className="flex items-center gap-2">
+                          <h4 className="font-bold text-sm text-slate-100 tracking-wide">{disc.name}</h4>
+                          <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase tracking-wider ${
+                            isAwakened 
+                              ? 'bg-emerald-950/90 border border-emerald-500/60 text-emerald-300 shadow-sm' 
+                              : 'bg-slate-900 border border-slate-800 text-slate-500'
+                          }`}>
+                            {isAwakened ? 'Awakened' : 'Dormant'}
+                          </span>
                         </div>
-                        {disc.skills.map(skill => {
-                          const rank = getNum(`skill-${skill.id}-rank`, 0);
-                          const mod = getNum(`skill-${skill.id}-mod`, 0);
-                          const total = rank + mod;
-
-                          return (
-                            <div key={skill.id} className="flex items-center justify-between text-xs bg-slate-950/80 px-2 py-1 rounded border border-slate-800/80">
-                              <span className="font-medium text-slate-200">{skill.name}</span>
-                              <div className="flex items-center gap-1.5 font-mono">
-                                {isAwakened && (
-                                  <button
-                                    type="button"
-                                    onClick={() => updateField(`skill-${skill.id}-rank`, Math.max(0, rank - 1))}
-                                    className="w-5 h-5 flex items-center justify-center rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs cursor-pointer"
-                                  >
-                                    -
-                                  </button>
-                                )}
-                                <span className={`w-7 text-center font-bold ${isAwakened ? 'text-cyan-300' : 'text-slate-600'}`}>
-                                  {rank}
-                                </span>
-                                {isAwakened && (
-                                  <button
-                                    type="button"
-                                    onClick={() => updateField(`skill-${skill.id}-rank`, Math.min(20, rank + 1))}
-                                    className="w-5 h-5 flex items-center justify-center rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs cursor-pointer"
-                                  >
-                                    +
-                                  </button>
-                                )}
-                                {mod !== 0 && (
-                                  <span className="text-[10px] text-amber-400">
-                                    {mod > 0 ? `+${mod}` : mod}
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                          );
-                        })}
+                        <p className="text-[11px] text-slate-400 leading-relaxed line-clamp-2">
+                          {disc.description}
+                        </p>
                       </div>
                     </div>
 
-                    <div className="pt-3 mt-3 border-t border-slate-850 flex items-center justify-between">
-                      <span className="text-[10px] font-mono text-slate-400">
+                    {/* Middle: Associated Skills with Steppers */}
+                    <div className="flex-1 flex flex-wrap sm:flex-nowrap items-center gap-2 bg-slate-900/80 p-2 sm:p-2.5 rounded-xl border border-slate-800/90">
+                      {disc.skills.map(skill => {
+                        const rank = getNum(`skill-${skill.id}-rank`, 0);
+                        const mod = getNum(`skill-${skill.id}-mod`, 0);
+
+                        return (
+                          <div 
+                            key={skill.id} 
+                            className={`flex-1 min-w-[135px] flex items-center justify-between px-2.5 py-1.5 rounded-lg border text-xs transition-colors ${
+                              isAwakened
+                                ? 'bg-slate-950/80 border-slate-800/90'
+                                : 'bg-slate-950/40 border-slate-900 text-slate-500'
+                            }`}
+                          >
+                            <div className="flex flex-col">
+                              <span className={`font-semibold text-xs ${isAwakened ? 'text-slate-200' : 'text-slate-500'}`}>
+                                {skill.name}
+                              </span>
+                              <span className="text-[9px] font-mono text-slate-500">
+                                Max 20 Ranks
+                              </span>
+                            </div>
+
+                            <div className="flex items-center gap-1.5 font-mono">
+                              {isAwakened && (
+                                <button
+                                  type="button"
+                                  onClick={() => updateField(`skill-${skill.id}-rank`, Math.max(0, rank - 1))}
+                                  className="w-5 h-5 flex items-center justify-center rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold cursor-pointer transition-colors active:scale-95"
+                                  title="Decrease Rank"
+                                >
+                                  -
+                                </button>
+                              )}
+                              <span className={`w-6 text-center font-bold text-xs ${
+                                isAwakened ? 'text-cyan-300' : 'text-slate-600'
+                              }`}>
+                                {rank}
+                              </span>
+                              {isAwakened && (
+                                <button
+                                  type="button"
+                                  onClick={() => updateField(`skill-${skill.id}-rank`, Math.min(20, rank + 1))}
+                                  className="w-5 h-5 flex items-center justify-center rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold cursor-pointer transition-colors active:scale-95"
+                                  title="Increase Rank"
+                                >
+                                  +
+                                </button>
+                              )}
+                              {mod !== 0 && (
+                                <span className="text-[10px] text-amber-400 font-bold ml-0.5">
+                                  {mod > 0 ? `+${mod}` : mod}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {/* Right: Cost & Awaken Toggle Action */}
+                    <div className="flex items-center justify-between lg:justify-end gap-3 shrink-0 pt-2 lg:pt-0 border-t lg:border-t-0 border-slate-850">
+                      <span className="text-[11px] font-mono text-slate-400">
                         Cost: <strong className="text-amber-300">3 CP</strong>
                       </span>
                       <button
                         type="button"
                         onClick={() => handleToggleAwakened(disc)}
-                        className={`px-3 py-1 rounded text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
+                        className={`px-3.5 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all cursor-pointer flex items-center gap-1.5 shadow-sm ${
                           isAwakened
-                            ? 'bg-rose-950/80 hover:bg-rose-900 border border-rose-700/60 text-rose-300'
-                            : 'bg-purple-950 hover:bg-purple-900 border border-purple-500/60 text-purple-300 shadow-sm'
+                            ? 'bg-rose-950/80 hover:bg-rose-900 border border-rose-700/60 text-rose-300 hover:text-white'
+                            : 'bg-purple-950 hover:bg-purple-900 border border-purple-500/60 text-purple-200 hover:text-white shadow-[0_0_12px_rgba(168,85,247,0.2)]'
                         }`}
                       >
-                        {isAwakened ? 'Remove Awakened' : 'Purchase Awakened'}
+                        {isAwakened ? (
+                          <>
+                            <span>&times;</span>
+                            <span>Remove Awakened</span>
+                          </>
+                        ) : (
+                          <>
+                            <Sparkles size={12} className="text-purple-400" />
+                            <span>Awaken (3 CP)</span>
+                          </>
+                        )}
                       </button>
                     </div>
                   </div>
@@ -800,366 +1169,687 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
         )}
 
         {/* ═══════════════════════════════════════════════════════════════════ */}
-        {/* TAB 2: INVOCATIONS CATALOG & KNOWN INVOCATIONS */}
+        {/* TAB 2: CATALOG OF THE CHARACTER'S INVOCATIONS & SPECIAL ABILITIES  */}
         {/* ═══════════════════════════════════════════════════════════════════ */}
-        {activeTab === 'invocations' && (
+        {(activeTab === 'character_catalog' || activeTab === 'invocations' || activeTab === 'special_abilities') && (
           <div className="space-y-4">
-            {/* Action Bar */}
-            <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-950/60 p-2.5 rounded-xl border border-slate-800">
+            
+            {/* Header / Summary Status Banner */}
+            <div className="bg-slate-950/70 border border-purple-900/50 rounded-xl p-3.5 flex flex-wrap items-center justify-between gap-3 shadow-inner">
+              <div className="space-y-0.5">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-purple-300 flex items-center gap-2">
+                  <span>📋</span> Character Powers Catalog
+                </h3>
+                <p className="text-[11px] text-slate-400">
+                  Comprehensive manifest of this operative's active reality invocations and inherent special traits.
+                </p>
+              </div>
+
+              {/* Statistics & Quick Actions */}
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="flex items-center gap-1.5 bg-slate-900/90 px-2.5 py-1 rounded-lg border border-slate-800 text-[11px] font-mono">
+                  <span className="text-slate-400">Invocations:</span>
+                  <span className="text-purple-300 font-bold">{knownInvocations.length}</span>
+                  <span className="text-slate-600">({totalCharacterCP.invCP} CP)</span>
+                  <span className="text-slate-600">•</span>
+                  <span className="text-slate-400">Special Abilities:</span>
+                  <span className="text-cyan-300 font-bold">{specialAbilities.length}</span>
+                  <span className="text-slate-600">({totalCharacterCP.abilCP} CP)</span>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCustomForm({
+                      name: '',
+                      discipline: 'Entropy',
+                      subSkill: 'Chaos',
+                      baseDC: 15,
+                      time: '1 Action',
+                      range: '30 ft',
+                      area: 'Single Target',
+                      duration: 'Instantaneous',
+                      resistance: 'None',
+                      damage: '',
+                      description: '',
+                      scaling: '',
+                      rank: 1,
+                      cp: 1,
+                      isInherent: false
+                    });
+                    setBuildModalMode('create_invocation');
+                    setIsBuildModalOpen(true);
+                  }}
+                  className="px-2.5 py-1 bg-purple-950 hover:bg-purple-900 text-purple-200 border border-purple-600/60 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 cursor-pointer"
+                >
+                  <Plus size={12} />
+                  <span>+ Invocation</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCustomForm({
+                      name: '',
+                      discipline: 'Energy',
+                      subSkill: 'Force',
+                      baseDC: 15,
+                      time: '1 Action',
+                      range: 'Self',
+                      area: 'Personal',
+                      duration: 'Instantaneous',
+                      resistance: 'None',
+                      damage: '',
+                      description: '',
+                      scaling: '',
+                      rank: 1,
+                      cp: 5,
+                      isInherent: true
+                    });
+                    setBuildModalMode('create_special_ability');
+                    setIsBuildModalOpen(true);
+                  }}
+                  className="px-2.5 py-1 bg-cyan-950 hover:bg-cyan-900 text-cyan-200 border border-cyan-600/60 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 cursor-pointer"
+                >
+                  <Plus size={12} />
+                  <span>+ Special Ability</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('omnicortex_catalog')}
+                  className="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1 cursor-pointer"
+                  title="Browse Omnicortex Database to learn new powers"
+                >
+                  <BookOpen size={12} />
+                  <span>Browse Catalog</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Filter & Search Bar */}
+            <div className="bg-slate-950/60 p-2.5 rounded-xl border border-slate-800/90 flex flex-wrap items-center justify-between gap-3">
+              {/* Type Filters */}
               <div className="flex flex-wrap items-center gap-1.5">
                 <button
                   type="button"
-                  onClick={() => setSelectedDisciplineId('all')}
-                  className={`px-2.5 py-1 rounded text-xs font-bold cursor-pointer ${
-                    selectedDisciplineId === 'all'
+                  onClick={() => setCatalogTypeFilter('all')}
+                  className={`px-2.5 py-1 rounded text-xs font-bold transition-all cursor-pointer ${
+                    catalogTypeFilter === 'all'
+                      ? 'bg-purple-950 text-purple-200 border border-purple-500/60 shadow-sm'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  All Powers ({characterPowers.length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCatalogTypeFilter('invocations')}
+                  className={`px-2.5 py-1 rounded text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                    catalogTypeFilter === 'invocations'
+                      ? 'bg-purple-950 text-purple-200 border border-purple-500/60 shadow-sm'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  <span>📜</span>
+                  <span>Invocations ({knownInvocations.length})</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCatalogTypeFilter('special_abilities')}
+                  className={`px-2.5 py-1 rounded text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                    catalogTypeFilter === 'special_abilities'
+                      ? 'bg-cyan-950 text-cyan-200 border border-cyan-500/60 shadow-sm'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  <span>⚡</span>
+                  <span>Special Abilities ({specialAbilities.length})</span>
+                </button>
+              </div>
+
+              {/* Discipline Selector & Search Box */}
+              <div className="flex items-center gap-2 flex-1 sm:flex-initial">
+                <select
+                  value={catalogDisciplineFilter}
+                  onChange={(e) => setCatalogDisciplineFilter(e.target.value)}
+                  className="bg-slate-900 border border-slate-700 text-slate-300 text-xs rounded-lg px-2.5 py-1 outline-none font-mono"
+                >
+                  <option value="all">All Disciplines</option>
+                  {METAPHYSICAL_DISCIPLINES.map(d => (
+                    <option key={d.id} value={d.name}>{d.name}</option>
+                  ))}
+                </select>
+
+                <div className="relative flex-1 sm:w-56">
+                  <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500" />
+                  <input
+                    type="text"
+                    value={catalogSearch}
+                    onChange={(e) => setCatalogSearch(e.target.value)}
+                    placeholder="Search character's powers..."
+                    className="w-full bg-slate-900 border border-slate-700 rounded-lg pl-8 pr-2.5 py-1 text-xs text-slate-200 placeholder-slate-500 outline-none focus:border-purple-500/50"
+                  />
+                  {catalogSearch && (
+                    <button
+                      type="button"
+                      onClick={() => setCatalogSearch('')}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs"
+                    >
+                      &times;
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Empty State */}
+            {filteredCharacterPowers.length === 0 ? (
+              <div className="text-center py-12 border border-dashed border-slate-800 rounded-xl space-y-3 bg-slate-950/40">
+                <span className="text-3xl">🔮</span>
+                <div className="text-sm text-slate-300 font-bold">
+                  {catalogSearch || catalogTypeFilter !== 'all' || catalogDisciplineFilter !== 'all'
+                    ? 'No Powers Match Filters'
+                    : 'No Invocations or Special Abilities Added Yet'}
+                </div>
+                <p className="text-xs text-slate-400 max-w-md mx-auto leading-relaxed">
+                  {catalogSearch || catalogTypeFilter !== 'all' || catalogDisciplineFilter !== 'all'
+                    ? 'Try adjusting your search criteria or resetting filters.'
+                    : 'This character has not acquired any codified Invocations or inherent Special Abilities. Browse the Omnicortex Catalog to learn canonical powers or construct custom traits.'}
+                </p>
+                <div className="flex items-center justify-center gap-2 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab('omnicortex_catalog')}
+                    className="px-3 py-1.5 bg-purple-950 hover:bg-purple-900 text-purple-200 border border-purple-500/60 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+                  >
+                    <BookOpen size={13} />
+                    <span>Browse Omnicortex Catalog</span>
+                  </button>
+                </div>
+              </div>
+            ) : (
+              /* Character Catalog Grid */
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                {filteredCharacterPowers.map((power) => {
+                  const isInv = power.powerType === 'invocation';
+                  const calc = isInv ? calculateInvocationScore(power) : null;
+                  const prereqResult = checkPrerequisite(power, characterData, isInv ? 'invocations' : 'special_abilities');
+                  const isPrereqUnmet = prereqResult.hasPrerequisite && !prereqResult.isPossessed;
+
+                  return (
+                    <div 
+                      key={power.id || `${power.powerType}_${power.originalIndex}`}
+                      className={`border rounded-xl p-4 space-y-3 flex flex-col justify-between transition-all shadow-sm ${
+                        isPrereqUnmet
+                          ? 'bg-slate-950/70 border-dashed border-rose-900/60 opacity-60 grayscale-[70%] hover:opacity-100 hover:grayscale-0'
+                          : isInv 
+                          ? 'bg-slate-950/80 border-purple-900/60 hover:border-purple-700/70' 
+                          : 'bg-slate-950/80 border-cyan-900/60 hover:border-cyan-700/70'
+                      }`}
+                    >
+                      <div className="space-y-2.5">
+                        {/* Power Header */}
+                        <div className="flex justify-between items-start gap-2">
+                          <div>
+                            <div className="flex flex-wrap items-center gap-1.5 mb-1">
+                              <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase tracking-wider border ${
+                                isInv 
+                                  ? 'bg-purple-950 text-purple-300 border-purple-800' 
+                                  : 'bg-cyan-950 text-cyan-300 border-cyan-800'
+                              }`}>
+                                {isInv ? `📜 Invocation (Rank ${power.rank || 1})` : '⚡ Inherent Ability'}
+                              </span>
+
+                              {power.discipline && (
+                                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-900 text-slate-300 border border-slate-800">
+                                  {power.discipline} {power.subSkill ? `(${power.subSkill})` : ''}
+                                </span>
+                              )}
+
+                              {isPrereqUnmet && (
+                                <span className="inline-flex items-center gap-0.5 px-1.5 py-0.2 rounded text-[9px] font-mono uppercase tracking-wider bg-rose-950/80 border border-rose-800/80 text-rose-300" title={`Missing: ${prereqResult.unmetReasons.join(', ')}`}>
+                                  <Lock className="w-2.5 h-2.5" />
+                                  <span>Prereq Missing</span>
+                                </span>
+                              )}
+                            </div>
+
+                            <FolioTooltip
+                              title={power.name}
+                              prerequisites={prereqResult.prerequisiteText}
+                              prerequisiteMet={!isPrereqUnmet}
+                              prerequisiteUnmetReasons={prereqResult.unmetReasons}
+                              description={power.description}
+                              tags={[power.discipline, power.subSkill].filter(Boolean)}
+                            >
+                              <h4 className={`font-bold text-sm cursor-pointer ${
+                                isPrereqUnmet ? 'text-slate-400 hover:text-rose-300' : isInv ? 'text-purple-100 hover:text-purple-300' : 'text-cyan-100 hover:text-cyan-300'
+                              }`}>
+                                {power.name}
+                              </h4>
+                            </FolioTooltip>
+                          </div>
+
+                          {/* Quick Roll / Activation Action */}
+                          <div className="flex items-center gap-1 shrink-0">
+                            {isInv ? (
+                              <button
+                                type="button"
+                                onClick={() => handleRollInvocation(power)}
+                                className="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-xs font-mono font-bold flex items-center gap-1 shadow-sm cursor-pointer transition-all active:scale-95"
+                                title={`Roll 2d10 + ${calc.totalScore} vs Base DC ${calc.baseDC}`}
+                              >
+                                <span>🎲</span>
+                                <span>+{calc.totalScore}</span>
+                              </button>
+                            ) : (
+                              power.damage ? (
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    openDiceRoller({
+                                      label: `${power.name} Activation`,
+                                      expression: power.damage,
+                                      baseModifier: 0,
+                                      rollMode: 'normal',
+                                      characterName: characterData['char-name'] || 'Operative',
+                                      autoRoll: true
+                                    });
+                                  }}
+                                  className="px-2.5 py-1 bg-amber-600 hover:bg-amber-500 text-white rounded-lg text-xs font-mono font-bold flex items-center gap-1 shadow-sm cursor-pointer transition-all active:scale-95"
+                                  title="Roll ability activation / damage"
+                                >
+                                  <span>🎲</span>
+                                  <span>{power.damage}</span>
+                                </button>
+                              ) : (
+                                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800">
+                                  Active Inherent
+                                </span>
+                              )
+                            )}
+
+                            {/* Edit & Delete Controls */}
+                            <button
+                              type="button"
+                              onClick={() => {
+                                if (isInv) {
+                                  handleOpenEditInvocation(power, power.originalIndex);
+                                } else {
+                                  handleOpenEditSpecialAbility(power, power.originalIndex);
+                                }
+                              }}
+                              className="text-slate-400 hover:text-cyan-300 p-1 rounded hover:bg-slate-900 transition-colors cursor-pointer"
+                              title="Edit Power Properties"
+                            >
+                              <Edit3 size={13} />
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => {
+                                if (isInv) {
+                                  handleRemoveKnownInvocation(power.originalIndex);
+                                } else {
+                                  handleRemoveSpecialAbility(power.originalIndex);
+                                }
+                              }}
+                              className="text-slate-500 hover:text-red-400 p-1 rounded hover:bg-slate-900 transition-colors cursor-pointer"
+                              title="Remove Power"
+                            >
+                              <Trash2 size={13} />
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Description */}
+                        {power.description && (
+                          <p className="text-[11.5px] text-slate-300 leading-relaxed line-clamp-3">
+                            {power.description}
+                          </p>
+                        )}
+
+                        {/* Invocation Take 10 Potency & Essence Cost Strip */}
+                        {isInv && (
+                          <div className="p-2 rounded bg-slate-900/90 border border-slate-800 space-y-1 text-[10px] font-mono">
+                            <div className="flex items-center justify-between">
+                              <span className="text-slate-400">
+                                Attr (+{calc.governingAttrTotal}) + {calc.skillName} (+{calc.skillRank}) + Lvl ({calc.invLevel})
+                              </span>
+                              <span className="font-bold text-amber-300" title="Operational Safety Default Potency (Take 10)">
+                                Take 10: {calc.take10Score}
+                              </span>
+                            </div>
+                            <div className="flex items-center justify-between text-slate-400 pt-0.5 border-t border-slate-850">
+                              <span>Cost: <strong className="text-purple-300">{calc.baseEssenceCost} Essence</strong> (Base DC {calc.baseDC})</span>
+                              <span>Target Save: <strong className="text-amber-300">DC {calc.targetSaveDC}</strong></span>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Parameters Matrix Strip */}
+                        <div className="grid grid-cols-2 gap-1 text-[10px] font-mono text-slate-400 bg-slate-900/60 p-2 rounded-lg border border-slate-850">
+                          <div>Time: <span className="text-slate-200">{power.time || '1 Action'}</span></div>
+                          <div>Range: <span className="text-slate-200">{power.range || 'Touch'}</span></div>
+                          <div>Duration: <span className="text-slate-200">{power.duration || 'Instant'}</span></div>
+                          <div>Save: <span className="text-amber-300">{power.resistance || 'None'}</span></div>
+                          {power.damage && <div className="col-span-2">Damage: <span className="text-emerald-300 font-bold">{power.damage}</span></div>}
+                          {power.scaling && <div className="col-span-2 text-purple-300">Scaling: <span>{power.scaling}</span></div>}
+                        </div>
+                      </div>
+
+                      {/* Footer Actions */}
+                      <div className="pt-2 border-t border-slate-850 flex items-center justify-between text-xs">
+                        {isInv ? (
+                          <>
+                            {/* Invocation Rank Stepper */}
+                            <div className="flex items-center gap-1.5 font-mono text-xs">
+                              <span className="text-[10px] text-slate-400">Level:</span>
+                              <div className="flex items-center gap-1">
+                                <button
+                                  type="button"
+                                  onClick={() => handleUpdateInvocationRank(power.originalIndex, (power.rank || 1) - 1)}
+                                  className="w-5 h-5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center font-bold text-xs cursor-pointer"
+                                >
+                                  -
+                                </button>
+                                <span className="font-bold text-amber-300 px-1">
+                                  {power.rank || 1}
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={() => handleUpdateInvocationRank(power.originalIndex, (power.rank || 1) + 1)}
+                                  className="w-5 h-5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center font-bold text-xs cursor-pointer"
+                                >
+                                  +
+                                </button>
+                              </div>
+                            </div>
+
+                            <button
+                              type="button"
+                              onClick={() => handleRepurposeToSpecialAbility(power)}
+                              className="px-2 py-0.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-cyan-200 text-[10px] font-bold rounded border border-slate-700 transition-colors flex items-center gap-1 cursor-pointer"
+                              title="Repurpose as an inherent Special Ability"
+                            >
+                              <Copy size={11} />
+                              <span>Make Inherent</span>
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <span className="text-[10px] font-mono text-slate-400">
+                              Cost: <strong className="text-amber-300">{power.cp || 5} CP</strong>
+                            </span>
+
+                            <button
+                              type="button"
+                              onClick={() => handleCodifyToInvocation(power)}
+                              className="px-2 py-0.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-purple-200 text-[10px] font-bold rounded border border-slate-700 transition-colors flex items-center gap-1 cursor-pointer"
+                              title="Codify into learned Invocation formula"
+                            >
+                              <Wand2 size={11} />
+                              <span>Codify as Invocation</span>
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ═══════════════════════════════════════════════════════════════════ */}
+        {/* TAB 3: OMNICORTEX CATALOG & COMPENDIUM BROWSER                     */}
+        {/* ═══════════════════════════════════════════════════════════════════ */}
+        {activeTab === 'omnicortex_catalog' && (
+          <div className="space-y-4">
+            {/* Catalog Filter Controls */}
+            <div className="bg-slate-950/60 p-2.5 rounded-xl border border-slate-800/90 flex flex-wrap items-center justify-between gap-3">
+              <div className="flex flex-wrap items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => setOmnicortexTypeFilter('all')}
+                  className={`px-2.5 py-1 rounded text-xs font-bold transition-all cursor-pointer ${
+                    omnicortexTypeFilter === 'all'
                       ? 'bg-purple-950 text-purple-200 border border-purple-500/60'
                       : 'text-slate-400 hover:text-slate-200'
                   }`}
                 >
-                  All Disciplines
+                  All ({combinedOmnicortexCatalog.length})
                 </button>
-                {METAPHYSICAL_DISCIPLINES.map(d => (
-                  <button
-                    key={d.id}
-                    type="button"
-                    onClick={() => setSelectedDisciplineId(d.name)}
-                    className={`px-2.5 py-1 rounded text-xs font-bold cursor-pointer flex items-center gap-1 ${
-                      selectedDisciplineId === d.name
-                        ? 'bg-purple-950 text-purple-200 border border-purple-500/60'
-                        : 'text-slate-400 hover:text-slate-200'
-                    }`}
-                  >
-                    <span>{d.icon}</span>
-                    <span>{d.name}</span>
-                  </button>
-                ))}
-              </div>
-
-              <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  onClick={() => setIsBuildInvocationOpen(true)}
-                  className="px-3 py-1.5 bg-gradient-to-r from-purple-900 to-indigo-900 hover:from-purple-800 hover:to-indigo-800 text-purple-100 rounded-lg text-xs font-bold uppercase tracking-wider border border-purple-400/50 shadow-sm flex items-center gap-1.5 cursor-pointer"
+                  onClick={() => setOmnicortexTypeFilter('invocations')}
+                  className={`px-2.5 py-1 rounded text-xs font-bold transition-all flex items-center gap-1 cursor-pointer ${
+                    omnicortexTypeFilter === 'invocations'
+                      ? 'bg-purple-950 text-purple-200 border border-purple-500/60'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
                 >
-                  <Plus size={13} />
-                  <span>+ Build Invocation</span>
+                  <span>📜</span>
+                  <span>Invocations ({ALL_CATALOG_INVOCATIONS.length})</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setOmnicortexTypeFilter('special_abilities')}
+                  className={`px-2.5 py-1 rounded text-xs font-bold transition-all flex items-center gap-1 cursor-pointer ${
+                    omnicortexTypeFilter === 'special_abilities'
+                      ? 'bg-cyan-950 text-cyan-200 border border-cyan-500/60'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  <span>⚡</span>
+                  <span>Special Abilities ({CANONICAL_SPECIAL_ABILITIES.length})</span>
                 </button>
               </div>
-            </div>
 
-            {/* Known Invocations Section on Sheet */}
-            {knownInvocations.length > 0 && (
-              <div className="bg-slate-900/60 border border-purple-900/60 rounded-xl p-4 space-y-3">
-                <div className="flex justify-between items-center border-b border-slate-800 pb-2">
-                  <h3 className="text-xs font-bold uppercase tracking-widest text-purple-400 flex items-center gap-1.5">
-                    <span>📜</span> Active Learned Invocations ({knownInvocations.length})
-                  </h3>
-                  <span className="text-[10px] font-mono text-slate-400">
-                    Formula: Attr + Discipline Skill + Level (1-10)
-                  </span>
-                </div>
+              <div className="flex items-center gap-2 flex-1 sm:flex-initial">
+                <select
+                  value={omnicortexDisciplineFilter}
+                  onChange={(e) => setOmnicortexDisciplineFilter(e.target.value)}
+                  className="bg-slate-900 border border-slate-700 text-slate-300 text-xs rounded-lg px-2.5 py-1 outline-none font-mono"
+                >
+                  <option value="all">All Disciplines</option>
+                  {METAPHYSICAL_DISCIPLINES.map(d => (
+                    <option key={d.id} value={d.name}>{d.name}</option>
+                  ))}
+                </select>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {knownInvocations.map((inv, idx) => {
-                    const calc = calculateInvocationScore(inv);
-
-                    return (
-                      <div key={inv.id || idx} className="bg-slate-950/80 border border-purple-900/50 rounded-xl p-3.5 space-y-2.5">
-                        <div className="flex justify-between items-start gap-2">
-                          <div>
-                            <h4 className="font-bold text-sm text-slate-100 flex items-center gap-1.5">
-                              <span>{inv.name}</span>
-                              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-purple-950 text-purple-300 border border-purple-800">
-                                {inv.discipline} ({inv.subSkill})
-                              </span>
-                            </h4>
-                            <div className="text-[10px] text-slate-400 font-mono mt-0.5">
-                              DC {inv.baseDC || 15} • {inv.time || '1 Action'} • {inv.range || 'Touch'} • {inv.duration || 'Instant'}
-                            </div>
-                          </div>
-
-                          <div className="flex items-center gap-1">
-                            <button
-                              type="button"
-                              onClick={() => handleRollInvocation(inv)}
-                              className="px-2 py-1 bg-purple-600 hover:bg-purple-500 text-white rounded text-xs font-mono font-bold flex items-center gap-1 shadow-sm cursor-pointer"
-                              title="Roll Invocation Check (2d10 + Score)"
-                            >
-                              <span>🎲</span>
-                              <span>+{calc.totalScore}</span>
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => handleRemoveKnownInvocation(idx)}
-                              className="text-slate-500 hover:text-red-400 text-sm font-bold px-1 cursor-pointer"
-                            >
-                              &times;
-                            </button>
-                          </div>
-                        </div>
-
-                        {/* Calculated Score Breakdown Card */}
-                        <div className="p-2.5 rounded bg-slate-900/90 border border-slate-800 space-y-1.5 text-[11px] font-mono">
-                          <div className="flex items-center justify-between">
-                            <span className="text-slate-400">
-                              Key (+{calc.governingAttrTotal}) + {calc.skillName} (+{calc.skillRank}) + Inv ({calc.invLevel})
-                            </span>
-                            <div className="flex items-center gap-2">
-                              <span className="font-bold text-amber-300" title="Operational Safety Default Potency (Take 10)">
-                                Take 10: {calc.take10Score}
-                              </span>
-                              <span className="font-bold text-cyan-300 text-xs" title="Roll Modifier">
-                                (Roll: +{calc.totalScore})
-                              </span>
-                            </div>
-                          </div>
-                          <div className="flex items-center justify-between text-[10px] text-slate-400 pt-1 border-t border-slate-800">
-                            <span>Cost: <strong className="text-purple-300">{calc.baseEssenceCost} Essence</strong> (Base DC {calc.baseDC})</span>
-                            <span>Target DC: <strong className="text-amber-300">DC {calc.targetSaveDC}</strong></span>
-                          </div>
-                        </div>
-
-                        {/* Rank Adjuster */}
-                        <div className="flex items-center justify-between text-xs pt-1 border-t border-slate-900">
-                          <div className="flex items-center gap-1.5">
-                            <span className="text-[10px] text-slate-400 font-mono">Invocation Level:</span>
-                            <div className="flex items-center gap-1">
-                              <button
-                                type="button"
-                                onClick={() => handleUpdateInvocationRank(idx, calc.invLevel - 1)}
-                                className="w-5 h-5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center font-bold text-xs cursor-pointer"
-                              >
-                                -
-                              </button>
-                              <span className="font-mono font-bold text-amber-300 px-1">
-                                {calc.invLevel}
-                              </span>
-                              <button
-                                type="button"
-                                onClick={() => handleUpdateInvocationRank(idx, calc.invLevel + 1)}
-                                className="w-5 h-5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center font-bold text-xs cursor-pointer"
-                              >
-                                +
-                              </button>
-                            </div>
-                          </div>
-
-                          <button
-                            type="button"
-                            onClick={() => handleRepurposeToSpecialAbility(inv)}
-                            className="px-2 py-0.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-cyan-200 text-[10px] font-bold rounded border border-slate-700 transition-colors flex items-center gap-1 cursor-pointer"
-                            title="Repurpose as inherent Special Ability"
-                          >
-                            <Copy size={11} />
-                            <span>Make Inherent</span>
-                          </button>
-                        </div>
-                      </div>
-                    );
-                  })}
+                <div className="relative flex-1 sm:w-60">
+                  <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500" />
+                  <input
+                    type="text"
+                    value={omnicortexSearch}
+                    onChange={(e) => setOmnicortexSearch(e.target.value)}
+                    placeholder="Search Omnicortex library..."
+                    className="w-full bg-slate-900 border border-slate-700 rounded-lg pl-8 pr-2.5 py-1 text-xs text-slate-200 placeholder-slate-500 outline-none focus:border-purple-500/50"
+                  />
+                  {omnicortexSearch && (
+                    <button
+                      type="button"
+                      onClick={() => setOmnicortexSearch('')}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs"
+                    >
+                      &times;
+                    </button>
+                  )}
                 </div>
               </div>
-            )}
-
-            {/* Catalog Listing */}
-            <div className="space-y-3">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
-                <span>📚</span> Canonical Invocations Catalog ({ALL_CATALOG_INVOCATIONS.length} Omnicortex Formulas)
-              </h3>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {ALL_CATALOG_INVOCATIONS
-                  .filter(inv => selectedDisciplineId === 'all' || (inv.discipline || '').toLowerCase().includes(selectedDisciplineId.toLowerCase()))
-                  .map(inv => {
-                    const calc = calculateInvocationScore(inv);
-                    const isKnown = knownInvocations.some(k => k.name.toLowerCase() === inv.name.toLowerCase());
-
-                    return (
-                      <div key={inv.id} className="bg-slate-950/70 border border-slate-800 hover:border-purple-800/60 rounded-xl p-3.5 space-y-2 flex flex-col justify-between transition-colors">
-                        <div>
-                          <div className="flex justify-between items-start gap-2">
-                            <div>
-                              <h4 className="font-bold text-xs text-slate-100">{inv.name}</h4>
-                              <div className="flex items-center gap-1.5 mt-0.5">
-                                <span className="text-[10px] font-mono font-bold text-purple-400 bg-purple-950 px-1.5 py-0.2 rounded border border-purple-800">
-                                  {inv.discipline} ({inv.subSkill})
-                                </span>
-                                <span className="text-[10px] font-mono text-cyan-400">
-                                  Base DC {inv.baseDC} ({calc.baseEssenceCost} Essence)
-                                </span>
-                              </div>
-                            </div>
-
-                            <div className="flex items-center gap-1.5">
-                              <span className="font-mono text-[10px] font-bold text-amber-300 bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800" title="Take 10 Operational Safety">
-                                Take 10: {calc.take10Score}
-                              </span>
-                              <span className="font-mono text-xs font-bold text-cyan-300 bg-slate-900 px-2 py-0.5 rounded border border-slate-800" title="Roll Modifier">
-                                +{calc.totalScore}
-                              </span>
-                            </div>
-                          </div>
-
-                          <p className="text-[11px] text-slate-300 leading-relaxed mt-2 line-clamp-2">
-                            {inv.description}
-                          </p>
-
-                          <div className="grid grid-cols-2 gap-1 text-[10px] font-mono text-slate-400 mt-2 bg-slate-900/60 p-1.5 rounded border border-slate-850">
-                            <div>Time: <span className="text-slate-200">{inv.time}</span></div>
-                            <div>Range: <span className="text-slate-200">{inv.range}</span></div>
-                            <div>Duration: <span className="text-slate-200">{inv.duration}</span></div>
-                            <div>Save: <span className="text-amber-300">{inv.resistance}</span></div>
-                          </div>
-                        </div>
-
-                        <div className="pt-2 mt-2 border-t border-slate-850 flex items-center justify-between">
-                          <button
-                            type="button"
-                            onClick={() => handleRepurposeToSpecialAbility(inv)}
-                            className="text-[10px] font-bold text-slate-400 hover:text-cyan-300 flex items-center gap-1 cursor-pointer"
-                            title="Repurpose as an inherent Special Ability"
-                          >
-                            <Copy size={12} />
-                            <span>Repurpose as Special Ability</span>
-                          </button>
-
-                          <button
-                            type="button"
-                            onClick={() => handleLearnInvocation(inv)}
-                            disabled={isKnown}
-                            className={`px-3 py-1 rounded text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
-                              isKnown
-                                ? 'bg-slate-900 text-slate-500 border border-slate-800 cursor-default'
-                                : 'bg-purple-950 hover:bg-purple-900 border border-purple-500/60 text-purple-300 shadow-sm'
-                            }`}
-                          >
-                            {isKnown ? 'Learned' : '+ Learn Power'}
-                          </button>
-                        </div>
-                      </div>
-                    );
-                  })}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ═══════════════════════════════════════════════════════════════════ */}
-        {/* TAB 3: SPECIAL ABILITIES (INHERENT POWERS) */}
-        {/* ═══════════════════════════════════════════════════════════════════ */}
-        {activeTab === 'special_abilities' && (
-          <div className="space-y-4">
-            <div className="bg-slate-900/60 border border-cyan-900/40 rounded-xl p-4 text-xs text-slate-300 leading-relaxed flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-              <div>
-                <strong className="text-cyan-300">Special Abilities Architecture:</strong> Special Abilities are inherent capabilities (biological, racial, cybernetic, or anomalous) built using the Invocation mechanics, but used as <strong className="text-amber-300">inherent traits without requiring the Awakened feature</strong>.
-              </div>
-              <button
-                type="button"
-                onClick={() => setIsBuildSpecialAbilityOpen(true)}
-                className="px-3 py-1.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shrink-0 shadow-sm cursor-pointer"
-              >
-                <Plus size={13} />
-                <span>+ Build Special Ability</span>
-              </button>
             </div>
 
-            {specialAbilities.length === 0 ? (
-              <div className="text-center py-10 border border-dashed border-slate-800 rounded-xl space-y-2">
-                <span className="text-3xl">⚡</span>
-                <div className="text-xs text-slate-400 font-bold">No Special Abilities Added</div>
-                <p className="text-[11px] text-slate-500 max-w-md mx-auto">
-                  Build custom inherent traits or click "Make Inherent" on any Invocation in the catalog to repurpose it without discipline locks.
-                </p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-                {specialAbilities.map((abil, idx) => (
-                  <div key={abil.id || idx} className="bg-slate-950/80 border border-cyan-900/60 rounded-xl p-4 space-y-2.5 flex flex-col justify-between shadow-sm">
+            {/* Catalog Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+              {filteredOmnicortexCatalog.map(item => {
+                const isInv = item.powerType === 'invocation';
+                const calc = isInv ? calculateInvocationScore(item) : null;
+                const isKnown = isInv
+                  ? knownInvocations.some(k => k.name.toLowerCase() === item.name.toLowerCase())
+                  : specialAbilities.some(a => a.name.toLowerCase() === item.name.toLowerCase());
+
+                const prereqResult = checkPrerequisite(item, characterData, isInv ? 'invocations' : 'special_abilities');
+                const isPrereqUnmet = prereqResult.hasPrerequisite && !prereqResult.isPossessed;
+
+                return (
+                  <div 
+                    key={item.id} 
+                    className={`border rounded-xl p-3.5 space-y-2 flex flex-col justify-between transition-all shadow-sm ${
+                      isPrereqUnmet
+                        ? 'bg-slate-950/70 border-dashed border-rose-900/60 opacity-60 grayscale-[70%] hover:opacity-100 hover:grayscale-0'
+                        : 'bg-slate-950/70 border-slate-800 hover:border-purple-800/60'
+                    }`}
+                  >
                     <div>
                       <div className="flex justify-between items-start gap-2">
                         <div>
-                          <h4 className="font-bold text-sm text-cyan-300">{abil.name}</h4>
-                          <span className="text-[10px] font-mono text-cyan-500 uppercase">
-                            Inherent Special Ability {abil.discipline ? `(${abil.discipline})` : ''}
-                          </span>
+                          <div className="flex flex-wrap items-center gap-1.5 mb-1">
+                            <span className={`text-[10px] font-mono font-bold px-1.5 py-0.2 rounded border ${
+                              isInv 
+                                ? 'bg-purple-950 text-purple-400 border-purple-800' 
+                                : 'bg-cyan-950 text-cyan-400 border-cyan-800'
+                            }`}>
+                              {isInv ? 'Invocation' : 'Special Ability'}
+                            </span>
+                            <span className="text-[10px] font-mono text-slate-400">
+                              {item.discipline} ({item.subSkill})
+                            </span>
+                            {isPrereqUnmet && (
+                              <span className="inline-flex items-center gap-0.5 px-1.5 py-0.2 rounded text-[9px] font-mono uppercase tracking-wider bg-rose-950/80 border border-rose-800/80 text-rose-300" title={`Missing: ${prereqResult.unmetReasons.join(', ')}`}>
+                                <Lock className="w-2.5 h-2.5" />
+                                <span>Prereq Missing</span>
+                              </span>
+                            )}
+                          </div>
+                          <FolioTooltip
+                            title={item.name}
+                            prerequisites={prereqResult.prerequisiteText}
+                            prerequisiteMet={!isPrereqUnmet}
+                            prerequisiteUnmetReasons={prereqResult.unmetReasons}
+                            description={item.description}
+                            tags={[item.discipline, item.subSkill].filter(Boolean)}
+                          >
+                            <h4 className={`font-bold text-xs cursor-pointer ${
+                              isPrereqUnmet ? 'text-slate-400 hover:text-rose-300' : 'text-slate-100 hover:text-purple-300'
+                            }`}>
+                              {item.name}
+                            </h4>
+                          </FolioTooltip>
                         </div>
 
-                        <div className="flex items-center gap-1">
-                          {abil.damage && (
-                            <span className="text-[10px] font-mono font-bold text-amber-300 bg-amber-950/80 px-1.5 py-0.5 rounded border border-amber-800">
-                              {abil.damage}
+                        {isInv ? (
+                          <div className="flex items-center gap-1.5 font-mono text-[10px]">
+                            <span className="text-amber-300 bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">
+                              Take 10: {calc.take10Score}
                             </span>
-                          )}
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveSpecialAbility(idx)}
-                            className="text-slate-500 hover:text-red-400 text-sm font-bold px-1 cursor-pointer"
-                          >
-                            &times;
-                          </button>
-                        </div>
+                            <span className="text-cyan-300 bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800 font-bold">
+                              +{calc.totalScore}
+                            </span>
+                          </div>
+                        ) : (
+                          item.damage && (
+                            <span className="text-[10px] font-mono text-amber-300 bg-amber-950/70 px-1.5 py-0.5 rounded border border-amber-800">
+                              {item.damage}
+                            </span>
+                          )
+                        )}
                       </div>
 
-                      {abil.description && (
-                        <p className="text-[11.5px] text-slate-300 leading-relaxed mt-2">
-                          {abil.description}
-                        </p>
-                      )}
+                      <p className="text-[11px] text-slate-300 leading-relaxed mt-2 line-clamp-2">
+                        {item.description}
+                      </p>
 
-                      <div className="grid grid-cols-2 gap-1.5 text-[10px] font-mono text-slate-400 mt-2.5 bg-slate-900/70 p-2 rounded border border-slate-800">
-                        <div>Time: <span className="text-slate-200">{abil.time || '1 Action'}</span></div>
-                        <div>Range: <span className="text-slate-200">{abil.range || 'Self'}</span></div>
-                        <div>Area: <span className="text-slate-200">{abil.area || 'Personal'}</span></div>
-                        <div>Duration: <span className="text-slate-200">{abil.duration || 'Instant'}</span></div>
+                      <div className="grid grid-cols-2 gap-1 text-[10px] font-mono text-slate-400 mt-2 bg-slate-900/60 p-1.5 rounded border border-slate-850">
+                        <div>Time: <span className="text-slate-200">{item.time}</span></div>
+                        <div>Range: <span className="text-slate-200">{item.range}</span></div>
+                        <div>Duration: <span className="text-slate-200">{item.duration}</span></div>
+                        <div>Save: <span className="text-amber-300">{item.resistance}</span></div>
+                        {isInv && (
+                          <div className="col-span-2">
+                            Base DC {item.baseDC} ({calc.baseEssenceCost} Essence)
+                          </div>
+                        )}
                       </div>
                     </div>
 
-                    <div className="pt-2 mt-2 border-t border-slate-850 flex items-center justify-between text-xs">
-                      <span className="text-[10px] font-mono text-slate-400">
-                        Cost: <strong className="text-amber-300">{abil.cp || 5} CP</strong>
-                      </span>
-                      {abil.damage && (
+                    <div className="pt-2 mt-2 border-t border-slate-850 flex items-center justify-between">
+                      {isInv ? (
                         <button
                           type="button"
-                          onClick={() => {
-                            openDiceRoller({
-                              label: `${abil.name} Activation`,
-                              expression: abil.damage,
-                              baseModifier: 0,
-                              rollMode: 'normal',
-                              characterName: characterData['char-name'] || 'Operative',
-                              autoRoll: true
-                            });
-                          }}
-                          className="px-2.5 py-1 bg-amber-600 hover:bg-amber-500 text-white rounded text-[11px] font-mono font-bold flex items-center gap-1 cursor-pointer"
+                          onClick={() => handleRepurposeToSpecialAbility(item)}
+                          className="text-[10px] font-bold text-slate-400 hover:text-cyan-300 flex items-center gap-1 cursor-pointer"
+                          title="Acquire as an inherent Special Ability"
                         >
-                          <span>🎲 Roll</span>
+                          <Copy size={11} />
+                          <span>+ Add as Special Ability</span>
                         </button>
+                      ) : (
+                        <span className="text-[10px] font-mono text-slate-400">
+                          Cost: <strong className="text-amber-300">{item.cp || 5} CP</strong>
+                        </span>
                       )}
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (isInv) {
+                            handleLearnInvocation(item);
+                          } else {
+                            handleAddSpecialAbility(item);
+                          }
+                        }}
+                        disabled={isKnown}
+                        className={`px-3 py-1 rounded text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
+                          isKnown
+                            ? 'bg-slate-900 text-slate-500 border border-slate-800 cursor-default'
+                            : isPrereqUnmet
+                            ? 'bg-slate-900 text-rose-300 border border-rose-900/60 hover:bg-slate-850'
+                            : isInv
+                              ? 'bg-purple-950 hover:bg-purple-900 border border-purple-500/60 text-purple-300 shadow-sm'
+                              : 'bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 shadow-sm'
+                        }`}
+                      >
+                        {isKnown ? 'Learned' : isPrereqUnmet ? (isInv ? '+ Learn (Prereq Missing)' : '+ Acquire (Prereq Missing)') : isInv ? '+ Learn Power' : '+ Acquire Ability'}
+                      </button>
                     </div>
                   </div>
-                ))}
-              </div>
-            )}
+                );
+              })}
+            </div>
           </div>
         )}
 
         {/* ═══════════════════════════════════════════════════════════════════ */}
-        {/* SUB-MODAL: BUILD INVOCATION FORM */}
+        {/* SUB-MODAL: UNIFIED BUILD & EDIT POWER MODAL                         */}
         {/* ═══════════════════════════════════════════════════════════════════ */}
-        {isBuildInvocationOpen && (
-          <div className="fixed inset-0 z-[250] flex items-start justify-center bg-black/85 backdrop-blur-md p-3 pt-12 sm:pt-16 pb-12 overflow-y-auto select-none font-sans">
-            <form onSubmit={handleSaveCustomInvocation} className="bg-[#0e1524] border border-purple-500/50 rounded-xl max-w-lg w-full p-5 space-y-3.5 shadow-2xl text-xs">
+        {isBuildModalOpen && (
+          <div className="fixed inset-0 z-[250] flex items-start justify-center bg-black/85 backdrop-blur-md p-3 pt-10 sm:pt-14 pb-12 overflow-y-auto select-none font-sans">
+            <form onSubmit={handleSaveCustomForm} className="bg-[#0e1524] border border-purple-500/50 rounded-xl max-w-lg w-full p-5 space-y-3.5 shadow-2xl text-xs">
               <div className="flex justify-between items-center border-b border-slate-800 pb-2">
                 <h3 className="font-bold text-sm text-purple-300 uppercase tracking-wider flex items-center gap-1.5">
-                  <Wand2 size={16} /> + Build Custom Invocation
+                  {buildModalMode.includes('invocation') ? <Wand2 size={16} /> : <Zap size={16} />}
+                  <span>
+                    {buildModalMode === 'edit_invocation' ? 'Edit Invocation' :
+                     buildModalMode === 'edit_special_ability' ? 'Edit Special Ability' :
+                     buildModalMode === 'create_invocation' ? '+ Build Custom Invocation' :
+                     '+ Build Inherent Special Ability'}
+                  </span>
                 </h3>
-                <button type="button" onClick={() => setIsBuildInvocationOpen(false)} className="text-slate-400 hover:text-white">✕</button>
+                <button 
+                  type="button" 
+                  onClick={() => setIsBuildModalOpen(false)} 
+                  className="text-slate-400 hover:text-white"
+                >
+                  ✕
+                </button>
               </div>
 
               <div className="grid grid-cols-2 gap-2.5">
                 <div className="col-span-2">
-                  <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1">Invocation Name</label>
+                  <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1">Power Name</label>
                   <input
                     type="text"
                     required
@@ -1184,7 +1874,7 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1">Sub-Skill Focus</label>
+                  <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1">Sub-Skill / Focus</label>
                   <input
                     type="text"
                     value={customForm.subSkill}
@@ -1205,7 +1895,7 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1">Casting Time</label>
+                  <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1">Casting / Action Time</label>
                   <input
                     type="text"
                     value={customForm.time}
@@ -1227,12 +1917,55 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
                 </div>
 
                 <div>
+                  <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1">Area / Target</label>
+                  <input
+                    type="text"
+                    value={customForm.area}
+                    onChange={(e) => setCustomForm({ ...customForm, area: e.target.value })}
+                    placeholder="Single Target / 20 ft Cube"
+                    className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-slate-100 outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1">Duration</label>
+                  <input
+                    type="text"
+                    value={customForm.duration}
+                    onChange={(e) => setCustomForm({ ...customForm, duration: e.target.value })}
+                    placeholder="Instantaneous / 10 Min"
+                    className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-slate-100 outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1">Save / Resistance</label>
+                  <input
+                    type="text"
+                    value={customForm.resistance}
+                    onChange={(e) => setCustomForm({ ...customForm, resistance: e.target.value })}
+                    placeholder="Reflex (Half) / None"
+                    className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-slate-100 outline-none"
+                  />
+                </div>
+
+                <div>
                   <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1">Damage / Effect Formula</label>
                   <input
                     type="text"
                     value={customForm.damage}
                     onChange={(e) => setCustomForm({ ...customForm, damage: e.target.value })}
-                    placeholder="e.g., 3d6 Energy"
+                    placeholder="e.g., 3d6 Plasma"
+                    className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-slate-100 outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1">CP Cost</label>
+                  <input
+                    type="number"
+                    value={customForm.cp}
+                    onChange={(e) => setCustomForm({ ...customForm, cp: parseInt(e.target.value, 10) || 1 })}
                     className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-slate-100 outline-none"
                   />
                 </div>
@@ -1243,125 +1976,36 @@ export const MetaphysicsModal = ({ isOpen, onClose }) => {
                     rows={2}
                     value={customForm.description}
                     onChange={(e) => setCustomForm({ ...customForm, description: e.target.value })}
-                    placeholder="Describe the reality manipulation mechanics..."
+                    placeholder="Describe reality manipulation mechanics..."
                     className="w-full bg-slate-900 border border-slate-700 rounded px-2.5 py-1.5 text-slate-100 outline-none resize-none"
                   />
                 </div>
-              </div>
 
-              <div className="pt-2 border-t border-slate-800 flex justify-end gap-2">
-                <button
-                  type="button"
-                  onClick={() => setIsBuildInvocationOpen(false)}
-                  className="px-3 py-1.5 bg-slate-800 text-slate-300 rounded font-bold"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-1.5 bg-purple-600 hover:bg-purple-500 text-white rounded font-bold"
-                >
-                  Save Invocation
-                </button>
-              </div>
-            </form>
-          </div>
-        )}
-
-        {/* ═══════════════════════════════════════════════════════════════════ */}
-        {/* SUB-MODAL: BUILD SPECIAL ABILITY FORM */}
-        {/* ═══════════════════════════════════════════════════════════════════ */}
-        {isBuildSpecialAbilityOpen && (
-          <div className="fixed inset-0 z-[250] flex items-start justify-center bg-black/85 backdrop-blur-md p-3 pt-12 sm:pt-16 pb-12 overflow-y-auto select-none font-sans">
-            <form onSubmit={handleSaveCustomSpecialAbility} className="bg-[#0e1524] border border-cyan-500/50 rounded-xl max-w-lg w-full p-5 space-y-3.5 shadow-2xl text-xs">
-              <div className="flex justify-between items-center border-b border-slate-800 pb-2">
-                <h3 className="font-bold text-sm text-cyan-300 uppercase tracking-wider flex items-center gap-1.5">
-                  <Zap size={16} /> + Build Inherent Special Ability
-                </h3>
-                <button type="button" onClick={() => setIsBuildSpecialAbilityOpen(false)} className="text-slate-400 hover:text-white">✕</button>
-              </div>
-
-              <div className="grid grid-cols-2 gap-2.5">
                 <div className="col-span-2">
-                  <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1">Ability Name</label>
+                  <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1">Scaling Rules</label>
                   <input
                     type="text"
-                    required
-                    value={customForm.name}
-                    onChange={(e) => setCustomForm({ ...customForm, name: e.target.value })}
-                    placeholder="e.g., Cybernetic Retractable Monoblade"
+                    value={customForm.scaling}
+                    onChange={(e) => setCustomForm({ ...customForm, scaling: e.target.value })}
+                    placeholder="+1d6 damage per rank..."
                     className="w-full bg-slate-900 border border-slate-700 rounded px-2.5 py-1.5 text-slate-100 outline-none"
                   />
                 </div>
-
-                <div>
-                  <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1">Activation Time</label>
-                  <input
-                    type="text"
-                    value={customForm.time}
-                    onChange={(e) => setCustomForm({ ...customForm, time: e.target.value })}
-                    placeholder="Bonus Action / Reaction"
-                    className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-slate-100 outline-none"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1">CP Cost</label>
-                  <input
-                    type="number"
-                    value={customForm.cp}
-                    onChange={(e) => setCustomForm({ ...customForm, cp: parseInt(e.target.value, 10) || 5 })}
-                    className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-slate-100 outline-none"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1">Range / Reach</label>
-                  <input
-                    type="text"
-                    value={customForm.range}
-                    onChange={(e) => setCustomForm({ ...customForm, range: e.target.value })}
-                    placeholder="Self / Melee / 30 ft"
-                    className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-slate-100 outline-none"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1">Damage Formula / Effect</label>
-                  <input
-                    type="text"
-                    value={customForm.damage}
-                    onChange={(e) => setCustomForm({ ...customForm, damage: e.target.value })}
-                    placeholder="e.g., 2d8 Slashing"
-                    className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-slate-100 outline-none"
-                  />
-                </div>
-
-                <div className="col-span-2">
-                  <label className="block text-[10px] uppercase font-bold text-slate-400 mb-1">Ability Description</label>
-                  <textarea
-                    rows={2}
-                    value={customForm.description}
-                    onChange={(e) => setCustomForm({ ...customForm, description: e.target.value })}
-                    placeholder="Describe physiological or cybernetic mechanics..."
-                    className="w-full bg-slate-900 border border-slate-700 rounded px-2.5 py-1.5 text-slate-100 outline-none resize-none"
-                  />
-                </div>
               </div>
 
               <div className="pt-2 border-t border-slate-800 flex justify-end gap-2">
                 <button
                   type="button"
-                  onClick={() => setIsBuildSpecialAbilityOpen(false)}
-                  className="px-3 py-1.5 bg-slate-800 text-slate-300 rounded font-bold"
+                  onClick={() => setIsBuildModalOpen(false)}
+                  className="px-3 py-1.5 bg-slate-800 text-slate-300 rounded font-bold cursor-pointer hover:bg-slate-700"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded font-bold"
+                  className="px-4 py-1.5 bg-purple-600 hover:bg-purple-500 text-white rounded font-bold cursor-pointer shadow-md"
                 >
-                  Save Special Ability
+                  Save Power
                 </button>
               </div>
             </form>

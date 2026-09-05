@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useFolio } from '../../context/FolioContext';
 import { useDice } from '../../context/DiceContext';
-import { Dices, Lock, Unlock, Copy, AlertTriangle, ShieldCheck, FileText, CheckCircle2 } from 'lucide-react';
+import { Dices, Lock, Unlock, Copy, AlertTriangle, ShieldCheck, FileText, CheckCircle2, Save } from 'lucide-react';
+import { Toast } from '../UI/Toast';
 import { TrackedModificationsModal } from './modals/TrackedModificationsModal';
 import FolioSidebar from './FolioSidebar';
 import IdentityTab from './tabs/IdentityTab';
@@ -17,8 +18,6 @@ import NarrativeTab from './tabs/NarrativeTab';
 import OtherTab from './tabs/OtherTab';
 import MetaphysicsModal from './modals/MetaphysicsModal';
 import EconomyModal from './modals/EconomyModal';
-import ExperienceCodexModal from './modals/ExperienceCodexModal';
-import KarmaCodexModal from './modals/KarmaCodexModal';
 import AddSkillModal from './modals/AddSkillModal';
 import CustomSelectorModal from './modals/CustomSelectorModal';
 import AssetModal from './modals/AssetModal';
@@ -125,9 +124,20 @@ const FolioContainer = () => {
     trackedModifications
   } = useFolio();
 
-  const [isExperienceCodexOpen, setIsExperienceCodexOpen] = useState(false);
-  const [isKarmaCodexOpen, setIsKarmaCodexOpen] = useState(false);
   const [isTrackedModsOpen, setIsTrackedModsOpen] = useState(false);
+  const [toast, setToast] = useState(null);
+
+  const handleManualSave = useCallback(async () => {
+    if (saveCurrentToRoster) {
+      const res = await saveCurrentToRoster();
+      const charName = res?.name || characterData['char-name'] || 'Operative';
+      setToast({
+        type: 'success',
+        title: 'Persona Folio Saved',
+        message: `Dossier "${charName}" saved to Roster and Cloud Storage.`
+      });
+    }
+  }, [saveCurrentToRoster, characterData]);
 
   const handleDeleteCurrentCharacter = useCallback(() => {
     const charName = characterData['char-name'] || 'Unnamed Operative';
@@ -376,6 +386,8 @@ const FolioContainer = () => {
     const handleOpenPreview = () => setIsPreviewOpen(true);
     const handleTriggerLoadLocal = () => fileInputRef.current?.click();
 
+    const handleTriggerSave = () => handleManualSave();
+
     window.addEventListener('open-folio-economy', handleOpenEconomy);
     window.addEventListener('toggle-folio-bastion', handleToggleBastion);
     window.addEventListener('open-folio-catalog', handleOpenCatalog);
@@ -387,6 +399,7 @@ const FolioContainer = () => {
     window.addEventListener('open-folio-clear-character', handleOpenClearChar);
     window.addEventListener('open-folio-preview', handleOpenPreview);
     window.addEventListener('trigger-folio-load-local', handleTriggerLoadLocal);
+    window.addEventListener('trigger-folio-save', handleTriggerSave);
 
     return () => {
       window.removeEventListener('open-folio-economy', handleOpenEconomy);
@@ -400,8 +413,9 @@ const FolioContainer = () => {
       window.removeEventListener('open-folio-clear-character', handleOpenClearChar);
       window.removeEventListener('open-folio-preview', handleOpenPreview);
       window.removeEventListener('trigger-folio-load-local', handleTriggerLoadLocal);
+      window.removeEventListener('trigger-folio-save', handleTriggerSave);
     };
-  }, []);
+  }, [handleManualSave]);
 
   return (
     <div className="flex h-full w-full bg-[#0d1117] text-slate-100 overflow-hidden font-sans relative">
@@ -430,6 +444,8 @@ const FolioContainer = () => {
           onOpenRoster={() => setIsRosterOpen(true)}
           onOpenAugmentationsCatalog={() => handleOpenSelectorModal('augmentations', 'Augmentations', 'augmentations')}
           onOpenMetaphysicsModal={() => setIsMetaphysicsOpen(true)}
+          onSave={handleManualSave}
+          saveStatus={cloudSaveStatus}
         />
       </div>
 
@@ -491,181 +507,7 @@ const FolioContainer = () => {
           </div>
         )}
 
-        {/* Persona Lifecycle Status Banner: Development Phase vs Set/Locked vs Player Override */}
-        {characterData && (
-          <div className={`border-b-2 px-4 py-2.5 flex flex-col md:flex-row items-center justify-between gap-3 text-xs font-mono shrink-0 shadow-lg z-30 transition-all ${
-            isPlayerOverride 
-              ? 'bg-gradient-to-r from-amber-950/95 via-yellow-950/90 to-amber-950/95 border-amber-500/80 text-amber-200 shadow-[0_4px_20px_rgba(245,158,11,0.25)]'
-              : isLocked
-                ? 'bg-gradient-to-r from-[#061826] via-[#092236] to-[#0d2c44] border-cyan-500/80 text-cyan-200 shadow-[0_4px_20px_rgba(6,182,212,0.25)]'
-                : 'bg-gradient-to-r from-slate-900 via-slate-900/95 to-slate-800 border-slate-700/80 text-slate-300'
-          }`}>
-            <div className="flex items-center gap-2.5 min-w-0">
-              <div className={`w-8 h-8 rounded-lg border flex items-center justify-center text-base shrink-0 shadow-inner ${
-                isPlayerOverride
-                  ? 'bg-amber-500/20 border-amber-500/50 text-amber-300'
-                  : isLocked
-                    ? 'bg-cyan-500/20 border-cyan-500/50 text-cyan-300'
-                    : 'bg-slate-800 border-slate-600 text-slate-400'
-              }`}>
-                {isPlayerOverride ? '⚠️' : isLocked ? '🔒' : '🛠️'}
-              </div>
-              <div className="min-w-0">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className={`px-2 py-0.5 rounded text-[10px] font-extrabold uppercase tracking-wider flex items-center gap-1.5 shadow-sm border ${
-                    isPlayerOverride
-                      ? 'bg-amber-950/90 border-amber-400 text-amber-200 animate-pulse'
-                      : isLocked
-                        ? 'bg-cyan-950/90 border-cyan-400 text-cyan-200'
-                        : 'bg-slate-800 border-slate-600 text-slate-300'
-                  }`}>
-                    {isPlayerOverride ? (
-                      <>
-                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                        OVERRIDE ACTIVE (TRACKED)
-                      </>
-                    ) : isLocked ? (
-                      <>
-                        <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
-                        SET & READY FOR VTT
-                      </>
-                    ) : (
-                      <>
-                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
-                        DEVELOPMENT PHASE (DRAFT)
-                      </>
-                    )}
-                  </span>
-                  {isInActiveGame && (
-                    <span className="px-2 py-0.5 rounded bg-emerald-950/90 border border-emerald-400 text-[10px] font-extrabold uppercase tracking-wider text-emerald-200 flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-                      IN VTT SESSION
-                    </span>
-                  )}
-                  <span className="text-slate-500 hidden sm:inline">•</span>
-                  <span className="font-bold text-white uppercase truncate">
-                    {characterData['char-name'] || 'Unnamed Operative'}
-                  </span>
-                </div>
-                <p className="text-[11px] mt-0.5 opacity-90">
-                  {isPlayerOverride ? (
-                    <span>
-                      <strong className="text-amber-300">PLAYER OVERRIDE ENGAGED:</strong> Persona editing is temporarily unlocked for you. Any changes are recorded in the audit queue for GM awareness/review.
-                    </span>
-                  ) : isLocked ? (
-                    <span>
-                      <strong className="text-cyan-300">LOCKED & SET:</strong> Direct sheet edits are locked. Ready to join VTT combat. Dynamic XP, Karma, heals, and damage are applied live in game.
-                    </span>
-                  ) : (
-                    <span>
-                      <strong className="text-slate-200">DEVELOPMENT PHASE:</strong> You are freely shaping this persona. Lock & Set when ready to deploy this operative to the VTT or campaign.
-                    </span>
-                  )}
-                </p>
-              </div>
-            </div>
 
-            <div className="flex items-center gap-1.5 shrink-0 flex-wrap">
-              {/* Development Phase -> Lock & Set button */}
-              {!isLocked && (
-                <button
-                  type="button"
-                  onClick={lockPersona}
-                  className="px-3 py-1 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded uppercase text-[11px] shadow-[0_0_12px_rgba(6,182,212,0.4)] transition-all flex items-center gap-1 cursor-pointer"
-                  title="Lock and set persona ready for VTT deployment"
-                >
-                  <Lock className="w-3.5 h-3.5" />
-                  <span>Lock & Set for VTT</span>
-                </button>
-              )}
-
-              {/* Locked Phase -> Unlock / Override button */}
-              {isLocked && !isPlayerOverride && (
-                allowPlayerOverride ? (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const reason = prompt("Enter player reason/note for this sheet modification override (optional, logged for GM review):");
-                      if (reason !== null) {
-                        unlockPersona(reason);
-                      }
-                    }}
-                    className="px-2.5 py-1 bg-amber-950/90 hover:bg-amber-900 border border-amber-500/80 text-amber-200 font-bold rounded uppercase text-[10px] shadow transition-all flex items-center gap-1 cursor-pointer"
-                    title="Unlock folio via player override to make changes"
-                  >
-                    <Unlock className="w-3.5 h-3.5 text-amber-400" />
-                    <span>Player Override</span>
-                  </button>
-                ) : (
-                  <div
-                    className="px-2.5 py-1 bg-slate-900/90 border border-slate-700 text-slate-400 font-bold rounded uppercase text-[10px] flex items-center gap-1 cursor-not-allowed opacity-75"
-                    title="Player Override is disabled by the GM for this session. Direct sheet modifications are locked."
-                  >
-                    <Lock className="w-3.5 h-3.5 text-slate-500" />
-                    <span>Override Disallowed by GM</span>
-                  </div>
-                )
-              )}
-
-              {/* Override Phase -> Relock button */}
-              {isLocked && isPlayerOverride && (
-                <button
-                  type="button"
-                  onClick={lockPersona}
-                  className="px-2.5 py-1 bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-400 text-cyan-200 font-bold rounded uppercase text-[10px] shadow transition-all flex items-center gap-1 cursor-pointer"
-                  title="Lock sheet again and return to Set/Locked status"
-                >
-                  <Lock className="w-3.5 h-3.5 text-cyan-400" />
-                  <span>Relock Sheet</span>
-                </button>
-              )}
-
-              {/* Clone Variant Button (always available!) */}
-              <button
-                type="button"
-                onClick={clonePersonaVariant}
-                className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 font-bold rounded uppercase text-[10px] shadow transition-all flex items-center gap-1 cursor-pointer"
-                title="Branch an unlocked development variant of this persona without modifying the set version"
-              >
-                <Copy className="w-3.5 h-3.5 text-cyan-400" />
-                <span>Clone Variant</span>
-              </button>
-
-              {/* Audit / Tracked Modifications Log */}
-              {trackedModifications && trackedModifications.length > 0 && (
-                <button
-                  type="button"
-                  onClick={() => setIsTrackedModsOpen(true)}
-                  className="px-2.5 py-1 bg-purple-950/90 hover:bg-purple-900 border border-purple-400 text-purple-200 font-bold rounded uppercase text-[10px] shadow transition-all flex items-center gap-1 cursor-pointer"
-                  title="View tracked modifications and GM review feedback"
-                >
-                  <FileText className="w-3.5 h-3.5 text-purple-400" />
-                  <span>Review Queue ({trackedModifications.filter(m => m.status === 'pending').length} pending)</span>
-                </button>
-              )}
-
-              {/* Experience / AP Codex Button */}
-              <button
-                type="button"
-                onClick={() => setIsExperienceCodexOpen(true)}
-                className="px-2 py-1 bg-slate-900/80 hover:bg-slate-800 border border-slate-700 text-slate-300 font-bold rounded uppercase text-[10px] transition-all flex items-center gap-1 cursor-pointer"
-                title="Open Experience Codex for AP awards & spend validation"
-              >
-                <span>✨ AP</span>
-              </button>
-
-              {/* Karma Codex Button */}
-              <button
-                type="button"
-                onClick={() => setIsKarmaCodexOpen(true)}
-                className="px-2 py-1 bg-slate-900/80 hover:bg-slate-800 border border-slate-700 text-slate-300 font-bold rounded uppercase text-[10px] transition-all flex items-center gap-1 cursor-pointer"
-                title="Open Karma Codex & Ledger"
-              >
-                <span>☸️ Karma</span>
-              </button>
-            </div>
-          </div>
-        )}
 
         {/* Over-Budget Alert Banner */}
         {(() => {
@@ -914,17 +756,6 @@ const FolioContainer = () => {
         isOpen={isMetaphysicsOpen}
         onClose={() => setIsMetaphysicsOpen(false)}
       />
-      <ExperienceCodexModal
-        isOpen={isExperienceCodexOpen}
-        onClose={() => setIsExperienceCodexOpen(false)}
-        earnedAP={parseInt(characterData.earned_ap || 0, 10)}
-        availableAP={parseInt(characterData.available_ap !== undefined ? characterData.available_ap : (characterData.earned_ap || 0), 10)}
-        experienceDebt={parseInt(characterData.experience_debt || 0, 10)}
-      />
-      <KarmaCodexModal
-        isOpen={isKarmaCodexOpen}
-        onClose={() => setIsKarmaCodexOpen(false)}
-      />
       <TrackedModificationsModal
         isOpen={isTrackedModsOpen}
         onClose={() => setIsTrackedModsOpen(false)}
@@ -935,6 +766,9 @@ const FolioContainer = () => {
       <div className="hidden print:block">
         <PrintFolio characterData={characterData} />
       </div>
+
+      {/* Save & System Notification Toast */}
+      {toast && <Toast toast={toast} onClose={() => setToast(null)} />}
     </div>
   );
 };

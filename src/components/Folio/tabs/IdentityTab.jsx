@@ -149,9 +149,12 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     removePoolTrait,
     togglePoolFeature,
     removePoolFeature,
-    allocatePoolAttribute
+    allocatePoolAttribute,
+    isLocked,
+    isPlayerOverride
   } = useFolio();
   const dbm = useDBM();
+  const isSheetLocked = Boolean(isLocked && !isPlayerOverride);
 
   const [dbOptions, setDbOptions] = useState({});
   const [manualMode, setManualMode] = useState({});
@@ -653,7 +656,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                   </div>
 
                   <div className="flex items-center gap-1.5 shrink-0" onClick={e => e.stopPropagation()}>
-                    {onOpenSelectorModal && (
+                    {!isSheetLocked && onOpenSelectorModal && (
                       <button
                         type="button"
                         onClick={() => onOpenSelectorModal(fieldId, label, browsePath)}
@@ -669,7 +672,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       </button>
                     )}
 
-                    {val && (
+                    {!isSheetLocked && val && (
                       <button
                         type="button"
                         onClick={() => updateField(fieldId, '')}
@@ -680,16 +683,18 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       </button>
                     )}
 
-                    <button
-                      type="button"
-                      onClick={() => setManualMode(prev => ({ ...prev, [fieldId]: !prev[fieldId] }))}
-                      className={`text-[9px] font-mono uppercase px-1.5 py-0.5 rounded border transition-colors cursor-pointer ${
-                        isManual ? 'bg-slate-800 border-amber-500 text-amber-300' : 'bg-transparent border-slate-800 text-slate-500 hover:text-slate-400'
-                      }`}
-                      title="Toggle custom text input"
-                    >
-                      {isManual ? 'Custom' : 'Text'}
-                    </button>
+                    {!isSheetLocked && (
+                      <button
+                        type="button"
+                        onClick={() => setManualMode(prev => ({ ...prev, [fieldId]: !prev[fieldId] }))}
+                        className={`text-[9px] font-mono uppercase px-1.5 py-0.5 rounded border transition-colors cursor-pointer ${
+                          isManual ? 'bg-slate-800 border-amber-500 text-amber-300' : 'bg-transparent border-slate-800 text-slate-500 hover:text-slate-400'
+                        }`}
+                        title="Toggle custom text input"
+                      >
+                        {isManual ? 'Custom' : 'Text'}
+                      </button>
+                    )}
 
                     {selectedArchetype && (
                       <button
@@ -716,7 +721,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                 </div>
 
                 {/* Manual Text Edit Field */}
-                {isManual && (
+                {!isSheetLocked && isManual && (
                   <div className="p-2 bg-slate-900 border-t border-slate-800/80 flex items-center gap-2">
                     <span className="text-[10px] font-mono text-slate-400 uppercase shrink-0">Custom Archetype:</span>
                     <input
@@ -736,7 +741,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       <span className="text-[11px] font-mono text-slate-400">
                         {selectedArchetype.core_concept || selectedArchetype.summary || selectedArchetype.tactical_role || 'Chassis Blueprint'}
                       </span>
-                      {applyArchetypeChassis && (
+                      {!isSheetLocked && applyArchetypeChassis && (
                         <button
                           type="button"
                           onClick={() => applyArchetypeChassis(selectedArchetype)}
@@ -874,7 +879,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                   </div>
 
                   <div className="flex items-center gap-1.5 shrink-0" onClick={e => e.stopPropagation()}>
-                    {onOpenSelectorModal && (
+                    {!isSheetLocked && onOpenSelectorModal && (
                       <button
                         type="button"
                         onClick={() => onOpenSelectorModal(fieldId, label, browsePath)}
@@ -890,7 +895,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       </button>
                     )}
 
-                    {val && (
+                    {!isSheetLocked && val && (
                       <button
                         type="button"
                         onClick={() => updateField(fieldId, '')}
@@ -901,16 +906,18 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       </button>
                     )}
 
-                    <button
-                      type="button"
-                      onClick={() => setManualMode(prev => ({ ...prev, [fieldId]: !prev[fieldId] }))}
-                      className={`text-[9px] font-mono uppercase px-1.5 py-0.5 rounded border transition-colors cursor-pointer ${
-                        isManual ? 'bg-slate-800 border-cyan-500 text-cyan-300' : 'bg-transparent border-slate-800 text-slate-500 hover:text-slate-400'
-                      }`}
-                      title="Toggle custom text input"
-                    >
-                      {isManual ? 'Custom' : 'Text'}
-                    </button>
+                    {!isSheetLocked && (
+                      <button
+                        type="button"
+                        onClick={() => setManualMode(prev => ({ ...prev, [fieldId]: !prev[fieldId] }))}
+                        className={`text-[9px] font-mono uppercase px-1.5 py-0.5 rounded border transition-colors cursor-pointer ${
+                          isManual ? 'bg-slate-800 border-cyan-500 text-cyan-300' : 'bg-transparent border-slate-800 text-slate-500 hover:text-slate-400'
+                        }`}
+                        title="Toggle custom text input"
+                      >
+                        {isManual ? 'Custom' : 'Text'}
+                      </button>
+                    )}
 
                     {selectedSpecies && (
                       <button
@@ -937,7 +944,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                 </div>
 
                 {/* Manual Text Edit Field */}
-                {isManual && (
+                {!isSheetLocked && isManual && (
                   <div className="p-2 bg-slate-900 border-t border-slate-800/80 flex items-center gap-2">
                     <span className="text-[10px] font-mono text-slate-400 uppercase shrink-0">Custom Species:</span>
                     <input
@@ -1194,7 +1201,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                   </div>
 
                   <div className="flex items-center gap-1.5 shrink-0" onClick={e => e.stopPropagation()}>
-                    {onOpenSelectorModal && (
+                    {!isSheetLocked && onOpenSelectorModal && (
                       <button
                         type="button"
                         onClick={() => onOpenSelectorModal(fieldId, label, browsePath)}
@@ -1210,7 +1217,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       </button>
                     )}
 
-                    {val && (
+                    {!isSheetLocked && val && (
                       <button
                         type="button"
                         onClick={() => updateField(fieldId, '')}
@@ -1221,16 +1228,18 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       </button>
                     )}
 
-                    <button
-                      type="button"
-                      onClick={() => setManualMode(prev => ({ ...prev, [fieldId]: !prev[fieldId] }))}
-                      className={`text-[9px] font-mono uppercase px-1.5 py-0.5 rounded border transition-colors cursor-pointer ${
-                        isManual ? 'bg-slate-800 border-sky-500 text-sky-300' : 'bg-transparent border-slate-800 text-slate-500 hover:text-slate-400'
-                      }`}
-                      title="Toggle custom text input"
-                    >
-                      {isManual ? 'Custom' : 'Text'}
-                    </button>
+                    {!isSheetLocked && (
+                      <button
+                        type="button"
+                        onClick={() => setManualMode(prev => ({ ...prev, [fieldId]: !prev[fieldId] }))}
+                        className={`text-[9px] font-mono uppercase px-1.5 py-0.5 rounded border transition-colors cursor-pointer ${
+                          isManual ? 'bg-slate-800 border-sky-500 text-sky-300' : 'bg-transparent border-slate-800 text-slate-500 hover:text-slate-400'
+                        }`}
+                        title="Toggle custom text input"
+                      >
+                        {isManual ? 'Custom' : 'Text'}
+                      </button>
+                    )}
 
                     {selectedOccupation && (
                       <button
@@ -1257,7 +1266,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                 </div>
 
                 {/* Manual Text Edit Field */}
-                {isManual && (
+                {!isSheetLocked && isManual && (
                   <div className="p-2 bg-slate-900 border-t border-slate-800/80 flex items-center gap-2">
                     <span className="text-[10px] font-mono text-slate-400 uppercase shrink-0">Custom Occupation:</span>
                     <input
@@ -1290,7 +1299,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                         )}
                       </div>
                       <div className="flex items-center gap-1.5 shrink-0">
-                        {onOpenSelectorModal && (
+                        {!isSheetLocked && onOpenSelectorModal && (
                           <button
                             type="button"
                             onClick={() => onOpenSelectorModal('char-secondary-occu', 'Background Occupation', 'occupations')}
@@ -1299,7 +1308,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                             {secOccVal ? 'Change' : '+ Add Background'}
                           </button>
                         )}
-                        {secOccVal && (
+                        {!isSheetLocked && secOccVal && (
                           <button
                             type="button"
                             onClick={() => updateField('char-secondary-occu', '')}
@@ -1450,7 +1459,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                   </div>
 
                   <div className="flex items-center gap-1.5 shrink-0" onClick={e => e.stopPropagation()}>
-                    {onOpenSelectorModal && (
+                    {!isSheetLocked && onOpenSelectorModal && (
                       <button
                         type="button"
                         onClick={() => onOpenSelectorModal(fieldId, label, browsePath)}
@@ -1466,7 +1475,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       </button>
                     )}
 
-                    {val && (
+                    {!isSheetLocked && val && (
                       <button
                         type="button"
                         onClick={() => updateField(fieldId, '')}
@@ -1477,16 +1486,18 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       </button>
                     )}
 
-                    <button
-                      type="button"
-                      onClick={() => setManualMode(prev => ({ ...prev, [fieldId]: !prev[fieldId] }))}
-                      className={`text-[9px] font-mono uppercase px-1.5 py-0.5 rounded border transition-colors cursor-pointer ${
-                        isManual ? 'bg-slate-800 border-emerald-500 text-emerald-300' : 'bg-transparent border-slate-800 text-slate-500 hover:text-slate-400'
-                      }`}
-                      title="Toggle custom text input"
-                    >
-                      {isManual ? 'Custom' : 'Text'}
-                    </button>
+                    {!isSheetLocked && (
+                      <button
+                        type="button"
+                        onClick={() => setManualMode(prev => ({ ...prev, [fieldId]: !prev[fieldId] }))}
+                        className={`text-[9px] font-mono uppercase px-1.5 py-0.5 rounded border transition-colors cursor-pointer ${
+                          isManual ? 'bg-slate-800 border-emerald-500 text-emerald-300' : 'bg-transparent border-slate-800 text-slate-500 hover:text-slate-400'
+                        }`}
+                        title="Toggle custom text input"
+                      >
+                        {isManual ? 'Custom' : 'Text'}
+                      </button>
+                    )}
 
                     {selectedOrigin && (
                       <button
@@ -1513,7 +1524,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                 </div>
 
                 {/* Manual Text Edit Field */}
-                {isManual && (
+                {!isSheetLocked && isManual && (
                   <div className="p-2 bg-slate-900 border-t border-slate-800/80 flex items-center gap-2">
                     <span className="text-[10px] font-mono text-slate-400 uppercase shrink-0">Custom Origin:</span>
                     <input
@@ -1546,7 +1557,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                         )}
                       </div>
                       <div className="flex items-center gap-1.5 shrink-0">
-                        {onOpenSelectorModal && (
+                        {!isSheetLocked && onOpenSelectorModal && (
                           <button
                             type="button"
                             onClick={() => onOpenSelectorModal('char-secondary-origin', 'Secondary Origin', 'origins')}
@@ -1555,7 +1566,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                             {secVal ? 'Change' : '+ Add Secondary'}
                           </button>
                         )}
-                        {secVal && (
+                        {!isSheetLocked && secVal && (
                           <button
                             type="button"
                             onClick={() => updateField('char-secondary-origin', '')}
@@ -1685,7 +1696,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                   </div>
 
                   <div className="flex items-center gap-1.5 shrink-0" onClick={e => e.stopPropagation()}>
-                    {onOpenSelectorModal && (
+                    {!isSheetLocked && onOpenSelectorModal && (
                       <button
                         type="button"
                         onClick={() => onOpenSelectorModal(fieldId, label, browsePath)}
@@ -1701,7 +1712,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       </button>
                     )}
 
-                    {val && (
+                    {!isSheetLocked && val && (
                       <button
                         type="button"
                         onClick={() => updateField(fieldId, '')}
@@ -1712,16 +1723,18 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       </button>
                     )}
 
-                    <button
-                      type="button"
-                      onClick={() => setManualMode(prev => ({ ...prev, [fieldId]: !prev[fieldId] }))}
-                      className={`text-[9px] font-mono uppercase px-1.5 py-0.5 rounded border transition-colors cursor-pointer ${
-                        isManual ? 'bg-slate-800 border-purple-500 text-purple-300' : 'bg-transparent border-slate-800 text-slate-500 hover:text-slate-400'
-                      }`}
-                      title="Toggle custom text input"
-                    >
-                      {isManual ? 'Custom' : 'Text'}
-                    </button>
+                    {!isSheetLocked && (
+                      <button
+                        type="button"
+                        onClick={() => setManualMode(prev => ({ ...prev, [fieldId]: !prev[fieldId] }))}
+                        className={`text-[9px] font-mono uppercase px-1.5 py-0.5 rounded border transition-colors cursor-pointer ${
+                          isManual ? 'bg-slate-800 border-purple-500 text-purple-300' : 'bg-transparent border-slate-800 text-slate-500 hover:text-slate-400'
+                        }`}
+                        title="Toggle custom text input"
+                      >
+                        {isManual ? 'Custom' : 'Text'}
+                      </button>
+                    )}
 
                     {selectedFaction && (
                       <button
@@ -1748,7 +1761,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                 </div>
 
                 {/* Manual Text Edit Field */}
-                {isManual && (
+                {!isSheetLocked && isManual && (
                   <div className="p-2 bg-slate-900 border-t border-slate-800/80 flex items-center gap-2">
                     <span className="text-[10px] font-mono text-slate-400 uppercase shrink-0">Custom Faction:</span>
                     <input
