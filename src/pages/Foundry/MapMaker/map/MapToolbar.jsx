@@ -7,7 +7,7 @@ import { ArtistHubModal } from '../../../../components/StoryFoundry/ArtistHubMod
 import { 
   Tv, Palette, Copy, Check, ExternalLink, X, Compass, Shield,
   Globe, FolderOpen, Save, Download, Camera, Sparkles, Upload,
-  Layers, ChevronDown, FilePlus, Trash2, Grid, Sun, Radio, Play, Hammer
+  Layers, ChevronDown, FilePlus, Trash2, Grid, Sun, Radio, Play, Hammer, Box
 } from 'lucide-react';
 import { AudioService } from '../../../../services/audioService';
 
@@ -59,7 +59,9 @@ const MapToolbar = ({
   isVttDrawerOpen,
   onToggleVttDrawer,
   onOpenHazmatModal,
-  onOpenUnderlayModal
+  onOpenUnderlayModal,
+  is3DPreviewOpen,
+  onToggle3DPreview
 }) => {
   const { universeState, activeMapId, setActiveMapId, updateMap } = useCampaign();
 
@@ -518,6 +520,23 @@ const MapToolbar = ({
             <span>🎮</span>
             <span className="hidden xl:inline">VTT Console</span>
           </button>
+
+          {/* 3D Holographic Live Preview Toggle */}
+          {onToggle3DPreview && (
+            <button
+              type="button"
+              onClick={onToggle3DPreview}
+              className={`px-2 py-1 rounded-lg text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
+                is3DPreviewOpen
+                  ? 'bg-cyan-950 text-cyan-200 border border-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.4)]'
+                  : 'text-cyan-400 hover:text-cyan-200 hover:bg-slate-800/80 border border-slate-700/60'
+              }`}
+              title="Toggle Live 3D Holographic Architect Preview"
+            >
+              <Box size={14} className={is3DPreviewOpen ? 'text-cyan-300 animate-pulse' : 'text-cyan-400'} />
+              <span className="hidden xl:inline">3D Holo</span>
+            </button>
+          )}
         </div>
 
         {/* Tactical Actions & Utilities */}

@@ -106,3 +106,6 @@ export { PagedPdfCompiler } from './compilers/PagedPdfCompiler.ts';
 export type { ScenarioExportNode, CompileOptions } from './compilers/PagedPdfCompiler.ts';
 export { FoundryVttJsonExporter } from './compilers/FoundryVttJsonExporter.ts';
 export type { FoundryExportPayload, FoundryCompendiumPack } from './compilers/FoundryVttJsonExporter.ts';
+
+// Stage 10: 3D Holographic Tactical Stage & Spatial Tabletop
+export * from './3d/index.ts';

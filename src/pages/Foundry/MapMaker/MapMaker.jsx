@@ -39,6 +39,7 @@ import FloatingCombatText from './map/FloatingCombatText';
 import { StoryFoundryGuideModal } from '../../../components/StoryFoundry/StoryFoundryGuideModal';
 import { useFolio } from '../../../context/FolioContext';
 import { AudioService } from '../../../services/audioService';
+import MapMaker3DPreviewModal from './components/MapMaker3DPreviewModal';
 
 import { useMapHistory } from './hooks/useMapHistory';
 import { useMapCanvasEvents } from './hooks/useMapCanvasEvents';
@@ -224,6 +225,7 @@ const MapPane = ({ mapExportPngRef }) => {
   const [selectedLightRadius, setSelectedLightRadius] = useState(180);
   const [selectedLightAnimation, setSelectedLightAnimation] = useState('flicker');
   const [isUvttModalOpen, setIsUvttModalOpen] = useState(false);
+  const [is3DPreviewOpen, setIs3DPreviewOpen] = useState(false);
   const [radialMenuState, setRadialMenuState] = useState({ isOpen: false, position: { x: 0, y: 0 }, token: null });
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -1425,6 +1427,8 @@ const MapPane = ({ mapExportPngRef }) => {
         }}
         isVttDrawerOpen={isVttDrawerOpen}
         onToggleVttDrawer={() => setIsVttDrawerOpen(prev => !prev)}
+        is3DPreviewOpen={is3DPreviewOpen}
+        onToggle3DPreview={() => setIs3DPreviewOpen(prev => !prev)}
       />
 
       <LandmassGeneratorModal
@@ -1432,6 +1436,13 @@ const MapPane = ({ mapExportPngRef }) => {
         onClose={() => setIsLandmassModalOpen(false)}
         onCommitLandmass={handleCommitLandmass}
         defaultRenderMode={terrainRenderMode}
+      />
+
+      <MapMaker3DPreviewModal
+        isOpen={is3DPreviewOpen}
+        onClose={() => setIs3DPreviewOpen(false)}
+        currentMap={currentMap}
+        tokens={tokens}
       />
 
       <StoryFoundryGuideModal

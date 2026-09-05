@@ -11,6 +11,7 @@ import { TokenContextualPill } from './TokenContextualPill';
 import { StageSplitView, type SplitTabType } from './StageSplitView';
 import StageView from '../StageView';
 import type { StageViewProps } from '../StageView';
+import { Stage3DViewport } from './Stage3DViewport';
 import { useCampaign } from '../../../context/CampaignContext';
 import { useEngineStore } from '../../../engine/index';
 import { AudioService } from '../../../services/audioService';
@@ -29,7 +30,28 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const [isSplitOpen, setIsSplitOpen] = useState(false);
   const [activeSplitTab, setActiveSplitTab] = useState<SplitTabType>('folio');
+  const [is3DActive, setIs3DActive] = useState<boolean>(false);
   const viewportRef = useRef<HTMLDivElement>(null);
+
+  // Global hotkey V to toggle 2D / 3D Stage
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const activeEl = document.activeElement;
+      if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA' || (activeEl as HTMLElement).isContentEditable)) {
+        return;
+      }
+      if (e.key.toLowerCase() === 'v' && !e.ctrlKey && !e.altKey && !e.shiftKey) {
+        e.preventDefault();
+        setIs3DActive(prev => {
+          const next = !prev;
+          AudioService.playTerminalBeep(next ? 880 : 440, 0.05);
+          return next;
+        });
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   // Handle Drag & Drop Token Spawning directly onto The Stage
   const handleDragOver = (e: React.DragEvent) => {
@@ -183,9 +205,17 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
           setIsSplitOpen(prev => !prev);
           AudioService.playTerminalBeep(!isSplitOpen ? 1100 : 700, 0.04);
         }}
+        is3DActive={is3DActive}
+        onToggle3D={() => {
+          setIs3DActive(prev => {
+            const next = !prev;
+            AudioService.playTerminalBeep(next ? 880 : 440, 0.05);
+            return next;
+          });
+        }}
       />
 
-      {/* Center WebGPU / Pixi Stage Canvas Viewport Dropzone inside Split View */}
+      {/* Center WebGPU / Pixi 2D or Three.js 3D Viewport Dropzone inside Split View */}
       <StageSplitView
         isOpen={isSplitOpen}
         onClose={() => setIsSplitOpen(false)}
@@ -202,7 +232,11 @@ export const StageViewportWrapper: React.FC<StageViewportWrapperProps> = ({
             isDraggingOver ? 'ring-2 ring-inset ring-cyan-400 bg-cyan-950/10' : ''
           }`}
         >
-          <StageView {...stageProps} />
+          {is3DActive ? (
+            <Stage3DViewport onSwitchTo2D={() => setIs3DActive(false)} />
+          ) : (
+            <StageView {...stageProps} />
+          )}
 
           {/* Drop Target HUD Banner */}
           {isDraggingOver && (

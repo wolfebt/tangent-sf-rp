@@ -16,7 +16,8 @@ import {
   Settings,
   Plus,
   X,
-  Columns
+  Columns,
+  Box
 } from 'lucide-react';
 import { useCampaign } from '../../../context/CampaignContext';
 import { v4 as uuidv4 } from 'uuid';
@@ -28,6 +29,8 @@ export interface StageBreadcrumbTabsProps {
   onOpenUnderlayModal?: () => void;
   isSplitOpen?: boolean;
   onToggleSplit?: () => void;
+  is3DActive?: boolean;
+  onToggle3D?: () => void;
 }
 
 export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
@@ -36,7 +39,9 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
   onOpenMapMaker,
   onOpenUnderlayModal,
   isSplitOpen = false,
-  onToggleSplit
+  onToggleSplit,
+  is3DActive = false,
+  onToggle3D
 }) => {
   const { universeState, setActiveMapId, addMap, updateMap, deleteMap } = useCampaign();
   const [editingTabId, setEditingTabId] = useState<string | null>(null);
@@ -140,6 +145,22 @@ export const StageBreadcrumbTabs: React.FC<StageBreadcrumbTabsProps> = ({
             >
               <Settings size={10} />
               <span>Underlay</span>
+            </button>
+          )}
+
+          {onToggle3D && (
+            <button
+              type="button"
+              onClick={onToggle3D}
+              className={`px-2 py-0.5 rounded text-[10.5px] transition-colors flex items-center gap-1 cursor-pointer font-mono font-bold border ${
+                is3DActive
+                  ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.3)]'
+                  : 'bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border-slate-800'
+              }`}
+              title="Toggle between 2D Blueprint and 3D Holographic Stage (Hotkey: V)"
+            >
+              <Box size={10} className={is3DActive ? 'text-cyan-400 animate-pulse' : 'text-slate-400'} />
+              <span>{is3DActive ? '3D HOLO' : '2D PLAN'}</span>
             </button>
           )}
 
