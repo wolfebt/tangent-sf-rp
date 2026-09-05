@@ -42,7 +42,7 @@ import { GameGroupModal } from '../Groups/GameGroupModal';
 export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOpen, onToggleCommsDock, isCommsDockOpen }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { currentUser, userHandle, loginWithGoogle, confirmLogout, isAdmin, userRole, adminOverride, toggleAdminOverride } = useAuth();
+  const { currentUser, userHandle, loginWithGoogle, openAuthModal, triggerBootSplash, confirmLogout, isAdmin, userRole, adminOverride, toggleAdminOverride } = useAuth();
   const { totalUnreadCount, toggleCommsDock } = useChat();
   const dbm = useDBM() || {};
   const folio = useFolio() || {};
@@ -1078,8 +1078,9 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
           ) : (
             <button
               type="button"
-              onClick={loginWithGoogle}
+              onClick={openAuthModal}
               className="px-2.5 sm:px-3.5 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-[0_0_15px_rgba(34,211,238,0.3)] flex items-center gap-1.5 font-mono cursor-pointer cyan-shadow-thin"
+              title="Access Terran Data Net"
             >
               <Key size={13} /> <span className="hidden xs:inline">Login</span>
             </button>
@@ -1363,7 +1364,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
               ) : (
                 <button
                   type="button"
-                  onClick={() => { loginWithGoogle(); setIsMobileNavOpen(false); }}
+                  onClick={() => { openAuthModal(); setIsMobileNavOpen(false); }}
                   className="w-full py-2 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-lg uppercase tracking-wider flex items-center justify-center gap-2"
                 >
                   <Key size={14} /> Login

@@ -8,11 +8,11 @@ import { LandingDrawerArea } from '../components/Hub/LandingDrawerArea';
 import { GameSquadsWidget } from '../components/Hub/GameSquadsWidget';
 import { CommCenterWidget } from '../components/Hub/CommCenterWidget';
 import { UserSettingsModal } from '../components/UserSettingsModal';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Globe } from 'lucide-react';
 import { AudioService } from '../services/audioService';
 
 const Home = () => {
-  const { currentUser, userHandle } = useAuth();
+  const { currentUser, userHandle, openAuthModal } = useAuth();
   const { universeState, mapsCatalog, elementsCatalog } = useStory();
   const { personaRoster, roster } = useFolio();
   const { groups, pendingInvites } = useGroup();
@@ -68,7 +68,7 @@ const Home = () => {
   return (
     <div
       onClick={() => setActiveDrawer(null)}
-      className="h-full w-full relative bg-cover bg-center bg-no-repeat bg-fixed text-slate-100 font-sans flex flex-col overflow-hidden"
+      className="h-full w-full relative bg-cover bg-center bg-no-repeat text-slate-100 font-sans flex flex-col overflow-hidden select-none"
       style={{ backgroundImage: "url('/assets/images/background.png')" }}
     >
       {/* ── Creator Tag — Top Right View Area ── */}
@@ -165,12 +165,12 @@ const Home = () => {
       )}
 
       {/* ── Main Content Area ── */}
-      <div className="flex-1 overflow-y-auto min-h-0">
-        <div className="w-full p-3 sm:p-4 lg:p-5 flex flex-col gap-3 min-h-full">
+      <div className="flex-1 min-h-0 flex flex-col overflow-hidden no-scrollbar">
+        <div className="flex-1 min-h-0 w-full p-3 sm:p-4 lg:p-5 flex flex-col gap-2 sm:gap-3 overflow-hidden">
 
           {/* Mobile: top action bar */}
           {isMobile && (
-            <div className="flex items-center justify-between gap-2 bg-slate-900/90 backdrop-blur-md p-2.5 rounded-xl border border-slate-800 shadow-lg sticky top-1 z-30">
+            <div className="flex items-center justify-between gap-2 bg-slate-900/90 backdrop-blur-md p-2.5 rounded-xl border border-slate-800 shadow-lg shrink-0 z-30">
               <button
                 type="button"
                 onClick={(e) => {
@@ -209,7 +209,7 @@ const Home = () => {
           {/* ── Center Drawer Area ── */}
           {!isMobile ? (
             <div
-              className="flex-1 min-h-[560px] flex flex-col"
+              className="flex-1 min-h-0 flex flex-col overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
               {activeDrawer ? (
@@ -233,6 +233,21 @@ const Home = () => {
                     <p className="text-xs sm:text-sm text-slate-300 max-w-md mx-auto shifting-wb-text-shadow leading-relaxed">
                       Select a module from the navigation bar above to load a workspace.
                     </p>
+                    {!currentUser && (
+                      <div className="pt-2">
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (openAuthModal) openAuthModal();
+                          }}
+                          className="px-3.5 py-1.5 rounded-xl bg-cyan-950/60 hover:bg-cyan-900/80 border border-cyan-500/50 hover:border-cyan-400 text-cyan-300 hover:text-white font-mono text-xs uppercase tracking-wider transition-all shadow-[0_0_15px_rgba(34,211,238,0.25)] inline-flex items-center gap-2 cursor-pointer"
+                        >
+                          <Globe size={13} className="text-cyan-400" />
+                          <span>CONNECT TO TERRAN DATA NET</span>
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
@@ -241,7 +256,7 @@ const Home = () => {
             /* Mobile: drawer content when open, or idle prompt in middle top dark space */
             activeDrawer ? (
               <div
-                className="w-full min-h-[460px] flex flex-col"
+                className="w-full flex-1 min-h-0 flex flex-col overflow-hidden"
                 onClick={(e) => e.stopPropagation()}
               >
                 <LandingDrawerArea
@@ -264,6 +279,21 @@ const Home = () => {
                   <p className="text-[11px] sm:text-xs text-slate-300 shifting-wb-text-shadow leading-relaxed">
                     Tap MODULES above to load a workspace.
                   </p>
+                  {!currentUser && (
+                    <div className="pt-2">
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (openAuthModal) openAuthModal();
+                        }}
+                        className="px-3 py-1.5 rounded-xl bg-cyan-950/60 hover:bg-cyan-900/80 border border-cyan-500/50 hover:border-cyan-400 text-cyan-300 hover:text-white font-mono text-[11px] uppercase tracking-wider transition-all shadow-[0_0_15px_rgba(34,211,238,0.25)] inline-flex items-center gap-1.5 cursor-pointer"
+                      >
+                        <Globe size={12} className="text-cyan-400" />
+                        <span>CONNECT TO TERRAN DATA NET</span>
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             )
@@ -277,7 +307,7 @@ const Home = () => {
         />
 
         {/* Footer */}
-        <footer className="w-full pt-4 pb-2 border-t border-slate-900/60 mt-auto flex items-center justify-end text-[10px] font-mono text-slate-500 gap-2 px-4">
+        <footer className="w-full shrink-0 pt-2 pb-2.5 border-t border-slate-900/60 flex items-center justify-end text-[10px] font-mono text-slate-500 gap-2 px-4">
           <span>CYBERNETIC INTERFACE INITIALIZED</span>
         </footer>
       </div>

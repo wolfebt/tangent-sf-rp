@@ -2,6 +2,8 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { auth, db, loginWithGoogle, logout } from '../firebase';
+import { SystemBootSplash } from '../components/UI/SystemBootSplash';
+import { TerranNetAuthModal } from '../components/UI/TerranNetAuthModal';
 
 const AuthContext = createContext();
 
@@ -10,10 +12,16 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showSplash, setShowSplash] = useState(true);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [userHandle, setUserHandle] = useState(localStorage.getItem('userHandle') || '');
   const [customClaims, setCustomClaims] = useState({});
   const [hasAdminClaim, setHasAdminClaim] = useState(false);
   const [adminOverride, setAdminOverride] = useState(localStorage.getItem('omnicortex_admin_override') === 'true');
+
+  const openAuthModal = () => setIsAuthModalOpen(true);
+  const closeAuthModal = () => setIsAuthModalOpen(false);
+  const triggerBootSplash = () => setShowSplash(true);
 
   const refreshUserHandle = () => {
     setUserHandle(localStorage.getItem('userHandle') || '');
@@ -28,7 +36,13 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     let userUnsub = null;
 
+    // Safety watchdog: ensure auth resolution never hangs beyond 4.5s
+    const watchdogTimer = setTimeout(() => {
+      setLoading(false);
+    }, 4500);
+
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      clearTimeout(watchdogTimer);
       setCurrentUser(user);
       if (userUnsub) {
         userUnsub();
@@ -82,11 +96,23 @@ export const AuthProvider = ({ children }) => {
     window.addEventListener('storage', handleStorageChange);
 
     return () => {
+      clearTimeout(watchdogTimer);
       unsubscribe();
       if (userUnsub) userUnsub();
       window.removeEventListener('storage', handleStorageChange);
     };
   }, []);
+
+  const handleSplashComplete = () => {
+    setShowSplash(false);
+    setLoading(false);
+    // On first launch if unauthenticated, prompt with the themed Terran Data Net gateway
+    const guestDismissed = localStorage.getItem('terran_net_guest_dismissed');
+    const storedHandle = localStorage.getItem('userHandle');
+    if (!auth.currentUser && !guestDismissed && !storedHandle) {
+      setIsAuthModalOpen(true);
+    }
+  };
 
   const isAdmin = hasAdminClaim || adminOverride;
   const isGM = isAdmin || customClaims.role === 'GM';
@@ -119,12 +145,23 @@ export const AuthProvider = ({ children }) => {
     refreshUserHandle,
     loginWithGoogle,
     logout,
-    confirmLogout
+    confirmLogout,
+    isAuthModalOpen,
+    openAuthModal,
+    closeAuthModal,
+    triggerBootSplash
   };
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {children}
+      {showSplash && (
+        <SystemBootSplash onComplete={handleSplashComplete} />
+      )}
+      <TerranNetAuthModal
+        isOpen={isAuthModalOpen}
+        onClose={closeAuthModal}
+      />
     </AuthContext.Provider>
   );
 };

@@ -32,7 +32,7 @@ const AI_PLATFORM_LABELS = {
 };
 
 export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
-  const { currentUser, refreshUserHandle, userRole, isAdmin } = useAuth();
+  const { currentUser, refreshUserHandle, userRole, isAdmin, triggerBootSplash } = useAuth();
   
   // Navigation tab: 'identity' | 'audio' | 'ai' | 'manual' | 'system'
   const [activeTab, setActiveTab] = useState('identity');
@@ -577,6 +577,28 @@ export const UserSettingsModal = ({ isOpen, onClose, onSaveSuccess }) => {
                   </div>
 
                   <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-3">
+                    <div className="flex items-center justify-between pb-3 border-b border-slate-800/80">
+                      <div>
+                        <div className="font-mono text-xs font-bold text-cyan-300 uppercase">
+                          System Boot Diagnostics
+                        </div>
+                        <div className="text-[10px] text-slate-400">
+                          Replay the high-tech sci-fi boot splash and data stream diagnostics sequence.
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (triggerBootSplash) triggerBootSplash();
+                          onClose();
+                        }}
+                        className="px-3 py-1.5 bg-cyan-950/60 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300 rounded-xl font-mono text-xs font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer shadow-[0_0_10px_rgba(34,211,238,0.2)] shrink-0"
+                      >
+                        <Sparkles size={13} />
+                        <span>Run Diagnostics</span>
+                      </button>
+                    </div>
+
                     <div className="flex items-center justify-between">
                       <div>
                         <div className="font-mono text-xs font-bold text-white uppercase">

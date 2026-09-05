@@ -24,10 +24,12 @@ import {
   Database,
   ArrowUp,
   ArrowDown,
-  Layers
+  Layers,
+  Trash2
 } from 'lucide-react';
 import { useStory } from '../../../context/CampaignContext';
 import { useFolio } from '../../../context/FolioContext';
+import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { 
   getFolders, 
   getItemFolderAssignments, 
@@ -733,16 +735,35 @@ export const DashboardCatalogPanel = () => {
                         </div>
                       </div>
 
-                      {/* Right Action: Open Link + Folder Assignment */}
+                      {/* Right Action: Open Link + Delete + Folder Assignment */}
                       <div className="flex flex-col items-end gap-1.5 shrink-0">
-                        <button
-                          onClick={() => handleOpenPersona(docId)}
-                          className="px-2 py-1 bg-emerald-950/70 hover:bg-emerald-900 text-emerald-300 border border-emerald-500/40 rounded-lg text-[10px] font-mono font-bold uppercase flex items-center gap-1 transition-colors cursor-pointer"
-                          title="Open in Persona Folio"
-                        >
-                          <span>Open</span>
-                          <ExternalLink size={10} />
-                        </button>
+                        <div className="flex items-center gap-1">
+                          <button
+                            onClick={() => handleOpenPersona(docId)}
+                            className="px-2 py-1 bg-emerald-950/70 hover:bg-emerald-900 text-emerald-300 border border-emerald-500/40 rounded-lg text-[10px] font-mono font-bold uppercase flex items-center gap-1 transition-colors cursor-pointer"
+                            title="Open in Persona Folio"
+                          >
+                            <span>Open</span>
+                            <ExternalLink size={10} />
+                          </button>
+
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              const charName = persona['char-name'] || 'Unnamed Operative';
+                              if (confirmTypedDeletion(charName, 'operative persona')) {
+                                AudioService.playTerminalBeep(900, 0.03);
+                                if (folio.deleteRosterCharacter) {
+                                  folio.deleteRosterCharacter(docId);
+                                }
+                              }
+                            }}
+                            className="p-1 bg-slate-900 hover:bg-red-950/80 border border-slate-800 hover:border-red-500/50 text-slate-400 hover:text-red-400 rounded-lg transition-colors cursor-pointer"
+                            title="Delete Operative Persona"
+                          >
+                            <Trash2 size={11} />
+                          </button>
+                        </div>
 
                         {/* Reorder Buttons (When Custom Sort selected) */}
                         {sortBy === 'custom' && (

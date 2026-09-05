@@ -26,10 +26,16 @@ const CommsPage = lazy(() => import('./pages/CommsPage'));
 const StageView = lazy(() => import('./components/VTT/TripartiteStageView'));
 
 const PageLoader = () => (
-  <div className="flex-1 flex items-center justify-center bg-[#0d1117] text-cyan-400 font-mono text-sm tracking-wider h-full w-full">
-    <div className="flex items-center space-x-3">
-      <div className="w-5 h-5 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin"></div>
-      <span>LOADING SYSTEM MODULE...</span>
+  <div className="flex-1 flex flex-col items-center justify-center bg-[#090d16] text-cyan-400 font-mono text-xs tracking-wider h-full w-full select-none">
+    <div className="p-6 rounded-2xl bg-[#0d1117]/80 border border-cyan-500/30 backdrop-blur-xl shadow-[0_0_30px_rgba(34,211,238,0.15)] flex flex-col items-center space-y-3">
+      <div className="relative w-8 h-8 flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-cyan-400/20 border-t-cyan-400 rounded-full animate-spin"></div>
+        <div className="absolute w-2 h-2 rounded-full bg-cyan-400 animate-ping"></div>
+      </div>
+      <div className="text-center space-y-1">
+        <div className="font-bold tracking-widest text-cyan-300">LOADING SYSTEM MODULE</div>
+        <div className="text-[10px] text-slate-400 font-mono">TERRAN DATA NET SYNC ACTIVE</div>
+      </div>
     </div>
   </div>
 );

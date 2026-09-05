@@ -204,6 +204,38 @@ export const isFolioPersonaDeleted = (docId, tombstones = null) => {
   return new Set(list).has(docId.toString().trim());
 };
 
+/**
+ * Checks if a persona is an untouched, empty template ghost
+ * (blank or default name, no attributes, skills, concept, species, or backstory customization).
+ */
+export const isPersonaEmptyTemplate = (char) => {
+  if (!char || typeof char !== 'object') return true;
+
+  const name = (char['char-name'] || char.name || '').trim();
+  const isDefaultName = !name || name.toLowerCase() === 'unnamed operative';
+
+  const hasConcept = Boolean(char['char-concept'] && char['char-concept'].trim() && char['char-concept'].trim().toLowerCase() !== 'unnamed operative');
+  const hasArchetype = Boolean(char['char-archetype'] && char['char-archetype'].trim());
+  const hasSpecies = Boolean(char['char-species'] && char['char-species'].trim() && char['char-species'] !== 'Human');
+  const hasOccu = Boolean(char['char-occu'] && char['char-occu'].trim());
+  const hasFaction = Boolean(char['char-faction'] && char['char-faction'].trim());
+  const hasOrigin = Boolean(char['char-origin'] && char['char-origin'].trim());
+  const hasBackstory = Boolean(char.backstory && char.backstory.trim());
+  const hasMotive = Boolean(char['char-motive'] && char['char-motive'].trim());
+
+  const primaryAttrs = ['attr-strength', 'attr-agility', 'attr-stamina', 'attr-intellect', 'attr-wisdom', 'attr-charisma'];
+  const hasAttrAlloc = primaryAttrs.some(k => parseInt(char[k], 10) > 0);
+
+  const hasSkills = Object.keys(char).some(k => k.startsWith('skill-') && k.endsWith('-rank') && parseInt(char[k], 10) > 0);
+  const hasAttacks = Array.isArray(char.attacks) && char.attacks.length > 0;
+  const hasFeatures = Array.isArray(char.features) && char.features.length > 0;
+
+  if (isDefaultName && !hasConcept && !hasArchetype && !hasSpecies && !hasOccu && !hasFaction && !hasOrigin && !hasBackstory && !hasMotive && !hasAttrAlloc && !hasSkills && !hasAttacks && !hasFeatures) {
+    return true;
+  }
+  return false;
+};
+
 // Clean up and migrate legacy compound or phantom category skill keys
 export const sanitizeCharacterSkills = (charData) => {
   if (!charData || typeof charData !== 'object') return charData;
@@ -285,11 +317,23 @@ export const FolioProvider = ({ children }) => {
       const saved = localStorage.getItem('personaFolioData') || sessionStorage.getItem('personaFolioData');
       if (saved) {
         const parsed = characterSchema.parse(JSON.parse(saved));
-        if (!isFolioPersonaDeleted(parsed['character-doc-id'], tombstones)) {
+        if (!isFolioPersonaDeleted(parsed['character-doc-id'], tombstones) && !isPersonaEmptyTemplate(parsed)) {
           if (!parsed['character-doc-id']) {
             parsed['character-doc-id'] = `char_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
           }
           return sanitizeCharacterSkills(parsed);
+        }
+      }
+
+      // Check if personaRoster cache has a valid operative we can load instead of a blank sheet
+      const savedRoster = localStorage.getItem('personaRoster');
+      if (savedRoster) {
+        const parsedRoster = JSON.parse(savedRoster);
+        if (Array.isArray(parsedRoster)) {
+          const firstValid = parsedRoster.find(c => !isFolioPersonaDeleted(c['character-doc-id'], tombstones) && !isPersonaEmptyTemplate(c));
+          if (firstValid) {
+            return sanitizeCharacterSkills(firstValid);
+          }
         }
       }
     } catch (e) {
@@ -328,7 +372,7 @@ export const FolioProvider = ({ children }) => {
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed)) {
-          return parsed.filter(c => !isFolioPersonaDeleted(c['character-doc-id'], tombstones));
+          return parsed.filter(c => !isFolioPersonaDeleted(c['character-doc-id'], tombstones) && !isPersonaEmptyTemplate(c));
         }
       }
     } catch (e) {
@@ -342,16 +386,27 @@ export const FolioProvider = ({ children }) => {
     let isMounted = true;
     async function hydrateCacheFromStorage() {
       try {
-        const tombstones = getFolioTombstones();
-        const [cachedRoster, cachedCharacter] = await Promise.all([
+        const localTombstones = getFolioTombstones();
+        const [cachedRoster, cachedCharacter, cachedTombstones] = await Promise.all([
           StorageService.getItem('personaRoster'),
-          StorageService.getItem('personaFolioData')
+          StorageService.getItem('personaFolioData'),
+          StorageService.getItem(FOLIO_TOMBSTONES_KEY)
         ]);
 
         if (!isMounted) return;
 
+        // Merge tombstones across StorageService and localStorage
+        const tombstones = Array.from(new Set([
+          ...(localTombstones || []),
+          ...(Array.isArray(cachedTombstones) ? cachedTombstones : [])
+        ]));
+        if (tombstones.length > (localTombstones?.length || 0)) {
+          localStorage.setItem(FOLIO_TOMBSTONES_KEY, JSON.stringify(tombstones));
+        }
+
+        let validRoster = [];
         if (Array.isArray(cachedRoster) && cachedRoster.length > 0) {
-          const validRoster = cachedRoster.filter(c => !isFolioPersonaDeleted(c['character-doc-id'], tombstones));
+          validRoster = cachedRoster.filter(c => !isFolioPersonaDeleted(c['character-doc-id'], tombstones) && !isPersonaEmptyTemplate(c));
           setPersonaRoster(validRoster);
           localStorage.setItem('personaRoster', JSON.stringify(validRoster));
         }
@@ -359,19 +414,22 @@ export const FolioProvider = ({ children }) => {
         if (cachedCharacter && typeof cachedCharacter === 'object') {
           try {
             const parsed = characterSchema.parse(cachedCharacter);
-            if (!isFolioPersonaDeleted(parsed['character-doc-id'], tombstones)) {
-              setCharacterData(prev => {
-                // Only hydrate if active character is currently empty/default
-                if (!prev['char-name'] && !prev['character-doc-id']) {
-                  return parsed;
-                }
-                return prev;
-              });
+            if (!isFolioPersonaDeleted(parsed['character-doc-id'], tombstones) && !isPersonaEmptyTemplate(parsed)) {
+              setCharacterData(sanitizeCharacterSkills(parsed));
+              return;
             }
           } catch (e) {
             console.warn('[FolioContext] Saved character failed schema parse during hydration:', e);
           }
         }
+
+        // If active character is currently an empty template and we have valid roster items, hydrate to first roster item
+        setCharacterData(prev => {
+          if (isPersonaEmptyTemplate(prev) && validRoster.length > 0) {
+            return sanitizeCharacterSkills(validRoster[0]);
+          }
+          return prev;
+        });
       } catch (err) {
         console.warn('[FolioContext] Failed to hydrate cache from StorageService:', err);
       }
@@ -432,15 +490,49 @@ export const FolioProvider = ({ children }) => {
       const personasRef = collection(db, `users/${user.uid}/personas`);
       firestoreUnsub = onSnapshot(personasRef, (snapshot) => {
         const tombstones = getFolioTombstones();
-        const personas = snapshot.docs
-          .map(d => ({ ...d.data(), 'character-doc-id': d.id, ownerUid: user.uid }))
-          .filter(p => !isFolioPersonaDeleted(p['character-doc-id'], tombstones));
+        const personas = [];
+        const ghostsToDelete = [];
+
+        snapshot.docs.forEach(d => {
+          const docData = d.data();
+          const charId = d.id;
+          const charObj = { ...docData, 'character-doc-id': charId, ownerUid: user.uid };
+
+          if (isFolioPersonaDeleted(charId, tombstones)) {
+            ghostsToDelete.push(charId);
+            return;
+          }
+
+          if (isPersonaEmptyTemplate(charObj)) {
+            // Phantom empty operative spawned by auto-save bug: clean it up
+            ghostsToDelete.push(charId);
+            addFolioTombstone(charId);
+            return;
+          }
+
+          personas.push(charObj);
+        });
+
+        // Clean up ghost/deleted documents from Firestore in background
+        if (ghostsToDelete.length > 0) {
+          ghostsToDelete.forEach(gid => {
+            deleteDoc(doc(db, `users/${user.uid}/personas`, gid)).catch(() => {});
+          });
+        }
+
         setPersonaRoster(personas);
-        // Mirror to StorageService & localStorage as offline cache
         StorageService.setItem('personaRoster', personas);
         try {
           localStorage.setItem('personaRoster', JSON.stringify(personas));
         } catch (e) {}
+
+        // If active character is currently an empty template and we have valid personas, sync to first
+        setCharacterData(prev => {
+          if (isPersonaEmptyTemplate(prev) && personas.length > 0) {
+            return sanitizeCharacterSkills(personas[0]);
+          }
+          return prev;
+        });
       }, (err) => {
         console.warn('Firestore personas listener error:', err.message);
       });
@@ -467,18 +559,17 @@ export const FolioProvider = ({ children }) => {
     const executeSave = async () => {
       const user = auth.currentUser;
       const currentData = characterDataRef.current;
-      let docId = currentData['character-doc-id'];
+      if (!currentData) return;
+
+      const docId = currentData['character-doc-id'];
       
-      // Ensure character has a valid document ID
-      if (!docId) {
-        docId = `char_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
-        currentData['character-doc-id'] = docId;
-        characterDataRef.current = { ...currentData, 'character-doc-id': docId };
-        setCharacterData(prev => ({ ...prev, 'character-doc-id': docId }));
+      // Do not save if character has been deleted or has no ID
+      if (!docId || isFolioPersonaDeleted(docId)) {
+        return;
       }
 
-      // Do not save if character has been deleted
-      if (isFolioPersonaDeleted(docId)) {
+      // CRITICAL: Do NOT auto-save an empty template / blank operative!
+      if (isPersonaEmptyTemplate(currentData)) {
         return;
       }
 
@@ -490,12 +581,16 @@ export const FolioProvider = ({ children }) => {
       };
       const updatedData = attachCreatorTag(rawData, localStorage.getItem('userHandle'), user);
 
-      // Always persist to local cache & roster state so changes are NEVER lost
+      // Always persist active character to local storage so user does not lose work in progress
       StorageService.setItem('personaFolioData', updatedData);
       try {
         sessionStorage.setItem('personaFolioData', JSON.stringify(updatedData));
         localStorage.setItem('personaFolioData', JSON.stringify(updatedData));
       } catch (e) {}
+
+      // Update personaRoster ONLY if it's already in roster or has a customized name
+      const charName = (currentData['char-name'] || '').trim();
+      const hasRealName = Boolean(charName && charName.toLowerCase() !== 'unnamed operative');
 
       setPersonaRoster(prev => {
         const idx = prev.findIndex(c => c['character-doc-id'] === docId);
@@ -503,8 +598,10 @@ export const FolioProvider = ({ children }) => {
         if (idx >= 0) {
           next = [...prev];
           next[idx] = updatedData;
-        } else {
+        } else if (hasRealName) {
           next = [updatedData, ...prev];
+        } else {
+          return prev;
         }
         StorageService.setItem('personaRoster', next);
         try {
@@ -1281,10 +1378,17 @@ export const FolioProvider = ({ children }) => {
   // Roster Management Actions: Save current sheet to roster and cloud
   const saveCurrentToRoster = useCallback(async () => {
     const user = auth.currentUser;
-    const name = characterData['char-name'] || 'Unnamed Operative';
+    let name = (characterData['char-name'] || '').trim();
+    if (!name || name.toLowerCase() === 'unnamed operative') {
+      const entered = window.prompt("Enter a name for this operative before saving:", "New Operative");
+      if (entered === null) return null; // Cancelled
+      name = entered.trim() || 'New Operative';
+    }
+
     const docId = characterData['character-doc-id'] || `char_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
     const rawData = {
       ...characterData,
+      'char-name': name,
       'character-doc-id': docId,
       ownerUid: user ? user.uid : 'local',
       updatedAt: new Date().toISOString()
@@ -1469,19 +1573,7 @@ export const FolioProvider = ({ children }) => {
       saveTimeoutRef.current = null;
     }
 
-    if (!targetId) {
-      const resetChar = {
-        ...DEFAULT_CHARACTER,
-        'character-doc-id': `char_${Date.now()}`
-      };
-      characterDataRef.current = resetChar;
-      setCharacterData(resetChar);
-      StorageService.removeItem('personaFolioData');
-      sessionStorage.removeItem('personaFolioData');
-      localStorage.removeItem('personaFolioData');
-      setIsReadOnly(false);
-      return;
-    }
+    if (!targetId) return;
 
     // Persist to tombstones immediately so no background query or cache restores it
     addFolioTombstone(targetId);
@@ -1499,8 +1591,9 @@ export const FolioProvider = ({ children }) => {
 
     // 3. Reset or switch characterData if the active character is being deleted
     if (characterData['character-doc-id'] === targetId) {
-      if (updatedRoster.length > 0) {
-        const nextChar = sanitizeCharacterSkills(updatedRoster[0]);
+      const validNext = updatedRoster.find(c => !isPersonaEmptyTemplate(c));
+      if (validNext) {
+        const nextChar = sanitizeCharacterSkills(validNext);
         characterDataRef.current = nextChar;
         setCharacterData(nextChar);
         StorageService.setItem('personaFolioData', nextChar);
@@ -1511,13 +1604,15 @@ export const FolioProvider = ({ children }) => {
       } else {
         const resetChar = {
           ...DEFAULT_CHARACTER,
-          'character-doc-id': `char_${Date.now()}`
+          'character-doc-id': `char_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`
         };
         characterDataRef.current = resetChar;
         setCharacterData(resetChar);
         StorageService.removeItem('personaFolioData');
-        sessionStorage.removeItem('personaFolioData');
-        localStorage.removeItem('personaFolioData');
+        try {
+          sessionStorage.removeItem('personaFolioData');
+          localStorage.removeItem('personaFolioData');
+        } catch (e) {}
       }
       setIsReadOnly(false);
     }
@@ -2801,14 +2896,19 @@ export const FolioProvider = ({ children }) => {
   }, [triggerSave]);
 
   // Reset / New Character
-  const handleNewCharacter = useCallback(() => {
-    const newName = window.prompt("Enter character name:", "Unnamed Operative");
-    if (newName === null) return;
+  const handleNewCharacter = useCallback((initialName = '') => {
+    let name = (typeof initialName === 'string' ? initialName : '').trim();
+    if (!name) {
+      const entered = window.prompt("Enter operative name:", "New Operative");
+      if (entered === null) return; // User cancelled
+      name = entered.trim() || 'New Operative';
+    }
+
     const user = auth.currentUser;
     const docId = `char_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
     const raw = {
       ...DEFAULT_CHARACTER,
-      'char-name': newName || 'Unnamed Operative',
+      'char-name': name,
       'character-doc-id': docId,
       ownerUid: user ? user.uid : 'local',
       updatedAt: new Date().toISOString()
