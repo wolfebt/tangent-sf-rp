@@ -16,9 +16,12 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     getAttrTotal,
     applyCharacterDamage,
     updateCharacterHealth,
-    updateCharacterVitality
+    updateCharacterVitality,
+    isLocked,
+    isPlayerOverride
   } = useFolio();
   const { openDiceRoller } = useDice();
+  const isSheetLocked = Boolean(isLocked && !isPlayerOverride);
 
   const [combatView, setCombatView] = useState('all'); // 'all' | 'offensive' | 'defensive'
   const [latestDamageRoll, setLatestDamageRoll] = useState(null);
@@ -502,36 +505,40 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
             </div>
 
             <div className="flex items-center gap-2 shrink-0 flex-wrap">
-              {onOpenSelectorModal && (
-                <button
-                  type="button"
-                  onClick={() => onOpenSelectorModal('weapons', 'Weaponry', 'weaponry')}
-                  className="px-3 py-1.5 bg-amber-950/90 hover:bg-amber-900 border border-amber-500/60 text-amber-300 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_8px_rgba(245,158,11,0.2)] cursor-pointer"
-                  title="Open Weapons Catalog with build option"
-                >
-                  <span>✨</span>
-                  <span>+ Add Weapon</span>
-                </button>
+              {!isSheetLocked && (
+                <>
+                  {onOpenSelectorModal && (
+                    <button
+                      type="button"
+                      onClick={() => onOpenSelectorModal('weapons', 'Weaponry', 'weaponry')}
+                      className="px-3 py-1.5 bg-amber-950/90 hover:bg-amber-900 border border-amber-500/60 text-amber-300 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_8px_rgba(245,158,11,0.2)] cursor-pointer"
+                      title="Open Weapons Catalog with build option"
+                    >
+                      <span>✨</span>
+                      <span>+ Add Weapon</span>
+                    </button>
+                  )}
+                  {unreadiedWeapons.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={readyAllWeapons}
+                      className="px-3 py-1.5 bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_8px_rgba(6,182,212,0.2)] cursor-pointer"
+                      title={`Ready ${unreadiedWeapons.length} unreadied weapon(s) from Property Weaponry`}
+                    >
+                      <span>⚔️</span>
+                      <span>Ready from Property ({unreadiedWeapons.length})</span>
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    onClick={addAttack}
+                    className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white rounded-lg text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                    title="Add empty scratch row"
+                  >
+                    + Quick Row
+                  </button>
+                </>
               )}
-              {unreadiedWeapons.length > 0 && (
-                <button
-                  type="button"
-                  onClick={readyAllWeapons}
-                  className="px-3 py-1.5 bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_8px_rgba(6,182,212,0.2)] cursor-pointer"
-                  title={`Ready ${unreadiedWeapons.length} unreadied weapon(s) from Property Weaponry`}
-                >
-                  <span>⚔️</span>
-                  <span>Ready from Property ({unreadiedWeapons.length})</span>
-                </button>
-              )}
-              <button
-                type="button"
-                onClick={addAttack}
-                className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white rounded-lg text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
-                title="Add empty scratch row"
-              >
-                + Quick Row
-              </button>
             </div>
           </div>
 
@@ -540,80 +547,86 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
             <div className="hidden sm:grid grid-cols-12 gap-2 px-2.5 text-[10px] font-mono uppercase font-bold text-slate-400 border-b border-slate-800/80 pb-1">
               <span className="col-span-3">Weapon / Attack</span>
               <div className="col-span-2 text-center">
-                <FolioTooltip title="Attack Check Score" badge="Hit Check" badgeColor="cyan" description="Governing combat skill + base attribute + situational modifiers rolled vs target defense." asWrapper={false}>
+                <FolioTooltip title="Attack Check Score" badge="Hit Check" badgeColor="cyan" description="Attack modifier score added to 2d10 (or d20) to contest target Defense." asWrapper={false}>
                   <span className="text-cyan-400 cursor-help hover:underline">Check Score ⓘ</span>
                 </FolioTooltip>
               </div>
               <div className="col-span-2 text-center">
-                <FolioTooltip title="Damage Formula" badge="Dice Roll" badgeColor="amber" description="Dice notation rolled upon hitting the target (e.g. 2d6+3, 1d10). Click the roll button to test." asWrapper={false}>
+                <FolioTooltip title="Damage Formula" badge="Dice Roll" badgeColor="amber" description="Base damage dice expression (e.g. 2d6+2, 1d10, 3d8) rolled on successful strike." asWrapper={false}>
                   <span className="text-amber-400 cursor-help hover:underline">Damage ⓘ</span>
                 </FolioTooltip>
               </div>
-              <div className="col-span-2">
-                <FolioTooltip title="Damage Type" badge="Category" badgeColor="rose" description="Damage category (Kinetic, Ballistic, Energy, Plasma, Metaphysical, Sonic, Thermal, Cryo) matched against armor resistances." asWrapper={false}>
-                  <span className="cursor-help hover:underline">Type ⓘ</span>
-                </FolioTooltip>
-              </div>
-              <div className="col-span-1">
-                <FolioTooltip title="Tactical Weapon Notes" badge="Properties" badgeColor="slate" description="Weapon traits such as Armor Piercing (AP), Burst Fire, Reach, Autofire, Stun, or Range increments." asWrapper={false}>
-                  <span className="cursor-help hover:underline truncate">Notes ⓘ</span>
-                </FolioTooltip>
-              </div>
+              <span className="col-span-2">Dmg Type</span>
+              <span className="col-span-1">Notes</span>
               <span className="col-span-2 text-right">Actions</span>
             </div>
           )}
 
-          {/* Attacks Table */}
+          {/* Attack Table */}
           <div className="space-y-2 max-h-80 overflow-y-auto pr-1">
             {attacks.length === 0 ? (
               <div className="text-xs text-slate-400 italic py-6 text-center border border-dashed border-slate-800 rounded-lg space-y-2.5">
                 <p>No active offensive attacks configured.</p>
-                <div className="flex flex-wrap items-center justify-center gap-2 not-italic">
-                  {onOpenSelectorModal && (
+                {!isSheetLocked && (
+                  <div className="flex flex-wrap items-center justify-center gap-2 not-italic">
+                    {onOpenSelectorModal && (
+                      <button
+                        type="button"
+                        onClick={() => onOpenSelectorModal('weapons', 'Weaponry', 'weaponry')}
+                        className="px-3 py-1 bg-amber-950/90 border border-amber-500/50 text-amber-300 hover:bg-amber-900 rounded text-xs font-bold transition-colors cursor-pointer"
+                      >
+                        ✨ + Add Weapon from Catalog
+                      </button>
+                    )}
+                    {unreadiedWeapons.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={readyAllWeapons}
+                        className="px-3 py-1 bg-cyan-950/90 border border-cyan-500/50 text-cyan-300 hover:bg-cyan-900 rounded text-xs font-bold transition-colors cursor-pointer"
+                      >
+                        ⚔️ Ready {unreadiedWeapons.length} Weapon(s) from Property
+                      </button>
+                    )}
                     <button
                       type="button"
-                      onClick={() => onOpenSelectorModal('weapons', 'Weaponry', 'weaponry')}
-                      className="px-3 py-1 bg-amber-950/90 border border-amber-500/50 text-amber-300 hover:bg-amber-900 rounded text-xs font-bold transition-colors cursor-pointer"
+                      onClick={addAttack}
+                      className="px-3 py-1 bg-slate-800 border border-slate-700 text-slate-200 hover:bg-slate-700 rounded text-xs font-bold transition-colors cursor-pointer"
                     >
-                      ✨ + Add Weapon from Catalog
+                      + Quick Scratch Row
                     </button>
-                  )}
-                  {unreadiedWeapons.length > 0 && (
-                    <button
-                      type="button"
-                      onClick={readyAllWeapons}
-                      className="px-3 py-1 bg-cyan-950/90 border border-cyan-500/50 text-cyan-300 hover:bg-cyan-900 rounded text-xs font-bold transition-colors cursor-pointer"
-                    >
-                      ⚔️ Ready {unreadiedWeapons.length} Weapon(s) from Property
-                    </button>
-                  )}
-                  <button
-                    type="button"
-                    onClick={addAttack}
-                    className="px-3 py-1 bg-slate-800 border border-slate-700 text-slate-200 hover:bg-slate-700 rounded text-xs font-bold transition-colors cursor-pointer"
-                  >
-                    + Quick Scratch Row
-                  </button>
-                </div>
+                  </div>
+                )}
               </div>
             ) : (
               attacks.map((att, idx) => (
               <div key={idx} className="grid grid-cols-12 gap-2 items-center bg-slate-950/80 p-2.5 rounded-lg border border-slate-800 text-xs hover:border-amber-900/60 transition-colors">
-                <input
-                  type="text"
-                  placeholder="Attack / Weapon Name"
-                  value={att.name || ''}
-                  onChange={(e) => updateAttack(idx, 'name', e.target.value)}
-                  className="col-span-3 bg-slate-900 border border-slate-700 focus:border-amber-400 rounded px-2.5 py-1.5 text-slate-100 outline-none font-medium"
-                />
-                <div className="col-span-2 flex items-center gap-1">
+                {isSheetLocked ? (
+                  <span className="col-span-3 text-slate-100 font-medium truncate py-1">
+                    {att.name || <span className="text-slate-600 italic">Unnamed Attack</span>}
+                  </span>
+                ) : (
                   <input
                     type="text"
-                    placeholder="Check Score"
-                    value={att.score || ''}
-                    onChange={(e) => updateAttack(idx, 'score', e.target.value)}
-                    className="w-full text-center bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded px-1 py-1.5 text-cyan-300 font-mono font-bold outline-none text-xs"
+                    placeholder="Attack / Weapon Name"
+                    value={att.name || ''}
+                    onChange={(e) => updateAttack(idx, 'name', e.target.value)}
+                    className="col-span-3 bg-slate-900 border border-slate-700 focus:border-amber-400 rounded px-2.5 py-1.5 text-slate-100 outline-none font-medium"
                   />
+                )}
+                <div className="col-span-2 flex items-center gap-1">
+                  {isSheetLocked ? (
+                    <span className="w-full text-center text-cyan-300 font-mono font-bold text-xs">
+                      {att.score || 0}
+                    </span>
+                  ) : (
+                    <input
+                      type="text"
+                      placeholder="Check Score"
+                      value={att.score || ''}
+                      onChange={(e) => updateAttack(idx, 'score', e.target.value)}
+                      className="w-full text-center bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded px-1 py-1.5 text-cyan-300 font-mono font-bold outline-none text-xs"
+                    />
+                  )}
                   <button
                     type="button"
                     onClick={() => {
@@ -635,13 +648,19 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                 </div>
 
                 <div className="col-span-2 flex items-center gap-1">
-                  <input
-                    type="text"
-                    placeholder="Damage Formula"
-                    value={att.damage || ''}
-                    onChange={(e) => updateAttack(idx, 'damage', e.target.value)}
-                    className="w-full text-center bg-slate-900 border border-slate-700 focus:border-amber-400 rounded px-1 py-1.5 text-amber-300 font-mono font-bold outline-none text-xs"
-                  />
+                  {isSheetLocked ? (
+                    <span className="w-full text-center text-amber-300 font-mono font-bold text-xs truncate">
+                      {att.damage || '-'}
+                    </span>
+                  ) : (
+                    <input
+                      type="text"
+                      placeholder="Damage Formula"
+                      value={att.damage || ''}
+                      onChange={(e) => updateAttack(idx, 'damage', e.target.value)}
+                      className="w-full text-center bg-slate-900 border border-slate-700 focus:border-amber-400 rounded px-1 py-1.5 text-amber-300 font-mono font-bold outline-none text-xs"
+                    />
+                  )}
                   {att.damage && (
                     <button
                       type="button"
@@ -663,20 +682,32 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                   )}
                 </div>
 
-                <input
-                  type="text"
-                  placeholder="Damage Type"
-                  value={att.type || ''}
-                  onChange={(e) => updateAttack(idx, 'type', e.target.value)}
-                  className="col-span-2 bg-slate-900 border border-slate-700 focus:border-amber-400 rounded px-2 py-1.5 text-slate-300 outline-none"
-                />
-                <input
-                  type="text"
-                  placeholder="Tactical Notes"
-                  value={att.notes || ''}
-                  onChange={(e) => updateAttack(idx, 'notes', e.target.value)}
-                  className="col-span-1 bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded px-2 py-1.5 text-slate-400 outline-none truncate"
-                />
+                {isSheetLocked ? (
+                  <span className="col-span-2 text-slate-300 text-xs truncate">
+                    {att.type || '-'}
+                  </span>
+                ) : (
+                  <input
+                    type="text"
+                    placeholder="Damage Type"
+                    value={att.type || ''}
+                    onChange={(e) => updateAttack(idx, 'type', e.target.value)}
+                    className="col-span-2 bg-slate-900 border border-slate-700 focus:border-amber-400 rounded px-2 py-1.5 text-slate-300 outline-none"
+                  />
+                )}
+                {isSheetLocked ? (
+                  <span className="col-span-1 text-slate-400 text-xs truncate" title={att.notes}>
+                    {att.notes || '-'}
+                  </span>
+                ) : (
+                  <input
+                    type="text"
+                    placeholder="Tactical Notes"
+                    value={att.notes || ''}
+                    onChange={(e) => updateAttack(idx, 'notes', e.target.value)}
+                    className="col-span-1 bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded px-2 py-1.5 text-slate-400 outline-none truncate"
+                  />
+                )}
                 <div className="col-span-2 flex items-center justify-end gap-1">
                   <button
                     type="button"
@@ -717,7 +748,7 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       <span>Dmg</span>
                     </button>
                   )}
-                  {onOpenAssetModal && (
+                  {!isSheetLocked && onOpenAssetModal && (
                     <button
                       type="button"
                       onClick={() => onOpenAssetModal('attacks', 'Attack Weapon', 'edit', idx, att)}
@@ -727,19 +758,20 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       ✏️
                     </button>
                   )}
-                  <button
-                    type="button"
-                    onClick={() => removeAttack(idx)}
-                    className="text-slate-500 hover:text-red-400 font-bold text-sm px-0.5 cursor-pointer"
-                  >
-                    &times;
-                  </button>
+                  {!isSheetLocked && (
+                    <button
+                      type="button"
+                      onClick={() => removeAttack(idx)}
+                      className="text-slate-500 hover:text-red-400 font-bold text-sm px-0.5 cursor-pointer"
+                    >
+                      &times;
+                    </button>
+                  )}
                 </div>
               </div>
-            ))
-          )}
+            )))}
+          </div>
         </div>
-      </div>
       )}
 
       {/* 2. DEFENSIVE CAPABILITIES BLOCK */}
@@ -769,36 +801,40 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
             </div>
 
             <div className="flex items-center gap-2 shrink-0 flex-wrap">
-              {onOpenSelectorModal && (
-                <button
-                  type="button"
-                  onClick={() => onOpenSelectorModal('armoring', 'Armor & Defense', 'armoring')}
-                  className="px-3 py-1.5 bg-emerald-950/90 hover:bg-emerald-900 border border-emerald-500/60 text-emerald-300 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_8px_rgba(16,185,129,0.2)] cursor-pointer"
-                  title="Open Armor Catalog with build option"
-                >
-                  <span>✨</span>
-                  <span>+ Add Armor</span>
-                </button>
+              {!isSheetLocked && (
+                <>
+                  {onOpenSelectorModal && (
+                    <button
+                      type="button"
+                      onClick={() => onOpenSelectorModal('armoring', 'Armor & Defense', 'armoring')}
+                      className="px-3 py-1.5 bg-emerald-950/90 hover:bg-emerald-900 border border-emerald-500/60 text-emerald-300 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_8px_rgba(16,185,129,0.2)] cursor-pointer"
+                      title="Open Armor Catalog with build option"
+                    >
+                      <span>✨</span>
+                      <span>+ Add Armor</span>
+                    </button>
+                  )}
+                  {unreadiedArmors.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={readyAllArmors}
+                      className="px-3 py-1.5 bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_8px_rgba(6,182,212,0.2)] cursor-pointer"
+                      title={`Ready ${unreadiedArmors.length} armor item(s) from Property Armoring`}
+                    >
+                      <span>🛡️</span>
+                      <span>Ready from Property ({unreadiedArmors.length})</span>
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    onClick={addArmor}
+                    className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white rounded-lg text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                    title="Add empty scratch row"
+                  >
+                    + Quick Row
+                  </button>
+                </>
               )}
-              {unreadiedArmors.length > 0 && (
-                <button
-                  type="button"
-                  onClick={readyAllArmors}
-                  className="px-3 py-1.5 bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_8px_rgba(6,182,212,0.2)] cursor-pointer"
-                  title={`Ready ${unreadiedArmors.length} armor item(s) from Property Armoring`}
-                >
-                  <span>🛡️</span>
-                  <span>Ready from Property ({unreadiedArmors.length})</span>
-                </button>
-              )}
-              <button
-                type="button"
-                onClick={addArmor}
-                className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 hover:text-white rounded-lg text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
-                title="Add empty scratch row"
-              >
-                + Quick Row
-              </button>
             </div>
           </div>
 
@@ -830,83 +866,117 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
             {armors.length === 0 ? (
               <div className="text-xs text-slate-400 italic py-6 text-center border border-dashed border-slate-800 rounded-lg space-y-2.5">
                 <p>No defensive protection entries configured.</p>
-                <div className="flex flex-wrap items-center justify-center gap-2 not-italic">
-                  {onOpenSelectorModal && (
+                {!isSheetLocked && (
+                  <div className="flex flex-wrap items-center justify-center gap-2 not-italic">
+                    {onOpenSelectorModal && (
+                      <button
+                        type="button"
+                        onClick={() => onOpenSelectorModal('armoring', 'Armor & Defense', 'armoring')}
+                        className="px-3 py-1 bg-emerald-950/90 border border-emerald-500/50 text-emerald-300 hover:bg-emerald-900 rounded text-xs font-bold transition-colors cursor-pointer"
+                      >
+                        ✨ + Add Armor from Catalog
+                      </button>
+                    )}
+                    {unreadiedArmors.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={readyAllArmors}
+                        className="px-3 py-1 bg-cyan-950/90 border border-cyan-500/50 text-cyan-300 hover:bg-cyan-900 rounded text-xs font-bold transition-colors cursor-pointer"
+                      >
+                        🛡️ Ready {unreadiedArmors.length} Armor(s) from Property
+                      </button>
+                    )}
                     <button
                       type="button"
-                      onClick={() => onOpenSelectorModal('armoring', 'Armor & Defense', 'armoring')}
-                      className="px-3 py-1 bg-emerald-950/90 border border-emerald-500/50 text-emerald-300 hover:bg-emerald-900 rounded text-xs font-bold transition-colors cursor-pointer"
+                      onClick={addArmor}
+                      className="px-3 py-1 bg-slate-800 border border-slate-700 text-slate-200 hover:bg-slate-700 rounded text-xs font-bold transition-colors cursor-pointer"
                     >
-                      ✨ + Add Armor from Catalog
+                      + Quick Scratch Row
                     </button>
-                  )}
-                  {unreadiedArmors.length > 0 && (
-                    <button
-                      type="button"
-                      onClick={readyAllArmors}
-                      className="px-3 py-1 bg-cyan-950/90 border border-cyan-500/50 text-cyan-300 hover:bg-cyan-900 rounded text-xs font-bold transition-colors cursor-pointer"
-                    >
-                      🛡️ Ready {unreadiedArmors.length} Armor(s) from Property
-                    </button>
-                  )}
-                  <button
-                    type="button"
-                    onClick={addArmor}
-                    className="px-3 py-1 bg-slate-800 border border-slate-700 text-slate-200 hover:bg-slate-700 rounded text-xs font-bold transition-colors cursor-pointer"
-                  >
-                    + Quick Scratch Row
-                  </button>
-                </div>
+                  </div>
+                )}
               </div>
             ) : (
             armors.map((arm, idx) => (
               <div key={idx} className="grid grid-cols-12 gap-2 items-center bg-slate-950/80 p-2.5 rounded-lg border border-slate-800 text-xs hover:border-emerald-900/60 transition-colors">
-                <input
-                  type="text"
-                  placeholder="Defense / Armor Name"
-                  value={arm.name || ''}
-                  onChange={(e) => updateArmor(idx, 'name', e.target.value)}
-                  className="col-span-3 bg-slate-900 border border-slate-700 focus:border-emerald-400 rounded px-2.5 py-1.5 text-slate-100 outline-none font-medium"
-                />
-                <input
-                  type="text"
-                  placeholder="Resistance / DR"
-                  value={arm.resistance || ''}
-                  onChange={(e) => updateArmor(idx, 'resistance', e.target.value)}
-                  className="col-span-2 text-center bg-slate-900 border border-slate-700 focus:border-emerald-400 rounded px-1.5 py-1.5 text-emerald-300 font-mono font-bold outline-none"
-                />
-                <input
-                  type="text"
-                  placeholder="Armor Class / Type"
-                  value={arm.type || ''}
-                  onChange={(e) => updateArmor(idx, 'type', e.target.value)}
-                  className="col-span-2 bg-slate-900 border border-slate-700 focus:border-emerald-400 rounded px-2 py-1.5 text-slate-300 outline-none"
-                />
-                <input
-                  type="text"
-                  placeholder="Tactical Notes"
-                  value={arm.notes || ''}
-                  onChange={(e) => updateArmor(idx, 'notes', e.target.value)}
-                  className="col-span-3 bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded px-2 py-1.5 text-slate-400 outline-none truncate"
-                />
+                {isSheetLocked ? (
+                  <span className="col-span-3 text-slate-100 font-medium truncate py-1">
+                    {arm.name || <span className="text-slate-600 italic">Unnamed Armor</span>}
+                  </span>
+                ) : (
+                  <input
+                    type="text"
+                    placeholder="Defense / Armor Name"
+                    value={arm.name || ''}
+                    onChange={(e) => updateArmor(idx, 'name', e.target.value)}
+                    className="col-span-3 bg-slate-900 border border-slate-700 focus:border-emerald-400 rounded px-2.5 py-1.5 text-slate-100 outline-none font-medium"
+                  />
+                )}
+                {isSheetLocked ? (
+                  <span className="col-span-2 text-center text-emerald-300 font-mono font-bold text-xs">
+                    {arm.resistance || 0}
+                  </span>
+                ) : (
+                  <input
+                    type="text"
+                    placeholder="Resistance / DR"
+                    value={arm.resistance || ''}
+                    onChange={(e) => updateArmor(idx, 'resistance', e.target.value)}
+                    className="col-span-2 text-center bg-slate-900 border border-slate-700 focus:border-emerald-400 rounded px-1.5 py-1.5 text-emerald-300 font-mono font-bold outline-none"
+                  />
+                )}
+                {isSheetLocked ? (
+                  <span className="col-span-2 text-slate-300 text-xs truncate">
+                    {arm.type || '-'}
+                  </span>
+                ) : (
+                  <input
+                    type="text"
+                    placeholder="Armor Class / Type"
+                    value={arm.type || ''}
+                    onChange={(e) => updateArmor(idx, 'type', e.target.value)}
+                    className="col-span-2 bg-slate-900 border border-slate-700 focus:border-emerald-400 rounded px-2 py-1.5 text-slate-300 outline-none"
+                  />
+                )}
+                {isSheetLocked ? (
+                  <span className="col-span-3 text-slate-400 text-xs truncate" title={arm.notes}>
+                    {arm.notes || '-'}
+                  </span>
+                ) : (
+                  <input
+                    type="text"
+                    placeholder="Tactical Notes"
+                    value={arm.notes || ''}
+                    onChange={(e) => updateArmor(idx, 'notes', e.target.value)}
+                    className="col-span-3 bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded px-2 py-1.5 text-slate-400 outline-none truncate"
+                  />
+                )}
                 <div className="col-span-2 flex items-center justify-end gap-1.5">
-                  {onOpenAssetModal && (
-                    <button
-                      type="button"
-                      onClick={() => onOpenAssetModal('armor', 'Armor & Defense', 'edit', idx, arm)}
-                      className="text-slate-400 hover:text-cyan-300 p-1 cursor-pointer"
-                      title="Full asset edit & DB sync"
-                    >
-                      ✏️
-                    </button>
+                  {isSheetLocked ? (
+                    <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/40">
+                      Equipped
+                    </span>
+                  ) : (
+                    <>
+                      {onOpenAssetModal && (
+                        <button
+                          type="button"
+                          onClick={() => onOpenAssetModal('armor', 'Armor & Defense', 'edit', idx, arm)}
+                          className="text-slate-400 hover:text-cyan-300 p-1 cursor-pointer"
+                          title="Full asset edit & DB sync"
+                        >
+                          ✏️
+                        </button>
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => removeArmor(idx)}
+                        className="text-slate-500 hover:text-red-400 font-bold text-sm px-1 cursor-pointer"
+                      >
+                        &times;
+                      </button>
+                    </>
                   )}
-                  <button
-                    type="button"
-                    onClick={() => removeArmor(idx)}
-                    className="text-slate-500 hover:text-red-400 font-bold text-sm px-1 cursor-pointer"
-                  >
-                    &times;
-                  </button>
                 </div>
               </div>
             ))

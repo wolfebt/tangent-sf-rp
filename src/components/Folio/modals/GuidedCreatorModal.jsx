@@ -460,6 +460,21 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
 
     const docId = draft['character-doc-id'] || `char_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
 
+    // Calculate core primary and sub-attribute scores with canonical base: (Primary * 2) + 2 + species allocations
+    const finalStr = (draft.strength || 0) + (parseInt(draft.speciesAllocations?.attributes?.['attr-strength'] || 0, 10));
+    const finalAgi = (draft.agility || 0) + (parseInt(draft.speciesAllocations?.attributes?.['attr-agility'] || 0, 10));
+    const finalSta = (draft.stamina || 0) + (parseInt(draft.speciesAllocations?.attributes?.['attr-stamina'] || 0, 10));
+    const finalInt = (draft.intellect || 0) + (parseInt(draft.speciesAllocations?.attributes?.['attr-intellect'] || 0, 10));
+    const finalWis = (draft.wisdom || 0) + (parseInt(draft.speciesAllocations?.attributes?.['attr-wisdom'] || 0, 10));
+    const finalCha = (draft.charisma || 0) + (parseInt(draft.speciesAllocations?.attributes?.['attr-charisma'] || 0, 10));
+
+    const mightScore = (finalStr * 2) + 2 + parseInt(draft.speciesAllocations?.attributes?.['attr-might'] || 0, 10);
+    const reflexScore = (finalAgi * 2) + 2 + parseInt(draft.speciesAllocations?.attributes?.['attr-reflex'] || 0, 10);
+    const fortScore = (finalSta * 2) + 2 + parseInt(draft.speciesAllocations?.attributes?.['attr-fortitude'] || 0, 10);
+    const logicScore = (finalInt * 2) + 2 + parseInt(draft.speciesAllocations?.attributes?.['attr-logic'] || 0, 10);
+    const willScore = (finalWis * 2) + 2 + parseInt(draft.speciesAllocations?.attributes?.['attr-will'] || 0, 10);
+    const etiqScore = (finalCha * 2) + 2 + parseInt(draft.speciesAllocations?.attributes?.['attr-etiquette'] || 0, 10);
+
     // Generate fully normalized sheet payload for the Persona Folio
     const payload = {
       'character-doc-id': docId,
@@ -489,19 +504,21 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
       goals: draft['char-motive'] || '',
       backstory: draft.backstory || '',
 
-      // Primary Core Attributes (0 to +4 base + allocated species bonus points)
-      'attr-strength': (draft.strength || 0) + (parseInt(draft.speciesAllocations?.attributes?.['attr-strength'] || 0, 10)),
-      'attr-might': parseInt(draft.speciesAllocations?.attributes?.['attr-might'] || 0, 10),
-      'attr-agility': (draft.agility || 0) + (parseInt(draft.speciesAllocations?.attributes?.['attr-agility'] || 0, 10)),
-      'attr-reflex': parseInt(draft.speciesAllocations?.attributes?.['attr-reflex'] || 0, 10),
-      'attr-stamina': (draft.stamina || 0) + (parseInt(draft.speciesAllocations?.attributes?.['attr-stamina'] || 0, 10)),
-      'attr-fortitude': parseInt(draft.speciesAllocations?.attributes?.['attr-fortitude'] || 0, 10),
-      'attr-intellect': (draft.intellect || 0) + (parseInt(draft.speciesAllocations?.attributes?.['attr-intellect'] || 0, 10)),
-      'attr-logic': parseInt(draft.speciesAllocations?.attributes?.['attr-logic'] || 0, 10),
-      'attr-wisdom': (draft.wisdom || 0) + (parseInt(draft.speciesAllocations?.attributes?.['attr-wisdom'] || 0, 10)),
-      'attr-will': parseInt(draft.speciesAllocations?.attributes?.['attr-will'] || 0, 10),
-      'attr-charisma': (draft.charisma || 0) + (parseInt(draft.speciesAllocations?.attributes?.['attr-charisma'] || 0, 10)),
-      'attr-etiquette': parseInt(draft.speciesAllocations?.attributes?.['attr-etiquette'] || 0, 10),
+      // Primary Core Attributes & Sub-Attributes Base Scores
+      'attr-strength': finalStr,
+      'attr-might': mightScore,
+      'attr-agility': finalAgi,
+      'attr-reflex': reflexScore,
+      'attr-stamina': finalSta,
+      'attr-fortitude': fortScore,
+      'attr-intellect': finalInt,
+      'attr-logic': logicScore,
+      'attr-reason': logicScore,
+      'attr-wisdom': finalWis,
+      'attr-will': willScore,
+      'attr-willpower': willScore,
+      'attr-charisma': finalCha,
+      'attr-etiquette': etiqScore,
 
       // Allocations metadata
       speciesAllocations: draft.speciesAllocations || { skills: {}, traits: [], features: [], attributes: {} },

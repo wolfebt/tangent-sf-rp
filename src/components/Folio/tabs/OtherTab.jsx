@@ -3,7 +3,9 @@ import { useFolio } from '../../../context/FolioContext';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 
 const OtherTab = () => {
-  const { characterData, updateField } = useFolio();
+  const { characterData, updateField, isLocked, isPlayerOverride } = useFolio();
+  const isSheetLocked = Boolean(isLocked && !isPlayerOverride);
+
   const getNotes = () => {
     const val = characterData.notes;
     if (Array.isArray(val)) return val;
@@ -38,6 +40,8 @@ const OtherTab = () => {
     updateField('notes', updated.length > 0 ? updated : [{ text: '' }]);
   };
 
+  const hasAnyNotes = notes.some(n => n.text && n.text.trim());
+
   return (
     <div className="tab-panel active p-4 space-y-6 pb-20">
       <div className="bg-slate-900/60 border border-cyan-900/50 rounded-lg p-4 space-y-4">
@@ -45,38 +49,62 @@ const OtherTab = () => {
           <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-400">
             Character Log & Miscellaneous Notes
           </h3>
-          <button
-            type="button"
-            onClick={addNote}
-            className="px-4 py-1.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded text-xs font-bold uppercase tracking-wider transition-colors"
-          >
-            + Add Note Entry
-          </button>
+          {!isSheetLocked && (
+            <button
+              type="button"
+              onClick={addNote}
+              className="px-4 py-1.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 rounded text-xs font-bold uppercase tracking-wider transition-colors"
+            >
+              + Add Note Entry
+            </button>
+          )}
         </div>
 
         <div className="space-y-3">
-          {notes.map((note, index) => (
-            <div key={index} className="flex gap-2 items-start bg-slate-950/60 p-2.5 rounded border border-slate-800">
-              <span className="text-xs font-mono text-cyan-500 font-bold mt-1.5">
-                #{index + 1}
-              </span>
-              <textarea
-                rows={2}
-                value={note.text || ''}
-                onChange={(e) => updateNote(index, e.target.value)}
-                placeholder="Enter story notes, contacts, secrets, or quest logs..."
-                className="flex-1 bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded px-3 py-2 text-xs text-slate-100 outline-none resize-y"
-              />
-              <button
-                type="button"
-                onClick={() => removeNote(index)}
-                className="text-slate-400 hover:text-red-400 text-lg font-bold px-2 py-1 leading-none transition-colors"
-                title="Delete note"
-              >
-                &times;
-              </button>
+          {isSheetLocked && !hasAnyNotes ? (
+            <div className="text-xs text-slate-500 italic py-2">
+              No notes logged.
             </div>
-          ))}
+          ) : (
+            notes.map((note, index) => {
+              if (isSheetLocked && (!note.text || !note.text.trim())) return null;
+              const isEmpty = !note.text || !note.text.trim();
+              const emptyShadowStyle = isEmpty
+                ? 'shadow-[inset_0_2px_6px_rgba(0,0,0,0.6),0_0_10px_rgba(6,182,212,0.18)] border-cyan-700/60 focus:shadow-[0_0_14px_rgba(6,182,212,0.35)]'
+                : 'border-slate-700';
+
+              return (
+                <div key={index} className="flex gap-2 items-start bg-slate-950/60 p-2.5 rounded border border-slate-800/80">
+                  <span className="text-xs font-mono text-cyan-500 font-bold mt-1">
+                    #{index + 1}
+                  </span>
+                  {isSheetLocked ? (
+                    <div className="flex-1 px-2 py-1 text-xs text-slate-200 whitespace-pre-wrap font-sans leading-relaxed">
+                      {note.text}
+                    </div>
+                  ) : (
+                    <textarea
+                      rows={2}
+                      value={note.text || ''}
+                      onChange={(e) => updateNote(index, e.target.value)}
+                      placeholder="Enter story notes, contacts, secrets, or quest logs..."
+                      className={`flex-1 bg-slate-900 border focus:border-cyan-400 rounded px-3 py-2 text-xs text-slate-100 outline-none resize-y transition-all ${emptyShadowStyle}`}
+                    />
+                  )}
+                  {!isSheetLocked && (
+                    <button
+                      type="button"
+                      onClick={() => removeNote(index)}
+                      className="text-slate-400 hover:text-red-400 text-lg font-bold px-2 py-1 leading-none transition-colors"
+                      title="Delete note"
+                    >
+                      &times;
+                    </button>
+                  )}
+                </div>
+              );
+            })
+          )}
         </div>
       </div>
     </div>

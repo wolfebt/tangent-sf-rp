@@ -12,6 +12,11 @@ import {
   convertPersonaElementToFolio, 
   exportStoryElementJSON 
 } from '../utils/personaBridge';
+import {
+  calculateSubAttrBase,
+  resolveSubAttrScore,
+  sanitizeSubAttributes
+} from '../utils/attributeUtils';
 import { 
   applyDamageToEntity,
   stabilizeEntity,
@@ -114,6 +119,21 @@ const DEFAULT_CHARACTER = {
   'char-weight': '',
   'char-style': '',
   'char-motive': '',
+  // Core Attributes & Sub-Attributes Base Scores
+  'attr-strength': 0,
+  'attr-might': 2,
+  'attr-agility': 0,
+  'attr-reflex': 2,
+  'attr-stamina': 0,
+  'attr-fortitude': 2,
+  'attr-intellect': 0,
+  'attr-logic': 2,
+  'attr-reason': 2,
+  'attr-wisdom': 0,
+  'attr-will': 2,
+  'attr-willpower': 2,
+  'attr-charisma': 0,
+  'attr-etiquette': 2,
   'starting-cp': 150,
   'tech-level': 3,
   'magic-level': 1,
@@ -253,7 +273,8 @@ export const sanitizeCharacterSkills = (charData) => {
     }
   });
 
-  return result;
+  // Sanitize sub-attributes: Ensure valid base: (Primary * 2) + 2 if missing, 0, or empty
+  return sanitizeSubAttributes(result);
 };
 
 export const FolioProvider = ({ children }) => {
@@ -1053,8 +1074,16 @@ export const FolioProvider = ({ children }) => {
       const primaryKey = SUB_TO_PRIMARY_ATTR[attrId];
       const pVal = parseInt(characterData[primaryKey] || 0, 10);
       const base = (pVal * 2) + 2;
-      const hasExplicit = characterData[attrId] !== undefined && characterData[attrId] !== null && characterData[attrId] !== '';
-      val = hasExplicit ? (parseInt(characterData[attrId], 10) || 0) : base;
+      const explicitRaw = characterData[attrId] ?? (
+        attrId === 'attr-logic' ? characterData['attr-reason'] :
+        attrId === 'attr-reason' ? characterData['attr-logic'] :
+        attrId === 'attr-will' ? characterData['attr-willpower'] :
+        attrId === 'attr-willpower' ? characterData['attr-will'] :
+        undefined
+      );
+      const parsedExplicit = parseInt(explicitRaw, 10);
+      const hasExplicit = explicitRaw !== undefined && explicitRaw !== null && explicitRaw !== '' && !isNaN(parsedExplicit) && parsedExplicit > 0;
+      val = hasExplicit ? parsedExplicit : base;
     } else {
       val = parseInt(characterData[attrId] || 0, 10) || 0;
     }
@@ -1070,7 +1099,8 @@ export const FolioProvider = ({ children }) => {
     // In Tangent, Stamina directly determines base Toughness to reduce wound damage point-for-point
     const toughness = stamina;
 
-    const fortitudeBase = parseInt(characterData['attr-fortitude'] || (staminaBase * 2 + 2), 10);
+    const rawFort = parseInt(characterData['attr-fortitude'], 10);
+    const fortitudeBase = (!isNaN(rawFort) && rawFort > 0) ? rawFort : (staminaBase * 2 + 2);
     const fortitudeMod = getAttrMod('attr-fortitude');
     const fortitude = fortitudeBase + fortitudeMod;
 
@@ -1078,7 +1108,8 @@ export const FolioProvider = ({ children }) => {
     const wisdomMod = getAttrMod('attr-wisdom');
     const wisdom = wisdomBase + wisdomMod;
 
-    const willBase = parseInt(characterData['attr-will'] || (wisdomBase * 2 + 2), 10);
+    const rawWill = parseInt(characterData['attr-will'] ?? characterData['attr-willpower'], 10);
+    const willBase = (!isNaN(rawWill) && rawWill > 0) ? rawWill : (wisdomBase * 2 + 2);
     const willMod = getAttrMod('attr-will');
     const will = willBase + willMod;
 
@@ -1951,6 +1982,33 @@ export const FolioProvider = ({ children }) => {
     triggerSave(false);
   }, [characterData, triggerSave]);
 
+  // List of dynamic operational statistics that change during active play (adjusted by GM or in-game systems)
+  const isDynamicOperationalStat = useCallback((key) => {
+    if (!key || typeof key !== 'string') return false;
+    const DYNAMIC_KEYS = new Set([
+      'karma',
+      'plot-points',
+      'earned_ap',
+      'spent_ap',
+      'experience_debt',
+      'experience_awards',
+      'experience_spends',
+      'current_vitality',
+      'current_health',
+      'current_structure',
+      'current_essence',
+      'is_dead',
+      'is_at_deaths_door',
+      'death_clock',
+      'death_rounds_remaining',
+      'notes',
+      'conditions',
+      'wounds',
+      'injuries'
+    ]);
+    return DYNAMIC_KEYS.has(key);
+  }, []);
+
   // List of protected game statistics
   const isProtectedGameStat = useCallback((key) => {
     if (!key || typeof key !== 'string') return false;
@@ -1985,8 +2043,8 @@ export const FolioProvider = ({ children }) => {
 
   // Field updater with primary attribute auto-sync to sub-attributes, Lockout, and Active Game Tracking
   const updateField = useCallback((key, value, playerNote = '') => {
-    // 1. Guard against modifications when locked out
-    if (isFolioLockedOut) {
+    // 1. Guard against modifications when locked out (only protect structural development stats, not dynamic game stats)
+    if (isFolioLockedOut && !isDynamicOperationalStat(key)) {
       console.warn(`[Folio Locked]: Cannot alter "${key}" while persona is locked.`);
       const actionMsg = isInActiveGame
         ? 'To modify during an active session, click "Player Override" in the File Menu to enable tracked edits.'
@@ -2029,17 +2087,44 @@ export const FolioProvider = ({ children }) => {
         const oldPrimaryVal = parseInt(prev[key] || 0, 10);
         const oldBase = (oldPrimaryVal * 2) + 2;
         const newBase = (newPrimaryVal * 2) + 2;
-        const hasExplicitSub = prev[subKey] !== undefined && prev[subKey] !== null && prev[subKey] !== '';
-        const currentSubVal = hasExplicitSub ? parseInt(prev[subKey], 10) : oldBase;
+        const rawSub = prev[subKey] !== undefined && prev[subKey] !== null && prev[subKey] !== '' ? parseInt(prev[subKey], 10) : null;
+        const hasExplicitSub = rawSub !== null && !isNaN(rawSub) && rawSub > 0;
+        const currentSubVal = hasExplicitSub ? rawSub : oldBase;
         const delta = currentSubVal - oldBase;
         const newSubVal = newBase + delta;
+
+        const subUpdates = { [subKey]: newSubVal };
+        if (subKey === 'attr-logic') subUpdates['attr-reason'] = newSubVal;
+        if (subKey === 'attr-will') subUpdates['attr-willpower'] = newSubVal;
 
         return {
           ...prev,
           [key]: newPrimaryVal,
-          [subKey]: newSubVal
+          ...subUpdates
         };
       });
+      triggerSave();
+      return;
+    }
+
+    // 6. If directly updating a sub-attribute with aliases, keep them synchronized
+    if (key === 'attr-logic' || key === 'attr-reason') {
+      const val = parseInt(value, 10) || 0;
+      setCharacterData((prev) => ({
+        ...prev,
+        'attr-logic': val,
+        'attr-reason': val
+      }));
+      triggerSave();
+      return;
+    }
+    if (key === 'attr-will' || key === 'attr-willpower') {
+      const val = parseInt(value, 10) || 0;
+      setCharacterData((prev) => ({
+        ...prev,
+        'attr-will': val,
+        'attr-willpower': val
+      }));
       triggerSave();
       return;
     }
@@ -2394,10 +2479,14 @@ export const FolioProvider = ({ children }) => {
         const subKey = PRIMARY_TO_SUB_ATTR[cleanAttrKey];
         const oldBase = (currentGlobalVal * 2) + 2;
         const newBase = (newGlobalVal * 2) + 2;
-        const hasExplicitSub = prev[subKey] !== undefined && prev[subKey] !== null && prev[subKey] !== '';
-        const currentSubVal = hasExplicitSub ? parseInt(prev[subKey], 10) : oldBase;
+        const rawSub = prev[subKey] !== undefined && prev[subKey] !== null && prev[subKey] !== '' ? parseInt(prev[subKey], 10) : null;
+        const hasExplicitSub = rawSub !== null && !isNaN(rawSub) && rawSub > 0;
+        const currentSubVal = hasExplicitSub ? rawSub : oldBase;
         const subDelta = currentSubVal - oldBase;
-        subUpdates[subKey] = newBase + subDelta;
+        const newSubVal = newBase + subDelta;
+        subUpdates[subKey] = newSubVal;
+        if (subKey === 'attr-logic') subUpdates['attr-reason'] = newSubVal;
+        if (subKey === 'attr-will') subUpdates['attr-willpower'] = newSubVal;
       }
 
       return {
@@ -3854,6 +3943,7 @@ export const FolioProvider = ({ children }) => {
         isGMConfirmed,
         setIsGMConfirmed,
         isProtectedGameStat,
+        isDynamicOperationalStat,
         isReadOnly,
         publicCatalog,
         togglePersonaVisibility,

@@ -119,7 +119,9 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
     handleUpdateSpecialization,
     handleDeleteSpecialization,
     isInActiveGame,
-    isGMConfirmed
+    isGMConfirmed,
+    isLocked: isFolioLocked,
+    isPlayerOverride
   } = useFolio();
   const { openDiceRoller } = useDice();
   const [searchQuery, setSearchQuery] = useState('');
@@ -127,6 +129,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
   const [showTrainedOnly, setShowTrainedOnly] = useState(false);
 
   const isStatsLocked = isInActiveGame && !isGMConfirmed;
+  const isSheetLocked = Boolean(isFolioLocked && !isPlayerOverride);
 
   const getNum = useCallback((id) => parseInt(characterData?.[id] || 0, 10), [characterData]);
 
@@ -649,7 +652,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
               )}
             </div>
             <div className="flex items-center gap-1 shrink-0">
-              {(skill.group === 'meta' || skill.id.startsWith('meta-')) && !isLocked && onOpenSelectorModal && (
+              {(skill.group === 'meta' || skill.id.startsWith('meta-')) && !isLocked && !isSheetLocked && onOpenSelectorModal && (
                 <button
                   type="button"
                   onClick={(e) => {
@@ -663,7 +666,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                   <span>+ Inv</span>
                 </button>
               )}
-              {isCustom && !isLocked && (
+              {isCustom && !isLocked && !isSheetLocked && (
                 <button
                   type="button"
                   onClick={() => {
@@ -681,49 +684,61 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
           </div>
 
           {/* Rank Input (Max Level 20) */}
-          <input
-            type="number"
-            min="0"
-            max="20"
-            disabled={isLocked || isStatsLocked}
-            value={rank}
-            onChange={(e) => {
-              if (isLocked || isStatsLocked) return;
-              const val = Math.min(20, Math.max(0, parseInt(e.target.value, 10) || 0));
-              updateField(`skill-${skill.id}-rank`, val);
-              if (cleanId !== skill.id) updateField(`skill-${cleanId}-rank`, val);
-            }}
-            title={isStatsLocked ? 'Skill rank locked during active game session. Request GM AP update.' : isLocked ? lockMessage : undefined}
-            className={`col-span-2 text-center bg-slate-950 border ${
-              isLocked || isStatsLocked 
-                ? 'border-slate-800 text-slate-600 cursor-not-allowed opacity-75' 
-                : 'border-slate-700 focus:border-cyan-400 text-slate-100'
-            } rounded py-0.5 outline-none text-xs font-mono`}
-          />
+          {isSheetLocked ? (
+            <span className="col-span-2 text-center font-mono font-bold text-xs text-slate-200">
+              {rank}
+            </span>
+          ) : (
+            <input
+              type="number"
+              min="0"
+              max="20"
+              disabled={isLocked || isStatsLocked}
+              value={rank}
+              onChange={(e) => {
+                if (isLocked || isStatsLocked) return;
+                const val = Math.min(20, Math.max(0, parseInt(e.target.value, 10) || 0));
+                updateField(`skill-${skill.id}-rank`, val);
+                if (cleanId !== skill.id) updateField(`skill-${cleanId}-rank`, val);
+              }}
+              title={isStatsLocked ? 'Skill rank locked during active game session. Request GM AP update.' : isLocked ? lockMessage : undefined}
+              className={`col-span-2 text-center bg-slate-950 border ${
+                isLocked || isStatsLocked 
+                  ? 'border-slate-800 text-slate-600 cursor-not-allowed opacity-75' 
+                  : 'border-slate-700 focus:border-cyan-400 text-slate-100'
+              } rounded py-0.5 outline-none text-xs font-mono`}
+            />
+          )}
 
           {/* Base Attr Select */}
-          <select
-            value={baseAttr}
-            disabled={isLocked || isStatsLocked}
-            onChange={(e) => {
-              if (isLocked || isStatsLocked) return;
-              updateField(`skill-${skill.id}-base`, e.target.value);
-              if (cleanId !== skill.id) updateField(`skill-${cleanId}-base`, e.target.value);
-            }}
-            title={isStatsLocked ? 'Skill base attribute locked during active game session.' : undefined}
-            className={`col-span-3 bg-slate-950 border ${
-              isLocked || isStatsLocked 
-                ? 'border-slate-800 text-slate-600 cursor-not-allowed opacity-75' 
-                : 'border-slate-700 focus:border-cyan-400 text-slate-300'
-            } rounded py-0.5 text-center outline-none text-xs`}
-          >
-            <option value="">--</option>
-            {ATTRIBUTE_OPTIONS.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
+          {isSheetLocked ? (
+            <span className="col-span-3 text-center text-xs font-mono text-slate-300 font-semibold">
+              {baseAttrLabel}
+            </span>
+          ) : (
+            <select
+              value={baseAttr}
+              disabled={isLocked || isStatsLocked}
+              onChange={(e) => {
+                if (isLocked || isStatsLocked) return;
+                updateField(`skill-${skill.id}-base`, e.target.value);
+                if (cleanId !== skill.id) updateField(`skill-${cleanId}-base`, e.target.value);
+              }}
+              title={isStatsLocked ? 'Skill base attribute locked during active game session.' : undefined}
+              className={`col-span-3 bg-slate-950 border ${
+                isLocked || isStatsLocked 
+                  ? 'border-slate-800 text-slate-600 cursor-not-allowed opacity-75' 
+                  : 'border-slate-700 focus:border-cyan-400 text-slate-300'
+              } rounded py-0.5 text-center outline-none text-xs`}
+            >
+              <option value="">--</option>
+              {ATTRIBUTE_OPTIONS.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+          )}
 
           {/* Mod */}
           <span className={`col-span-1 text-center font-mono ${isLocked ? 'text-slate-600' : 'text-slate-400'}`}>
@@ -826,7 +841,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                 <Dices size={11} />
                 <span>Roll</span>
               </button>
-              {isCustom && !isLocked && (
+              {isCustom && !isLocked && !isSheetLocked && (
                 <button
                   type="button"
                   onClick={() => {
@@ -847,49 +862,61 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
           <div className="flex items-center gap-2 text-[11px] font-mono pt-1 border-t border-slate-800/60">
             <div className="flex items-center gap-1">
               <span className="text-slate-400 text-[10px]">Rank:</span>
-              <input
-                type="number"
-                min="0"
-                max="20"
-                disabled={isLocked || isStatsLocked}
-                value={rank}
-                onChange={(e) => {
-                  if (isLocked || isStatsLocked) return;
-                  const val = Math.min(20, Math.max(0, parseInt(e.target.value, 10) || 0));
-                  updateField(`skill-${skill.id}-rank`, val);
-                  if (cleanId !== skill.id) updateField(`skill-${cleanId}-rank`, val);
-                }}
-                className={`w-12 text-center bg-slate-950 border ${
-                  isLocked || isStatsLocked 
-                    ? 'border-slate-800 text-slate-600 cursor-not-allowed opacity-75' 
-                    : 'border-slate-700 focus:border-cyan-400 text-slate-100'
-                } rounded py-0.5 outline-none font-bold`}
-              />
+              {isSheetLocked ? (
+                <span className="font-mono font-bold text-slate-200 px-1">
+                  {rank}
+                </span>
+              ) : (
+                <input
+                  type="number"
+                  min="0"
+                  max="20"
+                  disabled={isLocked || isStatsLocked}
+                  value={rank}
+                  onChange={(e) => {
+                    if (isLocked || isStatsLocked) return;
+                    const val = Math.min(20, Math.max(0, parseInt(e.target.value, 10) || 0));
+                    updateField(`skill-${skill.id}-rank`, val);
+                    if (cleanId !== skill.id) updateField(`skill-${cleanId}-rank`, val);
+                  }}
+                  className={`w-12 text-center bg-slate-950 border ${
+                    isLocked || isStatsLocked 
+                      ? 'border-slate-800 text-slate-600 cursor-not-allowed opacity-75' 
+                      : 'border-slate-700 focus:border-cyan-400 text-slate-100'
+                  } rounded py-0.5 outline-none font-bold`}
+                />
+              )}
             </div>
 
             <div className="flex items-center gap-1 flex-1">
               <span className="text-slate-400 text-[10px]">Attr:</span>
-              <select
-                value={baseAttr}
-                disabled={isLocked || isStatsLocked}
-                onChange={(e) => {
-                  if (isLocked || isStatsLocked) return;
-                  updateField(`skill-${skill.id}-base`, e.target.value);
-                  if (cleanId !== skill.id) updateField(`skill-${cleanId}-base`, e.target.value);
-                }}
-                className={`flex-1 bg-slate-950 border ${
-                  isLocked || isStatsLocked 
-                    ? 'border-slate-800 text-slate-600 cursor-not-allowed opacity-75' 
-                    : 'border-slate-700 focus:border-cyan-400 text-slate-300'
-                } rounded py-0.5 text-center outline-none`}
-              >
-                <option value="">--</option>
-                {ATTRIBUTE_OPTIONS.map((opt) => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </option>
-                ))}
-              </select>
+              {isSheetLocked ? (
+                <span className="font-mono text-slate-300 font-semibold px-1">
+                  {baseAttrLabel}
+                </span>
+              ) : (
+                <select
+                  value={baseAttr}
+                  disabled={isLocked || isStatsLocked}
+                  onChange={(e) => {
+                    if (isLocked || isStatsLocked) return;
+                    updateField(`skill-${skill.id}-base`, e.target.value);
+                    if (cleanId !== skill.id) updateField(`skill-${cleanId}-base`, e.target.value);
+                  }}
+                  className={`flex-1 bg-slate-950 border ${
+                    isLocked || isStatsLocked 
+                      ? 'border-slate-800 text-slate-600 cursor-not-allowed opacity-75' 
+                      : 'border-slate-700 focus:border-cyan-400 text-slate-300'
+                  } rounded py-0.5 text-center outline-none`}
+                >
+                  <option value="">--</option>
+                  {ATTRIBUTE_OPTIONS.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </select>
+              )}
             </div>
 
             {mod !== 0 && (
@@ -1129,30 +1156,38 @@ const specMod = parseInt(spec.mod || 0, 10);
                       <Dices size={11} />
                       <span>Roll</span>
                     </button>
-                    <button
-                      type="button"
-                      onClick={() => handleDeleteSpecOrInv(spec)}
-                      className="text-red-400/60 hover:text-red-400 font-bold p-1 text-sm shrink-0 cursor-pointer"
-                      title={isInvocation ? "Delete Invocation" : isMetaSkill ? "Delete Evocation" : "Delete Specialization"}
-                    >
-                      &times;
-                    </button>
+                    {!isSheetLocked && (
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteSpecOrInv(spec)}
+                        className="text-red-400/60 hover:text-red-400 font-bold p-1 text-sm shrink-0 cursor-pointer"
+                        title={isInvocation ? "Delete Invocation" : isMetaSkill ? "Delete Evocation" : "Delete Specialization"}
+                      >
+                        &times;
+                      </button>
+                    )}
                   </div>
                 </div>
 
                 <div className="flex items-center gap-2 text-[10.5px] font-mono pt-1 border-t border-slate-800/40">
                   <span className="text-slate-400 text-[10px]">Rank:</span>
-                  <input
-                    type="number"
-                    min="1"
-                    max="10"
-                    disabled={isLocked}
-                    value={specRank}
-                    onChange={(e) => !isLocked && handleUpdateSpecOrInv(spec, 'rank', e.target.value)}
-                    className={`w-12 text-center bg-slate-950 border ${
-                      isLocked ? 'border-slate-800 text-slate-600 cursor-not-allowed' : (isMetaSkill || isInvocation ? 'border-purple-800/60 text-purple-200' : 'border-amber-800/60 text-amber-200')
-                    } rounded py-0.5 outline-none font-bold`}
-                  />
+                  {isSheetLocked ? (
+                    <span className="font-mono font-bold text-slate-200 px-1">
+                      {specRank}
+                    </span>
+                  ) : (
+                    <input
+                      type="number"
+                      min="1"
+                      max="10"
+                      disabled={isLocked}
+                      value={specRank}
+                      onChange={(e) => !isLocked && handleUpdateSpecOrInv(spec, 'rank', e.target.value)}
+                      className={`w-12 text-center bg-slate-950 border ${
+                        isLocked ? 'border-slate-800 text-slate-600 cursor-not-allowed' : (isMetaSkill || isInvocation ? 'border-purple-800/60 text-purple-200' : 'border-amber-800/60 text-amber-200')
+                      } rounded py-0.5 outline-none font-bold`}
+                    />
+                  )}
                   <span className={`text-[10px] ${isMetaSkill || isInvocation ? 'text-purple-400/80' : 'text-amber-400/80'}`}>
                     +{specRank} to Base
                   </span>

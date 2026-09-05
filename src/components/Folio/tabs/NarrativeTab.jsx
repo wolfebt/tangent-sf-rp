@@ -21,6 +21,11 @@ const AutoExpandingTextarea = ({ value, onChange, placeholder, className }) => {
     return () => window.removeEventListener('resize', adjustHeight);
   }, [adjustHeight]);
 
+  const isEmpty = !value || !String(value).trim();
+  const emptyShadowStyle = isEmpty
+    ? 'shadow-[inset_0_2px_6px_rgba(0,0,0,0.6),0_0_10px_rgba(6,182,212,0.18)] border-cyan-700/60 focus:shadow-[0_0_14px_rgba(6,182,212,0.35)]'
+    : 'border-slate-700/60 shadow-inner';
+
   return (
     <textarea
       ref={textareaRef}
@@ -30,14 +35,15 @@ const AutoExpandingTextarea = ({ value, onChange, placeholder, className }) => {
         onChange(e.target.value);
       }}
       placeholder={placeholder}
-      className={className}
+      className={`${className} ${emptyShadowStyle}`}
       style={{ fieldSizing: 'content' }}
     />
   );
 };
 
 const NarrativeTab = () => {
-  const { characterData, updateField } = useFolio();
+  const { characterData, updateField, isLocked, isPlayerOverride } = useFolio();
+  const isSheetLocked = Boolean(isLocked && !isPlayerOverride);
   const [activeTabIdx, setActiveTabIdx] = useState(0);
 
   const handleTextChange = (field, value) => {
@@ -130,12 +136,22 @@ const NarrativeTab = () => {
                 <label className="text-xs font-bold text-slate-300 uppercase tracking-wider ml-1">
                   {field.label}
                 </label>
-                <AutoExpandingTextarea
-                  value={characterData[field.id] || ''}
-                  onChange={(val) => handleTextChange(field.id, val)}
-                  placeholder={field.placeholder}
-                  className="w-full bg-slate-950/80 border border-slate-700/60 rounded px-3 py-2 text-sm text-slate-200 focus:border-cyan-500/60 focus:ring-1 focus:ring-cyan-500/30 outline-none resize-none overflow-hidden shadow-inner transition-colors min-h-[38px]"
-                />
+                {isSheetLocked ? (
+                  <div className="w-full min-h-[32px] px-2 py-1 text-sm text-slate-200 whitespace-pre-wrap font-sans">
+                    {characterData[field.id] ? (
+                      characterData[field.id]
+                    ) : (
+                      <span className="text-slate-600 italic text-xs font-mono">None</span>
+                    )}
+                  </div>
+                ) : (
+                  <AutoExpandingTextarea
+                    value={characterData[field.id] || ''}
+                    onChange={(val) => handleTextChange(field.id, val)}
+                    placeholder={field.placeholder}
+                    className="w-full bg-slate-950/80 rounded px-3 py-2 text-sm text-slate-200 focus:border-cyan-500/60 focus:ring-1 focus:ring-cyan-500/30 outline-none resize-none overflow-hidden transition-colors min-h-[38px]"
+                  />
+                )}
               </div>
             ))}
           </div>

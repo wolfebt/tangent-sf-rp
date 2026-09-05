@@ -191,12 +191,15 @@ const CoreStatsTab = () => {
     deathAndDyingRules,
     isInActiveGame,
     isGMConfirmed,
+    isLocked,
+    isPlayerOverride,
     updateCharacterVitality
   } = useFolio();
 
   const { openDiceRoller } = useDice();
 
   const isStatsLocked = isInActiveGame && !isGMConfirmed;
+  const isSheetLocked = Boolean(isLocked && !isPlayerOverride);
 
   const [isFateOverrideOpen, setIsFateOverrideOpen] = useState(false);
   const [isKarmaCodexOpen, setIsKarmaCodexOpen] = useState(false);
@@ -284,6 +287,10 @@ const CoreStatsTab = () => {
   const handleSubAttrChange = (subAttrId, value) => {
     const val = parseInt(value, 10) || 0;
     updateField(subAttrId, val);
+    const attrConfig = ATTRIBUTES.find(a => a.id === subAttrId);
+    if (attrConfig?.aliasId) {
+      updateField(attrConfig.aliasId, val);
+    }
   };
 
   const handleStatChange = (id, val) => {
@@ -367,8 +374,16 @@ const CoreStatsTab = () => {
                 <tbody className="divide-y divide-slate-800/40 font-mono">
                   {ATTRIBUTES.map((attr) => {
                     const isSub = attr.sub;
+                    const calculatedSubBase = isSub ? getSubAttrBase(attr.id) : 0;
+                    const explicitVal = isSub
+                      ? (characterData[attr.id] !== undefined && characterData[attr.id] !== null && characterData[attr.id] !== ''
+                          ? parseInt(characterData[attr.id], 10)
+                          : (attr.aliasId && characterData[attr.aliasId] !== undefined && characterData[attr.aliasId] !== null && characterData[attr.aliasId] !== ''
+                              ? parseInt(characterData[attr.aliasId], 10)
+                              : null))
+                      : null;
                     const rawBase = isSub 
-                      ? (characterData[attr.id] !== undefined ? parseInt(characterData[attr.id], 10) : getSubAttrBase(attr.id))
+                      ? ((explicitVal !== null && !isNaN(explicitVal) && explicitVal > 0) ? explicitVal : calculatedSubBase)
                       : getNum(attr.id);
                     const mod = getAttrMod(attr.id);
                     const total = getAttrTotal(attr.id);
@@ -409,18 +424,24 @@ const CoreStatsTab = () => {
                           </FolioTooltip>
                         </td>
                         <td className="py-0.5 px-1.5 text-center">
-                          <input
-                            type="number"
-                            value={isNaN(rawBase) ? 0 : rawBase}
-                            onChange={(e) => isSub ? handleSubAttrChange(attr.id, e.target.value) : handlePrimaryChange(attr.id, e.target.value)}
-                            disabled={isStatsLocked}
-                            title={isStatsLocked ? 'Attribute locked during active game session. Request GM update.' : ''}
-                            className={`w-11 text-center bg-slate-900 border rounded px-1 py-0.5 text-xs text-slate-100 focus:outline-none focus:border-cyan-400 ${
-                              isStatsLocked
-                                ? 'opacity-60 cursor-not-allowed border-slate-800 text-slate-400'
-                                : isSub ? 'border-slate-800 text-slate-300' : 'border-slate-700 font-bold'
-                            }`}
-                          />
+                          {isSheetLocked ? (
+                            <span className="text-xs font-mono font-bold text-slate-200">
+                              {isNaN(rawBase) ? 0 : rawBase}
+                            </span>
+                          ) : (
+                            <input
+                              type="number"
+                              value={isNaN(rawBase) ? 0 : rawBase}
+                              onChange={(e) => isSub ? handleSubAttrChange(attr.id, e.target.value) : handlePrimaryChange(attr.id, e.target.value)}
+                              disabled={isStatsLocked}
+                              title={isStatsLocked ? 'Attribute locked during active game session. Request GM update.' : ''}
+                              className={`w-11 text-center bg-slate-900 border rounded px-1 py-0.5 text-xs text-slate-100 focus:outline-none focus:border-cyan-400 ${
+                                isStatsLocked
+                                  ? 'opacity-60 cursor-not-allowed border-slate-800 text-slate-400'
+                                  : isSub ? 'border-slate-800 text-slate-300' : 'border-slate-700 font-bold'
+                              }`}
+                            />
+                          )}
                         </td>
                         <td className="py-0.5 px-1.5 text-center">
                           <span className={`text-xs font-mono ${mod > 0 ? 'text-emerald-400' : mod < 0 ? 'text-rose-400' : 'text-slate-500'}`}>
@@ -741,25 +762,29 @@ const CoreStatsTab = () => {
                         <span className="text-[9px] text-slate-500 font-mono">Max: {maxKarma}{isDebt ? ' (Debt)' : ''}</span>
                       </div>
                       <div className="flex items-center justify-center gap-2 my-1">
-                        <button
-                          type="button"
-                          onClick={() => spendKarma(1)}
-                          className="w-6 h-6 flex items-center justify-center rounded bg-slate-900/80 hover:bg-slate-700 text-slate-300 text-sm font-bold border border-slate-700 cursor-pointer"
-                          title="Spend 1 Karma"
-                        >
-                          -
-                        </button>
+                        {!isSheetLocked && (
+                          <button
+                            type="button"
+                            onClick={() => spendKarma(1)}
+                            className="w-6 h-6 flex items-center justify-center rounded bg-slate-900/80 hover:bg-slate-700 text-slate-300 text-sm font-bold border border-slate-700 cursor-pointer"
+                            title="Spend 1 Karma"
+                          >
+                            -
+                          </button>
+                        )}
                         <span className={`text-lg font-black ${isDebt ? 'text-rose-400' : 'text-cyan-200'}`}>
                           {currentKarma}
                         </span>
-                        <button
-                          type="button"
-                          onClick={() => gainKarma(1)}
-                          className="w-6 h-6 flex items-center justify-center rounded bg-slate-900/80 hover:bg-slate-700 text-slate-300 text-sm font-bold border border-slate-700 cursor-pointer"
-                          title="Gain 1 Karma"
-                        >
-                          +
-                        </button>
+                        {!isSheetLocked && (
+                          <button
+                            type="button"
+                            onClick={() => gainKarma(1)}
+                            className="w-6 h-6 flex items-center justify-center rounded bg-slate-900/80 hover:bg-slate-700 text-slate-300 text-sm font-bold border border-slate-700 cursor-pointer"
+                            title="Gain 1 Karma"
+                          >
+                            +
+                          </button>
+                        )}
                       </div>
                       <span className="text-[9px] text-slate-400 font-sans">d20 Advantage / Reroll Reserve</span>
                       <button
@@ -802,23 +827,27 @@ const CoreStatsTab = () => {
                         <span className="text-[9px] text-fuchsia-400/70 font-mono">Narrative Tokens</span>
                       </div>
                       <div className="flex items-center justify-center gap-2 my-1">
-                        <button
-                          type="button"
-                          onClick={() => spendPlotPoint(1)}
-                          className="w-6 h-6 flex items-center justify-center rounded bg-slate-900/80 hover:bg-slate-700 text-slate-300 text-sm font-bold border border-slate-700 cursor-pointer"
-                          title="Spend 1 Plot Point"
-                        >
-                          -
-                        </button>
+                        {!isSheetLocked && (
+                          <button
+                            type="button"
+                            onClick={() => spendPlotPoint(1)}
+                            className="w-6 h-6 flex items-center justify-center rounded bg-slate-900/80 hover:bg-slate-700 text-slate-300 text-sm font-bold border border-slate-700 cursor-pointer"
+                            title="Spend 1 Plot Point"
+                          >
+                            -
+                          </button>
+                        )}
                         <span className="text-lg font-black text-fuchsia-200">{plotPoints}</span>
-                        <button
-                          type="button"
-                          onClick={() => gainPlotPoint(1)}
-                          className="w-6 h-6 flex items-center justify-center rounded bg-slate-900/80 hover:bg-slate-700 text-slate-300 text-sm font-bold border border-slate-700 cursor-pointer"
-                          title="Gain 1 Plot Point"
-                        >
-                          +
-                        </button>
+                        {!isSheetLocked && (
+                          <button
+                            type="button"
+                            onClick={() => gainPlotPoint(1)}
+                            className="w-6 h-6 flex items-center justify-center rounded bg-slate-900/80 hover:bg-slate-700 text-slate-300 text-sm font-bold border border-slate-700 cursor-pointer"
+                            title="Gain 1 Plot Point"
+                          >
+                            +
+                          </button>
+                        )}
                       </div>
                       <span className="text-[9px] text-slate-400 font-sans">Story Complications &amp; Creative Twists</span>
                     </div>
@@ -951,13 +980,19 @@ const CoreStatsTab = () => {
                   </label>
                   <span className="text-[9px] text-slate-400 font-sans hidden sm:inline truncate">(TL 0–5)</span>
                 </div>
-                <input
-                  id="tech-level"
-                  type="number"
-                  value={getNum('tech-level', 3)}
-                  onChange={(e) => updateField('tech-level', parseInt(e.target.value, 10) || 0)}
-                  className="w-12 bg-slate-950 border border-slate-700 focus:border-cyan-400 rounded px-1.5 py-0.5 text-xs font-mono text-center font-bold text-slate-100 outline-none transition-colors shrink-0"
-                />
+                {isSheetLocked ? (
+                  <span className="text-xs font-mono font-bold text-cyan-200 px-1.5 py-0.5">
+                    {getNum('tech-level', 3)}
+                  </span>
+                ) : (
+                  <input
+                    id="tech-level"
+                    type="number"
+                    value={getNum('tech-level', 3)}
+                    onChange={(e) => updateField('tech-level', parseInt(e.target.value, 10) || 0)}
+                    className="w-12 bg-slate-950 border border-slate-700 focus:border-cyan-400 rounded px-1.5 py-0.5 text-xs font-mono text-center font-bold text-slate-100 outline-none transition-colors shrink-0"
+                  />
+                )}
               </div>
 
               <div className="flex items-center justify-between bg-slate-800/40 px-2.5 py-1 rounded border border-slate-700/80 gap-2">
@@ -967,13 +1002,19 @@ const CoreStatsTab = () => {
                   </label>
                   <span className="text-[9px] text-slate-400 font-sans hidden sm:inline truncate">(ML 0–3)</span>
                 </div>
-                <input
-                  id="magic-level"
-                  type="number"
-                  value={getNum('magic-level', 1)}
-                  onChange={(e) => updateField('magic-level', parseInt(e.target.value, 10) || 0)}
-                  className="w-12 bg-slate-950 border border-slate-700 focus:border-purple-400 rounded px-1.5 py-0.5 text-xs font-mono text-center font-bold text-slate-100 outline-none transition-colors shrink-0"
-                />
+                {isSheetLocked ? (
+                  <span className="text-xs font-mono font-bold text-purple-200 px-1.5 py-0.5">
+                    {getNum('magic-level', 1)}
+                  </span>
+                ) : (
+                  <input
+                    id="magic-level"
+                    type="number"
+                    value={getNum('magic-level', 1)}
+                    onChange={(e) => updateField('magic-level', parseInt(e.target.value, 10) || 0)}
+                    className="w-12 bg-slate-950 border border-slate-700 focus:border-purple-400 rounded px-1.5 py-0.5 text-xs font-mono text-center font-bold text-slate-100 outline-none transition-colors shrink-0"
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -1277,7 +1318,7 @@ const CoreStatsTab = () => {
                   <span>🏃</span> Movement Rules
                 </button>
 
-                {unenabledModes.length > 0 && (
+                {unenabledModes.length > 0 && !isSheetLocked && (
                   <div className="flex items-center gap-1">
                     <select
                       onChange={(e) => {
@@ -1381,7 +1422,7 @@ const CoreStatsTab = () => {
                       />
                       <div className="flex justify-between items-center text-[9px] font-mono text-slate-500 mt-1">
                         <span>{Math.round(speedVal * 0.3)} m/turn</span>
-                        {mode !== 'walk' && (
+                        {mode !== 'walk' && !isSheetLocked && (
                           <button
                             type="button"
                             onClick={() => updateField(`move-${mode}`, 0)}

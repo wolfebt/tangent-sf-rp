@@ -92,7 +92,7 @@ export const ConnectedFolioTab: React.FC = () => {
     { name: 'Wisdom', code: 'WIS', id: 'attr-wisdom', isSub: false },
     { name: 'Will', code: 'WIL', id: 'attr-will', isSub: true, primary: 'attr-wisdom' },
     { name: 'Charisma', code: 'CHA', id: 'attr-charisma', isSub: false },
-    { name: 'Deception', code: 'DEC', id: 'attr-deception', isSub: true, primary: 'attr-charisma' }
+    { name: 'Etiquette', code: 'ETI', id: 'attr-etiquette', isSub: true, primary: 'attr-charisma' }
   ], []);
 
   // Skill calculations
