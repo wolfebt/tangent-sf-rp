@@ -40,8 +40,8 @@
 /* Dashboard Content Grid */
 .dashboard-content {
   display: grid;
-  grid-template-columns: 1fr 350px; /* Cards take remaining space, Activity takes 350px */
-  gap: 40px;
+  grid-template-columns: 1fr minmax(360px, 440px); /* Cards take remaining space, Catalog Panel takes 360-440px */
+  gap: 32px;
   align-items: start;
 }
 
@@ -139,10 +139,13 @@
   transform: translateX(0);
 }
 
-/* Recent Activity */
+/* Recent Activity & Catalog */
 .dashboard-recent-block {
   display: flex;
   flex-direction: column;
+  position: sticky;
+  top: 16px;
+  max-height: calc(100vh - 80px);
 }
 
 .section-header {

@@ -16,6 +16,11 @@ import { UserSettingsModal } from '../../../components/UserSettingsModal';
 import AIMEChatBox from '../AIME/AIMEChatBox';
 import InSituElementDrawer from './InSituElementDrawer';
 import EditElementModal from '../ElementForge/EditElementModal';
+import GuidanceGemsModal from './GuidanceGemsModal';
+import ScratchbookModal from './ScratchbookModal';
+import OsrControlPanelDeck from './workspaces/OsrControlPanelDeck';
+import ConnectedManuscriptStudio from './workspaces/ConnectedManuscriptStudio';
+import { generateScratchbookMarkdown } from './scratchbookService';
 
 
 // Helper to get breadcrumb location path for an element
@@ -903,6 +908,9 @@ const ScenarioPane = ({ onSwitchTab, onSwitchView, onOpenCatalog }) => {
   const [activeDrawerElementId, setActiveDrawerElementId] = useState(null);
   const [isEditElementModalOpen, setIsEditElementModalOpen] = useState(false);
   const [editingModalElement, setEditingModalElement] = useState(null);
+  const [scenarioWorkspaceTab, setScenarioWorkspaceTab] = useState('canvas'); // 'canvas' | 'manuscript'
+  const [isGemsModalOpen, setIsGemsModalOpen] = useState(false);
+  const [isScratchbookModalOpen, setIsScratchbookModalOpen] = useState(false);
 
   const storyFileInputRef = useRef(null);
   const scenarioFileInputRef = useRef(null);
@@ -1602,6 +1610,32 @@ const ScenarioPane = ({ onSwitchTab, onSwitchView, onOpenCatalog }) => {
             </div>
           ) : null}
 
+          {/* Guidance Gems & Scratchbook Master Quick Triggers */}
+          <div className="flex items-center gap-1.5 border-l border-slate-700/80 pl-2 sm:pl-3">
+            <button
+              type="button"
+              onClick={() => setIsGemsModalOpen(true)}
+              className="px-2.5 sm:px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer bg-amber-950/70 hover:bg-amber-900/80 text-amber-300 border border-amber-500/50 shadow-sm"
+              title="Configure Guidance Gems (Mood, Genre, Tone, Pacing, POV, Theme, Conflict, Setting)"
+            >
+              <span>💎</span>
+              <span className="hidden sm:inline">Gems</span>
+              <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-300 font-mono">
+                {(universeState?.creativeState?.gems || []).length}
+              </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setIsScratchbookModalOpen(true)}
+              className="px-2.5 sm:px-3 py-1.5 rounded text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer bg-emerald-950/70 hover:bg-emerald-900/80 text-emerald-300 border border-emerald-500/50 shadow-sm"
+              title="Open Project Scratchbook & Elements Used Document (.md)"
+            >
+              <span>📓</span>
+              <span className="hidden sm:inline">Scratchbook</span>
+            </button>
+          </div>
+
           {/* AI Co-Pilot (AIME) Top Bar Access */}
           <div className="flex items-center gap-1.5 border-l border-slate-700/80 pl-2 sm:pl-3">
             <button
@@ -1800,7 +1834,69 @@ const ScenarioPane = ({ onSwitchTab, onSwitchView, onOpenCatalog }) => {
                 </div>
               </div>
 
-              {/* Location Path Bar */}
+              {/* Workspace Format Switcher Bar (Scenario Canvas & Control Panel vs Manuscript Studio) */}
+              <div className="px-3 py-1.5 bg-slate-950 border-b border-slate-800 flex items-center justify-between gap-2 shrink-0">
+                <div className="flex items-center gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => setScenarioWorkspaceTab('canvas')}
+                    className={`px-3 py-1 rounded text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
+                      scenarioWorkspaceTab === 'canvas'
+                        ? 'bg-cyan-950/90 text-cyan-300 border border-cyan-500/70 shadow-[0_0_8px_rgba(6,182,212,0.3)]'
+                        : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900 border border-transparent'
+                    }`}
+                  >
+                    <span>📖</span>
+                    <span>Scenario Canvas &amp; Control Panel</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setScenarioWorkspaceTab('manuscript')}
+                    className={`px-3 py-1 rounded text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
+                      scenarioWorkspaceTab === 'manuscript'
+                        ? 'bg-purple-950/90 text-purple-300 border border-purple-500/70 shadow-[0_0_8px_rgba(168,85,247,0.3)]'
+                        : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900 border border-transparent'
+                    }`}
+                  >
+                    <span>✍️</span>
+                    <span>Manuscript Studio</span>
+                  </button>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setIsGemsModalOpen(true)}
+                    className="px-2 py-0.5 bg-amber-950/50 hover:bg-amber-950 border border-amber-500/40 text-amber-300 rounded text-[11px] font-bold uppercase tracking-wider transition-all flex items-center gap-1"
+                    title="Configure Guidance Gems (Mood, Genre, Tone, POV, etc.)"
+                  >
+                    <span>💎</span>
+                    <span>Gems</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setIsScratchbookModalOpen(true)}
+                    className="px-2 py-0.5 bg-emerald-950/50 hover:bg-emerald-950 border border-emerald-500/40 text-emerald-300 rounded text-[11px] font-bold uppercase tracking-wider transition-all flex items-center gap-1"
+                    title="Open Project Scratchbook & Elements Used"
+                  >
+                    <span>📓</span>
+                    <span>Scratchbook</span>
+                  </button>
+                </div>
+              </div>
+
+              {scenarioWorkspaceTab === 'manuscript' ? (
+                <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
+                  <ConnectedManuscriptStudio
+                    activeNode={activeNode}
+                    updateStory={updateStory}
+                    guidanceGems={universeState?.creativeState?.gems || []}
+                  />
+                </div>
+              ) : (
+                <div className="flex-1 flex flex-col min-h-0 overflow-y-auto">
+                  {/* Location Path Bar */}
               <div className="px-3 py-1.5 bg-slate-950/90 border-b border-slate-800 flex items-center justify-between text-xs gap-3 flex-wrap shrink-0">
                 <div className="flex items-center gap-1.5 text-slate-400 font-mono text-[11px] truncate">
                   <span className="text-amber-500 font-bold">📍 Path:</span>
@@ -1970,10 +2066,20 @@ const ScenarioPane = ({ onSwitchTab, onSwitchView, onOpenCatalog }) => {
                 </div>
               )}
 
-            </>
+              {/* OSR Two-Page Control Panel Deck Integrated into Scenarios */}
+              <div className="p-3 bg-[#0a0f18] border-t border-cyan-500/30">
+                <OsrControlPanelDeck
+                  activeNode={activeNode}
+                  updateStory={updateStory}
+                  guidanceGems={universeState?.creativeState?.gems || []}
+                />
+              </div>
+            </div>
           )}
-        </div>
-      </Split>
+        </>
+      )}
+    </div>
+  </Split>
 
       {/* In-Situ Worldbuilding Element Drawer (3rd Column) */}
       {isElementDrawerOpen && (
@@ -2022,7 +2128,8 @@ const ScenarioPane = ({ onSwitchTab, onSwitchView, onOpenCatalog }) => {
             outline: universeState.creativeState?.storyOutline || '',
             sceneBeats: universeState.creativeState?.sceneBeats || '',
             draft: universeState.creativeState?.storyDraft || '',
-            customCatalog: elementsCatalog || []
+            customCatalog: elementsCatalog || [],
+            scratchbook: generateScratchbookMarkdown(universeState, elementsCatalog)
           }}
         />
       )}
@@ -2050,6 +2157,22 @@ const ScenarioPane = ({ onSwitchTab, onSwitchView, onOpenCatalog }) => {
             setIsEditElementModalOpen(false);
             setEditingModalElement(null);
           }}
+        />
+      )}
+
+      {/* Guidance Gems Configuration Modal */}
+      {isGemsModalOpen && (
+        <GuidanceGemsModal
+          isOpen={isGemsModalOpen}
+          onClose={() => setIsGemsModalOpen(false)}
+        />
+      )}
+
+      {/* Project Scratchbook & Elements Used Modal */}
+      {isScratchbookModalOpen && (
+        <ScratchbookModal
+          isOpen={isScratchbookModalOpen}
+          onClose={() => setIsScratchbookModalOpen(false)}
         />
       )}
     </div>

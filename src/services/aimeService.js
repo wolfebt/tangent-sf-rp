@@ -118,6 +118,13 @@ export async function generateContent({ prompt, context = "", model = "gemini-3.
   return data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
 }
 
+const GEMINI_STREAM_MODELS = [
+  'gemini-3.6-flash',
+  'gemini-flash-latest',
+  'gemini-2.0-flash',
+  'gemini-flash-lite-latest'
+];
+
 export async function streamContent({ prompt, context = "", model = "gemini-3.6-flash", apiKey = "", onChunk }) {
   const activeKey = apiKey || getGeminiApiKey();
   const formattedCtx = formatContext(context, prompt);
@@ -144,51 +151,68 @@ export async function streamContent({ prompt, context = "", model = "gemini-3.6-
     ]
   };
 
-  try {
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse&key=${activeKey}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(requestBody)
-    });
+  const modelsToTry = [model, ...GEMINI_STREAM_MODELS.filter(m => m !== model)];
+  let lastError = null;
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData?.error?.message || `Streaming failed with status ${response.status}`);
-    }
+  for (const candidateModel of modelsToTry) {
+    try {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${candidateModel}:streamGenerateContent?alt=sse&key=${activeKey}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody)
+      });
 
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder("utf-8");
-    let buffer = '';
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        const errMsg = errorData?.error?.message || `HTTP ${response.status}`;
+        if (response.status === 404 || errMsg.includes('not found') || errMsg.includes('no longer available')) {
+          lastError = new Error(`[${candidateModel}]: ${errMsg}`);
+          continue;
+        }
+        throw new Error(errMsg);
+      }
 
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder("utf-8");
+      let buffer = '';
 
-      buffer += decoder.decode(value, { stream: true });
-      const lines = buffer.split('\n');
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
 
-      buffer = lines.pop() || '';
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
 
-      for (const line of lines) {
-        if (line.startsWith('data: ')) {
-          const dataStr = line.replace('data: ', '').trim();
-          if (dataStr === '[DONE]') continue;
-          
-          try {
-            const parsed = JSON.parse(dataStr);
-            const textChunk = parsed?.candidates?.[0]?.content?.parts?.[0]?.text;
-            if (textChunk && onChunk) {
-              onChunk(textChunk);
+        buffer = lines.pop() || '';
+
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            const dataStr = line.replace('data: ', '').trim();
+            if (dataStr === '[DONE]') continue;
+            
+            try {
+              const parsed = JSON.parse(dataStr);
+              const textChunk = parsed?.candidates?.[0]?.content?.parts?.[0]?.text;
+              if (textChunk && onChunk) {
+                onChunk(textChunk);
+              }
+            } catch (e) {
+              // Ignore parse errors on partial JSON chunks
             }
-          } catch (e) {
-            // Ignore parse errors on partial JSON chunks
           }
         }
       }
+      return; // Stream completed successfully
+    } catch (err) {
+      lastError = err;
+      if (err.message && (err.message.includes('404') || err.message.includes('not found') || err.message.includes('no longer available'))) {
+        continue;
+      }
+      throw err;
     }
-  } catch (err) {
-    throw err;
   }
+
+  throw lastError || new Error('All streaming candidate models failed.');
 }
 
 export async function streamChatContent({ messages, context = "", model = "gemini-3.6-flash", apiKey = "", onChunk }) {

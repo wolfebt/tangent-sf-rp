@@ -11,3 +11,4 @@ integrate the manuscript studio into the scenerio section as a tabbed and connec
 
 for the ADE we will need a project file to keep all information and components of the development in an md file to be a source of truth for the ai reference
 
+integrate AIME fully into the ADE

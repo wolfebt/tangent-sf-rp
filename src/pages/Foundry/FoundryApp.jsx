@@ -25,7 +25,7 @@ const FoundryAppInner = () => {
           <Route path="elements" element={<StoryModule defaultView="elements" />} />
           <Route path="map-maker" element={<MapMaker />} />
           <Route path="vtt-options" element={<VttOptionsPage />} />
-          <Route path="aime" element={<AIME />} />
+          <Route path="aime" element={<StoryModule defaultView="aime" />} />
           <Route path="view/:mapId" element={<PlayerSpectatorView />} />
           <Route path="spectator/:mapId" element={<PlayerSpectatorView />} />
         </Routes>

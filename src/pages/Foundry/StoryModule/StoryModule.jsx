@@ -23,6 +23,9 @@ import ManuscriptStudio from './workspaces/ManuscriptStudio';
 import InteractiveStoryStudio from './workspaces/InteractiveStoryStudio';
 import AdventurePrintModal from './workspaces/AdventurePrintModal';
 import FoundryLauncherModal from '../../../components/StoryFoundry/FoundryLauncherModal';
+import AIME from '../AIME/AIME';
+import GuidanceGemsModal from './GuidanceGemsModal';
+import ScratchbookModal from './ScratchbookModal';
 import { useStory } from '../../../context/CampaignContext';
 
 export default function StoryModule({ defaultView = 'scenarios' }) {
@@ -40,6 +43,8 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
   // Story Project catalog modal & Print modal
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
   const [isPrintModalOpen, setIsPrintModalOpen] = useState(false);
+  const [isGemsOpen, setIsGemsOpen] = useState(false);
+  const [isScratchbookOpen, setIsScratchbookOpen] = useState(false);
 
   useEffect(() => {
     if (storyIdParam) {
@@ -97,7 +102,7 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
             </span>
           </div>
 
-          {/* View 1: Scenarios & Story Canvas */}
+          {/* View 1: Scenarios, Control Panel & Manuscript Canvas */}
           <button
             type="button"
             onClick={() => handleSwitchView('scenarios')}
@@ -106,13 +111,43 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
                 ? 'bg-cyan-950/80 text-cyan-300 border border-cyan-500/60 shadow-[0_0_10px_rgba(6,182,212,0.3)]'
                 : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
             }`}
-            title="Interactive Story Outline & Rich-Text Manuscript Canvas"
+            title="Consolidated Scenario Outline, OSR Control Panel Deck, & Connected Manuscript Studio"
           >
             <BookOpen size={13} className="text-cyan-400" />
             <span>Scenarios</span>
           </button>
 
-          {/* View 2: Consolidated Element Editor & Forge */}
+          {/* View 2: AIME Creative Studio */}
+          <button
+            type="button"
+            onClick={() => handleSwitchView('aime')}
+            className={`px-3 py-1 rounded-lg font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
+              activeView === 'aime'
+                ? 'bg-cyan-950/90 text-cyan-300 border border-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.4)]'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+            }`}
+            title="AIME Creative Studio: 4-Stage Narrative Weaver, Outlining, & Prose Drafts"
+          >
+            <Sparkles size={13} className="text-amber-400 animate-pulse" />
+            <span>AIME Studio</span>
+          </button>
+
+          {/* View 3: Granular Interactive Story Studio */}
+          <button
+            type="button"
+            onClick={() => handleSwitchView('interactive')}
+            className={`px-3 py-1 rounded-lg font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
+              activeView === 'interactive'
+                ? 'bg-indigo-950/90 text-indigo-300 border border-indigo-400 shadow-[0_0_12px_rgba(99,102,241,0.4)]'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+            }`}
+            title="Granular Interactive Story Mode with Gated 1-2 Paragraph AI Beats & Decision Gates"
+          >
+            <Feather size={13} className="text-indigo-400" />
+            <span>Interactive Story</span>
+          </button>
+
+          {/* View 4: Consolidated Element Editor & Forge */}
           <button
             type="button"
             onClick={() => handleSwitchView('elements')}
@@ -129,55 +164,33 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
               {elementsCatalog?.length || 0}
             </span>
           </button>
-
-          {/* View 3: Granular Interactive Story Studio */}
-          <button
-            type="button"
-            onClick={() => handleSwitchView('interactive')}
-            className={`px-3 py-1 rounded-lg font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
-              activeView === 'interactive'
-                ? 'bg-cyan-950/90 text-cyan-300 border border-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.4)]'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
-            }`}
-            title="Granular Interactive Story Mode with Gated 1-2 Paragraph AI Beats & Decision Gates"
-          >
-            <Sparkles size={13} className="text-amber-400 animate-pulse" />
-            <span>Interactive Story</span>
-          </button>
-
-          {/* View 4: OSR Two-Page Control Panel Studio */}
-          <button
-            type="button"
-            onClick={() => handleSwitchView('control-panel')}
-            className={`px-3 py-1 rounded-lg font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
-              activeView === 'control-panel'
-                ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-500/60 shadow-[0_0_10px_rgba(16,185,129,0.3)]'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
-            }`}
-            title="OSR 2-Page Control Panel Spread with Read-Alouds and Threat Matrices"
-          >
-            <LayoutGrid size={13} className="text-emerald-400" />
-            <span>Control Panel</span>
-          </button>
-
-          {/* View 5: Minimalist Manuscript Studio */}
-          <button
-            type="button"
-            onClick={() => handleSwitchView('manuscript')}
-            className={`px-3 py-1 rounded-lg font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
-              activeView === 'manuscript'
-                ? 'bg-purple-950/80 text-purple-300 border border-purple-500/60 shadow-[0_0_10px_rgba(168,85,247,0.3)]'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
-            }`}
-            title="Minimalist Fiction Manuscript Studio with Word Count and POV Lock"
-          >
-            <Feather size={13} className="text-purple-400" />
-            <span>Manuscript Studio</span>
-          </button>
         </div>
 
         {/* Global Action Launchers */}
         <div className="flex items-center gap-2 font-mono text-xs">
+          <button
+            type="button"
+            onClick={() => setIsGemsOpen(true)}
+            className="px-2.5 py-1 bg-amber-950/70 hover:bg-amber-900/80 text-amber-300 border border-amber-500/50 rounded-lg font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer"
+            title="Configure Guidance Gems (Mood, Genre, Tone, POV, etc.)"
+          >
+            <span>💎</span>
+            <span className="hidden md:inline">Gems</span>
+            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-300 font-mono">
+              {(universeState?.creativeState?.gems || []).length}
+            </span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setIsScratchbookOpen(true)}
+            className="px-2.5 py-1 bg-emerald-950/70 hover:bg-emerald-900/80 text-emerald-300 border border-emerald-500/50 rounded-lg font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer"
+            title="Open Project Scratchbook & Elements Used Document (.md)"
+          >
+            <span>📓</span>
+            <span className="hidden md:inline">Scratchbook</span>
+          </button>
+
           <button
             type="button"
             onClick={() => setIsPrintModalOpen(true)}
@@ -213,28 +226,33 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
           />
         )}
 
-        {/* VIEW 2: CONSOLIDATED ELEMENT FORGE */}
+        {/* VIEW 2: AIME CREATIVE STUDIO INTEGRATED INTO ADE */}
+        {activeView === 'aime' && (
+          <AIME />
+        )}
+
+        {/* VIEW 3: CONSOLIDATED ELEMENT FORGE */}
         {activeView === 'elements' && (
           <ElementForge 
             onBackToStory={() => handleSwitchView('scenarios')}
           />
         )}
 
-        {/* VIEW 3: GRANULAR INTERACTIVE STORY STUDIO */}
+        {/* VIEW 4: GRANULAR INTERACTIVE STORY STUDIO */}
         {activeView === 'interactive' && (
           <InteractiveStoryStudio 
             activeNode={activeNode}
           />
         )}
 
-        {/* VIEW 4: OSR CONTROL PANEL STUDIO */}
+        {/* LEGACY COMPATIBILITY: CONTROL PANEL */}
         {activeView === 'control-panel' && (
           <ControlPanelStudio 
             activeNode={activeNode}
           />
         )}
 
-        {/* VIEW 5: FICTION MANUSCRIPT STUDIO */}
+        {/* LEGACY COMPATIBILITY: MANUSCRIPT */}
         {activeView === 'manuscript' && (
           <ManuscriptStudio 
             activeNode={activeNode}
@@ -255,6 +273,22 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
         onClose={() => setIsPrintModalOpen(false)}
         storyTitle={activeNode?.title || 'ADE Adventure'}
       />
+
+      {/* Guidance Gems Configuration Modal */}
+      {isGemsOpen && (
+        <GuidanceGemsModal
+          isOpen={isGemsOpen}
+          onClose={() => setIsGemsOpen(false)}
+        />
+      )}
+
+      {/* Project Scratchbook Modal */}
+      {isScratchbookOpen && (
+        <ScratchbookModal
+          isOpen={isScratchbookOpen}
+          onClose={() => setIsScratchbookOpen(false)}
+        />
+      )}
     </div>
   );
 }

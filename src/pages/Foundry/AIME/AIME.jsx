@@ -9,15 +9,9 @@ import Split from 'react-split';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import AIMEChatBox from './AIMEChatBox';
-
-
-export const GUIDANCE_GEMS = {
-  "Genre": ["Action", "Adventure", "Comedy", "Drama", "Fantasy", "Sci-Fi", "Horror", "Mystery", "Romance", "Thriller"],
-  "Tone": ["Serious", "Humorous", "Formal", "Informal", "Optimistic", "Pessimistic", "Joyful", "Sad", "Hopeful", "Cynical"],
-  "Pacing": ["Fast-paced", "Slow-burn", "Steady", "Urgent", "Relaxed", "Meditative", "Action-Packed"],
-  "POV": ["First Person", "Third Person Limited", "Third Person Omniscient", "Second Person", "Alternating POV"],
-  "Theme": ["Redemption", "Betrayal", "Discovery", "Survival", "Love", "Hate", "Power", "Corruption", "Nature vs. Nurture"]
-};
+import { v4 as uuidv4 } from 'uuid';
+import { GUIDANCE_GEMS, getMergedGems } from '../StoryModule/guidanceGemsConfig';
+export { GUIDANCE_GEMS };
 
 export default function AIME() {
   const navigate = useNavigate();
@@ -224,6 +218,42 @@ export default function AIME() {
     } else if (canvasKey === 'draft') {
       downloadFile(headerPrefix + (creativeState.storyDraft || ''), `aime_prose_draft_${timestamp}.md`, 'text/markdown;charset=utf-8');
     }
+  };
+
+  const handleExportToScenarioTree = (canvasKey) => {
+    let title = `${universeState.projectName || 'Story'} - AIME `;
+    let content = '';
+
+    if (canvasKey === 'brainstorm') {
+      title += 'Concepts';
+      content = `<h3>Story Concepts</h3>` + (creativeState.storyCards || []).map(c => `<h4>${c.title}</h4><p><em>${c.hook}</em></p><p>${c.premise}</p><p><strong>Themes:</strong> ${c.themes}</p>`).join('<hr/>');
+    } else if (canvasKey === 'outline') {
+      title += 'Outline';
+      content = creativeState.storyOutline || '';
+    } else if (canvasKey === 'beats') {
+      title += 'Scene Beats';
+      content = creativeState.sceneBeats || '';
+    } else if (canvasKey === 'draft') {
+      title += 'Manuscript Draft';
+      content = creativeState.storyDraft || '';
+    }
+
+    if (!content || !content.trim()) {
+      showToast('Canvas is empty. Generate content first.');
+      return;
+    }
+
+    const newNode = {
+      id: uuidv4(),
+      type: 'Scenario',
+      title,
+      content,
+      fields: {},
+      customFields: [],
+      children: []
+    };
+    addStory(newNode, null);
+    showToast(`Created new Scenario "${title}" in ADE tree!`);
   };
 
   const handleClearCanvas = (canvasKey) => {
@@ -764,6 +794,7 @@ Format Instructions: Respond ONLY with the revised or generated text. Do not inc
                   onExport={handleExportCanvas}
                   onImport={triggerImport}
                   onClear={handleClearCanvas}
+                  onExportToScenario={handleExportToScenarioTree}
                 />
               </div>
 
@@ -774,11 +805,28 @@ Format Instructions: Respond ONLY with the revised or generated text. Do not inc
                   style={{ top: contextMenuPos.y, left: contextMenuPos.x }}
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <span className="text-xs text-amber-500 font-bold uppercase tracking-wider mb-1 border-b border-slate-700 pb-1">AI Pair Authoring</span>
+                  <div className="flex items-center justify-between border-b border-slate-700 pb-1 mb-1">
+                    <span className="text-xs text-amber-500 font-bold uppercase tracking-wider">AI Pair Authoring</span>
+                    {isGenerating && (
+                      <div className="flex items-center gap-1 text-[10px] text-cyan-300 font-mono">
+                        <div className="w-3 h-3 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
+                        <span>Thinking...</span>
+                      </div>
+                    )}
+                  </div>
                   <div className="flex gap-2">
-                    <button onClick={() => { handleInlineEdit('rewrite'); setContextMenuPos(null); }} disabled={isGenerating} className="bg-slate-700 hover:bg-slate-600 px-2 py-1.5 rounded text-xs font-bold flex-1">Rewrite</button>
-                    <button onClick={() => { handleInlineEdit('expand'); setContextMenuPos(null); }} disabled={isGenerating} className="bg-slate-700 hover:bg-slate-600 px-2 py-1.5 rounded text-xs font-bold flex-1">Expand</button>
-                    <button onClick={() => { handleInlineEdit('summarize'); setContextMenuPos(null); }} disabled={isGenerating} className="bg-slate-700 hover:bg-slate-600 px-2 py-1.5 rounded text-xs font-bold flex-1">Summarize</button>
+                    <button onClick={() => { handleInlineEdit('rewrite'); setContextMenuPos(null); }} disabled={isGenerating} className="bg-slate-700 hover:bg-slate-600 px-2 py-1.5 rounded text-xs font-bold flex-1 disabled:opacity-50 flex items-center justify-center gap-1">
+                      {isGenerating ? <div className="w-2.5 h-2.5 border border-cyan-300 border-t-transparent rounded-full animate-spin" /> : null}
+                      Rewrite
+                    </button>
+                    <button onClick={() => { handleInlineEdit('expand'); setContextMenuPos(null); }} disabled={isGenerating} className="bg-slate-700 hover:bg-slate-600 px-2 py-1.5 rounded text-xs font-bold flex-1 disabled:opacity-50 flex items-center justify-center gap-1">
+                      {isGenerating ? <div className="w-2.5 h-2.5 border border-cyan-300 border-t-transparent rounded-full animate-spin" /> : null}
+                      Expand
+                    </button>
+                    <button onClick={() => { handleInlineEdit('summarize'); setContextMenuPos(null); }} disabled={isGenerating} className="bg-slate-700 hover:bg-slate-600 px-2 py-1.5 rounded text-xs font-bold flex-1 disabled:opacity-50 flex items-center justify-center gap-1">
+                      {isGenerating ? <div className="w-2.5 h-2.5 border border-cyan-300 border-t-transparent rounded-full animate-spin" /> : null}
+                      Summarize
+                    </button>
                   </div>
                   <div className="flex gap-1 mt-1">
                     <input 
@@ -788,7 +836,10 @@ Format Instructions: Respond ONLY with the revised or generated text. Do not inc
                       placeholder="Custom instruction..."
                       className="flex-1 bg-slate-900 border border-slate-700 rounded px-2 py-1.5 text-xs text-white"
                     />
-                    <button onClick={() => { handleInlineEdit('custom'); setContextMenuPos(null); }} disabled={isGenerating || !customAiPrompt} className="bg-amber-700 hover:bg-amber-600 px-3 py-1.5 rounded text-xs font-bold disabled:opacity-50">Apply</button>
+                    <button onClick={() => { handleInlineEdit('custom'); setContextMenuPos(null); }} disabled={isGenerating || !customAiPrompt} className="bg-amber-700 hover:bg-amber-600 px-3 py-1.5 rounded text-xs font-bold disabled:opacity-50 flex items-center gap-1">
+                      {isGenerating ? <div className="w-2.5 h-2.5 border border-amber-300 border-t-transparent rounded-full animate-spin" /> : null}
+                      Apply
+                    </button>
                   </div>
                 </div>
               )}
@@ -982,7 +1033,7 @@ Format Instructions: Respond ONLY with the revised or generated text. Do not inc
   );
 }
 
-const CanvasToolbar = ({ canvasName, canvasKey, onSaveLocal, onLoadLocal, onExport, onImport, onClear }) => {
+const CanvasToolbar = ({ canvasName, canvasKey, onSaveLocal, onLoadLocal, onExport, onImport, onClear, onExportToScenario }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const dropdownRef = React.useRef(null);
 
@@ -1007,7 +1058,7 @@ const CanvasToolbar = ({ canvasName, canvasKey, onSaveLocal, onLoadLocal, onExpo
           File ▾
         </button>
         {isOpen && (
-          <div className="absolute top-full right-0 mt-2 w-40 bg-slate-800 border border-slate-600 rounded-md shadow-xl z-50 flex flex-col p-1.5 gap-1">
+          <div className="absolute top-full right-0 mt-2 w-44 bg-slate-800 border border-slate-600 rounded-md shadow-xl z-50 flex flex-col p-1.5 gap-1">
             <button
               onClick={() => { onSaveLocal(canvasKey); setIsOpen(false); }}
               className="text-left bg-transparent hover:bg-slate-700 text-slate-200 hover:text-cyan-300 px-2 py-1.5 rounded transition-all text-xs"
@@ -1034,8 +1085,17 @@ const CanvasToolbar = ({ canvasName, canvasKey, onSaveLocal, onLoadLocal, onExpo
               className="text-left bg-transparent hover:bg-slate-700 text-slate-200 hover:text-amber-300 px-2 py-1.5 rounded transition-all text-xs"
               title="Export canvas content to file (.json or .md)"
             >
-              📤 Export
+              📤 Export File
             </button>
+            {onExportToScenario && (
+              <button
+                onClick={() => { onExportToScenario(canvasKey); setIsOpen(false); }}
+                className="text-left bg-transparent hover:bg-cyan-950/80 text-cyan-300 hover:text-cyan-200 px-2 py-1.5 rounded transition-all text-xs font-semibold"
+                title="Create a new Scenario node in the ADE tree with this canvas content"
+              >
+                🌿 Send to Scenarios
+              </button>
+            )}
             <div className="h-px bg-slate-600 my-1"></div>
             <button
               onClick={() => { onClear(canvasKey); setIsOpen(false); }}

@@ -248,6 +248,7 @@ export const RosterCatalogView = ({
               const isPublic = Boolean(char.isPublic);
               const author = char.authorHandle || char.creatorHandle || 'Operator';
               const isDeletingThis = deleteConfirmDocId === docId;
+              const isLocked = Boolean(char.is_locked || char.folio_phase === 'locked');
 
               return (
                 <div
@@ -270,6 +271,15 @@ export const RosterCatalogView = ({
                         <span className="px-2 py-0.5 rounded-md bg-slate-900 border border-slate-700 text-[9.5px] font-mono text-slate-300 uppercase">
                           {archetype !== 'Unspecified' ? archetype : 'Operative'}
                         </span>
+                        {isLocked && (
+                          <span 
+                            className="px-1.5 py-0.5 rounded-md bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-[9.5px] font-mono font-bold uppercase flex items-center gap-1 shadow-[0_0_6px_rgba(6,182,212,0.3)]"
+                            title="Dossier Locked & Set for VTT"
+                          >
+                            <Lock size={10} className="text-cyan-400" />
+                            <span>Locked</span>
+                          </span>
+                        )}
                       </div>
 
                       {catalogTab === 'my-roster' ? (
@@ -425,6 +435,7 @@ export const RosterCatalogView = ({
                     const faction = getFieldValue(char['char-faction']);
                     const archetype = getFieldValue(char['char-archetype']);
                     const isPublic = Boolean(char.isPublic);
+                    const isLocked = Boolean(char.is_locked || char.folio_phase === 'locked');
 
                     return (
                       <tr
@@ -439,15 +450,26 @@ export const RosterCatalogView = ({
                         <td className="py-3 px-3 text-slate-400">{faction}</td>
                         <td className="py-3 px-3 text-slate-400">{archetype}</td>
                         <td className="py-3 px-3">
-                          {isPublic ? (
-                            <span className="px-2 py-0.5 rounded bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 text-[9px] uppercase font-bold">
-                              Public
-                            </span>
-                          ) : (
-                            <span className="px-2 py-0.5 rounded bg-slate-900 text-slate-500 border border-slate-700 text-[9px] uppercase">
-                              Private
-                            </span>
-                          )}
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            {isLocked && (
+                              <span 
+                                className="px-1.5 py-0.5 rounded bg-cyan-950/80 text-cyan-300 border border-cyan-500/40 text-[9px] uppercase font-bold flex items-center gap-1 shadow-[0_0_6px_rgba(6,182,212,0.3)]"
+                                title="Dossier Locked & Set for VTT"
+                              >
+                                <Lock size={9} className="text-cyan-400" />
+                                <span>Locked</span>
+                              </span>
+                            )}
+                            {isPublic ? (
+                              <span className="px-2 py-0.5 rounded bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 text-[9px] uppercase font-bold">
+                                Public
+                              </span>
+                            ) : (
+                              <span className="px-2 py-0.5 rounded bg-slate-900 text-slate-500 border border-slate-700 text-[9px] uppercase">
+                                Private
+                              </span>
+                            )}
+                          </div>
                         </td>
                         <td className="py-3 px-4 text-right">
                           <div className="flex items-center justify-end gap-1.5">

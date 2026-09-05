@@ -22,7 +22,6 @@ import {
   Dices,
   Users,
   Save,
-  Wrench,
   Lock
 } from 'lucide-react';
 import { AudioService } from '../../services/audioService';
@@ -146,22 +145,13 @@ export const FolioSidebar = ({
                     <Icon size={14} />
                   </div>
                   <span className="truncate uppercase text-[11px] font-semibold">{item.label}</span>
-                  {item.id === 'identity' && (
-                    (isLocked && !isPlayerOverride) ? (
-                      <span 
-                        className="p-1 rounded bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 flex items-center justify-center shrink-0 shadow-[0_0_6px_rgba(6,182,212,0.3)]"
-                        title="Dossier Locked & Set for VTT"
-                      >
-                        <Lock size={11} className="text-cyan-400" />
-                      </span>
-                    ) : (
-                      <span 
-                        className="p-1 rounded bg-amber-950/80 border border-amber-500/40 text-amber-300 flex items-center justify-center shrink-0 shadow-[0_0_6px_rgba(245,158,11,0.25)]"
-                        title="Development Phase (Draft) - Editing Unlocked"
-                      >
-                        <Wrench size={11} className="text-amber-400" />
-                      </span>
-                    )
+                  {item.id === 'identity' && (isLocked && !isPlayerOverride) && (
+                    <span 
+                      className="p-1 rounded bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 flex items-center justify-center shrink-0 shadow-[0_0_6px_rgba(6,182,212,0.3)]"
+                      title="Dossier Locked & Set for VTT"
+                    >
+                      <Lock size={11} className="text-cyan-400" />
+                    </span>
                   )}
                 </div>
 

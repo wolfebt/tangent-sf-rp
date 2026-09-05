@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { extractCreatorInfo } from '../../../utils/creatorUtils';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
+import { Lock } from 'lucide-react';
 
 export const RosterModal = ({
   isOpen,
@@ -267,6 +268,7 @@ export const RosterModal = ({
 
                 const noteContent = (char.notes && Array.isArray(char.notes) && char.notes[0]?.text) ? char.notes[0].text : '';
                 const isEditingThisNote = editingNoteDocId === docId;
+                const isLocked = Boolean(char.is_locked || char.folio_phase === 'locked');
 
                 return (
                   <div
@@ -285,6 +287,15 @@ export const RosterModal = ({
                             <h4 className="text-base font-bold text-white uppercase tracking-wider">
                               {name}
                             </h4>
+                            {isLocked && (
+                              <span 
+                                className="px-1.5 py-0.5 bg-cyan-950/80 text-cyan-300 border border-cyan-500/40 rounded text-[9px] font-bold uppercase tracking-wider flex items-center gap-1 shadow-[0_0_6px_rgba(6,182,212,0.3)]"
+                                title="Dossier Locked & Set for VTT"
+                              >
+                                <Lock size={10} className="text-cyan-400" />
+                                <span>Locked</span>
+                              </span>
+                            )}
                             {isActive && (
                               <span className="px-2 py-0.5 bg-amber-500/20 text-amber-300 border border-amber-500/50 rounded text-[9px] font-bold uppercase tracking-wider">
                                 ACTIVE
@@ -495,17 +506,29 @@ export const RosterModal = ({
                     const origin = getFieldValue(char['char-origin']);
                     const occupation = getFieldValue(char['char-occu']);
                     const noteText = char.notes && Array.isArray(char.notes) ? char.notes[0]?.text : '';
+                    const isLocked = Boolean(char.is_locked || char.folio_phase === 'locked');
 
                     return (
                       <tr key={docId || name} className={`hover:bg-slate-850 transition-colors ${isActive ? 'bg-cyan-950/40' : ''}`}>
                         <td className="p-3 whitespace-nowrap">
-                          {isActive ? (
-                            <span className="px-1.5 py-0.5 bg-amber-500/20 text-amber-300 border border-amber-500/50 rounded text-[9px] font-bold uppercase">
-                              ACTIVE
-                            </span>
-                          ) : (
-                            <span className="text-[10px] text-slate-500 uppercase">READY</span>
-                          )}
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            {isLocked && (
+                              <span 
+                                className="px-1.5 py-0.5 bg-cyan-950/80 text-cyan-300 border border-cyan-500/40 rounded text-[9px] font-bold uppercase flex items-center gap-1 shadow-[0_0_6px_rgba(6,182,212,0.3)]"
+                                title="Dossier Locked & Set for VTT"
+                              >
+                                <Lock size={9} className="text-cyan-400" />
+                                <span>Locked</span>
+                              </span>
+                            )}
+                            {isActive ? (
+                              <span className="px-1.5 py-0.5 bg-amber-500/20 text-amber-300 border border-amber-500/50 rounded text-[9px] font-bold uppercase">
+                                ACTIVE
+                              </span>
+                            ) : (
+                              <span className="text-[10px] text-slate-500 uppercase">READY</span>
+                            )}
+                          </div>
                         </td>
                         <td className="p-3 font-bold text-white uppercase whitespace-nowrap">
                           <div className="flex items-center gap-2">

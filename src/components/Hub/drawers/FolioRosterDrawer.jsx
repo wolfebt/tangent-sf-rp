@@ -5,7 +5,7 @@ import { extractCreatorInfo } from '../../../utils/creatorUtils';
 import { AudioService } from '../../../services/audioService';
 import { 
   Users, X, Plus, Sparkles, Search, Copy, Check, Trash2, 
-  ChevronRight, ArrowUpRight 
+  ChevronRight, ArrowUpRight, Lock 
 } from 'lucide-react';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 
@@ -258,6 +258,7 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
               const creatorInfo = extractCreatorInfo(char);
               const shareUrl = `${window.location.origin}/folio?user=${char.ownerUid || ''}&id=${docId}`;
               const initial = (name.charAt(0) || 'O').toUpperCase();
+              const isLocked = Boolean(char.is_locked || char.folio_phase === 'locked');
 
               return (
                 <div
@@ -291,6 +292,15 @@ export const FolioRosterDrawer = ({ onClose, onOpenSheet, onOpenDrawer }) => {
                         <span className="font-bold text-xs sm:text-sm text-white font-mono uppercase group-hover:text-cyan-200 transition-colors truncate">
                           {name}
                         </span>
+                        {isLocked && (
+                          <span
+                            className="px-1.5 py-0.2 bg-cyan-950/90 text-cyan-300 border border-cyan-500/40 rounded text-[8.5px] font-mono font-bold flex items-center gap-1 shadow-[0_0_6px_rgba(6,182,212,0.3)]"
+                            title="Dossier Locked & Set for VTT"
+                          >
+                            <Lock size={9} className="text-cyan-400" />
+                            <span>Locked</span>
+                          </span>
+                        )}
                         {isActive && (
                           <span className="px-1.5 py-0.2 bg-amber-500/20 text-amber-300 border border-amber-500/50 rounded text-[8.5px] font-bold font-mono uppercase">
                             ACTIVE

@@ -7,12 +7,21 @@ import {
   Sparkles, Play, RotateCcw, BookOpen, Send, 
   Dices, User, MapPin, Shield, Search, FileText, 
   Flame, CheckCircle, ChevronRight, Share2, Printer, 
-  Settings, ArrowRight, CornerDownRight
+  Settings, ArrowRight, CornerDownRight, Loader2
 } from 'lucide-react';
 import AdventurePrintModal from './AdventurePrintModal';
+import GuidanceGemsModal from '../GuidanceGemsModal';
+import ScratchbookModal from '../ScratchbookModal';
 
 export const InteractiveStoryStudio = ({ activeNode }) => {
-  const { universeState, elementsCatalog, updateDraft, addMap, setActiveMapId } = useStory();
+  const { 
+    universeState, 
+    elementsCatalog, 
+    updateDraft, 
+    addMap, 
+    setActiveMapId,
+    getActiveGemsText 
+  } = useStory();
   const { roster } = useFolio();
 
   // Active Series / Volume / Chapter tracker
@@ -26,8 +35,13 @@ export const InteractiveStoryStudio = ({ activeNode }) => {
   const [customActionInput, setCustomActionInput] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [activeStreamingText, setActiveStreamingText] = useState('');
+  const [generatingActionText, setGeneratingActionText] = useState('');
   const [skillCheckRoll, setSkillCheckRoll] = useState(null);
+
+  // Modals state
   const [isPrintModalOpen, setIsPrintModalOpen] = useState(false);
+  const [isGemsModalOpen, setIsGemsModalOpen] = useState(false);
+  const [isScratchbookModalOpen, setIsScratchbookModalOpen] = useState(false);
 
   // Connected Context Elements (Personas, Factions, Scenes, Clues)
   const [selectedConnectedElementIds, setSelectedConnectedElementIds] = useState([]);
@@ -35,6 +49,10 @@ export const InteractiveStoryStudio = ({ activeNode }) => {
   const allAvailableElements = useMemo(() => {
     return elementsCatalog || [];
   }, [elementsCatalog]);
+
+  const activeGemsCount = useMemo(() => {
+    return universeState?.creativeState?.gems?.length || 0;
+  }, [universeState]);
 
   const toggleElementConnection = (elemId) => {
     AudioService.playTerminalBeep(900, 0.02);
@@ -47,7 +65,7 @@ export const InteractiveStoryStudio = ({ activeNode }) => {
 
   useEffect(() => {
     endOfBeatsRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [beats, activeStreamingText]);
+  }, [beats, activeStreamingText, isGenerating]);
 
   // Dice Roll Check Integration
   const handleRollCheck = (skillName, dc = 13) => {
@@ -75,25 +93,31 @@ export const InteractiveStoryStudio = ({ activeNode }) => {
   // Advance to Next Story Beat
   const handleAdvanceBeat = async (selectedOptionText) => {
     if (isGenerating) return;
-    const chosenAction = selectedOptionText || customActionInput;
-    if (!chosenAction.trim()) return;
+    const chosenAction = (selectedOptionText || customActionInput || '').trim();
+    if (!chosenAction) return;
 
     AudioService.playTerminalBeep(980, 0.08);
     setIsGenerating(true);
+    setGeneratingActionText(chosenAction);
     setActiveStreamingText('');
 
-    // Mark previous beat with chosen decision
-    const currentBeat = beats[beats.length - 1];
-    const updatedBeats = [...beats];
-    updatedBeats[updatedBeats.length - 1] = {
-      ...currentBeat,
-      gate: {
-        ...currentBeat.gate,
-        chosenOption: chosenAction,
-        checkResult: skillCheckRoll ? skillCheckRoll.text : null
+    // Safely mark previous beat with chosen decision ONLY IF beats exist
+    let updatedBeats = [...beats];
+    if (beats.length > 0) {
+      const lastIndex = beats.length - 1;
+      const currentBeat = beats[lastIndex];
+      if (currentBeat) {
+        updatedBeats[lastIndex] = {
+          ...currentBeat,
+          gate: {
+            ...(currentBeat.gate || {}),
+            chosenOption: chosenAction,
+            checkResult: skillCheckRoll ? skillCheckRoll.text : null
+          }
+        };
+        setBeats(updatedBeats);
       }
-    };
-    setBeats(updatedBeats);
+    }
 
     // Build rich context from connected elements
     const connectedElementsInfo = allAvailableElements
@@ -101,14 +125,21 @@ export const InteractiveStoryStudio = ({ activeNode }) => {
       .map(el => `[${el.type}] ${el.name || el.title}: ${el.summary || el.description || ''}`)
       .join('\n');
 
+    const guidanceGemsString = typeof getActiveGemsText === 'function' ? getActiveGemsText() : '';
+
     const contextPrompt = `
 Series: "${selectedVolume}"
 Chapter: "${chapterTitle}"
+Guidance Gems & Narrative Modifiers:
+${guidanceGemsString || 'Standard Tangent Sci-Fi Universe'}
+
 Connected Universe Elements:
 ${connectedElementsInfo || 'Standard Tangent Sci-Fi Universe'}
 
 Previous Story Beats:
-${updatedBeats.slice(-3).map(b => `BEAT ${b.beatIndex}:\n${b.content}\n[PLAYER CHOSE]: ${b.gate.chosenOption || ''}\n`).join('\n')}
+${updatedBeats.length > 0 
+  ? updatedBeats.slice(-3).map(b => `BEAT ${b.beatIndex}:\n${b.content}\n[PLAYER CHOSE]: ${b.gate?.chosenOption || ''}\n`).join('\n')
+  : 'Opening of the adventure scenario.'}
 
 Action Chosen by Player:
 "${chosenAction}"
@@ -133,62 +164,63 @@ Option 3: (action description)
       await streamContent({
         prompt: contextPrompt,
         context: activeNode,
-        apiKey: '',
         onChunk: (chunk) => {
           generatedAccumulator += chunk;
           setActiveStreamingText(generatedAccumulator);
         }
       });
     } catch (err) {
-      console.warn('AIME stream fallback:', err);
-    }
+      console.warn('AIME stream fallback triggered:', err);
+    } finally {
+      // Parse the generated story prose and options
+      let prose = generatedAccumulator;
+      let newOptions = [
+        { id: `opt_${Date.now()}_1`, text: 'Secure defensive cover and scan the chamber for automated sentry pods.', skill: 'Perception (DC 13)' },
+        { id: `opt_${Date.now()}_2`, text: 'Interface with the auxiliary data-core before the backup power drops.', skill: 'Tech / Slicing (DC 14)' },
+        { id: `opt_${Date.now()}_3`, text: 'Move rapidly towards the elevator shaft and breach the lower deck.', skill: 'Agility / Athletics (DC 12)' }
+      ];
 
-    // Parse the generated story prose and options
-    let prose = generatedAccumulator;
-    let newOptions = [
-      { id: 'opt_a', text: 'Secure defensive cover and scan the chamber for automated sentry pods.', skill: 'Perception (DC 13)' },
-      { id: 'opt_b', text: 'Interface with the auxiliary data-core before the backup power drops.', skill: 'Tech / Slicing (DC 14)' },
-      { id: 'opt_c', text: 'Move rapidly towards the elevator shaft and breach the lower deck.', skill: 'Agility / Athletics (DC 12)' }
-    ];
+      if (prose.includes('[STORY_PROSE]') && prose.includes('[OPTIONS]')) {
+        const parts = prose.split('[OPTIONS]');
+        prose = parts[0].replace('[STORY_PROSE]', '').trim();
+        const optionsText = parts[1] || '';
+        const parsedOpts = optionsText
+          .split('\n')
+          .filter(l => l.trim().startsWith('Option') || l.trim().startsWith('-') || l.trim().match(/^\d+\./))
+          .map((l, idx) => ({
+            id: `opt_${Date.now()}_${idx}`,
+            text: l.replace(/Option \d+:/i, '').replace(/^\d+\.\s*/, '').replace(/^[-*]\s*/, '').trim()
+          }))
+          .filter(opt => opt.text.length > 0);
 
-    if (prose.includes('[STORY_PROSE]') && prose.includes('[OPTIONS]')) {
-      const parts = prose.split('[OPTIONS]');
-      prose = parts[0].replace('[STORY_PROSE]', '').trim();
-      const optionsText = parts[1] || '';
-      const parsedOpts = optionsText
-        .split('\n')
-        .filter(l => l.trim().startsWith('Option') || l.trim().startsWith('-'))
-        .map((l, idx) => ({
-          id: `opt_${Date.now()}_${idx}`,
-          text: l.replace(/Option \d+:/i, '').replace(/^[-*]\s*/, '').trim()
-        }));
-
-      if (parsedOpts.length >= 2) {
-        newOptions = parsedOpts.slice(0, 3);
+        if (parsedOpts.length >= 2) {
+          newOptions = parsedOpts.slice(0, 3);
+        }
+      } else if (!prose.trim() || prose.includes('[AIME LOCAL COGNITION]')) {
+        // Offline / fallback high-quality beat
+        prose = `The bulkhead sensors respond to the command input. Hydraulic couplings cycle with an audible resonant hiss as emergency illumination pulses across the decking. In response to "${chosenAction}", atmospheric monitors recalibrate and tactical displays register intermittent telemetry fluctuations further down the corridor.`;
       }
-    } else if (!prose.trim()) {
-      // Offline fallback high-quality beat
-      prose = `The biometric relay clicks green under your bypass probe. The heavy bulkhead slides open with a pneumatic hiss, revealing a subterranean laboratory bathed in amber emergency strophes. Shattered containment tubes line the perimeter; pooling bioluminescent amniotic fluid reflects the silhouette of a severed synthetic android chassis slumped against the central terminal console.`;
+
+      const nextBeat = {
+        id: `beat_${Date.now()}`,
+        beatIndex: updatedBeats.length + 1,
+        content: prose,
+        gate: {
+          prompt: 'What is your next tactical move?',
+          options: newOptions,
+          chosenOption: null
+        },
+        timestamp: new Date().toISOString()
+      };
+
+      setBeats(prev => [...prev, nextBeat]);
+      setActiveStreamingText('');
+      setIsGenerating(false);
+      setGeneratingActionText('');
+      setCustomActionInput('');
+      setSkillCheckRoll(null);
+      AudioService.playTerminalBeep(1200, 0.1);
     }
-
-    const nextBeat = {
-      id: `beat_${Date.now()}`,
-      beatIndex: updatedBeats.length + 1,
-      content: prose,
-      gate: {
-        prompt: 'What is your next tactical move?',
-        options: newOptions,
-        chosenOption: null
-      },
-      timestamp: new Date().toISOString()
-    };
-
-    setBeats(prev => [...prev, nextBeat]);
-    setActiveStreamingText('');
-    setIsGenerating(false);
-    setCustomActionInput('');
-    setSkillCheckRoll(null);
-    AudioService.playTerminalBeep(1200, 0.1);
   };
 
   // Rewind / Checkpoint timeline rollback
@@ -289,7 +321,7 @@ Option 3: (action description)
               No elements in Element Forge yet. Connect Personas, Factions, and Scenes to enrich AI storytelling.
             </p>
           ) : (
-            allAvailableElements.slice(0, 15).map(el => {
+            allAvailableElements.slice(0, 20).map(el => {
               const isSelected = selectedConnectedElementIds.includes(el.id);
 
               return (
@@ -298,7 +330,7 @@ Option 3: (action description)
                   onClick={() => toggleElementConnection(el.id)}
                   className={`p-2 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-2 ${
                     isSelected
-                      ? 'bg-cyan-950/70 border-cyan-400/60 text-cyan-200'
+                      ? 'bg-cyan-950/70 border-cyan-400/60 text-cyan-200 shadow-sm'
                       : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700'
                   }`}
                 >
@@ -355,31 +387,53 @@ Option 3: (action description)
 
       {/* ── MAIN INTERACTIVE STORY TIMELINE ── */}
       <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#0a0d14]">
-        {/* Top Breadcrumb Bar */}
-        <div className="h-10 px-6 bg-[#0f1420] border-b border-slate-800 flex items-center justify-between font-mono text-xs">
-          <div className="flex items-center gap-2">
-            <Sparkles size={14} className="text-amber-400 animate-pulse" />
-            <span className="text-slate-400">ADE Granular Story Mode</span>
+        {/* Top Breadcrumb & Actions Bar */}
+        <div className="h-10 px-6 bg-[#0f1420] border-b border-slate-800 flex items-center justify-between font-mono text-xs shrink-0">
+          <div className="flex items-center gap-2 truncate">
+            <Sparkles size={14} className="text-amber-400 animate-pulse shrink-0" />
+            <span className="text-slate-400 hidden sm:inline">ADE Granular Story</span>
+            <span className="text-slate-600 hidden sm:inline">/</span>
+            <span className="font-bold text-cyan-300 truncate">{selectedVolume}</span>
             <span className="text-slate-600">/</span>
-            <span className="font-bold text-cyan-300">{selectedVolume}</span>
-            <span className="text-slate-600">/</span>
-            <span className="text-slate-300">{chapterTitle}</span>
+            <span className="text-slate-300 truncate">{chapterTitle}</span>
           </div>
 
-          <div className="flex items-center gap-3 text-[11px] text-slate-400">
-            <span>Beats: <strong className="text-cyan-400">{beats.length}</strong></span>
-            <span>Words: <strong className="text-amber-400">{beats.reduce((sum, b) => sum + b.content.split(/\s+/).length, 0)}</strong></span>
+          <div className="flex items-center gap-2.5 text-[11px] shrink-0">
+            {/* Guidance Gems Button */}
+            <button
+              type="button"
+              onClick={() => setIsGemsModalOpen(true)}
+              className="px-2.5 py-1 bg-amber-950/60 hover:bg-amber-900/80 border border-amber-500/40 text-amber-300 rounded-lg font-bold uppercase tracking-wider flex items-center gap-1.5 transition-colors cursor-pointer"
+              title="Open Guidance Gems selection"
+            >
+              <Sparkles size={11} className="text-amber-400" />
+              <span>Gems ({activeGemsCount})</span>
+            </button>
+
+            {/* Scratchbook Button */}
+            <button
+              type="button"
+              onClick={() => setIsScratchbookModalOpen(true)}
+              className="px-2.5 py-1 bg-cyan-950/60 hover:bg-cyan-900/80 border border-cyan-500/40 text-cyan-300 rounded-lg font-bold uppercase tracking-wider flex items-center gap-1.5 transition-colors cursor-pointer"
+              title="Open Project Scratchbook source of truth"
+            >
+              <BookOpen size={11} className="text-cyan-400" />
+              <span className="hidden md:inline">Scratchbook</span>
+            </button>
+
+            <span className="text-slate-500">|</span>
+            <span className="text-slate-400">Beats: <strong className="text-cyan-400">{beats.length}</strong></span>
           </div>
         </div>
 
         {/* Scrollable Story Beats Stream */}
         <div className="flex-1 overflow-y-auto p-6 md:p-10 space-y-6 scrollbar-thin">
-          {beats.length === 0 && !activeStreamingText && (
+          {beats.length === 0 && !activeStreamingText && !isGenerating && (
             <div className="max-w-md mx-auto text-center py-20 text-slate-500 space-y-3 font-mono text-xs">
               <BookOpen size={36} className="mx-auto text-slate-600 opacity-60" />
               <p className="text-slate-400 font-bold uppercase tracking-wider">No Story Beats Yet</p>
               <p className="text-slate-500 text-[11px] leading-relaxed">
-                Connect lore elements from the left panel and submit an opening action prompt below to start drafting narrative beats.
+                Connect lore elements from the left panel and declare an opening operative action in the Decision Gate below to synthesize Beat #1.
               </p>
             </div>
           )}
@@ -409,12 +463,12 @@ Option 3: (action description)
               </div>
 
               {/* Story Narrative Prose */}
-              <p className="text-slate-200 text-sm md:text-base leading-relaxed font-serif tracking-wide selection:bg-cyan-500/30">
+              <p className="text-slate-200 text-sm md:text-base leading-relaxed font-serif tracking-wide selection:bg-cyan-500/30 whitespace-pre-wrap">
                 {beat.content}
               </p>
 
               {/* Past Chosen Action Badge */}
-              {beat.gate.chosenOption && (
+              {beat.gate?.chosenOption && (
                 <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center gap-2 text-xs font-mono text-cyan-300 bg-cyan-950/30 p-2.5 rounded-xl">
                   <CornerDownRight size={13} className="text-cyan-400 shrink-0" />
                   <span className="font-bold">Chosen Action:</span>
@@ -429,13 +483,31 @@ Option 3: (action description)
             </div>
           ))}
 
+          {/* Thinking / Placeholder Beat while awaiting stream */}
+          {isGenerating && !activeStreamingText && (
+            <div className="max-w-3xl mx-auto bg-slate-900/80 border border-cyan-500/50 rounded-2xl p-6 shadow-[0_0_25px_rgba(6,182,212,0.2)] animate-pulse flex items-center gap-3">
+              <div className="w-5 h-5 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin shrink-0" />
+              <div>
+                <span className="text-xs font-mono text-cyan-300 font-bold uppercase tracking-wider block">
+                  AIME & BASTION Synthesizing Next Story Beat...
+                </span>
+                <p className="text-xs text-slate-400 font-mono mt-0.5">
+                  Calculating narrative consequences and tactical decision options...
+                </p>
+              </div>
+            </div>
+          )}
+
           {/* Real-time Streaming Prose Container */}
           {activeStreamingText && (
             <div className="max-w-3xl mx-auto bg-slate-900/80 border border-cyan-500/50 rounded-2xl p-6 shadow-[0_0_25px_rgba(6,182,212,0.2)] animate-in fade-in">
-              <span className="text-[10px] font-mono text-cyan-400 font-bold uppercase tracking-wider block mb-2">
-                Synthesizing Next Story Beat...
-              </span>
-              <p className="text-slate-100 text-sm md:text-base leading-relaxed font-serif tracking-wide">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-3 h-3 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin shrink-0" />
+                <span className="text-[10px] font-mono text-cyan-400 font-bold uppercase tracking-wider">
+                  Streaming Narrative Prose...
+                </span>
+              </div>
+              <p className="text-slate-100 text-sm md:text-base leading-relaxed font-serif tracking-wide whitespace-pre-wrap">
                 {activeStreamingText}
               </p>
             </div>
@@ -447,6 +519,23 @@ Option 3: (action description)
         {/* ── INTERACTIVE DECISION GATE COCKPIT (Bottom) ── */}
         <div className="border-t border-slate-800 bg-[#0d121c] p-4 md:p-5 shadow-2xl">
           <div className="max-w-3xl mx-auto space-y-3">
+            
+            {/* Active Thinking Notification Banner */}
+            {isGenerating && (
+              <div className="flex items-center justify-between p-2.5 px-3.5 rounded-xl bg-cyan-950/90 border border-cyan-400/60 text-cyan-300 font-mono text-xs shadow-[0_0_15px_rgba(6,182,212,0.25)] animate-pulse">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-4 h-4 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin shrink-0" />
+                  <span className="font-bold uppercase tracking-wider text-amber-300">AIME & BASTION Thinking:</span>
+                  <span className="text-slate-200 truncate">
+                    Processing operative move "{generatingActionText || 'Action'}"...
+                  </span>
+                </div>
+                <span className="text-[10px] text-cyan-400 font-bold shrink-0 hidden sm:inline">
+                  AI DECISION MATRIX ACTIVE
+                </span>
+              </div>
+            )}
+
             {/* Gate Title */}
             <div className="flex items-center justify-between font-mono text-xs">
               <span className="font-bold text-amber-300 flex items-center gap-1.5 uppercase tracking-wider">
@@ -461,45 +550,47 @@ Option 3: (action description)
               )}
             </div>
 
-            {/* 3 Interactive Branching Options */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-              {(activeBeat?.gate?.options || []).map((opt, i) => (
-                <button
-                  key={opt.id || i}
-                  type="button"
-                  disabled={isGenerating}
-                  onClick={() => handleAdvanceBeat(opt.text)}
-                  className="p-3 rounded-xl bg-slate-900/90 hover:bg-slate-850 hover:border-cyan-500/60 border border-slate-700/80 text-left transition-all group cursor-pointer flex flex-col justify-between gap-2 shadow-sm disabled:opacity-50"
-                >
-                  <div className="flex items-start gap-1.5">
-                    <span className="text-[10px] font-mono font-bold text-cyan-400 bg-cyan-950/80 px-1.5 py-0.2 rounded border border-cyan-500/30">
-                      #{i + 1}
-                    </span>
-                    <span className="text-xs text-slate-200 group-hover:text-cyan-300 leading-snug">
-                      {opt.text}
-                    </span>
-                  </div>
-
-                  {opt.skill && (
-                    <div className="flex items-center justify-between text-[10px] font-mono text-amber-300/90 pt-1 border-t border-slate-800">
-                      <span>{opt.skill}</span>
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleRollCheck(opt.skill, 13);
-                        }}
-                        className="px-1.5 py-0.5 bg-amber-950/80 hover:bg-amber-900 border border-amber-500/40 rounded text-[9px] cursor-pointer flex items-center gap-1"
-                        title="Roll 2d10 Check"
-                      >
-                        <Dices size={10} />
-                        <span>Roll</span>
-                      </button>
+            {/* 3 Interactive Branching Options (if beat exists) */}
+            {activeBeat?.gate?.options && activeBeat.gate.options.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                {activeBeat.gate.options.map((opt, i) => (
+                  <button
+                    key={opt.id || i}
+                    type="button"
+                    disabled={isGenerating}
+                    onClick={() => handleAdvanceBeat(opt.text)}
+                    className="p-3 rounded-xl bg-slate-900/90 hover:bg-slate-850 hover:border-cyan-500/60 border border-slate-700/80 text-left transition-all group cursor-pointer flex flex-col justify-between gap-2 shadow-sm disabled:opacity-50"
+                  >
+                    <div className="flex items-start gap-1.5">
+                      <span className="text-[10px] font-mono font-bold text-cyan-400 bg-cyan-950/80 px-1.5 py-0.2 rounded border border-cyan-500/30">
+                        #{i + 1}
+                      </span>
+                      <span className="text-xs text-slate-200 group-hover:text-cyan-300 leading-snug">
+                        {opt.text}
+                      </span>
                     </div>
-                  )}
-                </button>
-              ))}
-            </div>
+
+                    {opt.skill && (
+                      <div className="flex items-center justify-between text-[10px] font-mono text-amber-300/90 pt-1 border-t border-slate-800">
+                        <span>{opt.skill}</span>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleRollCheck(opt.skill, 13);
+                          }}
+                          className="px-1.5 py-0.5 bg-amber-950/80 hover:bg-amber-900 border border-amber-500/40 rounded text-[9px] cursor-pointer flex items-center gap-1"
+                          title="Roll 2d10 Check"
+                        >
+                          <Dices size={10} />
+                          <span>Roll</span>
+                        </button>
+                      </div>
+                    )}
+                  </button>
+                ))}
+              </div>
+            )}
 
             {/* Custom Action Input Prompt */}
             <div className="flex items-center gap-2 pt-1">
@@ -514,7 +605,7 @@ Option 3: (action description)
                   }
                 }}
                 disabled={isGenerating}
-                placeholder="Or declare custom operative action (e.g. Infiltrate via cargo loader)..."
+                placeholder="Declare operative action (e.g. Infiltrate via the ventilation duct)..."
                 className="flex-1 bg-slate-950 border border-slate-700 rounded-xl px-4 py-2 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-400 font-mono transition-colors"
               />
 
@@ -524,8 +615,17 @@ Option 3: (action description)
                 disabled={isGenerating || !customActionInput.trim()}
                 className="px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 disabled:opacity-40 text-black font-mono font-bold text-xs flex items-center gap-1.5 transition-all shadow-[0_0_15px_rgba(6,182,212,0.4)] cursor-pointer shrink-0"
               >
-                <span>Advance Beat</span>
-                <Send size={12} />
+                {isGenerating ? (
+                  <>
+                    <div className="w-3.5 h-3.5 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                    <span>Thinking...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Advance Beat</span>
+                    <Send size={12} />
+                  </>
+                )}
               </button>
             </div>
           </div>
@@ -538,6 +638,19 @@ Option 3: (action description)
         onClose={() => setIsPrintModalOpen(false)}
         storyTitle={chapterTitle}
         volumeTitle={selectedVolume}
+        beats={beats}
+      />
+
+      {/* Guidance Gems Modal */}
+      <GuidanceGemsModal
+        isOpen={isGemsModalOpen}
+        onClose={() => setIsGemsModalOpen(false)}
+      />
+
+      {/* Scratchbook Modal */}
+      <ScratchbookModal
+        isOpen={isScratchbookModalOpen}
+        onClose={() => setIsScratchbookModalOpen(false)}
         beats={beats}
       />
     </div>
