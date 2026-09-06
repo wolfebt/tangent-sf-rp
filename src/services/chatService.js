@@ -160,6 +160,19 @@ export const ChatService = {
   async sendMessage(channelId, messagePayload) {
     if (!channelId) throw new Error('Channel ID is required');
 
+    // If channel is marked as read-only (like persona telemetry logs), reject non-log chatter
+    if (db && !messagePayload.isReadOnlyLog) {
+      try {
+        const channelDocRef = doc(db, 'channels', channelId);
+        const cSnap = await getDoc(channelDocRef);
+        if (cSnap.exists() && cSnap.data().isReadOnly) {
+          throw new Error('This frequency is a read-only audit stream. Messages cannot be transmitted here.');
+        }
+      } catch (err) {
+        if (err.message && err.message.includes('read-only')) throw err;
+      }
+    }
+
     const messagesRef = collection(db, 'channels', channelId, 'messages');
     const now = new Date();
     const docData = {
@@ -178,6 +191,8 @@ export const ChatService = {
         lastMessage: {
           text: messagePayload.type === 'dice_roll' 
             ? `🎲 ${messagePayload.senderHandle} rolled ${messagePayload.metadata?.result || 'dice'}` 
+            : messagePayload.type === 'persona_log_entry'
+            ? `📋 ${messagePayload.summary || 'Telemetry recorded'}`
             : (messagePayload.text?.substring(0, 80) || 'Transmission'),
           senderHandle: messagePayload.senderHandle || 'Unknown',
           senderId: messagePayload.senderId || '',
@@ -191,8 +206,8 @@ export const ChatService = {
     return docRef.id;
   },
 
-  // Create or retrieve a 1-on-1 Direct Message Channel
-  async getOrCreateDirectMessageChannel(currentUser, targetUser) {
+  // Create or retrieve a 1-on-1 Direct Message Channel (supports target persona tagging)
+  async getOrCreateDirectMessageChannel(currentUser, targetUser, targetPersona = null) {
     if (!currentUser || !targetUser) throw new Error('Both users are required for DM');
 
     const sortedUids = [currentUser.uid, targetUser.uid].sort();
@@ -201,20 +216,33 @@ export const ChatService = {
     const channelRef = doc(db, 'channels', channelId);
     const snap = await getDoc(channelRef);
 
-    if (snap.exists()) {
-      return { id: snap.id, ...snap.data() };
-    }
-
     const currentHandle = currentUser.displayName || currentUser.email || 'Operator';
     const targetHandle = targetUser.userHandle || targetUser.displayName || targetUser.email || 'Operator';
+    const personaLabel = targetPersona?.name ? ` (${targetPersona.name})` : '';
+
+    if (snap.exists()) {
+      const existing = { id: snap.id, ...snap.data() };
+      // If a targetPersona was passed and isn't recorded, update topic/details
+      if (targetPersona && (!existing.targetPersona || existing.targetPersona.id !== targetPersona.id)) {
+        try {
+          await updateDoc(channelRef, {
+            targetPersona,
+            topic: `Encrypted 1-on-1 Comms with @${targetHandle}${personaLabel}`,
+            updatedAt: serverTimestamp()
+          });
+        } catch (e) {}
+      }
+      return existing;
+    }
 
     const newChannel = {
       id: channelId,
       name: `dm-${targetHandle}`,
-      displayName: `@${targetHandle}`,
-      topic: `Encrypted 1-on-1 Comms between @${currentHandle} and @${targetHandle}`,
+      displayName: `@${targetHandle}${personaLabel}`,
+      topic: `Encrypted 1-on-1 Comms between @${currentHandle} and @${targetHandle}${personaLabel}`,
       type: 'direct',
       isPublic: false,
+      targetPersona: targetPersona || null,
       createdById: currentUser.uid,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
@@ -226,11 +254,12 @@ export const ChatService = {
         },
         [targetUser.uid]: {
           handle: targetHandle,
-          photoURL: targetUser.photoURL || null
+          photoURL: targetUser.photoURL || null,
+          persona: targetPersona || null
         }
       },
       lastMessage: {
-        text: 'Direct CommLink established.',
+        text: `Direct CommLink established${personaLabel ? ` with ${targetPersona.name}` : ''}.`,
         senderHandle: 'SYSTEM',
         timestamp: new Date().toISOString()
       }

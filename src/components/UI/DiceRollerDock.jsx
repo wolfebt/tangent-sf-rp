@@ -4,6 +4,7 @@ import { rollDice } from '../../services/diceService';
 import { AudioService } from '../../services/audioService';
 import { useChat } from '../../context/ChatContext';
 import { useDice } from '../../context/DiceContext';
+import { PersonaLogService, ACTION_TYPES } from '../../services/personaLogService';
 
 const PRESET_DICE = [
   { label: '2d10', expr: '2d10' },
@@ -166,6 +167,29 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
       } catch (err) {
         console.warn('Failed to broadcast roll to chat:', err);
       }
+    }
+
+    // Auto-log to Persona Telemetry Log if personaId or character is attached
+    const targetPersonaId = overrideConfig?.personaId || diceConfig?.personaId;
+    if (targetPersonaId) {
+      PersonaLogService.logAction({
+        personaId: targetPersonaId,
+        personaName: cName,
+        actionType: ACTION_TYPES.SKILL_CHECK,
+        summary: `${cLabel}: ${result.total} (${result.expression})${result.isCritSuccess ? ' [CRITICAL 30]' : result.isCritFail ? ' [FUMBLE -10]' : ''}`,
+        details: {
+          expression: result.expression,
+          rolls: result.rolls,
+          total: result.total,
+          modifier: result.modifier,
+          isCritical: result.isCritSuccess,
+          isFumble: result.isCritFail,
+          isAdvantage: mode === 'advantage',
+          isDisadvantage: mode === 'disadvantage'
+        },
+        actorId: 'player',
+        actorHandle: cName
+      }).catch(() => {});
     }
   };
 

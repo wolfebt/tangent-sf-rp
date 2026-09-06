@@ -6,7 +6,14 @@ import { rollDice } from '../../../services/diceService';
 import { AudioService } from '../../../services/audioService';
 import { Crosshair, Shield, Plus, Dices, Sparkles, X, Zap, Heart, Activity } from 'lucide-react';
 import FolioTooltip from '../shared/FolioTooltip';
-import { createAttackFromWeapon, createArmorFromItem } from '../../../utils/combatUtils';
+import { 
+  createAttackFromWeapon, 
+  createArmorFromItem,
+  isNaturalAttackTrait,
+  createAttackFromNaturalTrait,
+  isOffensiveMetaphysics,
+  createAttackFromInvocation
+} from '../../../utils/combatUtils';
 
 export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
   const {
@@ -117,6 +124,38 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     });
   });
 
+  // Natural attacks from features, traits & special abilities not yet in attacks
+  const naturalSources = [
+    ...(Array.isArray(characterData.features) ? characterData.features : []),
+    ...(Array.isArray(characterData.traits) ? characterData.traits : []),
+    ...(Array.isArray(characterData.special_abilities) ? characterData.special_abilities : [])
+  ].filter(isNaturalAttackTrait);
+
+  const unreadiedNaturalAttacks = naturalSources.filter(nat => {
+    const nName = (typeof nat === 'object' ? (nat.name || nat.title) : String(nat || '')).trim().toLowerCase();
+    const nId = typeof nat === 'object' ? nat.id : null;
+    return !attacks.some(a => {
+      if (nId && (a.sourceId === nId || a.id === nId || a.id === `nat_${nId}`)) return true;
+      return (a.name || '').trim().toLowerCase() === nName;
+    });
+  });
+
+  // Offensive metaphysics not yet in attacks
+  const metaSources = [
+    ...(Array.isArray(characterData.invocations) ? characterData.invocations : []),
+    ...(Array.isArray(characterData.awakened) ? characterData.awakened : []),
+    ...(Array.isArray(characterData.special_abilities) ? characterData.special_abilities : [])
+  ].filter(isOffensiveMetaphysics);
+
+  const unreadiedInvocations = metaSources.filter(inv => {
+    const iName = (typeof inv === 'object' ? (inv.name || inv.title) : String(inv || '')).trim().toLowerCase();
+    const iId = typeof inv === 'object' ? inv.id : null;
+    return !attacks.some(a => {
+      if (iId && (a.sourceId === iId || a.id === iId || a.id === `meta_${iId}`)) return true;
+      return (a.name || '').trim().toLowerCase() === iName;
+    });
+  });
+
   // Armor & Defense list
   const armors = getArray('armor');
 
@@ -150,6 +189,24 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
     const newAttacks = [
       ...attacks,
       ...unreadiedWeapons.map(w => createAttackFromWeapon(w, characterData, getAttrTotal))
+    ];
+    updateField('attacks', newAttacks);
+  };
+
+  const readyAllNatural = () => {
+    if (unreadiedNaturalAttacks.length === 0) return;
+    const newAttacks = [
+      ...attacks,
+      ...unreadiedNaturalAttacks.map(n => createAttackFromNaturalTrait(n, characterData, getAttrTotal))
+    ];
+    updateField('attacks', newAttacks);
+  };
+
+  const readyAllInvocations = () => {
+    if (unreadiedInvocations.length === 0) return;
+    const newAttacks = [
+      ...attacks,
+      ...unreadiedInvocations.map(inv => createAttackFromInvocation(inv, characterData, getAttrTotal))
     ];
     updateField('attacks', newAttacks);
   };
@@ -529,6 +586,28 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       <span>Ready from Property ({unreadiedWeapons.length})</span>
                     </button>
                   )}
+                  {unreadiedNaturalAttacks.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={readyAllNatural}
+                      className="px-3 py-1.5 bg-emerald-950/90 hover:bg-emerald-900 border border-emerald-500/60 text-emerald-300 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_8px_rgba(16,185,129,0.2)] cursor-pointer"
+                      title={`Ready ${unreadiedNaturalAttacks.length} natural attack(s) from Features/Traits`}
+                    >
+                      <span>🐾</span>
+                      <span>Ready Natural ({unreadiedNaturalAttacks.length})</span>
+                    </button>
+                  )}
+                  {unreadiedInvocations.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={readyAllInvocations}
+                      className="px-3 py-1.5 bg-purple-950/90 hover:bg-purple-900 border border-purple-500/60 text-purple-300 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_8px_rgba(168,85,247,0.2)] cursor-pointer"
+                      title={`Ready ${unreadiedInvocations.length} offensive invocation(s) into Combat Attacks`}
+                    >
+                      <span>🔮</span>
+                      <span>Ready Metaphysics ({unreadiedInvocations.length})</span>
+                    </button>
+                  )}
                   <button
                     type="button"
                     onClick={addAttack}
@@ -585,6 +664,24 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                         className="px-3 py-1 bg-cyan-950/90 border border-cyan-500/50 text-cyan-300 hover:bg-cyan-900 rounded text-xs font-bold transition-colors cursor-pointer"
                       >
                         ⚔️ Ready {unreadiedWeapons.length} Weapon(s) from Property
+                      </button>
+                    )}
+                    {unreadiedNaturalAttacks.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={readyAllNatural}
+                        className="px-3 py-1 bg-emerald-950/90 border border-emerald-500/50 text-emerald-300 hover:bg-emerald-900 rounded text-xs font-bold transition-colors cursor-pointer flex items-center gap-1"
+                      >
+                        🐾 Ready {unreadiedNaturalAttacks.length} Natural Attack(s)
+                      </button>
+                    )}
+                    {unreadiedInvocations.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={readyAllInvocations}
+                        className="px-3 py-1 bg-purple-950/90 border border-purple-500/50 text-purple-300 hover:bg-purple-900 rounded text-xs font-bold transition-colors cursor-pointer flex items-center gap-1"
+                      >
+                        🔮 Ready {unreadiedInvocations.length} Invocation(s)
                       </button>
                     )}
                     <button

@@ -813,6 +813,75 @@ export const MANUFACTURER_SKINS = {
 // AUGMENTATIONS MATRIX CONSTANTS (PLAN 20)
 // ═══════════════════════════════════════════════════════════
 
+export const AUGMENTATION_STAGES = {
+  negligible: {
+    id: 'negligible',
+    tier: 0,
+    name: 'Negligible',
+    badge: 'Baseline / Low-Invasive',
+    color: 'slate',
+    bpCredit: 0,
+    prerequisites: 'None',
+    staminaRequired: 0,
+    tlRequired: 0,
+    description: 'None, very minor options, prosthetics with no enhancements and certain other low-invasive modifications or options.',
+    benefit: 'Compatible with baseline, cosmetic, and unenhanced prosthetics without invasive surgical penalties.',
+    special: 'No BP credit. Non-invasive baseline options only.',
+    featureName: null,
+    featureId: null
+  },
+  augmented: {
+    id: 'augmented',
+    tier: 1,
+    name: 'Augmented',
+    badge: 'Standard Augmentations',
+    color: 'cyan',
+    bpCredit: 6,
+    prerequisites: 'Available Technology Level (TL 3+)',
+    staminaRequired: 0,
+    tlRequired: 3,
+    description: 'The character has undergone invasive surgery to replace or enhance biological systems with cybernetics, biotechnology, or magical prosthetics.',
+    benefit: 'You are compatible with Standard Augmentations.',
+    special: 'Upon taking this feature, you gain a "credit" of 6 Build Points (BP) worth of Augmentations effectively for free (representing the initial suite of upgrades). Any cost beyond this must be paid with BP or Credits.',
+    featureName: 'Augmented',
+    featureId: 'special-augmented'
+  },
+  heavy: {
+    id: 'heavy',
+    tier: 2,
+    name: 'Heavy Augmentations',
+    badge: 'Heavy / Industrial Grade',
+    color: 'amber',
+    bpCredit: 12,
+    additionalBpCredit: 6,
+    prerequisites: 'Augmented, Stamina 2',
+    staminaRequired: 2,
+    tlRequired: 3,
+    description: 'The character has replaced significant portions of their body with industrial or military-grade hardware. These modifications are often bulky, obvious, and not designed for social integration.',
+    benefit: 'You may install Heavy class Augmentations (which often have higher DR or Strength bonuses but may impose social penalties). You gain an additional 6 BP worth of Augmentations.',
+    special: 'Gain an additional 6 BP worth of Augmentations (12 BP total credit). Compatible with Heavy class hardware.',
+    featureName: 'Heavy Augmentations',
+    featureId: 'special-heavy-augmentations'
+  },
+  extreme: {
+    id: 'extreme',
+    tier: 3,
+    name: 'Extreme Augmentations',
+    badge: 'Full Body Conversion',
+    color: 'rose',
+    bpCredit: 18,
+    additionalBpCredit: 6,
+    prerequisites: 'Heavy Augmentations, Stamina 4',
+    staminaRequired: 4,
+    tlRequired: 3,
+    description: 'The character is more machine (or bio-construct) than original being. They have replaced the majority of biological functions.',
+    benefit: 'You may undergo Full Body Conversion. You may install systems that alter your Size category or basic physiology (e.g., tank treads instead of legs). You gain an additional 6 BP worth of Augmentations.',
+    special: 'Gain an additional 6 BP worth of Augmentations (18 BP total credit). Full Body Conversion (FBC) and structural physiology changes permitted.',
+    featureName: 'Extreme Augmentations',
+    featureId: 'special-extreme-augmentations'
+  }
+};
+
 export const ANATOMICAL_BODY_SLOTS = {
   Head: { id: 'Head', name: 'Head / Cranium', maxNodes: 10, maxSockets: 1, baseSP: 20, isHardened: true, description: 'Neural systems, sensory implants, cranium plating' },
   Torso: { id: 'Torso', name: 'Torso / Core', maxNodes: 50, maxSockets: 5, baseSP: 100, isHardened: true, description: 'Cardiopulmonary, organs, dermal armor, core chassis' },

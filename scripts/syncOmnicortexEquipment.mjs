@@ -159,6 +159,7 @@ function syncAugmentations() {
       name,
       category: 'augmentations',
       augmentation_type: data.augmentation_type || data.type || 'Cybernetic',
+      stage: data.stage || 'Standard',
       body_location: data.body_location || 'General',
       tech_level: data.tech_level || 3,
       costs: data.costs || { bp: 3, credits: 1500, nodes: 1, sockets: 1, strain: 1, focus: 0, ap: 0 },

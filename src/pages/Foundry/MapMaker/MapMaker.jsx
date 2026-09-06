@@ -40,6 +40,8 @@ import { StoryFoundryGuideModal } from '../../../components/StoryFoundry/StoryFo
 import { useFolio } from '../../../context/FolioContext';
 import { AudioService } from '../../../services/audioService';
 import MapMaker3DPreviewModal from './components/MapMaker3DPreviewModal';
+import { TacticalPlayModal } from '../../../components/Folio/modals/TacticalPlayModal';
+import { tokenToFolioCharacter } from '../../../schemas/sharedSchemas';
 
 import { useMapHistory } from './hooks/useMapHistory';
 import { useMapCanvasEvents } from './hooks/useMapCanvasEvents';
@@ -267,6 +269,7 @@ const MapPane = ({ mapExportPngRef }) => {
   }, [activeMapId]);
 
   const [selectedId, setSelectedId] = useState(null);
+  const [tacticalModalToken, setTacticalModalToken] = useState(null);
 
   // VTT Tactical Role, Teams, System Options & Ping State
   const [vttRole, setVttRole] = useState('architect'); // 'architect' | 'co_architect' | 'operative' | 'spectator'
@@ -472,7 +475,67 @@ const MapPane = ({ mapExportPngRef }) => {
     }
   };
 
-  const { updateCharacterHealth, updateCharacterVitality, updateCharacterStructure, updateCharacterHp } = useFolio();
+  const { roster, personaRoster, updateCharacterHealth, updateCharacterVitality, updateCharacterStructure, updateCharacterHp } = useFolio();
+
+  // Resolve tactical character data from token or linked Folio hero
+  const resolveTacticalCharacter = (tok) => {
+    if (!tok) return null;
+    const heroRoster = roster || personaRoster || [];
+    const linked = tok.linkedHeroId ? heroRoster.find(h => (h.id || h['character-doc-id']) === tok.linkedHeroId) : null;
+    if (linked) {
+      return {
+        ...linked,
+        current_health: tok.health?.current ?? linked.current_health,
+        current_vitality: tok.vitality?.current ?? linked.current_vitality,
+        current_structure: tok.structure?.current ?? linked.current_structure,
+        health: tok.health ? { ...tok.health } : linked.health,
+        vitality: tok.vitality ? { ...tok.vitality } : linked.vitality,
+        structure: tok.structure ? { ...tok.structure } : linked.structure
+      };
+    }
+    return tokenToFolioCharacter(tok);
+  };
+
+  // Global listener for opening tactical play modal from any VTT subcomponent (e.g. TokenContextualPill)
+  useEffect(() => {
+    const handleOpenTacticalPlay = (e) => {
+      const token = e.detail?.token || tokens.find(t => t.id === selectedId) || tokens[0];
+      if (token) {
+        setTacticalModalToken(token);
+      }
+    };
+    window.addEventListener('open-tactical-play-modal', handleOpenTacticalPlay);
+    return () => window.removeEventListener('open-tactical-play-modal', handleOpenTacticalPlay);
+  }, [tokens, selectedId]);
+
+  // Global listener for triggering floating combat text on battlemap canvas (from tactical play, rolls, etc.)
+  useEffect(() => {
+    const handleTriggerFloatingText = (e) => {
+      if (!e.detail?.text) return;
+      const { text, type = 'damage', x, y } = e.detail;
+
+      let screenX = x;
+      let screenY = y;
+
+      if (screenX === undefined || screenY === undefined) {
+        const token = tokens.find(t => t.id === selectedId) || tokens[0];
+        if (token) {
+          const tX = token.x !== undefined ? token.x : (token.col !== undefined ? token.col * gridSize : 0);
+          const tY = token.y !== undefined ? token.y : (token.row !== undefined ? token.row * gridSize : 0);
+          screenX = tX * scale + position.x;
+          screenY = (tY * scale + position.y) - 30;
+        } else {
+          screenX = stageSize.width / 2;
+          screenY = stageSize.height / 2 - 100;
+        }
+      }
+
+      triggerFloatingCombatText(screenX, screenY, text, type);
+    };
+
+    window.addEventListener('vtt-trigger-floating-text', handleTriggerFloatingText);
+    return () => window.removeEventListener('vtt-trigger-floating-text', handleTriggerFloatingText);
+  }, [tokens, selectedId, scale, position, gridSize, stageSize]);
 
   const triggerFloatingCombatText = (screenX, screenY, text, type = 'damage') => {
     const newFloat = {
@@ -1482,6 +1545,14 @@ const MapPane = ({ mapExportPngRef }) => {
           }
         };
 
+        const isSynthetic = Boolean(
+          item.isSynthetic || 
+          item.is_synthetic || 
+          (item.structure && !item.health && !item.hp) ||
+          ['Synthetic', 'Construct', 'Mecha', 'Robot', 'Android', 'Mekan'].includes(item.species || item['char-species'])
+        );
+        const currentStructure = item.structure?.current ?? (item.currentStructure ?? 60);
+        const maxStructure = item.structure?.max ?? (item.maxStructure ?? 60);
         const currentHealth = item.health?.current ?? (item.hp?.current ?? 30);
         const maxHealth = item.health?.max ?? (item.hp?.max ?? 30);
         const currentVitality = item.vitality?.current ?? 30;
@@ -1563,25 +1634,53 @@ const MapPane = ({ mapExportPngRef }) => {
               {/* Unit Controls: Health, Vitality, Initiative & Conditions */}
               {isUnit && (
                 <>
-                  {/* Health Controls (Physical) */}
-                  <div className="flex items-center gap-1.5 bg-[#0d1117] px-2 py-1 rounded border border-[#0D5C63]/60">
-                    <span className="text-[10px] font-bold text-emerald-400 uppercase">HLTH:</span>
-                    <button onClick={() => handleUpdateTokenHealth(item.id, Math.max(0, currentHealth - 5), true, 5)} className="px-1.5 py-0.5 bg-red-950 hover:bg-red-900 border border-red-800 text-red-300 rounded text-[10px] font-bold">-5</button>
-                    <button onClick={() => handleUpdateTokenHealth(item.id, Math.max(0, currentHealth - 1), true, 1)} className="px-1.5 py-0.5 bg-red-950 hover:bg-red-900 border border-red-800 text-red-300 rounded text-[10px] font-bold">-1</button>
-                    <span className="font-mono text-emerald-300 font-bold px-1">{currentHealth} / {maxHealth}</span>
-                    <button onClick={() => handleUpdateTokenHealth(item.id, Math.min(maxHealth, currentHealth + 1), false, 1)} className="px-1.5 py-0.5 bg-emerald-950 hover:bg-emerald-900 border border-emerald-800 text-emerald-300 rounded text-[10px] font-bold">+1</button>
-                    <button onClick={() => handleUpdateTokenHealth(item.id, Math.min(maxHealth, currentHealth + 5), false, 5)} className="px-1.5 py-0.5 bg-emerald-950 hover:bg-emerald-900 border border-emerald-800 text-emerald-300 rounded text-[10px] font-bold">+5</button>
-                  </div>
+                  {/* Tactical Cockpit Launcher */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      AudioService.playTerminalBeep(1100, 0.05);
+                      setTacticalModalToken(selectedToken || item);
+                    }}
+                    className="px-2.5 py-1 bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-500/70 text-cyan-300 rounded text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all shadow-[0_0_8px_rgba(6,182,212,0.3)] hover:shadow-[0_0_12px_rgba(34,211,238,0.5)] cursor-pointer"
+                    title="Launch Tactical Play Cockpit (Weapons, Defenses, Rolls)"
+                  >
+                    <span>⚔️</span> Tactical Cockpit
+                  </button>
 
-                  {/* Vitality Controls (Mental / Energy) */}
-                  <div className="flex items-center gap-1.5 bg-[#0d1117] px-2 py-1 rounded border border-[#0D5C63]/60">
-                    <span className="text-[10px] font-bold text-cyan-400 uppercase">VIT:</span>
-                    <button onClick={() => handleUpdateTokenVitality(item.id, Math.max(0, currentVitality - 5), true, 5)} className="px-1.5 py-0.5 bg-purple-950 hover:bg-purple-900 border border-purple-800 text-purple-300 rounded text-[10px] font-bold">-5</button>
-                    <button onClick={() => handleUpdateTokenVitality(item.id, Math.max(0, currentVitality - 1), true, 1)} className="px-1.5 py-0.5 bg-purple-950 hover:bg-purple-900 border border-purple-800 text-purple-300 rounded text-[10px] font-bold">-1</button>
-                    <span className="font-mono text-cyan-300 font-bold px-1">{currentVitality} / {maxVitality}</span>
-                    <button onClick={() => handleUpdateTokenVitality(item.id, Math.min(maxVitality, currentVitality + 1), false, 1)} className="px-1.5 py-0.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-800 text-cyan-300 rounded text-[10px] font-bold">+1</button>
-                    <button onClick={() => handleUpdateTokenVitality(item.id, Math.min(maxVitality, currentVitality + 5), false, 5)} className="px-1.5 py-0.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-800 text-cyan-300 rounded text-[10px] font-bold">+5</button>
-                  </div>
+                  {isSynthetic ? (
+                    /* Structure Controls (Synthetic Only) */
+                    <div className="flex items-center gap-1.5 bg-[#0d1117] px-2 py-1 rounded border border-[#0D5C63]/60">
+                      <span className="text-[10px] font-bold text-amber-400 uppercase">SP:</span>
+                      <button onClick={() => handleUpdateTokenStructure(item.id, Math.max(0, currentStructure - 5), true, 5)} className="px-1.5 py-0.5 bg-red-950 hover:bg-red-900 border border-red-800 text-red-300 rounded text-[10px] font-bold">-5</button>
+                      <button onClick={() => handleUpdateTokenStructure(item.id, Math.max(0, currentStructure - 1), true, 1)} className="px-1.5 py-0.5 bg-red-950 hover:bg-red-900 border border-red-800 text-red-300 rounded text-[10px] font-bold">-1</button>
+                      <span className="font-mono text-amber-300 font-bold px-1">{currentStructure} / {maxStructure}</span>
+                      <button onClick={() => handleUpdateTokenStructure(item.id, Math.min(maxStructure, currentStructure + 1), false, 1)} className="px-1.5 py-0.5 bg-emerald-950 hover:bg-emerald-900 border border-emerald-800 text-emerald-300 rounded text-[10px] font-bold">+1</button>
+                      <button onClick={() => handleUpdateTokenStructure(item.id, Math.min(maxStructure, currentStructure + 5), false, 5)} className="px-1.5 py-0.5 bg-emerald-950 hover:bg-emerald-900 border border-emerald-800 text-emerald-300 rounded text-[10px] font-bold">+5</button>
+                    </div>
+                  ) : (
+                    /* Health & Vitality Controls (Biological Only) */
+                    <>
+                      {/* Health Controls (Physical) */}
+                      <div className="flex items-center gap-1.5 bg-[#0d1117] px-2 py-1 rounded border border-[#0D5C63]/60">
+                        <span className="text-[10px] font-bold text-emerald-400 uppercase">HLTH:</span>
+                        <button onClick={() => handleUpdateTokenHealth(item.id, Math.max(0, currentHealth - 5), true, 5)} className="px-1.5 py-0.5 bg-red-950 hover:bg-red-900 border border-red-800 text-red-300 rounded text-[10px] font-bold">-5</button>
+                        <button onClick={() => handleUpdateTokenHealth(item.id, Math.max(0, currentHealth - 1), true, 1)} className="px-1.5 py-0.5 bg-red-950 hover:bg-red-900 border border-red-800 text-red-300 rounded text-[10px] font-bold">-1</button>
+                        <span className="font-mono text-emerald-300 font-bold px-1">{currentHealth} / {maxHealth}</span>
+                        <button onClick={() => handleUpdateTokenHealth(item.id, Math.min(maxHealth, currentHealth + 1), false, 1)} className="px-1.5 py-0.5 bg-emerald-950 hover:bg-emerald-900 border border-emerald-800 text-emerald-300 rounded text-[10px] font-bold">+1</button>
+                        <button onClick={() => handleUpdateTokenHealth(item.id, Math.min(maxHealth, currentHealth + 5), false, 5)} className="px-1.5 py-0.5 bg-emerald-950 hover:bg-emerald-900 border border-emerald-800 text-emerald-300 rounded text-[10px] font-bold">+5</button>
+                      </div>
+
+                      {/* Vitality Controls (Mental / Energy) */}
+                      <div className="flex items-center gap-1.5 bg-[#0d1117] px-2 py-1 rounded border border-[#0D5C63]/60">
+                        <span className="text-[10px] font-bold text-cyan-400 uppercase">VIT:</span>
+                        <button onClick={() => handleUpdateTokenVitality(item.id, Math.max(0, currentVitality - 5), true, 5)} className="px-1.5 py-0.5 bg-purple-950 hover:bg-purple-900 border border-purple-800 text-purple-300 rounded text-[10px] font-bold">-5</button>
+                        <button onClick={() => handleUpdateTokenVitality(item.id, Math.max(0, currentVitality - 1), true, 1)} className="px-1.5 py-0.5 bg-purple-950 hover:bg-purple-900 border border-purple-800 text-purple-300 rounded text-[10px] font-bold">-1</button>
+                        <span className="font-mono text-cyan-300 font-bold px-1">{currentVitality} / {maxVitality}</span>
+                        <button onClick={() => handleUpdateTokenVitality(item.id, Math.min(maxVitality, currentVitality + 1), false, 1)} className="px-1.5 py-0.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-800 text-cyan-300 rounded text-[10px] font-bold">+1</button>
+                        <button onClick={() => handleUpdateTokenVitality(item.id, Math.min(maxVitality, currentVitality + 5), false, 5)} className="px-1.5 py-0.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-800 text-cyan-300 rounded text-[10px] font-bold">+5</button>
+                      </div>
+                    </>
+                  )}
 
                   <div className="flex items-center gap-1.5 bg-[#0d1117] px-2 py-1 rounded border border-[#0D5C63]/60">
                     <span className="text-[10px] font-bold text-amber-400 uppercase">Init:</span>
@@ -1719,6 +1818,14 @@ const MapPane = ({ mapExportPngRef }) => {
           setShowDrawer={setShowHeroDrawer}
           onSummonToken={handleSummonHeroToken}
         />
+
+        {tacticalModalToken && (
+          <TacticalPlayModal
+            isOpen={Boolean(tacticalModalToken)}
+            onClose={() => setTacticalModalToken(null)}
+            character={resolveTacticalCharacter(tacticalModalToken)}
+          />
+        )}
 
         <OmnicortexAssetDrawer
           showDrawer={showOmnicortexDrawer}
@@ -2272,6 +2379,16 @@ const MapPane = ({ mapExportPngRef }) => {
           onClose={() => setInspectingOmnicortexItem(null)}
           categoryKey={inspectingOmnicortexItem._categoryKey || inspectingOmnicortexItem.category || 'compendium'}
           initialItem={inspectingOmnicortexItem}
+        />
+      )}
+
+      {/* Tactical Play Cockpit Modal */}
+      {tacticalModalToken && (
+        <TacticalPlayModal
+          isOpen={!!tacticalModalToken}
+          onClose={() => setTacticalModalToken(null)}
+          characterData={resolveTacticalCharacter(tacticalModalToken)}
+          isLocked={true}
         />
       )}
     </div>

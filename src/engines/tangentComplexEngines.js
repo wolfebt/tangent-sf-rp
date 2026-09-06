@@ -4,6 +4,7 @@
 // ═══════════════════════════════════════════════════════════
 
 import {
+  AUGMENTATION_STAGES,
   ANATOMICAL_BODY_SLOTS,
   AUGMENTATION_CATEGORIES,
   FBC_PACKAGES,
@@ -293,6 +294,425 @@ export function computeAugmentationStats(formData) {
       count: nodeStats.nodesConsumed
     },
     computed_at: new Date().toISOString()
+  };
+}
+
+// ═══════════════════════════════════════════════════════════
+// AUGMENTATION STAGES & BODY CHART CAPACITY ENGINES
+// ═══════════════════════════════════════════════════════════
+
+/**
+ * Canonical Augmentation Stage labels
+ */
+export const AUGMENTATION_STAGE_LABELS = {
+  NEGLIGIBLE: 'Negligible',
+  STANDARD: 'Standard',
+  HEAVY: 'Heavy',
+  EXTREME: 'Extreme'
+};
+
+const STAGE_TIER_MAP = {
+  negligible: 0,
+  standard: 1,
+  augmented: 1,
+  heavy: 2,
+  extreme: 3
+};
+
+/**
+ * Extracts and normalizes the required Stage for an augmentation.
+ * Canonical outputs: 'Negligible' | 'Standard' | 'Heavy' | 'Extreme'
+ *
+ * @param {object|string} aug - Augmentation object or stage string
+ * @returns {string} Normalized Stage string
+ */
+export function getAugmentationStage(aug) {
+  if (!aug) return 'Standard';
+  if (typeof aug === 'string') {
+    const s = aug.trim().toLowerCase();
+    if (s.includes('extreme')) return 'Extreme';
+    if (s.includes('heavy')) return 'Heavy';
+    if (s.includes('negligible')) return 'Negligible';
+    if (s.includes('standard') || s.includes('augmented')) return 'Standard';
+    return 'Standard';
+  }
+
+  // Check explicit stage field
+  const rawStage = aug.stage || aug.augmentation_stage || aug.stage_level || '';
+  if (rawStage) {
+    const s = String(rawStage).trim().toLowerCase();
+    if (s === 'negligible' || s.includes('negligible')) return 'Negligible';
+    if (s === 'heavy' || s.includes('heavy')) return 'Heavy';
+    if (s === 'extreme' || s.includes('extreme')) return 'Extreme';
+    if (s === 'standard' || s.includes('standard') || s === 'augmented' || s.includes('augmented')) return 'Standard';
+  }
+
+  // Check category and flags
+  const cat = String(aug.category || '').toLowerCase();
+  const name = String(aug.name || aug.title || '').toLowerCase();
+
+  if (aug.isPseudo || cat === 'pseudo' || cat === 'fashionware') {
+    return 'Negligible';
+  }
+
+  if (aug.isFBC || cat === 'fbc') {
+    return 'Heavy';
+  }
+
+  // Check name patterns matching canonical Matrix 99 items
+  if (name.includes('matter recon') || name.includes('phase shift') || name.includes('digitized cons') || name.includes('temporal stutter') || name.includes('trans-cerebral') || name.includes('body conversion')) {
+    return 'Extreme';
+  }
+
+  if (name.includes('prosthetic skull') || name.includes('prosthetic torso') || name.includes('tool hand') || name.includes('weapon hand') || name.includes('grappler hand') || name.includes('forearm shield') || name.includes('forearm weapon') || name.includes('quick-change') || name.includes('reinforced frame') || name.includes('telescoping') || name.includes('micro-missile') || name.includes('jump boost') || name.includes('extra shoulders') || name.includes('fortified skeleton') || name.includes('reinforced chassis') || name.includes('skull plating') || name.includes('polymatter')) {
+    return 'Heavy';
+  }
+
+  if (cat === 'synth_limb') {
+    // Non-skull, non-torso synth limbs are Negligible in Matrix 99
+    if (name.includes('hand') || name.includes('forearm') || name.includes('upper arm') || name.includes('full arm') || name.includes('foot') || name.includes('lower leg') || name.includes('upper leg') || name.includes('full leg') || name.includes('synth organ') || name.includes('synth tentacle') || name.includes('digitigrade') || name.includes('insectoid') || name.includes('synth wing')) {
+      return 'Negligible';
+    }
+  }
+
+  return 'Standard';
+}
+
+/**
+ * Checks whether a character satisfies the stage prerequisite for a given augmentation.
+ *
+ * Requirements:
+ * - Negligible: No feature requirement. (Always compatible)
+ * - Standard: Requires 'Augmented' feature (special-augmented)
+ * - Heavy: Requires 'Heavy Augmentations' feature (special-heavy-augmentations)
+ * - Extreme: Requires 'Extreme Augmentations' feature (special-extreme-augmentations)
+ *
+ * @param {object} characterData - Character record
+ * @param {object|string} augmentation - Augmentation object or stage string
+ * @returns {object} Detailed compatibility report
+ */
+export function checkAugmentationStageCompatibility(characterData, augmentation) {
+  const requiredStage = getAugmentationStage(augmentation);
+  const stageInfo = determineAugmentationStage(characterData);
+
+  const reqTier = STAGE_TIER_MAP[requiredStage.toLowerCase()] ?? 1;
+  const charTier = STAGE_TIER_MAP[stageInfo.stageId.toLowerCase()] ?? 0;
+
+  const isCompatible = charTier >= reqTier;
+
+  let requiredFeatureName = null;
+  let requiredFeatureId = null;
+
+  if (reqTier === 1) {
+    requiredFeatureName = 'Augmented';
+    requiredFeatureId = 'special-augmented';
+  } else if (reqTier === 2) {
+    requiredFeatureName = 'Heavy Augmentations';
+    requiredFeatureId = 'special-heavy-augmentations';
+  } else if (reqTier === 3) {
+    requiredFeatureName = 'Extreme Augmentations';
+    requiredFeatureId = 'special-extreme-augmentations';
+  }
+
+  const warning = !isCompatible
+    ? `Requires "${requiredFeatureName}" feature (Stage: ${requiredStage}). Current operative stage is ${stageInfo.stage.name}.`
+    : null;
+
+  return {
+    isCompatible,
+    requiredStage,
+    requiredTier: reqTier,
+    characterStageId: stageInfo.stageId,
+    characterStageName: stageInfo.stage.name,
+    characterTier: charTier,
+    requiredFeatureName,
+    requiredFeatureId,
+    warning
+  };
+}
+
+/**
+ * Extracts normalized node consumption for an augmentation.
+ */
+export function getAugmentationNodes(aug) {
+  if (!aug) return 1;
+  if (typeof aug !== 'object') return 1;
+  if (aug.costs?.nodes !== undefined && !isNaN(aug.costs.nodes) && Number(aug.costs.nodes) > 0) {
+    return Number(aug.costs.nodes);
+  }
+  if (aug.nodes !== undefined && !isNaN(aug.nodes) && Number(aug.nodes) > 0) {
+    return Number(aug.nodes);
+  }
+  if (aug.node_cost !== undefined && !isNaN(aug.node_cost) && Number(aug.node_cost) > 0) {
+    return Number(aug.node_cost);
+  }
+  if (aug.nodeCost !== undefined && !isNaN(aug.nodeCost) && Number(aug.nodeCost) > 0) {
+    return Number(aug.nodeCost);
+  }
+  if (typeof aug.body === 'string') {
+    const match = aug.body.match(/Nodes:\s*(\d+)/i);
+    if (match) return parseInt(match[1], 10);
+  }
+  if (typeof aug.description === 'string') {
+    const match = aug.description.match(/(\d+)\s*Nodes?/i);
+    if (match) return parseInt(match[1], 10);
+  }
+  return 1;
+}
+
+/**
+ * Extracts Build Points (BP) cost for an augmentation.
+ */
+export function getAugmentationBP(aug) {
+  if (!aug) return 1;
+  if (typeof aug !== 'object') return 1;
+  if (aug.costs?.bp !== undefined && !isNaN(aug.costs.bp) && Number(aug.costs.bp) >= 0) {
+    return Number(aug.costs.bp);
+  }
+  if (aug.bp !== undefined && !isNaN(aug.bp) && Number(aug.bp) >= 0) {
+    return Number(aug.bp);
+  }
+  if (aug.bp_cost !== undefined && !isNaN(aug.bp_cost) && Number(aug.bp_cost) >= 0) {
+    return Number(aug.bp_cost);
+  }
+  if (aug.bpCost !== undefined && !isNaN(aug.bpCost) && Number(aug.bpCost) >= 0) {
+    return Number(aug.bpCost);
+  }
+  if (aug.cp !== undefined && !isNaN(aug.cp) && Number(aug.cp) >= 0) {
+    return Number(aug.cp);
+  }
+  if (typeof aug.body === 'string') {
+    const match = aug.body.match(/BP:\s*(\d+)/i);
+    if (match) return parseInt(match[1], 10);
+  }
+  return 1;
+}
+
+/**
+ * Normalizes an augmentation's location to one of the canonical body slots.
+ * Options: 'Head', 'Torso', 'LeftArm', 'RightArm', 'LeftLeg', 'RightLeg'.
+ */
+export function getAugmentationLocation(aug) {
+  if (!aug || typeof aug !== 'object') return 'Torso';
+  let raw = aug.location || aug.body_location || aug.slot || '';
+  if (Array.isArray(raw)) raw = raw[0] || '';
+  const loc = String(raw).trim().toLowerCase();
+
+  if (loc.includes('head') || loc.includes('cran') || loc.includes('eye') || loc.includes('opt') || loc.includes('neural') || loc.includes('brain') || loc.includes('sensory')) {
+    return 'Head';
+  }
+  if (loc.includes('left arm') || loc.includes('left_arm') || loc.includes('leftarm') || loc.includes('left hand') || loc.includes('left wrist') || loc.includes('l arm')) {
+    return 'LeftArm';
+  }
+  if (loc.includes('right arm') || loc.includes('right_arm') || loc.includes('rightarm') || loc.includes('right hand') || loc.includes('right wrist') || loc.includes('r arm')) {
+    return 'RightArm';
+  }
+  if (loc.includes('arm') || loc.includes('hand') || loc.includes('wrist') || loc.includes('bionic arm')) {
+    return 'LeftArm';
+  }
+  if (loc.includes('left leg') || loc.includes('left_leg') || loc.includes('leftleg') || loc.includes('left foot') || loc.includes('l leg')) {
+    return 'LeftLeg';
+  }
+  if (loc.includes('right leg') || loc.includes('right_leg') || loc.includes('rightleg') || loc.includes('right foot') || loc.includes('r leg')) {
+    return 'RightLeg';
+  }
+  if (loc.includes('leg') || loc.includes('foot') || loc.includes('feet') || loc.includes('tread') || loc.includes('locomotion')) {
+    return 'LeftLeg';
+  }
+  if (loc.includes('torso') || loc.includes('core') || loc.includes('chest') || loc.includes('dermal') || loc.includes('organ') || loc.includes('spine') || loc.includes('heart') || loc.includes('internal')) {
+    return 'Torso';
+  }
+  return 'Torso';
+}
+
+/**
+ * Determines the character's active augmentation stage based on features & settings.
+ * Stages: 'negligible' | 'augmented' | 'heavy' | 'extreme'
+ */
+export function determineAugmentationStage(characterData, options = {}) {
+  const rawFeatures = Array.isArray(characterData?.features) ? characterData.features : [];
+  const rawAugs = Array.isArray(characterData?.augmentations) ? characterData.augmentations : [];
+
+  const checkHasFeature = (targetName, targetId) => {
+    return rawFeatures.some(f => {
+      if (!f) return false;
+      const name = (typeof f === 'object' ? (f.name || f.title || '') : String(f)).trim().toLowerCase();
+      const id = (typeof f === 'object' ? (f.id || '') : '').trim().toLowerCase();
+      if (targetId && id === targetId.toLowerCase()) return true;
+      if (name === targetName.toLowerCase()) return true;
+      if (name.includes(targetName.toLowerCase())) return true;
+      return false;
+    }) || rawAugs.some(a => {
+      if (!a) return false;
+      const name = (typeof a === 'object' ? (a.name || a.title || '') : String(a)).trim().toLowerCase();
+      const id = (typeof a === 'object' ? (a.id || '') : '').trim().toLowerCase();
+      if (targetId && id === targetId.toLowerCase()) return true;
+      if (name === targetName.toLowerCase()) return true;
+      return false;
+    });
+  };
+
+  const hasExtreme = checkHasFeature('Extreme Augmentations', 'special-extreme-augmentations');
+  const hasHeavy = hasExtreme || checkHasFeature('Heavy Augmentations', 'special-heavy-augmentations');
+  const hasAugmented = hasHeavy || checkHasFeature('Augmented', 'special-augmented');
+
+  // If explicitly overridden in character metadata
+  const explicitStage = characterData?.['augmentation-stage'];
+  let stageId = 'negligible';
+
+  if (hasExtreme || explicitStage === 'extreme') {
+    stageId = 'extreme';
+  } else if (hasHeavy || explicitStage === 'heavy') {
+    stageId = 'heavy';
+  } else if (hasAugmented || explicitStage === 'augmented') {
+    stageId = 'augmented';
+  } else {
+    stageId = 'negligible';
+  }
+
+  const staminaScore = options.staminaScore !== undefined
+    ? Number(options.staminaScore)
+    : parseInt(characterData?.['attr-stamina'] || 0, 10);
+
+  const tl = options.tl !== undefined
+    ? Number(options.tl)
+    : parseInt(characterData?.['campaign-tl'] || characterData?.['char-tl'] || 3, 10);
+
+  const meetsHeavyPrereq = (hasAugmented || stageId === 'heavy' || stageId === 'extreme') && staminaScore >= 2;
+  const meetsExtremePrereq = (hasHeavy || stageId === 'extreme') && staminaScore >= 4;
+
+  const prerequisiteWarnings = [];
+  if ((stageId === 'heavy' || stageId === 'extreme') && staminaScore < 2) {
+    prerequisiteWarnings.push(`Heavy Augmentations requires Stamina 2+ (Current Stamina: ${staminaScore})`);
+  }
+  if (stageId === 'extreme' && staminaScore < 4) {
+    prerequisiteWarnings.push(`Extreme Augmentations requires Stamina 4+ (Current Stamina: ${staminaScore})`);
+  }
+
+  return {
+    stageId,
+    stage: AUGMENTATION_STAGES[stageId] || AUGMENTATION_STAGES.negligible,
+    hasAugmentedFeature: hasAugmented,
+    hasHeavyFeature: hasHeavy,
+    hasExtremeFeature: hasExtreme,
+    staminaScore,
+    tl,
+    meetsHeavyPrereq,
+    meetsExtremePrereq,
+    prerequisiteWarnings
+  };
+}
+
+/**
+ * Computes Build Points (BP) Credit and overflow cost based on active stage.
+ */
+export function calculateAugmentationStageBP(characterData, stageInfo = null) {
+  const currentStageInfo = stageInfo || determineAugmentationStage(characterData);
+  const bpCredit = currentStageInfo?.stage?.bpCredit ?? 0;
+
+  const augList = Array.isArray(characterData?.augmentations) ? characterData.augmentations : [];
+  const totalBPSpent = augList.reduce((acc, aug) => acc + getAugmentationBP(aug), 0);
+
+  const remainingCredit = Math.max(0, bpCredit - totalBPSpent);
+  const overflowBP = Math.max(0, totalBPSpent - bpCredit);
+  const isOverCredit = totalBPSpent > bpCredit;
+  const overflowCreditsEquivalent = overflowBP * 2500; // Standard Tangent exchange: 2,500 Cr per BP
+
+  return {
+    stageId: currentStageInfo.stageId,
+    stageName: currentStageInfo.stage.name,
+    bpCredit,
+    totalBPSpent,
+    remainingCredit,
+    overflowBP,
+    isOverCredit,
+    overflowCreditsEquivalent
+  };
+}
+
+/**
+ * Calculates anatomical capacity limits and current usage for the Body Chart.
+ * Canonical Capacities:
+ * Head: 10
+ * Torso: 50
+ * LeftArm: 30
+ * RightArm: 30
+ * LeftLeg: 40
+ * RightLeg: 40
+ * Total Chassis: 200 Nodes
+ */
+export function calculateBodyCapacityBreakdown(characterData) {
+  const SLOTS_CONFIG = {
+    Head: { id: 'Head', name: 'Head', maxNodes: 10, label: 'Head (Cranium & Sensory)' },
+    Torso: { id: 'Torso', name: 'Torso', maxNodes: 50, label: 'Torso (Core & Life Support)' },
+    LeftArm: { id: 'LeftArm', name: 'Left Arm', maxNodes: 30, label: 'Left Arm (Mounts & Servos)' },
+    RightArm: { id: 'RightArm', name: 'Right Arm', maxNodes: 30, label: 'Right Arm (Mounts & Servos)' },
+    LeftLeg: { id: 'LeftLeg', name: 'Left Leg', maxNodes: 40, label: 'Left Leg (Locomotion & Dampers)' },
+    RightLeg: { id: 'RightLeg', name: 'Right Leg', maxNodes: 40, label: 'Right Leg (Locomotion & Dampers)' }
+  };
+
+  const slots = {};
+  Object.keys(SLOTS_CONFIG).forEach(key => {
+    slots[key] = {
+      ...SLOTS_CONFIG[key],
+      usedNodes: 0,
+      items: []
+    };
+  });
+
+  const augList = Array.isArray(characterData?.augmentations) ? characterData.augmentations : [];
+  augList.forEach((aug, idx) => {
+    const locKey = getAugmentationLocation(aug);
+    const nodes = getAugmentationNodes(aug);
+    const bp = getAugmentationBP(aug);
+
+    if (slots[locKey]) {
+      slots[locKey].usedNodes += nodes;
+      slots[locKey].items.push({
+        aug,
+        index: idx,
+        nodes,
+        bp,
+        name: typeof aug === 'object' ? (aug.name || aug.title || 'Augmentation') : String(aug)
+      });
+    } else {
+      slots.Torso.usedNodes += nodes;
+      slots.Torso.items.push({
+        aug,
+        index: idx,
+        nodes,
+        bp,
+        name: typeof aug === 'object' ? (aug.name || aug.title || 'Augmentation') : String(aug)
+      });
+    }
+  });
+
+  let totalUsedNodes = 0;
+  let hasAnyOverCapacity = false;
+
+  Object.keys(slots).forEach(key => {
+    const slot = slots[key];
+    totalUsedNodes += slot.usedNodes;
+    slot.remainingNodes = Math.max(0, slot.maxNodes - slot.usedNodes);
+    slot.overflowNodes = Math.max(0, slot.usedNodes - slot.maxNodes);
+    slot.percentage = Math.round((slot.usedNodes / slot.maxNodes) * 100);
+    slot.isOverCapacity = slot.usedNodes > slot.maxNodes;
+    if (slot.isOverCapacity) hasAnyOverCapacity = true;
+  });
+
+  const totalMaxCapacity = 200;
+  const totalRemainingNodes = Math.max(0, totalMaxCapacity - totalUsedNodes);
+  const totalOverflowNodes = Math.max(0, totalUsedNodes - totalMaxCapacity);
+  const isTotalOverCapacity = totalUsedNodes > totalMaxCapacity;
+
+  return {
+    slots,
+    totalUsedNodes,
+    totalMaxCapacity,
+    totalRemainingNodes,
+    totalOverflowNodes,
+    isTotalOverCapacity,
+    hasAnyOverCapacity
   };
 }
 

@@ -9,6 +9,7 @@
 import React, { useState } from 'react';
 import { useEngineStore, selectAllFusedTokens } from '../state/VolatileSharder.ts';
 import { Shield, Crosshair, Footprints, Radio, Activity, Heart, Flame, Sun, Users, Wind, Minus } from 'lucide-react';
+import { PersonaLogModal } from '../../components/VTT/PersonaLogModal';
 
 export interface DashboardOverlayProps {
   campaignName?: string;
@@ -58,6 +59,7 @@ export const DashboardOverlay: React.FC<DashboardOverlayProps> = ({
   isZenMode = false
 }) => {
   const [isVitalsMinimized, setIsVitalsMinimized] = useState(false);
+  const [isPersonaLogOpen, setIsPersonaLogOpen] = useState(false);
   const tokens = useEngineStore(selectAllFusedTokens);
   const activeToken = tokens.find(t => t.id === selectedTokenId) || tokens[0] || null;
 
@@ -218,9 +220,36 @@ export const DashboardOverlay: React.FC<DashboardOverlayProps> = ({
                 </div>
               </div>
             )}
+            {/* Operative Action Log / Blackbox Trigger */}
+            <div className="pt-2 border-t border-slate-800">
+              <button
+                type="button"
+                onClick={() => setIsPersonaLogOpen(true)}
+                className="w-full py-1.5 px-2 bg-amber-950/60 hover:bg-amber-900/80 border border-amber-500/50 text-amber-300 hover:text-white rounded-xl text-xs font-mono font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-sm active:scale-95"
+                title="Inspect Operative Action Telemetry & Rolls Log"
+              >
+                <Activity size={13} className="text-amber-400 animate-pulse" />
+                <span>OPERATIVE LOG / BLACKBOX</span>
+              </button>
+            </div>
           </div>
         </aside>
         )
+      )}
+
+      {/* Operative Action Log Telemetry Modal */}
+      {isPersonaLogOpen && activeToken && (
+        <PersonaLogModal
+          isOpen={isPersonaLogOpen}
+          onClose={() => setIsPersonaLogOpen(false)}
+          personaId={(activeToken as any).linked_hero_id || activeToken.character_doc_id || activeToken.id}
+          personaName={activeToken.name}
+          species={activeToken.species}
+          archetype={activeToken.archetype}
+          techLevel={activeToken.tech_level}
+          currentHP={activeToken.current_hp}
+          maxHP={activeToken.base_hp}
+        />
       )}
 
       {/* ── Floating Tactical Action Bar (Bottom Center - Tactical Play Only) ── */}

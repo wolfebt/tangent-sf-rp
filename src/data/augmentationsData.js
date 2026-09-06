@@ -10,6 +10,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Accelerator",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -31,6 +32,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Adrenaline Shield",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -52,6 +54,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Aether-Node",
     "category": "augmentations",
     "augmentation_type": "Esoteric",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -73,6 +76,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Air Supply",
     "category": "augmentations",
     "augmentation_type": "Cybernetic Armor",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -94,6 +98,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Alterable Bioform",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -115,6 +120,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Amplified Hearing",
     "category": "augmentations",
     "augmentation_type": "Sensory",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -136,6 +142,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Anti-Flare",
     "category": "augmentations",
     "augmentation_type": "Sensory",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -157,6 +164,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Anti-Shock",
     "category": "augmentations",
     "augmentation_type": "Cybernetic Armor",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -178,6 +186,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Anti-Stun Implant",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -199,6 +208,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Armor Plating",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -220,6 +230,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Battle Gauntlet",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -241,6 +252,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Behavioral Inhibitor",
     "category": "augmentations",
     "augmentation_type": "Neural",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -262,6 +274,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Biomonitor",
     "category": "augmentations",
     "augmentation_type": "Fashionware",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -283,6 +296,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Bionic Enhancement",
     "category": "augmentations",
     "augmentation_type": "Cybernetic Armor",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -304,6 +318,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Biotech Emulator",
     "category": "augmentations",
     "augmentation_type": "Bioware",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -325,6 +340,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Bite",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 1,
     "costs": {
@@ -346,6 +362,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Blade Fist / Claws",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -367,6 +384,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Body Computer",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -388,6 +406,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Body Conversion",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Extreme",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -409,6 +428,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Body Weapons",
     "category": "augmentations",
     "augmentation_type": "Cybernetic Armor",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -430,6 +450,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Bodyform Nodes",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -451,6 +472,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Breathing Filter",
     "category": "augmentations",
     "augmentation_type": "Cybernetic Armor",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -472,6 +494,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Bug Detector",
     "category": "augmentations",
     "augmentation_type": "Sensory",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -493,6 +516,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Chameleon Skin",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -514,6 +538,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "ChemSkins",
     "category": "augmentations",
     "augmentation_type": "Fashionware",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -535,6 +560,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Claws",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 1,
     "costs": {
@@ -556,6 +582,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Climbing Claws",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -577,6 +604,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Comm Implant",
     "category": "augmentations",
     "augmentation_type": "Cybernetic Armor",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -598,6 +626,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Contraceptive Implant",
     "category": "augmentations",
     "augmentation_type": "Fashionware",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -619,6 +648,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Control Chips",
     "category": "augmentations",
     "augmentation_type": "Neural",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -640,6 +670,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Cyber Jack",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -661,6 +692,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Cyber-Vox",
     "category": "augmentations",
     "augmentation_type": "Fashionware",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -682,6 +714,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Cybersnake / Whip",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -703,6 +736,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Data Archive",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -724,6 +758,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Data Bank",
     "category": "augmentations",
     "augmentation_type": "Neural",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -745,6 +780,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Deadman's Switch",
     "category": "augmentations",
     "augmentation_type": "Neural",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -766,6 +802,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Dermal Armor",
     "category": "augmentations",
     "augmentation_type": "Cybernetic Armor",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -787,6 +824,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Dermal Weave",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -808,6 +846,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Diagnostic Scanner",
     "category": "augmentations",
     "augmentation_type": "Fashionware",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -829,6 +868,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Digital Encephalon",
     "category": "augmentations",
     "augmentation_type": "Neural",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -850,6 +890,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Digitigrade Leg",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -871,6 +912,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Digitized Consc",
     "category": "augmentations",
     "augmentation_type": "Esoteric",
+    "stage": "Extreme",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -892,6 +934,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Disguise System",
     "category": "augmentations",
     "augmentation_type": "Cybernetic Armor",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -913,6 +956,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Distortion Field",
     "category": "augmentations",
     "augmentation_type": "Esoteric",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -934,6 +978,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Ego Overlay",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -955,6 +1000,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Empathic Attune",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -976,6 +1022,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Endocrine Tuner",
     "category": "augmentations",
     "augmentation_type": "Fashionware",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -997,6 +1044,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Enhanced Antibody",
     "category": "augmentations",
     "augmentation_type": "Cybernetic Armor",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1018,6 +1066,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Extra Shoulders",
     "category": "augmentations",
     "augmentation_type": "Cybernetic Armor",
+    "stage": "Heavy",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1039,6 +1088,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Feat Plexus",
     "category": "augmentations",
     "augmentation_type": "Esoteric",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1060,6 +1110,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Feature Circuit",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1081,6 +1132,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Feet",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 1,
     "costs": {
@@ -1102,6 +1154,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Fists",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 1,
     "costs": {
@@ -1123,6 +1176,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Flash-Comp",
     "category": "augmentations",
     "augmentation_type": "Sensory",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1144,6 +1198,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Foot",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1165,6 +1220,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Forearm",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1186,6 +1242,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Forearm Shield",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Heavy",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1207,6 +1264,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Forearm Weapon",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Heavy",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1228,6 +1286,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Fortified Skeleton",
     "category": "augmentations",
     "augmentation_type": "Cybernetic Armor",
+    "stage": "Heavy",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1249,6 +1308,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Frequency Scanner",
     "category": "augmentations",
     "augmentation_type": "Sensory",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1270,6 +1330,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Frictionless Skin",
     "category": "augmentations",
     "augmentation_type": "Cybernetic Armor",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1291,6 +1352,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Full Arm Assembly",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1312,6 +1374,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Full Leg Assembly",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1333,6 +1396,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Ghost Jack",
     "category": "augmentations",
     "augmentation_type": "Neural",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1354,6 +1418,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Gills",
     "category": "augmentations",
     "augmentation_type": "Cybernetic Armor",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1375,6 +1440,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Grappler Hand",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Heavy",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1396,6 +1462,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Gravity Attenuator",
     "category": "augmentations",
     "augmentation_type": "Esoteric",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1417,6 +1484,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Gripper Foot",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1438,6 +1506,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Hammer Fist",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1459,6 +1528,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Hand",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1480,6 +1550,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Hollow Fangs",
     "category": "augmentations",
     "augmentation_type": "Cybernetic Armor",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1501,6 +1572,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Holo-Tattoos",
     "category": "augmentations",
     "augmentation_type": "Fashionware",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1522,6 +1594,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Holophotonic Gear",
     "category": "augmentations",
     "augmentation_type": "Esoteric",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1543,6 +1616,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Hydraulic Rams",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1564,6 +1638,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "ID Chip",
     "category": "augmentations",
     "augmentation_type": "Fashionware",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1585,6 +1660,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Image Enhance",
     "category": "augmentations",
     "augmentation_type": "Sensory",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1606,6 +1682,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Inertial Nullifier",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1627,6 +1704,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Injector Unit",
     "category": "augmentations",
     "augmentation_type": "Cybernetic Armor",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1648,6 +1726,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Insectoid Limb",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1669,6 +1748,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Interface Sliver",
     "category": "augmentations",
     "augmentation_type": "Esoteric",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1690,6 +1770,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Internal Gyroscope",
     "category": "augmentations",
     "augmentation_type": "Cybernetic Armor",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1711,6 +1792,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Jump Boost (Legs)",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Heavy",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1732,6 +1814,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Kinetic Shield",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1753,6 +1836,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Laser (Eye)",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1774,6 +1858,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Light Tattoo",
     "category": "augmentations",
     "augmentation_type": "Fashionware",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1795,6 +1880,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Lower Leg",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1816,6 +1902,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Magnetic Grip",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1837,6 +1924,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Magnetic Piercings",
     "category": "augmentations",
     "augmentation_type": "Fashionware",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1858,6 +1946,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Matter Recon Forge",
     "category": "augmentations",
     "augmentation_type": "Esoteric",
+    "stage": "Extreme",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1879,6 +1968,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Mech Link",
     "category": "augmentations",
     "augmentation_type": "Neural",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1900,6 +1990,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Micro-Missile Launcher",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Heavy",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1921,6 +2012,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Micro-optics",
     "category": "augmentations",
     "augmentation_type": "Sensory",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1942,6 +2034,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Muscle/Bone Weave",
     "category": "augmentations",
     "augmentation_type": "Cybernetic Armor",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1963,6 +2056,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Myomer Weave",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -1984,6 +2078,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Nano Groomers",
     "category": "augmentations",
     "augmentation_type": "Fashionware",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2005,6 +2100,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Nerve Hardwire",
     "category": "augmentations",
     "augmentation_type": "Neural",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2026,6 +2122,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Nerve Splicing",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2047,6 +2144,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Neural Processor",
     "category": "augmentations",
     "augmentation_type": "Neural",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2068,6 +2166,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Nightvision",
     "category": "augmentations",
     "augmentation_type": "Sensory",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2089,6 +2188,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Nootropic Enhancer",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2110,6 +2210,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Nu-Tek TVSkin",
     "category": "augmentations",
     "augmentation_type": "Fashionware",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2131,6 +2232,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "NuGenic Nodes",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2152,6 +2254,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Nutrient Processor",
     "category": "augmentations",
     "augmentation_type": "Cybernetic Armor",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2173,6 +2276,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Ocular Drone",
     "category": "augmentations",
     "augmentation_type": "Sensory",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2194,6 +2298,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Optical Camo",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2215,6 +2320,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Pain Filter",
     "category": "augmentations",
     "augmentation_type": "Neural",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2236,6 +2342,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Phase Shift Gen",
     "category": "augmentations",
     "augmentation_type": "Esoteric",
+    "stage": "Extreme",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2257,6 +2364,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Pheromone Emitters",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2278,6 +2386,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "PicoSurgeons",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2299,6 +2408,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Poison Gland/Sac",
     "category": "augmentations",
     "augmentation_type": "Cybernetic Armor",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2320,6 +2430,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Polymatter Surg",
     "category": "augmentations",
     "augmentation_type": "Esoteric",
+    "stage": "Heavy",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2341,6 +2452,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Prehensile Foot",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2362,6 +2474,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Programmable Bio",
     "category": "augmentations",
     "augmentation_type": "Esoteric",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2383,6 +2496,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Prosthetic Skull",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Heavy",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2404,6 +2518,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Prosthetic Torso",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Heavy",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2425,6 +2540,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Psi Implant",
     "category": "augmentations",
     "augmentation_type": "Esoteric",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2446,6 +2562,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Psychotropic Act",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2467,6 +2584,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Quantum Storage",
     "category": "augmentations",
     "augmentation_type": "Esoteric",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2488,6 +2606,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Quick-Change Mount",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Heavy",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2509,6 +2628,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Radar / Sonar",
     "category": "augmentations",
     "augmentation_type": "Sensory",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2530,6 +2650,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Radiation Shielding",
     "category": "augmentations",
     "augmentation_type": "Cybernetic Armor",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2551,6 +2672,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Rage Implant",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2572,6 +2694,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Redundant Organs",
     "category": "augmentations",
     "augmentation_type": "Cybernetic Armor",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2593,6 +2716,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Reflex Co-Proc",
     "category": "augmentations",
     "augmentation_type": "Neural",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2614,6 +2738,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Scrambler",
     "category": "augmentations",
     "augmentation_type": "Sensory",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2635,6 +2760,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Sectional Joint",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2656,6 +2782,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Sensory Recorder",
     "category": "augmentations",
     "augmentation_type": "Sensory",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2677,6 +2804,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Sensory Shunt",
     "category": "augmentations",
     "augmentation_type": "Neural",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2698,6 +2826,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Servo-Arm",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2719,6 +2848,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Shielding",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2740,6 +2870,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Shift-tacts",
     "category": "augmentations",
     "augmentation_type": "Fashionware",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2761,6 +2892,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Shock-Knuckles",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2782,6 +2914,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Skate Foot",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2803,6 +2936,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Skill Circuitry",
     "category": "augmentations",
     "augmentation_type": "Neural",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2824,6 +2958,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Skill Plexus",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2845,6 +2980,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Skinlike / Synthskin",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2866,6 +3002,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Skinwatch",
     "category": "augmentations",
     "augmentation_type": "Fashionware",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2887,6 +3024,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Skull Plating",
     "category": "augmentations",
     "augmentation_type": "Cybernetic Armor",
+    "stage": "Heavy",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2908,6 +3046,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Smart Goggles",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2929,6 +3068,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Smart Link",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2950,6 +3090,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Smuggling Compartment",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2971,6 +3112,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Sound Damper",
     "category": "augmentations",
     "augmentation_type": "Sensory",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -2992,6 +3134,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Speed Boost (Legs)",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -3013,6 +3156,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Spike Fist / Needle",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -3034,6 +3178,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Stabilizer",
     "category": "augmentations",
     "augmentation_type": "Cybernetic Armor",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -3055,6 +3200,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Subdermal Pocket",
     "category": "augmentations",
     "augmentation_type": "Fashionware",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -3076,6 +3222,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Surrogate Uplink",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -3097,6 +3244,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Synaptic Accelerator",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -3118,6 +3266,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Synaptic Mask",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -3139,6 +3288,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Synth Organ",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -3160,6 +3310,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Synth Tentacle",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -3181,6 +3332,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Synth Wing",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -3202,6 +3354,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Tail",
     "category": "augmentations",
     "augmentation_type": "Cybernetic Armor",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -3223,6 +3376,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Targeting",
     "category": "augmentations",
     "augmentation_type": "Sensory",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -3244,6 +3398,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Tech-Hair",
     "category": "augmentations",
     "augmentation_type": "Fashionware",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -3265,6 +3420,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Teleoptic",
     "category": "augmentations",
     "augmentation_type": "Sensory",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -3286,6 +3442,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Telescoping Limb",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Heavy",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -3307,6 +3464,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Temporal Stutter",
     "category": "augmentations",
     "augmentation_type": "Esoteric",
+    "stage": "Extreme",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -3328,6 +3486,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Thermograph",
     "category": "augmentations",
     "augmentation_type": "Sensory",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -3349,6 +3508,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Tool Hand",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Heavy",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -3370,6 +3530,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Tracking Scanner",
     "category": "augmentations",
     "augmentation_type": "Sensory",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -3391,6 +3552,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Trans-Cerebral",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Extreme",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -3412,6 +3574,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Translator Implant",
     "category": "augmentations",
     "augmentation_type": "Neural",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -3433,6 +3596,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Trauma Response",
     "category": "augmentations",
     "augmentation_type": "Cybernetic Armor",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -3454,6 +3618,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Turn-On Nails",
     "category": "augmentations",
     "augmentation_type": "Fashionware",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -3475,6 +3640,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Upper Arm",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -3496,6 +3662,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Upper Leg (Thigh)",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Negligible",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -3517,6 +3684,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Voice Disguiser",
     "category": "augmentations",
     "augmentation_type": "Sensory",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -3538,6 +3706,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Water Refiltration",
     "category": "augmentations",
     "augmentation_type": "Cybernetic Armor",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -3559,6 +3728,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Weapon Hand",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Heavy",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -3580,6 +3750,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "Web Foot",
     "category": "augmentations",
     "augmentation_type": "Prosthetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {
@@ -3601,6 +3772,7 @@ export const DEFAULT_AUGMENTATIONS = [
     "name": "XR Imager",
     "category": "augmentations",
     "augmentation_type": "Cybernetic",
+    "stage": "Standard",
     "body_location": "General",
     "tech_level": 3,
     "costs": {

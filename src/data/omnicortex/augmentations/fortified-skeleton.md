@@ -31,6 +31,7 @@ sockets:
   allocated: []
 tech_level: 0
 meta_level: 0
+stage: Heavy
 ---
 Category: **5.1 Integrated Cybernetic Armor**
 

@@ -6,10 +6,10 @@ feature_category: Special
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: Augmented
+prerequisites: Heavy Augmentations, Stamina 4
 description: >-
-  Extreme Augmentations is a Special Feature: Replaces a majority of biological
-  components.
+  The character is more machine (or bio-construct) than original being. They
+  have replaced the majority of their biological functions.
 costs:
   bp: 3
   credits: 0
@@ -36,14 +36,14 @@ sockets:
 
 **Category**: Special Features  
 **Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
-**Prerequisite**: Augmented
+**Prerequisite**: Heavy Augmentations, Stamina 4
 
 ## Description
-Extreme Augmentations is a Special Feature: Replaces a majority of biological components.
+The character is more machine (or bio-construct) than original being. They have replaced the majority of biological functions.
 
 ## Mechanics & Benefit
-Replaces a majority of biological components.
+You may undergo Full Body Conversion. You may install systems that alter your Size category or basic physiology (e.g., tank treads instead of legs). You gain an additional 6 BP worth of Augmentations.
 
 ## Special Rules
-182
+Grants an additional 6 BP worth of Augmentations for free (+18 BP cumulative credit). Permits Full Body Conversion (FBC) chassis and radical physiological structural alterations.
 

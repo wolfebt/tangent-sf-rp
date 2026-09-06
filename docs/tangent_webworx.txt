@@ -1,14 +1,9 @@
-ADE
-we have lost all of the gems for various selections, mood, genre, pov, theme, etc (from the aime app)
 
-any interaction with either ai should have a status spinner / thinking notification while working
 
-no activity when trying to enter an action in the decision gate
+unlink the active character
 
-integrate the control panel components into the scenarios section, we dont need this page one consolidated
+in the message station - we will need message options to player as well as to the separate characters and sorted accordingly. 
 
-integrate the manuscript studio into the scenerio section as a tabbed and connected page.
 
-for the ADE we will need a project file to keep all information and components of the development in an md file to be a source of truth for the ai reference
+companion / cohort system and mechanics for vtt
 
-integrate AIME fully into the ADE

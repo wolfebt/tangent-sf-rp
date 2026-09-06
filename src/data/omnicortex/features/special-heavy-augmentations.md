@@ -6,10 +6,11 @@ feature_category: Special
 cost_bp: 3
 is_ranked: false
 is_multiple: false
-prerequisites: Augmented
+prerequisites: Augmented, Stamina 2
 description: >-
-  Heavy Augmentations is a Special Feature: More Intensive Replacements and
-  Enhancements.
+  The character has replaced significant portions of their body with industrial
+  or military-grade hardware. These modifications are often bulky, obvious, and
+  not designed for social integration.
 costs:
   bp: 3
   credits: 0
@@ -36,14 +37,14 @@ sockets:
 
 **Category**: Special Features  
 **Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  
-**Prerequisite**: Augmented
+**Prerequisite**: Augmented, Stamina 2
 
 ## Description
-Heavy Augmentations is a Special Feature: More Intensive Replacements and Enhancements.
+The character has replaced significant portions of their body with industrial or military-grade hardware. These modifications are often bulky, obvious, and not designed for social integration.
 
 ## Mechanics & Benefit
-More Intensive Replacements and Enhancements.
+You may install Heavy class Augmentations (which often have higher DR or Strength bonuses but may impose social penalties). You gain an additional 6 BP worth of Augmentations.
 
 ## Special Rules
-181
+Grants an additional 6 BP worth of Augmentations for free (+12 BP cumulative credit). Unlocks compatibility with Heavy class cybernetic and biomechanical hardware.
 

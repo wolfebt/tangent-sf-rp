@@ -21,7 +21,6 @@ import {
   ChevronRight,
   Dices,
   Users,
-  Save,
   Lock
 } from 'lucide-react';
 import { AudioService } from '../../services/audioService';
@@ -70,7 +69,9 @@ export const FolioSidebar = ({
   onOpenAugmentationsCatalog,
   onOpenMetaphysicsModal,
   onSave,
-  saveStatus
+  saveStatus,
+  viewMode = 'builder',
+  setViewMode
 }) => {
   const { openDiceRoller, isDiceOpen, closeDiceRoller } = useDice();
   const { isLocked, isPlayerOverride } = useFolio() || {};
@@ -91,6 +92,11 @@ export const FolioSidebar = ({
   const handleSelectNav = (item) => {
     AudioService.playTerminalBeep(1100, 0.02);
 
+    // If switching to builder tabs while in tactical play mode, return to builder view
+    if (viewMode === 'play' && item.id !== 'catalog' && setViewMode) {
+      setViewMode('builder');
+    }
+
     // Auto-expand section if collapsed when landing on hub
     if (item.children && !expandedSections[item.id]) {
       setExpandedSections(prev => ({ ...prev, [item.id]: true }));
@@ -101,6 +107,9 @@ export const FolioSidebar = ({
 
   const handleSelectChild = (child, parentId) => {
     AudioService.playTerminalBeep(1300, 0.02);
+    if (viewMode === 'play' && setViewMode) {
+      setViewMode('builder');
+    }
     setActiveTab(child.id);
   };
 
@@ -212,37 +221,8 @@ export const FolioSidebar = ({
         })}
       </nav>
 
-      {/* Quick Launch Buttons: Save Dossier & Dice Roller */}
+      {/* Quick Launch Buttons: Dice Roller */}
       <div className="pt-2 border-t border-slate-800/80 shrink-0 space-y-1.5">
-        {onSave && (
-          <button
-            type="button"
-            onClick={() => {
-              AudioService.playTerminalBeep(1200, 0.03);
-              onSave();
-            }}
-            className="w-full text-left px-3 py-2 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-between cursor-pointer bg-emerald-950/40 hover:bg-emerald-900/60 text-emerald-300 border border-emerald-500/50 hover:border-emerald-400 shadow-sm"
-            title="Save current persona sheet to Roster and Cloud"
-          >
-            <div className="flex items-center gap-2">
-              <Save size={14} className="text-emerald-400" />
-              <span>Save Dossier</span>
-            </div>
-            <span className="text-[10px] font-mono font-bold text-emerald-400 flex items-center gap-1">
-              {saveStatus === 'saving' ? (
-                'SAVING...'
-              ) : saveStatus === 'saved' ? (
-                <>
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_4px_rgba(52,211,153,0.8)]" />
-                  SAVED
-                </>
-              ) : (
-                'SAVE'
-              )}
-            </span>
-          </button>
-        )}
-
         <button
           type="button"
           onClick={() => {

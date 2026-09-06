@@ -5,6 +5,8 @@ import { AudioService } from '../../../../services/audioService';
 import DraggablePanel from './DraggablePanel';
 import { Users, User, Shield, Sparkles, Plus, ExternalLink } from 'lucide-react';
 import { GameGroupModal } from '../../../../components/Groups/GameGroupModal';
+import { extractHeroStats } from '../../../../schemas/sharedSchemas';
+import { TacticalPlayModal } from '../../../../components/Folio/modals/TacticalPlayModal';
 
 export const FolioHeroTokenDrawer = ({
   showDrawer,
@@ -17,6 +19,7 @@ export const FolioHeroTokenDrawer = ({
   const [activeTab, setActiveTab] = useState('heroes'); // 'heroes' | 'squads'
   const [isSquadModalOpen, setIsSquadModalOpen] = useState(false);
   const [selectedSquadId, setSelectedSquadId] = useState(null);
+  const [tacticalModalHero, setTacticalModalHero] = useState(null);
 
   if (!showDrawer) return null;
 
@@ -30,53 +33,6 @@ export const FolioHeroTokenDrawer = ({
       (typeof concept === 'string' && concept.toLowerCase().includes(query)) ||
       (typeof species === 'string' && species.toLowerCase().includes(query));
   });
-
-  const extractHeroStats = (hero) => {
-    const maxHealth = parseInt(hero.health || hero.derived_max_hp || 30, 10);
-    const currentHealth = hero.current_health !== undefined && hero.current_health !== null
-      ? parseInt(hero.current_health, 10)
-      : (hero.current_hp !== undefined && hero.current_hp !== null ? parseInt(hero.current_hp, 10) : maxHealth);
-    const maxVitality = parseInt(hero.vitality || hero.derived_max_vitality || 30, 10);
-    const currentVitality = hero.current_vitality !== undefined && hero.current_vitality !== null
-      ? parseInt(hero.current_vitality, 10)
-      : maxVitality;
-    const defense = parseInt(hero.derived_defense || (hero['attr-reflex'] ? parseInt(hero['attr-reflex'], 10) + 10 : 12), 10);
-    const actionPoints = parseInt(hero.derived_ap || 3, 10);
-    const agility = parseInt(hero['attr-agility'] || hero.attr_agility || 10, 10);
-    const speciesStr = String(hero['char-species'] || hero.species || '').toLowerCase();
-    const isSynthetic = speciesStr.includes('synthetic') || speciesStr.includes('mekan') || speciesStr.includes('construct') || speciesStr.includes('golem') || speciesStr.includes('ooze') || speciesStr.includes('undead');
-    const stamina = parseInt(hero['attr-stamina'] || 0, 10);
-    const toughness = stamina;
-    const maxStructure = maxHealth + maxVitality;
-    const currentStructure = hero.current_structure !== undefined && hero.current_structure !== null
-      ? parseInt(hero.current_structure, 10)
-      : (currentHealth + currentVitality);
-
-    return {
-      heroId: hero['character-doc-id'] || hero.id,
-      name: hero['char-name'] || hero.name || 'Unnamed Hero',
-      avatarUrl: hero.avatarUrl || hero.imageUrl || null,
-      maxHealth,
-      currentHealth,
-      maxVitality,
-      currentVitality,
-      maxStructure,
-      currentStructure,
-      isSynthetic,
-      toughness,
-      health: { current: currentHealth, max: maxHealth },
-      vitality: { current: currentVitality, max: maxVitality },
-      structure: { current: currentStructure, max: maxStructure },
-      defense,
-      actionPoints,
-      agility,
-      karma: parseInt(hero.karma !== undefined ? hero.karma : 3, 10),
-      maxKarma: parseInt(hero.maxKarma || 3, 10),
-      charisma: parseInt(hero['attr-charisma'] || hero.attr_charisma || 10, 10),
-      earned_ap: parseInt(hero.earned_ap || 0, 10),
-      available_ap: parseInt(hero.available_ap || hero.earned_ap || 0, 10)
-    };
-  };
 
   const handleDragStart = (e, hero) => {
     const isReady = Boolean(hero.is_locked || hero.is_ready_for_vtt || hero.folio_phase === 'locked');
@@ -303,17 +259,31 @@ export const FolioHeroTokenDrawer = ({
                       </div>
 
                       {isReady ? (
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleSpawnClick(hero);
-                          }}
-                          className="px-2 py-1 bg-cyan-950 hover:bg-cyan-800 text-[#22d3ee] border border-cyan-500/50 rounded text-[10px] font-mono font-bold uppercase transition-all shrink-0 hover:shadow-[0_0_8px_rgba(34,211,238,0.4)] cursor-pointer"
-                          title="Summon Hero to Map Canvas"
-                        >
-                          + SPAWN
-                        </button>
+                        <div className="flex items-center gap-1 shrink-0">
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              AudioService.playTerminalBeep(1100, 0.05);
+                              setTacticalModalHero(hero);
+                            }}
+                            className="px-1.5 py-1 bg-cyan-950/80 hover:bg-cyan-800 text-cyan-300 border border-cyan-500/50 rounded text-[9.5px] font-mono font-bold uppercase transition-all hover:shadow-[0_0_8px_rgba(34,211,238,0.4)] cursor-pointer"
+                            title="Launch Tactical Play Cockpit for this Operative"
+                          >
+                            ⚔️ PLAY
+                          </button>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleSpawnClick(hero);
+                            }}
+                            className="px-2 py-1 bg-cyan-950 hover:bg-cyan-800 text-[#22d3ee] border border-cyan-500/50 rounded text-[10px] font-mono font-bold uppercase transition-all shrink-0 hover:shadow-[0_0_8px_rgba(34,211,238,0.4)] cursor-pointer"
+                            title="Summon Hero to Map Canvas"
+                          >
+                            + SPAWN
+                          </button>
+                        </div>
                       ) : (
                         <a
                           href="/folio"
@@ -424,6 +394,15 @@ export const FolioHeroTokenDrawer = ({
           isOpen={isSquadModalOpen}
           onClose={() => setIsSquadModalOpen(false)}
           initialTab="roster"
+        />
+      )}
+
+      {/* Tactical Play Cockpit Modal */}
+      {tacticalModalHero && (
+        <TacticalPlayModal
+          isOpen={Boolean(tacticalModalHero)}
+          onClose={() => setTacticalModalHero(null)}
+          character={tacticalModalHero}
         />
       )}
     </>

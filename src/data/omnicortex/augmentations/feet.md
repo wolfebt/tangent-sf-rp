@@ -28,6 +28,7 @@ sockets:
   allocated: []
 tech_level: 1
 meta_level: 0
+stage: Standard
 ---
 **Special:** Non-Lethal
 

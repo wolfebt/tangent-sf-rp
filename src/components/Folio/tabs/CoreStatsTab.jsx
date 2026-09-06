@@ -383,7 +383,7 @@ const CoreStatsTab = () => {
                               : null))
                       : null;
                     const rawBase = isSub 
-                      ? ((explicitVal !== null && !isNaN(explicitVal) && explicitVal > 0) ? explicitVal : calculatedSubBase)
+                      ? ((explicitVal !== null && !isNaN(explicitVal) && explicitVal > calculatedSubBase) ? explicitVal : calculatedSubBase)
                       : getNum(attr.id);
                     const mod = getAttrMod(attr.id);
                     const total = getAttrTotal(attr.id);
@@ -462,6 +462,7 @@ const CoreStatsTab = () => {
                                   expression: `2d10${total !== 0 ? (total > 0 ? `+${total}` : `${total}`) : ''}`,
                                   rollMode: 'normal',
                                   characterName: characterData['char-name'] || 'Operative',
+                                  personaId: characterData['character-doc-id'] || characterData.id,
                                   autoRoll: true
                                 })}
                                 className="px-1.5 py-0.5 rounded bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 hover:border-amber-400 text-amber-300 hover:text-white text-[10px] font-mono font-bold transition-all shadow-sm cursor-pointer flex items-center gap-0.5 shrink-0"
@@ -479,6 +480,7 @@ const CoreStatsTab = () => {
                                   expression: `2d10${total !== 0 ? (total > 0 ? `+${total}` : `${total}`) : ''}`,
                                   rollMode: 'normal',
                                   characterName: characterData['char-name'] || 'Operative',
+                                  personaId: characterData['character-doc-id'] || characterData.id,
                                   autoRoll: true
                                 })}
                                 className="p-1 rounded bg-slate-900/60 hover:bg-cyan-950 border border-slate-800 hover:border-cyan-500/50 text-slate-500 hover:text-cyan-300 transition-colors cursor-pointer shrink-0"

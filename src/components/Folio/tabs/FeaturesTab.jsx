@@ -6,6 +6,7 @@ import { Sparkles, AlertTriangle, Cpu, Zap, Plus, Edit3, Trash2, Check, Lock, Bo
 import { METAPHYSICAL_DISCIPLINES } from '../../../data/skillsData';
 import FolioTooltip from '../shared/FolioTooltip';
 import { checkPrerequisite } from '../../../utils/prerequisiteEvaluator';
+import AugmentationsManager from '../augmentations/AugmentationsManager';
 
 export const FeaturesTab = ({ 
   onOpenSelectorModal, 
@@ -1324,115 +1325,10 @@ export const FeaturesTab = ({
       {/* 3. AUGMENTATIONS SUBSECTION */}
       {/* ══════════════════════════════════════════════════════════════════ */}
       {showAugmentations && (
-        <div className="bg-slate-900/80 border border-amber-900/60 rounded-xl p-5 shadow-lg space-y-5">
-          {/* Header */}
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-amber-950 pb-3 gap-2">
-            <div>
-              <h3 className="text-sm font-bold uppercase tracking-widest text-amber-400 flex items-center gap-2">
-                <Cpu className="w-4 h-4 text-amber-400" />
-                Cybernetic &amp; Biological Augmentations
-              </h3>
-              <p className="text-[11px] text-slate-400 mt-0.5">
-                Installed prosthetic hardware, neural cyberware, and bio-mod implants requiring socket allocations.
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="px-2.5 py-1 bg-amber-950/80 border border-amber-800 text-amber-300 text-xs font-mono font-bold rounded">
-                {augmentationsList.length} {augmentationsList.length === 1 ? 'Augmentation' : 'Augmentations'}
-              </span>
-              <span className="px-2.5 py-1 bg-amber-950/80 border border-amber-800 text-amber-300 text-xs font-mono font-bold rounded">
-                {totalAugmentationsCP} CP Total
-              </span>
-            </div>
-          </div>
-
-          {/* Augmentations Items Grid */}
-          {augmentationsList.length === 0 ? (
-            <div className="text-xs text-slate-500 italic py-6 text-center border border-dashed border-slate-800 rounded-lg space-y-1">
-              <p>No cybernetic or biological augmentations installed.</p>
-              <p className="text-[11px] text-slate-600">Click below to browse the Augmentations catalog and allocate hardware.</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 max-h-[450px] overflow-y-auto pr-1">
-              {augmentationsList.map((aug) => {
-                const name = typeof aug === 'object' ? (aug.name || aug.title) : aug;
-                const cpCost = typeof aug === 'object' && aug.cp !== undefined ? aug.cp : 2;
-                const desc = typeof aug === 'object' ? (aug.description || aug.summary || '') : '';
-                const location = typeof aug === 'object' ? (aug.location || aug.slot || aug.type || 'Cyberware') : 'Cyberware';
-
-                return (
-                  <div
-                    key={`${aug.sourceList}_${aug.sourceIndex}`}
-                    className="bg-slate-950/80 border border-amber-900/40 hover:border-amber-700/70 rounded-lg p-3 shadow-sm flex flex-col justify-between transition-all group relative"
-                  >
-                    <div>
-                      <div className="flex items-start justify-between gap-1.5 mb-1">
-                        <FolioTooltip
-                          title={name}
-                          badge={location || 'Augmentation'}
-                          badgeColor="amber"
-                          description={desc || 'Prosthetic hardware, neural cyberware, or bio-mod implant.'}
-                          cost={`${cpCost} CP`}
-                          tags={['Augmentation', location]}
-                          showInfoIcon={true}
-                        >
-                          <h4 className="font-semibold text-xs text-slate-100 hover:text-amber-300 leading-snug pr-1 transition-colors cursor-help">
-                            {name}
-                          </h4>
-                        </FolioTooltip>
-                        <span className="shrink-0 px-1.5 py-0.5 text-[10px] font-mono font-bold text-amber-300 bg-amber-950/80 border border-amber-800/80 rounded">
-                          {cpCost} CP
-                        </span>
-                      </div>
-                      <span className="text-[10px] font-mono text-amber-400/90 block mb-1">
-                        📍 {location}
-                      </span>
-                      {desc && (
-                        <p className="text-[11px] text-slate-400 leading-relaxed line-clamp-3 mb-2">
-                          {desc}
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="flex items-center justify-end gap-1 pt-1.5 mt-auto border-t border-slate-900">
-                      {onOpenAssetModal && (
-                        <button
-                          type="button"
-                          onClick={() => onOpenAssetModal('augmentations', 'Augmentation', 'edit', aug.sourceIndex, aug)}
-                          className="text-slate-400 hover:text-amber-300 text-xs px-1.5 py-0.5 rounded hover:bg-slate-900 transition-colors cursor-pointer"
-                          title="Edit augmentation properties"
-                        >
-                          <Edit3 className="w-3.5 h-3.5" />
-                        </button>
-                      )}
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveAugmentation(aug)}
-                        className="text-slate-500 hover:text-red-400 text-sm font-bold px-1.5 py-0.5 leading-none rounded hover:bg-slate-900 transition-colors cursor-pointer"
-                        title="Remove augmentation"
-                      >
-                        &times;
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-
-          {/* Action Button: Opens Augmentations Catalog */}
-          <div className="flex justify-center pt-2">
-            <button
-              type="button"
-              onClick={() => onOpenSelectorModal('augmentations', 'Augmentations Catalog', 'augmentations')}
-              className="py-2 px-6 bg-amber-950/90 hover:bg-amber-900 border border-amber-700/80 text-amber-300 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-[0_0_10px_rgba(245,158,11,0.2)] cursor-pointer"
-              title="Open Augmentations Database"
-            >
-              <Cpu className="w-4 h-4 text-amber-400" />
-              <span>+ Add Augmentation (Browse Catalog)</span>
-            </button>
-          </div>
-        </div>
+        <AugmentationsManager
+          onOpenSelectorModal={onOpenSelectorModal}
+          onOpenAssetModal={onOpenAssetModal}
+        />
       )}
 
       {/* ══════════════════════════════════════════════════════════════════ */}

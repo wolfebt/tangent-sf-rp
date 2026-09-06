@@ -491,9 +491,10 @@ export const categoryConfig = {
     augmentations: {
         label: 'AUGMENTATIONS',
         viewType: 'table',
-        directory_columns: ['name', 'type', 'tech_level', 'sp', 'dr', 'design_dc'],
+        directory_columns: ['name', 'stage', 'type', 'tech_level', 'sp', 'dr', 'design_dc'],
         fields: {
             name: { type: 'text', required: true, label: 'Augmentation Name' },
+            stage: { type: 'select', options: ['Negligible', 'Standard', 'Heavy', 'Extreme'], label: 'Augmentation Stage', default: 'Standard' },
             type: { type: 'select', source: 'augmentation_type', manageable: true, label: 'Category' },
             location: { type: 'multiselect', source: 'body_location', manageable: true },
             description: { type: 'textarea' },

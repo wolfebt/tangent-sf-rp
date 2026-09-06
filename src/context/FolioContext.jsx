@@ -171,7 +171,12 @@ const DEFAULT_CHARACTER = {
   player_override: false,
   override_at: null,
   active_conditions: [],
-  tracked_modifications: []
+  tracked_modifications: [],
+  archetypeAllocations: { skills: {}, attributes: {}, features: [] },
+  speciesAllocations: { skills: {}, attributes: {}, traits: [], features: [] },
+  occuAllocations: { skills: {}, traits: [], features: [] },
+  originAllocations: { skills: {}, traits: [], features: [] },
+  factionAllocations: { skills: {}, traits: [], features: [] }
 };
 
 const FOLIO_TOMBSTONES_KEY = 'folio_deleted_personas';
@@ -1150,14 +1155,6 @@ export const FolioProvider = ({ children }) => {
     dbData
   ]);
 
-  // Helper to get dynamic sub-attribute base: (Current Primary Attribute * 2) + 2
-  const getSubAttrBase = useCallback((subKey, data = characterData) => {
-    const primaryKey = SUB_TO_PRIMARY_ATTR[subKey];
-    if (!primaryKey) return 2;
-    const pVal = parseInt(data[primaryKey] || 0, 10);
-    return (pVal * 2) + 2;
-  }, [characterData]);
-
   // Attribute Mod & Total Calculation Helpers
   const getAttrMod = useCallback((attrId) => {
     const userMod = parseInt(characterData[`${attrId}-mod`] || 0, 10) || 0;
@@ -1165,12 +1162,23 @@ export const FolioProvider = ({ children }) => {
     return userMod + identityMod;
   }, [characterData, computedModifiers.attributeMods]);
 
+  // Helper to get dynamic sub-attribute base: (Current Primary Attribute * 2) + 2
+  const getSubAttrBase = useCallback((subKey, data = characterData) => {
+    const primaryKey = SUB_TO_PRIMARY_ATTR[subKey];
+    if (!primaryKey) return 2;
+    const pVal = parseInt(data[primaryKey] || 0, 10);
+    const pMod = data === characterData ? getAttrMod(primaryKey) : 0;
+    return ((pVal + pMod) * 2) + 2;
+  }, [characterData, getAttrMod]);
+
   const getAttrTotal = useCallback((attrId) => {
     let val;
     if (SUB_TO_PRIMARY_ATTR[attrId]) {
       const primaryKey = SUB_TO_PRIMARY_ATTR[attrId];
       const pVal = parseInt(characterData[primaryKey] || 0, 10);
-      const base = (pVal * 2) + 2;
+      const pMod = getAttrMod(primaryKey);
+      const effectivePrimary = pVal + pMod;
+      const base = (effectivePrimary * 2) + 2;
       const explicitRaw = characterData[attrId] ?? (
         attrId === 'attr-logic' ? characterData['attr-reason'] :
         attrId === 'attr-reason' ? characterData['attr-logic'] :
@@ -1179,8 +1187,11 @@ export const FolioProvider = ({ children }) => {
         undefined
       );
       const parsedExplicit = parseInt(explicitRaw, 10);
-      const hasExplicit = explicitRaw !== undefined && explicitRaw !== null && explicitRaw !== '' && !isNaN(parsedExplicit) && parsedExplicit > 0;
-      val = hasExplicit ? parsedExplicit : base;
+      if (!isNaN(parsedExplicit) && parsedExplicit > base) {
+        val = parsedExplicit;
+      } else {
+        val = base;
+      }
     } else {
       val = parseInt(characterData[attrId] || 0, 10) || 0;
     }
@@ -1285,16 +1296,16 @@ export const FolioProvider = ({ children }) => {
       speciesStr.includes('elemental') ||
       archetypeStr.includes('synthetic');
 
-    const effectiveHealth = baseHealth + purchasedHealth;
-    const effectiveVitality = baseVitality + purchasedVitality;
-    const totalStructure = effectiveHealth + effectiveVitality;
+    const effectiveHealth = isSynthetic ? 0 : (baseHealth + purchasedHealth);
+    const effectiveVitality = isSynthetic ? 0 : (baseVitality + purchasedVitality);
+    const totalStructure = isSynthetic ? (baseHealth + purchasedHealth + baseVitality + purchasedVitality) : 0;
 
     const speciesRestProfile = getSpeciesRestProfile(characterData);
     const lightRestsToday = parseInt(characterData.light_rests_today || 0, 10);
 
     return {
-      health: baseHealth,
-      vitality: baseVitality,
+      health: isSynthetic ? 0 : baseHealth,
+      vitality: isSynthetic ? 0 : baseVitality,
       stamina: staminaBase,
       staminaDR: staminaBase,
       maxStatIncrease,
@@ -1307,10 +1318,11 @@ export const FolioProvider = ({ children }) => {
       maxKarmaDebt,
       toughness,
       structure: totalStructure,
+      maxStructure: totalStructure,
       isSynthetic,
       maxAllowed,
-      purchasedHealth,
-      purchasedVitality,
+      purchasedHealth: isSynthetic ? 0 : purchasedHealth,
+      purchasedVitality: isSynthetic ? 0 : purchasedVitality,
       speciesRestProfile,
       lightRestsToday,
       maxLightRests: 4
@@ -2157,7 +2169,7 @@ export const FolioProvider = ({ children }) => {
     }
 
     // 3. If updating identity selection (species, archetype, occupation, origin, faction), automatically transition traits & modifications
-    if (['char-species', 'char-archetype', 'char-occu', 'char-origin', 'char-faction'].includes(key)) {
+    if (['char-species', 'char-archetype', 'char-occu', 'char-secondary-occu', 'char-origin', 'char-secondary-origin', 'char-faction'].includes(key)) {
       setCharacterData((prev) => applyIdentityFieldTransition(prev, key, value, dbData));
       triggerSave();
       return;

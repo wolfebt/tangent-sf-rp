@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { useFolio } from '../../../context/FolioContext';
 import { AudioService } from '../../../services/audioService';
 import { Sparkles, Zap, Cpu, AlertTriangle, ArrowRight, ShieldCheck } from 'lucide-react';
+import { determineAugmentationStage } from '../../../engines/tangentComplexEngines';
 
 export const FeaturesHubView = ({ 
   onSelectSection,
@@ -121,6 +122,10 @@ export const FeaturesHubView = ({
     }, 0);
   }, [augmentationsList]);
 
+  const augStageInfo = useMemo(() => {
+    return determineAugmentationStage(characterData);
+  }, [characterData]);
+
   // 4. Hindrances
   const hindrancesList = useMemo(() => {
     const raw = (Array.isArray(characterData.hindrances) && characterData.hindrances.length > 0)
@@ -150,7 +155,7 @@ export const FeaturesHubView = ({
     {
       id: 'features-standard',
       title: 'Standard Features',
-      tagline: 'Combat, Racial, Skill & General Talents',
+      tagline: 'Combat, Physical, Social & Background Perks',
       icon: Sparkles,
       count: standardFeatures.length,
       unit: standardFeatures.length === 1 ? 'Feature' : 'Features',
@@ -161,12 +166,12 @@ export const FeaturesHubView = ({
       iconBg: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30',
       badgeBg: 'bg-cyan-950/80 text-cyan-300 border-cyan-700/60',
       accentColor: 'text-cyan-400',
-      description: 'Specialized operative abilities, innate species traits, combat maneuvers, and trained talent trees defining character capabilities.'
+      description: 'Special operative aptitudes, specialized training, genetic advantages, and professional traits acquired across your career.'
     },
     {
       id: 'features-metaphysics',
       title: 'Metaphysics / Awakened',
-      tagline: 'Esoteric Disciplines & Invocations',
+      tagline: 'Dimensional, Psionic & Void Disciplines',
       icon: Zap,
       count: awakenedList.length,
       unit: awakenedList.length === 1 ? 'Discipline' : 'Disciplines',
@@ -183,7 +188,7 @@ export const FeaturesHubView = ({
     {
       id: 'features-augmentations',
       title: 'Augmentations',
-      tagline: 'Cybernetics, Bionics & Neural Grafts',
+      tagline: `Stage: ${augStageInfo.stage.name} (${augStageInfo.stage.bpCredit} BP Credit)`,
       icon: Cpu,
       count: augmentationsList.length,
       unit: augmentationsList.length === 1 ? 'Installed' : 'Installed',

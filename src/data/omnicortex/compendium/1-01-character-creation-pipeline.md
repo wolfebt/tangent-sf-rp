@@ -2,37 +2,10 @@
 id: "1-01-character-creation-pipeline"
 name: "1.01 Character Creation System & Walkthrough"
 category: "compendium"
+entry_type: "Operator Rule"
 parent: "1.00 CHARACTER CREATION & ECONOMY"
 order: 1
-perspective: "operator"
-entry_type: "Operator Rule"
-tl: 3
-ml: 0
-cost: 0
-tags: ["compendium","operator-rule"]
-updatedAt: "2026-09-02T09:16:58.894Z"
-costs:
-  bp: 0
-  credits: 0
-  nodes: 0
-  sockets: 0
-  strain: 0
-  focus: 0
-  ap: 0
-modifiers: []
-modifications: []
-critical_details:
-  score: ''
-  effect: []
-  success_effect: []
-  failure_effect: []
-sockets:
-  max: 0
-  used: 0
-  tier: Socket
-  allocated: []
 ---
-
 # 1.01 Character Creation System & Walkthrough
 
 Players embark on a thrilling adventure where they hold the power to shape their character's destiny. This customization system grants players the freedom to craft unique and unforgettable characters that resonate with their playstyles and preferences.
@@ -108,7 +81,7 @@ The first step in character creation for the Tangent SFF RPG is to choose a **Sp
 
 - **BP Cost:** Each species has a BP cost deducted from the starting pool of 150 BP.
 - **Ability Modifiers:** Each species has specific ability modifiers (positive or negative) that affect a character's base stats.
-- **Skill Ranks:** A species may be granted ranks in certain specific skills or skills chosen from a category. Indicating the species focus in certain training.
+- **Skill Ranks:** A species may be granted ranks in certain specific skills or skills chosen from a category, indicating the species focus in certain training.
 - **Racial Traits & Special Features:** Certain species may have access to unique racial traits or special features.
 - **Recommended Features:** Players can select from this list of features with a 1 BP reduction in cost (minimum of 1 BP for any feature).
 
@@ -302,30 +275,10 @@ The **Meta stage** of character creation in Tangent focuses on developing the me
 | Statistic | Calculation Formula | Description |
 | :--- | :--- | :--- |
 | **Max Hit Points (HP)** | Base (10) + (Stamina Mod * 2) + Rank Multipliers | Total physical trauma capacity |
-| **Initiative Check** | 2d10 + Reflex Save + Agility Mod | Reaction speed at start of combat |
-| **Might Check** | 2d10 + Strength Mod + Athletics Rank | Physical power, breaking DC, grappling |
-| **Fortitude Save** | 2d10 + Stamina Mod + Survival Rank | Resistance to poison, shock, radiation |
-| **Reflex Save** | 2d10 + Agility Mod + Acrobatics Rank | Evasion of blast radii and traps |
-| **Logic Check** | 2d10 + Intellect Mod + Science/Tech Rank | Deductive analysis and computation |
-| **Will Save** | 2d10 + Wisdom Mod + Alertness Rank | Mental grit, fear, and psionic defense |
-| **Etiquette Check** | 2d10 + Charisma Mod + Culture Rank | Social poise and diplomatic standing |
-
-## Game Mechanics Rules
-```
-BaseBP = 150
-AttributeCost = 5 BP per +1 (Max +4 raw at creation)
-SkillRankCost = 1 BP per rank
-FeatureBaseCost = 3 BP (2 BP if Recommended, 1 BP Minimum)
-TotalFoundationalGrants = 60 Skill Ranks + 4 Features + 4 Traits (From Faction, Origin, Occupation)
-```
-
-## Gameplay Instructions
-1. Define concept, background, and persona goals.
-2. Deduct Species BP cost from the 150 BP pool; apply species ability modifiers and inherent traits.
-3. Allocate remaining BP to Attributes (5 BP each, max +4), Skills (1 BP each), and Features (3 BP / 2 BP).
-4. Allocate 20 Faction SP, 20 Origin SP, and 20 Occupation SP from background pools.
-5. Select 2 Origin Traits and 2 Occupation Traits.
-6. Calculate derived Hit Points, Toughness, Initiative, and Saving Throws.
-
-## Designer Notes
-Remember, character creation in Tangent is designed to be highly flexible, and these steps can be adapted to fit your preferences and the GM's guidelines.
+| **Initiative Check** | d20 + Reflex Save + Agility Mod | Reaction speed at start of combat |
+| **Might Check** | d20 + Strength Mod + Athletics Rank | Physical power, breaking DC, grappling |
+| **Fortitude Save** | d20 + Stamina Mod + Survival Rank | Resistance to poison, shock, radiation |
+| **Reflex Save** | d20 + Agility Mod + Acrobatics Rank | Evasion of blast radii and traps |
+| **Logic Check** | d20 + Intellect Mod + Science/Tech Rank | Deductive analysis and computation |
+| **Will Save** | d20 + Wisdom Mod + Alertness Rank | Mental grit, fear, and psionic defense |
+| **Etiquette Check** | d20 + Charisma Mod + Culture Rank | Social poise and diplomatic standing |

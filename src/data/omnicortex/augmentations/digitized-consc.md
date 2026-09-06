@@ -30,6 +30,7 @@ sockets:
   allocated: []
 tech_level: 0
 meta_level: 0
+stage: Extreme
 ---
 Category: **9\. TL5 Advanced Augmentations**
 

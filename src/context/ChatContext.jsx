@@ -122,8 +122,20 @@ export const ChatProvider = ({ children }) => {
     return channels.filter(c => c.type === 'group');
   }, [channels]);
 
+  const personaLogChannels = useMemo(() => {
+    return channels.filter(c => c.type === 'persona_log' || c.id.startsWith('persona_log_'));
+  }, [channels]);
+
   const customChannels = useMemo(() => {
-    return channels.filter(c => c.type === 'custom' || (!c.id.startsWith('public_') && !c.id.startsWith('dm_') && c.type !== 'group'));
+    return channels.filter(c => 
+      c.type !== 'public' && 
+      !c.id.startsWith('public_') && 
+      c.type !== 'direct' && 
+      !c.id.startsWith('dm_') && 
+      c.type !== 'group' && 
+      c.type !== 'persona_log' && 
+      !c.id.startsWith('persona_log_')
+    );
   }, [channels]);
 
   const totalUnreadCount = useMemo(() => {
@@ -146,23 +158,28 @@ export const ChatProvider = ({ children }) => {
 
   // Send a regular or In-Character text transmission
   const sendMessage = useCallback(async (text, customPayload = {}) => {
-    if (!text && !customPayload.metadata) return;
+    if (!text && !customPayload.metadata && !customPayload.summary) return;
     if (!activeChannelId) return;
 
     const senderHandle = userHandle || currentUser?.displayName || currentUser?.email || 'Anonymous Operator';
-    const isIC = speakingMode === 'IC' && selectedPersona;
+    const isIC = speakingMode === 'IC' && (customPayload.persona || selectedPersona);
+    const activeP = customPayload.persona || selectedPersona;
 
     const payload = {
       text: text || '',
       type: isIC ? 'ic_transmission' : 'text',
       senderId: currentUser?.uid || 'anon',
-      senderHandle: isIC ? (selectedPersona.name || selectedPersona.identity?.name || senderHandle) : senderHandle,
-      isIC: isIC,
+      senderHandle: isIC ? (activeP.name || activeP['char-name'] || activeP.identity?.name || senderHandle) : senderHandle,
+      isIC: Boolean(isIC),
       personaDetails: isIC ? {
-        id: selectedPersona.id,
-        name: selectedPersona.name || selectedPersona.identity?.name || 'Operative',
-        species: selectedPersona.species || selectedPersona.identity?.species || 'Unknown',
-        role: selectedPersona.role || selectedPersona.identity?.role || 'Agent'
+        id: activeP['character-doc-id'] || activeP.id,
+        name: activeP['char-name'] || activeP.name || activeP.identity?.name || 'Operative',
+        species: activeP['char-species'] || activeP.species || activeP.identity?.species || 'Human',
+        role: activeP['char-concept'] || activeP.role || activeP['char-occu'] || activeP.identity?.role || 'Specialist',
+        health: activeP.health || 30,
+        currentHealth: activeP.current_health ?? (activeP.current_hp ?? 30),
+        vitality: activeP.vitality || 30,
+        currentVitality: activeP.current_vitality ?? 30
       } : null,
       ...customPayload
     };
@@ -178,16 +195,22 @@ export const ChatProvider = ({ children }) => {
 
     const senderHandle = userHandle || currentUser?.displayName || currentUser?.email || 'Operator';
     const isIC = speakingMode === 'IC' && selectedPersona;
-    const displayName = isIC ? (selectedPersona.name || selectedPersona.identity?.name || senderHandle) : senderHandle;
+    const displayName = isIC ? (selectedPersona.name || selectedPersona['char-name'] || selectedPersona.identity?.name || senderHandle) : senderHandle;
 
     const checkLabel = diceRollData.label ? `${diceRollData.label} ` : '';
-    const advTag = diceRollData.isAdvantage ? ' [Advantage]' : diceRollData.isDisadvantage ? ' [Disadvantage]' : '';
+    const advTag = diceRollData.isAdvantage ? ' [Advantage: I Got This]' : diceRollData.isDisadvantage ? ' [Disadvantage: Negative Karma]' : '';
     const payload = {
       text: `${displayName} rolled ${checkLabel}(${diceRollData.expression || 'dice'})${advTag}: ${diceRollData.total ?? diceRollData.result}`,
       type: 'dice_roll',
       senderId: currentUser?.uid || 'anon',
       senderHandle: displayName,
       isIC: isIC,
+      personaDetails: isIC ? {
+        id: selectedPersona['character-doc-id'] || selectedPersona.id,
+        name: selectedPersona['char-name'] || selectedPersona.name || 'Operative',
+        species: selectedPersona['char-species'] || selectedPersona.species || 'Human',
+        role: selectedPersona['char-concept'] || selectedPersona.role || selectedPersona['char-occu'] || 'Specialist'
+      } : null,
       metadata: {
         ...diceRollData,
         result: diceRollData.total ?? diceRollData.result,
@@ -202,10 +225,10 @@ export const ChatProvider = ({ children }) => {
     await ChatService.sendMessage(channelId, payload);
   }, [activeChannelId, currentUser, userHandle, speakingMode, selectedPersona]);
 
-  // Start or open a 1-on-1 Direct Message with target user
-  const startDirectMessage = useCallback(async (targetUser) => {
+  // Start or open a 1-on-1 Direct Message with target user (and optional specific persona)
+  const startDirectMessage = useCallback(async (targetUser, targetPersona = null) => {
     if (!currentUser) throw new Error('You must be logged in to send direct messages');
-    const dmChannel = await ChatService.getOrCreateDirectMessageChannel(currentUser, targetUser);
+    const dmChannel = await ChatService.getOrCreateDirectMessageChannel(currentUser, targetUser, targetPersona);
     selectChannel(dmChannel.id);
     return dmChannel;
   }, [currentUser, selectChannel]);
@@ -264,6 +287,7 @@ export const ChatProvider = ({ children }) => {
     publicChannels,
     directChannels,
     groupChannels,
+    personaLogChannels,
     customChannels,
     activeChannel,
     activeChannelId,

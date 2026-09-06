@@ -47,6 +47,7 @@ import {
 } from './tangentConstants.js';
 
 import { DEFAULT_SPECIES } from '../data/speciesData.js';
+import { ALL_CANONICAL_SKILLS } from '../data/skillsData.js';
 
 import {
   calculateCreditValue,
@@ -2791,54 +2792,104 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
     return 0;
   };
 
+  const processedSkills = new Map(); // dedupeKey -> { skillId, rawSkillId, cleanSkillId, skillName, rank }
+
   Object.keys(characterData).forEach((key) => {
     if (key.startsWith('skill-') && key.endsWith('-rank')) {
       const rawRank = parseInt(characterData[key] || 0, 10);
       const rank = Math.min(20, Math.max(0, rawRank)); // Max level 20 cap
       if (rank > 0) {
-        const skillId = key.replace('skill-', '').replace('-rank', '');
-        const storedName = characterData[`skill-${skillId}-name`];
-        const skillName = storedName || skillId.replace(/-/g, ' ');
-
-        const specRanks = getPoolSkillRank(characterData.speciesAllocations, skillId, skillName);
-        const occuRanks = getPoolSkillRank(characterData.occuAllocations, skillId, skillName);
-        const origRanks = getPoolSkillRank(characterData.originAllocations, skillId, skillName);
-        const facRanks = getPoolSkillRank(characterData.factionAllocations, skillId, skillName);
-
-        const totalGrantedPoolRanks = specRanks + occuRanks + origRanks + facRanks;
-        const effectiveGrantedRanks = Math.min(rank, totalGrantedPoolRanks);
-        const purchasedRanks = Math.max(0, rank - effectiveGrantedRanks);
-
-        [
-          { ranks: specRanks, label: 'Species Granted Skill', source: 'Species' },
-          { ranks: occuRanks, label: 'Occupation Granted Skill', source: 'Occupation' },
-          { ranks: origRanks, label: 'Origin Granted Skill', source: 'Origin' },
-          { ranks: facRanks, label: 'Faction Granted Skill', source: 'Faction' }
-        ].forEach(({ ranks, label, source }) => {
-          if (ranks > 0) {
-            itemizedList.push({
-              category: label,
-              item: `${skillName} (+${ranks} Rank${ranks > 1 ? 's' : ''})`,
-              val: `Granted by ${source} Package (0 CP Included/Supplemental)`,
-              costVal: 0,
-              cost: formatGrantedCost(0, ranks, 'CP'),
-              standaloneCost: ranks
-            });
-          }
+        const rawSkillId = key.replace('skill-', '').replace('-rank', '');
+        const cleanSkillId = rawSkillId.replace(/^[a-z]+-/, '');
+        const storedName = characterData[`skill-${rawSkillId}-name`] || characterData[`skill-${cleanSkillId}-name`];
+        
+        // Find matching canonical skill if possible
+        const cleanNorm = cleanSkillId.toLowerCase().replace(/[^a-z0-9]/g, '');
+        const rawNorm = rawSkillId.toLowerCase().replace(/[^a-z0-9]/g, '');
+        const canonSkill = ALL_CANONICAL_SKILLS.find(s => {
+          const sIdNorm = s.id.toLowerCase().replace(/[^a-z0-9]/g, '');
+          const sCleanNorm = s.id.replace(/^[a-z]+-/, '').toLowerCase().replace(/[^a-z0-9]/g, '');
+          const sNameNorm = (s.name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+          return sIdNorm === rawNorm || sCleanNorm === cleanNorm || sCleanNorm === rawNorm || sNameNorm === cleanNorm;
         });
 
-        if (purchasedRanks > 0) {
-          const cost = purchasedRanks * 1; // 1 CP per rank default
-          skillRanksCost += cost;
-          itemizedList.push({
-            category: 'Skill Rank',
-            item: skillName,
-            val: `${purchasedRanks} Purchased Rank${purchasedRanks > 1 ? 's' : ''}`,
-            costVal: cost,
-            cost: `${cost} CP`
+        const canonicalId = canonSkill ? canonSkill.id : (rawSkillId.includes('-') ? rawSkillId : cleanSkillId);
+        const skillName = canonSkill ? canonSkill.name : (storedName || cleanSkillId.replace(/-/g, ' '));
+        const dedupeKey = canonSkill ? canonSkill.id : cleanSkillId.toLowerCase();
+
+        if (!processedSkills.has(dedupeKey)) {
+          processedSkills.set(dedupeKey, {
+            skillId: canonicalId,
+            rawSkillId,
+            cleanSkillId,
+            skillName,
+            rank
           });
+        } else {
+          // If duplicate key encountered (e.g. skill-physical-acrobatics-rank and skill-acrobatics-rank), take the max rank
+          const existing = processedSkills.get(dedupeKey);
+          if (rank > existing.rank) {
+            existing.rank = rank;
+          }
         }
       }
+    }
+  });
+
+  processedSkills.forEach(({ skillId, rawSkillId, cleanSkillId, skillName, rank }) => {
+    const specRanks = Math.max(
+      getPoolSkillRank(characterData.speciesAllocations, skillId, skillName),
+      getPoolSkillRank(characterData.speciesAllocations, rawSkillId, skillName),
+      getPoolSkillRank(characterData.speciesAllocations, cleanSkillId, skillName)
+    );
+    const occuRanks = Math.max(
+      getPoolSkillRank(characterData.occuAllocations, skillId, skillName),
+      getPoolSkillRank(characterData.occuAllocations, rawSkillId, skillName),
+      getPoolSkillRank(characterData.occuAllocations, cleanSkillId, skillName)
+    );
+    const origRanks = Math.max(
+      getPoolSkillRank(characterData.originAllocations, skillId, skillName),
+      getPoolSkillRank(characterData.originAllocations, rawSkillId, skillName),
+      getPoolSkillRank(characterData.originAllocations, cleanSkillId, skillName)
+    );
+    const facRanks = Math.max(
+      getPoolSkillRank(characterData.factionAllocations, skillId, skillName),
+      getPoolSkillRank(characterData.factionAllocations, rawSkillId, skillName),
+      getPoolSkillRank(characterData.factionAllocations, cleanSkillId, skillName)
+    );
+
+    const totalGrantedPoolRanks = specRanks + occuRanks + origRanks + facRanks;
+    const effectiveGrantedRanks = Math.min(rank, totalGrantedPoolRanks);
+    const purchasedRanks = Math.max(0, rank - effectiveGrantedRanks);
+
+    [
+      { ranks: specRanks, label: 'Species Granted Skill', source: 'Species' },
+      { ranks: occuRanks, label: 'Occupation Granted Skill', source: 'Occupation' },
+      { ranks: origRanks, label: 'Origin Granted Skill', source: 'Origin' },
+      { ranks: facRanks, label: 'Faction Granted Skill', source: 'Faction' }
+    ].forEach(({ ranks, label, source }) => {
+      if (ranks > 0) {
+        itemizedList.push({
+          category: label,
+          item: `${skillName} (+${ranks} Rank${ranks > 1 ? 's' : ''})`,
+          val: `Granted by ${source} Package (0 CP Included/Supplemental)`,
+          costVal: 0,
+          cost: formatGrantedCost(0, ranks, 'CP'),
+          standaloneCost: ranks
+        });
+      }
+    });
+
+    if (purchasedRanks > 0) {
+      const cost = purchasedRanks * 1; // 1 CP per rank default
+      skillRanksCost += cost;
+      itemizedList.push({
+        category: 'Skill Rank',
+        item: skillName,
+        val: `${purchasedRanks} Purchased Rank${purchasedRanks > 1 ? 's' : ''}`,
+        costVal: cost,
+        cost: `${cost} CP`
+      });
     }
   });
 
@@ -2925,6 +2976,7 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
     primaryAttrCost,
     subAttrCost,
     skillRanksCost,
+    skillsCP: skillRanksCost,
     specializationRanksCost,
     featuresCost,
     traitsCost,

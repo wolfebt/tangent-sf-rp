@@ -54,10 +54,17 @@ export const calculateSubAttrBase = (primaryVal = 0) => {
  * @param {object} charData - Persona sheet object
  * @returns {number}
  */
-export const resolveSubAttrScore = (subKey, charData = {}) => {
+export const resolveSubAttrScore = (subKey, charData = {}, primaryScoreOverride = null) => {
   if (!subKey || !charData) return 2;
   const primaryKey = SUB_TO_PRIMARY_ATTR[subKey];
-  const primaryVal = parseInt(charData[primaryKey] || 0, 10);
+
+  let primaryVal = 0;
+  if (primaryScoreOverride !== null && primaryScoreOverride !== undefined && !isNaN(parseInt(primaryScoreOverride, 10))) {
+    primaryVal = parseInt(primaryScoreOverride, 10);
+  } else if (primaryKey && charData[primaryKey] !== undefined) {
+    primaryVal = parseInt(charData[primaryKey] || 0, 10);
+  }
+
   const calculatedBase = calculateSubAttrBase(primaryVal);
 
   const pairConfig = SUB_ATTRIBUTE_PAIRS.find(p => p.sub === subKey || p.alias === subKey);
@@ -69,12 +76,16 @@ export const resolveSubAttrScore = (subKey, charData = {}) => {
   const numVal = parseInt(rawVal, 10);
   const numAlias = parseInt(aliasVal, 10);
 
-  if (!isNaN(numVal) && numVal > 0) {
-    return numVal;
+  const explicitVal = (!isNaN(numVal) && numVal > 0)
+    ? numVal
+    : ((!isNaN(numAlias) && numAlias > 0) ? numAlias : null);
+
+  // If explicit score exceeds the canonical base, it represents purchased bonus points above base
+  if (explicitVal !== null && explicitVal > calculatedBase) {
+    return explicitVal;
   }
-  if (!isNaN(numAlias) && numAlias > 0) {
-    return numAlias;
-  }
+
+  // Canonical base score: 2 + (Primary * 2) is always the guaranteed minimum
   return calculatedBase;
 };
 
@@ -96,9 +107,9 @@ export const sanitizeSubAttributes = (charData) => {
     const currentAliasVal = alias ? parseInt(result[alias], 10) : NaN;
 
     let resolvedSubVal;
-    if (!isNaN(currentSubVal) && currentSubVal > 0) {
+    if (!isNaN(currentSubVal) && currentSubVal > calculatedBase) {
       resolvedSubVal = currentSubVal;
-    } else if (!isNaN(currentAliasVal) && currentAliasVal > 0) {
+    } else if (!isNaN(currentAliasVal) && currentAliasVal > calculatedBase) {
       resolvedSubVal = currentAliasVal;
     } else {
       resolvedSubVal = calculatedBase;

@@ -30,6 +30,7 @@ sockets:
   allocated: []
 tech_level: 0
 meta_level: 0
+stage: Negligible
 ---
 Category: **3\. The Civilian Standard (Fashionware & Utilities)**
 

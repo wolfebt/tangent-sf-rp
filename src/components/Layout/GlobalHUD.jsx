@@ -28,7 +28,8 @@ import {
   Save,
   Lock,
   Unlock,
-  Copy
+  Copy,
+  Eye
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useChat } from '../../context/ChatContext';
@@ -429,25 +430,6 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 <span className="hidden sm:inline">BASTION</span>
               </button>
 
-              {/* Direct Save Folio Button */}
-              <button
-                type="button"
-                onClick={() => {
-                  AudioService.playTerminalBeep(1200, 0.03);
-                  window.dispatchEvent(new CustomEvent('trigger-folio-save'));
-                }}
-                className="px-2 sm:px-2.5 py-1 rounded-lg text-xs font-bold font-mono uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border border-emerald-500/50 cyan-shadow-thin shrink-0"
-                title="Save current persona sheet to Operative Roster and Cloud Storage"
-              >
-                <Save size={13} className="text-emerald-400" />
-                <span className="hidden sm:inline">
-                  {cloudSaveStatus === 'saving' ? 'Saving...' : 'Save'}
-                </span>
-                {cloudSaveStatus === 'saved' && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]" />
-                )}
-              </button>
-
               {/* Folio File Menu Dropdown */}
               <div className="relative shrink-0" ref={folioMenuRef}>
                 <button
@@ -477,7 +459,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                     >
                       <span className="flex items-center gap-1.5">
                         <Save size={13} className="text-emerald-400" />
-                        <span>Save Folio</span>
+                        <span>Save Dossier</span>
                       </span>
                       <span className="text-[10px] text-emerald-400 font-mono">
                         {cloudSaveStatus === 'saving' ? 'Saving...' : cloudSaveStatus === 'saved' ? 'Saved' : 'Ready'}
@@ -485,17 +467,43 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                     </button>
 
                     {!isLocked ? (
-                      <button
-                        onClick={() => {
-                          AudioService.playTerminalBeep(1100, 0.03);
-                          if (lockPersona) lockPersona();
-                        }}
-                        className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-cyan-300 uppercase font-bold rounded flex items-center gap-1.5"
-                        title="Lock and set persona ready for VTT deployment"
-                      >
-                        <Lock size={13} className="text-cyan-400" />
-                        <span>Lock &amp; Set for VTT</span>
-                      </button>
+                      <>
+                        <button
+                          onClick={() => {
+                            AudioService.playTerminalBeep(1100, 0.03);
+                            window.dispatchEvent(new CustomEvent('set-folio-view-mode', { detail: 'play' }));
+                            if (!location.pathname.startsWith('/folio')) {
+                              navigate('/folio');
+                            }
+                          }}
+                          className="w-full text-left px-3 py-1.5 hover:bg-slate-800 text-slate-300 uppercase font-bold rounded flex items-center justify-between"
+                          title="Preview Tactical Play Cockpit without locking the sheet"
+                        >
+                          <span className="flex items-center gap-1.5">
+                            <Eye size={13} className="text-cyan-400" />
+                            <span>Preview Tactical Play</span>
+                          </span>
+                          <span className="text-[9px] text-cyan-400 font-mono">👁️ PREVIEW</span>
+                        </button>
+
+                        <button
+                          onClick={() => {
+                            AudioService.playTerminalBeep(1100, 0.03);
+                            if (lockPersona) {
+                              const ok = lockPersona();
+                              if (ok) window.dispatchEvent(new CustomEvent('set-folio-view-mode', { detail: 'play' }));
+                            }
+                          }}
+                          className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-cyan-300 uppercase font-bold rounded flex items-center justify-between"
+                          title="Lock and set persona into Tactical Play Mode ready for VTT deployment"
+                        >
+                          <span className="flex items-center gap-1.5">
+                            <Lock size={13} className="text-cyan-400" />
+                            <span>Lock for VTT (Play Mode)</span>
+                          </span>
+                          <span className="text-[9px] text-cyan-400 font-mono">⚔️ PLAY</span>
+                        </button>
+                      </>
                     ) : !isPlayerOverride ? (
                       !isInActiveGame ? (
                         <button
@@ -503,13 +511,17 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                             AudioService.playTerminalBeep(1100, 0.03);
                             if (unlockPersona) {
                               unlockPersona();
+                              window.dispatchEvent(new CustomEvent('set-folio-view-mode', { detail: 'builder' }));
                             }
                           }}
-                          className="w-full text-left px-3 py-1.5 hover:bg-amber-950/80 text-amber-300 uppercase font-bold rounded flex items-center gap-1.5"
-                          title="Unlock folio to return to Development Phase"
+                          className="w-full text-left px-3 py-1.5 hover:bg-amber-950/80 text-amber-300 uppercase font-bold rounded flex items-center justify-between"
+                          title="Unlock folio to return to Builder Mode"
                         >
-                          <Unlock size={13} className="text-amber-400" />
-                          <span>Unlock Sheet (Edit Mode)</span>
+                          <span className="flex items-center gap-1.5">
+                            <Unlock size={13} className="text-amber-400" />
+                            <span>Unlock Sheet (Builder Mode)</span>
+                          </span>
+                          <span className="text-[9px] text-amber-400 font-mono">🛠️ EDIT</span>
                         </button>
                       ) : allowPlayerOverride ? (
                         <button
@@ -518,13 +530,17 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                             const reason = prompt("Enter player reason/note for this sheet modification override during active VTT session (optional, logged for GM review):");
                             if (reason !== null && unlockPersona) {
                               unlockPersona(reason);
+                              window.dispatchEvent(new CustomEvent('set-folio-view-mode', { detail: 'builder' }));
                             }
                           }}
-                          className="w-full text-left px-3 py-1.5 hover:bg-amber-950/80 text-amber-300 uppercase font-bold rounded flex items-center gap-1.5"
+                          className="w-full text-left px-3 py-1.5 hover:bg-amber-950/80 text-amber-300 uppercase font-bold rounded flex items-center justify-between"
                           title="Unlock folio via player override to make changes during active VTT session"
                         >
-                          <Unlock size={13} className="text-amber-400" />
-                          <span>Player Override (Unlock)</span>
+                          <span className="flex items-center gap-1.5">
+                            <Unlock size={13} className="text-amber-400" />
+                            <span>Player Override (Unlock)</span>
+                          </span>
+                          <span className="text-[9px] text-amber-400 font-mono">⚡ OVERRIDE</span>
                         </button>
                       ) : (
                         <div
@@ -539,13 +555,19 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                       <button
                         onClick={() => {
                           AudioService.playTerminalBeep(1100, 0.03);
-                          if (lockPersona) lockPersona();
+                          if (lockPersona) {
+                            const ok = lockPersona();
+                            if (ok) window.dispatchEvent(new CustomEvent('set-folio-view-mode', { detail: 'play' }));
+                          }
                         }}
-                        className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-cyan-200 uppercase font-bold rounded flex items-center gap-1.5"
-                        title="Lock sheet again and return to Set/Locked status"
+                        className="w-full text-left px-3 py-1.5 hover:bg-cyan-950/80 text-cyan-200 uppercase font-bold rounded flex items-center justify-between"
+                        title="Lock sheet again and return to Tactical Play Mode"
                       >
-                        <Lock size={13} className="text-cyan-400" />
-                        <span>Relock Sheet for VTT</span>
+                        <span className="flex items-center gap-1.5">
+                          <Lock size={13} className="text-cyan-400" />
+                          <span>Relock for VTT (Play Mode)</span>
+                        </span>
+                        <span className="text-[9px] text-cyan-400 font-mono">⚔️ PLAY</span>
                       </button>
                     )}
 

@@ -31,6 +31,7 @@ sockets:
   allocated: []
 tech_level: 0
 meta_level: 0
+stage: Standard
 ---
 Category: **4.3 Limb Upgrades (1 BP Per Upgrade)**
 

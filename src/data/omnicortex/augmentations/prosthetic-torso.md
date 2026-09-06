@@ -31,6 +31,7 @@ sockets:
   allocated: []
 tech_level: 0
 meta_level: 0
+stage: Heavy
 ---
 Category: **4.1 Synth Limbs & Structural Integrity (TL 3\)**
 

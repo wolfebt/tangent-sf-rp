@@ -35,6 +35,7 @@ import { UserSettingsModal } from '../UserSettingsModal';
 import RosterCatalogView from './views/RosterCatalogView';
 import FeaturesHubView from './views/FeaturesHubView';
 import PropertyHubView from './views/PropertyHubView';
+import TacticalPlayView from './views/TacticalPlayView';
 
 const FolioContainer = () => {
   const navigate = useNavigate();
@@ -48,6 +49,7 @@ const FolioContainer = () => {
   });
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [viewMode, setViewMode] = useState('builder');
 
   // Modal States
   const [isEconomyOpen, setIsEconomyOpen] = useState(false);
@@ -127,6 +129,21 @@ const FolioContainer = () => {
   const [isTrackedModsOpen, setIsTrackedModsOpen] = useState(false);
   const [toast, setToast] = useState(null);
 
+  // Synchronize viewMode with Persona Locking lifecycle
+  useEffect(() => {
+    if (isLocked) {
+      setViewMode('play');
+    }
+  }, [isLocked]);
+
+  useEffect(() => {
+    const handleSetViewMode = (e) => {
+      if (e?.detail) setViewMode(e.detail);
+    };
+    window.addEventListener('set-folio-view-mode', handleSetViewMode);
+    return () => window.removeEventListener('set-folio-view-mode', handleSetViewMode);
+  }, []);
+
   const handleManualSave = useCallback(async () => {
     if (saveCurrentToRoster) {
       const res = await saveCurrentToRoster();
@@ -165,19 +182,17 @@ const FolioContainer = () => {
 
     if (key.startsWith('char-')) {
       const name = typeof taggedData === 'object' ? (taggedData.name || taggedData.title || '') : taggedData;
-      updateField(key, name);
-
-      // Auto-apply species inherent traits & adjustments if present
-      if (key === 'char-species' && typeof taggedData === 'object' && applySpeciesAdjustments) {
-        applySpeciesAdjustments(taggedData);
-      }
 
       // Auto-prompt archetype 80 CP chassis if present
       if (key === 'char-archetype' && typeof taggedData === 'object') {
         const autoApply = window.confirm(`Selected Archetype "${name}". Would you like to apply the 80 CP Archetype Pre-Build (+3 Primary Attr, +2 Secondary Attr, Essential Skills & Signature Features)?`);
         if (autoApply && applyArchetypeChassis) {
           applyArchetypeChassis(taggedData);
+        } else {
+          updateField(key, taggedData);
         }
+      } else {
+        updateField(key, taggedData);
       }
     } else if (key === 'skills' || key === 'skill') {
       const cleanName = typeof taggedData === 'object' ? (taggedData.name || taggedData.title || '') : taggedData;
@@ -286,19 +301,17 @@ const FolioContainer = () => {
   const handleSelectItem = useCallback((key, value) => {
     if (key.startsWith('char-')) {
       const name = typeof value === 'object' ? (value.name || value.title || '') : value;
-      updateField(key, name);
-
-      // Auto-apply Omnicortex species inherent traits & adjustments if present
-      if (key === 'char-species' && typeof value === 'object' && applySpeciesAdjustments) {
-        applySpeciesAdjustments(value);
-      }
 
       // Auto-prompt archetype 80 CP chassis if present
       if (key === 'char-archetype' && typeof value === 'object') {
         const autoApply = window.confirm(`Selected Archetype "${name}". Would you like to apply the 80 CP Archetype Pre-Build (+3 Primary Attr, +2 Secondary Attr, Essential Skills & Signature Features)?`);
         if (autoApply && applyArchetypeChassis) {
           applyArchetypeChassis(value);
+        } else {
+          updateField(key, value);
         }
+      } else {
+        updateField(key, value);
       }
     } else if (key === 'skills' || key === 'skill') {
       const cleanName = typeof value === 'object' ? (value.name || value.title || '') : value;
@@ -434,11 +447,14 @@ const FolioContainer = () => {
       {/* Sidebar Navigation */}
       <div className={`fixed md:relative z-40 h-full transition-transform md:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <FolioSidebar
+          viewMode={viewMode}
+          setViewMode={setViewMode}
           activeTab={activeTab}
           setActiveTab={(tab) => {
             triggerSave();
             setActiveTab(tab);
             setIsSidebarOpen(false);
+            if (viewMode === 'play') setViewMode('builder');
           }}
           charName={characterData['char-name']}
           onOpenRoster={() => setIsRosterOpen(true)}
@@ -547,9 +563,88 @@ const FolioContainer = () => {
           );
         })()}
 
+        {/* Tactical Play vs Builder Mode Switcher Banner (when viewing an active operative dossier) */}
+        {activeTab !== 'catalog' && (
+          <div className="bg-[#101622] border-b border-slate-800 px-3 sm:px-5 py-2 flex items-center justify-between gap-2 shrink-0">
+            <div className="flex items-center gap-2">
+              <div className="inline-flex rounded-lg bg-slate-950 p-0.5 border border-slate-800 shadow-inner">
+                <button
+                  type="button"
+                  onClick={() => setViewMode('builder')}
+                  className={`px-3 py-1 rounded-md text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
+                    viewMode === 'builder'
+                      ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-sm'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  <span>🛠️ Builder Mode</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setViewMode('play')}
+                  className={`px-3 py-1 rounded-md text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
+                    (viewMode === 'play' || viewMode === 'preview')
+                      ? 'bg-amber-950 text-amber-300 border border-amber-500/60 shadow-sm'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  <span>{isLocked ? '⚔️ Tactical Play' : '👁️ Preview Tactical'}</span>
+                </button>
+              </div>
+
+              {isLocked ? (
+                <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-cyan-950/80 border border-cyan-500/60 text-cyan-300">
+                  <Lock size={10} className="text-cyan-400" />
+                  <span>VTT Ready</span>
+                </span>
+              ) : (
+                <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-slate-900 border border-slate-700 text-slate-400">
+                  <span>Development Phase</span>
+                </span>
+              )}
+            </div>
+
+            <div className="flex items-center gap-2">
+              {!isLocked ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1100, 0.03);
+                    if (lockPersona) {
+                      const ok = lockPersona();
+                      if (ok) setViewMode('play');
+                    }
+                  }}
+                  className="px-2.5 py-1 rounded-lg bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer transition-all shadow-sm"
+                  title="Lock dossier and deploy directly into Tactical Play Mode"
+                >
+                  <Lock size={12} className="text-cyan-400" />
+                  <span>Lock for VTT (Play)</span>
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1100, 0.03);
+                    if (unlockPersona) {
+                      unlockPersona();
+                      setViewMode('builder');
+                    }
+                  }}
+                  className="px-2.5 py-1 rounded-lg bg-amber-950/80 hover:bg-amber-900 border border-amber-500/60 text-amber-300 text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer transition-all shadow-sm"
+                  title="Unlock sheet to make edits in Builder Mode"
+                >
+                  <Unlock size={12} className="text-amber-400" />
+                  <span>Unlock Sheet</span>
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Tab Content Display with ample padding to prevent viewport cutoff */}
         <div className="flex-1 overflow-y-auto relative p-3 sm:p-5 pb-24" onBlur={triggerSave}>
-          {activeTab === 'catalog' && (
+          {activeTab === 'catalog' ? (
             <RosterCatalogView
               personaRoster={personaRoster}
               activeDocId={characterData['character-doc-id']}
@@ -579,72 +674,87 @@ const FolioContainer = () => {
                 setActiveTab('identity');
               }}
             />
-          )}
-          {activeTab === 'identity' && (
-            <IdentityTab
-              onOpenSelectorModal={handleOpenSelectorModal}
-              onOpenAssetModal={handleOpenAssetModal}
+          ) : (viewMode === 'play' || viewMode === 'preview') ? (
+            <TacticalPlayView 
+              onSwitchToBuilder={() => setViewMode('builder')} 
+              isPreview={!isLocked}
+              onLockSheet={() => {
+                AudioService.playTerminalBeep(1100, 0.03);
+                if (lockPersona) {
+                  const ok = lockPersona();
+                  if (ok) setViewMode('play');
+                }
+              }}
             />
-          )}
-          {activeTab === 'core-stats' && (
-            <CoreStatsTab />
-          )}
-          {activeTab === 'skills' && (
-            <SkillsTab
-              onOpenAddSkillModal={handleOpenAddSkillModal}
-              onOpenSelectorModal={handleOpenSelectorModal}
-            />
-          )}
-          {activeTab === 'features' && (
-            <FeaturesHubView
-              onSelectSection={(tabId) => setActiveTab(tabId)}
-              onOpenMetaphysicsModal={() => setIsMetaphysicsOpen(true)}
-              onOpenSelectorModal={handleOpenSelectorModal}
-              onOpenAssetModal={handleOpenAssetModal}
-            />
-          )}
-          {(activeTab.startsWith('features-') || activeTab === 'abilities') && (
-            <FeaturesTab
-              activeSection={
-                activeTab === 'features-hindrances' ? 'hindrances' :
-                activeTab === 'features-augmentations' ? 'augmentations' :
-                activeTab === 'features-metaphysics' || activeTab === 'features-awakened' ? 'metaphysics' :
-                'features'
-              }
-              onBackToHub={() => setActiveTab('features')}
-              onNavigate={(tabId) => setActiveTab(tabId)}
-              onOpenSelectorModal={handleOpenSelectorModal}
-              onOpenAssetModal={handleOpenAssetModal}
-              onOpenMetaphysicsModal={() => setIsMetaphysicsOpen(true)}
-            />
-          )}
-          {activeTab === 'combat' && (
-            <CombatTab
-              onOpenSelectorModal={handleOpenSelectorModal}
-              onOpenAssetModal={handleOpenAssetModal}
-            />
-          )}
-          {activeTab === 'property' && (
-            <PropertyHubView
-              onSelectSection={(tabId) => setActiveTab(tabId)}
-              onOpenSelectorModal={handleOpenSelectorModal}
-              onOpenAssetModal={handleOpenAssetModal}
-            />
-          )}
-          {(activeTab.startsWith('property-') || activeTab === 'combat-gear') && (
-            <PropertyTab
-              activeSection={activeTab === 'combat-gear' ? 'gear' : activeTab.replace('property-', '')}
-              onBackToHub={() => setActiveTab('property')}
-              onNavigate={(tabId) => setActiveTab(tabId)}
-              onOpenSelectorModal={handleOpenSelectorModal}
-              onOpenAssetModal={handleOpenAssetModal}
-            />
-          )}
-          {activeTab === 'narrative' && (
-            <NarrativeTab />
-          )}
-          {activeTab === 'other' && (
-            <OtherTab />
+          ) : (
+            <>
+              {activeTab === 'identity' && (
+                <IdentityTab
+                  onOpenSelectorModal={handleOpenSelectorModal}
+                  onOpenAssetModal={handleOpenAssetModal}
+                />
+              )}
+              {activeTab === 'core-stats' && (
+                <CoreStatsTab />
+              )}
+              {activeTab === 'skills' && (
+                <SkillsTab
+                  onOpenAddSkillModal={handleOpenAddSkillModal}
+                  onOpenSelectorModal={handleOpenSelectorModal}
+                />
+              )}
+              {activeTab === 'features' && (
+                <FeaturesHubView
+                  onSelectSection={(tabId) => setActiveTab(tabId)}
+                  onOpenMetaphysicsModal={() => setIsMetaphysicsOpen(true)}
+                  onOpenSelectorModal={handleOpenSelectorModal}
+                  onOpenAssetModal={handleOpenAssetModal}
+                />
+              )}
+              {(activeTab.startsWith('features-') || activeTab === 'abilities') && (
+                <FeaturesTab
+                  activeSection={
+                    activeTab === 'features-hindrances' ? 'hindrances' :
+                    activeTab === 'features-augmentations' ? 'augmentations' :
+                    activeTab === 'features-metaphysics' || activeTab === 'features-awakened' ? 'metaphysics' :
+                    'features'
+                  }
+                  onBackToHub={() => setActiveTab('features')}
+                  onNavigate={(tabId) => setActiveTab(tabId)}
+                  onOpenSelectorModal={handleOpenSelectorModal}
+                  onOpenAssetModal={handleOpenAssetModal}
+                  onOpenMetaphysicsModal={() => setIsMetaphysicsOpen(true)}
+                />
+              )}
+              {activeTab === 'combat' && (
+                <CombatTab
+                  onOpenSelectorModal={handleOpenSelectorModal}
+                  onOpenAssetModal={handleOpenAssetModal}
+                />
+              )}
+              {activeTab === 'property' && (
+                <PropertyHubView
+                  onSelectSection={(tabId) => setActiveTab(tabId)}
+                  onOpenSelectorModal={handleOpenSelectorModal}
+                  onOpenAssetModal={handleOpenAssetModal}
+                />
+              )}
+              {(activeTab.startsWith('property-') || activeTab === 'combat-gear') && (
+                <PropertyTab
+                  activeSection={activeTab === 'combat-gear' ? 'gear' : activeTab.replace('property-', '')}
+                  onBackToHub={() => setActiveTab('property')}
+                  onNavigate={(tabId) => setActiveTab(tabId)}
+                  onOpenSelectorModal={handleOpenSelectorModal}
+                  onOpenAssetModal={handleOpenAssetModal}
+                />
+              )}
+              {activeTab === 'narrative' && (
+                <NarrativeTab />
+              )}
+              {activeTab === 'other' && (
+                <OtherTab />
+              )}
+            </>
           )}
         </div>
       </div>

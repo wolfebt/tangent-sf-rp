@@ -588,26 +588,26 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
     // Locking rules:
     // 1. Attune is locked unless character has ANY awakened feature
     // 2. Discipline skills are locked unless character has THAT specific awakened discipline
-    let isLocked = false;
+    let isDisciplineLocked = false;
     let lockMessage = '';
 
     if (isAttune) {
       if (!hasAnyAwakened) {
-        isLocked = true;
+        isDisciplineLocked = true;
         lockMessage = "Attune requires purchasing or possessing any Awakened feature in the Features tab";
       }
     } else if (isDisciplineSkill) {
       if (!unlockedDisciplines.has(discKey)) {
-        isLocked = true;
+        isDisciplineLocked = true;
         const discTitle = discKey.charAt(0).toUpperCase() + discKey.slice(1);
         lockMessage = `Requires purchasing 'Awakened: ${discTitle}' feature in Features tab to unlock ${skill.name}`;
       }
     }
 
-    const rank = isLocked ? 0 : Math.min(20, Math.max(0, getSkillRank(skill)));
+    const rank = isDisciplineLocked ? 0 : Math.min(20, Math.max(0, getSkillRank(skill)));
     const mod = getSkillMod(skill);
     const baseAttr = characterData?.[`skill-${skill.id}-base`] || characterData?.[`skill-${cleanId}-base`] || (skill.baseAttr || 'attr-wisdom');
-    const baseSkillTotal = isLocked ? 0 : getSkillTotal(skill);
+    const baseSkillTotal = isDisciplineLocked ? 0 : getSkillTotal(skill);
     const linkedSpecs = specializationsByBaseSkill[skill.id] || specializationsByBaseSkill[cleanId] || [];
 
     const skillDesc = skill.description || skillLookup[skill.id]?.description || characterData?.[`skill-${skill.id}-description`] || characterData?.[`skill-${cleanId}-description`] || characterData?.[`skill-${skill.id}-desc`] || 'Trained operative skill.';
@@ -621,11 +621,11 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
         {/* Desktop / Tablet Grid View (>= 640px) */}
         <div
           className={`folio-skill-row-desktop grid-cols-12 items-center gap-2 py-1 px-2 rounded transition-colors text-xs border ${
-            isLocked
+            isDisciplineLocked
               ? 'bg-slate-950/40 opacity-60 border-slate-800/60'
               : 'bg-slate-900/50 hover:bg-slate-800/60 border-slate-800/40'
           }`}
-          title={isLocked ? lockMessage : undefined}
+          title={isDisciplineLocked ? lockMessage : undefined}
         >
           <div className="col-span-4 flex items-center justify-between pr-1 overflow-hidden">
             <div className="flex items-center gap-1.5 truncate">
@@ -633,16 +633,16 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                 title={skill.name}
                 badge={`${groupName} Skill`}
                 badgeColor={badgeColor}
-                description={isLocked ? `${lockMessage}. ${skillDesc}` : skillDesc}
+                description={isDisciplineLocked ? `${lockMessage}. ${skillDesc}` : skillDesc}
                 formula={`Total (${baseSkillTotal}) = Rank (${rank}) + Base ${baseAttrLabel} + Mod (${mod})`}
                 tags={['Max Rank: 20', `Base: ${baseAttrLabel}`, groupName.toUpperCase()]}
                 showInfoIcon={true}
               >
-                <span className={`font-medium ${isLocked ? 'text-slate-500' : 'text-slate-200 hover:text-cyan-300'} truncate transition-colors`}>
+                <span className={`font-medium ${isDisciplineLocked ? 'text-slate-500' : 'text-slate-200 hover:text-cyan-300'} truncate transition-colors`}>
                   {skill.name}
                 </span>
               </FolioTooltip>
-              {isLocked && (
+              {isDisciplineLocked && (
                 <span
                   className="text-[9px] font-mono font-bold text-amber-400/90 bg-amber-950/70 border border-amber-900/60 px-1.5 py-0.2 rounded shrink-0"
                   title={lockMessage}
@@ -652,7 +652,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
               )}
             </div>
             <div className="flex items-center gap-1 shrink-0">
-              {(skill.group === 'meta' || skill.id.startsWith('meta-')) && !isLocked && !isSheetLocked && onOpenSelectorModal && (
+              {(skill.group === 'meta' || skill.id.startsWith('meta-')) && !isDisciplineLocked && !isSheetLocked && onOpenSelectorModal && (
                 <button
                   type="button"
                   onClick={(e) => {
@@ -666,7 +666,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                   <span>+ Inv</span>
                 </button>
               )}
-              {isCustom && !isLocked && !isSheetLocked && (
+              {isCustom && !isDisciplineLocked && !isSheetLocked && (
                 <button
                   type="button"
                   onClick={() => {
@@ -693,17 +693,17 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
               type="number"
               min="0"
               max="20"
-              disabled={isLocked || isStatsLocked}
+              disabled={isDisciplineLocked || isStatsLocked}
               value={rank}
               onChange={(e) => {
-                if (isLocked || isStatsLocked) return;
+                if (isDisciplineLocked || isStatsLocked) return;
                 const val = Math.min(20, Math.max(0, parseInt(e.target.value, 10) || 0));
                 updateField(`skill-${skill.id}-rank`, val);
                 if (cleanId !== skill.id) updateField(`skill-${cleanId}-rank`, val);
               }}
-              title={isStatsLocked ? 'Skill rank locked during active game session. Request GM AP update.' : isLocked ? lockMessage : undefined}
+              title={isStatsLocked ? 'Skill rank locked during active game session. Request GM AP update.' : isDisciplineLocked ? lockMessage : undefined}
               className={`col-span-2 text-center bg-slate-950 border ${
-                isLocked || isStatsLocked 
+                isDisciplineLocked || isStatsLocked 
                   ? 'border-slate-800 text-slate-600 cursor-not-allowed opacity-75' 
                   : 'border-slate-700 focus:border-cyan-400 text-slate-100'
               } rounded py-0.5 outline-none text-xs font-mono`}
@@ -718,15 +718,15 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
           ) : (
             <select
               value={baseAttr}
-              disabled={isLocked || isStatsLocked}
+              disabled={isDisciplineLocked || isStatsLocked}
               onChange={(e) => {
-                if (isLocked || isStatsLocked) return;
+                if (isDisciplineLocked || isStatsLocked) return;
                 updateField(`skill-${skill.id}-base`, e.target.value);
                 if (cleanId !== skill.id) updateField(`skill-${cleanId}-base`, e.target.value);
               }}
               title={isStatsLocked ? 'Skill base attribute locked during active game session.' : undefined}
               className={`col-span-3 bg-slate-950 border ${
-                isLocked || isStatsLocked 
+                isDisciplineLocked || isStatsLocked 
                   ? 'border-slate-800 text-slate-600 cursor-not-allowed opacity-75' 
                   : 'border-slate-700 focus:border-cyan-400 text-slate-300'
               } rounded py-0.5 text-center outline-none text-xs`}
@@ -741,35 +741,36 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
           )}
 
           {/* Mod */}
-          <span className={`col-span-1 text-center font-mono ${isLocked ? 'text-slate-600' : 'text-slate-400'}`}>
+          <span className={`col-span-1 text-center font-mono ${isDisciplineLocked ? 'text-slate-600' : 'text-slate-400'}`}>
             {mod}
           </span>
 
           {/* Total Base Skill Score & Roll Trigger */}
           <div className="col-span-2 flex items-center justify-center gap-1.5">
-            <span className={`font-mono font-bold ${isLocked ? 'text-slate-600' : 'text-cyan-300'}`}>
+            <span className={`font-mono font-bold ${isDisciplineLocked ? 'text-slate-600' : 'text-cyan-300'}`}>
               {baseSkillTotal}
             </span>
             <button
               type="button"
-              disabled={isLocked}
+              disabled={isDisciplineLocked}
               onClick={() => {
-                if (isLocked) return;
+                if (isDisciplineLocked) return;
                 openDiceRoller({
                   label: `${skill.name} Check`,
                   baseModifier: baseSkillTotal,
                   expression: `2d10${baseSkillTotal !== 0 ? (baseSkillTotal > 0 ? `+${baseSkillTotal}` : `${baseSkillTotal}`) : ''}`,
                   rollMode: 'normal',
                   characterName: characterData['char-name'] || 'Operative',
+                  personaId: characterData['character-doc-id'] || characterData.id,
                   autoRoll: true
                 });
               }}
               className={`p-1 rounded transition-all flex items-center justify-center cursor-pointer ${
-                isLocked
+                isDisciplineLocked
                   ? 'opacity-40 cursor-not-allowed text-slate-600'
                   : 'bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 hover:border-cyan-400 text-cyan-300 hover:text-white shadow-sm'
               }`}
-              title={isLocked ? lockMessage : `Roll ${skill.name} Check (2d10 + ${baseSkillTotal})`}
+              title={isDisciplineLocked ? lockMessage : `Roll ${skill.name} Check (2d10 + ${baseSkillTotal})`}
             >
               <Dices size={11} />
             </button>
@@ -779,11 +780,11 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
         {/* Mobile View (< 640px) */}
         <div
           className={`folio-skill-row-mobile flex-col gap-1.5 p-2 rounded transition-colors text-xs border ${
-            isLocked
+            isDisciplineLocked
               ? 'bg-slate-950/40 opacity-60 border-slate-800/60'
               : 'bg-slate-900/60 hover:bg-slate-800/60 border-slate-800/60'
           }`}
-          title={isLocked ? lockMessage : undefined}
+          title={isDisciplineLocked ? lockMessage : undefined}
         >
           {/* Top Line: Name + Status + Delete + Total Badge */}
           <div className="flex items-center justify-between gap-2">
@@ -792,16 +793,16 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                 title={skill.name}
                 badge={`${groupName} Skill`}
                 badgeColor={badgeColor}
-                description={isLocked ? `${lockMessage}. ${skillDesc}` : skillDesc}
+                description={isDisciplineLocked ? `${lockMessage}. ${skillDesc}` : skillDesc}
                 formula={`Total (${baseSkillTotal}) = Rank (${rank}) + Base ${baseAttrLabel} + Mod (${mod})`}
                 tags={['Max Rank: 20', `Base: ${baseAttrLabel}`, groupName.toUpperCase()]}
                 showInfoIcon={true}
               >
-                <span className={`font-semibold ${isLocked ? 'text-slate-500' : 'text-slate-100 hover:text-cyan-300'} truncate transition-colors`}>
+                <span className={`font-semibold ${isDisciplineLocked ? 'text-slate-500' : 'text-slate-100 hover:text-cyan-300'} truncate transition-colors`}>
                   {skill.name}
                 </span>
               </FolioTooltip>
-              {isLocked && (
+              {isDisciplineLocked && (
                 <span
                   className="text-[9px] font-mono font-bold text-amber-400/90 bg-amber-950/70 border border-amber-900/60 px-1.5 py-0.2 rounded shrink-0"
                   title={lockMessage}
@@ -813,35 +814,36 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
 
             <div className="flex items-center gap-1.5 shrink-0">
               <span className={`px-2 py-0.5 rounded font-mono font-bold text-xs ${
-                isLocked ? 'bg-slate-800 text-slate-500' : 'bg-cyan-950/80 border border-cyan-500/50 text-cyan-300 shadow-sm'
+                isDisciplineLocked ? 'bg-slate-800 text-slate-500' : 'bg-cyan-950/80 border border-cyan-500/50 text-cyan-300 shadow-sm'
               }`}>
                 Score: {baseSkillTotal}
               </span>
               <button
                 type="button"
-                disabled={isLocked}
+                disabled={isDisciplineLocked}
                 onClick={() => {
-                  if (isLocked) return;
+                  if (isDisciplineLocked) return;
                   openDiceRoller({
                     label: `${skill.name} Check`,
                     baseModifier: baseSkillTotal,
                     expression: `2d10${baseSkillTotal !== 0 ? (baseSkillTotal > 0 ? `+${baseSkillTotal}` : `${baseSkillTotal}`) : ''}`,
                     rollMode: 'normal',
                     characterName: characterData['char-name'] || 'Operative',
+                    personaId: characterData['character-doc-id'] || characterData.id,
                     autoRoll: true
                   });
                 }}
                 className={`px-1.5 py-0.5 rounded text-[11px] font-mono font-bold flex items-center gap-0.5 cursor-pointer ${
-                  isLocked
+                  isDisciplineLocked
                     ? 'opacity-40 cursor-not-allowed bg-slate-900 border border-slate-800 text-slate-600'
                     : 'bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/50 text-cyan-300'
                 }`}
-                title={isLocked ? lockMessage : `Roll ${skill.name} Check (2d10 + ${baseSkillTotal})`}
+                title={isDisciplineLocked ? lockMessage : `Roll ${skill.name} Check (2d10 + ${baseSkillTotal})`}
               >
                 <Dices size={11} />
                 <span>Roll</span>
               </button>
-              {isCustom && !isLocked && !isSheetLocked && (
+              {isCustom && !isDisciplineLocked && !isSheetLocked && (
                 <button
                   type="button"
                   onClick={() => {
@@ -871,16 +873,16 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                   type="number"
                   min="0"
                   max="20"
-                  disabled={isLocked || isStatsLocked}
+                  disabled={isDisciplineLocked || isStatsLocked}
                   value={rank}
                   onChange={(e) => {
-                    if (isLocked || isStatsLocked) return;
+                    if (isDisciplineLocked || isStatsLocked) return;
                     const val = Math.min(20, Math.max(0, parseInt(e.target.value, 10) || 0));
                     updateField(`skill-${skill.id}-rank`, val);
                     if (cleanId !== skill.id) updateField(`skill-${cleanId}-rank`, val);
                   }}
                   className={`w-12 text-center bg-slate-950 border ${
-                    isLocked || isStatsLocked 
+                    isDisciplineLocked || isStatsLocked 
                       ? 'border-slate-800 text-slate-600 cursor-not-allowed opacity-75' 
                       : 'border-slate-700 focus:border-cyan-400 text-slate-100'
                   } rounded py-0.5 outline-none font-bold`}
@@ -897,14 +899,14 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
               ) : (
                 <select
                   value={baseAttr}
-                  disabled={isLocked || isStatsLocked}
+                  disabled={isDisciplineLocked || isStatsLocked}
                   onChange={(e) => {
-                    if (isLocked || isStatsLocked) return;
+                    if (isDisciplineLocked || isStatsLocked) return;
                     updateField(`skill-${skill.id}-base`, e.target.value);
                     if (cleanId !== skill.id) updateField(`skill-${cleanId}-base`, e.target.value);
                   }}
                   className={`flex-1 bg-slate-950 border ${
-                    isLocked || isStatsLocked 
+                    isDisciplineLocked || isStatsLocked 
                       ? 'border-slate-800 text-slate-600 cursor-not-allowed opacity-75' 
                       : 'border-slate-700 focus:border-cyan-400 text-slate-300'
                   } rounded py-0.5 text-center outline-none`}
@@ -1038,22 +1040,22 @@ const specMod = parseInt(spec.mod || 0, 10);
                 <div className="col-span-4 flex items-center justify-end gap-1.5">
                   <div className="flex items-center gap-1">
                     <span className={`px-2 py-0.5 rounded font-mono font-bold text-xs ${
-                      isLocked ? 'bg-slate-800 text-slate-500' : (isMetaSkill || isInvocation ? 'bg-purple-950 border border-purple-500/50 text-purple-200' : 'bg-amber-950 border border-amber-500/50 text-amber-200')
+                      isDisciplineLocked ? 'bg-slate-800 text-slate-500' : (isMetaSkill || isInvocation ? 'bg-purple-950 border border-purple-500/50 text-purple-200' : 'bg-amber-950 border border-amber-500/50 text-amber-200')
                     }`}>
-                      {isLocked ? 0 : specTotal}
+                      {isDisciplineLocked ? 0 : specTotal}
                     </span>
                     <button
                       type="button"
                       onClick={() => handleRollSpec(spec, skill, specTotal)}
-                      disabled={isLocked}
+                      disabled={isDisciplineLocked}
                       className={`p-1 rounded cursor-pointer transition-colors ${
-                        isLocked
+                        isDisciplineLocked
                           ? 'bg-slate-800 text-slate-600 border border-slate-700 cursor-not-allowed'
                           : isInvocation
                           ? 'bg-purple-950/80 hover:bg-purple-900 border border-purple-500/50 hover:border-purple-400 text-purple-300 hover:text-white shadow-sm'
                           : 'bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 hover:border-amber-400 text-amber-300 hover:text-white shadow-sm'
                       }`}
-                      title={isLocked ? lockMessage : `Roll ${spec.name} Check (2d10 + ${specTotal})`}
+                      title={isDisciplineLocked ? lockMessage : `Roll ${spec.name} Check (2d10 + ${specTotal})`}
                     >
                       <Dices size={11} />
                     </button>
@@ -1126,32 +1128,33 @@ const specMod = parseInt(spec.mod || 0, 10);
 
                   <div className="flex items-center gap-1.5 shrink-0">
                     <span className={`px-2 py-0.5 rounded font-mono font-bold text-xs ${
-                      isLocked ? 'bg-slate-800 text-slate-500' : (isMetaSkill || isInvocation ? 'bg-purple-950 border border-purple-500/50 text-purple-200' : 'bg-amber-950 border border-amber-500/50 text-amber-200')
+                      isDisciplineLocked ? 'bg-slate-800 text-slate-500' : (isMetaSkill || isInvocation ? 'bg-purple-950 border border-purple-500/50 text-purple-200' : 'bg-amber-950 border border-amber-500/50 text-amber-200')
                     }`}>
-                      {isLocked ? 0 : specTotal}
+                      {isDisciplineLocked ? 0 : specTotal}
                     </span>
                     <button
                       type="button"
-                      disabled={isLocked}
+                      disabled={isDisciplineLocked}
                       onClick={() => {
-                        if (isLocked) return;
+                        if (isDisciplineLocked) return;
                         openDiceRoller({
                           label: `${skill.name}: ${spec.name} (${isInvocation ? 'Invocation' : isMetaSkill ? 'Evocation' : 'Specialization'})`,
                           baseModifier: specTotal,
                           expression: `2d10${specTotal !== 0 ? (specTotal > 0 ? `+${specTotal}` : `${specTotal}`) : ''}`,
                           rollMode: 'normal',
                           characterName: characterData['char-name'] || 'Operative',
+                          personaId: characterData['character-doc-id'] || characterData.id,
                           autoRoll: true
                         });
                       }}
                       className={`px-1.5 py-0.5 rounded text-[11px] font-mono font-bold flex items-center gap-0.5 cursor-pointer ${
-                        isLocked
+                        isDisciplineLocked
                           ? 'opacity-40 cursor-not-allowed bg-slate-900 border border-slate-800 text-slate-600'
                           : isMetaSkill || isInvocation
                           ? 'bg-purple-950/80 hover:bg-purple-900 border border-purple-500/50 text-purple-300'
                           : 'bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 text-amber-300'
                       }`}
-                      title={isLocked ? lockMessage : `Roll ${spec.name} Check (2d10 + ${specTotal})`}
+                      title={isDisciplineLocked ? lockMessage : `Roll ${spec.name} Check (2d10 + ${specTotal})`}
                     >
                       <Dices size={11} />
                       <span>Roll</span>
@@ -1180,11 +1183,11 @@ const specMod = parseInt(spec.mod || 0, 10);
                       type="number"
                       min="1"
                       max="10"
-                      disabled={isLocked}
+                      disabled={isDisciplineLocked}
                       value={specRank}
-                      onChange={(e) => !isLocked && handleUpdateSpecOrInv(spec, 'rank', e.target.value)}
+                      onChange={(e) => !isDisciplineLocked && handleUpdateSpecOrInv(spec, 'rank', e.target.value)}
                       className={`w-12 text-center bg-slate-950 border ${
-                        isLocked ? 'border-slate-800 text-slate-600 cursor-not-allowed' : (isMetaSkill || isInvocation ? 'border-purple-800/60 text-purple-200' : 'border-amber-800/60 text-amber-200')
+                        isDisciplineLocked ? 'border-slate-800 text-slate-600 cursor-not-allowed' : (isMetaSkill || isInvocation ? 'border-purple-800/60 text-purple-200' : 'border-amber-800/60 text-amber-200')
                       } rounded py-0.5 outline-none font-bold`}
                     />
                   )}

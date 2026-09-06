@@ -418,6 +418,7 @@ export function adaptSparkItemToFirestore(datasetKey, rawItem) {
 
       adapted = {
         ...adapted,
+        stage: sanitized.stage || sanitized.augmentation_stage || 'Standard',
         type: sanitized.type || sanitized.augmentation_type || sanitized.augmentationCategory || 'Cybernetics',
         augmentation_type: sanitized.augmentation_type || sanitized.type || 'Cybernetic',
         location: ensureArray(sanitized.location ?? sanitized.body_location, ['Head']),
