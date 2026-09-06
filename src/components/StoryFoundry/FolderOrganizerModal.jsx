@@ -224,6 +224,8 @@ export const FolderOrganizerModal = ({
           <button
             onClick={onClose}
             className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+            aria-label="Close modal"
+            title="Close"
           >
             <X size={18} />
           </button>
@@ -285,6 +287,7 @@ export const FolderOrganizerModal = ({
                         }`}
                         style={{ backgroundColor: c.hex }}
                         title={c.name}
+                        aria-label={`Select color ${c.name}`}
                       />
                     ))}
                   </div>
@@ -393,6 +396,7 @@ export const FolderOrganizerModal = ({
                             onClick={(e) => handleStartEdit(f, e)}
                             className="p-1 hover:text-cyan-300 text-slate-400 transition-colors"
                             title="Rename / Edit color"
+                            aria-label={`Rename or Edit color for ${f.name}`}
                           >
                             <Edit3 size={12} />
                           </button>
@@ -400,6 +404,7 @@ export const FolderOrganizerModal = ({
                             onClick={(e) => handleDeleteFolder(f.id, e)}
                             className="p-1 hover:text-rose-400 text-slate-400 transition-colors"
                             title="Delete folder"
+                            aria-label={`Delete folder ${f.name}`}
                           >
                             <Trash2 size={12} />
                           </button>
@@ -518,6 +523,7 @@ export const FolderOrganizerModal = ({
                               index === 0 ? 'opacity-20 cursor-not-allowed text-slate-600' : 'text-slate-400 hover:text-cyan-300 cursor-pointer'
                             }`}
                             title="Move Up in Custom Order"
+                            aria-label={`Move ${item.title} up`}
                           >
                             <ArrowUp size={12} />
                           </button>
@@ -528,6 +534,7 @@ export const FolderOrganizerModal = ({
                               index === filteredItems.length - 1 ? 'opacity-20 cursor-not-allowed text-slate-600' : 'text-slate-400 hover:text-cyan-300 cursor-pointer'
                             }`}
                             title="Move Down in Custom Order"
+                            aria-label={`Move ${item.title} down`}
                           >
                             <ArrowDown size={12} />
                           </button>
