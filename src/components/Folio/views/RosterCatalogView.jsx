@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { extractCreatorInfo } from '../../../utils/creatorUtils';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { AudioService } from '../../../services/audioService';
@@ -60,29 +60,34 @@ export const RosterCatalogView = ({
   const activeSourceList = catalogTab === 'my-roster' ? personaRoster : publicCatalog;
 
   // Filter roster by search query
-  const filteredRoster = activeSourceList.filter((char) => {
-    if (!searchQuery.trim()) return true;
-    const query = searchQuery.toLowerCase();
-    const name = (char['char-name'] || '').toLowerCase();
-    const species = getFieldValue(char['char-species']).toLowerCase();
-    const faction = getFieldValue(char['char-faction']).toLowerCase();
-    const origin = getFieldValue(char['char-origin']).toLowerCase();
-    const occupation = getFieldValue(char['char-occu']).toLowerCase();
-    const author = (char.authorHandle || char.creatorHandle || '').toLowerCase();
-    const notesText = (char.notes && Array.isArray(char.notes) ? char.notes.map(n => n.text || '').join(' ') : '').toLowerCase();
-    const tagsText = (char.tags ? (Array.isArray(char.tags) ? char.tags.join(' ') : String(char.tags)) : '').toLowerCase();
+  // ⚡ Bolt Optimization: Memoized roster filtering
+  // Why: Prevents expensive array filtering & text matching on every render
+  // Impact: Reduces CPU blocking during unrelated state updates in catalog view
+  const filteredRoster = useMemo(() => {
+    return activeSourceList.filter((char) => {
+      if (!searchQuery.trim()) return true;
+      const query = searchQuery.toLowerCase();
+      const name = (char['char-name'] || '').toLowerCase();
+      const species = getFieldValue(char['char-species']).toLowerCase();
+      const faction = getFieldValue(char['char-faction']).toLowerCase();
+      const origin = getFieldValue(char['char-origin']).toLowerCase();
+      const occupation = getFieldValue(char['char-occu']).toLowerCase();
+      const author = (char.authorHandle || char.creatorHandle || '').toLowerCase();
+      const notesText = (char.notes && Array.isArray(char.notes) ? char.notes.map(n => n.text || '').join(' ') : '').toLowerCase();
+      const tagsText = (char.tags ? (Array.isArray(char.tags) ? char.tags.join(' ') : String(char.tags)) : '').toLowerCase();
 
-    return (
-      name.includes(query) ||
-      species.includes(query) ||
-      faction.includes(query) ||
-      origin.includes(query) ||
-      occupation.includes(query) ||
-      author.includes(query) ||
-      notesText.includes(query) ||
-      tagsText.includes(query)
-    );
-  });
+      return (
+        name.includes(query) ||
+        species.includes(query) ||
+        faction.includes(query) ||
+        origin.includes(query) ||
+        occupation.includes(query) ||
+        author.includes(query) ||
+        notesText.includes(query) ||
+        tagsText.includes(query)
+      );
+    });
+  }, [activeSourceList, searchQuery]);
 
   return (
     <div className="flex flex-col h-full w-full max-w-7xl mx-auto font-sans">
