@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, Suspense } from 'react';
+import React, { useState, useEffect, useRef, Suspense, useMemo } from 'react';
 import { db, auth } from '../../firebase';
 import { collection, getDocs, setDoc, doc } from 'firebase/firestore';
 import { categoryConfig } from './categoryConfig';
@@ -267,9 +267,9 @@ export const UnifiedRelationalSelectorModal = ({
     }
   }
 
-  const allAvailableItems = [...categoryOptions, ...nonDuplicateItems];
+  const allAvailableItems = useMemo(() => [...categoryOptions, ...nonDuplicateItems], [categoryOptions, nonDuplicateItems]);
 
-  const filteredItems = allAvailableItems.filter(item => {
+  const filteredItems = useMemo(() => allAvailableItems.filter(item => {
     if (categoryFilter !== 'all') {
       if (categoryFilter === 'groups') {
         if (item.type !== 'Category Group' && item.type !== 'Skill Group') return false;
@@ -285,7 +285,7 @@ export const UnifiedRelationalSelectorModal = ({
       (item.type && item.type.toLowerCase().includes(term)) ||
       (item.categoryLabel && item.categoryLabel.toLowerCase().includes(term))
     );
-  });
+  }), [allAvailableItems, categoryFilter, searchTerm]);
 
   const toggleItem = (val) => {
     if (isMulti) {

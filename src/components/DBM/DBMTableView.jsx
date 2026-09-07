@@ -485,11 +485,11 @@ export const DBMTableView = ({
   };
 
   // Filtered fields for column search
-  const filteredAvailableFields = allAvailableFields.filter(f => {
+  const filteredAvailableFields = useMemo(() => allAvailableFields.filter(f => {
     if (!columnSearchTerm) return true;
     const q = columnSearchTerm.toLowerCase();
     return f.label.toLowerCase().includes(q) || f.key.toLowerCase().includes(q);
-  });
+  }), [allAvailableFields, columnSearchTerm]);
 
   return (
     <div className="flex-1 flex flex-col bg-slate-900 border border-slate-800 rounded-lg p-4 sm:p-5 overflow-hidden">
