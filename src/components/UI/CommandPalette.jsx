@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useDeferredValue } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   Search, 
@@ -26,6 +26,7 @@ export const CommandPalette = ({ isOpen, onClose, onDiceRolled }) => {
   const { universeState, mapsCatalog } = useStory() || {};
 
   const [query, setQuery] = useState('');
+  const deferredQuery = useDeferredValue(query);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const inputRef = useRef(null);
 
@@ -58,7 +59,7 @@ export const CommandPalette = ({ isOpen, onClose, onDiceRolled }) => {
   // Dynamic Search Index Aggregation
   const searchResults = useMemo(() => {
     if (!isOpen) return [];
-    const q = query.toLowerCase().trim();
+    const q = deferredQuery.toLowerCase().trim();
 
     // 1. Direct Slash Commands (/roll ...)
     if (q.startsWith('/roll')) {
@@ -209,7 +210,7 @@ export const CommandPalette = ({ isOpen, onClose, onDiceRolled }) => {
     }
 
     return results.slice(0, 10);
-  }, [query, dbData, mapsCatalog, universeState, personaRoster, roster, isOpen, navigate, onClose, onDiceRolled]);
+  }, [deferredQuery, dbData, mapsCatalog, universeState, personaRoster, roster, isOpen, navigate, onClose, onDiceRolled]);
 
   // Keyboard navigation within list
   const handleKeyDown = (e) => {

@@ -1,0 +1,3 @@
+## 2024-09-08 - Added useDeferredValue to UniversalCatalogModal and CommandPalette
+**Learning:** The application heavily relies on client-side search filtering. In components with large catalogs/rosters, filtering items directly in the main `useMemo` block creates perceptible UI stutter during rapid typing because React renders both the input change and the complex result filtering synchronously.
+**Action:** Use `useDeferredValue` for search queries that drive large array filter/sort logic. This prioritizes the input re-render, ensuring smooth typing while the heavy computation yields to the background.
