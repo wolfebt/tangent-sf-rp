@@ -63,6 +63,8 @@ const AimeNarrationHud = ({
               type="button"
               onClick={onClose}
               className="text-slate-400 hover:text-white text-xs px-1 cursor-pointer"
+              aria-label="Close AIME HUD"
+              title="Close"
             >
               ✕
             </button>
