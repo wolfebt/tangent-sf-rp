@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useDeferredValue } from 'react';
 import { 
   Search, 
   X, 
@@ -272,6 +272,7 @@ export const UniversalCatalogModal = ({
   const [cloudItems, setCloudItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const deferredSearchQuery = useDeferredValue(searchQuery);
   const [activeCategoryFilter, setActiveCategoryFilter] = useState('ALL');
   const [sortOption, setSortOption] = useState('recommended'); // 'recommended' | 'az' | 'za' | 'cost_desc' | 'cost_asc' | 'tl_desc'
 
@@ -467,7 +468,7 @@ export const UniversalCatalogModal = ({
 
   // Filtered & Sorted items computation
   const processedItems = useMemo(() => {
-    const query = searchQuery.trim().toLowerCase();
+    const query = deferredSearchQuery.trim().toLowerCase();
 
     // 1. Filtering
     let list = allRawItems.filter(item => {
@@ -631,7 +632,7 @@ export const UniversalCatalogModal = ({
     });
 
     return list;
-  }, [allRawItems, searchQuery, activeCategoryFilter, sortOption, filterCategory, filterCategoryExclude, canonicalColKey]);
+  }, [allRawItems, deferredSearchQuery, activeCategoryFilter, sortOption, filterCategory, filterCategoryExclude, canonicalColKey]);
 
   // Determine if an item is selected
   const isItemSelected = useCallback((item) => {
