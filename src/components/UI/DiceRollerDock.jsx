@@ -201,6 +201,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
               onClick={() => { setHistory([]); setLatestRoll(null); }} 
               className="p-1 text-slate-400 hover:text-amber-300 transition-colors cursor-pointer"
               title="Clear Dice History"
+              aria-label="Clear Dice History"
             >
               <RotateCcw size={14} />
             </button>
@@ -210,6 +211,7 @@ export const DiceRollerDock = ({ isOpen: propIsOpen, onClose: propOnClose }) => 
             onClick={onClose} 
             className="p-1 text-slate-400 hover:text-white transition-colors cursor-pointer"
             title="Close Tray"
+            aria-label="Close Tray"
           >
             <X size={16} />
           </button>
