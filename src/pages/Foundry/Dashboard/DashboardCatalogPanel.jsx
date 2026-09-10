@@ -4,7 +4,7 @@
  * Features clickable links to open items, folder filtering, and custom sorting.
  */
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useDeferredValue } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   BookOpen, 
@@ -61,6 +61,8 @@ export const DashboardCatalogPanel = () => {
 
   // Search and Sort states
   const [searchQuery, setSearchQuery] = useState('');
+  // ⚡ Bolt: Defer search query to prevent main thread blocking during rapid typing across multiple large catalog tabs.
+  const deferredSearchQuery = useDeferredValue(searchQuery);
   const [sortBy, setSortBy] = useState('recent'); // 'custom' | 'recent' | 'name_asc' | 'name_desc'
   const [activeFolderId, setActiveFolderId] = useState('all'); // 'all' | 'unfiled' | folderId
 
@@ -95,8 +97,8 @@ export const DashboardCatalogPanel = () => {
     }
 
     // Keyword search
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase().trim();
+    if (deferredSearchQuery.trim()) {
+      const q = deferredSearchQuery.toLowerCase().trim();
       list = list.filter(s => 
         (s.projectName && s.projectName.toLowerCase().includes(q)) ||
         (s.description && s.description.toLowerCase().includes(q))
@@ -104,7 +106,7 @@ export const DashboardCatalogPanel = () => {
     }
 
     return sortContentItems(list, sortBy, activeFolderId, 'id');
-  }, [storyCatalog, universeState, assignments, activeFolderId, searchQuery, sortBy]);
+  }, [storyCatalog, universeState, assignments, activeFolderId, deferredSearchQuery, sortBy]);
 
   // ── 2. MAP ITEMS ──
   const processedMaps = useMemo(() => {
@@ -114,8 +116,8 @@ export const DashboardCatalogPanel = () => {
     ];
 
     let list = combined;
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase().trim();
+    if (deferredSearchQuery.trim()) {
+      const q = deferredSearchQuery.toLowerCase().trim();
       list = list.filter(m => (m.name || m.title || '').toLowerCase().includes(q));
     }
 
@@ -126,7 +128,7 @@ export const DashboardCatalogPanel = () => {
     });
 
     return list;
-  }, [mapsCatalog, universeState?.maps, searchQuery, sortBy]);
+  }, [mapsCatalog, universeState?.maps, deferredSearchQuery, sortBy]);
 
   // ── 3. VTT SESSIONS ──
   const processedVttSessions = useMemo(() => {
@@ -153,8 +155,8 @@ export const DashboardCatalogPanel = () => {
     }
 
     // Keyword search
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase().trim();
+    if (deferredSearchQuery.trim()) {
+      const q = deferredSearchQuery.toLowerCase().trim();
       list = list.filter(p => 
         (p['char-name'] && p['char-name'].toLowerCase().includes(q)) ||
         (p['char-species'] && p['char-species'].toLowerCase().includes(q)) ||
@@ -163,7 +165,7 @@ export const DashboardCatalogPanel = () => {
     }
 
     return sortContentItems(list, sortBy, activeFolderId, 'character-doc-id');
-  }, [personaRoster, assignments, activeFolderId, searchQuery, sortBy]);
+  }, [personaRoster, assignments, activeFolderId, deferredSearchQuery, sortBy]);
 
   // ── 5. ACTIVITY FEED ──
   const activityData = useMemo(() => {

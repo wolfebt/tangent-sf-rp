@@ -1,0 +1,3 @@
+## 2024-05-18 - Deferring Search Input with `useMemo` Trap
+**Learning:** When using `useDeferredValue` for search filtering to prevent UI stutter (e.g. in `RosterCatalogView`), it is crucial that the filtering logic itself is wrapped in a `useMemo` hook. Without `useMemo`, even with `useDeferredValue`, the filtering function executes inline on every render cycle and creates a new array reference, which defeats the optimization entirely.
+**Action:** When adding `useDeferredValue` for expensive filters, always ensure the filtered result variable is wrapped in `useMemo` with the deferred value in its dependency array.

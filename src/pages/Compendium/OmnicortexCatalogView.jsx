@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useDeferredValue } from 'react';
 import { categoryConfig } from '../../components/DBM/categoryConfig';
 import { AudioService } from '../../services/audioService';
 import {
@@ -190,6 +190,8 @@ export const OmnicortexCatalogView = ({
 }) => {
   const [activeCategoryKey, setActiveCategoryKey] = useState('species');
   const [searchQuery, setSearchQuery] = useState('');
+  // ⚡ Bolt: Defer search query to prevent main thread blocking during rapid typing, keeping the UI responsive.
+  const deferredSearchQuery = useDeferredValue(searchQuery);
   const [isGlobalSearch, setIsGlobalSearch] = useState(false);
   const [viewMode, setViewMode] = useState('grid'); // 'grid' | 'table'
   const [collapsedDomains, setCollapsedDomains] = useState({});
@@ -270,7 +272,7 @@ export const OmnicortexCatalogView = ({
   // Filter items based on active filters, search query, and global/local scope
   const filteredItems = useMemo(() => {
     const sourceList = isGlobalSearch ? allConsolidatedItems : rawItems;
-    const q = searchQuery.toLowerCase().trim();
+    const q = deferredSearchQuery.toLowerCase().trim();
 
     return sourceList.filter(item => {
       // Search term filter
@@ -335,7 +337,7 @@ export const OmnicortexCatalogView = ({
 
       return true;
     }).sort((a, b) => (a.name || a.title || '').localeCompare(b.name || b.title || ''));
-  }, [isGlobalSearch, allConsolidatedItems, rawItems, searchQuery, selectedTL, selectedML, selectedLineage, selectedType]);
+  }, [isGlobalSearch, allConsolidatedItems, rawItems, deferredSearchQuery, selectedTL, selectedML, selectedLineage, selectedType]);
 
   const toggleDomainCollapse = (domainId) => {
     setCollapsedDomains(prev => ({
