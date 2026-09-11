@@ -25,23 +25,23 @@ describe('Tangent SF RP — Canonical Vitality, Health, Structure & Toughness Ru
       assert.strictEqual(pools.suggestedMax, 60);
     });
 
-    it('increases Vitality and Health at a rate of 5 points per 1 BP', () => {
+    it('increases Vitality and Health at a rate of 2 points per 1 CP/BP', () => {
       const pools = calculateVitalityHealthPools({
-        vitalityBP: 2, // +10 Vitality
-        healthBP: 3    // +15 Health
+        vitalityBP: 2, // +4 Vitality
+        healthBP: 3    // +6 Health
       });
-      assert.strictEqual(pools.vitality, 40);
-      assert.strictEqual(pools.health, 45);
-      assert.strictEqual(pools.purchasedVitality, 10);
-      assert.strictEqual(pools.purchasedHealth, 15);
+      assert.strictEqual(pools.vitality, 34);
+      assert.strictEqual(pools.health, 36);
+      assert.strictEqual(pools.purchasedVitality, 4);
+      assert.strictEqual(pools.purchasedHealth, 6);
       assert.strictEqual(pools.vitalityBPCost, 2);
       assert.strictEqual(pools.healthBPCost, 3);
     });
 
     it('caps purchased Vitality and Health at a maximum increase of 5 x Stamina score', () => {
       const pools = calculateVitalityHealthPools({
-        vitalityBP: 5, // +25 requested
-        healthBP: 6,   // +30 requested
+        vitalityBP: 10, // +20 requested
+        healthBP: 12,   // +24 requested
         staminaScore: 3 // max increase = 15 each
       });
       assert.strictEqual(pools.vitality, 45); // 30 + 15
@@ -52,14 +52,14 @@ describe('Tangent SF RP — Canonical Vitality, Health, Structure & Toughness Ru
       assert.strictEqual(pools.maxHealthIncrease, 15);
     });
 
-    it('calculates Structure by combining Vitality and Health for Synthetics and non-standard anatomy', () => {
+    it('calculates Structure by starting at base 60 with purchased bonuses for Synthetics', () => {
       const bioPools = calculateVitalityHealthPools({
         vitalityBP: 2,
         healthBP: 2,
         isSynthetic: false
       });
-      assert.strictEqual(bioPools.vitality, 40);
-      assert.strictEqual(bioPools.health, 40);
+      assert.strictEqual(bioPools.vitality, 34);
+      assert.strictEqual(bioPools.health, 34);
       assert.strictEqual(bioPools.structure, 0);
 
       const synthPools = calculateVitalityHealthPools({
@@ -67,8 +67,8 @@ describe('Tangent SF RP — Canonical Vitality, Health, Structure & Toughness Ru
         healthBP: 2,
         isSynthetic: true
       });
-      // 40 + 40 = 80 Structure Points
-      assert.strictEqual(synthPools.structure, 80);
+      // 60 base structure + 4 vitality bonus + 4 health bonus = 68 Structure Points
+      assert.strictEqual(synthPools.structure, 68);
       assert.strictEqual(synthPools.vitality, 0);
       assert.strictEqual(synthPools.health, 0);
       assert.strictEqual(synthPools.isSynthetic, true);

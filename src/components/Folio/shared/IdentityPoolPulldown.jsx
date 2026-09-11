@@ -4,6 +4,7 @@ import { ALL_CANONICAL_TRAITS } from '../../../data/speciesTraitsData';
 import { DEFAULT_FEATURES, FEATURE_CATEGORIES } from '../../../data/featuresData';
 import { ALL_CANONICAL_SKILLS } from '../../../data/skillsData';
 import { checkPrerequisite } from '../../../utils/prerequisiteEvaluator';
+import { enrichItemWithModifiers } from '../../../engines/tangentModifierEngine';
 
 const PRIMARY_ATTRIBUTES = [
   { id: 'attr-strength', name: 'Strength', short: 'STR', category: 'Physical' },
@@ -1014,12 +1015,14 @@ export const FeatureMultiselectPulldown = ({
                 No matching features found.
               </div>
             ) : (
-              displayedItems.map((feat) => {
+              displayedItems.map((rawFeat) => {
+                const feat = enrichItemWithModifiers(rawFeat);
                 const fName = typeof feat === 'object' ? (feat.name || feat.title || feat.id) : String(feat);
                 const cleanTitle = normalizeTraitName(fName);
                 const isSelected = selectedNormSet.has(cleanTitle.toLowerCase()) || selectedNormSet.has(fName.toLowerCase());
                 const desc = typeof feat === 'object' ? (feat.description || feat.mechanic || '') : '';
                 const cat = typeof feat === 'object' ? (feat.category || feat.groupLabel || categoryLabel) : categoryLabel;
+                const featMods = Array.isArray(feat?.modifiers) ? feat.modifiers : [];
 
                 const prereqResult = checkPrerequisite(feat, characterData, 'features');
                 const isPrereqUnmet = prereqResult.hasPrerequisite && !prereqResult.isPossessed;
@@ -1056,6 +1059,11 @@ export const FeatureMultiselectPulldown = ({
                         {cat && (
                           <span className="text-[9px] px-1.5 py-0.2 rounded font-mono bg-slate-950 border border-slate-800 text-slate-400">
                             {cat}
+                          </span>
+                        )}
+                        {featMods.length > 0 && (
+                          <span className="text-[9px] px-1.5 py-0.2 rounded font-mono font-bold bg-cyan-950/80 border border-cyan-700/60 text-cyan-300">
+                            {featMods.map(m => m.description || `${m.value >= 0 ? '+' : ''}${m.value} ${m.target}`).join(', ')}
                           </span>
                         )}
                         {isPrereqUnmet && (
@@ -1358,11 +1366,13 @@ export const TraitMultiselectPulldown = ({
                 No matching traits found.
               </div>
             ) : (
-              displayedItems.map((trait) => {
+              displayedItems.map((rawTrait) => {
+                const trait = enrichItemWithModifiers(rawTrait);
                 const isSelected = selectedNormSet.has(trait.name.toLowerCase()) || selectedNormSet.has((trait.rawName || '').toLowerCase());
                 const tierColor = trait.tier === 'Elite' ? 'bg-purple-950/80 text-purple-300 border-purple-500/50' :
                                   trait.tier === 'Advanced' ? 'bg-sky-950/80 text-sky-300 border-sky-500/50' :
                                   'bg-slate-950 text-slate-400 border-slate-800';
+                const traitMods = Array.isArray(trait?.modifiers) ? trait.modifiers : [];
 
                 return (
                   <div
@@ -1397,6 +1407,11 @@ export const TraitMultiselectPulldown = ({
                         {trait.classification && (
                           <span className="text-[9px] px-1.5 py-0.2 rounded font-mono bg-slate-950 border border-slate-800 text-slate-400">
                             {trait.classification}
+                          </span>
+                        )}
+                        {traitMods.length > 0 && (
+                          <span className="text-[9px] px-1.5 py-0.2 rounded font-mono font-bold bg-cyan-950/80 border border-cyan-700/60 text-cyan-300">
+                            {traitMods.map(m => m.description || `${m.value >= 0 ? '+' : ''}${m.value} ${m.target}`).join(', ')}
                           </span>
                         )}
                       </div>

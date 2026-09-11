@@ -267,7 +267,7 @@ describe('Tangent SF RP — Folio CP Economy & Species Package Asset Accounting'
       assert.strictEqual(breakdown.remainingCP, 150);
 
       // Verify itemized entries
-      const athGranted = breakdown.itemizedList.find(i => i.category === 'Occupation Granted Skill' && i.item.includes('athletics'));
+      const athGranted = breakdown.itemizedList.find(i => i.category === 'Occupation Granted Skill' && i.item.toLowerCase().includes('athletics'));
       assert.ok(athGranted);
       assert.strictEqual(athGranted.costVal, 0);
       assert.strictEqual(athGranted.cost, '0 [5] CP');

@@ -2502,8 +2502,11 @@ export const FLYING_COMBAT_RULES = {
 export const VITALITY_HEALTH_STRUCTURE_RULES = {
   startingBaseVitality: 30,
   startingBaseHealth: 30,
-  cpCostPer5Points: 1, // 1 CP = +5 points in either Vitality or Health
-  bpCostPer5Points: 1, // backward compatibility alias
+  startingBaseStructure: 60,
+  cpCostPer2Points: 1, // 1 CP = +2 points in Vitality, Health, or Structure
+  bpCostPer2Points: 1, // backward compatibility alias
+  cpCostPer5Points: 1, // legacy alias
+  bpCostPer5Points: 1, // legacy alias
   maxCpIncreaseMultiplier: 5, // Maximum increase is 5 x Stamina score for each pool
   suggestedStartingMax: 60,
   toughnessSource: 'Stamina Ability Score', // Point-for-point natural damage reduction (DR)
@@ -2515,11 +2518,11 @@ export const VITALITY_HEALTH_STRUCTURE_RULES = {
   descriptions: {
     systemRule: "In Tangent, a character's ability to endure and recover from damage is represented by Vitality and Health (or Structure for Synthetics and others with non-typical physiology). Tangent does NOT use HP.",
     staminaScore: "All character Stamina is a natural damage reduction (DR) and automatically reduces all incoming damage which penetrates the character's defenses, minimum of 1 point.",
-    startingValuesAndMax: "Characters begin with a base of 30 points in both Vitality and Health. Base Vitality is not modified by Willpower, and base Health is not modified by Fortitude. Both pools may be increased by spending Character Points (CP) at a rate of 5 points per 1 CP, with a maximum increase of 5 × Stamina score. Structure is calculated by combining the character's Vitality and Health scores for Synthetics and constructs.",
+    startingValuesAndMax: "Characters begin with a base of 30 points in both Vitality and Health (or 60 Structure for Synthetics). Base Vitality is not modified by Willpower, and base Health is not modified by Fortitude. Pools may be increased by spending Character Points (CP) at a rate of 2 points per 1 CP (1 CP = +2 points), with a maximum increase of 5 × Stamina score. Structure has a starting pool of 60 to start, also charging 1 CP per 2 pt increase.",
     concussiveDamage: "Concussive Damage is unique in that it is Heavily Traumatic but dispersed over the entire body. This damage can be divided equally between Vitality and Health if the character attempts to reduce the damage, regardless of whether the attempt is successful. This reflects the potential for both non-lethal and lethal injuries from falls, explosions, crashes, etc. This does not include any additional damage taken for what they may fall into such as spikes, debris, lava, etc.",
-    vitality: "Vitality represents stamina, luck, and non-lethal damage capacity. It acts as a buffer, absorbing damage from sources like pummeling, subdual strikes, and physical/mental fatigue. The starting base is 30 (not modified by Willpower), increased by 5 points per 1 CP up to a maximum increase of 5 × Stamina score. There is separate damage tracking for lethal (Health) and non-lethal damage (Vitality); once non-lethal damage exceeds the Vitality score, it is considered lethal and affects Health.",
-    health: "Health represents physical trauma, bodily tissue, and structural life force. It is lost directly from lethal attacks or when non-lethal damage overflows depleted Vitality. The starting base is 30 (not modified by Fortitude), increased by 5 points per 1 CP up to a maximum increase of 5 × Stamina score. When a character's Health reaches zero, they are Incapacitated (falling Unconscious immediately, dropping anything held, and falling Prone). If Health is 0 and Vitality is depleted (0), the character enters the Death's Door state.",
-    structure: "Synthetics and constructs of most types use Structure, which is the total of both Health and Vitality scores. They are completely immune to non-lethal damage as well as other biological immunities (poisons, diseases, suffocation, mental stress).",
+    vitality: "Vitality represents stamina, luck, and non-lethal damage capacity. It acts as a buffer, absorbing damage from sources like pummeling, subdual strikes, and physical/mental fatigue. The starting base is 30 (not modified by Willpower), increased by 2 points per 1 CP up to a maximum increase of 5 × Stamina score. There is separate damage tracking for lethal (Health) and non-lethal damage (Vitality); once non-lethal damage exceeds the Vitality score, it is considered lethal and affects Health.",
+    health: "Health represents physical trauma, bodily tissue, and structural life force. It is lost directly from lethal attacks or when non-lethal damage overflows depleted Vitality. The starting base is 30 (not modified by Fortitude), increased by 2 points per 1 CP up to a maximum increase of 5 × Stamina score. When a character's Health reaches zero, they are Incapacitated (falling Unconscious immediately, dropping anything held, and falling Prone). If Health is 0 and Vitality is depleted (0), the character enters the Death's Door state.",
+    structure: "Synthetics and constructs of most types use Structure, with a starting pool of 60 SP (or the total of both Health and Vitality scores). Structure increases at 1 CP per 2 pt increase. Synthetics are completely immune to non-lethal damage as well as other biological immunities (poisons, diseases, suffocation, mental stress).",
     criticalHits: "Critical hits affect damage (increasing damage dealt via damage multipliers or additional dice), but do not necessarily make an attack lethal if the attack was non-lethal.",
     skillCaps: "Most skills have a maximum rank of 20. Specializations and invocations max at rank 10."
   }

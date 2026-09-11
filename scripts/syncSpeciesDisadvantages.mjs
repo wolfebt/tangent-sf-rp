@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { fileURLToPath } from 'url';
+import { enrichItemWithModifiers } from '../src/engines/tangentModifierEngine.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -35,11 +36,23 @@ function syncDisadvantages() {
 
     let mechanics = data.mechanic || data.mechanics || '';
     if (!mechanics && body) {
-      const mechMatch = body.match(/## Mechanics & Effect[s]?\s*([\s\S]*?)(?=##|$)/i);
+      const mechMatch = body.match(/(?:^|\n)## Mechanics[^\n]*\n([\s\S]*?)(?=(?:\n##\s)|$)/i);
       if (mechMatch) mechanics = mechMatch[1].trim();
     }
+    if (!mechanics) {
+      mechanics = data.description || '';
+    }
 
-    const disObj = {
+    let rules = data.rules || data.special_rules || '';
+    if (!rules && body) {
+      const ruleMatch = body.match(/(?:^|\n)## Special Rules[^\n]*\n([\s\S]*?)(?=(?:\n##\s)|$)/i);
+      if (ruleMatch) rules = ruleMatch[1].trim();
+    }
+    if (!rules) {
+      rules = `Hindrance: Grants ${refundBP} CP refund upon selection.`;
+    }
+
+    const rawDisObj = {
       id,
       code: id.replace('disadvantage-', '').replace('species-', ''),
       name,
@@ -54,10 +67,13 @@ function syncDisadvantages() {
       desc: data.description || '',
       description: data.description || '',
       mechanics,
+      mechanic: mechanics,
+      rules,
       modifiers: Array.isArray(data.modifiers) ? data.modifiers : [],
       body
     };
 
+    const disObj = enrichItemWithModifiers(rawDisObj);
     disadvantagesList.push(disObj);
   }
 

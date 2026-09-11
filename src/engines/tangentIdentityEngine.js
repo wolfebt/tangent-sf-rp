@@ -47,6 +47,17 @@ export const mapToAttrKey = (name) => {
   return null;
 };
 
+export const parseSettingLevel = (val, defaultVal = null) => {
+  if (val === undefined || val === null || val === '') return defaultVal;
+  if (typeof val === 'number') return Math.min(5, Math.max(0, Math.round(val)));
+  const match = String(val).match(/\d+/);
+  if (!match) return defaultVal;
+  const num = parseInt(match[0], 10);
+  if (isNaN(num)) return defaultVal;
+  return Math.min(5, Math.max(0, num));
+};
+
+
 export const removeOrDecrementSkill = (characterData, skillNameOrId, rankToDeduct, canonicalSkillsList = ALL_CANONICAL_SKILLS) => {
   const deduct = parseInt(rankToDeduct, 10) || 0;
   if (!skillNameOrId || deduct <= 0) return characterData;
@@ -507,6 +518,20 @@ export const applySpeciesTransition = (characterData, newSpeciesInput, dbData = 
         }
       });
     }
+
+    // Setting Tiers: Tech Level & Meta Level (0-5, non-stacking highest from species and faction)
+    const factionObj = resolveCatalogItem('factions', updated['char-faction'], dbData);
+    const speciesTL = parseSettingLevel(newSpeciesObj.tech_level ?? newSpeciesObj.techLevel, null);
+    const speciesML = parseSettingLevel(newSpeciesObj.meta_level ?? newSpeciesObj.metaLevel, null);
+    const factionTL = parseSettingLevel(factionObj?.tech_level ?? factionObj?.techLevel, null);
+    const factionML = parseSettingLevel(factionObj?.meta_level ?? factionObj?.metaLevel, null);
+
+    if (speciesTL !== null || factionTL !== null) {
+      updated['tech-level'] = Math.min(5, Math.max(0, Math.max(speciesTL ?? 3, factionTL ?? 3)));
+    }
+    if (speciesML !== null || factionML !== null) {
+      updated['magic-level'] = Math.min(5, Math.max(0, Math.max(speciesML ?? 0, factionML ?? 0)));
+    }
   } else {
     // Clearing species
     updated.features = filteredFeatures;
@@ -517,6 +542,16 @@ export const applySpeciesTransition = (characterData, newSpeciesInput, dbData = 
     updated['move-fly'] = 0;
     updated['move-burrow'] = 0;
     updated['move-flicker'] = 0;
+
+    const factionObj = resolveCatalogItem('factions', updated['char-faction'], dbData);
+    const factionTL = parseSettingLevel(factionObj?.tech_level ?? factionObj?.techLevel, null);
+    const factionML = parseSettingLevel(factionObj?.meta_level ?? factionObj?.metaLevel, null);
+    if (factionTL !== null) {
+      updated['tech-level'] = factionTL;
+    }
+    if (factionML !== null) {
+      updated['magic-level'] = factionML;
+    }
   }
 
   return updated;
@@ -1091,6 +1126,25 @@ export const applyFactionTransition = (characterData, newFactionInput, dbData = 
   updated.features = [...updated.features, ...newFeaturesToAdd];
   updated.disadvantages = [...updated.disadvantages, ...newDisadvantagesToAdd];
   updated.factionAllocations = { skills: {}, traits: [], features: [] };
+
+  // Setting Tiers: Tech Level & Meta Level (0-5, non-stacking highest from species and faction)
+  const speciesObj = resolveCatalogItem('species', updated['char-species'], dbData);
+  const factionTL = parseSettingLevel(newFactionObj?.tech_level ?? newFactionObj?.techLevel, null);
+  const factionML = parseSettingLevel(newFactionObj?.meta_level ?? newFactionObj?.metaLevel, null);
+  const speciesTL = parseSettingLevel(speciesObj?.tech_level ?? speciesObj?.techLevel, null);
+  const speciesML = parseSettingLevel(speciesObj?.meta_level ?? speciesObj?.metaLevel, null);
+
+  if (factionTL !== null || speciesTL !== null) {
+    updated['tech-level'] = Math.min(5, Math.max(0, Math.max(factionTL ?? 3, speciesTL ?? 3)));
+  } else if (!newFactionObj) {
+    updated['tech-level'] = speciesTL ?? 3;
+  }
+
+  if (factionML !== null || speciesML !== null) {
+    updated['magic-level'] = Math.min(5, Math.max(0, Math.max(factionML ?? 0, speciesML ?? 0)));
+  } else if (!newFactionObj) {
+    updated['magic-level'] = speciesML ?? 1;
+  }
 
   return updated;
 };

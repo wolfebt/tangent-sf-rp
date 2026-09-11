@@ -587,16 +587,62 @@ export const DiscreetFateOverrideModal = ({
             </div>
 
             <div className="p-3 rounded-lg bg-slate-900/80 border border-slate-800 space-y-1.5">
-              <h4 className="font-bold text-cyan-300 text-sm">Karma Points &amp; Fate Modification</h4>
+              <div className="flex items-center justify-between">
+                <h4 className="font-bold text-cyan-300 text-sm">Karma Points &amp; Fate Modification</h4>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950 border border-cyan-800 text-cyan-300">
+                  Starting Baseline: 3 Karma
+                </span>
+              </div>
               <p className="text-[11px] text-slate-400 leading-relaxed">
-                Karma represents luck, heroic destiny, and narrative momentum. Every character begins with a pool of 3 Karma Points (modified by features like Karmic Blessing or hindrances like Unlucky). Karma resets to maximum at the start of each session and does not regenerate through standard rests.
+                Karma represents luck, heroic destiny, and narrative momentum. Every character begins with a baseline pool of <strong>3 Karma Points</strong>. Karma resets to maximum at the start of each session and does not regenerate through standard rests (Light or Full Rest).
               </p>
             </div>
 
             <div className="p-3 rounded-lg bg-slate-900/80 border border-slate-800 space-y-1.5">
-              <h4 className="font-bold text-amber-300 text-sm">Karmic Debt &amp; Consequences</h4>
+              <div className="flex items-center justify-between">
+                <h4 className="font-bold text-purple-300 text-sm">Karmic Blessing &amp; Max Pool Scaling</h4>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-950 border border-purple-800 text-purple-300">
+                  +1 Max Karma / Rank
+                </span>
+              </div>
+              <p className="text-[11px] text-slate-400 leading-relaxed">
+                Characters who acquire the <strong>Karmic Blessing</strong> feature expand their permanent session Karma maximum by +1 per rank purchased. Characters who take Hindrances like <strong>Unlucky</strong> or <strong>Cursed</strong> have their session maximum reduced accordingly.
+              </p>
+            </div>
+
+            <div className="p-3 rounded-lg bg-slate-900/80 border border-slate-800 space-y-1.5">
+              <div className="flex items-center justify-between">
+                <h4 className="font-bold text-amber-300 text-sm">Heroic Awards &amp; In-Session Gains</h4>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-950 border border-amber-800 text-amber-300">
+                  +1 Karma on Epic Action
+                </span>
+              </div>
+              <p className="text-[11px] text-slate-400 leading-relaxed">
+                When a character performs an exceptionally selfless, tactical, or dramatic action that elevates the party or story, the GM may immediately award <strong>+1 Karma</strong>. This can temporarily raise Karma above the baseline max for the current session or pay down active Karmic Debt.
+              </p>
+            </div>
+
+            <div className="p-3 rounded-lg bg-slate-900/80 border border-slate-800 space-y-1.5">
+              <div className="flex items-center justify-between">
+                <h4 className="font-bold text-rose-400 text-sm">Karmic Debt &amp; Consequences</h4>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-950 border border-rose-800 text-rose-300">
+                  Debt Cap: -(CHA + 1)
+                </span>
+              </div>
               <p className="text-[11px] text-slate-400 leading-relaxed">
                 When reduced to 0 Karma, characters may continue to spend into <strong>Karmic Debt</strong> up to their Charisma score + 1 (minimum -1). Karmic debt represents borrowing against future fortune. While in debt, the GM gains narrative license to enforce disadvantage, introduce environmental hazards, or turn near-misses into complications.
+              </p>
+            </div>
+
+            <div className="p-3 rounded-lg bg-slate-900/80 border border-slate-800 space-y-1.5">
+              <div className="flex items-center justify-between">
+                <h4 className="font-bold text-emerald-400 text-sm">Death's Door &amp; Revivification Sacrifice</h4>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950 border border-emerald-800 text-emerald-300">
+                  Karma / AP Survival
+                </span>
+              </div>
+              <p className="text-[11px] text-slate-400 leading-relaxed">
+                When reduced to 0 Health and entering the Death Clock, a character may burn their remaining Karma Points or plunge into maximum Karmic Debt to stabilize automatically, stave off mortality, or pay the spiritual cost of Revivification.
               </p>
             </div>
 

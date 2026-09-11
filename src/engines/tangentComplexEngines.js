@@ -319,6 +319,45 @@ const STAGE_TIER_MAP = {
   extreme: 3
 };
 
+export const CANONICAL_NEGLIGIBLE_AUGMENTATIONS = new Set([
+  'battle-gauntlet',
+  'behavioral-inhibitor',
+  'biomonitor',
+  'chemskins',
+  'contraceptive-implant',
+  'control-chips',
+  'cyber-vox',
+  'deadman-s-switch',
+  'diagnostic-scanner',
+  'digitigrade-leg',
+  'endocrine-tuner',
+  'foot',
+  'forearm',
+  'full-arm-assembly',
+  'full-leg-assembly',
+  'hand',
+  'holo-tattoos',
+  'id-chip',
+  'insectoid-limb',
+  'light-tattoo',
+  'lower-leg',
+  'magnetic-piercings',
+  'nano-groomers',
+  'nu-tek-tvskin',
+  'servo-arm',
+  'shift-tacts',
+  'skinwatch',
+  'smart-goggles',
+  'subdermal-pocket',
+  'synth-organ',
+  'synth-tentacle',
+  'synth-wing',
+  'tech-hair',
+  'turn-on-nails',
+  'upper-arm',
+  'upper-leg-thigh'
+]);
+
 /**
  * Extracts and normalizes the required Stage for an augmentation.
  * Canonical outputs: 'Negligible' | 'Standard' | 'Heavy' | 'Extreme'
@@ -337,29 +376,61 @@ export function getAugmentationStage(aug) {
     return 'Standard';
   }
 
-  // Check explicit stage field
-  const rawStage = aug.stage || aug.augmentation_stage || aug.stage_level || '';
-  if (rawStage) {
-    const s = String(rawStage).trim().toLowerCase();
-    if (s === 'negligible' || s.includes('negligible')) return 'Negligible';
-    if (s === 'heavy' || s.includes('heavy')) return 'Heavy';
-    if (s === 'extreme' || s.includes('extreme')) return 'Extreme';
-    if (s === 'standard' || s.includes('standard') || s === 'augmented' || s.includes('augmented')) return 'Standard';
-  }
-
-  // Check category and flags
+  const augId = String(aug.id || '').toLowerCase();
   const cat = String(aug.category || '').toLowerCase();
+  const augType = String(aug.augmentation_type || aug.type || '').toLowerCase();
   const name = String(aug.name || aug.title || '').toLowerCase();
 
-  if (aug.isPseudo || cat === 'pseudo' || cat === 'fashionware') {
+  // 1. First priority: Check explicit Negligible stage or canonical Negligible items
+  const rawStage = String(aug.stage || aug.augmentation_stage || aug.stage_level || '').trim().toLowerCase();
+  if (rawStage === 'negligible' || rawStage.includes('negligible')) {
+    return 'Negligible';
+  }
+  if (rawStage === 'extreme' || rawStage.includes('extreme')) {
+    return 'Extreme';
+  }
+  if (rawStage === 'heavy' || rawStage.includes('heavy')) {
+    return 'Heavy';
+  }
+
+  // 2. Canonical negligible items / fashionware / pseudo detection (overrides legacy default "Standard" values)
+  if (
+    CANONICAL_NEGLIGIBLE_AUGMENTATIONS.has(augId) ||
+    aug.isPseudo ||
+    cat === 'pseudo' ||
+    cat === 'fashionware' ||
+    augType === 'fashionware' ||
+    name === 'id chip' ||
+    name === 'skinwatch' ||
+    name === 'biomonitor' ||
+    name === 'chemskins' ||
+    name === 'contraceptive implant' ||
+    name === 'cyber-vox' ||
+    name === "deadman's switch" ||
+    name === 'diagnostic scanner' ||
+    name === 'holo-tattoos' ||
+    name === 'light tattoo' ||
+    name === 'magnetic piercings' ||
+    name === 'nano groomers' ||
+    name === 'nu-tek tvskin' ||
+    name === 'shift-tacts' ||
+    name === 'subdermal pocket' ||
+    name === 'tech-hair' ||
+    name === 'turn-on nails'
+  ) {
     return 'Negligible';
   }
 
+  // 3. Check explicit standard stage if present
+  if (rawStage === 'standard' || rawStage.includes('standard') || rawStage === 'augmented' || rawStage.includes('augmented')) {
+    return 'Standard';
+  }
+
+  // 4. Heavy / Extreme flags & patterns
   if (aug.isFBC || cat === 'fbc') {
     return 'Heavy';
   }
 
-  // Check name patterns matching canonical Matrix 99 items
   if (name.includes('matter recon') || name.includes('phase shift') || name.includes('digitized cons') || name.includes('temporal stutter') || name.includes('trans-cerebral') || name.includes('body conversion')) {
     return 'Extreme';
   }

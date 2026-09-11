@@ -1,9 +1,10 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { useFolio } from '../../../context/FolioContext';
 import { useDice } from '../../../context/DiceContext';
-import { Dices, Zap, Plus, Lock } from 'lucide-react';
+import { Dices, Zap, Plus, Lock, Sparkles, Star, ChevronDown, ChevronUp } from 'lucide-react';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { DEFAULT_SKILLS } from '../../../data/skillsData';
+import { DEFAULT_ARCHETYPES } from '../../../data/archetypesData';
 import { resolveMetaSkillForInvocation } from '../../../utils/metaphysicsUtils';
 import FolioTooltip from '../shared/FolioTooltip';
 import { checkPrerequisite } from '../../../utils/prerequisiteEvaluator';
@@ -127,6 +128,52 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategoryTab, setActiveCategoryTab] = useState('all');
   const [showTrainedOnly, setShowTrainedOnly] = useState(false);
+  const [showIdentitySummary, setShowIdentitySummary] = useState(true);
+
+  // Selected Archetype Lookup & Essential Skills
+  const archetypeEssentialSkills = useMemo(() => {
+    const archName = characterData?.['char-archetype'];
+    if (!archName) return new Set();
+    const arch = DEFAULT_ARCHETYPES.find(a => (a.name || a.id || '').toLowerCase() === String(archName).toLowerCase());
+    if (!arch || !Array.isArray(arch.essential_skills)) return new Set();
+    const set = new Set();
+    arch.essential_skills.forEach(s => {
+      const name = typeof s === 'object' ? (s.name || s.id || '') : String(s);
+      if (name) set.add(name.toLowerCase().replace(/[^a-z0-9]/g, ''));
+    });
+    return set;
+  }, [characterData?.['char-archetype']]);
+
+  // Identity Pools SP Breakdown
+  const identityPoolsBreakdown = useMemo(() => {
+    const calcPoolSP = (poolObj) => {
+      if (!poolObj || typeof poolObj !== 'object') return 0;
+      return Object.values(poolObj).reduce((sum, v) => sum + (parseInt(typeof v === 'object' ? (v.rank || v.value) : v, 10) || 0), 0);
+    };
+
+    return {
+      species: {
+        name: characterData?.['char-species'] || 'Species',
+        allocated: calcPoolSP(characterData?.speciesAllocations?.skills),
+        skills: characterData?.speciesAllocations?.skills || {}
+      },
+      occupation: {
+        name: characterData?.['char-occu'] || 'Occupation',
+        allocated: calcPoolSP(characterData?.occuAllocations?.skills),
+        skills: characterData?.occuAllocations?.skills || {}
+      },
+      origin: {
+        name: characterData?.['char-origin'] || 'Origin',
+        allocated: calcPoolSP(characterData?.originAllocations?.skills),
+        skills: characterData?.originAllocations?.skills || {}
+      },
+      faction: {
+        name: characterData?.['char-faction'] || 'Faction',
+        allocated: calcPoolSP(characterData?.factionAllocations?.skills),
+        skills: characterData?.factionAllocations?.skills || {}
+      }
+    };
+  }, [characterData]);
 
   const isStatsLocked = isInActiveGame && !isGMConfirmed;
   const isSheetLocked = Boolean(isFolioLocked && !isPlayerOverride);
@@ -585,6 +632,9 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
     const isDisciplineSkill = (skill.group === 'meta' || skill.id.startsWith('meta-')) && !isAttune && Boolean(discKey);
     const cleanId = skill.id.replace(/^[a-z]+-/, '');
 
+    const cleanName = (skill.name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    const isArchetypeEssential = archetypeEssentialSkills.has(cleanName) || archetypeEssentialSkills.has(cleanId.toLowerCase().replace(/[^a-z0-9]/g, ''));
+
     // Locking rules:
     // 1. Attune is locked unless character has ANY awakened feature
     // 2. Discipline skills are locked unless character has THAT specific awakened discipline
@@ -599,22 +649,19 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
     } else if (isDisciplineSkill) {
       if (!unlockedDisciplines.has(discKey)) {
         isDisciplineLocked = true;
-        const discTitle = discKey.charAt(0).toUpperCase() + discKey.slice(1);
-        lockMessage = `Requires purchasing 'Awakened: ${discTitle}' feature in Features tab to unlock ${skill.name}`;
+        lockMessage = `Requires possessing the Awakened: ${discKey.charAt(0).toUpperCase() + discKey.slice(1)} feature`;
       }
     }
 
-    const rank = isDisciplineLocked ? 0 : Math.min(20, Math.max(0, getSkillRank(skill)));
+    const rank = getSkillRank(skill);
     const mod = getSkillMod(skill);
-    const baseAttr = characterData?.[`skill-${skill.id}-base`] || characterData?.[`skill-${cleanId}-base`] || (skill.baseAttr || 'attr-wisdom');
-    const baseSkillTotal = isDisciplineLocked ? 0 : getSkillTotal(skill);
-    const linkedSpecs = specializationsByBaseSkill[skill.id] || specializationsByBaseSkill[cleanId] || [];
+    const baseAttr = characterData?.[`skill-${skill.id}-base`] || characterData?.[`skill-${cleanId}-base`] || skill.baseAttr || '';
+    const baseAttrLabel = ATTRIBUTE_OPTIONS.find((opt) => opt.value === baseAttr)?.label || '--';
+    const baseSkillTotal = getSkillTotal(skill);
 
-    const skillDesc = skill.description || skillLookup[skill.id]?.description || characterData?.[`skill-${skill.id}-description`] || characterData?.[`skill-${cleanId}-description`] || characterData?.[`skill-${skill.id}-desc`] || 'Trained operative skill.';
-    const baseAttrObj = ATTRIBUTE_OPTIONS.find(o => o.value === baseAttr);
-    const baseAttrLabel = baseAttrObj?.label || (baseAttr ? baseAttr.replace('attr-', '').toUpperCase() : 'WIS');
-    const groupName = skill.group ? (skill.group.charAt(0).toUpperCase() + skill.group.slice(1)) : 'Operative';
-    const badgeColor = skill.group === 'physical' ? 'emerald' : skill.group === 'mental' ? 'blue' : skill.group === 'social' ? 'cyan' : skill.group === 'combat' ? 'amber' : 'purple';
+    const groupName = skill.group ? skill.group.charAt(0).toUpperCase() + skill.group.slice(1) : 'General';
+    const badgeColor = isDisciplineSkill ? 'purple' : (CATEGORY_CONFIG_MAP[skill.group]?.key === 'physical' ? 'emerald' : CATEGORY_CONFIG_MAP[skill.group]?.key === 'mental' ? 'blue' : CATEGORY_CONFIG_MAP[skill.group]?.key === 'social' ? 'cyan' : CATEGORY_CONFIG_MAP[skill.group]?.key === 'combat' ? 'amber' : 'purple');
+    const skillDesc = characterData?.[`skill-${skill.id}-description`] || characterData?.[`skill-${skill.id}-desc`] || skill.description || 'Core operative skill.';
 
     return (
       <div key={skill.id} className="space-y-1.5">
@@ -623,6 +670,8 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
           className={`folio-skill-row-desktop grid-cols-12 items-center gap-2 py-1 px-2 rounded transition-colors text-xs border ${
             isDisciplineLocked
               ? 'bg-slate-950/40 opacity-60 border-slate-800/60'
+              : isArchetypeEssential
+              ? 'bg-slate-900/80 hover:bg-slate-800/80 border-amber-500/50'
               : 'bg-slate-900/50 hover:bg-slate-800/60 border-slate-800/40'
           }`}
           title={isDisciplineLocked ? lockMessage : undefined}
@@ -638,10 +687,19 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                 tags={['Max Rank: 20', `Base: ${baseAttrLabel}`, groupName.toUpperCase()]}
                 showInfoIcon={true}
               >
-                <span className={`font-medium ${isDisciplineLocked ? 'text-slate-500' : 'text-slate-200 hover:text-cyan-300'} truncate transition-colors`}>
+                <span className={`font-medium ${isDisciplineLocked ? 'text-slate-500' : isArchetypeEssential ? 'text-amber-200 hover:text-amber-100 font-semibold' : 'text-slate-200 hover:text-cyan-300'} truncate transition-colors`}>
                   {skill.name}
                 </span>
               </FolioTooltip>
+              {isArchetypeEssential && (
+                <span
+                  className="text-[8.5px] font-mono font-bold text-amber-300 bg-amber-950/90 border border-amber-500/60 px-1 py-0.2 rounded shrink-0 flex items-center gap-0.5"
+                  title="Essential Skill recommended by selected Archetype"
+                >
+                  <Star className="w-2.5 h-2.5 text-amber-400 fill-amber-400" />
+                  <span>Archetype</span>
+                </span>
+              )}
               {isDisciplineLocked && (
                 <span
                   className="text-[9px] font-mono font-bold text-amber-400/90 bg-amber-950/70 border border-amber-900/60 px-1.5 py-0.2 rounded shrink-0"
@@ -798,10 +856,19 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                 tags={['Max Rank: 20', `Base: ${baseAttrLabel}`, groupName.toUpperCase()]}
                 showInfoIcon={true}
               >
-                <span className={`font-semibold ${isDisciplineLocked ? 'text-slate-500' : 'text-slate-100 hover:text-cyan-300'} truncate transition-colors`}>
+                <span className={`font-semibold ${isDisciplineLocked ? 'text-slate-500' : isArchetypeEssential ? 'text-amber-200 hover:text-amber-100' : 'text-slate-100 hover:text-cyan-300'} truncate transition-colors`}>
                   {skill.name}
                 </span>
               </FolioTooltip>
+              {isArchetypeEssential && (
+                <span
+                  className="text-[8.5px] font-mono font-bold text-amber-300 bg-amber-950/90 border border-amber-500/60 px-1 py-0.2 rounded shrink-0 flex items-center gap-0.5"
+                  title="Essential Skill recommended by selected Archetype"
+                >
+                  <Star className="w-2.5 h-2.5 text-amber-400 fill-amber-400" />
+                  <span>Archetype</span>
+                </span>
+              )}
               {isDisciplineLocked && (
                 <span
                   className="text-[9px] font-mono font-bold text-amber-400/90 bg-amber-950/70 border border-amber-900/60 px-1.5 py-0.2 rounded shrink-0"
@@ -1490,6 +1557,124 @@ const specMod = parseInt(spec.mod || 0, 10);
           );
         })}
       </div>
+
+      {/* Identity Granted Skills & Skill Group Pools Banner */}
+      {(identityPoolsBreakdown.species.allocated > 0 ||
+        identityPoolsBreakdown.occupation.allocated > 0 ||
+        identityPoolsBreakdown.origin.allocated > 0 ||
+        identityPoolsBreakdown.faction.allocated > 0 ||
+        archetypeEssentialSkills.size > 0) && (
+        <div className="bg-slate-900/80 border border-cyan-900/60 rounded-lg p-3 text-xs space-y-2">
+          <div
+            onClick={() => setShowIdentitySummary(prev => !prev)}
+            className="flex items-center justify-between cursor-pointer select-none"
+          >
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-cyan-400" />
+              <span className="font-mono font-bold uppercase tracking-wider text-cyan-300 text-[11px]">
+                Identity Granted Skills & Skill Group Pools
+              </span>
+              <span className="text-[10px] text-slate-500 hidden md:inline">
+                • Track SP allocations from Species, Occupation, Origin, and Faction
+              </span>
+            </div>
+            <button
+              type="button"
+              className="text-slate-400 hover:text-white p-0.5 transition-colors"
+            >
+              {showIdentitySummary ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+            </button>
+          </div>
+
+          {showIdentitySummary && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 pt-1 border-t border-slate-800/80">
+              {/* Species Pool */}
+              <div className="bg-slate-950/70 border border-cyan-900/50 rounded p-2 space-y-1">
+                <div className="flex items-center justify-between text-[10px] font-mono">
+                  <span className="text-cyan-400 font-bold uppercase truncate">Species: {identityPoolsBreakdown.species.name}</span>
+                  <span className="text-cyan-300 font-bold">{identityPoolsBreakdown.species.allocated} SP</span>
+                </div>
+                {Object.keys(identityPoolsBreakdown.species.skills).length > 0 ? (
+                  <div className="flex flex-wrap gap-1">
+                    {Object.entries(identityPoolsBreakdown.species.skills).map(([k, v]) => (
+                      <span key={k} className="px-1.5 py-0.2 rounded bg-cyan-950/60 border border-cyan-800 text-[9px] font-mono text-cyan-200">
+                        {k} (+{typeof v === 'object' ? (v.rank || v.value) : v})
+                      </span>
+                    ))}
+                  </div>
+                ) : (
+                  <span className="text-[9.5px] text-slate-500 italic block">No pool SP allocated</span>
+                )}
+              </div>
+
+              {/* Occupation Pool */}
+              <div className="bg-slate-950/70 border border-sky-900/50 rounded p-2 space-y-1">
+                <div className="flex items-center justify-between text-[10px] font-mono">
+                  <span className="text-sky-400 font-bold uppercase truncate">Occupation: {identityPoolsBreakdown.occupation.name}</span>
+                  <span className="text-sky-300 font-bold">{identityPoolsBreakdown.occupation.allocated} SP</span>
+                </div>
+                {Object.keys(identityPoolsBreakdown.occupation.skills).length > 0 ? (
+                  <div className="flex flex-wrap gap-1">
+                    {Object.entries(identityPoolsBreakdown.occupation.skills).map(([k, v]) => (
+                      <span key={k} className="px-1.5 py-0.2 rounded bg-sky-950/60 border border-sky-800 text-[9px] font-mono text-sky-200">
+                        {k} (+{typeof v === 'object' ? (v.rank || v.value) : v})
+                      </span>
+                    ))}
+                  </div>
+                ) : (
+                  <span className="text-[9.5px] text-slate-500 italic block">No career SP allocated</span>
+                )}
+              </div>
+
+              {/* Origin Pool */}
+              <div className="bg-slate-950/70 border border-emerald-900/50 rounded p-2 space-y-1">
+                <div className="flex items-center justify-between text-[10px] font-mono">
+                  <span className="text-emerald-400 font-bold uppercase truncate">Origin: {identityPoolsBreakdown.origin.name}</span>
+                  <span className="text-emerald-300 font-bold">{identityPoolsBreakdown.origin.allocated} SP</span>
+                </div>
+                {Object.keys(identityPoolsBreakdown.origin.skills).length > 0 ? (
+                  <div className="flex flex-wrap gap-1">
+                    {Object.entries(identityPoolsBreakdown.origin.skills).map(([k, v]) => (
+                      <span key={k} className="px-1.5 py-0.2 rounded bg-emerald-950/60 border border-emerald-800 text-[9px] font-mono text-emerald-200">
+                        {k} (+{typeof v === 'object' ? (v.rank || v.value) : v})
+                      </span>
+                    ))}
+                  </div>
+                ) : (
+                  <span className="text-[9.5px] text-slate-500 italic block">No society SP allocated</span>
+                )}
+              </div>
+
+              {/* Faction / Archetype Essentials */}
+              <div className="bg-slate-950/70 border border-amber-900/50 rounded p-2 space-y-1">
+                <div className="flex items-center justify-between text-[10px] font-mono">
+                  <span className="text-amber-400 font-bold uppercase truncate">
+                    {characterData?.['char-archetype'] ? `Archetype: ${characterData['char-archetype']}` : 'Allegiance Pool'}
+                  </span>
+                  <span className="text-amber-300 font-bold">
+                    {identityPoolsBreakdown.faction.allocated > 0 ? `${identityPoolsBreakdown.faction.allocated} SP` : `${archetypeEssentialSkills.size} Essential`}
+                  </span>
+                </div>
+                {identityPoolsBreakdown.faction.allocated > 0 ? (
+                  <div className="flex flex-wrap gap-1">
+                    {Object.entries(identityPoolsBreakdown.faction.skills).map(([k, v]) => (
+                      <span key={k} className="px-1.5 py-0.2 rounded bg-purple-950/60 border border-purple-800 text-[9px] font-mono text-purple-200">
+                        {k} (+{typeof v === 'object' ? (v.rank || v.value) : v})
+                      </span>
+                    ))}
+                  </div>
+                ) : archetypeEssentialSkills.size > 0 ? (
+                  <span className="text-[9px] font-mono text-amber-300/80 block">
+                    Essential skills highlighted with ★ Archetype
+                  </span>
+                ) : (
+                  <span className="text-[9.5px] text-slate-500 italic block">No package SP allocated</span>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Main Skills Content Display */}
       {activeCategoryTab === 'all' ? (

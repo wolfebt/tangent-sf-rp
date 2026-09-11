@@ -12,6 +12,7 @@ import {
   createAttackFromWeapon, 
   buildWeaponNotes 
 } from '../../../utils/combatUtils';
+import { enrichItemWithModifiers } from '../../../engines/tangentModifierEngine';
 import { 
   Shield, 
   Heart, 
@@ -351,8 +352,9 @@ export const TacticalPlayView = ({
     const list = [];
     const seen = new Set();
 
-    const addFeature = (feat, defaultSource = 'Purchased Feature') => {
-      if (!feat) return;
+    const addFeature = (rawFeat, defaultSource = 'Purchased Feature') => {
+      if (!rawFeat) return;
+      const feat = enrichItemWithModifiers(rawFeat);
       const name = typeof feat === 'object' ? (feat.name || feat.title || '') : String(feat);
       if (!name || seen.has(name.toLowerCase().trim())) return;
       seen.add(name.toLowerCase().trim());
@@ -360,12 +362,20 @@ export const TacticalPlayView = ({
       const category = typeof feat === 'object' ? (feat.category || feat.type || 'General Feature') : 'General Feature';
       const desc = typeof feat === 'object' ? (feat.description || feat.desc || feat.summary || feat.effect || '') : '';
       const source = typeof feat === 'object' ? (feat.source || defaultSource) : defaultSource;
+      const mechanic = typeof feat === 'object' ? (feat.mechanic || feat.mechanics || '') : '';
+      const rules = typeof feat === 'object' ? (feat.rules || feat.special_rules || '') : '';
+      const notes = typeof feat === 'object' ? (feat.notes || '') : '';
+      const modifiers = Array.isArray(feat?.modifiers) ? feat.modifiers : [];
 
       list.push({
         name,
         category,
         source,
-        description: desc
+        description: desc,
+        mechanic,
+        rules,
+        notes,
+        modifiers
       });
     };
 
@@ -1647,10 +1657,42 @@ export const TacticalPlayView = ({
                             </span>
                           </div>
                         </div>
+
+                        {/* Active Modifiers Chips */}
+                        {feat.modifiers && feat.modifiers.length > 0 && (
+                          <div className="flex flex-wrap gap-1 pt-0.5">
+                            {feat.modifiers.map((m, mIdx) => {
+                              const val = typeof m === 'object' ? m.value : null;
+                              const isNeg = typeof val === 'number' && val < 0;
+                              const label = typeof m === 'object' ? (m.description || `${val >= 0 ? '+' : ''}${val} ${m.target}`) : String(m);
+                              return (
+                                <span
+                                  key={mIdx}
+                                  className={`px-1.5 py-0.2 text-[9px] font-mono font-bold rounded border ${
+                                    isNeg
+                                      ? 'bg-rose-950/80 text-rose-300 border-rose-800/70'
+                                      : 'bg-cyan-950/80 text-cyan-300 border-cyan-700/70'
+                                  }`}
+                                >
+                                  {label}
+                                </span>
+                              );
+                            })}
+                          </div>
+                        )}
+
                         {feat.description && (
                           <p className="text-[11px] font-sans text-slate-400 leading-relaxed">
                             {feat.description}
                           </p>
+                        )}
+
+                        {/* Inline Mechanics Snippet */}
+                        {feat.mechanic && (
+                          <div className="bg-slate-900/60 border border-slate-800/80 rounded px-2 py-1 text-[10px] font-mono text-cyan-200/90 line-clamp-2">
+                            <span className="font-bold text-slate-500 mr-1 uppercase text-[8.5px]">Mech:</span>
+                            {feat.mechanic}
+                          </div>
                         )}
                       </div>
                     ))}

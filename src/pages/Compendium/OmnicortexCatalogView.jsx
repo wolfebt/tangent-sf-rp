@@ -200,6 +200,7 @@ export const OmnicortexCatalogView = ({
   const [selectedML, setSelectedML] = useState('all'); // 'all' | 0..5
   const [selectedLineage, setSelectedLineage] = useState('all');
   const [selectedType, setSelectedType] = useState('all');
+  const [selectedStage, setSelectedStage] = useState('all');
   const [showFilters, setShowFilters] = useState(false);
 
   // Compute total asset counts across all Omnicortex collections
@@ -244,28 +245,42 @@ export const OmnicortexCatalogView = ({
   }, [dbData]);
 
   // Extract unique filter options for active category
-  const { availableTypes, availableLineages } = useMemo(() => {
+  const { availableTypes, availableLineages, availableStages } = useMemo(() => {
     const types = new Set();
     const lineages = new Set();
+    const stages = new Set();
 
     rawItems.forEach(item => {
       if (item.parent_species) lineages.add(item.parent_species);
       if (item.lineage) lineages.add(item.lineage);
 
+      const stg = item.stage || item.augmentation_stage;
+      if (stg) stages.add(String(stg));
+
       if (item.type) {
         if (Array.isArray(item.type)) item.type.forEach(t => types.add(String(t)));
         else types.add(String(item.type));
       }
-      if (item.category) types.add(String(item.category));
+      if (item.augmentation_type) types.add(String(item.augmentation_type));
+      if (item.category && item.category !== activeCategoryKey) types.add(String(item.category));
       if (item.subtype) types.add(String(item.subtype));
       if (item.sphere) types.add(String(item.sphere));
     });
 
     return {
       availableTypes: Array.from(types).sort(),
-      availableLineages: Array.from(lineages).sort()
+      availableLineages: Array.from(lineages).sort(),
+      availableStages: Array.from(stages).sort((a, b) => {
+        const order = ['negligible', 'standard', 'heavy', 'extreme'];
+        const idxA = order.indexOf(a.toLowerCase());
+        const idxB = order.indexOf(b.toLowerCase());
+        if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+        if (idxA !== -1) return -1;
+        if (idxB !== -1) return 1;
+        return a.localeCompare(b);
+      })
     };
-  }, [rawItems]);
+  }, [rawItems, activeCategoryKey]);
 
   // Filter items based on active filters, search query, and global/local scope
   const filteredItems = useMemo(() => {
@@ -316,26 +331,38 @@ export const OmnicortexCatalogView = ({
         if (!lin || lin !== selectedLineage) return false;
       }
 
+      // Stage filter (Augmentations, etc.)
+      if (selectedStage !== 'all') {
+        const stg = item.stage || item.augmentation_stage;
+        if (!stg || String(stg).toLowerCase() !== selectedStage.toLowerCase()) {
+          return false;
+        }
+      }
+
       // Type / Category filter
       if (selectedType !== 'all') {
         const itemType = item.type;
+        const itemAugType = item.augmentation_type;
         const itemCat = item.category;
         const itemSub = item.subtype;
         const itemSphere = item.sphere;
+        const itemStg = item.stage || item.augmentation_stage;
 
         const matches = (
           (Array.isArray(itemType) && itemType.includes(selectedType)) ||
           itemType === selectedType ||
+          itemAugType === selectedType ||
           itemCat === selectedType ||
           itemSub === selectedType ||
-          itemSphere === selectedType
+          itemSphere === selectedType ||
+          itemStg === selectedType
         );
         if (!matches) return false;
       }
 
       return true;
     }).sort((a, b) => (a.name || a.title || '').localeCompare(b.name || b.title || ''));
-  }, [isGlobalSearch, allConsolidatedItems, rawItems, searchQuery, selectedTL, selectedML, selectedLineage, selectedType]);
+  }, [isGlobalSearch, allConsolidatedItems, rawItems, searchQuery, selectedTL, selectedML, selectedLineage, selectedType, selectedStage]);
 
   const toggleDomainCollapse = (domainId) => {
     setCollapsedDomains(prev => ({
@@ -361,6 +388,7 @@ export const OmnicortexCatalogView = ({
     setSelectedML('all');
     setSelectedLineage('all');
     setSelectedType('all');
+    setSelectedStage('all');
   };
 
   return (
@@ -516,7 +544,7 @@ export const OmnicortexCatalogView = ({
                 type="button"
                 onClick={() => setShowFilters(prev => !prev)}
                 className={`px-2.5 py-1.5 rounded-lg border text-xs font-mono font-bold uppercase transition-colors flex items-center gap-1.5 cursor-pointer ${
-                  showFilters || selectedTL !== 'all' || selectedML !== 'all' || selectedLineage !== 'all' || selectedType !== 'all'
+                  showFilters || selectedTL !== 'all' || selectedML !== 'all' || selectedLineage !== 'all' || selectedType !== 'all' || selectedStage !== 'all'
                     ? 'bg-amber-950/80 border-amber-500/60 text-amber-300 shadow-[0_0_10px_rgba(251,191,36,0.2)]'
                     : 'bg-slate-900 border-slate-700 text-slate-300 hover:text-white'
                 }`}
@@ -524,7 +552,7 @@ export const OmnicortexCatalogView = ({
               >
                 <SlidersHorizontal size={13} />
                 <span>Filters</span>
-                {(selectedTL !== 'all' || selectedML !== 'all' || selectedLineage !== 'all' || selectedType !== 'all') && (
+                {(selectedTL !== 'all' || selectedML !== 'all' || selectedLineage !== 'all' || selectedType !== 'all' || selectedStage !== 'all') && (
                   <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
                 )}
               </button>
@@ -578,6 +606,23 @@ export const OmnicortexCatalogView = ({
           {/* Collapsible Advanced Filters Tray */}
           {showFilters && (
             <div className="bg-slate-900 border border-slate-800 p-3 rounded-lg flex flex-wrap items-center gap-3 text-xs font-mono animate-in fade-in duration-150">
+              {/* Stage Filter (Augmentations, etc.) */}
+              {availableStages.length > 0 && (
+                <div className="flex items-center gap-1.5">
+                  <span className="text-slate-400 text-[11px] font-bold">Stage:</span>
+                  <select
+                    value={selectedStage}
+                    onChange={e => setSelectedStage(e.target.value)}
+                    className="bg-slate-950 border border-slate-700 text-slate-200 px-2 py-1 rounded text-xs outline-none focus:border-emerald-500"
+                  >
+                    <option value="all">All Stages</option>
+                    {availableStages.map(s => (
+                      <option key={s} value={s}>{s}</option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
               {/* Tech Level (TL) Filter */}
               <div className="flex items-center gap-1.5">
                 <span className="text-slate-400 text-[11px] font-bold">Tech Level:</span>
@@ -649,7 +694,7 @@ export const OmnicortexCatalogView = ({
               )}
 
               {/* Reset Filters Button */}
-              {(selectedTL !== 'all' || selectedML !== 'all' || selectedLineage !== 'all' || selectedType !== 'all') && (
+              {(selectedTL !== 'all' || selectedML !== 'all' || selectedLineage !== 'all' || selectedType !== 'all' || selectedStage !== 'all') && (
                 <button
                   type="button"
                   onClick={() => {
@@ -657,6 +702,7 @@ export const OmnicortexCatalogView = ({
                     setSelectedML('all');
                     setSelectedLineage('all');
                     setSelectedType('all');
+                    setSelectedStage('all');
                   }}
                   className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-rose-300 border border-rose-500/40 rounded text-xs font-bold transition-colors ml-auto"
                 >
@@ -690,7 +736,8 @@ export const OmnicortexCatalogView = ({
                 const sp = item.sp || item.hp;
                 const costCredits = item.costs?.credits || item.cost || item.price;
                 const lineage = item.parent_species || item.lineage;
-                const type = Array.isArray(item.type) ? item.type.join(', ') : item.type;
+                const type = Array.isArray(item.type) ? item.type.join(', ') : (item.type || item.augmentation_type);
+                const stage = item.stage || item.augmentation_stage;
                 const isCopied = copiedItemId === (item.id || item.name);
 
                 return (
@@ -707,6 +754,16 @@ export const OmnicortexCatalogView = ({
                             <span className="text-[9px] px-1.5 py-0.2 bg-emerald-950/90 text-emerald-300 border border-emerald-500/40 rounded font-mono font-bold tracking-tight uppercase">
                               {catLabel}
                             </span>
+                            {stage && (
+                              <span className={`text-[9px] px-1.5 py-0.2 rounded font-mono font-bold border ${
+                                stage.toLowerCase() === 'extreme' ? 'bg-purple-950/80 text-purple-300 border-purple-500/40' :
+                                stage.toLowerCase() === 'heavy' ? 'bg-amber-950/80 text-amber-300 border-amber-500/40' :
+                                stage.toLowerCase() === 'standard' ? 'bg-cyan-950/80 text-cyan-300 border-cyan-500/40' :
+                                'bg-slate-800/90 text-slate-300 border-slate-600/50'
+                              }`}>
+                                Stage: {stage}
+                              </span>
+                            )}
                             {lineage && (
                               <span className="text-[9px] px-1.5 py-0.2 bg-purple-950/80 text-purple-300 border border-purple-500/40 rounded font-mono font-bold">
                                 {lineage}
@@ -799,7 +856,8 @@ export const OmnicortexCatalogView = ({
                     const ml = item.meta_level !== undefined ? item.meta_level : item.ml;
                     const cp = item.cp !== undefined ? item.cp : (item.bp !== undefined ? item.bp : item.cost_cp);
                     const costCredits = item.costs?.credits || item.cost || item.price;
-                    const lin = item.parent_species || item.lineage || item.type || item.category || '—';
+                    const lin = item.parent_species || item.lineage || item.type || item.augmentation_type || item.category || '—';
+                    const rowStage = item.stage || item.augmentation_stage;
                     const isCopied = copiedItemId === (item.id || item.name);
 
                     return (
@@ -817,7 +875,19 @@ export const OmnicortexCatalogView = ({
                           </span>
                         </td>
                         <td className="p-3 text-slate-400 whitespace-nowrap">
-                          {Array.isArray(lin) ? lin.join(', ') : String(lin)}
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            {rowStage && (
+                              <span className={`px-1.5 py-0.2 rounded text-[9px] font-mono font-bold border ${
+                                rowStage.toLowerCase() === 'extreme' ? 'bg-purple-950/80 text-purple-300 border-purple-500/40' :
+                                rowStage.toLowerCase() === 'heavy' ? 'bg-amber-950/80 text-amber-300 border-amber-500/40' :
+                                rowStage.toLowerCase() === 'standard' ? 'bg-cyan-950/80 text-cyan-300 border-cyan-500/40' :
+                                'bg-slate-800/90 text-slate-300 border-slate-600/50'
+                              }`}>
+                                {rowStage}
+                              </span>
+                            )}
+                            <span>{Array.isArray(lin) ? lin.join(', ') : String(lin)}</span>
+                          </div>
                         </td>
                         <td className="p-3 text-center text-cyan-400 font-bold whitespace-nowrap">
                           {tl !== undefined && tl !== null ? tl : '—'}

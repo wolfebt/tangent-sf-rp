@@ -2,11 +2,16 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { useFolio } from '../../../context/FolioContext';
 import { useDice } from '../../../context/DiceContext';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
-import { Sparkles, AlertTriangle, Cpu, Zap, Plus, Edit3, Trash2, Check, Lock, BookOpen, Dices, Search } from 'lucide-react';
-import { METAPHYSICAL_DISCIPLINES } from '../../../data/skillsData';
+import { Sparkles, AlertTriangle, Cpu, Zap, Plus, Edit3, Trash2, Check, Lock, BookOpen, Dices, Search, Star, ChevronDown, ChevronUp } from 'lucide-react';
 import FolioTooltip from '../shared/FolioTooltip';
 import { checkPrerequisite } from '../../../utils/prerequisiteEvaluator';
+import { enrichItemWithModifiers } from '../../../engines/tangentModifierEngine';
 import AugmentationsManager from '../augmentations/AugmentationsManager';
+import { DEFAULT_ARCHETYPES } from '../../../data/archetypesData';
+import { DEFAULT_OCCUPATIONS } from '../../../data/occupationsData';
+import { DEFAULT_SPECIES } from '../../../data/speciesData';
+import { DEFAULT_FACTIONS } from '../../../data/factionsData';
+import { DEFAULT_FEATURES } from '../../../data/featuresData';
 
 export const FeaturesTab = ({ 
   onOpenSelectorModal, 
@@ -92,6 +97,98 @@ export const FeaturesTab = ({
     });
     return result;
   }, [characterData.features]);
+
+  const [isRecExpanded, setIsRecExpanded] = useState(true);
+
+  // Helper to normalize feature or trait name
+  const normalizeFeatName = (name) => {
+    if (!name) return '';
+    return String(name).replace(/^(feature|trait)-/i, '').replace(/[-_]/g, ' ').trim().toLowerCase();
+  };
+
+  // Aggregated Recommended Features from Selected Archetype, Occupation, Species, and Faction
+  const recommendedFeaturesList = useMemo(() => {
+    const list = [];
+    const seen = new Set();
+
+    const addRec = (rawItem, source, category) => {
+      if (!rawItem) return;
+      const rawName = typeof rawItem === 'object' ? (rawItem.name || rawItem.title || rawItem.id || '') : String(rawItem);
+      const cleanName = rawName.replace(/^(feature|trait)-/i, '').replace(/[-_]/g, ' ').trim();
+      const norm = cleanName.toLowerCase();
+      if (!norm || seen.has(norm)) return;
+      seen.add(norm);
+
+      // Try finding canonical feature definition
+      const matched = DEFAULT_FEATURES.find(f => {
+        const fNorm = (f.name || f.id || '').replace(/^(feature|trait)-/i, '').replace(/[-_]/g, ' ').trim().toLowerCase();
+        return fNorm === norm || fNorm.includes(norm) || norm.includes(fNorm);
+      });
+
+      list.push({
+        id: matched?.id || `rec_${norm.replace(/\s+/g, '_')}`,
+        name: matched?.name || cleanName,
+        cp: matched?.cp !== undefined ? matched.cp : 3,
+        source,
+        category: matched?.category || category || 'Recommended',
+        description: matched?.description || matched?.mechanic || (typeof rawItem === 'object' ? rawItem.description : '') || 'Recommended character feature.',
+        rawObj: matched || (typeof rawItem === 'object' ? rawItem : { name: cleanName, cp: 3 })
+      });
+    };
+
+    // 1. Archetype Signature Features
+    const archName = characterData['char-archetype'];
+    if (archName) {
+      const arch = DEFAULT_ARCHETYPES.find(a => (a.name || a.id || '').toLowerCase() === String(archName).toLowerCase());
+      if (arch && Array.isArray(arch.signature_features)) {
+        arch.signature_features.forEach(f => addRec(f, `Archetype: ${arch.name}`, 'Archetype'));
+      }
+    }
+
+    // 2. Species Recommended / Bonus Features
+    const spName = characterData['char-species'];
+    if (spName) {
+      const sp = DEFAULT_SPECIES.find(s => (s.name || s.title || s.id || '').toLowerCase() === String(spName).toLowerCase());
+      if (sp) {
+        if (Array.isArray(sp.recommended_features)) sp.recommended_features.forEach(f => addRec(f, `Species: ${sp.name}`, 'Species'));
+        if (Array.isArray(sp.bonus_feature_choices)) sp.bonus_feature_choices.forEach(f => addRec(f, `Species: ${sp.name}`, 'Species'));
+      }
+    }
+
+    // 3. Occupation Traits / Features
+    const occName = characterData['char-occu'];
+    if (occName) {
+      const occ = DEFAULT_OCCUPATIONS.find(o => (o.name || o.id || '').toLowerCase() === String(occName).toLowerCase());
+      if (occ) {
+        if (Array.isArray(occ.traits)) occ.traits.forEach(t => addRec(t, `Occupation: ${occ.name}`, 'Occupation'));
+        if (Array.isArray(occ.features)) occ.features.forEach(f => addRec(f, `Occupation: ${occ.name}`, 'Occupation'));
+      }
+    }
+
+    // 4. Faction Features / Packages
+    const facName = characterData['char-faction'];
+    if (facName) {
+      const fac = DEFAULT_FACTIONS.find(f => (f.name || f.id || '').toLowerCase().includes(String(facName).toLowerCase()) || String(facName).toLowerCase().includes((f.name || f.id || '').toLowerCase()));
+      if (fac) {
+        if (Array.isArray(fac.traits)) fac.traits.forEach(t => addRec(t, `Faction: ${fac.name}`, 'Faction'));
+        if (Array.isArray(fac.features)) fac.features.forEach(f => addRec(f, `Faction: ${fac.name}`, 'Faction'));
+      }
+    }
+
+    return list;
+  }, [characterData['char-archetype'], characterData['char-species'], characterData['char-occu'], characterData['char-faction']]);
+
+  // Check if a recommended feature is currently acquired
+  const isFeatureAcquired = (featName) => {
+    if (!featName) return false;
+    const normTarget = normalizeFeatName(featName);
+    const existing = getItemList('features');
+    return existing.some(item => {
+      const n = typeof item === 'object' ? (item.name || item.title || item.id || '') : String(item);
+      const nNorm = normalizeFeatName(n);
+      return nNorm === normTarget || (normTarget.length > 3 && (nNorm.includes(normTarget) || normTarget.includes(nNorm)));
+    });
+  };
 
   // Group standard features by category/type
   const groupedStandardFeatures = useMemo(() => {
@@ -604,6 +701,113 @@ export const FeaturesTab = ({
       </div>
 
       {/* ══════════════════════════════════════════════════════════════════ */}
+      {/* 0. RECOMMENDED FEATURES DRAWER (Aggregated from Archetype, Species, Occupation, Faction) */}
+      {/* ══════════════════════════════════════════════════════════════════ */}
+      {showStandardFeatures && recommendedFeaturesList.length > 0 && (
+        <div className="bg-slate-900/90 border border-amber-500/40 rounded-xl p-4 shadow-lg space-y-3">
+          <div
+            onClick={() => setIsRecExpanded(prev => !prev)}
+            className="flex items-center justify-between cursor-pointer select-none border-b border-amber-950/80 pb-2.5"
+          >
+            <div className="flex items-center gap-2">
+              <Star className="w-4 h-4 text-amber-400 fill-amber-400/20" />
+              <h3 className="text-sm font-bold uppercase tracking-widest text-amber-400">
+                Recommended Features ({recommendedFeaturesList.length})
+              </h3>
+              <span className="text-[11px] text-slate-400 hidden sm:inline">
+                • Synergistic picks from Archetype, Species, Occupation & Faction
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-950/80 border border-amber-500/40 text-amber-300 font-bold">
+                {recommendedFeaturesList.filter(f => isFeatureAcquired(f.name)).length} / {recommendedFeaturesList.length} Acquired
+              </span>
+              <button
+                type="button"
+                className="p-1 text-slate-400 hover:text-white transition-colors"
+                title={isRecExpanded ? "Collapse recommendations" : "Expand recommendations"}
+              >
+                {isRecExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+              </button>
+            </div>
+          </div>
+
+          {isRecExpanded && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 pt-1">
+              {recommendedFeaturesList.map((rec) => {
+                const acquired = isFeatureAcquired(rec.name);
+                return (
+                  <div
+                    key={rec.id}
+                    className={`p-2.5 rounded-lg border text-xs flex flex-col justify-between transition-all ${
+                      acquired
+                        ? 'bg-amber-950/20 border-amber-500/50 shadow-[0_0_8px_rgba(245,158,11,0.15)]'
+                        : 'bg-slate-950/80 border-slate-800 hover:border-amber-500/40'
+                    }`}
+                  >
+                    <div>
+                      <div className="flex items-start justify-between gap-1.5 mb-1">
+                        <div>
+                          <div className="font-bold text-slate-100 flex items-center gap-1">
+                            <span>{rec.name}</span>
+                            {acquired && (
+                              <span className="text-[9px] font-mono px-1 py-0.2 rounded bg-amber-500/20 border border-amber-500/60 text-amber-300 font-bold">
+                                ✓ Acquired
+                              </span>
+                            )}
+                          </div>
+                          <span className="text-[9.5px] font-mono text-amber-400/90 block">
+                            {rec.source}
+                          </span>
+                        </div>
+                        <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-cyan-300 shrink-0">
+                          {rec.cp} CP
+                        </span>
+                      </div>
+
+                      {rec.description && (
+                        <p className="text-[10.5px] text-slate-400 line-clamp-2 leading-relaxed mb-2">
+                          {rec.description}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="flex items-center justify-between pt-1.5 mt-auto border-t border-slate-900">
+                      <span className="text-[9px] font-mono text-slate-500 uppercase">
+                        {rec.category}
+                      </span>
+                      {!acquired ? (
+                        <button
+                          type="button"
+                          onClick={() => handleAddItem('features', {
+                            id: rec.id || `feat_${Date.now()}`,
+                            name: rec.name,
+                            category: rec.category || 'General',
+                            type: (rec.category || 'general').toLowerCase(),
+                            cp: rec.cp !== undefined ? rec.cp : 3,
+                            description: rec.description
+                          })}
+                          className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/60 text-amber-200 hover:text-white transition-all cursor-pointer flex items-center gap-1 shadow-none active:scale-95"
+                          title={`Add ${rec.name} to character features`}
+                        >
+                          <Plus className="w-3 h-3" />
+                          <span>Add Feature</span>
+                        </button>
+                      ) : (
+                        <span className="text-[9.5px] font-mono text-emerald-400 font-bold">
+                          Active in Sheet
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ══════════════════════════════════════════════════════════════════ */}
       {/* 1. STANDARD / GENERAL FEATURES SUBSECTION */}
       {/* ══════════════════════════════════════════════════════════════════ */}
       {showStandardFeatures && (
@@ -667,7 +871,8 @@ export const FeaturesTab = ({
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
-                      {group.items.map((item) => {
+                      {group.items.map((rawItem) => {
+                        const item = enrichItemWithModifiers(rawItem);
                         const name = typeof item === 'object' ? (item.name || item.title) : item;
                         const isSpeciesGranted = typeof item === 'object' && (
                           item.source === 'species' || 
@@ -683,7 +888,10 @@ export const FeaturesTab = ({
                         const desc = typeof item === 'object' ? (item.description || item.mechanic || item.summary || '') : '';
                         const featCategory = typeof item === 'object' ? (item.category || item.type || group.type || 'Feature') : (group.type || 'Feature');
                         const featPrereq = typeof item === 'object' ? (item.prerequisites || item.prereq || '') : '';
-                        const featMechanic = typeof item === 'object' ? (item.mechanic || '') : '';
+                        const featMechanic = typeof item === 'object' ? (item.mechanic || item.mechanics || '') : '';
+                        const featRules = typeof item === 'object' ? (item.rules || item.special_rules || '') : '';
+                        const featNotes = typeof item === 'object' ? (item.notes || '') : '';
+                        const featModifiers = Array.isArray(item?.modifiers) ? item.modifiers : [];
                         const featBadgeColor = featCategory.toLowerCase().includes('combat') ? 'rose' :
                           featCategory.toLowerCase().includes('ability') ? 'amber' :
                           featCategory.toLowerCase().includes('karma') ? 'purple' :
@@ -709,6 +917,9 @@ export const FeaturesTab = ({
                                   badgeColor={featBadgeColor}
                                   description={desc || 'Operative feature.'}
                                   formula={featMechanic || undefined}
+                                  rules={featRules || undefined}
+                                  notes={featNotes || undefined}
+                                  modifiers={featModifiers}
                                   prerequisites={featPrereq || prereqResult.prerequisiteText || undefined}
                                   prerequisiteMet={!isPrereqUnmet}
                                   prerequisiteUnmetReasons={prereqResult.unmetReasons}
@@ -742,10 +953,42 @@ export const FeaturesTab = ({
                                   {cpCostDisplay}
                                 </span>
                               </div>
+
+                              {/* Active Modifier Chips */}
+                              {featModifiers.length > 0 && (
+                                <div className="flex flex-wrap gap-1 mb-1.5">
+                                  {featModifiers.map((m, mIdx) => {
+                                    const val = typeof m === 'object' ? m.value : null;
+                                    const isNeg = typeof val === 'number' && val < 0;
+                                    const label = typeof m === 'object' ? (m.description || `${val >= 0 ? '+' : ''}${val} ${m.target}`) : String(m);
+                                    return (
+                                      <span
+                                        key={mIdx}
+                                        className={`px-1.5 py-0.2 text-[9px] font-mono font-bold rounded border ${
+                                          isNeg
+                                            ? 'bg-rose-950/80 text-rose-300 border-rose-800/70'
+                                            : 'bg-cyan-950/80 text-cyan-300 border-cyan-700/70'
+                                        }`}
+                                      >
+                                        {label}
+                                      </span>
+                                    );
+                                  })}
+                                </div>
+                              )}
+
                               {desc && (
                                 <p className="text-[11px] text-slate-400 leading-relaxed line-clamp-3 mb-2">
                                   {desc}
                                 </p>
+                              )}
+
+                              {/* Inline Mechanics Snippet */}
+                              {featMechanic && (
+                                <div className="bg-slate-900/60 border border-slate-800/80 rounded px-2 py-1 text-[10px] font-mono text-cyan-200/90 mb-2 line-clamp-2">
+                                  <span className="font-bold text-slate-500 mr-1 uppercase text-[8.5px]">Mech:</span>
+                                  {featMechanic}
+                                </div>
                               )}
                             </div>
 
@@ -1388,10 +1631,15 @@ export const FeaturesTab = ({
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
-                      {group.items.map((item) => {
+                      {group.items.map((rawItem) => {
+                        const item = enrichItemWithModifiers(rawItem);
                         const name = typeof item === 'object' ? (item.name || item.title) : item;
                         const refundCp = typeof item === 'object' && item.cp !== undefined ? item.cp : 3;
                         const desc = typeof item === 'object' ? (item.description || item.summary || '') : '';
+                        const hindMechanic = typeof item === 'object' ? (item.mechanic || item.mechanics || '') : '';
+                        const hindRules = typeof item === 'object' ? (item.rules || item.special_rules || '') : '';
+                        const hindNotes = typeof item === 'object' ? (item.notes || '') : '';
+                        const hindModifiers = Array.isArray(item?.modifiers) ? item.modifiers : [];
 
                         return (
                           <div
@@ -1405,6 +1653,10 @@ export const FeaturesTab = ({
                                   badge={group.type || 'Hindrance'}
                                   badgeColor="rose"
                                   description={desc || 'Operative handicap, social flaw, or physical penalty.'}
+                                  formula={hindMechanic || undefined}
+                                  rules={hindRules || undefined}
+                                  notes={hindNotes || undefined}
+                                  modifiers={hindModifiers}
                                   cost={`-${refundCp} CP Refund`}
                                   tags={['Hindrance', 'CP Refund']}
                                   showInfoIcon={true}
@@ -1417,10 +1669,42 @@ export const FeaturesTab = ({
                                   -{refundCp} CP
                                 </span>
                               </div>
+
+                              {/* Active Modifier / Penalty Chips */}
+                              {hindModifiers.length > 0 && (
+                                <div className="flex flex-wrap gap-1 mb-1.5">
+                                  {hindModifiers.map((m, mIdx) => {
+                                    const val = typeof m === 'object' ? m.value : null;
+                                    const isNeg = typeof val === 'number' && val < 0;
+                                    const label = typeof m === 'object' ? (m.description || `${val >= 0 ? '+' : ''}${val} ${m.target}`) : String(m);
+                                    return (
+                                      <span
+                                        key={mIdx}
+                                        className={`px-1.5 py-0.2 text-[9px] font-mono font-bold rounded border ${
+                                          isNeg
+                                            ? 'bg-rose-950/80 text-rose-300 border-rose-800/70'
+                                            : 'bg-amber-950/80 text-amber-300 border-amber-800/70'
+                                        }`}
+                                      >
+                                        {label}
+                                      </span>
+                                    );
+                                  })}
+                                </div>
+                              )}
+
                               {desc && (
                                 <p className="text-[11px] text-slate-400 leading-relaxed line-clamp-3 mb-2">
                                   {desc}
                                 </p>
+                              )}
+
+                              {/* Inline Mechanics Snippet */}
+                              {hindMechanic && (
+                                <div className="bg-slate-900/60 border border-slate-800/80 rounded px-2 py-1 text-[10px] font-mono text-rose-200/90 mb-2 line-clamp-2">
+                                  <span className="font-bold text-slate-500 mr-1 uppercase text-[8.5px]">Mech:</span>
+                                  {hindMechanic}
+                                </div>
                               )}
                             </div>
 

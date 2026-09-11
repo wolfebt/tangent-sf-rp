@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { fileURLToPath } from 'url';
+import { enrichItemWithModifiers } from '../src/engines/tangentModifierEngine.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -51,13 +52,25 @@ function syncFeatures() {
     // Extract mechanic snippet from markdown body if not in frontmatter
     let mechanic = data.mechanic || '';
     if (!mechanic && body) {
-      const mechMatch = body.match(/## Mechanics & Benefit[s]?\s*([\s\S]*?)(?=##|$)/i);
+      const mechMatch = body.match(/(?:^|\n)## Mechanics[^\n]*\n([\s\S]*?)(?=(?:\n##\s)|$)/i);
       if (mechMatch) {
         mechanic = mechMatch[1].trim();
       }
     }
+    if (!mechanic) {
+      mechanic = data.description || '';
+    }
 
-    const featureObj = {
+    // Extract special rules from markdown body if not in frontmatter
+    let rules = data.rules || data.special_rules || '';
+    if (!rules && body) {
+      const ruleMatch = body.match(/(?:^|\n)## Special Rules[^\n]*\n([\s\S]*?)(?=(?:\n##\s)|$)/i);
+      if (ruleMatch) {
+        rules = ruleMatch[1].trim();
+      }
+    }
+
+    const rawFeatureObj = {
       id,
       name,
       category,
@@ -70,9 +83,12 @@ function syncFeatures() {
       modifiers: Array.isArray(data.modifiers) ? data.modifiers : [],
       description: data.description || '',
       mechanic: mechanic,
+      rules: rules,
+      special_rules: rules,
       body: body
     };
 
+    const featureObj = enrichItemWithModifiers(rawFeatureObj);
     featuresList.push(featureObj);
   }
 

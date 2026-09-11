@@ -5,6 +5,14 @@
 
 export const DEFAULT_AUGMENTATION_TYPES = [
   {
+    "id": "aug_type-negligible",
+    "name": "Negligible (Fashionware & Utilities)",
+    "tl": 3,
+    "bp": 0,
+    "nodes": 0,
+    "description": "Baseline low-invasive options, cosmetic fashionware, personal convenience implants, and standard unenhanced prosthetics requiring 0 BP, 0 Nodes, and no augmentation feature."
+  },
+  {
     "id": "aug_type-sensory",
     "name": "Sensory Modifications",
     "tl": 3,

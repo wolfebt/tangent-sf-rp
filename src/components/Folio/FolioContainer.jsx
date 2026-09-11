@@ -29,6 +29,7 @@ import PrintFolio from './print/PrintFolio';
 import { attachCreatorTag } from '../../utils/creatorUtils';
 import { confirmTypedDeletion } from '../../utils/confirmationUtils';
 import { resolveMetaSkillForInvocation } from '../../utils/metaphysicsUtils';
+import { enrichItemWithModifiers } from '../../engines/tangentModifierEngine';
 import { FolioGuideModal } from './FolioGuideModal';
 import GuidedCreatorModal from './modals/GuidedCreatorModal';
 import { UserSettingsModal } from '../UserSettingsModal';
@@ -362,9 +363,14 @@ const FolioContainer = () => {
         handleAddItem('invocations', itemObj);
       }
     } else {
-      const rawObj = typeof value === 'object' 
+      let rawObj = typeof value === 'object' 
         ? { id: value.id || `item_${Date.now()}`, ...value, name: value.name || value.title, description: value.description || '', cp: value.cp || 0, category: value.category || '' } 
         : { id: `item_${Date.now()}`, name: value, description: '', cp: 0 };
+      
+      if (['features', 'traits', 'hindrances', 'disadvantages'].includes(key)) {
+        rawObj = enrichItemWithModifiers(rawObj);
+      }
+      
       const itemObj = attachCreatorTag(rawObj, userHandle, currentUser);
       handleAddItem(key, itemObj);
     }

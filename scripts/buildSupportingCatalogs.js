@@ -26,8 +26,9 @@ const standardCostsAndSockets = {
   sockets: { max: 0, used: 0, tier: 'Socket', allocated: [] }
 };
 
-// 1. Augmentation Types (11 entries)
+// 1. Augmentation Types (12 entries)
 const AUGMENTATION_TYPES = [
+  { id: 'aug_type-negligible', name: 'Negligible (Fashionware & Utilities)', tl: 3, bp: 0, nodes: 0, description: 'Baseline low-invasive options, cosmetic fashionware, personal convenience implants, and standard unenhanced prosthetics requiring 0 BP, 0 Nodes, and no augmentation feature.' },
   { id: 'aug_type-sensory', name: 'Sensory Modifications', tl: 3, bp: 2, nodes: 2, description: 'Nightvision, radar/sonar, teleoptics, acoustic enhancers, bug detectors, and multispectral vision suites.' },
   { id: 'aug_type-neural', name: 'Brain & Neural Mods', tl: 3, bp: 2, nodes: 2, description: 'Neural processors, ghost jacks, skill circuitry, reflex co-processors, memory buffers, and cyber-occult links.' },
   { id: 'aug_type-bioware', name: 'TL4 Enhanced (Bioware)', tl: 4, bp: 2, nodes: 5, description: 'Seamless biological and cellular enhancement. Immune to Massive Damage disablement; naturally regenerates 1 SP/hour.' },

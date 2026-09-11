@@ -6,6 +6,7 @@ import {
   formatHeightWithConversion,
   formatWeightWithConversion
 } from '../../../engines/tangentMeasurementEngine';
+import { enrichItemWithModifiers } from '../../../engines/tangentModifierEngine';
 
 const DEFAULT_PHYSICAL_SKILLS = ['Acrobatics', 'Athletics', 'Piloting', 'Stealth'];
 const DEFAULT_MENTAL_SKILLS = ['Alertness', 'Academics'];
@@ -560,12 +561,19 @@ const PrintFolio = ({ characterData, isScreenPreview = false }) => {
                 <div className="border border-black p-1 bg-gray-50">
                   <div className="font-bold text-[8px] uppercase border-b border-black pb-0.5">SPECIES TRAITS</div>
                   <div className="text-[8px] mt-1 space-y-0.5">
-                    {features.filter(f => (typeof f === 'object' ? f.category : '').toLowerCase().includes('species')).map((f, i) => (
-                      <div key={i} className="flex justify-between">
-                        <span className="font-semibold">{typeof f === 'object' ? f.name : f}</span>
-                        <span className="italic text-[7.5px]">{typeof f === 'object' ? f.description : ''}</span>
-                      </div>
-                    ))}
+                    {features.filter(f => (typeof f === 'object' ? f.category : '').toLowerCase().includes('species')).map((rawF, i) => {
+                      const f = enrichItemWithModifiers(rawF);
+                      const modSummary = f.modifiers && f.modifiers.length > 0
+                        ? f.modifiers.map(m => m.description || `${m.value >= 0 ? '+' : ''}${m.value} ${m.target}`).join(', ')
+                        : '';
+                      const effectText = [modSummary, f.mechanic || f.description || ''].filter(Boolean).join(' — ');
+                      return (
+                        <div key={i} className="flex justify-between">
+                          <span className="font-semibold">{f.name || 'Trait'}</span>
+                          <span className="italic text-[7.5px] text-right truncate max-w-[65%]">{effectText}</span>
+                        </div>
+                      );
+                    })}
                     {features.filter(f => (typeof f === 'object' ? f.category : '').toLowerCase().includes('species')).length === 0 && (
                       <div className="text-gray-400 italic">No specific species traits recorded</div>
                     )}
@@ -587,14 +595,21 @@ const PrintFolio = ({ characterData, isScreenPreview = false }) => {
                 </div>
 
                 <div className="border border-black p-1 bg-gray-50 flex-1">
-                  <div className="font-bold text-[8px] uppercase border-b border-black pb-0.5">DISADVANTAGES & OTHER TRAITS</div>
+                  <div className="font-bold text-[8px] uppercase border-b border-black pb-0.5">DISADVANTAGES &amp; OTHER TRAITS</div>
                   <div className="text-[8px] mt-1 space-y-0.5">
-                    {disadvantages.map((d, i) => (
-                      <div key={i} className="flex justify-between">
-                        <span className="font-semibold">{typeof d === 'object' ? d.name : d}</span>
-                        <span className="italic text-[7.5px]">{typeof d === 'object' ? d.description : ''}</span>
-                      </div>
-                    ))}
+                    {disadvantages.map((rawD, i) => {
+                      const d = enrichItemWithModifiers(rawD);
+                      const modSummary = d.modifiers && d.modifiers.length > 0
+                        ? d.modifiers.map(m => m.description || `${m.value >= 0 ? '+' : ''}${m.value} ${m.target}`).join(', ')
+                        : '';
+                      const effectText = [modSummary, d.mechanic || d.description || ''].filter(Boolean).join(' — ');
+                      return (
+                        <div key={i} className="flex justify-between">
+                          <span className="font-semibold">{d.name || 'Hindrance'}</span>
+                          <span className="italic text-[7.5px] text-right truncate max-w-[65%]">{effectText}</span>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
@@ -607,12 +622,19 @@ const PrintFolio = ({ characterData, isScreenPreview = false }) => {
                 <span>EFFECT</span>
               </div>
               <div className="flex-1 space-y-0.5">
-                {features.map((f, i) => (
-                  <div key={i} className="folio-line-row flex justify-between items-center px-1">
-                    <span className="font-bold text-[8px]">{typeof f === 'object' ? f.name : f}</span>
-                    <span className="text-[7.5px] text-gray-700">{typeof f === 'object' ? (f.description || f.mechanic || '') : ''}</span>
-                  </div>
-                ))}
+                {features.map((rawF, i) => {
+                  const f = enrichItemWithModifiers(rawF);
+                  const modSummary = f.modifiers && f.modifiers.length > 0
+                    ? f.modifiers.map(m => m.description || `${m.value >= 0 ? '+' : ''}${m.value} ${m.target}`).join(', ')
+                    : '';
+                  const effectText = [modSummary, f.mechanic || f.description || ''].filter(Boolean).join(' — ');
+                  return (
+                    <div key={i} className="folio-line-row flex justify-between items-center px-1">
+                      <span className="font-bold text-[8px]">{f.name || 'Feature'}</span>
+                      <span className="text-[7.5px] text-gray-700 truncate max-w-[65%]">{effectText}</span>
+                    </div>
+                  );
+                })}
                 {Array.from({ length: Math.max(0, 8 - features.length) }).map((_, idx) => (
                   <div key={idx} className="folio-line-row h-4"></div>
                 ))}

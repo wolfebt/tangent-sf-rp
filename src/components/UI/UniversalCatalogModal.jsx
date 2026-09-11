@@ -48,6 +48,7 @@ import { DEFAULT_AUGMENTATIONS } from '../../data/augmentationsData';
 import { DEFAULT_INVOCATIONS } from '../../data/invocationsData';
 import { DEFAULT_SPECIES_SIZES } from '../../data/speciesSizeData';
 import { DEFAULT_SPECIES_MOVEMENT } from '../../data/speciesMovementData';
+import { DEFAULT_AUGMENTATION_TYPES, DEFAULT_BODY_LOCATIONS } from '../../data/supportingCatalogsData';
 
 // Canonical Core Disciplines for default/fallback catalog load
 export const DEFAULT_DISCIPLINES = [
@@ -112,6 +113,8 @@ const FALLBACK_CATALOG_DATA = {
   origins: DEFAULT_ORIGINS,
   factions: DEFAULT_FACTIONS,
   invocations: DEFAULT_INVOCATIONS,
+  augmentation_type: DEFAULT_AUGMENTATION_TYPES,
+  body_location: DEFAULT_BODY_LOCATIONS,
   special_abilities: [],
   mecha: []
 };
@@ -329,6 +332,29 @@ export const UniversalCatalogModal = ({
     }
   };
 
+  // Clean title removing any redundant trailing "Catalog"
+  const cleanTitle = useMemo(() => {
+    return (title || 'Catalog').replace(/\s+catalog$/i, '').trim() || 'Item';
+  }, [title]);
+
+  const displayTitle = useMemo(() => {
+    return `${cleanTitle} Catalog`;
+  }, [cleanTitle]);
+
+  // Derived singular name for build action buttons (e.g., "Augmentations" -> "Augmentation")
+  const singularEntity = useMemo(() => {
+    const lower = cleanTitle.toLowerCase();
+    if (lower === 'augmentations') return 'Augmentation';
+    if (lower === 'species') return 'Species';
+    if (lower === 'weaponry') return 'Weapon';
+    if (lower === 'armoring') return 'Armor';
+    if (lower === 'gear') return 'Gear Item';
+    if (lower.endsWith('ies')) return cleanTitle.slice(0, -3) + 'y';
+    if (lower.endsWith('es') && !lower.endsWith('sses')) return cleanTitle.slice(0, -2);
+    if (lower.endsWith('s') && !lower.endsWith('ss')) return cleanTitle.slice(0, -1);
+    return cleanTitle;
+  }, [cleanTitle]);
+
   // Map collectionKey alias to primary canonical name
   const canonicalColKey = useMemo(() => {
     if (['weapons', 'attacks', 'weaponry'].includes(collectionKey)) return 'weaponry';
@@ -419,6 +445,29 @@ export const UniversalCatalogModal = ({
       } else {
         baseList = FALLBACK_CATALOG_DATA[canonicalColKey] || [];
       }
+    }
+
+    // Special reconciliation for augmentations: ensure all canonical default augmentations
+    // (including Negligible fashionware & utilities) are present and have accurate stage normalization
+    if (canonicalColKey === 'augmentations') {
+      const itemMap = new Map();
+      // First populate with default canonical augmentations
+      (DEFAULT_AUGMENTATIONS || []).forEach(aug => {
+        const key = (aug.id || aug.name || '').toLowerCase();
+        itemMap.set(key, { ...aug, stage: getAugmentationStage(aug) });
+      });
+      // Layer loaded/cloud items on top, preserving canonical stage when applicable
+      baseList.forEach(item => {
+        const key = (item.id || item.name || '').toLowerCase();
+        const existing = itemMap.get(key);
+        const resolvedStage = getAugmentationStage({ ...existing, ...item });
+        itemMap.set(key, {
+          ...(existing || {}),
+          ...item,
+          stage: resolvedStage
+        });
+      });
+      baseList = Array.from(itemMap.values());
     }
 
     if (includeCategoryGroups) {
@@ -929,6 +978,7 @@ export const UniversalCatalogModal = ({
         stage === 'Extreme' ? 'bg-purple-950/80 border-purple-800/60 text-purple-300' :
         stage === 'Heavy' ? 'bg-amber-950/80 border-amber-800/60 text-amber-300' :
         stage === 'Standard' ? 'bg-cyan-950/80 border-cyan-800/60 text-cyan-300' :
+        stage === 'Negligible' ? 'bg-slate-800/90 border-slate-600/60 text-slate-300 font-semibold' :
         'bg-slate-900 border-slate-700 text-slate-400';
 
       return (
@@ -1000,7 +1050,7 @@ export const UniversalCatalogModal = ({
             <div>
               <div className="flex items-center gap-2">
                 <h3 className={`text-base font-bold uppercase tracking-wider ${themeText}`}>
-                  {title} Catalog
+                  {displayTitle}
                 </h3>
                 <span className="px-2 py-0.5 rounded-full bg-slate-900 border border-slate-700 text-[10px] font-mono text-slate-400">
                   {processedItems.length} {processedItems.length === 1 ? 'entry' : 'entries'}
@@ -1024,10 +1074,10 @@ export const UniversalCatalogModal = ({
                 type="button"
                 onClick={handleBuildNew}
                 className="px-3.5 py-1.5 bg-amber-600 hover:bg-amber-500 text-white rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-[0_0_15px_rgba(245,158,11,0.35)] cursor-pointer"
-                title={`Build and persist a new ${title} record`}
+                title={`Build and persist a new ${singularEntity} record`}
               >
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>+ Build New {title}</span>
+                <span>+ Build New {singularEntity}</span>
               </button>
             )}
 
@@ -1053,7 +1103,7 @@ export const UniversalCatalogModal = ({
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={`Search ${title.toLowerCase()} by name, tags, description...`}
+                placeholder={`Search ${cleanTitle.toLowerCase()} by name, tags, description...`}
                 className="w-full bg-slate-950 border border-slate-700/90 focus:border-cyan-400 rounded-lg pl-9 pr-8 py-2 text-xs text-slate-100 placeholder-slate-500 outline-none transition-all shadow-inner"
               />
               {searchQuery && (
@@ -1168,7 +1218,7 @@ export const UniversalCatalogModal = ({
               </div>
               <div className="space-y-1">
                 <h4 className="text-sm font-bold text-slate-200">
-                  No matching {title.toLowerCase()} found
+                  No matching {cleanTitle.toLowerCase()} found
                 </h4>
                 <p className="text-xs text-slate-400">
                   {searchQuery
@@ -1184,7 +1234,7 @@ export const UniversalCatalogModal = ({
                   className="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-lg text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-[0_0_15px_rgba(245,158,11,0.35)] cursor-pointer"
                 >
                   <Sparkles className="w-4 h-4" />
-                  <span>Build New {title} Entry</span>
+                  <span>Build New {singularEntity} Entry</span>
                 </button>
               )}
             </div>

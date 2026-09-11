@@ -1474,22 +1474,26 @@ export function calculateBaseToughness(staminaScore = 0) {
 export function calculateVitalityHealthPools({
   vitalityBP = 0,
   healthBP = 0,
+  structureBP = 0,
   isSynthetic = false,
   staminaScore = undefined
 } = {}) {
   const hasStaminaCap = staminaScore !== undefined && staminaScore !== null;
   const maxIncrease = hasStaminaCap ? Math.max(0, Number(staminaScore) * 5) : Infinity;
-  const requestedVitalityBonus = Math.max(0, Number(vitalityBP || 0)) * 5;
-  const requestedHealthBonus = Math.max(0, Number(healthBP || 0)) * 5;
+  const requestedVitalityBonus = Math.max(0, Number(vitalityBP || 0)) * 2;
+  const requestedHealthBonus = Math.max(0, Number(healthBP || 0)) * 2;
+  const requestedStructureBonus = Math.max(0, Number(structureBP || 0)) * 2;
   const purchasedVitality = hasStaminaCap ? Math.min(requestedVitalityBonus, maxIncrease) : requestedVitalityBonus;
   const purchasedHealth = hasStaminaCap ? Math.min(requestedHealthBonus, maxIncrease) : requestedHealthBonus;
+  const purchasedStructure = requestedStructureBonus;
 
   const baseVitality = VITALITY_HEALTH_STRUCTURE_RULES.startingBaseVitality + purchasedVitality;
   const baseHealth = VITALITY_HEALTH_STRUCTURE_RULES.startingBaseHealth + purchasedHealth;
+  const baseStructure = (VITALITY_HEALTH_STRUCTURE_RULES.startingBaseStructure || 60) + purchasedStructure;
   const toughness = calculateBaseToughness(staminaScore || 0);
 
   if (isSynthetic) {
-    const structurePoints = baseVitality + baseHealth;
+    const structurePoints = baseStructure + (purchasedVitality + purchasedHealth);
     return {
       vitality: 0,
       health: 0,
@@ -1501,10 +1505,12 @@ export function calculateVitalityHealthPools({
       isSynthetic: true,
       purchasedVitality,
       purchasedHealth,
+      purchasedStructure,
       maxVitalityIncrease: maxIncrease,
       maxHealthIncrease: maxIncrease,
-      vitalityBPCost: Math.ceil(purchasedVitality / 5),
-      healthBPCost: Math.ceil(purchasedHealth / 5),
+      vitalityBPCost: Math.ceil(purchasedVitality / 2),
+      healthBPCost: Math.ceil(purchasedHealth / 2),
+      structureBPCost: Math.ceil(purchasedStructure / 2),
       suggestedMax: VITALITY_HEALTH_STRUCTURE_RULES.suggestedStartingMax
     };
   }
@@ -1520,10 +1526,12 @@ export function calculateVitalityHealthPools({
     isSynthetic: false,
     purchasedVitality,
     purchasedHealth,
+    purchasedStructure: 0,
     maxVitalityIncrease: maxIncrease,
     maxHealthIncrease: maxIncrease,
-    vitalityBPCost: Math.ceil(purchasedVitality / 5),
-    healthBPCost: Math.ceil(purchasedHealth / 5),
+    vitalityBPCost: Math.ceil(purchasedVitality / 2),
+    healthBPCost: Math.ceil(purchasedHealth / 2),
+    structureBPCost: 0,
     suggestedMax: VITALITY_HEALTH_STRUCTURE_RULES.suggestedStartingMax
   };
 }
@@ -2254,17 +2262,15 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
     });
   }
 
-  // 1b. Technology Level (TL3 = 0 CP Baseline; TL4 = +10 CP; TL5 = +20 CP; TL2 = -10 CP; TL1 = -20 CP)
+  // 1b. Technology Level (TL 0-5; TL3 = 0 CP Baseline; 10 CP / diff from 3)
   const rawTL = characterData['tech-level'] !== undefined && characterData['tech-level'] !== null && characterData['tech-level'] !== ''
     ? parseInt(characterData['tech-level'], 10)
     : 3;
-  const techLevel = isNaN(rawTL) ? 3 : rawTL;
-  let techLevelCost = 0;
-  if (techLevel !== 3) {
-    techLevelCost = (techLevel - 3) * 10;
-  }
+  const techLevel = Math.min(5, Math.max(0, isNaN(rawTL) ? 3 : rawTL));
+  const techLevelCost = (techLevel - 3) * 10;
 
   const tlLabels = {
+    0: 'TL0 - Stone Age (-30 CP Refund)',
     1: 'TL1 - Primitive (-20 CP Refund)',
     2: 'TL2 - Industrial (-10 CP Refund)',
     3: 'TL3 - Spacefaring Standard (0 CP Baseline)',
@@ -2277,6 +2283,29 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
     val: tlLabels[techLevel] || `Tech Level ${techLevel} (${techLevelCost >= 0 ? '+' : ''}${techLevelCost} CP)`,
     costVal: techLevelCost,
     cost: techLevelCost === 0 ? '0 CP' : (techLevelCost > 0 ? `${techLevelCost} CP` : `-${Math.abs(techLevelCost)} CP`)
+  });
+
+  // 1c. Meta Level (ML 0-5; ML3 = 0 CP Baseline; 10 CP / diff from 3)
+  const rawML = characterData['magic-level'] !== undefined && characterData['magic-level'] !== null && characterData['magic-level'] !== ''
+    ? parseInt(characterData['magic-level'], 10)
+    : (characterData['meta-level'] !== undefined && characterData['meta-level'] !== null && characterData['meta-level'] !== '' ? parseInt(characterData['meta-level'], 10) : 3);
+  const metaLevel = Math.min(5, Math.max(0, isNaN(rawML) ? 3 : rawML));
+  const metaLevelCost = (metaLevel - 3) * 10;
+
+  const mlLabels = {
+    0: 'ML0 - Mundane / Null (-30 CP Refund)',
+    1: 'ML1 - Latent / Low Magic (-20 CP Refund)',
+    2: 'ML2 - Practiced (-10 CP Refund)',
+    3: 'ML3 - Standard Metaphysics (0 CP Baseline)',
+    4: 'ML4 - High Magic / Adept (+10 CP)',
+    5: 'ML5 - Archon / Mythic (+20 CP)'
+  };
+  itemizedList.push({
+    category: 'Meta Level',
+    item: `Meta Level ${metaLevel}`,
+    val: mlLabels[metaLevel] || `Meta Level ${metaLevel} (${metaLevelCost >= 0 ? '+' : ''}${metaLevelCost} CP)`,
+    costVal: metaLevelCost,
+    cost: metaLevelCost === 0 ? '0 CP' : (metaLevelCost > 0 ? `${metaLevelCost} CP` : `-${Math.abs(metaLevelCost)} CP`)
   });
 
   // 2. Primary Attributes & Species/Pool Granted Attribute Modifiers
@@ -2912,27 +2941,43 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
     }
   });
 
-  // 14. Purchased Stats Cost (Health & Vitality)
+  // 14. Purchased Stats Cost (Health & Vitality & Structure: 1 CP per 2 pt increase)
   let purchasedStatsCost = 0;
-  if (derivedStats.purchasedHealth > 0) {
-    const cost = Math.ceil(derivedStats.purchasedHealth / 5);
+  const pHealth = derivedStats?.purchasedHealth || 0;
+  const pVitality = derivedStats?.purchasedVitality || 0;
+  const pStructure = derivedStats?.purchasedStructure || 0;
+
+  if (pHealth > 0) {
+    const cost = Math.ceil(pHealth / 2);
     purchasedStatsCost += cost;
     itemizedList.push({
       category: 'Purchased Stat',
       item: 'Bonus Health',
-      val: `+${derivedStats.purchasedHealth} Health`,
+      val: `+${pHealth} Health (1 CP / 2 pts)`,
       costVal: cost,
       cost: `${cost} CP`
     });
   }
 
-  if (derivedStats.purchasedVitality > 0) {
-    const cost = Math.ceil(derivedStats.purchasedVitality / 5);
+  if (pVitality > 0) {
+    const cost = Math.ceil(pVitality / 2);
     purchasedStatsCost += cost;
     itemizedList.push({
       category: 'Purchased Stat',
       item: 'Bonus Vitality',
-      val: `+${derivedStats.purchasedVitality} Vitality`,
+      val: `+${pVitality} Vitality (1 CP / 2 pts)`,
+      costVal: cost,
+      cost: `${cost} CP`
+    });
+  }
+
+  if (pStructure > 0) {
+    const cost = Math.ceil(pStructure / 2);
+    purchasedStatsCost += cost;
+    itemizedList.push({
+      category: 'Purchased Stat',
+      item: 'Bonus Structure',
+      val: `+${pStructure} Structure (1 CP / 2 pts)`,
       costVal: cost,
       cost: `${cost} CP`
     });
@@ -2942,6 +2987,7 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
   const spentCP = (
     identityCost +
     techLevelCost +
+    metaLevelCost +
     primaryAttrCost +
     subAttrCost +
     featuresCost +
@@ -2987,6 +3033,9 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
     augmentationsCost,
     techLevel,
     techLevelCost,
+    metaLevel,
+    metaLevelCost,
+    purchasedStatsCost,
     identityPools,
     speciesCostBreakdown,
     itemizedList

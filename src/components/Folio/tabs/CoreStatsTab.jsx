@@ -295,12 +295,13 @@ const CoreStatsTab = () => {
 
   const handleStatChange = (id, val) => {
     let newVal = parseInt(val, 10) || 0;
-    const minVal = id === 'health' ? (derivedStats?.health || 30) : id === 'vitality' ? (derivedStats?.vitality || 30) : 0;
+    const minVal = id === 'health' ? (derivedStats?.health || 30) : id === 'vitality' ? (derivedStats?.vitality || 30) : id === 'structure' ? 60 : 0;
     if (newVal < minVal) {
       newVal = minVal;
     }
-    if (newVal > (derivedStats?.maxAllowed || 120)) {
-      newVal = derivedStats?.maxAllowed || 120;
+    const maxVal = id === 'structure' ? (derivedStats?.maxAllowed ? derivedStats.maxAllowed * 2 : 240) : (derivedStats?.maxAllowed || 120);
+    if (newVal > maxVal) {
+      newVal = maxVal;
     }
     updateField(id, newVal);
   };
@@ -969,55 +970,117 @@ const CoreStatsTab = () => {
                   Tech Level &amp; Meta Level
                 </h3>
                 <span className="text-[10px] font-mono text-slate-400 hidden sm:inline">
-                  (Setting Parameters)
+                  (Setting Parameters: 10 CP / diff from 3)
                 </span>
+              </div>
+              <div className="flex items-center gap-2 text-[10px] font-mono">
+                {(() => {
+                  const curTL = Math.min(5, Math.max(0, getNum('tech-level', 3)));
+                  const tlCP = (curTL - 3) * 10;
+                  const curML = Math.min(5, Math.max(0, getNum('magic-level', 1)));
+                  const mlCP = (curML - 3) * 10;
+                  const totalLevelCP = tlCP + mlCP;
+                  return (
+                    <span className={`px-2 py-0.5 rounded font-bold border ${totalLevelCP > 0 ? 'bg-amber-950/60 border-amber-500/50 text-amber-300' : totalLevelCP < 0 ? 'bg-emerald-950/60 border-emerald-500/50 text-emerald-300' : 'bg-slate-800 border-slate-700 text-slate-300'}`}>
+                      Level CP: {totalLevelCP >= 0 ? `+${totalLevelCP}` : totalLevelCP} CP
+                    </span>
+                  );
+                })()}
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-2">
-              <div className="flex items-center justify-between bg-slate-800/40 px-2.5 py-1 rounded border border-slate-700/80 gap-2">
-                <div className="flex items-center gap-1.5 min-w-0">
-                  <label htmlFor="tech-level" className="text-xs font-bold uppercase tracking-wider text-cyan-300 cursor-pointer shrink-0">
-                    Tech Level
-                  </label>
-                  <span className="text-[9px] text-slate-400 font-sans hidden sm:inline truncate">(TL 0–5)</span>
-                </div>
-                {isSheetLocked ? (
-                  <span className="text-xs font-mono font-bold text-cyan-200 px-1.5 py-0.5">
-                    {getNum('tech-level', 3)}
-                  </span>
-                ) : (
-                  <input
-                    id="tech-level"
-                    type="number"
-                    value={getNum('tech-level', 3)}
-                    onChange={(e) => updateField('tech-level', parseInt(e.target.value, 10) || 0)}
-                    className="w-12 bg-slate-950 border border-slate-700 focus:border-cyan-400 rounded px-1.5 py-0.5 text-xs font-mono text-center font-bold text-slate-100 outline-none transition-colors shrink-0"
-                  />
-                )}
-              </div>
+              {/* Tech Level (0-5) */}
+              {(() => {
+                const curTL = Math.min(5, Math.max(0, getNum('tech-level', 3)));
+                const tlCP = (curTL - 3) * 10;
+                return (
+                  <FolioTooltip
+                    title="Technology Level (TL 0–5)"
+                    badge="Setting Tier"
+                    badgeColor="cyan"
+                    description="Standard galactic spacefaring baseline is TL3 (0 CP). Higher tech costs 10 CP per level (+10 CP at TL4, +20 CP at TL5). Lower tech grants CP refunds (-10 CP at TL2, -20 CP at TL1, -30 CP at TL0). Species and faction tech levels do not stack (highest is taken)."
+                    formula={`TL ${curTL}: ${(curTL - 3)} level difference × 10 CP = ${tlCP >= 0 ? `+${tlCP}` : tlCP} CP`}
+                    cost={tlCP === 0 ? '0 CP (Baseline)' : (tlCP > 0 ? `+${tlCP} CP Cost` : `${tlCP} CP Refund`)}
+                    tags={['TL 0-5', '10 CP / Level diff', 'Non-stacking']}
+                  >
+                    <div className="flex items-center justify-between bg-slate-800/40 px-2.5 py-1.5 rounded border border-slate-700/80 gap-2 hover:border-cyan-500/40 transition-colors">
+                      <div className="flex flex-col min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <label htmlFor="tech-level" className="text-xs font-bold uppercase tracking-wider text-cyan-300 cursor-pointer shrink-0">
+                            Tech Level
+                          </label>
+                          <span className="text-[9px] text-slate-400 font-mono hidden sm:inline">(0–5)</span>
+                        </div>
+                        <span className={`text-[9px] font-mono ${tlCP > 0 ? 'text-amber-400' : tlCP < 0 ? 'text-emerald-400' : 'text-slate-500'}`}>
+                          {tlCP === 0 ? '0 CP (TL3 Base)' : (tlCP > 0 ? `+${tlCP} CP` : `${tlCP} CP`)}
+                        </span>
+                      </div>
+                      {isSheetLocked ? (
+                        <span className="text-xs font-mono font-bold text-cyan-200 px-1.5 py-0.5">
+                          {curTL}
+                        </span>
+                      ) : (
+                        <input
+                          id="tech-level"
+                          type="number"
+                          min="0"
+                          max="5"
+                          value={curTL}
+                          onChange={(e) => updateField('tech-level', Math.min(5, Math.max(0, parseInt(e.target.value, 10) || 0)))}
+                          className="w-12 bg-slate-950 border border-slate-700 focus:border-cyan-400 rounded px-1.5 py-0.5 text-xs font-mono text-center font-bold text-slate-100 outline-none transition-colors shrink-0"
+                        />
+                      )}
+                    </div>
+                  </FolioTooltip>
+                );
+              })()}
 
-              <div className="flex items-center justify-between bg-slate-800/40 px-2.5 py-1 rounded border border-slate-700/80 gap-2">
-                <div className="flex items-center gap-1.5 min-w-0">
-                  <label htmlFor="magic-level" className="text-xs font-bold uppercase tracking-wider text-purple-300 cursor-pointer shrink-0">
-                    Meta Level
-                  </label>
-                  <span className="text-[9px] text-slate-400 font-sans hidden sm:inline truncate">(ML 0–3)</span>
-                </div>
-                {isSheetLocked ? (
-                  <span className="text-xs font-mono font-bold text-purple-200 px-1.5 py-0.5">
-                    {getNum('magic-level', 1)}
-                  </span>
-                ) : (
-                  <input
-                    id="magic-level"
-                    type="number"
-                    value={getNum('magic-level', 1)}
-                    onChange={(e) => updateField('magic-level', parseInt(e.target.value, 10) || 0)}
-                    className="w-12 bg-slate-950 border border-slate-700 focus:border-purple-400 rounded px-1.5 py-0.5 text-xs font-mono text-center font-bold text-slate-100 outline-none transition-colors shrink-0"
-                  />
-                )}
-              </div>
+              {/* Meta Level (0-5) */}
+              {(() => {
+                const curML = Math.min(5, Math.max(0, getNum('magic-level', 1)));
+                const mlCP = (curML - 3) * 10;
+                return (
+                  <FolioTooltip
+                    title="Meta Level (ML 0–5)"
+                    badge="Metaphysics Tier"
+                    badgeColor="purple"
+                    description="Standard metaphysics baseline is ML3 (0 CP). Higher metaphysics costs 10 CP per level (+10 CP at ML4, +20 CP at ML5). Lower metaphysics grants CP refunds (-10 CP at ML2, -20 CP at ML1, -30 CP at ML0). Species and faction meta levels do not stack (highest is taken)."
+                    formula={`ML ${curML}: ${(curML - 3)} level difference × 10 CP = ${mlCP >= 0 ? `+${mlCP}` : mlCP} CP`}
+                    cost={mlCP === 0 ? '0 CP (Baseline)' : (mlCP > 0 ? `+${mlCP} CP Cost` : `${mlCP} CP Refund`)}
+                    tags={['ML 0-5', '10 CP / Level diff', 'Non-stacking']}
+                  >
+                    <div className="flex items-center justify-between bg-slate-800/40 px-2.5 py-1.5 rounded border border-slate-700/80 gap-2 hover:border-purple-500/40 transition-colors">
+                      <div className="flex flex-col min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <label htmlFor="magic-level" className="text-xs font-bold uppercase tracking-wider text-purple-300 cursor-pointer shrink-0">
+                            Meta Level
+                          </label>
+                          <span className="text-[9px] text-slate-400 font-mono hidden sm:inline">(0–5)</span>
+                        </div>
+                        <span className={`text-[9px] font-mono ${mlCP > 0 ? 'text-amber-400' : mlCP < 0 ? 'text-emerald-400' : 'text-slate-500'}`}>
+                          {mlCP === 0 ? '0 CP (ML3 Base)' : (mlCP > 0 ? `+${mlCP} CP` : `${mlCP} CP`)}
+                        </span>
+                      </div>
+                      {isSheetLocked ? (
+                        <span className="text-xs font-mono font-bold text-purple-200 px-1.5 py-0.5">
+                          {curML}
+                        </span>
+                      ) : (
+                        <input
+                          id="magic-level"
+                          type="number"
+                          min="0"
+                          max="5"
+                          value={curML}
+                          onChange={(e) => updateField('magic-level', Math.min(5, Math.max(0, parseInt(e.target.value, 10) || 0)))}
+                          className="w-12 bg-slate-950 border border-slate-700 focus:border-purple-400 rounded px-1.5 py-0.5 text-xs font-mono text-center font-bold text-slate-100 outline-none transition-colors shrink-0"
+                        />
+                      )}
+                    </div>
+                  </FolioTooltip>
+                );
+              })()}
             </div>
           </div>
 
@@ -1109,10 +1172,10 @@ const CoreStatsTab = () => {
                   title="Vitality (Non-Lethal)"
                   badge="Non-Lethal Capacity"
                   badgeColor="cyan"
-                  description="Combat poise, dodging stamina, and non-lethal stress buffer. Absorbs non-lethal damage directly. When non-lethal damage exceeds Vitality, excess spills into Health as lethal damage."
+                  description="Combat poise, dodging stamina, and non-lethal stress buffer. Absorbs non-lethal damage directly. When non-lethal damage exceeds Vitality, excess spills into Health as lethal damage. Starting pool is 30 points; additional points cost 1 CP per 2 pt increase."
                   formula={`Base: 30 + Purchased: ${derivedStats?.purchasedVitality || 0} (Max Increase: ${derivedStats?.maxStatIncrease ?? ((derivedStats?.stamina || 0) * 5)})`}
-                  cost="1 CP = +5 Vitality (Max: 5 × STA)"
-                  tags={['Non-Lethal', 'Vitality Buffer', 'Base 30']}
+                  cost="1 CP = +2 Vitality (Base: 30, Max: 5 × STA)"
+                  tags={['Non-Lethal', 'Vitality Buffer', 'Base 30', '1 CP / 2 pts']}
                 >
                   <div className="flex flex-col relative group w-full">
                     <FolioInput
@@ -1136,10 +1199,10 @@ const CoreStatsTab = () => {
                   title="Health (Lethal)"
                   badge="Physical Integrity"
                   badgeColor="rose"
-                  description="Core bodily tissue and organ integrity. Depleted directly by lethal strikes or when non-lethal damage overflows depleted Vitality. Falling to 0 results in Incapacitation or Dying."
+                  description="Core bodily tissue and organ integrity. Depleted directly by lethal strikes or when non-lethal damage overflows depleted Vitality. Falling to 0 results in Incapacitation or Dying. Starting pool is 30 points; additional points cost 1 CP per 2 pt increase."
                   formula={`Base: 30 + Purchased: ${derivedStats?.purchasedHealth || 0} (Max Increase: ${derivedStats?.maxStatIncrease ?? ((derivedStats?.stamina || 0) * 5)})`}
-                  cost="1 CP = +5 Health (Max: 5 × STA)"
-                  tags={['Lethal', 'Physical Integrity', 'Base 30']}
+                  cost="1 CP = +2 Health (Base: 30, Max: 5 × STA)"
+                  tags={['Lethal', 'Physical Integrity', 'Base 30', '1 CP / 2 pts']}
                 >
                   <div className="flex flex-col relative group w-full">
                     <FolioInput
@@ -1161,16 +1224,51 @@ const CoreStatsTab = () => {
               </div>
             </div>
 
-            {/* Synthetic Structure Notice if applicable */}
+            {/* Synthetic Structure Pool if applicable */}
             {derivedStats?.isSynthetic && (
-              <div className="p-2.5 rounded bg-amber-950/40 border border-amber-500/30 flex items-center justify-between text-xs font-mono">
-                <span className="text-amber-300 flex items-center gap-1.5">
-                  <span>⚙️</span> <strong>Synthetic Structure Pool:</strong> Combined Vitality ({getNum('vitality', 30)}) + Health ({getNum('health', 30)})
-                </span>
-                <span className="text-sm font-bold text-amber-200 bg-amber-900/60 px-2 py-0.5 rounded border border-amber-600/40">
-                  {derivedStats.structure} SP
-                </span>
-              </div>
+              <FolioTooltip
+                title="Structure Points (Synthetic Physiology)"
+                badge="Chassis Integrity"
+                badgeColor="amber"
+                description="Synthetic and construct physiology uses Structure Points instead of separate Vitality and Health. Starting pool is 60 SP. Additional points cost 1 CP per 2 pt increase. Synthetics are immune to non-lethal damage, fatigue, and biological hazards."
+                formula={`Base: 60 + Purchased: ${derivedStats?.purchasedStructure || 0}`}
+                cost="1 CP = +2 Structure (Starting Pool: 60 SP)"
+                tags={['Synthetic', 'Structure 60 SP', '1 CP / 2 pts']}
+              >
+                <div className="p-3 rounded-lg bg-amber-950/40 border border-amber-500/40 flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+                  <div className="flex items-center gap-2">
+                    <span className="text-base">⚙️</span>
+                    <div>
+                      <div className="text-xs font-bold uppercase tracking-wider text-amber-300 flex items-center gap-1.5">
+                        <span>Synthetic Structure Pool</span>
+                        <span className="text-[10px] font-normal text-amber-400 font-mono">(60 SP Base)</span>
+                      </div>
+                      <div className="text-[10px] text-amber-200/70 font-sans">
+                        Replaces separate Vitality &amp; Health. 1 CP = +2 Structure.
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {isSheetLocked ? (
+                      <span className="text-sm font-bold text-amber-200 bg-amber-900/60 px-2.5 py-1 rounded border border-amber-600/40">
+                        {derivedStats.structure} SP
+                      </span>
+                    ) : (
+                      <div className="flex items-center gap-1.5">
+                        <label htmlFor="structure" className="text-[10px] text-slate-400 uppercase font-sans">Structure SP:</label>
+                        <input
+                          id="structure"
+                          type="number"
+                          min="60"
+                          value={getNum('structure', derivedStats?.structure || 60)}
+                          onChange={(e) => handleStatChange('structure', e.target.value)}
+                          className="w-16 bg-slate-950 border border-amber-600/50 focus:border-amber-400 rounded px-2 py-1 text-xs font-mono text-center font-bold text-amber-200 outline-none"
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </FolioTooltip>
             )}
 
             {/* Death & Dying / Mortality Status Banner */}

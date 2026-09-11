@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { fileURLToPath } from 'url';
+import { enrichItemWithModifiers } from '../src/engines/tangentModifierEngine.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -39,13 +40,25 @@ function syncTraits() {
     const classification = data.classification || data.type || 'Physical';
     const bp = typeof data.costs?.bp === 'number' ? data.costs.bp : (typeof data.bp === 'number' ? data.bp : 1);
 
-    let mechanics = data.mechanic || '';
+    let mechanics = data.mechanic || data.mechanics || '';
     if (!mechanics && body) {
-      const mechMatch = body.match(/## Mechanics & Benefit[s]?\s*([\s\S]*?)(?=##|$)/i);
+      const mechMatch = body.match(/(?:^|\n)## Mechanics[^\n]*\n([\s\S]*?)(?=(?:\n##\s)|$)/i);
       if (mechMatch) mechanics = mechMatch[1].trim();
     }
+    if (!mechanics) {
+      mechanics = data.description || '';
+    }
 
-    const traitObj = {
+    let rules = data.rules || data.special_rules || '';
+    if (!rules && body) {
+      const ruleMatch = body.match(/(?:^|\n)## Special Rules[^\n]*\n([\s\S]*?)(?=(?:\n##\s)|$)/i);
+      if (ruleMatch) rules = ruleMatch[1].trim();
+    }
+    if (!rules) {
+      rules = `${traitTier} ${traitType} (${bp} BP).`;
+    }
+
+    const rawTraitObj = {
       id,
       name,
       category: 'traits',
@@ -59,10 +72,14 @@ function syncTraits() {
       desc: data.description || '',
       description: data.description || '',
       mechanics,
+      mechanic: mechanics,
+      rules,
+      special_rules: rules,
       modifiers: Array.isArray(data.modifiers) ? data.modifiers : [],
       body
     };
 
+    const traitObj = enrichItemWithModifiers(rawTraitObj);
     allTraits.push(traitObj);
 
     if (traitType === 'Occupational Trait' || traitType === 'Common Occupational Trait') {

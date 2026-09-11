@@ -29,6 +29,9 @@ export const FolioTooltip = ({
   badgeColor = 'cyan',
   description,
   formula,
+  rules,
+  notes,
+  modifiers = [],
   prerequisites,
   prerequisiteMet = true,
   prerequisiteUnmetReasons = null,
@@ -179,7 +182,8 @@ export const FolioTooltip = ({
     }
   };
 
-  const hasContent = Boolean(title || description || formula || prerequisites || cost);
+  const hasModifiers = Array.isArray(modifiers) && modifiers.length > 0;
+  const hasContent = Boolean(title || description || formula || rules || notes || hasModifiers || prerequisites || cost);
   if (!hasContent) {
     return children || null;
   }
@@ -269,11 +273,56 @@ export const FolioTooltip = ({
           </p>
         )}
 
+        {/* Active Modifiers List */}
+        {hasModifiers && (
+          <div className="bg-slate-950/90 border border-cyan-800/60 rounded p-1.5 space-y-1">
+            <div className="text-[9px] uppercase font-bold text-cyan-400 tracking-wider flex items-center gap-1">
+              <span>⚡</span>
+              <span>Active Modifiers</span>
+            </div>
+            <div className="flex flex-wrap gap-1">
+              {modifiers.map((m, idx) => {
+                const val = typeof m === 'object' ? m.value : null;
+                const isNegative = typeof val === 'number' && val < 0;
+                const desc = typeof m === 'object' ? (m.description || `${val >= 0 ? '+' : ''}${val} ${m.target}`) : String(m);
+                return (
+                  <span
+                    key={idx}
+                    className={`px-1.5 py-0.5 text-[9.5px] font-mono font-bold rounded border ${
+                      isNegative
+                        ? 'bg-rose-950/80 text-rose-300 border-rose-800/80'
+                        : 'bg-cyan-950/80 text-cyan-300 border-cyan-700/80'
+                    }`}
+                  >
+                    {desc}
+                  </span>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
         {/* Mechanics / Formula Card */}
         {formula && (
           <div className="bg-slate-950/80 border border-cyan-900/50 rounded p-1.5 text-[10px] font-mono text-cyan-300/90 space-y-0.5">
             <div className="text-[9px] uppercase font-bold text-slate-400 tracking-wider">Mechanics &amp; Formula</div>
             <div className="text-cyan-200 font-semibold">{formula}</div>
+          </div>
+        )}
+
+        {/* Governing Rules */}
+        {rules && (
+          <div className="bg-slate-950/80 border border-amber-900/40 rounded p-1.5 text-[10px] font-mono text-amber-300/90 space-y-0.5">
+            <div className="text-[9px] uppercase font-bold text-amber-400/80 tracking-wider">Governing Rules</div>
+            <div className="text-slate-300 font-sans leading-tight text-[10px]">{rules}</div>
+          </div>
+        )}
+
+        {/* Operational Notes */}
+        {notes && (
+          <div className="bg-slate-950/80 border border-slate-800 rounded p-1.5 text-[10px] font-mono text-slate-300 space-y-0.5">
+            <div className="text-[9px] uppercase font-bold text-slate-400 tracking-wider">Notes</div>
+            <div className="text-slate-400 font-sans leading-tight text-[10px] whitespace-pre-line">{notes}</div>
           </div>
         )}
 
