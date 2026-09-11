@@ -16,7 +16,8 @@ export const useGroup = () => {
 
 export const GroupProvider = ({ children }) => {
   const { currentUser } = useAuth();
-  const { activePersona, personaRoster, roster } = useFolio();
+  const folio = useFolio() || {};
+  const { activePersona, personaRoster, roster } = folio;
 
   const [groups, setGroups] = useState([]);
   const [activeGroupId, setActiveGroupId] = useState(null);

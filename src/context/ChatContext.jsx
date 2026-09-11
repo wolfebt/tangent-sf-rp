@@ -16,7 +16,8 @@ export const useChat = () => {
 
 export const ChatProvider = ({ children }) => {
   const { currentUser, userHandle } = useAuth();
-  const { activePersona: folioActivePersona, personaRoster, roster } = useFolio();
+  const folio = useFolio() || {};
+  const { activePersona: folioActivePersona, personaRoster, roster } = folio;
 
   const [channels, setChannels] = useState(DEFAULT_PUBLIC_CHANNELS);
   const [activeChannelId, setActiveChannelId] = useState('public_general');

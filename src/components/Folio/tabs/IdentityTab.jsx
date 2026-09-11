@@ -620,7 +620,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
             const signatureFeatures = extractNameList(selectedArchetype?.signature_features);
 
             return (
-              <div className="bg-slate-950/90 border border-amber-500/40 rounded-lg overflow-hidden transition-all shadow-[0_0_10px_rgba(245,158,11,0.08)]">
+              <div className="bg-slate-950/90 border border-amber-500/40 rounded-lg overflow-hidden transition-all shadow-none">
                 {/* Consolidated Header Bar */}
                 <div
                   onClick={() => {
@@ -660,10 +660,10 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       <button
                         type="button"
                         onClick={() => onOpenSelectorModal(fieldId, label, browsePath)}
-                        className={`px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase border transition-all flex items-center gap-1 cursor-pointer ${
+                        className={`px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase border transition-all flex items-center gap-1 cursor-pointer shadow-none ${
                           val
                             ? 'bg-slate-900 hover:bg-slate-800 border-slate-700 text-amber-300 hover:text-amber-100 hover:border-amber-400'
-                            : 'bg-amber-500/20 hover:bg-amber-500/30 border-amber-500/60 text-amber-200 hover:text-white shadow-[0_0_10px_rgba(245,158,11,0.25)]'
+                            : 'bg-amber-500/20 hover:bg-amber-500/30 border-amber-500/60 text-amber-200 hover:text-white'
                         }`}
                         title="Open sorted Archetype catalog"
                       >
@@ -838,7 +838,11 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
             const speciesCost = economyBreakdown?.speciesCostBreakdown || (selectedSpecies ? calculateFullSpeciesCost?.(selectedSpecies, dbOptions) : null);
 
             return (
-              <div className="bg-slate-950/90 border border-cyan-500/40 rounded-lg overflow-hidden transition-all shadow-[0_0_10px_rgba(34,211,238,0.08)]">
+              <div className={`bg-slate-950/90 rounded-lg overflow-hidden transition-all ${
+                !val
+                  ? 'border border-cyan-500/60 shadow-[0_0_16px_rgba(34,211,238,0.22)] ring-1 ring-cyan-500/30'
+                  : 'border border-cyan-500/40 shadow-[0_0_10px_rgba(34,211,238,0.08)]'
+              }`}>
                 {/* Consolidated Header Bar */}
                 <div
                   onClick={() => {
@@ -863,7 +867,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       </span>
                     ) : (
                       <span className="text-xs font-mono text-slate-400/80 italic truncate">
-                        None Selected <span className="text-cyan-500/70 hidden sm:inline">(Required)</span>
+                        None Selected <span className="text-cyan-400 font-semibold hidden sm:inline">(Required)</span>
                       </span>
                     )}
                     {speciesCost && speciesCost.totalCost > 0 && (
@@ -886,7 +890,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                         className={`px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase border transition-all flex items-center gap-1 cursor-pointer ${
                           val
                             ? 'bg-slate-900 hover:bg-slate-800 border-slate-700 text-cyan-300 hover:text-cyan-100 hover:border-cyan-400'
-                            : 'bg-cyan-500/20 hover:bg-cyan-500/30 border-cyan-500/60 text-cyan-200 hover:text-white shadow-[0_0_10px_rgba(34,211,238,0.25)]'
+                            : 'bg-cyan-500/20 hover:bg-cyan-500/30 border-cyan-500/60 text-cyan-200 hover:text-white shadow-[0_0_14px_rgba(34,211,238,0.35)]'
                         }`}
                         title="Open sorted Species catalog"
                       >
@@ -1157,7 +1161,11 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
             const occTraits = Array.from(new Set([...primaryOccTraits, ...commonTraitNames, ...secondaryOccTraits]));
 
             return (
-              <div className="bg-slate-950/90 border border-sky-500/40 rounded-lg overflow-hidden transition-all shadow-[0_0_10px_rgba(14,165,233,0.08)]">
+              <div className={`bg-slate-950/90 rounded-lg overflow-hidden transition-all ${
+                !val
+                  ? 'border border-cyan-500/60 shadow-[0_0_16px_rgba(34,211,238,0.22)] ring-1 ring-cyan-500/30'
+                  : 'border border-sky-500/40 shadow-[0_0_10px_rgba(14,165,233,0.08)]'
+              }`}>
                 {/* Consolidated Header Bar */}
                 <div
                   onClick={() => {
@@ -1189,7 +1197,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       </div>
                     ) : (
                       <span className="text-xs font-mono text-slate-400/80 italic truncate">
-                        None Selected
+                        None Selected <span className="text-cyan-400 font-semibold hidden sm:inline">(Required)</span>
                       </span>
                     )}
                     {val && (
@@ -1208,11 +1216,11 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                         className={`px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase border transition-all flex items-center gap-1 cursor-pointer ${
                           val
                             ? 'bg-slate-900 hover:bg-slate-800 border-slate-700 text-sky-300 hover:text-sky-100 hover:border-sky-400'
-                            : 'bg-sky-500/20 hover:bg-sky-500/30 border-sky-500/60 text-sky-200 hover:text-white shadow-[0_0_10px_rgba(14,165,233,0.25)]'
+                            : 'bg-cyan-500/20 hover:bg-cyan-500/30 border-cyan-500/60 text-cyan-200 hover:text-white shadow-[0_0_14px_rgba(34,211,238,0.35)]'
                         }`}
                         title="Open sorted Occupation catalog"
                       >
-                        <Sparkles className="w-3 h-3 text-sky-400" />
+                        <Sparkles className="w-3 h-3 text-cyan-400" />
                         <span>{val ? 'Change' : 'Select'}</span>
                       </button>
                     )}
@@ -1416,7 +1424,11 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
             ]));
 
             return (
-              <div className="bg-slate-950/90 border border-emerald-500/40 rounded-lg overflow-hidden transition-all shadow-[0_0_10px_rgba(16,185,129,0.08)]">
+              <div className={`bg-slate-950/90 rounded-lg overflow-hidden transition-all ${
+                !val
+                  ? 'border border-cyan-500/60 shadow-[0_0_16px_rgba(34,211,238,0.22)] ring-1 ring-cyan-500/30'
+                  : 'border border-emerald-500/40 shadow-[0_0_10px_rgba(16,185,129,0.08)]'
+              }`}>
                 {/* Consolidated Header Bar */}
                 <div
                   onClick={() => {
@@ -1448,7 +1460,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       </div>
                     ) : (
                       <span className="text-xs font-mono text-slate-400/80 italic truncate">
-                        None Selected
+                        None Selected <span className="text-cyan-400 font-semibold hidden sm:inline">(Required)</span>
                       </span>
                     )}
                     {val && (
@@ -1466,11 +1478,11 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                         className={`px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase border transition-all flex items-center gap-1 cursor-pointer ${
                           val
                             ? 'bg-slate-900 hover:bg-slate-800 border-slate-700 text-emerald-300 hover:text-emerald-100 hover:border-emerald-400'
-                            : 'bg-emerald-500/20 hover:bg-emerald-500/30 border-emerald-500/60 text-emerald-200 hover:text-white shadow-[0_0_10px_rgba(16,185,129,0.25)]'
+                            : 'bg-cyan-500/20 hover:bg-cyan-500/30 border-cyan-500/60 text-cyan-200 hover:text-white shadow-[0_0_14px_rgba(34,211,238,0.35)]'
                         }`}
                         title="Open sorted Origin catalog"
                       >
-                        <Sparkles className="w-3 h-3 text-emerald-400" />
+                        <Sparkles className="w-3 h-3 text-cyan-400" />
                         <span>{val ? 'Change' : 'Select'}</span>
                       </button>
                     )}
@@ -1659,7 +1671,11 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
             const maxTraits = parseInt(selectedFaction?.bonus_traits || (factionTraits.length > 0 ? 1 : 0), 10);
 
             return (
-              <div className="bg-slate-950/90 border border-purple-500/40 rounded-lg overflow-hidden transition-all shadow-[0_0_10px_rgba(168,85,247,0.08)]">
+              <div className={`bg-slate-950/90 rounded-lg overflow-hidden transition-all ${
+                !val
+                  ? 'border border-cyan-500/60 shadow-[0_0_16px_rgba(34,211,238,0.22)] ring-1 ring-cyan-500/30'
+                  : 'border border-purple-500/40 shadow-[0_0_10px_rgba(168,85,247,0.08)]'
+              }`}>
                 {/* Consolidated Header Bar */}
                 <div
                   onClick={() => {
@@ -1684,7 +1700,7 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       </span>
                     ) : (
                       <span className="text-xs font-mono text-slate-400/80 italic truncate">
-                        None Selected
+                        None Selected <span className="text-cyan-400 font-semibold hidden sm:inline">(Required)</span>
                       </span>
                     )}
                     {val && (
@@ -1703,11 +1719,11 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                         className={`px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase border transition-all flex items-center gap-1 cursor-pointer ${
                           val
                             ? 'bg-slate-900 hover:bg-slate-800 border-slate-700 text-purple-300 hover:text-purple-100 hover:border-purple-400'
-                            : 'bg-purple-500/20 hover:bg-purple-500/30 border-purple-500/60 text-purple-200 hover:text-white shadow-[0_0_10px_rgba(168,85,247,0.25)]'
+                            : 'bg-cyan-500/20 hover:bg-cyan-500/30 border-cyan-500/60 text-cyan-200 hover:text-white shadow-[0_0_14px_rgba(34,211,238,0.35)]'
                         }`}
                         title="Open sorted Faction catalog"
                       >
-                        <Sparkles className="w-3 h-3 text-purple-400" />
+                        <Sparkles className="w-3 h-3 text-cyan-400" />
                         <span>{val ? 'Change' : 'Select'}</span>
                       </button>
                     )}

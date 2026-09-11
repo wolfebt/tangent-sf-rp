@@ -5,6 +5,11 @@
  * or skill specialization.
  */
 
+import {
+  getAugmentationStage,
+  checkAugmentationStageCompatibility
+} from '../engines/tangentComplexEngines.js';
+
 // Helper to normalize strings for comparison
 const normalize = (str) => {
   if (!str) return '';
@@ -193,15 +198,94 @@ export const checkPrerequisite = (item, characterData, itemType = 'features', op
     return { hasPrerequisite: false, isPossessed: true, prerequisiteText: '', unmetReasons: [] };
   }
 
+  const rawItem = typeof item === 'object' ? item : { name: String(item) };
+  const typeKey = (itemType || rawItem.category || rawItem.type || 'features').toLowerCase();
+  const isAugmentation = typeKey.includes('aug') || rawItem.category === 'augmentations' || rawItem.isAugmentation;
+
   // If no characterData provided (e.g. anonymous browsing outside folio), assume met to avoid breaking UI
   if (!characterData) {
+    if (isAugmentation) {
+      const stage = getAugmentationStage(rawItem);
+      const isNegligible = stage === 'Negligible';
+      let reqFeature = 'Augmented';
+      if (stage === 'Heavy') reqFeature = 'Heavy Augmentations';
+      if (stage === 'Extreme') reqFeature = 'Extreme Augmentations';
+      return {
+        hasPrerequisite: !isNegligible,
+        isPossessed: true,
+        prerequisiteText: isNegligible ? 'None (Negligible Stage)' : `${reqFeature} (Stage: ${stage})`,
+        unmetReasons: [],
+        stage
+      };
+    }
     const rawPrereq = typeof item === 'object' ? (item.prerequisites || item.prereq || '') : '';
     const hasP = Boolean(rawPrereq && rawPrereq !== 'None' && rawPrereq !== '-' && rawPrereq !== '—');
     return { hasPrerequisite: hasP, isPossessed: true, prerequisiteText: rawPrereq || '', unmetReasons: [] };
   }
 
-  const rawItem = typeof item === 'object' ? item : { name: String(item) };
-  const typeKey = (itemType || rawItem.category || rawItem.type || 'features').toLowerCase();
+  // ══════════════════════════════════════════════════════════════════════════
+  // 0. AUGMENTATIONS PREREQUISITE EVALUATION (Stage Matrix & Feature Prereqs)
+  // ══════════════════════════════════════════════════════════════════════════
+  if (isAugmentation) {
+    const stage = getAugmentationStage(rawItem);
+    const rawPrereq = rawItem.prerequisites || rawItem.prereq;
+    const unmetReasons = [];
+
+    if (stage === 'Negligible') {
+      if (rawPrereq && rawPrereq !== 'None' && rawPrereq !== '-' && rawPrereq !== '—') {
+        const explicitEval = evaluatePrerequisiteString(rawPrereq, characterData);
+        return {
+          hasPrerequisite: true,
+          isPossessed: explicitEval.isPossessed,
+          prerequisiteText: rawPrereq,
+          unmetReasons: explicitEval.unmetReasons,
+          stage
+        };
+      }
+      return {
+        hasPrerequisite: false,
+        isPossessed: true,
+        prerequisiteText: 'None (Negligible Stage)',
+        unmetReasons: [],
+        stage
+      };
+    }
+
+    // Standard, Heavy, Extreme stages require the corresponding feature
+    const compatibility = checkAugmentationStageCompatibility(characterData, rawItem);
+    if (!compatibility.isCompatible) {
+      unmetReasons.push(
+        compatibility.warning ||
+        `Requires "${compatibility.requiredFeatureName}" feature (Stage: ${stage})`
+      );
+    }
+
+    // Also check if character has the feature but violates base stat prereq (e.g. Stamina 2+ for Heavy, 4+ for Extreme)
+    if (compatibility.stageInfo?.prerequisiteWarnings?.length > 0 && compatibility.isCompatible) {
+      unmetReasons.push(...compatibility.stageInfo.prerequisiteWarnings);
+    }
+
+    // Explicit prerequisite evaluation if item specifies extra conditions
+    if (rawPrereq && rawPrereq !== 'None' && rawPrereq !== '-' && rawPrereq !== '—') {
+      const explicitEval = evaluatePrerequisiteString(rawPrereq, characterData);
+      if (!explicitEval.isPossessed) {
+        unmetReasons.push(...explicitEval.unmetReasons);
+      }
+    }
+
+    const prereqText = compatibility.requiredFeatureName
+      ? `${compatibility.requiredFeatureName} (Stage: ${stage})`
+      : `Stage: ${stage}`;
+
+    return {
+      hasPrerequisite: true,
+      isPossessed: unmetReasons.length === 0,
+      prerequisiteText: rawPrereq ? `${prereqText}, ${rawPrereq}` : prereqText,
+      unmetReasons,
+      stage,
+      compatibility
+    };
+  }
 
   // ══════════════════════════════════════════════════════════════════════════
   // 1. INVOCATIONS PREREQUISITE EVALUATION

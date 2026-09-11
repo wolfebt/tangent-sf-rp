@@ -10,20 +10,18 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import ScenarioPane from './ScenarioPane';
 import ElementForge from '../ElementForge/ElementForge';
-import ControlPanelStudio from './workspaces/ControlPanelStudio';
-import ManuscriptStudio from './workspaces/ManuscriptStudio';
 import InteractiveStoryStudio from './workspaces/InteractiveStoryStudio';
+import OsrControlPanelDeck from './workspaces/OsrControlPanelDeck';
 import AdventurePrintModal from './workspaces/AdventurePrintModal';
 import FoundryLauncherModal from '../../../components/StoryFoundry/FoundryLauncherModal';
 import { StoryFoundryGuideModal } from '../../../components/StoryFoundry/StoryFoundryGuideModal';
 import { UserSettingsModal } from '../../../components/UserSettingsModal';
 import AIMEChatBox from '../AIME/AIMEChatBox';
-import InSituElementDrawer from './InSituElementDrawer';
 import EditElementModal from '../ElementForge/EditElementModal';
-import AIME from '../AIME/AIME';
 import GuidanceGemsModal from './GuidanceGemsModal';
 import ScratchbookModal from './ScratchbookModal';
 import ADETopToolbar from './ADETopToolbar';
+import CronicleDeckModal from '../../../components/StoryFoundry/Cronicle/CronicleDeckModal';
 import { useStory } from '../../../context/CampaignContext';
 import { useAuth } from '../../../context/AuthContext';
 import { exportElementMarkdown, exportElementPDF } from './exportUtils';
@@ -35,17 +33,36 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const storyIdParam = searchParams.get('storyId');
   const viewParam = searchParams.get('view');
-  const { openStory, universeState, elementsCatalog, getActiveGemsText, updateSavedElement, deleteSavedElement } = useStory();
+  const { 
+    openStory, 
+    universeState, 
+    elementsCatalog, 
+    getActiveGemsText, 
+    updateSavedElement, 
+    deleteSavedElement, 
+    updateStory,
+    setActiveScenarioId,
+    cronicle 
+  } = useStory();
   const { currentUser, userHandle } = useAuth();
 
-  // Mode switcher state: 'scenarios' | 'elements' | 'interactive' | 'aime' | 'control-panel' | 'manuscript'
+  // Mode switcher state: 'scenarios' | 'elements'
   const [activeView, setActiveView] = useState(() => {
-    return viewParam || defaultView || 'scenarios';
+    const v = viewParam || defaultView;
+    if (v === 'elements') return 'elements';
+    return 'scenarios';
   });
 
-  // Scenario workspace tab: 'canvas' | 'control-panel' | 'manuscript'
-  const [scenarioWorkspaceTab, setScenarioWorkspaceTab] = useState('canvas');
+  // Outliner and Right Cockpit Dock states
   const [isTreeExpanded, setIsTreeExpanded] = useState(true);
+  const [isRightDockOpen, setIsRightDockOpen] = useState(true);
+  const [activeCockpitDeck, setActiveCockpitDeck] = useState('inspector'); // 'inspector' | 'tactical' | 'elements' | 'aime'
+  const [scenarioWorkspaceTab, setScenarioWorkspaceTab] = useState(() => {
+    const v = viewParam || defaultView;
+    if (v === 'control-panel' || v === 'tactical') return 'tactical';
+    if (v === 'interactive') return 'interactive';
+    return 'weaver';
+  });
 
   // Modals state
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
@@ -54,13 +71,15 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
   const [isScratchbookOpen, setIsScratchbookOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isCronicleOpen, setIsCronicleOpen] = useState(false);
+  const [cronicleInitialMode, setCronicleInitialMode] = useState('living_memory');
 
-  // In-Situ Drawers
-  const [isAimeChatOpen, setIsAimeChatOpen] = useState(false);
-  const [isElementDrawerOpen, setIsElementDrawerOpen] = useState(false);
-  const [activeDrawerElementId, setActiveDrawerElementId] = useState(null);
+  // Edit element modal
   const [isEditElementModalOpen, setIsEditElementModalOpen] = useState(false);
   const [editingModalElement, setEditingModalElement] = useState(null);
+
+  // Floating AIME chat box (when undocked or outside scenarios)
+  const [isFloatingAimeOpen, setIsFloatingAimeOpen] = useState(false);
 
   useEffect(() => {
     if (storyIdParam) {
@@ -74,8 +93,36 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
     }
   }, [viewParam]);
 
+  // Global hotkeys for glass cockpit: ] toggles right dock, [ toggles left outliner
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (['INPUT', 'TEXTAREA'].includes(e.target.tagName) || e.target.isContentEditable) return;
+
+      if (e.key === ']') {
+        e.preventDefault();
+        setIsRightDockOpen(prev => !prev);
+      } else if (e.key === '[') {
+        e.preventDefault();
+        setIsTreeExpanded(prev => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   const handleSwitchView = (newView) => {
     setActiveView(newView);
+    if (newView === 'control-panel' || newView === 'tactical') {
+      setActiveView('control-panel');
+      setScenarioWorkspaceTab('tactical');
+    } else if (newView === 'interactive') {
+      setActiveView('interactive');
+      setScenarioWorkspaceTab('interactive');
+    } else if (newView === 'scenarios' || newView === 'weaver' || newView === 'manuscript' || newView === 'aime') {
+      setActiveView('scenarios');
+      setScenarioWorkspaceTab('weaver');
+    }
+
     const newParams = new URLSearchParams(searchParams);
     if (newView === 'scenarios') {
       newParams.delete('view');
@@ -113,8 +160,6 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
         onSwitchView={handleSwitchView}
         isGemsOpen={isGemsOpen}
         onToggleGems={setIsGemsOpen}
-        isScratchbookOpen={isScratchbookOpen}
-        onToggleScratchbook={setIsScratchbookOpen}
         isPrintModalOpen={isPrintModalOpen}
         onTogglePrintModal={setIsPrintModalOpen}
         isCatalogOpen={isCatalogOpen}
@@ -123,14 +168,25 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
         onToggleGuide={setIsGuideOpen}
         isSettingsOpen={isSettingsOpen}
         onToggleSettings={setIsSettingsOpen}
-        isAimeChatOpen={isAimeChatOpen}
-        onToggleAimeChat={setIsAimeChatOpen}
-        isElementDrawerOpen={isElementDrawerOpen}
-        onToggleElementDrawer={setIsElementDrawerOpen}
-        scenarioWorkspaceTab={scenarioWorkspaceTab}
-        onSelectScenarioWorkspaceTab={setScenarioWorkspaceTab}
+        isCronicleOpen={isCronicleOpen && cronicleInitialMode === 'living_memory'}
+        onToggleCronicle={(open) => {
+          if (open) setCronicleInitialMode('living_memory');
+          setIsCronicleOpen(open);
+        }}
+        isScratchbookOpen={isCronicleOpen && cronicleInitialMode === 'scratchbook'}
+        onToggleScratchbook={(open) => {
+          if (open) setCronicleInitialMode('scratchbook');
+          setIsCronicleOpen(open);
+        }}
+        // Outliner Tree Toggle
         isTreeExpanded={isTreeExpanded}
         onToggleTreeExpanded={() => setIsTreeExpanded(prev => !prev)}
+        // Right Cockpit Dock
+        isRightDockOpen={isRightDockOpen}
+        onToggleRightDock={() => setIsRightDockOpen(prev => !prev)}
+        activeCockpitDeck={activeCockpitDeck}
+        onSelectCockpitDeck={setActiveCockpitDeck}
+        // Exports
         activeNode={activeNode}
         onExportMarkdown={() => exportElementMarkdown(activeNode, universeState)}
         onExportPDF={() => exportElementPDF(activeNode, universeState, userHandle, currentUser)}
@@ -138,7 +194,7 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
 
       {/* ── MAIN WORKSPACE VIEWPORT ── */}
       <div className="flex-1 flex overflow-hidden relative">
-        {/* VIEW 1: SCENARIOS & CANVAS */}
+        {/* VIEW 1: STORY WEAVER & SCENARIOS WORKSPACE */}
         {activeView === 'scenarios' && (
           <ScenarioPane
             onOpenCatalog={() => setIsCatalogOpen(true)}
@@ -150,77 +206,64 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
             onSelectScenarioWorkspaceTab={setScenarioWorkspaceTab}
             isTreeExpanded={isTreeExpanded}
             onToggleTreeExpanded={() => setIsTreeExpanded(prev => !prev)}
+            isRightDockOpen={isRightDockOpen}
+            onToggleRightDock={() => setIsRightDockOpen(prev => !prev)}
+            activeCockpitDeck={activeCockpitDeck}
+            onSelectCockpitDeck={setActiveCockpitDeck}
             onOpenGems={() => setIsGemsOpen(true)}
             onOpenScratchbook={() => setIsScratchbookOpen(true)}
             onOpenPrintModal={() => setIsPrintModalOpen(true)}
           />
         )}
 
-        {/* VIEW 2: AIME CREATIVE STUDIO INTEGRATED INTO ADE */}
-        {activeView === 'aime' && (
-          <AIME />
+        {/* VIEW 2: DEDICATED INTERACTIVE STORY MODULE */}
+        {activeView === 'interactive' && (
+          <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#080c14] font-mono">
+            <InteractiveStoryStudio
+              activeNode={activeNode}
+              onSelectScenario={(id) => {
+                if (typeof setActiveScenarioId === 'function') setActiveScenarioId(id);
+              }}
+            />
+          </div>
         )}
 
-        {/* VIEW 3: CONSOLIDATED ELEMENT FORGE */}
+        {/* VIEW 3: DEDICATED TACTICAL SPREAD (OSR 2-PAGE SPREAD) */}
+        {activeView === 'control-panel' && (
+          <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#0a0f18] font-mono">
+            <div className="p-2 px-4 border-b border-slate-800 bg-slate-950 flex items-center justify-between shrink-0">
+              <span className="text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center gap-2">
+                <span>🎛️</span> OSR 2-Page Tactical Control Panel Spread • {activeNode?.title || 'Tactical Sector'}
+              </span>
+              <button
+                onClick={() => handleSwitchView('scenarios')}
+                className="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 text-xs font-bold rounded-lg uppercase cursor-pointer"
+              >
+                Story Weaver ❯
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto p-4 md:p-6 scrollbar-thin">
+              <OsrControlPanelDeck
+                activeNode={activeNode}
+                updateStory={updateStory}
+                guidanceGems={universeState?.creativeState?.gems || []}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* VIEW 4: ELEMENT FORGE WORLDBUILDING DATABASE */}
         {activeView === 'elements' && (
           <ElementForge
             onBackToStory={() => handleSwitchView('scenarios')}
           />
         )}
-
-        {/* VIEW 4: GRANULAR INTERACTIVE STORY STUDIO */}
-        {activeView === 'interactive' && (
-          <InteractiveStoryStudio
-            activeNode={activeNode}
-          />
-        )}
-
-        {/* LEGACY COMPATIBILITY: CONTROL PANEL */}
-        {activeView === 'control-panel' && (
-          <ControlPanelStudio
-            activeNode={activeNode}
-          />
-        )}
-
-        {/* LEGACY COMPATIBILITY: MANUSCRIPT */}
-        {activeView === 'manuscript' && (
-          <ManuscriptStudio
-            activeNode={activeNode}
-          />
-        )}
-
-        {/* In-Situ Worldbuilding Element Drawer (Docked 3rd Column) */}
-        {isElementDrawerOpen && (
-          <InSituElementDrawer
-            isOpen={isElementDrawerOpen}
-            onClose={() => setIsElementDrawerOpen(false)}
-            elementsCatalog={elementsCatalog || []}
-            activeElementId={activeDrawerElementId}
-            onSelectElement={(id) => setActiveDrawerElementId(id)}
-            onOpenFullEditor={(elem) => {
-              setEditingModalElement(elem);
-              setIsEditElementModalOpen(true);
-            }}
-            onOpenFullForge={() => handleSwitchView('elements')}
-            onCreateElement={() => {
-              setEditingModalElement({
-                id: uuidv4(),
-                type: 'Persona',
-                title: 'New World Element',
-                fields: {},
-                content: ''
-              });
-              setIsEditElementModalOpen(true);
-            }}
-            currentSceneLinkedIds={activeNode?.linkedElements || []}
-          />
-        )}
       </div>
 
-      {/* Floating / Docked Movable AIME Co-Pilot Chat Window */}
-      {isAimeChatOpen && (
+      {/* Floating Movable AIME Co-Pilot Chat Window (For views other than Scenarios) */}
+      {isFloatingAimeOpen && activeView !== 'scenarios' && (
         <AIMEChatBox
-          onClose={() => setIsAimeChatOpen(false)}
+          onClose={() => setIsFloatingAimeOpen(false)}
           activeNode={activeNode}
           contextData={{
             projectName: universeState?.projectName || 'Tangent Universe',
@@ -236,7 +279,8 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
             sceneBeats: universeState?.creativeState?.sceneBeats || '',
             draft: universeState?.creativeState?.storyDraft || '',
             customCatalog: elementsCatalog || [],
-            scratchbook: generateScratchbookMarkdown(universeState, elementsCatalog)
+            scratchbook: generateScratchbookMarkdown(universeState, elementsCatalog),
+            cronicle: universeState?.cronicle || cronicle || null
           }}
         />
       )}
@@ -312,6 +356,13 @@ export default function StoryModule({ defaultView = 'scenarios' }) {
           onClose={() => setIsSettingsOpen(false)}
         />
       )}
+
+      {/* Master Cronicle Living Memory & Scratchbook Deck Modal */}
+      <CronicleDeckModal
+        isOpen={isCronicleOpen}
+        onClose={() => setIsCronicleOpen(false)}
+        initialMode={cronicleInitialMode}
+      />
     </div>
   );
 }

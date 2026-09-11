@@ -427,7 +427,8 @@ export function checkAugmentationStageCompatibility(characterData, augmentation)
     characterTier: charTier,
     requiredFeatureName,
     requiredFeatureId,
-    warning
+    warning,
+    stageInfo
   };
 }
 

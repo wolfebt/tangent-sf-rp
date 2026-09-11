@@ -9,6 +9,9 @@ import Split from 'react-split';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import AIMEChatBox from './AIMEChatBox';
+import CronicleDeckModal from '../../../components/StoryFoundry/Cronicle/CronicleDeckModal';
+import CronicleDeltaBadge from '../../../components/StoryFoundry/Cronicle/CronicleDeltaBadge';
+import { extractNarrativeDeltas } from '../../../services/cronicleService';
 import { v4 as uuidv4 } from 'uuid';
 import { GUIDANCE_GEMS, getMergedGems } from '../StoryModule/guidanceGemsConfig';
 export { GUIDANCE_GEMS };
@@ -28,7 +31,13 @@ export default function AIME() {
     addStory,
     updateLinkedElements,
     triggerStorySave,
-    elementsCatalog
+    elementsCatalog,
+    cronicle,
+    stageCronicleDeltas,
+    acceptPendingDelta,
+    acceptAllPendingDeltas,
+    rejectPendingDelta,
+    clearPendingDeltas
   } = useStory();
 
   const creativeState = universeState.creativeState || { gems: [], storyCards: [], storyOutline: '', sceneBeats: '', storyDraft: '', linkedElements: [], customGems: {} };
@@ -58,9 +67,36 @@ export default function AIME() {
       sceneBeats: creativeState?.sceneBeats || '',
       draft: creativeState?.storyDraft || '',
       customCatalog: elementsCatalog || [],
+      cronicle: cronicle || null,
       stageLabel,
       ...additionalInfo
     };
+  };
+
+  // Cronicle & Delta Extraction State
+  const [isCronicleModalOpen, setIsCronicleModalOpen] = useState(false);
+  const [isExtractingDeltas, setIsExtractingDeltas] = useState(false);
+
+  const handleTriggerDeltaExtraction = async (textToAnalyze) => {
+    const prose = textToAnalyze || creativeState.storyDraft || '';
+    if (!prose || prose.trim().length < 20) return;
+    setIsExtractingDeltas(true);
+    try {
+      const deltas = await extractNarrativeDeltas({
+        prose,
+        cronicle
+      });
+      if (deltas && deltas.length > 0) {
+        stageCronicleDeltas(deltas);
+        showToast(`⚡ AIME deduced ${deltas.length} state transition(s)!`);
+      } else {
+        showToast('No state transitions detected in text.');
+      }
+    } catch (err) {
+      console.warn('Delta extraction skipped:', err);
+    } finally {
+      setIsExtractingDeltas(false);
+    }
   };
 
   // Gems state for custom inputs per category
@@ -491,6 +527,7 @@ Style Instructions: Immersive, vivid sensory details, sharp character dialogue, 
           updateDraft(draftText);
         }
       });
+      handleTriggerDeltaExtraction(draftText);
     } catch (err) {
       alert(`Draft generation failed: ${err.message}`);
     } finally {
@@ -521,6 +558,7 @@ Style Instructions: Immersive, vivid sensory details, sharp character dialogue, 
           updateDraft(draftText);
         }
       });
+      handleTriggerDeltaExtraction(draftText);
     } catch (err) {
       alert(`Generation failed: ${err.message}`);
     } finally {
@@ -548,6 +586,7 @@ Style Instructions: Match the tone, immersive, vivid sensory details, sharp char
           updateDraft(draftText);
         }
       });
+      handleTriggerDeltaExtraction(draftText);
     } catch (err) {
       alert(`Generation failed: ${err.message}`);
     } finally {
@@ -640,8 +679,23 @@ Format Instructions: Respond ONLY with the revised or generated text. Do not inc
           })()}
         </div>
 
-        {/* Right: Chat with AIME button */}
+        {/* Right: Cronicle & Chat with AIME buttons */}
         <div className="flex items-center gap-2">
+          <button 
+            type="button"
+            onClick={() => setIsCronicleModalOpen(true)}
+            className="flex items-center gap-2 px-3.5 py-1.5 rounded-lg font-bold text-xs uppercase tracking-wider border transition-all bg-amber-950/70 text-amber-300 border-amber-500/60 hover:bg-amber-900/80 shadow-[0_0_12px_rgba(245,158,11,0.25)] cursor-pointer"
+            title="Open CRONICLE: Single Source of Truth & Evolutionary Memory"
+          >
+            <span>📜</span>
+            <span>Cronicle</span>
+            {cronicle?.pendingDeltas?.length > 0 && (
+              <span className="px-1.5 py-0.2 rounded-full bg-amber-500 text-black text-[10px] font-mono font-bold animate-pulse">
+                {cronicle.pendingDeltas.length}
+              </span>
+            )}
+          </button>
+
           <button 
             onClick={() => setIsChatOpen(prev => !prev)}
             className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg font-bold text-xs uppercase tracking-wider border transition-colors ${
@@ -746,7 +800,42 @@ Format Instructions: Respond ONLY with the revised or generated text. Do not inc
             })}
           </div>
 
-          <h3 className="text-sm font-bold text-amber-400 uppercase tracking-wider mt-8 mb-2">Linked Context Elements</h3>
+          {/* CRONICLE Living State Card */}
+          <div className="bg-slate-900/90 border border-amber-500/40 rounded-xl p-3 mb-4 flex flex-col gap-2 shadow-sm">
+            <div className="flex items-center justify-between">
+              <h3 className="text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
+                <span>📜</span> Cronicle Living Memory
+              </h3>
+              <button
+                type="button"
+                onClick={() => setIsCronicleModalOpen(true)}
+                className="text-[10px] font-bold uppercase text-cyan-300 hover:text-cyan-200 cursor-pointer"
+              >
+                Manage ➔
+              </button>
+            </div>
+            <div className="text-[11px] text-slate-300 flex flex-col gap-1 font-mono">
+              <div className="flex items-center gap-1 truncate">
+                <span className="text-slate-500">Loc:</span>
+                <span className="text-emerald-300 font-bold truncate">
+                  {cronicle?.locations?.[cronicle?.workingMemory?.activeLocationId]?.name || 'None Set'}
+                </span>
+              </div>
+              <div className="flex items-center gap-1 truncate">
+                <span className="text-slate-500">Entities:</span>
+                <span className="text-cyan-300 font-bold">
+                  {cronicle?.workingMemory?.activePersonaIds?.length || 0} active
+                </span>
+              </div>
+              {cronicle?.workingMemory?.immediateObjective && (
+                <p className="text-[10px] text-slate-400 italic line-clamp-2 mt-0.5">
+                  "{cronicle.workingMemory.immediateObjective}"
+                </p>
+              )}
+            </div>
+          </div>
+
+          <h3 className="text-sm font-bold text-amber-400 uppercase tracking-wider mt-4 mb-2">Linked Context Elements</h3>
           <p className="text-xs text-slate-400 mb-2">Select project elements to feed into AIME's context window.</p>
           <div className="flex flex-col gap-1.5 max-h-64 overflow-y-auto bg-slate-900 p-2 rounded border border-slate-700">
             {flatElements.map(el => (
@@ -968,6 +1057,24 @@ Format Instructions: Respond ONLY with the revised or generated text. Do not inc
               {stage === 4 && (
                 <div className="flex flex-col h-full max-w-5xl">
                   <div className="flex justify-end gap-2 mb-2">
+                    <button 
+                      onClick={() => handleTriggerDeltaExtraction(creativeState.storyDraft)} 
+                      disabled={isExtractingDeltas || !creativeState.storyDraft} 
+                      className="bg-indigo-700/80 hover:bg-indigo-600 text-indigo-100 border border-indigo-500/50 px-3 py-1 rounded text-xs font-bold disabled:opacity-50 flex items-center gap-1.5 transition-colors shadow-sm"
+                      title="Analyze current draft and extract evolutionary state deltas into Cronicle"
+                    >
+                      {isExtractingDeltas ? (
+                        <>
+                          <div className="w-3.5 h-3.5 border-2 border-indigo-200 border-t-transparent rounded-full animate-spin shrink-0" />
+                          <span>Extracting...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>⚡</span>
+                          <span>Extract State Deltas</span>
+                        </>
+                      )}
+                    </button>
                     <button onClick={handleGenerateNextScene} disabled={isGenerating} className="bg-amber-600 hover:bg-amber-500 px-3 py-1 rounded text-xs font-bold disabled:opacity-50 flex items-center gap-1.5">
                       {isGenerating ? (
                         <>
@@ -1027,8 +1134,25 @@ Format Instructions: Respond ONLY with the revised or generated text. Do not inc
         <AIMEChatBox 
           onClose={() => setIsChatOpen(false)}
           contextData={`Guidance Gems: ${getActiveGemsText() || 'None'}\n\nOutline Context:\n${creativeState.storyOutline || 'None'}\n\nScene Beats:\n${creativeState.sceneBeats || 'None'}\n\nCurrent Draft:\n${creativeState.storyDraft || 'None'}`}
+          cronicle={cronicle}
         />
       )}
+
+      {/* Master Cronicle Deck Modal */}
+      <CronicleDeckModal
+        isOpen={isCronicleModalOpen}
+        onClose={() => setIsCronicleModalOpen(false)}
+      />
+
+      {/* Floating Pending Delta Review Pill / Drawer */}
+      <CronicleDeltaBadge
+        pendingDeltas={cronicle?.pendingDeltas || []}
+        onAcceptDelta={acceptPendingDelta}
+        onAcceptAll={acceptAllPendingDeltas}
+        onRejectDelta={rejectPendingDelta}
+        onClearAll={clearPendingDeltas}
+        onOpenCronicleModal={() => setIsCronicleModalOpen(true)}
+      />
     </div>
   );
 }

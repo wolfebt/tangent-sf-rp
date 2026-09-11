@@ -24,6 +24,11 @@ import {
 } from 'lucide-react';
 import FolioTooltip from '../Folio/shared/FolioTooltip';
 import { checkPrerequisite } from '../../utils/prerequisiteEvaluator';
+import { 
+  getAugmentationStage, 
+  getAugmentationNodes, 
+  checkAugmentationStageCompatibility 
+} from '../../engines/tangentComplexEngines';
 import { db } from '../../firebase';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { useDBM } from '../../context/DBMContext';
@@ -132,6 +137,7 @@ const WEAPON_TYPE_ORDER = ['melee', 'sidearm', 'small arms', 'rifle', 'longarm',
 const ARMOR_CLASS_ORDER = ['light', 'medium', 'heavy', 'powered', 'shield', 'exotic'];
 const SKILL_GROUP_ORDER = ['physical', 'mental', 'social', 'combat', 'meta'];
 const INVOCATION_DISCIPLINE_ORDER = ['entropy', 'dimension', 'energy', 'illusion', 'matter', 'mental', 'composite'];
+const AUGMENTATION_STAGE_ORDER = ['negligible', 'standard', 'heavy', 'extreme'];
 
 const EMPTY_ARRAY = [];
 
@@ -154,6 +160,10 @@ const getRank = (val, orderList) => {
  */
 export const getItemCategory = (item, canonicalColKey) => {
   if (!item) return 'Standard';
+
+  if (canonicalColKey === 'augmentations') {
+    return getAugmentationStage(item);
+  }
 
   if (canonicalColKey === 'invocations') {
     return item.discipline || item.school || item.type || 'General';
@@ -432,7 +442,9 @@ export const UniversalCatalogModal = ({
 
     allRawItems.forEach(item => {
       const cat = getItemCategory(item, canonicalColKey);
-      if (cat && cat !== 'Standard') {
+      if (canonicalColKey === 'augmentations') {
+        if (cat) categoriesSet.add(cat);
+      } else if (cat && cat !== 'Standard') {
         categoriesSet.add(cat);
       }
     });
@@ -445,6 +457,10 @@ export const UniversalCatalogModal = ({
       } else if (canonicalColKey === 'archetypes') {
         const rA = getRank(a, SPHERE_ORDER);
         const rB = getRank(b, SPHERE_ORDER);
+        if (rA !== rB) return rA - rB;
+      } else if (canonicalColKey === 'augmentations') {
+        const rA = getRank(a, AUGMENTATION_STAGE_ORDER);
+        const rB = getRank(b, AUGMENTATION_STAGE_ORDER);
         if (rA !== rB) return rA - rB;
       }
       return a.localeCompare(b);
@@ -550,14 +566,38 @@ export const UniversalCatalogModal = ({
       if (sortOption === 'za') {
         return nameB.localeCompare(nameA);
       }
+      if (sortOption === 'prereq') {
+        const pA = checkPrerequisite(a, characterData, canonicalColKey);
+        const pB = checkPrerequisite(b, characterData, canonicalColKey);
+        const unmetA = pA.hasPrerequisite && !pA.isPossessed ? 1 : 0;
+        const unmetB = pB.hasPrerequisite && !pB.isPossessed ? 1 : 0;
+        if (unmetA !== unmetB) return unmetA - unmetB;
+        return nameA.localeCompare(nameB);
+      }
+      if (sortOption === 'stage_asc') {
+        const stageA = getAugmentationStage(a);
+        const stageB = getAugmentationStage(b);
+        const rA = getRank(stageA, AUGMENTATION_STAGE_ORDER);
+        const rB = getRank(stageB, AUGMENTATION_STAGE_ORDER);
+        if (rA !== rB) return rA - rB;
+        return nameA.localeCompare(nameB);
+      }
+      if (sortOption === 'stage_desc') {
+        const stageA = getAugmentationStage(a);
+        const stageB = getAugmentationStage(b);
+        const rA = getRank(stageA, AUGMENTATION_STAGE_ORDER);
+        const rB = getRank(stageB, AUGMENTATION_STAGE_ORDER);
+        if (rA !== rB) return rB - rA;
+        return nameA.localeCompare(nameB);
+      }
       if (sortOption === 'cost_desc') {
-        const costA = parseFloat(a.cost || a.cp || a.bp_chassis || 0);
-        const costB = parseFloat(b.cost || b.cp || b.bp_chassis || 0);
+        const costA = parseFloat(a.costs?.credits || a.costs?.bp || a.cost || a.cp || a.bp_chassis || 0);
+        const costB = parseFloat(b.costs?.credits || b.costs?.bp || b.cost || b.cp || b.bp_chassis || 0);
         return costB - costA;
       }
       if (sortOption === 'cost_asc') {
-        const costA = parseFloat(a.cost || a.cp || a.bp_chassis || 0);
-        const costB = parseFloat(b.cost || b.cp || b.bp_chassis || 0);
+        const costA = parseFloat(a.costs?.credits || a.costs?.bp || a.cost || a.cp || a.bp_chassis || 0);
+        const costB = parseFloat(b.costs?.credits || b.costs?.bp || b.cost || b.cp || b.bp_chassis || 0);
         return costA - costB;
       }
       if (sortOption === 'tl_desc') {
@@ -567,6 +607,21 @@ export const UniversalCatalogModal = ({
       }
 
       // 'recommended' sorting based on domain archetype
+      if (canonicalColKey === 'augmentations') {
+        if (characterData) {
+          const pA = checkPrerequisite(a, characterData, canonicalColKey);
+          const pB = checkPrerequisite(b, characterData, canonicalColKey);
+          const unmetA = pA.hasPrerequisite && !pA.isPossessed ? 1 : 0;
+          const unmetB = pB.hasPrerequisite && !pB.isPossessed ? 1 : 0;
+          if (unmetA !== unmetB) return unmetA - unmetB;
+        }
+        const stageA = getAugmentationStage(a);
+        const stageB = getAugmentationStage(b);
+        const rA = getRank(stageA, AUGMENTATION_STAGE_ORDER);
+        const rB = getRank(stageB, AUGMENTATION_STAGE_ORDER);
+        if (rA !== rB) return rA - rB;
+        return nameA.localeCompare(nameB);
+      }
       if (canonicalColKey === 'archetypes') {
         const catA = getItemCategory(a, canonicalColKey);
         const catB = getItemCategory(b, canonicalColKey);
@@ -631,7 +686,7 @@ export const UniversalCatalogModal = ({
     });
 
     return list;
-  }, [allRawItems, searchQuery, activeCategoryFilter, sortOption, filterCategory, filterCategoryExclude, canonicalColKey]);
+  }, [allRawItems, searchQuery, activeCategoryFilter, sortOption, filterCategory, filterCategoryExclude, canonicalColKey, characterData]);
 
   // Determine if an item is selected
   const isItemSelected = useCallback((item) => {
@@ -696,6 +751,9 @@ export const UniversalCatalogModal = ({
   if (!isOpen) return null;
 
   // Theme styling helpers
+  const isIdentityChoice = ['species', 'occupations', 'origins', 'factions'].includes(canonicalColKey);
+  const isArchetype = canonicalColKey === 'archetypes';
+
   const effectiveTheme = themeColor || (
     ['disciplines', 'awakened', 'factions'].includes(canonicalColKey) ? 'purple' :
     ['weaponry', 'attacks', 'weapons', 'archetypes'].includes(canonicalColKey) ? 'amber' :
@@ -704,17 +762,21 @@ export const UniversalCatalogModal = ({
     ['species'].includes(canonicalColKey) ? 'cyan' : 'cyan'
   );
 
-  const themeBorder = effectiveTheme === 'amber' ? 'border-amber-500/50' :
+  const themeBorder = isIdentityChoice ? 'border-cyan-500/50' :
+    effectiveTheme === 'amber' ? 'border-amber-500/50' :
     effectiveTheme === 'emerald' ? 'border-emerald-500/50' :
     effectiveTheme === 'purple' ? 'border-purple-500/50' :
     effectiveTheme === 'blue' ? 'border-blue-500/50' : 'border-cyan-500/50';
 
-  const themeText = effectiveTheme === 'amber' ? 'text-amber-400' :
+  const themeText = isIdentityChoice ? 'text-cyan-400' :
+    effectiveTheme === 'amber' ? 'text-amber-400' :
     effectiveTheme === 'emerald' ? 'text-emerald-400' :
     effectiveTheme === 'purple' ? 'text-purple-400' :
     effectiveTheme === 'blue' ? 'text-blue-400' : 'text-cyan-400';
 
-  const themeGlow = effectiveTheme === 'amber' ? 'shadow-[0_0_30px_rgba(245,158,11,0.2)]' :
+  const themeGlow = isArchetype ? '' :
+    isIdentityChoice ? 'shadow-[0_0_30px_rgba(34,211,238,0.25)]' :
+    effectiveTheme === 'amber' ? 'shadow-[0_0_30px_rgba(245,158,11,0.2)]' :
     effectiveTheme === 'emerald' ? 'shadow-[0_0_30px_rgba(16,185,129,0.2)]' :
     effectiveTheme === 'purple' ? 'shadow-[0_0_30px_rgba(168,85,247,0.2)]' :
     effectiveTheme === 'blue' ? 'shadow-[0_0_30px_rgba(59,130,246,0.2)]' : 'shadow-[0_0_30px_rgba(34,211,238,0.2)]';
@@ -856,6 +918,47 @@ export const UniversalCatalogModal = ({
         </div>
       );
     }
+    if (canonicalColKey === 'augmentations') {
+      const stage = getAugmentationStage(item);
+      const nodes = getAugmentationNodes(item);
+      const bpCost = item.costs?.bp ?? item.bp ?? 0;
+      const credCost = item.costs?.credits ?? item.cost ?? item.credits;
+      const location = item.body_location || item.location;
+
+      const stageBadgeStyle =
+        stage === 'Extreme' ? 'bg-purple-950/80 border-purple-800/60 text-purple-300' :
+        stage === 'Heavy' ? 'bg-amber-950/80 border-amber-800/60 text-amber-300' :
+        stage === 'Standard' ? 'bg-cyan-950/80 border-cyan-800/60 text-cyan-300' :
+        'bg-slate-900 border-slate-700 text-slate-400';
+
+      return (
+        <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono text-slate-300">
+          <span className={`px-1.5 py-0.5 rounded border font-bold ${stageBadgeStyle}`}>
+            Stage: {stage}
+          </span>
+          {nodes > 0 && (
+            <span className="px-1.5 py-0.5 rounded bg-blue-950/70 border border-blue-800/60 text-blue-300 font-bold">
+              {nodes} {nodes === 1 ? 'Node' : 'Nodes'}
+            </span>
+          )}
+          {bpCost > 0 && (
+            <span className="px-1.5 py-0.5 rounded bg-amber-950/80 border border-amber-800/60 text-amber-300">
+              {bpCost} BP
+            </span>
+          )}
+          {location && location !== 'General' && (
+            <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-300">
+              {location}
+            </span>
+          )}
+          {credCost !== undefined && credCost !== null && credCost !== '' && (
+            <span className="px-1.5 py-0.5 rounded bg-emerald-950/70 border border-emerald-800/60 text-emerald-300">
+              {Number(credCost).toLocaleString()} ¢
+            </span>
+          )}
+        </div>
+      );
+    }
     if (canonicalColKey === 'mecha') {
       return (
         <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono text-slate-300">
@@ -973,10 +1076,17 @@ export const UniversalCatalogModal = ({
                 className="bg-transparent text-xs text-slate-200 outline-none cursor-pointer pr-2 font-medium"
               >
                 <option value="recommended" className="bg-slate-950 text-slate-200">Recommended Sort</option>
+                <option value="prereq" className="bg-slate-950 text-slate-200">Prerequisites (Met First)</option>
+                {canonicalColKey === 'augmentations' && (
+                  <>
+                    <option value="stage_asc" className="bg-slate-950 text-slate-200">Stage (Negligible → Extreme)</option>
+                    <option value="stage_desc" className="bg-slate-950 text-slate-200">Stage (Extreme → Negligible)</option>
+                  </>
+                )}
                 <option value="az" className="bg-slate-950 text-slate-200">Name (A → Z)</option>
                 <option value="za" className="bg-slate-950 text-slate-200">Name (Z → A)</option>
-                <option value="cost_desc" className="bg-slate-950 text-slate-200">Cost / CP (High → Low)</option>
-                <option value="cost_asc" className="bg-slate-950 text-slate-200">Cost / CP (Low → High)</option>
+                <option value="cost_desc" className="bg-slate-950 text-slate-200">Cost / CP / Credits (High → Low)</option>
+                <option value="cost_asc" className="bg-slate-950 text-slate-200">Cost / CP / Credits (Low → High)</option>
                 <option value="tl_desc" className="bg-slate-950 text-slate-200">Tech Level (High → Low)</option>
               </select>
             </div>
@@ -1140,9 +1250,12 @@ export const UniversalCatalogModal = ({
                                 <div className={`font-bold flex items-center gap-1.5 transition-colors ${isPrereqUnmet ? 'text-slate-400 group-hover:text-slate-200' : 'text-slate-100 group-hover:text-cyan-300'}`}>
                                   <span>{item.name || item.title || item.id}</span>
                                   {isPrereqUnmet && (
-                                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.2 rounded text-[9px] font-mono uppercase tracking-wider bg-rose-950/80 border border-rose-800/80 text-rose-300" title={`Missing: ${prereqResult.unmetReasons.join(', ')}`}>
-                                      <Lock className="w-2.5 h-2.5" />
-                                      <span>Prereq Missing</span>
+                                    <span 
+                                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider bg-rose-950/90 border border-rose-600/80 text-rose-300 font-bold shadow-sm" 
+                                      title={`Missing: ${prereqResult.unmetReasons.join(', ')}`}
+                                    >
+                                      <Lock className="w-3 h-3 text-rose-400 shrink-0" />
+                                      <span>{prereqResult.unmetReasons[0] || 'Prereq Missing'}</span>
                                     </span>
                                   )}
                                 </div>
@@ -1212,11 +1325,24 @@ export const UniversalCatalogModal = ({
                                 isSelected
                                   ? 'bg-cyan-500 text-slate-950 font-black shadow-[0_0_10px_rgba(34,211,238,0.5)]'
                                   : isPrereqUnmet
-                                  ? 'bg-slate-900/90 border border-rose-900/60 text-slate-400 hover:text-slate-200 hover:border-rose-500/60'
+                                  ? 'bg-rose-950/60 hover:bg-rose-900/80 border border-rose-700/80 text-rose-200 hover:text-white flex items-center gap-1'
+                                  : isArchetype
+                                  ? 'bg-amber-950/60 hover:bg-amber-900/80 border border-amber-500/60 text-amber-300 shadow-none'
+                                  : isIdentityChoice
+                                  ? 'bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 shadow-[0_0_8px_rgba(34,211,238,0.25)] hover:shadow-[0_0_12px_rgba(34,211,238,0.4)]'
                                   : 'bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 group-hover:shadow-[0_0_8px_rgba(34,211,238,0.2)]'
                               }`}
                             >
-                              {isSelected ? 'Selected' : isPrereqUnmet ? 'Select (Missing Prereq)' : 'Select'}
+                              {isSelected ? (
+                                'Selected'
+                              ) : isPrereqUnmet ? (
+                                <>
+                                  <Lock className="w-2.5 h-2.5" />
+                                  <span>Select (Unmet)</span>
+                                </>
+                              ) : (
+                                'Select'
+                              )}
                             </button>
                           </div>
                         </td>
@@ -1245,6 +1371,10 @@ export const UniversalCatalogModal = ({
                         ? 'bg-slate-900/90 border-2 border-cyan-400 shadow-[0_0_20px_rgba(34,211,238,0.3)]'
                         : isPrereqUnmet
                         ? 'opacity-65 grayscale-[70%] hover:grayscale-0 hover:opacity-100 bg-slate-950/80 border-dashed border-rose-900/60 hover:border-rose-500/70 hover:shadow-[0_0_16px_rgba(244,63,94,0.2)]'
+                        : isArchetype
+                        ? 'bg-slate-900/40 hover:bg-slate-900/90 border-slate-800 hover:border-amber-500/70 shadow-none hover:shadow-none'
+                        : isIdentityChoice
+                        ? 'bg-slate-900/40 hover:bg-slate-900/90 border-cyan-500/40 hover:border-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.18)] hover:shadow-[0_0_18px_rgba(34,211,238,0.32)]'
                         : 'bg-slate-900/40 hover:bg-slate-900/90 border-slate-800 hover:border-cyan-500/70 hover:shadow-[0_0_18px_rgba(34,211,238,0.25)]'
                     }`}
                   >
@@ -1263,9 +1393,14 @@ export const UniversalCatalogModal = ({
                           {getItemCategory(item, canonicalColKey)}
                         </span>
                         {isPrereqUnmet && (
-                          <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[9px] font-mono uppercase tracking-wide bg-rose-950/90 border border-rose-800/80 text-rose-300" title={`Missing: ${prereqResult.unmetReasons.join(', ')}`}>
-                            <Lock className="w-2.5 h-2.5" />
-                            <span>Missing Prereq</span>
+                          <span 
+                            className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wide bg-rose-950/90 border border-rose-600/80 text-rose-300 font-bold shadow-sm" 
+                            title={`Missing requirement: ${prereqResult.unmetReasons.join(' | ')}`}
+                          >
+                            <Lock className="w-3 h-3 text-rose-400 shrink-0" />
+                            <span className="truncate max-w-[170px] sm:max-w-[210px]">
+                              {prereqResult.unmetReasons[0] || 'Missing Prereq'}
+                            </span>
                           </span>
                         )}
                       </div>
@@ -1317,6 +1452,17 @@ export const UniversalCatalogModal = ({
                       {renderItemStats(item)}
                     </div>
 
+                    {/* Unmet Requirement Alert Box */}
+                    {isPrereqUnmet && (
+                      <div className="mb-2.5 p-2 rounded-lg bg-rose-950/40 border border-rose-800/70 text-[11px] font-mono text-rose-300 flex items-start gap-1.5 shadow-inner">
+                        <AlertTriangle className="w-3.5 h-3.5 text-rose-400 shrink-0 mt-0.5" />
+                        <div className="leading-tight">
+                          <span className="font-bold text-rose-200">Prerequisite Missing: </span>
+                          <span>{prereqResult.unmetReasons.join(' • ')}</span>
+                        </div>
+                      </div>
+                    )}
+
                     {/* Description Snippet */}
                     <div className="flex-1 mb-3">
                       <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
@@ -1356,7 +1502,11 @@ export const UniversalCatalogModal = ({
                             isSelected
                               ? 'bg-cyan-500 text-slate-950 font-black shadow-[0_0_12px_rgba(34,211,238,0.6)]'
                               : isPrereqUnmet
-                              ? 'bg-slate-950/90 hover:bg-slate-900 border border-rose-900/60 text-slate-400 hover:text-slate-200'
+                              ? 'bg-rose-950/60 hover:bg-rose-900/80 border border-rose-700/80 text-rose-200 hover:text-white'
+                              : isArchetype
+                              ? 'bg-amber-950/60 hover:bg-amber-900/80 border border-amber-500/60 text-amber-300 shadow-none'
+                              : isIdentityChoice
+                              ? 'bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 shadow-[0_0_10px_rgba(34,211,238,0.25)] hover:shadow-[0_0_14px_rgba(34,211,238,0.4)]'
                               : 'bg-cyan-950/90 group-hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300'
                           }`}
                         >
@@ -1365,9 +1515,14 @@ export const UniversalCatalogModal = ({
                               <Check className="w-3.5 h-3.5" />
                               <span>Selected</span>
                             </>
+                          ) : isPrereqUnmet ? (
+                            <>
+                              <Lock className="w-3.5 h-3.5" />
+                              <span>Select (Missing Prereq)</span>
+                            </>
                           ) : (
                             <>
-                              <span>{isPrereqUnmet ? 'Select' : 'Select'}</span>
+                              <span>Select</span>
                               <ChevronRight className="w-3.5 h-3.5" />
                             </>
                           )}

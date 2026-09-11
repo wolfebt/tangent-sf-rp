@@ -1,9 +1,36 @@
+compendium needs revised with full ruleset from the game rules folder
 
+lets build a MECHANICS dataset for rules collection for BASTION, a fully organized collection to be reference / ingested by BASTION (after approved by user).
 
 unlink the active character
 
 in the message station - we will need message options to player as well as to the separate characters and sorted accordingly. 
 
-
 companion / cohort system and mechanics for vtt
+
+
+initiative system integrated - PC / NPC / Environment
+
+FOLIO --
+in core stats --
+set tech/meta levels of species and factions (range of 0 to 5 for both) 
+(10 cp /difference from 3 (cos 10 at 4, 20 at 5, refunds 10 at 2, 20 at 1 and 30 at 0) - from any adjustment of the levels (if adjusted from multiple sources tech and meta levels do not stack only the highest is taken and possibley improved up to meta and tech level 5))
+
+vitality/health charge 1cp per 2 pt increase with starting pool of 30 each
+structure is 1 cp per 2pt as well with a pool of 60 to start
+
+selected traits and features must have any modifiers represented in all rules, notes and mechanics.
+
+granted skills and point to skill groups
+recommended features
+list recommendations of archetype if selected
+
+augmentations - neglible type is missing in catalog
+
+need all benefits of karma represented in the FATE modal
+
+vtt needs an adventure log
+
+need to revise the selectors in identity section, the window and allocation is clunky. possible tabbed structure?
+
 

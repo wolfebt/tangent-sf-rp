@@ -6,6 +6,12 @@ import { attachCreatorTag } from '../utils/creatorUtils';
 import { createDebouncedSaver } from '../utils/debounceUtils';
 import { commitChunkedBatches } from '../utils/firestoreUtils';
 import { StorageService } from '../services/storageService';
+import {
+  createDefaultCronicleState,
+  applyCronicleDelta,
+  applyBatchDeltas,
+  cloneToWorkingCopy
+} from '../services/cronicleService.js';
 
 const StoryContext = createContext();
 
@@ -50,6 +56,7 @@ const DEFAULT_UNIVERSE_STATE = {
     storyDraft: '',
     linkedElements: []
   },
+  cronicle: createDefaultCronicleState('Tangent Universe'),
   updatedAt: new Date().toISOString()
 };
 
@@ -1422,6 +1429,165 @@ export const StoryProvider = ({ children }) => {
     }));
   };
 
+  // ── CRONICLE PERSISTENT MEMORY STATE MANAGEMENT ──
+  const cronicle = universeState?.cronicle || createDefaultCronicleState(universeState?.projectName);
+
+  const updateCronicle = (updates) => {
+    setIsDirty(true);
+    setUniverseState(prev => {
+      const currentCronicle = prev.cronicle || createDefaultCronicleState(prev.projectName);
+      return {
+        ...prev,
+        cronicle: {
+          ...currentCronicle,
+          ...updates,
+          updatedAt: new Date().toISOString()
+        }
+      };
+    });
+  };
+
+  const updateWorkingMemory = (wmUpdates) => {
+    setIsDirty(true);
+    setUniverseState(prev => {
+      const currentCronicle = prev.cronicle || createDefaultCronicleState(prev.projectName);
+      return {
+        ...prev,
+        cronicle: {
+          ...currentCronicle,
+          workingMemory: {
+            ...(currentCronicle.workingMemory || {}),
+            ...wmUpdates
+          },
+          updatedAt: new Date().toISOString()
+        }
+      };
+    });
+  };
+
+  const applyCronicleDeltaAction = (delta) => {
+    setIsDirty(true);
+    setUniverseState(prev => {
+      const currentCronicle = prev.cronicle || createDefaultCronicleState(prev.projectName);
+      const nextCronicle = applyCronicleDelta(currentCronicle, delta);
+      return {
+        ...prev,
+        cronicle: nextCronicle
+      };
+    });
+  };
+
+  const stageCronicleDeltas = (newDeltas) => {
+    if (!Array.isArray(newDeltas) || newDeltas.length === 0) return;
+    setIsDirty(true);
+    setUniverseState(prev => {
+      const currentCronicle = prev.cronicle || createDefaultCronicleState(prev.projectName);
+      const existing = currentCronicle.pendingDeltas || [];
+      return {
+        ...prev,
+        cronicle: {
+          ...currentCronicle,
+          pendingDeltas: [...existing, ...newDeltas],
+          updatedAt: new Date().toISOString()
+        }
+      };
+    });
+  };
+
+  const acceptPendingDelta = (deltaId) => {
+    setIsDirty(true);
+    setUniverseState(prev => {
+      const currentCronicle = prev.cronicle || createDefaultCronicleState(prev.projectName);
+      const targetDelta = (currentCronicle.pendingDeltas || []).find(d => d.id === deltaId);
+      if (!targetDelta) return prev;
+      const nextCronicle = applyCronicleDelta(currentCronicle, targetDelta);
+      return {
+        ...prev,
+        cronicle: nextCronicle
+      };
+    });
+  };
+
+  const acceptAllPendingDeltas = () => {
+    setIsDirty(true);
+    setUniverseState(prev => {
+      const currentCronicle = prev.cronicle || createDefaultCronicleState(prev.projectName);
+      const deltas = currentCronicle.pendingDeltas || [];
+      if (deltas.length === 0) return prev;
+      const nextCronicle = applyBatchDeltas(currentCronicle, deltas);
+      return {
+        ...prev,
+        cronicle: {
+          ...nextCronicle,
+          pendingDeltas: []
+        }
+      };
+    });
+  };
+
+  const rejectPendingDelta = (deltaId) => {
+    setIsDirty(true);
+    setUniverseState(prev => {
+      const currentCronicle = prev.cronicle || createDefaultCronicleState(prev.projectName);
+      return {
+        ...prev,
+        cronicle: {
+          ...currentCronicle,
+          pendingDeltas: (currentCronicle.pendingDeltas || []).filter(d => d.id !== deltaId),
+          updatedAt: new Date().toISOString()
+        }
+      };
+    });
+  };
+
+  const clearPendingDeltas = () => {
+    setIsDirty(true);
+    setUniverseState(prev => {
+      const currentCronicle = prev.cronicle || createDefaultCronicleState(prev.projectName);
+      return {
+        ...prev,
+        cronicle: {
+          ...currentCronicle,
+          pendingDeltas: [],
+          updatedAt: new Date().toISOString()
+        }
+      };
+    });
+  };
+
+  const cloneElementToCronicle = (element) => {
+    if (!element) return;
+    setIsDirty(true);
+    setUniverseState(prev => {
+      const currentCronicle = prev.cronicle || createDefaultCronicleState(prev.projectName);
+      const copy = cloneToWorkingCopy(element, prev.projectName);
+      if (!copy) return prev;
+
+      const personas = { ...(currentCronicle.personas || {}) };
+      const locations = { ...(currentCronicle.locations || {}) };
+      const workingCopies = { ...(currentCronicle.workingCopies || {}) };
+
+      workingCopies[copy.id] = copy;
+      if (copy.personaState) {
+        personas[copy.id] = copy.personaState;
+      }
+      if (copy.locationState) {
+        locations[copy.id] = copy.locationState;
+      }
+
+      return {
+        ...prev,
+        cronicle: {
+          ...currentCronicle,
+          personas,
+          locations,
+          workingCopies,
+          updatedAt: new Date().toISOString()
+        }
+      };
+    });
+  };
+
   // Story Project Catalog Lifecycle Helpers
   const createNewStory = (name, description = '') => {
     const newId = `proj_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
@@ -1440,6 +1606,7 @@ export const StoryProvider = ({ children }) => {
       scenarios: [overviewElem],
       maps: [],
       customAssets: { terrains: [], objects: [] },
+      cronicle: createDefaultCronicleState(name || 'Untitled Story Project'),
       updatedAt: new Date().toISOString()
     };
     const newStory = attachCreatorTag(rawStory, localStorage.getItem('userHandle'), currentUser);
@@ -1642,6 +1809,16 @@ export const StoryProvider = ({ children }) => {
     updateSceneBeats,
     updateDraft,
     getActiveGemsText,
+    cronicle,
+    updateCronicle,
+    updateWorkingMemory,
+    applyCronicleDelta: applyCronicleDeltaAction,
+    stageCronicleDeltas,
+    acceptPendingDelta,
+    acceptAllPendingDeltas,
+    rejectPendingDelta,
+    clearPendingDeltas,
+    cloneElementToCronicle,
     cloudSyncStatus,
     syncConflict,
     setSyncConflict,

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import DraggablePanel from '../MapMaker/map/DraggablePanel';
-import { streamChatContent, parseRollCommand } from '../../../services/aimeService';
+import { streamChatContent, parseRollCommand, formatCronicleContextForAIME } from '../../../services/aimeService';
 import { useStory } from '../../../context/CampaignContext';
 
 const QUICK_ACTIONS = [
@@ -10,11 +10,12 @@ const QUICK_ACTIONS = [
   { label: '🪐 Omnicortex Lore', prompt: 'Synthesize Omnicortex lore: How does this connect to galactic factions, alien species, and history in the Tangent Universe?' }
 ];
 
-export default function AIMEChatBox({ onClose, contextData, activeNode: propActiveNode }) {
+export default function AIMEChatBox({ onClose, contextData, activeNode: propActiveNode, cronicle: propCronicle }) {
   const storyContext = useStory ? useStory() : null;
   const universeState = storyContext?.universeState || {};
   const activeScenarioId = storyContext?.activeScenarioId;
   const getActiveGemsText = storyContext?.getActiveGemsText;
+  const activeCronicle = propCronicle || storyContext?.cronicle || universeState?.cronicle || null;
 
   // Dock / Undock state (Persisted in localStorage)
   const [isDocked, setIsDocked] = useState(() => {
@@ -62,9 +63,23 @@ export default function AIMEChatBox({ onClose, contextData, activeNode: propActi
   // Formulate structured context for AIME & BASTION/Omnicortex
   const effectiveContext = React.useMemo(() => {
     if (contextData) {
-      if (typeof contextData === 'string') return contextData;
+      if (typeof contextData === 'string') {
+        let text = contextData;
+        if (activeCronicle) {
+          try {
+            const cronicleText = formatCronicleContextForAIME(activeCronicle, 2500);
+            if (cronicleText) {
+              text = `${text}\n\n${cronicleText}`;
+            }
+          } catch (e) {
+            console.warn('Could not inject Cronicle context into chat:', e);
+          }
+        }
+        return text;
+      }
       return {
         ...contextData,
+        cronicle: contextData.cronicle || activeCronicle,
         customCatalog: storyContext?.elementsCatalog || []
       };
     }
@@ -81,14 +96,15 @@ export default function AIMEChatBox({ onClose, contextData, activeNode: propActi
       outline: universeState?.creativeState?.storyOutline || '',
       sceneBeats: universeState?.creativeState?.sceneBeats || '',
       draft: universeState?.creativeState?.storyDraft || '',
-      customCatalog: storyContext?.elementsCatalog || []
+      customCatalog: storyContext?.elementsCatalog || [],
+      cronicle: activeCronicle
     };
-  }, [contextData, projectName, activeNode, guidanceGemsText, universeState, storyContext?.elementsCatalog]);
+  }, [contextData, projectName, activeNode, guidanceGemsText, universeState, storyContext?.elementsCatalog, activeCronicle]);
 
   const [messages, setMessages] = useState([
     {
       role: 'model',
-      content: `Greetings, ARCHITECT. I am **AIME**, your creative storytelling and worldbuilding co-pilot.\n\nI have direct access to consult **BASTION** and the **OMNICORTEX** for rules, mechanics, and canon lore whenever needed. How can I assist your narrative today?`
+      content: `Greetings, ARCHITECT. I am **AIME** (Artificial Intellect Mythopoeic Environ), your creative narrative co-pilot and AI overseer for the Tangent Foundry.\n\nI monitor story state, consult **BASTION** rules and **OMNICORTEX** lore, resolve dice checks (\`/roll\`), and synthesize narrative beats. How can I assist your scenario today?`
     }
   ]);
   const [inputValue, setInputValue] = useState('');
@@ -191,7 +207,7 @@ export default function AIMEChatBox({ onClose, contextData, activeNode: propActi
         <div className="flex items-center gap-2">
           <div className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
           <h3 className="text-cyan-300 font-bold text-xs uppercase tracking-widest flex items-center gap-1.5">
-            <span>✨</span> AIME CO-PILOT
+            <span>✨</span> AI ASSISTANT
           </h3>
           <span className="text-[9px] bg-cyan-950/80 text-cyan-400 border border-cyan-800/60 px-1.5 py-0.2 rounded font-mono hidden sm:inline">
             {isDocked ? 'Docked Right' : 'Floating'}

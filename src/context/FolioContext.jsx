@@ -89,12 +89,13 @@ export const normalizeTraitName = (trait) => {
   return cleaned.replace(/\b\w/g, c => c.toUpperCase());
 };
 
-const FolioContext = createContext(null);
+export const FolioContext = createContext(null);
 
 export const useFolio = () => {
   const context = useContext(FolioContext);
   if (!context) {
-    throw new Error('useFolio must be used within a FolioProvider');
+    console.warn('[useFolio] Hook called outside of FolioProvider context. Returning fallback empty state.');
+    return {};
   }
   return context;
 };

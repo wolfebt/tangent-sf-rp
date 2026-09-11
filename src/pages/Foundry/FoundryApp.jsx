@@ -22,6 +22,7 @@ const FoundryAppInner = () => {
           <Route path="/" element={<Dashboard />} />
           <Route path="ade" element={<StoryModule />} />
           <Route path="story" element={<StoryModule />} />
+          <Route path="interactive" element={<StoryModule defaultView="interactive" />} />
           <Route path="elements" element={<StoryModule defaultView="elements" />} />
           <Route path="map-maker" element={<MapMaker />} />
           <Route path="vtt-options" element={<VttOptionsPage />} />

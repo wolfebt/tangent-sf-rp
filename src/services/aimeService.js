@@ -1,8 +1,9 @@
 import { getGeminiApiKey, fetchGeminiContent, parseRollCommand } from './bastionService';
 import { hydrateElementEntities } from './entityHydrator';
 import { queryOmnicortexRAG, formatRagContextForAIME } from './omnicortexVectorRag';
+import { formatCronicleContextForAIME, extractNarrativeDeltas } from './cronicleService.js';
 
-export { parseRollCommand };
+export { parseRollCommand, formatCronicleContextForAIME, extractNarrativeDeltas };
 
 export const AIME_SYSTEM_PROMPT = `You are AIME (The Artificial Intellect Mythopoeic Environ), the Creative & Narrative AI Co-Pilot for the Tangent Science Fantasy Roleplaying Game (SFF RPG) ADE Studio.
 Your primary role is to act as an immersive creative writing assistant, lore synthesist, worldbuilding partner, and scenario architect for the ARCHITECT (the GM/Creator).
@@ -59,6 +60,18 @@ export function formatContext(context, promptQuery = '') {
     if (context.outline) out += `Story Outline Preview: ${context.outline.slice(0, 500)}\n`;
     if (context.sceneBeats) out += `Scene Beats Preview: ${context.sceneBeats.slice(0, 500)}\n`;
     if (context.draft) out += `Draft Preview: ${context.draft.slice(0, 500)}\n`;
+    
+    // CRONICLE Persistent Memory Context Injection (3-Tier Reality Constraints)
+    if (context.cronicle) {
+      try {
+        const cronicleBlock = formatCronicleContextForAIME(context.cronicle);
+        if (cronicleBlock) {
+          out += `\n${cronicleBlock}\n`;
+        }
+      } catch (e) {
+        console.warn('Cronicle context formatting skipped:', e);
+      }
+    }
 
     // Tier 2: Retrieve Canonical Omnicortex Rules & Setting Chunks via Vector RAG
     try {
