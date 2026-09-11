@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useDeferredValue } from 'react';
 import { 
   Search, 
   X, 
@@ -465,9 +465,11 @@ export const UniversalCatalogModal = ({
     return counts;
   }, [allRawItems, canonicalColKey]);
 
+  const deferredSearchQuery = useDeferredValue(searchQuery);
+
   // Filtered & Sorted items computation
   const processedItems = useMemo(() => {
-    const query = searchQuery.trim().toLowerCase();
+    const query = deferredSearchQuery.trim().toLowerCase();
 
     // 1. Filtering
     let list = allRawItems.filter(item => {
@@ -631,7 +633,7 @@ export const UniversalCatalogModal = ({
     });
 
     return list;
-  }, [allRawItems, searchQuery, activeCategoryFilter, sortOption, filterCategory, filterCategoryExclude, canonicalColKey]);
+  }, [allRawItems, deferredSearchQuery, activeCategoryFilter, sortOption, filterCategory, filterCategoryExclude, canonicalColKey]);
 
   // Determine if an item is selected
   const isItemSelected = useCallback((item) => {
