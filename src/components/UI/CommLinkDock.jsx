@@ -123,6 +123,7 @@ export const CommLinkDock = ({ isOpen, onClose }) => {
                 }}
                 className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-white transition-colors cursor-pointer"
                 title="Expand to Full Comms Matrix (/comms)"
+                aria-label="Expand to Full Comms Matrix"
               >
                 <Maximize2 size={14} />
               </button>
@@ -136,6 +137,7 @@ export const CommLinkDock = ({ isOpen, onClose }) => {
                 }}
                 className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-400 hover:text-rose-400 transition-colors cursor-pointer"
                 title="Close Comms Modal (ESC / Alt+C)"
+                aria-label="Close Comms Modal"
               >
                 <X size={16} />
               </button>

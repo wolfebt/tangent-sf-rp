@@ -257,6 +257,8 @@ export const CommandPalette = ({ isOpen, onClose, onDiceRolled }) => {
               type="button"
               onClick={() => setQuery('')} 
               className="text-slate-500 hover:text-slate-300"
+              title="Clear search"
+              aria-label="Clear search"
             >
               <X size={16} />
             </button>
