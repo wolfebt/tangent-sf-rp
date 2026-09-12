@@ -26,6 +26,7 @@ export const CreateChannelModal = ({ isOpen, onClose }) => {
   const { currentUser } = useAuth();
 
   const [activeTab, setActiveTab] = useState('channel'); // 'channel' | 'direct' | 'group'
+  const [activeDirectRecipientFilter, setActiveDirectRecipientFilter] = useState('all'); // 'all' | 'players' | 'characters'
   const [channelName, setChannelName] = useState('');
   const [channelTopic, setChannelTopic] = useState('');
   const [isPublic, setIsPublic] = useState(true);
@@ -79,12 +80,12 @@ export const CreateChannelModal = ({ isOpen, onClose }) => {
     }
   };
 
-  const handleStartDM = async (targetUser) => {
+  const handleStartDM = async (targetUser, targetPersona = null) => {
     setSubmitting(true);
     setError(null);
     try {
       AudioService.playTerminalBeep(1400, 0.04);
-      await startDirectMessage(targetUser);
+      await startDirectMessage(targetUser, targetPersona);
       onClose();
     } catch (err) {
       console.error('Starting DM failed:', err);
@@ -293,65 +294,211 @@ export const CreateChannelModal = ({ isOpen, onClose }) => {
             </form>
           )}
 
-          {/* TAB 2: Direct Message User Directory */}
-          {activeTab === 'direct' && (
-            <div className="space-y-3 text-xs font-mono">
-              <div className="relative">
-                <Search size={14} className="absolute left-3 top-2.5 text-slate-500" />
-                <input
-                  type="text"
-                  value={userSearchQuery}
-                  onChange={(e) => setUserSearchQuery(e.target.value)}
-                  placeholder="Search registered operators by handle..."
-                  className="w-full pl-8 pr-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500"
-                />
-              </div>
+          {/* TAB 2: Direct Comms Directory (Players & Separate Characters) */}
+          {activeTab === 'direct' && (() => {
+            const [recipientFilter, setRecipientFilter] = [activeDirectRecipientFilter, setActiveDirectRecipientFilter];
+            
+            // Collect all characters from all users
+            const allCharacters = [];
+            filteredUsers.forEach(u => {
+              const uHandle = u.userHandle || u.displayName || u.email || 'Operator';
+              if (Array.isArray(u.characters)) {
+                u.characters.forEach(c => {
+                  allCharacters.push({
+                    ...c,
+                    targetUser: u,
+                    ownerHandle: uHandle
+                  });
+                });
+              }
+            });
 
-              <div className="space-y-2 max-h-60 overflow-y-auto pr-1">
-                {filteredUsers.length === 0 ? (
-                  <div className="p-8 text-center text-slate-500 space-y-1">
-                    <Users size={24} className="mx-auto text-slate-600" />
-                    <p>No matching operators found.</p>
-                    <p className="text-[10px] text-slate-600">Operators will appear here once logged into the network.</p>
-                  </div>
-                ) : (
-                  filteredUsers.map(targetUser => {
-                    const handle = targetUser.userHandle || targetUser.displayName || targetUser.email || 'Operator';
-                    return (
-                      <div
-                        key={targetUser.uid}
-                        onClick={() => handleStartDM(targetUser)}
-                        className="flex items-center justify-between p-3 rounded-xl bg-slate-900/70 hover:bg-emerald-500/20 border border-slate-800 hover:border-emerald-500/40 cursor-pointer transition-all group"
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 flex items-center justify-center font-bold">
-                            @
-                          </div>
-                          <div>
-                            <span className="font-bold text-slate-200 group-hover:text-emerald-300">
-                              @{handle}
-                            </span>
-                            {targetUser.role && (
-                              <span className="text-[10px] text-slate-500 block">
-                                {targetUser.role}
+            const filteredCharacters = allCharacters.filter(c => {
+              const q = userSearchQuery.toLowerCase();
+              return (
+                (c.name && c.name.toLowerCase().includes(q)) ||
+                (c.role && c.role.toLowerCase().includes(q)) ||
+                (c.species && c.species.toLowerCase().includes(q)) ||
+                (c.ownerHandle && c.ownerHandle.toLowerCase().includes(q))
+              );
+            }).sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+
+            return (
+              <div className="space-y-3.5 text-xs font-mono">
+                {/* Search Input */}
+                <div className="relative">
+                  <Search size={14} className="absolute left-3 top-2.5 text-slate-500" />
+                  <input
+                    type="text"
+                    value={userSearchQuery}
+                    onChange={(e) => setUserSearchQuery(e.target.value)}
+                    placeholder="Search players (@handle) or characters..."
+                    className="w-full pl-8 pr-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+                  />
+                </div>
+
+                {/* Sub-Filter Pills */}
+                <div className="flex items-center gap-2 pb-1 border-b border-slate-800">
+                  {[
+                    { id: 'all', label: 'ALL RECIPIENTS' },
+                    { id: 'players', label: `PLAYERS ONLY (${filteredUsers.length})` },
+                    { id: 'characters', label: `CHARACTERS ONLY (${allCharacters.length})` }
+                  ].map(tab => (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      onClick={() => setRecipientFilter(tab.id)}
+                      className={`px-2.5 py-1 rounded-md text-[10px] font-bold transition-all cursor-pointer ${
+                        recipientFilter === tab.id
+                          ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-sm'
+                          : 'bg-slate-900/60 text-slate-400 border border-slate-800 hover:text-slate-200'
+                      }`}
+                    >
+                      {tab.label}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Main Recipients List */}
+                <div className="space-y-3 max-h-72 overflow-y-auto pr-1 no-scrollbar">
+                  {/* View Mode: CHARACTERS ONLY */}
+                  {recipientFilter === 'characters' && (
+                    filteredCharacters.length === 0 ? (
+                      <div className="p-8 text-center text-slate-500 space-y-1">
+                        <Users size={24} className="mx-auto text-slate-600" />
+                        <p>No separate characters discovered yet.</p>
+                        <p className="text-[10px] text-slate-600">Operatives appear here when assigned in squads or created in Folio.</p>
+                      </div>
+                    ) : (
+                      filteredCharacters.map(char => (
+                        <div
+                          key={`${char.targetUser.uid}_${char.id || char.name}`}
+                          className="p-3 rounded-xl bg-slate-900/70 hover:bg-purple-950/40 border border-slate-800 hover:border-purple-500/50 transition-all flex items-center justify-between gap-3"
+                        >
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            <div className="w-8 h-8 rounded-lg bg-purple-500/20 border border-purple-500/40 text-purple-300 flex items-center justify-center font-bold text-xs shrink-0">
+                              🎭
+                            </div>
+                            <div className="min-w-0">
+                              <span className="font-bold text-slate-100 block truncate">
+                                {char.name}
                               </span>
+                              <span className="text-[10px] text-slate-400 block truncate">
+                                {char.species} • {char.role} <span className="text-purple-400">(Played by @{char.ownerHandle})</span>
+                              </span>
+                            </div>
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={() => handleStartDM(char.targetUser, char)}
+                            className="px-3 py-1.5 bg-purple-600/30 hover:bg-purple-500 text-purple-200 hover:text-black rounded-lg text-[11px] font-bold transition-all border border-purple-500/40 shrink-0 cursor-pointer shadow-sm"
+                            title={`Open In-Character Comms with ${char.name}`}
+                          >
+                            MESSAGE CHARACTER
+                          </button>
+                        </div>
+                      ))
+                    )
+                  )}
+
+                  {/* View Mode: ALL or PLAYERS ONLY */}
+                  {recipientFilter !== 'characters' && (
+                    filteredUsers.length === 0 ? (
+                      <div className="p-8 text-center text-slate-500 space-y-1">
+                        <Users size={24} className="mx-auto text-slate-600" />
+                        <p>No matching operators found.</p>
+                        <p className="text-[10px] text-slate-600">Operators will appear here once logged into the network.</p>
+                      </div>
+                    ) : (
+                      filteredUsers.map(targetUser => {
+                        const handle = targetUser.userHandle || targetUser.displayName || targetUser.email || 'Operator';
+                        const userChars = targetUser.characters || [];
+
+                        return (
+                          <div
+                            key={targetUser.uid}
+                            className="p-3 rounded-xl bg-slate-900/60 border border-slate-800/80 space-y-2.5"
+                          >
+                            {/* Player Row */}
+                            <div className="flex items-center justify-between gap-2">
+                              <div className="flex items-center gap-2.5 min-w-0">
+                                <div className="w-8 h-8 rounded-lg bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 flex items-center justify-center font-bold text-xs shrink-0">
+                                  @
+                                </div>
+                                <div className="min-w-0">
+                                  <div className="flex items-center gap-1.5">
+                                    <span className="font-bold text-slate-200 truncate">
+                                      @{handle}
+                                    </span>
+                                    <span className="px-1.5 py-0.2 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 text-[8.5px] font-bold">
+                                      PLAYER
+                                    </span>
+                                  </div>
+                                  {targetUser.role && (
+                                    <span className="text-[10px] text-slate-500 block truncate">
+                                      {targetUser.role}
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+
+                              <button
+                                type="button"
+                                onClick={() => handleStartDM(targetUser, null)}
+                                className="px-3 py-1 bg-cyan-600/20 hover:bg-cyan-500 text-cyan-300 hover:text-black rounded-lg text-[10.5px] font-bold transition-all border border-cyan-500/40 shrink-0 cursor-pointer"
+                                title={`Direct Message @${handle} (Out of Character)`}
+                              >
+                                MESSAGE PLAYER
+                              </button>
+                            </div>
+
+                            {/* Linked Characters of this Player (if any) */}
+                            {recipientFilter === 'all' && userChars.length > 0 && (
+                              <div className="pt-2 border-t border-slate-800/60 pl-2 space-y-1.5">
+                                <span className="text-[9.5px] font-mono text-purple-400 font-bold uppercase tracking-wider block">
+                                  Separate Characters ({userChars.length}):
+                                </span>
+                                <div className="space-y-1">
+                                  {userChars.map(c => (
+                                    <div
+                                      key={`${targetUser.uid}_${c.id || c.name}`}
+                                      className="flex items-center justify-between p-2 rounded-lg bg-slate-950/80 border border-purple-500/30 hover:border-purple-500/60 transition-colors"
+                                    >
+                                      <div className="flex items-center gap-2 min-w-0">
+                                        <span className="text-xs">🎭</span>
+                                        <div className="min-w-0">
+                                          <span className="text-[11px] font-bold text-slate-200 block truncate">
+                                            {c.name}
+                                          </span>
+                                          <span className="text-[9.5px] text-slate-500 block truncate">
+                                            {c.species} • {c.role}
+                                          </span>
+                                        </div>
+                                      </div>
+
+                                      <button
+                                        type="button"
+                                        onClick={() => handleStartDM(targetUser, c)}
+                                        className="px-2.5 py-1 bg-purple-600/30 hover:bg-purple-500 text-purple-200 hover:text-black rounded text-[10px] font-bold transition-all border border-purple-500/40 cursor-pointer"
+                                        title={`Direct In-Character Message to ${c.name}`}
+                                      >
+                                        MESSAGE CHARACTER
+                                      </button>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
                             )}
                           </div>
-                        </div>
-
-                        <button
-                          type="button"
-                          className="px-3 py-1 bg-emerald-600/30 group-hover:bg-emerald-500 text-emerald-300 group-hover:text-black rounded text-[11px] font-bold transition-all"
-                        >
-                          CONNECT
-                        </button>
-                      </div>
-                    );
-                  })
-                )}
+                        );
+                      })
+                    )
+                  )}
+                </div>
               </div>
-            </div>
-          )}
+            );
+          })()}
         </div>
       </div>
     </div>

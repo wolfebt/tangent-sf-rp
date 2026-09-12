@@ -4,11 +4,24 @@
  */
 
 export const RANGE_BRACKETS = [
-  { id: 'point_blank', label: 'Point-Blank (0–2m)', icon: '🎯', attackMod: 2, rangedLongPenalty: -2, description: '+2 for Melee/Pistols; -2 for Heavy Rifles/Snipers.' },
-  { id: 'short', label: 'Short Range (3–15m)', icon: '📏', attackMod: 0, description: 'Standard effective range for all small arms.' },
-  { id: 'medium', label: 'Medium Range (16–40m)', icon: '📐', attackMod: 0, description: 'Standard engagement range for rifles and carbines.' },
-  { id: 'long', label: 'Long Range (41–80m)', icon: '🔭', attackMod: -2, description: '-2 attack penalty due to atmospheric drift and ballistic drop.' },
-  { id: 'extreme', label: 'Extreme Range (81–200m)', icon: '🌌', attackMod: -4, description: '-4 attack penalty unless aiming with Sniper Optic.' }
+  { id: 'point_blank', label: 'Point Blank (Within Reach)', icon: '🎯', attackMod: 5, unopposedDC: 10, description: '+5 Strike bonus, damage dice rolled with Advantage (Ballistic/Energy), DC 10 unopposed.' },
+  { id: 'short', label: 'Short Range (Base Range)', icon: '📏', attackMod: 0, unopposedDC: 15, description: 'Standard effective range for the weapon. DC 15 unopposed.' },
+  { id: 'medium', label: 'Medium Range (Up to 2x Base)', icon: '📐', attackMod: -5, unopposedDC: 20, description: '-5 Attack penalty. DC 20 unopposed.' },
+  { id: 'long', label: 'Long Range (Up to 5x Base)', icon: '🔭', attackMod: -10, unopposedDC: 25, description: '-10 Attack penalty. DC 25 unopposed.' },
+  { id: 'extreme', label: 'Extreme Range (Up to 10x Base)', icon: '🌌', attackMod: -15, unopposedDC: 30, description: '-15 Attack penalty. DC 30 unopposed.' }
+];
+
+export const SIZE_MODIFIERS = [
+  { id: 'miniscule', label: 'Miniscule (< 1in)', modifier: -32 },
+  { id: 'fine', label: 'Fine (< 6in)', modifier: -16 },
+  { id: 'diminutive', label: 'Diminutive (< 1ft)', modifier: -8 },
+  { id: 'tiny', label: 'Tiny (< 2ft)', modifier: -4 },
+  { id: 'small', label: 'Small (< 4ft)', modifier: -2 },
+  { id: 'medium', label: 'Medium (Base < 8ft)', modifier: 0 },
+  { id: 'large', label: 'Large (< 16ft)', modifier: 2 },
+  { id: 'huge', label: 'Huge (< 32ft)', modifier: 4 },
+  { id: 'gargantuan', label: 'Gargantuan (< 64ft)', modifier: 8 },
+  { id: 'colossal', label: 'Colossal (< 128ft)', modifier: 16 }
 ];
 
 export const COVER_TYPES = [

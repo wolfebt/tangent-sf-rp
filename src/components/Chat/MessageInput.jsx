@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { 
   Send, 
   Dices, 
@@ -142,8 +142,16 @@ export const MessageInput = ({ isCompact = false }) => {
   const activePersonaName = selectedPersona?.['char-name'] || selectedPersona?.name || 'Operative';
   const activePersonaSpecies = selectedPersona?.['char-species'] || selectedPersona?.species || 'Human';
   const activePersonaConcept = selectedPersona?.['char-concept'] || selectedPersona?.role || selectedPersona?.['char-occu'] || 'Specialist';
+  const isPersonaSynth = Boolean(
+    selectedPersona?.isSynthetic || 
+    selectedPersona?.is_synthetic || 
+    activePersonaSpecies?.toLowerCase().includes('synthetic') ||
+    activePersonaSpecies?.toLowerCase().includes('mekan')
+  );
   const activePersonaHP = selectedPersona?.current_health ?? (selectedPersona?.current_hp ?? 30);
   const activePersonaMaxHP = selectedPersona?.health ?? (selectedPersona?.base_hp ?? 30);
+  const activePersonaStruct = selectedPersona?.current_structure ?? selectedPersona?.structure ?? 60;
+  const activePersonaMaxStruct = selectedPersona?.max_structure ?? selectedPersona?.structure ?? 60;
 
   return (
     <div className="p-2 sm:p-3 bg-[#0b0f19] border-t border-slate-800/90 text-slate-200 select-none">
@@ -165,6 +173,29 @@ export const MessageInput = ({ isCompact = false }) => {
         </div>
       ) : (
         <>
+          {/* ── Contextual Direct Recipient Banner (If Direct Comms) ── */}
+          {activeChannel?.type === 'direct' && (
+            <div className={`mb-2 px-2.5 py-1.5 rounded-lg text-xs font-mono flex items-center justify-between border ${
+              activeChannel.targetPersona?.name
+                ? 'bg-purple-950/40 border-purple-500/40 text-purple-200'
+                : 'bg-cyan-950/40 border-cyan-500/40 text-cyan-200'
+            }`}>
+              <div className="flex items-center gap-2">
+                <span className={`w-2 h-2 rounded-full ${activeChannel.targetPersona?.name ? 'bg-purple-400' : 'bg-cyan-400'} animate-pulse`} />
+                <span>
+                  {activeChannel.targetPersona?.name ? (
+                    <>TRANSMITTING TO OPERATIVE: <strong className="text-purple-300 font-bold">{activeChannel.targetPersona.name}</strong> <span className="text-[10px] text-slate-400">(@{activeChannel.displayName})</span></>
+                  ) : (
+                    <>TRANSMITTING TO OPERATOR (PLAYER): <strong className="text-cyan-300 font-bold">@{activeChannel.displayName}</strong></>
+                  )}
+                </span>
+              </div>
+              <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-slate-900/80 border border-slate-700/60 text-slate-400">
+                {activeChannel.targetPersona?.name ? '🎭 OPERATIVE DIRECT' : '👤 OPERATOR DIRECT'}
+              </span>
+            </div>
+          )}
+
           {/* ── Intelligent Speaking Identity HUD Bar ── */}
           <div className="flex items-center justify-between gap-2 mb-2 text-xs font-mono flex-wrap">
             <div className="flex items-center gap-2 flex-wrap">
@@ -239,8 +270,17 @@ export const MessageInput = ({ isCompact = false }) => {
 
                   {/* Active Persona Mini Vitals Pill */}
                   <div className="hidden sm:flex items-center gap-1 pl-1.5 border-l border-purple-500/30 text-[10px]">
-                    <Heart size={10} className="text-emerald-400" />
-                    <span className="text-emerald-300 font-bold">{activePersonaHP}/{activePersonaMaxHP} HP</span>
+                    {isPersonaSynth ? (
+                      <>
+                        <Activity size={10} className="text-amber-400" />
+                        <span className="text-amber-300 font-bold">{activePersonaStruct}/{activePersonaMaxStruct} SP</span>
+                      </>
+                    ) : (
+                      <>
+                        <Heart size={10} className="text-emerald-400" />
+                        <span className="text-emerald-300 font-bold">{activePersonaHP}/{activePersonaMaxHP} HP</span>
+                      </>
+                    )}
                   </div>
                 </div>
               )}

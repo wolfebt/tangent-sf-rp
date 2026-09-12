@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useRef, useState, useMemo } from 'react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { 
   Dices, 
   Sparkles, 
@@ -35,7 +35,7 @@ import { ChannelSettingsModal } from './ChannelSettingsModal';
 
 export const MessageView = ({ messages = [], loading = false, activeChannel }) => {
   const { currentUser } = useAuth();
-  const { startDirectMessage } = useChat();
+  const { startDirectMessage, pendingCharacterNotes = [], selectChannel } = useChat();
   const { groups, selectGroup } = useGroup();
   
   const [isSquadModalOpen, setIsSquadModalOpen] = useState(false);
@@ -327,6 +327,32 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
           </div>
         )}
 
+        {/* ── Pending Transmissions Notification Note for other characters/channels ── */}
+        {pendingCharacterNotes.some(n => n.channelId !== activeChannel?.id) && (
+          <div className="px-4 py-1.5 bg-gradient-to-r from-amber-950/80 via-purple-950/70 to-slate-950 border-b border-amber-500/40 text-[10.5px] font-mono text-amber-200 flex items-center justify-between gap-2 shadow-sm">
+            <div className="flex items-center gap-1.5 truncate">
+              <Radio size={12} className="text-amber-400 animate-pulse shrink-0" />
+              <span className="font-bold text-amber-300">PENDING TRANSMISSIONS:</span>
+              <span className="truncate text-slate-300">
+                {pendingCharacterNotes.filter(n => n.channelId !== activeChannel?.id).map(n => `${n.name} (${n.count})`).join(' • ')}
+              </span>
+            </div>
+            <div className="flex items-center gap-1 shrink-0">
+              {pendingCharacterNotes.filter(n => n.channelId !== activeChannel?.id).slice(0, 3).map(n => (
+                <button
+                  key={n.channelId}
+                  type="button"
+                  onClick={() => selectChannel(n.channelId)}
+                  className="px-2 py-0.5 rounded bg-amber-500/20 hover:bg-amber-500 text-amber-200 hover:text-black font-bold text-[9px] border border-amber-500/40 cursor-pointer transition-colors flex items-center gap-1"
+                >
+                  <span>{n.type === 'character' ? '🎭' : '👤'}</span>
+                  <span>{n.name.split(' ')[0]}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Message Stream */}
         <div 
           ref={containerRef} 
@@ -409,9 +435,49 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                       )}
                     </div>
 
-                    <span className="text-[9.5px] font-mono text-slate-500 shrink-0">
-                      {formatTimestamp(msg)}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      {/* Direct Message Action Buttons (For other senders) */}
+                      {!isSelf && msg.senderUid && (
+                        <div className="flex items-center gap-1 opacity-80 hover:opacity-100 transition-opacity">
+                          {/* Message Player */}
+                          <button
+                            type="button"
+                            onClick={() => {
+                              startDirectMessage({
+                                uid: msg.senderUid,
+                                userHandle: msg.senderHandle || 'Operator'
+                              }, null);
+                            }}
+                            className="px-1.5 py-0.5 rounded bg-slate-800/90 hover:bg-cyan-950 border border-slate-700 hover:border-cyan-500/50 text-[8.5px] font-mono font-bold text-slate-300 hover:text-cyan-300 flex items-center gap-1 cursor-pointer transition-all"
+                            title={`Open Direct Comms with Player (@${msg.senderHandle || 'Operator'})`}
+                          >
+                            <User size={10} className="text-cyan-400" />
+                            <span>PLAYER</span>
+                          </button>
+
+                          {/* Message Operative (If IC) */}
+                          {isIC && persona?.name && (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                startDirectMessage({
+                                  uid: msg.senderUid,
+                                  userHandle: msg.senderHandle || 'Operator'
+                                }, persona);
+                              }}
+                              className="px-1.5 py-0.5 rounded bg-purple-950/80 hover:bg-purple-900 border border-purple-500/40 hover:border-purple-400 text-[8.5px] font-mono font-bold text-purple-300 hover:text-purple-100 flex items-center gap-1 cursor-pointer transition-all"
+                              title={`Open Direct Comms with Operative ${persona.name}`}
+                            >
+                              <span>🎭 {persona.name.split(' ')[0]}</span>
+                            </button>
+                          )}
+                        </div>
+                      )}
+
+                      <span className="text-[9.5px] font-mono text-slate-500 shrink-0">
+                        {formatTimestamp(msg)}
+                      </span>
+                    </div>
                   </div>
 
                   {renderMessageContent(msg)}
@@ -488,16 +554,31 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
                       </div>
 
                       {!isUser && (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            startDirectMessage({ uid: memberUid, userHandle: details.handle }, details.persona);
-                          }}
-                          className="p-1 rounded bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/40 text-cyan-300 hover:text-white transition-all text-[9.5px] flex items-center gap-1 cursor-pointer"
-                          title="Transmit Private Whisper"
-                        >
-                          <MessageSquare size={11} />
-                        </button>
+                        <div className="flex items-center gap-1">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              startDirectMessage({ uid: memberUid, userHandle: details.handle }, null);
+                            }}
+                            className="p-1 px-1.5 rounded bg-slate-800 hover:bg-cyan-950 border border-slate-700 hover:border-cyan-500/40 text-slate-300 hover:text-cyan-300 transition-all text-[9px] flex items-center gap-1 cursor-pointer"
+                            title={`Message Player @${details.handle || 'Operator'}`}
+                          >
+                            <User size={10} className="text-cyan-400" />
+                            <span>PLAYER</span>
+                          </button>
+                          {details.persona && (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                startDirectMessage({ uid: memberUid, userHandle: details.handle }, details.persona);
+                              }}
+                              className="p-1 px-1.5 rounded bg-purple-950/80 hover:bg-purple-900 border border-purple-500/40 text-purple-300 hover:text-white transition-all text-[9px] flex items-center gap-1 cursor-pointer"
+                              title={`Message Operative ${personaName}`}
+                            >
+                              <span>🎭 OPERATIVE</span>
+                            </button>
+                          )}
+                        </div>
                       )}
                     </div>
                   );

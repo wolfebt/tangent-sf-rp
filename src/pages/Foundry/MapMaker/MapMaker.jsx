@@ -23,6 +23,9 @@ import MapToolbar from './map/MapToolbar';
 import MapToolsPanel from './map/MapToolsPanel';
 import MapLayersPanel from './map/MapLayersPanel';
 import MapCombatTracker from './map/MapCombatTracker';
+import AdventureLogDrawer from './map/AdventureLogDrawer';
+import InitiativeManagerModal from './map/InitiativeManagerModal';
+import { sortInitiativeOrder } from '../../../services/initiativeService';
 import MapMetadataPanel from './map/MapMetadataPanel';
 import MapKeyPanel from './map/MapKeyPanel';
 import StatusGemsModal from './map/StatusGemsModal';
@@ -192,6 +195,10 @@ const MapPane = ({ mapExportPngRef }) => {
   const [isAutomationActive, setIsAutomationActive] = useState(true);
   const [inspectingOmnicortexItem, setInspectingOmnicortexItem] = useState(null);
   const [showCombatTracker, setShowCombatTracker] = useState(false);
+  const [isAdventureLogOpen, setIsAdventureLogOpen] = useState(false);
+  const [isInitiativeModalOpen, setIsInitiativeModalOpen] = useState(false);
+  const [environmentCombatants, setEnvironmentCombatants] = useState([]);
+  const [combatRound, setCombatRound] = useState(1);
   const [showMetadataPanel, setShowMetadataPanel] = useState(false);
   const [showKeyPanel, setShowKeyPanel] = useState(true);
   const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
@@ -1194,18 +1201,15 @@ const MapPane = ({ mapExportPngRef }) => {
   });
 
   const handleNextTurn = () => {
-    const sortedTokens = [...tokens]
-      .filter(t => t.type !== 'link')
-      .sort((a, b) => {
-        const initA = a.initiative !== undefined && a.initiative !== null ? a.initiative : -99;
-        const initB = b.initiative !== undefined && b.initiative !== null ? b.initiative : -99;
-        return initB - initA;
-      });
+    const combined = sortInitiativeOrder([
+      ...tokens.filter(t => t.type !== 'link'),
+      ...(environmentCombatants || [])
+    ]);
 
-    if (sortedTokens.length === 0) return;
-    const currentIndex = sortedTokens.findIndex(t => t.id === activeTurnTokenId);
-    const nextIndex = (currentIndex + 1) % sortedTokens.length;
-    setActiveTurnTokenId(sortedTokens[nextIndex].id);
+    if (combined.length === 0) return;
+    const currentIndex = combined.findIndex(t => t.id === activeTurnTokenId);
+    const nextIndex = currentIndex >= 0 ? (currentIndex + 1) % combined.length : 0;
+    setActiveTurnTokenId(combined[nextIndex].id);
   };
 
   /**
@@ -1492,6 +1496,9 @@ const MapPane = ({ mapExportPngRef }) => {
         onToggleVttDrawer={() => setIsVttDrawerOpen(prev => !prev)}
         is3DPreviewOpen={is3DPreviewOpen}
         onToggle3DPreview={() => setIs3DPreviewOpen(prev => !prev)}
+        showAdventureLog={isAdventureLogOpen}
+        setShowAdventureLog={setIsAdventureLogOpen}
+        onOpenInitiativeManager={() => setIsInitiativeModalOpen(true)}
       />
 
       <LandmassGeneratorModal
@@ -1890,6 +1897,13 @@ const MapPane = ({ mapExportPngRef }) => {
           onUpdateToken={handleUpdateToken}
           onUpdateTokenConditions={handleUpdateTokenConditions}
           onTriggerFloatingText={triggerFloatingCombatText}
+          environmentCombatants={environmentCombatants}
+          onUpdateEnvironmentCombatants={setEnvironmentCombatants}
+          combatRound={combatRound}
+          setCombatRound={setCombatRound}
+          onOpenInitiativeManager={() => setIsInitiativeModalOpen(true)}
+          onOpenAdventureLog={() => setIsAdventureLogOpen(true)}
+          objects={objects}
           scale={scale}
           position={position}
         />
@@ -2391,6 +2405,31 @@ const MapPane = ({ mapExportPngRef }) => {
           isLocked={true}
         />
       )}
+
+      {/* Tactical Adventure Event Log Drawer */}
+      <AdventureLogDrawer
+        isOpen={isAdventureLogOpen}
+        onClose={() => setIsAdventureLogOpen(false)}
+        activeMapId={activeMapId}
+        currentRound={combatRound}
+      />
+
+      {/* Integrated PC / NPC / Environment Initiative Manager Modal */}
+      <InitiativeManagerModal
+        isOpen={isInitiativeModalOpen}
+        onClose={() => setIsInitiativeModalOpen(false)}
+        tokens={tokens}
+        environmentCombatants={environmentCombatants}
+        onUpdateTokens={(nextTokens) => {
+          recordHistory();
+          updateMap(activeMapId, { tokens: nextTokens });
+        }}
+        onUpdateEnvironmentCombatants={setEnvironmentCombatants}
+        personaRoster={roster || personaRoster || []}
+        currentRound={combatRound}
+        onSetRound={setCombatRound}
+        onSetActiveTurnTokenId={setActiveTurnTokenId}
+      />
     </div>
   );
 };

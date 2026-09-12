@@ -5,6 +5,11 @@ import { DEFAULT_FEATURES, FEATURE_CATEGORIES } from '../../../data/featuresData
 import { ALL_CANONICAL_SKILLS } from '../../../data/skillsData';
 import { checkPrerequisite } from '../../../utils/prerequisiteEvaluator';
 import { enrichItemWithModifiers } from '../../../engines/tangentModifierEngine';
+import {
+  extractPillarFeatureSets,
+  getPillarFeatureRecommendations,
+  PillarMarkerDots
+} from '../../../utils/pillarRecommendations.jsx';
 
 const PRIMARY_ATTRIBUTES = [
   { id: 'attr-strength', name: 'Strength', short: 'STR', category: 'Physical' },
@@ -817,6 +822,12 @@ export const FeatureMultiselectPulldown = ({
     return expandFeatureGroupPatterns(recommendedFeatures, featCatalog);
   }, [recommendedFeatures, featCatalog]);
 
+  // 5-Pillar Feature Sets
+  const pillarFeatureSets = useMemo(() => {
+    if (!characterData) return null;
+    return extractPillarFeatureSets(characterData);
+  }, [characterData]);
+
   // Displayed items in pulldown tray
   const displayedItems = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
@@ -905,13 +916,18 @@ export const FeatureMultiselectPulldown = ({
             const fName = typeof feat === 'object' ? (feat.name || feat.title || feat.id) : String(feat);
             const cleanTitle = normalizeTraitName(fName);
             const desc = typeof feat === 'object' ? (feat.description || '') : '';
+            const featPillars = pillarFeatureSets ? getPillarFeatureRecommendations(feat, pillarFeatureSets, characterData) : [];
             return (
               <span
                 key={cleanTitle || fName}
                 className={`px-2 py-0.5 rounded text-[10px] font-mono border font-bold flex items-center gap-1.5 ${theme.tag}`}
                 title={desc}
               >
-                <Sparkles size={10} className="shrink-0 text-amber-400" />
+                {featPillars.length > 0 ? (
+                  <PillarMarkerDots recommendations={featPillars} />
+                ) : (
+                  <Sparkles size={10} className="shrink-0 text-amber-400" />
+                )}
                 <span className="truncate max-w-[200px]">{cleanTitle}</span>
                 <button
                   type="button"
@@ -991,20 +1007,24 @@ export const FeatureMultiselectPulldown = ({
           {groupFilters.length > 2 && viewMode === 'recommended' && (
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-[10px] font-mono no-scrollbar shrink-0">
               <Filter size={11} className="text-slate-500 shrink-0" />
-              {groupFilters.map(grp => (
-                <button
-                  key={grp}
-                  type="button"
-                  onClick={() => setActiveGroupFilter(grp)}
-                  className={`px-2 py-0.5 rounded-full border transition-all shrink-0 cursor-pointer ${
-                    activeGroupFilter === grp
-                      ? 'bg-amber-500/30 border-amber-400 text-amber-200 font-bold shadow-[0_0_8px_rgba(245,158,11,0.3)]'
-                      : 'bg-slate-900/80 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700'
-                  }`}
-                >
-                  {grp}
-                </button>
-              ))}
+              {groupFilters.map(grp => {
+                const grpPillars = pillarFeatureSets ? getPillarFeatureRecommendations(grp, pillarFeatureSets, characterData) : [];
+                return (
+                  <button
+                    key={grp}
+                    type="button"
+                    onClick={() => setActiveGroupFilter(grp)}
+                    className={`px-2 py-0.5 rounded-full border transition-all shrink-0 cursor-pointer flex items-center gap-1 ${
+                      activeGroupFilter === grp
+                        ? 'bg-amber-500/30 border-amber-400 text-amber-200 font-bold shadow-[0_0_8px_rgba(245,158,11,0.3)]'
+                        : 'bg-slate-900/80 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700'
+                    }`}
+                  >
+                    <span>{grp}</span>
+                    <PillarMarkerDots recommendations={grpPillars} />
+                  </button>
+                );
+              })}
             </div>
           )}
 
@@ -1023,6 +1043,7 @@ export const FeatureMultiselectPulldown = ({
                 const desc = typeof feat === 'object' ? (feat.description || feat.mechanic || '') : '';
                 const cat = typeof feat === 'object' ? (feat.category || feat.groupLabel || categoryLabel) : categoryLabel;
                 const featMods = Array.isArray(feat?.modifiers) ? feat.modifiers : [];
+                const featPillars = pillarFeatureSets ? getPillarFeatureRecommendations(feat, pillarFeatureSets, characterData) : [];
 
                 const prereqResult = checkPrerequisite(feat, characterData, 'features');
                 const isPrereqUnmet = prereqResult.hasPrerequisite && !prereqResult.isPossessed;
@@ -1056,6 +1077,7 @@ export const FeatureMultiselectPulldown = ({
                         <span className={`font-bold truncate ${isSelected ? 'text-amber-200' : isPrereqUnmet ? 'text-slate-400' : 'text-slate-200'}`}>
                           {cleanTitle}
                         </span>
+                        <PillarMarkerDots recommendations={featPillars} />
                         {cat && (
                           <span className="text-[9px] px-1.5 py-0.2 rounded font-mono bg-slate-950 border border-slate-800 text-slate-400">
                             {cat}

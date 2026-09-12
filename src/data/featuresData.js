@@ -6657,6 +6657,7 @@ export const DEFAULT_FEATURES = [
     "cp": 3,
     "costs": {
       "bp": 3,
+      "cp": 3,
       "credits": 0,
       "nodes": 0,
       "sockets": 0,
@@ -6666,20 +6667,20 @@ export const DEFAULT_FEATURES = [
     },
     "is_ranked": true,
     "is_multiple": true,
-    "prerequisites": "Charisma",
+    "prerequisites": "Charisma 1",
     "modifiers": [],
-    "description": "The character has a loyal follower, pet, droid, or mount.",
-    "mechanic": "You gain a loyal NPC ally built with **40 Build Points**.",
-    "rules": "\\[Ranked\\] Taking this feature again can either upgrade the existing companion (adding \\+40 BP) or gain a second companion.",
-    "special_rules": "\\[Ranked\\] Taking this feature again can either upgrade the existing companion (adding \\+40 BP) or gain a second companion.",
-    "body": "# Companion\n\n**Category**: Special Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Charisma\n\n## Description\nThe character has a loyal follower, pet, droid, or mount.\n\n## Mechanics & Benefit\nYou gain a loyal NPC ally built with **40 Build Points**.\n\n## Special Rules\n\\[Ranked\\] Taking this feature again can either upgrade the existing companion (adding \\+40 BP) or gain a second companion.",
-    "mechanics": "You gain a loyal NPC ally built with **40 Build Points**.",
-    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] \\[Ranked\\] Taking this feature again can either upgrade the existing companion (adding \\+40 BP) or g...\n[Prerequisite] Charisma",
+    "description": "As with Metaphysics (Awakened) and Augmentations (Augmented), access to Companions must be unlocked by purchasing the Companion feature.",
+    "mechanic": "You unlock access to the Modular Companion Matrix and gain a loyal cohort constructed with 40 Character Points (CP).",
+    "rules": "[Ranked / Multiple] May purchase multiple times to unlock additional 40 CP companions or to increase an existing companion's build budget by +10 CP per rank.",
+    "special_rules": "[Ranked / Multiple] May purchase multiple times to unlock additional 40 CP companions or to increase an existing companion's build budget by +10 CP per rank.",
+    "body": "# Companion\n\n**Category**: Special Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Charisma 1\n\n## Description\nAs with Metaphysics (Awakened) and Augmentations (Augmented), access to Companions must be unlocked by purchasing the Companion feature.\n\n## Mechanics & Benefit\nYou unlock access to the Modular Companion Matrix and gain a loyal cohort constructed with **40 Character Points (CP)** (15 CP Form + 25 CP Function).\n\n## Special Rules\n**[Ranked / Multiple]**: May be purchased multiple times. Each purchase either unlocks an additional separate 40 CP companion OR grants +10 CP to an existing companion's build budget.",
+    "mechanics": "You unlock access to the Modular Companion Matrix and gain a loyal cohort constructed with 40 Character Points (CP).",
+    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] [Ranked / Multiple] May purchase multiple times to unlock additional 40 CP companions or to increase an existing companion's build budget by +10 CP per rank.\n[Prerequisite] Charisma 1",
     "notesList": [
       "[Rule] Ranked: Bonus stacks with additional purchases",
       "[Rule] Multiple: May be purchased separately for different categories/types",
-      "[Rule] \\[Ranked\\] Taking this feature again can either upgrade the existing companion (adding \\+40 BP) or g...",
-      "[Prerequisite] Charisma"
+      "[Rule] [Ranked / Multiple] May purchase multiple times to unlock additional 40 CP companions or to increase an existing companion's build budget by +10 CP per rank.",
+      "[Prerequisite] Charisma 1"
     ]
   },
   {

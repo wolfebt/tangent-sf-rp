@@ -206,43 +206,72 @@ export const ChatService = {
     return docRef.id;
   },
 
-  // Create or retrieve a 1-on-1 Direct Message Channel (supports target persona tagging)
+  // Create or retrieve a 1-on-1 Direct Message Channel (supports separate Player vs Character commlines)
   async getOrCreateDirectMessageChannel(currentUser, targetUser, targetPersona = null) {
     if (!currentUser || !targetUser) throw new Error('Both users are required for DM');
 
     const sortedUids = [currentUser.uid, targetUser.uid].sort();
-    const channelId = `dm_${sortedUids[0]}_${sortedUids[1]}`;
-
-    const channelRef = doc(db, 'channels', channelId);
-    const snap = await getDoc(channelRef);
-
     const currentHandle = currentUser.displayName || currentUser.email || 'Operator';
     const targetHandle = targetUser.userHandle || targetUser.displayName || targetUser.email || 'Operator';
-    const personaLabel = targetPersona?.name ? ` (${targetPersona.name})` : '';
+
+    let channelId = '';
+    let isCharacterDM = Boolean(targetPersona);
+
+    if (isCharacterDM) {
+      const pRawId = targetPersona['character-doc-id'] || targetPersona.id || targetPersona.name || 'char';
+      const cleanPId = String(pRawId).toLowerCase().replace(/[^a-z0-9_-]/g, '-').substring(0, 32);
+      channelId = `dm_char_${sortedUids[0]}_${sortedUids[1]}_${cleanPId}`;
+    } else {
+      channelId = `dm_player_${sortedUids[0]}_${sortedUids[1]}`;
+    }
+
+    let channelRef = doc(db, 'channels', channelId);
+    let snap = await getDoc(channelRef);
+
+    // Fallback: Check for legacy dm_{uid1}_{uid2} format if player channel doc does not exist yet
+    if (!snap.exists() && !isCharacterDM) {
+      const legacyId = `dm_${sortedUids[0]}_${sortedUids[1]}`;
+      const legacyRef = doc(db, 'channels', legacyId);
+      const legacySnap = await getDoc(legacyRef);
+      if (legacySnap.exists() && !legacySnap.data().targetPersona) {
+        channelId = legacyId;
+        channelRef = legacyRef;
+        snap = legacySnap;
+      }
+    }
+
+    const personaName = targetPersona?.name || targetPersona?.['char-name'] || 'Operative';
+    const personaSpecies = targetPersona?.species || targetPersona?.['char-species'] || 'Human';
+    const personaRole = targetPersona?.role || targetPersona?.['char-concept'] || targetPersona?.['char-occu'] || 'Specialist';
 
     if (snap.exists()) {
       const existing = { id: snap.id, ...snap.data() };
-      // If a targetPersona was passed and isn't recorded, update topic/details
-      if (targetPersona && (!existing.targetPersona || existing.targetPersona.id !== targetPersona.id)) {
-        try {
-          await updateDoc(channelRef, {
-            targetPersona,
-            topic: `Encrypted 1-on-1 Comms with @${targetHandle}${personaLabel}`,
-            updatedAt: serverTimestamp()
-          });
-        } catch (e) {}
-      }
       return existing;
     }
 
     const newChannel = {
       id: channelId,
-      name: `dm-${targetHandle}`,
-      displayName: `@${targetHandle}${personaLabel}`,
-      topic: `Encrypted 1-on-1 Comms between @${currentHandle} and @${targetHandle}${personaLabel}`,
+      name: isCharacterDM ? `dm-${personaName.toLowerCase().replace(/[^a-z0-9_-]/g, '-')}` : `dm-${targetHandle}`,
+      displayName: isCharacterDM ? `🎭 ${personaName}` : `@${targetHandle}`,
+      topic: isCharacterDM 
+        ? `In-Character Direct Comms with ${personaName} (${personaSpecies} ${personaRole} • Played by @${targetHandle})`
+        : `Direct Operator Comms with @${targetHandle} (Player / OOC Comms)`,
       type: 'direct',
+      recipientType: isCharacterDM ? 'character' : 'player', // 'player' | 'character'
       isPublic: false,
-      targetPersona: targetPersona || null,
+      targetPersona: isCharacterDM ? {
+        id: targetPersona['character-doc-id'] || targetPersona.id || personaName,
+        name: personaName,
+        species: personaSpecies,
+        role: personaRole,
+        avatar: targetPersona.avatar || null,
+        ownerUid: targetUser.uid,
+        ownerHandle: targetHandle
+      } : null,
+      targetPlayer: {
+        uid: targetUser.uid,
+        handle: targetHandle
+      },
       createdById: currentUser.uid,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
@@ -259,7 +288,9 @@ export const ChatService = {
         }
       },
       lastMessage: {
-        text: `Direct CommLink established${personaLabel ? ` with ${targetPersona.name}` : ''}.`,
+        text: isCharacterDM 
+          ? `Direct CommLink established with operative ${personaName}.`
+          : `Direct CommLink established with operator @${targetHandle}.`,
         senderHandle: 'SYSTEM',
         timestamp: new Date().toISOString()
       }
@@ -302,21 +333,81 @@ export const ChatService = {
     return channelData;
   },
 
-  // Fetch registered users directory for DM & Squad member selection
+  // Fetch registered users directory and discover associated separate characters across squads and profiles
   async fetchUsersDirectory(currentUserId) {
     try {
       const usersRef = collection(db, 'users');
       const snap = await getDocs(usersRef);
-      const list = [];
+      const userMap = new Map();
+
       snap.forEach(d => {
         if (d.id !== currentUserId) {
-          list.push({
+          const uData = d.data();
+          userMap.set(d.id, {
             uid: d.id,
-            ...d.data()
+            ...uData,
+            characters: []
           });
         }
       });
-      return list;
+
+      // Discover character rosters linked in game groups
+      try {
+        const groupsRef = collection(db, 'game_groups');
+        const groupsSnap = await getDocs(groupsRef);
+        groupsSnap.forEach(gDoc => {
+          const gData = gDoc.data();
+          if (gData.memberDetails) {
+            Object.entries(gData.memberDetails).forEach(([mUid, mInfo]) => {
+              if (mUid !== currentUserId && mInfo?.persona && userMap.has(mUid)) {
+                const userObj = userMap.get(mUid);
+                const p = mInfo.persona;
+                const pId = p.id || p['character-doc-id'] || p.name;
+                if (p.name && !userObj.characters.some(c => (c.id || c['character-doc-id'] || c.name) === pId)) {
+                  userObj.characters.push({
+                    id: pId,
+                    name: p.name || p['char-name'] || 'Operative',
+                    species: p.species || p['char-species'] || 'Human',
+                    role: p.role || p['char-concept'] || p['char-occu'] || 'Specialist',
+                    ownerUid: mUid,
+                    ownerHandle: userObj.userHandle || userObj.displayName || 'Operator'
+                  });
+                }
+              }
+            });
+          }
+        });
+      } catch (e) {
+        console.warn('[ChatService] Squad characters discovery note:', e);
+      }
+
+      // Also discover character personas from public / accessible user subcollections
+      const userList = Array.from(userMap.values());
+      await Promise.all(userList.map(async (u) => {
+        try {
+          const personasRef = collection(db, `users/${u.uid}/personas`);
+          const pSnap = await getDocs(personasRef);
+          pSnap.forEach(pDoc => {
+            const p = pDoc.data();
+            const pId = pDoc.id || p['character-doc-id'] || p.name;
+            const pName = p['char-name'] || p.name;
+            if (pName && !u.characters.some(c => (c.id || c['character-doc-id'] || c.name) === pId)) {
+              u.characters.push({
+                id: pId,
+                name: pName,
+                species: p['char-species'] || p.species || 'Human',
+                role: p['char-concept'] || p.role || p['char-occu'] || 'Specialist',
+                ownerUid: u.uid,
+                ownerHandle: u.userHandle || u.displayName || 'Operator'
+              });
+            }
+          });
+        } catch (err) {
+          // Subcollection read may be restricted if not public; gracefully ignored
+        }
+      }));
+
+      return userList;
     } catch (err) {
       console.warn('[ChatService] Error fetching user directory:', err);
       return [];

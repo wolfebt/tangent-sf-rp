@@ -1,4 +1,4 @@
-﻿import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { 
   Hash, 
   MessageSquare, 
@@ -30,6 +30,11 @@ export const ChannelSidebar = ({ onOpenCreateModal, onOpenSquadModal, isCompact 
   const { 
     publicChannels = [], 
     directChannels = [], 
+    playerDirectChannels = [],
+    characterDirectChannels = [],
+    directSortMode = 'alphabetical',
+    setDirectSortMode,
+    pendingCharacterNotes = [],
     groupChannels = [], 
     personaLogChannels = [],
     customChannels = [], 
@@ -39,7 +44,7 @@ export const ChannelSidebar = ({ onOpenCreateModal, onOpenSquadModal, isCompact 
     deleteChannel
   } = useChat();
   const { currentUser, isAdmin } = useAuth();
-  const { personaRoster, roster, activePersona } = useFolio();
+  const { personaRoster, roster } = useFolio();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategoryFilter, setActiveCategoryFilter] = useState('all');
@@ -50,6 +55,8 @@ export const ChannelSidebar = ({ onOpenCreateModal, onOpenSquadModal, isCompact 
     squads: false,
     logs: false,
     direct: false,
+    directPlayers: false,
+    directCharacters: false,
     public: false,
     custom: false
   });
@@ -69,17 +76,24 @@ export const ChannelSidebar = ({ onOpenCreateModal, onOpenSquadModal, isCompact 
       (c.name && c.name.toLowerCase().includes(q)) ||
       (c.displayName && c.displayName.toLowerCase().includes(q)) ||
       (c.topic && c.topic.toLowerCase().includes(q)) ||
-      (c.personaName && c.personaName.toLowerCase().includes(q))
+      (c.personaName && c.personaName.toLowerCase().includes(q)) ||
+      (c.targetPersona?.name && c.targetPersona.name.toLowerCase().includes(q)) ||
+      (c.targetPlayer?.handle && c.targetPlayer.handle.toLowerCase().includes(q))
     );
   };
 
   const renderChannelItem = (channel) => {
     const isActive = activeChannelId === channel.id;
     const unread = unreadCounts[channel.id] || 0;
-    const isDM = channel.type === 'direct' || channel.id.startsWith('dm_');
+    const isCharacterDM = channel.recipientType === 'character' || Boolean(channel.targetPersona) || channel.id.startsWith('dm_char_');
+    const isPlayerDM = channel.recipientType === 'player' || ((channel.type === 'direct' || channel.id.startsWith('dm_')) && !isCharacterDM);
     const isGroup = channel.type === 'group' || !!channel.groupId;
     const isPersonaLog = channel.type === 'persona_log' || channel.id.startsWith('persona_log_');
     const canDelete = !channel.id.startsWith('public_') && !isPersonaLog && (channel.createdById === currentUser?.uid || isAdmin);
+
+    const charName = channel.targetPersona?.name || (isCharacterDM ? channel.displayName?.replace(/^🎭\s*/, '') : null);
+    const charRole = channel.targetPersona?.role || channel.targetPersona?.species;
+    const playerHandle = channel.targetPlayer?.handle;
 
     return (
       <div
@@ -98,8 +112,12 @@ export const ChannelSidebar = ({ onOpenCreateModal, onOpenSquadModal, isCompact 
               <div className={`p-1 rounded-md border ${isActive ? 'bg-amber-500/20 text-amber-300 border-amber-500/50' : 'bg-slate-900 text-amber-400/80 border-amber-500/30'}`}>
                 <Activity size={12} />
               </div>
-            ) : isDM ? (
-              <div className={`p-1 rounded-md border ${isActive ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/50' : 'bg-slate-900 text-cyan-400/80 border-cyan-500/30'}`}>
+            ) : isCharacterDM ? (
+              <div className={`p-1 rounded-md border ${isActive ? 'bg-purple-500/25 text-purple-300 border-purple-500/60' : 'bg-slate-900 text-purple-400/90 border-purple-500/40'}`} title="Operative Comms (In-Character)">
+                <Shield size={12} className="text-purple-400" />
+              </div>
+            ) : isPlayerDM ? (
+              <div className={`p-1 rounded-md border ${isActive ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/50' : 'bg-slate-900 text-cyan-400/80 border-cyan-500/30'}`} title="Operator Comms (Player / OOC)">
                 <UserPlus size={12} />
               </div>
             ) : isGroup ? (
@@ -114,10 +132,20 @@ export const ChannelSidebar = ({ onOpenCreateModal, onOpenSquadModal, isCompact 
           </div>
 
           <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5 flex-wrap">
               <span className="text-xs truncate font-mono">
                 {channel.displayName || `#${channel.name}`}
               </span>
+              {isCharacterDM && (
+                <span className="px-1 py-0.2 bg-purple-500/20 text-purple-300 border border-purple-500/30 text-[8px] rounded font-mono font-bold">
+                  OPERATIVE
+                </span>
+              )}
+              {isPlayerDM && (
+                <span className="px-1 py-0.2 bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-[8px] rounded font-mono font-bold">
+                  PLAYER
+                </span>
+              )}
               {isGroup && (
                 <span className="px-1 py-0.2 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[8px] rounded font-mono font-bold">
                   SQUAD
@@ -129,11 +157,15 @@ export const ChannelSidebar = ({ onOpenCreateModal, onOpenSquadModal, isCompact 
                 </span>
               )}
             </div>
-            {channel.lastMessage?.text && (
+            {isCharacterDM && (charRole || playerHandle) ? (
+              <p className="text-[9px] text-slate-400 truncate mt-0.5">
+                {charRole ? `${charRole} • ` : ''}@{playerHandle || 'operator'}
+              </p>
+            ) : channel.lastMessage?.text ? (
               <p className="text-[9.5px] text-slate-500 truncate mt-0.5 max-w-[170px]">
                 {channel.lastMessage.text}
               </p>
-            )}
+            ) : null}
           </div>
         </div>
 
@@ -227,9 +259,10 @@ export const ChannelSidebar = ({ onOpenCreateModal, onOpenSquadModal, isCompact 
         <div className="flex items-center gap-1 overflow-x-auto no-scrollbar pb-0.5 text-[9.5px] font-mono">
           {[
             { id: 'all', label: 'ALL' },
+            { id: 'players', label: 'PLAYERS' },
+            { id: 'characters', label: 'CHARACTERS' },
             { id: 'squad', label: 'SQUADS' },
             { id: 'logs', label: 'ACTION LOGS' },
-            { id: 'direct', label: 'DMs' },
             { id: 'public', label: 'PUBLIC' },
             { id: 'custom', label: 'CUSTOM' }
           ].map(chip => (
@@ -253,94 +286,48 @@ export const ChannelSidebar = ({ onOpenCreateModal, onOpenSquadModal, isCompact 
 
       {/* Accordion Categories List */}
       <div className="flex-1 overflow-y-auto p-2 space-y-3.5 no-scrollbar">
-        {/* 1. Game Squad Channels */}
-        {(activeCategoryFilter === 'all' || activeCategoryFilter === 'squad') && (
-          <div className="space-y-1">
-            <div 
-              onClick={() => toggleSection('squads')}
-              className="flex items-center justify-between px-2 py-1 text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider rounded-lg hover:bg-slate-900/50 cursor-pointer transition-colors"
-            >
+        {/* ── Pending Transmissions Alert Note (Characters & Players) ── */}
+        {pendingCharacterNotes && pendingCharacterNotes.length > 0 && (
+          <div className="p-2.5 rounded-xl bg-gradient-to-r from-amber-950/70 via-purple-950/60 to-slate-950/80 border border-amber-500/60 shadow-[0_0_15px_rgba(245,158,11,0.15)] space-y-1.5">
+            <div className="flex items-center justify-between text-[10px] font-mono font-bold text-amber-300">
               <span className="flex items-center gap-1.5">
-                {collapsedSections.squads ? <ChevronRight size={12} /> : <ChevronDown size={12} />}
-                <Shield size={11} />
-                <span>FIRETEAM FREQUENCIES</span>
+                <Radio size={12} className="text-amber-400 animate-pulse" />
+                <span>PENDING TRANSMISSIONS NOTE</span>
               </span>
-              <div className="flex items-center gap-1.5">
-                {onOpenSquadModal && (
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onOpenSquadModal();
-                    }}
-                    className="text-[9px] text-emerald-300 hover:text-white bg-emerald-950/80 px-1.5 py-0.2 rounded border border-emerald-700/60 font-bold hover:bg-emerald-900 transition-colors cursor-pointer"
-                    title="Open Squad Hub & Builder"
-                  >
-                    👥 Squads
-                  </button>
-                )}
-                <span className="text-slate-500">{groupChannels.length}</span>
-              </div>
+              <span className="text-[9px] text-amber-400/80 uppercase font-bold">
+                {pendingCharacterNotes.reduce((s, n) => s + n.count, 0)} UNREAD
+              </span>
             </div>
-
-            {!collapsedSections.squads && (
-              <div className="space-y-0.5 pl-1.5 border-l border-emerald-500/20 ml-2">
-                {groupChannels.length === 0 ? (
-                  <div className="px-3 py-1.5 text-[10.5px] text-slate-500 font-mono italic flex items-center justify-between">
-                    <span>No active squad channels.</span>
-                    {onOpenSquadModal && (
-                      <button
-                        type="button"
-                        onClick={onOpenSquadModal}
-                        className="text-emerald-400 underline font-bold"
-                      >
-                        Form Squad →
-                      </button>
-                    )}
-                  </div>
-                ) : (
-                  filterChannels(groupChannels).map(renderChannelItem)
-                )}
-              </div>
-            )}
+            <p className="text-[10px] text-slate-300 font-mono">
+              Unread comms waiting for operative personas &amp; operators:
+            </p>
+            <div className="flex flex-wrap gap-1.5 pt-0.5">
+              {pendingCharacterNotes.map((note) => (
+                <button
+                  key={note.channelId}
+                  type="button"
+                  onClick={() => selectChannel(note.channelId)}
+                  className={`px-2 py-0.8 rounded-lg text-[10px] font-mono font-bold flex items-center gap-1.5 border transition-all cursor-pointer shadow-sm ${
+                    note.type === 'character'
+                      ? 'bg-purple-950/90 text-purple-200 border-purple-500/70 hover:bg-purple-900 hover:border-purple-400'
+                      : 'bg-cyan-950/90 text-cyan-200 border-cyan-500/70 hover:bg-cyan-900 hover:border-cyan-400'
+                  }`}
+                  title={`Open frequency: ${note.name} (${note.count} unread)`}
+                >
+                  <span>{note.type === 'character' ? '🎭' : '👤'}</span>
+                  <span className="truncate max-w-[120px]">{note.name}</span>
+                  <span className="px-1.5 py-0.2 bg-amber-400 text-black rounded-full text-[9px] font-black">
+                    {note.count}
+                  </span>
+                </button>
+              ))}
+            </div>
           </div>
         )}
 
-        {/* 2. Persona Action Telemetry Logs */}
-        {(activeCategoryFilter === 'all' || activeCategoryFilter === 'logs') && (
-          <div className="space-y-1">
-            <div 
-              onClick={() => toggleSection('logs')}
-              className="flex items-center justify-between px-2 py-1 text-[10px] font-mono font-bold text-amber-400 uppercase tracking-wider rounded-lg hover:bg-slate-900/50 cursor-pointer transition-colors"
-            >
-              <span className="flex items-center gap-1.5">
-                {collapsedSections.logs ? <ChevronRight size={12} /> : <ChevronDown size={12} />}
-                <Activity size={11} />
-                <span>OPERATIVE ACTION LOGS</span>
-              </span>
-              <div className="flex items-center gap-1.5">
-                <span className="text-[9px] text-amber-400/70 font-mono">READ-ONLY</span>
-                <span className="text-slate-500">{personaLogChannels.length}</span>
-              </div>
-            </div>
-
-            {!collapsedSections.logs && (
-              <div className="space-y-0.5 pl-1.5 border-l border-amber-500/20 ml-2">
-                {personaLogChannels.length === 0 ? (
-                  <div className="px-3 py-1.5 text-[10.5px] text-slate-500 font-mono italic">
-                    Logs will auto-provision when skills or vitals are tested in session.
-                  </div>
-                ) : (
-                  filterChannels(personaLogChannels).map(renderChannelItem)
-                )}
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* 3. Direct Messages & Whispers */}
-        {(activeCategoryFilter === 'all' || activeCategoryFilter === 'direct') && (
-          <div className="space-y-1">
+        {/* 1. Direct Comms: Separate Operator (Player) and Operative (Character) Frequencies */}
+        {(activeCategoryFilter === 'all' || activeCategoryFilter === 'direct' || activeCategoryFilter === 'players' || activeCategoryFilter === 'characters') && (
+          <div className="space-y-2">
             <div 
               onClick={() => toggleSection('direct')}
               className="flex items-center justify-between px-2 py-1 text-[10px] font-mono font-bold text-cyan-400 uppercase tracking-wider rounded-lg hover:bg-slate-900/50 cursor-pointer transition-colors"
@@ -348,19 +335,84 @@ export const ChannelSidebar = ({ onOpenCreateModal, onOpenSquadModal, isCompact 
               <span className="flex items-center gap-1.5">
                 {collapsedSections.direct ? <ChevronRight size={12} /> : <ChevronDown size={12} />}
                 <MessageSquare size={11} />
-                <span>DIRECT COMMS &amp; WHISPERS</span>
+                <span>DIRECT COMMS MATRIX</span>
               </span>
-              <span className="text-slate-500">{directChannels.length}</span>
+              <div className="flex items-center gap-1.5">
+                {/* Sort mode toggle */}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    AudioService.playTerminalBeep(1100, 0.02);
+                    if (setDirectSortMode) {
+                      setDirectSortMode(prev => prev === 'alphabetical' ? 'recent' : 'alphabetical');
+                    }
+                  }}
+                  className="px-1.5 py-0.2 rounded text-[8.5px] font-mono font-bold bg-slate-900 text-cyan-300 border border-slate-700 hover:border-cyan-500/50 transition-colors"
+                  title="Toggle Sorting: Alphabetical (A-Z) vs Recent Transmissions"
+                >
+                  SORT: {directSortMode === 'recent' ? 'RECENT' : 'A-Z'}
+                </button>
+                <span className="text-slate-500">{(playerDirectChannels.length + characterDirectChannels.length)}</span>
+              </div>
             </div>
 
             {!collapsedSections.direct && (
-              <div className="space-y-0.5 pl-1.5 border-l border-cyan-500/20 ml-2">
-                {directChannels.length === 0 ? (
-                  <div className="px-3 py-1.5 text-[10.5px] text-slate-500 font-mono italic">
-                    No active direct comms. Click NEW to whisper to an operative.
+              <div className="space-y-3 pl-1.5 border-l border-cyan-500/20 ml-2">
+                {/* 1A. Character Operative Transmissions (IC) */}
+                {(activeCategoryFilter === 'all' || activeCategoryFilter === 'direct' || activeCategoryFilter === 'characters') && (
+                  <div className="space-y-1">
+                    <div 
+                      onClick={() => toggleSection('directCharacters')}
+                      className="flex items-center justify-between px-1.5 py-0.8 text-[9.5px] font-mono font-bold text-purple-400 uppercase tracking-wider rounded hover:bg-slate-900/40 cursor-pointer"
+                    >
+                      <span className="flex items-center gap-1">
+                        {collapsedSections.directCharacters ? <ChevronRight size={10} /> : <ChevronDown size={10} />}
+                        <span>🎭 OPERATIVE COMMS (CHARACTERS)</span>
+                      </span>
+                      <span className="text-slate-500 text-[9px]">{characterDirectChannels.length}</span>
+                    </div>
+
+                    {!collapsedSections.directCharacters && (
+                      <div className="space-y-0.5 pl-1 border-l border-purple-500/20 ml-1.5">
+                        {characterDirectChannels.length === 0 ? (
+                          <div className="px-2.5 py-1 text-[10px] text-slate-500 font-mono italic">
+                            No operative whispers open. Click NEW to message a character.
+                          </div>
+                        ) : (
+                          filterChannels(characterDirectChannels).map(renderChannelItem)
+                        )}
+                      </div>
+                    )}
                   </div>
-                ) : (
-                  filterChannels(directChannels).map(renderChannelItem)
+                )}
+
+                {/* 1B. Player Operator Transmissions (OOC) */}
+                {(activeCategoryFilter === 'all' || activeCategoryFilter === 'direct' || activeCategoryFilter === 'players') && (
+                  <div className="space-y-1">
+                    <div 
+                      onClick={() => toggleSection('directPlayers')}
+                      className="flex items-center justify-between px-1.5 py-0.8 text-[9.5px] font-mono font-bold text-cyan-300 uppercase tracking-wider rounded hover:bg-slate-900/40 cursor-pointer"
+                    >
+                      <span className="flex items-center gap-1">
+                        {collapsedSections.directPlayers ? <ChevronRight size={10} /> : <ChevronDown size={10} />}
+                        <span>👤 OPERATOR COMMS (PLAYERS)</span>
+                      </span>
+                      <span className="text-slate-500 text-[9px]">{playerDirectChannels.length}</span>
+                    </div>
+
+                    {!collapsedSections.directPlayers && (
+                      <div className="space-y-0.5 pl-1 border-l border-cyan-500/20 ml-1.5">
+                        {playerDirectChannels.length === 0 ? (
+                          <div className="px-2.5 py-1 text-[10px] text-slate-500 font-mono italic">
+                            No player commlines open. Click NEW to direct message an operator.
+                          </div>
+                        ) : (
+                          filterChannels(playerDirectChannels).map(renderChannelItem)
+                        )}
+                      </div>
+                    )}
+                  </div>
                 )}
               </div>
             )}

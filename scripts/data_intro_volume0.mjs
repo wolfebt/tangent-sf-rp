@@ -26,8 +26,8 @@ Role-Playing Games in Tangent provide a collaborative narrative experience where
 3. **Faction, Origin & Occupation:** Foundations granting 60 skill ranks, 4 traits, and 4 features.
 4. **Technology & Gear:** Equip weapons, armor, and gear calibrated to campaign Tech Level (TL 0–5).
 5. **Secondary Tracks:** Compute Vitality, Health, Structure, Defense, Damage Resistance (DR), and Karma.`,
-    mechanic: `Check Formula: d20 + Skill Rank + Attribute Mod + Situational Modifiers vs DC
-Degree of Success: Success by 5+ grants Critical Impact; Failure by 5+ incurs Complications`,
+    mechanic: `Check Formula: 2d10 (Combat) or d20 (Skill/Attribute) + Skill Rank + Attribute Mod + Situational Modifiers vs DC
+Degree of Success: Success by 5+ grants Critical Impact; Defender wins all ties on opposed checks`,
     guide: `1. Open your Persona Folio.
 2. Track Vitality for stamina/minor hits and Health for lethal trauma.
 3. Refresh Karma points at the start of each session.`,

@@ -6,15 +6,18 @@
  */
 
 import compendiumSeed from '../data/compendiumSeed.json';
+import { BASTION_MECHANICS_DATASET } from '../data/mechanicsData.js';
 
 export interface RuleChunk {
   id: string;
-  category: 'combat' | 'economatrix' | 'udu' | 'metaphysics' | 'character_creation' | 'planetary' | 'bestiary' | 'factions' | 'species' | 'lore';
+  category: 'combat' | 'economatrix' | 'udu' | 'metaphysics' | 'character_creation' | 'planetary' | 'bestiary' | 'factions' | 'species' | 'lore' | 'vitals_integrity' | 'scaling' | 'technology' | 'companions';
   title: string;
   citation: string;
   text: string;
   tags: string[];
   embedding?: number[];
+  formula?: string;
+  status?: string;
 }
 
 /**
@@ -177,8 +180,37 @@ function buildCompendiumChunks(): RuleChunk[] {
   });
 }
 
-// Combine Foundational Rules with Compendium Seed Articles
+/**
+ * Builds high-priority rule chunks directly from BASTION_MECHANICS_DATASET
+ */
+function buildMechanicsChunks(): RuleChunk[] {
+  if (!Array.isArray(BASTION_MECHANICS_DATASET)) return [];
+
+  return BASTION_MECHANICS_DATASET.map(m => {
+    let text = `${m.title} (${m.citation})\n`;
+    if (m.summary) text += `Summary: ${m.summary}\n`;
+    if (m.mechanic_formula) text += `Formula: ${m.mechanic_formula}\n`;
+    text += `Rules Text: ${m.rules_text}\n`;
+    if (Array.isArray(m.examples) && m.examples.length > 0) {
+      text += `Examples: ${m.examples.join(' | ')}\n`;
+    }
+
+    return {
+      id: `mech-${m.id}`,
+      category: (m.category || 'combat') as RuleChunk['category'],
+      title: m.title,
+      citation: m.citation,
+      text: text.trim(),
+      tags: [...(Array.isArray(m.tags) ? m.tags : []), m.title.toLowerCase(), 'mechanics', 'rule', m.category],
+      formula: m.mechanic_formula || '',
+      status: m.status || 'approved'
+    };
+  });
+}
+
+// Combine Foundational Rules, Mechanics Dataset, and Compendium Seed Articles
 export const CANONICAL_RULES_COMPENDIUM: RuleChunk[] = [
+  ...buildMechanicsChunks(),
   ...CANONICAL_FOUNDATIONAL_CHUNKS,
   ...buildCompendiumChunks()
 ];
@@ -249,20 +281,33 @@ function detectIntentCategories(query: string): string[] {
   const q = query.toLowerCase();
   const categories: string[] = [];
 
-  if (q.match(/\b(combat|fight|shot|shoot|attack|damage|wound|called shot|weapon|armor|strike|defense)\b/)) {
+  if (q.match(/\b(combat|fight|shot|shoot|attack|damage|wound|called shot|weapon|armor|strike|defense|ap|reaction|stance|map)\b/)) {
     categories.push('combat');
   }
-  if (q.match(/\b(psi|sorcery|magic|metaphysic|spell|invocation|essence|aether|psionic)\b/)) {
+  if (q.match(/\b(health|vitality|structure|sp|vp|hp|wound|bleedout|healing|repair|non-lethal|lethal|death|mortality)\b/)) {
+    categories.push('vitals_integrity');
+    categories.push('combat');
+  }
+  if (q.match(/\b(scale|scaling|size|gargantuan|huge|colossal|titanic|enormous|multiplier|dimensions|reach|proximity)\b/)) {
+    categories.push('scaling');
+  }
+  if (q.match(/\b(companion|drone|cohort|familiar|mount|chassis|form package|function package)\b/)) {
+    categories.push('companions');
+  }
+  if (q.match(/\b(psi|sorcery|magic|metaphysic|spell|invocation|essence|aether|psionic|strain|cantrip)\b/)) {
     categories.push('metaphysics');
   }
   if (q.match(/\b(faction|polity|enclave|syndicate|diplomacy|politic|treaty|war|alliance|empire)\b/)) {
     categories.push('factions');
   }
-  if (q.match(/\b(cost|price|craft|economatrix|credit|market|buy|sell|tech level)\b/)) {
+  if (q.match(/\b(cost|price|craft|economatrix|credit|market|buy|sell|tech level|eut)\b/)) {
     categories.push('economatrix');
   }
   if (q.match(/\b(species|alien|synthetic|lineage|heritage|trait|stigma)\b/)) {
     categories.push('species');
+  }
+  if (q.match(/\b(attribute|sub-attribute|strength|agility|stamina|intellect|wisdom|charisma|toughness|reflexes|fortitude|150 bp|bp|creation)\b/)) {
+    categories.push('character_creation');
   }
 
   return categories;
@@ -271,7 +316,7 @@ function detectIntentCategories(query: string): string[] {
 /**
  * Queries the Omnicortex Vector RAG index for the top most relevant rule and lore chunks
  */
-export function queryOmnicortexRAG(query: string, topK: number = 3, categoryFilter?: string): RagSearchResult[] {
+export function queryOmnicortexRAG(query: string, topK: number = 4, categoryFilter?: string): RagSearchResult[] {
   if (!query || !query.trim()) {
     return [];
   }
@@ -305,7 +350,15 @@ export function queryOmnicortexRAG(query: string, topK: number = 3, categoryFilt
 
     // Domain intent category boost
     if (detectedCategories.includes(chunk.category)) {
-      score += 0.12;
+      score += 0.15;
+    }
+
+    // Direct boost for canonical BASTION mechanics rules
+    if (chunk.id.startsWith('mech-')) {
+      score += 0.25;
+      if (chunk.formula && (lowerQuery.includes('how') || lowerQuery.includes('rule') || lowerQuery.includes('calculate') || lowerQuery.includes('damage') || lowerQuery.includes('formula'))) {
+        score += 0.20;
+      }
     }
 
     if (score > 0.05) {
@@ -325,9 +378,15 @@ export function queryOmnicortexRAG(query: string, topK: number = 3, categoryFilt
 export function formatRagContextForBastion(ragResults: RagSearchResult[]): string {
   if (ragResults.length === 0) return '';
 
-  let context = 'CANONICAL OMNICORTEX RULES CITATIONS:\n';
+  let context = 'CANONICAL OMNICORTEX RULES & BASTION MECHANICS CITATIONS:\n';
   for (const { chunk, score } of ragResults) {
-    context += `\n--- [${chunk.citation}] ${chunk.title} (Relevance: ${(score * 100).toFixed(0)}%) ---\n${chunk.text}\n`;
+    const isApproved = chunk.status === 'approved' || chunk.id.startsWith('mech-');
+    const statusBadge = isApproved ? '[APPROVED CANON MECHANIC]' : '[COMPENDIUM LORE]';
+    context += `\n--- ${statusBadge} [${chunk.citation}] ${chunk.title} (Relevance: ${(score * 100).toFixed(0)}%) ---\n`;
+    if (chunk.formula) {
+      context += `CANONICAL FORMULA: ${chunk.formula}\n`;
+    }
+    context += `${chunk.text}\n`;
   }
   return context;
 }

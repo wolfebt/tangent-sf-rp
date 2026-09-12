@@ -125,10 +125,16 @@ export class DamagePipeline {
     const isLethal = payload.isLethal !== false;
 
     if (isSynthetic) {
-      // Synthetics/Constructs use Structure; immune to non-lethal damage
+      // Synthetics only have Structure (Vitality + Health combined); immune to non-lethal damage
       if (isLethal) {
         structureDamage = netDamage;
         healthDamage = netDamage;
+      } else {
+        // Synthetics do not suffer non-lethal damage
+        structureDamage = 0;
+        healthDamage = 0;
+        netDamage = 0;
+        statuses.push('status_synthetic_nonlethal_immune');
       }
     } else if (dmgType === 'concussive' || dmgType === 'impact') {
       // Concussive damage is divided equally between Vitality and Health

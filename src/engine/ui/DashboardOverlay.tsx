@@ -75,6 +75,14 @@ export const DashboardOverlay: React.FC<DashboardOverlayProps> = ({
     c.toLowerCase().includes('slow') || c.toLowerCase().includes('cripple') || c.toLowerCase().includes('leg') || c.toLowerCase().includes('disabled')
   );
 
+  const isSyntheticActive = Boolean(
+    activeToken?.is_synthetic || 
+    activeToken?.species?.toLowerCase().includes('synthetic') ||
+    activeToken?.species?.toLowerCase().includes('automaton') ||
+    activeToken?.species?.toLowerCase().includes('mecha') ||
+    activeToken?.species?.toLowerCase().includes('construct')
+  );
+
   const displaySpeedFt = effectiveSpeedFt || activeToken?.speed_ft || 30;
   const displaySpeedCells = Math.floor(displaySpeedFt / 5);
 
@@ -90,10 +98,17 @@ export const DashboardOverlay: React.FC<DashboardOverlayProps> = ({
             className="absolute top-4 left-4 z-[105] pointer-events-auto px-3 py-1.5 bg-slate-900/95 backdrop-blur-md border border-cyan-500/40 rounded-xl shadow-2xl flex items-center gap-2 font-mono text-xs text-cyan-300 hover:bg-slate-800 transition-all cursor-pointer animate-in fade-in duration-150 select-none"
             title="Expand Operative Vitals"
           >
-            <Heart size={13} className="text-emerald-400" />
+            {isSyntheticActive ? (
+              <Activity size={13} className="text-amber-400" />
+            ) : (
+              <Heart size={13} className="text-rose-400" />
+            )}
             <span className="font-bold">{activeToken.name}</span>
-            <span className="text-[10px] text-emerald-400 font-bold">
-              {activeToken.current_hp}/{activeToken.base_hp} HP
+            <span className={`text-[10px] font-bold ${isSyntheticActive ? 'text-amber-300' : 'text-emerald-400'}`}>
+              {isSyntheticActive 
+                ? `${activeToken.current_structure ?? activeToken.current_hp}/${activeToken.base_structure ?? activeToken.base_hp} SP`
+                : `${activeToken.current_vitality ?? 30} VP | ${activeToken.current_health ?? activeToken.current_hp} HP`
+              }
             </span>
           </button>
         ) : (
@@ -139,22 +154,39 @@ export const DashboardOverlay: React.FC<DashboardOverlayProps> = ({
             <div>
               <div className="flex justify-between items-center text-[11px] mb-1">
                 <span className="text-slate-400 flex items-center gap-1">
-                  <Heart size={11} className="text-emerald-400" /> VITALITY / HP
+                  {isSyntheticActive ? (
+                    <Activity size={11} className="text-amber-400" />
+                  ) : (
+                    <Heart size={11} className="text-rose-400" />
+                  )}
+                  {isSyntheticActive ? 'STRUCTURE (SP)' : 'VITALITY & HEALTH'}
                 </span>
                 <div className="flex items-center gap-1.5">
-                  <span className="text-emerald-400 font-bold">{activeToken.current_hp} / {activeToken.base_hp}</span>
+                  <span className={`font-bold ${isSyntheticActive ? 'text-amber-300' : 'text-emerald-400'}`}>
+                    {isSyntheticActive ? (
+                      `${activeToken.current_structure ?? activeToken.current_hp} / ${activeToken.base_structure ?? activeToken.base_hp} SP`
+                    ) : (
+                      `${activeToken.current_vitality ?? 30} VP | ${activeToken.current_health ?? activeToken.current_hp} HP`
+                    )}
+                  </span>
                   <div className="flex gap-1 ml-1">
                     <button
-                      onClick={() => useEngineStore.getState().healHP(activeToken.id, 5)}
+                      onClick={() => {
+                        if (isSyntheticActive) {
+                          useEngineStore.getState().healStructure(activeToken.id, 5);
+                        } else {
+                          useEngineStore.getState().healHP(activeToken.id, 5);
+                        }
+                      }}
                       className="px-1 py-0.2 text-[9px] bg-emerald-950 hover:bg-emerald-900 text-emerald-300 rounded border border-emerald-800 cursor-pointer"
-                      title="Quick Heal +5 HP"
+                      title={isSyntheticActive ? "Repair +5 SP" : "Quick Heal +5 HP"}
                     >
                       +5
                     </button>
                     <button
-                      onClick={() => useEngineStore.getState().applyDamage(activeToken.id, 5)}
+                      onClick={() => useEngineStore.getState().applyDamage(activeToken.id, 5, true)}
                       className="px-1 py-0.2 text-[9px] bg-red-950 hover:bg-red-900 text-red-300 rounded border border-red-800 cursor-pointer"
-                      title="Quick Damage -5 HP"
+                      title={isSyntheticActive ? "Structural Damage -5 SP" : "Lethal Damage -5"}
                     >
                       -5
                     </button>
@@ -164,13 +196,21 @@ export const DashboardOverlay: React.FC<DashboardOverlayProps> = ({
               <div className="w-full h-2 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
                 <div 
                   className={`h-full transition-all duration-300 ${
-                    (activeToken.current_hp / activeToken.base_hp) <= 0.25 
+                    isSyntheticActive 
+                      ? 'bg-gradient-to-r from-amber-600 to-yellow-400' 
+                      : (activeToken.current_hp / (activeToken.base_hp || 1)) <= 0.25 
                       ? 'bg-red-500 animate-pulse' 
-                      : (activeToken.current_hp / activeToken.base_hp) <= 0.5 
+                      : (activeToken.current_hp / (activeToken.base_hp || 1)) <= 0.5 
                       ? 'bg-amber-500' 
                       : 'bg-emerald-500'
                   }`}
-                  style={{ width: `${Math.max(0, Math.min(100, (activeToken.current_hp / activeToken.base_hp) * 100))}%` }}
+                  style={{ 
+                    width: `${Math.max(0, Math.min(100, (
+                      isSyntheticActive 
+                        ? (((activeToken.current_structure ?? activeToken.current_hp) / ((activeToken.base_structure ?? activeToken.base_hp) || 1)) * 100)
+                        : (activeToken.current_hp / (activeToken.base_hp || 1)) * 100
+                    )))}%` 
+                  }}
                 />
               </div>
             </div>

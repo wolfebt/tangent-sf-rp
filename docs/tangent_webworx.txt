@@ -1,19 +1,6 @@
-compendium needs revised with full ruleset from the game rules folder
-
-lets build a MECHANICS dataset for rules collection for BASTION, a fully organized collection to be reference / ingested by BASTION (after approved by user).
-
-unlink the active character
-
-in the message station - we will need message options to player as well as to the separate characters and sorted accordingly. 
-
-companion / cohort system and mechanics for vtt
-
-vtt needs an adventure log
-
-initiative system integrated - PC / NPC / Environment
 
 
 
-need to revise the selectors in identity section, the window and allocation is clunky. possible tabbed structure?
+
 
 

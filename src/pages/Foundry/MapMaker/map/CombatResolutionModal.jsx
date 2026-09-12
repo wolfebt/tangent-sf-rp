@@ -27,6 +27,8 @@ import {
 import { rollDice } from '../../../../services/diceService';
 import { AudioService } from '../../../../services/audioService';
 import { SessionJournal } from '../../../../services/sessionRecapService';
+import AdventureLogService, { ACTOR_TYPES } from '../../../../services/adventureLogService';
+import { classifyCombatant } from '../../../../services/initiativeService';
 
 /**
  * Standard Tangent Hit Locations with canonical d100 range and damage multipliers
@@ -373,6 +375,18 @@ export default function CombatResolutionModal({
       target: targetToken?.label || 'Target',
       details: `Struck ${finalLocation.label} for ${netDamage} Net Damage (${damageClass === 'lethal' ? 'Lethal Trauma' : 'Non-Lethal Fatigue'})`,
       isCrit: isCritHit
+    });
+
+    // Adventure Log Event Telemetry
+    AdventureLogService.log({
+      category: 'combat',
+      type: isCritHit ? 'crit' : 'strike',
+      actor: attackerToken?.label || 'Attacker',
+      actorType: attackerToken ? classifyCombatant(attackerToken) : ACTOR_TYPES.NPC,
+      target: targetToken?.label || 'Target',
+      badge: isCritHit ? '⚡' : '⚔️',
+      summary: `${attackerToken?.label || 'Attacker'} struck ${targetToken?.label || 'Target'} (${finalLocation.label}): ${netDamage} net dmg`,
+      details: `Weapon: ${customWeaponName} | Attack: ${computedOutcome.totalAttackRoll} vs DC ${computedOutcome.targetDefenseDC} | Raw: ${computedOutcome.rawDamage} - Armor DR: ${computedOutcome.soakedByArmor} - Soak: ${computedOutcome.soakedByToughness} = ${netDamage} Net (${damageClass.toUpperCase()})`
     });
 
     // Optional Broadcast to CommLink Chat

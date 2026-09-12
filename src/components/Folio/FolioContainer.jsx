@@ -13,6 +13,7 @@ import SkillsTab from './tabs/SkillsTab';
 import FeaturesTab from './tabs/FeaturesTab';
 import AbilitiesTab from './tabs/AbilitiesTab';
 import CombatTab from './tabs/CombatTab';
+import CompanionsTab from './tabs/CompanionsTab';
 import PropertyTab from './tabs/PropertyTab';
 import NarrativeTab from './tabs/NarrativeTab';
 import OtherTab from './tabs/OtherTab';
@@ -42,12 +43,6 @@ const FolioContainer = () => {
   const navigate = useNavigate();
   const { currentUser, userHandle, confirmLogout, loginWithGoogle } = useAuth();
   const { openDiceRoller, isDiceOpen, closeDiceRoller } = useDice();
-  const [activeTab, setActiveTab] = useState(() => {
-    if (typeof window !== 'undefined' && window.location.search && window.location.search.includes('id=')) {
-      return 'identity';
-    }
-    return 'catalog';
-  });
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [viewMode, setViewMode] = useState('builder');
@@ -74,6 +69,9 @@ const FolioContainer = () => {
   const fileInputRef = useRef(null);
 
   const {
+    activeTab,
+    setActiveTab,
+    isCharacterSelected,
     characterData,
     updateField,
     handleAddItem,
@@ -163,7 +161,8 @@ const FolioContainer = () => {
     const activeDocId = characterData['character-doc-id'];
     deleteRosterCharacter(activeDocId);
     setIsDeleteConfirmOpen(false);
-  }, [characterData, deleteRosterCharacter]);
+    if (setActiveTab) setActiveTab('catalog');
+  }, [characterData, deleteRosterCharacter, setActiveTab]);
 
   const handleOpenAddSkillModal = useCallback((mode = 'skill', skillsList = []) => {
     setAddSkillModalMode(mode);
@@ -448,66 +447,72 @@ const FolioContainer = () => {
       />
 
       {/* Mobile Sidebar Overlay Toggle */}
-      <div className={`fixed inset-0 z-40 bg-black/60 md:hidden ${isSidebarOpen ? 'block' : 'hidden'}`} onClick={() => setIsSidebarOpen(false)} />
+      {isCharacterSelected && (
+        <div className={`fixed inset-0 z-40 bg-black/60 md:hidden ${isSidebarOpen ? 'block' : 'hidden'}`} onClick={() => setIsSidebarOpen(false)} />
+      )}
 
       {/* Sidebar Navigation */}
-      <div className={`fixed md:relative z-40 h-full transition-transform md:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-        <FolioSidebar
-          viewMode={viewMode}
-          setViewMode={setViewMode}
-          activeTab={activeTab}
-          setActiveTab={(tab) => {
-            triggerSave();
-            setActiveTab(tab);
-            setIsSidebarOpen(false);
-            if (viewMode === 'play') setViewMode('builder');
-          }}
-          charName={characterData['char-name']}
-          onOpenRoster={() => setIsRosterOpen(true)}
-          onOpenAugmentationsCatalog={() => handleOpenSelectorModal('augmentations', 'Augmentations', 'augmentations')}
-          onOpenMetaphysicsModal={() => setIsMetaphysicsOpen(true)}
-          onSave={handleManualSave}
-          saveStatus={cloudSaveStatus}
-        />
-      </div>
+      {isCharacterSelected && (
+        <div className={`fixed md:relative z-40 h-full transition-transform md:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+          <FolioSidebar
+            viewMode={viewMode}
+            setViewMode={setViewMode}
+            activeTab={activeTab}
+            setActiveTab={(tab) => {
+              triggerSave();
+              setActiveTab(tab);
+              setIsSidebarOpen(false);
+              if (viewMode === 'play') setViewMode('builder');
+            }}
+            charName={characterData['char-name']}
+            onOpenRoster={() => setIsRosterOpen(true)}
+            onOpenAugmentationsCatalog={() => handleOpenSelectorModal('augmentations', 'Augmentations', 'augmentations')}
+            onOpenMetaphysicsModal={() => setIsMetaphysicsOpen(true)}
+            onSave={handleManualSave}
+            saveStatus={cloudSaveStatus}
+          />
+        </div>
+      )}
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#0d1117] min-w-0">
         {/* Mobile Navigation Opener */}
-        <div className="md:hidden flex items-center justify-between px-3 py-2 bg-[#121824] border-b border-slate-800">
-          <button
-            type="button"
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="px-2.5 py-1 bg-slate-900 border border-cyan-900/60 rounded text-cyan-400 text-xs font-bold flex items-center gap-1.5"
-          >
-            <span>&#9776;</span>
-            <span className="uppercase font-mono">Sections</span>
-          </button>
-          <div className="flex items-center gap-2 min-w-0">
+        {isCharacterSelected && (
+          <div className="md:hidden flex items-center justify-between px-3 py-2 bg-[#121824] border-b border-slate-800">
             <button
               type="button"
-              onClick={() => {
-                if (isDiceOpen) {
-                  closeDiceRoller();
-                } else {
-                  openDiceRoller({ label: `${characterData['char-name'] || 'Operative'} Check`, characterName: characterData['char-name'] || 'Operative', autoRoll: false });
-                }
-              }}
-              className={`px-2 py-0.5 border rounded text-[11px] font-mono font-bold flex items-center gap-1 shadow-sm shrink-0 cursor-pointer ${
-                isDiceOpen
-                  ? 'bg-amber-950 border-amber-500/80 text-amber-300 shadow-[0_0_8px_rgba(245,158,11,0.3)]'
-                  : 'bg-cyan-950/80 hover:bg-cyan-900 border-cyan-500/50 text-cyan-300'
-              }`}
-              title={isDiceOpen ? "Close Dice Tray" : "Open Dice Tray"}
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+              className="px-2.5 py-1 bg-slate-900 border border-cyan-900/60 rounded text-cyan-400 text-xs font-bold flex items-center gap-1.5"
             >
-              <Dices size={12} className={isDiceOpen ? 'text-amber-400' : 'text-cyan-400'} />
-              <span>Dice</span>
+              <span>&#9776;</span>
+              <span className="uppercase font-mono">Sections</span>
             </button>
-            <span className="text-xs font-mono font-bold text-amber-400 uppercase truncate">
-              {characterData['char-name'] || 'UNNAMED OPERATIVE'}
-            </span>
+            <div className="flex items-center gap-2 min-w-0">
+              <button
+                type="button"
+                onClick={() => {
+                  if (isDiceOpen) {
+                    closeDiceRoller();
+                  } else {
+                    openDiceRoller({ label: `${characterData['char-name'] || 'Operative'} Check`, characterName: characterData['char-name'] || 'Operative', autoRoll: false });
+                  }
+                }}
+                className={`px-2 py-0.5 border rounded text-[11px] font-mono font-bold flex items-center gap-1 shadow-sm shrink-0 cursor-pointer ${
+                  isDiceOpen
+                    ? 'bg-amber-950 border-amber-500/80 text-amber-300 shadow-[0_0_8px_rgba(245,158,11,0.3)]'
+                    : 'bg-cyan-950/80 hover:bg-cyan-900 border-cyan-500/50 text-cyan-300'
+                }`}
+                title={isDiceOpen ? "Close Dice Tray" : "Open Dice Tray"}
+              >
+                <Dices size={12} className={isDiceOpen ? 'text-amber-400' : 'text-cyan-400'} />
+                <span>Dice</span>
+              </button>
+              <span className="text-xs font-mono font-bold text-amber-400 uppercase truncate">
+                {characterData['char-name'] || 'UNNAMED OPERATIVE'}
+              </span>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Public Read-Only Banner */}
         {isReadOnly && (
@@ -532,7 +537,7 @@ const FolioContainer = () => {
 
 
         {/* Over-Budget Alert Banner */}
-        {(() => {
+        {isCharacterSelected && (() => {
           const startingCP = parseInt(characterData['starting-cp'] || 150, 10);
           const spentCP = computeSpentCP();
           const remainingCP = startingCP - spentCP;
@@ -573,6 +578,19 @@ const FolioContainer = () => {
         {activeTab !== 'catalog' && (
           <div className="bg-[#101622] border-b border-slate-800 px-3 sm:px-5 py-2 flex items-center justify-between gap-2 shrink-0">
             <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  triggerSave();
+                  setActiveTab('catalog');
+                }}
+                className="px-2.5 py-1 rounded-md text-xs font-mono font-bold uppercase tracking-wider text-slate-300 hover:text-cyan-300 bg-slate-950 hover:bg-slate-900 border border-slate-800 hover:border-cyan-500/50 transition-all flex items-center gap-1 cursor-pointer"
+                title="Return to Operative Catalog / Dossiers"
+              >
+                <span>&larr;</span>
+                <span className="hidden sm:inline">Catalog</span>
+              </button>
+
               <div className="inline-flex rounded-lg bg-slate-950 p-0.5 border border-slate-800 shadow-inner">
                 <button
                   type="button"
@@ -737,6 +755,9 @@ const FolioContainer = () => {
                   onOpenSelectorModal={handleOpenSelectorModal}
                   onOpenAssetModal={handleOpenAssetModal}
                 />
+              )}
+              {activeTab === 'companions' && (
+                <CompanionsTab />
               )}
               {activeTab === 'property' && (
                 <PropertyHubView

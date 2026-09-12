@@ -446,6 +446,53 @@ export const StageView: React.FC<StageViewProps> = ({
     }
   }, [currentMap]);
 
+  // ── Real-Time Companion & Cohort VTT Deployment Integration ──
+  useEffect(() => {
+    const handleCompanionDeploy = (e: any) => {
+      const detail = e?.detail;
+      if (!detail) return;
+      const { companionId, companion, parentOperativeName, is_deployed } = detail;
+      const store = useEngineStore.getState();
+
+      if (is_deployed) {
+        // Deploy companion token near parent or stage origin
+        const tokenId = `comp_tok_${companionId}`;
+        const isSynth = companion.chassisType === 'synthetic' || companion.type === 'drone';
+        const compEntity: StaticEntity = {
+          id: tokenId,
+          name: `${companion.name} (${parentOperativeName || 'Cohort'})`,
+          base_hp: isSynth ? (companion.vitals?.max_structure || 50) : (companion.vitals?.max_hp || 25),
+          base_health: isSynth ? 0 : (companion.vitals?.max_hp || 25),
+          base_vitality: isSynth ? 0 : (companion.vitals?.max_vitality || 25),
+          base_structure: isSynth ? (companion.vitals?.max_structure || 50) : 0,
+          is_synthetic: isSynth,
+          tech_level: 3,
+          armor_dr: companion.armor?.dr || 2,
+          size_modifier: -1,
+          speed_ft: (companion.speed || 10) * 3,
+          species: isSynth ? 'Synthetic Drone' : 'Companion',
+          archetype: companion.role || 'Companion',
+          is_persona: false
+        };
+        store.loadStaticEntitiesBatch([compEntity]);
+        store.updatePosition(tokenId, 200 + Math.random() * 40, 200 + Math.random() * 40);
+        setSelectedTokenId(tokenId);
+      } else {
+        // Recall companion token from stage
+        const tokenId = `comp_tok_${companionId}`;
+        store.removeEntity(tokenId);
+        if (selectedTokenId === tokenId) {
+          setSelectedTokenId(null);
+        }
+      }
+    };
+
+    window.addEventListener('companion-deploy-toggle', handleCompanionDeploy);
+    return () => {
+      window.removeEventListener('companion-deploy-toggle', handleCompanionDeploy);
+    };
+  }, [selectedTokenId]);
+
   // ── Render Walls & Bulkheads onto the Stage ──
   useEffect(() => {
     const compositor = layerCompositorRef.current;

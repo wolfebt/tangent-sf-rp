@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Dices } from 'lucide-react';
 import DraggablePanel from './DraggablePanel';
 import { useFolio } from '../../../../context/FolioContext';
 import { AudioService } from '../../../../services/audioService';
@@ -35,6 +36,13 @@ import { evaluateTokenConditionsOnTurnStart } from '../../../../services/conditi
 import { decideAutonomousAction, BEHAVIOR_PROFILES } from '../../../../services/unitBehaviorService';
 import { resolveAutonomousAttack } from '../../../../services/autoCombatResolver';
 import { evaluateHazmatTick } from '../../../../services/hazmatVolumeService';
+import { AdventureLogService, ACTOR_TYPES } from '../../../../services/adventureLogService';
+import {
+  classifyCombatant,
+  getCombatantReflexBonus,
+  rollCombatantInitiative,
+  sortInitiativeOrder
+} from '../../../../services/initiativeService';
 
 const MapCombatTracker = ({
   tokens = [],
@@ -52,7 +60,15 @@ const MapCombatTracker = ({
   onUpdateTokenConditions,
   onTriggerFloatingText,
   scale = 1,
-  position = { x: 0, y: 0 }
+  position = { x: 0, y: 0 },
+  environmentCombatants = [],
+  onUpdateEnvironmentCombatants,
+  combatRound = 1,
+  setCombatRound,
+  onOpenInitiativeManager,
+  onOpenAdventureLog,
+  hazardZones = [],
+  objects = []
 }) => {
   const {
     updateCharacterHealth,
@@ -112,14 +128,16 @@ const MapCombatTracker = ({
 
   if (!showTracker) return null;
 
-  // Filter tokens that are units (exclude portal links) and sort by initiative descending
-  const sortedTokens = [...tokens]
-    .filter(t => t.type !== 'link')
-    .sort((a, b) => {
-      const initA = a.initiative !== undefined && a.initiative !== null ? a.initiative : -99;
-      const initB = b.initiative !== undefined && b.initiative !== null ? b.initiative : -99;
-      return initB - initA;
-    });
+  // Canonical initiative sorting for tokens
+  const sortedTokens = React.useMemo(() => {
+    return sortInitiativeOrder(tokens.filter(t => t.type !== 'link'));
+  }, [tokens]);
+
+  // Combined combatants list including PCs, NPCs, and Environmental Hazards/Lair Actions
+  const combinedCombatants = React.useMemo(() => {
+    const units = tokens.filter(t => t.type !== 'link');
+    return sortInitiativeOrder([...units, ...(environmentCombatants || [])]);
+  }, [tokens, environmentCombatants]);
 
   const handleApplyHealthChange = (token, amount, isDamage = true) => {
     const numAmount = Math.max(1, parseInt(amount, 10) || 1);
@@ -150,6 +168,18 @@ const MapCombatTracker = ({
         isDead: true,
         isAtDeathsDoor: false,
         deathClock: 0
+      });
+
+      AdventureLogService.log({
+        category: 'vitals',
+        type: 'instant_death',
+        actor: 'Massive Damage',
+        actorType: ACTOR_TYPES.SYSTEM,
+        target: token.label || 'Unit',
+        round: combatRound || 1,
+        badge: '💀',
+        summary: `💀 ${token.label || 'Unit'} killed instantly by Massive Damage (>= ${sta} STA while at Death's Door)`,
+        details: `Damage: ${numAmount} vs STA ${sta}. Operative KIA.`
       });
 
       if (onTriggerFloatingText) {
@@ -216,6 +246,18 @@ const MapCombatTracker = ({
         }
       }
 
+      AdventureLogService.log({
+        category: 'vitals',
+        type: 'damage',
+        actor: 'Combat Strike',
+        actorType: ACTOR_TYPES.SYSTEM,
+        target: token.label || 'Unit',
+        round: combatRound || 1,
+        badge: '🩸',
+        summary: `${token.label || 'Unit'} took ${numAmount} Lethal Damage (${newHealth}/${maxHealth} HP)`,
+        details: `${excessDamage > 0 ? `(${excessDamage} spilled to Vitality). ` : ''}${newHealth <= 0 ? 'Fell Unconscious & Prone!' : ''}${newVitality <= 0 ? " Entered Death's Door!" : ''}`
+      });
+
       if (onTriggerFloatingText) {
         const screenX = (token.x || 0) * scale + position.x;
         const screenY = (token.y || 0) * scale + position.y;
@@ -251,6 +293,18 @@ const MapCombatTracker = ({
           deathClock: null
         });
       }
+
+      AdventureLogService.log({
+        category: 'vitals',
+        type: 'heal',
+        actor: 'Nano-Stims / Med-Kit',
+        actorType: ACTOR_TYPES.SYSTEM,
+        target: token.label || 'Unit',
+        round: combatRound || 1,
+        badge: '💚',
+        summary: `${token.label || 'Unit'} healed ${numAmount} HP (${newHealth}/${maxHealth} HP)`,
+        details: newHealth > 0 ? 'Stabilized and operational.' : 'Health restored.'
+      });
 
       if (onTriggerFloatingText) {
         const screenX = (token.x || 0) * scale + position.x;
@@ -408,6 +462,55 @@ const MapCombatTracker = ({
     handleApplyHealthChange(token, heaDmg, true);
   };
 
+  const handleTriggerEnvironmentTurn = (envCombatant) => {
+    AudioService.playTerminalBeep(980, 0.08);
+    const allHazards = [
+      ...(hazardZones || []),
+      ...(objects || []).filter(o => o.type === 'hazard' || o.isTrap || o.hazard)
+    ];
+
+    const affected = [];
+    let totalDamage = 0;
+
+    sortedTokens.forEach(tok => {
+      if (tok.isDead) return;
+      const tickResults = evaluateHazmatTick(tok, allHazards);
+      if (tickResults && tickResults.length > 0) {
+        affected.push({ token: tok, results: tickResults });
+        tickResults.forEach(r => {
+          totalDamage += r.damage;
+          if (r.damage > 0) {
+            handleApplyHealthChange(tok, r.damage, true);
+          }
+          if (r.condition) {
+            const curConds = tok.conditions || [];
+            if (!curConds.includes(r.condition)) {
+              onUpdateToken?.(tok.id, { conditions: [...curConds, r.condition] });
+            }
+          }
+          if (onTriggerFloatingText) {
+            const screenX = (tok.x || 0) * scale + position.x;
+            const screenY = (tok.y || 0) * scale + position.y;
+            onTriggerFloatingText(screenX, screenY, r.message, r.savePassed ? 'heal' : 'damage');
+          }
+        });
+      }
+    });
+
+    AdventureLogService.log({
+      category: 'environment',
+      type: 'hazmat_tick',
+      actor: envCombatant.name || envCombatant.label || 'Environmental Hazard',
+      actorType: ACTOR_TYPES.ENVIRONMENT,
+      round: combatRound || 1,
+      badge: envCombatant.icon || '🌋',
+      summary: `Hazard Tick: ${affected.length} operatives exposed (${totalDamage} total damage)`,
+      details: affected.length > 0
+        ? affected.map(a => a.results.map(r => r.message).join(' | ')).join('\n')
+        : 'All operatives currently safe from active hazard volumes.'
+    });
+  };
+
   const handleAdvanceTurn = () => {
     // If active turn token is at Death's Door and not stabilized, advance death clock
     if (activeTurnTokenId) {
@@ -434,6 +537,17 @@ const MapCombatTracker = ({
               isDead: true,
               isAtDeathsDoor: false
             });
+            AdventureLogService.log({
+              category: 'vitals',
+              type: 'death',
+              actor: 'Death Clock',
+              actorType: ACTOR_TYPES.SYSTEM,
+              target: activeTok.label || 'Unit',
+              round: combatRound || 1,
+              badge: '💀',
+              summary: `💀 ${activeTok.label || 'Unit'} died (Death Clock reached 0)`,
+              details: 'Failed to stabilize before death clock expiration.'
+            });
             if (onTriggerFloatingText) {
               const screenX = (activeTok.x || 0) * scale + position.x;
               const screenY = (activeTok.y || 0) * scale + position.y;
@@ -453,23 +567,42 @@ const MapCombatTracker = ({
       }
     }
 
-    // Evaluate start-of-turn conditions for the incoming unit
-    if (sortedTokens.length > 0) {
-      const curIdx = sortedTokens.findIndex(t => t.id === activeTurnTokenId);
-      const nextIdx = curIdx >= 0 ? (curIdx + 1) % sortedTokens.length : 0;
-      const nextToken = sortedTokens[nextIdx];
+    // Advance through combined combatants (PCs, NPCs, and Environment)
+    if (combinedCombatants.length > 0) {
+      const curIdx = combinedCombatants.findIndex(c => c.id === activeTurnTokenId);
+      const isRollover = curIdx >= 0 && (curIdx + 1) >= combinedCombatants.length;
+      const nextIdx = curIdx >= 0 ? (curIdx + 1) % combinedCombatants.length : 0;
+      const nextCombatant = combinedCombatants[nextIdx];
 
-      if (nextToken) {
-        const { updatedToken, triggeredEffects } = evaluateTokenConditionsOnTurnStart(nextToken);
-        if (triggeredEffects.length > 0) {
-          onUpdateToken?.(nextToken.id, updatedToken);
-          triggeredEffects.forEach((eff, idx) => {
-            setTimeout(() => {
-              const screenX = (nextToken.x || 0) * scale + position.x;
-              const screenY = (nextToken.y || 0) * scale + position.y;
-              onTriggerFloatingText?.(screenX, screenY, eff.message, eff.sfx === 'heal' ? 'heal' : 'damage');
-            }, (idx + 1) * 200);
-          });
+      if (isRollover) {
+        const nextRound = (combatRound || 1) + 1;
+        if (setCombatRound) setCombatRound(nextRound);
+        AdventureLogService.logRoundStart(nextRound);
+      }
+
+      if (nextCombatant) {
+        setActiveTurnTokenId(nextCombatant.id);
+        const cType = classifyCombatant(nextCombatant);
+        AdventureLogService.logTurnChange({
+          actor: nextCombatant.label || nextCombatant.name,
+          actorType: cType,
+          round: isRollover ? ((combatRound || 1) + 1) : (combatRound || 1),
+          initiative: nextCombatant.initiative
+        });
+
+        // Evaluate start-of-turn conditions for units
+        if (cType !== ACTOR_TYPES.ENVIRONMENT) {
+          const { updatedToken, triggeredEffects } = evaluateTokenConditionsOnTurnStart(nextCombatant);
+          if (triggeredEffects && triggeredEffects.length > 0) {
+            onUpdateToken?.(nextCombatant.id, updatedToken);
+            triggeredEffects.forEach((eff, idx) => {
+              setTimeout(() => {
+                const screenX = (nextCombatant.x || 0) * scale + position.x;
+                const screenY = (nextCombatant.y || 0) * scale + position.y;
+                onTriggerFloatingText?.(screenX, screenY, eff.message, eff.sfx === 'heal' ? 'heal' : 'damage');
+              }, (idx + 1) * 200);
+            });
+          }
         }
       }
     }
@@ -700,6 +833,35 @@ const MapCombatTracker = ({
     }
   };
 
+  const handleRerollTokenInitiative = (tok, e) => {
+    e?.stopPropagation();
+    AudioService.playTerminalBeep(1100, 0.04);
+    const hero = tok.linkedHeroId
+      ? ((personaRoster || []).find(c => (c['character-doc-id'] || c.id) === tok.linkedHeroId) ||
+        ((characterData?.['character-doc-id'] || characterData?.id) === tok.linkedHeroId ? characterData : null))
+      : null;
+    const rollData = rollCombatantInitiative(tok, hero);
+    onUpdateToken?.(tok.id, {
+      initiative: rollData.total,
+      initiativeRollDetails: rollData.details,
+      tieBreaker: rollData.tieBreaker
+    });
+    AdventureLogService.logInitiativeRoll({
+      actor: tok.label || 'Unit',
+      actorType: classifyCombatant(tok),
+      rollSubtotal: rollData.rollSubtotal,
+      modifier: rollData.modifier,
+      total: rollData.total,
+      details: rollData.details,
+      round: combatRound || 1
+    });
+    if (onTriggerFloatingText) {
+      const screenX = (tok.x || 0) * scale + position.x;
+      const screenY = (tok.y || 0) * scale + position.y;
+      onTriggerFloatingText(screenX, screenY, `⚡ INIT: #${rollData.total}`, 'karma');
+    }
+  };
+
   return (
     <DraggablePanel
       id="combat_tracker"
@@ -778,9 +940,9 @@ const MapCombatTracker = ({
           </button>
           <button
             onClick={handleAdvanceTurn}
-            disabled={sortedTokens.length === 0}
+            disabled={combinedCombatants.length === 0}
             className="px-2 py-0.5 bg-amber-600 hover:bg-amber-500 text-white font-bold text-[10px] rounded uppercase transition-colors disabled:opacity-50 cursor-pointer"
-            title="Advance to Next Unit Turn"
+            title="Advance to Next Unit / Hazard Turn"
           >
             Next ⏭️
           </button>
@@ -790,6 +952,38 @@ const MapCombatTracker = ({
             title="Close Combat Tracker"
           >
             ×
+          </button>
+        </div>
+      </div>
+
+      {/* Encounter Status & Unified Initiative / Log Control Bar */}
+      <div className="flex items-center justify-between bg-slate-950/90 px-2 py-1 rounded-lg border border-amber-500/40 text-[10px] font-mono">
+        <div className="flex items-center gap-1.5 min-w-0">
+          <span className="font-bold text-amber-300 tracking-wider">
+            ROUND #{combatRound || 1}
+          </span>
+          <span className="text-slate-600">·</span>
+          <span className="text-slate-400 text-[9px] truncate">
+            {combinedCombatants.length} in Order
+          </span>
+        </div>
+
+        <div className="flex items-center gap-1">
+          <button
+            type="button"
+            onClick={() => onOpenInitiativeManager?.()}
+            className="px-2 py-0.5 bg-amber-950 hover:bg-amber-900 text-amber-300 border border-amber-500/60 rounded text-[9px] font-bold uppercase transition-all flex items-center gap-1 cursor-pointer shadow-sm"
+            title="Open Initiative Manager: Roll 2d10 for PCs, NPCs, and Environment"
+          >
+            <span>🎲</span> Init
+          </button>
+          <button
+            type="button"
+            onClick={() => onOpenAdventureLog?.()}
+            className="px-2 py-0.5 bg-cyan-950 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/60 rounded text-[9px] font-bold uppercase transition-all flex items-center gap-1 cursor-pointer shadow-sm"
+            title="Open Tactical Adventure Log"
+          >
+            <span>📜</span> Log
           </button>
         </div>
       </div>
@@ -965,19 +1159,71 @@ const MapCombatTracker = ({
         position={position}
       />
 
-      {/* Token / Combatant List */}
+      {/* Token & Environmental Combatant List */}
       <div className="flex flex-col gap-2 max-h-[380px] overflow-y-auto pr-1">
-        {sortedTokens.length === 0 ? (
+        {combinedCombatants.length === 0 ? (
           <div className="text-center py-4 text-[11px] text-slate-500 font-mono">
-            No units placed on map. Drop tokens onto canvas to track initiative and damage.
+            No units or environmental hazards placed on map. Drop tokens onto canvas to track initiative and damage.
           </div>
         ) : (
-          sortedTokens.map((token) => {
+          combinedCombatants.map((combatant) => {
+            // Check if this combatant is an Environment Hazard / Event
+            if (combatant.actorType === ACTOR_TYPES.ENVIRONMENT || combatant.isEnvironment || combatant.type === 'environment') {
+              const isActive = combatant.id === activeTurnTokenId;
+              return (
+                <div
+                  key={combatant.id}
+                  onClick={() => setActiveTurnTokenId(combatant.id)}
+                  className={`p-2 rounded-lg border flex flex-col gap-1.5 transition-all cursor-pointer ${
+                    isActive
+                      ? 'bg-amber-950/60 border-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.35)]'
+                      : 'bg-[#18130d]/80 border-amber-800/60 hover:border-amber-600/70'
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-1">
+                    <div className="flex items-center gap-1.5 min-w-0">
+                      <span className="w-6 text-center font-mono text-[10px] bg-slate-900 text-amber-400 px-1 py-0.5 rounded font-bold shrink-0 border border-amber-500/40">
+                        {combatant.initiative !== undefined && combatant.initiative !== null ? `#${combatant.initiative}` : '--'}
+                      </span>
+                      <span className="text-sm shrink-0">{combatant.icon || '🌋'}</span>
+                      <div className="flex items-center gap-1 min-w-0">
+                        <span className="text-xs truncate font-bold text-amber-200">
+                          {combatant.name || combatant.label}
+                        </span>
+                        <span className="px-1 py-0.2 rounded border text-[8px] font-mono font-bold uppercase bg-amber-950 text-amber-300 border-amber-500/60">
+                          ENV
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-1 shrink-0">
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleTriggerEnvironmentTurn(combatant);
+                        }}
+                        className="px-2 py-0.5 bg-amber-600 hover:bg-amber-500 text-white font-bold text-[8.5px] uppercase rounded transition-colors flex items-center gap-1 cursor-pointer shadow-sm"
+                        title="Trigger Hazmat / Hazard Tick on all operatives"
+                      >
+                        <span>🌋</span> Trigger Tick
+                      </button>
+                    </div>
+                  </div>
+                  <p className="text-[9.5px] text-slate-400 font-mono pl-7.5 leading-tight">
+                    {combatant.description || 'Environmental hazard round effect.'}
+                  </p>
+                </div>
+              );
+            }
+
+            const token = combatant;
             const isActive = token.id === activeTurnTokenId;
             const health = token.health || token.hp;
             const vitality = token.vitality;
             const structure = token.structure;
             const isSynthetic = token.isSynthetic || Boolean(structure);
+            const isPc = classifyCombatant(token) === ACTOR_TYPES.PC;
 
             const healthRatio = health && health.max > 0 ? Math.max(0, Math.min(1, health.current / health.max)) : 1;
             const vitalityRatio = vitality && vitality.max > 0 ? Math.max(0, Math.min(1, vitality.current / vitality.max)) : 1;
@@ -1021,9 +1267,19 @@ const MapCombatTracker = ({
                 {/* Row 1: Initiative, Name, Conditions */}
                 <div className="flex items-center justify-between gap-1">
                   <div className="flex items-center gap-1.5 min-w-0">
-                    <span className="w-6 text-center font-mono text-[10px] bg-slate-800 text-amber-400 px-1 py-0.5 rounded font-bold shrink-0 border border-amber-500/30">
-                      {token.initiative !== undefined && token.initiative !== null ? `#${token.initiative}` : '--'}
-                    </span>
+                    <div className="flex items-center gap-0.5 shrink-0">
+                      <span className="w-6 text-center font-mono text-[10px] bg-slate-800 text-amber-400 px-1 py-0.5 rounded font-bold border border-amber-500/30">
+                        {token.initiative !== undefined && token.initiative !== null ? `#${token.initiative}` : '--'}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={(e) => handleRerollTokenInitiative(token, e)}
+                        className="p-0.5 hover:bg-slate-800 text-slate-500 hover:text-amber-400 rounded transition-colors cursor-pointer"
+                        title="Re-roll 2d10 initiative"
+                      >
+                        <Dices size={10} />
+                      </button>
+                    </div>
                     <div className="flex items-center gap-1.5 min-w-0">
                       {token.avatarUrl ? (
                         <div className="w-5 h-5 rounded-full overflow-hidden border border-cyan-400 shrink-0">
@@ -1037,6 +1293,15 @@ const MapCombatTracker = ({
                       )}
                       <span className="text-xs truncate font-bold text-slate-200">
                         {token.label || 'Unit'}
+                      </span>
+                      <span
+                        className={`px-1 py-0.2 rounded border text-[7.5px] font-mono font-bold uppercase shrink-0 ${
+                          isPc
+                            ? 'bg-cyan-950 text-cyan-300 border-cyan-600/50'
+                            : 'bg-rose-950 text-rose-300 border-rose-600/50'
+                        }`}
+                      >
+                        {isPc ? 'PC' : 'NPC'}
                       </span>
                     </div>
                   </div>

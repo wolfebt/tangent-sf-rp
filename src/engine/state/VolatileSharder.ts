@@ -101,7 +101,8 @@ export const useEngineStore = create<EngineState>()(
 
         const baseHealth = entity.base_health ?? (isSynth ? 0 : (entity.base_hp || 30));
         const baseVitality = entity.base_vitality ?? (isSynth ? 0 : (entity.base_hp || 30));
-        const baseStructure = entity.base_structure ?? (isSynth ? (entity.base_hp || 45) : (baseHealth + baseVitality));
+        // Synthetics have Structure = Vitality + Health
+        const baseStructure = entity.base_structure ?? (isSynth ? ((entity.base_health || 30) + (entity.base_vitality || 30)) : (baseHealth + baseVitality));
         const staminaDR = entity.stamina_dr ?? 0;
 
         const normalizedEntity: StaticEntity = {
@@ -149,7 +150,8 @@ export const useEngineStore = create<EngineState>()(
 
           const baseHealth = entity.base_health ?? (isSynth ? 0 : (entity.base_hp || 30));
           const baseVitality = entity.base_vitality ?? (isSynth ? 0 : (entity.base_hp || 30));
-          const baseStructure = entity.base_structure ?? (isSynth ? (entity.base_hp || 45) : (baseHealth + baseVitality));
+          // Synthetics have Structure = Vitality + Health
+          const baseStructure = entity.base_structure ?? (isSynth ? ((entity.base_health || 30) + (entity.base_vitality || 30)) : (baseHealth + baseVitality));
           const staminaDR = entity.stamina_dr ?? 0;
 
           const normalizedEntity: StaticEntity = {
@@ -203,8 +205,8 @@ export const useEngineStore = create<EngineState>()(
           : (typeof payload === 'number' ? true : (payload.isLethal !== false));
 
         if (stat.is_synthetic) {
-          // Synthetics and Constructs use Structure; immune to non-lethal damage
-          if (!isLethal && typeof payload !== 'number') return;
+          // Synthetics only have Structure and do NOT suffer non-lethal damage
+          if (!isLethal) return;
           const currentStruct = eph.current_structure ?? eph.current_hp ?? 30;
           const nextStruct = Math.max(0, currentStruct - amount);
           eph.current_structure = nextStruct;

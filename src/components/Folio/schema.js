@@ -75,6 +75,54 @@ export const trackedModificationSchema = z.object({
   reviewedAt: z.string().nullable().optional()
 }).passthrough();
 
+export const companionSchema = z.object({
+  id: z.string().optional(),
+  name: z.string().optional().default('Unnamed Companion'),
+  chassisType: z.enum(['biological', 'synthetic', 'metaphysical']).optional().default('biological'),
+  formPackageId: z.string().optional().default('predator'),
+  functionPackageId: z.string().optional().default('guardian'),
+  rank: z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseInt(val, 10) || 1 : val).optional().default(1),
+  bpBudget: z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseInt(val, 10) || 40 : val).optional().default(40),
+  bpSpent: z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseInt(val, 10) || 40 : val).optional().default(40),
+  size: z.string().optional().default('Medium'),
+  role: z.string().optional().default('Guardian'),
+  commandMode: z.enum(['direct', 'linked', 'autonomous']).optional().default('direct'),
+  commandTether: z.string().optional().default('Voice / Visual (50ft)'),
+  vitals: z.object({
+    current_hp: z.number().optional().default(20),
+    max_hp: z.number().optional().default(20),
+    vitality: z.number().optional().default(20),
+    max_vitality: z.number().optional().default(20),
+    structure: z.number().optional().default(0),
+    max_structure: z.number().optional().default(0),
+    essence: z.number().optional().default(0),
+    max_essence: z.number().optional().default(0)
+  }).passthrough().optional().default({}),
+  attributes: z.object({
+    strength: z.number().optional().default(0),
+    agility: z.number().optional().default(0),
+    stamina: z.number().optional().default(0),
+    intellect: z.number().optional().default(0),
+    wisdom: z.number().optional().default(0),
+    charisma: z.number().optional().default(0)
+  }).passthrough().optional().default({}),
+  armor: z.object({
+    dr: z.number().optional().default(2),
+    kinetic: z.number().optional().default(2),
+    energy: z.number().optional().default(2)
+  }).passthrough().optional().default({}),
+  speed: z.union([z.number(), z.string()]).transform(val => typeof val === 'string' ? parseInt(val, 10) || 10 : val).optional().default(10),
+  attacks: z.array(attackSchema).optional().default([]),
+  skills: z.array(z.any()).optional().default([]),
+  features: z.array(z.any()).optional().default([]),
+  disadvantages: z.array(z.any()).optional().default([]),
+  protocols: z.array(z.string()).optional().default([]),
+  sockets: z.array(z.any()).optional().default([]),
+  mounts: z.array(z.any()).optional().default([]),
+  notes: z.string().optional().default(''),
+  is_deployed: z.boolean().optional().default(false)
+}).passthrough();
+
 export const characterSchema = z.object({
   'character-doc-id': z.string().optional(),
   isPublic: z.boolean().optional().default(false),
@@ -197,6 +245,7 @@ export const characterSchema = z.object({
   architecture: z.array(inventoryItemSchema).optional().default([]),
   other: z.array(inventoryItemSchema).optional().default([]),
   specializations: z.array(specializationItemSchema).optional().default([]),
+  companions: z.array(companionSchema).optional().default([]),
   notes: z.array(noteItemSchema).optional().default([{ text: '' }]),
 
   // Persona Lifecycle & VTT Readiness Lock

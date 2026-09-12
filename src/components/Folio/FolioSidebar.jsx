@@ -44,6 +44,7 @@ const NAVIGATION_ITEMS = [
     ]
   },
   { id: 'combat', label: 'Combat', icon: Crosshair },
+  { id: 'companions', label: 'Companions & Cohorts', icon: Bot },
   { 
     id: 'property', 
     label: 'Property', 
@@ -153,7 +154,9 @@ export const FolioSidebar = ({
                   >
                     <Icon size={14} />
                   </div>
-                  <span className="truncate uppercase text-[11px] font-semibold">{item.label}</span>
+                  <span className="truncate uppercase text-[11px] font-semibold">
+                    {item.id === 'catalog' ? `← ${item.label}` : item.label}
+                  </span>
                   {item.id === 'identity' && (isLocked && !isPlayerOverride) && (
                     <span 
                       className="p-1 rounded bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 flex items-center justify-center shrink-0 shadow-[0_0_6px_rgba(6,182,212,0.3)]"

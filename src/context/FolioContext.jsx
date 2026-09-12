@@ -161,6 +161,7 @@ const DEFAULT_CHARACTER = {
   weaponry: [],
   armoring: [],
   mecha: [],
+  companions: [],
   architecture: [],
   other: [],
   specializations: [],
@@ -370,6 +371,22 @@ export const FolioProvider = ({ children }) => {
   // Active Game Session & Tactical Integrity Lock State
   const [isGMConfirmed, setIsGMConfirmed] = useState(false);
   const [activeGameOverride, setActiveGameOverride] = useState(null);
+
+  // Folio Active Tab & Selection Lifecycle State
+  const [activeTab, setActiveTab] = useState(() => {
+    if (typeof window !== 'undefined' && window.location.search && window.location.search.includes('id=')) {
+      return 'identity';
+    }
+    return 'catalog';
+  });
+
+  const isCharacterSelected = Boolean(activeTab && activeTab !== 'catalog');
+
+  useEffect(() => {
+    const handleOpenCatalog = () => setActiveTab('catalog');
+    window.addEventListener('open-folio-catalog', handleOpenCatalog);
+    return () => window.removeEventListener('open-folio-catalog', handleOpenCatalog);
+  }, []);
 
   // Character Roster State — primary source is Firestore; StorageService/IndexedDB is secondary offline cache
   const [personaRoster, setPersonaRoster] = useState(() => {
@@ -1612,6 +1629,7 @@ export const FolioProvider = ({ children }) => {
     if (found) {
       setCharacterData(sanitizeCharacterSkills(found));
       setIsReadOnly(false);
+      setActiveTab('identity');
     }
   }, [personaRoster]);
 
@@ -1675,6 +1693,7 @@ export const FolioProvider = ({ children }) => {
 
     setCharacterData(cloned);
     setIsReadOnly(false);
+    setActiveTab('identity');
 
     if (window.history.replaceState) {
       const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
@@ -3087,6 +3106,7 @@ export const FolioProvider = ({ children }) => {
     characterDataRef.current = newChar;
     setCharacterData(newChar);
     setIsReadOnly(false);
+    setActiveTab('identity');
 
     StorageService.setItem('personaFolioData', newChar);
     try {
@@ -4128,6 +4148,107 @@ export const FolioProvider = ({ children }) => {
     data: characterData
   }), [characterData, derivedStats, economyBreakdown]);
 
+  // Companion and Cohort handlers
+  const handleAddCompanion = useCallback((companion) => {
+    if (!companion) return;
+    const newCompanion = {
+      id: companion.id || `comp_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+      name: companion.name || 'New Companion',
+      chassisType: companion.chassisType || 'biological',
+      formPackageId: companion.formPackageId || 'predator',
+      functionPackageId: companion.functionPackageId || 'guardian',
+      rank: companion.rank || 1,
+      bpBudget: companion.bpBudget || 40,
+      bpSpent: companion.bpSpent || 40,
+      size: companion.size || 'Medium',
+      role: companion.role || 'Guardian',
+      commandMode: companion.commandMode || 'direct',
+      commandTether: companion.commandTether || 'Voice / Visual (50ft)',
+      vitals: {
+        current_hp: companion.vitals?.current_hp ?? 25,
+        max_hp: companion.vitals?.max_hp ?? 25,
+        vitality: companion.vitals?.vitality ?? 25,
+        max_vitality: companion.vitals?.max_vitality ?? 25,
+        structure: companion.vitals?.structure ?? 0,
+        max_structure: companion.vitals?.max_structure ?? 0,
+        essence: companion.vitals?.essence ?? 0,
+        max_essence: companion.vitals?.max_essence ?? 0
+      },
+      attributes: companion.attributes || {
+        strength: 0,
+        agility: 0,
+        stamina: 0,
+        intellect: 0,
+        wisdom: 0,
+        charisma: 0
+      },
+      armor: companion.armor || { dr: 2, kinetic: 2, energy: 2 },
+      speed: companion.speed || 10,
+      attacks: Array.isArray(companion.attacks) ? companion.attacks : [],
+      skills: Array.isArray(companion.skills) ? companion.skills : [],
+      features: Array.isArray(companion.features) ? companion.features : [],
+      disadvantages: Array.isArray(companion.disadvantages) ? companion.disadvantages : [],
+      protocols: Array.isArray(companion.protocols) ? companion.protocols : [],
+      sockets: Array.isArray(companion.sockets) ? companion.sockets : [],
+      mounts: Array.isArray(companion.mounts) ? companion.mounts : [],
+      is_deployed: companion.is_deployed ?? false,
+      notes: companion.notes || ''
+    };
+
+    setCharacterData(prev => ({
+      ...prev,
+      companions: [...(prev.companions || []), newCompanion]
+    }));
+    triggerSave();
+  }, [triggerSave]);
+
+  const handleUpdateCompanion = useCallback((companionId, updates) => {
+    if (!companionId) return;
+    setCharacterData(prev => ({
+      ...prev,
+      companions: (prev.companions || []).map(comp => 
+        comp.id === companionId ? { ...comp, ...updates } : comp
+      )
+    }));
+    triggerSave();
+  }, [triggerSave]);
+
+  const handleDeleteCompanion = useCallback((companionId) => {
+    if (!companionId) return;
+    setCharacterData(prev => ({
+      ...prev,
+      companions: (prev.companions || []).filter(comp => comp.id !== companionId)
+    }));
+    triggerSave();
+  }, [triggerSave]);
+
+  const handleToggleDeployCompanion = useCallback((companionId) => {
+    if (!companionId) return;
+    setCharacterData(prev => ({
+      ...prev,
+      companions: (prev.companions || []).map(comp => {
+        if (comp.id === companionId) {
+          const nextDeployed = !comp.is_deployed;
+          // Dispatch custom event for VTT stage integration
+          if (typeof window !== 'undefined') {
+            window.dispatchEvent(new CustomEvent('companion-deploy-toggle', {
+              detail: {
+                companionId,
+                companion: { ...comp, is_deployed: nextDeployed },
+                parentOperativeId: prev['character-doc-id'] || prev.id,
+                parentOperativeName: prev['char-name'] || 'Operative',
+                is_deployed: nextDeployed
+              }
+            }));
+          }
+          return { ...comp, is_deployed: nextDeployed };
+        }
+        return comp;
+      })
+    }));
+    triggerSave();
+  }, [triggerSave]);
+
   return (
     <FolioContext.Provider
       value={{
@@ -4178,6 +4299,9 @@ export const FolioProvider = ({ children }) => {
         allocatePoolAttribute,
         personaRoster,
         roster: personaRoster,
+        activeTab,
+        setActiveTab,
+        isCharacterSelected,
         saveCurrentToRoster,
         switchRosterCharacter,
         deleteRosterCharacter,
@@ -4238,7 +4362,13 @@ export const FolioProvider = ({ children }) => {
         setPersonaAllowPlayerOverride,
         trackedModifications: characterData.tracked_modifications || [],
         applyGuidedCharacter,
-        dbData
+        dbData,
+        // Companion and Cohort System
+        companions: characterData.companions || [],
+        handleAddCompanion,
+        handleUpdateCompanion,
+        handleDeleteCompanion,
+        handleToggleDeployCompanion
       }}
     >
       {children}

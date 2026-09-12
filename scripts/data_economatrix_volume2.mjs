@@ -34,7 +34,7 @@ The Tangent Economatrix bridges abstract **Wealth Scores (WS)** representing sus
 - **Mega-Credit (MCr):** $1\\text{ MCr} = 1,000,000\\text{ Credits}$. Used for starship hull construction, orbital station leasing, and planetary corporate acquisitions.
 - **Crafting DC Formula:** Value $= 10 \\times 4^{(\\text{DC}/5)}$ Credits.`,
     mechanic: `Liquid Credits: Transactional currency for purchasing equipment, bribes, black market mods.
-Wealth Score Check: d20 + Wealth Score vs Requisition DC to requisition gear on credit.`,
+Wealth Score Check: Static check (no roll required). If Item Crafting/Purchase DC <= Wealth Score, item is acquired immediately. If DC > WS, must roll or pool funds.`,
     guide: `Use Wealth Scores for routine lifestyle purchases; track liquid Credits for black market and tactical purchases.`,
     note: `Crafting items requires materials equal to 50% of the item market value.`
   },

@@ -28,18 +28,14 @@ export const ChatProvider = ({ children }) => {
   const [userDirectory, setUserDirectory] = useState([]);
   const [speakingMode, setSpeakingMode] = useState('OOC'); // 'OOC' | 'IC'
   const [selectedPersona, setSelectedPersona] = useState(null);
+  const [directSortMode, setDirectSortMode] = useState('alphabetical'); // 'alphabetical' | 'recent'
 
-  // Auto-sync persona with Folio active persona if available
+  // Decoupled persona selection: support ad-hoc operative picking without globally forcing active character
   useEffect(() => {
     if (folioActivePersona) {
       setSelectedPersona(folioActivePersona);
-    } else {
-      const allRoster = personaRoster || roster || [];
-      if (allRoster.length > 0 && !selectedPersona) {
-        setSelectedPersona(allRoster[0]);
-      }
     }
-  }, [folioActivePersona, personaRoster, roster]);
+  }, [folioActivePersona]);
 
   // Initialize default channels in Firestore once
   useEffect(() => {
@@ -118,6 +114,105 @@ export const ChatProvider = ({ children }) => {
   const directChannels = useMemo(() => {
     return channels.filter(c => c.type === 'direct' || c.id.startsWith('dm_'));
   }, [channels]);
+
+  // Separate Direct Comms: Player Operator Channels (OOC) vs. Character Operative Channels (IC)
+  const playerDirectChannels = useMemo(() => {
+    const list = channels.filter(c => 
+      (c.type === 'direct' || c.id.startsWith('dm_')) && 
+      (c.recipientType === 'player' || (!c.targetPersona && !c.id.startsWith('dm_char_')))
+    );
+
+    if (directSortMode === 'recent') {
+      return [...list].sort((a, b) => {
+        const timeA = new Date(a.lastMessage?.timestamp || a.updatedAt || 0).getTime();
+        const timeB = new Date(b.lastMessage?.timestamp || b.updatedAt || 0).getTime();
+        return timeB - timeA;
+      });
+    }
+
+    return [...list].sort((a, b) => {
+      const nameA = (a.displayName || a.name || '').toLowerCase();
+      const nameB = (b.displayName || b.name || '').toLowerCase();
+      return nameA.localeCompare(nameB);
+    });
+  }, [channels, directSortMode]);
+
+  const characterDirectChannels = useMemo(() => {
+    const list = channels.filter(c => 
+      (c.type === 'direct' || c.id.startsWith('dm_')) && 
+      (c.recipientType === 'character' || Boolean(c.targetPersona) || c.id.startsWith('dm_char_'))
+    );
+
+    if (directSortMode === 'recent') {
+      return [...list].sort((a, b) => {
+        const timeA = new Date(a.lastMessage?.timestamp || a.updatedAt || 0).getTime();
+        const timeB = new Date(b.lastMessage?.timestamp || b.updatedAt || 0).getTime();
+        return timeB - timeA;
+      });
+    }
+
+    return [...list].sort((a, b) => {
+      const nameA = (a.targetPersona?.name || a.displayName || a.name || '').toLowerCase();
+      const nameB = (b.targetPersona?.name || b.displayName || b.name || '').toLowerCase();
+      return nameA.localeCompare(nameB);
+    });
+  }, [channels, directSortMode]);
+
+  // Aggregate pending message notes categorized per character and per player
+  const pendingCharacterNotes = useMemo(() => {
+    const notes = [];
+    Object.entries(unreadCounts).forEach(([chanId, count]) => {
+      if (!count || count <= 0) return;
+      const chan = channels.find(c => c.id === chanId);
+      if (!chan) return;
+
+      const isChar = chan.recipientType === 'character' || Boolean(chan.targetPersona) || chan.id.startsWith('dm_char_');
+      const isPlayer = chan.recipientType === 'player' || (chan.id.startsWith('dm_') && !isChar);
+
+      if (isChar) {
+        const charName = chan.targetPersona?.name || chan.displayName?.replace(/^🎭\s*/, '') || 'Operative';
+        notes.push({
+          channelId: chanId,
+          type: 'character',
+          characterId: chan.targetPersona?.id || chanId,
+          name: charName,
+          count,
+          playerHandle: chan.targetPlayer?.handle || chan.targetPersona?.ownerHandle || '',
+          lastSnippet: chan.lastMessage?.text || 'Incoming encrypted whisper'
+        });
+      } else if (isPlayer) {
+        notes.push({
+          channelId: chanId,
+          type: 'player',
+          characterId: null,
+          name: chan.displayName || `@${chan.name}`,
+          count,
+          playerHandle: chan.displayName?.replace(/^@/, '') || chan.name,
+          lastSnippet: chan.lastMessage?.text || 'Incoming operator message'
+        });
+      }
+    });
+
+    return notes;
+  }, [unreadCounts, channels]);
+
+  // Flattened list of all discovered separate characters across registered players
+  const charactersDirectory = useMemo(() => {
+    const list = [];
+    const seen = new Set();
+    (userDirectory || []).forEach(u => {
+      if (Array.isArray(u.characters)) {
+        u.characters.forEach(c => {
+          const id = c.id || c['character-doc-id'] || c.name;
+          if (id && !seen.has(id)) {
+            seen.add(id);
+            list.push(c);
+          }
+        });
+      }
+    });
+    return list;
+  }, [userDirectory]);
 
   const groupChannels = useMemo(() => {
     return channels.filter(c => c.type === 'group');
@@ -287,6 +382,12 @@ export const ChatProvider = ({ children }) => {
     channels,
     publicChannels,
     directChannels,
+    playerDirectChannels,
+    characterDirectChannels,
+    directSortMode,
+    setDirectSortMode,
+    pendingCharacterNotes,
+    charactersDirectory,
     groupChannels,
     personaLogChannels,
     customChannels,

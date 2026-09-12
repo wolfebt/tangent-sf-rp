@@ -140,7 +140,9 @@ export const TokenRadialMenu: React.FC<TokenRadialMenuProps> = ({
           {(token.name || token.label || 'OP').substring(0, 3).toUpperCase()}
         </span>
         <span className="text-[8px] font-mono text-slate-400">
-          {token.current_hp ?? token.base_hp ?? 30}HP
+          {(token.is_synthetic || token.species?.toLowerCase().includes('synthetic')) 
+            ? `${token.current_structure ?? token.current_hp ?? 60}SP` 
+            : `${token.current_health ?? token.current_hp ?? 30}HP`}
         </span>
         {targetToken && (
           <span className="text-[7px] font-mono text-red-400 font-bold max-w-[48px] truncate" title={`Target: ${targetToken.name}`}>

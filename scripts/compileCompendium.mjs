@@ -154,12 +154,12 @@ If your character possesses an **Awakened Discipline**:
 - **Attune Check:** Determines the resistance DC of your spell or the evasion DC for targets.
 - **Discipline Check:** Determines the intensity, duration, damage, or magnitude of the effect.
 - **Essence Pool:** Manage your daily Essence reserves to power Invocations and avoid Strain.`,
-  mechanic: `Attack Check = d20 + Combat Skill Rank + Ability Mod + Weapon Modifiers
-Active Defense = d20 + Defense Skill + Agility Mod (each successive defense at cumulative -5)
+  mechanic: `Attack Check = 2d10 + Combat Skill Rank + Ability Mod + Weapon Modifiers
+Active Defense = 2d10 + Defense Skill + Agility Mod (each successive defense at cumulative -5; Defender wins ties)
 Spell Resistance DC = 10 + Key Ability Mod + Attune Rank + Invocation Level`,
   guide: `1. Check your Persona Folio for current HP, Armor DR, and Essence Pool.
 2. On your turn in combat, declare actions up to your Skill Stage limit.
-3. Roll d20 + Skill Rank + Attribute Mod vs target DC or Opposed Defense.`,
+3. Roll 2d10 + Skill Rank + Attribute Mod vs target DC or Opposed Defense.`,
   note: `Operators should balance offensive actions with defensive reserves, as reactive defenses suffer cumulative penalties.`
 });
 
@@ -266,7 +266,7 @@ BASTION processes user directives, parses tactical encounters, calculates odds, 
 BASTION evaluates mathematical equations across the three modules (**Omnicortex**, **Story Foundry**, and **Persona Folio**):
 
 ### Attack & Strike Calculation
-\`Total Strike = d20 + Skill Rank + Attribute Mod + Weapon Mod + Situational Mod\`
+\`Total Strike = 2d10 + Skill Rank + Attribute Mod + Weapon Mod + Situational Mod\`
 
 ### Armor Penetration & Effective Damage
 \`Effective Damage = Incoming Damage - max(0, Armor DR - Armor Piercing (AP))\`
@@ -2535,7 +2535,7 @@ Combat skills determine offensive weapon accuracy, melee technique, and heavy ar
 - **Sonic & Disruption Weapons:** Acoustic shockwave cannons, molecular disruptors.
 - **Energy Blades:** Monofilament light-sabers, hard-light halberds, plasma blades.
 - **Heavy Vehicle Ordnance:** Starship turrets, orbital lances, mecha cannons.`,
-  mechanic: `AttackCheck = d20 + CombatSkillRank + AttributeMod + WeaponBonus vs Target Defense
+  mechanic: `AttackCheck = 2d10 + CombatSkillRank + AttributeMod + WeaponBonus vs Target Defense
 Action Economy: Higher Skill Ranks unlock up to 6 attacks per round (see 3.00.01)`,
   guide: `Investing in Combat Skills increases both your base attack bonus and the number of actions you can execute per turn.`,
   note: `Advanced weapons (TL 4+) inflict exotic damage types that bypass standard kinetic armor DR.`
@@ -4037,7 +4037,75 @@ modularVolumeArticles.forEach(art => {
   }
 });
 
-console.log(`Successfully compiled ${articles.length} comprehensive articles.`);
+// ─────────────────────────────────────────────────────────────────────────────
+// COMPREHENSIVE FULL RULESET INGESTION FROM GAME RULES FOLDER
+// (Operator 1.00-4.00 and Architect 99.xx Matrices)
+// ─────────────────────────────────────────────────────────────────────────────
+const ARCHITECT_DOCS_DIR = path.resolve(__dirname, '../docs/game rules/architect');
+const OPERATOR_DOCS_DIR = path.resolve(__dirname, '../docs/game rules/operator');
+
+function ingestDirectoryRules(dirPath, defaultPerspective, defaultParent) {
+  if (!fs.existsSync(dirPath)) return;
+  const files = fs.readdirSync(dirPath).filter(f => f.endsWith('.md'));
+
+  files.forEach(file => {
+    const fullPath = path.join(dirPath, file);
+    const content = fs.readFileSync(fullPath, 'utf-8');
+    const cleanFileName = file.replace(/\.md$/, '').trim();
+    
+    // Create normalized unique article ID
+    const articleId = `doc-${defaultPerspective}-${cleanFileName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`.replace(/-+$/, '');
+
+    // Extract title from first H1 or H2
+    const titleMatch = content.match(/^#+\s*\*{0,2}(.*?)\*{0,2}$/m);
+    const title = titleMatch ? titleMatch[1].replace(/[*#]/g, '').trim() : cleanFileName;
+
+    // Check if already present under matching ID
+    const existingIdx = articles.findIndex(a => a.id === articleId || a.id.toLowerCase() === cleanFileName.toLowerCase());
+
+    const isArchitect = defaultPerspective === 'architect';
+    const parentVolume = isArchitect ? '5.00 ARCHITECT & MODULAR MATRICES' : '1.00 OPERATOR CORE RULES';
+
+    // Extract mechanics codeblocks or tables if present
+    const codeBlockMatch = content.match(/```(?:markdown|text|math)?([\s\S]*?)```/);
+    const mechanicSnippet = codeBlockMatch 
+      ? codeBlockMatch[1].trim()
+      : `See full canonical text in ${file}`;
+
+    const newArticle = {
+      id: articleId,
+      name: `${cleanFileName} — ${title}`,
+      category: isArchitect ? 'architect_matrix' : 'operator_rule',
+      parent: parentVolume,
+      order: 90,
+      perspective: defaultPerspective,
+      entry_type: isArchitect ? 'Architect Matrix' : 'Core Rule',
+      tl: 3,
+      ml: 0,
+      cost: 0,
+      tags: [defaultPerspective, 'core-rules', cleanFileName.toLowerCase(), isArchitect ? 'matrix' : 'mechanics'],
+      description: content,
+      mechanic: mechanicSnippet,
+      guide: `Refer to ${file} in the game rules library for complete architectural tables and system parameters.`,
+      note: `Canonical Tangent SF RP rulebook reference from ${file}.`,
+      updatedAt: new Date().toISOString()
+    };
+
+    if (existingIdx !== -1) {
+      // Enrich existing article with complete source document text if empty
+      if (!articles[existingIdx].description || articles[existingIdx].description.length < 500) {
+        articles[existingIdx].description = newArticle.description;
+      }
+    } else {
+      articles.push(newArticle);
+    }
+  });
+}
+
+ingestDirectoryRules(OPERATOR_DOCS_DIR, 'operator', '1.00 OPERATOR CORE RULES');
+ingestDirectoryRules(ARCHITECT_DOCS_DIR, 'architect', '5.00 ARCHITECT & MODULAR MATRICES');
+
+console.log(`Successfully compiled ${articles.length} comprehensive articles across all game rule documents.`);
 
 // Write JSON seed dataset
 fs.writeFileSync(SEED_OUTPUT_PATH, JSON.stringify(articles, null, 2), 'utf-8');

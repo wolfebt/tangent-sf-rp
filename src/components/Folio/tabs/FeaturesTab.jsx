@@ -10,8 +10,15 @@ import AugmentationsManager from '../augmentations/AugmentationsManager';
 import { DEFAULT_ARCHETYPES } from '../../../data/archetypesData';
 import { DEFAULT_OCCUPATIONS } from '../../../data/occupationsData';
 import { DEFAULT_SPECIES } from '../../../data/speciesData';
+import { DEFAULT_ORIGINS } from '../../../data/originsData';
 import { DEFAULT_FACTIONS } from '../../../data/factionsData';
 import { DEFAULT_FEATURES } from '../../../data/featuresData';
+import {
+  extractPillarFeatureSets,
+  getPillarFeatureRecommendations,
+  PillarMarkerDots,
+  PillarRecommendationLegend
+} from '../../../utils/pillarRecommendations.jsx';
 
 export const FeaturesTab = ({ 
   onOpenSelectorModal, 
@@ -106,18 +113,32 @@ export const FeaturesTab = ({
     return String(name).replace(/^(feature|trait)-/i, '').replace(/[-_]/g, ' ').trim().toLowerCase();
   };
 
-  // Aggregated Recommended Features from Selected Archetype, Occupation, Species, and Faction
+  // 5 Identity Pillars Feature and Group Sets
+  const pillarFeatureSets = useMemo(() => {
+    return extractPillarFeatureSets(characterData);
+  }, [
+    characterData?.['char-archetype'],
+    characterData?.['char-species'],
+    characterData?.['char-occu'],
+    characterData?.['char-origin'],
+    characterData?.['char-faction'],
+    characterData?.speciesAllocations,
+    characterData?.occuAllocations,
+    characterData?.originAllocations,
+    characterData?.factionAllocations
+  ]);
+
+  // Aggregated Recommended Features from Selected Archetype, Species, Occupation, Origin, and Faction
   const recommendedFeaturesList = useMemo(() => {
     const list = [];
-    const seen = new Set();
+    const itemMap = new Map(); // norm -> recObj
 
-    const addRec = (rawItem, source, category) => {
+    const addRec = (rawItem, fallbackCategory) => {
       if (!rawItem) return;
       const rawName = typeof rawItem === 'object' ? (rawItem.name || rawItem.title || rawItem.id || '') : String(rawItem);
       const cleanName = rawName.replace(/^(feature|trait)-/i, '').replace(/[-_]/g, ' ').trim();
       const norm = cleanName.toLowerCase();
-      if (!norm || seen.has(norm)) return;
-      seen.add(norm);
+      if (!norm) return;
 
       // Try finding canonical feature definition
       const matched = DEFAULT_FEATURES.find(f => {
@@ -125,15 +146,29 @@ export const FeaturesTab = ({
         return fNorm === norm || fNorm.includes(norm) || norm.includes(fNorm);
       });
 
-      list.push({
+      const featItem = matched || (typeof rawItem === 'object' ? rawItem : { name: cleanName, cp: 3 });
+      const recs = getPillarFeatureRecommendations(featItem, pillarFeatureSets, characterData);
+
+      if (itemMap.has(norm)) {
+        const existing = itemMap.get(norm);
+        if (recs.length > 0) {
+          existing.recommendingPillars = recs;
+        }
+        return;
+      }
+
+      const recObj = {
         id: matched?.id || `rec_${norm.replace(/\s+/g, '_')}`,
         name: matched?.name || cleanName,
         cp: matched?.cp !== undefined ? matched.cp : 3,
-        source,
-        category: matched?.category || category || 'Recommended',
+        category: matched?.category || (typeof rawItem === 'object' ? rawItem.category : null) || fallbackCategory || 'General',
         description: matched?.description || matched?.mechanic || (typeof rawItem === 'object' ? rawItem.description : '') || 'Recommended character feature.',
-        rawObj: matched || (typeof rawItem === 'object' ? rawItem : { name: cleanName, cp: 3 })
-      });
+        rawObj: featItem,
+        recommendingPillars: recs
+      };
+
+      itemMap.set(norm, recObj);
+      list.push(recObj);
     };
 
     // 1. Archetype Signature Features
@@ -141,7 +176,7 @@ export const FeaturesTab = ({
     if (archName) {
       const arch = DEFAULT_ARCHETYPES.find(a => (a.name || a.id || '').toLowerCase() === String(archName).toLowerCase());
       if (arch && Array.isArray(arch.signature_features)) {
-        arch.signature_features.forEach(f => addRec(f, `Archetype: ${arch.name}`, 'Archetype'));
+        arch.signature_features.forEach(f => addRec(f, 'Archetype'));
       }
     }
 
@@ -150,33 +185,63 @@ export const FeaturesTab = ({
     if (spName) {
       const sp = DEFAULT_SPECIES.find(s => (s.name || s.title || s.id || '').toLowerCase() === String(spName).toLowerCase());
       if (sp) {
-        if (Array.isArray(sp.recommended_features)) sp.recommended_features.forEach(f => addRec(f, `Species: ${sp.name}`, 'Species'));
-        if (Array.isArray(sp.bonus_feature_choices)) sp.bonus_feature_choices.forEach(f => addRec(f, `Species: ${sp.name}`, 'Species'));
+        if (Array.isArray(sp.recommended_features)) sp.recommended_features.forEach(f => addRec(f, 'Species'));
+        if (Array.isArray(sp.bonus_feature_choices)) sp.bonus_feature_choices.forEach(f => addRec(f, 'Species'));
+        if (Array.isArray(sp.inherent_features)) sp.inherent_features.forEach(f => addRec(f, 'Species'));
       }
     }
+    const specAllocFeats = characterData.speciesAllocations?.features;
+    if (Array.isArray(specAllocFeats)) specAllocFeats.forEach(f => addRec(f, 'Species'));
 
     // 3. Occupation Traits / Features
     const occName = characterData['char-occu'];
     if (occName) {
       const occ = DEFAULT_OCCUPATIONS.find(o => (o.name || o.id || '').toLowerCase() === String(occName).toLowerCase());
       if (occ) {
-        if (Array.isArray(occ.traits)) occ.traits.forEach(t => addRec(t, `Occupation: ${occ.name}`, 'Occupation'));
-        if (Array.isArray(occ.features)) occ.features.forEach(f => addRec(f, `Occupation: ${occ.name}`, 'Occupation'));
+        if (Array.isArray(occ.traits)) occ.traits.forEach(t => addRec(t, 'Occupation'));
+        if (Array.isArray(occ.features)) occ.features.forEach(f => addRec(f, 'Occupation'));
       }
     }
+    const occAllocFeats = characterData.occuAllocations?.features;
+    if (Array.isArray(occAllocFeats)) occAllocFeats.forEach(f => addRec(f, 'Occupation'));
 
-    // 4. Faction Features / Packages
+    // 4. Origin Traits / Features
+    const origName = characterData['char-origin'];
+    if (origName) {
+      const orig = DEFAULT_ORIGINS.find(o => (o.name || o.id || '').toLowerCase() === String(origName).toLowerCase());
+      if (orig) {
+        if (Array.isArray(orig.traits)) orig.traits.forEach(t => addRec(t, 'Origin'));
+        if (Array.isArray(orig.features)) orig.features.forEach(f => addRec(f, 'Origin'));
+      }
+    }
+    const origAllocFeats = characterData.originAllocations?.features;
+    if (Array.isArray(origAllocFeats)) origAllocFeats.forEach(f => addRec(f, 'Origin'));
+
+    // 5. Faction Features / Packages
     const facName = characterData['char-faction'];
     if (facName) {
       const fac = DEFAULT_FACTIONS.find(f => (f.name || f.id || '').toLowerCase().includes(String(facName).toLowerCase()) || String(facName).toLowerCase().includes((f.name || f.id || '').toLowerCase()));
       if (fac) {
-        if (Array.isArray(fac.traits)) fac.traits.forEach(t => addRec(t, `Faction: ${fac.name}`, 'Faction'));
-        if (Array.isArray(fac.features)) fac.features.forEach(f => addRec(f, `Faction: ${fac.name}`, 'Faction'));
+        if (Array.isArray(fac.traits)) fac.traits.forEach(t => addRec(t, 'Faction'));
+        if (Array.isArray(fac.features)) fac.features.forEach(f => addRec(f, 'Faction'));
       }
     }
+    const facAllocFeats = characterData.factionAllocations?.features;
+    if (Array.isArray(facAllocFeats)) facAllocFeats.forEach(f => addRec(f, 'Faction'));
 
     return list;
-  }, [characterData['char-archetype'], characterData['char-species'], characterData['char-occu'], characterData['char-faction']]);
+  }, [
+    characterData['char-archetype'],
+    characterData['char-species'],
+    characterData['char-occu'],
+    characterData['char-origin'],
+    characterData['char-faction'],
+    characterData.speciesAllocations,
+    characterData.occuAllocations,
+    characterData.originAllocations,
+    characterData.factionAllocations,
+    pillarFeatureSets
+  ]);
 
   // Check if a recommended feature is currently acquired
   const isFeatureAcquired = (featName) => {
@@ -709,13 +774,19 @@ export const FeaturesTab = ({
             onClick={() => setIsRecExpanded(prev => !prev)}
             className="flex items-center justify-between cursor-pointer select-none border-b border-amber-950/80 pb-2.5"
           >
-            <div className="flex items-center gap-2">
-              <Star className="w-4 h-4 text-amber-400 fill-amber-400/20" />
+            <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-1">
+                <span className="w-2 h-2 rounded-full bg-amber-400 border border-amber-300/80 shadow-[0_0_5px_rgba(245,158,11,0.7)] inline-block" />
+                <span className="w-2 h-2 rounded-full bg-cyan-400 border border-cyan-300/80 shadow-[0_0_5px_rgba(34,211,238,0.7)] inline-block" />
+                <span className="w-2 h-2 rounded-full bg-sky-400 border border-sky-300/80 shadow-[0_0_5px_rgba(56,189,248,0.7)] inline-block" />
+                <span className="w-2 h-2 rounded-full bg-emerald-400 border border-emerald-300/80 shadow-[0_0_5px_rgba(52,211,153,0.7)] inline-block" />
+                <span className="w-2 h-2 rounded-full bg-purple-400 border border-purple-300/80 shadow-[0_0_5px_rgba(192,132,252,0.7)] inline-block" />
+              </div>
               <h3 className="text-sm font-bold uppercase tracking-widest text-amber-400">
                 Recommended Features ({recommendedFeaturesList.length})
               </h3>
               <span className="text-[11px] text-slate-400 hidden sm:inline">
-                • Synergistic picks from Archetype, Species, Occupation & Faction
+                • Synergistic picks from Archetype, Species, Occupation, Origin & Faction
               </span>
             </div>
             <div className="flex items-center gap-2">
@@ -733,37 +804,50 @@ export const FeaturesTab = ({
           </div>
 
           {isRecExpanded && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 pt-1">
-              {recommendedFeaturesList.map((rec) => {
-                const acquired = isFeatureAcquired(rec.name);
-                return (
-                  <div
-                    key={rec.id}
-                    className={`p-2.5 rounded-lg border text-xs flex flex-col justify-between transition-all ${
-                      acquired
-                        ? 'bg-amber-950/20 border-amber-500/50 shadow-[0_0_8px_rgba(245,158,11,0.15)]'
-                        : 'bg-slate-950/80 border-slate-800 hover:border-amber-500/40'
-                    }`}
-                  >
-                    <div>
-                      <div className="flex items-start justify-between gap-1.5 mb-1">
-                        <div>
-                          <div className="font-bold text-slate-100 flex items-center gap-1">
-                            <span>{rec.name}</span>
-                            {acquired && (
-                              <span className="text-[9px] font-mono px-1 py-0.2 rounded bg-amber-500/20 border border-amber-500/60 text-amber-300 font-bold">
-                                ✓ Acquired
-                              </span>
-                            )}
+            <div className="space-y-3 pt-1">
+              <PillarRecommendationLegend className="border-t-0 pt-0 pb-1" />
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                {recommendedFeaturesList.map((rec) => {
+                  const acquired = isFeatureAcquired(rec.name);
+                  return (
+                    <div
+                      key={rec.id}
+                      className={`p-2.5 rounded-lg border text-xs flex flex-col justify-between transition-all ${
+                        acquired
+                          ? 'bg-amber-950/20 border-amber-500/50 shadow-[0_0_8px_rgba(245,158,11,0.15)]'
+                          : 'bg-slate-950/80 border-slate-800 hover:border-amber-500/40'
+                      }`}
+                    >
+                      <div>
+                        <div className="flex items-start justify-between gap-1.5 mb-1">
+                          <div>
+                            <div className="font-bold text-slate-100 flex items-center gap-1.5 flex-wrap">
+                              <span>{rec.name}</span>
+                              <PillarMarkerDots recommendations={rec.recommendingPillars} />
+                              {acquired && (
+                                <span className="text-[9px] font-mono px-1 py-0.2 rounded bg-amber-500/20 border border-amber-500/60 text-amber-300 font-bold">
+                                  ✓ Acquired
+                                </span>
+                              )}
+                            </div>
+                            <div className="flex flex-wrap items-center gap-1 mt-0.5">
+                              {rec.recommendingPillars && rec.recommendingPillars.length > 0 ? (
+                                rec.recommendingPillars.map(p => (
+                                  <span key={p.id} className={`text-[9px] font-mono px-1 py-0.2 rounded border ${p.badgeClass}`}>
+                                    {p.name}: {p.detail}
+                                  </span>
+                                ))
+                              ) : (
+                                <span className="text-[9.5px] font-mono text-amber-400/90 block">
+                                  {rec.source || 'Recommended'}
+                                </span>
+                              )}
+                            </div>
                           </div>
-                          <span className="text-[9.5px] font-mono text-amber-400/90 block">
-                            {rec.source}
+                          <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-cyan-300 shrink-0">
+                            {rec.cp} CP
                           </span>
                         </div>
-                        <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-cyan-300 shrink-0">
-                          {rec.cp} CP
-                        </span>
-                      </div>
 
                       {rec.description && (
                         <p className="text-[10.5px] text-slate-400 line-clamp-2 leading-relaxed mb-2">
@@ -803,9 +887,10 @@ export const FeaturesTab = ({
                 );
               })}
             </div>
-          )}
-        </div>
-      )}
+          </div>
+        )}
+      </div>
+    )}
 
       {/* ══════════════════════════════════════════════════════════════════ */}
       {/* 1. STANDARD / GENERAL FEATURES SUBSECTION */}
@@ -854,6 +939,8 @@ export const FeaturesTab = ({
                   return sum + (isNaN(cost) ? 3 : cost);
                 }, 0);
 
+                const groupPillars = getPillarFeatureRecommendations(group.type, pillarFeatureSets, characterData);
+
                 return (
                   <div key={group.type} className="space-y-2">
                     <div className="flex items-center justify-between border-b border-slate-800 pb-1 px-1">
@@ -864,6 +951,7 @@ export const FeaturesTab = ({
                         <span className="text-xs font-bold text-slate-300 tracking-wide uppercase">
                           {group.type} Features
                         </span>
+                        <PillarMarkerDots recommendations={groupPillars} />
                       </div>
                       <span className="text-[10px] font-mono text-slate-400">
                         {group.items.length} {group.items.length === 1 ? 'entry' : 'entries'} &bull; {groupCPTotal} CP
@@ -874,6 +962,7 @@ export const FeaturesTab = ({
                       {group.items.map((rawItem) => {
                         const item = enrichItemWithModifiers(rawItem);
                         const name = typeof item === 'object' ? (item.name || item.title) : item;
+                        const featPillars = getPillarFeatureRecommendations(item, pillarFeatureSets, characterData);
                         const isSpeciesGranted = typeof item === 'object' && (
                           item.source === 'species' || 
                           item.category === 'Species Inherent' || 
@@ -927,16 +1016,18 @@ export const FeaturesTab = ({
                                   tags={[
                                     typeof item === 'object' && item.is_ranked ? 'Ranked' : null,
                                     typeof item === 'object' && item.is_multiple ? 'Multiple' : null,
-                                    isSpeciesGranted ? 'Species Inherent' : null
+                                    isSpeciesGranted ? 'Species Inherent' : null,
+                                    ...featPillars.map(p => `${p.name}: ${p.detail}`)
                                   ].filter(Boolean)}
                                   showInfoIcon={true}
                                 >
-                                  <div className="flex items-center gap-1.5">
+                                  <div className="flex items-center gap-1.5 flex-wrap">
                                     <h4 className={`font-semibold text-xs leading-snug pr-1 transition-colors ${
                                       isPrereqUnmet ? 'text-slate-400 hover:text-rose-300' : 'text-slate-100 hover:text-cyan-300'
                                     }`}>
                                       {name}
                                     </h4>
+                                    <PillarMarkerDots recommendations={featPillars} />
                                     {isPrereqUnmet && (
                                       <span className="inline-flex items-center gap-0.5 px-1.5 py-0.2 rounded text-[9px] font-mono uppercase tracking-wider bg-rose-950/80 border border-rose-800/80 text-rose-300" title={`Missing: ${prereqResult.unmetReasons.join(', ')}`}>
                                         <Lock className="w-2.5 h-2.5" />

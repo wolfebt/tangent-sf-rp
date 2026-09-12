@@ -10,10 +10,10 @@ import { VertexAIGateway } from './VertexAIGateway';
 export interface TangentAttributeStats {
   strength: number;
   agility: number;
+  stamina: number;
   intellect: number;
-  perception: number;
-  willpower: number;
-  tech: number;
+  wisdom: number;
+  charisma: number;
 }
 
 export interface TangentCharacterDraft {
@@ -61,6 +61,7 @@ Species: "${species}"
 Tech Level: TL${techLevel}
 
 Rules:
+- 6 Core Attributes: Strength, Agility, Stamina, Intellect, Wisdom, Charisma.
 - Baseline attributes start at 10. Each +1 above 10 costs 5 BP.
 - Skills cost 2 BP per rank (max rank 5 for starting characters).
 - Total BP spent must be exactly 150.
@@ -77,12 +78,12 @@ Rules:
           properties: {
             strength: { type: 'integer' },
             agility: { type: 'integer' },
+            stamina: { type: 'integer' },
             intellect: { type: 'integer' },
-            perception: { type: 'integer' },
-            willpower: { type: 'integer' },
-            tech: { type: 'integer' }
+            wisdom: { type: 'integer' },
+            charisma: { type: 'integer' }
           },
-          required: ['strength', 'agility', 'intellect', 'perception', 'willpower', 'tech']
+          required: ['strength', 'agility', 'stamina', 'intellect', 'wisdom', 'charisma']
         },
         skills: {
           type: 'object',
@@ -119,10 +120,10 @@ Rules:
         attributes: {
           strength: 13, // +3 = 15 BP
           agility: 14,  // +4 = 20 BP
+          stamina: 13,  // +3 = 15 BP
           intellect: 12,// +2 = 10 BP
-          perception: 13,// +3 = 15 BP
-          willpower: 12,// +2 = 10 BP
-          tech: 14      // +4 = 20 BP (Total Attr = 90 BP)
+          wisdom: 13,   // +3 = 15 BP
+          charisma: 13  // +3 = 15 BP (Total Attr = 90 BP)
         },
         skills: {
           Firearms: 4,     // 8 BP
@@ -156,7 +157,7 @@ Rules:
   public validateAndBalanceBp(draft: TangentCharacterDraft): BastionValidationResult {
     let attributesBp = 0;
     const attrs = draft.attributes;
-    const keys: Array<keyof TangentAttributeStats> = ['strength', 'agility', 'intellect', 'perception', 'willpower', 'tech'];
+    const keys: Array<keyof TangentAttributeStats> = ['strength', 'agility', 'stamina', 'intellect', 'wisdom', 'charisma'];
 
     for (const key of keys) {
       const val = attrs[key] ?? this.ATTR_BASE;

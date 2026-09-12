@@ -44,7 +44,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
   const navigate = useNavigate();
   const location = useLocation();
   const { currentUser, userHandle, loginWithGoogle, openAuthModal, triggerBootSplash, confirmLogout, isAdmin, userRole, adminOverride, toggleAdminOverride } = useAuth();
-  const { totalUnreadCount, toggleCommsDock } = useChat();
+  const { totalUnreadCount, toggleCommsDock, pendingCharacterNotes } = useChat();
   const dbm = useDBM() || {};
   const folio = useFolio() || {};
   const {
@@ -67,6 +67,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
   } = dbm;
 
   const {
+    isCharacterSelected,
     characterData,
     computeSpentCP,
     cloudSaveStatus,
@@ -332,14 +333,18 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                   ? 'bg-amber-950/70 border-amber-400 text-amber-200'
                   : 'bg-slate-950/60 hover:bg-slate-900/90 border-slate-700/80 hover:border-amber-400 text-slate-200 hover:text-amber-300'
               }`}
-              title="Open CommLink Relay Matrix Modal (Alt+C)"
+              title={
+                pendingCharacterNotes && pendingCharacterNotes.length > 0
+                  ? `CommLink Relay: ${pendingCharacterNotes.map(n => `${n.name} (${n.unread})`).join(', ')}`
+                  : "Open CommLink Relay Matrix Modal (Alt+C)"
+              }
             >
               <div className={`p-0.5 rounded border shrink-0 ${isComms || isCommsDockOpen ? 'bg-amber-500/25 border-amber-400/60 text-amber-300' : 'bg-amber-500/10 border-amber-500/30 text-amber-400'}`}>
                 <Radio size={12} className="sm:w-3.5 sm:h-3.5" />
               </div>
               <span>COMMS</span>
               {totalUnreadCount > 0 && (
-                <span className="w-3.5 h-3.5 bg-amber-500 text-black text-[8.5px] font-mono font-bold rounded-full flex items-center justify-center animate-pulse">
+                <span className="w-3.5 h-3.5 bg-amber-500 text-black text-[8.5px] font-mono font-bold rounded-full flex items-center justify-center animate-pulse" title={`${totalUnreadCount} pending transmission(s)`}>
                   {totalUnreadCount}
                 </span>
               )}
@@ -352,7 +357,8 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
         <div className="flex-1 flex items-center justify-center gap-1.5 sm:gap-2.5 min-w-0 px-2 overflow-visible relative">
           {/* Dynamic Controls: PERSONA FOLIO */}
           {isFolio && (
-            <div className="flex items-center gap-1.5 sm:gap-2">
+            isCharacterSelected ? (
+              <div className="flex items-center gap-1.5 sm:gap-2">
               {/* Real-time CP Budget Bar (Desktop) & Compact Badge (Mobile) */}
               {(() => {
                 const startingCP = parseInt(characterData?.['starting-cp'] || 150, 10);
@@ -645,7 +651,22 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 )}
               </div>
             </div>
-          )}
+          ) : (
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-cyan-400/80 px-2.5 py-1 rounded-lg bg-cyan-950/40 border border-cyan-500/30">
+                OPERATIVE CATALOG
+              </span>
+              <button
+                type="button"
+                onClick={() => window.dispatchEvent(new CustomEvent('toggle-folio-bastion'))}
+                className="px-2 sm:px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/50 cyan-shadow-thin shrink-0"
+                title="Toggle BASTION AI (Rules assistant & character generator)"
+              >
+                <span>🤖</span>
+                <span className="hidden sm:inline">BASTION</span>
+              </button>
+            </div>
+          ))}
 
           {/* Dynamic Controls: OMNICORTEX */}
           {isDBM && (

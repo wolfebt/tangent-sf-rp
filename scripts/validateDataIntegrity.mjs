@@ -13,6 +13,7 @@ import { DEFAULT_INVOCATIONS } from '../src/data/invocationsData.js';
 import { ALL_CANONICAL_SKILLS } from '../src/data/skillsData.js';
 import { DEFAULT_SPECIES_TYPES } from '../src/data/speciesTypesData.js';
 import compendiumSeedData from '../src/data/compendiumSeed.json' with { type: 'json' };
+import { BASTION_MECHANICS_DATASET } from '../src/data/mechanicsData.js';
 
 console.log('================================================================');
 console.log('  TANGENT SF RP — DATA INTEGRITY & INTERCONNECTIVITY TEST SUITE');
@@ -152,6 +153,29 @@ assert(weaponsWithCost.length === DEFAULT_WEAPONRY.length, `Weaponry cost covera
 
 const invocationsWithStrain = DEFAULT_INVOCATIONS.filter(i => (i.costs?.strain || 0) > 0);
 assert(invocationsWithStrain.length === DEFAULT_INVOCATIONS.length, `Invocations strain cost coverage: ${invocationsWithStrain.length}/${DEFAULT_INVOCATIONS.length} items`);
+
+// 5. BASTION Mechanics Rules Dataset Verification
+console.log('\n[5/5] Testing BASTION Mechanics Dataset Integrity...');
+assert(Array.isArray(BASTION_MECHANICS_DATASET) && BASTION_MECHANICS_DATASET.length >= 10, 'Mechanics rule count parity', `Expected >= 10, got ${BASTION_MECHANICS_DATASET?.length}`);
+
+const rulesWithFormulas = BASTION_MECHANICS_DATASET.filter(r => r.mechanic_formula && r.mechanic_formula.trim().length > 0);
+assert(rulesWithFormulas.length >= 8, 'Mechanics formula coverage', `Expected >= 8 with formulas, got ${rulesWithFormulas.length}`);
+
+const rulesWithCitations = BASTION_MECHANICS_DATASET.filter(r => r.citation && r.citation.includes('.md'));
+assert(rulesWithCitations.length === BASTION_MECHANICS_DATASET.length, 'Mechanics citation grounding', `Expected 100% grounded citations, got ${rulesWithCitations.length}/${BASTION_MECHANICS_DATASET.length}`);
+
+const dualResRule = BASTION_MECHANICS_DATASET.find(r => r.id === 'mech-combat-core-resolution');
+assert(Boolean(dualResRule && dualResRule.mechanic_formula.includes('2d10')), 'Dual Resolution formula verified');
+
+const actionEcoRule = BASTION_MECHANICS_DATASET.find(r => r.id === 'mech-combat-actions-by-skill-tier');
+assert(Boolean(actionEcoRule && actionEcoRule.mechanic_formula.includes('Rank 1-5: 1 action')), 'Skill Tier Iterative Actions verified');
+
+const limbRule = BASTION_MECHANICS_DATASET.find(r => r.id === 'mech-combat-disabled-destroyed-thresholds');
+assert(Boolean(limbRule && limbRule.mechanic_formula.includes('1/3 Health')), 'Disabled/Destroyed (1/3 & 2/3 Health) rule verified');
+
+const scalingRule = BASTION_MECHANICS_DATASET.find(r => r.id === 'mech-scaling-14-tiers');
+assert(Boolean(scalingRule && scalingRule.rules_text.includes('Mega Colossal')), '14-Tier Scaling rule verified');
+
 
 console.log('\n================================================================');
 console.log(`TEST RESULTS: ${passedTests}/${totalTests} tests passed (${((passedTests / totalTests) * 100).toFixed(1)}%)`);

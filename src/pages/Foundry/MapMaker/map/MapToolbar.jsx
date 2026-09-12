@@ -37,6 +37,9 @@ const MapToolbar = ({
   setShowAutomationConsole,
   showCombatTracker,
   setShowCombatTracker,
+  showAdventureLog,
+  setShowAdventureLog,
+  onOpenInitiativeManager,
   showMetadataPanel,
   setShowMetadataPanel,
   showKeyPanel,
@@ -416,6 +419,7 @@ const MapToolbar = ({
                 { id: 'settings', label: 'Tool Options', active: showSettingsPanel, toggle: () => setShowSettingsPanel(prev => !prev), icon: '⚙️' },
                 { id: 'layers', label: 'Compositor Layers', active: showLayersPanel, toggle: () => setShowLayersPanel(prev => !prev), icon: '🥞' },
                 { id: 'combat', label: 'Combat Tracker', active: showCombatTracker, toggle: () => setShowCombatTracker?.(prev => !prev), icon: '⚔️' },
+                { id: 'adventure_log', label: 'Adventure Log', active: showAdventureLog, toggle: () => setShowAdventureLog?.(prev => !prev), icon: '📜' },
                 { id: 'key', label: 'Map Key & Index', active: showKeyPanel, toggle: () => setShowKeyPanel?.(prev => !prev), icon: '🗺️' },
                 { id: 'metadata', label: 'Scale Properties', active: showMetadataPanel, toggle: () => setShowMetadataPanel?.(prev => !prev), icon: '🌐' }
               ].map((item) => (
@@ -519,6 +523,21 @@ const MapToolbar = ({
           >
             <span>🎮</span>
             <span className="hidden xl:inline">VTT Console</span>
+          </button>
+
+          {/* Tactical Adventure Log Blackbox */}
+          <button
+            type="button"
+            onClick={() => setShowAdventureLog?.(prev => !prev)}
+            className={`px-2 py-1 rounded-lg text-xs uppercase font-bold tracking-wider transition-all flex items-center gap-1 cursor-pointer ${
+              showAdventureLog
+                ? 'bg-cyan-950 text-cyan-200 border border-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.4)]'
+                : 'text-cyan-400 hover:text-cyan-200 hover:bg-slate-800/80 border border-transparent'
+            }`}
+            title="Open Tactical Adventure Log (Telemetry, Combat Strikes, Hazards, GM Notes)"
+          >
+            <span>📜</span>
+            <span className="hidden xl:inline">Log</span>
           </button>
 
           {/* 3D Holographic Live Preview Toggle */}

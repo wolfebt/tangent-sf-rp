@@ -24,6 +24,11 @@ import {
 } from 'lucide-react';
 import FolioTooltip from '../Folio/shared/FolioTooltip';
 import { checkPrerequisite } from '../../utils/prerequisiteEvaluator';
+import {
+  extractPillarFeatureSets,
+  getPillarFeatureRecommendations,
+  PillarMarkerDots
+} from '../../utils/pillarRecommendations.jsx';
 import { 
   getAugmentationStage, 
   getAugmentationNodes, 
@@ -368,6 +373,12 @@ export const UniversalCatalogModal = ({
     if (['disciplines', 'awakened'].includes(collectionKey)) return 'disciplines';
     return collectionKey || 'gear';
   }, [collectionKey]);
+
+  // 5-Pillar Feature Recommendation Sets
+  const pillarFeatureSets = useMemo(() => {
+    if (canonicalColKey !== 'features' || !characterData) return null;
+    return extractPillarFeatureSets(characterData);
+  }, [canonicalColKey, characterData]);
 
   // Real-time Firestore sync & item caching
   useEffect(() => {
@@ -1259,6 +1270,9 @@ export const UniversalCatalogModal = ({
                     const isSelected = isItemSelected(item);
                     const prereqResult = checkPrerequisite(item, characterData, canonicalColKey);
                     const isPrereqUnmet = prereqResult.hasPrerequisite && !prereqResult.isPossessed;
+                    const itemPillars = (canonicalColKey === 'features' && pillarFeatureSets)
+                      ? getPillarFeatureRecommendations(item, pillarFeatureSets, characterData)
+                      : [];
 
                     return (
                       <tr
@@ -1292,13 +1306,17 @@ export const UniversalCatalogModal = ({
                             prerequisiteUnmetReasons={prereqResult.unmetReasons}
                             mechanics={item.mechanics || item.mechanic || item.rules}
                             description={item.description || item.summary || item.flavor || item.desc}
-                            tags={item.category ? [item.category] : []}
+                            tags={[
+                              ...(item.category ? [item.category] : []),
+                              ...itemPillars.map(p => `${p.name}: ${p.detail}`)
+                            ]}
                           >
                             <div className="flex items-center gap-2">
                               <span className={`w-2 h-2 rounded-full ${isSelected ? 'bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,1)]' : isPrereqUnmet ? 'bg-amber-600/70' : 'bg-slate-600'} shrink-0`} />
                               <div>
                                 <div className={`font-bold flex items-center gap-1.5 transition-colors ${isPrereqUnmet ? 'text-slate-400 group-hover:text-slate-200' : 'text-slate-100 group-hover:text-cyan-300'}`}>
                                   <span>{item.name || item.title || item.id}</span>
+                                  <PillarMarkerDots recommendations={itemPillars} />
                                   {isPrereqUnmet && (
                                     <span 
                                       className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider bg-rose-950/90 border border-rose-600/80 text-rose-300 font-bold shadow-sm" 
@@ -1411,6 +1429,9 @@ export const UniversalCatalogModal = ({
                 const isSelected = isItemSelected(item);
                 const prereqResult = checkPrerequisite(item, characterData, canonicalColKey);
                 const isPrereqUnmet = prereqResult.hasPrerequisite && !prereqResult.isPossessed;
+                const itemPillars = (canonicalColKey === 'features' && pillarFeatureSets)
+                  ? getPillarFeatureRecommendations(item, pillarFeatureSets, characterData)
+                  : [];
 
                 return (
                   <div
@@ -1479,11 +1500,17 @@ export const UniversalCatalogModal = ({
                         prerequisiteUnmetReasons={prereqResult.unmetReasons}
                         mechanics={item.mechanics || item.mechanic || item.rules}
                         description={item.description || item.summary || item.flavor || item.desc}
-                        tags={item.category ? [item.category] : []}
+                        tags={[
+                          ...(item.category ? [item.category] : []),
+                          ...itemPillars.map(p => `${p.name}: ${p.detail}`)
+                        ]}
                       >
-                        <h4 className={`font-bold text-sm line-clamp-1 transition-colors ${isPrereqUnmet ? 'text-slate-400 group-hover:text-slate-100' : 'text-slate-100 group-hover:text-cyan-300'}`}>
-                          {item.name || item.title || item.id}
-                        </h4>
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          <h4 className={`font-bold text-sm line-clamp-1 transition-colors ${isPrereqUnmet ? 'text-slate-400 group-hover:text-slate-100' : 'text-slate-100 group-hover:text-cyan-300'}`}>
+                            {item.name || item.title || item.id}
+                          </h4>
+                          <PillarMarkerDots recommendations={itemPillars} />
+                        </div>
                       </FolioTooltip>
                       {item.sphere && (
                         <p className="text-[10px] text-purple-400 font-mono line-clamp-1 mt-0.5">

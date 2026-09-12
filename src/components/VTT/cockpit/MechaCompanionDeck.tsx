@@ -15,10 +15,15 @@ import {
   Activity, 
   Wrench,
   Layers,
-  Sparkles
+  Sparkles,
+  Bot,
+  Radio,
+  Heart,
+  Shield
 } from 'lucide-react';
 import { AudioService } from '../../../services/audioService';
 import { TechLevel } from '../../../engine/rules/MechaSocketManager';
+import { useFolio } from '../../../context/FolioContext';
 
 export interface UDUSlot {
   id: string;
@@ -85,6 +90,7 @@ const DEFAULT_UDU_SLOTS: UDUSlot[] = [
 ];
 
 export const MechaCompanionDeck: React.FC = () => {
+  const { companions = [], handleToggleDeployCompanion } = (useFolio() as any) || {};
   const [slots, setSlots] = useState<UDUSlot[]>(DEFAULT_UDU_SLOTS);
   const [chassisSP, setChassisSP] = useState<number>(115);
   const maxChassisSP = 120;
@@ -247,6 +253,104 @@ export const MechaCompanionDeck: React.FC = () => {
             </div>
           );
         })}
+      </div>
+
+      {/* ===================================================================== */}
+      {/* TACTICAL DRONES, COHORTS & COMPANIONS REGISTRY                        */}
+      {/* ===================================================================== */}
+      <div className="space-y-1.5 pt-2 border-t border-slate-800">
+        <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400 px-0.5 flex items-center justify-between">
+          <span className="flex items-center gap-1 font-bold text-purple-300">
+            <Bot size={12} className="text-purple-400" />
+            TACTICAL COMPANIONS &amp; DRONES ({companions.length})
+          </span>
+          <span className="text-[9px] text-slate-500">Auto-Linked to Stage</span>
+        </div>
+
+        {companions.length === 0 ? (
+          <div className="p-3 rounded-lg bg-slate-950/60 border border-dashed border-slate-800 text-center text-[10.5px] text-slate-500 font-sans">
+            No companion units registered. Create drones or cohorts in Folio to deploy them onto the Stage.
+          </div>
+        ) : (
+          <div className="space-y-1.5">
+            {companions.map((comp: any) => {
+              const isDeployed = !!comp.is_deployed;
+              const isSynth = comp.chassisType === 'synthetic';
+              const isMeta = comp.chassisType === 'metaphysical';
+              const curHp = comp.vitals?.current_hp ?? 25;
+              const maxHp = comp.vitals?.max_hp ?? 25;
+              const curStruct = comp.vitals?.structure ?? comp.vitals?.current_hp ?? 50;
+              const maxStruct = comp.vitals?.max_structure ?? comp.vitals?.max_hp ?? 50;
+              const dr = comp.armor?.dr ?? 0;
+              const chassisIcon = isSynth ? '🤖' : isMeta ? '✨' : '🐾';
+
+              return (
+                <div
+                  key={comp.id}
+                  className={`p-2 rounded-lg border transition-all ${
+                    isDeployed
+                      ? 'bg-purple-950/25 border-purple-500/60 shadow-[0_0_12px_rgba(168,85,247,0.15)]'
+                      : 'bg-slate-950/60 border-slate-800 hover:border-slate-700'
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-1 mb-1">
+                    <div className="flex items-center gap-1.5 min-w-0">
+                      <span className="text-xs">{chassisIcon}</span>
+                      <span className="text-xs font-bold text-slate-200 truncate">
+                        {comp.name}
+                      </span>
+                      <span className="text-[8.5px] px-1 py-0.2 rounded bg-purple-900/60 text-purple-300 uppercase">
+                        R{comp.rank || 1} • {comp.role || 'Companion'}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[8.5px] text-amber-400/90 font-mono uppercase hidden sm:inline">
+                        {comp.commandMode || 'direct'}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          AudioService.playTerminalBeep(isDeployed ? 950 : 1250, 0.03);
+                          if (handleToggleDeployCompanion) {
+                            handleToggleDeployCompanion(comp.id);
+                          }
+                        }}
+                        className={`px-2 py-0.5 rounded text-[9.5px] font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer transition-all ${
+                          isDeployed
+                            ? 'bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 text-amber-300'
+                            : 'bg-purple-950/80 hover:bg-purple-900 border border-purple-500/50 text-purple-200'
+                        }`}
+                      >
+                        <Radio size={10} className={isDeployed ? 'text-amber-400' : 'text-purple-400'} />
+                        <span>{isDeployed ? 'RECALL' : 'DEPLOY'}</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between text-[10px] text-slate-400">
+                    <span className={`flex items-center gap-1 ${isSynth ? 'text-amber-400' : isMeta ? 'text-cyan-400' : 'text-emerald-400'}`}>
+                      {isSynth ? <Cpu size={10} /> : isMeta ? <Sparkles size={10} /> : <Heart size={10} />}
+                      {isSynth 
+                        ? `${curStruct}/${maxStruct} SP` 
+                        : isMeta 
+                        ? `${curHp}/${maxHp} ESS` 
+                        : `${curHp}/${maxHp} HP`
+                      }
+                    </span>
+                    <span className="flex items-center gap-1 text-cyan-400">
+                      <Shield size={10} />
+                      DR {dr}
+                    </span>
+                    <span className="text-slate-500 text-[9px] font-sans truncate max-w-[120px]">
+                      {comp.speed || 10}m/rnd • {comp.size || 'Med'}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );

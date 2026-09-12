@@ -23,7 +23,8 @@ import {
   HelpCircle,
   Compass,
   UserCheck,
-  Flame
+  Flame,
+  Scale
 } from 'lucide-react';
 
 /**
@@ -1952,6 +1953,67 @@ export const OMNICORTEX_DATASETS = [
       },
       mechanic: "Casting psychokinetic invocations requires an opposed Metaphysics check. Critical failure incurs 1d4 Focus burn.",
       note: "Favored by Solari Templars and Aeld Force-Weavers."
+    }
+  },
+  // ─────────────────────────────────────────────────────────────────────────────
+  // PROMPT S: MECHANICS & SYSTEM RULES PARSER (BASTION CORE)
+  // ─────────────────────────────────────────────────────────────────────────────
+  {
+    key: 'mechanics',
+    code: 'PROMPT S',
+    label: 'Mechanics & System Rules (BASTION)',
+    matrixId: 'mechanics',
+    targetCollection: 'mechanics',
+    icon: Scale,
+    color: '#06b6d4',
+    description: 'Parse raw combat, vitals, scaling, economatrix, and character creation rules into canonical BASTION mechanics records with formulas and citations.',
+    promptText: `# SYSTEM INSTRUCTIONS: OMNICORTEX MECHANICS PARSER (BASTION CORE)
+
+**ROLE:** You are the Lead Systems Designer and Chief AI Archivist for BASTION, the Tactical AI Assistant of the Tangent Science Fantasy Roleplaying Game (SFF RPG). Your task is to ingest and parse core game mechanics and architectural rules into structured, referenceable mechanics objects.
+
+**TASK:** Parse the provided rules text and output ONLY a valid JSON array of objects adhering strictly to the schema below.
+
+**JSON SCHEMA:**
+[
+  {
+    "name": "String (Short rule identifier, e.g., 'mech-combat-called-shots')",
+    "title": "String (Formal rule title, e.g., 'Called Shots & 33.3% Major Wound Trauma')",
+    "category": "String ('combat' | 'vitals_integrity' | 'character_creation' | 'scaling' | 'economatrix' | 'technology' | 'metaphysics' | 'companions' | 'planetary')",
+    "citation": "String (Source chapter, e.g., 'docs/game rules/operator/3.00 COMBAT.md § Called Shots')",
+    "summary": "String (1-2 sentence executive definition for immediate AI prompt injection)",
+    "mechanic_formula": "String (Mathematical or dice formula, e.g., 'Major Wound = Net Damage >= 33.3% Max HP')",
+    "rules_text": "Markdown String (Exhaustive canonical rules text, options, and modifiers)",
+    "examples": ["String (Practical scenarios or worked examples)"],
+    "tags": ["String (Search tags for Vector RAG retrieval)"],
+    "status": "String ('pending_approval' | 'approved')"
+  }
+]
+
+**PARSING HEURISTICS & RULES:**
+1. **Mathematical Grounding:** Extract explicit formulas into mechanic_formula wherever calculations, ratios, or dice rolls occur.
+2. **Exhaustive Clarity:** The rules_text must be self-contained and clear enough for BASTION to arbitrate gameplay disputes without hallucinations.
+3. **No LaTeX Math Delimiters:** Do not use $ or $$. Write standard text formulas (e.g. 2d10 + Attr vs TN).
+4. **Approval Gate:** Set status to 'pending_approval' by default for Architect review.
+
+**INPUT TEXT:**
+[INSERT RAW RULES TEXT HERE]`,
+    expectedKeys: [
+      'name', 'title', 'category', 'citation', 'summary',
+      'mechanic_formula', 'rules_text', 'examples', 'tags', 'status'
+    ],
+    sampleItem: {
+      name: "mech-combat-called-shots",
+      title: "Called Shots & 33.3% Major Wound Trauma",
+      category: "combat",
+      citation: "docs/game rules/operator/3.00 COMBAT.md § Called Shots",
+      summary: "Operators can target specific anatomical hit locations at an attack penalty. Dealing 33.3% or more max HP in a single strike inflicts major trauma.",
+      mechanic_formula: "Major Wound = Net Damage >= 33.3% Target Max Health (HP)",
+      rules_text: "Targeting specific anatomy incurs attack roll penalties: Torso +0, Head -2 (Disoriented on major wound), Arms -2 (Disarmed/Disabled), Legs -1 (Crippled), Optics -3 (Blind).",
+      examples: [
+        "Head shot dealing 11 damage to a 30 HP target inflicts Disoriented (-2 to all mental/action rolls)."
+      ],
+      tags: ["combat", "called shots", "head", "arms", "legs", "optics", "trauma", "major wound"],
+      status: "pending_approval"
     }
   }
 ];

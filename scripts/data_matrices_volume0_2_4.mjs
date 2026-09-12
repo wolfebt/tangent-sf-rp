@@ -145,8 +145,8 @@ Factions in Tangent range from local criminal syndicates to galaxy-spanning inte
 - **Neutral (0):** Standard commercial access; full scrutiny from border patrols.
 - **Hostile (-2):** Denied docking; bounty hunters and security forces actively track operative movements.
 - **At War (-4):** Shoot-on-sight across all territorial star systems.`,
-    mechanic: `Faction Standing Check: d20 + Charisma + Faction Reputation Rank vs DC 15.
-Bespoke Requisition: High faction standing grants a 20% discount on military hardware.`,
+    mechanic: `Faction Standing Check: 2d10 + Charisma Mod + Faction Influence/Reputation Rank vs DC 15.
+Bespoke Requisition: High faction standing grants discounts or access to restricted military hardware.`,
     guide: `Track faction disposition shifts in the campaign log as operatives complete or botch operations.`,
     note: `Betraying an allied faction instantly shifts standing to Hostile.`
   }

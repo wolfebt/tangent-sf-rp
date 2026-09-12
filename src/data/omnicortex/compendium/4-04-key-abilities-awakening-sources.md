@@ -2,29 +2,71 @@
 id: "4-04-key-abilities-awakening-sources"
 name: "4.04 Key Abilities & Awakening Sources"
 category: "compendium"
-entry_type: "Core Rule"
 parent: "4.00 METAPHYSICS"
 order: 4
+perspective: "both"
+entry_type: "Core Rule"
+tl: 3
+ml: 0
+cost: 0
+tags: ["compendium"]
+updatedAt: "2026-09-12T08:23:46.536Z"
+costs:
+  bp: 0
+  credits: 0
+  nodes: 0
+  sockets: 0
+  strain: 0
+  focus: 0
+  ap: 0
+modifiers: []
+modifications: []
+critical_details:
+  score: ''
+  effect: []
+  success_effect: []
+  failure_effect: []
+sockets:
+  max: 0
+  used: 0
+  tier: Socket
+  allocated: []
 ---
+
 # 4.04 Key Abilities & Awakening Sources
 
-When an Operator awakens a metaphysical discipline, they define the **Source Attribute** that channels their power:
+The **Key Ability** is chosen at Awakening and determines the "flavor," cosmological paradigm, and philosophical origin of the wielder's power source.
 
 ---
 
-## The Three Awakening Sources
+## The Three Source Paradigms
 
-### 1. Reason & Logic (Intellect Based)
-- **Traditions:** Hermetic Arcanists, Cyber-Shamans, Akashic Coders, Quantum Psions.
-- **Flavors:** Cold, mathematical precision, runic geometric circles, holographic matrices.
-- **Key Attribute:** **Intellect (INT)**.
+### 1. Intelligence Based (Reason and Logic)
+- **Traditions**: Psychic, Arcane, Akashic, Technomantic.
+- **Philosophy**: Magic and psionics as pure science. Universal constants are treated as editable computer code, algebraic geometry, and quantum wave equations.
+- **Manifestation**: Hexagonal matrices, floating glowing equations, crystalline wireframes, holographic runic circles.
+- **Key Attribute**: **Intellect (INT)**.
 
-### 2. Willpower & Intuition (Wisdom Based)
-- **Traditions:** Divine Priests, Cosmic Seers, Monastic Meditators, Nature Druids.
-- **Flavors:** Spiritual radiance, planetary harmony, instinctual biocurrents.
-- **Key Attribute:** **Wisdom (WIS)**.
+### 2. Wisdom Based (Willpower and Intuition)
+- **Traditions**: Divine, Nature, Cosmic, Shamanic.
+- **Philosophy**: Reality manipulation through spiritual communion, instinctive harmony with the cosmos, or unwavering devotion to higher pantheons.
+- **Manifestation**: Bioluminescent pollen spores, radiant halos, whispering wind, living vines, solar golden beams.
+- **Key Attribute**: **Wisdom (WIS)**.
 
-### 3. Confidence & Dominance (Charisma Based)
-- **Traditions:** Sorcerous Bloodlines, Bardic Choralists, Demonic Pacts, Radiant Icons.
-- **Flavors:** Raw emotional projection, sonic resonance, overwhelming aura of majesty.
-- **Key Attribute:** **Charisma (CHA)**.
+### 3. Charisma Based (Confidence and Dominance)
+- **Traditions**: Bardic, Hereditary Bloodlines, Granted Boons, Demonic Pacts.
+- **Philosophy**: Reality bending through raw force of personality, regal majesty, emotional projection, or ancient genetic heritage.
+- **Manifestation**: Overwhelming vocal harmonics, roaring aura of majesty, prismatic emotional flares, bleeding watercolor transitions.
+- **Key Attribute**: **Charisma (CHA)**.
+
+## Game Mechanics Rules
+```
+SourceMod = KeyAbilityMod (INT, WIS, or CHA chosen at Awakening)
+Potency = SourceMod + DisciplineSkillRank + InvocationLevel + 10 (or d20)
+```
+
+## Gameplay Instructions
+Select your Key Ability upon taking the Awakened Feature. All your invocation formulas and save DCs will utilize this modifier.
+
+## Designer Notes
+A character's Key Ability modifier also determines their hourly Essence recovery rate during Light Rest.
