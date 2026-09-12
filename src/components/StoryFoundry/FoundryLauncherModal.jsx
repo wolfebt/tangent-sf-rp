@@ -48,7 +48,7 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
 
   // Tab 2: Elements Catalog Search, Filter & Sort State
   const [elementSearch, setElementSearch] = useState('');
-  const [elementTypeFilter, setElementTypeFilter] = useState('All');
+  const [elementTypeFilter, setElementTypeFilter] = useState('Scenario');
   const [elementSortBy, setElementSortBy] = useState('recent'); // 'recent' | 'title_asc' | 'title_desc' | 'type' | 'author'
   const [openElementMenuId, setOpenElementMenuId] = useState(null);
 
@@ -811,7 +811,6 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
                   onChange={(e) => setElementTypeFilter(e.target.value)}
                   className="bg-slate-950 border border-slate-700 text-xs font-bold text-amber-300 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-amber-500 cursor-pointer"
                 >
-                  <option value="All">All Element Types</option>
                   <option value="Scenario">Scenario</option>
                   <option value="Character">Character</option>
                   <option value="Location">Location</option>
@@ -820,6 +819,7 @@ const FoundryLauncherModal = ({ isOpen, onClose, initialTab = 'stories' }) => {
                   <option value="Clue">Clue</option>
                   <option value="Lore">Lore</option>
                   <option value="Custom">Custom</option>
+                  <option value="All">All Element Types</option>
                 </select>
               </div>
 

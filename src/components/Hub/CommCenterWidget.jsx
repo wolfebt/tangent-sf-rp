@@ -46,7 +46,7 @@ export const CommCenterWidget = ({
 
   const [inputVal, setInputVal] = useState('');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [channelCategory, setChannelCategory] = useState('all'); // 'all' | 'public' | 'custom' | 'dm'
+  const [channelCategory, setChannelCategory] = useState('public'); // 'public' | 'custom' | 'dm' | 'all'
 
   const handleQuickSend = async (e) => {
     e.preventDefault();
@@ -140,10 +140,10 @@ export const CommCenterWidget = ({
           <div className="mt-1.5 flex items-center justify-between gap-1 text-[9px] font-mono">
             <div className="flex items-center gap-1">
               {[
-                { id: 'all', label: 'ALL' },
                 { id: 'public', label: 'PUB' },
                 { id: 'custom', label: 'CUSTOM' },
-                { id: 'dm', label: 'DMs' }
+                { id: 'dm', label: 'DMs' },
+                { id: 'all', label: 'ALL' }
               ].map(cat => (
                 <button
                   key={cat.id}

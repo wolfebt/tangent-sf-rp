@@ -28,7 +28,7 @@ export default function RulebookAssistantModal({
   if (!isOpen) return null;
 
   const [searchQuery, setSearchQuery] = useState(initialQuery);
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState('combat');
   const [copiedId, setCopiedId] = useState(null);
 
   // Filtered / Searched Rule Results
@@ -50,20 +50,25 @@ export default function RulebookAssistantModal({
 
   const handleBroadcast = (entry) => {
     if (onBroadcastToChat) {
-      const text = `📖 **[RULEBOOK ADJUDICATION: ${entry.topic.toUpperCase()}]**\n*Source: ${entry.source}, Page ${entry.page}*\n\n${entry.content}`;
-      onBroadcastToChat(text);
+      onBroadcastToChat({
+        type: 'rule',
+        topic: entry.topic,
+        source: entry.source,
+        page: entry.page,
+        content: entry.content
+      });
       AudioService.playTerminalBeep(1040, 0.08);
       onClose();
     }
   };
 
   const categories = [
-    { id: 'all', label: 'All Rules', icon: BookOpen },
     { id: 'combat', label: 'Combat & Resolution', icon: Shield },
     { id: 'health', label: 'Health & Damage', icon: Activity },
     { id: 'metaphysics', label: 'Metaphysics', icon: Zap },
     { id: 'economy', label: 'Economatrix', icon: Coins },
-    { id: 'vehicles', label: 'Starships & Vehicles', icon: Rocket }
+    { id: 'vehicles', label: 'Starships & Vehicles', icon: Rocket },
+    { id: 'all', label: 'All Rules', icon: BookOpen }
   ];
 
   return (

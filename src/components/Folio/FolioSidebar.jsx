@@ -20,7 +20,6 @@ import {
   ChevronDown,
   ChevronRight,
   Dices,
-  Users,
   Lock
 } from 'lucide-react';
 import { AudioService } from '../../services/audioService';
@@ -28,16 +27,16 @@ import { useDice } from '../../context/DiceContext';
 import { useFolio } from '../../context/FolioContext';
 
 const NAVIGATION_ITEMS = [
-  { id: 'catalog', label: 'Operative Catalog', icon: Users },
   { id: 'identity', label: 'Identity', icon: User },
   { id: 'core-stats', label: 'Core Stats', icon: Activity },
   { id: 'skills', label: 'Skills', icon: Award },
   { 
     id: 'features', 
-    label: 'Features', 
+    label: 'Features & Traits', 
     icon: Sparkles,
     children: [
       { id: 'features-standard', label: 'Standard Features', icon: Sparkles, section: 'features' },
+      { id: 'features-traits', label: 'Traits', icon: Award, section: 'traits' },
       { id: 'features-metaphysics', label: 'Metaphysics / Awakened', icon: Zap, section: 'metaphysics' },
       { id: 'features-augmentations', label: 'Augmentations', icon: Cpu, section: 'augmentations' },
       { id: 'features-hindrances', label: 'Hindrances', icon: AlertTriangle, section: 'hindrances' }
@@ -155,7 +154,7 @@ export const FolioSidebar = ({
                     <Icon size={14} />
                   </div>
                   <span className="truncate uppercase text-[11px] font-semibold">
-                    {item.id === 'catalog' ? `← ${item.label}` : item.label}
+                    {item.label}
                   </span>
                   {item.id === 'identity' && (isLocked && !isPlayerOverride) && (
                     <span 

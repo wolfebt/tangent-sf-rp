@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { useFolio } from '../../../context/FolioContext';
 import { AudioService } from '../../../services/audioService';
-import { Sparkles, Zap, Cpu, AlertTriangle, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Sparkles, Zap, Cpu, AlertTriangle, ArrowRight, ShieldCheck, Award } from 'lucide-react';
 import { determineAugmentationStage } from '../../../engines/tangentComplexEngines';
 
 export const FeaturesHubView = ({ 
@@ -47,20 +47,83 @@ export const FeaturesHubView = ({
     return type.includes('hindrance') || type.includes('disadvantage') || type.includes('flaw');
   };
 
-  // 1. Standard Features
+  const isTraitItem = (item) => {
+    if (!item) return false;
+    const name = (typeof item === 'object' ? (item.name || item.title || '') : String(item)).toLowerCase();
+    const type = (typeof item === 'object' ? (item.type || item.category || item.trait_type || '') : '').toLowerCase();
+    return (
+      type.includes('trait') ||
+      name.startsWith('trait:') ||
+      (typeof item === 'object' && (item.trait_tier !== undefined || item.trait_type !== undefined))
+    );
+  };
+
+  // 1. Standard Features (3 CP base)
   const standardFeatures = useMemo(() => {
     const raw = getItemList('features');
-    return raw.filter(item => !isAwakenedItem(item) && !isAugmentationItem(item) && !isHindranceItem(item));
+    return raw.filter(item => !isAwakenedItem(item) && !isAugmentationItem(item) && !isHindranceItem(item) && !isTraitItem(item));
   }, [characterData.features]);
 
   const totalStandardCP = useMemo(() => {
     return standardFeatures.reduce((acc, feat) => {
-      const cost = typeof feat === 'object' && feat.cp !== undefined ? parseInt(feat.cp, 10) : 2;
-      return acc + (isNaN(cost) ? 2 : cost);
+      const isSpeciesInherent = typeof feat === 'object' && (
+        feat.source === 'species' || 
+        feat.category === 'Species Inherent' || 
+        feat.category === 'Species' ||
+        feat.cp === 0
+      );
+      if (isSpeciesInherent) return acc;
+      const cost = typeof feat === 'object' && feat.cp !== undefined ? parseInt(feat.cp, 10) : 3;
+      const rank = typeof feat === 'object' && feat.rank !== undefined ? Math.max(1, parseInt(feat.rank, 10)) : 1;
+      return acc + ((isNaN(cost) ? 3 : cost) * rank);
     }, 0);
   }, [standardFeatures]);
 
-  // 2. Awakened & Invocations
+  // 2. Traits (1 CP flat each, half-features)
+  const traitsList = useMemo(() => {
+    const rawTraits = getItemList('traits');
+    const fromFeatures = getItemList('features').filter(isTraitItem);
+    const fromAllocations = [
+      ...(characterData.speciesAllocations?.traits || []),
+      ...(characterData.occuAllocations?.traits || []),
+      ...(characterData.originAllocations?.traits || []),
+      ...(characterData.factionAllocations?.traits || [])
+    ].map(t => (typeof t === 'object' ? t : { name: t }));
+
+    const seen = new Set();
+    const combined = [];
+    [...rawTraits, ...fromFeatures, ...fromAllocations].forEach(t => {
+      const name = (typeof t === 'object' ? (t.name || t.title || t.id || '') : String(t)).toLowerCase();
+      if (name && !seen.has(name)) {
+        seen.add(name);
+        combined.push(typeof t === 'object' ? t : { name: t });
+      }
+    });
+    return combined;
+  }, [
+    characterData.traits, 
+    characterData.features, 
+    characterData.speciesAllocations, 
+    characterData.occuAllocations, 
+    characterData.originAllocations, 
+    characterData.factionAllocations
+  ]);
+
+  const totalTraitsCP = useMemo(() => {
+    return traitsList.reduce((acc, trait) => {
+      const isSpeciesInherent = typeof trait === 'object' && (
+        trait.source === 'species' || 
+        trait.category === 'Species Inherent' || 
+        trait.category === 'Species Trait' ||
+        trait.cp === 0
+      );
+      if (isSpeciesInherent) return acc;
+      const cost = typeof trait === 'object' && trait.cp !== undefined ? parseInt(trait.cp, 10) : 1;
+      return acc + (isNaN(cost) ? 1 : cost);
+    }, 0);
+  }, [traitsList]);
+
+  // 3. Awakened & Invocations
   const awakenedList = useMemo(() => {
     const fromAwakened = getItemList('awakened').map(w => ({
       ...(typeof w === 'object' ? w : { name: w }),
@@ -99,7 +162,7 @@ export const FeaturesHubView = ({
     return discCP + invCP;
   }, [awakenedList, learnedInvocations]);
 
-  // 3. Augmentations
+  // 4. Augmentations
   const augmentationsList = useMemo(() => {
     const fromAugs = getItemList('augmentations').map(a => (typeof a === 'object' ? a : { name: a }));
     const fromFeats = getItemList('features').filter(isAugmentationItem).map(a => (typeof a === 'object' ? a : { name: a }));
@@ -126,7 +189,7 @@ export const FeaturesHubView = ({
     return determineAugmentationStage(characterData);
   }, [characterData]);
 
-  // 4. Hindrances
+  // 5. Hindrances
   const hindrancesList = useMemo(() => {
     const raw = (Array.isArray(characterData.hindrances) && characterData.hindrances.length > 0)
       ? characterData.hindrances
@@ -141,7 +204,7 @@ export const FeaturesHubView = ({
     }, 0);
   }, [hindrancesList]);
 
-  const totalFeaturesCP = totalStandardCP + totalAwakenedCP + totalAugmentationsCP;
+  const totalFeaturesCP = totalStandardCP + totalTraitsCP + totalAwakenedCP + totalAugmentationsCP;
   const netFeaturesCP = totalFeaturesCP - totalHindrancesRefund;
 
   const handleCardClick = (targetTab) => {
@@ -155,7 +218,7 @@ export const FeaturesHubView = ({
     {
       id: 'features-standard',
       title: 'Standard Features',
-      tagline: 'Combat, Physical, Social & Background Perks',
+      tagline: '3 CP Base · Combat, Physical & Skill Feats',
       icon: Sparkles,
       count: standardFeatures.length,
       unit: standardFeatures.length === 1 ? 'Feature' : 'Features',
@@ -166,7 +229,23 @@ export const FeaturesHubView = ({
       iconBg: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30',
       badgeBg: 'bg-cyan-950/80 text-cyan-300 border-cyan-700/60',
       accentColor: 'text-cyan-400',
-      description: 'Special operative aptitudes, specialized training, genetic advantages, and professional traits acquired across your career.'
+      description: 'Special operative aptitudes and combat knacks costing 3 CP base, with -1 CP discounts for feats recommended by your character\'s identity pillars.'
+    },
+    {
+      id: 'features-traits',
+      title: 'Traits',
+      tagline: '1 CP Each · Chosen from Identity Columns',
+      icon: Award,
+      count: traitsList.length,
+      unit: traitsList.length === 1 ? 'Trait' : 'Traits',
+      cpText: `${totalTraitsCP} CP`,
+      colorTheme: 'emerald',
+      borderColor: 'border-emerald-500/40 hover:border-emerald-400',
+      glowColor: 'hover:shadow-[0_0_24px_rgba(16,185,129,0.22)]',
+      iconBg: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
+      badgeBg: 'bg-emerald-950/80 text-emerald-300 border-emerald-700/60',
+      accentColor: 'text-emerald-400',
+      description: 'Half-features (1 CP each) strictly selected from your chosen Species, Origin, Occupation, and Faction columns (including secondary choices). Traits are direct aspects of your column build.'
     },
     {
       id: 'features-metaphysics',
@@ -220,7 +299,7 @@ export const FeaturesHubView = ({
   ];
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-start p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 max-w-4xl mx-auto w-full overflow-y-auto">
+    <div className="flex-1 flex flex-col items-center justify-start p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 max-w-5xl mx-auto w-full overflow-y-auto">
       {/* Header Hub Section (Center-Aligned) */}
       <div className="flex flex-col items-center text-center space-y-3 max-w-2xl mx-auto">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/70 border border-cyan-500/40 text-cyan-300 font-mono text-[11px] font-bold uppercase tracking-widest shadow-[0_0_12px_rgba(34,211,238,0.2)]">
@@ -233,7 +312,7 @@ export const FeaturesHubView = ({
         </h2>
 
         <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-lg">
-          Select one of the 4 feature capability subsystems below to inspect acquired talents, browse the omnicortex compendium, or equip modifications.
+          Select one of the 5 feature & trait capability subsystems below to inspect acquired talents, manage column traits, or explore compendium databases.
         </p>
 
         {/* Aggregate CP Status Chips (Center-Aligned) */}
@@ -258,8 +337,8 @@ export const FeaturesHubView = ({
         </div>
       </div>
 
-      {/* 4 Feature Options Grid (Center-Aligned) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 w-full max-w-3xl justify-center items-stretch">
+      {/* 5 Feature Options Responsive Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-full justify-center items-stretch">
         {FEATURE_OPTIONS.map((opt) => {
           const Icon = opt.icon;
 

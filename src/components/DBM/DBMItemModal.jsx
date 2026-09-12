@@ -271,7 +271,7 @@ export const DBMItemModal = ({
   const [customInputValues, setCustomInputValues] = useState({});
 
   // Tab state
-  const [activeModalTab, setActiveModalTab] = useState('all');
+  const [activeModalTab, setActiveModalTab] = useState('general');
   const [isIngestionModalOpen, setIsIngestionModalOpen] = useState(false);
 
   const toggleCustomInputMode = (fieldKey) => {
@@ -285,7 +285,7 @@ export const DBMItemModal = ({
   useEffect(() => {
     if (isOpen) {
       isDeletingRef.current = false;
-      setActiveModalTab('all');
+      setActiveModalTab('general');
       if (selectedItem) {
         setEditFormData(normalizeOmnicortexItem(selectedItem));
       }

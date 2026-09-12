@@ -37,7 +37,7 @@ function assert(condition, testName, details = '') {
 console.log('[1/4] Checking Runtime Data Bundle Counts...');
 assert(DEFAULT_SPECIES.length === 81, 'Species count parity', `Expected 81, got ${DEFAULT_SPECIES.length}`);
 assert(DEFAULT_ARCHETYPES.length >= 48, 'Archetypes count parity', `Expected >= 48, got ${DEFAULT_ARCHETYPES.length}`);
-assert(DEFAULT_FEATURES.length === 218, 'Features count parity', `Expected 218, got ${DEFAULT_FEATURES.length}`);
+assert(DEFAULT_FEATURES.length === 219, 'Features count parity', `Expected 219, got ${DEFAULT_FEATURES.length}`);
 assert(DEFAULT_SPECIES_TRAITS.length === 286, 'Traits count parity', `Expected 286, got ${DEFAULT_SPECIES_TRAITS.length}`);
 assert(DEFAULT_SPECIES_DISADVANTAGES.length >= 32, 'Disadvantages count parity', `Expected >= 32, got ${DEFAULT_SPECIES_DISADVANTAGES.length}`);
 assert(DEFAULT_FACTIONS.length === 40, 'Factions count parity', `Expected 40, got ${DEFAULT_FACTIONS.length}`);

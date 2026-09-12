@@ -1122,24 +1122,28 @@ const CoreStatsTab = () => {
                   description="Determines combat reaction speed and positioning in tactical combat rounds. Uses Reflex Check + modifiers."
                   formula={`Initiative = Reflex (${reflexTotal}) + Mod (${initiativeMod}) = ${initiativeTotal}`}
                   tags={['Reflex', 'Combat Round', 'Turn Order']}
+                  className="w-full block"
                 >
-                  <div className="flex items-center justify-between bg-slate-800/60 px-3 py-2.5 rounded border border-cyan-900/40 min-h-[52px] w-full hover:border-cyan-400 transition-colors">
-                    <label className="text-xs font-bold uppercase tracking-wider text-cyan-400">
+                  <div className="flex items-center justify-between bg-slate-800/60 px-3.5 py-2.5 rounded border border-cyan-900/40 min-h-[52px] w-full hover:border-cyan-400 transition-colors gap-3">
+                    <label className="text-xs font-bold uppercase tracking-wider text-cyan-400 shrink-0">
                       Initiative
                     </label>
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg font-bold text-amber-400 font-mono">{initiativeTotal}</span>
+                    <div className="flex items-center gap-3 shrink-0">
+                      <span className="text-lg font-bold text-amber-400 font-mono px-1">{initiativeTotal}</span>
                       <button
                         type="button"
-                        onClick={() => openDiceRoller({
-                          label: 'Initiative Check',
-                          baseModifier: initiativeTotal,
-                          expression: `2d10${initiativeTotal !== 0 ? (initiativeTotal > 0 ? `+${initiativeTotal}` : `${initiativeTotal}`) : ''}`,
-                          rollMode: 'normal',
-                          characterName: characterData['char-name'] || 'Operative',
-                          autoRoll: true
-                        })}
-                        className="px-2 py-0.5 rounded bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 hover:border-amber-400 text-amber-300 hover:text-white text-[10px] font-mono font-bold transition-all shadow-sm cursor-pointer flex items-center gap-1 shrink-0"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openDiceRoller({
+                            label: 'Initiative Check',
+                            baseModifier: initiativeTotal,
+                            expression: `2d10${initiativeTotal !== 0 ? (initiativeTotal > 0 ? `+${initiativeTotal}` : `${initiativeTotal}`) : ''}`,
+                            rollMode: 'normal',
+                            characterName: characterData['char-name'] || 'Operative',
+                            autoRoll: true
+                          });
+                        }}
+                        className="px-2.5 py-1 rounded bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 hover:border-amber-400 text-amber-300 hover:text-white text-[10px] font-mono font-bold transition-all shadow-sm cursor-pointer flex items-center gap-1.5 shrink-0"
                         title={`Roll Initiative Check (2d10 + ${initiativeTotal})`}
                       >
                         <Dices size={12} className="text-amber-400" />
@@ -1156,12 +1160,13 @@ const CoreStatsTab = () => {
                   description="All character Stamina is a natural damage reduction (DR) and automatically reduces all incoming damage which penetrates the character's defenses, minimum of 1 point."
                   formula={`Natural DR = Stamina Total (${derivedStats?.stamina ?? derivedStats?.toughness ?? 0})`}
                   tags={['Stamina', 'Natural DR', 'Min 1 Point']}
+                  className="w-full block"
                 >
-                  <div className="flex items-center justify-between bg-slate-800/60 px-3 py-2.5 rounded border border-emerald-900/40 min-h-[52px] w-full hover:border-emerald-400 transition-colors" title="All character Stamina is a natural damage reduction (DR) and automatically reduces all incoming damage which penetrates defenses, minimum of 1 point.">
-                    <label className="text-xs font-bold uppercase tracking-wider text-emerald-400">
+                  <div className="flex items-center justify-between bg-slate-800/60 px-3.5 py-2.5 rounded border border-emerald-900/40 min-h-[52px] w-full hover:border-emerald-400 transition-colors gap-3" title="All character Stamina is a natural damage reduction (DR) and automatically reduces all incoming damage which penetrates defenses, minimum of 1 point.">
+                    <label className="text-xs font-bold uppercase tracking-wider text-emerald-400 shrink-0">
                       Natural DR (STA)
                     </label>
-                    <span className="text-lg font-bold text-emerald-300 font-mono">+{derivedStats?.stamina ?? derivedStats?.toughness ?? 0}</span>
+                    <span className="text-lg font-bold text-emerald-300 font-mono shrink-0 px-1">+{derivedStats?.stamina ?? derivedStats?.toughness ?? 0}</span>
                   </div>
                 </FolioTooltip>
               </div>
@@ -1176,6 +1181,7 @@ const CoreStatsTab = () => {
                   formula={`Base: 30 + Purchased: ${derivedStats?.purchasedVitality || 0} (Max Increase: ${derivedStats?.maxStatIncrease ?? ((derivedStats?.stamina || 0) * 5)})`}
                   cost="1 CP = +2 Vitality (Base: 30, Max: 5 × STA)"
                   tags={['Non-Lethal', 'Vitality Buffer', 'Base 30', '1 CP / 2 pts']}
+                  className="w-full block"
                 >
                   <div className="flex flex-col relative group w-full">
                     <FolioInput
@@ -1203,6 +1209,7 @@ const CoreStatsTab = () => {
                   formula={`Base: 30 + Purchased: ${derivedStats?.purchasedHealth || 0} (Max Increase: ${derivedStats?.maxStatIncrease ?? ((derivedStats?.stamina || 0) * 5)})`}
                   cost="1 CP = +2 Health (Base: 30, Max: 5 × STA)"
                   tags={['Lethal', 'Physical Integrity', 'Base 30', '1 CP / 2 pts']}
+                  className="w-full block"
                 >
                   <div className="flex flex-col relative group w-full">
                     <FolioInput
@@ -1234,6 +1241,7 @@ const CoreStatsTab = () => {
                 formula={`Base: 60 + Purchased: ${derivedStats?.purchasedStructure || 0}`}
                 cost="1 CP = +2 Structure (Starting Pool: 60 SP)"
                 tags={['Synthetic', 'Structure 60 SP', '1 CP / 2 pts']}
+                className="w-full block"
               >
                 <div className="p-3 rounded-lg bg-amber-950/40 border border-amber-500/40 flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
                   <div className="flex items-center gap-2">

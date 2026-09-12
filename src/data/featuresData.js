@@ -1,7 +1,7 @@
 /**
  * Canonical Features & Traits Database for Tangent SF RP
  * Auto-generated from src/data/omnicortex/features/
- * Total Features: 218
+ * Total Features: 219
  */
 
 export const FEATURE_CATEGORIES = [
@@ -68,6 +68,7 @@ export const DEFAULT_FEATURES = [
       "ap": 0
     },
     "is_ranked": true,
+    "max_rank": 4,
     "is_multiple": true,
     "prerequisites": "Stamina 1",
     "modifiers": [
@@ -260,6 +261,7 @@ export const DEFAULT_FEATURES = [
       "ap": 0
     },
     "is_ranked": true,
+    "max_rank": 4,
     "is_multiple": true,
     "prerequisites": "Intellect 1",
     "modifiers": [
@@ -333,6 +335,7 @@ export const DEFAULT_FEATURES = [
       "ap": 0
     },
     "is_ranked": true,
+    "max_rank": 4,
     "is_multiple": true,
     "prerequisites": "Charisma 1",
     "modifiers": [
@@ -375,6 +378,7 @@ export const DEFAULT_FEATURES = [
       "ap": 0
     },
     "is_ranked": true,
+    "max_rank": 4,
     "is_multiple": true,
     "prerequisites": "Wisdom 1",
     "modifiers": [
@@ -417,6 +421,7 @@ export const DEFAULT_FEATURES = [
       "ap": 0
     },
     "is_ranked": true,
+    "max_rank": 4,
     "is_multiple": true,
     "prerequisites": "Agility 1",
     "modifiers": [
@@ -521,6 +526,7 @@ export const DEFAULT_FEATURES = [
       "ap": 0
     },
     "is_ranked": true,
+    "max_rank": 4,
     "is_multiple": true,
     "prerequisites": "Strength 1",
     "modifiers": [
@@ -2452,6 +2458,7 @@ export const DEFAULT_FEATURES = [
       "ap": 0
     },
     "is_ranked": true,
+    "max_rank": 4,
     "is_multiple": true,
     "prerequisites": "Attune 6",
     "modifiers": [
@@ -2712,6 +2719,7 @@ export const DEFAULT_FEATURES = [
       "ap": 0
     },
     "is_ranked": true,
+    "max_rank": 4,
     "is_multiple": false,
     "prerequisites": "Special (Law Enforcement background)",
     "modifiers": [],
@@ -2775,6 +2783,7 @@ export const DEFAULT_FEATURES = [
       "ap": 0
     },
     "is_ranked": true,
+    "max_rank": 4,
     "is_multiple": false,
     "prerequisites": "Special (Military or Corporate standing)",
     "modifiers": [],
@@ -2807,6 +2816,7 @@ export const DEFAULT_FEATURES = [
       "ap": 0
     },
     "is_ranked": true,
+    "max_rank": 4,
     "is_multiple": true,
     "prerequisites": "Special (Organizational sponsorship)",
     "modifiers": [],
@@ -2840,6 +2850,7 @@ export const DEFAULT_FEATURES = [
       "ap": 0
     },
     "is_ranked": true,
+    "max_rank": 4,
     "is_multiple": false,
     "prerequisites": "None",
     "modifiers": [],
@@ -2871,6 +2882,7 @@ export const DEFAULT_FEATURES = [
       "ap": 0
     },
     "is_ranked": true,
+    "max_rank": 4,
     "is_multiple": false,
     "prerequisites": "Special (Diplomatic or Imperial decree)",
     "modifiers": [],
@@ -2903,6 +2915,7 @@ export const DEFAULT_FEATURES = [
       "ap": 0
     },
     "is_ranked": true,
+    "max_rank": 4,
     "is_multiple": false,
     "prerequisites": "Special (Aristocratic or Corporate lineage)",
     "modifiers": [
@@ -2944,6 +2957,7 @@ export const DEFAULT_FEATURES = [
       "ap": 0
     },
     "is_ranked": true,
+    "max_rank": 4,
     "is_multiple": false,
     "prerequisites": "None",
     "modifiers": [],
@@ -3045,19 +3059,21 @@ export const DEFAULT_FEATURES = [
       "focus": 0,
       "ap": 0
     },
-    "is_ranked": false,
+    "is_ranked": true,
+    "max_rank": 4,
     "is_multiple": false,
     "prerequisites": "Charisma 1",
     "modifiers": [],
     "description": "The character has friends in low (or high) places. They can call in favors for equipment, information, or safe houses.",
     "mechanic": "You have a network of contacts.  \n  * *Rank 1:* Street/Soldier level (Gangs, Grunts).  \n  * *Rank 2:* Management/Lieutenant level (Shop owners, Squad leaders).  \n  * *Rank 3:* Officer/Executive level (City officials, Corp VPs).  \n  * *Rank 4:* Boss/Director level (Planetary Governors, Crime Lords).",
-    "rules": "84",
-    "special_rules": "84",
-    "body": "# Connected\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Charisma 1\n\n## Description\nThe character has friends in low (or high) places. They can call in favors for equipment, information, or safe houses.\n\n## Mechanics & Benefit\nYou have a network of contacts.  \n  * *Rank 1:* Street/Soldier level (Gangs, Grunts).  \n  * *Rank 2:* Management/Lieutenant level (Shop owners, Squad leaders).  \n  * *Rank 3:* Officer/Executive level (City officials, Corp VPs).  \n  * *Rank 4:* Boss/Director level (Planetary Governors, Crime Lords).\n\n## Special Rules\n84",
+    "rules": "This feature is Ranked (up to Rank 4). Each additional rank purchased expands the reach, authority, and influence of your network of contacts.",
+    "special_rules": "This feature is Ranked (up to Rank 4). Each additional rank purchased expands the reach, authority, and influence of your network of contacts.",
+    "body": "# Connected\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Charisma 1\n\n## Description\nThe character has friends in low (or high) places. They can call in favors for equipment, information, or safe houses.\n\n## Mechanics & Benefit\nYou have a network of contacts.  \n  * *Rank 1:* Street/Soldier level (Gangs, Grunts).  \n  * *Rank 2:* Management/Lieutenant level (Shop owners, Squad leaders).  \n  * *Rank 3:* Officer/Executive level (City officials, Corp VPs).  \n  * *Rank 4:* Boss/Director level (Planetary Governors, Crime Lords).\n\n## Special Rules\nThis feature is Ranked (up to Rank 4). Each additional rank purchased expands the reach, authority, and influence of your network of contacts.",
     "mechanics": "You have a network of contacts.  \n  * *Rank 1:* Street/Soldier level (Gangs, Grunts).  \n  * *Rank 2:* Management/Lieutenant level (Shop owners, Squad leaders).  \n  * *Rank 3:* Officer/Executive level (City officials, Corp VPs).  \n  * *Rank 4:* Boss/Director level (Planetary Governors, Crime Lords).",
-    "notes": "[Rule] 84\n[Prerequisite] Charisma 1",
+    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] This feature is Ranked (up to Rank 4). Each additional rank purchased expands the reach, authority, ...\n[Prerequisite] Charisma 1",
     "notesList": [
-      "[Rule] 84",
+      "[Rule] Ranked: Bonus stacks with additional purchases",
+      "[Rule] This feature is Ranked (up to Rank 4). Each additional rank purchased expands the reach, authority, ...",
       "[Prerequisite] Charisma 1"
     ]
   },
@@ -3108,6 +3124,7 @@ export const DEFAULT_FEATURES = [
       "ap": 0
     },
     "is_ranked": true,
+    "max_rank": 4,
     "is_multiple": false,
     "prerequisites": "Intellect 1",
     "modifiers": [],
@@ -3313,6 +3330,7 @@ export const DEFAULT_FEATURES = [
       "ap": 0
     },
     "is_ranked": true,
+    "max_rank": 4,
     "is_multiple": false,
     "prerequisites": "Stamina 2",
     "modifiers": [],
@@ -3345,6 +3363,7 @@ export const DEFAULT_FEATURES = [
       "ap": 0
     },
     "is_ranked": true,
+    "max_rank": 4,
     "is_multiple": true,
     "prerequisites": "Awareness 1",
     "modifiers": [
@@ -3449,6 +3468,7 @@ export const DEFAULT_FEATURES = [
       "ap": 0
     },
     "is_ranked": true,
+    "max_rank": 4,
     "is_multiple": false,
     "prerequisites": "Intellect 1",
     "modifiers": [],
@@ -3543,6 +3563,7 @@ export const DEFAULT_FEATURES = [
       "ap": 0
     },
     "is_ranked": true,
+    "max_rank": 4,
     "is_multiple": false,
     "prerequisites": "Mental Alacrity, Int 3",
     "modifiers": [],
@@ -4072,6 +4093,37 @@ export const DEFAULT_FEATURES = [
     ]
   },
   {
+    "id": "general-underworld-connections",
+    "name": "Underworld Connections",
+    "category": "General",
+    "type": "general",
+    "cp": 3,
+    "costs": {
+      "bp": 3,
+      "credits": 0,
+      "nodes": 0,
+      "sockets": 0,
+      "strain": 0,
+      "focus": 0,
+      "ap": 0
+    },
+    "is_ranked": false,
+    "is_multiple": false,
+    "prerequisites": "Streetwise 3",
+    "modifiers": [],
+    "description": "Access to illicit black market weapons, fences, and safehouses across all starports.",
+    "mechanic": "The character maintains deep ties with smuggling syndicates, fences, and illegal arms dealers. They can source restricted, military, and black-market items without police interference, sell contraband merchandise at standard fence rates, and secure covert safehouses in most major civilized settlements.",
+    "rules": "Characters with this feature ignore black market availability markups by 10% and gain Advantage on Streetwise checks to locate contraband or black-market contacts.",
+    "special_rules": "Characters with this feature ignore black market availability markups by 10% and gain Advantage on Streetwise checks to locate contraband or black-market contacts.",
+    "body": "# Underworld Connections\n\n**Category**: General Features  \n**Cost**: 3 BP (2 BP if Suggested Feature, minimum 1 BP)  \n**Prerequisite**: Streetwise 3\n\n## Description\nAccess to illicit black market weapons, fences, and safehouses across all starports.\n\n## Mechanics & Benefit\nThe character maintains deep ties with smuggling syndicates, fences, and illegal arms dealers. They can source restricted, military, and black-market items without police interference, sell contraband merchandise at standard fence rates, and secure covert safehouses in most major civilized settlements.\n\n## Special Rules\nCharacters with this feature ignore black market availability markups by 10% and gain Advantage on Streetwise checks to locate contraband or black-market contacts.",
+    "mechanics": "The character maintains deep ties with smuggling syndicates, fences, and illegal arms dealers. They can source restricted, military, and black-market items without police interference, sell contraband merchandise at standard fence rates, and secure covert safehouses in most major civilized settlements.",
+    "notes": "[Rule] Characters with this feature ignore black market availability markups by 10% and gain Advantage on S...\n[Prerequisite] Streetwise 3",
+    "notesList": [
+      "[Rule] Characters with this feature ignore black market availability markups by 10% and gain Advantage on S...",
+      "[Prerequisite] Streetwise 3"
+    ]
+  },
+  {
     "id": "general-well-informed",
     "name": "Well Informed",
     "category": "General",
@@ -4197,6 +4249,7 @@ export const DEFAULT_FEATURES = [
       "ap": 0
     },
     "is_ranked": true,
+    "max_rank": 4,
     "is_multiple": false,
     "prerequisites": "Wisdom 1",
     "modifiers": [],
@@ -4260,6 +4313,7 @@ export const DEFAULT_FEATURES = [
       "ap": 0
     },
     "is_ranked": true,
+    "max_rank": 4,
     "is_multiple": false,
     "prerequisites": "Believer",
     "modifiers": [],
@@ -4447,6 +4501,7 @@ export const DEFAULT_FEATURES = [
       "ap": 0
     },
     "is_ranked": true,
+    "max_rank": 4,
     "is_multiple": true,
     "prerequisites": "None (Must be assigned to a specific Trait/Skill/Attribute).",
     "modifiers": [
@@ -4692,6 +4747,7 @@ export const DEFAULT_FEATURES = [
       "ap": 0
     },
     "is_ranked": true,
+    "max_rank": 4,
     "is_multiple": false,
     "prerequisites": "Charisma 2",
     "modifiers": [
@@ -4984,6 +5040,7 @@ export const DEFAULT_FEATURES = [
       "ap": 0
     },
     "is_ranked": true,
+    "max_rank": 4,
     "is_multiple": false,
     "prerequisites": "Charisma 1",
     "modifiers": [
@@ -5966,6 +6023,7 @@ export const DEFAULT_FEATURES = [
       "ap": 0
     },
     "is_ranked": true,
+    "max_rank": 4,
     "is_multiple": true,
     "prerequisites": "Chosen Skill Rank 1",
     "modifiers": [
@@ -6656,8 +6714,8 @@ export const DEFAULT_FEATURES = [
     "type": "special",
     "cp": 3,
     "costs": {
-      "bp": 3,
       "cp": 3,
+      "bp": 3,
       "credits": 0,
       "nodes": 0,
       "sockets": 0,
@@ -6666,20 +6724,21 @@ export const DEFAULT_FEATURES = [
       "ap": 0
     },
     "is_ranked": true,
+    "max_rank": 4,
     "is_multiple": true,
     "prerequisites": "Charisma 1",
     "modifiers": [],
-    "description": "As with Metaphysics (Awakened) and Augmentations (Augmented), access to Companions must be unlocked by purchasing the Companion feature.",
-    "mechanic": "You unlock access to the Modular Companion Matrix and gain a loyal cohort constructed with 40 Character Points (CP).",
-    "rules": "[Ranked / Multiple] May purchase multiple times to unlock additional 40 CP companions or to increase an existing companion's build budget by +10 CP per rank.",
-    "special_rules": "[Ranked / Multiple] May purchase multiple times to unlock additional 40 CP companions or to increase an existing companion's build budget by +10 CP per rank.",
-    "body": "# Companion\n\n**Category**: Special Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Charisma 1\n\n## Description\nAs with Metaphysics (Awakened) and Augmentations (Augmented), access to Companions must be unlocked by purchasing the Companion feature.\n\n## Mechanics & Benefit\nYou unlock access to the Modular Companion Matrix and gain a loyal cohort constructed with **40 Character Points (CP)** (15 CP Form + 25 CP Function).\n\n## Special Rules\n**[Ranked / Multiple]**: May be purchased multiple times. Each purchase either unlocks an additional separate 40 CP companion OR grants +10 CP to an existing companion's build budget.",
-    "mechanics": "You unlock access to the Modular Companion Matrix and gain a loyal cohort constructed with 40 Character Points (CP).",
-    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] [Ranked / Multiple] May purchase multiple times to unlock additional 40 CP companions or to increase an existing companion's build budget by +10 CP per rank.\n[Prerequisite] Charisma 1",
+    "description": "The character has unlocked access to a loyal companion, bio-construct, tactical drone, or metaphysical cohort.",
+    "mechanic": "Purchasing this feature unlocks access to the Modular Companion Matrix and grants a loyal cohort constructed with **40 Character Points (CP)** (15 CP Form Package + 25 CP Function Package).",
+    "rules": "**[Ranked / Multiple Purchases]**: You may purchase this feature multiple times:\n- **Additional Companion Unit**: Each new purchase of the Companion feature allows you to unlock and construct an additional separate 40 CP Companion.\n- **Enhanced Build Budget**: Alternatively, taking an additional rank in an existing companion grants **+10 CP** to that companion's build budget (Rank 1: 40 CP, Rank 2: 50 CP, Rank 3: 60 CP, etc.).",
+    "special_rules": "**[Ranked / Multiple Purchases]**: You may purchase this feature multiple times:\n- **Additional Companion Unit**: Each new purchase of the Companion feature allows you to unlock and construct an additional separate 40 CP Companion.\n- **Enhanced Build Budget**: Alternatively, taking an additional rank in an existing companion grants **+10 CP** to that companion's build budget (Rank 1: 40 CP, Rank 2: 50 CP, Rank 3: 60 CP, etc.).",
+    "body": "# Companion\n\n**Category**: Special Features  \n**Cost**: 3 CP (2 CP if Suggested Feature, minimum 1 CP)  \n**Prerequisite**: Charisma 1\n\n## Description\nAs with Metaphysics (Awakened) and Augmentations (Augmented), access to Companions must be unlocked by purchasing the **Companion** feature. The character gains a loyal follower, bio-engineered beast, combat drone, or metaphysical spirit-guide.\n\n## Mechanics & Benefit\nPurchasing this feature unlocks access to the Modular Companion Matrix and grants a loyal cohort constructed with **40 Character Points (CP)** (15 CP Form Package + 25 CP Function Package).\n\n## Special Rules\n**[Ranked / Multiple Purchases]**: You may purchase this feature multiple times:\n- **Additional Companion Unit**: Each new purchase of the Companion feature allows you to unlock and construct an additional separate 40 CP Companion.\n- **Enhanced Build Budget**: Alternatively, taking an additional rank in an existing companion grants **+10 CP** to that companion's build budget (Rank 1: 40 CP, Rank 2: 50 CP, Rank 3: 60 CP, etc.).",
+    "mechanics": "Purchasing this feature unlocks access to the Modular Companion Matrix and grants a loyal cohort constructed with **40 Character Points (CP)** (15 CP Form Package + 25 CP Function Package).",
+    "notes": "[Rule] Ranked: Bonus stacks with additional purchases\n[Rule] Multiple: May be purchased separately for different categories/types\n[Rule] **[Ranked / Multiple Purchases]**: You may purchase this feature multiple times:\n- **Additional Comp...\n[Prerequisite] Charisma 1",
     "notesList": [
       "[Rule] Ranked: Bonus stacks with additional purchases",
       "[Rule] Multiple: May be purchased separately for different categories/types",
-      "[Rule] [Ranked / Multiple] May purchase multiple times to unlock additional 40 CP companions or to increase an existing companion's build budget by +10 CP per rank.",
+      "[Rule] **[Ranked / Multiple Purchases]**: You may purchase this feature multiple times:\n- **Additional Comp...",
       "[Prerequisite] Charisma 1"
     ]
   },
@@ -6853,6 +6912,7 @@ export const DEFAULT_FEATURES = [
       "ap": 0
     },
     "is_ranked": true,
+    "max_rank": 4,
     "is_multiple": false,
     "prerequisites": "None",
     "modifiers": [],
@@ -7131,6 +7191,7 @@ export const DEFAULT_FEATURES = [
       "ap": 0
     },
     "is_ranked": true,
+    "max_rank": 4,
     "is_multiple": false,
     "prerequisites": "None",
     "modifiers": [],
@@ -7193,6 +7254,7 @@ export const DEFAULT_FEATURES = [
       "ap": 0
     },
     "is_ranked": true,
+    "max_rank": 4,
     "is_multiple": false,
     "prerequisites": "None",
     "modifiers": [
@@ -7453,6 +7515,7 @@ export const DEFAULT_FEATURES = [
       "ap": 0
     },
     "is_ranked": true,
+    "max_rank": 4,
     "is_multiple": false,
     "prerequisites": "Agility 2, Stealth 1",
     "modifiers": [],

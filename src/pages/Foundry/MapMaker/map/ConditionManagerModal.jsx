@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { CANONICAL_CONDITIONS, getConditionDefinition, applyConditionToToken, removeConditionFromToken, evaluateTokenConditionsOnTurnStart } from '../../../../services/conditionService';
 import AudioService from '../../../../services/audioService';
 
-const CATEGORY_FILTERS = ['All', 'Trauma', 'Thermal', 'Chemical', 'Impairment', 'Neural', 'Environmental', 'Metaphysics', 'Defense', 'Mortality'];
+const CATEGORY_FILTERS = ['Trauma', 'Thermal', 'Chemical', 'Impairment', 'Neural', 'Environmental', 'Metaphysics', 'Defense', 'Mortality', 'All'];
 
 const ConditionManagerModal = ({
   isOpen,
@@ -13,7 +13,7 @@ const ConditionManagerModal = ({
   currentRound = 1,
   onBroadcastMessage
 }) => {
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState('Trauma');
   const [customLabel, setCustomLabel] = useState('');
   const [customDuration, setCustomDuration] = useState(3);
   const [customDamage, setCustomDamage] = useState(0);

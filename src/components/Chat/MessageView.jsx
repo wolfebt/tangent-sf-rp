@@ -595,6 +595,7 @@ export const MessageView = ({ messages = [], loading = false, activeChannel }) =
           isOpen={isSettingsModalOpen}
           onClose={() => setIsSettingsModalOpen(false)}
           channel={activeChannel}
+          messages={messages}
         />
       )}
 

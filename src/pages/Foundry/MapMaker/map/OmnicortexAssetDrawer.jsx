@@ -9,13 +9,13 @@ import {
 import { DBMItemModal } from '../../../../components/DBM/DBMItemModal';
 
 const CATEGORY_TABS = [
-  { id: 'all', label: 'All Codex', icon: Database },
   { id: 'bestiary', label: 'Bestiary & Units', icon: Swords, filterKeys: ['bestiary', 'adversaries', 'creatures', 'npc', 'enemies'] },
   { id: 'weaponry', label: 'Weaponry', icon: Swords, filterKeys: ['weaponry', 'weapons'] },
   { id: 'armoring', label: 'Armoring', icon: Shield, filterKeys: ['armoring', 'armor', 'shields'] },
   { id: 'augmentations', label: 'Cybernetics', icon: Zap, filterKeys: ['augmentations', 'cybernetics'] },
   { id: 'hazards', label: 'Hazards & Traps', icon: Flame, filterKeys: ['hazards', 'traps', 'environment'] },
-  { id: 'vehicles', label: 'Vehicles', icon: Rocket, filterKeys: ['vehicles', 'starships', 'mechs'] }
+  { id: 'vehicles', label: 'Vehicles', icon: Rocket, filterKeys: ['vehicles', 'starships', 'mechs'] },
+  { id: 'all', label: 'All Codex', icon: Database }
 ];
 
 export const OmnicortexAssetDrawer = ({

@@ -452,7 +452,7 @@ export const ArchitectDesignPalette: React.FC<ArchitectDesignPaletteProps> = ({
 }) => {
   const [stampCategory, setStampCategory] = useState<'walls' | 'objects' | 'hazards' | 'props' | 'spawner'>('walls');
   const [isMinimized, setIsMinimized] = useState(false);
-  const [toolCategory, setToolCategory] = useState<'all' | 'construct' | 'dressing' | 'annotate'>('all');
+  const [toolCategory, setToolCategory] = useState<'all' | 'construct' | 'dressing' | 'annotate'>('construct');
 
   if (!isOpen) return null;
 
@@ -606,10 +606,10 @@ export const ArchitectDesignPalette: React.FC<ArchitectDesignPaletteProps> = ({
         {/* Category Filter Pills */}
         <div className="flex items-center gap-1 mb-2 bg-slate-900/80 p-0.5 rounded-lg border border-slate-800 text-[9.5px]">
           {[
-            { id: 'all', label: 'All (12)' },
             { id: 'construct', label: 'Construct' },
             { id: 'dressing', label: 'Dressing' },
-            { id: 'annotate', label: 'Annotate' }
+            { id: 'annotate', label: 'Annotate' },
+            { id: 'all', label: 'All (12)' }
           ].map(cat => (
             <button
               key={cat.id}

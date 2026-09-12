@@ -143,7 +143,7 @@ export const UnifiedRelationalSelectorModal = ({
 
   const [items, setItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState('all');
+  const [categoryFilter, setCategoryFilter] = useState('groups');
   const [loading, setLoading] = useState(false);
   const [currentSelected, setCurrentSelected] = useState([]);
   const [viewMode, setViewMode] = useState(() => {
@@ -491,17 +491,6 @@ export const UnifiedRelationalSelectorModal = ({
               <div className="px-4 py-2 bg-slate-950/80 border-b border-slate-800 flex items-center gap-1.5 overflow-x-auto shrink-0">
                 <button
                   type="button"
-                  onClick={() => setCategoryFilter('all')}
-                  className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 ${
-                    categoryFilter === 'all'
-                      ? 'bg-cyan-950 text-cyan-300 border border-cyan-500 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
-                      : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
-                  }`}
-                >
-                  All ({allAvailableItems.length})
-                </button>
-                <button
-                  type="button"
                   onClick={() => setCategoryFilter('groups')}
                   className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 ${
                     categoryFilter === 'groups'
@@ -565,6 +554,17 @@ export const UnifiedRelationalSelectorModal = ({
                   }`}
                 >
                   🔮 Metafocus (7)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCategoryFilter('all')}
+                  className={`px-2.5 py-1 rounded text-xs font-bold uppercase transition-colors shrink-0 ${
+                    categoryFilter === 'all'
+                      ? 'bg-cyan-950 text-cyan-300 border border-cyan-500 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
+                      : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                  }`}
+                >
+                  All ({allAvailableItems.length})
                 </button>
               </div>
             )}

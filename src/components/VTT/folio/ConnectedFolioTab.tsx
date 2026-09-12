@@ -36,7 +36,7 @@ export const ConnectedFolioTab: React.FC = () => {
 
   const [activeSection, setActiveSection] = useState<'combat' | 'skills' | 'stats' | 'meta'>('combat');
   const [skillSearch, setSkillSearch] = useState('');
-  const [skillCategory, setSkillCategory] = useState<'all' | 'physical' | 'mental' | 'social' | 'combat' | 'meta'>('all');
+  const [skillCategory, setSkillCategory] = useState<'all' | 'physical' | 'mental' | 'social' | 'combat' | 'meta'>('physical');
 
   const charName = characterData?.['char-name'] || characterData?.name || 'Operative';
   const charDocId = characterData?.['character-doc-id'] || characterData?.id || 'active-hero';
@@ -428,12 +428,12 @@ export const ConnectedFolioTab: React.FC = () => {
                 onChange={(e) => setSkillCategory(e.target.value as any)}
                 className="bg-slate-950 border border-slate-800 rounded-lg px-2 py-1 text-[11px] text-slate-300 font-mono outline-none cursor-pointer"
               >
-                <option value="all">All ({flattenedSkills.length})</option>
                 <option value="physical">Physical</option>
                 <option value="mental">Mental</option>
                 <option value="social">Social</option>
                 <option value="combat">Combat</option>
                 <option value="meta">Metafocus</option>
+                <option value="all">All ({flattenedSkills.length})</option>
               </select>
             </div>
 

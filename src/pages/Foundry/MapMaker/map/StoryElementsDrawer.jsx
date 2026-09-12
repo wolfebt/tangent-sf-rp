@@ -10,7 +10,6 @@ import {
 import { ELEMENT_TYPES, getTypePillStyle } from '../../ElementForge/elementSchemas';
 
 export const ADE_ELEMENT_SLOTS = [
-  { id: 'all', label: 'All Elements', icon: BookOpen, color: 'text-cyan-400' },
   { id: 'Scene', label: 'Scenes & Rooms', icon: MapPin, color: 'text-rose-400', category: 'Scene' },
   { id: 'Persona', label: 'Personas / NPCs', icon: User, color: 'text-purple-400', category: 'Persona' },
   { id: 'Encounter', label: 'Tactical Encounters', icon: Swords, color: 'text-red-400', category: 'Encounter' },
@@ -26,7 +25,8 @@ export const ADE_ELEMENT_SLOTS = [
   { id: 'World', label: 'World & Environment', icon: Globe, color: 'text-blue-400', category: 'World' },
   { id: 'Universe', label: 'Universe & Physics', icon: Globe, color: 'text-cyan-300', category: 'Universe' },
   { id: 'Philosophy', label: 'Philosophies', icon: Compass, color: 'text-indigo-300', category: 'Philosophy' },
-  { id: 'Custom', label: 'Custom Markers', icon: Sparkles, color: 'text-slate-300', category: 'Custom' }
+  { id: 'Custom', label: 'Custom Markers', icon: Sparkles, color: 'text-slate-300', category: 'Custom' },
+  { id: 'all', label: 'All Elements', icon: BookOpen, color: 'text-cyan-400' }
 ];
 
 export const StoryElementsDrawer = ({
@@ -36,7 +36,7 @@ export const StoryElementsDrawer = ({
   onInspectElement
 }) => {
   const { elementsCatalog, universeState, saveElementToCloud, updateSavedElement } = useStory();
-  const [activeSlot, setActiveSlot] = useState('all');
+  const [activeSlot, setActiveSlot] = useState('Scene');
   const [searchQuery, setSearchQuery] = useState('');
 
   // Collect all elements from catalog as well as scenarios tree

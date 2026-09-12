@@ -27,6 +27,7 @@ import { checkPrerequisite } from '../../utils/prerequisiteEvaluator';
 import {
   extractPillarFeatureSets,
   getPillarFeatureRecommendations,
+  getFeatureDiscountedCost,
   PillarMarkerDots
 } from '../../utils/pillarRecommendations.jsx';
 import { 
@@ -290,7 +291,7 @@ export const UniversalCatalogModal = ({
   const [cloudItems, setCloudItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeCategoryFilter, setActiveCategoryFilter] = useState('ALL');
+  const [activeCategoryFilter, setActiveCategoryFilter] = useState(filterCategory || null);
   const [sortOption, setSortOption] = useState('recommended'); // 'recommended' | 'az' | 'za' | 'cost_desc' | 'cost_asc' | 'tl_desc'
 
   // Multi-selection state
@@ -526,8 +527,20 @@ export const UniversalCatalogModal = ({
       return a.localeCompare(b);
     });
 
-    return ['ALL', ...list];
+    return [...list, 'ALL'];
   }, [allRawItems, canonicalColKey]);
+
+  // Synchronize activeCategoryFilter when categoryPills are loaded or modal opens
+  useEffect(() => {
+    if (!isOpen) return;
+    if (filterCategory) {
+      setActiveCategoryFilter(filterCategory);
+    } else if (!activeCategoryFilter || !categoryPills.includes(activeCategoryFilter)) {
+      if (categoryPills.length > 0) {
+        setActiveCategoryFilter(categoryPills[0]);
+      }
+    }
+  }, [isOpen, filterCategory, categoryPills]);
 
   // Compute item counts per category pill/gem
   const categoryCounts = useMemo(() => {
@@ -762,6 +775,17 @@ export const UniversalCatalogModal = ({
   // Handle single or multi item toggling
   const handleItemClick = useCallback((item) => {
     const val = item.name || item.title || item.id;
+    let resolvedItem = item;
+    if (canonicalColKey === 'features' && pillarFeatureSets) {
+      const discountInfo = getFeatureDiscountedCost(item, pillarFeatureSets, characterData);
+      resolvedItem = {
+        ...item,
+        cp: discountInfo.finalCost,
+        baseCp: discountInfo.baseCost,
+        isDiscounted: discountInfo.isDiscounted
+      };
+    }
+
     if (isMulti) {
       setCurrentSelected(prev => {
         const hasIt = prev.includes(val) || prev.includes(item.id);
@@ -773,11 +797,11 @@ export const UniversalCatalogModal = ({
       });
     } else {
       if (onSelectItem) {
-        onSelectItem(item);
+        onSelectItem(resolvedItem);
       }
       onClose();
     }
-  }, [isMulti, onSelectItem, onClose]);
+  }, [isMulti, onSelectItem, onClose, canonicalColKey, pillarFeatureSets, characterData]);
 
   // Handle confirming multi-selection
   const handleConfirmMulti = useCallback(() => {
@@ -970,7 +994,30 @@ export const UniversalCatalogModal = ({
         </div>
       );
     }
-    if (canonicalColKey === 'features' || canonicalColKey === 'disadvantages') {
+    if (canonicalColKey === 'features') {
+      const discountInfo = pillarFeatureSets ? getFeatureDiscountedCost(item, pillarFeatureSets, characterData) : null;
+      return (
+        <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono text-slate-300">
+          {discountInfo?.isDiscounted ? (
+            <span className="flex items-center gap-1">
+              <span className="line-through text-slate-500 text-[10px]">{discountInfo.baseCost} CP</span>
+              <span className="px-1.5 py-0.5 rounded bg-amber-950/90 border border-amber-500/70 text-amber-300 font-bold shadow-sm">
+                {discountInfo.finalCost} CP
+              </span>
+              <span className="px-1 py-0.2 rounded bg-amber-500/20 text-amber-300 text-[9px] font-bold border border-amber-500/50">
+                -1 CP Rec
+              </span>
+            </span>
+          ) : item.cp !== undefined ? (
+            <span className="px-1.5 py-0.5 rounded bg-amber-950/80 border border-amber-800/60 text-amber-300 font-bold">
+              {item.cp} CP
+            </span>
+          ) : null}
+          {item.type && <span className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-400 uppercase">{item.type}</span>}
+        </div>
+      );
+    }
+    if (canonicalColKey === 'disadvantages') {
       return (
         <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono text-slate-300">
           {item.cp !== undefined && <span className="px-1.5 py-0.5 rounded bg-amber-950/80 border border-amber-800/60 text-amber-300">{item.cp} CP</span>}
@@ -1190,6 +1237,10 @@ export const UniversalCatalogModal = ({
               {categoryPills.map(cat => {
                 const isActive = activeCategoryFilter === cat;
                 const count = categoryCounts[cat];
+                const catPillars = (canonicalColKey === 'features' && pillarFeatureSets && cat !== 'ALL')
+                  ? getPillarFeatureRecommendations(cat, pillarFeatureSets, characterData)
+                  : [];
+
                 return (
                   <button
                     key={cat}
@@ -1202,6 +1253,7 @@ export const UniversalCatalogModal = ({
                     }`}
                   >
                     <span>{cat}</span>
+                    <PillarMarkerDots recommendations={catPillars} />
                     {count !== undefined && (
                       <span className={`text-[9px] px-1 py-0.2 rounded font-mono ${isActive ? 'bg-cyan-400/20 text-cyan-200 font-bold' : 'bg-slate-900 text-slate-500'}`}>
                         {count}
@@ -1480,7 +1532,21 @@ export const UniversalCatalogModal = ({
                         <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-950 border border-slate-700 text-slate-400">
                           TL {item.tech_level}
                         </span>
-                      ) : item.cp !== undefined ? (
+                      ) : canonicalColKey === 'features' ? (() => {
+                        const discountInfo = pillarFeatureSets ? getFeatureDiscountedCost(item, pillarFeatureSets, characterData) : null;
+                        if (discountInfo?.isDiscounted) {
+                          return (
+                            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-950/90 border border-amber-500/70 text-amber-300 font-bold shadow-sm">
+                              {discountInfo.finalCost} CP
+                            </span>
+                          );
+                        }
+                        return item.cp !== undefined ? (
+                          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-950/80 border border-amber-800/60 text-amber-300">
+                            {item.cp} CP
+                          </span>
+                        ) : null;
+                      })() : item.cp !== undefined ? (
                         <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-950/80 border border-amber-800/60 text-amber-300">
                           {item.cp} CP
                         </span>

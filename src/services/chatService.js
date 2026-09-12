@@ -156,6 +156,23 @@ export const ChatService = {
     });
   },
 
+  // Fetch all channel messages snapshot (e.g. for printing or export)
+  async fetchChannelMessages(channelId, maxLimit = 300) {
+    if (!channelId) return [];
+    try {
+      const messagesRef = collection(db, 'channels', channelId, 'messages');
+      const q = query(messagesRef, orderBy('createdAt', 'asc'), limit(maxLimit));
+      const snap = await getDocs(q);
+      return snap.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+    } catch (err) {
+      console.warn(`[ChatService] Error fetching channel ${channelId} messages:`, err);
+      return [];
+    }
+  },
+
   // Send a message
   async sendMessage(channelId, messagePayload) {
     if (!channelId) throw new Error('Channel ID is required');
@@ -301,29 +318,34 @@ export const ChatService = {
   },
 
   // Create a Custom Channel or Group Chat
-  async createCustomChannel({ name, topic, isPublic = true, type = 'custom', members = [], currentUser }) {
+  async createCustomChannel({ name, topic, isPublic = true, type = 'custom', members = [], characterMembers = [], currentUser }) {
     if (!name) throw new Error('Channel name is required');
     if (!currentUser) throw new Error('Must be logged in to create channel');
 
     const cleanName = name.trim().toLowerCase().replace(/[^a-z0-9_-]/g, '-');
-    const channelId = `custom_${Date.now()}_${cleanName.substring(0, 20)}`;
+    const channelId = `${type === 'group' ? 'group_chat' : 'custom'}_${Date.now()}_${cleanName.substring(0, 20)}`;
 
     const memberList = Array.from(new Set([currentUser.uid, ...members]));
     const channelRef = doc(db, 'channels', channelId);
 
+    const displayName = type === 'group' 
+      ? (name.startsWith('🛡️') || name.startsWith('👥') ? name : `🛡️ ${name}`)
+      : `#${cleanName}`;
+
     const channelData = {
       id: channelId,
       name: cleanName,
-      displayName: `#${cleanName}`,
-      topic: topic || 'Custom operations channel',
+      displayName: displayName,
+      topic: topic || (type === 'group' ? 'Tactical Operative Group Frequency' : 'Custom operations channel'),
       type: type, // 'custom' | 'group'
       isPublic: isPublic,
       createdById: currentUser.uid,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
       members: memberList,
+      characterMembers: Array.isArray(characterMembers) ? characterMembers : [],
       lastMessage: {
-        text: `Frequency opened: #${cleanName}`,
+        text: `Frequency opened: ${displayName}`,
         senderHandle: currentUser.displayName || 'Architect',
         timestamp: new Date().toISOString()
       }
@@ -431,8 +453,9 @@ export const ChatService = {
     const trimmed = (newDisplayName || '').trim();
     if (!trimmed) throw new Error('Channel name cannot be empty');
 
-    const cleanSlug = trimmed.replace(/^#/, '').toLowerCase().replace(/[^a-z0-9_-]/g, '-');
-    const displayName = trimmed.startsWith('#') || trimmed.startsWith('@') ? trimmed : `#${trimmed}`;
+    const cleanSlug = trimmed.replace(/^[#🛡️👥\s]+/, '').toLowerCase().replace(/[^a-z0-9_-]/g, '-');
+    const isGroup = trimmed.startsWith('🛡️') || trimmed.startsWith('👥');
+    const displayName = isGroup ? trimmed : (trimmed.startsWith('#') || trimmed.startsWith('@') ? trimmed : `#${trimmed}`);
 
     const updates = {
       displayName: displayName,
@@ -488,6 +511,32 @@ export const ChatService = {
     }
     const channelRef = doc(db, 'channels', channelId);
     await deleteDoc(channelRef);
+  },
+
+  // Clear all messages in a channel
+  async clearChannelMessages(channelId, operatorHandle = 'Operator') {
+    if (!channelId) throw new Error('Channel ID is required');
+
+    const messagesRef = collection(db, 'channels', channelId, 'messages');
+    const snap = await getDocs(messagesRef);
+
+    const deletePromises = snap.docs.map(docSnap => deleteDoc(docSnap.ref));
+    await Promise.all(deletePromises);
+
+    // Update parent channel's lastMessage notice
+    try {
+      const channelDocRef = doc(db, 'channels', channelId);
+      await updateDoc(channelDocRef, {
+        updatedAt: serverTimestamp(),
+        lastMessage: {
+          text: `[Logs purged by ${operatorHandle}]`,
+          senderHandle: 'SYSTEM RELAY',
+          timestamp: new Date().toISOString()
+        }
+      });
+    } catch (err) {
+      console.warn('[ChatService] Failed to update lastMessage after clearing:', err);
+    }
   }
 };
 

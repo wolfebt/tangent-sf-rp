@@ -9,6 +9,7 @@ import {
   extractPillarFeatureSets,
   checkItemMatchesPillar,
   getPillarFeatureRecommendations,
+  getFeatureDiscountedCost,
   PILLAR_THEMES
 } from '../../src/utils/pillarRecommendations.js';
 
@@ -122,3 +123,103 @@ test('Pillar Recommendations: Feature group and category matching', () => {
   const acuteRecs = getPillarFeatureRecommendations(acuteFeat, mockSets, mockChar);
   assert.ok(acuteRecs.some(r => r.id === 'species'), 'Acute Hearing should match Species acute senses line');
 });
+
+test('Pillar Recommendations: Feature cost discount calculation (getFeatureDiscountedCost)', () => {
+  const mockSets = {
+    archetype: {
+      features: new Set(['combat reflexes']),
+      categories: new Set(['combat']),
+      source: 'The Vanguard'
+    },
+    species: {
+      features: new Set(['darksight']),
+      categories: new Set([]),
+      source: 'Nocturnal'
+    },
+    occupation: {
+      features: new Set([]),
+      categories: new Set(['social']),
+      source: 'Envoy'
+    },
+    origin: {
+      features: new Set([]),
+      categories: new Set([]),
+      source: 'Homeworld'
+    },
+    faction: {
+      features: new Set([]),
+      categories: new Set([]),
+      source: 'Guild'
+    }
+  };
+
+  const mockChar = {
+    'char-archetype': 'The Vanguard',
+    'char-species': 'Nocturnal',
+    'char-occu': 'Envoy'
+  };
+
+  // 1. Non-recommended feature: standard 3 CP, isDiscounted = false
+  const standardFeat = { name: 'Engineering Whiz', category: 'General', cp: 3 };
+  const standardCost = getFeatureDiscountedCost(standardFeat, mockSets, mockChar);
+  assert.equal(standardCost.cost, 3);
+  assert.equal(standardCost.baseCost, 3);
+  assert.equal(standardCost.isDiscounted, false);
+  assert.equal(standardCost.recommendations.length, 0);
+
+  // 2. Individually recommended feature: 3 CP - 1 CP = 2 CP, isDiscounted = true
+  const directFeat = { name: 'Darksight', category: 'Physical', cp: 3 };
+  const directCost = getFeatureDiscountedCost(directFeat, mockSets, mockChar);
+  assert.equal(directCost.cost, 2);
+  assert.equal(directCost.baseCost, 3);
+  assert.equal(directCost.isDiscounted, true);
+  assert.ok(directCost.recommendations.some(r => r.id === 'species'));
+
+  // 3. Category recommended feature: 'Combat' category matches Archetype -> 2 CP
+  const catFeat = { name: 'Power Strike', category: 'Combat' }; // default base 3 CP
+  const catCost = getFeatureDiscountedCost(catFeat, mockSets, mockChar);
+  assert.equal(catCost.cost, 2);
+  assert.equal(catCost.baseCost, 3);
+  assert.equal(catCost.isDiscounted, true);
+  assert.ok(catCost.recommendations.some(r => r.id === 'archetype'));
+
+  // 4. Category recommended feature: 'Social' category matches Occupation -> 2 CP
+  const socialFeat = { name: 'Silver Tongue', category: 'Social' };
+  const socialCost = getFeatureDiscountedCost(socialFeat, mockSets, mockChar);
+  assert.equal(socialCost.cost, 2);
+  assert.equal(socialCost.baseCost, 3);
+  assert.equal(socialCost.isDiscounted, true);
+  assert.ok(socialCost.recommendations.some(r => r.id === 'occupation'));
+
+  // 5. Minimum 1 CP boundary check: feature with baseCost = 1 CP should not be reduced below 1 CP
+  const cheapFeat = { name: 'Combat Reflexes', category: 'Combat', cp: 1 };
+  const cheapCost = getFeatureDiscountedCost(cheapFeat, mockSets, mockChar);
+  assert.equal(cheapCost.cost, 1);
+  assert.equal(cheapCost.baseCost, 1);
+  assert.equal(cheapCost.isDiscounted, false); // No discount possible since already at 1 CP minimum
+
+  // 6. Cumulative multi-source discount: Feature recommended by both individual knack AND recommended category
+  // e.g. Combat Reflexes (Base 3 CP) recommended individually by Archetype AND in recommended Combat category -> 3 CP - 2 CP = 1 CP
+  const stackedFeat = { name: 'Combat Reflexes', category: 'Combat', cp: 3 };
+  const stackedCost = getFeatureDiscountedCost(stackedFeat, mockSets, mockChar);
+  assert.equal(stackedCost.cost, 1, 'Stacked discounts reduce 3 CP feature to 1 CP');
+  assert.equal(stackedCost.baseCost, 3);
+  assert.equal(stackedCost.discountCount, 2, 'Two discounts applied (individual + category)');
+  assert.equal(stackedCost.isDiscounted, true);
+
+  // 7. Multi-pillar stacking: Recommended by Archetype (Combat) and Occupation (individually or by category)
+  const multiPillarSets = {
+    ...mockSets,
+    species: {
+      features: new Set(['power strike']),
+      categories: new Set([]),
+      source: 'Warrior Species'
+    }
+  };
+  // Power Strike is in Combat (Archetype) AND recommended individually by Species -> 3 CP - 2 CP = 1 CP
+  const multiPillarFeat = { name: 'Power Strike', category: 'Combat', cp: 3 };
+  const multiPillarCost = getFeatureDiscountedCost(multiPillarFeat, multiPillarSets, mockChar);
+  assert.equal(multiPillarCost.cost, 1, 'Multi-pillar discounts stack down to 1 CP');
+  assert.equal(multiPillarCost.discountCount, 2);
+});
+

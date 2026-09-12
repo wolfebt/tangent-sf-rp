@@ -738,6 +738,7 @@ const FolioContainer = () => {
               {(activeTab.startsWith('features-') || activeTab === 'abilities') && (
                 <FeaturesTab
                   activeSection={
+                    activeTab === 'features-traits' ? 'traits' :
                     activeTab === 'features-hindrances' ? 'hindrances' :
                     activeTab === 'features-augmentations' ? 'augmentations' :
                     activeTab === 'features-metaphysics' || activeTab === 'features-awakened' ? 'metaphysics' :

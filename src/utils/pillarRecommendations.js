@@ -3,6 +3,7 @@ import { DEFAULT_SPECIES } from '../data/speciesData.js';
 import { DEFAULT_OCCUPATIONS } from '../data/occupationsData.js';
 import { DEFAULT_ORIGINS } from '../data/originsData.js';
 import { DEFAULT_FACTIONS } from '../data/factionsData.js';
+import { resolveCatalogItem } from '../engines/tangentIdentityEngine.js';
 
 /**
  * Canonical visual theme tokens for the 5 Identity Pillars
@@ -70,29 +71,54 @@ export const normalizeFeatureLookup = (raw) => {
 };
 
 /**
+ * Known synonyms and knacks mapping archetype/background concepts to canonical features
+ */
+export const FEATURE_SYNONYMS = {
+  'connections': ['connected', 'underworld connections', 'black market connections'],
+  'connected': ['connections', 'underworld connections', 'black market connections'],
+  'black market connections': ['underworld connections', 'connected', 'connections'],
+  'underworld connections': ['black market connections', 'connected', 'connections'],
+  'quick reflexes': ['lightning reflexes', 'combat reflexes'],
+  'lightning reflexes': ['quick reflexes'],
+  'field triage': ['medic'],
+  'practiced pilot': ['crack pilot', 'gifted pilot', 'ace pilot'],
+  'weapon master': ['weapon specialization', 'weapon focus'],
+  'weapons expert': ['weapon specialization', 'weapon focus'],
+  'market savvy': ['connected', 'silver tongue'],
+  'cyber warfare': ['coding master', 'digital expert'],
+  'digital ghost': ['digital expert', 'coding master'],
+  'demolitionist': ['burst attack', 'heavy weapon mastery'],
+  'acute senses': ['acute sense'],
+  'acute sense': ['acute senses']
+};
+
+/**
  * Detects whether a string or category refers to a recognized feature group
  */
 export const extractCategoryKeywords = (rawStr) => {
-  const s = String(rawStr || '').toLowerCase();
+  const s = String(rawStr || '').toLowerCase().trim();
   const matched = new Set();
 
   const CATEGORY_MAP = [
     { key: 'combat', patterns: ['combat feature', 'combat features', 'combat'] },
-    { key: 'ability', patterns: ['ability feature', 'ability features', 'physical feature', 'physical features', 'ability'] },
+    { key: 'ability', patterns: ['ability feature', 'ability features', 'physical feature', 'physical features', 'ability', 'physical'] },
     { key: 'social', patterns: ['social feature', 'social features', 'social'] },
     { key: 'mental', patterns: ['mental feature', 'mental features', 'mental'] },
     { key: 'karma', patterns: ['karma feature', 'karma features', 'karma'] },
-    { key: 'skill', patterns: ['skill feature', 'skill features', 'skill knacks'] },
+    { key: 'skill', patterns: ['skill feature', 'skill features', 'skill knacks', 'skill'] },
     { key: 'general', patterns: ['general feature', 'general features', 'any feature', 'any features', 'general'] },
-    { key: 'meta', patterns: ['meta feature', 'meta features', 'discipline feature', 'discipline features', 'metaphysics'] },
+    { key: 'discipline', patterns: ['discipline feature', 'discipline features', 'discipline', 'meta feature', 'meta features', 'metaphysics', 'meta'] },
+    { key: 'meta', patterns: ['meta feature', 'meta features', 'discipline feature', 'discipline features', 'metaphysics', 'discipline', 'meta'] },
     { key: 'exotic', patterns: ['exotic feature', 'exotic features', 'exotic'] },
-    { key: 'special', patterns: ['special ability', 'special abilities', 'special feature', 'special features'] },
-    { key: 'acute senses', patterns: ['acute sense', 'acute senses', 'senses line'] }
+    { key: 'special', patterns: ['special ability', 'special abilities', 'special feature', 'special features', 'special', 'racial feature', 'racial features', 'racial or special'] },
+    { key: 'acute senses', patterns: ['acute sense', 'acute senses', 'senses line', 'sensory features', 'sensory feature', 'sensory'] },
+    { key: 'augmentation', patterns: ['augmentation feature', 'augmentation features', 'augmentation', 'cybernetics', 'aug'] },
+    { key: 'hindrance', patterns: ['hindrance', 'disadvantage', 'flaw'] }
   ];
 
   for (const entry of CATEGORY_MAP) {
     for (const pat of entry.patterns) {
-      if (s.includes(pat)) {
+      if (s === pat || s.includes(pat)) {
         matched.add(entry.key);
         break;
       }
@@ -112,6 +138,15 @@ const addEntryToPillarSet = (featSet, catSet, rawItem) => {
   if (clean) {
     featSet.add(clean);
     featSet.add(clean.replace(/\s+/g, ''));
+
+    // Also register known synonyms for this feature
+    const synonyms = FEATURE_SYNONYMS[clean];
+    if (Array.isArray(synonyms)) {
+      synonyms.forEach(syn => {
+        featSet.add(syn);
+        featSet.add(syn.replace(/\s+/g, ''));
+      });
+    }
   }
 
   // Also extract category group patterns if applicable
@@ -122,11 +157,19 @@ const addEntryToPillarSet = (featSet, catSet, rawItem) => {
   if (typeof rawItem === 'object') {
     if (rawItem.category) {
       const c = String(rawItem.category).toLowerCase().replace(/feature|features/g, '').trim();
-      if (c) catSet.add(c);
+      if (c) {
+        catSet.add(c);
+        const moreCats = extractCategoryKeywords(c);
+        moreCats.forEach(mc => catSet.add(mc));
+      }
     }
     if (rawItem.type) {
       const t = String(rawItem.type).toLowerCase().replace(/feature|features/g, '').trim();
-      if (t) catSet.add(t);
+      if (t) {
+        catSet.add(t);
+        const moreCats = extractCategoryKeywords(t);
+        moreCats.forEach(mc => catSet.add(mc));
+      }
     }
   }
 };
@@ -150,7 +193,7 @@ export const extractPillarFeatureSets = (characterData) => {
   const archCategories = new Set();
   const archName = characterData['char-archetype'];
   if (archName) {
-    const arch = DEFAULT_ARCHETYPES.find(a => (a.name || a.id || '').toLowerCase() === String(archName).toLowerCase());
+    const arch = resolveCatalogItem('archetypes', archName) || DEFAULT_ARCHETYPES.find(a => (a.name || a.id || '').toLowerCase() === String(archName).toLowerCase());
     if (arch) {
       if (Array.isArray(arch.signature_features)) {
         arch.signature_features.forEach(f => addEntryToPillarSet(archFeatures, archCategories, f));
@@ -169,7 +212,7 @@ export const extractPillarFeatureSets = (characterData) => {
   const specCategories = new Set();
   const specName = characterData['char-species'];
   if (specName) {
-    const spec = DEFAULT_SPECIES.find(s => (s.name || s.title || s.id || '').toLowerCase() === String(specName).toLowerCase());
+    const spec = resolveCatalogItem('species', specName) || DEFAULT_SPECIES.find(s => (s.name || s.title || s.id || '').toLowerCase() === String(specName).toLowerCase());
     if (spec) {
       if (Array.isArray(spec.inherent_features)) {
         spec.inherent_features.forEach(f => addEntryToPillarSet(specFeatures, specCategories, f));
@@ -202,8 +245,11 @@ export const extractPillarFeatureSets = (characterData) => {
   const occuCategories = new Set();
   const occuName = characterData['char-occu'];
   if (occuName) {
-    const occu = DEFAULT_OCCUPATIONS.find(o => (o.name || o.id || '').toLowerCase() === String(occuName).toLowerCase());
+    const occu = resolveCatalogItem('occupations', occuName) || DEFAULT_OCCUPATIONS.find(o => (o.name || o.id || '').toLowerCase() === String(occuName).toLowerCase());
     if (occu) {
+      if (Array.isArray(occu.recommended_features)) {
+        occu.recommended_features.forEach(f => addEntryToPillarSet(occuFeatures, occuCategories, f));
+      }
       if (Array.isArray(occu.features)) {
         occu.features.forEach(f => addEntryToPillarSet(occuFeatures, occuCategories, f));
       }
@@ -226,8 +272,11 @@ export const extractPillarFeatureSets = (characterData) => {
   const origCategories = new Set();
   const origName = characterData['char-origin'];
   if (origName) {
-    const orig = DEFAULT_ORIGINS.find(o => (o.name || o.id || '').toLowerCase() === String(origName).toLowerCase());
+    const orig = resolveCatalogItem('origins', origName) || DEFAULT_ORIGINS.find(o => (o.name || o.id || '').toLowerCase() === String(origName).toLowerCase());
     if (orig) {
+      if (Array.isArray(orig.recommended_features)) {
+        orig.recommended_features.forEach(f => addEntryToPillarSet(origFeatures, origCategories, f));
+      }
       if (Array.isArray(orig.features)) {
         orig.features.forEach(f => addEntryToPillarSet(origFeatures, origCategories, f));
       }
@@ -250,8 +299,14 @@ export const extractPillarFeatureSets = (characterData) => {
   const facCategories = new Set();
   const facName = characterData['char-faction'];
   if (facName) {
-    const fac = DEFAULT_FACTIONS.find(f => (f.name || f.id || '').toLowerCase().includes(String(facName).toLowerCase()) || String(facName).toLowerCase().includes((f.name || f.id || '').toLowerCase()));
+    const fac = resolveCatalogItem('factions', facName) || DEFAULT_FACTIONS.find(f => (f.name || f.id || '').toLowerCase().includes(String(facName).toLowerCase()) || String(facName).toLowerCase().includes((f.name || f.id || '').toLowerCase()));
     if (fac) {
+      if (Array.isArray(fac.recommended_features)) {
+        fac.recommended_features.forEach(f => addEntryToPillarSet(facFeatures, facCategories, f));
+      }
+      if (Array.isArray(fac.bonus_features)) {
+        fac.bonus_features.forEach(f => addEntryToPillarSet(facFeatures, facCategories, f));
+      }
       if (Array.isArray(fac.features)) {
         fac.features.forEach(f => addEntryToPillarSet(facFeatures, facCategories, f));
       }
@@ -284,28 +339,61 @@ export const extractPillarFeatureSets = (characterData) => {
 /**
  * Checks if a specific feature, trait, or category group is recommended by a pillar
  */
-export const checkItemMatchesPillar = (pillarData, itemOrGroup) => {
+/**
+ * Checks if a specific feature, trait, or category group is recommended by a pillar.
+ * Returns boolean for basic match, or detailed object when returnDetails is true.
+ */
+export const checkItemMatchesPillar = (pillarData, itemOrGroup, returnDetails = false) => {
   if (!pillarData || (!pillarData.features.size && !pillarData.categories.size) || !itemOrGroup) {
-    return false;
+    return returnDetails ? { matches: false, count: 0, reasons: [] } : false;
   }
 
   const { features, categories } = pillarData;
+  const reasons = [];
 
   // 1. If checking a Category Group string (e.g. group.type === 'Combat' or 'Combat Features')
   if (typeof itemOrGroup === 'string') {
     const sClean = normalizeFeatureLookup(itemOrGroup);
     const sNoSpace = sClean.replace(/\s+/g, '');
-    if (features.has(sClean) || features.has(sNoSpace)) return true;
+    let matched = false;
+
+    if (features.has(sClean) || features.has(sNoSpace)) {
+      matched = true;
+      reasons.push('exact_feature');
+    }
+
+    const synonyms = FEATURE_SYNONYMS[sClean] || [];
+    for (const syn of synonyms) {
+      if (features.has(syn) || features.has(syn.replace(/\s+/g, ''))) {
+        matched = true;
+        reasons.push('synonym_feature');
+        break;
+      }
+    }
 
     const detected = extractCategoryKeywords(itemOrGroup);
     for (const d of detected) {
-      if (categories.has(d)) return true;
+      if (categories.has(d)) {
+        matched = true;
+        reasons.push(`category_${d}`);
+        break;
+      }
     }
 
-    for (const f of features) {
-      if (f.length >= 4 && (sClean.includes(f) || f.includes(sClean))) return true;
+    if (!matched) {
+      for (const f of features) {
+        if (f.length >= 4 && (sClean.includes(f) || f.includes(sClean))) {
+          matched = true;
+          reasons.push('fuzzy_feature');
+          break;
+        }
+      }
     }
-    return false;
+
+    if (returnDetails) {
+      return { matches: matched, count: reasons.length > 0 ? 1 : 0, reasons };
+    }
+    return matched;
   }
 
   // 2. Object item
@@ -314,41 +402,91 @@ export const checkItemMatchesPillar = (pillarData, itemOrGroup) => {
   const cleanNoSpace = cleanName.replace(/\s+/g, '');
   const rawId = normalizeFeatureLookup(itemOrGroup.id || '');
 
+  let hasIndividualMatch = false;
+
   // Exact feature match
   if (features.has(cleanName) || features.has(cleanNoSpace) || (rawId && features.has(rawId))) {
-    return true;
+    hasIndividualMatch = true;
+    reasons.push('individual_exact');
+  }
+
+  // Check synonyms
+  if (!hasIndividualMatch) {
+    const synonyms = FEATURE_SYNONYMS[cleanName] || [];
+    for (const syn of synonyms) {
+      if (features.has(syn) || features.has(syn.replace(/\s+/g, ''))) {
+        hasIndividualMatch = true;
+        reasons.push('individual_synonym');
+        break;
+      }
+    }
   }
 
   // Substring fuzzy match
-  for (const f of features) {
-    if (f.length >= 4) {
-      if (cleanName === f || (cleanName.startsWith(f) && f.length >= 4) || (f.startsWith(cleanName) && cleanName.length >= 4)) {
-        return true;
+  if (!hasIndividualMatch) {
+    for (const f of features) {
+      if (f.length >= 4) {
+        if (cleanName === f || (cleanName.startsWith(f) && f.length >= 4) || (f.startsWith(cleanName) && cleanName.length >= 4)) {
+          hasIndividualMatch = true;
+          reasons.push('individual_fuzzy');
+          break;
+        }
       }
     }
   }
 
   // Category / Group match
+  let hasCategoryMatch = false;
   const itemCategory = (itemOrGroup.category || itemOrGroup.type || itemOrGroup.groupLabel || '').toLowerCase();
   const isCategoryGroup = itemOrGroup.type === 'Category Group' || (itemOrGroup.id && String(itemOrGroup.id).startsWith('cat_'));
 
   if (isCategoryGroup) {
     const cats = extractCategoryKeywords(rawName);
     for (const c of cats) {
-      if (categories.has(c)) return true;
+      if (categories.has(c)) {
+        hasCategoryMatch = true;
+        reasons.push(`category_${c}`);
+        break;
+      }
     }
   } else if (itemCategory) {
-    const cats = extractCategoryKeywords(itemCategory);
-    for (const c of cats) {
-      if (categories.has(c)) return true;
+    const cleanCat = itemCategory.replace(/features|feature/gi, '').trim().toLowerCase();
+    if (categories.has(cleanCat)) {
+      hasCategoryMatch = true;
+      reasons.push(`category_${cleanCat}`);
+    } else {
+      const cats = extractCategoryKeywords(itemCategory);
+      for (const c of cats) {
+        if (categories.has(c)) {
+          hasCategoryMatch = true;
+          reasons.push(`category_${c}`);
+          break;
+        }
+      }
     }
     // Acute Senses check
-    if (categories.has('acute senses') && cleanName.includes('acute')) {
-      return true;
+    if (!hasCategoryMatch && categories.has('acute senses') && cleanName.includes('acute')) {
+      hasCategoryMatch = true;
+      reasons.push('category_acute_senses');
     }
   }
 
-  return false;
+  // A pillar can provide up to 2 distinct discount sources: individual recommendation + category recommendation
+  let count = 0;
+  if (hasIndividualMatch) count += 1;
+  if (hasCategoryMatch) count += 1;
+
+  if (returnDetails) {
+    return {
+      matches: count > 0,
+      count,
+      hasIndividualMatch,
+      hasCategoryMatch,
+      reasons
+    };
+  }
+
+  return count > 0;
 };
 
 /**
@@ -363,19 +501,66 @@ export const getPillarFeatureRecommendations = (itemOrGroup, pillarSets, charact
   for (const pKey of pillarKeys) {
     const pData = pillarSets[pKey];
     const theme = PILLAR_THEMES[pKey];
-    if (checkItemMatchesPillar(pData, itemOrGroup)) {
+    const matchResult = checkItemMatchesPillar(pData, itemOrGroup, true);
+    if (matchResult && matchResult.matches) {
       const sourceName = characterData?.[theme.charKey] || pData?.source || theme.label;
+      const details = [];
+      if (matchResult.hasIndividualMatch) details.push('Individually Recommended');
+      if (matchResult.hasCategoryMatch) details.push('Recommended Category');
+      const detailLabel = details.length > 0 ? `${sourceName} (${details.join(', ')})` : sourceName;
+
       list.push({
         id: theme.id,
         name: theme.label,
-        detail: sourceName,
+        detail: detailLabel,
         dotClass: theme.dotClass,
         badgeClass: theme.badgeClass,
         textClass: theme.textClass,
-        tooltip: `Recommended by ${theme.label}: ${sourceName}`
+        discountCount: matchResult.count || 1,
+        hasIndividualMatch: matchResult.hasIndividualMatch,
+        hasCategoryMatch: matchResult.hasCategoryMatch,
+        tooltip: `Recommended by ${theme.label}: ${detailLabel}`
       });
     }
   }
 
   return list;
 };
+
+/**
+ * Calculates effective CP cost for a feature:
+ * - Base cost is 3 CP (or feature.cp / costs.bp if specified)
+ * - Each qualifying recommendation source (individual feature recommendation or recommended category across pillars)
+ *   applies a -1 CP discount, stacking cumulatively down to the strict 1 CP minimum cost.
+ * - Returns { baseCost, finalCost, totalDiscount, isDiscounted, recommendations }
+ */
+export const getFeatureDiscountedCost = (feature, pillarSets, characterData) => {
+  if (!feature) {
+    return { baseCost: 3, finalCost: 3, totalDiscount: 0, isDiscounted: false, recommendations: [] };
+  }
+
+  const rawCost = typeof feature === 'object'
+    ? (feature.cp !== undefined ? feature.cp : (feature.costs?.bp !== undefined ? feature.costs.bp : 3))
+    : 3;
+  const baseCost = isNaN(Number(rawCost)) ? 3 : Number(rawCost);
+
+  const recs = getPillarFeatureRecommendations(feature, pillarSets, characterData);
+  
+  // Total cumulative discounts = sum of discountCount from each recommending pillar
+  const totalDiscounts = recs.reduce((sum, r) => sum + (r.discountCount || 1), 0);
+
+  const finalCost = totalDiscounts > 0 ? Math.max(1, baseCost - totalDiscounts) : baseCost;
+  const totalDiscount = baseCost - finalCost;
+  const isDiscounted = totalDiscount > 0;
+
+  return {
+    baseCost,
+    finalCost,
+    cost: finalCost,
+    totalDiscount,
+    discountCount: totalDiscounts,
+    isDiscounted,
+    recommendations: recs
+  };
+};
+

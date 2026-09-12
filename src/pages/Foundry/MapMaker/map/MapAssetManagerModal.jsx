@@ -375,9 +375,9 @@ export default function MapAssetManagerModal({
                 onChange={e => setFilterSource(e.target.value)}
                 className="bg-[#0d1117] border border-[#0D5C63]/60 text-xs text-white px-2 py-1 rounded outline-none focus:border-[#22d3ee]"
               >
-                <option value="All">All Sources</option>
                 <option value="Preset">Presets Only</option>
                 <option value="Custom">Custom Only</option>
+                <option value="All">All Sources</option>
               </select>
             </div>
 
@@ -391,10 +391,10 @@ export default function MapAssetManagerModal({
                 }}
                 className="bg-[#0d1117] border border-[#0D5C63]/60 text-xs text-white px-2 py-1 rounded outline-none focus:border-[#22d3ee]"
               >
-                <option value="All">All Scales</option>
                 {MAP_TYPES.map(st => (
                   <option key={st} value={st}>{st}</option>
                 ))}
+                <option value="All">All Scales</option>
               </select>
             </div>
 

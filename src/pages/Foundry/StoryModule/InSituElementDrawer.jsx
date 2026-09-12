@@ -18,7 +18,7 @@ export const InSituElementDrawer = ({
   currentSceneLinkedIds = []
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedTypeFilter, setSelectedTypeFilter] = useState('All');
+  const [selectedTypeFilter, setSelectedTypeFilter] = useState(ELEMENT_TYPES[0] || 'All');
   const [activeTab, setActiveTab] = useState('linked'); // 'linked' | 'catalog'
   const [copiedId, setCopiedId] = useState(null);
 
@@ -139,16 +139,6 @@ export const InSituElementDrawer = ({
         </div>
 
         <div className="flex items-center space-x-1 overflow-x-auto pb-1 no-scrollbar text-[11px]">
-          <button
-            onClick={() => setSelectedTypeFilter('All')}
-            className={`px-2 py-0.5 rounded-full border transition-all whitespace-nowrap ${
-              selectedTypeFilter === 'All'
-                ? 'bg-cyan-500/20 border-cyan-500/50 text-cyan-300 font-semibold'
-                : 'bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-700'
-            }`}
-          >
-            All
-          </button>
           {ELEMENT_TYPES.map(t => (
             <button
               key={t}
@@ -162,6 +152,16 @@ export const InSituElementDrawer = ({
               {t}
             </button>
           ))}
+          <button
+            onClick={() => setSelectedTypeFilter('All')}
+            className={`px-2 py-0.5 rounded-full border transition-all whitespace-nowrap ${
+              selectedTypeFilter === 'All'
+                ? 'bg-cyan-500/20 border-cyan-500/50 text-cyan-300 font-semibold'
+                : 'bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-700'
+            }`}
+          >
+            All
+          </button>
         </div>
       </div>
 

@@ -4,7 +4,8 @@ name: Connected
 category: features
 feature_category: General
 cost_bp: 3
-is_ranked: false
+is_ranked: true
+max_rank: 4
 is_multiple: false
 prerequisites: Charisma 1
 description: >-
@@ -49,5 +50,5 @@ You have a network of contacts.
   * *Rank 4:* Boss/Director level (Planetary Governors, Crime Lords).
 
 ## Special Rules
-84
+This feature is Ranked (up to Rank 4). Each additional rank purchased expands the reach, authority, and influence of your network of contacts.
 

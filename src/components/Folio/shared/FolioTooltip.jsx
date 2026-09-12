@@ -361,6 +361,11 @@ export const FolioTooltip = ({
     );
   }
 
+  const hasCustomDisplay = /\b(block|inline-block|flex|inline-flex|grid|inline-grid)\b/.test(className);
+  const wrapperDisplayClass = hasCustomDisplay
+    ? ''
+    : (className.includes('w-full') ? 'block w-full' : 'inline-flex items-center gap-1');
+
   return (
     <>
       <span
@@ -368,7 +373,7 @@ export const FolioTooltip = ({
         onMouseEnter={showTooltip}
         onMouseLeave={hideTooltip}
         onClick={toggleTooltip}
-        className={`inline-flex items-center gap-1 cursor-help group/tooltip transition-colors ${className}`}
+        className={`${wrapperDisplayClass} cursor-help group/tooltip transition-colors ${className}`.trim()}
       >
         {children}
         {showInfoIcon && (

@@ -615,10 +615,10 @@ export const OmnicortexCatalogView = ({
                     onChange={e => setSelectedStage(e.target.value)}
                     className="bg-slate-950 border border-slate-700 text-slate-200 px-2 py-1 rounded text-xs outline-none focus:border-emerald-500"
                   >
-                    <option value="all">All Stages</option>
                     {availableStages.map(s => (
                       <option key={s} value={s}>{s}</option>
                     ))}
+                    <option value="all">All Stages</option>
                   </select>
                 </div>
               )}
@@ -631,13 +631,13 @@ export const OmnicortexCatalogView = ({
                   onChange={e => setSelectedTL(e.target.value)}
                   className="bg-slate-950 border border-slate-700 text-slate-200 px-2 py-1 rounded text-xs outline-none focus:border-emerald-500"
                 >
-                  <option value="all">All TL (0-5)</option>
                   <option value="0">TL 0 (Primitive)</option>
                   <option value="1">TL 1 (Industrial)</option>
                   <option value="2">TL 2 (Digital)</option>
                   <option value="3">TL 3 (Interstellar)</option>
                   <option value="4">TL 4 (Advanced Fusion)</option>
                   <option value="5">TL 5 (Precursor / Exotic)</option>
+                  <option value="all">All TL (0-5)</option>
                 </select>
               </div>
 
@@ -649,13 +649,13 @@ export const OmnicortexCatalogView = ({
                   onChange={e => setSelectedML(e.target.value)}
                   className="bg-slate-950 border border-slate-700 text-slate-200 px-2 py-1 rounded text-xs outline-none focus:border-emerald-500"
                 >
-                  <option value="all">All ML (0-5)</option>
                   <option value="0">ML 0 (Mundane)</option>
                   <option value="1">ML 1 (Latent)</option>
                   <option value="2">ML 2 (Awakened)</option>
                   <option value="3">ML 3 (Adept)</option>
                   <option value="4">ML 4 (Master)</option>
                   <option value="5">ML 5 (Ascendant)</option>
+                  <option value="all">All ML (0-5)</option>
                 </select>
               </div>
 
@@ -668,10 +668,10 @@ export const OmnicortexCatalogView = ({
                     onChange={e => setSelectedLineage(e.target.value)}
                     className="bg-slate-950 border border-slate-700 text-slate-200 px-2 py-1 rounded text-xs outline-none focus:border-emerald-500"
                   >
-                    <option value="all">All Lineages</option>
                     {availableLineages.map(lin => (
                       <option key={lin} value={lin}>{lin}</option>
                     ))}
+                    <option value="all">All Lineages</option>
                   </select>
                 </div>
               )}
@@ -685,10 +685,10 @@ export const OmnicortexCatalogView = ({
                     onChange={e => setSelectedType(e.target.value)}
                     className="bg-slate-950 border border-slate-700 text-slate-200 px-2 py-1 rounded text-xs outline-none focus:border-emerald-500"
                   >
-                    <option value="all">All Types</option>
                     {availableTypes.map(t => (
                       <option key={t} value={t}>{t}</option>
                     ))}
+                    <option value="all">All Types</option>
                   </select>
                 </div>
               )}

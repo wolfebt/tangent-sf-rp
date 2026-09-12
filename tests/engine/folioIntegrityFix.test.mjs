@@ -53,6 +53,27 @@ test('Economy Engine: Skill CP handles clean keys only and canonical keys only c
   assert.equal(breakdownClean.skillsCP, 4);
 });
 
+test('Economy Engine: Feature CP discounts recommended features by 1 CP (min 1 CP)', () => {
+  const charWithFeatures = {
+    'starting-cp': 150,
+    'char-species': 'Celestine', // bonus features include "Acute Senses", "Agile Maneuvers", "Combat Expertise"
+    'char-occu': 'Adept',        // occupation recommendations include combat/ability
+    features: [
+      { name: 'Acute Senses', category: 'General' }, // recommended by species (individual & category) & occupation -> stacked down to 1 CP
+      { name: 'Combat Reflexes', category: 'Combat' }, // category recommended by species -> 2 CP
+      { name: 'Unrelated Feat', category: 'Social' }  // standard -> 3 CP
+    ]
+  };
+
+  const breakdown = computeEconomyBreakdown(charWithFeatures);
+  // Acute Senses: 1 CP (multi-source stacking discount down to 1 CP floor)
+  // Combat Reflexes: 2 CP (category recommendation discount)
+  // Unrelated Feat: 3 CP (standard feature)
+  // Total features CP: 6 CP (instead of 3 * 3 = 9 CP)
+  assert.equal(breakdown.featuresCost, 6, `Expected 6 CP for features with multi-source recommendations, got ${breakdown.featuresCost}`);
+});
+
+
 test('Hero Token Drawer: Attribute extraction does NOT coerce 0 to 10', () => {
   // Tangent SFF RP human attributes baseline at 0 (range -2 to +4)
   const standardHumanOperative = {

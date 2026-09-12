@@ -78,6 +78,7 @@ function syncFeatures() {
       cp,
       costs: data.costs || { bp: cp, credits: 0, nodes: 0, sockets: 0, strain: 0, focus: 0, ap: 0 },
       is_ranked: Boolean(data.is_ranked),
+      max_rank: data.max_rank || (data.is_ranked ? 4 : undefined),
       is_multiple: Boolean(data.is_multiple),
       prerequisites: data.prerequisites || data.prerequisite || 'None',
       modifiers: Array.isArray(data.modifiers) ? data.modifiers : [],

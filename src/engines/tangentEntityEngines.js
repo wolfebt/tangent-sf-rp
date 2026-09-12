@@ -62,6 +62,12 @@ import {
   normalizeTraitString
 } from './tangentIdentityEngine.js';
 
+import {
+  extractPillarFeatureSets,
+  checkItemMatchesPillar,
+  getFeatureDiscountedCost
+} from '../utils/pillarRecommendations.js';
+
 /**
  * Calculates additive movement speeds and derived tactical paces for a species or entity.
  * Associates speed adjusters with their respective base modes (Ground, Flying, Swimming, Climbing, Burrowing).
@@ -2515,8 +2521,9 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
     }
   });
 
-  // 6. Features & Perks (Standard 3 CP; Occupation Recommended Features get -1 CP discount = 2 CP; Identity Granted Features = 0 CP [standalone])
+  // 6. Features & Perks (Standard 3 CP; 5-Pillar / Recommended Features & Categories get -1 CP discount = 2 CP; min 1 CP; Identity Granted Features = 0 CP [standalone])
   let featuresCost = 0;
+  const pillarFeatureSets = extractPillarFeatureSets(characterData);
   const occuName = characterData['char-occu'];
   const occuItem = occuName ? resolveCatalogItem('occupations', occuName, dbData) : null;
   const occuRecFeatNames = new Set(
@@ -2585,14 +2592,23 @@ export function computeEconomyBreakdown(characterData = {}, options = {}) {
         standaloneCost: standalone
       });
     } else {
-      const isOccuRecommended = occuRecFeatNames.has(cleanName);
-      const defaultCost = isOccuRecommended ? 2 : 3;
-      const cost = getItemCP(feat, defaultCost);
+      // Calculate effective CP cost using getFeatureDiscountedCost with multi-source stacking
+      const featObj = typeof feat === 'object' ? feat : { name };
+      const discountInfo = getFeatureDiscountedCost(featObj, pillarFeatureSets, characterData);
+      const cost = (typeof feat === 'object' && feat.cp !== undefined)
+        ? getItemCP(feat, discountInfo.finalCost)
+        : discountInfo.finalCost;
       featuresCost += cost;
+
+      const recs = discountInfo.recommendations || [];
+      const pLabel = recs.length > 0
+        ? `${recs.map(r => r.detail || r.name).join('; ')} (-${discountInfo.totalDiscount || 1} CP Discount)`
+        : ((typeof feat === 'object' && feat.type) ? feat.type : 'Perk');
+
       itemizedList.push({
-        category: isOccuRecommended ? 'Recommended Feature' : 'Feature',
+        category: discountInfo.isDiscounted ? 'Recommended Feature' : 'Feature',
         item: name,
-        val: isOccuRecommended ? 'Occupation Recommended (-1 CP Discount)' : ((typeof feat === 'object' && feat.type) ? feat.type : 'Perk'),
+        val: pLabel,
         costVal: cost,
         cost: `${cost} CP`
       });

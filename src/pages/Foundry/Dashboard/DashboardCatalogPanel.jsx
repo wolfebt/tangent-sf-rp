@@ -62,7 +62,7 @@ export const DashboardCatalogPanel = () => {
   // Search and Sort states
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('recent'); // 'custom' | 'recent' | 'name_asc' | 'name_desc'
-  const [activeFolderId, setActiveFolderId] = useState('all'); // 'all' | 'unfiled' | folderId
+  const [activeFolderId, setActiveFolderId] = useState('unfiled'); // 'unfiled' | folderId | 'all'
 
   // Folder system state
   const [folders, setFolders] = useState(() => getFolders());
@@ -379,16 +379,6 @@ export const DashboardCatalogPanel = () => {
             {(activeTab === 'stories' || activeTab === 'personas') && (
               <div className="flex items-center gap-1 overflow-x-auto scrollbar-none py-0.5 text-[10px] font-mono">
                 <button
-                  onClick={() => setActiveFolderId('all')}
-                  className={`px-2 py-0.5 rounded-full shrink-0 transition-colors ${
-                    activeFolderId === 'all'
-                      ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold'
-                      : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
-                  }`}
-                >
-                  All
-                </button>
-                <button
                   onClick={() => setActiveFolderId('unfiled')}
                   className={`px-2 py-0.5 rounded-full shrink-0 transition-colors ${
                     activeFolderId === 'unfiled'
@@ -417,6 +407,16 @@ export const DashboardCatalogPanel = () => {
                     <span className="truncate max-w-[85px]">{f.name}</span>
                   </button>
                 ))}
+                <button
+                  onClick={() => setActiveFolderId('all')}
+                  className={`px-2 py-0.5 rounded-full shrink-0 transition-colors ${
+                    activeFolderId === 'all'
+                      ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold'
+                      : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                  }`}
+                >
+                  All
+                </button>
               </div>
             )}
           </div>

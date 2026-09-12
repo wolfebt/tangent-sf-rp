@@ -26,7 +26,7 @@ export const ElementSelectorModal = ({
   const { elementsCatalog } = useCampaign();
   const storyContext = useStory();
   const [searchTerm, setSearchTerm] = useState('');
-  const [activeTypeFilter, setActiveTypeFilter] = useState('ALL');
+  const [activeTypeFilter, setActiveTypeFilter] = useState(targetType && targetType !== 'Custom' ? targetType : null);
   const [sortOption, setSortOption] = useState('az'); // 'az' | 'za' | 'type'
   const [isBuildingNew, setIsBuildingNew] = useState(false);
 
@@ -62,12 +62,23 @@ export const ElementSelectorModal = ({
 
   // Compute available type pills
   const typePills = useMemo(() => {
-    const types = new Set(['ALL']);
+    const types = new Set();
     (elementsCatalog || []).forEach(el => {
       if (el.type) types.add(el.type);
     });
-    return Array.from(types);
+    return [...Array.from(types).sort(), 'ALL'];
   }, [elementsCatalog]);
+
+  // Sync default type filter if unselected
+  useEffect(() => {
+    if (!activeTypeFilter) {
+      if (targetType && targetType !== 'Custom') {
+        setActiveTypeFilter(targetType);
+      } else if (typePills.length > 0) {
+        setActiveTypeFilter(typePills[0]);
+      }
+    }
+  }, [targetType, typePills, activeTypeFilter]);
 
   // Filtered and sorted elements
   const filteredItems = useMemo(() => {

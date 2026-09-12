@@ -15,13 +15,18 @@ import {
   Copy, 
   Radio, 
   Sparkles,
-  Edit3
+  Edit3,
+  Printer,
+  Eraser,
+  FileText,
+  AlertTriangle
 } from 'lucide-react';
 import { useChat } from '../../context/ChatContext';
 import { useAuth } from '../../context/AuthContext';
+import { ChatService } from '../../services/chatService';
 import { AudioService } from '../../services/audioService';
 
-export const ChannelSettingsModal = ({ isOpen, onClose, channel }) => {
+export const ChannelSettingsModal = ({ isOpen, onClose, channel, messages = [] }) => {
   const { 
     renameChannel, 
     updateChannel, 
@@ -29,7 +34,8 @@ export const ChannelSettingsModal = ({ isOpen, onClose, channel }) => {
     addChannelMember, 
     removeChannelMember,
     userDirectory,
-    refreshUserDirectory 
+    refreshUserDirectory,
+    clearChannelMessages
   } = useChat();
   const { currentUser, isAdmin } = useAuth();
 
@@ -133,6 +139,138 @@ export const ChannelSettingsModal = ({ isOpen, onClose, channel }) => {
     }
   };
 
+  const handlePrintChat = async () => {
+    try {
+      setSaving(true);
+      AudioService.playTerminalBeep(1200, 0.03);
+
+      // Fetch latest messages if prop not supplied or empty
+      let printableMessages = Array.isArray(messages) && messages.length > 0 
+        ? messages 
+        : await ChatService.fetchChannelMessages(targetChannel.id, 400);
+
+      const printWindow = window.open('', '_blank', 'width=850,height=900');
+      if (!printWindow) {
+        alert('Please allow popups to print transmission transcripts.');
+        setSaving(false);
+        return;
+      }
+
+      const freqName = targetChannel.displayName || `#${targetChannel.name || 'frequency'}`;
+      const freqTopic = targetChannel.topic || 'No topic specified';
+      const exportDate = new Date().toLocaleString();
+
+      const rowsHtml = (printableMessages || []).map((msg, idx) => {
+        let timestamp = '';
+        if (msg.createdAt?.toDate) {
+          timestamp = msg.createdAt.toDate().toLocaleString();
+        } else if (msg.createdLocalAt) {
+          timestamp = new Date(msg.createdLocalAt).toLocaleString();
+        } else {
+          timestamp = 'SYNCED';
+        }
+
+        const sender = msg.senderHandle || 'Unknown Operator';
+        const isIC = Boolean(msg.isIC || msg.type === 'ic_transmission');
+        const isDice = msg.type === 'dice_roll';
+        const isTelemetry = msg.type === 'persona_log_entry' || msg.isReadOnlyLog;
+
+        let content = msg.text || '';
+        if (isDice && msg.metadata) {
+          const res = msg.metadata.total ?? msg.metadata.result ?? '';
+          const expr = msg.metadata.expression || 'dice';
+          const lbl = msg.metadata.label ? `[${msg.metadata.label}] ` : '';
+          content = `🎲 ${lbl}Rolled ${expr}: ${res}`;
+        } else if (isTelemetry && msg.summary) {
+          content = `📋 ${msg.summary}`;
+        }
+
+        return `
+          <div style="border-bottom: 1px solid #e2e8f0; padding: 8px 0; font-family: monospace; font-size: 12px; page-break-inside: avoid;">
+            <div style="display: flex; justify-content: space-between; color: #64748b; font-size: 11px; margin-bottom: 3px;">
+              <span><strong>#${idx + 1}</strong> &bull; <span style="color: ${isIC ? '#7e22ce' : '#0284c7'}; font-weight: bold;">${sender}</span> ${isIC ? '(IN-CHARACTER)' : ''}</span>
+              <span>${timestamp}</span>
+            </div>
+            <div style="color: #0f172a; white-space: pre-wrap; font-family: ${isDice || isTelemetry ? 'monospace' : 'sans-serif'};">${content}</div>
+          </div>
+        `;
+      }).join('');
+
+      printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <title>Transmission Transcript - ${freqName}</title>
+            <style>
+              body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace; margin: 30px; color: #0f172a; }
+              .header { border-bottom: 2px solid #0f172a; padding-bottom: 12px; margin-bottom: 20px; }
+              .meta-grid { display: flex; gap: 20px; font-size: 12px; font-family: monospace; color: #475569; margin-top: 6px; }
+              @media print {
+                body { margin: 15mm; }
+                .no-print { display: none; }
+              }
+            </style>
+          </head>
+          <body>
+            <div class="no-print" style="margin-bottom: 16px; display: flex; gap: 10px;">
+              <button onclick="window.print()" style="padding: 8px 16px; background: #0284c7; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Print / Save as PDF</button>
+              <button onclick="window.close()" style="padding: 8px 16px; background: #e2e8f0; color: #334155; border: none; border-radius: 6px; cursor: pointer;">Close</button>
+            </div>
+            <div class="header">
+              <h2 style="margin: 0; font-family: monospace; text-transform: uppercase;">TANGENT SF RP // COMMLINK RELAY TRANSCRIPT</h2>
+              <div style="font-size: 16px; font-weight: bold; margin-top: 4px; color: #0369a1;">${freqName}</div>
+              <div style="font-size: 12px; color: #475569; margin-top: 2px;">${freqTopic}</div>
+              <div class="meta-grid">
+                <div>Channel ID: <code>${targetChannel.id}</code></div>
+                <div>Exported: <strong>${exportDate}</strong></div>
+                <div>Total Transmissions: <strong>${printableMessages.length}</strong></div>
+              </div>
+            </div>
+            <div>
+              ${rowsHtml || '<p style="color: #64748b; font-style: italic;">No transmissions recorded in this frequency.</p>'}
+            </div>
+          </body>
+        </html>
+      `);
+      printWindow.document.close();
+      printWindow.focus();
+      setTimeout(() => {
+        printWindow.print();
+      }, 500);
+
+      setSuccessMsg('Transmission log prepared for printing.');
+      setTimeout(() => setSuccessMsg(''), 3000);
+    } catch (err) {
+      console.error('Failed to print chat transcript:', err);
+      setErrorMsg('Failed to generate printable transcript.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleClearChat = async () => {
+    if (isDefaultPublic && !isAdmin) {
+      alert('Default Holonet frequency messages can only be purged by an Administrator.');
+      return;
+    }
+
+    const confirmMsg = `WARNING: Are you sure you want to CLEAR all message transmissions for "${targetChannel.displayName || targetChannel.name}"? This action cannot be undone.`;
+    if (window.confirm(confirmMsg)) {
+      try {
+        setSaving(true);
+        AudioService.playTerminalBeep(900, 0.05);
+        await clearChannelMessages(targetChannel.id);
+        setSuccessMsg('Frequency transmission logs cleared successfully.');
+        setTimeout(() => setSuccessMsg(''), 3000);
+      } catch (err) {
+        console.error('Failed to clear channel messages:', err);
+        setErrorMsg('Failed to clear transmission logs.');
+      } finally {
+        setSaving(false);
+      }
+    }
+  };
+
   const currentMembersList = Array.isArray(targetChannel.members) ? targetChannel.members : [];
   const nonMembers = userDirectory.filter(u => !currentMembersList.includes(u.uid) && (
     (u.userHandle || u.displayName || u.email || '').toLowerCase().includes(searchUser.toLowerCase())
@@ -195,6 +333,19 @@ export const ChannelSettingsModal = ({ isOpen, onClose, channel }) => {
               <span>MEMBERS ({currentMembersList.length})</span>
             </button>
           )}
+
+          <button
+            type="button"
+            onClick={() => setActiveTab('transcripts')}
+            className={`flex-1 py-1.5 rounded-lg flex items-center justify-center gap-1.5 font-bold transition-all ${
+              activeTab === 'transcripts'
+                ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-sm'
+                : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <Printer size={13} />
+            <span>PRINT & LOGS</span>
+          </button>
 
           {canEdit && (
             <button
@@ -421,8 +572,55 @@ export const ChannelSettingsModal = ({ isOpen, onClose, channel }) => {
             </div>
           )}
 
-          {/* TAB 3: Danger Zone */}
-          {activeTab === 'danger' && canEdit && (
+              {/* TAB 3: Print & Transcript Logs */}
+              {activeTab === 'transcripts' && (
+                <div className="space-y-4">
+                  {/* Print / Export Transcripts Card */}
+                  <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-3">
+                    <div className="flex items-center gap-2 text-cyan-300 font-bold">
+                      <Printer size={16} />
+                      <span>PRINT &amp; EXPORT TRANSMISSION LOGS</span>
+                    </div>
+                    <p className="text-slate-300 leading-relaxed text-[11px]">
+                      Generate a formatted, printable commlink transcript of all transmissions, dialogue, and dice rolls in this frequency. Opens the system print/PDF export dialog.
+                    </p>
+                    <button
+                      type="button"
+                      disabled={saving}
+                      onClick={handlePrintChat}
+                      className="w-full py-2.5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl transition-all shadow-[0_0_15px_rgba(6,182,212,0.25)] flex items-center justify-center gap-2 cursor-pointer"
+                    >
+                      <Printer size={15} />
+                      <span>PRINT / EXPORT CHAT TRANSCRIPT</span>
+                    </button>
+                  </div>
+
+                  {/* Clear Transcripts Card */}
+                  <div className="p-4 rounded-xl bg-amber-950/20 border border-amber-500/30 space-y-3">
+                    <div className="flex items-center gap-2 text-amber-300 font-bold">
+                      <Eraser size={16} />
+                      <span>PURGE &amp; CLEAR FREQUENCY CHAT</span>
+                    </div>
+                    <p className="text-slate-300 leading-relaxed text-[11px]">
+                      {isDefaultPublic && !isAdmin 
+                        ? 'System core Holonet channels require Administrator privileges to purge message logs.'
+                        : 'Wipe all transmitted messages and chatter from this frequency. Frequency configuration and members will be preserved.'}
+                    </p>
+                    <button
+                      type="button"
+                      disabled={saving || (isDefaultPublic && !isAdmin)}
+                      onClick={handleClearChat}
+                      className="w-full py-2.5 bg-amber-600/20 hover:bg-amber-600 text-amber-300 hover:text-black border border-amber-500/40 hover:border-amber-400 font-bold rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-40 cursor-pointer"
+                    >
+                      <Eraser size={15} />
+                      <span>CLEAR ALL MESSAGES</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 4: Danger Zone */}
+              {activeTab === 'danger' && canEdit && (
             <div className="p-4 rounded-xl bg-red-950/30 border border-red-500/40 space-y-3">
               <div className="flex items-center gap-2 text-red-400 font-bold">
                 <ShieldAlert size={16} />

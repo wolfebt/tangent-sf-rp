@@ -469,8 +469,15 @@ export default function CronicleDeckModal({
     elementsUsed.forEach(e => {
       if (e.type) set.add(e.type);
     });
-    return Array.from(set);
+    return Array.from(set).sort();
   }, [elementsUsed]);
+
+  // Sync default elementTypeFilter
+  useEffect(() => {
+    if (elementTypeFilter === 'ALL' && availableElementTypes.length > 0) {
+      setElementTypeFilter(availableElementTypes[0]);
+    }
+  }, [availableElementTypes]);
 
   // Highlighted or filtered markdown display
   const displayedMarkdown = useMemo(() => {
@@ -1481,17 +1488,6 @@ export default function CronicleDeckModal({
 
                     {/* Type Filter Pills */}
                     <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
-                      <button
-                        type="button"
-                        onClick={() => setElementTypeFilter('ALL')}
-                        className={`px-2.5 py-1 rounded-lg text-[11px] font-mono font-bold uppercase transition-colors cursor-pointer shrink-0 ${
-                          elementTypeFilter === 'ALL'
-                            ? 'bg-purple-950 text-purple-300 border border-purple-500/80'
-                            : 'bg-slate-950 text-slate-400 border border-slate-800 hover:text-slate-200'
-                        }`}
-                      >
-                        All ({elementsUsed.length})
-                      </button>
                       {availableElementTypes.map(t => (
                         <button
                           key={t}
@@ -1506,6 +1502,17 @@ export default function CronicleDeckModal({
                           {t}
                         </button>
                       ))}
+                      <button
+                        type="button"
+                        onClick={() => setElementTypeFilter('ALL')}
+                        className={`px-2.5 py-1 rounded-lg text-[11px] font-mono font-bold uppercase transition-colors cursor-pointer shrink-0 ${
+                          elementTypeFilter === 'ALL'
+                            ? 'bg-purple-950 text-purple-300 border border-purple-500/80'
+                            : 'bg-slate-950 text-slate-400 border border-slate-800 hover:text-slate-200'
+                        }`}
+                      >
+                        All ({elementsUsed.length})
+                      </button>
                     </div>
                   </div>
 

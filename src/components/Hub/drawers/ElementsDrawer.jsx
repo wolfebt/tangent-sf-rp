@@ -10,10 +10,10 @@ export const ElementsDrawer = ({ onClose, onOpenDrawer }) => {
   const { elementsCatalog, deleteSavedElement } = useStory();
 
   const [elementSearch, setElementSearch] = useState('');
-  const [elementTypeFilter, setElementTypeFilter] = useState('All');
+  const [elementTypeFilter, setElementTypeFilter] = useState('Species');
 
   const rawElements = elementsCatalog || [];
-  const elementTypes = ['All', 'Species', 'Faction', 'Origin', 'Occupation', 'Location', 'Item', 'Scenario', 'Rule'];
+  const elementTypes = ['Species', 'Faction', 'Origin', 'Occupation', 'Location', 'Item', 'Scenario', 'Rule', 'All'];
 
   const filtered = rawElements.filter(elem => {
     const matchType = elementTypeFilter === 'All' || elem.type === elementTypeFilter;

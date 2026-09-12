@@ -239,13 +239,14 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
               onClick={() => {
                 AudioService.playTerminalBeep(1150, 0.03);
                 navigate('/folio');
+                window.dispatchEvent(new CustomEvent('open-folio-catalog'));
               }}
               className={`px-2 sm:px-2.5 py-1 sm:py-1.2 rounded-md sm:rounded-lg border text-[10px] sm:text-[11.5px] font-mono font-bold uppercase tracking-wider transition-all duration-150 flex items-center gap-1.5 cursor-pointer select-none whitespace-nowrap cyan-shadow-thin ${
                 isFolio
                   ? 'bg-cyan-950/70 border-cyan-400 text-cyan-200'
                   : 'bg-slate-950/60 hover:bg-slate-900/90 border-slate-700/80 hover:border-cyan-400 text-slate-200 hover:text-cyan-300'
               }`}
-              title="Open Persona Folio Operative Catalog & Sheet (/folio)"
+              title="Open Persona Folio Operative Catalog (/folio)"
             >
               <div className={`p-0.5 rounded border shrink-0 ${isFolio ? 'bg-cyan-500/25 border-cyan-400/60 text-cyan-300' : 'bg-cyan-500/10 border-cyan-500/30 text-cyan-400'}`}>
                 <Users size={12} className="sm:w-3.5 sm:h-3.5" />

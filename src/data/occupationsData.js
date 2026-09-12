@@ -1,6 +1,20 @@
 export const DEFAULT_OCCUPATIONS = [
   {
     "id": "occupation-adept",
+    "recommended_features": [
+      "Discipline Features",
+      "Acute Sense",
+      "Scent",
+      "Darksight",
+      "Low Light Vision"
+],
+    "features": [
+      "Discipline Features",
+      "Acute Sense",
+      "Scent",
+      "Darksight",
+      "Low Light Vision"
+],
     "name": "Adept",
     "category": "occupations",
     "skill_points": 20,
@@ -57,6 +71,12 @@ export const DEFAULT_OCCUPATIONS = [
   },
   {
     "id": "occupation-agent",
+    "recommended_features": [
+      "General Features"
+],
+    "features": [
+      "General Features"
+],
     "name": "Agent",
     "category": "occupations",
     "skill_points": 20,
@@ -119,6 +139,12 @@ export const DEFAULT_OCCUPATIONS = [
   },
   {
     "id": "occupation-builder",
+    "recommended_features": [
+      "Skill Features"
+],
+    "features": [
+      "Skill Features"
+],
     "name": "Builder",
     "category": "occupations",
     "skill_points": 20,
@@ -179,6 +205,12 @@ export const DEFAULT_OCCUPATIONS = [
   },
   {
     "id": "occupation-citizen",
+    "recommended_features": [
+      "General Features"
+],
+    "features": [
+      "General Features"
+],
     "name": "Citizen",
     "category": "occupations",
     "skill_points": 20,
@@ -238,6 +270,16 @@ export const DEFAULT_OCCUPATIONS = [
   },
   {
     "id": "occupation-criminal",
+    "recommended_features": [
+      "Skill Features",
+      "Underworld Connections",
+      "Connected"
+],
+    "features": [
+      "Skill Features",
+      "Underworld Connections",
+      "Connected"
+],
     "name": "Criminal",
     "category": "occupations",
     "skill_points": 20,
@@ -302,6 +344,12 @@ export const DEFAULT_OCCUPATIONS = [
   },
   {
     "id": "occupation-drifter",
+    "recommended_features": [
+      "General Features"
+],
+    "features": [
+      "General Features"
+],
     "name": "Drifter",
     "category": "occupations",
     "skill_points": 20,
@@ -371,6 +419,14 @@ export const DEFAULT_OCCUPATIONS = [
   },
   {
     "id": "occupation-entertainer",
+    "recommended_features": [
+      "Skill Features",
+      "Social Features"
+],
+    "features": [
+      "Skill Features",
+      "Social Features"
+],
     "name": "Entertainer",
     "category": "occupations",
     "skill_points": 20,
@@ -428,6 +484,14 @@ export const DEFAULT_OCCUPATIONS = [
   },
   {
     "id": "occupation-merchant",
+    "recommended_features": [
+      "Skill Features",
+      "Connected"
+],
+    "features": [
+      "Skill Features",
+      "Connected"
+],
     "name": "Merchant",
     "category": "occupations",
     "skill_points": 20,
@@ -490,6 +554,14 @@ export const DEFAULT_OCCUPATIONS = [
   },
   {
     "id": "occupation-representative",
+    "recommended_features": [
+      "Skill Features",
+      "Social Features"
+],
+    "features": [
+      "Skill Features",
+      "Social Features"
+],
     "name": "Representative",
     "category": "occupations",
     "skill_points": 20,
@@ -544,6 +616,14 @@ export const DEFAULT_OCCUPATIONS = [
   },
   {
     "id": "occupation-scholar",
+    "recommended_features": [
+      "Skill Features",
+      "Mental Features"
+],
+    "features": [
+      "Skill Features",
+      "Mental Features"
+],
     "name": "Scholar",
     "category": "occupations",
     "skill_points": 20,
@@ -604,6 +684,14 @@ export const DEFAULT_OCCUPATIONS = [
   },
   {
     "id": "occupation-scout",
+    "recommended_features": [
+      "General Features",
+      "Acute Sense"
+],
+    "features": [
+      "General Features",
+      "Acute Sense"
+],
     "name": "Scout",
     "category": "occupations",
     "skill_points": 20,
@@ -663,6 +751,12 @@ export const DEFAULT_OCCUPATIONS = [
   },
   {
     "id": "occupation-soldier",
+    "recommended_features": [
+      "Combat Features"
+],
+    "features": [
+      "Combat Features"
+],
     "name": "Soldier",
     "category": "occupations",
     "skill_points": 20,
@@ -725,6 +819,12 @@ export const DEFAULT_OCCUPATIONS = [
   },
   {
     "id": "occupation-specialist",
+    "recommended_features": [
+      "Skill Features"
+],
+    "features": [
+      "Skill Features"
+],
     "name": "Specialist",
     "category": "occupations",
     "skill_points": 20,

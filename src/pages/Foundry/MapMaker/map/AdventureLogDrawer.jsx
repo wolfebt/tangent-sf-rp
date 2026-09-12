@@ -29,7 +29,7 @@ export default function AdventureLogDrawer({
   currentRound = 1
 }) {
   const [logs, setLogs] = useState([]);
-  const [activeCategory, setActiveCategory] = useState(LOG_CATEGORIES.ALL);
+  const [activeCategory, setActiveCategory] = useState(LOG_CATEGORIES.COMBAT);
   const [searchQuery, setSearchQuery] = useState('');
   const [autoScroll, setAutoScroll] = useState(true);
   const [customNote, setCustomNote] = useState('');
@@ -237,12 +237,12 @@ export default function AdventureLogDrawer({
           {/* Category Filter Pills */}
           <div className="flex items-center justify-between gap-1 overflow-x-auto pb-0.5">
             {[
-              { id: LOG_CATEGORIES.ALL, label: 'All', icon: null },
               { id: LOG_CATEGORIES.COMBAT, label: 'Combat', icon: '⚔️' },
               { id: LOG_CATEGORIES.INITIATIVE, label: 'Initiative', icon: '⚡' },
               { id: LOG_CATEGORIES.ENVIRONMENT, label: 'Environment', icon: '🌋' },
               { id: LOG_CATEGORIES.NARRATIVE, label: 'Story', icon: '📝' },
-              { id: LOG_CATEGORIES.VITALS, label: 'Vitals', icon: '🩸' }
+              { id: LOG_CATEGORIES.VITALS, label: 'Vitals', icon: '🩸' },
+              { id: LOG_CATEGORIES.ALL, label: 'All', icon: null }
             ].map((cat) => (
               <button
                 key={cat.id}

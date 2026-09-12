@@ -173,7 +173,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
   // Selected object tracking
   const [selectedSpeciesObj, setSelectedSpeciesObj] = useState(null);
   const [selectedArchetypeObj, setSelectedArchetypeObj] = useState(null);
-  const [archetypeSphereFilter, setArchetypeSphereFilter] = useState('All');
+  const [archetypeSphereFilter, setArchetypeSphereFilter] = useState('Sentinels');
   const [chassisApplied, setChassisApplied] = useState(false);
 
   const selectedOriginObj = useMemo(() => {
@@ -671,7 +671,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
 
             {/* Sphere Filter Pills */}
             <div className="flex flex-wrap gap-1.5 pt-1">
-              {['All', 'Sentinels', 'Operatives', 'Visionaries', 'Savants'].map(sp => (
+              {['Sentinels', 'Operatives', 'Visionaries', 'Savants', 'All'].map(sp => (
                 <button
                   key={sp}
                   type="button"

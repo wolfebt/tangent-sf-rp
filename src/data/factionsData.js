@@ -7,6 +7,15 @@
 export const DEFAULT_FACTIONS = [
   {
     "id": "template-alien",
+    "recommended_features": [
+      "Special Features"
+],
+    "features": [
+      "Special Features"
+],
+    "bonus_features": [
+      "Special Features"
+],
     "name": "Alien Enclave",
     "category": "factions",
     "faction_type": "Generic Template",
@@ -46,6 +55,15 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "template-artificial-life",
+    "recommended_features": [
+      "Skill Features"
+],
+    "features": [
+      "Skill Features"
+],
+    "bonus_features": [
+      "Skill Features"
+],
     "name": "Artificial Life Network",
     "category": "factions",
     "faction_type": "Generic Template",
@@ -85,6 +103,18 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "template-corporate",
+    "recommended_features": [
+      "Skill Features",
+      "General Features"
+],
+    "features": [
+      "Skill Features",
+      "General Features"
+],
+    "bonus_features": [
+      "Skill Features",
+      "General Features"
+],
     "name": "Corporate Subsidiary",
     "category": "factions",
     "faction_type": "Generic Template",
@@ -124,6 +154,15 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "template-cosmic-horror",
+    "recommended_features": [
+      "Discipline Features"
+],
+    "features": [
+      "Discipline Features"
+],
+    "bonus_features": [
+      "Discipline Features"
+],
     "name": "Cosmic Horror Cult",
     "category": "factions",
     "faction_type": "Generic Template",
@@ -163,6 +202,15 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "template-cosmic-justice",
+    "recommended_features": [
+      "Combat Features"
+],
+    "features": [
+      "Combat Features"
+],
+    "bonus_features": [
+      "Combat Features"
+],
     "name": "Cosmic Justice Order",
     "category": "factions",
     "faction_type": "Generic Template",
@@ -202,6 +250,24 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "template-criminal",
+    "recommended_features": [
+      "Skill Features",
+      "General Features",
+      "Underworld Connections",
+      "Connected"
+],
+    "features": [
+      "Skill Features",
+      "General Features",
+      "Underworld Connections",
+      "Connected"
+],
+    "bonus_features": [
+      "Skill Features",
+      "General Features",
+      "Underworld Connections",
+      "Connected"
+],
     "name": "Criminal Syndicate",
     "category": "factions",
     "faction_type": "Generic Template",
@@ -241,6 +307,15 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "faction-dracon-dynasty",
+    "recommended_features": [
+      "Benefit (Status)"
+],
+    "features": [
+      "Benefit (Status)"
+],
+    "bonus_features": [
+      "Benefit (Status)"
+],
     "name": "Dracon Dynasty",
     "category": "factions",
     "faction_type": "Major Polity",
@@ -287,6 +362,18 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "faction-elven-providence",
+    "recommended_features": [
+      "Magical Aptitude",
+      "Centering"
+],
+    "features": [
+      "Magical Aptitude",
+      "Centering"
+],
+    "bonus_features": [
+      "Magical Aptitude",
+      "Centering"
+],
     "name": "Elven Providence",
     "category": "factions",
     "faction_type": "Major Polity",
@@ -326,6 +413,15 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "template-environmental",
+    "recommended_features": [
+      "General Features"
+],
+    "features": [
+      "General Features"
+],
+    "bonus_features": [
+      "General Features"
+],
     "name": "Environmental Restorationists",
     "category": "factions",
     "faction_type": "Generic Template",
@@ -365,6 +461,15 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "template-genetic-engineering",
+    "recommended_features": [
+      "Special Features"
+],
+    "features": [
+      "Special Features"
+],
+    "bonus_features": [
+      "Special Features"
+],
     "name": "Genetic Engineering Directorate",
     "category": "factions",
     "faction_type": "Generic Template",
@@ -404,6 +509,15 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "template-hive-mind",
+    "recommended_features": [
+      "General Features"
+],
+    "features": [
+      "General Features"
+],
+    "bonus_features": [
+      "General Features"
+],
     "name": "Hive Mind Collective",
     "category": "factions",
     "faction_type": "Generic Template",
@@ -443,6 +557,15 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "faction-syndicate",
+    "recommended_features": [
+      "Benefit (Wealth)"
+],
+    "features": [
+      "Benefit (Wealth)"
+],
+    "bonus_features": [
+      "Benefit (Wealth)"
+],
     "name": "Incorporated Planetary Syndication",
     "category": "factions",
     "faction_type": "Major Polity",
@@ -487,6 +610,18 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "template-interstellar-diplomats",
+    "recommended_features": [
+      "General Features",
+      "Skill Features"
+],
+    "features": [
+      "General Features",
+      "Skill Features"
+],
+    "bonus_features": [
+      "General Features",
+      "Skill Features"
+],
     "name": "Interstellar Diplomatic Corps",
     "category": "factions",
     "faction_type": "Generic Template",
@@ -526,6 +661,18 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "template-mercenary",
+    "recommended_features": [
+      "General Features",
+      "Combat Features"
+],
+    "features": [
+      "General Features",
+      "Combat Features"
+],
+    "bonus_features": [
+      "General Features",
+      "Combat Features"
+],
     "name": "Mercenary Company",
     "category": "factions",
     "faction_type": "Generic Template",
@@ -565,6 +712,18 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "template-military",
+    "recommended_features": [
+      "Skill Features",
+      "Combat Features"
+],
+    "features": [
+      "Skill Features",
+      "Combat Features"
+],
+    "bonus_features": [
+      "Skill Features",
+      "Combat Features"
+],
     "name": "Military Junta",
     "category": "factions",
     "faction_type": "Generic Template",
@@ -604,6 +763,15 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "template-mutant",
+    "recommended_features": [
+      "Special Features"
+],
+    "features": [
+      "Special Features"
+],
+    "bonus_features": [
+      "Special Features"
+],
     "name": "Mutant Outcast Enclave",
     "category": "factions",
     "faction_type": "Generic Template",
@@ -643,6 +811,15 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "template-planetary",
+    "recommended_features": [
+      "General Features"
+],
+    "features": [
+      "General Features"
+],
+    "bonus_features": [
+      "General Features"
+],
     "name": "Planetary Government",
     "category": "factions",
     "faction_type": "Generic Template",
@@ -682,6 +859,15 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "template-political",
+    "recommended_features": [
+      "Skill Features"
+],
+    "features": [
+      "Skill Features"
+],
+    "bonus_features": [
+      "Skill Features"
+],
     "name": "Political Movement",
     "category": "factions",
     "faction_type": "Generic Template",
@@ -721,6 +907,18 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "template-post-apocalyptic",
+    "recommended_features": [
+      "General Features",
+      "Combat Features"
+],
+    "features": [
+      "General Features",
+      "Combat Features"
+],
+    "bonus_features": [
+      "General Features",
+      "Combat Features"
+],
     "name": "Post-Apocalyptic Warlords",
     "category": "factions",
     "faction_type": "Generic Template",
@@ -760,6 +958,18 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "faction-radiant-impyrium",
+    "recommended_features": [
+      "Benefit (Clearance)",
+      "Benefit (Status)"
+],
+    "features": [
+      "Benefit (Clearance)",
+      "Benefit (Status)"
+],
+    "bonus_features": [
+      "Benefit (Clearance)",
+      "Benefit (Status)"
+],
     "name": "Radiant Impyrium",
     "category": "factions",
     "faction_type": "Major Polity",
@@ -799,6 +1009,18 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "template-rebel",
+    "recommended_features": [
+      "General Features",
+      "Combat Features"
+],
+    "features": [
+      "General Features",
+      "Combat Features"
+],
+    "bonus_features": [
+      "General Features",
+      "Combat Features"
+],
     "name": "Rebel Resistance Cell",
     "category": "factions",
     "faction_type": "Generic Template",
@@ -838,6 +1060,18 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "template-religious-cult",
+    "recommended_features": [
+      "General Features",
+      "Discipline Features"
+],
+    "features": [
+      "General Features",
+      "Discipline Features"
+],
+    "bonus_features": [
+      "General Features",
+      "Discipline Features"
+],
     "name": "Religious Cult",
     "category": "factions",
     "faction_type": "Generic Template",
@@ -877,6 +1111,15 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "template-sentient-intelligence",
+    "recommended_features": [
+      "Skill Features"
+],
+    "features": [
+      "Skill Features"
+],
+    "bonus_features": [
+      "Skill Features"
+],
     "name": "Sentient Intelligence Matrix",
     "category": "factions",
     "faction_type": "Generic Template",
@@ -916,6 +1159,18 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "template-space-exploration",
+    "recommended_features": [
+      "General Features",
+      "Skill Features"
+],
+    "features": [
+      "General Features",
+      "Skill Features"
+],
+    "bonus_features": [
+      "General Features",
+      "Skill Features"
+],
     "name": "Space Exploration Survey",
     "category": "factions",
     "faction_type": "Generic Template",
@@ -955,6 +1210,18 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "template-space-religion",
+    "recommended_features": [
+      "Skill Features",
+      "Discipline Features"
+],
+    "features": [
+      "Skill Features",
+      "Discipline Features"
+],
+    "bonus_features": [
+      "Skill Features",
+      "Discipline Features"
+],
     "name": "Space Faith Pilgrimage",
     "category": "factions",
     "faction_type": "Generic Template",
@@ -994,6 +1261,21 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "template-space-pirate",
+    "recommended_features": [
+      "Skill Features",
+      "Combat Features",
+      "Underworld Connections"
+],
+    "features": [
+      "Skill Features",
+      "Combat Features",
+      "Underworld Connections"
+],
+    "bonus_features": [
+      "Skill Features",
+      "Combat Features",
+      "Underworld Connections"
+],
     "name": "Space Pirate Fleet",
     "category": "factions",
     "faction_type": "Generic Template",
@@ -1033,6 +1315,18 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "template-space-tourism",
+    "recommended_features": [
+      "General Features",
+      "Skill Features"
+],
+    "features": [
+      "General Features",
+      "Skill Features"
+],
+    "bonus_features": [
+      "General Features",
+      "Skill Features"
+],
     "name": "Space Tourism Conglomerate",
     "category": "factions",
     "faction_type": "Generic Template",
@@ -1072,6 +1366,15 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "template-supernatural",
+    "recommended_features": [
+      "Discipline Features"
+],
+    "features": [
+      "Discipline Features"
+],
+    "bonus_features": [
+      "Discipline Features"
+],
     "name": "Supernatural Order",
     "category": "factions",
     "faction_type": "Generic Template",
@@ -1111,6 +1414,18 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "template-technological",
+    "recommended_features": [
+      "General Features",
+      "Skill Features"
+],
+    "features": [
+      "General Features",
+      "Skill Features"
+],
+    "bonus_features": [
+      "General Features",
+      "Skill Features"
+],
     "name": "Technological Innovators",
     "category": "factions",
     "faction_type": "Generic Template",
@@ -1150,6 +1465,18 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "faction-alterian-enclave",
+    "recommended_features": [
+      "Magical Aptitude",
+      "Centering"
+],
+    "features": [
+      "Magical Aptitude",
+      "Centering"
+],
+    "bonus_features": [
+      "Magical Aptitude",
+      "Centering"
+],
     "name": "The Alterian Enclave",
     "category": "factions",
     "faction_type": "Major Polity",
@@ -1195,6 +1522,18 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "faction-auluran-clans",
+    "recommended_features": [
+      "Biotechnology",
+      "Wild Speech"
+],
+    "features": [
+      "Biotechnology",
+      "Wild Speech"
+],
+    "bonus_features": [
+      "Biotechnology",
+      "Wild Speech"
+],
     "name": "The Auluran Clans",
     "category": "factions",
     "faction_type": "Major Polity",
@@ -1240,6 +1579,18 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "faction-coalition-of-independent-worlds",
+    "recommended_features": [
+      "Contacts",
+      "Jack-of-all-trades"
+],
+    "features": [
+      "Contacts",
+      "Jack-of-all-trades"
+],
+    "bonus_features": [
+      "Contacts",
+      "Jack-of-all-trades"
+],
     "name": "The Coalition of Independent Worlds",
     "category": "factions",
     "faction_type": "Major Polity",
@@ -1279,6 +1630,18 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "faction-coalition",
+    "recommended_features": [
+      "Contacts",
+      "Jack-of-all-trades"
+],
+    "features": [
+      "Contacts",
+      "Jack-of-all-trades"
+],
+    "bonus_features": [
+      "Contacts",
+      "Jack-of-all-trades"
+],
     "name": "The Coalition of Independent Worlds",
     "category": "factions",
     "faction_type": "Major Polity",
@@ -1324,6 +1687,18 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "faction-entari-combine",
+    "recommended_features": [
+      "Benefit (Wealth)",
+      "Connected"
+],
+    "features": [
+      "Benefit (Wealth)",
+      "Connected"
+],
+    "bonus_features": [
+      "Benefit (Wealth)",
+      "Connected"
+],
     "name": "The Entari Combine",
     "category": "factions",
     "faction_type": "Major Polity",
@@ -1369,6 +1744,18 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "faction-kovian-tribunal",
+    "recommended_features": [
+      "Iron Will",
+      "Benefit (Authority)"
+],
+    "features": [
+      "Iron Will",
+      "Benefit (Authority)"
+],
+    "bonus_features": [
+      "Iron Will",
+      "Benefit (Authority)"
+],
     "name": "The Kovian Tribunal",
     "category": "factions",
     "faction_type": "Major Polity",
@@ -1414,6 +1801,18 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "faction-mekan",
+    "recommended_features": [
+      "Lightning Calculator",
+      "Mental Alacrity"
+],
+    "features": [
+      "Lightning Calculator",
+      "Mental Alacrity"
+],
+    "bonus_features": [
+      "Lightning Calculator",
+      "Mental Alacrity"
+],
     "name": "The Mekan Collective",
     "category": "factions",
     "faction_type": "Major Polity",
@@ -1459,6 +1858,18 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "faction-outworlds",
+    "recommended_features": [
+      "Diehard",
+      "Tough"
+],
+    "features": [
+      "Diehard",
+      "Tough"
+],
+    "bonus_features": [
+      "Diehard",
+      "Tough"
+],
     "name": "The Outworlds Alliance",
     "category": "factions",
     "faction_type": "Major Polity",
@@ -1504,6 +1915,18 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "faction-impyrium",
+    "recommended_features": [
+      "Benefit (Clearance)",
+      "Benefit (Status)"
+],
+    "features": [
+      "Benefit (Clearance)",
+      "Benefit (Status)"
+],
+    "bonus_features": [
+      "Benefit (Clearance)",
+      "Benefit (Status)"
+],
     "name": "The Radiant Impyrium",
     "category": "factions",
     "faction_type": "Major Polity",
@@ -1549,6 +1972,21 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "faction-ascendancy",
+    "recommended_features": [
+      "Trance",
+      "Mental Alacrity",
+      "Discipline Features"
+],
+    "features": [
+      "Trance",
+      "Mental Alacrity",
+      "Discipline Features"
+],
+    "bonus_features": [
+      "Trance",
+      "Mental Alacrity",
+      "Discipline Features"
+],
     "name": "The Solar Ascendancy",
     "category": "factions",
     "faction_type": "Major Polity",
@@ -1594,6 +2032,18 @@ export const DEFAULT_FACTIONS = [
   },
   {
     "id": "faction-vajar",
+    "recommended_features": [
+      "Power Attack",
+      "Rage"
+],
+    "features": [
+      "Power Attack",
+      "Rage"
+],
+    "bonus_features": [
+      "Power Attack",
+      "Rage"
+],
     "name": "The Vajar Dominion",
     "category": "factions",
     "faction_type": "Major Polity",

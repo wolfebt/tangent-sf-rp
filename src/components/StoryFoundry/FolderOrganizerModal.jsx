@@ -45,7 +45,7 @@ export const FolderOrganizerModal = ({
   const [folders, setFolders] = useState(() => getFolders());
   const [assignments, setAssignments] = useState(() => getItemFolderAssignments());
   const [selectedFolderId, setSelectedFolderId] = useState(initialFolderId || 'all');
-  const [contentTypeFilter, setContentTypeFilter] = useState('all'); // 'all' | 'stories' | 'personas'
+  const [contentTypeFilter, setContentTypeFilter] = useState('stories'); // 'stories' | 'personas' | 'all'
   const [searchQuery, setSearchQuery] = useState('');
 
   // Folder creation / edit state
@@ -441,14 +441,6 @@ export const FolderOrganizerModal = ({
                 {/* Content Type Filter */}
                 <div className="flex items-center rounded-lg bg-slate-900 border border-slate-800 p-0.5 text-[11px] font-mono">
                   <button
-                    onClick={() => setContentTypeFilter('all')}
-                    className={`px-2.5 py-1 rounded-md font-bold transition-colors ${
-                      contentTypeFilter === 'all' ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/40' : 'text-slate-400 hover:text-slate-200'
-                    }`}
-                  >
-                    All
-                  </button>
-                  <button
                     onClick={() => setContentTypeFilter('stories')}
                     className={`px-2.5 py-1 rounded-md font-bold transition-colors flex items-center gap-1 ${
                       contentTypeFilter === 'stories' ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/40' : 'text-slate-400 hover:text-slate-200'
@@ -463,6 +455,14 @@ export const FolderOrganizerModal = ({
                     }`}
                   >
                     <User size={11} /> Personas
+                  </button>
+                  <button
+                    onClick={() => setContentTypeFilter('all')}
+                    className={`px-2.5 py-1 rounded-md font-bold transition-colors ${
+                      contentTypeFilter === 'all' ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/40' : 'text-slate-400 hover:text-slate-200'
+                    }`}
+                  >
+                    All
                   </button>
                 </div>
 

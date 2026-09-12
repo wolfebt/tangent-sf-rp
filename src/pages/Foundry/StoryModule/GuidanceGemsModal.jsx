@@ -12,7 +12,7 @@ export default function GuidanceGemsModal({ isOpen, onClose }) {
   const customGems = creativeState?.customGems || {};
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('ALL');
+  const [selectedCategory, setSelectedCategory] = useState('Theme');
   const [customInputText, setCustomInputText] = useState('');
   const [customInputCategory, setCustomInputCategory] = useState('Mood');
 
@@ -141,17 +141,6 @@ export default function GuidanceGemsModal({ isOpen, onClose }) {
 
           {/* Category Tabs */}
           <div className="flex items-center gap-1 overflow-x-auto scrollbar-none py-0.5">
-            <button
-              type="button"
-              onClick={() => setSelectedCategory('ALL')}
-              className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold uppercase transition-all cursor-pointer ${
-                selectedCategory === 'ALL'
-                  ? 'bg-cyan-900/60 text-cyan-300 border border-cyan-500/50'
-                  : 'text-slate-400 hover:bg-slate-900 hover:text-slate-200'
-              }`}
-            >
-              All ({allCategories.length})
-            </button>
             {allCategories.map(cat => (
               <button
                 key={cat}
@@ -166,6 +155,17 @@ export default function GuidanceGemsModal({ isOpen, onClose }) {
                 {cat}
               </button>
             ))}
+            <button
+              type="button"
+              onClick={() => setSelectedCategory('ALL')}
+              className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold uppercase transition-all cursor-pointer ${
+                selectedCategory === 'ALL'
+                  ? 'bg-cyan-900/60 text-cyan-300 border border-cyan-500/50'
+                  : 'text-slate-400 hover:bg-slate-900 hover:text-slate-200'
+              }`}
+            >
+              All ({allCategories.length})
+            </button>
           </div>
         </div>
 

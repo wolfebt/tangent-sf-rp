@@ -47,7 +47,7 @@ import { AudioService } from '../../services/audioService';
 export const ScalingCodex = ({ onOpenBuilder }) => {
   const [activeTab, setActiveTab] = useState('matrix'); // 'matrix' | 'combat' | 'metatech' | 'starship' | 'checker'
   const [selectedSizeKey, setSelectedSizeKey] = useState('Huge');
-  const [filterType, setFilterType] = useState('all'); // 'all' | 'submedium' | 'tactical' | 'starship'
+  const [filterType, setFilterType] = useState('tactical'); // 'submedium' | 'tactical' | 'starship' | 'all'
   const [searchQuery, setSearchQuery] = useState('');
 
   // Fluid Combat Matchup Simulator state
@@ -200,10 +200,10 @@ export const ScalingCodex = ({ onOpenBuilder }) => {
               <div className="flex items-center gap-2">
                 <span className="text-xs font-mono text-slate-400 uppercase">Filter Scale:</span>
                 {[
-                  { id: 'all', label: 'All 14 Tiers' },
                   { id: 'submedium', label: 'Sub-Medium (-1ds to -5ds)' },
                   { id: 'tactical', label: 'Tactical (x1 to x20)' },
-                  { id: 'starship', label: 'Starship (x40 to x320)' }
+                  { id: 'starship', label: 'Starship (x40 to x320)' },
+                  { id: 'all', label: 'All 14 Tiers' }
                 ].map(f => (
                   <button
                     key={f.id}

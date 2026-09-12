@@ -317,7 +317,7 @@ export const expandSkillGroupPatterns = (recommendedSkills = [], allSkills = ALL
   return {
     items: Array.from(expandedItemsMap.values()),
     packageNotes: Array.from(new Set(packageNotes)),
-    groupFilters: Array.from(groupFiltersFound)
+    groupFilters: [...Array.from(groupFiltersFound).filter(g => g !== 'All'), 'All']
   };
 };
 
@@ -437,7 +437,7 @@ export const expandFeatureGroupPatterns = (recommendedFeatures = [], allFeatures
   return {
     items: Array.from(expandedItemsMap.values()),
     packageNotes: Array.from(new Set(packageNotes)),
-    groupFilters: Array.from(groupFiltersFound)
+    groupFilters: [...Array.from(groupFiltersFound).filter(g => g !== 'All'), 'All']
   };
 };
 
@@ -526,7 +526,7 @@ export const expandTraitGroupPatterns = (recommendedTraits = [], allTraits = ALL
   return {
     items: Array.from(expandedItemsMap.values()),
     packageNotes: Array.from(new Set(packageNotes)),
-    groupFilters: Array.from(groupFiltersFound)
+    groupFilters: [...Array.from(groupFiltersFound).filter(g => g !== 'All'), 'All']
   };
 };
 

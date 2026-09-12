@@ -240,7 +240,7 @@ export const DBMWikiView = ({
 }) => {
   const [selectedArticleId, setSelectedArticleId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [perspectiveFilter, setPerspectiveFilter] = useState('all'); // 'all' | 'operator' | 'architect'
+  const [perspectiveFilter, setPerspectiveFilter] = useState('operator'); // 'operator' | 'architect' | 'all'
   const [expandedSections, setExpandedSections] = useState({});
   const [isSyncing, setIsSyncing] = useState(false);
 
@@ -740,16 +740,6 @@ export const DBMWikiView = ({
           {/* Perspective Filter Pills */}
           <div className="flex items-center gap-1 bg-slate-900 p-1 rounded-lg border border-slate-800 text-[11px] font-mono">
             <button
-              onClick={() => setPerspectiveFilter('all')}
-              className={`flex-1 py-1 rounded text-center font-bold uppercase transition-all ${
-                perspectiveFilter === 'all'
-                  ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-[0_0_8px_rgba(34,211,238,0.25)]'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              All ({currentItems?.length || 0})
-            </button>
-            <button
               onClick={() => setPerspectiveFilter('operator')}
               className={`flex-1 py-1 rounded text-center font-bold uppercase transition-all flex items-center justify-center gap-1 ${
                 perspectiveFilter === 'operator'
@@ -770,6 +760,16 @@ export const DBMWikiView = ({
               title="Game Master rules, worldbuilding, generic templates, combat matrices & Bastion engine"
             >
               <span>🏛️</span> Architect
+            </button>
+            <button
+              onClick={() => setPerspectiveFilter('all')}
+              className={`flex-1 py-1 rounded text-center font-bold uppercase transition-all ${
+                perspectiveFilter === 'all'
+                  ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-[0_0_8px_rgba(34,211,238,0.25)]'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              All ({currentItems?.length || 0})
             </button>
           </div>
 

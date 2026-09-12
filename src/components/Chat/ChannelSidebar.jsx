@@ -148,7 +148,7 @@ export const ChannelSidebar = ({ onOpenCreateModal, onOpenSquadModal, isCompact 
               )}
               {isGroup && (
                 <span className="px-1 py-0.2 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[8px] rounded font-mono font-bold">
-                  SQUAD
+                  {channel.characterMembers?.length ? `GROUP (${channel.characterMembers.length} CHARS)` : 'SQUAD'}
                 </span>
               )}
               {isPersonaLog && (
@@ -160,6 +160,10 @@ export const ChannelSidebar = ({ onOpenCreateModal, onOpenSquadModal, isCompact 
             {isCharacterDM && (charRole || playerHandle) ? (
               <p className="text-[9px] text-slate-400 truncate mt-0.5">
                 {charRole ? `${charRole} • ` : ''}@{playerHandle || 'operator'}
+              </p>
+            ) : isGroup && Array.isArray(channel.characterMembers) && channel.characterMembers.length > 0 ? (
+              <p className="text-[9.5px] text-emerald-400/80 truncate mt-0.5 max-w-[170px]">
+                👥 {channel.characterMembers.map(c => c.name).join(', ')}
               </p>
             ) : channel.lastMessage?.text ? (
               <p className="text-[9.5px] text-slate-500 truncate mt-0.5 max-w-[170px]">
@@ -258,13 +262,13 @@ export const ChannelSidebar = ({ onOpenCreateModal, onOpenSquadModal, isCompact 
         {/* Filter Chips */}
         <div className="flex items-center gap-1 overflow-x-auto no-scrollbar pb-0.5 text-[9.5px] font-mono">
           {[
-            { id: 'all', label: 'ALL' },
             { id: 'players', label: 'PLAYERS' },
             { id: 'characters', label: 'CHARACTERS' },
             { id: 'squad', label: 'SQUADS' },
             { id: 'logs', label: 'ACTION LOGS' },
             { id: 'public', label: 'PUBLIC' },
-            { id: 'custom', label: 'CUSTOM' }
+            { id: 'custom', label: 'CUSTOM' },
+            { id: 'all', label: 'ALL' }
           ].map(chip => (
             <button
               key={chip.id}
@@ -413,6 +417,35 @@ export const ChannelSidebar = ({ onOpenCreateModal, onOpenSquadModal, isCompact 
                       </div>
                     )}
                   </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* 2. Squads & Character Groups Channels */}
+        {(activeCategoryFilter === 'all' || activeCategoryFilter === 'squad') && (
+          <div className="space-y-1">
+            <div 
+              onClick={() => toggleSection('squads')}
+              className="flex items-center justify-between px-2 py-1 text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider rounded-lg hover:bg-slate-900/50 cursor-pointer transition-colors"
+            >
+              <span className="flex items-center gap-1.5">
+                {collapsedSections.squads ? <ChevronRight size={12} /> : <ChevronDown size={12} />}
+                <Shield size={11} />
+                <span>SQUADS &amp; CHARACTER GROUPS</span>
+              </span>
+              <span className="text-slate-500">{groupChannels.length}</span>
+            </div>
+
+            {!collapsedSections.squads && (
+              <div className="space-y-0.5 pl-1.5 border-l border-emerald-500/20 ml-2">
+                {groupChannels.length === 0 ? (
+                  <div className="px-2.5 py-1 text-[10px] text-slate-500 font-mono italic">
+                    No character groups formed. Click NEW &gt; SQUAD GROUP to build a team frequency.
+                  </div>
+                ) : (
+                  filterChannels(groupChannels).map(renderChannelItem)
                 )}
               </div>
             )}

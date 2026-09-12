@@ -15,7 +15,7 @@ export const ArchitectDevFieldsModal = ({
   const [selectedFieldKey, setSelectedFieldKey] = useState(null);
   const [searchFieldTerm, setSearchFieldTerm] = useState('');
   const [searchEntryTerm, setSearchEntryTerm] = useState('');
-  const [activeGroupFilter, setActiveGroupFilter] = useState('all');
+  const [activeGroupFilter, setActiveGroupFilter] = useState(DEVELOPMENT_FIELDS_GROUPS[0]?.id || 'all');
   const [viewMode, setViewMode] = useState('grouped'); // 'grouped' | 'alphabetical'
 
   // Entry Modal States
@@ -337,17 +337,6 @@ export const ArchitectDevFieldsModal = ({
 
               {/* Group Filter Pills */}
               <div className="flex items-center gap-1.5 overflow-x-auto pb-1 shrink-0">
-                <button
-                  type="button"
-                  onClick={() => setActiveGroupFilter('all')}
-                  className={`px-3 py-1 text-xs font-bold uppercase rounded-lg transition-all shrink-0 ${
-                    activeGroupFilter === 'all'
-                      ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-sm'
-                      : 'bg-slate-900/80 text-slate-400 border border-slate-800 hover:text-slate-200'
-                  }`}
-                >
-                  🌐 All Groups ({DEVELOPMENT_FIELDS_REGISTRY.length})
-                </button>
                 {DEVELOPMENT_FIELDS_GROUPS.map(group => {
                   const count = DEVELOPMENT_FIELDS_REGISTRY.filter(f => f.group === group.id).length;
                   const isActive = activeGroupFilter === group.id;
@@ -368,6 +357,17 @@ export const ArchitectDevFieldsModal = ({
                     </button>
                   );
                 })}
+                <button
+                  type="button"
+                  onClick={() => setActiveGroupFilter('all')}
+                  className={`px-3 py-1 text-xs font-bold uppercase rounded-lg transition-all shrink-0 ${
+                    activeGroupFilter === 'all'
+                      ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-sm'
+                      : 'bg-slate-900/80 text-slate-400 border border-slate-800 hover:text-slate-200'
+                  }`}
+                >
+                  🌐 All Groups ({DEVELOPMENT_FIELDS_REGISTRY.length})
+                </button>
               </div>
 
               {/* Fields List / Grid */}

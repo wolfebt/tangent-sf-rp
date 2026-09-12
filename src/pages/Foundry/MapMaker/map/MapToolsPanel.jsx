@@ -93,6 +93,13 @@ const MapToolsPanel = ({
 
   const activeTerrains = getTerrainsForScale(selectedCatalogScale, customAssets?.terrains || []);
   const activeCategories = getCategoriesForScale(selectedCatalogScale, customAssets?.objects || []);
+
+  useEffect(() => {
+    if (activeCategories.length > 0 && (!selectedCategory || !activeCategories.includes(selectedCategory))) {
+      setSelectedCategory(activeCategories[0]);
+    }
+  }, [selectedCatalogScale, activeCategories]);
+
   const activeObjects = getObjectsForScale(selectedCatalogScale, selectedCategory, customAssets?.objects || []);
 
   const filteredTerrains = activeTerrains.filter(t =>

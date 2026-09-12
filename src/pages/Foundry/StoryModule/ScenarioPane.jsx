@@ -828,7 +828,7 @@ export default function ScenarioPane({
 
   // World Elements search in Cockpit Dock
   const [elementSearch, setElementSearch] = useState('');
-  const [selectedElementTypeFilter, setSelectedElementTypeFilter] = useState('All');
+  const [selectedElementTypeFilter, setSelectedElementTypeFilter] = useState('Persona');
 
   const rawWorkspaceTab = propWorkspaceTab || localWorkspaceTab;
   const scenarioWorkspaceTab = (rawWorkspaceTab === 'canvas' || rawWorkspaceTab === 'manuscript')
@@ -1611,7 +1611,7 @@ export default function ScenarioPane({
 
                 {/* Filter Pills */}
                 <div className="flex gap-1 overflow-x-auto scrollbar-none pb-0.5">
-                  {['All', 'Persona', 'Faction', 'Item', 'Location', 'Lore'].map(t => (
+                  {['Persona', 'Faction', 'Item', 'Location', 'Lore', 'All'].map(t => (
                     <button
                       key={t}
                       type="button"

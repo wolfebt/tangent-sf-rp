@@ -229,6 +229,7 @@ export const characterSchema = z.object({
 
   // Array fields with defaults and sub-schema validation
   features: z.array(traitItemSchema).optional().default([]),
+  traits: z.array(traitItemSchema).optional().default([]),
   disadvantages: z.array(traitItemSchema).optional().default([]),
   hindrances: z.array(traitItemSchema).optional().default([]),
   augmentations: z.array(traitItemSchema).optional().default([]),

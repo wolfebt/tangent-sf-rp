@@ -41,7 +41,7 @@ export default function InitiativeManagerModal({
   onSetRound,
   onSetActiveTurnTokenId
 }) {
-  const [activeTab, setActiveTab] = useState('all'); // 'all' | 'pcs' | 'npcs' | 'environment'
+  const [activeTab, setActiveTab] = useState('pcs'); // 'pcs' | 'npcs' | 'environment' | 'all'
   const [customEnvName, setCustomEnvName] = useState('');
   const [customEnvCount, setCustomEnvCount] = useState(10);
   const [showAddEnv, setShowAddEnv] = useState(false);
@@ -414,10 +414,10 @@ export default function InitiativeManagerModal({
         <div className="px-5 py-2 bg-slate-950/60 border-b border-slate-800 flex items-center justify-between gap-2">
           <div className="flex items-center gap-1 font-mono text-xs">
             {[
-              { id: 'all', label: `All (${combinedList.length})` },
               { id: 'pcs', label: `PCs (${pcTokens.length})` },
               { id: 'npcs', label: `NPCs (${npcTokens.length})` },
-              { id: 'environment', label: `Environment (${environmentCombatants.length})` }
+              { id: 'environment', label: `Environment (${environmentCombatants.length})` },
+              { id: 'all', label: `All (${combinedList.length})` }
             ].map(tab => (
               <button
                 key={tab.id}

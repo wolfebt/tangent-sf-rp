@@ -215,7 +215,7 @@ export const ChatProvider = ({ children }) => {
   }, [userDirectory]);
 
   const groupChannels = useMemo(() => {
-    return channels.filter(c => c.type === 'group');
+    return channels.filter(c => c.type === 'group' || !!c.groupId || c.id.startsWith('group_') || (Array.isArray(c.characterMembers) && c.characterMembers.length > 0));
   }, [channels]);
 
   const personaLogChannels = useMemo(() => {
@@ -229,6 +229,9 @@ export const ChatProvider = ({ children }) => {
       c.type !== 'direct' && 
       !c.id.startsWith('dm_') && 
       c.type !== 'group' && 
+      !c.groupId &&
+      !c.id.startsWith('group_') &&
+      !(Array.isArray(c.characterMembers) && c.characterMembers.length > 0) &&
       c.type !== 'persona_log' && 
       !c.id.startsWith('persona_log_')
     );
@@ -329,8 +332,8 @@ export const ChatProvider = ({ children }) => {
     return dmChannel;
   }, [currentUser, selectChannel]);
 
-  // Create a new custom or squad group channel
-  const createNewChannel = useCallback(async ({ name, topic, isPublic, type, members }) => {
+  // Create a new custom or squad group channel (supports characterMembers)
+  const createNewChannel = useCallback(async ({ name, topic, isPublic, type, members, characterMembers }) => {
     if (!currentUser) throw new Error('You must be logged in to create a channel');
     const newChan = await ChatService.createCustomChannel({
       name,
@@ -338,6 +341,7 @@ export const ChatProvider = ({ children }) => {
       isPublic,
       type,
       members,
+      characterMembers,
       currentUser
     });
     selectChannel(newChan.id);
@@ -378,6 +382,13 @@ export const ChatProvider = ({ children }) => {
     }
   }, [activeChannelId, selectChannel]);
 
+  // Clear all messages in channel
+  const clearChannelMessages = useCallback(async (channelId) => {
+    const operator = userHandle || currentUser?.displayName || 'Operator';
+    AudioService.playTerminalBeep(900, 0.05);
+    await ChatService.clearChannelMessages(channelId, operator);
+  }, [userHandle, currentUser]);
+
   const value = {
     channels,
     publicChannels,
@@ -415,7 +426,8 @@ export const ChatProvider = ({ children }) => {
     updateChannel,
     addChannelMember,
     removeChannelMember,
-    deleteChannel
+    deleteChannel,
+    clearChannelMessages
   };
 
   return (

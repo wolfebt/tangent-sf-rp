@@ -47,7 +47,7 @@ export function getObjectsForScale(scaleType, categoryFilter = 'All', customObje
 export function getCategoriesForScale(scaleType, customObjects = []) {
   const objects = getObjectsForScale(scaleType, 'All', customObjects);
   const categories = Array.from(new Set(objects.map(o => o.category).filter(Boolean)));
-  return ['All', ...categories];
+  return [...categories, 'All'];
 }
 
 /**

@@ -35,7 +35,7 @@ export const PersonaLogModal: React.FC<PersonaLogModalProps> = ({
   maxHP = 30
 }) => {
   const [logs, setLogs] = useState<any[]>([]);
-  const [activeFilter, setActiveFilter] = useState<'all' | 'checks' | 'vitals' | 'gear'>('all');
+  const [activeFilter, setActiveFilter] = useState<'all' | 'checks' | 'vitals' | 'gear'>('checks');
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -144,10 +144,10 @@ export const PersonaLogModal: React.FC<PersonaLogModalProps> = ({
             <Filter size={12} className="text-cyan-400" />
             <span className="text-[10px] text-slate-400 uppercase font-bold mr-1">FILTER:</span>
             {[
-              { id: 'all', label: `ALL (${logs.length})` },
               { id: 'checks', label: 'CHECKS & ROLLS' },
               { id: 'vitals', label: 'VITALS & STATUS' },
-              { id: 'gear', label: 'ACTIONS & GEAR' }
+              { id: 'gear', label: 'ACTIONS & GEAR' },
+              { id: 'all', label: `ALL (${logs.length})` }
             ].map(f => (
               <button
                 key={f.id}
