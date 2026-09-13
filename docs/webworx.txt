@@ -1,27 +1,7 @@
+in the codex 
+remove the guided archetypes & quick-start presets
 
-
-
-for user fields lets make sure they will expand more lines to fit content, not stuck with 1 line to fit text.
-
-we have limited windows to view content, lets use the entire browser view area when possible, only enable scroll bars when the browser window is full.
-
-on the skills page we should have a text block to show any situational and limited modifiers to checks (from hindrances, features, special abilities, etc)
-
-we need to ensure we have our tool tips for all assets of the character, currently none on traits and check the project for other
-
-and with the tool tips over the feature we do not need the detailed cards - make more compact showing the name, dots, info, cost and if available - the tool tip will display all of its current contents.
-
-e must ensure all of the prerequisites are fully represented - grey tone on any feature, skill, trait, etc.. the character cannot chose do to lack of a prerequisite.
-
-for traits, unless specifically structured for the character to increase a species trait they are not purchasable by the character and the cost are not all 1cp (with options of 1, 2 or 4). lets add a radio button for a flag in the species traits to determine if purchasable by the character and default is no (unchecked), remove purchase option in the folio for species features unless flagged in the species trait data.
-
-in the metaphysics tab in the discipline cards remove the invocation add, we have another tab for invocations. and in the invocations tab we need the access to selecting invocations and special abilities from the database or building with the manage modal
-
-each of the codex needs a fuly guided mode/tab
-
-
-
-
+in the tool tier tier should be TL (for tech level)
 
 
 

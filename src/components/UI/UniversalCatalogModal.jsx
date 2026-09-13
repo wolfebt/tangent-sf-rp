@@ -171,30 +171,30 @@ export const getItemCategory = (item, canonicalColKey) => {
   if (!item) return 'Standard';
 
   if (canonicalColKey === 'augmentations') {
-    return getAugmentationStage(item);
+    return String(getAugmentationStage(item) || 'Standard');
   }
 
   if (canonicalColKey === 'invocations') {
-    return item.discipline || item.school || item.type || 'General';
+    return String(item.discipline || item.school || item.type || 'General');
   }
 
   if (canonicalColKey === 'species') {
     const parent = item.parent_species;
     if (parent) {
       const clean = Array.isArray(parent) ? parent[0] : String(parent).split('(')[0].trim();
-      if (clean && clean.toLowerCase() !== 'species') {
-        if (clean.toLowerCase() === 'independent') return 'Independent Xenotypes';
-        if (clean.toLowerCase().replace(/[^a-z0-9]/g, '') === 'shanor') return "Sha'Nor";
-        return clean;
+      if (clean && String(clean).toLowerCase() !== 'species') {
+        if (String(clean).toLowerCase() === 'independent') return 'Independent Xenotypes';
+        if (String(clean).toLowerCase().replace(/[^a-z0-9]/g, '') === 'shanor') return "Sha'Nor";
+        return String(clean);
       }
     }
     const lineage = item.lineage;
     if (lineage) {
       const clean = Array.isArray(lineage) ? lineage[0] : String(lineage).split('(')[0].trim();
-      if (clean && clean.toLowerCase() !== 'species') {
-        if (clean.toLowerCase() === 'independent') return 'Independent Xenotypes';
-        if (clean.toLowerCase().replace(/[^a-z0-9]/g, '') === 'shanor') return "Sha'Nor";
-        return clean;
+      if (clean && String(clean).toLowerCase() !== 'species') {
+        if (String(clean).toLowerCase() === 'independent') return 'Independent Xenotypes';
+        if (String(clean).toLowerCase().replace(/[^a-z0-9]/g, '') === 'shanor') return "Sha'Nor";
+        return String(clean);
       }
     }
     const name = String(item.name || item.title || '').toLowerCase();
@@ -202,7 +202,7 @@ export const getItemCategory = (item, canonicalColKey) => {
       if (name.includes(l.id) || name.includes(l.name.toLowerCase().split(' ')[0])) {
         const linName = l.name.split('(')[0].trim();
         if (linName.toLowerCase().replace(/[^a-z0-9]/g, '').startsWith('shanor')) return "Sha'Nor";
-        return linName;
+        return String(linName);
       }
     }
     return 'Independent Xenotypes';
@@ -210,53 +210,56 @@ export const getItemCategory = (item, canonicalColKey) => {
 
   if (canonicalColKey === 'archetypes') {
     const sphere = item.sphere;
-    if (sphere) return sphere.split('(')[0].trim();
-    if (item.category && item.category.toLowerCase() !== 'archetypes' && item.category.toLowerCase() !== 'archetype') {
-      return item.category.split('(')[0].trim();
+    if (sphere) return String(sphere).split('(')[0].trim();
+    if (item.category && String(item.category).toLowerCase() !== 'archetypes' && String(item.category).toLowerCase() !== 'archetype') {
+      return String(item.category).split('(')[0].trim();
     }
     return 'General';
   }
 
   if (canonicalColKey === 'skills') {
     const group = item.group || item.subtype || (item.category !== 'skills' ? item.category : null);
-    if (group) return group.charAt(0).toUpperCase() + group.slice(1);
+    if (group) {
+      const gStr = String(group);
+      return gStr.charAt(0).toUpperCase() + gStr.slice(1);
+    }
     return 'General';
   }
 
   if (canonicalColKey === 'weaponry') {
-    return item.weapon_type || item.subtype || (item.category !== 'weaponry' ? item.category : null) || item.type || 'Weapon';
+    return String(item.weapon_type || item.subtype || (item.category !== 'weaponry' ? item.category : null) || item.type || 'Weapon');
   }
 
   if (canonicalColKey === 'armoring') {
-    return item.armor_class || item.subtype || (item.category !== 'armoring' ? item.category : null) || item.type || 'Armor';
+    return String(item.armor_class || item.subtype || (item.category !== 'armoring' ? item.category : null) || item.type || 'Armor');
   }
 
   if (canonicalColKey === 'disciplines') {
-    if (item.isCore || (item.school && item.school.toLowerCase().includes('core'))) return 'Core Discipline';
-    return item.school || item.discipline || (item.category !== 'disciplines' ? item.category : null) || 'Discipline';
+    if (item.isCore || (item.school && String(item.school).toLowerCase().includes('core'))) return 'Core Discipline';
+    return String(item.school || item.discipline || (item.category !== 'disciplines' ? item.category : null) || 'Discipline');
   }
 
   if (canonicalColKey === 'features' || canonicalColKey === 'disadvantages') {
     const cat = item.category || item.type || item.group;
-    if (cat && cat !== 'features' && cat !== 'disadvantages') return cat;
+    if (cat && cat !== 'features' && cat !== 'disadvantages') return String(cat);
     return canonicalColKey === 'disadvantages' ? 'Disadvantage' : 'Feature';
   }
 
   if (canonicalColKey === 'occupations') {
-    return item.field || item.category_type || item.type || 'Career';
+    return String(item.field || item.category_type || item.type || 'Career');
   }
 
   if (canonicalColKey === 'origins') {
-    return item.habitat || item.origin_type || item.type || 'Homeworld';
+    return String(item.habitat || item.origin_type || item.type || 'Homeworld');
   }
 
   if (canonicalColKey === 'factions') {
-    return item.faction_classification || item.faction_type || item.archetype || 'Faction';
+    return String(item.faction_classification || item.faction_type || item.archetype || 'Faction');
   }
 
-  if (item.category && item.category !== canonicalColKey) return item.category;
-  if (item.type) return Array.isArray(item.type) ? item.type[0] : item.type;
-  if (item.subtype) return item.subtype;
+  if (item.category && item.category !== canonicalColKey) return String(item.category);
+  if (item.type) return String(Array.isArray(item.type) ? item.type[0] : item.type);
+  if (item.subtype) return String(item.subtype);
   return 'Standard';
 };
 
@@ -291,7 +294,7 @@ export const UniversalCatalogModal = ({
   const [cloudItems, setCloudItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeCategoryFilter, setActiveCategoryFilter] = useState(filterCategory || null);
+  const [activeCategoryFilter, setActiveCategoryFilter] = useState(filterCategory || 'ALL');
   const [sortOption, setSortOption] = useState('recommended'); // 'recommended' | 'az' | 'za' | 'cost_desc' | 'cost_asc' | 'tl_desc'
 
   // Multi-selection state
@@ -536,9 +539,7 @@ export const UniversalCatalogModal = ({
     if (filterCategory) {
       setActiveCategoryFilter(filterCategory);
     } else if (!activeCategoryFilter || !categoryPills.includes(activeCategoryFilter)) {
-      if (categoryPills.length > 0) {
-        setActiveCategoryFilter(categoryPills[0]);
-      }
+      setActiveCategoryFilter('ALL');
     }
   }, [isOpen, filterCategory, categoryPills]);
 
@@ -546,7 +547,7 @@ export const UniversalCatalogModal = ({
   const categoryCounts = useMemo(() => {
     const counts = { ALL: allRawItems.length };
     allRawItems.forEach(item => {
-      const cat = getItemCategory(item, canonicalColKey);
+      const cat = String(getItemCategory(item, canonicalColKey) || 'Standard');
       if (cat) {
         counts[cat] = (counts[cat] || 0) + 1;
       }
@@ -562,7 +563,7 @@ export const UniversalCatalogModal = ({
     let list = allRawItems.filter(item => {
       const name = String(item.name || item.title || item.id || '');
       const desc = String(item.description || item.summary || item.flavor || '');
-      const itemCat = getItemCategory(item, canonicalColKey);
+      const itemCat = String(getItemCategory(item, canonicalColKey) || 'Standard');
       const rawCat = String(item.category || item.sphere || item.parent_species || item.group || item.type || '');
       const tags = Array.isArray(item.tags) ? item.tags.join(' ') : String(item.tags || '');
 
@@ -605,8 +606,8 @@ export const UniversalCatalogModal = ({
       }
 
       // Active interactive category pill (selected gem)
-      if (activeCategoryFilter !== 'ALL') {
-        const filterStr = activeCategoryFilter.toLowerCase();
+      if (activeCategoryFilter && activeCategoryFilter !== 'ALL') {
+        const filterStr = String(activeCategoryFilter).toLowerCase();
         const itemCatStr = itemCat.toLowerCase();
         const parentStr = String(item.parent_species || item.sphere || item.lineage || '').toLowerCase();
 
@@ -819,7 +820,7 @@ export const UniversalCatalogModal = ({
     if (onOpenManageModal) {
       onOpenManageModal(canonicalColKey, {
         name: searchQuery.trim() || '',
-        category: activeCategoryFilter !== 'ALL' ? activeCategoryFilter.toLowerCase() : canonicalColKey
+        category: (activeCategoryFilter && activeCategoryFilter !== 'ALL') ? String(activeCategoryFilter).toLowerCase() : canonicalColKey
       }, 'create');
     }
   }, [onClose, onOpenManageModal, canonicalColKey, searchQuery, activeCategoryFilter]);

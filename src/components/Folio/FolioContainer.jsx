@@ -189,10 +189,10 @@ const FolioContainer = () => {
         if (autoApply && applyArchetypeChassis) {
           applyArchetypeChassis(taggedData);
         } else {
-          updateField(key, taggedData);
+          updateField(key, name);
         }
       } else {
-        updateField(key, taggedData);
+        updateField(key, name);
       }
     } else if (key === 'skills' || key === 'skill') {
       const cleanName = typeof taggedData === 'object' ? (taggedData.name || taggedData.title || '') : taggedData;
@@ -308,10 +308,10 @@ const FolioContainer = () => {
         if (autoApply && applyArchetypeChassis) {
           applyArchetypeChassis(value);
         } else {
-          updateField(key, value);
+          updateField(key, name);
         }
       } else {
-        updateField(key, value);
+        updateField(key, name);
       }
     } else if (key === 'skills' || key === 'skill') {
       const cleanName = typeof value === 'object' ? (value.name || value.title || '') : value;

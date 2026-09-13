@@ -311,51 +311,58 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
 
   // Selected Archetype Object lookup
   const selectedArchetype = useMemo(() => {
-    const archName = characterData['char-archetype'];
-    if (!archName) return null;
-    return archetypesCatalog.find(a => (a.name || a.id || '').toLowerCase() === String(archName).toLowerCase()) || null;
+    const raw = characterData['char-archetype'];
+    if (!raw) return null;
+    const archName = typeof raw === 'object' ? (raw.name || raw.title || raw.id || '') : String(raw);
+    return archetypesCatalog.find(a => (a.name || a.id || '').toLowerCase() === archName.toLowerCase()) || null;
   }, [characterData['char-archetype'], archetypesCatalog]);
 
   // Selected Species Object lookup
   const selectedSpecies = useMemo(() => {
-    const spName = characterData['char-species'];
-    if (!spName) return null;
-    return speciesCatalog.find(s => (s.name || s.title || s.id || '').toLowerCase() === String(spName).toLowerCase()) || null;
+    const raw = characterData['char-species'];
+    if (!raw) return null;
+    const spName = typeof raw === 'object' ? (raw.name || raw.title || raw.id || '') : String(raw);
+    return speciesCatalog.find(s => (s.name || s.title || s.id || '').toLowerCase() === spName.toLowerCase()) || null;
   }, [characterData['char-species'], speciesCatalog]);
 
   // Selected Occupation Object lookup
   const selectedOccupation = useMemo(() => {
-    const occName = characterData['char-occu'];
-    if (!occName) return null;
-    return occupationsCatalog.find(o => (o.name || o.title || o.id || '').toLowerCase() === String(occName).toLowerCase()) || null;
+    const raw = characterData['char-occu'];
+    if (!raw) return null;
+    const occName = typeof raw === 'object' ? (raw.name || raw.title || raw.id || '') : String(raw);
+    return occupationsCatalog.find(o => (o.name || o.title || o.id || '').toLowerCase() === occName.toLowerCase()) || null;
   }, [characterData['char-occu'], occupationsCatalog]);
 
   // Selected Secondary / Background Occupation lookup (via Background Trait)
   const selectedSecondaryOccupation = useMemo(() => {
-    const secOccName = characterData['char-secondary-occu'] || characterData['char-background-occu'] || characterData['char-occu-secondary'];
-    if (!secOccName) return null;
-    return occupationsCatalog.find(o => (o.name || o.title || o.id || '').toLowerCase() === String(secOccName).toLowerCase()) || null;
+    const raw = characterData['char-secondary-occu'] || characterData['char-background-occu'] || characterData['char-occu-secondary'];
+    if (!raw) return null;
+    const secOccName = typeof raw === 'object' ? (raw.name || raw.title || raw.id || '') : String(raw);
+    return occupationsCatalog.find(o => (o.name || o.title || o.id || '').toLowerCase() === secOccName.toLowerCase()) || null;
   }, [characterData['char-secondary-occu'], characterData['char-background-occu'], characterData['char-occu-secondary'], occupationsCatalog]);
 
   // Selected Origin Object lookup
   const selectedOrigin = useMemo(() => {
-    const origName = characterData['char-origin'];
-    if (!origName) return null;
-    return originsCatalog.find(o => (o.name || o.title || o.id || '').toLowerCase() === String(origName).toLowerCase()) || null;
+    const raw = characterData['char-origin'];
+    if (!raw) return null;
+    const origName = typeof raw === 'object' ? (raw.name || raw.title || raw.id || '') : String(raw);
+    return originsCatalog.find(o => (o.name || o.title || o.id || '').toLowerCase() === origName.toLowerCase()) || null;
   }, [characterData['char-origin'], originsCatalog]);
 
   // Selected Secondary Origin Object lookup (expands skill and trait options without adding points)
   const selectedSecondaryOrigin = useMemo(() => {
-    const secName = characterData['char-secondary-origin'] || characterData['char-origin-secondary'];
-    if (!secName) return null;
-    return originsCatalog.find(o => (o.name || o.title || o.id || '').toLowerCase() === String(secName).toLowerCase()) || null;
+    const raw = characterData['char-secondary-origin'] || characterData['char-origin-secondary'];
+    if (!raw) return null;
+    const secName = typeof raw === 'object' ? (raw.name || raw.title || raw.id || '') : String(raw);
+    return originsCatalog.find(o => (o.name || o.title || o.id || '').toLowerCase() === secName.toLowerCase()) || null;
   }, [characterData['char-secondary-origin'], characterData['char-origin-secondary'], originsCatalog]);
 
   // Selected Faction Object lookup
   const selectedFaction = useMemo(() => {
-    const facName = characterData['char-faction'];
-    if (!facName) return null;
-    return factionsCatalog.find(f => (f.name || f.title || f.id || '').toLowerCase() === String(facName).toLowerCase()) || null;
+    const raw = characterData['char-faction'];
+    if (!raw) return null;
+    const facName = typeof raw === 'object' ? (raw.name || raw.title || raw.id || '') : String(raw);
+    return factionsCatalog.find(f => (f.name || f.title || f.id || '').toLowerCase() === facName.toLowerCase()) || null;
   }, [characterData['char-faction'], factionsCatalog]);
 
   // Faction Benefits & Hindrances
@@ -851,7 +858,9 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       <span className="text-sky-400 font-bold uppercase block text-[10px]">Occupations:</span>
                       <div className="flex flex-wrap gap-1">
                         {recOccs.map(occName => {
-                          const isCurrent = (characterData['char-occu'] || '').toLowerCase().includes(occName.toLowerCase());
+                          const rawOcc = characterData['char-occu'];
+                          const occVal = typeof rawOcc === 'object' ? (rawOcc?.name || rawOcc?.title || '') : String(rawOcc || '');
+                          const isCurrent = occVal.toLowerCase().includes(occName.toLowerCase());
                           return (
                             <span
                               key={occName}
@@ -873,7 +882,9 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       <span className="text-emerald-400 font-bold uppercase block text-[10px]">Origins:</span>
                       <div className="flex flex-wrap gap-1">
                         {recOrigins.map(origName => {
-                          const isCurrent = (characterData['char-origin'] || '').toLowerCase().includes(origName.toLowerCase());
+                          const rawOrig = characterData['char-origin'];
+                          const origVal = typeof rawOrig === 'object' ? (rawOrig?.name || rawOrig?.title || '') : String(rawOrig || '');
+                          const isCurrent = origVal.toLowerCase().includes(origName.toLowerCase());
                           return (
                             <span
                               key={origName}
@@ -895,7 +906,9 @@ const IdentityTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                       <span className="text-purple-400 font-bold uppercase block text-[10px]">Factions:</span>
                       <div className="flex flex-wrap gap-1">
                         {recFactions.map(facName => {
-                          const isCurrent = (characterData['char-faction'] || '').toLowerCase().includes(facName.toLowerCase());
+                          const rawFac = characterData['char-faction'];
+                          const facVal = typeof rawFac === 'object' ? (rawFac?.name || rawFac?.title || '') : String(rawFac || '');
+                          const isCurrent = facVal.toLowerCase().includes(facName.toLowerCase());
                           return (
                             <span
                               key={facName}
