@@ -224,9 +224,9 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
             type="button"
             onClick={() => setLatestDamageRoll(null)}
             className="text-slate-400 hover:text-white text-xs px-2 py-1 cursor-pointer"
-            title="Dismiss Roll"
+            title="Dismiss Roll" aria-label="Dismiss Roll"
           >
-            ✕
+            <X size={16} />
           </button>
         </div>
       )}
