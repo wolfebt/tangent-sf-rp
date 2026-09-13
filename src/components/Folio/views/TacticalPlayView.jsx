@@ -13,6 +13,7 @@ import {
   buildWeaponNotes 
 } from '../../../utils/combatUtils';
 import { enrichItemWithModifiers } from '../../../engines/tangentModifierEngine';
+import FolioTooltip from '../shared/FolioTooltip';
 import { 
   Shield, 
   Heart, 
@@ -1644,56 +1645,33 @@ export const TacticalPlayView = ({
                     .map((feat, idx) => (
                       <div
                         key={`${feat.name}_${idx}`}
-                        className="p-2.5 rounded-lg bg-slate-950/80 border border-slate-800/80 space-y-1"
+                        className="p-2 rounded-lg bg-slate-950/80 border border-slate-800/80 hover:border-amber-500/50 hover:bg-slate-900/90 transition-all flex items-center justify-between gap-2 shadow-sm"
                       >
-                        <div className="flex items-center justify-between gap-2 flex-wrap">
-                          <span className="text-xs font-mono font-bold text-amber-200">{feat.name}</span>
-                          <div className="flex items-center gap-1">
-                            <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-slate-900 border border-slate-800 text-slate-400 uppercase">
-                              {feat.category}
+                        <div className="flex items-center gap-2 min-w-0 flex-1">
+                          <FolioTooltip
+                            title={feat.name}
+                            badge={`${feat.category} • ${feat.source}`}
+                            badgeColor={feat.source.toLowerCase().includes('trait') ? 'emerald' : 'amber'}
+                            description={feat.description || 'No description recorded.'}
+                            modifiers={feat.modifiers}
+                            rules={feat.rules}
+                            notes={feat.notes || feat.mechanic}
+                            showInfoIcon={true}
+                          >
+                            <span className="text-xs font-mono font-bold text-amber-200 hover:text-amber-100 transition-colors truncate">
+                              {feat.name}
                             </span>
-                            <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-cyan-950 border border-cyan-800/50 text-cyan-400">
-                              {feat.source}
-                            </span>
-                          </div>
+                          </FolioTooltip>
                         </div>
 
-                        {/* Active Modifiers Chips */}
-                        {feat.modifiers && feat.modifiers.length > 0 && (
-                          <div className="flex flex-wrap gap-1 pt-0.5">
-                            {feat.modifiers.map((m, mIdx) => {
-                              const val = typeof m === 'object' ? m.value : null;
-                              const isNeg = typeof val === 'number' && val < 0;
-                              const label = typeof m === 'object' ? (m.description || `${val >= 0 ? '+' : ''}${val} ${m.target}`) : String(m);
-                              return (
-                                <span
-                                  key={mIdx}
-                                  className={`px-1.5 py-0.2 text-[9px] font-mono font-bold rounded border ${
-                                    isNeg
-                                      ? 'bg-rose-950/80 text-rose-300 border-rose-800/70'
-                                      : 'bg-cyan-950/80 text-cyan-300 border-cyan-700/70'
-                                  }`}
-                                >
-                                  {label}
-                                </span>
-                              );
-                            })}
-                          </div>
-                        )}
-
-                        {feat.description && (
-                          <p className="text-[11px] font-sans text-slate-400 leading-relaxed">
-                            {feat.description}
-                          </p>
-                        )}
-
-                        {/* Inline Mechanics Snippet */}
-                        {feat.mechanic && (
-                          <div className="bg-slate-900/60 border border-slate-800/80 rounded px-2 py-1 text-[10px] font-mono text-cyan-200/90 line-clamp-2">
-                            <span className="font-bold text-slate-500 mr-1 uppercase text-[8.5px]">Mech:</span>
-                            {feat.mechanic}
-                          </div>
-                        )}
+                        <div className="flex items-center gap-1.5 shrink-0">
+                          <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-slate-900 border border-slate-800 text-slate-400 uppercase hidden sm:inline-block">
+                            {feat.category}
+                          </span>
+                          <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-cyan-950 border border-cyan-800/50 text-cyan-400">
+                            {feat.source}
+                          </span>
+                        </div>
                       </div>
                     ))}
                 </div>

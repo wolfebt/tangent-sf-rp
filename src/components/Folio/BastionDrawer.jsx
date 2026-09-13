@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import DraggablePanel from '../../pages/Foundry/MapMaker/map/DraggablePanel';
 import { useFolio } from '../../context/FolioContext';
 import { sendBastionChatMessage, parseRollCommand, generateSelectiveFields } from '../../services/bastionService';
+import { synthesizeCharacterWithBastion } from '../../services/bastionCharacterEngine';
 
 const CHARACTER_FIELDS = [
   // Core Identity
@@ -63,7 +64,9 @@ const CATEGORIES = [
 ];
 
 const BastionDrawer = ({ isOpen, onClose }) => {
-  const { characterData, updateField } = useFolio();
+  if (!isOpen) return null;
+
+  const { characterData, updateField, applyGuidedCharacter } = useFolio();
   const [activeTab, setActiveTab] = useState('chat'); // 'chat' | 'generator'
   const [isMinimized, setIsMinimized] = useState(false);
 
@@ -89,12 +92,14 @@ const BastionDrawer = ({ isOpen, onClose }) => {
 
   // Chat State
   const [messages, setMessages] = useState([
-    { sender: 'bastion', text: 'Greetings, OPERATOR. BASTION AI Assistant online. How can I assist your Tangent SFF RPG persona session today? Type /roll [dice] to roll dice (e.g. /roll 2d10+4).' }
+    { sender: 'bastion', text: 'Greetings, OPERATOR. BASTION AI Assistant online. How can I assist your Tangent SFF RPG persona session today? Type /character [concept] to synthesize a canonical 5-pillar character, or /roll [dice] to roll dice (e.g. /roll 2d10+4).' }
   ]);
   const [inputVal, setInputVal] = useState('');
   const [isChatLoading, setIsChatLoading] = useState(false);
 
   // Generator State
+  const [generatorMode, setGeneratorMode] = useState('synthesis'); // 'synthesis' (5 pillars) | 'fields' (selective)
+  const [synthesizedResult, setSynthesizedResult] = useState(null);
   const [selectedFields, setSelectedFields] = useState({
     'char-name': true,
     'char-concept': true,
@@ -114,6 +119,48 @@ const BastionDrawer = ({ isOpen, onClose }) => {
       ...prev,
       [fieldKey]: !prev[fieldKey]
     }));
+  };
+
+  const handleSynthesizePersona = async () => {
+    if (!genPrompt.trim()) {
+      setGenStatus({ error: 'Please enter a character concept or theme before synthesizing.' });
+      return;
+    }
+    setIsGenerating(true);
+    setGenStatus(null);
+    try {
+      const result = synthesizeCharacterWithBastion({
+        prompt: genPrompt,
+        techLevel: characterData?.['tech-level'] || 3
+      });
+      if (result.success) {
+        setSynthesizedResult(result);
+        setGenStatus({
+          success: `BASTION synthesized persona based on 5 Pillars: ${result.pillars.archetype.name} · ${result.pillars.species.name} · ${result.pillars.faction.name} · ${result.pillars.origin.name} · ${result.pillars.occupation.name}!`
+        });
+      } else {
+        setGenStatus({ error: result.error || 'Failed to synthesize character.' });
+      }
+    } catch (err) {
+      setGenStatus({ error: err.message });
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const handleApplySynthesizedPersona = async () => {
+    if (!synthesizedResult?.character || !applyGuidedCharacter) return;
+    setIsGenerating(true);
+    try {
+      const ok = await applyGuidedCharacter(synthesizedResult.character);
+      if (ok) {
+        setGenStatus({ success: `Applied "${synthesizedResult.character['char-name']}" to active Persona Folio!` });
+      }
+    } catch (err) {
+      setGenStatus({ error: `Apply error: ${err.message}` });
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   const handleSendChat = async (e) => {
@@ -144,6 +191,37 @@ const BastionDrawer = ({ isOpen, onClose }) => {
         ]);
       }
       return;
+    }
+
+    // Check for /character command or character creation queries
+    const lowerText = userText.toLowerCase();
+    if (lowerText.startsWith('/character') || lowerText.startsWith('/char') || lowerText.includes('create a character') || lowerText.includes('create character') || lowerText.includes('build a character') || lowerText.includes('build an operative')) {
+      const promptQuery = userText.replace(/^\/(character|char)\s*/i, '').trim() || 'Tactical operative';
+      const synth = synthesizeCharacterWithBastion({
+        prompt: promptQuery,
+        techLevel: characterData?.['tech-level'] || 3
+      });
+
+      if (synth.success) {
+        const { pillars, character, allocationsReport } = synth;
+        const replyText = `🤖 **BASTION 5-PILLAR CHARACTER SYNTHESIS**\n\n` +
+          `Grounded strictly in the Omnicortex Canonical Database:\n` +
+          `* **1. Archetype:** ${pillars.archetype.name} (${pillars.archetype.sphere})\n` +
+          `* **2. Species:** ${pillars.species.name}\n` +
+          `* **3. Faction:** ${pillars.faction.name}\n` +
+          `* **4. Origin:** ${pillars.origin.name}\n` +
+          `* **5. Occupation:** ${pillars.occupation.name}\n\n` +
+          `**Core Attributes:** STR ${character['attr-strength']}, AGI ${character['attr-agility']}, STA ${character['attr-stamina']}, INT ${character['attr-intellect']}, WIS ${character['attr-wisdom']}, CHA ${character['attr-charisma']}\n` +
+          `**Skills (${allocationsReport.skillsCount} Ranks):** ${character.skills.slice(0, 6).map(s => `${s.name} ${s.rank}`).join(', ')}...\n` +
+          `**Features & Traits:** ${character.features.slice(0, 2).map(f => f.name).join(', ')} | ${character.traits.slice(0, 2).map(t => t.name).join(', ')}\n` +
+          `**Property:** ${character.weapons.map(w => w.name).join(', ')} · ${character.armor.map(a => a.name).join(', ')}\n\n` +
+          `*Summary: ${character.summary}*\n\n` +
+          `*(Switch to the **⚡ Generator** tab to review and apply this 5-pillar persona to your sheet!)*`;
+
+        setSynthesizedResult(synth);
+        setMessages(prev => [...prev, { sender: 'bastion', text: replyText }]);
+        return;
+      }
     }
 
     setIsChatLoading(true);
@@ -394,113 +472,302 @@ const BastionDrawer = ({ isOpen, onClose }) => {
             </div>
           )}
 
-          {/* Tab 2: Character Field Generator */}
+          {/* Tab 2: Character Field Generator & 5 Pillars Persona Synthesizer */}
           {activeTab === 'generator' && (
-            <div className="flex-1 flex flex-col p-4 overflow-y-auto space-y-4 text-xs bg-[#0d1117]/80">
-              <div className="bg-slate-900/90 border border-slate-800 rounded-lg p-3">
-                <span className="text-[10px] text-cyan-400 uppercase font-bold tracking-wider block mb-1">
-                  Target Persona
-                </span>
-                <span className="font-bold text-amber-400 text-sm block truncate">
-                  {characterData['char-name'] ? characterData['char-name'].toUpperCase() : 'UNNAMED PERSONA'}
+            <div className="flex-1 flex flex-col p-4 overflow-y-auto space-y-3.5 text-xs bg-[#0d1117]/80">
+              <div className="bg-slate-900/90 border border-slate-800 rounded-lg p-2.5 flex justify-between items-center">
+                <div>
+                  <span className="text-[9px] text-cyan-400 uppercase font-bold tracking-wider block">
+                    Active Persona
+                  </span>
+                  <span className="font-bold text-amber-400 text-xs truncate block max-w-[200px]">
+                    {characterData['char-name'] ? characterData['char-name'].toUpperCase() : 'UNNAMED PERSONA'}
+                  </span>
+                </div>
+                <span className="text-[10px] bg-slate-950 text-slate-300 border border-slate-800 px-2 py-0.5 rounded font-mono">
+                  TL-{characterData['tech-level'] || 3}
                 </span>
               </div>
 
-              {/* Overwrite Protection Setting */}
-              <div className="flex items-center justify-between bg-slate-950 p-2.5 rounded-lg border border-slate-800">
-                <div className="flex flex-col">
-                  <span className="text-[10px] text-slate-200 font-bold uppercase tracking-wider">
-                    Overwrite Protection
-                  </span>
-                  <span className="text-[9px] text-slate-400">
-                    {overwriteMode ? 'Will replace existing character field text' : 'Safely fills blank fields only'}
-                  </span>
-                </div>
+              {/* Generator Sub-Mode Selector */}
+              <div className="flex bg-slate-950 p-1 rounded-lg border border-cyan-900/40 gap-1 shrink-0">
                 <button
                   type="button"
-                  onClick={() => setOverwriteMode(!overwriteMode)}
-                  className={`px-3 py-1 rounded text-[10px] font-bold uppercase transition-all flex items-center gap-1.5 shrink-0 ${
-                    overwriteMode 
-                      ? 'bg-amber-950/90 text-amber-300 border border-amber-500/60 shadow-[0_0_8px_rgba(245,158,11,0.3)]' 
-                      : 'bg-emerald-950/90 text-emerald-300 border border-emerald-500/60 shadow-[0_0_8px_rgba(16,185,129,0.3)]'
+                  onClick={() => setGeneratorMode('synthesis')}
+                  className={`flex-1 py-1.5 px-2 rounded text-[11px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 ${
+                    generatorMode === 'synthesis'
+                      ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-[0_0_8px_rgba(34,211,238,0.25)]'
+                      : 'text-slate-400 hover:text-white'
                   }`}
                 >
-                  <span>{overwriteMode ? '⚡ Overwrite Allowed' : '🛡️ Fill Blank Only'}</span>
+                  <span>🏛️ 5 Pillars Synthesizer</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setGeneratorMode('fields')}
+                  className={`flex-1 py-1.5 px-2 rounded text-[11px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 ${
+                    generatorMode === 'fields'
+                      ? 'bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-[0_0_8px_rgba(34,211,238,0.25)]'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <span>📝 Selective Fields</span>
                 </button>
               </div>
 
-              {/* Field Selection Controls */}
-              <div className="bg-slate-900/90 border border-cyan-900/50 rounded-lg p-3">
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1.5 mb-2 pb-2 border-b border-slate-800">
-                  <span className="text-[10px] text-cyan-400 uppercase font-bold tracking-wider">
-                    Select Character Fields to Generate:
-                  </span>
-                  <div className="flex flex-wrap gap-1.5 text-[9px] font-bold uppercase">
-                    <button type="button" onClick={selectAllFields} className="text-cyan-400 hover:text-cyan-300 underline">
-                      + All
-                    </button>
-                    <span className="text-slate-600">|</span>
-                    <button type="button" onClick={selectNarrativeOnly} className="text-cyan-400 hover:text-cyan-300 underline">
-                      + Narrative
-                    </button>
-                    <span className="text-slate-600">|</span>
-                    <button type="button" onClick={selectBlankOnly} className="text-cyan-400 hover:text-cyan-300 underline">
-                      + Blank
-                    </button>
-                    <span className="text-slate-600">|</span>
-                    <button type="button" onClick={clearAllFields} className="text-slate-400 hover:text-slate-200 underline">
-                      Clear
-                    </button>
+              {/* Sub-Mode 1: 5 Pillars Synthesizer */}
+              {generatorMode === 'synthesis' && (
+                <div className="space-y-3">
+                  <div className="bg-slate-900/90 border border-cyan-900/40 p-3 rounded-lg space-y-2">
+                    <span className="text-[10px] text-cyan-400 uppercase font-bold tracking-wider block">
+                      Canonical Pillars Workflow
+                    </span>
+                    <p className="text-[11px] text-slate-300 leading-relaxed">
+                      BASTION will evaluate your concept and ground the character strictly within the game database without fabricating content:
+                    </p>
+                    <div className="flex flex-wrap items-center gap-1.5 text-[10px] font-mono">
+                      <span className="px-1.5 py-0.5 rounded bg-amber-950/80 text-amber-300 border border-amber-600/60">1. Archetype</span>
+                      <span className="text-slate-500">→</span>
+                      <span className="px-1.5 py-0.5 rounded bg-cyan-950/80 text-cyan-300 border border-cyan-600/60">2. Species</span>
+                      <span className="text-slate-500">→</span>
+                      <span className="px-1.5 py-0.5 rounded bg-purple-950/80 text-purple-300 border border-purple-600/60">3. Faction</span>
+                      <span className="text-slate-500">→</span>
+                      <span className="px-1.5 py-0.5 rounded bg-emerald-950/80 text-emerald-300 border border-emerald-600/60">4. Origin</span>
+                      <span className="text-slate-500">→</span>
+                      <span className="px-1.5 py-0.5 rounded bg-sky-950/80 text-sky-300 border border-sky-600/60">5. Occupation</span>
+                    </div>
                   </div>
-                </div>
-                <div className="space-y-3 max-h-[260px] overflow-y-auto pr-1">
-                  {CATEGORIES.map(category => {
-                    const catFields = CHARACTER_FIELDS.filter(f => f.category === category);
-                    if (catFields.length === 0) return null;
-                    return (
-                      <div key={category} className="space-y-1">
-                        <div className="text-[10px] font-bold text-cyan-300 uppercase tracking-wider bg-slate-950/80 px-2 py-1 rounded border border-cyan-900/40">
-                          {category}
+
+                  {/* Concept Presets */}
+                  <div className="space-y-1">
+                    <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Concept Presets:</span>
+                    <div className="flex flex-wrap gap-1">
+                      {[
+                        'Covert Operative Sniper',
+                        'Master Armorer & Blacksmith',
+                        'Syndicate Cyber-Decker',
+                        'Alterian Diplomat & Envoy',
+                        'Heavy Shock Trooper Vanguard'
+                      ].map(preset => (
+                        <button
+                          key={preset}
+                          type="button"
+                          onClick={() => setGenPrompt(preset)}
+                          className="px-2 py-0.5 rounded bg-slate-950 hover:bg-slate-800 text-slate-300 hover:text-cyan-300 border border-slate-800 text-[10px] transition-colors"
+                        >
+                          + {preset}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Prompt Textarea */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-[10px] text-cyan-400 uppercase font-bold tracking-wider">
+                      BASTION Character Concept:
+                    </label>
+                    <textarea
+                      rows={3}
+                      value={genPrompt}
+                      onChange={(e) => setGenPrompt(e.target.value)}
+                      placeholder="Describe operative concept, tactical role, cybernetics, or background..."
+                      className="bg-slate-950 border border-slate-700 focus:border-cyan-400 text-slate-100 p-2.5 rounded text-xs outline-none font-sans"
+                    />
+                  </div>
+
+                  {/* Action Button */}
+                  <button
+                    type="button"
+                    onClick={handleSynthesizePersona}
+                    disabled={isGenerating}
+                    className="w-full py-2.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 font-bold uppercase text-xs rounded tracking-widest transition-all shadow-[0_0_12px_rgba(34,211,238,0.3)] disabled:opacity-50 flex items-center justify-center gap-2"
+                  >
+                    {isGenerating ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
+                        <span>BASTION Synthesizing 5 Pillars...</span>
+                      </>
+                    ) : (
+                      <span>🤖 Synthesize Persona with BASTION</span>
+                    )}
+                  </button>
+
+                  {/* Synthesized Pillars Result Card */}
+                  {synthesizedResult && synthesizedResult.pillars && (
+                    <div className="bg-slate-950/90 border border-cyan-500/40 rounded-lg p-3 space-y-3">
+                      <div className="flex justify-between items-start border-b border-slate-800 pb-2">
+                        <div>
+                          <span className="text-[10px] text-cyan-400 uppercase font-bold block">Synthesized Operative</span>
+                          <span className="font-bold text-amber-300 text-sm">{synthesizedResult.character['char-name']}</span>
                         </div>
-                        <div className="grid grid-cols-1 gap-1.5 pl-1">
-                          {catFields.map(f => (
-                            <label key={f.key} className="flex items-center justify-between cursor-pointer text-slate-200 hover:text-white">
-                              <div className="flex items-center gap-2 min-w-0 pr-2">
-                                <input
-                                  type="checkbox"
-                                  checked={!!selectedFields[f.key]}
-                                  onChange={() => toggleField(f.key)}
-                                  className="rounded border-slate-700 bg-slate-950 text-cyan-500 focus:ring-0 shrink-0"
-                                />
-                                <span className="font-semibold text-xs truncate">{f.label}</span>
-                              </div>
-                              {hasFieldContent(f.key) ? (
-                                <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-950/80 text-amber-300 border border-amber-800/60 font-mono shrink-0">Has Content</span>
-                              ) : (
-                                <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-950/80 text-emerald-300 border border-emerald-800/60 font-mono shrink-0">Blank</span>
-                              )}
-                            </label>
-                          ))}
+                        <button
+                          type="button"
+                          onClick={handleApplySynthesizedPersona}
+                          disabled={isGenerating}
+                          className="px-3 py-1 bg-emerald-950 hover:bg-emerald-900 border border-emerald-500/60 text-emerald-300 rounded text-[11px] font-bold uppercase tracking-wider transition-all shadow-[0_0_8px_rgba(16,185,129,0.3)]"
+                        >
+                          ✅ Apply to Folio
+                        </button>
+                      </div>
+
+                      {/* 5 Pillars Badges */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-[11px]">
+                        <div className="p-1.5 rounded bg-amber-950/40 border border-amber-600/40 flex items-center justify-between">
+                          <span className="text-slate-400 text-[10px]">Archetype:</span>
+                          <span className="font-bold text-amber-300">{synthesizedResult.pillars.archetype.name}</span>
+                        </div>
+                        <div className="p-1.5 rounded bg-cyan-950/40 border border-cyan-600/40 flex items-center justify-between">
+                          <span className="text-slate-400 text-[10px]">Species:</span>
+                          <span className="font-bold text-cyan-300">{synthesizedResult.pillars.species.name}</span>
+                        </div>
+                        <div className="p-1.5 rounded bg-purple-950/40 border border-purple-600/40 flex items-center justify-between">
+                          <span className="text-slate-400 text-[10px]">Faction:</span>
+                          <span className="font-bold text-purple-300 truncate max-w-[150px]">{synthesizedResult.pillars.faction.name}</span>
+                        </div>
+                        <div className="p-1.5 rounded bg-emerald-950/40 border border-emerald-600/40 flex items-center justify-between">
+                          <span className="text-slate-400 text-[10px]">Origin:</span>
+                          <span className="font-bold text-emerald-300">{synthesizedResult.pillars.origin.name}</span>
+                        </div>
+                        <div className="p-1.5 rounded bg-sky-950/40 border border-sky-600/40 flex items-center justify-between col-span-1 sm:col-span-2">
+                          <span className="text-slate-400 text-[10px]">Occupation:</span>
+                          <span className="font-bold text-sky-300">{synthesizedResult.pillars.occupation.name}</span>
                         </div>
                       </div>
-                    );
-                  })}
-                </div>
-              </div>
 
-              {/* Prompt Textarea */}
-              <div className="flex flex-col gap-1.5">
-                <label className="text-[10px] text-cyan-400 uppercase font-bold tracking-wider">
-                  BASTION Character Prompt:
-                </label>
-                <textarea
-                  rows={3}
-                  value={genPrompt}
-                  onChange={(e) => setGenPrompt(e.target.value)}
-                  placeholder="Describe character archetype, cybernetics, origin, faction allegiance, or motivation..."
-                  className="bg-slate-950 border border-slate-700 focus:border-cyan-400 text-slate-100 p-2.5 rounded text-xs outline-none font-sans"
-                />
-              </div>
+                      {/* Brief Stats Overview */}
+                      <div className="text-[10px] text-slate-300 space-y-1 pt-1 border-t border-slate-800/80 font-mono">
+                        <div>
+                          <span className="text-slate-500 uppercase">Core Stats:</span> STR {synthesizedResult.character['attr-strength']}, AGI {synthesizedResult.character['attr-agility']}, STA {synthesizedResult.character['attr-stamina']}, INT {synthesizedResult.character['attr-intellect']}, WIS {synthesizedResult.character['attr-wisdom']}, CHA {synthesizedResult.character['attr-charisma']}
+                        </div>
+                        <div>
+                          <span className="text-slate-500 uppercase">Skills ({synthesizedResult.allocationsReport.skillsCount}):</span> {synthesizedResult.character.skills.slice(0, 4).map(s => `${s.name} ${s.rank}`).join(', ')}...
+                        </div>
+                        <div>
+                          <span className="text-slate-500 uppercase">Property:</span> {synthesizedResult.character.weapons.map(w => w.name).join(', ')} · {synthesizedResult.character.armor.map(a => a.name).join(', ')}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Sub-Mode 2: Selective Fields */}
+              {generatorMode === 'fields' && (
+                <div className="space-y-3">
+                  {/* Overwrite Protection Setting */}
+                  <div className="flex items-center justify-between bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+                    <div className="flex flex-col">
+                      <span className="text-[10px] text-slate-200 font-bold uppercase tracking-wider">
+                        Overwrite Protection
+                      </span>
+                      <span className="text-[9px] text-slate-400">
+                        {overwriteMode ? 'Will replace existing character field text' : 'Safely fills blank fields only'}
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setOverwriteMode(!overwriteMode)}
+                      className={`px-3 py-1 rounded text-[10px] font-bold uppercase transition-all flex items-center gap-1.5 shrink-0 ${
+                        overwriteMode 
+                          ? 'bg-amber-950/90 text-amber-300 border border-amber-500/60 shadow-[0_0_8px_rgba(245,158,11,0.3)]' 
+                          : 'bg-emerald-950/90 text-emerald-300 border border-emerald-500/60 shadow-[0_0_8px_rgba(16,185,129,0.3)]'
+                      }`}
+                    >
+                      <span>{overwriteMode ? '⚡ Overwrite Allowed' : '🛡️ Fill Blank Only'}</span>
+                    </button>
+                  </div>
+
+                  {/* Field Selection Controls */}
+                  <div className="bg-slate-900/90 border border-cyan-900/50 rounded-lg p-3">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1.5 mb-2 pb-2 border-b border-slate-800">
+                      <span className="text-[10px] text-cyan-400 uppercase font-bold tracking-wider">
+                        Select Character Fields to Generate:
+                      </span>
+                      <div className="flex flex-wrap gap-1.5 text-[9px] font-bold uppercase">
+                        <button type="button" onClick={selectAllFields} className="text-cyan-400 hover:text-cyan-300 underline">
+                          + All
+                        </button>
+                        <span className="text-slate-600">|</span>
+                        <button type="button" onClick={selectNarrativeOnly} className="text-cyan-400 hover:text-cyan-300 underline">
+                          + Narrative
+                        </button>
+                        <span className="text-slate-600">|</span>
+                        <button type="button" onClick={selectBlankOnly} className="text-cyan-400 hover:text-cyan-300 underline">
+                          + Blank
+                        </button>
+                        <span className="text-slate-600">|</span>
+                        <button type="button" onClick={clearAllFields} className="text-slate-400 hover:text-slate-200 underline">
+                          Clear
+                        </button>
+                      </div>
+                    </div>
+                    <div className="space-y-3 max-h-[220px] overflow-y-auto pr-1">
+                      {CATEGORIES.map(category => {
+                        const catFields = CHARACTER_FIELDS.filter(f => f.category === category);
+                        if (catFields.length === 0) return null;
+                        return (
+                          <div key={category} className="space-y-1">
+                            <div className="text-[10px] font-bold text-cyan-300 uppercase tracking-wider bg-slate-950/80 px-2 py-1 rounded border border-cyan-900/40">
+                              {category}
+                            </div>
+                            <div className="grid grid-cols-1 gap-1.5 pl-1">
+                              {catFields.map(f => (
+                                <label key={f.key} className="flex items-center justify-between cursor-pointer text-slate-200 hover:text-white">
+                                  <div className="flex items-center gap-2 min-w-0 pr-2">
+                                    <input
+                                      type="checkbox"
+                                      checked={!!selectedFields[f.key]}
+                                      onChange={() => toggleField(f.key)}
+                                      className="rounded border-slate-700 bg-slate-950 text-cyan-500 focus:ring-0 shrink-0"
+                                    />
+                                    <span className="font-semibold text-xs truncate">{f.label}</span>
+                                  </div>
+                                  {hasFieldContent(f.key) ? (
+                                    <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-950/80 text-amber-300 border border-amber-800/60 font-mono shrink-0">Has Content</span>
+                                  ) : (
+                                    <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-950/80 text-emerald-300 border border-emerald-800/60 font-mono shrink-0">Blank</span>
+                                  )}
+                                </label>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Prompt Textarea */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-[10px] text-cyan-400 uppercase font-bold tracking-wider">
+                      BASTION Character Prompt:
+                    </label>
+                    <textarea
+                      rows={3}
+                      value={genPrompt}
+                      onChange={(e) => setGenPrompt(e.target.value)}
+                      placeholder="Describe character archetype, cybernetics, origin, faction allegiance, or motivation..."
+                      className="bg-slate-950 border border-slate-700 focus:border-cyan-400 text-slate-100 p-2.5 rounded text-xs outline-none font-sans"
+                    />
+                  </div>
+
+                  {/* Action Button */}
+                  <button
+                    type="button"
+                    onClick={handleGenerate}
+                    disabled={isGenerating}
+                    className="w-full py-2.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 font-bold uppercase text-xs rounded tracking-widest transition-all shadow-[0_0_12px_rgba(34,211,238,0.3)] disabled:opacity-50 flex items-center justify-center gap-2"
+                  >
+                    {isGenerating ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
+                        <span>BASTION Generating Selected Fields...</span>
+                      </>
+                    ) : (
+                      <span>⚡ Generate Selected Fields</span>
+                    )}
+                  </button>
+                </div>
+              )}
 
               {/* Status Message */}
               {genStatus && (
@@ -512,23 +779,6 @@ const BastionDrawer = ({ isOpen, onClose }) => {
                   {genStatus.error || genStatus.success}
                 </div>
               )}
-
-              {/* Action Button */}
-              <button
-                type="button"
-                onClick={handleGenerate}
-                disabled={isGenerating}
-                className="w-full py-2.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-500/60 text-cyan-300 font-bold uppercase text-xs rounded tracking-widest transition-all shadow-[0_0_12px_rgba(34,211,238,0.3)] disabled:opacity-50 flex items-center justify-center gap-2"
-              >
-                {isGenerating ? (
-                  <>
-                    <div className="w-4 h-4 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
-                    <span>BASTION Generating Persona Fields...</span>
-                  </>
-                ) : (
-                  <span>⚡ Generate Character Fields</span>
-                )}
-              </button>
             </div>
           )}
         </>
@@ -541,10 +791,10 @@ const BastionDrawer = ({ isOpen, onClose }) => {
       <>
         {/* Backdrop Overlay to close on outside click */}
         <div 
-          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-[2px]" 
+          className="fixed top-[52px] inset-x-0 bottom-0 z-40 bg-black/40 backdrop-blur-[2px]" 
           onClick={onClose} 
         />
-        <div className="fixed inset-y-0 right-0 z-50 w-80 sm:w-[420px] bg-[#0d1117]/95 border-l border-cyan-500/50 shadow-[-10px_0_30px_rgba(0,0,0,0.8)] flex flex-col font-sans backdrop-blur-md">
+        <div className="fixed top-[52px] bottom-0 right-0 z-50 w-80 sm:w-[420px] bg-[#0d1117]/95 border-l border-cyan-500/50 shadow-[-10px_0_30px_rgba(0,0,0,0.8)] flex flex-col font-sans backdrop-blur-md">
           {renderInnerContent()}
         </div>
       </>
@@ -554,8 +804,8 @@ const BastionDrawer = ({ isOpen, onClose }) => {
   return (
     <DraggablePanel
       id="bastion-folio-floating-frame"
-      defaultPosition={{ x: Math.max(10, window.innerWidth - 460), y: 70 }}
-      className={`fixed z-50 flex flex-col bg-[#0d1117]/95 border border-cyan-500/50 rounded-xl shadow-[0_0_25px_rgba(34,211,238,0.25)] backdrop-blur-md overflow-hidden font-sans transition-all duration-150 ${
+      defaultPosition={{ x: Math.max(10, window.innerWidth - 460), y: 64 }}
+      className={`fixed z-[110] flex flex-col bg-[#0d1117]/95 border border-cyan-500/50 rounded-xl shadow-[0_0_25px_rgba(34,211,238,0.25)] backdrop-blur-md overflow-hidden font-sans transition-all duration-150 ${
         isMinimized ? 'w-[320px] h-[48px]' : 'w-[390px] sm:w-[440px] h-[600px]'
       }`}
     >

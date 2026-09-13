@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { Info } from 'lucide-react';
 
@@ -42,6 +42,8 @@ export const FolioTooltip = ({
   asWrapper = true,
   maxWidth = 320,
   className = '',
+  skillBreakdown = null,
+  associatedEquipment = null,
   children
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -182,8 +184,36 @@ export const FolioTooltip = ({
     }
   };
 
-  const hasModifiers = Array.isArray(modifiers) && modifiers.length > 0;
-  const hasContent = Boolean(title || description || formula || rules || notes || hasModifiers || prerequisites || cost);
+  const activeModifierList = useMemo(() => {
+    if (skillBreakdown && Array.isArray(skillBreakdown.modifiers) && skillBreakdown.modifiers.length > 0) {
+      return skillBreakdown.modifiers;
+    }
+    return Array.isArray(modifiers) ? modifiers : [];
+  }, [skillBreakdown, modifiers]);
+
+  const equippedItems = useMemo(() => {
+    if (Array.isArray(associatedEquipment) && associatedEquipment.length > 0) {
+      return associatedEquipment;
+    }
+    if (skillBreakdown && Array.isArray(skillBreakdown.equipment) && skillBreakdown.equipment.length > 0) {
+      return skillBreakdown.equipment;
+    }
+    return [];
+  }, [associatedEquipment, skillBreakdown]);
+
+  const hasModifiers = activeModifierList.length > 0;
+  const hasContent = Boolean(
+    title || 
+    description || 
+    formula || 
+    rules || 
+    notes || 
+    hasModifiers || 
+    prerequisites || 
+    cost || 
+    skillBreakdown || 
+    equippedItems.length > 0
+  );
   if (!hasContent) {
     return children || null;
   }
@@ -273,29 +303,102 @@ export const FolioTooltip = ({
           </p>
         )}
 
+        {/* Skill Breakdown Summary Bar (Score, Attribute Used, Rank) */}
+        {skillBreakdown && (
+          <div className="bg-slate-950/90 border border-cyan-500/40 rounded p-2 space-y-1.5 shadow-inner">
+            <div className="flex items-center justify-between gap-2 border-b border-cyan-900/40 pb-1">
+              <span className="text-[10px] font-mono uppercase font-bold text-slate-300">Skill Score</span>
+              <span className="px-2 py-0.5 rounded font-mono font-extrabold text-xs bg-cyan-950 text-cyan-300 border border-cyan-500/60 shadow-[0_0_8px_rgba(6,182,212,0.3)]">
+                Score: {skillBreakdown.score ?? 0}
+              </span>
+            </div>
+            <div className="grid grid-cols-2 gap-1.5 text-[10.5px] font-mono">
+              <div className="bg-slate-900/80 border border-slate-800 rounded px-1.5 py-0.5 flex items-center justify-between">
+                <span className="text-slate-400">Attribute:</span>
+                <span className="text-cyan-200 font-bold">
+                  {skillBreakdown.baseAttrLabel || '--'} ({skillBreakdown.attrTotal ?? 0})
+                </span>
+              </div>
+              <div className="bg-slate-900/80 border border-slate-800 rounded px-1.5 py-0.5 flex items-center justify-between">
+                <span className="text-slate-400">Rank:</span>
+                <span className="text-cyan-200 font-bold">
+                  {skillBreakdown.rank ?? 0} / 20
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Active Modifiers List */}
         {hasModifiers && (
           <div className="bg-slate-950/90 border border-cyan-800/60 rounded p-1.5 space-y-1">
             <div className="text-[9px] uppercase font-bold text-cyan-400 tracking-wider flex items-center gap-1">
               <span>⚡</span>
-              <span>Active Modifiers</span>
+              <span>All Modifiers to Skill Check ({activeModifierList.length})</span>
             </div>
-            <div className="flex flex-wrap gap-1">
-              {modifiers.map((m, idx) => {
+            <div className="flex flex-col gap-1 max-h-36 overflow-y-auto pr-0.5">
+              {activeModifierList.map((m, idx) => {
                 const val = typeof m === 'object' ? m.value : null;
                 const isNegative = typeof val === 'number' && val < 0;
-                const desc = typeof m === 'object' ? (m.description || `${val >= 0 ? '+' : ''}${val} ${m.target}`) : String(m);
+                const src = typeof m === 'object' ? (m.source || m.sourceType || 'Modifier') : '';
+                const desc = typeof m === 'object' ? (m.description || `${val >= 0 ? '+' : ''}${val} to ${m.target || title}`) : String(m);
                 return (
-                  <span
+                  <div
                     key={idx}
-                    className={`px-1.5 py-0.5 text-[9.5px] font-mono font-bold rounded border ${
+                    className={`px-2 py-0.5 text-[9.5px] font-mono font-medium rounded border flex items-center justify-between gap-1.5 ${
                       isNegative
-                        ? 'bg-rose-950/80 text-rose-300 border-rose-800/80'
-                        : 'bg-cyan-950/80 text-cyan-300 border-cyan-700/80'
+                        ? 'bg-rose-950/70 text-rose-300 border-rose-800/70'
+                        : 'bg-cyan-950/70 text-cyan-200 border-cyan-800/70'
                     }`}
                   >
-                    {desc}
-                  </span>
+                    <span className="truncate" title={desc}>
+                      {src ? <strong className="text-slate-200 mr-1">[{src}]</strong> : null}
+                      {desc}
+                    </span>
+                    {typeof val === 'number' && (
+                      <span className={`font-mono font-bold shrink-0 ${isNegative ? 'text-rose-400' : 'text-cyan-300'}`}>
+                        {val >= 0 ? `+${val}` : val}
+                      </span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Associated Possessed Equipment Adjusting Skill */}
+        {equippedItems.length > 0 && (
+          <div className="bg-slate-950/90 border border-amber-500/50 rounded p-1.5 space-y-1 shadow-[0_0_10px_rgba(245,158,11,0.15)]">
+            <div className="text-[9px] uppercase font-bold text-amber-400 tracking-wider flex items-center justify-between">
+              <div className="flex items-center gap-1">
+                <span>🎒</span>
+                <span>Possessed Equipment ({equippedItems.length})</span>
+              </div>
+              <span className="text-[8.5px] font-mono text-amber-500/80">Skill Modifiers</span>
+            </div>
+            <div className="flex flex-col gap-1 max-h-32 overflow-y-auto pr-0.5">
+              {equippedItems.map((eq, idx) => {
+                const eqName = eq.name || (typeof eq.item === 'object' ? eq.item.name : 'Gear');
+                const eqCat = eq.category ? `[${eq.category}]` : '';
+                const eqVal = typeof eq.value === 'number' ? eq.value : null;
+                const eqQty = eq.qty && eq.qty > 1 ? ` (x${eq.qty})` : '';
+                return (
+                  <div
+                    key={idx}
+                    className="bg-amber-950/40 border border-amber-900/60 rounded px-2 py-0.5 text-[9.5px] font-mono flex items-center justify-between gap-1.5 text-amber-200"
+                  >
+                    <span className="truncate">
+                      <strong className="text-amber-100">{eqName}</strong>
+                      {eqCat && <span className="text-amber-400/80 ml-1">{eqCat}</span>}
+                      {eqQty}
+                    </span>
+                    {eqVal !== null && (
+                      <span className="font-bold text-amber-300 shrink-0">
+                        {eqVal >= 0 ? `+${eqVal}` : eqVal}
+                      </span>
+                    )}
+                  </div>
                 );
               })}
             </div>

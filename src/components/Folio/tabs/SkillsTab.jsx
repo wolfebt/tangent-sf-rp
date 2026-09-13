@@ -12,6 +12,7 @@ import { DEFAULT_FACTIONS } from '../../../data/factionsData';
 import { resolveMetaSkillForInvocation } from '../../../utils/metaphysicsUtils';
 import FolioTooltip from '../shared/FolioTooltip';
 import { checkPrerequisite } from '../../../utils/prerequisiteEvaluator';
+import SituationalModifiersPanel from './SituationalModifiersPanel';
 
 const ATTRIBUTE_OPTIONS = [
   { value: 'attr-strength', label: 'STR' },
@@ -126,7 +127,9 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
     isInActiveGame,
     isGMConfirmed,
     isLocked: isFolioLocked,
-    isPlayerOverride
+    isPlayerOverride,
+    getSkillBreakdown,
+    computedModifiers
   } = useFolio();
   const { openDiceRoller } = useDice();
   const [searchQuery, setSearchQuery] = useState('');
@@ -415,9 +418,16 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
     return 0;
   }, [characterData]);
 
-  // Universal skill modifier resolver supporting canonical key and legacy non-prefixed key
+  // Universal skill modifier resolver using comprehensive modifier engine (features, traits, hindrances, augmentations, equipment, manual)
   const getSkillMod = useCallback((skill) => {
-    if (!skill || !characterData) return 0;
+    if (!skill) return 0;
+    if (getSkillBreakdown) {
+      const breakdown = getSkillBreakdown(skill);
+      if (breakdown && typeof breakdown.totalModifier === 'number') {
+        return breakdown.totalModifier;
+      }
+    }
+    if (!characterData) return 0;
     const sId = typeof skill === 'object' ? (skill.id || '') : String(skill);
     const cleanId = sId.replace(/^[a-z]+-/, '');
 
@@ -428,10 +438,17 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
     if (!isNaN(legacyMod) && legacyMod !== 0) return legacyMod;
 
     return 0;
-  }, [characterData]);
+  }, [characterData, getSkillBreakdown]);
 
-  // Helper to calculate total for a regular skill (rank max 20)
+  // Helper to calculate total for a regular skill (rank max 20 + attribute + all active modifiers)
   const getSkillTotal = useCallback((skill) => {
+    if (!skill) return 0;
+    if (getSkillBreakdown) {
+      const breakdown = getSkillBreakdown(skill);
+      if (breakdown && typeof breakdown.score === 'number') {
+        return breakdown.score;
+      }
+    }
     const sId = typeof skill === 'object' ? (skill.id || '') : String(skill);
     const cleanId = sId.replace(/^[a-z]+-/, '');
     const rank = getSkillRank(skill);
@@ -446,7 +463,7 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
     }
 
     return rank + baseAttrVal + mod;
-  }, [characterData, getNum, getSkillRank, getSkillMod]);
+  }, [characterData, getNum, getSkillRank, getSkillMod, getSkillBreakdown]);
 
   // Collect default skill IDs set to detect custom skills
   const defaultSkillIds = useMemo(() => {
@@ -824,11 +841,12 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
       }
     }
 
-    const rank = getSkillRank(skill);
-    const mod = getSkillMod(skill);
+    const breakdown = getSkillBreakdown ? getSkillBreakdown(skill) : null;
+    const rank = breakdown?.rank ?? getSkillRank(skill);
+    const mod = breakdown?.totalModifier ?? getSkillMod(skill);
     const baseAttr = characterData?.[`skill-${skill.id}-base`] || characterData?.[`skill-${cleanId}-base`] || skill.baseAttr || '';
-    const baseAttrLabel = ATTRIBUTE_OPTIONS.find((opt) => opt.value === baseAttr)?.label || '--';
-    const baseSkillTotal = getSkillTotal(skill);
+    const baseAttrLabel = breakdown?.baseAttrLabel || ATTRIBUTE_OPTIONS.find((opt) => opt.value === baseAttr)?.label || '--';
+    const baseSkillTotal = breakdown?.score ?? getSkillTotal(skill);
     const linkedSpecs = specializationsByBaseSkill[skill.id] || specializationsByBaseSkill[cleanId] || [];
     const pillarRecs = getPillarRecommendations(skill);
 
@@ -854,7 +872,9 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                 badge={`${groupName} Skill`}
                 badgeColor={badgeColor}
                 description={isDisciplineLocked ? `${lockMessage}. ${skillDesc}` : skillDesc}
-                formula={`Total (${baseSkillTotal}) = Rank (${rank}) + Base ${baseAttrLabel} + Mod (${mod})`}
+                formula={breakdown?.formula || `Total (${baseSkillTotal}) = Rank (${rank}) + Base ${baseAttrLabel} + Mod (${mod})`}
+                skillBreakdown={breakdown}
+                associatedEquipment={breakdown?.equipment}
                 tags={['Max Rank: 20', `Base: ${baseAttrLabel}`, groupName.toUpperCase(), ...pillarRecs.map(p => `${p.name}: ${p.detail}`)]}
                 showInfoIcon={true}
               >
@@ -1025,7 +1045,9 @@ const SkillsTab = ({ onOpenAddSkillModal, onOpenSelectorModal }) => {
                 badge={`${groupName} Skill`}
                 badgeColor={badgeColor}
                 description={isDisciplineLocked ? `${lockMessage}. ${skillDesc}` : skillDesc}
-                formula={`Total (${baseSkillTotal}) = Rank (${rank}) + Base ${baseAttrLabel} + Mod (${mod})`}
+                formula={breakdown?.formula || `Total (${baseSkillTotal}) = Rank (${rank}) + Base ${baseAttrLabel} + Mod (${mod})`}
+                skillBreakdown={breakdown}
+                associatedEquipment={breakdown?.equipment}
                 tags={['Max Rank: 20', `Base: ${baseAttrLabel}`, groupName.toUpperCase(), ...pillarRecs.map(p => `${p.name}: ${p.detail}`)]}
                 showInfoIcon={true}
               >
@@ -1732,6 +1754,12 @@ const specMod = parseInt(spec.mod || 0, 10);
           );
         })}
       </div>
+
+      {/* Situational & Conditional Skill Check Modifiers Panel */}
+      <SituationalModifiersPanel
+        characterData={characterData}
+        updateField={updateField}
+      />
 
       {/* Identity Granted Skills & Skill Group Pools Banner */}
       {(identityPoolsBreakdown.species.allocated > 0 ||

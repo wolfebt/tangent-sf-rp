@@ -1,8 +1,35 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { VirtualizedList } from './VirtualizedList';
 import { useItemInteractions } from '../../utils/interactionUtils';
 import { useDBM } from '../../context/DBMContext';
 import { SPECIES_LINEAGES } from '../../data/speciesData';
+
+export const CATEGORY_TO_CODEX_MATRIX = {
+  weaponry: 'weaponry',
+  weapons: 'weaponry',
+  weapon: 'weaponry',
+  armoring: 'armor',
+  armor: 'armor',
+  architecture: 'architecture',
+  augmentations: 'augmentations',
+  augmentation: 'augmentations',
+  gear: 'equipment',
+  equipment: 'equipment',
+  personal_property: 'equipment',
+  mecha: 'mecha',
+  vehicles: 'mecha',
+  starships: 'mecha',
+  invocations: 'invocations',
+  invocation: 'invocations',
+  special_abilities: 'invocations',
+  species: 'species-traits',
+  factions: 'factions',
+  occupations: 'companions',
+  bestiary: 'stat-blocks',
+  world_design: 'planetary',
+  planetary_design: 'planetary'
+};
 
 /**
  * Clean up relational IDs and snake_cased strings to human-readable names
@@ -91,7 +118,7 @@ const formatCellValue = (val) => {
   return formatRelationalString(val);
 };
 
-const CatalogVirtualRow = ({ item, visibleColumns, handleOpenItem, isAdmin }) => {
+const CatalogVirtualRow = ({ item, visibleColumns, handleOpenItem, isAdmin, handleDuplicateEntry, handleDeleteEntry }) => {
   const interactions = useItemInteractions({
     onSelect: () => handleOpenItem(item, isAdmin),
     onOpenEdit: () => isAdmin && handleOpenItem(item, true),
@@ -108,7 +135,7 @@ const CatalogVirtualRow = ({ item, visibleColumns, handleOpenItem, isAdmin }) =>
     <div
       key={item.id || item.name}
       {...interactions}
-      className="hover:bg-slate-800/60 cursor-pointer transition-colors border-b border-slate-800/60 flex items-center px-3 text-xs text-slate-300 h-[44px] box-border select-none gap-3"
+      className="hover:bg-slate-800/60 cursor-pointer transition-colors border-b border-slate-800/60 flex items-center px-3 text-xs text-slate-300 h-[44px] box-border select-none gap-3 group"
       title={isAdmin ? "Click to manage entry (Dev Mode)" : "Click to view entry"}
     >
       <div className="w-1/3 min-w-[160px] font-bold text-white truncate flex items-center gap-1.5 shrink-0">
@@ -128,11 +155,50 @@ const CatalogVirtualRow = ({ item, visibleColumns, handleOpenItem, isAdmin }) =>
           {formatCellValue(item[col])}
         </div>
       ))}
+      <div className="w-24 shrink-0 flex items-center justify-end gap-1 opacity-80 group-hover:opacity-100 transition-opacity">
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleOpenItem(item, true);
+          }}
+          className="p-1 rounded bg-slate-900 hover:bg-amber-600/30 border border-slate-700 hover:border-amber-500/50 text-slate-400 hover:text-amber-300 transition-all cursor-pointer text-xs"
+          title="Edit Entry"
+        >
+          ✏️
+        </button>
+        {isAdmin && handleDuplicateEntry && (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDuplicateEntry(item);
+            }}
+            className="p-1 rounded bg-slate-900 hover:bg-cyan-600/30 border border-slate-700 hover:border-cyan-500/50 text-slate-400 hover:text-cyan-300 transition-all cursor-pointer text-xs"
+            title="Duplicate / Clone Entry"
+          >
+            📋
+          </button>
+        )}
+        {isAdmin && handleDeleteEntry && (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDeleteEntry(item);
+            }}
+            className="p-1 rounded bg-slate-900 hover:bg-red-600/30 border border-slate-700 hover:border-red-500/50 text-slate-400 hover:text-red-300 transition-all cursor-pointer text-xs"
+            title="Delete Entry"
+          >
+            🗑️
+          </button>
+        )}
+      </div>
     </div>
   );
 };
 
-const CatalogTableRow = ({ item, visibleColumns, handleOpenItem, isAdmin }) => {
+const CatalogTableRow = ({ item, visibleColumns, handleOpenItem, isAdmin, handleDuplicateEntry, handleDeleteEntry }) => {
   const interactions = useItemInteractions({
     onSelect: () => handleOpenItem(item, isAdmin),
     onOpenEdit: () => isAdmin && handleOpenItem(item, true),
@@ -149,7 +215,7 @@ const CatalogTableRow = ({ item, visibleColumns, handleOpenItem, isAdmin }) => {
     <tr
       key={item.id || item.name}
       {...interactions}
-      className="hover:bg-slate-800/60 cursor-pointer transition-colors h-[44px] select-none"
+      className="hover:bg-slate-800/60 cursor-pointer transition-colors h-[44px] select-none group"
       title={isAdmin ? "Click to manage entry (Dev Mode)" : "Click to view entry"}
     >
       <td className="p-3 font-bold text-white w-1/3 min-w-[160px] truncate">
@@ -171,6 +237,47 @@ const CatalogTableRow = ({ item, visibleColumns, handleOpenItem, isAdmin }) => {
           {formatCellValue(item[col])}
         </td>
       ))}
+      <td className="p-2 w-24 text-right shrink-0">
+        <div className="flex items-center justify-end gap-1 opacity-80 group-hover:opacity-100 transition-opacity">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleOpenItem(item, true);
+            }}
+            className="p-1 rounded bg-slate-900 hover:bg-amber-600/30 border border-slate-700 hover:border-amber-500/50 text-slate-400 hover:text-amber-300 transition-all cursor-pointer text-xs"
+            title="Edit Entry"
+          >
+            ✏️
+          </button>
+          {isAdmin && handleDuplicateEntry && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDuplicateEntry(item);
+              }}
+              className="p-1 rounded bg-slate-900 hover:bg-cyan-600/30 border border-slate-700 hover:border-cyan-500/50 text-slate-400 hover:text-cyan-300 transition-all cursor-pointer text-xs"
+              title="Duplicate / Clone Entry"
+            >
+              📋
+            </button>
+          )}
+          {isAdmin && handleDeleteEntry && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDeleteEntry(item);
+              }}
+              className="p-1 rounded bg-slate-900 hover:bg-red-600/30 border border-slate-700 hover:border-red-500/50 text-slate-400 hover:text-red-300 transition-all cursor-pointer text-xs"
+              title="Delete Entry"
+            >
+              🗑️
+            </button>
+          )}
+        </div>
+      </td>
     </tr>
   );
 };
@@ -201,14 +308,18 @@ export const DBMTableView = ({
   setFilterTags = () => {},
   currentItems = [],
   isAdmin = true,
-  handleDeleteEntry
+  handleDeleteEntry,
+  handleDuplicateEntry
 }) => {
+  const navigate = useNavigate();
   const fileInputRef = useRef(null);
   const columnsDropdownRef = useRef(null);
   const filtersDropdownRef = useRef(null);
   const fileMenuRef = useRef(null);
   const { syncCanonicalSpecies } = useDBM() || {};
   const [isSyncingSpecies, setIsSyncingSpecies] = useState(false);
+
+  const codexMatrixId = CATEGORY_TO_CODEX_MATRIX[currentKey] || CATEGORY_TO_CODEX_MATRIX[currentConfig?.parent] || null;
 
   // Dropdown states
   const [isColumnsMenuOpen, setIsColumnsMenuOpen] = useState(false);
@@ -1101,11 +1212,23 @@ export const DBMTableView = ({
             onChange={onImport}
           />
 
+          {/* Guided Codex Builder Link for this category */}
+          {codexMatrixId && (
+            <button
+              onClick={() => navigate(`/codex?matrix=${codexMatrixId}`)}
+              className="px-3.5 py-1.5 bg-gradient-to-r from-purple-950 to-amber-950 hover:from-purple-900 hover:to-amber-900 text-amber-200 border border-amber-500/50 hover:border-amber-400 rounded text-xs font-bold uppercase tracking-wider shadow-[0_0_12px_rgba(245,158,11,0.2)] transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer"
+              title={`Launch the Codex Guided Builder Matrix for ${currentConfig.label || currentKey}`}
+            >
+              <span>⚡</span>
+              <span>GUIDED CODEX BUILD</span>
+            </button>
+          )}
+
           {/* Create Entry Button */}
           {isAdmin ? (
             <button
               onClick={handleCreateNew}
-              className="px-4 py-1.5 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-bold uppercase tracking-wider shadow-md transition-colors whitespace-nowrap"
+              className="px-4 py-1.5 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-bold uppercase tracking-wider shadow-md transition-colors whitespace-nowrap cursor-pointer"
             >
               + ADD NEW ENTRY
             </button>
@@ -1222,6 +1345,9 @@ export const DBMTableView = ({
                     </th>
                   );
                 })}
+                <th className="p-3 w-24 text-right text-[10px] uppercase font-bold tracking-wider text-slate-400">
+                  Actions
+                </th>
               </tr>
             </thead>
           </table>
@@ -1254,6 +1380,8 @@ export const DBMTableView = ({
                   visibleColumns={visibleColumns}
                   handleOpenItem={handleOpenItem}
                   isAdmin={isAdmin}
+                  handleDuplicateEntry={handleDuplicateEntry}
+                  handleDeleteEntry={handleDeleteEntry}
                 />
               )}
             />
@@ -1268,6 +1396,8 @@ export const DBMTableView = ({
                       visibleColumns={visibleColumns}
                       handleOpenItem={handleOpenItem}
                       isAdmin={isAdmin}
+                      handleDuplicateEntry={handleDuplicateEntry}
+                      handleDeleteEntry={handleDeleteEntry}
                     />
                   ))}
                 </tbody>

@@ -25,7 +25,7 @@ export const DBMLandingView = ({ parentKey, onNavigateToSubItem }) => {
   };
 
   return (
-    <div className="flex-1 flex flex-col bg-slate-900 border border-slate-800 rounded-lg p-8 overflow-y-auto max-w-5xl mx-auto w-full">
+    <div className="flex-1 flex flex-col bg-slate-900 border border-slate-800 rounded-lg p-6 sm:p-8 overflow-y-auto w-full">
       <div className="border-b border-slate-800 pb-4 mb-8">
         <span className="text-xs text-amber-500 font-bold uppercase tracking-widest block mb-1">Parent Category</span>
         <h2 className="text-3xl font-bold text-white uppercase tracking-wider">{config.label || parentKey}</h2>

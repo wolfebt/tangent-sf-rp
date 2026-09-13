@@ -11,6 +11,27 @@
   scrollbar-width: none !important;
 }
 
+/* Enable auto-expanding for user field textareas */
+textarea {
+  field-sizing: content;
+}
+
+/* Responsive custom scrollbars — only visible when containers overflow */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(11, 15, 25, 0.6);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(34, 211, 238, 0.25);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(34, 211, 238, 0.5);
+}
+
 :root {
   /* Legacy Variable Aliases mapped to Unified Design Tokens */
   --bg-primary: var(--color-bg-surface);

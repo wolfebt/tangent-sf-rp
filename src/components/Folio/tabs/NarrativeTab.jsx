@@ -107,15 +107,15 @@ const NarrativeTab = () => {
   const currentSection = sections[activeTabIdx] || sections[0];
 
   return (
-    <div className="flex flex-col max-w-4xl mx-auto h-full overflow-hidden">
-      <div className="flex flex-wrap border-b border-cyan-900/50 mb-4 pb-1 gap-1">
+    <div className="tab-panel active p-2 sm:p-4 space-y-4 pb-20 w-full">
+      <div className="flex flex-wrap border-b border-cyan-900/50 mb-2 pb-1 gap-1">
         {sections.map((section, idx) => (
           <button 
             key={idx}
             onClick={() => setActiveTabIdx(idx)}
-            className={`px-3 py-1.5 text-xs font-bold whitespace-nowrap transition-colors flex-1 sm:flex-none text-center ${
+            className={`px-3 py-1.5 text-xs font-bold whitespace-nowrap transition-colors flex-1 sm:flex-none text-center rounded-t-lg ${
               activeTabIdx === idx 
-                ? 'border-b-2 border-cyan-500 text-cyan-400 bg-cyan-950/20' 
+                ? 'border-b-2 border-cyan-500 text-cyan-400 bg-cyan-950/40' 
                 : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
             }`}
           >
@@ -124,20 +124,21 @@ const NarrativeTab = () => {
         ))}
       </div>
 
-      <div className="overflow-y-auto pr-2 pb-20 flex-1">
-        <div className="bg-slate-900/60 p-4 rounded-xl border border-cyan-900/40">
-          <h3 className="text-sm font-bold font-mono text-cyan-400 uppercase tracking-wider mb-4 border-b border-cyan-900/50 pb-2">
-            {currentSection.title}
-          </h3>
-          
-          <div className="flex flex-col gap-3">
-            {currentSection.fields.map((field) => (
-              <div key={field.id} className="flex flex-col gap-1">
+      <div className="bg-slate-900/60 p-4 sm:p-5 rounded-xl border border-cyan-900/40 w-full">
+        <h3 className="text-sm font-bold font-mono text-cyan-400 uppercase tracking-wider mb-4 border-b border-cyan-900/50 pb-2">
+          {currentSection.title}
+        </h3>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          {currentSection.fields.map((field) => {
+            const isSpanned = ['backstory', 'summary', 'appearance', 'worldview', 'goals', 'plotHooks'].includes(field.id);
+            return (
+              <div key={field.id} className={`flex flex-col gap-1 ${isSpanned ? 'lg:col-span-2' : ''}`}>
                 <label className="text-xs font-bold text-slate-300 uppercase tracking-wider ml-1">
                   {field.label}
                 </label>
                 {isSheetLocked ? (
-                  <div className="w-full min-h-[32px] px-2 py-1 text-sm text-slate-200 whitespace-pre-wrap font-sans">
+                  <div className="w-full min-h-[32px] px-3 py-1.5 text-sm text-slate-200 whitespace-pre-wrap font-sans bg-slate-950/40 rounded border border-slate-800/60">
                     {characterData[field.id] ? (
                       characterData[field.id]
                     ) : (
@@ -153,8 +154,8 @@ const NarrativeTab = () => {
                   />
                 )}
               </div>
-            ))}
-          </div>
+            );
+          })}
         </div>
       </div>
     </div>

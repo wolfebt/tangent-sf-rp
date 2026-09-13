@@ -2,13 +2,14 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useFolio } from '../../../context/FolioContext';
 import { db } from '../../../firebase';
 import { collection, getDocs } from 'firebase/firestore';
-import { X, ChevronRight, ChevronLeft, Check, Search, Shield, Target, User, Sparkles, BookOpen, Layers, Plus, Compass, Dna } from 'lucide-react';
+import { X, ChevronRight, ChevronLeft, Check, Search, Shield, Target, User, Sparkles, BookOpen, Layers, Plus, Compass, Dna, Bot, RefreshCw, Wand2, ArrowRight } from 'lucide-react';
 import { DEFAULT_SKILLS } from '../../../data/skillsData';
 import { DEFAULT_FEATURES, FEATURE_CATEGORIES } from '../../../data/featuresData';
 import { ALL_CANONICAL_TRAITS } from '../../../data/speciesTraitsData';
 import { DEFAULT_ARCHETYPES, ARCHETYPE_SPHERES, getGroupedArchetypes } from '../../../data/archetypesData';
 import { DEFAULT_SPECIES, SPECIES_LINEAGES } from '../../../data/speciesData';
 import { DEFAULT_OCCUPATIONS, COMMON_OCCUPATIONAL_TRAITS } from '../../../data/occupationsData';
+import { synthesizeCharacterWithBastion } from '../../../services/bastionCharacterEngine';
 import {
   AttributePoolPulldown,
   FeatureMultiselectPulldown,
@@ -97,6 +98,10 @@ const INITIAL_DRAFT = {
   skills: [],
   traits: [],
   features: [],
+  weapons: [],
+  armor: [],
+  gear: [],
+  notes: [],
   speciesAllocations: { skills: {}, traits: [], features: [], attributes: {} },
   originAllocations: { skills: {}, traits: [], features: [] },
   factionAllocations: { skills: {}, traits: [], features: [] },
@@ -149,6 +154,11 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [draft, setDraft] = useState(INITIAL_DRAFT);
   const [bpRemaining, setBpRemaining] = useState(150);
+
+  // BASTION Auto-Synthesizer state
+  const [bastionPrompt, setBastionPrompt] = useState('');
+  const [isSynthesizing, setIsSynthesizing] = useState(false);
+  const [bastionSynthesisReport, setBastionSynthesisReport] = useState(null);
   
   // Search & Filter state for step 7
   const [skillSearchQuery, setSkillSearchQuery] = useState('');
@@ -536,15 +546,15 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
       invocations: [],
       special_abilities: [],
       attacks: [],
-      armor: [],
-      gear: [],
-      weapons: [],
-      armoring: [],
+      armor: draft.armor && draft.armor.length > 0 ? draft.armor : [],
+      gear: draft.gear && draft.gear.length > 0 ? draft.gear : [],
+      weapons: draft.weapons && draft.weapons.length > 0 ? draft.weapons : [],
+      armoring: draft.armor && draft.armor.length > 0 ? draft.armor : [],
       mecha: [],
       other: [],
       specializations: [],
       skills: finalSkillsList,
-      notes: [{ text: draft.backstory ? `Backstory:\n${draft.backstory}` : '' }]
+      notes: draft.notes && draft.notes.length > 0 ? draft.notes : [{ text: draft.backstory ? `Backstory:\n${draft.backstory}` : '' }]
     };
 
     // Flat Skill Key Bindings for high-performance reactivity across all Folio tabs
@@ -572,6 +582,9 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
         setCurrentStep(0);
         setDraft(INITIAL_DRAFT);
         setSelectedSpeciesObj(null);
+        setSelectedArchetypeObj(null);
+        setChassisApplied(false);
+        setBastionSynthesisReport(null);
       }, 300);
     }
   };
@@ -622,6 +635,76 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
     setChassisApplied(true);
   };
 
+  const handleBastionAutoBuild = async (customPrompt) => {
+    setIsSynthesizing(true);
+    try {
+      const activePrompt = (customPrompt || bastionPrompt || draft['char-concept'] || 'Adventurous Space Operative').trim();
+      const res = synthesizeCharacterWithBastion({
+        prompt: activePrompt,
+        preferredArchetype: draft['char-archetype'] || null,
+        preferredSpecies: draft['char-species'] || null,
+        dbData
+      });
+
+      if (res.success && res.character) {
+        const { character, pillars, rawAttributes, allocationsReport } = res;
+
+        setDraft(prev => ({
+          ...prev,
+          'char-name': character['char-name'] || prev['char-name'] || 'Unnamed Operative',
+          'char-concept': character['char-concept'] || activePrompt,
+          'char-archetype': pillars.archetype?.name || '',
+          'char-species': pillars.species?.name || '',
+          'char-origin': pillars.origin?.name || '',
+          'char-secondary-origin': '',
+          'char-faction': pillars.faction?.name || '',
+          'char-occu': pillars.occupation?.name || '',
+          'char-secondary-occu': '',
+          'char-age': character['char-age'] || '28',
+          'char-gender': character['char-gender'] || 'Unspecified',
+          'char-height': character['char-height'] || "5'11\"",
+          'char-weight': character['char-weight'] || '180 lbs',
+          'char-style': character['char-style'] || '',
+          'char-motive': character['char-motive'] || '',
+          role: character.role || '',
+          summary: character.summary || '',
+          backstory: character.backstory || '',
+          strength: rawAttributes?.['attr-strength'] ?? 0,
+          agility: rawAttributes?.['attr-agility'] ?? 0,
+          stamina: rawAttributes?.['attr-stamina'] ?? 0,
+          intellect: rawAttributes?.['attr-intellect'] ?? 0,
+          wisdom: rawAttributes?.['attr-wisdom'] ?? 0,
+          charisma: rawAttributes?.['attr-charisma'] ?? 0,
+          technologyLevel: character['tech-level'] || 3,
+          speciesAllocations: character.speciesAllocations || { skills: {}, traits: [], features: [], attributes: {} },
+          originAllocations: character.originAllocations || { skills: {}, traits: [], features: [] },
+          factionAllocations: character.factionAllocations || { skills: {}, traits: [], features: [] },
+          occuAllocations: character.occuAllocations || { skills: {}, traits: [], features: [] },
+          generalAllocations: character.generalAllocations || { skills: {}, traits: [], features: [] },
+          skills: character.skills || [],
+          traits: character.traits || [],
+          features: character.features || [],
+          weapons: character.weapons || [],
+          armor: character.armor || [],
+          gear: character.gear || [],
+          notes: character.notes || []
+        }));
+
+        if (pillars.species) setSelectedSpeciesObj(pillars.species);
+        if (pillars.archetype) setSelectedArchetypeObj(pillars.archetype);
+        setChassisApplied(true);
+        setBastionSynthesisReport({
+          pillars,
+          allocationsReport
+        });
+      }
+    } catch (err) {
+      console.error('BASTION guided creator auto-build error:', err);
+    } finally {
+      setIsSynthesizing(false);
+    }
+  };
+
   // ------------------- STEP RENDERS -------------------
   
   const renderConcept = () => {
@@ -633,10 +716,148 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
       .sort((a, b) => (a.name || '').localeCompare(b.name || ''));
 
     return (
-      <div className="space-y-6 max-w-2xl mx-auto">
+      <div className="space-y-6 w-full">
         <div>
           <h3 className="text-xl font-bold text-cyan-400">Concept & Identity</h3>
           <p className="text-sm text-slate-400">Establish the baseline identity, physical profile, narrative foundation, and optional Archetype chassis of your operative.</p>
+        </div>
+
+        {/* BASTION 5-Pillar Auto-Synthesizer Panel */}
+        <div className="p-4 sm:p-5 bg-gradient-to-br from-cyan-950/40 via-slate-900 to-indigo-950/30 border border-cyan-500/40 rounded-xl space-y-4 shadow-xl ring-1 ring-cyan-500/20">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-cyan-500/20 pb-3">
+            <div className="flex items-center gap-2.5">
+              <div className="p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-400">
+                <Bot size={22} className="animate-pulse" />
+              </div>
+              <div>
+                <h4 className="font-black text-sm uppercase tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-sky-200 to-blue-400 flex items-center gap-2">
+                  BASTION 5-Pillar Auto-Synthesizer
+                </h4>
+                <p className="text-[11px] text-slate-400">
+                  Strictly grounded in canonical database: Archetype → Species → Faction → Origin → Occupation.
+                </p>
+              </div>
+            </div>
+            <span className="self-start sm:self-auto text-[10px] uppercase font-mono px-2.5 py-1 rounded bg-cyan-950 text-cyan-300 border border-cyan-700/50 font-bold">
+              Database Grounded • Zero Fabrications
+            </span>
+          </div>
+
+          <div className="space-y-3">
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={bastionPrompt}
+                onChange={e => setBastionPrompt(e.target.value)}
+                onKeyDown={e => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    handleBastionAutoBuild();
+                  }
+                }}
+                placeholder="Enter character concept or trope (e.g. 'covert stealth sniper', 'void privateer', 'combat trauma medic')..."
+                className="flex-1 bg-slate-950/90 border border-slate-700 focus:border-cyan-400 rounded-lg px-3.5 py-2.5 text-xs text-white placeholder-slate-500 outline-none transition-all shadow-inner"
+              />
+              <button
+                type="button"
+                onClick={() => handleBastionAutoBuild()}
+                disabled={isSynthesizing}
+                className="px-4 py-2.5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-lg text-xs flex items-center gap-2 transition-all shadow-lg hover:shadow-cyan-500/25 disabled:opacity-50 cursor-pointer shrink-0"
+              >
+                {isSynthesizing ? (
+                  <>
+                    <RefreshCw size={14} className="animate-spin" />
+                    <span>Synthesizing...</span>
+                  </>
+                ) : (
+                  <>
+                    <Wand2 size={14} />
+                    <span>Auto-Build</span>
+                  </>
+                )}
+              </button>
+            </div>
+
+            {/* Quick Concept Presets */}
+            <div className="flex flex-wrap items-center gap-1.5">
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mr-1">Presets:</span>
+              {[
+                { label: '🎯 Stealth Sniper', prompt: 'covert stealth sniper with rail rifle' },
+                { label: '💻 Cyber Decker', prompt: 'master hacker decker netrunner' },
+                { label: '🛡️ Heavy Trooper', prompt: 'frontline shock trooper assault tank' },
+                { label: '💉 Field Medic', prompt: 'trauma surgeon field medic healer' },
+                { label: '🚀 Void Privateer', prompt: 'independent void privateer smuggler captain' },
+                { label: '🔮 Mystic Psionic', prompt: 'awakened psionic mystic mentalist' }
+              ].map(preset => (
+                <button
+                  key={preset.label}
+                  type="button"
+                  onClick={() => {
+                    setBastionPrompt(preset.prompt);
+                    handleBastionAutoBuild(preset.prompt);
+                  }}
+                  disabled={isSynthesizing}
+                  className="px-2 py-1 bg-slate-900/80 hover:bg-slate-800 text-[11px] text-slate-300 hover:text-cyan-300 border border-slate-700/80 hover:border-cyan-500/50 rounded-md transition-all cursor-pointer disabled:opacity-40"
+                >
+                  {preset.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* BASTION Synthesis Result Card */}
+          {bastionSynthesisReport && (
+            <div className="p-3.5 bg-slate-950/90 border border-emerald-500/40 rounded-lg space-y-2.5">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+                  <Check size={14} className="text-emerald-400" />
+                  BASTION 5-Pillar Synthesis Applied to Wizard Draft
+                </span>
+                <span className="text-[10px] font-mono text-slate-400">
+                  8 Steps Populated
+                </span>
+              </div>
+
+              {/* 5 Pillar Badges */}
+              <div className="flex flex-wrap gap-1.5 pt-1">
+                <span className="px-2.5 py-1 rounded bg-amber-950/60 border border-amber-500/40 text-amber-300 text-[11px] font-bold flex items-center gap-1">
+                  <Compass size={12} className="text-amber-400" />
+                  1. Archetype: {bastionSynthesisReport.pillars.archetype.name}
+                </span>
+                <span className="px-2.5 py-1 rounded bg-cyan-950/60 border border-cyan-500/40 text-cyan-300 text-[11px] font-bold flex items-center gap-1">
+                  <Dna size={12} className="text-cyan-400" />
+                  2. Species: {bastionSynthesisReport.pillars.species.name}
+                </span>
+                <span className="px-2.5 py-1 rounded bg-purple-950/60 border border-purple-500/40 text-purple-300 text-[11px] font-bold flex items-center gap-1">
+                  <Shield size={12} className="text-purple-400" />
+                  3. Faction: {bastionSynthesisReport.pillars.faction.name}
+                </span>
+                <span className="px-2.5 py-1 rounded bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 text-[11px] font-bold flex items-center gap-1">
+                  <BookOpen size={12} className="text-emerald-400" />
+                  4. Origin: {bastionSynthesisReport.pillars.origin.name}
+                </span>
+                <span className="px-2.5 py-1 rounded bg-sky-950/60 border border-sky-500/40 text-sky-300 text-[11px] font-bold flex items-center gap-1">
+                  <User size={12} className="text-sky-400" />
+                  5. Occupation: {bastionSynthesisReport.pillars.occupation.name}
+                </span>
+              </div>
+
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-2 border-t border-slate-800 text-[11px] text-slate-400">
+                <span>
+                  Allocated: {bastionSynthesisReport.allocationsReport.skillsCount} skills • {bastionSynthesisReport.allocationsReport.traitsCount} traits • {bastionSynthesisReport.allocationsReport.featuresCount} features • {bastionSynthesisReport.allocationsReport.weaponsCount} weapons • {bastionSynthesisReport.allocationsReport.armorCount} armor.
+                </span>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setCurrentStep(7)}
+                    className="px-2.5 py-1 bg-emerald-900/60 hover:bg-emerald-800 text-emerald-300 border border-emerald-600/40 rounded text-xs font-bold transition-all flex items-center gap-1 cursor-pointer"
+                  >
+                    Jump to Review <ArrowRight size={12} />
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
         
         <div className="space-y-4">
@@ -893,7 +1114,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
   };
 
   const renderSelectionList = (title, items, selectedName, onSelect, icon = <User size={16}/>) => (
-    <div className="space-y-4 max-w-4xl mx-auto h-full flex flex-col">
+    <div className="space-y-4 w-full h-full flex flex-col">
       <div>
         <h3 className="text-xl font-bold text-cyan-400">{title}</h3>
         <p className="text-sm text-slate-400">Select an option to define your operative's background archetype.</p>
@@ -985,7 +1206,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
     });
 
     return (
-      <div className="space-y-4 max-w-4xl mx-auto h-full flex flex-col">
+      <div className="space-y-4 w-full h-full flex flex-col">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <h3 className="text-xl font-bold text-cyan-400 flex items-center gap-2">
@@ -1136,7 +1357,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
   };
 
   const renderOriginFaction = () => (
-    <div className="space-y-6 max-w-4xl mx-auto h-full flex flex-col">
+    <div className="space-y-6 w-full h-full flex flex-col">
       <div>
         <h3 className="text-xl font-bold text-cyan-400">Origin & Faction</h3>
         <p className="text-sm text-slate-400">
@@ -1271,7 +1492,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
   );
 
   const renderOccupation = () => (
-    <div className="space-y-4 max-w-4xl mx-auto">
+    <div className="space-y-4 w-full">
       {renderSelectionList(
         'Occupation', 
         dbData.occupations, 
@@ -1324,7 +1545,7 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
   );
 
   const renderAttributes = () => (
-    <div className="space-y-6 max-w-2xl mx-auto">
+    <div className="space-y-6 w-full">
       <div>
         <h3 className="text-xl font-bold text-cyan-400">Core Stats (Attributes)</h3>
         <p className="text-sm text-slate-400">Allocate your base attributes. Maximum +4 before species modifiers. Each +1 point costs <strong className="text-amber-400">5 CP</strong>.</p>
@@ -1922,59 +2143,64 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
 
           {/* Core Stats */}
           <div className="border-b border-slate-800 pb-4">
-            <span className="text-xs font-bold text-slate-500 block mb-2 uppercase">Base Attributes</span>
+            <span className="text-xs font-bold text-slate-500 block uppercase mb-2">Allocated Core Stats</span>
             <div className="grid grid-cols-6 gap-2 text-center">
-              {['strength', 'agility', 'stamina', 'intellect', 'wisdom', 'charisma'].map(attr => (
-                <div key={attr} className="bg-slate-950 rounded-lg p-2 border border-slate-800">
-                  <div className="text-[10px] text-slate-500 uppercase font-bold">{attr.substring(0,3)}</div>
-                  <div className="text-lg font-black text-cyan-300">{draft[attr]}</div>
+              {['Strength', 'Agility', 'Stamina', 'Intellect', 'Wisdom', 'Charisma'].map(stat => (
+                <div key={stat} className="bg-slate-950 p-2 rounded border border-slate-800">
+                  <span className="text-[10px] text-slate-400 block uppercase">{stat.slice(0, 3)}</span>
+                  <span className="font-bold font-mono text-cyan-400">
+                    +{draft[stat.toLowerCase()] || 0}
+                  </span>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Allocated Skills Summary */}
-          <div className="border-b border-slate-800 pb-4">
-            <span className="text-xs font-bold text-slate-500 block mb-2 uppercase">
-              Allocated Skills ({Object.keys(summarySkills).length})
-            </span>
-            <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto p-2 bg-slate-950 rounded-lg border border-slate-800">
-              {Object.keys(summarySkills).length === 0 ? (
-                <span className="text-xs text-slate-500 italic">No skills allocated.</span>
+          {/* All Trained Skills Tag Cloud */}
+          <div className="border-b border-slate-800 pb-4 space-y-2">
+            <span className="text-xs font-bold text-slate-500 block uppercase">All Trained Skills</span>
+            <div className="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto pr-1">
+              {allTrainedSkillsList.length === 0 ? (
+                <span className="text-xs text-slate-500 italic">No skills trained.</span>
               ) : (
-                Object.entries(summarySkills).map(([sName, r]) => (
-                  <span key={sName} className="text-xs bg-slate-900 border border-slate-700 px-2.5 py-1 rounded text-slate-200">
-                    {sName} <strong className="text-cyan-400 font-mono">+{r}</strong>
+                allTrainedSkillsList.map(s => (
+                  <span key={s.id || s.name} className="text-xs bg-slate-950 border border-slate-800 px-2 py-0.5 rounded text-slate-300 flex items-center gap-1">
+                    <span>{s.name}</span>
+                    <span className="text-[10px] font-mono text-cyan-400 font-bold bg-cyan-950/60 px-1 rounded">R{s.rank}</span>
+                    {s.source && <span className="text-[9px] text-slate-500 uppercase">({s.source})</span>}
                   </span>
                 ))
               )}
             </div>
           </div>
 
-          {/* Allocated Traits Summary */}
-          <div className="border-b border-slate-800 pb-4">
-            <span className="text-xs font-bold text-slate-500 block mb-2 uppercase">
-              Acquired Traits ({summaryTraits.size})
-            </span>
-            <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto p-2 bg-slate-950 rounded-lg border border-slate-800">
-              {summaryTraits.size === 0 ? (
-                <span className="text-xs text-slate-500 italic">No traits selected.</span>
+          {/* All Acquired Traits & Features Tag Cloud */}
+          <div className="border-b border-slate-800 pb-4 space-y-2">
+            <span className="text-xs font-bold text-slate-500 block uppercase">Acquired Traits &amp; Features</span>
+            <div className="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto pr-1">
+              {summaryTraits.size === 0 && summaryFeatures.size === 0 ? (
+                <span className="text-xs text-slate-500 italic">None selected.</span>
               ) : (
-                Array.from(summaryTraits).map(tName => (
-                  <span key={tName} className="text-xs bg-slate-900 border border-cyan-500/40 px-2.5 py-1 rounded text-cyan-200 flex items-center gap-1">
-                    <Sparkles size={11} className="text-cyan-400" /> {tName}
-                  </span>
-                ))
+                <>
+                  {Array.from(summaryTraits).map(tName => (
+                    <span key={tName} className="text-xs bg-slate-950 border border-amber-500/40 px-2 py-0.5 rounded text-amber-200 flex items-center gap-1">
+                      <Sparkles size={10} className="text-amber-400" /> {tName}
+                    </span>
+                  ))}
+                  {Array.from(summaryFeatures).map(fName => (
+                    <span key={fName} className="text-xs bg-slate-950 border border-purple-500/40 px-2 py-0.5 rounded text-purple-200 flex items-center gap-1">
+                      <Sparkles size={10} className="text-purple-400" /> {fName}
+                    </span>
+                  ))}
+                </>
               )}
             </div>
           </div>
 
-          {/* Allocated Features Summary */}
-          <div className="border-b border-slate-800 pb-4">
-            <span className="text-xs font-bold text-slate-500 block mb-2 uppercase">
-              Acquired Features ({summaryFeatures.size})
-            </span>
-            <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto p-2 bg-slate-950 rounded-lg border border-slate-800">
+          {/* Selected Chassis Features */}
+          <div className="border-b border-slate-800 pb-4 space-y-2">
+            <span className="text-xs font-bold text-slate-500 block uppercase">Selected Chassis Features</span>
+            <div className="flex flex-wrap gap-1.5">
               {summaryFeatures.size === 0 ? (
                 <span className="text-xs text-slate-500 italic">No features selected.</span>
               ) : (
@@ -2025,8 +2251,8 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-start justify-center p-3 sm:p-4 md:p-6 pt-8 sm:pt-12 md:pt-14 pb-12 bg-black/80 backdrop-blur-md overflow-y-auto select-none font-sans">
-      <div className="bg-[#0d1117] border border-cyan-500/30 rounded-xl shadow-2xl w-full max-w-5xl max-h-[85vh] sm:max-h-[88vh] flex flex-col overflow-hidden ring-1 ring-white/10">
+    <div className="fixed inset-0 z-[200] flex items-start justify-center p-2 sm:p-4 md:p-6 pt-6 sm:pt-10 md:pt-12 pb-8 bg-black/80 backdrop-blur-md overflow-y-auto select-none font-sans">
+      <div className="bg-[#0d1117] border border-cyan-500/30 rounded-xl shadow-2xl w-[96vw] max-w-7xl max-h-[96vh] sm:max-h-[96dvh] flex flex-col overflow-hidden ring-1 ring-white/10">
         
         {/* Header */}
         <div className="flex justify-between items-center p-4 border-b border-slate-800 bg-slate-900/50">
@@ -2046,6 +2272,21 @@ const GuidedCreatorModal = ({ isOpen, onClose, onCharacterCreated }) => {
                 {bpRemaining} CP
               </span>
             </div>
+            <div className="h-4 w-px bg-slate-700 hidden sm:block" />
+            <button
+              type="button"
+              onClick={() => {
+                setCurrentStep(0);
+                if (!bastionPrompt && draft['char-concept']) {
+                  setBastionPrompt(draft['char-concept']);
+                }
+              }}
+              className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-cyan-950/60 hover:bg-cyan-900/60 text-cyan-300 border border-cyan-500/40 text-xs font-bold transition-all cursor-pointer shadow-sm hover:border-cyan-400"
+              title="Jump to BASTION 5-Pillar Auto-Build in Step 1"
+            >
+              <Bot size={13} className="text-cyan-400" />
+              <span>BASTION Auto-Build</span>
+            </button>
           </div>
           <button onClick={onClose} className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors cursor-pointer">
             <X size={20} />

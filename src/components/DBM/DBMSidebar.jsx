@@ -59,6 +59,31 @@ const CATEGORY_ICONS = {
   user_guide: HelpCircle
 };
 
+const CATEGORY_TO_CODEX_MATRIX = {
+  weaponry: 'weaponry',
+  weapons: 'weaponry',
+  armoring: 'armor',
+  armor: 'armor',
+  architecture: 'architecture',
+  augmentations: 'augmentations',
+  augmentation: 'augmentations',
+  gear: 'equipment',
+  equipment: 'equipment',
+  personal_property: 'equipment',
+  mecha: 'mecha',
+  vehicles: 'mecha',
+  starships: 'mecha',
+  invocations: 'invocations',
+  invocation: 'invocations',
+  special_abilities: 'invocations',
+  species: 'species-traits',
+  factions: 'factions',
+  occupations: 'companions',
+  bestiary: 'stat-blocks',
+  world_design: 'planetary',
+  planetary_design: 'planetary'
+};
+
 export const DBMSidebar = ({
   mainCategories,
   activeCategory,
@@ -165,20 +190,46 @@ export const DBMSidebar = ({
       </div>
 
       {/* Rules Codex Matrices Quick Switcher */}
-      <button
-        type="button"
-        onClick={() => {
-          AudioService.playTerminalBeep(1200, 0.03);
-          navigate('/codex');
-        }}
-        className="w-full px-3 py-1.5 rounded-xl text-xs font-mono font-bold tracking-wider bg-gradient-to-r from-purple-950/80 to-slate-900 border border-purple-500/50 hover:border-purple-400 text-purple-200 hover:text-white flex items-center justify-between shadow-[0_0_10px_rgba(168,85,247,0.2)] hover:shadow-[0_0_15px_rgba(168,85,247,0.35)] transition-all shrink-0 my-0.5"
-      >
-        <div className="flex items-center gap-2">
-          <span>📖</span>
-          <span className="uppercase text-[11px]">Rules Codex Matrices</span>
-        </div>
-        <span className="text-[10px] text-purple-400 font-bold">➔</span>
-      </button>
+      <div className="flex flex-col gap-1 shrink-0 my-0.5">
+        <button
+          type="button"
+          onClick={() => {
+            AudioService.playTerminalBeep(1200, 0.03);
+            navigate('/codex');
+          }}
+          className="w-full px-3 py-1.5 rounded-xl text-xs font-mono font-bold tracking-wider bg-gradient-to-r from-purple-950/80 to-slate-900 border border-purple-500/50 hover:border-purple-400 text-purple-200 hover:text-white flex items-center justify-between shadow-[0_0_10px_rgba(168,85,247,0.2)] hover:shadow-[0_0_15px_rgba(168,85,247,0.35)] transition-all"
+        >
+          <div className="flex items-center gap-2">
+            <span>📖</span>
+            <span className="uppercase text-[11px]">Rules Codex Matrices</span>
+          </div>
+          <span className="text-[10px] text-purple-400 font-bold">➔</span>
+        </button>
+
+        {/* Dynamic Contextual Codex Matrix Builder for active category */}
+        {(() => {
+          const effectiveKey = (currentKey || activeCategory || '').toLowerCase();
+          const targetMatrix = CATEGORY_TO_CODEX_MATRIX[effectiveKey];
+          if (!targetMatrix) return null;
+          return (
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1300, 0.03);
+                navigate(`/codex?matrix=${targetMatrix}`);
+              }}
+              className="w-full px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold tracking-wider bg-gradient-to-r from-amber-950/70 to-slate-950 border border-amber-500/40 hover:border-amber-400 text-amber-300 hover:text-amber-100 flex items-center justify-between shadow-[0_0_10px_rgba(245,158,11,0.15)] hover:shadow-[0_0_15px_rgba(245,158,11,0.3)] transition-all animate-fadeIn"
+              title={`Launch ${effectiveKey.toUpperCase()} Guided Codex Builder`}
+            >
+              <div className="flex items-center gap-1.5 truncate">
+                <span>⚡</span>
+                <span className="uppercase truncate">Build {effectiveKey.replace(/_/g, ' ')} Codex</span>
+              </div>
+              <span className="text-amber-400 font-bold ml-1">➔</span>
+            </button>
+          );
+        })()}
+      </div>
 
       {/* Category List Menu */}
       <div className="flex-1 min-h-0 flex flex-col gap-1 overflow-y-auto pr-1 pb-2">

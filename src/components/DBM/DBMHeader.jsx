@@ -88,6 +88,32 @@ export const DBMHeader = ({
 
       {/* Right section: System Tools Menu */}
       <div className="flex items-center gap-2 sm:gap-3">
+        {/* Master Developer Access Quick Indicator & Toggle */}
+        <button
+          type="button"
+          onClick={() => toggleAdminOverride && toggleAdminOverride()}
+          className={`px-2.5 py-1.5 rounded text-xs font-bold font-mono uppercase tracking-wider border transition-all flex items-center gap-1.5 cursor-pointer ${
+            isAdmin
+              ? 'bg-amber-950/70 border-amber-500/80 text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.25)]'
+              : 'bg-slate-900 border-slate-700 text-slate-400 hover:text-slate-200'
+          }`}
+          title={isAdmin ? "Master Developer Access Active (Full CRUD: Add, Edit, Clone, Delete). Click to toggle." : "Player View (Read-Only). Click to enable Master Developer Access."}
+        >
+          <span>{isAdmin ? '👑' : '👁️'}</span>
+          <span className="hidden sm:inline">{isAdmin ? 'MASTER ACCESS: ON' : 'PLAYER VIEW'}</span>
+        </button>
+
+        {/* 1-Click Codex Matrix Launcher */}
+        <button
+          type="button"
+          onClick={() => navigate('/codex')}
+          className="px-2.5 py-1.5 bg-gradient-to-r from-purple-950/90 to-slate-900 hover:from-purple-900 hover:to-slate-800 border border-purple-500/50 text-purple-200 rounded text-xs font-bold font-mono uppercase transition-all flex items-center gap-1.5 shadow-[0_0_10px_rgba(168,85,247,0.2)] cursor-pointer"
+          title="Open Rules Codex Guided Asset Builders (/codex)"
+        >
+          <span>📖</span>
+          <span className="hidden md:inline">Rules Codex</span>
+        </button>
+
         {/* System Actions Dropdown Menu */}
         <div className="relative" ref={menuRef}>
           <button
@@ -155,25 +181,23 @@ export const DBMHeader = ({
                 <span>User Guide</span>
               </button>
 
-              {/* Dev Mode Toggle */}
-              {currentUser && (
-                <button
-                  onClick={() => {
-                    toggleAdminOverride && toggleAdminOverride();
-                    setIsMenuOpen(false);
-                  }}
-                  className="w-full text-left px-3 py-2 bg-slate-800/60 hover:bg-slate-800 text-cyan-300 rounded text-xs font-bold uppercase transition-colors flex items-center justify-between"
-                  title="Toggle Local Admin / Architect Override"
-                >
-                  <div className="flex items-center gap-2">
-                    <span>⚡</span>
-                    <span>Admin Override</span>
-                  </div>
-                  <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${adminOverride ? 'bg-amber-500/20 text-amber-300' : 'bg-slate-700 text-slate-400'}`}>
-                    {adminOverride ? 'ON' : 'OFF'}
-                  </span>
-                </button>
-              )}
+              {/* Master Developer Access Toggle */}
+              <button
+                onClick={() => {
+                  toggleAdminOverride && toggleAdminOverride();
+                  setIsMenuOpen(false);
+                }}
+                className="w-full text-left px-3 py-2 bg-slate-800/60 hover:bg-slate-800 text-cyan-300 rounded text-xs font-bold uppercase transition-colors flex items-center justify-between cursor-pointer"
+                title="Toggle Key Developer Master Access (Full CRUD)"
+              >
+                <div className="flex items-center gap-2">
+                  <span>👑</span>
+                  <span>Master Developer Access</span>
+                </div>
+                <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono font-bold ${adminOverride ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40' : 'bg-slate-700 text-slate-400'}`}>
+                  {adminOverride ? 'ACTIVE' : 'OFF'}
+                </span>
+              </button>
 
               {/* Clear Local Cache */}
               <button

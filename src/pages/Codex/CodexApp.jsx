@@ -52,6 +52,15 @@ export const CodexApp = () => {
   const currentMatrix = getMatrixById(activeMatrixId);
   const [parsingDatasetKey, setParsingDatasetKey] = useState(currentMatrix.ingestionKey || 'species');
 
+  // Active matrix mode: 'guided' | 'records' | 'suite'
+  const activeMode = useMemo(() => {
+    if (isBuilderOpen) return 'guided';
+    if (currentMatrix.viewType === 'dashboard') {
+      return viewSavedRecords ? 'records' : 'suite';
+    }
+    return 'records';
+  }, [isBuilderOpen, currentMatrix.viewType, viewSavedRecords]);
+
   // Keep parsing dataset synchronized with the current active matrix
   useEffect(() => {
     if (currentMatrix.ingestionKey) {
@@ -69,6 +78,19 @@ export const CodexApp = () => {
     setPreviewItem(null);
     setSearchTerm('');
     setViewSavedRecords(false);
+  };
+
+  const handleSwitchMode = (mode) => {
+    AudioService.playTerminalBeep(1100, 0.02);
+    if (mode === 'guided') {
+      setIsBuilderOpen(true);
+    } else if (mode === 'records') {
+      setIsBuilderOpen(false);
+      setViewSavedRecords(true);
+    } else if (mode === 'suite') {
+      setIsBuilderOpen(false);
+      setViewSavedRecords(false);
+    }
   };
 
   // Collect items belonging to this matrix from Omnicortex collections
@@ -228,41 +250,52 @@ export const CodexApp = () => {
               <Search size={13} className="absolute left-2.5 top-2.5 text-slate-500" />
             </div>
 
-            {/* Dashboard vs Saved Records Toggle (for dashboard viewType matrices) */}
-            {currentMatrix.viewType === 'dashboard' && (
-              <div className="flex items-center gap-1 p-1 bg-slate-950/80 rounded-xl border border-slate-800">
+            {/* Universal Codex 3-Mode Tab Switcher (Guided Designer, Database Records, Suite/Guide) */}
+            <div className="flex items-center gap-1 p-1 bg-slate-950/80 rounded-xl border border-slate-800 shadow-inner">
+              <button
+                type="button"
+                onClick={() => handleSwitchMode('guided')}
+                className={`px-2.5 py-1.5 rounded-lg text-xs font-mono font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
+                  activeMode === 'guided'
+                    ? 'bg-amber-600/90 text-white shadow-sm border border-amber-500/60'
+                    : 'text-slate-400 hover:text-amber-200 hover:bg-slate-900/60'
+                }`}
+                title={`Open Guided ${currentMatrix.name} Designer`}
+              >
+                <Sliders size={13} className={activeMode === 'guided' ? 'text-amber-200' : 'text-slate-400'} />
+                <span>Guided Designer</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleSwitchMode('records')}
+                className={`px-2.5 py-1.5 rounded-lg text-xs font-mono font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
+                  activeMode === 'records'
+                    ? 'bg-slate-800 text-white shadow-sm border border-slate-700'
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
+                }`}
+                title={`Browse Omnicortex database records for ${currentMatrix.name}`}
+              >
+                <LayoutGrid size={13} className={activeMode === 'records' ? 'text-cyan-400' : 'text-slate-400'} />
+                <span>Records ({matrixEntries.length})</span>
+              </button>
+
+              {currentMatrix.viewType === 'dashboard' && (
                 <button
                   type="button"
-                  onClick={() => {
-                    AudioService.playTerminalBeep(1100, 0.02);
-                    setViewSavedRecords(false);
-                  }}
+                  onClick={() => handleSwitchMode('suite')}
                   className={`px-2.5 py-1.5 rounded-lg text-xs font-mono font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
-                    !viewSavedRecords 
-                      ? 'bg-slate-800 text-white shadow-sm border border-slate-700' 
-                      : 'text-slate-400 hover:text-slate-200'
+                    activeMode === 'suite'
+                      ? 'bg-cyan-900/80 text-cyan-200 shadow-sm border border-cyan-500/50'
+                      : 'text-slate-400 hover:text-cyan-300 hover:bg-slate-900/60'
                   }`}
+                  title={`Open ${currentMatrix.name} Interactive Suite`}
                 >
-                  <Layers size={13} />
+                  <Layers size={13} className={activeMode === 'suite' ? 'text-cyan-300' : 'text-slate-400'} />
                   <span>Interactive Suite</span>
                 </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    AudioService.playTerminalBeep(1100, 0.02);
-                    setViewSavedRecords(true);
-                  }}
-                  className={`px-2.5 py-1.5 rounded-lg text-xs font-mono font-bold uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
-                    viewSavedRecords 
-                      ? 'bg-slate-800 text-white shadow-sm border border-slate-700' 
-                      : 'text-slate-400 hover:text-slate-200'
-                  }`}
-                >
-                  <LayoutGrid size={13} />
-                  <span>Database Records ({matrixEntries.length})</span>
-                </button>
-              </div>
-            )}
+              )}
+            </div>
 
             {/* Ingestion Studio Focused Parsing Selector & Launcher */}
             <div className="flex items-center bg-slate-950/90 border border-cyan-500/40 rounded-xl p-0.5 shadow-[0_0_15px_rgba(6,182,212,0.15)]">

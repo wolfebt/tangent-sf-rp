@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useLayoutEffect, useEffect, useCallback } from 'react';
 import { useFolio } from '../../../context/FolioContext';
 
 const FolioInput = ({
@@ -13,7 +13,7 @@ const FolioInput = ({
   labelSize = 'text-xs',
   inputClassName = 'bg-slate-900/80 border border-cyan-900/80 px-3 py-2 text-sm',
   containerClassName = 'flex flex-col',
-  rows = 3,
+  rows = 1,
   rightLabel = null,
   disabled = false,
   readOnly = false,
@@ -22,6 +22,30 @@ const FolioInput = ({
   const folio = useFolio();
   const isSheetLocked = Boolean(folio?.isLocked && !folio?.isPlayerOverride);
   const isInputDisabled = disabled || readOnly || isSheetLocked;
+
+  const isTextType = type === 'text' || type === 'textarea';
+  const textareaRef = useRef(null);
+
+  const adjustHeight = useCallback(() => {
+    const el = textareaRef.current;
+    if (el) {
+      el.style.height = 'auto';
+      const minH = type === 'textarea' ? Math.max(38, (rows || 2) * 22) : 38;
+      el.style.height = `${Math.max(minH, el.scrollHeight)}px`;
+    }
+  }, [type, rows]);
+
+  useLayoutEffect(() => {
+    if (isTextType) {
+      adjustHeight();
+    }
+  }, [value, isTextType, adjustHeight]);
+
+  useEffect(() => {
+    if (!isTextType) return;
+    window.addEventListener('resize', adjustHeight);
+    return () => window.removeEventListener('resize', adjustHeight);
+  }, [isTextType, adjustHeight]);
 
   const handleChange = (e) => {
     if (isInputDisabled) return;
@@ -58,7 +82,7 @@ const FolioInput = ({
         )}
         <div 
           id={id}
-          className={`py-1 text-sm font-sans text-slate-100 select-text whitespace-pre-wrap min-h-[1.5rem] flex items-center ${type === 'textarea' ? 'items-start pt-1' : ''}`}
+          className={`py-1 text-sm font-sans text-slate-100 select-text whitespace-pre-wrap min-h-[1.5rem] flex items-center ${isTextType ? 'items-start pt-1' : ''}`}
         >
           {!isEmpty ? (
             <span>{value}</span>
@@ -92,15 +116,20 @@ const FolioInput = ({
         </div>
       )}
       
-      {type === 'textarea' ? (
+      {isTextType ? (
         <textarea
+          ref={textareaRef}
           id={id}
-          rows={rows}
-          value={value || ''}
-          onChange={handleChange}
+          rows={type === 'textarea' ? (rows || 2) : 1}
+          value={value ?? ''}
+          onChange={(e) => {
+            handleChange(e);
+            adjustHeight();
+          }}
           onBlur={handleBlur}
-          className={`${baseStyles} resize-none ${inputClassName}`}
+          className={`${baseStyles} resize-none overflow-hidden ${inputClassName}`}
           placeholder={placeholder}
+          style={{ fieldSizing: 'content' }}
         />
       ) : (
         <input

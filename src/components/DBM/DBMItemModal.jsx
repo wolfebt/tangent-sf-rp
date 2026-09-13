@@ -1,4 +1,41 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef, useCallback } from 'react';
+
+const AutoExpandingDBMTextarea = ({ value, onChange, placeholder, className, minRows = 1, style = {} }) => {
+  const textareaRef = useRef(null);
+
+  const adjustHeight = useCallback(() => {
+    const el = textareaRef.current;
+    if (el) {
+      el.style.height = 'auto';
+      const minH = Math.max(34, minRows * 20);
+      el.style.height = `${Math.max(minH, el.scrollHeight)}px`;
+    }
+  }, [minRows]);
+
+  useLayoutEffect(() => {
+    adjustHeight();
+  }, [value, adjustHeight]);
+
+  useEffect(() => {
+    window.addEventListener('resize', adjustHeight);
+    return () => window.removeEventListener('resize', adjustHeight);
+  }, [adjustHeight]);
+
+  return (
+    <textarea
+      ref={textareaRef}
+      rows={minRows}
+      value={value ?? ''}
+      onChange={(e) => {
+        onChange(e);
+        adjustHeight();
+      }}
+      placeholder={placeholder}
+      className={`${className} resize-none overflow-hidden`}
+      style={{ fieldSizing: 'content', ...style }}
+    />
+  );
+};
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { db } from '../../firebase';
@@ -257,6 +294,7 @@ export const DBMItemModal = ({
   currentKey,
   onSave = () => {},
   onDelete = () => {},
+  onDuplicate = () => {},
   dbData = {},
   saveEntry = null,
   devMode = true,
@@ -426,8 +464,8 @@ export const DBMItemModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-3 sm:p-4 md:p-6 pt-10 sm:pt-14 md:pt-16 pb-12 overflow-y-auto select-none font-sans">
-      <div className="bg-slate-900 border border-slate-700 rounded-xl w-full max-w-4xl max-h-[85vh] sm:max-h-[88vh] flex flex-col shadow-2xl overflow-hidden">
+    <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-2 sm:p-4 md:p-6 pt-6 sm:pt-10 md:pt-12 pb-8 overflow-y-auto select-none font-sans">
+      <div className="bg-slate-900 border border-slate-700 rounded-xl w-[96vw] max-w-7xl max-h-[96vh] sm:max-h-[96dvh] flex flex-col shadow-2xl overflow-hidden">
         {/* Header */}
         <div className="bg-slate-950 px-6 py-4 border-b border-slate-800 flex justify-between items-center shrink-0">
           <div>
@@ -446,6 +484,20 @@ export const DBMItemModal = ({
             </span>
           </div>
           <div className="flex items-center gap-2">
+            {!isEditMode && isAdmin && (
+              <button
+                type="button"
+                onClick={() => {
+                  AudioService.playTerminalBeep(1100, 0.03);
+                  setIsEditMode(true);
+                }}
+                className="px-3 py-1 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shadow transition-all cursor-pointer"
+                title="Switch to Edit Mode"
+              >
+                <span>✏️ Edit Mode</span>
+              </button>
+            )}
+
             {isEditMode && isAdmin && (
               <button
                 type="button"
@@ -624,8 +676,8 @@ export const DBMItemModal = ({
                           isEditMode={true}
                         />
                       ) : fieldDef.type === 'textarea' ? (
-                        <textarea
-                          rows={fieldKey === 'body' ? 12 : 4}
+                        <AutoExpandingDBMTextarea
+                          minRows={fieldKey === 'body' ? 8 : 3}
                           value={editFormData[fieldKey] ?? ''}
                           onChange={e => setEditFormData({ ...editFormData, [fieldKey]: e.target.value })}
                           placeholder={fieldDef.aiEnabled ? 'Lore, sociometrics, design markdown...' : ''}
@@ -686,6 +738,25 @@ export const DBMItemModal = ({
                             </div>
                           )}
                         </div>
+                      ) : fieldDef.type === 'radio' ? (
+                        <div className="flex items-center gap-4 mt-2">
+                          {(fieldDef.options || ['No', 'Yes']).map((opt) => {
+                            const isChecked = String(editFormData[fieldKey] ?? fieldDef.default ?? 'No').toLowerCase() === String(opt).toLowerCase();
+                            return (
+                              <label key={opt} className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer font-mono select-none">
+                                <input
+                                  type="radio"
+                                  name={`radio_${fieldKey}`}
+                                  value={opt}
+                                  checked={isChecked}
+                                  onChange={() => setEditFormData({ ...editFormData, [fieldKey]: opt })}
+                                  className="accent-amber-500 w-4 h-4 cursor-pointer"
+                                />
+                                <span>{opt}</span>
+                              </label>
+                            );
+                          })}
+                        </div>
                       ) : fieldDef.type === 'boolean' ? (
                         <label className="flex items-center gap-2 text-slate-300 text-xs cursor-pointer mt-2">
                           <input
@@ -696,15 +767,25 @@ export const DBMItemModal = ({
                           />
                           Enable {label}
                         </label>
-                      ) : (
+                      ) : fieldDef.type === 'number' ? (
                         <input
-                          type={fieldDef.type === 'number' ? 'number' : 'text'}
+                          type="number"
                           value={editFormData[fieldKey] ?? ''}
                           onChange={e => setEditFormData({
                             ...editFormData,
-                            [fieldKey]: fieldDef.type === 'number' ? Number(e.target.value) : e.target.value
+                            [fieldKey]: Number(e.target.value)
                           })}
-                          className="w-full bg-slate-950 border border-slate-700 text-white p-2 rounded text-xs outline-none focus:border-amber-500"
+                          className="w-full bg-slate-950 border border-slate-700 text-white p-2 rounded text-xs outline-none focus:border-amber-500 font-mono"
+                        />
+                      ) : (
+                        <AutoExpandingDBMTextarea
+                          minRows={1}
+                          value={editFormData[fieldKey] ?? ''}
+                          onChange={e => setEditFormData({
+                            ...editFormData,
+                            [fieldKey]: e.target.value
+                          })}
+                          className="w-full bg-slate-950 border border-slate-700 text-white p-2 rounded text-xs outline-none focus:border-amber-500 font-mono"
                         />
                       )}
                     </div>
@@ -717,8 +798,8 @@ export const DBMItemModal = ({
                   <label className="block text-[11px] font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1">
                     <span>🏷️</span> Tags
                   </label>
-                  <input
-                    type="text"
+                  <AutoExpandingDBMTextarea
+                    minRows={1}
                     value={Array.isArray(editFormData.tags) ? editFormData.tags.join(', ') : (editFormData.tags || '')}
                     onChange={e => {
                       const val = e.target.value;
@@ -959,6 +1040,10 @@ export const DBMItemModal = ({
                                   );
                                 })}
                               </div>
+                            ) : fDef.type === 'radio' ? (
+                              <span className={`px-2.5 py-0.5 rounded text-xs font-mono font-bold ${String(val).toLowerCase() === 'yes' ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-500/40' : 'bg-slate-900 text-slate-400 border border-slate-800'}`}>
+                                {String(val ?? fDef.default ?? 'No')}
+                              </span>
                             ) : fDef.type === 'boolean' || typeof val === 'boolean' ? (
                               <span className={`px-2 py-0.5 rounded text-xs font-mono font-bold ${val ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-500/40' : 'bg-slate-900 text-slate-500 border border-slate-800'}`}>
                                 {val ? '✓ Yes / Enabled' : '✕ No / Disabled'}
@@ -983,8 +1068,8 @@ export const DBMItemModal = ({
 
         {/* Footer Actions */}
         <div className="bg-slate-950 p-4 border-t border-slate-800 flex justify-between items-center shrink-0">
-          <div>
-            {isEditMode && selectedItem && isAdmin && (
+          <div className="flex items-center gap-2">
+            {selectedItem && isAdmin && (
               <button
                 type="button"
                 onClick={() => {
@@ -993,8 +1078,22 @@ export const DBMItemModal = ({
                   onDelete(selectedItem);
                 }}
                 className="px-3 py-2 bg-red-950/80 hover:bg-red-900 text-red-300 border border-red-500/40 rounded text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                title="Delete this entry"
               >
                 🗑️ Delete Entry
+              </button>
+            )}
+            {selectedItem && isAdmin && onDuplicate && (
+              <button
+                type="button"
+                onClick={() => {
+                  onClose();
+                  onDuplicate(selectedItem);
+                }}
+                className="px-3 py-2 bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/40 rounded text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
+                title="Duplicate / clone this entry"
+              >
+                📋 Duplicate
               </button>
             )}
           </div>
@@ -1006,14 +1105,27 @@ export const DBMItemModal = ({
             >
               {isEditMode ? 'Cancel' : 'Close'}
             </button>
-            {isEditMode && isAdmin && (
-              <button
-                type="button"
-                onClick={() => handleSaveModal(true)}
-                className="px-5 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-bold uppercase tracking-wider shadow-lg transition-colors cursor-pointer"
-              >
-                💾 Save Entry
-              </button>
+            {isAdmin && (
+              isEditMode ? (
+                <button
+                  type="button"
+                  onClick={() => handleSaveModal(true)}
+                  className="px-5 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-bold uppercase tracking-wider shadow-lg transition-colors cursor-pointer"
+                >
+                  💾 Save Entry
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    AudioService.playTerminalBeep(1100, 0.03);
+                    setIsEditMode(true);
+                  }}
+                  className="px-5 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-bold uppercase tracking-wider shadow-lg transition-colors cursor-pointer"
+                >
+                  ✏️ Edit Entry
+                </button>
+              )
             )}
           </div>
         </div>

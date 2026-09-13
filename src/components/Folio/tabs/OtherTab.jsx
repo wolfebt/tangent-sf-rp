@@ -1,6 +1,42 @@
-import React from 'react';
+import React, { useRef, useLayoutEffect, useEffect, useCallback } from 'react';
 import { useFolio } from '../../../context/FolioContext';
 import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
+
+const AutoExpandingNoteTextarea = ({ value, onChange, placeholder, className, emptyShadowStyle }) => {
+  const textareaRef = useRef(null);
+
+  const adjustHeight = useCallback(() => {
+    const el = textareaRef.current;
+    if (el) {
+      el.style.height = 'auto';
+      el.style.height = `${Math.max(48, el.scrollHeight)}px`;
+    }
+  }, []);
+
+  useLayoutEffect(() => {
+    adjustHeight();
+  }, [value, adjustHeight]);
+
+  useEffect(() => {
+    window.addEventListener('resize', adjustHeight);
+    return () => window.removeEventListener('resize', adjustHeight);
+  }, [adjustHeight]);
+
+  return (
+    <textarea
+      ref={textareaRef}
+      rows={2}
+      value={value || ''}
+      onChange={(e) => {
+        onChange(e.target.value);
+        adjustHeight();
+      }}
+      placeholder={placeholder}
+      className={`${className} resize-none overflow-hidden ${emptyShadowStyle}`}
+      style={{ fieldSizing: 'content' }}
+    />
+  );
+};
 
 const OtherTab = () => {
   const { characterData, updateField, isLocked, isPlayerOverride } = useFolio();
@@ -43,7 +79,7 @@ const OtherTab = () => {
   const hasAnyNotes = notes.some(n => n.text && n.text.trim());
 
   return (
-    <div className="tab-panel active p-4 space-y-6 pb-20">
+    <div className="tab-panel active p-4 space-y-6 pb-20 w-full">
       <div className="bg-slate-900/60 border border-cyan-900/50 rounded-lg p-4 space-y-4">
         <div className="flex justify-between items-center border-b border-cyan-900/60 pb-2">
           <h3 className="text-sm font-bold uppercase tracking-wider text-cyan-400">
@@ -83,12 +119,12 @@ const OtherTab = () => {
                       {note.text}
                     </div>
                   ) : (
-                    <textarea
-                      rows={2}
+                    <AutoExpandingNoteTextarea
                       value={note.text || ''}
-                      onChange={(e) => updateNote(index, e.target.value)}
+                      onChange={(val) => updateNote(index, val)}
                       placeholder="Enter story notes, contacts, secrets, or quest logs..."
-                      className={`flex-1 bg-slate-900 border focus:border-cyan-400 rounded px-3 py-2 text-xs text-slate-100 outline-none resize-y transition-all ${emptyShadowStyle}`}
+                      className="flex-1 bg-slate-900 border focus:border-cyan-400 rounded px-3 py-2 text-xs text-slate-100 outline-none transition-all"
+                      emptyShadowStyle={emptyShadowStyle}
                     />
                   )}
                   {!isSheetLocked && (

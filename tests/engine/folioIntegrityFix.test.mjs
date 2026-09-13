@@ -265,3 +265,133 @@ test('Persona Lifecycle: Setting / Locking for VTT sets tactical play flags', ()
   assert.equal(unlocked.is_locked, false);
   assert.equal(unlocked.is_ready_for_vtt, false);
 });
+
+test('Skill & Granted Feature Modifiers: Integration, breakdown, and equipment association', async () => {
+  const {
+    enrichItemWithModifiers,
+    getSkillCheckBreakdown,
+    extractEquipmentSkillModifiers,
+    isSkillTargetMatch
+  } = await import('../../src/engines/tangentModifierEngine.js');
+  const { applySpeciesTransition } = await import('../../src/engines/tangentEntityEngines.js');
+
+  // 1. Enriches granted feature with canonical catalog definitions and attaches modifiers
+  const enrichedInsight = enrichItemWithModifiers('Insightful Reason');
+  assert.ok(enrichedInsight);
+  assert.equal(enrichedInsight.name, 'Insightful Reason');
+  assert.ok(Array.isArray(enrichedInsight.modifiers));
+  const logicMod = enrichedInsight.modifiers.find(m => 
+    m.target && m.target.toLowerCase().includes('logic')
+  );
+  assert.ok(logicMod, 'Insightful Reason feature should have a Logic modifier');
+  assert.equal(logicMod.value, 2);
+
+  // 2. Skill target matching with aliases and categories
+  const alertnessSkill = { id: 'skill-alertness', name: 'Alertness', group: 'mental' };
+  assert.equal(isSkillTargetMatch(alertnessSkill, 'Alertness'), true);
+  assert.equal(isSkillTargetMatch(alertnessSkill, 'Perception'), true);
+  assert.equal(isSkillTargetMatch(alertnessSkill, 'Notice'), true);
+  assert.equal(isSkillTargetMatch(alertnessSkill, 'All Mental Skills'), true);
+  assert.equal(isSkillTargetMatch(alertnessSkill, 'All Skills'), true);
+  assert.equal(isSkillTargetMatch(alertnessSkill, 'Athletics'), false);
+
+  // 3. Equipment skill modifier extraction from skill_modifiers and mechanic text
+  const visor = {
+    name: 'Tactical Recon Visor',
+    category: 'Sensory Gear',
+    skill_modifiers: [
+      { target: 'Alertness', value: 3, description: '+3 to Alertness checks' }
+    ]
+  };
+  const visorMods = extractEquipmentSkillModifiers(visor);
+  assert.equal(visorMods.length, 1);
+  assert.equal(visorMods[0].target, 'Alertness');
+  assert.equal(visorMods[0].value, 3);
+
+  const multiTool = {
+    name: 'Omni-Hacker Deck',
+    category: 'Electronics',
+    mechanic: 'Grants +2 bonus to Computers checks when cracking security nodes.'
+  };
+  const toolMods = extractEquipmentSkillModifiers(multiTool);
+  assert.ok(toolMods.length > 0);
+  const compMod = toolMods.find(m => m.target.toLowerCase().includes('computer'));
+  assert.ok(compMod);
+  assert.equal(compMod.value, 2);
+
+  // 4. Complete skill check breakdown (rank, attribute used, modifiers list, possessed equipment)
+  const character = {
+    'attr-agility': 4,
+    'attr-agility-mod': 1, // Attr total = 5
+    'skill-stealth-rank': 6,
+    features: [
+      {
+        name: 'Shadow Cloaked',
+        modifiers: [{ type: 'skill', target: 'Stealth', value: 2, description: '+2 to Stealth checks' }]
+      }
+    ],
+    traits: [
+      {
+        name: 'Silent Step',
+        modifiers: [{ type: 'skill', target: 'Stealth', value: 1, description: '+1 to Stealth checks' }]
+      }
+    ],
+    hindrances: [
+      {
+        name: 'Heavy Footed',
+        modifiers: [{ type: 'skill', target: 'Stealth', value: -2, description: '-2 to Stealth checks' }]
+      }
+    ],
+    gear: [
+      {
+        id: 'camo-mesh-1',
+        name: 'Chameleon Camo Suit',
+        category: 'Surveillance / Concealment',
+        skill_modifiers: [
+          { target: 'Stealth', value: 3, description: '+3 to Stealth checks' }
+        ]
+      }
+    ]
+  };
+
+  const stealthSkill = {
+    id: 'skill-stealth',
+    name: 'Stealth',
+    group: 'physical',
+    baseAttr: 'attr-agility'
+  };
+
+  const breakdown = getSkillCheckBreakdown(stealthSkill, character);
+  assert.ok(breakdown);
+  assert.equal(breakdown.rank, 6);
+  assert.equal(breakdown.attrTotal, 5);
+  // Modifiers: Shadow Cloaked (+2), Silent Step (+1), Heavy Footed (-2), Chameleon Suit (+3) = +4
+  assert.equal(breakdown.totalModifier, 4);
+  // Score = rank (6) + attr (5) + mod (4) = 15
+  assert.equal(breakdown.score, 15);
+  assert.equal(breakdown.modifiers.length, 4);
+  assert.equal(breakdown.equipment.length, 1);
+  assert.equal(breakdown.equipment[0].name, 'Chameleon Camo Suit');
+  assert.equal(breakdown.equipment[0].value, 3);
+  assert.equal(breakdown.rollExpression, '2d10+15');
+
+  // 5. Granted features transition test
+  let char = {
+    'attr-intellect': 3,
+    'skill-logic-rank': 2
+  };
+  const fakeSageSpecies = {
+    id: 'species-sage',
+    name: 'Sage-Kin',
+    inherent_features: ['Insightful Reason']
+  };
+  char = applySpeciesTransition(char, fakeSageSpecies, {});
+  assert.ok(Array.isArray(char.features));
+  const feat = char.features.find(f => (typeof f === 'object' ? f.name : f) === 'Insightful Reason');
+  assert.ok(feat, 'Species transition should grant Insightful Reason feature');
+  assert.ok(feat.modifiers && feat.modifiers.length > 0);
+
+  const logicBreakdown = getSkillCheckBreakdown({ id: 'skill-logic', name: 'Logic', group: 'mental', baseAttr: 'attr-intellect' }, char);
+  assert.ok(logicBreakdown.modifiers.some(m => m.source === 'Insightful Reason' && m.value === 2));
+});
+

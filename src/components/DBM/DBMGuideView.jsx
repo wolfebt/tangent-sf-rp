@@ -4,7 +4,7 @@ import { AudioService } from '../../services/audioService';
 
 export const DBMGuideView = () => {
   return (
-    <div className="flex-1 flex flex-col bg-[#0d1117] border border-[#0D5C63]/60 rounded-2xl p-6 sm:p-8 overflow-y-auto max-w-5xl mx-auto w-full shadow-2xl space-y-6 text-slate-300 font-sans">
+    <div className="flex-1 flex flex-col bg-[#0d1117] border border-[#0D5C63]/60 rounded-2xl p-6 sm:p-8 overflow-y-auto w-full shadow-2xl space-y-6 text-slate-300 font-sans">
       
       {/* Header Banner */}
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-5">

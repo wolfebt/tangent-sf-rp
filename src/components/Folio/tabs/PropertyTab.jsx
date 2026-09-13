@@ -18,6 +18,7 @@ import {
   Scale
 } from 'lucide-react';
 import { scaleCarryingCapacity } from '../../../engines/tangentScalingEngine';
+import FolioTooltip from '../shared/FolioTooltip';
 
 const PROPERTY_CONFIG = {
   weaponry: {
@@ -241,13 +242,35 @@ export const PropertyTab = ({
               return (
                 <div key={idx} className="bg-slate-950/80 border border-slate-800 hover:border-cyan-900/60 rounded-lg p-3 text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 transition-colors">
                   <div className="flex-1 flex flex-wrap items-center gap-2 min-w-0">
-                    <input
-                      type="text"
-                      value={name}
-                      onChange={(e) => handleUpdateItemField(idx, 'name', e.target.value)}
-                      placeholder="Item name..."
-                      className="bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded px-2 py-1 text-slate-100 font-medium text-xs flex-1 min-w-[140px]"
-                    />
+                    <div className="flex items-center gap-1.5 flex-1 min-w-[140px]">
+                      <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => handleUpdateItemField(idx, 'name', e.target.value)}
+                        placeholder="Item name..."
+                        className="bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded px-2 py-1 text-slate-100 font-medium text-xs flex-1 min-w-[120px]"
+                      />
+                      {isObj && (
+                        <FolioTooltip
+                          title={name}
+                          badge={config.title}
+                          badgeColor={config.color === 'emerald' ? 'emerald' : config.color === 'amber' ? 'amber' : config.color === 'purple' ? 'purple' : 'cyan'}
+                          description={item.description || item.desc || item.summary || 'No description provided.'}
+                          cost={cost ? `${cost} Cr` : cp ? `${cp} CP` : undefined}
+                          modifiers={[
+                            ...(damage ? [{ label: 'Damage', value: damage }] : []),
+                            ...(resistance ? [{ label: 'DR', value: resistance }] : []),
+                            ...(weight ? [{ label: 'Weight', value: `${weight} lbs` }] : []),
+                            ...(tl ? [{ label: 'TL', value: String(tl) }] : [])
+                          ]}
+                          rules={item.rules || item.rule || item.notes || item.special}
+                          notes={item.notes}
+                          showInfoIcon={true}
+                        >
+                          <span className="sr-only">{name}</span>
+                        </FolioTooltip>
+                      )}
+                    </div>
 
                     {cp !== null && cp > 0 && (
                       <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-amber-950 border border-amber-800 text-amber-300 shrink-0">
@@ -340,7 +363,7 @@ export const PropertyTab = ({
   };
 
   return (
-    <div className="tab-panel active p-4 space-y-6 pb-20 max-w-6xl mx-auto">
+    <div className="tab-panel active p-4 space-y-6 pb-20 w-full">
       {/* Property Category Navigation Bar */}
       <div className="flex flex-wrap items-center justify-between border-b border-cyan-900/60 pb-2.5 gap-2.5">
         <div className="flex flex-wrap items-center gap-1 sm:gap-1.5">

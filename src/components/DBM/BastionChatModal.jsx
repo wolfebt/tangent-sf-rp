@@ -25,6 +25,8 @@ export const BastionChatModal = ({
   setEditFormData,
   handleCreateNew
 }) => {
+  if (!isOpen) return null;
+
   const [activeTab, setActiveTab] = useState('chat'); // 'chat' | 'generator'
   const [genPrompt, setGenPrompt] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
@@ -454,10 +456,10 @@ export const BastionChatModal = ({
       <>
         {/* Backdrop Overlay to close on outside click */}
         <div 
-          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-[2px]" 
+          className="fixed top-[52px] inset-x-0 bottom-0 z-40 bg-black/40 backdrop-blur-[2px]" 
           onClick={onClose} 
         />
-        <div className="fixed inset-y-0 right-0 z-50 w-80 sm:w-[440px] bg-[#0d1117]/95 border-l border-cyan-500/50 shadow-[-10px_0_30px_rgba(0,0,0,0.8)] flex flex-col font-sans backdrop-blur-md">
+        <div className="fixed top-[52px] bottom-0 right-0 z-50 w-80 sm:w-[440px] bg-[#0d1117]/95 border-l border-cyan-500/50 shadow-[-10px_0_30px_rgba(0,0,0,0.8)] flex flex-col font-sans backdrop-blur-md">
           {renderInnerContent()}
         </div>
       </>
@@ -467,8 +469,8 @@ export const BastionChatModal = ({
   return (
     <DraggablePanel
       id="bastion-dbm-floating-frame"
-      defaultPosition={{ x: Math.max(10, window.innerWidth - 460), y: 70 }}
-      className={`fixed z-50 flex flex-col bg-[#0d1117]/95 border border-cyan-500/50 rounded-xl shadow-[0_0_25px_rgba(34,211,238,0.25)] backdrop-blur-md overflow-hidden font-sans transition-all duration-150 ${
+      defaultPosition={{ x: Math.max(10, window.innerWidth - 460), y: 64 }}
+      className={`fixed z-[110] flex flex-col bg-[#0d1117]/95 border border-cyan-500/50 rounded-xl shadow-[0_0_25px_rgba(34,211,238,0.25)] backdrop-blur-md overflow-hidden font-sans transition-all duration-150 ${
         isMinimized ? 'w-[320px] h-[48px]' : 'w-[390px] sm:w-[440px] h-[600px]'
       }`}
     >

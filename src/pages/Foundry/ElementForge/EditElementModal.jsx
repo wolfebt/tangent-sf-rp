@@ -8,6 +8,36 @@ import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { useStory } from '../../../context/CampaignContext';
 import { ArtistHubModal } from '../../../components/StoryFoundry/ArtistHubModal';
 
+const AutoExpandingElementTextarea = ({ value, onChange, placeholder, className }) => {
+  const textareaRef = useRef(null);
+
+  const adjustHeight = () => {
+    const el = textareaRef.current;
+    if (el) {
+      el.style.height = 'auto';
+      el.style.height = `${Math.max(48, el.scrollHeight)}px`;
+    }
+  };
+
+  useEffect(() => {
+    adjustHeight();
+  }, [value]);
+
+  return (
+    <textarea
+      ref={textareaRef}
+      rows={2}
+      value={value || ''}
+      onChange={(e) => {
+        onChange(e);
+        adjustHeight();
+      }}
+      placeholder={placeholder}
+      className={`${className} resize-none overflow-hidden`}
+      style={{ fieldSizing: 'content' }}
+    />
+  );
+};
 
 const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
   const { deleteSavedElement } = useStory();
@@ -39,7 +69,7 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
       setPendingType(null);
       setShowTypeConfirm(false);
     }
-  }, [element]);
+  }, [element, isOpen]);
 
   if (!isOpen || !element) return null;
 
@@ -85,6 +115,11 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
     setCustomFields(prev => prev.filter(f => f.id !== id));
   };
 
+  const handleImageSelected = (url) => {
+    setImageUrl(url);
+    setIsArtistHubOpen(false);
+  };
+
   const handleImageFileChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -116,8 +151,9 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
       return;
     }
     const validCustomFields = customFields
-      .filter(f => f.label && f.label.trim() !== '')
-      .map(f => ({ id: f.id || uuidv4(), label: f.label.trim(), value: f.value || '' }));
+      .map(f => ({ ...f, label: f.label ? f.label.trim() : '' }))
+      .filter(f => f.label && f.label !== '')
+      .map(f => ({ id: f.id || uuidv4(), label: f.label, value: f.value || '' }));
 
     const rawUpdatedElement = {
       ...element,
@@ -136,8 +172,8 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-3 sm:p-6 pt-8 sm:pt-12 md:pt-14 pb-12 overflow-y-auto select-none font-sans text-slate-200">
-      <div className="bg-[#161b22] border border-cyan-500/70 rounded-2xl w-full max-w-4xl max-h-[85vh] sm:max-h-[88vh] flex flex-col shadow-2xl overflow-hidden relative">
+    <div className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 backdrop-blur-md p-2 sm:p-4 md:p-6 pt-6 sm:pt-10 md:pt-12 pb-8 overflow-y-auto select-none font-sans text-slate-200">
+      <div className="bg-[#161b22] border border-cyan-500/70 rounded-2xl w-[96vw] max-w-7xl max-h-[96vh] sm:max-h-[96dvh] flex flex-col shadow-2xl overflow-hidden relative">
         
         {/* Header */}
         <div className="px-6 py-4 bg-[#0d1117] border-b border-[#0D5C63]/60 flex items-center justify-between">
@@ -411,12 +447,11 @@ const EditElementModal = ({ isOpen, onClose, element, onSave, onDelete }) => {
                           ✕ Remove
                         </button>
                       </div>
-                      <textarea
-                        rows={2}
+                      <AutoExpandingElementTextarea
                         value={cf.value}
                         onChange={(e) => handleCustomFieldChange(cf.id, 'value', e.target.value)}
                         placeholder="Field value / description..."
-                        className="w-full bg-slate-900 border border-slate-700 text-white p-2 rounded text-xs outline-none focus:border-cyan-400 resize-none"
+                        className="w-full bg-slate-900 border border-slate-700 text-white p-2 rounded text-xs outline-none focus:border-cyan-400"
                       />
                     </div>
                   ))

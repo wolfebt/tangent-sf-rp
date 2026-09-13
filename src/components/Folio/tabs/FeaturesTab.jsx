@@ -1111,7 +1111,7 @@ export const FeaturesTab = ({
   };
 
   return (
-    <div className="tab-panel active p-4 space-y-6 max-w-6xl mx-auto pb-24">
+    <div className="tab-panel active p-4 space-y-6 w-full pb-24">
       
       {/* ══════════════════════════════════════════════════════════════════ */}
       {/* MASTER TOP TELEMETRY & SUB-NAVIGATION BAR                          */}
@@ -1363,20 +1363,29 @@ export const FeaturesTab = ({
                       const name = trait.name || trait.title || 'Trait';
                       const tier = trait.trait_tier || 'Basic';
                       const costDisplay = trait.cp === 0 ? 'Inherent (0 CP)' : `${trait.cp || 1} CP`;
+                      const col = trait.columnCategory || trait.columnSource || 'Heritage';
+                      const colColor = col === 'Species' ? 'cyan' : col === 'Origin' ? 'emerald' : col === 'Occupation' ? 'sky' : 'purple';
                       return (
                         <div key={tIdx} className="bg-slate-950/80 border border-slate-800 hover:border-emerald-700/60 rounded-lg p-2.5 flex items-center justify-between gap-3 text-xs transition-colors">
                           <div className="space-y-0.5 flex-1 min-w-0">
-                            <div className="flex items-center gap-1.5 flex-wrap">
-                              <span className="font-bold text-slate-100">{name}</span>
-                              <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-emerald-950 text-emerald-300 border border-emerald-800">
-                                {trait.columnCategory || 'Trait'} &bull; {tier}
-                              </span>
-                            </div>
-                            {trait.description && (
-                              <p className="text-[11px] text-slate-400 line-clamp-1">
-                                {trait.description}
-                              </p>
-                            )}
+                            <FolioTooltip
+                              title={name}
+                              badge={`${col} Trait`}
+                              badgeColor={colColor}
+                              description={trait.description || 'Acquired column heritage trait.'}
+                              formula={trait.mechanic || undefined}
+                              modifiers={Array.isArray(trait.modifiers) ? trait.modifiers : []}
+                              cost={costDisplay}
+                              tags={[tier, col].filter(Boolean)}
+                              showInfoIcon={true}
+                            >
+                              <div className="flex items-center gap-1.5 flex-wrap min-w-0">
+                                <span className="font-bold text-slate-100 hover:text-emerald-300 transition-colors truncate">{name}</span>
+                                <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-emerald-950 text-emerald-300 border border-emerald-800">
+                                  {col} &bull; {tier}
+                                </span>
+                              </div>
+                            </FolioTooltip>
                           </div>
                           <span className="shrink-0 font-mono text-[10px] px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-emerald-300 font-bold">
                             {costDisplay}
@@ -1414,20 +1423,32 @@ export const FeaturesTab = ({
                       const name = feat.name || feat.title || 'Feature';
                       const cat = feat.category || feat.type || 'General';
                       const cp = feat.cp !== undefined ? feat.cp : 3;
+                      const featPillars = getPillarFeatureRecommendations(feat, pillarFeatureSets, characterData);
                       return (
                         <div key={fIdx} className="bg-slate-950/80 border border-slate-800 hover:border-cyan-700/60 rounded-lg p-2.5 flex items-center justify-between gap-3 text-xs transition-colors">
                           <div className="space-y-0.5 flex-1 min-w-0">
-                            <div className="flex items-center gap-1.5 flex-wrap">
-                              <span className="font-bold text-slate-100">{name}</span>
-                              <span className={`px-1.5 py-0.2 rounded text-[9px] font-mono uppercase border ${getTypeBadgeStyle(cat)}`}>
-                                {cat}
-                              </span>
-                            </div>
-                            {feat.description && (
-                              <p className="text-[11px] text-slate-400 line-clamp-1">
-                                {feat.description}
-                              </p>
-                            )}
+                            <FolioTooltip
+                              title={name}
+                              badge={cat}
+                              badgeColor="cyan"
+                              description={feat.description || 'Standard operative feature.'}
+                              formula={feat.mechanic || undefined}
+                              modifiers={Array.isArray(feat.modifiers) ? feat.modifiers : []}
+                              prerequisites={feat.prerequisites || undefined}
+                              cost={`${cp} CP`}
+                              rules={feat.rules || feat.special_rules}
+                              notes={feat.notes}
+                              tags={[cat, feat.is_ranked ? `Rank ${feat.rank || 1}` : null].filter(Boolean)}
+                              showInfoIcon={true}
+                            >
+                              <div className="flex items-center gap-1.5 flex-wrap min-w-0">
+                                <span className="font-bold text-slate-100 hover:text-cyan-300 transition-colors truncate">{name}</span>
+                                <PillarMarkerDots recommendations={featPillars} />
+                                <span className={`px-1.5 py-0.2 rounded text-[9px] font-mono uppercase border ${getTypeBadgeStyle(cat)}`}>
+                                  {cat}
+                                </span>
+                              </div>
+                            </FolioTooltip>
                           </div>
                           <span className="shrink-0 font-mono text-[10px] px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-cyan-300 font-bold">
                             {cp} CP
@@ -1616,108 +1637,96 @@ export const FeaturesTab = ({
                         return (
                           <div
                             key={`${item.sourceList}_${item.sourceIndex}`}
-                            className={`border rounded-xl p-3.5 shadow-sm flex flex-col justify-between transition-all group relative ${
+                            className={`border rounded-lg p-2.5 shadow-sm flex flex-col justify-between gap-1.5 transition-all group relative ${
                               isPrereqUnmet
                                 ? 'bg-slate-950/70 border-dashed border-rose-900/60 opacity-75'
                                 : 'bg-slate-950/80 border-slate-800 hover:border-cyan-700/60'
                             }`}
                           >
-                            <div>
-                              <div className="flex items-start justify-between gap-1.5 mb-1.5">
-                                <FolioTooltip
-                                  title={name}
-                                  badge={featCategory}
-                                  badgeColor="cyan"
-                                  description={desc || 'Operative feature.'}
-                                  formula={featMechanic || undefined}
-                                  modifiers={featModifiers}
-                                  cost={`${cpCost} CP`}
-                                  showInfoIcon={true}
-                                >
-                                  <div className="flex items-center gap-1.5 flex-wrap">
-                                    <h4 className="font-bold text-xs text-slate-100 group-hover:text-cyan-300 transition-colors leading-snug">
-                                      {name}
-                                    </h4>
-                                    <PillarMarkerDots recommendations={featPillars} />
+                            {/* Line 1: Complete Name + Pillar Dots + Tooltip Info */}
+                            <div className="flex items-center justify-between gap-2 min-w-0">
+                              <FolioTooltip
+                                title={name}
+                                badge={featCategory}
+                                badgeColor="cyan"
+                                description={desc || 'Operative feature.'}
+                                formula={featMechanic || undefined}
+                                modifiers={featModifiers}
+                                prerequisites={item.prerequisites || undefined}
+                                prerequisiteMet={!isPrereqUnmet}
+                                prerequisiteUnmetReasons={prereqResult.unmetReasons}
+                                cost={`${cpCost * (item.rank || 1)} CP`}
+                                rules={item.rules || item.special_rules}
+                                notes={item.notes}
+                                tags={[featCategory, item.is_ranked ? `Rank ${item.rank || 1}/${item.max_rank || 5}` : null].filter(Boolean)}
+                                showInfoIcon={true}
+                              >
+                                <div className="flex items-center gap-1.5 min-w-0">
+                                  <h4 className="font-bold text-xs text-slate-100 group-hover:text-cyan-300 transition-colors">
+                                    {name}
+                                  </h4>
+                                  <PillarMarkerDots recommendations={featPillars} />
+                                </div>
+                              </FolioTooltip>
+
+                              {item.is_ranked && (
+                                <div className="flex items-center gap-1 bg-slate-900 border border-cyan-800/60 rounded px-1.5 py-0.5 shrink-0" title="Ranked Feature">
+                                  <span className="text-[9px] font-mono text-slate-400 font-bold">RK</span>
+                                  <span className="text-[10px] font-mono font-bold text-cyan-300">{item.rank || 1}</span>
+                                  <div className="flex items-center ml-0.5 border-l border-slate-700 pl-1">
+                                    <button
+                                      type="button"
+                                      disabled={(item.rank || 1) <= 1}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleUpdateFeatureRank(item, (item.rank || 1) - 1);
+                                      }}
+                                      className="px-0.5 text-[10px] text-slate-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+                                      title="Decrease rank"
+                                    >
+                                      -
+                                    </button>
+                                    <span className="text-slate-600 text-[10px] mx-0.5">/</span>
+                                    <button
+                                      type="button"
+                                      disabled={(item.rank || 1) >= (item.max_rank || 5)}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleUpdateFeatureRank(item, (item.rank || 1) + 1);
+                                      }}
+                                      className="px-0.5 text-[10px] text-slate-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+                                      title="Increase rank"
+                                    >
+                                      +
+                                    </button>
                                   </div>
-                                </FolioTooltip>
-
-                                <div className="flex items-center gap-1.5 shrink-0">
-                                  {item.is_ranked && (
-                                    <div className="flex items-center gap-1 bg-slate-900 border border-cyan-800/60 rounded px-1.5 py-0.5" title="Ranked Feature">
-                                      <span className="text-[9px] font-mono text-slate-400 font-bold">RK</span>
-                                      <span className="text-[10px] font-mono font-bold text-cyan-300">{item.rank || 1}</span>
-                                      <div className="flex items-center ml-0.5 border-l border-slate-700 pl-1">
-                                        <button
-                                          type="button"
-                                          disabled={(item.rank || 1) <= 1}
-                                          onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleUpdateFeatureRank(item, (item.rank || 1) - 1);
-                                          }}
-                                          className="px-0.5 text-[10px] text-slate-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
-                                          title="Decrease rank"
-                                        >
-                                          -
-                                        </button>
-                                        <span className="text-slate-600 text-[10px] mx-0.5">/</span>
-                                        <button
-                                          type="button"
-                                          disabled={(item.rank || 1) >= (item.max_rank || 5)}
-                                          onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleUpdateFeatureRank(item, (item.rank || 1) + 1);
-                                          }}
-                                          className="px-0.5 text-[10px] text-slate-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
-                                          title="Increase rank"
-                                        >
-                                          +
-                                        </button>
-                                      </div>
-                                    </div>
-                                  )}
-                                  <span className="shrink-0 px-2 py-0.5 text-[10px] font-mono font-bold rounded bg-cyan-950 border border-cyan-800 text-cyan-300">
-                                    {cpCost * (item.rank || 1)} CP
-                                  </span>
-                                </div>
-                              </div>
-
-                              {/* Modifier Chips */}
-                              {featModifiers.length > 0 && (
-                                <div className="flex flex-wrap gap-1 mb-2">
-                                  {featModifiers.map((m, mIdx) => (
-                                    <span key={mIdx} className="px-1.5 py-0.2 text-[9px] font-mono font-bold rounded border bg-cyan-950/80 text-cyan-300 border-cyan-700/70">
-                                      {typeof m === 'object' ? (m.description || `${m.target}: ${m.value}`) : String(m)}
-                                    </span>
-                                  ))}
-                                </div>
-                              )}
-
-                              {desc && (
-                                <p className="text-[11px] text-slate-400 leading-relaxed line-clamp-2 mb-2">
-                                  {desc}
-                                </p>
-                              )}
-
-                              {featMechanic && (
-                                <div className="bg-slate-900/60 border border-slate-800 rounded px-2 py-1 text-[10px] font-mono text-cyan-200/90 mb-2 line-clamp-2">
-                                  <span className="font-bold text-slate-500 mr-1 uppercase text-[8.5px]">Mech:</span>
-                                  {featMechanic}
                                 </div>
                               )}
                             </div>
 
-                            <div className="flex items-center justify-between gap-1.5 pt-2 mt-auto border-t border-slate-900">
-                              <span className={`px-1.5 py-0.5 text-[9px] font-bold uppercase rounded border ${getTypeBadgeStyle(featCategory)}`}>
-                                {featCategory}
-                              </span>
+                            {/* Line 2: Notes / Category & Controls */}
+                            <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-900 text-xs">
+                              <div className="flex items-center gap-1.5 min-w-0 flex-1 overflow-hidden">
+                                <span className={`px-1.5 py-0.5 text-[9px] font-bold uppercase rounded border shrink-0 ${getTypeBadgeStyle(featCategory)}`}>
+                                  {featCategory}
+                                </span>
+                                {item.notes && (
+                                  <span className="text-[10.5px] font-sans text-slate-400 italic truncate" title={item.notes}>
+                                    {item.notes}
+                                  </span>
+                                )}
+                              </div>
 
-                              <div className="flex items-center gap-1">
+                              <div className="flex items-center gap-1.5 shrink-0">
+                                <span className="px-2 py-0.5 text-[10px] font-mono font-bold rounded bg-cyan-950 border border-cyan-800 text-cyan-300">
+                                  {cpCost * (item.rank || 1)} CP
+                                </span>
+
                                 {onOpenAssetModal && (
                                   <button
                                     type="button"
                                     onClick={() => onOpenAssetModal('features', 'Feature', 'edit', item.sourceIndex, item)}
-                                    className="text-slate-400 hover:text-cyan-300 text-xs px-1.5 py-0.5 rounded hover:bg-slate-900 transition-colors cursor-pointer"
+                                    className="text-slate-400 hover:text-cyan-300 text-xs p-1 rounded hover:bg-slate-900 transition-colors cursor-pointer"
                                     title="Edit feature"
                                   >
                                     <Edit3 className="w-3.5 h-3.5" />
@@ -1726,7 +1735,7 @@ export const FeaturesTab = ({
                                 <button
                                   type="button"
                                   onClick={() => handleRemoveFeature(item)}
-                                  className="text-slate-500 hover:text-red-400 text-sm font-bold px-1.5 py-0.5 leading-none rounded hover:bg-slate-900 transition-colors cursor-pointer"
+                                  className="text-slate-500 hover:text-red-400 text-xs p-1 rounded hover:bg-slate-900 transition-colors cursor-pointer"
                                   title="Remove feature"
                                 >
                                   <Trash2 className="w-3.5 h-3.5" />
@@ -1837,119 +1846,131 @@ export const FeaturesTab = ({
                   const discountInfo = feat.discountInfo;
                   const recs = feat.recommendingPillars;
                   const featCategory = feat.category || feat.type || 'General';
+                  const prereqResult = checkPrerequisite(feat, characterData, 'features');
+                  const isPrereqUnmet = prereqResult.hasPrerequisite && !prereqResult.isPossessed;
 
                   return (
                     <div
                       key={feat.id}
-                      className={`p-3.5 rounded-xl border text-xs flex flex-col justify-between transition-all group ${
+                      className={`p-2.5 rounded-lg border text-xs flex flex-col justify-between gap-1.5 transition-all group ${
                         acquired
                           ? 'bg-cyan-950/20 border-cyan-500/40 shadow-sm'
+                          : isPrereqUnmet
+                          ? 'bg-slate-950/40 border-slate-800/80 opacity-50 grayscale contrast-75 cursor-not-allowed'
                           : 'bg-slate-950/80 border-amber-900/40 hover:border-amber-500/60 shadow-[0_0_8px_rgba(245,158,11,0.08)]'
                       }`}
                     >
-                      <div>
-                        <div className="flex items-start justify-between gap-1.5 mb-1.5">
-                          <div>
-                            <div className="flex items-center gap-1.5 flex-wrap">
-                              <h5 className="font-bold text-xs text-slate-100 group-hover:text-amber-300 transition-colors">
-                                {feat.name}
-                              </h5>
-                              <PillarMarkerDots recommendations={recs} />
-                              {acquired && (
-                                <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-cyan-500/20 border border-cyan-500/60 text-cyan-300 font-bold">
-                                  ✓ In Folio
-                                </span>
-                              )}
-                            </div>
-
-                            {/* Pillar Badges */}
-                            <div className="flex flex-wrap items-center gap-1 mt-1">
-                              {recs.map((p) => (
-                                <span key={p.id} className={`text-[9px] font-mono px-1.5 py-0.2 rounded border ${p.badgeClass}`}>
-                                  {p.name}: {p.detail}
-                                </span>
-                              ))}
-                            </div>
+                      {/* Line 1: Complete Name + Pillar Dots + Tooltip Info */}
+                      <div className="flex items-center justify-between gap-2 min-w-0">
+                        <FolioTooltip
+                          title={feat.name}
+                          badge={featCategory}
+                          badgeColor="amber"
+                          description={feat.description || 'Pillar recommended feature.'}
+                          formula={feat.mechanic || undefined}
+                          modifiers={Array.isArray(feat.modifiers) ? feat.modifiers : []}
+                          prerequisites={feat.prerequisites || undefined}
+                          prerequisiteMet={!isPrereqUnmet}
+                          prerequisiteUnmetReasons={prereqResult.unmetReasons}
+                          cost={`${discountInfo.finalCost} CP (Base: ${discountInfo.baseCost || 3} CP, -${discountInfo.totalDiscount || 1} CP Discount)`}
+                          rules={feat.rules || feat.special_rules}
+                          notes={feat.notes}
+                          tags={[featCategory, ...recs.map(p => `${p.name}: ${p.detail}`)]}
+                          showInfoIcon={true}
+                        >
+                          <div className="flex items-center gap-1.5 min-w-0">
+                            <h5 className="font-bold text-xs text-slate-100 group-hover:text-amber-300 transition-colors">
+                              {feat.name}
+                            </h5>
+                            <PillarMarkerDots recommendations={recs} />
                           </div>
-
-                          {/* Cost Indicator */}
-                          <div className="shrink-0 text-right">
-                            <div className="flex items-center gap-1">
-                              <span className="text-[9px] font-mono line-through text-slate-500">
-                                {discountInfo.baseCost || 3} CP
-                              </span>
-                              <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-amber-950 border border-amber-500 text-amber-300">
-                                {discountInfo.finalCost} CP
-                              </span>
-                            </div>
-                            <span className="text-[8.5px] font-mono text-amber-400 font-bold block mt-0.5">
-                              -{discountInfo.totalDiscount || (discountInfo.baseCost - discountInfo.finalCost) || 1} CP Discount
-                            </span>
-                          </div>
-                        </div>
-
-                        {feat.description && (
-                          <p className="text-[11px] text-slate-400 line-clamp-2 leading-relaxed mb-2">
-                            {feat.description}
-                          </p>
-                        )}
-                        {feat.mechanic && (
-                          <div className="bg-slate-900/60 border border-slate-800 rounded px-2 py-1 text-[10px] font-mono text-cyan-200/90 mb-2 line-clamp-2">
-                            <span className="font-bold text-slate-500 mr-1 uppercase text-[8.5px]">Mech:</span>
-                            {feat.mechanic}
-                          </div>
-                        )}
+                        </FolioTooltip>
                       </div>
 
-                      <div className="flex items-center justify-between pt-2 mt-auto border-t border-slate-900">
-                        <span className={`px-1.5 py-0.5 text-[9px] font-bold uppercase rounded border ${getTypeBadgeStyle(featCategory)}`}>
-                          {featCategory}
-                        </span>
-
-                        {!acquired ? (
-                          <button
-                            type="button"
-                            onClick={() => handleAddItem('features', {
-                              id: feat.id || `feat_${Date.now()}`,
-                              name: feat.name,
-                              category: featCategory,
-                              type: (feat.type || featCategory || 'general').toLowerCase(),
-                              cp: discountInfo.finalCost,
-                              baseCp: discountInfo.baseCost,
-                              isDiscounted: true,
-                              is_ranked: !!feat.is_ranked,
-                              rank: 1,
-                              max_rank: feat.max_rank || (feat.is_ranked ? 5 : undefined),
-                              is_multiple: !!feat.is_multiple,
-                              prerequisites: feat.prerequisites || '',
-                              modifiers: Array.isArray(feat.modifiers) ? feat.modifiers : [],
-                              costs: {
-                                bp: discountInfo.finalCost,
-                                credits: 0,
-                                nodes: 0,
-                                sockets: 0,
-                                strain: 0,
-                                focus: 0,
-                                ap: 0
-                              },
-                              description: feat.description || '',
-                              mechanic: feat.mechanic || feat.mechanics || '',
-                              rules: feat.rules || feat.special_rules || '',
-                              special_rules: feat.special_rules || feat.rules || '',
-                              notes: feat.notes || '',
-                              notesList: Array.isArray(feat.notesList) ? feat.notesList : []
-                            })}
-                            className="px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase bg-amber-950 hover:bg-amber-900 border border-amber-500 text-amber-200 transition-all flex items-center gap-1 cursor-pointer"
-                          >
-                            <Plus className="w-3 h-3" />
-                            <span>+ Add ({discountInfo.finalCost} CP)</span>
-                          </button>
-                        ) : (
-                          <span className="text-[10px] font-mono text-cyan-400 font-bold flex items-center gap-1">
-                            <Check className="w-3 h-3" />
-                            <span>Acquired</span>
+                      {/* Line 2: Category / Notes & Controls */}
+                      <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-900 text-xs">
+                        <div className="flex items-center gap-1.5 min-w-0 flex-1 overflow-hidden">
+                          <span className={`px-1.5 py-0.5 text-[9px] font-bold uppercase rounded border shrink-0 ${getTypeBadgeStyle(featCategory)}`}>
+                            {featCategory}
                           </span>
-                        )}
+                          {feat.notes ? (
+                            <span className="text-[10.5px] font-sans text-slate-400 italic truncate" title={feat.notes}>
+                              {feat.notes}
+                            </span>
+                          ) : recs.length > 0 ? (
+                            <span className="text-[10px] font-mono text-amber-400/80 truncate">
+                              {recs.map(r => r.name).join(' • ')}
+                            </span>
+                          ) : null}
+                        </div>
+
+                        <div className="flex items-center gap-2 shrink-0">
+                          <div className="flex items-center gap-1 font-mono">
+                            <span className="text-[9px] line-through text-slate-500">
+                              {discountInfo.baseCost || 3} CP
+                            </span>
+                            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-950 border border-amber-500 text-amber-300">
+                              {discountInfo.finalCost} CP
+                            </span>
+                          </div>
+
+                          {!acquired ? (
+                            isPrereqUnmet ? (
+                              <button
+                                type="button"
+                                disabled
+                                className="px-2 py-0.5 rounded text-[10px] font-mono text-slate-500 bg-slate-900/60 border border-slate-800 flex items-center gap-1 cursor-not-allowed"
+                                title={`Prerequisite unmet: ${prereqResult.unmetReasons?.join(', ')}`}
+                              >
+                                <Lock className="w-3 h-3 text-rose-400" />
+                                <span>Locked</span>
+                              </button>
+                            ) : (
+                              <button
+                                type="button"
+                                onClick={() => handleAddItem('features', {
+                                  id: feat.id || `feat_${Date.now()}`,
+                                  name: feat.name,
+                                  category: featCategory,
+                                  type: (feat.type || featCategory || 'general').toLowerCase(),
+                                  cp: discountInfo.finalCost,
+                                  baseCp: discountInfo.baseCost,
+                                  isDiscounted: true,
+                                  is_ranked: !!feat.is_ranked,
+                                  rank: 1,
+                                  max_rank: feat.max_rank || (feat.is_ranked ? 5 : undefined),
+                                  is_multiple: !!feat.is_multiple,
+                                  prerequisites: feat.prerequisites || '',
+                                  modifiers: Array.isArray(feat.modifiers) ? feat.modifiers : [],
+                                  costs: {
+                                    bp: discountInfo.finalCost,
+                                    credits: 0,
+                                    nodes: 0,
+                                    sockets: 0,
+                                    strain: 0,
+                                    focus: 0,
+                                    ap: 0
+                                  },
+                                  description: feat.description || '',
+                                  mechanic: feat.mechanic || feat.mechanics || '',
+                                  rules: feat.rules || feat.special_rules || '',
+                                  special_rules: feat.special_rules || feat.rules || '',
+                                  notes: feat.notes || '',
+                                  notesList: Array.isArray(feat.notesList) ? feat.notesList : []
+                                })}
+                                className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-amber-950 hover:bg-amber-900 border border-amber-500 text-amber-200 transition-all flex items-center gap-1 cursor-pointer"
+                              >
+                                <Plus className="w-3 h-3" />
+                                <span>+ Add</span>
+                              </button>
+                            )
+                          ) : (
+                            <span className="text-[10px] font-mono text-cyan-400 font-bold flex items-center gap-1 px-1.5 py-0.5 rounded bg-cyan-950/60 border border-cyan-800/60">
+                              <Check className="w-3 h-3" />
+                              <span>In Folio</span>
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </div>
                   );
@@ -2038,122 +2059,141 @@ export const FeaturesTab = ({
                   const discountInfo = feat.discountInfo;
                   const recs = feat.recommendingPillars;
                   const featCategory = feat.category || feat.type || 'General';
+                  const prereqResult = checkPrerequisite(feat, characterData, 'features');
+                  const isPrereqUnmet = prereqResult.hasPrerequisite && !prereqResult.isPossessed;
+                  const isSpeciesFeature = featCategory === 'Species' || (feat.type || '').toLowerCase() === 'species' || feat.source === 'species';
+                  const isPurchasable = isSpeciesFeature
+                    ? Boolean(feat.isPurchasable || feat.purchasable || feat.purchasableByCharacter || feat.is_purchasable)
+                    : true;
 
                   return (
                     <div
                       key={feat.id}
-                      className={`p-3.5 rounded-xl border text-xs flex flex-col justify-between transition-all group ${
+                      className={`p-2.5 rounded-lg border text-xs flex flex-col justify-between gap-1.5 transition-all group ${
                         acquired
                           ? 'bg-cyan-950/20 border-cyan-500/40 shadow-sm'
+                          : isPrereqUnmet
+                          ? 'bg-slate-950/40 border-slate-800/80 opacity-50 grayscale contrast-75 cursor-not-allowed'
                           : discountInfo.isDiscounted
                           ? 'bg-amber-950/15 border-amber-500/40 hover:border-amber-400/60'
                           : 'bg-slate-950/80 border-slate-800 hover:border-slate-700'
                       }`}
                     >
-                      <div>
-                        <div className="flex items-start justify-between gap-1.5 mb-1.5">
-                          <div>
-                            <div className="flex items-center gap-1.5 flex-wrap">
-                              <h5 className="font-bold text-xs text-slate-100 group-hover:text-cyan-300 transition-colors">
-                                {feat.name}
-                              </h5>
-                              <PillarMarkerDots recommendations={recs} />
-                              {acquired && (
-                                <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-cyan-500/20 border border-cyan-500/60 text-cyan-300 font-bold">
-                                  ✓ In Folio
-                                </span>
-                              )}
-                            </div>
-
-                            {recs.length > 0 && (
-                              <div className="flex flex-wrap items-center gap-1 mt-1">
-                                {recs.map((p) => (
-                                  <span key={p.id} className={`text-[9px] font-mono px-1.5 py-0.2 rounded border ${p.badgeClass}`}>
-                                    {p.name}
-                                  </span>
-                                ))}
-                              </div>
-                            )}
+                      {/* Line 1: Complete Name + Pillar Dots + Tooltip Info */}
+                      <div className="flex items-center justify-between gap-2 min-w-0">
+                        <FolioTooltip
+                          title={feat.name}
+                          badge={featCategory}
+                          badgeColor={discountInfo.isDiscounted ? 'amber' : 'cyan'}
+                          description={feat.description || 'Operative feature.'}
+                          formula={feat.mechanic || undefined}
+                          modifiers={Array.isArray(feat.modifiers) ? feat.modifiers : []}
+                          prerequisites={feat.prerequisites || undefined}
+                          prerequisiteMet={!isPrereqUnmet}
+                          prerequisiteUnmetReasons={prereqResult.unmetReasons}
+                          cost={discountInfo.isDiscounted ? `${discountInfo.finalCost} CP (Discounted from 3 CP)` : '3 CP'}
+                          rules={feat.rules || feat.special_rules}
+                          notes={feat.notes}
+                          tags={[featCategory, ...recs.map(r => r.name)]}
+                          showInfoIcon={true}
+                        >
+                          <div className="flex items-center gap-1.5 min-w-0">
+                            <h5 className="font-bold text-xs text-slate-100 group-hover:text-cyan-300 transition-colors">
+                              {feat.name}
+                            </h5>
+                            <PillarMarkerDots recommendations={recs} />
                           </div>
-
-                          <div className="shrink-0 text-right">
-                            {discountInfo.isDiscounted ? (
-                              <div>
-                                <span className="text-[9px] font-mono line-through text-slate-500 mr-1">3 CP</span>
-                                <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-amber-950 border border-amber-500 text-amber-300">
-                                  {discountInfo.finalCost} CP
-                                </span>
-                              </div>
-                            ) : (
-                              <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-cyan-300">
-                                3 CP
-                              </span>
-                            )}
-                          </div>
-                        </div>
-
-                        {feat.description && (
-                          <p className="text-[11px] text-slate-400 line-clamp-2 leading-relaxed mb-2">
-                            {feat.description}
-                          </p>
-                        )}
-                        {feat.mechanic && (
-                          <div className="bg-slate-900/60 border border-slate-800 rounded px-2 py-1 text-[10px] font-mono text-cyan-200/90 mb-2 line-clamp-2">
-                            <span className="font-bold text-slate-500 mr-1 uppercase text-[8.5px]">Mech:</span>
-                            {feat.mechanic}
-                          </div>
-                        )}
+                        </FolioTooltip>
                       </div>
 
-                      <div className="flex items-center justify-between pt-2 mt-auto border-t border-slate-900">
-                        <span className={`px-1.5 py-0.5 text-[9px] font-bold uppercase rounded border ${getTypeBadgeStyle(featCategory)}`}>
-                          {featCategory}
-                        </span>
-
-                        {!acquired ? (
-                          <button
-                            type="button"
-                            onClick={() => handleAddItem('features', {
-                              id: feat.id || `feat_${Date.now()}`,
-                              name: feat.name,
-                              category: featCategory,
-                              type: (feat.type || featCategory || 'general').toLowerCase(),
-                              cp: discountInfo.finalCost,
-                              baseCp: discountInfo.baseCost,
-                              isDiscounted: discountInfo.isDiscounted,
-                              is_ranked: !!feat.is_ranked,
-                              rank: 1,
-                              max_rank: feat.max_rank || (feat.is_ranked ? 5 : undefined),
-                              is_multiple: !!feat.is_multiple,
-                              prerequisites: feat.prerequisites || '',
-                              modifiers: Array.isArray(feat.modifiers) ? feat.modifiers : [],
-                              costs: {
-                                bp: discountInfo.finalCost,
-                                credits: 0,
-                                nodes: 0,
-                                sockets: 0,
-                                strain: 0,
-                                focus: 0,
-                                ap: 0
-                              },
-                              description: feat.description || '',
-                              mechanic: feat.mechanic || feat.mechanics || '',
-                              rules: feat.rules || feat.special_rules || '',
-                              special_rules: feat.special_rules || feat.rules || '',
-                              notes: feat.notes || '',
-                              notesList: Array.isArray(feat.notesList) ? feat.notesList : []
-                            })}
-                            className="px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase bg-cyan-950 hover:bg-cyan-900 border border-cyan-600 text-cyan-200 transition-all flex items-center gap-1 cursor-pointer"
-                          >
-                            <Plus className="w-3 h-3" />
-                            <span>+ Add ({discountInfo.finalCost} CP)</span>
-                          </button>
-                        ) : (
-                          <span className="text-[10px] font-mono text-cyan-400 font-bold flex items-center gap-1">
-                            <Check className="w-3 h-3" />
-                            <span>Acquired</span>
+                      {/* Line 2: Category / Notes & Controls */}
+                      <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-900 text-xs">
+                        <div className="flex items-center gap-1.5 min-w-0 flex-1 overflow-hidden">
+                          <span className={`px-1.5 py-0.5 text-[9px] font-bold uppercase rounded border shrink-0 ${getTypeBadgeStyle(featCategory)}`}>
+                            {featCategory}
                           </span>
-                        )}
+                          {feat.notes && (
+                            <span className="text-[10.5px] font-sans text-slate-400 italic truncate" title={feat.notes}>
+                              {feat.notes}
+                            </span>
+                          )}
+                        </div>
+
+                        <div className="flex items-center gap-2 shrink-0">
+                          <div className="flex items-center gap-1 font-mono">
+                            {discountInfo.isDiscounted && (
+                              <span className="text-[9px] line-through text-slate-500">3 CP</span>
+                            )}
+                            <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
+                              discountInfo.isDiscounted
+                                ? 'bg-amber-950 border border-amber-500 text-amber-300'
+                                : 'bg-slate-900 border border-slate-800 text-cyan-300'
+                            }`}>
+                              {discountInfo.finalCost} CP
+                            </span>
+                          </div>
+
+                          {!acquired ? (
+                            !isPurchasable ? (
+                              <span className="px-2 py-0.5 rounded text-[10px] font-mono text-slate-500 bg-slate-900 border border-slate-800" title="Species feature baseline is not directly purchasable by character.">
+                                Baseline
+                              </span>
+                            ) : isPrereqUnmet ? (
+                              <button
+                                type="button"
+                                disabled
+                                className="px-2 py-0.5 rounded text-[10px] font-mono text-slate-500 bg-slate-900/60 border border-slate-800 flex items-center gap-1 cursor-not-allowed"
+                                title={`Prerequisite unmet: ${prereqResult.unmetReasons?.join(', ')}`}
+                              >
+                                <Lock className="w-3 h-3 text-rose-400" />
+                                <span>Locked</span>
+                              </button>
+                            ) : (
+                              <button
+                                type="button"
+                                onClick={() => handleAddItem('features', {
+                                  id: feat.id || `feat_${Date.now()}`,
+                                  name: feat.name,
+                                  category: featCategory,
+                                  type: (feat.type || featCategory || 'general').toLowerCase(),
+                                  cp: discountInfo.finalCost,
+                                  baseCp: discountInfo.baseCost,
+                                  isDiscounted: discountInfo.isDiscounted,
+                                  is_ranked: !!feat.is_ranked,
+                                  rank: 1,
+                                  max_rank: feat.max_rank || (feat.is_ranked ? 5 : undefined),
+                                  is_multiple: !!feat.is_multiple,
+                                  prerequisites: feat.prerequisites || '',
+                                  modifiers: Array.isArray(feat.modifiers) ? feat.modifiers : [],
+                                  costs: {
+                                    bp: discountInfo.finalCost,
+                                    credits: 0,
+                                    nodes: 0,
+                                    sockets: 0,
+                                    strain: 0,
+                                    focus: 0,
+                                    ap: 0
+                                  },
+                                  description: feat.description || '',
+                                  mechanic: feat.mechanic || feat.mechanics || '',
+                                  rules: feat.rules || feat.special_rules || '',
+                                  special_rules: feat.special_rules || feat.rules || '',
+                                  notes: feat.notes || '',
+                                  notesList: Array.isArray(feat.notesList) ? feat.notesList : []
+                                })}
+                                className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-cyan-950 hover:bg-cyan-900 border border-cyan-600 text-cyan-200 transition-all flex items-center gap-1 cursor-pointer"
+                              >
+                                <Plus className="w-3 h-3" />
+                                <span>+ Add</span>
+                              </button>
+                            )
+                          ) : (
+                            <span className="text-[10px] font-mono text-cyan-400 font-bold flex items-center gap-1 px-1.5 py-0.5 rounded bg-cyan-950/60 border border-cyan-800/60">
+                              <Check className="w-3 h-3" />
+                              <span>In Folio</span>
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </div>
                   );
@@ -2190,6 +2230,66 @@ export const FeaturesTab = ({
               </span>
             </div>
           </div>
+
+          {/* Acquired Column Heritage Traits Bar */}
+          {characterTraits.length > 0 && (
+            <div className="bg-slate-900/80 border border-emerald-900/50 rounded-xl p-3 space-y-2">
+              <div className="flex items-center justify-between border-b border-emerald-950 pb-1.5">
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-emerald-300 flex items-center gap-1.5">
+                  <Check className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Acquired Heritage Traits ({characterTraits.length})</span>
+                </span>
+                <span className="text-[10px] font-mono text-emerald-400 font-bold">
+                  {totalTraitsCP} CP Total
+                </span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                {characterTraits.map((t, tIdx) => {
+                  const tName = t.name || t.title || 'Trait';
+                  const tCost = t.cp === 0 ? 'Inherent (0 CP)' : `${t.cp || 1} CP`;
+                  const tCol = t.columnCategory || t.columnSource || 'Heritage';
+                  const tColor = tCol === 'Species' ? 'cyan' : tCol === 'Origin' ? 'emerald' : tCol === 'Occupation' ? 'sky' : 'purple';
+                  return (
+                    <div
+                      key={`acq_t_${tIdx}`}
+                      className="p-2 rounded-lg border border-emerald-900/40 bg-slate-950/80 flex items-center justify-between gap-2 text-xs hover:border-emerald-700/60 transition-colors"
+                    >
+                      <div className="flex items-center gap-1.5 min-w-0 flex-1">
+                        <FolioTooltip
+                          title={tName}
+                          badge={`${tCol} Trait`}
+                          badgeColor={tColor}
+                          description={t.description || 'Acquired column heritage trait.'}
+                          formula={t.mechanic || undefined}
+                          modifiers={Array.isArray(t.modifiers) ? t.modifiers : []}
+                          cost={tCost}
+                          tags={[t.trait_tier || 'Basic', tCol].filter(Boolean)}
+                          showInfoIcon={true}
+                        >
+                          <h5 className="font-bold text-xs text-slate-100 truncate hover:text-emerald-300 transition-colors">
+                            {tName}
+                          </h5>
+                        </FolioTooltip>
+                      </div>
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        <span className="text-[9.5px] font-mono font-bold px-1.5 py-0.2 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">
+                          {tCost}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveTrait(t)}
+                          className="text-slate-500 hover:text-red-400 text-xs p-1 rounded hover:bg-slate-900 transition-colors cursor-pointer"
+                          title="Remove trait"
+                        >
+                          <Trash2 className="w-3 h-3" />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           {/* Column Filter Pills */}
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
@@ -2246,70 +2346,117 @@ export const FeaturesTab = ({
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                     {columnAvailableTraits.species.map((trait, idx) => {
                       const acquired = isTraitAcquired(trait.name || trait.id);
-                      const costDisplay = trait.isInherent ? 'Inherent (0 CP)' : '1 CP';
+                      const isPurchasable = Boolean(
+                        trait.isPurchasable === true ||
+                        trait.isPurchasable === 'Yes' ||
+                        trait.purchasable === true ||
+                        trait.purchasable === 'Yes' ||
+                        trait.purchasableByCharacter === true ||
+                        trait.purchasableByCharacter === 'Yes' ||
+                        trait.is_purchasable === true ||
+                        trait.is_purchasable === 'Yes'
+                      );
+                      const rawCp = parseInt(trait.cpCost || trait.cp || trait.bp || 1, 10);
+                      const traitCp = [1, 2, 4].includes(rawCp) ? rawCp : 1;
+                      const costDisplay = isPurchasable ? `${traitCp} CP` : (trait.isInherent ? 'Inherent (0 CP)' : 'Species Baseline');
+                      const prereqResult = checkPrerequisite(trait, characterData, 'features');
+                      const isPrereqUnmet = prereqResult.hasPrerequisite && !prereqResult.isPossessed;
 
                       return (
                         <div
                           key={`${trait.id || trait.name}_${idx}`}
-                          className={`p-3 rounded-lg border text-xs flex flex-col justify-between transition-all ${
+                          className={`p-2.5 rounded-lg border text-xs flex flex-col justify-between gap-1.5 transition-all ${
                             acquired
                               ? 'bg-cyan-950/20 border-cyan-500/50 shadow-sm'
+                              : isPrereqUnmet
+                              ? 'bg-slate-950/40 border-slate-800/80 opacity-50 grayscale contrast-75 cursor-not-allowed'
                               : 'bg-slate-950/80 border-slate-800 hover:border-cyan-700/60'
                           }`}
                         >
-                          <div>
-                            <div className="flex items-start justify-between gap-1.5 mb-1">
-                              <h5 className="font-bold text-slate-100 text-xs">
+                          {/* Line 1: Complete Name + Tooltip Info */}
+                          <div className="flex items-center justify-between gap-2 min-w-0">
+                            <FolioTooltip
+                              title={trait.name}
+                              badge="Species Trait"
+                              badgeColor="cyan"
+                              description={trait.description || 'Species heritage trait.'}
+                              formula={trait.mechanic || undefined}
+                              modifiers={Array.isArray(trait.modifiers) ? trait.modifiers : []}
+                              prerequisites={trait.prerequisites || undefined}
+                              prerequisiteMet={!isPrereqUnmet}
+                              prerequisiteUnmetReasons={prereqResult.unmetReasons}
+                              cost={costDisplay}
+                              tags={[trait.trait_tier || 'Basic', trait.sourceDetail || 'Species Trait'].filter(Boolean)}
+                              showInfoIcon={true}
+                            >
+                              <h5 className="font-bold text-slate-100 text-xs group-hover:text-cyan-300 transition-colors">
                                 {trait.name}
                               </h5>
+                            </FolioTooltip>
+                          </div>
+
+                          {/* Line 2: Tier / Notes & Controls */}
+                          <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-900 text-xs">
+                            <div className="flex items-center gap-1.5 min-w-0 flex-1 overflow-hidden">
+                              <span className="text-[9px] font-mono text-slate-400 uppercase shrink-0">
+                                {trait.trait_tier || 'Basic'}
+                              </span>
+                              {trait.sourceDetail && (
+                                <span className="text-[10px] font-sans text-slate-500 italic truncate" title={trait.sourceDetail}>
+                                  {trait.sourceDetail}
+                                </span>
+                              )}
+                            </div>
+
+                            <div className="flex items-center gap-2 shrink-0">
                               <span className="px-1.5 py-0.5 rounded text-[9.5px] font-mono bg-cyan-950 text-cyan-300 border border-cyan-800 font-bold shrink-0">
                                 {costDisplay}
                               </span>
+                              {!acquired ? (
+                                !isPurchasable ? (
+                                  <span className="px-1.5 py-0.5 rounded text-[10px] font-mono text-slate-500 bg-slate-900 border border-slate-800" title="Species traits are biological baselines and cannot be purchased unless flagged in species data.">
+                                    Baseline
+                                  </span>
+                                ) : isPrereqUnmet ? (
+                                  <button
+                                    type="button"
+                                    disabled
+                                    className="px-2 py-0.5 rounded text-[10px] font-mono text-slate-500 bg-slate-900/60 border border-slate-800 flex items-center gap-1 cursor-not-allowed"
+                                    title={`Prerequisite unmet: ${prereqResult.unmetReasons?.join(', ')}`}
+                                  >
+                                    <Lock className="w-3 h-3 text-rose-400" />
+                                    <span>Locked</span>
+                                  </button>
+                                ) : (
+                                  <button
+                                    type="button"
+                                    onClick={() => handleAddItem('traits', {
+                                      id: trait.id || `trait_${Date.now()}`,
+                                      name: trait.name,
+                                      category: 'traits',
+                                      trait_type: 'Species Trait',
+                                      trait_tier: trait.trait_tier || 'Basic',
+                                      source: 'species',
+                                      columnSource: 'Species',
+                                      sourceDetail: trait.sourceDetail || 'Species Trait',
+                                      cp: traitCp,
+                                      description: trait.description,
+                                      mechanic: trait.mechanic,
+                                      modifiers: Array.isArray(trait.modifiers) ? trait.modifiers : []
+                                    })}
+                                    className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-cyan-950 hover:bg-cyan-900 border border-cyan-600 text-cyan-200 transition-all cursor-pointer flex items-center gap-1"
+                                  >
+                                    <Plus className="w-3 h-3" />
+                                    <span>+ Add ({traitCp} CP)</span>
+                                  </button>
+                                )
+                              ) : (
+                                <span className="text-[10px] font-mono text-emerald-400 font-bold flex items-center gap-1 px-1.5 py-0.5 rounded bg-emerald-950/60 border border-emerald-800/60">
+                                  <Check className="w-3 h-3" />
+                                  <span>In Folio</span>
+                                </span>
+                              )}
                             </div>
-
-                            <span className="text-[9px] font-mono text-slate-400 block mb-1">
-                              {trait.sourceDetail || 'Species Trait'}
-                            </span>
-
-                            {trait.description && (
-                              <p className="text-[11px] text-slate-400 line-clamp-2 mb-2 leading-relaxed">
-                                {trait.description}
-                              </p>
-                            )}
-                          </div>
-
-                          <div className="flex items-center justify-between pt-2 mt-auto border-t border-slate-900">
-                            <span className="text-[9px] font-mono text-slate-500 uppercase">
-                              {trait.trait_tier || 'Basic'}
-                            </span>
-
-                            {!acquired ? (
-                              <button
-                                type="button"
-                                onClick={() => handleAddItem('traits', {
-                                  id: trait.id || `trait_${Date.now()}`,
-                                  name: trait.name,
-                                  category: 'traits',
-                                  trait_type: 'Species Trait',
-                                  trait_tier: trait.trait_tier || 'Basic',
-                                  source: 'species',
-                                  columnSource: 'Species',
-                                  cp: trait.isInherent ? 0 : 1,
-                                  description: trait.description,
-                                  mechanic: trait.mechanic,
-                                  modifiers: Array.isArray(trait.modifiers) ? trait.modifiers : []
-                                })}
-                                className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-cyan-950 hover:bg-cyan-900 border border-cyan-600 text-cyan-200 transition-all cursor-pointer flex items-center gap-1"
-                              >
-                                <Plus className="w-3 h-3" />
-                                <span>+ Add ({costDisplay})</span>
-                              </button>
-                            ) : (
-                              <span className="text-[10px] font-mono text-emerald-400 font-bold flex items-center gap-1">
-                                <Check className="w-3 h-3" />
-                                <span>In Folio</span>
-                              </span>
-                            )}
                           </div>
                         </div>
                       );
@@ -2352,70 +2499,100 @@ export const FeaturesTab = ({
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                     {columnAvailableTraits.origin.map((trait, idx) => {
                       const acquired = isTraitAcquired(trait.name || trait.id);
+                      const prereqResult = checkPrerequisite(trait, characterData, 'features');
+                      const isPrereqUnmet = prereqResult.hasPrerequisite && !prereqResult.isPossessed;
 
                       return (
                         <div
                           key={`${trait.id || trait.name}_${idx}`}
-                          className={`p-3 rounded-lg border text-xs flex flex-col justify-between transition-all ${
+                          className={`p-2.5 rounded-lg border text-xs flex flex-col justify-between gap-1.5 transition-all ${
                             acquired
                               ? 'bg-emerald-950/20 border-emerald-500/50 shadow-sm'
+                              : isPrereqUnmet
+                              ? 'bg-slate-950/40 border-slate-800/80 opacity-50 grayscale contrast-75 cursor-not-allowed'
                               : 'bg-slate-950/80 border-slate-800 hover:border-emerald-700/60'
                           }`}
                         >
-                          <div>
-                            <div className="flex items-start justify-between gap-1.5 mb-1">
-                              <h5 className="font-bold text-slate-100 text-xs">
+                          {/* Line 1: Complete Name + Tooltip Info */}
+                          <div className="flex items-center justify-between gap-2 min-w-0">
+                            <FolioTooltip
+                              title={trait.name}
+                              badge="Origin Trait"
+                              badgeColor="emerald"
+                              description={trait.description || 'Origin heritage trait.'}
+                              formula={trait.mechanic || undefined}
+                              modifiers={Array.isArray(trait.modifiers) ? trait.modifiers : []}
+                              prerequisites={trait.prerequisites || undefined}
+                              prerequisiteMet={!isPrereqUnmet}
+                              prerequisiteUnmetReasons={prereqResult.unmetReasons}
+                              cost="1 CP"
+                              tags={[trait.trait_tier || 'Basic', trait.sourceDetail || 'Origin Trait'].filter(Boolean)}
+                              showInfoIcon={true}
+                            >
+                              <h5 className="font-bold text-slate-100 text-xs group-hover:text-emerald-300 transition-colors">
                                 {trait.name}
                               </h5>
+                            </FolioTooltip>
+                          </div>
+
+                          {/* Line 2: Tier / Notes & Controls */}
+                          <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-900 text-xs">
+                            <div className="flex items-center gap-1.5 min-w-0 flex-1 overflow-hidden">
+                              <span className="text-[9px] font-mono text-slate-400 uppercase shrink-0">
+                                {trait.trait_tier || 'Basic'}
+                              </span>
+                              {trait.sourceDetail && (
+                                <span className="text-[10px] font-sans text-slate-500 italic truncate" title={trait.sourceDetail}>
+                                  {trait.sourceDetail}
+                                </span>
+                              )}
+                            </div>
+
+                            <div className="flex items-center gap-2 shrink-0">
                               <span className="px-1.5 py-0.5 rounded text-[9.5px] font-mono bg-emerald-950 text-emerald-300 border border-emerald-800 font-bold shrink-0">
                                 1 CP
                               </span>
+                              {!acquired ? (
+                                isPrereqUnmet ? (
+                                  <button
+                                    type="button"
+                                    disabled
+                                    className="px-2 py-0.5 rounded text-[10px] font-mono text-slate-500 bg-slate-900/60 border border-slate-800 flex items-center gap-1 cursor-not-allowed"
+                                    title={`Prerequisite unmet: ${prereqResult.unmetReasons?.join(', ')}`}
+                                  >
+                                    <Lock className="w-3 h-3 text-rose-400" />
+                                    <span>Locked</span>
+                                  </button>
+                                ) : (
+                                  <button
+                                    type="button"
+                                    onClick={() => handleAddItem('traits', {
+                                      id: trait.id || `trait_${Date.now()}`,
+                                      name: trait.name,
+                                      category: 'traits',
+                                      trait_type: 'Origin Trait',
+                                      trait_tier: trait.trait_tier || 'Basic',
+                                      source: 'origin',
+                                      columnSource: 'Origin',
+                                      sourceDetail: trait.sourceDetail || 'Origin Trait',
+                                      cp: 1,
+                                      description: trait.description,
+                                      mechanic: trait.mechanic,
+                                      modifiers: Array.isArray(trait.modifiers) ? trait.modifiers : []
+                                    })}
+                                    className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-emerald-950 hover:bg-emerald-900 border border-emerald-600 text-emerald-200 transition-all cursor-pointer flex items-center gap-1"
+                                  >
+                                    <Plus className="w-3 h-3" />
+                                    <span>+ Add</span>
+                                  </button>
+                                )
+                              ) : (
+                                <span className="text-[10px] font-mono text-emerald-400 font-bold flex items-center gap-1 px-1.5 py-0.5 rounded bg-emerald-950/60 border border-emerald-800/60">
+                                  <Check className="w-3 h-3" />
+                                  <span>In Folio</span>
+                                </span>
+                              )}
                             </div>
-
-                            <span className="text-[9px] font-mono text-emerald-400/90 block mb-1">
-                              {trait.sourceDetail}
-                            </span>
-
-                            {trait.description && (
-                              <p className="text-[11px] text-slate-400 line-clamp-2 mb-2 leading-relaxed">
-                                {trait.description}
-                              </p>
-                            )}
-                          </div>
-
-                          <div className="flex items-center justify-between pt-2 mt-auto border-t border-slate-900">
-                            <span className="text-[9px] font-mono text-slate-500 uppercase">
-                              {trait.trait_tier || 'Basic'}
-                            </span>
-
-                            {!acquired ? (
-                              <button
-                                type="button"
-                                onClick={() => handleAddItem('traits', {
-                                  id: trait.id || `trait_${Date.now()}`,
-                                  name: trait.name,
-                                  category: 'traits',
-                                  trait_type: 'Origin Trait',
-                                  trait_tier: trait.trait_tier || 'Basic',
-                                  source: 'origin',
-                                  columnSource: 'Origin',
-                                  sourceDetail: trait.sourceDetail,
-                                  cp: 1,
-                                  description: trait.description,
-                                  mechanic: trait.mechanic,
-                                  modifiers: Array.isArray(trait.modifiers) ? trait.modifiers : []
-                                })}
-                                className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-emerald-950 hover:bg-emerald-900 border border-emerald-600 text-emerald-200 transition-all cursor-pointer flex items-center gap-1"
-                              >
-                                <Plus className="w-3 h-3" />
-                                <span>+ Add (1 CP)</span>
-                              </button>
-                            ) : (
-                              <span className="text-[10px] font-mono text-emerald-400 font-bold flex items-center gap-1">
-                                <Check className="w-3 h-3" />
-                                <span>In Folio</span>
-                              </span>
-                            )}
                           </div>
                         </div>
                       );
@@ -2458,70 +2635,100 @@ export const FeaturesTab = ({
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                     {columnAvailableTraits.occupation.map((trait, idx) => {
                       const acquired = isTraitAcquired(trait.name || trait.id);
+                      const prereqResult = checkPrerequisite(trait, characterData, 'features');
+                      const isPrereqUnmet = prereqResult.hasPrerequisite && !prereqResult.isPossessed;
 
                       return (
                         <div
                           key={`${trait.id || trait.name}_${idx}`}
-                          className={`p-3 rounded-lg border text-xs flex flex-col justify-between transition-all ${
+                          className={`p-2.5 rounded-lg border text-xs flex flex-col justify-between gap-1.5 transition-all ${
                             acquired
                               ? 'bg-sky-950/20 border-sky-500/50 shadow-sm'
+                              : isPrereqUnmet
+                              ? 'bg-slate-950/40 border-slate-800/80 opacity-50 grayscale contrast-75 cursor-not-allowed'
                               : 'bg-slate-950/80 border-slate-800 hover:border-sky-700/60'
                           }`}
                         >
-                          <div>
-                            <div className="flex items-start justify-between gap-1.5 mb-1">
-                              <h5 className="font-bold text-slate-100 text-xs">
+                          {/* Line 1: Complete Name + Tooltip Info */}
+                          <div className="flex items-center justify-between gap-2 min-w-0">
+                            <FolioTooltip
+                              title={trait.name}
+                              badge="Occupation Trait"
+                              badgeColor="sky"
+                              description={trait.description || 'Occupation heritage trait.'}
+                              formula={trait.mechanic || undefined}
+                              modifiers={Array.isArray(trait.modifiers) ? trait.modifiers : []}
+                              prerequisites={trait.prerequisites || undefined}
+                              prerequisiteMet={!isPrereqUnmet}
+                              prerequisiteUnmetReasons={prereqResult.unmetReasons}
+                              cost="1 CP"
+                              tags={[trait.trait_tier || 'Basic', trait.sourceDetail || 'Occupation Trait'].filter(Boolean)}
+                              showInfoIcon={true}
+                            >
+                              <h5 className="font-bold text-slate-100 text-xs group-hover:text-sky-300 transition-colors">
                                 {trait.name}
                               </h5>
+                            </FolioTooltip>
+                          </div>
+
+                          {/* Line 2: Tier / Notes & Controls */}
+                          <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-900 text-xs">
+                            <div className="flex items-center gap-1.5 min-w-0 flex-1 overflow-hidden">
+                              <span className="text-[9px] font-mono text-slate-400 uppercase shrink-0">
+                                {trait.trait_tier || 'Basic'}
+                              </span>
+                              {trait.sourceDetail && (
+                                <span className="text-[10px] font-sans text-slate-500 italic truncate" title={trait.sourceDetail}>
+                                  {trait.sourceDetail}
+                                </span>
+                              )}
+                            </div>
+
+                            <div className="flex items-center gap-2 shrink-0">
                               <span className="px-1.5 py-0.5 rounded text-[9.5px] font-mono bg-sky-950 text-sky-300 border border-sky-800 font-bold shrink-0">
                                 1 CP
                               </span>
+                              {!acquired ? (
+                                isPrereqUnmet ? (
+                                  <button
+                                    type="button"
+                                    disabled
+                                    className="px-2 py-0.5 rounded text-[10px] font-mono text-slate-500 bg-slate-900/60 border border-slate-800 flex items-center gap-1 cursor-not-allowed"
+                                    title={`Prerequisite unmet: ${prereqResult.unmetReasons?.join(', ')}`}
+                                  >
+                                    <Lock className="w-3 h-3 text-rose-400" />
+                                    <span>Locked</span>
+                                  </button>
+                                ) : (
+                                  <button
+                                    type="button"
+                                    onClick={() => handleAddItem('traits', {
+                                      id: trait.id || `trait_${Date.now()}`,
+                                      name: trait.name,
+                                      category: 'traits',
+                                      trait_type: 'Occupational Trait',
+                                      trait_tier: trait.trait_tier || 'Basic',
+                                      source: 'occupation',
+                                      columnSource: 'Occupation',
+                                      sourceDetail: trait.sourceDetail || 'Occupation Trait',
+                                      cp: 1,
+                                      description: trait.description,
+                                      mechanic: trait.mechanic,
+                                      modifiers: Array.isArray(trait.modifiers) ? trait.modifiers : []
+                                    })}
+                                    className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-sky-950 hover:bg-sky-900 border border-sky-600 text-sky-200 transition-all cursor-pointer flex items-center gap-1"
+                                  >
+                                    <Plus className="w-3 h-3" />
+                                    <span>+ Add</span>
+                                  </button>
+                                )
+                              ) : (
+                                <span className="text-[10px] font-mono text-sky-400 font-bold flex items-center gap-1 px-1.5 py-0.5 rounded bg-sky-950/60 border border-sky-800/60">
+                                  <Check className="w-3 h-3" />
+                                  <span>In Folio</span>
+                                </span>
+                              )}
                             </div>
-
-                            <span className="text-[9px] font-mono text-sky-400/90 block mb-1">
-                              {trait.sourceDetail}
-                            </span>
-
-                            {trait.description && (
-                              <p className="text-[11px] text-slate-400 line-clamp-2 mb-2 leading-relaxed">
-                                {trait.description}
-                              </p>
-                            )}
-                          </div>
-
-                          <div className="flex items-center justify-between pt-2 mt-auto border-t border-slate-900">
-                            <span className="text-[9px] font-mono text-slate-500 uppercase">
-                              {trait.trait_tier || 'Basic'}
-                            </span>
-
-                            {!acquired ? (
-                              <button
-                                type="button"
-                                onClick={() => handleAddItem('traits', {
-                                  id: trait.id || `trait_${Date.now()}`,
-                                  name: trait.name,
-                                  category: 'traits',
-                                  trait_type: 'Occupational Trait',
-                                  trait_tier: trait.trait_tier || 'Basic',
-                                  source: 'occupation',
-                                  columnSource: 'Occupation',
-                                  sourceDetail: trait.sourceDetail,
-                                  cp: 1,
-                                  description: trait.description,
-                                  mechanic: trait.mechanic,
-                                  modifiers: Array.isArray(trait.modifiers) ? trait.modifiers : []
-                                })}
-                                className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-sky-950 hover:bg-sky-900 border border-sky-600 text-sky-200 transition-all cursor-pointer flex items-center gap-1"
-                              >
-                                <Plus className="w-3 h-3" />
-                                <span>+ Add (1 CP)</span>
-                              </button>
-                            ) : (
-                              <span className="text-[10px] font-mono text-sky-400 font-bold flex items-center gap-1">
-                                <Check className="w-3 h-3" />
-                                <span>In Folio</span>
-                              </span>
-                            )}
                           </div>
                         </div>
                       );
@@ -2564,70 +2771,100 @@ export const FeaturesTab = ({
                     ) : (
                       columnAvailableTraits.faction.map((trait, idx) => {
                         const acquired = isTraitAcquired(trait.name || trait.id);
+                        const prereqResult = checkPrerequisite(trait, characterData, 'features');
+                        const isPrereqUnmet = prereqResult.hasPrerequisite && !prereqResult.isPossessed;
 
                         return (
                           <div
                             key={`${trait.id || trait.name}_${idx}`}
-                            className={`p-3 rounded-lg border text-xs flex flex-col justify-between transition-all ${
+                            className={`p-2.5 rounded-lg border text-xs flex flex-col justify-between gap-1.5 transition-all ${
                               acquired
                                 ? 'bg-purple-950/20 border-purple-500/50 shadow-sm'
+                                : isPrereqUnmet
+                                ? 'bg-slate-950/40 border-slate-800/80 opacity-50 grayscale contrast-75 cursor-not-allowed'
                                 : 'bg-slate-950/80 border-slate-800 hover:border-purple-700/60'
                             }`}
                           >
-                            <div>
-                              <div className="flex items-start justify-between gap-1.5 mb-1">
-                                <h5 className="font-bold text-slate-100 text-xs">
+                            {/* Line 1: Complete Name + Tooltip Info */}
+                            <div className="flex items-center justify-between gap-2 min-w-0">
+                              <FolioTooltip
+                                title={trait.name}
+                                badge="Faction Trait"
+                                badgeColor="purple"
+                                description={trait.description || 'Faction heritage trait.'}
+                                formula={trait.mechanic || undefined}
+                                modifiers={Array.isArray(trait.modifiers) ? trait.modifiers : []}
+                                prerequisites={trait.prerequisites || undefined}
+                                prerequisiteMet={!isPrereqUnmet}
+                                prerequisiteUnmetReasons={prereqResult.unmetReasons}
+                                cost="1 CP"
+                                tags={[trait.trait_tier || 'Basic', trait.sourceDetail || 'Faction Trait'].filter(Boolean)}
+                                showInfoIcon={true}
+                              >
+                                <h5 className="font-bold text-slate-100 text-xs group-hover:text-purple-300 transition-colors">
                                   {trait.name}
                                 </h5>
+                              </FolioTooltip>
+                            </div>
+
+                            {/* Line 2: Tier / Notes & Controls */}
+                            <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-900 text-xs">
+                              <div className="flex items-center gap-1.5 min-w-0 flex-1 overflow-hidden">
+                                <span className="text-[9px] font-mono text-slate-400 uppercase shrink-0">
+                                  {trait.trait_tier || 'Basic'}
+                                </span>
+                                {trait.sourceDetail && (
+                                  <span className="text-[10px] font-sans text-slate-500 italic truncate" title={trait.sourceDetail}>
+                                    {trait.sourceDetail}
+                                  </span>
+                                )}
+                              </div>
+
+                              <div className="flex items-center gap-2 shrink-0">
                                 <span className="px-1.5 py-0.5 rounded text-[9.5px] font-mono bg-purple-950 text-purple-300 border border-purple-800 font-bold shrink-0">
                                   1 CP
                                 </span>
+                                {!acquired ? (
+                                  isPrereqUnmet ? (
+                                    <button
+                                      type="button"
+                                      disabled
+                                      className="px-2 py-0.5 rounded text-[10px] font-mono text-slate-500 bg-slate-900/60 border border-slate-800 flex items-center gap-1 cursor-not-allowed"
+                                      title={`Prerequisite unmet: ${prereqResult.unmetReasons?.join(', ')}`}
+                                    >
+                                      <Lock className="w-3 h-3 text-rose-400" />
+                                      <span>Locked</span>
+                                    </button>
+                                  ) : (
+                                    <button
+                                      type="button"
+                                      onClick={() => handleAddItem('traits', {
+                                        id: trait.id || `trait_${Date.now()}`,
+                                        name: trait.name,
+                                        category: 'traits',
+                                        trait_type: 'Faction Trait',
+                                        trait_tier: trait.trait_tier || 'Basic',
+                                        source: 'faction',
+                                        columnSource: 'Faction',
+                                        sourceDetail: trait.sourceDetail || 'Faction Trait',
+                                        cp: 1,
+                                        description: trait.description,
+                                        mechanic: trait.mechanic,
+                                        modifiers: Array.isArray(trait.modifiers) ? trait.modifiers : []
+                                      })}
+                                      className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-purple-950 hover:bg-purple-900 border border-purple-600 text-purple-200 transition-all cursor-pointer flex items-center gap-1"
+                                    >
+                                      <Plus className="w-3 h-3" />
+                                      <span>+ Add</span>
+                                    </button>
+                                  )
+                                ) : (
+                                  <span className="text-[10px] font-mono text-purple-400 font-bold flex items-center gap-1 px-1.5 py-0.5 rounded bg-purple-950/60 border border-purple-800/60">
+                                    <Check className="w-3 h-3" />
+                                    <span>In Folio</span>
+                                  </span>
+                                )}
                               </div>
-
-                              <span className="text-[9px] font-mono text-purple-400/90 block mb-1">
-                                {trait.sourceDetail}
-                              </span>
-
-                              {trait.description && (
-                                <p className="text-[11px] text-slate-400 line-clamp-2 mb-2 leading-relaxed">
-                                  {trait.description}
-                                </p>
-                              )}
-                            </div>
-
-                            <div className="flex items-center justify-between pt-2 mt-auto border-t border-slate-900">
-                              <span className="text-[9px] font-mono text-slate-500 uppercase">
-                                {trait.trait_tier || 'Basic'}
-                              </span>
-
-                              {!acquired ? (
-                                <button
-                                  type="button"
-                                  onClick={() => handleAddItem('traits', {
-                                    id: trait.id || `trait_${Date.now()}`,
-                                    name: trait.name,
-                                    category: 'traits',
-                                    trait_type: 'Faction Trait',
-                                    trait_tier: trait.trait_tier || 'Basic',
-                                    source: 'faction',
-                                    columnSource: 'Faction',
-                                    sourceDetail: trait.sourceDetail,
-                                    cp: 1,
-                                    description: trait.description,
-                                    mechanic: trait.mechanic,
-                                    modifiers: Array.isArray(trait.modifiers) ? trait.modifiers : []
-                                  })}
-                                  className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-purple-950 hover:bg-purple-900 border border-purple-600 text-purple-200 transition-all cursor-pointer flex items-center gap-1"
-                                >
-                                  <Plus className="w-3 h-3" />
-                                  <span>+ Add (1 CP)</span>
-                                </button>
-                              ) : (
-                                <span className="text-[10px] font-mono text-purple-400 font-bold flex items-center gap-1">
-                                  <Check className="w-3 h-3" />
-                                  <span>In Folio</span>
-                                </span>
-                              )}
                             </div>
                           </div>
                         );
@@ -2766,16 +3003,6 @@ export const FeaturesTab = ({
                         <span className="text-[10.5px] font-mono text-slate-400">
                           Invocations: <strong className="text-purple-300">{cardInvocations.length}</strong>
                         </span>
-                        {onOpenSelectorModal && (
-                          <button
-                            type="button"
-                            onClick={() => onOpenSelectorModal('invocations', `${disc.name} Invocations Catalog (Omnicortex)`, 'invocations', disc.name)}
-                            className="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-900/60 hover:bg-purple-800 border border-purple-500/60 text-purple-200 transition-colors flex items-center gap-1 cursor-pointer"
-                          >
-                            <Plus className="w-3 h-3 text-purple-300" />
-                            <span>Add</span>
-                          </button>
-                        )}
                       </div>
                     </div>
 
@@ -2814,8 +3041,8 @@ export const FeaturesTab = ({
           {/* TAB 2: Invocations & Powers */}
           {metaInnerTab === 'invocations' && (
             <div className="space-y-4">
-              <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-950 p-2 rounded-xl border border-slate-800">
-                <div className="flex items-center gap-1.5">
+              <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+                <div className="flex flex-wrap items-center gap-1.5">
                   <button
                     type="button"
                     onClick={() => setMetaTypeFilter('all')}
@@ -2845,15 +3072,52 @@ export const FeaturesTab = ({
                   </button>
                 </div>
 
-                <div className="relative w-56">
-                  <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500" />
-                  <input
-                    type="text"
-                    value={metaSearchQuery}
-                    onChange={(e) => setMetaSearchQuery(e.target.value)}
-                    placeholder="Search powers..."
-                    className="w-full bg-slate-950 border border-slate-700 rounded-lg pl-8 pr-2.5 py-1 text-xs text-slate-200 placeholder-slate-500 outline-none"
-                  />
+                <div className="flex flex-wrap items-center gap-2">
+                  <div className="relative w-40 sm:w-48">
+                    <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500" />
+                    <input
+                      type="text"
+                      value={metaSearchQuery}
+                      onChange={(e) => setMetaSearchQuery(e.target.value)}
+                      placeholder="Search powers..."
+                      className="w-full bg-slate-950 border border-slate-700 rounded-lg pl-8 pr-2.5 py-1 text-xs text-slate-200 placeholder-slate-500 outline-none"
+                    />
+                  </div>
+
+                  {onOpenSelectorModal && (
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => onOpenSelectorModal('invocations', 'Omnicortex Invocations Catalog', 'invocations')}
+                        className="px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-purple-950/90 hover:bg-purple-900 border border-purple-600/80 text-purple-200 flex items-center gap-1.5 shadow-sm cursor-pointer transition-all"
+                        title="Browse and learn Invocations from the Omnicortex database"
+                      >
+                        <Plus className="w-3.5 h-3.5 text-purple-300" />
+                        <span>Select Invocations</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => onOpenSelectorModal('special_abilities', 'Special Abilities Catalog', 'special_abilities')}
+                        className="px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-cyan-950/90 hover:bg-cyan-900 border border-cyan-600/80 text-cyan-200 flex items-center gap-1.5 shadow-sm cursor-pointer transition-all"
+                        title="Browse and add Special Abilities from the database"
+                      >
+                        <Plus className="w-3.5 h-3.5 text-cyan-300" />
+                        <span>Select Abilities</span>
+                      </button>
+                    </>
+                  )}
+
+                  {onOpenMetaphysicsModal && (
+                    <button
+                      type="button"
+                      onClick={() => onOpenMetaphysicsModal()}
+                      className="px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-amber-950/90 hover:bg-amber-900 border border-amber-600/80 text-amber-200 flex items-center gap-1.5 shadow-sm cursor-pointer transition-all"
+                      title="Build custom Invocations or Special Abilities with the Metaphysics Manage Modal"
+                    >
+                      <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                      <span>Manage / Build Power</span>
+                    </button>
+                  )}
                 </div>
               </div>
 
@@ -2867,27 +3131,75 @@ export const FeaturesTab = ({
                     const isInv = power.powerType === 'invocation';
                     const invRank = Math.min(10, Math.max(1, parseInt(power.rank || 1, 10)));
                     const discName = power.discipline || 'Metaphysics';
+                    const powerName = power.name || (isInv ? 'Invocation' : 'Special Ability');
 
                     return (
                       <div
                         key={power.id || `${power.powerType}_${pIdx}`}
-                        className="border rounded-xl p-3 bg-slate-950/80 border-purple-900/50 space-y-2 flex flex-col justify-between"
+                        className="group relative flex flex-col justify-between gap-1.5 p-2.5 rounded-xl bg-slate-950/80 border border-purple-900/40 hover:border-purple-600/70 hover:bg-slate-900/90 transition-all shadow-sm"
                       >
-                        <div>
-                          <div className="flex items-start justify-between gap-2">
-                            <div>
-                              <div className="flex items-center gap-1.5 mb-1">
-                                <span className={`px-2 py-0.2 text-[9px] font-mono font-bold uppercase rounded border ${
-                                  isInv ? 'bg-purple-950 text-purple-300 border-purple-800' : 'bg-cyan-950 text-cyan-300 border-cyan-800'
-                                }`}>
-                                  {isInv ? `Invocation Lvl ${invRank}` : 'Special Ability'}
-                                </span>
-                                <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-slate-900 text-slate-400 border border-slate-800">
-                                  {discName}
-                                </span>
+                        {/* Line 1: Complete Name + Tooltip Info */}
+                        <div className="flex items-center justify-between gap-2 min-w-0">
+                          <FolioTooltip
+                            title={powerName}
+                            badge={isInv ? `Invocation • Lvl ${invRank}` : 'Metaphysics Ability'}
+                            badgeColor={isInv ? 'purple' : 'cyan'}
+                            description={power.description || power.body || 'No description provided.'}
+                            cost={isInv ? '1 CP (Skill Spec)' : `${power.cp || 5} CP`}
+                            modifiers={discName ? [{ label: 'Discipline', value: discName }] : []}
+                            rules={power.rules || power.rule}
+                            notes={power.notes || power.effect}
+                            showInfoIcon={true}
+                          >
+                            <h4 className="font-bold text-xs text-slate-100 group-hover:text-purple-300 transition-colors">
+                              {powerName}
+                            </h4>
+                          </FolioTooltip>
+                        </div>
+
+                        {/* Line 2: Discipline / Notes & Controls */}
+                        <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-900 text-xs">
+                          <div className="flex items-center gap-1.5 min-w-0 flex-1 overflow-hidden">
+                            <span className={`shrink-0 px-2 py-0.5 text-[9px] font-mono font-bold uppercase rounded border ${
+                              isInv ? 'bg-purple-950 text-purple-300 border-purple-800' : 'bg-cyan-950 text-cyan-300 border-cyan-800'
+                            }`}>
+                              {isInv ? `Lvl ${invRank}` : 'Ability'}
+                            </span>
+                            <span className="shrink-0 text-[10px] font-mono px-1.5 py-0.2 rounded bg-slate-900 text-slate-400 border border-slate-800">
+                              {discName}
+                            </span>
+                            {power.notes && (
+                              <span className="text-[10.5px] font-sans text-slate-400 italic truncate" title={power.notes}>
+                                {power.notes}
+                              </span>
+                            )}
+                          </div>
+
+                          <div className="flex items-center gap-2 shrink-0">
+                            {isInv ? (
+                              <div className="flex items-center gap-1 font-mono text-xs bg-slate-900/80 border border-slate-800 rounded px-1.5 py-0.5">
+                                <span className="text-[9px] text-slate-400 mr-0.5">Lvl</span>
+                                <button
+                                  type="button"
+                                  onClick={() => handleUpdateInvocationRank(power.sourceIndex, invRank - 1)}
+                                  className="w-4 h-4 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold flex items-center justify-center cursor-pointer"
+                                >
+                                  -
+                                </button>
+                                <span className="font-bold text-amber-300 px-1 text-xs">{invRank}</span>
+                                <button
+                                  type="button"
+                                  onClick={() => handleUpdateInvocationRank(power.sourceIndex, invRank + 1)}
+                                  className="w-4 h-4 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold flex items-center justify-center cursor-pointer"
+                                >
+                                  +
+                                </button>
                               </div>
-                              <h4 className="font-bold text-xs text-slate-100">{power.name}</h4>
-                            </div>
+                            ) : (
+                              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-amber-300 font-bold">
+                                {power.cp || 5} CP
+                              </span>
+                            )}
 
                             <button
                               type="button"
@@ -2896,46 +3208,11 @@ export const FeaturesTab = ({
                                 else handleDeleteItem('special_abilities', power.sourceIndex);
                               }}
                               className="p-1 text-slate-500 hover:text-red-400 rounded transition-colors cursor-pointer"
+                              title="Remove power"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
                             </button>
                           </div>
-
-                          {(power.description || power.body) && (
-                            <p className="text-[11px] text-slate-300 line-clamp-2 mt-1 leading-relaxed">
-                              {power.description || power.body}
-                            </p>
-                          )}
-                        </div>
-
-                        <div className="pt-2 border-t border-slate-900 flex items-center justify-between text-xs">
-                          {isInv ? (
-                            <div className="flex items-center gap-1.5 font-mono text-xs">
-                              <span className="text-[10px] text-slate-400">Lvl:</span>
-                              <button
-                                type="button"
-                                onClick={() => handleUpdateInvocationRank(power.sourceIndex, invRank - 1)}
-                                className="w-5 h-5 rounded bg-slate-800 text-slate-300 font-bold"
-                              >
-                                -
-                              </button>
-                              <span className="font-bold text-amber-300 px-1">{invRank}</span>
-                              <button
-                                type="button"
-                                onClick={() => handleUpdateInvocationRank(power.sourceIndex, invRank + 1)}
-                                className="w-5 h-5 rounded bg-slate-800 text-slate-300 font-bold"
-                              >
-                                +
-                              </button>
-                            </div>
-                          ) : (
-                            <span className="text-[10px] font-mono text-slate-400">
-                              Cost: <strong className="text-amber-300">{power.cp || 5} CP</strong>
-                            </span>
-                          )}
-                          <span className="text-[10px] font-mono text-slate-400">
-                            {isInv ? '1 CP (Skill Spec)' : 'Inherent Power'}
-                          </span>
                         </div>
                       </div>
                     );
@@ -2993,51 +3270,77 @@ export const FeaturesTab = ({
                 const refundCp = typeof item === 'object' && item.cp !== undefined ? item.cp : 3;
                 const desc = typeof item === 'object' ? (item.description || item.summary || '') : '';
                 const hindMechanic = typeof item === 'object' ? (item.mechanic || item.mechanics || '') : '';
+                const notes = typeof item === 'object' ? (item.notes || item.note) : '';
 
                 return (
                   <div
                     key={item.originalIndex}
-                    className="bg-slate-950/80 border border-slate-800 hover:border-rose-800/70 rounded-xl p-3 flex flex-col justify-between"
+                    className="group relative flex flex-col justify-between gap-1.5 p-2.5 bg-slate-950/80 border border-slate-800 hover:border-rose-800/70 hover:bg-slate-900/90 rounded-xl transition-all shadow-sm"
                   >
-                    <div>
-                      <div className="flex items-start justify-between gap-1.5 mb-1">
-                        <h4 className="font-bold text-xs text-slate-100 hover:text-rose-300 transition-colors">
-                          {name}
-                        </h4>
-                        <span className="shrink-0 px-1.5 py-0.5 text-[10px] font-mono font-bold text-emerald-400 bg-slate-900 border border-slate-800 rounded">
-                          -{refundCp} CP
-                        </span>
+                    {/* Line 1: Complete Name + Tooltip Info */}
+                    <div className="flex items-center justify-between gap-2 min-w-0">
+                      <div className="flex items-center gap-2 min-w-0 flex-1">
+                        <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0" />
+                        <FolioTooltip
+                          title={name}
+                          badge={`Hindrance • -${refundCp} CP`}
+                          badgeColor="rose"
+                          description={desc || 'No description provided.'}
+                          cost={`-${refundCp} CP Refund`}
+                          modifiers={hindMechanic ? [{ label: 'Mechanic', value: hindMechanic }] : []}
+                          rules={typeof item === 'object' ? (item.rules || item.rule) : undefined}
+                          notes={notes}
+                          showInfoIcon={true}
+                        >
+                          <span className="text-xs font-semibold text-slate-100 hover:text-rose-300 transition-colors">
+                            {name}
+                          </span>
+                        </FolioTooltip>
                       </div>
-                      {desc && (
-                        <p className="text-[11px] text-slate-400 line-clamp-2 mb-2 leading-relaxed">
-                          {desc}
-                        </p>
-                      )}
-                      {hindMechanic && (
-                        <div className="bg-slate-900/60 border border-slate-800 rounded px-2 py-1 text-[10px] font-mono text-rose-200/90 mb-2 line-clamp-2">
-                          <span className="font-bold text-slate-500 mr-1 uppercase text-[8.5px]">Mech:</span>
-                          {hindMechanic}
-                        </div>
-                      )}
                     </div>
 
-                    <div className="flex items-center justify-end gap-1.5 pt-2 mt-auto border-t border-slate-900">
-                      {onOpenAssetModal && (
+                    {/* Line 2: Notes / Mechanic & Controls */}
+                    <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-900 text-xs">
+                      <div className="flex items-center gap-1.5 min-w-0 flex-1 overflow-hidden">
+                        {hindMechanic ? (
+                          <span className="text-[10px] font-mono text-rose-300/80 truncate" title={hindMechanic}>
+                            {hindMechanic}
+                          </span>
+                        ) : notes ? (
+                          <span className="text-[10.5px] font-sans text-slate-400 italic truncate" title={notes}>
+                            {notes}
+                          </span>
+                        ) : (
+                          <span className="text-[9.5px] font-mono text-slate-500 uppercase">
+                            Hindrance
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="flex items-center gap-2 shrink-0">
+                        <span className="px-1.5 py-0.5 text-[10px] font-mono font-bold text-emerald-400 bg-slate-900 border border-slate-800 rounded">
+                          -{refundCp} CP
+                        </span>
+
+                        {onOpenAssetModal && (
+                          <button
+                            type="button"
+                            onClick={() => onOpenAssetModal('disadvantages', 'Hindrance', 'edit', item.originalIndex, item)}
+                            className="text-slate-400 hover:text-cyan-300 text-xs p-1 rounded hover:bg-slate-900 transition-colors cursor-pointer"
+                            title="Edit hindrance"
+                          >
+                            <Edit3 className="w-3.5 h-3.5" />
+                          </button>
+                        )}
                         <button
                           type="button"
-                          onClick={() => onOpenAssetModal('disadvantages', 'Hindrance', 'edit', item.originalIndex, item)}
-                          className="text-slate-400 hover:text-cyan-300 text-xs px-1.5 py-0.5 rounded hover:bg-slate-900 transition-colors cursor-pointer"
+                          onClick={() => handleRemoveHindrance(item)}
+                          className="text-slate-500 hover:text-red-400 text-xs p-1 rounded hover:bg-slate-900 transition-colors cursor-pointer"
+                          title="Remove hindrance"
                         >
-                          <Edit3 className="w-3.5 h-3.5" />
+                          <Trash2 className="w-3.5 h-3.5" />
                         </button>
-                      )}
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveHindrance(item)}
-                        className="text-slate-500 hover:text-red-400 text-xs px-1.5 py-0.5 rounded hover:bg-slate-900 transition-colors cursor-pointer"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
+                      </div>
                     </div>
                   </div>
                 );

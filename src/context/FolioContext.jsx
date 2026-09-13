@@ -43,7 +43,13 @@ import { DEATH_AND_DYING_RULES, EXPERIENCE_RULES } from '../engines/tangentConst
 import { executeRestCycle, resetDailyRests, getSpeciesRestProfile } from '../engines/tangentRestEngine';
 import { ALL_CANONICAL_SKILLS } from '../data/skillsData';
 import { createAttackFromWeapon, createArmorFromItem } from '../utils/combatUtils';
-import { enrichItemWithModifiers, parseModifiersFromText } from '../engines/tangentModifierEngine';
+import { 
+  enrichItemWithModifiers, 
+  parseModifiersFromText,
+  getSkillCheckBreakdown,
+  isSkillTargetMatch,
+  extractEquipmentSkillModifiers
+} from '../engines/tangentModifierEngine';
 
 const ATTR_NAME_TO_ID = {
   strength: 'attr-strength',
@@ -1149,13 +1155,69 @@ export const FolioProvider = ({ children }) => {
       archetype: processIdentity(archetypeObj, 'archetype', 'Archetype')
     };
 
-    // 1. Process Features for all active modifiers
-    const featsList = Array.isArray(characterData.features) ? characterData.features : [];
-    featsList.forEach(feat => {
+    // 1. Process Features for all active modifiers (including inherent species/archetype/faction features)
+    const rawFeats = Array.isArray(characterData.features) ? [...characterData.features] : [];
+    const addedFeatNames = new Set(rawFeats.map(f => (typeof f === 'object' ? (f.name || f.title || f.id) : String(f)).toLowerCase()));
+
+    // Ensure inherent species features are evaluated even if not yet explicitly in array
+    if (speciesObj && Array.isArray(speciesObj.inherent_features)) {
+      speciesObj.inherent_features.forEach(inf => {
+        const n = typeof inf === 'object' ? (inf.name || inf.title || inf.id) : String(inf);
+        if (n && !addedFeatNames.has(n.toLowerCase())) {
+          rawFeats.push(inf);
+          addedFeatNames.add(n.toLowerCase());
+        }
+      });
+    }
+    // Ensure archetype signature features are evaluated
+    if (archetypeObj && Array.isArray(archetypeObj.signature_features)) {
+      archetypeObj.signature_features.forEach(sig => {
+        const n = typeof sig === 'object' ? (sig.name || sig.title || sig.id) : String(sig);
+        if (n && !addedFeatNames.has(n.toLowerCase())) {
+          rawFeats.push(sig);
+          addedFeatNames.add(n.toLowerCase());
+        }
+      });
+    }
+    // Ensure faction benefits are evaluated
+    if (factionObj) {
+      const rawBonus = factionObj.bonus_features || factionObj.bonusFeatures || factionObj.benefits;
+      if (Array.isArray(rawBonus)) {
+        rawBonus.forEach(b => {
+          const n = typeof b === 'object' ? (b.name || b.title || b.id) : String(b);
+          if (n && !addedFeatNames.has(n.toLowerCase())) {
+            rawFeats.push(b);
+            addedFeatNames.add(n.toLowerCase());
+          }
+        });
+      }
+    }
+    // Ensure identity allocation pools are evaluated
+    const poolFeats = [
+      characterData?.speciesAllocations?.features,
+      characterData?.occuAllocations?.features,
+      characterData?.originAllocations?.features,
+      characterData?.factionAllocations?.features
+    ];
+    poolFeats.forEach(p => {
+      if (Array.isArray(p)) {
+        p.forEach(pf => {
+          const n = typeof pf === 'object' ? (pf.name || pf.title || pf.id) : String(pf);
+          if (n && !addedFeatNames.has(n.toLowerCase())) {
+            rawFeats.push(pf);
+            addedFeatNames.add(n.toLowerCase());
+          }
+        });
+      }
+    });
+
+    const activeSkillModifiers = [];
+
+    rawFeats.forEach(feat => {
       if (!feat) return;
       const enriched = enrichItemWithModifiers(feat);
-      const fName = enriched.name || (typeof feat === 'object' ? feat.name : String(feat));
-      if (Array.isArray(enriched.modifiers)) {
+      const fName = enriched?.name || (typeof feat === 'object' ? (feat.name || feat.title || feat.id) : String(feat));
+      if (enriched && Array.isArray(enriched.modifiers)) {
         enriched.modifiers.forEach(mod => {
           if (!mod || typeof mod !== 'object') return;
           const val = parseInt(mod.value, 10) || 0;
@@ -1172,6 +1234,7 @@ export const FolioProvider = ({ children }) => {
             if (sKey) {
               skillMods[sKey] = (skillMods[sKey] || 0) + val;
               activeFeatureModifiers.push({ source: fName, target: mod.target, value: val, description: mod.description || `${val >= 0 ? '+' : ''}${val} to ${mod.target}` });
+              activeSkillModifiers.push({ source: fName, sourceType: 'feature', target: mod.target, value: val, description: mod.description || `${val >= 0 ? '+' : ''}${val} to ${mod.target}` });
             }
           } else if (mod.type === 'attribute') {
             const aKey = (mod.target || '').toLowerCase().trim();
@@ -1196,12 +1259,31 @@ export const FolioProvider = ({ children }) => {
     });
 
     // 2. Process Traits for active modifiers
-    const traitsList = Array.isArray(characterData.traits) ? characterData.traits : [];
-    traitsList.forEach(trait => {
+    const rawTraits = Array.isArray(characterData.traits) ? [...characterData.traits] : [];
+    const addedTraitNames = new Set(rawTraits.map(t => (typeof t === 'object' ? (t.name || t.title || t.id) : String(t)).toLowerCase()));
+    const poolTraits = [
+      characterData?.speciesAllocations?.traits,
+      characterData?.occuAllocations?.traits,
+      characterData?.originAllocations?.traits,
+      characterData?.factionAllocations?.traits
+    ];
+    poolTraits.forEach(p => {
+      if (Array.isArray(p)) {
+        p.forEach(pt => {
+          const n = typeof pt === 'object' ? (pt.name || pt.title || pt.id) : String(pt);
+          if (n && !addedTraitNames.has(n.toLowerCase())) {
+            rawTraits.push(pt);
+            addedTraitNames.add(n.toLowerCase());
+          }
+        });
+      }
+    });
+
+    rawTraits.forEach(trait => {
       if (!trait) return;
       const enriched = enrichItemWithModifiers(trait);
-      const tName = enriched.name || (typeof trait === 'object' ? trait.name : String(trait));
-      if (Array.isArray(enriched.modifiers)) {
+      const tName = enriched?.name || (typeof trait === 'object' ? (trait.name || trait.title || trait.id) : String(trait));
+      if (enriched && Array.isArray(enriched.modifiers)) {
         enriched.modifiers.forEach(mod => {
           if (!mod || typeof mod !== 'object') return;
           const val = parseInt(mod.value, 10) || 0;
@@ -1215,6 +1297,7 @@ export const FolioProvider = ({ children }) => {
             if (sKey) {
               skillMods[sKey] = (skillMods[sKey] || 0) + val;
               activeTraitModifiers.push({ source: tName, target: mod.target, value: val, description: mod.description });
+              activeSkillModifiers.push({ source: tName, sourceType: 'trait', target: mod.target, value: val, description: mod.description || `${val >= 0 ? '+' : ''}${val} to ${mod.target}` });
             }
           } else if (mod.type === 'attribute') {
             const aKey = (mod.target || '').toLowerCase().trim();
@@ -1234,14 +1317,24 @@ export const FolioProvider = ({ children }) => {
     });
 
     // 3. Process Hindrances & Disadvantages for active modifiers & penalties
-    const hindrancesList = (Array.isArray(characterData.hindrances) && characterData.hindrances.length > 0)
-      ? characterData.hindrances
-      : (Array.isArray(characterData.disadvantages) ? characterData.disadvantages : []);
-    hindrancesList.forEach(hindrance => {
+    const rawHindrances = [
+      ...(Array.isArray(characterData.hindrances) ? characterData.hindrances : []),
+      ...(Array.isArray(characterData.disadvantages) ? characterData.disadvantages : [])
+    ];
+    const seenHindNames = new Set();
+    const uniqueHindrances = rawHindrances.filter(h => {
+      if (!h) return false;
+      const n = (typeof h === 'object' ? (h.name || h.title || h.id) : String(h)).toLowerCase();
+      if (seenHindNames.has(n)) return false;
+      seenHindNames.add(n);
+      return true;
+    });
+
+    uniqueHindrances.forEach(hindrance => {
       if (!hindrance) return;
       const enriched = enrichItemWithModifiers(hindrance);
-      const hName = enriched.name || (typeof hindrance === 'object' ? hindrance.name : String(hindrance));
-      if (Array.isArray(enriched.modifiers)) {
+      const hName = enriched?.name || (typeof hindrance === 'object' ? (hindrance.name || hindrance.title || hindrance.id) : String(hindrance));
+      if (enriched && Array.isArray(enriched.modifiers)) {
         enriched.modifiers.forEach(mod => {
           if (!mod || typeof mod !== 'object') return;
           const val = parseInt(mod.value, 10) || 0;
@@ -1255,6 +1348,7 @@ export const FolioProvider = ({ children }) => {
             if (sKey) {
               skillMods[sKey] = (skillMods[sKey] || 0) + val;
               activeHindranceModifiers.push({ source: hName, target: mod.target, value: val, description: mod.description });
+              activeSkillModifiers.push({ source: hName, sourceType: 'hindrance', target: mod.target, value: val, description: mod.description || `${val >= 0 ? '+' : ''}${val} to ${mod.target}` });
             }
           } else if (mod.type === 'attribute') {
             const aKey = (mod.target || '').toLowerCase().trim();
@@ -1275,6 +1369,68 @@ export const FolioProvider = ({ children }) => {
       }
     });
 
+    // 4. Process Augmentations
+    const rawAugs = Array.isArray(characterData.augmentations) ? characterData.augmentations : [];
+    rawAugs.forEach(aug => {
+      if (!aug) return;
+      const enriched = enrichItemWithModifiers(aug);
+      const aName = enriched?.name || (typeof aug === 'object' ? (aug.name || aug.title || aug.id) : String(aug));
+      if (enriched && Array.isArray(enriched.modifiers)) {
+        enriched.modifiers.forEach(mod => {
+          if (!mod || typeof mod !== 'object') return;
+          const val = parseInt(mod.value, 10) || 0;
+          if (mod.type === 'skill') {
+            const sKey = (mod.target || '').toLowerCase().trim();
+            if (sKey) {
+              skillMods[sKey] = (skillMods[sKey] || 0) + val;
+              activeSkillModifiers.push({ source: aName, sourceType: 'augmentation', target: mod.target, value: val, description: mod.description || `${val >= 0 ? '+' : ''}${val} to ${mod.target}` });
+            }
+          } else if (mod.type === 'combat') {
+            const cKey = mod.target;
+            if (combatMods[cKey] !== undefined) combatMods[cKey] += val;
+            else combatMods[cKey] = val;
+          }
+        });
+      }
+    });
+
+    // 5. Process Possessed Equipment Across All Property Lists
+    const activeEquipmentModifiers = [];
+    const propertyLists = [
+      characterData.gear,
+      characterData.equipment,
+      characterData.weapons,
+      characterData.weaponry,
+      characterData.armor,
+      characterData.armoring,
+      characterData.other,
+      characterData.misc,
+      characterData.mecha,
+      characterData.architecture
+    ];
+
+    const seenEqItemKeys = new Set();
+    propertyLists.forEach(propList => {
+      if (!Array.isArray(propList)) return;
+      propList.forEach(eqItem => {
+        if (!eqItem) return;
+        const itemKey = typeof eqItem === 'object' ? (eqItem.id || eqItem.name) : String(eqItem);
+        if (itemKey && seenEqItemKeys.has(itemKey)) return;
+        if (itemKey) seenEqItemKeys.add(itemKey);
+
+        const parsedEq = typeof eqItem === 'object' ? eqItem : { name: String(eqItem) };
+        const eqMods = extractEquipmentSkillModifiers(parsedEq);
+        eqMods.forEach(em => {
+          const sKey = (em.target || '').toLowerCase().trim();
+          if (sKey) {
+            skillMods[sKey] = (skillMods[sKey] || 0) + em.value;
+            activeEquipmentModifiers.push(em);
+            activeSkillModifiers.push(em);
+          }
+        });
+      });
+    });
+
     return {
       attributeMods,
       combatMods,
@@ -1283,7 +1439,9 @@ export const FolioProvider = ({ children }) => {
       identityPools,
       activeFeatureModifiers,
       activeTraitModifiers,
-      activeHindranceModifiers
+      activeHindranceModifiers,
+      activeEquipmentModifiers,
+      activeSkillModifiers
     };
   }, [
     characterData['char-archetype'],
@@ -1295,8 +1453,28 @@ export const FolioProvider = ({ children }) => {
     characterData.traits,
     characterData.hindrances,
     characterData.disadvantages,
+    characterData.augmentations,
+    characterData.gear,
+    characterData.equipment,
+    characterData.weapons,
+    characterData.weaponry,
+    characterData.armor,
+    characterData.armoring,
+    characterData.other,
+    characterData.misc,
+    characterData.mecha,
+    characterData.architecture,
+    characterData.speciesAllocations,
+    characterData.occuAllocations,
+    characterData.originAllocations,
+    characterData.factionAllocations,
     dbData
   ]);
+
+  // Skill Check Breakdown Helper (Score, Attribute Used, Rank, Modifiers, Equipment)
+  const getSkillBreakdown = useCallback((skill, extraOptions = {}) => {
+    return getSkillCheckBreakdown(skill, characterData, dbData, extraOptions);
+  }, [characterData, dbData]);
 
   // Attribute Mod & Total Calculation Helpers
   const getAttrMod = useCallback((attrId) => {
@@ -2669,6 +2847,7 @@ export const FolioProvider = ({ children }) => {
           alert(`Maximum of ${maxFeatures} features already selected in this pool.`);
           return prev;
         }
+        const isGrantedPool = ['speciesAllocations', 'occuAllocations', 'originAllocations', 'factionAllocations'].includes(poolKey);
         const rawFeatObj = {
           id: featureDetail.id || `feat_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
           name: cleanTitle,
@@ -4279,6 +4458,9 @@ export const FolioProvider = ({ children }) => {
         activeFeatureModifiers: computedModifiers.activeFeatureModifiers,
         activeTraitModifiers: computedModifiers.activeTraitModifiers,
         activeHindranceModifiers: computedModifiers.activeHindranceModifiers,
+        activeEquipmentModifiers: computedModifiers.activeEquipmentModifiers,
+        activeSkillModifiers: computedModifiers.activeSkillModifiers,
+        getSkillBreakdown,
         getAttrMod,
         getAttrTotal,
         getSubAttrBase,

@@ -1,6 +1,9 @@
 import { getDatasetByKey, validateDatasetPayload } from '../pages/Codex/codexPromptRegistry.js';
 import { adaptSparkItemToFirestore } from '../utils/codexIngestionAdapters.js';
 import { queryOmnicortexRAG, formatRagContextForBastion } from './omnicortexVectorRag';
+import { synthesizeCharacterWithBastion } from './bastionCharacterEngine.js';
+
+export { synthesizeCharacterWithBastion };
 /**
  * BASTION AI Service
  * Handles BASTION AI chatbot queries and selective field content generation
@@ -22,6 +25,15 @@ Provide tactical, mathematically precise, immersive, and structured RPG content 
 - 6 Core Attributes: Strength, Agility, Stamina, Intellect, Wisdom, Charisma (base 0, 5 BP per +1).
 - Sub-Attributes: Canonical derivation Base = 2 + (Primary Attribute * 2).
 - Character Chassis: 150 BP allocation, three 20 SP background pools (Faction, Origin, Occupation), +1 increment advancement rule.
+- CANONICAL CHARACTER CREATION PROTOCOL (THE 5 PILLARS):
+  If creating, suggesting, or arbitrating characters or personas, BASTION MUST strictly utilize aspects from the canonical game database and NEVER invent entirely new content.
+  The character creation pipeline strictly proceeds through the 5 Pillars in exact sequence:
+  1. Archetype: Closest canonical Archetype from the 100 Archetypes (Sentinels, Operatives, Visionaries, Savants).
+  2. Species: Canonical Species from the database (Humans, Celestine Aeld, Synthetics, Aulurans, Kitin, Gen-E, etc.).
+  3. Faction: Canonical Faction from the database (Syndicate, Dynasty, Impyrium, Entari Combine, Alliance, etc., prioritized by archetype recommendations).
+  4. Origin: Canonical Origin from the database (Urban, Spacer, Industrial, Agricultural, Colony, etc., prioritized by archetype recommendations).
+  5. Occupation: Canonical Occupation from the database (Soldier, Agent, Specialist, Scholar, etc., prioritized by archetype recommendations).
+  All skills, features, traits, and property (weapons/armor) chosen MUST be based directly on these 5 pillars from the Omnicortex database.
 - Dual Resolution & Combat: 2d10 + Attribute + Skill vs. Target Number (11 + Defense). 3 AP + 1 Reaction per round. Multi-Action Penalty (-2 cumulative).
 - Called Shots: Anatomy modifiers (-2 Head, -2 Arms, -1 Legs, -3 Optics). Major Wound Trauma triggers at >= 33.3% Target Max HP in a single strike.
 - Vitals & Integrity: Biological entities have Vitality (VP) and Health (HP). Synthetics/Constructs/Mecha have Structure Points (SP = VP + HP), zero Vitality, and are completely immune to non-lethal damage.
@@ -239,12 +251,27 @@ export const generateSelectiveFields = async ({
   const project = campaignContext.projectName || 'Tangent Universe';
   const parentNode = campaignContext.activeNodeTitle || '';
 
+  // If generating a Character or Character Persona, synthesize the 5 canonical database pillars
+  const isCharacterType = ['Character', 'Character Persona', 'Persona', 'NPC'].includes(activeElementType);
+  let characterSynthesis = null;
+  if (isCharacterType) {
+    characterSynthesis = synthesizeCharacterWithBastion({
+      prompt: userPrompt,
+      techLevel: tl,
+      preferredArchetype: currentValues['char-archetype'] || null,
+      preferredSpecies: currentValues['char-species'] || null,
+      preferredFaction: currentValues['char-faction'] || null,
+      preferredOrigin: currentValues['char-origin'] || null,
+      preferredOccupation: currentValues['char-occu'] || null
+    });
+  }
+
   // If no API Key, return structured simulation fallback for selected fields ONLY
   if (!apiKey) {
     const fallbackResults = {};
     const titles = {
       'Story Arc': `The ${userPrompt || 'Derelict Nebula'} Crisis`,
-      'Character': `Commander ${userPrompt || 'Vane'}, Tangent Operative`,
+      'Character': characterSynthesis?.character['char-name'] || `Commander ${userPrompt || 'Vane'}, Tangent Operative`,
       'Location': `Outpost ${userPrompt || 'Zeta-9'} Sector`,
       'Encounter': `Ambush at ${userPrompt || 'Perimeter Gamma'}`,
       'Faction': `The ${userPrompt || 'Obsidian Syndicate'}`,
@@ -254,24 +281,35 @@ export const generateSelectiveFields = async ({
     };
 
     selectedFields.forEach(field => {
-      if (['title', 'name', 'char-name'].includes(field)) {
-        fallbackResults[field] = titles[activeElementType] || `${userPrompt || 'Tactical'} ${activeElementType || 'Module'}`;
+      // If synthesizing a character, draw directly from the 5 pillars database result
+      if (characterSynthesis?.character && characterSynthesis.character[field] !== undefined) {
+        fallbackResults[field] = characterSynthesis.character[field];
+      } else if (['title', 'name', 'char-name'].includes(field)) {
+        fallbackResults[field] = characterSynthesis?.character['char-name'] || titles[activeElementType] || `${userPrompt || 'Tactical'} ${activeElementType || 'Module'}`;
       } else if (['type', 'category'].includes(field)) {
         fallbackResults[field] = activeElementType || 'Standard';
       } else if (['content', 'description'].includes(field)) {
-        fallbackResults[field] = `[BASTION TACTICAL BRIEFING - ${project.toUpperCase()}]\nOverview: Entry generated for "${userPrompt || 'Standard Concept'}" under Tech Level ${tl} protocols and Meta Level ${ml} attunements${parentNode ? ` within parent node "${parentNode}"` : ''}. Grounded in Tangent SFF RPG mechanics.`;
+        fallbackResults[field] = isCharacterType
+          ? characterSynthesis?.character?.backstory || `[BASTION TACTICAL OPERATIVE]\nPillars: ${characterSynthesis?.pillars?.archetype?.name} · ${characterSynthesis?.pillars?.species?.name} · ${characterSynthesis?.pillars?.faction?.name} · ${characterSynthesis?.pillars?.origin?.name} · ${characterSynthesis?.pillars?.occupation?.name}`
+          : `[BASTION TACTICAL BRIEFING - ${project.toUpperCase()}]\nOverview: Entry generated for "${userPrompt || 'Standard Concept'}" under Tech Level ${tl} protocols and Meta Level ${ml} attunements${parentNode ? ` within parent node "${parentNode}"` : ''}. Grounded in Tangent SFF RPG mechanics.`;
       } else if (['notes', 'char-motive', 'char-concept', 'char-style'].includes(field)) {
-        fallbackResults[field] = `Operative profile details generated based on prompt "${userPrompt || 'Tactical Operative'}". Grounded in campaign context (${project}, TL-${tl}).`;
+        fallbackResults[field] = characterSynthesis?.character[field] || `Operative profile details generated based on prompt "${userPrompt || 'Tactical Operative'}". Grounded in campaign context (${project}, TL-${tl}).`;
       } else if (['char-archetype', 'archetype'].includes(field)) {
-        fallbackResults[field] = userPrompt ? `The ${userPrompt.split(' ')[0]}` : 'The Sentinel';
-      } else if (['char-species', 'species', 'char-occu', 'occupation', 'char-origin', 'origin', 'char-faction', 'faction'].includes(field)) {
-        fallbackResults[field] = userPrompt ? userPrompt.split(' ')[0] : 'Standard';
+        fallbackResults[field] = characterSynthesis?.pillars?.archetype?.name || 'The Sentinel';
+      } else if (['char-species', 'species'].includes(field)) {
+        fallbackResults[field] = characterSynthesis?.pillars?.species?.name || 'Human (Base)';
+      } else if (['char-faction', 'faction'].includes(field)) {
+        fallbackResults[field] = characterSynthesis?.pillars?.faction?.name || 'Incorporated Planetary Syndication';
+      } else if (['char-origin', 'origin'].includes(field)) {
+        fallbackResults[field] = characterSynthesis?.pillars?.origin?.name || 'Urban';
+      } else if (['char-occu', 'occupation'].includes(field)) {
+        fallbackResults[field] = characterSynthesis?.pillars?.occupation?.name || 'Soldier';
       } else if (['tl'].includes(field)) {
         fallbackResults[field] = Number(tl);
       } else if (['ml'].includes(field)) {
         fallbackResults[field] = Number(ml);
       } else if (['laws_of_physics', 'history', 'geography', 'biosphere', 'culture', 'points_of_interest', 'inhabitants', 'origin', 'practices', 'narrative-backstory', 'narrative-psychology', 'narrative-arcs', 'narrative-relationships', 'narrative-secrets', 'role', 'summary', 'primaryConflict', 'nicknames', 'socialClass', 'currentResidence', 'appearance', 'voice', 'clothing', 'mannerisms', 'positiveTraits', 'negativeTraits', 'likesDislikes', 'hobbies', 'personalityType', 'backstory', 'definingTrauma', 'greatestAccomplishment', 'childhoodEvents', 'keyRelationships', 'romanticHistory', 'worldview', 'theLie', 'theTruth', 'deepestFear', 'goals', 'stakes', 'plotHooks', 'tags'].includes(field)) {
-        fallbackResults[field] = `Narrative details generated for "${userPrompt || 'this element'}". Grounded in campaign context (${project}, TL-${tl}, ML-${ml}).`;
+        fallbackResults[field] = characterSynthesis?.character[field] || `Narrative details generated for "${userPrompt || 'this element'}". Grounded in campaign context (${project}, TL-${tl}, ML-${ml}).`;
       } else {
         fallbackResults[field] = `Generated ${field} for ${userPrompt || 'Standard'}`;
       }
@@ -281,6 +319,19 @@ export const generateSelectiveFields = async ({
   }
 
   try {
+    let characterPillarsContext = '';
+    if (isCharacterType && characterSynthesis?.pillars) {
+      const { archetype, species, faction, origin, occupation } = characterSynthesis.pillars;
+      characterPillarsContext = `
+CANONICAL CHARACTER CREATION 5 PILLARS:
+- Archetype: "${archetype.name}" (${archetype.core_concept} / ${archetype.tactical_role})
+- Species: "${species.name}"
+- Faction: "${faction.name}"
+- Origin: "${origin.name}"
+- Occupation: "${occupation.name}"
+CRITICAL MANDATE: Ground all generated fields strictly in these 5 canonical pillars from the Omnicortex game database. Do NOT invent new species, factions, or archetypes.`;
+    }
+
     const promptInstructions = `
 You are BASTION, tactical AI content generator for the Tangent Science Fantasy Roleplaying Game (SFF RPG).
 Strictly follow Tangent SFF RPG system guidelines and lore conventions.
@@ -290,6 +341,7 @@ Campaign & Scenario Context:
 - Tech Level (TL): ${tl}
 - Meta Level / Psi (ML): ${ml}
 ${parentNode ? `- Surrounding Scenario Element Node: "${parentNode}"` : ''}
+${characterPillarsContext}
 
 The user is editing a story module element of type "${activeElementType}".
 User Prompt / Instruction: "${userPrompt || 'Generate detailed content appropriate for this element'}"

@@ -5,6 +5,7 @@ import { confirmTypedDeletion } from '../../../utils/confirmationUtils';
 import { rollDice } from '../../../services/diceService';
 import { AudioService } from '../../../services/audioService';
 import { Dices, Sparkles, X } from 'lucide-react';
+import FolioTooltip from '../shared/FolioTooltip';
 
 const PROPERTY_TABS = [
   { id: 'gear', label: 'Gear', title: 'Gear', key: 'gear', dbPath: 'gear' },
@@ -123,7 +124,26 @@ const CombatGearTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
                 return (
                   <div key={idx} className="flex items-center justify-between bg-slate-800/60 border border-slate-700/80 hover:border-cyan-500/40 rounded px-2.5 py-1.5 text-xs text-slate-200 group transition-colors">
                     <div className="flex items-center gap-1.5 truncate mr-1">
-                      <span className="font-medium truncate">{name}</span>
+                      <FolioTooltip
+                        title={name}
+                        badge={title}
+                        badgeColor="cyan"
+                        description={isObj ? (item.description || item.desc || item.summary || 'No description provided.') : 'No description provided.'}
+                        cost={isObj && item.cost ? `${item.cost} Cr` : cp ? `${cp} CP` : undefined}
+                        modifiers={[
+                          ...(isObj && item.damage ? [{ label: 'Damage', value: item.damage }] : []),
+                          ...(isObj && item.resistance ? [{ label: 'DR', value: item.resistance }] : []),
+                          ...(isObj && item.weight ? [{ label: 'Weight', value: `${item.weight} lbs` }] : []),
+                          ...(isObj && item.tl ? [{ label: 'TL', value: String(item.tl) }] : [])
+                        ]}
+                        rules={isObj ? (item.rules || item.rule || item.notes || item.special) : undefined}
+                        notes={isObj ? item.notes : undefined}
+                        showInfoIcon={true}
+                      >
+                        <span className="font-medium truncate hover:text-cyan-300 transition-colors cursor-help">
+                          {name}
+                        </span>
+                      </FolioTooltip>
                       {cp !== null && cp > 0 && (
                         <span className="text-[9px] bg-amber-950 text-amber-300 border border-amber-800 px-1 rounded font-mono font-bold shrink-0">
                           {cp} CP

@@ -123,6 +123,7 @@ const Home = () => {
               {[
                 { label: 'PERSONA FOLIO', id: 'persona-folio', color: 'text-cyan-300 border-cyan-500/40 hover:border-cyan-400' },
                 { label: 'OMNICORTEX', id: 'omnicortex', color: 'text-emerald-300 border-emerald-500/40 hover:border-emerald-400' },
+                { label: 'CODEX BUILDERS', id: 'codex', color: 'text-amber-300 border-amber-500/40 hover:border-amber-400' },
                 { label: 'VTT & MAPS', id: 'foundry-maps', color: 'text-purple-300 border-purple-500/40 hover:border-purple-400' },
                 { label: 'SCENARIOS', id: 'foundry-scenarios', color: 'text-purple-300 border-purple-500/40 hover:border-purple-400' },
                 { label: 'AIME STUDIO', id: 'foundry-aime', color: 'text-purple-300 border-purple-500/40 hover:border-purple-400' },

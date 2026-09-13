@@ -85,7 +85,7 @@ export const RosterCatalogView = ({
   });
 
   return (
-    <div className="flex flex-col h-full w-full max-w-7xl mx-auto font-sans">
+    <div className="flex flex-col h-full w-full font-sans">
       {/* Header Banner */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-4 border-b border-slate-800 shrink-0">
         <div>

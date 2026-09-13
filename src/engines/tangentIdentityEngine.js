@@ -17,6 +17,7 @@ import { DEFAULT_FACTIONS } from '../data/factionsData.js';
 import { ALL_CANONICAL_SKILLS } from '../data/skillsData.js';
 import { DEFAULT_FEATURES } from '../data/featuresData.js';
 import { ALL_CANONICAL_TRAITS } from '../data/speciesTraitsData.js';
+import { enrichItemWithModifiers } from './tangentModifierEngine.js';
 
 export const PRIMARY_TO_SUB_ATTR_MAP = {
   'attr-strength': 'attr-might',
@@ -425,7 +426,7 @@ export const applySpeciesTransition = (characterData, newSpeciesInput, dbData = 
       if (!addedNames.has(cleanTitle.toLowerCase()) && !addedNames.has(String(rawName).toLowerCase())) {
         addedNames.add(cleanTitle.toLowerCase());
         const standalone = getStandaloneCost(rawName);
-        newFeaturesToAdd.push({
+        const rawFeatObj = {
           id: `feat_sp_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
           name: cleanTitle,
           category: 'Species Inherent',
@@ -434,7 +435,8 @@ export const applySpeciesTransition = (characterData, newSpeciesInput, dbData = 
           cp: 0,
           standaloneCp: standalone,
           description: desc || `Inherent trait granted by ${newSpeciesName}.`
-        });
+        };
+        newFeaturesToAdd.push(enrichItemWithModifiers(rawFeatObj));
       }
     };
 
@@ -745,7 +747,7 @@ export const applyArchetypeTransition = (characterData, newArchetypeInput, dbDat
       const cleanTitle = normalizeTraitString(featName);
       if (!seenFeats.has(cleanTitle.toLowerCase()) && !seenFeats.has(featName.toLowerCase())) {
         seenFeats.add(cleanTitle.toLowerCase());
-        newFeaturesToAdd.push({
+        const rawFeatObj = {
           id: `feat_arch_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
           name: cleanTitle,
           category: 'Archetype Signature',
@@ -753,7 +755,8 @@ export const applyArchetypeTransition = (characterData, newArchetypeInput, dbDat
           sourceName: newArchetypeName,
           cp: 2,
           description: typeof feat === 'object' ? (feat.description || `Signature feature granted by ${newArchetypeName} archetype.`) : `Signature feature granted by ${newArchetypeName} archetype.`
-        });
+        };
+        newFeaturesToAdd.push(enrichItemWithModifiers(rawFeatObj));
         newArchAlloc.features.push(cleanTitle);
       }
     });
@@ -1088,7 +1091,7 @@ export const applyFactionTransition = (characterData, newFactionInput, dbData = 
       rawBonus.forEach(b => {
         const bName = typeof b === 'object' ? (b.name || b.title || b.id) : String(b);
         if (bName) {
-          newFeaturesToAdd.push({
+          const rawFeatObj = {
             id: `feat_fac_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
             name: normalizeTraitString(bName),
             category: 'Faction Feature',
@@ -1096,7 +1099,8 @@ export const applyFactionTransition = (characterData, newFactionInput, dbData = 
             sourceName: newFactionName,
             cp: 0,
             description: typeof b === 'object' ? (b.description || `Granted by ${newFactionName}.`) : `Granted by ${newFactionName}.`
-          });
+          };
+          newFeaturesToAdd.push(enrichItemWithModifiers(rawFeatObj));
         }
       });
     }
@@ -1107,7 +1111,7 @@ export const applyFactionTransition = (characterData, newFactionInput, dbData = 
         const hName = typeof h === 'object' ? (h.name || h.title || h.id) : String(h);
         if (hName) {
           const refundVal = (typeof h === 'object' && (h.cp !== undefined ? h.cp : (h.refundBP !== undefined ? h.refundBP : (h.bp !== undefined ? h.bp : 3)))) || 3;
-          newDisadvantagesToAdd.push({
+          const rawDisObj = {
             id: `dis_fac_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
             name: normalizeTraitString(hName),
             category: 'Faction Hindrance',
@@ -1117,7 +1121,8 @@ export const applyFactionTransition = (characterData, newFactionInput, dbData = 
             cp: refundVal,
             refundBP: refundVal,
             description: typeof h === 'object' ? (h.description || `Faction allegiance restriction of ${newFactionName}.`) : `Faction restriction of ${newFactionName}.`
-          });
+          };
+          newDisadvantagesToAdd.push(enrichItemWithModifiers(rawDisObj));
         }
       });
     }

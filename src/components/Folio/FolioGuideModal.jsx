@@ -404,7 +404,7 @@ export const FolioGuideModal = ({ isOpen, onClose }) => {
       onClick={onClose}
     >
       <div
-        className="relative bg-[#0d1117] border border-cyan-500/50 rounded-2xl shadow-2xl shadow-black/80 w-full max-w-5xl max-h-[85vh] sm:max-h-[88vh] flex flex-col font-sans overflow-hidden"
+        className="relative bg-[#0d1117] border border-cyan-500/50 rounded-2xl shadow-2xl shadow-black/80 w-[96vw] max-w-7xl max-h-[96vh] sm:max-h-[96dvh] flex flex-col font-sans overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Header */}

@@ -10,6 +10,7 @@ import {
   getPillarFeatureRecommendations,
   PillarMarkerDots
 } from '../../../utils/pillarRecommendations.jsx';
+import FolioTooltip from './FolioTooltip';
 
 const PRIMARY_ATTRIBUTES = [
   { id: 'attr-strength', name: 'Strength', short: 'STR', category: 'Physical' },
@@ -915,20 +916,34 @@ export const FeatureMultiselectPulldown = ({
           selectedFeatures.map((feat) => {
             const fName = typeof feat === 'object' ? (feat.name || feat.title || feat.id) : String(feat);
             const cleanTitle = normalizeTraitName(fName);
-            const desc = typeof feat === 'object' ? (feat.description || '') : '';
+            const desc = typeof feat === 'object' ? (feat.description || feat.mechanic || '') : '';
             const featPillars = pillarFeatureSets ? getPillarFeatureRecommendations(feat, pillarFeatureSets, characterData) : [];
+            const cat = typeof feat === 'object' ? (feat.category || feat.groupLabel || categoryLabel) : categoryLabel;
+            const featMods = Array.isArray(feat?.modifiers) ? feat.modifiers : [];
             return (
               <span
                 key={cleanTitle || fName}
                 className={`px-2 py-0.5 rounded text-[10px] font-mono border font-bold flex items-center gap-1.5 ${theme.tag}`}
-                title={desc}
               >
                 {featPillars.length > 0 ? (
                   <PillarMarkerDots recommendations={featPillars} />
                 ) : (
                   <Sparkles size={10} className="shrink-0 text-amber-400" />
                 )}
-                <span className="truncate max-w-[200px]">{cleanTitle}</span>
+                <FolioTooltip
+                  title={cleanTitle}
+                  badge={cat || 'Feature'}
+                  badgeColor="amber"
+                  description={desc || 'No description provided.'}
+                  cost={typeof feat === 'object' && feat.cp !== undefined ? `${feat.cp} CP` : undefined}
+                  modifiers={featMods}
+                  prerequisites={typeof feat === 'object' ? feat.prerequisite : undefined}
+                  rules={typeof feat === 'object' ? (feat.rules || feat.rule) : undefined}
+                  notes={typeof feat === 'object' ? (feat.notes || feat.note) : undefined}
+                  showInfoIcon={false}
+                >
+                  <span className="truncate max-w-[200px] cursor-help">{cleanTitle}</span>
+                </FolioTooltip>
                 <button
                   type="button"
                   onClick={() => onRemoveFeature && onRemoveFeature(fName)}
@@ -1062,7 +1077,7 @@ export const FeatureMultiselectPulldown = ({
                         onToggleFeature && onToggleFeature(cleanTitle, feat);
                       }
                     }}
-                    className={`p-2 rounded-lg border text-xs cursor-pointer transition-all flex items-start justify-between gap-2 ${
+                    className={`px-2.5 py-1.5 rounded-lg border text-xs cursor-pointer transition-all flex items-center justify-between gap-2 ${
                       isSelected
                         ? 'bg-amber-950/60 border-amber-400/80 text-amber-100 shadow-[0_0_10px_rgba(245,158,11,0.15)]'
                         : isPrereqUnmet
@@ -1072,37 +1087,43 @@ export const FeatureMultiselectPulldown = ({
                           : 'bg-slate-900/70 border-slate-800 text-slate-300 hover:border-slate-600 hover:bg-slate-800/70'
                     }`}
                   >
-                    <div className="space-y-0.5 flex-1 min-w-0">
-                      <div className="flex items-center gap-1.5 flex-wrap">
+                    <div className="flex items-center gap-1.5 flex-1 min-w-0">
+                      <FolioTooltip
+                        title={cleanTitle}
+                        badge={cat || 'Feature'}
+                        badgeColor="amber"
+                        description={desc || 'No description provided.'}
+                        cost={typeof feat === 'object' && feat.cp !== undefined ? `${feat.cp} CP` : undefined}
+                        modifiers={featMods}
+                        prerequisites={typeof feat === 'object' ? feat.prerequisite : undefined}
+                        prerequisiteMet={!isPrereqUnmet}
+                        prerequisiteUnmetReasons={prereqResult?.unmetReasons}
+                        rules={typeof feat === 'object' ? (feat.rules || feat.rule) : undefined}
+                        notes={typeof feat === 'object' ? (feat.notes || feat.note) : undefined}
+                        showInfoIcon={true}
+                      >
                         <span className={`font-bold truncate ${isSelected ? 'text-amber-200' : isPrereqUnmet ? 'text-slate-400' : 'text-slate-200'}`}>
                           {cleanTitle}
                         </span>
-                        <PillarMarkerDots recommendations={featPillars} />
-                        {cat && (
-                          <span className="text-[9px] px-1.5 py-0.2 rounded font-mono bg-slate-950 border border-slate-800 text-slate-400">
-                            {cat}
-                          </span>
-                        )}
-                        {featMods.length > 0 && (
-                          <span className="text-[9px] px-1.5 py-0.2 rounded font-mono font-bold bg-cyan-950/80 border border-cyan-700/60 text-cyan-300">
-                            {featMods.map(m => m.description || `${m.value >= 0 ? '+' : ''}${m.value} ${m.target}`).join(', ')}
-                          </span>
-                        )}
-                        {isPrereqUnmet && (
-                          <span className="inline-flex items-center gap-0.5 px-1.5 py-0.2 rounded text-[8.5px] font-mono uppercase bg-rose-950/90 border border-rose-800 text-rose-300" title={`Missing: ${prereqResult.unmetReasons.join(', ')}`}>
-                            <Lock className="w-2.5 h-2.5" />
-                            <span>Missing Prereq: {prereqResult.unmetReasons.join(', ')}</span>
-                          </span>
-                        )}
-                      </div>
-                      {desc && (
-                        <p className="text-[10px] text-slate-400 line-clamp-2 leading-relaxed">
-                          {desc}
-                        </p>
+                      </FolioTooltip>
+
+                      <PillarMarkerDots recommendations={featPillars} />
+
+                      {cat && (
+                        <span className="text-[9px] px-1.5 py-0.2 rounded font-mono bg-slate-950 border border-slate-800 text-slate-400 shrink-0 hidden sm:inline-block">
+                          {cat}
+                        </span>
+                      )}
+
+                      {isPrereqUnmet && (
+                        <span className="inline-flex items-center gap-0.5 px-1.5 py-0.2 rounded text-[8.5px] font-mono uppercase bg-rose-950/90 border border-rose-800 text-rose-300 shrink-0">
+                          <Lock className="w-2.5 h-2.5" />
+                          <span>Prereq</span>
+                        </span>
                       )}
                     </div>
 
-                    <div className="shrink-0 flex items-center pt-0.5">
+                    <div className="shrink-0 flex items-center">
                       <div className={`w-4 h-4 rounded flex items-center justify-center border transition-colors ${
                         isSelected
                           ? 'bg-amber-500 border-amber-400 text-slate-950'
@@ -1278,14 +1299,27 @@ export const TraitMultiselectPulldown = ({
             const tName = typeof trait === 'object' ? (trait.name || trait.title || trait.id) : String(trait);
             const cleanTitle = normalizeTraitName(tName);
             const desc = typeof trait === 'object' ? (trait.description || trait.desc || '') : '';
+            const tier = typeof trait === 'object' ? trait.tier : undefined;
+            const cat = typeof trait === 'object' ? trait.classification : undefined;
+            const traitMods = typeof trait === 'object' && Array.isArray(trait?.modifiers) ? trait.modifiers : [];
             return (
               <span
                 key={cleanTitle || tName}
                 className={`px-2 py-0.5 rounded text-[10px] font-mono border font-bold flex items-center gap-1.5 ${theme.tag}`}
-                title={desc}
               >
                 <Sparkles size={10} className="shrink-0 text-emerald-400" />
-                <span className="truncate max-w-[200px]">{cleanTitle}</span>
+                <FolioTooltip
+                  title={cleanTitle}
+                  badge={tier || cat || 'Trait'}
+                  badgeColor={tier === 'Elite' ? 'purple' : tier === 'Advanced' ? 'sky' : 'emerald'}
+                  description={desc || 'No description provided.'}
+                  modifiers={traitMods}
+                  rules={typeof trait === 'object' ? (trait.rules || trait.rule) : undefined}
+                  notes={typeof trait === 'object' ? (trait.notes || trait.note) : undefined}
+                  showInfoIcon={false}
+                >
+                  <span className="truncate max-w-[200px] cursor-help">{cleanTitle}</span>
+                </FolioTooltip>
                 <button
                   type="button"
                   onClick={() => onRemoveTrait && onRemoveTrait(tName)}
@@ -1410,7 +1444,7 @@ export const TraitMultiselectPulldown = ({
                         onToggleTrait && onToggleTrait(trait.name, trait);
                       }
                     }}
-                    className={`p-2 rounded-lg border text-xs cursor-pointer transition-all flex items-start justify-between gap-2 ${
+                    className={`px-2.5 py-1.5 rounded-lg border text-xs cursor-pointer transition-all flex items-center justify-between gap-2 ${
                       isSelected
                         ? 'bg-emerald-950/60 border-emerald-400/80 text-emerald-100 shadow-[0_0_10px_rgba(16,185,129,0.15)]'
                         : isAtCapacity
@@ -1418,33 +1452,34 @@ export const TraitMultiselectPulldown = ({
                           : 'bg-slate-900/70 border-slate-800 text-slate-300 hover:border-slate-600 hover:bg-slate-800/70'
                     }`}
                   >
-                    <div className="space-y-0.5 flex-1 min-w-0">
-                      <div className="flex items-center gap-1.5 flex-wrap">
+                    <div className="flex items-center gap-1.5 flex-1 min-w-0">
+                      <FolioTooltip
+                        title={trait.name}
+                        badge={trait.tier || trait.classification || 'Trait'}
+                        badgeColor={trait.tier === 'Elite' ? 'purple' : trait.tier === 'Advanced' ? 'sky' : 'emerald'}
+                        description={trait.description || 'No description provided.'}
+                        modifiers={traitMods}
+                        rules={trait.rules || trait.rule}
+                        notes={trait.notes || trait.note}
+                        showInfoIcon={true}
+                      >
                         <span className={`font-bold truncate ${isSelected ? 'text-emerald-200' : 'text-slate-200'}`}>
                           {trait.name}
                         </span>
-                        <span className={`text-[9px] px-1.5 py-0.2 rounded font-mono border ${tierColor}`}>
-                          {trait.tier}
+                      </FolioTooltip>
+
+                      <span className={`text-[9px] px-1.5 py-0.2 rounded font-mono border shrink-0 ${tierColor}`}>
+                        {trait.tier}
+                      </span>
+
+                      {trait.classification && (
+                        <span className="text-[9px] px-1.5 py-0.2 rounded font-mono bg-slate-950 border border-slate-800 text-slate-400 shrink-0 hidden sm:inline-block">
+                          {trait.classification}
                         </span>
-                        {trait.classification && (
-                          <span className="text-[9px] px-1.5 py-0.2 rounded font-mono bg-slate-950 border border-slate-800 text-slate-400">
-                            {trait.classification}
-                          </span>
-                        )}
-                        {traitMods.length > 0 && (
-                          <span className="text-[9px] px-1.5 py-0.2 rounded font-mono font-bold bg-cyan-950/80 border border-cyan-700/60 text-cyan-300">
-                            {traitMods.map(m => m.description || `${m.value >= 0 ? '+' : ''}${m.value} ${m.target}`).join(', ')}
-                          </span>
-                        )}
-                      </div>
-                      {trait.description && (
-                        <p className="text-[10px] text-slate-400 line-clamp-2 leading-relaxed">
-                          {trait.description}
-                        </p>
                       )}
                     </div>
 
-                    <div className="shrink-0 flex items-center pt-0.5">
+                    <div className="shrink-0 flex items-center">
                       <div className={`w-4 h-4 rounded flex items-center justify-center border transition-colors ${
                         isSelected
                           ? 'bg-emerald-500 border-emerald-400 text-slate-950'

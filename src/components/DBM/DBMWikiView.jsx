@@ -3,7 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useItemInteractions } from '../../utils/interactionUtils';
 import { useDBM } from '../../context/DBMContext';
-import { ChevronDown, ChevronRight, BookOpen, Layers, Search, Sparkles, Plus, Edit, Trash2, ExternalLink, RefreshCw, UserCheck, ShieldAlert, Cpu } from 'lucide-react';
+import { ChevronDown, ChevronRight, BookOpen, Layers, Search, Sparkles, Plus, Edit, Trash2, Copy, ExternalLink, RefreshCw, UserCheck, ShieldAlert, Cpu } from 'lucide-react';
 
 const TreeArticleItem = ({ item, isSelected, childrenCount, onSelect, onOpenEdit, className, prefix = '📜 ' }) => {
   const interactions = useItemInteractions({
@@ -236,7 +236,8 @@ export const DBMWikiView = ({
   currentItems,
   handleOpenItem,
   isAdmin = true,
-  handleDeleteEntry
+  handleDeleteEntry,
+  handleDuplicateEntry
 }) => {
   const [selectedArticleId, setSelectedArticleId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -859,7 +860,7 @@ export const DBMWikiView = ({
       {/* RIGHT PANEL: Article Viewer / Content Display (Desktop Side-by-Side) */}
       <main className="flex flex-col flex-1 max-md:hidden overflow-y-auto p-6 lg:p-8 pb-12 bg-slate-900/95">
         {activeArticle ? (
-          <div className="max-w-4xl w-full mx-auto space-y-6">
+          <div className="w-full space-y-6">
             {/* Header & Controls */}
             <div className="flex justify-between items-start border-b border-slate-800 pb-4 gap-4">
               <div className="space-y-1 min-w-0">
@@ -909,6 +910,16 @@ export const DBMWikiView = ({
                     <Edit size={13} />
                     <span>Edit Article</span>
                   </button>
+                  {handleDuplicateEntry && (
+                    <button
+                      onClick={() => handleDuplicateEntry(activeArticle)}
+                      className="px-3.5 py-1.5 bg-cyan-950/50 hover:bg-cyan-900/80 text-cyan-300 border border-cyan-500/40 rounded-lg text-xs font-bold uppercase transition-colors cursor-pointer flex items-center gap-1.5"
+                      title="Duplicate Article"
+                    >
+                      <Copy size={13} />
+                      <span>Duplicate</span>
+                    </button>
+                  )}
                   {handleDeleteEntry && (
                     <button
                       onClick={() => handleDeleteEntry(activeArticle)}

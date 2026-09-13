@@ -402,8 +402,8 @@ export const UnifiedRelationalSelectorModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-[250] flex items-start justify-center bg-black/85 backdrop-blur-md p-3 sm:p-4 md:p-6 pt-10 sm:pt-14 md:pt-16 pb-12 overflow-y-auto select-none font-sans">
-      <div className="bg-slate-900 border border-cyan-500/50 rounded-xl w-full max-w-2xl max-h-[85vh] sm:max-h-[88vh] flex flex-col shadow-2xl overflow-hidden">
+    <div className="fixed inset-0 z-[250] flex items-start justify-center bg-black/85 backdrop-blur-md p-2 sm:p-4 md:p-6 pt-6 sm:pt-10 md:pt-12 pb-8 overflow-y-auto select-none font-sans">
+      <div className="bg-slate-900 border border-cyan-500/50 rounded-xl w-[94vw] max-w-5xl max-h-[94vh] sm:max-h-[95dvh] flex flex-col shadow-2xl overflow-hidden">
         {/* Header */}
         <div className="bg-slate-950 px-5 py-4 border-b border-slate-800 flex justify-between items-center shrink-0">
           <div>

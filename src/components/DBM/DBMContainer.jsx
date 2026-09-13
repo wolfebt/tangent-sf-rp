@@ -275,8 +275,37 @@ export const DBMContainer = () => {
     }
   };
 
+  const handleDuplicateEntry = async (itemToDuplicate) => {
+    const target = itemToDuplicate || selectedItem;
+    if (!target) return;
+    if (!isAdmin) {
+      alert('Administrator or GM privileges are required to duplicate database entries.');
+      return;
+    }
+    const baseName = target.name || target.title || 'Entry';
+    const clonedName = `${baseName} (Copy)`;
+    const newDocId = `entry_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
+    const clonedPayload = {
+      ...target,
+      name: clonedName,
+      id: newDocId,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    const success = await saveEntry(clonedPayload, currentKey);
+    if (success) {
+      setSelectedItem(clonedPayload);
+      setEditFormData(clonedPayload);
+      setIsEditMode(true);
+      setIsEntryModalOpen(true);
+      showToast && showToast(`Duplicated "${baseName}" as "${clonedName}"`, 'success');
+    } else {
+      alert('Failed to clone entry.');
+    }
+  };
+
   const handleSaveEntry = async (closeOnSuccess = false, customPayload = null) => {
-    if (!currentUser) {
+    if (!currentUser && !isAdmin) {
       alert('You must be logged in to save entries. Please sign in using the Login button in the header.');
       return;
     }
@@ -406,32 +435,34 @@ export const DBMContainer = () => {
     key => !categoryConfig[key].hideFromMenu && !categoryConfig[key].parent
   );
 
-  // Auth gate — show login screen if user is not authenticated
-  if (!currentUser) {
+  // Auth gate — if not authenticated and not in admin/master developer override mode, offer login with option to proceed as Master Developer
+  if (!currentUser && !isAdmin) {
     return (
       <div className="flex flex-col h-full w-full bg-[#0d1117] text-slate-100 font-sans items-center justify-center p-4">
-        <div className="text-center max-w-md px-8 py-10 bg-slate-900 border border-cyan-900/60 rounded-2xl shadow-2xl">
+        <div className="text-center max-w-md px-8 py-10 bg-slate-900 border border-cyan-900/60 rounded-2xl shadow-2xl space-y-4">
           {/* Logo */}
-          <div className="flex flex-col uppercase text-[#22d3ee] tangent-title-pulse mb-6">
+          <div className="flex flex-col uppercase text-[#22d3ee] tangent-title-pulse mb-2">
             <span className="text-[2rem] font-bold leading-none">TANGENT</span>
             <span className="text-[1rem] leading-none">SCIENCE FANTASY ROLEPLAY</span>
             <span className="text-[1.5rem] font-bold leading-none">OMNICORTEX</span>
           </div>
-          <p className="text-slate-400 text-sm mb-2">
-            The OmniCortex Database Manager requires authentication.
-          </p>
-          <p className="text-slate-500 text-xs mb-8">
-            Sign in to create, edit, and save RPG database entries to the shared universe.
+          <p className="text-slate-400 text-sm">
+            Sign in to sync database changes to the cloud, or proceed with Key Developer Master Access.
           </p>
           <button
             onClick={loginWithGoogle}
-            className="w-full px-6 py-3 bg-cyan-700 hover:bg-cyan-600 text-white font-bold rounded-lg text-sm uppercase tracking-wider transition-colors shadow-lg shadow-cyan-900/40"
+            className="w-full px-6 py-3 bg-cyan-700 hover:bg-cyan-600 text-white font-bold rounded-lg text-sm uppercase tracking-wider transition-colors shadow-lg shadow-cyan-900/40 cursor-pointer"
           >
             🔐 Sign In with Google
           </button>
-          <p className="text-slate-600 text-[11px] mt-4">
-            Read access is public. Write access requires authentication.
-          </p>
+          <button
+            onClick={() => {
+              if (toggleAdminOverride) toggleAdminOverride();
+            }}
+            className="w-full px-4 py-2.5 bg-amber-600/30 hover:bg-amber-600/50 border border-amber-500/60 text-amber-300 font-bold rounded-lg text-xs uppercase tracking-wider transition-all cursor-pointer"
+          >
+            👑 Proceed with Key Developer Master Access
+          </button>
         </div>
       </div>
     );
@@ -570,6 +601,7 @@ export const DBMContainer = () => {
               handleOpenItem={handleOpenItem}
               isAdmin={isAdmin}
               handleDeleteEntry={handleDeleteEntry}
+              handleDuplicateEntry={handleDuplicateEntry}
             />
           )}
 
@@ -607,6 +639,7 @@ export const DBMContainer = () => {
               currentItems={currentItems}
               isAdmin={isAdmin}
               handleDeleteEntry={handleDeleteEntry}
+              handleDuplicateEntry={handleDuplicateEntry}
             />
           )}
         </main>
@@ -625,6 +658,7 @@ export const DBMContainer = () => {
         currentKey={currentKey}
         onSave={handleSaveEntry}
         onDelete={handleDeleteEntry}
+        onDuplicate={handleDuplicateEntry}
         dbData={dbData}
         saveEntry={saveEntry}
         devMode={true}

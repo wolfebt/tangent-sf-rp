@@ -178,9 +178,9 @@ export const PropertyHubView = ({
   ];
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-start p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 max-w-5xl mx-auto w-full overflow-y-auto">
+    <div className="flex-1 flex flex-col items-center justify-start p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 w-full">
       {/* Header Hub Section (Center-Aligned) */}
-      <div className="flex flex-col items-center text-center space-y-3 max-w-2xl mx-auto">
+      <div className="flex flex-col items-center text-center space-y-3 max-w-4xl mx-auto">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/70 border border-cyan-500/40 text-cyan-300 font-mono text-[11px] font-bold uppercase tracking-widest shadow-[0_0_12px_rgba(34,211,238,0.2)]">
           <Briefcase size={13} className="text-cyan-400" />
           <span>Holdings &amp; Logistics Hub</span>
@@ -190,7 +190,7 @@ export const PropertyHubView = ({
           Personal Property Hub
         </h2>
 
-        <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-xl">
+        <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-2xl">
           Select one of the 6 property domains below to equip armaments, configure protective carapaces, allocate field gear, or manage vehicle &amp; domain holdings.
         </p>
 
@@ -225,7 +225,7 @@ export const PropertyHubView = ({
       </div>
 
       {/* 6 Property Options Grid (Center-Aligned) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 w-full max-w-5xl justify-center items-stretch">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 w-full justify-center items-stretch">
         {PROPERTY_OPTIONS.map((opt) => {
           const Icon = opt.icon;
 

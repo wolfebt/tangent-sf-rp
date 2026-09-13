@@ -17,7 +17,8 @@ export const AuthProvider = ({ children }) => {
   const [userHandle, setUserHandle] = useState(localStorage.getItem('userHandle') || '');
   const [customClaims, setCustomClaims] = useState({});
   const [hasAdminClaim, setHasAdminClaim] = useState(false);
-  const [adminOverride, setAdminOverride] = useState(localStorage.getItem('omnicortex_admin_override') === 'true');
+  // Default to true so Key Developer has complete master access by default at this stage
+  const [adminOverride, setAdminOverride] = useState(localStorage.getItem('omnicortex_admin_override') !== 'false');
 
   const openAuthModal = () => setIsAuthModalOpen(true);
   const closeAuthModal = () => setIsAuthModalOpen(false);
@@ -91,7 +92,7 @@ export const AuthProvider = ({ children }) => {
 
     const handleStorageChange = () => {
       refreshUserHandle();
-      setAdminOverride(localStorage.getItem('omnicortex_admin_override') === 'true');
+      setAdminOverride(localStorage.getItem('omnicortex_admin_override') !== 'false');
     };
     window.addEventListener('storage', handleStorageChange);
 

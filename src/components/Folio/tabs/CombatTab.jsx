@@ -259,7 +259,7 @@ export const CombatTab = ({ onOpenSelectorModal, onOpenAssetModal }) => {
   const initiativeTotal = reflexTotal + initiativeMod;
 
   return (
-    <div className="tab-panel active p-4 space-y-6 pb-20 max-w-6xl mx-auto">
+    <div className="tab-panel active p-4 space-y-6 pb-20 w-full">
       {/* Header & Quick Telemetry */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-cyan-900/60 pb-3">
         <div>

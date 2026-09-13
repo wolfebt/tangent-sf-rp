@@ -29,7 +29,9 @@ import {
   Lock,
   Unlock,
   Copy,
-  Eye
+  Eye,
+  Boxes,
+  Cpu
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useChat } from '../../context/ChatContext';
@@ -217,7 +219,7 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
 
   return (
     <>
-      <header className="w-full bg-[#0d1117]/95 backdrop-blur-md border-b border-slate-800 px-2 sm:px-4 py-1.5 sm:py-2 flex items-center justify-between gap-2 sm:gap-3 z-[100] select-none shrink-0 font-sans shadow-md relative">
+      <header className="w-full h-[52px] min-h-[52px] bg-[#0d1117]/95 backdrop-blur-md border-b border-slate-800 px-2 sm:px-4 py-1.5 sm:py-2 flex items-center justify-between gap-2 sm:gap-3 z-[100] select-none shrink-0 font-sans shadow-md relative">
         {/* Left Section: Brand Logo & Primary Navigation Group */}
         <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           <NavLink 
@@ -284,17 +286,38 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                 navigate('/dbm');
               }}
               className={`px-2 sm:px-2.5 py-1 sm:py-1.2 rounded-md sm:rounded-lg border text-[10px] sm:text-[11.5px] font-mono font-bold uppercase tracking-wider transition-all duration-150 flex items-center gap-1.5 cursor-pointer select-none whitespace-nowrap cyan-shadow-thin ${
-                isDBM || isCodex
+                isDBM
                   ? 'bg-emerald-950/70 border-emerald-400 text-emerald-200'
                   : 'bg-slate-950/60 hover:bg-slate-900/90 border-slate-700/80 hover:border-emerald-400 text-slate-200 hover:text-emerald-300'
               }`}
               title="Open Omnicortex Master Database (/dbm)"
             >
-              <div className={`p-0.5 rounded border shrink-0 ${isDBM || isCodex ? 'bg-emerald-500/25 border-emerald-400/60 text-emerald-300' : 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'}`}>
+              <div className={`p-0.5 rounded border shrink-0 ${isDBM ? 'bg-emerald-500/25 border-emerald-400/60 text-emerald-300' : 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'}`}>
                 <Database size={12} className="sm:w-3.5 sm:h-3.5" />
               </div>
               <span>OMNICORTEX</span>
-              {(isDBM || isCodex) && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block shadow-[0_0_6px_rgba(52,211,153,0.8)]" />}
+              {isDBM && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block shadow-[0_0_6px_rgba(52,211,153,0.8)]" />}
+            </button>
+
+            {/* 4. CODEX Button (Guided Asset Builders & Rules Matrices) */}
+            <button
+              type="button"
+              onClick={() => {
+                AudioService.playTerminalBeep(1150, 0.03);
+                navigate('/codex');
+              }}
+              className={`px-2 sm:px-2.5 py-1 sm:py-1.2 rounded-md sm:rounded-lg border text-[10px] sm:text-[11.5px] font-mono font-bold uppercase tracking-wider transition-all duration-150 flex items-center gap-1.5 cursor-pointer select-none whitespace-nowrap cyan-shadow-thin ${
+                isCodex
+                  ? 'bg-amber-950/70 border-amber-400 text-amber-200'
+                  : 'bg-slate-950/60 hover:bg-slate-900/90 border-slate-700/80 hover:border-amber-400 text-slate-200 hover:text-amber-300'
+              }`}
+              title="Open Rules Codex & Guided Asset Builders (/codex)"
+            >
+              <div className={`p-0.5 rounded border shrink-0 ${isCodex ? 'bg-amber-500/25 border-amber-400/60 text-amber-300' : 'bg-amber-500/10 border-amber-500/30 text-amber-400'}`}>
+                <Boxes size={12} className="sm:w-3.5 sm:h-3.5" />
+              </div>
+              <span>CODEX</span>
+              {isCodex && <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse inline-block shadow-[0_0_6px_rgba(245,158,11,0.8)]" />}
             </button>
 
             {/* 4. ADE STUDIO Button (Opens to Catalog/Dashboard) */}
@@ -753,26 +776,24 @@ export const GlobalHUD = ({ onOpenCommandPalette, onToggleDiceDock, isDiceDockOp
                       <span>User Guide</span>
                     </button>
 
-                    {/* Dev Mode / Admin Override Toggle */}
-                    {currentUser && (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          toggleAdminOverride && toggleAdminOverride();
-                          setIsDbmMenuOpen(false);
-                        }}
-                        className="w-full text-left px-3 py-2 bg-slate-800/60 hover:bg-slate-800 text-cyan-300 rounded text-xs font-bold uppercase transition-colors flex items-center justify-between"
-                        title="Toggle Local Admin / Architect Override"
-                      >
-                        <div className="flex items-center gap-2">
-                          <span>⚡</span>
-                          <span>Admin Override</span>
-                        </div>
-                        <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${adminOverride ? 'bg-amber-500/20 text-amber-300' : 'bg-slate-700 text-slate-400'}`}>
-                          {adminOverride ? 'ON' : 'OFF'}
-                        </span>
-                      </button>
-                    )}
+                    {/* Key Developer Master Access Toggle */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        toggleAdminOverride && toggleAdminOverride();
+                        setIsDbmMenuOpen(false);
+                      }}
+                      className="w-full text-left px-3 py-2 bg-slate-800/60 hover:bg-slate-800 text-cyan-300 rounded text-xs font-bold uppercase transition-colors flex items-center justify-between cursor-pointer"
+                      title="Toggle Key Developer Master Access (Full CRUD)"
+                    >
+                      <div className="flex items-center gap-2">
+                        <span>👑</span>
+                        <span>Master Developer Access</span>
+                      </div>
+                      <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono font-bold ${adminOverride ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40' : 'bg-slate-700 text-slate-400'}`}>
+                        {adminOverride ? 'ACTIVE' : 'OFF'}
+                      </span>
+                    </button>
 
                     {/* Clear Local Cache */}
                     <button

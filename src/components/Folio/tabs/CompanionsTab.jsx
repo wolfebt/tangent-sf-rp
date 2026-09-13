@@ -209,7 +209,7 @@ export const CompanionsTab = () => {
   };
 
   return (
-    <div className="space-y-4 max-w-6xl mx-auto font-mono text-xs">
+    <div className="space-y-4 w-full font-mono text-xs">
       {/* Feature Unlock Banner / Status */}
       {!companionFeatureUnlocked ? (
         <div className="p-3.5 rounded-xl bg-amber-950/40 border border-amber-500/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-amber-200 shadow-md">
