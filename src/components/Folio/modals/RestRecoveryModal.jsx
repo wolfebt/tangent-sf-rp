@@ -1,3 +1,4 @@
+import { X } from "lucide-react";
 import React, { useState } from 'react';
 import { useFolio } from '../../../context/FolioContext';
 import { REST_SYSTEM_RULES } from '../../../engines/tangentConstants';
@@ -104,9 +105,9 @@ const RestRecoveryModal = ({ isOpen, onClose }) => {
               type="button"
               onClick={onClose}
               className="p-1.5 text-slate-400 hover:text-slate-200 hover:bg-slate-800 rounded-lg transition-colors cursor-pointer"
-              title="Close modal"
+              title="Close modal" aria-label="Close modal"
             >
-              ✕
+              <X size={16} />
             </button>
           </div>
         </div>
