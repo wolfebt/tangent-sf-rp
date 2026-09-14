@@ -3,6 +3,10 @@ remove the guided archetypes & quick-start presets
 
 in the tool tier tier should be TL (for tech level)
 
+pillar selections
+
+
+
 
 
 

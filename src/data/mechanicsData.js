@@ -354,7 +354,7 @@ export const BASTION_MECHANICS_DATASET = [
     "citation": "docs/game rules/architect/99. MODULAR COMPANION MATRIX.md § Acquisition & Construction",
     "summary": "Companions must be unlocked by purchasing the COMPANION feature (3 CP, Cha 1). May purchase multiple times for additional cohorts or +10 CP build budget.",
     "mechanic_formula": "Companion Feature = 3 CP (Cha 1) | Cohort Budget = Form (15 CP) + Function (25 CP) = 40 CP Base | +10 CP per Rank above Rank 1",
-    "rules_text": "Access and construction of loyal cohorts follow strict modular rules:\n- Unlocking the Companion Feature:\n  * Just as Metaphysics requires the Awakened feature and Augmentations require the Augmented feature, access to Companions must be unlocked by purchasing the Companion feature (3 CP, Prerequisite: Charisma 1).\n  * Ranked & Multiple: Taking this feature again allows either purchasing an additional 40 CP companion OR granting +10 CP to an existing companion's build budget (Rank 1: 40 CP, Rank 2: 50 CP, Rank 3: 60 CP, etc.).\n- Modular Construction Matrix:\n  * Form Package: 15 CP (Anatomy, size, speed, base vitals).\n  * Function Package: 25 CP (Role, attribute bonuses, skills, protocols).\n  * Base Companion: 40 CP total at Rank 1.\n- Chassis Typologies:\n  * Biological: Uses Vitality + Health. Recovers via natural sleep and Medicine.\n  * Synthetic: Uses Structure Points (SP = VP + HP). Zero Vitality. Immune to non-lethal damage, poison, disease, fatigue. Requires Engineering repair.\n  * Metaphysical: Uses Essence as health. Grappling immunity if incorporeal. Attunement recovery.",
+    "rules_text": "Access and construction of loyal cohorts follow strict modular rules:\n- Unlocking the Companion Feature:\n  * Just as Metaphysics requires the Awakened feature and Augmentations require the Augmented feature, access to Companions must be unlocked by purchasing the Companion feature (3 CP, Prerequisite: Charisma 1).\n  * Ranked & Multiple: Taking this feature again allows either purchasing an additional 40 CP companion OR granting +10 CP to an existing companion's build budget (Rank 1: 40 CP, Rank 2: 50 CP, Rank 3: 60 CP, etc.).\n- Modular Construction Matrix:\n  * Form Package: 15 CP (Anatomy, size, speed, base vitals).\n  * Function Package: 25 CP (Role, attribute bonuses, skills, protocols).\n  * Base Companion: 40 CP total at Rank 1.\n- Chassis Typologies:\n  * Biological: Uses Vitality + Health. Recovers via natural sleep and Medicine.\n  * Synthetic: Uses Structure Points (60 SP base for Medium, scaled by size tier). Zero Vitality. Immune to non-lethal damage, poison, disease, fatigue. Requires Engineering repair.\n  * Metaphysical: Uses Essence as health. Grappling immunity if incorporeal. Attunement recovery.",
     "examples": [
       "Operative purchases Companion feature (3 CP), assembling a 40 CP Biological War Hound: Predator Form (15 CP) + Guardian Function (25 CP).",
       "Operative purchases Companion feature a 2nd time: chooses to unlock a 2nd companion (a 40 CP Sky-Eye Recon Drone) or upgrade the War Hound to Rank 2 (50 CP budget)."
@@ -376,6 +376,121 @@ export const BASTION_MECHANICS_DATASET = [
     ],
     "status": "pending_approval",
     "updatedAt": "2026-09-12T06:04:47.892Z"
+  },
+  {
+    "id": "mech-vitals-30-30-60",
+    "title": "Vitals & Structure Pools: 30 VP / 30 HP / 60 SP Base",
+    "category": "vitals_integrity",
+    "citation": "docs/game rules/operator/1.01 CHARACTER CREATION.md § Vitals",
+    "summary": "Biological entities start with 30 Vitality and 30 Health with NO stamina-based bonus on VP or HP. Synthetics and Constructs operate on 60 Structure Points base (for Medium size, scaled by size tier).",
+    "mechanic_formula": "Vitality Base = 30 | Health Base = 30 | Structure Base = 60 * Size Scaling Multiplier | Stamina = Natural DR (Toughness)",
+    "rules_text": "Vitals and physical resilience are strictly decoupled from flat stamina additions:\n- Biological Entities:\n  * Base Vitality = 30 points.\n  * Base Health = 30 points.\n  * Stamina does NOT add to base Vitality or Health; instead, Stamina provides point-for-point natural Damage Reduction (DR / Toughness), reducing penetrating damage by a minimum of 1.\n  * Vitality and Health pools can only be increased due to Size tier, Traits, Features, or Character Point (CP) purchases (1 CP = +2 points).\n- Synthetics, Constructs & Mecha:\n  * Base Structure = 60 Structure Points (SP) for Medium size, adjusted by Size Tier scaling multiplier.\n  * Zero Vitality (VP = 0). Completely immune to non-lethal damage, biological poisons, disease, sleep, and fatigue.",
+    "examples": [
+      "Standard human operative starts with 30 VP and 30 HP. Stamina +3 provides DR 3 natural Toughness against penetrating damage.",
+      "Medium synthetic android starts with 60 SP, 0 VP. A Large synthetic frame (x2 scale) starts with 120 SP."
+    ],
+    "tags": [
+      "vitals",
+      "vitality",
+      "health",
+      "structure",
+      "30 base",
+      "60 base",
+      "synthetics",
+      "stamina",
+      "toughness",
+      "rules",
+      "mechanics",
+      "bastion"
+    ],
+    "status": "approved",
+    "updatedAt": "2026-09-14T03:50:00.000Z"
+  },
+  {
+    "id": "mech-karma-spending-actions",
+    "title": "Karma Points Economy & The 6 Canonical Spending Actions",
+    "category": "core_resolution",
+    "citation": "docs/game rules/operator/2.04 KARMA POINTS & FATE MODIFICATION.md",
+    "summary": "Characters have a default pool of 3 Karma Points (resets per session, no rest recovery). 6 canonical spending actions (1 KP each) provide narrative and tactical agency.",
+    "mechanic_formula": "Starting Pool = 3 KP | 6 Actions @ 1 KP each | Karmic Debt Limit = Charisma + 1",
+    "rules_text": "Karma represents tactical luck and narrative control:\n- Pool Management:\n  * Starting baseline is 3 Karma Points.\n  * Resets to full at the start of each session; does NOT recover through short or long rest.\n  * Maximum pool increased by the Karmic Blessing feature (+1 per rank) or GM story milestones.\n- The 6 Canonical Karma Spending Actions (1 KP each):\n  1. \"I Got This\": Declared BEFORE rolling. Grants Advantage on any single roll (attacks, saves, checks, damage).\n  2. \"Not What I Meant\": Declared IMMEDIATELY AFTER an initial roll. Discard and reroll an Ability Check or non-combat Skill Check (must accept 2nd result; combat/attack rolls excluded).\n  3. \"Shake it Off\": Declared anytime suffering a temporary condition. Reduces condition severity by 1 stage (e.g. Major to Minor for Poisoned, Stunned, Blinded).\n  4. \"Second Wind\": 1 full minute of focus replaces a Light Rest; recharges daily limited-use abilities, traits, and special attacks.\n  5. \"So Mote it Be\": Declared simultaneously with a metaphysical skill/feat. Boosts metaphysical potency (range, duration, magnitude) or activates a discipline Karma Feat.\n  6. \"By Will Alone\": Declared with GM approval. Push past normal limits or emulate a feature for a scene.\n- Negative Karma (Karmic Debt):\n  * May spend into negative karma up to Charisma score + 1. GM may impose Disadvantages or NPC luck bonuses.",
+    "examples": [
+      "Operative declares 'I Got This' before firing a plasma sniper shot: rolls 2d10 attack twice with Advantage.",
+      "Operative afflicted by Stunned spends 1 KP on 'Shake it Off' to reduce condition severity to dazed."
+    ],
+    "tags": [
+      "karma",
+      "karma points",
+      "i got this",
+      "not what i meant",
+      "shake it off",
+      "second wind",
+      "so mote it be",
+      "by will alone",
+      "karmic debt",
+      "rules",
+      "mechanics",
+      "bastion"
+    ],
+    "status": "approved",
+    "updatedAt": "2026-09-14T03:50:00.000Z"
+  },
+  {
+    "id": "mech-augmentations-body-alteration-tiers",
+    "title": "Augmentation System: Body Alteration Tiers (No Max Strain)",
+    "category": "technology",
+    "citation": "docs/game rules/architect/99. TECHNOLOGY, AUGMENTATIONS MATRIX.md",
+    "summary": "The Augmentation system has NO max strain. Tiers are defined by physical body alteration percentages: Augmentation (<20%), Heavy Augmentation (<50%), and Severe Augmentation (>50% up to FBC).",
+    "mechanic_formula": "Tier 1: Augmentation (<20% alteration) | Tier 2: Heavy Augmentation (<50% alteration) | Tier 3: Severe Augmentation (>50% up to FBC)",
+    "rules_text": "Cybernetic and biological modifications are categorized without strain ceilings:\n- Strain Ceilings Removed: There is NO maximum strain score limiting cyberware installation.\n- The 3 Body Alteration Tiers:\n  1. Augmentation (Tier 1): < 20% body alterations. Minor prosthetics, sensory upgrades, standard subdermal armor, and utility cyberware.\n  2. Heavy Augmentation (Tier 2): < 50% body alterations. Extensive industrial/military hardware, structural skeletal reinforcement, and bulky limbs.\n  3. Severe Augmentation (Tier 3): > 50% body alterations up to Full Body Conversion (FBC). More machine or bio-construct than original being; allows radical physiological and size alterations.\n- Negligible Fashionware (< 5%): Basic subdermal ID chips, cosmetic bioware, and skinwatches require no feature.",
+    "examples": [
+      "Operative replaces a cybernetic forearm (<20% body alteration): classified as Tier 1 Augmentation.",
+      "Operative undergoes Full Body Conversion (>50% body alteration): classified as Tier 3 Severe Augmentation."
+    ],
+    "tags": [
+      "augmentations",
+      "cybernetics",
+      "bioware",
+      "no max strain",
+      "body alteration",
+      "heavy augmentation",
+      "severe augmentation",
+      "full body conversion",
+      "rules",
+      "mechanics",
+      "bastion"
+    ],
+    "status": "approved",
+    "updatedAt": "2026-09-14T03:50:00.000Z"
+  },
+  {
+    "id": "mech-mecha-vehicles-all-sorts",
+    "title": "Mecha Taxonomy: Vehicles Across All Form Factors",
+    "category": "technology",
+    "citation": "docs/game rules/architect/99. TECHNOLOGY, MECHA MATRIX.md",
+    "summary": "Mecha encompasses vehicles of all sorts across the entire technological spectrum — from hoverboards, motorcycles, and cars to power armor, walkers, fighter jets, and starships.",
+    "mechanic_formula": "Mecha Classification: Personal/Mount -> Ground Vehicle -> Power Armor -> Walker -> Atmospheric Aircraft -> Starship",
+    "rules_text": "Mecha is the universal vehicle and vehicular chassis classification in Tangent:\n- Universal Scope: Mecha is not limited to giant humanoid robots. It spans:\n  * Personal Conveyances: Hoverboards, mag-skiffs, jump-harnesses.\n  * Wheeled & Ground Vehicles: Motorcycles, technicals, armored cars, tanks.\n  * Exoskeletons & Power Armor: Powered battle suits, heavy environmental rigs.\n  * Walkers: Bipedal, tripedal, and quad-legged tactical combat walkers.\n  * Atmospheric Aircraft: Fighter jets, VTOL gunships, planetary shuttles.\n  * Spacecraft & Starships: System corvettes, frigates, cruisers, dreadnoughts.\n- Vitals & Scale: All mecha operate on Structure Points (60 SP base for Medium size), scaled by the 14 volumetric size categories.\n- Modular Sockets: Mecha feature modular socket allocations for weapon hardpoints, sensor suites, shield capacitors, and meta-tech invocation modules.",
+    "examples": [
+      "A military combat hoverboard is classified under Mecha as a Small personal vehicle with Structure Points.",
+      "An orbital fighter jet is classified under Mecha as a Large/Huge aircraft operating with mecha chassis rules."
+    ],
+    "tags": [
+      "mecha",
+      "vehicles",
+      "hoverboards",
+      "motorcycles",
+      "cars",
+      "power armor",
+      "walkers",
+      "fighter jets",
+      "starships",
+      "rules",
+      "mechanics",
+      "bastion"
+    ],
+    "status": "approved",
+    "updatedAt": "2026-09-14T03:50:00.000Z"
   }
 ];
 

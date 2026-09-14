@@ -547,7 +547,7 @@ export const EconomatrixDashboard = ({ onOpenBuilder }) => {
             </div>
 
             <div>
-              <label className="block text-[11px] font-mono uppercase text-slate-400 mb-1">Workshop Tool Tier</label>
+              <label className="block text-[11px] font-mono uppercase text-slate-400 mb-1">Workshop Tool TL</label>
               <select
                 value={selectedToolTier}
                 onChange={(e) => setSelectedToolTier(e.target.value)}
@@ -563,7 +563,7 @@ export const EconomatrixDashboard = ({ onOpenBuilder }) => {
           {/* Crafting Tier Matrix Table */}
           <div className="lg:col-span-7 p-5 rounded-2xl bg-slate-900/50 border border-slate-800 space-y-4">
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <span className="text-xs font-mono font-bold uppercase text-slate-300">Fabrication Timeline Across All 7 Tool Tiers</span>
+              <span className="text-xs font-mono font-bold uppercase text-slate-300">Fabrication Timeline Across All 7 Tool TLs</span>
               <span className="text-xs font-mono font-bold text-amber-300">Target: {craftingTime.val.toLocaleString()} PP</span>
             </div>
 
@@ -615,7 +615,7 @@ export const EconomatrixDashboard = ({ onOpenBuilder }) => {
             </div>
 
             <div>
-              <label className="block text-[11px] font-mono uppercase text-slate-400 mb-1">Tool Tier Multiplier</label>
+              <label className="block text-[11px] font-mono uppercase text-slate-400 mb-1">Tool TL Multiplier</label>
               <select
                 value={workforceToolTier}
                 onChange={(e) => setWorkforceToolTier(e.target.value)}

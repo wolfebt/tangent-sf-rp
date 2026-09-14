@@ -979,7 +979,7 @@ export const ArchitectureBlueprintConfigurator = ({
               </div>
 
               <div>
-                <label className="block text-[10px] text-slate-400 uppercase">Tool Tier Multiplier</label>
+                <label className="block text-[10px] text-slate-400 uppercase">Tool Tech Level (TL) Multiplier</label>
                 <select
                   value={toolTier}
                   onChange={(e) => onChange('tool_tier', e.target.value)}

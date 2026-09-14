@@ -138,6 +138,60 @@ Cost (Credits) = Base_Cost * (2^TL) * (1.5^ML)
 - Code: Star Type - Planet Class - Size - Atmosphere - Hydrographics - Population - Tech Level - Law Level.
 - Locomotion Hazards: Zero-G environments require Reflex checks (DC 14) during sudden directional thruster bursts.
 - Inertia Drift: Uncontrolled vacuum movement continues at current vector until reverse thrust or physical impact occurs.`
+  },
+  {
+    id: 'rule-vitals-30-30-60',
+    category: 'vitals_integrity',
+    title: 'Vitals & Structure Pools: 30 VP / 30 HP / 60 SP Base',
+    citation: 'Operator Guide 1.01 Character Creation & 3.00 Combat',
+    tags: ['vitals', 'vitality', 'health', 'structure', '30 base', '60 base', 'stamina', 'toughness', 'synthetics'],
+    text: `Canonical Vitals and Structure Architecture:
+- Biological Entities: 30 pt base Vitality (VP) and 30 pt base Health (HP).
+- No Stamina-based bonus on Vitality or Health directly. Stamina functions as natural Damage Reduction (Toughness), absorbing penetrating damage point-for-point (minimum 1 damage taken).
+- Pools increase strictly through Size categories, Traits, Features, or Character Point (CP) purchases (1 CP = +2 points).
+- Synthetics, Constructs & Mecha: 60 pt base Structure Points (SP) for Medium size (adjusted by size tier multiplier). Zero Vitality, complete immunity to non-lethal damage, fatigue, and biological hazards.`
+  },
+  {
+    id: 'rule-karma-spending-actions',
+    category: 'combat',
+    title: 'Karma Points Economy & The 6 Canonical Spending Actions',
+    citation: 'Operator Guide 2.04 Karma Points & Fate Modification',
+    tags: ['karma', 'karma points', 'plot points', 'fate', 'advantage', 'reroll', 'shake it off', 'second wind', 'karmic debt'],
+    text: `Karma Points provide narrative and tactical agency:
+- Default Pool: Characters have 3 Karma Points. Resets at the start of each session; does NOT recover via rest.
+- Pool Expansion: Increased via the Karmic Blessing feature (+1 per rank) or GM milestones.
+- The 6 Canonical Karma Spending Actions (1 KP each):
+  1. "I Got This": Declare before rolling -> Advantage on any single roll (attacks, saves, skills, damage).
+  2. "Not What I Meant": Declare immediately after roll -> Discard and reroll ability or non-combat check (accept 2nd roll; no combat attacks).
+  3. "Shake it Off": Declare anytime afflicted -> Reduce condition severity by 1 stage (e.g. Major to Minor for Poisoned, Stunned, Blinded).
+  4. "Second Wind": 1 full minute of focus -> Replaces Light Rest; instantly refreshes daily limited-use abilities, special attacks, and traits.
+  5. "So Mote it Be": Declare simultaneously with metaphysical skill/feat -> Boosts potency (range, duration, magnitude) or activates a discipline Karma Feat.
+  6. "By Will Alone": Declare with GM approval -> Push limits / narrative agency (attempt unlisted/impossible action, emulate a feature for a scene).
+- Karmic Debt: May spend into negative karma up to Charisma score + 1 (triggering GM-imposed disadvantages or NPC luck).`
+  },
+  {
+    id: 'rule-augmentation-tiers',
+    category: 'technology',
+    title: 'Augmentation System: Body Alteration Tiers (No Max Strain)',
+    citation: 'Architect Guide 99. Technology, Augmentations Matrix',
+    tags: ['augmentations', 'cybernetics', 'bioware', 'body alteration', 'heavy augmentations', 'severe augmentations', 'full body conversion'],
+    text: `The Augmentation system has NO max strain:
+- Progression is governed by percentage of physical body alteration:
+  1. Augmentation (Tier 1): < 20% body alterations. Standard cybernetic/biological improvements, prosthetics, and minor neural links.
+  2. Heavy Augmentation (Tier 2): < 50% body alterations. Significant industrial/military replacements, heavy plating, and dense internal hardware.
+  3. Severe Augmentation (Tier 3): > 50% body alterations up to Full Body Conversion (FBC). More machine or bio-construct than original being; allows chassis structural reconfigurations.
+- Negligible Fashionware (< 5%): Subdermal chips, cosmetic bioware, and skinwatches require no augmentation feature.`
+  },
+  {
+    id: 'rule-mecha-vehicles-spectrum',
+    category: 'technology',
+    title: 'Mecha Taxonomy: Universal Spectrum of Vehicles',
+    citation: 'Architect Guide 99. Technology, Mecha Matrix',
+    tags: ['mecha', 'vehicles', 'power armor', 'walkers', 'hoverboards', 'motorcycles', 'fighter jets', 'starships', 'chassis'],
+    text: `In the Tangent system, Mecha encompasses vehicles of all sorts across the entire technological spectrum:
+- Spans: Hoverboards, motorcycles, ground cars, powered exoskeletons, power armor, bipedal/multipedal walkers, atmospheric fighter jets, shuttles, and starships.
+- All vehicle chassis use Structure Points (SP) with a Medium baseline of 60 SP, multiplied across the 14 volumetric size categories.
+- Incorporates modular socketing for weapon hardpoints, sensor suites, shield generators, and meta-tech invocation emitters.`
   }
 ];
 

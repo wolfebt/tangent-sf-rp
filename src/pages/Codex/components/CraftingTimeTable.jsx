@@ -57,7 +57,7 @@ export const CraftingTimeTable = ({
         <table className="w-full text-left text-[10px] border-collapse">
           <thead>
             <tr className="bg-slate-900 text-slate-400 border-b border-slate-800 uppercase tracking-tight text-[9px]">
-              <th className="py-1.5 px-2">Tool Tier</th>
+              <th className="py-1.5 px-2">Tool TL</th>
               <th className="py-1.5 px-1.5 text-center">Mult</th>
               <th className="py-1.5 px-1.5 text-right">Daily PP</th>
               <th className="py-1.5 px-2 text-right">Duration</th>

@@ -144,7 +144,7 @@ export const SocketsAllocationWidget = ({
             onChange={e => handleFieldChange('tier', e.target.value)}
             className="w-full bg-slate-900 border border-slate-700 text-cyan-300 font-bold p-2 rounded text-xs outline-none focus:border-cyan-400"
           >
-            <option value="Node">Node (Micro-Chip / Tool Tier)</option>
+            <option value="Node">Node (Micro-Chip / Tool TL)</option>
             <option value="Socket">Socket (Standard Gear / Weapon Tier)</option>
             <option value="Module">Module (Vehicle / Armor Section Tier)</option>
             <option value="Mount">Mount (Mecha / Starship / Station Tier)</option>

@@ -428,13 +428,13 @@ export const UDU_TIERS = {
 // ═══════════════════════════════════════════════════════════
 
 export const TOOL_TIERS = [
-  { id: 'improvised', name: 'Tier 0 — Improvised', multiplier: 1, description: 'Bare hands, stone tools' },
-  { id: 'basic', name: 'Tier 1 — Basic', multiplier: 10, description: 'Handheld tools, garage kit' },
-  { id: 'advanced', name: 'Tier 2 — Advanced', multiplier: 50, description: 'Professional shop, alchemist lab' },
-  { id: 'industrial', name: 'Tier 3 — Industrial', multiplier: 200, description: 'Automated factory, magical circle' },
-  { id: 'nanoforge', name: 'Tier 4 — Nanoforge', multiplier: 1000, description: 'Molecular assemblers, swarm fab' },
+  { id: 'improvised', name: 'TL 0 — Improvised', multiplier: 1, description: 'Bare hands, stone tools' },
+  { id: 'basic', name: 'TL 1 — Basic', multiplier: 10, description: 'Handheld tools, garage kit' },
+  { id: 'advanced', name: 'TL 2 — Advanced', multiplier: 50, description: 'Professional shop, alchemist lab' },
+  { id: 'industrial', name: 'TL 3 — Industrial', multiplier: 200, description: 'Automated factory, magical circle' },
+  { id: 'nanoforge', name: 'TL 4 — Nanoforge', multiplier: 1000, description: 'Molecular assemblers, swarm fab' },
   { id: 'bioCultivation', name: 'Bio — Cultivation', multiplier: 1000, description: 'Hyper-growth vats (Medicine + Eng)' },
-  { id: 'genesis', name: 'Tier 5 — Genesis', multiplier: 5000, description: 'Polymatter loom, holophotonics' }
+  { id: 'genesis', name: 'TL 5 — Genesis', multiplier: 5000, description: 'Polymatter loom, holophotonics' }
 ];
 
 // ═══════════════════════════════════════════════════════════

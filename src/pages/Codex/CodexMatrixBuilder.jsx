@@ -11,8 +11,7 @@ import {
   Bot,
   Trash2,
   Calculator,
-  HelpCircle,
-  Sparkles
+  HelpCircle
 } from 'lucide-react';
 import { CodexIngestionModal } from './CodexIngestionModal';
 import { AudioService } from '../../services/audioService';
@@ -187,34 +186,13 @@ export const CodexMatrixBuilder = ({
 
   const Icon = matrix.icon;
 
-  // Handle guided loading of archetype preset
-  const handleLoadArchetype = (archetype) => {
-    AudioService.playTerminalBeep(1200, 0.04);
-    if (archetype.preset) {
-      setFormData(prev => ({
-        ...prev,
-        ...archetype.preset,
-        name: archetype.preset.name || archetype.name || prev.name,
-        description: archetype.preset.description || prev.description,
-        mechanic: archetype.preset.mechanic || prev.mechanic
-      }));
-    } else {
-      // If archetype only has prompt/name
-      setFormData(prev => ({
-        ...prev,
-        name: archetype.name || prev.name,
-        description: archetype.prompt || prev.description
-      }));
-    }
-  };
-
   return (
     <div className="bg-[#0e131f]/95 border border-slate-700/70 rounded-2xl p-4 sm:p-6 shadow-2xl flex flex-col gap-5 text-slate-100 max-w-7xl mx-auto backdrop-blur-md">
       {/* Top Header */}
       <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-800">
         <div className="flex items-center gap-3">
           <div 
-            className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg"
+            className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg shrink-0"
             style={{ background: `${matrix.color}20`, border: `1px solid ${matrix.color}60`, color: matrix.color }}
           >
             <Icon size={20} />
@@ -228,7 +206,7 @@ export const CodexMatrixBuilder = ({
               <span className="text-xs font-mono text-slate-400 uppercase">OMNICORTEX: {matrix.targetCollection}</span>
             </div>
             <h2 className="text-xl font-bold font-mono tracking-wide text-white mt-0.5">
-              {initialData ? `Edit ${matrix.name} Entry` : `Guided ${matrix.name} Builder`}
+              {initialData ? `Edit ${matrix.name} Blueprint` : `${matrix.name} Cockpit Studio`}
             </h2>
           </div>
         </div>
@@ -269,55 +247,6 @@ export const CodexMatrixBuilder = ({
               <X size={18} />
             </button>
           )}
-        </div>
-      </div>
-
-      {/* Guided Archetypes & Quick-Start Presets */}
-      {Array.isArray(matrix.archetypes) && matrix.archetypes.length > 0 && (
-        <div className="p-3.5 rounded-xl bg-slate-950/70 border border-amber-500/30 flex flex-col gap-2 shadow-inner">
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-amber-300 flex items-center gap-1.5">
-              <Sparkles size={13} className="text-amber-400" />
-              Guided Archetypes & Quick-Start Presets
-            </span>
-            <span className="text-[10px] font-mono text-slate-500">
-              Click to load standard reference chassis
-            </span>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {matrix.archetypes.map((arch, idx) => (
-              <button
-                key={idx}
-                type="button"
-                onClick={() => handleLoadArchetype(arch)}
-                className="px-3 py-1.5 rounded-lg bg-slate-900/90 hover:bg-amber-950/40 border border-slate-700/80 hover:border-amber-500/50 text-xs font-mono text-slate-300 hover:text-amber-200 transition-all flex items-center gap-1.5 cursor-pointer group shadow-sm text-left"
-                title={arch.prompt || arch.name}
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 group-hover:scale-125 transition-transform" />
-                <span className="font-semibold">{arch.name}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Guided Step Progress Workflow */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pb-1 border-b border-slate-800/80 text-[11px] font-mono">
-        <div className="flex items-center gap-2 p-2 rounded-lg bg-slate-900/80 border border-slate-800 text-amber-400">
-          <span className="w-5 h-5 rounded-full bg-amber-950 border border-amber-500/50 flex items-center justify-center font-bold text-[10px]">1</span>
-          <span className="font-bold uppercase tracking-wider truncate">Chassis & TL</span>
-        </div>
-        <div className="flex items-center gap-2 p-2 rounded-lg bg-slate-900/80 border border-slate-800 text-cyan-300">
-          <span className="w-5 h-5 rounded-full bg-cyan-950 border border-cyan-500/50 flex items-center justify-center font-bold text-[10px]">2</span>
-          <span className="font-bold uppercase tracking-wider truncate">Budget & Sockets</span>
-        </div>
-        <div className="flex items-center gap-2 p-2 rounded-lg bg-slate-900/80 border border-slate-800 text-purple-300">
-          <span className="w-5 h-5 rounded-full bg-purple-950 border border-purple-500/50 flex items-center justify-center font-bold text-[10px]">3</span>
-          <span className="font-bold uppercase tracking-wider truncate">Specs & Rules</span>
-        </div>
-        <div className="flex items-center gap-2 p-2 rounded-lg bg-slate-900/80 border border-slate-800 text-emerald-400">
-          <span className="w-5 h-5 rounded-full bg-emerald-950 border border-emerald-500/50 flex items-center justify-center font-bold text-[10px]">4</span>
-          <span className="font-bold uppercase tracking-wider truncate">Live TSC Validation</span>
         </div>
       </div>
 

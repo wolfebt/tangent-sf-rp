@@ -93,3 +93,49 @@ test('BASTION Mechanics: Modular Companions 40 CP Architecture & Feature Unlock'
   assert(companionRule.rules_text.includes('Biological') && companionRule.rules_text.includes('Synthetic'), 'Must detail chassis typologies');
 });
 
+test('BASTION Mechanics: Vitals & Structure 30 VP / 30 HP / 60 SP Base (No Stamina Bonus)', () => {
+  const vitalsRule = BASTION_MECHANICS_DATASET.find(r => r.id === 'mech-vitals-30-30-60');
+  assert(vitalsRule, 'Vitals 30/30/60 rule must exist');
+  assert(vitalsRule.rules_text.includes('Base Vitality = 30 points'), 'Base Vitality must be 30');
+  assert(vitalsRule.rules_text.includes('Base Health = 30 points'), 'Base Health must be 30');
+  assert(vitalsRule.rules_text.includes('Base Structure = 60 Structure Points (SP)'), 'Base Structure must be 60 for Medium');
+  assert(vitalsRule.rules_text.includes('Stamina does NOT add to base Vitality or Health'), 'Stamina must not add flat bonus to VP or HP');
+  assert(vitalsRule.rules_text.includes('Toughness'), 'Stamina must provide natural DR / Toughness');
+});
+
+test('BASTION Mechanics: Karma Points Economy & The 6 Canonical Spending Actions', () => {
+  const karmaRule = BASTION_MECHANICS_DATASET.find(r => r.id === 'mech-karma-spending-actions');
+  assert(karmaRule, 'Karma rule must exist');
+  assert(karmaRule.rules_text.includes('3 Karma Points'), 'Default pool must be 3 KP');
+  assert(karmaRule.rules_text.includes('does NOT recover through short or long rest'), 'Karma must not recover through rest');
+  assert(karmaRule.rules_text.includes('I Got This'), 'Must include "I Got This" Advantage action');
+  assert(karmaRule.rules_text.includes('Not What I Meant'), 'Must include "Not What I Meant" Reroll action');
+  assert(karmaRule.rules_text.includes('Shake it Off'), 'Must include "Shake it Off" Condition reduction action');
+  assert(karmaRule.rules_text.includes('Second Wind'), 'Must include "Second Wind" Light rest action');
+  assert(karmaRule.rules_text.includes('So Mote it Be'), 'Must include "So Mote it Be" Metaphysical potency action');
+  assert(karmaRule.rules_text.includes('By Will Alone'), 'Must include "By Will Alone" Push limits action');
+  assert(karmaRule.rules_text.includes('Charisma score + 1'), 'Karmic Debt must cap at CHA + 1');
+});
+
+test('BASTION Mechanics: Augmentation Tiers & No Max Strain (<20%, <50%, >50%)', () => {
+  const augRule = BASTION_MECHANICS_DATASET.find(r => r.id === 'mech-augmentations-body-alteration-tiers');
+  assert(augRule, 'Augmentation rule must exist');
+  assert(augRule.rules_text.includes('NO maximum strain score'), 'Must confirm no maximum strain');
+  assert(augRule.rules_text.includes('< 20% body alterations'), 'Tier 1 must be <20% alteration');
+  assert(augRule.rules_text.includes('< 50% body alterations'), 'Tier 2 must be <50% alteration');
+  assert(augRule.rules_text.includes('> 50% body alterations'), 'Tier 3 must be >50% alteration up to FBC');
+});
+
+test('BASTION Mechanics: Mecha Taxonomy Across Universal Vehicles Spectrum', () => {
+  const mechaRule = BASTION_MECHANICS_DATASET.find(r => r.id === 'mech-mecha-vehicles-all-sorts');
+  assert(mechaRule, 'Mecha rule must exist');
+  assert(mechaRule.rules_text.includes('Hoverboards'), 'Must include hoverboards');
+  assert(mechaRule.rules_text.includes('Motorcycles'), 'Must include motorcycles');
+  assert(mechaRule.rules_text.includes('Power Armor'), 'Must include power armor');
+  assert(mechaRule.rules_text.includes('Walkers'), 'Must include walkers');
+  assert(mechaRule.rules_text.includes('Fighter jets'), 'Must include fighter jets');
+  assert(mechaRule.rules_text.includes('Starships'), 'Must include starships');
+  assert(mechaRule.rules_text.includes('60 SP base for Medium size'), 'Mecha must use 60 SP base for Medium');
+});
+
+

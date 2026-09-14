@@ -3,13 +3,21 @@ import { Shield, Bot, Wand2, X, AlertCircle, Cpu } from 'lucide-react';
 import { synthesizeMatrixWithBastion } from '../../services/bastionService';
 import { AudioService } from '../../services/audioService';
 
+const TACTICAL_CONCEPTS = [
+  { id: 'military', label: 'Military Standard', prompt: 'Durable, standardized Coalition/Impyrium frontline military issue.' },
+  { id: 'stealth', label: 'Covert / Infiltration', prompt: 'Lightweight, stealth-optimized, suppressed with low signature emissions.' },
+  { id: 'scavenged', label: 'Frontier Scavenged', prompt: 'Rugged, patched-together, jury-rigged components from border sectors.' },
+  { id: 'experimental', label: 'Singularity / Proto', prompt: 'Cutting-edge experimental prototype with anomalous energy output.' },
+  { id: 'industrial', label: 'Heavy Industrial', prompt: 'Oversized, heavy-duty mining and planetary construction grade.' }
+];
+
 export const CodexAiSynthesizerModal = ({
   isOpen,
   onClose,
   matrix,
   onApplyGeneratedData
 }) => {
-  const [selectedArchetype, setSelectedArchetype] = useState(matrix.archetypes?.[0] || null);
+  const [selectedConcept, setSelectedConcept] = useState(null);
   const [customDirectives, setCustomDirectives] = useState('');
   const [targetName, setTargetName] = useState('');
   const [targetTechLevel, setTargetTechLevel] = useState(3);
@@ -27,8 +35,8 @@ export const CodexAiSynthesizerModal = ({
     try {
       const synthesizedData = await synthesizeMatrixWithBastion({
         matrix,
-        archetype: selectedArchetype,
-        customDirectives,
+        archetype: selectedConcept ? { name: selectedConcept.label, prompt: selectedConcept.prompt } : null,
+        customDirectives: selectedConcept ? `${selectedConcept.prompt} ${customDirectives}`.trim() : customDirectives,
         targetName: targetName.trim(),
         targetTechLevel,
         targetMetaLevel
@@ -93,37 +101,39 @@ export const CodexAiSynthesizerModal = ({
           </div>
         )}
 
-        {/* Archetype Presets */}
-        {matrix.archetypes && matrix.archetypes.length > 0 && (
-          <div>
-            <label className="block text-[11px] font-mono font-bold text-cyan-400 uppercase tracking-wider mb-2">
-              1. Tactical Archetype Preset
-            </label>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-              {matrix.archetypes.map((arch, idx) => {
-                const isSelected = selectedArchetype?.name === arch.name;
-                return (
-                  <button
-                    key={idx}
-                    type="button"
-                    onClick={() => {
-                      setSelectedArchetype(arch);
-                      if (!targetName) setTargetName(arch.name);
-                    }}
-                    className={`p-3 rounded-xl text-left border transition-all flex flex-col justify-between gap-1.5 ${
-                      isSelected
-                        ? 'bg-cyan-950/50 border-cyan-400 text-cyan-200 shadow-[0_0_15px_rgba(6,182,212,0.25)] ring-1 ring-cyan-400/40'
-                        : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:bg-slate-800/80 hover:text-slate-200'
-                    }`}
-                  >
-                    <div className="text-xs font-mono font-bold text-slate-200 truncate">{arch.name}</div>
-                    <div className="text-[10px] text-slate-400 line-clamp-2 leading-tight">{arch.prompt}</div>
-                  </button>
-                );
-              })}
-            </div>
+        {/* Tactical Concept Directives */}
+        <div>
+          <label className="block text-[11px] font-mono font-bold text-cyan-400 uppercase tracking-wider mb-2">
+            1. Tactical Concept Style
+          </label>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            {TACTICAL_CONCEPTS.map((concept) => {
+              const isSelected = selectedConcept?.id === concept.id;
+              return (
+                <button
+                  key={concept.id}
+                  type="button"
+                  onClick={() => {
+                    if (isSelected) {
+                      setSelectedConcept(null);
+                    } else {
+                      setSelectedConcept(concept);
+                      if (!targetName) setTargetName(`${concept.label} ${matrix.name}`);
+                    }
+                  }}
+                  className={`p-2.5 rounded-xl text-left border transition-all flex flex-col justify-between gap-1 cursor-pointer ${
+                    isSelected
+                      ? 'bg-cyan-950/50 border-cyan-400 text-cyan-200 shadow-[0_0_15px_rgba(6,182,212,0.25)] ring-1 ring-cyan-400/40'
+                      : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:bg-slate-800/80 hover:text-slate-200'
+                  }`}
+                >
+                  <div className="text-xs font-mono font-bold text-slate-200 truncate">{concept.label}</div>
+                  <div className="text-[10px] text-slate-400 line-clamp-2 leading-tight">{concept.prompt}</div>
+                </button>
+              );
+            })}
           </div>
-        )}
+        </div>
 
         {/* Parameters: Name, TL, ML */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
