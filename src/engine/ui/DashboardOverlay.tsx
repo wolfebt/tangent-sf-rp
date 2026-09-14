@@ -97,6 +97,7 @@ export const DashboardOverlay: React.FC<DashboardOverlayProps> = ({
             onClick={() => setIsVitalsMinimized(false)}
             className="absolute top-4 left-4 z-[105] pointer-events-auto px-3 py-1.5 bg-slate-900/95 backdrop-blur-md border border-cyan-500/40 rounded-xl shadow-2xl flex items-center gap-2 font-mono text-xs text-cyan-300 hover:bg-slate-800 transition-all cursor-pointer animate-in fade-in duration-150 select-none"
             title="Expand Operative Vitals"
+            aria-label="Expand Operative Vitals"
           >
             {isSyntheticActive ? (
               <Activity size={13} className="text-amber-400" />
@@ -143,6 +144,7 @@ export const DashboardOverlay: React.FC<DashboardOverlayProps> = ({
                   onClick={() => setIsVitalsMinimized(true)}
                   className="p-1 text-slate-400 hover:text-white rounded hover:bg-slate-800 transition-colors cursor-pointer"
                   title="Minimize Vitals"
+                  aria-label="Minimize Vitals"
                 >
                   <Minus size={13} />
                 </button>

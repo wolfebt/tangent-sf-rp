@@ -215,6 +215,7 @@ export const CombatTrackerWidget: React.FC<CombatTrackerWidgetProps> = ({
             onClick={handleRerollInitiative}
             className="p-1 rounded-lg bg-slate-950 border border-slate-800 hover:text-cyan-300 hover:border-slate-700 transition-colors cursor-pointer"
             title="Reroll 2d10 Initiative"
+            aria-label="Reroll 2d10 Initiative"
           >
             <RotateCw size={12} />
           </button>
